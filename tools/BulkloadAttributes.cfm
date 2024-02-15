@@ -182,7 +182,6 @@ limitations under the License.
 					<cfloop index="i" from="0" to="#headers.size() - 1#">
 						<li class="text-success list-group-item h5 border" style="width: 140px;">
 							<cfset externalList = #headers.get(JavaCast("int",i))#>#headers.get(JavaCast("int",i))#</li>
-							
 					</cfloop>
 					</ul>
 				
@@ -190,7 +189,7 @@ limitations under the License.
 				<cfscript>
 					for (k=1; k <= fieldlist.Len(); k++)
 					{
-						if (fieldlist[k] == #headers.get(JavaCast("int",k))#)
+						if (fieldlist[k] == #headers.get(JavaCast("int",#k#))#)
 						{
 							writeOutput(fieldlist[k] & "<br/>");
 						} else {
@@ -198,17 +197,20 @@ limitations under the License.
 						}
 					}
 				</cfscript>
+					
+					
+					
 			<br>Header 1 = <span class="font-weight-bold">#headers.get(0)#</span>, 
-			<br>	Header 2 = <span class="font-weight-bold">#headers.get(1)#</span>, 
-			<br>	Header 3 = <span class="font-weight-bold">#headers.get(2)#</span>, 
-			<br>	Header 4 = <span class="font-weight-bold">#headers.get(3)#</span>, 
-			<br>	Header 5 = <span class="font-weight-bold">#headers.get(4)#</span>, 
-			<br>	Header 6 = <span class="font-weight-bold">#headers.get(5)#</span>, 
-			<br>	Header 7 = <span class="font-weight-bold">#headers.get(6)#</span>, 
-			<br>	Header 8 = <span class="font-weight-bold">#headers.get(7)#</span>, 
-			<br>	Header 9 = <span class="font-weight-bold">#headers.get(8)#</span>, 
-			<br>	Header 10 = <span class="font-weight-bold">#headers.get(9)#</span>, 
-				Header 11 = <span class="font-weight-bold">#headers.get(10)#</span>
+			<br>Header 2 = <span class="font-weight-bold">#headers.get(1)#</span>, 
+			<br>Header 3 = <span class="font-weight-bold">#headers.get(2)#</span>, 
+			<br>Header 4 = <span class="font-weight-bold">#headers.get(3)#</span>, 
+			<br>Header 5 = <span class="font-weight-bold">#headers.get(4)#</span>, 
+			<br>Header 6 = <span class="font-weight-bold">#headers.get(5)#</span>, 
+			<br>Header 7 = <span class="font-weight-bold">#headers.get(6)#</span>, 
+			<br>Header 8 = <span class="font-weight-bold">#headers.get(7)#</span>, 
+			<br>Header 9 = <span class="font-weight-bold">#headers.get(8)#</span>, 
+			<br>Header 10 = <span class="font-weight-bold">#headers.get(9)#</span>, 
+			<br>Header 11 = <span class="font-weight-bold">#headers.get(10)#</span>
 			<!---	</cfloop>--->
 				<cfcatch><span class="h3 text-danger">This attribute is missing.</span></cfcatch>
 				</cftry>
