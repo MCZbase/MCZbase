@@ -212,16 +212,16 @@ limitations under the License.
 				Missing from Upload: #listCompare(List1,List2)#<br>--->
 
 				<cfif not isDefined(#headers.get(0)#)>#headers.get(0)#<cfelse>missing</cfif>,
-				<cfif not isDefined(#headers.get(1)#)>this one</cfif>,
-				<cfif not isDefined(#headers.get(2)#)>this one</cfif>,
-				<cfif not isDefined(#headers.get(3)#)>none</cfif>,
-				<cfif not isDefined(#headers.get(4)#)>that<cfelse>missing</cfif>,
-				<cfif not isDefined(#headers.get(4)#)>fda<cfelse>missing</cfif>,
+				<cfif not isDefined(#headers.get(1)#)>#headers.get(1)#<cfelse>missing</cfif>,
+				<cfif not isDefined(#headers.get(2)#)>#headers.get(2)#<cfelse>missing</cfif>,
+				<cfif not isDefined(#headers.get(3)#)>#headers.get(3)#<cfelse>missing</cfif>,
+				<cfif not isDefined(#headers.get(4)#)>#headers.get(4)#<cfelse>missing</cfif>,
+				<cfif not isDefined(#headers.get(5)#)>#headers.get(5)#<cfelse>missing</cfif>,
 				<cfif not isDefined(#headers.get(6)#)>#headers.get(6)#<cfelse>missing</cfif>,
 				<cfif not isDefined(#headers.get(7)#)>#headers.get(7)#<cfelse>missing</cfif>,
 				<cfif not isDefined(#headers.get(8)#)>#headers.get(8)#<cfelse>missing</cfif>,
-				<cfif isDefined(#headers.get(9)#)>This one</cfif>,
-				<cfif isDefined(#headers.get(10)#)>fds</cfif>
+				<cfif not isDefined(#headers.get(9)#)>#headers.get(9)#<cfelse>missing</cfif>,
+				<cfif not isDefined(#headers.get(10)#)>#headers.get(10)#<cfelse>missing</cfif>
 	
 				<cfcatch><span class="h3 text-danger">This attribute is missing.</span></cfcatch>
 				</cftry>
