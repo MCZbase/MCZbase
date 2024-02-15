@@ -163,11 +163,11 @@ limitations under the License.
 	}
 }
 /* below is for the basic search width of form fields area inside teal box */
-@media screen and (min-width: 1250px) {
+@media screen and (min-width: 1400px) {
 .col-xxl-1 {max-width: 7.666667%}
 .col-xxl-11 {max-width: 90.333333%}
 }
-@media screen and (min-width: 1100px) and (max-width: 1249px) {
+@media screen and (min-width: 1300px) and (max-width: 1399px) {
 .col-xxl-one {max-width: 7.666667%}
 .col-xxl-eleven {max-width: 91.333333%}
 }
