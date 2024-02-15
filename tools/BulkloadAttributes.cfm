@@ -176,11 +176,11 @@ limitations under the License.
 					</cfloop>
 				</ul>
 				<cfscript>
-					for (i=1; i <= fieldlist.Len(); i++)
+					for (k=1; k <= fieldlist.Len(); k++)
 					{
-						if (fieldlist[i] == "#headers.get(JavaCast("int",i))#")
+						if (fieldlist[k] == "#headers.get(JavaCast("int",k))#")
 						{
-							writeOutput(fieldlist[i] & "<br/>");
+							writeOutput(fieldlist[k] & "<br/>");
 						} else {
 							writeOutput("This attribute is missing.")
 						}
