@@ -228,6 +228,11 @@ limitations under the License.
 	<cfcase value="save">
 		<cfoutput>
 		<main class="container py-3" id="content" >
+			<cfif NOT isdefined("session.username") OR len(session.username) EQ 0>
+				<cfif REFind("http(s){0,1}://(?!#Application.hostName#)",complaint) GT 0>
+					<cfthrow message="You must be logged in to submit this bug report.">
+				</cfif>
+			</cfif>
 			<cfif isDefined("bugzilla_component") AND bugzilla_component EQ "EnhancementRequest">
 				<cfset bugzilla_component = "Web Interface">
 				<cfset user_priority = "6">
