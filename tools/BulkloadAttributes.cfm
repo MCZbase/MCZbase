@@ -192,7 +192,7 @@ limitations under the License.
 					{
 						if (fieldlist[k] != #headers.get(JavaCast("int",#k#))#)
 						{
-							writeOutput(fieldlist[k] & "<br/>");
+							writeOutput(fieldlist[k] & #headers.get()# & "<br/>");
 						} else {
 							writeOutput("This attribute is missing.")
 						}
