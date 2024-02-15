@@ -197,7 +197,7 @@ limitations under the License.
 				<cfscript>
 					struct = {institution_acronym=1,collection_cde=2,other_id_type=3,other_id_number=4,attribute=5,attribute_value=6,attribute_units=7,attribute_date=8,attribute_meth=9,determiner=10,remarks=11};
 					for (key in struct) {
-					writeOutput(key);
+					writeOutput(key & ", ");
 					}
 				</cfscript>
 							
