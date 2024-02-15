@@ -211,7 +211,7 @@ limitations under the License.
 				Common: #listCommon(List1,List2)#<br>
 				Missing from Upload: #listCompare(List1,List2)#<br>--->
 
-				<cfif not isDefined(#headers.get(0)#)>ww<cfelse>missing</cfif>,
+				<cfif not isDefined(#headers.get(0)#)>#headers.get(0)#<cfelse>missing</cfif>,
 				<cfif isDefined(#headers.get(1)#)>this one</cfif>,
 				<cfif isDefined(#headers.get(2)#)>this one</cfif>,
 				<cfif isDefined(#headers.get(3)#)>none</cfif>,
