@@ -189,8 +189,8 @@ limitations under the License.
 				<cfset listoffields= ["institution_acronym","institution_acronym","collection_cde","other_id_type","other_id_number","attribute","attribute_value","attribute_units","attribute_date","attribute_meth","determiner","remarks"]>--->
 				<cfscript>
 					listoffields= ["institution_acronym","institution_acronym","collection_cde","other_id_type","other_id_number","attribute","attribute_value","attribute_units","attribute_date","attribute_meth","determiner","remarks"];
-					for (field in listoffields) {
-					writeOutput(field);
+					for (i=1; i= arrayLen(listoffields); i++) {
+					writeOutput(listoffields[i]);
 					}
 				</cfscript>
 							
