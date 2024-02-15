@@ -211,20 +211,7 @@ limitations under the License.
 				Common: #listCommon(List1,List2)#<br>
 				Missing from Upload: #listCompare(List1,List2)#<br>--->
 
-				
-						
-					
-			<br>Header 1 = <span class="font-weight-bold">#headers.get(0)#</span>, 
-			<br>Header 2 = <span class="font-weight-bold">#headers.get(1)#</span>, 
-			<br>Header 3 = <span class="font-weight-bold">#headers.get(2)#</span>, 
-			<br>Header 4 = <span class="font-weight-bold">#headers.get(3)#</span>, 
-			<br>Header 5 = <span class="font-weight-bold">#headers.get(4)#</span>, 
-			<br>Header 6 = <span class="font-weight-bold">#headers.get(5)#</span>, 
-			<br>Header 7 = <span class="font-weight-bold">#headers.get(6)#</span>, 
-			<br>Header 8 = <span class="font-weight-bold">#headers.get(7)#</span>, 
-			<br>Header 9 = <span class="font-weight-bold">#headers.get(8)#</span>, 
-			<br>Header 10 = <span class="font-weight-bold">#headers.get(9)#</span>, 
-			<br>Header 11 = <span class="font-weight-bold">#headers.get(10)#</span>
+			#headers.get(0)#, #headers.get(1)#, #headers.get(2)#, #headers.get(3)#, #headers.get(4)#, #headers.get(5)#, #headers.get(6)#, #headers.get(7)#, #headers.get(8)#, #headers.get(9)#, #headers.get(10)#
 	
 				<cfcatch><span class="h3 text-danger">This attribute is missing.</span></cfcatch>
 				</cftry>
