@@ -188,7 +188,7 @@ limitations under the License.
 				
 				<cfscript>
 					fieldlist = ["institution_acronym","institution_acronym","collection_cde","other_id_type","other_id_number","attribute","attribute_value","attribute_units","attribute_date","attribute_meth","determiner","remarks"];
-					for (k=0 ; k <= fieldlist.Len(); k++)
+					for (k=1 ; k <= fieldlist.Len(); k++)
 					{
 						if (fieldlist[k] != #headers.get(0)#)
 						{
