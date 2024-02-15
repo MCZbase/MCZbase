@@ -167,7 +167,7 @@ limitations under the License.
 .col-xxl-1 {max-width: 7.666667%}
 .col-xxl-11 {max-width: 90.333333%}
 }
-@media screen and (min-width: 1100px) and (max-width: 1249) {
+@media screen and (min-width: 1100px) and (max-width: 1249px) {
 .col-xxl-one {max-width: 7.666667%}
 .col-xxl-eleven {max-width: 91.333333%}
 }
