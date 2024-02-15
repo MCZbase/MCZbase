@@ -64,9 +64,9 @@
 			select distinct agent_name, agent_id from expLoan where trans_agent_role = 'received by' order by agent_name;
 		</cfquery>
 		<!--- loop once for each agent --->
-	<cfloop query="agent" startrow=1 endrow=700>
+	<cfloop query="agent" startrow=1 endrow=400>
 	<cfquery name="chkLog" datasource="uam_god">
-		select * from loan_reminder_log where agent_id=#agent.agent_id# and reminder_type = 'L' and date_sent > to_date('2023-08-01', 'YYYY-MM-DD')
+		select * from loan_reminder_log where agent_id=#agent.agent_id# and reminder_type = 'L' and date_sent > to_date('2024-01-01', 'YYYY-MM-DD')
 	</cfquery>
 	<cfif chkLog.recordcount EQ 0>
 			<!--- local queries to organize and flatten loan data --->
