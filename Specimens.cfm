@@ -168,8 +168,8 @@ limitations under the License.
 .col-xxl-11 {max-width: 90.333333%}
 }
 @media screen and (min-width: 1100px) {
-.col-xxl-1 {max-width: 7.666667%}
-.col-xxl-11 {max-width: 91.333333%}
+.col-xxl-one {max-width: 7.666667%}
+.col-xxl-eleven {max-width: 91.333333%}
 }
 </style>
 <script>
@@ -366,7 +366,7 @@ limitations under the License.
 														<cfset IDButton = "show more <i class='fas fa-caret-down' style='vertical-align: middle;'></i>">
 												</cfif> 
 														
-												<div class="col-12 col-xl-2 col-xxl-1 px-1 mb-1 float-left">
+												<div class="col-12 col-xl-2 col-xxl-one col-xxl-1 px-1 mb-1 float-left">
 													<div class="pb-0 font-weight-bold d-inline-block-md text-xl-right px-1 w-100 text-left text-md-left text-dark mb-1 mb-md-0 pt-1">
 														<h2 class="small90 mb-0 mx-0 px-2 mx-xl-0 px-xl-0 d-block text-black font-weight-bold">Identifiers</h2>
 														<cfif findNoCase("redesign",gitBranch) GT 0 OR (isdefined("session.roles") AND listfindnocase(session.roles,"collops") ) >
@@ -374,7 +374,7 @@ limitations under the License.
 														</cfif>
 													</div>
 												</div>	
-												<div class="form-row col-12 col-xxl-10 col-xxl-11 pt-1 px-1 mx-0 mb-0">
+												<div class="form-row col-12 col-xxl-eleven col-xxl-11 pt-1 px-1 mx-0 mb-0">
 													<div class="col-12 mb-1 col-md-3">
 														<label for="fixedCollection" class="data-entry-label small">Collection</label>
 														<div name="collection" id="fixedCollection" class="w-100"></div>
@@ -529,13 +529,13 @@ limitations under the License.
 													<cfset toggleTo = "1">
 													<cfset TaxaButton = "show more <i class='fas fa-caret-down' style='vertical-align: middle;'></i>">
 												</cfif>
-												<div class="col-12 col-xl-2 col-xxl-1 px-1 mb-1">
+												<div class="col-12 col-xl-2 col-xxl-one col-xxl-1 px-1 mb-1">
 													<div class="pb-0 font-weight-bold d-inline-block-md text-xl-right px-1 w-100 pt-1 text-left text-dark mb-0">
 														<h2 class="small90 mb-0 mx-0 px-2 px-xl-0 mx-xl-0 d-block text-black font-weight-bold">Taxonomy</h2>
 														<button type="button" id="TaxaDetailCtl" class="d-none d-xl-inline-block px-xl-0 py-0 btn-link text-right btn smaller" onclick="toggleTaxaDetail(#toggleTo#);">#TaxaButton#</button>
 													</div>
 												</div>
-												<div class="form-row col-12 col-xxl-10 col-xxl-11 pt-1 px-1 mx-0 mb-0">
+												<div class="form-row col-12 col-xxl-eleven col-xxl-11 pt-1 px-1 mx-0 mb-0">
 													<div class="col-12 mb-1 col-md-4">
 														<div class="form-row mx-0 mb-0">
 															<div class="col-9 px-0">
@@ -762,13 +762,13 @@ limitations under the License.
 													<cfset toggleTo = "1">
 													<cfset GeogButton = '<i class="fas fa-caret-down" style="vertical-align: middle"></i>'>
 												</cfif>
-												<div class="col-12 col-xl-2 col-xxl-1 px-1 mb-1 float-left">
+												<div class="col-12 col-xl-2 col-xxl-one col-xxl-1 px-1 mb-1 float-left">
 													<div class="pb-0 font-weight-bold d-inline-block-md text-xl-right px-1 w-100 text-left text-md-left text-dark mb-1 mb-md-0 pt-1">
 														<h2 class="small90 mb-0 mx-0 px-2 mx-xl-0 px-xl-0 d-block text-black font-weight-bold">Geography</h2>
 														<button type="button" id="GeogDetailCtl" class="d-none d-xl-inline-block px-xl-0 py-0 btn-link text-right btn smaller" onclick="toggleGeogDetail(#toggleTo#);">show more <i class="fas fa-caret-down" style="vertical-align: middle;"></i></span></button>
 													</div>
 												</div>
-												<div class="form-row col-12 col-xxl-10 col-xxl-11 pt-1 px-1 mx-0 mb-0">
+												<div class="form-row col-12 col-xxl-eleven col-xxl-11 pt-1 px-1 mx-0 mb-0">
 													<div class="col-12 mb-1 col-md-4">
 														<cfif not isdefined("any_geography")><cfset any_geography=""></cfif>
 														<label for="any_geography" class="data-entry-label small">Any Geography (keywords)</label>
@@ -973,14 +973,14 @@ limitations under the License.
 													<cfset toggleTo = "1">
 													<cfset CollButton = "<i class='fas fa-caret-down' style='vertical-align:middle;'></i>">
 												</cfif> 
-												<div class="col-12 col-xl-2 col-xxl-1 px-1 mb-1 float-left">
+												<div class="col-12 col-xl-2 col-xxl-one col-xxl-1 px-1 mb-1 float-left">
 													<div class="pb-0 font-weight-bold d-inline-block-md text-xl-right px-1 w-100 text-left text-md-left text-dark mb-1 mb-md-0 pt-1">
 														<h2 class="small90 mb-0 mx-0 px-2 mx-xl-0 px-xl-0 d-block text-black font-weight-bold">Coll. Event</h2>
 														<button type="button" id="CollDetailCtl" class="d-none d-xl-inline-block px-xl-0 py-0 btn-link text-right btn smaller" onclick="toggleCollDetail(#toggleTo#);">show more <i class="fas fa-caret-down" style="vertical-align: middle;"></i></button>
 													</div>
 												</div>				
 																										
-												<div class="form-row col-12 col-xxl-10 col-xxl-11 px-1 pt-1 mb-0 mx-0">
+												<div class="form-row col-12 col-xxl-eleven col-xxl-11 px-1 pt-1 mb-0 mx-0">
 													<div class="col-12 mb-1 col-md-3">
 														<label for="collector" class="data-entry-label small">Collector</label>
 														<cfif not isdefined("collector")>
@@ -1096,7 +1096,7 @@ limitations under the License.
 													<cfset toggleTo = "1">
 													<cfset SpecButton = '<i class="fas fa-caret-down" style="vertical-align: middle;"></i>'>
 												</cfif> 
-												<div class="col-12 col-xl-2 col-xxl-1 px-1 mb-1 float-left">
+												<div class="col-12 col-xl-2 col-xxl-one col-xxl-1 px-1 mb-1 float-left">
 													<div class="pb-0 font-weight-bold d-inline-block-md text-xl-right px-1 w-100 text-left text-md-left text-dark mb-1 mb-md-0 pt-1">
 														<h2 class="small90 mb-0 mx-0 px-2 mx-xl-0 px-xl-0 d-block text-black font-weight-bold">Specimen</h2>
 														<button type="button" id="SpecDetailCtl" class="d-xl-inline-block d-none px-xl-0 py-0 btn-link text-right btn smaller" onclick="toggleSpecDetail(#toggleTo#);">
@@ -1105,7 +1105,7 @@ limitations under the License.
 													</div>
 												</div>
 													
-												<div class="form-row col-12 col-xxl-10 col-xxl-11 pt-1 px-1 mb-0 mx-0">
+												<div class="form-row col-12 col-xxl-eleven col-xxl-11 pt-1 px-1 mb-0 mx-0">
 													<div class="col-12 mb-1 col-md-3">
 														<cfif not isdefined("part_name")><cfset part_name=""></cfif>
 														<label for="part_name" class="data-entry-label small">Part Name</label>
@@ -1197,12 +1197,12 @@ limitations under the License.
 												</div>
 											</div>
 											<div class="col-12 form-row mx-0 search-form-basic-odd pb-2 pb-xl-1 px-1">
-													<div class="col-12 col-xl-2 col-xxl-1 px-2 mb-1 float-left">
+													<div class="col-12 col-xl-2 col-xxl-one col-xxl-1 px-2 mb-1 float-left">
 														<h2 class="small90 mb-0 mx-1 mx-xl-0 px-2 pt-2 px-xl-1 text-left text-xl-right text-black font-weight-bold">
 															General
 														</h2>
 													</div>
-													<div class="form-row col-12 col-xxl-10 col-xxl-11 ml-0 px-0 pt-1 mb-0">
+													<div class="form-row col-12 col-xxl-eleven col-xxl-11 ml-0 px-0 pt-1 mb-0">
 													<div class="col-12 mb-1 col-md-2">
 														<cfif not isdefined("keyword")>
 															<cfset keyword="">
@@ -1293,11 +1293,11 @@ limitations under the License.
 											</div>
 											<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_transactions")>
 												<div class="col-12 form-row mx-0 search-form-basic-odd pb-2 pb-xl-1 px-1">
-													<div class="col-12 col-xl-2 col-xxl-1 px-2 mb-1 float-left">
+													<div class="col-12 col-xl-2 col-xxl-one col-xxl-1 px-2 mb-1 float-left">
 														<h2 class="small90 mb-0 mx-1 mx-xl-0 px-2 pt-2 px-xl-1 text-left text-xl-right text-black font-weight-bold">Transactions
 														</h2>
 													</div>
-													<div class="form-row col-12 col-xxl-10 col-xxl-11 ml-0 px-0 pt-1 mb-0">
+													<div class="form-row col-12 col-xxl-eleven  col-xxl-11 ml-0 px-0 pt-1 mb-0">
 														<div class="col-12 mb-1 col-md-2">
 															<cfif not isdefined("loan_number")>
 																<cfset loan_number="">
