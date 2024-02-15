@@ -212,13 +212,13 @@ limitations under the License.
 				Missing from Upload: #listCompare(List1,List2)#<br>--->
 
 				<cfif not isDefined(#headers.get(0)#)>#headers.get(0)#<cfelse>missing</cfif>,
-				<cfif isDefined(#headers.get(1)#)>this one</cfif>,
-				<cfif isDefined(#headers.get(2)#)>this one</cfif>,
-				<cfif isDefined(#headers.get(3)#)>none</cfif>,
-				<cfif isDefined(#headers.get(4)#)>that<cfelse>missing</cfif>,
-				<cfif isDefined(#headers.get(4)#)>fda<cfelse>missing</cfif>,
-				<cfif isDefined(#headers.get(6)#)>#headers.get(6)#<cfelse>missing</cfif>,
-				<cfif isDefined(#headers.get(7)#)>#headers.get(7)#<cfelse>missing</cfif>,
+				<cfif not isDefined(#headers.get(1)#)>this one</cfif>,
+				<cfif not isDefined(#headers.get(2)#)>this one</cfif>,
+				<cfif not isDefined(#headers.get(3)#)>none</cfif>,
+				<cfif not isDefined(#headers.get(4)#)>that<cfelse>missing</cfif>,
+				<cfif not isDefined(#headers.get(4)#)>fda<cfelse>missing</cfif>,
+				<cfif not isDefined(#headers.get(6)#)>#headers.get(6)#<cfelse>missing</cfif>,
+				<cfif not isDefined(#headers.get(7)#)>#headers.get(7)#<cfelse>missing</cfif>,
 				<cfif not isDefined(#headers.get(8)#)>#headers.get(8)#<cfelse>missing</cfif>,
 				<cfif isDefined(#headers.get(9)#)>This one</cfif>,
 				<cfif isDefined(#headers.get(10)#)>fds</cfif>
