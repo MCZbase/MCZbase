@@ -203,7 +203,7 @@ limitations under the License.
 					}
 				</cfscript>
 					
-
+				<CFFUNCTION>
 				<cfset List1 = "institution_acronym,collection_cde,other_id_type,other_id_number,attribute,attribute_value,attribute_units,attribute_date,attribute_meth,determiner,remarks">
 				<cfset List2=["institution_acronym","institution_acronym","collection_cde","other_id_type","other_id_number","attribute","attribute_value","attribute_units","attribute_date","attribute_meth","determiner","remarks"]>
 				<cfargument name="List1" type="string" required="true" />
@@ -212,7 +212,7 @@ limitations under the License.
 				<cfset var list2Array = ListToArray(arguments.List2) />
 				<cfset list1Array.retainAll(list2Array) />
 				<cfreturn ArrayToList(list1Array) />		
-						
+				</CFFUNCTION>		
 <!---					
 			<br>Header 1 = <span class="font-weight-bold">#headers.get(0)#</span>, 
 			<br>Header 2 = <span class="font-weight-bold">#headers.get(1)#</span>, 
