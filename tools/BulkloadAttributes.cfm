@@ -179,11 +179,10 @@ limitations under the License.
 					for (i=1; i <= fieldlist.Len(); i++)
 					{
 						if (fieldlist[i] == "#headers.get(JavaCast("int",i))#")
-							{
-								writeOutput(fieldlist[i] & "<br/>");
-							} else {
-								writeOutput("This attribute is missing.")
-							}
+						{
+							writeOutput(fieldlist[i] & "<br/>");
+						} else {
+							writeOutput("This attribute is missing.")
 						}
 					}
 				</cfscript>
