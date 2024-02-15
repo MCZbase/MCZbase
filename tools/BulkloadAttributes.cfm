@@ -107,16 +107,9 @@ limitations under the License.
 		<!--- Set some constants to identify error cases in cfcatch block --->
 		<cfset NO_COLUMN_ERR = "One or more required fields are missing in the header line of the csv file.">
 		<cfset COLUMN_ERR = "Error inserting data">
-			<cffunction name="listCommon" output="false" returnType="string">
-				<cfset List1 = "institution_acronym,collection_cde,other_id_type,other_id_number,attribute,attribute_value,attribute_units,attribute_date,attribute_meth,determiner,remarks">
-				<cfset List2=["institution_acronym","institution_acronym","collection_cde","other_id_type","other_id_number","attribute","attribute_value","attribute_units","attribute_date","attribute_meth","determiner","remarks"]>
-				<cfargument name="List1" type="string" required="true" />
-				<cfargument name="List2" type="string" required="true" />
-				<cfset var list1Array = ListToArray(arguments.List1) />
-				<cfset var list2Array = ListToArray(arguments.List2) />
-				<cfset list1Array.retainAll(list2Array) />
-				<cfreturn ArrayToList(list1Array) />
-			</cffunction>
+			
+		
+
 		<cfoutput>
 			<cftry>
 				<!--- Proof of concept parsing CSV with Java using Commons CSV library included with coldfusion so that columns with comma delimeters will be separated properly --->
@@ -211,7 +204,14 @@ limitations under the License.
 				</cfscript>
 					
 
-							
+				<cfset List1 = "institution_acronym,collection_cde,other_id_type,other_id_number,attribute,attribute_value,attribute_units,attribute_date,attribute_meth,determiner,remarks">
+				<cfset List2=["institution_acronym","institution_acronym","collection_cde","other_id_type","other_id_number","attribute","attribute_value","attribute_units","attribute_date","attribute_meth","determiner","remarks"]>
+				<cfargument name="List1" type="string" required="true" />
+				<cfargument name="List2" type="string" required="true" />
+				<cfset var list1Array = ListToArray(arguments.List1) />
+				<cfset var list2Array = ListToArray(arguments.List2) />
+				<cfset list1Array.retainAll(list2Array) />
+				<cfreturn ArrayToList(list1Array) />		
 						
 <!---					
 			<br>Header 1 = <span class="font-weight-bold">#headers.get(0)#</span>, 
