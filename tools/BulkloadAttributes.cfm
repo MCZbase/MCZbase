@@ -190,7 +190,7 @@ limitations under the License.
 					fieldlist = ["institution_acronym","institution_acronym","collection_cde","other_id_type","other_id_number","attribute","attribute_value","attribute_units","attribute_date","attribute_meth","determiner","remarks"];
 					for (k=0 ; k <= fieldlist.Len(); k++)
 					{
-						if (fieldlist[k] != #headers.get(JavaCast("int",#k#))#)
+						if (fieldlist[k] == #headers.get(JavaCast("int",#k#))#)
 						{
 							writeOutput(fieldlist[k] & #headers.get(#k#)# & "<br/>");
 						} else {
