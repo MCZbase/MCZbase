@@ -202,9 +202,9 @@ limitations under the License.
 					
 				
 				<cfset list1 = "institution_acronym,collection_cde,other_id_type,other_id_number,attribute,attribute_value,attribute_units,attribute_date,attribute_meth,determiner,remarks">
-				<cfloop index="actualColumnNumber" from="0" to="#headers.size() - 1#">
-				<cfset list2="#headers.get(JavaCast("int",actualColumnNumber))#">
-				</cfloop>
+		
+				<cfset list2="#headers.get(0)#, #headers.get(1)#, #headers.get(2)#, #headers.get(3)#, #headers.get(4)#, #headers.get(5)#, #headers.get(6)#, #headers.get(7)#, #headers.get(8)#, #headers.get(9)#, #headers.get(10)#">
+			
 		
 				<cffunction name="listCommon" output="false" returnType="string">
 				<cfargument name="list1" type="string" required="true" />
