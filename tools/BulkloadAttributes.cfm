@@ -217,8 +217,8 @@ limitations under the License.
 				<cfif not isDefined(#headers.get(3)#)>#headers.get(3)#<cfelse>missing</cfif>,
 				<cfif not isDefined(#headers.get(4)#)>#headers.get(4)#<cfelse>missing</cfif>,
 				<cfif not isDefined(#headers.get(5)#)>#headers.get(5)#<cfelse>missing</cfif>,
-				<cfif not isDefined(#headers.get(6)#)>#headers.get(6)#<cfelse>missing</cfif>,
-				<cfif not isDefined(#headers.get(7)#)>#headers.get(7)#<cfelse>missing</cfif>,
+				<cfif not isDefined(#headers.get(6)#)>header 6 #headers.get(6)#<cfelse>missing</cfif>,
+				<cfif not isDefined(#headers.get(7)#)>header 7 #headers.get(7)#<cfelse>missing</cfif>,
 				<cfif not isDefined(#headers.get(8)#)>#headers.get(8)#<cfelse>missing</cfif>,
 				<cfif not isDefined(#headers.get(9)#)>#headers.get(9)#<cfelse>missing</cfif>,
 				<cfif not isDefined(#headers.get(10)#)>#headers.get(10)#<cfelseif isDefined(#headers.get(10)#)>missing</cfif>
