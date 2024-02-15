@@ -212,10 +212,10 @@ limitations under the License.
 		
 			
 					
-			<cftry>	
+<!---			<cftry>	
 				<cfset j=10>
 				<cfset i = 1>
-				<cfloop from="0" to="#j#" index="i">requiredfieldlist,fieldlist
+				<cfloop from="0" to="#j#" index="i">
 					<cfset thisheader = #headers.get(JavaCast("int",#i#))#>[#thisheader#]<cfabort>
 						<cfif #thisheader# eq "institution_acronym"> &nbsp;<cfelse>institution_acronym is missing</cfif><br>
 						<cfif #thisheader# eq "collection_cde"> &nbsp;<cfelse>collection_cde is missing</cfif><br>
@@ -231,7 +231,7 @@ limitations under the License.
 						<cfset i= i+1>
 				</cfloop>
 			<cfcatch>Ooops</cfcatch>
-			</cftry>
+			</cftry>--->
 				<!--- cleanup any incomplete work by the same user --->
 				<cfquery name="clearTempTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="clearTempTable_result">
 					DELETE FROM cf_temp_attributes 
