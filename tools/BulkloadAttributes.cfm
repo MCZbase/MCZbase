@@ -187,11 +187,11 @@ limitations under the License.
 				
 				<cfset i="i">
 				<cfset listoffields= ["institution_acronym","institution_acronym","collection_cde","other_id_type","other_id_number","attribute","attribute_value","attribute_units","attribute_date","attribute_meth","determiner","remarks"]>
-					<cfloop array="#listoffields#" index="thisField">
-							#thisField#
+					
+							
 						<cfloop from="1" to="" index="i">
+						#thisField#
 						
-						</cfloop>
 		<!---				<cfset compareFields = #headers.get(JavaCast("int",#m#))#>
 						<cfloop from="0" to="#headers.size()-1#" index="#compareFields#">
 							 #compareFields#
