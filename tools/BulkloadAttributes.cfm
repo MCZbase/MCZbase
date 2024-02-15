@@ -189,10 +189,9 @@ limitations under the License.
 					#thisField#
 				</cfloop>
 				<cfset m=0>
-				<cfset thisfield = #thisfield#>
 				<cfset compareFields = #headers.get(JavaCast("int",#m#))#>
 				<cfloop from="0" to="#headers.size()-1#" index="#compareFields#">
-					#thisField# #compareFields#
+					 #compareFields#
 				<cfset m=1+m>
 				</cfloop>
 <!---				<cfscript>
