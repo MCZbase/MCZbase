@@ -203,7 +203,7 @@ limitations under the License.
 					}
 				</cfscript>
 					
-				<CFFUNCTION  name="listCompare" output="false" returnType="string">
+				<CFFUNCTION  name="listCompare" output="true" returnType="string">
 				<cfset List1 = "institution_acronym,collection_cde,other_id_type,other_id_number,attribute,attribute_value,attribute_units,attribute_date,attribute_meth,determiner,remarks">
 				<cfset List2=["institution_acronym","institution_acronym","collection_cde","other_id_type","other_id_number","attribute","attribute_value","attribute_units","attribute_date","attribute_meth","determiner","remarks"]>
 				<cfargument name="List1" type="string" required="true" />
