@@ -175,17 +175,7 @@ limitations under the License.
 						</cfoutput>
 					</cfloop>
 				</ul>
-				<cfscript>
-					for (k=1; k <= fieldlist.Len(); k++)
-					{
-						if (fieldlist[k] == "#headers.get(JavaCast("int",k))#")
-						{
-							writeOutput(fieldlist[k] & "<br/>");
-						} else {
-							writeOutput("This attribute is missing.")
-						}
-					}
-				</cfscript>
+
 	<!---			<cset iterator = csvParser.iterator()>
 				<cfloop condition="#iterator.hasNext()#">--->
 					<ul class="list-group list-group-horizontal">
@@ -195,6 +185,19 @@ limitations under the License.
 							
 					</cfloop>
 					</ul>
+				
+				
+				<cfscript>
+					for (k=1; k <= fieldlist.Len(); k++)
+					{
+						if (fieldlist[k] == #headers.get(JavaCast("int",k))#)
+						{
+							writeOutput(fieldlist[k] & "<br/>");
+						} else {
+							writeOutput("This attribute is missing.")
+						}
+					}
+				</cfscript>
 			<br>Header 1 = <span class="font-weight-bold">#headers.get(0)#</span>, 
 			<br>	Header 2 = <span class="font-weight-bold">#headers.get(1)#</span>, 
 			<br>	Header 3 = <span class="font-weight-bold">#headers.get(2)#</span>, 
