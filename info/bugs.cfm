@@ -229,7 +229,7 @@ limitations under the License.
 		<cfoutput>
 		<main class="container py-3" id="content" >
 			<cfif NOT isdefined("session.username") OR len(session.username) EQ 0>
-				<cfif REFind("http(s){0,1}://",complaint) GT 0>
+				<cfif REFind("http(s){0,1}://(?!mczbase.mcz.harvard.edu)",complaint) GT 0>
 					<cfthrow message="You must be logged in to submit this bug report.">
 				</cfif>
 			</cfif>
