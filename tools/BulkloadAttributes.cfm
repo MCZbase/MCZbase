@@ -202,21 +202,21 @@ limitations under the License.
 					
 
 		
-				<cfset List1 = "institution_acronym_,collection_cde_,other_id_type_,other_id_number_,attribute_,attribute_value_,attribute_units_,attribute_date_,attribute_meth_,determiner_,remarks_">
+				<cfset List1 = "institution_acronym,collection_cde,other_id_type,other_id_number,attribute,attribute_value,attribute_units,attribute_date,attribute_meth,determiner,remarks">
 	<!---			<cfset List2="#headers.get(0)#, #headers.get(1)#, #headers.get(2)#, #headers.get(3)#, #headers.get(4)#, #headers.get(5)#, #headers.get(6)#, #headers.get(7)#, #headers.get(8)#, #headers.get(9)#, #headers.get(10)#">--->
-				<cfset institution_acronym_ = #headers.get(0)#>
-				<cfset collection_cde_ = #headers.get(1)#>
-				<cfset other_id_type_ = #headers.get(2)#>
-				<cfset other_id_number_ = #headers.get(3)#>
-				<cfset attribute_ = #headers.get(4)#>
-				<cfset attribute_value_ = #headers.get(5)#>
-				<cfset attribute_units_ = #headers.get(6)#>
-				<cfset attribute_date_ = #headers.get(7)#>
-				<cfset attribute_meth_ = #headers.get(8)#>
-				<cfset determiner_ = #headers.get(9)#>
-				<cfset remarks_ = #headers.get(10)#>
+					<cfif institution_acronym == #headers.get(0)#>institution_acronym</cfif>
+					<cfif collection_cde == #headers.get(1)#>collection_cde</cfif>
+					<cfif other_id_type == #headers.get(2)#>other_id_type</cfif>
+					<cfif other_id_number == #headers.get(3)#>other_id_number</cfif>
+					<cfif attribute == #headers.get(4)#>attribute</cfif>
+					<cfif attribute_value == #headers.get(5)#>attribute_value</cfif>
+					<cfif attribute_units == #headers.get(6)#>attribute_units</cfif>
+					<cfif attribute_date == #headers.get(7)#>attribute_date</cfif>
+					<cfif attribute_meth == #headers.get(8)#>attribute_meth</cfif>
+					<cfif determiner == #headers.get(9)#>determiner</cfif>
+					<cfif remarks == #headers.get(10)#>remarks</cfif>
 										
-				<cfset List2 = "institution_acronym_,collection_cde_,other_id_type_,other_id_number_,attribute_,attribute_value_,attribute_units_,attribute_date_, attribute_meth_,determiner_,remarks_">
+				<cfset List2 = "institution_acronym,collection_cde_,other_id_type_,other_id_number_,attribute_,attribute_value_,attribute_units_,attribute_date_, attribute_meth_,determiner,remarks">
 				List of Fields: #List1#<br>
 				Fields in CSV: #List2#<br>
 				Common: #listCommon(List1,List2)#<br>
