@@ -1193,12 +1193,12 @@ limitations under the License.
 												</div>
 											</div>
 											<div class="col-12 form-row mx-0 search-form-basic-odd pb-2 pb-xl-1 px-1">
-													<div class="col-12 col-xl-2 col-xxl-1 px-1 mb-1 float-left">
+													<div class="col-12 col-xl-2 col-xxl-1 px-2 mb-1 float-left">
 														<div class="small90 mx-1 mx-xl-0 px-2 pt-2 px-xl-1 text-left text-xl-right text-black font-weight-bold">
 															General
 														</div>
 													</div>
-													<div class="form-row col-12 col-xxl-10 col-xxl-11 ml-0 px-1 pt-1 mb-0">
+													<div class="form-row col-12 col-xxl-10 col-xxl-11 ml-0 px-0 pt-1 mb-0">
 													<div class="col-12 mb-1 col-md-2">
 														<cfif not isdefined("keyword")>
 															<cfset keyword="">
@@ -1289,11 +1289,11 @@ limitations under the License.
 											</div>
 											<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_transactions")>
 												<div class="col-12 form-row mx-0 search-form-basic-odd pb-2 pb-xl-1 px-1">
-													<div class="col-12 col-xl-2 col-xxl-1 px-1 mb-1 float-left">
+													<div class="col-12 col-xl-2 col-xxl-1 px-2 mb-1 float-left">
 														<div class="small90 mx-1 mx-xl-0 px-2 pt-2 px-xl-1 text-left text-xl-right text-black font-weight-bold">Transactions
 														</div>
 													</div>
-													<div class="form-row col-12 col-xxl-10 col-xxl-11 ml-0 px-1 pt-1 mb-0">
+													<div class="form-row col-12 col-xxl-10 col-xxl-11 ml-0 px-0 pt-1 mb-0">
 														<div class="col-12 mb-1 col-md-2">
 															<cfif not isdefined("loan_number")>
 																<cfset loan_number="">
