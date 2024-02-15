@@ -184,7 +184,7 @@ limitations under the License.
 							<cfset externalList = #headers.get(JavaCast("int",i))#>#headers.get(JavaCast("int",i))#</li>
 					</cfloop>
 					</ul>
-				<cfset fieldlist = ["institution_acronym","institution_acronym","collection_cde","other_id_type","other_id_number","attribute","attribute_value","attribute_units","attribute_date","attribute_meth","determiner","remarks"];>
+				<cfset fieldlist = ["institution_acronym","institution_acronym","collection_cde","other_id_type","other_id_number","attribute","attribute_value","attribute_units","attribute_date","attribute_meth","determiner","remarks"]>
 				<cfloop array="#fieldlist#" index="thisField">
 					#thisField#
 				</cfloop>
