@@ -184,20 +184,27 @@ limitations under the License.
 							<cfset externalList = #headers.get(JavaCast("int",i))#>#headers.get(JavaCast("int",i))#</li>
 					</cfloop>
 					</ul>
-				
-				
-				<cfscript>
-					fieldlist = ["institution_acronym","institution_acronym","collection_cde","other_id_type","other_id_number","attribute","attribute_value","attribute_units","attribute_date","attribute_meth","determiner","remarks"];
-					for (k=1 ; k <= fieldlist.Len(); k++)
+				<cfset fieldlist = ["institution_acronym","institution_acronym","collection_cde","other_id_type","other_id_number","attribute","attribute_value","attribute_units","attribute_date","attribute_meth","determiner","remarks"];>
+				<cfloop array="#fieldlist#" index="thisField">
+					#thisField#
+				</cfloop>
+				<cfset m = 0>
+				<cfloop from="0" to="#headers.size()-1#" index="compareFields">
+				<cfset compareFields = #headers.get(JavaCast("int",#m#))#
+					#fieldlist[compareFields]#
+				</cfloop>
+<!---				<cfscript>
+					
+					for (m=0 ; m == #headers.get(JavaCast("int",#m#))#.Len; m++)
 					{
-						if (fieldlist[k] != #headers.get(JavaCast("int",#k#+1))#)
+						if (fieldlist[k] != #headers.get(JavaCast("int",#m#))#)
 						{
 							writeOutput(fieldlist[k] & "<br/>");
 						} else {
 							writeOutput("")
 						}
 					}
-				</cfscript>
+				</cfscript>--->
 					
 					
 					
