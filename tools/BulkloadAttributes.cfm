@@ -184,30 +184,19 @@ limitations under the License.
 							<cfset externalList = #headers.get(JavaCast("int",i))#>#headers.get(JavaCast("int",i))#</li>
 					</cfloop>
 					</ul>
-				<cfset fieldlist = ["institution_acronym","institution_acronym","collection_cde","other_id_type","other_id_number","attribute","attribute_value","attribute_units","attribute_date","attribute_meth","determiner","remarks"]>
-				<cfloop array="#fieldlist#" index="thisField">
-					#thisField#
-				</cfloop>
-				<cfset m=0>
-				<cfset compareFields = #headers.get(JavaCast("int",#m#))#>
-				<cfloop from="0" to="#headers.size()-1#" index="#compareFields#">
-					 #compareFields#
-				<cfset m=1+m>
-				</cfloop>
-<!---				<cfscript>
-					
-					for (m=0 ; m == #headers.get(JavaCast("int",#m#))#.Len; m++)
-					{
-						if (fieldlist[k] != #headers.get(JavaCast("int",#m#))#)
-						{
-							writeOutput(fieldlist[k] & "<br/>");
-						} else {
-							writeOutput("")
-						}
-					}
-				</cfscript>--->
-					
-					
+				
+				<cfset i="i">
+				<cfloop from="1" to="11" index="i">
+					<cfset listoffields= ["institution_acronym","institution_acronym","collection_cde","other_id_type","other_id_number","attribute","attribute_value","attribute_units","attribute_date","attribute_meth","determiner","remarks"]>
+						<cfloop array="#listoffields#" index="thisField">
+							#thisField#
+						</cfloop>
+		<!---				<cfset compareFields = #headers.get(JavaCast("int",#m#))#>
+						<cfloop from="0" to="#headers.size()-1#" index="#compareFields#">
+							 #compareFields#
+						</cfloop>--->
+					<cfset i=1+i>
+				</cfloop>	
 <!---					
 			<br>Header 1 = <span class="font-weight-bold">#headers.get(0)#</span>, 
 			<br>Header 2 = <span class="font-weight-bold">#headers.get(1)#</span>, 
