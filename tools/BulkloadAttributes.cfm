@@ -202,18 +202,18 @@ limitations under the License.
 					
 
 		
-				<cfset List1 = "institution_acronym,collection_cde,other_id_type,other_id_number,attribute,attribute_value,attribute_units,attribute_date,attribute_meth,determiner,remarks">
+<!---				<cfset List1 = "institution_acronym,collection_cde,other_id_type,other_id_number,attribute,attribute_value,attribute_units,attribute_date,attribute_meth,determiner,remarks">
 			
-				<cfset List2 = "<cfif institution_acronym == #headers.get(0)#>institution_acronym</cfif>,<cfif collection_cde == #headers.get(1)#>collection_cde</cfif>,<cfif other_id_type == #headers.get(2)#>other_id_type</cfif>,<cfif other_id_number == #headers.get(3)#>other_id_number</cfif>,<cfif attribute == #headers.get(4)#>attribute</cfif>,<cfif attribute_value == #headers.get(5)#>attribute_value</cfif>,<cfif attribute_units == #headers.get(6)#>attribute_units</cfif>,<cfif attribute_date == #headers.get(7)#>attribute_date</cfif>,<cfif attribute_meth == #headers.get(8)#>attribute_meth</cfif>,<cfif determiner == #headers.get(9)#>determiner</cfif>,<cfif remarks == #headers.get(10)#>remarks</cfif>">
+				<cfset List2 = "<cfif institution_acronym = #headers.get(0)#>institution_acronym</cfif>,<cfif collection_cde = #headers.get(1)#>collection_cde</cfif>,<cfif other_id_type = #headers.get(2)#>other_id_type</cfif>,<cfif other_id_number = #headers.get(3)#>other_id_number</cfif>,<cfif attribute == #headers.get(4)#>attribute</cfif>,<cfif attribute_value == #headers.get(5)#>attribute_value</cfif>,<cfif attribute_units == #headers.get(6)#>attribute_units</cfif>,<cfif attribute_date == #headers.get(7)#>attribute_date</cfif>,<cfif attribute_meth == #headers.get(8)#>attribute_meth</cfif>,<cfif determiner == #headers.get(9)#>determiner</cfif>,<cfif remarks == #headers.get(10)#>remarks</cfif>">
 
 				List of Fields: #List1#<br>
 				Fields in CSV: #List2#<br>
 				Common: #listCommon(List1,List2)#<br>
-				Missing from Upload: #listCompare(List1,List2)#<br>
+				Missing from Upload: #listCompare(List1,List2)#<br>--->
 
 				
 						
-<!---					
+					
 			<br>Header 1 = <span class="font-weight-bold">#headers.get(0)#</span>, 
 			<br>Header 2 = <span class="font-weight-bold">#headers.get(1)#</span>, 
 			<br>Header 3 = <span class="font-weight-bold">#headers.get(2)#</span>, 
@@ -224,7 +224,7 @@ limitations under the License.
 			<br>Header 8 = <span class="font-weight-bold">#headers.get(7)#</span>, 
 			<br>Header 9 = <span class="font-weight-bold">#headers.get(8)#</span>, 
 			<br>Header 10 = <span class="font-weight-bold">#headers.get(9)#</span>, 
-			<br>Header 11 = <span class="font-weight-bold">#headers.get(10)#</span>--->
+			<br>Header 11 = <span class="font-weight-bold">#headers.get(10)#</span>
 	
 				<cfcatch><span class="h3 text-danger">This attribute is missing.</span></cfcatch>
 				</cftry>
