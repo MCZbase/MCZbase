@@ -167,6 +167,10 @@ limitations under the License.
 .col-xxl-1 {max-width: 7.666667%}
 .col-xxl-11 {max-width: 90.333333%}
 }
+@media screen and (min-width: 1100px) {
+.col-xxl-1 {max-width: 7.666667%}
+.col-xxl-11 {max-width: 91.333333%}
+}
 </style>
 <script>
   function toggleDisplay1() {
@@ -364,7 +368,7 @@ limitations under the License.
 														
 												<div class="col-12 col-xl-2 col-xxl-1 px-1 mb-1 float-left">
 													<div class="pb-0 font-weight-bold d-inline-block-md text-xl-right px-1 w-100 text-left text-md-left text-dark mb-1 mb-md-0 pt-1">
-														<span class="small90 mx-0 px-2 mx-xl-0 px-xl-0 d-block text-black font-weight-bold">Identifiers</span>
+														<h2 class="small90 mb-0 mx-0 px-2 mx-xl-0 px-xl-0 d-block text-black font-weight-bold">Identifiers</h2>
 														<cfif findNoCase("redesign",gitBranch) GT 0 OR (isdefined("session.roles") AND listfindnocase(session.roles,"collops") ) >
 															<button type="button" id="IDDetailCtl" class="d-none d-xl-inline-block px-xl-0 py-0 btn-link text-right btn smaller" onclick="toggleIDDetail(#toggleTo#);">#IDButton#</button>
 														</cfif>
@@ -527,7 +531,7 @@ limitations under the License.
 												</cfif>
 												<div class="col-12 col-xl-2 col-xxl-1 px-1 mb-1">
 													<div class="pb-0 font-weight-bold d-inline-block-md text-xl-right px-1 w-100 pt-1 text-left text-dark mb-0">
-														<span class="small90 mx-0 px-2 px-xl-0 mx-xl-0 d-block text-black font-weight-bold">Taxonomy</span>
+														<h2 class="small90 mb-0 mx-0 px-2 px-xl-0 mx-xl-0 d-block text-black font-weight-bold">Taxonomy</h2>
 														<button type="button" id="TaxaDetailCtl" class="d-none d-xl-inline-block px-xl-0 py-0 btn-link text-right btn smaller" onclick="toggleTaxaDetail(#toggleTo#);">#TaxaButton#</button>
 													</div>
 												</div>
@@ -760,7 +764,7 @@ limitations under the License.
 												</cfif>
 												<div class="col-12 col-xl-2 col-xxl-1 px-1 mb-1 float-left">
 													<div class="pb-0 font-weight-bold d-inline-block-md text-xl-right px-1 w-100 text-left text-md-left text-dark mb-1 mb-md-0 pt-1">
-														<span class="small90 mx-0 px-2 mx-xl-0 px-xl-0 d-block text-black font-weight-bold">Geography</span>
+														<h2 class="small90 mb-0 mx-0 px-2 mx-xl-0 px-xl-0 d-block text-black font-weight-bold">Geography</h2>
 														<button type="button" id="GeogDetailCtl" class="d-none d-xl-inline-block px-xl-0 py-0 btn-link text-right btn smaller" onclick="toggleGeogDetail(#toggleTo#);">show more <i class="fas fa-caret-down" style="vertical-align: middle;"></i></span></button>
 													</div>
 												</div>
@@ -971,7 +975,7 @@ limitations under the License.
 												</cfif> 
 												<div class="col-12 col-xl-2 col-xxl-1 px-1 mb-1 float-left">
 													<div class="pb-0 font-weight-bold d-inline-block-md text-xl-right px-1 w-100 text-left text-md-left text-dark mb-1 mb-md-0 pt-1">
-														<span class="small90 mx-0 px-2 mx-xl-0 px-xl-0 d-block text-black font-weight-bold">Coll. Event</span>
+														<h2 class="small90 mb-0 mx-0 px-2 mx-xl-0 px-xl-0 d-block text-black font-weight-bold">Coll. Event</h2>
 														<button type="button" id="CollDetailCtl" class="d-none d-xl-inline-block px-xl-0 py-0 btn-link text-right btn smaller" onclick="toggleCollDetail(#toggleTo#);">show more <i class="fas fa-caret-down" style="vertical-align: middle;"></i></button>
 													</div>
 												</div>				
@@ -1094,7 +1098,7 @@ limitations under the License.
 												</cfif> 
 												<div class="col-12 col-xl-2 col-xxl-1 px-1 mb-1 float-left">
 													<div class="pb-0 font-weight-bold d-inline-block-md text-xl-right px-1 w-100 text-left text-md-left text-dark mb-1 mb-md-0 pt-1">
-														<span class="small90 mx-0 px-2 mx-xl-0 px-xl-0 d-block text-black font-weight-bold">Specimen</span>
+														<h2 class="small90 mb-0 mx-0 px-2 mx-xl-0 px-xl-0 d-block text-black font-weight-bold">Specimen</h2>
 														<button type="button" id="SpecDetailCtl" class="d-xl-inline-block d-none px-xl-0 py-0 btn-link text-right btn smaller" onclick="toggleSpecDetail(#toggleTo#);">
 															show more <i class="fas fa-caret-down" style="vertical-align: middle;"></i>
 														</button>
@@ -1194,9 +1198,9 @@ limitations under the License.
 											</div>
 											<div class="col-12 form-row mx-0 search-form-basic-odd pb-2 pb-xl-1 px-1">
 													<div class="col-12 col-xl-2 col-xxl-1 px-2 mb-1 float-left">
-														<div class="small90 mx-1 mx-xl-0 px-2 pt-2 px-xl-1 text-left text-xl-right text-black font-weight-bold">
+														<h2 class="small90 mb-0 mx-1 mx-xl-0 px-2 pt-2 px-xl-1 text-left text-xl-right text-black font-weight-bold">
 															General
-														</div>
+														</h2>
 													</div>
 													<div class="form-row col-12 col-xxl-10 col-xxl-11 ml-0 px-0 pt-1 mb-0">
 													<div class="col-12 mb-1 col-md-2">
@@ -1290,8 +1294,8 @@ limitations under the License.
 											<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_transactions")>
 												<div class="col-12 form-row mx-0 search-form-basic-odd pb-2 pb-xl-1 px-1">
 													<div class="col-12 col-xl-2 col-xxl-1 px-2 mb-1 float-left">
-														<div class="small90 mx-1 mx-xl-0 px-2 pt-2 px-xl-1 text-left text-xl-right text-black font-weight-bold">Transactions
-														</div>
+														<h2 class="small90 mb-0 mx-1 mx-xl-0 px-2 pt-2 px-xl-1 text-left text-xl-right text-black font-weight-bold">Transactions
+														</h2>
 													</div>
 													<div class="form-row col-12 col-xxl-10 col-xxl-11 ml-0 px-0 pt-1 mb-0">
 														<div class="col-12 mb-1 col-md-2">
