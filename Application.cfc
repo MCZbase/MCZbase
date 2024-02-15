@@ -190,6 +190,7 @@ limitations under the License.
 		<cfif serverName is "mczbase-test">
 			<cfset serverName="mczbase-test.rc.fas.harvard.edu" />
 		</cfif>
+ 		<cfset Application.hostName = '#serverName#'><!--- make available for reference from the code --->
 
  		<cfset Application.protocol = 'http'>
 		<!--- *** Test to see if TLS is on and redirection to https is enabled --->
