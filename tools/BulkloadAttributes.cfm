@@ -188,18 +188,36 @@ limitations under the License.
 <!---				<cfset i="i">
 				<cfset listoffields= ["institution_acronym","institution_acronym","collection_cde","other_id_type","other_id_number","attribute","attribute_value","attribute_units","attribute_date","attribute_meth","determiner","remarks"]>--->
 				<cfscript>
-					listoffields= ["institution_acronym","institution_acronym","collection_cde","other_id_type","other_id_number","attribute","attribute_value","attribute_units","attribute_date","attribute_meth","determiner","remarks"];
+					list1 = ["institution_acronym","institution_acronym","collection_cde","other_id_type","other_id_number","attribute","attribute_value","attribute_units","attribute_date","attribute_meth","determiner","remarks"];
 					for (i=1; i <= arrayLen(listoffields); i++) {
 					writeOutput(listoffields[i]);
 					}
 				</cfscript>
-					
 				<cfscript>
 					struct = {institution_acronym=1,collection_cde=2,other_id_type=3,other_id_number=4,attribute=5,attribute_value=6,attribute_units=7,attribute_date=8,attribute_meth=9,determiner=10,remarks=11};
 					for (key in struct) {
 					writeOutput(key & ", ");
 					}
 				</cfscript>
+					
+				
+				<cfset list1 = "institution_acronym,collection_cde,other_id_type,other_id_number,attribute,attribute_value,attribute_units,attribute_date,attribute_meth,determiner,remarks">
+				<cfloop index="actualColumnNumber" from="0" to="#headers.size() - 1#">
+				<cfset list2="#headers.get(JavaCast("int",actualColumnNumber))#">
+				</cfloop>
+		
+				<cffunction name="listCommon" output="false" returnType="string">
+				<cfargument name="list1" type="string" required="true" />
+				<cfargument name="list2" type="string" required="true" />
+
+				<cfset var list1Array = ListToArray(arguments.List1) />
+				<cfset var list2Array = ListToArray(arguments.List2) />
+
+				<cfset list1Array.retainAll(list2Array) />
+
+				<!---— Return in list format --->
+				<cfreturn ArrayToList(list1Array) />
+				</cffunction>
 							
 						
 <!---					
