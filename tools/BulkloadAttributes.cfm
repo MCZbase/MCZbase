@@ -211,7 +211,7 @@ limitations under the License.
 				Common: #listCommon(List1,List2)#<br>
 				Missing from Upload: #listCompare(List1,List2)#<br>--->
 
-				<cfif not isDefined(#headers.get(11)#)>#headers.get(11)#<cfelse>missing</cfif>,
+				<cfif not isDefined(#headers.get(0)#)>#headers.get(0)#<cfelse>missing</cfif>,
 				<cfif not isDefined(#headers.get(1)#)>#headers.get(1)#<cfelse>missing</cfif>,
 				<cfif not isDefined(#headers.get(2)#)>#headers.get(2)#<cfelse>missing</cfif>,
 				<cfif not isDefined(#headers.get(3)#)>#headers.get(3)#<cfelse>missing</cfif>,
@@ -221,7 +221,7 @@ limitations under the License.
 				<cfif not isDefined(#headers.get(7)#)>#headers.get(7)#<cfelse>missing</cfif>,
 				<cfif not isDefined(#headers.get(8)#)>#headers.get(8)#<cfelse>missing</cfif>,
 				<cfif not isDefined(#headers.get(9)#)>#headers.get(9)#<cfelse>missing</cfif>,
-				<cfif not isDefined(#headers.get(10)#)>#headers.get(10)#<cfelse>missing</cfif>
+				<cfif not isDefined(#headers.get(10)#)>#headers.get(10)#<cfelseif isDefined(#headers.get(10)#)>missing</cfif>
 	
 				<cfcatch><span class="h3 text-danger">This attribute is missing.</span></cfcatch>
 				</cftry>
