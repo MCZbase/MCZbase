@@ -171,9 +171,8 @@ limitations under the License.
 		
 			
 					
-						   <!---#mystring[1]#,#mystring1[2]#,#mystring2[3]#,#mystring3[4]#,#mystring4[5]#,#mystring5[6]#,#mystring6[7]#,#mystring7[8]#,#mystring8[9]#,#mystring9[10]#,#mystring9[10]#,#mystring10[11]#]>--->
 				
-	<!---			<cfset map1 = headers.isSet('institution_acronym')>
+				<cfset map1 = headers.isSet('institution_acronym')>
 				<cfset map2 = headers.isSet('collection_cde')>
 				<cfset map3 = headers.isSet('other_id_type')>
 				<cfset map4 = headers.isSet('other_id_number')>
@@ -183,7 +182,7 @@ limitations under the License.
 				<cfset map8 = headers.isSet('attribute_date')>
 				<cfset map9 = headers.isSet('attribute_meth')>
 				<cfset map10 = headers.isSet('determiner')>
-				<cfset map11 = headers.isSet('remarks')>--->
+				<cfset map11 = headers.isSet('remarks')>
 		
 				<div class="col-12 my-4">
 				<h3 class="h4">Found <cfdump var="#headers.size()#"> matching columns in header of csv file (Green).</h3>
