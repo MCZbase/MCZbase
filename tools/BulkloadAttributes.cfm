@@ -141,7 +141,7 @@ limitations under the License.
 				<cfset iterator = records.iterator()>
 				<!--- Obtain the first line of the file as the header line --->
 				<cfset headers = iterator.next()>
-				<cfset list = headers.iterator()>
+				<cfset listed = headers.iterator()>
 				
 				<cfset size = headers.size()>
 				
@@ -157,8 +157,8 @@ limitations under the License.
 				<cfset map10 = headers.isSet('determiner')>
 				<cfset map11 = headers.isSet('remarks')>
 				<cfset map12 = headers.isSet(0)>
-			
-		 		<cfset listers = headers.toList()>
+				<cfset mapped = headerMap.size()>
+		#mapped#
 
 
 				<div class="col-12 my-4">
