@@ -209,8 +209,8 @@ limitations under the License.
 	
 				List of Fields: #List1#<br>
 				Fields in CSV: #List2#<br>
-				Common: #listCommon(List1,List2)#<br>
-				Missing from Upload: #listCompare(List1,List2)#<br>
+			<!---	Common: #listCommon(List1,List2)#<br>
+				Missing from Upload: #listCompare(List1,List2)#<br>--->
 				<cfcatch><span class="h3 text-danger">This attribute is missing.</span></cfcatch>
 				</cftry>
 		
