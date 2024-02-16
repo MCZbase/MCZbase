@@ -143,9 +143,6 @@ limitations under the License.
 <cftry>
 <!--- Import necessary Java classes --->
 
-<!--- Path to the CSV file --->
-<cfset filePath = "#tempFileInputStream#">
-
 <cftry>
     <!--- Create a reader for the CSV file --->
     <cfset fileReader = createObject("java", "java.io.FileReader").init(filePath)>
