@@ -147,7 +147,7 @@ limitations under the License.
 					
 	<cftry>
     <!--- Create a reader for the CSV file --->
-    <cfset fileReader.init(#tempFile#)>
+    <cfset fileReader = CreateObject("java","java.io.FileReader").Init(#tempFile#) >
 
     <!--- Parse the CSV file using Apache Commons CSV --->
     <cfset csvFormat = csvFormat.DEFAULT>
