@@ -145,7 +145,8 @@ limitations under the License.
 				<cfset headers = iterator.next()>
 			<!---	<cfset listed = headers.iterator()>--->
 				<cfset size = headers.size()>
-	<!---			<cfset mapping = headers.toMap()>--->
+	
+					
 					
 					<!---Get headers one by one to use in comparison later. Need to find type and find the correct java function to be able to use it.--->
 					<!---toString doesn't seem to work--->
@@ -167,7 +168,41 @@ limitations under the License.
 	#mystringer#
 
 
-						
+				<cfscript>
+    // Import necessary Java classes
+    import = createObject("java", "java.io.FileReader");
+    import = createObject("java", "java.io.Reader");
+    import = createObject("java", "org.apache.commons.csv.CSVFormat");
+    import = createObject("java", "org.apache.commons.csv.CSVParser");
+    import = createObject("java", "org.apache.commons.csv.CSVRecord");
+
+    // Path to the CSV file
+    filePath = "data.csv";
+
+    try {
+        // Create a reader for the CSV file
+        reader = createObject("java", "java.io.FileReader").init(filePath);
+
+        // Parse the CSV file using Apache Commons CSV
+        csvFormat = createObject("java", "org.apache.commons.csv.CSVFormat").DEFAULT;
+        csvParser = createObject("java", "org.apache.commons.csv.CSVParser").init(reader, csvFormat);
+
+        // Convert the CSV data into a map
+        dataMap = csvParser.toMap();
+
+        // Print the map
+        for (entry in dataMap.entrySet()) {
+            writeOutput("Key: " & entry.getKey() & ", Value: " & entry.getValue() & "<br>");
+        }
+
+        // Close the CSV parser and the reader
+        csvParser.close();
+        reader.close();
+    } catch (any e) {
+        // Handle exceptions
+        writeOutput("Error: " & e.getMessage());
+    }
+</cfscript>		
 		
 			
 					
