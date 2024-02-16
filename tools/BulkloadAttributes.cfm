@@ -115,7 +115,7 @@ limitations under the License.
 				<cfobject type="Java" name="csvFormat" class="org.apache.commons.csv.CSVFormat" >
 				<cfobject type="Java" name="csvParser"  class="org.apache.commons.csv.CSVParser" >
 				<cfobject type="Java" name="csvRecord"  class="org.apache.commons.csv.CSVRecord" >
-				<cfobject type="Java" class="java.util.Arrays" name="Arrays" >
+			<!---	<cfobject type="Java" class="java.util.Arrays" name="Arrays" >--->
 				
 				<cfobject type="java" class="java.io.FileReader" name="fileReader">	
 				
@@ -142,7 +142,7 @@ limitations under the License.
 				<cfset iterator = records.iterator()>
 				<!--- Obtain the first line of the file as the header line --->
 				<cfset headers = iterator.next()>
-				<cfset listed = headers.iterator()>
+			<!---	<cfset listed = headers.iterator()>--->
 				
 				<cfset size = headers.size()>
 				
@@ -157,8 +157,8 @@ limitations under the License.
 				<cfset map9 = headers.isSet('attribute_meth')>
 				<cfset map10 = headers.isSet('determiner')>
 				<cfset map11 = headers.isSet('remarks')>
-			#listed#
-			
+			<cfset thiser = headerMap.get('institution_acronym')>
+			#thiser#
 
 				<div class="col-12 my-4">
 				<h3 class="h4">Found <cfdump var="#headers.size()#"> matching columns in header of csv file (Green).</h3>
