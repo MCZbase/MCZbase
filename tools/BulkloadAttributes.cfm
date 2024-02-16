@@ -129,15 +129,13 @@ limitations under the License.
 <cfscript>
 
     try {
-        // Create a reader for the CSV file
-        reader = createObject("java", "java.io.FileReader").init(#tempFile#);
 
-        // Parse the CSV file using Apache Commons CSV
-        csvFormat = createObject("java", "org.apache.commons.csv.CSVFormat").DEFAULT;
-        csvParser = createObject("java", "org.apache.commons.csv.CSVParser").init(reader, csvFormat);
+
+     
+       
 
         // Convert the CSV data into a map
-        dataMap = csvParser.toMap();
+       
 
         // Print the map
         for (entry in dataMap.entrySet()) {
@@ -157,11 +155,12 @@ limitations under the License.
 				<!--- cfset defaultFormat = csvFormat.DEFAULT.withHeader() --->
 				
 				<cfset defaultFormat = csvFormat.DEFAULT>
-				<!---<cfset defaultFormat = csvFormat.DEFAULT.getNullString() >--->
+				<cfset csvFormat = createObject("java", "org.apache.commons.csv.CSVFormat").DEFAULT>
+
 				<!---// Create a CSVParser using the FileReader and CSVFormat--->
-					<!---not used?--->
-				<cfset csvParser = CSVFormat.DEFAULT.parse(fileReader)>
-		
+				<!---<cfset csvParser = CSVFormat.DEFAULT.parse(fileReader)>---trying below instead for a minute--->
+				<cfset csvParser = createObject("java", "org.apache.commons.csv.CSVParser").init(reader, csvFormat)>
+				<cfset dataMap = csvParser.toMap()>
 				<!--- TODO: Select charset based on cSet variable from user --->
 				<cfset javaSelectedCharset = standardCharsets.UTF_8 >
 				<cfset records = CSVParser.parse(#tempFileInputStream#,#javaSelectedCharset#,#defaultFormat#)>
@@ -171,27 +170,29 @@ limitations under the License.
 				<cfset headers = iterator.next()>
 			<!---	<cfset listed = headers.iterator()>--->
 				<cfset size = headers.size()>
+					
+					
+					
+				<cftry>
+				<cfset dataMap = csvParser.toMap()>
 	
-					
-					
-					<!---Get headers one by one to use in comparison later. Need to find type and find the correct java function to be able to use it.--->
-					<!---toString doesn't seem to work--->
-					
+				<cfloop collection="#dataMap.entrySet()#" item="entry">
+					<cfoutput>
+						Key: #entry.getKey()#, Value: #entry.getValue()#<br>
+					</cfoutput>
+				</cfloop>
+					<cfset csvParser.close()>
+					<cfset reader.close()>
+
+					<cfcatch type="any">
+						<!--- Handle exceptions --->
+						<cfoutput>Error: #cfcatch.message#</cfoutput>
+					</cfcatch>
+		
+				</cftry>	
 
 
-	<cfset mystring = headers.get(0).toString()>
-	<cfset mystring1 = headers.get(1).toString()>
-	<cfset mystring2 = headers.get(2).toString()>
-	<cfset mystring3 = headers.get(3).toString()>
-	<cfset mystring4 = headers.get(4).toString()>
-	<cfset mystring5 = headers.get(5).toString()>
-	<cfset mystring6 = headers.get(6).toString()>
-	<cfset mystring7 = headers.get(7).toString()>
-	<cfset mystring8 = headers.get(8).toString()>
-	<cfset mystring9 = headers.get(9).toString()>
-	<cfset mystring10 = headers.get(10).toString()>
-	<cfset mystringer ="#mystring1#, #mystring2#, #mystring4#">
-	#mystringer#
+
 
 
 
