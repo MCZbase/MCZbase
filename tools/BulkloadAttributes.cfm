@@ -215,7 +215,7 @@ limitations under the License.
 				List of Fields: #List1#<br>
 				Fields in CSV: #List2#<br>
 				Missing from Upload: #compare(List1,List2)#<br>
-				
+					<cfscript>writeDump(ListCompare("institution_acronym,collection_cde,other_id_type,other_id_number,attribute,attribute_value,attribute_units,attribute_date,attribute_meth,determiner,remarks", "institution_acronym,collection_cde,other_id_type,other_id_number,attribute,attribute_date,determiner,remarks"))</cfscript>
 					
 					<cfcatch><span class="h3 text-danger">This attribute is missing.</span></cfcatch>
 				</cftry>
