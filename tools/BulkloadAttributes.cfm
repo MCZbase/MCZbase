@@ -138,7 +138,7 @@ limitations under the License.
 				<!--- TODO: Select charset based on cSet variable from user --->
 				<cfset dataMap = csvParser.toMap()>
 		
-				<cftry>
+				
 
 				<cfset map1 = headers.isSet('institution_acronym')>
 				<cfset map2 = headers.isSet('collection_cde')>
@@ -189,8 +189,7 @@ limitations under the License.
 					</cfloop>
 				</ul>
 
-				<cfcatch><span class="h3 text-danger">This is the first error.</span></cfcatch>
-			</cftry>
+				
 		
 			
 					
