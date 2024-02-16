@@ -142,11 +142,10 @@ limitations under the License.
 
 <cftry>
     <!--- Create a reader for the CSV file --->
-    <cfset fileReader.init(#tempFile#) >
-
+    <cfset fileReader = createObject("java", "java.io.FileReader").init(filePath)>
     <!--- Parse the CSV file using Apache Commons CSV --->
-    <cfset csvFormat = csvFormat.DEFAULT>
-    <cfset csvParser.init(fileReader, csvFormat)>
+  	<cfset csvFormat = CSVFormat.DEFAULT>
+    <cfset csvParser = CSVParser.parse(fileReader, csvFormat)>
 
     <!--- Create a ColdFusion query object to store CSV data --->
     <cfset csvData = queryNew("Column1, Column2, Column3, Column4, Column5, Column6, Column7, Column8, Column9, Column10, Column11")>
