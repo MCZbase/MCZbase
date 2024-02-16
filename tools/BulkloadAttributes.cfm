@@ -160,9 +160,9 @@ limitations under the License.
 	<cfset mystring5 = headers.get(5).toString()>
 	<cfset mystring6 = headers.get(6).toString()>
 	<cfset mystring7 = headers.get(7).toString()>
-<!---	<cfset mystring8 = headers.get(8).toString()>
+	<cfset mystring8 = headers.get(8).toString()>
 	<cfset mystring9 = headers.get(9).toString()>
-	<cfset mystring10 = headers.get(10).toString()>--->
+	<cfset mystring10 = headers.get(10).toString()>
 	<cfset mystringer ="#mystring1#, #mystring2#, #mystring4#">
 	#mystringer#
 
@@ -189,17 +189,17 @@ limitations under the License.
 					
 				<cfscript>
 					data = [
-						{field:"institution_acronym", required:"yes", present: #map1#},
-						{field:"collection_cde", required:"yes", present: #map2#},
-						{field:"other_id_type", required:"yes", present: #map3#},
-						{field:"other_id_number", required:"yes", present: #map4#},
-						{field:"attribute", required:"yes", present: #map5#},
-						{field:"attribute_value", required:"yes", present: #map6#},
-						{field:"attribute_units", required:"no", present: #map7#},
-						{field:"attribute_date", required:"yes", present: #map8#},
-						{field:"attribute_meth", required:"no", present: #map9#},
-						{field:"determiner", required:"yes", present: #map10#},
-						{field:"remarks", required:"no", present: #map11#}
+						{field:"institution_acronym", required:"yes", present: #mystring#},
+						{field:"collection_cde", required:"yes", present: #mystring1#},
+						{field:"other_id_type", required:"yes", present: #mystring2#},
+						{field:"other_id_number", required:"yes", present: #mystring3#},
+						{field:"attribute", required:"yes", present: #mystring4#},
+						{field:"attribute_value", required:"yes", present: #mystring5#},
+						{field:"attribute_units", required:"no", present: #mystring6#},
+						{field:"attribute_date", required:"yes", present: #mystring7#},
+						{field:"attribute_meth", required:"no", present: #mystring8#},
+						{field:"determiner", required:"yes", present: #mystring9#},
+						{field:"remarks", required:"no", present: #mystring10#}
 					];
 
 				</cfscript>	
