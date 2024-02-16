@@ -148,7 +148,7 @@ limitations under the License.
 <cfset CSVRecord = createObject("java", "org.apache.commons.csv.CSVRecord")>
 
 <!--- Path to the CSV file --->
-<cfset filePath = "#tempFileInputStream#">
+<cfset filePath = "#tempFile#">
 
 <cftry>
     <!--- Create a reader for the CSV file --->
