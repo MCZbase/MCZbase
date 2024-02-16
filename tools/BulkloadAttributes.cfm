@@ -115,6 +115,7 @@ limitations under the License.
 				<cfobject type="Java" name="csvFormat" class="org.apache.commons.csv.CSVFormat" >
 				<cfobject type="Java" name="csvParser"  class="org.apache.commons.csv.CSVParser" >
 				<cfobject type="Java" name="csvRecord"  class="org.apache.commons.csv.CSVRecord" >
+				<cfobject type="Java" class="java.util.Arrays" name="Arrays" >
 				
 				<cfobject type="java" class="java.io.FileReader" name="fileReader">	
 				
@@ -144,7 +145,7 @@ limitations under the License.
 				<cfset listed = headers.iterator()>
 				
 				<cfset size = headers.size()>
-				<cfset mappers = headers.toMap()>
+				
 				<cfset map1 = headers.isSet('institution_acronym')>
 				<cfset map2 = headers.isSet('collection_cde')>
 				<cfset map3 = headers.isSet('other_id_type')>
@@ -156,7 +157,7 @@ limitations under the License.
 				<cfset map9 = headers.isSet('attribute_meth')>
 				<cfset map10 = headers.isSet('determiner')>
 				<cfset map11 = headers.isSet('remarks')>
-			#mappers#
+			
 			
 
 				<div class="col-12 my-4">
