@@ -136,8 +136,14 @@ limitations under the License.
 				<!---Get the number of column headers--->
 				<cfset size = headers.size()>
 				<!--- TODO: Select charset based on cSet variable from user --->
+				<cfset dataMap = {}>
 				<cfset dataMap = csvParser.toMap()>
-		
+		    	<cfloop query="csvParser.parse()">
+        			<!--- Assuming the first column is the key and the second column is the value --->
+        			<cfset key = csvParser.get(0)>
+        			<cfset value = csvParser.get(1)>
+       				<cfset dataMap[key] = value>
+    			</cfloop>
 				
 
 				<cfset map1 = headers.isSet('institution_acronym')>
