@@ -162,7 +162,7 @@ limitations under the License.
     <cfset csvData = queryNew("Column1, Column2")>
 
     <!--- Read each record and add it to the ColdFusion query --->
-    <cfloop index="i" from="0" to="2">
+    <cfloop index="i" from="0" to="#headers.size()-1#">
         <!--- Get the CSV record at index i --->
         <cfset csvRecord = headers.get(i)>
 
@@ -171,7 +171,8 @@ limitations under the License.
             <!--- Add the record's values to the ColdFusion query --->
             <cfset queryAddRow(csvData, {
                 "Column1" = headers.get(0),
-                "Column2" = headers.get(1)
+                "Column2" = headers.get(1),
+				  "Column3" = headers.get(2)
             })>
         </cfif>
     </cfloop>
