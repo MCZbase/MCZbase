@@ -152,11 +152,11 @@ limitations under the License.
 					
 			<cftry>
 				 <!--- Create a reader for the CSV file --->
-				<cfset fileReader.init(#tempFile#)>
+				<cfset fileReader.Init(#tempFile#)>
 
 				<!--- Parse the CSV file using Apache Commons CSV --->
 				<cfset csvFormat = csvFormat.DEFAULT>
-				<cfset csvParser.init(reader, csvFormat)>
+				<cfset csvParser.Init(reader, csvFormat)>
 				<cfset dataMap = csvParser.toMap()>
 	
 				<cfloop collection="#dataMap.entrySet()#" item="entry">
