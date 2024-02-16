@@ -130,21 +130,24 @@ limitations under the License.
 				<!--- we can't use the withHeader() method from coldfusion, as it is overloaded, and with no parameters provides coldfusion no means to pick the correct method --->
 				<!--- cfset defaultFormat = csvFormat.DEFAULT.withHeader() --->
 				
-				<cfset defaultFormat = csvFormat.getNullString >
+<!---				<cfset defaultFormat = csvFormat.DEFAULT.withSkipHeaderRecord(true) >--->
+				<cfset defaultFormat = csvFormat.DEFAULT.getNullString() >
 				<!---// Create a CSVParser using the FileReader and CSVFormat--->
+					<!---not used?--->
 				<!---<cfset csvParser = CSVFormat.DEFAULT.parse(fileReader)>--->
 		
 				<!--- TODO: Select charset based on cSet variable from user --->
 				<cfset javaSelectedCharset = standardCharsets.UTF_8 >
 				<cfset records = CSVParser.parse(#tempFileInputStream#,#javaSelectedCharset#,#defaultFormat#)>
-			<!---	<cfset records = CSVFormat.EXCEL.withSkipHeaderRecord(true).parse(#tempFileInputStream#,#javaSelectedCharset#,#defaultFormat#)>--->
 
 				<cfset iterator = records.iterator()>
 				<!--- Obtain the first line of the file as the header line --->
 				<cfset headers = iterator.next()>
 			<!---	<cfset listed = headers.iterator()>--->
-				
 				<cfset size = headers.size()>
+					
+					<!---Get headers one by one to use in comparison later. Need to find type and find the correct java function to be able to use it.--->
+					<!---toString doesn't seem to work--->
 					<cfset mystring = headers.get(0).toString()>
 					<cfset mystring1 = headers.get(1).toString()>
 					<cfset mystring2 = headers.get(2).toString()>
