@@ -151,7 +151,7 @@ limitations under the License.
 
     <!--- Parse the CSV file using Apache Commons CSV --->
     <cfset csvFormat = csvFormat.DEFAULT>
-    <cfset csvParser.init(fileReader, csvFormat)>
+    <cfset csvParser = CSVFormat.DEFAULT.parse(fileReader)>
 
     <!--- Read each record and check if a specific column is set --->
     <cfloop query="csvParser.parse()">
