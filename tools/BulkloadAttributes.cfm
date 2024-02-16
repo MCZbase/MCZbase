@@ -161,7 +161,7 @@ limitations under the License.
         <cfset csvRecord = csvParser.getRecords().get(i)>
 
         <!--- Check if the record has at least two columns --->
-        <cfif csvRecord.size() GT 1>
+        <cfif csvRecord.size() GT 0>
             <!--- Add the record's values to the ColdFusion query --->
             <cfset queryAddRow(csvData, {
                 "Column1" = csvRecord.get(0),
@@ -224,30 +224,7 @@ limitations under the License.
 					</cfloop>
 				</ul>
 
-				
-		
-			
-					
-<!---			<cftry>	
-				<cfset j=10>
-				<cfset i = 1>
-				<cfloop from="0" to="#j#" index="i">
-					<cfset thisheader = #headers.get(JavaCast("int",#i#))#>[#thisheader#]<cfabort>
-						<cfif #thisheader# eq "institution_acronym"> &nbsp;<cfelse>institution_acronym is missing</cfif><br>
-						<cfif #thisheader# eq "collection_cde"> &nbsp;<cfelse>collection_cde is missing</cfif><br>
-						<cfif #thisheader# eq "other_id_type"> &nbsp;<cfelse>other_id_type is missing</cfif><br>
-						<cfif #thisheader# eq "other_id_number"> &nbsp;<cfelse>other_id_number is missing</cfif><br>
-						<cfif #thisheader# eq "attribute"> &nbsp;<cfelse>attribute is missing</cfif><br>
-						<cfif #thisheader# eq "attribute_value"> &nbsp;<cfelse>attribute_value is missing</cfif><br>
-						<cfif #thisheader# eq "attribute_units"> &nbsp;<cfelse>attribute_units is missing</cfif><br>
-						<cfif #thisheader# eq "attribute_date"> &nbsp;<cfelse>attribute_date is missing</cfif><br>
-						<cfif #thisheader# eq "attribute_meth"> &nbsp;<cfelse>attribute_meth is missing</cfif><br>
-						<cfif #thisheader# eq "determiner"> &nbsp;<cfelse>determiner is missing</cfif><br>
-						<cfif #thisheader# eq "remarks"> &nbsp;<cfelse>remarks is missing</cfif><br>
-						<cfset i= i+1>
-				</cfloop>
-			<cfcatch>Ooops</cfcatch>
-			</cftry>--->
+
 				<!--- cleanup any incomplete work by the same user --->
 				<cfquery name="clearTempTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="clearTempTable_result">
 					DELETE FROM cf_temp_attributes 
