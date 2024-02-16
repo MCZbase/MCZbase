@@ -159,7 +159,7 @@ limitations under the License.
 	<!---Get the number of column headers--->
 	<cfset size = headers.size()>
     <!--- Create a ColdFusion query object to store CSV data --->
-    <cfset csvData = queryNew("Column1, Column2")>
+    <cfset csvData = queryNew("Column1, Column2, Column3")>
 
     <!--- Read each record and add it to the ColdFusion query --->
     <cfloop index="i" from="0" to="#headers.size()-1#">
