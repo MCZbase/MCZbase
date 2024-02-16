@@ -115,7 +115,7 @@ limitations under the License.
 				<cfobject type="Java" name="csvFormat" class="org.apache.commons.csv.CSVFormat" >
 				<cfobject type="Java" name="csvParser"  class="org.apache.commons.csv.CSVParser" >
 				<cfobject type="Java" name="csvRecord"  class="org.apache.commons.csv.CSVRecord" >
-			<!---	<cfobject type="Java" class="java.util.Arrays" name="Arrays" >--->
+				<!---<cfobject type="Java" class="java.util.Arrays" name="Arrays" >--->
 				
 				<cfobject type="java" class="java.io.FileReader" name="fileReader">	
 				
@@ -127,12 +127,10 @@ limitations under the License.
 				<!---// Create a FileReader object--->
 				<cfset fileReader = CreateObject("java","java.io.FileReader").Init(#tempFile#) >
 		
-						
 				<!--- we can't use the withHeader() method from coldfusion, as it is overloaded, and with no parameters provides coldfusion no means to pick the correct method --->
-				<!--- cfset defaultFormat = csvFormat.DEFAULT.withHeader() --->
 				
 				<cfset defaultFormat = csvFormat.DEFAULT>
-	<!---			<cfset csvFormat = createObject("java", "org.apache.commons.csv.CSVFormat").DEFAULT>--->
+				<!---<cfset csvFormat = createObject("java", "org.apache.commons.csv.CSVFormat").DEFAULT>--->
 
 				<!---// Create a CSVParser using the FileReader and CSVFormat--->
 				<cfset csvParser = CSVFormat.DEFAULT.parse(fileReader)>
@@ -145,34 +143,27 @@ limitations under the License.
 				<cfset iterator = records.iterator()>
 				<!--- Obtain the first line of the file as the header line --->
 				<cfset headers = iterator.next()>
-			<!---	<cfset listed = headers.iterator()>--->
+				<!---	<cfset listed = headers.iterator()>--->
 				<cfset size = headers.size()>
-					
-					
-					
-			<cftry>
-				 <!--- Create a reader for the CSV file --->
-				<!---<cfset fileReader.Init(#tempFile#)>--->
+				<!--- Create a reader for the CSV file --->
+		
 
 				<!--- Parse the CSV file using Apache Commons CSV --->
 				<cfset csvFormat = csvFormat.DEFAULT>
-				<!---<cfset csvParser.Init(reader, csvFormat)>--->
 				<cfset dataMap = csvParser.toMap()>
-	
 				<cfloop collection="#dataMap.entrySet()#" item="entry">
 					<cfoutput>
 						Key: #entry.getKey()#, Value: #entry.getValue()#<br>
 					</cfoutput>
 				</cfloop>
-				<cfset csvParser.close()>
-				<cfset reader.close()>
+		
 
 				<cfcatch type="any">
 					<!--- Handle exceptions --->
 					<cfoutput>Error: #cfcatch.message#</cfoutput>
 				</cfcatch>
 		
-			</cftry>	
+			
 
 
 
