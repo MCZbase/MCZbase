@@ -143,7 +143,7 @@ limitations under the License.
 				<cfset headers = iterator.next()>
 				
 				<cfset size = headers.size()>
-				<cfset map = headers.isSet()>
+				<cfset map = headers.isSet('attribute_meth')>
 
 
 				<div class="col-12 my-4">
