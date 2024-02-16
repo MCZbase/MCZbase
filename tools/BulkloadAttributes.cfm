@@ -202,23 +202,10 @@ limitations under the License.
 					
 
 		
-			<cfset List1 = "institution_acronym,collection_cde,other_id_type,other_id_number,attribute,attribute_value,attribute_units,attribute_date,attribute_meth,determiner,remarks">
-			<!---	
-				<cfset List2 = "<cfif institution_acronym = #headers.get(0)#>institution_acronym</cfif>,<cfif collection_cde = #headers.get(1)#>collection_cde</cfif>,<cfif other_id_type = #headers.get(2)#>other_id_type</cfif>,<cfif other_id_number = #headers.get(3)#>other_id_number</cfif>,<cfif attribute == #headers.get(4)#>attribute</cfif>,<cfif attribute_value == #headers.get(5)#>attribute_value</cfif>,<cfif attribute_units == #headers.get(6)#>attribute_units</cfif>,<cfif attribute_date == #headers.get(7)#>attribute_date</cfif>,<cfif attribute_meth == #headers.get(8)#>attribute_meth</cfif>,<cfif determiner == #headers.get(9)#>determiner</cfif>,<cfif remarks == #headers.get(10)#>remarks</cfif>">--->
+				<cfset List1 = "institution_acronym,collection_cde,other_id_type,other_id_number,attribute,attribute_value,attribute_units,attribute_date,attribute_meth,determiner,remarks">
 
-			
 				<cfset List2 ="
-				<cfif not isDefined(#headers.get(0)#)>#headers.get(0)#<cfelse>missing</cfif>,
-				<cfif not isDefined(#headers.get(1)#)>#headers.get(1)#<cfelse>missing</cfif>,
-				<cfif not isDefined(#headers.get(2)#)>#headers.get(2)#<cfelse>missing</cfif>,
-				<cfif not isDefined(#headers.get(3)#)>#headers.get(3)#<cfelse>missing</cfif>,
-				<cfif not isDefined(#headers.get(4)#)>#headers.get(4)#<cfelse>missing</cfif>,
-				<cfif not isDefined(#headers.get(5)#)>#headers.get(5)#<cfelse>missing</cfif>,
-				<cfif not isDefined(#headers.get(6)#)>#headers.get(6)#<cfelse>missing</cfif>,
-				<cfif not isDefined(#headers.get(7)#)>#headers.get(7)#<cfelse>missing</cfif>,
-				<cfif not isDefined(#headers.get(8)#)>#headers.get(8)#<cfelse>missing</cfif>,
-				<cfif not isDefined(#headers.get(9)#)>#headers.get(9)#<cfelse>missing</cfif>,
-				<cfif not isDefined(#headers.get(10)#)>#headers.get(10)#<cfelse>missing</cfif>">
+				<cfif not isDefined(#headers.get(0)#)>#headers.get(0)#<cfelse>missing</cfif>,<cfif not isDefined(#headers.get(1)#)>#headers.get(1)#<cfelse>missing</cfif>,<cfif not isDefined(#headers.get(2)#)>#headers.get(2)#<cfelse>missing</cfif>,<cfif not isDefined(#headers.get(3)#)>#headers.get(3)#<cfelse>missing</cfif>,<cfif not isDefined(#headers.get(4)#)>#headers.get(4)#<cfelse>missing</cfif>,<cfif not isDefined(#headers.get(5)#)>#headers.get(5)#<cfelse>missing</cfif>,<cfif not isDefined(#headers.get(6)#)>#headers.get(6)#<cfelse>missing</cfif>,<cfif not isDefined(#headers.get(7)#)>#headers.get(7)#<cfelse>missing</cfif>,<cfif not isDefined(#headers.get(8)#)>#headers.get(8)#<cfelse>missing</cfif>,<cfif not isDefined(#headers.get(9)#)>#headers.get(9)#<cfelse>missing</cfif>,<cfif not isDefined(#headers.get(10)#)>#headers.get(10)#<cfelse>missing</cfif>">
 	
 				List of Fields: #List1#<br>
 				Fields in CSV: #List2#<br>
