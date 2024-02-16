@@ -141,7 +141,7 @@ limitations under the License.
 				<cfset iterator = records.iterator()>
 				<!--- Obtain the first line of the file as the header line --->
 				<cfset headers = iterator.next()>
-				<cfset headermap = isSet(javacast("int",i))>
+				<cfset headermap = header.isSet(javacast("int",1))>
 				<cfset size = headers.size()>		
 
 
