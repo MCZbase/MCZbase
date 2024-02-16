@@ -126,6 +126,32 @@ limitations under the License.
 			
 				<!---// Create a FileReader object--->
 				<cfset fileReader = CreateObject("java","java.io.FileReader").Init(#tempFile#) >
+<cfscript>
+
+    try {
+        // Create a reader for the CSV file
+        reader = createObject("java", "java.io.FileReader").init(#tempFile#);
+
+        // Parse the CSV file using Apache Commons CSV
+        csvFormat = createObject("java", "org.apache.commons.csv.CSVFormat").DEFAULT;
+        csvParser = createObject("java", "org.apache.commons.csv.CSVParser").init(reader, csvFormat);
+
+        // Convert the CSV data into a map
+        dataMap = csvParser.toMap();
+
+        // Print the map
+        for (entry in dataMap.entrySet()) {
+            writeOutput("Key: " & entry.getKey() & ", Value: " & entry.getValue() & "<br>");
+        }
+
+        // Close the CSV parser and the reader
+        csvParser.close();
+        reader.close();
+    } catch (any e) {
+        // Handle exceptions
+        writeOutput("Error: " & e.getMessage());
+    }
+</cfscript>		
 						
 				<!--- we can't use the withHeader() method from coldfusion, as it is overloaded, and with no parameters provides coldfusion no means to pick the correct method --->
 				<!--- cfset defaultFormat = csvFormat.DEFAULT.withHeader() --->
@@ -168,35 +194,7 @@ limitations under the License.
 	#mystringer#
 
 
-				<cfscript>
 
-
- 
-
-    try {
-        // Create a reader for the CSV file
-        reader = createObject("java", "java.io.FileReader").init(#tempFile#);
-
-        // Parse the CSV file using Apache Commons CSV
-        csvFormat = createObject("java", "org.apache.commons.csv.CSVFormat").DEFAULT;
-        csvParser = createObject("java", "org.apache.commons.csv.CSVParser").init(reader, csvFormat);
-
-        // Convert the CSV data into a map
-        dataMap = csvParser.toMap();
-
-        // Print the map
-        for (entry in dataMap.entrySet()) {
-            writeOutput("Key: " & entry.getKey() & ", Value: " & entry.getValue() & "<br>");
-        }
-
-        // Close the CSV parser and the reader
-        csvParser.close();
-        reader.close();
-    } catch (any e) {
-        // Handle exceptions
-        writeOutput("Error: " & e.getMessage());
-    }
-</cfscript>		
 		
 			
 					
