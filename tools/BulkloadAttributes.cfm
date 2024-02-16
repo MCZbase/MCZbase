@@ -146,7 +146,7 @@ limitations under the License.
 
     <!--- Parse the CSV file using Apache Commons CSV --->
     <cfset csvFormat = csvFormat.DEFAULT>
-    <cfset csvParser = CSVFormat.DEFAULT.parse(fileReader, csvFormat)>
+    <cfset csvParser = CSVFormat.DEFAULT.init(fileReader, csvFormat)>
 
     <!--- Create a ColdFusion query object to store CSV data --->
     <cfset csvData = queryNew("Column1, Column2, Column3, Column4, Column5, Column6, Column7, Column8, Column9, Column10, Column11")>
