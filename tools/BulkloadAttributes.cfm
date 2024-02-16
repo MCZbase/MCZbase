@@ -149,7 +149,7 @@ limitations under the License.
     <cfset csvParser = CSVFormat.DEFAULT.parse(fileReader)>
 
     <!--- Create a ColdFusion query object to store CSV data --->
-    <cfset csvData = queryNew("Column1, Column2")>
+    <cfset csvData = queryNew("Column1, Column2, Column3, Column4, Column5, Column6, Column7, Column8, Column9, Column10, Column11")>
 
     <!--- Read each record and add it to the ColdFusion query --->
     <cfloop index="i" from="1" to="#csvParser.getRecords().size()#">
@@ -161,7 +161,16 @@ limitations under the License.
             <!--- Add the record's values to the ColdFusion query --->
             <cfset queryAddRow(csvData, {
                 "Column1" = csvRecord.get(0),
-                "Column2" = csvRecord.get(1)
+                "Column2" = csvRecord.get(1),
+				"Column3" = csvRecord.get(2),
+                "Column4" = csvRecord.get(3),
+				"Column5" = csvRecord.get(4),
+                "Column6" = csvRecord.get(5),
+				"Column7" = csvRecord.get(6),
+                "Column8" = csvRecord.get(7),
+				"Column9" = csvRecord.get(8),
+				"Column10" = csvRecord.get(9),
+				"Column11" = csvRecord.get(10)
             })>
         </cfif>
     </cfloop>
@@ -177,6 +186,21 @@ limitations under the License.
             <cfoutput>Second column is set: #Column2#<br></cfoutput>
         <cfelse>
             <cfoutput>Second column is not set or empty<br></cfoutput>
+        </cfif>
+		<cfif len(Column3)>
+            <cfoutput>Third column is set: #Column3#<br></cfoutput>
+        <cfelse>
+            <cfoutput>Third column is not set or empty<br></cfoutput>
+        </cfif>
+		<cfif len(Column4)>
+            <cfoutput>Fourth column is set: #Column4#<br></cfoutput>
+        <cfelse>
+            <cfoutput>Fourth column is not set or empty<br></cfoutput>
+        </cfif>
+		<cfif len(Column5)>
+            <cfoutput>Fifth column is set: #Column5#<br></cfoutput>
+        <cfelse>
+            <cfoutput>Fifth column is not set or empty<br></cfoutput>
         </cfif>
     </cfloop>
 
