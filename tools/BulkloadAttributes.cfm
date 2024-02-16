@@ -153,7 +153,7 @@ limitations under the License.
 						<cfset mystring2= headers.get(2).toString()>
 							<cfset mystring3 = headers.get(3).toString()>
 								<cfset mystring4 = headers.get(4).toString()>
-									<cfset mystring4 = headers.get(5).toString()>
+									<cfset mystring5 = headers.get(5).toString()>
 				<!---	<cfset mystring2 = headers.get(2).toString()>
 					<cfset mystring3 = headers.get(3).toString()>
 					<cfset mystring4 = headers.get(4).toString()>
