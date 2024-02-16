@@ -217,7 +217,7 @@ limitations under the License.
 				</ul>
 
 				<cfset iterator = csvParser.iterator()>
-				<cfloop condition="#iterator.hasNext()#">
+				<cfloop condition="#iterator.isSet()#">
 					<ul class="list-group list-group-horizontal">
 					<cfloop index="i" from="0" to="#headers.size() - 1#">
 						<li class="text-success list-group-item h5 border" style="width: 150px;">
