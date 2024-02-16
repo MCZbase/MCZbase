@@ -145,7 +145,7 @@ limitations under the License.
 			<!---	<cfset listed = headers.iterator()>--->
 				
 				<cfset size = headers.size()>
-					<cfset mystring = headers.toString().get(0)>
+					<cfset mystring = headers.get(0).toString()>
 						#mystring#
 				
 				<cfset map1 = headers.isSet('institution_acronym')>
