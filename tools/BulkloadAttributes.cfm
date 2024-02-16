@@ -156,10 +156,8 @@ limitations under the License.
 				<cfset map9 = headers.isSet('attribute_meth')>
 				<cfset map10 = headers.isSet('determiner')>
 				<cfset map11 = headers.isSet('remarks')>
-				<cfset map12 = headers.isSet(0)>
-				<cfset mapped = headerMap.size()>
-		#mapped#
-
+		
+			
 
 				<div class="col-12 my-4">
 				<h3 class="h4">Found <cfdump var="#headers.size()#"> matching columns in header of csv file (Green).</h3>
