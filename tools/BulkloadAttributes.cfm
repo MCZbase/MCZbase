@@ -141,17 +141,28 @@ limitations under the License.
 
 
 <cftry>
+<!--- Import necessary Java classes --->
+<cfset FileReader = createObject("java", "java.io.FileReader")>
+<cfset CSVFormat = createObject("java", "org.apache.commons.csv.CSVFormat")>
+<cfset CSVParser = createObject("java", "org.apache.commons.csv.CSVParser")>
+<cfset CSVRecord = createObject("java", "org.apache.commons.csv.CSVRecord")>
+
+<!--- Path to the CSV file --->
+<cfset filePath = "#tempFile#">
+
+<cftry>
     <!--- Create a reader for the CSV file --->
-    <cfset fileReader = createObject("java", "java.io.FileReader").init(#tempFile#)>
+    <cfset fileReader = createObject("java", "java.io.FileReader").init(filePath)>
+
     <!--- Parse the CSV file using Apache Commons CSV --->
-  	<cfset csvFormat = CSVFormat.DEFAULT>
+    <cfset csvFormat = CSVFormat.DEFAULT>
     <cfset csvParser = CSVParser.parse(fileReader, csvFormat)>
-<cfset size = headers.size()>
+
     <!--- Create a ColdFusion query object to store CSV data --->
-    <cfset csvData = queryNew("Column1, Column2, Column3, Column4, Column5, Column6, Column7, Column8, Column9, Column10, Column11")>
+    <cfset csvData = queryNew("Column1, Column2")>
 
     <!--- Read each record and add it to the ColdFusion query --->
-    <cfloop index="i" from="1" to="#headers.size()-1#">
+    <cfloop index="i" from="1" to="#csvParser.getRecords().size()#">
         <!--- Get the CSV record at index i --->
         <cfset csvRecord = csvParser.getRecords().get(i)>
 
@@ -160,16 +171,7 @@ limitations under the License.
             <!--- Add the record's values to the ColdFusion query --->
             <cfset queryAddRow(csvData, {
                 "Column1" = csvRecord.get(0),
-                "Column2" = csvRecord.get(1),
-				"Column3" = csvRecord.get(2),
-                "Column4" = csvRecord.get(3),
-				"Column5" = csvRecord.get(4),
-                "Column6" = csvRecord.get(5),
-				"Column7" = csvRecord.get(6),
-                "Column8" = csvRecord.get(7),
-				"Column9" = csvRecord.get(8),
-				"Column10" = csvRecord.get(9),
-				"Column11" = csvRecord.get(10)
+                "Column2" = csvRecord.get(1)
             })>
         </cfif>
     </cfloop>
@@ -178,67 +180,22 @@ limitations under the License.
     <cfset csvParser.close()>
     <cfset fileReader.close()>
 
-    <!--- Loop through the ColdFusion query to process data --->   <!--- Check if the second column is set --->
-  <!---  <cfloop query="csvData">
-     
+    <!--- Loop through the ColdFusion query to process data --->
+    <cfloop query="csvData">
+        <!--- Check if the second column is set --->
         <cfif len(Column2)>
             <cfoutput>Second column is set: #Column2#<br></cfoutput>
         <cfelse>
             <cfoutput>Second column is not set or empty<br></cfoutput>
         </cfif>
-		<cfif len(Column3)>
-            <cfoutput>Third column is set: #Column3#<br></cfoutput>
-        <cfelse>
-            <cfoutput>Third column is not set or empty<br></cfoutput>
-        </cfif>
-		<cfif len(Column4)>
-            <cfoutput>Fourth column is set: #Column4#<br></cfoutput>
-        <cfelse>
-            <cfoutput>Fourth column is not set or empty<br></cfoutput>
-        </cfif>
-		<cfif len(Column5)>
-            <cfoutput>Fifth column is set: #Column5#<br></cfoutput>
-        <cfelse>
-            <cfoutput>Fifth column is not set or empty<br></cfoutput>
-        </cfif>
-		<cfif len(Column6)>
-            <cfoutput>Sixth column is set: #Column6#<br></cfoutput>
-        <cfelse>
-            <cfoutput>Sixth column is not set or empty<br></cfoutput>
-        </cfif>
-		<cfif len(Column7)>
-            <cfoutput>Seventh column is set: #Column7#<br></cfoutput>
-        <cfelse>
-            <cfoutput>Seventh column is not set or empty<br></cfoutput>
-        </cfif>
-		<cfif len(Column8)>
-            <cfoutput>Eight column is set: #Column8#<br></cfoutput>
-        <cfelse>
-            <cfoutput>Eight column is not set or empty<br></cfoutput>
-        </cfif>
-		<cfif len(Column9)>
-            <cfoutput>Ninth column is set: #Column9#<br></cfoutput>
-        <cfelse>
-            <cfoutput>Ninth column is not set or empty<br></cfoutput>
-        </cfif>
-		<cfif len(Column10)>
-            <cfoutput>10 column is set: #Column10#<br></cfoutput>
-        <cfelse>
-            <cfoutput>10 column is not set or empty<br></cfoutput>
-        </cfif>
-		<cfif len(Column11)>
-            <cfoutput>11 column is set: #Column11#<br></cfoutput>
-        <cfelse>
-            <cfoutput>11 column is not set or empty<br></cfoutput>
-        </cfif>
-	
-    </cfloop>--->
+    </cfloop>
 
     <cfcatch type="any">
         <!--- Handle exceptions --->
         <cfoutput>Error: #cfcatch.message#</cfoutput>
     </cfcatch>
 </cftry>
+
 				
 
 				<cfset map1 = headers.isSet('institution_acronym')>
