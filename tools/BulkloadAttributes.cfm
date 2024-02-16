@@ -156,7 +156,7 @@ limitations under the License.
 				<cfset map9 = headers.isSet('attribute_meth')>
 				<cfset map10 = headers.isSet('determiner')>
 				<cfset map11 = headers.isSet('remarks')>
-		
+			<cfset mappers = getHeaderMapRaw()>
 			
 
 				<div class="col-12 my-4">
