@@ -137,8 +137,8 @@ limitations under the License.
 				<cfset size = headers.size()>
 				<!--- TODO: Select charset based on cSet variable from user --->
 				<cfset dataMap = {}>
-				<cfset dataMap = csvParser.toMap()>
-		    	<cfloop query="csvParser.parse()">
+				<cfset dataMap = records.toMap()>
+		    	<cfloop query="records.parse()">
         			<!--- Assuming the first column is the key and the second column is the value --->
         			<cfset key = csvParser.get(0)>
         			<cfset value = csvParser.get(1)>
