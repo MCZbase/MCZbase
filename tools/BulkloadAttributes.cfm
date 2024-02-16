@@ -156,7 +156,7 @@ limitations under the License.
     <cfset csvData = queryNew("Column1, Column2")>
 
     <!--- Read each record and add it to the ColdFusion query --->
-    <cfloop index="i" from="1" to="#csvParser.getRecords().size()#">
+    <cfloop index="i" from="0" to="#csvParser.getRecords().size()#">
         <!--- Get the CSV record at index i --->
         <cfset csvRecord = csvParser.getRecords().get(i)>
 
