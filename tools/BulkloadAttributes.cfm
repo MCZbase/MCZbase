@@ -151,7 +151,7 @@ limitations under the License.
 					<!---toString doesn't seem to work--->
 					
 					<cfset mystring = headers.get(0).toString()>
-					<cfset mystring1 = headers.get(1).toString("collection_cde")>
+					<cfset mystring1 = headers.get(1).toString(collection_cde)>
 					<cfset mystring2 = "headers.get(2).toString()">
 					<cfset mystring3 = "headers.get(3).toString()">
 					<cfset mystring4 = "headers.get(4).toString()">
