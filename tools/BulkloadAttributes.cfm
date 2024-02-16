@@ -203,14 +203,14 @@ limitations under the License.
 
 		
 				<cfset List1 = "institution_acronym,collection_cde,other_id_type,other_id_number,attribute,attribute_value,attribute_units,attribute_date,attribute_meth,determiner,remarks">
-
-				<cfset List2 ="
-				<cfif not isDefined(#headers.get(0)#)>#headers.get(0)#<cfelse>missing</cfif>,<cfif not isDefined(#headers.get(1)#)>#headers.get(1)#<cfelse>missing</cfif>,<cfif not isDefined(#headers.get(2)#)>#headers.get(2)#<cfelse>missing</cfif>,<cfif not isDefined(#headers.get(3)#)>#headers.get(3)#<cfelse>missing</cfif>,<cfif not isDefined(#headers.get(4)#)>#headers.get(4)#<cfelse>missing</cfif>,<cfif not isDefined(#headers.get(5)#)>#headers.get(5)#<cfelse>missing</cfif>,<cfif not isDefined(#headers.get(6)#)>#headers.get(6)#<cfelse>missing</cfif>,<cfif not isDefined(#headers.get(7)#)>#headers.get(7)#<cfelse>missing</cfif>,<cfif not isDefined(#headers.get(8)#)>#headers.get(8)#<cfelse>missing</cfif>,<cfif not isDefined(#headers.get(9)#)>#headers.get(9)#<cfelse>missing</cfif>,<cfif not isDefined(#headers.get(10)#)>#headers.get(10)#<cfelse>missing</cfif>">
+	<cfset List2 = "institution_acronym,collection_cde,other_id_type,other_id_number,attribute,attribute_value,attribute_units,attribute_date,attribute_meth,determiner,remarks">
+	<!---			<cfset List2 ="
+				<cfif not isDefined(#headers.get(0)#)>#headers.get(0)#<cfelse>missing</cfif>,<cfif not isDefined(#headers.get(1)#)>#headers.get(1)#<cfelse>missing</cfif>,<cfif not isDefined(#headers.get(2)#)>#headers.get(2)#<cfelse>missing</cfif>,<cfif not isDefined(#headers.get(3)#)>#headers.get(3)#<cfelse>missing</cfif>,<cfif not isDefined(#headers.get(4)#)>#headers.get(4)#<cfelse>missing</cfif>,<cfif not isDefined(#headers.get(5)#)>#headers.get(5)#<cfelse>missing</cfif>,<cfif not isDefined(#headers.get(6)#)>#headers.get(6)#<cfelse>missing</cfif>,<cfif not isDefined(#headers.get(7)#)>#headers.get(7)#<cfelse>missing</cfif>,<cfif not isDefined(#headers.get(8)#)>#headers.get(8)#<cfelse>missing</cfif>,<cfif not isDefined(#headers.get(9)#)>#headers.get(9)#<cfelse>missing</cfif>,<cfif not isDefined(#headers.get(10)#)>#headers.get(10)#<cfelse>missing</cfif>">--->
 	
 				List of Fields: #List1#<br>
 				Fields in CSV: #List2#<br>
-			<!---	Common: #listCommon(List1,List2)#<br>
-				Missing from Upload: #listCompare(List1,List2)#<br>--->
+				Common: #listCommon(List1,List2)#<br>
+				Missing from Upload: #listCompare(List1,List2)#<br>
 				<cfcatch><span class="h3 text-danger">This attribute is missing.</span></cfcatch>
 				</cftry>
 		
