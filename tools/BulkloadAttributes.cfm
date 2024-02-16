@@ -145,14 +145,14 @@ limitations under the License.
 				<cfset headers = iterator.next()>
 			<!---	<cfset listed = headers.iterator()>--->
 				<cfset size = headers.size()>
-				<cfset mapping = headers.toMap()>
+	<!---			<cfset mapping = headers.toMap()>--->
 					
 					<!---Get headers one by one to use in comparison later. Need to find type and find the correct java function to be able to use it.--->
 					<!---toString doesn't seem to work--->
 					
 
 
-	<cfset mystring = "headers.get(0).toString()">
+	<cfset mystring = headers.get(0).toString()>
 	<cfset mystring1 = headers.get(1).toString()>
 	<cfset mystring2 = headers.get(2).toString()>
 	<cfset mystring3 = headers.get(3).toString()>
