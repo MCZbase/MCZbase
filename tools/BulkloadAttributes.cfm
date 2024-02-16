@@ -186,7 +186,7 @@ limitations under the License.
 				<ul class="list-group list-group-horizontal">
 					<cfloop array="#data#" index="i">
 						<cfoutput>
-							<li class="list-group-item h5 border <cfif #i.required# eq "yes"> text-danger</cfif>" style="width:140px;">#i.field#, #i.present#</li>
+							<li class="list-group-item h5 border <cfif #i.required# eq "yes"> text-danger</cfif>" style="width:150px;">#i.field#, #i.present#</li>
 						</cfoutput>
 					</cfloop>
 				</ul>
@@ -195,7 +195,7 @@ limitations under the License.
 				<cfloop condition="#iterator.hasNext()#">--->
 					<ul class="list-group list-group-horizontal">
 					<cfloop index="i" from="0" to="#headers.size() - 1#">
-						<li class="text-success list-group-item h5 border" style="width: 140px;">
+						<li class="text-success list-group-item h5 border" style="width: 150px;">
 							<cfset externalList = #headers.get(JavaCast("int",i))#>#headers.get(JavaCast("int",i))#</li>
 					</cfloop>
 					</ul>
