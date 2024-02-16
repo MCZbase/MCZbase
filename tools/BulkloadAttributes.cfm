@@ -144,8 +144,8 @@ limitations under the License.
 				<cfset listed = headers.iterator()>
 				
 				<cfset size = headers.size()>
-				
-				<cfset map1 = headers.isMapped('institution_acronym')>
+				<cfset mappers = headers.toMap()>
+				<cfset map1 = headers.isSet('institution_acronym')>
 				<cfset map2 = headers.isSet('collection_cde')>
 				<cfset map3 = headers.isSet('other_id_type')>
 				<cfset map4 = headers.isSet('other_id_number')>
@@ -156,7 +156,7 @@ limitations under the License.
 				<cfset map9 = headers.isSet('attribute_meth')>
 				<cfset map10 = headers.isSet('determiner')>
 				<cfset map11 = headers.isSet('remarks')>
-			<cfset mappers = toList()>
+			
 			
 
 				<div class="col-12 my-4">
