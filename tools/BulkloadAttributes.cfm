@@ -206,7 +206,6 @@ limitations under the License.
 
 				<h3 class="h4">There are <cfdump var="#data.size()#"> columns possible for attribute headers (black and red). (8 are required - RED)</h3>
 			</div>
-		<!---	<cfset fieldlist2 = "institution_acronym,collection_cde,other_id_type,other_id_number,attribute,attribute_value,attribute_units,attribute_date,attribute_meth,determiner,remarks">--->
 			<cftry>
 				<ul class="list-group list-group-horizontal">
 					<cfloop array="#data#" index="i">
@@ -216,19 +215,13 @@ limitations under the License.
 					</cfloop>
 				</ul>
 
-
-		
-					<ul class="list-group list-group-horizontal">
+				<ul class="list-group list-group-horizontal">
 					<cfloop index="i" from="0" to="#headers.size() - 1#">
 						<li class="text-success list-group-item h5 border" style="width: 150px;">
 							<cfset externalList = #headers.get(JavaCast("int",i))#>#headers.get(JavaCast("int",i))#</li>
 					</cfloop>
-					</ul>
-		
+				</ul>
 
-				<cfset List1 = "institution_acronym,collection_cde,other_id_type,other_id_number,attribute,attribute_value,attribute_units,attribute_date,attribute_meth,determiner,remarks">
-				<cfset List2 = "institution_acronym,collection_cde,other_id_type,other_id_number,attribute,attribute_date,determiner,remarks">
-					
 				<cfcatch><span class="h3 text-danger">This attribute is missing.</span></cfcatch>
 			</cftry>
 		
