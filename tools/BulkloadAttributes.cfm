@@ -137,7 +137,7 @@ limitations under the License.
 				<!---// Create a CSVParser using the FileReader and CSVFormat--->
 				<!---<cfset csvParser = CSVFormat.DEFAULT.parse(fileReader)>---trying below instead for a minute--->
 				<cfset csvParser = createObject("java", "org.apache.commons.csv.CSVParser").init(reader, csvFormat)>
-				<cfset dataMap = csvParser.toMap()>
+				
 				<!--- TODO: Select charset based on cSet variable from user --->
 				<cfset javaSelectedCharset = standardCharsets.UTF_8 >
 				<cfset records = CSVParser.parse(#tempFileInputStream#,#javaSelectedCharset#,#defaultFormat#)>
