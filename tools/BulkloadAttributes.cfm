@@ -158,9 +158,9 @@ limitations under the License.
 					<cfset mystring5 = headers.get(5).toString()>
 					<cfset mystring6 = headers.get(6).toString()>
 					<cfset mystring7 = headers.get(7).toString()>
-					<cftry><cfset mystring8 = headers.get(8).toString()><cfcatch>not there</cfcatch></try>
-					<cftry><cfset mystring9 = headers.get(9).toString()><cfcatch>not there</cfcatch></try>
-					<cftry><cfset mystring10 = headers.get(10).toString()><cfcatch>not there</cfcatch></try>
+<cftry><cfset mystring8 = headers.get(8).toString()><cfcatch>not there</cfcatch></try>
+<cftry><cfset mystring9 = headers.get(9).toString()><cfcatch>not there</cfcatch></try>
+<cftry><cfset mystring10 = headers.get(10).toString()><cfcatch>not there</cfcatch></try>
 						
 			<!---	<cfset mystring1 = headers.get(1).toString()>--->
 			<!---	<cfset mystring2 = headers.get(2).toString()>
