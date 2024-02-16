@@ -157,7 +157,7 @@ limitations under the License.
 				<cfset map9 = headers.isSet('attribute_meth')>
 				<cfset map10 = headers.isSet('determiner')>
 				<cfset map11 = headers.isSet('remarks')>
-			<cfset thiser = headerMap.get('institution_acronym')>
+			<cfset thiser = headerMap.get(institution_acronym)>
 			#thiser#
 
 				<div class="col-12 my-4">
