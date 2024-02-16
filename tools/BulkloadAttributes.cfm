@@ -163,7 +163,7 @@ limitations under the License.
 	<cfset mystring8 = headers.get(8).toString()>
 	<cfset mystring9 = headers.get(9).toString()>
 	<cfset mystring10 = headers.get(10).toString()>
-	<cfset mystringer ="#mystring1#,#mystring2#,#mystring4#">
+	<cfset mystringer =#mystring1#,#mystring2#,#mystring4#>
 	#mystringer#
 	<cfcatch>not there</cfcatch>
 </try>
