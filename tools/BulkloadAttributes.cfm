@@ -158,7 +158,7 @@ limitations under the License.
 				<cfset map11 = headers.isSet('remarks')>
 				<cfset map12 = headers.isSet(0)>
 			
-			#list#
+		 		<cfset listers = headers.toList()>
 
 
 				<div class="col-12 my-4">
