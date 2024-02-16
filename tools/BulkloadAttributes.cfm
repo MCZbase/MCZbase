@@ -151,7 +151,7 @@ limitations under the License.
 					<!---toString doesn't seem to work--->
 					
 
-<cftry>
+
 	<cfset mystring = "headers.get(0).toString()">
 	<cfset mystring1 = headers.get(1).toString()>
 	<cfset mystring2 = headers.get(2).toString()>
@@ -165,8 +165,8 @@ limitations under the License.
 	<cfset mystring10 = headers.get(10).toString()>
 	<cfset mystringer ="#mystring1#, #mystring2#, #mystring4#">
 	#mystringer#
-	<cfcatch>not there</cfcatch>
-</try>
+
+
 						
 		
 			
