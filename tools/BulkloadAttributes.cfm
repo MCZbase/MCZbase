@@ -136,14 +136,23 @@ limitations under the License.
 				<!---Get the number of column headers--->
 				<cfset size = headers.size()>
 				<!--- TODO: Select charset based on cSet variable from user --->
-				<cfset dataMap = {}>
+	<!---			<cfset dataMap = {}>
 				<cfset dataMap = records.toMap()>
-		    	<cfloop query="records.parse()">
-        			<!--- Assuming the first column is the key and the second column is the value --->
-        			<cfset key = records.get(0)>
+		    	<cfloop query="records.parse()">--->
+       <!--- 			<!--- Assuming the first column is the key and the second column is the value --->--->
+   <!---     			<cfset key = records.get(0)>
         			<cfset value = records.get(1)>
        				<cfset dataMap[key] = value>
-    			</cfloop>
+    			</cfloop>--->
+					
+				 <cfloop query="csvParser.parse()">
+					<!--- Check if the second column (index 1) is set --->
+					<cfif isDefined("csvParser.get(1)") and len(csvParser.get(1))>
+						<cfoutput>Second column is set: #csvParser.get(1)#<br></cfoutput>
+					<cfelse>
+						<cfoutput>Second column is not set or empty<br></cfoutput>
+					</cfif>
+				</cfloop>
 				
 
 				<cfset map1 = headers.isSet('institution_acronym')>
