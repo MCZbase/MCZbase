@@ -152,7 +152,7 @@ limitations under the License.
 					
 
 <cftry>
-	<cfset mystring = headers.get(0).toString()>
+	<cfset mystring = "headers.get(0).toString()">
 	<cfset mystring1 = headers.get(1).toString()>
 	<cfset mystring2 = headers.get(2).toString()>
 	<cfset mystring3 = headers.get(3).toString()>
@@ -163,7 +163,7 @@ limitations under the License.
 	<cfset mystring8 = headers.get(8).toString()>
 	<cfset mystring9 = headers.get(9).toString()>
 	<cfset mystring10 = headers.get(10).toString()>
-	<cfset mystringer =#mystring1# #mystring2# #mystring4#>
+	<cfset mystringer ="#mystring1#, #mystring2#, #mystring4#">
 	#mystringer#
 	<cfcatch>not there</cfcatch>
 </try>
