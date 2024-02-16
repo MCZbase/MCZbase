@@ -50,15 +50,15 @@ limitations under the License.
 		***********
 		
 		--->
-<!---The thermal label needs to have inches (widths, margins, and padding) and points (fonts). The Arial, "sans-serif" font works best for the Mala collection. Not all fonts work. Only the most generic ones are available for printing.
-* WHOI Jar Label  width = 4 (inches) 
-* WHOI Jar Label height = 5 (inches)
-* Margin = .015 (inches)
-* The titles have padding above and below to separate them with a border bottom under the jar name. Font is a bit larger at 11pt. 
-* Higher taxa is a bit smaller than the sciName at there request; 10.5pt and 11pt.
-* Table of label content is the page width (4 in) minus the marginleft and marginright (.015in + .015in = .03in) in the <cfdocument>
-* Table row width equals auto to fill the table. 
-* Table td have align-top and font 10pt.--->
+<!---STYLING NOTES:::The thermal label needs to have inches (widths, margins, and padding) and points (fonts). The Arial, "sans-serif" font works best for the Mala collection. Not all fonts work. Only the most generic ones are available for printing.
+-WHOI Jar Label width = 4 (inches)
+-WHOI Jar Label height = 5 (inches)
+-Margin = .015 (inches)
+-The titles have padding above and below to separate them with a border-bottom under the jar name. Font is a bit larger than content at 11pt.
+-Higher taxa is a bit smaller than the sciName at their request; 10.5pt and 11pt.
+-Table of label content is the page width (4 in) minus the marginleft and marginright (.015in + .015in = .03in) in the <cfdocument> tag.
+-Table row width equals "auto" to fill the table width.
+-Table <td>s have align-top and font 10pt.--->
 		<cfquery name="getItems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			SELECT DISTINCT
 				cataloged_item.collection_object_id,
