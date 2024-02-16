@@ -140,8 +140,8 @@ limitations under the License.
 				<cfset dataMap = records.toMap()>
 		    	<cfloop query="records.parse()">
         			<!--- Assuming the first column is the key and the second column is the value --->
-        			<cfset key = csvParser.get(0)>
-        			<cfset value = csvParser.get(1)>
+        			<cfset key = records.get(0)>
+        			<cfset value = records.get(1)>
        				<cfset dataMap[key] = value>
     			</cfloop>
 				
