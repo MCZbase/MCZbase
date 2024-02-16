@@ -173,7 +173,13 @@ limitations under the License.
 					
 					
 					
-				<cftry>
+			<cftry>
+				 <!--- Create a reader for the CSV file --->
+				<cfset fileReader.init(filePath)>
+
+				<!--- Parse the CSV file using Apache Commons CSV --->
+				<cfset csvFormat = csvFormat.DEFAULT>
+				<cfset csvParser.init(reader, csvFormat)>
 				<cfset dataMap = csvParser.toMap()>
 	
 				<cfloop collection="#dataMap.entrySet()#" item="entry">
@@ -181,15 +187,15 @@ limitations under the License.
 						Key: #entry.getKey()#, Value: #entry.getValue()#<br>
 					</cfoutput>
 				</cfloop>
-					<cfset csvParser.close()>
-					<cfset reader.close()>
+				<cfset csvParser.close()>
+				<cfset reader.close()>
 
-					<cfcatch type="any">
-						<!--- Handle exceptions --->
-						<cfoutput>Error: #cfcatch.message#</cfoutput>
-					</cfcatch>
+				<cfcatch type="any">
+					<!--- Handle exceptions --->
+					<cfoutput>Error: #cfcatch.message#</cfoutput>
+				</cfcatch>
 		
-				</cftry>	
+			</cftry>	
 
 
 
