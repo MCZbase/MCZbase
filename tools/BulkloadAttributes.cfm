@@ -185,7 +185,7 @@ limitations under the License.
     <cfloop query="csvData">
         <!--- Check if the second column is set --->
         <cfif len(Column#i#) gt 0>
-            <cfoutput>Second column is set: #Column2#<br></cfoutput>
+            <cfoutput>Second column is set: #Column##i#<br></cfoutput>
         <cfelse>
             <cfoutput>Second column is not set or empty<br></cfoutput>
         </cfif>
