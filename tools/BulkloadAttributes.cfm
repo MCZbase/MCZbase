@@ -150,32 +150,29 @@ limitations under the License.
 					<!---Get headers one by one to use in comparison later. Need to find type and find the correct java function to be able to use it.--->
 					<!---toString doesn't seem to work--->
 					
-					<cfset mystring = headers.get(0).toString()>
-					<cfset mystring1 = headers.get(1).toString()>
-					<cfset mystring2 = headers.get(2).toString()>
-					<cfset mystring3 = headers.get(3).toString()>
-					<cfset mystring4 = headers.get(4).toString()>
-					<cfset mystring5 = headers.get(5).toString()>
-					<cfset mystring6 = headers.get(6).toString()>
-					<cfset mystring7 = headers.get(7).toString()>
-<cftry><cfset mystring8 = headers.get(8).toString()>
-<cfset mystring9 = headers.get(9).toString()>
-<cfset mystring10 = headers.get(10).toString()><cfcatch>not there</cfcatch></try>
+
+<cftry>
+	<cfset mystring = headers.get(0).toString()>
+	<cfset mystring1 = headers.get(1).toString()>
+	<cfset mystring2 = headers.get(2).toString()>
+	<cfset mystring3 = headers.get(3).toString()>
+	<cfset mystring4 = headers.get(4).toString()>
+	<cfset mystring5 = headers.get(5).toString()>
+	<cfset mystring6 = headers.get(6).toString()>
+	<cfset mystring7 = headers.get(7).toString()>
+	<cfset mystring8 = headers.get(8).toString()>
+	<cfset mystring9 = headers.get(9).toString()>
+	<cfset mystring10 = headers.get(10).toString()>
+	<cfset mystringer ="#mystring1#,#mystring2#,#mystring4#">
+	#mystringer#
+	<cfcatch>not there</cfcatch>
+</try>
 						
-			<!---	<cfset mystring1 = headers.get(1).toString()>--->
-			<!---	<cfset mystring2 = headers.get(2).toString()>
-					<cfset mystring3 = headers.get(3).toString()>
-					<cfset mystring4 = headers.get(4).toString()>
-					<cfset mystring5 = headers.get(5).toString()>
-					<cfset mystring6 = headers.get(6).toString()>
-					<cfset mystring7 = headers.get(7).toString()>
-					<cfset mystring8 = headers.get(8).toString()>
-					<cfset mystring9 = headers.get(9).toString()>
-					<cfset mystring10 = headers.get(10).toString()>--->
+		
 			
-					<cfset mystringer ="#mystring1#,#mystring2#,#mystring4#">
+					
 						   <!---#mystring[1]#,#mystring1[2]#,#mystring2[3]#,#mystring3[4]#,#mystring4[5]#,#mystring5[6]#,#mystring6[7]#,#mystring7[8]#,#mystring8[9]#,#mystring9[10]#,#mystring9[10]#,#mystring10[11]#]>--->
-				#mystringer#
+				
 				<cfset map1 = headers.isSet('institution_acronym')>
 				<cfset map2 = headers.isSet('collection_cde')>
 				<cfset map3 = headers.isSet('other_id_type')>
@@ -220,27 +217,21 @@ limitations under the License.
 					</cfloop>
 				</ul>
 
-	<!---			<cset iterator = csvParser.iterator()>
-				<cfloop condition="#iterator.hasNext()#">--->
+				<cfset iterator = csvParser.iterator()>
+				<cfloop condition="#iterator.hasNext()#">
 					<ul class="list-group list-group-horizontal">
 					<cfloop index="i" from="0" to="#headers.size() - 1#">
 						<li class="text-success list-group-item h5 border" style="width: 150px;">
 							<cfset externalList = #headers.get(JavaCast("int",i))#>#headers.get(JavaCast("int",i))#</li>
 					</cfloop>
 					</ul>
-		
-
-				
+				</cfloop>
 
 				<cfset List1 = "institution_acronym,collection_cde,other_id_type,other_id_number,attribute,attribute_value,attribute_units,attribute_date,attribute_meth,determiner,remarks">
 				<cfset List2 = "institution_acronym,collection_cde,other_id_type,other_id_number,attribute,attribute_date,determiner,remarks">
-	<!---			<cfset List2 ="
-				<cfif not isDefined(#headers.get(0)#)>#headers.get(0)#<cfelse>missing</cfif>,<cfif not isDefined(#headers.get(1)#)>#headers.get(1)#<cfelse>missing</cfif>,<cfif not isDefined(#headers.get(2)#)>#headers.get(2)#<cfelse>missing</cfif>,<cfif not isDefined(#headers.get(3)#)>#headers.get(3)#<cfelse>missing</cfif>,<cfif not isDefined(#headers.get(4)#)>#headers.get(4)#<cfelse>missing</cfif>,<cfif not isDefined(#headers.get(5)#)>#headers.get(5)#<cfelse>missing</cfif>,<cfif not isDefined(#headers.get(6)#)>#headers.get(6)#<cfelse>missing</cfif>,<cfif not isDefined(#headers.get(7)#)>#headers.get(7)#<cfelse>missing</cfif>,<cfif not isDefined(#headers.get(8)#)>#headers.get(8)#<cfelse>missing</cfif>,<cfif not isDefined(#headers.get(9)#)>#headers.get(9)#<cfelse>missing</cfif>,<cfif not isDefined(#headers.get(10)#)>#headers.get(10)#<cfelse>missing</cfif>">--->
-
 					
-					
-					<cfcatch><span class="h3 text-danger">This attribute is missing.</span></cfcatch>
-				</cftry>
+				<cfcatch><span class="h3 text-danger">This attribute is missing.</span></cfcatch>
+			</cftry>
 		
 			
 					
