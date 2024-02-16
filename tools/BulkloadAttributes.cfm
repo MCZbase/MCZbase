@@ -186,7 +186,7 @@ limitations under the License.
 					</ul>
 		
 
-					<cfset map = isMapped(#headers.get(9)#)>
+					<cfset map = isMapped()>
 						Map = #map#<br>
 
 				<cfset List1 = "institution_acronym,collection_cde,other_id_type,other_id_number,attribute,attribute_value,attribute_units,attribute_date,attribute_meth,determiner,remarks">
