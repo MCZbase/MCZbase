@@ -182,6 +182,7 @@ limitations under the License.
     <cfset fileReader.close()>
 
     <!--- Loop through the ColdFusion query to process data --->
+		<cfset i=1>
     <cfloop query="csvData">
         <!--- Check if the second column is set --->
         <cfif len(Column#i#) gt 0>
@@ -189,7 +190,6 @@ limitations under the License.
         <cfelse>
             <cfoutput>Second column is not set or empty<br></cfoutput>
         </cfif>
-
     </cfloop>
 
     <cfcatch type="any">
@@ -220,7 +220,7 @@ limitations under the License.
 				<ul class="list-group list-group-horizontal">
 					<cfloop array="#data#" index="i">
 						<cfoutput>
-							<li class="list-group-item h5 border <cfif #i.required# eq "yes"> text-danger</cfif>" style="width:150px;">#i.field#, </li>
+							<li class="list-group-item h5 border <cfif #i.required# eq "yes"> text-danger</cfif>" style="width:150px;">#i.field# </li>
 						</cfoutput>
 					</cfloop>
 				</ul>
