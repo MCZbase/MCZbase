@@ -114,64 +114,32 @@ limitations under the License.
 				<cfset fileProxy = CreateObject("java","java.io.File") >
 				<cfobject type="Java" name="csvFormat" class="org.apache.commons.csv.CSVFormat" >
 				<cfobject type="Java" name="csvParser"  class="org.apache.commons.csv.CSVParser" >
-				<cfobject type="Java" name="csvRecord"  class="org.apache.commons.csv.CSVRecord" >
-			<!---	<cfobject type="Java" class="java.util.Arrays" name="Arrays" >--->
-				
+				<cfobject type="Java" name="csvRecord"  class="org.apache.commons.csv.CSVRecord" >			
 				<cfobject type="java" class="java.io.FileReader" name="fileReader">	
-				
 				<cfobject type="Java" name="javaCharset"  class="java.nio.charset.Charset" >
 				<cfobject type="Java" name="standardCharsets"  class="java.nio.charset.StandardCharsets" >
 				<cfset tempFile = fileProxy.init(JavaCast("string",#FiletoUpload#)) >
 				<cfset tempFileInputStream = CreateObject("java","java.io.FileInputStream").Init(#tempFile#) >
-			
 				<!---// Create a FileReader object--->
 				<cfset fileReader = CreateObject("java","java.io.FileReader").Init(#tempFile#) >
-						
 				<!--- we can't use the withHeader() method from coldfusion, as it is overloaded, and with no parameters provides coldfusion no means to pick the correct method --->
-				<!--- cfset defaultFormat = csvFormat.DEFAULT.withHeader() --->
-				
 				<cfset defaultFormat = csvFormat.DEFAULT>
-				<!---<cfset defaultFormat = csvFormat.DEFAULT.getNullString() >--->
-				<!---// Create a CSVParser using the FileReader and CSVFormat--->
-					<!---not used?--->
+						<!---// Create a CSVParser using the FileReader and CSVFormat--->
 				<cfset csvParser = CSVFormat.DEFAULT.parse(fileReader)>
-		
-				<!--- TODO: Select charset based on cSet variable from user --->
+
 				<cfset javaSelectedCharset = standardCharsets.UTF_8 >
 				<cfset records = CSVParser.parse(#tempFileInputStream#,#javaSelectedCharset#,#defaultFormat#)>
-
+				<!---loops through the rows--->
 				<cfset iterator = records.iterator()>
-				<!--- Obtain the first line of the file as the header line --->
+				<!---Obtain the first line of the file as the header line --->
 				<cfset headers = iterator.next()>
-			<!---	<cfset listed = headers.iterator()>--->
+				<!---Get the number of column headers--->
 				<cfset size = headers.size()>
-	
-					
-					<!---Get headers one by one to use in comparison later. Need to find type and find the correct java function to be able to use it.--->
-					<!---toString doesn't seem to work--->
+				<!--- TODO: Select charset based on cSet variable from user --->
+				<cfset dataMap = csvParser.toMap()>
 					
 
 
-	<cfset mystring = headers.get(0).toString()>
-	<cfset mystring1 = headers.get(1).toString()>
-	<cfset mystring2 = headers.get(2).toString()>
-	<cfset mystring3 = headers.get(3).toString()>
-	<cfset mystring4 = headers.get(4).toString()>
-	<cfset mystring5 = headers.get(5).toString()>
-	<cfset mystring6 = headers.get(6).toString()>
-	<cfset mystring7 = headers.get(7).toString()>
-	<cfset mystring8 = headers.get(8).toString()>
-	<cfset mystring9 = headers.get(9).toString()>
-	<cfset mystring10 = headers.get(10).toString()>
-	<cfset mystringer ="#mystring1#, #mystring2#, #mystring4#">
-	#mystringer#
-
-
-						
-		
-			
-					
-				
 				<cfset map1 = headers.isSet('institution_acronym')>
 				<cfset map2 = headers.isSet('collection_cde')>
 				<cfset map3 = headers.isSet('other_id_type')>
@@ -206,6 +174,7 @@ limitations under the License.
 
 				<h3 class="h4">There are <cfdump var="#data.size()#"> columns possible for attribute headers (black and red). (8 are required - RED)</h3>
 			</div>
+
 			<cftry>
 				<ul class="list-group list-group-horizontal">
 					<cfloop array="#data#" index="i">
