@@ -212,7 +212,7 @@ limitations under the License.
 	
 				List of Fields: #List1#<br>
 				Fields in CSV: #List2#<br>
-				Common: ListToArray( [, delimiters[, includeEmptyFields[, multiCharacterDelimiter]]])<br>
+				
 				Missing from Upload: #listCompare(List1,List2)#<br>
 				<cfcatch><span class="h3 text-danger">This attribute is missing.</span></cfcatch>
 				</cftry>
