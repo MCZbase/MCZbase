@@ -130,8 +130,8 @@ limitations under the License.
 				<!--- we can't use the withHeader() method from coldfusion, as it is overloaded, and with no parameters provides coldfusion no means to pick the correct method --->
 				<!--- cfset defaultFormat = csvFormat.DEFAULT.withHeader() --->
 				
-<!---				<cfset defaultFormat = csvFormat.DEFAULT.withSkipHeaderRecord(true) >--->
-				<cfset defaultFormat = csvFormat.DEFAULT.getNullString() >
+				<cfset defaultFormat = csvFormat.DEFAULT >
+				<!---<cfset defaultFormat = csvFormat.DEFAULT.getNullString() >--->
 				<!---// Create a CSVParser using the FileReader and CSVFormat--->
 					<!---not used?--->
 				<!---<cfset csvParser = CSVFormat.DEFAULT.parse(fileReader)>--->
@@ -148,7 +148,7 @@ limitations under the License.
 					
 					<!---Get headers one by one to use in comparison later. Need to find type and find the correct java function to be able to use it.--->
 					<!---toString doesn't seem to work--->
-					<cfset mystring = headers.get(0).toString()>
+	<!---				<cfset mystring = headers.get(0).toString()>
 					<cfset mystring1 = headers.get(1).toString()>
 					<cfset mystring2 = headers.get(2).toString()>
 					<cfset mystring3 = headers.get(3).toString()>
@@ -160,7 +160,7 @@ limitations under the License.
 					<cfset mystring9 = headers.get(9).toString()>
 					<cfset mystring10 = headers.get(10).toString()>
 					<cfset mystringer = "#mystring#,#mystring1#,#mystring2#,#mystring3#,#mystring4#,#mystring5#,#mystring6#,#mystring7#,#mystring8#,#mystring9#,#mystring10#">
-				#mystringer#
+				#mystringer#--->
 				<cfset map1 = headers.isSet('institution_acronym')>
 				<cfset map2 = headers.isSet('collection_cde')>
 				<cfset map3 = headers.isSet('other_id_type')>
