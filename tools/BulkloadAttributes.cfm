@@ -141,6 +141,7 @@ limitations under the License.
 				<cfset iterator = records.iterator()>
 				<!--- Obtain the first line of the file as the header line --->
 				<cfset headers = iterator.next()>
+				<cfset headermap = isSet(javacast("int",i))>
 				<cfset size = headers.size()>		
 
 
@@ -186,8 +187,7 @@ limitations under the License.
 					</ul>
 		
 
-					<cfset map = isMapped()>
-						Map = #map#<br>
+				
 
 				<cfset List1 = "institution_acronym,collection_cde,other_id_type,other_id_number,attribute,attribute_value,attribute_units,attribute_date,attribute_meth,determiner,remarks">
 				<cfset List2 = "institution_acronym,collection_cde,other_id_type,other_id_number,attribute,attribute_date,determiner,remarks">
