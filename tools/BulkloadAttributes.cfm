@@ -202,8 +202,10 @@ limitations under the License.
 					
 
 				<cfset myArray=ArrayNew(1)>
-				<cfloop index="i" from="1" to="4">
-					<cfset myArray[i]="#headers.get(JavaCast("int",#i#))#" & i>
+					<cfset i=1>
+				<cfloop index="i" from="1" to="#headers.size()-1#">
+					<cfset myArray[i]="#headers.get(JavaCast("int",i))#">
+					<cfset i = i+1>
 				</cfloop>
 				<cfset List1 = "institution_acronym,collection_cde,other_id_type,other_id_number,attribute,attribute_value,attribute_units,attribute_date,attribute_meth,determiner,remarks">
 	<cfset List2 = "institution_acronym,collection_cde,other_id_type,other_id_number,attribute,attribute_date,determiner,remarks">
