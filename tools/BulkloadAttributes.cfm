@@ -151,7 +151,13 @@ limitations under the License.
     <!--- Parse the CSV file using Apache Commons CSV --->
     <cfset csvFormat = CSVFormat.DEFAULT>
     <cfset csvParser = CSVParser.parse(fileReader, csvFormat)>
-
+	<cfset records = CSVParser.parse(#tempFileInputStream#,#javaSelectedCharset#,#defaultFormat#)>
+	<!---loops through the rows--->
+	<cfset iterator = records.iterator()>
+	<!---Obtain the first line of the file as the header line --->
+	<cfset headers = iterator.next()>
+	<!---Get the number of column headers--->
+	<cfset size = headers.size()>
     <!--- Create a ColdFusion query object to store CSV data --->
     <cfset csvData = queryNew("Column1, Column2")>
 
