@@ -126,30 +126,7 @@ limitations under the License.
 			
 				<!---// Create a FileReader object--->
 				<cfset fileReader = CreateObject("java","java.io.FileReader").Init(#tempFile#) >
-<cfscript>
-
-    try {
-
-
-     
-       
-
-        // Convert the CSV data into a map
-       
-
-        // Print the map
-        for (entry in dataMap.entrySet()) {
-            writeOutput("Key: " & entry.getKey() & ", Value: " & entry.getValue() & "<br>");
-        }
-
-        // Close the CSV parser and the reader
-        csvParser.close();
-        reader.close();
-    } catch (any e) {
-        // Handle exceptions
-        writeOutput("Error: " & e.getMessage());
-    }
-</cfscript>		
+		
 						
 				<!--- we can't use the withHeader() method from coldfusion, as it is overloaded, and with no parameters provides coldfusion no means to pick the correct method --->
 				<!--- cfset defaultFormat = csvFormat.DEFAULT.withHeader() --->
@@ -175,7 +152,7 @@ limitations under the License.
 					
 			<cftry>
 				 <!--- Create a reader for the CSV file --->
-				<cfset fileReader.init(filePath)>
+				<cfset fileReader.init(#tempFile#)>
 
 				<!--- Parse the CSV file using Apache Commons CSV --->
 				<cfset csvFormat = csvFormat.DEFAULT>
