@@ -130,7 +130,7 @@ limitations under the License.
 				<!--- we can't use the withHeader() method from coldfusion, as it is overloaded, and with no parameters provides coldfusion no means to pick the correct method --->
 				<!--- cfset defaultFormat = csvFormat.DEFAULT.withHeader() --->
 				
-				<cfset defaultFormat = csvFormat.DEFAULT >
+				<cfset defaultFormat = csvFormat.DEFAULT.getNullString() >
 				<!---<cfset defaultFormat = csvFormat.DEFAULT.getNullString() >--->
 				<!---// Create a CSVParser using the FileReader and CSVFormat--->
 					<!---not used?--->
