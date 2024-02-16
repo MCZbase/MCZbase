@@ -50,6 +50,15 @@ limitations under the License.
 		***********
 		
 		--->
+<!---The thermal label needs to have inches (widths, margins, and padding) and points (fonts). The Arial, "sans-serif" font works best for the Mala collection. Not all fonts work. Only the most generic ones are available for printing.
+* WHOI Jar Label  width = 4 (inches) 
+* WHOI Jar Label height = 5 (inches)
+* Margin = .015 (inches)
+* The titles have padding above and below to separate them with a border bottom under the jar name. Font is a bit larger at 11pt. 
+* Higher taxa is a bit smaller than the sciName at there request; 10.5pt and 11pt.
+* Table of label content is the page width (4 in) minus the marginleft and marginright (.015in + .015in = .03in) in the <cfdocument>
+* Table row width equals auto to fill the table. 
+* Table td have align-top and font 10pt.--->
 		<cfquery name="getItems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			SELECT DISTINCT
 				cataloged_item.collection_object_id,
@@ -106,10 +115,8 @@ limitations under the License.
 		<!--- this is the largest width (class of <table>) inside the page width of "4in" (on <cfdocument>)--->
 		<!--- This equals the cfdocument pageWidth minus the marginleft and marginright --->
 		<cfset tableWidth = 'width: 3.97in;'>
-
 		<!---this is a class on the table row. It should fill the space inside he tableWidth. --->
 		<cfset labelWidth = 'width: auto;'>
-
 		<!---Unused in this particular proof of concept label, likely will be needed in others, retain for reuse in other blocks if needed --->
 		<cfset labelBorder = 'border: 1px solid black;'><!--- Used under label type (e.g., WHOI Jar Number)  --->
 		<cfset labelHeight = 'height: 5in;'> <!--- Jar label --Assuming 1 page per jar (not used yet) --->
