@@ -134,7 +134,7 @@ limitations under the License.
 				<!---<cfset defaultFormat = csvFormat.DEFAULT.getNullString() >--->
 				<!---// Create a CSVParser using the FileReader and CSVFormat--->
 					<!---not used?--->
-				<!---<cfset csvParser = CSVFormat.DEFAULT.parse(fileReader)>--->
+				<cfset csvParser = CSVFormat.DEFAULT.parse(fileReader)>
 		
 				<!--- TODO: Select charset based on cSet variable from user --->
 				<cfset javaSelectedCharset = standardCharsets.UTF_8 >
