@@ -146,7 +146,6 @@ limitations under the License.
 				<!---	<cfset listed = headers.iterator()>--->
 				<cfset size = headers.size()>
 				<!--- Create a reader for the CSV file --->
-		
 
 				<!--- Parse the CSV file using Apache Commons CSV --->
 				<cfset csvFormat = csvFormat.DEFAULT>
@@ -165,15 +164,6 @@ limitations under the License.
 		
 			
 
-
-
-
-
-
-		
-			
-					
-				
 				<cfset map1 = headers.isSet('institution_acronym')>
 				<cfset map2 = headers.isSet('collection_cde')>
 				<cfset map3 = headers.isSet('other_id_type')>
@@ -203,7 +193,6 @@ limitations under the License.
 						{field:"determiner", required:"yes", present: #map10#},
 						{field:"remarks", required:"no", present: #map11#}
 					];
-
 				</cfscript>	
 
 				<h3 class="h4">There are <cfdump var="#data.size()#"> columns possible for attribute headers (black and red). (8 are required - RED)</h3>
