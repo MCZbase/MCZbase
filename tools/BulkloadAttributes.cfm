@@ -149,6 +149,7 @@ limitations under the License.
 					
 					<!---Get headers one by one to use in comparison later. Need to find type and find the correct java function to be able to use it.--->
 					<!---toString doesn't seem to work--->
+					
 					<cfset mystring = headers.get(0).toString()>
 					<cfset mystring1 = headers.get(1).toString()>
 						<cfset mystring2= headers.get(2).toString()>
@@ -167,7 +168,8 @@ limitations under the License.
 					<cfset mystring8 = headers.get(8).toString()>
 					<cfset mystring9 = headers.get(9).toString()>
 					<cfset mystring10 = headers.get(10).toString()>--->
-					<cfset mystringer = "#mystring#,#mystring1#,#mystring2#,#mystring3#,#mystring4#,#mystring5#,#mystring6#,#mystring7#">
+					<cfset mystringer = ArrayNew(1)>
+					<cfset mystringer = "#mystring[1]#,#mystring1[2]#,#mystring2#[3],#mystring3[4]#,#mystring4[5]#,#mystring5[6]#,#mystring6[7]#,#mystring7[8]#">
 				#mystringer#
 				<cfset map1 = headers.isSet('institution_acronym')>
 				<cfset map2 = headers.isSet('collection_cde')>
