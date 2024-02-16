@@ -148,18 +148,18 @@ limitations under the License.
 					
 					<!---Get headers one by one to use in comparison later. Need to find type and find the correct java function to be able to use it.--->
 					<!---toString doesn't seem to work--->
-					<cfset mystring = headers.toString(0)>
-					<cfset mystring1 = headers.toString(1)>
-					<cfset mystring2 = headers.toString(2)>
-					<cfset mystring3 = headers.toString(3)>
-					<cfset mystring4 = headers.toString(4)>
-					<cfset mystring5 = headers.toString(5)>
-					<cfset mystring6 = headers.toString(6)>
-					<cfset mystring7 = headers.toString(7)>
-					<cfset mystring8 = headers.toString(8)>
-					<cfset mystring9 = headers.toString(9)>
-					<cfset mystring10 = headers.toString(10)>
-					<cfset mystringer = "#mystring#,#mystring1#,#mystring2#,#mystring3#,#mystring4#,#mystring5#,#mystring6#,#mystring7#,#mystring8#,#mystring9#,#mystring10#">
+					<cfset mystring = headers.get(0).toString()>
+					<cfset mystring1 = headers.get(1).toString()>
+				<!---	<cfset mystring2 = headers.get(2).toString()>
+					<cfset mystring3 = headers.get(3).toString()>
+					<cfset mystring4 = headers.get(4).toString()>
+					<cfset mystring5 = headers.get(5).toString()>
+					<cfset mystring6 = headers.get(6).toString()>
+					<cfset mystring7 = headers.get(7).toString()>
+					<cfset mystring8 = headers.get(8).toString()>
+					<cfset mystring9 = headers.get(9).toString()>
+					<cfset mystring10 = headers.get(10).toString()>--->
+					<cfset mystringer = "#mystring#,#mystring1#">
 				#mystringer#
 				<cfset map1 = headers.isSet('institution_acronym')>
 				<cfset map2 = headers.isSet('collection_cde')>
