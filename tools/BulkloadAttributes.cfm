@@ -169,19 +169,13 @@ limitations under the License.
 
 
 				<cfscript>
-    // Import necessary Java classes
-    import = createObject("java", "java.io.FileReader");
-    import = createObject("java", "java.io.Reader");
-    import = createObject("java", "org.apache.commons.csv.CSVFormat");
-    import = createObject("java", "org.apache.commons.csv.CSVParser");
-    import = createObject("java", "org.apache.commons.csv.CSVRecord");
 
-    // Path to the CSV file
-    filePath = "data.csv";
+
+ 
 
     try {
         // Create a reader for the CSV file
-        reader = createObject("java", "java.io.FileReader").init(filePath);
+        reader = createObject("java", "java.io.FileReader").init(#tempFile#);
 
         // Parse the CSV file using Apache Commons CSV
         csvFormat = createObject("java", "org.apache.commons.csv.CSVFormat").DEFAULT;
