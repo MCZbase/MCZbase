@@ -124,7 +124,7 @@ limitations under the License.
 				<cfset fileReader = CreateObject("java","java.io.FileReader").Init(#tempFile#) >
 				<!--- we can't use the withHeader() method from coldfusion, as it is overloaded, and with no parameters provides coldfusion no means to pick the correct method --->
 				<cfset defaultFormat = csvFormat.DEFAULT>
-						<!---// Create a CSVParser using the FileReader and CSVFormat--->
+				<!---// Create a CSVParser using the FileReader and CSVFormat--->
 				<cfset csvParser = CSVFormat.DEFAULT.parse(fileReader)>
 
 				<cfset javaSelectedCharset = standardCharsets.UTF_8 >
@@ -136,7 +136,7 @@ limitations under the License.
 				<!---Get the number of column headers--->
 				<cfset size = headers.size()>
 				<!--- TODO: Select charset based on cSet variable from user --->
-				<cfset dataMap = csvParser.toMap()>
+				<cfset dataMap = records.toMap()>
 		
 				
 
