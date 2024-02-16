@@ -141,8 +141,9 @@ limitations under the License.
 				<cfset iterator = records.iterator()>
 				<!--- Obtain the first line of the file as the header line --->
 				<cfset headers = iterator.next()>
-				<cfset headermap = header.isSet(javacast("int",1))>
-				<cfset size = headers.size()>		
+				
+				<cfset size = headers.size()>
+				<cfset map = headers.isSet()>
 
 
 				<div class="col-12 my-4">
