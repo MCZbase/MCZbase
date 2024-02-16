@@ -189,7 +189,7 @@ limitations under the License.
         <cfelse>
             <cfoutput>Second column is not set or empty<br></cfoutput>
         </cfif>
-		 <cfif len(Column3) get 0>
+		 <cfif len(Column3) gt 0>
             <cfoutput>Second3 column is set: #Column3#<br></cfoutput>
         <cfelse>
             <cfoutput>Second3 column is not set or empty<br></cfoutput>
