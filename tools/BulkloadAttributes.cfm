@@ -142,7 +142,7 @@ limitations under the License.
 
 <cftry>
     <!--- Create a reader for the CSV file --->
-    <cfset fileReader.Init(#tempFile#) >
+    <cfset fileReader.init(#tempFile#) >
 
     <!--- Parse the CSV file using Apache Commons CSV --->
     <cfset csvFormat = csvFormat.DEFAULT>
