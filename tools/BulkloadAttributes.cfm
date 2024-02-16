@@ -145,14 +145,33 @@ limitations under the License.
        				<cfset dataMap[key] = value>
     			</cfloop>--->
 					
-				 <cfloop query="csvParser.parse()">
-					<!--- Check if the second column (index 1) is set --->
-					<cfif isDefined("csvParser.get(1)") and len(csvParser.get(1))>
-						<cfoutput>Second column is set: #csvParser.get(1)#<br></cfoutput>
-					<cfelse>
-						<cfoutput>Second column is not set or empty<br></cfoutput>
-					</cfif>
-				</cfloop>
+	<cftry>
+    <!--- Create a reader for the CSV file --->
+    <cfset fileReader.init(filePath)>
+
+    <!--- Parse the CSV file using Apache Commons CSV --->
+    <cfset csvFormat = csvFormat.DEFAULT>
+    <cfset csvParser.init(fileReader, csvFormat)>
+
+    <!--- Read each record and check if a specific column is set --->
+    <cfloop query="csvParser.parse()">
+        <!--- Check if the second column (index 1) is set --->
+        <cfif isDefined("csvParser.get(1)") and len(csvParser.get(1))>
+            <cfoutput>Second column is set: #csvParser.get(1)#<br></cfoutput>
+        <cfelse>
+            <cfoutput>Second column is not set or empty<br></cfoutput>
+        </cfif>
+    </cfloop>
+
+    <!--- Close the CSV parser and the reader --->
+    <cfset csvParser.close()>
+    <cfset fileReader.close()>
+
+    <cfcatch type="any">
+        <!--- Handle exceptions --->
+        <cfoutput>Error: #cfcatch.message#</cfoutput>
+    </cfcatch>
+</cftry>
 				
 
 				<cfset map1 = headers.isSet('institution_acronym')>
