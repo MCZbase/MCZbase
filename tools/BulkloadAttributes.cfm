@@ -142,7 +142,9 @@ limitations under the License.
 				<!--- Obtain the first line of the file as the header line --->
 				<cfset headers = iterator.next()>
 				
+				
 				<cfset size = headers.size()>
+				
 				<cfset map1 = headers.isMapped('institution_acronym')>
 				<cfset map2 = headers.isSet('collection_cde')>
 				<cfset map3 = headers.isSet('other_id_type')>
@@ -154,6 +156,7 @@ limitations under the License.
 				<cfset map9 = headers.isSet('attribute_meth')>
 				<cfset map10 = headers.isSet('determiner')>
 				<cfset map11 = headers.isSet('remarks')>
+				<cfset map12 = headers.isSet(0)>
 			
 					
 
