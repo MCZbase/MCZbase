@@ -185,36 +185,15 @@ limitations under the License.
 					</cfloop>
 					</ul>
 		
-<!---				<cfset i="i">
-				<cfset listoffields= ["institution_acronym","institution_acronym","collection_cde","other_id_type","other_id_number","attribute","attribute_value","attribute_units","attribute_date","attribute_meth","determiner","remarks"]>--->
-<!---				<cfscript>
-					list1 = ["institution_acronym","institution_acronym","collection_cde","other_id_type","other_id_number","attribute","attribute_value","attribute_units","attribute_date","attribute_meth","determiner","remarks"];
-					for (i=1; i <= arrayLen(listoffields); i++) {
-					writeOutput(listoffields[i]);
-					}
-				</cfscript>
-				<cfscript>
-					struct = {institution_acronym=1,collection_cde=2,other_id_type=3,other_id_number=4,attribute=5,attribute_value=6,attribute_units=7,attribute_date=8,attribute_meth=9,determiner=10,remarks=11};
-					for (key in struct) {
-					writeOutput(key & ", ");
-					}
-				</cfscript>--->
-					
 
-				<cfset myArray=ArrayNew(1)>
-					<cfset i=0>
-				<cfloop index="i" from="0" to="#headers.size()-1#">
-					<cfset myArray(i)="#headers.get(JavaCast("int",i))#">
-					<cfset i = i+1>
-				</cfloop>
+					<cfset map = isMapped(#headers.get(9)#)>
+						Map = #map#<br>
+
 				<cfset List1 = "institution_acronym,collection_cde,other_id_type,other_id_number,attribute,attribute_value,attribute_units,attribute_date,attribute_meth,determiner,remarks">
 				<cfset List2 = "institution_acronym,collection_cde,other_id_type,other_id_number,attribute,attribute_date,determiner,remarks">
 	<!---			<cfset List2 ="
 				<cfif not isDefined(#headers.get(0)#)>#headers.get(0)#<cfelse>missing</cfif>,<cfif not isDefined(#headers.get(1)#)>#headers.get(1)#<cfelse>missing</cfif>,<cfif not isDefined(#headers.get(2)#)>#headers.get(2)#<cfelse>missing</cfif>,<cfif not isDefined(#headers.get(3)#)>#headers.get(3)#<cfelse>missing</cfif>,<cfif not isDefined(#headers.get(4)#)>#headers.get(4)#<cfelse>missing</cfif>,<cfif not isDefined(#headers.get(5)#)>#headers.get(5)#<cfelse>missing</cfif>,<cfif not isDefined(#headers.get(6)#)>#headers.get(6)#<cfelse>missing</cfif>,<cfif not isDefined(#headers.get(7)#)>#headers.get(7)#<cfelse>missing</cfif>,<cfif not isDefined(#headers.get(8)#)>#headers.get(8)#<cfelse>missing</cfif>,<cfif not isDefined(#headers.get(9)#)>#headers.get(9)#<cfelse>missing</cfif>,<cfif not isDefined(#headers.get(10)#)>#headers.get(10)#<cfelse>missing</cfif>">--->
-	#myArray[1]#<br>
-				List of Fields: #List1#<br>
-				Fields in CSV: #List2#<br>
-				Missing from Upload: #Compare(List1,List2)#<br>
+
 					
 					
 					<cfcatch><span class="h3 text-danger">This attribute is missing.</span></cfcatch>
