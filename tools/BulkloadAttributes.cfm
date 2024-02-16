@@ -178,9 +178,9 @@ limitations under the License.
     <cfset csvParser.close()>
     <cfset fileReader.close()>
 
-    <!--- Loop through the ColdFusion query to process data --->
-    <cfloop query="csvData">
-        <!--- Check if the second column is set --->
+    <!--- Loop through the ColdFusion query to process data --->   <!--- Check if the second column is set --->
+  <!---  <cfloop query="csvData">
+     
         <cfif len(Column2)>
             <cfoutput>Second column is set: #Column2#<br></cfoutput>
         <cfelse>
@@ -232,7 +232,7 @@ limitations under the License.
             <cfoutput>11 column is not set or empty<br></cfoutput>
         </cfif>
 	
-    </cfloop>
+    </cfloop>--->
 
     <cfcatch type="any">
         <!--- Handle exceptions --->
