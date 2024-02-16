@@ -201,6 +201,37 @@ limitations under the License.
         <cfelse>
             <cfoutput>Fifth column is not set or empty<br></cfoutput>
         </cfif>
+		<cfif len(Column6)>
+            <cfoutput>Sixth column is set: #Column6#<br></cfoutput>
+        <cfelse>
+            <cfoutput>Sixth column is not set or empty<br></cfoutput>
+        </cfif>
+		<cfif len(Column7)>
+            <cfoutput>Seventh column is set: #Column7#<br></cfoutput>
+        <cfelse>
+            <cfoutput>Seventh column is not set or empty<br></cfoutput>
+        </cfif>
+		<cfif len(Column8)>
+            <cfoutput>Eight column is set: #Column8#<br></cfoutput>
+        <cfelse>
+            <cfoutput>Eight column is not set or empty<br></cfoutput>
+        </cfif>
+		<cfif len(Column9)>
+            <cfoutput>Ninth column is set: #Column9#<br></cfoutput>
+        <cfelse>
+            <cfoutput>Ninth column is not set or empty<br></cfoutput>
+        </cfif>
+		<cfif len(Column10)>
+            <cfoutput>10 column is set: #Column10#<br></cfoutput>
+        <cfelse>
+            <cfoutput>10 column is not set or empty<br></cfoutput>
+        </cfif>
+		<cfif len(Column11)>
+            <cfoutput>11 column is set: #Column11#<br></cfoutput>
+        <cfelse>
+            <cfoutput>11 column is not set or empty<br></cfoutput>
+        </cfif>
+	
     </cfloop>
 
     <cfcatch type="any">
