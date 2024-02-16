@@ -168,7 +168,7 @@ limitations under the License.
         <cfset csvRecord = headers.get(i)>
 
         <!--- Check if the record has at least two columns --->
-        <cfif headers.size() GT 1>
+        <cfif headers.size() GT 0 and headers.size() lt 11>
             <!--- Add the record's values to the ColdFusion query --->
             <cfset queryAddRow(csvData, {
                 "Column#i#" = headers.get(i)
