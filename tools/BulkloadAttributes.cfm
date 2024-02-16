@@ -201,7 +201,10 @@ limitations under the License.
 				</cfscript>--->
 					
 
-		
+				<cfset myArray=ArrayNew(1)>
+				<cfloop index="i" from="1" to="4">
+					<cfset myArray[i]="#headers.get(JavaCast("int",i))#" & i>
+				</cfloop>
 				<cfset List1 = "institution_acronym,collection_cde,other_id_type,other_id_number,attribute,attribute_value,attribute_units,attribute_date,attribute_meth,determiner,remarks">
 	<cfset List2 = "institution_acronym,collection_cde,other_id_type,other_id_number,attribute,attribute_date,determiner,remarks">
 	<!---			<cfset List2 ="
@@ -209,7 +212,7 @@ limitations under the License.
 	
 				List of Fields: #List1#<br>
 				Fields in CSV: #List2#<br>
-				Common: #Compare(List1,List2)#<br>
+				Common: ListToArray( [, delimiters[, includeEmptyFields[, multiCharacterDelimiter]]])<br>
 				Missing from Upload: #listCompare(List1,List2)#<br>
 				<cfcatch><span class="h3 text-danger">This attribute is missing.</span></cfcatch>
 				</cftry>
