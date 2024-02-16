@@ -173,9 +173,7 @@ limitations under the License.
 				</cfscript>	
 				<h3 class="h4">There are <cfdump var="#data.size()#"> columns possible for attribute headers (black and red). (8 are required - RED)</h3>
 			</div>
-			<cfcatch><span class="h3 text-danger">This is the first error.</span></cfcatch>
-			</cftry>
-			<cftry>
+	
 				<ul class="list-group list-group-horizontal">
 					<cfloop array="#data#" index="i">
 						<cfoutput>
@@ -191,7 +189,7 @@ limitations under the License.
 					</cfloop>
 				</ul>
 
-				<cfcatch><span class="h3 text-danger">This is the second error.</span></cfcatch>
+				<cfcatch><span class="h3 text-danger">This is the first error.</span></cfcatch>
 			</cftry>
 		
 			
