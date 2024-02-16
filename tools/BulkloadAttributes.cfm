@@ -149,14 +149,14 @@ limitations under the License.
 					<cfset mystring1 = headers.get(1).toString()>
 					<cfset mystring2 = headers.get(2).toString()>
 					<cfset mystring3 = headers.get(3).toString()>
-					<cfset mystring3 = headers.get(4).toString()>
-					<cfset mystring3 = headers.get(5).toString()>
-					<cfset mystring3 = headers.get(6).toString()>
-					<cfset mystring3 = headers.get(7).toString()>
-					<cfset mystring3 = headers.get(8).toString()>
-					<cfset mystring3 = headers.get(9).toString()>
-					<cfset mystring3 = headers.get(10).toString()>
-					<cfset mystring = "#mystring#,#mystring1#,#mystring2#,#mystring3#,#mystring4#,#mystring5#,#mystring8#,#mystring10#">
+					<cfset mystring4 = headers.get(4).toString()>
+					<cfset mystring5 = headers.get(5).toString()>
+					<cfset mystring6 = headers.get(6).toString()>
+					<cfset mystring7 = headers.get(7).toString()>
+					<cfset mystring8 = headers.get(8).toString()>
+					<cfset mystring9 = headers.get(9).toString()>
+					<cfset mystring10 = headers.get(10).toString()>
+					<cfset mystring = "#mystring#,#mystring1#,#mystring2#,#mystring3#,#mystring4#,#mystring5#,#mystring6#,#mystring7#,#mystring8#,#mystring9#,#mystring10#">
 				#mystring#
 				<cfset map1 = headers.isSet('institution_acronym')>
 				<cfset map2 = headers.isSet('collection_cde')>
