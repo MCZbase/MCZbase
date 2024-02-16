@@ -136,20 +136,13 @@ limitations under the License.
 				<!---Get the number of column headers--->
 				<cfset size = headers.size()>
 				<!--- TODO: Select charset based on cSet variable from user --->
-	<!---			<cfset dataMap = {}>
-				<cfset dataMap = records.toMap()>
-		    	<cfloop query="records.parse()">--->
-       <!--- 			<!--- Assuming the first column is the key and the second column is the value --->--->
-   <!---     			<cfset key = records.get(0)>
-        			<cfset value = records.get(1)>
-       				<cfset dataMap[key] = value>
-    			</cfloop>--->
+
 					
 
 
 <cftry>
     <!--- Create a reader for the CSV file --->
-    <cfset fileReader.init(filePath)>
+    <cfset fileReader = CreateObject("java","java.io.FileReader").Init(#tempFile#) >
 
     <!--- Parse the CSV file using Apache Commons CSV --->
     <cfset csvFormat = csvFormat.DEFAULT>
