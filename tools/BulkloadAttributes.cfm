@@ -154,7 +154,7 @@ limitations under the License.
     <cfset csvParser = CSVFormat.DEFAULT.parse(fileReader)>
 
     <!--- Read each record and check if a specific column is set --->
-    <cfloop query="csvParser.parse()">
+    <cfloop query="records()">
         <!--- Check if the second column (index 1) is set --->
         <cfif isDefined("headers.get(1)") and len(headers.get(1))>
             <cfoutput>Second column is set: #headers.get(1)#<br></cfoutput>
