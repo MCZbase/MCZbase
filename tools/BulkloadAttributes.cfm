@@ -143,8 +143,19 @@ limitations under the License.
 				<cfset headers = iterator.next()>
 				
 				<cfset size = headers.size()>
-				<cfset map = headers.isSet('attribute_meth')>
-					#map#
+				<cfset map1 = headers.isSet('institution_acronym')>
+				<cfset map2 = headers.isSet('collection_cde')>
+				<cfset map3 = headers.isSet('other_id_type')>
+				<cfset map4 = headers.isSet('other_id_number')>
+				<cfset map5 = headers.isSet('attribute')>
+				<cfset map6 = headers.isSet('attribute_value')>
+				<cfset map7 = headers.isSet('attribute_units')>
+				<cfset map8 = headers.isSet('attribute_date')>
+				<cfset map9 = headers.isSet('attribute_meth')>
+				<cfset map10 = headers.isSet('determiner')>
+				<cfset map11 = headers.isSet('remarks')>
+			
+					
 
 
 				<div class="col-12 my-4">
@@ -152,17 +163,17 @@ limitations under the License.
 					
 				<cfscript>
 					data = [
-						{field:"institution_acronym", required:"yes"},
-						{field:"collection_cde", required:"yes"},
-						{field:"other_id_type", required:"yes"},
-						{field:"other_id_number", required:"yes"},
-						{field:"attribute", required:"yes"},
-						{field:"attribute_value", required:"yes"},
-						{field:"attribute_units", required:"no"},
-						{field:"attribute_date", required:"yes"},
-						{field:"attribute_meth", required:"no"},
-						{field:"determiner", required:"yes"},
-						{field:"remarks", required:"no"}
+						{field:"institution_acronym", required:"yes", present: #map1#},
+						{field:"collection_cde", required:"yes", present: #map2#},
+						{field:"other_id_type", required:"yes", present: #map3#},
+						{field:"other_id_number", required:"yes", present: #map4#},
+						{field:"attribute", required:"yes", present: #map5#},
+						{field:"attribute_value", required:"yes", present: #map6#},
+						{field:"attribute_units", required:"no", present: #map7#},
+						{field:"attribute_date", required:"yes", present: #map8#},
+						{field:"attribute_meth", required:"no", present: #map9#},
+						{field:"determiner", required:"yes", present: #map10#},
+						{field:"remarks", required:"no", present: #map11#}
 					];
 
 				</cfscript>	
