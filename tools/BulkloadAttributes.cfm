@@ -138,7 +138,7 @@ limitations under the License.
 				<!--- TODO: Select charset based on cSet variable from user --->
 				<cfset dataMap = csvParser.toMap()>
 		
-				<try>
+				<cftry>
 
 				<cfset map1 = headers.isSet('institution_acronym')>
 				<cfset map2 = headers.isSet('collection_cde')>
