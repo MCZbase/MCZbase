@@ -145,8 +145,8 @@ limitations under the License.
 			<!---	<cfset listed = headers.iterator()>--->
 				
 				<cfset size = headers.size()>
-					<cfset mystring = headers.get(0).values()>
-			<!---		<cfset mystring1 = headers.get(1).toString()>
+					<cfset mystring = headers.get(0).isSet()>
+	<!---				<cfset mystring1 = headers.get(1).toString()>
 					<cfset mystring2 = headers.get(2).toString()>
 					<cfset mystring3 = headers.get(3).toString()>
 					<cfset mystring3 = headers.get(4).toString()>
