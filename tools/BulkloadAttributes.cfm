@@ -136,7 +136,7 @@ limitations under the License.
 				<!---Get the number of column headers--->
 				<cfset size = headers.size()>
 				<!--- TODO: Select charset based on cSet variable from user --->
-		<!---		<cfset dataMap = records.toMap()>--->
+				<cfset dataMap = records.toMap()>
 		
 				
 
