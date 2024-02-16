@@ -145,7 +145,7 @@ limitations under the License.
 			<!---	<cfset listed = headers.iterator()>--->
 				
 				<cfset size = headers.size()>
-				<cfset M = putIn()>
+				<cfset M = putIn(map)>
 				<cfset map1 = headers.isSet('institution_acronym')>
 				<cfset map2 = headers.isSet('collection_cde')>
 				<cfset map3 = headers.isSet('other_id_type')>
