@@ -145,27 +145,44 @@ limitations under the License.
        				<cfset dataMap[key] = value>
     			</cfloop>--->
 					
-	<cftry>
+
+
+<cftry>
     <!--- Create a reader for the CSV file --->
-    <cfset fileReader = CreateObject("java","java.io.FileReader").Init(#tempFile#) >
+    <cfset fileReader.init(#tempFile#)>
 
     <!--- Parse the CSV file using Apache Commons CSV --->
     <cfset csvFormat = csvFormat.DEFAULT>
-    <cfset csvParser = CSVFormat.DEFAULT.parse(fileReader)>
+    <cfset csvParser.init(fileReader, csvFormat)>
 
-    <!--- Read each record and check if a specific column is set --->
-    <cfloop query="records()">
-        <!--- Check if the second column (index 1) is set --->
-        <cfif isDefined("headers.get(1)") and len(headers.get(1))>
-            <cfoutput>Second column is set: #headers.get(1)#<br></cfoutput>
-        <cfelse>
-            <cfoutput>Second column is not set or empty<br></cfoutput>
-        </cfif>
+    <!--- Create a ColdFusion query object to store CSV data --->
+    <cfset csvData = queryNew("Column1, Column2")>
+
+    <!--- Read each record and add it to the ColdFusion query --->
+    <cfloop index="i" from="1" to="#csvParser.getRecords().size()#">
+        <!--- Get the CSV record at index i --->
+        <cfset csvRecord = csvParser.getRecords().get(i)>
+
+        <!--- Add the record's values to the ColdFusion query --->
+        <cfset queryAddRow(csvData, {
+            "Column1" = csvRecord.get(0),
+            "Column2" = csvRecord.get(1)
+        })>
     </cfloop>
 
     <!--- Close the CSV parser and the reader --->
     <cfset csvParser.close()>
     <cfset fileReader.close()>
+
+    <!--- Loop through the ColdFusion query to process data --->
+    <cfloop query="csvData">
+        <!--- Check if the second column is set --->
+        <cfif len(Column2)>
+            <cfoutput>Second column is set: #Column2#<br></cfoutput>
+        <cfelse>
+            <cfoutput>Second column is not set or empty<br></cfoutput>
+        </cfif>
+    </cfloop>
 
     <cfcatch type="any">
         <!--- Handle exceptions --->
