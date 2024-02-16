@@ -190,6 +190,7 @@ limitations under the License.
         <cfelse>
             <cfoutput>Second column is not set or empty<br></cfoutput>
         </cfif>
+		<i= i+1>
     </cfloop>
 
     <cfcatch type="any">
