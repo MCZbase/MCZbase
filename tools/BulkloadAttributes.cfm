@@ -156,11 +156,11 @@ limitations under the License.
 					<cfset mystring3 = ["headers.get(3).toString()"]>
 					<cfset mystring4 = ["headers.get(4).toString()"]>
 					<cfset mystring5 = ["headers.get(5).toString()"]>
-					<cfset mystring6 = "#headers.get(6).toString()#">
+					<cfset mystring6 = "<cfif isDefined(#headers.get(6).toString()#)>#headers.get(6).toString()#<cfelse>#headers.get(6).toString()#</cfif>">
 					<cfset mystring7 = ["headers.get(7).toString()"]>
 					<cfset mystring8 = "<cfif isDefined(#headers.get(8).toString()#)>#headers.get(8).toString()#<cfelse>#headers.get(8).toString()#</cfif>">
-					<cfset mystring9 = ["headers.get(9).toString()"]>
-					<cfset mystring10 = ["headers.get(10).toString()"]>
+					<cfset mystring9 = "<cfif isDefined(#headers.get(9).toString()#)>#headers.get(9).toString()#<cfelse>#headers.get(9).toString()#</cfif>">
+					<cfset mystring10 = "<cfif isDefined(#headers.get(10).toString()#)>#headers.get(10).toString()#<cfelse>#headers.get(10).toString()#</cfif>">
 						
 			<!---	<cfset mystring1 = headers.get(1).toString()>--->
 			<!---	<cfset mystring2 = headers.get(2).toString()>
