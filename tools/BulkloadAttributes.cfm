@@ -149,7 +149,7 @@ limitations under the License.
 
 <cftry>
     <!--- Create a reader for the CSV file --->
-    <cfset fileReader = CreateObject("java","java.io.FileReader").Init(#tempFile#) >
+    <cfset fileReader.init(filePath)>
 
     <!--- Parse the CSV file using Apache Commons CSV --->
     <cfset csvFormat = csvFormat.DEFAULT>
@@ -163,11 +163,14 @@ limitations under the License.
         <!--- Get the CSV record at index i --->
         <cfset csvRecord = csvParser.getRecords().get(i)>
 
-        <!--- Add the record's values to the ColdFusion query --->
-        <cfset queryAddRow(csvData, {
-            "Column1" = csvRecord.get(0),
-            "Column2" = csvRecord.get(1)
-        })>
+        <!--- Check if the record has at least two columns --->
+        <cfif csvRecord.size() GT 1>
+            <!--- Add the record's values to the ColdFusion query --->
+            <cfset queryAddRow(csvData, {
+                "Column1" = csvRecord.get(0),
+                "Column2" = csvRecord.get(1)
+            })>
+        </cfif>
     </cfloop>
 
     <!--- Close the CSV parser and the reader --->
