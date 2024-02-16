@@ -194,10 +194,10 @@ limitations under the License.
 						{field:"other_id_type", required:"yes", present: #mystring2#},
 						{field:"other_id_number", required:"yes", present: #mystring3#},
 						{field:"attribute", required:"yes", present: #mystring4#},
-						{field:"attribute_value", required:"yes", present: #mystring5#},
-						{field:"attribute_units", required:"no", present: #mystring6#},
+						{field:"attribute_value", required:"yes", present: #mystring3#},
+						{field:"attribute_units", required:"no", present: #mystring3#},
 						{field:"attribute_date", required:"yes", present: #mystring7#},
-						{field:"attribute_meth", required:"no", present: #mystring8#},
+						{field:"attribute_meth", required:"no", present: #mystring3#},
 						{field:"determiner", required:"yes", present: #mystring9#},
 						{field:"remarks", required:"no", present: #mystring10#}
 					];
