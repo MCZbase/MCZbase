@@ -157,10 +157,7 @@ limitations under the License.
 				</cfloop>
 		
 
-				<cfcatch type="any">
-					<!--- Handle exceptions --->
-					<cfoutput>Error: #cfcatch.message#</cfoutput>
-				</cfcatch>
+			
 		
 				<cfset map1 = headers.isSet('institution_acronym')>
 				<cfset map2 = headers.isSet('collection_cde')>
