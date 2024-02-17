@@ -188,7 +188,7 @@ limitations under the License.
             })>
         <cfelse>
             <!--- Output the index of the record and the missing columns --->
-            <cfoutput>Record at index #i# has #csvRecord.size()# column(s). Expected: #expectedColumns#</cfoutput>
+            <cfoutput>Record at index #i# has #headers.size()# column(s). Expected: #expectedColumns#</cfoutput>
         </cfif>
     </cfloop>
 
