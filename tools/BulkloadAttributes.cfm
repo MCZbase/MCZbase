@@ -170,7 +170,7 @@ limitations under the License.
 
 
   <!--- Read the first record (headers) from the CSV file --->
-    <cfset csvHeaderRecord = csvParser.iterator().next()>
+    <cfset csvHeaderRecord = iterator().next()>
 
  
     <!--- Check if the record is not null and has fields --->
@@ -182,7 +182,7 @@ limitations under the License.
             <!--- Check if the index is within the bounds of the expected headers list --->
             <cfif indexInt LTE arrayLen(expectedHeaders)>
                 <!--- Access the field using the index --->
-                <cfset header = csvHeaderRecord.get("indexInt", #i#)>
+                <cfset header = csvHeaderRecord.get(indexInt)>
                 <!--- Compare the header with the expected header at the same index --->
                 <cfif header NEQ expectedHeaders[indexInt]>
                     <cfoutput>#header# is not found in the list of expected headers.<br></cfoutput>
