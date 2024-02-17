@@ -173,7 +173,16 @@ limitations under the License.
             <!--- Add the record's values to the ColdFusion query --->
             <cfset queryAddRow(csvData, {
                 "Column1" = csvRecord.get(0),
-                "Column2" = csvRecord.get(1)
+                "Column2" = csvRecord.get(1),
+                "Column3" = csvRecord.get(2),
+                "Column4" = csvRecord.get(3),
+                "Column5" = csvRecord.get(4),
+                "Column6" = csvRecord.get(5),
+                "Column7" = csvRecord.get(6),
+                "Column8" = csvRecord.get(7),
+                "Column9" = csvRecord.get(8),
+                "Column10" = csvRecord.get(9),
+                "Column11" = csvRecord.get(10)
             })>
         <cfelse>
             <!--- Output the index of the record and the missing columns --->
