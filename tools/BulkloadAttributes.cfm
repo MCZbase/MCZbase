@@ -164,15 +164,17 @@ limitations under the License.
 		
 		
 		
-		
-		    <!--- Read the first record (headers) from the CSV file --->
+ <!--- Read the first record (headers) from the CSV file --->
     <cfset csvHeaderRecord = csvParser.iterator().next()>
 
     <!--- Check if the record is not null and has fields --->
     <cfif csvHeaderRecord NEQ "">
-        <!--- Iterate over the fields in the header record to output the headers --->
-        <cfloop list="#csvHeaderRecord#" index="header">
-            <cfoutput>#header#<br></cfoutput>
+        <!--- Iterate over the values in the header record --->
+        <cfloop array="#csvHeaderRecord.values#" index="header">
+            <!--- Check if the header exists in the reference list of expected headers --->
+            <cfif not listFindNoCase(expectedHeaders, header)>
+                <cfoutput>#header# is not found in the list of expected headers.<br></cfoutput>
+            </cfif>
         </cfloop>
     <cfelse>
         <cfoutput>No headers found in the CSV file.</cfoutput>
