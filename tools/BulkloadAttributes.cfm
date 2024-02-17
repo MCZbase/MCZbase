@@ -165,7 +165,7 @@ limitations under the License.
    <!--- Read each record and add it to the ColdFusion query --->
     <cfloop index="i" from="0" to="#headers.size()-1#">
         <!--- Get the CSV record at index i --->
-        <cfset csvRecord = csvParser.getRecords().get(i)>
+        <cfset csvRecord = headers.get(i)>
 
         <!--- Determine the expected number of columns --->
         <cfset expectedColumns = 11> <!--- Change this value as per your requirement --->
