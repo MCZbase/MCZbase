@@ -165,7 +165,7 @@ limitations under the License.
 <!--- Import necessary Java classes --->
 
 <!--- Path to the CSV file --->
-	<cfset filePath="#tempFileInputStream#">
+	<cfset filePath="#tempFile#">
 
 <!--- Define your reference list of expected headers --->
 <cfset expectedHeaders = ["institution_acronym", "collection_cde", "other_id_type", "other_id_number", "attribute", "attribute_date", "determiner", "remarks"]>
