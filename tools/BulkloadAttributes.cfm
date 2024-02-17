@@ -123,18 +123,18 @@ limitations under the License.
 				<!---// Create a FileReader object--->
 				<cfset fileReader = CreateObject("java","java.io.FileReader").Init(#tempFile#) >
 				<!--- we can't use the withHeader() method from coldfusion, as it is overloaded, and with no parameters provides coldfusion no means to pick the correct method --->
-				<cfset defaultFormat = csvFormat.DEFAULT>
+			<!---	<cfset defaultFormat = csvFormat.DEFAULT>--->
 				<!---// Create a CSVParser using the FileReader and CSVFormat--->
-				<cfset csvParser = CSVFormat.DEFAULT.parse(fileReader)>
+				<!---<cfset csvParser = CSVFormat.DEFAULT.parse(fileReader)>--->
 
-				<cfset javaSelectedCharset = standardCharsets.UTF_8 >
-				<cfset records = CSVParser.parse(#tempFileInputStream#,#javaSelectedCharset#,#defaultFormat#)>
+				<!---<cfset javaSelectedCharset = standardCharsets.UTF_8 >--->
+	<!---			<cfset records = CSVParser.parse(#tempFileInputStream#,#javaSelectedCharset#,#defaultFormat#)>--->
 				<!---loops through the rows--->
-				<cfset iterator = records.iterator()>
+				<!---<cfset iterator = records.iterator()>--->
 				<!---Obtain the first line of the file as the header line --->
-				<cfset headers = iterator.next()>
+				<!---<cfset headers = iterator.next()>--->
 				<!---Get the number of column headers--->
-				<cfset size = headers.size()>
+				<!---<cfset size = headers.size()>--->
 				<!--- TODO: Select charset based on cSet variable from user --->
 
 					
@@ -150,7 +150,9 @@ limitations under the License.
 
     <!--- Parse the CSV file using Apache Commons CSV --->
     <cfset csvFormat = CSVFormat.DEFAULT>
+	<cfset defaultFormat = csvFormat.DEFAULT>
     <cfset csvParser = CSVParser.parse(fileReader, csvFormat)>
+	<cfset javaSelectedCharset = standardCharsets.UTF_8 >
 	<cfset records = CSVParser.parse(#tempFileInputStream#,#javaSelectedCharset#,#defaultFormat#)>
 	<!---loops through the rows--->
 	<cfset iterator = records.iterator()>
