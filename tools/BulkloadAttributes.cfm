@@ -172,17 +172,19 @@ limitations under the License.
   <!--- Read the first record (headers) from the CSV file --->
     <cfset csvHeaderRecord = csvParser.iterator().next()>
 
-    <!--- Check if the record is not null and has fields --->
  
     <!--- Check if the record is not null and has fields --->
     <cfif csvHeaderRecord NEQ "">
         <!--- Iterate over the fields in the header record to compare with expected headers --->
-        <cfloop from="0" to="#csvHeaderRecord.size() - 1#" index="i">
-            <!--- Use array notation to access the fields --->
-            <cfset header = csvHeaderRecord[i]>
-            <!--- Check if the header exists in the reference list of expected headers --->
-            <cfif i LTE arrayLen(expectedHeaders)>
-                <cfif header NEQ expectedHeaders[i]>
+        <cfloop index="i" from="0" to="#csvHeaderRecord.size() - 1#">
+            <!--- Convert the index to an integer explicitly --->
+            <cfset indexInt = Int(i)>
+            <!--- Check if the index is within the bounds of the expected headers list --->
+            <cfif indexInt LTE arrayLen(expectedHeaders)>
+                <!--- Access the field using the index --->
+                <cfset header = csvHeaderRecord.get(indexInt)>
+                <!--- Compare the header with the expected header at the same index --->
+                <cfif header NEQ expectedHeaders[indexInt]>
                     <cfoutput>#header# is not found in the list of expected headers.<br></cfoutput>
                 </cfif>
             <cfelse>
