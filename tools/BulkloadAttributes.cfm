@@ -147,7 +147,6 @@ limitations under the License.
 	<cfset filePath="#tempFile#">
     <!--- Create a reader for the CSV file --->
     <cfset fileReader = createObject("java", "java.io.FileReader").init(filePath)>
-
     <!--- Parse the CSV file using Apache Commons CSV --->
     <cfset csvFormat = CSVFormat.DEFAULT>
 	<cfset defaultFormat = csvFormat.DEFAULT>
@@ -160,19 +159,10 @@ limitations under the License.
 	<cfset headers = iterator.next()>
 	<!---Get the number of column headers--->
 	<cfset size = headers.size()>
-
 		
-		
-		
- <!--- Read the first record (headers) from the CSV file --->
+ 	<!--- Read the first record (headers) from the CSV file --->
 
 	<cfset expectedHeaders = ["institution_acronym", "collection_cde", "other_id_type", "other_id_number", "attribute", "attribute_value", "attribute_units", "attribute_date", "determiner", "remarks"]>
-
-
-  <!--- Read the first record (headers) from the CSV file --->
-		
-  
-
  
     <!--- Check if the record is not null and has fields --->
     <cfif headers NEQ "">
@@ -181,7 +171,7 @@ limitations under the License.
             <!--- Convert the index to an integer explicitly --->
             <cfset indexInt = Int(i)>
             <!--- Check if the index is within the bounds of the expected headers list --->
-            <cfif indexInt LTE arrayLen(expectedHeaders)>
+            <cfif indexInt LTE arrayLen(expectedHeaders) AND arrayIsDefined(expectedHeaders, indexInt + 1)>
                 <!--- Access the field using the index --->
                 <cfset header = #headers.get(JavaCast("int",indexInt))#>
                 <!--- Compare the header with the expected header at the same index --->
@@ -189,18 +179,13 @@ limitations under the License.
                     <cfoutput>#header# is not found in the list of expected headers.<br></cfoutput>
                 </cfif>
             <cfelse>
-                <cfoutput>Additional header #header# found in the CSV file.<br></cfoutput>
+                <cfoutput>Additional header #csvHeaderRecord.get(indexInt)# found in the CSV file.<br></cfoutput>
             </cfif>
         </cfloop>
     <cfelse>
         <cfoutput>No headers found in the CSV file.</cfoutput>
     </cfif>
 
-		
-		
-		
-		
-		
     <!--- Close the CSV parser and the reader --->
     <cfset csvParser.close()>
     <cfset fileReader.close()>
