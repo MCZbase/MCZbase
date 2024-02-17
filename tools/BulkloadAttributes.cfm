@@ -163,11 +163,15 @@ limitations under the License.
     <!--- Create a ColdFusion query object to store CSV data --->
     <cfset csvHeaderRecord = csvParser.getRecords().get(0)>
    <!--- Read each record and add it to the ColdFusion query --->
-   <!--- Process the headers (first record) to determine the structure of the CSV file --->
+  <!--- Convert the header record into a ColdFusion query object --->
+    <cfset csvHeaderQuery = queryNew("Header")>
     <cfloop from="0" to="#csvHeaderRecord.size() - 1#" index="i">
-        <cfoutput>Header #i + 1#: #csvHeaderRecord.get(i)#<br></cfoutput>
+        <cfset queryAddRow(csvHeaderQuery, {"Header" = csvHeaderRecord.get(i)})>
     </cfloop>
-
+   <!--- Process the headers (first record) to determine the structure of the CSV file --->
+    <cfloop query="csvHeaderQuery">
+        <cfoutput>Header: #csvHeaderQuery.Header#<br></cfoutput>
+    </cfloop>
     <!--- Close the CSV parser and the reader --->
     <cfset csvParser.close()>
     <cfset fileReader.close()>
