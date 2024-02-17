@@ -160,30 +160,28 @@ limitations under the License.
 	<cfset headers = iterator.next()>
 	<!---Get the number of column headers--->
 	<cfset size = headers.size()>
-  <!--- Read the first record (headers) from the CSV file --->
-    <cfset csvHeaderRecord = csvParser.getRecords().get(0)>
+
+		
+		
+		
+		
+		    <!--- Read the first record (headers) from the CSV file --->
+    <cfset csvHeaderRecord = csvParser.iterator().next()>
 
     <!--- Check if the record is not null and has fields --->
     <cfif csvHeaderRecord NEQ "">
         <!--- Iterate over the fields in the header record to output the headers --->
-        <cfloop from="0" to="#csvHeaderRecord.size() - 1#" index="i">
-            <!--- Convert the index to an integer explicitly --->
-            <cfset indexInt = Int(i)>
-            <cfoutput>Header at index #indexInt#: #csvHeaderRecord[indexInt]#<br></cfoutput>
+        <cfloop list="#csvHeaderRecord#" index="header">
+            <cfoutput>#header#<br></cfoutput>
         </cfloop>
     <cfelse>
         <cfoutput>No headers found in the CSV file.</cfoutput>
     </cfif>
-
-    <!--- Check if the map is empty or not --->
-    <cfif structIsEmpty(headerMap)>
-        <cfoutput>No headers found in the CSV file.</cfoutput>
-    <cfelse>
-        <!--- Iterate over the map to output the headers and their corresponding column indices --->
-        <cfloop collection="#headerMap#" item="columnIndex">
-            <cfoutput>Header at column index #columnIndex#: #headerMap[columnIndex]#<br></cfoutput>
-        </cfloop>
-    </cfif>
+		
+		
+		
+		
+		
     <!--- Close the CSV parser and the reader --->
     <cfset csvParser.close()>
     <cfset fileReader.close()>
