@@ -163,13 +163,15 @@ limitations under the License.
     <!--- Create a ColdFusion query object to store CSV data --->
     <cfset csvHeaderRecord = csvParser.getRecords().get(0)>
    <!--- Read each record and add it to the ColdFusion query --->
-    <!--- Create an empty map to store the headers --->
-    <cfset headerMap = {}>
-
-    <!--- Iterate over the fields in the header record to populate the map --->
-    <cfloop from="0" to="#csvHeaderRecord.size() - 1#" index="i">
-        <cfset headerMap[i] = csvHeaderRecord.get(i)>
-    </cfloop>
+      <!--- Check if the record is not null and has fields --->
+    <cfif csvHeaderRecord NEQ "">
+        <!--- Iterate over the fields in the header record to output the headers --->
+        <cfloop from="0" to="#csvHeaderRecord.size() - 1#" index="i">
+            <cfoutput>Header at index #i#: #csvHeaderRecord.get(i)#<br></cfoutput>
+        </cfloop>
+    <cfelse>
+        <cfoutput>No headers found in the CSV file.</cfoutput>
+    </cfif>
 
     <!--- Check if the map is empty or not --->
     <cfif structIsEmpty(headerMap)>
