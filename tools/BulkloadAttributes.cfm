@@ -155,17 +155,17 @@ limitations under the License.
 	<cfset javaSelectedCharset = standardCharsets.UTF_8 >
 	<cfset records = CSVParser.parse(#tempFileInputStream#,#javaSelectedCharset#,#defaultFormat#)>
 	<!---loops through the rows--->
-	<!---<cfset iterator = records.iterator()>--->
+	<cfset iterator = records.iterator()>
 	<!---Obtain the first line of the file as the header line --->
-	<!---<cfset headers = iterator.next()>--->
+	<cfset headers = iterator.next()>
 	<!---Get the number of column headers--->
-	<!---<cfset size = headers.size()>--->
+	<cfset size = headers.size()>
     <!--- Create a ColdFusion query object to store CSV data --->
     <cfset csvData = queryNew("Column1, Column2, Column3, Column4, Column5, Column6, Column7, Column8, Column9, Column10, Column11")>
    <!--- Read each record and add it to the ColdFusion query --->
-    <cfloop index="i" from="1" to="#csvParser.getRecords().size()#">
+    <cfloop index="i" from="0" to="#headers.size()-1#">
         <!--- Get the CSV record at index i --->
-        <cfset csvRecord = #csvParser.getRecords().get(i)-1#>
+        <cfset csvRecord = csvParser.getRecords().get(i)>
 
         <!--- Determine the expected number of columns --->
         <cfset expectedColumns = 11> <!--- Change this value as per your requirement --->
