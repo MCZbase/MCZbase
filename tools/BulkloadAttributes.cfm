@@ -182,10 +182,10 @@ limitations under the License.
     <cfset fileReader.close()>
 
     <!--- Loop through the ColdFusion query to process data --->
-		<cfset i=1>
+
     <cfloop query="csvData">
         <!--- Check if the second column is set --->
-        <cfif len(Column#i#) gt 0>
+        <cfif len(Column1)>
             <cfoutput>Second column is set: Column#i#<br></cfoutput>
         <cfelse>
             <cfoutput>Second column is not set or empty<br></cfoutput>
