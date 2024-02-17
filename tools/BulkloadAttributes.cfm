@@ -163,10 +163,6 @@ limitations under the License.
 
 		
 <!--- Import necessary Java classes --->
-<cfset FileReader = createObject("java", "java.io.FileReader")>
-<cfset CSVFormat = createObject("java", "org.apache.commons.csv.CSVFormat")>
-<cfset CSVParser = createObject("java", "org.apache.commons.csv.CSVParser")>
-<cfset CSVRecord = createObject("java", "org.apache.commons.csv.CSVRecord")>
 
 <!--- Path to the CSV file --->
 	<cfset filePath="#tempFileInputStream#">
