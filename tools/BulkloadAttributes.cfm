@@ -195,16 +195,15 @@ limitations under the License.
     <!--- Close the CSV parser and the reader --->
     <cfset csvParser.close()>
     <cfset fileReader.close()>
-
-    <!--- Loop through the ColdFusion query to process data --->
-    <cfloop query="csvData">
-        <!--- Check if the second column is set --->
-        <cfif len(Column2)>
-            <cfoutput>Second column is set: #csvData.Column2[currentRow]#<br></cfoutput>
-        <cfelse>
-            <cfoutput>Second column is not set or empty<br></cfoutput>
-        </cfif>
-    </cfloop>
+<!--- Loop through the ColdFusion query to process data --->
+<cfloop query="csvData">
+    <!--- Check if the second column is set --->
+    <cfif len(csvData.Column2)>
+        <cfoutput>Second column is set: #csvData.Column2[currentRow]#<br></cfoutput>
+    <cfelse>
+        <cfoutput>Second column is not set or empty<br></cfoutput>
+    </cfif>
+</cfloop>
 
     <cfcatch type="any">
         <!--- Handle exceptions --->
