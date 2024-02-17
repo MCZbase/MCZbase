@@ -182,7 +182,7 @@ limitations under the License.
             <!--- Check if the index is within the bounds of the expected headers list --->
             <cfif indexInt LTE arrayLen(expectedHeaders)>
                 <!--- Access the field using the index --->
-                <cfset header = csvHeaderRecord.get(indexInt)>
+                <cfset header = csvHeaderRecord.get("int", i)>
                 <!--- Compare the header with the expected header at the same index --->
                 <cfif header NEQ expectedHeaders[indexInt]>
                     <cfoutput>#header# is not found in the list of expected headers.<br></cfoutput>
