@@ -144,41 +144,32 @@ limitations under the License.
 <!--- Import necessary Java classes --->
 
 <cftry>
-
-    <!--- Create a reader for the CSV file --->
-  <!---  <cfset fileReader = createObject("java", "java.io.FileReader").init(filePath)>--->
-
-    <!--- Parse the CSV file using Apache Commons CSV --->
-<!---    <cfset csvFormat = CSVFormat.DEFAULT>
-	<cfset defaultFormat = csvFormat.DEFAULT>
-    <cfset csvParser = CSVParser.parse(fileReader, csvFormat)>
-	<cfset javaSelectedCharset = standardCharsets.UTF_8 >--->
-<!---	<cfset records = CSVParser.parse(#tempFileInputStream#,#javaSelectedCharset#,#defaultFormat#)>--->
-	<!---loops through the rows--->
-<!---	<cfset iterator = records.iterator()>--->
-	<!---Obtain the first line of the file as the header line --->
-<!---	<cfset headers = iterator.next()>--->
-	<!---Get the number of column headers--->
-<!---	<cfset size = headers.size()>--->
-
-		
-<!--- Import necessary Java classes --->
-
-<!--- Path to the CSV file --->
 	<cfset filePath="#tempFile#">
-
-<!--- Define your reference list of expected headers --->
-<cfset expectedHeaders = ["institution_acronym", "collection_cde", "other_id_type", "other_id_number", "attribute", "attribute_date", "determiner", "remarks"]>
-
-<cftry>
     <!--- Create a reader for the CSV file --->
     <cfset fileReader = createObject("java", "java.io.FileReader").init(filePath)>
 
     <!--- Parse the CSV file using Apache Commons CSV --->
     <cfset csvFormat = CSVFormat.DEFAULT>
+	<cfset defaultFormat = csvFormat.DEFAULT>
     <cfset csvParser = CSVParser.parse(fileReader, csvFormat)>
+	<cfset javaSelectedCharset = standardCharsets.UTF_8 >
+	<cfset records = CSVParser.parse(#tempFileInputStream#,#javaSelectedCharset#,#defaultFormat#)>
+	<!---loops through the rows--->
+	<cfset iterator = records.iterator()>
+	<!---Obtain the first line of the file as the header line --->
+	<cfset headers = iterator.next()>
+	<!---Get the number of column headers--->
+	<cfset size = headers.size()>
 
-    <!--- Read the first record (headers) from the CSV file --->
+		
+		
+		
+ <!--- Read the first record (headers) from the CSV file --->
+
+	<cfset expectedHeaders = ["institution_acronym", "collection_cde", "other_id_type", "other_id_number", "attribute", "attribute_value", "attribute_units", "attribute_date", "determiner", "remarks"]>
+
+
+  <!--- Read the first record (headers) from the CSV file --->
     <cfset csvHeaderRecord = csvParser.iterator().next()>
 
     <!--- Check if the record is not null and has fields --->
@@ -199,6 +190,11 @@ limitations under the License.
         <cfoutput>No headers found in the CSV file.</cfoutput>
     </cfif>
 
+		
+		
+		
+		
+		
     <!--- Close the CSV parser and the reader --->
     <cfset csvParser.close()>
     <cfset fileReader.close()>
@@ -208,6 +204,7 @@ limitations under the License.
         <cfoutput>Error: #cfcatch.message#</cfoutput>
     </cfcatch>
 </cftry>
+		
 		
 		
 		
