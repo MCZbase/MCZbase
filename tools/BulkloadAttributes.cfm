@@ -163,11 +163,11 @@ limitations under the License.
     <!--- Create a ColdFusion query object to store CSV data --->
     <cfset csvHeaderRecord = csvParser.getRecords().get(0)>
    <!--- Read each record and add it to the ColdFusion query --->
-      <!--- Check if the record is not null and has fields --->
+ <!--- Check if the record is not null and has fields --->
     <cfif csvHeaderRecord NEQ "">
         <!--- Iterate over the fields in the header record to output the headers --->
         <cfloop from="0" to="#csvHeaderRecord.size() - 1#" index="i">
-            <cfoutput>Header at index #i#: #csvHeaderRecord.get(i)#<br></cfoutput>
+            <cfoutput>Header at index #i#: #csvHeaderRecord[i]#<br></cfoutput>
         </cfloop>
     <cfelse>
         <cfoutput>No headers found in the CSV file.</cfoutput>
