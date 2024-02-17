@@ -143,6 +143,7 @@ limitations under the License.
 
 <!--- Import necessary Java classes --->
 
+
 <cftry>
 	<cfset filePath="#tempFile#">
     <!--- Create a reader for the CSV file --->
@@ -159,27 +160,23 @@ limitations under the License.
 	<cfset headers = iterator.next()>
 	<!---Get the number of column headers--->
 	<cfset size = headers.size()>
-		
- 	<!--- Read the first record (headers) from the CSV file --->
-
-	<cfset expectedHeaders = ["institution_acronym", "collection_cde", "other_id_type", "other_id_number", "attribute", "attribute_value", "attribute_units", "attribute_date", "determiner", "remarks"]>
+    
+    <!--- Define your reference list of expected headers --->
+    <cfset expectedHeaders = ["institution_acronym", "collection_cde", "other_id_type", "other_id_number", "attribute", "attribute_value", "attribute_units", "attribute_date", "determiner", "remarks"]>
  
     <!--- Check if the record is not null and has fields --->
-    <cfif headers NEQ "">
+    <cfif headersRecord NEQ "">
         <!--- Iterate over the fields in the header record to compare with expected headers --->
-        <cfloop index="i" from="0" to="#headers.size() - 1#">
-            <!--- Convert the index to an integer explicitly --->
-            <cfset indexInt = Int(i)>
-            <!--- Check if the index is within the bounds of the expected headers list --->
-            <cfif indexInt LTE arrayLen(expectedHeaders) AND arrayIsDefined(expectedHeaders, indexInt + 1)>
-                <!--- Access the field using the index --->
-                <cfset header = #headers.get(JavaCast("int",indexInt))#>
-                <!--- Compare the header with the expected header at the same index --->
-                <cfif header NEQ expectedHeaders[indexInt]>
+        <cfloop index="i" from="0" to="#headersRecord.size() - 1#">
+            <!--- Access the header from the record --->
+            <cfset header = headersRecord.get(i)>
+            <!--- Compare the header with the expected header at the same index --->
+            <cfif i LTE arrayLen(expectedHeaders)>
+                <cfif header NEQ expectedHeaders[i]>
                     <cfoutput>#header# is not found in the list of expected headers.<br></cfoutput>
                 </cfif>
             <cfelse>
-                <cfoutput>Additional header #csvHeaderRecord.get(indexInt)# found in the CSV file.<br></cfoutput>
+                <cfoutput>Additional header #header# found in the CSV file.<br></cfoutput>
             </cfif>
         </cfloop>
     <cfelse>
@@ -195,7 +192,7 @@ limitations under the License.
         <cfoutput>Error: #cfcatch.message#</cfoutput>
     </cfcatch>
 </cftry>
-		
+
 		
 		
 		
