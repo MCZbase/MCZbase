@@ -163,7 +163,14 @@ limitations under the License.
     <!--- Create a ColdFusion query object to store CSV data --->
     <cfset csvHeaderRecord = csvParser.getRecords().get(0)>
    <!--- Read each record and add it to the ColdFusion query --->
-  <cfdump var="#csvHeaderRecord#">
+    <!--- Convert the header record into a map --->
+    <cfset headerMap = csvHeaderRecord.toMap()>
+
+    <!--- Output the headers and their corresponding column indices --->
+    <cfloop collection="#headerMap#" item="columnIndex">
+        <cfoutput>Header at column index #columnIndex#: #headerMap[columnIndex]#<br></cfoutput>
+    </cfloop>
+
     <!--- Close the CSV parser and the reader --->
     <cfset csvParser.close()>
     <cfset fileReader.close()>
