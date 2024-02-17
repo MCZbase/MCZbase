@@ -159,22 +159,26 @@ limitations under the License.
 	<!---Get the number of column headers--->
 	<cfset size = headers.size()>
     <!--- Create a ColdFusion query object to store CSV data --->
-    <cfset csvData = queryNew("Column1, Column2, Column3, Column4, Column5, Column6, Column7, Column8, Column9, Column10, Column11")>
-
-    <!--- Read each record and add it to the ColdFusion query --->
-	<cfset i = 1>
-    <cfloop index="i" from="0" to="#headers.size()-1#">
+    <cfset csvData = queryNew("Column1, Column2")>
+   <!--- Read each record and add it to the ColdFusion query --->
+    <cfloop index="i" from="1" to="#headers.size()-1#">
         <!--- Get the CSV record at index i --->
         <cfset csvRecord = headers.get(i)>
 
-        <!--- Check if the record has at least two columns --->
-        <cfif headers.size() GT 0 and headers.size() lt 11>
+        <!--- Determine the expected number of columns --->
+        <cfset expectedColumns = 11> <!--- Change this value as per your requirement --->
+
+        <!--- Check if the record has the expected number of columns --->
+        <cfif csvRecord.size() EQ expectedColumns>
             <!--- Add the record's values to the ColdFusion query --->
             <cfset queryAddRow(csvData, {
-                "Column#i#" = headers.get(i)
+                "Column1" = csvRecord.get(0),
+                "Column2" = csvRecord.get(1)
             })>
+        <cfelse>
+            <!--- Output the index of the record and the missing columns --->
+            <cfoutput>Record at index #i# has #csvRecord.size()# column(s). Expected: #expectedColumns#</cfoutput>
         </cfif>
-	<cfset i = i+1>
     </cfloop>
 
     <!--- Close the CSV parser and the reader --->
@@ -182,15 +186,13 @@ limitations under the License.
     <cfset fileReader.close()>
 
     <!--- Loop through the ColdFusion query to process data --->
-
     <cfloop query="csvData">
         <!--- Check if the second column is set --->
-        <cfif len(Column1)>
-            <cfoutput>Second column is set: Column#i#<br></cfoutput>
+        <cfif len(Column2)>
+            <cfoutput>Second column is set: #Column2#<br></cfoutput>
         <cfelse>
             <cfoutput>Second column is not set or empty<br></cfoutput>
         </cfif>
-		<cfset i= i+1>
     </cfloop>
 
     <cfcatch type="any">
@@ -198,6 +200,13 @@ limitations under the License.
         <cfoutput>Error: #cfcatch.message#</cfoutput>
     </cfcatch>
 </cftry>
+		
+		
+		
+		
+		
+		
+		
 				<div class="col-12 my-4">
 				<h3 class="h4">Found <cfdump var="#headers.size()#"> matching columns in header of csv file (Green).</h3>
 				<cfscript>
