@@ -161,49 +161,16 @@ limitations under the License.
 	<!---Get the number of column headers--->
 	<cfset size = headers.size()>
     <!--- Create a ColdFusion query object to store CSV data --->
-    <cfset csvData = queryNew("Column1, Column2, Column3, Column4, Column5, Column6, Column7, Column8, Column9, Column10, Column11")>
+    <cfset csvHeaderRecord = csvParser.getRecords().get(0)>
    <!--- Read each record and add it to the ColdFusion query --->
-    <cfloop index="i" from="0" to="#headers.size()-1#">
-        <!--- Get the CSV record at index i --->
-        <cfset csvRecord = headers.get(i)>
-
-        <!--- Determine the expected number of columns --->
-        <cfset expectedColumns = 11> <!--- Change this value as per your requirement --->
-
-        <!--- Check if the record has the expected number of columns --->
-        <cfif csvRecord.size() EQ expectedColumns>
-            <!--- Add the record's values to the ColdFusion query --->
-            <cfset queryAddRow(csvData, {
-                "Column1" = csvRecord.get(0),
-                "Column2" = csvRecord.get(1),
-                "Column3" = csvRecord.get(2),
-                "Column4" = csvRecord.get(3),
-                "Column5" = csvRecord.get(4),
-                "Column6" = csvRecord.get(5),
-                "Column7" = csvRecord.get(6),
-                "Column8" = csvRecord.get(7),
-                "Column9" = csvRecord.get(8),
-                "Column10" = csvRecord.get(9),
-                "Column11" = csvRecord.get(10)
-            })>
-        <cfelse>
-            <!--- Output the index of the record and the missing columns --->
-            <cfoutput>Record at index #i# has #headers.size()# column(s). Expected: #expectedColumns#</cfoutput>
-        </cfif>
+   <!--- Process the headers (first record) to determine the structure of the CSV file --->
+    <cfloop from="0" to="#csvHeaderRecord.size() - 1#" index="i">
+        <cfoutput>Header #i + 1#: #csvHeaderRecord.get(i)#<br></cfoutput>
     </cfloop>
 
     <!--- Close the CSV parser and the reader --->
     <cfset csvParser.close()>
     <cfset fileReader.close()>
-<!--- Loop through the ColdFusion query to process data --->
-<cfloop query="csvData">
-    <!--- Check if the second column is set --->
-    <cfif len(csvData.Column2)>
-        <cfoutput>Second column is set: #csvData.Column2[currentRow]#<br></cfoutput>
-    <cfelse>
-        <cfoutput>Second column is not set or empty<br></cfoutput>
-    </cfif>
-</cfloop>
 
     <cfcatch type="any">
         <!--- Handle exceptions --->
