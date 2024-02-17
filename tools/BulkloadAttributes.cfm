@@ -155,36 +155,36 @@ limitations under the License.
 	<cfset javaSelectedCharset = standardCharsets.UTF_8 >
 	<cfset records = CSVParser.parse(#tempFileInputStream#,#javaSelectedCharset#,#defaultFormat#)>
 	<!---loops through the rows--->
-	<cfset iterator = records.iterator()>
+	<!---<cfset iterator = records.iterator()>--->
 	<!---Obtain the first line of the file as the header line --->
-	<cfset headers = iterator.next()>
+	<!---<cfset headers = iterator.next()>--->
 	<!---Get the number of column headers--->
-	<cfset size = headers.size()>
+	<!---<cfset size = headers.size()>--->
     <!--- Create a ColdFusion query object to store CSV data --->
     <cfset csvData = queryNew("Column1, Column2, Column3, Column4, Column5, Column6, Column7, Column8, Column9, Column10, Column11")>
    <!--- Read each record and add it to the ColdFusion query --->
-    <cfloop index="i" from="0" to="#headers.size()-1#">
+    <cfloop index="i" from="1" to="#csvParser.getRecords().size()#">
         <!--- Get the CSV record at index i --->
-        <cfset headers.get(i)>
+        <cfset csvRecord = csvParser.getRecords().get(i)>
 
         <!--- Determine the expected number of columns --->
         <cfset expectedColumns = 11> <!--- Change this value as per your requirement --->
 
         <!--- Check if the record has the expected number of columns --->
-        <cfif headers.size() EQ expectedColumns>
+        <cfif csvRecord.size() EQ expectedColumns>
             <!--- Add the record's values to the ColdFusion query --->
             <cfset queryAddRow(csvData, {
-                "Column1" = headers.get(0),
-                "Column2" = headers.get(1),
-                "Column3" = headers.get(2),
-                "Column4" = headers.get(3),
-                "Column5" = headers.get(4),
-                "Column6" = headers.get(5),
-                "Column7" = headers.get(6),
-                "Column8" = headers.get(7),
-                "Column9" = headers.get(8),
-                "Column10" = headers.get(9),
-                "Column11" = headers.get(10)
+                "Column1" = csvRecord.get(0),
+                "Column2" = csvRecord.get(1),
+                "Column3" = csvRecord.get(2),
+                "Column4" = csvRecord.get(3),
+                "Column5" = csvRecord.get(4),
+                "Column6" = csvRecord.get(5),
+                "Column7" = csvRecord.get(6),
+                "Column8" = csvRecord.get(7),
+                "Column9" = csvRecord.get(8),
+                "Column10" = csvRecord.get(9),
+                "Column11" = csvRecord.get(10)
             })>
         <cfelse>
             <!--- Output the index of the record and the missing columns --->
@@ -200,7 +200,7 @@ limitations under the License.
     <cfloop query="csvData">
         <!--- Check if the second column is set --->
         <cfif len(Column2)>
-            <cfoutput>Second column is set: #Column2#<br></cfoutput>
+            <cfoutput>Second column is set: #csvData.Column2[currentRow]#<br></cfoutput>
         <cfelse>
             <cfoutput>Second column is not set or empty<br></cfoutput>
         </cfif>
