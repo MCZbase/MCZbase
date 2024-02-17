@@ -165,22 +165,31 @@ limitations under the License.
 		
 		
  <!--- Read the first record (headers) from the CSV file --->
-    <cfset csvHeaderRecord = csvParser.iterator().next()>
-	<cfset expectedHeaders = ["institution_acronym", "collection_cde", "other_id_type", "other_id_number", "attribute", "attribute_date", "determiner", "remarks"]>
 
+	<cfset expectedHeaders = ["institution_acronym", "collection_cde", "other_id_type", "other_id_number", "attribute", "attribute_value", "attribute_units", "attribute_date", "determiner", "remarks"]>
+
+
+  <!--- Read the first record (headers) from the CSV file --->
+    <cfset csvHeaderRecord = csvParser.iterator().next()>
 
     <!--- Check if the record is not null and has fields --->
     <cfif csvHeaderRecord NEQ "">
-        <!--- Iterate over the values in the header record --->
-        <cfloop array="#csvHeaderRecord.values#" index="header">
+        <!--- Iterate over the fields in the header record to compare with expected headers --->
+        <cfloop index="i" from="0" to="#csvHeaderRecord.size() - 1#">
             <!--- Check if the header exists in the reference list of expected headers --->
-            <cfif not listFindNoCase(expectedHeaders, header)>
-                <cfoutput>#header# is not found in the list of expected headers.<br></cfoutput>
+            <cfif i LTE arrayLen(expectedHeaders)>
+                <cfset header = csvHeaderRecord.get(i)>
+                <cfif header NEQ expectedHeaders[i]>
+                    <cfoutput>#header# is not found in the list of expected headers.<br></cfoutput>
+                </cfif>
+            <cfelse>
+                <cfoutput>Additional header #header# found in the CSV file.<br></cfoutput>
             </cfif>
         </cfloop>
     <cfelse>
         <cfoutput>No headers found in the CSV file.</cfoutput>
     </cfif>
+
 		
 		
 		
