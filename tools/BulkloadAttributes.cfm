@@ -163,14 +163,23 @@ limitations under the License.
     <!--- Create a ColdFusion query object to store CSV data --->
     <cfset csvHeaderRecord = csvParser.getRecords().get(0)>
    <!--- Read each record and add it to the ColdFusion query --->
-    <!--- Convert the header record into a map --->
-    <cfset headerMap = csvHeaderRecord.toMap()>
-  <cfdump var="#headerMap#" label="Header Map">
-    <!--- Output the headers and their corresponding column indices --->
-    <cfloop collection="#headerMap#" item="columnIndex">
-        <cfoutput>Header at column index #columnIndex#: #headerMap[columnIndex]#<br></cfoutput>
+    <!--- Create an empty map to store the headers --->
+    <cfset headerMap = {}>
+
+    <!--- Iterate over the fields in the header record to populate the map --->
+    <cfloop from="0" to="#csvHeaderRecord.size() - 1#" index="i">
+        <cfset headerMap[i] = csvHeaderRecord.get(i)>
     </cfloop>
 
+    <!--- Check if the map is empty or not --->
+    <cfif structIsEmpty(headerMap)>
+        <cfoutput>No headers found in the CSV file.</cfoutput>
+    <cfelse>
+        <!--- Iterate over the map to output the headers and their corresponding column indices --->
+        <cfloop collection="#headerMap#" item="columnIndex">
+            <cfoutput>Header at column index #columnIndex#: #headerMap[columnIndex]#<br></cfoutput>
+        </cfloop>
+    </cfif>
     <!--- Close the CSV parser and the reader --->
     <cfset csvParser.close()>
     <cfset fileReader.close()>
