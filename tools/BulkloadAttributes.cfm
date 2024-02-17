@@ -165,7 +165,7 @@ limitations under the License.
    <!--- Read each record and add it to the ColdFusion query --->
     <!--- Convert the header record into a map --->
     <cfset headerMap = csvHeaderRecord.toMap()>
-
+  <cfdump var="#headerMap#" label="Header Map">
     <!--- Output the headers and their corresponding column indices --->
     <cfloop collection="#headerMap#" item="columnIndex">
         <cfoutput>Header at column index #columnIndex#: #headerMap[columnIndex]#<br></cfoutput>
