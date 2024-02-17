@@ -166,6 +166,7 @@ limitations under the License.
 		
  <!--- Read the first record (headers) from the CSV file --->
     <cfset csvHeaderRecord = csvParser.iterator().next()>
+	<cfset expectedHeaders = "institution_acronym, collection_cde, other_id_type, other_id_number, attribute, attribute_date, determiner, remarks">
 
     <!--- Check if the record is not null and has fields --->
     <cfif csvHeaderRecord NEQ "">
