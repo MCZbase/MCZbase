@@ -161,31 +161,31 @@ limitations under the License.
 	<!---Get the number of column headers--->
 	<cfset size = headers.size()>
         <!--- Get the headers from the CSV file --->
-    <cfset headersRecord = #headers#>
+    <cfset headersX = #headers#>
     <!--- Define your reference list of expected headers --->
     <cfset expectedHeaders = ["institution_acronym", "collection_cde", "other_id_type", "other_id_number", "attribute", "attribute_value", "attribute_units", "attribute_date", "attribute_meth", "determiner", "remarks"]>
- 
+ 		<cfscript> 
+				headersX=StructNew(); 
+				headersX.value.institution_acronym = eachHeader.institution_acronym; 
+				headersX.value.collection_cde = eachHeader.collection_cde; 
+				headersX.value.other_id_type = eachHeader.other_id_type; 
+				headersX.value.other_id_number = eachHeader.other_id_number; 
+				headersX.value.attribute = eachHeader.attribute;
+				headersX.value.attribute_value = eachHeader.attribute_value;
+				headersX.value.attribute_units = eachHeader.attribute_units;
+				headersX.value.attribute_date = eachHeader.attribute_date;
+				headersX.value.attribute_meth = eachHeader.attribute_meth;
+				headersX.value.determiner = eachHeader.determiner;
+				headersX.value.remarks = eachHeader.remarks;
+			</cfscript> 
     <!--- Check if the record is not null and has fields --->
-    <cfif headersRecord NEQ "">
+    <cfif eachHeaders NEQ "">
         <!--- Iterate over the fields in the header record to compare with expected headers --->
         <cfloop index="i" from="0" to="#headersRecord.size() - 1#">
             <!--- Access the header from the record --->
             <cfset eachHeader = headersRecord.get(JavaCast("int",#i#))>
             <!--- Compare the header with the expected header at the same index --->
-			<cfscript> 
-				eachHeader=StructNew(); 
-				eachHeader.value.institution_acronym = eachHeader.institution_acronym; 
-				eachHeader.value.collection_cde = eachHeader.collection_cde; 
-				eachHeader.value.other_id_type = eachHeader.other_id_type; 
-				eachHeader.value.other_id_number = eachHeader.other_id_number; 
-				eachHeader.value.attribute = eachHeader.attribute;
-				eachHeader.value.attribute_value = eachHeader.attribute_value
-				eachHeader.value.attribute_units = eachHeader.attribute_units
-				eachHeader.value.attribute_date = eachHeader.attribute_date
-				eachHeader.value.attribute_meth = eachHeader.attribute_meth
-				eachHeader.value.determiner = eachHeader.determiner
-				eachHeader.value.remarks = eachHeader.remarks
-			</cfscript> 
+	
             <cfif i LTE arrayLen(expectedHeaders)>
                 <cfif eachHeader NEQ expectedHeaders[i]>
                     <cfoutput>[#i#] #eachHeader# is not found in the list of expected headers.<br></cfoutput>
