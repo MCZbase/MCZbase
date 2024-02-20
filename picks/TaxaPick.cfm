@@ -37,12 +37,10 @@
 					a.taxon_name_id,
 					a.valid_catalog_term_fg
 				from
-					taxonomy a,
-					taxon_relations,
-					taxonomy b
+					taxonomy a
+					left join taxon_relations on a.taxon_name_id = taxon_relations.taxon_name_id
+					left join taxonomy b on taxon_relations.related_taxon_name_id = b.taxon_name_id
 				where
-					a.taxon_name_id = taxon_relations.taxon_name_id (+) and
-					taxon_relations.related_taxon_name_id = b.taxon_name_id (+) and
 					UPPER(B.scientific_name) LIKE <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#ucase(scientific_name)#%'>
 					OR
 					UPPER(B.scientific_name || ' ' || B.author_text) LIKE <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#ucase(scientific_name)#%'>
@@ -53,12 +51,10 @@
 					b.taxon_name_id,
 					b.valid_catalog_term_fg
 				from
-					taxonomy a,
-					taxon_relations,
-					taxonomy b
+					taxonomy a
+					left join taxon_relations on a.taxon_name_id = taxon_relations.taxon_name_id
+					left join taxonomy b on taxon_relations.related_taxon_name_id = b.taxon_name_id
 				where
-					a.taxon_name_id = taxon_relations.taxon_name_id (+) and
-					taxon_relations.related_taxon_name_id = b.taxon_name_id (+) and
 					UPPER(a.scientific_name) LIKE <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#ucase(scientific_name)#%'>
 					OR
 					UPPER(a.scientific_name || ' ' || a.author_text) LIKE <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#ucase(scientific_name)#%'>
