@@ -179,7 +179,7 @@ limitations under the License.
 			<cfelse>
 				<cfoutput>Additional header #header# found in the CSV file.<br></cfoutput>
 			</cfif>
-	
+			</cfloop>
 		</cfloop>
 	<cfelse>
 		<cfoutput>No headers found in the CSV file.</cfoutput>
