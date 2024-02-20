@@ -170,7 +170,7 @@ limitations under the License.
         <!--- Iterate over the fields in the header record to compare with expected headers --->
         <cfloop index="i" from="0" to="#headersX.size() - 1#">
 			 <cfset headersX = headersX.get(JavaCast("int",#i#))>
-				<cfscript> 
+<!---				<cfscript> 
 				headersX=$[
 				headersX.institution_acronym = eachHeader.institution_acronym, 
 				headersX.collection_cde = eachHeader.collection_cde, 
@@ -186,7 +186,7 @@ limitations under the License.
 			]
 				writeDump(headersX) 
 				writeDump(headersX.getMetadata())
-			</cfscript> 
+			</cfscript> --->
 	            <!--- Access the header from the record --->
            
             <!--- Compare the header with the expected header at the same index --->
