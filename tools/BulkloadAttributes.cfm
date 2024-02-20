@@ -181,9 +181,9 @@ limitations under the License.
     <!--- Check if the record is not null and has fields --->
     <cfif eachHeaders NEQ "">
         <!--- Iterate over the fields in the header record to compare with expected headers --->
-        <cfloop index="i" from="0" to="#headersRecord.size() - 1#">
+        <cfloop index="i" from="0" to="#eachHeader.size() - 1#">
             <!--- Access the header from the record --->
-            <cfset eachHeader = headersRecord.get(JavaCast("int",#i#))>
+            <cfset eachHeader = eachHeader.get(JavaCast("int",#i#))>
             <!--- Compare the header with the expected header at the same index --->
 	
             <cfif i LTE arrayLen(expectedHeaders)>
