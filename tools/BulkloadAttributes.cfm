@@ -164,24 +164,23 @@ limitations under the License.
     <cfset headersRecord = #headers#>
     <!--- Define your reference list of expected headers --->
     <cfset expectedHeaders = ["institution_acronym", "collection_cde", "other_id_type", "other_id_number", "attribute", "attribute_value", "attribute_units", "attribute_date", "attribute_meth", "determiner", "remarks"]>
- 
+ 	<cfset requiredHeaders = ["institution_acronym", "collection_cde", "other_id_type", "other_id_number", "attribute", "attribute_value", "attribute_date", "determiner"]>
     <!--- Check if the record is not null and has fields --->
     <cfif headersRecord NEQ "">
-			<cfset i = 1>
         <!--- Iterate over the fields in the header record to compare with expected headers --->
         <cfloop index="i" from="0" to="#headersRecord.size() - 1#">
             <!--- Access the header from the record --->
             <cfset header = headersRecord.get(JavaCast("int",#i#))>
             <!--- Compare the header with the expected header at the same index --->
 	
-            <cfif i LTE arrayLen(expectedHeaders)>
-                <cfif header NEQ expectedHeaders[i]>
+            <cfloop list="#expectedHeaders#" index="field" delimiters=",">
+					<cfif listContains(requiredHeaders,field,",")>
                     <cfoutput>[#i#] #header# is not found in the list of expected headers.<br></cfoutput>
                 </cfif>
             <cfelse>
                 <cfoutput>Additional header #header# found in the CSV file.<br></cfoutput>
             </cfif>
-		<cfset i=i+1>
+	
         </cfloop>
     <cfelse>
         <cfoutput>No headers found in the CSV file.</cfoutput>
