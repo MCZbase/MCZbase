@@ -194,7 +194,7 @@ limitations under the License.
 	
             <cfif i LTE arrayLen(expectedHeaders)>
                 <cfif eachHeader NEQ expectedHeaders[i]>
-                    <cfoutput>[#i#] #eachHeader# is not found in the list of expected headers.<br></cfoutput>
+                    <cfoutput>[#i#] #expectedHeaders# is not found in the list of expected headers.<br></cfoutput>
                 </cfif>
             <cfelse>
                 <cfoutput>Additional header #eachHeader# found in the CSV file.<br></cfoutput>
