@@ -170,6 +170,7 @@ limitations under the License.
         <!--- Iterate over the fields in the header record to compare with expected headers --->
         <cfloop index="i" from="0" to="#headersX.size()#">
 			 <cfset eachHeader = headersX.get(JavaCast("int",#i#))>
+				 #eachHeader#
 <!---				<cfscript> 
 				headersX=$[
 				headersX.institution_acronym = eachHeader.institution_acronym, 
