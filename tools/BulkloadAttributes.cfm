@@ -172,13 +172,26 @@ limitations under the License.
             <!--- Access the header from the record --->
             <cfset eachHeader = headersRecord.get(JavaCast("int",#i#))>
             <!--- Compare the header with the expected header at the same index --->
-	
+			<cfscript> 
+				eachHeader=StructNew(); 
+				eachHeader.value.institution_acronym = eachHeader.institution_acronym; 
+				eachHeader.value.collection_cde = eachHeader.collection_cde; 
+				eachHeader.value.other_id_type = eachHeader.other_id_type; 
+				eachHeader.value.other_id_number = eachHeader.other_id_number; 
+				eachHeader.value.attribute = eachHeader.attribute;
+				eachHeader.value.attribute_value = eachHeader.attribute_value
+				eachHeader.value.attribute_units = eachHeader.attribute_units
+				eachHeader.value.attribute_date = eachHeader.attribute_date
+				eachHeader.value.attribute_meth = eachHeader.attribute_meth
+				eachHeader.value.determiner = eachHeader.determiner
+				eachHeader.value.remarks = eachHeader.remarks
+			</cfscript> 
             <cfif i LTE arrayLen(expectedHeaders)>
                 <cfif eachHeader NEQ expectedHeaders[i]>
-                    <cfoutput>[#i#] #header# is not found in the list of expected headers.<br></cfoutput>
+                    <cfoutput>[#i#] #eachHeader# is not found in the list of expected headers.<br></cfoutput>
                 </cfif>
             <cfelse>
-                <cfoutput>Additional header #header# found in the CSV file.<br></cfoutput>
+                <cfoutput>Additional header #eachHeader# found in the CSV file.<br></cfoutput>
             </cfif>
 	
         </cfloop>
