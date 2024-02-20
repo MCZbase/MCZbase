@@ -174,17 +174,18 @@ limitations under the License.
 			<!--- Compare the header with the expected header at the same index --->
 	
 			<cfloop list="#expectedHeaders#" index="field" delimiters=",">
-			<cfif listContains(requiredHeaders,field,",")>
+			<!---<cfif listContains(requiredHeaders,field,",")>
 				<cfoutput>[#i#] #header# is not found in the list of expected headers.<br></cfoutput>
 			<cfelse>
 				<cfoutput>Additional header #header# found in the CSV file.<br></cfoutput>
 			</cfif>
-			</cfloop>
+			</cfloop>--->
 			<cfoutput query="header">
 				<cfloop list="#header.ColumnList#" index="thisColumn">
 				#header[thisColumn][header.CurrentRow]#
 				</cfloop>
 			</cfoutput>	
+			</cfloop>
 				
 
 <cfset fieldList = "company,phone,phone_secondary,fax,email,website">
