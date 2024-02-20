@@ -180,7 +180,6 @@ limitations under the License.
             <cfelse>
                 <cfoutput>Additional header #header# found in the CSV file.<br></cfoutput>
             </cfif>
-			<cfif i = i + 1>
 		</cfloop>
     <cfelse>
         <cfoutput>No headers found in the CSV file.</cfoutput>
