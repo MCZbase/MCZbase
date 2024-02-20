@@ -174,7 +174,7 @@ limitations under the License.
             <cfset header = headersRecord.get(JavaCast("int",#i#))>
             <!--- Compare the header with the expected header at the same index --->
 	
-            <cfif i LTE arrayLen(expectedHeaders)>
+            <cfif i LTE arrayLen(#expectedHeaders#-1)>
                 <cfif header NEQ expectedHeaders[i]>
                     <cfoutput>[#i#] #header# is not found in the list of expected headers.<br></cfoutput>
                 </cfif>
