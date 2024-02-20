@@ -160,9 +160,7 @@ limitations under the License.
 	<cfset headers = iterator.next()>
 	<!---Get the number of column headers--->
 	<cfset size = headers.size()>
-	<cfset map = records.map()>
-	<cfset institution_acronym1 = headers.get("institution_acronym")>
-		#institution_acronym1#
+	
         <!--- Get the headers from the CSV file --->
     <cfset headersX = #headers#>
 		#headersX#
