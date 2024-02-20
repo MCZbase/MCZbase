@@ -162,6 +162,7 @@ limitations under the License.
 	<cfset size = headers.size()>
         <!--- Get the headers from the CSV file --->
     <cfset headersX = #headers#>
+		#headersX#
     <!--- Define your reference list of expected headers --->
     <cfset expectedHeaders = ["institution_acronym", "collection_cde", "other_id_type", "other_id_number", "attribute", "attribute_value", "attribute_units", "attribute_date", "attribute_meth", "determiner", "remarks"]>
 
@@ -170,6 +171,7 @@ limitations under the License.
         <!--- Iterate over the fields in the header record to compare with expected headers --->
         <cfloop index="i" from="0" to="#headersX.size()-1#">
 			 <cfset eachHeader = headersX.get(JavaCast("int",#i#))>
+				 
 				 
 <!---				<cfscript> 
 				headersX=$[
@@ -190,10 +192,10 @@ limitations under the License.
 			</cfscript> --->
 	            <!--- Access the header from the record --->
            
-            <!--- Compare the header with the expected header at the same index --->
+            <!--- Compare the header with the expected header at the same index. How? --->
 	
             <cfif i LTE arrayLen(expectedHeaders)>
-                <cfif eachHeader NEQ expectedHeaders[1]>
+                <cfif eachHeader NEQ expectedHeaders[i]>
                     <cfoutput>[#i#] #eachHeader# is not found in the list of expected headers.<br></cfoutput>
                 </cfif>
             <cfelse>
