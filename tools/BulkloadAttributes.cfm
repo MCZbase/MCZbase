@@ -171,20 +171,25 @@ limitations under the License.
         <cfloop index="i" from="0" to="#headersX.size() - 1#">
 			 <cfset headersX = headersX.get(JavaCast("int",#i#))>
 				<cfscript> 
-				headersX=StructNew(); 
-				headersX.institution_acronym = eachHeader.institution_acronym; 
-				headersX.collection_cde = eachHeader.collection_cde; 
-				headersX.other_id_type = eachHeader.other_id_type; 
-				headersX.other_id_number = eachHeader.other_id_number; 
-				headersX.attribute = eachHeader.attribute;
-				headersX.attribute_value = eachHeader.attribute_value;
-				headersX.attribute_units = eachHeader.attribute_units;
-				headersX.attribute_date = eachHeader.attribute_date;
-				headersX.attribute_meth = eachHeader.attribute_meth;
-				headersX.determiner = eachHeader.determiner;
-				headersX.remarks = eachHeader.remarks;
+				headersX=$[
+					
+					] 
+				headersX.institution_acronym = eachHeader.institution_acronym, 
+				headersX.collection_cde = eachHeader.collection_cde, 
+				headersX.other_id_type = eachHeader.other_id_type, 
+				headersX.other_id_number = eachHeader.other_id_number, 
+				headersX.attribute = eachHeader.attribute,
+				headersX.attribute_value = eachHeader.attribute_value,
+				headersX.attribute_units = eachHeader.attribute_units,
+				headersX.attribute_date = eachHeader.attribute_date,
+				headersX.attribute_meth = eachHeader.attribute_meth,
+				headersX.determiner = eachHeader.determiner,
+				headersX.remarks = eachHeader.remarks
+			]
+				writeDump(headersX) 
+				writeDump(headersX.getMetadata())
 			</cfscript> 
-            <!--- Access the header from the record --->
+	            <!--- Access the header from the record --->
            
             <!--- Compare the header with the expected header at the same index --->
 	
