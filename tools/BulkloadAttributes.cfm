@@ -174,7 +174,7 @@ limitations under the License.
             <!--- Compare the header with the expected header at the same index --->
             <cfif i LTE arrayLen(expectedHeaders)>
                 <cfif header NEQ expectedHeaders[i]>
-                    <cfoutput>#header# is not found in the list of expected headers.<br></cfoutput>
+                    <cfoutput>[#i#] #header# is not found in the list of expected headers.<br></cfoutput>
                 </cfif>
             <cfelse>
                 <cfoutput>Additional header #header# found in the CSV file.<br></cfoutput>
