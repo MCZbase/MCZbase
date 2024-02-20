@@ -145,27 +145,27 @@ limitations under the License.
 
 
 <cftry>
-	<cfset filePath="#tempFile#">
-	<!--- Create a reader for the CSV file --->
-	<cfset fileReader = createObject("java", "java.io.FileReader").init(filePath)>
-	<!--- Parse the CSV file using Apache Commons CSV --->
-	<cfset csvFormat = CSVFormat.DEFAULT>
-	<cfset defaultFormat = csvFormat.DEFAULT>
-	<cfset csvParser = CSVParser.parse(fileReader, csvFormat)>
-	<cfset javaSelectedCharset = standardCharsets.UTF_8 >
-	<cfset records = CSVParser.parse(#tempFileInputStream#,#javaSelectedCharset#,#defaultFormat#)>
-	<!---loops through the rows--->
-	<cfset iterator = records.iterator()>
-	<!---Obtain the first line of the file as the header line --->
-	<cfset headers = iterator.next()>
-	<!---Get the number of column headers--->
-	<cfset size = headers.size()>
-		<!--- Get the headers from the CSV file --->
-	<cfset headersRecord = #headers#>
-	<!--- Define your reference list of expected headers --->
-	<cfset expectedHeaders = ["institution_acronym", "collection_cde", "other_id_type", "other_id_number", "attribute", "attribute_value", "attribute_units", "attribute_date", "attribute_meth", "determiner", "remarks"]>
-	<cfset requiredHeaders = ["institution_acronym", "collection_cde", "other_id_type", "other_id_number", "attribute", "attribute_value", "attribute_date", "determiner"]>
-	<!--- Check if the record is not null and has fields --->
+		<cfset filePath="#tempFile#">
+		<!--- Create a reader for the CSV file --->
+		<cfset fileReader = createObject("java", "java.io.FileReader").init(filePath)>
+		<!--- Parse the CSV file using Apache Commons CSV --->
+		<cfset csvFormat = CSVFormat.DEFAULT>
+		<cfset defaultFormat = csvFormat.DEFAULT>
+		<cfset csvParser = CSVParser.parse(fileReader, csvFormat)>
+		<cfset javaSelectedCharset = standardCharsets.UTF_8 >
+		<cfset records = CSVParser.parse(#tempFileInputStream#,#javaSelectedCharset#,#defaultFormat#)>
+		<!---loops through the rows--->
+		<cfset iterator = records.iterator()>
+		<!---Obtain the first line of the file as the header line --->
+		<cfset headers = iterator.next()>
+		<!---Get the number of column headers--->
+		<cfset size = headers.size()>
+			<!--- Get the headers from the CSV file --->
+		<cfset headersRecord = #headers#>
+		<!--- Define your reference list of expected headers --->
+		<cfset expectedHeaders = ["institution_acronym", "collection_cde", "other_id_type", "other_id_number", "attribute", "attribute_value", "attribute_units", "attribute_date", "attribute_meth", "determiner", "remarks"]>
+		<cfset requiredHeaders = ["institution_acronym", "collection_cde", "other_id_type", "other_id_number", "attribute", "attribute_value", "attribute_date", "determiner"]>
+		<!--- Check if the record is not null and has fields --->
 	<cfif headersRecord NEQ "">
 		<!--- Iterate over the fields in the header record to compare with expected headers --->
 		<cfloop index="i" from="0" to="#headersRecord.size() - 1#">
@@ -174,37 +174,25 @@ limitations under the License.
 			<!--- Compare the header with the expected header at the same index --->
 	
 			<cfloop list="#expectedHeaders#" index="field" delimiters=",">
-			<!---<cfif listContains(requiredHeaders,field,",")>
+			<cfif listContains(requiredHeaders,field,",")>
 				<cfoutput>[#i#] #header# is not found in the list of expected headers.<br></cfoutput>
 			<cfelse>
 				<cfoutput>Additional header #header# found in the CSV file.<br></cfoutput>
 			</cfif>
-			</cfloop>--->
-			<cfoutput query="header">
-				<cfloop list="#header.ColumnList#" index="thisColumn">
-				#header[thisColumn][header.CurrentRow]#
-				</cfloop>
-			</cfoutput>	
-			</cfloop>
-				
-
-<cfset fieldList = "company,phone,phone_secondary,fax,email,website">
-<cfloop list="#fieldList#" index="i">      
-#myQuery[i]#
-</cfloop>
+	
 		</cfloop>
 	<cfelse>
 		<cfoutput>No headers found in the CSV file.</cfoutput>
 	</cfif>
 
-	<!--- Close the CSV parser and the reader --->
-	<cfset csvParser.close()>
-	<cfset fileReader.close()>
+    <!--- Close the CSV parser and the reader --->
+    <cfset csvParser.close()>
+    <cfset fileReader.close()>
 
-	<cfcatch type="any">
-		<!--- Handle exceptions --->
-		<cfoutput>Error: #cfcatch.message#</cfoutput>
-	</cfcatch>
+    <cfcatch type="any">
+        <!--- Handle exceptions --->
+        <cfoutput>Error: #cfcatch.message#</cfoutput>
+    </cfcatch>
 </cftry>
 
 		
