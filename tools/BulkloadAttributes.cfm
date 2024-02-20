@@ -169,6 +169,7 @@ limitations under the License.
     <cfif headersX NEQ "">
         <!--- Iterate over the fields in the header record to compare with expected headers --->
         <cfloop index="i" from="0" to="#headersX.size() - 1#">
+			 <cfset headersX = eachHeader.get(JavaCast("int",#i#))>
 				<cfscript> 
 				headersX=StructNew(); 
 				headersX.value.institution_acronym = eachHeader.institution_acronym; 
@@ -184,7 +185,7 @@ limitations under the License.
 				headersX.value.remarks = eachHeader.remarks;
 			</cfscript> 
             <!--- Access the header from the record --->
-            <cfset eachHeader = eachHeader.get(JavaCast("int",#i#))>
+           
             <!--- Compare the header with the expected header at the same index --->
 	
             <cfif i LTE arrayLen(expectedHeaders)>
