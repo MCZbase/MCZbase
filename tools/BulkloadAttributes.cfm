@@ -160,11 +160,12 @@ limitations under the License.
 	<cfset headers = iterator.next()>
 	<!---Get the number of column headers--->
 	<cfset size = headers.size()>
+		 #size#
         <!--- Get the headers from the CSV file --->
     <cfset headersX = #headers#>
     <!--- Define your reference list of expected headers --->
     <cfset expectedHeaders = ["institution_acronym", "collection_cde", "other_id_type", "other_id_number", "attribute", "attribute_value", "attribute_units", "attribute_date", "attribute_meth", "determiner", "remarks"]>
- #size#
+
     <!--- Check if the record is not null and has fields --->
     <cfif headersX NEQ "">
         <!--- Iterate over the fields in the header record to compare with expected headers --->
