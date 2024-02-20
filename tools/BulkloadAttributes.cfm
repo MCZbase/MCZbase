@@ -172,7 +172,7 @@ limitations under the License.
             <!--- Access the header from the record --->
             <cfset header = headersRecord.get(JavaCast("int",#i#))>
             <!--- Compare the header with the expected header at the same index --->
-		<cfset i = 1>
+	
             <cfif i LTE arrayLen(expectedHeaders)>
                 <cfif header NEQ expectedHeaders[i]>
                     <cfoutput>[#i#] #header# is not found in the list of expected headers.<br></cfoutput>
@@ -180,7 +180,7 @@ limitations under the License.
             <cfelse>
                 <cfoutput>Additional header #header# found in the CSV file.<br></cfoutput>
             </cfif>
-		<cfset i= i+1>
+		
         </cfloop>
     <cfelse>
         <cfoutput>No headers found in the CSV file.</cfoutput>
