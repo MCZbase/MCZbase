@@ -168,7 +168,7 @@ limitations under the License.
     <!--- Check if the record is not null and has fields --->
     <cfif headersX NEQ "">
         <!--- Iterate over the fields in the header record to compare with expected headers --->
-        <cfloop index="i" from="1" to="#headersX.size()-1#">
+        <cfloop index="i" from="0" to="#headersX.size()-1#">
 			 <cfset eachHeader = headersX.get(JavaCast("int",#i#))>
 				 
 <!---				<cfscript> 
@@ -194,7 +194,7 @@ limitations under the License.
 	
             <cfif i LTE arrayLen(expectedHeaders)>
                 <cfif eachHeader NEQ expectedHeaders[i]>
-                    <cfoutput>[#i#] #expectedHeaders# is not found in the list of expected headers.<br></cfoutput>
+                    <cfoutput>[#i#] #eachHeader# is not found in the list of expected headers.<br></cfoutput>
                 </cfif>
             <cfelse>
                 <cfoutput>Additional header #eachHeader# found in the CSV file.<br></cfoutput>
