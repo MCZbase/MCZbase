@@ -180,6 +180,17 @@ limitations under the License.
 				<cfoutput>Additional header #header# found in the CSV file.<br></cfoutput>
 			</cfif>
 			</cfloop>
+			<cfoutput query="header">
+				<cfloop list="#header.ColumnList#" index="thisColumn">
+				#header[thisColumn][header.CurrentRow]#
+				</cfloop>
+			</cfoutput>	
+				
+
+<cfset fieldList = "company,phone,phone_secondary,fax,email,website">
+<cfloop list="#fieldList#" index="i">      
+#myQuery[i]#
+</cfloop>
 		</cfloop>
 	<cfelse>
 		<cfoutput>No headers found in the CSV file.</cfoutput>
