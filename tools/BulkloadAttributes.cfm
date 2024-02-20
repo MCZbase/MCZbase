@@ -172,8 +172,6 @@ limitations under the License.
 			 <cfset headersX = headersX.get(JavaCast("int",#i#))>
 				<cfscript> 
 				headersX=$[
-					
-					] 
 				headersX.institution_acronym = eachHeader.institution_acronym, 
 				headersX.collection_cde = eachHeader.collection_cde, 
 				headersX.other_id_type = eachHeader.other_id_type, 
