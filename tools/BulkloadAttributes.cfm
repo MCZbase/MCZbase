@@ -163,7 +163,7 @@ limitations under the License.
         <!--- Get the headers from the CSV file --->
     <cfset headersRecord = #headers#>
     <!--- Define your reference list of expected headers --->
-    <cfset expectedHeaders = ["institution_acronym", "collection_cde", "other_id_type", "other_id_number", "attribute", "attribute_value", "attribute_units", "attribute_date", "determiner", "remarks"]>
+    <cfset expectedHeaders = ["institution_acronym", "collection_cde", "other_id_type", "other_id_number", "attribute", "attribute_value", "attribute_units", "attribute_date", "attribute_meth", "determiner", "remarks"]>
  
     <!--- Check if the record is not null and has fields --->
     <cfif headersRecord NEQ "">
