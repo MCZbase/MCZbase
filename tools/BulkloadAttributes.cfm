@@ -164,11 +164,11 @@ limitations under the License.
     <cfset headersX = #headers#>
     <!--- Define your reference list of expected headers --->
     <cfset expectedHeaders = ["institution_acronym", "collection_cde", "other_id_type", "other_id_number", "attribute", "attribute_value", "attribute_units", "attribute_date", "attribute_meth", "determiner", "remarks"]>
- 
+ #size#
     <!--- Check if the record is not null and has fields --->
     <cfif headersX NEQ "">
         <!--- Iterate over the fields in the header record to compare with expected headers --->
-        <cfloop index="i" from="1" to="#headersX.size() +1#">
+        <cfloop index="i" from="1" to="#headersX.size()">
 			 <cfset eachHeader = headersX.get(JavaCast("int",#i#))>
 <!---				<cfscript> 
 				headersX=$[
