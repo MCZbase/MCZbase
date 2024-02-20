@@ -193,7 +193,7 @@ limitations under the License.
             <!--- Compare the header with the expected header at the same index --->
 	
             <cfif i LTE arrayLen(expectedHeaders)>
-                <cfif eachHeader[0] NEQ expectedHeaders[1]>
+                <cfif eachHeader NEQ expectedHeaders[1]>
                     <cfoutput>[#i#] #eachHeader# is not found in the list of expected headers.<br></cfoutput>
                 </cfif>
             <cfelse>
