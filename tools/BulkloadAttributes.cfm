@@ -172,17 +172,17 @@ limitations under the License.
 			 <cfset headersX = headersX.get(JavaCast("int",#i#))>
 				<cfscript> 
 				headersX=StructNew(); 
-				headersX.value.institution_acronym = eachHeader.institution_acronym; 
-				headersX.value.collection_cde = eachHeader.collection_cde; 
-				headersX.value.other_id_type = eachHeader.other_id_type; 
-				headersX.value.other_id_number = eachHeader.other_id_number; 
-				headersX.value.attribute = eachHeader.attribute;
-				headersX.value.attribute_value = eachHeader.attribute_value;
-				headersX.value.attribute_units = eachHeader.attribute_units;
-				headersX.value.attribute_date = eachHeader.attribute_date;
-				headersX.value.attribute_meth = eachHeader.attribute_meth;
-				headersX.value.determiner = eachHeader.determiner;
-				headersX.value.remarks = eachHeader.remarks;
+				headersX.institution_acronym = eachHeader.institution_acronym; 
+				headersX.collection_cde = eachHeader.collection_cde; 
+				headersX.other_id_type = eachHeader.other_id_type; 
+				headersX.other_id_number = eachHeader.other_id_number; 
+				headersX.attribute = eachHeader.attribute;
+				headersX.attribute_value = eachHeader.attribute_value;
+				headersX.attribute_units = eachHeader.attribute_units;
+				headersX.attribute_date = eachHeader.attribute_date;
+				headersX.attribute_meth = eachHeader.attribute_meth;
+				headersX.determiner = eachHeader.determiner;
+				headersX.remarks = eachHeader.remarks;
 			</cfscript> 
             <!--- Access the header from the record --->
            
