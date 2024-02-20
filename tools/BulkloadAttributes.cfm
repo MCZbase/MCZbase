@@ -160,6 +160,8 @@ limitations under the License.
 	<cfset headers = iterator.next()>
 	<!---Get the number of column headers--->
 	<cfset size = headers.size()>
+	<cfset institution_acronym1 = records.get(Headers.institution_acronym)>
+		#institution_acronym1#
         <!--- Get the headers from the CSV file --->
     <cfset headersX = #headers#>
 		#headersX#
@@ -171,25 +173,6 @@ limitations under the License.
         <!--- Iterate over the fields in the header record to compare with expected headers --->
         <cfloop index="i" from="0" to="#headersX.size()-1#">
 			 <cfset eachHeader = headersX.get(JavaCast("int",#i#))>
-				 
-				 
-<!---				<cfscript> 
-				headersX=$[
-				headersX.institution_acronym = eachHeader.institution_acronym, 
-				headersX.collection_cde = eachHeader.collection_cde, 
-				headersX.other_id_type = eachHeader.other_id_type, 
-				headersX.other_id_number = eachHeader.other_id_number, 
-				headersX.attribute = eachHeader.attribute,
-				headersX.attribute_value = eachHeader.attribute_value,
-				headersX.attribute_units = eachHeader.attribute_units,
-				headersX.attribute_date = eachHeader.attribute_date,
-				headersX.attribute_meth = eachHeader.attribute_meth,
-				headersX.determiner = eachHeader.determiner,
-				headersX.remarks = eachHeader.remarks
-			]
-				writeDump(headersX) 
-				writeDump(headersX.getMetadata())
-			</cfscript> --->
 	            <!--- Access the header from the record --->
            
             <!--- Compare the header with the expected header at the same index. How? --->
