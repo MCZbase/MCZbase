@@ -117,13 +117,13 @@ limitations under the License.
 						<tr>
 							<td>
 								<label for="report_id">Print....</label>
-								<select name="report_id" id="report_id" size="36">
+								<select name="report_id" id="report_id" size="36" style="width: 22em;">
 									<cfloop query="e">
 										<cfset show = 0 >
-										<!--
+										<!---
 										  Take the part of the report name after the double underscore,
 										  then explode the collection codes in it on underscores
-										-->
+										--->
 										<cfset repBit = REMatch('__[a-zA-Z_]+$',#report_name#)>
 										<cfif NOT ArrayIsEmpty(repBit)>
 										<cfset repList = listToArray(#repBit[1]#,"_",true)>
