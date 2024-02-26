@@ -213,7 +213,8 @@ limitations under the License.
         <cfoutput>No headers found in the CSV file.</cfoutput>
     </cfif>
 	    <!--- Find missing headers by comparing arrays --->
-    <cfset missingHeaders = ArrayDiff(expectedHeadersArray, headersArray)>
+ <!---   <cfset missingHeaders = ArrayDiff(expectedHeadersArray, headersArray)>--->
+	<cfset missingHeaders = compare(expectedHeadersArray, headersArray)>
     
     <!--- Output the missing headers --->
     <cfoutput>
