@@ -180,44 +180,35 @@ limitations under the License.
     <!--- Define your reference list of expected headers as a comma-separated string --->
     <cfset expectedHeadersString = "institution_acronym, collection_cde, other_id_type, other_id_number, attribute, attribute_value, attribute_units, attribute_date, determiner, remarks">
  
-    <!--- Check if the record is not null and has fields --->
-    <cfif headersRecord NEQ "">
-        <!--- Convert the headers record to a string using toString() --->
-        <cfset headersString = headersRecord.toString()>
-        <!--- Extract values enclosed within square brackets --->
-        <cfset startIndex = Find("values=[", headersString) + 8>
-        <cfset endIndex = Find("]", headersString, startIndex)>
-        <cfset valuesString = Mid(headersString, startIndex, endIndex - startIndex)>
-        <!--- Split the valuesString into an array based on commas --->
-        <cfset headerValues = ListToArray(valuesString, " ")>
-		<cfset headersArray = ListToArray(Replace(headersRecord, "[", "", "all"), ", ")>
-		<cfset expectedHeadersArray = ListToArray(Replace(expectedHeadersString, "[", "", "all"), ", ")>
-        <!--- Output the individual header values --->
-        <cfoutput>
-            <cfloop array="#headerValues#" index="headerValue">
-                #trim(headerValue)#<br>
-            </cfloop>
-        </cfoutput>
-    <cfelse>
-        <cfoutput>No headers found in the CSV file.</cfoutput>
-    </cfif>
-			<p>#headersArray#</p>
-			<p>#expectedHeadersArray#</p>
-		 <cfif headersRecord NEQ "">
-        <!--- Convert the headers record to a string using toString() and remove square brackets --->
-      
-        <!--- Compare the string representation of the headers with the expected headers string --->
-        <cfif headerValues NEQ expectedHeadersString>
-            <cfoutput>The headers in the CSV file do not match the expected headers.</cfoutput>
-        </cfif>
-    <cfelse>
-        <cfoutput>No headers found in the CSV file.</cfoutput>
-    </cfif>
-	    <!--- Find missing headers by comparing arrays --->
- <!---   <cfset missingHeaders = ArrayDiff(expectedHeadersArray, headersArray)>--->
-	<cfset missingHeaders = compare(expectedHeadersArray, headerValues)>
+<cftry>
+    <cfset filePath = "#tempFile#">
+    <!--- Create a reader for the CSV file --->
+    <cfset fileReader = createObject("java", "java.io.FileReader").init(filePath)>
+    <!--- Parse the CSV file using Apache Commons CSV --->
+    <cfset csvFormat = CSVFormat.DEFAULT>
+    <cfset csvParser = CSVParser.parse(fileReader, csvFormat)>
     
-     <!--- Output the missing headers --->
+    <!--- Get the headers from the CSV file as an iterator --->
+    <cfset headersIterator = csvParser.iterator().next().iterator()>
+    
+    <!--- Define your reference list of expected headers as a comma-separated string --->
+    <cfset expectedHeadersString = "[institution_acronym, collection_cde, other_id_type, other_id_number, attribute, attribute_value, attribute_units, attribute_date, determiner, remarks]">
+ 
+    <!--- Initialize an array to hold the header names --->
+    <cfset headersArray = []>
+    
+    <!--- Iterate over the headers using the iterator and add them to the headersArray --->
+    <cfloop condition="#headersIterator.hasNext()#">
+        <cfset headersArray.append(headersIterator.next())>
+    </cfloop>
+    
+    <!--- Convert the expectedHeadersString into an array of header names --->
+    <cfset expectedHeadersArray = ListToArray(Replace(expectedHeadersString, "[", "", "all"), ", ")>
+    
+    <!--- Find missing headers by comparing arrays --->
+    <cfset missingHeaders = ArrayDiff(expectedHeadersArray, headersArray)>
+    
+    <!--- Output the missing headers --->
     <cfoutput>
         <cfif ArrayLen(missingHeaders) GT 0>
             Missing headers: <br>
@@ -238,6 +229,7 @@ limitations under the License.
         <cfoutput>Error: #cfcatch.message#</cfoutput>
     </cfcatch>
 </cftry>
+
 		
 				<div class="col-12 my-4">
 				<h3 class="h4">Found <cfdump var="#headers.size()#"> matching columns in header of csv file (Green).</h3>
