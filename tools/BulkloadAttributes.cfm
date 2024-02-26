@@ -162,7 +162,16 @@ limitations under the License.
 	<cfset size = headers.size()>
 	
         <!--- Get the headers from the CSV file --->
-    <cfset headersX = #headers#>
+    <cfset headersX = "">
+	<cfset separator = "">
+	<cfscript>
+		iterator<String> i = values.iterator()
+		while i.hasNext(){
+		headersX = headersX + separator + i.next()
+		separator = ","
+		}
+		
+	</cfscript>
 		#headersX#
     <!--- Define your reference list of expected headers --->
     <cfset expectedHeaders = ["institution_acronym", "collection_cde", "other_id_type", "other_id_number", "attribute", "attribute_value", "attribute_units", "attribute_date", "attribute_meth", "determiner", "remarks"]>
