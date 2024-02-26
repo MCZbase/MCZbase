@@ -162,17 +162,37 @@ limitations under the License.
 	<cfset size = headers.size()>
 	
         <!--- Get the headers from the CSV file --->
-    <cfset headersX = "">
-	<cfset separator = "">
-	<cfscript>
-		iterator<String> i = values.iterator()
-		while i.hasNext(){
-		headersX = headersX + separator + i.next()
-		separator = ","
-		}
-		
-	</cfscript>
-		#headersX#
+
+<cfscript>
+// Assuming you have a Java Reader object stored in a variable named javaReader
+
+// Initialize an empty array to store the lines read from the reader
+lines = [];
+
+// Create a BufferedReader from the Java Reader for efficient reading
+bufferedReader = createObject("java", "java.io.BufferedReader").init(fileReader);
+
+// Read lines from the reader until the end of the file
+while (true) {
+    // Read a line from the reader
+    line = bufferedReader.readLine();
+
+    // Check if the line is null, indicating the end of the file
+    if (line eq null) {
+        break; // Exit the loop if end of file is reached
+    }
+
+    // Append the line to the lines array after converting it to a ColdFusion string
+    arrayAppend(lines, toString(line));
+}
+
+// Close the BufferedReader to release resources
+bufferedReader.close();
+
+// Now you have the lines from the reader stored as strings in the 'lines' array
+// You can access them as a list and perform further processing as needed
+</cfscript>
+		#lines#
     <!--- Define your reference list of expected headers --->
     <cfset expectedHeaders = ["institution_acronym", "collection_cde", "other_id_type", "other_id_number", "attribute", "attribute_value", "attribute_units", "attribute_date", "attribute_meth", "determiner", "remarks"]>
 
