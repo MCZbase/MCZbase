@@ -189,7 +189,7 @@ limitations under the License.
         <cfset endIndex = Find("]", headersString, startIndex)>
         <cfset valuesString = Mid(headersString, startIndex, endIndex - startIndex)>
         <!--- Split the valuesString into an array based on commas --->
-        <cfset headerValues = ListToArray(valuesString, ",")>
+        <cfset headerValues = ListToArray(valuesString, " ")>
         <!--- Output the individual header values --->
         <cfoutput>
             <cfloop array="#headerValues#" index="headerValue">
