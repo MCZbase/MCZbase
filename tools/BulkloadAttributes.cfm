@@ -181,7 +181,17 @@ limitations under the License.
     <cfset expectedHeadersString = "institution_acronym, collection_cde, other_id_type, other_id_number, attribute, attribute_value, attribute_units, attribute_date, determiner, remarks">
 	 <!--- Convert the expectedHeadersString into an array of header names --->
     <cfset expectedHeadersArray = ListToArray(Replace(expectedHeadersString, "[", "", "all"), ", ")>
-    
+
+<cfscript>
+// Create a Java string
+javaString = createObject("java", "java.lang.String").init("institution_acronym, collection_cde, other_id_type, other_id_number, attribute, attribute_value, attribute_units, attribute_date, determiner, remarks");
+
+// Convert Java string to a ColdFusion list
+cfList = javaString.split(",");
+
+// Output the ColdFusion list
+writeOutput("ColdFusion list: #cfList#");
+</cfscript>
    <!--- Convert the expectedHeadersArray into a comma-separated list --->
     <cfset expectedHeadersList = ArrayToList(expectedHeadersArray)>
     <!--- Check if the record is not null and has fields --->
