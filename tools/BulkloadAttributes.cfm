@@ -214,7 +214,7 @@ limitations under the License.
     </cfif>
 	    <!--- Find missing headers by comparing arrays --->
  <!---   <cfset missingHeaders = ArrayDiff(expectedHeadersArray, headersArray)>--->
-	<cfset missingHeaders = compare(expectedHeadersArray, headersArray)>
+	<cfset missingHeaders = compare(expectedHeadersArray, headerValues)>
     
     <!--- Output the missing headers --->
     <cfoutput>
