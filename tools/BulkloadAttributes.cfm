@@ -195,13 +195,13 @@ limitations under the License.
         <!--- Output the individual header values --->
         <cfoutput>
             <cfloop array="#headerValues#" index="headerValue">
-                This: [[#trim(headerValue)#]]<br>
+                This: [[#trim(headerValue)#<br>
             </cfloop>
         </cfoutput>
     <cfelse>
         <cfoutput>No headers found in the CSV file.</cfoutput>
     </cfif>
-			<p>This: #headersArray#</p>
+			<p>#headersArray#</p>
 			<p>#expectedHeadersArray#</p>
 		 <cfif headersRecord NEQ "">
         <!--- Convert the headers record to a string using toString() and remove square brackets --->
