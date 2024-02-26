@@ -200,6 +200,30 @@ limitations under the License.
         <cfoutput>No headers found in the CSV file.</cfoutput>
     </cfif>
 
+	<cfset missingHeaders = []>
+    
+    <!--- Find missing headers by iterating over expected headers --->
+    <cfloop array="#expectedHeadersString#" index="expectedHeader">
+        <!--- Check if the expected header exists in the headersArray --->
+        <cfif not ListFindNoCase(headerValues, expectedHeader)>
+            <!--- Add the missing header to the missingHeaders array --->
+            <cfset ArrayAppend(missingHeaders, expectedHeader)>
+        </cfif>
+    </cfloop>
+    
+    <!--- Output the missing headers --->
+    <cfoutput>
+        <cfif ArrayLen(missingHeaders) GT 0>
+            Missing headers: <br>
+            <cfloop array="#missingHeaders#" index="missingHeader">
+                #missingHeader#<br>
+            </cfloop>
+        <cfelse>
+            No missing headers found.
+        </cfif>
+    </cfoutput>
+			
+			
     <!--- Close the CSV parser and the reader --->
     <cfset csvParser.close()>
     <cfset fileReader.close()>
