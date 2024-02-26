@@ -209,7 +209,7 @@ limitations under the License.
         <!--- Output the individual header values --->
         <cfoutput>
             <cfloop array="#headerValues#" index="headerValue">
-                #trim(headerValue)#<br>
+                HEADERVALUES: #trim(headerValue)#<br>
             </cfloop>
         </cfoutput>
     <cfelse>
