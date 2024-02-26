@@ -200,7 +200,7 @@ limitations under the License.
     <cfset expectedHeadersArray = ListToArray(Replace(expectedHeadersString, "[", "", "all"), ", ")>
     
     <!--- Find missing headers by comparing arrays --->
-    <cfset missingHeaders = ArrayDiff(expectedHeadersArray, headersArray)>
+    <cfset missingHeaders = arrayDiff(expectedHeadersArray, headersArray)>
     
     <!--- Output the missing headers --->
     <cfoutput>
