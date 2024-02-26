@@ -163,36 +163,39 @@ limitations under the License.
 	
         <!--- Get the headers from the CSV file --->
 
-<cfscript>
-// Assuming you have a Java Reader object stored in a variable named javaReader
-
-// Initialize an empty array to store the lines read from the reader
-lines = [];
-
-// Create a BufferedReader from the Java Reader for efficient reading
-bufferedReader = createObject("java", "java.io.BufferedReader").init(fileReader);
-
-// Read lines from the reader until the end of the file
-while (true) {
-    // Read a line from the reader
-    line = bufferedReader.readLine();
-
-    // Check if the line is null, indicating the end of the file
-    if (line eq null) {
-        break; // Exit the loop if end of file is reached
-    }
-
-    // Append the line to the lines array after converting it to a ColdFusion string
-    arrayAppend(lines, toString(line));
-}
-
-// Close the BufferedReader to release resources
-bufferedReader.close();
-
-// Now you have the lines from the reader stored as strings in the 'lines' array
-// You can access them as a list and perform further processing as needed
-</cfscript>
-		#lines#
+<cftry>
+    <cfset filePath = "#tempFile#">
+    <!--- Create a reader for the CSV file --->
+    <cfset fileReader = createObject("java", "java.io.FileReader").init(filePath)>
+    <!--- Parse the CSV file using Apache Commons CSV --->
+    <cfset csvFormat = CSVFormat.DEFAULT>
+    <cfset csvParser = CSVParser.parse(fileReader, csvFormat)>
+    
+    <!--- Get the headers from the CSV file --->
+    <cfset headersRecord = csvParser.iterator().next()>
+    
+    <!--- Define your reference list of expected headers --->
+    <cfset expectedHeaders = ["institution_acronym", "collection_cde", "other_id_type", "other_id_number", "attribute", "attribute_value", "attribute_units", "attribute_date", "determiner", "remarks"]>
+ 
+    <!--- Check if the record is not null and has fields --->
+    <cfif headersRecord NEQ "">
+        <!--- Iterate over the fields in the header record to compare with expected headers --->
+        <cfloop index="i" from="0" to="#headersRecord.size() - 1#">
+            <!--- Access the header from the record --->
+            <cfset header = headersRecord.get(i)>
+            <!--- Compare the header with the expected header at the same index --->
+            <cfif i LTE arrayLen(expectedHeaders)>
+                <cfif header NEQ expectedHeaders[i]>
+                    <cfoutput>#header# is not found in the list of expected headers.<br></cfoutput>
+                </cfif>
+            <cfelse>
+                <cfoutput>Additional header #header# found in the CSV file.<br></cfoutput>
+            </cfif>
+        </cfloop>
+    <cfelse>
+        <cfoutput>No headers found in the CSV file.</cfoutput>
+    </cfif>
+		#headersRecord#
     <!--- Define your reference list of expected headers --->
     <cfset expectedHeaders = ["institution_acronym", "collection_cde", "other_id_type", "other_id_number", "attribute", "attribute_value", "attribute_units", "attribute_date", "attribute_meth", "determiner", "remarks"]>
 
