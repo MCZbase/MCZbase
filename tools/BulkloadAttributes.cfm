@@ -137,13 +137,6 @@ limitations under the License.
 				<!---<cfset size = headers.size()>--->
 				<!--- TODO: Select charset based on cSet variable from user --->
 
-					
-
-
-
-<!--- Import necessary Java classes --->
-
-
 <cftry>
 	<cfset filePath="#tempFile#">
     <!--- Create a reader for the CSV file --->
