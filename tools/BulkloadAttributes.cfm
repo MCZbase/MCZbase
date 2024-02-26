@@ -182,7 +182,7 @@ limitations under the License.
     <!--- Check if the record is not null and has fields --->
     <cfif headersRecord NEQ "">
         <!--- Convert the headers record to a string using toString() --->
-        <cfset headersString = headersRecord.toString()>
+        <cfset headersString = headersRecord.toString(values)>
         <!--- Compare the string representation of the headers with the expected headers string --->
         <cfif headersString NEQ expectedHeadersString>
             <cfoutput>The headers in the CSV file do not match the expected headers.</cfoutput>
