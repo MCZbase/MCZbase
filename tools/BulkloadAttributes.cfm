@@ -216,7 +216,7 @@ limitations under the License.
 			<cfif differences EQ "">
 				<cfoutput><p>No differences found.</p></cfoutput>
 			<cfelse>
-				<cfoutput>#differences#</cfoutput>
+				<cfoutput><p>#differences#</p></cfoutput>
 			</cfif>
 
         </cfoutput>
