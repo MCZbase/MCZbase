@@ -160,57 +160,33 @@ limitations under the License.
 	<cfset headers = iterator.next()>
 	<!---Get the number of column headers--->
 	<cfset size = headers.size()>
-	
-        <!--- Get the headers from the CSV file --->
 
-
-    
     <!--- Get the headers from the CSV file --->
     <cfset headersRecord = csvParser.iterator().next()>
     
     <!--- Define your reference list of expected headers --->
     <cfset expectedHeaders = ["institution_acronym", "collection_cde", "other_id_type", "other_id_number", "attribute", "attribute_value", "attribute_units", "attribute_date", "determiner", "remarks"]>
+
+    <!--- Create a reader for the CSV file --->
+    <cfset fileReader = createObject("java", "java.io.FileReader").init(filePath)>
+    <!--- Parse the CSV file using Apache Commons CSV --->
+    <cfset csvFormat = CSVFormat.DEFAULT>
+    <cfset csvParser = CSVParser.parse(fileReader, csvFormat)>
+    
+    <!--- Get the headers from the CSV file --->
+    <cfset headersRecord = csvParser.iterator().next()>
+    
+    <!--- Define your reference list of expected headers as a comma-separated string --->
+    <cfset expectedHeadersString = "institution_acronym, collection_cde, other_id_type, other_id_number, attribute, attribute_value, attribute_units, attribute_date, determiner, remarks">
  
     <!--- Check if the record is not null and has fields --->
     <cfif headersRecord NEQ "">
-        <!--- Iterate over the fields in the header record to compare with expected headers --->
-        <cfloop index="i" from="0" to="#headersRecord.size() - 1#">
-            <!--- Access the header from the record --->
-            <cfset header = headersRecord.get(i)>
-            <!--- Compare the header with the expected header at the same index --->
-            <cfif i LTE arrayLen(expectedHeaders)>
-                <cfif header NEQ expectedHeaders[i]>
-                    <cfoutput>#header# is not found in the list of expected headers.<br></cfoutput>
-                </cfif>
-            <cfelse>
-                <cfoutput>Additional header #header# found in the CSV file.<br></cfoutput>
-            </cfif>
-        </cfloop>
-    <cfelse>
-        <cfoutput>No headers found in the CSV file.</cfoutput>
-    </cfif>
-		#headersRecord#
-    <!--- Define your reference list of expected headers --->
-    <cfset expectedHeaders = ["institution_acronym", "collection_cde", "other_id_type", "other_id_number", "attribute", "attribute_value", "attribute_units", "attribute_date", "attribute_meth", "determiner", "remarks"]>
-
-    <!--- Check if the record is not null and has fields --->
-    <cfif headersX NEQ "">
-        <!--- Iterate over the fields in the header record to compare with expected headers --->
-        <cfloop index="i" from="0" to="#headersX.size()-1#">
-			 <cfset eachHeader = headersX.get(JavaCast("int",#i#))>
-	            <!--- Access the header from the record --->
-           
-            <!--- Compare the header with the expected header at the same index. How? --->
-	
-            <cfif i LTE arrayLen(expectedHeaders)>
-                <cfif eachHeader NEQ expectedHeaders[i]>
-                    <cfoutput>[#i#] #eachHeader# is not found in the list of expected headers.<br></cfoutput>
-                </cfif>
-            <cfelse>
-                <cfoutput>Additional header #eachHeader# found in the CSV file.<br></cfoutput>
-            </cfif>
-	
-        </cfloop>
+        <!--- Convert the headers record to a string using toString() --->
+        <cfset headersString = headersRecord.toString()>
+        <!--- Compare the string representation of the headers with the expected headers string --->
+        <cfif headersString NEQ expectedHeadersString>
+            <cfoutput>The headers in the CSV file do not match the expected headers.</cfoutput>
+        </cfif>
     <cfelse>
         <cfoutput>No headers found in the CSV file.</cfoutput>
     </cfif>
@@ -224,12 +200,6 @@ limitations under the License.
         <cfoutput>Error: #cfcatch.message#</cfoutput>
     </cfcatch>
 </cftry>
-
-		
-		
-		
-		
-		
 		
 				<div class="col-12 my-4">
 				<h3 class="h4">Found <cfdump var="#headers.size()#"> matching columns in header of csv file (Green).</h3>
@@ -265,7 +235,6 @@ limitations under the License.
 							<cfset externalList = #headers.get(JavaCast("int",i))#>#headers.get(JavaCast("int",i))#</li>
 					</cfloop>
 				</ul>
-
 
 				<!--- cleanup any incomplete work by the same user --->
 				<cfquery name="clearTempTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="clearTempTable_result">
