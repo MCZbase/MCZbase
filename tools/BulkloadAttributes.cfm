@@ -190,12 +190,15 @@ limitations under the License.
         <cfset valuesString = Mid(headersString, startIndex, endIndex - startIndex)>
         <!--- Split the valuesString into an array based on commas --->
         <cfset headerValues = ListToArray(valuesString, " ")>
-		<cfset headersArray = ListToArray(Replace(headersRecord, "[", "", "all"), ", ")>
+		<cfset headersArray = ListToArray(Replace(headerValues, "[", "", "all"), ", ")>
 		<cfset expectedHeadersArray = ListToArray(Replace(expectedHeadersString, "[", "", "all"), ", ")>
         <!--- Output the individual header values --->
         <cfoutput>
             <cfloop array="#headerValues#" index="headerValue">
                 This: [[#trim(headerValue)#]]<br>
+            </cfloop>
+			<cfloop array="#headersArray#" index="headersArray">
+				That: [[#trim(headersArray)#]]<br>
             </cfloop>
         </cfoutput>
     <cfelse>
