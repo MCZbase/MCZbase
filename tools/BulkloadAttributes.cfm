@@ -172,9 +172,6 @@ limitations under the License.
    
     <!--- Define your reference list of expected headers as a comma-separated string --->
     <cfset expectedHeadersString = "institution_acronym, collection_cde, other_id_type, other_id_number, attribute, attribute_value, attribute_units, attribute_date, attribute_meth, determiner, remarks">
-	 <!--- Convert the expectedHeadersString into an array of header names --->
-    <cfset expectedHeadersArray = ListToArray(Replace(expectedHeadersString, "[", "", "all"), ", ")>
-
 
    <!--- Convert the expectedHeadersArray into a comma-separated list --->
     <cfset expectedHeadersList = expectedHeadersString>
