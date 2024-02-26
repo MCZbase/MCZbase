@@ -194,7 +194,7 @@ limitations under the License.
         <cfset endIndex = Find("]", headersString, startIndex)>
         <cfset headerValues = Mid(headersString, startIndex, endIndex - startIndex)>
         <!--- Split the valuesString into an array based on spaces --->
-        <cfset headerValues = ListEach(valuesString, ", ")>
+        <cfset headerValues = ListEach(valuesString, function(headersString,index,valueString)>
 
 		#headerValues#
         <!--- Output the individual header values --->
