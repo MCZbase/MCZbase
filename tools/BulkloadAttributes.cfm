@@ -196,7 +196,7 @@ limitations under the License.
         <!--- Split the valuesString into an array based on spaces --->
     <!---    <cfset headerValues = ListEach(valuesString, " ")>--->
 
-		
+		#headerValues#
         <!--- Output the individual header values --->
         <cfoutput>
             <cfloop array="#headerValues#" index="headerValue">
