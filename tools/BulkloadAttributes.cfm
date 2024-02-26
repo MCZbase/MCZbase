@@ -163,13 +163,7 @@ limitations under the License.
 	
         <!--- Get the headers from the CSV file --->
 
-<cftry>
-    <cfset filePath = "#tempFile#">
-    <!--- Create a reader for the CSV file --->
-    <cfset fileReader = createObject("java", "java.io.FileReader").init(filePath)>
-    <!--- Parse the CSV file using Apache Commons CSV --->
-    <cfset csvFormat = CSVFormat.DEFAULT>
-    <cfset csvParser = CSVParser.parse(fileReader, csvFormat)>
+
     
     <!--- Get the headers from the CSV file --->
     <cfset headersRecord = csvParser.iterator().next()>
