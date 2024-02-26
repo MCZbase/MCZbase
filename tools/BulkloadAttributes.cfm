@@ -184,7 +184,7 @@ limitations under the License.
 
 
    <!--- Convert the expectedHeadersArray into a comma-separated list --->
-    <cfset expectedHeadersList = ArrayToList(expectedHeadersArray)>
+    <cfset expectedHeadersList = ArrayToList(expectedHeadersString)>
     <!--- Check if the record is not null and has fields --->
     <cfif headersRecord NEQ "">
         <!--- Convert the headers record to a string using toString() --->
@@ -214,7 +214,7 @@ limitations under the License.
         <!--- Check if the expected header exists in the headersArray --->
         <cfif not ListFindNoCase(headerValues, expectedHeader)>
             <!--- Add the missing header to the missingHeaders array --->
-            <cfset ArrayAppend(missingHeaders, expectedHeader)>
+            <cfset compare(missingHeaders, expectedHeader)>
         </cfif>
     </cfloop>
     
