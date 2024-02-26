@@ -180,13 +180,7 @@ limitations under the License.
     <!--- Define your reference list of expected headers as a comma-separated string --->
     <cfset expectedHeadersString = "institution_acronym, collection_cde, other_id_type, other_id_number, attribute, attribute_value, attribute_units, attribute_date, determiner, remarks">
  
-<cftry>
-    <cfset filePath = "#tempFile#">
-    <!--- Create a reader for the CSV file --->
-    <cfset fileReader = createObject("java", "java.io.FileReader").init(filePath)>
-    <!--- Parse the CSV file using Apache Commons CSV --->
-    <cfset csvFormat = CSVFormat.DEFAULT>
-    <cfset csvParser = CSVParser.parse(fileReader, csvFormat)>
+
     
     <!--- Get the headers from the CSV file as an iterator --->
     <cfset headersIterator = csvParser.iterator().next().iterator()>
