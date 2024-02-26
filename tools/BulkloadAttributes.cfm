@@ -194,18 +194,24 @@ limitations under the License.
         <cfset endIndex = Find("]", headersString, startIndex)>
         <cfset headerValues = Mid(headersString, startIndex, endIndex - startIndex)>
         <!--- Split the valuesString into an array based on spaces --->
-        <cfset headerValues = ListEach(valuesString, function(headersString,index,valueString)>
+  
 
 		#headerValues#
         <!--- Output the individual header values --->
         <cfoutput>
-		<cfset javaString = createObject("java", "java.lang.String").init("institution_acronym, collection_cde, other_id_type, other_id_number, attribute, attribute_value, attribute_units, attribute_date, determiner, remarks")>
+		<cfset javaString = createObject("java", "java.lang.String").init(headerValues)>
+
 		<cfset stringLength = javaString.length()>
 
-			<cfloop from="1" to="#stringLength#" index="i">
-				<cfset headerValues = javaString.charAt(i - 1)> <!-- Java strings are 0-indexed -->
-				<cfoutput>#headerValues#<br></cfoutput>
-			</cfloop>
+		<cfset outputString = ""> <!-- Initialize an empty string to hold the concatenated characters -->
+
+		<cfloop from="1" to="#stringLength#" index="i">
+			<cfset currentChar = javaString.charAt(i - 1)> <!-- Java strings are 0-indexed -->
+			<cfif i neq 1>,</cfif> <!-- Add a comma before each character except for the first one -->
+			<cfset outputString &= currentChar> <!-- Concatenate the current character to the outputString -->
+		</cfloop>
+
+		<cfoutput>#outputString#</cfoutput> <!-- Output the concatenated string -->
    <!---         <cfloop array="#headerValues#" index="headerValue">
                 HEADER VALUES: #trim(headerValue)#<br>
             </cfloop>--->
