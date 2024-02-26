@@ -184,7 +184,7 @@ limitations under the License.
 
 
    <!--- Convert the expectedHeadersArray into a comma-separated list --->
-    <cfset expectedHeadersList = ArrayToList(expectedHeadersString)>
+    <cfset expectedHeadersList = expectedHeadersString>
     <!--- Check if the record is not null and has fields --->
     <cfif headersRecord NEQ "">
         <!--- Convert the headers record to a string using toString() --->
