@@ -196,7 +196,7 @@ limitations under the License.
         <!--- Split the valuesString into an array based on spaces --->
   
 
-		#headerValues#
+		
         <!--- Output the individual header values --->
         <cfoutput>
 		<cfset javaString = createObject("java", "java.lang.String").init(headerValues)>
@@ -212,9 +212,7 @@ limitations under the License.
 		</cfloop>
 
 		<cfoutput>#outputString#</cfoutput> <!-- Output the concatenated string -->
-   <!---         <cfloop array="#headerValues#" index="headerValue">
-                HEADER VALUES: #trim(headerValue)#<br>
-            </cfloop>--->
+
         </cfoutput>
     <cfelse>
         <cfoutput>No headers found in the CSV file.</cfoutput>
