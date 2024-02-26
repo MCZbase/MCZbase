@@ -187,6 +187,8 @@ limitations under the License.
         <cfif headersString NEQ expectedHeadersString>
             <cfoutput>The headers in the CSV file do not match the expected headers.</cfoutput>
 			#headersString#
+			<br>
+			#expectedHeadersString#
         </cfif>
     <cfelse>
         <cfoutput>No headers found in the CSV file.</cfoutput>
