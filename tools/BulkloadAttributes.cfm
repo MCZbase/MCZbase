@@ -199,9 +199,15 @@ limitations under the License.
 		#headerValues#
         <!--- Output the individual header values --->
         <cfoutput>
-            <cfloop array="#headerValues#" index="headerValue">
+		<cfset stringLength = javaString.length()>
+
+			<cfloop from="1" to="#stringLength#" index="i">
+				<cfset headerValues = javaString.charAt(i - 1)> <!-- Java strings are 0-indexed -->
+				<cfoutput>#trim(headerValue)#<br></cfoutput>
+			</cfloop>
+   <!---         <cfloop array="#headerValues#" index="headerValue">
                 HEADER VALUES: #trim(headerValue)#<br>
-            </cfloop>
+            </cfloop>--->
         </cfoutput>
     <cfelse>
         <cfoutput>No headers found in the CSV file.</cfoutput>
