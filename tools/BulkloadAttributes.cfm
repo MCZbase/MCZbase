@@ -195,21 +195,12 @@ limitations under the License.
         <cfset valuesString = Mid(headersString, startIndex, endIndex - startIndex)>
         <!--- Split the valuesString into an array based on spaces --->
         <cfset headerValues = ListToArray(valuesString, " ")>
-		<cfscript>
-		// Create a Java string
-		javaString = createObject("java", "java.lang.String").init(#valuesString#);
 
-		// Convert Java string to a ColdFusion list
-		cfList = javaString.split(",");
-
-		// Output the ColdFusion list
-		writeOutput("ColdFusion list: #cfList#;;;");
-		</cfscript>
 		
         <!--- Output the individual header values --->
         <cfoutput>
             <cfloop array="#headerValues#" index="headerValue">
-                HEADERVALUES: #trim(headerValue)#<br>
+                HEADER VALUES: #trim(headerValue)#<br>
             </cfloop>
         </cfoutput>
     <cfelse>
