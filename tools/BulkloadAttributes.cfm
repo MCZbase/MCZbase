@@ -199,11 +199,12 @@ limitations under the License.
 		#headerValues#
         <!--- Output the individual header values --->
         <cfoutput>
+		<cfset javaString = createObject("java", "java.lang.String").init("institution_acronym, collection_cde, other_id_type, other_id_number, attribute, attribute_value, attribute_units, attribute_date, determiner, remarks")>
 		<cfset stringLength = javaString.length()>
 
 			<cfloop from="1" to="#stringLength#" index="i">
 				<cfset headerValues = javaString.charAt(i - 1)> <!-- Java strings are 0-indexed -->
-				<cfoutput>#trim(headerValue)#<br></cfoutput>
+				<cfoutput>#trim(headerValues)#<br></cfoutput>
 			</cfloop>
    <!---         <cfloop array="#headerValues#" index="headerValue">
                 HEADER VALUES: #trim(headerValue)#<br>
