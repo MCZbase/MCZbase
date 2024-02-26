@@ -207,7 +207,7 @@ limitations under the License.
 
 		<cfloop from="1" to="#stringLength#" index="i">
 			<cfset currentChar = javaString.charAt(i - 1)> <!-- Java strings are 0-indexed -->
-			<cfif i neq 1>,</cfif> <!-- Add a comma before each character except for the first one -->
+			<cfif i neq 1> </cfif> <!-- Add a comma before each character except for the first one -->
 			<cfset outputString &= currentChar> <!-- Concatenate the current character to the outputString -->
 		</cfloop>
 
