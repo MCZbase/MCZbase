@@ -194,7 +194,8 @@ limitations under the License.
         <cfset endIndex = Find("]", headersString, startIndex)>
         <cfset valuesString = Mid(headersString, startIndex, endIndex - startIndex)>
         <!--- Split the valuesString into an array based on spaces --->
-        <cfset headerValues = javaString.split(valuesString, ",")>
+        <cfset headerValues = ListToArray(valuesString, " ")>
+		<cfset headerValues = ListAppend(valuesString, " ")>
 		
         <!--- Output the individual header values --->
         <cfoutput>
