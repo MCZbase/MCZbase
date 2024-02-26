@@ -173,6 +173,7 @@ limitations under the License.
     <cfset csvFormat = CSVFormat.DEFAULT>
     <cfset csvParser = CSVParser.parse(fileReader, csvFormat)>
     
+    
     <!--- Get the headers from the CSV file --->
     <cfset headersRecord = csvParser.iterator().next()>
     
@@ -183,8 +184,12 @@ limitations under the License.
     <cfif headersRecord NEQ "">
         <!--- Convert the headers record to a string using toString() --->
         <cfset headersString = headersRecord.toString()>
-        <!--- Split the headersString into an array based on commas --->
-        <cfset headerValues = ListToArray(headersString, ",")>
+        <!--- Extract values enclosed within square brackets --->
+        <cfset startIndex = Find("[", headersString) + 1>
+        <cfset endIndex = Find("]", headersString, startIndex)>
+        <cfset valuesString = Mid(headersString, startIndex, endIndex - startIndex)>
+        <!--- Split the valuesString into an array based on commas --->
+        <cfset headerValues = ListToArray(valuesString, ",")>
         <!--- Output the individual header values --->
         <cfoutput>
             <cfloop array="#headerValues#" index="headerValue">
