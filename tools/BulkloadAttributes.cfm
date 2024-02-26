@@ -194,29 +194,38 @@ limitations under the License.
         <cfset endIndex = Find("]", headersString, startIndex)>
         <cfset headerValues = Mid(headersString, startIndex, endIndex - startIndex)>
         <!--- Split the valuesString into an array based on spaces --->
-  
+    <!---    <cfset headerValues = ListEach(valuesString, " ")>--->
 
-		
-		<cfset headerVs = #headerValues#>
+		#headerValues#
+        <!--- Output the individual header values --->
+        <cfoutput>
+	<cfset javaString = createObject("java", "java.lang.String").init(headerValues)>
 
-		<cfset arrayLength = ArrayLen(headerVs)>
+		<cfset stringLength = javaString.length()>
 
-		<cfset outputString = ""> <!-- Initialize an empty string to hold the concatenated elements -->
+		<cfset outputString = ""> <!-- Initialize an empty string to hold the concatenated characters -->
 
-		<cfloop from="1" to="#arrayLength#" index="i">
-			<cfset currentElement = headerVs[i]> <!-- Get the current element of the array -->
-			<cfif i neq 1>,</cfif> <!-- Add a comma before each element except for the first one -->
-			<cfset outputString &= currentElement> <!-- Concatenate the current element to the outputString -->
+		<cfloop from="1" to="#stringLength#" index="i">
+			<cfset currentChar = javaString.charAt(i - 1)> <!-- Java strings are 0-indexed -->
+			<cfif i neq 1>,</cfif> <!-- Add a comma before each character except for the first one -->
+			<cfset outputString &= currentChar> <!-- Concatenate the current character to the outputString -->
 		</cfloop>
 
 		<cfoutput>#outputString#</cfoutput> <!-- Output the concatenated string -->
+   <!---         <cfloop array="#headerValues#" index="headerValue">
+                HEADER VALUES: #trim(headerValue)#<br>
+            </cfloop>--->
+        </cfoutput>
+    <cfelse>
+        <cfoutput>No headers found in the CSV file.</cfoutput>
+    </cfif>
 
 	<cfset missingHeaders = []>
     
     <!--- Find missing headers by iterating over expected headers --->
     <cfloop array="#expectedHeadersList#" index="expectedHeader">
         <!--- Check if the expected header exists in the headersArray --->
-        <cfif not ListFindNoCase(headerVs, expectedHeader)>
+        <cfif not ListFindNoCase(headerValues, expectedHeader)>
             <!--- Add the missing header to the missingHeaders array --->
             <cfset compare(missingHeaders, expectedHeader)>
         </cfif>
