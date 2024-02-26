@@ -201,7 +201,7 @@ limitations under the License.
     <cfelse>
         <cfoutput>No headers found in the CSV file.</cfoutput>
     </cfif>
-			<p>#headerValue#</p>
+			<p>#headerValues#</p>
 		 <cfif headersRecord NEQ "">
         <!--- Convert the headers record to a string using toString() and remove square brackets --->
       
