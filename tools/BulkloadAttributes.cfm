@@ -197,7 +197,9 @@ limitations under the License.
             <cfloop array="#headerValues#" index="headerValue">
                 This: [[#trim(headerValue)#]]<br>
             </cfloop>
-			
+			#expectedHeadersArray#<br>
+			#headerValues# <br>
+			#headersArray#<br>
 			    <!--- Initialize an array to hold the header names --->
     <cfset headersArray = []>
     
