@@ -244,6 +244,57 @@ limitations under the License.
     </cfcatch>
 </cftry>
 		
+<cftry>
+    <cfset filePath = "#tempFile#">
+    <!--- Create a reader for the CSV file --->
+    <cfset fileReader = createObject("java", "java.io.FileReader").init(filePath)>
+    <!--- Parse the CSV file using Apache Commons CSV --->
+    <cfset csvFormat = CSVFormat.DEFAULT>
+    <cfset csvParser = CSVParser.parse(fileReader, csvFormat)>
+    
+    <!--- Get the headers from the CSV file --->
+    <cfset headersRecord = csvParser.iterator().next()>
+    
+    <!--- Define your reference list of expected headers as a comma-separated string --->
+    <cfset expectedHeadersString = "[institution_acronym, collection_cde, other_id_type, other_id_number, attribute, attribute_value, attribute_units, attribute_date, determiner, remarks]">
+ 
+    <!--- Initialize an array to hold the header names --->
+    <cfset headersArray = []>
+    
+    <!--- Extract the header names from the CSVRecord object and add them to the headersArray --->
+    <cfloop from="0" to="#headersRecord.size() - 1#" index="i">
+        <cfset headersArray[i + 1] = headersRecord.get(i)>
+    </cfloop>
+    
+    <!--- Convert the expectedHeadersString into an array of header names --->
+    <cfset expectedHeadersArray = ListToArray(Replace(expectedHeadersString, "[", "", "all"), ", ")>
+    
+    <!--- Find missing headers by comparing arrays --->
+    <cfset missingHeaders = ArrayDiff(expectedHeadersArray, headersArray)>
+    
+    <!--- Output the missing headers --->
+    <cfoutput>
+        <cfif ArrayLen(missingHeaders) GT 0>
+            Missing headers: <br>
+            <cfloop array="#missingHeaders#" index="missingHeader">
+                #missingHeader#<br>
+            </cfloop>
+        <cfelse>
+            No missing headers found.
+        </cfif>
+    </cfoutput>
+
+    <!--- Close the CSV parser and the reader --->
+    <cfset csvParser.close()>
+    <cfset fileReader.close()>
+
+    <cfcatch type="any">
+        <!--- Handle exceptions --->
+        <cfoutput>Error: #cfcatch.message#</cfoutput>
+    </cfcatch>
+</cftry>
+		
+		
 				<div class="col-12 my-4">
 				<h3 class="h4">Found <cfdump var="#headers.size()#"> matching columns in header of csv file (Green).</h3>
 				<cfscript>
