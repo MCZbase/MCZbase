@@ -228,7 +228,7 @@ limitations under the License.
     <cfoutput>
         <cfif ListLen(missingHeaders) GT 0>
             Missing headers: <br>
-            <cfloop array="#missingHeaders#" index="missingHeader">
+            <cfloop list="#missingHeaders#" index="missingHeader">
                 #missingHeader#<br>
             </cfloop>
         <cfelse>
