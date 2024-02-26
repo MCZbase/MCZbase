@@ -203,8 +203,8 @@ limitations under the License.
 		<cfset stringLength = javaString.length()>
 
 			<cfloop from="1" to="#stringLength#" index="i">
-				<cfset headerValues = javaString.charAt(i)> <!-- Java strings are 0-indexed -->
-				<cfoutput>#trim(headerValues)#<br></cfoutput>
+				<cfset headerValues = javaString.charAt(i - 1)> <!-- Java strings are 0-indexed -->
+				<cfoutput>#headerValues#<br></cfoutput>
 			</cfloop>
    <!---         <cfloop array="#headerValues#" index="headerValue">
                 HEADER VALUES: #trim(headerValue)#<br>
