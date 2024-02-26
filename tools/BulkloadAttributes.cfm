@@ -186,28 +186,39 @@ limitations under the License.
         <cfset startIndex = Find("values=[", headersString) + 8>
         <cfset endIndex = Find("]", headersString, startIndex)>
         <cfset headerValues = Mid(headersString, startIndex, endIndex - startIndex)>
-        <!--- Split the valuesString into an array based on spaces --->
-    <!---    <cfset headerValues = ListEach(valuesString, " ")>--->
-
-		Header Values: #headerValues#
         <!--- Output the individual header values --->
         <cfoutput>
-	<cfset javaString = createObject("java", "java.lang.String").init(headerValues)>
+			<cfset javaString = createObject("java", "java.lang.String").init(headerValues)>
+			<cfset stringLength = javaString.length()>
+			<cfset outputString = ""> <!-- Initialize an empty string to hold the concatenated characters -->
 
-		<cfset stringLength = javaString.length()>
+			<cfloop from="1" to="#stringLength#" index="i">
+				<cfset currentChar = javaString.charAt(i - 1)> <!-- Java strings are 0-indexed -->
+				<cfif i neq 1></cfif> <!-- Add a comma before each character except for the first one -->
+				<cfset outputString &= currentChar> <!-- Concatenate the current character to the outputString -->
+			</cfloop>
 
-		<cfset outputString = ""> <!-- Initialize an empty string to hold the concatenated characters -->
+			CSV values: #outputString# <!-- Output the concatenated string -->
+			<cfset string1 = "#outputString#">
+			<cfset string2 = "#headerValues#">
 
-		<cfloop from="1" to="#stringLength#" index="i">
-			<cfset currentChar = javaString.ListSetAt(i - 1)> <!-- Java strings are 0-indexed -->
-			<cfif i neq 1>,</cfif> <!-- Add a comma before each character except for the first one -->
-			<cfset outputString &= currentChar> <!-- Concatenate the current character to the outputString -->
-		</cfloop>
+			<cfset differences = "">
 
-		<cfoutput>Out: #outputString#</cfoutput> <!-- Output the concatenated string -->
-   <!---         <cfloop array="#headerValues#" index="headerValue">
-                HEADER VALUES: #trim(headerValue)#<br>
-            </cfloop>--->
+			<cfloop index="i" from="1" to="#Max(ListLen(string1), ListLen(string2))#">
+				<cfset char1 = i LTE Len(string1) ? Mid(string1, i, 1) : "">
+				<cfset char2 = i LTE Len(string2) ? Mid(string2, i, 1) : "">
+
+				<cfif char1 NEQ char2>
+					<cfset differences &= "Difference at position #i#: char1=#char1#, char2=#char2#<br>">
+				</cfif>
+			</cfloop>
+
+			<cfif differences EQ "">
+				<cfoutput>No differences found.</cfoutput>
+			<cfelse>
+				<cfoutput>#differences#</cfoutput>
+			</cfif>
+
         </cfoutput>
     <cfelse>
         <cfoutput>No headers found in the CSV file.</cfoutput>
