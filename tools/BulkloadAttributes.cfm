@@ -190,19 +190,19 @@ limitations under the License.
         <cfset valuesString = Mid(headersString, startIndex, endIndex - startIndex)>
         <!--- Split the valuesString into an array based on commas --->
         <cfset headerValues = ListToArray(valuesString, " ")>
-		<cfset headersArray = ListToArray(Replace(headerValues, "[", "", "all"), ", ")>
+		<cfset headersArray = ListToArray(Replace(headersRecord, "[", "", "all"), ", ")>
 		<cfset expectedHeadersArray = ListToArray(Replace(expectedHeadersString, "[", "", "all"), ", ")>
         <!--- Output the individual header values --->
         <cfoutput>
             <cfloop array="#headerValues#" index="headerValue">
-                This: [[#trim(headerValue)#]]<br>
+                #trim(headerValue)#<br>
             </cfloop>
         </cfoutput>
     <cfelse>
         <cfoutput>No headers found in the CSV file.</cfoutput>
     </cfif>
-	<!---		<p>#headersArray#</p>
-			<p>#expectedHeadersArray#</p>--->
+			<p>#headersArray#</p>
+			<p>#expectedHeadersArray#</p>
 		 <cfif headersRecord NEQ "">
         <!--- Convert the headers record to a string using toString() and remove square brackets --->
       
@@ -213,8 +213,6 @@ limitations under the License.
     <cfelse>
         <cfoutput>No headers found in the CSV file.</cfoutput>
     </cfif>
-	
-
 	    <!--- Find missing headers by comparing arrays --->
  <!---   <cfset missingHeaders = ArrayDiff(expectedHeadersArray, headersArray)>--->
 	<cfset missingHeaders = compare(expectedHeadersArray, headerValues)>
