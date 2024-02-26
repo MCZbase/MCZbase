@@ -189,7 +189,7 @@ limitations under the License.
         <!--- Split the valuesString into an array based on spaces --->
     <!---    <cfset headerValues = ListEach(valuesString, " ")>--->
 
-		#headerValues#
+		Header Values: #headerValues#
         <!--- Output the individual header values --->
         <cfoutput>
 	<cfset javaString = createObject("java", "java.lang.String").init(headerValues)>
@@ -204,7 +204,7 @@ limitations under the License.
 			<cfset outputString &= currentChar> <!-- Concatenate the current character to the outputString -->
 		</cfloop>
 
-		<cfoutput>#outputString#</cfoutput> <!-- Output the concatenated string -->
+		<cfoutput>Out: #outputString#</cfoutput> <!-- Output the concatenated string -->
    <!---         <cfloop array="#headerValues#" index="headerValue">
                 HEADER VALUES: #trim(headerValue)#<br>
             </cfloop>--->
@@ -213,28 +213,8 @@ limitations under the License.
         <cfoutput>No headers found in the CSV file.</cfoutput>
     </cfif>
 
-	<cfset missingHeaders = []>
-    
-    <!--- Find missing headers by iterating over expected headers --->
-    <cfloop array="#expectedHeadersList#" index="expectedHeader">
-        <!--- Check if the expected header exists in the headersArray --->
-        <cfif not ListFindNoCase(headerValues, expectedHeader)>
-            <!--- Add the missing header to the missingHeaders array --->
-            <cfset compare(missingHeaders, expectedHeader)>
-        </cfif>
-    </cfloop>
-    
-    <!--- Output the missing headers --->
-<!---    <cfoutput>
-        <cfif ListLen(missingHeaders) GT 0>
-            Missing headers: <br>
-            <cfloop list="#missingHeaders#" index="missingHeader">
-                #missingHeader#<br>
-            </cfloop>
-        <cfelse>
-            No missing headers found.
-        </cfif>
-    </cfoutput>--->
+
+
 			
 			
     <!--- Close the CSV parser and the reader --->
