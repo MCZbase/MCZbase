@@ -185,11 +185,11 @@ limitations under the License.
         <cfset headersString = headersRecord.toString(values)>
         <!--- Compare the string representation of the headers with the expected headers string --->
         <cfif headersString NEQ expectedHeadersString>
-            <cfoutput>The headers in the CSV file do not match the expected headers.</cfoutput>
+            <cfoutput><p>The headers in the CSV file do not match the expected headers.</p>
 			<br>
 			<p>Uploaded CSV headers: #headersString#</p>
 			<br>
-			<p>Expected Headers: #expectedHeadersString#</p>
+			<p>Expected Headers: #expectedHeadersString#</p></cfoutput>
         </cfif>
     <cfelse>
         <cfoutput>No headers found in the CSV file.</cfoutput>
