@@ -185,7 +185,7 @@ limitations under the License.
         <!--- Convert the headers record to a string using toString() --->
         <cfset headersString = headersRecord.toString()>
         <!--- Extract values enclosed within square brackets --->
-        <cfset startIndex = Find("values=[", headersString) + 7>
+        <cfset startIndex = Find("values=[", headersString) + 8>
         <cfset endIndex = Find("]", headersString, startIndex)>
         <cfset valuesString = Mid(headersString, startIndex, endIndex - startIndex)>
         <!--- Split the valuesString into an array based on commas --->
