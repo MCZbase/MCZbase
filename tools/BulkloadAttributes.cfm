@@ -197,6 +197,15 @@ limitations under the License.
             <cfloop array="#headerValues#" index="headerValue">
                 This: [[#trim(headerValue)#]]<br>
             </cfloop>
+			
+			    <!--- Initialize an array to hold the header names --->
+    <cfset headersArray = []>
+    
+    <!--- Extract the header names from the CSVRecord object and add them to the headersArray --->
+    <cfloop from="0" to="#headersRecord.size() - 1#" index="i">
+        <cfset headersArray[i + 1] = headersRecord.get(i)>
+    </cfloop>
+			
         </cfoutput>
     <cfelse>
         <cfoutput>No headers found in the CSV file.</cfoutput>
