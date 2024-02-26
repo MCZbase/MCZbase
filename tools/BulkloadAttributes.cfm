@@ -174,12 +174,13 @@ limitations under the License.
     <cfset csvParser = CSVParser.parse(fileReader, csvFormat)>
     
     
-    <!--- Get the headers from the CSV file --->
+    <!--- Get the headers from the CSV file; this delivers the top level record with metadata--->
     <cfset headersRecord = csvParser.iterator().next()>
-    #headersRecord#:::
+   
     <!--- Define your reference list of expected headers as a comma-separated string --->
     <cfset expectedHeadersString = "institution_acronym, collection_cde, other_id_type, other_id_number, attribute, attribute_value, attribute_units, attribute_date, determiner, remarks">
- 
+   <!--- Convert the expectedHeadersArray into a comma-separated list --->
+    <cfset expectedHeadersList = ArrayToList(expectedHeadersArray)>
     <!--- Check if the record is not null and has fields --->
     <cfif headersRecord NEQ "">
         <!--- Convert the headers record to a string using toString() --->
@@ -188,7 +189,7 @@ limitations under the License.
         <cfset startIndex = Find("values=[", headersString) + 8>
         <cfset endIndex = Find("]", headersString, startIndex)>
         <cfset valuesString = Mid(headersString, startIndex, endIndex - startIndex)>
-        <!--- Split the valuesString into an array based on commas --->
+        <!--- Split the valuesString into an array based on spaces --->
         <cfset headerValues = ListToArray(valuesString, " ")>
         <!--- Output the individual header values --->
         <cfoutput>
@@ -203,7 +204,7 @@ limitations under the License.
 	<cfset missingHeaders = []>
     
     <!--- Find missing headers by iterating over expected headers --->
-    <cfloop array="#expectedHeadersString#" index="expectedHeader">
+    <cfloop array="#expectedHeadersList#" index="expectedHeader">
         <!--- Check if the expected header exists in the headersArray --->
         <cfif not ListFindNoCase(headerValues, expectedHeader)>
             <!--- Add the missing header to the missingHeaders array --->
