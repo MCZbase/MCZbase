@@ -192,9 +192,9 @@ limitations under the License.
         <!--- Extract values enclosed within square brackets --->
         <cfset startIndex = Find("values=[", headersString) + 8>
         <cfset endIndex = Find("]", headersString, startIndex)>
-        <cfset valuesString = Mid(headersString, startIndex, endIndex - startIndex)>
+        <cfset headerValues = Mid(headersString, startIndex, endIndex - startIndex)>
         <!--- Split the valuesString into an array based on spaces --->
-        <cfset headerValues = ListContains(valuesString, ",")>
+    <!---    <cfset headerValues = ListEach(valuesString, " ")>--->
 
 		
         <!--- Output the individual header values --->
