@@ -250,7 +250,38 @@ limitations under the License.
 			<cfelse>
 				<cfoutput><p>#differences#</p></cfoutput>
 			</cfif>
+			
+				
+			<p>Another test for missing values:</p>
+				<cfset csv1 = "headerValues">
+				<cfset csv2 = "expectedHeadersString">
 
+				<cfset columns1 = ListToArray(csv1, ",")>
+				<cfset columns2 = ListToArray(csv2, ",")>
+
+				<cfset missingColumns = []>
+
+				<!--- Find missing columns in csv1 --->
+				<cfloop array="#columns2#" index="column">
+					<cfif not ListFindNoCase(columns1, column)>
+						<cfset ArrayAppend(missingColumns, column)>
+					</cfif>
+				</cfloop>
+
+				<!--- Find missing columns in csv2 --->
+				<cfloop array="#columns1#" index="column">
+					<cfif not ListFindNoCase(columns2, column)>
+						<cfset ArrayAppend(missingColumns, column)>
+					</cfif>
+				</cfloop>
+
+				<cfif ArrayLen(missingColumns) GT 0>
+					<cfoutput>Missing columns: #ArrayToList(missingColumns)#</cfoutput>
+				<cfelse>
+					<cfoutput>No missing columns found.</cfoutput>
+				</cfif>
+			
+				
         </cfoutput>
     <cfelse>
         <cfoutput>No headers found in the CSV file.</cfoutput>
