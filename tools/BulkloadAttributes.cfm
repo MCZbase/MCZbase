@@ -153,7 +153,40 @@ limitations under the License.
 	<cfset headers = iterator.next()>
 	<!---Get the number of column headers--->
 	<cfset size = headers.size()>
+			<div class="col-12 my-4">
+				<h3 class="h4">Found <cfdump var="#headers.size()#"> matching columns in header of csv file (Green).</h3>
+				<cfscript>
+					data = [
+						{field:"institution_acronym", required:"yes"},
+						{field:"collection_cde", required:"yes"},
+						{field:"other_id_type", required:"yes"},
+						{field:"other_id_number", required:"yes"},
+						{field:"attribute", required:"yes"},
+						{field:"attribute_value", required:"yes"},
+						{field:"attribute_units", required:"no"},
+						{field:"attribute_date", required:"yes"},
+						{field:"attribute_meth", required:"no"},
+						{field:"determiner", required:"yes"},
+						{field:"remarks", required:"no"}
+					];
+				</cfscript>	
+				<h3 class="h4">There are <cfdump var="#data.size()#"> columns possible for attribute headers (black and red). (8 are required - RED)</h3>
+			</div>
+	
+				<ul class="list-group list-group-horizontal">
+					<cfloop array="#data#" index="i">
+						<cfoutput>
+							<li class="list-group-item h5 border <cfif #i.required# eq "yes"> text-danger</cfif>" style="width:150px;">#i.field# </li>
+						</cfoutput>
+					</cfloop>
+				</ul>
 
+				<ul class="list-group list-group-horizontal">
+					<cfloop index="i" from="0" to="#headers.size() - 1#">
+						<li class="text-success list-group-item h5 border" style="width: 150px;">
+							<cfset externalList = #headers.get(JavaCast("int",i))#>#headers.get(JavaCast("int",i))#</li>
+					</cfloop>
+				</ul>
     <!--- Get the headers from the CSV file --->
     <cfset headersRecord = csvParser.iterator().next()>
     
@@ -209,7 +242,6 @@ limitations under the License.
 					<cfset differences &= "Difference at position #i#: char1=#char1#, char2=#char2#<br>">
 				</cfif>
 			</cfloop>
-#ListLen(string1)#
 			<cfif differences EQ "">
 				<cfoutput><p>No differences found.</p></cfoutput>
 			<cfelse>
@@ -221,9 +253,6 @@ limitations under the License.
         <cfoutput>No headers found in the CSV file.</cfoutput>
     </cfif>
 
-
-
-			
 			
     <!--- Close the CSV parser and the reader --->
     <cfset csvParser.close()>
@@ -235,40 +264,7 @@ limitations under the License.
     </cfcatch>
 </cftry>
 		
-				<div class="col-12 my-4">
-				<h3 class="h4">Found <cfdump var="#headers.size()#"> matching columns in header of csv file (Green).</h3>
-				<cfscript>
-					data = [
-						{field:"institution_acronym", required:"yes"},
-						{field:"collection_cde", required:"yes"},
-						{field:"other_id_type", required:"yes"},
-						{field:"other_id_number", required:"yes"},
-						{field:"attribute", required:"yes"},
-						{field:"attribute_value", required:"yes"},
-						{field:"attribute_units", required:"no"},
-						{field:"attribute_date", required:"yes"},
-						{field:"attribute_meth", required:"no"},
-						{field:"determiner", required:"yes"},
-						{field:"remarks", required:"no"}
-					];
-				</cfscript>	
-				<h3 class="h4">There are <cfdump var="#data.size()#"> columns possible for attribute headers (black and red). (8 are required - RED)</h3>
-			</div>
 	
-				<ul class="list-group list-group-horizontal">
-					<cfloop array="#data#" index="i">
-						<cfoutput>
-							<li class="list-group-item h5 border <cfif #i.required# eq "yes"> text-danger</cfif>" style="width:150px;">#i.field# </li>
-						</cfoutput>
-					</cfloop>
-				</ul>
-
-				<ul class="list-group list-group-horizontal">
-					<cfloop index="i" from="0" to="#headers.size() - 1#">
-						<li class="text-success list-group-item h5 border" style="width: 150px;">
-							<cfset externalList = #headers.get(JavaCast("int",i))#>#headers.get(JavaCast("int",i))#</li>
-					</cfloop>
-				</ul>
 
 				<!--- cleanup any incomplete work by the same user --->
 				<cfquery name="clearTempTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="clearTempTable_result">
