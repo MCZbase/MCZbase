@@ -199,6 +199,31 @@ limitations under the License.
     <cfelse>
         <cfoutput>No headers found in the CSV file.</cfoutput>
     </cfif>
+			<p>#headerValues#</p>
+		 <cfif headersRecord NEQ "">
+        <!--- Convert the headers record to a string using toString() and remove square brackets --->
+      
+        <!--- Compare the string representation of the headers with the expected headers string --->
+        <cfif headerValues NEQ expectedHeadersString>
+            <cfoutput>The headers in the CSV file do not match the expected headers.</cfoutput>
+        </cfif>
+    <cfelse>
+        <cfoutput>No headers found in the CSV file.</cfoutput>
+    </cfif>
+	    <!--- Find missing headers by comparing arrays --->
+    <cfset missingHeaders = ArrayDiff(expectedHeadersArray, headersArray)>
+    
+    <!--- Output the missing headers --->
+    <cfoutput>
+        <cfif ArrayLen(missingHeaders) GT 0>
+            Missing headers: <br>
+            <cfloop array="#missingHeaders#" index="missingHeader">
+                #missingHeader#<br>
+            </cfloop>
+        <cfelse>
+            No missing headers found.
+        </cfif>
+    </cfoutput>
 
     <!--- Close the CSV parser and the reader --->
     <cfset csvParser.close()>
