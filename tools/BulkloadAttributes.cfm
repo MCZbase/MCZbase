@@ -209,7 +209,7 @@ limitations under the License.
 					<cfset differences &= "Difference at position #i#: char1=#char1#, char2=#char2#<br>">
 				</cfif>
 			</cfloop>
-
+#ListLen(string1)#
 			<cfif differences EQ "">
 				<cfoutput><p>No differences found.</p></cfoutput>
 			<cfelse>
