@@ -182,7 +182,7 @@ limitations under the License.
 	 <!--- Convert the expectedHeadersString into an array of header names --->
     <cfset expectedHeadersArray = ListToArray(Replace(expectedHeadersString, "[", "", "all"), ", ")>
 
-
+<cftry>
    <!--- Convert the expectedHeadersArray into a comma-separated list --->
     <cfset expectedHeadersList = expectedHeadersString>
     <!--- Check if the record is not null and has fields --->
