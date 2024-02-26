@@ -199,7 +199,7 @@ limitations under the License.
 		
         <!--- Output the individual header values --->
         <cfoutput>
-		<cfset javaString = createObject("java", "java.lang.String").init(headerValues)>
+		<cfset javaString = createObject("java", "java.lang.String").init(#headerValues#)>
 
 		<cfset stringLength = javaString.length()>
 
