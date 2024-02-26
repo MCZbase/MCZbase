@@ -203,7 +203,7 @@ limitations under the License.
 		cfList = javaString.split(",");
 
 		// Output the ColdFusion list
-		writeOutput("ColdFusion list: #cfList#");
+		writeOutput("ColdFusion list: #cfList#;;;");
 		</cfscript>
 		
         <!--- Output the individual header values --->
