@@ -180,13 +180,10 @@ limitations under the License.
     <!--- Define your reference list of expected headers as a comma-separated string --->
     <cfset expectedHeadersString = "institution_acronym, collection_cde, other_id_type, other_id_number, attribute, attribute_value, attribute_units, attribute_date, determiner, remarks">
  
-
     
     <!--- Get the headers from the CSV file as an iterator --->
     <cfset headersIterator = csvParser.iterator().next().iterator()>
     
-    <!--- Define your reference list of expected headers as a comma-separated string --->
-    <cfset expectedHeadersString = "[institution_acronym, collection_cde, other_id_type, other_id_number, attribute, attribute_value, attribute_units, attribute_date, determiner, remarks]">
  
     <!--- Initialize an array to hold the header names --->
     <cfset headersArray = []>
@@ -195,12 +192,12 @@ limitations under the License.
     <cfloop condition="#headersIterator.hasNext()#">
         <cfset headersArray.append(headersIterator.next())>
     </cfloop>
-    
+    #headersArray#
     <!--- Convert the expectedHeadersString into an array of header names --->
     <cfset expectedHeadersArray = ListToArray(Replace(expectedHeadersString, "[", "", "all"), ", ")>
     
     <!--- Find missing headers by comparing arrays --->
-    <cfset missingHeaders = compare(expectedHeadersArray, headersArray)>
+    <cfset missingHeaders = ArrayDiff(expectedHeadersArray, headersArray)>
     
     <!--- Output the missing headers --->
     <cfoutput>
