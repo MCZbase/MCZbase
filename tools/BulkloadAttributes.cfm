@@ -194,6 +194,7 @@ limitations under the License.
         <cfset valuesString = Mid(headersString, startIndex, endIndex - startIndex)>
         <!--- Split the valuesString into an array based on spaces --->
         <cfset headerValues = ListToArray(valuesString, " ")>
+		
         <!--- Output the individual header values --->
         <cfoutput>
             <cfloop array="#headerValues#" index="headerValue">
