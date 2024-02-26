@@ -202,7 +202,7 @@ limitations under the License.
     <cfset headersArray = []>
     
     <!--- Extract the header names from the CSVRecord object and add them to the headersArray --->
-    <cfloop from="0" to="#headersRecord.size() - 1#" index="i">
+    <cfloop from="0" to="#headers.size() - 1#" index="i">
         <cfset headersArray[i + 1] = headers.get(i)>
     </cfloop>
 			
