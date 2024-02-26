@@ -175,7 +175,7 @@ limitations under the License.
     
     
     <!--- Get the headers from the CSV file --->
-    <cfset headersRecord = csvParser.iterator().iterator().next()>
+    <cfset headersRecord = csvParser.iterator().next()>
     #headersRecord#:::
     <!--- Define your reference list of expected headers as a comma-separated string --->
     <cfset expectedHeadersString = "institution_acronym, collection_cde, other_id_type, other_id_number, attribute, attribute_value, attribute_units, attribute_date, determiner, remarks">
