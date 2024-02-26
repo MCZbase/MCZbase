@@ -197,9 +197,6 @@ limitations under the License.
             <cfloop array="#headerValues#" index="headerValue">
                 This: [[#trim(headerValue)#]]<br>
             </cfloop>
-			<cfloop array="#headersArray#" index="headersArray">
-				That: [[#trim(headersArray)#]]<br>
-            </cfloop>
         </cfoutput>
     <cfelse>
         <cfoutput>No headers found in the CSV file.</cfoutput>
