@@ -194,9 +194,10 @@ limitations under the License.
 		<cfset expectedHeadersArray = ListToArray(Replace(expectedHeadersString, "[", "", "all"), ", ")>
         <!--- Output the individual header values --->
         <cfoutput>
-            <cfloop array="#headerValues#" index="headerValue">
+<!---            <cfloop array="#headerValues#" index="headerValue">
                 This: [[#trim(headerValue)#]]<br>
-            </cfloop>
+            </cfloop>--->
+			#headerValues#<br>
 			#expectedHeadersArray#<br>
 			#headerValues# <br>
 			#headersArray#<br>
