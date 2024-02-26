@@ -200,17 +200,7 @@ limitations under the License.
     <cfset expectedHeadersArray = ListToArray(Replace(expectedHeadersString, "[", "", "all"), ", ")>
     
     <!--- Find missing headers by comparing arrays --->
-     <!--- Initialize an array to hold missing headers --->
-    <cfset missingHeaders = []>
-    
-    <!--- Find missing headers by iterating over expected headers --->
-    <cfloop array="#expectedHeadersArray#" index="expectedHeader">
-        <!--- Check if the expected header exists in the headersArray --->
-        <cfif not ListFindNoCase(headersArray, expectedHeader)>
-            <!--- Add the missing header to the missingHeaders array --->
-            <cfset ArrayAppend(missingHeaders, expectedHeader)>
-        </cfif>
-    </cfloop>
+    <cfset missingHeaders = compare(expectedHeadersArray, headersArray)>
     
     <!--- Output the missing headers --->
     <cfoutput>
