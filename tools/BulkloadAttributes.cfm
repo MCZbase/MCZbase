@@ -199,8 +199,8 @@ limitations under the License.
 			</cfloop>
 
 			CSV values: #outputString# <!-- Output the concatenated string -->
-			<cfset string1 = "#outputString#">
-			<cfset string2 = "#headerValues#">
+			<cfset string1 = "#headerValues#">
+			<cfset string2 = "#outputString#">
 
 			<cfset differences = "">
 
