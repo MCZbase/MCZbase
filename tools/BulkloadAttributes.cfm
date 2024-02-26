@@ -225,7 +225,7 @@ limitations under the License.
     </cfloop>
     
     <!--- Output the missing headers --->
-    <cfoutput>
+<!---    <cfoutput>
         <cfif ListLen(missingHeaders) GT 0>
             Missing headers: <br>
             <cfloop list="#missingHeaders#" index="missingHeader">
@@ -234,7 +234,7 @@ limitations under the License.
         <cfelse>
             No missing headers found.
         </cfif>
-    </cfoutput>
+    </cfoutput>--->
 			
 			
     <!--- Close the CSV parser and the reader --->
