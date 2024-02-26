@@ -194,21 +194,9 @@ limitations under the License.
 		<cfset expectedHeadersArray = ListToArray(Replace(expectedHeadersString, "[", "", "all"), ", ")>
         <!--- Output the individual header values --->
         <cfoutput>
-<!---            <cfloop array="#headerValues#" index="headerValue">
+            <cfloop array="#headerValues#" index="headerValue">
                 This: [[#trim(headerValue)#]]<br>
-            </cfloop>--->
-			#headerValues#<br>
-			#expectedHeadersArray#<br>
-			#headerValues# <br>
-			#headersArray#<br>
-			    <!--- Initialize an array to hold the header names --->
-    <cfset headersArray = []>
-    
-    <!--- Extract the header names from the CSVRecord object and add them to the headersArray --->
-    <cfloop from="0" to="#headers.size() - 1#" index="i">
-        <cfset headersArray[i + 1] = headers.get(i)>
-    </cfloop>
-			
+            </cfloop>
         </cfoutput>
     <cfelse>
         <cfoutput>No headers found in the CSV file.</cfoutput>
