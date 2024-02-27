@@ -96,6 +96,9 @@ limitations under the License.
 	<script type="text/javascript" src="/lib/JQWidgets/#jqwidgets_ver#/jqwidgets/jqxbuttons.js"></script>
 	<script type="text/javascript" src="/lib/JQWidgets/#jqwidgets_ver#/jqwidgets/jqxlistbox.js"></script> 
 	<script type="text/javascript" src="/lib/JQWidgets/#jqwidgets_ver#/jqwidgets/jqxdropdownlist.js"></script>
+	<script type="text/javascript" src="/lib/JQWidgets/#jqwidgets_ver#/jqwidgets/jqxdraw.js"></script> 
+	<script type="text/javascript" src="/lib/JQWidgets/#jqwidgets_ver#/jqwidgets/jqxchart.core.js"></script>
+
 	<!--- All jqwidgets below are suspect, include only if they provide functionality not available in jquery-ui.  ---> 
 	<!--- TODO: Remove all jqwidgets where functionality can be provided by jquery-ui ---> 
 	<script type="text/javascript" src="/lib/JQWidgets/#jqwidgets_ver#/jqwidgets/jqxmenu.js"></script> 
