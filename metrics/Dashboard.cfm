@@ -419,7 +419,7 @@ opacity:1
                             }
                         ]
                     };
-                    var selector = '#chartContainer' + (i + 1).toString();
+                    var selector = '##chartContainer' + (i + 1).toString();
                     var valueText = metrics[i].value.toString();
                     settings.drawBefore = function (renderer, rect) {
                         sz = renderer.measureText(valueText, 0, { 'class': 'chart-inner-text' });
