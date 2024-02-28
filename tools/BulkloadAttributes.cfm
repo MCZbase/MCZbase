@@ -237,24 +237,21 @@ limitations under the License.
 			
 				
 			<p>Another test for missing values:</p>
-				<cfset csv1 = "headerValues">
-				<cfset csv2 = "expectedHeadersString">
-
-				<cfset columns1 = ListToArray(csv1, ",")>
-				<cfset columns2 = ListToArray(csv2, ",")>
+				<cfset headerValuesList = "#Replace(headerValues,' ','','All')">
+				<cfset expectedHeadersList = "#Replace(expectedHeadersString,' ','','All)">
 
 				<cfset missingColumns = []>
 
-				<!--- Find missing columns in csv1 --->
-				<cfloop array="#columns2#" index="column">
-					<cfif not ListFindNoCase(columns1, column)>
+				<!--- Find missing expected headers not in the csv --->
+				<cfloop list="#expectedHeadersList#" index="column">
+					<cfif ListFindNoCase(headerValuesList, column) EQ 0>
 						<cfset ArrayAppend(missingColumns, column)>
 					</cfif>
 				</cfloop>
 
-				<!--- Find missing columns in csv2 --->
-				<cfloop array="#columns1#" index="column">
-					<cfif not ListFindNoCase(columns2, column)>
+				<!--- Find headers in the csv not in the list of expected headers --->
+				<cfloop list="#headerValuesList#" index="column">
+					<cfif not ListFindNoCase(expectedHeadersList, column)>
 						<cfset ArrayAppend(missingColumns, column)>
 					</cfif>
 				</cfloop>
@@ -265,7 +262,6 @@ limitations under the License.
 					No missing columns found.
 				</cfif>
 			
-				
     <cfelse>
         No headers found in the CSV file.
     </cfif>
