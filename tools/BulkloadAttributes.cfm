@@ -276,13 +276,6 @@ limitations under the License.
     <cfset csvParser.close()>
     <cfset fileReader.close()>
 
-    <cfcatch type="any">
-        <!--- Handle exceptions --->
-        <cfoutput>Error: #cfcatch.message#</cfoutput>
-    </cfcatch>
-</cftry>
-		
-	
 
 				<!--- cleanup any incomplete work by the same user --->
 				<cfquery name="clearTempTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="clearTempTable_result">
@@ -359,7 +352,8 @@ limitations under the License.
 						<!--- strip off the leading separator --->
 				<!---		<cfset colVals=replace(colVals,",","","first")>
 						<cfset colValArray=listToArray(colVals)>
-						<cftry>--->
+				--->
+						<cftry>
 							<!--- construct insert for row with a line for each entry in fieldlist using cfqueryparam if column header is in fieldlist, otherwise using null --->
 <!---							<cfquery name="insert" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="insert_result">
 								insert into cf_temp_attributes
@@ -398,7 +392,7 @@ limitations under the License.
 					</cfif>
 				</cfloop>--->
 				<cfcatch>
-					This is an Error message
+        			<cfoutput>Error: #cfcatch.message#</cfoutput>
 				</cfcatch>
 			</cftry>
 		</cfoutput>
