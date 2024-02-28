@@ -108,8 +108,8 @@ limitations under the License.
 		<cfset NO_COLUMN_ERR = "One or more required fields are missing in the header line of the csv file.">
 		<cfset COLUMN_ERR = "Error inserting data">
 
-		<cfoutput>
-			<cftry>
+		<cftry>
+			<cfoutput>
     			<!--- Parse the CSV file using Apache Commons CSV library included with coldfusion so that columns with comma delimeters will be separated properly --->
 				<cfset fileProxy = CreateObject("java","java.io.File") >
 				<cfobject type="Java" name="csvFormat" class="org.apache.commons.csv.CSVFormat" >
