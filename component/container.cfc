@@ -212,7 +212,7 @@
 				<cfset catnums = catnums & "'" & trim(ucase(i)) & "'">
 			</cfloop>
 		<cfelse>
-			<cfset catnums=catnums & "'" & trim(ucase(cat_num)) & "'">
+			<cfset catnums="'" & trim(ucase(cat_num)) & "'">
 		</cfif>
 		<cfset whr = "#whr# AND cataloged_item.cat_num IN (#catnums#)">
 	</cfif>
