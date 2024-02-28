@@ -110,7 +110,7 @@ limitations under the License.
 
 		<cfoutput>
 			<cftry>
-				<!--- Proof of concept parsing CSV with Java using Commons CSV library included with coldfusion so that columns with comma delimeters will be separated properly --->
+    			<!--- Parse the CSV file using Apache Commons CSV library included with coldfusion so that columns with comma delimeters will be separated properly --->
 				<cfset fileProxy = CreateObject("java","java.io.File") >
 				<cfobject type="Java" name="csvFormat" class="org.apache.commons.csv.CSVFormat" >
 				<cfobject type="Java" name="csvParser"  class="org.apache.commons.csv.CSVParser" >
@@ -118,17 +118,19 @@ limitations under the License.
 				<cfobject type="java" class="java.io.FileReader" name="fileReader">	
 				<cfobject type="Java" name="javaCharset"  class="java.nio.charset.Charset" >
 				<cfobject type="Java" name="standardCharsets"  class="java.nio.charset.StandardCharsets" >
-				<cfset tempFile = fileProxy.init(JavaCast("string",#FiletoUpload#)) >
-				<cfset tempFileInputStream = CreateObject("java","java.io.FileInputStream").Init(#tempFile#) >
-				<!---// Create a FileReader object--->
-				<cfset fileReader = CreateObject("java","java.io.FileReader").Init(#tempFile#) >
+				<cfset filePath = fileProxy.init(JavaCast("string",#FiletoUpload#)) >
+				<cfset tempFileInputStream = CreateObject("java","java.io.FileInputStream").Init(#filePath#) >
+    			<!--- Create a FileReader object to provide a reader for the CSV file --->
+				<cfset fileReader = CreateObject("java","java.io.FileReader").Init(#filePath#) >
 				<!--- we can't use the withHeader() method from coldfusion, as it is overloaded, and with no parameters provides coldfusion no means to pick the correct method --->
-			<!---	<cfset defaultFormat = csvFormat.DEFAULT>--->
-				<!---// Create a CSVParser using the FileReader and CSVFormat--->
+				<!--- TODO: identify format of csv file. --->
+				<cfset defaultFormat = csvFormat.DEFAULT>
+   			 <cfset csvFormat = CSVFormat.DEFAULT>
+				<!--- Create a CSVParser using the FileReader and CSVFormat--->
 				<!---<cfset csvParser = CSVFormat.DEFAULT.parse(fileReader)>--->
-
-				<!---<cfset javaSelectedCharset = standardCharsets.UTF_8 >--->
-	<!---			<cfset records = CSVParser.parse(#tempFileInputStream#,#javaSelectedCharset#,#defaultFormat#)>--->
+    			<cfset csvParser = CSVParser.parse(fileReader, csvFormat)>
+				<cfset javaSelectedCharset = standardCharsets.UTF_8 >
+				<cfset records = CSVParser.parse(#tempFileInputStream#,#javaSelectedCharset#,#defaultFormat#)>
 				<!---loops through the rows--->
 				<!---<cfset iterator = records.iterator()>--->
 				<!---Obtain the first line of the file as the header line --->
@@ -137,63 +139,45 @@ limitations under the License.
 				<!---<cfset size = headers.size()>--->
 				<!--- TODO: Select charset based on cSet variable from user --->
 
-<cftry>
-	<cfset filePath="#tempFile#">
-    <!--- Create a reader for the CSV file --->
-    <cfset fileReader = createObject("java", "java.io.FileReader").init(filePath)>
-    <!--- Parse the CSV file using Apache Commons CSV --->
-    <cfset csvFormat = CSVFormat.DEFAULT>
-	<cfset defaultFormat = csvFormat.DEFAULT>
-    <cfset csvParser = CSVParser.parse(fileReader, csvFormat)>
-	<cfset javaSelectedCharset = standardCharsets.UTF_8 >
-	<cfset records = CSVParser.parse(#tempFileInputStream#,#javaSelectedCharset#,#defaultFormat#)>
-	<!---loops through the rows--->
-	<cfset iterator = records.iterator()>
-	<!---Obtain the first line of the file as the header line --->
-	<cfset headers = iterator.next()>
-	<!---Get the number of column headers--->
-	<cfset size = headers.size()>
-	<div class="col-12 my-4">
-		<h3 class="h4">Found <cfdump var="#headers.size()#"> matching columns in header of csv file (Green).</h3>
-		<cfscript>
-			data = [
-				{field:"institution_acronym", required:"yes"},
-				{field:"collection_cde", required:"yes"},
-				{field:"other_id_type", required:"yes"},
-				{field:"other_id_number", required:"yes"},
-				{field:"attribute", required:"yes"},
-				{field:"attribute_value", required:"yes"},
-				{field:"attribute_units", required:"no"},
-				{field:"attribute_date", required:"yes"},
-				{field:"attribute_meth", required:"no"},
-				{field:"determiner", required:"yes"},
-				{field:"remarks", required:"no"}
-			];
-		</cfscript>	
-		<h3 class="h4">There are <cfdump var="#data.size()#"> columns possible for attribute headers (black and red). (8 are required - RED)</h3>
-	</div>
+				<!---loops through the rows--->
+				<cfset iterator = records.iterator()>
+				<!---Obtain the first line of the file as the header line --->
+				<cfset headers = iterator.next()>
+				<!---Get the number of column headers--->
+				<cfset size = headers.size()>
 
-		<ul class="list-group list-group-horizontal">
-			<cfloop array="#data#" index="i">
-				<cfoutput>
-					<li class="list-group-item h5 border <cfif #i.required# eq "yes"> text-danger</cfif>" style="width:150px;">#i.field# </li>
-				</cfoutput>
-			</cfloop>
-		</ul>
+				<div class="col-12 my-4">
+					<h3 class="h4">Found #headers.size() columns in header of csv file (Green).</h3>
+					<h3 class="h4">There are ## columns possible for attribute headers (black and red). (of these ## are required - RED)</h3>
+				</div>
 
-		<ul class="list-group list-group-horizontal">
-			<cfloop index="i" from="0" to="#headers.size() - 1#">
-				<li class="text-success list-group-item h5 border" style="width: 150px;">
-					<cfset externalList = #headers.get(JavaCast("int",i))#>#headers.get(JavaCast("int",i))#</li>
-			</cfloop>
-		</ul>
+				<ul class="list-group list-group-horizontal">
+					<cfloop list="#fieldList#" item="aField">
+						<cfset required = "">
+						<cfif ListContains(requiredFieldList,aField)>
+							<cfset required = "text-danger">
+						<cfif>
+						<li class="list-group-item h5 border #required#" style="width:150px;">#aField# </li>
+					</cfloop>
+				</ul>
+
+				<!--- TODO: Can't loop separately, field order could differ, need to include in loop above --->
+				<ul class="list-group list-group-horizontal">
+					<cfloop index="i" from="0" to="#headers.size() - 1#">
+						<li class="text-success list-group-item h5 border" style="width: 150px;">
+							#headers.get(JavaCast("int",i))#
+						</li>
+					</cfloop>
+				</ul>
 					
 	
 	<h3>Find the missing columns:</h3>
     <!--- Get the headers from the CSV file --->
+	<!--- TODO: iterator has already been invoked, so this won't return the headers, reuse object from above. --->
     <cfset headersRecord = csvParser.iterator().next()>
     
     <!--- Define your reference list of expected headers --->
+	<!--- TODO: These are already defined in fieldlist. --->
     <cfset expectedHeaders = ["institution_acronym", "collection_cde", "other_id_type", "other_id_number", "attribute", "attribute_value", "attribute_units", "attribute_date", "determiner", "remarks"]>
 
     <!--- Create a reader for the CSV file --->
