@@ -237,8 +237,8 @@ limitations under the License.
 			
 				
 			<p>Another test for missing values:</p>
-				<cfset headerValuesList = "#Replace(headerValues,' ','','All')">
-				<cfset expectedHeadersList = "#Replace(expectedHeadersString,' ','','All)">
+				<cfset headerValuesList = "#Replace(headerValues,' ','','All')#">
+				<cfset expectedHeadersList = "#Replace(expectedHeadersString,' ','','All')#">
 
 				<cfset missingColumns = []>
 
