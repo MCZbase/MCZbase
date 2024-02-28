@@ -392,7 +392,7 @@ opacity:1
                         enableAnimations: true,
                         showLegend: false,
                         showBorderLine: true,
-                        backgroundColor: '#FAFAFA',
+                        backgroundColor: '##FAFAFA',
                         padding: { left: 5, top: 5, right: 5, bottom: 5 },
                         titlePadding: { left: 5, top: 5, right: 5, bottom: 5 },
                         source: data,
@@ -434,7 +434,7 @@ opacity:1
                         );
                     }
                     $(selector).jqxChart(settings);
-                    $(selector).jqxChart('addColorScheme', 'customColorScheme', ['#00BAFF', '#EDE6E7']);
+                    $(selector).jqxChart('addColorScheme', 'customColorScheme', ['##00BAFF', '##EDE6E7']);
                     $(selector).jqxChart({ colorScheme: 'customColorScheme' });
                 }
             }
@@ -473,7 +473,7 @@ opacity:1
                     enableAnimations: true,
                     showLegend: false,
                     showBorderLine: true,
-                    backgroundColor: '#FAFAFA',
+                    backgroundColor: '##FAFAFA',
                     padding: { left: 5, top: 5, right: 5, bottom: 5 },
                     titlePadding: { left: 5, top: 5, right: 5, bottom: 5 },
                     source: data,
@@ -498,7 +498,7 @@ opacity:1
                                             dataField: 'latency',
                                             displayText: 'Request latency',
                                             colorFunction: function (value, itemIndex, serie, group) {
-                                                return (value > latencyThreshold) ? '#CC1133' : '#55CC55';
+                                                return (value > latencyThreshold) ? '##CC1133' : '##55CC55';
                                             }
                                         }
                                     ],
@@ -525,7 +525,7 @@ opacity:1
                                         {
                                             dataField: 'requests',
                                             displayText: 'Get requests',
-                                            lineColor: '#343F9B',
+                                            lineColor: '##343F9B',
                                             lineWidth: 2
                                         }
                                     ]
