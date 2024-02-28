@@ -102,6 +102,7 @@ limitations under the License.
 			TODO: Test for multibyte characters 
 			TODO: Create insert statement --->
 	<cfif #action# is "getFile">
+		<cfoutput>
 		<h2 class="h3">First step: Reading data from CSV file.</h2>
 		<h4>Compare the numbers of headers expected against provided in CSV file</h4>
 		<!--- Set some constants to identify error cases in cfcatch block --->
@@ -109,7 +110,6 @@ limitations under the License.
 		<cfset COLUMN_ERR = "Error inserting data">
 
 		<cftry>
-			<cfoutput>
     			<!--- Parse the CSV file using Apache Commons CSV library included with coldfusion so that columns with comma delimeters will be separated properly --->
 				<cfset fileProxy = CreateObject("java","java.io.File") >
 				<cfobject type="Java" name="csvFormat" class="org.apache.commons.csv.CSVFormat" >
@@ -171,7 +171,7 @@ limitations under the License.
 				</ul>
 					
 	
-	<h3>Find the missing columns:</h3>
+<h3>Find the missing columns:</h3>
     <!--- Get the headers from the CSV file --->
 	<!--- TODO: iterator has already been invoked, so this won't return the headers, reuse object from above. --->
     <cfset headersRecord = csvParser.iterator().next()>
@@ -185,7 +185,7 @@ limitations under the License.
     <!--- Parse the CSV file using Apache Commons CSV --->
     <cfset csvFormat = CSVFormat.DEFAULT>
     <cfset csvParser = CSVParser.parse(fileReader, csvFormat)>
-    
+  
     
     <!--- Get the headers from the CSV file; this delivers the top level record with metadata--->
     <cfset headersRecord = csvParser.iterator().next()>
@@ -204,7 +204,7 @@ limitations under the License.
         <cfset endIndex = Find("]", headersString, startIndex)>
         <cfset headerValues = Mid(headersString, startIndex, endIndex - startIndex)>
         <!--- Output the individual header values --->
-        <cfoutput>
+        
 			<cfset javaString = createObject("java", "java.lang.String").init(headerValues)>
 			<cfset stringLength = javaString.length()>
 			<cfset outputString = ""> <!-- Initialize an empty string to hold the concatenated characters -->
@@ -230,9 +230,9 @@ limitations under the License.
 				</cfif>
 			</cfloop>
 			<cfif differences EQ "">
-				<cfoutput><p>No differences found. <span class="text-danger">Not true--need to fix this.</span></p></cfoutput>
+				<p>No differences found. <span class="text-danger">Not true--need to fix this.</span></p>
 			<cfelse>
-				<cfoutput><p>#differences#</p></cfoutput>
+				<p>#differences#</p>
 			</cfif>
 			
 				
@@ -260,15 +260,14 @@ limitations under the License.
 				</cfloop>
 
 				<cfif ArrayLen(missingColumns) GT 0>
-					<cfoutput>Missing columns: #ArrayToList(missingColumns)#</cfoutput>
+					Missing columns: #ArrayToList(missingColumns)#
 				<cfelse>
-					<cfoutput>No missing columns found.</cfoutput>
+					No missing columns found.
 				</cfif>
 			
 				
-        </cfoutput>
     <cfelse>
-        <cfoutput>No headers found in the CSV file.</cfoutput>
+        No headers found in the CSV file.
     </cfif>
 
 			
@@ -391,11 +390,12 @@ limitations under the License.
 						</cftry>
 					</cfif>
 				</cfloop>--->
-				</cfoutput>
+				
 			<cfcatch>
-				<cfoutput>Error: #cfcatch.message#</cfoutput>
+				Error: #cfcatch.message#
 			</cfcatch>
 		</cftry>
+      </cfoutput>
 	</cfif>
 	<!------------------------------------------------------->
 	<cfif #action# is "validate">
