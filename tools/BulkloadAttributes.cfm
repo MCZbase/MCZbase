@@ -147,8 +147,8 @@ limitations under the License.
 				<cfset size = headers.size()>
 
 				<div class="col-12 my-4">
-					<h3 class="h4">Found #headers.size() columns in header of csv file (Green).</h3>
-					<h3 class="h4">There are ## columns possible for attribute headers (black and red). (of these ## are required - RED)</h3>
+					<h3 class="h4">Found #size# columns in header of csv file (Green).</h3>
+					<h3 class="h4">There are #ListLen(fieldList)# columns possible for attribute headers (black and red). (of these #ListLen(requiredFieldList)# are required - RED)</h3>
 				</div>
 
 				<ul class="list-group list-group-horizontal">
