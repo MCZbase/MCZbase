@@ -391,11 +391,11 @@ limitations under the License.
 						</cftry>
 					</cfif>
 				</cfloop>--->
-				<cfcatch>
-        			<cfoutput>Error: #cfcatch.message#</cfoutput>
-				</cfcatch>
-			</cftry>
-		</cfoutput>
+				</cfoutput>
+			<cfcatch>
+				<cfoutput>Error: #cfcatch.message#</cfoutput>
+			</cfcatch>
+		</cftry>
 	</cfif>
 	<!------------------------------------------------------->
 	<cfif #action# is "validate">
