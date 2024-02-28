@@ -353,10 +353,7 @@ opacity:1
 				</tbody>
 			</table>
 		</div>
-		</main>
-	</div>
-</div>
-  <script type="text/javascript">
+		  <script type="text/javascript">
         $(document).ready(function () {
             function displayClusterMetrics() {
                 var metrics =
@@ -561,6 +558,10 @@ opacity:1
     <br />
     This is an example of Dashboard with multiple JavaScript Charts. The dashboard is represented by four donut charts. The data series is represented by a column chart and a spline chart. 
     </div>
+		</main>
+	</div>
+</div>
+
 
 </cfoutput>
 <cfinclude template="/shared/_footer.cfm">
