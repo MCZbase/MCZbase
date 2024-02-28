@@ -151,42 +151,24 @@ limitations under the License.
 
 <cfoutput>
 <style>
-.animation-element {
-  position: relative;
-  width: 30%;
-  margin: 0% 1.33 2.66% 1.33%;
-  float: left;
+/*fas is for the arrow up and down (more and less on form sections*/
+.fas {
+	font-size: 16px;
 }
-.bounce-up .fixedResults {
-  opacity: 0;
-  -moz-transition: all 700ms ease-out;
-  -webkit-transition: all 700ms ease-out;
-  -o-transition: all 700ms ease-out;
-  transition: all 700ms ease-out;
-  -moz-transform: translate3d(0px, 200px, 0px);
-  -webkit-transform: translate3d(0px, 200px, 0px);
-  -o-transform: translate(0px, 200px);
-  -ms-transform: translate(0px, 200px);
-  transform: translate3d(0px, 200, 0px);
-  -webkit-backface-visibility: hidden;
-  -moz-backface-visibility: hidden;
-  backface-visibility: hidden;
-}
-.bounce-up.in-view .fixedResults {
-  opacity: 1;
-  -moz-transform: translate3d(0px, 0px, 0px);
-  -webkit-transform: translate3d(0px, 0px, 0px);
-  -o-transform: translate(0px, 0px);
-  -ms-transform: translate(0px, 0px);
-  transform: translate3d(0px, 0px, 0px);
-}
+/*for the */
 @media screen and (max-width: 678px) {
-  .animation-element
-    width: 100%;
-    margin: 0px 0px 30px 0px;
-  }
+	.animation-element {
+		width: 100%;
+		margin: 0px 0px 30px 0px;
+	}
 }
-	</style>
+/* below is for the basic search width of form fields area inside teal box */
+@media screen and (min-width: 1200px) {
+.col-xxl-1 {max-width: 7.666667%}
+.col-xxl-11 {max-width: 90.333333%}
+}
+
+</style>
 	<!--- TODO: Replace with a native javascript UUID function when it becomes available --->
 	<script>
 	// From broofa's answer in https://stackoverflow.com/questions/105034/how-to-create-a-guid-uuid
