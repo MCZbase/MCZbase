@@ -292,38 +292,52 @@ limitations under the License.
 					<cfif not determiner_exists><cfset message = "#message# determiner is missing."></cfif>
 					<cfthrow message="#message#">--->
 			
-		<!---		<cfset colNames="">
+		<!---		
+				<cfset colNames="">
 				<cfset loadedRows = 0>
 				<cfset foundHighCount = 0>
 				<cfset foundHighAscii = "">
-				<cfset foundMultiByte = "">--->
+				<cfset foundMultiByte = "">
+		--->
 				<!--- get the headers from the first row of the input, then iterate through the remaining rows inserting the data into the temp table. --->
 				<!---<cfloop from="1" to ="#headers.size()#" index="row">--->	
 					<!--- obtain the values in the current row --->
-			<!---		<cfset colVals="">
+			<!---		
+					<cfset colVals="">
 					<cfloop from="1" to ="#headers.size()#" index="col">
 						<cfset thisBit=#headers#>
-						<cfif REFind("[^\x00-\x7F]",thisBit) GT 0>--->
+						<cfif REFind("[^\x00-\x7F]",thisBit) GT 0>
+			--->
 							<!--- high ASCII --->
-					<!---		<cfif foundHighCount LT 6>
-								<cfset foundHighAscii = "#foundHighAscii# <li class='text-danger font-weight-bold'>#thisBit#</li>">---><!--- " --->
-								<!---<cfset foundHighCount = foundHighCount + 1>
+					<!---		
+						<cfif foundHighCount LT 6>
+								<cfset foundHighAscii = "#foundHighAscii# <li class='text-danger font-weight-bold'>#thisBit#</li>">
+					---><!--- " --->
+					<!---
+								<cfset foundHighCount = foundHighCount + 1>
 							</cfif>
-						<cfelseif REFind("[\xc0-\xdf][\x80-\xbf]",thisBit) GT 0>--->
+						<cfelseif REFind("[\xc0-\xdf][\x80-\xbf]",thisBit) GT 0>
+					--->
 							<!--- multibyte --->
-						<!---	<cfif foundHighCount LT 6>
-								<cfset foundMultiByte = "#foundMultiByte# <li class='text-danger font-weight-bold'>#thisBit#</li>">---><!--- " --->
-					<!---			<cfset foundHighCount = foundHighCount + 1>
+						<!---	
+								<cfif foundHighCount LT 6>
+								<cfset foundMultiByte = "#foundMultiByte# <li class='text-danger font-weight-bold'>#thisBit#</li>">
+						---><!--- " --->
+					<!---			
+							<cfset foundHighCount = foundHighCount + 1>
 							</cfif>
 						</cfif>
 						<cfif #row# is 1>
 							<cfset colNames="#colNames#,#thisBit#">
-						<cfelse>--->
+						<cfelse>
+					--->
 							<!--- quote values to ensure all columns have content, will need to strip out later to insert values --->
-						<!---	<cfset colVals="#colVals#,'#thisBit#'">
+						<!---	
+							<cfset colVals="#colVals#,'#thisBit#'">
 						</cfif>
 					</cfloop>
-					<cfif #row# is 1>--->
+					<cfif #row# is 1>
+						--->
 						<!--- first row, obtain column headers --->
 						<!--- strip off the leading separator --->
 					<!---	<cfset colNames=replace(colNames,",","","first")>--->
@@ -346,13 +360,14 @@ limitations under the License.
 								</li>
 							</cfloop>
 						</ul>
-					<cfelse>--->
+					<cfelse>
+--->
 						<!--- subsequent rows, data --->
 						<!--- strip off the leading separator --->
 				<!---		<cfset colVals=replace(colVals,",","","first")>
 						<cfset colValArray=listToArray(colVals)>
-				--->
 						<cftry>
+				--->
 							<!--- construct insert for row with a line for each entry in fieldlist using cfqueryparam if column header is in fieldlist, otherwise using null --->
 <!---							<cfquery name="insert" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="insert_result">
 								insert into cf_temp_attributes
@@ -379,17 +394,20 @@ limitations under the License.
 								)
 							</cfquery>
 							<cfset loadedRows = loadedRows + insert_result.recordcount>
-						<cfcatch>--->
+						<cfcatch>
+						--->
 							<!--- identify the problematic row --->
 <!---							<cfset error_message="#COLUMN_ERR# from line #row# in input file.  <br>Header:[#colNames#] <br>Row:[#colVals#] <br>Error: #cfcatch.message#">---><!--- " --->
-							<!---<cfif isDefined("cfcatch.queryError")>
+							<!---
+								<cfif isDefined("cfcatch.queryError")>
 								<cfset error_message = "#error_message# #cfcatch.queryError#">
 							</cfif>
 							<cfthrow message = "#error_message#">
 						</cfcatch>
 						</cftry>
 					</cfif>
-				</cfloop>--->
+				</cfloop>
+				--->
 				
 			<cfcatch>
 				Error: #cfcatch.message#
