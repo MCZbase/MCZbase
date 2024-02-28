@@ -110,38 +110,32 @@ limitations under the License.
 		<cfset COLUMN_ERR = "Error inserting data">
 
 		<cftry>
-    			<!--- Parse the CSV file using Apache Commons CSV library included with coldfusion so that columns with comma delimeters will be separated properly --->
+				<!--- Parse the CSV file using Apache Commons CSV library included with coldfusion so that columns with comma delimeters will be separated properly --->
 				<cfset fileProxy = CreateObject("java","java.io.File") >
 				<cfobject type="Java" name="csvFormat" class="org.apache.commons.csv.CSVFormat" >
-				<cfobject type="Java" name="csvParser"  class="org.apache.commons.csv.CSVParser" >
-				<cfobject type="Java" name="csvRecord"  class="org.apache.commons.csv.CSVRecord" >			
+				<cfobject type="Java" name="csvParser" class="org.apache.commons.csv.CSVParser" >
+				<cfobject type="Java" name="csvRecord" class="org.apache.commons.csv.CSVRecord" >			
 				<cfobject type="java" class="java.io.FileReader" name="fileReader">	
-				<cfobject type="Java" name="javaCharset"  class="java.nio.charset.Charset" >
-				<cfobject type="Java" name="standardCharsets"  class="java.nio.charset.StandardCharsets" >
+				<cfobject type="Java" name="javaCharset" class="java.nio.charset.Charset" >
+				<cfobject type="Java" name="standardCharsets" class="java.nio.charset.StandardCharsets" >
 				<cfset filePath = fileProxy.init(JavaCast("string",#FiletoUpload#)) >
 				<cfset tempFileInputStream = CreateObject("java","java.io.FileInputStream").Init(#filePath#) >
-    			<!--- Create a FileReader object to provide a reader for the CSV file --->
+				<!--- Create a FileReader object to provide a reader for the CSV file --->
 				<cfset fileReader = CreateObject("java","java.io.FileReader").Init(#filePath#) >
-				<!--- we can't use the withHeader() method from coldfusion, as it is overloaded, and with no parameters provides coldfusion no means to pick the correct method --->
+				<!--- we can not use the withHeader() method from coldfusion, as it is overloaded, and with no parameters provides coldfusion no means to pick the correct method --->
 				<!--- TODO: identify format of csv file. --->
 				<cfset defaultFormat = csvFormat.DEFAULT>
-   			 <cfset csvFormat = CSVFormat.DEFAULT>
+				<cfset csvFormat = CSVFormat.DEFAULT>
 				<!--- Create a CSVParser using the FileReader and CSVFormat--->
 				<!---<cfset csvParser = CSVFormat.DEFAULT.parse(fileReader)>--->
-    			<cfset csvParser = CSVParser.parse(fileReader, csvFormat)>
+				<cfset csvParser = CSVParser.parse(fileReader, csvFormat)>
+				<!--- TODO: Select charset based on cSet variable from user --->
 				<cfset javaSelectedCharset = standardCharsets.UTF_8 >
 				<cfset records = CSVParser.parse(#tempFileInputStream#,#javaSelectedCharset#,#defaultFormat#)>
-				<!---loops through the rows--->
-				<!---<cfset iterator = records.iterator()>--->
-				<!---Obtain the first line of the file as the header line --->
-				<!---<cfset headers = iterator.next()>--->
-				<!---Get the number of column headers--->
-				<!---<cfset size = headers.size()>--->
-				<!--- TODO: Select charset based on cSet variable from user --->
 
-				<!---loops through the rows--->
+				<!--- obtain an iterator to loops through the rows/records in the csv --->
 				<cfset iterator = records.iterator()>
-				<!---Obtain the first line of the file as the header line --->
+				<!---Obtain the first line of the file as the header line, we can not use the withHeader() method to do this in coldfusion --->
 				<cfset headers = iterator.next()>
 				<!---Get the number of column headers--->
 				<cfset size = headers.size()>
@@ -151,6 +145,7 @@ limitations under the License.
 					<h3 class="h4">There are #ListLen(fieldList)# columns possible for attribute headers (black and red). (of these #ListLen(requiredFieldList)# are required - RED)</h3>
 				</div>
 
+				<!--- TODO: Loop through list of fields, mark fields present in input, highlight required fields that are missing --->
 				<ul class="list-group list-group-horizontal">
 					<cfloop list="#fieldList#" item="aField">
 						<cfset required = "">
@@ -169,125 +164,17 @@ limitations under the License.
 						</li>
 					</cfloop>
 				</ul>
+				<!--- TODO: Loop through headers, identify headers that aren't in the field list --->
 					
-	
-<h3>Find the missing columns:</h3>
-    <!--- Get the headers from the CSV file --->
-	<!--- TODO: iterator has already been invoked, so this won't return the headers, reuse object from above. --->
-    <cfset headersRecord = csvParser.iterator().next()>
-    
-    <!--- Define your reference list of expected headers --->
-	<!--- TODO: These are already defined in fieldlist. --->
-    <cfset expectedHeaders = ["institution_acronym", "collection_cde", "other_id_type", "other_id_number", "attribute", "attribute_value", "attribute_units", "attribute_date", "determiner", "remarks"]>
-
-    <!--- Create a reader for the CSV file --->
-    <cfset fileReader = createObject("java", "java.io.FileReader").init(filePath)>
-    <!--- Parse the CSV file using Apache Commons CSV --->
-    <cfset csvFormat = CSVFormat.DEFAULT>
-    <cfset csvParser = CSVParser.parse(fileReader, csvFormat)>
-  
-    
-    <!--- Get the headers from the CSV file; this delivers the top level record with metadata--->
-    <cfset headersRecord = csvParser.iterator().next()>
-   
-    <!--- Define your reference list of expected headers as a comma-separated string --->
-    <cfset expectedHeadersString = "institution_acronym, collection_cde, other_id_type, other_id_number, attribute, attribute_value, attribute_units, attribute_date, attribute_meth, determiner, remarks">
-
-   <!--- Convert the expectedHeadersArray into a comma-separated list --->
-    <cfset expectedHeadersList = expectedHeadersString>
-    <!--- Check if the record is not null and has fields --->
-    <cfif headersRecord NEQ "">
-        <!--- Convert the headers record to a string using toString() --->
-        <cfset headersString = headersRecord.toString()>
-        <!--- Extract values enclosed within square brackets --->
-        <cfset startIndex = Find("values=[", headersString) + 8>
-        <cfset endIndex = Find("]", headersString, startIndex)>
-        <cfset headerValues = Mid(headersString, startIndex, endIndex - startIndex)>
-        <!--- Output the individual header values --->
-        
-			<cfset javaString = createObject("java", "java.lang.String").init(headerValues)>
-			<cfset stringLength = javaString.length()>
-			<cfset outputString = ""> <!-- Initialize an empty string to hold the concatenated characters -->
-
-			<cfloop from="1" to="#stringLength#" index="i">
-				<cfset currentChar = javaString.charAt(i - 1)> <!-- Java strings are 0-indexed -->
-				<cfif i neq 1></cfif> <!-- Add a comma before each character except for the first one -->
-				<cfset outputString &= currentChar> <!-- Concatenate the current character to the outputString -->
-			</cfloop>
-
-			CSV values: #outputString# <!-- Output the concatenated string -->
-			<cfset string1 = "#headerValues#">
-			<cfset string2 = "#outputString#">
-
-			<cfset differences = "">
-
-			<cfloop index="i" from="1" to="#Max(ListLen(string1), ListLen(string2))#">
-				<cfset char1 = i LTE Len(string1) ? Mid(string1, i, 1) : "">
-				<cfset char2 = i LTE Len(string2) ? Mid(string2, i, 1) : "">
-
-				<cfif char1 NEQ char2>
-					<cfset differences &= "Difference at position #i#: char1=#char1#, char2=#char2#<br>">
-				</cfif>
-			</cfloop>
-			<cfif differences EQ "">
-				<p>No differences found. <span class="text-danger">Not true--need to fix this.</span></p>
-			<cfelse>
-				<p>#differences#</p>
-			</cfif>
-			
-				
-			<p>Another test for missing values:</p>
-				<cfset headerValuesList = "#Replace(headerValues,' ','','All')#">
-				<cfset expectedHeadersList = "#Replace(expectedHeadersString,' ','','All')#">
-
-				<cfset missingColumns = []>
-
-				<!--- Find missing expected headers not in the csv --->
-				<cfloop list="#expectedHeadersList#" index="column">
-					<cfif ListFindNoCase(headerValuesList, column) EQ 0>
-						<cfset ArrayAppend(missingColumns, column)>
-					</cfif>
-				</cfloop>
-
-				<!--- Find headers in the csv not in the list of expected headers --->
-				<cfloop list="#headerValuesList#" index="column">
-					<cfif not ListFindNoCase(expectedHeadersList, column)>
-						<cfset ArrayAppend(missingColumns, column)>
-					</cfif>
-				</cfloop>
-
-				<cfif ArrayLen(missingColumns) GT 0>
-					Missing columns: #ArrayToList(missingColumns)#
-				<cfelse>
-					No missing columns found.
-				</cfif>
-			
-    <cfelse>
-        No headers found in the CSV file.
-    </cfif>
-
-			
-    <!--- Close the CSV parser and the reader --->
-    <cfset csvParser.close()>
-    <cfset fileReader.close()>
-
 
 				<!--- cleanup any incomplete work by the same user --->
 				<cfquery name="clearTempTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="clearTempTable_result">
 					DELETE FROM cf_temp_attributes 
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
-<!---					<cfset message = "something required is missing">
-					<cfif not institution_acronym_exists><cfset message = "#message# institution_acronym is missing."></cfif>
-					<cfif not collection_cde_exists><cfset message = "#message# collection_cde is missing."></cfif>
-					<cfif not other_id_type_exists><cfset message = "#message# other_id_type is missing."></cfif>
-					<cfif not other_id_number_exists><cfset message = "#message# other_id_number is missing."></cfif>
-					<cfif not attribute_exists><cfset message = "#message# attribute is missing."></cfif>
-					<cfif attribute_value_exists eq false><cfset message = "#message# attribute_value is missing."></cfif>
-					<cfif not attribute_date_exists><cfset message = "#message# attribute_date is missing."></cfif>
-					<cfif not determiner_exists><cfset message = "#message# determiner is missing."></cfif>
-					<cfthrow message="#message#">--->
-			
+
+				<!--- TODO: Fail if any required field is absent (or if input file is empty). --->
+
 		<!---		
 				<cfset colNames="">
 				<cfset loadedRows = 0>
@@ -404,12 +291,16 @@ limitations under the License.
 					</cfif>
 				</cfloop>
 				--->
+
+				<!--- Close the CSV parser and the reader --->
+				<cfset csvParser.close()>
+				<cfset fileReader.close()>
 				
 			<cfcatch>
 				Error: #cfcatch.message#
 			</cfcatch>
 		</cftry>
-      </cfoutput>
+		</cfoutput>
 	</cfif>
 	<!------------------------------------------------------->
 	<cfif #action# is "validate">
