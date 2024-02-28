@@ -156,7 +156,7 @@ limitations under the License.
 						<cfset required = "">
 						<cfif ListContains(requiredFieldList,aField)>
 							<cfset required = "text-danger">
-						<cfif>
+						</cfif>
 						<li class="list-group-item h5 border #required#" style="width:150px;">#aField# </li>
 					</cfloop>
 				</ul>
