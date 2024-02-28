@@ -13,7 +13,7 @@
 			<!--- just rebuild guts --->
 			<cfset fc = '<cfinclude template="/includes/functionLib.cfm">
 				<cfset setDbUser(#cf_collection_id#)>
-				<cflocation url="/SpecimenSearch.cfm" addtoken="false">'>
+				<cflocation url="/Specimens.cfm" addtoken="false">'>
 			<cffile action="write" file="#cDir#/index.cfm" nameconflict="overwrite" output="#fc#">
 		</cfif>
 	</cfloop>

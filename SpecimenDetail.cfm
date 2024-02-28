@@ -1,9 +1,148 @@
 <cfinclude template="/includes/_header.cfm">
+<cfif not isdefined("session.sdmapclass") or len(session.sdmapclass) is 0>
+	<cfset session.sdmapclass='tinymap'>
+</cfif>
+<cfoutput>
+	<cfhtmlhead text='<script src="#Application.protocol#://maps.googleapis.com/maps/api/js?key=#application.gmap_api_key#&libraries=geometry" type="text/javascript"></script>'>
+</cfoutput>
+
+<cftry>
+	<script>
+		/*map customization and polygon functionality commented  out for now. This will be useful as we implement more features -bkh*/
+		jQuery(document).ready(function() {
+			/*$( "#dialog" ).dialog({
+				autoOpen: false,
+				width: "50%"
+			});
+			$( ".mapdialog" ).click(function() {
+				$( "#dialog" ).dialog( "open" );
+			});*/
+			mapsYo();
+		});
+		/*function saveSDMap(){
+			$("div[id^='mapdiv_']").each(function(e){
+				$(this).removeClass().addClass($("#sdetmapsize").val());
+			});
+			jQuery.getJSON("/component/functions.cfc",
+				{
+					method : "changeUserPreference",
+					pref : "sdmapclass",
+					val : $("#sdetmapsize").val(),
+					returnformat : "json",
+					queryformat : 'column'
+				}
+			);
+			$('#dialog').dialog('close');
+			mapsYo();
+		}*/
+		function mapsYo(){
+			$("input[id^='coordinates_']").each(function(e){
+				var locid=this.id.split('_')[1];
+				var coords=this.value;
+				var bounds = new google.maps.LatLngBounds();
+				var polygonArray = [];
+				var ptsArray=[];
+				var lat=coords.split(',')[0];
+				var lng=coords.split(',')[1];
+				var errorm=$("#error_" + locid).val();
+				var mapOptions = {
+					zoom: 1,
+				    center: new google.maps.LatLng(lat, lng),
+				    mapTypeId: google.maps.MapTypeId.ROADMAP,
+				    panControl: false,
+				    scaleControl: false,
+					fullscreenControl: false,
+					zoomControl: false
+				};
+				var map = new google.maps.Map(document.getElementById("mapdiv_" + locid), mapOptions);
+
+				var center=new google.maps.LatLng(lat,lng);
+				var marker = new google.maps.Marker({
+					position: center,
+					map: map,
+					zIndex: 10
+				});
+				bounds.extend(center);
+				if (parseInt(errorm)>0){
+					var circleoptn = {
+						strokeColor: '#FF0000',
+						strokeOpacity: 0.8,
+						strokeWeight: 2,
+						fillColor: '#FF0000',
+						fillOpacity: 0.15,
+						map: map,
+						center: center,
+						radius: parseInt(errorm),
+						zIndex:-99
+					};
+					crcl = new google.maps.Circle(circleoptn);
+					bounds.union(crcl.getBounds());
+				}
+				// WKT can be big and slow, so async fetch
+				$.get( "/localities/component/georefUtilities.cfc?returnformat=plain&method=getGeogWKT&locality_id=" + locid, function( wkt ) {
+  					  if (wkt.length>0){
+						var regex = /\(([^()]+)\)/g;
+						var Rings = [];
+						var results;
+						while( results = regex.exec(wkt) ) {
+						    Rings.push( results[1] );
+						}
+						for(var i=0;i<Rings.length;i++){
+							// for every polygon in the WKT, create an array
+							var lary=[];
+							var da=Rings[i].split(",");
+							for(var j=0;j<da.length;j++){
+								// push the coordinate pairs to the array as LatLngs
+								var xy = da[j].trim().split(" ");
+								var pt=new google.maps.LatLng(xy[1],xy[0]);
+								lary.push(pt);
+								//console.log(lary);
+								bounds.extend(pt);
+							}
+							// now push the single-polygon array to the array of arrays (of polygons)
+							ptsArray.push(lary);
+						}
+						var poly = new google.maps.Polygon({
+						    paths: ptsArray,
+						    strokeColor: '#1E90FF',
+						    strokeOpacity: 0.8,
+						    strokeWeight: 2,
+						    fillColor: '#1E90FF',
+						    fillOpacity: 0.35
+						});
+						poly.setMap(map);
+						polygonArray.push(poly);
+						// END this block build WKT
+  					  	} else {
+  					  		$("#mapdiv_" + locid).addClass('noWKT');
+  					  	}
+  					  	if (bounds.getNorthEast().equals(bounds.getSouthWest())) {
+					       var extendPoint1 = new google.maps.LatLng(bounds.getNorthEast().lat() + 0.05, bounds.getNorthEast().lng() + 0.05);
+					       var extendPoint2 = new google.maps.LatLng(bounds.getNorthEast().lat() - 0.05, bounds.getNorthEast().lng() - 0.05);
+					       bounds.extend(extendPoint1);
+					       bounds.extend(extendPoint2);
+					    }
+						map.fitBounds(bounds);
+			        	for(var a=0; a<polygonArray.length; a++){
+			        		if  (! google.maps.geometry.poly.containsLocation(center, polygonArray[a]) ) {
+			        			$("#mapdiv_" + locid).addClass('uglyGeoSPatData');
+				        	} else {
+				    			$("#mapdiv_" + locid).addClass('niceGeoSPatData');
+			        		}
+			        	}
+					});
+					map.fitBounds(bounds);
+			});
+		}
+	</script>
+
 <cfif isdefined("collection_object_id")>
 	<cfset checkSql(collection_object_id)>
 	<cfoutput>
 		<cfquery name="c" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			select GUID from #session.flatTableName# where collection_object_id=#collection_object_id#
+			select GUID 
+			from <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> 
+			where collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
 		</cfquery>
 		<cfheader statuscode="301" statustext="Moved permanently">
 		<cfheader name="Location" value="/guid/#c.guid#">
@@ -19,29 +158,25 @@
 	<cfset checkSql(guid)>
 	<cfif guid contains ":">
 		<cfoutput>
-			<cfset sql="select collection_object_id from
-					#session.flatTableName#
-				WHERE
-					upper(guid)='#ucase(guid)#'">
-			<cfset checkSql(sql)>
 			<cfquery name="c" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				#preservesinglequotes(sql)#
+				select collection_object_id 
+				from <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> 
+				WHERE
+					upper(guid) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(guid)#">
 			</cfquery>
 		</cfoutput>
 	<cfelseif guid contains " ">
 		<cfset spos=find(" ",reverse(guid))>
 		<cfset cc=left(guid,len(guid)-spos)>
 		<cfset cn=right(guid,spos)>
-		<cfset sql="select collection_object_id from
+		<cfquery name="c" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			select collection_object_id from
 				cataloged_item,
 				collection
 			WHERE
 				cataloged_item.collection_id = collection.collection_id AND
-				cat_num = #cn# AND
-				lower(collection.collection)='#lcase(cc)#'">
-		<cfset checkSql(sql)>
-		<cfquery name="c" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			#preservesinglequotes(sql)#
+				cat_num = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#cn#"> AND
+				lower(collection.collection) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#lcase(cc)#">
 		</cfquery>
 	</cfif>
 	<cfif isdefined("c.collection_object_id") and len(c.collection_object_id) gt 0>
@@ -64,6 +199,7 @@
 		#session.flatTableName#.collection_object_id as collection_object_id,
 		#session.flatTableName#.scientific_name,
 		#session.flatTableName#.collecting_event_id,
+		#session.flatTableName#.locality_id,
 		#session.flatTableName#.higher_geog,
 		#session.flatTableName#.spec_locality,
 		#session.flatTableName#.verbatim_date,
@@ -73,10 +209,11 @@
 		#session.flatTableName#.typestatuswords,
 		MCZBASE.concattypestatus_plain_s(#session.flatTableName#.collection_object_id,1,1,0) as typestatusplain,
 		#session.flatTableName#.toptypestatuskind,
-		concatparts(#session.flatTableName#.collection_object_id) as partString,
+		concatparts_ct(#session.flatTableName#.collection_object_id) as partString,
 		concatEncumbrances(#session.flatTableName#.collection_object_id) as encumbrance_action,
 		#session.flatTableName#.dec_lat,
-		#session.flatTableName#.dec_long">
+		#session.flatTableName#.dec_long,
+		#session.flatTableName#.COORDINATEUNCERTAINTYINMETERS">
 <cfif len(#session.CustomOtherIdentifier#) gt 0>
 	<cfset detSelect = "#detSelect#
 	,concatSingleOtherId(#session.flatTableName#.collection_object_id,'#session.CustomOtherIdentifier#') as	CustomID">
@@ -191,12 +328,13 @@
   </ul>
   <ul class="headercol3">
     <li>
-      <cfif len(dec_lat) gt 0 and len(dec_long) gt 0 and (dec_lat is not 0 and dec_long is not 0)>
-        <cfset iu="http://maps.google.com/maps/api/staticmap?key=#application.gmap_api_key#&center=#dec_lat#,#dec_long#">
-        <cfset iu=iu & "&markers=color:red|size:tiny|#dec_lat#,#dec_long#&sensor=false&size=100x100&zoom=2">
-        <cfset iu=iu & "&maptype=roadmap">
-        <a href="http://maps.google.com/maps?q=#dec_lat#,#dec_long#" target="_blank"> <img src="#iu#" alt="Google Map"> </a>
-      </cfif>
+		<cfif len(dec_lat) gt 0 and len(dec_long) gt 0>
+			<cfset coordinates="#dec_lat#,#dec_long#">
+			<input type="hidden" id="coordinates_#locality_id#" value="#coordinates#">
+			<input type="hidden" id="error_#locality_id#" value="#COORDINATEUNCERTAINTYINMETERS#">
+			<div id="mapdiv_#locality_id#" class="tinymap"></div>
+			<!---span class="infoLink mapdialog">map key/tools</div--->
+		</cfif>
     </li>
   </ul>
   <ul class="headercol4">
@@ -228,7 +366,13 @@
       <cfif (len(dec_lat) gt 0 and len(dec_long) gt 0)>
         <cfif encumbrance_action does not contain "coordinates" OR
 						(isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user"))>
-          <a href="/bnhmMaps/bnhmMapData.cfm?collection_object_id=#collection_object_id#" target="_blank" class="external">BerkeleyMapper</a> <img src="/images/info.gif" border="0" onClick="getDocs('maps')" class="likeLink">
+		<a href="/bnhmMaps/bnhmMapData.cfm?collection_object_id=#collection_object_id#" target="_blank" class="external" style="display: block;">BerkeleyMapper</a>
+		<span class="uncertaintyDisplay">
+			Use ctrl+scroll wheel on your mouse or double click<br> to zoom in on the map to see coordinate uncertainty.
+		</span>
+		<div class="tooltipMap"><img src="/images/info.gif" border="0" class="likeLink">
+		  <span class="tooltiptextMap">Use the BerkeleyMapper link to display a map with the georeferenced coordinates and the error radius. See Display on left of pages to toggle between Point Marker showing the radius and â€œMarkerClusterâ€� showing the specimen data when clicked.</span>
+		</div>
         </cfif>
       </cfif>
     </li>
@@ -236,12 +380,24 @@
 
     </div><!---ends primaryType or secondaryType or defaultType--->
     </div><!---end primaryCont or secondaryCont or defaultCont--->
+	<!--- NOTE: List of files invoked with loadEditApp, search on filename.cfm won't find the loadEditApp(filename) references --->
+	<!--- Do not remove or rename these files until loadEditApp references have also been addressed: 
+				editIdentification.cfm referenced with loadEditApp
+				addAccn.cfm referenced with loadEditApp
+				changeCollEvent.cfm referenced with loadEditApp
+				specLocality.cfm referenced with loadEditApp
+				editColls.cfm referenced with loadEditApp
+				editRelationship.cfm referenced with loadEditApp
+				editParts.cfm referenced with loadEditApp
+				findContainer.cfm referenced with loadEditApp
+				editBiolIndiv.cfm referenced with loadEditApp
+				editIdentifiers.cfm referenced with loadEditApp
+				MediaSearch.cfm referenced with loadEditApp
+				Encumbrances.cfm referenced with loadEditApp
+				catalog.cfm referenced with loadEditApp
+	--->
 	<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 		<script language="javascript" type="text/javascript">
-			$(document).ready(function() {
-			    document.body.onselectstart = function() {return false;}
-			    $('##popDiv').animaDrag();
-			});
 
 			function closeEditApp() {
 				$('##bgDiv').remove();
@@ -417,3 +573,12 @@
 		</script>
 	</cfif>
 </cfoutput>
+<cfcatch>
+	<cfdump var=#cfcatch#>
+	<cf_logError subject="SpecimenDetail error" attributeCollection=#cfcatch#>
+	<div class="error">
+		Oh no! Part of this page has failed to load!
+		<br>This error has been logged. Please <a href="/contact.cfm?ref=specimendetail">contact us</a> with any useful information.
+	</div>
+</cfcatch>
+</cftry>

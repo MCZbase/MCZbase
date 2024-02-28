@@ -257,7 +257,7 @@
 			<td align="right" width="200px"><strong>Reference</strong></td>
 			<td>
 				<cfif len(#LAT_LONG_REF_SOURCE#) gt 0>
-					#LAT_LONG_REF_SOURCE#
+					#encodeForHTML(LAT_LONG_REF_SOURCE)#
 				<cfelse>
 					<font color="##FF0000">Not given</font>			
 			  </cfif>
@@ -267,7 +267,7 @@
 			<td align="right" width="200px"><strong>Remarks</strong></td>
 			<td>
 				<cfif len(#LAT_LONG_REMARKS#) gt 0>
-					#LAT_LONG_REMARKS#
+					#encodeForHTML(LAT_LONG_REMARKS)#
 				<cfelse>
 					<font color="##FF0000">Not given</font>			
 			  </cfif>

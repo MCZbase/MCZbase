@@ -1,3 +1,4 @@
+<!--- Deprecated.  To be removed.  Replaced with /manage/changeQueryCollectingEvent.cfm --->
 <cfinclude template="includes/_header.cfm">
 <!--------------------------------------------------------------------------------------------------->
 <cfif #Action# is "nothing">
@@ -12,6 +13,7 @@
 <form name="getCol" method="post" action="bulkCollEvent.cfm">
 	<input type="hidden" name="Action" value="findCollEvent">
 	<input type="hidden" name="collection_object_id" value="#collection_object_id#">
+	<cfset showSpecimenCounts = false>
 	<cfinclude template="/includes/frmFindLocation_guts.cfm">	   
 </form>
 </cfoutput>
@@ -35,8 +37,12 @@
 	<cfset i = 1>
 	<cfloop query="localityResults">
 		<tr>
-			<td> <a href="Locality.cfm?Action=editGeog&geog_auth_rec_id=#geog_auth_rec_id#">#geog_auth_rec_id#</a></td>
-			<td><a href="editLocality.cfm?locality_id=#locality_id#">#locality_id#</a></td>
+			<td> 
+				<a href="/localities/viewHigherGeography.cfm?geog_auth_rec_id=#geog_auth_rec_id#">#geog_auth_rec_id#</a>
+			</td>
+			<td>
+				<a href="/localities/viewLocality.cfm?locality_id=#locality_id#">#locality_id#</a>
+			</td>
 			<td>
 			<form name="coll#i#" method="post" action="bulkCollEvent.cfm">
 				<input type="hidden" name="collection_object_id" value="#collection_object_id#">

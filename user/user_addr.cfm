@@ -11,6 +11,7 @@ Your address is required before you accept a loan.
 </cfquery>
 <cfquery name="ctAddrType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select addr_type from ctaddr_type
+    where addr_type <> 'temporary'
 </cfquery>
 <cfquery name="ctElecAddrType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select electronic_addr_type from ctelectronic_addr_type

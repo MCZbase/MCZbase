@@ -8,7 +8,7 @@ grant all on bulkloader_clone to coldfusion_user;
 
 
 ---->
-<script src="/includes/sorttable.js"></script>
+<script src="/lib/misc/sorttable.js"></script>
 <style>
 .blTabDiv {
 	width: 100%;

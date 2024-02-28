@@ -38,7 +38,7 @@ function getMedia(typ,q,tgt,rpp,pg){
 	})
 }
 function blockSuggest (onoff) {
-	$.getJSON("/component/functions.cfc",
+	$.getJSON("/users/component/functions.cfc",
 			{
 				method : "changeBlockSuggest",
 				onoff : onoff,
@@ -48,6 +48,57 @@ function blockSuggest (onoff) {
 			function(r) {
 				if (r == 'success') {
 					$('#browseArctos').html('Suggest Browser disabled. You may turn this feature back on under My Stuff.');
+				} else {
+					alert('An error occured! \n ' + r);
+				}	
+			}
+		);
+}
+function changeSpecimensDefaultAction (specimens_default_action) {
+	$.getJSON("/component/functions.cfc",
+			{
+				method : "changeSpecimensDefaultAction",
+				specimens_default_action : specimens_default_action,
+				returnformat : "json",
+				queryformat : 'column'
+			},
+			function(r) {
+				if (r == 'success') {
+					$('#browseArctos').html('Default Tab for the Specimen Search changed.');
+				} else {
+					alert('An error occured! \n ' + r);
+				}	
+			}
+		);
+}
+function changeSpecimensPinGuid (specimens_pin_guid) {
+	$.getJSON("/component/functions.cfc",
+			{
+				method : "changeSpecimensPinGuid",
+				specimens_pin_guid : specimens_pin_guid,
+				returnformat : "json",
+				queryformat : 'column'
+			},
+			function(r) {
+				if (r == 'success') {
+					$('#browseArctos').html('Pin GUID Column setting for the Specimen Search changed.');
+				} else {
+					alert('An error occured! \n ' + r);
+				}	
+			}
+		);
+}
+function changeSpecimensPageSize (specimens_pagesize) {
+	$.getJSON("/component/functions.cfc",
+			{
+				method : "changeSpecimensPageSize",
+				specimens_pagesize : specimens_pagesize,
+				returnformat : "json",
+				queryformat : 'column'
+			},
+			function(r) {
+				if (r == 'success') {
+					$('#browseArctos').html('Page Size setting for the Specimen Search changed.');
 				} else {
 					alert('An error occured! \n ' + r);
 				}	
@@ -129,6 +180,7 @@ function openAnnotation(q) {
 		viewport.init("#bgDiv");
 	});
 }
+
 function npPage(offset,rpp,tnid){
 	var stm = "/includes/taxonomy/specTaxMedia.cfm";
 	var v="?Result_Per_Page=" + rpp + "&offset=" + offset + "&taxon_name_id=" + tnid;
@@ -875,32 +927,6 @@ function IsNumeric(sText) {
   else
     return null;
 }
-function orapwCheck(p,u) {
-	var regExp = /^[A-Za-z0-9!$%&_?(\-)<>=/:;*\.]$/;
-	var minLen=8;
-	var msg='Password is acceptable';
-	if (p.indexOf(u) > -1) {
-		msg='Password may not contain your username.';
-	}
-	if (p.length<minLen || p.length>30) {
-		msg='Password must be between ' + minLen + ' and 30 characters.';
-	}
-	if (!p.match(/[a-zA-Z]/)) {
-		msg='Password must contain at least one letter.'
-	}
-	if (!p.match(/\d+/)) {
-		msg='Password must contain at least one number.'
-	}
-	if (!p.match(/[!,$,%,&,*,?,_,-,(,),<,>,=,/,:,;,.]/) ) {
-		msg='Password must contain at least one of: !,$,%,&,*,?,_,-,(,),<,>,=,/,:,;.';
-	}
-	for(var i = 0; i < p.length; i++) {
-		if (!p.charAt(i).match(regExp)) {
-			msg='Password may contain only A-Z, a-z, 0-9, and !$%&()`*+,-/:;<=>?_.';
-		}
-	}
-	return msg;
-}
 function getCtDoc(table,field) {
 	var table;
 	var field;
@@ -948,7 +974,7 @@ function gotAgentId (id) {
 	var id;
 	var len = id.length;
 	if (len == 0) {
-	   	alert('Oops! A select box malfunctioned! Try changing the value and leaving with TAB. The background should change to green when you\'ve successfullly run the check routine.');
+	   	alert('Error: Agent selection failed. Try changing the value and leaving the field with TAB. The background should change to green when you have successfullly run the check routine.');
 		return false;
 	}
 }
@@ -1010,6 +1036,11 @@ function getPublication(pubStringFld,pubIdFld,publication_title,formName){
 	var url="/picks/findPublication.cfm";
 	var pubwin=url+"?pubStringFld="+pubStringFld+"&pubIdFld="+pubIdFld+"&publication_title="+publication_title+"&formName="+formName;
 	pubwin=window.open(pubwin,"","width=400,height=338, resizable,scrollbars");
+}
+function getLoan(StringFld,IdFld,formName){
+	var url="/picks/findLoan.cfm";
+	var pickwin=url+"?LoanNumFld="+StringFld+"&LoanIdFld="+IdFld+"&formName="+formName;
+	pickwin=window.open(pickwin,"","width=600,height=400, resizable,scrollbars");
 }
 function getAccn(StringFld,IdFld,formName){
 	var url="/picks/findAccn.cfm";

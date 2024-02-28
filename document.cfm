@@ -8,9 +8,9 @@
 			media_labels p,
 			media_labels t
 		where
-			p.media_id=<cfqueryparam cfsqltype="cf_sql_number" value="#media_id#" /> and
+			p.media_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#" /> and
 			p.media_label='page' and
-			t.media_id=<cfqueryparam cfsqltype="cf_sql_number" value="#media_id#" /> and
+			t.media_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#" /> and
 			t.media_label='title'
 	</cfquery>
 	<cfoutput>
@@ -65,7 +65,7 @@
                         MCZBASE.is_media_encumbered(media.media_id) < 1 and 
 			media_label='title'
 		<cfif isdefined("mtitle") and len(mtitle) gt 0>
-			and label_value='#mtitle#'
+			and label_value=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#mtitle#">
 		</cfif>
 		group by
 			label_value
@@ -129,7 +129,7 @@
 			page.media_label='page' and
 			media_type='multi-page document' and 
                         MCZBASE.is_media_encumbered(media.media_id) < 1 and 
-			niceURLNumbers(title.label_value)='#ttl#'
+			niceURLNumbers(title.label_value) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ttl#">
 		order by
 			to_number(page.label_value)			
 	</cfquery>
@@ -172,7 +172,7 @@
 			page.media_label='page' and
 			media_type='multi-page document' and 
                         MCZBASE.is_media_encumbered(media.media_id) < 1 and 
-			niceURLNumbers(title.label_value)='#ttl#'
+			niceURLNumbers(title.label_value) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ttl#">
 		order by
 			to_number(page.label_value)			
 	</cfquery>
@@ -211,7 +211,7 @@
 	</cfsavecontent>
 	#controls#
 	<cfquery name="cpg" dbtype="query">
-		select media_uri,media_id from doc where page=#p#
+		select media_uri,media_id from doc where page = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#p#">
 	</cfquery>
 	<a href="/document.cfm?ttl=#ttl#&action=pdf">[ PDF ]</a>
 	<a href="/media/#cpg.media_id#">[ Media Details ]</a>
@@ -227,13 +227,13 @@
 			mime_type in ('image/tiff','image/dng') and
                         MCZBASE.is_media_encumbered(media.media_id) < 1 and 
 			media_relationship = 'derived from media' and 
- 			media_relations.media_id=<cfqueryparam cfsqltype="cf_sql_number" value="#cpg.media_id#" />
+ 			media_relations.media_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#cpg.media_id#" />
 	</cfquery>
 	<cfif relMedia.recordcount is 1>
 		<a target="_blank" href="#relMedia.media_uri#">[ download master ]</a>
 	</cfif>
 	 <cfquery name="tag" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		select count(*) n from tag where media_id=#cpg.media_id#
+		select count(*) n from tag where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#cpg.media_id#">
 	</cfquery>
 	<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_media")>
 		<script language="JavaScript" src="/includes/jquery/jquery.imgareaselect.pack.js" type="text/javascript"></script>

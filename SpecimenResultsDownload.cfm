@@ -1,38 +1,48 @@
 <cfinclude template="/includes/_header.cfm">
-    <div style="width: 56em; margin: 0 auto; padding: 2em 0 6em 0;">
+	<div style="width: 56em; margin: 0 auto; padding: 2em 0 6em 0;">
 <cfset title="Download Agreement">
 <!--- make sure they have an account --->
 <cfif not isdefined("cnt") OR len(#cnt#) is 0>
 	<cfset cnt=0>
 </cfif>
 <cfif not isdefined("session.username") OR len(#session.username#) is 0>
-	<span style="color: #FF0000">You must be a registered user to download data!</span>  <br>
-	Click <a href="/login.cfm">here</a> to log in or create a user account.
+	<cfoutput>
+		<span style="color: ##FF0000">You must be a registered user to download data!</span>  <br>
+		Click <a href="/login.cfm">here</a> to log in or create a user account.
+	</cfoutput>
+	<cfinclude template="/includes/_footer.cfm">
 	<cfabort>
+</cfif>
+<cfset checkedTableName = "">
+<cfif isdefined("tableName")>
+	<!--- allow table to only be specimen search or taxonomy search results table --->
+	<cfif tableName EQ session.SpecSrchTab OR tableName EQ session.TaxSrchTab >
+	 	<cfset checkedTableName = tableName>
+	<cfelse>
+		<cfthrow message="Invalid table name for download">
+	</cfif>
 </cfif>
 
 <cfif #action# is "nothing">
 <cfquery name="getUserData" datasource="cf_dbuser">
-	SELECT   
+	SELECT 
 		cf_users.user_id,
 		first_name,
-        middle_name,
-        last_name,
-        affiliation,
+		middle_name,
+		last_name,
+		affiliation,
 		email
 	FROM 
-		cf_user_data,
-		cf_users
+		cf_user_data left join cf_users on cf_user_data.user_id = cf_users.user_id 
 	WHERE
-		cf_users.user_id = cf_user_data.user_id (+) AND
-		username = '#session.username#'
+		username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 </cfquery>
 <cfoutput>
 <table>
 
 <form method="post" action="SpecimenResultsDownload.cfm" name="dlForm">
 	<input type="hidden" name="user_id" value="#getUserData.user_id#">
-	<input type="hidden" name="tableName" value="#tableName#">
+	<input type="hidden" name="tableName" value="#checkedTableName#">
 	
 	<input type="hidden" name="action" value="continue">
 	<input type="hidden" name="cnt" value="#cnt#">
@@ -139,24 +149,35 @@ do not agree</font>.</a>
 		You haven't filled in all required values! Please use your browser's back button to try again.
 		<cfabort>
 	</cfif>
+	<!--- TODO: Don't trust userland assertion of user_id, look up from session.username anyway --->
+	<cfif NOT isdefined("user_id") or len(#user_id#) EQ 0>
+		<!--- user_id wasn't passed for some reason, look it up again --->
+		<cfquery name="getUserID" datasource="cf_dbuser">
+			SELECT cf_users.user_id
+			FROM cf_users
+			WHERE
+				username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+		</cfquery>
+		<cfset user_id = getUserID.user_id>
+	</cfif>
 	<cfquery name="isUser" datasource="cf_dbuser">
-		select * from cf_user_data where user_id=#user_id#
+		select * from cf_user_data where user_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#user_id#">
 	</cfquery>
 		<!---- already have a user_data entry ---->
 		<cfif #isUser.recordcount# is 1>
 			<cfquery name="upUser" datasource="cf_dbuser">
 				UPDATE cf_user_data SET
-					first_name = '#first_name#',
-					last_name = '#last_name#',
-					affiliation = '#affiliation#'
+					first_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#first_name#">,
+					last_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#last_name#">,
+					affiliation = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#affiliation#">
 					<cfif len(#middle_name#) gt 0>
-						,middle_name = '#middle_name#'
+						,middle_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#middle_name#">
 					</cfif>
 					<cfif len(#email#) gt 0>
-						,email = '#email#'
+						,email = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#email#">
 					</cfif>
 				WHERE
-					user_id = #user_id#
+					user_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#user_id#">
 			</cfquery>
 		</cfif>
 		<cfif #isUser.recordcount# is not 1>
@@ -174,15 +195,15 @@ do not agree</font>.</a>
 					</cfif>
 					)
 				VALUES (
-					#user_id#,
-					'#first_name#',
-					'#last_name#',
-					'#affiliation#'
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#user_id#">,
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#first_name#">,
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#last_name#">,
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#affiliation#">
 					<cfif len(#middle_name#) gt 0>
-						,'#middle_name#'
+						,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#middle_name#">
 					</cfif>
 					<cfif len(#email#) gt 0>
-						,'#email#'
+						,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#email#">
 					</cfif>
 					)
 			</cfquery>
@@ -198,10 +219,11 @@ do not agree</font>.</a>
 					cf_spec_res_cols on 
 					(upper(user_tab_cols.column_name) = upper(cf_spec_res_cols.column_name)) 
 			where 
-				upper(table_name)=upper('#tableName#') order by DISP_ORDER
+				upper(table_name)=upper(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#checkedTableName#">) 
+			order by DISP_ORDER
 		</cfquery>
 		<cfquery name="getData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			select * from #tableName#
+			select * from #checkedTableName#
 		</cfquery>
 		<cfquery name="dl" datasource="cf_dbuser">
 		INSERT INTO cf_download (
@@ -211,11 +233,11 @@ do not agree</font>.</a>
 			num_records,
 			agree_to_terms)
 		VALUES (
-			#user_id#,
-			'#download_purpose#',
+			<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#user_id#">,
+			<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#download_purpose#">,
 			sysdate,
-			nvl(#getData.recordcount#,0),
-			'#agree#')
+			nvl(<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getData.recordcount#">,0),
+			<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#agree#">)
 	</cfquery>
 		<cfset ac = valuelist(cols.column_name)>
 		<!--- strip internal columns --->
@@ -362,7 +384,7 @@ do not agree</font>.</a>
 		<cfoutput>
 		You must agree to the terms of usage to download these data.
 		<ul>
-			<li>Click <a href="/home.cfm" style="background-color: ##99ccff;padding: 2px 5px; margin: 0 3px;">here</a> to return to the home page.</li>
+			<li>New <a href="/SpecimenSearch.cfm" style="background-color: ##99ccff;padding: 2px 5px; margin: 0 3px;">Specimen Search</a>.</li>
 			<li>Use your browser's back button or click <a href="javascript: history.back();">here</a> 
 				if you wish to agree to the terms and proceed with the download.</li>
 			<li>Email <a href="mailto: #Application.bugReportEmail#">#Application.bugReportEmail#</a> if you wish to discuss the terms of

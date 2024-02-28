@@ -32,7 +32,7 @@
 			 				accn.transaction_id = cataloged_item.accn_id AND 
 			 				project_trans.transaction_id = accn.transaction_id AND 
 			 				project_trans.project_id = project.project_id AND 
-			 				project.project_id = #project_id#
+			 				project.project_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#project_id#">
 			 			)
 			 		)
 		group by 

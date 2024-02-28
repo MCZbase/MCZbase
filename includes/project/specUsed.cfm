@@ -15,7 +15,7 @@
 			cataloged_item.collection_id=collection.collection_id and
 			specimen_part.collection_object_id = loan_item.collection_object_id AND
 			loan_item.transaction_id = project_trans.transaction_id AND
-			project_trans.project_id = #project_id#
+			project_trans.project_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#project_id#">
 		group by
 			collection.collection,
 			collection.collection_id
@@ -33,7 +33,7 @@
 			cataloged_item.collection_id=collection.collection_id and
 			cataloged_item.collection_object_id = loan_item.collection_object_id AND
 			loan_item.transaction_id = project_trans.transaction_id AND
-			project_trans.project_id = #project_id#
+			project_trans.project_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#project_id#">
 		group by
 			collection.collection,
 			collection.collection_id

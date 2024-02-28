@@ -101,7 +101,7 @@ Then click Save. Changes will process overnight.
 		</td>
 		<td>
 			<cfif #len(g.taxon_name_id)# gt 0>
-				Check accepted fg <a href="/Taxonomy.cfm?Action=edit&taxon_name_id=#g.taxon_name_id#">here</a>
+				Check accepted fg <a href="/taxonomy/Taxonomy.cfm?Action=edit&taxon_name_id=#g.taxon_name_id#">here</a>
 			</cfif>
 		</td>
 	</tr>

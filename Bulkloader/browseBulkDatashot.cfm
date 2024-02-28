@@ -2,7 +2,7 @@
 <!---  DataShot is an object to image to data application built to work with MCZbase.  --->
 <!---  DataShot uses a copy of the bulkloader table and bulkloader scripts for ingest into MCZbase.  --->
 <cfinclude template="/includes/_header.cfm">
-<script src="/includes/sorttable.js"></script>
+<script src="/lib/misc/sorttable.js"></script>
 <cfset title="Browse/Edit Data loaded from DataShot">
 <!--- Name of the custom bulkloader table. --->
 <cfset datashotbl="MCZBASE.bulkloader_lepidoptera">

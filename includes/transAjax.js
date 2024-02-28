@@ -122,6 +122,51 @@ function deleteMediaFromTrans(mediaId,transactionId,relationType) {
            reloadTransMedia();
         }
       )};
+/* Supporting function for Add ctspecific_permit_type dialog on New/Edit Permit pages, 
+ * save a new ctspecific_permit_type.specific_type value and report feedback.
+ */
+function storeNewPermitSpecificType() { 
+   jQuery.getJSON("component/functions.cfc",
+         { 
+            method: "addNewctSpecificType",
+            new_specific_type: $('#new_specific_type').val()
+         },
+         function(data) { 
+            $('#addTDFeedback').html(data.message);
+         }
+         );
+}
+/* Supporting function to create an add ctspecific_permit_type dialog on New/Edit Permit pages.
+ */
+function openAddSpecificTypeDialog() {
+  console.log('called openAddSpecificTypeDialog');
+  var dialog = $('#newPermitASTDialog')
+  .html(
+     '<div id="addTypeDialogFrm"><input type="text" name="new_specific_type" id="new_specific_type"><input type="button" value="Add" onclick="storeNewPermitSpecificType();"></div><div id="addTDFeedback"></div>'
+  )
+  .dialog({
+    title: 'Add A Specific Type',
+    autoOpen: false,
+    dialogClass: 'dialog_fixed,ui-widget-header',
+    modal: true,
+    height: 300,
+    width: 500,
+    minWidth: 300,
+    minHeight: 400,
+    draggable:true,
+    buttons: { "Ok": function () { 
+                     var newval = $('#new_specific_type').val(); 
+                     console.log(newval);
+                     $('#specific_type').append($("<option></option>").attr("value",newval).text(newval)); 
+                     $('#specific_type').val(newval);
+                     console.log($('#specific_type').val());
+                     $(this).dialog("close"); },
+               "Close": function () { $(this).dialog("close"); }
+             }
+  });
+  dialog.dialog('open');
+  console.log('dialog open');
+};
 function deletePermitFromTransaction(permitId,transactionId) {
     jQuery.getJSON("/component/functions.cfc",
         {
@@ -270,6 +315,58 @@ function deleteShipment(shipmentId,transactionId) {
            loadShipments(transactionId);
         }
       )};
+
+function addrPickWithTemp(addrIdFld,addrFld,formName){
+	var url="/picks/AddrPick.cfm";
+	var addrIdFld;
+	var addrFld;
+	var formName;
+	var popurl=url+"?includeTemporary=true&addrIdFld="+addrIdFld+"&addrFld="+addrFld+"&formName="+formName;
+	addrpick=window.open(popurl,"","width=400,height=338, resizable,scrollbars");
+}
+
+function addTemporaryAddress(targetAddressIdControl,targetAddressControl,transaction_id) { 
+   var address_id = $("#"+targetAddressIdControl).val();
+   var address = $("#"+targetAddressControl).val();
+   $('#dialog-shipment').parent().hide();
+   jQuery.ajax({
+          url: "/component/functions.cfc",
+          type : "post",
+          dataType : "json",
+          data : {
+            method : "addAddressHtml",
+            create_from_address_id : address_id,
+            transaction_id : transaction_id
+         },
+        success: function (result) {
+           $("#tempAddressDialog").html(result);
+           $("#tempAddressDialog").dialog(
+              { autoOpen: false, modal: true, stack: true, title: 'Add Temporary Address',
+                  width: 593, 	
+                  buttons: {
+                     "Close": function() {
+                         $("#tempAddressDialog").dialog( "close" );
+                     }
+                  },
+                  beforeClose: function(event,ui) { 
+                     var addr = $('#new_address').val();
+                     if ($.trim(addr) != '') { 
+                        $("#"+targetAddressIdControl).val($('#new_address_id').val());
+                        $("#"+targetAddressControl).val(addr);
+                     }
+                  },
+                  close: function(event,ui) { 
+                     $('#dialog-shipment').parent().show();
+                     $("#tempAddressDialog").dialog('destroy'); 
+                     $("#tempAddressDialog").html(""); 
+                  }  
+              });
+           $("#tempAddressDialog").dialog('open');
+        },
+        dataType: "html"
+       }
+   )
+};
 
 function loadShipment(shipmentId,form) {
     $("#dialog-shipment").dialog( "option", "title", "Edit Shipment " + shipmentId );
@@ -561,13 +658,13 @@ function updateAgentLink(agent_id,targetLinkDiv) {
         function (result) {
            var rank = result.DATA.AGENTRANK[0];
            if (rank=='A') { 
-                $('#'+targetLinkDiv).html("<a href='/agents.cfm?agent_id=" + agent_id + "' target='_blank'>View</a>");
+                $('#'+targetLinkDiv).html("<a href='/Agents.cfm?agent_id=" + agent_id + "' target='_blank'>View</a>");
            } else {
               if (rank=='F') { 
-                $('#'+targetLinkDiv).html("<a href='/agents.cfm?agent_id=" + agent_id + "' target='_blank'>View</a><img src='/images/flag-red.svg.png' width='16'>");
+                $('#'+targetLinkDiv).html("<a href='/Agents.cfm?agent_id=" + agent_id + "' target='_blank'>View</a><img src='/images/flag-red.svg.png' width='16'>");
                 messageDialog('Please speak to Collections Ops about this loan agent before proceeding.','Agent with an F Rank');
               } else { 
-                $('#'+targetLinkDiv).html("<a href='/agents.cfm?agent_id=" + agent_id + "' target='_blank'>View</a><img src='/images/flag-yellow.svg.png' width='16'>");
+                $('#'+targetLinkDiv).html("<a href='/Agents.cfm?agent_id=" + agent_id + "' target='_blank'>View</a><img src='/images/flag-yellow.svg.png' width='16'>");
                 messageDialog("Please check this agent's rankings before proceeding",'Problematic Agent');
               }
            }
@@ -611,3 +708,314 @@ function opendialogcallback(page,id,title,okcallback,dialogHeight,dialogWidth) {
   adialog.dialog('open');
 };
 
+// Create and open a dialog to create a new media record adding a provided relationship to the media record 
+function opencreatemediadialog(dialogid, related_value, related_id, relationship, okcallback) { 
+  var title = "Add new Media record to " + related_value;
+  var content = '<div id="'+dialogid+'_div">Loading....</div>';
+  var h = $(window).height();
+  var w = $(window).width();
+  w = Math.floor(w *.9);
+  var thedialog = $("#"+dialogid).html(content)
+  .dialog({
+     title: title,
+     autoOpen: false,
+     dialogClass: 'dialog_fixed,ui-widget-header',
+     modal: true,
+     stack: true,
+     zindex: 2000,
+     height: h,
+     width: w,
+     minWidth: 400,
+     minHeight: 450,
+     draggable:true,
+     buttons: {
+        "Save Media Record": function(){ 
+           if (jQuery.type(okcallback)==='function') {
+	   if ($('#newMedia')[0].checkValidity()) {
+               $.ajax({
+                  url: 'media.cfm',
+                  type: 'post',
+		  returnformat: 'plain',
+                  data: $('#newMedia').serialize(),
+                  success: function(data) { 
+                      okcallback();
+                      $("#"+dialogid+"_div").html(data);
+                  },
+     		  fail: function (jqXHR, textStatus) { 
+	 	        $("#"+dialogid+"_div").html("Error:" + textStatus);
+     		  }	
+		});
+           } else { 
+                messageDialog('Missing required elements in form.  Fill in all yellow boxes. ','Form Submission Error, missing required values');
+           }
+           }
+        },
+        "Close Dialog": function() { 
+		$(this).dialog('close'); 
+        }
+    },
+    close: function(event,ui) {
+        	if (jQuery.type(okcallback)==='function') {
+             		okcallback();
+        	}
+		if (dialogid.startsWith("addMediaDlg")) { 
+        		$("#"+dialogid+"_div").remove();
+	        	$("#"+dialogid).empty();
+	        	$("#"+dialogid).remove();
+                } else { 
+        		$("#"+dialogid+"_div").html("");
+			$("#"+dialogid).dialog('destroy');
+		}
+    }
+  });
+  thedialog.dialog('open');
+  jQuery.ajax({
+     url: "/component/functions.cfc",
+     type: "post",
+     data: {
+        method: "createMediaHtml",
+     	returnformat: "plain",
+        relationship: relationship,
+        related_value: related_value,
+        related_id: related_id
+     }, 
+     success: function (data) { 
+        $("#"+dialogid+"_div").html(data);
+     }, 
+     fail: function (jqXHR, textStatus) { 
+        $("#"+dialogid+"_div").html("Error:" + textStatus);
+     }
+  });
+}
+// Create and open a dialog to find and link existing media records with a provided relationship
+function openlinkmediadialog(dialogid, related_value, related_id, relationship, okcallback) { 
+  var title = "Link Media record to " + related_value;
+  var content = '<div id="'+dialogid+'_div">Loading....</div>';
+  var h = $(window).height();
+  var w = $(window).width();
+  w = Math.floor(w *.9);
+  var thedialog = $("#"+dialogid).html(content)
+  .dialog({
+     title: title,
+     autoOpen: false,
+     dialogClass: 'dialog_fixed,ui-widget-header',
+     modal: true,
+     stack: true,
+     zindex: 2000,
+     height: h,
+     width: w,
+     minWidth: 400,
+     minHeight: 450,
+     draggable:true,
+     buttons: {
+        "Close Dialog": function() { 
+		$(this).dialog('close'); 
+        }
+     },
+     close: function(event,ui) {
+        if (jQuery.type(okcallback)==='function') {
+           okcallback();
+        }
+        $("#"+dialogid+"_div").html("");
+	$("#"+dialogid).dialog('destroy');
+     }
+  });
+  thedialog.dialog('open');
+  jQuery.ajax({
+     url: "/component/functions.cfc",
+     type: "post",
+     data: {
+        method: "linkMediaHtml",
+     	returnformat: "plain",
+        relationship: relationship,
+        related_value: related_value,
+        related_id: related_id
+     }, 
+     success: function (data) { 
+        $("#"+dialogid+"_div").html(data);
+     }, 
+     fail: function (jqXHR, textStatus) { 
+        $("#"+dialogid+"_div").html("Error:" + textStatus);
+     }
+  });
+}
+// Create and open a dialog to find and link existing permit records to a provided shipment
+function openlinkpermitshipdialog(dialogid, shipment_id, shipment_label, okcallback) { 
+  var title = "Link Permit record(s) to " + shipment_label;
+  var content = '<div id="'+dialogid+'_div">Loading....</div>';
+  var h = $(window).height();
+  var w = $(window).width();
+  w = Math.floor(w *.9);
+  var thedialog = $("#"+dialogid).html(content)
+  .dialog({
+     title: title,
+     autoOpen: false,
+     dialogClass: 'dialog_fixed,ui-widget-header',
+     modal: true,
+     stack: true,
+     zindex: 2000,
+     height: h,
+     width: w,
+     minWidth: 400,
+     minHeight: 450,
+     draggable:true,
+     buttons: {
+        "Close Dialog": function() { 
+		$("#"+dialogid).dialog('close'); 
+        }
+     },
+     close: function(event,ui) { 
+        if (jQuery.type(okcallback)==='function') {
+             okcallback();
+    	}
+	$("#"+dialogid+"_div").html("");
+	$("#"+dialogid).dialog('destroy'); 
+     } 
+  });
+  thedialog.dialog('open');
+  jQuery.ajax({
+     url: "/component/functions.cfc",
+     type: "post",
+     data: {
+        method: "shipmentPermitPickerHtml",
+     	returnformat: "plain",
+        shipment_id: shipment_id,
+        shipment_label: shipment_label
+     }, 
+     success: function (data) { 
+        $("#"+dialogid+"_div").html(data);
+     }, 
+     fail: function (jqXHR, textStatus) { 
+        $("#"+dialogid+"_div").html("Error:" + textStatus);
+     }
+  });
+}
+// Create and open a dialog to find and link existing permit records to a provided transaction
+function openlinkpermitdialog(dialogid, transaction_id, transaction_label, okcallback) { 
+  var title = "Link Permit record(s) to " + transaction_label;
+  var content = '<div id="'+dialogid+'_div">Loading....</div>';
+  var h = $(window).height();
+  var w = $(window).width();
+  w = Math.floor(w *.9);
+  var thedialog = $("#"+dialogid).html(content)
+  .dialog({
+     title: title,
+     autoOpen: false,
+     dialogClass: 'dialog_fixed,ui-widget-header',
+     modal: true,
+     stack: true,
+     zindex: 2000,
+     height: h,
+     width: w,
+     minWidth: 400,
+     minHeight: 450,
+     draggable:true,
+     buttons: {
+        "Close Dialog": function() { 
+		$("#"+dialogid).dialog('close'); 
+        }
+     },
+     close: function(event,ui) { 
+        if (jQuery.type(okcallback)==='function') {
+             okcallback();
+    	}
+	$("#"+dialogid+"_div").html("");
+	$("#"+dialogid).dialog('destroy'); 
+     } 
+  });
+  thedialog.dialog('open');
+  jQuery.ajax({
+     url: "/component/functions.cfc",
+     type: "post",
+     data: {
+        method: "transPermitPickerHtml",
+     	returnformat: "plain",
+        transaction_id: transaction_id,
+        transaction_label: transaction_label
+     }, 
+     success: function (data) { 
+        $("#"+dialogid+"_div").html(data);
+     }, 
+     fail: function (jqXHR, textStatus) { 
+        $("#"+dialogid+"_div").html("Error:" + textStatus);
+     }
+  });
+}
+// Create and open a dialog to create a new permit record adding a provided relationship to the permit record
+function opencreatepermitdialog(dialogid, related_label, related_id, relation_type, okcallback) { 
+  var title = "Add new Permit record to " + related_label;
+  var content = '<div id="'+dialogid+'_div">Loading....</div>';
+  var h = $(window).height();
+  var w = $(window).width();
+  w = Math.floor(w *.9);
+  var thedialog = $("#"+dialogid).html(content)
+  .dialog({
+     title: title,
+     autoOpen: false,
+     dialogClass: 'dialog_fixed,ui-widget-header',
+     modal: true,
+     stack: true,
+     zindex: 2000,
+     height: h,
+     width: w,
+     minWidth: 400,
+     minHeight: 450,
+     draggable:true,
+     buttons: {
+        "Save Permit Record": function(){ 
+           var datasub = $('#newPermitForm').serialize();
+	       if ($('#newPermitForm')[0].checkValidity()) {
+               $.ajax({
+     		      url: "/component/functions.cfc",
+                  type: 'post',
+        		  returnformat: 'plain',
+                  data: datasub,
+                  success: function(data) { 
+                      if (jQuery.type(okcallback)==='function') {
+                          okcallback();
+                      };
+                      $("#"+dialogid+"_div").html(data);
+                  },
+     		      fail: function (jqXHR, textStatus) { 
+	 	            $("#"+dialogid+"_div").html("Error:" + textStatus);
+     		      }	
+		      });
+           } else { 
+                messageDialog('Missing required elements in form.  Fill in all yellow boxes. ','Form Submission Error, missing required values');
+           };
+        },
+        "Close Dialog": function() { 
+           	if (jQuery.type(okcallback)==='function') {
+                	okcallback();
+    		}
+	 	$("#"+dialogid+"_div").html("");
+		$("#"+dialogid).dialog('close'); 
+		$("#"+dialogid).dialog('destroy'); 
+        }
+     },
+     close: function(event,ui) { 
+        if (jQuery.type(okcallback)==='function') {
+             okcallback();
+    	}
+     } 
+  });
+  thedialog.dialog('open');
+  datastr = {
+        method: "getNewPermitForTransHtml",
+     	returnformat: "plain",
+        relation_type: relation_type,
+        related_label: related_label,
+        related_id: related_id
+  };
+  jQuery.ajax({
+     url: "/component/functions.cfc",
+     type: "post",
+     data: datastr,
+     success: function (data) { 
+        $("#"+dialogid+"_div").html(data);
+     }, 
+     fail: function (jqXHR, textStatus) { 
+        $("#"+dialogid+"_div").html("Error:" + textStatus);
+     }
+  });
+}

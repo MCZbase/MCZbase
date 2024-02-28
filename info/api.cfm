@@ -1,5 +1,5 @@
 <cfinclude template="/includes/_header.cfm">
-<cfset title="Arctos API">
+<cfset title="MCZbase API">
        
 <cfoutput>
     <div style="width: 54em; margin:0 auto; padding: 0 0 3em 0;" class="barcodes">
@@ -7,11 +7,11 @@
 <cfif action is "nothing">
  
 	<h2>
-		Partial list of ways to talk to MCZbase/Arctos
+		Partial list of ways to talk to MCZbase
 	</h2>
-	<p>
+	<!--- p>
 		You may search specimens using the <a href="/api/specsrch">SpecimenResults.cfm API</a>. 
-	</p>
+	</p --->
 	<p>
 		You may open KML files of MCZbase data using the <a href="/api/kml">KML API</a>. 
 	</p>
@@ -22,6 +22,9 @@
 				<ul>
 					<li>
 						Example: #Application.serverRootUrl#/guid/MCZ:Mamm:1
+					</li>
+					<li>
+						This URI returns html by default, but can return RDF via content negotiation, include an http accept header for 'text/turtle' or 'application/rdf+xml' or 'application/ld+json'
 					</li>
 				</ul>
 				<br>
@@ -41,6 +44,20 @@
 					<li>
 						Example: #Application.serverRootUrl#/SpecimenDetail.cfm?guid=MCZ:Mamm:1
 					</li>
+					<li>
+						This URI is deprecated and is expected to move.
+					</li>
+				</ul>
+				<br>
+			</li>
+			<li>
+				#Application.serverRootUrl#/rdf/Occurrence.cfm?guid={institution}:{collection}:{catnum}
+				<ul>
+					<li>
+						Example: #Application.serverRootUrl#/rdf/Occurrence.cfm?guid=MCZ:Mamm:1
+					</li>
+					<li>
+						This URI returns rdf-xml by default, but can deliver turtle or json-ld via content negotiation, include an http accept header for 'text/turtle' or 'application/ld+json'.
 				</ul>
 				<br>
 			</li>
@@ -48,7 +65,7 @@
 	or through Saved Searches (find specimens, click Save Search, provide a name, then click My Stuff/Saved Searches, then 
 	copy/paste/email/click the links.)
 	<p>
-		You may search taxonomy using the <a href="/api/taxsrch">TaxonomyResults.cfm API</a>. 
+		You may search taxonomy using the <a href="/api/taxsrch">Taxonomy API</a>. 
 	</p>
 	<p>
 		You may link to taxon detail pages with URLs of the format:
@@ -67,9 +84,8 @@
 		You may search Media using the <a href="/api/mediasrch">MediaSearch.cfm API</a>
 	</p>
 	<p>
-		You may talk to our <a href='http://digir.mcz.harvard.edu/digir/'>DiGIR provider</a> or 
-		our <a href='http://digir.mcz.harvard.edu/tapir/'>Tapir provider</a> or 
-                our <a href='http://digir.mcz.harvard.edu/ipt/resource.do?r=mczbase'>IPT instance</a> DOI <a href='http://doi.org/10.15468/p5rupv'>doi:10.15468/p5rupv</a>.
+		You may download the complete public MCZ data set from 
+        our <a href='http://digir.mcz.harvard.edu/ipt/resource.do?r=mczbase'>IPT instance</a> DOI <a href='http://doi.org/10.15468/p5rupv'>doi:10.15468/p5rupv</a>.
 	</p>
 	<p>
 		You may link to specific <a href="/api/collections">collection's portals</a>.
@@ -96,8 +112,6 @@
 			</li>
 		</ul>
 	</p>
-	A few "composite portals" also exist. For example, #Application.serverRootUrl#/mvz_all access all MVZ collections
-	in Arctos.
 	<p>
 		The default all-access portal is #Application.serverRootUrl#/all_all
 	</p>
@@ -176,79 +190,122 @@
 	</table>
 </cfif>
 <cfif action is "taxsrch">
-	Base URL: #Application.serverRootUrl#/TaxonomyResults.cfm
+	<h1>NAME API:</h1>
+	<p>name api: <a href="#Application.serverRootUrl#/name/Murex">#Application.serverRootUrl#/name/Scientific+Name</a>
+	<p>RDF is planned, but not yet supported.</p>
+	<h1>HTML Search API:</h1>
+	<p>Taxon search Base URL: #Application.serverRootUrl#/Taxa.cfm  Accepts http GET or http POST</p>
+	<p>Example: <a href="#Application.serverRootUrl#/Taxa.cfm?execute=true&genus=Murex">#Application.serverRootUrl#/Taxa.cfm?execute=true&genus=Murex</a></p>
+	<p>Returns an HTML page with results in a grid widget</p>
+	<h1>JSON API:</h1>
+	<p>Taxon search Base URL: #Application.serverRootUrl#/taxonomy/component/search.cfc?method=getTaxa Accepts http GET.</p>
+	<p>Example: <a href="#Application.serverRootUrl#/taxonomy/component/search.cfc?method=getTaxa&genus=Murex">#Application.serverRootUrl#/Taxa.cfm?execute=true&genus=Murex</a></p>
+	<p>Returns JSON in the form [{"PHYLUM":"Mollusca","TAXON_NAME_ID":273735,"TAXON_STATUS":"","SCIENTIFIC_NAME":"Maclurites magnus","GENUS":"Maclurites","SPECIES":"magnus","TRIBE":"","INFRASPECIFIC_RANK":"","DIVISION":"","FAMILY":"Macluritidae","SUPERORDER":"","SUBSPECIES":"","display_name_author":"Maclurites magnus Le Sueur. 1818","KINGDOM":"Animalia","SUBORDER":"","SUBDIVISION":"","TAXON_REMARKS":"PaleoDB taxon number: 68614\r\n\r\nhttps://www.biodiversitylibrary.org/page/24680580","INFRASPECIFIC_AUTHOR":"","SPECIMEN_COUNT":4,"SUBCLASS":"","PHYLCLASS":"Gastropoda","SUPERCLASS":"","SCIENTIFICNAMEID":"","DISPLAY_NAME":"Maclurites magnus","SUBPHYLUM":"","VALID_CATALOG_TERM":"Yes ","PHYLORDER":"Euomphalina","SUBGENUS":"","COMMON_NAMES":"","NOMENCLATURAL_CODE":"ICZN","SOURCE_AUTHORITY":"Paleobiology Database","TAXONID":"","INFRAORDER":"","AUTHOR_TEXT":"Le Sueur. 1818","SUPERFAMILY":"","FULL_TAXON_NAME":"Animalia Mollusca Gastropoda Euomphalina Macluritidae Maclurites magnus","SUBFAMILY":""}]</p>
 	<table border>
 		<tr>
 			<th>term</th>
+			<th>api</th>
 			<th>comment</th>
 		</tr>
 		<tr>
+			<td>execute</td>
+			<td>html</td>
+			<td><strong>true</strong> executes the search and displays the search results, no value populates the search form, but does not run the search</td>
+		</tr>
+		<tr>
 			<td>common_name</td>
-			<td></td>
+			<td>both</td>
+			<td>prefix with <strong>=</strong> for exact match</td>
 		</tr>
 		<tr>
 			<td>scientific_name</td>
-			<td></td>
+			<td>both</td>
+			<td>prefix with <strong>=</strong> for exact match</td>
 		</tr>
 		<tr>
 			<td>genus</td>
-			<td></td>
+			<td>both</td>
+			<td>prefix with <strong>=</strong> for exact match, prefix with <strong>!</strong> for NOT search, <strong>NULL</strong> finds blanks.</td>
 		</tr>
 		<tr>
 			<td>species</td>
-			<td></td>
+			<td>both</td>
+			<td>prefix with <strong>=</strong> for exact match, prefix with <strong>!</strong> for NOT search, <strong>NULL</strong> finds blanks.</td>
 		</tr>
 		<tr>
 			<td>subspecies</td>
-			<td></td>
+			<td>both</td>
+			<td>prefix with <strong>=</strong> for exact match, prefix with <strong>!</strong> for NOT search, <strong>NULL</strong> finds blanks.</td>
 		</tr>
 		<tr>
 			<td>full_taxon_name</td>
+			<td>both</td>
 			<td></td>
 		</tr>
 		<tr>
 			<td>phylum</td>
-			<td></td>
+			<td>both</td>
+			<td>prefix with <strong>=</strong> for exact match, prefix with <strong>!</strong> for NOT search, <strong>NULL</strong> finds blanks.</td>
 		</tr>
 		<tr>
 			<td>phylclass</td>
-			<td></td>
+			<td>both</td>
+			<td>Class</td>
 		</tr>
 		<tr>
 			<td>phylorder</td>
-			<td></td>
+			<td>both</td>
+			<td>Order</td>
 		</tr>
 		<tr>
 			<td>suborder</td>
-			<td></td>
+			<td>both</td>
+			<td>prefix with <strong>=</strong> for exact match, prefix with <strong>!</strong> for NOT search, <strong>NULL</strong> finds blanks.</td>
 		</tr>
 		<tr>
 			<td>family</td>
-			<td></td>
+			<td>both</td>
+			<td>prefix with <strong>=</strong> for exact match, prefix with <strong>!</strong> for NOT search, <strong>NULL</strong> finds blanks.</td>
 		</tr>
 		<tr>
 			<td>subfamily</td>
-			<td></td>
+			<td>both</td>
+			<td>prefix with <strong>=</strong> for exact match, prefix with <strong>!</strong> for NOT search, <strong>NULL</strong> finds blanks.</td>
 		</tr>
 		<tr>
 			<td>tribe</td>
-			<td></td>
+			<td>both</td>
+			<td>prefix with <strong>=</strong> for exact match, prefix with <strong>!</strong> for NOT search, <strong>NULL</strong> finds blanks.</td>
 		</tr>
 		<tr>
 			<td>subgenus</td>
-			<td></td>
+			<td>both</td>
+			<td>Not including parenthesies</td>
 		</tr>
 		<tr>
 			<td>author_text</td>
-			<td></td>
+			<td>both</td>
+			<td>Authorship string, may include year, includes parenthesies for changed combinations.</td>
 		</tr>
 		<tr>
 			<td>we_have_some</td>
-			<td>Boolean. True=limits returns to taxonomy that have been used for identifications in Arctos.</td>
+			<td>both</td>
+			<td><strong>1</strong>  Show only taxa for which cataloged items exist.  <strong>0</strong> Show only not used in identifications.  Omit/no value for all.</td>
+		</tr>
+		<tr>
+			<td>valid_catalog_term_fg</td>
+			<td>both</td>
+			<td><strong>1</strong>  Show only taxa currently accepted for data entry.  <strong>0</strong> Show only taxa not accepted for data entry.  Omit/no value for all.</td>
+		</tr>
+		<tr>
+			<td>method</td>
+			<td>JSON</td>
+			<td><strong>getTaxa</strong> Required for search to run.</td>
 		</tr>
 	</table>
 </cfif>
-<cfif action is "specsrch">
+<!---  cfif action is "specsrch">
+	<!--- Never actually documented.  Expected to be replaced in redesign --->
 	<cfquery name="st" datasource="cf_dbuser">
 		select * from cf_search_terms order by term
 	</cfquery>
@@ -263,19 +320,19 @@
 		<cfloop query="st">
 			<cfif left(code_table,2) is "CT">
 				<cftry>
-				<cfquery name="docs" datasource="cf_dbuser">
+				<!--- cfquery name="docs" datasource="cf_dbuser">
 					select * from #code_table#
-				</cfquery>
+				</cfquery --->
 				<cfloop list="#docs.columnlist#" index="colName">
 					<cfif #colName# is not "COLLECTION_CDE" and #colName# is not "DESCRIPTION">
 						<cfset theColumnName = #colName#>
 					</cfif>
 				</cfloop>
-				<cfquery name="theRest" dbtype="query">
+				<!--- cfquery name="theRest" dbtype="query">
 					select #theColumnName# from docs
 						group by #theColumnName#
 						order by #theColumnName#
-				</cfquery>
+				</cfquery --->
 				<cfset ct="">
 				<cfloop query="theRest">
 					<cfset ct=ct & evaluate(theColumnName) & "<br>">
@@ -295,7 +352,7 @@
 			</tr>
 		</cfloop>
 	</table>
-</cfif>
+</cfif --->
 <cfif action is "kml">
 	Base URL: #Application.serverRootUrl#/bnhmMaps/kml.cfm?action=newReq
 	<table border>
@@ -307,7 +364,7 @@
 		<tr>
 			<td>{search criteria}</td>
 			<td>{various}</td>
-			<td><a href="/api/specsrch">API</a></td>
+			<td>{see SpecimenSearch}</td>
 		</tr>		
 		<tr>
 			<td>userFileName</td>

@@ -1,5 +1,5 @@
 <cfinclude template="includes/_header.cfm">
-<script src="/includes/sorttable.js"></script>
+<script src="/lib/misc/sorttable.js"></script>
 <script>
 	function removeDetail(){
 		$("#bgDiv").remove();
@@ -112,24 +112,10 @@
 				ended_date,
 				verbatim_date,
 				collecting_source,
-				collecting_method
+				collecting_method,
+  				collcountlocality
 			from localityResults
-			group by
-				collecting_event_id,
-				higher_geog,
-				geog_auth_rec_id,
-				spec_locality,
-				geolAtts,
-				LatitudeString,
-				LongitudeString,
-				nogeorefbecause,
-				locality_id,
-				verbatim_locality,
-				began_date,
-				ended_date,
-				verbatim_date,
-				collecting_source,
-				collecting_method
+			order by higher_geog, spec_locality
 		</cfquery>
 		<a href="showLocality.cfm">Search Again</a>
 		<table border id="t" class="sortable">
@@ -153,14 +139,14 @@
 				</cfif>
 		        <tr>
 					<td>
-						<span class="infoLink" onclick="expand('geog_auth_rec_id', #geog_auth_rec_id#)">[&nbsp;details&nbsp;]</span>
-						<a class="infoLink" href="/SpecimenResults.cfm?geog_auth_rec_id=#geog_auth_rec_id#">[&nbsp;specimens&nbsp;]</a>
+						[<span class="infoLink" onclick="expand('geog_auth_rec_id', #geog_auth_rec_id#)">&nbsp;details&nbsp;</span>]
+						[<a class="infoLink" href="/SpecimenResults.cfm?geog_auth_rec_id=#geog_auth_rec_id#">&nbsp;specimens&nbsp;</a>]
 						<a href="showLocality.cfm?action=srch&geog_auth_rec_id=#geog_auth_rec_id#">#higher_geog#</a>
 					</td>
 					<td>
 						<cfif len(locality_id) gt 0>
-							<span class="infoLink" onclick="expand('locality_id', #locality_id#)">[&nbsp;details&nbsp;]</span>
-							<a class="infoLink" href="/SpecimenResults.cfm?locality_id=#locality_id#">[&nbsp;specimens&nbsp;]</a>
+							[<span class="infoLink" onclick="expand('locality_id', #locality_id#)">&nbsp;details&nbsp;</span>]
+							[<a class="infoLink" href="/SpecimenResults.cfm?locality_id=#locality_id#">&nbsp;specimens&nbsp;</a>#collcountlocality#]
 							<cfif len(spec_locality) gt 0>
 								<a href="showLocality.cfm?action=srch&locality_id=#locality_id#">#spec_locality#</a>
 							<cfelse>
@@ -168,7 +154,14 @@
 							</cfif>
 							<cfif len(geolAtts) gt 0>[#geolAtts#]</cfif>
 							<cfif len(#LatitudeString#) gt 0>
-								<br>#LatitudeString#/#LongitudeString#
+								<cfquery name="isMaskCoord" datasource="uam_god">
+									select MCZBASE.IS_MASK_LOC_COORD(<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#localityResults.locality_id#">) as mask_loc_coord from dual
+								</cfquery>
+								<cfif isMaskCoord.mask_loc_coord EQ 0>
+									<br>#LatitudeString#/#LongitudeString#
+								<cfelse>
+									<br>[coordinates redacted]
+								</cfif>
 							<cfelse>
 								<br>#nogeorefbecause#
 							</cfif>
@@ -179,7 +172,7 @@
 						<cfif len(collecting_event_id) gt 0>
 							<span class="infoLink" onclick="expand('collecting_event_id', #collecting_event_id#)">[&nbsp;details&nbsp;]</span>
 							<a class="infoLink" href="/SpecimenResults.cfm?collecting_event_id=#collecting_event_id#">[&nbsp;specimens&nbsp;]</a>
-							<a href="showLocality.cfm?action=srch&collecting_event_id=#collecting_event_id#">
+							<a href="/localities/viewCollectingEvent.cfm?collecting_event_id=#collecting_event_id#">
 							<cfif len(verbatim_locality) gt 0>
 								#verbatim_locality#
 							<cfelse>

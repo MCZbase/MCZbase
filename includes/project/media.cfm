@@ -15,7 +15,7 @@
 	         media.media_id=media_relations.media_id and
 	         media.media_id=media_labels.media_id (+) and
 	         media_relations.media_relationship like '% project' and
-	         media_relations.related_primary_key = #project_id#
+	         media_relations.related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#project_id#">
 	</cfquery>
 	<cfif #media.recordcount# gt 0>
     	<h2>Media</h2>
@@ -28,7 +28,7 @@
 					from
 						media_labels
 					where
-						media_id=#media_id#
+						media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 				</cfquery>
                 <cfset mrel=getMediaRelations(#media_id#)>
                <div class="oneMedia">

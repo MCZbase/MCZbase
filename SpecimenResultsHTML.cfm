@@ -186,15 +186,15 @@
 						and #key# is not "newsearch"
 						and #key# is not "STARTROW">
 					<cfif len(#returnURL#) is 0>
-						<cfset returnURL='SpecimenResultsHTML.cfm?#key#=#form[key]#'>
+						<cfset returnURL='SpecimenResultsHTML.cfm?#key#=#encodeForHTML(form[key])#'>
 					<cfelse>
-						<cfset returnURL='#returnURL#&#key#=#form[key]#'>
+						<cfset returnURL='#returnURL#&#key#=#encodeForHTML(form[key])#'>
 					</cfif>
 					<cfif #key# is not "detail_level">
 						<cfif len(#searchParams#) is 0>
-							<cfset searchParams='<input type="hidden" name="#key#" value="#form[key]#">'>
+							<cfset searchParams='<input type="hidden" name="#key#" value="#encodeForHTML(form[key])#">'>
 						<cfelse>
-							<cfset searchParams='#searchParams#<input type="hidden" name="#key#" value="#form[key]#">'>
+							<cfset searchParams='#searchParams#<input type="hidden" name="#key#" value="#encodeForHTML(form[key])#">'>
 						</cfif>
 					</cfif>
 				</cfif>
@@ -220,16 +220,16 @@
 				</cfif>
 				<cfif #key# is not "detail_level">
 					<cfif len(#searchParams#) is 0>
-						<cfset searchParams='<input type="hidden" name="#key#" value="#url[key]#">'>
+						<cfset searchParams='<input type="hidden" name="#key#" value="#encodeForHTML(url[key])#">'>
 					<cfelse>
-						<cfset searchParams='#searchParams#<input type="hidden" name="#key#" value="#url[key]#">'>
+						<cfset searchParams='#searchParams#<input type="hidden" name="#key#" value="#encodeForHTML(url[key])#">'>
 					</cfif>
 				</cfif>
 				</cfif>
 			 </cfif>
 		</cfloop>
 		<cfset strippyReturnURL = replace(returnURL,'"','&quot;','all')>
-		<cfset searchParams = '#searchParams#<input type="hidden" name="returnURL" value="#strippyReturnURL#"'>
+		<cfset searchParams = '#searchParams#<input type="hidden" name="returnURL" value="#encodeForURL(strippyReturnURL)#"'>
 
 
 		<cfset searchParams = #replace(searchParams,"'","","all")#>
@@ -260,6 +260,7 @@
 
 	<!-------------------------- / dlm debug -------------------------------------->
 	<!---cfoutput>#SqlString#</cfoutput--->
+	<cfset checkSql(SqlString)>
 	<cfquery name="getData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#createtimespan(0,0,60,0)#">
 		#preserveSingleQuotes(SqlString)#
 	</cfquery>
@@ -272,7 +273,7 @@
 		<p>Some possibilities include:</p>
 		<ul>
 			<li>
-				If you searched by taxonomy, please consult <a href="/TaxonomySearch.cfm" class="novisit">Arctos Taxonomy</a>.
+				If you searched by taxonomy, please consult the <a href="/Taxa.cfm" class="novisit">MCZbase Taxonomy</a>.
 			</li>
 			<li>
 				Try broadening your search criteria. Try the next-higher geographic element, remove criteria, etc. Don't assume we've accurately or predictably recorded data!
@@ -289,12 +290,13 @@
 	</cfif>
 	<CFSETTING ENABLECFOUTPUTONLY=0>
 
+	<cfset cfidAndToken= "#cfid##session.reencodedToken#">
 
-<!---- clear old queries from cache and cache flatquery ---->
-	<cfquery name="SpecRes#cfid##cftoken#" dbtype="query" cachedwithin="#createtimespan(0,0,0,0)#">
+	<!---- clear old queries from cache and cache flatquery ---->
+	<cfquery name="SpecRes#cfidAndToken#" dbtype="query" cachedwithin="#createtimespan(0,0,0,0)#">
 		select * from getData where collection_object_id > 0
 	</cfquery>
-	<cfquery name="SpecRes#cfid##cftoken#" dbtype="query" cachedwithin="#createtimespan(0,0,120,0)#">
+	<cfquery name="SpecRes#cfidAndToken#" dbtype="query" cachedwithin="#createtimespan(0,0,120,0)#">
 		select * from getData where collection_object_id > 0
 	</cfquery>
 	<cfquery name="uCollObj" dbtype="query">
@@ -315,19 +317,22 @@
 </cfif>
 
 <cfif isdefined("newSearch") and #newSearch# is 1>
-	<cfquery name="SpecRes#cfid##cftoken#" dbtype="query" cachedwithin="#createtimespan(0,0,0,0)#">
-		select * from SpecRes#cfid##cftoken#
+
+	<cfset cfidAndToken= "#cfid##session.reencodedToken#">
+
+	<cfquery name="SpecRes#cfidAndToken#" dbtype="query" cachedwithin="#createtimespan(0,0,0,0)#">
+		select * from SpecRes#cfidAndToken#
 	</cfquery>
-	<cfquery name="mapCount#cfid##cftoken#" dbtype="query" cachedwithin="#createtimespan(0,0,0,0)#">
-		select * from SpecRes#cfid##cftoken#
+	<cfquery name="mapCount#cfidAndToken#" dbtype="query" cachedwithin="#createtimespan(0,0,0,0)#">
+		select * from SpecRes#cfidAndToken#
 	</cfquery>
 </cfif>
-<cfquery name="SpecRes#cfid##cftoken#" dbtype="query" cachedwithin="#createtimespan(0,0,120,0)#">
-	select * from SpecRes#cfid##cftoken#
+<cfquery name="SpecRes#cfidAndToken#" dbtype="query" cachedwithin="#createtimespan(0,0,120,0)#">
+	select * from SpecRes#cfidAndToken#
 </cfquery>
 
 <cfquery name="getBasic" dbtype="query">
-	select * from SpecRes#cfid##cftoken# order by #order_by# #order_order#
+	select * from SpecRes#cfidAndToken# order by #order_by# #order_order#
 </cfquery>
 <!---
 <cfif #getBasic.recordcount# is 1 and #action# is "nothing">
@@ -337,10 +342,6 @@
 <cfquery name="mappable" dbtype="query">
 	select count(distinct(collection_object_id)) as cnt from getBasic where dec_long is not null and
 	dec_lat is not null
-	<!---
-	and
-	encumbrance_action <> 'mask coordinates'
-	--->
 </cfquery>
 <cfset mapCount = #mappable.cnt#>
 <!---- error reporting ---->
@@ -416,13 +417,13 @@ document.getElementById('saveme').submit();
 </script>
 		<cfif isdefined("returnURL")>
 		<form name="saveme" id="saveme" method="post" action="saveSearch.cfm" target="myWin">
-			<input type="hidden" name="returnURL" value="#Application.ServerRootUrl#/SpecimenResultsHTML.cfm?#mapURL#&detail_level=#detail_level#" />
+			<input type="hidden" name="returnURL" value="#Application.ServerRootUrl#/SpecimenResultsHTML.cfm?#encodeForURL(mapURL)#&detail_level=#encodeForURL(detail_level)#" />
 			<input type="button" value="Save This Search" onclick="cForm();" class="savBtn"
    					onmouseover="this.className='savBtn btnhov'" onmouseout="this.className='savBtn'">
 		</form>
 		</cfif>
 <cfif #Action# is "dispCollObj">
-	<br><a href="Loan.cfm?transaction_id=#transaction_id#&Action=editLoan">Back to Loan</a>
+	<br><a href="/transactions/Loan.cfm?transaction_id=#transaction_id#&Action=editLoan">Back to Loan</a>
 </cfif>
 
 <form name="browse" action="SpecimenResultsHTML.cfm" method="post">
@@ -560,22 +561,6 @@ document.getElementById('saveme').submit();
 	<td><b>Request</b></td>
 </cfif>
 	<td nowrap><strong>Catalog ##</strong>
-	<cfif
-		(isdefined("session.username") AND #detail_level# gte 2)
-			and (
-				#session.username# is "cindy"
-				OR #session.username# is "dusty"
-				OR #session.username# is "ahope"
-				OR #session.username# is "jmalaney"
-				OR #session.username# is "rsampson"
-				OR #session.username# is "cmcclarin"
-				)
-		>
-		<a href="##"
-			onClick="reorder.order_by.value='scientific_name,country,state_prov,county,cat_num';reorder.order_order.value='asc';reorder.submit();"
-			>
-		Cindy Sort</a>
-	</cfif>
 	<a href="##"
 		onClick="reorder.order_by.value='cat_num';reorder.order_order.value='asc';reorder.submit();"
 		onMouseOver="self.status='Sort Ascending.';catup.src='/images/up_mo.gif';return true;"
@@ -1078,7 +1063,7 @@ document.getElementById('saveme').submit();
 					#lat_long_ref_source#&nbsp;
 				</td>
 				<td>
-					#lat_long_remarks#&nbsp;
+					#encodeForHTML(lat_long_remarks)#&nbsp;
 				</td>
 
 </cfif>
@@ -1512,45 +1497,30 @@ document.getElementById('saveme').submit();
 <cfif getBasic.recordcount lt 1000>
 			<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 	<cfoutput>
-		<!---
-			<option  value="/CustomPages/ALALabels.cfm">ALA Labels</option>
-			<option  value="/CustomPages/ALALabelsOnline.cfm">ALA Labels online</option>
-		--->
 	<form name="goSomewhereElseNow" method="post">
 		<select name="goWhere" size="1">
-			<option value="Encumbrances.cfm?collection_object_id=#collObjIdList#">
-				Encumbrances
-			</option>
-			<option value="UamMammalVialLabels_pdffile.cfm?collection_object_id=#collObjIdList#">
-				UAM Mammals Vial Labels
-			</option>
 			<option value="mammalLabels.cfm?collection_object_id=#collObjIdList#&action=box">
 				UAM Mammals Box Labels
 			</option>
 			<option value="MSBMammLabels.cfm?collection_object_id=#collObjIdList#">
 				MSB Mammals Labels
 			</option>
-			<option value="narrowLabels.cfm?collection_object_id=#collObjIdList#">
-				MVZ narrow Labels
-			</option>
 			<option value="wideLabels.cfm?collection_object_id=#collObjIdList#">
 				MVZ wide Labels
 			</option>
-			<option value="editIdentification.cfm?collection_object_id=#collObjIdList#&Action=multi">
-				Identification
-			</option>
-			<option value="location_tree.cfm?collection_object_id=#collObjIdList#&srch=part">
+			<option value="findContainer.cfm?collection_object_id=#collObjIdList#&srch=part">
 				Part Locations
 			</option>
+			<!--- 
 			<option value="bulkCollEvent.cfm?collection_object_id=#collObjIdList#">
 				Collecting Events
 			</option>
-			<option value="addAccn.cfm?collection_object_id=#collObjIdList#">
-				Accession
-			</option>
-			<option value="compDGR.cfm?collection_object_id=#collObjIdList#">
-				MSB<->DGR
-			</option>
+			--->
+			<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_specimens")>
+				<option value="/grouping/addToNamedCollection.cfm">
+					Add To Named Group
+				</option>
+			</cfif>
 			<option value="/Reports/print_nk.cfm?collection_object_id=#collObjIdList#">
 				Print NK pages
 			</option>

@@ -1,7 +1,7 @@
 <cfinclude template = "/includes/_header.cfm">
 <cfset title = "Collections Holdings By Class">
 <cfoutput>
-<script src="/includes/sorttable.js"></script>
+<script src="/lib/misc/sorttable.js"></script>
 <cfquery name="d" datasource="uam_god">
 	select 
 		nvl(phylclass,'NULL') phylclass,
@@ -40,5 +40,8 @@
 			<td><a href="/SpecimenResults.cfm?collection_id=#collection_id#&phylclass=#phylclass#">#c#</a></td>
 		</tr>
 	</cfloop>
+</table>
+	</div>
+	</div>
 </cfoutput>
 <cfinclude template = "/includes/_footer.cfm">

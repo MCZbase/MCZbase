@@ -34,10 +34,10 @@
 		<cfloop query="bads">
 			<tr>
 				<td>
-					<a href="/agents.cfm?agent_id=#bads.agent_id#" target="_blank">#bad_name#</a>
+					<a href="/agents/Agent.cfm?agent_id=#bads.agent_id#" target="_blank">#bad_name#</a>
 				</td>
 				<td>
-					<a href="/agents.cfm?agent_id=#bads.related_agent_id#" target="_blank">#good_name#</a>
+					<a href="/agents/Agent.cfm?agent_id=#bads.related_agent_id#" target="_blank">#good_name#</a>
 				</td>
 				<td>
 					#merge_date#
@@ -99,7 +99,7 @@ agent IDs in a big pile-O-tables; make sure you really want to first!
 	</cfif>
 </cfloop>
 <cfif len(#names#) is 0>
-	There are no names for <a href="/agents.cfm?agent_id=#bads.agent_id#">Agent ID #bads.agent_id#</a>. It's probably a bad earlier deletion. Add a (fake) name and try again.
+	There are no names for <a href="/agents/Agent.cfm?agent_id=#bads.agent_id#">Agent ID #bads.agent_id#</a>. It's probably a bad earlier deletion. Add a (fake) name and try again.
 	<cfset nogo = "true">
 </cfif>
 <!--- see if we have a good replacement ---->
@@ -108,7 +108,7 @@ agent IDs in a big pile-O-tables; make sure you really want to first!
 	from agent where agent_id=#bads.related_agent_id#
 </cfquery>
 <cfif #isGoodRelated.recordcount# neq 1>
-	<br><a href="/agents.cfm?agent_id=#bads.related_agent_id#">Agent ID #bads.related_agent_id#</a> isn't a viable replacement for  #bads.agent_id#.
+	<br><a href="/agents/Agent.cfm?agent_id=#bads.related_agent_id#">Agent ID #bads.related_agent_id#</a> isn't a viable replacement for  #bads.agent_id#.
 	<cfset nogo = "true">
 </cfif>
 <!---- see if the bad has agent_name anywhere. We can't deal with that here ---->
@@ -123,7 +123,7 @@ agent IDs in a big pile-O-tables; make sure you really want to first!
 	select count(*) cnt from publication_author_name where agent_name_id IN (#names#)
 </cfquery>
 <cfif #publication_author_name.cnt# gt 0>
-	<br><a href="/agents.cfm?agent_id=#bads.agent_id#">Agent ID #bads.agent_id#</a> is a publication agent. I can't deal with that here.
+	<br><a href="/agents/Agent.cfm?agent_id=#bads.agent_id#">Agent ID #bads.agent_id#</a> is a publication agent. I can't deal with that here.
 	<cfset nogo = "true">
 </cfif>
 <!--- relationship things that we don't care about:
@@ -141,8 +141,8 @@ agent IDs in a big pile-O-tables; make sure you really want to first!
 		)
 </cfquery>
 <cfif #agent_relations.cnt# gt 0>
-	<br><a href="/agents.cfm?agent_id=#bads.agent_id#">Agent ID #bads.agent_id#</a> is involved in relationships. I can't deal with that here.
-	<br><a href="/agents.cfm?agent_id=#bads.related_agent_id#">Agent ID #bads.related_agent_id# (good agent)</a>
+	<br><a href="/agents/Agent.cfm?agent_id=#bads.agent_id#">Agent ID #bads.agent_id#</a> is involved in relationships. I can't deal with that here.
+	<br><a href="/agents/Agent.cfm?agent_id=#bads.related_agent_id#">Agent ID #bads.related_agent_id# (good agent)</a>
 	<cfquery name="relAgent" datasource="uam_god">
 		select * from agent_relations where agent_relationship <> 'bad duplicate of'
 		and (agent_id=#bads.agent_id# OR related_agent_id=#bads.agent_id#)
@@ -156,8 +156,8 @@ agent IDs in a big pile-O-tables; make sure you really want to first!
 		</tr>
 	<cfloop query="relAgent">
 	<tr>
-			<td><a href="/agents.cfm?agent_id=#agent_id#">#agent_id# </a></td>
-			<td><a href="/agents.cfm?agent_id=#related_agent_id#">#related_agent_id#</a></td>
+			<td><a href="/agents/Agent.cfm?agent_id=#agent_id#">#agent_id# </a></td>
+			<td><a href="/agents/Agent.cfm?agent_id=#related_agent_id#">#related_agent_id#</a></td>
 			<td>#agent_relationship#</td>
 		</tr>
 		
@@ -172,7 +172,7 @@ agent IDs in a big pile-O-tables; make sure you really want to first!
 	select count(*) cnt from addr where agent_id=#bads.agent_id#
 </cfquery>
 <cfif #addr.cnt# gt 0>
-	<br><a href="/agents.cfm?agent_id=#bads.agent_id#">Agent ID #bads.agent_id#</a> has addresses. I can't deal with that here.
+	<br><a href="/agents/Agent.cfm?agent_id=#bads.agent_id#">Agent ID #bads.agent_id#</a> has addresses. I can't deal with that here.
 	<cfset nogo = "true">
 </cfif>
 
@@ -181,7 +181,7 @@ agent IDs in a big pile-O-tables; make sure you really want to first!
 </cfquery>
 <cfif #electronic_address.cnt# gt 0>
 	<br>
-	<a href="/agents.cfm?agent_id=#bads.agent_id#">Agent ID #bads.agent_id#</a>
+	<a href="/agents/Agent.cfm?agent_id=#bads.agent_id#">Agent ID #bads.agent_id#</a>
 	 has electronic addresses. I can't deal with that here.
 	<cfset nogo = "true">
 </cfif>

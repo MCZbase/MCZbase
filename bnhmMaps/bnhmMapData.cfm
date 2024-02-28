@@ -19,39 +19,37 @@
 <cfset mediaFlatTableName = "media_flat">
 <!----------------------------------------------------------------->
 <cfif isdefined("action") and action IS "mapPoint">
-<cfoutput>
-	<!---- map a lat_long_id ---->
-	<cfif not isdefined("lat_long_id") or len(lat_long_id) is 0>
-		<div class="error">
-			You can't map a point without a lat_long_id.
-		</div>
-		<cfabort>
-	</cfif>
-	<cfquery name="getMapData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		SELECT
-			'All collections' Collection,
-			0 collection_id,
-			'000000' cat_num,
-			'Lat Long ID: ' || lat_long_id scientific_name,
-			'none' verbatim_date,
-			'none' spec_locality,
-			dec_lat,
-			dec_long,
-			to_meters(max_error_distance,max_error_units) max_error_meters,
-			datum,
-			'000000' collection_object_id,
-			' ' collectors
-		FROM
-			lat_long
-		WHERE
-			lat_long_id=#lat_long_id#
-	</cfquery>
-</cfoutput>
-
+	<!--- map a single point --->
+	<cfoutput>
+		<!---- map a lat_long_id ---->
+		<cfif not isdefined("lat_long_id") or len(lat_long_id) is 0>
+			<div class="error">
+				You can't map a point without a lat_long_id.
+			</div>
+			<cfabort>
+		</cfif>
+		<cfquery name="getMapData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			SELECT
+				'All collections' Collection,
+				0 collection_id,
+				'000000' cat_num,
+				'Lat Long ID: ' || lat_long_id scientific_name,
+				'none' verbatim_date,
+				'none' spec_locality,
+				dec_lat,
+				dec_long,
+				to_meters(max_error_distance,max_error_units) max_error_meters,
+				datum,
+				'000000' collection_object_id,
+				' ' collectors
+			FROM
+				lat_long
+			WHERE
+				lat_long_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#lat_long_id#">
+		</cfquery>
+	</cfoutput>
 <cfelseif isdefined("search") and search IS "MediaSearch">
-<!-- 	<cfif isdefined("collection_object_id") and len(collection_object_id) gt 0>
-		<cfset ShowObservations = "true">
-	</cfif> -->
+	<!--- map coordinates for specimens in a media search, incomplete implementation --->
 
 	<cfset ShowObservations = "true">
 
@@ -73,17 +71,48 @@
 		#flatTableName#.collection_object_id IN (#mediaFlatTableName#.collecting_object_id) AND
 		#flatTableName#.dec_lat is not null AND
 		#flatTableName#.dec_long is not null AND
-		#flatTableName#.collecting_source = 'wild caught' ">
+		#flatTableName#.collecting_source in ('wild caught', 'unknown', 'rock/outcrop') ">
 
 	<cfset srch = "">
 
+	<!--- TODO: No such file --->
 	<cfinclude template="/development/MediaSearchSql.cfm">
 	<cfset SqlString = "#basSelect# #basFrom# #basWhere# #srch#">
+	<cfset checkSQL(SqlString)>
 	<cfquery name="getMapData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		#preserveSingleQuotes(SqlString)#
 	</cfquery>
-
-<cfelse><!--- regular mapping routine ---->
+<cfelseif isDefined("result_id") and len(result_id) GT 0>
+	<!--- mapping search results from user_search_table by result_id ---->
+	<cfquery name="getMapData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		SELECT DISTINCT
+			collection,
+			collection_id,
+			cat_num,
+			scientific_name,
+			phylclass,
+			verbatim_date,
+			spec_locality,
+			dec_lat,
+			dec_long,
+			COORDINATEUNCERTAINTYINMETERS,
+			datum,
+			collection_object_id,
+			collectors
+		FROM
+			<cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat
+		WHERE
+			collection_object_id in (
+				SELECT collection_object_id 
+				FROM user_search_table 
+				WHERE result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
+			)
+			AND dec_lat is not null
+			AND dec_long is not null
+			AND collecting_source in ('wild caught', 'unknown', 'rock/outcrop')
+	</cfquery>
+<cfelse>
+	<!--- old mapping routine using include of searchSql ---->
 	<cfif isdefined("collection_object_id") and len(collection_object_id) gt 0>
 		<cfset ShowObservations = "true">
 	</cfif>
@@ -113,20 +142,24 @@
 	<cfset basWhere = " WHERE
 		#flatTableName#.dec_lat is not null AND
 		#flatTableName#.dec_long is not null AND
-		#flatTableName#.collecting_source = 'wild caught' ">
+		#flatTableName#.collecting_source in ('wild caught', 'unknown', 'rock/outcrop') ">
 	<cfset basQual = "">
 	<cfif not isdefined("basJoin")>
 		<cfset basJoin = "">
 	</cfif>
 	<cfinclude template="/includes/SearchSql.cfm">
+	<cfif basQual EQ "  AND flat.collection_cde not in ('HerpOBS')" or basQual EQ "  AND filtered_flat.collection_cde not in ('HerpOBS')">
+		<cfset basQual = "AND 1<>1">
+	</cfif>
 	<cfset SqlString = "#basSelect# #basFrom# #basJoin# #basWhere# #basQual#">
+	<cfset checkSQL(SqlString)>
 	<cfquery name="getMapData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		#preserveSingleQuotes(SqlString)#
 	</cfquery>
 </cfif><!--- end point map option --->
 <cfif getMapData.recordcount is 0>
 	<div class="error">
-		Oops! We didn't find anything mappable. Only wild caught specimens with coordinates will map.
+		Oops! We didn't find anything mappable. Only wild caught and rock/outcrop specimens with coordinates will map.
 		File a <a href='/info/bugs.cfm'>bug report</a> if you think this message is in error.
 	</div>
 	<cfabort>
@@ -144,7 +177,7 @@
 				collection_contacts
 			WHERE
 				electronic_address.agent_id = collection_contacts.contact_agent_id AND
-				collection_contacts.collection_id IN (#valuelist(collID.collection_id)#) AND
+				collection_contacts.collection_id IN (<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#valuelist(collID.collection_id)#" list="yes">) AND
 				address_type='e-mail' AND
 				contact_role='data quality'
 			GROUP BY address
@@ -218,9 +251,10 @@
 		<cfquery name="species" dbtype="query">
 			select distinct(scientific_name) from getMapData
 		</cfquery>
+		<cfset nameList = valuelist(species.scientific_name)>
 		<cfquery name="getClass" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			select phylclass,genus || ' ' || species scientific_name from taxonomy where scientific_name in
-			 (#ListQualify(valuelist(species.scientific_name), "'")#)
+			 (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#nameList#" list="yes">)
 			 group by
 			 phylclass,genus || ' ' || species
 		</cfquery>

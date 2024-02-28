@@ -32,7 +32,7 @@
 							specimen_part.derived_from_cat_item = cataloged_item.collection_object_id AND
 							project_trans.transaction_id = loan_item.transaction_id AND 
 							project_trans.project_id = project.project_id AND 
-							project.project_id = #project_id#
+							project.project_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#project_id#">
 						)
 					)  
 			ORDER BY 

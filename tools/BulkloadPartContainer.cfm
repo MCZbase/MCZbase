@@ -44,12 +44,13 @@ sho err
 	<p>Columns in red are required:</p>
 	<ul class="geol_hier">
 
-        <li style="color: red;">other_id_type</li>
-        <ul><li>"catalog number" is also a valid other_id_type</li>
-		<li>	<a href="/info/ctDocumentation.cfm?table=ctcoll_other_id_type" target="_blank">other_id_type values list</a></li>
-    </ul>
-
+        <li style="color: red;">other_id_type
+          <ul>
+             <li style="color: black;">"catalog number" is also a valid other_id_type</li>
+		     <li style="color: black;"><a href="/info/ctDocumentation.cfm?table=ctcoll_other_id_type" target="_blank">other_id_type values list</a></li>
+          </ul>
 		</li>
+		<li style="color: red;">other_id_number</li>
 		<li style="color: red;">Collection_Cde</li>
     <li style="color: red;">Institution_Acronym  <span style="color:black;">(case-sensitive, e.g., "MCZ")</span></li>
 
@@ -80,6 +81,14 @@ sho err
 			   name="FiletoUpload"
 			   size="45">
 		<input type="submit" value="Upload this file" class="savBtn">
+		<br><br>
+		Character Set: <select name="cSet" id="cSet">
+			<option value="windows-1252" selected>windows-1252</option>
+			<option value="MacRoman">MacRoman</option>
+			<option value="utf-8">utf-8</option>
+			<option value="utf-16">utf-16</option>
+			<option value="unicode">unicode</option>
+		</input>
 	</cfform>
 </cfif>
 <!---------------------------------------------------------------------->
@@ -88,7 +97,7 @@ sho err
 	<cfquery name="killOld" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		delete from cf_temp_barcode_parts
 	</cfquery>
-	<cffile action="READ" file="#FiletoUpload#" variable="fileContent">
+	<cffile action="READ" file="#FiletoUpload#" variable="fileContent" charset="#cSet#">
 	<cfset fileContent=replace(fileContent,"'","''","all")>
 	<cfset arrResult = CSVToArray(CSV = fileContent.Trim()) />
 	<cfset colNames="">

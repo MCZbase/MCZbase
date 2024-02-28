@@ -7,7 +7,7 @@
 <cfoutput>
     <div class="basic_box">
 	<cfquery name="me" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		select user_id from cf_users where username='#session.username#'
+		select user_id from cf_users where username=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 	</cfquery>
 	<cfif len(#me.user_id#) is 0>
 		<p>	
@@ -30,7 +30,7 @@
 		document.getElementById('srchName').focus();
 	</script>
 	<p>
-        <a href="saveSearch.cfm?action=manage">[ Manage ]</a></p>
+        <a href="/users/Searches.cfm">[ Manage ]</a></p>
         </div>   
 </cfoutput>
 </cfif>
@@ -41,9 +41,9 @@
 	search_name,
 	url
 	) values (
-	 #user_id#,
-	 '#srchName#',
-	 '#returnURL#')
+	 <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#user_id#">,
+	 <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#srchName#">,
+	 <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#returnURL#">)
 </cfquery>
 <script>self.close();</script>
 </cfif>
@@ -80,7 +80,7 @@
 	select SEARCH_NAME,URL,canned_id
 	from cf_canned_search,cf_users
 	where cf_users.user_id=cf_canned_search.user_id
-	and username = '#session.username#'
+	and username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 	order by search_name
 </cfquery>
    

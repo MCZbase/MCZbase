@@ -328,8 +328,8 @@
 					</p>
 					<p>
 						You may edit the loan, after signing in to MCZbase, at
-						<a href="#application.serverRootUrl#/Loan.cfm?Action=editLoan&transaction_id=#loan.transaction_id#">
-							#application.serverRootUrl#/Loan.cfm?Action=editLoan&transaction_id=#loan.transaction_id#
+						<a href="#application.serverRootUrl#/transactions/Loan.cfm?Action=editLoan&transaction_id=#loan.transaction_id#">
+							#application.serverRootUrl#/transactions/Loan.cfm?Action=editLoan&transaction_id=#loan.transaction_id#
 						</a>
 					</p>
 					#common#
@@ -346,8 +346,8 @@
 						</p>
 						<p>
 							You may edit the loan, after signing in to MCZbase, at
-							<a href="#application.serverRootUrl#/Loan.cfm?Action=editLoan&transaction_id=#loan.transaction_id#">
-								#application.serverRootUrl#/Loan.cfm?Action=editLoan&transaction_id=#loan.transaction_id#
+							<a href="#application.serverRootUrl#/transactions/Loan.cfm?Action=editLoan&transaction_id=#loan.transaction_id#">
+								#application.serverRootUrl#/transactions/Loan.cfm?Action=editLoan&transaction_id=#loan.transaction_id#
 							</a>
 						</p>
 						#common#
@@ -469,7 +469,7 @@
 					You are receiving this message because you are the contact person for the permits listed below, which are expiring.
 					<p>
 						<cfloop query="permitExpOneYearIndiv">
-							<a href="#Application.ServerRootUrl#/Permit.cfm?Action=search&permit_id=#permit_id#">Permit##: #PERMIT_NUM#</a> expires on #dateformat(exp_date,'yyyy-mm-dd')# (#expires_in_days# days)<br>
+							<a href="#Application.ServerRootUrl#/transactions/Permit.cfm?action=search&execute=true&permit_id=#permit_id#">Permit##: #PERMIT_NUM#</a> expires on #dateformat(exp_date,'yyyy-mm-dd')# (#expires_in_days# days)<br>
 						</cfloop>
 					</p>
 				</cfmail>
@@ -532,7 +532,7 @@
 				</p>
 				<p>
 					<cfloop query="data">
-						<a href="#Application.ServerRootUrl#/editAccn.cfm?Action=edit&transaction_id=#transaction_id#">
+						<a href="#Application.ServerRootUrl#/transactions/Accession.cfm?action=edit&transaction_id=#transaction_id#">
 							#collection# #accn_number#
 						</a>
 						<br>

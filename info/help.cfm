@@ -80,7 +80,7 @@ big boxes.
 					<li>A hyphen-separated range of integers (1-6)</li>
 	</ul>
 	<p>
-		See <a href="/Collections/index.cfm" target="_parent">Data Providers</a> for more information about data providers and their catalog numbers.
+		See <a href="/collections/index.cfm" target="_parent">Collections</a> for more information about the MCZ collections and their holdings.
 	</p>
 </cfif>
 <!----------------------------------------------------------------------------------------------------->
@@ -202,79 +202,6 @@ The Detailed Matrix is user customizable. Some queries may fail to run if you ha
 <cfif #content# is "common_name">
 <cfset title="Common Name Help">
 Common Names have been opportunistically entered into MCZbase. Common Name entries should not be viewed as complete, authoritative, or necessarily common. There may be one, many, or no common names for any taxon name.
-</cfif>
-<!----------------------------------------------------------------------------------------------------->
-<cfif #content# is "CollStats">
-	<cfset title="Collection Stats">
-	<cfquery name="stat" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		SELECT
-			collection,
-			descr,
-			count(collection_object_id) as cnt,
-			web_link,
-			web_link_text
-		FROM
-			cataloged_item,
-			collection
-		WHERE
-			 collection.collection_id = cataloged_item.collection_id (+)
-			 and collection.collection_id not in (6, 10, 12)
-		GROUP BY
-			collection,
-			descr,
-			web_link,
-			web_link_text
-		ORDER BY collection
-	</cfquery>
-	<cfquery name="cnt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		select count(*) as cnt from cataloged_item
-	</cfquery>
-	<cfquery name="numColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		select count(distinct(collection_id)) as cnt from collection where collection_id not in (6, 10, 12)
-	</cfquery>
-	Summary of specimens represented in MCZbase:
-	<blockquote>
-	<table>
-
-	<ul>
-		<cfloop query="stat">
-			<tr>
-
-					<td><li></td>
-						<td>#Collection#</td>
-					<td>#cnt#</td>
-				  	<td nowrap>
-						<font size="-1">(
-						  <cfif len(#web_link#) gt 0>
-						  	<a href="#web_link#" target="_blank">#descr#</a>
-						  <cfelse>
-						  	#descr#
-						  </cfif>)
-						</font>
-					</td>
-
-			</tr>
-		</cfloop>
-		<tr>
-			<td>&nbsp;</td>
-			<td colspan="2">
-				<hr>
-			</td>
-			<td><hr></td>
-			<td>&nbsp;</td>
-		</tr>
-		<tr>
-			<td>&nbsp;</td>
-			<td colspan="2" align="center">
-				#numColl.cnt#
-			</td>
-			<td>#cnt.cnt#</td>
-			<td>&nbsp;</td>
-		</tr>
-	</ul>
-	</table>
-	</blockquote>
-	<p><a href="/Collections" target="_blank">More Info</a></p>
 </cfif>
 <!----------------------------------------------------------------------------------------------------->
 <cfif #content# is "collector">
@@ -1063,7 +990,7 @@ Substrings will return records containing the specified substring in any of thes
 		<li>Related scientific names, such as synonomies</li>
 	</ul>
 </p>
-<p>For information on the taxonomy used here, including common names and synonomies, see <a href="/TaxonomySearch.cfm" target="_blank">MCZbase Taxonomy</a>.
+<p>For information on the taxonomy used here, including common names and synonomies, see <a href="/Taxa.cfm" target="_blank">MCZbase Taxonomy</a>.
 </cfif>
 <!----------------------------------------------------------------------------------------------------->
 <!-------------------------------                t              --------------------------------------->

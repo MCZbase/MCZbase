@@ -1,4 +1,10 @@
-<cfinclude template = "includes/_header.cfm">
+<cfif isDefined("headless") and headless EQ 'true'>
+  <cfif not isDefined("toProperCase")>
+		<cfthrow message = "LoadBarcodes.cfm called with headless=true, but header is not allready included.">
+	</cfif>
+<cfelse>
+	<cfinclude template = "includes/_header.cfm">
+</cfif>
 
 <CFSCRIPT>
 /**
@@ -115,10 +121,10 @@ There are #getDump.recordcount# items in the table
    <tr>
 		
 		<td>
-			<a href="EditContainer.cfm?container_id=#parent_CONTAINER_ID#" target="_blank">#parent_barcode#</a>
+			<a href="editContainer.cfm?container_id=#parent_CONTAINER_ID#" target="_blank">#parent_barcode#</a>
 		</td>
 		<td>
-			<a href="EditContainer.cfm?container_id=#container_id#" target="_blank">#child_barcode#</a>
+			<a href="editContainer.cfm?container_id=#container_id#" target="_blank">#child_barcode#</a>
 		</td>
 		<td>#timestamp#</td>
 	</tr> 
@@ -208,7 +214,7 @@ There are #getDump.recordcount# items in the table
 			--->
 				<cfif pcid.recordcount is not 1>
 					<cfset thisError = 'The parent container was found 
-					  #pcid.recordcount# times. <a href="EditContainer.cfm?action=newContainer&barcode=#trim(parent)#">create</a>'>
+					  #pcid.recordcount# times. <a href="editContainer.cfm?action=newContainer&barcode=#trim(parent)#">create</a>'>
 				  <cfelseif pcid.recordcount is 1>
 				  	<cfset parent_container_id = #pcid.container_id#>				  
 				</cfif>
@@ -225,7 +231,7 @@ There are #getDump.recordcount# items in the table
 			--->
 				<cfif ccid.recordcount is not 1>
 					<cfset thisError='#thisError#; A child container was found 
-					  #ccid.recordcount# times. <a href="EditContainer.cfm?action=newContainer&barcode=#trim(child)#">create</a>'>
+					  #ccid.recordcount# times. <a href="editContainer.cfm?action=newContainer&barcode=#trim(child)#">create</a>'>
 				  <cfelseif ccid.recordcount is 1>
 				  	<cfset child_container_id = #ccid.container_id#>				  
 				</cfif>
@@ -377,4 +383,10 @@ disabled<cfabort>
 	
 </cfoutput>
 </cfif>
-<cfinclude template = "includes/_footer.cfm">
+<cfif isDefined("headless") and headless EQ 'true'>
+  <cfif not isDefined("toProperCase")>
+		<cfthrow message = "LoadBarcodes.cfm called with headless=true, but header is not allready included.">
+	</cfif>
+<cfelse>
+	<cfinclude template = "includes/_footer.cfm">
+</cfif>

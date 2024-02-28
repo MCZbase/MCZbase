@@ -10,11 +10,11 @@
 			from
 				taxonomy
 			where 
-				upper(scientific_name) like '%#ucase(q)#%'
+				upper(scientific_name) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(q)#%">
 			order by
 				scientific_name
 		) 
-		where rownum <= #limit#
+		where rownum <= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#limit#">
 	</cfquery>
 	<cfloop query="pn">
 		#scientific_name#|#taxon_name_id##chr(10)#

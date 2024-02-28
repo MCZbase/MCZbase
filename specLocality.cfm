@@ -48,7 +48,7 @@
 
 					if (r.DATA.ATTRIBUTE_VALUE[i]==dataValue){exists=true;}
 					}
-				if (exists==false){s='<option value="' + dataValue + '" selected="selected">' + dataValue + '</option>';}
+				if (exists==false){s='<option value="' + dataValue + '" selected="selected" style="color:red;">' + dataValue + '</option>';}
 					}
 				for (i=0; i<r.ROWCOUNT; ++i) {
 					s+='<option value="' + r.DATA.ATTRIBUTE_VALUE[i] + '"';
@@ -101,14 +101,43 @@
 </script>
 
 <cfif action is "nothing">
+
+   <!--- Provide a probably sane value for sovereign_nation if none is currently provided. --->
+   <cfquery name="getLID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+    	select distinct
+			locality_id
+		from
+			spec_with_loc
+		where
+			collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
+   </cfquery>
+   <cfquery name="getSov" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+        select
+            sovereign_nation, mczbase.suggest_sovereign_nation(locality_id) suggest
+        from
+            locality
+        where
+            locality.locality_id= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getLID.locality_id#">
+   </cfquery>
+   <cfif len(getSov.sovereign_nation) eq 0>
+      <cfquery name="getSov" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+      update locality
+            set sovereign_nation =  <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getSov.suggest#">
+      where sovereign_nation is null and
+            locality.locality_id= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getLID.locality_id#">
+      </cfquery>
+   </cfif>
+
+
   <div class="basic_wide_box" style="width:75em;">
     <h3 class="wikilink">Locality</h3>
     <cfoutput>
       <cfquery name="l" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-    	select
+    	select distinct
 			collection_object_id,
 			collecting_event_id,
 			LOCALITY_ID,
+            nvl(sovereign_nation,'[unknown]') as sovereign_nation,
 			geog_auth_rec_id,
 			MAXIMUM_ELEVATION,
 			MINIMUM_ELEVATION,
@@ -123,15 +152,15 @@
 			LAT_DEG,
 			DEC_LAT_MIN,
 			LAT_MIN,
-			LAT_SEC,
+			trim(LAT_SEC) LAT_SEC,
 			LAT_DIR,
 			LONG_DEG,
 			DEC_LONG_MIN,
 			LONG_MIN,
-			LONG_SEC,
+			trim(LONG_SEC) LONG_SEC,
 			LONG_DIR,
-			DEC_LAT,
-			DEC_LONG,
+			trim(DEC_LAT) DEC_LAT,
+			trim(DEC_LONG) DEC_LONG,
 			UTM_ZONE,
 			UTM_EW,
 			UTM_NS,
@@ -166,73 +195,13 @@
 		    VERBATIMCOORDINATESYSTEM,
 		    VERBATIMSRS,
 		    STARTDAYOFYEAR,
-		    ENDDAYOFYEAR
+		    ENDDAYOFYEAR,
+		    VERIFIED_BY_AGENT_ID,
+		    VERIFIEDBY
 		from
 			spec_with_loc
 		where
-			collection_object_id = #collection_object_id#
-		group by
-			collection_object_id,
-			collecting_event_id,
-			LOCALITY_ID,
-			geog_auth_rec_id,
-			MAXIMUM_ELEVATION,
-			MINIMUM_ELEVATION,
-			ORIG_ELEV_UNITS,
-			SPEC_LOCALITY,
-			LOCALITY_REMARKS,
-			DEPTH_UNITS,
-			MIN_DEPTH,
-			MAX_DEPTH,
-			NOGEOREFBECAUSE,
-			LAT_LONG_ID,
-			LAT_DEG,
-			DEC_LAT_MIN,
-			LAT_MIN,
-			LAT_SEC,
-			LAT_DIR,
-			LONG_DEG,
-			DEC_LONG_MIN,
-			LONG_MIN,
-			LONG_SEC,
-			LONG_DIR,
-			DEC_LAT,
-			DEC_LONG,
-			UTM_ZONE,
-			UTM_EW,
-			UTM_NS,
-			DATUM,
-			ORIG_LAT_LONG_UNITS,
-			DETERMINED_BY_AGENT_ID,
-			coordinate_determiner,
-			DETERMINED_DATE,
-			LAT_LONG_REMARKS,
-			MAX_ERROR_DISTANCE,
-			MAX_ERROR_UNITS,
-			ACCEPTED_LAT_LONG_FG,
-			EXTENT,
-			GPSACCURACY,
-			GEOREFMETHOD,
-			VERIFICATIONSTATUS,
-			LAT_LONG_REF_SOURCE,
-			HIGHER_GEOG,
-			BEGAN_DATE,
-			ENDED_DATE,
-			VERBATIM_DATE,
-			VERBATIM_LOCALITY,
-			COLL_EVENT_REMARKS,
-			COLLECTING_SOURCE,
-			COLLECTING_METHOD,
-			HABITAT_DESC,
-			COLLECTING_TIME,
-			FISH_FIELD_NUMBER,
-			VERBATIMCOORDINATES,
-		    VERBATIMLATITUDE,
-		    VERBATIMLONGITUDE,
-		    VERBATIMCOORDINATESYSTEM,
-		    VERBATIMSRS,
-		    STARTDAYOFYEAR,
-		    ENDDAYOFYEAR
+			collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
 	</cfquery>
       <cfquery name="g" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select
@@ -247,7 +216,7 @@
 		from
 			spec_with_loc
 		where
-			collection_object_id = #collection_object_id# and
+			collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#"> and
 			GEOLOGY_ATTRIBUTE is not null
 		group by
 			GEOLOGY_ATTRIBUTE_ID,
@@ -272,7 +241,7 @@
 		select georefMethod from ctgeorefmethod
 	</cfquery>
       <cfquery name="ctVerificationStatus" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		select VerificationStatus from ctVerificationStatus
+		select VerificationStatus from ctVerificationStatus order by VerificationStatus
 	</cfquery>
       <cfquery name="cterror" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
         select LAT_LONG_ERROR_UNITS from ctLAT_LONG_ERROR_UNITS
@@ -285,13 +254,26 @@
      </cfquery>
       <cfquery name="ctunits" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
         select ORIG_LAT_LONG_UNITS from ctLAT_LONG_UNITS
-     </cfquery>
+      </cfquery>
       <cfquery name="ctcollecting_source" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
         select COLLECTING_SOURCE from ctcollecting_source
-     </cfquery>
+      </cfquery>
       <cfquery name="ctgeology_attribute" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		select geology_attribute from ctgeology_attribute order by geology_attribute
-	</cfquery>
+		select geology_attribute from ctgeology_attribute order by ordinal
+	  </cfquery>
+      <cfquery name="ctSovereignNation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#createtimespan(0,0,60,0)#">
+	    select sovereign_nation from ctsovereign_nation order by sovereign_nation
+      </cfquery>
+
+      <cfquery name="cecount" datasource="uam_god">
+         select count(collection_object_id) ct from cataloged_item
+         where collecting_event_id = <cfqueryparam CFSQLTYPE="CF_SQL_VARCHAR" value = "#l.collecting_event_id#">
+      </cfquery>
+      <cfquery name="loccount" datasource="uam_god">
+         select count(ci.collection_object_id) ct from cataloged_item ci
+             left join collecting_event on ci.collecting_event_id = collecting_event.collecting_event_id
+         where collecting_event.locality_id = <cfqueryparam CFSQLTYPE="CF_SQL_VARCHAR" value = "#l.locality_id#">
+      </cfquery>
       <cfform name="loc" method="post" action="specLocality.cfm">
         <input type="hidden" name="action" value="saveChange">
         <input type="hidden" name="nothing" id="nothing">
@@ -302,17 +284,23 @@
 
           <table>
             <tr>
-              <td><label for="higher_geog"> Higher Geography
-                  <cfif len(session.roles) gt 0 and FindNoCase("manage_geography",session.roles) NEQ 0>
-                    &nbsp;&nbsp; <a href="Locality.cfm?Action=editGeog&geog_auth_rec_id=#l.geog_auth_rec_id#" target="_blank"> Edit Higher Geography</a>
-                  </cfif>
-                </label>
-                <input type="text" id="higher_geog" name="higher_geog" size="75" value="#l.higher_geog#" class="reqdClr"
-					onchange="getGeog('nothing','higher_geog','loc',this.value); return false;"></td>
+          		<td>
+						<label for="higher_geog"> Higher Geography
+							<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_geography")>
+								<a href="/localities/HigherGeography.cfm?geog_auth_rec_id=#l.geog_auth_rec_id#" target="_blank">Edit</a>
+							<cfelse>
+								<a href="/localities/viewHigherGeography.cfm?geog_auth_rec_id=#l.geog_auth_rec_id#" target="_blank">View</a>
+							</cfif>
+               	 </label>
+                	<input type="text" id="higher_geog" name="higher_geog" size="75" value="#l.higher_geog#" class="reqdClr"
+							onchange="getGeog('nothing','higher_geog','loc',this.value); return false;">
+					</td>
             </tr>
             <tr>
               <td><label for="spec_locality"> Specific Locality
-                  &nbsp;&nbsp; <a href="editLocality.cfm?locality_id=#l.locality_id#" target="_blank"> Edit Locality</a> </label>
+                  &nbsp;&nbsp; <a href="/localities/Locality.cfm?locality_id=#l.locality_id#" target="_blank"> Edit Locality</a>
+                  <cfif loccount.ct eq 1>(unique to this specimen)<cfelse>(shared with #loccount.ct# specimens)</cfif>
+                  </label>
                 <cfinput type="text"
 					name="spec_locality"
 					id="spec_locality"
@@ -322,8 +310,19 @@
 					message="Specific Locality is required."></td>
             </tr>
             <tr>
+               <td>
+               <label for="sovereign_nation">Sovereign Nation</label>
+   		       <select name="sovereign_nation" id="sovereign_nation" size="1">
+                   <cfloop query="ctSovereignNation">
+               	    <option <cfif isdefined("l.sovereign_nation") AND ctsovereignnation.sovereign_nation is l.sovereign_nation> selected="selected" </cfif>value="#ctSovereignNation.sovereign_nation#">#ctSovereignNation.sovereign_nation#</option>
+                   </cfloop>
+               </td>
+            </tr>
+            <tr>
               <td><label for="verbatim_locality"> Verbatim Locality
-                  &nbsp;&nbsp; <a href="Locality.cfm?Action=editCollEvnt&collecting_event_id=#l.collecting_event_id#" target="_blank"> Edit Collecting Event</a> </label>
+                  &nbsp;&nbsp; <a href="/localities/CollectingEvent.cfm?collecting_event_id=#l.collecting_event_id#" target="_blank"> Edit Collecting Event</a>
+                  <cfif cecount.ct eq 1>(unique to this specimen)<cfelse>(shared with #cecount.ct# specimens)</cfif>
+ </label>
                 <cfinput type="text"
 					name="verbatim_locality"
 					id="verbatim_locality"
@@ -491,7 +490,7 @@
                 <input type="text" name="locality_remarks" id="locality_remarks" value="#stripQuotes(l.LOCALITY_REMARKS)#"  size="75"></td>
             </tr>
             <tr>
-              <td><label for="NoGeorefBecause"> Not Georefererenced Because </label>
+              <td><label for="NoGeorefBecause"> Not Georefererenced Because <a href="##" onClick="getMCZDocs('Not_Georeferenced_Because')">(Suggested Entries)</a></label>
                 <input type="text" name="NoGeorefBecause" value="#l.NoGeorefBecause#"  size="75">
                 <cfif #len(l.orig_lat_long_units)# gt 0 AND len(#l.NoGeorefBecause#) gt 0>
                   <div class="redMessage"> NoGeorefBecause should be NULL for localities with georeferences.
@@ -565,27 +564,52 @@
             <tr>
               <td><label for="GpsAccuracy"> GPS Accuracy </label>
                 <input type="text" name="GpsAccuracy" id="GpsAccuracy" value="#l.GpsAccuracy#" size="7"></td>
+			</tr>
+			<tr>
               <td><label for="VerificationStatus"> Verification Status </label>
                 <cfset thisVerificationStatus = #l.VerificationStatus#>
-                <select name="VerificationStatus" id="VerificationStatus" size="1" class="reqdClr">
+                <select name="VerificationStatus" id="VerificationStatus" size="1" class="reqdClr"
+				onchange="if (this.value=='verified by MCZ collection' || this.value=='rejected by MCZ collection')
+									{document.getElementById('verified_by').style.display = 'block';
+									document.getElementById('verified_byLBL').style.display = 'block';
+									document.getElementById('verified_by').className = 'reqdClr';}
+									else
+									{document.getElementById('verified_by').value = '';
+									document.getElementById('verified_by').style.display = 'none';
+									document.getElementById('verified_byLBL').style.display = 'none';
+									document.getElementById('verified_by').className = '';}">
                   <cfloop query="ctVerificationStatus">
                     <option
 							<cfif #thisVerificationStatus# is #ctVerificationStatus.VerificationStatus#> selected </cfif>
 								value="#VerificationStatus#">#VerificationStatus#</option>
                   </cfloop>
                 </select></td>
+				<td>
+					<cfset thisVerifiedBy = #l.verifiedby#>
+					<cfset thisVerifiedByAgentId = #l.verified_by_agent_id#>
+					<label for="verified_by" id="verified_byLBL" <cfif #thisVerificationStatus# EQ "verified by MCZ collection" or #thisVerificationStatus# EQ "rejected by MCZ collection">style="display:block"<cfelse>style="display:none"</cfif>>
+						Verified by
+					</label>
+					<input type="text" name="verified_by" id="verified_by" value="#thisVerifiedBy#" size="25"
+						<cfif #thisVerificationStatus# EQ "verified by MCZ collection" or #thisVerificationStatus# EQ "rejected by MCZ collection">class="reqdClr" style="display:block"
+						<cfelse>style="display:none"
+						</cfif>
+						onchange="if (this.value.length > 0){getAgent('verified_by_agent_id','verified_by','loc',this.value); return false;}"
+		 				onKeyPress="return noenter(event);">
+		 			<input type="hidden" name="verified_by_agent_id" value="#thisVerifiedByAgentId#">
+				</td>
             </tr>
             <tr>
               <td colspan="2"><label for="LAT_LONG_REF_SOURCE"> Reference </label>
                 <input type="text" name="LAT_LONG_REF_SOURCE" id="LAT_LONG_REF_SOURCE" size="90" class="reqdClr"
-					value="#preservesinglequotes(l.LAT_LONG_REF_SOURCE)#" /></td>
+					value="#encodeForHTML(l.LAT_LONG_REF_SOURCE)#" /></td>
             </tr>
             <tr>
               <td colspan="3"><label for="LAT_LONG_REMARKS"> Remarks </label>
                 <input type="text"
 					name="LAT_LONG_REMARKS"
 					id="LAT_LONG_REMARKS"
-					value="#preservesinglequotes(l.LAT_LONG_REMARKS)#"
+					value="#encodeForHTML(l.LAT_LONG_REMARKS)#"
 					size="90"></td>
             </tr>
           </table>
@@ -940,8 +964,18 @@
             </tr>
 
           <tr>
-            <td colspan="2" align="center"><input type="submit" value="Save Changes" class="savBtn"
-   				onmouseover="this.className='savBtn btnhov';this.focus();" onmouseout="this.className='savBtn'"></td>
+            <td colspan="2" align="center">
+            <cfif loccount.ct eq 1 and cecount.ct eq 1>
+                <input type="submit" value="Save Changes" class="savBtn"
+   				    onmouseover="this.className='savBtn btnhov';this.focus();" onmouseout="this.className='savBtn'">
+            <cfelse>
+                <span>
+                <input type="submit" value="Split and Save Changes" class="savBtn"
+   				    onmouseover="this.className='savBtn btnhov';this.focus();" onmouseout="this.className='savBtn'">
+                A new locality and collecting event will be created with these values and changes will apply to this record only.
+                </span>
+            </cfif>
+            </td>
           </tr>
         </table>
       </cfform>
@@ -985,6 +1019,7 @@
 					NVL(MIN_DEPTH,-1) = nvl('#min_depth#',-1) AND
 					NVL(MAX_DEPTH,-1) = nvl('#max_depth#',-1) AND
 					NVL(SPEC_LOCALITY,'NULL') = NVL('#escapeQuotes(spec_locality)#','NULL') AND
+					NVL(SOVEREIGN_NATION,'NULL') = NVL('#escapeQuotes(sovereign_nation)#','NULL') AND
 					NVL(LOCALITY_REMARKS,'NULL') = NVL('#escapeQuotes(locality_remarks)#','NULL') AND
 					NVL(DEPTH_UNITS,'NULL') = NVL('#depth_units#','NULL') AND
 					NVL(NOGEOREFBECAUSE,'NULL') = NVL('#escapeQuotes(nogeorefbecause)#','NULL')  AND
@@ -1000,6 +1035,7 @@
 					NVL(gpsaccuracy,-1) = nvl('#gpsaccuracy#',-1) AND
 					NVL(georefmethod,'NULL') = NVL('#georefmethod#','NULL')  AND
 					NVL(verificationstatus,'NULL') = NVL('#escapeQuotes(verificationstatus)#','NULL') AND
+					NVL(verified_by_agent_id, -1) = NVL('#verified_by_agent_id#', -1) AND
 					NVL(DEC_LAT,-1) = nvl('#DEC_LAT#',-1) AND
 					NVL(DEC_LONG,-1) = nvl('#DEC_LONG#',-1) AND
 					NVL(UTM_EW,-1) = nvl('#UTM_EW#',-1) AND
@@ -1134,37 +1170,39 @@
 					DEPTH_UNITS,
 					MIN_DEPTH,
 					MAX_DEPTH,
-					NOGEOREFBECAUSE
+					NOGEOREFBECAUSE,
+                    SOVEREIGN_NATION
 				) values (
-					#nlid.nlid#,
-					#nGeogId#,
+                    <cfqueryparam CFSQLTYPE="CF_SQL_DECIMAL" value="#nlid.nlid#">,
+                    <cfqueryparam CFSQLTYPE="CF_SQL_DECIMAL" value="#nGeogId#">,
 					<cfif len(MAXIMUM_ELEVATION) gt 0>
-						#MAXIMUM_ELEVATION#,
+                        <cfqueryparam CFSQLTYPE="CF_SQL_DECIMAL" value="#MAXIMUM_ELEVATION#">,
 					<cfelse>
 						NULL,
 					</cfif>
 					<cfif len(MINIMUM_ELEVATION) gt 0>
-						#MINIMUM_ELEVATION#,
+                        <cfqueryparam CFSQLTYPE="CF_SQL_DECIMAL" value="#MINIMUM_ELEVATION#">,
 					<cfelse>
 						NULL,
 					</cfif>
-					'#ORIG_ELEV_UNITS#',
-					'#escapeQuotes(SPEC_LOCALITY)#',
-					'#escapeQuotes(LOCALITY_REMARKS)#',
-					'#DEPTH_UNITS#',
+                    <cfqueryparam CFSQLTYPE="CF_SQL_VARCHAR" value="#ORIG_ELEV_UNITS#">,
+                    <cfqueryparam CFSQLTYPE="CF_SQL_VARCHAR" value="#SPEC_LOCALITY#">,
+                    <cfqueryparam CFSQLTYPE="CF_SQL_VARCHAR" value="#LOCALITY_REMARKS#">,
+                    <cfqueryparam CFSQLTYPE="CF_SQL_VARCHAR" value="#DEPTH_UNITS#">,
 					<cfif len(MIN_DEPTH) gt 0>
-						#MIN_DEPTH#,
+                        <cfqueryparam CFSQLTYPE="CF_SQL_DECIMAL" value="#MIN_DEPTH#">,
 					<cfelse>
 						NULL,
 					</cfif>
 					<cfif len(MAX_DEPTH) gt 0>
-						#MAX_DEPTH#,
+                        <cfqueryparam CFSQLTYPE="CF_SQL_DECIMAL" value="#MAX_DEPTH#">,
 					<cfelse>
 						NULL,
 					</cfif>
-					'#escapeQuotes(NOGEOREFBECAUSE)#'
+                    <cfqueryparam CFSQLTYPE="CF_SQL_VARCHAR" value="#NOGEOREFBECAUSE#">,
+                    <cfqueryparam CFSQLTYPE="CF_SQL_VARCHAR" value="#sovereign_nation#">
 				)
-			</cfquery>
+	    </cfquery>
         made loc....
         <cfset etime=now()>
         <cfset tt=DateDiff("s", btime, etime)>
@@ -1284,7 +1322,8 @@
 						EXTENT,
 						GPSACCURACY,
 						GEOREFMETHOD,
-						VERIFICATIONSTATUS
+						VERIFICATIONSTATUS,
+						VERIFIED_BY_AGENT_ID
 					) values (
 						sq_lat_long_id.nextval,
 						#nlid.nlid#,
@@ -1356,29 +1395,29 @@
 						<cfelse>
 							NULL,
 						</cfif>
-						'#DATUM#',
-						'#UTM_ZONE#',
+						<cfqueryparam CFSQLTYPE="CF_SQL_VARCHAR" value="#DATUM#">,
+						<cfqueryparam CFSQLTYPE="CF_SQL_VARCHAR" value="#UTM_ZONE#">,
 						<cfif len(UTM_EW) gt 0>
-							#UTM_EW#,
+						    <cfqueryparam CFSQLTYPE="CF_SQL_DECIMAL" value="#UTM_EW#">,
 						<cfelse>
 							NULL,
 						</cfif>
 						<cfif len(UTM_NS) gt 0>
-							#UTM_NS#,
+						    <cfqueryparam CFSQLTYPE="CF_SQL_DECIMAL" value="#UTM_NS#">,
 						<cfelse>
 							NULL,
 						</cfif>
-						'#ORIG_LAT_LONG_UNITS#',
+						<cfqueryparam CFSQLTYPE="CF_SQL_VARCHAR" value="#ORIG_LAT_LONG_UNITS#">,
 						<cfif len(DETERMINED_BY_AGENT_ID) gt 0>
-							#DETERMINED_BY_AGENT_ID#,
+						    <cfqueryparam CFSQLTYPE="CF_SQL_DECIMAL" value="#DETERMINED_BY_AGENT_ID#">,
 						<cfelse>
 							NULL,
 						</cfif>
 						to_date('#DETERMINED_DATE#'),
-						'#escapeQuotes(LAT_LONG_REF_SOURCE)#',
-						'#escapeQuotes(LAT_LONG_REMARKS)#',
+						<cfqueryparam CFSQLTYPE="CF_SQL_VARCHAR" value="#LAT_LONG_REF_SOURCE#">,
+						<cfqueryparam CFSQLTYPE="CF_SQL_VARCHAR" value="#LAT_LONG_REMARKS#">,
 						<cfif len(MAX_ERROR_DISTANCE) gt 0>
-							#MAX_ERROR_DISTANCE#,
+						    <cfqueryparam CFSQLTYPE="CF_SQL_DECIMAL" value="#MAX_ERROR_DISTANCE#">,
 						<cfelse>
 							NULL,
 						</cfif>
@@ -1395,7 +1434,12 @@
 							NULL,
 						</cfif>
 						'#escapeQuotes(GEOREFMETHOD)#',
-						'#escapeQuotes(VERIFICATIONSTATUS)#'
+						'#escapeQuotes(VERIFICATIONSTATUS)#',
+						<cfif len(verified_by_agent_id) GT 0 and len(verified_by) GT 0>
+							<cfqueryparam CFSQLTYPE="CF_SQL_DECIMAL" value="#VERIFIED_BY_AGENT_ID#">
+						<cfelse>
+							NULL
+						</cfif>
 					)
 				</cfquery>
           inserted coordinates......
@@ -1429,8 +1473,8 @@
 				NVL(verbatimLongitude,'NULL') = NVL('#escapeQuotes(verbatimLongitude)#','NULL') AND
 				NVL(verbatimCoordinateSystem,'NULL') = NVL('#escapeQuotes(verbatimCoordinateSystem)#','NULL') AND
 				NVL(verbatimSRS,'NULL') = NVL('#escapeQuotes(verbatimSRS)#','NULL') AND
-				NVL(startDayOfYear,'NULL') = NVL('#escapeQuotes(startDayOfYear)#','NULL') AND
-				NVL(endDayOfYear,'NULL') = NVL('#escapeQuotes(endDayOfYear)#','NULL')
+				NVL(startDayOfYear,-999) = NVL('#startDayOfYear#',-999) AND
+				NVL(endDayOfYear,-999) = NVL('#endDayOfYear#',-999)
 
 		</cfquery>
       gor event....

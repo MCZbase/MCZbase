@@ -21,14 +21,14 @@
 					<cfset ExpiresInDays = datediff("d",now(),exp_Date)>
 					<cfif ExpiresInDays gt -30 and ExpiresInDays lt 181>
 						<cfset whine = "
-							<a href=""http://arctos.database.museum/Permit.cfm?Action=search&permit_id=#permit_id#"">Permit #PERMIT_NUM#</a> expires on #dateformat(exp_date,'yyyy-mm-dd')# (#ExpiresInDays# days)">
+							<a href=""https://#Application.domain#/transactions/Permit.cfm?action=search&execute=true&permit_id=#permit_id#"">Permit #PERMIT_NUM#</a> expires on #dateformat(exp_date,'yyyy-mm-dd')# (#ExpiresInDays# days)">
 						
 					</cfif>
 				<cfelse>
 					<!--- there's a permit with no exp date - treat this as bad! --->
 					<cfset whine = "
-						<a href=""http://arctos.database.museum/Permit.cfm?Action=search&permit_id=#permit_id#"">Permit #PERMIT_NUM#</a>
-						 has no expiration date. That isn't illegal, but it's probably bad!<br>">
+						<a href=""https://#Application.domain#/transactions/Permit.cfm?action=search&execute=true&permit_id=#permit_id#"">Permit #PERMIT_NUM#</a>
+						 has no expiration date.<br>">
 				</cfif>
 				<cfif len(#whine#) gt 0>
 					<cfif len(#CONTACT_AGENT_ID#) gt 0>

@@ -5,8 +5,10 @@
 	<cfset cnt=0>
 </cfif>
 <cfif not isdefined("session.username") OR len(#session.username#) is 0>
-	<span style="color: #FF0000">You must be a registered user to download data!</span>  <br>
-	Click <a href="/login.cfm">here</a> to log in or create a user account.
+	<cfoutput>
+		<span style="color: ##FF0000">You must be a registered user to download data!</span>  <br>
+		Click <a href="/login.cfm">here</a> to log in or create a user account.
+	</cfoutput>
 	<cfabort>
 </cfif>
 
@@ -20,11 +22,10 @@
         affiliation,
 		email
 	FROM 
-		cf_user_data,
-		cf_users
+		cf_user_data
+		left join cf_users on cf_user_data.user_id = cf_users.user_id 
 	WHERE
-		cf_users.user_id = cf_user_data.user_id (+) AND
-		username = '#session.username#'
+		username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 </cfquery>
 <cfoutput>
 <table>
@@ -138,31 +139,34 @@ do not agree</font>.</a>
 			num_records,
 			agree_to_terms)
 		VALUES (
-			#user_id#,
-			'#download_purpose#',
+			<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#user_id#">,
+			<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#download_purpose#">,
 			sysdate,
-			#cnt#,
-			'#agree#')
+			<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#cnt#">,
+			<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#agree#">)
 	</cfquery>
 	
 	<cfquery name="isUser" datasource="cf_dbuser">
-		select * from cf_user_data where user_id=#user_id#
+		select * 
+		from cf_user_data 
+		where 
+			user_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#user_id#">
 	</cfquery>
 		<!---- already have a user_data entry --->
 		<cfif #isUser.recordcount# is 1>
 			<cfquery name="upUser" datasource="cf_dbuser">
 				UPDATE cf_user_data SET
-					first_name = '#first_name#',
-					last_name = '#last_name#',
-					affiliation = '#affiliation#'
+					first_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#first_name#">,
+					last_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#last_name#">,
+					affiliation = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#affiliation#">
 					<cfif len(#middle_name#) gt 0>
-						,middle_name = '#middle_name#'
+						,middle_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#middle_name#">
 					</cfif>
 					<cfif len(#email#) gt 0>
-						,email = '#email#'
+						,email = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#email#">
 					</cfif>
 				WHERE
-					user_id = #user_id#
+					user_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#user_id#">
 			</cfquery>
 		</cfif>
 		<cfif #isUser.recordcount# is not 1>
@@ -180,27 +184,28 @@ do not agree</font>.</a>
 					</cfif>
 					)
 				VALUES (
-					#user_id#,
-					'#first_name#',
-					'#last_name#',
-					'#affiliation#'
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#user_id#">,
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#first_name#">,
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#last_name#">,
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#affiliation#">
 					<cfif len(#middle_name#) gt 0>
-						,'#middle_name#'
+						,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#middle_name#">
 					</cfif>
 					<cfif len(#email#) gt 0>
-						,'#email#'
+						,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#email#">
 					</cfif>
 					)
 			</cfquery>
 		</cfif>
 	<!--- if they agree to the terms, send them to their download --->
 	<cfif #agree# is "yes">
+		<!--- TODO: Harden --->
 		<cflocation url="#downloadFile#">
 	</cfif>
 	<cfif #agree# is "no">
 		You must agree to the terms of usage to download these data.
 		<ul>
-			<li>Click <a href="/home.cfm">here</a> to return to the home page.</li>
+			<li>New <a href="/SpecimenSearch.cfm">Specimen Search</a>.</li>
 			<li>Use your browser's back button or click <a href="javascript: history.back();">here</a> 
 				if you wish to agree to the terms and proceed with the download.</li>
 			<li><cfoutput><a href="mailto:#application.technicalEmail#">Contact us</a></cfoutput> if you wish to discuss the terms of

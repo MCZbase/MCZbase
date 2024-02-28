@@ -49,6 +49,8 @@ content: ": ";
 <cfoutput>
 	<cfquery name="r" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select
+			geog_auth_rec.geog_auth_rec_id as GEOG_AUTH_REC_ID,
+                        locality.locality_id as LOCALITY_ID,
 			CONTINENT_OCEAN,
 			COUNTRY,
 			STATE_PROV,
@@ -110,7 +112,8 @@ content: ": ";
 			COLL_EVENT_REMARKS,
 			COLLECTING_SOURCE,
 			COLLECTING_METHOD,
-			HABITAT_DESC	
+			HABITAT_DESC,
+			MCZBASE.IS_MASK_LOC_COORD(locality.locality_id) as mask_loc_coord
 		from
 			geog_auth_rec,
 			locality,
@@ -127,15 +130,16 @@ content: ": ";
 			geology_attributes.GEO_ATT_DETERMINER_ID=gdet.agent_id(+) and
 			locality.locality_id=collecting_event.locality_id(+) and
 			<cfif isdefined("geog_auth_rec_id") and len(geog_auth_rec_id) gt 0>
-				geog_auth_rec.geog_auth_rec_id=#geog_auth_rec_id#
+				geog_auth_rec.geog_auth_rec_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#geog_auth_rec_id#">
 			<cfelseif isdefined("locality_id") and len(locality_id) gt 0>
-				locality.locality_id=#locality_ID#
+				locality.locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_ID#">
 			<cfelseif isdefined("collecting_event_id") and len(collecting_event_id) gt 0>
-				collecting_event.collecting_event_id=#collecting_event_id#
+				collecting_event.collecting_event_id= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collecting_event_id#">
 			</cfif>
 	</cfquery>
 	<cfquery name="geog" dbtype="query">
 		select
+                        GEOG_AUTH_REC_ID,
 			CONTINENT_OCEAN,
 			COUNTRY,
 			STATE_PROV,
@@ -149,6 +153,7 @@ content: ": ";
 			HIGHER_GEOG
 		from r
 		group by
+                        GEOG_AUTH_REC_ID,
 			CONTINENT_OCEAN,
 			COUNTRY,
 			STATE_PROV,
@@ -165,7 +170,14 @@ content: ": ";
 		<div class="grouped">
 			<cfloop query="geog">
 				<div class="title">
-					Geography
+					Geography&nbsp;
+					<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_geography")>
+						<a href="/localities/HigherGeography.cfm?geog_auth_rec_id=#geog_auth_rec_id#" target="_blank">[Edit]</a>
+					<cfelse>
+						<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+							<a href="/localities/viewHigherGeography.cfm?geog_auth_rec_id=#geog_auth_rec_id#" target="_blank">[View]</a>
+						</cfif>
+					</cfif>
 				</div>
 				<cfif len(CONTINENT_OCEAN) gt 0>
 					<div class="pair">
@@ -232,6 +244,7 @@ content: ": ";
 		<cfif isdefined("locality_id") or isdefined("collecting_event_id")>
 			<cfquery name="locality" dbtype="query">
 				select
+                                        LOCALITY_ID,
 					MAXIMUM_ELEVATION,
 					MINIMUM_ELEVATION,
 					ORIG_ELEV_UNITS,
@@ -240,8 +253,10 @@ content: ": ";
 					DEPTH_UNITS,
 					MIN_DEPTH,
 					MAX_DEPTH,
-					NOGEOREFBECAUSE
+					NOGEOREFBECAUSE,
+					mask_loc_coord
 				from r group by
+                                        LOCALITY_ID,
 					MAXIMUM_ELEVATION,
 					MINIMUM_ELEVATION,
 					ORIG_ELEV_UNITS,
@@ -250,12 +265,20 @@ content: ": ";
 					DEPTH_UNITS,
 					MIN_DEPTH,
 					MAX_DEPTH,
-					NOGEOREFBECAUSE
+					NOGEOREFBECAUSE,
+					mask_loc_coord
 			</cfquery>
 			<div class="grouped">
 				<cfloop query="locality">
 					<div class="title">
-						Locality
+						Locality 
+						<cfif len(session.roles) gt 0 and FindNoCase("manage_locality",session.roles) NEQ 0>
+							<a href='/localities/Locality.cfm?locality_id=#LOCALITY_ID#' target='_blank' rel='noopener noreferrer' >[Edit]</a>
+						<cfelse>
+							<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+								<a href='/localities/viewLocality.cfm?locality_id=#LOCALITY_ID#' target='_blank' rel='noopener noreferrer' >[View]</a>
+							</cfif>
+						</cfif>
 					</div>
 					<cfif len(SPEC_LOCALITY) gt 0>
 						<div class="pair">
@@ -297,6 +320,12 @@ content: ": ";
 							<div class="value">#NOGEOREFBECAUSE#</div>
 						</div>
 					</cfif>
+					<cfif len(mask_loc_coord) gt 0 and mask_loc_coord GT 0>
+						<div class="pair">
+							<div class="data">Coordinates</div>
+							<div class="value">[redacted]</div>
+						</div>
+					</cfif>
 				</cfloop>
 			</div>
 			<cfquery name="coords" dbtype="query">
@@ -328,10 +357,12 @@ content: ": ";
 					GEOREFMETHOD,
 					VERIFICATIONSTATUS,
 					coordinateDeterminer,
-					DETERMINED_DATE
+					DETERMINED_DATE,
+					mask_loc_coord
 				from r 
 				where
 					ACCEPTED_LAT_LONG_FG is not null
+					and mask_loc_coord < 1
 				group by
 					LAT_DEG,
 					DEC_LAT_MIN,
@@ -360,7 +391,8 @@ content: ": ";
 					GEOREFMETHOD,
 					VERIFICATIONSTATUS,
 					coordinateDeterminer,
-					DETERMINED_DATE
+					DETERMINED_DATE,
+					mask_loc_coord
 				order by
 					ACCEPTED_LAT_LONG_FG desc
 			</cfquery>

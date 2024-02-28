@@ -65,7 +65,7 @@ function DEuseGL(glat,glon,gerr){
         $("#max_error_units").val('m'); 
         $("#extent").val('');   
         $("#gpsaccuracy").val('');      
-        $("#datum").val('World Geodetic System 1984');  
+        $("#datum").val('WGS84');  
         $("#determined_by_agent").val($("#enteredby").val());
         var now = new Date();
         var dt=toISOString(now);
@@ -133,24 +133,27 @@ function geolocate () {
         );      
 }
 function getGeolocate(evt) {
-        var message;
-        if (evt.origin !== "https://www.museum.tulane.edu") {
-        alert( "iframe url does not have permision to interact with me" );
-		alert(evt.origin);
-        closeGeoLocate('intruder alert');
-		
-    }
-    else {
-        var breakdown = evt.data.split("|");
-                if (breakdown.length == 4) {
+    if (evt.origin.includes("://mczbase") && evt.data == "") { 
+        console.log(evt); // Chrome appears to trigger an extra invocation of getGeolocate from mczbase with empty data.
+    } else {  
+        if (evt.origin !== "https://www.geo-locate.org") {
+           console.log("getGeolocate()");
+           console.log(evt);
+           console.log("evt.origin: " + evt.origin);
+           alert( "MCZbase error: iframe url does not have permision to interact with me" );
+           closeGeoLocate('intruder alert');
+        } else {
+           var breakdown = evt.data.split("|");
+           if (breakdown.length == 4) {
                     var glat=breakdown[0];
                     var glon=breakdown[1];
                     var gerr=breakdown[2];
                     DEuseGL(glat,glon,gerr)
-                } else {
-                        alert( "Whoa - that's not supposed to happen. " +  breakdown.length);
-                        closeGeoLocate('ERROR - breakdown length');
-                }
+           } else {
+              alert( "MCZbase error: Unable to parse geolocate data. data length=" +  breakdown.length);
+              closeGeoLocate('ERROR - breakdown length');
+           }
+       }
     }
 }
 function closeGeoLocate(msg) {
@@ -369,7 +372,7 @@ function deleteThisRec () {
 					//console.log('going for previous');
 					var nextID=$('#selectbrowse option:selected').prev().val();
 					if (! nextID){
-						alert('Error loading new record. Select a new record in the dropdown, or close and re-open this form.');
+						alert('Deleted record successfully.  Navigating to previous record, but none was found. Select a new record in the dropdown, or close and re-open this form.');
 						msg('no record found','good');
 						return false;
 					}
@@ -750,7 +753,7 @@ function populateGeology(id) {
 			queryformat : 'column'
 		},
 		function (r) {
-			var s='';
+			var s='<option value=""></option>';
 			for (i=0; i<r.ROWCOUNT; ++i) {
 				s+='<option value="' + r.DATA.ATTRIBUTE_VALUE[i] + '"';
 				if (r.DATA.ATTRIBUTE_VALUE[i]==dataValue) {
@@ -1352,7 +1355,7 @@ function cleanup () {
 	}
 	var dateFields = new Array();
 	var badDates = "";
-	dateFields.push('made_date');
+	//dateFields.push('made_date');
 	//dateFields.push('began_date');
 	//dateFields.push('ended_date');
 	dateFields.push('determined_date');
@@ -1456,6 +1459,7 @@ function unpickEvent() {
 	$("#verbatim_locality").attr("readOnly", false).removeClass();
 	$("#coll_event_remarks").attr("readOnly", false).removeClass();
 	$("#collecting_method").attr("readOnly", false).removeClass();
+	$("#collecting_time").attr("readOnly", false).removeClass();
 	$("#habitat_desc").attr("readOnly", false).removeClass();
 	$("#eventUnPicker").hide();
 	$("#eventPicker").show();
@@ -1491,6 +1495,9 @@ function unpickLocality () {
 	$("#maximum_elevation").attr("readOnly", false).removeClass();
 	$("#minimum_elevation").attr("readOnly", false).removeClass();
 	$("#orig_elev_units").attr("readOnly", false).removeClass();
+	$("#max_depth").attr("readOnly", false).removeClass();
+	$("#min_depth").attr("readOnly", false).removeClass();
+	$("#depth_units").attr("readOnly", false).removeClass();
 	$("#locality_remarks").attr("readOnly", false).removeClass();
 	$("#max_error_distance").attr("readOnly", false).removeClass();
 	$("#max_error_units").attr("readOnly", false).removeClass();
@@ -1552,6 +1559,7 @@ function success_pickedEvent(r){
 		$("#coll_event_remarks").val(result.COLL_EVENT_REMARKS[0]).removeClass().addClass('readClr').attr('readonly',true);
 		$("#collecting_source").val(result.COLLECTING_SOURCE[0]).removeClass().addClass('readClr').attr('readonly',true);
 		$("#collecting_method").val(result.COLLECTING_METHOD[0]).removeClass().addClass('readClr').attr('readonly',true);
+		$("#collecting_time").val(result.COLLECTING_TIME[0]).removeClass().addClass('readClr').attr('readonly',true);
 		$("#habitat_desc").val(result.HABITAT_DESC[0]).removeClass().addClass('readClr').attr('readonly',true);		
 		$("#eventPicker").hide();
 		$("#eventUnPicker").show();
@@ -1592,6 +1600,9 @@ function success_pickedLocality (r) {
 		$("#maximum_elevation").attr("readOnly", true).removeClass().addClass('readClr').val(result.MAXIMUM_ELEVATION[0]);
 		$("#minimum_elevation").attr("readOnly", true).removeClass().addClass('readClr').val(result.MINIMUM_ELEVATION[0]);
 		$("#orig_elev_units").attr("readOnly", true).removeClass().addClass('readClr').val(result.ORIG_ELEV_UNITS[0]);
+		$("#max_depth").attr("readOnly", true).removeClass().addClass('readClr').val(result.MAX_DEPTH[0]);
+		$("#min_depth").attr("readOnly", true).removeClass().addClass('readClr').val(result.MIN_DEPTH[0]);
+		$("#depth_units").attr("readOnly", true).removeClass().addClass('readClr').val(result.DEPTH_UNITS[0]);
 		$("#spec_locality").attr("readOnly", true).removeClass().addClass('readClr').val(result.SPEC_LOCALITY[0]);
 		$("#locality_remarks").attr("readOnly", true).removeClass().addClass('readClr').val(result.LOCALITY_REMARKS[0]);
 		$("#latdeg").attr("readOnly", true).removeClass().addClass('readClr').val(result.LAT_DEG[0]);

@@ -1,0 +1,966 @@
+
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1"  width="1803" height="2210">
+<defs id="dmw_defs" >
+<svg id="fk_sym" viewBox="0 0 48.665 48.665" style="enable-background:new 0 0 48.665 48.665;" >
+<g>
+<path d="M40.332,31.592c-2.377,0-4.515,1-6.033,2.598l-17.737-8.686c0.061-0.406,0.103-0.82,0.103-1.246    c0-0.414-0.04-0.818-0.098-1.215l17.711-8.589c1.519,1.609,3.666,2.619,6.054,2.619c4.603,0,8.333-3.731,8.333-8.333    c0-4.603-3.73-8.333-8.333-8.333s-8.333,3.73-8.333,8.333c0,0.414,0.04,0.817,0.098,1.215l-17.709,8.589    c-1.519-1.609-3.666-2.619-6.054-2.619C3.73,15.925,0,19.656,0,24.258c0,4.603,3.73,8.333,8.333,8.333    c2.377,0,4.515-1,6.033-2.596l17.736,8.685c-0.062,0.406-0.104,0.82-0.104,1.245c0,4.604,3.73,8.333,8.333,8.333    s8.333-3.729,8.333-8.333C48.665,35.322,44.935,31.592,40.332,31.592z" fill="#13bf3b"/>
+</g>
+</svg>
+<svg id="pk_sym" viewBox="0 0 480.509 480.509" style="enable-background:new 0 0 480.509 480.509;" >
+<g>
+<path d="M418.119,331.046c4.094,4.374,7.766,8.186,10.996,11.416c3.237,3.238,6.714,6.376,10.427,9.422   c3.71,3.042,6.427,4.568,8.135,4.568c3.241,0,9.517-4.661,18.843-13.99c9.328-9.321,13.989-15.604,13.989-18.842   c0-1.523-2.714-5.421-8.138-11.704c-5.421-6.276-12.364-13.702-20.838-22.271c-8.473-8.565-16.703-16.744-24.694-24.55   c-8.001-7.81-15.8-15.373-23.417-22.703c-7.611-7.327-11.992-11.56-13.135-12.703c-1.902-1.902-4.093-2.853-6.563-2.853   c-3.237,0-9.521,4.661-18.843,13.988c-9.328,9.322-13.989,15.605-13.989,18.843c0,1.711,1.522,4.421,4.568,8.138   c3.046,3.71,6.188,7.187,9.421,10.424c3.23,3.23,7.047,6.899,11.42,10.992c4.377,4.093,6.848,6.423,7.423,6.995l-27.408,27.404   L254.954,222.268c24.94-33.498,37.408-68.236,37.408-104.211c0-31.024-9.761-56.293-29.263-75.801   c-19.512-19.511-44.778-29.265-75.805-29.265c-30.454,0-60.244,9.042-89.363,27.119c-29.121,18.083-52.727,41.686-70.808,70.808   C9.042,140.038,0,169.828,0,200.28c0,31.029,9.753,56.286,29.265,75.803c19.511,19.517,44.777,29.27,75.801,29.27   c35.976,0,70.71-12.467,104.212-37.407l191.574,191.579c5.332,5.328,11.796,7.994,19.417,7.994c7.991,0,15.704-3.72,23.12-11.14   c7.426-7.426,11.143-15.129,11.143-23.127c0-7.617-2.666-14.092-7.994-19.417l-62.811-62.811l27.405-27.404   C411.699,324.195,414.033,326.666,418.119,331.046z M221.556,161.458c-10.656,10.657-23.601,15.987-38.828,15.987   c-7.996,0-15.896-1.812-23.7-5.43c3.617,7.808,5.426,15.706,5.426,23.7c0,15.229-5.327,28.171-15.987,38.828   c-10.66,10.655-23.606,15.986-38.831,15.986c-15.227,0-28.168-5.325-38.828-15.986c-10.657-10.657-15.987-23.599-15.987-38.828   c0-15.227,5.327-28.171,15.987-38.828C81.464,146.23,94.409,140.9,109.636,140.9c7.992,0,15.893,1.809,23.695,5.424   c-3.616-7.804-5.424-15.706-5.424-23.699c0-15.227,5.327-28.171,15.987-38.828c10.66-10.657,23.604-15.987,38.831-15.987   c15.227,0,28.171,5.327,38.828,15.987c10.657,10.66,15.987,23.601,15.987,38.828C237.539,137.852,232.209,150.797,221.556,161.458z   " fill="#ff8345"/>
+</g>
+</svg>
+<svg id="uk_sym" viewBox="0 0 490 490" style="enable-background:new 0 0 490 490;" >
+<g>
+	<polygon points="236.99,11.41 0,246.348 236.99,478.678 236.99,350.609 129.864,245 236.99,139.391  " fill="#0064fb"/>
+<polygon points="253.01,478.59 490,243.651 253.01,11.322 253.01,139.391 360.136,245 253.01,350.609  " fill="#0064fb"/>
+</g>
+</svg>
+<svg id="link_sym" viewBox="0 0 1000 900" style="enable-background:new 0 0 1000 900;" >
+<g>
+<path fill="black" d="M660.224 422.656c6.976 16.192-0.512 35.008-16.768 42.048-16.128 6.976-34.944-0.448-41.984-16.768-8.448-19.776-20.736-37.696-36.224-53.248-64.64-64.64-177.344-64.64-241.92 0l-145.216 145.28c-66.688 66.688-66.688 175.232 0 241.984 66.688 66.688 175.104 66.752 241.92 0l92.8-92.864c12.48-12.48 32.768-12.48 45.248 0s12.48 32.768 0 45.248l-92.8 92.864c-91.648 91.648-240.832 91.52-332.416 0-91.712-91.648-91.712-240.832 0-332.48l145.216-145.28c44.352-44.416 103.424-68.864 166.272-68.864s121.792 24.448 166.208 68.864c21.248 21.312 38.016 45.952 49.664 73.216zM891.136 401.344l-145.216 145.216c-88.768 88.832-243.712 88.832-332.416 0-21.312-21.312-38.080-45.952-49.728-73.216-7.040-16.256 0.448-35.072 16.704-42.048 16.064-6.784 35.008 0.512 41.984 16.768 8.512 19.776 20.8 37.696 36.288 53.248 64.64 64.64 177.344 64.64 241.92 0l145.216-145.216c66.688-66.688 66.688-175.232 0-241.984-66.752-66.624-175.168-66.688-241.92 0l-92.8 92.864c-12.48 12.48-32.768 12.48-45.248 0s-12.48-32.768 0-45.248l92.8-92.864c45.824-45.824 105.984-68.736 166.208-68.736s120.448 22.912 166.272 68.736c91.584 91.648 91.584 240.768-0.064 332.48z" />
+</g>
+</svg>
+<clipPath clipPathUnits="userSpaceOnUse" id="clipPath381_0_">
+<rect x="0" y="0" width="300" height="141" />
+</clipPath>
+<clipPath clipPathUnits="userSpaceOnUse" id="clipPath379_0_">
+<rect x="0" y="0" width="424" height="248" />
+</clipPath>
+<clipPath clipPathUnits="userSpaceOnUse" id="clipPath767_0_">
+<rect x="0" y="0" width="406" height="54" />
+</clipPath>
+<clipPath clipPathUnits="userSpaceOnUse" id="clipPath382_0_">
+<rect x="0" y="0" width="345" height="212" />
+</clipPath>
+<clipPath clipPathUnits="userSpaceOnUse" id="clipPath765_0_">
+<rect x="0" y="0" width="94" height="42" />
+</clipPath>
+<clipPath clipPathUnits="userSpaceOnUse" id="clipPath764_0_">
+<rect x="0" y="0" width="368" height="41" />
+</clipPath>
+<clipPath clipPathUnits="userSpaceOnUse" id="clipPath766_0_">
+<rect x="0" y="0" width="339" height="44" />
+</clipPath>
+<clipPath clipPathUnits="userSpaceOnUse" id="clipPath763_0_">
+<rect x="0" y="0" width="329" height="25" />
+</clipPath>
+<clipPath clipPathUnits="userSpaceOnUse" id="clipPath275_0_">
+<rect x="0" y="0" width="256" height="55" />
+</clipPath>
+<clipPath clipPathUnits="userSpaceOnUse" id="clipPath383_0_">
+<rect x="0" y="0" width="532" height="144" />
+</clipPath>
+<clipPath clipPathUnits="userSpaceOnUse" id="clipPath271_0_">
+<rect x="0" y="0" width="253" height="89" />
+</clipPath>
+<clipPath clipPathUnits="userSpaceOnUse" id="clipPath410_0_">
+<rect x="0" y="0" width="343" height="67" />
+</clipPath>
+<clipPath clipPathUnits="userSpaceOnUse" id="clipPath768_0_">
+<rect x="0" y="0" width="369" height="102" />
+</clipPath>
+<clipPath clipPathUnits="userSpaceOnUse" id="clipPath389_0_">
+<rect x="0" y="0" width="308" height="64" />
+</clipPath>
+<clipPath clipPathUnits="userSpaceOnUse" id="clipPath274_0_">
+<rect x="0" y="0" width="256" height="54" />
+</clipPath>
+<clipPath clipPathUnits="userSpaceOnUse" id="clipPath272_0_">
+<rect x="0" y="0" width="280" height="85" />
+</clipPath>
+<clipPath clipPathUnits="userSpaceOnUse" id="clipPath167_0_">
+<rect x="0" y="0" width="474" height="67" />
+</clipPath>
+<clipPath clipPathUnits="userSpaceOnUse" id="clipPath170_0_">
+<rect x="0" y="0" width="425" height="64" />
+</clipPath>
+<clipPath clipPathUnits="userSpaceOnUse" id="clipPath273_0_">
+<rect x="0" y="0" width="308" height="115" />
+</clipPath>
+<clipPath clipPathUnits="userSpaceOnUse" id="clipPath30_0_">
+<rect x="0" y="0" width="342" height="81" />
+</clipPath>
+<clipPath clipPathUnits="userSpaceOnUse" id="clipPath9_0_">
+<rect x="0" y="0" width="361" height="238" />
+</clipPath>
+</defs>
+<g stroke-linecap="butt" >
+<path stroke="rgb(0,0,0)" fill="none" stroke-opacity="1.0"  stroke-width="1" d="M1087 1114 L1037 1114" />
+<polygon stroke="rgb(0,0,0)" stroke-dasharray="none" points="1087 1114 1081 1117 1081 1111" fill="rgb(0,0,0)" stroke-width="1" stroke-opacity="1.0"  />
+<path stroke-dasharray="none" d="M1043.0 1108.0 L1043.0 1120.0 M1048.3999996185303 1108.0 L1048.3999996185303 1120.0" fill="white" stroke-width="1" stroke-opacity="1.0" stroke="rgb(0,0,0)" />
+</g>
+<g stroke-linecap="butt" >
+<path stroke="rgb(0,0,0)" fill="none" stroke-opacity="1.0"  stroke-width="1" d="M1004 124 L1004 176" />
+<polygon stroke="rgb(0,0,0)" stroke-dasharray="none" points="1004 124 1007 130 1001 130" fill="rgb(0,0,0)" stroke-width="1" stroke-opacity="1.0"  />
+<path stroke-dasharray="none" d="M998.0 176.0 L1004.0 164.0 L1010.0 176.0 M998.0 163.4000005722046 L1010.0 163.4000005722046" fill="white" stroke-width="1" stroke-opacity="1.0" stroke="rgb(0,0,0)" />
+</g>
+<g stroke-linecap="butt" >
+<path stroke="rgb(0,0,0)" fill="none" stroke-opacity="1.0"  stroke-width="1" d="M1278 1077 L875 780" />
+<polygon stroke="rgb(0,0,0)" stroke-dasharray="none" points="1278 1077 1273 1076 1275 1072" fill="rgb(0,0,0)" stroke-width="1" stroke-opacity="1.0"  />
+<path stroke-dasharray="none" d="M882.0 779.0 L876.0 787.0 M885.5999999046326 781.6999998092651 L879.5999999046326 789.6999998092651" fill="white" stroke-width="1" stroke-opacity="1.0" stroke="rgb(0,0,0)" />
+</g>
+<g stroke-linecap="butt" >
+<path stroke="rgb(0,0,0)" fill="none" stroke-opacity="1.0"  stroke-width="1" d="M1514 758 L1514 1077" />
+<polygon stroke="rgb(0,0,0)" stroke-dasharray="none" points="1514 758 1517 764 1511 764" fill="rgb(0,0,0)" stroke-width="1" stroke-opacity="1.0"  />
+<path stroke-dasharray="none" d="M1508.0 1077.0 L1514.0 1065.0 L1520.0 1077.0 M1508.0 1064.4000005722046 L1520.0 1064.4000005722046" fill="white" stroke-width="1" stroke-opacity="1.0" stroke="rgb(0,0,0)" />
+</g>
+<g stroke-linecap="butt" >
+<path stroke="rgb(0,0,0)" fill="none" stroke-opacity="1.0"  stroke-dasharray="8,8" stroke-width="1" d="M1638 520 L1638 426" />
+<polygon stroke="rgb(0,0,0)" stroke-dasharray="none" points="1638 520 1635 514 1641 514" fill="rgb(0,0,0)" stroke-width="1" stroke-opacity="1.0"  />
+<path stroke-dasharray="none" d="M1644.0 426.0 L1638.0 438.0 L1632.0 426.0 M1644.0 438.5999994277954 L1632.0 438.5999994277954" fill="white" stroke-width="1" stroke-opacity="1.0" stroke="rgb(0,0,0)" />
+</g>
+<g stroke-linecap="butt" >
+<path stroke="rgb(0,0,0)" fill="none" stroke-opacity="1.0"  stroke-dasharray="8,8" stroke-width="1" d="M300 254 L379 254" />
+<polygon stroke="rgb(0,0,0)" stroke-dasharray="none" points="300 254 306 251 306 257" fill="rgb(0,0,0)" stroke-width="1" stroke-opacity="1.0"  />
+<path stroke-dasharray="none" d="M379.0 260.0 L367.0 254.0 L379.0 248.0 M366.4000005722046 260.0 L366.4000005722046 248.0" fill="white" stroke-width="1" stroke-opacity="1.0" stroke="rgb(0,0,0)" />
+</g>
+<g stroke-linecap="butt" >
+<path stroke="rgb(0,0,0)" fill="none" stroke-opacity="1.0"  stroke-width="1" d="M1438 593 L554 593" />
+<polygon stroke="rgb(0,0,0)" stroke-dasharray="none" points="1438 593 1432 596 1432 590" fill="rgb(0,0,0)" stroke-width="1" stroke-opacity="1.0"  />
+<path stroke-dasharray="none" d="M554.0 587.0 L566.0 593.0 L554.0 599.0 M566.5999994277954 587.0 L566.5999994277954 599.0" fill="white" stroke-width="1" stroke-opacity="1.0" stroke="rgb(0,0,0)" />
+</g>
+<g stroke-linecap="butt" >
+<path stroke="rgb(0,0,0)" fill="none" stroke-opacity="1.0"  stroke-width="1" d="M1467 520 L1214 320" />
+<polygon stroke="rgb(0,0,0)" stroke-dasharray="none" points="1467 520 1462 519 1464 515" fill="rgb(0,0,0)" stroke-width="1" stroke-opacity="1.0"  />
+<path stroke-dasharray="none" d="M1217.0 316.0 L1222.0 326.0 L1211.0 324.0 M1225.3999996185303 322.2999997138977 L1219.3999996185303 330.2999997138977" fill="white" stroke-width="1" stroke-opacity="1.0" stroke="rgb(0,0,0)" />
+</g>
+<g stroke-linecap="butt" >
+<path stroke="rgb(0,0,0)" fill="none" stroke-opacity="1.0"  stroke-dasharray="8,8" stroke-width="1" d="M1777 378 L1802 378 L1802 598 L1650 598 L1650 426" />
+<polygon stroke="rgb(0,0,0)" stroke-dasharray="none" points="1777 378 1783 375 1783 381" fill="rgb(0,0,0)" stroke-width="1" stroke-opacity="1.0"  />
+<path stroke-dasharray="none" d="M1656.0 426.0 L1650.0 438.0 L1644.0 426.0 M1656.0 438.5999994277954 L1644.0 438.5999994277954" fill="white" stroke-width="1" stroke-opacity="1.0" stroke="rgb(0,0,0)" />
+</g>
+<g stroke-linecap="butt" >
+<path stroke="rgb(0,0,0)" fill="none" stroke-opacity="1.0"  stroke-width="1" d="M466 269 L466 455" />
+<polygon stroke="rgb(0,0,0)" stroke-dasharray="none" points="466 269 469 275 463 275" fill="rgb(0,0,0)" stroke-width="1" stroke-opacity="1.0"  />
+<path stroke-dasharray="none" d="M460.0 455.0 L466.0 443.0 L472.0 455.0 M460.0 442.4000005722046 L472.0 442.4000005722046" fill="white" stroke-width="1" stroke-opacity="1.0" stroke="rgb(0,0,0)" />
+</g>
+<g stroke-linecap="butt" >
+<path stroke="rgb(0,0,0)" fill="none" stroke-opacity="1.0"  stroke-dasharray="8,8" stroke-width="1" d="M1499 758 L1499 1077" />
+<polygon stroke="rgb(0,0,0)" stroke-dasharray="none" points="1499 758 1502 764 1496 764" fill="rgb(0,0,0)" stroke-width="1" stroke-opacity="1.0"  />
+<path stroke-dasharray="none" d="M1493.0 1077.0 L1499.0 1065.0 L1505.0 1077.0 M1493.0 1064.4000005722046 L1505.0 1064.4000005722046" fill="white" stroke-width="1" stroke-opacity="1.0" stroke="rgb(0,0,0)" />
+</g>
+<g stroke-linecap="butt" >
+<path stroke="rgb(0,0,0)" fill="none" stroke-opacity="1.0"  stroke-width="1" d="M1608 520 L1608 426" />
+<polygon stroke="rgb(0,0,0)" stroke-dasharray="none" points="1608 520 1605 514 1611 514" fill="rgb(0,0,0)" stroke-width="1" stroke-opacity="1.0"  />
+<path stroke-dasharray="none" d="M1614.0 426.0 L1608.0 438.0 L1602.0 426.0 M1614.0 438.5999994277954 L1602.0 438.5999994277954" fill="white" stroke-width="1" stroke-opacity="1.0" stroke="rgb(0,0,0)" />
+</g>
+<g stroke-linecap="butt" >
+<path stroke="rgb(0,0,0)" fill="none" stroke-opacity="1.0"  stroke-width="1" d="M1623 520 L1623 426" />
+<polygon stroke="rgb(0,0,0)" stroke-dasharray="none" points="1623 520 1620 514 1626 514" fill="rgb(0,0,0)" stroke-width="1" stroke-opacity="1.0"  />
+<path stroke-dasharray="none" d="M1629.0 426.0 L1623.0 438.0 L1617.0 426.0 M1629.0 438.5999994277954 L1617.0 438.5999994277954" fill="white" stroke-width="1" stroke-opacity="1.0" stroke="rgb(0,0,0)" />
+</g>
+<g stroke-linecap="butt" >
+<path stroke="rgb(0,0,0)" fill="none" stroke-opacity="1.0"  stroke-width="1" d="M1141 836 L954 780" />
+<polygon stroke="rgb(0,0,0)" stroke-dasharray="none" points="1141 836 1136 837 1136 833" fill="rgb(0,0,0)" stroke-width="1" stroke-opacity="1.0"  />
+<path stroke-dasharray="none" d="M955.0 775.0 L964.0 782.0 L953.0 785.0 M965.5 777.0999999046326 L963.5 787.0999999046326" fill="white" stroke-width="1" stroke-opacity="1.0" stroke="rgb(0,0,0)" />
+</g>
+<g stroke-linecap="butt" >
+<path stroke="rgb(0,0,0)" fill="none" stroke-opacity="1.0"  stroke-dasharray="8,8" stroke-width="1" d="M1449 758 L1449 836" />
+<polygon stroke="rgb(0,0,0)" stroke-dasharray="none" points="1449 758 1452 764 1446 764" fill="rgb(0,0,0)" stroke-width="1" stroke-opacity="1.0"  />
+<path stroke-dasharray="none" d="M1443.0 836.0 L1449.0 824.0 L1455.0 836.0 M1443.0 823.4000005722046 L1455.0 823.4000005722046" fill="white" stroke-width="1" stroke-opacity="1.0" stroke="rgb(0,0,0)" />
+</g>
+<g stroke-linecap="butt" >
+<path stroke="rgb(0,0,0)" fill="none" stroke-opacity="1.0"  stroke-width="1" d="M803 222 L857 222" />
+<polygon stroke="rgb(0,0,0)" stroke-dasharray="none" points="803 222 809 219 809 225" fill="rgb(0,0,0)" stroke-width="1" stroke-opacity="1.0"  />
+<path stroke-dasharray="none" d="M857.0 228.0 L845.0 222.0 L857.0 216.0 M844.4000005722046 228.0 L844.4000005722046 216.0" fill="white" stroke-width="1" stroke-opacity="1.0" stroke="rgb(0,0,0)" />
+</g>
+<g stroke-linecap="butt" >
+<path stroke="rgb(0,0,0)" fill="none" stroke-opacity="1.0"  stroke-width="1" d="M277 204 L379 204" />
+<polygon stroke="rgb(0,0,0)" stroke-dasharray="none" points="277 204 283 201 283 207" fill="rgb(0,0,0)" stroke-width="1" stroke-opacity="1.0"  />
+<path stroke-dasharray="none" d="M379.0 210.0 L367.0 204.0 L379.0 198.0 M366.4000005722046 210.0 L366.4000005722046 198.0" fill="white" stroke-width="1" stroke-opacity="1.0" stroke="rgb(0,0,0)" />
+</g>
+<g stroke-linecap="butt" >
+<path stroke="rgb(0,0,0)" fill="none" stroke-opacity="1.0"  stroke-width="1" d="M842 780 L842 1084" />
+<polygon stroke="rgb(0,0,0)" stroke-dasharray="none" points="842 780 845 786 839 786" fill="rgb(0,0,0)" stroke-width="1" stroke-opacity="1.0"  />
+<path stroke-dasharray="none" d="M836.0 1084.0 L842.0 1072.0 L848.0 1084.0 M836.0 1071.4000005722046 L848.0 1071.4000005722046" fill="white" stroke-width="1" stroke-opacity="1.0" stroke="rgb(0,0,0)" />
+</g>
+<g stroke-linecap="butt" >
+<path stroke="rgb(0,0,0)" fill="none" stroke-opacity="1.0"  stroke-width="1" d="M278 146 L379 146" />
+<polygon stroke="rgb(0,0,0)" stroke-dasharray="none" points="278 146 284 143 284 149" fill="rgb(0,0,0)" stroke-width="1" stroke-opacity="1.0"  />
+<path stroke-dasharray="none" d="M379.0 152.0 L367.0 146.0 L379.0 140.0 M366.4000005722046 152.0 L366.4000005722046 140.0" fill="white" stroke-width="1" stroke-opacity="1.0" stroke="rgb(0,0,0)" />
+</g>
+<g  fill="rgb(204,255,255)" stroke="rgb(0,0,255)" fill-opacity="1.0" stroke-opacity="1.0" clip-path="url(#clipPath9_0_)" transform="translate(1438,520)" >
+<rect x="0" y="0" width="360" height="237" />
+<text id="FF69C42F-B6612910D935" x="161" y="13" fill="rgb(0,0,255)" font-weight="bold"  fill-opacity="1.0" font-size="10" stroke="none">
+AGENT
+</text>
+<line x1="0" y1="17" x2="359" y2="17" fill="none" stroke="rgb(0,0,255)"/>
+<text x="16" y="30" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+*
+</text>
+<text x="2" y="30" fill="rgb(0,0,255)" fill-opacity="1.0" font-size="10" stroke="none">
+P
+</text>
+<text x="27" y="30" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+AGENT_ID
+</text>
+<text x="202" y="30" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+NUMBER (15)
+</text>
+<text x="343" y="30" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
+surrogate numeric primary key
+</text>
+<text x="16" y="43" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+*
+</text>
+<text x="2" y="43" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+F
+</text>
+<text x="27" y="43" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+AGENT_TYPE
+</text>
+<text x="202" y="43" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+VARCHAR2 (30 BYTE)
+</text>
+<text x="343" y="43" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
+person, or other type of agent.  Agents of type person have corresponding record in the person table.
+</text>
+<text x="16" y="56" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+
+</text>
+<text x="27" y="56" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+AGENT_REMARKS
+</text>
+<text x="202" y="56" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+VARCHAR2 (4000 BYTE)
+</text>
+<text x="343" y="56" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
+Internal biographical information and other internal remarks.
+</text>
+<text x="16" y="69" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+*
+</text>
+<text x="27" y="69" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+PREFERRED_AGENT_NAME_ID
+</text>
+<text x="202" y="69" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+NUMBER
+</text>
+<text x="343" y="69" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
+The prefered form of the name of the agent.
+</text>
+<text x="16" y="82" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+
+</text>
+<text x="27" y="82" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+EDITED
+</text>
+<text x="202" y="82" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+CHAR (1 CHAR)
+</text>
+<text x="343" y="82" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
+agent record has been vetted (if value is 1)
+</text>
+<text x="16" y="95" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+
+</text>
+<text x="27" y="95" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+AGENTGUID_GUID_TYPE
+</text>
+<text x="202" y="95" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+VARCHAR2 (255 BYTE)
+</text>
+<text x="343" y="95" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
+The type of GUID (e.g. ORCID or VIAF) found in AGENTGUID.
+</text>
+<text x="16" y="108" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+
+</text>
+<text x="27" y="108" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+AGENTGUID
+</text>
+<text x="202" y="108" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+VARCHAR2 (900 BYTE)
+</text>
+<text x="343" y="108" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
+A globaly unique indetifier for this agent, suitable for serving in Darwin Core as dwciri:identifiedBy, dwciri:recordedBy, dwciri:georeferencedBy etc.
+</text>
+<text x="16" y="121" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+
+</text>
+<text x="27" y="121" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+BIOGRAPHY
+</text>
+<text x="202" y="121" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+VARCHAR2 (4000 BYTE)
+</text>
+<text x="343" y="121" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
+Biographical information to be provided to the public.
+</text>
+<line x1="0" y1="127" x2="359" y2="127" fill="none" stroke="rgb(64,64,64)"/>
+<text x="5" y="140" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
+A person, group of people, organization, or other entity having some 
+</text>
+<text x="5" y="153" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
+role with regards to natural science collections.
+</text>
+</g>
+<g  fill="rgb(204,255,204)" stroke="rgb(0,0,255)" fill-opacity="1.0" stroke-opacity="1.0" clip-path="url(#clipPath30_0_)" transform="translate(649,699)" >
+<rect x="0" y="0" width="341" height="80" />
+<text id="F66B8097-064CF835A3F5" x="122" y="13" fill="rgb(0,0,255)" font-weight="bold"  fill-opacity="1.0" font-size="10" stroke="none">
+CATALOGED_ITEM
+</text>
+<polygon points="334,2 330,10 338,10" stroke-dasharray="none" stroke="rgb(0,0,255)" fill="rgb(0,0,255)" stroke-width="1" />
+<line x1="0" y1="17" x2="340" y2="17" fill="none" stroke="rgb(0,0,255)"/>
+<text x="16" y="30" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+*
+</text>
+<text x="2" y="30" fill="rgb(0,0,255)" fill-opacity="1.0" font-size="10" stroke="none">
+PF
+</text>
+<text x="27" y="30" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+COLLECTION_OBJECT_ID
+</text>
+<text x="173" y="30" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+NUMBER
+</text>
+<text x="312" y="30" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
+cataloged items are a subtype of collection objects.
+</text>
+<line x1="0" y1="36" x2="340" y2="36" fill="none" stroke="rgb(64,64,64)"/>
+<text x="5" y="49" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
+Something to which a catalog number is assigned in a collection.
+</text>
+</g>
+<g  fill="rgb(204,255,204)" stroke="rgb(0,0,255)" fill-opacity="1.0" stroke-opacity="1.0" clip-path="url(#clipPath167_0_)" transform="translate(1087,1077)" >
+<rect x="0" y="0" width="473" height="66" />
+<text id="E2697263-C0965973A0A7" x="202" y="13" fill="rgb(0,0,255)" font-weight="bold"  fill-opacity="1.0" font-size="10" stroke="none">
+COLL_OBJECT
+</text>
+<polygon points="466,2 462,10 470,10" stroke-dasharray="none" stroke="rgb(0,0,255)" fill="rgb(0,0,255)" stroke-width="1" />
+<line x1="0" y1="17" x2="472" y2="17" fill="none" stroke="rgb(0,0,255)"/>
+</g>
+<g  fill="rgb(204,255,102)" stroke="rgb(0,0,255)" fill-opacity="1.0" stroke-opacity="1.0" clip-path="url(#clipPath170_0_)" transform="translate(1035,836)" >
+<rect x="0" y="0" width="424" height="63" />
+<text id="E8574606-FC610905DD19" x="159" y="13" fill="rgb(0,0,255)" font-weight="bold"  fill-opacity="1.0" font-size="10" stroke="none">
+COLLECTING_EVENT
+</text>
+<polygon points="417,2 413,10 421,10" stroke-dasharray="none" stroke="rgb(0,0,255)" fill="rgb(0,0,255)" stroke-width="1" />
+<line x1="0" y1="17" x2="423" y2="17" fill="none" stroke="rgb(0,0,255)"/>
+<line x1="0" y1="23" x2="423" y2="23" fill="none" stroke="rgb(64,64,64)"/>
+<text x="5" y="36" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
+Event at which material was collected or observed at some locality.  Similar 
+</text>
+<text x="5" y="49" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
+concept to Gathering in ABCD.
+</text>
+</g>
+<g  fill="rgb(255,255,180)" stroke="rgb(0,0,255)" fill-opacity="1.0" stroke-opacity="1.0" clip-path="url(#clipPath271_0_)" transform="translate(20,2069)" >
+<rect x="0" y="0" width="252" height="88" />
+<text id="9BBA152A-26FBD4DC1818" x="82" y="13" fill="rgb(0,0,255)" font-weight="bold"  fill-opacity="1.0" font-size="10" stroke="none">
+CTMEDIA_LABEL
+</text>
+<line x1="0" y1="17" x2="251" y2="17" fill="none" stroke="rgb(0,0,255)"/>
+<text x="16" y="30" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+*
+</text>
+<text x="2" y="30" fill="rgb(0,0,255)" fill-opacity="1.0" font-size="10" stroke="none">
+P
+</text>
+<text x="27" y="30" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+MEDIA_LABEL
+</text>
+<text x="119" y="30" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+VARCHAR2 (255 CHAR)
+</text>
+<text x="16" y="43" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+
+</text>
+<text x="27" y="43" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+DESCRIPTION
+</text>
+<text x="119" y="43" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+VARCHAR2 (4000 BYTE)
+</text>
+</g>
+<g  fill="rgb(255,255,180)" stroke="rgb(0,0,255)" fill-opacity="1.0" stroke-opacity="1.0" clip-path="url(#clipPath272_0_)" transform="translate(20,239)" >
+<rect x="0" y="0" width="279" height="84" />
+<text id="D64CB742-EC2B3E322458" x="91" y="13" fill="rgb(0,0,255)" font-weight="bold"  fill-opacity="1.0" font-size="10" stroke="none">
+CTMEDIA_LICENSE
+</text>
+<line x1="0" y1="17" x2="278" y2="17" fill="none" stroke="rgb(0,0,255)"/>
+<text x="16" y="30" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+*
+</text>
+<text x="2" y="30" fill="rgb(0,0,255)" fill-opacity="1.0" font-size="10" stroke="none">
+P
+</text>
+<text x="27" y="30" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+MEDIA_LICENSE_ID
+</text>
+<text x="148" y="30" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+NUMBER
+</text>
+<text x="16" y="43" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+*
+</text>
+<text x="27" y="43" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+DISPLAY
+</text>
+<text x="148" y="43" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+VARCHAR2 (68 CHAR)
+</text>
+<text x="16" y="56" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+*
+</text>
+<text x="27" y="56" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+DESCRIPTION
+</text>
+<text x="148" y="56" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+VARCHAR2 (255 CHAR)
+</text>
+<text x="16" y="69" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+*
+</text>
+<text x="27" y="69" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+URI
+</text>
+<text x="148" y="69" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+VARCHAR2 (255 CHAR)
+</text>
+</g>
+<g  fill="rgb(255,255,180)" stroke="rgb(0,0,255)" fill-opacity="1.0" stroke-opacity="1.0" clip-path="url(#clipPath273_0_)" transform="translate(844,9)" >
+<rect x="0" y="0" width="307" height="114" />
+<text id="ED337889-F644B6AB9A71" x="87" y="13" fill="rgb(0,0,255)" font-weight="bold"  fill-opacity="1.0" font-size="10" stroke="none">
+CTMEDIA_RELATIONSHIP
+</text>
+<line x1="0" y1="17" x2="306" y2="17" fill="none" stroke="rgb(0,0,255)"/>
+<text x="16" y="30" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+*
+</text>
+<text x="2" y="30" fill="rgb(0,0,255)" fill-opacity="1.0" font-size="10" stroke="none">
+P
+</text>
+<text x="27" y="30" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+MEDIA_RELATIONSHIP
+</text>
+<text x="162" y="30" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+VARCHAR2 (40 CHAR)
+</text>
+<text x="303" y="30" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
+Type of media relationship, in the form {relationship} {related table name}
+</text>
+<text x="16" y="43" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+
+</text>
+<text x="27" y="43" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+DESCRIPTION
+</text>
+<text x="162" y="43" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+VARCHAR2 (4000 BYTE)
+</text>
+<text x="303" y="43" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
+Text describing the nature of the media relationship.
+</text>
+<text x="16" y="56" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+
+</text>
+<text x="27" y="56" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+LABEL
+</text>
+<text x="162" y="56" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+VARCHAR2 (255 BYTE)
+</text>
+<text x="303" y="56" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
+Human readable label for the sort of media relationship
+</text>
+<text x="16" y="69" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+
+</text>
+<text x="27" y="69" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+AUTO_TABLE
+</text>
+<text x="162" y="69" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+VARCHAR2 (40 BYTE)
+</text>
+<text x="303" y="69" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
+The table to which the meda relationship applies.  Autogenerated from last word in media_relationship.
+</text>
+</g>
+<g  fill="rgb(255,255,180)" stroke="rgb(0,0,255)" fill-opacity="1.0" stroke-opacity="1.0" clip-path="url(#clipPath274_0_)" transform="translate(22,119)" >
+<rect x="0" y="0" width="255" height="53" />
+<text id="C7AF16C9-4DAF2BE87CC7" x="87" y="13" fill="rgb(0,0,255)" font-weight="bold"  fill-opacity="1.0" font-size="10" stroke="none">
+CTMEDIA_TYPE
+</text>
+<line x1="0" y1="17" x2="254" y2="17" fill="none" stroke="rgb(0,0,255)"/>
+<text x="16" y="30" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+*
+</text>
+<text x="2" y="30" fill="rgb(0,0,255)" fill-opacity="1.0" font-size="10" stroke="none">
+P
+</text>
+<text x="27" y="30" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+MEDIA_TYPE
+</text>
+<text x="118" y="30" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+VARCHAR2 (40 CHAR)
+</text>
+<text x="16" y="43" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+
+</text>
+<text x="27" y="43" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+DESCRIPTION
+</text>
+<text x="118" y="43" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+VARCHAR2 (4000 CHAR)
+</text>
+</g>
+<g  fill="rgb(255,255,180)" stroke="rgb(0,0,255)" fill-opacity="1.0" stroke-opacity="1.0" clip-path="url(#clipPath275_0_)" transform="translate(21,177)" >
+<rect x="0" y="0" width="255" height="54" />
+<text id="91A73B86-97FF21C58F9C" x="91" y="13" fill="rgb(0,0,255)" font-weight="bold"  fill-opacity="1.0" font-size="10" stroke="none">
+CTMIME_TYPE
+</text>
+<line x1="0" y1="17" x2="254" y2="17" fill="none" stroke="rgb(0,0,255)"/>
+<text x="16" y="30" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+*
+</text>
+<text x="2" y="30" fill="rgb(0,0,255)" fill-opacity="1.0" font-size="10" stroke="none">
+P
+</text>
+<text x="27" y="30" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+MIME_TYPE
+</text>
+<text x="118" y="30" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+VARCHAR2 (40 CHAR)
+</text>
+<text x="16" y="43" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+*
+</text>
+<text x="27" y="43" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+DESCRIPTION
+</text>
+<text x="118" y="43" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+VARCHAR2 (4000 CHAR)
+</text>
+</g>
+<g  fill="rgb(255,204,204)" stroke="rgb(0,0,255)" fill-opacity="1.0" stroke-opacity="1.0" clip-path="url(#clipPath379_0_)" transform="translate(379,21)" >
+<rect x="0" y="0" width="423" height="247" />
+<text id="116483FD-DCB0E27F66F6" x="194" y="13" fill="rgb(0,0,255)" font-weight="bold"  fill-opacity="1.0" font-size="10" stroke="none">
+MEDIA
+</text>
+<line x1="0" y1="17" x2="422" y2="17" fill="none" stroke="rgb(0,0,255)"/>
+<text x="16" y="30" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+*
+</text>
+<text x="2" y="30" fill="rgb(0,0,255)" fill-opacity="1.0" font-size="10" stroke="none">
+P
+</text>
+<text x="27" y="30" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+MEDIA_ID
+</text>
+<text x="148" y="30" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+NUMBER
+</text>
+<text x="287" y="30" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
+surrogate numeric primary key, also used as resolvalbe identifier for media record with /media/{media_id} in web API.
+</text>
+<text x="16" y="43" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+*
+</text>
+<text x="27" y="43" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+MEDIA_URI
+</text>
+<text x="148" y="43" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+VARCHAR2 (500 CHAR)
+</text>
+<text x="287" y="43" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
+IRI for the referenced media object
+</text>
+<text x="16" y="56" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+*
+</text>
+<text x="2" y="56" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+F
+</text>
+<text x="27" y="56" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+MIME_TYPE
+</text>
+<text x="148" y="56" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+VARCHAR2 (255 CHAR)
+</text>
+<text x="287" y="56" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
+Mime type of the resource at the IRI provided by the media_uri.
+</text>
+<text x="16" y="69" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+*
+</text>
+<text x="2" y="69" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+F
+</text>
+<text x="27" y="69" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+MEDIA_TYPE
+</text>
+<text x="148" y="69" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+VARCHAR2 (255 CHAR)
+</text>
+<text x="287" y="69" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
+Human descriptor of the media
+</text>
+<text x="16" y="82" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+
+</text>
+<text x="27" y="82" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+PREVIEW_URI
+</text>
+<text x="148" y="82" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+VARCHAR2 (500 CHAR)
+</text>
+<text x="287" y="82" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
+IRI for a thumbnail for the media object.
+</text>
+<text x="16" y="95" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+
+</text>
+<text x="2" y="95" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+F
+</text>
+<text x="27" y="95" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+MEDIA_LICENSE_ID
+</text>
+<text x="148" y="95" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+NUMBER (22)
+</text>
+<text x="287" y="95" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
+The license under which the institution is enabled to distribute a copy of the media object.   
+</text>
+<text x="16" y="108" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+
+</text>
+<text x="27" y="108" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+MASK_MEDIA_FG
+</text>
+<text x="148" y="108" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+NUMBER (1)
+</text>
+<text x="287" y="108" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
+Flag indicating that this media record should be hidden from the public.  1=mask, 0=public.
+</text>
+<text x="16" y="121" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+
+</text>
+<text x="27" y="121" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+AUTO_PROTOCOL
+</text>
+<text x="148" y="121" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+VARCHAR2 (20 BYTE)
+</text>
+<text x="287" y="121" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
+Autogenerated protocol portion of the media_uri
+</text>
+<text x="16" y="134" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+
+</text>
+<text x="27" y="134" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+AUTO_HOST
+</text>
+<text x="148" y="134" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+VARCHAR2 (500 BYTE)
+</text>
+<text x="287" y="134" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
+Autogenerated host portion of the media_uri
+</text>
+<text x="16" y="147" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+
+</text>
+<text x="27" y="147" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+AUTO_PATH
+</text>
+<text x="148" y="147" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+VARCHAR2 (500 BYTE)
+</text>
+<text x="287" y="147" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
+Autogenerated path portion of the media_uri
+</text>
+<text x="16" y="160" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+
+</text>
+<text x="27" y="160" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+AUTO_FILENAME
+</text>
+<text x="148" y="160" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+VARCHAR2 (500 BYTE)
+</text>
+<text x="287" y="160" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
+Autogenerated filename portion of the media_uri
+</text>
+<text x="16" y="173" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+
+</text>
+<text x="27" y="173" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+AUTO_EXTENSION
+</text>
+<text x="148" y="173" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+VARCHAR2 (5 BYTE)
+</text>
+<text x="287" y="173" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
+Autogenerated filename extension portion of the media_uri
+</text>
+<line x1="0" y1="179" x2="422" y2="179" fill="none" stroke="rgb(64,64,64)"/>
+<text x="5" y="192" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
+A metadata record for a media object.
+</text>
+</g>
+<g  fill="rgb(255,204,204)" stroke="rgb(0,0,255)" fill-opacity="1.0" stroke-opacity="1.0" clip-path="url(#clipPath381_0_)" transform="translate(323,2069)" >
+<rect x="0" y="0" width="299" height="140" />
+<text id="07B95E66-836B2657A6A3" x="99" y="13" fill="rgb(0,0,255)" font-weight="bold"  fill-opacity="1.0" font-size="10" stroke="none">
+MEDIA_KEYWORDS
+</text>
+<line x1="0" y1="17" x2="298" y2="17" fill="none" stroke="rgb(0,0,255)"/>
+<text x="16" y="30" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+*
+</text>
+<text x="27" y="30" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+MEDIA_ID
+</text>
+<text x="162" y="30" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+NUMBER
+</text>
+<text x="16" y="43" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+
+</text>
+<text x="27" y="43" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+KEYWORDS
+</text>
+<text x="162" y="43" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+VARCHAR2 (4000 CHAR)
+</text>
+<text x="16" y="56" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+
+</text>
+<text x="27" y="56" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+LASTDATE
+</text>
+<text x="162" y="56" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+DATE
+</text>
+<text x="16" y="69" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+*
+</text>
+<text x="2" y="69" fill="rgb(0,0,255)" fill-opacity="1.0" font-size="10" stroke="none">
+P
+</text>
+<text x="27" y="69" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+MEDIA_KEYWORDS_ID
+</text>
+<text x="162" y="69" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+NUMBER
+</text>
+</g>
+<g  fill="rgb(255,204,204)" stroke="rgb(0,0,255)" fill-opacity="1.0" stroke-opacity="1.0" clip-path="url(#clipPath382_0_)" transform="translate(209,455)" >
+<rect x="0" y="0" width="344" height="211" />
+<text id="3139E2A5-E1AF12B2CE92" x="132" y="13" fill="rgb(0,0,255)" font-weight="bold"  fill-opacity="1.0" font-size="10" stroke="none">
+MEDIA_LABELS
+</text>
+<line x1="0" y1="17" x2="343" y2="17" fill="none" stroke="rgb(0,0,255)"/>
+<text x="16" y="30" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+*
+</text>
+<text x="2" y="30" fill="rgb(0,0,255)" fill-opacity="1.0" font-size="10" stroke="none">
+P
+</text>
+<text x="27" y="30" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+MEDIA_LABEL_ID
+</text>
+<text x="177" y="30" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+NUMBER
+</text>
+<text x="16" y="43" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+*
+</text>
+<text x="2" y="43" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+F
+</text>
+<text x="27" y="43" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+MEDIA_ID
+</text>
+<text x="177" y="43" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+NUMBER
+</text>
+<text x="16" y="56" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+*
+</text>
+<text x="27" y="56" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+MEDIA_LABEL
+</text>
+<text x="177" y="56" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+VARCHAR2 (255 CHAR)
+</text>
+<text x="16" y="69" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+*
+</text>
+<text x="27" y="69" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+LABEL_VALUE
+</text>
+<text x="177" y="69" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+VARCHAR2 (4000 CHAR)
+</text>
+<text x="16" y="82" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+*
+</text>
+<text x="2" y="82" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+F
+</text>
+<text x="27" y="82" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+ASSIGNED_BY_AGENT_ID
+</text>
+<text x="177" y="82" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+NUMBER (15)
+</text>
+</g>
+<g  fill="rgb(255,204,204)" stroke="rgb(0,0,255)" fill-opacity="1.0" stroke-opacity="1.0" clip-path="url(#clipPath383_0_)" transform="translate(857,176)" >
+<rect x="0" y="0" width="531" height="143" />
+<text id="9683BA74-50EC3E58A333" x="215" y="13" fill="rgb(0,0,255)" font-weight="bold"  fill-opacity="1.0" font-size="10" stroke="none">
+MEDIA_RELATIONS
+</text>
+<line x1="0" y1="17" x2="530" y2="17" fill="none" stroke="rgb(0,0,255)"/>
+<text x="16" y="30" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+*
+</text>
+<text x="2" y="30" fill="rgb(0,0,255)" fill-opacity="1.0" font-size="10" stroke="none">
+P
+</text>
+<text x="27" y="30" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+MEDIA_RELATIONS_ID
+</text>
+<text x="171" y="30" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+NUMBER
+</text>
+<text x="16" y="43" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+*
+</text>
+<text x="2" y="43" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+F
+</text>
+<text x="27" y="43" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+MEDIA_ID
+</text>
+<text x="171" y="43" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+NUMBER
+</text>
+<text x="16" y="56" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+*
+</text>
+<text x="2" y="56" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+F
+</text>
+<text x="27" y="56" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+MEDIA_RELATIONSHIP
+</text>
+<text x="171" y="56" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+VARCHAR2 (40 CHAR)
+</text>
+<text x="16" y="69" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+*
+</text>
+<text x="2" y="69" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+F
+</text>
+<text x="27" y="69" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+CREATED_BY_AGENT_ID
+</text>
+<text x="171" y="69" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+NUMBER (15)
+</text>
+<text x="16" y="82" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+*
+</text>
+<text x="27" y="82" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+RELATED_PRIMARY_KEY
+</text>
+<text x="171" y="82" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+NUMBER
+</text>
+</g>
+<g  fill="rgb(255,255,180)" stroke="rgb(0,0,255)" fill-opacity="1.0" stroke-opacity="1.0" clip-path="url(#clipPath389_0_)" transform="translate(1469,362)" >
+<rect x="0" y="0" width="307" height="63" />
+<text id="BA5749E4-4D621ED1199D" x="134" y="13" fill="rgb(0,0,255)" font-weight="bold"  fill-opacity="1.0" font-size="10" stroke="none">
+PERMIT
+</text>
+<polygon points="300,2 296,10 304,10" stroke-dasharray="none" stroke="rgb(0,0,255)" fill="rgb(0,0,255)" stroke-width="1" />
+<line x1="0" y1="17" x2="306" y2="17" fill="none" stroke="rgb(0,0,255)"/>
+<line x1="0" y1="23" x2="306" y2="23" fill="none" stroke="rgb(64,64,64)"/>
+<text x="5" y="36" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
+A record of a document pertaining to permissions and 
+</text>
+<text x="5" y="49" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
+rights, such as a permit.
+</text>
+</g>
+<g  fill="rgb(204,255,204)" stroke="rgb(0,0,255)" fill-opacity="1.0" stroke-opacity="1.0" clip-path="url(#clipPath410_0_)" transform="translate(694,1084)" >
+<rect x="0" y="0" width="342" height="66" />
+<text id="A5F85700-8357FA2C9CB1" x="127" y="13" fill="rgb(0,0,255)" font-weight="bold"  fill-opacity="1.0" font-size="10" stroke="none">
+SPECIMEN_PART
+</text>
+<polygon points="335,2 331,10 339,10" stroke-dasharray="none" stroke="rgb(0,0,255)" fill="rgb(0,0,255)" stroke-width="1" />
+<line x1="0" y1="17" x2="341" y2="17" fill="none" stroke="rgb(0,0,255)"/>
+</g>
+<g  fill="rgb(255,204,255)" stroke="rgb(0,0,0)" fill-opacity="1.0" stroke-opacity="1.0" clip-path="url(#clipPath763_0_)" transform="translate(1447,335)" >
+<path stroke="rgb(0,0,0)" stroke-width="1" d="M288 0 L329 4 L329 25 L0 25 L0 0 L288 0 L288 4 L329 4" />
+<text x="2" y="13" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+media_relations.media_relationship=documents permit
+</text>
+</g>
+<g  fill="rgb(255,204,255)" stroke="rgb(0,0,0)" fill-opacity="1.0" stroke-opacity="1.0" clip-path="url(#clipPath764_0_)" transform="translate(1046,787)" >
+<path stroke="rgb(0,0,0)" stroke-width="1" d="M322 0 L368 6 L368 41 L0 41 L0 0 L322 0 L322 6 L368 6" />
+<text x="2" y="13" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+media_relations.media_relationship=documents collecting_event
+</text>
+<text x="2" y="26" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+media_relations.media_relationship=shows collecting_event
+</text>
+</g>
+<g  fill="rgb(225,225,225)" stroke="rgb(0,0,0)" fill-opacity="1.0" stroke-opacity="1.0" clip-path="url(#clipPath765_0_)" transform="translate(1277,376)" >
+<path stroke="rgb(0,0,0)" stroke-width="1" d="M83 0 L94 7 L94 42 L0 42 L0 0 L83 0 L83 7 L94 7" />
+<text x="2" y="13" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+media relation 
+</text>
+<text x="2" y="26" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+created by agent
+</text>
+</g>
+<g  fill="rgb(255,204,255)" stroke="rgb(0,0,0)" fill-opacity="1.0" stroke-opacity="1.0" clip-path="url(#clipPath766_0_)" transform="translate(1093,521)" >
+<path stroke="rgb(0,0,0)" stroke-width="1" d="M297 0 L339 7 L339 44 L0 44 L0 0 L297 0 L297 7 L339 7" />
+<text x="2" y="13" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+media_relations.media_relationship=shows agent
+</text>
+<text x="2" y="26" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+media_relations.media_relationship=shows handwriting of agent
+</text>
+</g>
+<g  fill="rgb(255,204,255)" stroke="rgb(0,0,0)" fill-opacity="1.0" stroke-opacity="1.0" clip-path="url(#clipPath767_0_)" transform="translate(636,646)" >
+<path stroke="rgb(0,0,0)" stroke-width="1" d="M356 0 L406 9 L406 54 L0 54 L0 0 L356 0 L356 9 L406 9" />
+<text x="2" y="13" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+media_relations.media_relationship=shows cataloged_item
+</text>
+<text x="2" y="26" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+media_relations.media_relationship=documents cataloged_item
+</text>
+<text x="2" y="39" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+media_relations.media_relationship=ledger entry for cataloged_item
+</text>
+</g>
+<g  fill="rgb(225,225,225)" stroke="rgb(0,0,0)" fill-opacity="1.0" stroke-opacity="1.0" clip-path="url(#clipPath768_0_)" transform="translate(0,11)" >
+<path stroke="rgb(0,0,0)" stroke-width="1" d="M323 0 L369 17 L369 102 L0 102 L0 0 L323 0 L323 17 L369 17" />
+<text x="2" y="13" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+Media records are metadata records for media objects (images, pdf files, 
+</text>
+<text x="2" y="26" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+web pages, etc).   Media records are related to arbitrary tables through 
+</text>
+<text x="2" y="39" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+media_relations.media_relationship and media_relations.related_primary_key.
+</text>
+<text x="2" y="52" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+  The last word in media_relations.media_relationship specifies the table 
+</text>
+<text x="2" y="65" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+that the related_primary_key points to.   Examples of these relationships 
+</text>
+<text x="2" y="78" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+are shown in the purple comments on this diagram.
+</text>
+</g>
+
+</svg>

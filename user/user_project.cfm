@@ -143,7 +143,7 @@
 	    an address</a> before you submit your loan request.</p>
 <p>
 	
-			You must provide a project description before you may request a loan. A project may request multiple loans. You may view other project descriptions at <a href="/ProjectSearch.cfm">ProjectSearch</a>.
+			You must provide a project description before you may request a loan. A project may request multiple loans. You may view other project descriptions at <a href="/SpecimenUsage.cfm">ProjectSearch</a>.
 			
 			<p>These data will not be published on Arctos before your loans(s) have been approved by the Curator. Please discuss any privacy issues which you might have with the Curator before accepting any loans.</p>
 			

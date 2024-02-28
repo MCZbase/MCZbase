@@ -30,7 +30,11 @@ Retrieving map data - please wait....
 <cfset dlFile = "tabfile#cfid##cftoken#.txt">
 <cffile action="write" file="#dlPath##dlFile#" addnewline="no" output="" nameconflict="overwrite">
 <cfoutput query="getMapData">
-	<cfset relInfo='<a href="#Application.ServerRootUrl#/editLocality.cfm?locality_id=#locality_id#" target="_blank">#spec_locality#</a>'>
+	<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_geography")>
+		<cfset relInfo='<a href="#Application.ServerRootUrl#/localities/Locality.cfm?locality_id=#locality_id#" target="_blank">#spec_locality#</a>'><!--- ' --->
+	<cfelse>
+		<cfset relInfo='<a href="#Application.ServerRootUrl#/localities/viewLocality.cfm?locality_id=#locality_id#" target="_blank">#spec_locality#</a>'>
+	</cfif>
 	<cfset oneLine="#relInfo##chr(9)##locality_id##chr(9)##lat_long_id##chr(9)##spec_locality##chr(9)##dec_lat##chr(9)##dec_long##chr(9)##max_error_meters##chr(9)##datum##chr(9)##isAcceptedLatLong#">
 
 

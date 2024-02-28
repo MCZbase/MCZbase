@@ -17,7 +17,6 @@ Returns:
 Based on:
 	PermitPick.cfm.
 Dependencies:
-	report.cfm is dependent on this file.
 Notes:
 	uses window.opener.document to "return" values.
 --->

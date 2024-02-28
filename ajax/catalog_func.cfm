@@ -20,8 +20,9 @@
 	
 	<cftransaction>
 		<cfquery name="nr" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			update coll_object set  COLL_OBJ_DISPOSITION = '#disposition#'
-			where collection_object_id = #collection_object_id#
+			update coll_object 
+			set COLL_OBJ_DISPOSITION = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#disposition#">
+			where collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
 		</cfquery>
 		<cfset result = "success">
 	</cftransaction>
@@ -42,7 +43,7 @@
 	<cftransaction>
 		<cfquery name="isThere" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			select count(*) cnt from coll_object_remark
-			where collection_object_id = #collection_object_id#
+			where collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
 		</cfquery>
 		<cfif #isThere.cnt# is 0>
 			<cfquery name="nr" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -1248,181 +1249,6 @@
 		<cfreturn result>
 </cffunction>
 <!-------------------------------------------------------------------->
-<cffunction name="getPreviousBox" returntype="query">
-	
-	<cfargument name="freezer" type="numeric" required="yes">
-	<cfargument name="rack" type="numeric" required="yes">
-	<cfargument name="box" type="numeric" required="yes">
-	<cftry>
-	<cftransaction>
-	<cfif #box# is 1>
-		<cfif #rack# is 1>
-			<cfif #freezer# is 1>
-				<cfquery name="result" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					select 
-						0 as freezer,
-						0 as box,
-						0 as rack
-					from dual
-				</cfquery>
-			<cfelse>
-				<cfset tf = #freezer# -1 >
-				<cfquery name="pf" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					select distinct(freezer) from 
-					dgr_locator where freezer = #tf#
-				</cfquery>
-				<cfif #pf.recordcount# is 1>
-					<cfquery name="r" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-						select max(rack) as mrack from dgr_locator where 
-						freezer = #tf#
-					</cfquery>
-					<cfquery name="result" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-						select 
-							freezer,
-							rack,
-							max(box) as box
-						from dgr_locator where 
-						freezer = #tf#
-					</cfquery>
-				</cfif>
-			</cfif>
-		</cfif>
-	</cfif>
-	<cfquery name="newLoc" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-	
-	</cfquery>
-	<cfquery name="v" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		select dgr_locator_seq.currval as currval from dual
-	</cfquery>
-	<cfset tv = v.currval>
-	<cfquery name="result" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		select LOCATOR_ID,
-			FREEZER,
-			RACK,
-			BOX,
-			PLACE,
-			NK,
-			TISSUE_TYPE from 
-		dgr_locator where LOCATOR_ID =#tv#		
-	</cfquery>
-	</cftransaction>
-	<cfcatch>
-		<cfquery name="result" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			select 99999999 as LOCATOR_ID from dual
-		</cfquery>
-	</cfcatch>
-	</cftry>
-		<cfreturn result>
-</cffunction>
-
-
-<!------------------------------------->
-<cffunction name="DGRboxlookup" returntype="query">
-	<cfargument name="freezer" type="numeric" required="yes">
-	<cfargument name="rack" type="numeric" required="yes">
-	
-	<cfquery name="result" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		select box from dgr_locator where freezer = #freezer#
-		and rack = #rack#
-		group by box order by box
-	</cfquery>
-	<cfreturn result>
-</cffunction>
-<!------------------------------------->
-<cffunction name="DGRracklookup" returntype="query">
-	
-	<cfargument name="freezer" type="numeric" required="yes">
-	
-	<cfquery name="result" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		select rack from dgr_locator where freezer = #freezer#
-		group by rack order by rack
-	</cfquery>
-	<cfreturn result>
-</cffunction>
-
-<!------------------------------------->
-<cffunction name="remNKFromPosn" returntype="string">
-	
-	<cfargument name="freezer" type="numeric" required="yes">
-	<cfargument name="rack" type="numeric" required="yes">
-	<cfargument name="box" type="numeric" required="yes">
-	<cfargument name="place" type="numeric" required="yes">
-	<cfargument name="tissue_type" type="string" required="yes">
-	<cfargument name="nk" type="numeric" required="yes">
-	<cfset result=#place#>
-	<cftry>
-	<cftransaction>
-	<cfquery name="newLoc" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		delete from dgr_locator
-		where  
-			freezer=#freezer# AND
-			rack= #rack# and
-			box = #box# AND
-			place = #place# AND
-			nk = #nk# AND
-			tissue_type = '#tissue_type#'
-	</cfquery>
-	
-	</cftransaction>
-	<cfcatch>
-		<cfset result=999999>
-	</cfcatch>
-	</cftry>
-		<cfreturn result>
-</cffunction>
-<!------------------------------------->
-<cffunction name="saveNewTiss" returntype="query">
-	
-	<cfargument name="freezer" type="numeric" required="yes">
-	<cfargument name="rack" type="numeric" required="yes">
-	<cfargument name="box" type="numeric" required="yes">
-	<cfargument name="place" type="numeric" required="yes">
-	<cfargument name="nk" type="numeric" required="yes">
-	<cfargument name="tissue_type" type="string" required="yes">
-	<cftry>
-	<cftransaction>
-	<cfquery name="newLoc" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		insert into dgr_locator (
-			LOCATOR_ID,
-			FREEZER,
-			RACK,
-			BOX,
-			PLACE,
-			NK,
-			TISSUE_TYPE)
-		VALUES (
-			dgr_locator_seq.nextval,
-			#freezer#,
-			#rack#,
-			#box#,
-			#place#,
-			#nk#,
-			'#tissue_type#')		
-	</cfquery>
-	<cfquery name="v" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		select dgr_locator_seq.currval as currval from dual
-	</cfquery>
-	<cfset tv = v.currval>
-	<cfquery name="result" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		select LOCATOR_ID,
-			FREEZER,
-			RACK,
-			BOX,
-			PLACE,
-			NK,
-			TISSUE_TYPE from 
-		dgr_locator where LOCATOR_ID =#tv#		
-	</cfquery>
-	</cftransaction>
-	<cfcatch>
-		<cfquery name="result" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			select 99999999 as LOCATOR_ID from dual
-		</cfquery>
-	</cfcatch>
-	</cftry>
-		<cfreturn result>
-</cffunction>
-<!------------------------------------->
 
 <cffunction name="getContacts" returntype="string">
 	<cfquery name="contacts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">

@@ -111,13 +111,14 @@
 	<cfif colls.recordcount is 0>
 		<cfabort>
 	</cfif>
-	<cfset formList="SpecimenSearch.cfm">
+	<cfset formList="Specimens.cfm">
+	<cfset formList=listAppend(formList,"specimens/browseSpecimens.cfm")>
 	<cfset formList=listAppend(formList,"SpecimenUsage.cfm")>
-	<cfset formList=listAppend(formList,"TaxonomySearch.cfm")>
+	<cfset formList=listAppend(formList,"Taxa.cfm")>
 	<cfset formList=listAppend(formList,"MediaSearch.cfm")>
 	<cfset formList=listAppend(formList,"login.cfm")>
 	<cfset formList=listAppend(formList,"home.cfm")>
-	<cfset formList=listAppend(formList,"Collections/")>	
+	<cfset formList=listAppend(formList,"collections/index.cfm")>	
 	<cfset chunkNum=replace(colls.filename,".xml","","all")>
 	<cfset chunkNum=replace(chunkNum,"static","","all")>
 	<cfset maxRN=chunkNum*chunkSize>

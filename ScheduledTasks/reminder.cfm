@@ -29,6 +29,7 @@
 				REPLACE(formatted_addr, CHR(10),'<br>') FORMATTED_ADDR,
 				last_name,
 				first_name,
+				country_cde,
 				round(RETURN_DUE_DATE - (sysdate)) + 1 as numdays
 			FROM
 				loan,
@@ -53,7 +54,7 @@
 				trans_agent.agent_id = preferred_agent_name.agent_id AND
 				trans_agent.agent_id = person.person_id(+) AND
 				preferred_agent_name.agent_id = electronic_address.agent_id(+) AND
-				trans_agent.trans_agent_role in ('in-house contact',  'additional in-house contact', 'additional outside contact', 'for use by', 'received by') and
+				trans_agent.trans_agent_role in ('in-house contact',  'additional in-house contact', 'additional outside contact', 'for use by', 'received by','outside contact') and
 				round(RETURN_DUE_DATE - (sysdate)) + 1 in (-365,-180,-150,-120,-90,-60,-30,-7,0,30) and
 				LOAN_STATUS like 'open%' and
 				loan_type in ('returnable', 'consumable') and
@@ -75,6 +76,7 @@
 				nature_of_material,
 				collection_id,
 				formatted_addr,
+				country_cde,
 				numdays
 			from
 				expLoan
@@ -91,6 +93,7 @@
 				nature_of_material,
 				collection_id,
 				formatted_addr,
+				country_cde,
 				numdays
 		</cfquery>
 		<!--- loop once for each loan --->
@@ -132,7 +135,7 @@
 					expLoan
 				where
 					transaction_id=#transaction_id# and
-					trans_agent_role in ('additional outside contact', 'for use by', 'received by') and
+					trans_agent_role in ('additional outside contact', 'for use by', 'received by','outside contact') and
 					address is not null
 				group by
 					address,
@@ -270,8 +273,8 @@
 					</p>
 					<p>
 						You may edit the loan, after signing in to MCZbase, at
-						<a href="#application.serverRootUrl#/Loan.cfm?Action=editLoan&transaction_id=#loan.transaction_id#">
-							#application.serverRootUrl#/Loan.cfm?Action=editLoan&transaction_id=#loan.transaction_id#
+						<a href="#application.serverRootUrl#/transactions/Loan.cfm?Action=editLoan&transaction_id=#loan.transaction_id#">
+							#application.serverRootUrl#/transactions/Loan.cfm?Action=editLoan&transaction_id=#loan.transaction_id#
 						</a>
 					</p>
 					#common#
@@ -288,8 +291,8 @@
 						</p>
 						<p>
 							You may edit the loan, after signing in to MCZbase, at
-							<a href="#application.serverRootUrl#/Loan.cfm?Action=editLoan&transaction_id=#loan.transaction_id#">
-								#application.serverRootUrl#/Loan.cfm?Action=editLoan&transaction_id=#loan.transaction_id#
+							<a href="#application.serverRootUrl#/transactions/Loan.cfm?Action=editLoan&transaction_id=#loan.transaction_id#">
+								#application.serverRootUrl#/transactions/Loan.cfm?Action=editLoan&transaction_id=#loan.transaction_id#
 							</a>
 						</p>
 						#common#
@@ -309,6 +312,8 @@
 				<cfset toaddresses = ValueList(to_agents.address,";")>
 				<cfset ccaddresses = ValueList(cc_agents.address,";")>
 			</cfif>
+
+			<cfset uscodes="US,USA,UNITED STATES,UNITED STATES OF AMERICA,U.S.A">
 
 			<cfmail 	<!---to="bhaley@oeb.harvard.edu;heliumcell@gmail.com"--->
 						to="#toaddresses#"
@@ -334,7 +339,7 @@
 				MUSEUM OF COMPARATIVE ZOOLOGY<br>
 				HARVARD UNIVERSITY<br>
 				<br>
-				LOAN NOTIFICATION REPORT FOR #DateFormat(Now(),"DD-mmmm-YYYY")#
+				LOAN NOTIFICATION REPORT FOR #DateFormat(Now(),"dd-mmmm-YYYY")#
 				<br><br>
 				Dear Colleague,
 				<br><br>
@@ -350,9 +355,9 @@
 				<br>
 				Loan Type: #loan_type#
 				<br>
-				Loan Date: #DateFormat(trans_date, "DD-mmmm-YYYY")#
+				Loan Date: #DateFormat(trans_date, "dd-mmmm-YYYY")#
 				<br>
-				Due Date: #DateFormat(return_due_date, "DD-mmmm-YYYY")#
+				Due Date: #DateFormat(return_due_date, "dd-mmmm-YYYY")#
 				<br><br>
 
 				Approved Borrower: #receivedby.agent_name#
@@ -377,14 +382,27 @@
 				<cfelse>
 				We request that you please return the above loan or request an extension by the Due Date. For more information on this loan,
 				</cfif>
-				contact the  #collection# Collection (#ValueList(inhouse.address)#).  Your attention to this matter will be greatly appreciated.
+				contact #ValueList(inhouse.agent_name)# in the #collection# Collection (#ValueList(inhouse.address)#).
+				<cfif not ListFind(usCodes,country_cde) AND len(COUNTRY_CDE) GT 0>
+				<br><br>To meet federal regulations regarding importation and clearance of international shipments, researchers returning MCZ material must:<br>
+				<ul>
+					<li>Provide the name of the courier (e.g., FedEx, DHL, trackable post), the Airway Bill number, and an
+						invoice of contents (scientific names, countries of origin, and number of specimens of each) to the MCZ Curatorial
+						Associate <strong>at least 72 hours in advance of any shipment.</strong></li>
+					<li>Include <strong>USFWS CLEARANCE REQUIRED</strong> on the International waybill AND in red on all sides of the
+						outside of the package. (Note: Scientific research specimens, not restricted, Special Provision A180
+						applies should also be noted on the waybill and package if applicable.)</li>
+					<li>Include three copies of all documentation in the waybill pouch.</li>
+				</ul>
+				</cfif>
+				Your attention to this matter will be greatly appreciated.
 				<cfif findnocase("CRYO",#loan_number#) GT 0>
 				<br><br>
 				For Cryogenic Collection loans, if you have any remaining material (e.g., tissue, DNA), please email the Collection Manager to discuss whether it should be returned.
 				To officially close this loan, please also provide publication information and NCBI sequence accession numbers to the MCZ-CRYO.<br><br>
 				NCBI accessions will automatically link to MCZbase records if information is submitted correctly:<br>
-				http://www.mcz.harvard.edu/collectionsoperations/downloads/Guidelines_for_submitting_to_GenBank.pdf<br>
-				http://www.mcz.harvard.edu/collectionsoperations/downloads/NCBI_BioProject_BioSample_Data1.pdf<br>
+				https://mcz.harvard.edu/files/mcz/files/guidelines_for_submitting_to_genbank.pdf<br>
+				https://mcz.harvard.edu/files/mcz/files/ncbi_bioproject_biosample_data.pdf<br>
 				<br>
 				Thank you.<br>
 				<cfelse>
@@ -394,6 +412,7 @@
 				<hr><hr>
 			</cfmail>
 			<cfif specialmail EQ "">
+					<!---changed reminder type to I for social distancing period, for "internal"--->
 					<cfquery name="upLogTable" datasource="uam_god">
 						insert into LOAN_REMINDER_LOG(agent_id, date_sent, transaction_id, reminder_type, TOADDRESSES)
 						values(#receivedBy.agent_id#, SYSDATE, #loan.transaction_id#, 'R', '#toaddresses#')
@@ -436,7 +455,7 @@
 					You are receiving this message because you are the contact person for the permits listed below, which are expiring.
 					<p>
 						<cfloop query="permitExpOneYearIndiv">
-							<a href="#Application.ServerRootUrl#/Permit.cfm?Action=search&permit_id=#permit_id#">Permit##: #PERMIT_NUM#</a> expires on #dateformat(exp_date,'yyyy-mm-dd')# (#expires_in_days# days)<br>
+							<a href="#Application.ServerRootUrl#/transactions/Permit.cfm?action=search&execute=true&permit_id=#permit_id#">Permit##: #PERMIT_NUM#</a> expires on #dateformat(exp_date,'yyyy-mm-dd')# (#expires_in_days# days)<br>
 						</cfloop>
 					</p>
 				</cfmail>
@@ -499,7 +518,7 @@
 				</p>
 				<p>
 					<cfloop query="data">
-						<a href="#Application.ServerRootUrl#/editAccn.cfm?Action=edit&transaction_id=#transaction_id#">
+						<a href="#Application.ServerRootUrl#/transactions/Accession.cfm?action=edit&transaction_id=#transaction_id#">
 							#collection# #accn_number#
 						</a>
 						<br>

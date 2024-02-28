@@ -1,5 +1,5 @@
 <cfinclude template="/includes/_frameHeader.cfm">
-<script src="/includes/sorttable.js"></script>
+<script src="/lib/misc/sorttable.js"></script>
 
 	<form name="srch" method="post" action="sqlTaxonomy_browse.cfm">
 				<input type="hidden" name="action" value="findem">

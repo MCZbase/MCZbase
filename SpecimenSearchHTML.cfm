@@ -10,7 +10,7 @@
 	select SEARCH_NAME,URL
 	from cf_canned_search,cf_users
 	where cf_users.user_id=cf_canned_search.user_id
-	and username='#session.username#'
+	and username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 	order by search_name
 </cfquery>
 You are searching Arctos with the non-JavaScript form. Please consider turning JavaScript on and 

@@ -310,34 +310,6 @@ function getCtDoc(a, b) {
     ctDocWin = windowOpener(c, "ctDocWin", "width=700,height=400, resizable,scrollbars")
 }
 
-function orapwCheck(a, b) {
-    var c = /^[A-Za-z0-9!$%&_?(\-)<>=/:;*\.]$/;
-    var d = 6;
-    var e = "Password is acceptable";
-    if (a.indexOf(b) > -1) {
-        e = "Password may not contain your username."
-    }
-    if (a.length < d || a.length > 30) {
-        e = "Password must be between " + d + " and 30 characters."
-    }
-    if (!a.match(/[a-zA-Z]/)) {
-        e = "Password must contain at least one letter."
-    }
-    if (!a.match(/\d+/)) {
-        e = "Password must contain at least one number."
-    }
-    if (!a.match(/[!,$,%,&,*,?,_,-,(,),<,>,=,/,:,;,.]/)) {
-        e = "Password must contain at least one of: !,$,%,&,*,?,_,-,(,),<,>,=,/,:,;."
-    }
-    for (var f = 0; f < a.length; f++) {
-        if (!a.charAt(f)
-            .match(c)) {
-            e = "Password may contain only A-Z, a-z, 0-9, and !$%&()`*+,-/:;<=>?_."
-        }
-    }
-    return e
-}
-
 function get_cookie(a) {
     var b = document.cookie.match("(^|;) ?" + a + "=([^;]*)(;|$)");
     if (b) return unescape(b[2]);
@@ -1061,7 +1033,7 @@ function changekillRows(a) {
 }
 
 function blockSuggest(a) {
-    $.getJSON("/component/functions.cfc", {
+    $.getJSON("/users/component/functions.cfc", {
         method: "changeBlockSuggest",
         onoff: a,
         returnformat: "json",
@@ -1074,6 +1046,57 @@ function blockSuggest(a) {
             alert("An error occured! \n " + a)
         }
     })
+}
+
+function changeSpecimensDefaultAction (specimens_default_action) {
+	$.getJSON("/component/functions.cfc", {
+				method : "changeSpecimensDefaultAction",
+				specimens_default_action : specimens_default_action,
+				returnformat : "json",
+				queryformat : 'column'
+	}, function(r) {
+		if (r == 'success') {
+			$('#browseArctos').html('Default Tab for the Specimen Search changed.');
+		} else {
+			alert('An error occured! \n ' + r);
+		}	
+	});
+}
+
+function changeSpecimensPinGuid (specimens_pin_guid) {
+	$.getJSON("/component/functions.cfc",
+			{
+				method : "changeSpecimensPinGuid",
+				specimens_pin_guid : specimens_pin_guid,
+				returnformat : "json",
+				queryformat : 'column'
+			},
+			function(r) {
+				if (r == 'success') {
+					$('#browseArctos').html('Pin GUID Column setting for the Specimen Search changed.');
+				} else {
+					alert('An error occured! \n ' + r);
+				}	
+			}
+		);
+}
+
+function changeSpecimensPageSize (specimens_pagesize) {
+	$.getJSON("/component/functions.cfc",
+			{
+				method : "changeSpecimensPageSize",
+				specimens_pagesize : specimens_pagesize,
+				returnformat : "json",
+				queryformat : 'column'
+			},
+			function(r) {
+				if (r == 'success') {
+					$('#browseArctos').html('Page Size setting for the Specimen Search changed.');
+				} else {
+					alert('An error occured! \n ' + r);
+				}	
+			}
+		);
 }
 
 function getMedia(a, b, c, d, e) {

@@ -10,9 +10,9 @@
 	<cftry>
 	<cfquery name="upLoan" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		update cf_loan_item set
-		APPROVAL_STATUS='#status#'
-		where USER_LOAN_ID = #loanid# and
-		COLLECTION_OBJECT_ID=#partid#
+			APPROVAL_STATUS = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#status#">
+		where USER_LOAN_ID = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#loanid#">
+			AND COLLECTION_OBJECT_ID = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#partid#">
 	</cfquery>
 	<cfcatch>
 		<cfset result="fail">
@@ -30,9 +30,9 @@
 	<cftry>
 	<cfquery name="upLoan" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		update cf_loan_item set
-		ADMIN_REMARK='#remark#'
-		where USER_LOAN_ID = #loanid# and
-		COLLECTION_OBJECT_ID=#partid#
+			ADMIN_REMARK = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#remark#">
+		where USER_LOAN_ID = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#loanid#">
+			AND COLLECTION_OBJECT_ID = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#partid#">
 	</cfquery>
 	<cfcatch>
 		<cfset result="fail">
@@ -65,19 +65,19 @@
 				loan.transaction_id = trans.transaction_id AND 
 				trans.auth_agent_id = authAgnt.agent_id (+) AND 
 				trans.received_agent_id = recAgnt.agent_id AND 
-				loan_num = #num# 
+				loan_num = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#num#">
 				<cfif len(#inst#) gt 0>
-					AND institution_acronym = '#inst#'
+					AND institution_acronym = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#inst#">
 				<cfelse>
 					AND institution_acronym IS NULL
 				</cfif>
 				<cfif len(#pre#) gt 0>
-					AND loan_num_prefix = '#pre#'
+					AND loan_num_prefix = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#pre#">
 				<cfelse>
 					AND loan_num_prefix IS NULL
 				</cfif>
 				<cfif len(#suf#) gt 0>
-					AND loan_num_suffix = '#suf#'
+					AND loan_num_suffix = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#suf#">
 				<cfelse>
 					AND loan_num_suffix IS NULL
 				</cfif>
@@ -112,20 +112,19 @@
 	<cfargument name="inst" type="string" required="yes">
 	<cfargument name="prefx" type="string" required="yes">
 	
-	<cfset y = "#dateformat(now(), "yyyy")#">
 	<cfquery name="result" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select 
-			'#y#' as accn_num_prefix,
+			to_char(sysdate, 'YYYY') as accn_num_prefix,
 			decode(max(accn_num),NULL,'1',max(accn_num) + 1) as nan
-			from accn,trans
-			where 
+		from accn,trans
+		where 
 			accn.transaction_id=trans.transaction_id and
-			institution_acronym='#inst#' and
-			accn_num_prefix=
+			institution_acronym = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#inst#"> and
+			accn_num_prefix = 
 			<cfif len(#prefx#) gt 0>
-				'#prefx#'
+				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#prefx#">
 			<cfelse>
-				'#y#'
+				to_char(sysdate, 'YYYY')
 			</cfif>
 	</cfquery>
 		<cfreturn result>
@@ -136,192 +135,17 @@
 	<cfset y = "#dateformat(now(), "yyyy")#">
 	<cfquery name="result" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select 
-			'#y#' as loan_num_prefix,
+			to_char(sysdate, 'YYYY') as loan_num_prefix,
 			decode(max(loan_num),NULL,'1',max(loan_num) + 1) as nln
-			from loan,trans
-			where 
-			loan.transaction_id=trans.transaction_id and
-			institution_acronym='#inst#' and
-			loan_num_prefix='#y#'
+		from 
+			loan left join trans on loan.transaction_id = trans.transaction_id
+		where 
+			institution_acronym = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#inst#"> and
+			loan_num_prefix = to_char(sysdate, 'YYYY')
 	</cfquery>
 		<cfreturn result>
 </cffunction>
 <!-------------------------------------------------------------------->
-<cffunction name="getPreviousBox" returntype="query">
-	
-	<cfargument name="freezer" type="numeric" required="yes">
-	<cfargument name="rack" type="numeric" required="yes">
-	<cfargument name="box" type="numeric" required="yes">
-	<cftry>
-	<cftransaction>
-	<cfif #box# is 1>
-		<cfif #rack# is 1>
-			<cfif #freezer# is 1>
-				<cfquery name="result" datasource="#Application.uam_dbo#">
-					select 
-						0 as freezer,
-						0 as box,
-						0 as rack
-					from dual
-				</cfquery>
-			<cfelse>
-				<cfset tf = #freezer# -1 >
-				<cfquery name="pf" datasource="#Application.uam_dbo#">
-					select distinct(freezer) from 
-					dgr_locator where freezer = #tf#
-				</cfquery>
-				<cfif #pf.recordcount# is 1>
-					<cfquery name="r" datasource="#Application.uam_dbo#">
-						select max(rack) as mrack from dgr_locator where 
-						freezer = #tf#
-					</cfquery>
-					<cfquery name="result" datasource="#Application.uam_dbo#">
-						select 
-							freezer,
-							rack,
-							max(box) as box
-						from dgr_locator where 
-						freezer = #tf#
-					</cfquery>
-				</cfif>
-			</cfif>
-		</cfif>
-	</cfif>
-	<cfquery name="newLoc" datasource="#Application.uam_dbo#">
-	
-	</cfquery>
-	<cfquery name="v" datasource="#Application.uam_dbo#">
-		select dgr_locator_seq.currval as currval from dual
-	</cfquery>
-	<cfset tv = v.currval>
-	<cfquery name="result" datasource="#Application.uam_dbo#">
-		select LOCATOR_ID,
-			FREEZER,
-			RACK,
-			BOX,
-			PLACE,
-			NK,
-			TISSUE_TYPE from 
-		dgr_locator where LOCATOR_ID =#tv#		
-	</cfquery>
-	</cftransaction>
-	<cfcatch>
-		<cfquery name="result" datasource="#Application.uam_dbo#">
-			select 99999999 as LOCATOR_ID from dual
-		</cfquery>
-	</cfcatch>
-	</cftry>
-		<cfreturn result>
-</cffunction>
-
-
-<!------------------------------------->
-<cffunction name="DGRboxlookup" returntype="query">
-	<cfargument name="freezer" type="numeric" required="yes">
-	<cfargument name="rack" type="numeric" required="yes">
-	
-	<cfquery name="result" datasource="#Application.uam_dbo#">
-		select box from dgr_locator where freezer = #freezer#
-		and rack = #rack#
-		group by box order by box
-	</cfquery>
-	<cfreturn result>
-</cffunction>
-<!------------------------------------->
-<cffunction name="DGRracklookup" returntype="query">
-	
-	<cfargument name="freezer" type="numeric" required="yes">
-	
-	<cfquery name="result" datasource="#Application.uam_dbo#">
-		select rack from dgr_locator where freezer = #freezer#
-		group by rack order by rack
-	</cfquery>
-	<cfreturn result>
-</cffunction>
-
-<!------------------------------------->
-<cffunction name="remNKFromPosn" returntype="string">
-	
-	<cfargument name="freezer" type="numeric" required="yes">
-	<cfargument name="rack" type="numeric" required="yes">
-	<cfargument name="box" type="numeric" required="yes">
-	<cfargument name="place" type="numeric" required="yes">
-	<cfargument name="tissue_type" type="string" required="yes">
-	<cfargument name="nk" type="numeric" required="yes">
-	<cfset result=#place#>
-	<cftry>
-	<cftransaction>
-	<cfquery name="newLoc" datasource="#Application.uam_dbo#">
-		delete from dgr_locator
-		where  
-			freezer=#freezer# AND
-			rack= #rack# and
-			box = #box# AND
-			place = #place# AND
-			nk = #nk# AND
-			tissue_type = '#tissue_type#'
-	</cfquery>
-	
-	</cftransaction>
-	<cfcatch>
-		<cfset result=999999>
-	</cfcatch>
-	</cftry>
-		<cfreturn result>
-</cffunction>
-<!------------------------------------->
-<cffunction name="saveNewTiss" returntype="query">
-	
-	<cfargument name="freezer" type="numeric" required="yes">
-	<cfargument name="rack" type="numeric" required="yes">
-	<cfargument name="box" type="numeric" required="yes">
-	<cfargument name="place" type="numeric" required="yes">
-	<cfargument name="nk" type="numeric" required="yes">
-	<cfargument name="tissue_type" type="string" required="yes">
-	<cftry>
-	<cftransaction>
-	<cfquery name="newLoc" datasource="#Application.uam_dbo#">
-		insert into dgr_locator (
-			LOCATOR_ID,
-			FREEZER,
-			RACK,
-			BOX,
-			PLACE,
-			NK,
-			TISSUE_TYPE)
-		VALUES (
-			dgr_locator_seq.nextval,
-			#freezer#,
-			#rack#,
-			#box#,
-			#place#,
-			#nk#,
-			'#tissue_type#')		
-	</cfquery>
-	<cfquery name="v" datasource="#Application.uam_dbo#">
-		select dgr_locator_seq.currval as currval from dual
-	</cfquery>
-	<cfset tv = v.currval>
-	<cfquery name="result" datasource="#Application.uam_dbo#">
-		select LOCATOR_ID,
-			FREEZER,
-			RACK,
-			BOX,
-			PLACE,
-			NK,
-			TISSUE_TYPE from 
-		dgr_locator where LOCATOR_ID =#tv#		
-	</cfquery>
-	</cftransaction>
-	<cfcatch>
-		<cfquery name="result" datasource="#Application.uam_dbo#">
-			select 99999999 as LOCATOR_ID from dual
-		</cfquery>
-	</cfcatch>
-	</cftry>
-		<cfreturn result>
-</cffunction>
-<!------------------------------------->
 
 <cffunction name="getContacts" returntype="string">
 	<cfquery name="contacts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -335,7 +159,7 @@
 			preferred_agent_name
 		where
 			contact_agent_id = agent_id AND
-			collection_id = #collection_id#
+			collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_id#">
 		ORDER BY contact_name,contact_role
 	</cfquery>
 		
@@ -347,8 +171,9 @@
 	<cfargument name="collid" type="numeric" required="yes">
 	<cftry>
 		<cfquery name="getCollId" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			select collection_cde, institution_acronym from
-			collection where collection_id = #collid#
+			select collection_cde, institution_acronym 
+			from collection 
+			where collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collid#">
 		</cfquery>
 		<cfoutput>
 		<cfset result = "#getCollId.institution_acronym#|#getCollId.collection_cde#">
@@ -365,40 +190,31 @@
 <cffunction name="bulkEditUpdate" returntype="string">
 	<cfargument name="theName" type="string" required="yes">
 	<cfargument name="theValue" type="string" required="yes">
+
+	<cfthrow message="method bulkEditUpdate has been removed.">
+
 	<!--- parse name out
 		format is field_name__collection_object_id --->
+
+	<!--- commented out method body, theField would need to be hardened if this is used --->
+	<!--- 
 	<cfset hPos = find("__",theName)>
 	<cfset theField = left(theName,hPos-1)>
 	<cfset theCollObjId = mid(theName,hPos + 2,len(theName) - hPos)>
 	<cfset result="#theName#">
 	<cftry>
-		<cfquery name="upBulk" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			UPDATE bulkloader SET #theField# = '#theValue#'
-			WHERE collection_object_id = #theCollObjId#
-		</cfquery>
+		<!--- cfquery name="upBulk" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			UPDATE bulkloader 
+			SET <cfif 1=0>#theField#</cfif> = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#theValue#">
+			WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#theCollObjId#">
+		</cfquery --->
 	<cfcatch>
 		<cfset result = "QUERY FAILED">
 	</cfcatch>
 	</cftry>
   <cfset result = ReReplace(result,"[#CHR(10)##CHR(13)#]","","ALL")>
   <cfreturn result>
-
-
-<!--- update bulkloader...<cfset var MyReturn = "bla">
-  <cfset var MyString = "name">
-  <cfsavecontent variable="result">
-    <cfoutput>
-    theName #theValue#
-    </cfoutput>
-  </cfsavecontent>
-  
-  <cfset result = "#name#||#value#"> 
-		<cfoutput>
-		<cfset result = "#name#, result">
-		</cfoutput>
-		<cfset result = ReReplace(result,"[#CHR(10)##CHR(13)#]","","ALL")>
-		<cfreturn result>
-		--->
+	--->
 </cffunction>
 
 

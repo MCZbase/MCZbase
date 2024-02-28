@@ -7,6 +7,7 @@
 	<br><a href="slacker.cfm?action=loanNoSpec">Loans without Specimens</a>
 </cfif>
 <cfif action is "loanNoSpec">
+	<!--- TODO: Should be supported in transactions search --->
 	<cfquery name="data" datasource="uam_god">
 		select 
 			collection,loan_number,loan.transaction_id
@@ -22,7 +23,7 @@
 		<h2>Loans without Specimens</h2>
 		<cfset i=1>
 		<cfloop query="data">
-			<br><a href="/Loan.cfm?action=editLoan&transaction_id=#transaction_id#">#collection# #loan_number#</a>
+			<br><a href="/transactions/Loan.cfm?action=editLoan&transaction_id=#transaction_id#">#collection# #loan_number#</a>
 		</cfloop>
 	</cfoutput>
 </cfif>
@@ -81,7 +82,7 @@
 		<h2>Publications with no Authors</h2>
 		<cfset i=1>
 		<cfloop query="data">
-			<a href="/Publication.cfm?publication_id=#publication_id#">#publication_type#: #publication_id#</a>
+			<a href="/publications/Publication.cfm?publication_id=#publication_id#">#publication_type#: #publication_id#</a>
 			<br>
 			<cfset i=i+1>
 		</cfloop>
@@ -109,9 +110,9 @@
 				<p class="indent">
 					#formatted_publication#
 					<br>
-					<a href="/SpecimenUsage.cfm?action=search&publication_id=#publication_id#">Details (This link may not work. These data are suspect. That's why they're here.)</a>
+					<a href="/publications/showPublication.cfm?publication_id=#publication_id#">Details (This link may not work. These data are suspect. That's why they're here.)</a>
 					<br>
-					<a href="/Publication.cfm?publication_id=#publication_id#">Edit Publication</a>
+					<a href="/publications/Publication.cfm?publication_id=#publication_id#">Edit Publication</a>
 				</p>
 			</div>
 			<cfset i=i+1>

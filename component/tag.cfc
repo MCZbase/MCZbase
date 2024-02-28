@@ -4,7 +4,8 @@
 	<cfargument name="tag_id" required="yes">
 	<cftry>
 		<cfquery name="d" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			delete from tag where tag_id=#tag_id#
+			delete from tag 
+			where tag_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#tag_id#">
 		</cfquery>
 			<cfreturn "success">
 		<cfcatch>
@@ -19,7 +20,8 @@
 	<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select
 			tag_id
-		from tag where media_id=#media_id#
+		from tag 
+		where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 	</cfquery>
 	<cfset i=1>
 	<cfloop query="data">
@@ -67,7 +69,7 @@
 					agent_id=NULL,
 					remark=NULL
 				where
-					tag_id=#tag_id#
+					tag_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#tag_id#">
 			</cfquery>
 
 			<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">

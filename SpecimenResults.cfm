@@ -144,7 +144,7 @@ function removeHelpDiv() {
 <cfif not isdefined("session.resultColumnList")>
 	<cfset session.resultColumnList=''>
 </cfif>
-<cfquery name="r_d" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="r_d" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" timeout="#Application.short_timeout#">
 	select * from cf_spec_res_cols order by disp_order
 </cfquery>
 <cfquery name="reqd" dbtype="query">
@@ -172,9 +172,11 @@ function removeHelpDiv() {
 <!--- things that start with _ need special handling
 they also need special handling at TAG:SORTRESULT (do find in this document)--->
 <!--- this special handling is how to add it to the select statement --->
+<!--- 
 <cfif ListContainsNoCase(session.resultColumnList,"_elev_in_m")>
 	<cfset basSelect = "#basSelect#,min_elev_in_m,max_elev_in_m">
 </cfif>
+--->
 <cfif ListContainsNoCase(session.resultColumnList,"_day_of_ymd")>
 	<cfset basSelect = "#basSelect#,getYearCollected(#session.flatTableName#.began_date,#session.flatTableName#.ended_date) YearColl,
 		getMonthCollected(#session.flatTableName#.began_date,#session.flatTableName#.ended_date) MonColl,
@@ -218,12 +220,30 @@ they also need special handling at TAG:SORTRESULT (do find in this document)--->
 		<cfabort>
 	</cfif>
 <cfset thisTableName = "SearchResults_#cfid#_#cftoken#">
-<!--- try to kill any old tables that they may have laying around --->
+<!--- try to drop an existing temp table with this name --->
 <cftry>
-	<cfquery name="die" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		drop table #session.SpecSrchTab#
+	<cftransaction>
+	<cfquery name="tableexistscheck" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" timeout="#Application.short_timeout#">
+		select count(*) as ct from user_tables where table_name = upper(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.SpecSrchTab#">)
 	</cfquery>
-	<cfcatch><!--- not there, so what? --->
+	<cfif tableexistscheck.ct EQ 0>
+		<!--- not there, so what? --->
+		<!--- expected condition for first search after login, no session search table. No action needed --->
+	<cfelseif tableexistscheck.ct EQ 1>
+		<!--- session search table exists, drop it to recreate with new search below --->
+		<!--- Note: Drop of SpecSrchTab is used to generate query statistics from entries in dba_recyclebin --->
+		<cfquery name="die" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			drop table #session.SpecSrchTab#
+		</cfquery>
+	<cfelse>
+		<!--- shouldn't be able to reach this block.  --->
+		<cfthrow message="Error: More than one match to session.SpecSrchTab.">
+	</cfif>
+	</cftransaction>
+	<cfcatch>
+		<!--- if the session search table exists, the user should be able to delete it, if not, there is a problem --->
+		<!--- Note: ORA-21561 would suggest a network name problem --->
+		<cfrethrow> 
 	</cfcatch>
 </cftry>
 <!---- build a temp table --->
@@ -231,6 +251,7 @@ they also need special handling at TAG:SORTRESULT (do find in this document)--->
 <cfif isdefined("debug") and debug is true>
 	#preserveSingleQuotes(SqlString)#
 </cfif>
+<!--- Note: SpecSrchTab is used to generate query statistics from entries in dba_recyclebin as well as passing search results --->
 <cfset SqlString = "create table #session.SpecSrchTab# AS #SqlString#">
     <cfset linguisticFlag = false>
     <cfif isdefined("accentInsensitive") AND accentInsensitive EQ 1><cfset linguisticFlag=true></cfif>
@@ -244,7 +265,7 @@ they also need special handling at TAG:SORTRESULT (do find in this document)--->
             ALTER SESSION SET NLS_SORT = GENERIC_M_AI
         </cfquery> 
         <!--- Run the query --->
-	<cfquery name="buildIt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cfquery name="buildIt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" timeout="#Application.query_timeout#">
 		#preserveSingleQuotes(SqlString)#
 	</cfquery>
         <!--- Reset NLS_COMP back to the default, or the session will keep using the generic_m_ai comparison/sort on subsequent searches. ---> 
@@ -253,7 +274,7 @@ they also need special handling at TAG:SORTRESULT (do find in this document)--->
         </cfquery>
         </cftransaction>
     <cfelse>
-	<cfquery name="buildIt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cfquery name="buildIt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" timeout="#Application.query_timeout#">
 		#preserveSingleQuotes(SqlString)#
 	</cfquery>
     </cfif>
@@ -270,61 +291,77 @@ they also need special handling at TAG:SORTRESULT (do find in this document)--->
 			<input type="hidden" name="loan_request_coll_id" id="loan_request_coll_id" value="#loan_request_coll_id#">
 	</cfif>
 </form>
-	<cfquery name="summary" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cfquery name="summary" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" timeout="#Application.query_timeout#">
 		select distinct collection_object_id from #session.SpecSrchTab#
 	</cfquery>
 <cfif summary.recordcount is 0>
 	<script>
 		hidePageLoad();
 	</script>
-	<div id="loading" style="position:relative; margin: 0 auto;width: 80%;z-index:999;background-color:green;color:white;font-size:large;font-weight:bold;padding:10%;padding-bottom: 6em;">
-		Your query returned no results.
-		<ul>
-			<li>Check your form input, or use the Clear Form button to start over.</li>
+	<div class="loading" style="position:relative; margin: 1.5em auto;width: 80%;z-index:999;background-color:white;color:##222;padding: 2% 10%;padding-bottom: 6em;">
+		<div class="noResults">
+		<h1>Your query returned no results.</h1>
+		<h2>Tips:</h2>
+			<p>Check your form input or use the "Clear Form" button to start over.</p>
+				<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+			 <p>
+				  MCZbase form fields may not be what you expect them to be.  See: <a href='https://code.mcz.harvard.edu/wiki/index.php/Glossary_of_MCZbase_Field_Names'>The glossary of MCZbase Field Names</a>.
+			   </p>
+			<cfelse>
+		
+		
+			</cfif>
+			<p>
+				Use dropdowns or partial word matches instead of text strings, which may be entered in unexpected ways. Since the system relies on exact matches, "Doe" is a good choice for a collector if "John P. Doe" didn't match anything, for example. 
+			</p>
+			<p>See: <a href="/info/help.cfm?content=search_help">Additional Search Tips</a></p>
+			<p>
+				<a href="/contact.cfm">Contact us</a> if you still can't find what you need, and you think it is related to how you are using the form. We'll help if we can.
+			</p>
+			<h3>Taxonomy Searches</h3>
+			<ul>
 			<li>
-				If you searched by taxonomy, consult <a href="/TaxonomySearch.cfm" class="novisit">The Taxonomy List</a>.
-				Taxa are often synonymized and revised, and may not be consistent across collections. Previous Identifications,
+				If you searched by taxonomy, consult the <a href="/Taxa.cfm">MCZbase Taxonomy</a>.
+				Taxa are often synonymized and revised and may not be consistent across collections. Previous Identifications,
 				which are separate from the taxonomy used in Identifications, may be located using the scientific name
 				"is/was/cited/related" option.
 			</li>
+			</ul>
+			<h3>Geography Searches</h3>
+			<ul>
 			<li>
-				Try broadening your search criteria. Try the next-higher geographic element, remove criteria, or use a substring match.
+				Try broadening your search criteria. Try the next-higher geographic element, remove search parameters, or use a substring match.
 				Don't assume we've accurately or predictably recorded data.
 			</li>
 			<li>
 				 Not all specimens have coordinates - the spatial query tool will not locate all specimens.
 			</li>
-			<li>
-				Use dropdowns or partial word matches instead of text strings, which may be entered in unexpected ways.
-				"Doe" is a good choice for a collector if "John P. Doe" didn't match anything, for example.
-			</li>
-			<cfif #cgi.HTTP_HOST# DOES NOT CONTAIN "harvard.edu">
-			   <li>
-				  Read the documentation for individual search fields (click the title of the field to see documentation).
-				  Arctos fields may not be what you expect them to be.  See: <a href='https://code.mcz.harvard.edu/wiki/index.php/Glossary_of_MCZbase_Field_Names'>The glossary of MCZbase Field Names</a>
-			   </li>
-			<cfelse>
-				<li>
-				  Read the documentation for individual search fields.
-				  See: <a href='https://code.mcz.harvard.edu/wiki/index.php/Glossary_of_MCZbase_Field_Names'>The glossary of MCZbase Field Names</a>
-			    </li>
-			</cfif>
-			<li>
-				<a href="/googlesearch.cfm">Try our Google search</a>. Not everything in Arctos
-				is indexed in Google, but it may provide a starting point to locate specific items.
-			</li>
-			<li>
-				<a href="/contact.cfm">Contact us</a> if you still can't find what you need. We'll help if we can.
-			</li>
+			
 		</ul>
+		<h3>Unexpected results</h3>
+		<p>Please note that not 100% of the MCZ collections have been fully databased. If you believe there may be material in the collections that satisfies your search criteria or are simply not getting the expected results, please feel free to contact the relevant department or departments. Emails are linked below:</p>
+						<table>
+							<tr><td><a href="mailto:mcz_cryogenics@fas.harvard.edu">Cryogenics</a></td>
+								<td><a href="mailto:mcz_entomology@fas.harvard.edu">Entomology</a></td>
+								<td><a href="mailto:mcz_herpetology@fas.harvard.edu">Herpetology</a></td>
+								<td><a href="mailto:mcz_ichthyology@fas.harvard.edu">Ichthyology</a></td>
+								<td><a href="mailto:mcz_invertebratepaleo@fas.harvard.edu">Invertebrate Paleontology</a></td>
+							</tr>
+							<tr><td><a href="mailto:mcz_invertebratezoology@fas.harvard.edu">Invertebrate Zoology</a></td><td><a href="mailto:mcz_malacology@fas.harvard.edu">Malacology</a></td><td><a href="mailto:mcz_mammalogy@fas.harvard.edu">Mammalogy</a></td><td><a href="mailto:mcz_ornithology@fas.harvard.edu">Ornithology</a></td><td><a href="mailto:mcz_vertebratepaleo@fas.harvard.edu>">Vertebrate Paleontology</a></td>
+							</tr>
+							
+						</table>
+						
+						
 	</div>
+		</div>
 	<cfabort>
 </cfif>
 <cfset collObjIdList = valuelist(summary.collection_object_id)>
 <script>
 	hidePageLoad();
 </script>
-<cfquery name="mappable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="mappable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" timeout="#Application.short_timeout#">
 	select count(distinct(collection_object_id)) cnt from #session.SpecSrchTab# where dec_lat is not null and dec_long is not null
 </cfquery>
 
@@ -347,8 +384,11 @@ If your item needs to be sorted in a special way, then do that here. --->
 <cfif ListContainsNoCase(resultList,"_elev_in_m")>
 <cfflush>
 	<cftry>
+        <!-- 
+        // This looks like a remaining element of a previous? generalized add/remove elevation in meters control
 	<cfset resultList = listappend(resultList,"min_elev_in_m")>
 	<cfset resultList = listappend(resultList,"max_elev_in_m")>
+        -->
 	<cfset resultList = ListDeleteAt(resultList, ListFindNoCase(resultList,"_elev_in_m"))>
 	<cfcatch></cfcatch>
 	</cftry>
@@ -381,12 +421,15 @@ If your item needs to be sorted in a special way, then do that here. --->
 			<a href="bnhmMaps/kml.cfm">Google Earth/Maps</a>
             <cfelse></cfif>
 			<a href="SpecimenResultsHTML.cfm?#mapurl#" class="infoLink" style="display:block;">Problems viewing this page? Click for HTML version</a>
-			<a class="infoLink" href="/info/reportBadData.cfm?collection_object_id=#collObjIdList#">Report Bad Data</a>	</p>
+         <cfif isDefined("session.username") AND len(session.username) gt 0>
+				<a class="infoLink" href="/info/reportBadData.cfm?collection_object_id=#collObjIdList#">Report Bad Data</a>	
+			</cfif>
+		</p>
 <div class="topBlock" id="ssControl">
 <cfif isdefined("transaction_id") and #action# is "dispCollObj">
-	<a href="Loan.cfm?action=editLoan&transaction_id=#transaction_id#">Back to Loan</a>
+	<a href="/transactions/Loan.cfm?action=editLoan&transaction_id=#transaction_id#">Back to Loan</a>
     <cfelseif isdefined("transaction_id") and #action# is "dispCollObjDeacc">
-    <a href="Deaccession.cfm?action=editDeacc&transaction_id=#transaction_id#">Back to Deaccession</a>
+    <a href="/transactions/Deaccession.cfm?action=edit&transaction_id=#transaction_id#">Back to Deaccession</a>
 </cfif>
 <table border="0">
 	<tr>
@@ -462,7 +505,7 @@ If your item needs to be sorted in a special way, then do that here. --->
 		<td>
 			<span id="sPrefs" class="infoLink">Settings...</span>
 		</td>
-		<td><div style="width:100px;">&nbsp;</div></td>
+		<td><div style="width:10px;">&nbsp;</div></td>
 		<td>
 			<label for="">&nbsp;</label>
 			<input type="hidden" name="killRowList" id="killRowList">
@@ -496,38 +539,38 @@ If your item needs to be sorted in a special way, then do that here. --->
 			<cfif summary.recordcount lt 1000 and (isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user"))>
 				<label for="goWhere">Manage results by...</label>
 				<select name="goWhere" id="goWhere" size="1">
-					<option value="">choose</option>
-                    <option value="/addAccn.cfm">
-						Accession
-					</option>
-                    <option value="/multiAgent.cfm">
-						Agents
-					</option>
-                    <option value="/bulkCollEvent.cfm">
+               <option value="/bulkCollEvent.cfm"><!--- works only with collection_object_id --->
 						Collecting Events
 					</option>
-					<option value="/bulkLocality.cfm">
-						Localities
+					<option value="/bulkLocality.cfm"><!--- works only on session_search table, passed as table_name --->
+						Localities [Warning: No Tabs]
 					</option>
-					<option value="/Encumbrances.cfm">
-						Encumbrances
-					</option>
-					<option value="/multiIdentification.cfm">
+					<!--- 
+					<option value="/specimens/changeQueryIdentification.cfm"><!--- works only with collection_object_id --->
 						Identification
 					</option>
-                     <option value="/bnhmMaps/SpecimensByLocality.cfm">
-						Map By Locality
+					--->
+					<!--- 
+					<option value="/tools/downloadParts.cfm"><!--- works only on session search table, passed as table_name --->
+						Parts (Report) [Warning: No Tabs]
 					</option>
-					<option value="/tools/downloadParts.cfm">
-						Parts (Download Report)
-					</option>
-					<option value="/findContainer.cfm?showControl=1">
+					--->
+					<!--- 
+					<option value="/findContainer.cfm?showControl=1"><!--- looks like it works only with collection_object_id, but downstream code has reference to session.username and passed table name --->
 						Parts (Locations)
 					</option>
-					<option value="/tools/bulkPart.cfm">
-						Parts (Modify)
+					--->
+					<!--- 
+					<option value="/specimens/changeQueryParts.cfm"><!--- works only on session search table, passed as table_name --->
+						Parts (Modify) [Warning: No Tabs]
 					</option>
-                    <option value="/Reports/report_printer.cfm?collection_object_id=#collObjIdList#">
+					--->
+					<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_specimens")>
+						<option value="/grouping/addToNamedCollection.cfm"><!--- works with either, collection_objecT_id has priority, session search table looked up, not passed --->
+							Add To Named Group [Warning: No Tabs]
+						</option>
+					</cfif>
+               <option value="/Reports/report_printer.cfm?collection_object_id=#collObjIdList#"><!--- works only with collection_object_id --->
 						Print Any Report
 					</option>
 				</select>
@@ -567,9 +610,13 @@ If your item needs to be sorted in a special way, then do that here. --->
 		} else {
 			i='#collObjIdList#';
 		}
-		u += sep + 'collection_object_id=' + i;
-		u += '&table_name=' + t;
-		u += '&sort=' + s;
+		if (f=='/grouping/addToNamedCollection.cfm') {
+			// leave off list of collection object ids.
+		} else { 
+			u += sep + 'collection_object_id=' + i;
+			u += '&table_name=' + t;
+			u += '&sort=' + s;
+		}
 		var reportWin=window.open(u);
 	}
 

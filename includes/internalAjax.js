@@ -384,6 +384,11 @@ function clickUploadPreview(){
 	var guts = "/info/upMediaPreview.cfm";
 	theDiv.src=guts;
 }
+function getBorrow(StringFld,IdFld,formName){
+	var url="/picks/findBorrow.cfm";
+	var pickwin=url+"?BorrowNumFld="+StringFld+"&BorrowIdFld="+IdFld+"&formName="+formName;
+	pickwin=window.open(pickwin,"","width=600,height=400, resizable,scrollbars");
+}
 function pickedRelationship (id){
 	var relationship=document.getElementById(id).value;
 	var formName=document.getElementById(id).form.getAttribute('name');
@@ -420,6 +425,10 @@ function pickedRelationship (id){
 		getDeaccession(dispInputName,idInputName,formName);
 	} else if (relatedTable=='permit'){
 		getPermit(dispInputName,idInputName,formName);
+	} else if (relatedTable=='loan'){
+		getLoan(dispInputName,idInputName,formName);
+	} else if (relatedTable=='borrow'){
+		getBorrow(dispInputName,idInputName,formName);
 	} else if (relatedTable=='media'){
 		findMedia(dispInputName,idInputName);
 	} else if (relatedTable=='delete'){
@@ -459,7 +468,7 @@ function addLocalityRelation (elementNumber){
 	LocalityPick(idInputName,dispInputName,'newMedia');
 }
 */
-function addRelation (n) {
+function addRelation(n) {
 	var pDiv=document.getElementById('relationships');
 	var nDiv = document.createElement('div');
 	nDiv.id='relationshipDiv__' + n;
@@ -658,7 +667,10 @@ function addLink (n) {
 
 function addAgent (n) {
 	var lid = jQuery('#authTab tr:last').attr("id");
-	var lastID=lid.replace('authortr','');
+	var lastID='';
+	if (typeof lid !== 'undefined') {
+	   lastID = lid.replace('authortr','');
+	}
 	if(lastID==''){
 		lastID=0;
 	}
@@ -805,3 +817,4 @@ function deleteLink(r){
 	jQuery('#linkRow' + r + ' td:nth-child(1)').addClass('red').text('deleted').append(newElem);
 	jQuery('#linkRow' + r + ' td:nth-child(2)').addClass('red').text('');
 }
+

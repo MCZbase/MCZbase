@@ -20,7 +20,7 @@
 <strong>Browse Taxonomy</strong>
 	<ul>
 		<li>
-			<a href="/TaxonomySearch.cfm">Taxonomy</a>
+			<a href="/Taxa.cfm">Taxonomy</a>
 		</li>
 	</ul>
 <strong>Error Reporting</strong>

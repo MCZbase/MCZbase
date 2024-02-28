@@ -1,5 +1,7 @@
+<!--- Deprecated --->
+<!--- Replaced with native grid functionality in /transactions/reviewLoanItems.cfm --->
 <cfinclude template="/includes/_header.cfm">
-<script src="/includes/sorttable.js"></script>
+<script src="/lib/misc/sorttable.js"></script>
 <cfset title="Flatten Parts">
 <cfoutput>
 <cfif not isdefined("transaction_id")>
@@ -27,7 +29,7 @@
 <cfset filterparts=replace(filterparts,"'\'","','","all")>
 
 
-<cfset sel="select 
+<cfset sel="select
 		cat_num,
 		collection.collection,
 		cataloged_item.collection_object_id,
@@ -43,11 +45,11 @@
 		collection,
 		specimen_part,
 		coll_obj_cont_hist,
-		coll_object">		
+		coll_object">
 <cfset whr=" WHERE cataloged_item.collection_id = collection.collection_id AND
 		cataloged_item.collection_object_id = specimen_part.derived_from_cat_item and
 		specimen_part.collection_object_id = coll_obj_cont_hist.collection_object_id and
-		specimen_part.collection_object_id = coll_object.collection_object_id ">	
+		specimen_part.collection_object_id = coll_object.collection_object_id ">
 
 <cfif len(transaction_id) gt 0>
 	<cfset frm="#frm# ,loan_item">
@@ -57,11 +59,10 @@
 	<cfset whr="#whr# AND coll_obj_cont_hist.container_id in (#container_id#)">
 <cfelseif len(collection_object_id) gt 0>
 	<cfset whr="#whr# AND cataloged_item.collection_object_id in (#collection_object_id#)">
-</cfif>		
+</cfif>
 <cfset sql="#sel# #frm# #whr#">
 
-#preservesinglequotes(sql)#
-
+<!---#preservesinglequotes(sql)#--->
 
 <cfquery name="allCatItemsRaw" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#createtimespan(0,0,60,0)#">
 	#preservesinglequotes(sql)#
@@ -123,7 +124,7 @@
 	<th>Disposition</th>
 <cfloop query="allCatItems">
 	<cfquery name="freezer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		select 
+		select
 			CONTAINER_ID,
 			PARENT_CONTAINER_ID,
 			CONTAINER_TYPE,
@@ -133,8 +134,8 @@
 			label,
 			level
 		 from container
-		start with container_id=#container_id#
-		connect by prior parent_container_id = container_id 
+		start with container_id=#allCatItems.container_id#
+		connect by prior parent_container_id = container_id
 		order by level DESC
 	</cfquery>
 		<tr	#iif(a MOD 2,DE("class='evenRow'"),DE("class='oddRow'"))#	>
@@ -145,7 +146,7 @@
 				<cfset pn=pn & "(subsample)">
 			</cfif>
 			<td>
-				#pn# 
+				#pn#
 			</td>
 			<cfset posn="">
 			<cfloop query="freezer">

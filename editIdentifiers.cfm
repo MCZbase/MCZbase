@@ -1,5 +1,5 @@
 <cfinclude template="/includes/alwaysInclude.cfm">
-    <div class="basic_box">
+<div class="basic_box">
 <cfset title = "Edit Identifiers">
 <cfquery name="getIDs" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select 
@@ -56,130 +56,106 @@
 	from collection
 </cfquery>
 <cfoutput>
-    <h3>Edit existing identifiers:</h3>
+	<h3>Edit existing identifiers:</h3>
 <table>
-    <form name="ids" method="post" action="editIdentifiers.cfm">
-  <input type="hidden" name="collection_object_id" value="#collection_object_id#">
-
-  <input type="hidden" name="Action" value="saveCatEdits">
-  <tr class="evenRow"> 
-    <td align="right">Catalog&nbsp;Number:</td>
-    <td colspan="3">
-	<select name="collection_id" size="1" class="reqdClr">
-		<cfset thisCollId=#getIDs.collection_id#>
-		<cfloop query="ctcoll_cde">
-			<option 
-				<cfif #thisCollId# is #collection_id#> selected </cfif>
-			value="#collection_id#">#institution_acronym# #collection_cde#</option>
-		</cfloop>
-	</select>
-      
-	<input type="text" name="cat_num" value="#catAF.cat_num#" class="reqdClr">
-	<!---input type="text" name="catalog_number_prefix" value="#catAF.catalog_number_prefix#">
-	<input type="text" name="catalog_number" value="#catAF.catalog_number#" class="reqdClr">
-	<input type="text" name="catalog_number_suffix" value="#catAF.catalog_number_suffix#"--->
-	
-	
-	<input type="submit" 
-	value="Save" 
-	class="savBtn"
-   	onmouseover="this.className='savBtn btnhov'" 
-   	onmouseout="this.className='savBtn'">
-	
-	 </td>
-   
-  </tr>
-  
-
+	<form name="ids" method="post" action="editIdentifiers.cfm">
+	<input type="hidden" name="collection_object_id" value="#collection_object_id#">
+	<input type="hidden" name="Action" value="saveCatEdits">
+		<tr class="evenRow"> 
+			<td align="right">Catalog&nbsp;Number:</td>
+			<td colspan="3">
+				<select name="collection_id" size="1" class="reqdClr">
+					<cfset thisCollId=#getIDs.collection_id#>
+					<cfloop query="ctcoll_cde">
+					<option 
+						<cfif #thisCollId# is #collection_id#> selected </cfif>
+					value="#collection_id#">#institution_acronym# #collection_cde#</option>
+					</cfloop>
+				</select>
+				<input type="text" name="cat_num" value="#catAF.cat_num#" class="reqdClr">
+				<!---input type="text" name="catalog_number_prefix" value="#catAF.catalog_number_prefix#">
+				<input type="text" name="catalog_number" value="#catAF.catalog_number#" class="reqdClr">
+				<input type="text" name="catalog_number_suffix" value="#catAF.catalog_number_suffix#"--->
+				<input type="submit" value="Save" class="savBtn" onmouseover="this.className='savBtn btnhov'" onmouseout="this.className='savBtn'">
+			</td>
+		</tr>
 	</form>
 	<cfset i=1>
-		<cfloop query="oids">
+	<cfloop query="oids">
 		<cfif len(#other_id_type#) gt 0>
-		 <tr #iif(i MOD 2,DE("class='oddRow'"),DE("class='evenRow'"))#	><td>
-		<form name="oids#i#" method="post" action="editIdentifiers.cfm">
-		<input type="hidden" name="collection_object_id" value="#collection_object_id#">
-		<input type="hidden" name="COLL_OBJ_OTHER_ID_NUM_ID" value="#COLL_OBJ_OTHER_ID_NUM_ID#">
-		  <input type="hidden" name="Action">
+			<tr #iif(i MOD 2,DE("class='oddRow'"),DE("class='evenRow'"))#><td>
+				<form name="oids#i#" method="post" action="editIdentifiers.cfm">
+					<input type="hidden" name="collection_object_id" value="#collection_object_id#">
+					<input type="hidden" name="COLL_OBJ_OTHER_ID_NUM_ID" value="#COLL_OBJ_OTHER_ID_NUM_ID#">
+					<input type="hidden" name="Action">
 					<td><cfset thisType = #oids.other_id_type#>
-					<select name="other_id_type" size="1">				
-				<cfloop query="ctType">					
-					<option 
-						<cfif #ctType.other_id_type# is #thisType#> selected </cfif>
-						value="#ctType.other_id_type#">#ctType.other_id_type#</option>
-				</cfloop>			
-			</select>
-			</td>
-			<td nowrap="nowrap">
-				<input type="text" value="#oids.other_id_prefix#" size="12" name="other_id_prefix">
-				<input type="text" value="#oids.other_id_number#" size="12" name="other_id_number">
-				<input type="text" value="#oids.other_id_suffix#" size="12"  name="other_id_suffix">		
-			</td>
-			<td nowrap="nowrap">
-			<input type="button" 
-	value="Save" 
-	class="savBtn"
-   	onmouseover="this.className='savBtn btnhov'" 
-   	onmouseout="this.className='savBtn'"
-	onclick="oids#i#.Action.value='saveOIDEdits';submit();">
-	
-	<input type="button" value="Delete" class="delBtn"
-   onmouseover="this.className='delBtn btnhov'" onmouseout="this.className='delBtn'" onclick="oids#i#.Action.value='deleOID';confirmDelete('oids#i#');">
-			</td>
-			</form>
-		</tr>
+						<select name="other_id_type" size="1">
+							<cfloop query="ctType">
+								<option 
+									<cfif #ctType.other_id_type# is #thisType#> selected </cfif>
+									value="#ctType.other_id_type#">#ctType.other_id_type#</option>
+							</cfloop>			
+						</select>
+					</td>
+					<td nowrap="nowrap">
+						<input type="text" value="#oids.other_id_prefix#" size="12" name="other_id_prefix">
+						<input type="text" value="#oids.other_id_number#" size="12" name="other_id_number">
+						<input type="text" value="#oids.other_id_suffix#" size="12"  name="other_id_suffix">
+					</td>
+					<td nowrap="nowrap">
+						<input type="button" value="Save" class="savBtn" onmouseover="this.className='savBtn btnhov'" onmouseout="this.className='savBtn'" onclick="oids#i#.Action.value='saveOIDEdits';submit();">
+						<input type="button" value="Delete" class="delBtn" onmouseover="this.className='delBtn btnhov'" onmouseout="this.className='delBtn'" onclick="oids#i#.Action.value='deleOID';confirmDelete('oids#i#');">
+					</td>
+				</form>
+			</tr>
 		<cfset i=#i#+1>
 		</cfif>
 	</cfloop>
 	</table>
-	<table class="newRec" style="padding: 1em;width: 100%;"><tr><td>
-	<b>Add New Identifier:</b> <img 
-								class="likeLink" 
-								src="/images/ctinfo.gif"
-								onMouseOver="self.status='Code Table Value Definition';return true;"
-								onmouseout="self.status='';return true;"
-								border="0"
-								alt="Code Table Value Definition"
-								onClick="getCtDoc('ctcoll_other_id_type','')">
-	<table>
+	<table class="newRec" style="padding: 1em;width: 100%;">
 		<tr>
-			<form name="newOID" method="post" action="editIdentifiers.cfm">
-		<input type="hidden" name="collection_object_id" value="#collection_object_id#">
-		  <input type="hidden" name="Action" value="newOID">
+		<td>
+		<b>Add New Identifier:</b> 
+			<img class="likeLink" src="/images/ctinfo.gif" onMouseOver="self.status='Code Table Value Definition';return true;" onmouseout="self.status='';return true;" border="0" alt="Code Table Value Definition" onClick="getCtDoc('ctcoll_other_id_type','')">
+			<table>
+				<tr>
+				<form name="newOID" method="post" action="editIdentifiers.cfm">
+					<input type="hidden" name="collection_object_id" value="#collection_object_id#">
+					<input type="hidden" name="Action" value="newOID">
 					<td>
-					<select name="other_id_type" size="1" class="reqdClr">
-				<cfloop query="ctType">
-					<option 
-						value="#ctType.other_id_type#">#ctType.other_id_type#</option>
-				</cfloop>
-			
-			</select>
-			</td>
-			<td>
-				<input type="text" class="reqdClr" name="other_id_prefix" size="6">
-				<input type="text" class="reqdClr" name="other_id_number" size="6">
-				<input type="text" class="reqdClr" name="other_id_suffix" size="6">		
-			</td>
-			<td>
-			 <input type="submit" value="Save" class="insBtn"
-   onmouseover="this.className='insBtn btnhov'" onmouseout="this.className='insBtn'">	
-
-</td>
-			</form>
-		</tr>
-	</table>
-	</td></tr></table>
+						<select name="other_id_type" size="1" class="reqdClr">
+						<cfloop query="ctType">
+							<option 
+								value="#ctType.other_id_type#">#ctType.other_id_type#</option>
+						</cfloop>
+						</select>
+					</td>
+					<td>
+						<input type="text" class="reqdClr" name="other_id_prefix" size="6">
+						<input type="text" class="reqdClr" name="other_id_number" size="6">
+						<input type="text" class="reqdClr" name="other_id_suffix" size="6">		
+					</td>
+					<td>
+						<input type="submit" value="Save" class="insBtn" onmouseover="this.className='insBtn btnhov'" onmouseout="this.className='insBtn'">
+					</td>
+					</form>
+				</tr>
+			</table>
+		</td>
+	</tr>
+</table>
 </cfoutput>
 </table>
 <!-------------------------------------------------------->
 <cfif #Action# is "saveCatEdits">
 <cfoutput>
 	<cftransaction>
-	<cfquery name="upCat" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-	UPDATE cataloged_item SET 
-		cat_num = '#cat_num#',
-		collection_id=#collection_id#		
-	WHERE collection_object_id=#collection_object_id#
-	</cfquery>
+		<cfquery name="upCat" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			UPDATE cataloged_item SET 
+				cat_num = '#cat_num#',
+				collection_id=#collection_id#		
+			WHERE collection_object_id=#collection_object_id#
+		</cfquery>
 	</cftransaction>
 	<cflocation url="editIdentifiers.cfm?collection_object_id=#collection_object_id#">
 </cfoutput>
@@ -218,11 +194,11 @@
 <!-------------------------------------------------------->
 <cfif #Action# is "deleOID">
 <cfoutput>
-<cfquery name="delOIDt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-	DELETE FROM 
-		coll_obj_other_id_num 
-	WHERE 
-		COLL_OBJ_OTHER_ID_NUM_ID=#COLL_OBJ_OTHER_ID_NUM_ID#
+	<cfquery name="delOIDt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		DELETE FROM 
+			coll_obj_other_id_num 
+		WHERE 
+			COLL_OBJ_OTHER_ID_NUM_ID=#COLL_OBJ_OTHER_ID_NUM_ID#
 	</cfquery>
 	
 
@@ -260,10 +236,9 @@
 			NULL
 		</cfif>)
 	</cfquery>
-
 	<cflocation url="editIdentifiers.cfm?collection_object_id=#collection_object_id#">
 </cfoutput>
 </cfif>
 <!-------------------------------------------------------->
-            </div>
+</div>
 <cf_customizeIFrame>

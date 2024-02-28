@@ -1,6 +1,11 @@
+mhk_diff.txt
+specimendetails_diff.txt
+checkcfquery.py
 cache
 mediaUploads
 specimen_images
+metrics/datafiles/
+metrics/R/datafiles/
 _notes/
 /bower_components/
 /node_modules/
@@ -49,3 +54,5 @@ includes/_header_withPaulsChanges.cfm
 includes/style_backup.css
 *.tmp
 includes/_header_withPaulsChanges.cfm
+/lib/fontawesome/fontawesome-free-5.5.0-web/less/_mixins.css
+/lib/fontawesome/fontawesome-free-5.5.0-web/less/_variables.css

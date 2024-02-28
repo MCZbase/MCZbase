@@ -120,14 +120,14 @@
 						identification_id=#identification_id#
 				</cfquery>
 				<cfif #getTaxa.recordcount# is 1>
-					<a href="/TaxonomyDetails.cfm?taxon_name_id=#getTaxa.taxon_name_id#" target="_blank"><i>#scientific_name#</i></a> #getTaxa.author_text#
+					<a href="/taxonomy/showTaxonomy.cfm?taxon_name_id=#getTaxa.taxon_name_id#" target="_blank"><i>#scientific_name#</i></a> #getTaxa.author_text#
 				<cfelse>
 					<cfset link="">
 					<cfset i=1>
 					<cfset thisSciName="#scientific_name#">
 					
 					<cfloop query="getTaxa">
-						<cfset thisLink='<a href="/TaxonomyDetails.cfm?taxon_name_id=#taxon_name_id#" target="_blank"><i>#scientific_name#</i></a> #author_text#'>
+						<cfset thisLink='<a href="/taxonomy/showTaxonomy.cfm?taxon_name_id=#taxon_name_id#" target="_blank"><i>#scientific_name#</i></a> #author_text#'>
 						<cfset thisSciName=#replace(thisSciName,scientific_name,thisLink)#>
 						<cfset i=#i#+1>
 					</cfloop>

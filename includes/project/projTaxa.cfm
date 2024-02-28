@@ -8,7 +8,7 @@
 			taxonomy
 		where
 			taxonomy.taxon_name_id=project_taxonomy.taxon_name_id and
-			project_id = #project_id#
+			project_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#project_id#">
 	</cfquery>
 	<cfif d.recordcount gt 0>
 		<h2>Taxonomy</h2>

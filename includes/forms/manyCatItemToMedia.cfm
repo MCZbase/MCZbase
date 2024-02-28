@@ -100,9 +100,9 @@
 						MEDIA_RELATIONSHIP,
 						RELATED_PRIMARY_KEY
 					) values (
-						#media_id#,
+						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">,
 						'shows cataloged_item',
-						#i#
+						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#i#">
 					)
 				</cfquery>
 			</cfloop>

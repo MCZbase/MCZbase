@@ -1,3 +1,4 @@
+<!--- Deprecated.  To be removed.  Replaced with /manage/changeQueryLocality.cfm --->
 <cfinclude template="includes/_header.cfm">
 
 <!--------------------------------------------------------------------------------------------------->
@@ -60,6 +61,7 @@
 	<cfif isdefined("filterFamily")>
 		<input type="hidden" name="filterFamily" value="#filterFamily#">
 	</cfif>
+	<cfset showSpecimenCounts = false>
 	<cfinclude template="/includes/frmFindLocation_guts.cfm">
 </form>
 </cfoutput>
@@ -120,8 +122,12 @@
 	<cfset i = 1>
 	<cfloop query="localityResults">
 		<tr>
-			<td> <a href="Locality.cfm?Action=editGeog&geog_auth_rec_id=#geog_auth_rec_id#">#geog_auth_rec_id#</a></td>
-			<td><a href="editLocality.cfm?locality_id=#locality_id#">#locality_id#</a></td>
+			<td> 
+				<a href="/localities/viewHigherGeography.cfm?geog_auth_rec_id=#geog_auth_rec_id#">#geog_auth_rec_id#</a>
+			</td>
+			<td>
+				<a href="/localities/viewLocality.cfm?locality_id=#locality_id#">#locality_id#</a>
+			</td>
 			<td>
 			<form name="coll#i#" method="post" action="bulkLocality.cfm">
 				<input type="hidden" name="table_name" value="#table_name#">
@@ -266,7 +272,7 @@
 		</cftransaction>
 		<cfset returnURL = "bulkLocality.cfm?table_name=#table_name#">
 		<cfif isdefined("filterOrder")>
-			<cfset returnURL = returnURL & "&fiterOrder=#filterOrder#">
+			<cfset returnURL = returnURL & "&filterOrder=#filterOrder#">
 		</cfif>
 		<cfif isdefined("filterFamily")>
 			<cfset returnURL = returnURL & "&filterFamily=#filterFamily#">

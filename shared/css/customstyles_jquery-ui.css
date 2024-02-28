@@ -1,0 +1,200 @@
+@charset "utf-8";
+/* CSS Document
+customstyles_jquery-ui.css  */
+
+/***************************************/
+/*   BELOW: override for collection    */
+/*  dropdown (JQuery) taken from Arctos*/
+/***************************************/
+.ui-widget {
+	font-size: .875rem;
+}
+.ui-widget button {
+	padding: .2rem .5rem;
+    font-size: .875rem;
+    line-height: 1.15rem;
+    border-radius: .2rem;
+}
+.ui-multiselect {
+	padding: .25rem .5rem .2rem .5rem;
+	margin: 0;
+	font-size: .875rem;
+	border-radius: .2rem;
+	font-weight: 500;
+	padding-left: 12px;
+	line-height: 1.15rem;
+	color: #495057;
+}
+.ui-widget input, .ui-widget select, .ui-widget textarea,.ui-dialog input[type=text], .ui-dialog select, .ui-dialog textarea  {
+	font-size: inherit;
+	line-height: .99rem;
+	padding: .2rem .5rem;
+	color: rgba(0, 0, 0, .8);
+	height: calc(1.25em + .43rem + 2px);
+	border: 1px solid #ced4da;
+	background-clip: padding-box;
+	background-color: #fff;
+	border-radius: .2rem;
+	vertical-align: middle;
+	font-size: .875rem;
+	transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+	font: 400 13.333px Arial, sans-serif;
+
+}
+.ui-widget input.btn {
+	padding:.25rem .5rem .15rem;
+}
+button.ui.multiselect {
+	width: 100% !important;
+}
+.ui-multiselect-header span.ui-icon {
+	top: -1px;
+}
+button.ui-multiselect.ui-state-default {
+	border-color: #bac5c6;
+	background-color: white;
+	width:100%;
+}
+button.ui-multiselect.ui-state-active {
+	color: #333;
+	border: 1px solid #bac5c6;
+	border-color: #bac5c6;
+	border-radius: 5px;
+	background-color: white;
+}
+button.ui-multiselect.ui-state-hover {
+	color: #333;
+	border: 1px solid #bac5c6;
+	border-color: #bac5c6;
+	border-radius: 5px;
+	background-color: white;
+}
+span.ui-icon {
+	color: #555;
+	margin-top: 1px;
+}
+/************************
+*************************
+BELOW: DIALOG BOXES STYLES to 
+override Bootstrap styles
+************************/
+#ui-dialog {
+	/* note: z-index almost certainly needs to be set dynamically to play well with jqxwidgets */
+	z-index: 60001;
+}
+#dialog-form header {
+	background-color: white;
+	-webkit-box-shadow: -2px -3px 40px -5px rgba(204, 204, 204, 1);
+	-moz-box-shadow: -2px -3px 40px -5px rgba(204, 204, 204, 1);
+	box-shadow: -2px -3px 40px -5px rgba(204, 204, 204, 1);
+	/*http://colorzilla.com/gradient-editor/#a90329+0,a51c30+0,a51c30+0,a51c30+0,a51c30+0,a51c30+58,a51c30+87,a51c30+87,6d0019+100&1+0,0.04+100*/
+	background: -moz-linear-gradient(top, rgba(229, 143, 22, .3) 17%, rgba(239, 157, 32, 0.17) 100%, rgba(109, 0, 25, .14) 100%); /*FF3.6-15*/
+	background: -webkit-linear-gradient(top, rgba(229, 143, 22, .3) 17%, rgba(239, 157, 32, 0.17) 100%, rgba(109, 0, 25, .14) 100%); /*Chrome10-25,Safari5.1-6*/
+	background: linear-gradient(to bottom, rgba(229, 143, 22, .3) 17%, rgba(239, 157, 32, 0.17) 100%, rgba(109, 0, 25, .14) 100%); /*W3C,IE10+,FF16+,Chrome26+, Opera12+,Safari7+ */
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#e58f2a', endColorstr='#0a6d0019', GradientType=0);
+	border: 1px solid #333;
+}
+#dialog-form header p {
+	font-size: 18px;
+	font-size: bold;
+	padding: 10px;
+}
+#dialog-form header a {
+	color: #007bff
+}
+#dialog-form form {
+	display: block;
+	-moz-column-gap: 20px;
+	-webkit-column-gap: 20px;
+	column-gap: 20px;
+	-moz-column-count: 1;
+	-webkit-column-count: 1;
+	column-count: 1;
+}
+#dialog-form form label {
+	font-size: smaller;
+	font-weight: 600;
+	padding-bottom: 0;
+	margin-bottom: 0;
+}
+.ui-dialog .ui-dialog-title {
+	color: black;
+}
+.ui-dialog .ui-dialog-titlebar-close {
+	background-color: white;
+	background-image: url("/shared/images/close.png");
+	background-repeat: no-repeat;
+	background-size: 16px;
+	border: 2px solid #ddd;
+	color: black;
+	border-radius: 4px;
+}
+.ui-widget.ui-widget-content {
+	border: 2px solid #bac5c6;
+	box-shadow: 0 0 20px 1px rgba(0, 0, 0, 0.13);
+}
+.ui-widget-header {
+	font-weight: bold;
+}
+.ui-dialog .ui-dialog-buttonpane button {
+	cursor: pointer;
+	background-color: #d7d7d7;
+	background: #d7d7d7;
+	border: 1px solid hsl(0, 0%, 62%);
+	color: #212529;
+	padding: .2rem .5rem;
+	font-size: .875rem;
+	line-height: 1.15rem;
+	border-radius: .2rem;
+}
+.ui-dialog .btn-primary {
+	background-color: #d9f1f3;
+	border: 1px solid hsl(0, 0%, 56%, 1);
+	color: buttontext;
+}
+.ui-dialog .btn-warning {
+	background-color: #ffc10782;
+	border: 1px solid hsl(0, 0%, 56%, 1);
+	color: buttontext;
+}
+.ui-dialog .btn-primary {
+	background-color: #d9f1f3;
+	border: 1px solid hsl(0, 0%, 56%, 1);
+	color: buttontext;
+}
+.ui-dialog .btn-secondary {
+	background-color: #d7d7d7;
+	border: 1px solid hsl(0, 0%, 62%);
+	color: #212529;
+}
+.ui-dialog .btn-danger {
+	background-color: #f8d7da;
+	border: 1px solid hsl(0, 0%, 62%);
+	color: #c82333;
+}
+.small, small {
+    font-size: 80%;
+    font-weight: 400;
+}
+.ui-dialog-content a {
+	color: #036ee0 !important;
+}
+ .ui-autocomplete-loading {
+     background: transparent url("../../images/spinner_16px_reqd_bg.gif") right center no-repeat;
+  }
+.left-3 {
+	left:30%!important;
+	right: 30%!important;
+}
+@media (max-width: 1200px) {
+.left-3 {
+	left:15%!important;
+	right: 15%!important;
+}
+}
+@media (max-width: 600px) {
+.left-3 {
+	left:3%!important;
+	right: 3%!important;
+}
+}

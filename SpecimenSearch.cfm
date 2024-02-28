@@ -1,23 +1,31 @@
 <cfinclude template="/includes/_header.cfm">
-<cfhtmlhead text='<script src="http://maps.google.com/maps?file=api&amp;v=2.x&amp;sensor=false&amp;key=#application.gmap_api_key#" type="text/javascript"></script>'>
+<cfhtmlhead text='<script src="#Application.protocol#://maps.google.com/maps?file=api&amp;v=2.x&amp;sensor=false&amp;key=#application.gmap_api_key#" type="text/javascript"></script>'><!--- ' --->
 <script src="/includes/jquery/jquery-autocomplete/jquery.autocomplete.pack.js" language="javascript" type="text/javascript"></script>
 <cfset title="Specimen Search">
 <cfset metaDesc="Search for museum specimens and observations by taxonomy, identifications, specimen attributes, and usage history.">
 <cfoutput>
-<cfquery name="getCount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="getCount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" timeout="#Application.short_timeout#">
 	select count(collection_object_id) as cnt from cataloged_item
 </cfquery>
-<cfquery name="ctmedia_type" datasource="cf_dbuser" cachedwithin="#createtimespan(0,0,60,0)#">
+<cfquery name="ctmedia_type" datasource="cf_dbuser" cachedwithin="#createtimespan(0,0,60,0)#" timeout="#Application.short_timeout#">
 	select media_type from ctmedia_type order by media_type
 </cfquery>
-<cfquery name="hasCanned" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="hasCanned" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" timeout="#Application.short_timeout#">
 	select SEARCH_NAME,URL
 	from cf_canned_search,cf_users
 	where cf_users.user_id=cf_canned_search.user_id
-	and username='#session.username#'
+	and username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 	and URL like '%SpecimenResults.cfm%'
 	order by search_name
 </cfquery>
+
+<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+	<cfset oneOfUs = 1>
+	<cfset isClicky = "likeLink">
+<cfelse>
+	<cfset oneOfUs = 0>
+	<cfset isClicky = "">
+</cfif>
 
 <div class="basic_box" style="margin-top: -1.5em;">
 <table>
@@ -25,10 +33,10 @@
 		<td>
 			Access to #getCount.cnt#
 			<cfif len(#session.exclusive_collection_id#) gt 0>
-				<cfquery name="coll" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="coll" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" timeout="#Application.short_timeout#">
 					select collection
 					from collection where
-					collection_id=#session.exclusive_collection_id#
+					collection_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#session.exclusive_collection_id#">
 				</cfquery>
 				<strong>#coll.collection#</strong>
 			records. <a href="searchAll.cfm">Search all collections</a>.
@@ -37,9 +45,7 @@
 			</cfif>
 		</td>
 		<td>
-			<span class="infolink" onClick="getHelp('CollStats');">
-				Holdings Details
-			</span>
+			<span class="infolink"> <a href="/collections/index.cfm" target="_blank">Holdings Details</a> </span>
 			<span class="infolink" onClick="getHelp('search_help');">
 				Search Tips
 			</span>
@@ -48,7 +54,7 @@
 			<td class="infolink">
 				<span>Saved Searches:</span> <select name="goCanned" id="goCanned" size="1" onchange="document.location=this.value;">
 					<option value=""></option>
-					<option value="saveSearch.cfm?action=manage">[ Manage ]</option>
+					<option value="/users/Searches.cfm">[ Manage ]</option>
 					<cfloop query="hasCanned">
 						<option value="#url#">#SEARCH_NAME#</option><br />
 					</cfloop>
@@ -177,20 +183,20 @@
 </div>
 <input type="hidden" name="Action" value="#Action#">
 <div class="secDiv" style="border-top: 1px dotted ##ccc;">
-	<cfquery name="ctInst" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cfquery name="ctInst" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" timeout="#Application.short_timeout#">
 		SELECT institution_acronym, collection, collection_id FROM collection
 	    <cfif len(#session.exclusive_collection_id#) gt 0>
-			WHERE collection_id = #session.exclusive_collection_id#
+			WHERE collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#session.exclusive_collection_id#">
 		</cfif>
 		order by collection
 	</cfquery>
 
-                    <cfquery name="hasPrefSuff" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-						SELECT max(CATNUM_PREF_FG) as prefFG, max(CATNUM_SUFF_FG) as suffFG from collection
-						<cfif len(#session.exclusive_collection_id#) gt 0>
-							WHERE collection_id = #session.exclusive_collection_id#
-						</cfif>
-					</cfquery>
+   <cfquery name="hasPrefSuff" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" timeout="#Application.short_timeout#">
+		SELECT max(CATNUM_PREF_FG) as prefFG, max(CATNUM_SUFF_FG) as suffFG from collection
+		<cfif len(#session.exclusive_collection_id#) gt 0>
+			WHERE collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#session.exclusive_collection_id#">
+		</cfif>
+	</cfquery>
 
 	<cfif isdefined("collection_id") and len(#collection_id#) gt 0>
 		<cfset thisCollId = #collection_id#>
@@ -199,48 +205,50 @@
 	</cfif>
 	<table class="ssrch">
 		<tr>
-			<td colspan="2" class="secHead">
+			<td colspan="4" class="secHead">
 				<span class="secLabel">Identifiers</span>
 				<span class="secControl" id="c_identifiers"	onclick="showHide('identifiers',1)">Show More Options</span>
 				<span class="secControl" id="c_identifiers_cust">Customize</span>
 			</td>
 		</tr>
 		<tr>
-			<td class="lbl">
+			<td class="lbl" valign="top">
 				<span id="collection">Institutional Catalog</span>:
 			</td>
-			<td class="srch">
-               <p class="topspace">&nbsp;</p>
+			<td class="srch" valign="top">
 				<select name="collection_id" id="collection_id" size="1">
-				    <cfif len(#session.exclusive_collection_id#) is 0>
+			   	<cfif len(#session.exclusive_collection_id#) is 0>
 						<option value="">All</option>
 					</cfif>
 					<cfloop query="ctInst">
 						<option <cfif #thisCollId# is #ctInst.collection_id#>
 					 		selected </cfif>
 							value="#ctInst.collection_id#">
-							<cfif #ctInst.collection_id# EQ 8>Invertebrate Zoology (incl. Marine Invertebrates)
-							<CFELSE>#ctInst.collection#</cfif></option>
+							#ctInst.collection#</option>
 					</cfloop>
 				</select>
+			</td>
+			<td class="lbl" valign="top" style="width: 5em;">
 				<span id="cat_num">Number:</span>
+			</td>
+			<td class="srch" valign="top">
 				<cfif #ListContains(session.searchBy, 'bigsearchbox')# gt 0>
-					<textarea name="listcatnum" id="listcatnum" rows="6" cols="40" wrap="soft"></textarea>
+					<textarea name="listcatnum" id="listcatnum" rows="6" cols="40" wrap="soft" style="width: 475px;"></textarea>
 				<cfelse>
-					<input type="text" name="listcatnum" id="listcatnum" size="21" value="">
+					<input type="text" name="listcatnum" id="listcatnum" size="25" value="">
 				</cfif>
 			</td>
 		</tr>
 		<tr>
-			<td><input class="lblone" type="checkbox" name="searchOtherIds" value="Yes"></td>
-			<td><span class="lbltwo">Include Other Identifiers in search (original number, previous number, etc.)</span></td>
+			<td colspan="2"><input class="lblone" type="checkbox" name="searchOtherIds" value="Yes"></td>
+			<td colspan="2"><span class="lbltwo">Include Other Identifiers in search (original number, previous number, etc.)</span></td>
 		</tr>
-	<cfif isdefined("session.CustomOtherIdentifier") and len(#session.CustomOtherIdentifier#) gt 0>
+		<cfif isdefined("session.CustomOtherIdentifier") and len(#session.CustomOtherIdentifier#) gt 0>
 		<tr>
-			<td class="lbl">
+			<td colspan="2" class="lbl">
 				<span id="custom_identifier">#replace(session.CustomOtherIdentifier," ","&nbsp;","all")#:</span>
 			</td>
-			<td class="srch">
+			<td colspan="2" class="srch">
 				<label for="CustomOidOper">Display Value</label>
 				<select name="CustomOidOper" id="CustomOidOper" size="1">
 					<option value="IS">is</option>
@@ -250,12 +258,12 @@
 				</select>&nbsp;<input type="text" name="CustomIdentifierValue" id="CustomIdentifierValue" size="50">
 			</td>
 		</tr>
+		<cfif isdefined("session.fancyCOID") and #session.fancyCOID# is 1>
 		<tr>
-		<td class="lbl">
-			<cfif isdefined("session.fancyCOID") and #session.fancyCOID# is 1>
-				&nbsp;
-		</td>
-			<td class="srch">
+			<td class="lbl" colspan="2">
+					&nbsp;
+			</td>
+			<td class="srch" colspan="2">
 				<table>
 					<tr>
 						<td>
@@ -273,27 +281,33 @@
 					</tr>
 				</table>
 			</td>
-			</cfif>
 		</tr>
-	</cfif>
-</table>
+		</cfif>
+		</cfif>
+	</table>
 <div id="e_identifiers">
 
     <table id="t_identifiers" class="ssrch">
     		<cfif isdefined("session.portal_id") and session.portal_id gt 0>
     			<cftry>
-    				<cfquery name="OtherIdType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#createtimespan(0,0,60,0)#">
-    					select distinct(other_id_type) FROM CCTCOLL_OTHER_ID_TYPE#session.portal_id# ORDER BY other_Id_Type
+    				<cfquery name="OtherIdType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#createtimespan(0,0,60,0)#" timeout="#Application.short_timeout#">
+    					SELECT distinct(other_id_type) 
+						FROM CCTCOLL_OTHER_ID_TYPE#session.portal_id# 
+						ORDER BY other_Id_Type
     				</cfquery>
     				<cfcatch>
-    					<cfquery name="OtherIdType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#createtimespan(0,0,60,0)#">
-    						select distinct(other_id_type) FROM CTCOLL_OTHER_ID_TYPE ORDER BY other_Id_Type
+    					<cfquery name="OtherIdType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#createtimespan(0,0,60,0)#" timeout="#Application.short_timeout#">
+    						SELECT distinct(other_id_type) 
+							FROM CTCOLL_OTHER_ID_TYPE 
+							ORDER BY other_Id_Type
     					</cfquery>
     				</cfcatch>
     			</cftry>
     		<cfelse>
-    			<cfquery name="OtherIdType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#createtimespan(0,0,60,0)#">
-    				select distinct(other_id_type) FROM CTCOLL_OTHER_ID_TYPE ORDER BY other_Id_Type
+    			<cfquery name="OtherIdType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#createtimespan(0,0,60,0)#" timeout="#Application.short_timeout#">
+    				SELECT distinct(other_id_type) 
+					FROM CTCOLL_OTHER_ID_TYPE 
+					ORDER BY other_Id_Type
     			</cfquery>
     		</cfif>
     	<tr>
@@ -317,8 +331,10 @@
     			</select><span class="infoLink" onclick="getCtDoc('ctcoll_other_id_type',SpecData.OIDType.value);">Define</span>
     		</td>
     	</tr>
-    	<cfquery name="OtherIdType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-    		select distinct(other_id_type) FROM ctColl_Other_Id_Type ORDER BY other_Id_Type
+    	<cfquery name="OtherIdType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" timeout="#Application.short_timeout#">
+    		SELECT distinct(other_id_type) 
+			FROM ctColl_Other_Id_Type 
+			ORDER BY other_Id_Type
     	</cfquery>
     	<tr>
     		<td class="lbl">
@@ -395,8 +411,10 @@
          	});
 
          </script>
-         <cfquery name="ctNatureOfId" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-         	SELECT DISTINCT(nature_of_id) FROM ctnature_of_id ORDER BY nature_of_id
+         <cfquery name="ctNatureOfId" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" timeout="#Application.short_timeout#">
+         	SELECT DISTINCT(nature_of_id) 
+				FROM ctnature_of_id 
+				ORDER BY nature_of_id
          </cfquery>
          <table id="t_identifiers" class="ssrch">
          	<tr>
@@ -421,6 +439,24 @@
          		<td class="srch">
          		 	<input type="text" name="phylclass" id="phylclass" size="50">
          			<span class="infoLink" onclick="var e=document.getElementById('phylclass');e.value='='+e.value;">Add = for exact match</span>
+         		</td>
+         	</tr>
+         	<tr>
+         		<td class="lbl">
+         			<span id="_phylorder">Order:</span>
+         		</td>
+         		<td class="srch">
+         		 	<input type="text" name="phylorder" id="phylorder" size="50">
+         			<span class="infoLink" onclick="var e=document.getElementById('phylorder');e.value='='+e.value;">Add = for exact match</span>
+         		</td>
+         	</tr>
+         	<tr>
+         		<td class="lbl">
+         			<span id="_family">Family:</span>
+         		</td>
+         		<td class="srch">
+         		 	<input type="text" name="family" id="family" size="50">
+         			<span class="infoLink" onclick="var e=document.getElementById('family');e.value='='+e.value;">Add = for exact match</span>
          		</td>
          	</tr>
          	<tr>
@@ -532,37 +568,37 @@
        		});
        	});
        </script>
-       <cfquery name="ctElevUnits" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+       <cfquery name="ctElevUnits" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" timeout="#Application.short_timeout#">
        	select orig_elev_units from CTORIG_ELEV_UNITS
        </cfquery>
-       <cfquery name="ctDepthUnits" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+       <cfquery name="ctDepthUnits" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" timeout="#Application.short_timeout#">
        	select depth_units from ctDepth_Units
        </cfquery>
-       <cfquery name="ContOcean" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+       <cfquery name="ContOcean" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" timeout="#Application.short_timeout#">
        	select continent_ocean from ctContinent ORDER BY continent_ocean
        </cfquery>
-       <cfquery name="Country" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+       <cfquery name="Country" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" timeout="#Application.short_timeout#">
        	select distinct(country) from geog_auth_rec order by country
        </cfquery>
-       <cfquery name="IslGrp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+       <cfquery name="IslGrp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" timeout="#Application.short_timeout#">
        	select island_group from ctIsland_Group order by Island_Group
        </cfquery>
-       <cfquery name="Feature" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+       <cfquery name="Feature" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" timeout="#Application.short_timeout#">
        	select distinct(Feature) from geog_auth_rec order by Feature
        </cfquery>
-			 <cfquery name="Water_Feature" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				 select distinct(Water_Feature) from geog_auth_rec order by Water_Feature
-			 </cfquery>
-       <cfquery name="ctgeology_attribute"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-       	select attribute from geology_attribute_hierarchy group by attribute order by attribute
+		 <cfquery name="Water_Feature" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" timeout="#Application.short_timeout#">
+			 select distinct(Water_Feature) from geog_auth_rec order by Water_Feature
+		 </cfquery>
+       <cfquery name="ctgeology_attribute"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" timeout="#Application.short_timeout#">
+       	select geology_attribute attribute from ctgeology_attribute order by ordinal
        </cfquery>
-       <cfquery name="ctgeology_attribute_val"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+       <cfquery name="ctgeology_attribute_val"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" timeout="#Application.short_timeout#">
        	select attribute_value from geology_attribute_hierarchy group by attribute_value order by attribute_value
        </cfquery>
-       <cfquery name="ctlat_long_error_units"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+       <cfquery name="ctlat_long_error_units"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" timeout="#Application.short_timeout#">
        	select lat_long_error_units from ctlat_long_error_units group by lat_long_error_units order by lat_long_error_units
        </cfquery>
-       <cfquery name="ctverificationstatus"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+       <cfquery name="ctverificationstatus"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" timeout="#Application.short_timeout#">
        	select verificationstatus from ctverificationstatus group by verificationstatus order by verificationstatus
        </cfquery>
        <table id="t_identifiers" class="ssrch">
@@ -815,8 +851,9 @@
         		$("##endDate").datepicker();
         	});
         </script>
-        <cfquery name="ctcollecting_source" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-        	select collecting_source from ctcollecting_source
+        <cfquery name="ctcollecting_source" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" timeout="#Application.short_timeout#">
+        	SELECT collecting_source 
+			FROM ctcollecting_source
         </cfquery>
         <table id="t_identifiers" class="ssrch">
         	<tr>
@@ -989,7 +1026,7 @@
         </table>
     </div>
 </div>
-<cfquery name="Part" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="Part" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" timeout="#Application.short_timeout#">
 	select part_name from
 		<cfif len(#session.exclusive_collection_id#) gt 0>
 			cctspecimen_part_name#session.exclusive_collection_id#
@@ -999,7 +1036,7 @@
 	group by part_name order by part_name
 </cfquery>
 <cfset partlist=#valuelist(Part.part_name,"\")#>
-<cfquery name="PreserveMethod" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="PreserveMethod" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" timeout="#Application.short_timeout#">
 	select preserve_method from
 		<cfif len(#session.exclusive_collection_id#) gt 0>
 			cctspecimen_preserv_method#session.exclusive_collection_id#
@@ -1048,17 +1085,17 @@
           </cfquery>
           <cfif isdefined("session.portal_id") and session.portal_id gt 0>
           	<cftry>
-          		<cfquery name="ctAttributeType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#createtimespan(0,0,60,0)#">
+          		<cfquery name="ctAttributeType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#createtimespan(0,0,60,0)#" timeout="#Application.short_timeout#">
           			select distinct(attribute_type) from cctattribute_type#session.portal_id# order by attribute_type
           		</cfquery>
           		<cfcatch>
-          			<cfquery name="ctAttributeType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#createtimespan(0,0,60,0)#">
+          			<cfquery name="ctAttributeType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#createtimespan(0,0,60,0)#" timeout="#Application.short_timeout#">
           				select distinct(attribute_type) from ctattribute_type order by attribute_type
           			</cfquery>
           		</cfcatch>
           	</cftry>
           <cfelse>
-          	<cfquery name="ctAttributeType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#createtimespan(0,0,60,0)#">
+          	<cfquery name="ctAttributeType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#createtimespan(0,0,60,0)#" timeout="#Application.short_timeout#">
           		select distinct(attribute_type) from ctattribute_type order by attribute_type
           	</cfquery>
           </cfif>
@@ -1191,13 +1228,14 @@
 			</td>
 			<td class="srch">
               <p class="topspace">&nbsp;</p>
-				<cfquery name="ctTypeStatus" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="ctTypeStatus" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" timeout="#Application.short_timeout#">
 					select type_status from ctcitation_type_status
 				</cfquery>
 				<select name="type_status" id="type_status" size="1">
 					<option value=""></option>
 					<option value="any">Any</option>
 					<option value="any type">Any TYPE</option>
+					<option value="any primary">Any Primary Type</option>
 					<cfloop query="ctTypeStatus">
 						<option value="#ctTypeStatus.type_status#">#ctTypeStatus.type_status#</option>
 					</cfloop>
@@ -1207,7 +1245,7 @@
 		</tr>
 	</table>
 	<div id="e_usage">
-         <cfquery name="ctmedia_type" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+         <cfquery name="ctmedia_type" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" timeout="#Application.short_timeout#">
 
          	select media_type from ctmedia_type order by media_type
          </cfquery>
@@ -1309,14 +1347,22 @@
          		$("##end_last_edit_date").datepicker();
          	});
          </script>
-         <cfquery name="ctPermitType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+         <cfquery name="ctPermitType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" timeout="#Application.short_timeout#">
          	select * from ctpermit_type
          </cfquery>
-         <cfquery name="ctCollObjDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+         <cfquery name="ctCollObjDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" timeout="#Application.short_timeout#">
          	select coll_obj_disposition from ctcoll_obj_disp
          </cfquery>
-         <cfquery name="ctFlags" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+         <cfquery name="ctFlags" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" timeout="#Application.short_timeout#">
          	select flags from ctflags
+         </cfquery>
+	      <cfquery name="namedCollections" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" timeout="#Application.short_timeout#">
+   	     	select underscore_collection_id, collection_name, mask_fg 
+				from underscore_collection
+         	<cfif NOT listcontainsnocase(session.roles,"coldfusion_user")>
+					where mask_fg = 0
+				</cfif>
+				order by collection_name
          </cfquery>
          <table id="t_identifiers" class="ssrch">
          	<tr>
@@ -1366,7 +1412,24 @@
          			<span class="infoLink" onclick="getHelp('get_permit_number');">Pick</span>
          		</td>
          	</tr>
-
+         	<cfif listcontainsnocase(session.roles,"manage_specimens")>
+	         	<tr>
+   	      		<td class="lbl">
+      	   			<span id="named_group_label">Named Group:</span>
+         			</td>
+						<td class="srch">
+      	   			<select name="underscore_coll_id" id="underscore_coll_id" size="1">
+	         				<option value=""></option>
+   	      				<cfloop query="namedCollections">
+      	   					<option value = "#namedCollections.underscore_collection_id#">#namedCollections.collection_name#</option>
+         					 </cfloop>
+   	      				<cfloop query="namedCollections">
+      	   					<option value = "!#namedCollections.underscore_collection_id#">!#namedCollections.collection_name#</option>
+         					 </cfloop>
+           				</select>
+         			</td>
+         		</tr>
+				</cfif>
          	<tr>
          		<td class="lbl">
          			<span id="disposition">Part Disposition:</span>
@@ -1389,6 +1452,7 @@
          				<option value=""></option>
          				<option value="1">Box</option>
          				<option value="2">Vial</option>
+							<option value="3">Thermal</option>
          			</select>
          		</td>
          	</tr>

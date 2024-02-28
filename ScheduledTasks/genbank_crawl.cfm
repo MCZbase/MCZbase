@@ -10,19 +10,19 @@ create table cf_genbank_crawl (
 
 create or replace public synonym cf_genbank_crawl for cf_genbank_crawl;
 grant all on cf_genbank_crawl to coldfusion_user;
-	
+
 alter table cf_genbank_crawl add query_type varchar2(30);
 
 alter table cf_genbank_crawl drop column institution;
 alter table cf_genbank_crawl rename column collection to owner;
 
 
-CREATE OR REPLACE TRIGGER trg_cf_genbank_crawl                                         
+CREATE OR REPLACE TRIGGER trg_cf_genbank_crawl
  before insert OR UPDATE ON cf_genbank_crawl
- for each row 
-    begin     
+ for each row
+    begin
     	select somerandomsequence.nextval into :new.gbcid from dual;
-    end;                                                                                            
+    end;
 /
 sho err
 --->
@@ -40,7 +40,7 @@ sho err
 		</ul>
 	</cfif>
 	<cfquery name="c" datasource="uam_god">
-		select collection, collection_cde,institution_acronym from collection order by institution_acronym,collection_cde
+		select collection, collection_cde,institution_acronym from collection where collection_cde not in ('MCZ', 'HerpOBS') order by institution_acronym,collection_cde
 	</cfquery>
 	<cfquery name="inst" dbtype="query">
 		select institution_acronym from c group by institution_acronym order by institution_acronym
@@ -51,7 +51,7 @@ sho err
 		</cfquery>
 		<cfloop query="inst">
 			<cfset u="http://www.ncbi.nlm.nih.gov/sites/entrez?db=nuccore&cmd=search&term=">
-			<cfset u=u & "specimen voucher " & institution_acronym & "*[text word] NOT loprovarctos[filter]">
+			<cfset u=u & "specimen voucher " & institution_acronym & "*">
 			<cfhttp url="#u#" method="get" />
 			<cfset xmlDoc=xmlParse(cfhttp.filecontent)>
 			<cfloop from="1" to="#ArrayLen(xmldoc.html.head.meta)#" index="i">
@@ -81,7 +81,7 @@ sho err
 		</cfquery>
 		<cfloop query="inst">
 			<cfset u="http://www.ncbi.nlm.nih.gov/sites/entrez?db=nuccore&cmd=search&term=">
-			<cfset u=u & "specimen voucher " & institution_acronym & " *[text word] NOT loprovarctos[filter]">
+			<cfset u=u & "specimen voucher " & institution_acronym & " *">
 			<cfhttp url="#u#" method="get" />
 			<cfset xmlDoc=xmlParse(cfhttp.filecontent)>
 			<cfloop from="1" to="#ArrayLen(xmldoc.html.head.meta)#" index="i">
@@ -111,7 +111,7 @@ sho err
 		</cfquery>
 		<cfloop query="inst">
 			<cfset u="http://www.ncbi.nlm.nih.gov/sites/entrez?db=nuccore&cmd=search&term=">
-			<cfset u=u & "collection%20" & institution_acronym & "[prop]%20NOT%20loprovarctos[filter]">
+			<cfset u=u & "collection%20" & institution_acronym>
 			<cfhttp url="#u#" method="get" />
 			<cfset xmlDoc=xmlParse(cfhttp.filecontent)>
 			<cfloop from="1" to="#ArrayLen(xmldoc.html.head.meta)#" index="i">
@@ -141,7 +141,7 @@ sho err
 		</cfquery>
 		<cfloop query="c">
 			<cfset u="http://www.ncbi.nlm.nih.gov/sites/entrez?db=nuccore&cmd=search&term=">
-			<cfset u=u & "collection%20" & institution_acronym & ' ' & collection_cde & "[prop]%20NOT%20loprovarctos[filter]">
+			<cfset u=u & "collection%20" & institution_acronym & '%3A' & collection_cde>
 			<cfhttp url="#u#" method="get" />
 			<cfset xmlDoc=xmlParse(cfhttp.filecontent)>
 			<cfloop from="1" to="#ArrayLen(xmldoc.html.head.meta)#" index="i">
@@ -171,7 +171,7 @@ sho err
 		</cfquery>
 		<cfloop query="c">
 			<cfset u="http://www.ncbi.nlm.nih.gov/sites/entrez?db=nuccore&cmd=search&term=">
-			<cfset u=u & "specimen voucher " & institution_acronym & ' ' & collection_cde & "*[text word] NOT loprovarctos[filter]">
+			<cfset u=u & "specimen voucher " & institution_acronym & ' ' & collection_cde & "*">
 			<cfhttp url="#u#" method="get" />
 			<cfset xmlDoc=xmlParse(cfhttp.filecontent)>
 			<cfloop from="1" to="#ArrayLen(xmldoc.html.head.meta)#" index="i">
@@ -201,7 +201,7 @@ sho err
 		</cfquery>
 		<cfloop query="c">
 			<cfset u="http://www.ncbi.nlm.nih.gov/sites/entrez?db=nuccore&cmd=search&term=">
-			<cfset u=u & "specimen voucher " & institution_acronym & ' ' & collection_cde & "* [text word] NOT loprovarctos[filter]">
+			<cfset u=u & "specimen voucher " & institution_acronym & ' ' & collection_cde & "* ">
 			<cfhttp url="#u#" method="get" />
 			<cfset xmlDoc=xmlParse(cfhttp.filecontent)>
 			<cfloop from="1" to="#ArrayLen(xmldoc.html.head.meta)#" index="i">

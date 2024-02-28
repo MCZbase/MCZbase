@@ -5,7 +5,7 @@
 <!--- Set MAXTEMPLATE to the largest value of a collection_id that is used as bulkloader.collection_object_id as a template --->
 <!--- --->
 <cfset MAXTEMPLATE="14">
-<cfset title="Data Entry">
+<cfset title="Enter Data">
 <link rel="stylesheet" type="text/css" href="/includes/_DEstyle.css">
 <!---
 <script type='text/javascript' src='/includes/jquery/suggest.js'></script>
@@ -170,7 +170,9 @@ Some Totally Random String Data .....
 			you don't have an ID. <cfabort>
 		</cfif>
 		<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			select * from bulkloader where collection_object_id=#collection_object_id#
+			SELECT * 
+			FROM bulkloader 
+			WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
 		</cfquery>
 		<!---  Was hard coded magic number, value of 50 in v3.9 then 30 in v2.5.1  --->
 		<cfif collection_object_id GT #MAXTEMPLATE#>
@@ -200,7 +202,7 @@ Some Totally Random String Data .....
 		<cfquery name="ctInst" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#createtimespan(0,0,60,0)#">
 			SELECT institution_acronym || ' ' || collection_cde as instcoll, collection_id FROM collection
 				<cfif len(#collection_cde#) gt 0>
-					WHERE collection_cde='#collection_cde#'
+					WHERE collection_cde = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collection_cde#">
 				</cfif>
 		</cfquery>
 		<cfquery name="ctcollection" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#createtimespan(0,0,60,0)#">
@@ -249,7 +251,7 @@ Some Totally Random String Data .....
 		<cfquery name="ctSex_Cde" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#createtimespan(0,0,60,0)#">
 			SELECT distinct(sex_cde) as sex_cde FROM ctSex_Cde
 			<cfif len(collection_cde) gt 0>
-				WHERE collection_cde='#collection_cde#'
+				WHERE collection_cde = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collection_cde#">
 			</cfif>
 			order by sex_cde
 		</cfquery>
@@ -275,7 +277,7 @@ Some Totally Random String Data .....
 		<cfquery name="ctPartName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#"  cachedwithin="#createtimespan(0,0,60,0)#">
 			SELECT distinct(part_name) FROM ctSpecimen_part_name
 				<cfif len(#collection_cde#) gt 0>
-					WHERE collection_cde='#collection_cde#'
+					WHERE collection_cde = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collection_cde#">
 				</cfif>
 				order by part_name
         </cfquery>
@@ -289,7 +291,7 @@ Some Totally Random String Data .....
 		<cfquery name="ctPresMeth" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#"  cachedwithin="#createtimespan(0,0,60,0)#">
 			select preserve_method from ctspecimen_preserv_method
 				<cfif len(#collection_cde#) gt 0>
-					WHERE collection_cde='#collection_cde#'
+					WHERE collection_cde = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collection_cde#">
 				</cfif>
 				order by preserve_method
 		</cfquery>
@@ -297,7 +299,7 @@ Some Totally Random String Data .....
 		<cfquery name="ctAttributeType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#"  cachedwithin="#createtimespan(0,0,60,0)#">
 			select distinct(attribute_type) from ctattribute_type
 				<cfif len(#collection_cde#) gt 0>
-					WHERE collection_cde='#collection_cde#'
+					WHERE collection_cde = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collection_cde#">
 				</cfif>
 				order by attribute_type
 		</cfquery>
@@ -305,12 +307,12 @@ Some Totally Random String Data .....
 		<cfquery name="ctAttributeType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#createtimespan(0,0,60,0)#">
 			SELECT attribute_type FROM ctattribute_type
 			<cfif len(#collection_cde#) gt 0>
-				WHERE collection_cde='#collection_cde#'
+				WHERE collection_cde = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collection_cde#">
 			</cfif>
 			order by attribute_type
 		</cfquery>
 		<cfquery name="ctgeology_attribute" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#createtimespan(0,0,60,0)#">
-			select geology_attribute from ctgeology_attribute order by geology_attribute
+			select geology_attribute from ctgeology_attribute order by ordinal
 		</cfquery>
 		<cfquery name="ctCodes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#createtimespan(0,0,60,0)#">
 			select
@@ -348,7 +350,7 @@ Some Totally Random String Data .....
 		<cfif len(loadedMsg) gt 0>
 			<cfset pageTitle = replace(loadedMsg,"::","","all")>
 		<cfelse>
-			<cfset pageTitle = "This record has passed all bulkloader checks!">
+			<cfset pageTitle = "Passed Checks!">
 		</cfif>
 		<cfif not isdefined("inEntryGroups") OR len(inEntryGroups) eq 0>
 			You have group issues! You must be in a Data Entry group to use this form.
@@ -512,7 +514,7 @@ Some Totally Random String Data .....
 						</tr>
 						<tr id="d_identification_remarks">
 							<td align="right"><span class="f11a">ID Remark</span></td>
-							<td><input type="text" name="identification_remarks" title="IDENTIFICATION_REMARKS" value="#identification_remarks#"
+							<td><input type="text" name="identification_remarks" title="IDENTIFICATION_REMARKS" value="#encodeForHTML(identification_remarks)#"
 								id="identification_remarks" size="75">
 							</td>
 						</tr>
@@ -541,16 +543,33 @@ Some Totally Random String Data .....
 							<td>
 								<input type="text"  name="verbatim_locality"
 									class="reqdClr" size="75"
-									id="verbatim_locality" title="VERBATIM_LOCALITY" value="#stripQuotes(verbatim_locality)#">
+									id="verbatim_locality" title="VERBATIM_LOCALITY" value="#encodeForHTML(verbatim_locality)#">
 							<!---	<span class="infoLink" onclick="document.getElementById('verbatim_locality').value=document.getElementById('spec_locality').value;">
 									&nbsp;Use&nbsp;Specloc
 								</span>--->
 							</td>
 						</tr>
 						<tr>
+							<td align="right"><span class="f11a">Verbatim Depth</span></td>
+							<td>
+								<input type="text"  name="verbatimdepth"
+									class="" size="75"
+									id="verbatimdepth" title="VERBATIM Depth" value="#encodeForHTML(verbatimdepth)#">
+							</td>
+						</tr>
+						<tr>
+							<td align="right"><span class="f11a">Verbatim Elevation</span></td>
+							<td>
+								<input type="text"  name="verbatimelevation"
+									class="" size="75"
+									id="verbatimelevation" title="VERBATIM Elevation" value="#encodeForHTML(verbatimelevation)#">
+							</td>
+						</tr>
+						<tr>
+						<tr>
 							<td align="right"><span class="f11a">Verbatim Date</span></td>
 							<td>
-								<input type="text" name="verbatim_date" title="VERBATIM_DATE" class="reqdClr" value="#verbatim_date#" id="verbatim_date" size="14">
+								<input type="text" name="verbatim_date" title="VERBATIM_DATE" class="reqdClr" value="#encodeForHTML(verbatim_date)#" id="verbatim_date" size="14">
 								<span class="infoLink"
 									onClick="copyVerbatim($('##verbatim_date').val());"> >> </span>
 								<span class="f11a">Begin</span>
@@ -582,7 +601,11 @@ Some Totally Random String Data .....
 											<cfif len(collecting_source) gt 0>
 												<cfset thisCollSrc=collecting_source>
 											<cfelse>
-												<cfset thisCollSrc="wild caught">
+												<cfif collection_cde is "VP" OR collection_cde is "IP" >
+													<cfset thisCollSrc="rock/outcrop">
+												<cfelse>
+													<cfset thisCollSrc="wild caught">
+												</cfif>
 											</cfif>
 											<select name="collecting_source"
 												size="1"
@@ -621,11 +644,11 @@ Some Totally Random String Data .....
                           <tr>
                         <td align="right"><span class="f11a">Verbatim Coordinates</span></td>
                         <td>
-                        <input type="text" title="verbatimcoordinates" name="verbatimcoordinates" size="75" id="verbatimcoordinates" value="#verbatimcoordinates#"><span class="f11a">(summary as given)</span></td></tr>
+                        <input type="text" title="verbatimcoordinates" name="verbatimcoordinates" size="75" id="verbatimcoordinates" value="#encodeForHTML(verbatimcoordinates)#"><span class="f11a">(summary as given)</span></td></tr>
      <td align="right"><span class="f11a">Verbatim Latitude</span></td>
-                      <td><input type="text" title="verbatimLatitude" name="verbatimlatitude" size="14" id="verbatimlatitude" value="#verbatimlatitude#">
+                      <td><input type="text" title="verbatimLatitude" name="verbatimlatitude" size="14" id="verbatimlatitude" value="#encodeForHTML(verbatimlatitude)#">
                         <span class="f11a">Verbatim Longitude</span>
-                       <input type="text" title="verbatimlongitude" name="verbatimlongitude" size="14" id="verbatimlongitude" value="#verbatimlongitude#"></td></tr>
+                       <input type="text" title="verbatimlongitude" name="verbatimlongitude" size="14" id="verbatimlongitude" value="#encodeForHTML(verbatimlongitude)#"></td></tr>
 
                       <tr><td align="right"><span class="f11a">Verbatim Coordinate System</span></td>
                        <td><input type="text" title="verbatimcoordinatesystem" name="verbatimcoordinatesystem" size="24" id="verbatimcoordinatesystem" value="#verbatimcoordinatesystem#"><span class="f11a">(e.g., decimal degrees, degrees minutes seconds, etc.)</span></td></tr>
@@ -679,13 +702,13 @@ Some Totally Random String Data .....
 						<tr id="d_coll_event_remarks">
 							<td align="right"><span class="f11a">Coll.&nbsp;Event&nbsp;Remark</span></td>
 							<td>
-								<input type="text" title="COLL_EVENT_REMARKS" name="coll_event_remarks" size="75" value="#coll_event_remarks#" id="coll_event_remarks">
+								<input type="text" title="COLL_EVENT_REMARKS" name="coll_event_remarks" size="75" value="#encodeForHTML(coll_event_remarks)#" id="coll_event_remarks">
 							</td>
 						</tr>
 						<tr id="d_locality_remarks">
 							<td align="right"><span class="f11a" onclick="checkPicked()">Locality Remark</span></td>
 							<td>
-								<input type="text" title="LOCALITY_REMARKS" name="locality_remarks" size="75" value="#locality_remarks#" id="locality_remarks">
+								<input type="text" title="LOCALITY_REMARKS" name="locality_remarks" size="75" value="#encodeForHTML(locality_remarks)#" id="locality_remarks">
 							</td>
 						</tr>
         	<tr>
@@ -819,7 +842,11 @@ Some Totally Random String Data .....
 										<td colspan="3" nowrap="nowrap">
 											<input type="text" title="LAT_LONG_REF_SOURCE" name="lat_long_ref_source" id="lat_long_ref_source"  class="reqdClr"
 												size="60" value="#lat_long_ref_source#">
-											<span class="infoLink" onclick="getHelp('lat_long_ref_source');">Pick</span>
+										        <script>
+										            $(function() {
+      											         $("##lat_long_ref_source").autocomplete({source:"component//functions.cfc?method=getLatLonRefSourceFilter",minLength:2 });
+											    });
+										        </script>
 										</td>
 									</tr>
 									<tr>
@@ -846,7 +873,7 @@ Some Totally Random String Data .....
 									<tr id="d_lat_long_remarks">
 										<td align="right"><span class="f11a">LatLongRemk</span></td>
 										<td colspan="3">
-											<input type="text" name="lat_long_remarks" size="80" value="#lat_long_remarks#" id="lat_long_remarks">
+											<input type="text" name="lat_long_remarks" size="80" value="#encodeForHTML(lat_long_remarks)#" id="lat_long_remarks">
 										</td>
 									</tr>
 								</table>
@@ -1217,6 +1244,7 @@ Some Totally Random String Data .....
 										<td colspan="2" align="center"><span class="f11a">Weight</span></td>
 										<td><span class="f11a">Date</span></td>
 										<td><span class="f11a">Determiner</span></td>
+									</tr>
 									<tr>
 										<td>
 											<input type="hidden" name="attribute_2" value="total length" />
@@ -1287,6 +1315,7 @@ Some Totally Random String Data .....
 										<td colspan="2" align="center"><span class="f11a">Weight</span></td>
 										<td><span class="f11a">Date</span></td>
 										<td><span class="f11a">Determiner</span></td>
+									</tr>
 									<tr>
 										<td>
 											<input type="hidden" name="attribute_2" value="age class" />
@@ -1440,7 +1469,7 @@ Some Totally Random String Data .....
 								</cfloop>
 							</select>
 							<cfset thisRELATED_TO_NUM_TYPE = RELATED_TO_NUM_TYPE>
-							<select name="related_to_num_type" size="1" id="related_to_num_type" style="width:80px">
+							<select name="related_to_num_type" size="1" id="related_to_num_type" style="width:125px">
 								<option value=""></option>
 								<option <cfif thisRELATED_TO_NUM_TYPE is "catalog number">selected="selected"</cfif> value="catalog number">catalog number (UAM:Mamm:123 format)</option>
 								<cfloop query="ctOtherIdType">
@@ -1449,7 +1478,8 @@ Some Totally Random String Data .....
 									 value="#other_id_type#">#other_id_type#</option>
 								</cfloop>
 							</select>
-							<input type="text" value="#related_to_number#" name="related_to_number" id="related_to_number" size="10" />
+							<input type="text" value="#related_to_number#" name="related_to_number" id="related_to_number" size="15" />
+							<!--- input type="text" value="#BIOL_INDIV_RELATION_REMARKS#" name="BIOL_INDIV_RELATION_REMARKS" id="BIOL_INDIV_RELATION_REMARKS" size="33" / --->
 						</td>
 					</tr>
 				</table><!------ random admin stuff ---------->
@@ -1549,12 +1579,12 @@ Some Totally Random String Data .....
 							</td>
 							<td>
 								<input type="text" name="part_container_unique_id_#i#" id="part_container_unique_id_#i#" value="#evaluate("data.part_container_unique_id_" & i)#"
-									 size="15" onchange="part_container_name_#i#.className='reqdClr';setPartLabel(this.id);">
+									 size="20" onchange="part_container_name_#i#.className='reqdClr';setPartLabel(this.id);">
 							</td>
 							<td>
                  <!---         <textarea id="part_remark_#i#" value="#evaluate("data.part_remark_" & i)#" name="part_remark_#i#" size="100"></textarea>--->
                   <input type="text" name="part_remark_#i#" id="part_remark_#i#"
-									value="#evaluate("data.part_remark_" & i)#" size="80">
+									value="#stripQuotes(evaluate("data.part_remark_" & i))#" size="80">
 
 							</td>
 		                    <!---START Part Attribute Stuff --->

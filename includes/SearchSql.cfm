@@ -43,7 +43,11 @@
 	<cfset basSelect = "#basSelect#,SCORE(1) as sco ">
 	<cfset mapurl = "#mapurl#&freetextsearch=#containssearch#">
    	<cfset basQual = "#basQual#  AND CONTAINS(#session.flatTableName#.cat_num, '#containssearch#', 1) > 0  AND ROWNUM <= 1000 " >
-   	<cfset basOrder = "#basOrder#  order by SCORE(1) desc " >
+		<cfif len(trim(basOrder)) GT 0>
+	   	<cfset basOrder = "#basOrder#, SCORE(1) desc " >
+		<cfelse>
+	   	<cfset basOrder = " order by SCORE(1) desc " >
+		</cfif>
 </cfif>
 
 <cfif isdefined("catnum") and len(catnum) gt 0>
@@ -220,7 +224,7 @@
 		<cfset basJoin = " #basJoin# INNER JOIN coll_object CatItemCollObject ON
 			(cataloged_item.collection_object_id = CatItemCollObject.collection_object_id)">
 	</cfif>
-	<cfset basQual = "#basQual#  AND CatItemCollObject.COLL_OBJECT_ENTERED_DATE BETWEEN '#beEntDate#' and '#edEntDate#'" >
+	<cfset basQual = "#basQual#  AND CatItemCollObject.COLL_OBJECT_ENTERED_DATE BETWEEN to_date('#beEntDate#','yyyy-mm-dd') and to_date('#edEntDate#','yyyy-mm-dd')" >
 	<cfset mapurl = "#mapurl#&beg_entered_date=#beg_entered_date#">
 	<cfset mapurl = "#mapurl#&end_entered_date=#end_entered_date#">
 </cfif>
@@ -235,7 +239,7 @@
 				)" >
 </cfif>
 <cfif isdefined("print_fg") AND len(print_fg) gt 0>
-	<!---- get data for printing labels ---->
+	<!---- get flag that can be used for collecting specimens for printing labels ---->
 	<cfset basQual = "#basQual#  AND cataloged_item.collection_object_id IN (
 		SELECT
 			derived_from_cat_item
@@ -564,6 +568,90 @@ true) OR (isdefined("collection_id") AND collection_id EQ 13)>
 		<cfset basQual = " #basQual# AND upper(taxonomy.subspecies) like '%#ucase(subspecies)#%'">
 	</cfif>
 </cfif>
+<cfif isdefined("kingdom") AND len(kingdom) gt 0>
+	<cfset mapurl = "#mapurl#&kingdom=#kingdom#">
+	<cfif basJoin does not contain " identification ">
+		<cfset basJoin = " #basJoin# INNER JOIN identification ON
+		(cataloged_item.collection_object_id = identification.collection_object_id)">
+	</cfif>
+	<cfif basJoin does not contain " identification_taxonomy ">
+		<cfset basJoin = " #basJoin# INNER JOIN identification_taxonomy ON
+		(identification.identification_id = identification_taxonomy.identification_id)">
+	</cfif>
+	<cfif basJoin does not contain " taxonomy ">
+		<cfset basJoin = " #basJoin# INNER JOIN taxonomy ON
+		(identification_taxonomy.taxon_name_id = taxonomy.taxon_name_id)">
+	</cfif>
+    <cfif kingdom contains "|">
+        <cfset clause = "">
+        <cfset orbit = "">
+        <cfif left(kingdom,1) is '='>
+            <cfset kingdom = Replace(kingdom,"=","","All")>
+            <cfloop index="classbit" list="#kingdom#" delimiters="|">
+	    	     <cfset clause = " #clause# #orbit# upper(taxonomy.kingdom) = '#ucase(trim(classbit))#'">
+                 <cfset orbit = " OR ">
+            </cfloop>
+	    	<cfset basQual = " #basQual# AND (#clause#) ">
+        <cfelse>
+            <cfset kingdom = Replace(kingdom,"=","","All")>
+            <cfloop index="classbit" list="#kingdom#" delimiters="|">
+	    	     <cfset clause = " #clause# #orbit# upper(taxonomy.kingdom) like '%#ucase(trim(classbit))#%'">
+                 <cfset orbit = " OR ">
+            </cfloop>
+	    	<cfset basQual = " #basQual# AND (#clause#) ">
+        </cfif>
+    <cfelse>
+    	<cfif left(kingdom,1) is '='>
+	    	<cfset basQual = " #basQual# AND upper(taxonomy.kingdom) = '#ucase(right(kingdom,len(kingdom)-1))#'">
+    	<cfelseif compare(kingdom,"NULL") is 0>
+		    <cfset basQual = " #basQual# AND taxonomy.kingdom is NULL">
+	    <cfelse>
+		    <cfset basQual = " #basQual# AND upper(taxonomy.kingdom) like '%#ucase(kingdom)#%'">
+	    </cfif>
+    </cfif>
+</cfif>
+<cfif isdefined("phylum") AND len(phylum) gt 0>
+	<cfset mapurl = "#mapurl#&phylum=#phylum#">
+	<cfif basJoin does not contain " identification ">
+		<cfset basJoin = " #basJoin# INNER JOIN identification ON
+		(cataloged_item.collection_object_id = identification.collection_object_id)">
+	</cfif>
+	<cfif basJoin does not contain " identification_taxonomy ">
+		<cfset basJoin = " #basJoin# INNER JOIN identification_taxonomy ON
+		(identification.identification_id = identification_taxonomy.identification_id)">
+	</cfif>
+	<cfif basJoin does not contain " taxonomy ">
+		<cfset basJoin = " #basJoin# INNER JOIN taxonomy ON
+		(identification_taxonomy.taxon_name_id = taxonomy.taxon_name_id)">
+	</cfif>
+    <cfif phylum contains "|">
+        <cfset clause = "">
+        <cfset orbit = "">
+        <cfif left(phylum,1) is '='>
+            <cfset phylum = Replace(phylum,"=","","All")>
+            <cfloop index="classbit" list="#phylum#" delimiters="|">
+	    	     <cfset clause = " #clause# #orbit# upper(taxonomy.phylum) = '#ucase(trim(classbit))#'">
+                 <cfset orbit = " OR ">
+            </cfloop>
+	    	<cfset basQual = " #basQual# AND (#clause#) ">
+        <cfelse>
+            <cfset phylum = Replace(phylum,"=","","All")>
+            <cfloop index="classbit" list="#phylum#" delimiters="|">
+	    	     <cfset clause = " #clause# #orbit# upper(taxonomy.phylum) like '%#ucase(trim(classbit))#%'">
+                 <cfset orbit = " OR ">
+            </cfloop>
+	    	<cfset basQual = " #basQual# AND (#clause#) ">
+        </cfif>
+    <cfelse>
+    	<cfif left(phylum,1) is '='>
+	    	<cfset basQual = " #basQual# AND upper(taxonomy.phylum) = '#ucase(right(phylum,len(phylum)-1))#'">
+    	<cfelseif compare(phylum,"NULL") is 0>
+		    <cfset basQual = " #basQual# AND taxonomy.phylum is NULL">
+	    <cfelse>
+		    <cfset basQual = " #basQual# AND upper(taxonomy.phylum) like '%#ucase(phylum)#%'">
+	    </cfif>
+    </cfif>
+</cfif>
 <cfif isdefined("Phylclass") AND len(Phylclass) gt 0>
 	<cfset mapurl = "#mapurl#&Phylclass=#Phylclass#">
 	<cfif basJoin does not contain " identification ">
@@ -603,6 +691,90 @@ true) OR (isdefined("collection_id") AND collection_id EQ 13)>
 		    <cfset basQual = " #basQual# AND taxonomy.phylclass is NULL">
 	    <cfelse>
 		    <cfset basQual = " #basQual# AND upper(taxonomy.phylclass) like '%#ucase(phylclass)#%'">
+	    </cfif>
+    </cfif>
+</cfif>
+<cfif isdefined("phylorder") AND len(phylorder) gt 0>
+	<cfset mapurl = "#mapurl#&phylorder=#phylorder#">
+	<cfif basJoin does not contain " identification ">
+		<cfset basJoin = " #basJoin# INNER JOIN identification ON
+		(cataloged_item.collection_object_id = identification.collection_object_id)">
+	</cfif>
+	<cfif basJoin does not contain " identification_taxonomy ">
+		<cfset basJoin = " #basJoin# INNER JOIN identification_taxonomy ON
+		(identification.identification_id = identification_taxonomy.identification_id)">
+	</cfif>
+	<cfif basJoin does not contain " taxonomy ">
+		<cfset basJoin = " #basJoin# INNER JOIN taxonomy ON
+		(identification_taxonomy.taxon_name_id = taxonomy.taxon_name_id)">
+	</cfif>
+    <cfif phylorder contains "|">
+        <cfset clause = "">
+        <cfset orbit = "">
+        <cfif left(phylorder,1) is '='>
+            <cfset phylorder = Replace(phylorder,"=","","All")>
+            <cfloop index="classbit" list="#phylorder#" delimiters="|">
+	    	     <cfset clause = " #clause# #orbit# upper(taxonomy.phylorder) = '#ucase(trim(classbit))#'">
+                 <cfset orbit = " OR ">
+            </cfloop>
+	    	<cfset basQual = " #basQual# AND (#clause#) ">
+        <cfelse>
+            <cfset phylorder = Replace(phylorder,"=","","All")>
+            <cfloop index="classbit" list="#phylorder#" delimiters="|">
+	    	     <cfset clause = " #clause# #orbit# upper(taxonomy.phylorder) like '%#ucase(trim(classbit))#%'">
+                 <cfset orbit = " OR ">
+            </cfloop>
+	    	<cfset basQual = " #basQual# AND (#clause#) ">
+        </cfif>
+    <cfelse>
+    	<cfif left(phylorder,1) is '='>
+	    	<cfset basQual = " #basQual# AND upper(taxonomy.phylorder) = '#ucase(right(phylorder,len(phylorder)-1))#'">
+    	<cfelseif compare(phylorder,"NULL") is 0>
+		    <cfset basQual = " #basQual# AND taxonomy.phylorder is NULL">
+	    <cfelse>
+		    <cfset basQual = " #basQual# AND upper(taxonomy.phylorder) like '%#ucase(phylorder)#%'">
+	    </cfif>
+    </cfif>
+</cfif>
+<cfif isdefined("family") AND len(family) gt 0>
+	<cfset mapurl = "#mapurl#&family=#family#">
+	<cfif basJoin does not contain " identification ">
+		<cfset basJoin = " #basJoin# INNER JOIN identification ON
+		(cataloged_item.collection_object_id = identification.collection_object_id)">
+	</cfif>
+	<cfif basJoin does not contain " identification_taxonomy ">
+		<cfset basJoin = " #basJoin# INNER JOIN identification_taxonomy ON
+		(identification.identification_id = identification_taxonomy.identification_id)">
+	</cfif>
+	<cfif basJoin does not contain " taxonomy ">
+		<cfset basJoin = " #basJoin# INNER JOIN taxonomy ON
+		(identification_taxonomy.taxon_name_id = taxonomy.taxon_name_id)">
+	</cfif>
+    <cfif family contains "|">
+        <cfset clause = "">
+        <cfset orbit = "">
+        <cfif left(family,1) is '='>
+            <cfset family = Replace(family,"=","","All")>
+            <cfloop index="familybit" list="#family#" delimiters="|">
+	    	     <cfset clause = " #clause# #orbit# upper(taxonomy.family) = '#ucase(trim(familybit))#'">
+                 <cfset orbit = " OR ">
+            </cfloop>
+	    	<cfset basQual = " #basQual# AND (#clause#) ">
+        <cfelse>
+            <cfset family = Replace(family,"=","","All")>
+            <cfloop index="familybit" list="#family#" delimiters="|">
+	    	     <cfset clause = " #clause# #orbit# upper(taxonomy.family) like '%#ucase(trim(familybit))#%'">
+                 <cfset orbit = " OR ">
+            </cfloop>
+	    	<cfset basQual = " #basQual# AND (#clause#) ">
+        </cfif>
+    <cfelse>
+    	<cfif left(family,1) is '='>
+	    	<cfset basQual = " #basQual# AND upper(taxonomy.family) = '#ucase(right(family,len(family)-1))#'">
+    	<cfelseif compare(family,"NULL") is 0>
+		    <cfset basQual = " #basQual# AND taxonomy.family is NULL">
+	    <cfelse>
+		    <cfset basQual = " #basQual# AND upper(taxonomy.family) like '%#ucase(family)#%'">
 	    </cfif>
     </cfif>
 </cfif>
@@ -826,7 +998,7 @@ true) OR (isdefined("collection_id") AND collection_id EQ 13)>
 			INNER JOIN agent_name accn_agency ON
 				(trans_agent.AGENT_ID = accn_agency.agent_id)">
 	</cfif>
-	<cfset basQual = " #basQual# AND trans_agent.TRANS_AGENT_ROLE='associated with agency' and
+	<cfset basQual = " #basQual# AND trans_agent.TRANS_AGENT_ROLE='stewardship from agency' and
 			upper(accn_agency.agent_name) LIKE '%#ucase(accn_agency)#%'">
 </cfif>
 <cfif isdefined("custom_id_prefix") and len(custom_id_prefix) gt 0>
@@ -1393,6 +1565,8 @@ true) OR (isdefined("collection_id") AND collection_id EQ 13)>
 		<cfset basQual = " #basQual# AND (upper(#session.flatTableName#.TYPESTATUS) LIKE '%#ucase(type_status)#%' OR upper(#session.flatTableName#.TYPESTATUS) LIKE '%PARATOPOTYPE%')">
 	<cfelseif #type_status# is "Any Type">
 		<cfset basQual = " #basQual# AND upper(#session.flatTableName#.TYPESTATUS) LIKE '%TYPE%'">
+	<cfelseif #type_status# is "any primary">
+		<cfset basQual = " #basQual# AND #session.flatTableName#.TOPTYPESTATUSKIND = 'Primary' ">
 	<cfelseif #type_status# is "Type?" or #type_status# is "Type" or #type_status# is "Type (ms)">
 		<cfset basQual = " #basQual# AND #session.flatTableName#.TYPESTATUS LIKE '%#type_status# %'">
 	<cfelse>
@@ -1610,6 +1784,22 @@ true) OR (isdefined("collection_id") AND collection_id EQ 13)>
 		(permit_trans.permit_id = permit.permit_id)">
 	</cfif>
 	<cfset basQual = " #basQual# AND permit_num='#permit_num#'">
+</cfif>
+
+<cfif isdefined("underscore_coll_id") AND len(underscore_coll_id) gt 0>
+	<cfset mapurl = "#mapurl#&underscore_coll_id=#underscore_coll_id#">
+	<cfif basJoin does not contain " underscore_relation ">
+		<cfset basJoin = " #basJoin# LEFT JOIN underscore_relation ON
+		(cataloged_item.collection_object_id = underscore_relation.collection_object_id)">
+	</cfif>
+	<cfif left(underscore_coll_id,1) EQ '!' >
+		<cfset basQual = " #basQual# AND (underscore_relation.collection_object_id IS NULL 
+			OR  underscore_relation.collection_object_id NOT IN
+				( select collection_object_id from  underscore_relation where underscore_collection_id='#replace(underscore_coll_id,'!','')#' )
+			)">
+	<cfelse>
+		<cfset basQual = " #basQual# AND underscore_relation.underscore_collection_id='#underscore_coll_id#'">
+	</cfif>
 </cfif>
 
 <cfif isdefined("collecting_source") AND len(collecting_source) gt 0>

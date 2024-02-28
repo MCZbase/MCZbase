@@ -6,13 +6,13 @@
 	<cfreturn q>
 </cffunction>
 <cfinclude template="/includes/_header.cfm">
-	<script src="/includes/sorttable.js"></script>
+	<script src="/lib/misc/sorttable.js"></script>
 
 <cfset dl=d('/',"root")>
 <cfset rslt = querynew("path,privs,type")>
 <cfset r=1>
 <cfloop query="q">
-	<cfif #directory# does not contain ".svn" and #name# is not ".svn"
+	<cfif #directory# does not contain ".git" and #name# is not ".git"
 		and #directory# does not contain "CFIDE" and #name# is not "CFIDE"
 		and #directory# does not contain "fix" and #name# is not "fix"
 		and #directory# does not contain "WEB-INF" and #name# is not "WEB-INF"

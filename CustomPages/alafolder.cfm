@@ -1,5 +1,5 @@
 <cfinclude template="/includes/_header.cfm">
-	<script src="/includes/sorttable.js"></script>
+	<script src="/lib/misc/sorttable.js"></script>
 
 <cfif action is "nothing">
 	<form action="alafolder.cfm" method="post">
@@ -48,7 +48,7 @@
 				coll_obj_cont_hist.container_id=part.container_id and
 				part.parent_container_id=c.container_id and
 				c.parent_container_id=p.container_id (+) and
-				c.barcode in (#preservesinglequotes(bclist)#)
+				c.barcode in (<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#bclist)#" list="yes">)
 		</cfquery>
 		<table border="1" id="tbl" class="sortable">
 			<tr>

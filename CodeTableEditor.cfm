@@ -1,4 +1,4 @@
-<cfinclude template="includes/_header.cfm">
+<cfinclude template="/includes/_header.cfm">
 <cfquery name="ctcollcde" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select distinct collection_cde from ctcollection_cde
 </cfquery>
@@ -13,18 +13,21 @@
 		where 
 			table_name like 'CT%'
 		UNION 
-			select 'CTGEOLOGY_ATTRIBUTE' table_name from dual
+			select 'CTGEOLOGY_ATTRIBUTE_HIERARCHY' table_name from dual
 		 order by table_name
 	</cfquery>
 	<cfloop query="getCTName">
-		<a href="CodeTableEditor.cfm?action=edit&tbl=#getCTName.table_name#">#getCTName.table_name#</a><br>
+		<cfset name = REReplace(getCtName.table_name,"^CT","") ><!--- strip CT from names in list for better readability --->
+		<a href="CodeTableEditor.cfm?action=edit&tbl=#getCTName.table_name#">#name#</a><br>
 	</cfloop>
 <cfelseif action is "edit">
 	<p>
 		<a href="/CodeTableEditor.cfm">Back to table list</a>
 	</p>
-	<cfif tbl is "CTGEOLOGY_ATTRIBUTE"><!---------------------------------------------------->
-		<cflocation url="/info/geol_hierarchy.cfm" addtoken="false">
+	<cfif tbl is "CTGEOLOGY_ATTRIBUTE_HIERARCHY"><!---------------------------------------------------->
+		<cflocation url="/vocabularies/GeologicalHierarchies.cfm" addtoken="false">
+	<cfelseif tbl is "CTJOURNAL_NAME"><!---------------------------------------------------->
+		<cflocation url="/publications/Journals.cfm" addtoken="false">
 	<cfelseif tbl is "ctspecimen_part_name"><!---------------------------------------------------->
 		<cflocation url="/Admin/ctspecimen_part_name.cfm" addtoken="false">
 	<cfelseif tbl is "ctspec_part_att_att"><!---------------------------------------------------->
@@ -146,7 +149,7 @@
 							<input type="button" 
 								value="Delete" 
 								class="delBtn"
-							  	onclick="att#i#.action.value='deleteValue';submit();">	
+								onclick="att#i#.action.value='deleteValue';submit();">	
 						</td>
 					</tr>
 				</form>
@@ -207,12 +210,176 @@
 							<input type="button" 
 								value="Save" 
 								class="savBtn"
-							   	onclick="#tbl##i#.action.value='saveEdit';submit();">
+								onclick="#tbl##i#.action.value='saveEdit';submit();">
 							<input type="button" 
 								value="Delete" 
 								class="delBtn"
 								onclick="#tbl##i#.action.value='deleteValue';submit();">
 						</td>
+					</form>
+				</tr>
+				<cfset i = #i#+1>
+			</cfloop>
+		</table>
+
+	<cfelseif tbl is "ctguid_type"><!---------------------------------------------------->
+		<cfquery name="q" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			select guid_type, description, applies_to, placeholder, pattern_regex, resolver_regex, resolver_replacement, search_uri
+			from ctguid_type 
+			order by guid_type
+		</cfquery>
+		<form name="newData" method="post" action="CodeTableEditor.cfm">
+			<input type="hidden" name="action" value="newValue">
+			<input type="hidden" name="tbl" value="#tbl#">
+			<table class="newRec" style="width: 90em;">
+				<tr>
+					<td>GUID Type:</td>
+					<td>
+						<input type="text" name="newData" class="reqdClr" required >
+					</td>
+					<td>Name for picklist</td>
+				</tr>
+				<tr>
+					<td>Description:</td>
+					<td colspan="2">
+						<input type="text" name="description" size="80">
+					</td>
+				</tr>
+				<tr>
+					<td>Applies to</td>
+					<td>
+						<input type="text" name="applies_to" size="80" class="reqdClr" required>
+					</td>
+					<td>space delimited list of table.field)</td>
+				</tr>
+				<tr>
+					<td>Placeholder</td>
+					<td>
+						<input type="text" name="placeholder" size="80">
+					</td>
+					<td>Hint for data entry, e.g. doi:</td>
+				</tr>
+				<tr>
+					<td>Pattern Regex</td>
+					<td>
+						<input type="text" name="pattern_regex" size="80" class="reqdClr" required>
+					</td>
+					<td>To validate entry, e.g. ^doi:10[.].+$</td>
+				</tr>
+				<tr>
+					<td>Resolver Regex</td>
+					<td>
+						<input type="text" name="resolver_regex" size="80">
+					</td>
+					<td>Regex pattern for conversion to a uri, e.g. ^doi:</td>
+				</tr>
+				<tr>
+					<td>Resolver Replacement</td>
+					<td>
+						<input type="text" name="resolver_replacement" size="80">
+					</td>
+					<td>Replacement string for match to pattern, e.g. https://doi.org/</td>
+				</tr>
+				<tr>
+					<td>Search URI</td>
+					<td>
+						<input type="text" name="search_uri" size="80">
+					</td>
+					<td>URI where guid can be searched for by a relevant text string which is appended to the end of the specified URI, blank if no search by text function.</td>
+				</tr>
+				<tr>
+					<td></td>
+					<td>
+						<input type="submit" 
+							value="Insert" 
+							class="insBtn">
+					</td>
+					<td></td>
+				</tr>
+			</table>
+		</form>
+		<br>
+		<table>
+			<cfset i = 1>
+			<cfloop query="q">
+				<tr #iif(i MOD 2,DE("class='evenRow'"),DE("class='oddRow'"))#>
+					<form name="#tbl##i#" method="post" action="CodeTableEditor.cfm">
+						<input type="hidden" name="action" value="">
+						<input type="hidden" name="tbl" value="#tbl#">
+						<!---  Need to pass current value as it is the PK for the code table --->
+						<input type="hidden" name="origData" value="#guid_type#">
+					<table style="border: 1px solid black">
+						<tr>
+							<td>GUID Type:</td>
+							<td>
+								<input type="text" name="guid_type" value="#guid_type#" class="reqdClr" required >
+							</td>
+							<td>Name for picklist</td>
+						</tr>
+						<tr>
+							<td>Description:</td>
+							<td colspan="2">
+								<input type="text" name="description" value="#description#" size="80">
+							</td>
+						</tr>
+						<tr>
+							<td>Applies to</td>
+							<td>
+								<input type="text" name="applies_to" value="#applies_to#" size="80" class="reqdClr" required>
+							</td>
+							<td>space delimited list of table.field</td>
+						</tr>
+						<tr>
+							<td>Placeholder</td>
+							<td>
+								<input type="text" name="placeholder" value="#placeholder#" size="80" >
+							</td>
+							<td>Hint for data entry, e.g. doi:</td>
+						</tr>
+						<tr>
+							<td>Pattern Regex</td>
+							<td>
+								<input type="text" name="pattern_regex" value="#pattern_regex#" size="80" class="reqdClr" required>
+							</td>
+							<td>Regex to validate entry, e.g. ^doi:10[.].+$</td>
+						</tr>
+						<tr>
+							<td>Resolver Regex</td>
+							<td>
+								<input type="text" name="resolver_regex" value="#resolver_regex#" size="80">
+							</td>
+							<td>Regex pattern for conversion to a uri, e.g. ^doi:</td>
+						</tr>
+						<tr>
+							<td>Resolver Replacement</td>
+							<td>
+								<input type="text" name="resolver_replacement" value="#resolver_replacement#" size="80">
+							</td>
+							<td>Replacement string for match to pattern, e.g. https://doi.org/</td>
+						</tr>
+						<tr>
+							<td>Search URI</td>
+							<td>
+								<input type="text" name="search_uri" value="#search_uri#" size="80">
+							</td>
+							<td>URI where guid can be searched for by a relevant text string which is appended to the end of the specified URI, blank if no search by text function.</td>
+						</tr>
+						<tr>
+							<td></td>
+							<td>
+								<input type="button" 
+									value="Save" 
+									class="savBtn"
+									onclick="#tbl##i#.action.value='saveEdit';submit();">
+							</td>
+							<td>
+								<input type="button" 
+									value="Delete" 
+									class="delBtn"
+									onclick="#tbl##i#.action.value='deleteValue';submit();">
+							</td>
+						</tr>
+					<table>
 					</form>
 				</tr>
 				<cfset i = #i#+1>
@@ -292,11 +459,103 @@
 							<input type="button" 
 								value="Save" 
 								class="savBtn"
-							   	onclick="#tbl##i#.action.value='saveEdit';submit();">
+								onclick="#tbl##i#.action.value='saveEdit';submit();">
 							<input type="button" 
 								value="Delete" 
 								class="delBtn"
 								onclick="#tbl##i#.action.value='deleteValue';submit();">
+						</td>
+					</form>
+				</tr>
+				<cfset i = #i#+1>
+			</cfloop>
+		</table>
+	<cfelseif tbl is "ctspecific_permit_type">
+		<!---------------------------------------------------->
+		<cfquery name="q" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			select * from ctspecific_permit_type order by specific_type
+		</cfquery>
+		<cfquery name="ptypes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			select permit_type from ctpermit_type order by permit_type
+		</cfquery>
+		<h2>Specific Types of Permissions and Rights documents (permits)</h2>
+		<form name="newData" method="post" action="CodeTableEditor.cfm">
+			<input type="hidden" name="action" value="newValue">
+			<input type="hidden" name="tbl" value="ctspecific_permit_type">
+			<table class="newRec">
+				<tr>
+					<th>Specific Type</th>
+					<th>General Type</th>
+					<th>Carry Accession Document to Loans</th>
+					<th></th>
+				</tr>
+				<tr>
+					<td>
+						<input type="text" name="newData" size=80 >
+					</td>
+					<td>
+						<select name="permit_type">
+							<option value=""></option>
+							<cfloop query="ptypes">
+								<option value="#permit_type#">#permit_type#</option>
+							</cfloop>
+						</select>
+					</td>
+					<td>
+						<select name="accn_show_on_shipment">
+							<option value="1" selected="selected" >Yes</option>
+							<option value="0">No</option>
+						</select>
+					</td>
+					<td>
+						<input type="submit" 
+							value="Insert" 
+							class="insBtn">
+					</td>
+				</tr>
+			</table>
+		</form>
+		<cfset i = 1>
+		<table>
+			<tr>
+				<th>Specific Type</th>
+				<th>General Type</th>
+					<th>Carry&nbsp;Accession Document&nbsp;to&nbsp;Loans</th>
+					<th></th>
+			</tr>
+			<cfloop query="q">
+				<tr #iif(i MOD 2,DE("class='evenRow'"),DE("class='oddRow'"))#>
+					<form name="#tbl##i#" method="post" action="CodeTableEditor.cfm">
+						<input type="hidden" name="action" value="">
+						<input type="hidden" name="tbl" value="ctspecific_permit_type">
+						<input type="hidden" name="origData" value="#q.specific_type#">
+						<input type="hidden" name="fld" value="specific_type">
+						<td>
+							<input type="text" name="specific_type" value="#q.specific_type#" size="66">
+						</td>
+						<td>
+							<select name="permit_type">
+								<option value=""></option>
+								<cfloop query="ptypes" >
+									<option <cfif q.permit_type is ptypes.permit_type > selected="selected" </cfif>value="#ptypes.permit_type#">#ptypes.permit_type#</option>
+								</cfloop>
+							</select>
+						</td>				
+						<td style="width: 3em;">
+							<select name="accn_show_on_shipment">
+								<option <cfif q.accn_show_on_shipment EQ 1 > selected="selected" </cfif>value="1">Yes</option>
+								<option <cfif q.accn_show_on_shipment EQ 0 > selected="selected" </cfif>value="0">No</option>
+							</select>
+						</td>				
+						<td><span>
+							<input type="button" 
+								value="Save" 
+								class="savBtn"
+								onclick="#tbl##i#.action.value='saveEdit';submit();">	
+							<input type="button" 
+								value="Delete" 
+								class="delBtn"
+								onclick="#tbl##i#.action.value='deleteValue';submit();"></span>
 						</td>
 					</form>
 				</tr>
@@ -308,7 +567,7 @@
 		<cfquery name="q" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			select type_status, description, category, ordinal from ctcitation_type_status order by category, ordinal, type_status
 		</cfquery>
-                <h2>Citation type, type status terms and other kinds of citation</h2>
+		<h2>Citation type, type status terms and other kinds of citation</h2>
 		<form name="newData" method="post" action="CodeTableEditor.cfm">
 			<input type="hidden" name="action" value="newValue">
 			<input type="hidden" name="tbl" value="#tbl#">
@@ -329,7 +588,10 @@
 							<option value="Primary">Primary</option>
 							<option value="Secondary">Secondary</option>
 							<option value="Voucher">Voucher (non-type)</option>
-							<option value="Not Voucher">Not Voucher (non-type)</option>
+							<option value="Voucher Not">Not Voucher (non-type)</option>
+                            <!---  NOTE: If you add a value here, you also need to add it to the edit picklist below --->
+                            <!---  NOTE: Alphabetic sort of these values is used to order Primary/Secondary/other type status --->
+                            <!---  If new category values are added for non-types, they should sort after Secondary. --->
 						</select>
 					</td>
 					<td>
@@ -369,32 +631,223 @@
 								<cfset scopepriselected = "selected='selected'">
 								<cfset scopesecselected = "">
 								<cfset scopevouselected = "">
+								<cfset scopenvouselected = "">
 							<cfelseif category EQ "Secondary"> 
 								<cfset scopepriselected = "">
 								<cfset scopesecselected = "selected='selected'">
 								<cfset scopevouselected = "">
+								<cfset scopenvouselected = "">
+							<cfelseif category EQ "Voucher Not"> 
+								<cfset scopepriselected = "">
+								<cfset scopesecselected = "">
+								<cfset scopevouselected = "">
+								<cfset scopenvouselected = "selected='selected'">
 							<cfelse>
+                                <!-- caution, failover case will select Voucher as the value --->
 								<cfset scopepriselected = "">
 								<cfset scopesecselected = "">
 								<cfset scopevouselected = "selected='selected'">
+								<cfset scopenvouselected = "">
 							</cfif>
 							<select name="category">
 								<option value="Primary" #scopepriselected# >Primary</option>
 								<option value="Secondary" #scopesecselected# >Secondary</option>
 								<option value="Voucher" #scopevouselected# >Voucher (non-type)</option>
+								<option value="Voucher Not" #scopenvouselected#>Not Voucher (non-type)</option>
 							</select>
 						</td>
 						<td>
 							<input type="text" name="ordinal" value="#ordinal#">
 						</td>
 						<td>
-							<input type="description" name="description" value="#description#">
+							<input type="description" name="description" value="#stripQuotes(description)#">
 						</td>
 						<td>
 							<input type="button" 
 								value="Save" 
 								class="savBtn"
-							   	onclick="#tbl##i#.action.value='saveEdit';submit();">
+								onclick="#tbl##i#.action.value='saveEdit';submit();">
+							<input type="button" 
+								value="Delete" 
+								class="delBtn"
+								onclick="#tbl##i#.action.value='deleteValue';submit();">
+						</td>
+					</form>
+				</tr>
+				<cfset i = #i#+1>
+			</cfloop>
+		</table>
+	<cfelseif tbl is "ctmedia_relationship"><!---------------------------------------------------->
+		<!---  Media relationship code table includes field for label, thus needs custom form  --->
+		<cfquery name="q" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			select media_relationship, description, label, auto_table from ctmedia_relationship order by media_relationship
+		</cfquery>
+		<h2>Relationships between media records and other tables.</h2>
+		<p>Last word in Media Relationship must be a table name.  Adding new relationship also involves code changes to MCZBASE.get_media_descriptor and MCZBASE.get_media_title.</p>
+		<p>If adding relationships to a new table, additions are needed to MCZBASE.MEDIA_RELATION_SUMMARY</p>
+		<form name="newData" method="post" action="CodeTableEditor.cfm">
+			<input type="hidden" name="action" value="newValue">
+			<input type="hidden" name="tbl" value="#tbl#">
+			<table class="newRec">
+				<tr>
+					<th>Media Relationship</th>
+					<th>Label</th>
+					<th>Description</th>
+					<th></th>
+				</tr>
+				<tr>
+					<td>
+						<input type="text" name="newData" >
+					</td>
+					<td>
+						<input type="text" name="label">
+					</td>
+					<td>
+						<input type="text" name="description">
+					</td>
+					<td>
+						<input type="submit" 
+							value="Insert" 
+							class="insBtn">
+					</td>
+				</tr>
+			</table>
+		</form>
+		<table>
+			<tr>
+				<th>Media Relationship</th>
+				<th>Table</th>
+				<th>Label</th>
+				<th>Description</th>
+			</tr>
+			<cfset i = 1>
+			<cfloop query="q">
+				<tr #iif(i MOD 2,DE("class='evenRow'"),DE("class='oddRow'"))#>
+					<form name="#tbl##i#" method="post" action="CodeTableEditor.cfm">
+						<input type="hidden" name="action" value="">
+						<input type="hidden" name="tbl" value="#tbl#">
+						<!---  Need to pass current value as it is the PK for the code table --->
+						<input type="hidden" name="origData" value="#media_relationship#">
+						<td>
+							<input type="text" name="media_relationship" value="#media_relationship#">
+						</td>
+						<td>
+							<span>#auto_table#</span>
+						</td>
+						<td>
+							<input type="text" name="label" value="#label#">
+						</td>
+						<td>
+							<input type="description" name="description" value="#stripQuotes(description)#">
+						</td>
+						<td>
+							<input type="button" 
+								value="Save" 
+								class="savBtn"
+								onclick="#tbl##i#.action.value='saveEdit';submit();">
+							<input type="button" 
+								value="Delete" 
+								class="delBtn"
+								onclick="#tbl##i#.action.value='deleteValue';submit();">
+						</td>
+					</form>
+				</tr>
+				<cfset i = #i#+1>
+			</cfloop>
+		</table>
+	<cfelseif tbl is "ctgeology_attributes"><!---------------------------------------------------->
+		<!---  geology attributes code table includes fields for typing and sort order, thus needs custom form  --->
+		<!--- note, ctgeology_attribute (singluar), is view with sort by ordinal on table ctgeology_attributes (plural) --->
+		<cfquery name="q" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			select geology_attribute, type, ordinal, description from ctgeology_attributes order by ordinal
+		</cfquery>
+		<h2>Geological attribute types, and their categories.  Categories are lithologic, for rock type terms (probably just the single term lithology), lithostratigraphic for rock unit names, and geochronologic/chronostratigraphic for time and rock/time related terms)</h2>
+		<form name="newData" method="post" action="CodeTableEditor.cfm">
+			<input type="hidden" name="action" value="newValue">
+			<input type="hidden" name="tbl" value="#tbl#">
+			<table class="newRec">
+				<tr>
+					<th>Geology Attribute</th>
+					<th>Category</th>
+					<th>Sort Order</th>
+					<th>Description</th>
+					<th></th>
+				</tr>
+				<tr>
+					<td>
+						<input type="text" name="newData" >
+					</td>
+					<td>
+						<select name="type">
+							<option value="lithologic">Lithologic</option>
+							<option value="lithostratigraphic">Lithostratigraphic</option>
+							<option value="chronostratigraphic">Geochronologic/Chronstratigraphic</option>
+                     <!---  NOTE: If you add a value here, you also need to add it to the edit picklist below --->
+						</select>
+					</td>
+					<td>
+						<input type="text" name="ordinal">
+					</td>
+					<td>
+						<input type="text" name="description">
+					</td>
+					<td>
+						<input type="submit" 
+							value="Insert" 
+							class="insBtn">
+					</td>
+				</tr>
+			</table>
+		</form>
+		<table>
+			<tr>
+				<th>Geological Attribute</th>
+				<th>Category</th>
+				<th>Sort Order</th>
+				<th>Description</th>
+			</tr>
+			<cfset i = 1>
+			<cfloop query="q">
+				<tr #iif(i MOD 2,DE("class='evenRow'"),DE("class='oddRow'"))#>
+					<form name="#tbl##i#" method="post" action="CodeTableEditor.cfm">
+						<input type="hidden" name="action" value="">
+						<input type="hidden" name="tbl" value="#tbl#">
+						<!---  Need to pass current value as it is the PK for the code table --->
+						<input type="hidden" name="origData" value="#geology_attribute#">
+						<td>
+							<input type="text" name="geology_attribute" value="#geology_attribute#">
+						</td>
+						<td>
+							<cfif type EQ "lithologic"> 
+								<cfset scopelithselected = "selected='selected'">
+								<cfset scopestratselected = "">
+								<cfset scopechronselected = "">
+							<cfelseif type EQ "lithostratigraphic"> 
+								<cfset scopelithselected = "">
+								<cfset scopestratselected = "selected='selected'">
+								<cfset scopechronselected = "">
+							<cfelse> 
+								<cfset scopelithselected = "">
+								<cfset scopestratselected = "">
+								<cfset scopechronselected = "selected='selected'">
+							</cfif>
+							<select name="type">
+								<option value="lithologic" #scopelithselected# >Lithologic</option>
+								<option value="lithostratigraphic" #scopestratselected# >Lithostratigraphic</option>
+								<option value="chronostratigraphic" #scopechronselected# >Geochronologic/Chronostratigraphic</option>
+							</select>
+						</td>
+						<td>
+							<input type="text" name="ordinal" value="#ordinal#">
+						</td>
+						<td>
+							<input type="description" name="description" value="#stripQuotes(description)#">
+						</td>
+						<td>
+							<input type="button" 
+								value="Save" 
+								class="savBtn"
+								onclick="#tbl##i#.action.value='saveEdit';submit();">
 							<input type="button" 
 								value="Delete" 
 								class="delBtn"
@@ -407,7 +860,12 @@
 		</table>
 	<cfelseif tbl is "ctpublication_attribute"><!---------------------------------------------------->
 		<cfquery name="q" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			select * from ctpublication_attribute order by publication_attribute
+			select 
+				publication_attribute,
+				description,
+				control,
+				mcz_publication_fg
+			from ctpublication_attribute order by publication_attribute
 		</cfquery>
 		<cfquery name="allCTs" datasource="uam_god">
 			select distinct(table_name) as tablename from sys.user_tables where table_name like 'CT%' order by table_name
@@ -420,6 +878,7 @@
 					<th>Publication Attribute</th>
 					<th>Description</th>
 					<th>Control</th>
+					<th>MCZ Publications</th>
 					<th></th>
 				</tr>
 				<tr>
@@ -438,6 +897,12 @@
 						</select>
 					</td>
 					<td>
+						<select name="mcz_publication_fg">
+							<option value="0" selected>No</option>
+							<option value="1">Yes</option>
+						</select>
+					</td>
+					<td>
 						<input type="submit" 
 							value="Insert" 
 							class="insBtn">
@@ -451,6 +916,7 @@
 				<th>Type</th>
 				<th>Description</th>
 				<th>Control</th>
+				<th>MCZ Publications</th>
 			</tr>
 			<cfloop query="q">
 				<tr #iif(i MOD 2,DE("class='evenRow'"),DE("class='oddRow'"))#>
@@ -473,10 +939,18 @@
 							</select>
 						</td>				
 						<td>
+							<select name="mcz_publication_fg">
+								<cfif mcz_publication_fg EQ 0><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+								<option value="0" #selected#>No</option>
+								<cfif mcz_publication_fg EQ 1><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+								<option value="1" #selected#>Yes</option>
+							</select>
+						</td>
+						<td>
 							<input type="button" 
 								value="Save" 
 								class="savBtn"
-							   	onclick="#tbl##i#.action.value='saveEdit';submit();">	
+								onclick="#tbl##i#.action.value='saveEdit';submit();">	
 							<input type="button" 
 								value="Delete" 
 								class="delBtn"
@@ -510,11 +984,11 @@
 							<input type="text" name="inverse_relation" size="50">
 						</td>
 						<td>
-						    <select name="rel_type">
-							    <option value="biological" selected='selected'>Biological</option>
-    							<option value="curatorial">Curatorial</option>
-	    						<option value="functional">Functional</option>
-						    </select>
+							<select name="rel_type">
+								<option value="biological" selected='selected'>Biological</option>
+								<option value="curatorial">Curatorial</option>
+								<option value="functional">Functional</option>
+							</select>
 						</td>				
 					<td>
 						<input type="submit" 
@@ -527,8 +1001,8 @@
 		<cfset i = 1>
 		<table>
 			<tr>
-			    <th>Relationship</th>
-		        <th>Inverse Relation</th>
+				<th>Relationship</th>
+				<th>Inverse Relation</th>
 				<th>Type</th>
 			</tr>
 			<cfloop query="q">
@@ -544,30 +1018,30 @@
 							<input type="text" name="inverse_relation" value="#inverse_relation#" size="50">
 						</td>
 						<td>
-                            <cfif rel_type EQ "biological">
-                                <cfset scopepriselected = "selected='selected'">
-                                <cfset scopesecselected = "">
-                                <cfset scopevouselected = "">
-                            <cfelseif rel_type EQ "curatorial">
-                                <cfset scopepriselected = "">
-                                <cfset scopesecselected = "selected='selected'">
-                                <cfset scopevouselected = "">
-                            <cfelse>
-                                <cfset scopepriselected = "">
-                                <cfset scopesecselected = "">
-                                <cfset scopevouselected = "selected='selected'">
-                            </cfif>
-                            <select name="rel_type">
-                                <option value="biological" #scopepriselected# >Biological</option>
-                                <option value="curatorial" #scopesecselected# >Curatorial</option>
-                                <option value="functional" #scopevouselected# >Functional</option>
-                            </select>
+							<cfif rel_type EQ "biological">
+								<cfset scopepriselected = "selected='selected'">
+								<cfset scopesecselected = "">
+								<cfset scopevouselected = "">
+							<cfelseif rel_type EQ "curatorial">
+								<cfset scopepriselected = "">
+								<cfset scopesecselected = "selected='selected'">
+								<cfset scopevouselected = "">
+							<cfelse>
+								<cfset scopepriselected = "">
+								<cfset scopesecselected = "">
+								<cfset scopevouselected = "selected='selected'">
+							</cfif>
+							<select name="rel_type">
+								<option value="biological" #scopepriselected# >Biological</option>
+								<option value="curatorial" #scopesecselected# >Curatorial</option>
+								<option value="functional" #scopevouselected# >Functional</option>
+							</select>
 						</td>				
 						<td>
 							<input type="button" 
 								value="Save" 
 								class="savBtn"
-							   	onclick="#tbl##i#.action.value='saveEdit';submit();">	
+								onclick="#tbl##i#.action.value='saveEdit';submit();">	
 							<input type="button" 
 								value="Delete" 
 								class="delBtn"
@@ -591,6 +1065,7 @@
 					<th>ID Type</th>
 					<th>Description</th>
 					<th>Base URL</th>
+					<th>Mask as Field Number</th>
 					<th></th>
 				</tr>
 				<tr>
@@ -602,6 +1077,12 @@
 					</td>
 					<td>
 						<input type="text" name="base_url" size="50">
+					</td>
+					<td>
+						<select name="encumber_as_field_num">
+							<option value="0">No</option>
+							<option value="1">Yes</option>
+						</select>
 					</td>
 					<td>
 						<input type="submit" 
@@ -617,6 +1098,7 @@
 				<th>Type</th>
 				<th>Description</th>
 				<th>Base URL</th>
+				<th>Mask as Field Number</th>
 			</tr>
 			<cfloop query="q">
 				<tr #iif(i MOD 2,DE("class='evenRow'"),DE("class='oddRow'"))#>
@@ -634,10 +1116,178 @@
 							<input type="text" name="base_url" size="60" value="#base_url#">
 						</td>				
 						<td>
+							<cfif encumber_as_field_num EQ "1">
+								<cfset select1 = "selected">
+								<cfset select0 = "">
+							<cfelse>
+								<cfset select1 = "">
+								<cfset select0 = "1">
+							</cfif>
+							<select name="encumber_as_field_num">
+								<option value="0" #select0#>No</option>
+								<option value="1" #select1#>Yes</option>
+							</select>
+						</td>
+						<td>
 							<input type="button" 
 								value="Save" 
 								class="savBtn"
-							   	onclick="#tbl##i#.action.value='saveEdit';submit();">	
+								onclick="#tbl##i#.action.value='saveEdit';submit();">	
+							<input type="button" 
+								value="Delete" 
+								class="delBtn"
+								onclick="#tbl##i#.action.value='deleteValue';submit();">	
+						</td>
+					</form>
+				</tr>
+				<cfset i = #i#+1>
+			</cfloop>
+		</table>
+	<cfelseif tbl is "cttaxon_relation"><!--------------------------------------------------------------->
+		<cfquery name="q" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			SELECT count(taxon_relations.taxon_name_id) ct, cttaxon_relation.taxon_relationship, description, inverse_relation
+			FROM cttaxon_relation 
+				LEFT JOIN taxon_relations on cttaxon_relation.taxon_relationship = taxon_relations.taxon_relationship
+			GROUP BY
+				cttaxon_relation.taxon_relationship, description, inverse_relation
+			ORDER BY taxon_relationship
+		</cfquery>	
+		<form name="newData" method="post" action="CodeTableEditor.cfm">
+			<input type="hidden" name="action" value="newValue">
+			<input type="hidden" name="tbl" value="cttaxon_relation">
+			<h2>Phrase taxon relationships and inverse relations in the form</h2>
+			<ul>
+				<li>A taxon_relationship B inverse_relation A</li>
+				<li>A junior homonym of B senior homonym of A</li>
+			</ul>
+			<table class="newRec">
+				<tr>
+					<th>Taxon Relationship</th>
+					<th>Description</th>
+					<th>Inverse Relation</th>
+					<th></th>
+				</tr>
+				<tr>
+					<td>
+						<input type="text" name="newData" >
+					</td>
+					<td>
+						<textarea name="description" rows="4" cols="40"></textarea>
+					</td>
+					<td>
+						<input type="text" name="inverse_relation">
+					</td>
+					<td>
+						<input type="submit" 
+							value="Insert" 
+							class="insBtn">					
+					</td>
+				</tr>
+			</table>
+		</form>
+		<cfset i = 1>
+		<table>
+			<tr>
+				<th>Taxon Relationship</th>
+				<th>Description</th>
+				<th>Inverse Relation</th>
+				<th>Action</th>
+				<th>Instances</th>
+			</tr>
+			<cfloop query="q">
+				<tr #iif(i MOD 2,DE("class='evenRow'"),DE("class='oddRow'"))#>
+					<form name="#tbl##i#" method="post" action="CodeTableEditor.cfm">
+						<input type="hidden" name="action" value="">
+						<input type="hidden" name="tbl" value="cttaxon_relation">
+						<input type="hidden" name="origData" value="#taxon_relationship#">
+						<td>
+							<input type="text" name="taxon_relationship" value="#taxon_relationship#" size="50">
+						</td>
+						<td>
+							<textarea name="description" rows="4" cols="40">#description#</textarea>
+						</td>
+						<td>
+							<input type="text" name="inverse_relation" value="#inverse_relation#">
+						</td>				
+						<td>
+							<input type="button" 
+								value="Save" 
+								class="savBtn"
+								onclick="#tbl##i#.action.value='saveEdit';submit();">
+							<cfif q.ct EQ 0>
+								<input type="button" 
+									value="Delete" 
+									class="delBtn"
+									onclick="#tbl##i#.action.value='deleteValue';submit();">	
+							</cfif>
+						</td>
+						<td>
+							#ct#
+						</td>				
+					</form>
+				</tr>
+				<cfset i = #i#+1>
+			</cfloop>
+		</table>
+	<cfelseif tbl is "ctnomenclatural_code"><!--------------------------------------------------------------->
+		<cfquery name="q" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			select nomenclatural_code, description, sort_order from ctnomenclatural_code order by sort_order
+		</cfquery>	
+		<form name="newData" method="post" action="CodeTableEditor.cfm">
+			<input type="hidden" name="action" value="newValue">
+			<input type="hidden" name="tbl" value="ctnomenclatural_code">
+			<table class="newRec">
+				<tr>
+					<th>Nomenclatural Code</th>
+					<th>Description</th>
+					<th>Sort Order</th>
+					<th></th>
+				</tr>
+				<tr>
+					<td>
+						<input type="text" name="newData" >
+					</td>
+					<td>
+						<textarea name="description" rows="4" cols="70"></textarea>
+					</td>
+					<td>
+						<input type="text" name="sort_order" size="3">
+					</td>
+					<td>
+						<input type="submit" 
+							value="Insert" 
+							class="insBtn">					
+					</td>
+				</tr>
+			</table>
+		</form>
+		<cfset i = 1>
+		<table>
+			<tr>
+				<th>Nomenclatural Code</th>
+				<th>Description</th>
+				<th>Sort Order</th>
+			</tr>
+			<cfloop query="q">
+				<tr #iif(i MOD 2,DE("class='evenRow'"),DE("class='oddRow'"))#>
+					<form name="#tbl##i#" method="post" action="CodeTableEditor.cfm">
+						<input type="hidden" name="action" value="">
+						<input type="hidden" name="tbl" value="ctnomenclatural_code">
+						<input type="hidden" name="origData" value="#nomenclatural_code#">
+						<td>
+							<input type="text" name="nomenclatural_code" value="#nomenclatural_code#" size="50">
+						</td>
+						<td>
+							<textarea name="description" rows="4" cols="70">#description#</textarea>
+						</td>
+						<td>
+							<input type="text" name="sort_order" size="3" value="#sort_order#">
+						</td>				
+						<td>
+							<input type="button" 
+								value="Save" 
+								class="savBtn"
+								onclick="#tbl##i#.action.value='saveEdit';submit();">	
 							<input type="button" 
 								value="Delete" 
 								class="delBtn"
@@ -749,6 +1399,173 @@
 					</tr>
 				</form>
 				<cfset i=#i#+1>
+			</cfloop>
+		</table>
+	<cfelseif tbl is "ctunderscore_collection_type">
+		<cfquery name="thisRec" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			SELECT * FROM ctunderscore_collection_type 
+			ORDER BY
+				underscore_collection_type
+		</cfquery>
+		<p>
+			Types of Named Groups of Cataloged Items.
+		</p>
+		Create type of named group
+		<table class="newRec" border>
+			<tr>
+				<th>Type</th>
+				<th>Description</th>
+				<th>Allowed Agent Roles</th>
+				<th></th>
+			</tr>
+			<form name="newType" method="post" action="CodeTableEditor.cfm">
+				<input type="hidden" name="action" value="newValue">
+				<input type="hidden" name="tbl" value="#tbl#">
+				<tr>
+					<td>
+						<input type="text" name="newData" >
+					</td>
+					<td>
+						<textarea name="description" rows="4" cols="70"></textarea>
+					</td>
+					<td>
+						<input type="text" name="allowed_agent_roles" >
+					</td>
+					<td colspan="3">
+						<input type="submit" 
+							value="Create" 
+							class="insBtn">	
+					</td>
+				</tr>
+			</form>	
+		</table>
+		Edit types of named groups
+		<table border>
+			<tr>
+				<th>Type</th>
+				<th>Description</th>
+				<th>Allowed Agent Roles</th>
+				<th>&nbsp;</th>
+			</tr>
+			<cfset i=1>
+			<cfloop query="thisRec">
+				<form name="type#i#" method="post" action="CodeTableEditor.cfm">
+					<input type="hidden" name="action" value="replacedinbuttonclick">
+					<input type="hidden" name="tbl" value="#tbl#">
+					<input type="hidden" name="oldunderscore_collection_type" value="#underscore_collection_type#">
+					<tr>
+						<td>
+							<input type="text" name="underscore_collection_type" value="#underscore_collection_type#" >
+						</td>
+						<td>
+							<input type="text" name="description" value="#description#" >
+						</td>
+						<td>
+							<input type="text" name="allowed_agent_roles" value="#allowed_agent_roles#" >
+						</td>
+						<td colspan="3">
+							<input type="button" 
+								value="Save" 
+								class="savBtn"
+								onclick="type#i#.action.value='saveEdit';submit();">	
+							<input type="button" 
+								value="Delete" 
+								class="delBtn"
+							 	onclick="type#i#.action.value='deleteValue';submit();">	
+						</td>
+					</tr>
+				</form>
+				<cfset i=#i#+1>
+			</cfloop>
+		</table>
+	<cfelseif tbl is "ctunderscore_coll_agent_role"><!---------------------------------------------------->
+		<!---   underscore_collection agent role table has sort order and labels, thus needs custom form  --->
+		<cfquery name="q" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			SELECT role, description, ordinal, label, inverse_label
+			FROM CTUNDERSCORE_COLL_AGENT_ROLE 
+			ORDER BY ordinal, role
+		</cfquery>
+		<form name="newData" method="post" action="CodeTableEditor.cfm">
+			<input type="hidden" name="action" value="newValue">
+			<input type="hidden" name="tbl" value="#tbl#">
+			<table class="newRec">
+				<tr>
+					<th>Role</th>
+					<th>Description</th>
+					<th>Sort Order</th>
+					<th>Label (group-label-agent)</th>
+					<th>Inverse Label (agent-label-group)</th>
+					<th></th>
+				</tr>
+				<tr>
+					<td>
+						<input type="text" name="newData" required class="reqdClr">
+					</td>
+					<td>
+						<input type="text" name="description">
+					</td>
+					<td>
+						<input type="text" name="ordinal" required class="reqdClr">
+					</td>
+					<td>
+						<input type="text" name="label">
+					</td>
+					<td>
+						<input type="text" name="inverse_label">
+					</td>
+					<td>
+						<input type="submit" 
+							value="Insert" 
+							class="insBtn">
+					</td>
+				</tr>
+			</table>
+		</form>
+		<table>
+			<tr>
+				<th>Role</th>
+				<th>Description</th>
+				<th>Sort Order</th>
+				<th>Label (group-label-agent)</th>
+				<th>Inverse Label (agent-label-group)</th>
+				<th></th>
+			</tr>
+			<cfset i = 1>
+			<cfloop query="q">
+				<tr #iif(i MOD 2,DE("class='evenRow'"),DE("class='oddRow'"))#>
+					<form name="#tbl##i#" method="post" action="CodeTableEditor.cfm">
+						<input type="hidden" name="action" value="">
+						<input type="hidden" name="tbl" value="#tbl#">
+						<!---  Need to pass current value as it is the PK for the code table --->
+						<input type="hidden" name="origData" value="#role#">
+						<td>
+							<input type="text" name="role" value="#role#" required class="reqdClr">
+						</td>
+						<td>
+							<input type="text" name="description" value="#description#">
+						</td>
+						<td>
+							<input type="text" name="ordinal" value="#ordinal#" required class="reqdClr">
+						</td>
+						<td>
+							<input type="text" name="label" value="#label#">
+						</td>
+						<td>
+							<input type="text" name="inverse_label" value="#inverse_label#">
+						</td>
+						<td>
+							<input type="button" 
+								value="Save" 
+								class="savBtn"
+								onclick="#tbl##i#.action.value='saveEdit';submit();">
+							<input type="button" 
+								value="Delete" 
+								class="delBtn"
+								onclick="#tbl##i#.action.value='deleteValue';submit();">
+						</td>
+					</form>
+				</tr>
+				<cfset i = #i#+1>
 			</cfloop>
 		</table>
 	<cfelse><!---------------------------- normal CTs --------------->
@@ -885,29 +1702,65 @@
 			where
 				publication_attribute='#origData#'
 		</cfquery>
+	<cfelseif tbl is "ctnomenclatural_code">
+		<cfquery name="sav" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			delete from ctnomenclatural_code 
+			where
+				nomenclatural_code='#origData#'
+		</cfquery>
+	<cfelseif tbl is "ctguid_type">
+		<cfquery name="sav" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			delete from ctguid_type
+			where
+				GUID_TYPE= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#origData#" />
+		</cfquery>
 	<cfelseif tbl is "ctloan_type">
 		<cfquery name="sav" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			delete from ctloan_type
 			where
-				LOAN_TYPE= <cfqueryparam cfsqltype="cf_sql_varchar" value="#origData#" />
+				LOAN_TYPE= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#origData#" />
 		</cfquery>
 	<cfelseif tbl is "ctcountry_code">
 		<cfquery name="del" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			delete from ctcountry_code
 			where
-				COUNTRY = <cfqueryparam cfsqltype="cf_sql_varchar" value="#origData#" />
+				COUNTRY = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#origData#" />
 		</cfquery>
 	<cfelseif tbl is "ctbiol_relations">
 		<cfquery name="sav" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			delete from ctbiol_relations
 			where
-                BIOL_INDIV_RELATIONSHIP='#origData#'
+				BIOL_INDIV_RELATIONSHIP=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#origData#">
+		</cfquery>
+	<cfelseif tbl is "ctcitation_type_status">
+		<cfquery name="sav" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			delete from ctcitation_type_status
+			where
+				type_status=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#origData#">
+		</cfquery>
+	<cfelseif tbl is "ctgeology_attributes">
+		<cfquery name="sav" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			delete from ctgeology_attributes
+			where
+				geology_attribute=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#origData#">
+		</cfquery>
+	<cfelseif tbl is "ctmedia_relationship">
+		<cfquery name="del" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			delete from ctmedia_relationship
+			where
+				MEDIA_RELATIONSHIP = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#origData#" />
 		</cfquery>
 	<cfelseif tbl is "ctcoll_other_id_type">
 		<cfquery name="sav" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			delete from ctcoll_other_id_type
 			where
-				OTHER_ID_TYPE='#origData#'
+				OTHER_ID_TYPE = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#origData#" />
+		</cfquery>
+	<cfelseif tbl is "cttaxon_relation">
+		<cfquery name="sav" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			DELETE FROM cttaxon_relation
+			WHERE
+				taxon_relationship = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#origData#" />
 		</cfquery>
 	<cfelseif tbl is "ctattribute_code_tables">
 		<cfquery name="del" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -928,6 +1781,18 @@
 				partname = '#oldpartname#' AND
 				list_order = '#oldlist_order#'
 		</cfquery>
+	<cfelseif tbl is "ctunderscore_collection_type">
+		<cfquery name="del" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			DELETE FROM ctunderscore_collection_type
+			WHERE
+				underscore_collection_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#oldunderscore_collection_type#">
+		</cfquery>
+	<cfelseif tbl is "ctunderscore_coll_agent_role">
+		<cfquery name="del" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			DELETE FROM ctunderscore_coll_agent_role 
+			WHERE
+				role = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#origData#">
+		</cfquery>
 	<cfelse>
 		<cfquery name="del" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			DELETE FROM #tbl# 
@@ -942,56 +1807,118 @@
 	<cfif tbl is "ctpublication_attribute">
 		<cfquery name="sav" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			update ctpublication_attribute set 
-				publication_attribute='#publication_attribute#',
-				DESCRIPTION='#description#',
-				control='#control#'
+				publication_attribute=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#publication_attribute#">,
+				DESCRIPTION=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#description#">,
+				control=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#control#">,
+				mcz_publication_fg=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#mcz_publication_fg#">
 			where
-				publication_attribute='#origData#'
+				publication_attribute = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#origData#" />
+		</cfquery>
+	<cfelseif tbl is "ctnomenclatural_code">
+		<cfquery name="sav" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			update ctnomenclatural_code set 
+				nomenclatural_code=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#nomenclatural_code#">,
+				DESCRIPTION=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#description#">,
+				sort_order=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#sort_order#">
+			where
+				nomenclatural_code = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#origData#" />
+		</cfquery>
+	<cfelseif tbl is "ctguid_type">
+		<cfquery name="sav" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			update ctguid_type set 
+				GUID_TYPE= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#guid_type#" />,
+				description= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#description#" />,
+				applies_to= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#applies_to#" />,
+				search_uri = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#search_uri#" />,
+				placeholder= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#placeholder#" />,
+				pattern_regex= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#pattern_regex#" />,
+				resolver_regex= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#resolver_regex#" />,
+				resolver_replacement= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#resolver_replacement#" />
+			where
+				GUID_TYPE= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#origData#" />
 		</cfquery>
 	<cfelseif tbl is "ctloan_type">
 		<cfquery name="sav" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			update ctloan_type set 
-				LOAN_TYPE= <cfqueryparam cfsqltype="cf_sql_varchar" value="#loan_type#" />,
-				SCOPE= <cfqueryparam cfsqltype="cf_sql_varchar" value="#scope#" />,
-				ORDINAL= <cfqueryparam cfsqltype="cf_sql_number" value="#ordinal#" />
+				LOAN_TYPE= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#loan_type#" />,
+				SCOPE= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#scope#" />,
+				ORDINAL= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#ordinal#" />
 			where
-				LOAN_TYPE= <cfqueryparam cfsqltype="cf_sql_varchar" value="#origData#" />
+				LOAN_TYPE= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#origData#" />
 		</cfquery>
 	<cfelseif tbl is "ctcountry_code">
 		<cfquery name="sav" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			update ctcountry_code set 
-				COUNTRY= <cfqueryparam cfsqltype="cf_sql_varchar" value="#country#" />,
-				CODE= <cfqueryparam cfsqltype="cf_sql_varchar" value="#code#" />
+				COUNTRY= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#country#" />,
+				CODE= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#code#" />
 			where
-				COUNTRY= <cfqueryparam cfsqltype="cf_sql_varchar" value="#origData#" />
+				COUNTRY= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#origData#" />
+		</cfquery>
+	<cfelseif tbl is "ctspecific_permit_type">
+		<cfquery name="sav" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			update ctspecific_permit_type set 
+				SPECIFIC_TYPE= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#specific_type#" />,
+				PERMIT_TYPE= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#permit_type#" />,
+				ACCN_SHOW_ON_SHIPMENT= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#accn_show_on_shipment#" />
+			where
+				SPECIFIC_TYPE= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#origData#" />
 		</cfquery>
 	<cfelseif tbl is "ctbiol_relations">
 		<cfquery name="sav" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			update ctbiol_relations set 
-				BIOL_INDIV_RELATIONSHIP= <cfqueryparam cfsqltype="cf_sql_varchar" value="#biol_indiv_relationship#" />,
-				INVERSE_RELATION= <cfqueryparam cfsqltype="cf_sql_varchar" value="#inverse_relation#" />,
-				REL_TYPE= <cfqueryparam cfsqltype="cf_sql_number" value="#rel_type#" />
+				BIOL_INDIV_RELATIONSHIP= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#biol_indiv_relationship#" />,
+				INVERSE_RELATION= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#inverse_relation#" />,
+				REL_TYPE= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#rel_type#" />
 			where
-				BIOL_INDIV_RELATIONSHIP= <cfqueryparam cfsqltype="cf_sql_varchar" value="#origData#" />
+				BIOL_INDIV_RELATIONSHIP= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#origData#" />
 		</cfquery>
 	<cfelseif tbl is "ctcitation_type_status">
 		<cfquery name="sav" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			update ctcitation_type_status set 
-				TYPE_STATUS= <cfqueryparam cfsqltype="cf_sql_varchar" value="#type_status#" />,
-				CATEGORY= <cfqueryparam cfsqltype="cf_sql_varchar" value="#category#" />,
-				ORDINAL= <cfqueryparam cfsqltype="cf_sql_number" value="#ordinal#" />,
-				DESCRIPTION= <cfqueryparam cfsqltype="cf_sql_varchar" value="#description#" />
+				TYPE_STATUS= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#type_status#" />,
+				CATEGORY= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#category#" />,
+				ORDINAL= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#ordinal#" />,
+				DESCRIPTION= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#description#" />
 			where
-				TYPE_STATUS= <cfqueryparam cfsqltype="cf_sql_varchar" value="#origData#" />
+				TYPE_STATUS= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#origData#" />
+		</cfquery>
+	<cfelseif tbl is "ctgeology_attributes">
+		<cfquery name="sav" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			UPDATE ctgeology_attributes SET 
+				geology_attribute= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#geology_attribute#" />,
+				TYPE= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#type#" />,
+				ORDINAL= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#ordinal#" />,
+				DESCRIPTION= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#description#" />
+			WHERE
+				geology_attribute= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#origData#" />
+		</cfquery>
+	<cfelseif tbl is "ctmedia_relationship">
+		<cfquery name="sav" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			update ctmedia_relationship set 
+				MEDIA_RELATIONSHIP = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#media_relationship#" />,
+				DESCRIPTION= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#description#" />,
+				LABEL = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#label#" />
+			where
+				MEDIA_RELATIONSHIP = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#origData#" />
 		</cfquery>
 	<cfelseif tbl is "ctcoll_other_id_type">
 		<cfquery name="sav" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			update ctcoll_other_id_type set 
-				OTHER_ID_TYPE='#other_id_type#',
-				DESCRIPTION='#description#',
-				base_URL='#base_url#'
+				OTHER_ID_TYPE= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#other_id_type#" />,
+				DESCRIPTION= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#description#" />,
+				BASE_URL = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#base_url#" />,
+				ENCUMBER_AS_FIELD_NUM= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#encumber_as_field_num#" />
 			where
-				OTHER_ID_TYPE='#origData#'
+				OTHER_ID_TYPE= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#origData#" />
+		</cfquery>
+	<cfelseif tbl is "cttaxon_relation">
+		<cfquery name="sav" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			UPDATE cttaxon_relation SET 
+				taxon_relationship = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#taxon_relationship#" />,
+				description = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#description#" />,
+				inverse_relation = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#inverse_relation#" />
+			WHERE
+				OTHER_ID_TYPE= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#origData#" />
 		</cfquery>
 	<cfelseif tbl is "ctattribute_code_tables">
 		<cfquery name="sav" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -1012,6 +1939,27 @@
 			WHERE
 				partname = '#oldpartname#' AND
 				list_order = '#oldlist_order#'
+		</cfquery>
+	<cfelseif tbl is "ctunderscore_collection_type">
+		<cfquery name="sav" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			UPDATE ctunderscore_collection_type SET 
+				underscore_collection_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#underscore_collection_type#" />,
+				description = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#description#" />,
+				allowed_agent_roles = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#allowed_agent_roles#" />
+			WHERE
+				underscore_collection_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#oldunderscore_collection_type#" />
+		</cfquery>
+	<cfelseif tbl is "ctunderscore_coll_agent_role">
+		<cfquery name="sav" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			UPDATE ctunderscore_coll_agent_role 
+			SET
+				role = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#role#">,
+				description = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#description#">,
+				ordinal = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#ordinal#">,
+				label = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#label#">,
+				inverse_label = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#inverse_label#">
+			WHERE
+				role = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#origData#">
 		</cfquery>
 	<cfelse>
 		<cfquery name="up" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -1035,11 +1983,40 @@
 			insert into ctpublication_attribute (
 				publication_attribute,
 				DESCRIPTION,
-				control
+				control,
+				mcz_publication_fg
 			) values (
-				'#newData#',
-				'#description#',
-				'#control#'
+				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value='#newData#'>,
+				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value='#description#'>,
+				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value='#control#'>,
+				<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value='#mcz_publication_fg#'>
+			)
+		</cfquery>
+	<cfelseif tbl is "ctnomenclatural_code">
+		<cfquery name="sav" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			insert into ctnomenclatural_code(
+				nomenclatural_code,
+				DESCRIPTION,
+				sort_order
+			) values (
+				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value='#newData#'>,
+				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value='#description#'>,
+				<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value='#sort_order#'>
+			)
+		</cfquery>
+	<cfelseif tbl is "ctguid_type">
+		<cfquery name="sav" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			insert into ctguid_type (
+				 guid_type, description, applies_to, search_uri, placeholder, pattern_regex, resolver_regex, resolver_replacement
+			) VALUES (
+				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#newData#" />,
+				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#description#" />,
+				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#applies_to#" />,
+				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#search_uri#" />,
+				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#placeholder#" />,
+				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#pattern_regex#" />,
+				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#resolver_regex#" />,
+				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#resolver_replacement#" />
 			)
 		</cfquery>
 	<cfelseif tbl is "ctloan_type">
@@ -1049,9 +2026,9 @@
 				scope,
 				ordinal
 			) values (
-				<cfqueryparam cfsqltype="cf_sql_varchar" value="#newData#" />,
-				<cfqueryparam cfsqltype="cf_sql_varchar" value="#scope#" />,
-				<cfqueryparam cfsqltype="cf_sql_number" value="#ordinal#" />
+				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#newData#" />,
+				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#scope#" />,
+				<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#ordinal#" />
 			)
 		</cfquery>
 	<cfelseif tbl is "ctcountry_code">
@@ -1060,8 +2037,20 @@
 				country,
 				code
 			) values (
-				<cfqueryparam cfsqltype="cf_sql_varchar" value="#newData#" />,
-				<cfqueryparam cfsqltype="cf_sql_number" value="#code#" />
+				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#newData#" />,
+				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#code#" />
+			)
+		</cfquery>
+	<cfelseif tbl is "ctspecific_permit_type">
+		<cfquery name="sav" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			insert into ctspecific_permit_type (
+				specific_type,
+				permit_type,
+				accn_show_on_shipment
+			) values (
+				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#newData#" />,
+				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#permit_type#" />,
+				<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#accn_show_on_shipment#" />
 			)
 		</cfquery>
 	<cfelseif tbl is "ctbiol_relations">
@@ -1071,9 +2060,49 @@
 				inverse_relation,
 				rel_type
 			) values (
-				<cfqueryparam cfsqltype="cf_sql_varchar" value="#newData#" />,
-				<cfqueryparam cfsqltype="cf_sql_varchar" value="#inverse_relation#" />,
-				<cfqueryparam cfsqltype="cf_sql_number" value="#rel_type#" />
+				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#newData#" />,
+				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#inverse_relation#" />,
+				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#rel_type#" />
+			)
+		</cfquery>
+	<cfelseif tbl is "ctmedia_relationship">
+		<cfquery name="sav" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			INSERT INTO ctmedia_relationship (
+				media_relationship,
+				label,
+				description
+			) values (
+				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#newData#" />,
+				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#label#" />,
+				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#description#" />
+			)
+		</cfquery>
+	<cfelseif tbl is "ctcitation_type_status">
+		<cfquery name="sav" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			INSERT INTO ctcitation_type_status (
+				type_status,
+				category,
+				ordinal,
+				description
+			) values (
+				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#newData#" />,
+				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#category#" />,
+				<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#ordinal#" />,
+				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#description#" />
+			)
+		</cfquery>
+	<cfelseif tbl is "ctgeology_attributes">
+		<cfquery name="sav" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			INSERT INTO ctgeology_attributes (
+				geology_attribute,
+				type,
+				ordinal,
+				description
+			) values (
+				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#newData#" />,
+				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#type#" />,
+				<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#ordinal#" />,
+				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#description#" />
 			)
 		</cfquery>
 	<cfelseif tbl is "ctcoll_other_id_type">
@@ -1081,11 +2110,25 @@
 			insert into ctcoll_other_id_type (
 				OTHER_ID_TYPE,
 				DESCRIPTION,
-				base_URL
+				base_URL,
+				encumber_as_field_num
 			) values (
-				'#newData#',
-				'#description#',
-				'#base_url#'
+				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#newData#" />,
+				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#description#" />,
+				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#base_url#" />,
+				<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#encumber_as_field_num#" />
+			)
+		</cfquery>
+	<cfelseif tbl is "cttaxon_relation">
+		<cfquery name="sav" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			insert into cttaxon_relation (
+				taxon_relationship,
+				DESCRIPTION,
+				inverse_relation
+			) values (
+				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#newData#" />,
+				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#description#" />,
+				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#inverse_relation#" />
 			)
 		</cfquery>
 	<cfelseif tbl is "ctattribute_code_tables">
@@ -1120,6 +2163,36 @@
 				#list_order#
 			)
 		</cfquery>
+	<cfelseif tbl is "ctunderscore_collection_type">
+		<cfquery name="new" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			INSERT INTO ctunderscore_collection_type (
+				underscore_collection_type,
+				description,
+				allowed_agent_roles
+				)
+			VALUES (
+				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#newData#">,
+				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#description#">,
+				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#allowed_agent_roles#">
+			)
+		</cfquery>
+	<cfelseif tbl is "ctunderscore_coll_agent_role">
+		<cfquery name="new" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			INSERT INTO ctunderscore_coll_agent_role (
+				role,
+				description,
+				ordinal,
+				label,
+				inverse_label
+				)
+			VALUES (
+				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#newData#">,
+				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#description#">,
+				<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#ordinal#">,
+				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#label#">,
+				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#inverse_label#">
+			)
+		</cfquery>
 	<cfelse>
 		<cfquery name="new" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			INSERT INTO #tbl# 
@@ -1134,10 +2207,10 @@
 			VALUES 
 				('#newData#'
 				<cfif isdefined("collection_cde") and len(collection_cde) gt 0>
-					 ,'#collection_cde#'
+					 , <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value='#collection_cde#'>
 				</cfif>
 				<cfif isdefined("description") and len(description) gt 0>
-					 ,'#description#'
+					 , <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value='#description#'>
 				</cfif>
 			)
 		</cfquery>
@@ -1145,4 +2218,4 @@
 	<cflocation url="CodeTableEditor.cfm?action=edit&tbl=#tbl#" addtoken="false">
 </cfif>
 </cfoutput>
-<cfinclude template="includes/_footer.cfm">
+<cfinclude template="/includes/_footer.cfm">

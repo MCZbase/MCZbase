@@ -193,7 +193,8 @@ function success_makePartThingy(r){
 			if (result.SAMPLED_FROM_OBJ_ID[i] > 0) {
 				theTable += '&nbsp;sample';
 			}
-            theTable += '(' + result.PRESERVE_METHOD[i] + ')';
+         theTable += '(' + result.PRESERVE_METHOD[i] + ')';
+         theTable += '[' + result.LOT_COUNT[i] + ']';
 			theTable += "&nbsp;(" + result.COLL_OBJ_DISPOSITION[i] + ")</i> [" + result.BARCODE[i] + "]";
 			theTable += '</td><td nowrap="nowrap" class="specResultPartCell">';
 			theTable += 'Remark:&nbsp;<input type="text" name="item_remark" size="10" id="item_remark_' + result.PARTID[i] + '">';
@@ -473,7 +474,7 @@ function getSpecResultsData (startrow,numrecs,orderBy,orderOrder) {
 
 function success_getSpecResultsData(result){
 	var data = result.DATA;
-	var attributes="Associated_MCZ_Collection,abnormality,age,age_class,associated_taxon,bare_parts_coloration,body_length,citation,colors,crown_rump_length,date_collected,date_emerged,diameter,disk_length,disk_width,ear_from_notch,extent,fat_deposition,forearm_length,fork_length,fossil_measurement,head_length,height,hind_foot_with_claw,host,incubation,length,life_cycle_stage,life_stage,max_display_angle,molt_condition,numeric_age,ossification,plumage_coloration,plumage_description,reference,reproductive_condition,reproductive_data,section_length,section_stain,sex,size_fish,snout_vent_length,specimen_length,stage_description,standard_length,stomach_contents,storage,tail_length,temperature_experiment,total_length,total_size,tragus_length,unformatted_measurements,unnamed_form,unspecified_measurement,verbatim_elevation,weight,width,wing_chord";
+	var attributes="Associated_MCZ_Collection,abnormality,age,age_class,associated_grant,associated_taxon,bare_parts_coloration,body_length,citation,colors,crown_rump_length,date_collected,date_emerged,diameter,disk_length,disk_width,ear_from_notch,extent,fat_deposition,forearm_length,fork_length,fossil_measurement,head_length,height,hind_foot_with_claw,host,incubation,length,life_cycle_stage,life_stage,max_display_angle,molt_condition,numeric_age,ossification,plumage_coloration,plumage_description,reference,reproductive_condition,reproductive_data,section_length,section_stain,sex,size_fish,snout_vent_length,specimen_length,stage_description,standard_length,stomach_contents,storage,tail_length,temperature_experiment,total_length,total_size,tragus_length,unformatted_measurements,unnamed_form,unspecified_measurement,verbatim_elevation,weight,width,wing_chord";
 	var attAry=attributes.split(",");
 	var nAtt=attAry.length;
 	var collection_object_id = data.COLLECTION_OBJECT_ID[0];
@@ -539,6 +540,9 @@ function success_getSpecResultsData(result){
 				theInnerHtml += '<th>Media</th>';
 			}
 			theInnerHtml += '<th>Identification</th>';
+			if (data.COLUMNLIST[0].indexOf('STORED_AS')> -1) {
+				theInnerHtml += '<th>STORED AS</th>';
+			}
 			if (data.COLUMNLIST[0].indexOf('ID_SENSU')> -1) {
 				theInnerHtml += '<th>ID sensu</th>';
 			}
@@ -840,6 +844,11 @@ function success_getSpecResultsData(result){
 				theInnerHtml += '<span class="browseLink" type="scientific_name" dval="' + encodeURI(data.SCIENTIFIC_NAME[i]) + '">' + spaceStripper(data.SCIENTIFIC_NAME[i]);
 				theInnerHtml += '</span>';
 				theInnerHtml += '</td>';
+				if (data.COLUMNLIST[0].indexOf('STORED_AS')> -1) {
+					theInnerHtml += '<td>';
+						theInnerHtml += data.STORED_AS[i];
+					theInnerHtml += '</td>';
+				}
 				if (data.COLUMNLIST[0].indexOf('ID_SENSU')> -1) {
 					theInnerHtml += '<td>';
 						theInnerHtml += data.ID_SENSU[i];

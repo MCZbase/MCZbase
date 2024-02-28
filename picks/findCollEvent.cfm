@@ -55,13 +55,13 @@
 			<td rowspan="3">
 				<font size="-2">
 					#higher_geog#
-					(<a href="/Locality.cfm?Action=editGeog&geog_auth_rec_id=#geog_auth_rec_id#"
+					(<a href="/localities/viewHigherGeography.cfm?geog_auth_rec_id=#geog_auth_rec_id#"
 						target="_blank">#geog_auth_rec_id#</a>)
 				</font></td>
 			<td rowspan="3">
 				<font size="-2">
 					#spec_locality#
-					(<a href="/Locality.cfm?Action=editLocality&locality_id=#locality_id#"
+					(<a href="/localities/viewLocality.cfm?locality_id=#locality_id#"
 						target="_blank">#locality_id#</a>)
 				</font>
 </td>

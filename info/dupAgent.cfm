@@ -1,5 +1,5 @@
 <cfinclude template="/includes/_header.cfm">
-<script src="/includes/sorttable.js"></script>
+<script src="/lib/misc/sorttable.js"></script>
 <script>
 	function flagDupAgent(bad,good){
 		$.getJSON("/component/functions.cfc",
@@ -381,9 +381,9 @@
                            
 					<div style="margin-top: .5em;">
 						<ul id="navbar"><li>
-                            <a class="likeLink" href="/agents.cfm?agent_id=#id1#" target="_blank">Edit</a></li>
+                            <a class="likeLink" href="/agents/editAgent.cfm?agent_id=#id1#" target="_blank">Edit</a></li>
                            <!--- <li><a class="likeLink" href="/Admin/ActivityLog.cfm?action=search&object=agent_name&sql=#name1#">Whodunit</a></li>--->
-                            <li><a class="likeLink" href="/info/agentActivity.cfm?agent_id=#id1#" target="_blank">Activity</a></li>
+                            <li><a class="likeLink" href="/agents/Agent.cfm?agent_id=#id1#" target="_blank">Activity</a></li>
                             <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</li>
                             <li><span id="fg_#id1#" class="likeLink" onclick="flagDupAgent(#id1#,#id2#)">IsBadDupOf &rarr;</span></li>
                         </ul>
@@ -562,9 +562,9 @@
                         <ul id="navbar">
                         <li><span id="fg_#id2#" class="likeLink" onclick="flagDupAgent(#id2#,#id1#)"> &larr; IsBadDupOf</span></li>
                             <li>&nbsp;&nbsp;&nbsp;&nbsp;</li>
-                        <li><a class="likeLink" href="/agents.cfm?agent_id=#id2#" target="_blank">Edit</a></li>
+                        <li><a class="likeLink" href="/agents/editAgent.cfm?agent_id=#id2#" target="_blank">Edit</a></li>
                        <!--- <li><a class="likeLink" href="/Admin/ActivityLog.cfm?action=search&object=agent_name&sql=#name2#">Whodunit</a></li>--->
-                        <li><a class="likeLink" href="/info/agentActivity.cfm?agent_id=#id2#" target="_blank">Activity</a></li>
+                        <li><a class="likeLink" href="/agents/Agent.cfm?agent_id=#id2#" target="_blank">Activity</a></li>
                        
                         </ul>
 						

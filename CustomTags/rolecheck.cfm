@@ -2,20 +2,36 @@
 	session.roles contains "coldfusion_user") and
 	(isdefined("session.force_password_change") and
 	session.force_password_change is "yes" and
-	cgi.script_name is not "/ChangePassword.cfm")>
-	<cflocation url="/ChangePassword.cfm">
+	cgi.script_name is not "/users/changePassword.cfm")>
+	<cflocation url="/users/changePassword.cfm">
 </cfif>
-<cfif fileexists(application.webDirectory & replace('#cgi.script_name#','//','/'))>
+<cfset filePath = replace('#cgi.script_name#','//','/') >
+<cfif fileexists(application.webDirectory & filePath)>
+	<!---  Find all of the roles specified for the given filePath (requested page) --->
+	<!---  Note, if you've just added a new page and requested it before adding permissions to cf_form_permissions, 
+		you will be denied access until the cache expires (or you transiently reset to a timespan of 0,0,0,0).
+		See the Redmine wiki for instructions on adding a new page to MCZbase.
+	--->
 	<cfquery name="isValid" datasource="uam_god" cachedWithin="#CreateTimeSpan(0,1,0,0)#">
-		select ROLE_NAME from cf_form_permissions
-		where form_path = replace('#cgi.script_name#','//','/')
+		 	SELECT DISTINCT ROLE_NAME 
+			FROM cf_form_permissions
+			WHERE form_path = <cfqueryparam value="#filePath#" cfsqltype="CF_SQL_VARCHAR">
 	</cfquery>
 	<cfif isValid.recordcount is 0>
+		<!--- no permissions specified, a new page or an invalid request, assume bad and deny access --->
 		<cfset bad=true>
+	<cfelseif isValid.recordcount is 1 AND valuelist(isValid.role_name) is "public">
+		<!--- only entry or entries for the requested page are public, don't check against session.roles --->
 	<cfelseif valuelist(isValid.role_name) is not "public">
+		<!--- check that the current user's session.roles contains all of the roles specified for the current page --->
+		<!--- The assumption of cf_form_permissions and rolecheck is that a user must have all of the permissions 
+			specified for a page, not any single permission.  This differs from the logic of grants within the database,
+			and differs from the logic used on the menu for which pages are shown to whom.
+		--->
 		<cfloop query="isValid">
 			<cfif not listfindnocase(session.roles,role_name)>
 				<cfset bad=true>
+				<!--- If any permission specified for the requested page is absent from session.roles, deny access --->
 			</cfif>
 		</cfloop>
 	</cfif>
@@ -35,7 +51,7 @@
 			<!--- make sure they're really logged out --->
 			
 			<div style="color:red;font-size:large;margin-left: 4em;">
-				 <img src="/images/oops.gif" alt="[ unauthorized access ]" style="float:left; width: 50px;margin-right: 1em;"><p>You tried to visit a form for which you are not authorized, or your login has expired.
+				 <img src="/images/oops.gif" alt="[ unauthorized access ]" style="float:left; width: 50px;margin-right: 1em;"><p>You tried to visit a form for which you are not authorized, or your <a href="/login.cfm" target="_blank">login has expired</a>.
 				<br>
 				If this message is in error, please <a class="underline" href="/contact.cfm">contact us</a>.
                 </p>

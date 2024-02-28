@@ -2,7 +2,7 @@
  <cfinclude template="includes/_header.cfm">
      <div style="width: 80em; margin: 0 auto; padding: 2em 0 3em 0;">
 	<script type='text/javascript' src='/includes/_loanReview.js'></script>
-	<script src="/includes/sorttable.js"></script>
+	<script src="/lib/misc/sorttable.js"></script>
 <cfquery name="ctDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select coll_obj_disposition from ctcoll_obj_disp
 </cfquery>
@@ -209,7 +209,7 @@
 		cat_num, 
 		cataloged_item.collection_object_id,
 		collection,
-		collection.collection_cde
+		collection.collection_cde,
 		part_name,
 		preserve_method,
 		condition,
@@ -246,15 +246,25 @@
 		cataloged_item.collection_object_id = identification.collection_object_id AND
 		identification.accepted_id_fg = 1 AND
 		cataloged_item.collection_id=collection.collection_id AND
-	  	loan_item.transaction_id =  <cfqueryparam cfsqltype="cf_sql_number" value="#transaction_id#" >
+	  	loan_item.transaction_id =  <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#" >
 	ORDER BY cat_num
+</cfquery>
+<cfquery name="ctSovereignNation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+    select count(*) as ct, sovereign_nation from  
+        loan_item left join specimen_part on loan_item.collection_object_id = specimen_part.collection_object_id
+                  left join cataloged_item on specimen_part.derived_from_cat_item = cataloged_item.collection_object_id
+                  left join collecting_event on cataloged_item.collecting_event_id = collecting_event.collecting_event_id
+                  left join locality on collecting_event.locality_id = locality.locality_id
+    where 
+	  	loan_item.transaction_id =  <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#" >
+    group by sovereign_nation
 </cfquery>
 <!--- Obtain list of preserve_method values for the collection that this loan is from --->
 <cfquery name="ctPreserveMethod" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select ct.preserve_method, c.collection_cde from ctspecimen_preserv_method ct 
            left join collection c on ct.collection_cde = c.collection_cde
            left join trans t on c.collection_id = t.collection_id 
-         where t.transaction_id = <cfqueryparam cfsqltype="cf_sql_number" value="#transaction_id#" >
+         where t.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#" >
 </cfquery>
 <!--- handle legacy loans with cataloged items as the item --->
 <cfoutput>
@@ -263,7 +273,7 @@
           from collection c 
              left join trans t on c.collection_id = t.collection_id 
              left join loan l on t.transaction_id = l.transaction_id
-          where t.transaction_id = <cfqueryparam cfsqltype="cf_sql_number" value="#transaction_id#" >
+          where t.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#" >
 </cfquery>
 <cfif isdefined("Ijustwannadownload") and #Ijustwannadownload# is "yep">
 	<cfset fileName = "/download/ArctosLoanData_#getPartLoanRequests.loan_number#.csv">
@@ -297,8 +307,17 @@
 <cfif prtItemCnt.c eq ''><cfset partCount = 'no'><cfelse><cfset partCount = prtItemCnt.c></cfif>
 
 Review items in loan<b>
-	<a href="Loan.cfm?action=editLoan&transaction_id=#transaction_id#">#aboutLoan.loan_number#</a></b>.
-	<br>There are #partCount# items from #catCount# specimens in this loan.
+	<a href="/transactions/Loan.cfm?action=editLoan&transaction_id=#transaction_id#">#aboutLoan.loan_number#</a></b>.
+	<p>There are #partCount# items from #catCount# specimens in this loan.</p>
+<div class="shippingBlock">
+	<h3>Countries of Origin</h3>
+    <cfset sep="">
+    <cfloop query=ctSovereignNation>
+      <cfif len(sovereign_nation) eq 0><cfset sovereign_nation = '[no value set]'></cfif>
+      <span>#sep##sovereign_nation#&nbsp;(#ct#)</span>
+      <cfset sep="; ">
+    </cfloop>
+</div>
 	<br>
 	<a href="a_loanItemReview.cfm?action=nothing&transaction_id=#transaction_id#&Ijustwannadownload=yep">Download (csv)</a>
 	<form name="BulkUpdateDisp" method="post" action="a_loanItemReview.cfm">
@@ -361,15 +380,17 @@ Review items in loan<b>
 		<td>
 			Item Remarks
 		</td>
-                <cfif aboutLoan.collection EQ 'Cryogenic'>
-		<td>
-			Preserve Method
-		</td>
+      <cfif aboutLoan.collection EQ 'Cryogenic'>
+			<td>
+				Preserve Method
+			</td>
 		</cfif>
 		<td>
 			Disposition
 		</td>
-		
+		<td>
+			Restrictions	
+		</td>
 		<td>
 			Encumbrance
 		</td>
@@ -380,6 +401,24 @@ Review items in loan<b>
 
 <cfset i=1>
 <cfloop query="getPartLoanRequests">
+	<cfquery name="getRestrictions" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		select distinct permit.permit_id, permit.permit_num
+		from cataloged_item ci
+			join accn on ci.accn_id = accn.transaction_id
+			join permit_trans on accn.transaction_id = permit_trans.transaction_id
+			join permit on permit_trans.permit_id = permit.permit_id
+		where ci.collection_object_id = <cfqueryparam CFSQLType="CF_SQL_DECIMAL" value="#collection_object_id#">
+			and permit.restriction_summary is not null
+	</cfquery>
+	<cfif getRestrictions.recordcount GT 0>
+		<cfset restrictions="<strong>Has Restrictions On Use</strong> See: "><!--- " --->
+		<cfloop query="getRestrictions">
+			<cfset restrictions = "#restrictions# <a href='/transactions/Permit.cfm?action=view&permit_id=#getRestrictions.permit_id#'>#getRestrictions.permit_num#</a>"><!--- " --->
+		</cfloop>
+	<cfelse>
+		<cfset restrictions="">
+	</cfif>
+	<cif>	
 	<tr id="rowNum#partID#">
 		<td>
 			<a href="/SpecimenDetail.cfm?collection_object_id=#collection_object_id#">#collection# #cat_num#</a>
@@ -392,7 +431,7 @@ Review items in loan<b>
 			<em>#scientific_name#</em>&nbsp;
 		</td>
 		<td>
-			<a href="/SpecimenDetail.cfm?collection_object_id=#collection_object_id#">#part_name#</a>
+			<a href="/SpecimenDetail.cfm?collection_object_id=#collection_object_id#">#part_name# (#preserve_method#)</a>
 		</td>
 		<td>
 			<textarea name="condition#partID#" 
@@ -436,6 +475,9 @@ Review items in loan<b>
 			</select>
 		</td>
 		<td>
+			#restrictions#
+		</td>
+		<td>
 			#Encumbrance# <cfif len(#agent_name#) gt 0> by #agent_name#</cfif>&nbsp;
 		</td>
 		<td>
@@ -447,7 +489,7 @@ Review items in loan<b>
 </cfoutput>
 </table>
 <cfoutput>
-	<br><a href="Loan.cfm?action=editLoan&transaction_id=#transaction_id#">Back to Edit Loan</a>
+	<br><a href="/transactions/Loan.cfm?action=editLoan&transaction_id=#transaction_id#">Back to Edit Loan</a>
 </cfoutput>
 </cfif>
                             </div>

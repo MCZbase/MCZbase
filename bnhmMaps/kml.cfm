@@ -538,7 +538,7 @@
 				from
 					data
 				where
-					locality_id = #locality_id#
+					locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
 				group by
 					collection_object_id,
 					cat_num,
@@ -561,9 +561,15 @@
 					chr(9) & chr(9) & chr(9) & chr(9) & chr(9) & '<![CDATA[Datum: #datum#<br/>Error: #errorInMeters# m<br/>';
 			</cfscript>
 			<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
-				<cfscript>
-					kml=kml & '<p><a href="#application.serverRootUrl#/editLocality.cfm?locality_id=#locality_id#">Edit Locality</a></p>';
-				</cfscript>
+				<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_locality")>
+					<cfscript>
+						kml=kml & '<p><a href="#application.serverRootUrl#/localities/Locality.cfm?locality_id=#locality_id#">Edit Locality</a></p>';
+					</cfscript>
+				<cfelse>
+					<cfscript>
+						kml=kml & '<p><a href="#application.serverRootUrl#/localities/viewLocality.cfm?locality_id=#locality_id#">Locality Details</a></p>';
+					</cfscript>
+				</cfif>
 			</cfif>
 			<cfloop query="sdet">
 				<cfscript>
