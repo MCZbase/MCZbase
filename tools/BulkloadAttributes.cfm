@@ -241,7 +241,7 @@ limitations under the License.
 				<cfset foundMultiByte = "">
 				<!--- Iterate through the remaining rows inserting the data into the temp table. --->
 				<cfset row = 0>
-				<cfwhile iterator.hasNext()>
+				<cfloop condition="#iterator.hasNext()#">
 					<!--- obtain the values in the current row --->
 					<cfset rowData = iterator.next()>
 					<cfset row = row + 1>
@@ -304,7 +304,7 @@ limitations under the License.
 						<cfthrow message = "#error_message#">
 					</cfcatch>
 					</cftry>
-				</cfwhile>
+				</cfloop>
 			
 				<cfif foundHighCount GT 0>
 					<h3 class="h3">Found characters where the encoding is probably important in the input data.</h3>
