@@ -336,7 +336,7 @@ limitations under the License.
 										<input type="hidden" name="result_id" id="result_id_fixedSearch" value="" class="excludeFromLink">
 										<input type="hidden" name="method" id="method_fixedSearch" value="executeFixedSearch" class="keeponclear excludeFromLink">
 										<input type="hidden" name="action" value="fixedSearch" class="keeponclear">
-										<div class="container-flex">
+										<div class="container-flex togglesearchform" style="display: block;">
 											<div class="col-12 form-row mx-0 search-form-basic-odd px-0 pb-2 pb-xl-0">
 												<cfset hiddenHaveValue = false>
 												<cfif (isDefined("other_id_type_1") and len(other_id_type_1) GT 0) 
@@ -1649,7 +1649,7 @@ limitations under the License.
 									</aside>
 								</div>
 								<div role="search">
-									<form name= "keywordSearchForm" id="keywordSearchForm" class="container-fluid">
+									<form name= "keywordSearchForm" id="keywordSearchForm" class="container-fluid togglesearchform">
 										<input id="result_id_keywordSearch" type="hidden" name="result_id" value="" class="excludeFromLink">
 										<input type="hidden" name="method" value="executeKeywordSearch" class="keeponclear excludeFromLink">
 										<input type="hidden" name="action" value="keywordSearch" class="keeponclear">
@@ -1817,7 +1817,7 @@ Target JSON:
 										</div>
 									</aside>
 								</div>
-									<form id="builderSearchForm" class="container-fluid">
+									<form id="builderSearchForm" class="container-fluid togglesearchform">
 										<script>
 											var treeMap = new Map();
 											treeMap.set("1",["1"]);
