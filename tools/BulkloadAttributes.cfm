@@ -108,6 +108,7 @@ limitations under the License.
 		<!--- Compare the numbers of headers expected against provided in CSV file --->
 		<!--- Set some constants to identify error cases in cfcatch block --->
 		<cfset NO_COLUMN_ERR = "One or more required fields are missing in the header line of the csv file.">
+		<cfset DUP_COLUMN_ERR = "One or more columns are duplicated in the header line of the csv file.">
 		<cfset COLUMN_ERR = "Error inserting data">
 		<cfset NO_HEADER_ERR = "No header line found, csv file appears to be empty.">
 
@@ -233,6 +234,15 @@ limitations under the License.
 						</cfif>
 					</cfif>
 				</cfloop>
+				<cfif NOT ListLen(ListRemoveDuplicates(foundHeaders)) EQ ListLen(foundHeaders)>
+					<li>At least one column header occurs more than once.</1i>
+					<cfloop list="#foundHeaders#" item="aField">
+						<cfif listValueCount(foundHeaders,aField) GT 1>
+							<li>#aField# is duplicated as the header for #listValueCount(foundHeaders,aField)# columns.</1i>
+						</cfif>
+					</cfloop>
+					<cfthrow message = "#DUP_COLUMN_ERR#">
+				</cfif>
 				</ul>
 
 				<cfset colNames="#foundHeaders#">
@@ -286,7 +296,7 @@ limitations under the License.
 										<cfif val EQ ""> 
 											#separator#NULL
 										<cfelse>
-											#separator#<cfqueryparam cfsqltype="#typeArray[fieldPos]#" value="#val#">
+											#separator#<cfqueryparam cfsqltype="#typeArray[col]#" value="#val#">
 										</cfif>
 									<cfelse>
 										#separator#NULL
@@ -367,6 +377,10 @@ limitations under the License.
 						<li>#cfcatch.message#</li>
 					</ul>
 				<cfelseif Find("#COLUMN_ERR#",cfcatch.message) GT 0>
+					<ul class="py-1" style="font-size: 1.2rem;">
+						<li>#cfcatch.message#</li>
+					</ul>
+				<cfelseif Find("#DUP_COLUMN_ERR#",cfcatch.message) GT 0>
 					<ul class="py-1" style="font-size: 1.2rem;">
 						<li>#cfcatch.message#</li>
 					</ul>
