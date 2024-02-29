@@ -199,12 +199,12 @@ limitations under the License.
 				<cfloop list="#fieldList#" item="aField">
 					<cfif ListContainsNoCase(requiredFieldList,aField)>
 						<cfif NOT ListContainsNoCase(foundHeaders,aField)>
-							<cfset errorMessage = "#errorMesage# #aField# is missing."
+							<cfset errorMessage = "#errorMesage# #aField# is missing.">
 						</cfif>
 					</cfif>
 				</cfloop>
 				<cfif length(errorMessage) GT 0>
-					<cfthrow message = "#NO_COLUMN_ERR# #errorMessage#"
+					<cfthrow message = "#NO_COLUMN_ERR# #errorMessage#">
 				</cfif>
 				<ul>
 				<cfloop list="#foundHeaders#" item="aField">
