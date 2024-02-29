@@ -187,6 +187,9 @@ limitations under the License.
 					<cfset foundHeaders = "#foundHeaders##separator##headers.get(JavaCast("int",i))#" >
 					<cfset separator = ",">
 				</cfloop>
+				<cfset colNameArray = listToArray(ucase(foundHeaders))><!--- the list of columns/fields found in the input file --->
+				<cfset fieldArray = listToArray(ucase(fieldlist))><!--- the full list of fields --->
+				<cfset typeArray = listToArray(fieldTypes)><!--- the types for the full list of fields --->
 
 				<div class="col-12 my-4">
 					<h3 class="h4">Found #size# columns in header of csv file.</h3>
@@ -206,25 +209,23 @@ limitations under the License.
 				<cfif len(errorMessage) GT 0>
 					<cfthrow message = "#NO_COLUMN_ERR# #errorMessage#">
 				</cfif>
-				<!--- TODO: Rework with fieldList 
-						<h3 class="h4">Found #arrayLen(colNameArray)# matching columns in header of csv file.</h3>
-						<ul class="">
-							<cfloop list="#fieldlist#" index="field" delimiters=",">
-								<cfif listContains(requiredfieldlist,field,",")>
-									<cfset class="text-danger">
-								<cfelse>
-									<cfset class="text-dark">
+				<h3 class="h4">Found #arrayLen(colNameArray)# matching columns in header of csv file.</h3>
+					<ul class="">
+						<cfloop list="#fieldlist#" index="field" delimiters=",">
+							<cfif listContains(requiredfieldlist,field,",")>
+								<cfset class="text-danger">
+							<cfelse>
+								<cfset class="text-dark">
+							</cfif>
+							<li class="#class#">
+								#field#
+								<cfif arrayFindNoCase(colNameArray,field) GT 0>
+									<strong>Present in CSV</strong>
 								</cfif>
-								<li class="#class#">
-									#field#
-									<cfif arrayFindNoCase(colNameArray,field) GT 0>
-										<strong>Present in CSV</strong>
-									</cfif>
-								</li>
-							</cfloop>
-						</ul>
+							</li>
+						</cfloop>
+					</ul>
 				<ul>
-				--->
 				<cfloop list="#foundHeaders#" item="aField">
 					<cfif NOT ListContainsNoCase(fieldList,aField)>
 						<cfif NOT ListContainsNoCase(foundHeaders,aField)>
@@ -239,6 +240,7 @@ limitations under the License.
 				<cfset foundHighCount = 0>
 				<cfset foundHighAscii = "">
 				<cfset foundMultiByte = "">
+
 				<!--- Iterate through the remaining rows inserting the data into the temp table. --->
 				<cfset row = 0>
 				<cfloop condition="#iterator.hasNext()#">
@@ -248,7 +250,7 @@ limitations under the License.
 					<cfset columnsCountInRow = rowData.size()>
 					<cfset colVals="">
 					<cfloop index="i" from="0" to="#rowData.size() - 1#">
-						<cfset thisBit  = "#rowData.get(JavaCast("int",i))#" >
+						<cfset thisBit = "#rowData.get(JavaCast("int",i))#" >
 						<cfif REFind("[^\x00-\x7F]",thisBit) GT 0>
 							<!--- high ASCII --->
 							<cfif foundHighCount LT 6>
