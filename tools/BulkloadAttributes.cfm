@@ -210,7 +210,7 @@ limitations under the License.
 				<cfif len(errorMessage) GT 0>
 					<cfthrow message = "#NO_COLUMN_ERR# #errorMessage#">
 				</cfif>
-				<h3 class="h4">Found #arrayLen(colNameArray)# matching columns in header of csv file.</h3>
+				<h3 class="h4">Found #arrayLen(colNameArray)# columns in header of csv file.</h3>
 					<ul class="">
 						<cfloop list="#fieldlist#" index="field" delimiters=",">
 							<cfif listContains(requiredfieldlist,field,",")>
@@ -227,22 +227,22 @@ limitations under the License.
 						</cfloop>
 					</ul>
 				<ul>
-				<!--- Identify additional columns that will be ignored --->
-				<cfloop list="#foundHeaders#" item="aField">
-					<cfif NOT ListContainsNoCase(fieldList,aField)>
-						<li>Found additional column header #aField# in the CSV that is not in the list of expected headers.</1i>
-					</cfif>
-				</cfloop>
-				<!--- Identify duplicate columns and fail if found --->
-				<cfif NOT ListLen(ListRemoveDuplicates(foundHeaders)) EQ ListLen(foundHeaders)>
-					<li>At least one column header occurs more than once.</1i>
+					<!--- Identify additional columns that will be ignored --->
 					<cfloop list="#foundHeaders#" item="aField">
-						<cfif listValueCount(foundHeaders,aField) GT 1>
-							<li>#aField# is duplicated as the header for #listValueCount(foundHeaders,aField)# columns.</1i>
+						<cfif NOT ListContainsNoCase(fieldList,aField)>
+							<li>Found additional column header [<strong>#aField#</strong>] in the CSV that is not in the list of expected headers.</1i>
 						</cfif>
 					</cfloop>
-					<cfthrow message = "#DUP_COLUMN_ERR#">
-				</cfif>
+					<!--- Identify duplicate columns and fail if found --->
+					<cfif NOT ListLen(ListRemoveDuplicates(foundHeaders)) EQ ListLen(foundHeaders)>
+						<li>At least one column header occurs more than once.</1i>
+						<cfloop list="#foundHeaders#" item="aField">
+							<cfif listValueCount(foundHeaders,aField) GT 1>
+								<li><strong>#aField#</strong> is duplicated as the header for #listValueCount(foundHeaders,aField)# columns.</1i>
+							</cfif>
+						</cfloop>
+						<cfthrow message = "#DUP_COLUMN_ERR#">
+					</cfif>
 				</ul>
 
 				<cfset colNames="#foundHeaders#">
