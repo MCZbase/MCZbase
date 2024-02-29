@@ -719,7 +719,7 @@ limitations under the License.
 													</div>
 												</div>
 											</div>
-											<div class="col-12 search-form-basic-odd px-4 py-2">
+											<div class="col-12 form-row mx-0 search-form-basic-odd px-0 pb-2 pb-xl-0">
 												<cfset hiddenHaveValue = false>
 												<cfif (isDefined("continent_ocean") and len(continent_ocean) GT 0)
 													OR (isDefined("country") and len(country) GT 0)
