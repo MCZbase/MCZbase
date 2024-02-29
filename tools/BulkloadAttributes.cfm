@@ -109,6 +109,7 @@ limitations under the License.
 		<!--- Set some constants to identify error cases in cfcatch block --->
 		<cfset NO_COLUMN_ERR = "One or more required fields are missing in the header line of the csv file.">
 		<cfset COLUMN_ERR = "Error inserting data">
+		<cfset NO_HEADER_ERR = "No header line found, csv file appears to be empty.">
 
 		<cftry>
 				<!--- Parse the CSV file using Apache Commons CSV library included with coldfusion so that columns with comma delimeters will be separated properly --->
@@ -128,7 +129,6 @@ limitations under the License.
 				<cfset defaultFormat = csvFormat.DEFAULT>
 				<cfset csvFormat = CSVFormat.DEFAULT>
 				<!--- Create a CSVParser using the FileReader and CSVFormat--->
-				<!---<cfset csvParser = CSVFormat.DEFAULT.parse(fileReader)>--->
 				<cfset csvParser = CSVParser.parse(fileReader, csvFormat)>
 				<!--- Select charset based on cSet variable from user --->
 				<cfswitch expression="#cSet#">
@@ -171,47 +171,57 @@ limitations under the License.
 				<!--- obtain an iterator to loops through the rows/records in the csv --->
 				<cfset iterator = records.iterator()>
 				<!---Obtain the first line of the file as the header line, we can not use the withHeader() method to do this in coldfusion --->
-				<cfset headers = iterator.next()>
+				<cfif iterator.hasNext()>
+					<cfset headers = iterator.next()>
+				<cfelse>
+					<cfthrow message="NO_HEADER_ERR No first line found.">
+				</cfif>
 				<!---Get the number of column headers--->
 				<cfset size = headers.size()>
+				<cfif size EQ 0>
+					<cfthrow message="NO_HEADER_ERR First line appears empty.">
+				</cfif>
+				<cfset separator = "">
+				<cfset foundHeaders = "">
+				<cfloop index="i" from="0" to="#headers.size() - 1#">
+					<cfset foundHeaders = "#foundHeaders##separator##headers.get(JavaCast("int",i))#" >
+					<cfset separator = ",">
+				</cfloop>
 
 				<div class="col-12 my-4">
-					<h3 class="h4">Found #size# columns in header of csv file (Green).</h3>
-					<h3 class="h4">There are #ListLen(fieldList)# columns possible for attribute headers (black and red). (of these #ListLen(requiredFieldList)# are required - RED)</h3>
+					<h3 class="h4">Found #size# columns in header of csv file.</h3>
+					<h3 class="h4">There are #ListLen(fieldList)# columns expected in the header. (of these #ListLen(requiredFieldList)# are required)</h3>
 				</div>
 
-				<!--- TODO: Loop through list of fields, mark fields present in input, highlight required fields that are missing --->
-				<ul class="list-group list-group-horizontal">
-					<cfloop list="#fieldList#" item="aField">
-						<cfset required = "">
-						<cfif ListContains(requiredFieldList,aField)>
-							<cfset required = "text-danger">
+				<!--- check for required fields in header line --->
+				<!--- Loop through list of fields, mark fields present in input, throw exception if required fields are missing --->
+				<cfset errorMessage = "">
+				<cfloop list="#fieldList#" item="aField">
+					<cfif ListContainsNoCase(requiredFieldList,aField)>
+						<cfif NOT ListContainsNoCase(foundHeaders,aField)>
+							<cfset errorMessage = "#errorMesage# #aField# is missing."
 						</cfif>
-						<li class="list-group-item h5 border #required#" style="width:150px;">#aField# </li>
-					</cfloop>
+					</cfif>
+				</cfloop>
+				<cfif length(errorMessage) GT 0>
+					<cfthrow message = "#NO_COLUMN_ERR# #errorMessage#"
+				</cfif>
+				<ul>
+				<cfloop list="#foundHeaders#" item="aField">
+					<cfif NOT ListContainsNoCase(fieldList,aField)>
+						<cfif NOT ListContainsNoCase(foundHeaders,aField)>
+							<li>Found additional column header #aField# in the CSV that is not in the list of expected headers.</1i>
+						</cfif>
+					</cfif>
+				</cfloop>
 				</ul>
 
-				<!--- TODO: Can't loop separately, field order could differ, need to include in loop above --->
-				<ul class="list-group list-group-horizontal">
-					<cfloop index="i" from="0" to="#headers.size() - 1#">
-						<li class="text-success list-group-item h5 border" style="width: 150px;">
-							#headers.get(JavaCast("int",i))#
-						</li>
-					</cfloop>
-				</ul>
-				<!--- TODO: Loop through headers, identify headers that aren't in the field list --->
-					
-
-
-				<!--- TODO: Fail if any required field is absent (or if input file is empty). --->
-
-		<!---		
-				<cfset colNames="">
+				<cfset colNames="#foundHeaders#">
 				<cfset loadedRows = 0>
 				<cfset foundHighCount = 0>
 				<cfset foundHighAscii = "">
 				<cfset foundMultiByte = "">
-		--->
+
 				<!--- get the headers from the first row of the input, then iterate through the remaining rows inserting the data into the temp table. --->
 				<!---<cfloop from="1" to ="#headers.size()#" index="row">--->	
 					<!--- obtain the values in the current row --->
