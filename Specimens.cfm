@@ -2388,6 +2388,10 @@ Target JSON:
 													<!--- Grid Related code is below along with search handlers --->
 													<div id="buildersearchResultsGrid" class="jqxGrid" role="table" aria-label="Search Results Table"></div>
 													<div id="builderenableselection"></div>
+													<div class="p-1 d-none d-md-block" title="enable mousewheel for horizontal scrolling">mousewheel: 
+														<button onClick="fixedMousewheel3();" class="selectBtn1 btn-xs btn rounded">on</button>
+														<button onClick="fixedMousewheel3();" class="selectBtn2 btn btn-xs rounded">off</button>
+													</div>
 												</div>
 											</div>
 										</div>
@@ -2528,6 +2532,8 @@ Target JSON:
 			</cfif>
 		ORDER by disp_order
 	</cfquery>
+
+
 	<script>
 		// setup for persistence of column selections
 		window.columnHiddenSettings = new Object();
@@ -2759,6 +2765,7 @@ Target JSON:
 					search = 
 					{
 						datatype: "json",
+						
 						datafields:
 						[
 							<cfset separator = "">
@@ -2898,6 +2905,7 @@ Target JSON:
 					sortable: true,
 					pageable: true,
 					virtualmode: true,
+					enablemousewheel: false,
 					editable: false,
 					pagesize: '#session.specimens_pagesize#',
 					pagesizeoptions: ['5','10','25','50','100','1000'], // fixed list regardless of actual result set size, dynamic reset goes into infinite loop.
@@ -2915,6 +2923,7 @@ Target JSON:
 					ready: function () {
 						$("##fixedsearchResultsGrid").jqxGrid('selectrow', 0);
 						$("##fixedsearchResultsGrid").jqxGrid('focus');
+				//		$("##fixedsearchResultsGrid").jqxGrid({ everpresentrowposition: 'top'}); 
 					},
 					rendergridrows: function () {
 						return dataAdapter.records;
@@ -2948,12 +2957,15 @@ Target JSON:
 						</cfloop>
 						#lastrow#
 					],
+					
 					rowdetails: true,
 					rowdetailstemplate: {
 						rowdetails: "<div style='margin: 10px;'>Row Details</div>",
 						rowdetailsheight:  1 // row details will be placed in popup dialog
 					},
 					initrowdetails: initRowDetails
+		
+				
 				});
 	
 				$("##fixedsearchResultsGrid").on("bindingcomplete", function(event) {
@@ -3046,6 +3058,7 @@ Target JSON:
 							<cfelseif data_type EQ 'NUMBER' >
 								#separator#{name: '#ucase(column_name)#', type: 'number' }
 							<cfelse>
+						
 								#separator#{name: '#ucase(column_name)#', type: 'string' }
 							</cfif>
 							<cfset separator = ",">
@@ -3090,6 +3103,7 @@ Target JSON:
 					pageable: true,
 					editable: false,
 					virtualmode: true,
+					enablemousewheel: false,
 					pagesize: '#session.specimens_pagesize#',
 					pagesizeoptions: ['5','10','25','50','100','1000'], // fixed list regardless of actual result set size, dynamic reset goes into infinite loop.
 					showaggregates: true,
@@ -3266,6 +3280,7 @@ Target JSON:
 					pageable: true,
 					virtualmode: true,
 					editable: false,
+					enablemousewheel: false,
 					pagesize: '#session.specimens_pagesize#',
 					pagesizeoptions: ['5','10','25','50','100','1000'], // fixed list regardless of actual result set size, dynamic reset goes into infinite loop.
 					showaggregates: true,
@@ -3770,6 +3785,32 @@ Target JSON:
 	})( window );
 </script>
 
+<script>
+function fixedMousewheel1(){
+   $('.selectBtn1').on('click' , function(){
+      $("##fixedsearchResultsGrid").jqxGrid({enablemousewheel: true});
+   });
+	$('.selectBtn2').on('click' , function(){
+      $("##fixedsearchResultsGrid").jqxGrid({enablemousewheel: false});
+   });
+};
+function fixedMousewheel2(){
+   $('.selectBtn1').on('click' , function(){
+      $("##keywordsearchResultsGrid").jqxGrid({enablemousewheel: true});
+   });
+	$('.selectBtn2').on('click' , function(){
+      $("##keywordsearchResultsGrid").jqxGrid({enablemousewheel: false});
+   });
+};
+function fixedMousewheel3(){
+   $('.selectBtn1').on('click' , function(){
+      $("##buildersearchResultsGrid").jqxGrid({enablemousewheel: true});
+   });
+	$('.selectBtn2').on('click' , function(){
+      $("##buildersearchResultsGrid").jqxGrid({enablemousewheel: false});
+   });
+};
+</script>
 
 </cfoutput>
 <cfinclude template="/shared/_footer.cfm">
