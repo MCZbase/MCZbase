@@ -87,10 +87,11 @@ limitations under the License.
 				<select name="cSet" id="cSet" required class="reqdClr">
 					<option selected></option>
 					<option value="utf-8" >utf-8</option>
+					<option value="iso-8859-1">iso-8859-1</option>
 					<option value="windows-1252">windows-1252</option>
 					<option value="MacRoman">MacRoman</option>
 					<option value="utf-16">utf-16</option>
-					<option value="unicode">unicode</option>
+					<option value="utf-32">utf-32</option>
 				</select>
 				<input type="submit" value="Upload this file" class="btn btn-primary btn-xs">
 			</cfform>
@@ -129,9 +130,43 @@ limitations under the License.
 				<!--- Create a CSVParser using the FileReader and CSVFormat--->
 				<!---<cfset csvParser = CSVFormat.DEFAULT.parse(fileReader)>--->
 				<cfset csvParser = CSVParser.parse(fileReader, csvFormat)>
-				<!--- TODO: Select charset based on cSet variable from user --->
-				<cfset javaSelectedCharset = standardCharsets.UTF_8 >
+				<!--- Select charset based on cSet variable from user --->
+				<cfswitch expression="#cSet#">
+					<cfcase value="utf-8">
+						<cfset javaSelectedCharset = standardCharsets.UTF_8 >
+					</cfcase>
+					<cfcase value="iso-8859-1">
+						<cfset javaSelectedCharset = standardCharsets.ISO_8859_1 >
+					</cfcase>
+					<cfcase value="windows-1252">
+						<cfif javaCharset.isSupported(JavaCast("string",#value#))>
+							<cfset javaSelectedCharset = javaCharset.init(JavaCast("string",#value#)) >
+						<cfelse>
+							<!--- if not available, iso-8859-1 will substitute, except for 0x80 to 0x9F --->
+							<!--- the following characters won't be handled correctly if the source is windows-1252:  €  Š  š  Ž  ž  Œ  œ  Ÿ --->
+							<cfset javaSelectedCharset = standardCharsets.ISO_8859_1 >
+						</cfif>
+					</cfcase>
+					<cfcase value="MacRoman">
+						<cfset javaSelectedCharset = javaCharset.init(JavaCast("string","x-#value#")) >
+					</cfcase>
+					<cfcase value="utf-16">
+						<cfset javaSelectedCharset = standardCharsets.UTF_16 >
+					</cfcase>
+					<cfcase value="utf-32">
+						<cfset javaSelectedCharset = javaCharset.init(JavaCast("string","#value#")) >
+					</cfcase>
+					<cfdefaultcase>
+						<cfset javaSelectedCharset = standardCharsets.UTF_8 >
+					</cfdefaultcase>
+				</cfswitch>
 				<cfset records = CSVParser.parse(#tempFileInputStream#,#javaSelectedCharset#,#defaultFormat#)>
+
+				<!--- cleanup any incomplete work by the same user --->
+				<cfquery name="clearTempTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="clearTempTable_result">
+					DELETE FROM cf_temp_attributes 
+					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+				</cfquery>
 
 				<!--- obtain an iterator to loops through the rows/records in the csv --->
 				<cfset iterator = records.iterator()>
@@ -167,11 +202,6 @@ limitations under the License.
 				<!--- TODO: Loop through headers, identify headers that aren't in the field list --->
 					
 
-				<!--- cleanup any incomplete work by the same user --->
-				<cfquery name="clearTempTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="clearTempTable_result">
-					DELETE FROM cf_temp_attributes 
-					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-				</cfquery>
 
 				<!--- TODO: Fail if any required field is absent (or if input file is empty). --->
 
