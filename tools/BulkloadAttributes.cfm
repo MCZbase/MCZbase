@@ -203,7 +203,7 @@ limitations under the License.
 						</cfif>
 					</cfif>
 				</cfloop>
-				<cfif length(errorMessage) GT 0>
+				<cfif len(errorMessage) GT 0>
 					<cfthrow message = "#NO_COLUMN_ERR# #errorMessage#">
 				</cfif>
 				<ul>
