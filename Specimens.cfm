@@ -337,7 +337,7 @@ limitations under the License.
 										<input type="hidden" name="method" id="method_fixedSearch" value="executeFixedSearch" class="keeponclear excludeFromLink">
 										<input type="hidden" name="action" value="fixedSearch" class="keeponclear">
 										<div class="container-flex">
-											<div class="col-12 search-form-basic-odd px-4 py-2">
+											<div class="col-12 form-row mx-0 search-form-basic-odd px-0 pb-2 pb-xl-0">
 												<cfset hiddenHaveValue = false>
 												<cfif (isDefined("other_id_type_1") and len(other_id_type_1) GT 0) 
 													OR (isDefined("other_id_number_1") and len(other_id_number_1) GT 0)>
@@ -491,7 +491,7 @@ limitations under the License.
 													</div>
 												</div>
 											</div>
-											<div class="col-12 px-4 py-2">
+											<div class="col-12 form-row mx-0 px-0 pb-2 pb-xl-0">
 												<cfset hiddenHaveValue = false>
 												<cfif (isDefined("phylum") and len(phylum) GT 0)
 													OR (isDefined("phylclass") and len(phylclass) GT 0)
@@ -510,13 +510,13 @@ limitations under the License.
 												<cfif listFind(searchPrefList,"TaxaDetail") GT 0 OR hiddenHaveValue>
 													<cfset TaxaDetailStyle="">
 													<cfset toggleTo = "0">
-													<cfset TaxaButton = "Fewer Fields">
+														<cfset TaxaButton = "show less <i class='fas fa-caret-right' style='vertical-align: middle;'></i>">
 												<cfelse>
 													<cfset TaxaDetailStyle="display:none;">
 													<cfset toggleTo = "1">
-													<cfset TaxaButton = "More Fields">
+													<cfset TaxaButton = "show more <i class='fas fa-caret-down' style='vertical-align: middle;'></i>">
 												</cfif>
-												<div class="col-12 col-xl-2 col-xxl-one col-xxl-1 px-1 mb-1 float-left">
+												<div class="col-12 col-xl-2 col-xxl-one col-xxl-1 px-1 mb-1">
 													<div class="pb-0 font-weight-bold d-inline-block-md text-xl-right px-1 w-100 pt-1 text-left text-dark mb-0">
 														<h2 class="small mb-0 mx-0 px-2 px-xl-0 mx-xl-0 d-block text-black font-weight-bold">Taxonomy</h2>
 														<button type="button" id="TaxaDetailCtl" class="d-none d-xl-inline-block px-xl-0 py-0 btn-link text-right btn smaller" onclick="toggleTaxaDetail(#toggleTo#);">#TaxaButton#</button>
