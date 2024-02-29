@@ -210,22 +210,21 @@ limitations under the License.
 				<cfif len(errorMessage) GT 0>
 					<cfthrow message = "#NO_COLUMN_ERR# #errorMessage#">
 				</cfif>
-				<h3 class="h4">Found #arrayLen(colNameArray)# columns in header of csv file.</h3>
-					<ul class="">
-						<cfloop list="#fieldlist#" index="field" delimiters=",">
-							<cfif listContains(requiredfieldlist,field,",")>
-								<cfset class="text-danger">
-							<cfelse>
-								<cfset class="text-dark">
+				<ul class="">
+					<cfloop list="#fieldlist#" index="field" delimiters=",">
+						<cfif listContains(requiredfieldlist,field,",")>
+							<cfset class="text-danger">
+						<cfelse>
+							<cfset class="text-dark">
+						</cfif>
+						<li class="#class#">
+							#field#
+							<cfif arrayFindNoCase(colNameArray,field) GT 0>
+								<strong>Present in CSV</strong>
 							</cfif>
-							<li class="#class#">
-								#field#
-								<cfif arrayFindNoCase(colNameArray,field) GT 0>
-									<strong>Present in CSV</strong>
-								</cfif>
-							</li>
-						</cfloop>
-					</ul>
+						</li>
+					</cfloop>
+				</ul>
 				<ul>
 					<!--- Identify additional columns that will be ignored --->
 					<cfloop list="#foundHeaders#" item="aField">
