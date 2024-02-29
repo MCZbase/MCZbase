@@ -174,12 +174,12 @@ limitations under the License.
 				<cfif iterator.hasNext()>
 					<cfset headers = iterator.next()>
 				<cfelse>
-					<cfthrow message="NO_HEADER_ERR No first line found.">
+					<cfthrow message="#NO_HEADER_ERR# No first line found.">
 				</cfif>
 				<!---Get the number of column headers--->
 				<cfset size = headers.size()>
 				<cfif size EQ 0>
-					<cfthrow message="NO_HEADER_ERR First line appears empty.">
+					<cfthrow message="#NO_HEADER_ERR# First line appears empty.">
 				</cfif>
 				<cfset separator = "">
 				<cfset foundHeaders = "">
