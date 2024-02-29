@@ -356,7 +356,7 @@ limitations under the License.
 												<div class="col-12 col-xl-2 col-xxl-one col-xxl-1 px-1 mb-1 float-left">
 													<div class="pb-0 font-weight-bold d-inline-block-md text-xl-right px-1 w-100 text-left text-md-left text-dark mb-1 mb-md-0 pt-1">
 														<h2 class="small mb-0 mx-0 px-2 mx-xl-0 px-xl-0 d-block text-black font-weight-bold">Identifiers</h2>
-														<cfif findNoCase("redesign",gitBranch) GT 0 OR (isdefined("session.roles") AND listfindnocase(session.roles,"collops") ) >
+														<cfif findNoCase("test",gitBranch) GT 0 OR (isdefined("session.roles") AND listfindnocase(session.roles,"collops") ) >
 															<button type="button" id="IDDetailCtl" class="d-none d-xl-inline-block px-xl-0 py-0 btn-link text-right btn smaller" onclick="toggleIDDetail(#toggleTo#);">#IDButton#</button>
 														</cfif>
 													</div>
