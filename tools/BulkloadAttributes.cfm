@@ -140,7 +140,7 @@ limitations under the License.
 					</cfcase>
 					<cfcase value="windows-1252">
 						<cfif javaCharset.isSupported(JavaCast("string","windows-1252"))>
-							<cfset javaSelectedCharset = javaCharset.init(JavaCast("string","windows-1252")) >
+							<cfset javaSelectedCharset = javaCharset.forName(JavaCast("string","windows-1252")) >
 						<cfelse>
 							<!--- if not available, iso-8859-1 will substitute, except for 0x80 to 0x9F --->
 							<!--- the following characters won't be handled correctly if the source is windows-1252:  €  Š  š  Ž  ž  Œ  œ  Ÿ --->
@@ -148,13 +148,13 @@ limitations under the License.
 						</cfif>
 					</cfcase>
 					<cfcase value="MacRoman">
-						<cfset javaSelectedCharset = javaCharset.init(JavaCast("string","x-MacRoman")) >
+						<cfset javaSelectedCharset = javaCharset.forName(JavaCast("string","x-MacRoman")) >
 					</cfcase>
 					<cfcase value="utf-16">
 						<cfset javaSelectedCharset = standardCharsets.UTF_16 >
 					</cfcase>
 					<cfcase value="utf-32">
-						<cfset javaSelectedCharset = javaCharset.init(JavaCast("string","utf-32")) >
+						<cfset javaSelectedCharset = javaCharset.forName(JavaCast("string","utf-32")) >
 					</cfcase>
 					<cfdefaultcase>
 						<cfset javaSelectedCharset = standardCharsets.UTF_8 >
