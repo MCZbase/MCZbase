@@ -227,13 +227,13 @@ limitations under the License.
 						</cfloop>
 					</ul>
 				<ul>
+				<!--- Identify additional columns that will be ignored --->
 				<cfloop list="#foundHeaders#" item="aField">
 					<cfif NOT ListContainsNoCase(fieldList,aField)>
-						<cfif NOT ListContainsNoCase(foundHeaders,aField)>
-							<li>Found additional column header #aField# in the CSV that is not in the list of expected headers.</1i>
-						</cfif>
+						<li>Found additional column header #aField# in the CSV that is not in the list of expected headers.</1i>
 					</cfif>
 				</cfloop>
+				<!--- Identify duplicate columns and fail if found --->
 				<cfif NOT ListLen(ListRemoveDuplicates(foundHeaders)) EQ ListLen(foundHeaders)>
 					<li>At least one column header occurs more than once.</1i>
 					<cfloop list="#foundHeaders#" item="aField">
