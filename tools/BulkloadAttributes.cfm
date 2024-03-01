@@ -265,6 +265,7 @@ limitations under the License.
 				<cfif len(errorMessage) GT 0>
 					<cfthrow message = "#NO_COLUMN_ERR# #errorMessage#">
 				</cfif>
+				<cfset errorMessage = "">
 				<ul class="">
 					<cfloop list="#fieldlist#" index="field" delimiters=",">
 						<cfset hint="">
@@ -278,10 +279,17 @@ limitations under the License.
 							<span class="#class#" #hint#>#field#</span>
 							<cfif arrayFindNoCase(colNameArray,field) GT 0>
 								<strong class="text-success">Present in CSV</strong>
+							<cfelse>
+								<cfif ListContainsNoCase(requiredFieldList,field)>
+									<cfset errorMessage = "#errorMessage# #field# is missing.">
+								</cfif>
 							</cfif>
 						</li>
 					</cfloop>
 				</ul>
+				<cfif len(errorMessage) GT 0>
+					<cfthrow message = "#NO_COLUMN_ERR# #errorMessage#">
+				</cfif>
 				<ul>
 					<!--- Identify additional columns that will be ignored --->
 					<cfloop list="#foundHeaders#" item="aField">
