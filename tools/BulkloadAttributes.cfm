@@ -80,33 +80,44 @@ limitations under the License.
 					<li class="#class#">#field#</li>
 				</cfloop>
 			</ul>
-			<cfform name="atts" method="post" enctype="multipart/form-data" action="/tools/BulkloadAttributes.cfm">
-				<input type="hidden" name="action" value="getFile">
-				<cfinput type="file" name="FiletoUpload" id="fileToUpload" size="45" >
-				<label for="characterSet">Character Set:</label> 
-				<select name="characterSet" id="characterSet" required class="reqdClr">
-					<option selected></option>
-					<option value="utf-8" >utf-8</option>
-					<option value="iso-8859-1">iso-8859-1</option>
-					<option value="windows-1252">windows-1252 (Win Latin 1)</option>
-					<option value="MacRoman">MacRoman</option>
-					<option value="x-MacCentralEurope">Macintosh Latin-2</option>
-					<option value="windows-1250">windows-1250 (Win Eastern European)</option>
-					<option value="windows-1251">windows-1251 (Win Cyrillic)</option>
-					<option value="utf-16">utf-16</option>
-					<option value="utf-32">utf-32</option>
-				</select>
-				<label for="format">Format:</label> 
-				<select name="format" id="format" required class="reqdClr">
-					<option value="DEFAULT" selected >Standard CSV</option>
-					<option value="TDF">Tab Separated Values</option>
-					<option value="EXCEL">CSV export from MS Excel</option>
-					<option value="RFC4180">Strict RFC4180 CSV</option>
-					<option value="ORACLE">Oracle SQL*Loader CSV</option>
-					<option value="MONGODB_CSV">CSV export from MongoDB</option>
-				</select>
-				<input type="submit" value="Upload this file" class="btn btn-primary btn-xs">
-			</cfform>
+			<div class="form-row">
+				<form name="atts" method="post" enctype="multipart/form-data" action="/tools/BulkloadAttributes.cfm">
+					<input type="hidden" name="action" value="getFile">
+					<div class="col-12 col-md-4">
+						<label for="fileToUpload">File:</label> 
+						<cfinput type="file" name="FiletoUpload" id="fileToUpload" size="45" >
+					</div>
+					<div class="col-12 col-md-3">
+						<label for="characterSet" class="data-entry-label">Character Set:</label> 
+						<select name="characterSet" id="characterSet" required class="data-entry-select reqdClr">
+							<option selected></option>
+							<option value="utf-8" >utf-8</option>
+							<option value="iso-8859-1">iso-8859-1</option>
+							<option value="windows-1252">windows-1252 (Win Latin 1)</option>
+							<option value="MacRoman">MacRoman</option>
+							<option value="x-MacCentralEurope">Macintosh Latin-2</option>
+							<option value="windows-1250">windows-1250 (Win Eastern European)</option>
+							<option value="windows-1251">windows-1251 (Win Cyrillic)</option>
+							<option value="utf-16">utf-16</option>
+							<option value="utf-32">utf-32</option>
+						</select>
+					</div>
+					<div class="col-12 col-md-3">
+						<label for="format" class="data-entry-label">Format:</label> 
+						<select name="format" id="format" required class="data-entry-select reqdClr">
+							<option value="DEFAULT" selected >Standard CSV</option>
+							<option value="TDF">Tab Separated Values</option>
+							<option value="EXCEL">CSV export from MS Excel</option>
+							<option value="RFC4180">Strict RFC4180 CSV</option>
+							<option value="ORACLE">Oracle SQL*Loader CSV</option>
+							<option value="MONGODB_CSV">CSV export from MongoDB</option>
+						</select>
+					</div>
+					<div class="col-12 col-md-2">
+						<input type="submit" value="Upload this file" class="btn btn-primary btn-xs">
+					</div>
+				</form>
+			</div>
 		</cfoutput>
 	</cfif>
 	<!------------------------------------------------------->
