@@ -359,10 +359,11 @@ limitations under the License.
 				</cfloop>
 			
 				<cfif foundHighCount GT 0>
+					<cfif foundHighCount GT 1><cfset plural="s"><cfelse><cfset plural=""></cfif>
 					<h3 class="h3">Found characters where the encoding is probably important in the input data.</h3>
 					<div>
-						Showing #foundHighCount# examples.  If these do not appear as the correct characters, the file likely has a different encoding from the one you selected and
-						you probably want to <a href="/tools/BulkloadAttributes.cfm">reload this file</a> selecting a different encoding.  If these appear as expected, then 
+						Showing #foundHighCount# example#plural#.  If these do not appear as the correct characters, the file likely has a different encoding from the one you selected and
+						you probably want to <strong><a href="/tools/BulkloadAttributes.cfm">reload</a></strong> this file selecting a different encoding.  If these appear as expected, then 
 						you selected the correct encoding and can continue to validate or load.
 					</div>
 					<ul class="py-1" style="font-size: 1.2rem;">
