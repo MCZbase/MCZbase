@@ -99,7 +99,7 @@ limitations under the License.
 				<label for="format">Format:</label> 
 				<select name="format" id="format" required class="reqdClr">
 					<option value="DEFAULT" selected >Standard CSV</option>
-					<option value="TSV">Tab Separated Values</option>
+					<option value="TDF">Tab Separated Values</option>
 					<option value="EXCEL">CSV export from MS Excel</option>
 					<option value="RFC4180">Strict RFC4180 CSV</option>
 					<option value="ORACLE">Oracle SQL*Loader CSV</option>
@@ -152,6 +152,12 @@ limitations under the License.
 					</cfcase>
 					<cfcase value="EXCEL">
 						<cfset csvFormat = CSVFormat.EXCEL>
+					</cfcase>
+					<cfcase value="ORACLE">
+						<cfset csvFormat = CSVFormat.ORACLE>
+					</cfcase>
+					<cfcase value="MONGODB_CSV">
+						<cfset csvFormat = CSVFormat.MONGODB_CSV>
 					</cfcase>
 					<cfdefaultcase>
 						<cfset csvFormat = CSVFormat.DEFAULT>
