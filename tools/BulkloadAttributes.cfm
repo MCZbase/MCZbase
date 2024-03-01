@@ -110,7 +110,7 @@ limitations under the License.
 							<option value="EXCEL">CSV export from MS Excel</option>
 							<option value="RFC4180">Strict RFC4180 CSV</option>
 							<option value="ORACLE">Oracle SQL*Loader CSV</option>
-							<option value="MONGODB_CSV">CSV export from MongoDB</option>
+							<option value="MYSQL">CSV export from MYSQL</option>
 						</select>
 					</div>
 					<div class="col-12 col-md-2">
@@ -168,8 +168,8 @@ limitations under the License.
 					<cfcase value="ORACLE">
 						<cfset csvFormat = CSVFormat.ORACLE>
 					</cfcase>
-					<cfcase value="MONGODB_CSV">
-						<cfset csvFormat = CSVFormat.MONGODB_CSV>
+					<cfcase value="MYSQL">
+						<cfset csvFormat = CSVFormat.MYSQL>
 					</cfcase>
 					<cfdefaultcase>
 						<cfset csvFormat = CSVFormat.DEFAULT>
