@@ -281,6 +281,7 @@ limitations under the License.
 								<strong class="text-success">Present in CSV</strong>
 							<cfelse>
 								<cfif ListContainsNoCase(requiredFieldList,field)>
+									<strong class="text-dark">Required Column Not Found</strong>
 									<cfset errorMessage = "#errorMessage# #field# is missing.">
 								</cfif>
 							</cfif>
