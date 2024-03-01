@@ -3458,8 +3458,9 @@ and also iPads specifically.
 		display: block;
 		height: 100%;
 		text-decoration: none;
-		color: #0460c1 !important;
+		color: black;
 		padding-left: 0px;
+		margin-top: 1px;
 		position: relative;
 		-webkit-transition: background .3s;
 		transition: background .3s;
@@ -3471,6 +3472,7 @@ and also iPads specifically.
 		position: relative;
 		height: auto;
 		border-top: 0;
+		right: 1rem;
 	}
 	#searchHelpTextBlock[type="checkbox"] {
 		position: absolute;
@@ -3488,11 +3490,17 @@ and also iPads specifically.
 		position: absolute;
 	}
 	label.read:before {
-		content: 'More';
-		left: 10px;
+	/*	content: 'More';*/
+		right: -7px;
+		font-family: "Font Awesome 5 Free";
+		font-weight: 900;
+		content: "\f0d7";
+		font-size: 1.3rem;
+		color: #0460c1 !important;
 	}
 	label.read:after {
-		content: '⇣';
+		/*content: '⇣';*/
+		content: "more";
 		right: 10px;
 		-webkit-animation: sudo .85s linear infinite alternate;
 		animation: sudo .85s linear infinite alternate;
