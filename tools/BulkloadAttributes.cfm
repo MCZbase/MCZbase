@@ -84,7 +84,7 @@ limitations under the License.
 				<div class="form-row border rounded p-2">
 					<input type="hidden" name="action" value="getFile">
 					<div class="col-12 col-md-4">
-						<label for="fileToUpload" class="data-entry-label">File:</label> 
+						<label for="fileToUpload" class="data-entry-label">File to bulkload:</label> 
 						<input type="file" name="FiletoUpload" id="fileToUpload" class="data-entry-input p-0 m-0">
 					</div>
 					<div class="col-12 col-md-3">
