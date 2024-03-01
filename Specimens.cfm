@@ -1190,7 +1190,7 @@ limitations under the License.
 														</h2>
 													</div>
 													<div class="form-row col-12 col-xxl-eleven col-xxl-11 ml-0 px-0 pt-1 mb-0">
-													<div class="col-12 mb-1 col-md-2">
+													<div class="col-12 mb-0 col-md-2">
 														<cfif not isdefined("keyword")>
 															<cfset keyword="">
 														</cfif>
@@ -1285,7 +1285,7 @@ limitations under the License.
 															Transactions
 														</h2>
 													</div>
-													<div class="form-row col-12 col-xxl-eleven  col-xxl-11 ml-0 px-0 pt-1 mb-0">
+													<div class="form-row col-12 col-xxl-11 ml-0 px-0 pt-1 mb-0">
 														<div class="col-12 mb-0 col-md-2">
 															<cfif not isdefined("loan_number")>
 																<cfset loan_number="">
