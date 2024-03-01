@@ -2302,7 +2302,7 @@ button.help-btn {
 	transform-origin: right top;
 	margin-bottom: 15px;
 	top: -.25rem;
-	right: -70px;
+	right: -92px;
 	z-index:1; 
 	padding-top:.15rem;
 	padding-bottom: .15rem; 
@@ -3458,7 +3458,7 @@ and also iPads specifically.
 		display: block;
 		height: 100%;
 		text-decoration: none;
-		color: black;
+		color: #0460c1 !important;
 		padding-left: 0px;
 		position: relative;
 		-webkit-transition: background .3s;
