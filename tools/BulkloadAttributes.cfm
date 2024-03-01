@@ -257,9 +257,12 @@ limitations under the License.
 					<cfset rowData = iterator.next()>
 					<cfset row = row + 1>
 					<cfset columnsCountInRow = rowData.size()>
-					<cfset colVals="">
+					<cfset colValsArray= ArrayNew(1)>
 					<cfloop index="i" from="0" to="#rowData.size() - 1#">
+						<!--- loading cells from array instead of list allows commas inside cells --->
 						<cfset thisBit = "#rowData.get(JavaCast("int",i))#" >
+						<!--- store in a coldfusion array so we won't need JavaCast to reference by position --->
+						<cfset collValsArray[i] = thisBit>
 						<cfif REFind("[^\x00-\x7F]",thisBit) GT 0>
 							<!--- high ASCII --->
 							<cfif foundHighCount LT 6>
@@ -273,12 +276,7 @@ limitations under the License.
 								<cfset foundHighCount = foundHighCount + 1>
 							</cfif>
 						</cfif>
-						<!--- quote values to ensure all columns have content, will need to strip out later to insert values --->
-						<cfset colVals="#colVals#,'#thisBit#'">
 					</cfloop>
-					<!--- strip off the leading separator --->
-					<cfset colVals=replace(colVals,",","","first")>
-					<cfset colValArray=listToArray(colVals)>
 					<cftry>
 						<!--- construct insert for row with a line for each entry in fieldlist using cfqueryparam if column header is in fieldlist, otherwise using null --->
 						<cfquery name="insert" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="insert_result">
