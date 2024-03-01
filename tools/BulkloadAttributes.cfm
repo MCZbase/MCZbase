@@ -203,7 +203,7 @@ limitations under the License.
 				<cfloop list="#fieldList#" item="aField">
 					<cfif ListContainsNoCase(requiredFieldList,aField)>
 						<cfif NOT ListContainsNoCase(foundHeaders,aField)>
-							<cfset errorMessage = "#errorMesage# #aField# is missing.">
+							<cfset errorMessage = "#errorMessage# #aField# is missing.">
 						</cfif>
 					</cfif>
 				</cfloop>
