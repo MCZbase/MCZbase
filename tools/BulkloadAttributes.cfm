@@ -262,7 +262,7 @@ limitations under the License.
 						<!--- loading cells from array instead of list allows commas inside cells --->
 						<cfset thisBit = "#rowData.get(JavaCast("int",i))#" >
 						<!--- store in a coldfusion array so we won't need JavaCast to reference by position --->
-						<cfset collValsArray[i] = thisBit>
+						<cfset ArrayAppend(collValsArray,thisBit)>
 						<cfif REFind("[^\x00-\x7F]",thisBit) GT 0>
 							<!--- high ASCII --->
 							<cfif foundHighCount LT 6>
