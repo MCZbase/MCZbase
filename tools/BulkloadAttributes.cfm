@@ -439,17 +439,19 @@ limitations under the License.
 					<ul class="py-1" style="font-size: 1.2rem;">
 						<li>#cfcatch.message#</li>
 					</ul>
-				<cfelseif Find("IOException reading next record: java.io.IOException: (line 1) invalid char between encapsulated token and delimiter ",cfcatch.message) GT 0>
+				<cfelseif Find("IOException reading next record: java.io.IOException: (line 1) invalid char between encapsulated token and delimiter",cfcatch.message) GT 0>
 					<ul class="py-1" style="font-size: 1.2rem;">
 						<li>Unable to read headers in line 1.  Did you select CSV format for a tab delimited file?</li>
 					</ul>
 				<cfelseif Find("IOException reading next record: java.io.IOException: (line 1)",cfcatch.message) GT 0>
 					<ul class="py-1" style="font-size: 1.2rem;">
-						<li>Unable to read headers in line 1.  Is your file actually a #format# delimited file?</li>
+						<cfif format EQ "DEFAULT"><cfset fmt="CSV: Default Comma Separated values"><cfelse><cfset fmt="#format#"></cfif>
+						<li>Unable to read headers in line 1.  Is your file actually have the format #fmt#?</li>
 						<li>#cfcatch.message#</li>
 					</ul>
 				<cfelseif Find("IOException reading next record: java.io.IOException:",cfcatch.message) GT 0>
 					<ul class="py-1" style="font-size: 1.2rem;">
+						<cfif format EQ "DEFAULT"><cfset fmt="CSV: Default Comma Separated values"><cfelse><cfset fmt="#format#"></cfif>
 						<li>Unable to read a record from the file.  One or more lines may not be consistent with the specified format #format#</li>
 						<li>#cfcatch.message#</li>
 				<cfelse>
