@@ -80,8 +80,8 @@ limitations under the License.
 					<li class="#class#">#field#</li>
 				</cfloop>
 			</ul>
-			<div class="form-row">
-				<form name="atts" method="post" enctype="multipart/form-data" action="/tools/BulkloadAttributes.cfm">
+			<form name="atts" method="post" enctype="multipart/form-data" action="/tools/BulkloadAttributes.cfm">
+				<div class="form-row">
 					<input type="hidden" name="action" value="getFile">
 					<div class="col-12 col-md-4">
 						<label for="fileToUpload">File:</label> 
@@ -116,8 +116,8 @@ limitations under the License.
 					<div class="col-12 col-md-2">
 						<input type="submit" value="Upload this file" class="btn btn-primary btn-xs">
 					</div>
-				</form>
-			</div>
+				</div>
+			</form>
 		</cfoutput>
 	</cfif>
 	<!------------------------------------------------------->
