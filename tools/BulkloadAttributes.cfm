@@ -257,12 +257,12 @@ limitations under the License.
 					<cfset rowData = iterator.next()>
 					<cfset row = row + 1>
 					<cfset columnsCountInRow = rowData.size()>
-					<cfset colValsArray= ArrayNew(1)>
+					<cfset collValuesArray= ArrayNew(1)>
 					<cfloop index="i" from="0" to="#rowData.size() - 1#">
 						<!--- loading cells from array instead of list allows commas inside cells --->
 						<cfset thisBit = "#rowData.get(JavaCast("int",i))#" >
 						<!--- store in a coldfusion array so we won't need JavaCast to reference by position --->
-						<cfset ArrayAppend(collValsArray,thisBit)>
+						<cfset ArrayAppend(collValuesArray,thisBit)>
 						<cfif REFind("[^\x00-\x7F]",thisBit) GT 0>
 							<!--- high ASCII --->
 							<cfif foundHighCount LT 6>
@@ -287,7 +287,7 @@ limitations under the License.
 								<cfloop from="1" to ="#ArrayLen(fieldArray)#" index="col">
 									<cfif arrayFindNoCase(colNameArray,fieldArray[col]) GT 0>
 										<cfset fieldPos=arrayFind(colNameArray,fieldArray[col])>
-										<cfset val=trim(colValArray[fieldPos])>
+										<cfset val=trim(collValuesArray[fieldPos])>
 										<cfset val=rereplace(val,"^'+",'')>
 										<cfset val=rereplace(val,"'+$",'')>
 										<cfif val EQ ""> 
@@ -306,7 +306,7 @@ limitations under the License.
 						<cfset loadedRows = loadedRows + insert_result.recordcount>
 					<cfcatch>
 						<!--- identify the problematic row --->
-						<cfset error_message="#COLUMN_ERR# from line #row# in input file.  <br>Header:[#colNames#] <br>Row:[#colVals#] <br>Error: #cfcatch.message#"><!--- " --->
+						<cfset error_message="#COLUMN_ERR# from line #row# in input file.  <br>Header:[#colNames#] <br>Row:[#ArrayToList(collValuesArray)#] <br>Error: #cfcatch.message#"><!--- " --->
 						<cfif isDefined("cfcatch.queryError")>
 							<cfset error_message = "#error_message# #cfcatch.queryError#">
 						</cfif>
