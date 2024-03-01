@@ -85,7 +85,7 @@ limitations under the License.
 					<input type="hidden" name="action" value="getFile">
 					<div class="col-12 col-md-4">
 						<label for="fileToUpload">File:</label> 
-						<cfinput type="file" name="FiletoUpload" id="fileToUpload" size="45" >
+						<input type="file" name="FiletoUpload" id="fileToUpload" size="45" >
 					</div>
 					<div class="col-12 col-md-3">
 						<label for="characterSet" class="data-entry-label">Character Set:</label> 
