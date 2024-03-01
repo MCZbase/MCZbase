@@ -1197,14 +1197,14 @@ limitations under the License.
 														<label for="keyword" class="data-entry-label small">Keyword Search</label>
 														<input type="text" name="keyword" class="data-entry-input inputHeight" id="keyword" value="#encodeForHtml(keyword)#" >
 													</div>
-													<div class="col-12 mb-1 col-md-2">
+													<div class="col-12 mb-0 col-md-2">
 														<cfif not isdefined("coll_object_entered_date")>
 															<cfset coll_object_entered_date="">
 														</cfif>
 														<label for="coll_object_entered_date" class="data-entry-label small">Date Entered</label>
 														<input type="text" name="coll_object_entered_date" class="data-entry-input inputHeight" id="coll_object_entered_date" placeholder="yyyy-mm-dd/yyyy-mm-dd" value="#encodeForHtml(coll_object_entered_date)#" >
 													</div>
-													<div class="col-12 mb-1 col-md-2">
+													<div class="col-12 mb-0 col-md-2">
 														<label for="coll_object_entered_date" class="data-entry-label small">Entered By</label>
 														<cfif not isdefined("entered_by")><cfset entered_by=""></cfif>
 														<cfif not isdefined("entered_by_id")><cfset entered_by_id=""></cfif>
@@ -1230,14 +1230,14 @@ limitations under the License.
 															});
 														</script>
 													</div>
-													<div class="col-12 mb-1 col-md-2">
+													<div class="col-12 mb-0 col-md-2">
 														<cfif not isdefined("last_edit_date")>
 															<cfset last_edit_date="">
 														</cfif>
 														<label for="last_edit_date" class="data-entry-label small">Last Updated on</label>
 														<input type="text" name="last_edit_date" class="data-entry-input inputHeight" id="last_edit_date" placeholder="yyyy-mm-dd/yyyy-mm-dd" value="#encodeForHtml(last_edit_date)#" >
 													</div>
-													<div class="col-12 mb-1 col-md-2">
+													<div class="col-12 mb-0 col-md-2">
 														<label for="coll_object_entered_date" class="data-entry-label small">Last Updated By</label>
 														<cfif not isdefined("last_edited_person")><cfset last_edited_person=""></cfif>
 														<cfif not isdefined("last_edited_person_id")><cfset last_edited_person_id=""></cfif>
@@ -1262,7 +1262,7 @@ limitations under the License.
 															});
 														</script>
 													</div>
-													<div class="col-12 mb-1 col-md-2">
+													<div class="col-12 mb-0 col-md-2">
 														<label for="underscore_collection" class="data-entry-label small">Named Group
 															<a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick="$('##underscore_collection').val('NOT NULL'); $('##underscore_collection_id').val(''); return false;" > (Any) <span class="sr-only">use NOT NULL to find cataloged items in any named group</span></a>
 														</label>
@@ -1286,7 +1286,7 @@ limitations under the License.
 														</h2>
 													</div>
 													<div class="form-row col-12 col-xxl-eleven  col-xxl-11 ml-0 px-0 pt-1 mb-0">
-														<div class="col-12 mb-1 col-md-2">
+														<div class="col-12 mb-0 col-md-2">
 															<cfif not isdefined("loan_number")>
 																<cfset loan_number="">
 															</cfif>
@@ -1305,7 +1305,7 @@ limitations under the License.
 															<label for="loan_number" class="data-entry-label small">Loan ##</label>
 															<input type="text" name="loan_number" class="data-entry-input inputHeight" id="loan_number" placeholder="yyyy-n-Col" value="#encodeForHtml(loan_number)#" >
 														</div>
-														<div class="col-12 mb-1 col-md-2">
+														<div class="col-12 mb-0 col-md-2">
 															<cfif not isdefined("accn_number")>
 																<cfset accn_number="">
 															</cfif>
@@ -1324,14 +1324,14 @@ limitations under the License.
 															<label for="accn_number" class="data-entry-label small">Accession ##</label>
 															<input type="text" name="accn_number" class="data-entry-input inputHeight" id="accn_number" placeholder="nnnnn" value="#encodeForHtml(accn_number)#" >
 														</div>
-														<div class="col-12 mb-1 col-md-2">
+														<div class="col-12 mb-0 col-md-2">
 															<cfif not isdefined("received_date")>
 																<cfset received_date="">
 															</cfif>
 															<label for="received_date" class="data-entry-label small">Date Received</label>
 															<input type="text" name="received_date" class="data-entry-input inputHeight" id="received_date" placeholder="yyyy-mm-dd/yyyy-mm-dd" value="#encodeForHtml(received_date)#" >
 														</div>
-														<div class="col-12 mb-1 col-md-2">
+														<div class="col-12 mb-0 col-md-2">
 															<cfif not isdefined("accn_status")>
 																<cfset accn_status="">
 															</cfif>
@@ -1345,7 +1345,7 @@ limitations under the License.
 																});
 															</script>
 														</div>
-														<div class="col-12 mb-1 col-md-2">
+														<div class="col-12 mb-0 col-md-2">
 															<cfif not isdefined("accn_type")>
 																<cfset accn_type="">
 															</cfif>
@@ -1359,7 +1359,7 @@ limitations under the License.
 																});
 															</script>
 														</div>
-														<div class="col-12 mb-1 col-md-2">
+														<div class="col-12 mb-0 col-md-2">
 															<cfif not isdefined("deaccession_number")>
 																<cfset deaccession_number="">
 															</cfif>
