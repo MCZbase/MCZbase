@@ -72,12 +72,14 @@ limitations under the License.
 			<p>Columns in <span class="text-danger">red</span> are required; others are optional:</p>
 			<ul>
 				<cfloop list="#fieldlist#" index="field" delimiters=",">
+					<cfset aria = "">
 					<cfif listContains(requiredfieldlist,field,",")>
 						<cfset class="text-danger">
+						<cfset aria = "aria-label='Required Field'">
 					<cfelse>
 						<cfset class="text-dark">
 					</cfif>
-					<li class="#class#">#field#</li>
+					<li class="#class#" #aria#>#field#</li>
 				</cfloop>
 			</ul>
 			<form name="atts" method="post" enctype="multipart/form-data" action="/tools/BulkloadAttributes.cfm">
