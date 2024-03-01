@@ -252,11 +252,12 @@ limitations under the License.
 					<h3 class="h4">There are #ListLen(fieldList)# columns expected in the header. (of these #ListLen(requiredFieldList)# are required)</h3>
 				</div>
 
-				<!--- check for required fields in header line --->
-				<!--- Loop through list of fields, mark fields present in input, throw exception if required fields are missing --->
+				<!--- check for required fields in header line (performng check in two different ways, Case 1, Case 2) --->
+				<!--- Loop through list of fields throw exception if required fields are missing --->
 				<cfset errorMessage = "">
 				<cfloop list="#fieldList#" item="aField">
 					<cfif ListContainsNoCase(requiredFieldList,aField)>
+						<!--- Case 1. Check by splitting assembled list of foundHeaders --->
 						<cfif NOT ListContainsNoCase(foundHeaders,aField)>
 							<cfset errorMessage = "#errorMessage# #aField# is missing.">
 						</cfif>
@@ -266,6 +267,7 @@ limitations under the License.
 					<cfthrow message = "#NO_COLUMN_ERR# #errorMessage#">
 				</cfif>
 				<cfset errorMessage = "">
+				<!--- Loop through list of fields, mark each field as fields present in input or not, throw exception if required fields are missing --->
 				<ul class="">
 					<cfloop list="#fieldlist#" index="field" delimiters=",">
 						<cfset hint="">
@@ -280,6 +282,7 @@ limitations under the License.
 							<cfif arrayFindNoCase(colNameArray,field) GT 0>
 								<strong class="text-success">Present in CSV</strong>
 							<cfelse>
+								<!--- Case 2. Check by identifying field in required field list --->
 								<cfif ListContainsNoCase(requiredFieldList,field)>
 									<strong class="text-dark">Required Column Not Found</strong>
 									<cfset errorMessage = "#errorMessage# #field# is missing.">
