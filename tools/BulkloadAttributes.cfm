@@ -255,15 +255,17 @@ limitations under the License.
 				</cfif>
 				<ul class="">
 					<cfloop list="#fieldlist#" index="field" delimiters=",">
+						<cfset hint="">
 						<cfif listContains(requiredfieldlist,field,",")>
 							<cfset class="text-danger">
+							<cfset hint="aria-label='required'"
 						<cfelse>
 							<cfset class="text-dark">
 						</cfif>
-						<li class="#class#">
-							#field#
+						<li>
+							<span class="#class#" #hint#>#field#</span>
 							<cfif arrayFindNoCase(colNameArray,field) GT 0>
-								<strong>Present in CSV</strong>
+								<strong class="text-success">Present in CSV</strong>
 							</cfif>
 						</li>
 					</cfloop>
