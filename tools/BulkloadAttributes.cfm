@@ -269,7 +269,7 @@ limitations under the License.
 						<cfset hint="">
 						<cfif listContains(requiredfieldlist,field,",")>
 							<cfset class="text-danger">
-							<cfset hint="aria-label='required'"
+							<cfset hint="aria-label='required'">
 						<cfelse>
 							<cfset class="text-dark">
 						</cfif>
