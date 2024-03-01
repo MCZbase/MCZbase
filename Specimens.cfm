@@ -394,7 +394,7 @@ limitations under the License.
 														<label for="catalogNum" class="data-entry-label small">Catalog Number</label>
 														<input id="catalogNum" type="text" name="cat_num" class="data-entry-input small inputHeight" placeholder="1,1-4,A-1,R1-4" value="#encodeForHtml(cat_num)#">
 													</div>
-													<cfif findNoCase('redesign',gitBranch) GT 0 OR (isdefined("session.roles") and listfindnocase(session.roles,"global_admin") ) >
+													<cfif findNoCase('test',gitBranch) GT 0 OR (isdefined("session.roles") and listfindnocase(session.roles,"global_admin") ) >
 														<!--- reserve space for debug json control --->
 														<cfset other_id_type_cols="col-md-2">
 														<cfset other_id_number_cols="col-md-2">
@@ -434,7 +434,7 @@ limitations under the License.
 														<label for="other_id_number" class="data-entry-label small">Other ID Numbers</label>
 														<input type="text" class="data-entry-input small inputHeight" id="other_id_number" name="other_id_number" placeholder="10,20-30,=BT-782" value="#encodeForHtml(other_id_number)#">
 													</div>
-													<cfif findNoCase('redesign',gitBranch) GT 0 OR (isdefined("session.roles") and listfindnocase(session.roles,"global_admin") ) >
+													<cfif findNoCase('test',gitBranch) GT 0 OR (isdefined("session.roles") and listfindnocase(session.roles,"global_admin") ) >
 														<div class="col-12 mb-1 col-md-2">
 															<label class="data-entry-label small" for="debug1">Debug JSON</label>
 															<select title="debug" name="debug" id="debug1" class="data-entry-select smaller inputHeight">
@@ -448,7 +448,7 @@ limitations under the License.
 																
 													<div id="IDDetail" class="col-12 px-0" style="#IDDetailStyle#">
 													<div class="form-row col-12 col-md-12 px-0 mx-0 mb-0">
-														<cfif findNoCase('redesign',gitBranch) GT 0 OR (isdefined("session.roles") AND listfindnocase(session.roles,"collops") ) >
+														<cfif findNoCase('test',gitBranch) GT 0 OR (isdefined("session.roles") AND listfindnocase(session.roles,"collops") ) >
 															<!--- for now, while testing nesting, only show second other ID controls for collops users.  --->
 																<div class="col-12 mb-1 col-md-3">
 																	<cfif not isdefined("other_id_type_1")><cfset other_id_type_1=""></cfif>
@@ -523,7 +523,7 @@ limitations under the License.
 													</div>
 												</div>
 												<div class="form-row col-12 col-xxl-eleven col-xxl-11 pt-1 px-1 mx-0 mb-0">
-													<div class="col-12 mb-1 col-md-4">
+													<div class="col-12 mb-1 col-md-4 pr-0">
 														<div class="form-row mx-0 mb-0">
 															<div class="col-9 px-0">
 																<cfif not isdefined("any_taxa_term")><cfset any_taxa_term=""></cfif>
@@ -1682,7 +1682,7 @@ limitations under the License.
 														});
 													</script> 
 												</div>
-												<cfif findNoCase('redesign',gitBranch) GT 0 OR (isdefined("session.roles") and listfindnocase(session.roles,"global_admin") ) >
+												<cfif findNoCase('test',gitBranch) GT 0 OR (isdefined("session.roles") and listfindnocase(session.roles,"global_admin") ) >
 													<cfset searchCollClasses = "col-sm-5 col-md-5 col-xl-7">
 												<cfelse>
 													<cfset searchCollClasses = "col-sm-7 col-md-7 col-xl-9">
@@ -1691,7 +1691,7 @@ limitations under the License.
 													<label for="searchText" class="data-entry-label">Keyword(s)</label>
 													<input id="searchText" type="text" class="data-entry-input" name="searchText" placeholder="Search term" aria-label="search text" value="#encodeForHtml(searchText)#">
 												</div>
-												<cfif findNoCase('redesign',gitBranch) GT 0 OR (isdefined("session.roles") and listfindnocase(session.roles,"global_admin") ) >
+												<cfif findNoCase('test',gitBranch) GT 0 OR (isdefined("session.roles") and listfindnocase(session.roles,"global_admin") ) >
 													<div class="col-12 col-sm-2 col-md-2 col-xl-2  mt-1 mt-sm-0 pr-2">
 														<label class="data-entry-label" for="debug2">Debug</label>
 														<select title="debug" name="debug" id="debug2" class="data-entry-select inputHeight">
@@ -2130,7 +2130,7 @@ Target JSON:
 																		</cfif>
 																	</cfif> 
 																	<input type="hidden" name="nestdepth#row#" id="nestdepth#row#" value="#nestdepthval#">
-																	<cfif findNoCase('redesign',gitBranch) GT 0 OR (isdefined("session.roles") and listfindnocase(session.roles,"global_admin") ) >
+																	<cfif findNoCase('test',gitBranch) GT 0 OR (isdefined("session.roles") and listfindnocase(session.roles,"global_admin") ) >
 																		[#nestdepthval#]
 																	</cfif>
 																</div>
