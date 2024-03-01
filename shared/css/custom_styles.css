@@ -3460,7 +3460,6 @@ and also iPads specifically.
 		text-decoration: none;
 		color: black;
 		padding-left: 0px;
-		margin-top: 1px;
 		position: relative;
 		-webkit-transition: background .3s;
 		transition: background .3s;
@@ -3472,7 +3471,6 @@ and also iPads specifically.
 		position: relative;
 		height: auto;
 		border-top: 0;
-		right: 1rem;
 	}
 	#searchHelpTextBlock[type="checkbox"] {
 		position: absolute;
@@ -3485,21 +3483,22 @@ and also iPads specifically.
 		cursor: pointer;
 		position: relative;
 		float: right;
+		right: 1rem;
 	}
 	label.read:before, label.read:after {
 		position: absolute;
+		
 	}
 	label.read:before {
-	/*	content: 'More';*/
 		right: -7px;
-		font-family: "Font Awesome 5 Free";
-		font-weight: 900;
+		font-family: "Font Awesome 5 Free"; 
+		font-weight: 900; 
 		content: "\f0d7";
 		font-size: 1.3rem;
 		color: #0460c1 !important;
+		/*down*/
 	}
 	label.read:after {
-		/*content: '⇣';*/
 		content: "more";
 		right: 10px;
 		-webkit-animation: sudo .85s linear infinite alternate;
@@ -3519,10 +3518,15 @@ and also iPads specifically.
 		right: 0;
 	}
 	.readMore [type="checkbox"]:checked + label.read:before {
-		content: 'Less';
+		font-family: "Font Awesome 5 Free"; 
+		font-weight: 900; 
+		content: "\f0d8";
+		font-size: 1.3rem;
+		color: #0460c1 !important;
+		/* up */
 	}
 	.readMore [type="checkbox"]:checked + label.read:after {
-		content: '⇡';
+		content: "less";
 	}
 }
 @media(min-width:768px) {
