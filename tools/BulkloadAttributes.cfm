@@ -333,7 +333,7 @@ limitations under the License.
 					<cfset columnsCountInRow = rowData.size()>
 					<cfset collValuesArray= ArrayNew(1)>
 					<cfloop index="i" from="0" to="#rowData.size() - 1#">
-						<!--- loading cells from array instead of list allows commas inside cells --->
+						<!--- loading cells from object instead of list allows commas inside cells --->
 						<cfset thisBit = "#rowData.get(JavaCast("int",i))#" >
 						<!--- store in a coldfusion array so we won't need JavaCast to reference by position --->
 						<cfset ArrayAppend(collValuesArray,thisBit)>
