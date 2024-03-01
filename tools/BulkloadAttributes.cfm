@@ -83,15 +83,27 @@ limitations under the License.
 			<cfform name="atts" method="post" enctype="multipart/form-data" action="/tools/BulkloadAttributes.cfm">
 				<input type="hidden" name="action" value="getFile">
 				<cfinput type="file" name="FiletoUpload" id="fileToUpload" size="45" >
-				<label for="cSet">Character Set:</label> 
-				<select name="cSet" id="cSet" required class="reqdClr">
+				<label for="characterSet">Character Set:</label> 
+				<select name="characterSet" id="characterSet" required class="reqdClr">
 					<option selected></option>
 					<option value="utf-8" >utf-8</option>
 					<option value="iso-8859-1">iso-8859-1</option>
-					<option value="windows-1252">windows-1252</option>
+					<option value="windows-1252">windows-1252 (Win Latin 1)</option>
 					<option value="MacRoman">MacRoman</option>
+					<option value="x-MacCentralEurope">Macintosh Latin-2</option>
+					<option value="windows-1250">windows-1250 (Win Eastern European)</option>
+					<option value="windows-1251">windows-1251 (Win Cyrillic)</option>
 					<option value="utf-16">utf-16</option>
 					<option value="utf-32">utf-32</option>
+				</select>
+				<label for="format">Format:</label> 
+				<select name="format" id="format" required class="reqdClr">
+					<option value="DEFAULT" selected >Standard CSV</option>
+					<option value="TSV">Tab Separated Values</option>
+					<option value="EXCEL">CSV export from MS Excel</option>
+					<option value="RFC4180">Strict RFC4180 CSV</option>
+					<option value="ORACLE">Oracle SQL*Loader CSV</option>
+					<option value="MONGODB_CSV">CSV export from MongoDB</option>
 				</select>
 				<input type="submit" value="Upload this file" class="btn btn-primary btn-xs">
 			</cfform>
@@ -126,18 +138,40 @@ limitations under the License.
 				<!--- Create a FileReader object to provide a reader for the CSV file --->
 				<cfset fileReader = CreateObject("java","java.io.FileReader").Init(#filePath#) >
 				<!--- we can not use the withHeader() method from coldfusion, as it is overloaded, and with no parameters provides coldfusion no means to pick the correct method --->
-				<!--- TODO: identify format of csv file. --->
-				<cfset defaultFormat = csvFormat.DEFAULT>
-				<cfset csvFormat = CSVFormat.DEFAULT>
+				<!--- Select format of csv file based on format variable from user --->
+				<cfif not isDefined("format")><cfset format="DEFAULT"></cfif>
+				<cfswitch expression="#format#">
+					<cfcase value="DEFAULT">
+						<cfset csvFormat = CSVFormat.DEFAULT>
+					</cfcase>
+					<cfcase value="TDF">
+						<cfset csvFormat = CSVFormat.TDF>
+					</cfcase>
+					<cfcase value="RFC4180">
+						<cfset csvFormat = CSVFormat.RFC4180>
+					</cfcase>
+					<cfcase value="EXCEL">
+						<cfset csvFormat = CSVFormat.EXCEL>
+					</cfcase>
+					<cfdefaultcase>
+						<cfset csvFormat = CSVFormat.DEFAULT>
+					</cfdefaultcase>
+				</cfswitch>
 				<!--- Create a CSVParser using the FileReader and CSVFormat--->
 				<cfset csvParser = CSVParser.parse(fileReader, csvFormat)>
-				<!--- Select charset based on cSet variable from user --->
-				<cfswitch expression="#cSet#">
+				<!--- Select charset based on characterSet variable from user --->
+				<cfswitch expression="#characterSet#">
 					<cfcase value="utf-8">
 						<cfset javaSelectedCharset = standardCharsets.UTF_8 >
 					</cfcase>
 					<cfcase value="iso-8859-1">
 						<cfset javaSelectedCharset = standardCharsets.ISO_8859_1 >
+					</cfcase>
+					<cfcase value="windows-1250">
+						<cfset javaSelectedCharset = javaCharset.forName(JavaCast("string","windows-1250")) >
+					</cfcase>
+					<cfcase value="windows-1251">
+						<cfset javaSelectedCharset = javaCharset.forName(JavaCast("string","windows-1251")) >
 					</cfcase>
 					<cfcase value="windows-1252">
 						<cfif javaCharset.isSupported(JavaCast("string","windows-1252"))>
@@ -147,6 +181,9 @@ limitations under the License.
 							<!--- the following characters won't be handled correctly if the source is windows-1252:  €  Š  š  Ž  ž  Œ  œ  Ÿ --->
 							<cfset javaSelectedCharset = standardCharsets.ISO_8859_1 >
 						</cfif>
+					</cfcase>
+					<cfcase value="x-MacCentralEurope">
+						<cfset javaSelectedCharset = javaCharset.forName(JavaCast("string","x-MacCentralEurope")) >
 					</cfcase>
 					<cfcase value="MacRoman">
 						<cfset javaSelectedCharset = javaCharset.forName(JavaCast("string","x-MacRoman")) >
@@ -161,7 +198,7 @@ limitations under the License.
 						<cfset javaSelectedCharset = standardCharsets.UTF_8 >
 					</cfdefaultcase>
 				</cfswitch>
-				<cfset records = CSVParser.parse(#tempFileInputStream#,#javaSelectedCharset#,#defaultFormat#)>
+				<cfset records = CSVParser.parse(#tempFileInputStream#,#javaSelectedCharset#,#csvFormat#)>
 
 				<!--- cleanup any incomplete work by the same user --->
 				<cfquery name="clearTempTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="clearTempTable_result">
