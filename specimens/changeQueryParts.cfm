@@ -863,7 +863,7 @@ limitations under the License.
 							(
 								collection_object_id,coll_object_remarks
 							) values (
-								<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#i#">
+								<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#i#">,
 								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#new_remark#">
 							)
 						</cfquery>
