@@ -1455,8 +1455,8 @@ limitations under the License.
 													</div>
 													<div id="fixedenableselection"></div>
 													<div class="p-1 d-none d-md-block"><span class="small" title="enable mousewheel for horizontal scrolling">Mousewheel: </span>
-														<button onClick="fixedMousewheel1();" class="selectBtn1 btn-xs btn rounded">on</button>
-														<button onClick="fixedMousewheel1();" class="selectBtn2 btn btn-xs rounded">off</button>
+														<button onClick="fixedToggleMousewheel();" class="selectBtn1 btn-xs btn rounded">on</button>
+														<button onClick="fixedToggleMousewheel();" class="selectBtn2 btn btn-xs rounded">off</button>
 													</div>
 													
 												</div>
@@ -1782,8 +1782,8 @@ limitations under the License.
 													<div id="keywordsearchResultsGrid" class="jqxGrid" role="table" aria-label="Search Results Table"></div>
 													<div id="keywordenableselection"></div>
 													<div class="p-1 d-none d-md-block" title="enable mousewheel for horizontal scrolling">mousewheel: 
-														<button onClick="fixedMousewheel2();" class="selectBtn1 btn-xs btn rounded">on</button>
-														<button onClick="fixedMousewheel2();" class="selectBtn2 btn btn-xs rounded">off</button>
+														<button onClick="keywordToggleMousewheel();" class="selectBtn1 btn-xs btn rounded">on</button>
+														<button onClick="keywordToggleMousewheel();" class="selectBtn2 btn btn-xs rounded">off</button>
 													</div>
 												</div>
 											</div>
@@ -2389,8 +2389,8 @@ Target JSON:
 													<div id="buildersearchResultsGrid" class="jqxGrid" role="table" aria-label="Search Results Table"></div>
 													<div id="builderenableselection"></div>
 													<div class="p-1 d-none d-md-block" title="enable mousewheel for horizontal scrolling">mousewheel: 
-														<button onClick="fixedMousewheel3();" class="selectBtn1 btn-xs btn rounded">on</button>
-														<button onClick="fixedMousewheel3();" class="selectBtn2 btn btn-xs rounded">off</button>
+														<button onClick="builderToggleMousewheel();" class="selectBtn1 btn-xs btn rounded">on</button>
+														<button onClick="builderToggleMousewheel();" class="selectBtn2 btn btn-xs rounded">off</button>
 													</div>
 												</div>
 											</div>
@@ -3786,7 +3786,7 @@ Target JSON:
 </script>
 
 <script>
-function fixedMousewheel1(){
+function fixedToggleMousewheel(){
    $('.selectBtn1').on('click' , function(){
       $("##fixedsearchResultsGrid").jqxGrid({enablemousewheel: true});
    });
@@ -3794,7 +3794,7 @@ function fixedMousewheel1(){
       $("##fixedsearchResultsGrid").jqxGrid({enablemousewheel: false});
    });
 };
-function fixedMousewheel2(){
+function keywordToggleMousewheel(){
    $('.selectBtn1').on('click' , function(){
       $("##keywordsearchResultsGrid").jqxGrid({enablemousewheel: true});
    });
@@ -3802,7 +3802,7 @@ function fixedMousewheel2(){
       $("##keywordsearchResultsGrid").jqxGrid({enablemousewheel: false});
    });
 };
-function fixedMousewheel3(){
+function builderToggleMousewheel(){
    $('.selectBtn1').on('click' , function(){
       $("##buildersearchResultsGrid").jqxGrid({enablemousewheel: true});
    });
