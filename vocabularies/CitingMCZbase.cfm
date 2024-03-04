@@ -1,3 +1,4 @@
+<cfoutput>
 <cfset pageTitle = "Citing MCZbase">
 <cfinclude template="/shared/_header.cfm">
 
@@ -47,3 +48,4 @@
 		</div>
 	</div>
 <cfinclude template="/shared/_footer.cfm">
+</cfoutput>
