@@ -164,20 +164,6 @@ limitations under the License.
 .col-xxl-11 {max-width: 90.333333%}
 }
 </style>
-<script>
-  function toggleDisplay1() {
-    var elements = document.getElementsByClassName("togglesearchform");
-
-    // Iterate through elements with the specified class and toggle display
-    for (var i = 0; i < elements.length; i++) {
-      if (elements[i].style.display === "none") {
-        elements[i].style.display = "block";
-      } else {
-        elements[i].style.display = "none";
-      }
-    }
-  }
-</script>
 	<!--- TODO: Replace with a native javascript UUID function when it becomes available --->
 	<script>
 	// From broofa's answer in https://stackoverflow.com/questions/105034/how-to-create-a-guid-uuid
@@ -198,7 +184,6 @@ limitations under the License.
 					</cfquery>
 					
 					<h1 class="h3 smallcaps mb-1 pl-3">Find Specimen Records <span class="count  font-italic color-green mx-0"><small> #getSpecimenCount.cnt# records</small><small class="sr-only">Tab into search form</small></span></h1>
-					<button class="float-right m-1 border rounded" title="hide search form" onclick="toggleDisplay1()"><i class="fas fa-eye-slash"></i></button>
 					<!--- populated with download dialog for external users --->
 					<div id="downloadAgreeDialogDiv"></div>
 					<!--- Tab header div --->
@@ -339,7 +324,7 @@ limitations under the License.
 										<input type="hidden" name="result_id" id="result_id_fixedSearch" value="" class="excludeFromLink">
 										<input type="hidden" name="method" id="method_fixedSearch" value="executeFixedSearch" class="keeponclear excludeFromLink">
 										<input type="hidden" name="action" value="fixedSearch" class="keeponclear">
-										<div class="container-flex togglesearchform" style="display: block;">
+										<div id="fixedSearchFormDiv" class="container-flex" style="display: block;">
 											<div class="col-12 form-row mx-0 search-form-basic-odd px-0 pb-2 pb-xl-0">
 												<cfset hiddenHaveValue = false>
 												<cfif (isDefined("other_id_type_1") and len(other_id_type_1) GT 0) 
@@ -1396,6 +1381,7 @@ limitations under the License.
 														<span class="pr-2 font-weight-normal" id="fixedresultCount" tabindex="0"></span> 
 														<span id="fixedresultLink" class="font-weight-normal pr-2"></span>
 													</h1>
+													<div id="fixedshowhide"></div>
 													<div id="fixedsaveDialogButton" class=""></div>
 													<div id="fixedsaveDialog"></div>
 													<div id="fixedcolumnPickDialog">
@@ -2984,6 +2970,7 @@ Target JSON:
 			
 					// add a link out to this search, serializing the form as http get parameters
 					$('##fixedresultLink').html('<a href="/Specimens.cfm?execute=true&' + $('##fixedSearchForm :input').filter(function(index,element){ return $(element).val()!='';}).not(".excludeFromLink").serialize() + '">Link to this search</a>');
+					$('##fixedshowhide').html('<button class="float-right m-1 border rounded" title="hide search form" onclick=" $(\'##fixedSearchFormDiv\').toggle(); "><i class="fas fa-eye-slash"></i></button>');
 					if (fixedSearchLoaded==0) { 
 						gridLoaded('fixedsearchResultsGrid','occurrence record','fixed');
 						fixedSearchLoaded = 1;
