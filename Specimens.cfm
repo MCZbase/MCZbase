@@ -2973,7 +2973,7 @@ Target JSON:
 			
 					// add a link out to this search, serializing the form as http get parameters
 					$('##fixedresultLink').html('<a href="/Specimens.cfm?execute=true&' + $('##fixedSearchForm :input').filter(function(index,element){ return $(element).val()!='';}).not(".excludeFromLink").serialize() + '">Link to this search</a>');
-					$('##fixedshowhide').html('<button class="my-2 border rounded" title="hide search form" onclick=" $(\'##fixedSearchFormDiv\').toggle(); "><i class="fas fa-eye-slash"></i></button>');
+					$('##fixedshowhide').html('<button class="my-2 border rounded" title="hide search form" onclick=" toggleSearchForm(\'fixed\'); "><i id="fixedSearchFormToggleIcon" class="fas fa-eye-slash"></i></button>');
 					if (fixedSearchLoaded==0) { 
 						gridLoaded('fixedsearchResultsGrid','occurrence record','fixed');
 						fixedSearchLoaded = 1;
@@ -3157,7 +3157,7 @@ Target JSON:
 					console.log("bindingcomlete: keywordsearchResultsGrid");
 					// add a link out to this search, serializing the form as http get parameters
 					$('##keywordresultLink').html('<a href="/Specimens.cfm?execute=true&' + $('##keywordSearchForm :input').filter(function(index,element){ return $(element).val()!='';}).not(".excludeFromLink").serialize() + '">Link to this search</a>');
-					$('##keywordshowhide').html('<button class="my-2 border rounded" title="hide search form" onclick=" $(\'##keywordSearchFormDiv\').toggle(); "><i class="fas fa-eye-slash"></i></button>');
+					$('##keywordshowhide').html('<button class="my-2 border rounded" title="hide search form" onclick=" toggleSearchForm(\'keyword\'); "><i id="keywordSearchFormToggleIcon" class="fas fa-eye-slash"></i></button>');
 					if (keywordSearchLoaded==0) { 
 						gridLoaded('keywordsearchResultsGrid','occurrence record','keyword');
 						keywordSearchLoaded = 1;
@@ -3338,7 +3338,7 @@ Target JSON:
 				$("##buildersearchResultsGrid").on("bindingcomplete", function(event) {
 					// add a link out to this search, serializing the form as http get parameters
 					$('##builderresultLink').html('<a href="/Specimens.cfm?execute=true&' + $('##builderSearchForm :input').filter(function(index,element){ return $(element).val()!='';}).not(".excludeFromLink").serialize() + '">Link to this search</a>');
-					$('##buildershowhide').html('<button class="my-2 border rounded" title="hide search form" onclick=" $(\'##builderSearchFormDiv\').toggle(); "><i class="fas fa-eye-slash"></i></button>');
+					$('##buildershowhide').html('<button class="my-2 border rounded" title="hide search form" onclick=" toggleSearchForm(\'builder\'); "><i id="builderSearchFormToggleIcon" class="fas fa-eye-slash"></i></button>');
 					if (builderSearchLoaded==0) { 
 						gridLoaded('buildersearchResultsGrid','occurrence record','builder');
 						builderSearchLoaded = 1;
@@ -3526,6 +3526,16 @@ Target JSON:
 			} else {
 				$('##'+gridId).jqxGrid('unpincolumn', column);
 				$('##pinGuidToggle').html("Pin GUID Column");
+			}
+		}
+		function toggleSearchForm(whichGrid) { 
+			$('##'+whichGrid+'SearchFormDiv').toggle();	
+			if ($('##'+whichGrid+'SearchFormToggleIcon').hasClass('fa-eye-slash')) { 
+				$('##'+whichGrid+'SearchFormToggleIcon').addClass('fa-eye');
+				$('##'+whichGrid+'SearchFormToggleIcon').removeClass('fa-eye-slash');
+			} else { 
+				$('##'+whichGrid+'SearchFormToggleIcon').addClass('fa-eye-slash');
+				$('##'+whichGrid+'SearchFormToggleIcon').removeClass('fa-eye');
 			}
 		}
 		function gridLoaded(gridId, searchType, whichGrid) {
