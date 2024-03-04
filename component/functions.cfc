@@ -4778,12 +4778,34 @@
 					specimens_pagesize = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#specimens_pagesize#">
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
-			<cfquery name="getspecpagesize" datasource="cf_dbuser" result="result_updatespecpinguid">
+			<cfquery name="getspecpagesize" datasource="cf_dbuser" result="result_getspecpagesize">
 				SELECT specimens_pagesize
 				FROM cf_users 
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<cfset session.specimens_pagesize = getspecpagesize.specimens_pagesize>
+		<cfset result="success">
+	<cfcatch>
+		<cfset result = "#cfcatch.Message# #cfcatch.Detail#">
+	</cfcatch>
+	</cftry>
+	<cfreturn result>
+</cffunction>
+<!----------------------------------------------------------------------------------------->
+<cffunction name="changeGridEnableMousewheel" access="remote">
+	<cfargument name="gridenablemousewheel" type="string" required="yes">
+	<cftry>
+			<cfquery name="updateenablemousewheel" datasource="cf_dbuser" result="result_updateenabmemousewheel">
+				UPDATE cf_users SET
+					gridenablemousewheel = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#gridenablemousewheel#">
+				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+			</cfquery>
+			<cfquery name="getgridenablemousewheel" datasource="cf_dbuser" result="result_getgridenablemousewheel">
+				SELECT gridenablemousewheel
+				FROM cf_users 
+				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+			</cfquery>
+			<cfset session.gridenablemousewheel = getgridenablemousewheel.gridenablemousewheel>
 		<cfset result="success">
 	<cfcatch>
 		<cfset result = "#cfcatch.Message# #cfcatch.Detail#">

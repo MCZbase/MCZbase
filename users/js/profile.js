@@ -86,6 +86,23 @@ function changeSpecimensPageSize (specimens_pagesize) {
 			}
 		);
 }
+function changeGridEnableMousewheel (gridenablemousewheel) {
+	$.getJSON("/component/functions.cfc",
+			{
+				method : "changeGridEnableMousewheel",
+				gridenablemousewheel : gridenablemousewheel,
+				returnformat : "json",
+				queryformat : 'column'
+			},
+			function(r) {
+				if (r == 'success') {
+					$('#changeFeedback').html('Enable Mousewheel setting for Grids changed.');
+				} else {
+					alert('An error occured! \n ' + r);
+				}	
+			}
+		);
+}
 function changekillRows (onoff) {
 	jQuery.getJSON("/component/functions.cfc",
 		{

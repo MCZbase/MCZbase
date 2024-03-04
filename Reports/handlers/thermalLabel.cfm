@@ -50,6 +50,15 @@ limitations under the License.
 		***********
 		
 		--->
+<!---STYLING NOTES:::The thermal label needs to have inches (widths, margins, and padding) and points (fonts). The Arial, "sans-serif" font works best for the Mala collection. Not all fonts work. Only the most generic ones are available for printing.
+-WHOI Jar Label width = 4 (inches)
+-WHOI Jar Label height = 5 (inches)
+-Margin = .015 (inches)
+-The titles have padding above and below to separate them with a border-bottom under the jar name. Font is a bit larger than content at 11pt.
+-Higher taxa is a bit smaller than the sciName at their request; 10.5pt and 11pt.
+-Table of label content is the page width (4 in) minus the marginleft and marginright (.015in + .015in = .03in) in the <cfdocument> tag.
+-Table row width equals "auto" to fill the table width.
+-Table <td>s have align-top and font 10pt.--->
 		<cfquery name="getItems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			SELECT DISTINCT
 				cataloged_item.collection_object_id,
@@ -99,7 +108,6 @@ limitations under the License.
 		</cfquery>
 		<cfset orientation = "portrait">
 		<cfset columns = 1>
-
 		<!--- 
 			NOTE: The variable names here, tableWidth/labelWidth are used for consistency with the general case (see label.cfm) 
 			where the table has multiple columns with a table cell holding each label.  
@@ -107,29 +115,30 @@ limitations under the License.
 		<!--- this is the largest width (class of <table>) inside the page width of "4in" (on <cfdocument>)--->
 		<!--- This equals the cfdocument pageWidth minus the marginleft and marginright --->
 		<cfset tableWidth = 'width: 3.97in;'>
-
 		<!---this is a class on the table row. It should fill the space inside he tableWidth. --->
 		<cfset labelWidth = 'width: auto;'>
-
 		<!---Unused in this particular proof of concept label, likely will be needed in others, retain for reuse in other blocks if needed --->
 		<cfset labelBorder = 'border: 1px solid black;'><!--- Used under label type (e.g., WHOI Jar Number)  --->
 		<cfset labelHeight = 'height: 5in;'> <!--- Jar label --Assuming 1 page per jar (not used yet) --->
+		<cfset mczTitle = 'text-align: center;padding-top: .11in;font: 11pt Arial;'>
+		<cfset jarTitle = 'text-align: center; padding-bottom: .07in; border-bottom: 1px solid;font: 11pt Arial;padding-top: .05in;margin-bottom: 0.05in;'>
+		<cfset higherTaxa = 'text-align: left; font: 10.5pt Arial;padding-top: .02in;padding-bottom: .02in;'>
+		<cfset sciName = 'text-align: left;font: 11pt Helvetica, Arial, 'sans-serif'; padding-top: .05in; padding-bottom: .02in;font-weight:bold;'>
+		<cfset contentFont = 'font: 10pt Arial;'>
+		<cfset tdAlign = 'vertical-align: top;'>
 		<cfset labelStyle = '#labelHeight# #labelWidth# #labelBorder#'><!---  (not used yet) --->
-
-		<cfset pageHeight = "5"><!--- For WHOI jar number label, this is the height the jar can accommodate. TODO: should be tunable by number of records --->
-		<cfset pageWidth = "4">
+		<cfset pageHeight = "5"><!--- Thermal Paper height; For WHOI jar number label, this is the height the jar can accommodate. TODO: should be tunable by number of records --->
+		<cfset pageWidth = "4"><!---Thermal Paper width--->
 		<cfdocument format="pdf" pagetype="custom" unit="in" pagewidth="#pageWidth#" pageheight="#pageHeight#" margintop=".015" marginright=".015" marginbottom=".015" marginleft=".015" orientation="#orientation#" fontembed="true" saveAsName="MCZ_labels_#result_id#.pdf">
 			<cfoutput>
 				<cfloop query="getWhoiNumbers">
 					<cfdocumentsection name="aLabel">
-
-						<div style="text-align: center;padding-top: .11in;font: 11pt Arial">
+						<div style="#mczTitle#">
 							Museum of Comparative Zoology, #getWhoiNumbers.collection#
 						</div>
-						<div style="text-align: center; padding-bottom: .07in; border-bottom: 1px solid;font: 11pt Arial;padding-top: .05in;margin-bottom: 0.05in;">
+						<div style="">
 							WHOI Jar Number #getWhoiNumbers.whoi_number#
 						</div>
-
 						<cfquery name="getTaxa" dbtype="query">
 							SELECT DISTINCT sci_name_with_auth, highertaxa 
 							FROM getItems
@@ -148,21 +157,21 @@ limitations under the License.
 							</cfquery>
 	
 								<cfif previousTaxon NEQ highertaxa>
-									<div style="text-align: left; font: 10.5pt Helvetica, Arial, 'sans-serif';padding-top: .02in;padding-bottom: .02in;">#getTaxa.highertaxa#</div>
+									<div style="higherTaxa">#getTaxa.highertaxa#</div>
 								</cfif>
-								<div style="text-align: left;font: 11pt Helvetica, Arial, 'sans-serif'; padding-top: .05in; padding-bottom: .02in;font-weight:bold;">#getTaxa.sci_name_with_auth#</div>
+								<div style="sciName">#getTaxa.sci_name_with_auth#</div>
 								
 								<table style="#tableWidth#">
 									<cfloop query="getSpecificItems">
 										<tr style="#labelWidth#">
-											<td style="vertical-align: top;">
-												<span style="font: 10pt 'Arial';">MCZ:#getSpecificItems.collection_cde#:#getSpecificItems.catalog_number#
+											<td style="#tdAlign#">
+												<span style="#contentFont#">MCZ:#getSpecificItems.collection_cde#:#getSpecificItems.catalog_number#
 											</td>
-											<td style="vertical-align: top;">
-												<span style="font: 10pt 'Arial';">#getSpecificItems.spec_locality#</span>
+											<td style="#tdAlign#">
+												<span style="#contentFont#">#getSpecificItems.spec_locality#</span>
 											</td>
-											<td style="vertical-align: top;">
-												<span style="font: 10pt 'Arial';">#getSpecificItems.alc_count# spec.</span>
+											<td style="#tdAlign#">
+												<span style="#contentFont#">#getSpecificItems.alc_count# spec.</span>
 											</td>
 										</tr>
 									</cfloop>
