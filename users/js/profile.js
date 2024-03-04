@@ -113,7 +113,7 @@ function changeGridScrollToTop(gridscrolltotop) {
 			},
 			function(r) {
 				if (r == 'success') {
-					$('#changeFeedback').html('Enable Mousewheel setting for Grids changed.');
+					$('#changeFeedback').html('Enable Auto scroll to top setting for Grids changed.');
 				} else {
 					alert('An error occured! \n ' + r);
 				}	
