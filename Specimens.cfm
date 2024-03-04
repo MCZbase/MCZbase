@@ -171,20 +171,6 @@ limitations under the License.
 .col-xxl-11 {max-width: 90.333333%}
 }
 </style>
-<script>
-  function toggleDisplay1() {
-    var elements = document.getElementsByClassName("togglesearchform");
-
-    // Iterate through elements with the specified class and toggle display
-    for (var i = 0; i < elements.length; i++) {
-      if (elements[i].style.display === "none") {
-        elements[i].style.display = "block";
-      } else {
-        elements[i].style.display = "none";
-      }
-    }
-  }
-</script>
 	<!--- TODO: Replace with a native javascript UUID function when it becomes available --->
 	<script>
 	// From broofa's answer in https://stackoverflow.com/questions/105034/how-to-create-a-guid-uuid
@@ -205,7 +191,6 @@ limitations under the License.
 					</cfquery>
 					
 					<h1 class="h3 smallcaps mb-1 pl-3">Find Specimen Records <span class="count  font-italic color-green mx-0"><small> #getSpecimenCount.cnt# records</small><small class="sr-only">Tab into search form</small></span></h1>
-					<button class="float-right m-1 border rounded" title="hide search form" onclick="toggleDisplay1()"><i class="fas fa-eye-slash"></i></button>
 					<!--- populated with download dialog for external users --->
 					<div id="downloadAgreeDialogDiv"></div>
 					<!--- Tab header div --->
@@ -336,7 +321,7 @@ limitations under the License.
 										</div>
 									</aside>
 								</div>
-								<div role="search" class="container-fluid px-0">
+								<div role="search" class="container-fluid px-0" id="fixedSearchFormDiv">
 									<form id="fixedSearchForm">
 										<cfif isdefined("session.BASICSRCHPREFS") and len(session.BASICSRCHPREFS) gt 0>
 											<cfset searchPrefList = session.BASICSRCHPREFS>
@@ -346,7 +331,7 @@ limitations under the License.
 										<input type="hidden" name="result_id" id="result_id_fixedSearch" value="" class="excludeFromLink">
 										<input type="hidden" name="method" id="method_fixedSearch" value="executeFixedSearch" class="keeponclear excludeFromLink">
 										<input type="hidden" name="action" value="fixedSearch" class="keeponclear">
-										<div class="container-flex togglesearchform" style="display: block;">
+										<div class="container-flex" style="display: block;">
 											<div class="col-12 form-row mx-0 search-form-basic-odd px-0 pb-2 pb-xl-0">
 												<cfset hiddenHaveValue = false>
 												<cfif (isDefined("other_id_type_1") and len(other_id_type_1) GT 0) 
@@ -1402,6 +1387,7 @@ limitations under the License.
 														<span class="pr-2 font-weight-normal" id="fixedresultCount" tabindex="0"></span> 
 														<span id="fixedresultLink" class="font-weight-normal pr-2"></span>
 													</h1>
+													<div id="fixedshowhide"></div>
 													<div id="fixedsaveDialogButton" class=""></div>
 													<div id="fixedsaveDialog"></div>
 													<div id="fixedcolumnPickDialog">
@@ -1657,8 +1643,8 @@ limitations under the License.
 										</div>
 									</aside>
 								</div>
-								<div role="search">
-									<form name= "keywordSearchForm" id="keywordSearchForm" class="container-fluid togglesearchform">
+								<div role="search" id="keywordSearchFormDiv">
+									<form name= "keywordSearchForm" id="keywordSearchForm" class="container-fluid">
 										<input id="result_id_keywordSearch" type="hidden" name="result_id" value="" class="excludeFromLink">
 										<input type="hidden" name="method" value="executeKeywordSearch" class="keeponclear excludeFromLink">
 										<input type="hidden" name="action" value="keywordSearch" class="keeponclear">
@@ -1733,6 +1719,7 @@ limitations under the License.
 														<span class="pr-2 font-weight-normal" id="keywordresultCount" tabindex="0"></span> 
 														<span id="keywordresultLink" class="font-weight-normal pr-2"></span>
 													</h1>
+													<div id="keywordshowhide"></div>
 													<div id="keywordsaveDialogButton"></div>
 													<div id="keywordsaveDialog"></div>
 													<div id="keywordcolumnPickDialog">
@@ -1811,8 +1798,8 @@ and collector = 'Brendan Haley'
 Target JSON:
  [{"nest":"1","field": "COUNTRY","comparator": "=","value": "FRANCE"},{"nest":"2.1","join":"and","field": "FAMILY","comparator": "=","value": "MUSTELIDAE"},{"nest":"2.2","join":"or","field": "FAMILY","comparator": "=","value": "LOPHIIDAE"},{"nest":"3","join":"and","field": "COLLECTORS_AGENT_ID","comparator": "=","value": "15172"}]
 --->
-							<section id="builderSearchPanel" role="tabpanel" aria-labelledby="builderSearchTabButton" tabindex="-1" class="mx-0 #builderTabActive# unfocus" #builderTabShow#>
-								<div role="search">
+							<section id="builderSearchPanel" role="tabpanel" aria-labelledby="builderSearchTabButton" tabindex="-1" class="mx-0 #builderTabActive# unfocus"  #builderTabShow#>
+								<div role="search" id="builderSearchFormDiv">
 									<div class="col-3 float-right px-3"> 
 									<button class="btn btn-xs btn-dark help-btn border-0" type="button" data-toggle="collapse" data-target="##collapseBuilder" aria-expanded="false" aria-controls="collapseBuilder">
 										Search Help
@@ -1827,7 +1814,7 @@ Target JSON:
 										</div>
 									</aside>
 								</div>
-									<form id="builderSearchForm" class="container-fluid togglesearchform">
+									<form id="builderSearchForm" class="container-fluid">
 										<script>
 											var treeMap = new Map();
 											treeMap.set("1",["1"]);
@@ -2341,7 +2328,7 @@ Target JSON:
 														<span class="pr-2 font-weight-normal" id="builderresultCount" tabindex="0"></span> 
 														<span id="builderresultLink" class="pr-2 font-weight-normal"></span>
 													</h1>
-													
+													<div id="buildershowhide"></div>
 													<div id="buildersaveDialogButton"></div>
 													<div id="buildersaveDialog"></div>
 													<div id="buildercolumnPickDialog">
@@ -2761,6 +2748,7 @@ Target JSON:
 				$("##fixedsearchResultsGrid").replaceWith('<div id="fixedsearchResultsGrid" class="fixedResults jqxGrid focus" style="z-index: 1;"></div>');
 				$('##fixedresultCount').html('');
 				$('##fixedresultLink').html('');
+				$("##fixedshowhide").html("");
 				$('##fixedmanageButton').html('');
 				$('##fixedsaveDialogButton').html('');
 				$('##fixedactionFeedback').html('');
@@ -2990,6 +2978,7 @@ Target JSON:
 			
 					// add a link out to this search, serializing the form as http get parameters
 					$('##fixedresultLink').html('<a href="/Specimens.cfm?execute=true&' + $('##fixedSearchForm :input').filter(function(index,element){ return $(element).val()!='';}).not(".excludeFromLink").serialize() + '">Link to this search</a>');
+					$('##fixedshowhide').html('<button class="my-2 border rounded" title="hide search form" onclick=" $(\'##fixedSearchFormDiv\').toggle(); "><i class="fas fa-eye-slash"></i></button>');
 					if (fixedSearchLoaded==0) { 
 						gridLoaded('fixedsearchResultsGrid','occurrence record','fixed');
 						fixedSearchLoaded = 1;
@@ -3050,6 +3039,7 @@ Target JSON:
 				$("##keywordsearchResultsGrid").replaceWith('<div id="keywordsearchResultsGrid" class="jqxGrid" style="z-index: 1;"></div>');
 				$("##keywordresultCount").html("");
 				$("##keywordresultLink").html("");
+				$("##keywordshowhide").html("");
 				$('##keywordmanageButton').html('');
 				$('##keywordsaveDialogButton').html('');
 				$('##keywordactionFeedback').html('');
@@ -3172,6 +3162,7 @@ Target JSON:
 					console.log("bindingcomlete: keywordsearchResultsGrid");
 					// add a link out to this search, serializing the form as http get parameters
 					$('##keywordresultLink').html('<a href="/Specimens.cfm?execute=true&' + $('##keywordSearchForm :input').filter(function(index,element){ return $(element).val()!='';}).not(".excludeFromLink").serialize() + '">Link to this search</a>');
+					$('##keywordshowhide').html('<button class="my-2 border rounded" title="hide search form" onclick=" $(\'##keywordSearchFormDiv\').toggle(); "><i class="fas fa-eye-slash"></i></button>');
 					if (keywordSearchLoaded==0) { 
 						gridLoaded('keywordsearchResultsGrid','occurrence record','keyword');
 						keywordSearchLoaded = 1;
@@ -3231,6 +3222,7 @@ Target JSON:
 				$("##buildersearchResultsGrid").replaceWith('<div id="buildersearchResultsGrid" class="jqxGrid" style="z-index: 1;"></div>');
 				$("##builderresultCount").html("");
 				$("##builderresultLink").html("");
+				$("##buildershowhide").html("");
 				$('##buildermanageButton').html('');
 				$('##buildersaveDialogButton').html('');
 				$('##builderactionFeedback').html('');
@@ -3351,6 +3343,7 @@ Target JSON:
 				$("##buildersearchResultsGrid").on("bindingcomplete", function(event) {
 					// add a link out to this search, serializing the form as http get parameters
 					$('##builderresultLink').html('<a href="/Specimens.cfm?execute=true&' + $('##builderSearchForm :input').filter(function(index,element){ return $(element).val()!='';}).not(".excludeFromLink").serialize() + '">Link to this search</a>');
+					$('##buildershowhide').html('<button class="my-2 border rounded" title="hide search form" onclick=" $(\'##builderSearchFormDiv\').toggle(); "><i class="fas fa-eye-slash"></i></button>');
 					if (builderSearchLoaded==0) { 
 						gridLoaded('buildersearchResultsGrid','occurrence record','builder');
 						builderSearchLoaded = 1;
