@@ -103,6 +103,23 @@ function changeGridEnableMousewheel (gridenablemousewheel) {
 			}
 		);
 }
+function changeGridScrollToTop(gridscrolltotop) {
+	$.getJSON("/component/functions.cfc",
+			{
+				method : "changeGridScrollToTop",
+				gridscrolltotop : gridscrolltotop,
+				returnformat : "json",
+				queryformat : 'column'
+			},
+			function(r) {
+				if (r == 'success') {
+					$('#changeFeedback').html('Enable Mousewheel setting for Grids changed.');
+				} else {
+					alert('An error occured! \n ' + r);
+				}	
+			}
+		);
+}
 function changekillRows (onoff) {
 	jQuery.getJSON("/component/functions.cfc",
 		{

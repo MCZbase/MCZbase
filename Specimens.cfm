@@ -1443,9 +1443,7 @@ limitations under the License.
 													<div id="fixedsearchResultsGrid" class="jqxGrid" role="table" aria-label="Search Results Table">
 													</div>
 													<div id="fixedPostGridControls" class="p-1 d-none d-md-block" style="display: none;" >
-														<span class="small" title="enable mousewheel for horizontal scrolling"> Mousewheel: </span>
-														<button onClick="fixedToggleMousewheel();" class="selectBtn1 btn-xs btn rounded">on</button>
-														<button onClick="fixedToggleMousewheel();" class="selectBtn2 btn btn-xs rounded">off</button>
+														<!--- a mouse wheel toggle could go here --->
 													</div>
 													<div id="fixedenableselection"></div>
 												</div>
@@ -1771,9 +1769,7 @@ limitations under the License.
 													<!--- Grid Related code is below along with search handlers --->
 													<div id="keywordsearchResultsGrid" class="jqxGrid" role="table" aria-label="Search Results Table"></div>
 													<div id="keywordPostGridControls" class="p-1 d-none d-md-block" style="display: none;" >
-														<span class="small" title="enable mousewheel for horizontal scrolling"> Mousewheel: </span>
-														<button onClick="keywordToggleMousewheel();" class="selectBtn1 btn-xs btn rounded">on</button>
-														<button onClick="keywordToggleMousewheel();" class="selectBtn2 btn btn-xs rounded">off</button>
+														<!--- a mouse wheel toggle could go here --->
 													</div>
 													<div id="keywordenableselection"></div>
 												</div>
@@ -2379,9 +2375,7 @@ Target JSON:
 													<!--- Grid Related code is below along with search handlers --->
 													<div id="buildersearchResultsGrid" class="jqxGrid" role="table" aria-label="Search Results Table"></div>
 													<div id="builderPostGridControls" class="p-1 d-none d-md-block" style="display: none;" >
-														<span class="small" title="enable mousewheel for horizontal scrolling"> Mousewheel: </span>
-														<button onClick="builderToggleMousewheel();" class="selectBtn1 btn-xs btn rounded">on</button>
-														<button onClick="builderToggleMousewheel();" class="selectBtn2 btn btn-xs rounded">off</button>
+														<!--- a mouse wheel toggle could go here --->
 													</div>
 													<div id="builderenableselection"></div>
 												</div>
@@ -2963,12 +2957,13 @@ Target JSON:
 	
 				$("##fixedsearchResultsGrid").on("bindingcomplete", function(event) {
 
-				
-								if (document <= 900){
-									$(document).scrollTop(200);
-								} else {
-									$(document).scrollTop(480);
-								}
+					<cfif NOT isDefined("session.gridscrolltotop") OR session.gridscrolltotop EQ "false">
+						if (document <= 900){
+							$(document).scrollTop(200);
+						} else {
+							$(document).scrollTop(480);
+						}
+					</cfif>
 			
 					// add a link out to this search, serializing the form as http get parameters
 					$('##fixedresultLink').html('<a href="/Specimens.cfm?execute=true&' + $('##fixedSearchForm :input').filter(function(index,element){ return $(element).val()!='';}).not(".excludeFromLink").serialize() + '">Link to this search</a>');
@@ -3674,7 +3669,9 @@ Target JSON:
 			<cfif isdefined("session.username") AND len(#session.username#) GT 0>
 				$('##'+whichGrid+'resultBMMapLinkContainer').html(`<a id="`+whichGrid+`BMMapButton" class="btn btn-xs btn-secondary px-2 my-2 mx-1" target="_blank" href="/bnhmMaps/bnhmMapData.cfm?result_id=`+result_uuid+`" aria-label="Plot points in Berkeley Mapper">BerkeleyMapper</a>`);
 			</cfif>
-			$("html, body").scrollTop($("##"+whichGrid+"SearchResultsSection").offset().top);
+			<cfif NOT isDefined("session.gridscrolltotop") OR session.gridscrolltotop EQ "false">
+				$("html, body").scrollTop($("##"+whichGrid+"SearchResultsSection").offset().top);
+			</cfif>
 			$('##'+whichGrid+'selectModeContainer').show();
 			$('##'+whichGrid+'PostGridControls').show();
 		}
@@ -3785,33 +3782,6 @@ Target JSON:
 	};
 	
 	})( window );
-</script>
-
-<script>
-function fixedToggleMousewheel(){
-   $('.selectBtn1').on('click' , function(){
-      $("##fixedsearchResultsGrid").jqxGrid({enablemousewheel: true});
-   });
-	$('.selectBtn2').on('click' , function(){
-      $("##fixedsearchResultsGrid").jqxGrid({enablemousewheel: false});
-   });
-};
-function keywordToggleMousewheel(){
-   $('.selectBtn1').on('click' , function(){
-      $("##keywordsearchResultsGrid").jqxGrid({enablemousewheel: true});
-   });
-	$('.selectBtn2').on('click' , function(){
-      $("##keywordsearchResultsGrid").jqxGrid({enablemousewheel: false});
-   });
-};
-function builderToggleMousewheel(){
-   $('.selectBtn1').on('click' , function(){
-      $("##buildersearchResultsGrid").jqxGrid({enablemousewheel: true});
-   });
-	$('.selectBtn2').on('click' , function(){
-      $("##buildersearchResultsGrid").jqxGrid({enablemousewheel: false});
-   });
-};
 </script>
 
 </cfoutput>

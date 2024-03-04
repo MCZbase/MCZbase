@@ -4814,6 +4814,28 @@
 	<cfreturn result>
 </cffunction>
 <!----------------------------------------------------------------------------------------->
+<cffunction name="changeGridScrollToTop" access="remote">
+	<cfargument name="gridscrolltotop" type="string" required="yes">
+	<cftry>
+			<cfquery name="updatescrollgrid" datasource="cf_dbuser" result="result_updatescrollgrid">
+				UPDATE cf_users SET
+					gridscrolltotop = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#gridscrolltotop#">
+				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+			</cfquery>
+			<cfquery name="getgridscrolltotop" datasource="cf_dbuser" result="result_getscrolltotop">
+				SELECT gridscrolltotop
+				FROM cf_users 
+				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+			</cfquery>
+			<cfset session.gridscrolltotop = getgridscrolltotop.gridscrolltotop>
+		<cfset result="success">
+	<cfcatch>
+		<cfset result = "#cfcatch.Message# #cfcatch.Detail#">
+	</cfcatch>
+	</cftry>
+	<cfreturn result>
+</cffunction>
+<!----------------------------------------------------------------------------------------->
 <cffunction name="changedisplayRows" access="remote">
 	<cfargument name="tgt" type="string" required="yes">
 	<cftry>
