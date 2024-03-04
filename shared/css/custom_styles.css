@@ -2301,13 +2301,7 @@ button.help-btn {
 	transform: translateX(-98%) rotate(-90deg);
 	transform-origin: right top;
 	margin-bottom: 15px;
-<<<<<<< HEAD
-	/*top: -.25rem;*/
-	top: -.75rem;
-	/*right: -70px;*/
-=======
 	top: -.25rem;
->>>>>>> test2
 	right: -92px;
 	z-index:1; 
 	padding-top:.15rem;
