@@ -828,7 +828,7 @@ limitations under the License.
 							</cfif>
 						</ul>
 					</li>
-											</cfif>
+				</cfif>
 				</ul>
 				<ul class="navbar-nav ml-auto">
 					<cfif isdefined("session.username") and len(#session.username#) gt 0>

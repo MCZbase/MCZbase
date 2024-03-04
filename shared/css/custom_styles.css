@@ -3494,11 +3494,7 @@ and also iPads specifically.
 		
 	}
 	label.read:before {
-<<<<<<< HEAD
-		left: 10px;
-=======
 		right: -7px;
->>>>>>> test2
 		font-family: "Font Awesome 5 Free"; 
 		font-weight: 900; 
 		content: "\f0d7";
