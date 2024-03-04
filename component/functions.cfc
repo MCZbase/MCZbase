@@ -4805,7 +4805,7 @@
 				FROM cf_users 
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
-			<cfset session.gridenablemousewheel = getspecpagesize.gridenablemousewheel>
+			<cfset session.gridenablemousewheel = getgridenablemousewheel.gridenablemousewheel>
 		<cfset result="success">
 	<cfcatch>
 		<cfset result = "#cfcatch.Message# #cfcatch.Detail#">
@@ -4813,7 +4813,6 @@
 	</cftry>
 	<cfreturn result>
 </cffunction>
-<!----------------------------------------------------------------------------------------->
 <!----------------------------------------------------------------------------------------->
 <cffunction name="changedisplayRows" access="remote">
 	<cfargument name="tgt" type="string" required="yes">

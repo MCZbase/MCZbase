@@ -41,6 +41,9 @@ limitations under the License.
 		<cfset action="fixedSearch">
 	</cfif>
 </cfif>
+<cfif not isDefined("session.gridenablemousewheel")>
+	<cfset session.gridenablemousewheel = "false">
+</cfif>
 <cfswitch expression="#action#">
 	<!--- API note: action and method seem duplicative, action is required and used to determine
 			which tab to show, method invokes target backing method in form submission, but when 
