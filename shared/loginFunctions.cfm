@@ -97,6 +97,7 @@ limitations under the License.
 	<cfset session.specimens_pin_guid="0">
 	<cfset session.specimens_pagesize="25">
 	<cfset session.gridenablemousewheel = "false">
+	<cfset session.gridscrolltotop = "true">
 	<!--- determine which git branch is currently checked out --->
 	<cftry>
 		<!--- assuming a git repository and readable by coldfusion, determine the checked out branch by reading HEAD --->
@@ -158,6 +159,7 @@ limitations under the License.
 		<cfset session.specimens_pin_guid = "#getPrefs.specimens_pin_guid#">
 		<cfset session.specimens_pagesize = "#getPrefs.specimens_pagesize#">
 		<cfset session.gridenablemousewheel = "#getPrefs.gridenablemousewheel#">
+		<cfset session.gridscrolltotop = "#getPrefs.gridscrolltotop#">
 		<cfif len(getPrefs.fancyCOID) gt 0>
 			<cfset session.fancyCOID = getPrefs.fancyCOID>
 		<cfelse>
