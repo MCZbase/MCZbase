@@ -2957,7 +2957,7 @@ Target JSON:
 	
 				$("##fixedsearchResultsGrid").on("bindingcomplete", function(event) {
 
-					<cfif NOT isDefined("session.gridscrolltotop") OR session.gridscrolltotop EQ "false">
+					<cfif NOT isDefined("session.gridscrolltotop") OR session.gridscrolltotop EQ "true">
 						if (document <= 900){
 							$(document).scrollTop(200);
 						} else {
