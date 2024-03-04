@@ -735,7 +735,7 @@ limitations under the License.
 													OR (isDefined("geo_att_value") and len(geo_att_value) GT 0)
 													OR (isDefined("verificationstatus") and len(verificationstatus) GT 0)
 													OR (isDefined("min_depth_in_m") and len(min_depth_in_m) GT 0)
-													OR (isDefined("max_depth_in_m") and len(ax_depth_in_m) GT 0)
+													OR (isDefined("max_depth_in_m") and len(max_depth_in_m) GT 0)
 													OR (isDefined("min_elev_in_m") and len(min_elev_in_m) GT 0)
 													OR (isDefined("max_elev_in_m") and len(max_elev_in_m) GT 0)>
 													<cfset hiddenHaveValue = true>
