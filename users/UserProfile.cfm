@@ -426,6 +426,23 @@ limitations under the License.
 									</div>
 									<div class="form-row">
 										<div class="col-12 col-md-6 float-left mb-2">
+											<label for="gridenablemousewheel" class="data-entry-label">Enable Mouse Wheel Scrolling in Grids</label>
+											<cfif not isDefined("session.gridenablemousewheel")>
+												<cfset session.gridenablemousewheel = "false">
+											</cfif>
+											<select name="gridenablemousewheel" id="gridenablemousewheel" class="data-entry-select" onchange="changeGridEnableMousewheel(this.value)">
+												<cfif session.gridenablemousewheel EQ "false"><cfset selected="selected='selected'"><cfelse><cfset selected=""></cfif>
+												<option value="false" #selected#>Off</option>
+												<cfif session.gridenablemousewheel EQ "true"><cfset selected="selected='selected'"><cfelse><cfset selected=""></cfif>
+												<option value="true" #selected#>On</option>
+											</select>
+										</div>
+										<div class="col-12 float-left col-md-6 mb-2">
+											<!--- available --->
+										</div>
+									</div>
+									<div class="form-row">
+										<div class="col-12 col-md-6 float-left mb-2">
 											<label for="killRows" class="data-entry-label" >SpecimenResults Row-Removal Option (curently old search only)</label>
 											<select name="killRow" id="killRow" class="data-entry-select" onchange="changekillRows(this.value)">
 												<option value="0" <cfif session.killRow neq 1> selected="selected" </cfif>>No</option>
