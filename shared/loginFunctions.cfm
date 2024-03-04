@@ -96,7 +96,7 @@ limitations under the License.
 	<cfset session.specimens_default_action="fixedSearch">
 	<cfset session.specimens_pin_guid="0">
 	<cfset session.specimens_pagesize="25">
-	<cfset session.gridenablemousewheel = "false">
+	<cfset session.gridenablemousewheel = "true">
 	<cfset session.gridscrolltotop = "true">
 	<!--- determine which git branch is currently checked out --->
 	<cftry>
