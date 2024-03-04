@@ -114,7 +114,7 @@
 		<cfoutput>
 		<h2 class="h3">First step: Reading data from CSV file.</h2>
 		<!--- Set some constants to identify error cases in cfcatch block --->
-				<cfset NO_COLUMN_ERR = "One or more required fields are missing in the header line of the csv file.">
+		<cfset NO_COLUMN_ERR = "One or more required fields are missing in the header line of the csv file.">
 		<cfset DUP_COLUMN_ERR = "One or more columns are duplicated in the header line of the csv file.">
 		<cfset COLUMN_ERR = "Error inserting data">
 		<cfset NO_HEADER_ERR = "No header line found, csv file appears to be empty.">
@@ -344,7 +344,7 @@
 									<cfloop from="1" to ="#ArrayLen(fieldArray)#" index="col">
 										<cfif arrayFindNoCase(colNameArray,fieldArray[col]) GT 0>
 											<cfset fieldPos=arrayFind(colNameArray,fieldArray[col])>
-											<cfset val=trim(colValuesArray[fieldPos])>
+											<cfset val=trim(collValuesArray[fieldPos])>
 											<cfset val=rereplace(val,"^'+",'')>
 											<cfset val=rereplace(val,"'+$",'')>
 											<cfif val EQ ""> 
@@ -363,7 +363,7 @@
 							<cfset loadedRows = loadedRows + insert_result.recordcount>
 						<cfcatch>
 							<!--- identify the problematic row --->
-							<cfset error_message="#COLUMN_ERR# from line #row# in input file.  <br>Header:[#colNames#] <br>Row:[#ArrayToList(colValuesArray)#] <br>Error: #cfcatch.message#"><!--- " --->
+							<cfset error_message="#COLUMN_ERR# from line #row# in input file.  <br>Header:[#colNames#] <br>Row:[#ArrayToList(collValuesArray)#] <br>Error: #cfcatch.message#"><!--- " --->
 							<cfif isDefined("cfcatch.queryError")>
 								<cfset error_message = "#error_message# #cfcatch.queryError#">
 							</cfif>
