@@ -192,17 +192,15 @@ limitations under the License.
 	  );
 	}
 	</script>
-
+	
 	<div id="overlaycontainer" style="position: relative;">
 		<main id="content" class="container-fluid">
-<!---TODO:--->
-			<!---Make results stick to top without room to scroll up. in other words results row sticks to top of browser in view and results scroll under it. See W3Schools and other examples--->
 			<div class="row mr-0 mr-md-3 mr-xl-5">
 				<div class="col-12 mt-1 pb-3 mr-0 mr-md-3 mr-xl-5">
 					<cfquery name="getSpecimenCount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						SELECT count(collection_object_id) as cnt FROM cataloged_item
 					</cfquery>
-				
+					
 					<h1 class="h3 smallcaps mb-1 pl-3">Find Specimen Records <span class="count  font-italic color-green mx-0"><small> #getSpecimenCount.cnt# records</small><small class="sr-only">Tab into search form</small></span></h1>
 					<button class="float-right m-1 border rounded" title="hide search form" onclick="toggleDisplay1()"><i class="fas fa-eye-slash"></i></button>
 					<!--- populated with download dialog for external users --->
@@ -365,7 +363,7 @@ limitations under the License.
 												<div class="col-12 col-xl-2 col-xxl-one col-xxl-1 px-1 mb-1 float-left">
 													<div class="pb-0 font-weight-bold d-inline-block-md text-xl-right px-1 w-100 text-left text-md-left text-dark mb-1 mb-md-0 pt-1">
 														<h2 class="small mb-0 mx-0 px-2 mx-xl-0 px-xl-0 d-block text-black font-weight-bold">Identifiers</h2>
-														<cfif findNoCase("redesign",gitBranch) GT 0 OR (isdefined("session.roles") AND listfindnocase(session.roles,"collops") ) >
+														<cfif findNoCase("redesign",gitBranch) GT 0 OR findNoCase("test", gitBranch) OR (isdefined("session.roles") AND listfindnocase(session.roles,"collops") ) >
 															<button type="button" id="IDDetailCtl" class="d-none d-xl-inline-block px-xl-0 py-0 btn-link text-right btn smaller" onclick="toggleIDDetail(#toggleTo#);">#IDButton#</button>
 														</cfif>
 													</div>
@@ -403,7 +401,7 @@ limitations under the License.
 														<label for="catalogNum" class="data-entry-label small">Catalog Number</label>
 														<input id="catalogNum" type="text" name="cat_num" class="data-entry-input small inputHeight" placeholder="1,1-4,A-1,R1-4" value="#encodeForHtml(cat_num)#">
 													</div>
-													<cfif findNoCase('redesign',gitBranch) GT 0 OR (isdefined("session.roles") and listfindnocase(session.roles,"global_admin") ) >
+													<cfif findNoCase('test',gitBranch) GT 0 OR (isdefined("session.roles") and listfindnocase(session.roles,"global_admin") ) >
 														<!--- reserve space for debug json control --->
 														<cfset other_id_type_cols="col-md-2">
 														<cfset other_id_number_cols="col-md-2">
@@ -443,7 +441,7 @@ limitations under the License.
 														<label for="other_id_number" class="data-entry-label small">Other ID Numbers</label>
 														<input type="text" class="data-entry-input small inputHeight" id="other_id_number" name="other_id_number" placeholder="10,20-30,=BT-782" value="#encodeForHtml(other_id_number)#">
 													</div>
-													<cfif findNoCase('redesign',gitBranch) GT 0 OR (isdefined("session.roles") and listfindnocase(session.roles,"global_admin") ) >
+													<cfif findNoCase('test',gitBranch) GT 0 OR (isdefined("session.roles") and listfindnocase(session.roles,"global_admin") ) >
 														<div class="col-12 mb-1 col-md-2">
 															<label class="data-entry-label small" for="debug1">Debug JSON</label>
 															<select title="debug" name="debug" id="debug1" class="data-entry-select smaller inputHeight">
@@ -457,7 +455,7 @@ limitations under the License.
 																
 													<div id="IDDetail" class="col-12 px-0" style="#IDDetailStyle#">
 													<div class="form-row col-12 col-md-12 px-0 mx-0 mb-0">
-														<cfif findNoCase('redesign',gitBranch) GT 0 OR (isdefined("session.roles") AND listfindnocase(session.roles,"collops") ) >
+														<cfif findNoCase('test',gitBranch) GT 0 OR (isdefined("session.roles") AND listfindnocase(session.roles,"collops") ) >
 															<!--- for now, while testing nesting, only show second other ID controls for collops users.  --->
 																<div class="col-12 mb-1 col-md-3">
 																	<cfif not isdefined("other_id_type_1")><cfset other_id_type_1=""></cfif>
@@ -975,7 +973,6 @@ limitations under the License.
 														<button type="button" id="CollDetailCtl" class="d-none d-xl-inline-block px-xl-0 py-0 btn-link text-right btn smaller" onclick="toggleCollDetail(#toggleTo#);">show more <i class="fas fa-caret-down" style="vertical-align: middle;"></i></button>
 													</div>
 												</div>				
-																										
 												<div class="form-row col-12 col-xxl-eleven col-xxl-11 px-1 pt-1 mb-0 mx-0">
 													<div class="col-12 mb-1 col-md-3">
 														<label for="collector" class="data-entry-label small">Collector</label>
@@ -1199,21 +1196,21 @@ limitations under the License.
 														</h2>
 													</div>
 													<div class="form-row col-12 col-xxl-eleven col-xxl-11 ml-0 px-0 pt-1 mb-0">
-													<div class="col-12 mb-1 col-md-2">
+													<div class="col-12 mb-0 col-md-2">
 														<cfif not isdefined("keyword")>
 															<cfset keyword="">
 														</cfif>
 														<label for="keyword" class="data-entry-label small">Keyword Search</label>
 														<input type="text" name="keyword" class="data-entry-input inputHeight" id="keyword" value="#encodeForHtml(keyword)#" >
 													</div>
-													<div class="col-12 mb-1 col-md-2">
+													<div class="col-12 mb-0 col-md-2">
 														<cfif not isdefined("coll_object_entered_date")>
 															<cfset coll_object_entered_date="">
 														</cfif>
 														<label for="coll_object_entered_date" class="data-entry-label small">Date Entered</label>
 														<input type="text" name="coll_object_entered_date" class="data-entry-input inputHeight" id="coll_object_entered_date" placeholder="yyyy-mm-dd/yyyy-mm-dd" value="#encodeForHtml(coll_object_entered_date)#" >
 													</div>
-													<div class="col-12 mb-1 col-md-2">
+													<div class="col-12 mb-0 col-md-2">
 														<label for="coll_object_entered_date" class="data-entry-label small">Entered By</label>
 														<cfif not isdefined("entered_by")><cfset entered_by=""></cfif>
 														<cfif not isdefined("entered_by_id")><cfset entered_by_id=""></cfif>
@@ -1239,14 +1236,14 @@ limitations under the License.
 															});
 														</script>
 													</div>
-													<div class="col-12 mb-1 col-md-2">
+													<div class="col-12 mb-0 col-md-2">
 														<cfif not isdefined("last_edit_date")>
 															<cfset last_edit_date="">
 														</cfif>
 														<label for="last_edit_date" class="data-entry-label small">Last Updated on</label>
 														<input type="text" name="last_edit_date" class="data-entry-input inputHeight" id="last_edit_date" placeholder="yyyy-mm-dd/yyyy-mm-dd" value="#encodeForHtml(last_edit_date)#" >
 													</div>
-													<div class="col-12 mb-1 col-md-2">
+													<div class="col-12 mb-0 col-md-2">
 														<label for="coll_object_entered_date" class="data-entry-label small">Last Updated By</label>
 														<cfif not isdefined("last_edited_person")><cfset last_edited_person=""></cfif>
 														<cfif not isdefined("last_edited_person_id")><cfset last_edited_person_id=""></cfif>
@@ -1271,7 +1268,7 @@ limitations under the License.
 															});
 														</script>
 													</div>
-													<div class="col-12 mb-1 col-md-2">
+													<div class="col-12 mb-0 col-md-2">
 														<label for="underscore_collection" class="data-entry-label small">Named Group
 															<a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick="$('##underscore_collection').val('NOT NULL'); $('##underscore_collection_id').val(''); return false;" > (Any) <span class="sr-only">use NOT NULL to find cataloged items in any named group</span></a>
 														</label>
@@ -1314,7 +1311,7 @@ limitations under the License.
 															<label for="loan_number" class="data-entry-label small">Loan ##</label>
 															<input type="text" name="loan_number" class="data-entry-input inputHeight" id="loan_number" placeholder="yyyy-n-Col" value="#encodeForHtml(loan_number)#" >
 														</div>
-														<div class="col-12 mb-1 col-md-2">
+														<div class="col-12 mb-0 col-md-2">
 															<cfif not isdefined("accn_number")>
 																<cfset accn_number="">
 															</cfif>
@@ -1333,14 +1330,14 @@ limitations under the License.
 															<label for="accn_number" class="data-entry-label small">Accession ##</label>
 															<input type="text" name="accn_number" class="data-entry-input inputHeight" id="accn_number" placeholder="nnnnn" value="#encodeForHtml(accn_number)#" >
 														</div>
-														<div class="col-12 mb-1 col-md-2">
+														<div class="col-12 mb-0 col-md-2">
 															<cfif not isdefined("received_date")>
 																<cfset received_date="">
 															</cfif>
 															<label for="received_date" class="data-entry-label small">Date Received</label>
 															<input type="text" name="received_date" class="data-entry-input inputHeight" id="received_date" placeholder="yyyy-mm-dd/yyyy-mm-dd" value="#encodeForHtml(received_date)#" >
 														</div>
-														<div class="col-12 mb-1 col-md-2">
+														<div class="col-12 mb-0 col-md-2">
 															<cfif not isdefined("accn_status")>
 																<cfset accn_status="">
 															</cfif>
@@ -1354,7 +1351,7 @@ limitations under the License.
 																});
 															</script>
 														</div>
-														<div class="col-12 mb-1 col-md-2">
+														<div class="col-12 mb-0 col-md-2">
 															<cfif not isdefined("accn_type")>
 																<cfset accn_type="">
 															</cfif>
@@ -1368,7 +1365,7 @@ limitations under the License.
 																});
 															</script>
 														</div>
-														<div class="col-12 mb-1 col-md-2">
+														<div class="col-12 mb-0 col-md-2">
 															<cfif not isdefined("deaccession_number")>
 																<cfset deaccession_number="">
 															</cfif>
@@ -1438,7 +1435,7 @@ limitations under the License.
 																}
 															};
 														</script>
-							
+
 														<label class="data-entry-label d-inline w-auto mt-1" for="fixedselectMode">Grid Select:</label>
 														<select class="data-entry-select d-inline w-auto mt-1" id="fixedselectMode" onChange="fixedchangeSelectMode();">
 															<cfif defaultSelectionMode EQ 'none'><cfset selected="selected"><cfelse><cfset selected=""></cfif>
@@ -1462,10 +1459,10 @@ limitations under the License.
 													<!--- Grid Related code is below along with search handlers --->
 													<div id="fixedsearchResultsGrid" class="jqxGrid" role="table" aria-label="Search Results Table">
 													</div>
-													<div id="fixedenableselection"></div>
-													<div class="p-1 d-none d-md-block"><span class="small" title="enable mousewheel for horizontal scrolling">Mousewheel: </span>
-														<button onClick="fixedMousewheel1();" class="selectBtn1 btn-xs btn rounded">on</button>
-														<button onClick="fixedMousewheel1();" class="selectBtn2 btn btn-xs rounded">off</button>
+													<div id="fixedPostGridControls" class="p-1 d-none d-md-block" style="display: none;" >
+														<span class="small" title="enable mousewheel for horizontal scrolling"> Mousewheel: </span>
+														<button onClick="fixedToggleMousewheel();" class="selectBtn1 btn-xs btn rounded">on</button>
+														<button onClick="fixedToggleMousewheel();" class="selectBtn2 btn btn-xs rounded">off</button>
 													</div>
 													
 												</div>
@@ -1691,7 +1688,7 @@ limitations under the License.
 														});
 													</script> 
 												</div>
-												<cfif findNoCase('redesign',gitBranch) GT 0 OR (isdefined("session.roles") and listfindnocase(session.roles,"global_admin") ) >
+												<cfif findNoCase('test',gitBranch) GT 0 OR (isdefined("session.roles") and listfindnocase(session.roles,"global_admin") ) >
 													<cfset searchCollClasses = "col-sm-5 col-md-5 col-xl-7">
 												<cfelse>
 													<cfset searchCollClasses = "col-sm-7 col-md-7 col-xl-9">
@@ -1700,7 +1697,7 @@ limitations under the License.
 													<label for="searchText" class="data-entry-label">Keyword(s)</label>
 													<input id="searchText" type="text" class="data-entry-input" name="searchText" placeholder="Search term" aria-label="search text" value="#encodeForHtml(searchText)#">
 												</div>
-												<cfif findNoCase('redesign',gitBranch) GT 0 OR (isdefined("session.roles") and listfindnocase(session.roles,"global_admin") ) >
+												<cfif findNoCase('test',gitBranch) GT 0 OR (isdefined("session.roles") and listfindnocase(session.roles,"global_admin") ) >
 													<div class="col-12 col-sm-2 col-md-2 col-xl-2  mt-1 mt-sm-0 pr-2">
 														<label class="data-entry-label" for="debug2">Debug</label>
 														<select title="debug" name="debug" id="debug2" class="data-entry-select inputHeight">
@@ -1783,17 +1780,18 @@ limitations under the License.
 															<option #selected# value="multiplecellsadvanced">Multiple Cells (click, drag, release)</option>
 														</select>
 													</div>
-													
+
 													<output id="keywordactionFeedback" class="btn btn-xs btn-transparent px-2 my-2 mx-1 border-0"></output>
 												</div>
-												<div class="row mx-0 mt-0"> 
+												<div class="row mx-0 mt-0""> 
 													<!--- Grid Related code is below along with search handlers --->
 													<div id="keywordsearchResultsGrid" class="jqxGrid" role="table" aria-label="Search Results Table"></div>
-													<div id="keywordenableselection"></div>
-													<div class="p-1 d-none d-md-block" title="enable mousewheel for horizontal scrolling">mousewheel: 
-														<button onClick="fixedMousewheel2();" class="selectBtn1 btn-xs btn rounded">on</button>
-														<button onClick="fixedMousewheel2();" class="selectBtn2 btn btn-xs rounded">off</button>
+													<div id="keywordPostGridControls" class="p-1 d-none d-md-block" style="display: none;" >
+														<span class="small" title="enable mousewheel for horizontal scrolling"> Mousewheel: </span>
+														<button onClick="keywordToggleMousewheel();" class="selectBtn1 btn-xs btn rounded">on</button>
+														<button onClick="keywordToggleMousewheel();" class="selectBtn2 btn btn-xs rounded">off</button>
 													</div>
+													<div id="keywordenableselection"></div>
 												</div>
 											</div>
 										</div>
@@ -2139,7 +2137,7 @@ Target JSON:
 																		</cfif>
 																	</cfif> 
 																	<input type="hidden" name="nestdepth#row#" id="nestdepth#row#" value="#nestdepthval#">
-																	<cfif findNoCase('redesign',gitBranch) GT 0 OR (isdefined("session.roles") and listfindnocase(session.roles,"global_admin") ) >
+																	<cfif findNoCase('test',gitBranch) GT 0 OR (isdefined("session.roles") and listfindnocase(session.roles,"global_admin") ) >
 																		[#nestdepthval#]
 																	</cfif>
 																</div>
@@ -2396,11 +2394,12 @@ Target JSON:
 												<div class="row mt-0"> 
 													<!--- Grid Related code is below along with search handlers --->
 													<div id="buildersearchResultsGrid" class="jqxGrid" role="table" aria-label="Search Results Table"></div>
-													<div id="builderenableselection"></div>
-													<div class="p-1 d-none d-md-block" title="enable mousewheel for horizontal scrolling">mousewheel: 
-														<button onClick="fixedMousewheel3();" class="selectBtn1 btn-xs btn rounded">on</button>
-														<button onClick="fixedMousewheel3();" class="selectBtn2 btn btn-xs rounded">off</button>
+													<div id="builderPostGridControls" class="p-1 d-none d-md-block" style="display: none;" >
+														<span class="small" title="enable mousewheel for horizontal scrolling"> Mousewheel: </span>
+														<button onClick="builderToggleMousewheel();" class="selectBtn1 btn-xs btn rounded">on</button>
+														<button onClick="builderToggleMousewheel();" class="selectBtn2 btn btn-xs rounded">off</button>
 													</div>
+													<div id="builderenableselection"></div>
 												</div>
 											</div>
 										</div>
@@ -2763,8 +2762,9 @@ Target JSON:
 				$('##fixedsaveDialogButton').html('');
 				$('##fixedactionFeedback').html('');
 				$('##fixedselectModeContainer').hide();
-				/*var debug = $('##fixedSearchForm').serialize();
-				console.log(debug);*/
+				$('##fixedPostGridControls').hide();
+				debug = $('##fixedSearchForm').serialize();
+				console.log(debug);
 				/*var datafieldlist = [ ];//add synchronous call to cf component*/
 	
 				var search = null;
@@ -2774,6 +2774,7 @@ Target JSON:
 					search = 
 					{
 						datatype: "json",
+						
 						datafields:
 						[
 							<cfset separator = "">
@@ -3051,6 +3052,7 @@ Target JSON:
 				$('##keywordsaveDialogButton').html('');
 				$('##keywordactionFeedback').html('');
 				$('##keywordselectModeContainer').hide();
+				$('##keywordPostGridControls').hide();
 				var debug = $("##keywordSearchForm").serialize();
 				console.log(debug);
 		
@@ -3066,6 +3068,7 @@ Target JSON:
 							<cfelseif data_type EQ 'NUMBER' >
 								#separator#{name: '#ucase(column_name)#', type: 'number' }
 							<cfelse>
+						
 								#separator#{name: '#ucase(column_name)#', type: 'string' }
 							</cfif>
 							<cfset separator = ",">
@@ -3230,6 +3233,7 @@ Target JSON:
 				$('##buildersaveDialogButton').html('');
 				$('##builderactionFeedback').html('');
 				$('##builderselectModeContainer').hide();
+				$('##builderPostGridControls').hide();
 				var debug = $("##builderSearchForm").serialize();
 				console.log(debug);
 				var search =
@@ -3683,6 +3687,7 @@ Target JSON:
 			</cfif>
 			$("html, body").scrollTop($("##"+whichGrid+"SearchResultsSection").offset().top);
 			$('##'+whichGrid+'selectModeContainer').show();
+			$('##'+whichGrid+'PostGridControls').show();
 		}
 
 	</script>
@@ -3795,7 +3800,7 @@ Target JSON:
 </script>
 
 <script>
-function fixedMousewheel1(){
+function fixedToggleMousewheel(){
    $('.selectBtn1').on('click' , function(){
       $("##fixedsearchResultsGrid").jqxGrid({enablemousewheel: true});
    });
@@ -3803,7 +3808,7 @@ function fixedMousewheel1(){
       $("##fixedsearchResultsGrid").jqxGrid({enablemousewheel: false});
    });
 };
-function fixedMousewheel2(){
+function keywordToggleMousewheel(){
    $('.selectBtn1').on('click' , function(){
       $("##keywordsearchResultsGrid").jqxGrid({enablemousewheel: true});
    });
@@ -3811,7 +3816,7 @@ function fixedMousewheel2(){
       $("##keywordsearchResultsGrid").jqxGrid({enablemousewheel: false});
    });
 };
-function fixedMousewheel3(){
+function builderToggleMousewheel(){
    $('.selectBtn1').on('click' , function(){
       $("##buildersearchResultsGrid").jqxGrid({enablemousewheel: true});
    });

@@ -2301,9 +2301,13 @@ button.help-btn {
 	transform: translateX(-98%) rotate(-90deg);
 	transform-origin: right top;
 	margin-bottom: 15px;
+<<<<<<< HEAD
 	/*top: -.25rem;*/
 	top: -.75rem;
 	/*right: -70px;*/
+=======
+	top: -.25rem;
+>>>>>>> test2
 	right: -92px;
 	z-index:1; 
 	padding-top:.15rem;
@@ -3489,12 +3493,18 @@ and also iPads specifically.
 		cursor: pointer;
 		position: relative;
 		float: right;
+		right: 1rem;
 	}
 	label.read:before, label.read:after {
 		position: absolute;
+		
 	}
 	label.read:before {
+<<<<<<< HEAD
 		left: 10px;
+=======
+		right: -7px;
+>>>>>>> test2
 		font-family: "Font Awesome 5 Free"; 
 		font-weight: 900; 
 		content: "\f0d7";
@@ -3519,7 +3529,6 @@ and also iPads specifically.
 	.readMore [type="checkbox"]:checked + label.read {
 		position: absolute;
 		top: 100%;
-		right: 0;
 	}
 	.readMore [type="checkbox"]:checked + label.read:before {
 		font-family: "Font Awesome 5 Free"; 
