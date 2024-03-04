@@ -438,7 +438,16 @@ limitations under the License.
 											</select>
 										</div>
 										<div class="col-12 float-left col-md-6 mb-2">
-											<!--- available --->
+											<label for="gridscrolltotop" class="data-entry-label">Searches Bounce to Results on Search</label>
+											<cfif not isDefined("session.gridscrolltotop")>
+												<cfset session.gridscrolltotop = "false">
+											</cfif>
+											<select name="gridscrolltotop" id="gridscrolltotop" class="data-entry-select" onchange="changeGridScrollToTop(this.value)">
+												<cfif session.gridscrolltotop EQ "false"><cfset selected="selected='selected'"><cfelse><cfset selected=""></cfif>
+												<option value="false" #selected#>Disabled</option>
+												<cfif session.gridscrolltotop EQ "true"><cfset selected="selected='selected'"><cfelse><cfset selected=""></cfif>
+												<option value="true" #selected#>Enabled</option>
+											</select>
 										</div>
 									</div>
 									<div class="form-row">
