@@ -339,7 +339,6 @@
 							<cfthrow message = "#error_message#">
 						</cfcatch>
 						</cftry>
-					</cfif>
 				</cfloop>
 			
 				<cfif foundHighCount GT 0>
