@@ -1453,12 +1453,12 @@ limitations under the License.
 													<!--- Grid Related code is below along with search handlers --->
 													<div id="fixedsearchResultsGrid" class="jqxGrid" role="table" aria-label="Search Results Table">
 													</div>
-													<div id="fixedenableselection"></div>
-													<div class="p-1 d-none d-md-block"><span class="small" title="enable mousewheel for horizontal scrolling">Mousewheel: </span>
+													<div id="fixedPostGridControls" class="p-1 d-none d-md-block" style="display: none;" >
+														<span class="small" title="enable mousewheel for horizontal scrolling"> Mousewheel: </span>
 														<button onClick="fixedToggleMousewheel();" class="selectBtn1 btn-xs btn rounded">on</button>
 														<button onClick="fixedToggleMousewheel();" class="selectBtn2 btn btn-xs rounded">off</button>
 													</div>
-													
+													<div id="fixedenableselection"></div>
 												</div>
 											</div>
 										</div>
@@ -1777,14 +1777,15 @@ limitations under the License.
 																
 													<output id="keywordactionFeedback" class="btn btn-xs btn-transparent px-2 my-2 mx-1 border-0"></output>
 												</div>
-												<div class="row mx-0 mt-0"> 
+												<div class="row mx-0 mt-0""> 
 													<!--- Grid Related code is below along with search handlers --->
 													<div id="keywordsearchResultsGrid" class="jqxGrid" role="table" aria-label="Search Results Table"></div>
-													<div id="keywordenableselection"></div>
-													<div class="p-1 d-none d-md-block" title="enable mousewheel for horizontal scrolling">mousewheel: 
+													<div id="keywordPostGridControls" class="p-1 d-none d-md-block" style="display: none;" >
+														<span class="small" title="enable mousewheel for horizontal scrolling"> Mousewheel: </span>
 														<button onClick="keywordToggleMousewheel();" class="selectBtn1 btn-xs btn rounded">on</button>
 														<button onClick="keywordToggleMousewheel();" class="selectBtn2 btn btn-xs rounded">off</button>
 													</div>
+													<div id="keywordenableselection"></div>
 												</div>
 											</div>
 										</div>
@@ -2387,11 +2388,12 @@ Target JSON:
 												<div class="row mt-0"> 
 													<!--- Grid Related code is below along with search handlers --->
 													<div id="buildersearchResultsGrid" class="jqxGrid" role="table" aria-label="Search Results Table"></div>
-													<div id="builderenableselection"></div>
-													<div class="p-1 d-none d-md-block" title="enable mousewheel for horizontal scrolling">mousewheel: 
+													<div id="builderPostGridControls" class="p-1 d-none d-md-block" style="display: none;" >
+														<span class="small" title="enable mousewheel for horizontal scrolling"> Mousewheel: </span>
 														<button onClick="builderToggleMousewheel();" class="selectBtn1 btn-xs btn rounded">on</button>
 														<button onClick="builderToggleMousewheel();" class="selectBtn2 btn btn-xs rounded">off</button>
 													</div>
+													<div id="builderenableselection"></div>
 												</div>
 											</div>
 										</div>
@@ -2754,8 +2756,9 @@ Target JSON:
 				$('##fixedsaveDialogButton').html('');
 				$('##fixedactionFeedback').html('');
 				$('##fixedselectModeContainer').hide();
-				/*var debug = $('##fixedSearchForm').serialize();
-				console.log(debug);*/
+				$('##fixedPostGridControls').hide();
+				debug = $('##fixedSearchForm').serialize();
+				console.log(debug);
 				/*var datafieldlist = [ ];//add synchronous call to cf component*/
 	
 				var search = null;
@@ -3043,6 +3046,7 @@ Target JSON:
 				$('##keywordsaveDialogButton').html('');
 				$('##keywordactionFeedback').html('');
 				$('##keywordselectModeContainer').hide();
+				$('##keywordPostGridControls').hide();
 				var debug = $("##keywordSearchForm").serialize();
 				console.log(debug);
 		
@@ -3222,6 +3226,7 @@ Target JSON:
 				$('##buildersaveDialogButton').html('');
 				$('##builderactionFeedback').html('');
 				$('##builderselectModeContainer').hide();
+				$('##builderPostGridControls').hide();
 				var debug = $("##builderSearchForm").serialize();
 				console.log(debug);
 				var search =
@@ -3675,6 +3680,7 @@ Target JSON:
 			</cfif>
 			$("html, body").scrollTop($("##"+whichGrid+"SearchResultsSection").offset().top);
 			$('##'+whichGrid+'selectModeContainer').show();
+			$('##'+whichGrid+'PostGridControls').show();
 		}
 
 	</script>
