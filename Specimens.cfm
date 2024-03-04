@@ -41,6 +41,9 @@ limitations under the License.
 		<cfset action="fixedSearch">
 	</cfif>
 </cfif>
+<cfif not isDefined("session.gridenablemousewheel")>
+	<cfset session.gridenablemousewheel = "false">
+</cfif>
 <cfswitch expression="#action#">
 	<!--- API note: action and method seem duplicative, action is required and used to determine
 			which tab to show, method invokes target backing method in form submission, but when 
@@ -742,7 +745,7 @@ limitations under the License.
 													OR (isDefined("geo_att_value") and len(geo_att_value) GT 0)
 													OR (isDefined("verificationstatus") and len(verificationstatus) GT 0)
 													OR (isDefined("min_depth_in_m") and len(min_depth_in_m) GT 0)
-													OR (isDefined("max_depth_in_m") and len(ax_depth_in_m) GT 0)
+													OR (isDefined("max_depth_in_m") and len(max_depth_in_m) GT 0)
 													OR (isDefined("min_elev_in_m") and len(min_elev_in_m) GT 0)
 													OR (isDefined("max_elev_in_m") and len(max_elev_in_m) GT 0)>
 													<cfset hiddenHaveValue = true>
@@ -1453,7 +1456,7 @@ limitations under the License.
 												
 													<output id="fixedactionFeedback" class="btn btn-xs btn-transparent my-2 px-2 mx-1 pt-1 border-0"></output>
 												</div>
-													<!---(TO DO: Figure out how to make this sticky row work on the column header row)--->
+												<!--- TODO: Figure out how to make this sticky row work on the column header row --->
 												<div class="row mx-0 mt-0"> 
 													
 													<!--- Grid Related code is below along with search handlers --->
@@ -2913,9 +2916,9 @@ Target JSON:
 					filterable: false,
 					sortable: true,
 					pageable: true,
-					virtualmode: true,
-					enablemousewheel: false,
 					editable: false,
+					virtualmode: true,
+      			enablemousewheel: '#session.gridenablemousewheel#',
 					pagesize: '#session.specimens_pagesize#',
 					pagesizeoptions: ['5','10','25','50','100','1000'], // fixed list regardless of actual result set size, dynamic reset goes into infinite loop.
 					showaggregates: true,
@@ -2932,7 +2935,6 @@ Target JSON:
 					ready: function () {
 						$("##fixedsearchResultsGrid").jqxGrid('selectrow', 0);
 						$("##fixedsearchResultsGrid").jqxGrid('focus');
-				//		$("##fixedsearchResultsGrid").jqxGrid({ everpresentrowposition: 'top'}); 
 					},
 					rendergridrows: function () {
 						return dataAdapter.records;
@@ -3113,7 +3115,7 @@ Target JSON:
 					pageable: true,
 					editable: false,
 					virtualmode: true,
-					enablemousewheel: false,
+      			enablemousewheel: '#session.gridenablemousewheel#',
 					pagesize: '#session.specimens_pagesize#',
 					pagesizeoptions: ['5','10','25','50','100','1000'], // fixed list regardless of actual result set size, dynamic reset goes into infinite loop.
 					showaggregates: true,
@@ -3290,9 +3292,9 @@ Target JSON:
 					filterable: false,
 					sortable: true,
 					pageable: true,
-					virtualmode: true,
 					editable: false,
-					enablemousewheel: false,
+					virtualmode: true,
+      			enablemousewheel: '#session.gridenablemousewheel#',
 					pagesize: '#session.specimens_pagesize#',
 					pagesizeoptions: ['5','10','25','50','100','1000'], // fixed list regardless of actual result set size, dynamic reset goes into infinite loop.
 					showaggregates: true,
@@ -3308,6 +3310,7 @@ Target JSON:
 					showtoolbar: false,
 					ready: function () {
 						$("##buildersearchResultsGrid").jqxGrid('selectrow', 0);
+						$("##buildersearchResultsGrid").jqxGrid('focus');
 					},
 					rendergridrows: function () {
 						return dataAdapter.records;
