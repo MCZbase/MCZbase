@@ -237,6 +237,11 @@ limitations under the License.
 				<cfset bugzilla_component = "Web Interface">
 				<cfset user_priority = "6">
 			</cfif>
+			<cfif  isdefined("CGI.Remote_Addr") and len(CGI.Remote_Addr) gt 0>
+				<cfset ipaddress=CGI.Remote_Addr>
+			<cfelse>
+				<cfset ipaddress='unknown'>
+			</cfif>
 			<cfset user_id=0>
 			<cfif isdefined("session.username") and len(#session.username#) gt 0>
 				<cfquery name="isUser"datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -400,7 +405,7 @@ limitations under the License.
 #bugzilla_severity#
 	
 Bug report by: #reported_name# (Username: #session.username#)
-Email: #user_email#
+Email: #user_email# <cfif NOT (isdefined("session.roles") AND listcontainsnocase(session.roles,"coldfusion_user"))>IP Address: #ipaddress#</cfif>
 Complaint: #complaint#
 #newline##newline#
 #human_importance#
