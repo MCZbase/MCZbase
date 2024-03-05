@@ -248,7 +248,7 @@ limitations under the License.
 
 				<div class="col-12 my-4">
 					<h3 class="h4">Found #size# columns in header of csv file.</h3>
-					<h3 class="h4">There are #ListLen(fieldList)# columns expected in the header. (of these #ListLen(requiredFieldList)# are required)</h3>
+					<h3 class="h4">There are #ListLen(fieldList)# columns expected in the header (of these #ListLen(requiredFieldList)# are required).</h3>
 				</div>
 
 				<!--- check for required fields in header line (performng check in two different ways, Case 1, Case 2) --->
@@ -258,7 +258,7 @@ limitations under the License.
 					<cfif ListContainsNoCase(requiredFieldList,aField)>
 						<!--- Case 1. Check by splitting assembled list of foundHeaders --->
 						<cfif NOT ListContainsNoCase(foundHeaders,aField)>
-							<cfset errorMessage = "#errorMessage# <span class='text-danger'>#aField#</span> is missing.">
+							<li><cfset errorMessage = "#errorMessage# <span class='text-danger'>#aField#</span> is missing.">
 						</cfif>
 					</cfif>
 				</cfloop>
