@@ -302,15 +302,15 @@ limitations under the License.
 					<!--- Identify additional columns that will be ignored --->
 					<cfloop list="#foundHeaders#" item="aField">
 						<cfif NOT ListContainsNoCase(fieldList,aField)>
-							<li><i class="fas fa-arrow-right"></i> &nbsp;Found additional column header [<strong>#aField#</strong>] in the CSV that is not in the list of expected headers.</1i>
+							<li>Found additional column header [<strong>#aField#</strong>] in the CSV that is not in the list of expected headers.</1i>
 						</cfif>
 					</cfloop>
 					<!--- Identify duplicate columns and fail if found --->
 					<cfif NOT ListLen(ListRemoveDuplicates(foundHeaders)) EQ ListLen(foundHeaders)>
-						<li><i class="fas fa-arrow-right"></i> &nbsp;At least one column header occurs more than once.</1i>
+						<li>At least one column header occurs more than once.</1i>
 						<cfloop list="#foundHeaders#" item="aField">
 							<cfif listValueCount(foundHeaders,aField) GT 1>
-								<li><i class="fas fa-arrow-right"></i> &nbsp;[<strong>#aField#</strong>] is duplicated as the header for #listValueCount(foundHeaders,aField)# columns.</1i>
+								<li>[<strong>#aField#</strong>] is duplicated as the header for #listValueCount(foundHeaders,aField)# columns.</li>
 							</cfif>
 						</cfloop>
 						<cfthrow message = "#DUP_COLUMN_ERR#">
@@ -398,8 +398,7 @@ limitations under the License.
 						you selected the correct encoding and can continue to validate or load.
 					</div>
 					<ul class="py-1 h3 list-unstyled">
-						<li><i class="fas fa-arrow-right"></i> &nbsp;#foundHighAscii#</li>
-						<li><i class="fas fa-arrow-right"></i> &nbsp;#foundMultiByte#</li>
+						#foundHighAscii# #foundMultiByte#
 					</ul>
 				</cfif>
 				<h3 class="h3">
@@ -436,40 +435,36 @@ limitations under the License.
 					<cfif isDefined("foundHighCount") AND foundHighCount GT 0>
 						<h3 class="h3">Found characters with unexpected encoding in the header row.  This is probably the cause of your error.</h3>
 						<div>
-							Showing #foundHighCount# examples.  Did you select utf-16 or unicode for the encoding for a file that does not have multibyte encoding?
+							Showing #foundHighCount# examples. Did you select utf-16 or unicode for the encoding for a file that does not have multibyte encoding?
 						</div>
 						<ul class="py-1 h3 list-unstyled">
-							<li><i class="fas fa-arrow-right"></i> &nbsp;#foundHighAscii#</li>
-							<li><i class="fas fa-arrow-right"></i> &nbsp;#foundMultiByte#</li>
+							#foundHighAscii# #foundMultiByte#
 						</ul>
 					</cfif>
 				</cfif>
 				<cfif Find("#NO_COLUMN_ERR#",cfcatch.message) GT 0>
-						<ul class="py-1 h3 list-unstyled">
-						<li><i class="fas fa-arrow-right"></i> &nbsp;#cfcatch.message#</li>
-					</ul>
+						#cfcatch.message#
+					
 				<cfelseif Find("#COLUMN_ERR#",cfcatch.message) GT 0>
-						<ul class="py-1 h3 list-unstyled">
-						<li><i class="fas fa-arrow-right"></i> &nbsp;#cfcatch.message#</li>
-					</ul>
+						#cfcatch.message#
+					
 				<cfelseif Find("#DUP_COLUMN_ERR#",cfcatch.message) GT 0>
-					<ul class="py-1 h3 list-unstyled">
-						<li><i class="fas fa-arrow-right"></i> &nbsp;#cfcatch.message#</li>
-					</ul>
+					#cfcatch.message#
+					
 				<cfelseif Find("IOException reading next record: java.io.IOException: (line 1) invalid char between encapsulated token and delimiter",cfcatch.message) GT 0>
 					<ul class="py-1 h3 list-unstyled">
-						<li><i class="fas fa-arrow-right"></i> &nbsp;Unable to read headers in line 1.  Did you select CSV format for a tab delimited file?</li>
+						<li>Unable to read headers in line 1.  Did you select CSV format for a tab delimited file?</li>
 					</ul>
 				<cfelseif Find("IOException reading next record: java.io.IOException: (line 1)",cfcatch.message) GT 0>
 					<ul class="py-1 h3 list-unstyled">
 						<cfif format EQ "DEFAULT"><cfset fmt="CSV: Default Comma Separated values"><cfelse><cfset fmt="#format#"></cfif>
-						<li><i class="fas fa-arrow-right"></i> &nbsp;Unable to read headers in line 1.  Is your file actually have the format #fmt#?</li>
+						<li>Unable to read headers in line 1.  Is your file actually have the format #fmt#?</li>
 						<li>#cfcatch.message#</li>
 					</ul>
 				<cfelseif Find("IOException reading next record: java.io.IOException:",cfcatch.message) GT 0>
 					<ul class="py-1 h3 list-unstyled">
 						<cfif format EQ "DEFAULT"><cfset fmt="CSV: Default Comma Separated values"><cfelse><cfset fmt="#format#"></cfif>
-						<li><i class="fas fa-arrow-right"></i> &nbsp;Unable to read a record from the file.  One or more lines may not be consistent with the specified format #format#</li>
+						<li>Unable to read a record from the file.  One or more lines may not be consistent with the specified format #format#</li>
 						<li>#cfcatch.message#</li>
 				<cfelse>
 					<cfdump var="#cfcatch#">
