@@ -63,101 +63,279 @@ limitations under the License.
 			<p>Upload a comma-delimited text file (csv). Include column headings, spelled exactly as below.</p>
 			<p>Use "catalog number" as the value of other_id_type to match on catalog number.</p>
 			<span class="btn btn-xs btn-info" onclick="document.getElementById('template').style.display='block';">View template</span>
-			<div id="template" style="display:none;margin: 1em 0;">
-				<label for="templatearea" class="data-entry-label">
+			<div id="template" style="margin: 1rem 0;display:none;">
+				<label for="templatearea" class="data-entry-label mb-1">
 					Copy this header line and save it as a .csv file (<a href="/tools/BulkloadAttributes.cfm?action=getCSVHeader">download</a>)
 				</label>
 				<textarea rows="2" cols="90" id="templatearea" class="w-100 data-entry-textarea">#fieldlist#</textarea>
 			</div>
-			<p class="mt-3">Columns in <span class="text-danger">red</span> are required; others are optional:</p>
+			<p>Columns in <span class="text-danger">red</span> are required; others are optional:</p>
 			<ul>
 				<cfloop list="#fieldlist#" index="field" delimiters=",">
+					<cfset aria = "">
 					<cfif listContains(requiredfieldlist,field,",")>
 						<cfset class="text-danger">
+						<cfset aria = "aria-label='Required Field'">
 					<cfelse>
 						<cfset class="text-dark">
 					</cfif>
-					<li class="#class#">#field#</li>
+					<li class="#class#" #aria#>#field#</li>
 				</cfloop>
 			</ul>
-			<cfform name="atts" method="post" enctype="multipart/form-data" action="/tools/BulkloadAttributes.cfm">
-				<input type="hidden" name="action" value="getFile">
-				<cfinput type="file" name="FiletoUpload" id="fileToUpload" size="45" >
-				<label for="cSet">Character Set:</label> 
-				<select name="cSet" id="cSet" required class="reqdClr">
-					<option selected></option>
-					<option value="utf-8" >utf-8</option>
-					<option value="windows-1252">windows-1252</option>
-					<option value="MacRoman">MacRoman</option>
-					<option value="utf-16">utf-16</option>
-					<option value="unicode">unicode</option>
-				</select>
-				<input type="submit" value="Upload this file" class="btn btn-primary btn-xs">
-			</cfform>
+			<form name="atts" method="post" enctype="multipart/form-data" action="/tools/BulkloadAttributes.cfm">
+				<div class="form-row border rounded p-2">
+					<input type="hidden" name="action" value="getFile">
+					<div class="col-12 col-md-4">
+						<label for="fileToUpload" class="data-entry-label">File to bulkload:</label> 
+						<input type="file" name="FiletoUpload" id="fileToUpload" class="data-entry-input p-0 m-0">
+					</div>
+					<div class="col-12 col-md-3">
+						<label for="characterSet" class="data-entry-label">Character Set:</label> 
+						<select name="characterSet" id="characterSet" required class="data-entry-select reqdClr">
+							<option selected></option>
+							<option value="utf-8" >utf-8</option>
+							<option value="iso-8859-1">iso-8859-1</option>
+							<option value="windows-1252">windows-1252 (Win Latin 1)</option>
+							<option value="MacRoman">MacRoman</option>
+							<option value="x-MacCentralEurope">Macintosh Latin-2</option>
+							<option value="windows-1250">windows-1250 (Win Eastern European)</option>
+							<option value="windows-1251">windows-1251 (Win Cyrillic)</option>
+							<option value="utf-16">utf-16</option>
+							<option value="utf-32">utf-32</option>
+						</select>
+					</div>
+					<div class="col-12 col-md-3">
+						<label for="format" class="data-entry-label">Format:</label> 
+						<select name="format" id="format" required class="data-entry-select reqdClr">
+							<option value="DEFAULT" selected >Standard CSV</option>
+							<option value="TDF">Tab Separated Values</option>
+							<option value="EXCEL">CSV export from MS Excel</option>
+							<option value="RFC4180">Strict RFC4180 CSV</option>
+							<option value="ORACLE">Oracle SQL*Loader CSV</option>
+							<option value="MYSQL">CSV export from MYSQL</option>
+						</select>
+					</div>
+					<div class="col-12 col-md-2">
+						<label for="submitButton" class="data-entry-label">&nbsp;</label>
+						<input type="submit" id="submittButton" value="Upload this file" class="btn btn-primary btn-xs">
+					</div>
+				</div>
+			</form>
 		</cfoutput>
 	</cfif>
 	<!------------------------------------------------------->
 	<cfif #action# is "getFile">
+		<cfoutput>
 		<h2 class="h3">First step: Reading data from CSV file.</h2>
+		<!--- Compare the numbers of headers expected against provided in CSV file --->
 		<!--- Set some constants to identify error cases in cfcatch block --->
 		<cfset NO_COLUMN_ERR = "One or more required fields are missing in the header line of the csv file.">
+		<cfset DUP_COLUMN_ERR = "One or more columns are duplicated in the header line of the csv file.">
 		<cfset COLUMN_ERR = "Error inserting data">
-		<cfoutput>
-			<cftry>
-				<cffile action="READ" file="#FiletoUpload#" variable="fileContent" charset="#cSet#">
-				<cfset fileContent=replace(fileContent,"'","''","all")>
-				<cfset arrResult = CSVToArray(CSV = fileContent.Trim()) />
-			
+		<cfset NO_HEADER_ERR = "No header line found, csv file appears to be empty.">
+
+		<cftry>
+				<!--- Parse the CSV file using Apache Commons CSV library included with coldfusion so that columns with comma delimeters will be separated properly --->
+				<cfset fileProxy = CreateObject("java","java.io.File") >
+				<cfobject type="Java" name="csvFormat" class="org.apache.commons.csv.CSVFormat" >
+				<cfobject type="Java" name="csvParser" class="org.apache.commons.csv.CSVParser" >
+				<cfobject type="Java" name="csvRecord" class="org.apache.commons.csv.CSVRecord" >			
+				<cfobject type="java" class="java.io.FileReader" name="fileReader">	
+				<cfobject type="Java" name="javaCharset" class="java.nio.charset.Charset" >
+				<cfobject type="Java" name="standardCharsets" class="java.nio.charset.StandardCharsets" >
+				<cfset filePath = fileProxy.init(JavaCast("string",#FiletoUpload#)) >
+				<cfset tempFileInputStream = CreateObject("java","java.io.FileInputStream").Init(#filePath#) >
+				<!--- Create a FileReader object to provide a reader for the CSV file --->
+				<cfset fileReader = CreateObject("java","java.io.FileReader").Init(#filePath#) >
+				<!--- we can not use the withHeader() method from coldfusion, as it is overloaded, and with no parameters provides coldfusion no means to pick the correct method --->
+				<!--- Select format of csv file based on format variable from user --->
+				<cfif not isDefined("format")><cfset format="DEFAULT"></cfif>
+				<cfswitch expression="#format#">
+					<cfcase value="DEFAULT">
+						<cfset csvFormat = CSVFormat.DEFAULT>
+					</cfcase>
+					<cfcase value="TDF">
+						<cfset csvFormat = CSVFormat.TDF>
+					</cfcase>
+					<cfcase value="RFC4180">
+						<cfset csvFormat = CSVFormat.RFC4180>
+					</cfcase>
+					<cfcase value="EXCEL">
+						<cfset csvFormat = CSVFormat.EXCEL>
+					</cfcase>
+					<cfcase value="ORACLE">
+						<cfset csvFormat = CSVFormat.ORACLE>
+					</cfcase>
+					<cfcase value="MYSQL">
+						<cfset csvFormat = CSVFormat.MYSQL>
+					</cfcase>
+					<cfdefaultcase>
+						<cfset csvFormat = CSVFormat.DEFAULT>
+					</cfdefaultcase>
+				</cfswitch>
+				<!--- Create a CSVParser using the FileReader and CSVFormat--->
+				<cfset csvParser = CSVParser.parse(fileReader, csvFormat)>
+				<!--- Select charset based on characterSet variable from user --->
+				<cfswitch expression="#characterSet#">
+					<cfcase value="utf-8">
+						<cfset javaSelectedCharset = standardCharsets.UTF_8 >
+					</cfcase>
+					<cfcase value="iso-8859-1">
+						<cfset javaSelectedCharset = standardCharsets.ISO_8859_1 >
+					</cfcase>
+					<cfcase value="windows-1250">
+						<cfset javaSelectedCharset = javaCharset.forName(JavaCast("string","windows-1250")) >
+					</cfcase>
+					<cfcase value="windows-1251">
+						<cfset javaSelectedCharset = javaCharset.forName(JavaCast("string","windows-1251")) >
+					</cfcase>
+					<cfcase value="windows-1252">
+						<cfif javaCharset.isSupported(JavaCast("string","windows-1252"))>
+							<cfset javaSelectedCharset = javaCharset.forName(JavaCast("string","windows-1252")) >
+						<cfelse>
+							<!--- if not available, iso-8859-1 will substitute, except for 0x80 to 0x9F --->
+							<!--- the following characters won't be handled correctly if the source is windows-1252:  €  Š  š  Ž  ž  Œ  œ  Ÿ --->
+							<cfset javaSelectedCharset = standardCharsets.ISO_8859_1 >
+						</cfif>
+					</cfcase>
+					<cfcase value="x-MacCentralEurope">
+						<cfset javaSelectedCharset = javaCharset.forName(JavaCast("string","x-MacCentralEurope")) >
+					</cfcase>
+					<cfcase value="MacRoman">
+						<cfset javaSelectedCharset = javaCharset.forName(JavaCast("string","x-MacRoman")) >
+					</cfcase>
+					<cfcase value="utf-16">
+						<cfset javaSelectedCharset = standardCharsets.UTF_16 >
+					</cfcase>
+					<cfcase value="utf-32">
+						<cfset javaSelectedCharset = javaCharset.forName(JavaCast("string","utf-32")) >
+					</cfcase>
+					<cfdefaultcase>
+						<cfset javaSelectedCharset = standardCharsets.UTF_8 >
+					</cfdefaultcase>
+				</cfswitch>
+				<cfset records = CSVParser.parse(#tempFileInputStream#,#javaSelectedCharset#,#csvFormat#)>
+
 				<!--- cleanup any incomplete work by the same user --->
 				<cfquery name="clearTempTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="clearTempTable_result">
 					DELETE FROM cf_temp_attributes 
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
-				
-					
-				<!--- check for required fields in header line --->
-				<cfset institution_acronym_exists = false>
-				<cfset collection_cde_exists = false>
-				<cfset other_id_type_exists = false>
-				<cfset other_id_number_exists = false>
-				<cfset attribute_exists = false>
-				<cfset attribute_value_exists = false>
-				<cfset attribute_date_exists = false>
-				<cfset determiner_exists = false>
-				<cfloop from="1" to ="#ArrayLen(arrResult[1])#" index="col">
-					<cfset header = arrResult[1][col]>
-					<cfif ucase(header) EQ 'institution_acronym'><cfset institution_acronym_exists=true></cfif>
-					<cfif ucase(header) EQ 'collection_cde'><cfset collection_cde_exists=true></cfif>
-					<cfif ucase(header) EQ 'other_id_type'><cfset other_id_type_exists=true></cfif>
-					<cfif ucase(header) EQ 'other_id_number'><cfset other_id_number_exists=true></cfif>
-					<cfif ucase(header) EQ 'attribute'><cfset attribute_exists=true></cfif>
-					<cfif ucase(header) EQ 'attribute_value'><cfset attribute_value_exists=true></cfif>
-					<cfif ucase(header) EQ 'attribute_date'><cfset attribute_date_exists=true></cfif>
-					<cfif ucase(header) EQ 'determiner'><cfset determiner_exists=true></cfif>
-				</cfloop>
-				<cfif not (institution_acronym_exists AND collection_cde_exists AND other_id_type_exists AND other_id_number_exists AND attribute_exists AND attribute_value_exists AND attribute_date_exists AND determiner_exists)>
-					<cfset message = "#NO_COLUMN_ERR#">
-					<cfif not institution_acronym_exists><cfset message = "#message# institution_acronym is missing."></cfif>
-					<cfif not collection_cde_exists><cfset message = "#message# collection_cde is missing."></cfif>
-					<cfif not other_id_type_exists><cfset message = "#message# other_id_type is missing."></cfif>
-					<cfif not other_id_number_exists><cfset message = "#message# other_id_number is missing."></cfif>
-					<cfif not attribute_exists><cfset message = "#message# attribute is missing."></cfif>
-					<cfif not attribute_value_exists><cfset message = "#message# attribute_value is missing."></cfif>
-					<cfif not attribute_date_exists><cfset message = "#message# attribute_date is missing."></cfif>
-					<cfif not determiner_exists><cfset message = "#message# determiner is missing."></cfif>
-					<cfthrow message="#message#">
+
+				<!--- obtain an iterator to loops through the rows/records in the csv --->
+				<cfset iterator = records.iterator()>
+				<!---Obtain the first line of the file as the header line, we can not use the withHeader() method to do this in coldfusion --->
+				<cfif iterator.hasNext()>
+					<cfset headers = iterator.next()>
+				<cfelse>
+					<cfthrow message="#NO_HEADER_ERR# No first line found.">
 				</cfif>
-				<cfset colNames="">
+				<!---Get the number of column headers--->
+				<cfset size = headers.size()>
+				<cfif size EQ 0>
+					<cfthrow message="#NO_HEADER_ERR# First line appears empty.">
+				</cfif>
+				<cfset separator = "">
+				<cfset foundHeaders = "">
+				<cfloop index="i" from="0" to="#headers.size() - 1#">
+					<cfset foundHeaders = "#foundHeaders##separator##headers.get(JavaCast("int",i))#" >
+					<cfset separator = ",">
+				</cfloop>
+				<!--- Note: As we can't use csvFormat.withHeader(), we can not match columns by name, we are forced to do so by number, thus arrays --->
+				<cfset colNameArray = listToArray(ucase(foundHeaders))><!--- the list of columns/fields found in the input file --->
+				<cfset fieldArray = listToArray(ucase(fieldlist))><!--- the full list of fields --->
+				<cfset typeArray = listToArray(fieldTypes)><!--- the types for the full list of fields --->
+
+				<div class="col-12 my-4">
+					<h3 class="h4">Found #size# columns in header of csv file.</h3>
+					<h3 class="h4">There are #ListLen(fieldList)# columns expected in the header. (of these #ListLen(requiredFieldList)# are required)</h3>
+				</div>
+
+				<!--- check for required fields in header line (performng check in two different ways, Case 1, Case 2) --->
+				<!--- Loop through list of fields throw exception if required fields are missing --->
+				<cfset errorMessage = "">
+				<cfloop list="#fieldList#" item="aField">
+					<cfif ListContainsNoCase(requiredFieldList,aField)>
+						<!--- Case 1. Check by splitting assembled list of foundHeaders --->
+						<cfif NOT ListContainsNoCase(foundHeaders,aField)>
+							<cfset errorMessage = "#errorMessage# #aField# is missing.">
+						</cfif>
+					</cfif>
+				</cfloop>
+				<cfif len(errorMessage) GT 0>
+					<cfthrow message = "#NO_COLUMN_ERR# #errorMessage#">
+				</cfif>
+				<cfset errorMessage = "">
+				<!--- Loop through list of fields, mark each field as fields present in input or not, throw exception if required fields are missing --->
+				<ul class="">
+					<cfloop list="#fieldlist#" index="field" delimiters=",">
+						<cfset hint="">
+						<cfif listContains(requiredfieldlist,field,",")>
+							<cfset class="text-danger">
+							<cfset hint="aria-label='required'">
+						<cfelse>
+							<cfset class="text-dark">
+						</cfif>
+						<li>
+							<span class="#class#" #hint#>#field#</span>
+							<cfif arrayFindNoCase(colNameArray,field) GT 0>
+								<strong class="text-success">Present in CSV</strong>
+							<cfelse>
+								<!--- Case 2. Check by identifying field in required field list --->
+								<cfif ListContainsNoCase(requiredFieldList,field)>
+									<strong class="text-dark">Required Column Not Found</strong>
+									<cfset errorMessage = "#errorMessage# #field# is missing.">
+								</cfif>
+							</cfif>
+						</li>
+					</cfloop>
+				</ul>
+				<cfif len(errorMessage) GT 0>
+					<cfif size EQ 1>
+						<!--- likely a problem parsing the first line into column headers --->
+						<!--- to get here, upload a csv file with the correct headers as MYSQL format --->
+						<cfset errorMessage = "You may have specified the wrong format, only one column header was found. #errorMessage#">
+					</cfif>
+					<cfthrow message = "#NO_COLUMN_ERR# #errorMessage#">
+				</cfif>
+				<ul>
+					<!--- Identify additional columns that will be ignored --->
+					<cfloop list="#foundHeaders#" item="aField">
+						<cfif NOT ListContainsNoCase(fieldList,aField)>
+							<li>Found additional column header [<strong>#aField#</strong>] in the CSV that is not in the list of expected headers.</1i>
+						</cfif>
+					</cfloop>
+					<!--- Identify duplicate columns and fail if found --->
+					<cfif NOT ListLen(ListRemoveDuplicates(foundHeaders)) EQ ListLen(foundHeaders)>
+						<li>At least one column header occurs more than once.</1i>
+						<cfloop list="#foundHeaders#" item="aField">
+							<cfif listValueCount(foundHeaders,aField) GT 1>
+								<li><strong>#aField#</strong> is duplicated as the header for #listValueCount(foundHeaders,aField)# columns.</1i>
+							</cfif>
+						</cfloop>
+						<cfthrow message = "#DUP_COLUMN_ERR#">
+					</cfif>
+				</ul>
+
+				<cfset colNames="#foundHeaders#">
 				<cfset loadedRows = 0>
 				<cfset foundHighCount = 0>
 				<cfset foundHighAscii = "">
 				<cfset foundMultiByte = "">
-				<!--- get the headers from the first row of the input, then iterate through the remaining rows inserting the data into the temp table. --->
-				<cfloop from="1" to ="#ArrayLen(arrResult)#" index="row">
+
+				<!--- Iterate through the remaining rows inserting the data into the temp table. --->
+				<cfset row = 0>
+				<cfloop condition="#iterator.hasNext()#">
 					<!--- obtain the values in the current row --->
-					<cfset colVals="">
-					<cfloop from="1" to ="#ArrayLen(arrResult[row])#" index="col">
-						<cfset thisBit=arrResult[row][col]>
+					<cfset rowData = iterator.next()>
+					<cfset row = row + 1>
+					<cfset columnsCountInRow = rowData.size()>
+					<cfset collValuesArray= ArrayNew(1)>
+					<cfloop index="i" from="0" to="#rowData.size() - 1#">
+						<!--- loading cells from object instead of list allows commas inside cells --->
+						<cfset thisBit = "#rowData.get(JavaCast("int",i))#" >
+						<!--- store in a coldfusion array so we won't need JavaCast to reference by position --->
+						<cfset ArrayAppend(collValuesArray,thisBit)>
 						<cfif REFind("[^\x00-\x7F]",thisBit) GT 0>
 							<!--- high ASCII --->
 							<cfif foundHighCount LT 6>
@@ -171,85 +349,52 @@ limitations under the License.
 								<cfset foundHighCount = foundHighCount + 1>
 							</cfif>
 						</cfif>
-						<cfif #row# is 1>
-							<cfset colNames="#colNames#,#thisBit#">
-						<cfelse>
-							<!--- quote values to ensure all columns have content, will need to strip out later to insert values --->
-							<cfset colVals="#colVals#,'#thisBit#'">
-						</cfif>
 					</cfloop>
-					<cfif #row# is 1>
-						<!--- first row, obtain column headers --->
-						<!--- strip off the leading separator --->
-						<cfset colNames=replace(colNames,",","","first")>
-						<cfset colNameArray = listToArray(ucase(colNames))><!--- the list of columns/fields found in the input file --->
-						<cfset fieldArray = listToArray(ucase(fieldlist))><!--- the full list of fields --->
-						<cfset typeArray = listToArray(fieldTypes)><!--- the types for the full list of fields --->
-						<h3 class="h4">Found #arrayLen(colNameArray)# matching columns in header of csv file.</h3>
-						<ul class="">
-							<cfloop list="#fieldlist#" index="field" delimiters=",">
-								<cfif listContains(requiredfieldlist,field,",")>
-									<cfset class="text-danger">
-								<cfelse>
-									<cfset class="text-dark">
-								</cfif>
-								<li class="#class#">
-									#field#
-									<cfif arrayFindNoCase(colNameArray,field) GT 0>
-										<strong>Present in CSV</strong>
-									</cfif>
-								</li>
-							</cfloop>
-						</ul>
-					<cfelse>
-						<!--- subsequent rows, data --->
-						<!--- strip off the leading separator --->
-						<cfset colVals=replace(colVals,",","","first")>
-						<cfset colValArray=listToArray(colVals)>
-						<cftry>
-							<!--- construct insert for row with a line for each entry in fieldlist using cfqueryparam if column header is in fieldlist, otherwise using null --->
-							<cfquery name="insert" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="insert_result">
-								insert into cf_temp_attributes
-									(#fieldlist#,username)
-								values (
-									<cfset separator = "">
-									<cfloop from="1" to ="#ArrayLen(fieldArray)#" index="col">
-										<cfif arrayFindNoCase(colNameArray,fieldArray[col]) GT 0>
-											<cfset fieldPos=arrayFind(colNameArray,fieldArray[col])>
-											<cfset val=trim(colValArray[fieldPos])>
-											<cfset val=rereplace(val,"^'+",'')>
-											<cfset val=rereplace(val,"'+$",'')>
-											<cfif val EQ ""> 
-												#separator#NULL
-											<cfelse>
-												#separator#<cfqueryparam cfsqltype="#typeArray[fieldPos]#" value="#val#">
-											</cfif>
-										<cfelse>
+					<cftry>
+						<!--- construct insert for row with a line for each entry in fieldlist using cfqueryparam if column header is in fieldlist, otherwise using null --->
+						<!--- Note: As we can't use csvFormat.withHeader(), we can not match columns by name, we are forced to do so by number, thus arrays --->
+						<cfquery name="insert" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="insert_result">
+							insert into cf_temp_attributes
+								(#fieldlist#,username)
+							values (
+								<cfset separator = "">
+								<cfloop from="1" to ="#ArrayLen(fieldArray)#" index="col">
+									<cfif arrayFindNoCase(colNameArray,fieldArray[col]) GT 0>
+										<cfset fieldPos=arrayFind(colNameArray,fieldArray[col])>
+										<cfset val=trim(collValuesArray[fieldPos])>
+										<cfset val=rereplace(val,"^'+",'')>
+										<cfset val=rereplace(val,"'+$",'')>
+										<cfif val EQ ""> 
 											#separator#NULL
+										<cfelse>
+											#separator#<cfqueryparam cfsqltype="#typeArray[col]#" value="#val#">
 										</cfif>
-										<cfset separator = ",">
-									</cfloop>
-									#separator#<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-								)
-							</cfquery>
-							<cfset loadedRows = loadedRows + insert_result.recordcount>
-						<cfcatch>
-							<!--- identify the problematic row --->
-							<cfset error_message="#COLUMN_ERR# from line #row# in input file.  <br>Header:[#colNames#] <br>Row:[#colVals#] <br>Error: #cfcatch.message#"><!--- " --->
-							<cfif isDefined("cfcatch.queryError")>
-								<cfset error_message = "#error_message# #cfcatch.queryError#">
-							</cfif>
-							<cfthrow message = "#error_message#">
-						</cfcatch>
-						</cftry>
-					</cfif>
+									<cfelse>
+										#separator#NULL
+									</cfif>
+									<cfset separator = ",">
+								</cfloop>
+								#separator#<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+							)
+						</cfquery>
+						<cfset loadedRows = loadedRows + insert_result.recordcount>
+					<cfcatch>
+						<!--- identify the problematic row --->
+						<cfset error_message="#COLUMN_ERR# from line #row# in input file.  <br>Header:[#colNames#] <br>Row:[#ArrayToList(collValuesArray)#] <br>Error: #cfcatch.message#"><!--- " --->
+						<cfif isDefined("cfcatch.queryError")>
+							<cfset error_message = "#error_message# #cfcatch.queryError#">
+						</cfif>
+						<cfthrow message = "#error_message#">
+					</cfcatch>
+					</cftry>
 				</cfloop>
 			
 				<cfif foundHighCount GT 0>
+					<cfif foundHighCount GT 1><cfset plural="s"><cfelse><cfset plural=""></cfif>
 					<h3 class="h3">Found characters where the encoding is probably important in the input data.</h3>
 					<div>
-						Showing #foundHighCount# examples.  If these do not appear as the correct characters, the file likely has a different encoding from the one you selected and
-						you probably want to <a href="/tools/BulkloadAttributes.cfm">reload this file</a> selecting a different encoding.  If these appear as expected, then 
+						Showing #foundHighCount# example#plural#.  If these do not appear as the correct characters, the file likely has a different encoding from the one you selected and
+						you probably want to <strong><a href="/tools/BulkloadAttributes.cfm">reload</a></strong> this file selecting a different encoding.  If these appear as expected, then 
 						you selected the correct encoding and can continue to validate or load.
 					</div>
 					<ul class="py-1" style="font-size: 1.2rem;">
@@ -258,7 +403,11 @@ limitations under the License.
 					</ul>
 				</cfif>
 				<h3 class="h3">
-					Successfully read #loadedRows# records from the CSV file.  Next <a href="/tools/BulkloadAttributes.cfm?action=validate">click to validate</a>.
+					<cfif loadedRows EQ 0>
+						Loaded no rows from the CSV file.  The file appears to be just a header with no data. Fix file and <a href="/tools/BulkloadAttributes.cfm">reload</a>
+					<cfelse>
+						Successfully read #loadedRows# records from the CSV file.  Next <a href="/tools/BulkloadAttributes.cfm?action=validate">click to validate</a>.
+					</cfif>
 				</h3>
 			<cfcatch>
 				<h3 class="h3">
@@ -303,11 +452,41 @@ limitations under the License.
 					<ul class="py-1" style="font-size: 1.2rem;">
 						<li>#cfcatch.message#</li>
 					</ul>
+				<cfelseif Find("#DUP_COLUMN_ERR#",cfcatch.message) GT 0>
+					<ul class="py-1" style="font-size: 1.2rem;">
+						<li>#cfcatch.message#</li>
+					</ul>
+				<cfelseif Find("IOException reading next record: java.io.IOException: (line 1) invalid char between encapsulated token and delimiter",cfcatch.message) GT 0>
+					<ul class="py-1" style="font-size: 1.2rem;">
+						<li>Unable to read headers in line 1.  Did you select CSV format for a tab delimited file?</li>
+					</ul>
+				<cfelseif Find("IOException reading next record: java.io.IOException: (line 1)",cfcatch.message) GT 0>
+					<ul class="py-1" style="font-size: 1.2rem;">
+						<cfif format EQ "DEFAULT"><cfset fmt="CSV: Default Comma Separated values"><cfelse><cfset fmt="#format#"></cfif>
+						<li>Unable to read headers in line 1.  Is your file actually have the format #fmt#?</li>
+						<li>#cfcatch.message#</li>
+					</ul>
+				<cfelseif Find("IOException reading next record: java.io.IOException:",cfcatch.message) GT 0>
+					<ul class="py-1" style="font-size: 1.2rem;">
+						<cfif format EQ "DEFAULT"><cfset fmt="CSV: Default Comma Separated values"><cfelse><cfset fmt="#format#"></cfif>
+						<li>Unable to read a record from the file.  One or more lines may not be consistent with the specified format #format#</li>
+						<li>#cfcatch.message#</li>
 				<cfelse>
 					<cfdump var="#cfcatch#">
 				</cfif>
 			</cfcatch>
-			</cftry>
+
+			<cffinally>
+				<cftry>
+					<!--- Close the CSV parser and the reader --->
+					<cfset csvParser.close()>
+					<cfset fileReader.close()>
+				<cfcatch>
+					<!--- consume exception and proceed --->
+				</cfcatch>
+				</cftry>
+			</cffinally>
+		</cftry>
 		</cfoutput>
 	</cfif>
 	<!------------------------------------------------------->
@@ -625,7 +804,7 @@ limitations under the License.
 					SELECT count(distinct collection_object_id) ctobj FROM cf_temp_attributes
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
-				<cftry>
+			<cftry>
 					<cfset attributes_updates = 0>
 					<cfset attributes_updates1 = 0>
 					<cfif getTempData.recordcount EQ 0>
@@ -677,12 +856,27 @@ limitations under the License.
 				<cfcatch>
 					<cftransaction action="ROLLBACK">
 					<h2 class="h3">There was a problem updating the attributes.</h2>
-					<div>#cfcatch.message#</div>
 					<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						SELECT status,institution_acronym,collection_cde,other_id_type,other_id_number,attribute,attribute_value, attribute_units,attribute_date,attribute_meth,determiner,remarks
 						FROM cf_temp_attributes 
-						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+						WHERE key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#problem_key#">
 					</cfquery>
+					<cfquery name="getCollectionCodes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						SELECT collection_cde
+						FROM collection
+					</cfquery>
+					<cfset collection_codes = "">
+					<cfloop query="getCollectionCodes">
+						<cfset collection_codes = ListAppend(collection_codes,getCollectionCodes.collection_cde)>
+					</cfloop>
+					<cfquery name="getInstitution" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						SELECT distinct institution_acronym
+						FROM collection
+					</cfquery>
+					<cfset institutions = "">
+					<cfloop query="getInstitution">
+						<cfset institutions = ListAppend(institutions,getInstitution.institution_acronym)>
+					</cfloop>
 					<cfif getProblemData.recordcount GT 0>
  						<h2 class="h3">Errors are displayed one row at a time.</h2>
 						<h3>
@@ -692,9 +886,9 @@ limitations under the License.
 									<cfif cfcatch.detail contains "Invalid ATTRIBUTE_TYPE">
 										Invalid ATTRIBUTE_TYPE for this collection; check controlled vocabulary (Help menu)
 									<cfelseif cfcatch.detail contains "collection_cde">
-										COLLECTION_CDE does not match abbreviated collection (e.g., Ent, Herp, Ich, IP, IZ, Mala, Mamm, Orn, SC, VP)
+										COLLECTION_CDE does not match abbreviated collection (#collection_codes#)
 									<cfelseif cfcatch.detail contains "institution_acronym">
-										INSTITUTION_ACRONYM does not match MCZ (all caps)
+										INSTITUTION_ACRONYM does not match #institutions# (all caps)
 									<cfelseif cfcatch.detail contains "other_id_type">
 										OTHER_ID_TYPE is not valid
 									<cfelseif cfcatch.detail contains "DETERMINED_BY_AGENT_ID">
@@ -749,6 +943,7 @@ limitations under the License.
 							</tbody>
 						</table>
 					</cfif>
+					<div>#cfcatch.message#</div>
 				</cfcatch>
 				</cftry>
 			</cftransaction>
