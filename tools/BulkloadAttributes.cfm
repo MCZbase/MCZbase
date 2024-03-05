@@ -267,7 +267,7 @@ limitations under the License.
 				</cfif>
 				<cfset errorMessage = "">
 				<!--- Loop through list of fields, mark each field as fields present in input or not, throw exception if required fields are missing --->
-				<ul class="">
+				<ul class="h2">
 					<cfloop list="#fieldlist#" index="field" delimiters=",">
 						<cfset hint="">
 						<cfif listContains(requiredfieldlist,field,",")>
@@ -276,7 +276,7 @@ limitations under the License.
 						<cfelse>
 							<cfset class="text-dark">
 						</cfif>
-						<li>
+						<li class="small90">
 							<span class="#class#" #hint#>#field#</span>
 							<cfif arrayFindNoCase(colNameArray,field) GT 0>
 								<strong class="text-success">Present in CSV</strong>
@@ -298,19 +298,19 @@ limitations under the License.
 					</cfif>
 					<cfthrow message = "#NO_COLUMN_ERR# #errorMessage#">
 				</cfif>
-				<ul>
+				<ul class="py-1 h2 list-unstyled">
 					<!--- Identify additional columns that will be ignored --->
 					<cfloop list="#foundHeaders#" item="aField">
 						<cfif NOT ListContainsNoCase(fieldList,aField)>
-							<li>Found additional column header [<strong>#aField#</strong>] in the CSV that is not in the list of expected headers.</1i>
+							<li class="small90"><i class="fas fa-arrow-right"></i> &nbsp;Found additional column header [<strong>#aField#</strong>] in the CSV that is not in the list of expected headers.</1i>
 						</cfif>
 					</cfloop>
 					<!--- Identify duplicate columns and fail if found --->
 					<cfif NOT ListLen(ListRemoveDuplicates(foundHeaders)) EQ ListLen(foundHeaders)>
-						<li>At least one column header occurs more than once.</1i>
+						<li class="small90"><i class="fas fa-arrow-right"></i> &nbsp;At least one column header occurs more than once.</1i>
 						<cfloop list="#foundHeaders#" item="aField">
 							<cfif listValueCount(foundHeaders,aField) GT 1>
-								<li><strong>#aField#</strong> is duplicated as the header for #listValueCount(foundHeaders,aField)# columns.</1i>
+								<li class="small90"><i class="fas fa-arrow-right"></i> &nbsp;<strong>#aField#</strong> is duplicated as the header for #listValueCount(foundHeaders,aField)# columns.</1i>
 							</cfif>
 						</cfloop>
 						<cfthrow message = "#DUP_COLUMN_ERR#">
@@ -397,9 +397,9 @@ limitations under the License.
 						you probably want to <strong><a href="/tools/BulkloadAttributes.cfm">reload</a></strong> this file selecting a different encoding.  If these appear as expected, then 
 						you selected the correct encoding and can continue to validate or load.
 					</div>
-					<ul class="py-1" style="font-size: 1.2rem;">
-						#foundHighAscii#
-						#foundMultiByte#
+					<ul class="py-1 h2 list-unstyled">
+						<li class="small90"><i class="fas fa-arrow-right"></i> &nbsp;#foundHighAscii#</li>
+						<li class="small90"><i class="fas fa-arrow-right"></i> &nbsp;#foundMultiByte#</li>
 					</ul>
 				</cfif>
 				<h3 class="h3">
@@ -438,38 +438,38 @@ limitations under the License.
 						<div>
 							Showing #foundHighCount# examples.  Did you select utf-16 or unicode for the encoding for a file that does not have multibyte encoding?
 						</div>
-						<ul class="py-1" style="font-size: 1.2rem;">
-							#foundHighAscii#
-							#foundMultiByte#
+						<ul class="py-1 h2 list-unstyled">
+							<li class="small90"><i class="fas fa-arrow-right"></i> &nbsp;#foundHighAscii#</li>
+							<li class="small90"><i class="fas fa-arrow-right"></i> &nbsp;#foundMultiByte#</li>
 						</ul>
 					</cfif>
 				</cfif>
 				<cfif Find("#NO_COLUMN_ERR#",cfcatch.message) GT 0>
-					<ul class="py-1" style="font-size: 1.2rem;">
-						<li>#cfcatch.message#</li>
+						<ul class="py-1 h2 list-unstyled">
+						<li class="small90"><i class="fas fa-arrow-right"></i> &nbsp;#cfcatch.message#</li>
 					</ul>
 				<cfelseif Find("#COLUMN_ERR#",cfcatch.message) GT 0>
-					<ul class="py-1" style="font-size: 1.2rem;">
-						<li>#cfcatch.message#</li>
+						<ul class="py-1 h2 list-unstyled">
+						<li class="small90"><i class="fas fa-arrow-right"></i> &nbsp;#cfcatch.message#</li>
 					</ul>
 				<cfelseif Find("#DUP_COLUMN_ERR#",cfcatch.message) GT 0>
-					<ul class="py-1" style="font-size: 1.2rem;">
-						<li>#cfcatch.message#</li>
+					<ul class="py-1 h2 list-unstyled">
+						<li class="small90"><i class="fas fa-arrow-right"></i> &nbsp;#cfcatch.message#</li>
 					</ul>
 				<cfelseif Find("IOException reading next record: java.io.IOException: (line 1) invalid char between encapsulated token and delimiter",cfcatch.message) GT 0>
-					<ul class="py-1" style="font-size: 1.2rem;">
-						<li>Unable to read headers in line 1.  Did you select CSV format for a tab delimited file?</li>
+					<ul class="py-1 list-unstyled h2">
+						<li class="small90"><i class="fas fa-arrow-right"></i> &nbsp;Unable to read headers in line 1.  Did you select CSV format for a tab delimited file?</li>
 					</ul>
 				<cfelseif Find("IOException reading next record: java.io.IOException: (line 1)",cfcatch.message) GT 0>
-					<ul class="py-1" style="font-size: 1.2rem;">
+					<ul class="py-1 list-unstyled h2">
 						<cfif format EQ "DEFAULT"><cfset fmt="CSV: Default Comma Separated values"><cfelse><cfset fmt="#format#"></cfif>
-						<li>Unable to read headers in line 1.  Is your file actually have the format #fmt#?</li>
+						<li class="small90"><i class="fas fa-arrow-right"></i> &nbsp;Unable to read headers in line 1.  Is your file actually have the format #fmt#?</li>
 						<li>#cfcatch.message#</li>
 					</ul>
 				<cfelseif Find("IOException reading next record: java.io.IOException:",cfcatch.message) GT 0>
-					<ul class="py-1" style="font-size: 1.2rem;">
+					<ul class="py-1 list-unstyled h2">
 						<cfif format EQ "DEFAULT"><cfset fmt="CSV: Default Comma Separated values"><cfelse><cfset fmt="#format#"></cfif>
-						<li>Unable to read a record from the file.  One or more lines may not be consistent with the specified format #format#</li>
+						<li class="small90"><i class="fas fa-arrow-right"></i> &nbsp;Unable to read a record from the file.  One or more lines may not be consistent with the specified format #format#</li>
 						<li>#cfcatch.message#</li>
 				<cfelse>
 					<cfdump var="#cfcatch#">
