@@ -370,7 +370,7 @@
 						you selected the correct encoding and can continue to validate or load.
 					</div>
 				
-						<p>#foundHighAscii# #foundMultiByte#</p>
+						<p class="mx-3">#foundHighAscii# #foundMultiByte#</p>
 					
 				</cfif>
 				<h3 class="h3">
