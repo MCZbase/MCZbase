@@ -258,7 +258,7 @@ limitations under the License.
 					<cfif ListContainsNoCase(requiredFieldList,aField)>
 						<!--- Case 1. Check by splitting assembled list of foundHeaders --->
 						<cfif NOT ListContainsNoCase(foundHeaders,aField)>
-							<li><cfset errorMessage = "#errorMessage# <span class='text-danger'>#aField#</span> is missing.">
+							<cfset errorMessage = "#errorMessage# #aField# is missing.">
 						</cfif>
 					</cfif>
 				</cfloop>
@@ -284,7 +284,7 @@ limitations under the License.
 								<!--- Case 2. Check by identifying field in required field list --->
 								<cfif ListContainsNoCase(requiredFieldList,field)>
 									<strong class="text-dark">Required Column Not Found</strong>
-									<cfset errorMessage = "#errorMessage# <span class='text-danger'>#field#</span> is missing.">
+									<cfset errorMessage = "#errorMessage# #field# is missing.">
 								</cfif>
 							</cfif>
 						</li>
@@ -296,7 +296,7 @@ limitations under the License.
 						<!--- to get here, upload a csv file with the correct headers as MYSQL format --->
 						<cfset errorMessage = "You may have specified the wrong format, only one column header was found. #errorMessage#">
 					</cfif>
-						<cfthrow message = "#NO_COLUMN_ERR# #errorMessage#">
+					<cfthrow message = "#NO_COLUMN_ERR# #errorMessage#">
 				</cfif>
 				<ul class="py-1 h3 list-unstyled">
 					<!--- Identify additional columns that will be ignored --->
