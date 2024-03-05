@@ -2,10 +2,10 @@
 <cfset pageTitle = "Citing MCZbase">
 <cfinclude template="/shared/_header.cfm">
 
-<div class="container main my-3">
+<div class="container main my-3 pb-5">
 	<div class="row">
 		<div class="col-12">
-			<h2 class="my-4">Guidelines for Citing MCZ Specimens</h2>
+			<h2 class="mt-4 mb-3">Guidelines for Citing MCZ Specimens</h2>
 				<div class="section">
 					<div class="row">
 						<div class="col-12">
