@@ -1,17 +1,43 @@
-<cfif isdefined("occurrence") and len(occurrence) gt 0>
+<cftry>
+	<cfset accept = GetHttpRequestData().Headers['accept'] >
+<cfcatch>
+	<cfset accept = "">
+</cfcatch>
+</cftry>
+<cfif isdefined("occurrenceID") and len(occurrenceID) gt 0>
 	<!--- TODO: Support occurrenceID --->
+	<!--- Expected form is a UUID --->
 </cfif>
-<!--- TODO: Support materialSampleID --->
-<!--- TODO: Support taxonID --->
-<!--- TODO: Support agent guids --->
+<cfif isdefined("materialSampleID") and len(materialSampleID) gt 0>
+	<!--- TODO: Support materialSampleID --->
+	<!--- Expected form is a UUID --->
+</cfif>
+<cfif isdefined("taxonID") and len(taxonID) gt 0>
+	<!--- TODO: Support taxonID --->
+	<!--- Expected form is a UUID --->
+</cfif>
+<cfif isdefined("agent") and len(agent) gt 0>
+	<!--- TODO: Support agent guids --->
+	<!--- Expected form is a UUID --->
+</cfif>
 <cfif isdefined("catalog") and len(catalog) gt 0>
-	<cfset rdurl=catalog>
-	<cftry>
-		<cfset accept = GetHttpRequestData().Headers['accept'] >
-	<cfcatch>
-		<cfset accept = "">
-	</cfcatch>
-	</cftry>
+	<!--- Expected form is a urn:catalog, Darwin Core Triplet --->
+
+	<cfif rematch('^[A-Z]+:[A-Za-z]+:[A-Za-z0-9-]+$',catalog)>
+		<cfset rdurl=catalog>
+	<cfelse>
+		<cfinclude template="/errors/404.cfm">
+		</cfabort>
+	</cfif>
+	<cfquery name="checkForGuid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		select GUID 
+		from <cfif ucase(session.flatTableName) EQ "FLAT"> flat <cfelse> filtered_flat </cfif>
+		where GUID = <cfqueryparam value="#catalog#" cfsqltype="CF_SQL_VARCHAR">
+	</cfquery>
+	<cfif checkForGuid.recordcount NEQ 1>
+		<cfinclude template="/errors/404.cfm">
+		</cfabort>
+	</cfif>
 
 	<!--- Content negotiation, pick highest priority content type that we can deliver from the http accept header list --->
 	<!--- default to human readable web page --->
