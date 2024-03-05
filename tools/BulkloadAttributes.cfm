@@ -124,10 +124,6 @@ limitations under the License.
 		</cfoutput>
 	</cfif>
 	<!------------------------------------------------------->
-<!---as we can't use csvFormat.withHeader(), we can not match columns by name, we are forced to do so by number 
-			TODO: to put the columns into fieldList order, map actualColumnNumber to fieldListColumnNumber  
-			TODO: Test for multibyte characters 
-			TODO: Create insert statement --->
 	<cfif #action# is "getFile">
 		<cfoutput>
 		<h2 class="h3">First step: Reading data from CSV file.</h2>
@@ -245,6 +241,7 @@ limitations under the License.
 					<cfset foundHeaders = "#foundHeaders##separator##headers.get(JavaCast("int",i))#" >
 					<cfset separator = ",">
 				</cfloop>
+				<!--- Note: As we can't use csvFormat.withHeader(), we can not match columns by name, we are forced to do so by number, thus arrays --->
 				<cfset colNameArray = listToArray(ucase(foundHeaders))><!--- the list of columns/fields found in the input file --->
 				<cfset fieldArray = listToArray(ucase(fieldlist))><!--- the full list of fields --->
 				<cfset typeArray = listToArray(fieldTypes)><!--- the types for the full list of fields --->
@@ -355,6 +352,7 @@ limitations under the License.
 					</cfloop>
 					<cftry>
 						<!--- construct insert for row with a line for each entry in fieldlist using cfqueryparam if column header is in fieldlist, otherwise using null --->
+						<!--- Note: As we can't use csvFormat.withHeader(), we can not match columns by name, we are forced to do so by number, thus arrays --->
 						<cfquery name="insert" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="insert_result">
 							insert into cf_temp_attributes
 								(#fieldlist#,username)
