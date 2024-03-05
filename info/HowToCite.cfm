@@ -18,7 +18,7 @@
 					<div class="row">
 						<div class="col-12">
 							<h3>Citing MCZ Specimen Data </h3>
-							<p>The best way to cite a set of MCZ specimens is to run a search on GBIF that finds the specimens being cited. After confirming that the search contains the exact set of specimens of focus, login and click "Download." GBIF will provide you with a DOI and citation for the search result on GBIF. When this DOI appears in a publication, the citation is tracked and reported to the MCZ. With its DOI, this citation will resemble:</p>
+							<p>The best way to cite a set of MCZ specimens is to run a <a href="https://www.gbif.org/occurrence/search?dataset_key=4bfac3ea-8763-4f4b-a71a-76a6f5f243d3" target="_blank">search on GBIF</a> that finds the specimens being cited. After confirming that the search contains the exact set of specimens of focus, login and click "Download." GBIF will provide you with a DOI and citation for the search result on GBIF. When this DOI appears in a publication, the citation is tracked and reported to the MCZ. With its DOI, this citation will resemble:</p>
 							<p class="mx-4">GBIF.org (31 October 2022) GBIF Occurrence Download <a href="https://doi.org/10.15468/dl.nq9gb8" target="_blank">https://doi.org/10.15468/dl.nq9gb8</a>.</p>
 							<p>Authors may also include (in a footnote or other metadata) a link to a search on MCZbase that returns the target specimens, but a "Link to This Search" should never be relied upon for a citation in a publication as it only links to the search form entries (not to the results), it provides no guarantees of persistence (unlike a DOI), and it provides no means for tracking the citation (unlike a DOI).</p>
 						</div>
