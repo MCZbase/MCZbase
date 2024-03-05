@@ -303,7 +303,7 @@ limitations under the License.
 						<li class="nav-item"> <a class="nav-link mr-2" href="/SpecimensHTML.cfm">Minimal Specimen Search</a></li>
 						<li class="nav-item"><a class="nav-link mr-2" href="/specimens/browseSpecimens.cfm?target=noscript">Browse Data</a></li>
 						<li class="nav-item"><a class="nav-link mr-2" href="https://mcz.harvard.edu/database">About MCZbase</a></li>
-						<li><a class="dropdown-item" href="/vocabularies/CitingMCZbase.cfm">Citing MCZbase</a></li>
+						<li><a class="dropdown-item" href="/info/HowToCite.cfm">Citing MCZbase</a></li>
 					</ul>
 				</nav>
 			</div>
@@ -809,7 +809,7 @@ limitations under the License.
 								<a class="dropdown-item" href="https://code.mcz.harvard.edu/wiki/index.php/Main_Page">Using MCZbase (Wiki Support)</a>
 							</cfif>
 							<a class="dropdown-item" href="https://mcz.harvard.edu/database">About MCZbase</a>
-							<a class="dropdown-item" href="/vocabularies/CitingMCZbase.cfm">Citing MCZbase</a>
+							<a class="dropdown-item" href="/info/HowToCite.cfm">Citing MCZbase</a>
 							<a class="dropdown-item" href="/vocabularies/ControlledVocabulary.cfm">Controlled Vocabularies</a>
 							<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"coldfusion_user")>
 								<a class="dropdown-item" href="/specimens/viewSpecimenSearchMetadata.cfm?action=search&execute=true&method=getcf_spec_search_cols&access_role=!HIDE">Specimen Search Builder Help</a>
