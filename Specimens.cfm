@@ -2894,7 +2894,7 @@ Target JSON:
 					pageable: true,
 					editable: false,
 					virtualmode: true,
-      			enablemousewheel: '#session.gridenablemousewheel#',
+					enablemousewheel: #session.gridenablemousewheel#,
 					pagesize: '#session.specimens_pagesize#',
 					pagesizeoptions: ['5','10','25','50','100','1000'], // fixed list regardless of actual result set size, dynamic reset goes into infinite loop.
 					showaggregates: true,
@@ -3094,7 +3094,7 @@ Target JSON:
 					pageable: true,
 					editable: false,
 					virtualmode: true,
-      			enablemousewheel: '#session.gridenablemousewheel#',
+					enablemousewheel: #session.gridenablemousewheel#,
 					pagesize: '#session.specimens_pagesize#',
 					pagesizeoptions: ['5','10','25','50','100','1000'], // fixed list regardless of actual result set size, dynamic reset goes into infinite loop.
 					showaggregates: true,
@@ -3274,7 +3274,7 @@ Target JSON:
 					pageable: true,
 					editable: false,
 					virtualmode: true,
-      			enablemousewheel: '#session.gridenablemousewheel#',
+					enablemousewheel: #session.gridenablemousewheel#,
 					pagesize: '#session.specimens_pagesize#',
 					pagesizeoptions: ['5','10','25','50','100','1000'], // fixed list regardless of actual result set size, dynamic reset goes into infinite loop.
 					showaggregates: true,
