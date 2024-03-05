@@ -48,14 +48,14 @@
 			<p>Upload a comma-delimited text file (csv). Include column headings, spelled exactly as below.</p>
 			<p>Use "catalog number" as the value of other_id_type to match on catalog number.</p>
 			<span class="btn btn-xs btn-info" onclick="document.getElementById('template').style.display='block';">View template</span>
-			<div id="template" style="margin: 1rem 0;display:none;">
+			<div id="template" class="my-1 mx-0" style="display:none;">
 				<label for="templatearea" class="data-entry-label mb-1">
 					Copy this header line and save it as a .csv file (<a href="/tools/BulkloadCitations.cfm?action=getCSVHeader">download</a>)
 				</label>
 				<textarea rows="2" cols="90" id="templatearea" class="w-100 data-entry-textarea">#fieldlist#</textarea>
 			</div>
-			<p>Columns in <span class="text-danger">red</span> are required; others are optional:</p>
-			<ul>
+			<h4 class="my-4">Columns in <span class="text-danger">red</span> are required; others are optional:</h4>
+			<ul class="mb-4">
 				<cfloop list="#fieldlist#" index="field" delimiters=",">
 					<cfset aria = "">
 					<cfif listContains(requiredfieldlist,field,",")>
@@ -282,7 +282,7 @@
 					</cfif>
 					<cfthrow message = "#NO_COLUMN_ERR# #errorMessage#">
 				</cfif>
-				<ul>
+				<ul class="h4">
 					<!--- Identify additional columns that will be ignored --->
 					<cfloop list="#foundHeaders#" item="aField">
 						<cfif NOT ListContainsNoCase(fieldList,aField)>
@@ -379,13 +379,13 @@
 						you probably want to <a href="/tools/BulkloadCitatons.cfm">reload this file</a> selecting a different encoding.  If these appear as expected, then 
 						you selected the correct encoding and can continue to validate or load.
 					</div>
-					<ul class="py-1" style="font-size: 1.2rem;">
-						#foundHighAscii#
-						#foundMultiByte#
+					<ul class="py-1 h4">
+						<li>#foundHighAscii#</li>
+						<li>#foundMultiByte#</li>
 					</ul>
 				</cfif>
 				<h3 class="h3">
-					Successfully read #loadedRows# records from the CSV file.  Next <a href="/tools/BulkloadCitations.cfm?action=validate">click to validate</a>.
+					Successfully read #loadedRows# records from the CSV file. Next <a href="/tools/BulkloadCitations.cfm?action=validate">click to validate</a>.
 				</h3>
 			<cfcatch>
 				<h3 class="h3">
@@ -416,18 +416,18 @@
 						<div>
 							Showing #foundHighCount# examples.  Did you select utf-16 or unicode for the encoding for a file that does not have multibyte encoding?
 						</div>
-						<ul class="py-1" style="font-size: 1.2rem;">
+						<ul class="py-1 h4">
 							#foundHighAscii#
 							#foundMultiByte#
 						</ul>
 					</cfif>
 				</cfif>
 				<cfif Find("#NO_COLUMN_ERR#",cfcatch.message) GT 0>
-					<ul class="py-1" style="font-size: 1.2rem;">
+					<ul class="py-1 h4">
 						<li>#cfcatch.message#</li>
 					</ul>
 				<cfelseif Find("#COLUMN_ERR#",cfcatch.message) GT 0>
-					<ul class="py-1" style="font-size: 1.2rem;">
+					<ul class="py-1 h4">
 						<li>#cfcatch.message#</li>
 					</ul>
 				<cfelse>
