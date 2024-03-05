@@ -55,7 +55,7 @@
 				<textarea rows="2" cols="90" id="templatearea" class="w-100 data-entry-textarea">#fieldlist#</textarea>
 			</div>
 			<h4 class="my-4">Columns in <span class="text-danger">red</span> are required; others are optional:</h4>
-			<ul class="mb-4">
+			<ul class="mb-4 h4">
 				<cfloop list="#fieldlist#" index="field" delimiters=",">
 					<cfset aria = "">
 					<cfif listContains(requiredfieldlist,field,",")>
