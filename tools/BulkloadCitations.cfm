@@ -369,10 +369,9 @@
 						you probably want to <a href="/tools/BulkloadCitatons.cfm">reload this file</a> selecting a different encoding.  If these appear as expected, then 
 						you selected the correct encoding and can continue to validate or load.
 					</div>
-					<ul class="py-1 h4">
-						<li>#foundHighAscii#</li>
-						<li>#foundMultiByte#</li>
-					</ul>
+				
+						#foundHighAscii# #foundMultiByte#
+					
 				</cfif>
 				<h3 class="h3">
 					Successfully read #loadedRows# records from the CSV file. Next <a href="/tools/BulkloadCitations.cfm?action=validate">click to validate</a>.
