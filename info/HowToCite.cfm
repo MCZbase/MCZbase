@@ -39,8 +39,8 @@
 							<h3>Citing the MCZbase Collection Management System Code</h3>
 							<p>The code of the MCZbase application itself can be cited at doi:10.5281/zenodo.891420 and the code for the underlying database (the DDL schema) at  (doi:10.5281/zenodo.4489193).</p>
 							<p>Format for the citations of the MCZbase application and database schema:</p>
-							<p>Kennedy, M., P.J. Morris, B. Haley, D. McDonald (2024) MCZbase/MCZbase MCZbase version as of v2023June05 commit 4c6a6131 [Computer Software] doi:<a href="https://doi.org/10.5281/zenodo.891420">10.5281/zenodo.891420</a>.</p>
-							<p>Haley, B., P.J. Morris, D. McDonald (2024) MCZbase/DDL MCZbase Schema version as of 2023-06-05 commit a8ce06c6 [Computer Software] doi:<a href="https://doi.org/10.5281/zenodo.4489193">10.5281/zenodo.4489193</a>.</p>
+							<p class="mx-4">Kennedy, M., P.J. Morris, B. Haley, D. McDonald (2024) MCZbase/MCZbase MCZbase version as of v2023June05 commit 4c6a6131 [Computer Software] doi:<a href="https://doi.org/10.5281/zenodo.891420">10.5281/zenodo.891420</a>.</p>
+							<p class="mx-4">Haley, B., P.J. Morris, D. McDonald (2024) MCZbase/DDL MCZbase Schema version as of 2023-06-05 commit a8ce06c6 [Computer Software] doi:<a href="https://doi.org/10.5281/zenodo.4489193">10.5281/zenodo.4489193</a>.</p>
 						</div>
 					</div>
 				</div>
