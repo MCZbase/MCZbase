@@ -432,9 +432,9 @@ limitations under the License.
 											</cfif>
 											<select name="gridenablemousewheel" id="gridenablemousewheel" class="data-entry-select" onchange="changeGridEnableMousewheel(this.value)">
 												<cfif session.gridenablemousewheel EQ "false"><cfset selected="selected='selected'"><cfelse><cfset selected=""></cfif>
-												<option value="false" #selected#>Off</option>
+												<option value="false" #selected#>Off (Mouse Wheel Scrolls Page)</option>
 												<cfif session.gridenablemousewheel EQ "true"><cfset selected="selected='selected'"><cfelse><cfset selected=""></cfif>
-												<option value="true" #selected#>On</option>
+												<option value="true" #selected#>On (Mouse Wheel Scrolls Grid Horizontally)</option>
 											</select>
 										</div>
 										<div class="col-12 float-left col-md-6 mb-2">
