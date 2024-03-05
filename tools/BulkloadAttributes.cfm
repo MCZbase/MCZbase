@@ -861,6 +861,22 @@ limitations under the License.
 						FROM cf_temp_attributes 
 						WHERE key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#problem_key#">
 					</cfquery>
+					<cfquery name="getCollectionCodes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						SELECT collection_cde
+						FROM collection
+					</cfquery>
+					<cfset collection_codes = "">
+					<cfloop query="getCollectionCodes">
+						<cfset collection_codes = ListAppend(collection_codes,getCollectionCodes.collection_cde)>
+					</cfloop>
+					<cfquery name="getInstitution" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						SELECT distinct institution_acronym
+						FROM collection
+					</cfquery>
+					<cfset institutions = "">
+					<cfloop query="getInstitution">
+						<cfset institutions = ListAppend(institutions,getInstitution.institution_acronym)>
+					</cfloop>
 					<cfif getProblemData.recordcount GT 0>
  						<h2 class="h3">Errors are displayed one row at a time.</h2>
 						<h3>
@@ -870,9 +886,9 @@ limitations under the License.
 									<cfif cfcatch.detail contains "Invalid ATTRIBUTE_TYPE">
 										Invalid ATTRIBUTE_TYPE for this collection; check controlled vocabulary (Help menu)
 									<cfelseif cfcatch.detail contains "collection_cde">
-										COLLECTION_CDE does not match abbreviated collection (e.g., Ent, Herp, Ich, IP, IZ, Mala, Mamm, Orn, SC, VP)
+										COLLECTION_CDE does not match abbreviated collection (#collection_codes#)
 									<cfelseif cfcatch.detail contains "institution_acronym">
-										INSTITUTION_ACRONYM does not match MCZ (all caps)
+										INSTITUTION_ACRONYM does not match #institutions# (all caps)
 									<cfelseif cfcatch.detail contains "other_id_type">
 										OTHER_ID_TYPE is not valid
 									<cfelseif cfcatch.detail contains "DETERMINED_BY_AGENT_ID">
