@@ -391,13 +391,13 @@ limitations under the License.
 			
 				<cfif foundHighCount GT 0>
 					<cfif foundHighCount GT 1><cfset plural="s"><cfelse><cfset plural=""></cfif>
-					<h3 class="h3">Found characters where the encoding is probably important in the input data.</h3>
+					<h3 class="h4">Found characters where the encoding is probably important in the input data.</h3>
 					<div>
-						Showing #foundHighCount# example#plural#.  If these do not appear as the correct characters, the file likely has a different encoding from the one you selected and
+						<p>Showing #foundHighCount# example#plural#.  If these do not appear as the correct characters, the file likely has a different encoding from the one you selected and
 						you probably want to <strong><a href="/tools/BulkloadAttributes.cfm">reload</a></strong> this file selecting a different encoding.  If these appear as expected, then 
-						you selected the correct encoding and can continue to validate or load.
+							you selected the correct encoding and can continue to validate or load.</p>
 					</div>
-					<ul class="py-1 h3 list-unstyled">
+					<ul class="py-1 h4 list-unstyled">
 						#foundHighAscii# #foundMultiByte#
 					</ul>
 				</cfif>
@@ -409,7 +409,7 @@ limitations under the License.
 					</cfif>
 				</h3>
 			<cfcatch>
-				<h3 class="h3">
+				<h3 class="h4">
 					Failed to read the CSV file.  Fix the errors in the file and <a href="/tools/BulkloadAttributes.cfm">reload</a>
 				</h3>
 				<cfif isDefined("arrResult")>
@@ -433,11 +433,11 @@ limitations under the License.
 						</cfif>
 					</cfloop>
 					<cfif isDefined("foundHighCount") AND foundHighCount GT 0>
-						<h3 class="h3">Found characters with unexpected encoding in the header row.  This is probably the cause of your error.</h3>
+						<h3 class="h4">Found characters with unexpected encoding in the header row.  This is probably the cause of your error.</h3>
 						<div>
 							Showing #foundHighCount# examples. Did you select utf-16 or unicode for the encoding for a file that does not have multibyte encoding?
 						</div>
-						<ul class="py-1 h3 list-unstyled">
+						<ul class="py-1 h4 list-unstyled">
 							#foundHighAscii# #foundMultiByte#
 						</ul>
 					</cfif>
@@ -452,17 +452,17 @@ limitations under the License.
 					#cfcatch.message#
 					
 				<cfelseif Find("IOException reading next record: java.io.IOException: (line 1) invalid char between encapsulated token and delimiter",cfcatch.message) GT 0>
-					<ul class="py-1 h3 list-unstyled">
+					<ul class="py-1 h4 list-unstyled">
 						<li>Unable to read headers in line 1.  Did you select CSV format for a tab delimited file?</li>
 					</ul>
 				<cfelseif Find("IOException reading next record: java.io.IOException: (line 1)",cfcatch.message) GT 0>
-					<ul class="py-1 h3 list-unstyled">
+					<ul class="py-1 h4 list-unstyled">
 						<cfif format EQ "DEFAULT"><cfset fmt="CSV: Default Comma Separated values"><cfelse><cfset fmt="#format#"></cfif>
 						<li>Unable to read headers in line 1.  Is your file actually have the format #fmt#?</li>
 						<li>#cfcatch.message#</li>
 					</ul>
 				<cfelseif Find("IOException reading next record: java.io.IOException:",cfcatch.message) GT 0>
-					<ul class="py-1 h3 list-unstyled">
+					<ul class="py-1 h4 list-unstyled">
 						<cfif format EQ "DEFAULT"><cfset fmt="CSV: Default Comma Separated values"><cfelse><cfset fmt="#format#"></cfif>
 						<li>Unable to read a record from the file.  One or more lines may not be consistent with the specified format #format#</li>
 						<li>#cfcatch.message#</li>
