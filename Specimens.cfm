@@ -2610,11 +2610,11 @@ Target JSON:
 			// It might work if /guid/ is rewritten by apache to a request to a guid handler.cfm file instead. 
 			//var retval = '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; ">';
 			//retval = retval + '<a id="aLink'+row+'" target="_blank" href="/guid/' + value + '"';
-			//retval = retval + ' onClick=" event.preventDefault(); $(&##39;##aLinkForm'+row+'&##39;).submit();" ';  
+			//retval = retval + ' onClick=" event.preventDefault(); $(&##39;##aLinkForm'+row+'&##39;).submit();" ';
 			//retval = retval + '>'+value+'</a>';
 			//retval = retval + mediaMarker;
 			//retval = retval + '<form action="/guid/'+value+'" method="post" target="_blank" id="aLinkForm'+row+'">';
-   		//retval = retval + '<input type="hidden" name="result_id" value="'+result_id+'" />';
+			//retval = retval + '<input type="hidden" name="result_id" value="'+result_id+'" />';
 			//retval = retval + '</form>';
 			//retval = retval + '</span>';
 			//return retval;
