@@ -298,7 +298,7 @@ limitations under the License.
 					</cfif>
 					<cfthrow message = "#NO_COLUMN_ERR# #errorMessage#">
 				</cfif>
-				<ul class="py-1 h3 list-unstyled">
+				<ul class="py-1 h4 list-unstyled">
 					<!--- Identify additional columns that will be ignored --->
 					<cfloop list="#foundHeaders#" item="aField">
 						<cfif NOT ListContainsNoCase(fieldList,aField)>
