@@ -38,13 +38,10 @@
 <cfif not isDefined("action") OR len(action) EQ 0><cfset action="nothing"></cfif>
 <main class="container-fluid py-3 px-5" id="content">
 	<h1 class="h2 mt-2">Bulkload Citations</h1>
-
 	<cfif #action# is "nothing">
 		<cfoutput>
 			<p>This tool adds attributes to the specimen record. The attribute has to be in the code table prior to uploading this .csv. It ignores rows that are exactly the same. Additional columns will be ignored.</p>
-				
 			<p>The attributes and attribute values must appear as they do on the <a href="https://mczbase.mcz.harvard.edu/vocabularies/ControlledVocabulary.cfm?" class="font-weight-bold">controlled vocabularies</a> lists for <a href="/vocabularies/ControlledVocabulary.cfm?table=CTATTRIBUTE_TYPE">ATTRIBUTE_TYPE</a> and for some citations the controlled vocabularies are listed in <a href="/vocabularies/ControlledVocabulary.cfm?table=CTCITATION_TYPE_STATUS">CITATION_CODE_TABLES</a>. </p>
-		
 			<p>Upload a comma-delimited text file (csv). Include column headings, spelled exactly as below.</p>
 			<p>Use "catalog number" as the value of other_id_type to match on catalog number.</p>
 			<span class="btn btn-xs btn-info" onclick="document.getElementById('template').style.display='block';">View template</span>
@@ -54,7 +51,7 @@
 				</label>
 				<textarea rows="2" cols="90" id="templatearea" class="w-100 data-entry-textarea">#fieldlist#</textarea>
 			</div>
-			<h4 class="my-4">Columns in <span class="text-danger">red</span> are required; others are optional:</h4>
+			<h4 class="mt-4">Columns in <span class="text-danger">red</span> are required; others are optional:</h4>
 			<ul class="mb-4 h4">
 				<cfloop list="#fieldlist#" index="field" delimiters=",">
 					<cfset aria = "">
@@ -122,16 +119,16 @@
 		<cftry>
 		<!--- Parse the CSV file using Apache Commons CSV library included with coldfusion so that columns with comma delimeters will be separated properly --->
 				<cfset fileProxy = CreateObject("java","java.io.File") >
-				<cfobject type="Java" name="csvFormat" class="org.apache.commons.csv.CSVFormat" >
-				<cfobject type="Java" name="csvParser" class="org.apache.commons.csv.CSVParser" >
-				<cfobject type="Java" name="csvRecord" class="org.apache.commons.csv.CSVRecord" >			
+				<cfobject type="Java" name="csvFormat" class="org.apache.commons.csv.CSVFormat">
+				<cfobject type="Java" name="csvParser" class="org.apache.commons.csv.CSVParser">
+				<cfobject type="Java" name="csvRecord" class="org.apache.commons.csv.CSVRecord">
 				<cfobject type="java" class="java.io.FileReader" name="fileReader">	
-				<cfobject type="Java" name="javaCharset" class="java.nio.charset.Charset" >
-				<cfobject type="Java" name="standardCharsets" class="java.nio.charset.StandardCharsets" >
+				<cfobject type="Java" name="javaCharset" class="java.nio.charset.Charset">
+				<cfobject type="Java" name="standardCharsets" class="java.nio.charset.StandardCharsets">
 				<cfset filePath = fileProxy.init(JavaCast("string",#FiletoUpload#)) >
-				<cfset tempFileInputStream = CreateObject("java","java.io.FileInputStream").Init(#filePath#) >
+				<cfset tempFileInputStream = CreateObject("java","java.io.FileInputStream").Init(#filePath#)>
 				<!--- Create a FileReader object to provide a reader for the CSV file --->
-				<cfset fileReader = CreateObject("java","java.io.FileReader").Init(#filePath#) >
+				<cfset fileReader = CreateObject("java","java.io.FileReader").Init(#filePath#)>
 				<!--- we can not use the withHeader() method from coldfusion, as it is overloaded, and with no parameters provides coldfusion no means to pick the correct method --->
 				<!--- Select format of csv file based on format variable from user --->
 				<cfif not isDefined("format")><cfset format="DEFAULT"></cfif>
@@ -178,8 +175,8 @@
 						<cfif javaCharset.isSupported(JavaCast("string","windows-1252"))>
 							<cfset javaSelectedCharset = javaCharset.forName(JavaCast("string","windows-1252")) >
 						<cfelse>
-							<!--- if not available, iso-8859-1 will substitute, except for 0x80 to 0x9F --->
-							<!--- the following characters won't be handled correctly if the source is windows-1252:  €  Š  š  Ž  ž  Œ  œ  Ÿ --->
+						<!--- If not available, iso-8859-1 will substitute, except for 0x80 to 0x9F --->
+						<!--- These characters won't be handled correctly if the source is windows-1252:  €  Š  š  Ž  ž  Œ  œ  Ÿ --->
 							<cfset javaSelectedCharset = standardCharsets.ISO_8859_1 >
 						</cfif>
 					</cfcase>
@@ -200,13 +197,11 @@
 					</cfdefaultcase>
 				</cfswitch>
 				<cfset records = CSVParser.parse(#tempFileInputStream#,#javaSelectedCharset#,#csvFormat#)>
-
 				<!--- cleanup any incomplete work by the same user --->
 				<cfquery name="clearTempTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="clearTempTable_result">
 					DELETE FROM cf_temp_attributes 
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
-
 				<!--- obtain an iterator to loops through the rows/records in the csv --->
 				<cfset iterator = records.iterator()>
 				<!---Obtain the first line of the file as the header line, we can not use the withHeader() method to do this in coldfusion --->
@@ -229,13 +224,11 @@
 				<cfset colNameArray = listToArray(ucase(foundHeaders))><!--- the list of columns/fields found in the input file --->
 				<cfset fieldArray = listToArray(ucase(fieldlist))><!--- the full list of fields --->
 				<cfset typeArray = listToArray(fieldTypes)><!--- the types for the full list of fields --->
-
 				<div class="col-12 my-4">
 					<h3 class="h4">Found #size# columns in header of csv file.</h3>
 					<h3 class="h4">There are #ListLen(fieldList)# columns expected in the header. (of these #ListLen(requiredFieldList)# are required)</h3>
 				</div>
-					
-		<!--- check for required fields in header line (performng check in two different ways, Case 1, Case 2) --->
+				<!--- check for required fields in header line (performng check in two different ways, Case 1, Case 2) --->
 				<!--- Loop through list of fields throw exception if required fields are missing --->
 				<cfset errorMessage = "">
 				<cfloop list="#fieldList#" item="aField">
@@ -250,7 +243,7 @@
 					<cfthrow message = "#NO_COLUMN_ERR# #errorMessage#">
 				</cfif>
 				<cfset errorMessage = "">
-				<!--- Loop through list of fields, mark each field as fields present in input or not, throw exception if required fields are missing --->
+				<!---Loop through field list, mark each as present in input or not, throw exception if required fields are missing--->
 				<ul class="">
 					<cfloop list="#fieldlist#" index="field" delimiters=",">
 						<cfset hint="">
@@ -276,8 +269,8 @@
 				</ul>
 				<cfif len(errorMessage) GT 0>
 					<cfif size EQ 1>
-						<!--- likely a problem parsing the first line into column headers --->
-						<!--- to get here, upload a csv file with the correct headers as MYSQL format --->
+						<!--- Likely a problem parsing the first line into column headers --->
+						<!--- To get here, upload a csv file with the correct headers as MYSQL format --->
 						<cfset errorMessage = "You may have specified the wrong format, only one column header was found. #errorMessage#">
 					</cfif>
 					<cfthrow message = "#NO_COLUMN_ERR# #errorMessage#">
@@ -300,13 +293,11 @@
 						<cfthrow message = "#DUP_COLUMN_ERR#">
 					</cfif>
 				</ul>
-
 				<cfset colNames="#foundHeaders#">
 				<cfset loadedRows = 0>
 				<cfset foundHighCount = 0>
 				<cfset foundHighAscii = "">
 				<cfset foundMultiByte = "">
-
 				<!--- Iterate through the remaining rows inserting the data into the temp table. --->
 				<cfset row = 0>
 				<cfloop condition="#iterator.hasNext()#">
@@ -335,7 +326,7 @@
 						</cfif>
 					</cfloop>
 					<cftry>
-							<!--- construct insert for row with a line for each entry in fieldlist using cfqueryparam if column header is in fieldlist, otherwise using null --->
+					<!---Construct insert for row with a line for each entry in fieldlist using cfqueryparam if column header is in fieldlist, otherwise using null --->
 							<cfquery name="insert" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="insert_result">
 								insert into cf_temp_citation
 									(#fieldlist#,username)
@@ -412,13 +403,13 @@
 						</cfif>
 					</cfloop>
 					<cfif isDefined("foundHighCount") AND foundHighCount GT 0>
-						<h3 class="h3">Found characters with unexpected encoding in the header row.  This is probably the cause of your error.</h3>
+						<h3 class="h3">Found characters with unexpected encoding in the header row. This is probably the cause of your error.</h3>
 						<div>
-							Showing #foundHighCount# examples.  Did you select utf-16 or unicode for the encoding for a file that does not have multibyte encoding?
+							Showing #foundHighCount# examples. Did you select utf-16 or unicode for the encoding for a file that does not have multibyte encoding?
 						</div>
 						<ul class="py-1 h4">
-							#foundHighAscii#
-							#foundMultiByte#
+							<li>#foundHighAscii#</li>
+							<li>#foundMultiByte#</li>
 						</ul>
 					</cfif>
 				</cfif>
