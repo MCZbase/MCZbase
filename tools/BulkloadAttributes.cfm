@@ -263,7 +263,7 @@ limitations under the License.
 					</cfif>
 				</cfloop>
 				<cfif len(errorMessage) GT 0>
-					<cfthrow message = "#NO_COLUMN_ERR# #errorMessage#">
+					<cfthrow message = "#NO_COLUMN_ERR# <span class='text-danger'>#errorMessage#</span>">
 				</cfif>
 				<cfset errorMessage = "">
 				<!--- Loop through list of fields, mark each field as fields present in input or not, throw exception if required fields are missing --->
@@ -284,7 +284,7 @@ limitations under the License.
 								<!--- Case 2. Check by identifying field in required field list --->
 								<cfif ListContainsNoCase(requiredFieldList,field)>
 									<strong class="text-dark">Required Column Not Found</strong>
-									<cfset errorMessage = "#errorMessage# #field# is missing.">
+									<cfset errorMessage = "#errorMessage# <span class='text-danger'>#field#</span> is missing.">
 								</cfif>
 							</cfif>
 						</li>
@@ -296,7 +296,7 @@ limitations under the License.
 						<!--- to get here, upload a csv file with the correct headers as MYSQL format --->
 						<cfset errorMessage = "You may have specified the wrong format, only one column header was found. #errorMessage#">
 					</cfif>
-					<cfthrow message = "#NO_COLUMN_ERR# #errorMessage#">
+						<cfthrow message = "#NO_COLUMN_ERR# <span class='text-danger'>#errorMessage#</span>">
 				</cfif>
 				<ul class="py-1 h3 list-unstyled">
 					<!--- Identify additional columns that will be ignored --->
