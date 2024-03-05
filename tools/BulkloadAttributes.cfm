@@ -69,8 +69,8 @@ limitations under the License.
 				</label>
 				<textarea rows="2" cols="90" id="templatearea" class="w-100 data-entry-textarea">#fieldlist#</textarea>
 			</div>
-			<p>Columns in <span class="text-danger">red</span> are required; others are optional:</p>
-			<ul>
+			<h2 class="mt-4 h4">Columns in <span class="text-danger">red</span> are required; others are optional:</h2>
+			<ul class="mb-4 h4">
 				<cfloop list="#fieldlist#" index="field" delimiters=",">
 					<cfset aria = "">
 					<cfif listContains(requiredfieldlist,field,",")>
@@ -248,7 +248,7 @@ limitations under the License.
 
 				<div class="col-12 my-4">
 					<h3 class="h4">Found #size# columns in header of csv file.</h3>
-					<h3 class="h4">There are #ListLen(fieldList)# columns expected in the header. (of these #ListLen(requiredFieldList)# are required)</h3>
+					<h3 class="h4">There are #ListLen(fieldList)# columns expected in the header (of these #ListLen(requiredFieldList)# are required).</h3>
 				</div>
 
 				<!--- check for required fields in header line (performng check in two different ways, Case 1, Case 2) --->
@@ -258,7 +258,7 @@ limitations under the License.
 					<cfif ListContainsNoCase(requiredFieldList,aField)>
 						<!--- Case 1. Check by splitting assembled list of foundHeaders --->
 						<cfif NOT ListContainsNoCase(foundHeaders,aField)>
-							<cfset errorMessage = "#errorMessage# #aField# is missing.">
+							<cfset errorMessage = "#errorMessage# <strong>#aField#</strong> is missing.">
 						</cfif>
 					</cfif>
 				</cfloop>
@@ -267,7 +267,7 @@ limitations under the License.
 				</cfif>
 				<cfset errorMessage = "">
 				<!--- Loop through list of fields, mark each field as fields present in input or not, throw exception if required fields are missing --->
-				<ul class="">
+				<ul class="h4 mb-4">
 					<cfloop list="#fieldlist#" index="field" delimiters=",">
 						<cfset hint="">
 						<cfif listContains(requiredfieldlist,field,",")>
@@ -284,7 +284,7 @@ limitations under the License.
 								<!--- Case 2. Check by identifying field in required field list --->
 								<cfif ListContainsNoCase(requiredFieldList,field)>
 									<strong class="text-dark">Required Column Not Found</strong>
-									<cfset errorMessage = "#errorMessage# #field# is missing.">
+									<cfset errorMessage = "#errorMessage# <strong>#field#</strong> is missing.">
 								</cfif>
 							</cfif>
 						</li>
@@ -298,7 +298,7 @@ limitations under the License.
 					</cfif>
 					<cfthrow message = "#NO_COLUMN_ERR# #errorMessage#">
 				</cfif>
-				<ul>
+				<ul class="py-1 h4 list-unstyled">
 					<!--- Identify additional columns that will be ignored --->
 					<cfloop list="#foundHeaders#" item="aField">
 						<cfif NOT ListContainsNoCase(fieldList,aField)>
@@ -310,7 +310,7 @@ limitations under the License.
 						<li>At least one column header occurs more than once.</1i>
 						<cfloop list="#foundHeaders#" item="aField">
 							<cfif listValueCount(foundHeaders,aField) GT 1>
-								<li><strong>#aField#</strong> is duplicated as the header for #listValueCount(foundHeaders,aField)# columns.</1i>
+								<li>[<strong>#aField#</strong>] is duplicated as the header for #listValueCount(foundHeaders,aField)# columns.</li>
 							</cfif>
 						</cfloop>
 						<cfthrow message = "#DUP_COLUMN_ERR#">
@@ -391,15 +391,14 @@ limitations under the License.
 			
 				<cfif foundHighCount GT 0>
 					<cfif foundHighCount GT 1><cfset plural="s"><cfelse><cfset plural=""></cfif>
-					<h3 class="h3">Found characters where the encoding is probably important in the input data.</h3>
+					<h3 class="h4">Found characters where the encoding is probably important in the input data.</h3>
 					<div>
-						Showing #foundHighCount# example#plural#.  If these do not appear as the correct characters, the file likely has a different encoding from the one you selected and
+						<p>Showing #foundHighCount# example#plural#.  If these do not appear as the correct characters, the file likely has a different encoding from the one you selected and
 						you probably want to <strong><a href="/tools/BulkloadAttributes.cfm">reload</a></strong> this file selecting a different encoding.  If these appear as expected, then 
-						you selected the correct encoding and can continue to validate or load.
+							you selected the correct encoding and can continue to validate or load.</p>
 					</div>
-					<ul class="py-1" style="font-size: 1.2rem;">
-						#foundHighAscii#
-						#foundMultiByte#
+					<ul class="pb-1 h4 list-unstyled">
+						#foundHighAscii# #foundMultiByte#
 					</ul>
 				</cfif>
 				<h3 class="h3">
@@ -410,7 +409,7 @@ limitations under the License.
 					</cfif>
 				</h3>
 			<cfcatch>
-				<h3 class="h3">
+				<h3 class="h4">
 					Failed to read the CSV file.  Fix the errors in the file and <a href="/tools/BulkloadAttributes.cfm">reload</a>
 				</h3>
 				<cfif isDefined("arrResult")>
@@ -434,40 +433,33 @@ limitations under the License.
 						</cfif>
 					</cfloop>
 					<cfif isDefined("foundHighCount") AND foundHighCount GT 0>
-						<h3 class="h3">Found characters with unexpected encoding in the header row.  This is probably the cause of your error.</h3>
+						<h3 class="h4">Found characters with unexpected encoding in the header row.  This is probably the cause of your error.</h3>
 						<div>
-							Showing #foundHighCount# examples.  Did you select utf-16 or unicode for the encoding for a file that does not have multibyte encoding?
+							Showing #foundHighCount# examples. Did you select utf-16 or unicode for the encoding for a file that does not have multibyte encoding?
 						</div>
-						<ul class="py-1" style="font-size: 1.2rem;">
-							#foundHighAscii#
-							#foundMultiByte#
+						<ul class="pb-1 h4 list-unstyled">
+							#foundHighAscii# #foundMultiByte#
 						</ul>
 					</cfif>
 				</cfif>
 				<cfif Find("#NO_COLUMN_ERR#",cfcatch.message) GT 0>
-					<ul class="py-1" style="font-size: 1.2rem;">
-						<li>#cfcatch.message#</li>
-					</ul>
+					#cfcatch.message#
 				<cfelseif Find("#COLUMN_ERR#",cfcatch.message) GT 0>
-					<ul class="py-1" style="font-size: 1.2rem;">
-						<li>#cfcatch.message#</li>
-					</ul>
+					#cfcatch.message#
 				<cfelseif Find("#DUP_COLUMN_ERR#",cfcatch.message) GT 0>
-					<ul class="py-1" style="font-size: 1.2rem;">
-						<li>#cfcatch.message#</li>
-					</ul>
+					#cfcatch.message#
 				<cfelseif Find("IOException reading next record: java.io.IOException: (line 1) invalid char between encapsulated token and delimiter",cfcatch.message) GT 0>
-					<ul class="py-1" style="font-size: 1.2rem;">
+					<ul class="py-1 h4 list-unstyled">
 						<li>Unable to read headers in line 1.  Did you select CSV format for a tab delimited file?</li>
 					</ul>
 				<cfelseif Find("IOException reading next record: java.io.IOException: (line 1)",cfcatch.message) GT 0>
-					<ul class="py-1" style="font-size: 1.2rem;">
+					<ul class="py-1 h4 list-unstyled">
 						<cfif format EQ "DEFAULT"><cfset fmt="CSV: Default Comma Separated values"><cfelse><cfset fmt="#format#"></cfif>
 						<li>Unable to read headers in line 1.  Is your file actually have the format #fmt#?</li>
 						<li>#cfcatch.message#</li>
 					</ul>
 				<cfelseif Find("IOException reading next record: java.io.IOException:",cfcatch.message) GT 0>
-					<ul class="py-1" style="font-size: 1.2rem;">
+					<ul class="py-1 h4 list-unstyled">
 						<cfif format EQ "DEFAULT"><cfset fmt="CSV: Default Comma Separated values"><cfelse><cfset fmt="#format#"></cfif>
 						<li>Unable to read a record from the file.  One or more lines may not be consistent with the specified format #format#</li>
 						<li>#cfcatch.message#</li>
