@@ -69,8 +69,8 @@ limitations under the License.
 				</label>
 				<textarea rows="2" cols="90" id="templatearea" class="w-100 data-entry-textarea">#fieldlist#</textarea>
 			</div>
-			<p>Columns in <span class="text-danger">red</span> are required; others are optional:</p>
-			<ul>
+			<h2 class="mt-4 h4">Columns in <span class="text-danger">red</span> are required; others are optional:</h2>
+			<ul class="mb-4 h4">
 				<cfloop list="#fieldlist#" index="field" delimiters=",">
 					<cfset aria = "">
 					<cfif listContains(requiredfieldlist,field,",")>
@@ -310,7 +310,7 @@ limitations under the License.
 						<li><i class="fas fa-arrow-right"></i> &nbsp;At least one column header occurs more than once.</1i>
 						<cfloop list="#foundHeaders#" item="aField">
 							<cfif listValueCount(foundHeaders,aField) GT 1>
-								<li><i class="fas fa-arrow-right"></i> &nbsp;<strong>#aField#</strong> is duplicated as the header for #listValueCount(foundHeaders,aField)# columns.</1i>
+								<li><i class="fas fa-arrow-right"></i> &nbsp;[<strong>#aField#</strong>] is duplicated as the header for #listValueCount(foundHeaders,aField)# columns.</1i>
 							</cfif>
 						</cfloop>
 						<cfthrow message = "#DUP_COLUMN_ERR#">
