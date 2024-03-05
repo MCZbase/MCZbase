@@ -258,7 +258,7 @@ limitations under the License.
 					<cfif ListContainsNoCase(requiredFieldList,aField)>
 						<!--- Case 1. Check by splitting assembled list of foundHeaders --->
 						<cfif NOT ListContainsNoCase(foundHeaders,aField)>
-							<cfset errorMessage = "#errorMessage# #aField# is missing.">
+							<cfset errorMessage = "#errorMessage# <strong>#aField#</strong> is missing.">
 						</cfif>
 					</cfif>
 				</cfloop>
@@ -284,7 +284,7 @@ limitations under the License.
 								<!--- Case 2. Check by identifying field in required field list --->
 								<cfif ListContainsNoCase(requiredFieldList,field)>
 									<strong class="text-dark">Required Column Not Found</strong>
-									<cfset errorMessage = "#errorMessage# #field# is missing.">
+									<cfset errorMessage = "#errorMessage# <strong>#field#</strong> is missing.">
 								</cfif>
 							</cfif>
 						</li>
