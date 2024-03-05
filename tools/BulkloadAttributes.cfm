@@ -397,7 +397,7 @@ limitations under the License.
 						you probably want to <strong><a href="/tools/BulkloadAttributes.cfm">reload</a></strong> this file selecting a different encoding.  If these appear as expected, then 
 							you selected the correct encoding and can continue to validate or load.</p>
 					</div>
-					<ul class="py-1 h4 list-unstyled">
+					<ul class="pb-1 h4 list-unstyled">
 						#foundHighAscii# #foundMultiByte#
 					</ul>
 				</cfif>
@@ -437,7 +437,7 @@ limitations under the License.
 						<div>
 							Showing #foundHighCount# examples. Did you select utf-16 or unicode for the encoding for a file that does not have multibyte encoding?
 						</div>
-						<ul class="py-1 h4 list-unstyled">
+						<ul class="pb-1 h4 list-unstyled">
 							#foundHighAscii# #foundMultiByte#
 						</ul>
 					</cfif>
