@@ -267,7 +267,7 @@ limitations under the License.
 				</cfif>
 				<cfset errorMessage = "">
 				<!--- Loop through list of fields, mark each field as fields present in input or not, throw exception if required fields are missing --->
-				<ul class="h4">
+				<ul class="h4 mb-4">
 					<cfloop list="#fieldlist#" index="field" delimiters=",">
 						<cfset hint="">
 						<cfif listContains(requiredfieldlist,field,",")>
