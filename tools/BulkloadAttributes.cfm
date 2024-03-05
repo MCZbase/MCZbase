@@ -443,14 +443,11 @@ limitations under the License.
 					</cfif>
 				</cfif>
 				<cfif Find("#NO_COLUMN_ERR#",cfcatch.message) GT 0>
-						#cfcatch.message#
-					
+					#cfcatch.message#
 				<cfelseif Find("#COLUMN_ERR#",cfcatch.message) GT 0>
-						#cfcatch.message#
-					
+					#cfcatch.message#
 				<cfelseif Find("#DUP_COLUMN_ERR#",cfcatch.message) GT 0>
 					#cfcatch.message#
-					
 				<cfelseif Find("IOException reading next record: java.io.IOException: (line 1) invalid char between encapsulated token and delimiter",cfcatch.message) GT 0>
 					<ul class="py-1 h4 list-unstyled">
 						<li>Unable to read headers in line 1.  Did you select CSV format for a tab delimited file?</li>
