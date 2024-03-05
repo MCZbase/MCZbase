@@ -434,6 +434,7 @@
 								<a class="dropdown-item" target="_blank" href="https://code.mcz.harvard.edu/wiki/index.php/Using_MCZbase">Using MCZbase (Wiki Support)</a>
 							</cfif>
 							<a class="dropdown-item" target="_blank" href="https://mcz.harvard.edu/database">About MCZbase</a>
+							<a class="dropdown-item" href="/info/HowToCite.cfm">Citing MCZbase</a>
 							<a class="dropdown-item" target="_blank" href="/vocabularies/ControlledVocabulary.cfm">Controlled Vocabularies</a>
 							<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"coldfusion_user")>
 								<a class="dropdown-item" target="_blank" href="/specimens/viewSpecimenSearchMetadata.cfm?action=search&execute=true&method=getcf_spec_search_cols&access_role=!HIDE">Specimen Search Builder Help</a>
