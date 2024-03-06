@@ -522,14 +522,14 @@
 									SELECT collection_object_id
 									FROM user_search_table
 									WHERE result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
-										AND pagesort < <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#resultTopBottom.min#">
+										AND pagesort < <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#resultTopBottom.minval#">
 								</cfquery>
 								<cfset firstID = getFirst.collection_object_id>
 								<cfquery name="getLast" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 									SELECT collection_object_id
 									FROM user_search_table
 									WHERE result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
-										AND pagesort < <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#resultTopBottom.min#">
+										AND pagesort < <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#resultTopBottom.minval#">
 								</cfquery>
 								<cfset lastID = getLast.collection_object_id>
 								<cfif positionInResult.pagesort GT resultTopBottom.minval>
