@@ -1,3 +1,21 @@
+<!--- tools/bulkloadCitations.cfm add citations to specimens in bulk.
+
+Copyright 2008-2017 Contributors to Arctos
+Copyright 2008-2023 President and Fellows of Harvard College
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+
+--->
 <!--- special case handling to dump problem data as csv --->
 <cfif isDefined("action") AND action is "dumpProblems">
 	<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -40,8 +58,8 @@
 	<h1 class="h2 mt-2">Bulkload Citations</h1>
 	<cfif #action# is "nothing">
 		<cfoutput>
-			<p>This tool adds attributes to the specimen record. The attribute has to be in the code table prior to uploading this .csv. It ignores rows that are exactly the same. Additional columns will be ignored.</p>
-			<p>The attributes and attribute values must appear as they do on the <a href="https://mczbase.mcz.harvard.edu/vocabularies/ControlledVocabulary.cfm?" class="font-weight-bold">controlled vocabularies</a> lists for <a href="/vocabularies/ControlledVocabulary.cfm?table=CTATTRIBUTE_TYPE">ATTRIBUTE_TYPE</a> and for some citations the controlled vocabularies are listed in <a href="/vocabularies/ControlledVocabulary.cfm?table=CTCITATION_TYPE_STATUS">CITATION_CODE_TABLES</a>. </p>
+			<p>This tool adds citations to the specimen record. The publication and specimens have to be in the code table prior to uploading this .csv. It ignores rows that are exactly the same. Additional columns will be ignored.</p>
+			<p>The publication_title and/or publication_id values must appear as they do on the <a href="/Publications.cfm" class="font-weight-bold">Publication Search Results</a>. The other_id_type and other_id_number values must also be in the database. Search for them via the <a href="/Specimens.cfm" class="font-weight-bold">Specimen Search</a></p>
 			<p>Upload a comma-delimited text file (csv). Include column headings, spelled exactly as below.</p>
 			<p>Use "catalog number" as the value of other_id_type to match on catalog number.</p>
 			<span class="btn btn-xs btn-info" onclick="document.getElementById('template').style.display='block';">View template</span>
@@ -116,7 +134,7 @@
 		<cfset COLUMN_ERR = "Error inserting data">
 		<cfset NO_HEADER_ERR = "No header line found, csv file appears to be empty.">
 			<cftry>
-				<!--- Parse the CSV file using Apache Commons CSV library included with coldfusion so that columns with comma delimeters will be separated properly --->
+			<!---Parse the CSV file using Apache Commons CSV library and include with ColdFusion so columns with comma delimiters will be separated properly.--->
 				<cfset fileProxy = CreateObject("java","java.io.File") >
 				<cfobject type="Java" name="csvFormat" class="org.apache.commons.csv.CSVFormat">
 				<cfobject type="Java" name="csvParser" class="org.apache.commons.csv.CSVParser">
@@ -128,8 +146,8 @@
 				<cfset tempFileInputStream = CreateObject("java","java.io.FileInputStream").Init(#filePath#)>
 				<!--- Create a FileReader object to provide a reader for the CSV file --->
 				<cfset fileReader = CreateObject("java","java.io.FileReader").Init(#filePath#)>
-				<!--- we can not use the withHeader() method from coldfusion, as it is overloaded, and with no parameters provides coldfusion no means to pick the correct method --->
-				<!--- Select format of csv file based on format variable from user --->
+				<!---We cannot use the withHeader() method from coldfusion, as it is overloaded. With no parameters ColdFusion has no means to pick the correct method.--->
+				<!---Select format of csv file based on format variable from user.--->
 				<cfif not isDefined("format")><cfset format="DEFAULT"></cfif>
 				<cfswitch expression="#format#">
 					<cfcase value="DEFAULT">
@@ -325,7 +343,7 @@
 						</cfif>
 					</cfloop>
 					<cftry>
-					<!---Construct insert for row with a line for each entry in fieldlist using cfqueryparam if column header is in fieldlist, otherwise using null --->
+					<!---Construct insert for row with a line for each entry in fieldlist using cfqueryparam if column header is in fieldlist, otherwise using null.--->
 							<cfquery name="insert" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="insert_result">
 								insert into cf_temp_citation
 									(#fieldlist#,username)
@@ -363,22 +381,20 @@
 				</cfloop>
 			
 				<cfif foundHighCount GT 0>
-					<h3 class="h3">Found characters where the encoding is probably important in the input data.</h3>
+					<h3 class="h4">Found characters where the encoding is probably important in the input data.</h3>
 					<div>
-						Showing #foundHighCount# examples.  If these do not appear as the correct characters, the file likely has a different encoding from the one you selected and
-						you probably want to <a href="/tools/BulkloadCitatons.cfm">reload this file</a> selecting a different encoding.  If these appear as expected, then 
-						you selected the correct encoding and can continue to validate or load.
+						<p>Showing #foundHighCount# examples.  If these do not appear as the correct characters, the file likely has a different encoding from the one you selected and
+						you probably want to <a href="/tools/BulkloadCitatons.cfm">reload this file</a> selecting a different encoding. If these appear as expected, then you selected the correct encoding and can continue to validate or load.</p>
 					</div>
-				
-						<ul>#foundHighAscii# #foundMultiByte#</ul>
+					<ul>#foundHighAscii# #foundMultiByte#</ul>
 					
 				</cfif>
-				<h3 class="h3">
-					Successfully read #loadedRows# records from the CSV file. Next <a href="/tools/BulkloadCitations.cfm?action=validate">click to validate</a>.
+				<h3 class="h4">
+					<p>Successfully read #loadedRows# records from the CSV file. Next <a href="/tools/BulkloadCitations.cfm?action=validate">click to validate</a>.</p>
 				</h3>
 			<cfcatch>
-				<h3 class="h3">
-					Failed to read the CSV file.  Fix the errors in the file and <a href="/tools/BulkloadCitations.cfm">reload</a>
+				<h3 class="h4">
+					<p>Failed to read the CSV file.  Fix the errors in the file and <a href="/tools/BulkloadCitations.cfm">reload</a></p>
 				</h3>
 				<cfif isDefined("arrResult")>
 					<cfset foundHighCount = 0>
@@ -401,24 +417,19 @@
 						</cfif>
 					</cfloop>
 					<cfif isDefined("foundHighCount") AND foundHighCount GT 0>
-						<h3 class="h3">Found characters with unexpected encoding in the header row. This is probably the cause of your error.</h3>
+						<h3 class="h4">Found characters with unexpected encoding in the header row. This is probably the cause of your error.</h3>
 						<div>
-							Showing #foundHighCount# examples. Did you select utf-16 or unicode for the encoding for a file that does not have multibyte encoding?
+							<p>Showing #foundHighCount# examples. Did you select utf-16 or unicode for the encoding for a file that does not have multibyte encoding?</p>
 						</div>
 						<ul class="py-1 h4">
-							<li>#foundHighAscii#</li>
-							<li>#foundMultiByte#</li>
+							#foundHighAscii# #foundMultiByte#
 						</ul>
 					</cfif>
 				</cfif>
 				<cfif Find("#NO_COLUMN_ERR#",cfcatch.message) GT 0>
-					<ul class="py-1 h4">
-						<li>#cfcatch.message#</li>
-					</ul>
+						#cfcatch.message#
 				<cfelseif Find("#COLUMN_ERR#",cfcatch.message) GT 0>
-					<ul class="py-1 h4">
-						<li>#cfcatch.message#</li>
-					</ul>
+						#cfcatch.message#
 				<cfelse>
 					<cfdump var="#cfcatch#">
 				</cfif>
