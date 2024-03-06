@@ -27,7 +27,7 @@
 		<cfset rdurl=catalog>
 	<cfelse>
 		<cfinclude template="/errors/404.cfm">
-		</cfabort>
+		<cfabort>
 	</cfif>
 	<cfquery name="checkForGuid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select GUID 
@@ -36,7 +36,7 @@
 	</cfquery>
 	<cfif checkForGuid.recordcount NEQ 1>
 		<cfinclude template="/errors/404.cfm">
-		</cfabort>
+		<cfabort>
 	</cfif>
 
 	<!--- Content negotiation, pick highest priority content type that we can deliver from the http accept header list --->
