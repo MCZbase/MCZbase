@@ -238,7 +238,7 @@ limitations under the License.
 				<cfset separator = "">
 				<cfset foundHeaders = "">
 				<cfloop index="i" from="0" to="#headers.size() - 1#">
-					<cfset foundHeaders = "#foundHeaders##separator##REReplace(headers.get(JavaCast("int",i),'[^A-Za-z0-9_-]','','All'))#" >
+					<cfset foundHeaders = "#foundHeaders##separator##REReplace(headers.get(JavaCast("int",i)),'[^A-Za-z0-9_-]','','All')#" >
 					<cfset separator = ",">
 				</cfloop>
 				<!--- Note: As we can't use csvFormat.withHeader(), we can not match columns by name, we are forced to do so by number, thus arrays --->
