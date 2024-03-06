@@ -354,7 +354,7 @@ limitations under the License.
 											<cfset fieldPos=arrayFind(colNameArray,fieldArray[col])>
 											<cfset val=trim(collValuesArray[fieldPos])>
 											<cfset val=rereplace(val,"^'+",'')>
-											<cfset val=rereplace(val,"+$",'')>
+											<!---<cfset val=rereplace(val,"'+$",'')>--->
 											<cfif val EQ ""> 
 												#separator#NULL
 											<cfelse>
