@@ -273,7 +273,7 @@ limitations under the License.
 						<li>
 							<span class="#class#" #hint#>#field#</span>
 							<cfif arrayFindNoCase(colNameArray,field) GT 0>
-								<strong class="text-success">Present in CSV</strong>
+								<span class="text-success font-weight-bold">Present in CSV</span>
 							<cfelse>
 								<!--- Case 2. Check by identifying field in required field list --->
 								<cfif ListContainsNoCase(requiredFieldList,field)>
