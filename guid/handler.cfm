@@ -23,7 +23,7 @@
 <cfif isdefined("catalog") and len(catalog) gt 0>
 	<!--- Expected form is a urn:catalog, Darwin Core Triplet --->
 
-	<cfif rematch('^[A-Z]+:[A-Za-z]+:[A-Za-z0-9-]+$',catalog)>
+	<cfif REFind('^[A-Z]+:[A-Za-z]+:[A-Za-z0-9-]+$',catalog) GT 0>
 		<cfset rdurl=catalog>
 	<cfelse>
 		<cfinclude template="/errors/404.cfm">
