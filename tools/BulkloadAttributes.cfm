@@ -238,7 +238,14 @@ limitations under the License.
 				<cfset separator = "">
 				<cfset foundHeaders = "">
 				<cfloop index="i" from="0" to="#headers.size() - 1#">
-					<cfset foundHeaders = "#foundHeaders##separator##REReplace(headers.get(JavaCast("int",i)),'[^A-Za-z0-9_-]','','All')#" >
+					<cfset bit = headers.get(JavaCast("int",i))>
+					<cfif index EQ 0 and characterSet EQ 'utf-8'>
+						<!--- strip off windows non-standard UTF-8-BOM byte order mark if present --->
+						<cfset bit = "#foundHeaders##separator##REReplace(bit,'^\uEFBBBF','','one')#" >
+					</cfif>
+					<!--- we could strip out all unexpected characters from the header, but seems likely to cause problems. --->
+					<!--- cfset bit=REReplace(headers.get(JavaCast("int",i)),'[^A-Za-z0-9_-]','','All') --->
+					<cfset foundHeaders = "#foundHeaders##separator##bit#" >
 					<cfset separator = ",">
 				</cfloop>
 				<!--- Note: As we can't use csvFormat.withHeader(), we can not match columns by name, we are forced to do so by number, thus arrays --->
