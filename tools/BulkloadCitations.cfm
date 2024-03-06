@@ -70,7 +70,7 @@ limitations under the License.
 				<textarea rows="2" cols="90" id="templatearea" class="w-100 data-entry-textarea">#fieldlist#</textarea>
 			</div>
 			<h2 class="mt-4 h4">Columns in <span class="text-danger">red</span> are required; others are optional:</h2>
-			<ul class="mb-4 h4">
+			<ul class="mb-4 small90">
 				<cfloop list="#fieldlist#" index="field" delimiters=",">
 					<cfset aria = "">
 					<cfif listContains(requiredfieldlist,field,",")>
@@ -638,14 +638,14 @@ limitations under the License.
 				WHERE status is not null
 			</cfquery>
 			<cfif pf.c gt 0>
-				<h2>
+				<h2 class="h4">
 					There is a problem with #pf.c# of #data.recordcount# row(s). See the STATUS column. (<a href="/tools/BulkloadCitations.cfm?action=dumpProblems">download</a>).
 				</h2>
-				<h3>
+				<h3 class="h4">
 					Fix the problems in the data and <a href="/tools/BulkloadCitations.cfm">start again</a>.
 				</h3>
 			<cfelse>
-				<h2>
+				<h2 class="h4">
 					Validation checks passed. Look over the table below and <a href="/tools/BulkloadCitations.cfm?action=load">click to continue</a> if it all looks good.
 				</h2>
 			</cfif>
@@ -754,7 +754,7 @@ limitations under the License.
 					<h2 class="h3">There was a problem updating the citations.</h2>
 					<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						SELECT status,institution_acronym,collection_cde,other_id_type,other_id_number,attribute,attribute_value, attribute_units,attribute_date,attribute_meth,determiner,remarks
-						FROM cf_temp_attributes 
+						FROM cf_temp_citation
 						WHERE key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#problem_key#">
 					</cfquery>
 					<cfif getProblemData.recordcount GT 0>
@@ -763,7 +763,7 @@ limitations under the License.
 							Error loading row (<span class="text-danger">#citations_updates + 1#</span>) from the CSV: 
 							<cfif len(cfcatch.detail) gt 0>
 								<span class="font-weight-normal border-bottom border-danger">
-									<cfif cfcatch.detail contains "Invalid publication_title">
+									<cfif cfcatch.detail contains "publication_title">
 										Invalid Publication Title; Search Publications
 									<cfelseif cfcatch.detail contains "collection_cde">
 										COLLECTION_CDE does not match abbreviated collection (e.g., Ent, Herp, Ich, IP, IZ, Mala, Mamm, Orn, SC, VP)
@@ -776,13 +776,15 @@ limitations under the License.
 									<cfelseif cfcatch.detail contains "occurs_page_number">
 										Problem with OCCURS_PAGE_NUMBER
 									<cfelseif cfcatch.detail contains "type_status">
-										Invalid or missing type_status
+										Invalid or missing TYPE_STATUS
 									<cfelseif cfcatch.detail contains "citation_page_uri">
 										Invalid CITATION_PAGE_URI
+									<cfelseif cfcatch.detail contains "cited_scientific_name">
+										Invalid CITED_SCIENTIFIC_NAME
 									<cfelseif cfcatch.detail contains "citation_remarks">
-										Problem with ATTRIBUTE_METH (#cfcatch.detail#)
-									<cfelseif cfcatch.detail contains "attribute_remarks">
-										Problem with ATTRIBUTE_REMARKS (#cfcatch.detail#)
+										Problem with CITATION_REMARKS (#cfcatch.detail#)
+									<cfelseif cfcatch.detail contains "publication_id">
+										Problem with PUBLICATION_ID (#cfcatch.detail#)
 									<cfelseif cfcatch.detail contains "no data">
 										No data or the wrong data (#cfcatch.detail#)
 									<cfelse>
