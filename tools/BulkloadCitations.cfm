@@ -638,16 +638,16 @@ limitations under the License.
 				WHERE status is not null
 			</cfquery>
 			<cfif pf.c gt 0>
-				<h2 class="h4 px-4 mt-3">
+				<h3 class="h4 px-4 mt-3">
 					There is a problem with #pf.c# of #data.recordcount# row(s). See the STATUS column. (<a href="/tools/BulkloadCitations.cfm?action=dumpProblems">download</a>).
-				</h2>
-				<h2 class="h4 px-4">
+				</h3>
+				<h3 class="h4 px-4">
 					Fix the problems in the data and <a href="/tools/BulkloadCitations.cfm">start again</a>.
-				</h2>
+				</h3>
 			<cfelse>
-				<h2 class="h4 px-4">
+				<h3 class="h4 px-4">
 					Validation checks passed. Look over the table below and <a href="/tools/BulkloadCitations.cfm?action=load">click to continue</a> if it all looks good.
-				</h2>
+				</h3>
 			</cfif>
 			<table class='px-0 mx-4 sortable table table-responsive w-100'>
 				<thead class="thead-light">
