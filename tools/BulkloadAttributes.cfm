@@ -239,7 +239,7 @@ limitations under the License.
 				<cfset foundHeaders = "">
 				<cfloop index="i" from="0" to="#headers.size() - 1#">
 					<cfset bit = headers.get(JavaCast("int",i))>
-					<cfif index EQ 0 and characterSet EQ 'utf-8'>
+					<cfif i EQ 0 and characterSet EQ 'utf-8'>
 						<!--- strip off windows non-standard UTF-8-BOM byte order mark if present --->
 						<cfset bit = "#foundHeaders##separator##REReplace(bit,'^\uEFBBBF','','one')#" >
 					</cfif>
