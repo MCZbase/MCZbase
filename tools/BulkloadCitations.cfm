@@ -386,7 +386,7 @@ limitations under the License.
 						<p>Showing #foundHighCount# examples.  If these do not appear as the correct characters, the file likely has a different encoding from the one you selected and
 						you probably want to <a href="/tools/BulkloadCitatons.cfm">reload this file</a> selecting a different encoding. If these appear as expected, then you selected the correct encoding and can continue to validate or load.</p>
 					</div>
-					<ul>#foundHighAscii# #foundMultiByte#</ul>
+					<ul class="h4">#foundHighAscii# #foundMultiByte#</ul>
 					
 				</cfif>
 				<h3 class="h4">
