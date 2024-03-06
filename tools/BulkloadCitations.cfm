@@ -389,10 +389,11 @@ limitations under the License.
 						<ul class="h4">#foundHighAscii# #foundMultiByte#</ul>
 
 					</cfif>
+				</div>
 					<h3 class="h4">
 						Successfully read #loadedRows# records from the CSV file. Next <a href="/tools/BulkloadCitations.cfm?action=validate">click to validate</a>.
 					</h3>
-				</div>
+			
 			<cfcatch>
 				<h3 class="h4">
 					Failed to read the CSV file.  Fix the errors in the file and <a href="/tools/BulkloadCitations.cfm">reload</a>.
