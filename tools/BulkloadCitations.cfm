@@ -442,7 +442,7 @@ limitations under the License.
 <!------------------------------------------------------->
 
 	<cfif #action# is "validate">
-		<h2 class="h3">Second step: Data Validation</h2>
+		<h2 class="h4">Second step: Data Validation</h2>
 		<cfoutput>
 			<cfquery name="getTempTableTypes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				SELECT 
@@ -638,7 +638,7 @@ limitations under the License.
 				WHERE status is not null
 			</cfquery>
 			<cfif pf.c gt 0>
-				<h2 class="h4 px-4 mt-2">
+				<h2 class="h4 px-4 mt-3">
 					There is a problem with #pf.c# of #data.recordcount# row(s). See the STATUS column. (<a href="/tools/BulkloadCitations.cfm?action=dumpProblems">download</a>).
 				</h2>
 				<h2 class="h4 px-4">
