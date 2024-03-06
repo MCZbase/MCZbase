@@ -241,7 +241,7 @@ limitations under the License.
 				<cfset colNameArray = listToArray(ucase(foundHeaders))><!--- the list of columns/fields found in the input file --->
 				<cfset fieldArray = listToArray(ucase(fieldlist))><!--- the full list of fields --->
 				<cfset typeArray = listToArray(fieldTypes)><!--- the types for the full list of fields --->
-				<div class="col-12 my-4">
+				<div class="col-12 my-4 px-xl-4">
 					<h3 class="h4">Found #size# columns in header of csv file.</h3>
 					<h3 class="h4">There are #ListLen(fieldList)# columns expected in the header. (of these #ListLen(requiredFieldList)# are required)</h3>
 				
