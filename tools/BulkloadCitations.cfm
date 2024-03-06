@@ -27,6 +27,7 @@ limitations under the License.
 	<cfinclude template="/shared/component/functions.cfc">
 	<cfinclude template="/shared/functionLib.cfm">
 	<cfset csv = queryToCSV(getProblemData)>
+	<cfset escapedInput = PreserveSingleQuotes(csv)>
 	<cfheader name="Content-Type" value="text/csv">
 	<cfoutput>#csv#</cfoutput>
 	<cfabort>
