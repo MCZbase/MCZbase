@@ -249,7 +249,6 @@ limitations under the License.
 					<!--- Loop through list of fields throw exception if required fields are missing --->
 					<cfset errorMessage = "">
 					<cfloop list="#fieldList#" item="aField">
-						#fieldList#
 						<cfif ListContainsNoCase(requiredFieldList,aField)>
 							<!--- Case 1. Check by splitting assembled list of foundHeaders --->
 							<cfif NOT ListContainsNoCase(foundHeaders,aField)>
@@ -355,7 +354,7 @@ limitations under the License.
 											<cfset fieldPos=arrayFind(colNameArray,fieldArray[col])>
 											<cfset val=trim(collValuesArray[fieldPos])>
 											<cfset val=rereplace(val,"^'+",'')>
-											<cfset val=rereplace(val,"'+$",'')>
+											<cfset val=rereplace(val,"+$",'')>
 											<cfif val EQ ""> 
 												#separator#NULL
 											<cfelse>
