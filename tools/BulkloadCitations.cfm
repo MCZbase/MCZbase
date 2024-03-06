@@ -261,7 +261,7 @@ limitations under the License.
 				</cfif>
 				<cfset errorMessage = "">
 				<!---Loop through field list, mark each as present in input or not, throw exception if required fields are missing--->
-				<ul class="h4 mb-4">
+				<ul class="mb-4">
 					<cfloop list="#fieldlist#" index="field" delimiters=",">
 						<cfset hint="">
 						<cfif listContains(requiredfieldlist,field,",")>
@@ -292,7 +292,7 @@ limitations under the License.
 					</cfif>
 					<cfthrow message = "#NO_COLUMN_ERR# #errorMessage#">
 				</cfif>
-				<ul class="h4">
+				<ul class="">
 					<!--- Identify additional columns that will be ignored --->
 					<cfloop list="#foundHeaders#" item="aField">
 						<cfif NOT ListContainsNoCase(fieldList,aField)>
