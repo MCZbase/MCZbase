@@ -241,7 +241,7 @@ limitations under the License.
 					<cfset bit = headers.get(JavaCast("int",i))>
 					<cfif i EQ 0 and characterSet EQ 'utf-8'>
 						<!--- strip off windows non-standard UTF-8-BOM byte order mark if present --->
-						<cfset bit = "#foundHeaders##separator##REReplace(bit,'^\uEFBBBF','','one')#" >
+						<cfset bit = "#REReplace(bit,'^\uEFBBBF','')#" >
 					</cfif>
 					<!--- we could strip out all unexpected characters from the header, but seems likely to cause problems. --->
 					<!--- cfset bit=REReplace(headers.get(JavaCast("int",i)),'[^A-Za-z0-9_-]','','All') --->
