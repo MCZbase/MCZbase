@@ -249,6 +249,7 @@ limitations under the License.
 					<!--- Loop through list of fields throw exception if required fields are missing --->
 					<cfset errorMessage = "">
 					<cfloop list="#fieldList#" item="aField">
+						#fieldList#
 						<cfif ListContainsNoCase(requiredFieldList,aField)>
 							<!--- Case 1. Check by splitting assembled list of foundHeaders --->
 							<cfif NOT ListContainsNoCase(foundHeaders,aField)>
