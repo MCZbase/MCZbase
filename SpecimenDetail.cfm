@@ -533,7 +533,7 @@
 								</cfquery>
 								<cfset lastID = getLast.collection_object_id>
 								<cfif positionInResult.pagesort GT resultTopBottom.minval>
-									<cfset isPrevious = "yes">
+									<cfset isPrev = "yes">
 									<!--- find the next page sort value below the current position, this may not be pagesort - 1 if records have been removed --->
 									<cfquery name="previousPageSort" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 										SELECT max(pagesort) prevval 
