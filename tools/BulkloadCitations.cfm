@@ -27,7 +27,6 @@ limitations under the License.
 	<cfinclude template="/shared/component/functions.cfc">
 	<cfinclude template="/shared/functionLib.cfm">
 	<cfset csv = queryToCSV(getProblemData)>
-	<cfset escapedInput = PreserveSingleQuotes(csv)>
 	<cfheader name="Content-Type" value="text/csv">
 	<cfoutput>#csv#</cfoutput>
 	<cfabort>
@@ -345,6 +344,7 @@ limitations under the License.
 						</cfloop>
 						<cftry>
 						<!---Construct insert for row with a line for each entry in fieldlist using cfqueryparam if column header is in fieldlist, otherwise using null.--->
+							<cfset fieldlist = PreserveSingleQuotes(fieldlist)>
 							<cfquery name="insert" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="insert_result">
 								insert into cf_temp_citation
 									(#fieldlist#,username)
