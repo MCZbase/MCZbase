@@ -436,23 +436,33 @@ limitations under the License.
 	<cfif #action# is "validate">
 		<h2 class="h4">Second step: Data Validation</h2>
 		<cfoutput>
-			<cfquery name="getTempTableTypes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				SELECT STATUS,LOCALITY_ID,DEC_LAT,DEC_LONG,DATUM,ORIG_LAT_LONG_UNITS,DETERMINED_BY_AGENT_ID,DETERMINED_DATE,LAT_LONG_REF_SOURCE,LAT_LONG_REMARKS,
-				MAX_ERROR_DISTANCE,MAX_ERROR_UNITS,EXTENT,GPSACCURACY,GEOREFMETHOD,VERIFICATIONSTATUS,SPATIALFIT
-				FROM 
-					cf_temp_georef
-				WHERE 
-					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+			<cfquery name="d" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				select * from cf_temp_georef
+			</cfquery>
+			<cfquery name="ctGEOREFMETHOD" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				select GEOREFMETHOD from ctGEOREFMETHOD
+			</cfquery>
+			<cfquery name="CTLAT_LONG_UNITS" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				select ORIG_LAT_LONG_UNITS from CTLAT_LONG_UNITS
+			</cfquery>
+			<cfquery name="CTDATUM" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				select DATUM from CTDATUM
+			</cfquery>
+			<cfquery name="CTVERIFICATIONSTATUS" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				select VERIFICATIONSTATUS from CTVERIFICATIONSTATUS
+			</cfquery>
+			<cfquery name="CTLAT_LONG_ERROR_UNITS" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				select LAT_LONG_ERROR_UNITS from CTLAT_LONG_ERROR_UNITS
 			</cfquery>
 			<cfloop query="getTempTableTypes">
 				<!--- For each row, set the target collection_object_id --->
 				<cfif getTempTableTypes.other_id_type eq 'catalog number'>
 					<!--- either based on catalog_number --->
-					<cfquery name="getCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					<cfquery name="getAID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						UPDATE
 							cf_temp_georef
 						SET
-							collection_object_id = (
+							DETERMINED_BY_AGENT_ID = (
 								select collection_object_id 
 								from cataloged_item 
 								where cat_num = cf_temp_citation.other_id_number 
@@ -548,136 +558,162 @@ limitations under the License.
 						AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
 				</cfquery>
 			</cfloop>
-			<!--- qc checks separate from getting ID numbers, includes presence of values in required columns --->
-			<cfquery name="flagNotMatchedTypeStatus" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				UPDATE cf_temp_citation
-				SET 
-					status = concat(nvl2(status, status || '; ', ''),'Unknown type_status: "' || type_status ||'"&mdash;not on list')
-				WHERE type_status is not null 
-					AND type_status not in (select type_status from ctcitation_type_status)
-					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-			</cfquery>
-			<cfquery name="flagNoPublication" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				UPDATE cf_temp_citation
-				SET 
-					status = concat(nvl2(status, status || '; ', ''),' The publication_title or publication_id fields are missing entries')
-				WHERE publication_id IS NULL and publication_title IS NULL
-					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-			</cfquery>
-			<cfquery name="flagNoPublication" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				UPDATE cf_temp_citation
-				SET 
-					status = concat(nvl2(status, status || '; ', ''),' The publication_title entered does not match an existing title')
-				WHERE publication_title IS NOT NULL and publication_ID IS NULL
-					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-			</cfquery>
-			<cfquery name="flagMczAcronym" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				UPDATE cf_temp_citation
-				SET 
-					status = concat(nvl2(status, status || '; ', ''),'INSTIUTION_ACRONYM is not "MCZ" (check case)')
-				WHERE institution_acronym <> 'MCZ'
-					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-			</cfquery>
-			<cfquery name="flagNotMatchedOther_ID_Type" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				UPDATE cf_temp_citation
-				SET 
-					status = concat(nvl2(status, status || '; ', ''), 'Unknown other_id_type: "' || other_id_type ||'"&mdash;not on list')
-				WHERE other_id_type is not null 
-					AND other_id_type <> 'catalog number'
-					AND other_id_type not in (select other_id_type from ctcoll_other_id_type)
-					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-			</cfquery>
-			<cfquery name="FlagCdeProblems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="citationProblems_result">
-				UPDATE cf_temp_citation
-				SET
-					status = concat(nvl2(status, status || '; ', ''),'Invalid collection_cde: "' || collection_cde ||'"')
-				WHERE 
-					collection_cde IS NOT NULL
-					AND collection_cde NOT IN (
-						SELECT collection_cde 
-						FROM ctcollection_cde 
-						WHERE collection_cde = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableQC.collection_cde#">
-					)
-					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-					AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
-			</cfquery>
-			<cfquery name="flagNoCollectionObject" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				UPDATE cf_temp_citation
-				SET 
-					status = concat(nvl2(status, status || '; ', ''),' There is no match to a cataloged item on [' || other_id_type || ']=[' || other_id_number || '] in collection "' || collection_cde ||'"')
-				WHERE collection_object_id IS NULL
-					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-			</cfquery>
-			<!---Missing data in required fields--->
-			<cfloop list="#requiredfieldlist#" index="requiredField">
-				<cfquery name="checkRequired" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					UPDATE cf_temp_citation
-					SET 
-						status = concat(nvl2(status, status || '; ', ''),'#requiredField# is missing')
-					WHERE #requiredField# is null
-						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+			<cfloop query="d">
+				<cfset ts="">
+				<cfset sql="select spec_locality,higher_geog,locality.locality_id from locality,geog_auth_rec where
+					locality.geog_auth_rec_id=geog_auth_rec.geog_auth_rec_id and
+					locality.locality_id=#Locality_ID# and
+					trim(geog_auth_rec.higher_geog)='#trim(HigherGeography)#' and
+					 trim(locality.spec_locality)='#trim(escapeQuotes(SpecLocality))#'">
+				<cfquery name="m" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					#preservesinglequotes(sql)#
 				</cfquery>
+				<cfif len(m.locality_id) is 0>
+					<cfset ts=listappend(ts,'no Locality_ID:SpecLocality:HigherGeography match',";")>
+					<cfquery name="fail" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						select
+							spec_locality,higher_geog
+						from locality,geog_auth_rec where
+							locality.geog_auth_rec_id=geog_auth_rec.geog_auth_rec_id and
+							locality.locality_id=#Locality_ID#
+					</cfquery>
+					<cfif trim(SpecLocality) is not fail.spec_locality>
+						<label>Locality Fail: ID=#locality_id#</label>
+						<cfset yl=replace(trim(SpecLocality)," ","{space}","all")>
+						<cfset al=replace(fail.spec_locality," ","{space}","all")>
+						<table border>
+							<tr>
+								<td>yours:</td>
+								<td>#yl#</td>
+							</tr>
+							<tr>
+								<td>arctos:</td>
+								<td>#al#</td>
+							</tr>
+						</table>
+					</cfif>
+					<cfif trim(HigherGeography) is not fail.higher_geog>
+						<label>Geography Fail: ID=#locality_id#</label>
+						<cfset yg=replace(trim(HigherGeography)," ","{space}","all")>
+						<cfset ag=replace(fail.higher_geog," ","{space}","all")>
+						<table border>
+							<tr>
+								<td>yours:</td>
+								<td>#yg#</td>
+							</tr>
+							<tr>
+								<td>arctos:</td>
+								<td>#ag#</td>
+							</tr>
+						</table>
+					</cfif>
+				</cfif>
+				<cfquery name="a" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					select agent_id from agent_name where agent_name='#DETERMINED_BY_AGENT#'
+				</cfquery>
+				<cfif a.recordcount is 1>
+					<cfquery name="au" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						update cf_temp_georef set DETERMINED_BY_AGENT_ID=#a.agent_id# where key=#key#
+					</cfquery>
+				<cfelse>
+					<cfset ts=listappend(ts,'bad agent match',";")>
+				</cfif>
+				<cfif not listfind(valuelist(ctGEOREFMETHOD.GEOREFMETHOD),GEOREFMETHOD)>
+					<cfset ts=listappend(ts,'bad GEOREFMETHOD',";")>
+				</cfif>
+				<cfif not listfind(valuelist(CTLAT_LONG_UNITS.ORIG_LAT_LONG_UNITS),ORIG_LAT_LONG_UNITS)>
+					<cfset ts=listappend(ts,'bad ORIG_LAT_LONG_UNITS',";")>
+				</cfif>
+				<cfif not listfind(valuelist(CTDATUM.DATUM),DATUM)>
+					<cfset ts=listappend(ts,'bad DATUM',";")>
+				</cfif>
+				<cfif not listfind(valuelist(CTVERIFICATIONSTATUS.VERIFICATIONSTATUS),VERIFICATIONSTATUS)>
+					<cfset ts=listappend(ts,'bad VERIFICATIONSTATUS',";")>
+				</cfif>
+				<cfif len(MAX_ERROR_DISTANCE) GT 0 >
+					<cfif not listfind(valuelist(CTLAT_LONG_ERROR_UNITS.LAT_LONG_ERROR_UNITS),MAX_ERROR_UNITS)>
+						<cfset ts=listappend(ts,'bad MAX_ERROR_UNITS',";")>
+					</cfif>
+				</cfif>
+				<cfquery name="l" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					select count(*) c from lat_long where
+					lat_long.locality_id=#Locality_ID#
+				</cfquery>
+				<cfif l.c neq 0>
+					<cfset ts=listappend(ts,'georeference exists.',";")>
+				</cfif>
+				<cfif len(ts) gt 0>
+					<cfquery name="au" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						update cf_temp_georef set status='#ts#' where key=#key#
+					</cfquery>
+				<cfelse>
+					<cfquery name="au" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						update cf_temp_georef set status='spiffy' where key=#key#
+					</cfquery>
+				</cfif>
 			</cfloop>
-			<!---Go through all the data and report the status--->
-			<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				SELECT institution_acronym,collection_cde,other_id_type,other_id_number,publication_title,publication_id,cited_scientific_name,occurs_page_number,citation_page_uri,type_status,citation_remarks,collection_object_id,cited_taxon_name_id,status
-				FROM cf_temp_citation
-				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+			<cfquery name="dp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				select count(*) c from cf_temp_georef where status != 'spiffy'
 			</cfquery>
-			<cfquery name="pf" dbtype="query">
-				SELECT count(*) c 
-				FROM data 
-				WHERE status is not null
-			</cfquery>
-			<cfif pf.c gt 0>
-				<h3 class="h4 px-4 mt-3">
-					There is a problem with #pf.c# of #data.recordcount# row(s). See the STATUS column. (<a href="/tools/BulkloadCitations.cfm?action=dumpProblems">download</a>).
-				</h3>
-				<h3 class="h4 px-4">
-					Fix the problems in the data and <a href="/tools/BulkloadCitations.cfm">start again</a>.
-				</h3>
+			<cfif dp.c is 0>
+				Looks like we made it. Take a look at everything below, then
+				<a href="BulkloadGeoref.cfm?action=load">click to load</a>
 			<cfelse>
-				<h3 class="h4 px-4">
-					Validation checks passed. Look over the table below and <a href="/tools/BulkloadCitations.cfm?action=load">click to continue</a> if it all looks good.
-				</h3>
+				fail. Something's busted.
 			</cfif>
-			<table class='px-0 mx-4 sortable table table-responsive w-100'>
-				<thead class="thead-light">
-					<tr>
-						<th>STATUS&nbsp;OF&nbsp;CITATION&nbsp;BULKLOAD</th>
-						<th>INSTITUTION_ACRONYM</th>
-						<th>COLLECTION_CDE</th>
-						<th>OTHER_ID_TYPE</th>
-						<th>OTHER_ID_NUMBER</th>
-						<th>PUBLICATION_TITLE</th>
-						<th>PUBLICATION_ID</th>
-						<th>CITED_SCIENTIFIC_NAME</th>
-						<th>OCCURS_PAGE_NUMBER</th>
-						<th>CITATION_PAGE_URI</th>
-						<th>TYPE_STATUS</th>
-						<th>CITATION_REMARKS</th>
-					</tr>
-				<tbody>
-					<cfloop query="data">
-						<tr>
-							<td><strong>#STATUS#</strong></td>
-							<td>#data.INSTITUTION_ACRONYM#</td>
-							<td>#data.COLLECTION_CDE#</td>
-							<td>#data.OTHER_ID_TYPE#</td>
-							<td>#data.OTHER_ID_NUMBER#</td>
-							<td>#data.PUBLICATION_TITLE#</td>
-							<td>#data.PUBLICATION_ID#</td>
-							<td>#data.CITED_SCIENTIFIC_NAME#</td>
-							<td>#data.OCCURS_PAGE_NUMBER#</td>
-							<td>#data.CITATION_PAGE_URI#</td>
-							<td>#data.TYPE_STATUS#</td>
-							<td>#data.CITATION_REMARKS#</td>
-						</tr>
-					</cfloop>
-				</tbody>
-			</table>
-		</cfoutput>
-	</cfif>
+			<cfquery name="df" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				select * from cf_temp_georef
+			</cfquery>
+			<cfset internalPath="#Application.webDirectory#/temp/">
+			<cfset externalPath="#Application.ServerRootUrl#/temp/">
+			<cfset dlFile = "BulkloadGeoref.kml">
+			<cfset variables.fileName="#internalPath##dlFile#">
+			<cfset variables.encoding="UTF-8">
+			<cfscript>
+				variables.joFileWriter = createObject('Component', '/component.FileWriter').init(variables.fileName, variables.encoding, 32768);
+				kml='<?xml version="1.0" encoding="UTF-8"?>' & chr(10) &
+					'<kml xmlns="http://earth.google.com/kml/2.2">' & chr(10) &
+					chr(9) & '<Document>' & chr(10) &
+					chr(9) & chr(9) & '<name>Localities</name>' & chr(10) &
+					chr(9) & chr(9) & '<open>1</open>' & chr(10) &
+					chr(9) & chr(9) & '<Style id="green-star">' & chr(10) &
+					chr(9) & chr(9) & chr(9) & '<IconStyle>' & chr(10) &
+					chr(9) & chr(9) & chr(9) & chr(9) & '<Icon>' & chr(10) &
+					chr(9) & chr(9) & chr(9) & chr(9) & chr(9) & '<href>http://maps.google.com/mapfiles/kml/paddle/grn-stars.png</href>' & chr(10) &
+					chr(9) & chr(9) & chr(9) & chr(9) & '</Icon>' & chr(10) &
+					chr(9) & chr(9) & chr(9) & '</IconStyle>' & chr(10) &
+					chr(9) & chr(9) & '</Style>';
+				variables.joFileWriter.writeLine(kml);
+			</cfscript>
+			<cfloop query="df">
+				<cfset cdata='<![CDATA[Datum: #datum#<br/>Error: #max_error_distance# #max_error_units#<br/><p><a href="#Application.ServerRootUrl#/localities/Locality.cfm?locality_id=#locality_id#">Edit Locality</a></p>]]>'>
+				<cfscript>
+					kml='<Placemark>'  & chr(10) &
+						chr(9) & '<name>#HigherGeography#: #replace(SpecLocality,"&","&amp;","all")#</name>' & chr(10) &
+						chr(9) & '<visibility>1</visibility>' & chr(10) &
+						chr(9) & '<description>' & chr(10) &
+						chr(9) & chr(9) & '#cdata#' & chr(10) &
+						chr(9) & '</description>' & chr(10) &
+						chr(9) & '<Point>' & chr(10) &
+						chr(9) & chr(9) & '<coordinates>#dec_long#,#dec_lat#</coordinates>' & chr(10) &
+						chr(9) & '</Point>' & chr(10) &
+						chr(9) & '<styleUrl>##green-star</styleUrl>' & chr(10) &
+						'</Placemark>';
+					variables.joFileWriter.writeLine(kml);
+				</cfscript>
+			</cfloop>
+			<cfscript>
+		kml='</Document></kml>';
+		variables.joFileWriter.writeLine(kml);
+		variables.joFileWriter.close();
+	</cfscript>
+		<p>
+		<a href="http://maps.google.com/maps?q=#externalPath##dlFile#?r=#randRange(1,10000)#">map it</a>
+		</p>
+Data:
+<cfdump var=#df#>
+</cfoutput>
+</cfif>
 	<!------------------------------------------------------->
 	<cfif #action# is "load">
 		<h2 class="h3">Third step: Apply changes.</h2>
