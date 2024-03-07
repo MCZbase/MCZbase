@@ -563,9 +563,57 @@ limitations under the License.
 			<cfif dataCount.c is 0>
 				Looks like we made it. Take a look at everything below, then
 				<a href="BulkloadGeoref.cfm?action=load">click to load</a>
+				<table>
+				<thead>
+					<tr>
+						<th>highergeography</th>
+						<th>speclocality</th>
+						<th>locality_id</th>
+						<th>dec_lat</th>
+						<th>dec_long</th>
+						<th>max_error_distance</th>
+						<th>max_error_units</th>
+						<th>lat_long_remarks</th>
+						<th>determined_by_agent</th>
+						<th>georefmethod</th>
+						<th>orig_lat_long_units</th>
+						<th>datum</th>
+						<th>determined_date</th>
+						<th>lat_long_ref_source</th>
+						<th>extent</th>
+						<th>gpsaccuracy</th>
+						<th>verificationstatus</th>
+						<th>spatialfit</th>
+						<th>nearest_named_place</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<th>#geoData.highergeography#</th>
+						<th>#geoData.speclocality#</th>
+						<th>#geoData.locality_id#</th>
+						<th>#geoData.dec_lat#</th>
+						<th>#geoData.dec_long#</th>
+						<th>#geoData.max_error_distance#</th>
+						<th>#geoData.max_error_units#</th>
+						<th>#geoData.lat_long_remarks#</th>
+						<th>#geoData.determined_by_agent#</th>
+						<th>#geoData.georefmethod#</th>
+						<th>#geoData.orig_lat_long_units#</th>
+						<th>#geoData.datum#</th>
+						<th>#geoData.determined_date#</th>
+						<th>#geoData.lat_long_ref_source#</th>
+						<th>#geoData.extent#</th>
+						<th>#geoData.gpsaccuracy#</th>
+						<th>#geoData.verificationstatus#</th>
+						<th>#geoData.spatialfit#</th>
+						<th>#geoData.nearest_named_place#</th>
+					</tr>	
+				</tbody>
+			</table>
 			<cfelse>
 				fail. Something's busted. 
-				#geoData.lat_long_remarks#
+
 			</cfif>
 			<cfquery name="df" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				select * from cf_temp_georef
