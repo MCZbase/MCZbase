@@ -383,10 +383,10 @@ limitations under the License.
 						</cfif>
 						<cfif isPrev is "yes">
 							<li class="list-group-item px-0 mx-1">
-								<img src="/images/first.gif" class="likeLink" onclick="document.location='/SpecimenDetail.cfm?collection_object_id=#firstID##resultBit#'" alt="[ First Record ]">
+								<img src="/images/first.gif" class="likeLink" onclick="document.location='/specimens/Specimen.cfm?collection_object_id=#firstID##resultBit#'" alt="[ First Record ]">
 							</li>
 							<li class="list-group-item px-0 mx-1">
-								<img src="/images/previous.gif" class="likeLink"  onclick="document.location='/SpecimenDetail.cfm?collection_object_id=#prevID##resultBit#'" alt="[ Previous Record ]">
+								<img src="/images/previous.gif" class="likeLink"  onclick="document.location='/specimens/Specimen.cfm?collection_object_id=#prevID##resultBit#'" alt="[ Previous Record ]">
 							</li>
 						<cfelse>
 							<li class="list-group-item px-0 mx-1">
@@ -445,10 +445,10 @@ limitations under the License.
 					<cfif navigable>
 						<cfif isNext is "yes">
 							<li class="list-group-item px-0 mx-1">
-								<img src="/images/next.gif" class="likeLink" onclick="document.location='/SpecimenDetail.cfm?collection_object_id=#nextID##resultBit#'" alt="[ Next Record ]">
+								<img src="/images/next.gif" class="likeLink" onclick="document.location='/specimens/Specimen.cfm?collection_object_id=#nextID##resultBit#'" alt="[ Next Record ]">
 							</li>
 							<li class="list-group-item px-0 mx-1">
-								<img src="/images/last.gif" class="likeLink" onclick="document.location='/SpecimenDetail.cfm?collection_object_id=#lastID##resultBit#'" alt="[ Last Record ]">
+								<img src="/images/last.gif" class="likeLink" onclick="document.location='/specimens/Specimen.cfm?collection_object_id=#lastID##resultBit#'" alt="[ Last Record ]">
 							</li>
 						<cfelse>
 							<li class="list-group-item px-0 mx-1">
