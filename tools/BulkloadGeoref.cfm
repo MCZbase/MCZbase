@@ -19,8 +19,8 @@ limitations under the License.
 <!--- special case handling to dump problem data as csv --->
 <cfif isDefined("action") AND action is "dumpProblems">
 	<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		SELECT agent_type,preferred_name,first_name,middle_name,last_name,birth_date,death_date,agent_remark,prefix,suffix,other_name_type,other_name,other_name_type_2,other_name_2,other_name_type_3,other_name_3,agentguid_guid_type,agentguid 
-		FROM cf_temp_agents 
+		SELECT highergeography,speclocality,locality_id,dec_lat,dec_long,,max_error_distance,max_error_units,lat_long_remarks,determined_by_agent,georefmethod,orig_lat_long_units,datum,determined_date,lat_long_ref_source,extent,gpsaccuracy,verificationstatus,spatialfit 
+		FROM cf_temp_georef 
 		WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 	</cfquery>
 	<cfinclude template="/shared/component/functions.cfc">
@@ -32,7 +32,7 @@ limitations under the License.
 </cfif>
 
 <cfset fieldlist = "highergeography,speclocality,locality_id,dec_lat,dec_long,,max_error_distance,max_error_units,lat_long_remarks,determined_by_agent,georefmethod,orig_lat_long_units,datum,determined_date,lat_long_ref_source,extent,gpsaccuracy,verificationstatus,spatialfit">
-<cfset fieldTypes ="CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_DECIMAL,CF_SQL_DECIMAL,CF_SQL_DECIMAL,CF_SQL_DECIMAL,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_DATE,CF_SQL_VARCHAR,CF_SQL_DECIMAL,CF_SQL_DECIMAL,CF_SQL_VARCHAR,CF_SQL_DECIMAL">
+<cfset fieldTypes ="CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_DECIMAL,CF_SQL_DECIMAL,CF_SQL_DECIMAL,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_DATE,CF_SQL_VARCHAR,CF_SQL_DECIMAL,CF_SQL_DECIMAL,CF_SQL_VARCHAR,CF_SQL_DECIMAL">
 <cfset requiredfieldlist = "DETERMINED_BY_AGENT_ID,DEC_LAT,DEC_LONG,MAX_ERROR_DISTANCE,MAX_ERROR_UNITS,LAT_LONG_REMARKS,EXTENT,GPSACCURACY,SPATIALFIT,NEAREST_NAMED_PLACE">
 		
 		
@@ -240,7 +240,6 @@ limitations under the License.
 					<div class="col-12 my-4 px-xl-4">
 						<h3 class="h4">Found #size# columns in header of csv file.</h3>
 						<h3 class="h4">There are #ListLen(fieldList)# columns expected in the header (of these #ListLen(requiredFieldList)# are required).</h3>
-
 						<!--- check for required fields in header line (performng check in two different ways, Case 1, Case 2) --->
 						<!--- Loop through list of fields throw exception if required fields are missing --->
 						<cfset errorMessage = "">
@@ -375,7 +374,6 @@ limitations under the License.
 								</cfcatch>
 								</cftry>
 						</cfloop>
-
 						<cfif foundHighCount GT 0>
 							<h3 class="h4">Found characters where the encoding is probably important in the input data.</h3>
 							<div>
@@ -386,10 +384,9 @@ limitations under the License.
 
 						</cfif>
 					</div>
-						<h3 class="h4">
-							Successfully read #loadedRows# records from the CSV file. Next <a href="/tools/BulkloadGeoref.cfm?action=validate">click to validate</a>.
-						</h3>
-
+					<h3 class="h4">
+						Successfully read #loadedRows# records from the CSV file. Next <a href="/tools/BulkloadGeoref.cfm?action=validate">click to validate</a>.
+					</h3>
 				<cfcatch>
 					<h3 class="h4">
 						Failed to read the CSV file.  Fix the errors in the file and <a href="/tools/BulkloadGeoref.cfm">reload</a>.
@@ -440,8 +437,8 @@ limitations under the License.
 		<h2 class="h4">Second step: Data Validation</h2>
 		<cfoutput>
 			<cfquery name="getTempTableTypes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				SELECT LAT_LONG_ID,LOCALITY_ID,DEC_LAT,DEC_LONG,DATUM,ORIG_LAT_LONG_UNITS,DETERMINED_BY_AGENT_ID,DETERMINED_DATE,LAT_LONG_REF_SOURCE,LAT_LONG_REMARKS,
-				MAX_ERROR_DISTANCE,MAX_ERROR_UNITS,ACCEPTED_LAT_LONG_FG,EXTENT,GPSACCURACY,GEOREFMETHOD,VERIFICATIONSTATUS,SPATIALFIT
+				SELECT STATUS,LOCALITY_ID,DEC_LAT,DEC_LONG,DATUM,ORIG_LAT_LONG_UNITS,DETERMINED_BY_AGENT_ID,DETERMINED_DATE,LAT_LONG_REF_SOURCE,LAT_LONG_REMARKS,
+				MAX_ERROR_DISTANCE,MAX_ERROR_UNITS,EXTENT,GPSACCURACY,GEOREFMETHOD,VERIFICATIONSTATUS,SPATIALFIT
 				FROM 
 					cf_temp_georef
 				WHERE 
@@ -483,24 +480,24 @@ limitations under the License.
 							and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableTypes.key#"> 
 					</cfquery>
 				</cfif>
-				<cfif len(publication_title) gt 0 and len(publication_id) eq 0>
+<!---				<cfif len(publication_title) gt 0 and len(publication_id) eq 0>
 					<cfquery name="getPNID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						UPDATE
 							cf_temp_citation
 						SET
-							publication_id = (
-								select publication_id 
-								from publication 
-								where cf_temp_citation.publication_title = publication.publication_title 
+							locality_id = (
+								select locality_id 
+								from locality 
+								where cf_temp_georef.higherge = publication.publication_title 
 							)
 						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableTypes.key#"> 
 					</cfquery>
-				</cfif>
+				</cfif>--->
 				<cfif len(publication_ID) gt 0 and len(publication_title) eq 0>
 					<cfquery name="getPTID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						UPDATE
-							cf_temp_citation
+							cf_temp_georef
 						SET
 							publication_title = (
 								select publication_title 
