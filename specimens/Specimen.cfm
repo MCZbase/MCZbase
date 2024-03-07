@@ -381,6 +381,7 @@ limitations under the License.
 						<cfif isdefined("result_id") and len(result_id) gt 0>
 							<cfset resultBit = "&result_id=#result_id#">
 						</cfif>
+						<!--- TODO: Rework these controls to perform a post passing result_id as a post parameter.  They can use /guid/ as the location directly. --->
 						<cfif isPrev is "yes">
 							<li class="list-group-item px-0 mx-1">
 								<img src="/images/first.gif" class="likeLink" onclick="document.location='/specimens/Specimen.cfm?collection_object_id=#firstID##resultBit#'" alt="[ First Record ]">
