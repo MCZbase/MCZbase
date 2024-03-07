@@ -561,33 +561,16 @@ limitations under the License.
 			<cfquery name="dataCount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				select count(*) c from cf_temp_georef where status != 'spiffy'
 			</cfquery>
-				
 			<cftry>
 				<cfif dataCount.c is 0>
-				Looks like we made it. Take a look at everything below, then
-				<a href="BulkloadGeoref.cfm?action=load">click to load</a>
-				<table>
+					Looks like we made it. Take a look at everything below, then
+					<a href="BulkloadGeoref.cfm?action=load">click to load</a>
+					<table>
 					<thead>
 						<tr>
-							<th>highergeography</th>
-							<th>speclocality</th>
-							<th>locality_id</th>
-							<th>dec_lat</th>
-							<th>dec_long</th>
-							<th>max_error_distance</th>
-							<th>max_error_units</th>
-							<th>lat_long_remarks</th>
-							<th>determined_by_agent</th>
-							<th>georefmethod</th>
-							<th>orig_lat_long_units</th>
-							<th>datum</th>
-							<th>determined_date</th>
-							<th>lat_long_ref_source</th>
-							<th>extent</th>
-							<th>gpsaccuracy</th>
-							<th>verificationstatus</th>
-							<th>spatialfit</th>
-							<th>nearest_named_place</th>
+							<th>highergeography</th><th>speclocality</th><th>locality_id</th><th>dec_lat</th><th>dec_long</th><th>max_error_distance</th><th>max_error_units</th><th>lat_long_remarks</th><th>determined_by_agent</th><th>georefmethod</th><th>orig_lat_long_units</th>
+							<th>datum</th><th>determined_date</th><th>lat_long_ref_source</th><th>extent</th><th>gpsaccuracy</th><th>verificationstatus</th>
+							<th>spatialfit</th><th>nearest_named_place</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -615,12 +598,12 @@ limitations under the License.
 					</tbody>
 				</table>
 				<cfelse>
-					<h2 class="h3">There was a problem updating the citations.</h2>
+					<h2 class="h3">There was a problem updating the geographies.</h2>
 					<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					SELECT determined_by_agent_id,highergeography,speclocality,locality_id,dec_lat,dec_long,max_error_distance,max_error_units,lat_long_remarks,determined_by_agent,georefmethod,orig_lat_long_units,datum,determined_date,lat_long_ref_source,extent,gpsaccuracy,verificationstatus,spatialfit,nearest_named_place
-					FROM cf_temp_georef
-					WHERE key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#problem_key#">
-				</cfquery>
+						SELECT determined_by_agent_id,highergeography,speclocality,locality_id,dec_lat,dec_long,max_error_distance,max_error_units,lat_long_remarks,determined_by_agent,georefmethod,orig_lat_long_units,datum,determined_date,lat_long_ref_source,extent,gpsaccuracy,verificationstatus,spatialfit,nearest_named_place
+						FROM cf_temp_georef
+						WHERE key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#key#">
+					</cfquery>
 					<cfif getProblemData.recordcount GT 0>
 						<h2 class="h3">Errors are displayed one row at a time.</h2>
 						<h3>
@@ -768,7 +751,7 @@ limitations under the License.
 	<cfif #action# is "load">
 		<h2 class="h3">Third step: Apply changes.</h2>
 		<cfoutput>
-			<cfset problem_key = "">
+			<cfset key = "">
 			<cftransaction>
 				<cfquery name="getTempData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					SELECT * FROM cf_temp_georef
@@ -785,7 +768,7 @@ limitations under the License.
 						<cfthrow message="You have no rows to load in the geography bulkloader table (cf_temp_georef).  <a href='/tools/BulkloadGeoref.cfm'>Start over</a>"><!--- " --->
 					</cfif>
 					<cfloop query="getTempData">
-						<cfset problem_key = getTempData.key>
+						<cfset key = getTempData.key>
 						<cfquery name="updateGeoref" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateGeoref_result">
 							INSERT into lat_long (
 								LAT_LONG_ID,
@@ -903,7 +886,7 @@ limitations under the License.
 					<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						SELECT verificationstatus,institution_acronym,collection_cde,other_id_type,other_id_number,attribute,attribute_value, attribute_units,attribute_date,attribute_meth,determiner,remarks
 						FROM cf_temp_georef
-						WHERE key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#problem_key#">
+						WHERE key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#key#">
 					</cfquery>
 					<cfif getProblemData.recordcount GT 0>
  						<h2 class="h3">Errors are displayed one row at a time.</h2>
