@@ -375,8 +375,12 @@ limitations under the License.
 		<div class="container-lg d-none d-lg-block">
 			<div class="row mt-2">
 				<ul class="list-group list-inline list-group-horizontal-md py-0 mx-auto">
+					<cfset resultBit = "">
 					<!--- Navigation through records in a result set --->
 					<cfif navigable>
+						<cfif isdefined("result_id") and len(result_id) gt 0>
+							<cfset resultBit = "&result_id=#result_id#">
+						</cfif>
 						<cfif isPrev is "yes">
 							<li class="list-group-item px-0 mx-1">
 								<img src="/images/first.gif" class="likeLink" onclick="document.location='/SpecimenDetail.cfm?collection_object_id=#firstID##resultBit#'" alt="[ First Record ]">
