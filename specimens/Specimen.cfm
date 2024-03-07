@@ -1,7 +1,7 @@
 <!---
-Specimen.cfm
+specimens/Specimen.cfm
 
-Copyright 2019-2022 President and Fellows of Harvard College
+Copyright 2019-2024 President and Fellows of Harvard College
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -32,7 +32,12 @@ limitations under the License.
 			from <cfif ucase(session.flatTableName) EQ "FLAT"> flat <cfelse> filtered_flat </cfif>
 			where collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 		</cfquery>
-		<cfheader statuscode="301" statustext="Moved permanently">
+		<cfif isDefined("result_id") and len(result_id) GT 0>
+			<!--- Use 308 to preserve result_id post parameter see: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/308  --->
+			<cfheader statuscode="308" statustext="Permanent Redirect">
+		<cfelse>
+			<cfheader statuscode="301" statustext="Moved permanently">
+		</cfif>
 		<cfset guid = c.GUID>
 		<cfheader name="Location" value="/guid/#guid#">
 		<cfabort>
@@ -44,7 +49,12 @@ limitations under the License.
 
 	<!---  Redirect from explicit Specimen Detail page to  to /guid/ --->
 	<cfif cgi.script_name contains "/specimens/Specimen.cfm">
-		<cfheader statuscode="301" statustext="Moved permanently">
+		<cfif isDefined("result_id") and len(result_id) GT 0>
+			<!--- Use 308 to preserve result_id post parameter see: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/308  --->
+			<cfheader statuscode="308" statustext="Permanent Redirect">
+		<cfelse>
+			<cfheader statuscode="301" statustext="Moved permanently">
+		</cfif>
 		<cfheader name="Location" value="/guid/#guid#">
 		<cfabort>
 	</cfif>

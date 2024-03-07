@@ -144,14 +144,24 @@
 			from <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> 
 			where collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
 		</cfquery>
-		<cfheader statuscode="301" statustext="Moved permanently">
+		<cfif isDefined("result_id") and len(result_id) GT 0>
+			<!--- Use 308 to preserve result_id post parameter see: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/308  --->
+			<cfheader statuscode="308" statustext="Permanent Redirect">
+		<cfelse>
+			<cfheader statuscode="301" statustext="Moved permanently">
+		</cfif>
 		<cfheader name="Location" value="/guid/#c.guid#">
 		<cfabort>
 	</cfoutput>
 </cfif>
 <cfif isdefined("guid")>
 	<cfif cgi.script_name contains "/SpecimenDetail.cfm">
-		<cfheader statuscode="301" statustext="Moved permanently">
+		<cfif isDefined("result_id") and len(result_id) GT 0>
+			<!--- Use 308 to preserve result_id post parameter see: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/308  --->
+			<cfheader statuscode="308" statustext="Permanent Redirect">
+		<cfelse>
+			<cfheader statuscode="301" statustext="Moved permanently">
+		</cfif>
 		<cfheader name="Location" value="/guid/#guid#">
 		<cfabort>
 	</cfif>
@@ -166,6 +176,7 @@
 			</cfquery>
 		</cfoutput>
 	<cfelseif guid contains " ">
+
 		<cfset spos=find(" ",reverse(guid))>
 		<cfset cc=left(guid,len(guid)-spos)>
 		<cfset cn=right(guid,spos)>
