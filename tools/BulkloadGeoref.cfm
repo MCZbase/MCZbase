@@ -510,12 +510,12 @@ limitations under the License.
 						</table>
 					</cfif>
 				</cfif>
-				<cfquery name="a" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="geoAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					select agent_id from agent_name where agent_name='#DETERMINED_BY_AGENT#'
 				</cfquery>
-				<cfif a.recordcount is 1>
+				<cfif geoAgent.recordcount is 1>
 					<cfquery name="au" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-						update cf_temp_georef set DETERMINED_BY_AGENT_ID=#a.agent_id# where key=#key#
+						update cf_temp_georef set DETERMINED_BY_AGENT_ID=#geoAgent.agent_id# where key=#key#
 					</cfquery>
 				<cfelse>
 					<cfset tellStatus=listappend(tellStatus,'bad agent match',";")>
@@ -537,11 +537,11 @@ limitations under the License.
 						<cfset tellStatus=listappend(tellStatus,'bad MAX_ERROR_UNITS',";")>
 					</cfif>
 				</cfif>
-				<cfquery name="l" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="geoCount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					select count(*) c from lat_long where
 					lat_long.locality_id=#Locality_ID#
 				</cfquery>
-				<cfif l.c neq 0>
+				<cfif geoCount.c neq 0>
 					<cfset tellStatus=listappend(tellStatus,'georeference exists.',";")>
 				</cfif>
 				<cfif len(tellStatus) gt 0>
@@ -554,10 +554,10 @@ limitations under the License.
 					</cfquery>
 				</cfif>
 			</cfloop>
-			<cfquery name="dp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="dataCount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				select count(*) c from cf_temp_georef where status != 'spiffy'
 			</cfquery>
-			<cfif dp.c is 0>
+			<cfif dataCount.c is 0>
 				Looks like we made it. Take a look at everything below, then
 				<a href="BulkloadGeoref.cfm?action=load">click to load</a>
 			<cfelse>
