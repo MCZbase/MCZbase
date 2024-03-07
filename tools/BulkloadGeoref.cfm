@@ -521,7 +521,7 @@ limitations under the License.
 					<cfset tellStatus=listappend(tellStatus,'bad agent match',";")>
 				</cfif>
 				<cfif not listfind(valuelist(ctGEOREFMETHOD.GEOREFMETHOD),GEOREFMETHOD)>
-					<cfset tellStatus=listappend(ts,'bad GEOREFMETHOD',";")>
+					<cfset tellStatus=listappend(tellStatus,'bad GEOREFMETHOD',";")>
 				</cfif>
 				<cfif not listfind(valuelist(CTLAT_LONG_UNITS.ORIG_LAT_LONG_UNITS),ORIG_LAT_LONG_UNITS)>
 					<cfset tellStatus=listappend(tellStatus,'bad ORIG_LAT_LONG_UNITS',";")>
@@ -544,7 +544,7 @@ limitations under the License.
 				<cfif l.c neq 0>
 					<cfset tellStatus=listappend(tellStatus,'georeference exists.',";")>
 				</cfif>
-				<cfif len(ts) gt 0>
+				<cfif len(tellStatus) gt 0>
 					<cfquery name="au" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						update cf_temp_georef set status='#tellStatus#' where key=#key#
 					</cfquery>
