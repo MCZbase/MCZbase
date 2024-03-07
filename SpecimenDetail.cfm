@@ -144,14 +144,24 @@
 			from <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> 
 			where collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
 		</cfquery>
-		<cfheader statuscode="301" statustext="Moved permanently">
+		<cfif isDefined("result_id") and len(result_id) GT 0>
+			<!--- Use 308 to preserve result_id post parameter see: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/308  --->
+			<cfheader statuscode="308" statustext="Permanent Redirect">
+		<cfelse>
+			<cfheader statuscode="301" statustext="Moved permanently">
+		</cfif>
 		<cfheader name="Location" value="/guid/#c.guid#">
 		<cfabort>
 	</cfoutput>
 </cfif>
 <cfif isdefined("guid")>
 	<cfif cgi.script_name contains "/SpecimenDetail.cfm">
-		<cfheader statuscode="301" statustext="Moved permanently">
+		<cfif isDefined("result_id") and len(result_id) GT 0>
+			<!--- Use 308 to preserve result_id post parameter see: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/308  --->
+			<cfheader statuscode="308" statustext="Permanent Redirect">
+		<cfelse>
+			<cfheader statuscode="301" statustext="Moved permanently">
+		</cfif>
 		<cfheader name="Location" value="/guid/#guid#">
 		<cfabort>
 	</cfif>
@@ -166,6 +176,7 @@
 			</cfquery>
 		</cfoutput>
 	<cfelseif guid contains " ">
+
 		<cfset spos=find(" ",reverse(guid))>
 		<cfset cc=left(guid,len(guid)-spos)>
 		<cfset cn=right(guid,spos)>
@@ -522,18 +533,18 @@
 									SELECT collection_object_id
 									FROM user_search_table
 									WHERE result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
-										AND pagesort < <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#resultTopBottom.min#">
+										AND pagesort < <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#resultTopBottom.minval#">
 								</cfquery>
 								<cfset firstID = getFirst.collection_object_id>
 								<cfquery name="getLast" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 									SELECT collection_object_id
 									FROM user_search_table
 									WHERE result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
-										AND pagesort < <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#resultTopBottom.min#">
+										AND pagesort < <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#resultTopBottom.minval#">
 								</cfquery>
 								<cfset lastID = getLast.collection_object_id>
 								<cfif positionInResult.pagesort GT resultTopBottom.minval>
-									<cfset isPrevious = "yes">
+									<cfset isPrev = "yes">
 									<!--- find the next page sort value below the current position, this may not be pagesort - 1 if records have been removed --->
 									<cfquery name="previousPageSort" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 										SELECT max(pagesort) prevval 
