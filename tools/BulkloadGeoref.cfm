@@ -471,12 +471,15 @@ limitations under the License.
 					#preservesinglequotes(sql)#
 				</cfquery>
 				<cfif len(mappingData.locality_id) is 0>
-					<cfset tellStatus=listappend(ts,'no Locality_ID:SpecLocality:HigherGeography match',";")>
+					<cfset tellStatus=listappend(tellStatus,'no Locality_ID:SpecLocality:HigherGeography match',";")>
 					<cfquery name="fail" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						select
 							spec_locality,higher_geog
-						from locality,geog_auth_rec where
-							locality.geog_auth_rec_id=geog_auth_rec.geog_auth_rec_id and
+						from 
+							locality,geog_auth_rec 
+						where
+							locality.geog_auth_rec_id=geog_auth_rec.geog_auth_rec_id 
+						and
 							locality.locality_id=#Locality_ID#
 					</cfquery>
 					<cfif trim(SpecLocality) is not fail.spec_locality>
