@@ -703,10 +703,11 @@ limitations under the License.
 							</tbody>
 						</table>
 					</cfif>
-					<cfcatch>
-						<div>#cfcatch.message#</div>
-					</cfcatch>
+			
 				</cfif>
+				<cfcatch>
+					<div>#cfcatch.message#</div>
+				</cfcatch>
 			</cftry>
 	
 			
