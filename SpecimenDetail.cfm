@@ -486,7 +486,7 @@
 						<input type="hidden" name="action" value="nothing">
 						<input type="hidden" name="Srch" value="Part">
 						<input type="hidden" name="collecting_event_id" value="#detail.collecting_event_id#">
-						<cfif isdefined("session.collObjIdList") and len(session.collObjIdList) gt 0>
+						<cfif ( isdefined("session.collObjIdList") and len(session.collObjIdList) gt 0 ) AND NOT ( isdefined("result_id") and len(result_id) gt 0 ) >
 						   <cfset isPrev = "no">
 							<cfset isNext = "no">
 							<cfset currPos = 0>
