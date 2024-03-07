@@ -486,7 +486,66 @@
 						<input type="hidden" name="action" value="nothing">
 						<input type="hidden" name="Srch" value="Part">
 						<input type="hidden" name="collecting_event_id" value="#detail.collecting_event_id#">
-						<cfif isdefined("session.collObjIdList") and len(session.collObjIdList) gt 0>
+						<cfif isdefined("result_id") and len(result_id) gt 0>
+							<!--- orders records by institution:collection_cde:catalog_number, to change, change all the order by and over clauses --->
+						   <cfset isPrev = "no">
+							<cfset isNext = "no">
+							<!--- confirm that the record is part of an orderable result accessible to the current user --->
+							<cfquery name="positionInResult" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+								SELECT pagesort  
+								FROM user_search_table
+								WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
+									AND result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
+							</cfquery>
+							<cfif positionInResult.recordcount GT 0>
+								<cfquery name="getFirst" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+									SELECT collection_object_id, pagesort, guid 
+									FROM (
+										SELECT user_search_table.collection_object_id, pagesort, guid
+										FROM user_search_table 
+											join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
+											on user_search_table.collection_object_id = flat.collection_object_id
+										WHERE result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
+										ORDER BY guid ASC
+									) WHERE rownum < 2;
+								</cfquery>
+								<cfset firstID = getFirst.collection_object_id>
+								<cfquery name="getLast" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+									SELECT collection_object_id, pagesort, guid 
+									FROM (
+										SELECT user_search_table.collection_object_id, pagesort, guid
+										FROM user_search_table 
+											JOIN <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
+											on user_search_table.collection_object_id = flat.collection_object_id
+										WHERE result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
+										ORDER BY guid DESC
+									) WHERE rownum < 2;
+								</cfquery>
+								<cfset lastID = getLast.collection_object_id>
+								<cfquery name="previousNext" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+									SELECT prevcol, collection_object_id, nextcol
+									FROM (
+										SELECT 
+											lag(user_search_table.collection_object_id) over (order by guid asc) prevcol, 
+											user_search_table.collection_object_id collection_object_id, 
+											lead(user_search_table.collection_object_id) over (order by guid asc) nextcol
+										FROM user_search_table 
+										JOIN <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
+											on user_search_table.collection_object_id = flat.collection_object_id
+										WHERE result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
+										ORDER by guid asc
+									) WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
+								</cfquery>
+								<cfset prevID = previousNext.prevcol>
+								<cfif len(prevID) GT 0>
+									<cfset isPrev = "yes">
+								</cfif>
+								<cfset nextID = previousNext.nextcol>
+								<cfif len(nextID) GT 0>
+									<cfset isNext = "yes">
+								</cfif>
+							</cfif>
+						<cfelseif isdefined("session.collObjIdList") and len(session.collObjIdList) gt 0 >
 						   <cfset isPrev = "no">
 							<cfset isNext = "no">
 							<cfset currPos = 0>
@@ -512,70 +571,6 @@
 								</cfif>
 								<cfif currPos lt lenOfIdList>
 									<cfset isNext = "yes">
-								</cfif>
-							</cfif>
-						<cfelseif isdefined("result_id") and len(result_id) gt 0>
-						   <cfset isPrev = "no">
-							<cfset isNext = "no">
-							<cfquery name="positionInResult" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-								SELECT pagesort  
-								FROM user_search_table
-								WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
-									AND result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
-							</cfquery>
-							<cfif positionInResult.recordcount GT 0>
-								<cfquery name="resultTopBottom" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-									SELECT min(pagesort) minval, max(pagesort) maxval 
-									FROM user_search_table
-									WHERE result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
-								</cfquery>
-								<cfquery name="getFirst" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-									SELECT collection_object_id
-									FROM user_search_table
-									WHERE result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
-										AND pagesort < <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#resultTopBottom.minval#">
-								</cfquery>
-								<cfset firstID = getFirst.collection_object_id>
-								<cfquery name="getLast" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-									SELECT collection_object_id
-									FROM user_search_table
-									WHERE result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
-										AND pagesort < <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#resultTopBottom.minval#">
-								</cfquery>
-								<cfset lastID = getLast.collection_object_id>
-								<cfif positionInResult.pagesort GT resultTopBottom.minval>
-									<cfset isPrev = "yes">
-									<!--- find the next page sort value below the current position, this may not be pagesort - 1 if records have been removed --->
-									<cfquery name="previousPageSort" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-										SELECT max(pagesort) prevval 
-										FROM user_search_table
-										WHERE result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
-											AND pagesort < <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#positionInResult.pagesort#">
-									</cfquery>
-									<cfquery name="previous" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-										SELECT collection_object_id
-										FROM user_search_table
-										WHERE result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
-											AND pagesort < <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#previousPageSort.prevval#">
-									</cfquery>
-									<cfset prevID = previous.collection_object_id>
-								</cfif>
-								<cfif positionInResult.pagesort LT resultTopBottom.maxval>
-									<!--- find the next page sort value above the current position, this may not be pagesort+1 if records have been removed --->
-									<cfset isNext = "yes">
-									<cfquery name="nextPageSort" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-										SELECT min(pagesort) nextval 
-										FROM user_search_table
-										WHERE result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
-											AND pagesort > <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#positionInResult.pagesort#">
-									</cfquery>
-									<cfquery name="getNext" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-										SELECT collection_object_id
-										FROM user_search_table
-										WHERE result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
-											AND pagesort < <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#nextPageSort.nextval#">
-									</cfquery>
-									<cfset nextID = getNext.collection_object_id>
 								</cfif>
 							</cfif>
 						<cfelse>
