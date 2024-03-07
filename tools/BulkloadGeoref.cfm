@@ -561,9 +561,9 @@ limitations under the License.
 			<cfquery name="dataCount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				select count(*) c from cf_temp_georef where status != 'spiffy'
 			</cfquery>
-			<cftransaction action="ROLLBACK">
-				<cftry>
-			<cfif dataCount.c is 0>
+				
+			<cftry>
+				<cfif dataCount.c is 0>
 				Looks like we made it. Take a look at everything below, then
 				<a href="BulkloadGeoref.cfm?action=load">click to load</a>
 				<table>
@@ -614,7 +614,7 @@ limitations under the License.
 						</tr>	
 					</tbody>
 				</table>
-			<cfelse>
+				<cfelse>
 				<h2 class="h3">There was a problem updating the citations.</h2>
 					<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					SELECT determined_by_agent_id,highergeography,speclocality,locality_id,dec_lat,dec_long,max_error_distance,max_error_units,lat_long_remarks,determined_by_agent,georefmethod,orig_lat_long_units,datum,determined_date,lat_long_ref_source,extent,gpsaccuracy,verificationstatus,spatialfit,nearest_named_place
@@ -706,7 +706,8 @@ limitations under the License.
 					<cfcatch>
 						<div>#cfcatch.message#</div>
 					</cfcatch>
-				</cftry>
+				</cfif>
+			</cftry>
 	
 			
 			<cfquery name="clearTempTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="clearTempTable_result">
