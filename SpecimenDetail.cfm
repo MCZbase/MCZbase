@@ -486,35 +486,7 @@
 						<input type="hidden" name="action" value="nothing">
 						<input type="hidden" name="Srch" value="Part">
 						<input type="hidden" name="collecting_event_id" value="#detail.collecting_event_id#">
-						<cfif ( isdefined("session.collObjIdList") and len(session.collObjIdList) gt 0 ) AND NOT ( isdefined("result_id") and len(result_id) gt 0 ) >
-						   <cfset isPrev = "no">
-							<cfset isNext = "no">
-							<cfset currPos = 0>
-
-							<cfset lenOfIdList = 0>
-							<cfset firstID = collection_object_id>
-							<cfset nextID = collection_object_id>
-							<cfset prevID = collection_object_id>
-							<cfset lastID = collection_object_id>
-							<cfset currPos = listfind(session.collObjIdList,collection_object_id)>
-							<cfset lenOfIdList = listlen(session.collObjIdList)>
-							<cfset firstID = listGetAt(session.collObjIdList,1)>
-							<cfif currPos lt lenOfIdList>
-								<cfset nextID = listGetAt(session.collObjIdList,currPos + 1)>
-							</cfif>
-							<cfif currPos gt 1>
-								<cfset prevID = listGetAt(session.collObjIdList,currPos - 1)>
-							</cfif>
-							<cfset lastID = listGetAt(session.collObjIdList,lenOfIdList)>
-							<cfif lenOfIdList gt 1>
-								<cfif currPos gt 1>
-									<cfset isPrev = "yes">
-								</cfif>
-								<cfif currPos lt lenOfIdList>
-									<cfset isNext = "yes">
-								</cfif>
-							</cfif>
-						<cfelseif isdefined("result_id") and len(result_id) gt 0>
+						<cfif isdefined("result_id") and len(result_id) gt 0>
 							<!--- orders records by institution:collection_cde:catalog_number, to change, change all the order by and over clauses --->
 						   <cfset isPrev = "no">
 							<cfset isNext = "no">
@@ -570,6 +542,34 @@
 								</cfif>
 								<cfset nextID = previousNext.nextcol>
 								<cfif len(nextID) GT 0>
+									<cfset isNext = "yes">
+								</cfif>
+							</cfif>
+						<cfelseif isdefined("session.collObjIdList") and len(session.collObjIdList) gt 0 >
+						   <cfset isPrev = "no">
+							<cfset isNext = "no">
+							<cfset currPos = 0>
+
+							<cfset lenOfIdList = 0>
+							<cfset firstID = collection_object_id>
+							<cfset nextID = collection_object_id>
+							<cfset prevID = collection_object_id>
+							<cfset lastID = collection_object_id>
+							<cfset currPos = listfind(session.collObjIdList,collection_object_id)>
+							<cfset lenOfIdList = listlen(session.collObjIdList)>
+							<cfset firstID = listGetAt(session.collObjIdList,1)>
+							<cfif currPos lt lenOfIdList>
+								<cfset nextID = listGetAt(session.collObjIdList,currPos + 1)>
+							</cfif>
+							<cfif currPos gt 1>
+								<cfset prevID = listGetAt(session.collObjIdList,currPos - 1)>
+							</cfif>
+							<cfset lastID = listGetAt(session.collObjIdList,lenOfIdList)>
+							<cfif lenOfIdList gt 1>
+								<cfif currPos gt 1>
+									<cfset isPrev = "yes">
+								</cfif>
+								<cfif currPos lt lenOfIdList>
 									<cfset isNext = "yes">
 								</cfif>
 							</cfif>
