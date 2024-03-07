@@ -564,7 +564,8 @@ limitations under the License.
 				Looks like we made it. Take a look at everything below, then
 				<a href="BulkloadGeoref.cfm?action=load">click to load</a>
 			<cfelse>
-				fail. Something's busted. <cfdump var=#geoData#>
+				fail. Something's busted. 
+				#geoData.lat_long_remarks#
 			</cfif>
 			<cfquery name="df" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				select * from cf_temp_georef
@@ -615,8 +616,6 @@ limitations under the License.
 		<p>
 		<a href="http://maps.google.com/maps?q=#externalPath##dlFile#?r=#randRange(1,10000)#">map it</a>
 		</p>
-Data:
-<cfdump var=#df#>
 </cfoutput>
 </cfif>
 	<!------------------------------------------------------->
