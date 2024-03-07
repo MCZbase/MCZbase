@@ -564,131 +564,144 @@ limitations under the License.
 				Looks like we made it. Take a look at everything below, then
 				<a href="BulkloadGeoref.cfm?action=load">click to load</a>
 				<table>
-				<thead>
-					<tr>
-						<th>highergeography</th>
-						<th>speclocality</th>
-						<th>locality_id</th>
-						<th>dec_lat</th>
-						<th>dec_long</th>
-						<th>max_error_distance</th>
-						<th>max_error_units</th>
-						<th>lat_long_remarks</th>
-						<th>determined_by_agent</th>
-						<th>georefmethod</th>
-						<th>orig_lat_long_units</th>
-						<th>datum</th>
-						<th>determined_date</th>
-						<th>lat_long_ref_source</th>
-						<th>extent</th>
-						<th>gpsaccuracy</th>
-						<th>verificationstatus</th>
-						<th>spatialfit</th>
-						<th>nearest_named_place</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr>
-						<th>#geoData.highergeography#</th>
-						<th>#geoData.speclocality#</th>
-						<th>#geoData.locality_id#</th>
-						<th>#geoData.dec_lat#</th>
-						<th>#geoData.dec_long#</th>
-						<th>#geoData.max_error_distance#</th>
-						<th>#geoData.max_error_units#</th>
-						<th>#geoData.lat_long_remarks#</th>
-						<th>#geoData.determined_by_agent#</th>
-						<th>#geoData.georefmethod#</th>
-						<th>#geoData.orig_lat_long_units#</th>
-						<th>#geoData.datum#</th>
-						<th>#geoData.determined_date#</th>
-						<th>#geoData.lat_long_ref_source#</th>
-						<th>#geoData.extent#</th>
-						<th>#geoData.gpsaccuracy#</th>
-						<th>#geoData.verificationstatus#</th>
-						<th>#geoData.spatialfit#</th>
-						<th>#geoData.nearest_named_place#</th>
-					</tr>	
-				</tbody>
-			</table>
+					<thead>
+						<tr>
+							<th>highergeography</th>
+							<th>speclocality</th>
+							<th>locality_id</th>
+							<th>dec_lat</th>
+							<th>dec_long</th>
+							<th>max_error_distance</th>
+							<th>max_error_units</th>
+							<th>lat_long_remarks</th>
+							<th>determined_by_agent</th>
+							<th>georefmethod</th>
+							<th>orig_lat_long_units</th>
+							<th>datum</th>
+							<th>determined_date</th>
+							<th>lat_long_ref_source</th>
+							<th>extent</th>
+							<th>gpsaccuracy</th>
+							<th>verificationstatus</th>
+							<th>spatialfit</th>
+							<th>nearest_named_place</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<th>#geoData.highergeography#</th>
+							<th>#geoData.speclocality#</th>
+							<th>#geoData.locality_id#</th>
+							<th>#geoData.dec_lat#</th>
+							<th>#geoData.dec_long#</th>
+							<th>#geoData.max_error_distance#</th>
+							<th>#geoData.max_error_units#</th>
+							<th>#geoData.lat_long_remarks#</th>
+							<th>#geoData.determined_by_agent#</th>
+							<th>#geoData.georefmethod#</th>
+							<th>#geoData.orig_lat_long_units#</th>
+							<th>#geoData.datum#</th>
+							<th>#geoData.determined_date#</th>
+							<th>#geoData.lat_long_ref_source#</th>
+							<th>#geoData.extent#</th>
+							<th>#geoData.gpsaccuracy#</th>
+							<th>#geoData.verificationstatus#</th>
+							<th>#geoData.spatialfit#</th>
+							<th>#geoData.nearest_named_place#</th>
+						</tr>	
+					</tbody>
+				</table>
 			<cfelse>
-					<cftransaction action="ROLLBACK">
-					<h2 class="h3">There was a problem updating the citations.</h2>
-					<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-						SELECT determined_by_agent_id,highergeography,speclocality,locality_id,dec_lat,dec_long,max_error_distance,max_error_units,lat_long_remarks,determined_by_agent,georefmethod,orig_lat_long_units,datum,determined_date,lat_long_ref_source,extent,gpsaccuracy,verificationstatus,spatialfit,nearest_named_place
-						FROM cf_temp_georef
-						WHERE key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#problem_key#">
-					</cfquery>
-					<cfif getProblemData.recordcount GT 0>
- 						<h2 class="h3">Errors are displayed one row at a time.</h2>
-						<h3>
-							Error loading row (<span class="text-danger">#georef_updates + 1#</span>) from the CSV: 
-							<cfif len(cfcatch.detail) gt 0>
-								<span class="font-weight-normal border-bottom border-danger">
-									<cfif cfcatch.detail contains "determined_by_agent_id">
-										Invalid DETERMINED_BY_AGENT_ID
-									<cfelseif cfcatch.detail contains "highergeography">
-										HIGHERGEOGRAPHY invalid
-									<cfelseif cfcatch.detail contains "speclocality">
-										SPECLOCALITY does not match MCZ (all caps)
-									<cfelseif cfcatch.detail contains "locality_id">
-										LOCALITY_ID is not valid
-									<cfelseif cfcatch.detail contains "dec_lat">
-										Problem with DEC_LAT (#cfcatch.detail#)
-									<cfelseif cfcatch.detail contains "dec_long">
-										Problem with DEC_LONG
-									<cfelseif cfcatch.detail contains "max_error_distance">
-										Invalid or missing MAX_ERROR_DISTINCE
-									<cfelseif cfcatch.detail contains "max_error_units">
-										Invalid MAX_ERROR_UNITS
-									<cfelseif cfcatch.detail contains "lat_long_remarks">
-										Invalid LAT_LONG_REMARKS
-									<cfelseif cfcatch.detail contains "determined_by_agent">
-										Problem with DETERMINED_BY_AGENT (#cfcatch.detail#)
-									<cfelseif cfcatch.detail contains "georefmethod">
-										Problem with GEOREFMETHOD (#cfcatch.detail#)
-									<cfelseif cfcatch.detail contains "orig_lat_long_units">
-										Problem with ORIG_LAT_LONG_UNITS (#cfcatch.detail#)
-									<cfelseif cfcatch.detail contains "datum">
-										Problem with DATUM (#cfcatch.detail#)
-									<cfelseif cfcatch.detail contains "no data">
-										No data or the wrong data (#cfcatch.detail#)
-									<cfelse>
-										<!--- provide the raw error message if it isn't readily interpretable --->
-										#cfcatch.detail#
-									</cfif>
-								</span>
-							</cfif>
-						</h3>
-						<table class='sortable table-danger table table-responsive table-striped d-lg-table mt-3'>
-							<thead>
-								<tr><th>COUNT</th><th>STATUS</th>
-									<th>INSTITUTION_ACRONYM</th><th>COLLECTION_CDE</th><th>OTHER_ID_TYPE</th><th>OTHER_ID_NUMBER</th><th>PUBLICATION_TITLE</th><th>PUBLICATION_ID</th><th>CITED_SCIENTIFIC_NAME</th><th>ATTRIBUTE_DATE</th><th>ATTRIBUTE_METH</th><th>DETERMINER</th><th>REMARKS</th>
-								</tr> 
-							</thead>
-							<tbody>
-								<cfset i=1>
-								<cfloop query="getProblemData">
-									<tr>
-										<td>#i#</td>
-										<td>#getProblemData.status# </td>
-										<td>#getProblemData.institution_acronym# </td>
-										<td>#getProblemData.collection_cde# </td>
-										<td>#getProblemData.other_id_type#</td>
-										<td>#getProblemData.other_id_number#</td>
-										<td>#getProblemData.attribute# </td>
-										<td>#getProblemData.attribute_value# </td>
-										<td>#getProblemData.attribute_units# </td>
-										<td>#getProblemData.attribute_date#</td>
-										<td>#getProblemData.attribute_meth# </td>
-										<td>#getProblemData.determiner# </td>
-										<td>#getProblemData.remarks# </td>
-									</tr>
-									<cfset i= i+1>
-								</cfloop>
-							</tbody>
-						</table>
-					</cfif>
+				<cftransaction action="ROLLBACK">
+				<h2 class="h3">There was a problem updating the citations.</h2>
+				<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					SELECT determined_by_agent_id,highergeography,speclocality,locality_id,dec_lat,dec_long,max_error_distance,max_error_units,lat_long_remarks,determined_by_agent,georefmethod,orig_lat_long_units,datum,determined_date,lat_long_ref_source,extent,gpsaccuracy,verificationstatus,spatialfit,nearest_named_place
+					FROM cf_temp_georef
+					WHERE key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#problem_key#">
+				</cfquery>
+				<cfif getProblemData.recordcount GT 0>
+					<h2 class="h3">Errors are displayed one row at a time.</h2>
+					<h3>
+						Error loading row (<span class="text-danger">#georef_updates + 1#</span>) from the CSV: 
+						<cfif len(cfcatch.detail) gt 0>
+							<span class="font-weight-normal border-bottom border-danger">
+								<cfif cfcatch.detail contains "determined_by_agent_id">
+									Invalid DETERMINED_BY_AGENT_ID
+								<cfelseif cfcatch.detail contains "highergeography">
+									HIGHERGEOGRAPHY invalid
+								<cfelseif cfcatch.detail contains "speclocality">
+									SPECLOCALITY does not match MCZ (all caps)
+								<cfelseif cfcatch.detail contains "locality_id">
+									LOCALITY_ID is not valid
+								<cfelseif cfcatch.detail contains "dec_lat">
+									Problem with DEC_LAT (#cfcatch.detail#)
+								<cfelseif cfcatch.detail contains "dec_long">
+									Problem with DEC_LONG
+								<cfelseif cfcatch.detail contains "max_error_distance">
+									Invalid or missing MAX_ERROR_DISTINCE
+								<cfelseif cfcatch.detail contains "max_error_units">
+									Invalid MAX_ERROR_UNITS
+								<cfelseif cfcatch.detail contains "lat_long_remarks">
+									Invalid LAT_LONG_REMARKS
+								<cfelseif cfcatch.detail contains "determined_by_agent">
+									Problem with DETERMINED_BY_AGENT (#cfcatch.detail#)
+								<cfelseif cfcatch.detail contains "georefmethod">
+									Problem with GEOREFMETHOD (#cfcatch.detail#)
+								<cfelseif cfcatch.detail contains "orig_lat_long_units">
+									Problem with ORIG_LAT_LONG_UNITS (#cfcatch.detail#)
+								<cfelseif cfcatch.detail contains "datum">
+									Problem with DATUM (#cfcatch.detail#)
+								<cfelseif cfcatch.detail contains "no data">
+									No data or the wrong data (#cfcatch.detail#)
+								<cfelse>
+									<!--- provide the raw error message if it isn't readily interpretable --->
+									#cfcatch.detail#
+								</cfif>
+							</span>
+						</cfif>
+					</h3>
+					<table class='sortable table-danger table table-responsive table-striped d-lg-table mt-3'>
+						<thead>
+							<tr>
+								<th>COUNT</th>
+								<th>STATUS</th>
+								<th>INSTITUTION_ACRONYM</th>
+								<th>COLLECTION_CDE</th>
+								<th>OTHER_ID_TYPE</th>
+								<th>OTHER_ID_NUMBER</th>
+								<th>PUBLICATION_TITLE</th>
+								<th>PUBLICATION_ID</th>
+								<th>CITED_SCIENTIFIC_NAME</th>
+								<th>ATTRIBUTE_DATE</th>
+								<th>ATTRIBUTE_METH</th>
+								<th>DETERMINER</th>
+								<th>REMARKS</th>
+							</tr>
+						</thead>
+						<tbody>
+							<cfset i=1>
+							<cfloop query="getProblemData">
+								<tr>
+									<td>#i#</td>
+									<td>#getProblemData.status# </td>
+									<td>#getProblemData.institution_acronym# </td>
+									<td>#getProblemData.collection_cde# </td>
+									<td>#getProblemData.other_id_type#</td>
+									<td>#getProblemData.other_id_number#</td>
+									<td>#getProblemData.attribute# </td>
+									<td>#getProblemData.attribute_value# </td>
+									<td>#getProblemData.attribute_units# </td>
+									<td>#getProblemData.attribute_date#</td>
+									<td>#getProblemData.attribute_meth# </td>
+									<td>#getProblemData.determiner# </td>
+									<td>#getProblemData.remarks# </td>
+								</tr>
+								<cfset i= i+1>
+							</cfloop>
+						</tbody>
+					</table>
+				</cfif>
+				<cfcatch>
 					<div>#cfcatch.message#</div>
 				</cfcatch>
 				</cftry>
@@ -698,7 +711,6 @@ limitations under the License.
 				DELETE FROM cf_temp_attributes 
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
-
 			</cfif>
 			<cfquery name="df" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				select * from cf_temp_georef
