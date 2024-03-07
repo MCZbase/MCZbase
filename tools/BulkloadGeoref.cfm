@@ -919,5 +919,5 @@ limitations under the License.
 			</cfquery>
 		</cfoutput>
 	</cfif>
-</div>
+</main>
 <cfinclude template="/shared/_footer.cfm">
