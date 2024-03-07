@@ -276,11 +276,128 @@ limitations under the License.
 				loadNamedGroups(#collection_object_id#,'namedGroupsCardBody');
 			}
 		</script>
+		<!--- setup for navigation between specimen records within a result set. --->
+		<cfset navigable = false>
+		<cfif isdefined("result_id") and len(result_id) gt 0>
+			<!--- orders records by institution:collection_cde:catalog_number, to change, change all the order by and over clauses --->
+		   <cfset isPrev = "no">
+			<cfset isNext = "no">
+			<!--- confirm that the record is part of an orderable result accessible to the current user --->
+			<cfquery name="positionInResult" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				SELECT pagesort  
+				FROM user_search_table
+				WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
+					AND result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
+			</cfquery>
+			<cfif positionInResult.recordcount GT 0>
+				<cfset navigable = true>
+				<cfquery name="getFirst" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					SELECT collection_object_id, pagesort, guid 
+					FROM (
+						SELECT user_search_table.collection_object_id, pagesort, guid
+						FROM user_search_table 
+							join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
+							on user_search_table.collection_object_id = flat.collection_object_id
+						WHERE result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
+						ORDER BY guid ASC
+					) WHERE rownum < 2;
+				</cfquery>
+				<cfset firstID = getFirst.collection_object_id>
+				<cfquery name="getLast" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					SELECT collection_object_id, pagesort, guid 
+					FROM (
+						SELECT user_search_table.collection_object_id, pagesort, guid
+						FROM user_search_table 
+							JOIN <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
+							on user_search_table.collection_object_id = flat.collection_object_id
+						WHERE result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
+						ORDER BY guid DESC
+					) WHERE rownum < 2;
+				</cfquery>
+				<cfset lastID = getLast.collection_object_id>
+				<cfquery name="previousNext" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					SELECT prevcol, collection_object_id, nextcol
+					FROM (
+						SELECT 
+							lag(user_search_table.collection_object_id) over (order by guid asc) prevcol, 
+							user_search_table.collection_object_id collection_object_id, 
+							lead(user_search_table.collection_object_id) over (order by guid asc) nextcol
+						FROM user_search_table 
+						JOIN <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
+							on user_search_table.collection_object_id = flat.collection_object_id
+						WHERE result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
+						ORDER by guid asc
+					) WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
+				</cfquery>
+				<cfset prevID = previousNext.prevcol>
+				<cfif len(prevID) GT 0>
+					<cfset isPrev = "yes">
+				</cfif>
+				<cfset nextID = previousNext.nextcol>
+				<cfif len(nextID) GT 0>
+					<cfset isNext = "yes">
+				</cfif>
+			</cfif>
+		<cfelseif isdefined("session.collObjIdList") and len(session.collObjIdList) gt 0 >
+			<cfset navigable = true>
+		   <cfset isPrev = "no">
+			<cfset isNext = "no">
+			<cfset currPos = 0>
+
+			<cfset lenOfIdList = 0>
+			<cfset firstID = collection_object_id>
+			<cfset nextID = collection_object_id>
+			<cfset prevID = collection_object_id>
+			<cfset lastID = collection_object_id>
+			<cfset currPos = listfind(session.collObjIdList,collection_object_id)>
+			<cfset lenOfIdList = listlen(session.collObjIdList)>
+			<cfset firstID = listGetAt(session.collObjIdList,1)>
+			<cfif currPos lt lenOfIdList>
+				<cfset nextID = listGetAt(session.collObjIdList,currPos + 1)>
+			</cfif>
+			<cfif currPos gt 1>
+				<cfset prevID = listGetAt(session.collObjIdList,currPos - 1)>
+			</cfif>
+			<cfset lastID = listGetAt(session.collObjIdList,lenOfIdList)>
+			<cfif lenOfIdList gt 1>
+				<cfif currPos gt 1>
+					<cfset isPrev = "yes">
+				</cfif>
+				<cfif currPos lt lenOfIdList>
+					<cfset isNext = "yes">
+				</cfif>
+			</cfif>
+		<cfelse>
+			<cfset isNext="">
+			<cfset isPrev="">
+		</cfif>
 		<!--- controls for editing record --->
 		<div class="container-lg d-none d-lg-block">
 			<div class="row mt-2">
 				<ul class="list-group list-inline list-group-horizontal-md py-0 mx-auto">
-					<!--- TODO: Implement navigation through records in a result set --->
+					<cfset resultBit = "">
+					<!--- Navigation through records in a result set --->
+					<cfif navigable>
+						<cfif isdefined("result_id") and len(result_id) gt 0>
+							<cfset resultBit = "&result_id=#result_id#">
+						</cfif>
+						<cfif isPrev is "yes">
+							<li class="list-group-item px-0 mx-1">
+								<img src="/images/first.gif" class="likeLink" onclick="document.location='/SpecimenDetail.cfm?collection_object_id=#firstID##resultBit#'" alt="[ First Record ]">
+							</li>
+							<li class="list-group-item px-0 mx-1">
+								<img src="/images/previous.gif" class="likeLink"  onclick="document.location='/SpecimenDetail.cfm?collection_object_id=#prevID##resultBit#'" alt="[ Previous Record ]">
+							</li>
+						<cfelse>
+							<li class="list-group-item px-0 mx-1">
+								<img src="/images/no_first.gif" alt="[ inactive button ]">
+							</li>
+							<li class="list-group-item px-0 mx-1">
+								<img src="/images/no_previous.gif" alt="[ inactive button ]">
+							</li>
+						</cfif>
+					</cfif>
+					<!--- Task Bar of edit dialog controls --->
 					<li class="list-group-item px-0 mx-1">
 						<div id="mediaDialog"></div>
 						<cfif listcontainsnocase(session.roles,"manage_media")>
@@ -324,6 +441,24 @@ limitations under the License.
 					<li class="list-group-item px-0 mx-1">
 						<button type="button" id="btn_pane" class="btn btn-xs btn-powder-blue py-0 small" onclick="openEditMetadataDialog(#collection_object_id#,'metadataDialog','#guid#',reloadMetadata)">Meta&nbsp;Data</button>
 					</li>
+					<!--- Navigation through records in a result set --->
+					<cfif navigable>
+						<cfif isNext is "yes">
+							<li class="list-group-item px-0 mx-1">
+								<img src="/images/next.gif" class="likeLink" onclick="document.location='/SpecimenDetail.cfm?collection_object_id=#nextID##resultBit#'" alt="[ Next Record ]">
+							</li>
+							<li class="list-group-item px-0 mx-1">
+								<img src="/images/last.gif" class="likeLink" onclick="document.location='/SpecimenDetail.cfm?collection_object_id=#lastID##resultBit#'" alt="[ Last Record ]">
+							</li>
+						<cfelse>
+							<li class="list-group-item px-0 mx-1">
+								<img src="/images/no_next.gif" alt="[ inactive button ]">
+							</li>
+							<li class="list-group-item px-0 mx-1">
+								<img src="/images/no_last.gif" alt="[ inactive button ]">
+							</li>
+						</cfif>
+					</cfif>
 				</ul>
 			</div>
 		</div>
