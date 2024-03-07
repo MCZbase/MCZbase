@@ -434,8 +434,8 @@ limitations under the License.
 		</cfif>
 	<!------------------------------------------------------->
 	<cfif #action# is "validate">
-		<h2 class="h4">Second step: Data Validation</h2>
 		<cfoutput>
+			<h2 class="h4">Second step: Data Validation</h2>
 			<!---Get Data from the temp table and the codetables with relevant information--->
 			<cfquery name="geoData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				select * from cf_temp_georef
@@ -615,7 +615,7 @@ limitations under the License.
 					</tbody>
 				</table>
 				<cfelse>
-				<h2 class="h3">There was a problem updating the citations.</h2>
+					<h2 class="h3">There was a problem updating the citations.</h2>
 					<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					SELECT determined_by_agent_id,highergeography,speclocality,locality_id,dec_lat,dec_long,max_error_distance,max_error_units,lat_long_remarks,determined_by_agent,georefmethod,orig_lat_long_units,datum,determined_date,lat_long_ref_source,extent,gpsaccuracy,verificationstatus,spatialfit,nearest_named_place
 					FROM cf_temp_georef
@@ -703,69 +703,66 @@ limitations under the License.
 							</tbody>
 						</table>
 					</cfif>
-			
 				</cfif>
+				<cfquery name="clearTempTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="clearTempTable_result">
+					DELETE FROM cf_temp_attributes 
+					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+				</cfquery>
+
+				<cfquery name="df" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					select * from cf_temp_georef
+				</cfquery>
+				<cfset internalPath="#Application.webDirectory#/temp/">
+				<cfset externalPath="#Application.ServerRootUrl#/temp/">
+				<cfset dlFile = "BulkloadGeoref.kml">
+				<cfset variables.fileName="#internalPath##dlFile#">
+				<cfset variables.encoding="UTF-8">
+	<!---		<cfscript>
+					variables.joFileWriter = createObject('Component', '/component.FileWriter').init(variables.fileName, variables.encoding, 32768);
+					kml='<?xml version="1.0" encoding="UTF-8"?>' & chr(10) &
+						'<kml xmlns="http://earth.google.com/kml/2.2">' & chr(10) &
+						chr(9) & '<Document>' & chr(10) &
+						chr(9) & chr(9) & '<name>Localities</name>' & chr(10) &
+						chr(9) & chr(9) & '<open>1</open>' & chr(10) &
+						chr(9) & chr(9) & '<Style id="green-star">' & chr(10) &
+						chr(9) & chr(9) & chr(9) & '<IconStyle>' & chr(10) &
+						chr(9) & chr(9) & chr(9) & chr(9) & '<Icon>' & chr(10) &
+						chr(9) & chr(9) & chr(9) & chr(9) & chr(9) & '<href>http://maps.google.com/mapfiles/kml/paddle/grn-stars.png</href>' & chr(10) &
+						chr(9) & chr(9) & chr(9) & chr(9) & '</Icon>' & chr(10) &
+						chr(9) & chr(9) & chr(9) & '</IconStyle>' & chr(10) &
+						chr(9) & chr(9) & '</Style>';
+					variables.joFileWriter.writeLine(kml);
+				</cfscript>
+				<cfloop query="df">
+					<cfset cdata='<![CDATA[Datum: #datum#<br/>Error: #max_error_distance# #max_error_units#<br/><p><a href="#Application.ServerRootUrl#/localities/Locality.cfm?locality_id=#locality_id#">Edit Locality</a></p>]]>'>
+					<cfscript>
+						kml='<Placemark>'  & chr(10) &
+							chr(9) & '<name>#HigherGeography#: #replace(SpecLocality,"&","&amp;","all")#</name>' & chr(10) &
+							chr(9) & '<visibility>1</visibility>' & chr(10) &
+							chr(9) & '<description>' & chr(10) &
+							chr(9) & chr(9) & '#cdata#' & chr(10) &
+							chr(9) & '</description>' & chr(10) &
+							chr(9) & '<Point>' & chr(10) &
+							chr(9) & chr(9) & '<coordinates>#dec_long#,#dec_lat#</coordinates>' & chr(10) &
+							chr(9) & '</Point>' & chr(10) &
+							chr(9) & '<styleUrl>##green-star</styleUrl>' & chr(10) &
+							'</Placemark>';
+						variables.joFileWriter.writeLine(kml);
+					</cfscript>
+				</cfloop>
+				<cfscript>
+					kml='</Document></kml>';
+					variables.joFileWriter.writeLine(kml);
+					variables.joFileWriter.close();
+				</cfscript>--->
+				<p>
+					<a href="http://maps.google.com/maps?q=#externalPath##dlFile#?r=#randRange(1,10000)#">map it</a>
+				</p>
 				<cfcatch>
 					<div>#cfcatch.message#</div>
 				</cfcatch>
 			</cftry>
-	
-			
-			<cfquery name="clearTempTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="clearTempTable_result">
-				DELETE FROM cf_temp_attributes 
-				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-			</cfquery>
-			</cfif>
-			<cfquery name="df" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				select * from cf_temp_georef
-			</cfquery>
-			<cfset internalPath="#Application.webDirectory#/temp/">
-			<cfset externalPath="#Application.ServerRootUrl#/temp/">
-			<cfset dlFile = "BulkloadGeoref.kml">
-			<cfset variables.fileName="#internalPath##dlFile#">
-			<cfset variables.encoding="UTF-8">
-			<cfscript>
-				variables.joFileWriter = createObject('Component', '/component.FileWriter').init(variables.fileName, variables.encoding, 32768);
-				kml='<?xml version="1.0" encoding="UTF-8"?>' & chr(10) &
-					'<kml xmlns="http://earth.google.com/kml/2.2">' & chr(10) &
-					chr(9) & '<Document>' & chr(10) &
-					chr(9) & chr(9) & '<name>Localities</name>' & chr(10) &
-					chr(9) & chr(9) & '<open>1</open>' & chr(10) &
-					chr(9) & chr(9) & '<Style id="green-star">' & chr(10) &
-					chr(9) & chr(9) & chr(9) & '<IconStyle>' & chr(10) &
-					chr(9) & chr(9) & chr(9) & chr(9) & '<Icon>' & chr(10) &
-					chr(9) & chr(9) & chr(9) & chr(9) & chr(9) & '<href>http://maps.google.com/mapfiles/kml/paddle/grn-stars.png</href>' & chr(10) &
-					chr(9) & chr(9) & chr(9) & chr(9) & '</Icon>' & chr(10) &
-					chr(9) & chr(9) & chr(9) & '</IconStyle>' & chr(10) &
-					chr(9) & chr(9) & '</Style>';
-				variables.joFileWriter.writeLine(kml);
-			</cfscript>
-			<cfloop query="df">
-				<cfset cdata='<![CDATA[Datum: #datum#<br/>Error: #max_error_distance# #max_error_units#<br/><p><a href="#Application.ServerRootUrl#/localities/Locality.cfm?locality_id=#locality_id#">Edit Locality</a></p>]]>'>
-				<cfscript>
-					kml='<Placemark>'  & chr(10) &
-						chr(9) & '<name>#HigherGeography#: #replace(SpecLocality,"&","&amp;","all")#</name>' & chr(10) &
-						chr(9) & '<visibility>1</visibility>' & chr(10) &
-						chr(9) & '<description>' & chr(10) &
-						chr(9) & chr(9) & '#cdata#' & chr(10) &
-						chr(9) & '</description>' & chr(10) &
-						chr(9) & '<Point>' & chr(10) &
-						chr(9) & chr(9) & '<coordinates>#dec_long#,#dec_lat#</coordinates>' & chr(10) &
-						chr(9) & '</Point>' & chr(10) &
-						chr(9) & '<styleUrl>##green-star</styleUrl>' & chr(10) &
-						'</Placemark>';
-					variables.joFileWriter.writeLine(kml);
-				</cfscript>
-			</cfloop>
-			<cfscript>
-		kml='</Document></kml>';
-		variables.joFileWriter.writeLine(kml);
-		variables.joFileWriter.close();
-	</cfscript>
-		<p>
-		<a href="http://maps.google.com/maps?q=#externalPath##dlFile#?r=#randRange(1,10000)#">map it</a>
-		</p>
-</cfoutput>
+		</cfoutput>
 	</cfif>
 	<!------------------------------------------------------->
 	<cfif #action# is "load">
