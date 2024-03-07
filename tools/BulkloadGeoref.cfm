@@ -22,6 +22,7 @@ limitations under the License.
 		SELECT highergeography,speclocality,locality_id,dec_lat,dec_long,,max_error_distance,max_error_units,lat_long_remarks,determined_by_agent,georefmethod,orig_lat_long_units,datum,determined_date,lat_long_ref_source,extent,gpsaccuracy,verificationstatus,spatialfit 
 		FROM cf_temp_georef 
 		WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+		ORDER BY key
 	</cfquery>
 	<cfinclude template="/shared/component/functions.cfc">
 	<cfinclude template="/shared/functionLib.cfm">
@@ -31,8 +32,8 @@ limitations under the License.
 	<cfabort>
 </cfif>
 
-<cfset fieldlist = "determined_by_agent_id,highergeography,speclocality,locality_id,dec_lat,dec_long,max_error_distance,max_error_units,lat_long_remarks,determined_by_agent,georefmethod,orig_lat_long_units,datum,determined_date,lat_long_ref_source,extent,gpsaccuracy,verificationstatus,spatialfit,nearest_named_place">
-<cfset fieldTypes ="CF_SQL_DECIMAL,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_DECIMAL,CF_SQL_DECIMAL,CF_SQL_DECIMAL,CF_SQL_DECIMAL,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_DATE,CF_SQL_VARCHAR,CF_SQL_DECIMAL,CF_SQL_DECIMAL,CF_SQL_VARCHAR,CF_SQL_DECIMAL,CF_SQL_VARCHAR">
+<cfset fieldlist = "key,determined_by_agent_id,highergeography,speclocality,locality_id,dec_lat,dec_long,max_error_distance,max_error_units,lat_long_remarks,determined_by_agent,georefmethod,orig_lat_long_units,datum,determined_date,lat_long_ref_source,extent,gpsaccuracy,verificationstatus,spatialfit,nearest_named_place">
+<cfset fieldTypes ="CF_SQL_DECIMAL,CF_SQL_DECIMAL,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_DECIMAL,CF_SQL_DECIMAL,CF_SQL_DECIMAL,CF_SQL_DECIMAL,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_DATE,CF_SQL_VARCHAR,CF_SQL_DECIMAL,CF_SQL_DECIMAL,CF_SQL_VARCHAR,CF_SQL_DECIMAL,CF_SQL_VARCHAR">
 <cfset requiredfieldlist = "highergeography,speclocality,locality_id,dec_lat,dec_long,determined_by_agent,georefmethod,orig_lat_long_units,datum,determined_date,lat_long_ref_source,verificationstatus">
 		
 		
@@ -438,7 +439,9 @@ limitations under the License.
 			<h2 class="h4">Second step: Data Validation</h2>
 			<!---Get Data from the temp table and the codetables with relevant information--->
 			<cfquery name="geoData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				select * from cf_temp_georef
+				select determined_by_agent_id,highergeography,speclocality,locality_id,dec_lat,dec_long,max_error_distance,max_error_units, lat_long_remarks,
+				determined_by_agent, georefmethod,orig_lat_long_units,datum,determined_date,lat_long_ref_source,extent,gpsaccuracy,verificationstatus,spatialfit, nearest_named_place,key
+				from cf_temp_georef
 			</cfquery>
 			<cfquery name="ctGEOREFMETHOD" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				select GEOREFMETHOD from ctGEOREFMETHOD
