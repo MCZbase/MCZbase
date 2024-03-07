@@ -555,7 +555,7 @@ limitations under the License.
 				Looks like we made it. Take a look at everything below, then
 				<a href="BulkloadGeoref.cfm?action=load">click to load</a>
 			<cfelse>
-				fail. Something's busted.
+				fail. Something's busted. <cfdump var=#d#>
 			</cfif>
 			<cfquery name="df" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				select * from cf_temp_georef
