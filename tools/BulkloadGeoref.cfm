@@ -34,7 +34,7 @@ limitations under the License.
 
 <cfset fieldlist = "key,determined_by_agent_id,highergeography,speclocality,locality_id,dec_lat,dec_long,max_error_distance,max_error_units,lat_long_remarks,determined_by_agent,georefmethod,orig_lat_long_units,datum,determined_date,lat_long_ref_source,extent,gpsaccuracy,verificationstatus,spatialfit,nearest_named_place">
 <cfset fieldTypes ="CF_SQL_DECIMAL,CF_SQL_DECIMAL,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_DECIMAL,CF_SQL_DECIMAL,CF_SQL_DECIMAL,CF_SQL_DECIMAL,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_DATE,CF_SQL_VARCHAR,CF_SQL_DECIMAL,CF_SQL_DECIMAL,CF_SQL_VARCHAR,CF_SQL_DECIMAL,CF_SQL_VARCHAR">
-<cfset requiredfieldlist = "highergeography,speclocality,locality_id,dec_lat,dec_long,determined_by_agent,georefmethod,orig_lat_long_units,datum,determined_date,lat_long_ref_source,verificationstatus">
+<cfset requiredfieldlist = "key,highergeography,speclocality,locality_id,determined_by_agent,georefmethod,orig_lat_long_units,datum,determined_date,lat_long_ref_source,verificationstatus">
 		
 		
 <!--- special case handling to dump column headers as csv --->
