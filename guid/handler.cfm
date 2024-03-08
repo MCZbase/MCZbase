@@ -53,6 +53,7 @@ RewriteRule "^/guid/(MCZ:[A-Za-z]+:.*)"    /guid/handler.cfm?catalog=$1 [QSA,PT]
 		<cfif isDefined("deliver") AND len(deliver) GT 0>
 			<cfif find('/',deliver) EQ 1>
    			<cfset deliver = RemoveChars(deliver,1,1)>
+			</cfif>
 		</cfif>
 	<cfelse>
 		<cfinclude template="/errors/404.cfm">
