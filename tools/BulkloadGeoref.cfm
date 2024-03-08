@@ -437,14 +437,11 @@ limitations under the License.
 	<cfif #action# is "validate">
 		<cfoutput>
 			<h2 class="h4">Second step: Data Validation</h2>
-			<cfset key = "">
 			<!---Get Data from the temp table and the codetables with relevant information--->
 			<cfquery name="geoData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				select key,determined_by_agent_id,highergeography,speclocality,locality_id,dec_lat,dec_long,max_error_distance,max_error_units, lat_long_remarks,
 				determined_by_agent, georefmethod,orig_lat_long_units,datum,determined_date,lat_long_ref_source,extent,gpsaccuracy,verificationstatus,spatialfit, nearest_named_place
 				from cf_temp_georef
-				where key = <cfqueryparam cfsqltype='CF_SQL_decimal' value='#geoData.key#'>
-				AND	username = <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#session.username#'>
 			</cfquery>
 			<cfquery name="ctGEOREFMETHOD" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				select GEOREFMETHOD from ctGEOREFMETHOD
@@ -464,7 +461,8 @@ limitations under the License.
 			<cfset i= 1>
 			<cfloop query="geoData">
 				<cfset tellStatus="">
-				<cfset sql="
+				<cfset key="">
+				<cfquery name="geoSQL" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					select 
 						spec_locality,higher_geog,locality.locality_id from locality,geog_auth_rec,key 
 					where
@@ -475,6 +473,8 @@ limitations under the License.
 						trim(geog_auth_rec.higher_geog)='#trim(HigherGeography)#' 
 					and
 						trim(locality.spec_locality)='#trim(SpecLocality)#' 
+					and key = <cfqueryparam cfsqltype='CF_SQL_DECIMAL' value='#geoData.key#'>
+					username = <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#session.username#'>
 					">
 			</cfloop>
 			<cfquery name="getCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
