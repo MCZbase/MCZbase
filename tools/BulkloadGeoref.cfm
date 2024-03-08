@@ -437,6 +437,7 @@ limitations under the License.
 	<cfif #action# is "validate">
 		<cfoutput>
 			<h2 class="h4">Second step: Data Validation</h2>
+			<cfset key = "">
 			<!---Get Data from the temp table and the codetables with relevant information--->
 			<cfquery name="geoData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				select key,determined_by_agent_id,highergeography,speclocality,locality_id,dec_lat,dec_long,max_error_distance,max_error_units, lat_long_remarks,
@@ -463,7 +464,6 @@ limitations under the License.
 			<cfset i= 1>
 			<cfloop query="geoData">
 				<cfset tellStatus="">
-				<cfset key="">
 				<cfset sql="
 					select 
 						spec_locality,higher_geog,locality.locality_id from locality,geog_auth_rec,key 
@@ -483,7 +483,7 @@ limitations under the License.
 				SET
 					status = null
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-					and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#sql.key#"> 
+					and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#geoData.key#"> 
 			</cfquery>
 			<cfquery name="dataCount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				select count(*) c from cf_temp_georef where status != 'spiffy'
