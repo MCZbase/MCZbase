@@ -381,7 +381,7 @@
 					<h3 class="h4">Found characters where the encoding is probably important in the input data.</h3>
 					<div>
 						<p>Showing #foundHighCount# example#plural#.  If these do not appear as the correct characters, the file likely has a different encoding from the one you selected and
-						you probably want to <strong><a href="/tools/BulkloadAttributes.cfm">reload</a></strong> this file selecting a different encoding.  If these appear as expected, then 
+						you probably want to <strong><a href="/tools/BulkloadOtherId.cfm">reload</a></strong> this file selecting a different encoding.  If these appear as expected, then 
 							you selected the correct encoding and can continue to validate or load.</p>
 					</div>
 					<ul class="pb-1 h4 list-unstyled">
@@ -390,21 +390,21 @@
 				</cfif>
 				<h3 class="h3">
 					<cfif loadedRows EQ 0>
-						Loaded no rows from the CSV file.  The file appears to be just a header with no data. Fix file and <a href="/tools/BulkloadAttributes.cfm">reload</a>
+						Loaded no rows from the CSV file.  The file appears to be just a header with no data. Fix file and <a href="/tools/BulkloadOtherId.cfm">reload</a>
 					<cfelse>
-						Successfully read #loadedRows# records from the CSV file.  Next <a href="/tools/BulkloadAttributes.cfm?action=validate">click to validate</a>.
+						Successfully read #loadedRows# records from the CSV file.  Next <a href="/tools/BulkloadAOtherID.cfm?action=validate">click to validate</a>.
 					</cfif>
 				</h3>
 			<cfcatch>
 				<h3 class="h4">
-					Failed to read the CSV file.  Fix the errors in the file and <a href="/tools/BulkloadAttributes.cfm">reload</a>
+					Failed to read the CSV file.  Fix the errors in the file and <a href="/tools/BulkloadOtherId.cfm">reload</a>
 				</h3>
-				<cfif isDefined("arrResult")>
+				<cfif isDefined("othResult")>
 					<cfset foundHighCount = 0>
 					<cfset foundHighAscii = "">
 					<cfset foundMultiByte = "">
-					<cfloop from="1" to ="#ArrayLen(arrResult[1])#" index="col">
-						<cfset thisBit=arrResult[1][col]>
+					<cfloop from="1" to ="#ArrayLen(othResult[1])#" index="col">
+						<cfset thisBit=othResult[1][col]>
 						<cfif REFind("[^\x00-\x7F]",thisBit) GT 0>
 							<!--- high ASCII --->
 							<cfif foundHighCount LT 6>
