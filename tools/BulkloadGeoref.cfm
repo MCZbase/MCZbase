@@ -475,17 +475,14 @@ limitations under the License.
 					</cfquery>
 				</cfif>
 				<cfquery name="getLocText" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					select 
-						spec_locality,higher_geog,locality.locality_id,key 
-					from locality,geog_auth_rec
-					where
-						locality.geog_auth_rec_id=geog_auth_rec.geog_auth_rec_id 
-					and
-						locality.locality_id=#Locality_ID# 
-					and
-						trim(geog_auth_rec.higher_geog)='#trim(HigherGeography)#' 
-					and
-						trim(locality.spec_locality)='#trim(SpecLocality)#' 
+					update cf_temp_georef
+					set speclocality = '#trim(speclocality)#'
+					and key = <cfqueryparam cfsqltype='CF_SQL_DECIMAL' value='#geoData.key#'>
+					username = <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#session.username#'>
+				</cfquery>
+				<cfquery name="getHGText" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					update cf_temp_georef
+					set highergeography = '#trim(highergeography)#'
 					and key = <cfqueryparam cfsqltype='CF_SQL_DECIMAL' value='#geoData.key#'>
 					username = <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#session.username#'>
 				</cfquery>
