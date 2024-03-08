@@ -478,107 +478,121 @@
 			}
 		</script>
 		 <table width="100%">
-		    <tr>
-			    <td align="center">
+			<tr>
+				<td align="center">
+					<cfif isdefined("result_id") and len(result_id) gt 0>
+						<!--- orders records by institution:collection_cde:catalog_number, to change, change all the order by and over clauses --->
+						<cfset isPrev = "no">
+						<cfset isNext = "no">
+						<!--- confirm that the record is part of an orderable result accessible to the current user --->
+						<cfquery name="positionInResult" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+							SELECT pagesort  
+							FROM user_search_table
+							WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
+								AND result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
+						</cfquery>
+						<cfif positionInResult.recordcount GT 0>
+							<cfquery name="getFirst" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+								SELECT collection_object_id, pagesort, guid 
+								FROM (
+									SELECT user_search_table.collection_object_id, pagesort, guid
+									FROM user_search_table 
+										join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
+										on user_search_table.collection_object_id = flat.collection_object_id
+									WHERE result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
+									ORDER BY guid ASC
+								) WHERE rownum < 2;
+							</cfquery>
+							<cfset firstID = getFirst.collection_object_id>
+							<cfset firstGUID = getFirst.guid>
+							<cfquery name="getLast" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+								SELECT collection_object_id, pagesort, guid 
+								FROM (
+									SELECT user_search_table.collection_object_id, pagesort, guid
+									FROM user_search_table 
+										JOIN <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
+										on user_search_table.collection_object_id = flat.collection_object_id
+									WHERE result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
+									ORDER BY guid DESC
+								) WHERE rownum < 2;
+							</cfquery>
+							<cfset lastID = getLast.collection_object_id>
+							<cfset lastGUID = getLast.guid>
+							<cfquery name="previousNext" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+								SELECT prevcol, collection_object_id, nextcol
+								FROM (
+									SELECT 
+										lag(user_search_table.collection_object_id) over (order by guid asc) prevcol, 
+										user_search_table.collection_object_id collection_object_id, 
+										lead(user_search_table.collection_object_id) over (order by guid asc) nextcol
+									FROM user_search_table 
+									JOIN <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
+										on user_search_table.collection_object_id = flat.collection_object_id
+									WHERE result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
+									ORDER by guid asc
+								) WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
+							</cfquery>
+							<cfset prevID = previousNext.prevcol>
+							<cfif len(prevID) GT 0>
+								<cfset isPrev = "yes">
+							</cfif>
+							<cfset nextID = previousNext.nextcol>
+							<cfif len(nextID) GT 0>
+								<cfset isNext = "yes">
+							</cfif>
+						</cfif>
+					<cfelseif isdefined("session.collObjIdList") and len(session.collObjIdList) gt 0 >
+						<cfset isPrev = "no">
+						<cfset isNext = "no">
+						<cfset currPos = 0>
+
+						<cfset lenOfIdList = 0>
+						<cfset firstID = collection_object_id>
+						<cfset nextID = collection_object_id>
+						<cfset prevID = collection_object_id>
+						<cfset lastID = collection_object_id>
+						<cfset currPos = listfind(session.collObjIdList,collection_object_id)>
+						<cfset lenOfIdList = listlen(session.collObjIdList)>
+						<cfset firstID = listGetAt(session.collObjIdList,1)>
+						<cfif currPos lt lenOfIdList>
+							<cfset nextID = listGetAt(session.collObjIdList,currPos + 1)>
+						</cfif>
+						<cfif currPos gt 1>
+							<cfset prevID = listGetAt(session.collObjIdList,currPos - 1)>
+						</cfif>
+						<cfset lastID = listGetAt(session.collObjIdList,lenOfIdList)>
+						<cfif lenOfIdList gt 1>
+							<cfif currPos gt 1>
+								<cfset isPrev = "yes">
+							</cfif>
+							<cfif currPos lt lenOfIdList>
+								<cfset isNext = "yes">
+							</cfif>
+						</cfif>
+					<cfelse>
+						<cfset isNext="">
+						<cfset isPrev="">
+					</cfif>
+					<cfif isPrev is "yes">
+						<cfif len(resultBit) GT 0>
+							<form action="/guid/#firstGUID#" method="post" id="firstRecordForm">
+								<input type="hidden" name="result_id" value="#result_id#">
+							</form>
+						</cfif>
+					</cfif>
+					<cfif isNext is "yes">
+						<cfif len(resultBit) GT 0>
+							<form action="/guid/#lastGUID#" method="post" target="_blank" id="lastRecordForm">
+								<input type="hidden" name="result_id" value="#result_id#" />
+							</form>
+						</cfif>
+					</cfif>
 					<form name="incPg" method="post" action="SpecimenDetail.cfm">
-				        <input type="hidden" name="collection_object_id" value="#collection_object_id#">
+						<input type="hidden" name="collection_object_id" value="#collection_object_id#">
 						<input type="hidden" name="suppressHeader" value="true">
 						<input type="hidden" name="action" value="nothing">
 						<input type="hidden" name="Srch" value="Part">
 						<input type="hidden" name="collecting_event_id" value="#detail.collecting_event_id#">
-						<cfif isdefined("result_id") and len(result_id) gt 0>
-							<!--- orders records by institution:collection_cde:catalog_number, to change, change all the order by and over clauses --->
-						   <cfset isPrev = "no">
-							<cfset isNext = "no">
-							<!--- confirm that the record is part of an orderable result accessible to the current user --->
-							<cfquery name="positionInResult" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-								SELECT pagesort  
-								FROM user_search_table
-								WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
-									AND result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
-							</cfquery>
-							<cfif positionInResult.recordcount GT 0>
-								<cfquery name="getFirst" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-									SELECT collection_object_id, pagesort, guid 
-									FROM (
-										SELECT user_search_table.collection_object_id, pagesort, guid
-										FROM user_search_table 
-											join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
-											on user_search_table.collection_object_id = flat.collection_object_id
-										WHERE result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
-										ORDER BY guid ASC
-									) WHERE rownum < 2;
-								</cfquery>
-								<cfset firstID = getFirst.collection_object_id>
-								<cfset firstGUID = getFirst.guid>
-								<cfquery name="getLast" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-									SELECT collection_object_id, pagesort, guid 
-									FROM (
-										SELECT user_search_table.collection_object_id, pagesort, guid
-										FROM user_search_table 
-											JOIN <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
-											on user_search_table.collection_object_id = flat.collection_object_id
-										WHERE result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
-										ORDER BY guid DESC
-									) WHERE rownum < 2;
-								</cfquery>
-								<cfset lastID = getLast.collection_object_id>
-								<cfset lastGUID = getLast.guid>
-								<cfquery name="previousNext" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-									SELECT prevcol, collection_object_id, nextcol
-									FROM (
-										SELECT 
-											lag(user_search_table.collection_object_id) over (order by guid asc) prevcol, 
-											user_search_table.collection_object_id collection_object_id, 
-											lead(user_search_table.collection_object_id) over (order by guid asc) nextcol
-										FROM user_search_table 
-										JOIN <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
-											on user_search_table.collection_object_id = flat.collection_object_id
-										WHERE result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
-										ORDER by guid asc
-									) WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
-								</cfquery>
-								<cfset prevID = previousNext.prevcol>
-								<cfif len(prevID) GT 0>
-									<cfset isPrev = "yes">
-								</cfif>
-								<cfset nextID = previousNext.nextcol>
-								<cfif len(nextID) GT 0>
-									<cfset isNext = "yes">
-								</cfif>
-							</cfif>
-						<cfelseif isdefined("session.collObjIdList") and len(session.collObjIdList) gt 0 >
-						   <cfset isPrev = "no">
-							<cfset isNext = "no">
-							<cfset currPos = 0>
-
-							<cfset lenOfIdList = 0>
-							<cfset firstID = collection_object_id>
-							<cfset nextID = collection_object_id>
-							<cfset prevID = collection_object_id>
-							<cfset lastID = collection_object_id>
-							<cfset currPos = listfind(session.collObjIdList,collection_object_id)>
-							<cfset lenOfIdList = listlen(session.collObjIdList)>
-							<cfset firstID = listGetAt(session.collObjIdList,1)>
-							<cfif currPos lt lenOfIdList>
-								<cfset nextID = listGetAt(session.collObjIdList,currPos + 1)>
-							</cfif>
-							<cfif currPos gt 1>
-								<cfset prevID = listGetAt(session.collObjIdList,currPos - 1)>
-							</cfif>
-							<cfset lastID = listGetAt(session.collObjIdList,lenOfIdList)>
-							<cfif lenOfIdList gt 1>
-								<cfif currPos gt 1>
-									<cfset isPrev = "yes">
-								</cfif>
-								<cfif currPos lt lenOfIdList>
-									<cfset isNext = "yes">
-								</cfif>
-							</cfif>
-						<cfelse>
-							<cfset isNext="">
-							<cfset isPrev="">
-						</cfif>
 						<ul id="navbar">
 							<cfset resultBit = "">
 							<cfif isdefined("result_id") and len(result_id) gt 0>
@@ -588,12 +602,9 @@
 								<cfif len(resultBit) EQ 0>
 									<img src="/images/first.gif" class="likeLink" onclick="document.location='/SpecimenDetail.cfm?collection_object_id=#firstID#'" alt="[ First Record ]">
 								<cfelse>
-									<a href="/guid/#firstGUID#" onClick=" event.preventDefault(); $('##firstRecordForm').submit();">
+									<a href="/guid/#firstGUID#" onClick=" event.preventDefault(); $('##firstRecordForm').submit();" style="border: none; background-color:transparent;">
 										<img src="/images/first.gif" alt="[ First Record ]">
 									</a>
-									<form action="/guid/#firstGUID#" method="post" target="_blank" id="firstRecordForm">
-										<input type="hidden" name="result_id" value="#result_id#" />
-									</form>
 								</cfif>
 								<img src="/images/previous.gif" class="likeLink"  onclick="document.location='/SpecimenDetail.cfm?collection_object_id=#prevID##resultBit#'" alt="[ Previous Record ]">
 							<cfelse>
@@ -642,21 +653,18 @@
 								<cfif len(resultBit) EQ 0>
 									<img src="/images/last.gif" class="likeLink" onclick="document.location='/SpecimenDetail.cfm?collection_object_id=#lastID#'" alt="[ Last Record ]">
 								<cfelse>
-									<a href="/guid/#lastGUID#" onClick=" event.preventDefault(); $('##lastRecordForm').submit();">
+									<a href="/guid/#lastGUID#" onClick=" event.preventDefault(); $('##lastRecordForm').submit();" style="border: none; background-color:transparent;">
 										<img src="/images/last.gif" alt="[ Last Record ]">
 									</a>
-									<form action="/guid/#lastGUID#" method="post" target="_blank" id="lastRecordForm">
-										<input type="hidden" name="result_id" value="#result_id#" />
-									</form>
 								</cfif>
 							<cfelse>
 								<img src="/images/no_next.gif" alt="[ inactive button ]">
 								<img src="/images/no_last.gif" alt="[ inactive button ]">
 							</cfif>
 						</ul>
-	                </form>
-		        </td>
-		    </tr>
+					</form>
+				</td>
+			</tr>
 		</table>
 	</cfif>
 	<cfinclude template="SpecimenDetail_body.cfm">
