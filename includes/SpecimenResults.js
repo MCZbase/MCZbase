@@ -798,7 +798,7 @@ function success_getSpecResultsData(result){
 					theInnerHtml += '&nbsp;';
 					theInnerHtml += data.CAT_NUM[i];
 					theInnerHtml += '</a>';
-					theInnerHtml += '<form action="/guid/MCZ:'+data.COLLECTION_CDE[i]+':'+data.CAT_NUM[i[+'" method="post" target="_blank" id="aLinkForm'+data.COLLECTION_OBJECT_ID[i]+'">';
+					theInnerHtml += '<form action="/guid/MCZ:'+data.COLLECTION_CDE[i]+':'+data.CAT_NUM[i]+'" method="post" target="_blank" id="aLinkForm'+data.COLLECTION_OBJECT_ID[i]+'">';
 					theInnerHtml += '<input type="hidden" name="old" value="true" />';
 					theInnerHtml += '</form>';
 				if (isType) {
