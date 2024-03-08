@@ -492,8 +492,8 @@ limitations under the License.
 				<cfif dataCount.c is 0>
 					Looks like we made it. Take a look at everything below, then
 					<a href="BulkloadGeoref.cfm?action=load">click to load</a>
-					<table>
-					<thead>
+					<table class="table table-responsive">
+					<thead class="thead-light">
 						<tr>
 							<th>highergeography</th><th>speclocality</th><th>locality_id</th><th>dec_lat</th><th>dec_long</th><th>max_error_distance</th><th>max_error_units</th><th>lat_long_remarks</th><th>determined_by_agent</th><th>georefmethod</th><th>orig_lat_long_units</th>
 							<th>datum</th><th>determined_date</th><th>lat_long_ref_source</th><th>extent</th><th>gpsaccuracy</th><th>verificationstatus</th>
