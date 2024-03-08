@@ -61,7 +61,7 @@
 					<li class="#class#" #aria#>#field#</li>
 				</cfloop>
 			</ul>
-			<form name="atts" method="post" enctype="multipart/form-data" action="/tools/BulkloadAttributes.cfm">
+			<form name="atts" method="post" enctype="multipart/form-data" action="/tools/BulkloadOtherId.cfm">
 				<div class="form-row border rounded p-2">
 					<input type="hidden" name="action" value="getFile">
 					<div class="col-12 col-md-4">
