@@ -591,7 +591,7 @@
 				</h3>
 			<cfelse>
 				<h3 class="mt-4 mb-2">
-					Validation checks passed. Look over the table below and <a href="/tools/BulkloadOtherId.cfm?action=load">click to continue</a> if it all looks good.
+					<span class="text-success">Validation checks passed.</span> Look over the table below and <a href="/tools/BulkloadOtherId.cfm?action=load">click to continue</a> if it all looks good.
 				</h3>
 			</cfif>
 			<table class='sortable table table-responsive table-striped d-lg-table'>
