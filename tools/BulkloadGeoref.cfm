@@ -575,19 +575,26 @@ limitations under the License.
 						<table class='sortable table-danger table table-responsive table-striped d-lg-table mt-3'>
 							<thead>
 								<tr>
-									<th>COUNT</th>
-									<th>STATUS</th>
-									<th>INSTITUTION_ACRONYM</th>
-									<th>COLLECTION_CDE</th>
-									<th>OTHER_ID_TYPE</th>
-									<th>OTHER_ID_NUMBER</th>
-									<th>PUBLICATION_TITLE</th>
-									<th>PUBLICATION_ID</th>
-									<th>CITED_SCIENTIFIC_NAME</th>
-									<th>ATTRIBUTE_DATE</th>
-									<th>ATTRIBUTE_METH</th>
-									<th>DETERMINER</th>
-									<th>REMARKS</th>
+									<th>DETERMINED_BY_AGENT_ID</th>
+									<th>HIGHERGEOGRAPHY</th>
+									<th>SPECLOCALITY</th>
+									<th>LOCALITY_ID</th>
+									<th>DEC_LAT</th>
+									<th>DEC_LONG</th>
+									<th>MAX_ERROR_DISTANCE</th>
+									<th>MAX_ERROR_UNITS</th>
+									<th>LAT_LONG_REMARKS</th>
+									<th>DETERMINED_BY_AGENT</th>
+									<th>GEOREFMETHOD</th>
+									<th>ORIG_LAT_LONG_UNITS</th>
+									<th>DATUM</th>
+									<th>DETERMINED_DATE</th>
+									<th>LAT_LONG_REF_SOURCE</th>
+									<th>EXTENT</th>
+									<th>GPSACCURACY</th>
+									<th>VERIFICATIONSTATUS</th>
+									<th>SPATIALFIT</th>
+									<th>NEAREST_NAME_PLACE</th>
 								</tr>
 							</thead>
 							<tbody>
@@ -595,18 +602,26 @@ limitations under the License.
 								<cfloop query="getProblemData">
 									<tr>
 										<td>#i#</td>
-										<td>#getProblemData.status# </td>
-										<td>#getProblemData.institution_acronym# </td>
-										<td>#getProblemData.collection_cde# </td>
-										<td>#getProblemData.other_id_type#</td>
-										<td>#getProblemData.other_id_number#</td>
-										<td>#getProblemData.attribute# </td>
-										<td>#getProblemData.attribute_value# </td>
-										<td>#getProblemData.attribute_units# </td>
-										<td>#getProblemData.attribute_date#</td>
-										<td>#getProblemData.attribute_meth# </td>
-										<td>#getProblemData.determiner# </td>
-										<td>#getProblemData.remarks# </td>
+										<td>#getProblemData.DETERMINED_BY_AGENT_ID#</td>
+										<td>#getProblemData.HIGHERGEOGRAPHY#</td>
+										<td>#getProblemData.SPECLOCALITY# </td>
+										<td>#getProblemData.LOCALITY_ID# </td>
+										<td>#getProblemData.DEC_LAT# </td>
+										<td>#getProblemData.DEC_LONG#</td>
+										<td>#getProblemData.MAX_ERROR_DISTANCE# </td>
+										<td>#getProblemData.MAX_ERROR_UNITS# </td>
+										<td>#getProblemData.LAT_LONG_REMARKS# </td>
+										<td>#getProblemData.DETERMINED_BY_AGENT# </td>
+										<td>#getProblemData.GEOREFMETHOD# </td>
+										<td>#getProblemData.ORIG_LAT_LONG_UNITS#</td>
+										<td>#getProblemData.DATUM#</td>
+										<td>#getProblemData.DETERMINED_DATE# </td>
+										<td>#getProblemData.LAT_LONG_REF_SOURCE# </td>
+										<td>#getProblemData.EXTENT# </td>
+										<td>#getProblemData.GPSACCURACY#</td>
+										<td>#getProblemData.VERIFICATIONSTATUS# </td>
+										<td>#getProblemData.SPATIALFIT# </td>
+										<td>#getProblemData.NEAREST_NAME_PLACE# </td>
 									</tr>
 									<cfset i= i+1>
 								</cfloop>
@@ -615,7 +630,7 @@ limitations under the License.
 					</cfif>
 				</cfif>
 				<cfquery name="clearTempTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="clearTempTable_result">
-					DELETE FROM cf_temp_attributes 
+					DELETE FROM cf_temp_georef 
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
 
