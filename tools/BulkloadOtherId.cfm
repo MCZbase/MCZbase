@@ -218,14 +218,14 @@
 				<cfset separator = "">
 				<cfset foundHeaders = "">
 				<cfloop index="i" from="0" to="#headers.size() - 1#">
-					<cfset bit = headers.get(JavaCast("int",i))>
+					<cfset thisbit = headers.get(JavaCast("int",i))>
 					<cfif i EQ 0 and characterSet EQ 'utf-8'>
 						<!--- strip off windows non-standard UTF-8-BOM byte order mark if present (raw hex EF, BB, BF or U+FEFF --->
-						<cfset bit = "#Replace(bit,CHR(65279),'')#" >
+						<cfset thisbit = "#Replace(bit,CHR(65279),'')#" >
 					</cfif>
 					<!--- we could strip out all unexpected characters from the header, but seems likely to cause problems. --->
 					<!--- cfset bit=REReplace(headers.get(JavaCast("int",i)),'[^A-Za-z0-9_-]','','All') --->
-					<cfset foundHeaders = "#foundHeaders##separator##bit#" >
+					<cfset foundHeaders = "#foundHeaders##separator##thisbit#" >
 					<cfset separator = ",">
 				</cfloop>
 				<!--- Note: As we can't use csvFormat.withHeader(), we can not match columns by name, we are forced to do so by number, thus arrays --->
