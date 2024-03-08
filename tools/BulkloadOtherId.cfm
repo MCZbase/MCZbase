@@ -686,7 +686,7 @@
 							<h3>
 								Error loading row (<span class="text-danger">#getProblemData_result.recordcount#</span>) from the CSV: 
 								<cfif len(cfcatch.detail) gt 0>
-									<span class="font-weight-normal border-bottom border-danger">
+									<span class="h5 border-bottom border-danger">
 										<cfif cfcatch.detail contains "NEW_OTHER_ID_TYPE">
 											Invalid MEW_OTHER_ID_TYPE; check controlled vocabulary (Help menu)
 										<cfelseif cfcatch.detail contains "COLLECTION_CDE">
@@ -696,7 +696,7 @@
 										<cfelseif cfcatch.detail contains "NEW_OTHER_ID_NUMBER">
 											Problem with NEW_OTHER_ID_NUMBER, check to see the correct new_other_id_number was entered
 										<cfelseif cfcatch.detail contains "unique constraint">
-											Problem with NEW_OTHER_ID_NUMBER (see below)<br> NEW_OTHER_ID_NUMBER already entered
+											Problem with NEW_OTHER_ID_NUMBER (see below) NEW_OTHER_ID_NUMBER already entered
 										<cfelseif cfcatch.detail contains "COLLECTION_OBJECT_ID">
 											Problem with EXISTING_OTHER_ID_TYPE or EXISTING_OTHER_ID_NUMBER (couldn not find collection_object_id) 
 										<cfelseif cfcatch.detail contains "no data">
