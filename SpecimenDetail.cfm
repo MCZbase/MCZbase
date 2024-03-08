@@ -519,12 +519,14 @@
 							<cfset lastID = getLast.collection_object_id>
 							<cfset lastGUID = getLast.guid>
 							<cfquery name="previousNext" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-								SELECT prevcol, collection_object_id, nextcol
+								SELECT prevcol, prevguid, collection_object_id, nextcol, nextguid
 								FROM (
 									SELECT 
 										lag(user_search_table.collection_object_id) over (order by guid asc) prevcol, 
+										lag(flat.guid) over (order by guid asc) prevguid, 
 										user_search_table.collection_object_id collection_object_id, 
-										lead(user_search_table.collection_object_id) over (order by guid asc) nextcol
+										lead(user_search_table.collection_object_id) over (order by guid asc) nextcol,
+										lead(flat.guid) over (order by guid asc) nextguid 
 									FROM user_search_table 
 									JOIN <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
 										on user_search_table.collection_object_id = flat.collection_object_id
@@ -535,10 +537,12 @@
 							<cfset prevID = previousNext.prevcol>
 							<cfif len(prevID) GT 0>
 								<cfset isPrev = "yes">
+								<cfset prevGUID = previousNext.prevguid>
 							</cfif>
 							<cfset nextID = previousNext.nextcol>
 							<cfif len(nextID) GT 0>
 								<cfset isNext = "yes">
+								<cfset nextGUID = previousNext.nextguid>
 							</cfif>
 						</cfif>
 					<cfelseif isdefined("session.collObjIdList") and len(session.collObjIdList) gt 0 >
@@ -582,11 +586,17 @@
 							<form action="/guid/#firstGUID#" method="post" id="firstRecordForm">
 								<input type="hidden" name="result_id" value="#result_id#">
 							</form>
+							<form action="/guid/#prevGUID#" method="post" id="previousRecordForm">
+								<input type="hidden" name="result_id" value="#result_id#">
+							</form>
 						</cfif>
 					</cfif>
 					<cfif isNext is "yes">
 						<cfif len(resultBit) GT 0>
-							<form action="/guid/#lastGUID#" method="post" target="_blank" id="lastRecordForm">
+							<form action="/guid/#lastGUID#" method="post" id="lastRecordForm">
+								<input type="hidden" name="result_id" value="#result_id#" />
+							</form>
+							<form action="/guid/#nextGUID#" method="post" id="nextRecordForm">
 								<input type="hidden" name="result_id" value="#result_id#" />
 							</form>
 						</cfif>
@@ -601,12 +611,15 @@
 							<cfif isPrev is "yes">
 								<cfif len(resultBit) EQ 0>
 									<img src="/images/first.gif" class="likeLink" onclick="document.location='/SpecimenDetail.cfm?collection_object_id=#firstID#'" alt="[ First Record ]">
+									<img src="/images/previous.gif" class="likeLink"  onclick="document.location='/SpecimenDetail.cfm?collection_object_id=#prevID#'" alt="[ Previous Record ]">
 								<cfelse>
 									<a href="/guid/#firstGUID#" onClick=" event.preventDefault(); $('##firstRecordForm').submit();" style="border: none; background-color:transparent;">
 										<img src="/images/first.gif" alt="[ First Record ]">
 									</a>
+									<a href="/guid/#prevGUID#" onClick=" event.preventDefault(); $('##previousRecordForm').submit();" style="border: none; background-color:transparent;">
+										<img src="/images/first.gif" alt="[ Previous Record ]">
+									</a>
 								</cfif>
-								<img src="/images/previous.gif" class="likeLink"  onclick="document.location='/SpecimenDetail.cfm?collection_object_id=#prevID##resultBit#'" alt="[ Previous Record ]">
 							<cfelse>
 								<img src="/images/no_first.gif" alt="[ inactive button ]">
 								<img src="/images/no_previous.gif" alt="[ inactive button ]">
@@ -649,10 +662,13 @@
 								<span onclick="loadEditApp('catalog')" class="likeLink" id="BTN_catalog">Catalog</span>
 							</li>
 							<cfif isNext is "yes">
-								<img src="/images/next.gif" class="likeLink" onclick="document.location='/SpecimenDetail.cfm?collection_object_id=#nextID##resultBit#'" alt="[ Next Record ]">
 								<cfif len(resultBit) EQ 0>
+									<img src="/images/next.gif" class="likeLink" onclick="document.location='/SpecimenDetail.cfm?collection_object_id=#nextID#'" alt="[ Next Record ]">
 									<img src="/images/last.gif" class="likeLink" onclick="document.location='/SpecimenDetail.cfm?collection_object_id=#lastID#'" alt="[ Last Record ]">
 								<cfelse>
+									<a href="/guid/#nextGUID#" onClick=" event.preventDefault(); $('##nextRecordForm').submit();" style="border: none; background-color:transparent;">
+										<img src="/images/last.gif" alt="[ Next Record ]">
+									</a>
 									<a href="/guid/#lastGUID#" onClick=" event.preventDefault(); $('##lastRecordForm').submit();" style="border: none; background-color:transparent;">
 										<img src="/images/last.gif" alt="[ Last Record ]">
 									</a>

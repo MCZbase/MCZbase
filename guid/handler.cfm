@@ -49,6 +49,12 @@ RewriteRule "^/guid/(MCZ:[A-Za-z]+:.*)"    /guid/handler.cfm?catalog=$1 [QSA,PT]
 
 	<cfif REFind('^[A-Z]+:[A-Za-z]+:[A-Za-z0-9-]+$',catalog) GT 0>
 		<cfset rdurl=catalog>
+		<!---  path terminator /{json|json-ld|turtle|rdf} is rewritten by apache to deliver, if present, override accept header. --->
+		<cfif isDefined("deliver") AND len(deliver) GT 0>
+			<cfif find('/',deliver) EQ 1>
+   			<cfset deliver = RemoveChars(deliver,1,1)>
+			</cfif>
+		</cfif>
 	<cfelse>
 		<cfinclude template="/errors/404.cfm">
 		<cfabort>
@@ -65,7 +71,7 @@ RewriteRule "^/guid/(MCZ:[A-Za-z]+:.*)"    /guid/handler.cfm?catalog=$1 [QSA,PT]
 
 	<!--- Content negotiation, pick highest priority content type that we can deliver from the http accept header list --->
 	<!--- default to human readable web page --->
-	<cfif NOT isDefined("deliver")>
+	<cfif NOT isDefined("deliver") OR len(deliver) EQ 0>
 		<cfset deliver = "text/html">
 		<cfset done = false>
 		<cfloop list='#accept#' delimiters=',' index='a'>
@@ -80,20 +86,6 @@ RewriteRule "^/guid/(MCZ:[A-Za-z]+:.*)"    /guid/handler.cfm?catalog=$1 [QSA,PT]
 				</cfif>
 			</cfif>
 		</cfloop>
-		<!--- allow path terminator /{json|json-ld|turtle|rdf} to override accept header. --->
-		<cfif refind('/json$',rdurl) GT 0>
-			<cfset rdurl = rereplace(rdurl,"/json$","")>
-   		<cfset deliver = "application/ld+json">
-		<cfelseif refind('/json-ld$',rdurl) GT 0>
-			<cfset rdurl = rereplace(rdurl,"/json-ld$","")>
-   		<cfset deliver = "application/ld+json">
-		<cfelseif refind('/turtle$',rdurl) GT 0>
-			<cfset rdurl = rereplace(rdurl,"/turtle$","")>
-   		<cfset deliver = "text/turtle">
-		<cfelseif refind('/rdf$',rdurl) GT 0>
-			<cfset rdurl = rereplace(rdurl,"/rdf$","")>
-   		<cfset deliver = "application/xhtml+xml">
-		</cfif>
 	<cfelse>
 		<!--- NOTE: apache 404 redirect is not passing parameters or cgi.redirect_query_string, so this block is not entered --->
 		<!--- allow url parameter deliver={json/json-ld/turtle/rdf} to override accept header. --->
