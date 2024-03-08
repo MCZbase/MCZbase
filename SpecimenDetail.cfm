@@ -480,6 +480,7 @@
 		 <table width="100%">
 			<tr>
 				<td align="center">
+					<cfset oldbit = ""><!--- explicit marker for using session.collObjIdList for navigation --->
 					<cfif isdefined("result_id") and len(result_id) gt 0>
 						<!--- orders records by institution:collection_cde:catalog_number, to change, change all the order by and over clauses --->
 						<cfset isPrev = "no">
@@ -545,10 +546,11 @@
 								<cfset nextGUID = previousNext.nextguid>
 							</cfif>
 						</cfif>
-					<cfelseif isdefined("session.collObjIdList") and len(session.collObjIdList) gt 0 >
+					<cfelseif isdefined("session.collObjIdList") and len(session.collObjIdList) gt 0 AND isDefined("old") and old EQ 'true' >
 						<cfset isPrev = "no">
 						<cfset isNext = "no">
 						<cfset currPos = 0>
+						<cfset oldBit = "&old=true">
 
 						<cfset lenOfIdList = 0>
 						<cfset firstID = collection_object_id>
@@ -610,8 +612,8 @@
 						<ul id="navbar">
 							<cfif isPrev is "yes">
 								<cfif len(resultBit) EQ 0>
-									<img src="/images/first.gif" class="likeLink" onclick="document.location='/SpecimenDetail.cfm?collection_object_id=#firstID#'" alt="[ First Record ]">
-									<img src="/images/previous.gif" class="likeLink"  onclick="document.location='/SpecimenDetail.cfm?collection_object_id=#prevID#'" alt="[ Previous Record ]">
+									<img src="/images/first.gif" class="likeLink" onclick="document.location='/SpecimenDetail.cfm?collection_object_id=#firstID##oldBit#'" alt="[ First Record ]">
+									<img src="/images/previous.gif" class="likeLink"  onclick="document.location='/SpecimenDetail.cfm?collection_object_id=#prevID##oldBit#'" alt="[ Previous Record ]">
 								<cfelse>
 									<a href="/guid/#firstGUID#" onClick=" event.preventDefault(); $('##firstRecordForm').submit();" style="border: none; background-color:transparent;">
 										<img src="/images/first.gif" alt="[ First Record ]">
@@ -663,8 +665,8 @@
 							</li>
 							<cfif isNext is "yes">
 								<cfif len(resultBit) EQ 0>
-									<img src="/images/next.gif" class="likeLink" onclick="document.location='/SpecimenDetail.cfm?collection_object_id=#nextID#'" alt="[ Next Record ]">
-									<img src="/images/last.gif" class="likeLink" onclick="document.location='/SpecimenDetail.cfm?collection_object_id=#lastID#'" alt="[ Last Record ]">
+									<img src="/images/next.gif" class="likeLink" onclick="document.location='/SpecimenDetail.cfm?collection_object_id=#nextID##oldBit#'" alt="[ Next Record ]">
+									<img src="/images/last.gif" class="likeLink" onclick="document.location='/SpecimenDetail.cfm?collection_object_id=#lastID##oldBit#'" alt="[ Last Record ]">
 								<cfelse>
 									<a href="/guid/#nextGUID#" onClick=" event.preventDefault(); $('##nextRecordForm').submit();" style="border: none; background-color:transparent;">
 										<img src="/images/next.gif" alt="[ Next Record ]">
