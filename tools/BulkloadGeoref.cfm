@@ -472,7 +472,7 @@ limitations under the License.
 						trim(geog_auth_rec.higher_geog)='#trim(HigherGeography)#' 
 					and
 						trim(locality.spec_locality)='#trim(SpecLocality)#' 
-					and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableTypes.key#">
+					and key = <cfqueryparam cfsqltype='CF_SQL_decimal' value='#getTempTableTypes.key#'>
 					">
 					
 			<cfquery name="dataCount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
