@@ -583,14 +583,14 @@
 				WHERE status is not null
 			</cfquery>
 			<cfif pf.c gt 0>
-				<h3 class="mt-3">
+				<h3 class="mt-4">
 					There is a problem with #pf.c# of #data.recordcount# row(s). See the STATUS column. (<a href="/tools/BulkloadOtherId.cfm?action=dumpProblems">download</a>).
 				</h3>
-				<h3 class="mt-3">
+				<h3 class="my-2">
 					Fix the problems in the data and <a href="/tools/BulkloadOtherId.cfm">start again</a>.
 				</h3>
 			<cfelse>
-				<h3 class="mt-3">
+				<h3 class="mt-4 mb-2">
 					Validation checks passed. Look over the table below and <a href="/tools/BulkloadOtherId.cfm?action=load">click to continue</a> if it all looks good.
 				</h3>
 			</cfif>
