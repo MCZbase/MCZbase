@@ -476,7 +476,8 @@ limitations under the License.
 				</cfif>
 				<cfquery name="getLocText" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					select 
-						spec_locality,higher_geog,locality.locality_id from locality,geog_auth_rec,key 
+						spec_locality,higher_geog,locality.locality_id,key 
+					from locality,geog_auth_rec
 					where
 						locality.geog_auth_rec_id=geog_auth_rec.geog_auth_rec_id 
 					and
