@@ -474,7 +474,7 @@ limitations under the License.
 					and
 						trim(locality.spec_locality)='#trim(SpecLocality)#' 
 					and key = <cfqueryparam cfsqltype='CF_SQL_decimal' value='#geoData.key#'>
-					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+					username = <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#session.username#'>
 					">
 			</cfloop>
 			<cfquery name="getCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
