@@ -490,7 +490,7 @@ limitations under the License.
 	</cfif>
 	<!------------------------------------------------------->
 	<cfif #action# is "validate">
-		<h2 class="h4">Second step: Data Validation</h2>
+		<h2 class="h4 mb-3">Second step: Data Validation</h2>
 		<cfoutput>
 			<cfquery name="getTempTableTypes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				SELECT 
