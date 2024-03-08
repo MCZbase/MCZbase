@@ -476,8 +476,9 @@ limitations under the License.
 							and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#geoData.key#"> 
 					</cfquery>
 				</cfif>
+						#getAgentID.determined_by_agent_id#
 			</cfloop>
-#getAgentID.determined_by_agent_id#
+
 			<cfloop query="geoData">
 				<cfset tellStatus="">
 				
