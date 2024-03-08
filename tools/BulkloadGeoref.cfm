@@ -473,9 +473,24 @@ limitations under the License.
 							status = null
 						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 							and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#agentName.key#"> 
-					</cfquery>					
+					</cfquery>
+				<cfelseif len(agentName.determined_by_agent) gt 0 and len(agentName.determined_by_agent_id) gt 0>
+					<cfquery name="matchAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						SELECT 
+							determined_by_agent_id, determined_by_agent
+						FROM
+							cf_temp_georef,preferred_agent_name
+						WHERE 
+							cf_temp_georef.determined_by_agent_id = preferred_agent_name.agent_id
+						AND cf_temp_georef.determined_by_agent = preferred_agent_name.agent_name
+						and rownum = 1
+					</cfquery>
+					
 				</cfif>
 			</cfloop>
+			<cfquery name="geoData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			
+			</cfquery>
 			<cfloop query="geoData">
 				<cfset tellStatus="">
 				<cfset key="">
