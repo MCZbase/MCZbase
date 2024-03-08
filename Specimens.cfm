@@ -2612,8 +2612,7 @@ Target JSON:
 				}
 			}
 			var result_id = $('##result_id_fixedSearch').val();
-			// This fails as /guid/ is passed as an error page to errors/missing.cfm and post is lost in the process.
-			// It might work if /guid/ is rewritten by apache to a request to a guid handler.cfm file instead. 
+			// The /guid/ uri is rewritten by apache to a request to a guid handler.cfm file instead.
 			var retval = '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; ">';
 			retval = retval + '<a id="aLink'+row+'" target="_blank" href="/guid/' + value + '"';
 			retval = retval + ' onClick=" event.preventDefault(); $(&##39;##aLinkForm'+row+'&##39;).submit();" ';

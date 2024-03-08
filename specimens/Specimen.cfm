@@ -303,6 +303,7 @@ limitations under the License.
 					) WHERE rownum < 2;
 				</cfquery>
 				<cfset firstID = getFirst.collection_object_id>
+				<cfset firstGUID = getFirst.guid>
 				<cfquery name="getLast" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					SELECT collection_object_id, pagesort, guid 
 					FROM (
@@ -315,6 +316,7 @@ limitations under the License.
 					) WHERE rownum < 2;
 				</cfquery>
 				<cfset lastID = getLast.collection_object_id>
+				<cfset lastGUID = getLast.guid>
 				<cfquery name="previousNext" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					SELECT prevcol, collection_object_id, nextcol
 					FROM (
@@ -381,9 +383,21 @@ limitations under the License.
 						<cfif isdefined("result_id") and len(result_id) gt 0>
 							<cfset resultBit = "&result_id=#result_id#">
 						</cfif>
+						<!--- TODO: Rework these controls to perform a post passing result_id as a post parameter.  They can use /guid/ as the location directly. --->
 						<cfif isPrev is "yes">
 							<li class="list-group-item px-0 mx-1">
-								<img src="/images/first.gif" class="likeLink" onclick="document.location='/specimens/Specimen.cfm?collection_object_id=#firstID##resultBit#'" alt="[ First Record ]">
+								<cfif len(resultBit) EQ 0>
+									<img src="/images/first.gif" class="likeLink" onclick="document.location='/specimens/Specimen.cfm?collection_object_id=#firstID#'" alt="[ First Record ]">
+								<cfelse>
+									<span>
+										<a href="/guid/#firstGUID#" onClick=" event.preventDefault(); $('##firstRecordForm').submit();">
+											<img src="/images/first.gif" alt="[ First Record ]">
+										</a>
+										<form action="/guid/#firstGUID#" method="post" target="_blank" id="firstRecordForm">
+											<input type="hidden" name="result_id" value="#result_id#" />
+										</form>
+									</span>
+								</cfif>
 							</li>
 							<li class="list-group-item px-0 mx-1">
 								<img src="/images/previous.gif" class="likeLink"  onclick="document.location='/specimens/Specimen.cfm?collection_object_id=#prevID##resultBit#'" alt="[ Previous Record ]">
@@ -448,7 +462,18 @@ limitations under the License.
 								<img src="/images/next.gif" class="likeLink" onclick="document.location='/specimens/Specimen.cfm?collection_object_id=#nextID##resultBit#'" alt="[ Next Record ]">
 							</li>
 							<li class="list-group-item px-0 mx-1">
-								<img src="/images/last.gif" class="likeLink" onclick="document.location='/specimens/Specimen.cfm?collection_object_id=#lastID##resultBit#'" alt="[ Last Record ]">
+								<cfif len(resultBit) EQ 0>
+									<img src="/images/last.gif" class="likeLink" onclick="document.location='/specimens/Specimen.cfm?collection_object_id=#lastID#'" alt="[ Last Record ]">
+								<cfelse>
+									<span>
+										<a href="/guid/#lastGUID#" onClick=" event.preventDefault(); $('##lastRecordForm').submit();">
+											<img src="/images/last.gif" alt="[ Last Record ]">
+										</a>
+										<form action="/guid/#lastGUID#" method="post" target="_blank" id="lastRecordForm">
+											<input type="hidden" name="result_id" value="#result_id#" />
+										</form>
+									</span>
+								</cfif>
 							</li>
 						<cfelse>
 							<li class="list-group-item px-0 mx-1">
