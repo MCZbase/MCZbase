@@ -396,8 +396,8 @@
 					</cfif>
 				</h3>
 			<cfcatch>
-				<h3 class="h4">
-					Failed to read the CSV file.  Fix the errors in the file and <a href="/tools/BulkloadOtherId.cfm">reload</a>
+				<h3>
+					<span class="text-danger">Failed to read the CSV file.</span>  Fix the errors in the file and <a href="/tools/BulkloadOtherId.cfm">reload</a>
 				</h3>
 				<cfif isDefined("othResult")>
 					<cfset foundHighCount = 0>
