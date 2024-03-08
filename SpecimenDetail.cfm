@@ -573,6 +573,10 @@
 						<cfset isNext="">
 						<cfset isPrev="">
 					</cfif>
+					<cfset resultBit = "">
+					<cfif isdefined("result_id") and len(result_id) gt 0>
+						<cfset resultBit = "&result_id=#result_id#">
+					</cfif>
 					<cfif isPrev is "yes">
 						<cfif len(resultBit) GT 0>
 							<form action="/guid/#firstGUID#" method="post" id="firstRecordForm">
@@ -594,10 +598,6 @@
 						<input type="hidden" name="Srch" value="Part">
 						<input type="hidden" name="collecting_event_id" value="#detail.collecting_event_id#">
 						<ul id="navbar">
-							<cfset resultBit = "">
-							<cfif isdefined("result_id") and len(result_id) gt 0>
-								<cfset resultBit = "&result_id=#result_id#">
-							</cfif>
 							<cfif isPrev is "yes">
 								<cfif len(resultBit) EQ 0>
 									<img src="/images/first.gif" class="likeLink" onclick="document.location='/SpecimenDetail.cfm?collection_object_id=#firstID#'" alt="[ First Record ]">
