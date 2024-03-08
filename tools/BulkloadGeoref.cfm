@@ -713,7 +713,7 @@ limitations under the License.
 						<cfset key = getTempData.key>
 						<cfquery name="updateGeoref" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateGeoref_result">
 							INSERT into lat_long (
-								LAT_LONG_ID,
+								key,LAT_LONG_ID,
 								LOCALITY_ID,
 								DEC_LAT,
 								DEC_LONG,
@@ -733,6 +733,7 @@ limitations under the License.
 								SPATIALFIT
 							)VALUES(
 							sq_lat_long_id.nextval,
+							<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#key#">,
 							<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#LOCALITY_ID#">,
 							<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#Dec_Lat#" scale="10">,
 							<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#Dec_Long#" scale="10">,
