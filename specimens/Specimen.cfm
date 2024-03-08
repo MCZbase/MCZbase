@@ -322,8 +322,10 @@ limitations under the License.
 					FROM (
 						SELECT 
 							lag(user_search_table.collection_object_id) over (order by guid asc) prevcol, 
+							lag(flat.guid) over (order by guid asc) prevguid, 
 							user_search_table.collection_object_id collection_object_id, 
-							lead(user_search_table.collection_object_id) over (order by guid asc) nextcol
+							lead(user_search_table.collection_object_id) over (order by guid asc) nextcol,
+							lead(flat.guid) over (order by guid asc) nextguid
 						FROM user_search_table 
 						JOIN <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
 							on user_search_table.collection_object_id = flat.collection_object_id
@@ -334,10 +336,12 @@ limitations under the License.
 				<cfset prevID = previousNext.prevcol>
 				<cfif len(prevID) GT 0>
 					<cfset isPrev = "yes">
+					<cfset prevGUID = previousNext.prevguid>
 				</cfif>
 				<cfset nextID = previousNext.nextcol>
 				<cfif len(nextID) GT 0>
 					<cfset isNext = "yes">
+					<cfset nextGUID = previousNext.nextguid>
 				</cfif>
 			</cfif>
 		<cfelseif isdefined("session.collObjIdList") and len(session.collObjIdList) gt 0 >
@@ -400,7 +404,18 @@ limitations under the License.
 								</cfif>
 							</li>
 							<li class="list-group-item px-0 mx-1">
-								<img src="/images/previous.gif" class="likeLink"  onclick="document.location='/specimens/Specimen.cfm?collection_object_id=#prevID##resultBit#'" alt="[ Previous Record ]">
+								<cfif len(resultBit) EQ 0>
+									<img src="/images/previous.gif" class="likeLink"  onclick="document.location='/specimens/Specimen.cfm?collection_object_id=#prevID#'" alt="[ Previous Record ]">
+								<cfelse>
+									<span>
+										<a href="/guid/#prevGUID#" onClick=" event.preventDefault(); $('##previousRecordForm').submit();">
+											<img src="/images/first.gif" alt="[ Previous Record ]">
+										</a>
+										<form action="/guid/#prevGUID#" method="post" id="previousRecordForm">
+											<input type="hidden" name="result_id" value="#result_id#" />
+										</form>
+									</span>
+								</cfif>
 							</li>
 						<cfelse>
 							<li class="list-group-item px-0 mx-1">
@@ -459,7 +474,18 @@ limitations under the License.
 					<cfif navigable>
 						<cfif isNext is "yes">
 							<li class="list-group-item px-0 mx-1">
-								<img src="/images/next.gif" class="likeLink" onclick="document.location='/specimens/Specimen.cfm?collection_object_id=#nextID##resultBit#'" alt="[ Next Record ]">
+								<cfif len(resultBit) EQ 0>
+									<img src="/images/next.gif" class="likeLink" onclick="document.location='/specimens/Specimen.cfm?collection_object_id=#nextID#'" alt="[ Next Record ]">
+								<cfelse>
+									<span>
+										<a href="/guid/#nextGUID#" onClick=" event.preventDefault(); $('##nextRecordForm').submit();">
+											<img src="/images/first.gif" alt="[ Next Record ]">
+										</a>
+										<form action="/guid/#nextGUID#" method="post" id="nextRecordForm">
+											<input type="hidden" name="result_id" value="#result_id#" />
+										</form>
+									</span>
+								</cfif>
 							</li>
 							<li class="list-group-item px-0 mx-1">
 								<cfif len(resultBit) EQ 0>
