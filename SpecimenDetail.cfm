@@ -147,7 +147,7 @@
 		<cfif isDefined("result_id") and len(result_id) GT 0>
 			<!--- Use 308 to preserve result_id post parameter see: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/308  --->
 			<cfheader statuscode="308" statustext="Permanent Redirect">
-		<cfif isDefined("old") and len(old) GT 0>
+		<cfelseif isDefined("old") and len(old) GT 0>
 			<!--- Use 308 to preserve old post parameter see: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/308  --->
 			<cfheader statuscode="308" statustext="Permanent Redirect">
 		<cfelse>
@@ -162,7 +162,7 @@
 		<cfif isDefined("result_id") and len(result_id) GT 0>
 			<!--- Use 308 to preserve result_id post parameter see: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/308  --->
 			<cfheader statuscode="308" statustext="Permanent Redirect">
-		<cfif isDefined("old") and len(old) GT 0>
+		<cfelseif isDefined("old") and len(old) GT 0>
 			<!--- Use 308 to preserve old post parameter see: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/308  --->
 			<cfheader statuscode="308" statustext="Permanent Redirect">
 		<cfelse>
