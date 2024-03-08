@@ -696,7 +696,7 @@
 										<cfelseif cfcatch.detail contains "NEW_OTHER_ID_NUMBER">
 											Problem with NEW_OTHER_ID_NUMBER, check to see the correct new_other_id_number was entered
 										<cfelseif cfcatch.detail contains "unique constraint">
-											Problem with NEW_OTHER_ID_NUMBER (see below); NEW_OTHER_ID_NUMBER already entered
+											Problem with NEW_OTHER_ID_NUMBER (see below); NEW_OTHER_ID_NUMBER already entered; Remove and try again
 										<cfelseif cfcatch.detail contains "COLLECTION_OBJECT_ID">
 											Problem with EXISTING_OTHER_ID_TYPE or EXISTING_OTHER_ID_NUMBER (couldn not find collection_object_id) 
 										<cfelseif cfcatch.detail contains "no data">
