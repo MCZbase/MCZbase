@@ -318,7 +318,7 @@ limitations under the License.
 				<cfset lastID = getLast.collection_object_id>
 				<cfset lastGUID = getLast.guid>
 				<cfquery name="previousNext" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					SELECT prevcol, collection_object_id, nextcol
+					SELECT prevcol, prevguid, collection_object_id, nextcol, nextguid
 					FROM (
 						SELECT 
 							lag(user_search_table.collection_object_id) over (order by guid asc) prevcol, 
