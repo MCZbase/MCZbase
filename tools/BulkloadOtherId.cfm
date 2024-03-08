@@ -682,11 +682,11 @@
 							WHERE key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#problem_key#">
 						</cfquery>
 						
-							<h2 class="h3">Errors are displayed one row at a time.</h2>
-							<h3>
+							<h3 class="h4">Errors encountered during application are displayed one row at a time.</h3>
+							<h3 class="mt-3 mb-2">
 								Error loading row (<span class="text-danger">#getProblemData_result.recordcount#</span>) from the CSV: 
 								<cfif len(cfcatch.detail) gt 0>
-									<span class="h5 border-bottom border-danger">
+									<span class="h4 border-bottom border-danger">
 										<cfif cfcatch.detail contains "NEW_OTHER_ID_TYPE">
 											Invalid MEW_OTHER_ID_TYPE; check controlled vocabulary (Help menu)
 										<cfelseif cfcatch.detail contains "COLLECTION_CDE">
