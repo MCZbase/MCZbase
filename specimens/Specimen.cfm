@@ -278,6 +278,7 @@ limitations under the License.
 		</script>
 		<!--- setup for navigation between specimen records within a result set. --->
 		<cfset navigable = false>
+		<cfset oldBit = ""><!--- explicit marker for using session.collObjIdList for result navigation --->
 		<cfif isdefined("result_id") and len(result_id) gt 0>
 			<!--- orders records by institution:collection_cde:catalog_number, to change, change all the order by and over clauses --->
 		   <cfset isPrev = "no">
@@ -344,11 +345,12 @@ limitations under the License.
 					<cfset nextGUID = previousNext.nextguid>
 				</cfif>
 			</cfif>
-		<cfelseif isdefined("session.collObjIdList") and len(session.collObjIdList) gt 0 >
+		<cfelseif isdefined("session.collObjIdList") and len(session.collObjIdList) gt 0 AND isDefined("old") and old EQ 'true' >
 			<cfset navigable = true>
 		   <cfset isPrev = "no">
 			<cfset isNext = "no">
 			<cfset currPos = 0>
+			<cfset oldBit = "&old=true">
 
 			<cfset lenOfIdList = 0>
 			<cfset firstID = collection_object_id>
@@ -391,7 +393,7 @@ limitations under the License.
 						<cfif isPrev is "yes">
 							<li class="list-group-item px-0 mx-1">
 								<cfif len(resultBit) EQ 0>
-									<img src="/images/first.gif" class="likeLink" onclick="document.location='/specimens/Specimen.cfm?collection_object_id=#firstID#'" alt="[ First Record ]">
+									<img src="/images/first.gif" class="likeLink" onclick="document.location='/specimens/Specimen.cfm?collection_object_id=#firstID##oldBit#'" alt="[ First Record ]">
 								<cfelse>
 									<span>
 										<a href="/guid/#firstGUID#" onClick=" event.preventDefault(); $('##firstRecordForm').submit();">
@@ -405,7 +407,7 @@ limitations under the License.
 							</li>
 							<li class="list-group-item px-0 mx-1">
 								<cfif len(resultBit) EQ 0>
-									<img src="/images/previous.gif" class="likeLink"  onclick="document.location='/specimens/Specimen.cfm?collection_object_id=#prevID#'" alt="[ Previous Record ]">
+									<img src="/images/previous.gif" class="likeLink"  onclick="document.location='/specimens/Specimen.cfm?collection_object_id=#prevID##oldBit#'" alt="[ Previous Record ]">
 								<cfelse>
 									<span>
 										<a href="/guid/#prevGUID#" onClick=" event.preventDefault(); $('##previousRecordForm').submit();">
@@ -475,7 +477,7 @@ limitations under the License.
 						<cfif isNext is "yes">
 							<li class="list-group-item px-0 mx-1">
 								<cfif len(resultBit) EQ 0>
-									<img src="/images/next.gif" class="likeLink" onclick="document.location='/specimens/Specimen.cfm?collection_object_id=#nextID#'" alt="[ Next Record ]">
+									<img src="/images/next.gif" class="likeLink" onclick="document.location='/specimens/Specimen.cfm?collection_object_id=#nextID##oldBit#'" alt="[ Next Record ]">
 								<cfelse>
 									<span>
 										<a href="/guid/#nextGUID#" onClick=" event.preventDefault(); $('##nextRecordForm').submit();">
@@ -489,7 +491,7 @@ limitations under the License.
 							</li>
 							<li class="list-group-item px-0 mx-1">
 								<cfif len(resultBit) EQ 0>
-									<img src="/images/last.gif" class="likeLink" onclick="document.location='/specimens/Specimen.cfm?collection_object_id=#lastID#'" alt="[ Last Record ]">
+									<img src="/images/last.gif" class="likeLink" onclick="document.location='/specimens/Specimen.cfm?collection_object_id=#lastID##oldBit#'" alt="[ Last Record ]">
 								<cfelse>
 									<span>
 										<a href="/guid/#lastGUID#" onClick=" event.preventDefault(); $('##lastRecordForm').submit();">
