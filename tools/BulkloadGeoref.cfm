@@ -460,9 +460,7 @@ limitations under the License.
 			</cfquery>
 			<cfset i= 1>
 			<cfloop query="geoData">
-				<!--- For each row, set the target collection_object_id --->
-				<cfif len(geoData.determined_by_agent) gt 0 and len(geoData.determined_by_agent_id) eq 0>
-					<!--- either based on catalog_number --->
+				<cfif len(geoData.determined_by_agent_id) eq 0>
 					<cfquery name="getAgentID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						UPDATE
 							cf_temp_georef
@@ -522,7 +520,7 @@ limitations under the License.
 							<td>#geoData.dec_lat#</td>
 							<td>#geoData.dec_long#</td>
 							<td>#geoData.max_error_distance#</td>
-							<td>#geoData.max_error_units#</td>>
+							<td>#geoData.max_error_units#</td>
 							<td>#geoData.lat_long_remarks#</td>
 							<td>#geoData.determined_by_agent#</td>
 							<td>#geoData.determined_by_agent_id#</td>
