@@ -462,7 +462,7 @@ limitations under the License.
 			<cfloop query="geoData">
 				<cfset tellStatus="">
 				<cfset key="">
-				<cfquery name="geoSQL" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfset geoSQL ="
 					select 
 						spec_locality,higher_geog,locality.locality_id from locality,geog_auth_rec,key 
 					where
