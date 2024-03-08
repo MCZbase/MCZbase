@@ -250,7 +250,7 @@
 					</cfif>
 				</cfloop>
 				<cfif len(errorMessage) GT 0>
-					<cfthrow message = "#NO_COLUMN_ERR# <br>#errorMessage#">
+					<cfthrow message = "#NO_COLUMN_ERR# <p>#errorMessage#</p>">
 				</cfif>
 				<cfset errorMessage = "">
 				<!--- Loop through list of fields, mark each field as fields present in input or not, throw exception if required fields are missing --->
