@@ -591,12 +591,12 @@
 							</cfif>
 							<cfif currPos lt lenOfIdList>
 								<cfset isNext = "yes">
-								<cfquery name="getPreviousGuid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+								<cfquery name="getNextGuid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 									SELECT guid 
 									FROM <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
-									WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#prevID#">
+									WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#nextID#">
 								</cfquery>
-								<cfset prevGUID = getPreviousGuid.guid>
+								<cfset nextGUID = getNextGuid.guid>
 								<cfquery name="getLastGuid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 									SELECT guid 
 									FROM <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
