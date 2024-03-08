@@ -476,7 +476,7 @@
 <!-------------------------------------------------------------------------------------------->
 <!------------------------------------------------------->
 	<cfif #action# is "validate">
-		<h2 class="h3">Second step: Data Validation</h2>
+		<h2 class="h4">Second step: Data Validation</h2>
 			<cfoutput>
 			<cfquery name="getTempTableTypes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				SELECT 
@@ -583,16 +583,16 @@
 				WHERE status is not null
 			</cfquery>
 			<cfif pf.c gt 0>
-				<h2>
+				<h3>
 					There is a problem with #pf.c# of #data.recordcount# row(s). See the STATUS column. (<a href="/tools/BulkloadOtherId.cfm?action=dumpProblems">download</a>).
-				</h2>
+				</h3>
 				<h3>
 					Fix the problems in the data and <a href="/tools/BulkloadOtherId.cfm">start again</a>.
 				</h3>
 			<cfelse>
-				<h2>
+				<h3>
 					Validation checks passed. Look over the table below and <a href="/tools/BulkloadOtherId.cfm?action=load">click to continue</a> if it all looks good.
-				</h2>
+				</h3>
 			</cfif>
 			<table class='sortable table table-responsive table-striped d-lg-table'>
 				<thead>
