@@ -459,7 +459,7 @@ limitations under the License.
 				select LAT_LONG_ERROR_UNITS from CTLAT_LONG_ERROR_UNITS
 			</cfquery>
 			<cfset i= 1>
-			<cfloop query="agentName">
+			<cfloop query="geoData">
 				<!--- For each row, set the target collection_object_id --->
 				<cfif len(agentName.determined_by_agent) gt 0 and len(agentName.determined_by_agent_id) eq 0>
 					<!--- either based on catalog_number --->
