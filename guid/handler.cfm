@@ -63,7 +63,7 @@ RewriteRule "^/guid/(MCZ:[A-Za-z]+:.*)"    /guid/handler.cfm?catalog=$1 [QSA,PT]
 				<!--- default to content negotiation --->
 				<cfset deliver = "">
 			</cfif>
-		<cfset 
+		</cfif>
 	<cfelse>
 		<cfinclude template="/errors/404.cfm">
 		<cfabort>
