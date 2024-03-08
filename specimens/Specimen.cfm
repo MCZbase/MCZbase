@@ -389,11 +389,11 @@ limitations under the License.
 								<cfif len(resultBit) EQ 0>
 									<img src="/images/first.gif" class="likeLink" onclick="document.location='/specimens/Specimen.cfm?collection_object_id=#firstID#'" alt="[ First Record ]">
 								<cfelse>
-									<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; ">
-										<a id="aLink'+row+'"  href="/guid/#firstGUID#" onClick=" event.preventDefault(); $('##firstRecordForm').submit();">
+									<span>
+										<a href="/guid/#firstGUID#" onClick=" event.preventDefault(); $('##firstRecordForm').submit();">
 											<img src="/images/first.gif" alt="[ First Record ]">
 										</a>
-										<form action="/guid/'+value+'" method="post" target="_blank" id="firstRecordForm">
+										<form action="/guid/#firstGUID#" method="post" target="_blank" id="firstRecordForm">
 											<input type="hidden" name="result_id" value="#result_id#" />
 										</form>
 									</span>
@@ -465,11 +465,11 @@ limitations under the License.
 								<cfif len(resultBit) EQ 0>
 									<img src="/images/last.gif" class="likeLink" onclick="document.location='/specimens/Specimen.cfm?collection_object_id=#lastID#'" alt="[ Last Record ]">
 								<cfelse>
-									<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; ">
-										<a id="aLink'+row+'"  href="/guid/#lastGUID#" onClick=" event.preventDefault(); $('##lastRecordForm').submit();">
+									<span>
+										<a href="/guid/#lastGUID#" onClick=" event.preventDefault(); $('##lastRecordForm').submit();">
 											<img src="/images/last.gif" alt="[ Last Record ]">
 										</a>
-										<form action="/guid/'+value+'" method="post" target="_blank" id="lastRecordForm">
+										<form action="/guid/#lastGUID#" method="post" target="_blank" id="lastRecordForm">
 											<input type="hidden" name="result_id" value="#result_id#" />
 										</form>
 									</span>

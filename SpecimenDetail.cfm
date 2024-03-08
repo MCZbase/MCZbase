@@ -588,14 +588,12 @@
 								<cfif len(resultBit) EQ 0>
 									<img src="/images/first.gif" class="likeLink" onclick="document.location='/SpecimenDetail.cfm?collection_object_id=#firstID#'" alt="[ First Record ]">
 								<cfelse>
-									<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; ">
-										<a id="aLink'+row+'"  href="/guid/#firstGUID#" onClick=" event.preventDefault(); $('##firstRecordForm').submit();">
-											<img src="/images/first.gif" alt="[ First Record ]">
-										</a>
-										<form action="/guid/'+value+'" method="post" target="_blank" id="firstRecordForm">
-											<input type="hidden" name="result_id" value="#result_id#" />
-										</form>
-									</span>
+									<a href="/guid/#firstGUID#" onClick=" event.preventDefault(); $('##firstRecordForm').submit();">
+										<img src="/images/first.gif" alt="[ First Record ]">
+									</a>
+									<form action="/guid/#firstGUID#" method="post" target="_blank" id="firstRecordForm">
+										<input type="hidden" name="result_id" value="#result_id#" />
+									</form>
 								</cfif>
 								<img src="/images/previous.gif" class="likeLink"  onclick="document.location='/SpecimenDetail.cfm?collection_object_id=#prevID##resultBit#'" alt="[ Previous Record ]">
 							<cfelse>
@@ -644,14 +642,12 @@
 								<cfif len(resultBit) EQ 0>
 									<img src="/images/last.gif" class="likeLink" onclick="document.location='/SpecimenDetail.cfm?collection_object_id=#lastID#'" alt="[ Last Record ]">
 								<cfelse>
-									<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; ">
-										<a id="aLink'+row+'"  href="/guid/#lastGUID#" onClick=" event.preventDefault(); $('##lastRecordForm').submit();">
-											<img src="/images/last.gif" alt="[ Last Record ]">
-										</a>
-										<form action="/guid/'+value+'" method="post" target="_blank" id="lastRecordForm">
-											<input type="hidden" name="result_id" value="#result_id#" />
-										</form>
-									</span>
+									<a href="/guid/#lastGUID#" onClick=" event.preventDefault(); $('##lastRecordForm').submit();">
+										<img src="/images/last.gif" alt="[ Last Record ]">
+									</a>
+									<form action="/guid/#lastGUID#" method="post" target="_blank" id="lastRecordForm">
+										<input type="hidden" name="result_id" value="#result_id#" />
+									</form>
 								</cfif>
 							<cfelse>
 								<img src="/images/no_next.gif" alt="[ inactive button ]">
