@@ -571,6 +571,7 @@
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
 			</cfloop>
+			
 			<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				SELECT collection_object_id,collection_cde,institution_acronym,existing_other_id_type,existing_other_id_number,new_other_id_type,new_other_id_number,status
 				FROM cf_temp_oids
@@ -607,7 +608,7 @@
 				<tbody>
 					<cfloop query="data">
 						<tr>
-							<td><strong>#data.status#</strong></td>
+							<td><cfif data.status is null>Cleared to load<cfelse><strong>#data.status#</strong></cfif></td>
 							<td>#data.institution_acronym#</td>
 							<td>#data.collection_cde#</td>
 							<td>#data.existing_other_id_type#</td>
