@@ -474,7 +474,7 @@ limitations under the License.
 						trim(locality.spec_locality)='#trim(SpecLocality)#' 
 					and key = <cfqueryparam cfsqltype='CF_SQL_decimal' value='#getTempTableTypes.key#'>
 					">
-					
+			</cfloop>
 			<cfquery name="dataCount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				select count(*) c from cf_temp_georef where status != 'spiffy'
 			</cfquery>
