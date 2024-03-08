@@ -664,11 +664,12 @@
 						</cfif>
 						<cfset i = i+1>
 					</cfloop>
-					<p>Number of attributes to update: #i# (on #getCounts.ctobj# cataloged items)</p>
 					<cfif getTempData.recordcount eq testParse and updateParse_result.recordcount eq 0>
+						<p>Number of Other IDs updated: #i# (on #getCounts.ctobj# cataloged items)</p>
 						<h2 class="text-success">Success - loaded</h2>
 					</cfif>
 					<cfif updateParse_result.recordcount gt 0>
+						<p>Attempted to update #i# Other IDs (on #getCounts.ctobj# cataloged items)</p>
 						<h2 class="text-danger">Not loaded - these have already been loaded</h2>
 					</cfif>
 				
