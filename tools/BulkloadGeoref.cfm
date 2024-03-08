@@ -477,7 +477,7 @@ limitations under the License.
 					</cfquery>
 				</cfif>
 			</cfloop>
-
+#getAgentID.determined_by_agent_id#
 			<cfloop query="geoData">
 				<cfset tellStatus="">
 				
@@ -501,8 +501,8 @@ limitations under the License.
 				SET
 					status = null
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-					and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#geoData.key#"> 
-			</cfquery>
+					and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#geoData.key#">
+				</cfquery>
 			<cfquery name="dataCount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				select count(*) c from cf_temp_georef where status != 'spiffy'
 			</cfquery>
