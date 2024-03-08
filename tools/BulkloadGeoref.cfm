@@ -465,7 +465,7 @@ limitations under the License.
 					<!--- either based on catalog_number --->
 					<cfquery name="getAgentID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						UPDATE
-							cf_temp_georef
+							cf_temp_georef,key
 						SET
 							determined_by_agent_id = (
 								select agent_id from preferred_agent_name 
@@ -476,12 +476,8 @@ limitations under the License.
 							and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#geoData.key#"> 
 					</cfquery>
 				</cfif>
-						#getAgentID.determined_by_agent_id#
 			</cfloop>
-
 			<cfloop query="geoData">
-				<cfset tellStatus="">
-				
 				<cfset geoSQL ="
 					select 
 						spec_locality,higher_geog,locality.locality_id from locality,geog_auth_rec,key 
