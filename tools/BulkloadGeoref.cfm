@@ -469,7 +469,7 @@ limitations under the License.
 						SET
 							determined_by_agent_id = (
 								select agent_id from preferred_agent_name 
-								where geoData.determined_by_agent = preferred_agent_name.agent_name 
+								where determined_by_agent = preferred_agent_name.agent_name 
 							),
 							status = null
 						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
