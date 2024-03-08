@@ -109,6 +109,10 @@ RewriteRule "^/guid/(MCZ:[A-Za-z]+:.*)"    /guid/handler.cfm?catalog=$1 [QSA,PT]
 		</cfcatch>
 		</cftry>
 	<cfelse> 
+		<cftry>
+			<cfset old = getHttpRequestData().headers["X-MCZbase-old"]>
+		<cfcatch></cfcatch>
+		</cftry>
 		<cfif findNoCase('redesign',Session.gitBranch) GT 0>	
 			<cfset guid = catalog>
 			<cfinclude template="/specimens/Specimen.cfm">

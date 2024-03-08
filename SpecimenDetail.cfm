@@ -149,6 +149,9 @@
 			<cfheader statuscode="308" statustext="Permanent Redirect">
 		<cfelse>
 			<cfheader statuscode="301" statustext="Moved permanently">
+			<cfif isDefined("old") and old EQ "true">
+				<cfheader name="X-MCZbase-old" value="true">
+			</cfif>
 		</cfif>
 		<cfheader name="Location" value="/guid/#c.guid#">
 		<cfabort>
@@ -161,6 +164,9 @@
 			<cfheader statuscode="308" statustext="Permanent Redirect">
 		<cfelse>
 			<cfheader statuscode="301" statustext="Moved permanently">
+			<cfif isDefined("old") and old EQ "true">
+				<cfheader name="X-MCZbase-old" value="true">
+			</cfif>
 		</cfif>
 		<cfheader name="Location" value="/guid/#guid#">
 		<cfabort>
