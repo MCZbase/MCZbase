@@ -803,7 +803,8 @@ function success_getSpecResultsData(result){
 					theInnerHtml += '</form>';
 				if (isType) {
 					theInnerHtml += '<div class="showType">' + typestatus + '</div>';
-					theInnerHtml += '</td>';
+				}
+				theInnerHtml += '</td>';
 				if (loan_request_coll_id.length > 0) {
 					if (loan_request_coll_id == data.COLLECTION_ID[i]){
 						theInnerHtml +='<td><span class="likeLink" onclick="addLoanItem(' + "'";
