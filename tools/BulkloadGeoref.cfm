@@ -465,7 +465,7 @@ limitations under the License.
 					<!--- either based on catalog_number --->
 					<cfquery name="getAgentID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						UPDATE
-							cf_temp_georef,key
+							cf_temp_georef
 						SET
 							determined_by_agent_id = (
 								select agent_id from preferred_agent_name 
