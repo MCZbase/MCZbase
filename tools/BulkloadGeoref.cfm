@@ -442,11 +442,7 @@ limitations under the License.
 				SELECT determined_by_agent_id,highergeography,speclocality,locality_id,dec_lat,dec_long,max_error_distance,max_error_units,lat_long_remarks,determined_by_agent,georefmethod,orig_lat_long_units,datum,determined_date,lat_long_ref_source,extent,gpsaccuracy,verificationstatus,spatialfit,nearest_named_place,key
 				from cf_temp_georef
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-							and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#agentName.key#"> 
-			</cfquery>
-			<cfquery name="agentName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				select key,determined_by_agent,determined_by_agent_id
-				from cf_temp_georef
+				and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#agentName.key#"> 
 			</cfquery>
 			<cfquery name="ctGEOREFMETHOD" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				select GEOREFMETHOD from ctGEOREFMETHOD
@@ -464,7 +460,7 @@ limitations under the License.
 				select LAT_LONG_ERROR_UNITS from CTLAT_LONG_ERROR_UNITS
 			</cfquery>
 			<cfset i= 1>
-				<cfloop query="agentName">
+			<cfloop query="agentName">
 				<!--- For each row, set the target collection_object_id --->
 				<cfif len(agentName.determined_by_agent) gt 0 and len(agentName.determined_by_agent_id) eq 0>
 					<!--- either based on catalog_number --->
@@ -474,25 +470,12 @@ limitations under the License.
 						SET
 							determined_by_agent_id = (
 								select agent_id from preferred_agent_name 
-								where determined_by_agent = preferred_agent_name.agent_name 
+								where geoData.determined_by_agent = preferred_agent_name.agent_name 
 							),
 							status = null
 						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-							and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#agentName.key#"> 
+							and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#geoData.key#"> 
 					</cfquery>
-				<cfelseif len(agentName.determined_by_agent_id) gt 0>
-					<cfquery name="matchAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-						SELECT 
-							determined_by_agent_id
-						FROM
-							cf_temp_georef,preferred_agent_name
-						WHERE 
-							cf_temp_georef.determined_by_agent_id = preferred_agent_name.agent_id
-						AND cf_temp_georef.determined_by_agent = preferred_agent_name.agent_name
-						
-					</cfquery>
-				<cfelse>
-					agent issue	
 				</cfif>
 			</cfloop>
 
