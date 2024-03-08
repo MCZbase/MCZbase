@@ -51,18 +51,8 @@ RewriteRule "^/guid/(MCZ:[A-Za-z]+:.*)"    /guid/handler.cfm?catalog=$1 [QSA,PT]
 		<cfset rdurl=catalog>
 		<!---  path terminator /{json|json-ld|turtle|rdf} is rewritten by apache to deliver, if present, override accept header. --->
 		<cfif isDefined("deliver") AND len(deliver) GT 0>
-			<cfif refind('/json$',deliver) GT 0>
-   			<cfset deliver = "application/ld+json">
-			<cfelseif refind('/json-ld$',deliver) GT 0>
-   			<cfset deliver = "application/ld+json">
-			<cfelseif refind('/turtle$',deliver) GT 0>
-   			<cfset deliver = "text/turtle">
-			<cfelseif refind('/rdf$',deliver) GT 0>
-   			<cfset deliver = "application/xhtml+xml">
-			<cfelse>
-				<!--- default to content negotiation --->
-				<cfset deliver = "">
-			</cfif>
+			<cfif find('/',deliver) EQ 1>
+   			<cfset deliver = RemoveChars(deliver,1,1)>
 		</cfif>
 	<cfelse>
 		<cfinclude template="/errors/404.cfm">
