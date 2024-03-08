@@ -468,7 +468,7 @@ limitations under the License.
 						SET
 							determined_by_agent_id = (
 								select agent_id from agent_name 
-								where agentName.determined_by_agent = agent_name.agent_id 
+								where agentName.determined_by_agent_id = agent_name.agent_id 
 							),
 							status = null
 						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
