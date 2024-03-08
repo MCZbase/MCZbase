@@ -713,7 +713,8 @@ limitations under the License.
 						<cfset key = getTempData.key>
 						<cfquery name="updateGeoref" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateGeoref_result">
 							INSERT into lat_long (
-								key,LAT_LONG_ID,
+								key,
+								LAT_LONG_ID,
 								LOCALITY_ID,
 								DEC_LAT,
 								DEC_LONG,
@@ -732,14 +733,15 @@ limitations under the License.
 								VERIFICATIONSTATUS,
 								SPATIALFIT
 							)VALUES(
-							sq_lat_long_id.nextval,
 							<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#key#">,
+							sq_lat_long_id.nextval,
 							<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#LOCALITY_ID#">,
 							<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#Dec_Lat#" scale="10">,
 							<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#Dec_Long#" scale="10">,
 							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#DATUM#">,
 							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ORIG_LAT_LONG_UNITS#">,
-							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#DETERMINED_BY_AGENT_ID#">,
+							<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#DETERMINED_BY_AGENT_ID#">,
+							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#DETERMINED_BY_AGENT#">,
 							<cfqueryparam cfsqltype="CF_SQL_TIMESTAMP" value="#dateformat(DETERMINED_DATE,'yyyy-mm-dd')#">,
 							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#LAT_LONG_REF_SOURCE#">,
 							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#LAT_LONG_REMARKS#">,
@@ -816,7 +818,7 @@ limitations under the License.
 							<cftransaction action="COMMIT">
 						</cfif>
 					</cfloop>
-					<p>Number of geographies to update: #georef_updates# (on #getCounts.loc# cataloged items)</p>
+					<p>Number of geographies to update: #georef_updates# (on #getCounts.loc#)</p>
 					<cfif getTempData.recordcount eq georef_updates and updateGeoref1_result.recordcount eq 0>
 						<h2 class="text-success">Success - loaded</h2>
 					</cfif>
