@@ -617,7 +617,7 @@
 										<img src="/images/first.gif" alt="[ First Record ]">
 									</a>
 									<a href="/guid/#prevGUID#" onClick=" event.preventDefault(); $('##previousRecordForm').submit();" style="border: none; background-color:transparent;">
-										<img src="/images/first.gif" alt="[ Previous Record ]">
+										<img src="/images/previous.gif" alt="[ Previous Record ]">
 									</a>
 								</cfif>
 							<cfelse>
@@ -667,7 +667,7 @@
 									<img src="/images/last.gif" class="likeLink" onclick="document.location='/SpecimenDetail.cfm?collection_object_id=#lastID#'" alt="[ Last Record ]">
 								<cfelse>
 									<a href="/guid/#nextGUID#" onClick=" event.preventDefault(); $('##nextRecordForm').submit();" style="border: none; background-color:transparent;">
-										<img src="/images/last.gif" alt="[ Next Record ]">
+										<img src="/images/next.gif" alt="[ Next Record ]">
 									</a>
 									<a href="/guid/#lastGUID#" onClick=" event.preventDefault(); $('##lastRecordForm').submit();" style="border: none; background-color:transparent;">
 										<img src="/images/last.gif" alt="[ Last Record ]">
