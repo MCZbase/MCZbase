@@ -474,7 +474,7 @@ limitations under the License.
 							and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#geoData.key#"> 
 					</cfquery>
 				</cfif>
-				<cfquery name="getLocText" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<!---				<cfquery name="getLocText" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					update cf_temp_georef
 					set speclocality = '#trim(speclocality)#'
 					where key = <cfqueryparam cfsqltype='CF_SQL_DECIMAL' value='#geoData.key#'>
@@ -485,7 +485,7 @@ limitations under the License.
 					set highergeography = '#trim(highergeography)#'
 					where key = <cfqueryparam cfsqltype='CF_SQL_DECIMAL' value='#geoData.key#'>
 					username = <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#session.username#'>
-				</cfquery>
+				</cfquery>--->
 				<cfquery name="getCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					UPDATE
 						cf_temp_georef
