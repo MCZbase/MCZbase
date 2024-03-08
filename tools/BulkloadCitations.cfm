@@ -453,7 +453,7 @@ limitations under the License.
 		<cfoutput>
 			<cfquery name="getTempTableTypes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				SELECT 
-					other_id_type, cited_scientific_name, publication_title, publication_id, key
+					other_id_type, cited_scientific_name, (#preservesinglequotes(publication_title)#), publication_id, key
 				FROM 
 					cf_temp_citation
 				WHERE 
@@ -503,7 +503,7 @@ limitations under the License.
 							publication_id = (
 								select publication_id 
 								from publication 
-								where (#preservesinglequotes(cf_temp_citation.publication_title)#) = publication.publication_title 
+								where cf_temp_citation.publication_title = publication.publication_title 
 							)
 						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableTypes.key#"> 
