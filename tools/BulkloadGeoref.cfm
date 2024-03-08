@@ -531,32 +531,33 @@ limitations under the License.
 					<table class="table table-responsive">
 					<thead class="thead-light">
 						<tr>
-							<th>highergeography</th><th>speclocality</th><th>locality_id</th><th>dec_lat</th><th>dec_long</th><th>max_error_distance</th><th>max_error_units</th><th>lat_long_remarks</th><th>determined_by_agent</th><th>georefmethod</th><th>orig_lat_long_units</th>
+							<th>highergeography</th><th>speclocality</th><th>locality_id</th><th>dec_lat</th><th>dec_long</th><th>max_error_distance</th><th>max_error_units</th><th>lat_long_remarks</th><th>determined_by_agent</th><th>determined_by_agent_id</th><th>georefmethod</th><th>orig_lat_long_units</th>
 							<th>datum</th><th>determined_date</th><th>lat_long_ref_source</th><th>extent</th><th>gpsaccuracy</th><th>verificationstatus</th>
 							<th>spatialfit</th><th>nearest_named_place</th>
 						</tr>
 					</thead>
 					<tbody>
 						<tr>
-							<th>#geoData.highergeography#</th>
-							<th>#geoData.speclocality#</th>
-							<th>#geoData.locality_id#</th>
-							<th>#geoData.dec_lat#</th>
-							<th>#geoData.dec_long#</th>
-							<th>#geoData.max_error_distance#</th>
-							<th>#geoData.max_error_units#</th>
-							<th>#geoData.lat_long_remarks#</th>
-							<th>#geoData.determined_by_agent#</th>
-							<th>#geoData.georefmethod#</th>
-							<th>#geoData.orig_lat_long_units#</th>
-							<th>#geoData.datum#</th>
-							<th>#geoData.determined_date#</th>
-							<th>#geoData.lat_long_ref_source#</th>
-							<th>#geoData.extent#</th>
-							<th>#geoData.gpsaccuracy#</th>
-							<th>#geoData.verificationstatus#</th>
-							<th>#geoData.spatialfit#</th>
-							<th>#geoData.nearest_named_place#</th>
+							<td>#geoData.highergeography#</td>
+							<td>#geoData.speclocality#</td>
+							<td>#geoData.locality_id#</td>
+							<td>#geoData.dec_lat#</td>
+							<td>#geoData.dec_long#</td>
+							<td>#geoData.max_error_distance#</td>
+							<td>#geoData.max_error_units#</td>>
+							<td>#geoData.lat_long_remarks#</td>
+							<td>#geoData.determined_by_agent#</td>
+							<td>#geoData.determined_by_agent_id#</td>
+							<td>#geoData.georefmethod#</td>
+							<td>#geoData.orig_lat_long_units#</td>
+							<td>#geoData.datum#</td>
+							<td>#geoData.determined_date#</td>
+							<td>#geoData.lat_long_ref_source#</td>
+							<td>#geoData.extent#</td>
+							<td>#geoData.gpsaccuracy#</td>
+							<td>#geoData.verificationstatus#</td>
+							<td>#geoData.spatialfit#</td>
+							<td>#geoData.nearest_named_place#</td>
 						</tr>	
 					</tbody>
 				</table>
