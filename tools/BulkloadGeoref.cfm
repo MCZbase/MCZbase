@@ -615,23 +615,23 @@ limitations under the License.
 							<cfif len(cfcatch.detail) gt 0>
 								<span class="font-weight-normal border-bottom border-danger">
 									<cfif cfcatch.detail contains "determined_by_agent_id">
-										Invalid DETERMINED_BY_AGENT_ID
+										Invalid DETERMINED_BY_AGENT_ID (#cfcatch.detail#)
 									<cfelseif cfcatch.detail contains "highergeography">
-										HIGHERGEOGRAPHY invalid
+										HIGHERGEOGRAPHY invalid (#cfcatch.detail#)
 									<cfelseif cfcatch.detail contains "speclocality">
-										SPECLOCALITY does not match MCZ (all caps)
+										SPECLOCALITY does not match MCZ (all caps) (#cfcatch.detail#)
 									<cfelseif cfcatch.detail contains "locality_id">
-										LOCALITY_ID is not valid
+										LOCALITY_ID is not valid (#cfcatch.detail#)
 									<cfelseif cfcatch.detail contains "dec_lat">
 										Problem with DEC_LAT (#cfcatch.detail#)
 									<cfelseif cfcatch.detail contains "dec_long">
-										Problem with DEC_LONG
+										Problem with DEC_LONG (#cfcatch.detail#)
 									<cfelseif cfcatch.detail contains "max_error_distance">
-										Invalid or missing MAX_ERROR_DISTINCE
+										Invalid or missing MAX_ERROR_DISTINCE (#cfcatch.detail#)
 									<cfelseif cfcatch.detail contains "max_error_units">
-										Invalid MAX_ERROR_UNITS
+										Invalid MAX_ERROR_UNITS (#cfcatch.detail#)
 									<cfelseif cfcatch.detail contains "lat_long_remarks">
-										Invalid LAT_LONG_REMARKS
+										Invalid LAT_LONG_REMARKS (#cfcatch.detail#)
 									<cfelseif cfcatch.detail contains "determined_by_agent">
 										Problem with DETERMINED_BY_AGENT (#cfcatch.detail#)
 									<cfelseif cfcatch.detail contains "georefmethod">
