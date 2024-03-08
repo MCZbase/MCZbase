@@ -147,6 +147,9 @@
 		<cfif isDefined("result_id") and len(result_id) GT 0>
 			<!--- Use 308 to preserve result_id post parameter see: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/308  --->
 			<cfheader statuscode="308" statustext="Permanent Redirect">
+		<cfelseif isDefined("old") and len(old) GT 0>
+			<!--- Use 308 to preserve old post parameter see: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/308  --->
+			<cfheader statuscode="308" statustext="Permanent Redirect">
 		<cfelse>
 			<cfheader statuscode="301" statustext="Moved permanently">
 		</cfif>
@@ -158,6 +161,9 @@
 	<cfif cgi.script_name contains "/SpecimenDetail.cfm">
 		<cfif isDefined("result_id") and len(result_id) GT 0>
 			<!--- Use 308 to preserve result_id post parameter see: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/308  --->
+			<cfheader statuscode="308" statustext="Permanent Redirect">
+		<cfelseif isDefined("old") and len(old) GT 0>
+			<!--- Use 308 to preserve old post parameter see: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/308  --->
 			<cfheader statuscode="308" statustext="Permanent Redirect">
 		<cfelse>
 			<cfheader statuscode="301" statustext="Moved permanently">
@@ -570,9 +576,33 @@
 						<cfif lenOfIdList gt 1>
 							<cfif currPos gt 1>
 								<cfset isPrev = "yes">
+								<cfquery name="getFirstGuid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+									SELECT guid 
+									FROM <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
+									WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#firstID#">
+								</cfquery>
+								<cfset firstGUID = getFirstGuid.guid>
+								<cfquery name="getPreviousGuid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+									SELECT guid 
+									FROM <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
+									WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#prevID#">
+								</cfquery>
+								<cfset prevGUID = getPreviousGuid.guid>
 							</cfif>
 							<cfif currPos lt lenOfIdList>
 								<cfset isNext = "yes">
+								<cfquery name="getNextGuid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+									SELECT guid 
+									FROM <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
+									WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#nextID#">
+								</cfquery>
+								<cfset nextGUID = getNextGuid.guid>
+								<cfquery name="getLastGuid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+									SELECT guid 
+									FROM <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
+									WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#lastID#">
+								</cfquery>
+								<cfset lastGUID = getLastGuid.guid>
 							</cfif>
 						</cfif>
 					<cfelse>
@@ -591,6 +621,13 @@
 							<form action="/guid/#prevGUID#" method="post" id="previousRecordForm">
 								<input type="hidden" name="result_id" value="#result_id#">
 							</form>
+						<cfelseif isDefined("old") AND len(old) GT 0>
+							<form action="/guid/#firstGUID#" method="post" id="firstRecordForm">
+								<input type="hidden" name="old" value="true">
+							</form>
+							<form action="/guid/#prevGUID#" method="post" id="previousRecordForm">
+								<input type="hidden" name="old" value="true">
+							</form>
 						</cfif>
 					</cfif>
 					<cfif isNext is "yes">
@@ -600,6 +637,13 @@
 							</form>
 							<form action="/guid/#nextGUID#" method="post" id="nextRecordForm">
 								<input type="hidden" name="result_id" value="#result_id#" />
+							</form>
+						<cfelseif isDefined("old") AND len(old) GT 0>
+							<form action="/guid/#lastGUID#" method="post" id="lastRecordForm">
+								<input type="hidden" name="old" value="true">
+							</form>
+							<form action="/guid/#nextGUID#" method="post" id="nextRecordForm">
+								<input type="hidden" name="old" value="true">
 							</form>
 						</cfif>
 					</cfif>
@@ -611,17 +655,12 @@
 						<input type="hidden" name="collecting_event_id" value="#detail.collecting_event_id#">
 						<ul id="navbar">
 							<cfif isPrev is "yes">
-								<cfif len(resultBit) EQ 0>
-									<img src="/images/first.gif" class="likeLink" onclick="document.location='/SpecimenDetail.cfm?collection_object_id=#firstID##oldBit#'" alt="[ First Record ]">
-									<img src="/images/previous.gif" class="likeLink"  onclick="document.location='/SpecimenDetail.cfm?collection_object_id=#prevID##oldBit#'" alt="[ Previous Record ]">
-								<cfelse>
-									<a href="/guid/#firstGUID#" onClick=" event.preventDefault(); $('##firstRecordForm').submit();" style="border: none; background-color:transparent;">
-										<img src="/images/first.gif" alt="[ First Record ]">
-									</a>
-									<a href="/guid/#prevGUID#" onClick=" event.preventDefault(); $('##previousRecordForm').submit();" style="border: none; background-color:transparent;">
-										<img src="/images/previous.gif" alt="[ Previous Record ]">
-									</a>
-								</cfif>
+								<a href="/guid/#firstGUID#" onClick=" event.preventDefault(); $('##firstRecordForm').submit();" style="border: none; background-color:transparent;">
+									<img src="/images/first.gif" alt="[ First Record ]">
+								</a>
+								<a href="/guid/#prevGUID#" onClick=" event.preventDefault(); $('##previousRecordForm').submit();" style="border: none; background-color:transparent;">
+									<img src="/images/previous.gif" alt="[ Previous Record ]">
+								</a>
 							<cfelse>
 								<img src="/images/no_first.gif" alt="[ inactive button ]">
 								<img src="/images/no_previous.gif" alt="[ inactive button ]">
@@ -664,17 +703,12 @@
 								<span onclick="loadEditApp('catalog')" class="likeLink" id="BTN_catalog">Catalog</span>
 							</li>
 							<cfif isNext is "yes">
-								<cfif len(resultBit) EQ 0>
-									<img src="/images/next.gif" class="likeLink" onclick="document.location='/SpecimenDetail.cfm?collection_object_id=#nextID##oldBit#'" alt="[ Next Record ]">
-									<img src="/images/last.gif" class="likeLink" onclick="document.location='/SpecimenDetail.cfm?collection_object_id=#lastID##oldBit#'" alt="[ Last Record ]">
-								<cfelse>
-									<a href="/guid/#nextGUID#" onClick=" event.preventDefault(); $('##nextRecordForm').submit();" style="border: none; background-color:transparent;">
-										<img src="/images/next.gif" alt="[ Next Record ]">
-									</a>
-									<a href="/guid/#lastGUID#" onClick=" event.preventDefault(); $('##lastRecordForm').submit();" style="border: none; background-color:transparent;">
-										<img src="/images/last.gif" alt="[ Last Record ]">
-									</a>
-								</cfif>
+								<a href="/guid/#nextGUID#" onClick=" event.preventDefault(); $('##nextRecordForm').submit();" style="border: none; background-color:transparent;">
+									<img src="/images/next.gif" alt="[ Next Record ]">
+								</a>
+								<a href="/guid/#lastGUID#" onClick=" event.preventDefault(); $('##lastRecordForm').submit();" style="border: none; background-color:transparent;">
+									<img src="/images/last.gif" alt="[ Last Record ]">
+								</a>
 							<cfelse>
 								<img src="/images/no_next.gif" alt="[ inactive button ]">
 								<img src="/images/no_last.gif" alt="[ inactive button ]">

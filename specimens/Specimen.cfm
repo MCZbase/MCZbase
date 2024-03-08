@@ -370,9 +370,33 @@ limitations under the License.
 			<cfif lenOfIdList gt 1>
 				<cfif currPos gt 1>
 					<cfset isPrev = "yes">
+					<cfquery name="getFirstGuid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						SELECT guid 
+						FROM <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
+						WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#firstID#">
+					</cfquery>
+					<cfset firstGUID = getFirstGuid.guid>
+					<cfquery name="getPreviousGuid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						SELECT guid 
+						FROM <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
+						WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#prevID#">
+					</cfquery>
+					<cfset prevGUID = getPreviousGuid.guid>
 				</cfif>
 				<cfif currPos lt lenOfIdList>
 					<cfset isNext = "yes">
+					<cfquery name="getNextGuid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						SELECT guid 
+						FROM <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
+						WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#nextID#">
+					</cfquery>
+					<cfset nextGUID = getNextGuid.guid>
+					<cfquery name="getLastGuid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						SELECT guid 
+						FROM <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
+						WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#lastID#">
+					</cfquery>
+					<cfset lastGUID = getLastGuid.guid>
 				</cfif>
 			</cfif>
 		<cfelse>
@@ -389,35 +413,34 @@ limitations under the License.
 						<cfif isdefined("result_id") and len(result_id) gt 0>
 							<cfset resultBit = "&result_id=#result_id#">
 						</cfif>
-						<!--- TODO: Rework these controls to perform a post passing result_id as a post parameter.  They can use /guid/ as the location directly. --->
 						<cfif isPrev is "yes">
 							<li class="list-group-item px-0 mx-1">
-								<cfif len(resultBit) EQ 0>
-									<img src="/images/first.gif" class="likeLink" onclick="document.location='/specimens/Specimen.cfm?collection_object_id=#firstID##oldBit#'" alt="[ First Record ]">
-								<cfelse>
-									<span>
-										<a href="/guid/#firstGUID#" onClick=" event.preventDefault(); $('##firstRecordForm').submit();">
-											<img src="/images/first.gif" alt="[ First Record ]">
-										</a>
-										<form action="/guid/#firstGUID#" method="post" id="firstRecordForm">
+								<span>
+									<a href="/guid/#firstGUID#" onClick=" event.preventDefault(); $('##firstRecordForm').submit();">
+										<img src="/images/first.gif" alt="[ First Record ]">
+									</a>
+									<form action="/guid/#firstGUID#" method="post" id="firstRecordForm">
+										<cfif len(resultBit) GT 0>
 											<input type="hidden" name="result_id" value="#result_id#" />
-										</form>
-									</span>
-								</cfif>
+										<cfelseif isDefined("old") AND len(old) GT 0>
+											<input type="hidden" name="old" value="true" />
+										</cfif>
+									</form>
+								</span>
 							</li>
 							<li class="list-group-item px-0 mx-1">
-								<cfif len(resultBit) EQ 0>
-									<img src="/images/previous.gif" class="likeLink"  onclick="document.location='/specimens/Specimen.cfm?collection_object_id=#prevID##oldBit#'" alt="[ Previous Record ]">
-								<cfelse>
-									<span>
-										<a href="/guid/#prevGUID#" onClick=" event.preventDefault(); $('##previousRecordForm').submit();">
-											<img src="/images/previous.gif" alt="[ Previous Record ]">
-										</a>
-										<form action="/guid/#prevGUID#" method="post" id="previousRecordForm">
+								<span>
+									<a href="/guid/#prevGUID#" onClick=" event.preventDefault(); $('##previousRecordForm').submit();">
+										<img src="/images/previous.gif" alt="[ Previous Record ]">
+									</a>
+									<form action="/guid/#prevGUID#" method="post" id="previousRecordForm">
+										<cfif len(resultBit) GT 0>
 											<input type="hidden" name="result_id" value="#result_id#" />
-										</form>
-									</span>
-								</cfif>
+										<cfelseif isDefined("old") AND len(old) GT 0>
+											<input type="hidden" name="old" value="true" />
+										</cfif>
+									</form>
+								</span>
 							</li>
 						<cfelse>
 							<li class="list-group-item px-0 mx-1">
@@ -476,32 +499,32 @@ limitations under the License.
 					<cfif navigable>
 						<cfif isNext is "yes">
 							<li class="list-group-item px-0 mx-1">
-								<cfif len(resultBit) EQ 0>
-									<img src="/images/next.gif" class="likeLink" onclick="document.location='/specimens/Specimen.cfm?collection_object_id=#nextID##oldBit#'" alt="[ Next Record ]">
-								<cfelse>
-									<span>
-										<a href="/guid/#nextGUID#" onClick=" event.preventDefault(); $('##nextRecordForm').submit();">
-											<img src="/images/next.gif" alt="[ Next Record ]">
-										</a>
-										<form action="/guid/#nextGUID#" method="post" id="nextRecordForm">
+								<span>
+									<a href="/guid/#nextGUID#" onClick=" event.preventDefault(); $('##nextRecordForm').submit();">
+										<img src="/images/next.gif" alt="[ Next Record ]">
+									</a>
+									<form action="/guid/#nextGUID#" method="post" id="nextRecordForm">
+										<cfif len(resultBit) GT 0>
 											<input type="hidden" name="result_id" value="#result_id#" />
-										</form>
-									</span>
-								</cfif>
+										<cfelseif isDefined("old") AND len(old) GT 0>
+											<input type="hidden" name="old" value="true" />
+										</cfif>
+									</form>
+								</span>
 							</li>
 							<li class="list-group-item px-0 mx-1">
-								<cfif len(resultBit) EQ 0>
-									<img src="/images/last.gif" class="likeLink" onclick="document.location='/specimens/Specimen.cfm?collection_object_id=#lastID##oldBit#'" alt="[ Last Record ]">
-								<cfelse>
-									<span>
-										<a href="/guid/#lastGUID#" onClick=" event.preventDefault(); $('##lastRecordForm').submit();">
-											<img src="/images/last.gif" alt="[ Last Record ]">
-										</a>
-										<form action="/guid/#lastGUID#" method="post" id="lastRecordForm">
+								<span>
+									<a href="/guid/#lastGUID#" onClick=" event.preventDefault(); $('##lastRecordForm').submit();">
+										<img src="/images/last.gif" alt="[ Last Record ]">
+									</a>
+									<form action="/guid/#lastGUID#" method="post" id="lastRecordForm">
+										<cfif len(resultBit) GT 0>
 											<input type="hidden" name="result_id" value="#result_id#" />
-										</form>
-									</span>
-								</cfif>
+										<cfelseif isDefined("old") AND len(old) GT 0>
+											<input type="hidden" name="old" value="true" />
+										</cfif>
+									</form>
+								</span>
 							</li>
 						<cfelse>
 							<li class="list-group-item px-0 mx-1">

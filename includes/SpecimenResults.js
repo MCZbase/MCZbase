@@ -791,16 +791,19 @@ function success_getSpecResultsData(result){
 					theInnerHtml +=data.COLLECTION_OBJECT_ID[i] + "'" + ',this.checked);"></td>';
 				}
 				theInnerHtml += '<td nowrap="nowrap" id="CatItem_'+data.COLLECTION_OBJECT_ID[i]+'">';
-					theInnerHtml += '<a href="/SpecimenDetail.cfm?collection_object_id=';
+					theInnerHtml += '<a target="_blank" href="/SpecimenDetail.cfm?collection_object_id=';
 					theInnerHtml += data.COLLECTION_OBJECT_ID[i];
-					theInnerHtml += '&old=true">';
+					theInnerHtml += '" onClick=" event.preventDefault(); $(&#39;#aLinkForm'+data.COLLECTION_OBJECT_ID[i]+'&#39;).submit();"  >';
 					theInnerHtml += data.COLLECTION[i];
 					theInnerHtml += '&nbsp;';
 					theInnerHtml += data.CAT_NUM[i];
 					theInnerHtml += '</a>';
-                                        if (isType) {
-					    theInnerHtml += '<div class="showType">' + typestatus + '</div>';
-                                        }
+					theInnerHtml += '<form action="/guid/MCZ:'+data.COLLECTION_CDE[i]+':'+data.CAT_NUM[i]+'" method="post" target="_blank" id="aLinkForm'+data.COLLECTION_OBJECT_ID[i]+'">';
+					theInnerHtml += '<input type="hidden" name="old" value="true" />';
+					theInnerHtml += '</form>';
+				if (isType) {
+					theInnerHtml += '<div class="showType">' + typestatus + '</div>';
+				}
 				theInnerHtml += '</td>';
 				if (loan_request_coll_id.length > 0) {
 					if (loan_request_coll_id == data.COLLECTION_ID[i]){
