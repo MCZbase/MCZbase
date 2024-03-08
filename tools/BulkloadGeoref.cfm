@@ -483,7 +483,7 @@ limitations under the License.
 				SET
 					status = null
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-					and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#geoData.key#"> 
+					and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#geoData.key#"> 
 			</cfquery>
 			<cfquery name="dataCount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				select count(*) c from cf_temp_georef where status != 'spiffy'
@@ -700,7 +700,7 @@ limitations under the License.
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
 				<cfquery name="getCounts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					SELECT count(distinct collection_object_id) ctobj FROM cf_temp_georef
+					SELECT count(distinct locality_id) loc FROM cf_temp_georef
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
 				<cftry>
@@ -787,7 +787,7 @@ limitations under the License.
 								GEOREFMETHOD,
 								VERIFICATIONSTATUS,
 								SPATIALFIT
-							where collection_object_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.collection_object_id#">
+							where locality_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.locality_id#">
 							group by LAT_LONG_ID,
 								LOCALITY_ID,
 								DEC_LAT,
@@ -815,7 +815,7 @@ limitations under the License.
 							<cftransaction action="COMMIT">
 						</cfif>
 					</cfloop>
-					<p>Number of geographies to update: #georef_updates# (on #getCounts.ctobj# cataloged items)</p>
+					<p>Number of geographies to update: #georef_updates# (on #getCounts.loc# cataloged items)</p>
 					<cfif getTempData.recordcount eq georef_updates and updateGeoref1_result.recordcount eq 0>
 						<h2 class="text-success">Success - loaded</h2>
 					</cfif>
@@ -826,7 +826,7 @@ limitations under the License.
 					<cftransaction action="ROLLBACK">
 					<h2 class="h3">There was a problem updating the georeferences.</h2>
 					<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-						SELECT verificationstatus,institution_acronym,collection_cde,other_id_type,other_id_number,attribute,attribute_value, attribute_units,attribute_date,attribute_meth,determiner,remarks
+						SELECT determined_by_agent_id,highergeography,speclocality,locality_id,dec_lat,dec_long,max_error_distance,max_error_units,lat_long_remarks,determined_by_agent,georefmethod,orig_lat_long_units,datum,determined_date,lat_long_ref_source,extent,gpsaccuracy,verificationstatus,spatialfit,nearest_named_place
 						FROM cf_temp_georef
 						WHERE key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#key#">
 					</cfquery>
