@@ -147,11 +147,11 @@
 		<cfif isDefined("result_id") and len(result_id) GT 0>
 			<!--- Use 308 to preserve result_id post parameter see: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/308  --->
 			<cfheader statuscode="308" statustext="Permanent Redirect">
+		<cfif isDefined("old") and len(old) GT 0>
+			<!--- Use 308 to preserve old post parameter see: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/308  --->
+			<cfheader statuscode="308" statustext="Permanent Redirect">
 		<cfelse>
 			<cfheader statuscode="301" statustext="Moved permanently">
-			<cfif isDefined("old") and old EQ "true">
-				<cfheader name="X-MCZbase-old" value="true">
-			</cfif>
 		</cfif>
 		<cfheader name="Location" value="/guid/#c.guid#">
 		<cfabort>
@@ -162,11 +162,11 @@
 		<cfif isDefined("result_id") and len(result_id) GT 0>
 			<!--- Use 308 to preserve result_id post parameter see: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/308  --->
 			<cfheader statuscode="308" statustext="Permanent Redirect">
+		<cfif isDefined("old") and len(old) GT 0>
+			<!--- Use 308 to preserve old post parameter see: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/308  --->
+			<cfheader statuscode="308" statustext="Permanent Redirect">
 		<cfelse>
 			<cfheader statuscode="301" statustext="Moved permanently">
-			<cfif isDefined("old") and old EQ "true">
-				<cfheader name="X-MCZbase-old" value="true">
-			</cfif>
 		</cfif>
 		<cfheader name="Location" value="/guid/#guid#">
 		<cfabort>
