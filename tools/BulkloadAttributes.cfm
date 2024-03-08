@@ -126,7 +126,7 @@ limitations under the License.
 	<!------------------------------------------------------->
 	<cfif #action# is "getFile">
 		<cfoutput>
-		<h2 class="h3">First step: Reading data from CSV file.</h2>
+		<h2 class="h4">First step: Reading data from CSV file.</h2>
 		<!--- Compare the numbers of headers expected against provided in CSV file --->
 		<!--- Set some constants to identify error cases in cfcatch block --->
 		<cfset NO_COLUMN_ERR = "<p>One or more required fields are missing in the header line of the csv file. <br>Missing fields: </p>">
@@ -490,7 +490,7 @@ limitations under the License.
 	</cfif>
 	<!------------------------------------------------------->
 	<cfif #action# is "validate">
-		<h2 class="h3">Second step: Data Validation</h2>
+		<h2 class="h4">Second step: Data Validation</h2>
 		<cfoutput>
 			<cfquery name="getTempTableTypes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				SELECT 
@@ -737,18 +737,18 @@ limitations under the License.
 				WHERE status is not null
 			</cfquery>
 			<cfif pf.c gt 0>
-				<h2>
+				<h3>
 					There is a problem with #pf.c# of #data.recordcount# row(s). See the STATUS column. (<a href="/tools/BulkloadAttributes.cfm?action=dumpProblems">download</a>).
-				</h2>
+				</h3>
 				<h3>
 					Fix the problem(s) noted in the status column and <a href="/tools/BulkloadAttributes.cfm">start again</a>.
 				</h3>
 			<cfelse>
-				<h2>
+				<h3>
 					Validation checks passed. Look over the table below and <a href="/tools/BulkloadAttributes.cfm?action=load">click to continue</a> if it all looks good.
-				</h2>
+				</h3>
 			</cfif>
-			<table class='sortable table table-responsive table-striped d-xl-table w-100'>
+			<table class='px-0 sortable table table-responsive table-striped d-xl-table w-100'>
 				<thead>
 					<tr>
 						<th>Row</th>
@@ -791,7 +791,7 @@ limitations under the License.
 	</cfif>
 	<!-------------------------------------------------------------------------------------------->
 	<cfif action is "load">
-		<h2 class="h3">Third step: Apply changes.</h2>
+		<h2 class="h4">Third step: Apply changes.</h2>
 		<cfoutput>
 			<cfset problem_key = "">
 			<cftransaction>
