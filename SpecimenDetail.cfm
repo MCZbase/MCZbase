@@ -580,13 +580,13 @@
 									SELECT guid 
 									FROM <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
 									WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#firstID#">
-								</cfif>
+								</cfquery>
 								<cfset firstGUID = getFirstGuid.guid>
 								<cfquery name="getPreviousGuid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 									SELECT guid 
 									FROM <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
 									WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#prevID#">
-								</cfif>
+								</cfquery>
 								<cfset prevGUID = getPreviousGuid.guid>
 							</cfif>
 							<cfif currPos lt lenOfIdList>
@@ -595,13 +595,13 @@
 									SELECT guid 
 									FROM <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
 									WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#prevID#">
-								</cfif>
+								</cfquery>
 								<cfset prevGUID = getPreviousGuid.guid>
 								<cfquery name="getLastGuid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 									SELECT guid 
 									FROM <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
 									WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#lastID#">
-								</cfif>
+								</cfquery>
 								<cfset lastGUID = getLastGuid.guid>
 							</cfif>
 						</cfif>
