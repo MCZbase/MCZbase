@@ -438,6 +438,12 @@ limitations under the License.
 		<cfoutput>
 			<h2 class="h4">Second step: Data Validation</h2>
 			<!---Get Data from the temp table and the codetables with relevant information--->
+			<cfquery name="geoData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				SELECT determined_by_agent_id,highergeography,speclocality,locality_id,dec_lat,dec_long,max_error_distance,max_error_units,lat_long_remarks,determined_by_agent,georefmethod,orig_lat_long_units,datum,determined_date,lat_long_ref_source,extent,gpsaccuracy,verificationstatus,spatialfit,nearest_named_place,key
+				from cf_temp_georef
+				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+							and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#agentName.key#"> 
+			</cfquery>
 			<cfquery name="agentName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				select key,determined_by_agent,determined_by_agent_id
 				from cf_temp_georef
@@ -489,12 +495,7 @@ limitations under the License.
 					agent issue	
 				</cfif>
 			</cfloop>
-			<cfquery name="geoData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				SELECT determined_by_agent_id,highergeography,speclocality,locality_id,dec_lat,dec_long,max_error_distance,max_error_units,lat_long_remarks,determined_by_agent,georefmethod,orig_lat_long_units,datum,determined_date,lat_long_ref_source,extent,gpsaccuracy,verificationstatus,spatialfit,nearest_named_place,key,username
-				from cf_temp_georef
-				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-							and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#agentName.key#"> 
-			</cfquery>
+
 			<cfloop query="geoData">
 				<cfset tellStatus="">
 				<cfset key="">
