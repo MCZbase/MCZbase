@@ -477,13 +477,13 @@ limitations under the License.
 				<cfquery name="getLocText" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					update cf_temp_georef
 					set speclocality = '#trim(speclocality)#'
-					and key = <cfqueryparam cfsqltype='CF_SQL_DECIMAL' value='#geoData.key#'>
+					where key = <cfqueryparam cfsqltype='CF_SQL_DECIMAL' value='#geoData.key#'>
 					username = <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#session.username#'>
 				</cfquery>
 				<cfquery name="getHGText" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					update cf_temp_georef
 					set highergeography = '#trim(highergeography)#'
-					and key = <cfqueryparam cfsqltype='CF_SQL_DECIMAL' value='#geoData.key#'>
+					where key = <cfqueryparam cfsqltype='CF_SQL_DECIMAL' value='#geoData.key#'>
 					username = <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#session.username#'>
 				</cfquery>
 				<cfquery name="getCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
