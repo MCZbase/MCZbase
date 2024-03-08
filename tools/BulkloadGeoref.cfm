@@ -474,22 +474,26 @@ limitations under the License.
 						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 							and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#agentName.key#"> 
 					</cfquery>
-				<cfelseif len(agentName.determined_by_agent) gt 0 and len(agentName.determined_by_agent_id) gt 0>
+				<cfelseif len(agentName.determined_by_agent_id) gt 0>
 					<cfquery name="matchAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						SELECT 
-							determined_by_agent_id, determined_by_agent
+							determined_by_agent_id
 						FROM
 							cf_temp_georef,preferred_agent_name
 						WHERE 
 							cf_temp_georef.determined_by_agent_id = preferred_agent_name.agent_id
 						AND cf_temp_georef.determined_by_agent = preferred_agent_name.agent_name
-						and rownum = 1
+						
 					</cfquery>
-					
+				<cfelse>
+					agent issue	
 				</cfif>
 			</cfloop>
 			<cfquery name="geoData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			
+				SELECT determined_by_agent_id,highergeography,speclocality,locality_id,dec_lat,dec_long,max_error_distance,max_error_units,lat_long_remarks,determined_by_agent,georefmethod,orig_lat_long_units,datum,determined_date,lat_long_ref_source,extent,gpsaccuracy,verificationstatus,spatialfit,nearest_named_place,key,username
+				from cf_temp_georef
+				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+							and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#agentName.key#"> 
 			</cfquery>
 			<cfloop query="geoData">
 				<cfset tellStatus="">
