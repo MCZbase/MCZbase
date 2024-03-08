@@ -409,7 +409,7 @@ limitations under the License.
 								<cfelse>
 									<span>
 										<a href="/guid/#prevGUID#" onClick=" event.preventDefault(); $('##previousRecordForm').submit();">
-											<img src="/images/first.gif" alt="[ Previous Record ]">
+											<img src="/images/previous.gif" alt="[ Previous Record ]">
 										</a>
 										<form action="/guid/#prevGUID#" method="post" id="previousRecordForm">
 											<input type="hidden" name="result_id" value="#result_id#" />
@@ -479,7 +479,7 @@ limitations under the License.
 								<cfelse>
 									<span>
 										<a href="/guid/#nextGUID#" onClick=" event.preventDefault(); $('##nextRecordForm').submit();">
-											<img src="/images/first.gif" alt="[ Next Record ]">
+											<img src="/images/next.gif" alt="[ Next Record ]">
 										</a>
 										<form action="/guid/#nextGUID#" method="post" id="nextRecordForm">
 											<input type="hidden" name="result_id" value="#result_id#" />
