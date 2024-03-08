@@ -439,8 +439,8 @@ limitations under the License.
 			<h2 class="h4">Second step: Data Validation</h2>
 			<!---Get Data from the temp table and the codetables with relevant information--->
 			<cfquery name="geoData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				select determined_by_agent_id,highergeography,speclocality,locality_id,dec_lat,dec_long,max_error_distance,max_error_units, lat_long_remarks,
-				determined_by_agent, georefmethod,orig_lat_long_units,datum,determined_date,lat_long_ref_source,extent,gpsaccuracy,verificationstatus,spatialfit, nearest_named_place,key
+				select key,determined_by_agent_id,highergeography,speclocality,locality_id,dec_lat,dec_long,max_error_distance,max_error_units, lat_long_remarks,
+				determined_by_agent, georefmethod,orig_lat_long_units,datum,determined_date,lat_long_ref_source,extent,gpsaccuracy,verificationstatus,spatialfit, nearest_named_place
 				from cf_temp_georef
 			</cfquery>
 			<cfquery name="ctGEOREFMETHOD" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -458,9 +458,9 @@ limitations under the License.
 			<cfquery name="CTLAT_LONG_ERROR_UNITS" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				select LAT_LONG_ERROR_UNITS from CTLAT_LONG_ERROR_UNITS
 			</cfquery>
+			<cfset i= 1>
 			<cfloop query="geoData">
 				<cfset tellStatus="">
-				<cfset key = "">
 				<cfset sql="
 					select 
 						spec_locality,higher_geog,locality.locality_id from locality,geog_auth_rec 
@@ -471,97 +471,10 @@ limitations under the License.
 					and
 						trim(geog_auth_rec.higher_geog)='#trim(HigherGeography)#' 
 					and
-						trim(locality.spec_locality)='#trim(SpecLocality)#'">
-				<cfquery name="mappingData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					#preservesinglequotes(sql)#
-				</cfquery>
-				<cfif len(mappingData.locality_id) is 0>
-					<cfset tellStatus=listappend(tellStatus,'no Locality_ID:SpecLocality:HigherGeography match',";")>
-					<cfquery name="fail" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-						select
-							spec_locality,higher_geog
-						from 
-							locality,geog_auth_rec 
-						where
-							locality.geog_auth_rec_id=geog_auth_rec.geog_auth_rec_id 
-						and
-							locality.locality_id=#Locality_ID#
-					</cfquery>
-					<cfif trim(SpecLocality) is not fail.spec_locality>
-						<label>Locality Fail: ID=#locality_id#</label>
-						<cfset yl=replace(trim(SpecLocality)," ","{space}","all")>
-						<cfset al=replace(fail.spec_locality," ","{space}","all")>
-						<table border>
-							<tr>
-								<td>Data Uploaded:</td>
-								<td>#yl#</td>
-							</tr>
-							<tr>
-								<td>MCZbase:</td>
-								<td>#al#</td>
-							</tr>
-						</table>
-					</cfif>
-					<cfif trim(HigherGeography) is not fail.higher_geog>
-						<label>Geography Fail: ID=#locality_id#</label>
-						<cfset yg=replace(trim(HigherGeography)," ","{space}","all")>
-						<cfset ag=replace(fail.higher_geog," ","{space}","all")>
-						<table border>
-							<tr>
-								<td>yours:</td>
-								<td>#yg#</td>
-							</tr>
-							<tr>
-								<td>arctos:</td>
-								<td>#ag#</td>
-							</tr>
-						</table>
-					</cfif>
-				</cfif>
-				<cfquery name="geoAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					select agent_id from agent_name where agent_name='#DETERMINED_BY_AGENT#'
-				</cfquery>
-				<cfif geoAgent.recordcount is 1>
-					<cfquery name="au" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-						update cf_temp_georef set DETERMINED_BY_AGENT_ID=#geoAgent.agent_id# where key=#key#
-					</cfquery>
-				<cfelse>
-					<cfset tellStatus=listappend(tellStatus,'bad agent match',";")>
-				</cfif>
-				<cfif not listfind(valuelist(ctGEOREFMETHOD.GEOREFMETHOD),GEOREFMETHOD)>
-					<cfset tellStatus=listappend(tellStatus,'bad GEOREFMETHOD',";")>
-				</cfif>
-				<cfif not listfind(valuelist(CTLAT_LONG_UNITS.ORIG_LAT_LONG_UNITS),ORIG_LAT_LONG_UNITS)>
-					<cfset tellStatus=listappend(tellStatus,'bad ORIG_LAT_LONG_UNITS',";")>
-				</cfif>
-				<cfif not listfind(valuelist(CTDATUM.DATUM),DATUM)>
-					<cfset tellStatus=listappend(tellStatus,'bad DATUM',";")>
-				</cfif>
-				<cfif not listfind(valuelist(CTVERIFICATIONSTATUS.VERIFICATIONSTATUS),VERIFICATIONSTATUS)>
-					<cfset tellStatus=listappend(tellStatus,'bad VERIFICATIONSTATUS',";")>
-				</cfif>
-				<cfif len(MAX_ERROR_DISTANCE) GT 0 >
-					<cfif not listfind(valuelist(CTLAT_LONG_ERROR_UNITS.LAT_LONG_ERROR_UNITS),MAX_ERROR_UNITS)>
-						<cfset tellStatus=listappend(tellStatus,'bad MAX_ERROR_UNITS',";")>
-					</cfif>
-				</cfif>
-				<cfquery name="geoCount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					select count(*) c from lat_long where
-					lat_long.locality_id=#Locality_ID#
-				</cfquery>
-				<cfif geoCount.c neq 0>
-					<cfset tellStatus=listappend(tellStatus,'georeference exists.',";")>
-				</cfif>
-				<cfif len(tellStatus) gt 0>
-					<cfquery name="au" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-						update cf_temp_georef set status='#tellStatus#' where key=#key#
-					</cfquery>
-				<cfelse>
-					<cfquery name="au" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-						update cf_temp_georef set status='spiffy' where key=#key#
-					</cfquery>
-				</cfif>
-			</cfloop>
+						trim(locality.spec_locality)='#trim(SpecLocality)#' 
+					and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableTypes.key#">
+					">
+					
 			<cfquery name="dataCount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				select count(*) c from cf_temp_georef where status != 'spiffy'
 			</cfquery>
@@ -699,11 +612,11 @@ limitations under the License.
 				<cfquery name="df" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					select * from cf_temp_georef
 				</cfquery>
-				<cfset internalPath="#Application.webDirectory#/temp/">
+<!---				<cfset internalPath="#Application.webDirectory#/temp/">
 				<cfset externalPath="#Application.ServerRootUrl#/temp/">
 				<cfset dlFile = "BulkloadGeoref.kml">
 				<cfset variables.fileName="#internalPath##dlFile#">
-				<cfset variables.encoding="UTF-8">
+				<cfset variables.encoding="UTF-8">--->
 	<!---		<cfscript>
 					variables.joFileWriter = createObject('Component', '/component.FileWriter').init(variables.fileName, variables.encoding, 32768);
 					kml='<?xml version="1.0" encoding="UTF-8"?>' & chr(10) &
@@ -743,7 +656,7 @@ limitations under the License.
 					variables.joFileWriter.close();
 				</cfscript>--->
 				<p>
-					<a href="http://maps.google.com/maps?q=#externalPath##dlFile#?r=#randRange(1,10000)#">map it</a>
+<!---					<a href="http://maps.google.com/maps?q=#externalPath##dlFile#?r=#randRange(1,10000)#">map it</a>--->
 				</p>
 				<cfcatch>
 					<div>#cfcatch.message#</div>
