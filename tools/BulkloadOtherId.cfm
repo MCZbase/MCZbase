@@ -675,7 +675,7 @@
 				
 					<cfcatch>
 						<cftransaction action="ROLLBACK">
-						<h2 class="text-danger">There was a problem updating the Other IDs.</h2>
+						<h2 class="text-danger mt-4">There was a problem updating the Other IDs.</h2>
 						<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getProblemData_result">
 							SELECT institution_acronym, collection_cde,existing_other_id_type, existing_other_id_number, new_other_id_type,new_other_id_number,collection_object_id
 							FROM cf_temp_oids
@@ -696,7 +696,7 @@
 										<cfelseif cfcatch.detail contains "NEW_OTHER_ID_NUMBER">
 											Problem with NEW_OTHER_ID_NUMBER, check to see the correct new_other_id_number was entered
 										<cfelseif cfcatch.detail contains "unique constraint">
-											Problem with NEW_OTHER_ID_NUMBER (see below) NEW_OTHER_ID_NUMBER already entered
+											Problem with NEW_OTHER_ID_NUMBER (see below); NEW_OTHER_ID_NUMBER already entered
 										<cfelseif cfcatch.detail contains "COLLECTION_OBJECT_ID">
 											Problem with EXISTING_OTHER_ID_TYPE or EXISTING_OTHER_ID_NUMBER (couldn not find collection_object_id) 
 										<cfelseif cfcatch.detail contains "no data">
