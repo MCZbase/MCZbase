@@ -510,6 +510,7 @@
 									) WHERE rownum < 2;
 								</cfquery>
 								<cfset firstID = getFirst.collection_object_id>
+								<cfset firstGUID = getFirst.guid>
 								<cfquery name="getLast" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 									SELECT collection_object_id, pagesort, guid 
 									FROM (
@@ -522,6 +523,7 @@
 									) WHERE rownum < 2;
 								</cfquery>
 								<cfset lastID = getLast.collection_object_id>
+								<cfset lastGUID = getLast.guid>
 								<cfquery name="previousNext" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 									SELECT prevcol, collection_object_id, nextcol
 									FROM (
@@ -583,7 +585,18 @@
 								<cfset resultBit = "&result_id=#result_id#">
 							</cfif>
 							<cfif isPrev is "yes">
-								<img src="/images/first.gif" class="likeLink" onclick="document.location='/SpecimenDetail.cfm?collection_object_id=#firstID##resultBit#'" alt="[ First Record ]">
+								<cfif len(resultBit) EQ 0>
+									<img src="/images/first.gif" class="likeLink" onclick="document.location='/SpecimenDetail.cfm?collection_object_id=#firstID#'" alt="[ First Record ]">
+								<cfelse>
+									<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; ">
+										<a id="aLink'+row+'"  href="/guid/#firstGUID#" onClick=" event.preventDefault(); $('##firstRecordForm').submit();">
+											<img src="/images/first.gif" alt="[ First Record ]">
+										</a>
+										<form action="/guid/'+value+'" method="post" target="_blank" id="firstRecordForm">
+											<input type="hidden" name="result_id" value="#result_id#" />
+										</form>
+									</span>
+								</cfif>
 								<img src="/images/previous.gif" class="likeLink"  onclick="document.location='/SpecimenDetail.cfm?collection_object_id=#prevID##resultBit#'" alt="[ Previous Record ]">
 							<cfelse>
 								<img src="/images/no_first.gif" alt="[ inactive button ]">
@@ -628,7 +641,18 @@
 							</li>
 							<cfif isNext is "yes">
 								<img src="/images/next.gif" class="likeLink" onclick="document.location='/SpecimenDetail.cfm?collection_object_id=#nextID##resultBit#'" alt="[ Next Record ]">
-								<img src="/images/last.gif" class="likeLink" onclick="document.location='/SpecimenDetail.cfm?collection_object_id=#lastID##resultBit#'" alt="[ Last Record ]">
+								<cfif len(resultBit) EQ 0>
+									<img src="/images/last.gif" class="likeLink" onclick="document.location='/SpecimenDetail.cfm?collection_object_id=#lastID#'" alt="[ Last Record ]">
+								<cfelse>
+									<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; ">
+										<a id="aLink'+row+'"  href="/guid/#lastGUID#" onClick=" event.preventDefault(); $('##lastRecordForm').submit();">
+											<img src="/images/last.gif" alt="[ Last Record ]">
+										</a>
+										<form action="/guid/'+value+'" method="post" target="_blank" id="lastRecordForm">
+											<input type="hidden" name="result_id" value="#result_id#" />
+										</form>
+									</span>
+								</cfif>
 							<cfelse>
 								<img src="/images/no_next.gif" alt="[ inactive button ]">
 								<img src="/images/no_last.gif" alt="[ inactive button ]">
