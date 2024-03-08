@@ -509,8 +509,7 @@ limitations under the License.
 			</cfquery>
 			<cftry>
 				<cfif dataCount.c is 0>
-					<p>Passed validation. Take a look at everything below, then
-					<a href="BulkloadGeoref.cfm?action=load">click to load</a></p>
+					<p>Passed validation. Take a look at everything below, then <a href="BulkloadGeoref.cfm?action=load">click to load</a></p>
 					<table class="table table-responsive">
 					<thead class="thead-light">
 						<tr>
@@ -553,8 +552,7 @@ limitations under the License.
 					</cfquery>
 					<cfif getProblemData.recordcount GT 0>
 						<h2 class="h3">Errors are displayed one row at a time.</h2>
-						<h3>
-							Error loading row (<span class="text-danger">#georef_updates + 1#</span>) from the CSV: 
+						<h3>Error loading row (<span class="text-danger">#georef_updates + 1#</span>) from the CSV: 
 							<cfif len(cfcatch.detail) gt 0>
 								<span class="font-weight-normal border-bottom border-danger">
 									<cfif cfcatch.detail contains "determined_by_agent_id">
@@ -653,7 +651,6 @@ limitations under the License.
 					DELETE FROM cf_temp_georef 
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
-
 				<cfquery name="df" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					select * from cf_temp_georef
 				</cfquery>
@@ -700,9 +697,9 @@ limitations under the License.
 					variables.joFileWriter.writeLine(kml);
 					variables.joFileWriter.close();
 				</cfscript>--->
-				<p>
-<!---					<a href="http://maps.google.com/maps?q=#externalPath##dlFile#?r=#randRange(1,10000)#">map it</a>--->
-				</p>
+				
+<!---<a href="http://maps.google.com/maps?q=#externalPath##dlFile#?r=#randRange(1,10000)#">map it</a>--->
+				
 				<cfcatch>
 					<div>#cfcatch.message#</div>
 				</cfcatch>
