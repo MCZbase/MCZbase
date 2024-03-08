@@ -608,7 +608,7 @@
 				<tbody>
 					<cfloop query="data">
 						<tr>
-							<td><cfif data.status is null>Cleared to load<cfelse><strong>#data.status#</strong></cfif></td>
+							<td><cfif len(data.status) eq 0>Cleared to load<cfelse><strong>#data.status#</strong></cfif></td>
 							<td>#data.institution_acronym#</td>
 							<td>#data.collection_cde#</td>
 							<td>#data.existing_other_id_type#</td>
