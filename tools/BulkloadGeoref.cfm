@@ -464,7 +464,7 @@ limitations under the License.
 				<cfset key="">
 				<cfset sql="
 					select 
-						spec_locality,higher_geog,locality.locality_id from locality,geog_auth_rec 
+						spec_locality,higher_geog,locality.locality_id from locality,geog_auth_rec,key 
 					where
 						locality.geog_auth_rec_id=geog_auth_rec.geog_auth_rec_id 
 					and
