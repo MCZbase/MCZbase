@@ -234,14 +234,15 @@ limitations under the License.
 				</cfif>
 				<cfset separator = "">
 				<cfset foundHeaders = "">
-				<cfset bit = headers.get(JavaCast("int",i))> 
-					<cfif i EQ 0 and characterSet EQ 'utf-8'>
-					<!--- strip off windows non-standard UTF-8-BOM byte order mark if present (raw hex EF, BB, BF or U+FEFF --->
-						<cfset bit = "#Replace(bit,CHR(65279),'')#" >  
-					</cfif> 
-					<cfset foundHeaders = "#foundHeaders##separator##bit#" >
+			
 				<cfloop index="i" from="0" to="#headers.size() - 1#">
-					<cfset foundHeaders = "#foundHeaders##separator##headers.get(JavaCast("int",i))#" >
+					<cfset bit = headers.get(JavaCast("int",i))> 
+						<cfif i EQ 0 and characterSet EQ 'utf-8'>
+							<!--- strip off windows non-standard UTF-8-BOM byte order mark if present (raw hex EF, BB, BF or U+FEFF --->
+   							<cfset bit = "#Replace(bit,CHR(65279),'')#" >  
+						</cfif> 
+						<cfset foundHeaders = "#foundHeaders##separator##bit#" >
+			<!---		<cfset foundHeaders = "#foundHeaders##separator##headers.get(JavaCast("int",i))#" --->>
 					<cfset separator = ",">
 				</cfloop>
 				<cfset colNameArray = listToArray(ucase(foundHeaders))><!--- the list of columns/fields found in the input file --->
