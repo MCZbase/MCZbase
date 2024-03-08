@@ -393,7 +393,7 @@ limitations under the License.
 										<a href="/guid/#firstGUID#" onClick=" event.preventDefault(); $('##firstRecordForm').submit();">
 											<img src="/images/first.gif" alt="[ First Record ]">
 										</a>
-										<form action="/guid/#firstGUID#" method="post" target="_blank" id="firstRecordForm">
+										<form action="/guid/#firstGUID#" method="post" id="firstRecordForm">
 											<input type="hidden" name="result_id" value="#result_id#" />
 										</form>
 									</span>
@@ -469,7 +469,7 @@ limitations under the License.
 										<a href="/guid/#lastGUID#" onClick=" event.preventDefault(); $('##lastRecordForm').submit();">
 											<img src="/images/last.gif" alt="[ Last Record ]">
 										</a>
-										<form action="/guid/#lastGUID#" method="post" target="_blank" id="lastRecordForm">
+										<form action="/guid/#lastGUID#" method="post" id="lastRecordForm">
 											<input type="hidden" name="result_id" value="#result_id#" />
 										</form>
 									</span>
