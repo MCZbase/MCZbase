@@ -453,7 +453,7 @@ limitations under the License.
 		<cfoutput>
 			<cfquery name="getTempTableTypes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				SELECT 
-					other_id_type, cited_scientific_name, (#preservesinglequotes(publication_title)#), publication_id, key
+					other_id_type, cited_scientific_name, publication_title, publication_id, key
 				FROM 
 					cf_temp_citation
 				WHERE 
