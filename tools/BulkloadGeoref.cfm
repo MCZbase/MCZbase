@@ -442,6 +442,8 @@ limitations under the License.
 				select key,determined_by_agent_id,highergeography,speclocality,locality_id,dec_lat,dec_long,max_error_distance,max_error_units, lat_long_remarks,
 				determined_by_agent, georefmethod,orig_lat_long_units,datum,determined_date,lat_long_ref_source,extent,gpsaccuracy,verificationstatus,spatialfit, nearest_named_place
 				from cf_temp_georef
+				where key = <cfqueryparam cfsqltype='CF_SQL_decimal' value='#geoData.key#'>
+				AND	username = <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#session.username#'>
 			</cfquery>
 			<cfquery name="ctGEOREFMETHOD" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				select GEOREFMETHOD from ctGEOREFMETHOD
@@ -473,8 +475,6 @@ limitations under the License.
 						trim(geog_auth_rec.higher_geog)='#trim(HigherGeography)#' 
 					and
 						trim(locality.spec_locality)='#trim(SpecLocality)#' 
-					and key = <cfqueryparam cfsqltype='CF_SQL_decimal' value='#geoData.key#'>
-					username = <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#session.username#'>
 					">
 			</cfloop>
 			<cfquery name="getCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
