@@ -789,6 +789,7 @@ limitations under the License.
 								DEC_LONG,
 								DATUM,
 								ORIG_LAT_LONG_UNITS,
+								DETERMINED_BY_AGENT,
 								DETERMINED_BY_AGENT_ID,
 								DETERMINED_DATE,
 								LAT_LONG_REF_SOURCE,
@@ -808,6 +809,7 @@ limitations under the License.
 								DEC_LONG,
 								DATUM,
 								ORIG_LAT_LONG_UNITS,
+								DETERMINED_BY_AGENT,
 								DETERMINED_BY_AGENT_ID,
 								DETERMINED_DATE,
 								LAT_LONG_REF_SOURCE,
@@ -840,7 +842,7 @@ limitations under the License.
 					<cftransaction action="ROLLBACK">
 					<h2 class="h3">There was a problem updating the georeferences.</h2>
 					<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-						SELECT key,determined_by_agent_id,highergeography,speclocality,locality_id,dec_lat,dec_long,max_error_distance,max_error_units,lat_long_remarks,determined_by_agent,georefmethod,orig_lat_long_units,datum,determined_date,lat_long_ref_source,extent,gpsaccuracy,verificationstatus,spatialfit,nearest_named_place
+						SELECT key,highergeography,speclocality,locality_id,dec_lat,dec_long,max_error_distance,max_error_units,lat_long_remarks,determined_by_agent,determined_by_agent_id,georefmethod,orig_lat_long_units,datum,determined_date,lat_long_ref_source,extent,gpsaccuracy,verificationstatus,spatialfit,nearest_named_place
 						FROM cf_temp_georef
 						WHERE key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.key#">
 					</cfquery>
@@ -900,7 +902,7 @@ limitations under the License.
 						<table class='mx-3 px-0 sortable table-danger table table-responsive table-striped d-lg-table mt-3'>
 							<thead>
 								<tr>
-									<th>COUNT</th><th>LAT_LONG</th><th>LAT_LONG_ID</th><th>LOCALITY_ID</th><th>DEC_LAT</th><th>DEC_LONG</th><th>DATUM</th><th>ORIG_LAT_LONG_UNITS</th><th>DETERMINED_BY_AGENT_ID</th><th>DETERMINED_DATE</th><th>LAT_LONG_REF_SOURCE</th><th>LAT_LONG_REMARKS</th><th>MAX_ERROR_DISTANCE</th><th>MAX_ERROR_UNITS</th><th>ACCEPTED_LAT_LONG_FG</th><th>EXTENT</th><th>GPSACCURACY</th><th>GEOREFMETHOD</th><th>VERIFICATIONSTATUS</th><th>SPATIALFIT</th>
+									<th>COUNT</th><th>LAT_LONG</th><th>LAT_LONG_ID</th><th>LOCALITY_ID</th><th>DEC_LAT</th><th>DEC_LONG</th><th>DATUM</th><th>ORIG_LAT_LONG_UNITS</th><th>DETERMINED_BY_AGENT</th><th>DETERMINED_BY_AGENT_ID</th><th>DETERMINED_DATE</th><th>LAT_LONG_REF_SOURCE</th><th>LAT_LONG_REMARKS</th><th>MAX_ERROR_DISTANCE</th><th>MAX_ERROR_UNITS</th><th>ACCEPTED_LAT_LONG_FG</th><th>EXTENT</th><th>GPSACCURACY</th><th>GEOREFMETHOD</th><th>VERIFICATIONSTATUS</th><th>SPATIALFIT</th>
 								</tr> 
 							</thead>
 							<tbody>
@@ -915,6 +917,7 @@ limitations under the License.
 										<td>#getProblemData.dec_long# </td>
 										<td>#getProblemData.datum# </td>
 										<td>#getProblemData.orig_lat_long_units#</td>
+										<td>#getProblemData.determined_by_agent#</td>
 										<td>#getProblemData.determined_by_agent_id#</td>
 										<td>#getProblemData.determined_date#</td>
 										<td>#getProblemData.lat_long_ref_source#</td>
