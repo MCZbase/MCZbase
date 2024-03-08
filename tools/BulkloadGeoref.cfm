@@ -461,6 +461,7 @@ limitations under the License.
 			<cfset i= 1>
 			<cfloop query="geoData">
 				<cfset tellStatus="">
+				<cfset key="">
 				<cfset sql="
 					select 
 						spec_locality,higher_geog,locality.locality_id from locality,geog_auth_rec 
