@@ -1046,9 +1046,9 @@ limitations under the License.
 										left join addr fromaddr on sh.shipped_from_addr_id = fromaddr.addr_id
 									where transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#loanDetails.transaction_id#">
 								</cfquery>
-									<div id="shipmentTable" class="bg-light"> 
-										<div class="my-2 text-center"><img src='/shared/images/indicator.gif'> Loading Shipments</div>
-									</div>
+								<div id="shipmentTable" class="bg-light"> 
+									<div class="my-2 text-center"><img src='/shared/images/indicator.gif'> Loading Shipments</div>
+								</div>
 								<!--- shippmentTable for ajax replace ---> 
 								<script>
 									$( document ).ready(loadShipments(#transaction_id#));

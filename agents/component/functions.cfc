@@ -2232,6 +2232,11 @@ limitations under the License.
 						<cfelse>
 							, agentguid = null
 						</cfif>
+						<cfif len(#eori_number#) gt 0>
+							, eori_number = <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#eori_number#'>
+						<cfelse>
+							, eori_number = null
+						</cfif>
 					WHERE
 						agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
 				</cfquery>
