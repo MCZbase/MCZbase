@@ -289,7 +289,7 @@
 					<!--- Identify additional columns that will be ignored --->
 				
 					<cfif NOT ListContainsNoCase(fieldList,aField)>
-						<p>Found additional column header in the CSV that is not in the list of expected headers:</p> 
+						Found additional column header in the CSV that is not in the list of expected headers: 
 						<cfloop list="#foundHeaders#" item="aField">
 							<li><strong>#aField#</strong> </1i>
 						</cfloop>
