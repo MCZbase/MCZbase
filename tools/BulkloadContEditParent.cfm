@@ -543,7 +543,7 @@
 					</h2>
 				</cfif>
 				<table class='px-0 sortable table table-responsive table-striped d-lg-table'>
-				<thead>
+				<thead class="thead-light">
 					<tr>
 						<th>CONTAINER_UNIQUE_ID</th>
 						<th>PARENT_UNIQUE_ID</th>
