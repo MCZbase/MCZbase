@@ -109,7 +109,7 @@
 		<h2 class="h3">First step: Reading data from CSV file.</h2>
 		<!--- Compare the numbers of headers expected against provided in CSV file --->
 		<!--- Set some constants to identify error cases in cfcatch block --->
-		<cfset NO_COLUMN_ERR = "One or more required fields are missing in the header line of the csv file. <br>Missing fields: ">
+		<cfset NO_COLUMN_ERR = "<strong>One or more required fields are missing in the header line of the csv file. <br>Missing fields: </strong>">
 		<cfset DUP_COLUMN_ERR = "One or more columns are duplicated in the header line of the csv file. <br> Duplicated fields: ">
 		<cfset COLUMN_ERR = "<p>Error inserting data</p>">
 		<cfset NO_HEADER_ERR = "<p>No header line found, csv file appears to be empty.</p>">
@@ -245,7 +245,7 @@
 					<cfif ListContainsNoCase(requiredFieldList,aField)>
 						<!--- Case 1. Check by splitting assembled list of foundHeaders --->
 						<cfif NOT ListContainsNoCase(foundHeaders,aField)>
-							<cfset errorMessage = "#errorMessage# <i class='fas fa-arrow-right text-danger mt-1'></i><strong class='text-danger'> &nbsp;#aField#<br></strong>">
+							<cfset errorMessage = "#errorMessage# <i class='fas fa-arrow-right text-dark mt-2'></i><strong class='text-dark'> &nbsp;#aField#<br></strong>">
 						</cfif>
 					</cfif>
 				</cfloop>
