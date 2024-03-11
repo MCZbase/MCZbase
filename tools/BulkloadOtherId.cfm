@@ -278,9 +278,9 @@
 					<cfif size EQ 1>
 						<!--- likely a problem parsing the first line into column headers --->
 						<!--- to get here, upload a csv file with the correct headers as MYSQL format --->
-						<cfset errorMessage = "#errorMessage# You may have specified the wrong format, only one column header was found: #errorMessage#">
+						<cfset errorMessage = "#FORMAT_ERR# #errorMessage# You may have specified the wrong format, only one column header was found: #errorMessage#">
 					</cfif>
-					<!---<cfthrow errorMessage = "#FORMAT_ERR# #errorMessage#">--->
+					<cfthrow errorMessage = "#errorMessage#">
 				</cfif>
 				<cfif NOT ListContainsNoCase(fieldList,aField)>
 					<ul class="py-1 h4 list-unstyled">
