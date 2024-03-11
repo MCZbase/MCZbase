@@ -274,7 +274,7 @@
 						</li>
 					</cfloop>
 				</ul>
-						
+							#cfcatch.message#
 				<cfif len(errorMessage) GT 0 and size EQ 1 >
 					<cfif size EQ 1>
 						<!--- likely a problem parsing the first line into column headers --->
