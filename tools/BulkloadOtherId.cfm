@@ -281,10 +281,6 @@
 					</cfif>
 					<cfthrow message = "#NO_COLUMN_ERR# #errorMessage#">
 				</cfif>
-				<cfif len(errorMessage) GT 0 and size GT 1 and foundHighCount GT 0>
-						<cfset errorMessage = "Wrong character set?">
-						<cfthrow message = "#NO_COLUMN_ERR# #errorMessage#">
-				</cfif>
 				<cfif NOT ListContainsNoCase(fieldList,aField)>
 					<ul class="py-1 h4 list-unstyled">
 					<strong>Found additional column header(s) in the CSV that is not in the list of expected headers: </strong>
