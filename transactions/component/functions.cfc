@@ -1036,7 +1036,7 @@ limitations under the License.
 						 order by shipped_date
 				</cfquery>
 				<cfquery name="getEORINumbers" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					SELECT eori_number, mczbase.getAgentNameOfType(agent.agent_id) eori_agent_name
+					SELECT eori_number, mczbase.get_AgentNameOfType(agent.agent_id) eori_agent_name
 					FROM trans_agent
 						JOIN agent on trans_agent.agent_id = agent.agent_id
 					WHERE trans_agent.transaction_id =<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
