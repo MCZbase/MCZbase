@@ -278,6 +278,7 @@
 					</cfloop>
 				</ul>
 				<cfif len(errorMessage) GT 0>
+					<cfset errorMessage = "">
 					<cfif size EQ 1>
 						<!--- likely a problem parsing the first line into column headers --->
 						<!--- to get here, upload a csv file with the correct headers as MYSQL format --->
@@ -286,6 +287,7 @@
 					<cfthrow message = "#NO_COLUMN_ERR# #errorMessage#">
 				</cfif>
 				<cfif len(errorMessge) GT 0 and (NOT ListContainsNoCase(fieldList,aField))>
+					<cfset errorMessage = "">
 					<ul class="py-1 h4 list-unstyled">
 					<strong>Found additional column header(s) in the CSV that is not in the list of expected headers: </strong>
 					<!--- Identify additional columns that will be ignored --->
@@ -297,6 +299,7 @@
 					</ul>
 				</cfif>
 				<cfif len(errorMessage) GT 0 and (NOT ListLen(ListRemoveDuplicates(foundHeaders)) EQ ListLen(foundHeaders))>
+					<cfset errorMessage = "">
 					<ul class="py-1 h4 list-unstyled">
 					<!--- Identify duplicate columns and fail if found --->
 					<cfif NOT ListLen(ListRemoveDuplicates(foundHeaders)) EQ ListLen(foundHeaders)>
