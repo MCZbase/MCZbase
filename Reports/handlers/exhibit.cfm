@@ -27,8 +27,8 @@ limitations under the License.
 	<cfcase value="ExhibitTent__Mamm">
 		<cfquery name="getItems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			SELECT DISTINCT
-				get_scientific_name(cataloged_item.collection_object_id) sci_name,
-				get_common_names(cataloged_item.collection_object_id) common_names,
+				MCZBASE.get_scientific_name(cataloged_item.collection_object_id) sci_name,
+				MCZBASE.get_common_names(cataloged_item.collection_object_id) common_names,
 				cat_num as catalog_number,
 				collection_cde
 			FROM
