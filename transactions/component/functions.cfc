@@ -1035,6 +1035,13 @@ limitations under the License.
 						 where shipment.transaction_id =<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
 						 order by shipped_date
 				</cfquery>
+				<cfquery name="getEORINumbers" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					SELECT eori_number, mczbase.getAgentNameOfType(agent.agent_id) eori_agent_name
+					FROM trans_agent
+						JOIN agent on trans_agent.agent_id = agent.agent_id
+					WHERE trans_agent.transaction_id =<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
+						AND agent.eori_number IS NOT NULL
+				</cfquery>
 				<div id='shipments'>
 				<cfloop query="theResult">
 					<cfif print_flag eq "1">
@@ -1065,6 +1072,16 @@ limitations under the License.
 					</script>
 						
 					<div class='shipments bg-white border my-2'>
+						<cfif getEORINumbers.recordcount GT 0>
+							<div>
+								<h4 class='font-weight-bold mb-0'>EORI Numbers:</h4>
+								<ul>
+									<cfloop query="getEORINumbers">
+										#eori_number# for #eori_agent_name# (<a href="https://ec.europa.eu/taxation_customs/dds2/eos/eori_validation.jsp?Lang=en&EoriNumb=#eori_number#&Expand=true" target="_blank">validate) 
+									</cfloop>
+								</ul>
+							</div>
+						</cfif>
 						<table class='table table-responsive d-md-table mb-0'>
 							<thead class='thead-light'><th>Ship Date:</th><th>Method:</th><th>Packages:</th><th>Tracking Number:</th></thead>
 							<tbody>
