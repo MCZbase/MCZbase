@@ -45,7 +45,6 @@ limitations under the License.
 		<cfoutput>
 
 			<cfobject type="Java" name="qrCode" class="io.nayuki.qrcodegen.QrCode" >
-			<cfobject type="Java" name="ecc" class="io.nayuki.qrcodegen.QrCode.Ecc" >
 			<cfobject type="Java" name="qrCodeUtility" class="QrCodeGeneratorDemo" >
 
 			<!--- TODO: roduce image from QRCode object and embed in pdf. --->
@@ -54,7 +53,7 @@ limitations under the License.
 			<cfdocumentsection name="Lables">
 				<cfloop query="getItems">
 					<cfset guid="MCZ:#collection_cde#:#catalog_number#">
-					<cfset qrCodeInstance = qrCode.encodeText(JavaCast("string","https://mczbase.mcz.harvard.edu/guid/#guid#"),ecc.HIGH) >
+					<cfset qrCodeInstance = qrCode.encodeText(JavaCast("string","https://mczbase.mcz.harvard.edu/guid/#guid#"),qrCode.ecc.HIGH) >
 					<cfset svg = qrCodeUtility.toSvgString(qrCodeInstance,0,JavaCast("string","white"),JavaCast("string","black"))>
 					<div>
 						<div><strong style="font: 1.8em 'Times-Roman';">#guid#</strong></div>
