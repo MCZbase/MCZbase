@@ -109,10 +109,10 @@
 		<h2 class="h3">First step: Reading data from CSV file.</h2>
 		<!--- Compare the numbers of headers expected against provided in CSV file --->
 		<!--- Set some constants to identify error cases in cfcatch block --->
-		<cfset NO_COLUMN_ERR = "<h4>One or more required fields are missing in the header line of the csv file. <br>Missing fields: </h4>">
-		<cfset DUP_COLUMN_ERR = "One or more columns are duplicated in the header line of the csv file. <br> Duplicated fields: ">
-		<cfset COLUMN_ERR = "<p>Error inserting data</p>">
-		<cfset NO_HEADER_ERR = "<p>No header line found, csv file appears to be empty.</p>">
+		<cfset NO_COLUMN_ERR = "<h4 class='my-4'>One or more required fields are missing in the header line of the csv file. <br>Missing fields: </h4>">
+		<cfset DUP_COLUMN_ERR = "<h4 class='my-4'>One or more columns are duplicated in the header line of the csv file. <br>Duplicated fields: </h4>">
+		<cfset COLUMN_ERR = "<h4 class='my-4'>Error inserting data</h4>">
+		<cfset NO_HEADER_ERR = "<h4 class='my-4'>No header line found, csv file appears to be empty.</h4>">
 
 		<cftry>
 				<!--- Parse the CSV file using Apache Commons CSV library included with coldfusion so that columns with comma delimeters will be separated properly --->
@@ -195,13 +195,11 @@
 					</cfdefaultcase>
 				</cfswitch>
 				<cfset records = CSVParser.parse(#tempFileInputStream#,#javaSelectedCharset#,#csvFormat#)>
-
 				<!--- cleanup any incomplete work by the same user --->
 				<cfquery name="clearTempTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="clearTempTable_result">
 					DELETE FROM cf_temp_oids 
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
-
 				<!--- obtain an iterator to loops through the rows/records in the csv --->
 				<cfset iterator = records.iterator()>
 				<!---Obtain the first line of the file as the header line, we can not use the withHeader() method to do this in coldfusion --->
@@ -232,12 +230,10 @@
 				<cfset colNameArray = listToArray(ucase(foundHeaders))><!--- the list of columns/fields found in the input file --->
 				<cfset fieldArray = listToArray(ucase(fieldlist))><!--- the full list of fields --->
 				<cfset typeArray = listToArray(fieldTypes)><!--- the types for the full list of fields --->
-
 				<div class="col-12 my-4">
 					<h3 class="h4">Found #size# columns in header of csv file.</h3>
 					<h3 class="h4">There are #ListLen(fieldList)# columns expected in the header (of these #ListLen(requiredFieldList)# are required).</h3>
 				</div>
-
 				<!--- check for required fields in header line (performng check in two different ways, Case 1, Case 2) --->
 				<!--- Loop through list of fields throw exception if required fields are missing --->
 				<cfset errorMessage = "">
@@ -598,7 +594,7 @@
 				</h3>
 			<cfelse>
 				<h3 class="mt-4 mb-2">
-					<span class="text-success">Validation checks passed.</span> Look over the table below and <a href="/tools/BulkloadOtherId.cfm?action=load">click to continue</a> if it all looks good.
+					<span class="text-success">Validation checks passed.</span> Look over the table below and <a href="/tools/BulkloadOtherId.cfm?action=load">click to continue</a> if it all looks good or <a href="/tools/BulkloadOtherId.cfm">start again</a>.
 				</h3>
 			</cfif>
 			<table class='px-0 sortable table table-responsive table-striped d-lg-table'>
