@@ -285,7 +285,8 @@
 					</cfif>
 					<cfthrow message = "#NO_COLUMN_ERR# #errorMessage#">
 				</cfif>
-				<ul class="py-1 h4 list-unstyled">
+				<cfif len(errorMessge) GT 0 and (NOT ListContainsNoCase(fieldList,aField))>
+					<ul class="py-1 h4 list-unstyled">
 					<strong>Found additional column header(s) in the CSV that is not in the list of expected headers: </strong>
 					<!--- Identify additional columns that will be ignored --->
 					<cfloop list="#foundHeaders#" item="aField">
@@ -293,8 +294,10 @@
 							<li class="pt-1 px-4"><i class='fas fa-arrow-right text-info'></i> <strong class="text-info">#aField#</strong> </1i>
 						</cfif>
 					</cfloop>
+					</ul>
+				</cfif>
 				<cfif len(errorMessage) GT 0 and (NOT ListLen(ListRemoveDuplicates(foundHeaders)) EQ ListLen(foundHeaders))>
-				<ul class="py-1 h4 list-unstyled">
+					<ul class="py-1 h4 list-unstyled">
 					<!--- Identify duplicate columns and fail if found --->
 					<cfif NOT ListLen(ListRemoveDuplicates(foundHeaders)) EQ ListLen(foundHeaders)>
 						<strong>At least one column header occurs more than once.</strong>
@@ -305,7 +308,7 @@
 						</cfloop>
 						<cfthrow message = "#DUP_COLUMN_ERR#">
 					</cfif>
-				</ul>
+					</ul>
 				</cfif>
 				<cfset colNames="#foundHeaders#">
 				<cfset loadedRows = 0>
