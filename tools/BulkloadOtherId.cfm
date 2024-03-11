@@ -109,7 +109,7 @@
 		<h2 class="h3">First step: Reading data from CSV file.</h2>
 		<!--- Compare the numbers of headers expected against provided in CSV file --->
 		<!--- Set some constants to identify error cases in cfcatch block --->
-		<cfset NO_COLUMN_ERR = "<h4 class='mt-4 mb-3'>One or more required fields are missing in the header line of the csv file. </h4>">
+		<cfset NO_COLUMN_ERR = "<h4 class='mt-4 mb-3'>One or more required fields are missing in the header line of the csv file. Check charset selected if columns match required headers.</h4>">
 		<cfset DUP_COLUMN_ERR = "<h4 class='mt-2 mb-3'>One or more columns are duplicated in the header line of the csv file. </h4>">
 		<cfset COLUMN_ERR = "Error inserting data ">
 		<cfset NO_HEADER_ERR = "<h4 class='mt-4 mb-3'>No header line found, csv file appears to be empty.</h4>">
@@ -370,7 +370,7 @@
 						<cfset loadedRows = loadedRows + insert_result.recordcount>
 					<cfcatch>
 						<!--- identify the problematic row --->
-						<cfset error_message="#COLUMN_ERR# from line #row# in input file.  <br>Header:[#colNames#] <br>Row:[#ArrayToList(collValuesArray)#] <br>Error: #cfcatch.message#"><!--- " --->
+						<cfset error_message="Check Charset selected. #COLUMN_ERR# from line #row# in input file.  <br>Header:[#colNames#] <br>Row:[#ArrayToList(collValuesArray)#] <br>Error: #cfcatch.message#"><!--- " --->
 						<cfif isDefined("cfcatch.queryError")>
 							<cfset error_message = "#error_message# #cfcatch.queryError#">
 						</cfif>
