@@ -384,7 +384,7 @@
 					<h3 class="h4">Found characters where the encoding is probably important in the input data.</h3>
 					<div>
 						<p>Showing #foundHighCount# example#plural#. If these do not appear as the correct characters, the file likely has a different encoding from the one you selected and
-						you probably want to <strong><a href="/tools/BulkloadOtherId.cfm">reload</a></strong> this file selecting a different encoding.  If these appear as expected, then 
+						you probably want to <strong><a href="/tools/BulkloadOtherId.cfm">reload</a></strong> this file selecting a different character set.  If these appear as expected, then 
 							you selected the correct encoding and can continue to validate or load.</p>
 					</div>
 					<ul class="pb-1 h4 list-unstyled">
