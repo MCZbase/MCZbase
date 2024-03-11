@@ -280,7 +280,7 @@
 						<!--- to get here, upload a csv file with the correct headers as MYSQL format --->
 						<cfset errorMessage = "You may have specified the wrong format, only one column header was found. #errorMessage#">
 					</cfif>
-					<cfthrow message = " #errorMessage#">
+					<cfthrow message = "#NO_COLUMN_ERR# #errorMessage#">
 				</cfif>
 				<cfif NOT ListContainsNoCase(fieldList,aField)>
 					<ul class="py-1 h4 list-unstyled">
