@@ -248,6 +248,9 @@
 				</cfloop>
 				<cfif len(errorMessage) GT 0>
 					<cfthrow message = "#NO_COLUMN_ERR# <h4 class='px-4'> #errorMessage# </h4>">
+					<cfif size EQ 1>
+						<cfset errorMessage = "#FORMAT_ERR# You may have specified the wrong format, only one column header was found: #errorMessage#">
+					</cfif>
 				</cfif>
 				<cfset errorMessage = "">
 				<!--- Loop through list of fields, mark each field as fields present in input or not, throw exception if required fields are missing --->
@@ -274,14 +277,6 @@
 						</li>
 					</cfloop>
 				</ul>
-				<cfif len(errorMessage) gt 0 and size EQ 1 >
-					<cfif size EQ 1>
-						<!--- likely a problem parsing the first line into column headers --->
-						<!--- to get here, upload a csv file with the correct headers as MYSQL format --->
-						<cfset errorMessage = "#FORMAT_ERR# You may have specified the wrong format, only one column header was found: #errorMessage#">
-					</cfif>
-					<cfthrow message = "#errorMessage#">
-				</cfif>
 				<cfif NOT ListContainsNoCase(fieldList,aField)>
 					<ul class="py-1 h4 list-unstyled">
 					<strong>Found additional column header(s) in the CSV that is not in the list of expected headers: </strong>
