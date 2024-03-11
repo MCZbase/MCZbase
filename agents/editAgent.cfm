@@ -269,7 +269,12 @@ limitations under the License.
 											$('##end_date_label').html("Date of Death");
 											$('##start_date').prop('disabled', false);
 											$('##end_date').prop('disabled', false);
+											$('##eoriDiv').hide();
 										} else { 
+											$('##eoriDiv').hide();
+											if (selectedType == 'organization') {
+												$('##eoriDiv').show();
+											} 
 											$('##personRow').hide();
 											$('##headingTypeSpan').html(selectedType);
 											$('##last_name').removeAttr('required');
@@ -500,7 +505,7 @@ limitations under the License.
 										});
 									</script>
 									<cfif curAgentType EQ "organization">
-										<div class="col-12 col-md-4">
+										<div class="col-12 col-md-4" div="eoriDiv" style="display: none;">
 											<label id="eori_number_label" for="eori_number" class="data-entry-label">EORI Number</label>
 											<input type="text" name="eori_number" id="eori_number" value="#eori_number#" class="data-entry-input">
 										</div>
