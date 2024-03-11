@@ -240,7 +240,7 @@
 
 				<!--- check for required fields in header line (performng check in two different ways, Case 1, Case 2) --->
 				<!--- Loop through list of fields throw exception if required fields are missing --->
-				<cfset errorMessage = "">
+				
 				<cfloop list="#fieldList#" item="aField">
 					<cfif ListContainsNoCase(requiredFieldList,aField)>
 						<!--- Case 1. Check by splitting assembled list of foundHeaders --->
@@ -285,11 +285,35 @@
 					</cfif>
 					<cfthrow message = "#NO_COLUMN_ERR# #errorMessage#">
 				</cfif>
+				<ul class="h4 mb-4">
+					<cfloop list="#foundHeaders#" index="afield" delimiters=",">
+						<cfset hint="">
+						<cfif listContains(fieldList,field,",")>
+							<cfset class="text-danger">
+							<cfset hint="aria-label='required'">
+						<cfelse>
+							<cfset class="text-dark">
+						</cfif>
+						<li>
+							<span class="#class#" #hint#>#field#</span>
+							<cfif arrayFindNoCase(colNameArray,field) GT 0>
+								<strong class="text-success">Present in CSV</strong>
+							<cfelse>
+								<!--- Case 2. Check by identifying field in required field list --->
+								<cfif ListContainsNoCase(aField,field)>
+									<strong class="text-dark">Required Column Not Found</strong>
+									<cfset errorMessage = "#errorMessage# <strong>#aField#</strong> is missing.">
+								</cfif>
+							</cfif>
+						</li>
+					</cfloop>
+				</ul>
 				<ul class="py-1 h4 list-unstyled">
+					
 					<!--- Identify additional columns that will be ignored --->
 					<cfloop list="#foundHeaders#" item="aField">
 						<cfif NOT ListContainsNoCase(fieldList,aField)>
-						Found additional column header in the CSV that is not in the list of expected headers: 
+						
 							<li><strong>#aField#</strong> </1i>
 						</cfif>
 					</cfloop>
