@@ -304,7 +304,7 @@
 							<strong>#DUP_COLUMN_ERR# </strong>
 							<cfloop list="#foundHeaders#" item="aField">
 								<cfif listValueCount(foundHeaders,aField) GT 1>
-										<li class="pt-1 px-4"><i class='fas fa-arrow-right text-info'></i> <strong class="text-info">column ###i# #aField#</strong> </1i>
+										<li class="pt-1 px-4"><i class='fas fa-arrow-right text-info'></i> <strong class="text-info">column ###i# = #aField#</strong> </1i>
 								</cfif>
 							<cfset i=i+1>
 							</cfloop>
