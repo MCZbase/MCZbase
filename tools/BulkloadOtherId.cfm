@@ -287,11 +287,14 @@
 				</cfif>
 				<ul class="py-1 h4 list-unstyled">
 					<!--- Identify additional columns that will be ignored --->
-					<cfloop list="#foundHeaders#" item="aField">
-						<cfif NOT ListContainsNoCase(fieldList,aField)>
-							<li>Found additional column header [<strong>#aField#</strong>] in the CSV that is not in the list of expected headers.</1i>
-						</cfif>
-					</cfloop>
+				
+					<cfif NOT ListContainsNoCase(fieldList,aField)>
+						<p>Found additional column header in the CSV that is not in the list of expected headers:</p> 
+						<cfloop list="#foundHeaders#" item="aField">
+							<li><strong>#aField#</strong> </1i>
+						</cfloop>
+					</cfif>
+					
 					<!--- Identify duplicate columns and fail if found --->
 					<cfif NOT ListLen(ListRemoveDuplicates(foundHeaders)) EQ ListLen(foundHeaders)>
 						<li>At least one column header occurs more than once.</1i>
