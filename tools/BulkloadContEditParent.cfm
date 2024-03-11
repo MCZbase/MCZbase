@@ -483,7 +483,7 @@
 		<cfoutput>
 			<div class="container-fluid">
 				<h1 class="h2 mt-2">Bulkload Container Edit Parent</h1>
-				<h2 class="h3">Second step: Data Validation</h2>
+				<h2 class="h4 mb-4">Second step: Data Validation</h2>
 				<cfquery name="getCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					update cf_temp_cont_edit set container_id=
 					(select container_id from container where container.barcode = cf_temp_cont_edit.container_unique_id)
@@ -531,9 +531,9 @@
 					WHERE status is not null
 				</cfquery>
 				<cfif pf.c gt 0>
-					<h2>
+					<h3>
 						There is a problem with #pf.c# of #data.recordcount# row(s). See the STATUS column. (<a href="/tools/BulkloadContEditParent.cfm?action=dumpProblems">download</a>).
-					</h2>
+					</h3>
 					<h3>
 						Fix the problems in the data and <a href="/tools/BulkloadContEditParent.cfm">start again</a>.
 					</h3>
