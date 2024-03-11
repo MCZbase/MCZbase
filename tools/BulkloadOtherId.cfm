@@ -109,10 +109,10 @@
 		<h2 class="h3">First step: Reading data from CSV file.</h2>
 		<!--- Compare the numbers of headers expected against provided in CSV file --->
 		<!--- Set some constants to identify error cases in cfcatch block --->
-		<cfset NO_COLUMN_ERR = "<h4 class='my-4'>One or more required fields are missing in the header line of the csv file. <br>Missing fields: </h4>">
-		<cfset DUP_COLUMN_ERR = "<h4 class='my-4'>One or more columns are duplicated in the header line of the csv file. <br>Duplicated fields: </h4>">
-		<cfset COLUMN_ERR = "<h4 class='my-4'>Error inserting data</h4>">
-		<cfset NO_HEADER_ERR = "<h4 class='my-4'>No header line found, csv file appears to be empty.</h4>">
+		<cfset NO_COLUMN_ERR = "<h4 class='mt-4 mb-3'>One or more required fields are missing in the header line of the csv file. <br>Missing fields: </h4>">
+		<cfset DUP_COLUMN_ERR = "<h4 class='mt-4 mb-3'>One or more columns are duplicated in the header line of the csv file. <br>Duplicated fields: </h4>">
+		<cfset COLUMN_ERR = "<h4 class='mt-4 mb-3'>Error inserting data</h4>">
+		<cfset NO_HEADER_ERR = "<h4 class='mt-4 mb-3'>No header line found, csv file appears to be empty.</h4>">
 
 		<cftry>
 				<!--- Parse the CSV file using Apache Commons CSV library included with coldfusion so that columns with comma delimeters will be separated properly --->
@@ -273,6 +273,7 @@
 						</li>
 					</cfloop>
 				</ul>
+								#size#
 				<cfif len(errorMessage) GT 0 >
 					<cfif size EQ 1>
 						<!--- likely a problem parsing the first line into column headers --->
