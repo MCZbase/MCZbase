@@ -44,14 +44,15 @@ limitations under the License.
 		<cfdocument format="pdf" pagetype="letter" margintop=".5" marginbottom=".5" marginleft=".5" marginright=".5" orientation="#orientation#" fontembed="yes" saveAsName="MCZ_exhibitlabels_#result_id#.pdf">
 		<cfoutput>
 
-			<cfobject type="Java" name="qrCode" class="io.nayuki.qrcodegen.QrCode" >
-			<!--- Utility class exposing method from QrCodeGeneratorDemo --->
+			<!--- now wrapped in utility class --->
+			<!--- cfobject type="Java" name="qrCode" class="io.nayuki.qrcodegen.QrCode" --->
+			<!--- Utility class exposing methods from QrCodeGeneratorDemo and QrCode --->
 			<cfobject type="Java" name="qrCodeUtility" class="edu.harvard.mcz.qrCodeUtility.QRCodeUtility" >
 
 			<cfdocumentsection name="Lables">
 				<cfloop query="getItems">
 					<cfset guid="MCZ:#collection_cde#:#catalog_number#">
-					<cfset qrCodeInstance = qrCode.encodeText(JavaCast("string","https://mczbase.mcz.harvard.edu/guid/#guid#"),qrCode.Ecc.HIGH) >
+					<cfset qrCodeInstance = qrCodeUtility.encodeText(JavaCast("string","https://mczbase.mcz.harvard.edu/guid/#guid#")) >
 					<!--- Produce image from QRCode object and embed in pdf. --->
 					<!--- for some options, see: https://stackoverflow.com/questions/34316662/using-cfimage-to-display-a-file-that-doesnt-have-an-extension/ --->
 					<cfset svg = qrCodeUtility.toSvgString(qrCodeInstance)>
