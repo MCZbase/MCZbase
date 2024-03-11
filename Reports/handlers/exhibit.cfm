@@ -46,7 +46,7 @@ limitations under the License.
 
 			<cfobject type="Java" name="qrCode" class="io.nayuki.qrcodegen.QrCode" >
 			<!--- Utility class exposing method from QrCodeGeneratorDemo --->
-			<cfobject type="Java" name="qrCodeUtility" class="edu.harvard.mcz.qrCodeUtility.QrCodeUtility" >
+			<cfobject type="Java" name="qrCodeUtility" class="edu.harvard.mcz.qrCodeUtility.QRCodeUtility" >
 
 			<cfdocumentsection name="Lables">
 				<cfloop query="getItems">
