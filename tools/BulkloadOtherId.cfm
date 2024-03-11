@@ -281,7 +281,7 @@
 					</cfif>
 					<cfthrow message = "#NO_COLUMN_ERR# #errorMessage#">
 					<cfelseif size GT 1>
-						Wrong File Type?
+						<cfset errorMessage = "Wrong character set?">
 						<cfthrow message = "#NO_COLUMN_ERR# #errorMessage#">
 				</cfif>
 				<cfif NOT ListContainsNoCase(fieldList,aField)>
