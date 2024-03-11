@@ -245,7 +245,7 @@
 						</cfif>
 					</cfif>
 				</cfloop>
-				<cfif size EQ 1 and isDefined("cfcatch.queryError")>
+				<cfif size EQ 1>
 					<cfset errorMessage = "You may have specified the wrong format, only one column header was found: #errorMessage#">
 				</cfif>
 				<cfset errorMessage = "">
