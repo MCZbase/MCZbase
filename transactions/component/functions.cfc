@@ -1048,7 +1048,7 @@ limitations under the License.
 							<h4 class='font-weight-bold mb-0'>EORI Numbers:</h4>
 							<ul>
 								<cfloop query="getEORINumbers">
-									#eori_number# for #eori_agent_name# (<a href="https://ec.europa.eu/taxation_customs/dds2/eos/eori_validation.jsp?Lang=en&EoriNumb=#eori_number#&Expand=true" target="_blank">validate) 
+									#eori_number# for #eori_agent_name# (<a href="https://ec.europa.eu/taxation_customs/dds2/eos/eori_validation.jsp?Lang=en&EoriNumb=#eori_number#&Expand=true" target="_blank">validate</a>) 
 								</cfloop>
 							</ul>
 						</div>
