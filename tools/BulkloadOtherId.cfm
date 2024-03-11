@@ -433,6 +433,8 @@
 						</ul>
 					</cfif>
 				</cfif>
+				<cfif Find("#FORMAT_ERR#",cfcatch.message) GT 0>
+					#cfcatch.message#
 				<cfif Find("#NO_COLUMN_ERR#",cfcatch.message) GT 0>
 					#cfcatch.message#
 				<cfelseif Find("#COLUMN_ERR#",cfcatch.message) GT 0>
