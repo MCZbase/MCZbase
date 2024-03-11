@@ -274,7 +274,7 @@
 						</li>
 					</cfloop>
 				</ul>
-				<cfif len(errorMessage) GT 0 and size EQ 1 >
+				<cfif cfcatch.detail is null and size EQ 1 >
 					<cfif size EQ 1>
 						<!--- likely a problem parsing the first line into column headers --->
 						<!--- to get here, upload a csv file with the correct headers as MYSQL format --->
