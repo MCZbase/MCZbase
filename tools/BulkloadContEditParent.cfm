@@ -518,7 +518,6 @@
 					WHERE CONTAINER_NAME is null
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
-
 				<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					SELECT CONTAINER_UNIQUE_ID, PARENT_UNIQUE_ID, CONTAINER_TYPE, CONTAINER_NAME, DESCRIPTION, REMARKS, WIDTH,
 						HEIGHT, LENGTH, NUMBER_POSITIONS, CONTAINER_ID, PARENT_CONTAINER_ID, STATUS 
@@ -538,9 +537,9 @@
 						Fix the problems in the data and <a href="/tools/BulkloadContEditParent.cfm">start again</a>.
 					</h3>
 				<cfelse>
-					<h2>
+					<h3>
 						Validation checks passed. Look over the table below and <a href="/tools/BulkloadContEditParent.cfm?action=load">click to continue</a> if it all looks good.
-					</h2>
+					</h3>
 				</cfif>
 				<table class='px-0 sortable table table-responsive table-striped d-lg-table'>
 				<thead class="thead-light">
@@ -586,7 +585,7 @@
 	<cfif action is "load">
 		<div class="container">
 		<h1 class="h2 mt-2">Bulkload Container Edit Parent</h1>
-		<h2 class="h3">Third step: Apply changes.</h2>
+		<h2 class="h4">Third step: Apply changes.</h2>
 		<cfoutput>
 			<cfquery name="getTempData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				SELECT * FROM cf_temp_cont_edit
@@ -607,9 +606,9 @@
 						<cfset container_type_updates = container_type_updates + updateContainer_result.recordcount>
 					</cfloop>
 				</cftransaction>
-				<h2>Updated types for #container_type_updates# containers.</h2>
+				<h3>Updated types for #container_type_updates# containers.</h3>
 			<cfcatch>
-				<h2>There was a problem updating container types.</h2>
+				<h3>There was a problem updating container types.</h3>
 				<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					SELECT container_unique_id,parent_unique_id,container_type,container_name, status 
 					FROM cf_temp_cont_edit 
@@ -703,8 +702,8 @@
 				</cfcatch>
 				</cftry>
 			</cftransaction>
-			<h2>Updated #container_updates# containers.</h2>
-			<h2>Success, changes applied.</h2>
+			<h3>Updated #container_updates# containers.</h3>
+			<h3>Success, changes applied.</h3>
 			<!--- cleanup --->
 			<cfquery name="clearTempTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="clearTempTable_result">
 				DELETE FROM cf_temp_cont_edit 
