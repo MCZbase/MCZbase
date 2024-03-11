@@ -37,10 +37,8 @@
 	<h1 class="h2 mt-2">Bulkload Other IDs</h1>
 	<cfif #action# is "nothing">
 		<cfoutput>
-			<p>This tool is used to bulkload Other IDs. Click view template download a comma-delimited text file (csv) to enter and upload data.</p>
-			<p>OR, create a csv by including column headings spelled exactly as listed below.  Additional colums will be ignored.</p>
-			<p>Pay attention to capitalization where it is required. Messages will help to navigate problems with the data in the uploaded .csv file. </p>
-			<p>Check the help page <a href="/vocabularies/ControlledVocabulary.cfm?table=CTCOLL_OTHER_ID_TYPE">CTCOLL_OTHER_ID_TYPE</a> for types ("catalog number" can also be used). Values can be combinations of letters, special characters, and numbers or just numbers</p>
+			<p>This tool is used to bulkload Other IDs. Click view template download a comma-delimited text file (csv) to enter and upload data. OR, create a csv by including column headings spelled exactly as listed below.  Additional colums will be ignored. Pay attention to capitalization where it is required. Messages will help to navigate problems with the data in the uploaded .csv file. </p>
+			
 			<span class="btn btn-xs btn-info" onclick="document.getElementById('template').style.display='block';">View template</span>
 			<div id="template" style="margin: 1rem 0;display:none;">
 				<label for="templatearea" class="data-entry-label mb-1">
@@ -48,6 +46,7 @@
 				</label>
 				<textarea rows="2" cols="90" id="templatearea" class="w-100 data-entry-textarea">#fieldlist#</textarea>
 			</div>
+			
 			<h2 class="mt-4 h4">Columns in <span class="text-danger">red</span> are required; others are optional:</h2>
 			<ul class="mb-4 h4">
 				<cfloop list="#fieldlist#" index="field" delimiters=",">
@@ -61,6 +60,7 @@
 					<li class="#class#" #aria#>#field#</li>
 				</cfloop>
 			</ul>
+			<p>Check the help page <a href="/vocabularies/ControlledVocabulary.cfm?table=CTCOLL_OTHER_ID_TYPE">CTCOLL_OTHER_ID_TYPE</a> for types ("catalog number" can also be used). Values can be combinations of letters, special characters, and numbers or just numbers</p>
 			<form name="atts" method="post" enctype="multipart/form-data" action="/tools/BulkloadOtherId.cfm">
 				<div class="form-row border rounded p-2">
 					<input type="hidden" name="action" value="getFile">
