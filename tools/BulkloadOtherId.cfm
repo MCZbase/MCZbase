@@ -110,6 +110,7 @@
 		<!--- Compare the numbers of headers expected against provided in CSV file --->
 		<!--- Set some constants to identify error cases in cfcatch block --->
 		<cfset NO_COLUMN_ERR = "<h4 class='mt-4 mb-3'>One or more required fields are missing in the header line of the csv file. <br>Missing fields: </h4>">
+		<cfset FORMAT_ERR = "<h4 class='mt-4 mb-3'>One or more required fields are missing in the header line of the csv file. <br>Missing fields: </h4>">
 		<cfset DUP_COLUMN_ERR = "<h4 class='mt-2 mb-3'>One or more columns are duplicated in the header line of the csv file. <br>Duplicated fields: </h4>">
 		<cfset COLUMN_ERR = "<h4 class='mt-4 mb-3'>Error inserting data</h4>">
 		<cfset NO_HEADER_ERR = "<h4 class='mt-4 mb-3'>No header line found, csv file appears to be empty.</h4>">
@@ -280,7 +281,7 @@
 						<!--- to get here, upload a csv file with the correct headers as MYSQL format --->
 						<cfset errorMessage = "You may have specified the wrong format, only one column header was found: #errorMessage#">.
 					</cfif>
-					<cfthrow message = "#errorMessage#">
+					<cfthrow message = "#FORMAT_ERR# #errorMessage#">
 				</cfif>
 				<cfif NOT ListContainsNoCase(fieldList,aField)>
 					<ul class="py-1 h4 list-unstyled">
