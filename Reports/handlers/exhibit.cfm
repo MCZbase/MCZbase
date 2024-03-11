@@ -67,6 +67,6 @@ limitations under the License.
 				</cfloop>	
 			</cfdocumentsection>
 		</cfoutput>
+		</cfdocument>
 	</cfcase>
 </cfswitch>
-</cfdocument>
