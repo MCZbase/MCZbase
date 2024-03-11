@@ -538,12 +538,6 @@
 						Fix the problems in the data and <a href="/tools/BulkloadContEditParent.cfm">start again</a>.
 					</h3>
 				<cfelse>
-					<cfquery name="getMID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					update cf_temp_cont_edit set status=
-					'Cleared to load'
-					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-					and status is null
-					</cfquery>
 					<h3>
 						<span class="text-success">Validation checks passed.</span> Look over the table below and <a href="/tools/BulkloadContEditParent.cfm?action=load">click to continue</a> if it all looks good.
 					</h3>
