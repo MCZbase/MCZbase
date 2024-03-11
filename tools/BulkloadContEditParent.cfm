@@ -37,11 +37,10 @@
 <cfinclude template="/shared/_header.cfm">
 <cfif not isDefined("action") OR len(action) EQ 0><cfset action="nothing"></cfif>
 <main class="container-fluid py-3" id="content">
-	<h1 class="h2 mt-2">Bulkload Container Edit Parent</h1>
-
 	<cfif #action# is "nothing">
 		<cfoutput>
 		<div class="container">
+			<h1 class="h2 mt-2">Bulkload Container Edit Parent</h1>
 			<p>This tool is used to edit container information and/or move parts to a different parent container.</p>
 			<p>Upload a comma-delimited text file (csv).  Include column headings, spelled exactly as below.  Additional colums will be ignored</p>
 			<span class="btn btn-xs btn-info" onclick="document.getElementById('template').style.display='block';">View template</span>
@@ -107,10 +106,11 @@
 		</div>
 		</cfoutput>
 	</cfif>
-	<!------------------------------------------------------->
+<!------------------------------------------------------->
 	<cfif #action# is "getFile">
 		<cfoutput>
 			<div class="container">
+				<h1 class="h2 mt-2">Bulkload Container Edit Parent</h1>
 				<h2 class="h3">First step: Reading data from CSV file.</h2>
 				<!--- Compare the numbers of headers expected against provided in CSV file --->
 				<!--- Set some constants to identify error cases in cfcatch block --->
@@ -478,11 +478,12 @@
 		</cfoutput>
 	</cfif>
 <!------------------------------------------------------->
-	<!------------------------------------------------------->
+<!------------------------------------------------------->
 	<cfif #action# is "validate">
-		<h2 class="h3">Second step: Data Validation</h2>
 		<cfoutput>
 			<div class="container-fluid">
+				<h1 class="h2 mt-2">Bulkload Container Edit Parent</h1>
+				<h2 class="h3">Second step: Data Validation</h2>
 				<cfquery name="getCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					update cf_temp_cont_edit set container_id=
 					(select container_id from container where container.barcode = cf_temp_cont_edit.container_unique_id)
@@ -583,6 +584,8 @@
 	</cfif>
 	<!-------------------------------------------------------------------------------------------->
 	<cfif action is "load">
+		<div class="container">
+		<h1 class="h2 mt-2">Bulkload Container Edit Parent</h1>
 		<h2 class="h3">Third step: Apply changes.</h2>
 		<cfoutput>
 			<cfquery name="getTempData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -708,7 +711,7 @@
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 		</cfoutput>
+		</div>
 	</cfif>
-
 </main>
 <cfinclude template="/shared/_footer.cfm">
