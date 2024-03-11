@@ -260,13 +260,13 @@
 							<cfset class="text-dark">
 						</cfif>
 						<li>
-							<span class="#class#" #hint#>#field#</span>
+							<span class="#class#" #hint#>#field# &nbsp;&nbsp;</span>
 							<cfif arrayFindNoCase(colNameArray,field) GT 0>
 								<strong class="text-success">Present in CSV</strong>
 							<cfelse>
 								<!--- Case 2. Check by identifying field in required field list --->
 								<cfif ListContainsNoCase(requiredFieldList,field)>
-									<strong class="text-dark">Required Column Not Found:</strong>
+									<strong class="text-dark">Required column not found</strong>
 									<cfset errorMessage = "#errorMessage# <strong>#field#</strong> is missing.">
 								</cfif>
 							</cfif>
