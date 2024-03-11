@@ -55,7 +55,7 @@ limitations under the License.
 				<cfloop query="getItems">
 					<cfset guid="MCZ:#collection_cde#:#catalog_number#">
 					<cfset qrCodeInstance = qrCode.encodeText(JavaCast("string","https://mczbase.mcz.harvard.edu/guid/#guid#"),ecc.HIGH) >
-					<cfset svg = qrCodeUtility.toSvgString(qrCodeInstance,0,JavaCast("string","white"),JavaCast("string","black")>
+					<cfset svg = qrCodeUtility.toSvgString(qrCodeInstance,0,JavaCast("string","white"),JavaCast("string","black"))>
 					<div>
 						<div><strong style="font: 1.8em 'Times-Roman';">#guid#</strong></div>
 						<div><strong style="font: 2em Helvetica;">#sci_name#</strong></div>
