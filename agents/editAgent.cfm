@@ -508,7 +508,7 @@ limitations under the License.
 									<cfif curAgentType EQ "organization">
 										<cfset eoriStyle = "">
 									</cfif>
-									<div class="col-12 col-md-4" div="eoriDiv" style="#eoriStyle#">
+									<div class="col-12 col-md-4" id="eoriDiv" style="#eoriStyle#">
 										<label id="eori_number_label" for="eori_number" class="data-entry-label">EORI Number</label>
 										<input type="text" name="eori_number" id="eori_number" value="#eori_number#" class="data-entry-input">
 									</div>
