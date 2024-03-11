@@ -110,7 +110,6 @@
 		<!--- Compare the numbers of headers expected against provided in CSV file --->
 		<!--- Set some constants to identify error cases in cfcatch block --->
 		<cfset NO_COLUMN_ERR = "<h4 class='mt-4 mb-3'>One or more required fields are missing in the header line of the csv file. <br>Missing fields: </h4>">
-		<cfset FORMAT_ERR = "<h4 class='mt-4 mb-3'>Formatting Error.</h4>">
 		<cfset DUP_COLUMN_ERR = "<h4 class='mt-2 mb-3'>One or more columns are duplicated in the header line of the csv file. <br>Duplicated fields: </h4>">
 		<cfset COLUMN_ERR = "<h4 class='mt-4 mb-3'>Error inserting data:  You may have specified the wrong format.</h4>">
 		<cfset NO_HEADER_ERR = "<h4 class='mt-4 mb-3'>No header line found, csv file appears to be empty.</h4>">
@@ -246,11 +245,8 @@
 						</cfif>
 					</cfif>
 				</cfloop>
-				<cfif len(errorMessage) GT 0>
-					<cfthrow message = "#NO_COLUMN_ERR# <h4 class='px-4'> #errorMessage# </h4>">
-					<cfif size EQ 1>
-						<cfset errorMessage = "#FORMAT_ERR# You may have specified the wrong format, only one column header was found: #errorMessage#">
-					</cfif>
+				<cfif size EQ 1>
+					<cfset errorMessage = "You may have specified the wrong format, only one column header was found: #errorMessage#">
 				</cfif>
 				<cfset errorMessage = "">
 				<!--- Loop through list of fields, mark each field as fields present in input or not, throw exception if required fields are missing --->
