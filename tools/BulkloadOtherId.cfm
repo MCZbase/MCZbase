@@ -246,7 +246,7 @@
 					</cfif>
 				</cfloop>
 				<cfif len(errorMessage) GT 0>
-					<cfthrow message = "#NO_COLUMN_ERR# <h4 class='px-4'> #errorMessage# B</h4>">
+					<cfthrow message = "#NO_COLUMN_ERR# <h4 class='px-4'> #errorMessage# </h4>">
 				</cfif>
 				<cfset errorMessage = "">
 				<!--- Loop through list of fields, mark each field as fields present in input or not, throw exception if required fields are missing --->
@@ -278,9 +278,9 @@
 					<cfif size EQ 1>
 						<!--- likely a problem parsing the first line into column headers --->
 						<!--- to get here, upload a csv file with the correct headers as MYSQL format --->
-						<cfset errorMessage = "You may have specified the wrong format, only one column header was found. #errorMessage#">
+						<cfset errorMessage = "You may have specified the wrong format, only one column header was found: #errorMessage#">.
 					</cfif>
-					<cfthrow message = "#NO_COLUMN_ERR# #errorMessage#">
+					<cfthrow message = "#errorMessage#">
 				</cfif>
 				<cfif NOT ListContainsNoCase(fieldList,aField)>
 					<ul class="py-1 h4 list-unstyled">
@@ -384,7 +384,7 @@
 					<cfif foundHighCount GT 1><cfset plural="s"><cfelse><cfset plural=""></cfif>
 					<h3 class="h4">Found characters where the encoding is probably important in the input data.</h3>
 					<div>
-						<p>Showing #foundHighCount# example#plural#.  If these do not appear as the correct characters, the file likely has a different encoding from the one you selected and
+						<p>Showing #foundHighCount# example#plural#. If these do not appear as the correct characters, the file likely has a different encoding from the one you selected and
 						you probably want to <strong><a href="/tools/BulkloadOtherId.cfm">reload</a></strong> this file selecting a different encoding.  If these appear as expected, then 
 							you selected the correct encoding and can continue to validate or load.</p>
 					</div>
@@ -401,7 +401,7 @@
 				</h3>
 			<cfcatch>
 				<h3>
-					<span class="text-danger">Failed to read the CSV file.</span>  Fix the errors in the file and <a href="/tools/BulkloadOtherId.cfm">reload</a>
+					<span class="text-danger">Failed to read the CSV file.</span> Fix the errors in the file and <a href="/tools/BulkloadOtherId.cfm">reload</a>
 				</h3>
 				<cfif isDefined("othResult")>
 					<cfset foundHighCount = 0>
