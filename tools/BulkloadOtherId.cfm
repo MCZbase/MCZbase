@@ -286,6 +286,7 @@
 					<cfthrow message = "#NO_COLUMN_ERR# #errorMessage#">
 				</cfif>
 				<ul class="h4 mb-4">
+					<cfset errorMessage = "">
 					<cfloop list="#foundHeaders#" index="afield" delimiters=",">
 						<cfset hint="">
 						<cfif listContains(fieldList,field,",")>
