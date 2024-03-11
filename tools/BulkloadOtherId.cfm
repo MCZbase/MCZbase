@@ -267,7 +267,7 @@
 								<!--- Case 2. Check by identifying field in required field list --->
 								<cfif ListContainsNoCase(requiredFieldList,field)>
 									<strong class="text-dark">Required column not found</strong>
-									<cfset errorMessage = "#errorMessage# <strong>#field#</strong> is missing.">
+									<cfset errorMessage = "#errorMessage# <strong>#field#</strong>">
 								</cfif>
 							</cfif>
 						</li>
@@ -396,7 +396,7 @@
 					<cfif loadedRows EQ 0>
 						Loaded no rows from the CSV file.  The file appears to be just a header with no data. Fix file and <a href="/tools/BulkloadOtherId.cfm">reload</a>
 					<cfelse>
-						Successfully read #loadedRows# records from the CSV file.  Next <a href="/tools/BulkloadOtherId.cfm?action=validate">click to validate</a>.
+						Successfully read #loadedRows# records from the CSV file. Next <a href="/tools/BulkloadOtherId.cfm?action=validate">click to validate</a>.
 					</cfif>
 				</h3>
 			<cfcatch>
