@@ -274,7 +274,7 @@
 						</li>
 					</cfloop>
 				</ul>
-				<cfif cfcatch.detail eq '' and size EQ 1 >
+				<cfif ErrNumber eq 0 and size EQ 1 >
 					<cfif size EQ 1>
 						<!--- likely a problem parsing the first line into column headers --->
 						<!--- to get here, upload a csv file with the correct headers as MYSQL format --->
