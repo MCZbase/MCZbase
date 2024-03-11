@@ -544,6 +544,7 @@
 				<table class='px-0 sortable small table table-responsive table-striped d-lg-table'>
 				<thead class="thead-light">
 					<tr>
+						<th>STATUS</th>
 						<th>CONTAINER_UNIQUE_ID</th>
 						<th>PARENT_UNIQUE_ID</th>
 						<th>CONTAINER_TYPE</th>
@@ -556,11 +557,11 @@
 						<th>NUMBER_POSITIONS</th>
 						<th>CONTAINER_ID</th>
 						<th>PARENT_CONTAINER_ID</th>
-						<th>STATUS</th>
 					</tr>
 				<tbody>
 					<cfloop query="data">
 						<tr>
+							<td><strong>#STATUS#</strong></td>
 							<td>#data.CONTAINER_UNIQUE_ID#</td>
 							<td>#data.PARENT_UNIQUE_ID#</td>
 							<td>#data.CONTAINER_TYPE#</td>
@@ -573,7 +574,6 @@
 							<td>#data.NUMBER_POSITIONS#</td>
 							<td>#data.CONTAINER_ID#</td>
 							<td>#data.PARENT_CONTAINER_ID#</td>
-							<td><strong>#STATUS#</strong></td>
 						</tr>
 					</cfloop>
 				</tbody>
