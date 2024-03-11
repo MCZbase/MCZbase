@@ -246,7 +246,7 @@
 					</cfif>
 				</cfloop>
 				<cfif len(errorMessage) GT 0>
-					<cfthrow message = " <h4 class='px-4'> #errorMessage#</h4>">
+					<cfthrow message = "#NO_COLUMN_ERR# <h4 class='px-4'> #errorMessage#</h4>">
 				</cfif>
 				<cfset errorMessage = "">
 				<!--- Loop through list of fields, mark each field as fields present in input or not, throw exception if required fields are missing --->
@@ -280,7 +280,7 @@
 						<!--- to get here, upload a csv file with the correct headers as MYSQL format --->
 						<cfset errorMessage = "You may have specified the wrong format, only one column header was found. #errorMessage#">
 					</cfif>
-					<cfthrow message = "#NO_COLUMN_ERR# #errorMessage#">
+					<cfthrow message = " #errorMessage#">
 				</cfif>
 				<cfif NOT ListContainsNoCase(fieldList,aField)>
 					<ul class="py-1 h4 list-unstyled">
