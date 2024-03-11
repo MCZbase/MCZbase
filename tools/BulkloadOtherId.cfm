@@ -281,7 +281,7 @@
 					</cfif>
 					<cfthrow message = "#NO_COLUMN_ERR# #errorMessage#">
 				</cfif>
-				<cfif len(errorMessage) GT 0 and size GT 1>
+				<cfif len(errorMessage) GT 0 and size GT 1 and foundHighCount GT 0>
 						<cfset errorMessage = "Wrong character set?">
 						<cfthrow message = "#NO_COLUMN_ERR# #errorMessage#">
 				</cfif>
