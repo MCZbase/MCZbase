@@ -280,6 +280,9 @@
 						<cfset errorMessage = "You may have specified the wrong format, only one column header was found, #errorMessage#.">
 					</cfif>
 					<cfthrow message = "#NO_COLUMN_ERR# #errorMessage#">
+					<cfelseif size GT 1>
+						Wrong File Type?
+						<cfthrow message = "#NO_COLUMN_ERR# #errorMessage#">
 				</cfif>
 				<cfif NOT ListContainsNoCase(fieldList,aField)>
 					<ul class="py-1 h4 list-unstyled">
