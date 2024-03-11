@@ -537,6 +537,7 @@
 						Fix the problems in the data and <a href="/tools/BulkloadContEditParent.cfm">start again</a>.
 					</h3>
 				<cfelse>
+					<cfset status="Cleared to load">
 					<h3>
 						<span class="text-success">Validation checks passed.</span> Look over the table below and <a href="/tools/BulkloadContEditParent.cfm?action=load">click to continue</a> if it all looks good.
 					</h3>
