@@ -111,7 +111,7 @@
 		<!--- Set some constants to identify error cases in cfcatch block --->
 		<cfset NO_COLUMN_ERR = "<h4 class='mt-4 mb-3'>One or more required fields are missing in the header line of the csv file. </h4>">
 		<cfset DUP_COLUMN_ERR = "<h4 class='mt-2 mb-3'>One or more columns are duplicated in the header line of the csv file. </h4>">
-		<cfset COLUMN_ERR = "<h4 class='mt-4 mb-3'>Error inserting data:  You may have specified the wrong format.</h4>">
+		<cfset COLUMN_ERR = "Error inserting data ">
 		<cfset NO_HEADER_ERR = "<h4 class='mt-4 mb-3'>No header line found, csv file appears to be empty.</h4>">
 
 		<cftry>
@@ -280,7 +280,8 @@
 						<cfset errorMessage = "You may have specified the wrong format, only one column header was found, #errorMessage#.">
 					</cfif>
 					<cfthrow message = "#NO_COLUMN_ERR# #errorMessage#">
-					<cfelseif size GT 1>
+				</cfif>
+				<cfif len(errorMessage) GT 0 and size GT 1>
 						<cfset errorMessage = "Wrong character set?">
 						<cfthrow message = "#NO_COLUMN_ERR# #errorMessage#">
 				</cfif>
