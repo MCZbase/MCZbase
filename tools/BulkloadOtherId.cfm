@@ -293,18 +293,20 @@
 							<li class="pt-1 px-4"><i class='fas fa-arrow-right text-info'></i> <strong class="text-info">#aField#</strong> </1i>
 						</cfif>
 					</cfloop>
+				<cfif len(errorMessage) GT 0 and (NOT ListLen(ListRemoveDuplicates(foundHeaders)) EQ ListLen(foundHeaders))>
+				<ul class="py-1 h4 list-unstyled">
 					<!--- Identify duplicate columns and fail if found --->
 					<cfif NOT ListLen(ListRemoveDuplicates(foundHeaders)) EQ ListLen(foundHeaders)>
-						<li>At least one column header occurs more than once.</1i>
+						<strong>At least one column header occurs more than once.</strong>
 						<cfloop list="#foundHeaders#" item="aField">
 							<cfif listValueCount(foundHeaders,aField) GT 1>
-								<li>[<strong>#aField#</strong>] is duplicated as the header for #listValueCount(foundHeaders,aField)# columns.</li>
+								<li><strong>#aField#</strong> (occurs in #listValueCount(foundHeaders,aField)# columns).</li>
 							</cfif>
 						</cfloop>
 						<cfthrow message = "#DUP_COLUMN_ERR#">
 					</cfif>
 				</ul>
-
+				</cfif>
 				<cfset colNames="#foundHeaders#">
 				<cfset loadedRows = 0>
 				<cfset foundHighCount = 0>
