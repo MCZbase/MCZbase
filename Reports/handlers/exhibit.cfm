@@ -45,16 +45,16 @@ limitations under the License.
 		<cfoutput>
 
 			<cfobject type="Java" name="qrCode" class="io.nayuki.qrcodegen.QrCode" >
-			<cfobject type="Java" name="qrCodeUtility" class="QrCodeGeneratorDemo" >
-
-			<!--- TODO: roduce image from QRCode object and embed in pdf. --->
-			<!--- for some options, see: https://stackoverflow.com/questions/34316662/using-cfimage-to-display-a-file-that-doesnt-have-an-extension/ --->
+			<!--- Utility class exposing method from QrCodeGeneratorDemo --->
+			<cfobject type="Java" name="qrCodeUtility" class="edu.harvard.mcz.qrCodeUtility.QrCodeUtility" >
 
 			<cfdocumentsection name="Lables">
 				<cfloop query="getItems">
 					<cfset guid="MCZ:#collection_cde#:#catalog_number#">
 					<cfset qrCodeInstance = qrCode.encodeText(JavaCast("string","https://mczbase.mcz.harvard.edu/guid/#guid#"),qrCode.ecc.HIGH) >
-					<cfset svg = qrCodeUtility.toSvgString(qrCodeInstance,0,JavaCast("string","white"),JavaCast("string","black"))>
+					<!--- Produce image from QRCode object and embed in pdf. --->
+					<!--- for some options, see: https://stackoverflow.com/questions/34316662/using-cfimage-to-display-a-file-that-doesnt-have-an-extension/ --->
+					<cfset svg = qrCodeUtility.toSvgString(qrCodeInstance)>
 					<div>
 						<div><strong style="font: 1.8em 'Times-Roman';">#guid#</strong></div>
 						<div><strong style="font: 2em Helvetica;">#sci_name#</strong></div>
