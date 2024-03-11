@@ -63,7 +63,7 @@ limitations under the License.
 						<img src="data:image/svg+xml;utf8,#svg#">
 						<div style="font: 0.9em 'Times-Roman'; position: absolute; bottom: 1px; left: 6em;">Museum of Comparative Zoology</div>
 					</div>
-					<cfdocumentitem type = "pagebreak">
+					<cfdocumentitem type = "pagebreak" />
 				</cfloop>	
 			</cfdocumentsection>
 		</cfoutput>
