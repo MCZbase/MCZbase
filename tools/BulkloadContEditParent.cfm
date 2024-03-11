@@ -199,7 +199,7 @@
 				<cfset records = CSVParser.parse(#tempFileInputStream#,#javaSelectedCharset#,#csvFormat#)>
 				<!--- cleanup any incomplete work by the same user --->
 				<cfquery name="clearTempTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="clearTempTable_result">
-					DELETE FROM cf_temp_cf_temp_cont_edit
+					DELETE FROM cf_temp_cont_edit
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
 				<!--- obtain an iterator to loops through the rows/records in the csv --->
