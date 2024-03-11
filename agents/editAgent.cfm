@@ -504,12 +504,14 @@ limitations under the License.
 											$("##end_date").datepicker({ dateFormat: 'yy-mm-dd'});
 										});
 									</script>
+									<cfset eoriStyle = "display: none; ">
 									<cfif curAgentType EQ "organization">
-										<div class="col-12 col-md-4" div="eoriDiv" style="display: none;">
-											<label id="eori_number_label" for="eori_number" class="data-entry-label">EORI Number</label>
-											<input type="text" name="eori_number" id="eori_number" value="#eori_number#" class="data-entry-input">
-										</div>
+										<cfset eoriStyle = "">
 									</cfif>
+									<div class="col-12 col-md-4" div="eoriDiv" style="#eoriStyle#">
+										<label id="eori_number_label" for="eori_number" class="data-entry-label">EORI Number</label>
+										<input type="text" name="eori_number" id="eori_number" value="#eori_number#" class="data-entry-input">
+									</div>
 								</div>
 								<div class="form-row mb-1">
 									<div class="col-12 col-md-6 mt-1" >
