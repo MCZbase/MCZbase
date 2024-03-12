@@ -462,6 +462,23 @@
 	</cfif>
 
 	<!------------------------------------------------------->
+	<!---
+			Things that can happen here:
+				1) Upload a part that doesn't exist
+					Solution: create a new part, optionally put it in a container that they specify in the upload.
+				2) Upload a part that already exists
+					a) use_existing = 1
+						1) part is in a container
+							Solution: warn them, create new part, optionally put it in a container that they've specified
+						 2) part is NOT already in a container
+							Solution: put the existing part into the new container that they've specified or, if
+							they haven't specified a new container, ignore this line as it does nothing.
+					b) use_existing = 0
+						1) part is in a container
+							Solution: warn them, create a new part, optionally put it in the container they've specified
+						2) part is not in a container
+							Solution: same: warning and new part
+		---->
 	<cfif #action# is "validate">
 		<h2 class="h4">Second step: Data Validation</h2>
 		<cfoutput>
@@ -636,29 +653,13 @@
 						</cfquery>
 					</cfif>
 			</cfloop>
-			<!---
-			Things that can happen here:
-				1) Upload a part that doesn't exist
-					Solution: create a new part, optionally put it in a container that they specify in the upload.
-				2) Upload a part that already exists
-					a) use_existing = 1
-						1) part is in a container
-							Solution: warn them, create new part, optionally put it in a container that they've specified
-						 2) part is NOT already in a container
-							Solution: put the existing part into the new container that they've specified or, if
-							they haven't specified a new container, ignore this line as it does nothing.
-					b) use_existing = 0
-						1) part is in a container
-							Solution: warn them, create a new part, optionally put it in the container they've specified
-						2) part is not in a container
-							Solution: same: warning and new part
-		---->
+			
 			<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				update cf_temp_parts set (status) = (
 				select
 				decode(parent_container_id,
 				0,'NOTE: PART EXISTS',
-				'NOTE: PART EXISTS IN PARENT CONTAINER (#parent_container_id#)')
+				'NOTE: PART EXISTS IN PARENT CONTAINER')
 				from specimen_part,coll_obj_cont_hist,container, coll_object_remark where
 				specimen_part.collection_object_id = coll_obj_cont_hist.collection_object_id AND
 				coll_obj_cont_hist.container_id = container.container_id AND
