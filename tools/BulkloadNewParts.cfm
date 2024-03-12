@@ -658,7 +658,7 @@
 				select
 				decode(parent_container_id,
 				0,'NOTE: PART EXISTS',
-				'NOTE: PART EXISTS IN PARENT CONTAINER')
+				'NOTE: PART EXISTS IN PARENT CONTAINER (#parent_container_id#)')
 				from specimen_part,coll_obj_cont_hist,container, coll_object_remark where
 				specimen_part.collection_object_id = coll_obj_cont_hist.collection_object_id AND
 				coll_obj_cont_hist.container_id = container.container_id AND
