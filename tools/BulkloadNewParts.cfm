@@ -467,7 +467,7 @@
 			<cfoutput>
 			<cfquery name="getTempTableTypes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				SELECT 
-					existing_other_id_type, existing_other_id_type,new_other_id_number, key
+					institution_acronym, collection_cde, other_id_type, other_id_number, part_name, preserve_method, lot_count_modifier, lot_count, condition, disposition, key
 				FROM 
 					cf_temp_parts
 				WHERE 
