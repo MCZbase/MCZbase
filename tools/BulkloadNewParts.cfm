@@ -698,9 +698,10 @@
 			<cfquery name="inT" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				select * from cf_temp_parts
 			</cfquery>
-			<table border>
+			<table class="table table-responsive sortable px-0">
+				<thead class="thead-light">
 				<tr>
-					<td>Problem</td>
+					<td>Bulkloading Status</td>
 					<td>institution_acronym</td>
 					<td>collection_cde</td>
 					<td>OTHER_ID_TYPE</td>
@@ -749,7 +750,9 @@
 					<td>part_att_detby_6</td>
 					<td>part_att_madedate_6</td>
 					<td>part_att_rem_6</td>
+					</thead>
 				</tr>
+				<tbody>
 				<cfloop query="inT">
 					<tr>
 						<td>
@@ -814,6 +817,7 @@
 						<td>#part_att_rem_6#</td>
 					</tr>
 				</cfloop>
+				</tbody>
 			</table>
 		</cfoutput>
 		<cfquery name="allValid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
