@@ -653,7 +653,7 @@
 							<cfif len(#current_remarks#) gt 0>
 								<cfquery name="updateParts3" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updatePartsRem_result">
 									INSERT INTO coll_object_remark (collection_object_id, coll_object_remarks)
-									VALUES (sq_collection_object_id.currval, '#current_remarks#')
+									VALUES (sq_collection_object_id.currval, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#current_remarks#">)
 								</cfquery>
 							</cfif>
 							<cfset part_updates = part_updates + updatePartsColl_result.recordcount + updatePartsSpec_result.recordcount + updatePartsRem_result.recordcount>
