@@ -52,7 +52,7 @@ limitations under the License.
 			<cfdocumentsection name="Lables">
 				<cfloop query="getItems">
 					<cfset guid="MCZ:#collection_cde#:#catalog_number#">
-					<cfset qrCodeInstance = qrCodeUtility.encodeText(JavaCast("string","https://mczbase.mcz.harvard.edu/guid/#guid#")) >
+					<cfset qrCodeInstance = qrCodeUtility.encodeTextHigh(JavaCast("string","https://mczbase.mcz.harvard.edu/guid/#guid#")) >
 					<!--- Produce image from QRCode object and embed in pdf. --->
 					<!--- for some options, see: https://stackoverflow.com/questions/34316662/using-cfimage-to-display-a-file-that-doesnt-have-an-extension/ --->
 					<cfset svg = qrCodeUtility.toSvgString(qrCodeInstance)>
