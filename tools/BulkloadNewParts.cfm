@@ -587,10 +587,14 @@
 						<th>BULKLOADING STATUS</th>
 						<th>INSTITUTION_ACRONYM</th>
 						<th>COLLECTION_CDE</th>
-						<th>EXISTING_OTHER_ID_TYPE</th>
-						<th>EXISTING_OTHER_ID_NUMBER</th>
-						<th>NEW_OTHER_ID_TYPE</th>
-						<th>NEW_OTHER_ID_NUMBER</th>
+						<th>OTHER_ID_TYPE</th>
+						<th>OTHER_ID_NUMBER</th>
+						<th>PART_NAME</th>
+						<th>PRESERVE_METHOD</th>
+						<th>LOT_COUNT_MODIFIER</th>
+						<th>LOT_COUNT</th>
+						<th>CONDITION</th>
+						<th>DISPOSITION</th>
 					</tr>
 				<tbody>
 					<cfloop query="data">
@@ -598,10 +602,14 @@
 							<td><cfif len(data.status) eq 0>Cleared to load<cfelse><strong>#data.status#</strong></cfif></td>
 							<td>#data.institution_acronym#</td>
 							<td>#data.collection_cde#</td>
-							<td>#data.existing_other_id_type#</td>
-							<td>#data.existing_other_id_number#</td>
-							<td>#data.new_other_id_type#</td>
-							<td>#data.new_other_id_number#</td>
+							<td>#data.OTHER_ID_TYPE#</td>
+							<td>#data.other_id_number#</td>
+							<td>#data.PART_NAME#</td>
+							<td>#data.PRESERVE_METHOD#</td>
+							<td>#data.LOT_COUNT_MODIFIER#</td>
+							<td>#data.LOT_COUNT#</td>
+							<td>#data.CONDITION#</td>
+							<td>#data.DISPOSITION#</td>
 						</tr>
 					</cfloop>
 				</tbody>
