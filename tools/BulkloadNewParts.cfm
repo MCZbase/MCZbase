@@ -844,7 +844,7 @@
 			<cfelseif getEnteredBy.recordcount gt 1>
 				<cfabort showerror="Your login has multiple matches.">
 			</cfif>
-			<cfset enteredbyid = getEnteredBy.agent_id>
+			<cfset enteredbyid = '#getEnteredBy.agent_id#'>
 			<cftransaction>
 			<cftry>
 				<cfset part_updates = 0>
