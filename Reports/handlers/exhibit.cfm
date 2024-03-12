@@ -80,5 +80,11 @@ wget https://repo1.maven.org/maven2/io/nayuki/qrcodegen/1.8.0/qrcodegen-1.8.0.ja
 		</cfoutput>
 		</cfdocument>
 		<!--- TODO: pdftk rotate, multistamp, or equivalent --->
+		<!--- 
+			pdftk file1.pdf cat 1-endsouth  output filerot.pdf
+			pdftk file1.pdf multistamp filerot.pdf output file2.pdf
+			or
+			pdftk file1.pdf cat 1-endsouth output - | pdftk file1.pdf multistamp - output file2.pdf
+		--->
 	</cfcase>
 </cfswitch>
