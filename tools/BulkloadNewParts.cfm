@@ -476,7 +476,7 @@
 			<cfloop query="getTempTableTypes">
 				<cfif getTempTableTypes.other_id_type eq 'catalog number'>
 					<!--- either based on catalog_number --->
-					<cfquery name="getCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					<cfquery name="getCID" datasource="user_login" use rname="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						UPDATE
 							cf_temp_parts
 						SET
@@ -628,9 +628,9 @@
 							<cfquery name="updateParts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 								insert into specimen_part sp
 								INNER JOIN coll_object co ON co.collection_object_id = sp.derived_from_cat_item
-								(collection_object_id, sp.part_name, sp.preserve_method, sp.derived_from_cat_item,co.condition,co.lot_count_modifier,co.lot_count ) 
+								(collection_object_id, sp.part_name, sp.preserve_method, sp.derived_from_cat_item,co.condition,co.lot_count_modifier,co.lot_count,coll_object_disposition ) 
 								values
-								(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collection_object_id#">, '<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#PART_NAME#">', '<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#PRESERVE_METHOD#">', '<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#DERIVED_FROM_CAT_ITEM#">','<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#CONDITION#">','<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#lot_count_modifier#">',<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#lot_count#">)
+								(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collection_object_id#">, '<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#PART_NAME#">', '<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#PRESERVE_METHOD#">', '<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#DERIVED_FROM_CAT_ITEM#">','<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#CONDITION#">','<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#lot_count_modifier#">','<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#coll_object_disposition#">')
 							</cfquery>
 							<cfset part_updates = part_updates + updateParts_result.recordcount>
 						</cfloop>
@@ -665,6 +665,7 @@
 								<th>CONDITION</th>
 								<th>CONTAINER_UNIQUE_ID</th>
 								<th>VALIDTED_STATUS</th>
+								<th>DISPOSITION</th>
 							</tr> 
 						</thead>
 						<tbody>
@@ -680,7 +681,8 @@
 									<td>#getProblemData.LOT_COUNT_MODIFIER#</td>
 									<td>#getProblemData.CONDITION#</td>
 									<td>#getProblemData.CONTAINER_UNIQUE_ID#</td>
-									<td><strong>#VALIDTED_STATUS#</strong></td>
+									<td>#getProblemData.COLL_OBJECT_DISPOSITION#</td>
+									<td><strong>#STATUS#</strong></td>
 								</tr> 
 							</cfloop>
 						</tbody>
@@ -701,9 +703,9 @@
 				<cfcatch>
 					<cftransaction action="rollback">
 						<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-						SELECT institution_acronym,other_id_type,other_id_number,collection_cde,part_name,preserve_method,lot_count,lot_count_modifier,condition,validated_status 
+						SELECT institution_acronym,other_id_type,other_id_number,collection_cde,part_name,preserve_method,lot_count,lot_count_modifier,condition,coll_obj_disposition,status 
 						FROM cf_temp_parts 
-						WHERE validated_status is not null
+						WHERE status is not null
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						</cfquery>
 						<h3>Error updating row (#part_updates + 1#): #cfcatch.message#</h3>
@@ -721,7 +723,7 @@
 									<th>condition</th>
 									<th>disposition</th>
 									<th>Container_unique_id</th>
-									<th>validated_status</th>
+									<th>status</th>
 								</tr> 
 							</thead>
 							<tbody>
@@ -736,9 +738,9 @@
 										<td>#getProblemData.LOT_COUNT_MODIFIER#</td>
 										<td>#getProblemData.LOT_COUNT#</td>
 										<td>#getProblemData.CONDITION#</td>
-										<td>#getProblemData.DISPOSITION#</td>
+										<td>#getProblemData.COL_OBJ_DISPOSITION#</td>
 										<td>#getProblemData.CONTAINER_UNIQUE_ID#</td>
-										<td>#getProblemData.validated_status#</td>
+										<td>#getProblemData.status#</td>
 									</tr> 
 								</cfloop>
 							</tbody>
