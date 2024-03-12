@@ -464,7 +464,7 @@
 	<!------------------------------------------------------->
 	<cfif #action# is "validate">
 		<h2 class="h4">Second step: Data Validation</h2>
-<cfoutput>
+	<cfoutput>
 	<cfquery name="getCodeTables" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select attribute_type, decode(value_code_table, null, units_code_table,value_code_table) code_table  from ctattribute_code_tables
 	</cfquery>
@@ -480,32 +480,32 @@
 		(select container_id from container where container.barcode = cf_temp_parts.container_unique_id)
 	</cfquery>
 	<cfquery name="validateGotParent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		update cf_temp_parts set validated_status = validated_status || ';Container Unique ID not found'
+		update cf_temp_parts set status = status || ';Container Unique ID not found'
 		where container_unique_id is not null and parent_container_id is null
 	</cfquery>
 	<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		update cf_temp_parts set validated_status = validated_status || ';Invalid part_name'
+		update cf_temp_parts set status = status || ';Invalid part_name'
 		where part_name|| '|' ||collection_cde NOT IN (
 			select part_name|| '|' ||collection_cde from ctspecimen_part_name
 			)
 			OR part_name is null
 	</cfquery>
 	<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		update cf_temp_parts set validated_status = validated_status || ';Invalid preserve_method'
+		update cf_temp_parts set status = status || ';Invalid preserve_method'
 		where preserve_method|| '|' ||collection_cde NOT IN (
 			select preserve_method|| '|' ||collection_cde from ctspecimen_preserv_method
 			)
 			OR preserve_method is null
 	</cfquery>
 	<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		update cf_temp_parts set validated_status = validated_status || ';Invalid container_unique_id'
+		update cf_temp_parts set status = status || ';Invalid container_unique_id'
 		where container_unique_id NOT IN (
 			select barcode from container where barcode is not null
 			)
 		AND container_unique_id is not null
 	</cfquery>
 	<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		update cf_temp_parts set validated_status = validated_status || ';Invalid DISPOSITION'
+		update cf_temp_parts set status = status || ';Invalid DISPOSITION'
 		where DISPOSITION NOT IN (
 			select COLL_OBJ_DISPOSITION from CTCOLL_OBJ_DISP
 			)
@@ -513,17 +513,17 @@
 	</cfquery>
 
 	<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		update cf_temp_parts set validated_status = validated_status || ';Invalid CONDITION'
+		update cf_temp_parts set status = status || ';Invalid CONDITION'
 		where CONDITION is null
 	</cfquery>
 	<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		update cf_temp_parts set validated_status = validated_status || ';invalid lot_count_modifier'
+		update cf_temp_parts set status = status || ';invalid lot_count_modifier'
 		where lot_count_modifier NOT IN (
 			select modifier from ctnumeric_modifiers
 			)
 	</cfquery>
 	<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		update cf_temp_parts set validated_status = validated_status || ';Invalid LOT_COUNT'
+		update cf_temp_parts set status = status || ';Invalid LOT_COUNT'
 		where (
 			LOT_COUNT is null OR
 			is_number(lot_count) = 0
@@ -533,57 +533,57 @@
 
 	<cfloop index="i" from="1" to="2">
 		<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			update cf_temp_parts set validated_status = validated_status || ';invalid PART_ATT_NAME_#i#'
+			update cf_temp_parts set status = status || ';invalid PART_ATT_NAME_#i#'
 			where PART_ATT_NAME_#i# not in
 			(select attribute_type from CTSPECPART_ATTRIBUTE_TYPE)
 		</cfquery>
 
 		<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			update cf_temp_parts set validated_status = validated_status || ';invalid PART_ATT_MADEDATE_#i#'
+			update cf_temp_parts set status = status || ';invalid PART_ATT_MADEDATE_#i#'
 			where is_iso8601(PART_ATT_MADEDATE_#i#) <> 'valid'
 			and PART_ATT_MADEDATE_#i# is not null
 		</cfquery>
 		<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			update cf_temp_parts set validated_status = validated_status || ';scientific name (' || PART_ATT_VAL_#i# || ') matched multiple taxonomy records'
+			update cf_temp_parts set status = status || ';scientific name (' || PART_ATT_VAL_#i# || ') matched multiple taxonomy records'
  			where PART_ATT_NAME_#i# = 'scientific name'
 			AND regexp_replace(PART_ATT_VAL_#i#, ' (\?|sp.)$', '') in
 			(select scientific_name from taxonomy group by scientific_name having count(*) > 1)
 			AND PART_ATT_VAL_#i# is not null
 		</cfquery>
 		<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			update cf_temp_parts set validated_status = validated_status || ';scientific name (' || PART_ATT_VAL_#i# || ') does not exist'
+			update cf_temp_parts set status = status || ';scientific name (' || PART_ATT_VAL_#i# || ') does not exist'
  			where PART_ATT_NAME_#i# = 'scientific name'
 			AND regexp_replace(PART_ATT_VAL_#i#, ' (\?|sp.)$', '') not in
 			(select scientific_name from taxonomy group by scientific_name having count(*) = 1)
 			AND PART_ATT_VAL_#i# is not null
-			and (validated_status not like '%;scientific name (' || PART_ATT_VAL_#i# || ') matched multiple taxonomy records%' or validated_status is null)
+			and (status not like '%;scientific name (' || PART_ATT_VAL_#i# || ') matched multiple taxonomy records%' or status is null)
 		</cfquery>
 		<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			update cf_temp_parts set validated_status = validated_status || ';scientific name cannot be null'
+			update cf_temp_parts set status = status || ';scientific name cannot be null'
  			where PART_ATT_NAME_#i# = 'scientific name'
 			AND PART_ATT_VAL_#i# is null
 		</cfquery>
 		<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			update cf_temp_parts set validated_status = validated_status || ';PART_ATT_DETBY_#i# agent (' || PART_ATT_DETBY_#i# || ') matched multiple agent names'
+			update cf_temp_parts set status = status || ';PART_ATT_DETBY_#i# agent (' || PART_ATT_DETBY_#i# || ') matched multiple agent names'
 			where PART_ATT_DETBY_#i# in
 			(select agent_name from agent_name group by agent_name having count(*) > 1)
 			AND PART_ATT_DETBY_#i# is not null
 		</cfquery>
 		<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			update cf_temp_parts set validated_status = validated_status || ';PART_ATT_DETBY_#i# agent (' || PART_ATT_DETBY_#i# || ') does not exist'
+			update cf_temp_parts set status = status || ';PART_ATT_DETBY_#i# agent (' || PART_ATT_DETBY_#i# || ') does not exist'
  			where PART_ATT_DETBY_#i# not in
 			(select agent_name from agent_name group by agent_name having count(*) = 1)
 			AND PART_ATT_DETBY_#i# is not null
-			and (validated_status not like '%PART_ATT_DETBY_#i# agent (' || PART_ATT_DETBY_#i# || ') matched multiple agent names%' or validated_status is null)
+			and (status not like '%PART_ATT_DETBY_#i# agent (' || PART_ATT_DETBY_#i# || ') matched multiple agent names%' or status is null)
 		</cfquery>
 		<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			update cf_temp_parts set validated_status = validated_status || ';PART_ATT_VAL_#i# is not valid for attribute(' || PART_ATT_NAME_#i# || ')'
+			update cf_temp_parts set status = status || ';PART_ATT_VAL_#i# is not valid for attribute(' || PART_ATT_NAME_#i# || ')'
 			where chk_att_codetables(PART_ATT_NAME_#i#,PART_ATT_VAL_#i#,COLLECTION_CDE)=0
 			and PART_ATT_NAME_#i# in
 			(select attribute_type from ctattribute_code_tables where value_code_table is not null)
 		</cfquery>
 		<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			update cf_temp_parts set validated_status = validated_status || ';PART_ATT_UNITS_#i# is not valid for attribute(' || PART_ATT_NAME_#i# || ')'
+			update cf_temp_parts set status = status || ';PART_ATT_UNITS_#i# is not valid for attribute(' || PART_ATT_NAME_#i# || ')'
 			where chk_att_codetables(PART_ATT_NAME_#i#,PART_ATT_UNITS_#i#,COLLECTION_CDE)=0
 			and PART_ATT_NAME_#i# in
 			(select attribute_type from ctattribute_code_tables where units_code_table is not null)
@@ -592,7 +592,7 @@
 
 
 	<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		select * from cf_temp_parts where validated_status is null
+		select * from cf_temp_parts where status is null
 	</cfquery>
 	<cfloop query="data">
 		<cfif #other_id_type# is "catalog number">
@@ -628,14 +628,14 @@
 			<cfif #collObj.recordcount# is 1>
 				<cfquery name="insColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					UPDATE cf_temp_parts SET collection_object_id = #collObj.collection_object_id#,
-					validated_status='VALID'
+					status='VALID'
 					where
 					key = #key#
 				</cfquery>
 			<cfelse>
 				<cfquery name="insColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					UPDATE cf_temp_parts SET validated_status =
-					validated_status || ';#data.institution_acronym# #data.collection_cde# #data.other_id_type# #data.other_id_number# could not be found.'
+					UPDATE cf_temp_parts SET status =
+					status || ';#data.institution_acronym# #data.collection_cde# #data.other_id_type# #data.other_id_number# could not be found.'
 					where key = #key#
 				</cfquery>
 			</cfif>
@@ -658,7 +658,7 @@
 							Solution: same: warning and new part
 		---->
 		<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			update cf_temp_parts set (validated_status) = (
+			update cf_temp_parts set (status) = (
 			select
 			decode(parent_container_id,
 			0,'NOTE: PART EXISTS',
@@ -672,14 +672,14 @@
 			cf_temp_parts.preserve_method=specimen_part.preserve_method AND
 			nvl(cf_temp_parts.current_remarks, 'NULL') = nvl(coll_object_remark.coll_object_remarks, 'NULL')
 			group by parent_container_id)
-			where validated_status='VALID'
+			where status='VALID'
 		</cfquery>
 		<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			update cf_temp_parts set (parent_container_id) = (
 			select container_id
 			from container where
 			barcode=container_unique_id)
-			where substr(validated_status,1,5) IN ('VALID','NOTE:')
+			where substr(status,1,5) IN ('VALID','NOTE:')
 		</cfquery>
 		<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			update cf_temp_parts set (use_part_id) = (
@@ -690,12 +690,12 @@
 			cf_temp_parts.preserve_method=specimen_part.preserve_method and
 			cf_temp_parts.collection_object_id=specimen_part.derived_from_cat_item and
 			nvl(cf_temp_parts.current_remarks, 'NULL') = nvl(coll_object_remark.coll_object_remarks, 'NULL'))
-			where validated_status like '%NOTE: PART EXISTS%' AND
+			where status like '%NOTE: PART EXISTS%' AND
 			use_existing = 1
 		</cfquery>
 		<cflocation url="BulkloadNewParts.cfm?action=checkValidate">
 </cfoutput>
-</cfif>
+	</cfif>
 
 
 	<!-------------------------------------------------------------------------------------------->
