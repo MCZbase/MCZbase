@@ -648,7 +648,7 @@
 								insert into specimen_part
 								(collection_object_id,PART_NAME,PRESERVE_METHOD,DERIVED_FROM_CAT_ITEM)
 								values
-								(#nextid.nextid#,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#part_name#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#preserve_method#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collection_object_id#">)
+								(#nextid.nextid#,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#part_name#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#preserve_method#">,<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">)
 							</cfquery>
 							<cfif len(#current_remarks#) gt 0>
 								<cfquery name="updateParts3" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updatePartsRem_result">
