@@ -624,7 +624,7 @@
 			<cfif getEnteredBy.recordcount is 0>
 				<cfabort showerror="You aren't a recognized agent!">
 			<cfelseif getEnteredBy.recordcount gt 1>
-				<cfabort showerror="Your login has multiple matches."
+				<cfabort showerror="Your login has multiple matches.">
 			</cfif>
 			<cfset enteredbyid = getEnteredBy.agent_id>
 			<cftransaction>
