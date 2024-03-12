@@ -66,7 +66,7 @@ limitations under the License.
 						<div style="font: 2em Helvetica;">#common_names#</div>
 						<!--- img src="data:image/svg+xml;base64,#toBase64(svg)#" height="200" width="300" --->
 						<!--- needs jpeg or png, seems to need to go through filesystem write --->
-						<cfset filename = "tempqrcode_#collection_cde#_#cat_num#.jpg">
+						<cfset filename = "tempqrcode_#collection_cde#_#catalog_number#.jpg">
 						<cfset filepath = "#Application.webDirectory#/temp/#filename#">
          			<cfset outputfile = afile.init(JavaCast("string","#filepath#"))>
          			<cfset imageIO.write(bimage,JavaCast("string","jpg"),outputfile)>
