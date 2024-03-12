@@ -625,12 +625,11 @@
 				<cfset part_updates = 0>
 					<cftransaction>
 						<cfloop query="getTempData">
-							<cfquery name="updateParts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+							<cfquery name="updateParts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#"  result="updateParts_result">
 								insert into specimen_part sp
-								INNER JOIN coll_object co ON co.collection_object_id = sp.derived_from_cat_item
-								(collection_object_id, sp.part_name, sp.preserve_method, sp.derived_from_cat_item,co.condition,co.lot_count_modifier,co.lot_count,coll_object_disposition ) 
+								(collection_object_id, sp.part_name, sp.preserve_method, sp.derived_from_cat_item,) 
 								values
-								(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collection_object_id#">, '<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#PART_NAME#">', '<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#PRESERVE_METHOD#">', '<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#DERIVED_FROM_CAT_ITEM#">','<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#CONDITION#">','<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#lot_count_modifier#">','<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#coll_object_disposition#">')
+								(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collection_object_id#">, '<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#PART_NAME#">', '<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#PRESERVE_METHOD#">', '<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#DERIVED_FROM_CAT_ITEM#">')
 							</cfquery>
 							<cfset part_updates = part_updates + updateParts_result.recordcount>
 						</cfloop>
