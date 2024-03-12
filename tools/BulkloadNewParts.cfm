@@ -644,14 +644,14 @@
 							<cfquery name="NEXTID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 								select sq_collection_object_id.nextval NEXTID from dual
 							</cfquery>
-							<cfloop query="getEnteredBy">
+							
 							<cfquery name="updateParts2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updatePartsSpec_result">
 								insert into specimen_part
 								(collection_object_id,PART_NAME,PRESERVE_METHOD,DERIVED_FROM_CAT_ITEM)
 								values
 								(#nextid.nextid#,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#part_name#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#preserve_method#">,<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">)
 							</cfquery>
-							</cfloop>
+							
 							<cfif len(#current_remarks#) gt 0>
 								<cfquery name="updateParts3" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updatePartsRem_result">
 									INSERT INTO coll_object_remark (collection_object_id, coll_object_remarks)
