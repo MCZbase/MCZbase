@@ -639,7 +639,7 @@
 								insert into coll_object
 								(collection_object_id, coll_object_type,entered_person_id,coll_object_entered_date,last_edited_person_id,coll_obj_disposition,lot_count_modifier,lot_count,condition,flags) 
 								values
-								(#nextid.nextid#,'SP',sysdate,<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#enteredbyid#">/cfqueryparam>",<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#disposition#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#lot_count_modifier#">,<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#lot_count#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#condition#">,0)>
+								(#nextid.nextid#,'SP',sysdate,<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#enteredbyid#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#disposition#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#lot_count_modifier#">,<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#lot_count#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#condition#">,0)>
 							</cfquery>
 							<cfquery name="NEXTID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 								select sq_collection_object_id.nextval NEXTID from dual
