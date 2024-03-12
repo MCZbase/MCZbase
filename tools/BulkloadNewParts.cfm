@@ -852,13 +852,13 @@
 			<cfset enteredbyid = '#getEnteredBy.agent_id#'>
 			<cftransaction>
 			<cftry>
-				<cfset part_updates = 0>
+				<cfset part_updates = 1>
 					<cftransaction>
 						<cfloop query="getTempData">
 							<cfquery name="NEXTID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 								select sq_collection_object_id.nextval NEXTID from dual
 							</cfquery>
-							<cfquery name="updateParts1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#"  result="updatePartsColl_result">
+							<cfquery name="updateParts1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updatePartsColl_result">
 								insert into coll_object
 								(collection_object_id, coll_object_type,entered_person_id,coll_object_entered_date,last_edited_person_id,coll_obj_disposition,lot_count_modifier,lot_count,condition,flags) 
 								values
@@ -899,8 +899,9 @@
 										where container_id=#parent_container_id#
 									</cfquery>
 								</cfif>
-								<cfset part_updates = part_updates + updatePartsColl_result.recordcount>
+								
 							</cfif>
+							<cfset part_updates = part_updates + updatePartsColl_result.recordcount>
 						</cfloop>
 						
 					</cftransaction> 
