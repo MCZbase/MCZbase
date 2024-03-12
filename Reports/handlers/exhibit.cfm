@@ -61,7 +61,7 @@ limitations under the License.
 					<cfset svg = qrCodeUtility.toSvgString(qrCodeInstance)>
 					<cfset bimage = qrCodeUtility.toImage(qrCodeInstance,JavaCast("int",10))>
 					<div>
-						<div style="padding-top: 5in;"><strong style="font: 1.8em 'Times-Roman';">#guid#</strong></div>
+						<div style="padding-top: 4in;"><strong style="font: 1.8em 'Times-Roman';">#guid#</strong></div>
 						<div><strong style="font: 2em Helvetica;">#sci_name#</strong></div>
 						<div style="font: 2em Helvetica;">#common_names#</div>
 						<!--- needs jpeg or png, seems to need to go through filesystem write and load from a file:/// location --->
