@@ -48,6 +48,7 @@ limitations under the License.
 			<!--- cfobject type="Java" name="qrCode" class="io.nayuki.qrcodegen.QrCode" --->
 			<!--- Utility class exposing methods from QrCodeGeneratorDemo and QrCode --->
 			<cfobject type="Java" name="qrCodeUtility" class="edu.harvard.mcz.qrCodeUtility.QRCodeUtility" >
+			<cfobject type="Java" name="bufferedImage" class="java.awt.image.BufferedImage" >
 
 			<cfdocumentsection name="Lables">
 				<cfloop query="getItems">
@@ -56,13 +57,15 @@ limitations under the License.
 					<!--- Produce image from QRCode object and embed in pdf. --->
 					<!--- for some options, see: https://stackoverflow.com/questions/34316662/using-cfimage-to-display-a-file-that-doesnt-have-an-extension/ --->
 					<cfset svg = qrCodeUtility.toSvgString(qrCodeInstance)>
+					<cfset bimage = qrCodeUtility.toImage(qrCodeInstance,JavaCast("integer",10))>
+					<cfset imageObject = ImageNew(bimage,200,200)>
 					<div>
 						<div><strong style="font: 1.8em 'Times-Roman';">#guid#</strong></div>
 						<div><strong style="font: 2em Helvetica;">#sci_name#</strong></div>
 						<div style="font: 2em Helvetica;">#common_names#</div>
 						<img src="data:image/svg+xml;base64,#toBase64(svg)#" height="200" width="300">
 						<!--- needs jpeg or png --->
-						<cfimage action="writeToBrowser" isBase64="yes" source="data:image/svg+xml;base64,#toBase64(svg)#">
+						<cfimage action="writeToBrowser" source="#imageObject#">
 						<div style="font: 0.9em 'Times-Roman'; position: absolute; bottom: 1px; left: 6em;">Museum of Comparative Zoology</div>
 					</div>
 					<cfdocumentitem type = "pagebreak" />
@@ -70,5 +73,6 @@ limitations under the License.
 			</cfdocumentsection>
 		</cfoutput>
 		</cfdocument>
+		<!--- TODO: pdftk rotate, multistamp, or equivalent --->
 	</cfcase>
 </cfswitch>
