@@ -760,14 +760,14 @@
 			<tr>
 				<td>
 					<cfif len(#collection_object_id#) gt 0 and
-							(#validated_status# is 'VALID')>
+							(#status# is 'VALID')>
 						<a href="/SpecimenDetail.cfm?collection_object_id=#collection_object_id#"
 							target="_blank">Specimen</a>
-					<cfelseif left(validated_status,5) is 'NOTE:'>
+					<cfelseif left(status,5) is 'NOTE:'>
 						<a href="/SpecimenDetail.cfm?collection_object_id=#collection_object_id#"
-							target="_blank">Specimen</a> (#validated_status#)
+							target="_blank">Specimen</a> (#status#)
 					<cfelse>
-						#validated_status#
+						#status#
 					</cfif>
 				</td>
 				<td>#institution_acronym#</td>
@@ -823,7 +823,7 @@
 	</table>
 	</cfoutput>
 	<cfquery name="allValid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		select count(*) as cnt from cf_temp_parts where substr(validated_status,1,5) NOT IN
+		select count(*) as cnt from cf_temp_parts where substr(status,1,5) NOT IN
 			('VALID','NOTE:')
 	</cfquery>
 	<cfif #allValid.cnt# is 0>
