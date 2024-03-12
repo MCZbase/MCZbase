@@ -615,23 +615,48 @@
 			<cfquery name="getTempData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				SELECT * FROM cf_temp_parts
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+				and status is null
 			</cfquery>
 			<cfset problem_key = "">
-			<cfquery name="NEXTID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				select sq_collection_object_id.nextval NEXTID from coll_object
+			<cfquery name= "getEnteredBy" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				SELECT agent_id FROM agent_name WHERE agent_name = '#session.username#'
 			</cfquery>
+			<cfif getEnteredBy.recordcount is 0>
+				<cfabort showerror="You aren't a recognized agent!">
+			<cfelseif getEnteredBy.recordcount gt 1>
+				<cfabort showerror="Your login has multiple matches."
+			</cfif>
+			<cfset enteredbyid = getEnteredBy.agent_id>
 			<cftransaction>
 			<cftry>
 				<cfset part_updates = 0>
 					<cftransaction>
 						<cfloop query="getTempData">
-							<cfquery name="updateParts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#"  result="updateParts_result">
-								insert into specimen_part sp
-								(collection_object_id, sp.part_name, sp.preserve_method, sp.derived_from_cat_item,) 
-								values
-								(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collection_object_id#">, '<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#PART_NAME#">', '<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#PRESERVE_METHOD#">', '<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#DERIVED_FROM_CAT_ITEM#">')
+							<cfquery name="NEXTID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+								select sq_collection_object_id.nextval NEXTID from dual
 							</cfquery>
-							<cfset part_updates = part_updates + updateParts_result.recordcount>
+							<cfquery name="updateParts1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#"  result="updatePartsColl_result">
+								insert into coll_object
+								(collection_object_id, coll_object_type,entered_person_id,coll_object_entered_date,last_edited_person_id,coll_obj_disposition,lot_count_modifier,lot_count,condition,flags) 
+								values
+								(#nextid.nextid#,'SP',sysdate,<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#enteredbyid#">/cfqueryparam>",<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#disposition#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#lot_count_modifier#">,<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#lot_count#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#condition#">,0)>
+							</cfquery>
+							<cfquery name="NEXTID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+								select sq_collection_object_id.nextval NEXTID from dual
+							</cfquery>
+							<cfquery name="updateParts2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updatePartsSpec_result">
+								insert into specimen_part
+								(collection_object_id,PART_NAME,PRESERVE_METHOD,DERIVED_FROM_CAT_ITEM)
+								values
+								(#nextid.nextid#,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#part_name#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#preserve_method#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collection_object_id#">)
+							</cfquery>
+							<cfif len(#current_remarks#) gt 0>
+								<cfquery name="updateParts3" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updatePartsRem_result">
+									INSERT INTO coll_object_remark (collection_object_id, coll_object_remarks)
+									VALUES (sq_collection_object_id.currval, '#current_remarks#')
+								</cfquery>
+							</cfif>
+							<cfset part_updates = part_updates + updatePartsColl_result.recordcount + updatePartsSpec_result.recordcount + updatePartsRem_result.recordcount>
 						</cfloop>
 					</cftransaction> 
 					<div class="container">
