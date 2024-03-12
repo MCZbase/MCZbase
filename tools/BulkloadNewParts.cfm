@@ -29,7 +29,7 @@
 <cfset pageTitle = "Bulk New Parts">
 <cfinclude template="/shared/_header.cfm">
 <cfif not isDefined("action") OR len(action) EQ 0><cfset action="nothing"></cfif>
-<main class="container py-3" id="content">
+<main class="container-xl mx-5 py-3" id="content">
 	<h1 class="h2 mt-2">Bulkload New Parts (add part rows to specimen records)</h1>
 	<cfif #action# is "nothing">
 		<cfoutput>
