@@ -867,7 +867,7 @@
 								insert into specimen_part
 								(collection_object_id,PART_NAME,PRESERVE_METHOD,DERIVED_FROM_CAT_ITEM)
 								values
-								(#nextid.nextid#,#part_name#,#preserve_method#,#collection_object_id#)
+								(#nextid.nextid#,'#part_name#','#preserve_method#',#collection_object_id#)
 							</cfquery>
 							
 							<cfif len(#current_remarks#) gt 0>
