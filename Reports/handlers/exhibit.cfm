@@ -60,7 +60,7 @@ limitations under the License.
 						<div><strong style="font: 1.8em 'Times-Roman';">#guid#</strong></div>
 						<div><strong style="font: 2em Helvetica;">#sci_name#</strong></div>
 						<div style="height: 3in; font: 2em Helvetica; overflow: hidden;">#common_names#</div>
-						<img src="data:image/svg+xml;utf8,#svg#">
+						<img src="data:image/svg+xml;base64,#toBase64(svg)#">
 						<div style="font: 0.9em 'Times-Roman'; position: absolute; bottom: 1px; left: 6em;">Museum of Comparative Zoology</div>
 					</div>
 					<cfdocumentitem type = "pagebreak" />
