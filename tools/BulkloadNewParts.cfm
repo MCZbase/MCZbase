@@ -30,9 +30,12 @@
 <cfinclude template="/shared/_header.cfm">
 <cfif not isDefined("action") OR len(action) EQ 0><cfset action="nothing"></cfif>
 <main class="container-xl mx-5 py-3" id="content">
-	<h1 class="h2 mt-2">Bulkload New Parts (add part rows to specimen records)</h1>
+	<h1 class="h2 mt-2">Bulkload New Parts </h1>
+	
+	<h2 class="h4">Add part rows to specimen records</h2>
 	<cfif #action# is "nothing">
 		<cfoutput>
+			<p>This tool adds citations to the specimen record. The publication and specimens have to be in the code table prior to uploading this .csv. It ignores rows that are exactly the same. Additional columns will be ignored. The publication_title and/or publication_id values must appear as they do on the <a href="/Publications.cfm" class="font-weight-bold">Publication Search Results</a>. The other_id_type and other_id_number values must also be in the database. Search for them via the <a href="/Specimens.cfm" class="font-weight-bold">Specimen Search</a>. Upload a comma-delimited text file (csv). Include column headings, spelled exactly as below. Use "catalog number" as the value of other_id_type to match on catalog number.</p>
 			<span class="btn btn-xs btn-info" onclick="document.getElementById('template').style.display='block';">View template</span>
 			<div id="template" style="display:none;margin: 1em 0;">
 				<label for="templatearea" class="data-entry-label">
