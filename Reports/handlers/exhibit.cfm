@@ -64,16 +64,12 @@ limitations under the License.
 						<div><strong style="font: 1.8em 'Times-Roman';">#guid#</strong></div>
 						<div><strong style="font: 2em Helvetica;">#sci_name#</strong></div>
 						<div style="font: 2em Helvetica;">#common_names#</div>
-						<!--- img src="data:image/svg+xml;base64,#toBase64(svg)#" height="200" width="300" --->
-						<!--- needs jpeg or png, seems to need to go through filesystem write --->
+						<!--- needs jpeg or png, seems to need to go through filesystem write and load from a file:/// location --->
 						<cfset filename = "tempqrcode_#collection_cde#_#catalog_number#.jpg">
 						<cfset filepath = "#Application.webDirectory#/temp/#filename#">
          			<cfset outputfile = afile.init(JavaCast("string","#filepath#"))>
          			<cfset imageIO.write(bimage,JavaCast("string","jpg"),outputfile)>
-						<cfset fileObject = fileReadBinary('#filepath#') >
-						<cfset imageObject = imageNew(fileObject) >
-						<cfimage action="writeToBrowser" source="#imageObject#">
-						<div style="font: 0.9em 'Times-Roman'; position: absolute; bottom: 1px; left: 6em;">Museum of Comparative Zoology</div>
+						<img src="file:///#filepath#" height="215" width="215">
 					</div>
 					<cfdocumentitem type = "pagebreak" />
 				</cfloop>	
