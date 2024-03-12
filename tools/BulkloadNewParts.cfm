@@ -878,12 +878,12 @@
 							</cfif>
 							<cfif len(#changed_date#) gt 0>
 								<cfquery name="change_date" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-									update SPECIMEN_PART_PRES_HIST set CHANGED_DATE = "to_date('#CHANGED_DATE#', 'YYYY-MM-DD')" where collection_object_id =#NEXTID.NEXTID# and is_current_fg = 1
+									update SPECIMEN_PART_PRES_HIST set CHANGED_DATE = "to_date('#CHANGED_DATE#', 'YYYY-MM-DD')" where collection_object_id =#updateParts2.nextid# and is_current_fg = 1
 								</cfquery>
 							</cfif>
 							<cfif len(#container_unique_id#) gt 0>
 								<cfquery name="part_container_id" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-									select container_id from coll_obj_cont_hist where collection_object_id = #NEXTID.NEXTID#
+									select container_id from coll_obj_cont_hist where collection_object_id = #updateParts2.NEXTID#
 								</cfquery>
 									<cfquery name="upPart" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 										update container set parent_container_id=#parent_container_id#
