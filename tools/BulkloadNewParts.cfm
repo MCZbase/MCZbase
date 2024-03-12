@@ -894,9 +894,10 @@
 										where container_id=#parent_container_id#
 									</cfquery>
 								</cfif>
+								<cfset part_updates = part_updates + updatePartsColl_result.recordcount>
 							</cfif>
 						</cfloop>
-						<cfset part_updates = part_updates + updatePartsColl_result.recordcount>
+						
 					</cftransaction> 
 					<div class="container">
 						<div class="row">
