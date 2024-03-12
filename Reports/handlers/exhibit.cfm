@@ -49,6 +49,8 @@ limitations under the License.
 			<!--- Utility class exposing methods from QrCodeGeneratorDemo and QrCode --->
 			<cfobject type="Java" name="qrCodeUtility" class="edu.harvard.mcz.qrCodeUtility.QRCodeUtility" >
 			<cfobject type="Java" name="bufferedImage" class="java.awt.image.BufferedImage" >
+			<cfobject type="Java" name="imageIO" class="javax.imageio.ImageIO" >
+			<cfobject type="Java" name="afile" class="java.io.File" >
 
 			<cfdocumentsection name="Lables">
 				<cfloop query="getItems">
@@ -58,13 +60,18 @@ limitations under the License.
 					<!--- for some options, see: https://stackoverflow.com/questions/34316662/using-cfimage-to-display-a-file-that-doesnt-have-an-extension/ --->
 					<cfset svg = qrCodeUtility.toSvgString(qrCodeInstance)>
 					<cfset bimage = qrCodeUtility.toImage(qrCodeInstance,JavaCast("int",10))>
-					<cfset imageObject = ImageNew(bimage)>
 					<div>
 						<div><strong style="font: 1.8em 'Times-Roman';">#guid#</strong></div>
 						<div><strong style="font: 2em Helvetica;">#sci_name#</strong></div>
 						<div style="font: 2em Helvetica;">#common_names#</div>
-						<img src="data:image/svg+xml;base64,#toBase64(svg)#" height="200" width="300">
-						<!--- needs jpeg or png --->
+						<!--- img src="data:image/svg+xml;base64,#toBase64(svg)#" height="200" width="300" --->
+						<!--- needs jpeg or png, seems to need to go through filesystem write --->
+						<cfset filename = "tempqrcode_#collection_cde#_#cat_num#.jpg">
+						<cfset filepath = "#Application.webDirectory#/temp/#filename#">
+         			<cfset outputfile = afile.init(JavaCast("string","#filepath#"))>
+         			<cfset imageIO.write(bimage,JavaCast("string","jpg"),outputfile)>
+						<cfset fileObject = fileReadBinary('#filepath#') >
+						<cfset imageObject = imageNew(fileObject) >
 						<cfimage action="writeToBrowser" source="#imageObject#">
 						<div style="font: 0.9em 'Times-Roman'; position: absolute; bottom: 1px; left: 6em;">Museum of Comparative Zoology</div>
 					</div>
