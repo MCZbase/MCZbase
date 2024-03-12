@@ -483,7 +483,7 @@
 							collection_object_id = (
 								select collection_object_id 
 								from cataloged_item 
-								where cat_num = cf_temp_parts.existing_other_id_number 
+								where cat_num = cf_temp_parts.other_id_number 
 								and collection_cde = cf_temp_parts.collection_cde
 							),
 							status = null
@@ -498,9 +498,9 @@
 						SET
 							collection_object_id= (
 								select cataloged_item.collection_object_id from cataloged_item,coll_obj_other_id_num 
-								where coll_obj_other_id_num.other_id_type = cf_temp_parts.existing_other_id_type 
+								where coll_obj_other_id_num.other_id_type = cf_temp_parts.other_id_type 
 								and cataloged_item.collection_cde = cf_temp_parts.collection_cde 
-								and display_value= cf_temp_parts.existing_other_id_number
+								and display_value= cf_temp_parts.other_id_number
 								and cataloged_item.collection_object_id = coll_obj_other_id_num.COLLECTION_OBJECT_ID
 							),
 							status = null
@@ -526,26 +526,17 @@
 			<cfquery name="flagNoCollectionObject" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				UPDATE cf_temp_parts
 				SET 
-					status = concat(nvl2(status, status || '; ', ''),' There is no match to a cataloged item on "' || existing_other_id_type || '" = "' || existing_other_id_number || '" in collection "' || collection_cde ||'"')
+					status = concat(nvl2(status, status || '; ', ''),' There is no match to a cataloged item on "' || other_id_type || '" = "' || other_id_number || '" in collection "' || collection_cde ||'"')
 				WHERE collection_object_id IS NULL
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<cfquery name="flagNotMatchedExistOther_ID_Type1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				UPDATE cf_temp_parts
 				SET 
-					status = concat(nvl2(status, status || '; ', ''), 'Unknown existing_other_id_type: "' || existing_other_id_type ||'"&mdash;not on list')
-				WHERE existing_other_id_type is not null 
-					AND existing_other_id_type <> 'catalog number'
-					AND existing_other_id_type not in (select other_id_type from ctcoll_other_id_type)
-					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-			</cfquery>
-			<cfquery name="flagNotMatchedExistOther_ID_Type2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				UPDATE cf_temp_parts
-				SET 
-					status = concat(nvl2(status, status || '; ', ''), 'Unknown new_other_id_type: "' || new_other_id_type ||'"&mdash;not on list')
-				WHERE new_other_id_type is not null 
-					AND new_other_id_type <> 'catalog number'
-					AND new_other_id_type not in (select other_id_type from ctcoll_other_id_type)
+					status = concat(nvl2(status, status || '; ', ''), 'Unknown other_id_type: "' || other_id_type ||'"&mdash;not on list')
+				WHERE other_id_type is not null 
+					AND other_id_type <> 'catalog number'
+					AND other_id_type not in (select other_id_type from ctcoll_other_id_type)
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<!---Missing data in required fields--->
@@ -560,7 +551,7 @@
 			</cfloop>
 			
 			<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				SELECT collection_object_id,collection_cde,institution_acronym,existing_other_id_type,existing_other_id_number,new_other_id_type,new_other_id_number,status
+				SELECT institution_acronym, collection_cde, other_id_type, other_id_number, part_name, preserve_method, lot_count_modifier, lot_count, condition, disposition,status
 				FROM cf_temp_parts
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
