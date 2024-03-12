@@ -859,7 +859,7 @@
 								values
 								(#nextid.nextid#,'SP',<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#enteredbyid#">,sysdate,<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#enteredbyid#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#disposition#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#lot_count_modifier#">,<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#lot_count#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#condition#">,0)
 							</cfquery>
-							
+							<cfset part_updates = part_updates + updatePartsColl_result.recordcount>
 							<cfquery name="updateParts2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updatePartsSpec_result">
 								insert into specimen_part
 								(collection_object_id,PART_NAME,PRESERVE_METHOD,DERIVED_FROM_CAT_ITEM)
@@ -900,7 +900,7 @@
 					<div class="container">
 						<div class="row">
 							<div class="col-12 mx-auto">
-								<h2 class="h3">Updated part(s).</h2>
+								<h2 class="h3">Updated #part_updates# part(s).</h2>
 							</div>
 						</div>
 					</div>
