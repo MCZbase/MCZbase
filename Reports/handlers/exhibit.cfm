@@ -15,6 +15,9 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 
+Requires qrcodegen and custom wrapper library in coldfusion cfusion/wwwroot/WEB-INF/lib
+wget https://repo1.maven.org/maven2/io/nayuki/qrcodegen/1.8.0/qrcodegen-1.8.0.jar
+
 --->
 
 <cfif not isDefined("result_id") OR len(result_id) EQ 0>
