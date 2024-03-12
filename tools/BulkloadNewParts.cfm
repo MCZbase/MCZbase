@@ -496,7 +496,7 @@
 						UPDATE
 							cf_temp_parts
 						SET
-							collection_object_id= (
+							derived_from_cat_item= (
 								select cataloged_item.collection_object_id from cataloged_item,coll_obj_other_id_num 
 								where coll_obj_other_id_num.other_id_type = cf_temp_parts.other_id_type 
 								and cataloged_item.collection_cde = cf_temp_parts.collection_cde 
@@ -644,25 +644,47 @@
 							<cfquery name="NEXTID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 								select sq_collection_object_id.nextval NEXTID from dual
 							</cfquery>
+							<cfloop query="getEnteredBy">
 							<cfquery name="updateParts2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updatePartsSpec_result">
 								insert into specimen_part
 								(collection_object_id,PART_NAME,PRESERVE_METHOD,DERIVED_FROM_CAT_ITEM)
 								values
 								(#nextid.nextid#,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#part_name#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#preserve_method#">,<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">)
 							</cfquery>
+							</cfloop>
 							<cfif len(#current_remarks#) gt 0>
 								<cfquery name="updateParts3" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updatePartsRem_result">
 									INSERT INTO coll_object_remark (collection_object_id, coll_object_remarks)
 									VALUES (sq_collection_object_id.currval, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#current_remarks#">)
 								</cfquery>
 							</cfif>
-							<cfset part_updates = part_updates + updatePartsColl_result.recordcount + updatePartsSpec_result.recordcount + updatePartsRem_result.recordcount>
+							<cfif len(#changed_date#) gt 0>
+								<cfquery name="change_date" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+									update SPECIMEN_PART_PRES_HIST set CHANGED_DATE = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="to_date('#CHANGED_DATE#', 'YYYY-MM-DD')" where collection_object_id =#NEXTID.NEXTID# and is_current_fg = 1
+								</cfquery>
+							</cfif>
+							<cfif len(#container_unique_id#) gt 0>
+								<cfquery name="part_container_id" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+									select container_id from coll_obj_cont_hist where collection_object_id = #NEXTID.NEXTID#
+								</cfquery>
+									<cfquery name="upPart" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+										update container set parent_container_id=#parent_container_id#
+										where container_id = #part_container_id.container_id#
+									</cfquery>
+								<cfif #len(change_container_type)# gt 0>
+									<cfquery name="upPart" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+										update container set
+										container_type='#change_container_type#'
+										where container_id=#parent_container_id#
+									</cfquery>
+								</cfif>
+							</cfif>
 						</cfloop>
 					</cftransaction> 
 					<div class="container">
 						<div class="row">
 							<div class="col-12 mx-auto">
-								<h2 class="h3">Updated #part_updates# part(s).</h2>
+								<h2 class="h3">Updated part(s).</h2>
 							</div>
 						</div>
 					</div>
