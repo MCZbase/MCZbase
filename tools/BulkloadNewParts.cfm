@@ -697,7 +697,142 @@
 </cfoutput>
 	</cfif>
 
+<cfif #action# is "checkValidate">
 
+	<cfoutput>
+
+	<cfquery name="inT" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		select * from cf_temp_parts
+	</cfquery>
+	<table border>
+		<tr>
+			<td>Problem</td>
+			<td>institution_acronym</td>
+			<td>collection_cde</td>
+			<td>OTHER_ID_TYPE</td>
+			<td>OTHER_ID_NUMBER</td>
+			<td>part_name</td>
+			<td>preserve_method</td>
+			<td>disposition</td>
+			<td>lot_count_modifier</td>
+			<td>lot_count</td>
+			<td>current_remarks</td>
+			<td>condition</td>
+			<td>container_unique_id</td>
+			<td>part_att_name_1</td>
+			<td>part_att_val_1</td>
+			<td>part_att_units_1</td>
+			<td>part_att_detby_1</td>
+			<td>part_att_madedate_1</td>
+			<td>part_att_rem_1</td>
+			<td>part_att_name_2</td>
+			<td>part_att_val_2</td>
+			<td>part_att_units_2</td>
+			<td>part_att_detby_2</td>
+			<td>part_att_madedate_2</td>
+			<td>part_att_rem_2</td>
+			<td>part_att_name_3</td>
+			<td>part_att_val_3</td>
+			<td>part_att_units_3</td>
+			<td>part_att_detby_3</td>
+			<td>part_att_madedate_3</td>
+			<td>part_att_rem_3</td>
+			<td>part_att_name_4</td>
+			<td>part_att_val_4</td>
+			<td>part_att_units_4</td>
+			<td>part_att_detby_4</td>
+			<td>part_att_madedate_4</td>
+			<td>part_att_rem_4</td>
+			<td>part_att_name_5</td>
+			<td>part_att_val_5</td>
+			<td>part_att_units_5</td>
+			<td>part_att_detby_5</td>
+			<td>part_att_madedate_5</td>
+			<td>part_att_rem_5</td>
+			<td>part_att_name_6</td>
+			<td>part_att_val_6</td>
+			<td>part_att_units_6</td>
+			<td>part_att_detby_6</td>
+			<td>part_att_madedate_6</td>
+			<td>part_att_rem_6</td>
+		</tr>
+		<cfloop query="inT">
+			<tr>
+				<td>
+					<cfif len(#collection_object_id#) gt 0 and
+							(#validated_status# is 'VALID')>
+						<a href="/SpecimenDetail.cfm?collection_object_id=#collection_object_id#"
+							target="_blank">Specimen</a>
+					<cfelseif left(validated_status,5) is 'NOTE:'>
+						<a href="/SpecimenDetail.cfm?collection_object_id=#collection_object_id#"
+							target="_blank">Specimen</a> (#validated_status#)
+					<cfelse>
+						#validated_status#
+					</cfif>
+				</td>
+				<td>#institution_acronym#</td>
+				<td>#collection_cde#</td>
+				<td>#OTHER_ID_TYPE#</td>
+				<td>#OTHER_ID_NUMBER#</td>
+				<td>#part_name#</td>
+				<td>#preserve_method#</td>
+				<td>#disposition#</td>
+				<td>#lot_count_modifier#</td>
+				<td>#lot_count#</td>
+				<td>#current_remarks#</td>
+				<td>#condition#</td>
+				<td>#container_unique_id#</td>
+				<td>#part_att_name_1#</td>
+				<td>#part_att_val_1#</td>
+				<td>#part_att_units_1#</td>
+				<td>#part_att_detby_1#</td>
+				<td>#part_att_madedate_1#</td>
+				<td>#part_att_rem_1#</td>
+				<td>#part_att_name_2#</td>
+				<td>#part_att_val_2#</td>
+				<td>#part_att_units_2#</td>
+				<td>#part_att_detby_2#</td>
+				<td>#part_att_madedate_2#</td>
+				<td>#part_att_rem_2#</td>
+				<td>#part_att_name_3#</td>
+				<td>#part_att_val_3#</td>
+				<td>#part_att_units_3#</td>
+				<td>#part_att_detby_3#</td>
+				<td>#part_att_madedate_3#</td>
+				<td>#part_att_rem_3#</td>
+				<td>#part_att_name_4#</td>
+				<td>#part_att_val_4#</td>
+				<td>#part_att_units_4#</td>
+				<td>#part_att_detby_4#</td>
+				<td>#part_att_madedate_4#</td>
+				<td>#part_att_rem_4#</td>
+				<td>#part_att_name_5#</td>
+				<td>#part_att_val_5#</td>
+				<td>#part_att_units_5#</td>
+				<td>#part_att_detby_5#</td>
+				<td>#part_att_madedate_5#</td>
+				<td>#part_att_rem_5#</td>
+				<td>#part_att_name_6#</td>
+				<td>#part_att_val_6#</td>
+				<td>#part_att_units_6#</td>
+				<td>#part_att_detby_6#</td>
+				<td>#part_att_madedate_6#</td>
+				<td>#part_att_rem_6#</td>
+			</tr>
+		</cfloop>
+	</table>
+	</cfoutput>
+	<cfquery name="allValid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		select count(*) as cnt from cf_temp_parts where substr(validated_status,1,5) NOT IN
+			('VALID','NOTE:')
+	</cfquery>
+	<cfif #allValid.cnt# is 0>
+		<a href="BulkloadNewParts.cfm?action=loadToDb">Load these parts....</a>
+	<cfelse>
+		You must fix everything above to proceed.
+	</cfif>
+
+</cfif>
 	<!-------------------------------------------------------------------------------------------->
 	<cfif #action# is "load">
 		<h2 class="h3">Third step: Apply changes.</h2>
