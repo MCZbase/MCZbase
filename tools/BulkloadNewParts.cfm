@@ -1007,7 +1007,7 @@
 										<td>#getProblemData.LOT_COUNT_MODIFIER#</td>
 										<td>#getProblemData.LOT_COUNT#</td>
 										<td>#getProblemData.CONDITION#</td>
-										<td>#getProblemData.COL_OBJ_DISPOSITION#</td>
+										<td>#getProblemData.COLL_OBJ_DISPOSITION#</td>
 										<td>#getProblemData.CONTAINER_UNIQUE_ID#</td>
 										<td>#getProblemData.status#</td>
 									</tr> 
