@@ -464,7 +464,7 @@
 	<!------------------------------------------------------->
 	<cfif #action# is "validate">
 		<h2 class="h4">Second step: Data Validation</h2>
-		<cfoutput>
+<cfoutput>
 	<cfquery name="getCodeTables" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select attribute_type, decode(value_code_table, null, units_code_table,value_code_table) code_table  from ctattribute_code_tables
 	</cfquery>
@@ -696,8 +696,7 @@
 		<cflocation url="BulkloadNewParts.cfm?action=checkValidate">
 </cfoutput>
 </cfif>
-		</cfoutput>
-	</cfif>
+
 
 	<!-------------------------------------------------------------------------------------------->
 	<cfif #action# is "load">
