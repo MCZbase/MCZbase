@@ -57,7 +57,7 @@ limitations under the License.
 					<!--- Produce image from QRCode object and embed in pdf. --->
 					<!--- for some options, see: https://stackoverflow.com/questions/34316662/using-cfimage-to-display-a-file-that-doesnt-have-an-extension/ --->
 					<cfset svg = qrCodeUtility.toSvgString(qrCodeInstance)>
-					<cfset bimage = qrCodeUtility.toImage(qrCodeInstance,JavaCast("integer",10))>
+					<cfset bimage = qrCodeUtility.toImage(qrCodeInstance,JavaCast("int",10))>
 					<cfset imageObject = ImageNew(bimage,200,200)>
 					<div>
 						<div><strong style="font: 1.8em 'Times-Roman';">#guid#</strong></div>
