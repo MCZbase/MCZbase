@@ -41,7 +41,7 @@ limitations under the License.
 		</cfquery>
 		<cfset orientation = "portrait">
 
-		<cfdocument format="pdf" pagetype="letter" margintop=".5" marginbottom=".5" marginleft=".5" marginright=".5" orientation="#orientation#" fontembed="yes" saveAsName="MCZ_exhibitlabels_#result_id#.pdf">
+		<cfdocument format="pdf" localUrl="yes" pagetype="letter" margintop=".5" marginbottom=".5" marginleft=".5" marginright=".5" orientation="#orientation#" fontembed="yes" saveAsName="MCZ_exhibitlabels_#result_id#.pdf">
 		<cfoutput>
 
 			<!--- now wrapped in utility class --->
@@ -59,8 +59,10 @@ limitations under the License.
 					<div>
 						<div><strong style="font: 1.8em 'Times-Roman';">#guid#</strong></div>
 						<div><strong style="font: 2em Helvetica;">#sci_name#</strong></div>
-						<div style="height: 3in; font: 2em Helvetica; overflow: hidden;">#common_names#</div>
-						<img src="data:image/svg+xml;base64,#toBase64(svg)#">
+						<div style="font: 2em Helvetica;">#common_names#</div>
+						<img src="data:image/svg+xml;base64,#toBase64(svg)#" height="200" width="300">
+						<!--- needs jpeg or png --->
+						<cfimage action="writeToBrowser" isBase64="yes" source="data:image/svg+xml;base64,#toBase64(svg)#">
 						<div style="font: 0.9em 'Times-Roman'; position: absolute; bottom: 1px; left: 6em;">Museum of Comparative Zoology</div>
 					</div>
 					<cfdocumentitem type = "pagebreak" />
