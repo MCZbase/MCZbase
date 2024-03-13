@@ -268,7 +268,7 @@ do not agree</font>.</a>
 		<cfoutput>
 			<cfset variables.encoding="UTF-8">
 			<cfif #fileFormat# is "csv">
-				<cfset fname = "MCZbaseData_#cfid#_#cookie.cftoken#.csv">
+				<cfset fname = "MCZbaseData_#cookie.cfid#_#cookie.cftoken#.csv">
 				<cfset variables.fileName="#Application.webDirectory#/download/#fname#">
 				<cfset header=trim(ac)>
 				<cfscript>
@@ -303,7 +303,7 @@ do not agree</font>.</a>
 				<cflocation url="/download.cfm?file=#fname#" addtoken="false">
 				<a href="/download/#fname#">Click here if your file does not automatically download.</a>
 			<cfelseif #fileFormat# is "text">
-				<cfset fname = "ArctosData_#cfid#_#cookie.cftoken#.txt">
+				<cfset fname = "ArctosData_#cookie.cfid#_#cookie.cftoken#.txt">
 				<cfset variables.fileName="#Application.webDirectory#/download/#fname#">
 				<cfset header = replace(ac,",","#chr(9)#","all")>
 				<cfset header=#trim(header)#>
@@ -339,7 +339,7 @@ do not agree</font>.</a>
 				<a href="/download/#fname#">Click here if your file does not automatically download.</a>
 			
 			<cfelseif #fileFormat# is "xml">
-				<cfset fname = "MCZbaseData_#cfid#_#cookie.cftoken#.xml">
+				<cfset fname = "MCZbaseData_#cookie.cfid#_#cookie.cftoken#.xml">
 				<cfset variables.fileName="#Application.webDirectory#/download/#fname#">
 				<cfset header = "<result>">
 				<cfscript>

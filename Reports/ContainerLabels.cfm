@@ -3,7 +3,7 @@
 <cfif not isdefined("header_text")>
    <cfset header_text = 'Museum of Comparative Zoology'>
 </cfif>
-<cfset targetfile="containerlabels_#cfid#_#cookie.cftoken#.pdf" >
+<cfset targetfile="containerlabels_#cookie.cfid#_#cookie.cftoken#.pdf" >
 <cfoutput>
 <p>
 	<a href="/temp/#targetfile#" target="_blank">Get the PDF</a>

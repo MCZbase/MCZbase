@@ -58,8 +58,8 @@ limitations under the License.
 	<!------------------------ logout ------------------------------------>
 	<cfset StructClear(Session)>
 	<cflogout>
-	<cfset session.DownloadFileName = "MCZbaseData_#cfid##cookie.cftoken#.txt">
-	<cfset session.DownloadFileID = "#cfid##cookie.cftoken#">
+	<cfset session.DownloadFileName = "MCZbaseData_#cookie.cfid##cookie.cftoken#.txt">
+	<cfset session.DownloadFileID = "#cookie.cfid##cookie.cftoken#">
 	<cfset session.roles="public">
 	<cfset session.showObservations="">
 	<cfset session.result_sort="">
@@ -78,7 +78,7 @@ limitations under the License.
 	<cfset session.meta_description=''>
 	<!--- cookie.cftoken may be a uuid, table names need to be limited to 30 characters --->
 	<cfset rand = RandRange(0,9999)>
-	<cfset lenTaken = len("MediaSrch#cfid#_#rand#_")>
+	<cfset lenTaken = len("MediaSrch#cookie.cfid#_#rand#_")>
 	<cfset DBOBJECTNAME_MAX_LEN = 30>
 	<cfset maxavailable = DBOBJECTNAME_MAX_LEN - lenTaken>
 	<!--- prefered way of shortening a hash is to truncate on right, reencode cookie.cftoken from hex to base64 (reduces to 22 characters), then truncate that --->

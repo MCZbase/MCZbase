@@ -290,7 +290,7 @@
 	</cfif>
 	<CFSETTING ENABLECFOUTPUTONLY=0>
 
-	<cfset cfidAndToken= "#cfid##session.reencodedToken#">
+	<cfset cfidAndToken= "#cookie.cfid##session.reencodedToken#">
 
 	<!---- clear old queries from cache and cache flatquery ---->
 	<cfquery name="SpecRes#cfidAndToken#" dbtype="query" cachedwithin="#createtimespan(0,0,0,0)#">
@@ -318,7 +318,7 @@
 
 <cfif isdefined("newSearch") and #newSearch# is 1>
 
-	<cfset cfidAndToken= "#cfid##session.reencodedToken#">
+	<cfset cfidAndToken= "#cookie.cfid##session.reencodedToken#">
 
 	<cfquery name="SpecRes#cfidAndToken#" dbtype="query" cachedwithin="#createtimespan(0,0,0,0)#">
 		select * from SpecRes#cfidAndToken#

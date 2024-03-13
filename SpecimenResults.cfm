@@ -219,7 +219,7 @@ they also need special handling at TAG:SORTRESULT (do find in this document)--->
 		<font color="##FF0000" size="+2">You must enter some search criteria!</font>
 		<cfabort>
 	</cfif>
-<cfset thisTableName = "SearchResults_#cfid#_#cookie.cftoken#">
+<cfset thisTableName = "SearchResults_#cookie.cfid#_#cookie.cftoken#">
 <!--- try to drop an existing temp table with this name --->
 <cftry>
 	<cftransaction>
