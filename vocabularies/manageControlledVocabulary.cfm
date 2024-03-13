@@ -1,6 +1,6 @@
 <cfset pageTitle = "Manage Controlled Vocabularies">
 <cfinclude template="/shared/_header.cfm">
-<cfquery name="ctcollcde" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="ctcollcde" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 	select distinct collection_cde from ctcollection_cde
 </cfquery>
 <cfif not isdefined("action")><cfset action="listtables"></cfif>
@@ -54,10 +54,10 @@
 	<cfelseif tbl is "ctmedia_license"><!---------------------------------------------------->
 		<cflocation url="/Admin/ctmedia_license.cfm" addtoken="false">
 	<cfelseif tbl is "ctattribute_code_tables"><!---------------------------------------------------->
-		<cfquery name="ctAttribute_type" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="ctAttribute_type" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			select distinct(attribute_type) from ctAttribute_type
 		</cfquery>
-		<cfquery name="thisRec" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="thisRec" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			Select * from ctattribute_code_tables
 			order by attribute_type
 		</cfquery>
@@ -178,7 +178,7 @@
 	<cfelseif tbl is "ctcountry_code"><!---------------------------------------------------->
                 <p>ISO 2 letter country codes for country names.  A country name can appear more than once to represent alternative forms of the name for the country, all mapping to the same country code, but each country name string must be unique.   Do not include strings which map onto historical country names which may map onto more than one current country, even if on ISO list (e.g. 'Congo').</p>
 		<!---   Country/Country Code code table includes fields for country and country code, thus needs custom form  --->
-		<cfquery name="q" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="q" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			select country, code from ctcountry_code order by code, country
 		</cfquery>
 		<form name="newData" method="post" action="CodeTableEditor.cfm">
@@ -242,7 +242,7 @@
 		</table>
 
 	<cfelseif tbl is "ctguid_type"><!---------------------------------------------------->
-		<cfquery name="q" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="q" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			select guid_type, description, applies_to, placeholder, pattern_regex, resolver_regex, resolver_replacement, search_uri
 			from ctguid_type
 			order by guid_type
@@ -407,7 +407,7 @@
 
 	<cfelseif tbl is "ctloan_type"><!---------------------------------------------------->
 		<!---   Loan type code table includes fields for scope (loan or gift) and sort order, thus needs custom form  --->
-		<cfquery name="q" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="q" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			select loan_type, scope, ordinal from ctloan_type order by scope desc, ordinal, loan_type
 		</cfquery>
 		<form name="newData" method="post" action="CodeTableEditor.cfm">
@@ -491,10 +491,10 @@
 		</table>
 	<cfelseif tbl is "ctspecific_permit_type">
 		<!---------------------------------------------------->
-		<cfquery name="q" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="q" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			select * from ctspecific_permit_type order by specific_type
 		</cfquery>
-		<cfquery name="ptypes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="ptypes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			select permit_type from ctpermit_type order by permit_type
 		</cfquery>
 		<h2>Specific Types of Permissions and Rights documents (permits)</h2>
@@ -583,7 +583,7 @@
 		</table>
 	<cfelseif tbl is "ctcitation_type_status"><!---------------------------------------------------->
 		<!---  Type status code table includes fields for category and sort order, thus needs custom form  --->
-		<cfquery name="q" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="q" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			select type_status, description, category, ordinal 
 			from ctcitation_type_status 
 			order by category, ordinal, type_status
@@ -702,7 +702,7 @@
 	<cfelseif tbl is "ctgeology_attributes"><!---------------------------------------------------->
 		<!---  geology attributes code table includes fields for typing and sort order, thus needs custom form  --->
 		<!--- note, ctgeology_attribute (singluar), is view with sort by ordinal on table ctgeology_attributes (plural) --->
-		<cfquery name="q" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="q" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			select geology_attribute, type, ordinal, description from ctgeology_attributes order by ordinal
 		</cfquery>
 <a class="btn-xs btn-secondary px-2 float-right" role="button" href="/vocabularies/GeologicalHierarchies.cfm?action=list">Geological Hierarchy List</a>
@@ -809,7 +809,7 @@
 			
 
 	<cfelseif tbl is "ctpublication_attribute"><!---------------------------------------------------->
-		<cfquery name="q" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="q" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			select * from ctpublication_attribute order by publication_attribute
 		</cfquery>
 		<cfquery name="allCTs" datasource="uam_god">
@@ -892,7 +892,7 @@
 			</cfloop>
 		</table>
 	<cfelseif tbl is "ctbiol_relations"><!---------------------------------------------------->
-		<cfquery name="q" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="q" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			select * from ctbiol_relations order by biol_indiv_relationship
 		</cfquery>
 		<form name="newData" method="post" action="CodeTableEditor.cfm">
@@ -983,7 +983,7 @@
 			</cfloop>
 		</table>
 	<cfelseif tbl is "ctcoll_other_id_type"><!--------------------------------------------------------------->
-		<cfquery name="q" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="q" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			select * from ctcoll_other_id_type order by other_id_type
 		</cfquery>	
 		<form name="newData" method="post" action="CodeTableEditor.cfm">
@@ -1072,7 +1072,7 @@
 			</cfloop>
 		</table>
 	<cfelseif tbl is "cttaxon_relation"><!--------------------------------------------------------------->
-		<cfquery name="q" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="q" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			SELECT count(taxon_relations.taxon_name_id) ct, cttaxon_relation.taxon_relationship, description, inverse_relation
 			FROM cttaxon_relation 
 				LEFT JOIN taxon_relations on cttaxon_relation.taxon_relationship = taxon_relations.taxon_relationship
@@ -1158,7 +1158,7 @@
 			</cfloop>
 		</table>
 	<cfelseif tbl is "ctnomenclatural_code"><!--------------------------------------------------------------->
-		<cfquery name="q" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="q" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			select nomenclatural_code, description, sort_order from ctnomenclatural_code order by sort_order
 		</cfquery>	
 		<form name="newData" method="post" action="CodeTableEditor.cfm">
@@ -1227,11 +1227,11 @@
 			</cfloop>
 		</table>
 	<cfelseif tbl is "ctspecimen_part_list_order"><!--- special section to handle  another  funky code table --->
-		<cfquery name="thisRec" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="thisRec" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			select * from ctspecimen_part_list_order order by
 			list_order,partname
 		</cfquery>
-		<cfquery name="ctspecimen_part_name" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="ctspecimen_part_name" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			select collection_cde, part_name partname from ctspecimen_part_name
 		</cfquery>
 		<cfquery name="mo" dbtype="query">
@@ -1330,7 +1330,7 @@
 			</cfloop>
 		</table>
 	<cfelseif tbl is "ctunderscore_collection_type">
-		<cfquery name="thisRec" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="thisRec" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			SELECT * FROM ctunderscore_collection_type 
 			ORDER BY
 				underscore_collection_type
@@ -1408,7 +1408,7 @@
 		</table>
 	<cfelseif tbl is "ctunderscore_coll_agent_role"><!---------------------------------------------------->
 		<!---   underscore_collection agent role table has sort order and labels, thus needs custom form  --->
-		<cfquery name="q" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="q" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			SELECT role, description, ordinal, label, inverse_label
 			FROM CTUNDERSCORE_COLL_AGENT_ROLE 
 			ORDER BY ordinal, role
@@ -1506,7 +1506,7 @@
 			select column_name from getCols where lower(column_name) not in ('collection_cde','description')
 		</cfquery>
 		<cfset fld=f.column_name>
-		<cfquery name="q" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="q" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			select #fld# as data 
 			<cfif collcde gt 0>
 				,collection_cde
@@ -1625,67 +1625,67 @@
 	</cfif>
 <cfelseif action is "deleteValue">
 	<cfif tbl is "ctpublication_attribute">
-		<cfquery name="sav" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="sav" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			delete from ctpublication_attribute 
 			where
 				publication_attribute='#origData#'
 		</cfquery>
 	<cfelseif tbl is "ctnomenclatural_code">
-		<cfquery name="sav" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="sav" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			delete from ctnomenclatural_code 
 			where
 				nomenclatural_code='#origData#'
 		</cfquery>
 	<cfelseif tbl is "ctguid_type">
-		<cfquery name="sav" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="sav" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			delete from ctguid_type
 			where
 				GUID_TYPE= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#origData#" />
 		</cfquery>
 	<cfelseif tbl is "ctloan_type">
-		<cfquery name="sav" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="sav" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			delete from ctloan_type
 			where
 				LOAN_TYPE= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#origData#" />
 		</cfquery>
 	<cfelseif tbl is "ctcountry_code">
-		<cfquery name="del" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="del" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			delete from ctcountry_code
 			where
 				COUNTRY = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#origData#" />
 		</cfquery>
 	<cfelseif tbl is "ctbiol_relations">
-		<cfquery name="sav" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="sav" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			delete from ctbiol_relations
 			where
 				BIOL_INDIV_RELATIONSHIP=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#origData#">
 		</cfquery>
 	<cfelseif tbl is "ctcitation_type_status">
-		<cfquery name="sav" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="sav" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			delete from ctcitation_type_status
 			where
 				type_status=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#origData#">
 		</cfquery>
 	<cfelseif tbl is "ctgeology_attributes">
-		<cfquery name="sav" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="sav" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			delete from ctgeology_attributes
 			where
 				geology_attribute=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#origData#">
 		</cfquery>
 	<cfelseif tbl is "ctcoll_other_id_type">
-		<cfquery name="sav" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="sav" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			delete from ctcoll_other_id_type
 			where
 				OTHER_ID_TYPE = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#origData#" />
 		</cfquery>
 	<cfelseif tbl is "cttaxon_relation">
-		<cfquery name="sav" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="sav" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			DELETE FROM cttaxon_relation
 			WHERE
 				taxon_relationship = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#origData#" />
 		</cfquery>
 	<cfelseif tbl is "ctattribute_code_tables">
-		<cfquery name="del" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="del" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			DELETE FROM ctattribute_code_tables
 			WHERE
 				Attribute_type = '#oldAttribute_type#' 
@@ -1697,26 +1697,26 @@
 				</cfif> 
 		</cfquery>
 	<cfelseif tbl is "ctspecimen_part_list_order">
-		<cfquery name="del" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="del" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			DELETE FROM ctspecimen_part_list_order
 			WHERE
 				partname = '#oldpartname#' AND
 				list_order = '#oldlist_order#'
 		</cfquery>
 	<cfelseif tbl is "ctunderscore_collection_type">
-		<cfquery name="del" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="del" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			DELETE FROM ctunderscore_collection_type
 			WHERE
 				underscore_collection_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#oldunderscore_collection_type#">
 		</cfquery>
 	<cfelseif tbl is "ctunderscore_coll_agent_role">
-		<cfquery name="del" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="del" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			DELETE FROM ctunderscore_coll_agent_role 
 			WHERE
 				role = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#origData#">
 		</cfquery>
 	<cfelse>
-		<cfquery name="del" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="del" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			DELETE FROM #tbl# 
 			where #fld# = '#origData#'
 			<cfif isdefined("collection_cde") and len(collection_cde) gt 0>
@@ -1727,7 +1727,7 @@
 	<cflocation url="CodeTableEditor.cfm?action=edit&tbl=#tbl#" addtoken="false">
 <cfelseif action is "saveEdit">
 	<cfif tbl is "ctpublication_attribute">
-		<cfquery name="sav" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="sav" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			update ctpublication_attribute set 
 				publication_attribute=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#publication_attribute#">,
 				DESCRIPTION=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#description#">,
@@ -1736,7 +1736,7 @@
 				publication_attribute = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#origData#" />
 		</cfquery>
 	<cfelseif tbl is "ctnomenclatural_code">
-		<cfquery name="sav" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="sav" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			update ctnomenclatural_code set 
 				nomenclatural_code=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#nomenclatural_code#">,
 				DESCRIPTION=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#description#">,
@@ -1745,7 +1745,7 @@
 				nomenclatural_code = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#origData#" />
 		</cfquery>
 	<cfelseif tbl is "ctguid_type">
-		<cfquery name="sav" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="sav" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			update ctguid_type set 
 				GUID_TYPE= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#guid_type#" />,
 				description= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#description#" />,
@@ -1759,7 +1759,7 @@
 				GUID_TYPE= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#origData#" />
 		</cfquery>
 	<cfelseif tbl is "ctloan_type">
-		<cfquery name="sav" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="sav" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			update ctloan_type set 
 				LOAN_TYPE= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#loan_type#" />,
 				SCOPE= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#scope#" />,
@@ -1768,7 +1768,7 @@
 				LOAN_TYPE= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#origData#" />
 		</cfquery>
 	<cfelseif tbl is "ctcountry_code">
-		<cfquery name="sav" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="sav" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			update ctcountry_code set 
 				COUNTRY= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#country#" />,
 				CODE= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#code#" />
@@ -1776,7 +1776,7 @@
 				COUNTRY= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#origData#" />
 		</cfquery>
 	<cfelseif tbl is "ctspecific_permit_type">
-		<cfquery name="sav" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="sav" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			update ctspecific_permit_type set 
 				SPECIFIC_TYPE= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#specific_type#" />,
 				PERMIT_TYPE= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#permit_type#" />,
@@ -1785,7 +1785,7 @@
 				SPECIFIC_TYPE= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#origData#" />
 		</cfquery>
 	<cfelseif tbl is "ctbiol_relations">
-		<cfquery name="sav" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="sav" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			update ctbiol_relations set 
 				BIOL_INDIV_RELATIONSHIP= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#biol_indiv_relationship#" />,
 				INVERSE_RELATION= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#inverse_relation#" />,
@@ -1794,7 +1794,7 @@
 				BIOL_INDIV_RELATIONSHIP= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#origData#" />
 		</cfquery>
 	<cfelseif tbl is "ctcitation_type_status">
-		<cfquery name="sav" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="sav" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			update ctcitation_type_status set 
 				TYPE_STATUS= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#type_status#" />,
 				CATEGORY= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#category#" />,
@@ -1804,7 +1804,7 @@
 				TYPE_STATUS= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#origData#" />
 		</cfquery>
 	<cfelseif tbl is "ctgeology_attributes">
-		<cfquery name="sav" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="sav" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			UPDATE ctgeology_attributes SET 
 				geology_attribute= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#geology_attribute#" />,
 				TYPE= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#type#" />,
@@ -1814,7 +1814,7 @@
 				geology_attribute= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#origData#" />
 		</cfquery>
 	<cfelseif tbl is "ctcoll_other_id_type">
-		<cfquery name="sav" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="sav" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			update ctcoll_other_id_type set 
 				OTHER_ID_TYPE= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#other_id_type#" />,
 				DESCRIPTION= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#description#" />,
@@ -1824,7 +1824,7 @@
 				OTHER_ID_TYPE= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#origData#" />
 		</cfquery>
 	<cfelseif tbl is "cttaxon_relation">
-		<cfquery name="sav" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="sav" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			UPDATE cttaxon_relation SET 
 				taxon_relationship = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#taxon_relationship#" />,
 				description = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#description#" />,
@@ -1833,7 +1833,7 @@
 				OTHER_ID_TYPE= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#origData#" />
 		</cfquery>
 	<cfelseif tbl is "ctattribute_code_tables">
-		<cfquery name="sav" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="sav" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			UPDATE ctattribute_code_tables SET
 				Attribute_type = '#Attribute_type#',
 				value_code_table = '#value_code_table#',
@@ -1844,7 +1844,7 @@
 				units_code_table = '#oldunits_code_table#'
 		</cfquery>
 	<cfelseif tbl is "ctspecimen_part_list_order">
-		<cfquery name="sav" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="sav" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			UPDATE ctspecimen_part_list_order SET
 				partname = '#partname#',
 				list_order = '#list_order#'
@@ -1853,7 +1853,7 @@
 				list_order = '#oldlist_order#'
 		</cfquery>
 	<cfelseif tbl is "ctunderscore_collection_type">
-		<cfquery name="sav" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="sav" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			UPDATE ctunderscore_collection_type SET 
 				underscore_collection_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#underscore_collection_type#" />,
 				description = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#description#" />,
@@ -1862,7 +1862,7 @@
 				underscore_collection_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#oldunderscore_collection_type#" />
 		</cfquery>
 	<cfelseif tbl is "ctunderscore_coll_agent_role">
-		<cfquery name="sav" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="sav" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			UPDATE ctunderscore_coll_agent_role 
 			SET
 				role = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#role#">,
@@ -1874,7 +1874,7 @@
 				role = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#origData#">
 		</cfquery>
 	<cfelse>
-		<cfquery name="up" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="up" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			UPDATE #tbl# SET #fld# = '#thisField#'
 			<cfif isdefined("collection_cde") and len(collection_cde) gt 0>
 				,collection_cde='#collection_cde#'
@@ -1891,7 +1891,7 @@
 	<cflocation url="CodeTableEditor.cfm?action=edit&tbl=#tbl#" addtoken="false">
 <cfelseif action is "newValue">
 	<cfif tbl is "ctpublication_attribute">
-		<cfquery name="sav" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="sav" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			insert into ctpublication_attribute (
 				publication_attribute,
 				DESCRIPTION,
@@ -1903,7 +1903,7 @@
 			)
 		</cfquery>
 	<cfelseif tbl is "ctnomenclatural_code">
-		<cfquery name="sav" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="sav" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			insert into ctnomenclatural_code(
 				nomenclatural_code,
 				DESCRIPTION,
@@ -1915,7 +1915,7 @@
 			)
 		</cfquery>
 	<cfelseif tbl is "ctguid_type">
-		<cfquery name="sav" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="sav" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			insert into ctguid_type (
 				 guid_type, description, applies_to, search_uri, placeholder, pattern_regex, resolver_regex, resolver_replacement
 			) VALUES (
@@ -1930,7 +1930,7 @@
 			)
 		</cfquery>
 	<cfelseif tbl is "ctloan_type">
-		<cfquery name="sav" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="sav" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			insert into ctloan_type (
 				loan_type,
 				scope,
@@ -1942,7 +1942,7 @@
 			)
 		</cfquery>
 	<cfelseif tbl is "ctcountry_code">
-		<cfquery name="sav" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="sav" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			insert into ctcountry_code (
 				country,
 				code
@@ -1952,7 +1952,7 @@
 			)
 		</cfquery>
 	<cfelseif tbl is "ctspecific_permit_type">
-		<cfquery name="sav" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="sav" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			insert into ctspecific_permit_type (
 				specific_type,
 				permit_type,
@@ -1964,7 +1964,7 @@
 			)
 		</cfquery>
 	<cfelseif tbl is "ctbiol_relations">
-		<cfquery name="sav" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="sav" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			insert into ctbiol_relations (
 				biol_indiv_relationship,
 				inverse_relation,
@@ -1976,7 +1976,7 @@
 			)
 		</cfquery>
 	<cfelseif tbl is "ctcitation_type_status">
-		<cfquery name="sav" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="sav" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			INSERT INTO ctcitation_type_status (
 				type_status,
 				category,
@@ -1990,7 +1990,7 @@
 			)
 		</cfquery>
 	<cfelseif tbl is "ctgeology_attributes">
-		<cfquery name="sav" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="sav" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			INSERT INTO ctgeology_attributes (
 				geology_attribute,
 				type,
@@ -2004,7 +2004,7 @@
 			)
 		</cfquery>
 	<cfelseif tbl is "ctcoll_other_id_type">
-		<cfquery name="sav" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="sav" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			insert into ctcoll_other_id_type (
 				OTHER_ID_TYPE,
 				DESCRIPTION,
@@ -2018,7 +2018,7 @@
 			)
 		</cfquery>
 	<cfelseif tbl is "cttaxon_relation">
-		<cfquery name="sav" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="sav" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			insert into cttaxon_relation (
 				taxon_relationship,
 				DESCRIPTION,
@@ -2030,7 +2030,7 @@
 			)
 		</cfquery>
 	<cfelseif tbl is "ctattribute_code_tables">
-		<cfquery name="new" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="new" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			INSERT INTO ctattribute_code_tables (
 				Attribute_type
 				<cfif len(#value_code_table#) gt 0>
@@ -2051,7 +2051,7 @@
 			)
 		</cfquery>
 	<cfelseif tbl is "ctspecimen_part_list_order">
-		<cfquery name="new" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="new" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			INSERT INTO ctspecimen_part_list_order (
 				partname,
 				list_order
@@ -2062,7 +2062,7 @@
 			)
 		</cfquery>
 	<cfelseif tbl is "ctunderscore_collection_type">
-		<cfquery name="new" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="new" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			INSERT INTO ctunderscore_collection_type (
 				underscore_collection_type,
 				description,
@@ -2075,7 +2075,7 @@
 			)
 		</cfquery>
 	<cfelseif tbl is "ctunderscore_coll_agent_role">
-		<cfquery name="new" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="new" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			INSERT INTO ctunderscore_coll_agent_role (
 				role,
 				description,
@@ -2092,7 +2092,7 @@
 			)
 		</cfquery>
 	<cfelse>
-		<cfquery name="new" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="new" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			INSERT INTO #tbl# 
 				(#fld#
 				<cfif isdefined("collection_cde") and len(collection_cde) gt 0>

@@ -26,7 +26,7 @@ limitations under the License.
 <cfif NOT isdefined("transaction_id") OR len(transaction_id) EQ 0>
 	<cfthrow message="No transaction specified">
 </cfif>
-<cfquery name="checkForLoan" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="checkForLoan_result">
+<cfquery name="checkForLoan" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="checkForLoan_result">
 	SELECT count(*) ct
 	FROM
 		loan
@@ -131,7 +131,7 @@ limitations under the License.
 	<main class=”container” id=”content”>
 		<section class=”row”>
 			<h1 class="h2">Add Parts to Loan by Barcode</h1>
-			<cfquery name="getLoan" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getLoan_result">
+			<cfquery name="getLoan" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getLoan_result">
 				SELECT
 					loan_number,
 					loan_type,
@@ -161,7 +161,7 @@ limitations under the License.
 				<li>Agents: #getLoan.agents#</li>
 			</ul>
 			
-			<cfquery name="getPartLoanRequests" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="getPartLoanRequests" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				select 
 					cat_num, 
 					cataloged_item.collection_object_id,

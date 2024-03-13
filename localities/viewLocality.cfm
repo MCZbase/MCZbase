@@ -104,7 +104,7 @@ limitations under the License.
 							<div id="relatedTo">#blockRelated#</div>
 						</div>
 						<!--- join through flat/filtered flat to prevent inclusion of encumbered cataloged item records --->
-						<cfquery name="years"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						<cfquery name="years"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							SELECT 
 								count(flatTableName.collection_object_id) ct,
 								to_char(collecting_event.date_began_date,'yyyy') year
@@ -134,7 +134,7 @@ limitations under the License.
 							</div>
 						</cfif>
 					</div>
-					<cfquery name="collectors"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					<cfquery name="collectors"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							SELECT distinct
 								preferred_agent_name.agent_id, 
 								preferred_agent_name.agent_name,
@@ -181,7 +181,7 @@ limitations under the License.
 							</div>
 						</cfif>
 						<span class="border-bottom-grey d-block d-md-none w-100"></span>
-						<cfquery name="taxa"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						<cfquery name="taxa"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							SELECT 
 								count(flatTableName.collection_object_id) ct,
 								flatTableName.genus, flatTableName.family

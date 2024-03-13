@@ -35,7 +35,7 @@ limitations under the License.
 			<cfelseif isDefined("result_id") AND len(result_id) GT 0>
 				<cfset pass = "result_id">
 			</cfif>
-			<cfquery name="getItems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="getItems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT
 					cataloged_item.collection_object_id,
 					cataloged_item.cat_num,
@@ -172,7 +172,7 @@ limitations under the License.
 		<cfset collectionName = "">
 		<cfif pass EQ "result_id">
 			<cftransaction>
-				<cfquery name="countToAdd" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="countToAdd" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT count(*) as ct 
 					FROM user_search_table
 					WHERE result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
@@ -181,7 +181,7 @@ limitations under the License.
 					<cfthrow message="Add failed.  Discrepancy between the expected and actual number of records to add, result set modified since search was run.">
 				</cfif>
 				<cfset numberInResult = countToAdd.ct>
-				<cfquery name="unColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="unColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT underscore_collection.underscore_collection_id as id, collection_name
 					FROM underscore_collection
 					WHERE underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
@@ -191,7 +191,7 @@ limitations under the License.
 				<cfif unColl.recordcount NEQ 1>
 					<cfthrow message="No such named group found, unable to add cataloged items">
 				</cfif>
-				<cfquery name="addItemsToColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="add_result">
+				<cfquery name="addItemsToColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="add_result">
 					INSERT /*+ ignore_row_on_dupkey_index ( underscore_relation (collection_object_id, underscore_collection_id ) ) */
 						into underscore_relation (underscore_collection_id, collection_object_id)
 					SELECT #idToAdd#, collection_object_id 
@@ -205,7 +205,7 @@ limitations under the License.
 				<cfthrow message="No cataloged items listed to add to named group.">
 			</cfif>
 			<cftransaction>
-				<cfquery name="countToAdd" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="countToAdd" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					select count(*) as ct 
 					from cataloged item 
 					where 
@@ -219,7 +219,7 @@ limitations under the License.
 					<cfthrow message="Add failed.  Discrepancy between the expected and actual number of records to add.">
 				</cfif>
 				<cfset numberInResult = countToAdd.ct>
-				<cfquery name="unColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="unColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT underscore_collection.underscore_collection_id as id, collection_name
 					FROM underscore_collection
 					WHERE underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
@@ -229,7 +229,7 @@ limitations under the License.
 				<cfif unColl.recordcount NEQ 1>
 					<cfthrow message="No such named group found, unable to add cataloged items">
 				</cfif>
-				<cfquery name="addItemsToColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="add_result">
+				<cfquery name="addItemsToColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="add_result">
 					INSERT /*+ ignore_row_on_dupkey_index ( underscore_relation (collection_object_id, underscore_collection_id ) ) */
 						into underscore_relation (underscore_collection_id, collection_object_id)
 					select #idToAdd#, collection_object_id 
@@ -281,7 +281,7 @@ limitations under the License.
 		<cfset collectionName = "">
 		<cfif pass EQ "result_id">
 			<cftransaction>
-				<cfquery name="countToRemove" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="countToRemove" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT count(*) as ct 
 					FROM user_search_table
 					WHERE result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
@@ -290,7 +290,7 @@ limitations under the License.
 					<cfthrow message="Remove failed.  Discrepancy between the expected and actual number of records to remove, result set modified since search was run.">
 				</cfif>
 				<cfset numberInResult = countToRemove.ct>
-				<cfquery name="unColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="unColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT underscore_collection.underscore_collection_id as id, collection_name
 					FROM underscore_collection
 					WHERE underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
@@ -300,7 +300,7 @@ limitations under the License.
 				<cfif unColl.recordcount NEQ 1>
 					<cfthrow message="No such named group found, unable to remove cataloged items">
 				</cfif>
-				<cfquery name="removeItemsFromColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="remove_result">
+				<cfquery name="removeItemsFromColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="remove_result">
 					DELETE FROM underscore_relation 
 					WHERE 
 						underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#idToRemove#">
@@ -318,7 +318,7 @@ limitations under the License.
 				<cfthrow message="No cataloged items listed to remove from named group.">
 			</cfif>
 			<cftransaction>
-				<cfquery name="countToRemove" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="countToRemove" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					select count(*) as ct 
 					from cataloged item 
 					where 
@@ -332,7 +332,7 @@ limitations under the License.
 					<cfthrow message="Remove failed.  Discrepancy between the expected and actual number of records to remove.">
 				</cfif>
 				<cfset numberInResult = countToRemove.ct>
-				<cfquery name="unColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="unColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT underscore_collection.underscore_collection_id as id, collection_name
 					FROM underscore_collection
 					WHERE underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
@@ -342,7 +342,7 @@ limitations under the License.
 				<cfif unColl.recordcount NEQ 1>
 					<cfthrow message="No such named group found, unable to remove cataloged items">
 				</cfif>
-				<cfquery name="removeItemsFromColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="remove_result">
+				<cfquery name="removeItemsFromColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="remove_result">
 					DELETE FROM underscore_relation 
 					WHERE 
 						underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#idToRemove#">

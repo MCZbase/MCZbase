@@ -123,7 +123,7 @@
 			 round(MAX_ELEV_IN_M) MAX_ELEV_IN_M">
 	</cfif><!--- end detail_level 2---->
 	<cfif #detail_level# gte 3>
-		<cfquery name="ctAtt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="ctAtt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			select distinct(attribute_type) from ctattribute_type
 		</cfquery>
 		<cfloop query="ctAtt">
@@ -261,7 +261,7 @@
 	<!-------------------------- / dlm debug -------------------------------------->
 	<!---cfoutput>#SqlString#</cfoutput--->
 	<cfset checkSql(SqlString)>
-	<cfquery name="getData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#createtimespan(0,0,60,0)#">
+	<cfquery name="getData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" cachedwithin="#createtimespan(0,0,60,0)#">
 		#preserveSingleQuotes(SqlString)#
 	</cfquery>
 	<cfset userSql = #preserveSingleQuotes(SqlString)#>
@@ -511,7 +511,7 @@ document.getElementById('saveme').submit();
 					<input type="hidden" name="collobjidlist" value="#collobjidlist#">
 
 
-<cfquery name="ctAtt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="ctAtt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 	select distinct(attribute_type) from ctAttribute_type order by attribute_type
 </cfquery>
 <cfset attList = "">
@@ -523,7 +523,7 @@ document.getElementById('saveme').submit();
 	</cfif>
 </cfloop>
 
-<cfquery name="ctOID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="ctOID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 	select distinct(other_id_type) from ctcoll_other_id_type order by other_id_type
 </cfquery>
 <cfset OIDlist = "">
@@ -545,7 +545,7 @@ document.getElementById('saveme').submit();
 	</td>
 </cfif>
 <cfif isdefined("session.loan_request_coll_id") and #session.loan_request_coll_id# gt 0>
-	<cfquery name="active_loan_id" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cfquery name="active_loan_id" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		select  USER_LOAN_ID from
 		cf_user_loan,cf_users where
 		cf_user_loan.user_id=cf_users.user_id and
@@ -949,7 +949,7 @@ document.getElementById('saveme').submit();
 	<cfif listfind(#session.loan_request_coll_id#,#collection_id#,",")>
 
 		<!--- see if they've already got a part --->
-		<cfquery name="isThere" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="isThere" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			select cf_loan_item.collection_object_id from
 			cf_loan_item,specimen_part
 			where cf_loan_item.collection_object_id=specimen_part.collection_object_id
@@ -1162,7 +1162,7 @@ document.getElementById('saveme').submit();
 		  from getBasic where collection_object_id = #collection_object_id# group by part_name, partID,coll_obj_disposition
 	  </cfquery>
 	  ---->
-	<cfquery name="getParts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#createtimespan(0,0,60,0)#">
+	<cfquery name="getParts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" cachedwithin="#createtimespan(0,0,60,0)#">
 	    select
 			part_name,
 			specimen_part.collection_object_id partID,

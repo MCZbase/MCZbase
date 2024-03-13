@@ -27,7 +27,7 @@ limitations under the License.
 	<cfset oneOfUs = 0>
 </cfif>
 <cfoutput>
-	<cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		select distinct 
 			media_id,
 			auto_host,

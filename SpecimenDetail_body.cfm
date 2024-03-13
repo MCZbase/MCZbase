@@ -20,7 +20,7 @@
 		<cfheader name="Location" value="/SpecimenDetail.cfm?collection_object_id=#collection_object_id#">
 	</cfif>
 </cfoutput>
-<cfquery name="one" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="one" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 	SELECT
 		cataloged_item.collection_object_id as collection_object_id,
 		cataloged_item.cat_num,
@@ -217,7 +217,7 @@
 <cfif one.concatenatedEncumbrances contains "mask record" and oneOfUs neq 1>
 	Record masked.<cfabort>
 </cfif>
-<cfquery name="colls" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="colls" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 	select
 		collector.coll_order,
 		case when
@@ -240,7 +240,7 @@
 	ORDER BY
 		coll_order
 </cfquery>
-<cfquery name="preps" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="preps" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 	select
 		collector.coll_order,
 		case when
@@ -263,7 +263,7 @@
 	ORDER BY
 		coll_order
 </cfquery>
-<cfquery name="attribute" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="attribute" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 	select
 		attributes.attribute_type,
 		attributes.attribute_value,
@@ -279,7 +279,7 @@
 		attributes.determined_by_agent_id = attribute_determiner.agent_id and
 		attributes.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
 </cfquery>
-<cfquery name="relns" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="relns" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 SELECT distinct biol_indiv_relationship, related_collection, related_coll_object_id, related_cat_num, biol_indiv_relation_remarks FROM (
 SELECT
      rel.biol_indiv_relationship as biol_indiv_relationship,
@@ -316,7 +316,7 @@ WHERE irel.related_coll_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" val
       and ctrel.rel_type <> 'functional'
 )
 </cfquery>
-<cfquery name="citations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="citations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 	SELECT
 		citation.type_status,
 		citation.occurs_page_number,
@@ -377,7 +377,7 @@ WHERE irel.related_coll_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" val
 					</div>
 					<div class="detailBlock" style="margin-left: 0;">
 						<span class="detailData">
-							<cfquery name="identification" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+							<cfquery name="identification" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 								SELECT
 									identification.scientific_name,
 									concatidagent(identification.identification_id) agent_name,
@@ -399,7 +399,7 @@ WHERE irel.related_coll_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" val
 								ORDER BY accepted_id_fg DESC,sort_order, made_date DESC
 							</cfquery>
 							<cfloop query="identification">
-								<cfquery name="getTaxa_r" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+								<cfquery name="getTaxa_r" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 									select
 										taxonomy.taxon_name_id,
 										display_name,
@@ -536,7 +536,7 @@ WHERE irel.related_coll_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" val
 
 
 					</cfloop>
-					<cfquery name="publicationMedia"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					<cfquery name="publicationMedia"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 								select
 									mr.media_id, m.media_uri, m.preview_uri, ml.label_value descr, m.media_type, m.mime_type,
 									mczbase.get_media_descriptor(m.media_id) as media_descriptor 
@@ -563,7 +563,7 @@ WHERE irel.related_coll_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" val
 													<cfloop query="publicationMedia">
 														<cfset altText = publicationMedia.media_descriptor>
 														<cfset puri=getMediaPreview(preview_uri,media_type)>
-										            	<cfquery name="labels"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+										            	<cfquery name="labels"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 															select
 																media_label,
 																label_value
@@ -670,7 +670,7 @@ WHERE irel.related_coll_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" val
 								<td id="SDCellRight">#one.quad#</td>
 							</tr>
 					</cfif>
-					<cfquery name="localityMedia"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					<cfquery name="localityMedia"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						select
 							media_id
 						from
@@ -690,7 +690,7 @@ WHERE irel.related_coll_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" val
 								</td>
 							</tr>
 					</cfif>
-					<cfquery name="collEventMedia"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					<cfquery name="collEventMedia"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						select
 							media_id
 						from
@@ -837,7 +837,7 @@ WHERE irel.related_coll_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" val
 							</cfif>
 						</cfif>
 					</cfif>
-						<cfquery name="geology" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						<cfquery name="geology" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							select * from
 							geology_attributes,
 							preferred_agent_name
@@ -909,7 +909,7 @@ WHERE irel.related_coll_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" val
 						<td id="SDCellRight">#coll_event_remarks#</td>
 					</tr>
 					</cfif>
-					<cfquery name="collEventNumbers"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					<cfquery name="collEventNumbers"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						select
 							coll_event_number, number_series, 
 							case 
@@ -983,7 +983,7 @@ WHERE irel.related_coll_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" val
 				</div>
 			</cfif>
 <!------------------------------------ collections ---------------------------------------------->
-			<cfquery name="collectionsQuery"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="collectionsQuery_result">
+			<cfquery name="collectionsQuery"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="collectionsQuery_result">
 				select distinct collection_name, underscore_collection.underscore_collection_id, mask_fg
 				from underscore_relation
 					left join underscore_collection on underscore_relation.underscore_collection_id = underscore_collection.underscore_collection_id
@@ -1048,7 +1048,7 @@ WHERE irel.related_coll_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" val
 					</cfif>
 				</div>
 			</cfif>
-			<cfquery name="isProj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="isProj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT project_name, project.project_id project_id FROM
 				project, project_trans
 				WHERE
@@ -1056,7 +1056,7 @@ WHERE irel.related_coll_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" val
 				project_trans.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#one.accn_id#">
 				GROUP BY project_name, project.project_id
 		  </cfquery>
-		  <cfquery name="isLoan" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		  <cfquery name="isLoan" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT project_name, project.project_id FROM
 					loan_item,
 					project,
@@ -1070,13 +1070,13 @@ WHERE irel.related_coll_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" val
 				GROUP BY
 					project_name, project.project_id
 		</cfquery>
-		<cfquery name="isLoanedItem" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="isLoanedItem" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			SELECT loan_item.collection_object_id FROM
 			loan_item,specimen_part
 			WHERE loan_item.collection_object_id=specimen_part.collection_object_id AND
 			specimen_part.derived_from_cat_item=#one.collection_object_id#
 		</cfquery>
-		<cfquery name="loanList" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="loanList" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			SELECT distinct loan_number, loan_type, loan_status, loan.transaction_id FROM
 			specimen_part left join loan_item on specimen_part.collection_object_id=loan_item.collection_object_id
  			left join loan on loan_item.transaction_id = loan.transaction_id
@@ -1084,13 +1084,13 @@ WHERE irel.related_coll_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" val
 			loan_number is not null and
 			specimen_part.derived_from_cat_item=#one.collection_object_id#
 		</cfquery>
-		<cfquery name="isDeaccessionedItem" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="isDeaccessionedItem" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			SELECT deacc_item.collection_object_id FROM
 			specimen_part left join deacc_item on specimen_part.collection_object_id=deacc_item.collection_object_id
 			where
 			specimen_part.derived_from_cat_item=#one.collection_object_id#
 		</cfquery>
-		<cfquery name="deaccessionList" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="deaccessionList" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			SELECT distinct deacc_number, deacc_type, deaccession.transaction_id FROM
 			specimen_part left join deacc_item on specimen_part.collection_object_id=deacc_item.collection_object_id
  			left join deaccession on deacc_item.transaction_id = deaccession.transaction_id
@@ -1101,7 +1101,7 @@ WHERE irel.related_coll_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" val
 		</td>
 		<td valign="top" width="50%">
 	<!------------------------------------ identifiers ---------------------------------------------->
-			<cfquery name="oid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="oid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT
 					case when #oneOfUs# != 1 and
 						concatencumbrances(coll_obj_other_id_num.collection_object_id) like '%mask original field number%' and
@@ -1147,7 +1147,7 @@ WHERE irel.related_coll_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" val
 				</div>
 			</cfif>
 <!------------------------------------ parts ---------------------------------------------->
-<cfquery name="rparts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="rparts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 	select
 		specimen_part.collection_object_id part_id,
 		Case
@@ -1242,7 +1242,7 @@ WHERE irel.related_coll_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" val
 									<td class="inside">#part_disposition#
 										<cfif loanList.recordcount GT 0 AND isdefined("session.roles") and listcontainsnocase(session.roles,"manage_transactions")>
 											<!--- look up whether this part is in an open loan --->
-											<cfquery name="partonloan" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+											<cfquery name="partonloan" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 												select loan_number, loan_type, loan_status, loan.transaction_id, item_descr, loan_item_remarks
 												from specimen_part left join loan_item on specimen_part.collection_object_id = loan_item.collection_object_id
 													left join loan on loan_item.transaction_id = loan.transaction_id
@@ -1321,7 +1321,7 @@ WHERE irel.related_coll_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" val
 										<td class="inside_sub">#part_disposition#
 											<cfif loanList.recordcount GT 0 AND isdefined("session.roles") and listcontainsnocase(session.roles,"manage_transactions")>
 												<!--- look up whether this part is in an open loan --->
-												<cfquery name="partonloan" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+												<cfquery name="partonloan" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 													select loan_number, loan_type, loan_status, loan.transaction_id, item_descr, loan_item_remarks
 													from specimen_part left join loan_item on specimen_part.collection_object_id = loan_item.collection_object_id
 														left join loan on loan_item.transaction_id = loan.transaction_id
@@ -1558,7 +1558,7 @@ WHERE irel.related_coll_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" val
 			</div>
 <!------------------------------------ accession ---------------------------------------------->
 			<cfif oneOfUs is 1 and vpdaccn is 1>
-				<cfquery name="accnLimitations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="accnLimitations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					select specific_type, restriction_summary 
 					from  permit_trans 
 						left join permit on permit_trans.permit_id = permit.permit_id
@@ -1566,7 +1566,7 @@ WHERE irel.related_coll_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" val
 						permit_trans.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#one.accn_id#">
 						and permit.restriction_summary IS NOT NULL
 				</cfquery>
-				<cfquery name="accnCollection" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="accnCollection" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT collection_cde
 					from trans 
 						left join collection on trans.collection_id = collection.collection_id
@@ -1577,7 +1577,7 @@ WHERE irel.related_coll_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" val
 				<cfif NOT one.collection_cde IS accnCollection.collection_cde>
 					<cfset accnDept = "(#accnCollection.collection_cde#)">
 				</cfif>
-				<cfquery name="accnMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="accnMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					select
 						media.media_id,
 						media.media_uri,
@@ -1607,7 +1607,7 @@ WHERE irel.related_coll_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" val
 							<cfif oneOfUs is 1>
 								<a href="/transactions/Accession.cfm?action=edit&transaction_id=#one.accn_id#" target="_blank">#accession#</a> #accnDept#
 								<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_transactions")>
-									<cfquery name="lookupAccn" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+									<cfquery name="lookupAccn" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 										SELECT
 											accn.accn_number,
 											accn_type,
@@ -1711,7 +1711,7 @@ WHERE irel.related_coll_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" val
 				</div>
 		</cfif>
 <!------------------------------------ Media ---------------------------------------------->
-<cfquery name="mediaTag" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="mediaTag" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 	select distinct
 		media.media_id,
 		media.media_uri,
@@ -1748,7 +1748,7 @@ WHERE irel.related_coll_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" val
 		</div>
 	</div>
 </cfif>
-<cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 	select distinct
 		media.media_id,
 		media.media_uri,
@@ -1785,7 +1785,7 @@ WHERE irel.related_coll_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" val
 			<br><span class="innerDetailLabel">For best results, open PDF files in the most recent version of Adobe Reader.</span>
 		</cfif>
 		 		<cfif oneOfUs is 1>
-				 <cfquery name="hasConfirmedImageAttr"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				 <cfquery name="hasConfirmedImageAttr"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT count(*) c
 					FROM
 						ctattribute_type
@@ -1814,7 +1814,7 @@ WHERE irel.related_coll_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" val
 					<cfloop query="media">
 						<cfset altText = media.media_descriptor>
 						<cfset puri=getMediaPreview(preview_uri,media_type)>
-		            <cfquery name="labels"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		            <cfquery name="labels"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							select
 								media_label,
 								label_value
@@ -1847,7 +1847,7 @@ WHERE irel.related_coll_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" val
 								<br>#description#
 								<cfif #media_type# eq "audio">
 									<!--- check for a transcript, link if present --->
-									<cfquery name="checkForTranscript" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+									<cfquery name="checkForTranscript" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 										SELECT
 											transcript.media_uri as transcript_uri,
 											transcript.media_id as transcript_media_id
@@ -1872,7 +1872,7 @@ WHERE irel.related_coll_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" val
 				<!--/div--->
 	        </span>
 		</div>
-		<cfquery name="barcode"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="barcode"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			select p.barcode from
 			container c,
 			container p,

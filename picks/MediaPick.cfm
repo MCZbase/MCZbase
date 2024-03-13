@@ -2,13 +2,13 @@
 <cfinclude template="../includes/_pickHeader.cfm">
 <cfset title = "Media Pick">
 
-<cfquery name="ctmedia_relationship" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="ctmedia_relationship" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
     select media_relationship from ctmedia_relationship order by media_relationship
 </cfquery>
-<cfquery name="ctmedia_type" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="ctmedia_type" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
     select media_type from ctmedia_type order by media_type
 </cfquery>
-<cfquery name="ctmime_type" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="ctmime_type" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
     select mime_type from ctmime_type order by mime_type
 </cfquery>
 
@@ -118,7 +118,7 @@
 
     <cfif Action is "search">
     
-    <cfquery name="matchMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+    <cfquery name="matchMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
         select media.media_id, media_uri, preview_uri, mime_type, media_type
         from media
           <cfif isdefined("unlinked") and unlinked EQ "true">
@@ -163,7 +163,7 @@
             <cfif not (len(#target_id#) gt 0 and len(#media_id#) gt 0 and len(#target_relation#) gt 0) >
                 Error, to create a media relationship, media id (#media_id#), related primary key (#target_id#), and relationship (#target_relation#) are required. <cfabort>
             </cfif>
-            <cfquery name="addMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="addMediaResult">
+            <cfquery name="addMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="addMediaResult">
                 INSERT INTO media_relations (media_id, related_primary_key, media_relationship,created_by_agent_id) VALUES (
                   <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">, 
                   <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#target_id#">,

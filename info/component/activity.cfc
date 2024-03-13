@@ -42,7 +42,7 @@ limitations under the License.
 	
 	<cfset data = ArrayNew(1)>
 	<cftry>
-		<cfquery name="activity" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="activity_result">
+		<cfquery name="activity" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="activity_result">
 			SELECT 
 				count(distinct flatTableName.collection_object_id) as catitem_entered,
 				sum(flatTableName.total_parts) as part_ct,

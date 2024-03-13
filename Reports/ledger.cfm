@@ -126,7 +126,7 @@ returns it as the attribute_type.--->
 		cataloged_item.collection_object_id IN (#collection_object_id#)
 		#order_by#
 ">
-<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 	#preservesinglequotes(sql)#
 </cfquery>
 

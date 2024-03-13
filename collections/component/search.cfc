@@ -34,7 +34,7 @@ Function getCollectionAutocomplete.  Search for collection by name with a substr
 	<cfset data = ArrayNew(1)>
 	<cftry>
 		<cfset rows = 0>
-		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result" cachedwithin="#createtimespan(1,0,0,0)#">
+		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="search_result" cachedwithin="#createtimespan(1,0,0,0)#">
 			SELECT 
 				count(flat.collection_object_id) as ct,
 				collection.collection_id, 
@@ -86,7 +86,7 @@ Function getCollectionCodeAutocomplete.  Search for collection by name with a su
 	<cfset data = ArrayNew(1)>
 	<cftry>
 		<cfset rows = 0>
-		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result" cachedwithin="#createtimespan(1,0,0,0)#">
+		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="search_result" cachedwithin="#createtimespan(1,0,0,0)#">
 			SELECT DISTINCT 
 				collection.collection_cde
 			FROM 

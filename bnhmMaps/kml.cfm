@@ -81,7 +81,7 @@
 <cfif action is "newReq">
 	<cfoutput>
 		<cfset basSelect = " SELECT distinct #flatTableName#.collection_object_id">
-		<cfquery name="reqd" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="reqd" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			select * from cf_spec_res_cols where category='required'
 		</cfquery>
 		<cfset basSelect = listappend(basSelect,valuelist(reqd.SQL_ELEMENT))>
@@ -111,7 +111,7 @@
 		</cfif>
 		<cfset thisTableName = "SearchResults_#cfid#_#cookie.cftoken#">	
 		<cftry>
-			<cfquery name="die" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="die" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				drop table #session.SpecSrchTab#
 			</cfquery>
 			<cfcatch>
@@ -120,7 +120,7 @@
 		</cftry>
 		<cfset checkSql(SqlString)>	
 		<cfset SqlString = "create table #session.SpecSrchTab# AS #SqlString#">
-		<cfquery name="buildIt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="buildIt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			#preserveSingleQuotes(SqlString)#
 		</cfquery>
 		<cfset burl="kml.cfm?method=#method#&showErrors=#showErrors#&mapByLocality=#mapByLocality#">
@@ -214,7 +214,7 @@
     <cfset dlFile = "#userFileName#.kml">
 	<cfset variables.fileName="#internalPath##dlFile#">
 	<cfset variables.encoding="UTF-8">
-	<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		select 
 			#flatTableName#.collection_object_id,
 			#flatTableName#.cat_num,
@@ -388,7 +388,7 @@
 	<cfset variables.fileName="#internalPath##dlFile#">
 	<cfset variables.encoding="UTF-8">
 	<cfif mapByLocality is 1>
-		<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			select 
 				#flatTableName#.collection_object_id,
 				#flatTableName#.cat_num,
@@ -422,7 +422,7 @@
 			 		where #flatTableName#.collection_object_id = #table_name#.collection_object_id)
 		</cfquery>
 	<cfelse>
-		<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			select 
 				#flatTableName#.collection_object_id,
 				#flatTableName#.cat_num,

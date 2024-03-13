@@ -18,7 +18,7 @@ limitations under the License.
 
 --->
 <cfif isDefined("result_id") AND len(result_id) GT 0>
-	<cfquery name="getCollectionObjectIdList" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cfquery name="getCollectionObjectIdList" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		select collection_object_id
 		from user_search_table
 		where 
@@ -57,21 +57,21 @@ limitations under the License.
 			<main class="container-fluid px-4 py-3" id="content">
 				<h1 class="h2">Print Labels</h1>
 				<!--- Obtain a list of reports that contain the limit_preserve_method marker --->
-				<cfquery name="preservationRewrite" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="preservationRewrite" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT report_name 
 					FROM cf_report_sql 
 					WHERE 
 						sql_text like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%-- ##limit_preserve_method##%">
 				</cfquery>
 				<!--- Obtain a list of reports that contain the limit_part_name marker --->
-				<cfquery name="partnameRewrite" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="partnameRewrite" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT report_name 
 					FROM cf_report_sql 
 					WHERE 
 						sql_text like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%-- ##limit_part_name##%">
 				</cfquery>
 				<cfif isdefined("report") and len(#report#) gt 0>
-					<cfquery name="id" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					<cfquery name="id" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						SELECT report_id 
 						FROM cf_report_sql 
 						WHERE 
@@ -86,14 +86,14 @@ limitations under the License.
 					</cfif>
 				</cfif>
 				<!-- Obtain the list of reports -->
-				<cfquery name="e" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="e" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT * 
 					FROM cf_report_sql 
 					WHERE report_name not like 'mcz_%' 
 					ORDER BY report_name
 				</cfquery>
 				<!-- Obtain a list of collection codes for which this user has expressed a preference for seeing label reports for -->
-				<cfquery name="usersColls" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="usersColls" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT reportprefs 
 					FROM CF_USERS 
 					WHERE 
@@ -216,7 +216,7 @@ limitations under the License.
 								<div id="preserve_limit_section">
 									<cfif isdefined("collection_object_id") and len(#collection_object_id#) gt 0>
 										<label for="preserve_limit">Limit to Preservation Type:</label>
-										<cfquery name="partsList" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+										<cfquery name="partsList" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 											SELECT count(*) as ct, preserve_method 
 											FROM specimen_part
 											LEFT JOIN cataloged_item on derived_from_cat_item = cataloged_item.collection_object_id
@@ -237,7 +237,7 @@ limitations under the License.
 								<div id="part_name_limit_section">
 									<cfif isdefined("collection_object_id") and len(#collection_object_id#) gt 0>
 										<label for="part_name_limit">Limit to Part Name:</label>
-										<cfquery name="partNameList" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+										<cfquery name="partNameList" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 											SELECT count(*) as ct, part_name
 											FROM specimen_part
 											LEFT JOIN cataloged_item on derived_from_cat_item = cataloged_item.collection_object_id
@@ -291,7 +291,7 @@ limitations under the License.
 			<cfif not isDefined("report_id") or len(report_id) EQ 0>
 				<cfthrow message="No report_id was specified for a report to print.">
 			</cfif>
-			<cfquery name="e" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="e" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT * 
 				FROM cf_report_sql 
 				WHERE 
@@ -356,12 +356,12 @@ limitations under the License.
 				</cfif>
 				<hr>#ssql#<hr>
 			 	<cftry>
-					<cfquery name="d" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					<cfquery name="d" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						#preservesinglequotes(ssql)#
 					</cfquery>
 				<cfcatch>
 					<!--- sort can fail here, or below where d is sorted, if they try to sort by things that are not in the query --->
-					<cfquery name="d" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					<cfquery name="d" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						#preservesinglequotes(sql)#
 					</cfquery>
 				</cfcatch>

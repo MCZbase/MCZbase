@@ -28,7 +28,7 @@ wget https://repo1.maven.org/maven2/io/nayuki/qrcodegen/1.8.0/qrcodegen-1.8.0.ja
 
 <cfswitch expression = "#target#">
 	<cfcase value="ExhibitTent__Mamm">
-		<cfquery name="getItems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="getItems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			SELECT DISTINCT
 				MCZBASE.get_scientific_name(cataloged_item.collection_object_id) sci_name,
 				MCZBASE.get_common_names(cataloged_item.collection_object_id) common_names,

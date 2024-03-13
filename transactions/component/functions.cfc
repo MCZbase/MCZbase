@@ -27,7 +27,7 @@ limitations under the License.
 
 <cffunction name="checkAgentFlag" access="remote">
 	<cfargument name="agent_id" type="numeric" required="yes">
-	<cfquery name="checkAgentQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cfquery name="checkAgentQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		select MCZBASE.get_worstagentrank(<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">) as agentrank from dual
 	</cfquery>
 	<cfreturn checkAgentQuery>
@@ -39,7 +39,7 @@ limitations under the License.
 	<cfargument name="transaction_id" type="string" required="yes">
 	
 	<cfif listcontainsnocase(session.roles,"admin_transactions")>
-		<cfquery name="rankCount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="rankCount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			select
 				1 as status,
 				count(distinct cataloged_item.collection_object_id) catItemCount,
@@ -81,7 +81,7 @@ limitations under the License.
 		<cftry>
 			<cfoutput>
 				<cftry>
-				<cfquery name="transType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="transType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					select transaction_type
 					from trans
 					where
@@ -89,7 +89,7 @@ limitations under the License.
 				</cfquery>
 				<cfset transaction = transType.transaction_type>
 				<h2 class="h3">Disposition of material in this #transaction#:</h2>
-				<cfquery name="getDispositions" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="getDispositions" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					select collection_cde, 
 						count(distinct cataloged_item.collection_object_id) as cocount, 
 						count(distinct specimen_part.collection_object_id) as pcount, 
@@ -167,7 +167,7 @@ limitations under the License.
 	<cfthread name="getDeaccLimitThread">
 		<cftry>
 			<cfoutput>
-				<cfquery name="deaccLimitations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="deaccLimitations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					select count(distinct deacc_item.collection_object_id) as ct,
 						permit.permit_id, permit.specific_type, permit.restriction_summary, permit.benefits_summary, permit.benefits_provided, 
 						accn.transaction_id as accn_id, accn.accn_number
@@ -229,7 +229,7 @@ limitations under the License.
 	<cfthread name="getDeaccLoanThread">
 		<cftry>
 			<cfoutput>
-				<cfquery name="deaccLoans" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="deaccLoans" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					select count(specimen_part.collection_object_id) as ct, 
 						loan.transaction_id loan_id, loan_number, loan_status, 
 						return_due_date, loan.closed_date, 
@@ -302,7 +302,7 @@ limitations under the License.
 	<cfset data = ArrayNew(1)>
 	<cftransaction>
 		<cftry>
-			<cfquery name="updateDeaccessionCheck" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="newDeaccessionCheck_result">
+			<cfquery name="updateDeaccessionCheck" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="newDeaccessionCheck_result">
 				SELECT count(*) as ct from trans
 				WHERE  
 					TRANSACTION_ID = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value='#transaction_id#'>
@@ -311,7 +311,7 @@ limitations under the License.
 			<cfif updateDeaccessionCheck.ct NEQ 1>
 				<cfthrow message = "Unable to update transaction. Provided transaction_id does not match a record in the trans table with a type of accn.">
 			</cfif>
-			<cfquery name="updateDeaccessionTrans" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateDeaccessionTrans_result">
+			<cfquery name="updateDeaccessionTrans" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateDeaccessionTrans_result">
 				UPDATE trans SET
 					collection_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_id#">,
 					TRANS_DATE = <cfqueryparam cfsqltype="CF_SQL_TIMESTAMP" value="#dateformat(trans_date,'yyyy-mm-dd')#">,
@@ -322,7 +322,7 @@ limitations under the License.
 				where
 					transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
 			</cfquery>
-			<cfquery name="updateDeaccession" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateDeaccession_result">
+			<cfquery name="updateDeaccession" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateDeaccession_result">
 				 UPDATE DEACCESSION SET
 					DEACC_TYPE = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#deacc_type#">,
 					DEACC_NUMBER = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#deacc_number#">,
@@ -348,7 +348,7 @@ limitations under the License.
 					</cfcatch>
 					</cftry>
 					<cfif del_agnt_ is "1" and isnumeric(trans_agent_id_) and trans_agent_id_ gt 0>
-						<cfquery name="del" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						<cfquery name="del" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							delete from trans_agent 
 							where trans_agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#trans_agent_id_#">
 						</cfquery>
@@ -356,7 +356,7 @@ limitations under the License.
 						<cfif len(agent_id_) GT 0>
 							<!--- don't try to add/update a blank row --->
 							<cfif trans_agent_id_ is "new" and del_agnt_ is 0>
-								<cfquery name="newTransAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+								<cfquery name="newTransAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 									insert into trans_agent (
 										transaction_id,
 										agent_id,
@@ -368,7 +368,7 @@ limitations under the License.
 									)
 								</cfquery>
 							<cfelseif del_agnt_ is 0>
-								<cfquery name="upTransAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+								<cfquery name="upTransAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 									update trans_agent set
 										agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id_#">,
 										trans_agent_role = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trans_agent_role_#">
@@ -404,7 +404,7 @@ limitations under the License.
 
 	<cftry>
 		<cfif listcontainsnocase(session.roles,"admin_transactions")>
-			<cfquery name="rankCount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="rankCount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT
 					1 as status,
 					count(distinct cataloged_item.collection_object_id) catItemCount,
@@ -441,7 +441,7 @@ limitations under the License.
 	<cfthread name="getAccnItemDispThread">
 		<cftry>
 			<cfoutput>
-				<cfquery name="transType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="transType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					select transaction_type
 					from trans
 					where
@@ -451,7 +451,7 @@ limitations under the License.
 				<cfif transaction EQ 'accn'><cfset transaction='accession'></cfif>
 				<h2 class="h3">Disposition of material in this #transaction#:</h2>
 				<!--- TODO: Generalize to other transaction types --->
-				<cfquery name="getDispositions" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="getDispositions" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					select collection_cde, count(distinct specimen_part.collection_object_id) as pcount, coll_obj_disposition, 
 							count(distinct cataloged_item.collection_object_id) as cocount,
 							deacc_number, deacc_type, deacc_status
@@ -547,7 +547,7 @@ limitations under the License.
 	<cftry>
 		<cfset rows = 0>
 		<cftransaction>
-			<cfquery name="updateDeaccessionCheck" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateDeaccessionCheck_result">
+			<cfquery name="updateDeaccessionCheck" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateDeaccessionCheck_result">
 				SELECT count(*) as ct from trans
 				WHERE  
 					TRANSACTION_ID = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value='#transaction_id#'>
@@ -556,7 +556,7 @@ limitations under the License.
 			<cfif updateDeaccessionCheck.ct NEQ 1>
 				<cfthrow message = "Unable to update transaction. Provided transaction_id does not match a record in the trans table with a type of deaccession.">
 			</cfif>
-			<cfquery name="find" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="find_result">
+			<cfquery name="find" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="find_result">
 				select distinct
 					specimen_part.collection_object_id as part_colobjid,
 					fl.guid,
@@ -573,7 +573,7 @@ limitations under the License.
 					and specimen_part.collection_object_id is not null
 			</cfquery>
 			<cfif find_result.recordcount GT 0>
-				<cfquery name="reconAgentID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="reconAgentID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					select agent_id from agent_name 
 					where agent_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
@@ -584,7 +584,7 @@ limitations under the License.
 					<cfif len(in_trans_id) GT 0 >
 						<cfthrow message="Unable to add items.  #guid# #part# is already in a deaccession and cannot be added to this deaccession.">
 					</cfif>
-					<cfquery name="add" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="add_result">
+					<cfquery name="add" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="add_result">
 						insert into deacc_item
 						(
 							transaction_id,
@@ -635,7 +635,7 @@ limitations under the License.
 	<cfthread name="getAccnLimitThread">
 		<cftry>
 			<cfoutput>
-				<cfquery name="accnLimitations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="accnLimitations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					select permit.permit_id, permit.specific_type, permit.restriction_summary, permit.benefits_summary, permit.benefits_provided
 					from  permit_trans 
 						left join permit on permit_trans.permit_id = permit.permit_id
@@ -684,7 +684,7 @@ limitations under the License.
 	<cfthread name="getAccnLoanThread">
 		<cftry>
 			<cfoutput>
-				<cfquery name="accnLoans" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="accnLoans" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					select distinct 
 						loan.transaction_id loan_id, loan_number, loan_status, 
 						return_due_date, loan.closed_date, 
@@ -741,7 +741,7 @@ limitations under the License.
 	<cfthread name="getTransItemCountryThread">
 		<cftry>
 			<cfoutput>
-				<cfquery name="transType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="transType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					select transaction_type
 					from trans
 					where
@@ -751,7 +751,7 @@ limitations under the License.
 				<cfif transaction EQ 'accn'><cfset transaction='accession'></cfif>
 				<h2 class="h3">Countries of Origin of cataloged items in this #transaction#</h2>
 				<!--- TODO: Generalize to other transaction types --->
-				<cfquery name="ctSovereignNation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="ctSovereignNation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					select count(*) as ct, sovereign_nation 
 					from cataloged_item 
 						left join specimen_part on cataloged_item.collection_object_id = specimen_part.collection_object_id
@@ -794,7 +794,7 @@ limitations under the License.
 	<cfargument name="transaction_id" type="string" required="yes">
 	<cftry>
 		<cfif listcontainsnocase(session.roles,"admin_transactions")>
-			<cfquery name="rankCount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="rankCount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT
 					1 as status,
 					count(distinct cataloged_item.collection_object_id) catItemCount,
@@ -851,7 +851,7 @@ limitations under the License.
 	
 	<cfset theResult=queryNew("status, message")>
 	<cftry>
-		<cfquery name="delete" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="deleteResult">
+		<cfquery name="delete" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="deleteResult">
 			delete from LOAN_RELATIONS 
 			where transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#parent_transaction_id#">
 			and related_transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#child_transaction_id#">
@@ -889,14 +889,14 @@ limitations under the License.
 		<cfoutput>
 			<cftry>
 
-				<cfquery name="parentLoan" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="parentLoan" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					select loan_number from loan 
 					where 
 						transaction_id = <cfqueryparam value=#transaction_id# CFSQLType="CF_SQL_DECIMAL" >
 				</cfquery>
 				<cfset parent_loan_number = parentLoan.loan_number>
 				<!--- Subloans of the current loan (used for exhibition-master/exhibition-subloans) --->
-				<cfquery name="childLoans" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="childLoans" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					select c.loan_number, c.transaction_id as child_transaction_id
 					from loan p left join loan_relations lr on p.transaction_id = lr.transaction_id 
 						left join loan c on lr.related_transaction_id = c.transaction_id 
@@ -905,7 +905,7 @@ limitations under the License.
 					order by c.loan_number
 				</cfquery>
 				<!---  Loans which are available to be used as subloans for an exhibition master loan (exhibition-subloans that are not allready children) --->
-				<cfquery name="potentialChildLoans" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="potentialChildLoans" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					select pc.loan_number, pc.transaction_id as potential_transaction_id
 					from loan pc left join loan_relations lr on pc.transaction_id = lr.related_transaction_id
 					where pc.loan_type = 'exhibition-subloan' 
@@ -970,7 +970,7 @@ limitations under the License.
 	<cfset relword="documents">
 	<cfthread name="getMediaForTransHtmlThread">
 		<cftry>
-			<cfquery name="query" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="query" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				select distinct
 					media.media_id as media_id,
 					preview_uri,
@@ -1022,7 +1022,7 @@ limitations under the License.
 	<cfthread name="getSBTHtmlThread">
 		<cfoutput>
 			<cftry>
-				 <cfquery name="theResult" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				 <cfquery name="theResult" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					select 1 as status, shipment_id, packed_by_agent_id, shipped_carrier_method, shipped_date, package_weight, no_of_packages,
 								hazmat_fg, insured_for_insured_value, shipment_remarks, contents, foreign_shipment_fg, shipped_to_addr_id, carriers_tracking_number,
 								shipped_from_addr_id, fromaddr.formatted_addr, toaddr.formatted_addr,
@@ -1035,7 +1035,7 @@ limitations under the License.
 						 where shipment.transaction_id =<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
 						 order by shipped_date
 				</cfquery>
-				<cfquery name="getEORINumbers" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="getEORINumbers" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT eori_number, mczbase.get_AgentNameOfType(agent.agent_id) eori_agent_name
 					FROM trans_agent
 						JOIN agent on trans_agent.agent_id = agent.agent_id
@@ -1059,7 +1059,7 @@ limitations under the License.
 						<cfelse>
 							<cfset printedOnInvoice = "<span class='infoLink' onClick=' setShipmentToPrint(#shipment_id#,#transaction_id#); ' >&##9744; Not Printed</span>">
 						</cfif>
-						<cfquery name="shippermit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="shippermit_result">
+						<cfquery name="shippermit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="shippermit_result">
 							select permit.permit_id,
 								issuedBy.agent_name as IssuedByAgent,
 								issued_Date,
@@ -1130,7 +1130,7 @@ limitations under the License.
 								<div class='permitship pb-2'>
 									<ul id='permits_ship_#shipment_id#' tabindex="0" class="list-style-disc pl-4 pr-0">
 										<cfloop query="shippermit">
-											<cfquery name="mediaQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+											<cfquery name="mediaQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 												select media.media_id, media_uri, preview_uri, media_type,
 													mczbase.get_media_descriptor(media.media_id) as media_descriptor
 												from media_relations left join media on media_relations.media_id = media.media_id
@@ -1213,7 +1213,7 @@ limitations under the License.
  
 	<cfthread name="getMovePermitHtmlThread">
 		<cftry>
-			<cfquery name="queryPermit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="queryPermit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				select distinct permit_num, permit_type, issued_date, permit.permit_id,
 					issuedBy.agent_name as IssuedByAgent
 				from permit left join preferred_agent_name issuedBy on permit.issued_by_agent_id = issuedBy.agent_id
@@ -1223,7 +1223,7 @@ limitations under the License.
 				<cfloop query="queryPermit">
 					<h3>Move/Copy Permit #permit_type# #permit_num# Issued By: #IssuedByAgent#</h3><p><strong><span id='#feedbackId#'></span></strong></p>
 				</cfloop>
-				<cfquery name="queryShip" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="queryShip" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					select 1 as status, shipment_id,
 						packed_by_agent_id, mczbase.get_agentnameoftype(packed_by_agent_id,'preferred') packed_by_agent, carriers_tracking_number,
 						shipped_carrier_method, to_char(shipped_date, 'yyyy-mm-dd') as shipped_date, package_weight, no_of_packages,
@@ -1298,7 +1298,7 @@ limitations under the License.
 <cffunction name="getShipments" returntype="query" access="remote">
 	<cfargument name="shipmentidList" type="string" required="yes">
 	<cftry>
-		<cfquery name="theResult" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="theResult" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			select 1 as status, shipment_id, transaction_id,
 				packed_by_agent_id, 
 				mczbase.get_agentnameoftype(packed_by_agent_id,'preferred') packed_by_agent, 
@@ -1338,14 +1338,14 @@ limitations under the License.
 	<cftry>
 		<cftransaction action="begin">
 		<!--- First set the print flag off for all shipments on this transaction. --->
-		<cfquery name="clearResult" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="clearResultRes">
+		<cfquery name="clearResult" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="clearResultRes">
 			update shipment set print_flag = 0 where transaction_id in (
 				select transaction_id from shipment where shipment_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#shipment_id#">
 			)
 		</cfquery>
 		<!--- Then set the print flag on for the provided shipments. --->
 		<cfif clearResultRes.recordcount GT 0 >
-			<cfquery name="updateResult" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateResultRes">
+			<cfquery name="updateResult" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateResultRes">
 				 update shipment set print_flag = 1 where shipment_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#shipment_id#">
 			</cfquery>
 
@@ -1393,7 +1393,7 @@ limitations under the License.
 	
 	<cfset theResult=queryNew("status, message")>
 	<cftry>
-		<cfquery name="delete" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="deleteResultRes">
+		<cfquery name="delete" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="deleteResultRes">
 			delete from permit_shipment
 			where permit_id =<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#permit_id#">
 			and shipment_id =<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#shipment_id#">
@@ -1429,13 +1429,13 @@ limitations under the License.
 	<cfset r=1>
 	<cftransaction>
 		<cftry>
-			<cfquery name="countPermits" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="countPermits_result">
+			<cfquery name="countPermits" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="countPermits_result">
 				select count(*) as ct 
 				from permit_shipment
 			 	where shipment_id =<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#shipment_id#">
 			</cfquery>
 			<cfif countPermits.ct EQ 0 >
-				<cfquery name="delete" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="delete_result">
+				<cfquery name="delete" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="delete_result">
 					delete from shipment
 					where transaction_id =<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
 					and shipment_id =<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#shipment_id#">
@@ -1479,7 +1479,7 @@ limitations under the License.
 
 	<cfset r=1>
 	<cftry>
-		<cfquery name="deleteResult" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="deleteResultRes">
+		<cfquery name="deleteResult" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="deleteResultRes">
 			delete from permit_trans
 			where permit_id =<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#permit_id#">
 				and transaction_id =<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
@@ -1522,13 +1522,13 @@ limitations under the License.
 	<cfthread name="transPermitThread">
 		<cfoutput>
 			<cftry>
-				<cfquery name="ctPermitType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="ctPermitType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					select ct.permit_type, count(p.permit_id) uses 
 					from ctpermit_type ct left join permit p on ct.permit_type = p.permit_type 
 					group by ct.permit_type
 					order by ct.permit_type
 				</cfquery>
-				<cfquery name="ctSpecificPermitType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="ctSpecificPermitType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					select ct.specific_type, count(p.permit_id) uses 
 					from ctspecific_permit_type ct left join permit p on ct.specific_type = p.specific_type
 					group by ct.specific_type
@@ -1704,7 +1704,7 @@ limitations under the License.
 					<cfthrow type="noQueryParameters" message="No search criteria provided." >
 				</cfif>
 
-				<cfquery name="matchPermit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" timeout="#Application.query_timeout#">
+				<cfquery name="matchPermit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
 					select distinct permit.permit_id,
 						issuedByPref.agent_name IssuedByAgent,
 						issuedToPref.agent_name IssuedToAgent,
@@ -1860,7 +1860,7 @@ limitations under the License.
 
 	<cfset result = "">
 		<cftry>
-			<cfquery name="addPermit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="addPermit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				INSERT INTO permit_trans (permit_id, transaction_id) VALUES (#permit_id#, #transaction_id#)
 			</cfquery>
 		
@@ -1886,7 +1886,7 @@ limitations under the License.
 	<cfargument name="transaction_id" type="string" required="yes">
 
 	<cfthread name="getPermitsHtmlThread">
-		<cfquery name="query" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="query" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			select distinct permit_num, permit_type, issued_date, permit.permit_id,
 				issuedBy.agent_name as IssuedByAgent
 			from permit left join permit_trans on permit.permit_id = permit_trans.permit_id
@@ -1899,7 +1899,7 @@ limitations under the License.
 			<div class='permittrans'>
 				<span id='permits_tr_#transaction_id#' class="pb-2">
 					<cfloop query="query">
-						<cfquery name="mediaQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" timeout="#Application.query_timeout#">
+						<cfquery name="mediaQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
 							select media.media_id, media_uri, preview_uri, media_type, mczbase.get_media_descriptor(media.media_id) as media_descriptor
 							from media_relations left join media on media_relations.media_id = media.media_id
 							where media_relations.media_relationship = 'shows permit'
@@ -1944,7 +1944,7 @@ limitations under the License.
 <cffunction name="getPermitsForShipment" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="shipment_id" type="string" required="yes">
 	<cfset result="">
-	<cfquery name="query" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" timeout="#Application.query_timeout#">
+	<cfquery name="query" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
 		select distinct permit_num, permit_type, issued_date, permit.permit_id,
 			issuedBy.agent_name as IssuedByAgent
 		from permit_shipment left join permit on permit_shipment.permit_id = permit.permit_id
@@ -1955,7 +1955,7 @@ limitations under the License.
 	<cfif query.recordcount gt 0>
 		<cfset result="<ul class='list-style-disc pl-4 pr-2 mt-2 mb-0'>">
 		<cfloop query="query">
-			<cfquery name="mediaQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="mediaQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				select media.media_id, media_uri, preview_uri, media_type
 				from media_relations left join media on media_relations.media_id = media.media_id
 				where media_relations.media_relationship = 'shows permit'
@@ -1980,7 +1980,7 @@ limitations under the License.
 
 	<cftry>
 		<cfset rows = 0>
-		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result" timeout="#Application.query_timeout#">
+		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="search_result" timeout="#Application.query_timeout#">
 			select distinct permit_num, permit_type, specific_type, permit_title, to_char(issued_date,'YYYY-MM-DD') as issued_date, permit.permit_id,
 				issuedBy.agent_name as IssuedByAgent
 			from permit left join permit_shipment on permit.permit_id = permit_shipment.permit_id
@@ -2016,7 +2016,7 @@ limitations under the License.
 	<cfset data = ArrayNew(1)>
 	<cftry>
 		<cfset rows = 0>
-		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
+		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="search_result">
 			select distinct permit_num, permit_id
 			from permit 
 			where upper(permit_num) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(term)#%">
@@ -2047,7 +2047,7 @@ limitations under the License.
 	<cfset data = ArrayNew(1)>
 	<cftry>
 		<cfset rows = 0>
-		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
+		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="search_result">
 			select distinct permit_title, permit_id
 			from permit 
 			where upper(permit_title) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(term)#%">
@@ -2082,12 +2082,12 @@ limitations under the License.
 
 	<cfthread name="getPermitPickerThread">
 		<cftry>
-			<cfquery name="ctPermitType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="ctPermitType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				select ct.permit_type, count(p.permit_id) uses from ctpermit_type ct left join permit p on ct.permit_type = p.permit_type
 					group by ct.permit_type
 					order by ct.permit_type
 			</cfquery>
-			<cfquery name="ctSpecificPermitType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="ctSpecificPermitType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					select ct.specific_type, count(p.permit_id) uses from ctspecific_permit_type ct left join permit p on ct.specific_type = p.specific_type
 					group by ct.specific_type
 					order by ct.specific_type
@@ -2281,13 +2281,13 @@ limitations under the License.
    
 	<cfthread name="getSPPHtmlThread">
  	<cftry>
-		<cfquery name="ctPermitType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" timeout="#Application.short_timeout#">
+		<cfquery name="ctPermitType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.short_timeout#">
 			select ct.permit_type, count(p.permit_id) uses 
 			from ctpermit_type ct left join permit p on ct.permit_type = p.permit_type 
 			group by ct.permit_type
 			order by ct.permit_type
 		</cfquery>
-		<cfquery name="ctSpecificPermitType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" timeout="#Application.short_timeout#">
+		<cfquery name="ctSpecificPermitType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.short_timeout#">
 			select ct.specific_type, count(p.permit_id) uses 
 			from ctspecific_permit_type ct left join permit p on ct.specific_type = p.specific_type
 			group by ct.specific_type
@@ -2475,7 +2475,7 @@ limitations under the License.
 			<cfthrow type="noQueryParameters" message="No search criteria provided." >
 		</cfif>
 
-		<cfquery name="matchPermit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" timeout="#Application.query_timeout#">
+		<cfquery name="matchPermit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
 			select distinct permit.permit_id,
 				issuedByPref.agent_name IssuedByAgent,
 				issuedToPref.agent_name IssuedToAgent,
@@ -2613,7 +2613,7 @@ limitations under the License.
 	<cfargument name="shipment_id" type="numeric" required="yes">
 	<cfargument name="permit_id" type="numeric" required="yes">
 	<cftry>
-		<cfquery name="insertResult" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="insertResultRes">
+		<cfquery name="insertResult" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="insertResultRes">
 			insert into permit_shipment (permit_id, shipment_id)
 			values ( <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#permit_id#">, <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#shipment_id#">)
 		</cfquery>
@@ -2651,7 +2651,7 @@ limitations under the License.
 	<cfargument name="permit_id" type="numeric" required="yes">
 	<cftransaction>
 		<cftry>
-			<cfquery name="delete" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="deleteResultRes">
+			<cfquery name="delete" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="deleteResultRes">
 				delete from permit_shipment
 				where permit_id =<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#permit_id#">
 					and shipment_id =<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#source_shipment_id#">
@@ -2659,7 +2659,7 @@ limitations under the License.
 			<cfif deleteResultRes.recordcount NEQ 1>
 				<cfthrow message="Failed to properly delete old permit_shipment record">
 			</cfif>
-			<cfquery name="insertResult" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="insertResultRes">
+			<cfquery name="insertResult" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="insertResultRes">
 				insert into permit_shipment (permit_id, shipment_id)
 				values ( 
 					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#permit_id#">,
@@ -2704,7 +2704,7 @@ limitations under the License.
 
 	<cftry>
 		<cfset rows = 0>
-		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result" timeout="#Application.query_timeout#">
+		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="search_result" timeout="#Application.query_timeout#">
 			select distinct 
 				permit.permit_id,
 				permit_num, 
@@ -2790,14 +2790,14 @@ limitations under the License.
 
 	<cfthread name="getPermitMediaListThread">
 		<cftry>
-			<cfquery name="transType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="transType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				select transaction_type
 				from trans
 				where
 					transaction_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
 			</cfquery>
 			<cfset transaction = transType.transaction_type>
-			<cfquery name="getPermitMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" timeout="#Application.query_timeout#">
+			<cfquery name="getPermitMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
 				select distinct media_id, uri, permit_type, specific_type, permit_num, permit_title, show_on_shipment 
 				from (
 					select 
@@ -2894,7 +2894,7 @@ limitations under the License.
 				<cfset shipment_id = related_id>
 			</cfif>
 		
-			<cfquery name="ctSpecificPermitType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="ctSpecificPermitType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				select ct.specific_type, ct.permit_type, count(p.permit_id) uses 
 				from ctspecific_permit_type ct left join permit p on ct.specific_type = p.specific_type
 				group by ct.specific_type, ct.permit_type
@@ -3104,17 +3104,17 @@ limitations under the License.
 			 <cfset shipment_id = related_id>
 		 </cfif>
 
-		<cfquery name="ptype" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="ptype" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		   select permit_type from ctspecific_permit_type where specific_type = <cfqueryparam CFSQLTYPE="CF_SQL_VARCHAR" value="#specific_type#">
 		</cfquery>
 		<cfset permit_type = #ptype.permit_type#>
-		<cfquery name="nextPermit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="nextPermit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			select sq_permit_id.nextval nextPermit from dual
 		</cfquery>
 		<cfif isdefined("specific_type") and len(#specific_type#) is 0 and ( not isdefined("permit_type") OR len(#permit_type#) is 0 )>
 			<cfthrow message="Error: There was an error selecting the permit type for the specific document type.  Please file a bug report.">
 		</cfif>
-		<cfquery name="newPermit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="newPermitResult">
+		<cfquery name="newPermit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="newPermitResult">
 			INSERT INTO permit (
 				PERMIT_ID,
 				ISSUED_BY_AGENT_ID
@@ -3194,7 +3194,7 @@ limitations under the License.
 			<cfset result = result & "<form><input type='hidden' value='#permit_num#' id='permit_number_passon'></form>">
 			<cfset result = result & "<script>$('##permitEditLink).removeClass(ui-widget-content);'</script>">
 		</cfif>
-		<cfquery name="newPermitLink" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="newPermitLinkResult">
+		<cfquery name="newPermitLink" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="newPermitLinkResult">
 			<cfif relation_type EQ "transaction">
 				INSERT into permit_trans (permit_id, transaction_id)
 			<cfelse>
@@ -3230,7 +3230,7 @@ limitations under the License.
 		<cfif transaction_type EQ 'deacc'><cfset transaction_type = 'Deaccn'></cfif>
 		<cfif transaction_type EQ 'deaccession'><cfset transaction_type = 'Deaccn'></cfif>
 		<cfif transaction_type EQ 'loan'><cfset transaction_type = 'Loan'></cfif>
-		<cfquery name="k" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="k" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			select distinct(cttrans_agent_role.trans_agent_role) 
 			from cttrans_agent_role  
 				left join trans_agent_role_allowed on cttrans_agent_role.trans_agent_role = trans_agent_role_allowed.trans_agent_role
@@ -3242,7 +3242,7 @@ limitations under the License.
 			<cfthrow message="getTrans_agent_role invoked with unknown transaction type (must match trans_agent_role_allowed.transaction_type values).">
 		</cfif>
 	<cfelse>
-		<cfquery name="k" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="k" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			select trans_agent_role from cttrans_agent_role where trans_agent_role != 'entered by' order by trans_agent_role
 		</cfquery>
 	</cfif>
@@ -3279,7 +3279,7 @@ limitations under the License.
 	<cftry>
 		<cfset rows = 0>
 		<cftransaction>
-			<cfquery name="updateAccnCheck" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateAccnCheck_result">
+			<cfquery name="updateAccnCheck" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateAccnCheck_result">
 				SELECT count(*) as ct from trans
 				WHERE  
 					TRANSACTION_ID = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value='#transaction_id#'>
@@ -3288,7 +3288,7 @@ limitations under the License.
 			<cfif updateAccnCheck.ct NEQ 1>
 				<cfthrow message = "Unable to update transaction. Provided transaction_id does not match a record in the trans table with a type of accn.">
 			</cfif>
-			<cfquery name="find" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="find_result">
+			<cfquery name="find" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="find_result">
 				select distinct 
 					collection_object_id from #session.flatTableName# 
 				where 
@@ -3296,7 +3296,7 @@ limitations under the License.
 			</cfquery>
 			<cfif find_result.recordcount GT 0>
 				<cfloop query=find>
-					<cfquery name="add" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="add_result">
+					<cfquery name="add" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="add_result">
 						update cataloged_item 
 						set accn_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
 						where collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#find.collection_object_id#">
@@ -3347,7 +3347,7 @@ limitations under the License.
 	<cfset data = ArrayNew(1)>
 	<cftransaction>
 		<cftry>
-			<cfquery name="updateAccnCheck" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="newAccnCheck_result">
+			<cfquery name="updateAccnCheck" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="newAccnCheck_result">
 				SELECT count(*) as ct from trans
 				WHERE  
 					TRANSACTION_ID = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value='#transaction_id#'>
@@ -3356,7 +3356,7 @@ limitations under the License.
 			<cfif updateAccnCheck.ct NEQ 1>
 				<cfthrow message = "Unable to update transaction. Provided transaction_id does not match a record in the trans table with a type of accn.">
 			</cfif>
-			<cfquery name="updateAccnTrans" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateAccnTrans_result">
+			<cfquery name="updateAccnTrans" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateAccnTrans_result">
 				UPDATE trans set
 					<cfif isdefined("accession_date") AND len(#accession_date#) gt 0 >
 						TRANS_DATE = <cfqueryparam cfsqltype="CF_SQL_TIMESTAMP" value="#dateformat(accession_date,'yyyy-mm-dd')#">,
@@ -3369,7 +3369,7 @@ limitations under the License.
 				WHERE
 					TRANSACTION_ID = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value='#transaction_id#'>
 			</cfquery>
-			<cfquery name="updateAccn" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateAccn_result">
+			<cfquery name="updateAccn" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateAccn_result">
 				UPDATE accn set
 					ACCN_TYPE = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value='#accn_type#'>,
 					accn_number = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value='#accn_number#'>,
@@ -3395,7 +3395,7 @@ limitations under the License.
 					</cfcatch>
 					</cftry>
 					<cfif del_agnt_ is "1" and isnumeric(trans_agent_id_) and trans_agent_id_ gt 0>
-						<cfquery name="del" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						<cfquery name="del" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							delete from trans_agent 
 							where trans_agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#trans_agent_id_#">
 						</cfquery>
@@ -3403,7 +3403,7 @@ limitations under the License.
 						<cfif len(agent_id_) GT 0>
 							<!--- don't try to add/update a blank row --->
 							<cfif trans_agent_id_ is "new" and del_agnt_ is 0>
-								<cfquery name="newTransAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+								<cfquery name="newTransAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 									insert into trans_agent (
 										transaction_id,
 										agent_id,
@@ -3415,7 +3415,7 @@ limitations under the License.
 									)
 								</cfquery>
 							<cfelseif del_agnt_ is 0>
-								<cfquery name="upTransAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+								<cfquery name="upTransAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 									update trans_agent set
 										agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id_#">,
 										trans_agent_role = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trans_agent_role_#">
@@ -3458,7 +3458,7 @@ limitations under the License.
 	<cfthread name="getBorrowLimitThread">
 		<cftry>
 			<cfoutput>
-				<cfquery name="borrowLimitations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" timeout="#Application.query_timeout#">
+				<cfquery name="borrowLimitations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
 					select count(distinct borrow_item.borrow_item_id) as ct,
 						permit.permit_id, permit.specific_type, permit.restriction_summary, permit.benefits_summary, permit.benefits_provided, 
 						borrow.transaction_id as borrow_id, borrow.borrow_number
@@ -3548,7 +3548,7 @@ limitations under the License.
 	<cfset data = ArrayNew(1)>
 	<cftransaction>
 		<cftry>
-			<cfquery name="setBorrow" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="setBorrow" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				UPDATE borrow SET
 					LENDERS_INVOICE_RETURNED_FG = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#LENDERS_INVOICE_RETURNED_FG#">,
 					LENDERS_TRANS_NUM_CDE = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#LENDERS_TRANS_NUM_CDE#">,
@@ -3572,7 +3572,7 @@ limitations under the License.
 				WHERE
 					TRANSACTION_ID=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#TRANSACTION_ID#">
 			</cfquery>
-			<cfquery name="setTrans" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="setTrans" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				UPDATE trans SET
 					collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_id#">,
 					<cfif isdefined("trans_date") AND len(trans_date) GT 0>
@@ -3597,7 +3597,7 @@ limitations under the License.
 					</cfcatch>
 					</cftry>
 					<cfif del_agnt_ is "1" and isnumeric(trans_agent_id_) and trans_agent_id_ gt 0>
-						<cfquery name="del" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						<cfquery name="del" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							delete from trans_agent 
 							where trans_agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#trans_agent_id_#">
 						</cfquery>
@@ -3605,7 +3605,7 @@ limitations under the License.
 						<cfif len(agent_id_) GT 0>
 							<!--- don't try to add/update a blank row --->
 							<cfif trans_agent_id_ is "new" and del_agnt_ is 0>
-								<cfquery name="newTransAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+								<cfquery name="newTransAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 									insert into trans_agent (
 										transaction_id,
 										agent_id,
@@ -3617,7 +3617,7 @@ limitations under the License.
 									)
 								</cfquery>
 							<cfelseif del_agnt_ is 0>
-								<cfquery name="upTransAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+								<cfquery name="upTransAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 									update trans_agent set
 										agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id_#">,
 										trans_agent_role = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trans_agent_role_#">
@@ -3668,7 +3668,7 @@ limitations under the License.
 	<cfset data = ArrayNew(1)>
 	<cftransaction>
 		<cftry>
-			<cfquery name="updateLoanCheck" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateLoanCheck_result">
+			<cfquery name="updateLoanCheck" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateLoanCheck_result">
 				SELECT count(*) as ct from trans
 				WHERE  
 					TRANSACTION_ID = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value='#transaction_id#'>
@@ -3677,7 +3677,7 @@ limitations under the License.
 			<cfif updateLoanCheck.ct NEQ 1>
 				<cfthrow message = "Unable to update transaction. Provided transaction_id does not match a record in the trans table with a type of loan.">
 			</cfif>
-			<cfquery name="upTrans" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="upTrans" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				UPDATE trans SET
 					collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_id#">,
 					TRANS_DATE = <cfqueryparam cfsqltype="CF_SQL_TIMESTAMP" value="#dateformat(initiating_date,"yyyy-mm-dd")#">,
@@ -3691,7 +3691,7 @@ limitations under the License.
 			<cfif not isdefined("return_due_date") or len(return_due_date) eq 0 >
 				<!--- If there is no value set for return_due_date, don't overwrite an existing value.  ---> 
 				<!--- This prevents edits to exhibition-subloans from wiping out an existing date value --->
-				<cfquery name="upLoan" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="upLoan" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE loan SET
 						LOAN_TYPE = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#LOAN_TYPE#">,
 						LOAN_NUMBER = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#loan_number#">,
@@ -3704,7 +3704,7 @@ limitations under the License.
 						transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
 				</cfquery>
 			<cfelse>
-				<cfquery name="upLoan" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="upLoan" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE loan SET
 						return_due_date = <cfqueryparam cfsqltype="CF_SQL_TIMESTAMP" value="#dateformat(return_due_date,"yyyy-mm-dd")#">,
 						LOAN_TYPE = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#LOAN_TYPE#">,
@@ -3721,7 +3721,7 @@ limitations under the License.
 			<cfif isdefined("loan_type") and loan_type EQ 'exhibition-master' >
 				<!--- Propagate due date to child exhibition-subloans --->
 				<cfset formatted_due_date = dateformat(return_due_date,"yyyy-mm-dd")>
-				<cfquery name="upChildLoans" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="upChildLoans" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE loan SET
 						return_due_date = <cfqueryparam value = "#formatted_due_date#" CFSQLType="CF_SQL_TIMESTAMP">
 					WHERE 
@@ -3743,7 +3743,7 @@ limitations under the License.
 					</cfcatch>
 					</cftry>
 					<cfif del_agnt_ is "1" and isnumeric(trans_agent_id_) and trans_agent_id_ gt 0>
-						<cfquery name="del" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						<cfquery name="del" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							delete from trans_agent 
 							where trans_agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#trans_agent_id_#">
 						</cfquery>
@@ -3751,7 +3751,7 @@ limitations under the License.
 						<cfif len(agent_id_) GT 0>
 							<!--- don't try to add/update a blank row --->
 							<cfif trans_agent_id_ is "new" and del_agnt_ is 0>
-								<cfquery name="newTransAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+								<cfquery name="newTransAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 									insert into trans_agent (
 										transaction_id,
 										agent_id,
@@ -3763,7 +3763,7 @@ limitations under the License.
 									)
 								</cfquery>
 							<cfelseif del_agnt_ is 0>
-								<cfquery name="upTransAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+								<cfquery name="upTransAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 									update trans_agent set
 										agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id_#">,
 										trans_agent_role = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trans_agent_role_#">
@@ -3797,7 +3797,7 @@ limitations under the License.
 	
 	<cfset data = ArrayNew(1)>
 	<cftry>
-		<cfquery name="transAgents" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="transAgents" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			select agent_id, trans_agent_role
 			from trans_agent
 			where
@@ -3871,13 +3871,13 @@ limitations under the License.
 
 	<cfthread name="getAccnPrintHtmlThread">
 		<cftry>
-			<cfquery name="deaccDetails" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="deaccDetails" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				select deacc_type
 				from deaccession
 				where
 					deaccession.transaction_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
 			</cfquery>
-			<cfquery name="transAgents" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="transAgents" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				select agent_id, trans_agent_role
 				from trans_agent
 				where
@@ -3963,13 +3963,13 @@ limitations under the License.
 	<cfthread name="getLoanPrintHtmlThread">
 		<cftry>
 			<cfset notOKMessage = "">
-			<cfquery name="loanDetails" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="loanDetails" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				select loan_type 
 				from loan
 				where
 					loan.transaction_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
 			</cfquery>
-			<cfquery name="transAgents" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="transAgents" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				select agent_id, trans_agent_role
 				from trans_agent
 				where
@@ -4062,14 +4062,14 @@ limitations under the License.
 
 	<cfthread name="getAgentHtmlThread">
 		<cftry>
-			<cfquery name="transType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="transType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				select transaction_type
 				from trans
 				where
 					transaction_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
 			</cfquery>
 			<cfset transaction = transType.transaction_type>
-			<cfquery name="transAgents" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="transAgents" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				select
 					trans_agent_id,
 					trans_agent.agent_id,
@@ -4091,14 +4091,14 @@ limitations under the License.
 				<cfcase value="loan">
 					<cfset transLabel = 'Loan'>
 					<!--- Obtain list of transaction agent roles relevant to loan editing to use for piclists for loan agent controls --->
-					<cfquery name="cttrans_agent_role" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					<cfquery name="cttrans_agent_role" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						select distinct(cttrans_agent_role.trans_agent_role) 
 						from cttrans_agent_role  
 							left join trans_agent_role_allowed on cttrans_agent_role.trans_agent_role = trans_agent_role_allowed.trans_agent_role
 						where trans_agent_role_allowed.transaction_type = 'Loan'
 						order by cttrans_agent_role.trans_agent_role
 					</cfquery>
-					<cfquery name="requiredRoles" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					<cfquery name="requiredRoles" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						select trans_agent_role 
 						from trans_agent_role_allowed 
 						where transaction_type = 'Loan' and required_to_print = 1
@@ -4132,14 +4132,14 @@ limitations under the License.
 				<cfcase value="accn">
 					<cfset transLabel = 'Accession'>
 					<!--- Obtain list of transaction agent roles relevant to Accession editing --->
-					<cfquery name="cttrans_agent_role" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					<cfquery name="cttrans_agent_role" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						select distinct(cttrans_agent_role.trans_agent_role) 
 						from cttrans_agent_role  
 							left join trans_agent_role_allowed on cttrans_agent_role.trans_agent_role = trans_agent_role_allowed.trans_agent_role
 						where trans_agent_role_allowed.transaction_type = 'Accn'
 						order by cttrans_agent_role.trans_agent_role
 					</cfquery>
-					<cfquery name="requiredRoles" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					<cfquery name="requiredRoles" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						select trans_agent_role 
 						from trans_agent_role_allowed 
 						where transaction_type = 'Accn' and required_to_print = 1
@@ -4173,14 +4173,14 @@ limitations under the License.
 				<cfcase value="deaccession">
 					<cfset transLabel = 'Deaccession'>
 					<!--- Obtain list of transaction agent roles relevant to Accession editing --->
-					<cfquery name="cttrans_agent_role" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					<cfquery name="cttrans_agent_role" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						select distinct(cttrans_agent_role.trans_agent_role) 
 						from cttrans_agent_role  
 							left join trans_agent_role_allowed on cttrans_agent_role.trans_agent_role = trans_agent_role_allowed.trans_agent_role
 						where trans_agent_role_allowed.transaction_type = 'Deaccn'
 						order by cttrans_agent_role.trans_agent_role
 					</cfquery>
-					<cfquery name="requiredRoles" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					<cfquery name="requiredRoles" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						select trans_agent_role 
 						from trans_agent_role_allowed 
 						where transaction_type = 'Deaccn' and required_to_print = 1
@@ -4214,14 +4214,14 @@ limitations under the License.
 				<cfcase value="borrow">
 					<cfset transLabel = 'Borrow'>
 					<!--- Obtain list of transaction agent roles relevant to Accession editing --->
-					<cfquery name="cttrans_agent_role" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					<cfquery name="cttrans_agent_role" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						select distinct(cttrans_agent_role.trans_agent_role) 
 						from cttrans_agent_role  
 							left join trans_agent_role_allowed on cttrans_agent_role.trans_agent_role = trans_agent_role_allowed.trans_agent_role
 						where trans_agent_role_allowed.transaction_type = 'Borrow'
 						order by cttrans_agent_role.trans_agent_role
 					</cfquery>
-					<cfquery name="requiredRoles" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					<cfquery name="requiredRoles" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						select trans_agent_role 
 						from trans_agent_role_allowed 
 						where transaction_type = 'Borrow' and required_to_print = 1
@@ -4370,7 +4370,7 @@ limitations under the License.
 	<cfargument name="subloan_transaction_id" type="string" required="yes">
 
 	<cftry>
-		<cfquery name="addChildLoan" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="addChildLoan" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			insert into loan_relations 
 				(transaction_id, related_transaction_id, relation_type)
 			values (
@@ -4379,7 +4379,7 @@ limitations under the License.
 				'Subloan'
 			)
 		</cfquery>
-		<cfquery name="childLoans" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="childLoans" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			select l.loan_number, l.transaction_id 
 			from loan_relations lr left join loan l on lr.related_transaction_id = l.transaction_id
 			where lr.transaction_id = <cfqueryparam value = "#transaction_id#" CFSQLType="CF_SQL_DECIMAL">
@@ -4404,7 +4404,7 @@ limitations under the License.
 	<cfargument name="trans_agent_id" type="string" required="yes">
 
 	<cftry>
-		<cfquery name="delete" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="deleteResult">
+		<cfquery name="delete" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="deleteResult">
 			delete from trans_agent 
 			where trans_agent_id = <cfqueryparam value = "#trans_agent_id#" CFSQLType="CF_SQL_DECIMAL"> 
 		</cfquery>
@@ -4442,13 +4442,13 @@ limitations under the License.
 	<cfargument name="transaction_id" type="string" required="yes">
 	<cfargument name="subloan_transaction_id" type="string" required="yes">
 
-	<cfquery name="removeChildLoan" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cfquery name="removeChildLoan" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		delete from loan_relations
 		where transaction_id = <cfqueryparam value = "#transaction_id#" CFSQLType="CF_SQL_DECIMAL"> and
 		related_transaction_id = <cfqueryparam value = "#subloan_transaction_id#" CFSQLType="CF_SQL_DECIMAL"> and
 		relation_type = 'Subloan'
 	</cfquery>
-	<cfquery name="childLoans" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cfquery name="childLoans" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		select l.loan_number, l.transaction_id from loan_relations lr left join loan l on lr.related_transaction_id = l.transaction_id
 		where lr.transaction_id = <cfqueryparam value = "#transaction_id#" CFSQLType="CF_SQL_DECIMAL">
 		order by l.loan_number
@@ -4467,7 +4467,7 @@ limitations under the License.
 
 	<cfthread name="getProjectListThread">
 		<cftry>
-			<cfquery name="projs" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="projs" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				select project_name, project.project_id, 
 					project_trans_remarks,
 					to_char(start_date,'YYYY-MM-DD') as start_date,
@@ -4517,7 +4517,7 @@ limitations under the License.
 
 	<cfthread name="linkProjectDialogThread">
 		<cftry>
-			<cfquery name="lookupTrans" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="lookupTrans" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				select transaction_type, specific_number
 				from transaction_view
 				where
@@ -4604,7 +4604,7 @@ limitations under the License.
 
 	<cfthread name="getProjectDialogThread">
 		<cftry>
-			<cfquery name="lookupTrans" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="lookupTrans" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				select transaction_type, specific_number, trans_date, trans_remarks
 				from transaction_view
 				where
@@ -4643,7 +4643,7 @@ limitations under the License.
 					</div>
 					<div class="form-row mt-2">
 						<div class="col-12 px-0">
-							<cfquery name="ctProjAgRole" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+							<cfquery name="ctProjAgRole" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 								select project_agent_role from ctproject_agent_role order by project_agent_role
 							</cfquery>
 							<label for="project_agent_role" class="data-entry-label">Project Agent Role</label>
@@ -4754,7 +4754,7 @@ limitations under the License.
 	<cfargument name="media_relationship" type="string" required="yes">
 	<cfset r=1>
 	<cftry>
-		<cfquery name="delete" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="deleteResult">
+		<cfquery name="delete" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="deleteResult">
 			delete from media_relations
 			where related_primary_key =<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
 				and media_id =<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
@@ -4802,7 +4802,7 @@ limitations under the License.
 	<cfargument name="project_trans_remarks" type="string" required="no">
 	<cfset r=1>
 	<cftry>
-		<cfquery name="add" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="add_result">
+		<cfquery name="add" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="add_result">
 			insert into project_trans (
 				transaction_id
 				,project_id
@@ -4853,11 +4853,11 @@ limitations under the License.
 	<cfset r=1>
 	<cftransaction>
 		<cftry>
-			<cfquery name="newProjSeq" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="newProjSeq" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				select sq_project_id.nextval as id from dual
 			</cfquery>
 			<cfset project_id_new = newProjSeq.id>
-			<cfquery name="newProj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="newProj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				INSERT INTO project (
 					PROJECT_ID
 					,PROJECT_NAME
@@ -4892,7 +4892,7 @@ limitations under the License.
 					</cfif>
 				)
 			</cfquery>
-			<cfquery name="newProjAgnt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="newProjAgnt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				INSERT INTO project_agent (
 					PROJECT_ID,
 					AGENT_NAME_ID,
@@ -4904,7 +4904,7 @@ limitations under the License.
 					,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#project_agent_role#">
 					,1 )
 			</cfquery>
-			<cfquery name="newTrans" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="newTrans" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				INSERT INTO project_trans (
 					project_id
 					, transaction_id
@@ -4950,7 +4950,7 @@ limitations under the License.
 	<cfargument name="project_id" type="string" required="yes">
 	<cfset r=1>
 	<cftry>
-		<cfquery name="delete" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="deleteResult">
+		<cfquery name="delete" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="deleteResult">
 			delete from project_trans
 			where transaction_id =<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
 				and project_id =<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#project_id#">
@@ -4997,7 +4997,7 @@ limitations under the License.
 	<cfthread name="getAddressPickerThread">
 
 	<cftry>
-		<cfquery name="lookupTrans" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" timeout="#Application.short_timeout#">
+		<cfquery name="lookupTrans" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.short_timeout#">
 			select transaction_type, specific_number, trans_date, trans_remarks
 			from transaction_view
 			where
@@ -5195,7 +5195,7 @@ limitations under the License.
 	<cfset data = ArrayNew(1)>
 	<cftry>
 		<cfset rows = 0>
-		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result" timeout="#Application.query_timeout#">
+		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="search_result" timeout="#Application.query_timeout#">
 			SELECT agent_name, preferred_agent_name.agent_id, formatted_addr, addr_id,VALID_ADDR_FG, addr_type
 			FROM preferred_agent_name left join addr on preferred_agent_name.agent_id = addr.agent_id
 			WHERE
@@ -5270,7 +5270,7 @@ limitations under the License.
       </cfif>
       <cfif NOT IsDefined("shipment_id") OR shipment_id EQ "">
          <!---  Determine how many shipments there are in this transaction, if none, set the print_flag on the new shipment --->
-         <cfquery name="countShipments" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+         <cfquery name="countShipments" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
              select count(*) ct from shipment
                 where transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
          </cfquery>
@@ -5280,7 +5280,7 @@ limitations under the License.
              <cfset printFlag = 0>
          </cfif>
          <cfset debug = shipment_id & "Insert" >
-         <cfquery name="query" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+         <cfquery name="query" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
              insert into shipment (
                 transaction_id, packed_by_agent_id, shipped_carrier_method, carriers_tracking_number, shipped_date, package_weight,
                 <cfif isdefined("no_of_packages") and len(#no_of_packages#) gt 0>
@@ -5317,7 +5317,7 @@ limitations under the License.
          </cfquery>
       <cfelse>
          <cfset debug = shipment_id & "Update" >
-         <cfquery name="query" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+         <cfquery name="query" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
              update shipment set
                 packed_by_agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#packed_by_agent_id#">,
                 shipped_carrier_method = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#shipped_carrier_method#">,
@@ -5375,14 +5375,14 @@ limitations under the License.
 	<cfset data = ArrayNew(1)>
 	<cftransaction>
 		<cftry>
-			<cfquery name="ptype" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="ptype" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				select permit_type 
 				from ctspecific_permit_type 
 				where specific_type = <cfqueryparam CFSQLTYPE="CF_SQL_VARCHAR" value="#specific_type#">
 			</cfquery>
 			<cfset permit_type = #ptype.permit_type#>
 			<cfoutput>
-				<cfquery name="updatePermit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="updatePermit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE permit SET
 						permit_id = <cfqueryparam CFSQLTYPE="CF_SQL_DECIMAL" value="#permit_id#">
 						,ISSUED_BY_AGENT_ID = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#issued_by_agent_id#">
@@ -5477,7 +5477,7 @@ limitations under the License.
 
 	<cfthread name="getPermitMediaThread">
 		<cftry>
-			<cfquery name="permitInfo" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="permitInfo" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				select permit.permit_id,
 					issuedBy.agent_name as IssuedByAgent,
 					issued_Date,
@@ -5490,7 +5490,7 @@ limitations under the License.
 					permit.issued_by_agent_id = issuedBy.agent_id (+)
 					and permit_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#permit_id#">
 			</cfquery>
-			<cfquery name="query" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="query" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				select distinct media.media_id as media_id, preview_uri, media.media_uri, media.mime_type, media.media_type as media_type,
 					MCZBASE.is_media_encumbered(media.media_id) as hideMedia,
 	  				MCZBASE.get_media_descriptor(media.media_id) as media_descriptor,
@@ -5563,7 +5563,7 @@ limitations under the License.
 	 <cfargument name="media_relationship" type="string" required="yes">
 	 <cfset r=1>
 	 <cftry>
-	 	<cfquery name="delete" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="deleteResult">
+	 	<cfquery name="delete" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="deleteResult">
 			delete from media_relations
 			where related_primary_key =<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#permit_id#">
 			and media_id =<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
@@ -5597,7 +5597,7 @@ limitations under the License.
 	<cfset data = ArrayNew(1)>
 	<cftry>
 		<cfset rows = 0>
-		<cfquery name="use" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="use_result" timeout="#Application.query_timeout#">
+		<cfquery name="use" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="use_result" timeout="#Application.query_timeout#">
 					select 'accession' as ontype, accn_number as tnumber, accn_type as ttype, trans.transaction_type, trans.trans_date, collection.guid_prefix,
 						concat('/transactions/Accession.cfm?action=edit&transaction_id=',trans.transaction_id) as uri,
 						locality.sovereign_nation,
@@ -5803,7 +5803,7 @@ limitations under the License.
 	<cfset result = structNew()>
 	<cftry>
 		<cfset new_specific_type = trim(new_specific_type) >
-		<cfquery name="addSpecificType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="addSpecificType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			insert into ctspecific_permit_type (specific_type)
 			values ( <cfqueryparam value = "#new_specific_type#" CFSQLType="CF_SQL_VARCHAR"> )
 		</cfquery>
@@ -5832,7 +5832,7 @@ limitations under the License.
 	
 	<cfthread name="getRestrictionsThread">
 		<cftry>
-			<cfquery name="getType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="getType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT transaction_type 
 				FROM trans
 				WHERE
@@ -5840,7 +5840,7 @@ limitations under the License.
 			</cfquery>
 				
 			<cfif getType.transaction_type EQ "loan">
-				<cfquery name="getRestrictions" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="getRestrictions" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT distinct restriction_summary, permit_id, permit_num from (
 					select permit.restriction_summary, permit.permit_id, permit.permit_num
 					from loan_item li 
@@ -5862,7 +5862,7 @@ limitations under the License.
 					)
 				</cfquery>
 			<cfelseif getType.transaction_type EQ "deaccession">
-				<cfquery name="getRestrictions" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="getRestrictions" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT distinct restriction_summary, permit_id, permit_num from (
 					select permit.restriction_summary, permit.permit_id, permit.permit_num
 					from deacc_item li 
@@ -5919,7 +5919,7 @@ limitations under the License.
 	<cfset data = ArrayNew(1)>
 	<cftry>
 		<cfset rows = 0>
-		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
+		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="search_result">
 			select count(*) ct, country_cde
 			from addr
 			where upper(country_cde) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(term)#%">

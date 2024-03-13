@@ -1,4 +1,4 @@
-<cfcontent type="text/plain; charset=utf-8"><cfif len(session.roles) gt 0 and session.roles is not "public"><cfobject type="Java" class="edu.harvard.mcz.edec.mczbase.EDecBuilder" name="builder"><cfquery name="loanAgents" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfcontent type="text/plain; charset=utf-8"><cfif len(session.roles) gt 0 and session.roles is not "public"><cfobject type="Java" class="edu.harvard.mcz.edec.mczbase.EDecBuilder" name="builder"><cfquery name="loanAgents" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 	select
 		agent_name,
 		trans_agent_role
@@ -11,7 +11,7 @@
 	order by
 		trans_agent_role,
 		agent_name
-</cfquery><cfquery name="loanSpecies" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+</cfquery><cfquery name="loanSpecies" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 	select
 		scientific_name,
 		mczbase.get_sovereignnationcode(locality.locality_id) as country,

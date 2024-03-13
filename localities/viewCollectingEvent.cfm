@@ -52,7 +52,7 @@ limitations under the License.
 </cfcatch>
 </cftry>
 
-<cfquery name="getCollectingEvent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getCollectingEvent_result">
+<cfquery name="getCollectingEvent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getCollectingEvent_result">
 	SELECT 
 		locality_id,
 		began_date, ended_date, collecting_time,
@@ -196,7 +196,7 @@ limitations under the License.
 						</div>
 					<cfelse>
 						<!--- TODO: Collecting event numbers --->
-						<cfquery name="getCollEventNumbers" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getCollEventNumbers_result">
+						<cfquery name="getCollEventNumbers" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getCollEventNumbers_result">
 							SELECT 
 								coll_event_number, number_series, agent_name, preferred_agent_name.agent_id
 							FROM
@@ -222,7 +222,7 @@ limitations under the License.
 						</cfif>
 
 						<!--- Collectors --->
-						<cfquery name="getCollectors" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getCollectors_result">
+						<cfquery name="getCollectors" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getCollectors_result">
 							SELECT 
 								count(cataloged_item.collection_object_id) ct, preferred_agent_name.agent_id, agent_name
 							FROM
@@ -251,7 +251,7 @@ limitations under the License.
 					</cfif>
 
 					<!--- Summary of cataloged item records --->
-					<cfquery name="getItemCount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getItemCount_result">
+					<cfquery name="getItemCount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getItemCount_result">
 						SELECT count(collection_object_id) ct
 						FROM 
 							<cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat
@@ -271,7 +271,7 @@ limitations under the License.
 							<cfif getItemCount.ct EQ 0>
 								<li>None</li>
 							<cfelseif getItemCount.ct LT 11>
-								<cfquery name="getItems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getItems_result">
+								<cfquery name="getItems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getItems_result">
 									SELECT 
 										guid, phylclass, phylorder, family, MCZBASE.get_scientific_name_auths(collection_object_id) sci_name, parts, typestatus, collection
 									FROM 
@@ -283,7 +283,7 @@ limitations under the License.
 									<li>#collection# #family# <a href="/guid/#guid#">#guid#</a> #sci_name# #parts# #typestatus#</li>
 								</cfloop>
 							<cfelse>
-								<cfquery name="getItems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getItems_result">
+								<cfquery name="getItems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getItems_result">
 									SELECT 
 										count(collection_object_id) ct, collection, phylclass, phylorder, family, collection_cde
 									FROM 

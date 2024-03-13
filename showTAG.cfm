@@ -8,7 +8,7 @@
 <script language="JavaScript" src="/includes/showTAG.js" type="text/javascript"></script>
 
 <cfoutput>
-	<cfquery name="c" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cfquery name="c" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		select * 
 		from media 
 		where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">

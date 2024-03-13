@@ -5,7 +5,7 @@
 <cfif isdefined("action") AND action EQ 'edit'>
 	<cfset pageTitle = "Edit Accession">
 	<cfif isdefined("transaction_id") >
-		<cfquery name="accessionNumber" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="accessionNumber" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			select
 				accn_number
 			from
@@ -14,7 +14,7 @@
 				accn.transaction_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
 		</cfquery>
 		<cfset pageTitle = "#accessionNumber.accn_number# | Edit Accession ">
-		<cfquery name="accessControl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="accessControl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			select trans.transaction_id, vpd_collection_cde.collection_cde 
 			from 
 				trans
@@ -68,7 +68,7 @@ limitations under the License.
 </cfif>
 
 <!--- Accession controlled vocabularies --->
-<cfquery name="ctAccnStatus" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="ctAccnStatus" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 	SELECT accn_status 
 	FROM ctaccn_status 
 	<cfif isdefined("session.roles") and NOT listcontainsnocase(session.roles,"admin_transactions")>
@@ -76,18 +76,18 @@ limitations under the License.
 	</cfif>
 	ORDER BY accn_status
 </cfquery>
-<cfquery name="ctAccnType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="ctAccnType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 	SELECT accn_type 
 	FROM ctaccn_type order by accn_type
 </cfquery>
-<cfquery name="ctcollection" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="ctcollection" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 	select COLLECTION_CDE, INSTITUTION_ACRONYM, DESCR, COLLECTION, COLLECTION_ID, WEB_LINK,
 		WEB_LINK_TEXT, CATNUM_PREF_FG, CATNUM_SUFF_FG, GENBANK_PRID, GENBANK_USERNAME,
 		GENBANK_PWD, LOAN_POLICY_URL, ALLOW_PREFIX_SUFFIX, GUID_PREFIX, INSTITUTION 
 	from collection order by collection
 </cfquery>
 <!--- Obtain list of transaction agent roles relevant to accessions --->
-<cfquery name="cttrans_agent_role" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="cttrans_agent_role" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 	select distinct(cttrans_agent_role.trans_agent_role) 
 	from cttrans_agent_role  
 	left join trans_agent_role_allowed on cttrans_agent_role.trans_agent_role = trans_agent_role_allowed.trans_agent_role
@@ -115,7 +115,7 @@ limitations under the License.
 				<section class="col-12" title="next available accession number"> 
 					<div id="nextNumDiv">
 						<h2 class="h4 float-left mt-2" id="nextNumberSectionLabel">Next Available Accession Number <span class="sr-only">to be used in accession number field</span>: &nbsp; &nbsp;</h2>
-						<cfquery name="gnn" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						<cfquery name="gnn" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							select max(to_number(accn_number)) + 1 as next_accn_num from accn 
 						</cfquery>
 						<div class="float-left">
@@ -370,7 +370,7 @@ limitations under the License.
 		 	};
 		</script>
 		<cftry>
-			<cfquery name="accessionDetails" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="accessionDetails_result">
+			<cfquery name="accessionDetails" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="accessionDetails_result">
 				select
 					trans.transaction_id,
 					trans.transaction_type,
@@ -400,7 +400,7 @@ limitations under the License.
 			<cfif accessionDetails.RecordCount GT 0 AND accessionDetails.transaction_type NEQ 'accn'>
 				<cfthrow message = "Request to edit an accession, but the provided transaction_id was for a different transaction type [#accessionDetails.transaction_type#].">
 			</cfif>
-			<cfquery name="transAgents" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="transAgents" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				select
 					trans_agent_id,
 					trans_agent.agent_id,
@@ -750,7 +750,7 @@ limitations under the License.
 <!--- TODO: Rework text --->
 									<span class="mt-1 smaller d-block">Include correspondence, specimen lists, etc. here.  <strong>DO NOT</strong> attach deed of gift, collecting permits, etc., here, attach them as permissions and rights documents.</span>
 								</h2>
-								<cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+								<cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 									select
 										media.media_id,
 										preview_uri,
@@ -816,7 +816,7 @@ limitations under the License.
 										adialog.dialog('open');
 									};
 								</script>
-								<cfquery name="ship" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+								<cfquery name="ship" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 									select sh.*, toaddr.country_cde tocountry, toaddr.institution toinst, fromaddr.country_cde fromcountry, fromaddr.institution frominst
 									from shipment sh
 										left join addr toaddr on sh.shipped_to_addr_id  = toaddr.addr_id
@@ -898,20 +898,20 @@ limitations under the License.
 <cfif Action is "deleAccn">
 	<cftry>
 		<cftransaction>
-			<cfquery name="getAccnNum" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="getAccnNum" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				select accn_number from accn 
 				where transaction_id = <cfqueryparam CFSQLType="CF_SQL_DECIMAL" value="#transaction_id#">
 			</cfquery>
 			<cfset deleteTarget = getAccnNum.accn_number>
-			<cfquery name="killAccn" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="killAccn" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				delete from accn 
 				where transaction_id = <cfqueryparam CFSQLType="CF_SQL_DECIMAL" value="#transaction_id#">
 			</cfquery>
-			<cfquery name="killTransAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="killTransAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				delete from trans_agent 
 				where transaction_id = <cfqueryparam CFSQLType="CF_SQL_DECIMAL" value="#transaction_id#">
 			</cfquery>
-			<cfquery name="killTrans" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="killTrans" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				delete from trans 
 				where transaction_id = <cfqueryparam CFSQLType="CF_SQL_DECIMAL" value="#transaction_id#">
 			</cfquery>
@@ -1003,14 +1003,14 @@ limitations under the License.
 			<cfabort>
 		</cfif>
 		<cftransaction>
-			<cfquery name="obtainTransNumber" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="obtainTransNumber_result">
+			<cfquery name="obtainTransNumber" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="obtainTransNumber_result">
 				select sq_transaction_id.nextval as trans_id from dual
 			</cfquery>
 			<cfloop query="obtainTransNumber">
 				<cfset new_transaction_id = obtainTransNumber.trans_id>
 			</cfloop>
 			<!--- date_entered has default sysdate in trans, not set from here --->
-			<cfquery name="newAccnTrans" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="newAccnTrans_result">
+			<cfquery name="newAccnTrans" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="newAccnTrans_result">
 				INSERT INTO trans (
 					TRANSACTION_ID,
 					TRANS_DATE, 
@@ -1033,7 +1033,7 @@ limitations under the License.
 					</cfif>
 					)
 			</cfquery>
-			<cfquery name="newAccn" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="newAccn_result">
+			<cfquery name="newAccn" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="newAccn_result">
 				INSERT INTO accn (
 					TRANSACTION_ID,
 					ACCN_TYPE
@@ -1057,7 +1057,7 @@ limitations under the License.
 			</cfquery>
 			<cfif isdefined("for_use_by") and len(for_use_by) gt 0>
 				<!--- support for radio button passing agent id for HMNH agents --->
-				<cfquery name="q_forUseBy" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="q_forUseBy" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					INSERT INTO trans_agent (
 						transaction_id,
 						agent_id,
@@ -1068,7 +1068,7 @@ limitations under the License.
 						'for use by')
 				</cfquery>
 			</cfif>
-			<cfquery name="q_recFromAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="q_recFromAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				INSERT INTO trans_agent (
 					transaction_id,
 					agent_id,
@@ -1079,7 +1079,7 @@ limitations under the License.
 					'received from')
 			</cfquery>
 			<cfif isdefined("rec_agent_id") and len(rec_agent_id) gt 0>
-				<cfquery name="q_recievedby" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="q_recievedby" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					INSERT INTO trans_agent (
 						transaction_id,
 						agent_id,
@@ -1091,7 +1091,7 @@ limitations under the License.
 				</cfquery>
 			</cfif>
 			<cfif isdefined("in_house_contact_agent_id") and len(in_house_contact_agent_id) gt 0>
-				<cfquery name="q_inhousecontact" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="q_inhousecontact" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					INSERT INTO trans_agent (
 						transaction_id,
 						agent_id,
@@ -1103,7 +1103,7 @@ limitations under the License.
 				</cfquery>
 			</cfif>
 			<cfif isdefined("additional_incontact_agent_id") and len(additional_incontact_agent_id) gt 0>
-				<cfquery name="q_addinhousecontact" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="q_addinhousecontact" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					INSERT INTO trans_agent (
 						transaction_id,
 						agent_id,
@@ -1115,7 +1115,7 @@ limitations under the License.
 				</cfquery>
 			</cfif>
 			<cfif isdefined("inhouse_authorizedby_agent_id") and len(inhouse_authorizedby_agent_id) gt 0>
-				<cfquery name="q_inhouseauthorizedby" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="q_inhouseauthorizedby" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					INSERT INTO trans_agent (
 						transaction_id,
 						agent_id,

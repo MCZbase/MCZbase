@@ -23,7 +23,7 @@ limitations under the License.
 <!--- Include the template that contains functions used to load portions of this page --->
 <cfinclude template="/vocabularies/component/functions.cfc" runOnce="true">
 
-<cfquery name="ctgeology_attribute"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="ctgeology_attribute"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 	SELECT geology_attribute, type, description 
 	FROM ctgeology_attribute
 	ORDER BY ordinal
@@ -35,7 +35,7 @@ limitations under the License.
 
 <cfswitch expression="#action#">
 	<cfcase value="overview">
-		<cfquery name="types"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="types_result">
+		<cfquery name="types"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="types_result">
 			SELECT count(distinct geology_attribute_hierarchy_id) attrib_ct, 
 				type 
 			FROM ctgeology_attribute ct 
@@ -72,7 +72,7 @@ limitations under the License.
 					#navBlock#
 					<section class="col-12" title="Edit Geological Atribute">
 	  					<!--- Lookup the current node --->
-						<cfquery name="c"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						<cfquery name="c"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							SELECT 
 								GEOLOGY_ATTRIBUTE_HIERARCHY_ID ,
 								PARENT_ID ,
@@ -90,7 +90,7 @@ limitations under the License.
 						<cfif c.recordcount EQ 0>
 							<cfthrow message="No such geological attribute found.  The attribute may have been merged or deleted.">
 						</cfif>
-						<cfquery name="use"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="use_result">
+						<cfquery name="use"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="use_result">
 							SELECT count(locality_id) ct
 							FROM geology_attributes
 								WHERE 
@@ -169,7 +169,7 @@ limitations under the License.
 							});
 						</script>
 					</section>
-					<cfquery name="candidateParents"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					<cfquery name="candidateParents"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						SELECT 
 							GEOLOGY_ATTRIBUTE_HIERARCHY_ID,
 							geology_attribute_hierarchy.ATTRIBUTE,
@@ -187,7 +187,7 @@ limitations under the License.
 							)
 						ORDER BY ordinal, attribute_value
 					</cfquery>
-					<cfquery name="candidateChildren"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					<cfquery name="candidateChildren"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						SELECT 
 							GEOLOGY_ATTRIBUTE_HIERARCHY_ID,
 							geology_attribute_hierarchy.ATTRIBUTE,
@@ -274,7 +274,7 @@ limitations under the License.
 						</div>
 					</section>
 					<section class="col-12">
-						<cfquery name="mergeCandidates"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						<cfquery name="mergeCandidates"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							SELECT 
 								GEOLOGY_ATTRIBUTE_HIERARCHY_ID,
 								geology_attribute_hierarchy.ATTRIBUTE,
@@ -471,7 +471,7 @@ limitations under the License.
 			</cfif>
 			<cftransaction>
 			<cftry>
-				<cfquery name="findParent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="findParent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT parent_id 
 					FROM geology_attribute_hierarchy 
 					WHERE 
@@ -479,19 +479,19 @@ limitations under the License.
 						parent_id IS NOT NULL
 				</cfquery>
 				<cfif findParent.recordcount EQ 1>
-					<cfquery name="relinkChildren" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					<cfquery name="relinkChildren" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						UPDATE geology_attribute_hierarchy
 						SET parent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#findParent.parent_id#">
 						where parent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#geology_attribute_hierarchy_id#">
 					</cfquery>
 				<cfelse>
-					<cfquery name="unlinkChildren" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					<cfquery name="unlinkChildren" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						UPDATE geology_attribute_hierarchy
 						SET parent_id = NULL
 						where parent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#geology_attribute_hierarchy_id#">
 					</cfquery>
 				</cfif>
-				<cfquery name="killGeog" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="killGeog" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					DELETE FROM geology_attribute_hierarchy 
 					WHERE 
 						geology_attribute_hierarchy_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#geology_attribute_hierarchy_id#">

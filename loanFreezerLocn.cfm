@@ -64,7 +64,7 @@
 
 <!---#preservesinglequotes(sql)#--->
 
-<cfquery name="allCatItemsRaw" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#createtimespan(0,0,60,0)#">
+<cfquery name="allCatItemsRaw" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" cachedwithin="#createtimespan(0,0,60,0)#">
 	#preservesinglequotes(sql)#
 </cfquery>
 <cfquery name="allCatItems" dbtype="query">
@@ -123,7 +123,7 @@
 	</th>
 	<th>Disposition</th>
 <cfloop query="allCatItems">
-	<cfquery name="freezer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cfquery name="freezer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		select
 			CONTAINER_ID,
 			PARENT_CONTAINER_ID,

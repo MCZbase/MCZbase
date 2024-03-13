@@ -28,32 +28,32 @@ limitations under the License.
 	<cfset defaultenablebrowserselection = "false">
 </cfif>	
 
-<cfquery name="getCount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" timeout="#Application.short_timeout#">
+<cfquery name="getCount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.short_timeout#">
 	select count(*) as cnt from taxonomy
 </cfquery>
-<cfquery name="CTTAXONOMIC_AUTHORITY" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" timeout="#Application.short_timeout#">
+<cfquery name="CTTAXONOMIC_AUTHORITY" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.short_timeout#">
 	select source_authority from CTTAXONOMIC_AUTHORITY order by source_authority
 </cfquery>
-<cfquery name="ctnomenclatural_code" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" timeout="#Application.short_timeout#">
+<cfquery name="ctnomenclatural_code" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.short_timeout#">
 	select nomenclatural_code from ctnomenclatural_code order by sort_order
 </cfquery>
-<cfquery name="cttaxon_status" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" timeout="#Application.short_timeout#">
+<cfquery name="cttaxon_status" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.short_timeout#">
 	select taxon_status from cttaxon_status order by taxon_status
 </cfquery>
-<cfquery name="cttaxon_relation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" timeout="#Application.short_timeout#">
+<cfquery name="cttaxon_relation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.short_timeout#">
 	select cttaxon_relation.taxon_relationship, count(taxon_relations.taxon_name_id) ct
 	from cttaxon_relation
 		left join taxon_relations on cttaxon_relation.taxon_relationship = taxon_relations.taxon_relationship 
 	group by cttaxon_relation.taxon_relationship
 	order by taxon_relationship
 </cfquery>
-<cfquery name="cttaxon_habitat" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" timeout="#Application.short_timeout#">
+<cfquery name="cttaxon_habitat" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.short_timeout#">
 	SELECT count(taxon_name_id) ct, taxon_habitat
 	FROM taxon_habitat
 	GROUP BY taxon_habitat
 	ORDER BY taxon_habitat
 </cfquery>
-<cfquery name="cttaxon_habitat_null" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" timeout="#Application.short_timeout#">
+<cfquery name="cttaxon_habitat_null" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.short_timeout#">
 	SELECT count(distinct taxon_name_id) ct, 'NOT NULL' taxon_habitat
 	FROM taxon_habitat
 	UNION
@@ -531,7 +531,7 @@ limitations under the License.
 											<input type="text" class="data-entry-input" id="taxon_remarks" name="taxon_remarks" value="#encodeForHtml(taxon_remarks)#"  placeholder="taxon remarks">
 										</div>
 										<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_taxonomy")>
-											<cfquery name="ctcollection" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+											<cfquery name="ctcollection" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 												select collection, collection_cde, collection_id from collection order by collection
 											</cfquery>
 											<cfset selectedCollection = ''>

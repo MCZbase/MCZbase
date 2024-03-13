@@ -1,5 +1,5 @@
 <cfoutput>
-	<cfquery name="pubs" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cfquery name="pubs" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		SELECT 
 			formatted_publication.publication_id,
 			formatted_publication, 

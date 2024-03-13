@@ -67,7 +67,7 @@ limitations under the License.
 		<cfif len(trim(#nomenclatural_code#)) EQ 0>
 			<cfthrow type="Application" message="Nomenclatural code must contain a value.">
 		</cfif>
-		<cfquery name="save" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="save" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			update taxonomy set
 				valid_catalog_term_fg = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#valid_catalog_term_fg#">
 				,source_authority = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#source_authority#">
@@ -141,7 +141,7 @@ limitations under the License.
 	<cfargument name="taxonomy_publication_id" type="numeric" required="yes">
 	<cfset data = ArrayNew(1)>
 	<cftry>
-		<cfquery name="removePub" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="removePub_result">
+		<cfquery name="removePub" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="removePub_result">
 			delete from taxonomy_publication 
 			where taxonomy_publication_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#taxonomy_publication_id#">
 		</cfquery>
@@ -166,14 +166,14 @@ limitations under the License.
 	<cfargument name="taxon_name_id" type="numeric" required="yes">
 	<cftry>
 		<cftransaction>
-			<cfquery name="newTaxonPub" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="newTaxonPub_result">
+			<cfquery name="newTaxonPub" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="newTaxonPub_result">
 				INSERT INTO taxonomy_publication 
 					(taxon_name_id,publication_id)
 				VALUES 
 					(<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#taxon_name_id#"> ,
 					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#publication_id#"> )
 			</cfquery>
-			<cfquery name="savePK" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="pkResult">
+			<cfquery name="savePK" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="pkResult">
 					select taxonomy_publication_id from taxonomy_publication
 					where ROWIDTOCHAR(rowid) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#newTaxonPub_result.GENERATEDKEY#">
 			</cfquery>
@@ -198,7 +198,7 @@ limitations under the License.
 	<cfargument name="taxon_name_id" type="numeric" required="yes">
 	<cfset result = "">  
 	
-	<cfquery name="getTaxon" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getTaxon_result">
+	<cfquery name="getTaxon" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getTaxon_result">
 		select display_name, scientific_name, author_text
 		from taxonomy 
 		where 
@@ -215,7 +215,7 @@ limitations under the License.
 
 	<cfset result ="">
 	<cftry>
-		<cfquery name="tax_pub" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="tax_pub_result">
+		<cfquery name="tax_pub" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="tax_pub_result">
 			select
 				taxonomy_publication_id,
 				formatted_publication,
@@ -260,7 +260,7 @@ limitations under the License.
 	<cfargument name="taxon_name_id" type="numeric" required="yes">
 	<cfthread name="getFullTaxonNameThread">
 		<cftry>
-			<cfquery name="full" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="full_result">
+			<cfquery name="full" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="full_result">
 				SELECT full_taxon_name 
 				FROM taxonomy
 				WHERE
@@ -294,13 +294,13 @@ Given a taxon_name_id retrieve, as html, an editable list of the relationships f
 	<cfargument name="target" type="string" required="yes">
 	<cfthread name="getRelationsHtmlThread">
 		<cftry>
-			<cfquery name="taxon" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="relations_result">
+			<cfquery name="taxon" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="relations_result">
 				SELECT scientific_name, author_text
 				FROM taxonomy
 				WHERE taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#taxon_name_id#">
 			</cfquery>
 			<cfset taxonname = "#taxon.scientific_name# <span class='sm-caps'>#taxon.author_text#</span>" >
-			<cfquery name="relations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="relations_result">
+			<cfquery name="relations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="relations_result">
 				SELECT
 					scientific_name,
 					author_text,
@@ -314,7 +314,7 @@ Given a taxon_name_id retrieve, as html, an editable list of the relationships f
 					taxon_relations.related_taxon_name_id = taxonomy.taxon_name_id
 					AND taxon_relations.taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#taxon_name_id#">
 			</cfquery>
-			<cfquery name="inverse_relations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="relations_result">
+			<cfquery name="inverse_relations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="relations_result">
 				SELECT
 					scientific_name,
 					author_text,
@@ -401,12 +401,12 @@ Given a taxon_name_id retrieve, as html, an editable list of the relationships f
 	<cfargument name="related_taxon_name_id" type="numeric" required="yes">
 	<cfargument name="taxon_relationship" type="string" required="yes">
 	<cfargument name="target" type="string" required="yes">
-	<cfquery name="ctRelation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cfquery name="ctRelation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		select taxon_relationship  from cttaxon_relation order by taxon_relationship
 	</cfquery>
 	<cfthread name="getRelationEditorHtmlThread">
 		<cftry>
-			<cfquery name="relations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="relations_result">
+			<cfquery name="relations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="relations_result">
 				SELECT
 					p.scientific_name sourcename,
 					p.author_text sourceauthor,
@@ -517,7 +517,7 @@ Given a taxon_name_id retrieve, as html, an editable list of the relationships f
 	<cfargument name="relation_authority" type="string" required="no">
 	<cftry>
 		<cftransaction>
-			<cfquery name="newRelation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="newRelation_result">
+			<cfquery name="newRelation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="newRelation_result">
 				INSERT INTO taxon_relations (
 					TAXON_NAME_ID,
 					RELATED_TAXON_NAME_ID,
@@ -562,7 +562,7 @@ Given a taxon relationship and a taxon_name_id, delete the matching row from the
 	<cfargument name="related_taxon_name_id" type="numeric" required="yes">
 	<cftry>
 		<cftransaction>
-			<cfquery name="deleteTaxonRelation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="deleteTaxonRelation_result">
+			<cfquery name="deleteTaxonRelation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="deleteTaxonRelation_result">
 				DELETE FROM
 					taxon_relations
 				WHERE
@@ -614,7 +614,7 @@ authority, update a row in the taxon_relations table.
 	<cfargument name="relation_authority" type="string" required="yes"><!--- if empty string will set to null, but must be provided --->
 	<cftry>
 		<cftransaction>
-			<cfquery name="saveTaxonRelation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="saveTaxonRelation_result">
+			<cfquery name="saveTaxonRelation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="saveTaxonRelation_result">
 				UPDATE taxon_relations SET
 					taxon_relationship = '#new_taxon_relationship#'
 					,related_taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#new_related_taxon_name_id#">
@@ -666,7 +666,7 @@ Given a taxon_name_id retrieve, as html, an editable list of the common names fo
 	<cfset localtarget = arguments.target>
 	<cfthread name="getCommonHtmlThread">
 		<cftry>
-			<cfquery name="common" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="common_result">
+			<cfquery name="common" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="common_result">
 				select common_name, common_name_id
 				from common_name 
 				where taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#taxon_name_id#">
@@ -748,7 +748,7 @@ Given a common name and a taxon_name_id, add a row from the (weak entity) common
 	<cfargument name="taxon_name_id" type="numeric" required="yes">
 	<cftry>
 		<cftransaction>
-			<cfquery name="newCommon" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="newCommon_result">
+			<cfquery name="newCommon" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="newCommon_result">
 				INSERT INTO common_name (
 					common_name, 
 					taxon_name_id)
@@ -780,7 +780,7 @@ Given a common name and a taxon_name_id, delete the matching row from the common
 	<cfargument name="common_name_id" type="numeric" required="yes">
 	<cftry>
 		<cftransaction>
-			<cfquery name="deleteCommon" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="deleteCommon_result">
+			<cfquery name="deleteCommon" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="deleteCommon_result">
 				DELETE FROM common_name
 				WHERE
 					common_name_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#common_name_id#">
@@ -814,7 +814,7 @@ Given common_name_id and new common name, update a row in the common name table
 	<cfargument name="common_name" type="string" required="yes">
 	<cftry>
 		<cftransaction>
-			<cfquery name="saveCommon" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="saveCommon_result">
+			<cfquery name="saveCommon" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="saveCommon_result">
 				UPDATE
 					common_name
 				SET
@@ -853,7 +853,7 @@ Given a habitat and a taxon_name_id, add a row from the taxon_habitat table.
 	<cfargument name="taxon_name_id" type="numeric" required="yes">
 	<cftry>
 		<cftransaction>
-			<cfquery name="newHabitat" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="newHabitat_result">
+			<cfquery name="newHabitat" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="newHabitat_result">
 				INSERT INTO taxon_habitat 
 					(taxon_habitat, taxon_name_id)
 				VALUES 
@@ -861,7 +861,7 @@ Given a habitat and a taxon_name_id, add a row from the taxon_habitat table.
 					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#taxon_name_id#">)
 			</cfquery>
 			<cfif newHabitat_result.recordcount eq 1>
-				<cfquery name="savePK" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="pkResult">
+				<cfquery name="savePK" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="pkResult">
 					select taxon_habitat_id from taxon_habitat
 					where ROWIDTOCHAR(rowid) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#newHabitat_result.GENERATEDKEY#">
 				</cfquery>
@@ -894,7 +894,7 @@ Given a taxon_habitat_id, delete the matching row from the taxon_habitat table.
 	<cfargument name="taxon_habitat_id" type="numeric" required="yes">
 	<cftry>
 		<cftransaction>
-			<cfquery name="deleteHabitat" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="deleteHabitat_result">
+			<cfquery name="deleteHabitat" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="deleteHabitat_result">
 				DELETE FROM
 					taxon_habitat
 				WHERE
@@ -931,7 +931,7 @@ Given a taxon_name_id retrieve, as html, an editable list of the habitats for th
 	<cfargument name="target" type="string" required="yes">
 	<cfthread name="getHabitatsHtmlThread">
 		<cftry>
-			<cfquery name="habitat" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="habitat" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				select taxon_habitat, taxon_habitat_id
 				from taxon_habitat 
 				where taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#taxon_name_id#">
@@ -971,7 +971,7 @@ Given a taxon_name_id retrieve, as html, an editable list of the habitats for th
 	<cfset data = ArrayNew(1)>
 	<cfthread name="lookupInWoRMSThread">
 		<cftry>
-			<cfquery name="taxon" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="taxon_lookup">
+			<cfquery name="taxon" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="taxon_lookup">
 				select taxon_name_id, kingdom, family, scientific_name, author_text
 				from taxonomy 
 				where taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#taxon_name_id#">

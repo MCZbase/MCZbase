@@ -28,19 +28,19 @@ limitations under the License.
 	<cfset defaultenablebrowserselection = "false">
 </cfif>	
 
-<cfquery name="ctpublication_type" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" timeout="#Application.short_timeout#">
+<cfquery name="ctpublication_type" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.short_timeout#">
 	select publication_type  from ctpublication_type
 </cfquery>
-<cfquery name="ctpublication_attribute" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" timeout="#Application.short_timeout#">
+<cfquery name="ctpublication_attribute" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.short_timeout#">
 	select publication_attribute, description, control  
 	from ctpublication_attribute
 	where publication_attribute not in ('journal name','volume','issue','number','publisher','begin page')
 	order by publication_attribute asc
 </cfquery>
-<cfquery name="collections" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" timeout="#Application.short_timeout#">
+<cfquery name="collections" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.short_timeout#">
 	select publication_attribute, description, control  from ctpublication_attribute
 </cfquery>
-<cfquery name="ctcitation_type_status" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" timeout="#Application.short_timeout#">
+<cfquery name="ctcitation_type_status" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.short_timeout#">
 	select type_status, category, ordinal  
 	from ctcitation_type_status
 	order by category, ordinal
@@ -343,7 +343,7 @@ limitations under the License.
 										<div class="form-group mb-2">
 											<input type="hidden" id="collection_object_id" name="cited_collection_object_id" value="#encodeForHtml(collection_object_id)#">
 											<cfif isDefined("collection_object_id") AND len(collection_object_id) GT 0>
-												<cfquery name="guidLookup" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="guidLookup">
+												<cfquery name="guidLookup" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="guidLookup">
 													select distinct guid 
 													from 
 														<cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
@@ -383,7 +383,7 @@ limitations under the License.
 										</select>
 									</div>
 									<div class="col-12 col-md-6 col-xl-2">
-										<cfquery name="ctcollection" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+										<cfquery name="ctcollection" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 											select collection, collection_cde, collection_id from collection order by collection
 										</cfquery>
 										<label for="cites_collection" class="data-entry-label">Cites Specimen in Collection</label>

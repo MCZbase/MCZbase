@@ -162,7 +162,7 @@ limitations under the License.
 	<cfcase value="clone">
 		<cfinclude template="/localities/component/highergeog.cfc" runOnce="true">
 		<cfoutput>
-			<cfquery name="getSource" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getSource_result">
+			<cfquery name="getSource" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getSource_result">
 				SELECT higher_geog
 				FROM geog_auth_rec
 				WHERE
@@ -190,10 +190,10 @@ limitations under the License.
 			<cfset cloneCoords = "no">
 		</cfif>
 		<cftransaction>
-			<cfquery name="nextLoc" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="nextLoc" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				select sq_geog_auth_rec_id.nextval nextLoc from dual
 			</cfquery>
-			<cfquery name="newHigherGeography" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="newHigherGeography" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				INSERT INTO geog_auth_rec (
 					GEOG_AUTH_REC_ID
 					,valid_catalog_term_fg
@@ -338,7 +338,7 @@ limitations under the License.
 				<cfif countUses.total_uses GT 0>
 					<cfthrow message="Unable to delete. Higher Geography has collecting events or media.">
 				</cfif>
-				<cfquery name="delete" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="delete_result">
+				<cfquery name="delete" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="delete_result">
 						DELETE FROM geog_auth_rec
 						WHERE
 							geog_auth_rec_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#geog_auth_rec_id#">

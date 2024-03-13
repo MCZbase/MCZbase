@@ -37,7 +37,7 @@ limitations under the License.
 </cftry>
 
 <!--- For all actions, obtain data from the list of cataloged items specified by the result_id --->
-<cfquery name="specimenList" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="specimenList" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 	 SELECT distinct
 	 	cataloged_item.collection_object_id as collection_object_id,
 		cataloged_item.cat_num,
@@ -348,7 +348,7 @@ limitations under the License.
 					<tbody>
 						<cfset i = 1>
 						<cfloop query="localityResults">
-							<cfquery name="getCollNumbers" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+							<cfquery name="getCollNumbers" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 								SELECT distinct 
 									coll_event_number, number_series, collector_agent_id
 								FROM
@@ -574,7 +574,7 @@ limitations under the License.
 							<cfset eventNumbers = "">
 						</cfif>
 						<cfif specimenList.recordcount LT 201>
-							<cfquery name="getCollNumbersSpec" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+							<cfquery name="getCollNumbersSpec" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 								SELECT distinct 
 									coll_event_number, number_series, collector_agent_id
 								FROM

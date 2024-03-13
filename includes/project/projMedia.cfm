@@ -7,7 +7,7 @@
 		<cfset isClicky = "">
 	</cfif>
 <cfoutput>
-	<cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 	    select distinct
 	        media.media_id,
 	        media.media_uri,
@@ -28,7 +28,7 @@
     	<h2>Media</h2>
 		<div><div class="thumb_spcr">&nbsp;</div>
 			<cfloop query="media">
-            	<cfquery name="labels"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+            	<cfquery name="labels"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					select
 						media_label,
 						label_value

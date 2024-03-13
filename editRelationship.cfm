@@ -11,7 +11,7 @@
 	window.setInterval("chkVal()",1000);
 </script>
 <cfoutput>
-<cfquery name="getRelns" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="getRelns" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 	SELECT 
 		cat_num, 
 		collection.collection,
@@ -82,7 +82,7 @@ To split a lot or create a parasite, you can
 <cfset thisCollObjId = #collection_object_id#>
     <p style="margin-top:.5em;"><b>Current Relationships:</b>
 <cfif #getRelns.recordcount# gt 0>
-<cfquery name="ctReln" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="ctReln" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 	select biol_indiv_relationship from ctbiol_relations
 </cfquery>
 <cfset i=1>
@@ -125,10 +125,10 @@ To split a lot or create a parasite, you can
 	None
 </cfif>
     </p>
-<cfquery name="ctReln" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="ctReln" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 	select biol_indiv_relationship from ctbiol_relations
 </cfquery>
-<cfquery name="thisCollId" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="thisCollId" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 	select collection from cataloged_item,collection where cataloged_item.collection_id=collection.collection_id and
 	collection_object_id=#collection_object_id#
 </cfquery>
@@ -153,7 +153,7 @@ To split a lot or create a parasite, you can
 			</td>
 		
 			<td>
-				<cfquery name="ctColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="ctColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					select collection from collection 
 					group by collection order by collection
 				</cfquery>
@@ -167,7 +167,7 @@ To split a lot or create a parasite, you can
 				</select>
 			</td>
 			<td>
-			<cfquery name="ctOtherIdType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="ctOtherIdType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			select distinct(other_id_type) FROM ctColl_Other_Id_Type ORDER BY other_Id_Type
 		</cfquery>
 		<font size="-2">Other ID Type:<br></font>
@@ -215,7 +215,7 @@ To split a lot or create a parasite, you can
 <cfif #Action# is "saveNew">
 <cfoutput>
 	<cfloop list="#related_coll_object_id#" index="relCollObjId" delimiters=",">
-		<cfquery name="newReln" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="newReln" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			INSERT INTO biol_indiv_relations (
 				COLLECTION_OBJECT_ID, 
 				RELATED_COLL_OBJECT_ID, 
@@ -235,7 +235,7 @@ To split a lot or create a parasite, you can
 <!------------------------------------------------------------------------------>
 <cfif #Action# is "saveEdit">
 <cfoutput>
-	<cfquery name="newReln" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cfquery name="newReln" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		UPDATE biol_indiv_relations
 		SET
 			collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">,
@@ -253,7 +253,7 @@ To split a lot or create a parasite, you can
 <!------------------------------------------------------------------------------>
 <cfif #Action# is "deleReln">
 <cfoutput>
-	<cfquery name="newReln" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cfquery name="newReln" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		DELETE FROM biol_indiv_relations
 		WHERE
 			collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">

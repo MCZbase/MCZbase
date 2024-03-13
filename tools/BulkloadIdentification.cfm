@@ -81,7 +81,7 @@ sho err
 <cfif #action# is "getFile">
 <cfoutput>
 	<!--- put this in a temp table --->
-	<cfquery name="killOld" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cfquery name="killOld" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		delete from cf_temp_id
 	</cfquery>
 
@@ -105,7 +105,7 @@ sho err
 		</cfif>
 		<cfif len(#colVals#) gt 1>
 			<cfset colVals=replace(colVals,",","","first")>
-			<cfquery name="ins" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="ins" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				insert into cf_temp_id (#colNames#) values (#preservesinglequotes(colVals)#)
 			</cfquery>
 		</cfif>
@@ -118,7 +118,7 @@ sho err
 <!------------------------------------------------------->
 <cfif #action# is "validate">
 <cfoutput>
-	<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		update cf_temp_id set status='missing data'
 		where
 		other_id_type is null or
@@ -131,13 +131,13 @@ sho err
 		agent_1 is null
 	</cfquery>
 
-	<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		select * from cf_temp_id where status is null
 	</cfquery>
 	<cfloop query="data">
 		<cfset problem="">
 		<cfif #other_id_type# is not "catalog number">
-			<cfquery name="collObj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="collObj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT
 						coll_obj_other_id_num.collection_object_id
 					FROM
@@ -153,7 +153,7 @@ sho err
 						display_value = '#trim(other_id_number)#'
 				</cfquery>
 			<cfelse>
-				<cfquery name="collObj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="collObj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT
 						collection_object_id
 					FROM
@@ -182,7 +182,7 @@ sho err
 					<cfset problem = "#problem#; #data.other_id_number# #data.other_id_type# #data.collection_cde# #data.institution_acronym# could not be found">
 				</cfif>
 			<cfelse>
-				<cfquery name="insColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="insColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE cf_temp_id SET collection_object_id = #collObj.collection_object_id# where
 					key = #key#
 				</cfquery>
@@ -232,7 +232,7 @@ sho err
 				<cfset TaxonomyTaxonName="#scientific_name#">
 			</cfif>
 
-			<cfquery name="isTaxa" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="isTaxa" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT taxon_name_id FROM taxonomy WHERE scientific_name = '#TaxonomyTaxonName#'
 			</cfquery>
 			<cfif #isTaxa.recordcount# is not 1>
@@ -244,12 +244,12 @@ sho err
 					<cfset problem = "#problem#; taxonomy not found">
 				</cfif>
 			<cfelse>
-				<cfquery name="insColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="insColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE cf_temp_id SET taxon_name_id = #isTaxa.taxon_name_id#,taxa_formula='#tf#' where
 					key = #key#
 				</cfquery>
 			</cfif>
-			<cfquery name="noid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="noid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				select count(*) c from ctnature_of_id where nature_of_id='#nature_of_id#'
 			</cfquery>
 			<cfif #noid.c# is not 1>
@@ -260,7 +260,7 @@ sho err
 				</cfif>
 			</cfif>
 			<cfif len(made_date) GT 0>
-				<cfquery name="chkDate" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="chkDate" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					select is_iso8601('#MADE_DATE#') as valid from dual
 				</cfquery>
 				<cfif chkDate.valid NEQ "valid">
@@ -278,7 +278,7 @@ sho err
 					<cfset problem = "#problem#; accepted_fg must be 1 or 0">
 				</cfif>
 			</cfif>
-			<cfquery name="a1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="a1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				select distinct agent_id from agent_name where agent_name='#agent_1#'
 			</cfquery>
 			<cfif #a1.recordcount# is not 1>
@@ -288,13 +288,13 @@ sho err
 					<cfset problem = "#problem#; agent_1 matched #a1.recordcount# records">
 				</cfif>
 			<cfelse>
-				<cfquery name="insColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="insColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE cf_temp_id SET agent_1_id = #a1.agent_id# where
 					key = #key#
 				</cfquery>
 			</cfif>
 			<cfif len(agent_2) gt 0>
-				<cfquery name="a2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="a2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					select distinct agent_id from agent_name where agent_name='#agent_2#'
 				</cfquery>
 				<cfif #a2.recordcount# is not 1>
@@ -304,21 +304,21 @@ sho err
 						<cfset problem = "#problem#; agent_2 matched #a2.recordcount# records">
 					</cfif>
 				<cfelse>
-					<cfquery name="insColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					<cfquery name="insColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						UPDATE cf_temp_id SET agent_2_id = #a2.agent_id# where
 						key = #key#
 					</cfquery>
 				</cfif>
 			</cfif>
 			<cfif len(#problem#) gt 0>
-				<cfquery name="insColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="insColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE cf_temp_id SET status = '#problem#' where
 					key = #key#
 				</cfquery>
 			</cfif>
 		</cfloop>
 
-		<cfquery name="valData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="valData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			select * from cf_temp_id order by status,
 			other_id_type,
 			other_id_number
@@ -341,17 +341,17 @@ sho err
 <!------------------------------------------------------->
 <cfif #action# is "loadData">
 <cfoutput>
-	<cfquery name="getTempData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cfquery name="getTempData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		select * from cf_temp_id
 	</cfquery>
 	<cftransaction>
 	<cfloop query="getTempData">
 		<cfif ACCEPTED_FG is 1>
-			<cfquery name="whackOld" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="whackOld" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				update identification set ACCEPTED_ID_FG=0 where COLLECTION_OBJECT_ID=#COLLECTION_OBJECT_ID#
 			</cfquery>
 		</cfif>
-		<cfquery name="insert" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="insert" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			insert into identification (
 				IDENTIFICATION_ID,
 				COLLECTION_OBJECT_ID,
@@ -378,7 +378,7 @@ sho err
 				</cfif>
 			)
 		</cfquery>
-		<cfquery name="insertidt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="insertidt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			insert into identification_taxonomy (
 				IDENTIFICATION_ID,
 				TAXON_NAME_ID,
@@ -389,7 +389,7 @@ sho err
 				'A'
 			)
 		</cfquery>
-		<cfquery name="insertida1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="insertida1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			insert into identification_agent (
 				IDENTIFICATION_ID,
 				AGENT_ID,
@@ -401,7 +401,7 @@ sho err
 			)
 		</cfquery>
 		<cfif len(agent_2_id) gt 0>
-			<cfquery name="insertida1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="insertida1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				insert into identification_agent (
 					IDENTIFICATION_ID,
 					AGENT_ID,
@@ -413,7 +413,7 @@ sho err
 				)
 			</cfquery>
 		</cfif>
-		<cfquery name="getTempData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="getTempData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			update cf_temp_id set status='loaded' where key=#key#
 		</cfquery>
 	</cfloop>
@@ -424,12 +424,12 @@ sho err
 <!-------------------------------------------------------------------------->
 <cfif #action# is "allDone">
 	<cfoutput>
-		<cfquery name="getTempData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="getTempData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			select count(*) c from cf_temp_id where status != 'loaded'
 		</cfquery>
 		<cfif #getTempData.c# is not 0>
 			Something very strange happened. Contact a sysadmin.
-			<cfquery name="d" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="d" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				select * from cf_temp_id
 			</cfquery>
 			<cfdump var=#d#>

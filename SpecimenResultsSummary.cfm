@@ -204,7 +204,7 @@
 	</cfoutput>
 
 
-<cfquery name="getData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="getData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		#preserveSingleQuotes(SqlString)#
 	</cfquery>
 	<cfif getData.recordcount is 0>

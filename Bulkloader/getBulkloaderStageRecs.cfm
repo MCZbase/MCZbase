@@ -6,7 +6,7 @@
 		AND column_name <> 'STAGING_USER'
 	ORDER BY internal_column_id
 </cfquery>
-<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 	SELECT * 
 	FROM bulkloader_stage
 	WHERE staging_user = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">

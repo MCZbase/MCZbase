@@ -71,7 +71,7 @@
 	</tr>
 	<tr>
 		<td align="right">Purpose of Download</td>
-		<cfquery name="ctPurpose" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="ctPurpose" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			select * from ctdownload_purpose
 		</cfquery>
 		<td>
@@ -210,7 +210,7 @@ do not agree</font>.</a>
 		</cfif>
 	<!--- if they agree to the terms, send them to their download --->
 	<cfif #agree# is "yes">
-		<cfquery name="cols" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="cols" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			select 
 				user_tab_cols.column_name 
 			from 
@@ -222,7 +222,7 @@ do not agree</font>.</a>
 				upper(table_name)=upper(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#checkedTableName#">) 
 			order by DISP_ORDER
 		</cfquery>
-		<cfquery name="getData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="getData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			select * from #checkedTableName#
 		</cfquery>
 		<cfquery name="dl" datasource="cf_dbuser">

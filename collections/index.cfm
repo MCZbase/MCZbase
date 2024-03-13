@@ -21,7 +21,7 @@ limitations under the License.
 <cfset metaDesc="Links to individual collections web pages and loan policy.">
 <cfinclude template = "/shared/_header.cfm">
 
-<cfquery name="colls" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="colls_result">
+<cfquery name="colls" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="colls_result">
 	select
 		collection.collection,
 		collection.collection_id,
@@ -94,14 +94,14 @@ limitations under the License.
 									</cfif>
 								</td>
 								<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
-									<cfquery name="caticount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="colls_result">
+									<cfquery name="caticount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="colls_result">
 										select count(*) as internal_count from flat where collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#colls.collection_id#">
 									</cfquery>
 									<cfset icount = caticount.internal_count>
 									<cfset totalinternal = totalinternal + icount>
 									<td><a href="/Specimens.cfm?execute=true&action=fixedSearch&collection_id=#collection_id#">#icount#</a></td>
 	
-									<cfquery name="catcount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="colls_result">
+									<cfquery name="catcount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="colls_result">
 										select count(*) as cnt from filtered_flat where collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#colls.collection_id#">
 									</cfquery>
 									<cfset pcount = catcount.cnt>
@@ -110,7 +110,7 @@ limitations under the License.
 	
 									<td>#icount-pcount#</td>
 								<cfelse>
-									<cfquery name="catcount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="colls_result">
+									<cfquery name="catcount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="colls_result">
 										select count(*) as cnt from filtered_flat where collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#colls.collection_id#">
 									</cfquery>
 									<td><a href="/Specimens.cfm?execute=true&action=fixedSearch&collection_id=#collection_id#">#catcount.cnt#</a></td>

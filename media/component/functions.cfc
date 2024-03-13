@@ -43,11 +43,11 @@ Backing methods for managing media
 	<cfoutput>
 		<cftransaction>
 			<cftry>
-				<cfquery name="mid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="mid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					select sq_media_id.nextval nv from dual
 				</cfquery>
 				<cfset media_id=mid.nv>
-				<cfquery name="makeMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="makeMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					insert into media (
 							media_id,
 							media_uri,
@@ -74,7 +74,7 @@ Backing methods for managing media
 							</cfif>
 						)
 				</cfquery>
-				<cfquery name="makeDescriptionRelation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="makeDescriptionRelation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					insert into media_labels (
 						media_id,
 						media_label,
@@ -90,7 +90,7 @@ Backing methods for managing media
 					<cfset thisRelatedId = #evaluate("related_id__" & n)#>
 					<cfset thisTableName=ListLast(thisRelationship," ")>
 					<cfif len(#thisRelationship#) gt 0 and len(#thisRelatedId#) gt 0>
-						<cfquery name="makeRelation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						<cfquery name="makeRelation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							insert into media_relations (
 								media_id,
 								media_relationship,
@@ -107,7 +107,7 @@ Backing methods for managing media
 					<cfset thisLabel = #evaluate("label__" & n)#>
 					<cfset thisLabelValue = #evaluate("label_value__" & n)#>
 					<cfif len(#thisLabel#) gt 0 and len(#thisLabelValue#) gt 0>
-						<cfquery name="makeRelation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						<cfquery name="makeRelation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							insert into media_labels (
 								media_id,
 								media_label,
@@ -165,7 +165,7 @@ Backing methods for managing media
 
 	<cftry>
 		<cfset rows = 0>
-		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
+		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="search_result">
 			select distinct
 				media.media_id,
 				mime_type,
@@ -203,11 +203,11 @@ Backing methods for managing media
 <cffunction name="editNewCoreMedia" access="remote" returntype="any" returnformat="json">
 		<cftransaction>
 			<cftry>
-				<cfquery name="mid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="mid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					select sq_media_id.nextval nv from dual
 				</cfquery>
 				<cfset media_id=mid.nv>
-				<cfquery name="makeMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="makeMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					insert into media (
 							media_id,
 							media_uri,
@@ -228,7 +228,7 @@ Backing methods for managing media
 							</cfif>
 						)
 				</cfquery>
-				<cfquery name="makeDescriptionRelation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="makeDescriptionRelation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					insert into media_labels (
 						media_id,
 						media_label,
@@ -244,7 +244,7 @@ Backing methods for managing media
 					<cfset thisRelatedId = #evaluate("related_id__" & n)#>
 					<cfset thisTableName=ListLast(thisRelationship," ")>
 					<cfif len(#thisRelationship#) gt 0 and len(#thisRelatedId#) gt 0>
-						<cfquery name="makeRelation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						<cfquery name="makeRelation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							insert into media_relations (
 								media_id,
 								media_relationship,
@@ -261,7 +261,7 @@ Backing methods for managing media
 					<cfset thisLabel = #evaluate("label__" & n)#>
 					<cfset thisLabelValue = #evaluate("label_value__" & n)#>
 					<cfif len(#thisLabel#) gt 0 and len(#thisLabelValue#) gt 0>
-						<cfquery name="makeRelation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						<cfquery name="makeRelation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							insert into media_labels (
 								media_id,
 								media_label,
@@ -314,7 +314,7 @@ Backing methods for managing media
 <cffunction name="removeMediaRelation" returntype="query" access="remote">
 	 <cfargument name="media_relations_id" type="string" required="yes">
 	 <cftry>
-	 	<cfquery name="delete" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="deleteResult">
+	 	<cfquery name="delete" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="deleteResult">
 			delete from media_relations
 			where media_relations_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_relations_id#">
 		</cfquery>
@@ -345,7 +345,7 @@ Backing methods for managing media
 	<cfargument name="containing_form_id" type="string" required="yes">
 	<cfthread name="getRelationsHtmlThread">
 		<cftry>
-			<cfquery name="relationsType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="relationsType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				select media_relationship,related_primary_key, media_id, media_relations_id
 				from media_relations
 				where

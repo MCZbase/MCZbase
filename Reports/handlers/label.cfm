@@ -25,7 +25,7 @@ limitations under the License.
 
 <cfswitch expression = "#target#">
 	<cfcase value="Dry_Large_Type__All">
-		<cfquery name="getItems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="getItems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			SELECT DISTINCT
 				get_scientific_name_auths(cataloged_item.collection_object_id) sci_name_with_auth,
 				concatAcceptedIdentifyingAgent(cataloged_item.collection_object_id) identified_by,

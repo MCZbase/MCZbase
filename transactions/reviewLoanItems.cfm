@@ -31,7 +31,7 @@ limitations under the License.
 	}
 	}
 </style>
-<cfquery name="ctDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="ctDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 	select coll_obj_disposition from ctcoll_obj_disp
 </cfquery>
 <!--- set up a json source for a jqxDropDownList --->
@@ -46,7 +46,7 @@ limitations under the License.
 <cfif NOT isdefined("transaction_id") OR len(transaction_id) EQ 0>
 	<cfthrow message="No transaction specified">
 </cfif>
-<cfquery name="checkForLoan" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="checkForLoan_result">
+<cfquery name="checkForLoan" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="checkForLoan_result">
 	SELECT count(*) ct
 	FROM
 		loan
@@ -72,31 +72,31 @@ limitations under the License.
 	<!--- TODO: Suspect, remove this functionality or move to backing method --->
 	<cfoutput>
 <cftransaction>
-	<cfquery name="deleLoan" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cfquery name="deleLoan" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		DELETE FROM loan_item WHERE collection_object_id = #partID#
 		and transaction_id=#transaction_id#
 	</cfquery>
-	<cfquery name="delePart" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cfquery name="delePart" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		DELETE FROM specimen_part WHERE collection_object_id = #partID#
 	</cfquery>
-	<cfquery name="delePartCollObj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cfquery name="delePartCollObj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		DELETE FROM coll_object WHERE collection_object_id = #partID#
 	</cfquery>
-	<cfquery name="delePartRemark" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cfquery name="delePartRemark" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		DELETE FROM coll_object_remark WHERE collection_object_id = #partID#
 	</cfquery>
-	<cfquery name="getContID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cfquery name="getContID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		select container_id from coll_obj_cont_hist where
 		collection_object_id = #partID#
 	</cfquery>
 	
-	<cfquery name="deleCollCont" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cfquery name="deleCollCont" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		DELETE FROM coll_obj_cont_hist WHERE collection_object_id = #partID#
 	</cfquery>
-	<cfquery name="deleCont" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cfquery name="deleCont" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		DELETE FROM container_history WHERE container_id = #getContID.container_id#
 	</cfquery>
-	<cfquery name="deleCont" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cfquery name="deleCont" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		DELETE FROM container WHERE container_id = #getContID.container_id#
 	</cfquery>
 </cftransaction>
@@ -112,13 +112,13 @@ limitations under the License.
 		<cfoutput>
 			<cftransaction>
 				<cftry>
-					<cfquery name="getCollObjId" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					<cfquery name="getCollObjId" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						select collection_object_id 
 						FROM loan_item 
 						where transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
 					</cfquery>
 					<cfloop query="getCollObjId">
-						<cfquery name="upDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						<cfquery name="upDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							UPDATE coll_object 
 							SET coll_obj_disposition = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#coll_obj_disposition#">
 							where collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
@@ -141,13 +141,13 @@ limitations under the License.
 		<cfoutput>
 			<cftransaction>
 				<cftry>
-					<cfquery name="getCollObjId" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					<cfquery name="getCollObjId" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						select collection_object_id 
 						FROM loan_item 
 						where transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
 					</cfquery>
 					<cfloop query="getCollObjId">
-						<cfquery name="upDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						<cfquery name="upDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							UPDATE specimen_part 
 							SET preserve_method  = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#part_preserve_method#">
 							where collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
@@ -167,7 +167,7 @@ limitations under the License.
 	</cfcase>
 	<!-------------------------------------------------------------------------------->
 	<cfdefaultcase>
-		<cfquery name="getCollections" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getCollections_result">
+		<cfquery name="getCollections" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getCollections_result">
 			select count(*) as ct, collection.collection_cde 
 			from 
 				loan_item
@@ -179,7 +179,7 @@ limitations under the License.
 			GROUP BY collection.collection_cde
 		</cfquery>
 		<cfset collectionCount = getCollections.recordcount>
-		<cfquery name="ctSovereignNation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="ctSovereignNation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			SELECT count(*) as ct, sovereign_nation
 			FROM loan_item 
 				left join specimen_part on loan_item.collection_object_id = specimen_part.collection_object_id
@@ -192,7 +192,7 @@ limitations under the License.
 		</cfquery>
 		<cfif collectionCount EQ 1 OR collectionCount EQ 0>
 			<!--- Obtain list of preserve_method values for the collection that this loan is from --->
-			<cfquery name="ctPreserveMethod" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="ctPreserveMethod" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				select distinct ct.preserve_method
 				from ctspecimen_preserv_method ct 
 					left join collection c on ct.collection_cde = c.collection_cde
@@ -202,7 +202,7 @@ limitations under the License.
 		<cfelse>
 			<!--- Obtain list of preserve_method values that apply to all of collection for material in this loan--->
 			<cfset intersect = "">
-			<cfquery name="ctPreserveMethod" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="ctPreserveMethod" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				select distinct preserve_method from (
 					<cfloop query="getCollections" >
 						<cfif len(intersect) GT 0>#intersect#</cfif>
@@ -220,7 +220,7 @@ limitations under the License.
 				<cfset isClosed = false>
 				<cfset isInProcess = false>
 				<cfset isOpen = false>
-				<cfquery name="aboutLoan" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="aboutLoan" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					select l.loan_number, c.collection_cde, c.collection,
 						l.loan_type, l.loan_status, 
 						l.return_due_date, l.closed_date
@@ -253,7 +253,7 @@ limitations under the License.
 				</cfif>
 	
 				<!--- count cataloged items and parts in the loan --->
-				<cfquery name="catCnt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="catCnt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					select count(distinct(derived_from_cat_item)) c 
 					from loan_item
 						left join specimen_part on loan_item.collection_object_id = specimen_part.collection_object_id
@@ -265,7 +265,7 @@ limitations under the License.
 				<cfelse>
 					<cfset catCount = catCnt.c>
 				</cfif>
-				<cfquery name="prtItemCnt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="prtItemCnt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					select count(distinct(collection_object_id)) c 
 					from loan_item
 					where

@@ -7,7 +7,7 @@ Retrieving map data - please wait....
 		<cfabort>
 	</cfif>
 	<cfoutput>
-	<cfquery name="getMapData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cfquery name="getMapData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		SELECT
 			locality.locality_id locality_id,
 			lat_long_id,

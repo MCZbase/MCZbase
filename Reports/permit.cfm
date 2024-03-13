@@ -28,7 +28,7 @@ Based on:
 	   <cfthrow message="No permit_id value provided when generating a PDF permit report for a permit_id">
 		<cfabort>
 	</cfif>
-	<cfquery name="ctAtt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cfquery name="ctAtt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		select distinct(attribute_type) from ctAttribute_type order by attribute_type
 	</cfquery>
 	<cfset attList = "">
@@ -133,7 +133,7 @@ Based on:
 			cataloged_item.collection_object_id IN (#collection_object_id#)
 		#data_order_by#
 	">
-	<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		#preservesinglequotes(sql)#
 	</cfquery>
 	
@@ -325,7 +325,7 @@ Based on:
 		<cftry><cfif not isdefined('$#collection_object_id#$')>
 			<cfthrow type='continue'>
 		</cfif>
-	        <cfquery name="tCollNum" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	        <cfquery name="tCollNum" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 	                select other_id_number from coll_obj_other_id_num where
 	                other_id_type='collector number'
 	                and collection_object_id=#collection_object_id#
@@ -775,7 +775,7 @@ not by specimens. --->
 		select permit_num, permit_id
 		from permit
 		where permit_num = '#permit_num#'">
-	<cfquery name="getPermitID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cfquery name="getPermitID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		#preservesinglequotes(sql)#
 	</cfquery>
 	<!--- debug code
@@ -893,7 +893,7 @@ and on day add a 0 to the front if it is one digit only--->
 		) order by
 				#order#"
 >
-<cfquery name="specimens" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="specimens" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 	#preservesinglequotes(sql)#
 </cfquery>
 <cfset collection_object_id="">
@@ -939,7 +939,7 @@ and on day add a 0 to the front if it is one digit only--->
 				permit_id = '#permit_id#' AND 
 				permit.issued_by_agent_id = issuedBy.agent_id AND
 				permit.issued_to_agent_id = issuedTo.agent_id">
-		<cfquery name="permit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="permit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			#preservesinglequotes(sql)#
 		</cfquery>
 		<!--- here is where I add in the permit selection--->

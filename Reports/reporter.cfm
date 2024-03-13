@@ -3,7 +3,7 @@
 <cfinclude template="/Reports/functions/label_functions.cfm">
 <!-------------------------------------------------------------->
 <cfif #action# is "delete">
-	<cfquery name="e" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cfquery name="e" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		DELETE FROM cf_report_sql
 		WHERE report_id= <CFQUERYPARAM VALUE="#report_id#" CFSQLTYPE="CF_SQL_DECIMAL">
 	</cfquery>
@@ -19,7 +19,7 @@
 		report_name must contain only alphanumeric characters and underscore.
 		<cfabort>
 	</cfif>
-	<cfquery name="e" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cfquery name="e" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		UPDATE cf_report_sql 
 		SET
 			report_name = <CFQUERYPARAM VALUE="#report_name#" CFSQLTYPE="CF_SQL_VARCHAR"> ,
@@ -36,7 +36,7 @@
 <cfif #action# is "edit">
 	<cfif not isdefined("report_id") AND isDefined ("report_name")>
 		<!--- if given a report name instead of report id, redirect --->
-		<cfquery name="e" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="e" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			SELECT 
 				report_id 
 			FROM cf_report_sql 
@@ -45,7 +45,7 @@
 		<cflocation url="/Reports/reporter.cfm?action=edit&report_id=#e.report_id#">
 	</cfif>
 
-	<cfquery name="e" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cfquery name="e" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		SELECT 
 			report_id, report_name, report_template, sql_text_old, pre_function, report_format, sql_text, description 
 		FROM cf_report_sql 
@@ -133,7 +133,7 @@
 <cfif #action# is "newHandler">
 	<!--- that is, insert a new cf_report_sql record --->
 	<cfset tc=getTickCount()>
-	<cfquery name="insertNewHandler" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cfquery name="insertNewHandler" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		INSERT INTO cf_report_sql (
 			report_name,
 			report_template,
@@ -148,11 +148,11 @@
 </cfif>
 <!-------------------------------------------------------------->
 <cfif #action# is "clone">
-    <cfquery name="e" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+    <cfquery name="e" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
         select * from cf_report_sql where report_id='#report_id#'
     </cfquery>
     <cfset tc=getTickCount()>
-    <cfquery name="e" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+    <cfquery name="e" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
         insert into cf_report_sql (
             report_name,
             report_template,
@@ -177,7 +177,7 @@
 
          <cfset sql=replace(test_sql,"##collection_object_id##",12)>
 		<cfset sql=replace(test_sql,"##container_id##",12)>
-         <cfquery name="user_sql" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+         <cfquery name="user_sql" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
              #preservesinglequotes(sql)#
          </cfquery>
          <cfdump var=#user_sql#>
@@ -241,7 +241,7 @@
 				<th colspan="4">Actions</th>
 			</tr>
 			<!--- obtain the records of .cfr and .cfm templates known to cf_report_sql in the database. --->
-			<cfquery name="getReports" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="getReports" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT 
 					report_id, report_name, report_template, sql_text_old, pre_function,
 					report_format, sql_text, description 

@@ -18,7 +18,7 @@
 
 <cfif isdefined("collection_object_id")>
 	<!--- get summary data ---->
-	<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		select 
 			cataloged_item.collection_object_id id,
 			scientific_name, 
@@ -135,7 +135,7 @@
        <cfabort>
     </cfif>
     
-    <cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+    <cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
         select 
             guid
         FROM
@@ -154,12 +154,12 @@
 [#guids#]
 <cfset user_id=0>
 <cfif isdefined("session.username") and len(session.username) gt 0>
-	<cfquery name="isUser" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cfquery name="isUser" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		SELECT user_id FROM cf_users WHERE username = <cfqueryparam value="#session.username#" cfsqltype="CF_SQL_VARCHAR" >
 	</cfquery>
 	<cfset user_id = isUser.user_id>
 </cfif>
-	<cfquery name="bugID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cfquery name="bugID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		select max(bug_id) + 1 as id from cf_bugs
 	</cfquery>
 	<!--- strip out the crap....--->
@@ -202,7 +202,7 @@
 	<!--- get the proper emails to report this to --->
     <!--- As of July 2018, MCZbase does not have any entries in collection_contacts for 'data quality'.  --->
     <!--- Issue reports are expected to be filtered through collections operations to relevant collections staff --->
-	<cfquery name="whatEmails" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cfquery name="whatEmails" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		select address from
 			electronic_address,
 			collection_contacts,

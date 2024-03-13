@@ -73,46 +73,46 @@ limitations under the License.
 	<cfset defaultenablebrowserselection = "false">
 </cfif>	
 
-<cfquery name="getCount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" timeout="#Application.short_timeout#">
+<cfquery name="getCount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.short_timeout#">
 	SELECT count(transaction_id) as cnt FROM trans
 </cfquery>
-<cfquery name="ctSpecificType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" timeout="#Application.short_timeout#">
+<cfquery name="ctSpecificType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.short_timeout#">
 	select distinct specific_type from mczbase.transaction_view order by specific_type
 </cfquery>
-<cfquery name="ctType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" timeout="#Application.short_timeout#">
+<cfquery name="ctType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.short_timeout#">
 	select count(transaction_id), specific_type, transaction_type 
 	from mczbase.transaction_view 
 	group by specific_type, transaction_type
 	order by specific_type
 </cfquery>
-<cfquery name="ctStatus" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" timeout="#Application.short_timeout#">
+<cfquery name="ctStatus" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.short_timeout#">
 	select distinct status from mczbase.transaction_view order by status
 </cfquery>
-<cfquery name="ctLoanType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" timeout="#Application.short_timeout#">
+<cfquery name="ctLoanType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.short_timeout#">
 	select loan_type from ctloan_type order by loan_type
 </cfquery>
-<cfquery name="ctLoanStatus" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" timeout="#Application.short_timeout#">
+<cfquery name="ctLoanStatus" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.short_timeout#">
 	select loan_status from ctloan_status order by loan_status
 </cfquery>
-<cfquery name="ctAccnType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" timeout="#Application.short_timeout#">
+<cfquery name="ctAccnType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.short_timeout#">
 	select accn_type from ctaccn_type order by accn_type
 </cfquery>
-<cfquery name="ctAccnStatus" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" timeout="#Application.short_timeout#">
+<cfquery name="ctAccnStatus" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.short_timeout#">
 	select accn_status from ctaccn_status order by accn_status
 </cfquery>
-<cfquery name="ctDeaccType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" timeout="#Application.short_timeout#">
+<cfquery name="ctDeaccType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.short_timeout#">
 	select deacc_type from ctdeacc_type order by deacc_type
 </cfquery>
-<cfquery name="ctDeaccStatus" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" timeout="#Application.short_timeout#">
+<cfquery name="ctDeaccStatus" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.short_timeout#">
 	select deacc_status from ctdeacc_status order by deacc_status
 </cfquery>
-<cfquery name="ctBorrowStatus" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" timeout="#Application.short_timeout#">
+<cfquery name="ctBorrowStatus" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.short_timeout#">
 	select borrow_status from ctborrow_status order by borrow_status
 </cfquery>
-<cfquery name="ctCollObjDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" timeout="#Application.short_timeout#">
+<cfquery name="ctCollObjDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.short_timeout#">
 	select coll_obj_disposition from ctcoll_obj_disp
 </cfquery>
-<cfquery name="ctpermit_type_trans" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" timeout="#Application.short_timeout#">
+<cfquery name="ctpermit_type_trans" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.short_timeout#">
 	SELECT count(distinct trans.transaction_id) as ct, ctpermit_type.permit_type
 	FROM ctpermit_type
 			left join permit on ctpermit_type.permit_type = permit.permit_type
@@ -127,7 +127,7 @@ limitations under the License.
 	group by ctpermit_type.permit_type
 	order by ctpermit_type.permit_type
 </cfquery>
-<cfquery name="ctspecific_permit_type_trans" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" timeout="#Application.short_timeout#">
+<cfquery name="ctspecific_permit_type_trans" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.short_timeout#">
 	SELECT count(distinct trans.transaction_id) as ct, ctspecific_permit_type.permit_type, ctspecific_permit_type.specific_type
 	FROM ctspecific_permit_type 
 		left join permit on ctspecific_permit_type.specific_type = permit.specific_type
@@ -142,19 +142,19 @@ limitations under the License.
 	group by ctspecific_permit_type.permit_type, ctspecific_permit_type.specific_type
 	order by ctspecific_permit_type.specific_type
 </cfquery>
-<cfquery name="ctpermit_type" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" timeout="#Application.short_timeout#">
+<cfquery name="ctpermit_type" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.short_timeout#">
 	select count(*) as ct, ctpermit_type.permit_type 
 	from ctpermit_type left join permit on ctpermit_type.permit_type = permit.permit_type
 	group by ctpermit_type.permit_type
 	order by ctpermit_type.permit_type
 </cfquery>
-<cfquery name="ctspecific_permit_type" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" timeout="#Application.short_timeout#">
+<cfquery name="ctspecific_permit_type" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.short_timeout#">
 	select count(*) as ct, ctspecific_permit_type.permit_type, ctspecific_permit_type.specific_type 
 	from ctspecific_permit_type left join permit on ctspecific_permit_type.specific_type = permit.specific_type
 	group by ctspecific_permit_type.permit_type, ctspecific_permit_type.specific_type
 	order by ctspecific_permit_type.specific_type
 </cfquery>
-<cfquery name="ctpermit_type_accn" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" timeout="#Application.short_timeout#">
+<cfquery name="ctpermit_type_accn" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.short_timeout#">
 	SELECT count(distinct trans.transaction_id) as ct, ctpermit_type.permit_type
 	FROM ctpermit_type
 		left join permit on ctpermit_type.permit_type = permit.permit_type
@@ -171,7 +171,7 @@ limitations under the License.
 	GROUP BY ctpermit_type.permit_type
 	ORDER BY ctpermit_type.permit_type
 </cfquery>
-<cfquery name="ctspecific_permit_type_accn" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" timeout="#Application.short_timeout#">
+<cfquery name="ctspecific_permit_type_accn" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.short_timeout#">
 	SELECT count(distinct trans.transaction_id) as ct, ctspecific_permit_type.permit_type, ctspecific_permit_type.specific_type
 	FROM ctspecific_permit_type 
 		left join permit on ctspecific_permit_type.specific_type = permit.specific_type
@@ -188,7 +188,7 @@ limitations under the License.
 	GROUP BY ctspecific_permit_type.permit_type, ctspecific_permit_type.specific_type
 	ORDER BY ctspecific_permit_type.specific_type
 </cfquery>
-<cfquery name="ctpermit_type_loan" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" timeout="#Application.short_timeout#">
+<cfquery name="ctpermit_type_loan" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.short_timeout#">
 	SELECT count(distinct trans.transaction_id) as ct, ctpermit_type.permit_type
 	FROM ctpermit_type
 		left join permit on ctpermit_type.permit_type = permit.permit_type
@@ -205,7 +205,7 @@ limitations under the License.
 	GROUP BY ctpermit_type.permit_type
 	ORDER BY ctpermit_type.permit_type
 </cfquery>
-<cfquery name="ctspecific_permit_type_loan" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" timeout="#Application.short_timeout#">
+<cfquery name="ctspecific_permit_type_loan" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.short_timeout#">
 	SELECT count(distinct trans.transaction_id) as ct, ctspecific_permit_type.permit_type, ctspecific_permit_type.specific_type
 	FROM ctspecific_permit_type 
 		left join permit on ctspecific_permit_type.specific_type = permit.specific_type
@@ -222,7 +222,7 @@ limitations under the License.
 	GROUP BY ctspecific_permit_type.permit_type, ctspecific_permit_type.specific_type
 	ORDER BY ctspecific_permit_type.specific_type
 </cfquery>
-<cfquery name="ctpermit_type_deaccn" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" timeout="#Application.short_timeout#">
+<cfquery name="ctpermit_type_deaccn" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.short_timeout#">
 	SELECT count(distinct trans.transaction_id) as ct, ctpermit_type.permit_type
 	FROM ctpermit_type
 		left join permit on ctpermit_type.permit_type = permit.permit_type
@@ -239,7 +239,7 @@ limitations under the License.
 	GROUP BY ctpermit_type.permit_type
 	ORDER BY ctpermit_type.permit_type
 </cfquery>
-<cfquery name="ctspecific_permit_type_deaccn" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" timeout="#Application.short_timeout#">
+<cfquery name="ctspecific_permit_type_deaccn" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.short_timeout#">
 	SELECT count(distinct trans.transaction_id) as ct, ctspecific_permit_type.permit_type, ctspecific_permit_type.specific_type
 	FROM ctspecific_permit_type 
 		left join permit on ctspecific_permit_type.specific_type = permit.specific_type
@@ -256,7 +256,7 @@ limitations under the License.
 	GROUP BY ctspecific_permit_type.permit_type, ctspecific_permit_type.specific_type
 	ORDER BY ctspecific_permit_type.specific_type
 </cfquery>
-<cfquery name="ctpermit_type_borrow" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" timeout="#Application.short_timeout#">
+<cfquery name="ctpermit_type_borrow" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.short_timeout#">
 	SELECT count(distinct trans.transaction_id) as ct, ctpermit_type.permit_type
 	FROM ctpermit_type
 		left join permit on ctpermit_type.permit_type = permit.permit_type
@@ -273,7 +273,7 @@ limitations under the License.
 	GROUP BY ctpermit_type.permit_type
 	ORDER BY ctpermit_type.permit_type
 </cfquery>
-<cfquery name="ctspecific_permit_type_borrow" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" timeout="#Application.short_timeout#">
+<cfquery name="ctspecific_permit_type_borrow" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.short_timeout#">
 	SELECT count(distinct trans.transaction_id) as ct, ctspecific_permit_type.permit_type, ctspecific_permit_type.specific_type
 	FROM ctspecific_permit_type 
 		left join permit on ctspecific_permit_type.specific_type = permit.specific_type
@@ -290,10 +290,10 @@ limitations under the License.
 	GROUP BY ctspecific_permit_type.permit_type, ctspecific_permit_type.specific_type
 	ORDER BY ctspecific_permit_type.specific_type
 </cfquery>
-<cfquery name="ctcollection" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" timeout="#Application.short_timeout#">
+<cfquery name="ctcollection" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.short_timeout#">
 	select * from collection order by collection
 </cfquery>
-<cfquery name="cttrans_agent_role" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" timeout="#Application.short_timeout#">
+<cfquery name="cttrans_agent_role" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.short_timeout#">
 	SELECT count(*) as cnt, ct.trans_agent_role 
 	FROM cttrans_agent_role ct 
 		left join trans_agent on ct.trans_agent_role = trans_agent.trans_agent_role
@@ -873,10 +873,10 @@ limitations under the License.
 							<div id="panel-2" role="tabpanel" aria-labelledby="tab-2" class="mx-0 #loanTabActive#" tabindex="0" #loanTabShow#>
 								<h2 class="h3 card-title my-0">Find Loans <i class="fas fa-info-circle" onClick="getMCZDocs('Loan_Transactions##Search_for_a_Loan')" aria-label="help link"></i></h2>
 								<!--- Search for just loans ---->
-								<cfquery name="ctCollObjDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+								<cfquery name="ctCollObjDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 									select coll_obj_disposition from ctcoll_obj_disp
 								</cfquery>
-								<cfquery name="cttrans_agent_role_loan" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+								<cfquery name="cttrans_agent_role_loan" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 									select MCZBASE.count_transagent_for_role(cttrans_agent_role.trans_agent_role,'loan') cnt, cttrans_agent_role.trans_agent_role
 									from cttrans_agent_role
 										left join trans_agent_role_allowed on cttrans_agent_role.trans_agent_role = trans_agent_role_allowed.trans_agent_role
@@ -1214,7 +1214,7 @@ limitations under the License.
 													<!--- if we were given part collection object id values, look up the catalog numbers for them and display for the user --->
 													<!--- used in call from specimen details to find loans from parts. --->
 													<cfif isDefined("collection_object_id") AND len(collection_object_id) GT 0>
-														<cfquery name="guidLookup" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="guidLookup">
+														<cfquery name="guidLookup" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="guidLookup">
 															select distinct guid 
 															from #session.flatTableName# flat 
 																left join specimen_part on flat.collection_object_id = specimen_part.derived_from_cat_item
@@ -1320,10 +1320,10 @@ limitations under the License.
 							<div id="panel-3" role="tabpanel" aria-labelledby="tab-3" class="mx-0 #accnTabActive#" tabindex="0" #accnTabShow#>
 								<h2 class="h3 card-title my-0">Find Accessions <i class="fas fa-info-circle" onClick="getMCZDocs('Find_Accession')" aria-label="help link"></i></h2>
 								<!--- Search for just accessions ---->
-								<cfquery name="ctCollObjDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+								<cfquery name="ctCollObjDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 									select coll_obj_disposition from ctcoll_obj_disp
 								</cfquery>
-								<cfquery name="cttrans_agent_role_accn" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+								<cfquery name="cttrans_agent_role_accn" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 									select MCZBASE.count_transagent_for_role(cttrans_agent_role.trans_agent_role,'accn') cnt, cttrans_agent_role.trans_agent_role
 									from cttrans_agent_role
 										left join trans_agent_role_allowed on cttrans_agent_role.trans_agent_role = trans_agent_role_allowed.trans_agent_role
@@ -1635,7 +1635,7 @@ limitations under the License.
 													<!--- if we were given part collection object id values, look up the catalog numbers for them and display for the user --->
 													<!--- used in call from specimen details to find loans from parts. --->
 													<cfif isDefined("collection_object_id") AND len(collection_object_id) GT 0>
-														<cfquery name="guidLookup" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="guidLookup">
+														<cfquery name="guidLookup" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="guidLookup">
 															select distinct guid 
 															from #session.flatTableName# flat 
 																left join specimen_part on flat.collection_object_id = specimen_part.derived_from_cat_item
@@ -1796,10 +1796,10 @@ limitations under the License.
 							<!--- Deaccession search tab panel --->
 							<div id="panel-4" role="tabpanel" aria-labelledby="tab-4" class="mx-0 #deaccnTabActive#" tabindex="0" #deaccnTabShow#>
 								<h2 class="h3 card-title my-0">Find Deaccessions <i class="fas fa-info-circle" onClick="getMCZDocs('Find_Accession')" aria-label="help link"></i></h2>
-								<cfquery name="ctCollObjDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+								<cfquery name="ctCollObjDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 									select coll_obj_disposition from ctcoll_obj_disp
 								</cfquery>
-								<cfquery name="cttrans_agent_role_deacc" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+								<cfquery name="cttrans_agent_role_deacc" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 									select MCZBASE.count_transagent_for_role(cttrans_agent_role.trans_agent_role,'deaccession') cnt, cttrans_agent_role.trans_agent_role
 									from cttrans_agent_role
 										left join trans_agent_role_allowed on cttrans_agent_role.trans_agent_role = trans_agent_role_allowed.trans_agent_role
@@ -2108,7 +2108,7 @@ limitations under the License.
 													<!--- if we were given part collection object id values, look up the catalog numbers for them and display for the user --->
 													<!--- used in call from specimen details to find loans from parts. --->
 													<cfif isDefined("collection_object_id") AND len(collection_object_id) GT 0>
-														<cfquery name="guidLookup" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="guidLookup">
+														<cfquery name="guidLookup" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="guidLookup">
 															select distinct guid 
 															from #session.flatTableName# flat 
 																left join specimen_part on flat.collection_object_id = specimen_part.derived_from_cat_item
@@ -2254,10 +2254,10 @@ limitations under the License.
 							<div id="panel-5" role="tabpanel" aria-labelledby="tab-5" class="mx-0 #borrowTabActive#" tabindex="0" #borrowTabShow#>
 								<h2 class="h3 card-title my-0">Find Borrows <i class="fas fa-info-circle" onClick="getMCZDocs('Find_Borrow')" aria-label="help link"></i></h2>
 								<!--- Search for just loans ---->
-								<cfquery name="ctCollObjDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+								<cfquery name="ctCollObjDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 									select coll_obj_disposition from ctcoll_obj_disp
 								</cfquery>
-								<cfquery name="cttrans_agent_role_borrow" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+								<cfquery name="cttrans_agent_role_borrow" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 									select MCZBASE.count_transagent_for_role(cttrans_agent_role.trans_agent_role,'borrow') cnt, cttrans_agent_role.trans_agent_role
 									from cttrans_agent_role
 										left join trans_agent_role_allowed on cttrans_agent_role.trans_agent_role = trans_agent_role_allowed.trans_agent_role

@@ -56,7 +56,7 @@ limitations under the License.
 			<!--- loop through the collection_object_list and update things one at a time--->
 			<cftransaction>
 				<cftry>
-					<cfquery name="specimenList" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					<cfquery name="specimenList" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						SELECT
 							collection_object_id
 						FROM
@@ -74,12 +74,12 @@ limitations under the License.
 							</cfif>
 					</cfquery>
 					<cfloop query="specimenList">
-						<cfquery name="upOldID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						<cfquery name="upOldID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							UPDATE identification 
 							SET ACCEPTED_ID_FG=0 
 							WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#specimenList.collection_object_id#">
 						</cfquery>
-						<cfquery name="newID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						<cfquery name="newID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							INSERT INTO identification (
 								IDENTIFICATION_ID,
 								COLLECTION_OBJECT_ID
@@ -114,7 +114,7 @@ limitations under the License.
 								</cfif>
 							)
 						</cfquery>
-						<cfquery name="newIdAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						<cfquery name="newIdAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							insert into identification_agent (
 								identification_id,
 								agent_id,
@@ -126,7 +126,7 @@ limitations under the License.
 								)
 						</cfquery>
 						<cfif len(#newIdById_two#) gt 0>
-							<cfquery name="newIdAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+							<cfquery name="newIdAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 								insert into identification_agent (
 									identification_id,
 									agent_id,
@@ -139,7 +139,7 @@ limitations under the License.
 							</cfquery>
 						</cfif>
 						<cfif len(#newIdById_three#) gt 0>
-							<cfquery name="newIdAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+							<cfquery name="newIdAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 								insert into identification_agent (
 									identification_id,
 									agent_id,
@@ -151,7 +151,7 @@ limitations under the License.
 									)
 							</cfquery>
 						</cfif>
-						<cfquery name="newId2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						<cfquery name="newId2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							INSERT INTO identification_taxonomy (
 								identification_id,
 								taxon_name_id,
@@ -162,7 +162,7 @@ limitations under the License.
 								'A')
 						</cfquery>
 						<cfif #taxa_formula# contains "B">
-							<cfquery name="newId3" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+							<cfquery name="newId3" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 								INSERT INTO identification_taxonomy (
 									identification_id,
 									taxon_name_id,
@@ -211,11 +211,11 @@ limitations under the License.
 	</cfif>
 	<!--------------------------------------------------------------------------------------------------->
 	<section class="row mx-0" aria-labelledby="formHead">
-		<cfquery name="ctnature" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="ctnature" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			SELECT nature_of_id 
 			FROM ctnature_of_id
 		</cfquery>
-		<cfquery name="ctFormula" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="ctFormula" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			SELECT taxa_formula 
 			FROM cttaxa_formula 
 			ORDER BY taxa_formula
@@ -379,7 +379,7 @@ limitations under the License.
 				</form>
 			</div>
 	
-			<cfquery name="specimenList" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="specimenList" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				 SELECT
 				 	cataloged_item.collection_object_id as collection_object_id,
 					cat_num,

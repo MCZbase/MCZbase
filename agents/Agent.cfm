@@ -41,7 +41,7 @@ limitations under the License.
 <cfelse>
 	<cfset oneOfUs = 0>
 </cfif>
-<cfquery name="ctguid_type_agent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="ctguid_type_agent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 	SELECT guid_type, placeholder, pattern_regex, resolver_regex, resolver_replacement, search_uri
 	FROM ctguid_type 
 	WHERE applies_to like '%agent.agentguid%'
@@ -49,7 +49,7 @@ limitations under the License.
 <cfif len(agent_id) EQ 0>
 	<cfthrow message="No Agent specified to show agent details for.  No Agent ID was provided.">
 </cfif>
-<cfquery name="getAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="getAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 	SELECT 
 		agent.agent_id,
 		agent.agent_type, 
@@ -76,7 +76,7 @@ limitations under the License.
 	WHERE
 		agent.agent_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#agent_id#">
 </cfquery>
-<cfquery name="points" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="points_result" cachedwithin="#CreateTimespan(0,24,0,0)#" timeout="#Application.query_timeout#">
+<cfquery name="points" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="points_result" cachedwithin="#CreateTimespan(0,24,0,0)#" timeout="#Application.query_timeout#">
 	SELECT distinct flat.locality_id,flat.dec_lat as Latitude,flat.DEC_LONG as Longitude 
 	FROM <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat
 		left join collector on collector.collection_object_id = flat.collection_object_id
@@ -91,7 +91,7 @@ limitations under the License.
 </cfquery>
 
 <cfoutput>
-	<cfquery name="getMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getMedia_result" cachedwithin="#CreateTimespan(0,24,0,0)#" timeout="#Application.query_timeout#">
+	<cfquery name="getMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getMedia_result" cachedwithin="#CreateTimespan(0,24,0,0)#" timeout="#Application.query_timeout#">
 	SELECT media.media_id,
 		mczbase.get_media_descriptor(media.media_id) as alt,
 		mczbase.get_medialabel(media.media_id,'subject') as subject,
@@ -146,7 +146,7 @@ limitations under the License.
 							<cfif oneOfUs EQ 1><cfset agent_id_bit = " [Agent ID: #getAgent.agent_id#]"><cfelse><cfset agent_id_bit=""></cfif>
 							<cfset rankBit ="">
  							<cfif listcontainsnocase(session.roles, "manage_transactions")>
-								<cfquery name="rank" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+								<cfquery name="rank" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 									SELECT count(*) || ' ' || agent_rank agent_rank
 									FROM agent_rank
 									WHERE agent_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
@@ -199,7 +199,7 @@ limitations under the License.
 						</div>
 					</div>
 					<cfif oneOfUs EQ 1>
-						<cfquery name="getDupAgentRel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getDupAgentRel_result">
+						<cfquery name="getDupAgentRel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getDupAgentRel_result">
 							SELECT agent_relationship, related_agent_id, MCZBASE.get_agentnameoftype(related_agent_id) as related_name,
 								agent_remarks,
 								date_to_merge, on_hold, held_by
@@ -209,7 +209,7 @@ limitations under the License.
 									and agent_relationship like '% duplicate of'
 								ORDER BY agent_relationship
 						</cfquery>
-						<cfquery name="getDupAgentRelRev" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getDupAgentRel_result">
+						<cfquery name="getDupAgentRelRev" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getDupAgentRel_result">
 							SELECT agent_relationship, agent_id as related_agent_id, MCZBASE.get_agentnameoftype(agent_id) as related_name,
 								agent_remarks,
 								date_to_merge, on_hold, held_by
@@ -286,7 +286,7 @@ limitations under the License.
 									<div class="card-header py-0">
 										<h2 class="h4 my-1 text-dark-gray mx-2 px-2">Names for this agent</h2>
 									</div>
-									<cfquery name="preferredNames" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="preferredNames_result">
+									<cfquery name="preferredNames" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="preferredNames_result">
 										SELECT
 											agent_name_id,
 											agent_id,
@@ -296,7 +296,7 @@ limitations under the License.
 										WHERE agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
 											AND agent_name_type = 'preferred'
 									</cfquery>
-									<cfquery name="notPrefNames" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="notPrefNames_result">
+									<cfquery name="notPrefNames" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="notPrefNames_result">
 										SELECT
 											agent_name_id,
 											agent_id,
@@ -334,7 +334,7 @@ limitations under the License.
 							<cfif #getAgent.agent_type# IS "group" OR #getAgent.agent_type# IS "expedition" OR #getAgent.agent_type# IS "vessel">
 								<section class="accordion" id="groupMembersSection">
 									<div class="card mb-2 bg-light">
-										<cfquery name="groupMembers" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="groupMembers_result">
+										<cfquery name="groupMembers" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="groupMembers_result">
 											SELECT
 												member_agent_id,
 												member_order,
@@ -498,7 +498,7 @@ limitations under the License.
 							<cfif oneOfUs EQ 1>
 								<section class="accordion" id="eaddressSection"> 
 									<div class="card mb-2 bg-light">
-										<cfquery name="getAgentElecAddr" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+										<cfquery name="getAgentElecAddr" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 											select address_type, address 
 											from electronic_address 
 											WHERE
@@ -534,7 +534,7 @@ limitations under the License.
 							<cfif oneOfUs EQ 1>
 								<section class="accordion" id="addressSection"> 
 									<div class="card mb-2 bg-light">
-										<cfquery name="getAgentAddr" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+										<cfquery name="getAgentAddr" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 											select addr_type, 
 												REPLACE(formatted_addr, CHR(10),'<br>') FORMATTED_ADDR,
 												valid_addr_fg,
@@ -562,7 +562,7 @@ limitations under the License.
 													<cfloop query="getAgentAddr">
 														<cfset addressUse="">
 														<cfif listcontainsnocase(session.roles, "manage_transactions")>
-															<cfquery name="getShipmentCount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getShipmentCount_result">
+															<cfquery name="getShipmentCount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getShipmentCount_result">
 																SELECT count(shipment_id) ct
 																FROM shipment
 																WHERE shipped_to_addr_id = <cfqueryparam value="#getAgentAddr.addr_id#" cfsqltype="CF_SQL_DECIMAL">
@@ -593,7 +593,7 @@ limitations under the License.
 							<!--- relationships --->
 							<section class="accordion" id="relationshipsSection"> 
 								<div class="card mb-2 bg-light">
-									<cfquery name="getAgentRel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+									<cfquery name="getAgentRel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 											SELECT agent_relationship, related_agent_id, MCZBASE.get_agentnameoftype(related_agent_id) as related_name,
 												agent_remarks
 											FROM agent_relations 
@@ -603,7 +603,7 @@ limitations under the License.
 											ORDER BY agent_relationship
 										</cfquery>
 									<cfset totalRelCount = getAgentRel.recordcount>
-									<cfquery name="getRevAgentRel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+									<cfquery name="getRevAgentRel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 										SELECT agent_relationship, agent_id as related_agent_id, MCZBASE.get_agentnameoftype(agent_id) as related_name,
 											agent_remarks
 										FROM agent_relations 
@@ -643,7 +643,7 @@ limitations under the License.
 													</cfloop>
 												</ul>
 											</cfif>
-											<cfquery name="getRevAgentRel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+											<cfquery name="getRevAgentRel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 												SELECT agent_relationship, agent_id as related_agent_id, MCZBASE.get_agentnameoftype(agent_id) as related_name,
 													agent_remarks
 												FROM agent_relations 
@@ -674,7 +674,7 @@ limitations under the License.
 								</div>
 							</section>
 							<!--- group membership (other agents of which this agent is a group member) --->
-							<cfquery name="groupMembership" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="groupMembership_result">
+							<cfquery name="groupMembership" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="groupMembership_result">
 									SELECT
 										group_agent_id,
 										member_order,
@@ -739,7 +739,7 @@ limitations under the License.
 							<!--- Collector in collections--->
 							<section class="accordion" id="collectorSection1">
 								<div class="card mb-2 bg-light">
-									<cfquery name="getAgentCollScope" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getAgentCollScope_result">
+									<cfquery name="getAgentCollScope" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getAgentCollScope_result">
 										select sum(ct) as ct, collection_cde, collection_id, sum(st) as startyear, sum(en) as endyear 
 										from (
 											select count(*) ct, flat.collection_cde, flat.collection_id, to_number(min(substr(flat.began_date,0,4))) st, to_number(max(substr(flat.ended_date,0,4))) en
@@ -823,7 +823,7 @@ limitations under the License.
 									</div><!--- end collectorCardBodyWrap --->
 								</div>
 							</section>
-							<cfquery name="points2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="points2_result">
+							<cfquery name="points2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="points2_result">
 								SELECT median(flat.dec_lat) as mylat, median(flat.dec_long) as mylng, min(flat.dec_lat) as minlat, 
 									min(flat.dec_long) as minlong, max(flat.dec_lat) as maxlat, max(flat.dec_long) as maxlong
 								FROM <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
@@ -923,7 +923,7 @@ limitations under the License.
 							<!--- Collector of families --->
 							<section class="accordion" id="collectorSection2">
 								<div class="card mb-2 bg-light">
-									<cfquery name="getAgentFamilyScope" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getAgentFamilyScope_result">
+									<cfquery name="getAgentFamilyScope" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getAgentFamilyScope_result">
 										select sum(ct) as ct, phylclass, family, sum(st) as startyear, sum(en) as endyear 
 										from (
 											select count(*) ct, flat.phylclass as phylclass, flat.family as family, 
@@ -1022,7 +1022,7 @@ limitations under the License.
 							<!--- Preparator--->
 							<section class="accordion" id="preparatorSection"> 
 								<div class="card mb-2 bg-light">
-									<cfquery name="getAgentPrepScope" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getAgentCollScope_result">
+									<cfquery name="getAgentPrepScope" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getAgentCollScope_result">
 											select sum(ct) as ct, collection_cde, collection_id, sum(st) as startyear, sum(en) as endyear 
 											from (
 												select count(*) ct, flat.collection_cde, flat.collection_id, to_number(min(substr(flat.began_date,0,4))) st, to_number(max(substr(flat.ended_date,0,4))) en
@@ -1107,7 +1107,7 @@ limitations under the License.
 							<!--- Determiner --->
 							<section class="accordion" id="determinerSection"> 
 									<div class="card mb-2 bg-light">
-										<cfquery name="identification" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="identification_result">
+										<cfquery name="identification" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="identification_result">
 											SELECT
 												count(*) cnt, 
 												count(distinct(identification.collection_object_id)) specs,
@@ -1164,7 +1164,7 @@ limitations under the License.
 							<!--- attribute determinations --->
 							<section class="accordion" id="attributeSection"> 
 								<div class="card mb-2 bg-light">
-									<cfquery name="attributes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="lastEdit_result">
+									<cfquery name="attributes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="lastEdit_result">
 										select 
 											count(distinct(cataloged_item.collection_object_id)) colObjCount,
 											collection.collection_id,
@@ -1222,7 +1222,7 @@ limitations under the License.
 							<cfif oneOfUs eq 1>	
 								<section class="accordion" id="namedgroupSection"> 
 									<div class="card mb-2 bg-light">
-										<cfquery name="getNamedGroups" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+										<cfquery name="getNamedGroups" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 											select collection_name, 
 												underscore_collection.underscore_collection_id, 
 												mask_fg,
@@ -1276,14 +1276,14 @@ limitations under the License.
 							<cfif oneOfUs EQ 1>
 								<section class="accordion" id="georefSection"> 
 									<div class="card mb-2 bg-light">
-										<cfquery name="getLatLongDet" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getLatLongDet_result">
+										<cfquery name="getLatLongDet" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getLatLongDet_result">
 											select 
 												count(*) cnt,
 												count(distinct(locality_id)) locs 
 											from lat_long 
 											where determined_by_agent_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
 										</cfquery>
-										<cfquery name="getLatLongVer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getLatLongVer_result">
+										<cfquery name="getLatLongVer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getLatLongVer_result">
 											select 
 												count(*) cnt,
 												count(distinct(locality_id)) locs 
@@ -1338,18 +1338,18 @@ limitations under the License.
 							<cfif oneOfUs EQ 1>
 								<section class="accordion" id="mediametaSection"> 
 									<div class="card mb-2 bg-light">
-										<cfquery name="getMediaCreation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getMediaCreation_result">
+										<cfquery name="getMediaCreation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getMediaCreation_result">
 											SELECT count(distinct media_id) as ct
 											FROM media_relations 
 											WHERE related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
 												and media_relationship = 'created by agent'
 										</cfquery>
-										<cfquery name="media_assd_relations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="media_assd_relations_result">
+										<cfquery name="media_assd_relations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="media_assd_relations_result">
 											SELECT count(distinct media_id) as ct
 											FROM media_relations 
 											WHERE CREATED_BY_AGENT_ID = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
 										</cfquery>
-										<cfquery name="media_labels" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="media_labels_result">
+										<cfquery name="media_labels" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="media_labels_result">
 											SELECT count(distinct media_id) ct, media_label
 											FROM media_labels 
 											WHERE ASSIGNED_BY_AGENT_ID=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
@@ -1419,7 +1419,7 @@ limitations under the License.
 							<cfif listcontainsnocase(session.roles, "manage_transactions")>
 								<section class="accordion" id="loanItemSection"> 
 									<div class="card mb-2 bg-light" id="loanItemsCard">
-										<cfquery name="loan_item" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getTransactions_result">
+										<cfquery name="loan_item" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getTransactions_result">
 											SELECT
 												count(*) cnt,
 												trans.transaction_id,
@@ -1479,7 +1479,7 @@ limitations under the License.
 							<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_transactions")>
 								<section class="accordion" id="shipmentsSection">
 									<div class="card mb-2 bg-light" id="shipmentsCard">
-										<cfquery name="packedBy" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="packedBy_result">
+										<cfquery name="packedBy" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="packedBy_result">
 											SELECT
 												transaction_view.transaction_id, 
 												transaction_view.transaction_type,
@@ -1494,7 +1494,7 @@ limitations under the License.
 											WHERE
 												PACKED_BY_AGENT_ID=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
 										</cfquery>
-										<cfquery name="shippedTo" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="shippedTo_result">
+										<cfquery name="shippedTo" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="shippedTo_result">
 											SELECT
 												transaction_view.transaction_id, 
 												transaction_view.transaction_type,
@@ -1510,7 +1510,7 @@ limitations under the License.
 											WHERE
 												addr.agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
 										</cfquery>
-										<cfquery name="shippedFrom" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="shippedFrom_result">
+										<cfquery name="shippedFrom" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="shippedFrom_result">
 											SELECT
 												transaction_view.transaction_id, 
 												transaction_view.transaction_type,
@@ -1593,18 +1593,18 @@ limitations under the License.
 							<cfif oneOfUs EQ 1>
 								<section class="accordion" id="encumbrancesSection"> 
 									<div class="card mb-2 bg-light">
-										<cfquery name="getEncumbCount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getEncumbCount_result">
+										<cfquery name="getEncumbCount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getEncumbCount_result">
 											SELECT count(*) as ct
 											FROM encumbrance 
 											WHERE encumbering_agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
 										</cfquery>
-										<cfquery name="getEncumb" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getEncumb_result">
+										<cfquery name="getEncumb" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getEncumb_result">
 											SELECT count(*) as ct, ENCUMBRANCE
 											FROM encumbrance 
 											WHERE encumbering_agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
 											GROUP BY ENCUMBRANCE
 										</cfquery>
-										<cfquery name="coll_object_encumbrance" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getEncumb_result">
+										<cfquery name="coll_object_encumbrance" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getEncumb_result">
 											SELECT 
 												count(distinct(coll_object_encumbrance.collection_object_id)) specs,
 												collection,
@@ -1620,7 +1620,7 @@ limitations under the License.
 												collection,
 												collection.collection_id
 										</cfquery>
-										<cfquery name="inEnc" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="inEnc_result">
+										<cfquery name="inEnc" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="inEnc_result">
 											SELECT 
 												count(distinct(coll_object_encumbrance.collection_object_id)) specs, encumbrance.encumbrance_id
 											FROM
@@ -1681,7 +1681,7 @@ limitations under the License.
 							<cfif oneOfUs EQ 1>
 								<section class="accordion" id="projectSection"> 
 									<div class="card mb-2 bg-light">
-										<cfquery name="getProjRoles" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getProjRoles_result">
+										<cfquery name="getProjRoles" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getProjRoles_result">
 											SELECT distinct
 												'sponsor' as role,
 												project_name,
@@ -1741,7 +1741,7 @@ limitations under the License.
 								<section class="accordion" id="transactionsSection">
 									<div class="card mb-2 bg-light" id="transactionsCard">
 										<!--- user may not be in vpn to see collection.collection_cde 
-										<cfquery name="getTransCount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getTransactions_result">
+										<cfquery name="getTransCount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getTransactions_result">
 										--->
 										<cfquery name="getTransCount" datasource="uam_god">
 											SELECT count(distinct transaction_view.transaction_id) ct
@@ -1755,7 +1755,7 @@ limitations under the License.
 											<!--- started as handle Brendan without crashing page with limit of 5000, but grouping looks useful at much smaller sizes, using default search page limit of 50 --->
 											<cfset oversizeSet = true>
 											<!--- user may not be in vpn to see collection.collection_cde. 
-											<cfquery name="getTransactions" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getTransactions_result">
+											<cfquery name="getTransactions" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getTransactions_result">
 											--->
 											<cfquery name="getTransactions" datasource="uam_god">
 												SELECT
@@ -1780,7 +1780,7 @@ limitations under the License.
 											</cfquery>
 										<cfelse>
 											<!--- user may not be in vpn to see collection.collection_cde. 
-											<cfquery name="getTransactions" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getTransactions_result">
+											<cfquery name="getTransactions" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getTransactions_result">
 											--->
 											<cfquery name="getTransactions" datasource="uam_god">
 												SELECT
@@ -1840,7 +1840,7 @@ limitations under the License.
 														<cfloop query="getTransactions">
 															<cfif oversizeSet IS true>
 																<li class="">
-																	<cfquery name="collVisible" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="collVisible_result">
+																	<cfquery name="collVisible" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="collVisible_result">
 																		SELECT count(*) ct
 																		FROM vpd_collection_cde
 																		WHERE collection_cde = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collection_cde#">
@@ -1906,7 +1906,7 @@ limitations under the License.
 							<cfif listcontainsnocase(session.roles, "manage_transactions")>
 								<section class="accordion" id="permitAccord">
 									<div class="card mb-2 bg-light" id="permitsCard">
-										<cfquery name="getPermitsTo" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getPermitsTo_result">
+										<cfquery name="getPermitsTo" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getPermitsTo_result">
 											SELECT distinct
 												permit_num,
 												permit_title,
@@ -1918,7 +1918,7 @@ limitations under the License.
 											WHERE 
 												ISSUED_TO_AGENT_ID=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
 										</cfquery>
-										<cfquery name="getPermitsFrom" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getPermitsFrom_result">
+										<cfquery name="getPermitsFrom" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getPermitsFrom_result">
 											SELECT distinct
 												permit_num,
 												permit_title,
@@ -1930,7 +1930,7 @@ limitations under the License.
 											WHERE 
 												ISSUED_BY_AGENT_ID=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
 										</cfquery>
-										<cfquery name="getPermitContacts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getPermitContacts_result">
+										<cfquery name="getPermitContacts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getPermitContacts_result">
 											SELECT distinct
 												permit_num,
 												permit_title,
@@ -2035,7 +2035,7 @@ limitations under the License.
 							<!--- Author of Publications--->
 							<section class="accordion" id="publicationSection"> 
 								<div class="card mb-2 bg-light">
-									<cfquery name="publicationAuthor" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="publicationAuthor_result">
+									<cfquery name="publicationAuthor" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="publicationAuthor_result">
 										SELECT distinct
 											<cfif ucase(#session.flatTableName#) EQ 'FLAT'>
 												MCZBASE.get_publication_citation_count(publication_author_name.publication_id,1) citation_count,
@@ -2108,7 +2108,7 @@ limitations under the License.
 							<cfif oneOfUs EQ 1>
 								<section class="accordion" id="enteredSection"> 
 									<div class="card mb-2 bg-light">
-										<cfquery name="entered" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="entered_result">
+										<cfquery name="entered" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="entered_result">
 											select
 												count(*) cnt,
 												collection,
@@ -2163,7 +2163,7 @@ limitations under the License.
 							<cfif oneOfUs EQ 1>
 								<section class="accordion" id="lastEditSection"> 
 									<div class="card mb-2 bg-light">
-										<cfquery name="lastEdit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="lastEdit_result">
+										<cfquery name="lastEdit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="lastEdit_result">
 											select 
 												count(*) cnt,
 												collection,
@@ -2233,7 +2233,7 @@ limitations under the License.
 										<cfset okToDelete = true>
 										<cfloop query="getFKFields">
 											<cfif getFKFields.delete_rule EQ "NO ACTION">
-												<cfquery name="getRels" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getRels_result">
+												<cfquery name="getRels" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getRels_result">
 													SELECT count(*) as ct 
 													FROM #getFKFields.table_name#
 													WHERE #getFKFields.column_name# = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#agent_id#">

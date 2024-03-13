@@ -54,7 +54,7 @@
 		}
 	</script>
 
-<cfquery name="ctTypeStatus" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="ctTypeStatus" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 	select type_status from ctcitation_type_status order by type_status
 </cfquery>
 <!--- get all cited specimens --->
@@ -65,7 +65,7 @@
 <cfset title="Manage Citations">
 <cfoutput>
 
-<cfquery name="getCited" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="getCited" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 	SELECT
 		citation.publication_id,
 		citation.collection_object_id,
@@ -100,7 +100,7 @@
 	ORDER BY
 		occurs_page_number,citSciName,cat_num
 </cfquery>
-<cfquery name="ctcollection" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="ctcollection" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 	select collection_id,collection from collection
 	order by collection
 </cfquery>
@@ -286,7 +286,7 @@
 <!------------------------------------------------------------------------------->
 <cfif #Action# is "newCitation">
 	<cfoutput>
-	<cfquery name="newCite" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cfquery name="newCite" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		INSERT INTO citation (
 			publication_id,
 			collection_object_id,
@@ -336,7 +336,7 @@
 <!------------------------------------------------------------------------------->
 <cfif #Action# is "saveEdits">
 	<cfoutput>
-	<cfquery name="edCit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cfquery name="edCit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		UPDATE citation SET
 			cit_current_fg = 1
 			<cfif len(#cited_taxon_name_id#) gt 0>
@@ -379,7 +379,7 @@
     <div style="width: 50em; margin: 0 auto; padding: 2em 0 3em 0;">
 <cfoutput>
 
-<cfquery name="getCited" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="getCited" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 	SELECT
 		citation.publication_id,
 		citation.collection_object_id,
@@ -495,7 +495,7 @@
 <!------------------------------------------------------------------------------->
 <cfif #Action# is "deleCitation">
 <cfoutput>
-	<cfquery name="deleCit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cfquery name="deleCit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 	delete from citation
 	where
 		collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
