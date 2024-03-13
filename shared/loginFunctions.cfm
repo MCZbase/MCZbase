@@ -32,7 +32,7 @@ limitations under the License.
 			where cf_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#portal_id#">
 		</cfquery>
 		<cfset session.dbuser=portalInfo.dbusername>
-		<cfset session.epw = encrypt(portalInfo.dbpwd,cfid)>
+		<cfset session.epw = encrypt(portalInfo.dbpwd,cookie.cfid)>
 		<cfset session.flatTableName = "filtered_flat">
 	<cfelse>
 		<cfset session.flatTableName = "flat">
@@ -86,7 +86,7 @@ limitations under the License.
 	<cfset reencodedToken = binaryencode(binarydecode(replace(cookie.cftoken,"-","","All"),"Hex"),"Base64Url")>
 	<!--- Base64Url is ^[A-Za-z0-9_-]+$, oracle table names are ^[A-Za-z0-9_#\$]+$, so replace - with # --->
 	<cfset reencodedToken = replace(reencodedToken,"-","##","All")>
-	<cfset temp=cfid & '_' & left(replace(reencodedToken,"-",""),maxavailable) & '_' & rand>
+	<cfset temp=cookie.cfid & '_' & left(replace(reencodedToken,"-",""),maxavailable) & '_' & rand>
 	<cfset session.reencodedToken = reencodedToken>
 	<cfset session.SpecSrchTab="SpecSrch" & temp>
 	<cfset session.MediaSrchTab="MediaSrch" & temp>
@@ -197,7 +197,7 @@ limitations under the License.
 		</cfquery>
 		<cfif listcontainsnocase(session.roles,"coldfusion_user")>
 			<cfset session.dbuser = "#getPrefs.username#">
-			<cfset session.epw = encrypt(pwd,cfid)>
+			<cfset session.epw = encrypt(pwd,cookie.cfid)>
 			<cftry>
 				<cfquery name="ckUserName" datasource="uam_god">
 					select agent_id 
