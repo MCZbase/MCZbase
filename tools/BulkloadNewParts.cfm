@@ -945,8 +945,8 @@
 								<th>LOT_COUNT_MODIFIER</th>
 								<th>CONDITION</th>
 								<th>CONTAINER_UNIQUE_ID</th>
-								<th>VALIDTED_STATUS</th>
 								<th>DISPOSITION</th>
+								<th>STATUS</th>
 							</tr> 
 						</thead>
 						<tbody>
@@ -962,7 +962,7 @@
 									<td>#getProblemData.LOT_COUNT_MODIFIER#</td>
 									<td>#getProblemData.CONDITION#</td>
 									<td>#getProblemData.CONTAINER_UNIQUE_ID#</td>
-									<td>#getProblemData.COLL_OBJECT_DISPOSITION#</td>
+									<td>#getProblemData.COLL_OBJ_DISPOSITION#</td>
 									<td><strong>#STATUS#</strong></td>
 								</tr> 
 							</cfloop>
