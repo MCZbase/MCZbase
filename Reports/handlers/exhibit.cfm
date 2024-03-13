@@ -86,5 +86,8 @@ wget https://repo1.maven.org/maven2/io/nayuki/qrcodegen/1.8.0/qrcodegen-1.8.0.ja
 			or
 			pdftk file1.pdf cat 1-endsouth output - | pdftk file1.pdf multistamp - output file2.pdf
 		--->
+		<!---
+		<cfexecute name="bash" arguments="/usr/bin/pdftk file1.pdf cat 1-endsouth output - | pdftk file1.pdf multistamp - output file2.pdf" variable="standardOut" errorVariable="errorOut"  timeout="10" >
+		--->
 	</cfcase>
 </cfswitch>
