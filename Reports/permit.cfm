@@ -196,7 +196,7 @@ Based on:
 	        marginleft=".25"
 	        marginright=".25"
 			unit="in"
-	        orientation="landscape" filename="#Application.webDirectory#/temp/permit_#cfid#_#cftoken#.pdf" overwrite="true">
+	        orientation="landscape" filename="#Application.webDirectory#/temp/permit_#cfid#_#cookie.cftoken#.pdf" overwrite="true">
 	
 	<!---<link rel="stylesheet" type="text/css" href="/includes/_cfdocstyle.css">--->
 	
@@ -539,7 +539,7 @@ Based on:
 	</cftry>
 	</cfloop>
 	</cfdocument>
-	<a href="/temp/permit_#cfid#_#cftoken#.pdf">Get the PDF</a><br />
+	<a href="/temp/permit_#cfid#_#cookie.cftoken#.pdf">Get the PDF</a><br />
 	</cfoutput>
 </cfif> <!--- end the action generatePDF --->
 

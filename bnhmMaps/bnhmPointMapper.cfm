@@ -27,7 +27,7 @@ Retrieving map data - please wait....
 	</cfoutput>
 
 <cfset dlPath = "#Application.webDirectory#/bnhmMaps/tabfiles/">
-<cfset dlFile = "tabfile#cfid##cftoken#.txt">
+<cfset dlFile = "tabfile#cfid##cookie.cftoken#.txt">
 <cffile action="write" file="#dlPath##dlFile#" addnewline="no" output="" nameconflict="overwrite">
 <cfoutput query="getMapData">
 	<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_geography")>

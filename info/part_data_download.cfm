@@ -140,7 +140,7 @@
 <cfif action is "download">
 	<cfset ac="CatNum,#session.CustomOtherIdentifier#,ScientificName,BeganDate,EndedDate,VerbatimDate,AccesionedDate,Part,Modifier,Pres,InBarcode,Loan">
 	<cfset variables.encoding="UTF-8">
-	<cfset fname = "ArctosData_#cfid#_#cftoken#.csv">
+	<cfset fname = "ArctosData_#cfid#_#cookie.cftoken#.csv">
 	<cfset variables.fileName="#Application.webDirectory#/download/#fname#">
 	<cfset header=#trim(ac)#>
 	<cfscript>

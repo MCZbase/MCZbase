@@ -58,8 +58,8 @@ limitations under the License.
 	<!------------------------ logout ------------------------------------>
 	<cfset StructClear(Session)>
 	<cflogout>
-	<cfset session.DownloadFileName = "MCZbaseData_#cfid##cftoken#.txt">
-	<cfset session.DownloadFileID = "#cfid##cftoken#">
+	<cfset session.DownloadFileName = "MCZbaseData_#cfid##cookie.cftoken#.txt">
+	<cfset session.DownloadFileID = "#cfid##cookie.cftoken#">
 	<cfset session.roles="public">
 	<cfset session.showObservations="">
 	<cfset session.result_sort="">
@@ -76,14 +76,14 @@ limitations under the License.
 	<cfset session.target=''>
 	<cfset session.block_suggest=1>
 	<cfset session.meta_description=''>
-	<!--- cftoken may be a uuid, table names need to be limited to 30 characters --->
+	<!--- cookie.cftoken may be a uuid, table names need to be limited to 30 characters --->
 	<cfset rand = RandRange(0,9999)>
 	<cfset lenTaken = len("MediaSrch#cfid#_#rand#_")>
 	<cfset DBOBJECTNAME_MAX_LEN = 30>
 	<cfset maxavailable = DBOBJECTNAME_MAX_LEN - lenTaken>
-	<!--- prefered way of shortening a hash is to truncate on right, reencode cftoken from hex to base64 (reduces to 22 characters), then truncate that --->
-	<!--- if cftoken is an integer, this will change it to a shorter alphanumeric string which likely wont be long enought to need to be truncated --->
-	<cfset reencodedToken = binaryencode(binarydecode(replace(cftoken,"-","","All"),"Hex"),"Base64Url")>
+	<!--- prefered way of shortening a hash is to truncate on right, reencode cookie.cftoken from hex to base64 (reduces to 22 characters), then truncate that --->
+	<!--- if cookie.cftoken is an integer, this will change it to a shorter alphanumeric string which likely wont be long enought to need to be truncated --->
+	<cfset reencodedToken = binaryencode(binarydecode(replace(cookie.cftoken,"-","","All"),"Hex"),"Base64Url")>
 	<!--- Base64Url is ^[A-Za-z0-9_-]+$, oracle table names are ^[A-Za-z0-9_#\$]+$, so replace - with # --->
 	<cfset reencodedToken = replace(reencodedToken,"-","##","All")>
 	<cfset temp=cfid & '_' & left(replace(reencodedToken,"-",""),maxavailable) & '_' & rand>

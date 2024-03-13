@@ -18,7 +18,7 @@ Parameters:
 --->
 <cfoutput>
 <p>
-	<a href="/temp/loaninvoice_#cfid#_#cftoken#.pdf" target="_blank">Get the PDF</a>
+	<a href="/temp/loaninvoice_#cfid#_#cookie.cftoken#.pdf" target="_blank">Get the PDF</a>
 </p>
 <cfparam default="Bird/Mammal" name="format">
 <cfif format is "Malacology">
@@ -183,7 +183,7 @@ Change to: <select name="format">
     	marginright=".25"
     	orientation="#orientiation#"
     	fontembed="yes"
-    	filename="#Application.webDirectory#/temp/loaninvoice_#cfid#_#cftoken#.pdf"
+    	filename="#Application.webDirectory#/temp/loaninvoice_#cfid#_#cookie.cftoken#.pdf"
     	overwrite="yes">
     <cfoutput>
     <link rel="stylesheet" type="text/css" href="/includes/_cfdocstyle.css">
@@ -488,7 +488,7 @@ Change to: <select name="format">
     	marginright=".25"
     	orientation="#orientiation#"
     	fontembed="yes"
-    	filename="#Application.webDirectory#/temp/loaninvoice_#cfid#_#cftoken#.pdf"
+    	filename="#Application.webDirectory#/temp/loaninvoice_#cfid#_#cookie.cftoken#.pdf"
     	overwrite="yes">
     <cfoutput>
     <link rel="stylesheet" type="text/css" href="/includes/_cfdocstyle.css">
@@ -782,7 +782,7 @@ Based on:
 		<cfset shipped_from_addr = "#shipped_from_addr_id.formatted_addr#">
 		<cfoutput>
 			<p>
-				<a href="/temp/loaninvoice_#cfid#_#cftoken#.pdf" target="_blank">Get the PDF</a>
+				<a href="/temp/loaninvoice_#cfid#_#cookie.cftoken#.pdf" target="_blank">Get the PDF</a>
 			</p>
 		</cfoutput>
 
@@ -803,7 +803,7 @@ Based on:
 	marginright=".25"
 	orientation="portrait"
 	fontembed="yes"
-	filename="#Application.webDirectory#/temp/loaninvoice_#cfid#_#cftoken#.pdf"
+	filename="#Application.webDirectory#/temp/loaninvoice_#cfid#_#cookie.cftoken#.pdf"
 	overwrite="yes">
 <cfoutput>
 <link rel="stylesheet" type="text/css" href="/includes/_cfdocstyle.css">
