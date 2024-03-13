@@ -894,6 +894,10 @@
 										where container_id=#parent_container_id#
 									</cfquery>
 								</cfif>
+							<cfquery name="getCounts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+								SELECT count(distinct collection_object_id) ctobj FROM cf_temp_parts
+								WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+							</cfquery>
 								
 							</cfif>
 							<cfset part_updates = part_updates + updatePartsColl_result.recordcount>
