@@ -483,7 +483,7 @@
 							Solution: same: warning and new part
 		---->
 	<cfif #action# is "validate">
-		<h2 class="h4">Second step: Data Validation</h2>
+
 		<cfoutput>
 			<cfquery name="getCodeTables" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				select attribute_type, decode(value_code_table, null, units_code_table,value_code_table) code_table  from ctattribute_code_tables
@@ -699,6 +699,7 @@
 <!-------------------------------------------------------------------------------------------->
 	<cfif #action# is "checkValidate">
 		<cfoutput>
+			<h2 class="h4">Second step: Data Validation</h2>
 			<cfquery name="inT" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				select * from cf_temp_parts
 			</cfquery>
@@ -915,6 +916,13 @@
 							</div>
 						</div>
 					</div>
+					<p>Number of parts to add: #part_updates# (on #getCounts.ctobj# cataloged items)</p>
+					<cfif getTempData.recordcount eq part_updates and updateParts1_result.recordcount eq 0>
+						<h2 class="text-success">Success - loaded</h2>
+					</cfif>
+					<cfif updateParts1_result.recordcount gt 0>
+						<h2 class="text-danger">Not loaded - these have already been loaded</h2>
+					</cfif>
 				<cfcatch>
 					<h2>There was a problem updating parts.</h2>
 					<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
