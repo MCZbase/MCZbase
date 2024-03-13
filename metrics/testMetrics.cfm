@@ -70,7 +70,7 @@ group by f.collection, ts.type_status, co.coll_object_entered_date, ts.category
 			<div class="col-12">
 				Script output: [#chartOutput#]
 			</div>
-			<div class="col-12">
+			<div class="col-12 my-3 border">
 				Script errors: [#chartError#]
 			</div>
 			<div class="col-12">
