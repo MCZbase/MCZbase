@@ -514,11 +514,11 @@
 				AND container_unique_id is not null
 			</cfquery>
 			<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				update cf_temp_parts set status = status || ';Invalid DISPOSITION'
-				where DISPOSITION NOT IN (
+				update cf_temp_parts set status = status || ';Invalid COLL_OBJ_DISPOSITION'
+				where COLL_OBJ_DISPOSITION NOT IN (
 					select COLL_OBJ_DISPOSITION from CTCOLL_OBJ_DISP
 					)
-					OR disposition is null
+					OR coll_obj_disposition is null
 			</cfquery>
 
 			<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
