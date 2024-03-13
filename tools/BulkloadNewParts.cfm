@@ -704,7 +704,7 @@
 					<td>OTHER_ID_NUMBER</td>
 					<td>part_name</td>
 					<td>preserve_method</td>
-					<td>disposition</td>
+					<td>coll_obj_disposition</td>
 					<td>lot_count_modifier</td>
 					<td>lot_count</td>
 					<td>current_remarks</td>
@@ -769,7 +769,7 @@
 						<td>#OTHER_ID_NUMBER#</td>
 						<td>#part_name#</td>
 						<td>#preserve_method#</td>
-						<td>#disposition#</td>
+						<td>#coll_obj_disposition#</td>
 						<td>#lot_count_modifier#</td>
 						<td>#lot_count#</td>
 						<td>#current_remarks#</td>
