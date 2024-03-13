@@ -694,7 +694,7 @@
 			<cfquery name="inT" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				select * from cf_temp_parts
 			</cfquery>
-			<table class="table table-responsive sortable px-0">
+			<table class='sortable table table-responsive table-striped d-lg-table'>
 				<thead class="thead-light">
 				<tr>
 					<td>Bulkloading Status</td>
@@ -746,8 +746,8 @@
 					<td>part_att_detby_6</td>
 					<td>part_att_madedate_6</td>
 					<td>part_att_rem_6</td>
-					</thead>
 				</tr>
+				</thead>
 				<tbody>
 				<cfloop query="inT">
 					<tr>
@@ -927,7 +927,7 @@
 					</cfquery>
 					<h3>Problematic Rows (<a href="/tools/BulkloadNewParts.cfm?action=dumpProblems">download</a>)</h3>
 					<table class='sortable table table-responsive table-striped d-lg-table'>
-						<thead>
+						<thead class="thead-light">
 							<tr>
 								<th>INSTITUTION_ACRONYM</th>
 								<th>COLLECTION_CDE</th>
