@@ -652,8 +652,8 @@
 				update cf_temp_parts set (status) = (
 				select
 				decode(parent_container_id,
-				0,'NOTE: PART EXISTS',
-				'NOTE: PART EXISTS IN PARENT CONTAINER')
+				0,'',
+				'')
 				from specimen_part,coll_obj_cont_hist,container, coll_object_remark where
 				specimen_part.collection_object_id = coll_obj_cont_hist.collection_object_id AND
 				coll_obj_cont_hist.container_id = container.container_id AND
@@ -839,6 +839,10 @@
 			<cfquery name= "getEnteredBy" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				SELECT agent_id FROM agent_name WHERE agent_name = '#session.username#'
 			</cfquery>
+			<cfquery name="getCounts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				SELECT count(distinct collection_object_id) ctobj FROM cf_temp_parts
+				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+			</cfquery>
 			<cfif getEnteredBy.recordcount is 0>
 				<cfabort showerror="You aren't a recognized agent!">
 			<cfelseif getEnteredBy.recordcount gt 1>
@@ -894,11 +898,6 @@
 										where container_id=#parent_container_id#
 									</cfquery>
 								</cfif>
-							<cfquery name="getCounts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-								SELECT count(distinct collection_object_id) ctobj FROM cf_temp_parts
-								WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-							</cfquery>
-								
 							</cfif>
 							<cfset part_updates = part_updates + updatePartsColl_result.recordcount>
 						</cfloop>
