@@ -1,20 +1,42 @@
 #graph 1: transitioning through time
 #animation set up
+library(gganimate)
+library(tibble)
+library(tidyverse)
 library(ggplot2)
-library(png)
-library(readr)
-library(tidyr)
 library(dplyr)
+library(plotly)
+library(gapminder)
+library(ggthemes)
+library(gifski)
+library(png)
+library(ggthemes)
+
+Chart_Data_Img_per_year <- read_csv('/metrics/datafiles/chart_data.csv')
+#Chart_Data_Img_per_year <- chart_data
+
+Cit1 <- filter(Chart_Data_Img_per_year, NUMBER_CATALOG_ITEMS >= 1)
+Cit2 <- filter(Chart_Data_Img_per_year, NUMBER_OF_TYPES_WITH_IMAGES >= 0)
+Cit3 <- filter(Chart_Data_Img_per_year, ENTERED_DATE >= 1800)
 
 
-simple_chart <- read_csv('/var/www/html/arctos/metrics/datafiles/chart_data.csv')
-chart0 <- filter(simple_chart,COLLECTION=='Cryogenic')
+BubbleAnim <- ggplot(Cit3, aes(NUMBER_CATALOG_ITEMS, NUMBER_OF_IMAGES, shape = NUMBER_OF_TYPES_WITH_IMAGES, 
+  colour = TYPE_STATUS, guide_colourbar(title = "Types with Images" ))) +
+  geom_point(size=5,alpha = 0.9, show.legend = TRUE) +
+  scale_fill_gradient2(low="#075AFF",mid="#ffffcc",high="#FF0000") +
+  scale_shape_binned() +
+  scale_x_log10() +
+ # facet_wrap(~CITATION_TYPE) +
+  
+  # Here comes the gganimate specific bits
+  labs(title = 'Year: {frame_time}', x = 'Number of Citations', y = 'Number of Images') +
+  transition_time(ENTERED_DATE) +
+  ease_aes('linear')
 
-chart1 <- ggplot(chart0, aes(x=NUMBER_OF_TYPES_WITH_IMAGES, y=NUMBER_OF_CITATIONS, fill=TYPE_STATUS)) +
-  geom_bar(stat="identity",width = 1)+
-  coord_polar("y", start=0)
-print(chart1)
-ggsave('/var/www/html/arctos/metrics/R/graphs/chart1.png',width=6, height=4,dpi=300)
-
+#pdf("/metrics/R/graphs/BubbleChart.pdf")
+#print(BubbleAnim)
+#save_animation("/metrics/R/graphs/BubbleChart.gif")
+#print(BubbleAnim) # print first
+anim_save("/metrics/R/graphs/BubbleChart.gif",animation = BubbleAnim)
 
 
