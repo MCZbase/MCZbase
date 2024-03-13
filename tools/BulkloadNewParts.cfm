@@ -916,12 +916,12 @@
 							</div>
 						</div>
 					</div>
-					<p>Number of parts to add: #part_updates# (on #getCounts.ctobj# cataloged items)</p>
+					<p>Number of parts added: #part_updates# (on #getCounts.ctobj# cataloged items)</p>
 					<cfif getTempData.recordcount eq part_updates and updateParts1_result.recordcount eq 0>
-						<h2 class="text-success">Success - loaded</h2>
+						<h3 class="text-success">Success - loaded</h3>
 					</cfif>
 					<cfif updateParts1_result.recordcount gt 0>
-						<h2 class="text-danger">Not loaded - these have already been loaded</h2>
+						<h3 class="text-danger">Not loaded - these have already been loaded</h3>
 					</cfif>
 				<cfcatch>
 					<h2>There was a problem updating parts.</h2>
