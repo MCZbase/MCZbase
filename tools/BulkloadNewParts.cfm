@@ -901,9 +901,8 @@
 							</cfif>
 							<cfset part_updates = part_updates + updatePartsColl_result.recordcount>
 						</cfloop>
-						
 					</cftransaction> 
-					<div class="container">
+					<div class="container-fluid">
 						<div class="row">
 							<div class="col-12 mx-auto">
 								<h2 class="h3">Updated #part_updates# part(s).</h2>
@@ -984,8 +983,8 @@
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						</cfquery>
 						<h3>Error updating row (#part_updates + 1#): #cfcatch.message#</h3>
-						<table class='sortable table table-responsive table-striped d-lg-table'>
-							<thead>
+						<table class='sortable table small table-responsive table-striped d-lg-table'>
+							<thead class="thead-light">
 								<tr>
 									<th>institution_acronym</th>
 									<th>other_id_type</th>
