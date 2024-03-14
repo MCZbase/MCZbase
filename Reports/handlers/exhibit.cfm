@@ -73,8 +73,11 @@ wget https://repo1.maven.org/maven2/io/nayuki/qrcodegen/1.8.0/qrcodegen-1.8.0.ja
 						<table>
 							<tr>
 								<td>
-									<div><strong style="font: 1.8em 'Times-Roman';">#guid#</strong></div>
-									<div><span style="font: 1.6em 'Times-Roman';">#sex#</span></div>
+									<div style="vertical-align: top;">
+										<strong style="font: 1.8em 'Times-Roman';">#guid#</strong></div>
+									<br>
+										<span style="font: 1.6em 'Times-Roman';">#sex#</span>
+									</div>
 								</td>
 								<td>
 									<div style="float: right;">
@@ -89,7 +92,7 @@ wget https://repo1.maven.org/maven2/io/nayuki/qrcodegen/1.8.0/qrcodegen-1.8.0.ja
 							</tr>
 							<tr>
 								<td colspan="2">
-									<div><i style="font: 2em Helvetica; text-align: center;">#sci_name#</i></div>
+									<div style="text-align: center; "><i style="font: 2em Helvetica;">#sci_name#</i></div>
 									<div style="font: 2em Helvetica; text-align: center;">#common_names#</div>
 								</td>
 							</tr>
