@@ -127,6 +127,7 @@ limitations under the License.
 						agent.agent_remarks, 
 						agent.biography,
 						agent.agentguid_guid_type, agentguid,
+						agent.eori_number,
 						prefername.agent_name as preferred_agent_name,
 						person.prefix,
 						person.suffix,
@@ -268,7 +269,12 @@ limitations under the License.
 											$('##end_date_label').html("Date of Death");
 											$('##start_date').prop('disabled', false);
 											$('##end_date').prop('disabled', false);
+											$('##eoriDiv').hide();
 										} else { 
+											$('##eoriDiv').hide();
+											if (selectedType == 'organization') {
+												$('##eoriDiv').show();
+											} 
 											$('##personRow').hide();
 											$('##headingTypeSpan').html(selectedType);
 											$('##last_name').removeAttr('required');
@@ -498,6 +504,14 @@ limitations under the License.
 											$("##end_date").datepicker({ dateFormat: 'yy-mm-dd'});
 										});
 									</script>
+									<cfset eoriStyle = "display: none; ">
+									<cfif curAgentType EQ "organization">
+										<cfset eoriStyle = "">
+									</cfif>
+									<div class="col-12 col-md-4" id="eoriDiv" style="#eoriStyle#">
+										<label id="eori_number_label" for="eori_number" class="data-entry-label">EORI Number</label>
+										<input type="text" name="eori_number" id="eori_number" value="#eori_number#" class="data-entry-input">
+									</div>
 								</div>
 								<div class="form-row mb-1">
 									<div class="col-12 col-md-6 mt-1" >
@@ -738,7 +752,12 @@ limitations under the License.
 												$('##end_date_label').html("Date of Death");
 												$('##start_date').prop('disabled', false);
 												$('##end_date').prop('disabled', false);
+												$('##eoriDiv').hide();
 											} else { 
+												$('##eoriDiv').hide();
+												if (selectedType == 'organization') {
+													$('##eoriDiv').show();
+												} 
 												$('##personRow').hide();
 												$('##headingTypeSpan').html(selectedType);
 												$('##last_name').removeAttr('required');
@@ -928,6 +947,10 @@ limitations under the License.
 										$("##end_date").datepicker({ dateFormat: 'yy-mm-dd'});
 									});
 								</script>
+								<div class="col-12 col-md-4" id="eoriDiv" style="display: none;">
+									<label id="eori_number_label" for="eori_number" class="data-entry-label">EORI Number</label>
+									<input type="text" name="eori_number" id="eori_number" value="" class="data-entry-input">
+								</div>
 							</div>
 							<div class="form-row mb-1">
 								<div class="col-12">
@@ -1019,6 +1042,9 @@ limitations under the License.
 						<cfif isdefined("biography") AND len(#biography#) gt 0>
 							,biography
 						</cfif>
+						<cfif isdefined("eori_number") AND len(#eori_number#) gt 0>
+							,eori_number
+						</cfif>
 					) VALUES (
 						<cfqueryparam cfsqltype='CF_SQL_DECIMAL' value='#agentID.nextAgentId#'>,
 						<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value="#agent_type#">,
@@ -1035,6 +1061,9 @@ limitations under the License.
 						</cfif>
 						<cfif isdefined("biography") AND len(#biography#) gt 0>
 							,<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value="#biography#">
+						</cfif>
+						<cfif isdefined("eori_number") AND len(#eori_number#) gt 0>
+							,<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value="#eori_number#">
 						</cfif>
 					)
 				</cfquery>

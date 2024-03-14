@@ -55,6 +55,7 @@ limitations under the License.
 		agent.agent_type, 
 		agent.edited as vetted, 
 		agent_remarks, 
+		agent.eori_number,
 		biography,
 		agentguid_guid_type, agentguid,
 		prefername.agent_name as preferred_agent_name,
@@ -184,6 +185,11 @@ limitations under the License.
 									</cfif>
 									<li class="list-group-item border-bottom-0 px-0 pt-0 pb-2">
 										<a href="#guidLink#">#icon##agentguid#</a>
+									</li>
+								</cfif>
+								<cfif oneOfUs EQ 1 AND len(eori_number) GT 0>
+									<li class="list-group-item border-bottom-0 px-0 pt-0 pb-2">
+										EORI Number: <a href="https://ec.europa.eu/taxation_customs/dds2/eos/eori_validation.jsp?Lang=en&EoriNumb=#eori_number#&Expand=true">#eori_number#</a>
 									</li>
 								</cfif>
 							</ul>
