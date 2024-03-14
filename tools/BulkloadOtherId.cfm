@@ -266,7 +266,7 @@
 								<!--- Case 2. Check by identifying field in required field list --->
 								<cfif ListContainsNoCase(requiredFieldList,field)>
 									<strong class="text-dark">Required column not found</strong>
-									<cfset errorMessage = "#errorMessage# <div class='pl-3 py-1 font-weight-bolder'><i class='fas fa-arrow-right text-dark'></i> #field#</div>">
+									<cfset errorMessage = "#errorMessage# <div class='pl-3 pb-1 font-weight-bolder'><i class='fas fa-arrow-right text-dark'></i> #field#</div>">
 								</cfif>
 							</cfif>
 						</li>
@@ -276,7 +276,7 @@
 					<cfif size GT 0>
 						<cfif ListContainsNoCase(requiredFieldList,field) gt 1><cfset plural="s"><cfelse><cfset plural=""></cfif>
 						<!--- likely a problem parsing the first line into column headers --->
-							<cfset errorMessage = "<div class='pt-3'>Column#plural# not found: #errorMessage#</div>">
+							<cfset errorMessage = "<div class='pt-3'><p>Column#plural# not found:</p> #errorMessage#</div>">
 					</cfif>
 					<cfthrow message = "#NO_COLUMN_ERR# #errorMessage#">
 				</cfif>
