@@ -276,7 +276,7 @@
 						<!--- likely a problem parsing the first line into column headers --->
 						<cfset errorMessage = "Column#plural# not found: #errorMessage#.">
 					</cfif>
-					<cfthrow message = "#NO_COLUMN_ERR# #errorMessage##sep#">
+					<cfthrow message = "#NO_COLUMN_ERR# #sep##errorMessage#">
 				</cfif>
 				<cfif NOT ListContainsNoCase(fieldList,aField)>
 					<ul class="py-1 h4 list-unstyled">
