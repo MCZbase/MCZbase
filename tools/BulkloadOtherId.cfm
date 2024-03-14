@@ -276,7 +276,7 @@
 				<cfif len(errorMessage) GT 0>
 					<cfif size GT 1>
 						<!--- likely a problem parsing the first line into column headers --->
-						<cfset errorMessage = "#errorMessage#.">
+						<cfset errorMessage = "It is likely a charset issue.">
 						
 					</cfif>
 					<cfthrow message = "#NO_COLUMN_ERR# #errorMessage#">
