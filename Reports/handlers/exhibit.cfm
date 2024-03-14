@@ -15,6 +15,9 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 
+Requires qrcodegen and custom wrapper library in coldfusion cfusion/wwwroot/WEB-INF/lib
+wget https://repo1.maven.org/maven2/io/nayuki/qrcodegen/1.8.0/qrcodegen-1.8.0.jar
+
 --->
 
 <cfif not isDefined("result_id") OR len(result_id) EQ 0>
@@ -29,6 +32,7 @@ limitations under the License.
 			SELECT DISTINCT
 				MCZBASE.get_scientific_name(cataloged_item.collection_object_id) sci_name,
 				MCZBASE.get_common_names(cataloged_item.collection_object_id) common_names,
+				MCZBASE.concatattributevalue(cataloged_item.collection_object_id, 'sex') sex,
 				cat_num as catalog_number,
 				collection_cde
 			FROM
@@ -53,29 +57,61 @@ limitations under the License.
 			<cfobject type="Java" name="afile" class="java.io.File" >
 
 			<cfdocumentsection name="Lables">
+				<cfset counter = 0>
 				<cfloop query="getItems">
+					<cfif counter GT 0>
+						<cfdocumentitem type = "pagebreak" />
+					</cfif>
+					<cfset counter = counter +1>
 					<cfset guid="MCZ:#collection_cde#:#catalog_number#">
 					<cfset qrCodeInstance = qrCodeUtility.encodeTextHigh(JavaCast("string","https://mczbase.mcz.harvard.edu/guid/#guid#")) >
 					<!--- Produce image from QRCode object and embed in pdf. --->
 					<!--- for some options, see: https://stackoverflow.com/questions/34316662/using-cfimage-to-display-a-file-that-doesnt-have-an-extension/ --->
 					<cfset svg = qrCodeUtility.toSvgString(qrCodeInstance)>
 					<cfset bimage = qrCodeUtility.toImage(qrCodeInstance,JavaCast("int",10))>
-					<div>
-						<div style="padding-top: 4in;"><strong style="font: 1.8em 'Times-Roman';">#guid#</strong></div>
-						<div><strong style="font: 2em Helvetica;">#sci_name#</strong></div>
-						<div style="font: 2em Helvetica;">#common_names#</div>
-						<!--- needs jpeg or png, seems to need to go through filesystem write and load from a file:/// location --->
-						<cfset filename = "tempqrcode_#collection_cde#_#catalog_number#.jpg">
-						<cfset filepath = "#Application.webDirectory#/temp/#filename#">
-         			<cfset outputfile = afile.init(JavaCast("string","#filepath#"))>
-         			<cfset imageIO.write(bimage,JavaCast("string","jpg"),outputfile)>
-						<img src="file:///#filepath#" height="215" width="215">
+					<div style="padding-top: 4.25in;">
+						<table style="width: 100%;">
+							<tr>
+								<td style="vertical-align: top;">
+									<div>
+										<strong style="font: 1.6em 'Times-Roman';">#guid#</strong></div>
+									<br>
+										<span style="font: 1.5em 'Times-Roman';">#sex#</span>
+									</div>
+								</td>
+								<td>
+									<div style="float: right;">
+									<!--- needs jpeg or png, seems to need to go through filesystem write and load from a file:/// location --->
+									<cfset filename = "tempqrcode_#collection_cde#_#catalog_number#.jpg">
+									<cfset filepath = "#Application.webDirectory#/temp/#filename#">
+       				  			<cfset outputfile = afile.init(JavaCast("string","#filepath#"))>
+         						<cfset imageIO.write(bimage,JavaCast("string","jpg"),outputfile)>
+									<img src="file:///#filepath#" height="215" width="215">
+									<div>
+								</td>
+							</tr>
+							<tr>
+								<td colspan="2">
+									<div style="text-align: center; padding-top: 1em;"><i style="font: 2.3em Helvetica;">#sci_name#</i></div>
+									<div style="font: 2.3em Helvetica; text-align: center;">#common_names#</div>
+								</td>
+							</tr>
+						</table>
 					</div>
-					<cfdocumentitem type = "pagebreak" />
 				</cfloop>	
 			</cfdocumentsection>
 		</cfoutput>
 		</cfdocument>
 		<!--- TODO: pdftk rotate, multistamp, or equivalent --->
+		<!--- This only works for the first page, subsequent pages appear to have a white background and so stamping doesn't work for them --->
+		<!--- 
+			pdftk file1.pdf cat 1-endsouth  output filerot.pdf
+			pdftk file1.pdf multistamp filerot.pdf output file2.pdf
+			or
+			pdftk file1.pdf cat 1-endsouth output - | pdftk file1.pdf multistamp - output file2.pdf
+		--->
+		<!---
+		<cfexecute name="bash" arguments="/usr/bin/pdftk file1.pdf cat 1-endsouth output - | pdftk file1.pdf multistamp - output file2.pdf" variable="standardOut" errorVariable="errorOut"  timeout="10" >
+		--->
 	</cfcase>
 </cfswitch>
