@@ -270,16 +270,17 @@
 									<cfset errorMessage = "#errorMessage# <strong>#field#</strong>">
 								</cfif>
 							</cfif>
-							<cfset pattern = "^[a-zA-Z_]+$">
-							<cfset fieldCheck = reFind(pattern,field)>
-							<cfif fieldCheck gt 0>
-								No problem with charset.
-							<cfelse>
-								Problem with Charset. Headers present with invisible characters.
-							</cfif>
 						</li>
 					</cfloop>
 				</ul>
+				<cfset pattern = "^[a-zA-Z_]+$">
+				<cfset BOMpattern = "[^\x09\x0A\x0D\x20-\x7E]">
+				<cfset fieldCheck = reFind(pattern,field)>
+				<cfif fieldCheck gt 0>
+					No problem with charset.
+				<cfelse>
+					Problem with Charset. Headers present with invisible characters.
+				</cfif>
 				<cfif len(errorMessage) GT 0>
 					<cfif size GT 0>
 						<!--- likely a problem parsing the first line into column headers --->
