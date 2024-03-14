@@ -272,8 +272,9 @@
 				</ul>
 				<cfif len(errorMessage) GT 0>
 					<cfif size GT 0>
+						<cfif size GT 1><cfset plural="s"><cfelse><cfset plural=""></cfif>
 						<!--- likely a problem parsing the first line into column headers --->
-						<cfset errorMessage = "Column#pural# not found: #errorMessage#.">
+						<cfset errorMessage = "Column#plural# not found: #errorMessage#.">
 					</cfif>
 					<cfthrow message = "#NO_COLUMN_ERR# #errorMessage#">
 				</cfif>
