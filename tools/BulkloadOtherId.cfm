@@ -110,7 +110,7 @@
 		<!--- Compare the numbers of headers expected against provided in CSV file --->
 		<!--- Set some constants to identify error cases in cfcatch block --->
 		<cfset NO_COLUMN_ERR = 'One or more required fields are missing in the header line of the csv file. Check the charset you selected if uploaded csv columns match required headers and at least one "Required column not found" is listed.'>
-		<cfset DUP_COLUMN_ERR = "<h4 class='mt-2 mb-1'>One or more columns are duplicated in the header line of the csv file. Choose one and <a href='/tools/BulkloadOtherId.cfm'>reload</a></h4>">
+		<cfset DUP_COLUMN_ERR = "<h4 class='mt-2 mb-1'>One or more columns are duplicated in the header line of the csv file. Choose one and <a href='/tools/BulkloadOtherId.cfm'>reload</a>.</h4>">
 		<cfset COLUMN_ERR = "Error inserting data ">
 		<cfset NO_HEADER_ERR = "<h4 class='mt-4 mb-3'>No header line found, csv file appears to be empty.</h4>">
 
