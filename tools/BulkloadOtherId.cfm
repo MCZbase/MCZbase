@@ -275,8 +275,9 @@
 				</ul>
 				<cfset pattern = "^[a-zA-Z_]+$">
 				<cfset BOMpattern = "[^\x09\x0A\x0D\x20-\x7E]">
-				<cfset fieldCheck = reFind(pattern,field)>
-				<cfif fieldCheck gt 0>
+				<cfset fieldCheck = reFind(pattern,aField)>
+				<cfset fieldCheckBom = reFind(BOMpattern,aField)>
+				<cfif fieldCheck gt 0 and fieldCheckBom eq 0>
 					No problem with charset.
 				<cfelse>
 					Problem with Charset. Headers present with invisible characters.
