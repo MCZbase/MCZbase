@@ -286,7 +286,7 @@
 					<!--- Identify additional columns that will be ignored --->
 					<cfloop list="#foundHeaders#" item="aField">
 						<cfif NOT ListContainsNoCase(fieldList,aField)>
-							<li class="pt-1 px-4"><i class='fas fa-arrow-right text-info'></i> <strong class="text-info">#aField#</strong> </1i>
+							<li class="pb-1 px-4"><i class='fas fa-arrow-right text-info'></i> <strong class="text-info">#aField#</strong> </1i>
 						</cfif>
 					</cfloop>
 					</ul>
