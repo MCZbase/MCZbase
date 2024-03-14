@@ -272,9 +272,9 @@
 				</ul>
 				<cfif len(errorMessage) GT 0>
 					<cfif size GT 0>
-						<cfif ListContainsNoCase(requiredFieldList,field) gt 1><cfset plural="s"><cfelse><cfset plural=""></cfif>
+						<cfif ListContainsNoCase(requiredFieldList,field) gt 1><cfset plural="s"><cfset sep=","><cfelse><cfset plural=""><cfset sep=""></cfif>
 						<!--- likely a problem parsing the first line into column headers --->
-						<cfset errorMessage = "Column#plural# not found: #errorMessage#.">
+						<cfset errorMessage = "Column#plural# not found: #errorMessage##sep#.">
 					</cfif>
 					<cfthrow message = "#NO_COLUMN_ERR# #errorMessage#">
 				</cfif>
