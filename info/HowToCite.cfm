@@ -10,7 +10,7 @@
 					<div class="row">
 						<div class="col-12">
 							<h3 class="h4 mt-2">Mentioning an MCZ specimen in a publication </h3>
-							<p>The preferred format for mentioning an individual MCZ specimen in the text of a publication (or in other resources such as GenBank) is with the full Darwin Core Triplet, MCZ:collection code:catalog number, (e.g., MCZ:VP:VPRA-1285), rather than with just the catalog number.</p> 
+							<p>The preferred format for mentioning an individual MCZ specimen in the text of a publication (or in other resources such as GenBank) is with the full Darwin Core Triplet, MCZ:collection code:catalog number, (e.g., MCZ:VP:VPRA-1285, MCZ:Orn:43233, MCZ:Mamm:14599, MCZ:Mala:33245, MCZ:IP:123247, MCZ:Ich:12665, MCZ:Herp:R-14556, MCZ:Ent:205064), rather than with just the catalog number.</p>
 						</div>
 					</div>
 				</div>
