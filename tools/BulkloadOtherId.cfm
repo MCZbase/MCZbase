@@ -274,9 +274,9 @@
 					<cfif size GT 0>
 						<cfif ListContainsNoCase(requiredFieldList,field) gt 1><cfset plural="s"><cfset sep=","><cfelse><cfset plural=""><cfset sep=""></cfif>
 						<!--- likely a problem parsing the first line into column headers --->
-						<cfset errorMessage = "Column#plural# not found: #errorMessage##sep#.">
+						<cfset errorMessage = "Column#plural# not found: #errorMessage#.">
 					</cfif>
-					<cfthrow message = "#NO_COLUMN_ERR# #errorMessage#">
+					<cfthrow message = "#NO_COLUMN_ERR# #errorMessage##sep#">
 				</cfif>
 				<cfif NOT ListContainsNoCase(fieldList,aField)>
 					<ul class="py-1 h4 list-unstyled">
