@@ -276,10 +276,11 @@
 				<cfif len(errorMessage) GT 0>
 					<cfif size EQ 1>
 						<!--- likely a problem parsing the first line into column headers --->
-						<cfset errorMessage = "It is likely a charset issue.">
-						
+						<cfset errorMessage = "ISSUE: You probably chose the wrong charset.">
+					<cfelseif size gt 1>
+						<cfset errorMessage = "ISSUE: You probably chose the wrong format.">
 					</cfif>
-					<cfthrow message = "#errorMessage#">
+					<cfthrow message = "#COLUMN_ERR# #errorMessage#">
 				</cfif>
 				<cfif NOT ListContainsNoCase(fieldList,aField)>
 					<ul class="py-1 h4 list-unstyled">
