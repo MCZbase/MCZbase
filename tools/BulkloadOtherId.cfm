@@ -281,7 +281,7 @@
 				<cfset fieldCheckBom = reFind(BOMpattern,field)>
 				<cfset fieldCheckNASCII = reFind(NASCII,field)>
 				<cfif fieldCheck gt 0>
-					No problem with charset for Headers.
+					No problem with charset for Headers. Headers contain only letters and underscores.
 				<cfelseif fieldCheckBom gt 0>
 					Problem with Charset. Headers present with invisible BOM characters.
 				<cfelseif fieldCheckNASCII gt 0>
