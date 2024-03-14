@@ -237,11 +237,12 @@
 				<!--- check for required fields in header line (performng check in two different ways, Case 1, Case 2) --->
 				<!--- Loop through list of fields throw exception if required fields are missing --->
 				<cfset errorMessage = "">
+				<cfif ListContainsNoCase(requiredFieldList,field) gt 1><cfset plural="s"><cfset sep=","><cfelse><cfset plural=""><cfset sep=""></cfif>
 				<cfloop list="#fieldList#" item="aField">
 					<cfif ListContainsNoCase(requiredFieldList,aField)>
 						<!--- Case 1. Check by splitting assembled list of foundHeaders --->
 						<cfif NOT ListContainsNoCase(foundHeaders,aField)>
-							<cfset errorMessage = "#errorMessage##sep# <i class='fas fa-arrow-right text-dark'></i><strong class='text-dark'> &nbsp;#aField#<br></strong>">
+							<cfset errorMessage = "#errorMessage# <i class='fas fa-arrow-right text-dark'></i><strong class='text-dark'> &nbsp;#aField#<br></strong>">
 						</cfif>
 					</cfif>
 				</cfloop>
@@ -264,7 +265,7 @@
 								<!--- Case 2. Check by identifying field in required field list --->
 								<cfif ListContainsNoCase(requiredFieldList,field)>
 									<strong class="text-dark">Required column not found</strong>
-									<cfset errorMessage = "#errorMessage# <strong>#field#</strong>">
+									<cfset errorMessage = "#errorMessage# <strong>#field##sep#</strong>">
 								</cfif>
 							</cfif>
 						</li>
