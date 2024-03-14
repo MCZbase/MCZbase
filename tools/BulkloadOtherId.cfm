@@ -270,7 +270,7 @@
 									<cfset errorMessage = "#errorMessage# <strong>#field#</strong>">
 								</cfif>
 							</cfif>
-							<cfif #field# contains  'REMatch("^[a-zA-Z_]+$")'>Problem with Charset. Headers present with invisible characters.</cfif>
+							<cfif #field# DOES NOT CONTAIN 'REMatch("^[a-zA-Z_]+$")'>Problem with Charset. Headers present with invisible characters.</cfif>
 						</li>
 					</cfloop>
 				</ul>
