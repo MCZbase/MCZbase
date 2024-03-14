@@ -266,7 +266,7 @@
 								<!--- Case 2. Check by identifying field in required field list --->
 								<cfif ListContainsNoCase(requiredFieldList,field)>
 									<strong class="text-dark">Required column not found</strong>
-									<cfset errorMessage = "#errorMessage# <div class='d-inline onlyfirst'>#field#<span class='one'>,</span></div>">
+									<cfset errorMessage = "#errorMessage# <div class='comma1 d-inline strong'>#field#<span>,</span></div>">
 								</cfif>
 							</cfif>
 						</li>
