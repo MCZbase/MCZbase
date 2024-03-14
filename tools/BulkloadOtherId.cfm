@@ -252,7 +252,6 @@
 				<ul class="h4 mb-4">
 					<cfloop list="#fieldlist#" index="field" delimiters=",">
 						<cfset hint="">
-						<cfset ListFirst(#field#)>
 						<cfif listContains(requiredfieldlist,field,",")>
 							<cfset class="text-danger">
 							<cfset hint="aria-label='required'">
@@ -267,7 +266,7 @@
 								<!--- Case 2. Check by identifying field in required field list --->
 								<cfif ListContainsNoCase(requiredFieldList,field)>
 									<strong class="text-dark">Required column not found</strong>
-									<cfset errorMessage = "#errorMessage# <strong>#field#</strong>">
+									<cfset errorMessage = "#errorMessage# <strong class='onlyfirst'>#field#<span class='one'>,</span></strong>">
 								</cfif>
 							</cfif>
 						</li>
