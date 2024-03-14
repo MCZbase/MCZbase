@@ -279,7 +279,7 @@
 						<cfset errorMessage = "It is likely a charset issue.">
 						
 					</cfif>
-					<cfthrow message = "#NO_COLUMN_ERR# #errorMessage#">
+					<cfthrow message = "#errorMessage#">
 				</cfif>
 				<cfif NOT ListContainsNoCase(fieldList,aField)>
 					<ul class="py-1 h4 list-unstyled">
