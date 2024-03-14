@@ -239,7 +239,7 @@
 				<cfset errorMessage = "">
 		
 				<cfloop list="#fieldList#" item="aField">
-					<cfif ListContainsNoCase(requiredFieldList,field) gt 1><cfset plural="s"><cfset sep=","><cfelse><cfset plural=""><cfset sep=""></cfif>
+					<cfif ListContainsNoCase(requiredFieldList,aField) gt 1><cfset plural="s"><cfset sep=","><cfelse><cfset plural=""><cfset sep=""></cfif>
 					<cfif ListContainsNoCase(requiredFieldList,aField)>
 						<!--- Case 1. Check by splitting assembled list of foundHeaders --->
 						<cfif NOT ListContainsNoCase(foundHeaders,aField)>
