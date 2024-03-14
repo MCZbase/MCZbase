@@ -70,10 +70,10 @@ wget https://repo1.maven.org/maven2/io/nayuki/qrcodegen/1.8.0/qrcodegen-1.8.0.ja
 					<cfset svg = qrCodeUtility.toSvgString(qrCodeInstance)>
 					<cfset bimage = qrCodeUtility.toImage(qrCodeInstance,JavaCast("int",10))>
 					<div style="padding-top: 4in;">
-						<table>
+						<table style="width: 100%;">
 							<tr>
 								<td style="vertical-align: top;">
-									<div style="vertical-align: top;">
+									<div>
 										<strong style="font: 1.6em 'Times-Roman';">#guid#</strong></div>
 									<br>
 										<span style="font: 1.5em 'Times-Roman';">#sex#</span>
@@ -92,7 +92,7 @@ wget https://repo1.maven.org/maven2/io/nayuki/qrcodegen/1.8.0/qrcodegen-1.8.0.ja
 							</tr>
 							<tr>
 								<td colspan="2">
-									<div style="text-align: center; "><i style="font: 2.2em Helvetica;">#sci_name#</i></div>
+									<div style="text-align: center; padding-top: 1em;"><i style="font: 2.2em Helvetica;">#sci_name#</i></div>
 									<div style="font: 2,2em Helvetica; text-align: center;">#common_names#</div>
 								</td>
 							</tr>
