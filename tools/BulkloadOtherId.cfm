@@ -270,6 +270,7 @@
 									<cfset errorMessage = "#errorMessage# <strong>#field#</strong>">
 								</cfif>
 							</cfif>
+							<cfif #field# contains  'REMatch("^[a-zA-Z_]+$")'>Problem with Charset. Headers present with invisible characters.</cfif>
 						</li>
 					</cfloop>
 				</ul>
@@ -277,6 +278,7 @@
 					<cfif size GT 0>
 						<!--- likely a problem parsing the first line into column headers --->
 						<cfset errorMessage = "You may have specified the wrong format. One or more column headers were not found. #errorMessage#.">
+						
 					</cfif>
 					<cfthrow message = "#NO_COLUMN_ERR# #errorMessage#">
 				</cfif>
