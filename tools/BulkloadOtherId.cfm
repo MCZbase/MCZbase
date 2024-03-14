@@ -110,7 +110,7 @@
 		<!--- Compare the numbers of headers expected against provided in CSV file --->
 		<!--- Set some constants to identify error cases in cfcatch block --->
 		<cfset NO_COLUMN_ERR = 'One or more required fields are missing in the header line of the csv file. <span class="text-danger">[If you uploaded csv columns that match the required headers and see "Required column not found" for the those headers, check that the character set and format you selected matches the file''s encodings.]</span>'>
-		<cfset DUP_COLUMN_ERR = "<h4 class='mb-3'>One or more columns are duplicated in the header line of the csv file. </h4>">
+		<cfset DUP_COLUMN_ERR = "<h4 class=''>One or more columns are duplicated in the header line of the csv file. </h4>">
 		<cfset COLUMN_ERR = "Error inserting data ">
 		<cfset NO_HEADER_ERR = "<h4 class='mb-3'>No header line found, csv file appears to be empty.</h4>">
 
@@ -292,14 +292,14 @@
 					</ul>
 				</cfif>
 				<cfif NOT ListLen(ListRemoveDuplicates(foundHeaders)) EQ ListLen(foundHeaders)>
-					<ul class="py-1 h4 list-unstyled">
+					<ul class="pb-1 h4 list-unstyled">
 						<cfset i=1>
 						<!--- Identify duplicate columns and fail if found --->
 						<cfif NOT ListLen(ListRemoveDuplicates(foundHeaders)) EQ ListLen(foundHeaders)>
 							<strong>#DUP_COLUMN_ERR# </strong>
 							<cfloop list="#foundHeaders#" item="aField">
 								<cfif listValueCount(foundHeaders,aField) GT 1>
-										<li class="pt-1 px-4"><i class='fas fa-arrow-right text-info'></i> <strong class="text-info">column ###i# = #aField#</strong> </1i>
+										<li class="pb-1 px-4"><i class='fas fa-arrow-right text-info'></i> <strong class="text-info">column ###i# = #aField#</strong> </1i>
 								</cfif>
 							<cfset i=i+1>
 							</cfloop>
