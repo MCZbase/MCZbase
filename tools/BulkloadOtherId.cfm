@@ -273,14 +273,19 @@
 						</li>
 					</cfloop>
 				</ul>
+				<cfset field = #field#>
 				<cfset pattern = "^[a-zA-Z_]+$">
-				<cfset BOMpattern = "[^\x09\x0A\x0D\x20-\x7E]">
+				<cfset BOMpattern = "^\xEF\xBB\xBF|^\xFE\xFF|^\xFF\xFE">
+				<cfset NASCII = "[^\x09\x0A\x0D\x20-\x7E]">
 				<cfset fieldCheck = reFind(pattern,field)>
 				<cfset fieldCheckBom = reFind(BOMpattern,field)>
-				<cfif fieldCheck gt 0 and fieldCheckBom eq 0>
+				<cfset fieldCheckNASCII = reFind(NASCII,field)>
+				<cfif fieldCheck gt 0>
 					No problem with charset.
-				<cfelse>
-					Problem with Charset. Headers present with invisible characters.
+				<cfelseif fieldCheckBom gt 0>
+					Problem with Charset. Headers present with invisible BOM characters.
+				<cfelseif fieldCheckNASCII gt 0>
+					Problem with Charset. Headers present with invisible non-ASCII characters.
 				</cfif>
 				<cfif len(errorMessage) GT 0>
 					<cfif size GT 0>
