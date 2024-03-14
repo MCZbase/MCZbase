@@ -245,9 +245,6 @@
 						</cfif>
 					</cfif>
 				</cfloop>
-				<cfif size EQ 1>
-					<cfset errorMessage = "You may have specified the wrong format, only one column header was found: #errorMessage#">
-				</cfif>
 				<cfset errorMessage = "">
 				<!--- Loop through list of fields, mark each field as fields present in input or not, throw exception if required fields are missing --->
 				<ul class="h4 mb-4">
@@ -276,7 +273,7 @@
 				<cfif len(errorMessage) GT 0>
 					<cfif size GT 0>
 						<!--- likely a problem parsing the first line into column headers --->
-						<cfset errorMessage = "You may have specified the wrong format. One or more column headers were not found. #errorMessage#.">
+						<cfset errorMessage = "Column(s) not found: #errorMessage#.">
 					</cfif>
 					<cfthrow message = "#NO_COLUMN_ERR# #errorMessage#">
 				</cfif>
