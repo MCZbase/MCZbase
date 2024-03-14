@@ -109,8 +109,8 @@
 		<h2 class="h3">First step: Reading data from CSV file.</h2>
 		<!--- Compare the numbers of headers expected against provided in CSV file --->
 		<!--- Set some constants to identify error cases in cfcatch block --->
-		<cfset NO_COLUMN_ERR = 'One or more required fields are missing in the header line of the csv file. Check the charset selected on previous screen if the columns in your spreadsheet match the required headers and one (or more) "Required column not found" is listed.'>
-		<cfset DUP_COLUMN_ERR = "<h4 class='mt-2 mb-1'>One or more columns are duplicated in the header line of the csv file. Choose one and <a href='/tools/BulkloadOtherId.cfm'>reload</a>.</h4>">
+		<cfset NO_COLUMN_ERR = 'One or more required fields are missing in the header line of the csv file. Check the charset you selected if uploaded csv columns match required headers and at least one "Required column not found."'>
+		<cfset DUP_COLUMN_ERR = "<h4 class='mt-2 mb-3'>One or more columns are duplicated in the header line of the csv file. </h4>">
 		<cfset COLUMN_ERR = "Error inserting data ">
 		<cfset NO_HEADER_ERR = "<h4 class='mt-4 mb-3'>No header line found, csv file appears to be empty.</h4>">
 
@@ -274,13 +274,11 @@
 					</cfloop>
 				</ul>
 				<cfif len(errorMessage) GT 0>
-					<cfif size EQ 1>
+					<cfif size GT 0>
 						<!--- likely a problem parsing the first line into column headers --->
-						<cfset errorMessage = "ISSUE: You probably chose the wrong charset.">
-					<cfelseif size gt 1>
-						<cfset errorMessage = "ISSUE: You probably chose the wrong format.">
+						<cfset errorMessage = "You may have specified the wrong format. One or more column headers were not found. #errorMessage#.">
 					</cfif>
-					<cfthrow message = "#COLUMN_ERR# #errorMessage#">
+					<cfthrow message = "#NO_COLUMN_ERR# #errorMessage#">
 				</cfif>
 				<cfif NOT ListContainsNoCase(fieldList,aField)>
 					<ul class="py-1 h4 list-unstyled">
