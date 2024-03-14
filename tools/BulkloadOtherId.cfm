@@ -252,7 +252,7 @@
 				<ul class="h4 mb-4">
 					<cfloop list="#fieldlist#" index="field" delimiters=",">
 						<cfset hint="">
-						<cfset ListFirst(field)>
+						<cfset ListFirst(#field#)>
 						<cfif listContains(requiredfieldlist,field,",")>
 							<cfset class="text-danger">
 							<cfset hint="aria-label='required'">
