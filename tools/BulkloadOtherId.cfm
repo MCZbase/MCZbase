@@ -109,7 +109,7 @@
 		<h2 class="h3">First step: Reading data from CSV file.</h2>
 		<!--- Compare the numbers of headers expected against provided in CSV file --->
 		<!--- Set some constants to identify error cases in cfcatch block --->
-		<cfset NO_COLUMN_ERR = "<h4 class='mt-4 mb-3'>One or more required fields are missing in the header line of the csv file. Check charset selected if columns match required headers and one column is not found.</h4>">
+		<cfset NO_COLUMN_ERR = '<h4 class="mt-4 mb-3">One or more required fields are missing in the header line of the csv file. Check the charset you selected if uploaded csv columns match required headers and error lists at least one "Required column not found."</h4>'>
 		<cfset DUP_COLUMN_ERR = "<h4 class='mt-2 mb-3'>One or more columns are duplicated in the header line of the csv file. </h4>">
 		<cfset COLUMN_ERR = "Error inserting data ">
 		<cfset NO_HEADER_ERR = "<h4 class='mt-4 mb-3'>No header line found, csv file appears to be empty.</h4>">
@@ -276,10 +276,9 @@
 				<cfif len(errorMessage) GT 0>
 					<cfif size EQ 1>
 						<!--- likely a problem parsing the first line into column headers --->
-						<!--- to get here, upload a csv file with the correct headers as MYSQL format --->
 						<cfset errorMessage = "You may have specified the wrong format, only one column header was found, #errorMessage#.">
 					</cfif>
-					<cfthrow message = "#NO_COLUMN_ERR# #errorMessage#">
+					<cfthrow message = "#NO_COLUMN_ERR# #errorMessage# Hello">
 				</cfif>
 				<cfif NOT ListContainsNoCase(fieldList,aField)>
 					<ul class="py-1 h4 list-unstyled">
@@ -370,7 +369,7 @@
 						<cfset loadedRows = loadedRows + insert_result.recordcount>
 					<cfcatch>
 						<!--- identify the problematic row --->
-						<cfset error_message="Check Charset selected. #COLUMN_ERR# from line #row# in input file.  <br>Header:[#colNames#] <br>Row:[#ArrayToList(collValuesArray)#] <br>Error: #cfcatch.message#"><!--- " --->
+						<cfset error_message="Check Charset selected if your headers match required headers in red.<br> #COLUMN_ERR# from line #row# in input file.  <br>Header:[#colNames#] <br>Row:[#ArrayToList(collValuesArray)#] <br>Error: #cfcatch.message#"><!--- " --->
 						<cfif isDefined("cfcatch.queryError")>
 							<cfset error_message = "#error_message# #cfcatch.queryError#">
 						</cfif>
