@@ -69,7 +69,7 @@ wget https://repo1.maven.org/maven2/io/nayuki/qrcodegen/1.8.0/qrcodegen-1.8.0.ja
 					<!--- for some options, see: https://stackoverflow.com/questions/34316662/using-cfimage-to-display-a-file-that-doesnt-have-an-extension/ --->
 					<cfset svg = qrCodeUtility.toSvgString(qrCodeInstance)>
 					<cfset bimage = qrCodeUtility.toImage(qrCodeInstance,JavaCast("int",10))>
-					<div style="padding-top: 4in;">
+					<div style="padding-top: 4.5in;">
 						<table style="width: 100%;">
 							<tr>
 								<td style="vertical-align: top;">
