@@ -92,8 +92,8 @@ wget https://repo1.maven.org/maven2/io/nayuki/qrcodegen/1.8.0/qrcodegen-1.8.0.ja
 							</tr>
 							<tr>
 								<td colspan="2">
-									<div style="text-align: center; padding-top: 1em;"><i style="font: 2.2em Helvetica;">#sci_name#</i></div>
-									<div style="font: 2,2em Helvetica; text-align: center;">#common_names#</div>
+									<div style="text-align: center; padding-top: 1em;"><i style="font: 2.3em Helvetica;">#sci_name#</i></div>
+									<div style="font: 2.3em Helvetica; text-align: center;">#common_names#</div>
 								</td>
 							</tr>
 						</table>
