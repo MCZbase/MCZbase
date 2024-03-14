@@ -103,6 +103,7 @@ wget https://repo1.maven.org/maven2/io/nayuki/qrcodegen/1.8.0/qrcodegen-1.8.0.ja
 		</cfoutput>
 		</cfdocument>
 		<!--- TODO: pdftk rotate, multistamp, or equivalent --->
+		<!--- This only works for the first page, subsequent pages appear to have a white background and so stamping doesn't work for them --->
 		<!--- 
 			pdftk file1.pdf cat 1-endsouth  output filerot.pdf
 			pdftk file1.pdf multistamp filerot.pdf output file2.pdf
