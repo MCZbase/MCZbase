@@ -112,7 +112,7 @@
 		<cfset NO_COLUMN_ERR = 'One or more required fields are missing in the header line of the csv file. <span class="text-danger">[If you uploaded csv columns that match the required headers and see "Required column not found" for the those headers, check that the character set and format you selected matches the file''s encodings.]</span>'>
 		<cfset DUP_COLUMN_ERR = "<h4 class='mb-3'>One or more columns are duplicated in the header line of the csv file. </h4>">
 		<cfset COLUMN_ERR = "Error inserting data ">
-		<cfset NO_HEADER_ERR = "<h4 class='mt-4 mb-3'>No header line found, csv file appears to be empty.</h4>">
+		<cfset NO_HEADER_ERR = "<h4 class='mb-3'>No header line found, csv file appears to be empty.</h4>">
 
 		<cftry>
 				<!--- Parse the CSV file using Apache Commons CSV library included with coldfusion so that columns with comma delimeters will be separated properly --->
