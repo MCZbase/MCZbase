@@ -1927,7 +1927,7 @@ tr.line-top:first-child {
 input#readMore_check_id {
 	display: none!important;
 }
-.comma2 span{display:inline;}
+.comma2 span{display:inline!important;}
 .comma2 span:last-child {display:none!important;}
 .jqx-grid-load {
 	background-image: url("../../images/spinner_712_sm.gif");
