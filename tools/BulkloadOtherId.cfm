@@ -241,7 +241,7 @@
 					<cfif ListContainsNoCase(requiredFieldList,aField)>
 						<!--- Case 1. Check by splitting assembled list of foundHeaders --->
 						<cfif NOT ListContainsNoCase(foundHeaders,aField)>
-							<cfset errorMessage = "#errorMessage# <i class='fas fa-arrow-right text-dark'></i><strong class='text-dark'> &nbsp;#aField#<br></strong>">
+							<cfset errorMessage = "#errorMessage##sep# <i class='fas fa-arrow-right text-dark'></i><strong class='text-dark'> &nbsp;#aField#<br></strong>">
 						</cfif>
 					</cfif>
 				</cfloop>
@@ -276,7 +276,7 @@
 						<!--- likely a problem parsing the first line into column headers --->
 						<cfset errorMessage = "Column#plural# not found: #errorMessage#.">
 					</cfif>
-					<cfthrow message = "#NO_COLUMN_ERR# #sep##errorMessage#">
+					<cfthrow message = "#NO_COLUMN_ERR# #errorMessage#">
 				</cfif>
 				<cfif NOT ListContainsNoCase(fieldList,aField)>
 					<ul class="py-1 h4 list-unstyled">
