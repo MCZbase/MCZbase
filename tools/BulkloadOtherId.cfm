@@ -275,8 +275,8 @@
 				</ul>
 				<cfset pattern = "^[a-zA-Z_]+$">
 				<cfset BOMpattern = "[^\x09\x0A\x0D\x20-\x7E]">
-				<cfset fieldCheck = reFind(pattern,aField)>
-				<cfset fieldCheckBom = reFind(BOMpattern,aField)>
+				<cfset fieldCheck = reFind(pattern,field)>
+				<cfset fieldCheckBom = reFind(BOMpattern,field)>
 				<cfif fieldCheck gt 0 and fieldCheckBom eq 0>
 					No problem with charset.
 				<cfelse>
