@@ -274,7 +274,7 @@
 					</cfloop>
 				</ul>
 				<cfif len(errorMessage) GT 0>
-					<cfif size GT 1>
+					<cfif size EQ 1>
 						<!--- likely a problem parsing the first line into column headers --->
 						<cfset errorMessage = "It is likely a charset issue.">
 						
