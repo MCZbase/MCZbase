@@ -274,9 +274,9 @@
 					</cfloop>
 				</ul>
 				<cfif len(errorMessage) GT 0>
-					<cfif size EQ 1>
+					<cfif size GT 0>
 						<!--- likely a problem parsing the first line into column headers --->
-						<cfset errorMessage = "You may have specified the wrong format, only one column header was found, #errorMessage#.">
+						<cfset errorMessage = "You may have specified the wrong format. One or more column headers were not found. #errorMessage#.">
 					</cfif>
 					<cfthrow message = "#NO_COLUMN_ERR# #errorMessage# Hello">
 				</cfif>
