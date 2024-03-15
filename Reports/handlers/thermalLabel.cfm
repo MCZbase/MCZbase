@@ -69,7 +69,6 @@ limitations under the License.
 				get_scientific_name_auths(cataloged_item.collection_object_id) sci_name_with_auth,
 				MCZBASE.GET_ALCOHOLIC_PART_COUNT(cataloged_item.collection_object_id) as alc_count,
 				get_single_other_id_display(cataloged_item.collection_object_id, 'whoi jar number') whoi_number,
-				MCZBASE.GET_ALCOHOLIC_PART_COUNT(cataloged_item.collection_object_id) as alc_count,
 				--  Concatenate continent_ocean, ocean_region, ocean_subregion, sea and
 				--  trim leading duplicated ocean name from ocean_region, but
 				--  leave out ocean_region if any of ocean_subregion, sea, country, island_group
