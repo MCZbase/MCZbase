@@ -136,7 +136,7 @@ limitations under the License.
 						<div style="#mczTitle#">
 							Museum of Comparative Zoology, #getWhoiNumbers.collection#
 						</div>
-						<div style="">
+						<div style="#jarTitle#">
 							WHOI Jar Number #getWhoiNumbers.whoi_number#
 						</div>
 						<cfquery name="getTaxa" dbtype="query">
@@ -157,9 +157,9 @@ limitations under the License.
 							</cfquery>
 	
 								<cfif previousTaxon NEQ highertaxa>
-									<div style="higherTaxa">#getTaxa.highertaxa#</div>
+									<div style="#higherTaxa#">#getTaxa.highertaxa#</div>
 								</cfif>
-								<div style="sciName">#getTaxa.sci_name_with_auth#</div>
+								<div style="#sciName#">#getTaxa.sci_name_with_auth#</div>
 								
 								<table style="#tableWidth#">
 									<cfloop query="getSpecificItems">
