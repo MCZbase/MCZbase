@@ -294,7 +294,7 @@
 			<a href="#web_link#" target="_blank"><img src="/images/linkOut.gif" border="0" alt="#web_link_text#"></a>
 		</cfif>
 		<cfif len(session.CustomOtherIdentifier) gt 0>
-			<cfif isDefined("CustomID") AND len(CustonID) GT 0 >
+			<cfif isDefined("CustomID") AND len(CustomID) GT 0 >
 				#session.CustomOtherIdentifier#: #CustomID#
 			</cfif>
 		</cfif>
