@@ -123,7 +123,7 @@ limitations under the License.
 		<cfset mczTitle = 'text-align: center;padding-top: .11in;font: 11pt Arial;'>
 		<cfset jarTitle = 'text-align: center; padding-bottom: .07in; border-bottom: 1px solid;font: 11pt Arial;padding-top: .05in;margin-bottom: 0.05in;'>
 		<cfset higherTaxa = 'text-align: left; font: 10.5pt Arial;padding-top: .02in;padding-bottom: .02in;'>
-		<cfset sciName = 'text-align: left;font: 11pt Helvetica, Arial, 'sans-serif'; padding-top: .05in; padding-bottom: .02in;font-weight:bold;'>
+		<cfset sciName = "text-align: left;font: 11pt Helvetica, Arial, 'sans-serif'; padding-top: .05in; padding-bottom: .02in;font-weight:bold;">
 		<cfset contentFont = 'font: 10pt Arial;'>
 		<cfset tdAlign = 'vertical-align: top;'>
 		<cfset labelStyle = '#labelHeight# #labelWidth# #labelBorder#'><!---  (not used yet) --->
