@@ -288,27 +288,29 @@
    <div class="defaultCont" style="margin-top: -1em;">
       <div class="defaultType">
  </cfif>
-   <ul class="headercol1">
-    <li>#collection#&nbsp;#cat_num#
-      <cfif len(web_link) gt 0>
-        <a href="#web_link#" target="_blank"><img src="/images/linkOut.gif" border="0" alt="#web_link_text#"></a>
-      </cfif>
-      <cfif len(session.CustomOtherIdentifier) gt 0>
-        #session.CustomOtherIdentifier#: #CustomID#
-      </cfif>
-    </li>
-    <li class="sciname">
-        <cfset sciname = '#replace(Scientific_Name," or ","<span style='font-style:normal;'>&nbsp;or&nbsp;</span>")#'>
-    #sciname#  <!---&nbsp; &nbsp;     <cfif isDefined("cited_as") and len(cited_as) gt 0>
-        <span style="font-size: 15px;">#typeName#</span>
-      </cfif>---><!--- " --->
-    </li>
+<ul class="headercol1">
+	<li>#collection#&nbsp;#cat_num#
+		<cfif len(web_link) gt 0>
+			<a href="#web_link#" target="_blank"><img src="/images/linkOut.gif" border="0" alt="#web_link_text#"></a>
+		</cfif>
+		<cfif len(session.CustomOtherIdentifier) gt 0>
+			<cfif isDefined("CustomID") AND len(CustomID) GT 0 >
+				#session.CustomOtherIdentifier#: #CustomID#
+			</cfif>
+		</cfif>
+	</li>
+	<li class="sciname">
+		<cfset sciname = '#replace(Scientific_Name," or ","<span style='font-style:normal;'>&nbsp;or&nbsp;</span>")#'>
+		#sciname#  <!---&nbsp; &nbsp;     <cfif isDefined("cited_as") and len(cited_as) gt 0>
+		<span style="font-size: 15px;">#typeName#</span>
+		</cfif>---><!--- " --->
+	</li>
 	<cfif encumbrance_action does not contain "mask parts" OR
-					(isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user"))>
-        <!--- omit part string for mask parts encumberance --->
-    	<li class="partstring">#partString# </li>
+		(isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user"))>
+		<!--- omit part string for mask parts encumberance --->
+		<li class="partstring">#partString# </li>
 	</cfif>
-    <li>
+	<li>
     <ul class="return_links">
               <li>
                 <cfif len(session.username) gt 0>

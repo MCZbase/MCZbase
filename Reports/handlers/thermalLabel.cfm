@@ -122,8 +122,8 @@ limitations under the License.
 		<cfset labelHeight = 'height: 5in;'> <!--- Jar label --Assuming 1 page per jar (not used yet) --->
 		<cfset mczTitle = 'text-align: center;padding-top: .11in;font: 11pt Arial;'>
 		<cfset jarTitle = 'text-align: center; padding-bottom: .07in; border-bottom: 1px solid;font: 11pt Arial;padding-top: .05in;margin-bottom: 0.05in;'>
-		<cfset higherTaxa = 'text-align: left; font: 10.5pt Arial;padding-top: .02in;padding-bottom: .02in;'>
-		<cfset sciName = 'text-align: left;font: 11pt Helvetica, Arial, 'sans-serif'; padding-top: .05in; padding-bottom: .02in;font-weight:bold;'>
+		<cfset higherTaxa = 'text-align: left; font: 10.5pt Arial;padding: .02in;'>
+		<cfset sciName = "text-align: left;font: 10.5pt Helvetica, Arial, 'sans-serif'; padding: .05in .02in .02in .02in;font-weight:bold;">
 		<cfset contentFont = 'font: 10pt Arial;'>
 		<cfset tdAlign = 'vertical-align: top;'>
 		<cfset labelStyle = '#labelHeight# #labelWidth# #labelBorder#'><!---  (not used yet) --->
@@ -136,7 +136,7 @@ limitations under the License.
 						<div style="#mczTitle#">
 							Museum of Comparative Zoology, #getWhoiNumbers.collection#
 						</div>
-						<div style="">
+						<div style="#jarTitle#">
 							WHOI Jar Number #getWhoiNumbers.whoi_number#
 						</div>
 						<cfquery name="getTaxa" dbtype="query">
@@ -157,9 +157,9 @@ limitations under the License.
 							</cfquery>
 	
 								<cfif previousTaxon NEQ highertaxa>
-									<div style="higherTaxa">#getTaxa.highertaxa#</div>
+									<div style="#higherTaxa#">#getTaxa.highertaxa#</div>
 								</cfif>
-								<div style="sciName">#getTaxa.sci_name_with_auth#</div>
+								<div style="#sciName#">#getTaxa.sci_name_with_auth#</div>
 								
 								<table style="#tableWidth#">
 									<cfloop query="getSpecificItems">
