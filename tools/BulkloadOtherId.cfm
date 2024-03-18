@@ -280,15 +280,27 @@
 					</cfif>
 						<cfthrow message = "#NO_COLUMN_ERR# #errorMessage#">
 				</cfif>
-				<ul class="pb-1 h4 list-unstyled font-weight-normal">
-					<h3 class="h4">Warning: #ADD_COLUMN_ERR#</h3>
-					<!--- Identify additional columns that will be ignored --->
-					<cfloop list="#foundHeaders#" item="aField">
-						<cfif NOT ListContainsNoCase(fieldList,aField)>
-							<li class="pb-1 px-4 text-secondary"><i class='fas fa-arrow-right text-secondary'></i>#aField# </1i>
+				<cfif NOT ListContainsNoCase(fieldList,aField)>
+					<ul class="pb-1 h4 list-unstyled font-weight-normal">
+						<h3 class="h4">Warning: #ADD_COLUMN_ERR#</h3>
+						<!--- Identify additional columns that will be ignored --->
+						<cfloop list="#foundHeaders#" item="aField">
+
+								<li class="pb-1 px-4 text-secondary"><i class='fas fa-arrow-right text-secondary'></i>#aField# </1i>
+
+						</cfloop>
+					</ul>
+				</cfif>
+				<cfset errorMessage = "">
+					<h3>This one:</h3>
+				<cfloop list="#fieldList#" item="aField">
+					<cfif NOT ListContainsNoCase(fieldList,aField)>
+						<!--- Case 1. Check by splitting assembled list of foundHeaders --->
+						<cfif NOT ListContainsNoCase(foundHeaders,aField)>
+							<cfset errorMessage = "#errorMessage# <i class='fas fa-arrow-right text-dark'></i>&nbsp;#aField#<br>">
 						</cfif>
-					</cfloop>
-				</ul>
+					</cfif>
+				</cfloop>
 				<cfset i=1>
 				<cfif NOT ListLen(ListRemoveDuplicates(foundHeaders)) EQ ListLen(foundHeaders)>
 					<h3 class="h4">Warning: #DUP_COLUMN_ERR# </h3>
