@@ -283,15 +283,13 @@
 				<cfif #ListLen(fieldList)# LT #foundHeaders# and #foundHeaders# NEQ #fieldList#>
 					#ADD_COLUMN_ERR#
 				</cfif>
-						
-				
-					<cfif NOT ListFindNoCase(fieldList,aField)>
-						<cfset extra ="#aField#">
-						<cfif len(extra) gt 1><h4>Not in the list of expected column headers:</h4></cfif>
-					</cfif>
-			
+				<cfif #aField# GT 1><cfset plural1="s"><cfelse><cfset plural1=""></cfif>
+				<cfif #aField# GT 1><cfset plural2=""><cfelse><cfset plural2="s"></cfif>		
+				<cfif NOT ListFindNoCase(fieldList,aField)>
+					<cfset extra ="#aField#">
+					<cfif len(extra) gt 1><h4>Not in the list of expected column headers:</h4></cfif>
+				</cfif>
 				<ul class="pt-1 pb-3 h4 font-weight-normal">
-
 					<!--- Identify additional columns that will be ignored --->
 					<cfloop list="#foundHeaders#" item="aField">
 						<cfif NOT ListFindNoCase(fieldList,aField)>
@@ -301,9 +299,8 @@
 					</cfloop>
 				</ul>
 				<!--- Identify duplicate columns and fail if found --->
-				<cfif #aField# GT 1><cfset plural="s"><cfelse><cfset plural=""></cfif>
 				<cfif NOT ListLen(ListRemoveDuplicates(foundHeaders)) EQ ListLen(foundHeaders)>
-					<h3 class="h4">Expected column header#plural# occur#plural# more than once: </h3>
+					<h3 class="h4">Expected column header#plural1# occur#plural2# more than once: </h3>
 					<ul class="h4 pt-1 pb-3 font-weight-normal">
 					<cfloop list="#foundHeaders#" item="aField">
 						<cfif listValueCount(foundHeaders,aField) GT 1>
