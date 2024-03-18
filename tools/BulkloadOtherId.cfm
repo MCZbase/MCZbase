@@ -296,7 +296,7 @@
 					<cfloop list="#foundHeaders#" item="aField">
 						<cfif NOT ListFindNoCase(fieldList,aField)>
 							<cfset extra ="#aField#">
-							<li> [<strong>#extra#</strong>]  </li>
+							<li>#extra#</li>
 						</cfif>
 					</cfloop>
 				</ul>
