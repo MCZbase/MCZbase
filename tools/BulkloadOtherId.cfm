@@ -284,12 +284,12 @@
 					#ADD_COLUMN_ERR#
 				</cfif>
 						
-				<cfloop list="#foundHeaders#" item="aField">
+				
 					<cfif NOT ListFindNoCase(fieldList,aField)>
 						<cfset extra ="#aField#">
 						<cfif len(extra) gt 1><h4>Not in the list of expected column headers:</h4></cfif>
 					</cfif>
-				</cfloop>
+			
 				<ul class="pt-1 pb-3 h4 font-weight-normal">
 
 					<!--- Identify additional columns that will be ignored --->
