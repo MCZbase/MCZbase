@@ -295,10 +295,10 @@
 						<li>At least one column header occurs more than once.</1i>
 						<cfloop list="#foundHeaders#" item="aField">
 							<cfif listValueCount(foundHeaders,aField) GT 1>
-								<cfset dups = "<li>[<strong>#aField#</strong>] is duplicated as the header for #listValueCount(foundHeaders,aField)# columns.</li>"
+								<cfset dups = "<li>[<strong>#aField#</strong>] is duplicated as the header for #listValueCount(foundHeaders,aField)# columns.</li>">
 							</cfif>
 						</cfloop>
-						#dups#
+						[<strong>#aField#</strong>] is duplicated as the header for #listValueCount(foundHeaders,aField)# columns.
 						<cfthrow message = "#DUP_COLUMN_ERR#">
 					</cfif>
 				</ul>
