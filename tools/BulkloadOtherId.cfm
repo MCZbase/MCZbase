@@ -279,7 +279,7 @@
 					</cfif>
 						<cfthrow message = "#NO_COLUMN_ERR# #errorMessage#">
 				</cfif>
-				<cfif NOT ListContainsNoCase(fieldList,aField)>
+				<cfif NOT ListContainsNoCase(fieldList,aField) EQ ListLen(foundHeaders)>
 					<h3 class="h4">Warning: Found additional column header(s) in the CSV that is not in the list of expected headers: </h3>
 					<ul class="pb-1 h4 list-unstyled font-weight-normal">
 					<!--- Identify additional columns that will be ignored --->
