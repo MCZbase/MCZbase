@@ -282,7 +282,7 @@ limitations under the License.
 									<!--- Case 2. Check by identifying field in required field list --->
 									<cfif ListContainsNoCase(requiredFieldList,field)>
 										<strong class="text-dark">Required Column Not Found</strong>
-										<cfset errorMessage = "#errorMessage# #field# is missing.">
+										<cfset errorMessage = "#errorMessage# <div class='pl-3 pb-1 font-weight-bolder'><i class='fas fa-arrow-right text-dark'></i> #field#</div>">
 									</cfif>
 								</cfif>
 							</li>
@@ -292,28 +292,35 @@ limitations under the License.
 						<cfif size EQ 1>
 							<!--- Likely a problem parsing the first line into column headers --->
 							<!--- To get here, upload a csv file with the correct headers as MYSQL format --->
-							<cfset errorMessage = "You may have specified the wrong format, only one column header was found. #errorMessage#">
+							<cfset errorMessage = "<div class='pt-3'><p>Column#plural# not found:</p> #errorMessage#</div>">
 						</cfif>
 						<cfthrow message = "#NO_COLUMN_ERR# #errorMessage#">
 					</cfif>
-					<ul class="">
+						<!--- Identify additional columns that will be ignored --->
+					<cfif NOT ListContainsNoCase(fieldList,aField)>
+						<ul class="py-1 h4 list-unstyled">
+						<strong>Found additional column header(s) in the CSV that is not in the list of expected headers: </strong>
 						<!--- Identify additional columns that will be ignored --->
 						<cfloop list="#foundHeaders#" item="aField">
 							<cfif NOT ListContainsNoCase(fieldList,aField)>
-								<li>Found additional column header [<strong>#aField#</strong>] in the CSV that is not in the list of expected headers.</1i>
+								<li class="pb-1 px-4"><i class='fas fa-arrow-right text-info'></i> <strong class="text-info">#aField#</strong> </1i>
 							</cfif>
 						</cfloop>
+						</ul>
+					</cfif>
 						<!--- Identify duplicate columns and fail if found --->
-						<cfif NOT ListLen(ListRemoveDuplicates(foundHeaders)) EQ ListLen(foundHeaders)>
-							<li>At least one column header occurs more than once.</1i>
+					<cfif NOT ListLen(ListRemoveDuplicates(foundHeaders)) EQ ListLen(foundHeaders)>
+						<ul class="pb-1 h4 list-unstyled">
+							<!--- Identify duplicate columns and fail if found --->
+							<strong>#DUP_COLUMN_ERR# </strong>
 							<cfloop list="#foundHeaders#" item="aField">
 								<cfif listValueCount(foundHeaders,aField) GT 1>
-									<li><strong>#aField#</strong> is duplicated as the header for #listValueCount(foundHeaders,aField)# columns.</1i>
+										<li class="pb-1 px-4"><i class='fas fa-arrow-right text-info'></i> <strong class="text-info">column ###i# = #aField#</strong> </1i>
 								</cfif>
+							<cfset i=i+1>
 							</cfloop>
-							<cfthrow message = "#DUP_COLUMN_ERR#">
-						</cfif>
-					</ul>
+						</ul>
+					</cfif>
 					<cfset colNames="#foundHeaders#">
 					<cfset loadedRows = 0>
 					<cfset foundHighCount = 0>
