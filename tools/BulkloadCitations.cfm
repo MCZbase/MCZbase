@@ -394,18 +394,21 @@ limitations under the License.
 					</cfloop>
 
 					<cfif foundHighCount GT 0>
-						<h3 class="h4">Found characters where the encoding is probably important in the input data.</h3>
+						<h3 class="h4">Check character set. Found characters where the encoding is probably important in the input data.</h3>
 						<div>
 							<p>Showing #foundHighCount# examples.  If these do not appear as the correct characters, the file likely has a different encoding from the one you selected and
 							you probably want to <a href="/tools/BulkloadCitatons.cfm">reload this file</a> selecting a different encoding. If these appear as expected, then you selected the correct encoding and can continue to validate or load.</p>
 						</div>
 						<ul class="h4">#foundHighAscii# #foundMultiByte#</ul>
-
 					</cfif>
 				</div>
-					<h3 class="h4">
+				<h3>
+					<cfif loadedRows EQ 0>
+						Loaded no rows from the CSV file.  The file appears to be just a header with no data. Fix file and <a href="/tools/BulkloadOtherId.cfm">reload</a>
+					<cfelse>
 						Successfully read #loadedRows# records from the CSV file. Next <a href="/tools/BulkloadCitations.cfm?action=validate">click to validate</a>.
-					</h3>
+					</cfif>
+				</h3>
 			
 			<cfcatch>
 				<h3 class="h4">
