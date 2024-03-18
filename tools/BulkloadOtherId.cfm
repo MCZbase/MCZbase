@@ -286,7 +286,7 @@
 						#ADD_COLUMN_ERR#
 					</cfif>
 					<cfloop list="#foundHeaders#" item="aField">
-						<cfif NOT ListContainsNoCase(fieldList,aField)>
+						<cfif NOT ListFindNoCase(fieldList,aField)>
 							<li>Found additional column header [<strong>#aField#</strong>] in the CSV that is not in the list of expected headers.</1i>
 						</cfif>
 					</cfloop>
