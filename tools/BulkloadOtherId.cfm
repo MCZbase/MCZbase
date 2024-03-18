@@ -293,17 +293,21 @@
 					</ul>
 				</cfif>
 				<cfset i=1>
-				<cfif NOT ListContainsNoCase(fieldList,aField)>
+				<cfloop list="#fieldlist#" index="field" delimiters=",">
+				<cfset hint="">
+				<cfif NOT listContainsNoCase(fieldlist,field,",")>
+			<!---	<cfif NOT ListContainsNoCase(fieldList,aField)>--->
 					<h3 class="h4">Warning: #ADD_COLUMN_ERR# </h3>
 						<ul class="pb-1 h4 list-unstyled font-weight-norma">
 						<cfloop list="#foundHeaders#" item="aField">
-							<cfif listValueCount(foundHeaders,aField) GT 1>
+					<!---		<cfif listValueCount(foundHeaders,aField) GT 1>--->
 									<li class="pb-1 px-4 text-secondary"><i class='fas fa-arrow-right text-secondary'></i> column ###i# = #aField# </1i>
-							</cfif>
+					<!---		</cfif>--->
 						<cfset i=i+1>
 						</cfloop>
 					</ul>
 				</cfif>
+					</cfloop>
 				<cfset colNames="#foundHeaders#">
 				<cfset loadedRows = 0>
 				<cfset foundHighCount = 0>
