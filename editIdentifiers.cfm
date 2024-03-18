@@ -207,34 +207,12 @@
 <!-------------------------------------------------------->
 <cfif #Action# is "newOID">
 <cfoutput>
-	<cfquery name="newOIDt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-	INSERT INTO coll_obj_other_id_num 
-		(collection_object_id,
-		other_id_type,
-		other_id_prefix,
-		other_id_number,
-		other_id_suffix
-	) VALUES (
-		#collection_object_id#,
-		'#other_id_type#',
-		<cfif len(#other_id_prefix#) gt 0>
-			'#other_id_prefix#'
-		<cfelse>
-			NULL
-		</cfif>
-		,
-		<cfif len(#other_id_number#) gt 0>
-			#other_id_number#
-		<cfelse>
-			NULL
-		</cfif>
-		,
-		<cfif len(#other_id_suffix#) gt 0>
-			'#other_id_suffix#'
-		<cfelse>
-			NULL
-		</cfif>)
-	</cfquery>
+	<cfstoredproc procedure="parse_other_id" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="parse_other_id_result" timeout="#Application.query_timeout#">
+		<cfprocparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
+		<cfprocparam cfsqltype="CF_SQL_VARCHAR" value="#display_value#">
+		<cfprocparam cfsqltype="CF_SQL_CLOB" value="#other_id_type#">
+		<cfprocresult name="parse">
+	</cfstoredproc>
 	<cflocation url="editIdentifiers.cfm?collection_object_id=#collection_object_id#">
 </cfoutput>
 </cfif>
