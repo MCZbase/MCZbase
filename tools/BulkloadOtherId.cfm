@@ -280,7 +280,8 @@
 					</cfif>
 						<cfthrow message = "#NO_COLUMN_ERR# #errorMessage#">
 				</cfif>
-				<cfif listValueCount(foundHeaders,aField) GT 0>
+				<cfif #ListLen(fieldList)# LT #foundHeaders#>
+					extra headers
 					<ul class="pb-1 h4 list-unstyled font-weight-normal">
 					<cfloop list="#foundHeaders#" item="aField">
 						<cfif NOT ListContainsNoCase(fieldList,aField)>
