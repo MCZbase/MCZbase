@@ -289,6 +289,7 @@ limitations under the License.
 						</cfloop>
 					</ul>
 					<cfif len(errorMessage) GT 0>
+					<h3 class="">Error Messages</h3>
 						<cfif size EQ 1>
 							<!--- Likely a problem parsing the first line into column headers --->
 							<cfset errorMessage = "<div class='pt-3'><p>Column not found:</p> #errorMessage#</div>">
