@@ -300,15 +300,13 @@ limitations under the License.
 					</cfif>
 						<!--- Identify additional columns that will be ignored --->
 					<cfif NOT ListContainsNoCase(fieldList,aField)>
-						<ul class="py-1 h4 list-unstyled">
-						<strong>Warning: Found additional column header(s) in the CSV that is not in the list of expected headers: </strong>
+						<h3 class="h4">Warning: Found additional column header(s) in the CSV that is not in the list of expected headers: </h3>
 						<!--- Identify additional columns that will be ignored --->
 						<cfloop list="#foundHeaders#" item="aField">
 							<cfif NOT ListContainsNoCase(fieldList,aField)>
 								<li class="pb-1 px-4"><i class='fas fa-arrow-right text-info'></i> <strong class="text-info">#aField#</strong> </1i>
 							</cfif>
 						</cfloop>
-						</ul>
 					</cfif>
 						<!--- Identify duplicate columns and fail if found --->
 					<cfif NOT ListLen(ListRemoveDuplicates(foundHeaders)) EQ ListLen(foundHeaders)>
