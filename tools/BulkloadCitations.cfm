@@ -312,9 +312,9 @@ limitations under the License.
 					</cfif>
 						<!--- Identify duplicate columns and fail if found --->
 					<cfif NOT ListLen(ListRemoveDuplicates(foundHeaders)) EQ ListLen(foundHeaders)>
+						<h3 class="h4">Warning: #DUP_COLUMN_ERR# </h3>
 						<ul class="pb-1 h4 list-unstyled">
 							<!--- Identify duplicate columns and fail if found --->
-							<strong>Warning: #DUP_COLUMN_ERR# </strong>
 							<cfloop list="#foundHeaders#" item="aField">
 								<cfif listValueCount(foundHeaders,aField) GT 1>
 										<li class="pb-1 px-4"><i class='fas fa-arrow-right text-info'></i> <strong class="text-info">column ###i# = #aField#</strong> </1i>
@@ -392,14 +392,17 @@ limitations under the License.
 							</cfcatch>
 							</cftry>
 					</cfloop>
-
 					<cfif foundHighCount GT 0>
 						<h3 class="h4">Check character set. Found characters where the encoding is probably important in the input data.</h3>
 						<div>
 							<p>Showing #foundHighCount# examples.  If these do not appear as the correct characters, the file likely has a different encoding from the one you selected and
 							you probably want to <a href="/tools/BulkloadCitatons.cfm">reload this file</a> selecting a different encoding. If these appear as expected, then you selected the correct encoding and can continue to validate or load.</p>
+						
+						<ul class="h4 list-unstyled">
+							<!---These include the <li></li>--->
+							#foundHighAscii# #foundMultiByte#
+						</ul>
 						</div>
-						<ul class="h4">#foundHighAscii# #foundMultiByte#</ul>
 					</cfif>
 				</div>
 				<h3>
