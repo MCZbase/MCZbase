@@ -379,14 +379,13 @@
 				<cfif foundHighCount GT 0>
 					<cfif foundHighCount GT 1><cfset plural="s"><cfelse><cfset plural=""></cfif>
 					<h3 class="h4">Check character set. Found characters where the encoding is probably important in the input data.</h3>
-					<div>
+					<div class="px-4">
 						<p>Showing #foundHighCount# example#plural#. If these do not appear as the correct characters, the file likely has a different encoding from the one you selected and
-						you probably want to <strong><a href="/tools/BulkloadOtherId.cfm">reload</a></strong> this file selecting a different character set.  If these appear as expected, then 
-							you selected the correct encoding and can continue to validate or load.</p>
+						you probably want to <strong><a href="/tools/BulkloadOtherId.cfm">reload</a></strong> this file selecting a different character set.  If these appear as expected, then you selected the correct encoding and can continue to validate or load.</p>
+						<ul class="pb-3 h4 list-unstyled">
+							<li class="pb-1"><i class='fas fa-arrow-right text-info'></i> <strong class="text-info">#foundHighAscii# #foundMultiByte#
+						</ul>
 					</div>
-					<ul class="pb-1 h4 list-unstyled">
-						#foundHighAscii# #foundMultiByte#
-					</ul>
 				</cfif>
 				<h3>
 					<cfif loadedRows EQ 0>
