@@ -57,7 +57,7 @@
 					<cfelse>
 						<cfset class="text-dark">
 					</cfif>
-					<li class="#class#" #aria#>#field#</li>
+					<li class="pb-1 px-4 text-secondary" #aria#>#field#</li>
 				</cfloop>
 			</ul>
 			<p>Check the Help > Controlled Vocabulary page and select the <a href="/vocabularies/ControlledVocabulary.cfm?table=CTCOLL_OTHER_ID_TYPE">CTCOLL_OTHER_ID_TYPE</a> list for types ("catalog number" can also be used). Values can be combinations of letters, special characters, and numbers or just numbers. Submit a bug report to request an additional type when needed.</p>
@@ -237,18 +237,17 @@
 				<!--- check for required fields in header line (performng check in two different ways, Case 1, Case 2) --->
 				<!--- Loop through list of fields throw exception if required fields are missing --->
 				<cfset errorMessage = "">
-		
 				<cfloop list="#fieldList#" item="aField">
 					<cfif ListContainsNoCase(requiredFieldList,aField)>
 						<!--- Case 1. Check by splitting assembled list of foundHeaders --->
 						<cfif NOT ListContainsNoCase(foundHeaders,aField)>
-							<cfset errorMessage = "#errorMessage# <i class='fas fa-arrow-right text-dark'></i><strong class='text-dark'> &nbsp;#aField#<br></strong>">
+							<cfset errorMessage = "#errorMessage# <i class='fas fa-arrow-right text-dark'></i>&nbsp;#aField#<br>">
 						</cfif>
 					</cfif>
 				</cfloop>
 				<cfset errorMessage = "">
 				<!--- Loop through list of fields, mark each field as fields present in input or not, throw exception if required fields are missing --->
-				<ul class="h4 mb-4">
+				<ul class="h4 mb-4 font-weight-normal">
 					<cfloop list="#fieldlist#" index="field" delimiters=",">
 						<cfset hint="">
 						<cfif listContains(requiredfieldlist,field,",")>
@@ -265,7 +264,7 @@
 								<!--- Case 2. Check by identifying field in required field list --->
 								<cfif ListContainsNoCase(requiredFieldList,field)>
 									<strong class="text-dark">Required column not found</strong>
-									<cfset errorMessage = "#errorMessage# <div class='pl-3 pb-1 font-weight-bolder'><i class='fas fa-arrow-right text-dark'></i> #field#</div>">
+									<cfset errorMessage = "#errorMessage# <div class='pl-3 pb-1 font-weight-bold'><i class='fas fa-arrow-right text-dark'></i> #field#</div>">
 								</cfif>
 							</cfif>
 						</li>
@@ -281,19 +280,20 @@
 						<cfthrow message = "#NO_COLUMN_ERR# #errorMessage#">
 				</cfif>
 				<cfif NOT ListContainsNoCase(fieldList,aField)>
-					<strong>Warning: Found additional column header(s) in the CSV that is not in the list of expected headers: </strong>
+					<h3 class="h4">Warning: Found additional column header(s) in the CSV that is not in the list of expected headers: </h3>
+					<ul class="pb-1 h4 list-unstyled">
 					<!--- Identify additional columns that will be ignored --->
 					<cfloop list="#foundHeaders#" item="aField">
 						<cfif NOT ListContainsNoCase(fieldList,aField)>
 							<li class="pb-1 px-4 text-secondary"><i class='fas fa-arrow-right text-secondary'></i> #aField# </1i>
 						</cfif>
 					</cfloop>
+					</ul>
 				</cfif>
 				<cfset i=1>
 				<cfif NOT ListLen(ListRemoveDuplicates(foundHeaders)) EQ ListLen(foundHeaders)>
-					<ul class="pb-1 h4 list-unstyled font-weight-normal">
-						<!--- Identify duplicate columns and fail if found --->
-						<strong>Warning: #DUP_COLUMN_ERR# </strong>
+					<h3 class="h4">Warning: #DUP_COLUMN_ERR# </h3>
+						<ul class="pb-1 h4 list-unstyled">
 						<cfloop list="#foundHeaders#" item="aField">
 							<cfif listValueCount(foundHeaders,aField) GT 1>
 									<li class="pb-1 px-4 text-secondary"><i class='fas fa-arrow-right text-secondary'></i> column ###i# = #aField# </1i>

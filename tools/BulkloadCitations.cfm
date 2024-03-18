@@ -315,7 +315,7 @@ limitations under the License.
 							<!--- Identify duplicate columns and fail if found --->
 							<cfloop list="#foundHeaders#" item="aField">
 								<cfif listValueCount(foundHeaders,aField) GT 1>
-										<li class="pb-1 px-4"><i class='fas fa-arrow-right text-info'></i> <strong class="text-info">column ###i# = #aField#</strong> </1i>
+										<li class="pb-1 px-4"><i class='fas fa-arrow-right text-info'></i> <strong class="text-secondary">column ###i# = #aField#</strong> </1i>
 								</cfif>
 							<cfset i=i+1>
 							</cfloop>
