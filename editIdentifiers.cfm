@@ -18,7 +18,7 @@
 		institution_acronym
 	FROM 
 		cataloged_item, 
-		join collection on cataloged_item.collection_id=collection.collection_id and
+		join collection on cataloged_item.collection_id=collection.collection_id
 		left join coll_obj_other_id_num on cataloged_item.collection_object_id=coll_obj_other_id_num.collection_object_id
 	WHERE
 		cataloged_item.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
