@@ -288,10 +288,10 @@
 					</cfif>
 					<cfloop list="#foundHeaders#" item="aField">
 						<cfif NOT ListFindNoCase(fieldList,aField)>
-							<cfset extra ="<li>Found additional column header [<strong>#aField#</strong>] in the CSV that is not in the list of expected headers.</1i>">
+							<cfset extra ="#aField#">
 						</cfif>
 					</cfloop>
-						<li>#extra#</li>
+						<li>Found additional column header [<strong>#extra#</strong>] in the CSV that is not in the list of expected headers.</1i>
 					<!--- Identify duplicate columns and fail if found --->
 					<cfif NOT ListLen(ListRemoveDuplicates(foundHeaders)) EQ ListLen(foundHeaders)>
 						
