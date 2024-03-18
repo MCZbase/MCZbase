@@ -294,7 +294,7 @@
 				<cfset errorMessage = "">
 					<h3>This one:</h3>
 				<cfloop list="#fieldList#" item="aField">
-					<cfif NOT ListContainsNoCase(fieldList,aField)>
+					<cfif ListContainsNoCase(fieldList,aField)>
 						<!--- Case 1. Check by splitting assembled list of foundHeaders --->
 						<cfif NOT ListContainsNoCase(foundHeaders,aField)>
 							<cfset errorMessage = "#errorMessage# <i class='fas fa-arrow-right text-dark'></i>&nbsp;#aField#<br>">
@@ -444,6 +444,8 @@
 				<cfelseif Find("#COLUMN_ERR#",cfcatch.message) GT 0>
 					#cfcatch.message#
 				<cfelseif Find("#DUP_COLUMN_ERR#",cfcatch.message) GT 0>
+					#cfcatch.message#
+				<cfelseif Find("#ADD_COLUMN_ERR#",cfcatch.message) GT 0>
 					#cfcatch.message#
 				<cfelseif Find("IOException reading next record: java.io.IOException: (line 1) invalid char between encapsulated token and delimiter",cfcatch.message) GT 0>
 					<ul class="py-1 h4 list-unstyled">
