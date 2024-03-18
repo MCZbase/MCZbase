@@ -274,7 +274,7 @@
 					<cfif size EQ 1>
 						<!--- Likely a problem parsing the first line into column headers --->
 						<cfset errorMessage = "<div class='pt-2'><p>Column not found:</p> #errorMessage#</div>">
-					<cfelse>
+					<cfelseif size gt 1 and ListContainsNoCase(requiredFieldList,field)>
 						<cfset errorMessage = "<div class='pt-2'><p>Columns not found:</p> #errorMessage#</div>">
 					</cfif>
 						<cfthrow message = "#NO_COLUMN_ERR# #errorMessage#">
