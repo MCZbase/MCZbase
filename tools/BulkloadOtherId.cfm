@@ -271,7 +271,7 @@
 					</cfloop>
 				</ul>
 				<cfif len(errorMessage) GT 0>
-					<cfif size EQ 1>
+					<cfif size EQ 1 and #foundHeaders# eq 1>
 						<!--- Likely a problem parsing the first line into column headers --->
 						<cfset errorMessage = "<div class='pt-2'><p>Column not found:</p> #errorMessage#</div>">
 					<cfelseif size gt 1 and #foundHeaders# gt 1>
