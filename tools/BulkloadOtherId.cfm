@@ -37,7 +37,7 @@
 	<h1 class="h2 mt-2">Bulkload Other IDs</h1>
 	<cfif #action# is "nothing">
 		<cfoutput>
-			<p>This tool is used to bulkload Other IDs. Click view template download a comma-delimited text file (csv) to enter and upload data. OR, create a csv by including column headings spelled exactly as listed below.  Additional colums will be ignored. Pay attention to capitalization where it is required. Messages will help to navigate problems with the data in the uploaded .csv file. </p>
+			<p>This tool is used to bulkload Other IDs. Click view template download a comma-delimited text file (csv) to enter and upload data. OR, create a csv by including column headings spelled exactly as listed below.  Additional colums will be ignored. Pay attention to capitalization where it is required. Messages will help to navigate problems with the data in the uploaded .csv file. Note: Missing column errors will appear first. Once fixed, duplicated and added column notifications will appear. </p>
 			
 			<span class="btn btn-xs btn-info" onclick="document.getElementById('template').style.display='block';">View template</span>
 			<div id="template" style="margin: 1rem 0;display:none;">
