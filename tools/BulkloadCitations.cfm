@@ -239,7 +239,7 @@ limitations under the License.
 							<cfset bit = "#Replace(bit,CHR(65279),'')#" >  
 						</cfif> 
 						<cfset foundHeaders = "#foundHeaders##separator##bit#" >
-			<!---		<cfset foundHeaders = "#foundHeaders##separator##headers.get(JavaCast("int",i))#" --->>
+			<!---		<cfset foundHeaders = "#foundHeaders##separator##headers.get(JavaCast("int",i))#" --->
 					<cfset separator = ",">
 				</cfloop>
 				<cfset colNameArray = listToArray(ucase(foundHeaders))><!--- the list of columns/fields found in the input file --->
