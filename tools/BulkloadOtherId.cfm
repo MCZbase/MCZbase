@@ -111,7 +111,6 @@
 		<!--- Set some constants to identify error cases in cfcatch block --->
 		<cfset NO_COLUMN_ERR = '<h4 class="mt-3">One or more required fields are missing in the header line of the csv file.</h4><p class="text-dark d-block">[<span class="font-weight-bold">Note:</span> If you uploaded csv columns that match the required headers and see "Required column not found" for the those headers, check that the <span class="font-weight-bold">character set and format</span> you selected matches the file''s encodings.]</p>'>
 		<cfset DUP_COLUMN_ERR = "<h4 class=''>Fix the one or more columns that are duplicated, mispelled, or added in the header line of the csv file and reload. </h4>">
-		<cfset ADD_COLUMN_ERR = "<h4 class=''>Found one or more column headers in the CSV that should not be there.</h4>">
 		<cfset COLUMN_ERR = "Error inserting data ">
 		<cfset NO_HEADER_ERR = "<h4 class='mb-3'>No header line found, csv file appears to be empty.</h4>">
 
@@ -280,14 +279,10 @@
 					</cfif>
 						<cfthrow message = "#NO_COLUMN_ERR# #errorMessage#">
 				</cfif>
-				<cfif #ListLen(fieldList)# LT #foundHeaders# and #foundHeaders# NEQ #fieldList#>
-					#ADD_COLUMN_ERR#
-				</cfif>
 				<cfif #aField# GT 1><cfset plural1="s"><cfelse><cfset plural1=""></cfif>
-				<cfif #aField# GT 1><cfset plural2=""><cfelse><cfset plural2="s"></cfif>		
-				<cfif NOT ListFindNoCase(fieldList,aField)>
-					<cfset extra ="#aField#">
-					<cfif len(extra) gt 1><h4>Not in the list of expected column headers:</h4></cfif>
+				<cfif #aField# GT 1><cfset plural2=""><cfelse><cfset plural2="s"></cfif>
+				<cfif #ListLen(fieldList)# LT #foundHeaders# and #foundHeaders# NEQ #fieldList#>
+					<h4>Found one or more column headers in the CSV that should not be there.</h4>
 				</cfif>
 				<ul class="pt-1 pb-3 h4 font-weight-normal">
 					<!--- Identify additional columns that will be ignored --->
