@@ -293,7 +293,7 @@
 					</ul>
 				</cfif>
 				<cfset i=1>
-				<cfif NOT ListLen(ListRemoveDuplicates(foundHeaders)) EQ ListLen(foundHeaders) and NOT ListContainsNoCase(fieldList,aField)>
+				<cfif NOT ListContainsNoCase(fieldList,aField)>
 					<h3 class="h4">Warning: #ADD_COLUMN_ERR# </h3>
 						<ul class="pb-1 h4 list-unstyled font-weight-norma">
 						<cfloop list="#foundHeaders#" item="aField">
