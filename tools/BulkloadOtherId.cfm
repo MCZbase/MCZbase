@@ -286,7 +286,7 @@
 					<!--- Identify additional columns that will be ignored --->
 					<cfloop list="#foundHeaders#" item="aField">
 						<cfif NOT ListContainsNoCase(fieldList,aField)>
-							<li class="pb-1 px-4"><i class='fas fa-arrow-right' style='color:orangered'></i> <strong class="text-info">#aField#</strong> </1i>
+							<li class="pb-1 px-4 font-weight-bold" style="darkorange"><i class='fas fa-arrow-right' style='color:darkorange;'></i> #aField# </1i>
 						</cfif>
 					</cfloop>
 					</ul>
@@ -298,7 +298,7 @@
 						<strong>Warning: #DUP_COLUMN_ERR# </strong>
 						<cfloop list="#foundHeaders#" item="aField">
 							<cfif listValueCount(foundHeaders,aField) GT 1>
-									<li class="pb-1 px-4 font-weight-bold" style="color:orangered"><i class='fas fa-arrow-right' style='orangered'></i>column ###i# = #aField# </1i>
+									<li class="pb-1 px-4 font-weight-bold" style="color: darkorange;"><i class='fas fa-arrow-right' style='color:darkorange;'></i> column ###i# = #aField# </1i>
 							</cfif>
 						<cfset i=i+1>
 						</cfloop>
