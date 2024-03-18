@@ -297,7 +297,7 @@
 					<cfif ListContainsNoCase(fieldList,aField)>
 						<!--- Case 1. Check by splitting assembled list of foundHeaders --->
 						<cfif NOT ListContainsNoCase(foundHeaders,aField)>
-							<cfset errorMessage = "#errorMessage# <i class='fas fa-arrow-right text-dark'></i>&nbsp;#aField#<br>">
+							<cfset errorMessage = "#ADD_COLUMN ERROR# #errorMessage# <i class='fas fa-arrow-right text-dark'></i>&nbsp;#aField#<br>">
 						</cfif>
 					</cfif>
 				</cfloop>
