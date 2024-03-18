@@ -301,7 +301,7 @@ limitations under the License.
 						<!--- Identify additional columns that will be ignored --->
 					<cfif NOT ListContainsNoCase(fieldList,aField)>
 						<ul class="py-1 h4 list-unstyled">
-						<strong>Found additional column header(s) in the CSV that is not in the list of expected headers: </strong>
+						<strong>Warning: Found additional column header(s) in the CSV that is not in the list of expected headers: </strong>
 						<!--- Identify additional columns that will be ignored --->
 						<cfloop list="#foundHeaders#" item="aField">
 							<cfif NOT ListContainsNoCase(fieldList,aField)>
