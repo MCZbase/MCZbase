@@ -67,7 +67,7 @@ limitations under the License.
 				<textarea rows="2" cols="90" id="templatearea" class="w-100 data-entry-textarea">#fieldlist#</textarea>
 			</div>
 			<h2 class="mt-4 h4">Columns in <span class="text-danger">red</span> are required; others are optional:</h2>
-			<ul class="mb-4 h4">
+			<ul class="mb-4 h4 font-weight-normal">
 				<cfloop list="#fieldlist#" index="field" delimiters=",">
 					<cfset aria = "">
 					<cfif listContains(requiredfieldlist,field,",")>
@@ -236,7 +236,7 @@ limitations under the License.
 					<cfset bit = headers.get(JavaCast("int",i))> 
 						<cfif i EQ 0 and characterSet EQ 'utf-8'>
 							<!--- strip off windows non-standard UTF-8-BOM byte order mark if present (raw hex EF, BB, BF or U+FEFF --->
-   							<cfset bit = "#Replace(bit,CHR(65279),'')#" >  
+							<cfset bit = "#Replace(bit,CHR(65279),'')#" >  
 						</cfif> 
 						<cfset foundHeaders = "#foundHeaders##separator##bit#" >
 			<!---		<cfset foundHeaders = "#foundHeaders##separator##headers.get(JavaCast("int",i))#" --->>
@@ -265,7 +265,7 @@ limitations under the License.
 					</cfif>
 					<cfset errorMessage = "">
 					<!---Loop through field list, mark each as present in input or not, throw exception if required fields are missing--->
-					<ul class="mb-4 small90">
+					<ul class="mb-4 h4 font-weight-normal">
 						<cfloop list="#fieldlist#" index="field" delimiters=",">
 							<cfset hint="">
 							<cfif listContains(requiredfieldlist,field,",")>
@@ -653,7 +653,7 @@ limitations under the License.
 					Validation checks passed. Look over the table below and <a href="/tools/BulkloadCitations.cfm?action=load">click to continue</a> if it all looks good.
 				</h3>
 			</cfif>
-			<table class='px-0 mx-4 sortable table table-responsive w-100'>
+			<table class='px-0 mx-4 sortable table small table-responsive w-100'>
 				<thead class="thead-light">
 					<tr>
 						<th>STATUS&nbsp;OF&nbsp;CITATION&nbsp;BULKLOAD</th>
@@ -798,7 +798,7 @@ limitations under the License.
 								</span>
 							</cfif>
 						</h3>
-						<table class='sortable table-danger table table-responsive table-striped d-lg-table mt-3'>
+						<table class='sortable small table table-responsive table-striped d-lg-table mt-3'>
 							<thead>
 								<tr><th>COUNT</th><th>STATUS</th>
 									<th>INSTITUTION_ACRONYM</th><th>COLLECTION_CDE</th><th>OTHER_ID_TYPE</th><th>OTHER_ID_NUMBER</th><th>PUBLICATION_TITLE</th><th>PUBLICATION_ID</th><th>CITED_SCIENTIFIC_NAME</th><th>ATTRIBUTE_DATE</th><th>ATTRIBUTE_METH</th><th>DETERMINER</th><th>REMARKS</th>
