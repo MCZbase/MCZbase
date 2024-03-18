@@ -285,7 +285,7 @@
 					<!--- Identify additional columns that will be ignored --->
 					<cfloop list="#foundHeaders#" item="aField">
 						<cfif NOT ListContainsNoCase(fieldList,aField)>
-							<li class="pb-1 px-4 text-secondary"><i class='fas fa-arrow-right text-secondary'></i> #aField# </1i>
+							<li class="pb-1 px-4 text-secondary"><i class='fas fa-arrow-right text-secondary'></i>YY #aField# </1i>
 						</cfif>
 					</cfloop>
 					</ul>
@@ -316,7 +316,7 @@
 					<cfset row = row + 1>
 					<cfset columnsCountInRow = rowData.size()>
 					<cfset collValuesArray= ArrayNew(1)>
-					<ul class="pb-1 h4 list-unstyled font-weight-normal">
+					<ul class="pb-3 h4 list-unstyled font-weight-normal">
 					<cfloop index="i" from="0" to="#rowData.size() - 1#">
 						<!--- loading cells from object instead of list allows commas inside cells --->
 						<cfset thisBit = "#rowData.get(JavaCast("int",i))#" >
@@ -325,13 +325,13 @@
 						<cfif REFind("[^\x00-\x7F]",thisBit) GT 0>
 							<!--- high ASCII --->
 							<cfif foundHighCount LT 6>
-								<cfset foundHighAscii = "#foundHighAscii# <li class='text-secondary'><i class='fas fa-arrow-right text-secondary'></i> #thisBit#</li>"><!--- " --->
+								<cfset foundHighAscii = "#foundHighAscii# <li class='text-secondary pb-1'><i class='fas fa-arrow-right text-secondary'></i> #thisBit#</li>"><!--- " --->
 								<cfset foundHighCount = foundHighCount + 1>
 							</cfif>
 						<cfelseif REFind("[\xc0-\xdf][\x80-\xbf]",thisBit) GT 0>
 							<!--- multibyte --->
 							<cfif foundHighCount LT 6>
-								<cfset foundMultiByte = "#foundMultiByte# <li class='text-secondary'><i class='fas fa-arrow-right text-secondary'></i>  #thisBit#</li>"><!--- " --->
+								<cfset foundMultiByte = "#foundMultiByte# <li class='text-secondary pb-1'><i class='fas fa-arrow-right text-secondary'></i>  #thisBit#</li>"><!--- " --->
 								<cfset foundHighCount = foundHighCount + 1>
 							</cfif>
 						</cfif>
