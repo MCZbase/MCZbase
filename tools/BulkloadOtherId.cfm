@@ -289,12 +289,9 @@
 				</cfloop>
 				<cfif NOT ListLen(ListRemoveDuplicates(foundHeaders)) EQ ListLen(foundHeaders)>
 					<h3 class="h4">Warning: #DUP_COLUMN_ERR# </h3>
-					<cfloop list="#foundHeaders#" item="aField">
-						<cfif listValueCount(foundHeaders,aField) GT 1>
-							<li class="pb-1 px-4 text-secondary"><i class='fas fa-arrow-right text-secondary'></i> column ###i# = #aField# </1i>
-						</cfif>
-					<cfset i=i+1>
-					</cfloop>
+					<cfif listValueCount(foundHeaders,aField) GT 1>
+						<li class="pb-1 px-4 text-secondary"><i class='fas fa-arrow-right text-secondary'></i> #aField# </1i>
+					</cfif>
 				</cfif>
 				</ul>
 <!---				<cfset i=1>
