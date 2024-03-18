@@ -292,10 +292,10 @@
 					</cfloop>
 					<!--- Identify duplicate columns and fail if found --->
 					<cfif NOT ListLen(ListRemoveDuplicates(foundHeaders)) EQ ListLen(foundHeaders)>
-						<li>At least one column header occurs more than once.</1i>
+						
 						<cfloop list="#foundHeaders#" item="aField">
 							<cfif listValueCount(foundHeaders,aField) GT 1>
-								<cfset dups = "<li>[<strong>#aField#</strong>] is duplicated as the header for #listValueCount(foundHeaders,aField)# columns.</li>">
+								<cfset dups = "<li>At least one of the expected column headers occurs more than once: [<strong>#aField#</strong>] is duplicated as the header for #listValueCount(foundHeaders,aField)# columns.</li>">
 							</cfif>
 						</cfloop>
 						<h4>#dups#</h4
