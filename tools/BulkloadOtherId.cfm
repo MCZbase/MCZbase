@@ -291,23 +291,23 @@
 							<li> [<strong>#extra#</strong>] is not in the list of expected column headers</li>
 						</cfif>
 					</cfloop>
-					<!--- Identify duplicate columns and fail if found --->
-					<cfset counts1 = ''>
-					<cfif NOT ListLen(ListRemoveDuplicates(foundHeaders)) EQ ListLen(foundHeaders)>
-						<h3 class="h4">An expected column headers occurs more than once: </h3>
-						<ul class="h4 pt-1 pb-3 font-weight-normal">
-						<cfloop list="#foundHeaders#" item="aField">
-							<cfif listValueCount(foundHeaders,aField) GT 1>
-								<cfset dups = #aField#>
-								<cfset counts1 = #listValueCount(foundHeaders,aField)#>
-									<li>#dups#</li>
-							</cfif>
-						</cfloop>
-						</ul>
-						<cfthrow message = "#DUP_COLUMN_ERR#">
-					</cfif>
 				</ul>
-
+				<!--- Identify duplicate columns and fail if found --->
+				<cfset counts1 = ''>
+				<cfif NOT ListLen(ListRemoveDuplicates(foundHeaders)) EQ ListLen(foundHeaders)>
+					<h3 class="h4">An expected column headers occurs more than once: </h3>
+					<ul class="h4 pt-1 pb-3 font-weight-normal">
+					<cfloop list="#foundHeaders#" item="aField">
+						<cfif listValueCount(foundHeaders,aField) GT 1>
+							<cfset dups = #aField#>
+							<cfset counts1 = #listValueCount(foundHeaders,aField)#>
+								<li>#dups#</li>
+						</cfif>
+					</cfloop>
+					</ul>
+					<cfthrow message = "#DUP_COLUMN_ERR#">
+				</cfif>
+				
 <!---				<cfset i=1>
 				<cfloop list="#fieldlist#" index="field" delimiters=",">
 				<cfset hint="">
