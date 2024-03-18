@@ -289,12 +289,14 @@
 					<cfloop list="#foundHeaders#" item="aField">
 						<cfif NOT ListFindNoCase(fieldList,aField)>
 							<cfset extra ="#aField#">
+							
+							<li> [<strong>#extra#</strong>]  column header not in the list of expected headers</li>
 						</cfif>
 					</cfloop>
-						<li>Found additional column header [<strong>#extra#</strong>] in the CSV that is not in the list of expected headers.</1i>
 					<!--- Identify duplicate columns and fail if found --->
+					<cfset counts1 = ''>
 					<cfif NOT ListLen(ListRemoveDuplicates(foundHeaders)) EQ ListLen(foundHeaders)>
-						<h3>At least one of the expected column headers occurs more than once: 
+						<h3 class="h4">#counts1# one of the expected column headers occurs more than once: </h3>
 						<ul class="h4 font-weight-normal">
 						<cfloop list="#foundHeaders#" item="aField">
 							<cfif listValueCount(foundHeaders,aField) GT 1>
@@ -304,8 +306,6 @@
 							</cfif>
 						</cfloop>
 						</ul>
-						is duplicated for #counts1# 
-						</h3>
 						<cfthrow message = "#DUP_COLUMN_ERR#">
 					</cfif>
 				</ul>
