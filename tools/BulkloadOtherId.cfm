@@ -109,7 +109,7 @@
 		<h2 class="h3">First step: Reading data from CSV file.</h2>
 		<!--- Compare the numbers of headers expected against provided in CSV file --->
 		<!--- Set some constants to identify error cases in cfcatch block --->
-		<cfset NO_COLUMN_ERR = '<h4 class="mt-3">One or more required fields are missing in the header line of the csv file.</h4><p class="text-dark d-block">[If you uploaded csv columns that match the required headers and see "Required column not found" for the those headers, check that the character set and format you selected matches the file''s encodings.]</p>'>
+		<cfset NO_COLUMN_ERR = '<h4 class="mt-3">One or more required fields are missing in the header line of the csv file.</h4><p class="text-dark d-block">[If you uploaded csv columns that match the required headers and see "Required column not found" for the those headers, check that the <span class="font-weight-bold">character set and format</span> you selected matches the file''s encodings.]</p>'>
 		<cfset DUP_COLUMN_ERR = "<h4 class=''>One or more columns are duplicated in the header line of the csv file. </h4>">
 		<cfset COLUMN_ERR = "Error inserting data ">
 		<cfset NO_HEADER_ERR = "<h4 class='mb-3'>No header line found, csv file appears to be empty.</h4>">
@@ -273,9 +273,9 @@
 				<cfif len(errorMessage) GT 0>
 					<cfif size EQ 1>
 						<!--- Likely a problem parsing the first line into column headers --->
-						<cfset errorMessage = "<div class='pt-3'><p>Column not found:</p> #errorMessage#</div>">
+						<cfset errorMessage = "<div class='pt-2'><p>Column not found:</p> #errorMessage#</div>">
 					<cfelse>
-						<cfset errorMessage = "<div class='pt-3'><p>Columns not found:</p> #errorMessage#</div>">
+						<cfset errorMessage = "<div class='pt-2'><p>Columns not found:</p> #errorMessage#</div>">
 					</cfif>
 						<cfthrow message = "#NO_COLUMN_ERR# #errorMessage#">
 				</cfif>
