@@ -271,13 +271,8 @@
 					</cfloop>
 				</ul>
 				<cfif len(errorMessage) GT 0>
-					<cfif size EQ 1 and #foundHeaders# eq 1>
-						<!--- Likely a problem parsing the first line into column headers --->
-						<cfset errorMessage = "<div class='pt-2'><p>Column not found:</p> #errorMessage#</div>">
-					<cfelseif size gt 1 and #foundHeaders# gt 1>
-						<cfset errorMessage = "<div class='pt-2'><p>Columns not found:</p> #errorMessage#</div>">
-					</cfif>
-						<cfthrow message = "#NO_COLUMN_ERR# #errorMessage#">
+					<cfset errorMessage = "<div class='pt-2'><p>Column(s) not found:</p> #errorMessage#</div>">
+					<cfthrow message = "#NO_COLUMN_ERR# #errorMessage#">
 				</cfif>
 				<cfif #aField# GT 1><cfset plural1="s"><cfelse><cfset plural1=""></cfif>
 				<cfif #aField# GT 1><cfset plural2=""><cfelse><cfset plural2="s"></cfif>
@@ -307,22 +302,7 @@
 					</ul>
 					<cfthrow message = "#DUP_COLUMN_ERR#">
 				</cfif>
-				
-<!---				<cfset i=1>
-				<cfloop list="#fieldlist#" index="field" delimiters=",">
-				<cfset hint="">
-				<cfif NOT listContainsNoCase(fieldlist,field,",")>
-				<cfif NOT ListContainsNoCase(fieldList,aField)>
-					<h3 class="h4">Warning: #ADD_COLUMN_ERR# </h3>
-						<ul class="pb-1 h4 list-unstyled font-weight-norma">
-						<cfloop list="#foundHeaders#" item="aField">
-							<cfif listValueCount(foundHeaders,aField) GT 1>
-									<li class="pb-1 px-4 text-secondary"><i class='fas fa-arrow-right text-secondary'></i> column ###i# = #aField# </1i>
-							</cfif>
-						<cfset i=i+1>
-						</cfloop>
-					</ul>
-				</cfif>--->
+
 				<cfset colNames="#foundHeaders#">
 				<cfset loadedRows = 0>
 				<cfset foundHighCount = 0>
