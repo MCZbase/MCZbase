@@ -162,30 +162,12 @@
 <!-------------------------------------------------------->
 <cfif #Action# is "saveOIDEdits">
 <cfoutput>
-	<cfquery name="upOIDt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		UPDATE 
-			coll_obj_other_id_num 
-		SET 
-			other_id_type = '#other_id_type#'
-			<cfif len(#other_id_prefix#) gt 0>
-				,other_id_prefix='#other_id_prefix#'
-			<cfelse>
-				,other_id_prefix= NULL
-			</cfif>
-			<cfif len(#other_id_number#) gt 0>
-				,other_id_number=#other_id_number#
-			<cfelse>
-				,other_id_number= NULL
-			</cfif>
-			<cfif len(#other_id_suffix#) gt 0>
-				,other_id_suffix='#other_id_suffix#'
-			<cfelse>
-				,other_id_suffix= NULL
-			</cfif>			
-		WHERE 
-			COLL_OBJ_OTHER_ID_NUM_ID=#COLL_OBJ_OTHER_ID_NUM_ID#
-	</cfquery>
-	
+		<cfstoredproc procedure="update_other_id" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	    	<cfprocparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
+	    	<cfprocparam cfsqltype="CF_SQL_DECIMAL" value="#COLL_OBJ_OTHER_ID_NUM_ID#">
+			<cfprocparam cfsqltype="cf_sql_varchar" value="#display_value#">
+			<cfprocparam cfsqltype="cf_sql_varchar" value="#other_id_type#">
+		</cfstoredproc>	
 	
 	<cflocation url="editIdentifiers.cfm?collection_object_id=#collection_object_id#">
 </cfoutput>
@@ -207,12 +189,11 @@
 <!-------------------------------------------------------->
 <cfif #Action# is "newOID">
 <cfoutput>
-	<cfstoredproc procedure="parse_other_id" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="parse_other_id_result" timeout="#Application.query_timeout#">
-		<cfprocparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
-		<cfprocparam cfsqltype="CF_SQL_VARCHAR" value="#display_value#">
-		<cfprocparam cfsqltype="CF_SQL_CLOB" value="#other_id_type#">
-		<cfprocresult name="parse">
-	</cfstoredproc>
+		<cfstoredproc procedure="parse_other_id" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	    	<cfprocparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
+			<cfprocparam cfsqltype="cf_sql_varchar" value="#display_value#">
+			<cfprocparam cfsqltype="cf_sql_varchar" value="#other_id_type#">
+		</cfstoredproc>>
 	<cflocation url="editIdentifiers.cfm?collection_object_id=#collection_object_id#">
 </cfoutput>
 </cfif>
