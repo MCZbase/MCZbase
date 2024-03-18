@@ -110,7 +110,7 @@
 		<!--- Compare the numbers of headers expected against provided in CSV file --->
 		<!--- Set some constants to identify error cases in cfcatch block --->
 		<cfset NO_COLUMN_ERR = '<h4 class="mt-3">One or more required fields are missing in the header line of the csv file.</h4><p class="text-dark d-block">[<span class="font-weight-bold">Note:</span> If you uploaded csv columns that match the required headers and see "Required column not found" for the those headers, check that the <span class="font-weight-bold">character set and format</span> you selected matches the file''s encodings.]</p>'>
-		<cfset DUP_COLUMN_ERR = "<h4 class=''>One or more columns are duplicated in the header line of the csv file. </h4>">
+		<cfset DUP_COLUMN_ERR = "<h4 class=''>Fix the one or more columns are duplicated in the header line of the csv file and reload. </h4>">
 		<cfset ADD_COLUMN_ERR = "<h4 class=''>Found one or more column headers in the CSV that should not be there.</h4>">
 		<cfset COLUMN_ERR = "Error inserting data ">
 		<cfset NO_HEADER_ERR = "<h4 class='mb-3'>No header line found, csv file appears to be empty.</h4>">
@@ -283,19 +283,25 @@
 				<cfif #ListLen(fieldList)# LT #foundHeaders# and #foundHeaders# NEQ #fieldList#>
 					#ADD_COLUMN_ERR#
 				</cfif>
+				<cfif NOT ListFindNoCase(fieldList,aField)>
+					<cfloop list="#foundHeaders#" item="aField">
+						<cfif #aField# gt 0>Not in the list of expected column headers:</cfif>
+					</cfloop>
+				</cfif>
 				<ul class="pt-1 pb-3 h4 font-weight-normal">
+					
 					<!--- Identify additional columns that will be ignored --->
 					<cfloop list="#foundHeaders#" item="aField">
 						<cfif NOT ListFindNoCase(fieldList,aField)>
 							<cfset extra ="#aField#">
-							<li> [<strong>#extra#</strong>] is not in the list of expected column headers</li>
+							<li> [<strong>#extra#</strong>]  </li>
 						</cfif>
 					</cfloop>
 				</ul>
 				<!--- Identify duplicate columns and fail if found --->
 				<cfset counts1 = ''>
 				<cfif NOT ListLen(ListRemoveDuplicates(foundHeaders)) EQ ListLen(foundHeaders)>
-					<h3 class="h4">An expected column headers occurs more than once: </h3>
+					<h3 class="h4">Expected column header(s) occur(s) more than once: </h3>
 					<ul class="h4 pt-1 pb-3 font-weight-normal">
 					<cfloop list="#foundHeaders#" item="aField">
 						<cfif listValueCount(foundHeaders,aField) GT 1>
