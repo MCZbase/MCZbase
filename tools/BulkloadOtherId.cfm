@@ -282,7 +282,7 @@
 				</cfif>
 				<cfif NOT ListContainsNoCase(fieldList,aField)>
 					<ul class="py-1 h4 list-unstyled">
-					<strong>Found additional column header(s) in the CSV that is not in the list of expected headers: </strong>
+					<strong>Warning: Found additional column header(s) in the CSV that is not in the list of expected headers: </strong>
 					<!--- Identify additional columns that will be ignored --->
 					<cfloop list="#foundHeaders#" item="aField">
 						<cfif NOT ListContainsNoCase(fieldList,aField)>
@@ -295,7 +295,7 @@
 				<cfif NOT ListLen(ListRemoveDuplicates(foundHeaders)) EQ ListLen(foundHeaders)>
 					<ul class="pb-1 h4 list-unstyled">
 						<!--- Identify duplicate columns and fail if found --->
-						<strong>#DUP_COLUMN_ERR# </strong>
+						<strong>Warning: #DUP_COLUMN_ERR# </strong>
 						<cfloop list="#foundHeaders#" item="aField">
 							<cfif listValueCount(foundHeaders,aField) GT 1>
 									<li class="pb-1 px-4"><i class='fas fa-arrow-right text-info'></i> <strong class="text-info">column ###i# = #aField#</strong> </1i>
@@ -378,7 +378,7 @@
 			
 				<cfif foundHighCount GT 0>
 					<cfif foundHighCount GT 1><cfset plural="s"><cfelse><cfset plural=""></cfif>
-					<h3 class="h4">Found characters where the encoding is probably important in the input data.</h3>
+					<h3 class="h4">Check character set. Found characters where the encoding is probably important in the input data.</h3>
 					<div>
 						<p>Showing #foundHighCount# example#plural#. If these do not appear as the correct characters, the file likely has a different encoding from the one you selected and
 						you probably want to <strong><a href="/tools/BulkloadOtherId.cfm">reload</a></strong> this file selecting a different character set.  If these appear as expected, then 
