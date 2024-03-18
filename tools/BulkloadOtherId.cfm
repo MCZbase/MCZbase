@@ -283,13 +283,15 @@
 				<cfif #ListLen(fieldList)# LT #foundHeaders# and #foundHeaders# NEQ #fieldList#>
 					#ADD_COLUMN_ERR#
 				</cfif>
-				<cfif NOT ListFindNoCase(fieldList,aField)>
-					<cfloop list="#foundHeaders#" item="aField">
-						<cfif #aField# gt 0>Not in the list of expected column headers:</cfif>
-					</cfloop>
-				</cfif>
+						
+				<cfloop list="#foundHeaders#" item="aField">
+					<cfif NOT ListFindNoCase(fieldList,aField)>
+						<cfset extra ="#aField#">
+						<cfif len(extra) gt 1><h4>Not in the list of expected column headers:</h4></cfif>
+					</cfif>
+				</cfloop>
 				<ul class="pt-1 pb-3 h4 font-weight-normal">
-					
+
 					<!--- Identify additional columns that will be ignored --->
 					<cfloop list="#foundHeaders#" item="aField">
 						<cfif NOT ListFindNoCase(fieldList,aField)>
