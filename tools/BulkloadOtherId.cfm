@@ -285,7 +285,7 @@
 					<!--- Identify additional columns that will be ignored --->
 					<cfloop list="#foundHeaders#" item="aField">
 						<cfif NOT ListContainsNoCase(fieldList,aField)>
-							<li class="pb-1 px-4 text-secondary"><i class='fas fa-arrow-right text-secondary'></i>YY #aField# </1i>
+							<li class="pb-1 px-4 text-secondary"><i class='fas fa-arrow-right text-secondary'></i>#aField# </1i>
 						</cfif>
 					</cfloop>
 					</ul>
@@ -316,7 +316,6 @@
 					<cfset row = row + 1>
 					<cfset columnsCountInRow = rowData.size()>
 					<cfset collValuesArray= ArrayNew(1)>
-					<ul class="pb-3 h4 list-unstyled font-weight-normal">
 					<cfloop index="i" from="0" to="#rowData.size() - 1#">
 						<!--- loading cells from object instead of list allows commas inside cells --->
 						<cfset thisBit = "#rowData.get(JavaCast("int",i))#" >
@@ -336,7 +335,6 @@
 							</cfif>
 						</cfif>
 					</cfloop>
-					</ul>
 					<cftry>
 						<!--- construct insert for row with a line for each entry in fieldlist using cfqueryparam if column header is in fieldlist, otherwise using null --->
 						<!--- Note: As we can't use csvFormat.withHeader(), we can not match columns by name, we are forced to do so by number, thus arrays --->
