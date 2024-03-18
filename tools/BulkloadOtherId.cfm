@@ -280,24 +280,38 @@
 					</cfif>
 						<cfthrow message = "#NO_COLUMN_ERR# #errorMessage#">
 				</cfif>
-				<ul class="py-1 h4 list-unstyled">
-					<!--- Identify additional columns that will be ignored --->
+				<cfset i=1>
+				<ul class="pb-1 h4 list-unstyled font-weight-normal">
+				<cfloop list="#foundHeaders#" item="aField">
+					<cfif NOT ListContainsNoCase(fieldList,aField)>
+						<li>Found additional column header [<strong>#aField#</strong>] in the CSV that is not in the list of expected headers.</1i>
+					</cfif>
+				</cfloop>
+				<cfif NOT ListLen(ListRemoveDuplicates(foundHeaders)) EQ ListLen(foundHeaders)>
+					<h3 class="h4">Warning: #DUP_COLUMN_ERR# </h3>
 					<cfloop list="#foundHeaders#" item="aField">
-						<cfif NOT ListContainsNoCase(fieldList,aField)>
-							<li>Found additional column header [<strong>#aField#</strong>] in the CSV that is not in the list of expected headers.</1i>
+						<cfif listValueCount(foundHeaders,aField) GT 1>
+							<li class="pb-1 px-4 text-secondary"><i class='fas fa-arrow-right text-secondary'></i> column ###i# = #aField# </1i>
 						</cfif>
+					<cfset i=i+1>
 					</cfloop>
-					<!--- Identify duplicate columns and fail if found --->
-					<cfif NOT ListLen(ListRemoveDuplicates(foundHeaders)) EQ ListLen(foundHeaders)>
-						<li>At least one column header occurs more than once.</1i>
+				</cfif>
+				</ul>
+<!---				<cfset i=1>
+				<cfloop list="#fieldlist#" index="field" delimiters=",">
+				<cfset hint="">
+				<cfif NOT listContainsNoCase(fieldlist,field,",")>
+				<cfif NOT ListContainsNoCase(fieldList,aField)>
+					<h3 class="h4">Warning: #ADD_COLUMN_ERR# </h3>
+						<ul class="pb-1 h4 list-unstyled font-weight-norma">
 						<cfloop list="#foundHeaders#" item="aField">
 							<cfif listValueCount(foundHeaders,aField) GT 1>
-								<li>[<strong>#aField#</strong>] is duplicated as the header for #listValueCount(foundHeaders,aField)# columns.</li>
+									<li class="pb-1 px-4 text-secondary"><i class='fas fa-arrow-right text-secondary'></i> column ###i# = #aField# </1i>
 							</cfif>
+						<cfset i=i+1>
 						</cfloop>
-						<cfthrow message = "#DUP_COLUMN_ERR#">
-					</cfif>
-				</ul>
+					</ul>
+				</cfif>--->
 				<cfset colNames="#foundHeaders#">
 				<cfset loadedRows = 0>
 				<cfset foundHighCount = 0>
