@@ -280,30 +280,21 @@
 					</cfif>
 						<cfthrow message = "#NO_COLUMN_ERR# #errorMessage#">
 				</cfif>
-				<cfif NOT ListContainsNoCase(fieldList,aField)>
-					<ul class="pb-1 h4 list-unstyled font-weight-normal">
-						<h3 class="h4">Warning: #ADD_COLUMN_ERR#</h3>
-						<!--- Identify additional columns that will be ignored --->
-						<cfloop list="#foundHeaders#" item="aField">
-
-								<li class="pb-1 px-4 text-secondary"><i class='fas fa-arrow-right text-secondary'></i>#aField# </1i>
-
-						</cfloop>
-					</ul>
-				</cfif>
-				<cfset errorMessage = "">
-					<h3>This one:</h3>
-				<cfloop list="#fieldList#" item="aField">
-					<cfif ListContainsNoCase(fieldList,aField)>
-						<!--- Case 1. Check by splitting assembled list of foundHeaders --->
-						<cfif NOT ListContainsNoCase(foundHeaders,aField)>
-							<cfset errorMessage = "#ADD_COLUMN ERROR# #errorMessage# <i class='fas fa-arrow-right text-dark'></i>&nbsp;#aField#<br>">
-						</cfif>
-					</cfif>
-				</cfloop>
 				<cfset i=1>
 				<cfif NOT ListLen(ListRemoveDuplicates(foundHeaders)) EQ ListLen(foundHeaders)>
 					<h3 class="h4">Warning: #DUP_COLUMN_ERR# </h3>
+						<ul class="pb-1 h4 list-unstyled font-weight-norma">
+						<cfloop list="#foundHeaders#" item="aField">
+							<cfif listValueCount(foundHeaders,aField) GT 1>
+									<li class="pb-1 px-4 text-secondary"><i class='fas fa-arrow-right text-secondary'></i> column ###i# = #aField# </1i>
+							</cfif>
+						<cfset i=i+1>
+						</cfloop>
+					</ul>
+				</cfif>
+				<cfset i=1>
+				<cfif NOT ListLen(ListRemoveDuplicates(foundHeaders)) EQ ListLen(foundHeaders) and NOT ListContainsNoCase(fieldList,aField)>
+					<h3 class="h4">Warning: #ADD_COLUMN_ERR# </h3>
 						<ul class="pb-1 h4 list-unstyled font-weight-norma">
 						<cfloop list="#foundHeaders#" item="aField">
 							<cfif listValueCount(foundHeaders,aField) GT 1>
