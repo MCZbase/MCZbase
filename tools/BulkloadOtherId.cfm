@@ -282,8 +282,8 @@
 				</cfif>
 				<ul class="py-1 h4 list-unstyled">
 					<!--- Identify additional columns that will be ignored --->
-					<cfif #ListLen(fieldList)# LT #foundHeaders#>
-					#ADD_COLUMN_ERR#
+					<cfif #ListLen(fieldList)# LT #foundHeaders# and #foundHeaders# NEQ #fieldList#>
+						#ADD_COLUMN_ERR#
 					</cfif>
 					<cfloop list="#foundHeaders#" item="aField">
 						<cfif NOT ListContainsNoCase(fieldList,aField)>
