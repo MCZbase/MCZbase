@@ -111,7 +111,7 @@
 		<!--- Set some constants to identify error cases in cfcatch block --->
 		<cfset NO_COLUMN_ERR = '<h4 class="mt-3">One or more required fields are missing in the header line of the csv file.</h4><p class="text-dark d-block">[<span class="font-weight-bold">Note:</span> If you uploaded csv columns that match the required headers and see "Required column not found" for the those headers, check that the <span class="font-weight-bold">character set and format</span> you selected matches the file''s encodings.]</p>'>
 		<cfset DUP_COLUMN_ERR = "<h4 class=''>One or more columns are duplicated in the header line of the csv file. </h4>">
-		<cfset ADD_COLUMN_ERR = "<h4 class=''>Found additional column header(s) in the CSV that is not in the list of expected headers. </h4>">
+		<cfset ADD_COLUMN_ERR = "<h4 class=''>Found one or more additional column headers in the CSV that are not in the list of expected headers. </h4>">
 		<cfset COLUMN_ERR = "Error inserting data ">
 		<cfset NO_HEADER_ERR = "<h4 class='mb-3'>No header line found, csv file appears to be empty.</h4>">
 
@@ -287,13 +287,13 @@
 						<cfif NOT ListContainsNoCase(fieldList,aField)>
 							<li>Found additional column header [<strong>#aField#</strong>] in the CSV that is not in the list of expected headers.</1i>
 						</cfif>
-					</cfloop>
-					<cfif NOT ListLen(ListRemoveDuplicates(foundHeaders)) EQ ListLen(foundHeaders)>
-						<h3 class="h4">Warning: #DUP_COLUMN_ERR# </h3>
-						<cfif listValueCount(foundHeaders,aField) GT 1>
-							<li class="pb-1 px-4 text-secondary"><i class='fas fa-arrow-right text-secondary'></i> #aField# </1i>
+						<cfif NOT ListLen(ListRemoveDuplicates(foundHeaders)) EQ ListLen(foundHeaders)>
+							<h3 class="h4">Warning: #DUP_COLUMN_ERR# </h3>
+							<cfif listValueCount(foundHeaders,aField) GT 1>
+								<li class="pb-1 px-4 text-secondary"><i class='fas fa-arrow-right text-secondary'></i> #aField# </1i>
+							</cfif>
 						</cfif>
-					</cfif>
+					</cfloop>
 					</ul>
 				</cfif>
 <!---				<cfset i=1>
