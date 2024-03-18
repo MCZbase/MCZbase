@@ -384,7 +384,7 @@
 					<div class="px-4">
 						<p>Showing #foundHighCount# example#plural#. If these do not appear as the correct characters, the file likely has a different encoding from the one you selected and
 						you probably want to <strong><a href="/tools/BulkloadOtherId.cfm">reload</a></strong> this file selecting a different character set.  If these appear as expected, then you selected the correct encoding and can continue to validate or load.</p>
-						<ul class="h4 list-unstyled">
+						<ul class="h4 list-unstyled font-weight-normal">
 								<!---These include the <li></li>--->
 							#foundHighAscii# #foundMultiByte#
 						</ul>
