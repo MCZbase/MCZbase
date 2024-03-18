@@ -280,23 +280,22 @@
 					</cfif>
 						<cfthrow message = "#NO_COLUMN_ERR# #errorMessage#">
 				</cfif>
-				
-				<ul class="py-1 h4 list-unstyled">
+				<cfif #ListLen(fieldList)# LT #foundHeaders# and #foundHeaders# NEQ #fieldList#>
+					#ADD_COLUMN_ERR#
+				</cfif>
+				<ul class="pt-1 pb-3 h4 font-weight-normal">
 					<!--- Identify additional columns that will be ignored --->
-					<cfif #ListLen(fieldList)# LT #foundHeaders# and #foundHeaders# NEQ #fieldList#>
-						#ADD_COLUMN_ERR#
-					</cfif>
 					<cfloop list="#foundHeaders#" item="aField">
 						<cfif NOT ListFindNoCase(fieldList,aField)>
 							<cfset extra ="#aField#">
-							<li> [<strong>#extra#</strong>] not in the list of expected column headers</li>
+							<li> [<strong>#extra#</strong>] is not in the list of expected column headers</li>
 						</cfif>
 					</cfloop>
 					<!--- Identify duplicate columns and fail if found --->
 					<cfset counts1 = ''>
 					<cfif NOT ListLen(ListRemoveDuplicates(foundHeaders)) EQ ListLen(foundHeaders)>
 						<h3 class="h4">An expected column headers occurs more than once: </h3>
-						<ul class="h4 font-weight-normal">
+						<ul class="h4 pt-1 pb-3 font-weight-normal">
 						<cfloop list="#foundHeaders#" item="aField">
 							<cfif listValueCount(foundHeaders,aField) GT 1>
 								<cfset dups = #aField#>
