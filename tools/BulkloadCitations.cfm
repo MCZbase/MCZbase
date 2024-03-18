@@ -67,7 +67,7 @@ limitations under the License.
 				<textarea rows="2" cols="90" id="templatearea" class="w-100 data-entry-textarea">#fieldlist#</textarea>
 			</div>
 			<h2 class="mt-4 h4">Columns in <span class="text-danger">red</span> are required; others are optional:</h2>
-			<ul class="mb-4 h4">
+			<ul class="mb-4 h4 font-weight-normal">
 				<cfloop list="#fieldlist#" index="field" delimiters=",">
 					<cfset aria = "">
 					<cfif listContains(requiredfieldlist,field,",")>
@@ -236,10 +236,10 @@ limitations under the License.
 					<cfset bit = headers.get(JavaCast("int",i))> 
 						<cfif i EQ 0 and characterSet EQ 'utf-8'>
 							<!--- strip off windows non-standard UTF-8-BOM byte order mark if present (raw hex EF, BB, BF or U+FEFF --->
-   							<cfset bit = "#Replace(bit,CHR(65279),'')#" >  
+							<cfset bit = "#Replace(bit,CHR(65279),'')#" >  
 						</cfif> 
 						<cfset foundHeaders = "#foundHeaders##separator##bit#" >
-			<!---		<cfset foundHeaders = "#foundHeaders##separator##headers.get(JavaCast("int",i))#" --->>
+			<!---		<cfset foundHeaders = "#foundHeaders##separator##headers.get(JavaCast("int",i))#" --->
 					<cfset separator = ",">
 				</cfloop>
 				<cfset colNameArray = listToArray(ucase(foundHeaders))><!--- the list of columns/fields found in the input file --->
@@ -265,7 +265,7 @@ limitations under the License.
 					</cfif>
 					<cfset errorMessage = "">
 					<!---Loop through field list, mark each as present in input or not, throw exception if required fields are missing--->
-					<ul class="mb-4 small90">
+					<ul class="mb-4 h4 font-weight-normal">
 						<cfloop list="#fieldlist#" index="field" delimiters=",">
 							<cfset hint="">
 							<cfif listContains(requiredfieldlist,field,",")>
@@ -282,7 +282,7 @@ limitations under the License.
 									<!--- Case 2. Check by identifying field in required field list --->
 									<cfif ListContainsNoCase(requiredFieldList,field)>
 										<strong class="text-dark">Required Column Not Found</strong>
-										<cfset errorMessage = "#errorMessage# #field# is missing.">
+										<cfset errorMessage = "#errorMessage# <div class='pl-3 pb-1 font-weight-bolder'><i class='fas fa-arrow-right text-dark'></i> #field#</div>">
 									</cfif>
 								</cfif>
 							</li>
@@ -292,28 +292,35 @@ limitations under the License.
 						<cfif size EQ 1>
 							<!--- Likely a problem parsing the first line into column headers --->
 							<!--- To get here, upload a csv file with the correct headers as MYSQL format --->
-							<cfset errorMessage = "You may have specified the wrong format, only one column header was found. #errorMessage#">
+							<cfset errorMessage = "<div class='pt-3'><p>Column#plural# not found:</p> #errorMessage#</div>">
 						</cfif>
 						<cfthrow message = "#NO_COLUMN_ERR# #errorMessage#">
 					</cfif>
-					<ul class="">
+						<!--- Identify additional columns that will be ignored --->
+					<cfif NOT ListContainsNoCase(fieldList,aField)>
+						<ul class="py-1 h4 list-unstyled">
+						<strong>Found additional column header(s) in the CSV that is not in the list of expected headers: </strong>
 						<!--- Identify additional columns that will be ignored --->
 						<cfloop list="#foundHeaders#" item="aField">
 							<cfif NOT ListContainsNoCase(fieldList,aField)>
-								<li>Found additional column header [<strong>#aField#</strong>] in the CSV that is not in the list of expected headers.</1i>
+								<li class="pb-1 px-4"><i class='fas fa-arrow-right text-info'></i> <strong class="text-info">#aField#</strong> </1i>
 							</cfif>
 						</cfloop>
+						</ul>
+					</cfif>
 						<!--- Identify duplicate columns and fail if found --->
-						<cfif NOT ListLen(ListRemoveDuplicates(foundHeaders)) EQ ListLen(foundHeaders)>
-							<li>At least one column header occurs more than once.</1i>
+					<cfif NOT ListLen(ListRemoveDuplicates(foundHeaders)) EQ ListLen(foundHeaders)>
+						<ul class="pb-1 h4 list-unstyled">
+							<!--- Identify duplicate columns and fail if found --->
+							<strong>#DUP_COLUMN_ERR# </strong>
 							<cfloop list="#foundHeaders#" item="aField">
 								<cfif listValueCount(foundHeaders,aField) GT 1>
-									<li><strong>#aField#</strong> is duplicated as the header for #listValueCount(foundHeaders,aField)# columns.</1i>
+										<li class="pb-1 px-4"><i class='fas fa-arrow-right text-info'></i> <strong class="text-info">column ###i# = #aField#</strong> </1i>
 								</cfif>
+							<cfset i=i+1>
 							</cfloop>
-							<cfthrow message = "#DUP_COLUMN_ERR#">
-						</cfif>
-					</ul>
+						</ul>
+					</cfif>
 					<cfset colNames="#foundHeaders#">
 					<cfset loadedRows = 0>
 					<cfset foundHighCount = 0>
@@ -653,7 +660,7 @@ limitations under the License.
 					Validation checks passed. Look over the table below and <a href="/tools/BulkloadCitations.cfm?action=load">click to continue</a> if it all looks good.
 				</h3>
 			</cfif>
-			<table class='px-0 mx-4 sortable table table-responsive w-100'>
+			<table class='px-0 mx-4 sortable table small table-responsive w-100'>
 				<thead class="thead-light">
 					<tr>
 						<th>STATUS&nbsp;OF&nbsp;CITATION&nbsp;BULKLOAD</th>
@@ -798,7 +805,7 @@ limitations under the License.
 								</span>
 							</cfif>
 						</h3>
-						<table class='sortable table-danger table table-responsive table-striped d-lg-table mt-3'>
+						<table class='sortable small table table-responsive table-striped d-lg-table mt-3'>
 							<thead>
 								<tr><th>COUNT</th><th>STATUS</th>
 									<th>INSTITUTION_ACRONYM</th><th>COLLECTION_CDE</th><th>OTHER_ID_TYPE</th><th>OTHER_ID_NUMBER</th><th>PUBLICATION_TITLE</th><th>PUBLICATION_ID</th><th>CITED_SCIENTIFIC_NAME</th><th>ATTRIBUTE_DATE</th><th>ATTRIBUTE_METH</th><th>DETERMINER</th><th>REMARKS</th>
