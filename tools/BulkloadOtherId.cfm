@@ -280,6 +280,7 @@
 					</cfif>
 						<cfthrow message = "#NO_COLUMN_ERR# #errorMessage#">
 				</cfif>
+				
 				<ul class="py-1 h4 list-unstyled">
 					<!--- Identify additional columns that will be ignored --->
 					<cfif #ListLen(fieldList)# LT #foundHeaders# and #foundHeaders# NEQ #fieldList#>
@@ -290,7 +291,7 @@
 							<cfset extra ="<li>Found additional column header [<strong>#aField#</strong>] in the CSV that is not in the list of expected headers.</1i>">
 						</cfif>
 					</cfloop>
-						<li>#extras#</li>
+						<li>#extra#</li>
 					<!--- Identify duplicate columns and fail if found --->
 					<cfif NOT ListLen(ListRemoveDuplicates(foundHeaders)) EQ ListLen(foundHeaders)>
 						
