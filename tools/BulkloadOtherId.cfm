@@ -299,9 +299,10 @@
 							<cfif listValueCount(foundHeaders,aField) GT 1>
 								<cfset dups = #aField#>
 								<cfset counts1 = #listValueCount(foundHeaders,aField)#>
+									<li>At least one of the expected column headers occurs more than once: #dups# is duplicated as the header for #counts1# columns</li>
 							</cfif>
 						</cfloop>
-							<li>At least one of the expected column headers occurs more than once: #dups# is duplicated as the header for #counts1#</li>
+						
 						<cfthrow message = "#DUP_COLUMN_ERR#">
 					</cfif>
 				</ul>
