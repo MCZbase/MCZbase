@@ -33,7 +33,7 @@
 <cfset pageTitle = "Bulkload Other IDs">
 <cfinclude template="/shared/_header.cfm">
 <cfif not isDefined("action") OR len(action) EQ 0><cfset action="nothing"></cfif>
-<main class="container py-3" id="content">
+<main class="container-fluid py-3 px-5" id="content">
 	<h1 class="h2 mt-2">Bulkload Other IDs</h1>
 	<cfif #action# is "nothing">
 		<cfoutput>
@@ -57,7 +57,7 @@
 					<cfelse>
 						<cfset class="text-dark">
 					</cfif>
-					<li class="pb-1 px-4 text-secondary" #aria#>#field#</li>
+					<li class="#class#" #aria#>#field#</li>
 				</cfloop>
 			</ul>
 			<p>Check the Help > Controlled Vocabulary page and select the <a href="/vocabularies/ControlledVocabulary.cfm?table=CTCOLL_OTHER_ID_TYPE">CTCOLL_OTHER_ID_TYPE</a> list for types ("catalog number" can also be used). Values can be combinations of letters, special characters, and numbers or just numbers. Submit a bug report to request an additional type when needed.</p>
