@@ -126,7 +126,7 @@ limitations under the License.
 		<cfoutput>
 		<h2 class="h4">First step: Reading data from CSV file.</h2>
 		<!--- Set some constants to identify error cases in cfcatch block --->
-		<cfset NO_COLUMN_ERR = "One or more required fields are missing in the header line of the csv file.">
+		<cfset NO_COLUMN_ERR = "One or more required fields are missing in the header line of the csv file. <span class='text-danger'>[If you uploaded csv columns that match the required headers and see 'Required column not found' for the those headers, check that the character set and format you selected matches the file''s encodings.]</span>">
 		<cfset DUP_COLUMN_ERR = "One or more columns are duplicated in the header line of the csv file.">
 		<cfset COLUMN_ERR = "Error inserting data">
 		<cfset NO_HEADER_ERR = "No header line found, csv file appears to be empty.">
@@ -291,8 +291,9 @@ limitations under the License.
 					<cfif len(errorMessage) GT 0>
 						<cfif size EQ 1>
 							<!--- Likely a problem parsing the first line into column headers --->
-							<!--- To get here, upload a csv file with the correct headers as MYSQL format --->
-							<cfset errorMessage = "<div class='pt-3'><p>Column#plural# not found:</p> #errorMessage#</div>">
+							<cfset errorMessage = "<div class='pt-3'><p>Column not found:</p> #errorMessage#</div>">
+						<cfelse>
+							<cfset errorMessage = "<div class='pt-3'><p>Columns not found:</p> #errorMessage#</div>">
 						</cfif>
 						<cfthrow message = "#NO_COLUMN_ERR# #errorMessage#">
 					</cfif>
