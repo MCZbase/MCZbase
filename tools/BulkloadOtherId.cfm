@@ -298,7 +298,7 @@
 								<cfset dups = "<li>[<strong>#aField#</strong>] is duplicated as the header for #listValueCount(foundHeaders,aField)# columns.</li>">
 							</cfif>
 						</cfloop>
-						[<strong>#aField#</strong>] is duplicated as the header for #listValueCount(foundHeaders,aField)# columns.
+						<h4>#dups#</h4
 						<cfthrow message = "#DUP_COLUMN_ERR#">
 					</cfif>
 				</ul>
