@@ -286,7 +286,7 @@
 					<!--- Identify additional columns that will be ignored --->
 					<cfloop list="#foundHeaders#" item="aField">
 						<cfif NOT ListContainsNoCase(fieldList,aField)>
-							<li class="pb-1 px-4"><i class='fas fa-arrow-right text-info'></i> <strong class="text-info">#aField#</strong> </1i>
+							<li class="pb-1 px-4"><i class='fas fa-arrow-right' style='color:orangered'></i> <strong class="text-info">#aField#</strong> </1i>
 						</cfif>
 					</cfloop>
 					</ul>
@@ -298,7 +298,7 @@
 						<strong>Warning: #DUP_COLUMN_ERR# </strong>
 						<cfloop list="#foundHeaders#" item="aField">
 							<cfif listValueCount(foundHeaders,aField) GT 1>
-									<li class="pb-1 px-4"><i class='fas fa-arrow-right text-info'></i> <strong class="text-info">column ###i# = #aField#</strong> </1i>
+									<li class="pb-1 px-4 font-weight-bold" style="color:orangered"><i class='fas fa-arrow-right' style='orangered'></i>column ###i# = #aField# </1i>
 							</cfif>
 						<cfset i=i+1>
 						</cfloop>
@@ -326,13 +326,13 @@
 						<cfif REFind("[^\x00-\x7F]",thisBit) GT 0>
 							<!--- high ASCII --->
 							<cfif foundHighCount LT 6>
-								<cfset foundHighAscii = "#foundHighAscii# <li style='color: orange;' class='font-weight-bold'>#thisBit#</li>"><!--- " --->
+								<cfset foundHighAscii = "#foundHighAscii# <li style='color: orangered;' class='font-weight-bold'>#thisBit#</li>"><!--- " --->
 								<cfset foundHighCount = foundHighCount + 1>
 							</cfif>
 						<cfelseif REFind("[\xc0-\xdf][\x80-\xbf]",thisBit) GT 0>
 							<!--- multibyte --->
 							<cfif foundHighCount LT 6>
-								<cfset foundMultiByte = "#foundMultiByte# <li style='color: orange;' class='font-weight-bold'>#thisBit#</li>"><!--- " --->
+								<cfset foundMultiByte = "#foundMultiByte# <li style='color: orangered;' class='font-weight-bold'>#thisBit#</li>"><!--- " --->
 								<cfset foundHighCount = foundHighCount + 1>
 							</cfif>
 						</cfif>
