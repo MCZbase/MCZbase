@@ -301,15 +301,15 @@
 					</cfloop>
 				</ul>
 				<!--- Identify duplicate columns and fail if found --->
-				<cfset counts1 = ''>
+				<cfif #aField# GT 1><cfset plural="s"><cfelse><cfset plural=""></cfif>
 				<cfif NOT ListLen(ListRemoveDuplicates(foundHeaders)) EQ ListLen(foundHeaders)>
-					<h3 class="h4">Expected column header(s) occur(s) more than once: </h3>
+					<h3 class="h4">Expected column header(#plural#) occur(#plural#) more than once: </h3>
 					<ul class="h4 pt-1 pb-3 font-weight-normal">
 					<cfloop list="#foundHeaders#" item="aField">
 						<cfif listValueCount(foundHeaders,aField) GT 1>
 							<cfset dups = #aField#>
 							<cfset counts1 = #listValueCount(foundHeaders,aField)#>
-								<li>#dups#</li>
+							<li>#dups#</li>
 						</cfif>
 					</cfloop>
 					</ul>
