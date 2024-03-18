@@ -280,24 +280,24 @@
 					</cfif>
 						<cfthrow message = "#NO_COLUMN_ERR# #errorMessage#">
 				</cfif>
-				<cfif #ListLen(fieldList)# LT #foundHeaders#>
-					#ADD_COLUMN_ERR# #aField# <br>#foundHeaders#
-					<ul class="pb-1 h4 list-unstyled font-weight-normal">
-					
-						<cfif NOT ListContainsNoCase(#foundHeaders#,#fieldList#)>#aField# <br>#foundHeaders# <br> #fieldList#
-							<cfloop list="#foundHeaders#" item="aField">
+		<ul class="py-1 h4 list-unstyled">
+					<!--- Identify additional columns that will be ignored --->
+					<cfloop list="#foundHeaders#" item="aField">
+						<cfif NOT ListContainsNoCase(fieldList,aField)>
 							<li>Found additional column header [<strong>#aField#</strong>] in the CSV that is not in the list of expected headers.</1i>
-							</cfloop>
 						</cfif>
-						<cfif NOT ListLen(ListRemoveDuplicates(foundHeaders)) EQ ListLen(foundHeaders)>
-							<h3 class="h4">Warning: #DUP_COLUMN_ERR# </h3>
+					</cfloop>
+					<!--- Identify duplicate columns and fail if found --->
+					<cfif NOT ListLen(ListRemoveDuplicates(foundHeaders)) EQ ListLen(foundHeaders)>
+						<li>At least one column header occurs more than once.</1i>
+						<cfloop list="#foundHeaders#" item="aField">
 							<cfif listValueCount(foundHeaders,aField) GT 1>
-								<li class="pb-1 px-4 text-secondary"><i class='fas fa-arrow-right text-secondary'></i> #aField# </1i>
+								<li>[<strong>#aField#</strong>] is duplicated as the header for #listValueCount(foundHeaders,aField)# columns.</li>
 							</cfif>
-						</cfif>
-					
-					</ul>
-				</cfif>
+						</cfloop>
+						<cfthrow message = "#DUP_COLUMN_ERR#">
+					</cfif>
+				</ul>
 <!---				<cfset i=1>
 				<cfloop list="#fieldlist#" index="field" delimiters=",">
 				<cfset hint="">
