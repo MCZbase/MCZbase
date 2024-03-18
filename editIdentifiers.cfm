@@ -11,7 +11,8 @@
 		other_id_prefix,
 		other_id_number,
 		other_id_suffix,
-		other_id_type, 
+		other_id_type,
+		display_value, 
 		cataloged_item.collection_id,
 		collection.collection_cde,
 		institution_acronym
@@ -38,7 +39,8 @@
 		other_id_prefix,
 		other_id_number,
 		other_id_suffix,
-		other_id_type 
+		other_id_type,
+		display_value 
 	from 
 		getIDs 
 	group by 
@@ -46,7 +48,8 @@
 		other_id_prefix,
 		other_id_number,
 		other_id_suffix,
-		other_id_type
+		other_id_type,
+		display_value
 </cfquery>
 <cfquery name="ctcoll_cde" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select 
@@ -98,9 +101,7 @@
 						</select>
 					</td>
 					<td nowrap="nowrap">
-						<input type="text" value="#oids.other_id_prefix#" size="12" name="other_id_prefix">
-						<input type="text" value="#oids.other_id_number#" size="12" name="other_id_number">
-						<input type="text" value="#oids.other_id_suffix#" size="12"  name="other_id_suffix">
+						<input type="text" value="#oids.display_value#" size="25"  name="display_value">
 					</td>
 					<td nowrap="nowrap">
 						<input type="button" value="Save" class="savBtn" onmouseover="this.className='savBtn btnhov'" onmouseout="this.className='savBtn'" onclick="oids#i#.Action.value='saveOIDEdits';submit();">
@@ -131,9 +132,7 @@
 						</select>
 					</td>
 					<td>
-						<input type="text" class="reqdClr" name="other_id_prefix" size="6">
-						<input type="text" class="reqdClr" name="other_id_number" size="6">
-						<input type="text" class="reqdClr" name="other_id_suffix" size="6">		
+						<input type="text" class="reqdClr" name="display_value" size="25">		
 					</td>
 					<td>
 						<input type="submit" value="Save" class="insBtn" onmouseover="this.className='insBtn btnhov'" onmouseout="this.className='insBtn'">
