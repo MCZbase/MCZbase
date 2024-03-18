@@ -111,6 +111,7 @@
 		<!--- Set some constants to identify error cases in cfcatch block --->
 		<cfset NO_COLUMN_ERR = '<h4 class="mt-3">One or more required fields are missing in the header line of the csv file.</h4><p class="text-dark d-block">[<span class="font-weight-bold">Note:</span> If you uploaded csv columns that match the required headers and see "Required column not found" for the those headers, check that the <span class="font-weight-bold">character set and format</span> you selected matches the file''s encodings.]</p>'>
 		<cfset DUP_COLUMN_ERR = "<h4 class=''>One or more columns are duplicated in the header line of the csv file. </h4>">
+		<cfset ADD_COLUMN_ERR = "<h4 class=''>Found additional column header(s) in the CSV that is not in the list of expected headers. </h4>">
 		<cfset COLUMN_ERR = "Error inserting data ">
 		<cfset NO_HEADER_ERR = "<h4 class='mb-3'>No header line found, csv file appears to be empty.</h4>">
 
@@ -279,17 +280,15 @@
 					</cfif>
 						<cfthrow message = "#NO_COLUMN_ERR# #errorMessage#">
 				</cfif>
-				<cfif NOT ListContainsNoCase(fieldList,aField) EQ ListLen(foundHeaders)>
-					<h3 class="h4">Warning: Found additional column header(s) in the CSV that is not in the list of expected headers: </h3>
-					<ul class="pb-1 h4 list-unstyled font-weight-normal">
+				<ul class="pb-1 h4 list-unstyled font-weight-normal">
+					<h3 class="h4">Warning: #ADD_COLUMN_ERR#</h3>
 					<!--- Identify additional columns that will be ignored --->
 					<cfloop list="#foundHeaders#" item="aField">
 						<cfif NOT ListContainsNoCase(fieldList,aField)>
 							<li class="pb-1 px-4 text-secondary"><i class='fas fa-arrow-right text-secondary'></i>#aField# </1i>
 						</cfif>
 					</cfloop>
-					</ul>
-				</cfif>
+				</ul>
 				<cfset i=1>
 				<cfif NOT ListLen(ListRemoveDuplicates(foundHeaders)) EQ ListLen(foundHeaders)>
 					<h3 class="h4">Warning: #DUP_COLUMN_ERR# </h3>
