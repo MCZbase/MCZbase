@@ -288,7 +288,6 @@
 					<cfloop list="#foundHeaders#" item="aField">
 						<cfif NOT ListContainsNoCase(fieldList,aField)>
 							<li>Found additional column header [<strong>#aField#</strong>] in the CSV that is not in the list of expected headers.</1i>
-							</cfloop>
 						</cfif>
 					</cfloop>
 					<!--- Identify duplicate columns and fail if found --->
