@@ -276,7 +276,9 @@
 				</cfif>
 				<cfif #aField# GT 1><cfset plural1="s"><cfelse><cfset plural1=""></cfif>
 				<cfif #aField# GT 1><cfset plural2=""><cfelse><cfset plural2="s"></cfif>
-					#fieldList#
+					#fieldList#<br>
+					#columnNameArray#<br>
+					#fieldArray#
 				<cfif #ListLen(fieldList)# LT #ListLen(foundHeaders)# and #foundHeaders# NEQ #fieldList#>
 					<h4>Found one or more column headers in the CSV that should not be there:</h4>
 				</cfif>
