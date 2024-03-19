@@ -320,7 +320,7 @@
 							</cfif>
 						</cfif>
 					</cfloop>
-				</cfloop>		
+							
 				
 				<cfif #ListLen(fieldList)# LT #ListLen(foundHeaders)#>
 					<h4>Found one or more column headers in the CSV that should not be there:</h4>
@@ -331,7 +331,7 @@
 					<cfloop list="#foundHeaders#" item="aField">
 						<cfif NOT ListFindNoCase(fieldList,aField)>
 							<cfset extra ="#aField#">
-							<li>Column #i#: #extra#</li>
+							<li>Column #i#: #extra#  #foundHighCount# #thisBit# #foundMultiByte#</li>
 						</cfif>
 						<cfset i= i+1>
 					</cfloop>
