@@ -292,13 +292,13 @@
 				</cfif>
 				<ul class="pt-1 pb-3 h4 font-weight-normal">
 					<!--- Identify additional columns that will be ignored --->
-					<cfif i = 1>
+					<cfset i = 1>
 					<cfloop list="#foundHeaders#" item="aField">
 						<cfif NOT ListFindNoCase(fieldList,aField)>
 							<cfset extra ="#aField#">
 							<li>#i# #extra#</li>
 						</cfif>
-						<cfif i= i+1>
+						<cfset i= i+1>
 					</cfloop>
 				</ul>
 				<!--- Identify duplicate columns and fail if found --->
