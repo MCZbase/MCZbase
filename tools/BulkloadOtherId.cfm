@@ -273,14 +273,14 @@
 						</li>
 					</cfloop>
 				</ul>
-				<cfif len(errorMessage) GT 0>
-						<cfif size EQ 1> 
+			<!---	<cfif len(errorMessage) GT 0>
+						<cfif size EQ 1> --->
 				<!---		 likely a problem parsing the first line into column headers 
 						 to get here, upload a csv file with the correct headers as MYSQL format --->
-						<cfset errorMessage = "You may have specified the wrong format, only one column header was found. ">
+	<!---					<cfset errorMessage = "You may have specified the wrong format, only one column header was found. ">
 					</cfif>
 					<cfthrow message = "#NO_COLUMN_ERR# #errorMessage#">
-				</cfif>
+				</cfif>--->
 				<cfif len(errorMessage) GT 0><!---<cfif size EQ 1> did not work --->
 					<cfset errorMessage = "<div class='pt-2'><p>Column(s) not found:</p> #errorMessage#</div>">
 					<cfthrow message = "#NO_COLUMN_ERR# #errorMessage#">
