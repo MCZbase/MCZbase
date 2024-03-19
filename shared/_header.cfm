@@ -867,7 +867,7 @@ limitations under the License.
 						<cfset gtp=replace(cgi.REDIRECT_URL, "//", "/")>
 					<cfelse>
 						<cfset requestData = #GetHttpRequestData()#>
-						<cfif isdefined("requestData.headers.referer") and len(requestData.headers.referer) gt 0>
+						<cfif isdefined("requestData.headers.referer") and len(requestData.headers.referer) gt 0 and refind('^#application.protocol#://#application.hostName#/.*',requestData.headers.referer)>
 							<cfset gtp=requestData.headers.referer>
 						<cfelse>
 							<cfset gtp=replace(cgi.SCRIPT_NAME, "//", "/")>
