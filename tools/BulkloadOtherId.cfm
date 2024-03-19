@@ -112,7 +112,6 @@
 		<cfset NO_COLUMN_ERR = '<h4 class="mt-3">One or more required fields are missing in the header line of the csv file.</h4><p class="text-dark d-block">[<span class="font-weight-bold">Note:</span> If you uploaded csv columns that match the required headers and see "Required column not found" for those headers, check that the <span class="font-weight-bold">character set and format</span> you selected matches the file''s encodings.]</p>'>
 		<cfset DUP_COLUMN_ERR = "<h4 class=''>Fix the one or more columns that are duplicated, mispelled, or added in the header line of the csv file and reload. </h4>">
 		<cfset COLUMN_ERR = "Error inserting data ">
-		<cfset ADD_COLUMN_ERR = "Error inserting data. Extra column. ">
 		<cfset NO_HEADER_ERR = "<h4 class='mb-3'>No header line found, csv file appears to be empty.</h4>">
 
 		<cftry>
@@ -435,8 +434,6 @@
 				<cfelseif Find("#COLUMN_ERR#",cfcatch.message) GT 0>
 					#cfcatch.message#
 				<cfelseif Find("#DUP_COLUMN_ERR#",cfcatch.message) GT 0>
-					#cfcatch.message#
-				<cfelseif Find("#ADD_COLUMN_ERR#",cfcatch.message) GT 0>
 					#cfcatch.message#
 				<cfelseif Find("IOException reading next record: java.io.IOException: (line 1) invalid char between encapsulated token and delimiter",cfcatch.message) GT 0>
 					<ul class="py-1 h4 list-unstyled">
