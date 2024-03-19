@@ -319,7 +319,7 @@
 					<cfset collValuesArray= ArrayNew(1)>
 					<cfloop index="i" from="0" to="#rowData.size() - 1#">
 						<!--- loading cells from object instead of list allows commas inside cells --->
-						<cfset thisBit = "#rowData.get(JavaCast("int",i))#" >
+						<cfset thisBit = "#rowData.get(JavaCast('int',i))#" >
 						<!--- store in a coldfusion array so we won't need JavaCast to reference by position --->
 						<cfset ArrayAppend(collValuesArray,thisBit)>
 						<cfif REFind("[^\x00-\x7F]",thisBit) GT 0>
