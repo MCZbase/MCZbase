@@ -287,7 +287,7 @@
 					</cfif>
 				<cfelse>
 					<cfif #ListLen(fieldList)# LT #ListLen(foundHeaders)#>
-						<cfset errorMessage = "<div class='pt-2'><p>Column(s) not found:</p> #errorMessage#</div>">
+						<cfset errorMessage = "#errorMessage#">
 					</cfif>
 						<cfthrow message = "#NO_COLUMN_ERR# #errorMessage#">
 				</cfif>
