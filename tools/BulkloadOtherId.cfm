@@ -273,7 +273,8 @@
 						</li>
 					</cfloop>
 				</ul>
-				<cfif size EQ 1> 
+				<cfif len(errorMessage) GT 0>
+						<cfif size EQ 1> 
 				<!---		 likely a problem parsing the first line into column headers 
 						 to get here, upload a csv file with the correct headers as MYSQL format --->
 						<cfset errorMessage = "You may have specified the wrong format, only one column header was found. ">
