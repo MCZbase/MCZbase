@@ -287,7 +287,7 @@
 				<cfif #aField# GT 1><cfset plural1="s"><cfelse><cfset plural1=""></cfif>
 				<cfif #aField# GT 1><cfset plural2=""><cfelse><cfset plural2="s"></cfif>
 				
-				<cfif #ListLen(fieldList)# LT #ListLen(foundHeaders)# and #foundHeaders# NEQ #fieldList#>
+				<cfif #ListLen(fieldList)# LT #ListLen(foundHeaders)#>
 					<h4>Found one or more column headers in the CSV that should not be there:</h4>
 				</cfif>
 				<ul class="pt-1 pb-3 h4 font-weight-normal">
@@ -299,6 +299,12 @@
 						</cfif>
 					</cfloop>
 				</ul>
+				<cfif #foundHeaders# NEQ #fieldList#>
+					<cfif NOT ListFindNoCase(fieldList,aField)>
+						<cfset charHead ="#aField#">
+						<li>#charHead#</li>
+					</cfif>
+				</cfif>
 				<!--- Identify duplicate columns and fail if found --->
 				<cfif NOT ListLen(ListRemoveDuplicates(foundHeaders)) EQ ListLen(foundHeaders)>
 					<h3 class="h4">Expected column header#plural1# occur#plural2# more than once: </h3>
