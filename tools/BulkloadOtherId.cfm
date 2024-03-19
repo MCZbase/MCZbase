@@ -109,9 +109,10 @@
 		<h2 class="h3">First step: Reading data from CSV file.</h2>
 		<!--- Compare the numbers of headers expected against provided in CSV file --->
 		<!--- Set some constants to identify error cases in cfcatch block --->
-		<cfset NO_COLUMN_ERR = '<h4 class="mt-3">One or more required fields are missing in the header line of the csv file.</h4><p class="text-dark d-block">[<span class="font-weight-bold">Note:</span> If you uploaded csv columns that match the required headers and see "Required column not found" for the those headers, check that the <span class="font-weight-bold">character set and format</span> you selected matches the file''s encodings.]</p>'>
+		<cfset NO_COLUMN_ERR = '<h4 class="mt-3">One or more required fields are missing in the header line of the csv file.</h4><p class="text-dark d-block">[<span class="font-weight-bold">Note:</span> If you uploaded csv columns that match the required headers and see "Required column not found" for those headers, check that the <span class="font-weight-bold">character set and format</span> you selected matches the file''s encodings.]</p>'>
 		<cfset DUP_COLUMN_ERR = "<h4 class=''>Fix the one or more columns that are duplicated, mispelled, or added in the header line of the csv file and reload. </h4>">
 		<cfset COLUMN_ERR = "Error inserting data ">
+		<cfset ADD_COLUMN_ERR = "Error inserting data. Extra column. ">
 		<cfset NO_HEADER_ERR = "<h4 class='mb-3'>No header line found, csv file appears to be empty.</h4>">
 
 		<cftry>
@@ -277,7 +278,7 @@
 				<cfif #aField# GT 1><cfset plural1="s"><cfelse><cfset plural1=""></cfif>
 				<cfif #aField# GT 1><cfset plural2=""><cfelse><cfset plural2="s"></cfif>
 				<cfif #ListLen(fieldList)# LT #foundHeaders# and #foundHeaders# NEQ #fieldList#>
-					<h4>Found one or more column headers in the CSV that should not be there.</h4>
+					<h4>Found one or more column headers in the CSV that should not be there:</h4>
 				</cfif>
 				<ul class="pt-1 pb-3 h4 font-weight-normal">
 					<!--- Identify additional columns that will be ignored --->
@@ -325,13 +326,13 @@
 						<cfif REFind("[^\x00-\x7F]",thisBit) GT 0>
 							<!--- high ASCII --->
 							<cfif foundHighCount LT 6>
-								<cfset foundHighAscii = "#foundHighAscii# <li class='text-secondary pb-1'><i class='fas fa-arrow-right text-secondary'></i> #thisBit#</li>"><!--- " --->
+								<cfset foundHighAscii = "#foundHighAscii# <li class='text-dark pb-1'><i class='fas fa-arrow-right text-dark'></i> #thisBit#</li>"><!--- " --->
 								<cfset foundHighCount = foundHighCount + 1>
 							</cfif>
 						<cfelseif REFind("[\xc0-\xdf][\x80-\xbf]",thisBit) GT 0>
 							<!--- multibyte --->
 							<cfif foundHighCount LT 6>
-								<cfset foundMultiByte = "#foundMultiByte# <li class='text-secondary pb-1'><i class='fas fa-arrow-right text-secondary'></i>  #thisBit#</li>"><!--- " --->
+								<cfset foundMultiByte = "#foundMultiByte# <li class='text-dark pb-1'><i class='fas fa-arrow-right text-dark'></i>  #thisBit#</li>"><!--- " --->
 								<cfset foundHighCount = foundHighCount + 1>
 							</cfif>
 						</cfif>
