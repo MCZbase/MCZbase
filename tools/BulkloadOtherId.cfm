@@ -282,8 +282,9 @@
 					<cfthrow message = "#NO_COLUMN_ERR# #errorMessage#">
 				</cfif>--->
 				<cfif len(errorMessage) GT 0>
-					<cfset errorMessage = "<div class='pt-2'><p>Column(s) not found:</p> #errorMessage#</div>">
-					<cfthrow message = "#NO_COLUMN_ERR# #errorMessage#">
+				<!---	<cfset errorMessage = "<div class='pt-2'><p>Column(s) not found:</p> #errorMessage#</div>">
+					<cfthrow message = "#NO_COLUMN_ERR# #errorMessage#">--->
+					<h4>Character set not correct.</h4>
 				</cfif>
 				<cfif #aField# GT 1><cfset plural1="s"><cfelse><cfset plural1=""></cfif>
 				<cfif #aField# GT 1><cfset plural2=""><cfelse><cfset plural2="s"></cfif>
