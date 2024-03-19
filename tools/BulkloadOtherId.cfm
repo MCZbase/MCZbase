@@ -245,6 +245,9 @@
 						</cfif>
 					</cfif>
 				</cfloop>
+				<cfif len(errorMessage) GT 0>
+					<cfthrow message = "#NO_COLUMN_ERR# #errorMessage#"
+				</cfif>
 				<cfset errorMessage = "">
 				<!--- Loop through list of fields, mark each field as fields present in input or not, throw exception if required fields are missing --->
 				<ul class="h4 mb-4 font-weight-normal">
@@ -270,7 +273,14 @@
 						</li>
 					</cfloop>
 				</ul>
-				<cfif len(errorMessage) GT 0>
+				<!---<cfif size EQ 1> --->
+						<!--- likely a problem parsing the first line into column headers --->
+						<!--- to get here, upload a csv file with the correct headers as MYSQL format --->
+					<!---	<cfset errorMessage = "You may have specified the wrong format, only one column header was found. #errorMessage#">
+					</cfif>
+					<cfthrow message = "#NO_COLUMN_ERR# #errorMessage#">
+					--->
+				<cfif len(errorMessage) GT 0><!---<cfif size EQ 1> did not work --->
 					<cfset errorMessage = "<div class='pt-2'><p>Column(s) not found:</p> #errorMessage#</div>">
 					<cfthrow message = "#NO_COLUMN_ERR# #errorMessage#">
 				</cfif>
