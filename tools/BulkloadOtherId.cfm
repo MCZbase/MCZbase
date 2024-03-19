@@ -284,7 +284,7 @@
 				<cfif len(errorMessage) GT 0>
 					<cfif size eq 1>
 						<h4>The wrong format was chosen.</h4>
-					<cfelse>
+					<cfelseif size gt 1 and #ListLen(fieldList)# LT #ListLen(foundHeaders)#>
 						<cfset errorMessage = "<div class='pt-2'><p>Column(s) not found:</p> #errorMessage#</div>">
 							
 					</cfif>
