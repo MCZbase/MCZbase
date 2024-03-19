@@ -273,53 +273,47 @@
 						</li>
 					</cfloop>
 				</ul>
-			<!---	<cfif len(errorMessage) GT 0>
-						<cfif size EQ 1> --->
-				<!---		 likely a problem parsing the first line into column headers 
-						 to get here, upload a csv file with the correct headers as MYSQL format --->
-	<!---					<cfset errorMessage = "You may have specified the wrong format, only one column header was found. ">
-					</cfif>
-					<cfthrow message = "#NO_COLUMN_ERR# #errorMessage#">
-				</cfif>--->
-				<cfif len(errorMessage) GT 0>
-					<cfif size EQ 1>
-				<!---	<cfset errorMessage = "<div class='pt-2'><p>Column(s) not found:</p> #errorMessage#</div>">
-					<cfthrow message = "#NO_COLUMN_ERR# #errorMessage#">--->
-					<h4 class="text-danger">Character set not correct.</h4>
-					</cfif>
-				</cfif>
+
+				<!---OTHER TYPES OF ERRORS: DUPLICATION, WRONG CHARSET, WRONG FORMAT, EXTRA HEADERS--->
+								
+			<cfif len(errorMessage) GT 0>
+
 				<cfif #aField# GT 1><cfset plural1="s"><cfelse><cfset plural1=""></cfif>
 				<cfif #aField# GT 1><cfset plural2=""><cfelse><cfset plural2="s"></cfif>
 				
+				<!---EXTRA HEADERS --They are not in list of headers --->
 				<cfif #ListLen(fieldList)# LT #ListLen(foundHeaders)#>
 					<h4>Found one or more column headers in the CSV that should not be there:</h4>
-				
-				<ul class="pt-1 pb-3 h4 font-weight-normal">
-					<!--- Identify additional columns that will be ignored --->
-					<cfset i = 1>
-					<cfloop list="#foundHeaders#" item="aField">
-						<cfif NOT ListFindNoCase(fieldList,aField)>
-							<cfset extra ="#aField#">
-							<li>#extra#</li>
-						</cfif>
-						<cfset i= i+1>
-					</cfloop>
-				</ul>
-				<!--- Identify duplicate columns and fail if found --->
-				<cfif NOT ListLen(ListRemoveDuplicates(foundHeaders)) EQ ListLen(foundHeaders)>
-					<h3 class="h4">Expected column header#plural1# occur#plural2# more than once: </h3>
-					<ul class="h4 pt-1 pb-3 font-weight-normal">
-					<cfloop list="#foundHeaders#" item="aField">
-						<cfif listValueCount(foundHeaders,aField) GT 1>
-							<cfset dups = #aField#>
-							<cfset counts1 = #listValueCount(foundHeaders,aField)#>
-							<li>#dups#</li>
-						</cfif>
-					</cfloop>
+					<ul class="pt-1 pb-3 h4 font-weight-normal">
+						<!--- Identify additional columns that will be ignored --->
+						<cfset i = 1>
+						<cfloop list="#foundHeaders#" item="aField">
+							<cfif NOT ListFindNoCase(fieldList,aField)>
+								<cfset extra ="#aField#">
+								<li>#extra#</li>
+							</cfif>
+							<cfset i= i+1>
+						</cfloop>
 					</ul>
-					<cfthrow message = "#DUP_COLUMN_ERR#">
-				</cfif>
-				</cfif>
+						
+					<!--- DUPLICATION:  Identify duplicate columns and fail if found --->
+					<cfif NOT ListLen(ListRemoveDuplicates(foundHeaders)) EQ ListLen(foundHeaders)>
+						<h3 class="h4">Expected column header#plural1# occur#plural2# more than once: </h3>
+						<ul class="h4 pt-1 pb-3 font-weight-normal">
+						<cfloop list="#foundHeaders#" item="aField">
+							<cfif listValueCount(foundHeaders,aField) GT 1>
+								<cfset dups = #aField#>
+								<cfset counts1 = #listValueCount(foundHeaders,aField)#>
+								<li>#dups#</li>
+							</cfif>
+						</cfloop>
+						</ul>
+						<cfthrow message = "#DUP_COLUMN_ERR#">
+					</cfif>
+					
+					<cfif size eq 1>Charset or Format incorrect</cfif>
+				</cfif>	
+			</cfif>
 						
 				
 				<cfset colNames="#foundHeaders#">
@@ -327,7 +321,6 @@
 				<cfset foundHighCount = 0>
 				<cfset foundHighAscii = "">
 				<cfset foundMultiByte = "">
-
 				<!--- Iterate through the remaining rows inserting the data into the temp table. --->
 				<cfset row = 0>
 				<cfloop condition="#iterator.hasNext()#">
