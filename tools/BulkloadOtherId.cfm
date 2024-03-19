@@ -331,7 +331,7 @@
 					<cfloop list="#foundHeaders#" item="aField">
 						<cfif NOT ListFindNoCase(fieldList,aField)>
 							<cfset extra ="#aField#">
-							<li>Column #i#: #extra#  #foundHighCount# #thisBit# #foundMultiByte#</li>
+							<li>Column #i#: #extra#</li>
 						</cfif>
 						<cfset i= i+1>
 					</cfloop>
