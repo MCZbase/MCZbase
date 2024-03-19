@@ -273,20 +273,49 @@
 						</li>
 					</cfloop>
 				</ul>
-				<!---<cfif size EQ 1> --->
-						<!--- likely a problem parsing the first line into column headers --->
-						<!--- to get here, upload a csv file with the correct headers as MYSQL format --->
-					<!---	<cfset errorMessage = "You may have specified the wrong format, only one column header was found. #errorMessage#">
+				<cfif size EQ 1> 
+						 likely a problem parsing the first line into column headers 
+						 to get here, upload a csv file with the correct headers as MYSQL format 
+						<cfset errorMessage = "You may have specified the wrong format, only one column header was found. #errorMessage#">
 					</cfif>
 					<cfthrow message = "#NO_COLUMN_ERR# #errorMessage#">
-					--->
-				
+					
 				<cfif len(errorMessage) GT 0><!---<cfif size EQ 1> did not work --->
 					<cfset errorMessage = "<div class='pt-2'><p>Column(s) not found:</p> #errorMessage#</div>">
 					<cfthrow message = "#NO_COLUMN_ERR# #errorMessage#">
 				</cfif>
 				<cfif #aField# GT 1><cfset plural1="s"><cfelse><cfset plural1=""></cfif>
 				<cfif #aField# GT 1><cfset plural2=""><cfelse><cfset plural2="s"></cfif>
+				
+				<cfif #ListLen(fieldList)# LT #ListLen(foundHeaders)#>
+					<h4>Found one or more column headers in the CSV that should not be there:</h4>
+				</cfif>
+				<ul class="pt-1 pb-3 h4 font-weight-normal">
+					<!--- Identify additional columns that will be ignored --->
+					<cfset i = 1>
+					<cfloop list="#foundHeaders#" item="aField">
+						<cfif NOT ListFindNoCase(fieldList,aField)>
+							<cfset extra ="#aField#">
+							<li>Column #i#: #extra#</li>
+						</cfif>
+						<cfset i= i+1>
+					</cfloop>
+				</ul>
+				<!--- Identify duplicate columns and fail if found --->
+				<cfif NOT ListLen(ListRemoveDuplicates(foundHeaders)) EQ ListLen(foundHeaders)>
+					<h3 class="h4">Expected column header#plural1# occur#plural2# more than once: </h3>
+					<ul class="h4 pt-1 pb-3 font-weight-normal">
+					<cfloop list="#foundHeaders#" item="aField">
+						<cfif listValueCount(foundHeaders,aField) GT 1>
+							<cfset dups = #aField#>
+							<cfset counts1 = #listValueCount(foundHeaders,aField)#>
+							<li>#dups#</li>
+						</cfif>
+					</cfloop>
+					</ul>
+					<cfthrow message = "#DUP_COLUMN_ERR#">
+				</cfif>
+
 				<cfset colNames="#foundHeaders#">
 				<cfset loadedRows = 0>
 				<cfset foundHighCount = 0>
@@ -320,38 +349,6 @@
 							</cfif>
 						</cfif>
 					</cfloop>
-							
-				
-				<cfif #ListLen(fieldList)# LT #ListLen(foundHeaders)#>
-					<h4>Found one or more column headers in the CSV that should not be there:</h4>
-				</cfif>
-				<ul class="pt-1 pb-3 h4 font-weight-normal">
-					<!--- Identify additional columns that will be ignored --->
-					<cfset i = 1>
-					<cfloop list="#foundHeaders#" item="aField">
-						<cfif NOT ListFindNoCase(fieldList,aField)>
-							<cfset extra ="#aField#">
-							<li>Column #i#: #extra#</li>
-						</cfif>
-						<cfset i= i+1>
-					</cfloop>
-				</ul>
-				<!--- Identify duplicate columns and fail if found --->
-				<cfif NOT ListLen(ListRemoveDuplicates(foundHeaders)) EQ ListLen(foundHeaders)>
-					<h3 class="h4">Expected column header#plural1# occur#plural2# more than once: </h3>
-					<ul class="h4 pt-1 pb-3 font-weight-normal">
-					<cfloop list="#foundHeaders#" item="aField">
-						<cfif listValueCount(foundHeaders,aField) GT 1>
-							<cfset dups = #aField#>
-							<cfset counts1 = #listValueCount(foundHeaders,aField)#>
-							<li>#dups#</li>
-						</cfif>
-					</cfloop>
-					</ul>
-					<cfthrow message = "#DUP_COLUMN_ERR#">
-				</cfif>
-
-			
 					<cftry>
 						<!--- construct insert for row with a line for each entry in fieldlist using cfqueryparam if column header is in fieldlist, otherwise using null --->
 						<!--- Note: As we can't use csvFormat.withHeader(), we can not match columns by name, we are forced to do so by number, thus arrays --->
