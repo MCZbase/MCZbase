@@ -284,10 +284,12 @@
 				<cfif len(errorMessage) GT 0>
 					<cfif size eq 1>
 						<cfset errorMessage ="The wrong format was chosen.">
+							<cfthrow message = "#NO_COLUMN_ERR# #errorMessage#">
 					<cfelse>
 						<cfset errorMessage = "<div class='pt-2'><p>Column(s) not found:</p> #errorMessage#</div>">
+							<cfthrow message = "#NO_COLUMN_ERR# #errorMessage#">
 					</cfif>
-						<cfthrow message = "#NO_COLUMN_ERR# #errorMessage#">
+						
 				</cfif>
 				<cfif #aField# GT 1><cfset plural1="s"><cfelse><cfset plural1=""></cfif>
 				<cfif #aField# GT 1><cfset plural2=""><cfelse><cfset plural2="s"></cfif>
