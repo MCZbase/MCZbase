@@ -290,14 +290,14 @@
 				
 				<cfif #ListLen(fieldList)# LT #ListLen(foundHeaders)#>
 					<h4>Found one or more column headers in the CSV that should not be there:</h4>
-				</cfif>
+				
 				<ul class="pt-1 pb-3 h4 font-weight-normal">
 					<!--- Identify additional columns that will be ignored --->
 					<cfset i = 1>
 					<cfloop list="#foundHeaders#" item="aField">
 						<cfif NOT ListFindNoCase(fieldList,aField)>
 							<cfset extra ="#aField#">
-							<li>Column #i#: #extra#</li>
+							<li>#extra#</li>
 						</cfif>
 						<cfset i= i+1>
 					</cfloop>
@@ -316,7 +316,9 @@
 					</ul>
 					<cfthrow message = "#DUP_COLUMN_ERR#">
 				</cfif>
-
+				</cfif>
+						
+				
 				<cfset colNames="#foundHeaders#">
 				<cfset loadedRows = 0>
 				<cfset foundHighCount = 0>
