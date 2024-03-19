@@ -299,12 +299,6 @@
 						</cfif>
 					</cfloop>
 				</ul>
-				<cfif #foundHeaders# NEQ #fieldList#>
-					<cfif NOT ListFindNoCase(fieldList,aField)>
-						<cfset charHead ="#aField#">
-						<li>#charHead#</li>
-					</cfif>
-				</cfif>
 				<!--- Identify duplicate columns and fail if found --->
 				<cfif NOT ListLen(ListRemoveDuplicates(foundHeaders)) EQ ListLen(foundHeaders)>
 					<h3 class="h4">Expected column header#plural1# occur#plural2# more than once: </h3>
