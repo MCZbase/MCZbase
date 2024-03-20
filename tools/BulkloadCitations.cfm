@@ -734,7 +734,7 @@ limitations under the License.
 							COLLECTION_CDE,
 							OTHER_ID_TYPE,
 							OTHER_ID_NUMBER,
-							COLLECTION_OBJECTION_ID,
+							COLLECTION_OBJECT_ID,
 							CITED_SCIENTIFIC_NAME,
 							CITED_TAXON_NAME_ID,
 							OCCURS_PAGE_NUMBER,
@@ -749,7 +749,7 @@ limitations under the License.
 							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#COLLECTION_CDE#">, 
 							<cfqueryparam cfsqltype="CF_SQL_DATE" value="#OTHER_ID_TYPE#">,
 							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#OTHER_ID_NUMBER#">,
-							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#COLLECTION_OBJECTION_ID#">,
+							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#COLLECTION_OBJECT_ID#">,
 							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#CITED_SCIENTIFIC_NAME#">
 							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#CITED_TAXON_NAME_ID#">,
 							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#OCCURS_PAGE_NUMBER#">,
@@ -761,34 +761,13 @@ limitations under the License.
 						</cfquery>
 						<cfquery name="updateCitations1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateAttributes1_result">
 							select PUBLICATION_TITLE,
-							PUBLICATION_ID,
-							INSTITUTION_ACRONYM,
-							COLLECTION_CDE,
-							OTHER_ID_TYPE,
-							OTHER_ID_NUMBER,
-							COLLECTION_OBJECTION_ID,
-							CITED_SCIENTIFIC_NAME,
-							CITED_TAXON_NAME_ID,
-							OCCURS_PAGE_NUMBER,
-							TYPE_STATUS,
-							CITATION_REMARKS,
-							STATUS,
+							PUBLICATION_ID,INSTITUTION_ACRONYM,COLLECTION_CDE,
+							OTHER_ID_TYPE,OTHER_ID_NUMBER,COLLECTION_OBJECT_ID,CITED_SCIENTIFIC_NAME,CITED_TAXON_NAME_ID,
+							OCCURS_PAGE_NUMBER,TYPE_STATUS,CITATION_REMARKS,STATUS,
 							CITATION_PAGE_URI 
 							where collection_object_id = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempData.collection_object_id#">
-							group by PUBLICATION_TITLE,
-							PUBLICATION_ID,
-							INSTITUTION_ACRONYM,
-							COLLECTION_CDE,
-							OTHER_ID_TYPE,
-							OTHER_ID_NUMBER,
-							COLLECTION_OBJECTION_ID,
-							CITED_SCIENTIFIC_NAME,
-							CITED_TAXON_NAME_ID,
-							OCCURS_PAGE_NUMBER,
-							TYPE_STATUS,
-							CITATION_REMARKS,
-							STATUS,
-							CITATION_PAGE_URI
+							group by PUBLICATION_TITLE,PUBLICATION_ID,INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_NUMBER,COLLECTION_OBJECT_ID,CITED_SCIENTIFIC_NAME,
+							CITED_TAXON_NAME_ID,OCCURS_PAGE_NUMBER,TYPE_STATUS,CITATION_REMARKS,STATUS,CITATION_PAGE_URI
 							having count(*) > 1
 						</cfquery>
 						<cfset citations_updates = citations_updates + updateCitations_result.recordcount>
