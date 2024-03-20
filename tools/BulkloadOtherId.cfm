@@ -403,10 +403,11 @@
 					</div>
 				</cfif>
 				<h3>
-					<cfif loadedRows EQ 0 and size gt 1>
+					<cfif loadedRows EQ 0>
 						Loaded no rows from the CSV file.  The file appears to be just a header with no data. Fix file and <a href="/tools/BulkloadOtherId.cfm">reload</a>
 					<cfelse>
-						Successfully read #loadedRows# records from the CSV file. Next <a href="/tools/BulkloadOtherId.cfm?action=validate">click to validate</a>.
+						<cfif size eq 1>Size = 1><cfelse>
+						Successfully read #loadedRows# records from the CSV file. Next <a href="/tools/BulkloadOtherId.cfm?action=validate">click to validate</a>.</cfif>
 					</cfif>
 				</h3>
 			<cfcatch>
