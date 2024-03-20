@@ -304,7 +304,7 @@ limitations under the License.
 						<!--- Identify additional columns that will be ignored --->
 						<cfloop list="#foundHeaders#" item="aField">
 							<cfif NOT ListContainsNoCase(fieldList,aField)>
-								<li class="pb-1 px-4"><i class='fas fa-arrow-right text-info'></i> <strong class="text-info">#aField#</strong> </1i>
+								<li class="pb-1 px-4 text-dark"><i class='fas fa-arrow-right text-dark'></i> #aField# </1i>
 							</cfif>
 						</cfloop>
 					</cfif>
@@ -315,7 +315,7 @@ limitations under the License.
 							<!--- Identify duplicate columns and fail if found --->
 							<cfloop list="#foundHeaders#" item="aField">
 								<cfif listValueCount(foundHeaders,aField) GT 1>
-										<li class="pb-1 px-4 text-dark"><i class='fas fa-arrow-right text-info'></i> column ###i# = #aField# </1i>
+										<li class="pb-1 px-4 text-dark"><i class='fas fa-arrow-right text-dark'></i> column ###i# = #aField# </1i>
 								</cfif>
 							<cfset i=i+1>
 							</cfloop>
@@ -342,13 +342,13 @@ limitations under the License.
 							<cfif REFind("[^\x00-\x7F]",thisBit) GT 0>
 								<!--- high ASCII --->
 								<cfif foundHighCount LT 6>
-									<cfset foundHighAscii = "#foundHighAscii# <li class='text-dark'><i class='fas fa-arrow-right text-dark'></i> #thisBit#</li>"><!--- " --->
+									<cfset foundHighAscii = "#foundHighAscii# <li class='text-dark px-4 pb-1'><i class='fas fa-arrow-right text-dark'></i> #thisBit#</li>"><!--- " --->
 									<cfset foundHighCount = foundHighCount + 1>
 								</cfif>
 							<cfelseif REFind("[\xc0-\xdf][\x80-\xbf]",thisBit) GT 0>
 								<!--- multibyte --->
 								<cfif foundHighCount LT 6>
-									<cfset foundMultiByte = "#foundMultiByte# <li class='text-dark'><i class='fas fa-arrow-right text-dark'></i> #thisBit#</li>"><!--- " --->
+									<cfset foundMultiByte = "#foundMultiByte# <li class='text-dark px-4 pb-1'><i class='fas fa-arrow-right text-dark'></i> #thisBit#</li>"><!--- " --->
 									<cfset foundHighCount = foundHighCount + 1>
 								</cfif>
 							</cfif>
