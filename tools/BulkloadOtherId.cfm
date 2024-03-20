@@ -310,7 +310,7 @@
 						<!--- Identify duplicate columns and fail if found --->
 						<cfloop list="#foundHeaders#" item="aField">
 							<cfif listValueCount(foundHeaders,aField) GT 1>
-									<li class="pb-1 px-4"><i class='fas fa-arrow-right text-dark'></i> <strong class="text-secondary">column ###i# = #aField#</strong> </1i>
+									<li class="pb-1 px-4 text-dark"><i class='fas fa-arrow-right text-dark'></i> #aField# </1i>
 							</cfif>
 						<cfset i=i+1>
 						</cfloop>
@@ -318,11 +318,10 @@
 				</cfif>
 				
 				<!---EXTRA HEADERS --They are not in list of headers --->
-				<cfif #ListLen(fieldList)# LT #ListLen(foundHeaders)#>
+			<!---	<cfif #ListLen(fieldList)# LT #ListLen(foundHeaders)#>
 					<h4>Found one or more column headers in the CSV that should not be there. </h4>
 					<p>(Note: unexpected characters at the beginning of a header often means that the wrong character set was selected.)</p>
 					<ul class="pt-1 pb-3 h4 font-weight-normal">
-						<!--- Identify additional columns that will be ignored --->
 						<cfset i = 1>
 						<cfloop list="#foundHeaders#" item="aField">
 							<cfif NOT ListFindNoCase(fieldList,aField)>
@@ -332,8 +331,7 @@
 							<cfset i= i+1>
 						</cfloop>
 					</ul>
-						
-					<!--- DUPLICATION:  Identify duplicate columns and fail if found --->
+				
 					<cfif NOT ListLen(ListRemoveDuplicates(foundHeaders)) EQ ListLen(foundHeaders)>
 						<h3 class="h4">Expected column header#plural1# occur#plural2# more than once: </h3>
 						<ul class="h4 pt-1 pb-3 font-weight-normal">
@@ -348,7 +346,7 @@
 						
 					</cfif>
 					<cfthrow message = "#DUP_COLUMN_ERR#">
-				</cfif>	
+				</cfif>	--->
 		
 				<cfset colNames="#foundHeaders#">
 				<cfset loadedRows = 0>
@@ -427,7 +425,7 @@
 					<h3 class="h4"><span class="text-danger">Check character set.</span> Found characters where the encoding is probably important in the input data. </h3>
 					<div class="px-4">
 						<p>Showing #foundHighCount# example#plural#. If these do not appear as the correct characters, the file likely has a different encoding from the one you selected and
-						you probably want to <strong><a href="/tools/BulkloadOtherId.cfm">reload</a></strong> this file selecting a different character set.  If these appear as expected, then you selected the correct encoding and can continue to validate or load.</p>
+						you probably want to <strong><a href="/tools/BulkloadOtherId.cfm">reload</a></strong> this file selecting a different character set. If these appear as expected, then you selected the correct encoding and can continue to validate or load.</p>
 						<ul class="h4 list-unstyled font-weight-normal ">
 								<!---These include the <li></li>--->
 							#foundHighAscii# #foundMultiByte#
