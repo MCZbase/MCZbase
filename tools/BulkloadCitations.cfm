@@ -736,7 +736,6 @@ limitations under the License.
 							OTHER_ID_NUMBER,
 							COLLECTION_OBJECT_ID,
 							CITED_SCIENTIFIC_NAME,
-							CITED_TAXON_NAME_ID,
 							OCCURS_PAGE_NUMBER,
 							TYPE_STATUS,
 							CITATION_REMARKS,
@@ -747,15 +746,14 @@ limitations under the License.
 							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#PUBLICATION_ID#">,
 							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#INSTITUTION_ACRONYM#">,
 							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#COLLECTION_CDE#">, 
-							<cfqueryparam cfsqltype="CF_SQL_DATE" value="#OTHER_ID_TYPE#">,
+							<cfqueryparam cfsqltype="CF_SQL_varchar" value="#OTHER_ID_TYPE#">,
 							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#OTHER_ID_NUMBER#">,
-							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#COLLECTION_OBJECT_ID#">,
+							<cfqueryparam cfsqltype="CF_SQL_decimal" value="#COLLECTION_OBJECT_ID#">,
 							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#CITED_SCIENTIFIC_NAME#">
-							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#CITED_TAXON_NAME_ID#">,
 							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#OCCURS_PAGE_NUMBER#">,
 							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#TYPE_STATUS#">,
 							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#CITATION_REMARKS#">, 
-							<cfqueryparam cfsqltype="CF_SQL_DATE" value="#STATUS#">,
+							<cfqueryparam cfsqltype="CF_SQL_varchar" value="#STATUS#">,
 							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#CITATION_PAGE_URI#">
 							)
 						</cfquery>
@@ -805,10 +803,10 @@ limitations under the License.
 						FROM cf_temp_citation
 						WHERE key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value=#problem_key#>
 					</cfquery>
-					<cfset citations_updates = 1>
+					<cfset citations_updates = 0>
 					<cfif getProblemData.recordcount GT 0>
 						<h3>
-							Error loading row (<span class="text-danger">#citations_updates - 1#</span>) from the CSV: 
+							Error loading row (<span class="text-danger">#citations_updates + 1#</span>) from the CSV: 
 							<cfif len(cfcatch.detail) gt 0>
 								<span class="font-weight-normal border-bottom border-danger">
 									<cfif cfcatch.detail contains "publication_title">
