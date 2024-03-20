@@ -63,7 +63,7 @@
 			<p>Check the Help > Controlled Vocabulary page and select the <a href="/vocabularies/ControlledVocabulary.cfm?table=CTCOLL_OTHER_ID_TYPE">CTCOLL_OTHER_ID_TYPE</a> list for types ("catalog number" can also be used). Values can be combinations of letters, special characters, and numbers or just numbers. Submit a bug report to request an additional type when needed.</p>
 			<form name="atts" method="post" enctype="multipart/form-data" action="/tools/BulkloadOtherId.cfm">
 				<div class="form-row border rounded p-2">
-					<input type="hidden" name="action" value="getFile" id="READ_FILE_NAME">
+					<input type="hidden" name="action" value="getFile">
 					<div class="col-12 col-md-4">
 						<label for="fileToUpload" class="data-entry-label">File to bulkload:</label> 
 						<input type="file" name="FiletoUpload" id="fileToUpload" class="data-entry-input p-0 m-0">
@@ -96,7 +96,7 @@
 					</div>
 					<div class="col-12 col-md-2">
 						<label for="submitButton" class="data-entry-label">&nbsp;</label>
-						<input type="submit" id="submittButton" value="Upload this file" class="btn btn-primary btn-xs" onclick="return validateAttachmentForm(this.form.FileToUpload.value)">
+						<input type="submit" id="submittButton" value="Upload this file" class="btn btn-primary btn-xs">
 					</div>
 				</div>
 			</form>
@@ -104,28 +104,9 @@
 	</cfif>	
 <!------------------------------------------------------->
 	<!------------------------------------------------------->
-	<script>
-		function validateAttachmentForm(atts)
-			{
-			  if (atts.lastIndexOf("\\" != -1)) {
-				var atts = atts.substring(atts.lastIndexOf("\\") + 1, atts.length);
-			  }
-
-			  document.getElementById("READ_FILE_NAME").value = atts;
-
-			  if(atts != "")
-			  {
-				return true;
-			  } else{
-
-				alert('Cannot retrieve the name')
-				return false;
-			  } 
-			}				
-	</script>
 	<cfif #action# is "getFile">
 		<cfoutput>
-		<h2 class="h3">First step: Reading data from CSV file: #form.READ_FILE_NAME# .</h2>
+		<h2 class="h3">First step: Reading data from CSV file.</h2>
 		<!--- Compare the numbers of headers expected against provided in CSV file --->
 		<!--- Set some constants to identify error cases in cfcatch block --->
 		<cfset NO_COLUMN_ERR = '<h4 class="mt-3">One or more required fields are missing in the header line of the csv file.</h4><p class="text-dark d-block">[<span class="font-weight-bold">Note:</span> If you uploaded csv columns that match the required headers and see "Required column not found" for those headers, check that the <span class="font-weight-bold">character set and format</span> you selected matches the file''s encodings.]</p>'>
