@@ -461,7 +461,7 @@ limitations under the License.
 		<cfoutput>
 			<cfquery name="getTempTableTypes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				SELECT 
-					institution_acronym, collection_cde, other_id_number, occurs_page_number, citation_page_uri, type_status, citation_remarks, other_id_type, cited_scientific_name, publication_title, publication_id, key
+					institution_acronym,collection_cde,other_id_number,occurs_page_number,citation_page_uri, type_status,citation_remarks, other_id_type, cited_scientific_name,publication_title,publication_id, key
 				FROM 
 					cf_temp_citation
 				WHERE 
