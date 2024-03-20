@@ -261,7 +261,7 @@ limitations under the License.
 						</cfif>
 					</cfloop>
 					<cfif len(errorMessage) GT 0>
-						<cfthrow message = "#NO_COLUMN_ERR# #errorMessage#">
+						<cfthrow message = "#errorMessage# #NO_COLUMN_ERR#">
 					</cfif>
 					<cfset errorMessage = "">
 					<!---Loop through field list, mark each as present in input or not, throw exception if required fields are missing--->
@@ -282,7 +282,7 @@ limitations under the License.
 									<!--- Case 2. Check by identifying field in required field list --->
 									<cfif ListContainsNoCase(requiredFieldList,field)>
 										<strong class="text-dark">Required Column Not Found</strong>
-										<cfset errorMessage = "#errorMessage# <div class='pl-3 pb-1 font-weight-bolder'><i class='fas fa-arrow-right text-dark'></i> #field#</div>">
+										<cfset errorMessage = "#errorMessage# <div class='pl-3 pb-1 font-weight-bold'><i class='fas fa-arrow-right text-dark'></i> #field#</div>">
 									</cfif>
 								</cfif>
 							</li>
@@ -391,7 +391,7 @@ limitations under the License.
 							</cftry>
 					</cfloop>
 					<cfif foundHighCount GT 0>
-						<h3 class="h4">Check character set. Found characters where the encoding is probably important in the input data.</h3>
+						<h3 class="h4"><span class="text-danger">Warning: Check character set.</span> Found characters where the encoding is probably important in the input data.</h3>
 						<div>
 							<p>Showing #foundHighCount# examples.  If these do not appear as the correct characters, the file likely has a different encoding from the one you selected and
 								you probably want to <a href="/tools/BulkloadCitations.cfm">reload</a> this file selecting a different encoding. If these appear as expected, then you selected the correct encoding and can continue to validate or load.</p>
