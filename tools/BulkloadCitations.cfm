@@ -864,7 +864,7 @@ limitations under the License.
 							</cfif>
 						</h3>
 						<table class='sortable small table table-responsive table-striped d-lg-table mt-3'>
-							<thead><tr><th>COUNT</th><th>PUBLICATION_TITLE</th><th>PUBLICATION_ID</th><th>INSTITUTION_ACRONYM</th><th>COLLECTION_CDE</th><th>OTHER_ID_TYPE</th><th>OTHER_ID_NUMBER</th><th>COLLECTION_OBJECTION_ID</th><th>CITED_SCIENTIFIC_NAME</th><th>CITED_TAXON_NAME_ID</th><th>
+							<thead><tr><th>COUNT</th><th>PUBLICATION_TITLE</th><th>PUBLICATION_ID</th><th>INSTITUTION_ACRONYM</th><th>COLLECTION_CDE</th><th>OTHER_ID_TYPE</th><th>OTHER_ID_NUMBER</th><th>COLLECTION_OBJECTION_ID</th><th>CITED_SCIENTIFIC_NAME</th><th>
 							OCCURS_PAGE_NUMBER</th><th>TYPE_STATUS</th><th>CITATION_REMARKS</th><th>STATUS</th><th>CITATION_PAGE_URI</th></tr> 
 							</thead>
 							<tbody>
@@ -873,17 +873,18 @@ limitations under the License.
 									<tr>
 										<td>#i#</td>
 										<td>#getProblemData.status# </td>
-										<td>#getProblemData.institution_acronym# </td>
-										<td>#getProblemData.collection_cde# </td>
-										<td>#getProblemData.other_id_type#</td>
-										<td>#getProblemData.other_id_number#</td>
-										<td>#getProblemData.attribute# </td>
-										<td>#getProblemData.attribute_value# </td>
-										<td>#getProblemData.attribute_units# </td>
-										<td>#getProblemData.attribute_date#</td>
-										<td>#getProblemData.attribute_meth# </td>
-										<td>#getProblemData.determiner# </td>
-										<td>#getProblemData.remarks# </td>
+										<td>#getProblemData.PUBLICATION_TITLE# </td>
+										<td>#getProblemData.PUBLICATION_ID# </td>
+										<td>#getProblemData.INSTITUTION_ACRONYM#</td>
+										<td>#getProblemData.COLLECTION_CDE#</td>
+										<td>#getProblemData.OTHER_ID_TYPE# </td>
+										<td>#getProblemData.OTHER_ID_NUMBER# </td>
+										<td>#getProblemData.COLLECTION_OBJECT_ID# </td>
+										<td>#getProblemData.CITED_SCIENTIFIC_NAME#</td>
+										<td>#getProblemData.OCCURS_PAGE_NUMBER# </td>
+										<td>#getProblemData.TYPE_STATUS# </td>
+										<td>#getProblemData.STATUS# </td>
+										<td>#getProblemData.CITATION_PAGE_URI#</td>
 									</tr>
 									<cfset i= i+1>
 								</cfloop>
@@ -896,7 +897,7 @@ limitations under the License.
 			</cftransaction>
 			
 			<cfquery name="clearTempTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="clearTempTable_result">
-				DELETE FROM cf_temp_attributes 
+				DELETE FROM cf_temp_citation
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 		</cfoutput>
