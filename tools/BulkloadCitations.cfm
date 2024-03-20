@@ -708,46 +708,84 @@ limitations under the License.
 			<cfset problem_key = "">
 			<cftransaction>
 				<cfquery name="getTempData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					SELECT * FROM cf_temp_attributes
+					SELECT * FROM cf_temp_citation
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
 				<cfquery name="getCounts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					SELECT count(distinct collection_object_id) ctobj FROM cf_temp_attributes
+					SELECT count(distinct collection_object_id) ctobj FROM cf_temp_citation
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
 			<cftry>
-					<cfset attributes_updates = 0>
-					<cfset attributes_updates1 = 0>
+					<cfset citation_updates = 0>
+					<cfset citation_updates1 = 0>
 					<cfif getTempData.recordcount EQ 0>
-						<cfthrow message="You have no rows to load in the attributes bulkloader table (cf_temp_attributes).  <a href='/tools/BulkloadAttributes.cfm'>Start over</a>"><!--- " --->
+						<cfthrow message="You have no rows to load in the attributes bulkloader table (cf_temp_citation).  <a href='/tools/BulkloadCitation.cfm'>Start over</a>"><!--- " --->
 					</cfif>
 					<cfloop query="getTempData">
 						<cfset problem_key = getTempData.key>
-						<cfquery name="updateAttributes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateAttributes_result">
-							INSERT into attributes (
-							COLLECTION_OBJECT_ID,
-							ATTRIBUTE_TYPE,
-							ATTRIBUTE_VALUE,
-							ATTRIBUTE_UNITS,
-							DETERMINED_DATE,
-							DETERMINATION_METHOD,
-							DETERMINED_BY_AGENT_ID,
-							ATTRIBUTE_REMARK
+						<cfquery name="updateCitation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateCitation_result">
+							INSERT into citation (
+							PUBLICATION_TITLE,
+							PUBLICATION_ID,
+							INSTITUTION_ACRONYM,
+							COLLECTION_CDE,
+							OTHER_ID_TYPE,
+							OTHER_ID_NUMBER,
+							COLLECTION_OBJECTION_ID,
+							CITED_SCIENTIFIC_NAME,
+							CITED_TAXON_NAME_ID,
+							OCCURS_PAGE_NUMBER,
+							TYPE_STATUS,
+							CITATION_REMARKS,
+							STATUS,
+							CITATION_PAGE_URI
 							)VALUES(
-							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collection_object_id#">,
-							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#attribute#">,
-							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#attribute_value#">,
-							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#attribute_units#">, 
-							<cfqueryparam cfsqltype="CF_SQL_DATE" value="#attribute_date#">,
-							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#attribute_meth#">,
-							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#determined_by_agent_id#">,
-							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#remarks#">
+							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#PUBLICATION_TITLE#">,
+							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#PUBLICATION_ID#">,
+							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#INSTITUTION_ACRONYM#">,
+							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#COLLECTION_CDE#">, 
+							<cfqueryparam cfsqltype="CF_SQL_DATE" value="#OTHER_ID_TYPE#">,
+							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#OTHER_ID_NUMBER#">,
+							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#COLLECTION_OBJECTION_ID#">,
+							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#CITED_SCIENTIFIC_NAME#">
+							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#CITED_TAXON_NAME_ID#">,
+							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#OCCURS_PAGE_NUMBER#">,
+							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#TYPE_STATUS#">,
+							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#CITATION_REMARKS#">, 
+							<cfqueryparam cfsqltype="CF_SQL_DATE" value="#STATUS#">,
+							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#CITATION_PAGE_URI#">
 							)
 						</cfquery>
 						<cfquery name="updateCitations1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateAttributes1_result">
-							select type_status,publication_id,cited_taxon_name_id,collection_object_id,citation_remarks from citation 
+							select PUBLICATION_TITLE,
+							PUBLICATION_ID,
+							INSTITUTION_ACRONYM,
+							COLLECTION_CDE,
+							OTHER_ID_TYPE,
+							OTHER_ID_NUMBER,
+							COLLECTION_OBJECTION_ID,
+							CITED_SCIENTIFIC_NAME,
+							CITED_TAXON_NAME_ID,
+							OCCURS_PAGE_NUMBER,
+							TYPE_STATUS,
+							CITATION_REMARKS,
+							STATUS,
+							CITATION_PAGE_URI 
 							where collection_object_id = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempData.collection_object_id#">
-							group by type_status,publication_id,cited_taxon_name_id,collection_object_id,citation_remarks
+							group by PUBLICATION_TITLE,
+							PUBLICATION_ID,
+							INSTITUTION_ACRONYM,
+							COLLECTION_CDE,
+							OTHER_ID_TYPE,
+							OTHER_ID_NUMBER,
+							COLLECTION_OBJECTION_ID,
+							CITED_SCIENTIFIC_NAME,
+							CITED_TAXON_NAME_ID,
+							OCCURS_PAGE_NUMBER,
+							TYPE_STATUS,
+							CITATION_REMARKS,
+							STATUS,
+							CITATION_PAGE_URI
 							having count(*) > 1
 						</cfquery>
 						<cfset citations_updates = citations_updates + updateCitations_result.recordcount>
@@ -768,7 +806,20 @@ limitations under the License.
 					<cftransaction action="ROLLBACK">
 					<h2 class="h3">There was a problem updating the citations.</h2>
 					<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-						SELECT status,institution_acronym,collection_cde,other_id_type,other_id_number,attribute,attribute_value,attribute_units,attribute_date,attribute_meth,determiner,remarks
+						SELECT PUBLICATION_TITLE,
+							PUBLICATION_ID,
+							INSTITUTION_ACRONYM,
+							COLLECTION_CDE,
+							OTHER_ID_TYPE,
+							OTHER_ID_NUMBER,
+							COLLECTION_OBJECTION_ID,
+							CITED_SCIENTIFIC_NAME,
+							CITED_TAXON_NAME_ID,
+							OCCURS_PAGE_NUMBER,
+							TYPE_STATUS,
+							CITATION_REMARKS,
+							STATUS,
+							CITATION_PAGE_URI
 						FROM cf_temp_citation
 						WHERE key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#key#">
 					</cfquery>
@@ -810,10 +861,8 @@ limitations under the License.
 							</cfif>
 						</h3>
 						<table class='sortable small table table-responsive table-striped d-lg-table mt-3'>
-							<thead>
-								<tr><th>COUNT</th><th>STATUS</th>
-									<th>INSTITUTION_ACRONYM</th><th>COLLECTION_CDE</th><th>OTHER_ID_TYPE</th><th>OTHER_ID_NUMBER</th><th>PUBLICATION_TITLE</th><th>PUBLICATION_ID</th><th>CITED_SCIENTIFIC_NAME</th><th>ATTRIBUTE_DATE</th><th>ATTRIBUTE_METH</th><th>DETERMINER</th><th>REMARKS</th>
-								</tr> 
+							<thead><tr><th>COUNT</th><th>PUBLICATION_TITLE</th><th>PUBLICATION_ID</th><th>INSTITUTION_ACRONYM</th><th>COLLECTION_CDE</th><th>OTHER_ID_TYPE</th><th>OTHER_ID_NUMBER</th><th>COLLECTION_OBJECTION_ID</th><th>CITED_SCIENTIFIC_NAME</th><th>CITED_TAXON_NAME_ID</th><th>
+							OCCURS_PAGE_NUMBER</th><th>TYPE_STATUS</th><th>CITATION_REMARKS</th><th>STATUS</th><th>CITATION_PAGE_URI</th></tr> 
 							</thead>
 							<tbody>
 								<cfset i=1>
