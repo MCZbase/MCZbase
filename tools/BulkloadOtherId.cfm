@@ -236,15 +236,15 @@
 				</div>
 				<!--- check for required fields in header line (performng check in two different ways, Case 1, Case 2) --->
 				<!--- Loop through list of fields throw exception if required fields are missing --->
-				<cfset errorMessage = "">
+			<!---	<cfset errorMessage = "">
 				<cfloop list="#fieldList#" item="aField">
-					<cfif ListContainsNoCase(requiredFieldList,aField)>
+					<cfif ListContainsNoCase(requiredFieldList,aField)>--->
 						<!--- Case 1. Check by splitting assembled list of foundHeaders --->
-						<cfif NOT ListContainsNoCase(foundHeaders,aField)>
+	<!---					<cfif NOT ListContainsNoCase(foundHeaders,aField)>
 							<cfset errorMessage = " <i class='fas fa-arrow-right text-success pl-4'></i>&nbsp;#aField#<br>#errorMessage#">
 						</cfif>
 					</cfif>
-				</cfloop>
+				</cfloop>--->
 				<cfif len(errorMessage) gt 0>
 					<cfif size eq 1 >
 					<cfthrow message = "#errorMessage# #NO_COLUMN_ERR# ">
