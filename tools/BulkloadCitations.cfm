@@ -536,7 +536,7 @@ limitations under the License.
 						cf_temp_citation
 					SET
 						cited_scientific_name = (
-							select scientific_name 
+							select distinct scientific_name 
 							from identification
 							where scientific_name = cf_temp_citation.cited_scientific_name 
 						),
