@@ -96,7 +96,7 @@
 					</div>
 					<div class="col-12 col-md-2">
 						<label for="submitButton" class="data-entry-label">&nbsp;</label>
-						<input type="submit" id="submittButton" value="Upload this file" class="btn btn-primary btn-xs" onclick="return validateAttachmentForm(this.form.fileToUpload.value)">
+						<input type="submit" id="submittButton" value="Upload this file" class="btn btn-primary btn-xs" onclick="return validateAttachmentForm(this.form.FileToUpload.value)">
 					</div>
 				</div>
 			</form>
