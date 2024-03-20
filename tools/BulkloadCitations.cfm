@@ -725,7 +725,7 @@ limitations under the License.
 						<cfthrow message="You have no rows to load in the attributes bulkloader table (cf_temp_citation).  <a href='/tools/BulkloadCitation.cfm'>Start over</a>"><!--- " --->
 					</cfif>
 					<cfloop query="getTempData">
-						<cfset problem_key = getTempData.key>
+						<cfset problem_key = #getTempData.key#>
 						<cfquery name="updateCitation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateCitation_result">
 							INSERT into citation (
 							PUBLICATION_TITLE,
