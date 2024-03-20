@@ -241,7 +241,7 @@
 					<cfif ListContainsNoCase(requiredFieldList,aField)>
 						<!--- Case 1. Check by splitting assembled list of foundHeaders --->
 						<cfif NOT ListContainsNoCase(foundHeaders,aField)>
-							<cfset errorMessage = "#errorMessage# <i class='fas fa-arrow-right text-dark'></i>&nbsp;#aField#<br>">
+							<cfset errorMessage = "#errorMessage# <i class='fas fa-arrow-right text-success'></i>&nbsp;#aField#<br>">
 						</cfif>
 					</cfif>
 				</cfloop>
@@ -277,13 +277,15 @@
 				<!---OTHER TYPES OF ERRORS: DUPLICATION, WRONG CHARSET, WRONG FORMAT, EXTRA HEADERS--->
 								
 				<cfif len(errorMessage) GT 0>
-					<cfif size eq 1>The wrong character set was selected</cfif>
+					<!---This should show but it is not --->
+					<cfif size eq 1>The wrong character set was selected.</cfif>
 				</cfif>
 				<!---EXTRA HEADERS --They are not in list of headers --->
 				<cfif #aField# GT 1><cfset plural1="s"><cfelse><cfset plural1=""></cfif>
 				<cfif #aField# GT 1><cfset plural2=""><cfelse><cfset plural2="s"></cfif>
 				<cfif #ListLen(fieldList)# LT #ListLen(foundHeaders)#>
-					<h4>Found one or more column headers in the CSV that should not be there. (Note: unexpected characters at the beginning of a header usually means that the wrong character set was selected.)</h4>
+					<h4>Found one or more column headers in the CSV that should not be there. </h4>
+					<p>(Note: unexpected characters at the beginning of a header usually means that the wrong character set was selected.)</p>
 					<ul class="pt-1 pb-3 h4 font-weight-normal">
 						<!--- Identify additional columns that will be ignored --->
 						<cfset i = 1>
@@ -387,6 +389,7 @@
 			
 				<cfif foundHighCount GT 0>
 					<cfif foundHighCount GT 1><cfset plural="s"><cfelse><cfset plural=""></cfif>
+					<!---This shows when everything is correct but the code found special characters.--->
 					<h3 class="h4"><span class="text-danger">Check character set.</span> Found characters where the encoding is probably important in the input data. </h3>
 					<div class="px-4">
 						<p>Showing #foundHighCount# example#plural#. If these do not appear as the correct characters, the file likely has a different encoding from the one you selected and
