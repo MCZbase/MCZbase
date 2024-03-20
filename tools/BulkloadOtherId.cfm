@@ -63,7 +63,7 @@
 			<p>Check the Help > Controlled Vocabulary page and select the <a href="/vocabularies/ControlledVocabulary.cfm?table=CTCOLL_OTHER_ID_TYPE">CTCOLL_OTHER_ID_TYPE</a> list for types ("catalog number" can also be used). Values can be combinations of letters, special characters, and numbers or just numbers. Submit a bug report to request an additional type when needed.</p>
 			<form name="atts" method="post" enctype="multipart/form-data" action="/tools/BulkloadOtherId.cfm">
 				<div class="form-row border rounded p-2">
-					<input type="hidden" name="action" value="getFile">
+					<input type="hidden" name="action" value="getFile" id="READ_FILE_NAME">
 					<div class="col-12 col-md-4">
 						<label for="fileToUpload" class="data-entry-label">File to bulkload:</label> 
 						<input type="file" name="FiletoUpload" id="fileToUpload" class="data-entry-input p-0 m-0">
@@ -104,9 +104,28 @@
 	</cfif>	
 <!------------------------------------------------------->
 	<!------------------------------------------------------->
+	<script>
+		function validateAttachmentForm(file_name)
+			{
+			  if (file_name.lastIndexOf("\\" != -1)) {
+				var file_name = file_name.substring(file_name.lastIndexOf("\\") + 1, file_name.length);
+			  }
+
+			  document.getElementById("READ_FILE_NAME").value = file_name;
+
+			  if(file_name != "")
+			  {
+				return true;
+			  } else{
+
+				alert('Cannot retrieve the name')
+				return false;
+			  } 
+			}				
+	</script>
 	<cfif #action# is "getFile">
 		<cfoutput>
-		<h2 class="h3">First step: Reading data from CSV file.</h2>
+		<h2 class="h3">First step: Reading data from CSV file: #READ_FILE_NAME# .</h2>
 		<!--- Compare the numbers of headers expected against provided in CSV file --->
 		<!--- Set some constants to identify error cases in cfcatch block --->
 		<cfset NO_COLUMN_ERR = '<h4 class="mt-3">One or more required fields are missing in the header line of the csv file.</h4><p class="text-dark d-block">[<span class="font-weight-bold">Note:</span> If you uploaded csv columns that match the required headers and see "Required column not found" for those headers, check that the <span class="font-weight-bold">character set and format</span> you selected matches the file''s encodings.]</p>'>
