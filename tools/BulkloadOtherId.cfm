@@ -276,9 +276,9 @@
 
 				<!---OTHER TYPES OF ERRORS: DUPLICATION, WRONG CHARSET, WRONG FORMAT, EXTRA HEADERS--->
 								
-			<cfif len(errorMessage) GT 0>
-				<cfif size eq 1>The wrong character set was selected</cfif>
-			<cfelse>
+				<cfif len(errorMessage) GT 0>
+					<cfif size eq 1>The wrong character set was selected</cfif>
+				</cfif>
 				<!---EXTRA HEADERS --They are not in list of headers --->
 				<cfif #aField# GT 1><cfset plural1="s"><cfelse><cfset plural1=""></cfif>
 				<cfif #aField# GT 1><cfset plural2=""><cfelse><cfset plural2="s"></cfif>
@@ -313,7 +313,7 @@
 					
 					<cfif size eq 1>Charset or Format incorrect</cfif>
 				</cfif>	
-			</cfif>
+		
 						
 				
 				<cfset colNames="#foundHeaders#">
