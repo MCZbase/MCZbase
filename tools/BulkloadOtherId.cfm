@@ -37,7 +37,7 @@
 	<h1 class="h2 mt-2">Bulkload Other IDs</h1>
 	<cfif #action# is "nothing">
 		<cfoutput>
-			<p>This tool is used to bulkload Other IDs. Click view template download a comma-delimited text file (csv) to enter and upload data. OR, create a csv by including column headings spelled exactly as listed below.  Additional colums will be ignored. Pay attention to capitalization where it is required. Messages will help to navigate problems with the data in the uploaded .csv file. Note: Missing column errors will appear first. Once fixed, duplicated and added column notifications will appear. </p>
+			<p>This tool is used to bulkload Other IDs. Click view template download a comma-delimited text file (csv) to enter and upload data. OR, create a csv by including column headings spelled exactly as listed below. Pay attention to capitalization where it is required. Messages will help to navigate problems with the data in the uploaded .csv file. Note: The errors preventing upload are displayed first and then any warnings about content. </p>
 			
 			<span class="btn btn-xs btn-info" onclick="document.getElementById('template').style.display='block';">View template</span>
 			<div id="template" style="margin: 1rem 0;display:none;">
@@ -283,7 +283,7 @@
 				<cfif #aField# GT 1><cfset plural1="s"><cfelse><cfset plural1=""></cfif>
 				<cfif #aField# GT 1><cfset plural2=""><cfelse><cfset plural2="s"></cfif>
 				<cfif #ListLen(fieldList)# LT #ListLen(foundHeaders)#>
-					<h4>Found one or more column headers in the CSV that should not be there:</h4>
+					<h4>Found one or more column headers in the CSV that should not be there. (Note: unexpected characters at the beginning of a header usually means that the wrong character set was selected.)</h4>
 					<ul class="pt-1 pb-3 h4 font-weight-normal">
 						<!--- Identify additional columns that will be ignored --->
 						<cfset i = 1>
