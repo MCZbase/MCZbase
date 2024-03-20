@@ -537,7 +537,7 @@ limitations under the License.
 					SET
 						cited_scientific_name = (
 							select scientific_name 
-							from taxonomy 
+							from identification
 							where scientific_name = cf_temp_citation.cited_scientific_name 
 						),
 						status = null
