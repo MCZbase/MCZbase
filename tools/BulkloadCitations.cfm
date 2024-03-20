@@ -798,8 +798,9 @@ limitations under the License.
 							TYPE_STATUS,
 							CITATION_REMARKS,
 							STATUS,
-							CITATION_PAGE_URI
+							CITATION_PAGE_URI,
 						FROM cf_temp_citation
+						where key = #problem_key#
 					</cfquery>
 					<cfset citations_updates = 0>
 					<cfif getProblemData.recordcount GT 0>
