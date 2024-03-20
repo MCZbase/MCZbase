@@ -105,15 +105,15 @@
 <!------------------------------------------------------->
 	<!------------------------------------------------------->
 	<script>
-		function validateAttachmentForm(file_name)
+		function validateAttachmentForm(atts)
 			{
-			  if (file_name.lastIndexOf("\\" != -1)) {
-				var file_name = file_name.substring(file_name.lastIndexOf("\\") + 1, file_name.length);
+			  if (atts.lastIndexOf("\\" != -1)) {
+				var atts = atts.substring(atts.lastIndexOf("\\") + 1, atts.length);
 			  }
 
-			  document.getElementById("READ_FILE_NAME").value = file_name;
+			  document.getElementById("READ_FILE_NAME").value = atts;
 
-			  if(file_name != "")
+			  if(atts != "")
 			  {
 				return true;
 			  } else{
