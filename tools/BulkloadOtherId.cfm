@@ -245,7 +245,7 @@
 						</cfif>
 					</cfif>
 				</cfloop>
-				<cfif len(errorMessage) GT 0>
+				<cfif len(errorMessage) GT 1>
 					<cfthrow message = "#NO_COLUMN_ERR# #errorMessage#">
 				</cfif>
 				<cfset errorMessage = "">
