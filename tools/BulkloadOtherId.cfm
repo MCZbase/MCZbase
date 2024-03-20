@@ -277,11 +277,11 @@
 				<!---OTHER TYPES OF ERRORS: DUPLICATION, WRONG CHARSET, WRONG FORMAT, EXTRA HEADERS--->
 								
 			<cfif len(errorMessage) GT 0>
-
+				<cfif size eq 1>The wrong character set was selected</cfif>
+			<cfelse>
+				<!---EXTRA HEADERS --They are not in list of headers --->
 				<cfif #aField# GT 1><cfset plural1="s"><cfelse><cfset plural1=""></cfif>
 				<cfif #aField# GT 1><cfset plural2=""><cfelse><cfset plural2="s"></cfif>
-				
-				<!---EXTRA HEADERS --They are not in list of headers --->
 				<cfif #ListLen(fieldList)# LT #ListLen(foundHeaders)#>
 					<h4>Found one or more column headers in the CSV that should not be there:</h4>
 					<ul class="pt-1 pb-3 h4 font-weight-normal">
@@ -378,7 +378,7 @@
 						<cfset loadedRows = loadedRows + insert_result.recordcount>
 					<cfcatch>
 						<!--- identify the problematic row --->
-						<cfset error_message="Check Charset selected if your headers match required headers in red.<br> #COLUMN_ERR# from line #row# in input file.  <br>Header:[#colNames#] <br>Row:[#ArrayToList(collValuesArray)#] <br>Error: #cfcatch.message#"><!--- " --->
+						<cfset error_message="<h4>Check Charset selected if your headers match required headers in red above.</h4> #COLUMN_ERR# from line #row# in input file.  <br>Header:[#colNames#] <br>Row:[#ArrayToList(collValuesArray)#] <br>Error: #cfcatch.message#"><!--- " --->
 						<cfif isDefined("cfcatch.queryError")>
 							<cfset error_message = "#error_message# #cfcatch.queryError#">
 						</cfif>
