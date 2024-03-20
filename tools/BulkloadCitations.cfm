@@ -794,14 +794,12 @@ limitations under the License.
 							OTHER_ID_NUMBER,
 							COLLECTION_OBJECT_ID,
 							CITED_SCIENTIFIC_NAME,
-							CITED_TAXON_NAME_ID,
 							OCCURS_PAGE_NUMBER,
 							TYPE_STATUS,
 							CITATION_REMARKS,
 							STATUS,
 							CITATION_PAGE_URI
 						FROM cf_temp_citation
-						WHERE key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value=#problem_key#>
 					</cfquery>
 					<cfset citations_updates = 0>
 					<cfif getProblemData.recordcount GT 0>
