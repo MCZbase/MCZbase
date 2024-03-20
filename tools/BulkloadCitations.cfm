@@ -394,7 +394,7 @@ limitations under the License.
 						<h3 class="h4">Check character set. Found characters where the encoding is probably important in the input data.</h3>
 						<div>
 							<p>Showing #foundHighCount# examples.  If these do not appear as the correct characters, the file likely has a different encoding from the one you selected and
-							you probably want to <a href="/tools/BulkloadCitatons.cfm">reload this file</a> selecting a different encoding. If these appear as expected, then you selected the correct encoding and can continue to validate or load.</p>
+								you probably want to <a href="/tools/BulkloadCitations.cfm">reload</a> this file selecting a different encoding. If these appear as expected, then you selected the correct encoding and can continue to validate or load.</p>
 						
 						<ul class="h4 list-unstyled">
 							<!---These include the <li></li>--->
