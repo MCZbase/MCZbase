@@ -706,7 +706,7 @@ limitations under the License.
 	</cfif>
 	<!-------------------------------------------------------------------------------------------->
 	<cfif action is "load">
-		<h2 class="h3">Third step: Apply changes.</h2>
+		<h2 class="h4">Third step: Apply changes.</h2>
 		<cfoutput>
 			<cfset problem_key = "">
 			<cftransaction>
@@ -807,9 +807,8 @@ limitations under the License.
 					</cfquery>
 					<cfset citations_updates = 1>
 					<cfif getProblemData.recordcount GT 0>
- 						<h2 class="h3">Errors are displayed one row at a time.</h2>
 						<h3>
-							Error loading row (<span class="text-danger">#citations_updates + 1#</span>) from the CSV: 
+							Error loading row (<span class="text-danger">#citations_updates - 1#</span>) from the CSV: 
 							<cfif len(cfcatch.detail) gt 0>
 								<span class="font-weight-normal border-bottom border-danger">
 									<cfif cfcatch.detail contains "publication_title">
