@@ -389,7 +389,7 @@
 			
 				<cfif foundHighCount GT 0>
 					<cfif foundHighCount GT 1><cfset plural="s"><cfelse><cfset plural=""></cfif>
-					<h3 class="h4">Check character set. Found characters where the encoding is probably important in the input data.</h3>
+					<h3 class="h4"><span class="text-danger">Check character set.</span> Found characters where the encoding is probably important in the input data. </h3>
 					<div class="px-4">
 						<p>Showing #foundHighCount# example#plural#. If these do not appear as the correct characters, the file likely has a different encoding from the one you selected and
 						you probably want to <strong><a href="/tools/BulkloadOtherId.cfm">reload</a></strong> this file selecting a different character set.  If these appear as expected, then you selected the correct encoding and can continue to validate or load.</p>
