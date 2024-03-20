@@ -393,9 +393,7 @@ limitations under the License.
 					<cfif foundHighCount GT 0>
 						<h3 class="h4"><span class="text-danger">Warning: Check character set.</span> Found characters where the encoding is probably important in the input data.</h3>
 						<div>
-							<p>Showing #foundHighCount# examples.  If these do not appear as the correct characters, the file likely has a different encoding from the one you selected and
-								you probably want to <a href="/tools/BulkloadCitations.cfm">reload</a> this file selecting a different encoding. If these appear as expected, then you selected the correct encoding and can continue to validate or load.</p>
-						
+							<p>Showing #foundHighCount# examples.  If these do not appear as the correct characters, the file likely has a different encoding from the one you selected and you probably want to <a href="/tools/BulkloadCitations.cfm">reload</a> this file selecting a different encoding. If these appear as expected, then you selected the correct encoding and can continue to validate or load.</p>
 						<ul class="h4 list-unstyled">
 							<!---These include the <li></li>--->
 							#foundHighAscii# #foundMultiByte#
@@ -463,7 +461,7 @@ limitations under the License.
 		<cfoutput>
 			<cfquery name="getTempTableTypes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				SELECT 
-					other_id_type, cited_scientific_name, publication_title, publication_id, key
+					institution_acronym, collection_cde, other_id_number, occurs_page_number, citation_page_uri, type_status, citation_remarks, other_id_type, cited_scientific_name, publication_title, publication_id, key
 				FROM 
 					cf_temp_citation
 				WHERE 
