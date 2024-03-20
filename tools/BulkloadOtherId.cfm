@@ -241,7 +241,7 @@
 					<cfif ListContainsNoCase(requiredFieldList,aField)>
 						<!--- Case 1. Check by splitting assembled list of foundHeaders --->
 						<cfif NOT ListContainsNoCase(foundHeaders,aField)>
-							<cfset errorMessage = " <i class='fas fa-arrow-right text-success pl-4'></i>&nbsp;#aField#<br>#errorMessage#">
+							<cfset errorMessage = "Initial; <i class='fas fa-arrow-right text-success pl-4'></i>&nbsp;#aField#<br>#errorMessage#">
 						</cfif>
 					</cfif>
 				</cfloop>
@@ -270,7 +270,7 @@
 								<!--- Case 2. Check by identifying field in required field list --->
 								<cfif ListContainsNoCase(requiredFieldList,field)>
 									<strong class="text-dark">Required column not found</strong>
-									<cfset errorMessage = "#errorMessage# <div class='pl-3 pb-1 font-weight-bold'>e<i class='fas fa-arrow-right text-dark'></i> #field#</div>">
+									<cfset errorMessage = "Initial Loop; #errorMessage# <div class='pl-3 pb-1 font-weight-bold'>e<i class='fas fa-arrow-right text-dark'></i> #field#</div>">
 								</cfif>
 							</cfif>
 						</li>
@@ -281,14 +281,14 @@
 								
 				<cfif len(errorMessage) GT 0>
 					<!---This should show but it is not --->
-					<cfif size eq 1>The wrong character set was selected.</cfif>
+					<cfif size eq 1>Size=1; The wrong character set or format was selected. </cfif>
 				</cfif>
 				<!---EXTRA HEADERS --They are not in list of headers --->
 				<cfif #aField# GT 1><cfset plural1="s"><cfelse><cfset plural1=""></cfif>
 				<cfif #aField# GT 1><cfset plural2=""><cfelse><cfset plural2="s"></cfif>
 				<cfif #ListLen(fieldList)# LT #ListLen(foundHeaders)#>
 					<h4>Found one or more column headers in the CSV that should not be there. </h4>
-					<p>(Note: unexpected characters at the beginning of a header usually means that the wrong character set was selected.)</p>
+					<p>(Note: unexpected characters at the beginning of a header often means that the wrong character set was selected.)</p>
 					<ul class="pt-1 pb-3 h4 font-weight-normal">
 						<!--- Identify additional columns that will be ignored --->
 						<cfset i = 1>
@@ -313,10 +313,9 @@
 							</cfif>
 						</cfloop>
 						</ul>
-						<cfthrow message = "#DUP_COLUMN_ERR#">
+						<cfthrow message = "Dup cols; #DUP_COLUMN_ERR#">
 					</cfif>
 					
-					<cfif size eq 1>Charset or Format incorrect</cfif>
 				</cfif>	
 		
 				<cfset colNames="#foundHeaders#">
@@ -346,7 +345,7 @@
 						<cfelseif REFind("[\xc0-\xdf][\x80-\xbf]",thisBit) GT 0>
 							<!--- multibyte --->
 							<cfif foundHighCount LT 6>
-								<cfset foundMultiByte = "#foundMultiByte# <li class='text-dark pb-1'><i class='fas fa-arrow-right text-dark'></i>  #thisBit#</li>"><!--- " --->
+								<cfset foundMultiByte = "#foundMultiByte# <li class='text-dark pb-1'>a bit; <i class='fas fa-arrow-right text-dark'></i>  #thisBit#</li>"><!--- " --->
 								<cfset foundHighCount = foundHighCount + 1>
 							</cfif>
 						</cfif>
