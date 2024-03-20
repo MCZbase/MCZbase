@@ -241,14 +241,14 @@
 					<cfif ListContainsNoCase(requiredFieldList,aField)>
 						<!--- Case 1. Check by splitting assembled list of foundHeaders --->
 						<cfif NOT ListContainsNoCase(foundHeaders,aField)>
-							<cfset errorMessage = "Initial; <i class='fas fa-arrow-right text-success pl-4'></i>&nbsp;#aField#<br>#errorMessage#">
+							<cfset errorMessage = "<i class='fas fa-arrow-right text-success pl-4'></i>&nbsp;#aField#<br>#errorMessage#">
 						</cfif>
 					</cfif>
 				</cfloop>
 				<cfset errorMessage = "">
 				<cfif len(errorMessage) gt 0>
 					<cfif size eq 1 >
-						<cfthrow message = "Size = 1; #errorMessage# #NO_COLUMN_ERR# ">
+						<cfthrow message = "#errorMessage# #NO_COLUMN_ERR# ">
 					</cfif>
 				</cfif>
 				<cfset errorMessage = "">
@@ -270,7 +270,7 @@
 								<!--- Case 2. Check by identifying field in required field list --->
 								<cfif ListContainsNoCase(requiredFieldList,field)>
 									<strong class="text-dark">Required column not found</strong>
-									<cfset errorMessage = "Initial Loop; #errorMessage# <div class='pl-3 pb-1 font-weight-bold'>e<i class='fas fa-arrow-right text-dark'></i> #field#</div>">
+									<cfset errorMessage = "#errorMessage# <div class='pl-3 pb-1 font-weight-bold'>e<i class='fas fa-arrow-right text-dark'></i> #field#</div>">
 								</cfif>
 							</cfif>
 						</li>
