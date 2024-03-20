@@ -314,8 +314,6 @@
 					<cfif size eq 1>Charset or Format incorrect</cfif>
 				</cfif>	
 		
-						
-				
 				<cfset colNames="#foundHeaders#">
 				<cfset loadedRows = 0>
 				<cfset foundHighCount = 0>
