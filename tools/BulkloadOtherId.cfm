@@ -315,7 +315,7 @@
 						</ul>
 						
 					</cfif>
-					<cfthrow message = "dups #DUP_COLUMN_ERR#">
+					<cfthrow message = "#DUP_COLUMN_ERR#">
 				</cfif>	
 		
 				<cfset colNames="#foundHeaders#">
