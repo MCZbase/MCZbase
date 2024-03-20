@@ -815,7 +815,7 @@ limitations under the License.
 							COLLECTION_CDE,
 							OTHER_ID_TYPE,
 							OTHER_ID_NUMBER,
-							COLLECTION_OBJECTION_ID,
+							COLLECTION_OBJECT_ID,
 							CITED_SCIENTIFIC_NAME,
 							CITED_TAXON_NAME_ID,
 							OCCURS_PAGE_NUMBER,
@@ -883,7 +883,6 @@ limitations under the License.
 										<td>#getProblemData.CITED_SCIENTIFIC_NAME#</td>
 										<td>#getProblemData.OCCURS_PAGE_NUMBER# </td>
 										<td>#getProblemData.TYPE_STATUS# </td>
-										<td>#getProblemData.STATUS# </td>
 										<td>#getProblemData.CITATION_PAGE_URI#</td>
 									</tr>
 									<cfset i= i+1>
