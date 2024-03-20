@@ -800,7 +800,7 @@ limitations under the License.
 							STATUS,
 							CITATION_PAGE_URI,
 						FROM cf_temp_citation
-						where key = #problem_key#
+						where key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#problem_key#">
 					</cfquery>
 					<cfset citations_updates = 0>
 					<cfif getProblemData.recordcount GT 0>
