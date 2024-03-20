@@ -402,18 +402,18 @@
 						</ul>
 					</div>
 				</cfif>
-				<h3>
+				<h4>
 					<cfif loadedRows EQ 0>
 						<p>Loaded no rows from the CSV file.  The file appears to be just a header with no data. Fix file and <a href="/tools/BulkloadOtherId.cfm">reload</a></p>
 					<cfelse>
-						<p><cfif size eq 1>Size = 1<cfelse>
-						Successfully read #loadedRows# records from the CSV file. Next <a href="/tools/BulkloadOtherId.cfm?action=validate">click to validate</a>.</cfif></p>
+						<cfif size eq 1>Size = 1<cfelse>
+						Successfully read #loadedRows# records from the CSV file. Next <a href="/tools/BulkloadOtherId.cfm?action=validate">click to validate</a>.</cfif>
 					</cfif>
-				</h3>
+				</h4>
 			<cfcatch>
-				<h3>
+				<h4>
 					<strong class="text-danger">Failed to read the CSV file.</strong> Fix the errors in the file and <a href="/tools/BulkloadOtherId.cfm">reload</a>
-				</h3>
+				</h4>
 				<cfif isDefined("othResult")>
 					<cfset foundHighCount = 0>
 					<cfset foundHighAscii = "">
