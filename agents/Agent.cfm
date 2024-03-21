@@ -86,10 +86,8 @@ limitations under the License.
 		and collector.collector_role = 'c'
 		and flat.guid IS NOT NULL
 		and flat.dec_lat is not null
-	and collector.collector_role = 'c'
-	 and flat.dec_lat between -90 and 90 and flat.dec_long between -180 and 180
-		<!---and flat.dec_lat is not null and flat.dec_lat > -90 and flat.dec_lat < 90 and flat.dec_long > -180 and flat.dec_long < 180--->
-		
+		and collector.collector_role = 'c'
+	 	and flat.dec_lat between -90 and 90 and flat.dec_long between -180 and 180
 </cfquery>
 
 <cfoutput>

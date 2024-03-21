@@ -253,7 +253,7 @@ limitations under the License.
 				join underscore_collection on underscore_relation.underscore_collection_id = underscore_collection.underscore_collection_id
 			WHERE 
 				underscore_collection.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
-				 and flat.dec_lat between -90 and 90 and flat.dec_long between -180 and 180
+				and flat.dec_lat between -90 and 90 and flat.dec_long between -180 and 180
 		</cfquery>
 
 		<main class="py-3" id="content">
