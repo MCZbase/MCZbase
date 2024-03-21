@@ -495,19 +495,19 @@ limitations under the License.
 										<script>
 										let map, heatmap;
 										function initMap() {
-											for (i = 0; i < markers.length; i++) {
-												if (markers[i].lat != " ") {
+										
+											var ne = new google.maps.LatLng(#points2.maxlat#, #points2.maxlong#);
+											var sw = new google.maps.LatLng(#points2.minlat# ,#points2.minlong#);
+											var bounds = new google.maps.LatLngBounds(sw, ne);
+											for (i = 0; i < #bounds#.length; i++) {
+												if (#bounds#[i].lat != " ") {
 													var weightedLoc = {
-														location: new google.maps.LatLng(markers[i].lat, markers[i].lon),
-														weight: parseFloat(markers[i].Intensity)
+														location: new google.maps.LatLng(#points2.minlat#, #points2.minlong#),
+														weight: parseFloat(#bounds#[i].Intensity)
 													};
 													heat.push(weightedLoc);
 												}
 											}
-											var ne = new google.maps.LatLng(#points2.maxlat#, #points2.maxlong#);
-											var sw = new google.maps.LatLng(#points2.minlat# ,#points2.minlong#);
-											var bounds = new google.maps.LatLngBounds(sw, ne);
-							
 											var centerpoint = new google.maps.LatLng(#points2.mylat#,#points2.mylng#);
 											var mapOptions = {
 												zoom: 1,
