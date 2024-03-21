@@ -499,11 +499,11 @@ limitations under the License.
 											var ne = new google.maps.LatLng(#points2.maxlat#, #points2.maxlong#);
 											var sw = new google.maps.LatLng(#points2.minlat# ,#points2.minlong#);
 											var bounds = new google.maps.LatLngBounds(sw, ne);
-											for (i = 0; i < #bounds#.length; i++) {
-												if (#bounds#[i].lat != " ") {
+											for (i = 0; i < bounds.length; i++) {
+												if (bounds[i].lat != " ") {
 													var weightedLoc = {
 														location: new google.maps.LatLng(#points2.minlat#, #points2.minlong#),
-														weight: parseFloat(#bounds#[i].Intensity)
+														weight: parseFloat(bounds[i].Intensity)
 													};
 													heat.push(weightedLoc);
 												}
