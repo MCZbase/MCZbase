@@ -508,7 +508,7 @@ limitations under the License.
 													heat.push(weightedLoc);
 												} 
 											}
-											var centerpoint = new google.maps.LatLng(#points2.mylat#,#points2.mylng#);
+											var centerpoint = weightedLoc;
 											var mapOptions = {
 												zoom: 1,
 												minZoom: 1,
