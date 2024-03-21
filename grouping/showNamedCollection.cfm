@@ -524,8 +524,8 @@ limitations under the License.
 												});
 											}
 											map.fitBounds(bounds);
-											if (!lat.isEmpty() && !long.isEmpty()) {
-												points.push(new google.maps.LatLng(lat, long));
+											if (!bounds.isEmpty()) {
+												points.push(new google.maps.LatLng(lat,lng));
 											}
 											heatmap = new google.maps.visualization.HeatmapLayer({
 												data: getPoints(),
