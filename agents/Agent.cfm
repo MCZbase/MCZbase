@@ -853,6 +853,9 @@ limitations under the License.
 													heat.push(weightedLoc);
 												}
 											}
+											if (!lat.isEmpty() && !lng.isEmpty()) {
+        										points.push(new google.maps.LatLng(#points2.minlat#,#points2.minlong#));
+											}
 											var centerpoint = new google.maps.LatLng(#points2.mylat#,#points2.mylng#);
 											var mapOptions = {
 												zoom: 1,
