@@ -253,7 +253,7 @@ limitations under the License.
 				join underscore_collection on underscore_relation.underscore_collection_id = underscore_collection.underscore_collection_id
 			WHERE 
 				underscore_collection.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
-				and flat.dec_lat is not null and flat.dec_lat > -90 and flat.dec_lat < 90 and flat.dec_long > -180 and flat.dec_long < 180
+				 and flat.dec_lat between -90 and 90 and flat.dec_long between -180 and 180
 		</cfquery>
 
 		<main class="py-3" id="content">
@@ -487,7 +487,8 @@ limitations under the License.
 									from <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat
 									join underscore_relation u on u.collection_object_id = flat.collection_object_id
 									where u.underscore_Collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
-									and flat.dec_lat is not null and flat.dec_lat > -90 and flat.dec_lat < 90 and flat.dec_long > -180 and flat.dec_long < 180
+									and flat.dec_lat between -90 and 90 and flat.dec_long between -180 and 180
+									<!---and flat.dec_lat is not null and flat.dec_lat > -90 and flat.dec_lat < 90 and flat.dec_long > -180 and flat.dec_long < 180--->
 								</cfquery>							
 								<cfif points.recordcount gt 0>
 									<script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
