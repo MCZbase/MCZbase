@@ -858,7 +858,7 @@ limitations under the License.
 											
 											var mapOptions = {
 												zoom: 1,
-												minZoom: 1,
+												minZoom: 2,
 												maxZoom: 12,
 												center: centerpoint,
 												controlSize: 20,
