@@ -858,8 +858,8 @@ limitations under the License.
 											
 											var mapOptions = {
 												zoom: 3,
-												minZoom: 2,
-												maxZoom: 12,
+												minZoom: 1,
+												maxZoom: 13,
 												center: centerpoint,
 												controlSize: 20,
 												mapTypeId: "hybrid",
