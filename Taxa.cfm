@@ -804,6 +804,7 @@ limitations under the License.
 						sortable: true,
 						pageable: true,
 						editable: false,
+						enablemousewheel: #session.gridenablemousewheel#,
 						pagesize: '50',
 						pagesizeoptions: ['5','50','100'], // reset in gridLoaded
 						showaggregates: true,
