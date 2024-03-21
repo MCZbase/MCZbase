@@ -857,10 +857,10 @@ limitations under the License.
 											}
 											
 											var mapOptions = {
-												zoom: 3,
+												zoom: 1,
 												minZoom: 1,
 												maxZoom: 13,
-												center: centerpoint,
+												center: weightedLoc,
 												controlSize: 20,
 												mapTypeId: "hybrid",
 											};
