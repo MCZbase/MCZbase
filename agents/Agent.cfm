@@ -851,16 +851,14 @@ limitations under the License.
 														weight: parseFloat(bounds[i].Intensity)
 													};
 													heat.push(weightedLoc);
-												} else {
-													var centerpoint = new google.maps.LatLng(#points2.mylat#,#points2.mylng#);
-												}
+												} 
 											}
-											
+											var centerpoint = new google.maps.LatLng(#points2.mylat#,#points2.mylng#);
 											var mapOptions = {
 												zoom: 1,
 												minZoom: 1,
 												maxZoom: 13,
-												center: weightedLoc,
+												center: centerpoint,
 												controlSize: 20,
 												mapTypeId: "hybrid",
 											};
