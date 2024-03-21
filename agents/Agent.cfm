@@ -736,7 +736,7 @@ limitations under the License.
 								</section>
 							</cfif>
 						</div>
-						<div class="d-block mb-0 mb-xl-5 float-left h-auto px-0 px-md-1 col-12 col-md-4 col-xl-6">
+						<div class="d-block mb-0 mb-xl-5 float-left h-auto px-0 px-md-1 col-12 col-md-4 col-xl-4">
 							<!--- Collector in collections--->
 							<section class="accordion" id="collectorSection1">
 								<div class="card mb-2 bg-light">
@@ -854,7 +854,7 @@ limitations under the License.
 													heat.push(weightedLoc);
 												} 
 											}
-											var centerpoint = new google.maps.LatLng(#points2.mylat#,#points2.mylng#);
+											var centerpoint = weightedLoc;
 											var mapOptions = {
 												zoom: 1,
 												minZoom: 1,
