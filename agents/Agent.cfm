@@ -833,7 +833,6 @@ limitations under the License.
 									left join agent on agent.agent_id = collector.agent_id
 								WHERE collector.agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
 								and collector_role='c'
-								and flat.dec_lat is not null and flat.dec_lat between -90 and 90 and flat.dec_long between -180 and 180
 							</cfquery>
 							<cfif points.recordcount gt 0>
 							<section class="accordion" id="collectorSection1">
