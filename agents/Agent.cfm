@@ -87,6 +87,7 @@ limitations under the License.
 		and flat.guid IS NOT NULL
 		and flat.dec_lat is not null
 	and collector.collector_role = 'c'
+		and flat.dec_lat is not null and flat.dec_lat > -90 and flat.dec_lat < 90 and flat.dec_long > -180 and flat.dec_long < 180
 		
 </cfquery>
 
