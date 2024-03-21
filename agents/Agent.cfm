@@ -851,12 +851,11 @@ limitations under the License.
 														weight: parseFloat(bounds[i].Intensity)
 													};
 													heat.push(weightedLoc);
+												} else {
+													var centerpoint = new google.maps.LatLng(#points2.mylat#,#points2.mylng#);
 												}
 											}
-											if (!LatLng.isEmpty()) {
-        										points.push(new google.maps.LatLng(#points2.minlat#,#points2.minlong#));
-											}
-											var centerpoint = new google.maps.LatLng(#points2.mylat#,#points2.mylng#);
+											
 											var mapOptions = {
 												zoom: 1,
 												minZoom: 1,
