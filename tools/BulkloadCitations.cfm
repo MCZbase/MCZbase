@@ -700,8 +700,6 @@ limitations under the License.
 							CIT_CURRENT_FG,
 							TYPE_STATUS,
 							CITATION_REMARKS,
-							CITATION_TEXT,
-							REP_PUBLISHED_YEAR,
 							CITATION_PAGE_URI
 							)VALUES(
 							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getCitData.PUBLICATION_ID#">,
@@ -711,16 +709,13 @@ limitations under the License.
 							<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="1">,
 							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getCitData.TYPE_STATUS#">,
 							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getCitData.CITATION_REMARKS#">, 
-							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getCitData.CITATION_TEXT#">,
-							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getCitData.REP_PUBLISHED_YEAR#">, 
 							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getCitData.CITATION_PAGE_URI#">
 							)
 						</cfquery>
 						<cfquery name="updateCitations1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateAttributes1_result">
-							select PUBLICATION_ID,COLLECTION_OBJECT_ID,CITED_TAXON_NAME_ID,OCCURS_PAGE_NUMBER,TYPE_STATUS,CITATION_REMARKS,CITATION_TEXT,REP_PUBLISHED_YEAR,	CITATION_PAGE_URI from citation
+							select PUBLICATION_ID,COLLECTION_OBJECT_ID,CITED_TAXON_NAME_ID,OCCURS_PAGE_NUMBER,TYPE_STATUS,CITATION_REMARKS,	CITATION_PAGE_URI from citation
 							where collection_object_id = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempData.collection_object_id#">
-							group by publication_id,collection_object_id,cited_taxon_name_id,OCCURS_PAGE_NUMBER,TYPE_STATUS,CITATION_REMARKS,CITATION_TEXT,REP_PUBLISHED_YEAR,
-							CITATION_PAGE_URI
+							group by publication_id,collection_object_id,cited_taxon_name_id,OCCURS_PAGE_NUMBER,TYPE_STATUS,CITATION_REMARKS,CITATION_PAGE_URI
 							having count(*) > 1
 						</cfquery>
 						<cfset citations_updates = citations_updates + updateCitations_result.recordcount>
@@ -743,7 +738,7 @@ limitations under the License.
 					<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						SELECT 				
 							PUBLICATION_ID,COLLECTION_OBJECT_ID,CITED_TAXON_NAME_ID,OCCURS_PAGE_NUMBER,CIT_CURRENT_FG,
-							TYPE_STATUS,CITATION_REMARKS,CITATION_TEXT,REP_PUBLISHED_YEAR,CITATION_PAGE_URI
+							TYPE_STATUS,CITATION_REMARKS,CITATION_PAGE_URI
 						FROM cf_temp_citation
 						where key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#problem_key#">
 					</cfquery>
@@ -765,10 +760,6 @@ limitations under the License.
 										Invalid CITED_TAXON_NAME_ID
 									<cfelseif cfcatch.detail contains "citation_remarks">
 										Problem with CITATION_REMARKS (#cfcatch.detail#)
-									<cfelseif cfcatch.detail contains "REP_PUBLISHED_YEAR">
-										Invalid or missing REP_PUBLISHED_YEAR
-									<cfelseif cfcatch.detail contains "citation_text">
-										Invalid CITATION_TEXT
 									<cfelseif cfcatch.detail contains "collection_object-Id">
 										Invalid COLLECTION_OBJECT_ID
 									<cfelseif cfcatch.detail contains "publication_id">
@@ -786,7 +777,7 @@ limitations under the License.
 							<thead><tr>
 								<th>COUNT</th><th>PUBLICATION_ID</th><th>COLLECTION_OBJECTION_ID</th>
 								<th>OCCURS_PAGE_NUMBER</th><th>TYPE_STATUS</th><th>CITATION_REMARKS</th><th>CITATION_PAGE_URI</th>
-								<th>CITED_TAXON_NAME_ID</th><th>CITATION_TEXT</th><th>REP_PUBLISHED_YEAR</th>
+								<th>CITED_TAXON_NAME_ID</th>
 								</tr> 
 							</thead>
 							<tbody>
@@ -800,8 +791,6 @@ limitations under the License.
 										<td>#getProblemData.TYPE_STATUS# </td>
 										<td>#getProblemData.CITATION_PAGE_URI#</td>
 										<td>#getProblemData.CITED_TAXON_NAME_ID#</td>
-										<td>#getProblemData.REP_PUBLISHED_YEAR#</td>
-										<td>#getProblemData.CITATION_TEXT#</td>
 										<td>#getProblemData.OCCURS_PAGE_NUMBER#</td>
 										<td>#getProblemData.CITATION_REMARKS#</td>
 									</tr>
