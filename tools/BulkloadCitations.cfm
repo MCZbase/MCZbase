@@ -714,12 +714,14 @@ limitations under the License.
 			<cftransaction>
 				<cfquery name="getTempData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					SELECT publication_title,publication_id,institution_acronym,collection_cde,other_id_type,other_id_number,collection_object_id,
-					cited_scientific_name,occurs_page_number,type_status,citation_remarks,citation_page_uri,status FROM cf_temp_citation
+					cited_scientific_name,occurs_page_number,type_status,citation_remarks,citation_page_uri,status FROM cf_temp_citation,key
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+					and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
 				</cfquery>
 				<cfquery name="getCounts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					SELECT count(distinct collection_object_id) ctobj FROM cf_temp_citation
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+					and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
 				</cfquery>
 			<cftry>
 					<cfset citation_updates = 0>
