@@ -541,7 +541,7 @@ limitations under the License.
 								where publication_id = cf_temp_citation.publication_id 
 								and cited_scientific_name = cf_temp_citation.cited_scientific_name
 							)
-					WHERE publication_ID = getTempTableQC2.publication_ID
+					WHERE publication_ID = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableQC2.publication_id#"> 
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC2.key#">
 				</cfquery>
