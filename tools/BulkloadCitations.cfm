@@ -739,7 +739,6 @@ limitations under the License.
 							OCCURS_PAGE_NUMBER,
 							TYPE_STATUS,
 							CITATION_REMARKS,
-							STATUS,
 							CITATION_PAGE_URI
 							)VALUES(
 							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#PUBLICATION_TITLE#">,
@@ -753,7 +752,6 @@ limitations under the License.
 							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#OCCURS_PAGE_NUMBER#">,
 							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#TYPE_STATUS#">,
 							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#CITATION_REMARKS#">, 
-							<cfqueryparam cfsqltype="CF_SQL_varchar" value="#STATUS#">,
 							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#CITATION_PAGE_URI#">
 							)
 						</cfquery>
@@ -793,7 +791,6 @@ limitations under the License.
 							OCCURS_PAGE_NUMBER,
 							TYPE_STATUS,
 							CITATION_REMARKS,
-							STATUS,
 							CITATION_PAGE_URI
 						FROM cf_temp_citation
 						where key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#problem_key#">
