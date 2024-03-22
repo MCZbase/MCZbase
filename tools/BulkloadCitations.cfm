@@ -830,6 +830,8 @@ limitations under the License.
 										Problem with PUBLICATION_ID (#cfcatch.detail#)
 									<cfelseif cfcatch.detail contains "no data">
 										No data or the wrong data (#cfcatch.detail#)
+									<cfelseif cfcatch.detail contains "key">
+										No key (#cfcatch.detail#)
 									<cfelse>
 										<!--- provide the raw error message if it isn't readily interpretable --->
 										#cfcatch.detail#
