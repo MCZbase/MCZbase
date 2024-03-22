@@ -791,7 +791,8 @@ limitations under the License.
 							OCCURS_PAGE_NUMBER,
 							TYPE_STATUS,
 							CITATION_REMARKS,
-							CITATION_PAGE_URI
+							CITATION_PAGE_URI,
+							STATUS
 						FROM cf_temp_citation
 						where key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#problem_key#">
 					</cfquery>
