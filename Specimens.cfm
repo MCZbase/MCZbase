@@ -2903,7 +2903,8 @@ Target JSON:
 					for (var i=0; i<columnCount; i++) { 
 						var fieldName = $('##'+gridId).jqxGrid("columns").records[i].datafield;
 						if (fieldName) { 
-							columnMap.set(fieldName,i);
+							var column_number = $('##'+gridId).jqxGrid("getColumnIndex",fieldName); 
+							columnMap.set(fieldName,column_number);
 						}
 					}
 					JSON.stringify(Array.from(columnMap));
