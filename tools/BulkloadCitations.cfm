@@ -684,7 +684,7 @@ limitations under the License.
 			<cftry>
 					<cfset citation_updates = 0>
 					<cfif getCitData.recordcount EQ 0>
-						<cfthrow message="You have no rows to load in the attributes bulkloader table (cf_temp_citation).  <a href='/BulkloadCitation.cfm'>Start over</a>"><!--- " --->
+						<cfthrow message="You have no rows to load in the attributes bulkloader table (cf_temp_citation).  <a href='/tools/BulkloadCitation.cfm'>Start over</a>"><!--- " --->
 					</cfif>
 					<cfloop query="getCitData">
 						<cfset problem_key = #getCitData.key#>
