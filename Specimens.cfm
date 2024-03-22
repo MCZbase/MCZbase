@@ -2945,6 +2945,7 @@ Target JSON:
 								try { 
 									$('##'+gridId).jqxGrid("setColumnIndex",key,value);
 								} catch (e) {};
+							}
 						}
 					}
 					$('##' + gridId).jqxGrid('endupdate');
