@@ -527,11 +527,8 @@ limitations under the License.
 				WHERE 
 					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
-			<cfloop query="getTempTableQC2">
-				<!--- for each row, evaluate the attribute against expectations and provide an error message --->
-				<!--- qc checks separate from getting ID numbers, includes presence of values in required columns --->
-				<cfif len(getTempTableQC2.publication_ID) gt 0>
-					<cfquery name="getPTID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfloop query="">
+					<cfquery name="getCTNID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						UPDATE
 							cf_temp_citation
 						SET
@@ -544,19 +541,13 @@ limitations under the License.
 						and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableQC2.key#"> 
 					</cfquery>
 				</cfif>
-				<cfquery name="getCTNID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					UPDATE
-						cf_temp_citation
-					SET
-						status = concat(nvl2(status, status || '; ', ''), '#cited_scientific_name# not in database')
-					WHERE cited_scientific_name NOT IN (
-							select scientific_name 
-							from identification
-							where scientific_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableQC2.cited_scientific_name#">  
-						)
-					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-					AND key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableQC2.key#"> 
-				</cfquery>
+				
+			</cfloop>
+			<cfloop query="getTempTableQC2">
+				<!--- for each row, evaluate the attribute against expectations and provide an error message --->
+				<!--- qc checks separate from getting ID numbers, includes presence of values in required columns --->
+				<cfif len(getTempTableQC2.publication_ID) gt 0>
+
 				<cfquery name="flagNotMatchedTypeStatus" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					UPDATE cf_temp_citation
 					SET 
