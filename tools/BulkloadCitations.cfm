@@ -578,8 +578,7 @@ limitations under the License.
 					UPDATE cf_temp_citation
 					SET 
 						status = concat(nvl2(status, status || '; ', ''),' The publication_title entered does not match an existing title')
-					WHERE publication_title IS NOT NULL and publication_ID IS NULL
-					AND publication_title NOT IN (select publication_title from publication where publication_title = getTempTableQC2.publication_title)
+					WHERE publication_title NOT IN (select publication_title from publication where publication_title = getTempTableQC2.publication_title)
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC2.key#">
 				</cfquery>
