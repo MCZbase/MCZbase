@@ -569,16 +569,16 @@ limitations under the License.
 				<cfquery name="flagNoPublication" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					UPDATE cf_temp_citation
 					SET 
-						status = concat(nvl2(status, status || '; ', ''),' The publication_title or publication_id fields are missing entries')
-					WHERE publication_id IS NULL and publication_title IS NULL
+						status = concat(nvl2(status, status || '; ', ''),' The publication_id fields are missing entries')
+					WHERE publication_id IS NULL
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						AND key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableQC2.key#"> 
 				</cfquery>
 				<cfquery name="flagNoPublication" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					UPDATE cf_temp_citation
 					SET 
-						status = concat(nvl2(status, status || '; ', ''),' The publication_title entered does not match an existing title')
-					WHERE publication_title NOT IN (select publication_title from publication where publication_title = getTempTableQC2.publication_title)
+						status = concat(nvl2(status, status || '; ', ''),' The publication_ID or title entered does not match an existing one')
+					WHERE publication_ID NOT IN (select publication_ID from publication where publication_ID = getTempTableQC2.publication_ID)
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC2.key#">
 				</cfquery>
