@@ -2919,14 +2919,14 @@ Target JSON:
 							page_file_path: '#cgi.script_name#',
 							label: 'Default',
 							returnformat : "json",
-							queryformat : 'column',
-							ajaxGridId : gridId
+							queryformat : 'column'
 						},
+						ajaxGridId : gridId,
 						error: function (jqXHR, status, message) {
 							messageDialog("Error looking up column order: " + status + " " + jqXHR.responseText ,'Error: '+ status);
 						},
 						success: function (result) {
-							var gridId = this.gridId;
+							var gridId = this.ajaxGridId;
 							console.log(result[0]);
 							var settings = result[0];
 							if (typeof settings !== "undefined" && settings!=null) { 
@@ -2937,6 +2937,7 @@ Target JSON:
 				} 
 
 				function setColumnOrder(gridId, columnMap) { 
+					console.log(gridId);
 					$('##' + gridId).jqxGrid('beginupdate');
 					for (const [key, value] of columnMap.entries()) {
 						if ($('##'+gridId).jqxGrid("getColumnIndex",key) != value) { 
