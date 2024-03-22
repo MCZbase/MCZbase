@@ -684,8 +684,8 @@ limitations under the License.
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
 			<cftry>
-					<cfset citation_updates = 0>
-					<cfset citation_updates1 = 0>
+					<cfset citations_updates = 0>
+					<cfset citations_updates1 = 0>
 					<cfif getCitData.recordcount EQ 0>
 						<cfthrow message="You have no rows to load in the attributes bulkloader table (cf_temp_citation).  <a href='/tools/BulkloadCitation.cfm'>Start over</a>"><!--- " --->
 					</cfif>
