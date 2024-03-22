@@ -758,11 +758,7 @@ limitations under the License.
 							)
 						</cfquery>
 						<cfquery name="updateCitations1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateAttributes1_result">
-							select PUBLICATION_TITLE,
-							PUBLICATION_ID,INSTITUTION_ACRONYM,COLLECTION_CDE,
-							OTHER_ID_TYPE,OTHER_ID_NUMBER,COLLECTION_OBJECT_ID,CITED_SCIENTIFIC_NAME,CITED_TAXON_NAME_ID,
-							OCCURS_PAGE_NUMBER,TYPE_STATUS,CITATION_REMARKS,STATUS,
-							CITATION_PAGE_URI 
+							select PUBLICATION_TITLE,PUBLICATION_ID,INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_NUMBER,COLLECTION_OBJECT_ID,CITED_SCIENTIFIC_NAME,CITED_TAXON_NAME_ID,OCCURS_PAGE_NUMBER,TYPE_STATUS,CITATION_REMARKS,STATUS,	CITATION_PAGE_URI 
 							where collection_object_id = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempData.collection_object_id#">
 							group by PUBLICATION_TITLE,PUBLICATION_ID,INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_NUMBER,COLLECTION_OBJECT_ID,CITED_SCIENTIFIC_NAME,
 							CITED_TAXON_NAME_ID,OCCURS_PAGE_NUMBER,TYPE_STATUS,CITATION_REMARKS,STATUS,CITATION_PAGE_URI
@@ -798,7 +794,7 @@ limitations under the License.
 							TYPE_STATUS,
 							CITATION_REMARKS,
 							STATUS,
-							CITATION_PAGE_URI,
+							CITATION_PAGE_URI
 						FROM cf_temp_citation
 						where key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#problem_key#">
 					</cfquery>
