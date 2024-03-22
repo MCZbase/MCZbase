@@ -800,7 +800,7 @@ limitations under the License.
 					</cfquery>
 					<cfset citations_updates = 0>
 					<cfset testTitle = htmlCodeFormat('#getProblemData.PUBLICATION_TITLE#')>
-					<cfset RERplaceNoCase(testTitle, "<[^>]*>","","ALL")>
+					<cfset replace(testTitle, "<[^>]*>","","ALL")>
 					<cfif getProblemData.recordcount GT 0>
 						<h3>
 							Error loading row #testTitle# (<span class="text-danger">#citations_updates + 1#</span>) from the CSV: 
