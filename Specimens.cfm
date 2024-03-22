@@ -2717,6 +2717,9 @@ Target JSON:
 		var fixedSearchLoaded = 0;
 		var keywordSearchLoaded = 0;
 		var builderSearchLoaded = 0;
+
+		// prevent on columnreordered event from causing save of grid column order when loading order from persistance store
+		var columnOrderLoading = 0
 	
 		function serializeFormAsJSON(formID) {
 		  const array = $('##'+formID).serializeArray();
@@ -2898,17 +2901,21 @@ Target JSON:
 				}
 
 				function columnOrderChanged(gridId) { 
-					var columnCount = $('##'+gridId).jqxGrid("columns").length();
-					var columnMap = new Map();
-					for (var i=0; i<columnCount; i++) { 
-						var fieldName = $('##'+gridId).jqxGrid("columns").records[i].datafield;
-						if (fieldName) { 
-							var column_number = $('##'+gridId).jqxGrid("getColumnIndex",fieldName); 
-							columnMap.set(fieldName,column_number);
+					if (columnOrderLoading==0) { 
+						var columnCount = $('##'+gridId).jqxGrid("columns").length();
+						var columnMap = new Map();
+						for (var i=0; i<columnCount; i++) { 
+							var fieldName = $('##'+gridId).jqxGrid("columns").records[i].datafield;
+							if (fieldName) { 
+								var column_number = $('##'+gridId).jqxGrid("getColumnIndex",fieldName); 
+								columnMap.set(fieldName,column_number);
+							}
 						}
+						JSON.stringify(Array.from(columnMap));
+						saveColumnOrder('#cgi.script_name#',columnMap,'Default',null);
+					} else { 
+						console.log("columnOrderChanged called while loading column order, ignoring");
 					}
-					JSON.stringify(Array.from(columnMap));
-					saveColumnOrder('#cgi.script_name#',columnMap,'Default',null);
 				}
 
 				function loadColumnOrder(gridId) { 
@@ -2938,6 +2945,7 @@ Target JSON:
 				} 
 
 				function setColumnOrder(gridId, columnMap) { 
+					columnOrderLoading = 1;
 					$('##' + gridId).jqxGrid('beginupdate');
 					$('##fixedsearchResultsGrid').jqxGrid().on("columnreordered", function (event) { });
 					for (const [value, keystruct] of columnMap.entries()) {
@@ -2954,6 +2962,7 @@ Target JSON:
 						columnOrderChanged('fixedsearchResultsGrid');
 					});
 					$('##' + gridId).jqxGrid('endupdate');
+					columnOrderLoading = 0;
 				}
 	
 				$("##fixedsearchResultsGrid").jqxGrid({
