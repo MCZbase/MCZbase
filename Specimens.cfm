@@ -2896,6 +2896,24 @@ Target JSON:
 					var maxZIndex = getMaxZIndex();
 					$(parentElement).css('z-index',maxZIndex - 1); // will sit just behind dialog
 				}
+
+				function columnOrderChanged(gridId) { 
+					var columnCount = $('##'+gridId).jqxGrid("columns").length();
+					var columnMap = new Map();
+					for (var i=0; i<columnCount; i++) { 
+						var fieldName = $('##'+gridId).jqxGrid("columns").records[i].datafield;
+						if (fieldName) { 
+							columnMap.set(fieldName,i);
+						}
+					}
+					console.log(JSON.stringify(Array.from(columnMap)));
+				}
+
+				function setColumnOrder(gridId, columnMap) { 
+					for (const [key, value] of columnMap.entries()) {
+						$('##'+gridId).jqxGrid("setColumnIndex",key,value);
+					}
+				}
 	
 				$("##fixedsearchResultsGrid").jqxGrid({
 					width: '100%',
@@ -2926,6 +2944,9 @@ Target JSON:
 					},
 					rendergridrows: function () {
 						return dataAdapter.records;
+					},
+					columnreordered: function(){ 
+						columnOrderChanged('fixedsearchResultsGrid');
 					},
 					columns: [
 						<cfif findNoCase('master',Session.gitBranch) EQ 0>
