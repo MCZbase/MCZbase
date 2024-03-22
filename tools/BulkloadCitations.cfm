@@ -521,7 +521,7 @@ limitations under the License.
 			<!--- obtain the information needed to QC each row --->
 			<cfquery name="getTempTableQC2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				SELECT 
-					key, collection_cde, cited_scientific_name, publication_id,publication_title, cited_taxon_name_id
+					key, collection_cde, cited_scientific_name,publication_id,publication_title, cited_taxon_name_id
 				FROM 
 					cf_temp_citation
 				WHERE 
