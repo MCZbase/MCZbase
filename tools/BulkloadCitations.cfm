@@ -511,13 +511,41 @@ limitations under the License.
 							publication_id = (
 								select publication_id 
 								from publication 
-								where cf_temp_citation.publication_title like '%<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableTypes.publication_title#">%' 
+								where cf_temp_citation.publication_title =<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableTypes.publication_title#"> 
 							)
 						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableTypes.key#"> 
 					</cfquery>
 				</cfif>
 			</cfloop>
+			<cfquery name="getTaxaNames" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				SELECT 
+					publication_id, key
+				FROM 
+					cf_temp_citation
+				WHERE 
+					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+					AND key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableTypes.key#"> 
+			</cfquery>
+			<cfif len(getTempTableTypes.publication_id) gt 0>
+				<cfloop query="getTaxaNames">
+					<cfquery name="getCTNID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						UPDATE
+							cf_temp_citation
+						SET
+							CITED_TAXON_NAME_ID = (
+								select cited_taxon_name_id
+								from publication 
+								where publication.publication_id = getTaxaNames.publication_id
+							),
+							status = null
+						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+							and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableTypes.key#"> 
+					</cfquery>
+				</cfloop>
+			<cfelse>
+				<h4>publication_id invalid because of a bad match to the existing data (publication_id or cited_scientific_name)</h4>	
+			</cfif>
 			<!--- obtain the information needed to QC each row --->
 			<cfquery name="getTempTableQC2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				SELECT 
@@ -527,28 +555,6 @@ limitations under the License.
 				WHERE 
 					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
-			<cfquery name="getTempTableQC3" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				SELECT 
-					key, publication_id
-				FROM 
-					cf_temp_citation
-				WHERE 
-					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-			</cfquery>
-			<cfloop query="getTempTableQC3">
-				<cfquery name="getCTNID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					UPDATE
-						cf_temp_citation
-					SET
-						cited_taxon_name_id = (
-							select cited_taxon_name_id
-							from publication
-							where cf_temp_citation.publication_id = publication.publication_id 
-						)
-					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-					and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableQC3.key#"> 
-				</cfquery>
-			</cfloop>
 			<cfloop query="getTempTableQC2">
 				<!--- for each row, evaluate the attribute against expectations and provide an error message --->
 				<!--- qc checks separate from getting ID numbers, includes presence of values in required columns --->
@@ -569,14 +575,14 @@ limitations under the License.
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						AND key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableQC2.key#"> 
 				</cfquery>
-				<cfquery name="flagNoPublication2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<!---				<cfquery name="flagNoPublication2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					UPDATE cf_temp_citation
 					SET 
 						status = concat(nvl2(status, status || '; ', ''),' The publication_ID or title entered does not match an existing one')
 					WHERE publication_ID NOT IN (select publication_ID from publication where publication_ID = getTempTableQC2.publication_ID)
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC2.key#">
-				</cfquery>
+				</cfquery>--->
 				<cfquery name="flagMczAcronym" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					UPDATE cf_temp_citation
 					SET 
