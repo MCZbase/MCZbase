@@ -535,9 +535,13 @@ limitations under the License.
 				</cfquery>
 				<cfquery name="flagNoPublication2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					UPDATE cf_temp_citation
-					SET 
-						status = concat(nvl2(status, status || '; ', ''),' cited_taxon_name_id was not updated correctly; check publication_ID')
-					WHERE publication_ID IN (select publication_ID from identification where identification.publication_ID = getTempTableQC2.publication_ID)
+					SET cited_taxon_name_id = (
+								select identification_id 
+								from identification 
+								where publication_id = cf_temp_citation.publication_id 
+								and cited_scientific_name = cf_temp_citation.scientific_name
+							)
+					WHERE publication_ID = getTempTableQC2.publication_ID
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC2.key#">
 				</cfquery>
