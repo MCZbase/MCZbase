@@ -539,7 +539,7 @@ limitations under the License.
 					SET cited_taxon_name_id = (
 								select taxon_name_id 
 								from taxonomy
-								where cited_scientific_name = cf_temp_citation.scientific_name
+								where cited_scientific_name = <cfqueryparam cfsqltype="CF_SQL_varchar" value="#getTempTableQC.cited_scientific_name#"> 
 							)
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 					and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableQC.key#"> 
