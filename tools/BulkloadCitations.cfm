@@ -503,7 +503,7 @@ limitations under the License.
 							and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableTypes.key#"> 
 					</cfquery>
 				</cfif>
-				<cfif len(publication_title) gt 0 and len(publication_id) eq 0>
+				<cfif len(publication_id) eq 0>
 					<cfquery name="getPNID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						UPDATE
 							cf_temp_citation
@@ -517,7 +517,7 @@ limitations under the License.
 						and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableTypes.key#"> 
 					</cfquery>
 				</cfif>
-				<cfif len(publication_ID) gt 0 and len(publication_title) eq 0>
+				<cfif len(publication_title) eq 0>
 					<cfquery name="getPTID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						UPDATE
 							cf_temp_citation
