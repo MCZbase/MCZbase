@@ -511,7 +511,7 @@ limitations under the License.
 							publication_id = (
 								select publication_id 
 								from publication 
-								where cf_temp_citation.publication_title = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableTypes.publication_title#"> 
+								where cf_temp_citation.publication_title like '%<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableTypes.publication_title#">%' 
 							)
 						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableTypes.key#"> 
