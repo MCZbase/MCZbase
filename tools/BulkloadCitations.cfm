@@ -574,7 +574,7 @@ limitations under the License.
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						AND key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableQC2.key#"> 
 				</cfquery>
-				<cfquery name="flagNoPublication" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="flagNoPublication2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					UPDATE cf_temp_citation
 					SET 
 						status = concat(nvl2(status, status || '; ', ''),' The publication_ID or title entered does not match an existing one')
