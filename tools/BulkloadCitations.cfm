@@ -33,7 +33,7 @@ limitations under the License.
 </cfif>
 <!--- end special case dump of problems --->
 
-<cfset fieldlist = "institution_acronym,collection_cde,other_id_type,other_id_number,publication_title,publication_id,cited_scientific_name,occurs_page_number,citation_page_uri,type_status,citation_remarks">
+<cfset fieldlist = "institution_acronym,collection_cde,other_id_type,other_id_number,publication_id,cited_scientific_name,occurs_page_number,citation_page_uri,type_status,citation_remarks">
 <cfset fieldTypes ="CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_DECIMAL,CF_SQL_VARCHAR,CF_SQL_DECIMAL,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR">
 <cfset requiredfieldlist = "institution_acronym,collection_cde,other_id_type,other_id_number,cited_scientific_name,type_status,publication_id">
 
@@ -461,7 +461,7 @@ limitations under the License.
 		<cfoutput>
 			<cfquery name="getTempTableTypes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				SELECT 
-					other_id_type,publication_title,publication_id, key
+					other_id_type,publication_id, key
 				FROM 
 					cf_temp_citation
 				WHERE 
@@ -503,50 +503,11 @@ limitations under the License.
 							and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableTypes.key#"> 
 					</cfquery>
 				</cfif>
-				<cfif len(publication_id) eq 0>
-					<cfquery name="getPNID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-						UPDATE
-							cf_temp_citation
-						SET
-							publication_id = (
-								select publication_id 
-								from publication 
-								where cf_temp_citation.publication_title =<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableTypes.publication_title#"> 
-							)
-						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-						and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableTypes.key#"> 
-					</cfquery>
-				</cfif>
 			</cfloop>
-			<cfquery name="getTaxaNames" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				SELECT 
-					publication_id
-				FROM 
-					cf_temp_citation
-				WHERE 
-					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-			</cfquery>
-			<cfif len(getTaxaNames.publication_id) gt 0>
-				<cfloop query="getTaxaNames">
-					<cfquery name="getCTNID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-						UPDATE
-							cf_temp_citation
-						SET
-							CITED_TAXON_NAME_ID = (
-								select cited_taxon_name_id
-								from publication 
-								where publication.publication_id = getTaxaNames.publication_id
-							)
-						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-					</cfquery>
-				</cfloop>
-			<cfelse>
-				<h4>publication_id invalid because of a bad match to the existing data (publication_id or cited_scientific_name)</h4>	
-			</cfif>
 			<!--- obtain the information needed to QC each row --->
 			<cfquery name="getTempTableQC2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				SELECT 
-					key, collection_cde, cited_scientific_name,publication_id,publication_title
+					key, collection_cde, cited_scientific_name,publication_id
 				FROM 
 					cf_temp_citation
 				WHERE 
@@ -567,19 +528,19 @@ limitations under the License.
 				<cfquery name="flagNoPublication" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					UPDATE cf_temp_citation
 					SET 
-						status = concat(nvl2(status, status || '; ', ''),' The publication_id fields are missing entries')
+						status = concat(nvl2(status, status || '; ', ''),' The publication_id field is missing')
 					WHERE publication_id IS NULL
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						AND key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableQC2.key#"> 
 				</cfquery>
-<!---				<cfquery name="flagNoPublication2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="flagNoPublication2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					UPDATE cf_temp_citation
 					SET 
-						status = concat(nvl2(status, status || '; ', ''),' The publication_ID or title entered does not match an existing one')
+						status = concat(nvl2(status, status || '; ', ''),' cited_taxon_name_id was not updated correctly; check publication_ID')
 					WHERE publication_ID NOT IN (select publication_ID from publication where publication_ID = getTempTableQC2.publication_ID)
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC2.key#">
-				</cfquery>--->
+				</cfquery>
 				<cfquery name="flagMczAcronym" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					UPDATE cf_temp_citation
 					SET 
@@ -640,7 +601,7 @@ limitations under the License.
 			</cfloop>
 			<!---Go through all the data and report the status--->
 			<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				SELECT institution_acronym,collection_cde,other_id_type,other_id_number,publication_title,publication_id,cited_scientific_name,
+				SELECT institution_acronym,collection_cde,other_id_type,other_id_number,publication_id,cited_scientific_name,
 				occurs_page_number,citation_page_uri,cited_taxon_name_id,type_status,citation_remarks,collection_object_id,status
 				FROM cf_temp_citation
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
@@ -670,7 +631,6 @@ limitations under the License.
 						<th>COLLECTION_CDE</th>
 						<th>OTHER_ID_TYPE</th>
 						<th>OTHER_ID_NUMBER</th>
-						<th>PUBLICATION_TITLE</th>
 						<th>PUBLICATION_ID</th>
 						<th>CITED_SCIENTIFIC_NAME</th>
 						<th>OCCURS_PAGE_NUMBER</th>
@@ -689,7 +649,6 @@ limitations under the License.
 							<td>#data.COLLECTION_CDE#</td>
 							<td>#data.OTHER_ID_TYPE#</td>
 							<td>#data.OTHER_ID_NUMBER#</td>
-							<td>#data.PUBLICATION_TITLE#</td>
 							<td>#data.PUBLICATION_ID#</td>
 							<td>#data.CITED_SCIENTIFIC_NAME#</td>
 							<td>#data.OCCURS_PAGE_NUMBER#</td>
