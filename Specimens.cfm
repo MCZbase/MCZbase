@@ -2947,20 +2947,17 @@ Target JSON:
 				function setColumnOrder(gridId, columnMap) { 
 					columnOrderLoading = 1;
 					$('##' + gridId).jqxGrid('beginupdate');
-					$('##fixedsearchResultsGrid').jqxGrid().on("columnreordered", function (event) { });
 					for (const [value, keystruct] of columnMap.entries()) {
 						var key = keystruct[0];
 						if ($('##'+gridId).jqxGrid("getColumnIndex",key) != value) { 
 							if (key && value) {
-								try { 
+								try {
+console.log(key + " set to column " + value);
 									$('##'+gridId).jqxGrid("setColumnIndex",key,value);
 								} catch (e) {};
 							}
 						}
 					}
-					$('##fixedsearchResultsGrid').jqxGrid().on("columnreordered", function (event) {
-						columnOrderChanged('fixedsearchResultsGrid');
-					});
 					$('##' + gridId).jqxGrid('endupdate');
 					columnOrderLoading = 0;
 				}
