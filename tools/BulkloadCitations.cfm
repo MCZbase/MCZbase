@@ -551,11 +551,11 @@ limitations under the License.
 					SET
 						status = concat(nvl2(status, status || '; ', ''), '#cited_scientific_name# not in database')
 					WHERE cited_scientific_name NOT IN (
-							select distinct scientific_name 
+							select scientific_name 
 							from identification
 							where scientific_name = getTempTableQC2.cited_scientific_name 
 						)
-					AND status = nullusername = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 					AND key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableQC2.key#"> 
 				</cfquery>
 				<cfquery name="flagNotMatchedTypeStatus" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
