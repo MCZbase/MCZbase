@@ -2945,9 +2945,6 @@ Target JSON:
 					rendergridrows: function () {
 						return dataAdapter.records;
 					},
-					columnreordered: function(){ 
-						columnOrderChanged('fixedsearchResultsGrid');
-					},
 					columns: [
 						<cfif findNoCase('master',Session.gitBranch) EQ 0>
 							<cfset removerow = "{text: 'Remove', datafield: 'RemoveRow', cellsrenderer:removeFixedCellRenderer, width: 40, cellclassname: fixedcellclass, hidable:false, hidden: false },">
@@ -2988,6 +2985,10 @@ Target JSON:
 				
 				});
 	
+				$('#fixedsearchResultsGrid').jqxGrid().on("columnreordered", function (event) { 
+					columnOrderChanged('fixedsearchResultsGrid'); 
+				}); 
+
 				$("##fixedsearchResultsGrid").on("bindingcomplete", function(event) {
 
 					<cfif NOT isDefined("session.gridscrolltotop") OR session.gridscrolltotop EQ "true">
