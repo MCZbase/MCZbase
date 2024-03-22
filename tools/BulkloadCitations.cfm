@@ -461,7 +461,7 @@ limitations under the License.
 		<cfoutput>
 			<cfquery name="getTempTableTypes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				SELECT 
-					other_id_type,publication_title,publication_id, key
+					other_id_type,publication_title,publication_id,cited_taxon_name_id, key
 				FROM 
 					cf_temp_citation
 				WHERE 
@@ -691,6 +691,7 @@ limitations under the License.
 						<th>CITED_SCIENTIFIC_NAME</th>
 						<th>OCCURS_PAGE_NUMBER</th>
 						<th>CITATION_PAGE_URI</th>
+						<th>CITED_TAXON_NAME_ID</th>
 						<th>TYPE_STATUS</th>
 						<th>CITATION_REMARKS</th>
 						<th>STATUS</th>
@@ -708,6 +709,7 @@ limitations under the License.
 							<td>#data.CITED_SCIENTIFIC_NAME#</td>
 							<td>#data.OCCURS_PAGE_NUMBER#</td>
 							<td>#data.CITATION_PAGE_URI#</td>
+							<th>#data.CITED_TAXON_NAME_ID#</th>
 							<td>#data.TYPE_STATUS#</td>
 							<td>#data.CITATION_REMARKS#</td>
 							<td>#data.STATUS#</td>
