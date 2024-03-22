@@ -539,7 +539,7 @@ limitations under the License.
 								select identification_id 
 								from identification 
 								where publication_id = cf_temp_citation.publication_id 
-								and cited_scientific_name = cf_temp_citation.scientific_name
+								and cited_scientific_name = cf_temp_citation.cited_scientific_name
 							)
 					WHERE publication_ID = getTempTableQC2.publication_ID
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
