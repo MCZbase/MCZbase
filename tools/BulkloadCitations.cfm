@@ -682,6 +682,7 @@ limitations under the License.
 						<th>CITATION_PAGE_URI</th>
 						<th>TYPE_STATUS</th>
 						<th>CITATION_REMARKS</th>
+						<th>STATUS</th>
 					</tr>
 				<tbody>
 					<cfloop query="data">
@@ -698,6 +699,7 @@ limitations under the License.
 							<td>#data.CITATION_PAGE_URI#</td>
 							<td>#data.TYPE_STATUS#</td>
 							<td>#data.CITATION_REMARKS#</td>
+							<td>#data.STATUS#</td>
 						</tr>
 					</cfloop>
 				</tbody>
@@ -711,7 +713,8 @@ limitations under the License.
 			<cfset problem_key = "">
 			<cftransaction>
 				<cfquery name="getTempData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					SELECT * FROM cf_temp_citation
+					SELECT publication_title,publication_id,institution_acronym,collection_cde,other_id_type,other_id_number,collection_object_id,
+					cited_scientific_name,occurs_page_number,type_status,citation_remarks,citation_page_uri,status FROM cf_temp_citation
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
 				<cfquery name="getCounts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
