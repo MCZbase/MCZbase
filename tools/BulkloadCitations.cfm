@@ -684,10 +684,9 @@ limitations under the License.
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
 			<cftry>
-					<cfset citations_updates = 0>
-					<cfset citations_updates1 = 0>
+					<cfset citation_updates = 0>
 					<cfif getCitData.recordcount EQ 0>
-						<cfthrow message="You have no rows to load in the attributes bulkloader table (cf_temp_citation).  <a href='/tools/BulkloadCitation.cfm'>Start over</a>"><!--- " --->
+						<cfthrow message="You have no rows to load in the attributes bulkloader table (cf_temp_citation).  <a href='/BulkloadCitation.cfm'>Start over</a>"><!--- " --->
 					</cfif>
 					<cfloop query="getCitData">
 						<cfset problem_key = #getCitData.key#>
@@ -712,24 +711,24 @@ limitations under the License.
 							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getCitData.CITATION_PAGE_URI#">
 							)
 						</cfquery>
-						<cfquery name="updateCitations1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateCitations1_result">
+						<cfquery name="updateCitations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateCitations_result">
 							select PUBLICATION_ID,COLLECTION_OBJECT_ID,CITED_TAXON_NAME_ID,OCCURS_PAGE_NUMBER,TYPE_STATUS,CITATION_REMARKS,	CITATION_PAGE_URI from citation
 							where collection_object_id = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getCitData.collection_object_id#">
 							group by publication_id,collection_object_id,cited_taxon_name_id,OCCURS_PAGE_NUMBER,TYPE_STATUS,CITATION_REMARKS,CITATION_PAGE_URI
 							having count(*) > 1
 						</cfquery>
-						<cfset citations_updates = citations_updates + updateCitations_result.recordcount>
-						<cfif updateCitations1_result.recordcount gt 0>
+						<cfset citation_updates = citation_updates + updateCitations_result.recordcount>
+						<cfif updateCitations_result.recordcount gt 0>
 							<cftransaction action = "ROLLBACK">
 						<cfelse>
 							<cftransaction action="COMMIT">
 						</cfif>
 					</cfloop>
 					<p>Number of citations to update: #citations_updates# (on #getCounts.ctobj# cataloged items)</p>
-					<cfif getCitData.recordcount eq citations_updates and updateCitations1_result.recordcount eq 0>
+					<cfif getCitData.recordcount eq citation_updates and updateCitations_result.recordcount eq 0>
 						<h2 class="text-success">Success - loaded</h2>
 					</cfif>
-					<cfif updateCitations1_result.recordcount gt 0>
+					<cfif updateCitations_result.recordcount gt 0>
 						<h2 class="text-danger">Not loaded - these have already been loaded</h2>
 					</cfif>
 				<cfcatch>
@@ -741,7 +740,6 @@ limitations under the License.
 						FROM cf_temp_citation
 						where key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#problem_key#">
 					</cfquery>
-					<cfset citations_updates = 0>
 					<cfif getProblemData.recordcount GT 0>
 						<h3>
 							Error loading row (<span class="text-danger">#citations_updates + 1#</span>) from the CSV: 
