@@ -537,13 +537,11 @@ limitations under the License.
 				<cfquery name="flagNoPublication2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					UPDATE cf_temp_citation
 					SET cited_taxon_name_id = (
-								select identification_id 
-								from identification 
-								where publication_id = cf_temp_citation.publication_id 
-								and cited_scientific_name = cf_temp_citation.cited_scientific_name
+								select taxon_name_id 
+								from taxonomy
+								where cited_scientific_name = cf_temp_citation.scientific_name
 							)
-					WHERE publication_ID = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableQC.publication_id#"> 
-						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 					and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableQC.key#"> 
 				</cfquery>
 				<cfquery name="flagMczAcronym" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
