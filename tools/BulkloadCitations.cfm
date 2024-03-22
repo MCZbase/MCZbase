@@ -799,11 +799,11 @@ limitations under the License.
 						where key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#problem_key#">
 					</cfquery>
 					<cfset citations_updates = 0>
-					<cfset PUBLICATION_TITLE = stripHTML(PUBLICATION_TITLE)>
-					<cfset RERplaceNoCase(PUBLICATION_TITLE, "")>
+					<cfset testTitle = stripHTML(PUBLICATION_TITLE)>
+					<cfset RERplaceNoCase(testTitle, "<[^>]*>","","ALL")>
 					<cfif getProblemData.recordcount GT 0>
 						<h3>
-							Error loading row (<span class="text-danger">#citations_updates + 1#</span>) from the CSV: 
+							Error loading row #testTitle# (<span class="text-danger">#citations_updates + 1#</span>) from the CSV: 
 							<cfif len(cfcatch.detail) gt 0>
 								<span class="font-weight-normal border-bottom border-danger">
 									<cfif cfcatch.detail contains "publication_title">
