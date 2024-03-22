@@ -2906,7 +2906,7 @@ Target JSON:
 							columnMap.set(fieldName,i);
 						}
 					}
-					JSON.stringify(Array.from(columnMap)));
+					JSON.stringify(Array.from(columnMap));
 					saveColumnOrder('#cgi.script_name#',columnMap,'Default',null);
 				}
 
