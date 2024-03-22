@@ -549,7 +549,7 @@ limitations under the License.
 					UPDATE
 						cf_temp_citation
 					SET
-						status = concat(nvl2(status, status|| '; ', ''), 'Unknown scientific_name: "' || scientific_name ||'"&mdash;not in database')
+						status = concat(nvl2(status, status|| '; ', ''), 'Unknown scientific_name: ' || scientific_name || ' &mdash;not in database')
 					WHERE cited_scientific_name NOT IN (
 							select distinct scientific_name 
 							from identification
