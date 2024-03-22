@@ -2935,7 +2935,6 @@ Target JSON:
 						},
 						success: function (result) {
 							var gridId = this.ajaxGridId;
-							console.log(result[0]);
 							var settings = result[0];
 							if (typeof settings !== "undefined" && settings!=null) { 
 								setColumnOrder(gridId,JSON.parse(settings.column_order));
@@ -2949,13 +2948,12 @@ Target JSON:
 					$('##' + gridId).jqxGrid('beginupdate');
 					for (var i=0; i<columnMap.length; i++) {
 						var kvp = columnMap[i];
-						console.log(kvp);
 						var key = kvp[0];
 						var value = kvp[1];
 						if ($('##'+gridId).jqxGrid("getColumnIndex",key) != value) { 
 							if (key && value) {
 								try {
-console.log(key + " set to column " + value);
+									console.log(key + " set to column " + value);
 									$('##'+gridId).jqxGrid("setColumnIndex",key,value);
 								} catch (e) {};
 							}
@@ -3230,6 +3228,10 @@ console.log(key + " set to column " + value);
 					initrowdetails: initRowDetails
 				});
 		
+				$('##keywordsearchResultsGrid').jqxGrid().on("columnreordered", function (event) { 
+					columnOrderChanged('keywordsearchResultsGrid'); 
+				}); 
+
 				$("##keywordsearchResultsGrid").on("bindingcomplete", function(event) {
 					console.log("bindingcomlete: keywordsearchResultsGrid");
 					// add a link out to this search, serializing the form as http get parameters
@@ -3238,6 +3240,7 @@ console.log(key + " set to column " + value);
 					if (keywordSearchLoaded==0) { 
 						gridLoaded('keywordsearchResultsGrid','occurrence record','keyword');
 						keywordSearchLoaded = 1;
+						loadColumnOrder('keywordsearchResultsGrid');
 					}
 					<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
 						$('##keywordmanageButton').html('<a href="specimens/manageSpecimens.cfm?result_id='+$('##result_id_keywordSearch').val()+'" target="_blank" class="btn btn-xs btn-secondary my-2 mx-1 px-2" >Manage</a>');
@@ -3411,6 +3414,10 @@ console.log(key + " set to column " + value);
 					initrowdetails: initRowDetails
 				});
 		
+				$('##buildersearchResultsGrid').jqxGrid().on("columnreordered", function (event) { 
+					columnOrderChanged('buildersearchResultsGrid'); 
+				}); 
+
 				$("##buildersearchResultsGrid").on("bindingcomplete", function(event) {
 					// add a link out to this search, serializing the form as http get parameters
 					$('##builderresultLink').html('<a href="/Specimens.cfm?execute=true&' + $('##builderSearchForm :input').filter(function(index,element){ return $(element).val()!='';}).not(".excludeFromLink").serialize() + '">Link to this search</a>');
@@ -3418,6 +3425,7 @@ console.log(key + " set to column " + value);
 					if (builderSearchLoaded==0) { 
 						gridLoaded('buildersearchResultsGrid','occurrence record','builder');
 						builderSearchLoaded = 1;
+						loadColumnOrder('buildersearchResultsGrid');
 					}
 					<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
 						$('##buildermanageButton').html('<a href="specimens/manageSpecimens.cfm?result_id='+$('##result_id_builderSearch').val()+'" target="_blank" class="btn btn-xs btn-secondary px-2 my-2 mx-1" >Manage</a>');
