@@ -2985,7 +2985,7 @@ Target JSON:
 				
 				});
 	
-				$('#fixedsearchResultsGrid').jqxGrid().on("columnreordered", function (event) { 
+				$('##fixedsearchResultsGrid').jqxGrid().on("columnreordered", function (event) { 
 					columnOrderChanged('fixedsearchResultsGrid'); 
 				}); 
 
