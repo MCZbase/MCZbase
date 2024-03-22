@@ -717,18 +717,18 @@ limitations under the License.
 							group by publication_id,collection_object_id,cited_taxon_name_id,OCCURS_PAGE_NUMBER,TYPE_STATUS,CITATION_REMARKS,CITATION_PAGE_URI
 							having count(*) > 1
 						</cfquery>
-						<cfset citation_updates = citation_updates + updateCitations_result.recordcount>
-						<cfif updateCitations_result.recordcount gt 0>
+						<cfset citation_updates = citation_updates + updateCitation_result.recordcount>
+						<cfif updateCitation_result.recordcount gt 0>
 							<cftransaction action = "ROLLBACK">
 						<cfelse>
 							<cftransaction action="COMMIT">
 						</cfif>
 					</cfloop>
-					<p>Number of citations to update: #citations_updates# (on #getCounts.ctobj# cataloged items)</p>
-					<cfif getCitData.recordcount eq citation_updates and updateCitations_result.recordcount eq 0>
+					<p>Number of citations to update: #citation_updates# (on #getCounts.ctobj# cataloged items)</p>
+					<cfif getCitData.recordcount eq citation_updates and updateCitation_result.recordcount eq 0>
 						<h2 class="text-success">Success - loaded</h2>
 					</cfif>
-					<cfif updateCitations_result.recordcount gt 0>
+					<cfif updateCitation_result.recordcount gt 0>
 						<h2 class="text-danger">Not loaded - these have already been loaded</h2>
 					</cfif>
 				<cfcatch>
