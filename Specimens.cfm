@@ -2906,7 +2906,8 @@ Target JSON:
 							columnMap.set(fieldName,i);
 						}
 					}
-					console.log(JSON.stringify(Array.from(columnMap)));
+					JSON.stringify(Array.from(columnMap)));
+					saveColumnOrder('#cgi.script_name#',columnMap,'Default',null);
 				}
 
 				function setColumnOrder(gridId, columnMap) { 
@@ -2981,8 +2982,6 @@ Target JSON:
 						rowdetailsheight:  1 // row details will be placed in popup dialog
 					},
 					initrowdetails: initRowDetails
-		
-				
 				});
 	
 				$('##fixedsearchResultsGrid').jqxGrid().on("columnreordered", function (event) { 

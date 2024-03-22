@@ -1939,6 +1939,83 @@ function getColHidProp(columnName, defaultValue) {
 	}
 }
 
+
+/** saveColumnOrder persist the grid column order in the database 
+ * @param page the page on which the grid for which to column order applies appears.
+ * @param columOrderMap an object containing key value pairs where the key is a datafield and the
+ *  value is the ordinal position of that datafield in the grid for that page.
+ * @param label the label for the user's configuration of visible grid columns on that page, default
+ *  value is Default
+ * @param feeebackdiv optional, the id for a page element which can display feedback from the save, without 
+ *  a leading # selector.
+ */
+function saveColumnOrder(pageFilePath,columnOrderMap,label,feedbackDiv) { 
+	if (typeof feedbackDiv !== 'undefined') { 
+		$('#'+feedbackDiv).html('Saving...');
+	}
+	if (typeof fieldColumnOrderMap === 'undefined') { 
+		messageDialog("Error saving column order: columnOrderMap was not passed in ","Error: saving column order.");
+	}
+	var settings = JSON.stringify(Array.from(columOrderMap);
+	if (settings=="") { settings = "[]"; } 
+	console.log(settings);
+	jQuery.ajax({
+		dataType: "json",
+		url: "/shared/component/functions.cfc",
+		data: { 
+			method : "saveGridColumnOrder",
+			page_file_path: pageFilePath,
+			column_order: settings,
+			label: label,
+			returnformat : "json",
+			queryformat : 'column'
+		},
+		error: function (jqXHR, status, message) {
+			if (typeof feedbackDiv !== 'undefined') { 
+				$('#'+feedbackDiv).html('Error.');
+			}
+			messageDialog("Error saving column order: " + status + " " + jqXHR.responseText ,'Error: '+ status);
+		},
+		success: function (result) {
+			if (typeof feedbackDiv === 'undefined') { 
+				console.log(result.DATA.MESSAGE[0]);
+			} else { 
+				$('#'+feedbackDiv).html(result.DATA.MESSAGE[0]);
+			}
+		}
+	});
+}
+
+/** lookupColumnOrder retrieve the persisted grid column order from the database 
+ * @param page the page on which the grid for which to load the column order appears.
+ * @param label the label for the user's grid configuration on that page, default
+ *  value is Default
+ */
+function lookupColumnOrder (pageFilePath,label) { 
+	jQuery.ajax({
+		dataType: "json",
+		url: "/shared/component/functions.cfc",
+		data: { 
+			method : "getGridColumnOrder",
+			page_file_path: pageFilePath,
+			label: label,
+			returnformat : "json",
+			queryformat : 'column'
+		},
+		error: function (jqXHR, status, message) {
+			messageDialog("Error looking up column order: " + status + " " + jqXHR.responseText ,'Error: '+ status);
+		},
+		success: function (result) {
+			console.log(result[0]);
+			var settings = result[0];
+			if (typeof settings !== "undefined" && settings!=null) { 
+				window.columnOrderMap = JSON.parse(settings.columnhiddensettings);
+			}
+		}
+	});
+}
+
+
 /** 
  Switch a set of image controls to display the previous image in a set.
  @param counter one based position within array of images represented by imageMetadataArray
