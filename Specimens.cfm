@@ -2938,9 +2938,13 @@ Target JSON:
 
 				function setColumnOrder(gridId, columnMap) { 
 					$('##' + gridId).jqxGrid('beginupdate');
-					for (const [key, value] of columnMap.entries()) {
+					for (const [value, keystruct] of columnMap.entries()) {
+						var key = keystruct[0];
 						if ($('##'+gridId).jqxGrid("getColumnIndex",key) != value) { 
-							$('##'+gridId).jqxGrid("setColumnIndex",key,value);
+							if (key && value) {
+								try { 
+									$('##'+gridId).jqxGrid("setColumnIndex",key,value);
+								} catch (e) {};
 						}
 					}
 					$('##' + gridId).jqxGrid('endupdate');
