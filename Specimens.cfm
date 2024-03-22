@@ -2947,9 +2947,11 @@ Target JSON:
 				function setColumnOrder(gridId, columnMap) { 
 					columnOrderLoading = 1;
 					$('##' + gridId).jqxGrid('beginupdate');
-					const keyIterator = columnMap.keys();
-					for (const key of keyIterator) {
-						var value = columnMap.get(key);
+					for (var i=0; i<columnMap.length(); i++) {
+						var kvp = columnMap[i];
+						console.log(kvp);
+						var key = kvp[0];
+						var value = kvp[1];
 						if ($('##'+gridId).jqxGrid("getColumnIndex",key) != value) { 
 							if (key && value) {
 								try {
