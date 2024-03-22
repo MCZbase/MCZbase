@@ -743,7 +743,7 @@ limitations under the License.
 						<cfthrow message="You have no rows to load in the attributes bulkloader table (cf_temp_citation).  <a href='/tools/BulkloadCitation.cfm'>Start over</a>"><!--- " --->
 					</cfif>
 					<cfloop query="getCitData">
-						<cfset problem_key = #getTempData.key#>
+						<cfset problem_key = #getCitData.key#>
 						<cfquery name="updateCitation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateCitation_result">
 							INSERT into citation (
 							PUBLICATION_ID,
@@ -784,7 +784,7 @@ limitations under the License.
 						</cfif>
 					</cfloop>
 					<p>Number of citations to update: #citations_updates# (on #getCounts.ctobj# cataloged items)</p>
-					<cfif getTempData.recordcount eq citations_updates and updateCitations1_result.recordcount eq 0>
+					<cfif getCitData.recordcount eq citations_updates and updateCitations1_result.recordcount eq 0>
 						<h2 class="text-success">Success - loaded</h2>
 					</cfif>
 					<cfif updateCitations1_result.recordcount gt 0>
@@ -795,16 +795,8 @@ limitations under the License.
 					<h2 class="h3">There was a problem updating the citations.</h2>
 					<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						SELECT 				
-							PUBLICATION_ID,
-							COLLECTION_OBJECT_ID,
-							CITED_TAXON_NAME_ID,
-							OCCURS_PAGE_NUMBER,
-							CIT_CURRENT_FG,
-							TYPE_STATUS,
-							CITATION_REMARKS,
-							CITATION_TEXT,
-							REP_PUBLISHED_YEAR,
-							CITATION_PAGE_URI
+							PUBLICATION_ID,COLLECTION_OBJECT_ID,CITED_TAXON_NAME_ID,OCCURS_PAGE_NUMBER,CIT_CURRENT_FG,
+							TYPE_STATUS,CITATION_REMARKS,CITATION_TEXT,REP_PUBLISHED_YEAR,CITATION_PAGE_URI
 						FROM cf_temp_citation
 						where key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#problem_key#">
 					</cfquery>
@@ -816,7 +808,6 @@ limitations under the License.
 								<span class="font-weight-normal border-bottom border-danger">
 									<cfif cfcatch.detail contains "publication_id">
 										Invalid Publication Title; Publication_id; Search Publications
-				
 									<cfelseif cfcatch.detail contains "occurs_page_number">
 										Problem with OCCURS_PAGE_NUMBER
 									<cfelseif cfcatch.detail contains "type_status">
@@ -845,8 +836,11 @@ limitations under the License.
 							</cfif>
 						</h3>
 						<table class='sortable small table table-responsive table-striped d-lg-table mt-3'>
-							<thead><tr><th>COUNT</th><th>PUBLICATION_TITLE</th><th>PUBLICATION_ID</th><th>INSTITUTION_ACRONYM</th><th>COLLECTION_CDE</th><th>OTHER_ID_TYPE</th><th>OTHER_ID_NUMBER</th><th>COLLECTION_OBJECTION_ID</th><th>CITED_SCIENTIFIC_NAME</th><th>
-							OCCURS_PAGE_NUMBER</th><th>TYPE_STATUS</th><th>CITATION_REMARKS</th><th>STATUS</th><th>CITATION_PAGE_URI</th></tr> 
+							<thead><tr>
+								<th>COUNT</th><th>PUBLICATION_ID</th><th>COLLECTION_OBJECTION_ID</th>
+								<th>OCCURS_PAGE_NUMBER</th><th>TYPE_STATUS</th><th>CITATION_REMARKS</th><th>CITATION_PAGE_URI</th>
+								<th>CITED_TAXON_NAME_ID</th><th>CITATION_TEXT</th><th>REP_PUBLISHED_YEAR</th>
+								</tr> 
 							</thead>
 							<tbody>
 								<cfset i=1>
@@ -854,17 +848,15 @@ limitations under the License.
 									<tr>
 										<td>#i#</td>
 										<td>#getProblemData.status# </td>
-										<td>#getProblemData.PUBLICATION_TITLE# </td>
 										<td>#getProblemData.PUBLICATION_ID# </td>
-										<td>#getProblemData.INSTITUTION_ACRONYM#</td>
-										<td>#getProblemData.COLLECTION_CDE#</td>
-										<td>#getProblemData.OTHER_ID_TYPE# </td>
-										<td>#getProblemData.OTHER_ID_NUMBER# </td>
 										<td>#getProblemData.COLLECTION_OBJECT_ID# </td>
-										<td>#getProblemData.CITED_SCIENTIFIC_NAME#</td>
-										<td>#getProblemData.OCCURS_PAGE_NUMBER# </td>
 										<td>#getProblemData.TYPE_STATUS# </td>
 										<td>#getProblemData.CITATION_PAGE_URI#</td>
+										<td>#getProblemData.CITED_TAXON_NAME_ID#</td>
+										<td>#getProblemData.REP_PUBLISHED_YEAR#</td>
+										<td>#getProblemData.CITATION_TEXT#</td>
+										<td>#getProblemData.OCCURS_PAGE_NUMBER#</td>
+										<td>#getProblemData.CITATION_REMARKS#</td>
 									</tr>
 									<cfset i= i+1>
 								</cfloop>
