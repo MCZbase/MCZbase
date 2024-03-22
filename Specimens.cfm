@@ -2937,7 +2937,6 @@ Target JSON:
 				} 
 
 				function setColumnOrder(gridId, columnMap) { 
-					console.log(gridId);
 					$('##' + gridId).jqxGrid('beginupdate');
 					for (const [key, value] of columnMap.entries()) {
 						if ($('##'+gridId).jqxGrid("getColumnIndex",key) != value) { 
@@ -3035,7 +3034,7 @@ Target JSON:
 					if (fixedSearchLoaded==0) { 
 						gridLoaded('fixedsearchResultsGrid','occurrence record','fixed');
 						fixedSearchLoaded = 1;
-						loadColumnOrder('fixedSearchResultsGrid');
+						loadColumnOrder('fixedsearchResultsGrid');
 					}
 					<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
 						$('##fixedmanageButton').html('<a href="specimens/manageSpecimens.cfm?result_id='+$('##result_id_fixedSearch').val()+'" target="_blank" class="btn btn-xs btn-secondary px-2 my-2 mx-1" >Manage</a>');
