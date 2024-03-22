@@ -520,12 +520,11 @@ limitations under the License.
 			</cfloop>
 			<cfquery name="getTaxaNames" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				SELECT 
-					publication_id, key
+					publication_id
 				FROM 
 					cf_temp_citation
 				WHERE 
 					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-					AND key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableTypes.key#"> 
 			</cfquery>
 			<cfif len(getTempTableTypes.publication_id) gt 0>
 				<cfloop query="getTaxaNames">
@@ -540,7 +539,6 @@ limitations under the License.
 							),
 							status = null
 						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-							and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableTypes.key#"> 
 					</cfquery>
 				</cfloop>
 			<cfelse>
