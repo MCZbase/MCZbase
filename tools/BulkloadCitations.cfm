@@ -657,7 +657,8 @@ limitations under the License.
 			</cfloop>
 			<!---Go through all the data and report the status--->
 			<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				SELECT institution_acronym,collection_cde,other_id_type,other_id_number,publication_title,publication_id,cited_scientific_name,occurs_page_number,citation_page_uri,type_status,citation_remarks,collection_object_id,status
+				SELECT institution_acronym,collection_cde,other_id_type,other_id_number,publication_title,publication_id,cited_scientific_name,
+				occurs_page_number,citation_page_uri,cited_taxon_name_id,type_status,citation_remarks,collection_object_id,status
 				FROM cf_temp_citation
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
@@ -694,6 +695,7 @@ limitations under the License.
 						<th>CITED_TAXON_NAME_ID</th>
 						<th>TYPE_STATUS</th>
 						<th>CITATION_REMARKS</th>
+						<th>COLLECTION_OBJECT_ID</th>
 						<th>STATUS</th>
 					</tr>
 				<tbody>
@@ -712,6 +714,7 @@ limitations under the License.
 							<th>#data.CITED_TAXON_NAME_ID#</th>
 							<td>#data.TYPE_STATUS#</td>
 							<td>#data.CITATION_REMARKS#</td>
+							<td>#data.COLLECTION_OBJECT_ID#</td>
 							<td>#data.STATUS#</td>
 						</tr>
 					</cfloop>
@@ -725,59 +728,52 @@ limitations under the License.
 		<cfoutput>
 			<cfset problem_key = "">
 			<cftransaction>
-				<cfquery name="getTempData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					SELECT publication_title,publication_id,institution_acronym,collection_cde,other_id_type,other_id_number,collection_object_id,
-					cited_scientific_name,occurs_page_number,type_status,citation_remarks,citation_page_uri,status FROM cf_temp_citation,key
+				<cfquery name="getCitData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					SELECT * FROM cf_temp_citation
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-					and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
 				</cfquery>
 				<cfquery name="getCounts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					SELECT count(distinct collection_object_id) ctobj FROM cf_temp_citation
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-					and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
 				</cfquery>
 			<cftry>
 					<cfset citation_updates = 0>
 					<cfset citation_updates1 = 0>
-					<cfif getTempData.recordcount EQ 0>
+					<cfif getCitData.recordcount EQ 0>
 						<cfthrow message="You have no rows to load in the attributes bulkloader table (cf_temp_citation).  <a href='/tools/BulkloadCitation.cfm'>Start over</a>"><!--- " --->
 					</cfif>
-					<cfloop query="getTempData">
+					<cfloop query="getCitData">
 						<cfset problem_key = #getTempData.key#>
 						<cfquery name="updateCitation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateCitation_result">
 							INSERT into citation (
-							PUBLICATION_TITLE,
 							PUBLICATION_ID,
-							INSTITUTION_ACRONYM,
-							COLLECTION_CDE,
-							OTHER_ID_TYPE,
-							OTHER_ID_NUMBER,
 							COLLECTION_OBJECT_ID,
-							CITED_SCIENTIFIC_NAME,
+							CITED_TAXON_NAME_ID,
 							OCCURS_PAGE_NUMBER,
+							CIT_CURRENT_FG,
 							TYPE_STATUS,
 							CITATION_REMARKS,
+							CITATION_TEXT,
+							REP_PUBLISHED_YEAR,
 							CITATION_PAGE_URI
 							)VALUES(
-							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#PUBLICATION_TITLE#">,
-							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#PUBLICATION_ID#">,
-							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#INSTITUTION_ACRONYM#">,
-							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#COLLECTION_CDE#">, 
-							<cfqueryparam cfsqltype="CF_SQL_varchar" value="#OTHER_ID_TYPE#">,
-							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#OTHER_ID_NUMBER#">,
-							<cfqueryparam cfsqltype="CF_SQL_decimal" value="#COLLECTION_OBJECT_ID#">,
-							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#CITED_SCIENTIFIC_NAME#">
-							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#OCCURS_PAGE_NUMBER#">,
-							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#TYPE_STATUS#">,
-							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#CITATION_REMARKS#">, 
-							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#CITATION_PAGE_URI#">
+							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getCitData.PUBLICATION_ID#">,
+							<cfqueryparam cfsqltype="CF_SQL_decimal" value="#getCitData.COLLECTION_OBJECT_ID#">,
+							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getCitData.CITED_TAXON_NAME_ID#">
+							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getCitData.OCCURS_PAGE_NUMBER#">
+							<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="1">,
+							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getCitData.TYPE_STATUS#">,
+							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getCitData.CITATION_REMARKS#">, 
+							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getCitData.CITATION_TEXT#">,
+							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getCitData.REP_PUBLISHED_YEAR#">, 
+							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getCitData.CITATION_PAGE_URI#">
 							)
 						</cfquery>
 						<cfquery name="updateCitations1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateAttributes1_result">
-							select PUBLICATION_TITLE,PUBLICATION_ID,INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_NUMBER,COLLECTION_OBJECT_ID,CITED_SCIENTIFIC_NAME,CITED_TAXON_NAME_ID,OCCURS_PAGE_NUMBER,TYPE_STATUS,CITATION_REMARKS,STATUS,	CITATION_PAGE_URI 
+							select PUBLICATION_ID,COLLECTION_OBJECT_ID,CITED_TAXON_NAME_ID,OCCURS_PAGE_NUMBER,TYPE_STATUS,CITATION_REMARKS,CITATION_TEXT,REP_PUBLISHED_YEAR,	CITATION_PAGE_URI from citation
 							where collection_object_id = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempData.collection_object_id#">
-							group by PUBLICATION_TITLE,PUBLICATION_ID,INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_NUMBER,COLLECTION_OBJECT_ID,CITED_SCIENTIFIC_NAME,
-							CITED_TAXON_NAME_ID,OCCURS_PAGE_NUMBER,TYPE_STATUS,CITATION_REMARKS,CITATION_PAGE_URI
+							group by publication_id,collection_object_id,cited_taxon_name_id,OCCURS_PAGE_NUMBER,TYPE_STATUS,CITATION_REMARKS,CITATION_TEXT,REP_PUBLISHED_YEAR,
+							CITATION_PAGE_URI
 							having count(*) > 1
 						</cfquery>
 						<cfset citations_updates = citations_updates + updateCitations_result.recordcount>
@@ -798,56 +794,49 @@ limitations under the License.
 					<cftransaction action="ROLLBACK">
 					<h2 class="h3">There was a problem updating the citations.</h2>
 					<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-						SELECT PUBLICATION_TITLE,
+						SELECT 				
 							PUBLICATION_ID,
-							INSTITUTION_ACRONYM,
-							COLLECTION_CDE,
-							OTHER_ID_TYPE,
-							OTHER_ID_NUMBER,
 							COLLECTION_OBJECT_ID,
-							CITED_SCIENTIFIC_NAME,
+							CITED_TAXON_NAME_ID,
 							OCCURS_PAGE_NUMBER,
+							CIT_CURRENT_FG,
 							TYPE_STATUS,
 							CITATION_REMARKS,
-							CITATION_PAGE_URI,
-							STATUS
+							CITATION_TEXT,
+							REP_PUBLISHED_YEAR,
+							CITATION_PAGE_URI
 						FROM cf_temp_citation
 						where key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#problem_key#">
 					</cfquery>
 					<cfset citations_updates = 0>
-					<cfset testTitle = htmlCodeFormat('#getProblemData.PUBLICATION_TITLE#')>
-					<cfset replace(testTitle, "<[^>]*>","","ALL")>
 					<cfif getProblemData.recordcount GT 0>
 						<h3>
-							Error loading row #testTitle# (<span class="text-danger">#citations_updates + 1#</span>) from the CSV: 
+							Error loading row (<span class="text-danger">#citations_updates + 1#</span>) from the CSV: 
 							<cfif len(cfcatch.detail) gt 0>
 								<span class="font-weight-normal border-bottom border-danger">
-									<cfif cfcatch.detail contains "publication_title">
-										Invalid Publication Title; Search Publications
-									<cfelseif cfcatch.detail contains "collection_cde">
-										COLLECTION_CDE does not match abbreviated collection (e.g., Ent, Herp, Ich, IP, IZ, Mala, Mamm, Orn, SC, VP)
-									<cfelseif cfcatch.detail contains "institution_acronym">
-										INSTITUTION_ACRONYM does not match MCZ (all caps)
-									<cfelseif cfcatch.detail contains "other_id_type">
-										OTHER_ID_TYPE is not valid
-									<cfelseif cfcatch.detail contains "OTHER_ID_NUMBER">
-										Problem with OTHER_ID_NUMBER (#cfcatch.detail#)
+									<cfif cfcatch.detail contains "publication_id">
+										Invalid Publication Title; Publication_id; Search Publications
+				
 									<cfelseif cfcatch.detail contains "occurs_page_number">
 										Problem with OCCURS_PAGE_NUMBER
 									<cfelseif cfcatch.detail contains "type_status">
 										Invalid or missing TYPE_STATUS
 									<cfelseif cfcatch.detail contains "citation_page_uri">
 										Invalid CITATION_PAGE_URI
-									<cfelseif cfcatch.detail contains "cited_scientific_name">
-										Invalid CITED_SCIENTIFIC_NAME
+									<cfelseif cfcatch.detail contains "cited_taxon_name_id">
+										Invalid CITED_TAXON_NAME_ID
 									<cfelseif cfcatch.detail contains "citation_remarks">
 										Problem with CITATION_REMARKS (#cfcatch.detail#)
+									<cfelseif cfcatch.detail contains "REP_PUBLISHED_YEAR">
+										Invalid or missing REP_PUBLISHED_YEAR
+									<cfelseif cfcatch.detail contains "citation_text">
+										Invalid CITATION_TEXT
+									<cfelseif cfcatch.detail contains "collection_object-Id">
+										Invalid COLLECTION_OBJECT_ID
 									<cfelseif cfcatch.detail contains "publication_id">
 										Problem with PUBLICATION_ID (#cfcatch.detail#)
 									<cfelseif cfcatch.detail contains "no data">
 										No data or the wrong data (#cfcatch.detail#)
-									<cfelseif cfcatch.detail contains "key">
-										No key (#cfcatch.detail#)
 									<cfelse>
 										<!--- provide the raw error message if it isn't readily interpretable --->
 										#cfcatch.detail#
