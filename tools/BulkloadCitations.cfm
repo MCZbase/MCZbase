@@ -712,7 +712,7 @@ limitations under the License.
 							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getCitData.CITATION_PAGE_URI#">
 							)
 						</cfquery>
-						<cfquery name="updateCitations1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateAttributes1_result">
+						<cfquery name="updateCitations1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateCitations1_result">
 							select PUBLICATION_ID,COLLECTION_OBJECT_ID,CITED_TAXON_NAME_ID,OCCURS_PAGE_NUMBER,TYPE_STATUS,CITATION_REMARKS,	CITATION_PAGE_URI from citation
 							where collection_object_id = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getCitData.collection_object_id#">
 							group by publication_id,collection_object_id,cited_taxon_name_id,OCCURS_PAGE_NUMBER,TYPE_STATUS,CITATION_REMARKS,CITATION_PAGE_URI
