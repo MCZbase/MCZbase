@@ -2939,6 +2939,7 @@ Target JSON:
 
 				function setColumnOrder(gridId, columnMap) { 
 					$('##' + gridId).jqxGrid('beginupdate');
+					$('##fixedsearchResultsGrid').jqxGrid().on("columnreordered", function (event) { });
 					for (const [value, keystruct] of columnMap.entries()) {
 						var key = keystruct[0];
 						if ($('##'+gridId).jqxGrid("getColumnIndex",key) != value) { 
@@ -2949,6 +2950,9 @@ Target JSON:
 							}
 						}
 					}
+					$('##fixedsearchResultsGrid').jqxGrid().on("columnreordered", function (event) {
+						columnOrderChanged('fixedsearchResultsGrid');
+					});
 					$('##' + gridId).jqxGrid('endupdate');
 				}
 	

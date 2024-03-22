@@ -2009,7 +2009,7 @@ function lookupColumnOrder (pageFilePath,label) {
 			console.log(result[0]);
 			var settings = result[0];
 			if (typeof settings !== "undefined" && settings!=null) { 
-				window.columnOrderMap = JSON.parse(settings.columnhiddensettings);
+				window.columnOrderMap = JSON.parse(settings.column_map);
 			}
 		}
 	});
