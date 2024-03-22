@@ -2919,16 +2919,18 @@ Target JSON:
 							page_file_path: '#cgi.script_name#',
 							label: 'Default',
 							returnformat : "json",
-							queryformat : 'column'
+							queryformat : 'column',
+							ajaxGridId : gridId
 						},
 						error: function (jqXHR, status, message) {
 							messageDialog("Error looking up column order: " + status + " " + jqXHR.responseText ,'Error: '+ status);
 						},
 						success: function (result) {
+							var gridId = this.gridId;
 							console.log(result[0]);
 							var settings = result[0];
 							if (typeof settings !== "undefined" && settings!=null) { 
-								setColumnOrder(gridId,JSON.parse(settings.columnhiddensettings));
+								setColumnOrder(gridId,JSON.parse(settings.column_order));
 							}
 						}
 					});
