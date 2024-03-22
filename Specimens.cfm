@@ -2916,8 +2916,8 @@ Target JSON:
 						url: "/shared/component/functions.cfc",
 						data: { 
 							method : "getGridColumnOrder",
-							page_file_path: pageFilePath,
-							label: label,
+							page_file_path: '#cgi.script_name#',
+							label: 'Default',
 							returnformat : "json",
 							queryformat : 'column'
 						},
