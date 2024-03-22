@@ -566,7 +566,7 @@ limitations under the License.
 					WHERE cited_scientific_name NOT IN (
 							select scientific_name 
 							from identification
-							where scientific_name = getTempTableQC2.cited_scientific_name 
+							where scientific_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableQC2.cited_scientific_name#">  
 						)
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 					AND key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableQC2.key#"> 
