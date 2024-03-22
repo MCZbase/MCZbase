@@ -503,11 +503,11 @@ limitations under the License.
 							and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableTypes.key#"> 
 					</cfquery>
 				</cfif>
-			</cfloop>
+		
 			<!--- obtain the information needed to QC each row --->
 			<cfquery name="getTempTableQC2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				SELECT 
-					key, collection_cde, cited_scientific_name,publication_id
+					key,collection_cde, cited_scientific_name,publication_id
 				FROM 
 					cf_temp_citation
 				WHERE 
@@ -543,7 +543,7 @@ limitations under the License.
 							)
 					WHERE publication_ID = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableQC2.publication_id#"> 
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-					
+					and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableQC2.key#"> 
 				</cfquery>
 				<cfquery name="flagMczAcronym" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					UPDATE cf_temp_citation
@@ -593,6 +593,7 @@ limitations under the License.
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
 			</cfloop>
+		</cfloop>
 			<!---Missing data in required fields--->
 			<cfloop list="#requiredfieldlist#" index="requiredField">
 				<cfquery name="checkRequired" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
