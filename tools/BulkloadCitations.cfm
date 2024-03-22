@@ -543,7 +543,7 @@ limitations under the License.
 							)
 					WHERE publication_ID = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableQC2.publication_id#"> 
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-						and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC2.key#">
+					
 				</cfquery>
 				<cfquery name="flagMczAcronym" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					UPDATE cf_temp_citation
