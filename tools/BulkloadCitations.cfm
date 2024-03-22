@@ -461,7 +461,7 @@ limitations under the License.
 		<cfoutput>
 			<cfquery name="getTempTableTypes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				SELECT 
-					other_id_type,publication_title,publication_id,cited_taxon_name_id, key
+					other_id_type,publication_title,publication_id, key
 				FROM 
 					cf_temp_citation
 				WHERE 
@@ -527,21 +527,19 @@ limitations under the License.
 				WHERE 
 					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
-			<cfloop query="getTempTableQC2">
-					<cfquery name="getCTNID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-						UPDATE
-							cf_temp_citation
-						SET
-							cited_taxon_name_id = (
-								select cited_taxon_name_id
-								from publication
-								where cf_temp_citation.publication_id = publication.publication_id 
-							)
-						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-						and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableQC2.key#"> 
-					</cfquery>
-				</cfif>
-				
+			<cfloop query="getTempTableQC3">
+				<cfquery name="getCTNID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					UPDATE
+						cf_temp_citation
+					SET
+						cited_taxon_name_id = (
+							select cited_taxon_name_id
+							from publication
+							where cf_temp_citation.publication_id = publication.publication_id 
+						)
+					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+					and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableQC3.key#"> 
+				</cfquery>
 			</cfloop>
 			<cfloop query="getTempTableQC2">
 				<!--- for each row, evaluate the attribute against expectations and provide an error message --->
