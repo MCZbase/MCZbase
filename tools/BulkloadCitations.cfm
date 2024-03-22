@@ -521,13 +521,13 @@ limitations under the License.
 			<!--- obtain the information needed to QC each row --->
 			<cfquery name="getTempTableQC2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				SELECT 
-					key, collection_cde, cited_scientific_name,publication_id,publication_title, cited_taxon_name_id
+					key, collection_cde, cited_scientific_name,publication_id,publication_title
 				FROM 
 					cf_temp_citation
 				WHERE 
 					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
-			<cfloop query="">
+			<cfloop query="getTempTableQC2">
 					<cfquery name="getCTNID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						UPDATE
 							cf_temp_citation
