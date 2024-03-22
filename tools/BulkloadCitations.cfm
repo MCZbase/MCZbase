@@ -784,7 +784,6 @@ limitations under the License.
 								<cfloop query="getProblemData">
 									<tr>
 										<td>#i#</td>
-										<td>#getProblemData.status# </td>
 										<td>#getProblemData.PUBLICATION_ID# </td>
 										<td>#getProblemData.COLLECTION_OBJECT_ID# </td>
 										<td>#getProblemData.TYPE_STATUS# </td>
