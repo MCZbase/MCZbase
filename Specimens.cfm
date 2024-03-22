@@ -2910,10 +2910,38 @@ Target JSON:
 					saveColumnOrder('#cgi.script_name#',columnMap,'Default',null);
 				}
 
+				function loadColumnOrder(gridId) { 
+					jQuery.ajax({
+						dataType: "json",
+						url: "/shared/component/functions.cfc",
+						data: { 
+							method : "getGridColumnOrder",
+							page_file_path: pageFilePath,
+							label: label,
+							returnformat : "json",
+							queryformat : 'column'
+						},
+						error: function (jqXHR, status, message) {
+							messageDialog("Error looking up column order: " + status + " " + jqXHR.responseText ,'Error: '+ status);
+						},
+						success: function (result) {
+							console.log(result[0]);
+							var settings = result[0];
+							if (typeof settings !== "undefined" && settings!=null) { 
+								setColumnOrder(gridId,JSON.parse(settings.columnhiddensettings));
+							}
+						}
+					});
+				} 
+
 				function setColumnOrder(gridId, columnMap) { 
+					$('##' + gridId).jqxGrid('beginupdate');
 					for (const [key, value] of columnMap.entries()) {
-						$('##'+gridId).jqxGrid("setColumnIndex",key,value);
+						if ($('##'+gridId).jqxGrid("getColumnIndex",key) != value) { 
+							$('##'+gridId).jqxGrid("setColumnIndex",key,value);
+						}
 					}
+					$('##' + gridId).jqxGrid('endupdate');
 				}
 	
 				$("##fixedsearchResultsGrid").jqxGrid({
@@ -3004,6 +3032,7 @@ Target JSON:
 					if (fixedSearchLoaded==0) { 
 						gridLoaded('fixedsearchResultsGrid','occurrence record','fixed');
 						fixedSearchLoaded = 1;
+						loadColumnOrder('fixedSearchResultsGrid');
 					}
 					<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
 						$('##fixedmanageButton').html('<a href="specimens/manageSpecimens.cfm?result_id='+$('##result_id_fixedSearch').val()+'" target="_blank" class="btn btn-xs btn-secondary px-2 my-2 mx-1" >Manage</a>');
