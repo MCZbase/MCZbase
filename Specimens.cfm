@@ -2901,6 +2901,7 @@ Target JSON:
 				}
 
 				function columnOrderChanged(gridId) { 
+					<cfif isdefined("session.username") and len(#session.username#) gt 0>
 					if (columnOrderLoading==0) { 
 						var columnCount = $('##'+gridId).jqxGrid("columns").length();
 						var columnMap = new Map();
@@ -2916,9 +2917,11 @@ Target JSON:
 					} else { 
 						console.log("columnOrderChanged called while loading column order, ignoring");
 					}
+					</cfif>
 				}
 
 				function loadColumnOrder(gridId) { 
+					<cfif isdefined("session.username") and len(#session.username#) gt 0>
 					jQuery.ajax({
 						dataType: "json",
 						url: "/shared/component/functions.cfc",
@@ -2941,9 +2944,11 @@ Target JSON:
 							}
 						}
 					});
+					</cfif>
 				} 
 
 				function setColumnOrder(gridId, columnMap) { 
+					<cfif isdefined("session.username") and len(#session.username#) gt 0>
 					columnOrderLoading = 1;
 					$('##' + gridId).jqxGrid('beginupdate');
 					for (var i=0; i<columnMap.length; i++) {
@@ -2961,6 +2966,7 @@ Target JSON:
 					}
 					$('##' + gridId).jqxGrid('endupdate');
 					columnOrderLoading = 0;
+					</cfif>
 				}
 	
 				$("##fixedsearchResultsGrid").jqxGrid({
