@@ -1956,7 +1956,7 @@ function saveColumnOrder(pageFilePath,columnOrderMap,label,feedbackDiv) {
 	if (typeof fieldColumnOrderMap === 'undefined') { 
 		messageDialog("Error saving column order: columnOrderMap was not passed in ","Error: saving column order.");
 	}
-	var settings = JSON.stringify(Array.from(columOrderMap);
+	var settings = JSON.stringify(Array.from(columOrderMap));
 	if (settings=="") { settings = "[]"; } 
 	console.log(settings);
 	jQuery.ajax({
