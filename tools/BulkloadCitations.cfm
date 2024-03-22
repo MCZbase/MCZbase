@@ -526,7 +526,7 @@ limitations under the License.
 				WHERE 
 					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
-			<cfif len(getTempTableTypes.publication_id) gt 0>
+			<cfif len(getTaxaNames.publication_id) gt 0>
 				<cfloop query="getTaxaNames">
 					<cfquery name="getCTNID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						UPDATE
@@ -536,8 +536,7 @@ limitations under the License.
 								select cited_taxon_name_id
 								from publication 
 								where publication.publication_id = getTaxaNames.publication_id
-							),
-							status = null
+							)
 						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 					</cfquery>
 				</cfloop>
