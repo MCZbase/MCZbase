@@ -511,39 +511,7 @@ limitations under the License.
 							publication_id = (
 								select publication_id 
 								from publication 
-								where cf_temp_citation.publication_title = publication.publication_title 
-							)
-						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-						and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableTypes.key#"> 
-					</cfquery>
-				<cfelse>
-					#getTempTableTypes.publication_ID#
-				</cfif>
-				<cfif len(publication_title) eq 0>
-					<cfquery name="getPTID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-						UPDATE
-							cf_temp_citation
-						SET
-							publication_title = (
-								select publication_title 
-								from publication 
-								where cf_temp_citation.publication_id = publication.publication_id 
-							)
-						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-						and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableTypes.key#"> 
-					</cfquery>
-				<cfelse>
-					#getTempTableTypes.publication_title#
-				</cfif>
-				<cfif len(publication_ID) gt 0 and len(publication_title) eq 0>
-					<cfquery name="getPTID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-						UPDATE
-							cf_temp_citation
-						SET
-							cited_taxon_name_id = (
-								select cited_taxon_name_id
-								from publication
-								where cf_temp_citation.publication_id = publication.publication_id 
+								where cf_temp_citation.publication_title = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableTypes.publication_title#"> 
 							)
 						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableTypes.key#"> 
@@ -562,6 +530,20 @@ limitations under the License.
 			<cfloop query="getTempTableQC2">
 				<!--- for each row, evaluate the attribute against expectations and provide an error message --->
 				<!--- qc checks separate from getting ID numbers, includes presence of values in required columns --->
+				<cfif len(getTempTableQC2.publication_ID) gt 0>
+					<cfquery name="getPTID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						UPDATE
+							cf_temp_citation
+						SET
+							cited_taxon_name_id = (
+								select cited_taxon_name_id
+								from publication
+								where cf_temp_citation.publication_id = publication.publication_id 
+							)
+						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+						and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableQC2.key#"> 
+					</cfquery>
+				</cfif>
 				<cfquery name="getCTNID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					UPDATE
 						cf_temp_citation
