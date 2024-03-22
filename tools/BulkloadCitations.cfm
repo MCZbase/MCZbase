@@ -544,8 +544,6 @@ limitations under the License.
 			<cfloop query="getTempTableQC2">
 				<!--- for each row, evaluate the attribute against expectations and provide an error message --->
 				<!--- qc checks separate from getting ID numbers, includes presence of values in required columns --->
-				<cfif len(getTempTableQC2.publication_ID) gt 0>
-
 				<cfquery name="flagNotMatchedTypeStatus" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					UPDATE cf_temp_citation
 					SET 
