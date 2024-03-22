@@ -649,7 +649,7 @@ limitations under the License.
 				<tbody>
 					<cfloop query="data">
 						<tr>
-							<td><strong>#STATUS#</strong></td>
+							<td><strong>#data.STATUS#</strong></td>
 							<td>#data.INSTITUTION_ACRONYM#</td>
 							<td>#data.COLLECTION_CDE#</td>
 							<td>#data.OTHER_ID_TYPE#</td>
@@ -662,7 +662,6 @@ limitations under the License.
 							<td>#data.TYPE_STATUS#</td>
 							<td>#data.CITATION_REMARKS#</td>
 							<td>#data.COLLECTION_OBJECT_ID#</td>
-							<td>#data.STATUS#</td>
 						</tr>
 					</cfloop>
 				</tbody>
