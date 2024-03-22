@@ -799,7 +799,7 @@ limitations under the License.
 						where key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#problem_key#">
 					</cfquery>
 					<cfset citations_updates = 0>
-					<cfset testTitle = stripHTML(PUBLICATION_TITLE)>
+					<cfset testTitle = htmlCodeFormat(PUBLICATION_TITLE)>
 					<cfset RERplaceNoCase(testTitle, "<[^>]*>","","ALL")>
 					<cfif getProblemData.recordcount GT 0>
 						<h3>
