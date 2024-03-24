@@ -2402,3 +2402,21 @@ function lookupComment(table, column ,targetID) {
 		}
 	});
 };
+
+/** Given a search form and a toggle icon, toggle the state of the form
+ * between visible and hidden, and the icon accordingly. Assumes that
+ * the initial state before first invocation on a page is that the form is visible.
+ * @param formID the id for a div containing a search form to be hidden or shown, without
+ *  a leading # selector.
+ * @pram toggleIconId, the id for a toggle icon for the form, without a leading # selector.
+ */
+function toggleAnySearchForm(formId, toggleIconId) { 
+	$('#'+formId).toggle();	
+	if ($('#'+toggleIconId).hasClass('fa-eye-slash')) { 
+		$('#'+toggleIconId).addClass('fa-eye');
+		$('#'+toggleIconId).removeClass('fa-eye-slash');
+	} else { 
+		$('#'+toggleIconId).addClass('fa-eye-slash');
+		$('#'+toggleIconId).removeClass('fa-eye');
+	}
+}

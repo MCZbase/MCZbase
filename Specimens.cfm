@@ -3619,14 +3619,7 @@ Target JSON:
 			}
 		}
 		function toggleSearchForm(whichGrid) { 
-			$('##'+whichGrid+'SearchFormDiv').toggle();	
-			if ($('##'+whichGrid+'SearchFormToggleIcon').hasClass('fa-eye-slash')) { 
-				$('##'+whichGrid+'SearchFormToggleIcon').addClass('fa-eye');
-				$('##'+whichGrid+'SearchFormToggleIcon').removeClass('fa-eye-slash');
-			} else { 
-				$('##'+whichGrid+'SearchFormToggleIcon').addClass('fa-eye-slash');
-				$('##'+whichGrid+'SearchFormToggleIcon').removeClass('fa-eye');
-			}
+			toggleAnySearchForm(whichGrid+"SearchFormDiv", whichGrid + "SearchFormToggleIcon");
 		}
 		function gridLoaded(gridId, searchType, whichGrid) {
 			console.log('gridLoaded:' + gridId);

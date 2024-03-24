@@ -153,7 +153,7 @@ limitations under the License.
 							<h1 class="h3 text-white" id="formheading">Find Publication Records</h1>
 						</div>
 
-						<div class="col-12 pt-3 px-4 pb-2">
+						<div class="col-12 pt-3 px-4 pb-2" id="searchFormDiv">
 							<form name="searchForm" id="searchForm">
 								<input type="hidden" name="method" value="getPublications">
 								<div class="form-row">
@@ -707,6 +707,7 @@ limitations under the License.
 					$("##searchResultsGrid").on("bindingcomplete", function(event) {
 						// add a link out to this search, serializing the form as http get parameters
 						$('##resultLink').html('<a href="/Publications.cfm?execute=true&' + $('##searchForm :input').filter(function(index,element){return $(element).val()!='';}).serialize() + '">Link to this search</a>');
+						$('##showhide').html('<button class="my-2 border rounded" title="hide search form" onclick=" toggleSearchForm(\'searchFormDiv\','searchFormToggleIcon'); "><i id="searchFormToggleIcon" class="fas fa-eye-slash"></i></button>');
 						gridLoaded('searchResultsGrid','publication record');
 					});
 					$('##searchResultsGrid').on('rowexpand', function (event) {

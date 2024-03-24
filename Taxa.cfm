@@ -161,7 +161,7 @@ limitations under the License.
 						<div class="search-box-header">
 							<h1 class="h3 text-white" tabindex="0">Search Taxonomy  <span class="count font-italic text-grayish mx-0"><small>(#getCount.cnt# records)</small></span></h1>
 						</div>
-						<div class="row px-3 mx-2 pt-2 pb-3">
+						<div class="row px-3 mx-2 pt-2 pb-3" id="searchFormDiv">
 							<form name="searchForm" id="searchForm" class="row">
 								<input type="hidden" name="method" value="getTaxa" class="keeponclear">
 								<input type="hidden" name="action" value="search">
@@ -781,7 +781,7 @@ limitations under the License.
 						async: true
 					};
 					$(document).ajaxSuccess(function() {
-					$( ".messageResults" ).html( "<div class='color: red' aria-label='results'>Search successful</div>" );
+						$( ".messageResults" ).html( "<div class='color: red' aria-label='results'>Search successful</div>" );
 					});
 
 					var dataAdapter = new $.jqx.dataAdapter(search);
@@ -875,6 +875,7 @@ limitations under the License.
 					$("##searchResultsGrid").on("bindingcomplete", function(event) {
 						// add a link out to this search, serializing the form as http get parameters
 						$('##resultLink').html('<a href="/Taxa.cfm?execute=true&' + $('##searchForm :input').filter(function(index,element){ return $(element).val()!='';}).serialize() + '">Link to this search</a>');
+						$('##showhide').html('<button class="my-2 border rounded" title="hide search form" onclick=" toggleSearchForm(\'searchFormDiv\','searchFormToggleIcon'); "><i id="searchFormToggleIcon" class="fas fa-eye-slash"></i></button>');
 						gridLoaded('searchResultsGrid','taxon record');
 					});
 					$('##searchResultsGrid').on('rowexpand', function (event) {
