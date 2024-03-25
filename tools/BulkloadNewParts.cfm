@@ -543,7 +543,7 @@ limitations under the License.
 					is_number(lot_count) = 0
 					)
 			</cfquery>
-			<cfloop index="i" from="1" to="2">
+			<cfloop index="i" from="1" to="6">
 				<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					update cf_temp_parts set 
 					status = concat(nvl2(status, status || '; ', ''),'Invalid PART_ATT_NAME_#i# "' || PART_ATT_NAME_#i# ||'"')
@@ -558,8 +558,7 @@ limitations under the License.
 				</cfquery>
 				<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					update cf_temp_parts set 
-					status = concat(nvl2(status, status || '; ', ''),'Invalid scientific name "' || scientific name ||'"')
-					<!---status = status || ';scientific name (' || PART_ATT_VAL_#i# || ') matched multiple taxonomy records'--->
+					status = status || ';scientific name (' || PART_ATT_VAL_#i# || ') matched multiple taxonomy records'
 					where PART_ATT_NAME_#i# = 'scientific name'
 					AND regexp_replace(PART_ATT_VAL_#i#, ' (\?|sp.)$', '') in
 					(select scientific_name from taxonomy group by scientific_name having count(*) > 1)
