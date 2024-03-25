@@ -501,7 +501,7 @@ limitations under the License.
 			</cfquery>
 			<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				update cf_temp_parts set 
-				status = concat(nvl2(status, status || '; ', ''),'Invalid preserve method "' || part_method ||'"')
+				status = concat(nvl2(status, status || '; ', ''),'Invalid preserve method "' || preserve_method ||'"')
 				where preserve_method|| '|' ||collection_cde NOT IN (
 					select preserve_method|| '|' ||collection_cde from ctspecimen_preserv_method
 					)
