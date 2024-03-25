@@ -601,26 +601,30 @@ limitations under the License.
 					AND PART_ATT_VAL_#i# is null
 				</cfquery>
 				<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					update cf_temp_parts set status = status || ';PART_ATT_DETBY_#i# agent (' || PART_ATT_DETBY_#i# || ') matched multiple agent names'
+					update cf_temp_parts set 
+					status = status || ';PART_ATT_DETBY_#i# agent (' || PART_ATT_DETBY_#i# || ') matched multiple agent names'
 					where PART_ATT_DETBY_#i# in
 					(select agent_name from agent_name group by agent_name having count(*) > 1)
 					AND PART_ATT_DETBY_#i# is not null
 				</cfquery>
 				<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					update cf_temp_parts set status = status || ';PART_ATT_DETBY_#i# agent (' || PART_ATT_DETBY_#i# || ') does not exist'
+					update cf_temp_parts set 
+					status = status || ';PART_ATT_DETBY_#i# agent (' || PART_ATT_DETBY_#i# || ') does not exist'
 					where PART_ATT_DETBY_#i# not in
 					(select agent_name from agent_name group by agent_name having count(*) = 1)
 					AND PART_ATT_DETBY_#i# is not null
 					and (status not like '%PART_ATT_DETBY_#i# agent (' || PART_ATT_DETBY_#i# || ') matched multiple agent names%' or status is null)
 				</cfquery>
 				<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					update cf_temp_parts set status = status || ';PART_ATT_VAL_#i# is not valid for attribute(' || PART_ATT_NAME_#i# || ')'
+					update cf_temp_parts set 
+					status = status || ';PART_ATT_VAL_#i# is not valid for attribute(' || PART_ATT_NAME_#i# || ')'
 					where chk_att_codetables(PART_ATT_NAME_#i#,PART_ATT_VAL_#i#,COLLECTION_CDE)=0
 					and PART_ATT_NAME_#i# in
 					(select attribute_type from ctattribute_code_tables where value_code_table is not null)
 				</cfquery>
 				<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					update cf_temp_parts set status = status || ';PART_ATT_UNITS_#i# is not valid for attribute(' || PART_ATT_NAME_#i# || ')'
+					update cf_temp_parts set 
+					status = status || ';PART_ATT_UNITS_#i# is not valid for attribute(' || PART_ATT_NAME_#i# || ')'
 					where chk_att_codetables(PART_ATT_NAME_#i#,PART_ATT_UNITS_#i#,COLLECTION_CDE)=0
 					and PART_ATT_NAME_#i# in
 					(select attribute_type from ctattribute_code_tables where units_code_table is not null)
@@ -726,7 +730,7 @@ limitations under the License.
 			select count(*) as cnt from cf_temp_parts where substr(status,1,5) NOT IN ('VALID','NOTE:')
 		</cfquery>
 		<cfif #allValid.cnt# is 0>
-			<span class="text-success">Validation checks passed</span>. Look over the table below and <a href="BulkloadNewParts.cfm?action=load">click to continue</a> if it all looks good. <a href="/tools/BulkloadNewParts.cfm">Try again.</a>.
+			<span class="text-success">Validation checks passed</span>. Look over the table below and <a href="BulkloadNewParts.cfm?action=load">click to continue</a> if it all looks good. <a href="/tools/BulkloadNewParts.cfm">Try again</a>.
 		<cfelse>
 			You must fix everything above to proceed. <a href="/tools/BulkloadNewParts.cfm">Try again.</a>
 		</cfif>
