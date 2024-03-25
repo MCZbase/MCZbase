@@ -639,7 +639,7 @@ limitations under the License.
 						<th>OTHER_ID_TYPE</th>
 						<th>OTHER_ID_NUMBER</th>
 						<th>PART_NAME</th>
-						<th>PART_METHOD</th>
+						<th>PRESERVE_METHOD</th>
 						<th>LOT_COUNT_MODIFIER</th>
 						<th>LOT_COUNT</th>
 						<th>CONDITION</th>
@@ -654,7 +654,7 @@ limitations under the License.
 							<td>#data.OTHER_ID_TYPE#</td>
 							<td>#data.OTHER_ID_NUMBER#</td>
 							<td>#data.PART_NAME#</td>
-							<td>#data.PART_METHOD#</td>
+							<td>#data.PRESERVE_METHOD#</td>
 							<td>#data.LOT_COUNT_MODIFIER#</td>
 							<td>#data.LOT_COUNT#</td>
 							<th>#data.CONDITION#</th>
