@@ -507,77 +507,87 @@ limitations under the License.
 				(select container_id from container where container.barcode = cf_temp_parts.container_unique_id)
 			</cfquery>
 			<cfquery name="validateGotParent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				update cf_temp_parts set status = status || ';Container Unique ID not found'
+				update cf_temp_parts set 
+				status = concat(nvl2(status, status || '; ', ''),'Invalid Container Unique ID "' || container_unique_id ||'"')
 				where container_unique_id is not null and parent_container_id is null
 			</cfquery>
 			<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				update cf_temp_parts set status = status || ';Invalid part_name'
+				update cf_temp_parts set 
+				status = concat(nvl2(status, status || '; ', ''),'Invalid part_name "' || part_name ||'"')
 				where part_name|| '|' ||collection_cde NOT IN (
 					select part_name|| '|' ||collection_cde from ctspecimen_part_name
 					)
 					OR part_name is null
 			</cfquery>
 			<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				update cf_temp_parts set status = status || ';Invalid preserve_method'
+				update cf_temp_parts set 
+				status = concat(nvl2(status, status || '; ', ''),'Invalid preserve method "' || part_method ||'"')
 				where preserve_method|| '|' ||collection_cde NOT IN (
 					select preserve_method|| '|' ||collection_cde from ctspecimen_preserv_method
 					)
 					OR preserve_method is null
 			</cfquery>
 			<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				update cf_temp_parts set status = status || ';Invalid container_unique_id'
+				update cf_temp_parts set 
+				status = concat(nvl2(status, status || '; ', ''),'Invalid container_unique_id "' || container_unique_id ||'"')
 				where container_unique_id NOT IN (
 					select barcode from container where barcode is not null
 					)
 				AND container_unique_id is not null
 			</cfquery>
 			<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				update cf_temp_parts set status = status || ';Invalid COLL_OBJ_DISPOSITION'
+				update cf_temp_parts set 
+				status = concat(nvl2(status, status || '; ', ''),'Invalid COLL_OBJ_DISPOSITION "' || COLL_OBJ_DISPOSITION ||'"')
 				where COLL_OBJ_DISPOSITION NOT IN (
 					select COLL_OBJ_DISPOSITION from CTCOLL_OBJ_DISP
 					)
 					OR coll_obj_disposition is null
 			</cfquery>
-
 			<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				update cf_temp_parts set status = status || ';Invalid CONDITION'
+				update cf_temp_parts set 
+				status = concat(nvl2(status, status || '; ', ''),'Invalid CONDITION "' || CONDITION ||'"')
 				where CONDITION is null
 			</cfquery>
 			<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				update cf_temp_parts set status = status || ';invalid lot_count_modifier'
+				update cf_temp_parts set 
+				status = concat(nvl2(status, status || '; ', ''),'Invalid lot_count_modifier "' || lot_count_modifier ||'"')
 				where lot_count_modifier NOT IN (
 					select modifier from ctnumeric_modifiers
 					)
 			</cfquery>
 			<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				update cf_temp_parts set status = status || ';Invalid LOT_COUNT'
+				update cf_temp_parts set 
+				status = concat(nvl2(status, status || '; ', ''),'Invalid lot_count "' || lot_count ||'"')
 				where (
 					LOT_COUNT is null OR
 					is_number(lot_count) = 0
 					)
 			</cfquery>
-
 			<cfloop index="i" from="1" to="2">
 				<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					update cf_temp_parts set status = status || ';invalid PART_ATT_NAME_#i#'
+					update cf_temp_parts set 
+					status = concat(nvl2(status, status || '; ', ''),'Invalid PART_ATT_NAME_#i# "' || PART_ATT_NAME_#i# ||'"')
 					where PART_ATT_NAME_#i# not in
 					(select attribute_type from CTSPECPART_ATTRIBUTE_TYPE)
 				</cfquery>
-
 				<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					update cf_temp_parts set status = status || ';invalid PART_ATT_MADEDATE_#i#'
+					update cf_temp_parts set 
+					status = concat(nvl2(status, status || '; ', ''),'Invalid PART_ATT_MADEDATE_#i# "' || PART_ATT_MADEDATE_#i# ||'"')
 					where is_iso8601(PART_ATT_MADEDATE_#i#) <> 'valid'
 					and PART_ATT_MADEDATE_#i# is not null
 				</cfquery>
 				<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					update cf_temp_parts set status = status || ';scientific name (' || PART_ATT_VAL_#i# || ') matched multiple taxonomy records'
+					update cf_temp_parts set 
+					status = concat(nvl2(status, status || '; ', ''),'Invalid scientific name "' || scientific name ||'"')
+					<!---status = status || ';scientific name (' || PART_ATT_VAL_#i# || ') matched multiple taxonomy records'--->
 					where PART_ATT_NAME_#i# = 'scientific name'
 					AND regexp_replace(PART_ATT_VAL_#i#, ' (\?|sp.)$', '') in
 					(select scientific_name from taxonomy group by scientific_name having count(*) > 1)
 					AND PART_ATT_VAL_#i# is not null
 				</cfquery>
 				<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					update cf_temp_parts set status = status || ';scientific name (' || PART_ATT_VAL_#i# || ') does not exist'
+					update cf_temp_parts set 
+					status = status || 'scientific name (' || PART_ATT_VAL_#i# || ') does not exist'
 					where PART_ATT_NAME_#i# = 'scientific name'
 					AND regexp_replace(PART_ATT_VAL_#i#, ' (\?|sp.)$', '') not in
 					(select scientific_name from taxonomy group by scientific_name having count(*) = 1)
@@ -585,7 +595,8 @@ limitations under the License.
 					and (status not like '%;scientific name (' || PART_ATT_VAL_#i# || ') matched multiple taxonomy records%' or status is null)
 				</cfquery>
 				<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					update cf_temp_parts set status = status || ';scientific name cannot be null'
+					update cf_temp_parts set 
+					status = status || ';scientific name cannot be null'
 					where PART_ATT_NAME_#i# = 'scientific name'
 					AND PART_ATT_VAL_#i# is null
 				</cfquery>
@@ -615,7 +626,6 @@ limitations under the License.
 					(select attribute_type from ctattribute_code_tables where units_code_table is not null)
 				</cfquery>
 			</cfloop>
-
 			<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				select * from cf_temp_parts where status is null
 			</cfquery>
@@ -736,7 +746,7 @@ limitations under the License.
 					<th>LOT_COUNT</th>
 					<th>CURRENT_REMARKS</th>
 					<th>CONDITION</th>
-					<th>container_unique_id</th>
+					<th>CONTAINER_UNIQUE_ID</th>
 					<th>PART_ATT_NAME_1</th>
 					<th>PART_ATT_VAL_1</th>
 					<th>PART_ATT_UNITS_1</th>
