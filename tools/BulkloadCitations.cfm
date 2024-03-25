@@ -684,7 +684,7 @@ limitations under the License.
 			<cftry>
 					<cfset citation_updates = 0>
 					<cfif getCitData.recordcount EQ 0>
-						<cfthrow message="You have no rows to load in the attributes bulkloader table (cf_temp_citation).  <a href='/tools/BulkloadCitation.cfm'>Start over</a>"><!--- " --->
+						<cfthrow message="You have no rows to load in the attributes bulkloader table (cf_temp_citation).  <a href='/tools/BulkloadCitations.cfm'>Start over</a>"><!--- " --->
 					</cfif>
 					<cfloop query="getCitData">
 						<cfset problem_key = #getCitData.key#>
@@ -733,8 +733,7 @@ limitations under the License.
 					<cftransaction action="ROLLBACK">
 					<h2 class="h3">There was a problem updating the citations.</h2>
 					<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-						SELECT 				
-							PUBLICATION_ID,COLLECTION_OBJECT_ID,CITED_TAXON_NAME_ID,OCCURS_PAGE_NUMBER,TYPE_STATUS,CITATION_REMARKS,CITATION_PAGE_URI
+						SELECT PUBLICATION_ID,COLLECTION_OBJECT_ID,CITED_TAXON_NAME_ID,OCCURS_PAGE_NUMBER,TYPE_STATUS,CITATION_REMARKS,CITATION_PAGE_URI
 						FROM cf_temp_citation
 						where key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#problem_key#">
 					</cfquery>
