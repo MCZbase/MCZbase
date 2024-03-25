@@ -760,7 +760,7 @@ limitations under the License.
 									<cfelseif cfcatch.detail contains "publication_id">
 										Problem with PUBLICATION_ID (#cfcatch.detail#)
 									<cfelseif cfcatch.detail contains "unique constraint">
-										This citation has already been entered. Remove and try again. (<a href="/tools/BulkloadCitations.cfm">Reload.</a>)
+										This citation has already been entered. Remove from spreadsheet and try again. (<a href="/tools/BulkloadCitations.cfm">Reload.</a>)
 									<cfelseif cfcatch.detail contains "no data">
 										No data or the wrong data (#cfcatch.detail#)
 									<cfelse>
