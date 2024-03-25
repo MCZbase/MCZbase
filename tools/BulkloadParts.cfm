@@ -542,8 +542,8 @@ limitations under the License.
 					UPDATE cf_temp_parts
 					SET status = concat(nvl2(status, status || '; ', ''),' The preserve_method is missing')
 					WHERE preserve_method IS NOT NULL 
-					AND preserve_method not in (select preserve_method from ctspecimen_preserv_method where preserve_method = <cfqueryparam cfsqltype="CF_SQL_varchar" value="#getTempTableQC.preserve_method#"> 
-							)
+					AND preserve_method not in 
+						(select preserve_method from ctspecimen_preserv_method where preserve_method = <cfqueryparam cfsqltype="CF_SQL_varchar" value="#getTempTableQC.preserve_method#">) 
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 					and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableQC.key#"> 
 				</cfquery>
