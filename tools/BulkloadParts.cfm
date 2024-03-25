@@ -520,24 +520,24 @@ limitations under the License.
 			<cfloop query="getTempTableQC">
 				<!--- for each row, evaluate the attribute against expectations and provide an error message --->
 				<!--- qc checks separate from getting ID numbers, includes presence of matched values in required columns --->
-				<cfquery name="flagNotMatchedDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					UPDATE cf_temp_parts
-					SET 
-						status = concat(nvl2(status, status || '; ', ''),'Unknown disposition: "' || coll_obj_disposition ||'"&mdash;not on list')
-					WHERE coll_obj_disposition is not null 
-						AND coll_obj_disposition not in (select coll_obj_disposition from ctcoll_obj_disp)
-						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-						and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableQC.key#"> 
-				</cfquery>
-				<cfquery name="flagNotMatchedPartName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					UPDATE cf_temp_parts
-					SET 
-						status = concat(nvl2(status, status || '; ', ''),' The part_name field is missing')
-					WHERE part_name|| '|' ||collection_cde NOT in (select part_name|| '|' || collection_cde from ctspecimen_part_name)
-						OR part_name is null
-						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-						AND key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableQC.key#"> 
-				</cfquery>
+					<cfquery name="flagNotMatchedDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						UPDATE cf_temp_parts
+						SET 
+							status = concat(nvl2(status, status || '; ', ''),'Unknown disposition: "' || coll_obj_disposition ||'"&mdash;not on list')
+						WHERE coll_obj_disposition is not null 
+							AND coll_obj_disposition not in (select coll_obj_disposition from ctcoll_obj_disp)
+							AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+							and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableQC.key#"> 
+					</cfquery>
+					<cfquery name="flagNotMatchedPartName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						UPDATE cf_temp_parts
+						SET 
+							status = concat(nvl2(status, status || '; ', ''),' The part_name field is missing')
+						WHERE part_name|| '|' ||collection_cde NOT in (select part_name|| '|' || collection_cde from ctspecimen_part_name)
+							OR part_name is null
+							AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+							AND key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableQC.key#"> 
+					</cfquery>
 				<cfquery name="flagNotMatchedPreserv" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					UPDATE cf_temp_parts
 					SET 
@@ -595,8 +595,44 @@ limitations under the License.
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 					AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
 				</cfquery>
+				<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					update cf_temp_parts set (status) = (
+					select
+					decode(parent_container_id,
+					0,'NOTE: PART EXISTS',
+					'NOTE: PART EXISTS IN PARENT CONTAINER')
+					from specimen_part,coll_obj_cont_hist,container, coll_object_remark where
+					specimen_part.collection_object_id = coll_obj_cont_hist.collection_object_id AND
+					coll_obj_cont_hist.container_id = container.container_id AND
+					coll_object_remark.collection_object_id(+) = specimen_part.collection_object_id AND
+					derived_from_cat_item = cf_temp_parts.collection_object_id AND
+					cf_temp_parts.part_name=specimen_part.part_name AND
+					cf_temp_parts.preserve_method=specimen_part.preserve_method AND
+					nvl(cf_temp_parts.current_remarks, 'NULL') = nvl(coll_object_remark.coll_object_remarks, 'NULL')
+					group by parent_container_id)
+					where status='VALID'
+				</cfquery>
+				<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					update cf_temp_parts set (parent_container_id) = (
+					select container_id
+					from container where
+					barcode=container_barcode)
+					where substr(validated_status,1,5) IN ('VALID','NOTE:')
+				</cfquery>
+				<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					update cf_temp_parts set (use_part_id) = (
+					select min(specimen_part.collection_object_id)
+					from specimen_part, coll_object_remark where
+					specimen_part.collection_object_id = coll_object_remark.collection_object_id(+) AND
+					cf_temp_parts.part_name=specimen_part.part_name and
+					cf_temp_parts.preserve_method=specimen_part.preserve_method and
+					cf_temp_parts.collection_object_id=specimen_part.derived_from_cat_item and
+					nvl(cf_temp_parts.current_remarks, 'NULL') = nvl(coll_object_remark.coll_object_remarks, 'NULL'))
+					where validated_status like '%NOTE: PART EXISTS%' AND
+					use_existing = 1
+				</cfquery>
 			</cfloop>
-			</cfloop>
+		
 			<!---Missing data in required fields--->
 			<cfloop list="#requiredfieldlist#" index="requiredField">
 				<cfquery name="checkRequired" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -679,6 +715,15 @@ limitations under the License.
 					SELECT count(distinct collection_object_id) ctobj FROM cf_temp_parts
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
+				<cfquery name= "getEntBy" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					SELECT agent_id FROM agent_name WHERE agent_name = '#session.username#'
+				</cfquery>
+				<cfif getEntBy.recordcount is 0>
+					<cfabort showerror = "You aren't a recognized agent!">
+				<cfelseif getEntBy.recordcount gt 1>
+					<cfabort showerror = "Your login has has multiple matches.">
+				</cfif>
+				<cfset enteredbyid = getEntBy.agent_id>
 			<cftry>
 					<cfset part_updates = 0>
 					<cfset part_updates1 = 0>
@@ -687,6 +732,9 @@ limitations under the License.
 					</cfif>
 					<cfloop query="getPartData">
 						<cfset problem_key = #getPartData.key#>
+						<cfquery name="NEXTID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+							select sq_collection_object_id.nextval NEXTID from dual
+						</cfquery>
 						<cfquery name="updateParts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateParts_result">
 							INSERT into specimen_part (
 							COLLECTION_OBJECT_ID,
@@ -706,6 +754,9 @@ limitations under the License.
 							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getPartData.IS_TISSUE#">
 							)
 						</cfquery>
+								
+								
+						
 						<cfquery name="updateParts1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateParts1_result">
 							select COLLECTION_OBJECT_ID,
 							PART_NAME,
