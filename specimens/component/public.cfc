@@ -511,12 +511,13 @@ limitations under the License.
 							</cfloop>
 							#expandedVariables#
 						</cfif>
-					</div>
-					<cfif listcontainsnocase(session.roles,"manage_specimens")>
+						<cfif listcontainsnocase(session.roles,"manage_specimens")>
 						<cfif stored_as_fg is 1>
 							<span class="bg-gray float-right rounded p-1 text-muted font-weight-lessbold">STORED AS</span>
 						</cfif>
 					</cfif>
+					</div>
+					
 					<cfif len(formatted_publication) gt 0>
 						<div class="h6 px-3 mb-1">
 							sensu <a href="/publication/#publication_id#">#formatted_publication#</a>
