@@ -1,4 +1,4 @@
-<!--- tools/bulkloadCitations.cfm add citations to specimens in bulk.
+<!--- tools/bulkloadParts.cfm add parts to specimens in bulk.
 
 Copyright 2008-2017 Contributors to Arctos
 Copyright 2008-2023 President and Fellows of Harvard College
@@ -35,7 +35,7 @@ limitations under the License.
 
 <cfset fieldlist = "institution_acronym,collection_cde,other_id_type,other_id_number,part_name,preserve_method,lot_count_modifier,lot_count,condition,coll_obj_disposition">
 <cfset fieldTypes ="CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR">
-<cfset requiredfieldlist = "institution_acronym,collection_cde,other_id_type,other_id_number,part_name,preserve_method,disposition,lot_count,condition">
+<cfset requiredfieldlist = "institution_acronym,collection_cde,other_id_type,other_id_number,part_name,preserve_method,coll_obj_disposition,lot_count,condition">
 
 <!--- special case handling to dump column headers as csv --->
 <cfif isDefined("action") AND action is "getCSVHeader">
@@ -213,7 +213,7 @@ limitations under the License.
 				<cfset records = CSVParser.parse(#tempFileInputStream#,#javaSelectedCharset#,#csvFormat#)>
 				<!--- cleanup any incomplete work by the same user --->
 				<cfquery name="clearTempTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="clearTempTable_result">
-					DELETE FROM cf_temp_citation
+					DELETE FROM cf_temp_parts
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
 				<!--- obtain an iterator to loops through the rows/records in the csv --->
@@ -356,7 +356,7 @@ limitations under the License.
 						<cftry>
 						<!---Construct insert for row with a line for each entry in fieldlist using cfqueryparam if column header is in fieldlist, otherwise using null.--->
 							<cfquery name="insert" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="insert_result">
-								insert into cf_temp_citation
+								insert into cf_temp_parts
 									(#fieldlist#,username)
 								values (
 									<cfset separator = "">
@@ -396,7 +396,7 @@ limitations under the License.
 					<cfif foundHighCount GT 0>
 						<h3 class="h4"><span class="text-danger">Warning: Check character set.</span> Found characters where the encoding is probably important in the input data.</h3>
 						<div>
-							<p>Showing #foundHighCount# examples.  If these do not appear as the correct characters, the file likely has a different encoding from the one you selected and you probably want to <a href="/tools/BulkloadCitations.cfm">reload</a> this file selecting a different encoding. If these appear as expected, then you selected the correct encoding and can continue to validate or load.</p>
+							<p>Showing #foundHighCount# examples.  If these do not appear as the correct characters, the file likely has a different encoding from the one you selected and you probably want to <a href="/tools/BulkloadParts.cfm">reload</a> this file selecting a different encoding. If these appear as expected, then you selected the correct encoding and can continue to validate or load.</p>
 						<ul class="h4 list-unstyled">
 							<!---These include the <li></li>--->
 							#foundHighAscii# #foundMultiByte#
@@ -406,15 +406,15 @@ limitations under the License.
 				</div>
 				<h3>
 					<cfif loadedRows EQ 0>
-						Loaded no rows from the CSV file.  The file appears to be just a header with no data. Fix file and <a href="/tools/BulkloadOtherId.cfm">reload</a>
+						Loaded no rows from the CSV file.  The file appears to be just a header with no data. Fix file and <a href="/tools/BulkloadParts.cfm">reload</a>
 					<cfelse>
-						Successfully read #loadedRows# records from the CSV file. Next <a href="/tools/BulkloadCitations.cfm?action=validate">click to validate</a>.
+						Successfully read #loadedRows# records from the CSV file. Next <a href="/tools/BulkloadParts.cfm?action=validate">click to validate</a>.
 					</cfif>
 				</h3>
 			
 			<cfcatch>
 				<h3 class="h4">
-					Failed to read the CSV file.  Fix the errors in the file and <a href="/tools/BulkloadCitations.cfm">reload</a>.
+					Failed to read the CSV file.  Fix the errors in the file and <a href="/tools/BulkloadParts.cfm">reload</a>.
 				</h3>
 				<cfif isDefined("arrResult")>
 					<cfset foundHighCount = 0>
@@ -573,8 +573,8 @@ limitations under the License.
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
 				</cfquery>
-				<cfquery name="FlagCdeProblems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="citationProblems_result">
-					UPDATE cf_temp_prts
+				<cfquery name="FlagCdeProblems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="partProblems_result">
+					UPDATE cf_temp_parts
 					SET
 						status = concat(nvl2(status, status || '; ', ''),'Invalid collection_cde: "' || collection_cde ||'"')
 					WHERE 
