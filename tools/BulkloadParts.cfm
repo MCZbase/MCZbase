@@ -16,591 +16,803 @@ See the License for the specific language governing permissions and
 limitations under the License.
 
 --->
-
+<!--- special case handling to dump problem data as csv --->
 <cfif isDefined("action") AND action is "dumpProblems">
 	<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		SELECT institution_acronym,collection_cde,other_id_type,other_id_number,part_name,preserve_method,lot_count_modifier,lot_count,condition,coll_obj_disposition, current_remarks,use_existing,container_barcode,change_container_type,condition,append_to_remarks,changed_date,new_preserve_method
+		SELECT institution_acronym,collection_cde,other_id_type,other_id_number,part_name,preserve_method,lot_count_modifier,lot_count,condition,coll_obj_disposition
 		FROM cf_temp_parts
 		WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+		ORDER BY key
 	</cfquery>
-	<cfinclude template="/shared/component/functions.cfc"><!---need to add to functions.cfc page--->
+	<cfinclude template="/shared/component/functions.cfc">
+	<cfinclude template="/shared/functionLib.cfm">
 	<cfset csv = queryToCSV(getProblemData)>
 	<cfheader name="Content-Type" value="text/csv">
 	<cfoutput>#csv#</cfoutput>
 	<cfabort>
 </cfif>
+<!--- end special case dump of problems --->
 
-        <cfif #action# is "nothing">
-<h3 class="wikilink">Bulkload Parts</h3>
-<p>Upload a comma-delimited text file (csv).
-    Include column headings, spelled exactly as below.</p>
-<p style="margin:1em;"><span class="likeLink" onclick="document.getElementById('template').style.display='block';">view template</span></p>
-	<div id="template" style="display:none;margin: 1em 0;">
-		<label for="t">Copy the existing code and save as a .csv file</label>
-		<textarea rows="2" cols="80" id="t">institution_acronym,collection_cde,other_id_type,other_id_number,part_name,preserve_method,disposition,lot_count_modifier,lot_count,current_remarks,use_existing,container_barcode,change_container_type,condition,append_to_remarks,changed_date,new_preserve_method</textarea>
-	</div>
-    <p>Columns in <span style="color:red">red</span> are required; others are optional:</p>
-<ul class="geol_hier" style="padding-bottom: .25em;">
-	<li style="color:red">institution_acronym</li>
-	<li style="color:red">collection_cde</li>
-	<li style="color:red">other_id_type ("catalog number" is OK)</li>
-	<li style="color:red">other_id_number</li>
-	<li style="color:red">part_name</li>
-	<li style="color:red">preserve_method</li>
-	<li style="color:red">disposition</li>
-	<li>lot_count_modifier</li>
-	<li style="color:red">lot_count</li>
-	<li>current_remarks</li>
-	
-			<ul style="margin-left:2em;padding-bottom:.5em;font-size: 14px;">
-				<li>if use_existing = 0 put the remarks to be added with the new part here</li>
-				<li>if use_existing = 1 put the remarks to be matched to find the existing part here</li>
-			</ul>
+<cfset fieldlist = "institution_acronym,collection_cde,other_id_type,other_id_number,part_name,
+					preserve_method,lot_count_modifier,lot_count,condition,coll_obj_disposition">
+<cfset fieldTypes ="CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,
+					CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR">
+<cfset requiredfieldlist = "institution_acronym,collection_cde,other_id_type,other_id_number,part_name,preserve_method,disposition,lot_count,condition">
 
-	<li style="color:red">use_existing
-	
-			<ul style="margin-left:1em;padding-bottom: .5em;font-size: 14px;">
-				<li>0: create a new part regardless of current parts</li>
-				<li>1: use existing parts when:
-					<ul>
-						<li>
-							A part of the same type exists
-						</li>
-					</ul>
-				</li>
-			</ul>
-
-	</li>
-	<li>container_barcode
-	
-		<ul style="margin-left:1em;padding-bottom: .5em;font-size: 14px;">
-				<li>Container barcode in which to place this part</li>
-			</ul>
-	
-	</li>
-	<li>change_container_type</li>
-	<li style="color:red">condition</li>
-	<li>append_to_remarks</li>
-		
-				<ul style="margin-left:1em;padding-bottom: .5em;font-size: 14px;">
-				<li>if use_existing = 0 this field is ignored</li>
-				<li>if use_existing = 1 anything in this field will be appended tothe current remarks</li>
-			</ul>
-		
-	<li>changed_date
-				<ul style="margin-left:1em;padding-bottom: .5em;font-size: 14px;">
-				<li>If the date the part preservation was changed is different than today, use this field to mark the preservation history correctly, otherwise leave blank. Format = YYYY-MM-DD</li>
-			</ul>
-		
-	</li>
-	<li>new_preserve_method
-		<ul style="margin-left:1em;padding-bottom: .5em;font-size: 14px;">
-				<li>if use_existing = 0 this field is ignored</li>
-				<li>if use_existing = 1 the value in this field will replace the current preserve method for this part</li>
-			</ul>
-	
-	</li>
-</ul>
-    <br>
-<cfform name="atts" method="post" enctype="multipart/form-data" action="BulkloadParts.cfm">
-			<input type="hidden" name="Action" value="getFile">
-			  <input type="file"
-		   name="FiletoUpload"
-		   size="45">
-			 <input type="submit" value="Upload this file"
-		class="savBtn"
-		onmouseover="this.className='savBtn btnhov'"
-		onmouseout="this.className='savBtn'">
-		<br><br>
-	Character Set: <select name="cSet" id="cSet">
-		<option value="windows-1252" selected>windows-1252</option>
-		<option value="MacRoman">MacRoman</option>
-		<option value="utf-8">utf-8</option>
-		<option value="utf-16">utf-16</option>
-		<option value="unicode">unicode</option>
-	</input>
-  </cfform>
-   
-</cfif>
-<!------------------------------------------------------->
-<!------------------------------------------------------->
-
-<!------------------------------------------------------->
-<cfif #action# is "getFile">
-<cfoutput>
-
-	<!---
-	<cfset fileContent='institution_acronym,collection_code,other_id_type,other_id_number,part_name,part_modifier,preserve_method,disposition,lot_count,remarks,condition#chr(10)#'>
-	<cfset fileContent='#fileContent#"UAM",Mamm,AF,41272,tissues,,"eth,nol",in collection,1," loan s, ubsample (never used).",unchecked#chr(10)#'>
-		<cfset fileContent='#fileContent#UAM,Mamm,AF,27727,tissues,,ethanol,in collection,1,"Returned ""load"", comma loan subsample (never used).",unchecked#chr(10)#'>
-			<cfset fileContent='#fileContent#UAM,Mamm,AF,36833,tissues,,ethanol,in collection,1,Returned loan subsample (never used).,unchecked#chr(10)#'>
-				<cfset fileContent='#fileContent#UAM,Mamm,AF,31499,tissues,,ethanol,in collection,1,,#chr(10)#'>
-	-----------got file--------------<br>
-	--->
-	<cffile action="READ" file="#FiletoUpload#" variable="fileContent" charset="#cSet#">
-
-	<cfset fileContent=replace(fileContent,"'","''","all")>
-	<!---
-	--#fileContent#--
-	<hr>
-	<cfset fileContent=replace(fileContent,chr(13),'chr 13 goes here',"all")>
-	--#fileContent#--
-	<hr>
-
-	<cfset fileContent=replace(fileContent,chr(10),'chr 10 goes here',"all")>
-	--#fileContent#--
-	<hr>
-	--->
-	 <cfset arrResult = CSVToArray(CSV = fileContent.Trim()) />
-
- <cfquery name="die" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-	delete from cf_temp_parts
-</cfquery>
-
-<cfset colNames="">
-	<cfloop from="1" to ="#ArrayLen(arrResult)#" index="o">
-		<cfset colVals="">
-			<cfloop from="1"  to ="#ArrayLen(arrResult[o])#" index="i">
-				<cfset thisBit=arrResult[o][i]>
-				<cfif #o# is 1>
-					<cfset colNames="#colNames#,#thisBit#">
-				<cfelse>
-					<cfset colVals="#colVals#,'#thisBit#'">
-				</cfif>
-			</cfloop>
-		<cfif #o# is 1>
-			<cfset colNames=replace(colNames,",","","first")>
-		</cfif>
-		<cfif len(#colVals#) gt 1>
-			<cfset colVals=replace(colVals,",","","first")>
-			<cfquery name="ins" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				insert into cf_temp_parts (#colNames#) values (#preservesinglequotes(colVals)#)
-			</cfquery>
-			insert into cf_temp_parts (#colNames#) values (#preservesinglequotes(colVals)#)
-		</cfif>
+<!--- special case handling to dump column headers as csv --->
+<cfif isDefined("action") AND action is "getCSVHeader">
+	<cfset csv = "">
+	<cfset separator = "">
+	<cfloop list="#fieldlist#" index="field" delimiters=",">
+		<cfset csv='#csv##separator#"#field#"'>
+		<cfset separator = ",">
 	</cfloop>
-
-	<cflocation url="BulkloadParts.cfm?action=validate">
-</cfoutput>
+	<cfheader name="Content-Type" value="text/csv">
+	<cfoutput>#csv##chr(13)##chr(10)#</cfoutput>
+	<cfabort>
 </cfif>
-<!------------------------------------------------------->
-<!------------------------------------------------------->
-<cfif #action# is "validate">
-<cfoutput>
-	<cfquery name="getParentContainerId" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		update cf_temp_parts set parent_container_id =
-		(select container_id from container where container.barcode = cf_temp_parts.CONTAINER_BARCODE)
-	</cfquery>
-	<cfquery name="validateGotParent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		update cf_temp_parts set status = status || ';Container Barcode not found'
-		where CONTAINER_BARCODE is not null and parent_container_id is null
-	</cfquery>
-	<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		update cf_temp_parts set status = status || ';Invalid part_name'
-		where part_name|| '|' ||collection_cde NOT IN (
-			select part_name|| '|' ||collection_cde from ctspecimen_part_name
-			)
-			OR part_name is null
-	</cfquery>
-	<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		update cf_temp_parts set status = status || ';Invalid preserve_method'
-		where preserve_method|| '|' ||collection_cde NOT IN (
-			select preserve_method|| '|' ||collection_cde from ctspecimen_preserv_method
-			)
-			OR preserve_method is null
-	</cfquery>
-	<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		update cf_temp_parts set status = status || ';Invalid new_preserve_method'
-		where new_preserve_method|| '|' ||collection_cde NOT IN (
-			select preserve_method|| '|' ||collection_cde from ctspecimen_preserv_method
-			)
-			and new_preserve_method is not null
-	</cfquery>
-	<cfquery name="isValid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		update cf_temp_parts set status = status || ';Invalid use_existing flag'
-			where use_existing not in ('0','1') OR
-			use_existing is null
-	</cfquery>
-	<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		update cf_temp_parts set status = status || ';Invalid container_barcode'
-		where container_barcode NOT IN (
-			select barcode from container where barcode is not null
-			)
-		AND container_barcode is not null
-	</cfquery>
-	<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		update cf_temp_parts set status = status || ';Invalid DISPOSITION'
-		where DISPOSITION NOT IN (
-			select COLL_OBJ_DISPOSITION from CTCOLL_OBJ_DISP
-			)
-			OR disposition is null
-	</cfquery>
-	<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		update cf_temp_parts set status = status || 'Invalid CONTAINER_TYPE'
-		where change_container_type NOT IN (
-			select container_type from ctcontainer_type
-			)
-			AND change_container_type is null
-	</cfquery>
-	<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		update cf_temp_parts set status = status || 'Invalid CONDITION'
-		where CONDITION is null
-	</cfquery>
-	<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		update cf_temp_parts set status = status || 'Invalid lot_count_modifier'
-		where lot_count_modifier NOT IN (
-			select modifier from ctnumeric_modifiers
-			)
-	</cfquery>
-	<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		update cf_temp_parts set status = status || 'Invalid LOT_COUNT'
-		where (
-			LOT_COUNT is null OR
-			is_number(lot_count) = 0
-			)
-	</cfquery>
-	<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		update cf_temp_parts set status = status || 'Invalid CHANGED_DATE'
-		where isdate(changed_date) = 0
-	</cfquery>
 
-	<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		select * from cf_temp_parts where status is null
-	</cfquery>
-	<cfloop query="data">
-		<cfif #other_id_type# is "catalog number">
-			<cfquery name="collObj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					SELECT
-						collection_object_id
-					FROM
-						cataloged_item,
-						collection
-					WHERE
-						cataloged_item.collection_id = collection.collection_id and
-						collection.collection_cde = '#collection_cde#' and
-						collection.institution_acronym = '#institution_acronym#' and
-						cat_num='#other_id_number#'
-				</cfquery>
-			<cfelse>
-				<cfquery name="collObj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					SELECT
-						coll_obj_other_id_num.collection_object_id
-					FROM
-						coll_obj_other_id_num,
-						cataloged_item,
-						collection
-					WHERE
-						coll_obj_other_id_num.collection_object_id = cataloged_item.collection_object_id and
-						cataloged_item.collection_id = collection.collection_id and
-						collection.collection_cde = '#collection_cde#' and
-						collection.institution_acronym = '#institution_acronym#' and
-						other_id_type = '#other_id_type#' and
-						display_value = '#other_id_number#'
-				</cfquery>
-			</cfif>
-			<cfif #collObj.recordcount# is 1>
-				<cfquery name="insColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					UPDATE cf_temp_parts SET collection_object_id = #collObj.collection_object_id# ,
-					validated_status='VALID'
-					where
-					key = #key#
-				</cfquery>
-			<cfelse>
-				<cfquery name="insColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					UPDATE cf_temp_parts SET validated_status =
-					validated_status || ';#data.institution_acronym# #data.collection_cde# #data.other_id_type# #data.other_id_number# could not be found.'
-					where key = #key#
-				</cfquery>
-			</cfif>
-		</cfloop>
-		<!---
-			Things that can happen here:
-				1) Upload a part that doesn't exist
-					Solution: create a new part, optionally put it in a container that they specify in the upload.
-				2) Upload a part that already exists
-					a) use_existing = 1
-						1) part is in a container
-							Solution: warn them, create new part, optionally put it in a container that they've specified
-						 2) part is NOT already in a container
-						 	Solution: put the existing part into the new container that they've specified or, if
-						 	they haven't specified a new container, ignore this line as it does nothing.
-					b) use_existing = 0
-						1) part is in a container
-							Solution: warn them, create a new part, optionally put it in the container they've specified
-						2) part is not in a container
-							Solution: same: warning and new part
-		---->
-		<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			update cf_temp_parts set (validated_status) = (
-			select
-			decode(parent_container_id,
-			0,'NOTE: PART EXISTS',
-			'NOTE: PART EXISTS IN PARENT CONTAINER')
-			from specimen_part,coll_obj_cont_hist,container, coll_object_remark where
-			specimen_part.collection_object_id = coll_obj_cont_hist.collection_object_id AND
-			coll_obj_cont_hist.container_id = container.container_id AND
-			coll_object_remark.collection_object_id(+) = specimen_part.collection_object_id AND
-			derived_from_cat_item = cf_temp_parts.collection_object_id AND
-			cf_temp_parts.part_name=specimen_part.part_name AND
-			cf_temp_parts.preserve_method=specimen_part.preserve_method AND
-			nvl(cf_temp_parts.current_remarks, 'NULL') = nvl(coll_object_remark.coll_object_remarks, 'NULL')
-			group by parent_container_id)
-			where validated_status='VALID'
-		</cfquery>
-		<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			update cf_temp_parts set (parent_container_id) = (
-			select container_id
-			from container where
-			barcode=container_barcode)
-			where substr(validated_status,1,5) IN ('VALID','NOTE:')
-		</cfquery>
-		<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			update cf_temp_parts set (use_part_id) = (
-			select min(specimen_part.collection_object_id)
-			from specimen_part, coll_object_remark where
-			specimen_part.collection_object_id = coll_object_remark.collection_object_id(+) AND
-			cf_temp_parts.part_name=specimen_part.part_name and
-			cf_temp_parts.preserve_method=specimen_part.preserve_method and
-			cf_temp_parts.collection_object_id=specimen_part.derived_from_cat_item and
-			nvl(cf_temp_parts.current_remarks, 'NULL') = nvl(coll_object_remark.coll_object_remarks, 'NULL'))
-			where validated_status like '%NOTE: PART EXISTS%' AND
-			use_existing = 1
-		</cfquery>
-		<cflocation url="BulkloadParts.cfm?action=checkValidate">
-</cfoutput>
-</cfif>
-<!------------------------------------------------------->
-<cfif #action# is "checkValidate">
-	<cfoutput>
-		<cfquery name="inT" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			select * from cf_temp_parts
-		</cfquery>
-			<cfquery name="allValid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				select count(*) as cnt from cf_temp_parts where substr(validated_status,1,5) NOT IN
-					('VALID','NOTE:')
-			</cfquery>
-			<cfif #allValid.cnt# is 0>
-				<a href="/tools/BulkloadParts.cfm?action=load">Load these parts.</a>
-			<cfelse>
-				You must fix everything above to proceed.
-			</cfif>
-			<table class='sortable px-0 mx-0 table table-responsive table-striped'>
-				<thead class="thead-light">
-				<tr>
-					<th>BULKLOADING STATUS</th>
-					<th>INSTITUTION_ACRONYM</th>
-					<th>COLLECTION_CDE</th>
-					<th>OTHER_ID_TYPE</th>
-					<th>OTHER_ID_NUMBER</th>
-					<th>PART_NAME</th>
-					<th>PRESERVE_METHOD</th>
-					<th>COLL_OBJ_DISPOSITION</th>
-					<th>LOT_COUNT_MODIFIER</th>
-					<th>LOT_COUNT</th>
-					<th>CURRENT_REMARKS</th>
-					<th>CONDITION</th>
-					<th>CONTAINER_UNIQUE_ID</th>
-					<th>USE_EXISTING</th>
-					<th>CHANGE_CONTAINER_TYPE</th>
-					<th>APPEND_TO_REMARKS</th>
-					<th>CHANGED_DATE</th>
-					<th>NEW_PRESERVE_METHOD</th>
-				</tr>
-			<cfloop query="inT">
-				<tr>
-					<td>
-						<cfif len(#collection_object_id#) gt 0 and
-								(#validated_status# is 'VALID')>
-							<a href="/specimens/Specimen.cfm?collection_object_id=#collection_object_id#"
-								target="_blank">Specimen</a>
-						<cfelseif left(validated_status,5) is 'NOTE:'>
-							<a href="/specimens/Specimen.cfm"
-								target="_blank">Specimen</a> (#status#)
+<!--- Normal page delivery with header/footer --->
+<cfset pageTitle = "Bulkload New Parts">
+<cfinclude template="/shared/_header.cfm">
+<cfif not isDefined("action") OR len(action) EQ 0><cfset action="nothing"></cfif>
+<main class="container-fluid py-3 px-5" id="content">
+	<h1 class="h2 mt-2">Bulkload Parts</h1>
+	<cfif #action# is "nothing">
+		<cfoutput>
+			<p>This tool adds part rows to the specimen record. It create metadata for part history and includes specimen part attributes fields that can be empty if none exists. The cataloged items must be in the database and they can be entered using the catalog number or other ID. Error messages will appear if the values need to match values in MCZbase. It ignores rows that are exactly the same and alerts you if columns are missing. Additional columns will be ignored. Include column headings, spelled exactly as below. Upload a comma-delimited text file (csv). Include column headings, spelled exactly as below. Use "catalog number" as the value of other_id_type to match on catalog number.</p>
+			<span class="btn btn-xs btn-info" onclick="document.getElementById('template').style.display='block';">View template</span>
+			<div id="template" class="my-1 mx-0" style="display:none;">
+				<label for="templatearea" class="data-entry-label mb-1">
+					Copy this header line and save it as a .csv file (<a href="/tools/BulkloadCitations.cfm?action=getCSVHeader">download</a>)
+				</label>
+				<textarea rows="2" cols="90" id="templatearea" class="w-100 data-entry-textarea">#fieldlist#</textarea>
+			</div>
+			<h2 class="mt-4 h4">Columns in <span class="text-danger">red</span> are required; others are optional:</h2>
+			<ul class="mb-4 h4 font-weight-normal">
+				<cfloop list="#fieldlist#" index="field" delimiters=",">
+					<cfset aria = "">
+					<cfif listContains(requiredfieldlist,field,",")>
+						<cfset class="text-danger">
+						<cfset aria = "aria-label='Required Field'">
+					<cfelse>
+						<cfset class="text-dark">
+					</cfif>
+					<li class="#class#" #aria#>#field#</li>
+				</cfloop>
+			</ul>
+			<form name="atts" method="post" enctype="multipart/form-data" action="/tools/BulkloadNewParts.cfm">
+				<div class="form-row border rounded p-2">
+					<input type="hidden" name="action" value="getFile">
+					<div class="col-12 col-md-4">
+						<label for="fileToUpload" class="data-entry-label">File to bulkload:</label> 
+						<input type="file" name="FiletoUpload" id="fileToUpload" class="data-entry-input p-0 m-0">
+					</div>
+					<div class="col-12 col-md-3">
+						<label for="characterSet" class="data-entry-label">Character Set:</label> 
+						<select name="characterSet" id="characterSet" required class="data-entry-select reqdClr">
+							<option selected></option>
+							<option value="utf-8" >utf-8</option>
+							<option value="iso-8859-1">iso-8859-1</option>
+							<option value="windows-1252">windows-1252 (Win Latin 1)</option>
+							<option value="MacRoman">MacRoman</option>
+							<option value="x-MacCentralEurope">Macintosh Latin-2</option>
+							<option value="windows-1250">windows-1250 (Win Eastern European)</option>
+							<option value="windows-1251">windows-1251 (Win Cyrillic)</option>
+							<option value="utf-16">utf-16</option>
+							<option value="utf-32">utf-32</option>
+						</select>
+					</div>
+					<div class="col-12 col-md-3">
+						<label for="format" class="data-entry-label">Format:</label> 
+						<select name="format" id="format" required class="data-entry-select reqdClr">
+							<option value="DEFAULT" selected >Standard CSV</option>
+							<option value="TDF">Tab Separated Values</option>
+							<option value="EXCEL">CSV export from MS Excel</option>
+							<option value="RFC4180">Strict RFC4180 CSV</option>
+							<option value="ORACLE">Oracle SQL*Loader CSV</option>
+							<option value="MYSQL">CSV export from MYSQL</option>
+						</select>
+					</div>
+					<div class="col-12 col-md-2">
+						<label for="submitButton" class="data-entry-label">&nbsp;</label>
+						<input type="submit" id="submittButton" value="Upload this file" class="btn btn-primary btn-xs">
+					</div>
+				</div>
+			</form>
+		</cfoutput>
+	</cfif>	
+	
+		<!------------------------------------------------------->
+	<cfif #action# is "getFile">
+		<cfoutput>
+		<h2 class="h4">First step: Reading data from CSV file.</h2>
+		<!--- Set some constants to identify error cases in cfcatch block --->
+		<cfset NO_COLUMN_ERR = "One or more required fields are missing in the header line of the csv file. <span class='text-danger'>[If you uploaded csv columns that match the required headers and see 'Required column not found' for the those headers, check that the character set and format you selected matches the file''s encodings.]</span>">
+		<cfset DUP_COLUMN_ERR = "One or more columns are duplicated in the header line of the csv file.">
+		<cfset COLUMN_ERR = "Error inserting data">
+		<cfset NO_HEADER_ERR = "No header line found, csv file appears to be empty.">
+			<cftry>
+			<!---Parse the CSV file using Apache Commons CSV library and include with ColdFusion so columns with comma delimiters will be separated properly.--->
+				<cfset fileProxy = CreateObject("java","java.io.File") >
+				<cfobject type="Java" name="csvFormat" class="org.apache.commons.csv.CSVFormat">
+				<cfobject type="Java" name="csvParser" class="org.apache.commons.csv.CSVParser">
+				<cfobject type="Java" name="csvRecord" class="org.apache.commons.csv.CSVRecord">
+				<cfobject type="java" class="java.io.FileReader" name="fileReader">	
+				<cfobject type="Java" name="javaCharset" class="java.nio.charset.Charset">
+				<cfobject type="Java" name="standardCharsets" class="java.nio.charset.StandardCharsets">
+				<cfset filePath = fileProxy.init(JavaCast("string",#FiletoUpload#)) >
+				<cfset tempFileInputStream = CreateObject("java","java.io.FileInputStream").Init(#filePath#)>
+				<!--- Create a FileReader object to provide a reader for the CSV file --->
+				<cfset fileReader = CreateObject("java","java.io.FileReader").Init(#filePath#)>
+				<!---We cannot use the withHeader() method from coldfusion, as it is overloaded. With no parameters ColdFusion has no means to pick the correct method.--->
+				<!---Select format of csv file based on format variable from user.--->
+				<cfif not isDefined("format")><cfset format="DEFAULT"></cfif>
+				<cfswitch expression="#format#">
+					<cfcase value="DEFAULT">
+						<cfset csvFormat = CSVFormat.DEFAULT>
+					</cfcase>
+					<cfcase value="TDF">
+						<cfset csvFormat = CSVFormat.TDF>
+					</cfcase>
+					<cfcase value="RFC4180">
+						<cfset csvFormat = CSVFormat.RFC4180>
+					</cfcase>
+					<cfcase value="EXCEL">
+						<cfset csvFormat = CSVFormat.EXCEL>
+					</cfcase>
+					<cfcase value="ORACLE">
+						<cfset csvFormat = CSVFormat.ORACLE>
+					</cfcase>
+					<cfcase value="MYSQL">
+						<cfset csvFormat = CSVFormat.MYSQL>
+					</cfcase>
+					<cfdefaultcase>
+						<cfset csvFormat = CSVFormat.DEFAULT>
+					</cfdefaultcase>
+				</cfswitch>
+				<!--- Create a CSVParser using the FileReader and CSVFormat--->
+				<cfset csvParser = CSVParser.parse(fileReader, csvFormat)>
+				<!--- Select charset based on characterSet variable from user --->
+				<cfswitch expression="#characterSet#">
+					<cfcase value="utf-8">
+						<cfset javaSelectedCharset = standardCharsets.UTF_8 >
+					</cfcase>
+					<cfcase value="iso-8859-1">
+						<cfset javaSelectedCharset = standardCharsets.ISO_8859_1 >
+					</cfcase>
+					<cfcase value="windows-1250">
+						<cfset javaSelectedCharset = javaCharset.forName(JavaCast("string","windows-1250")) >
+					</cfcase>
+					<cfcase value="windows-1251">
+						<cfset javaSelectedCharset = javaCharset.forName(JavaCast("string","windows-1251")) >
+					</cfcase>
+					<cfcase value="windows-1252">
+						<cfif javaCharset.isSupported(JavaCast("string","windows-1252"))>
+							<cfset javaSelectedCharset = javaCharset.forName(JavaCast("string","windows-1252")) >
 						<cfelse>
-							#status#
+						<!--- If not available, iso-8859-1 will substitute, except for 0x80 to 0x9F --->
+						<!--- These characters won't be handled correctly if the source is windows-1252:  €  Š  š  Ž  ž  Œ  œ  Ÿ --->
+							<cfset javaSelectedCharset = standardCharsets.ISO_8859_1 >
 						</cfif>
-					</td>
-					<td>#institution_acronym#</td>
-					<td>#collection_cde#</td>
-					<td>#OTHER_ID_TYPE#</td>
-					<td>#OTHER_ID_NUMBER#</td>
-					<td>#part_name#</td>
-					<td>#preserve_method#</td>
-					<td>#disposition#</td>
-					<td>#lot_count_modifier#</td>
-					<td>#lot_count#</td>
-					<td>#current_remarks#</td>
-					<td>#condition#</td>
-					<td>#Container_Barcode#</td>
-					<td>#use_existing#</td>
-					<td>#change_container_type#</td>
-					<td>#append_to_remarks#</td>
-					<td>#changed_date#</td>
-				</tr>
+					</cfcase>
+					<cfcase value="x-MacCentralEurope">
+						<cfset javaSelectedCharset = javaCharset.forName(JavaCast("string","x-MacCentralEurope")) >
+					</cfcase>
+					<cfcase value="MacRoman">
+						<cfset javaSelectedCharset = javaCharset.forName(JavaCast("string","x-MacRoman")) >
+					</cfcase>
+					<cfcase value="utf-16">
+						<cfset javaSelectedCharset = standardCharsets.UTF_16 >
+					</cfcase>
+					<cfcase value="utf-32">
+						<cfset javaSelectedCharset = javaCharset.forName(JavaCast("string","utf-32")) >
+					</cfcase>
+					<cfdefaultcase>
+						<cfset javaSelectedCharset = standardCharsets.UTF_8 >
+					</cfdefaultcase>
+				</cfswitch>
+				<cfset records = CSVParser.parse(#tempFileInputStream#,#javaSelectedCharset#,#csvFormat#)>
+				<!--- cleanup any incomplete work by the same user --->
+				<cfquery name="clearTempTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="clearTempTable_result">
+					DELETE FROM cf_temp_citation
+					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+				</cfquery>
+				<!--- obtain an iterator to loops through the rows/records in the csv --->
+				<cfset iterator = records.iterator()>
+				<!---Obtain the first line of the file as the header line, we can not use the withHeader() method to do this in coldfusion --->
+				<cfif iterator.hasNext()>
+					<cfset headers = iterator.next()>
+				<cfelse>
+					<cfthrow message="#NO_HEADER_ERR# No first line found.">
+				</cfif>
+				<!---Get the number of column headers--->
+				<cfset size = headers.size()>
+				<cfif size EQ 0>
+					<cfthrow message="#NO_HEADER_ERR# First line appears empty.">
+				</cfif>
+				<cfset separator = "">
+				<cfset foundHeaders = "">
+			
+				<cfloop index="i" from="0" to="#headers.size() - 1#">
+					<cfset bit = headers.get(JavaCast("int",i))> 
+						<cfif i EQ 0 and characterSet EQ 'utf-8'>
+							<!--- strip off windows non-standard UTF-8-BOM byte order mark if present (raw hex EF, BB, BF or U+FEFF --->
+							<cfset bit = "#Replace(bit,CHR(65279),'')#" >  
+						</cfif> 
+						<cfset foundHeaders = "#foundHeaders##separator##bit#" >
+			<!---		<cfset foundHeaders = "#foundHeaders##separator##headers.get(JavaCast("int",i))#" --->
+					<cfset separator = ",">
+				</cfloop>
+				<cfset colNameArray = listToArray(ucase(foundHeaders))><!--- the list of columns/fields found in the input file --->
+				<cfset fieldArray = listToArray(ucase(fieldlist))><!--- the full list of fields --->
+				<cfset typeArray = listToArray(fieldTypes)><!--- the types for the full list of fields --->
+				<div class="col-12 my-4 px-0">
+					<h3 class="h4">Found #size# columns in header of csv file.</h3>
+					<h3 class="h4">There are #ListLen(fieldList)# columns expected in the header (of these #ListLen(requiredFieldList)# are required).</h3>
+				
+					<!--- check for required fields in header line (performng check in two different ways, Case 1, Case 2) --->
+					<!--- Loop through list of fields throw exception if required fields are missing --->
+					<cfset errorMessage = "">
+					<cfloop list="#fieldList#" item="aField">
+						<cfif ListContainsNoCase(requiredFieldList,aField)>
+							<!--- Case 1. Check by splitting assembled list of foundHeaders --->
+							<cfif NOT ListContainsNoCase(foundHeaders,aField)>
+								<cfset errorMessage = "#errorMessage# #aField# is missing.">
+							</cfif>
+						</cfif>
+					</cfloop>
+					<cfif len(errorMessage) GT 0>
+						<cfthrow message = "#errorMessage# #NO_COLUMN_ERR#">
+					</cfif>
+					<cfset errorMessage = "">
+					<!---Loop through field list, mark each as present in input or not, throw exception if required fields are missing--->
+					<ul class="mb-4 h4 font-weight-normal">
+						<cfloop list="#fieldlist#" index="field" delimiters=",">
+							<cfset hint="">
+							<cfif listContains(requiredfieldlist,field,",")>
+								<cfset class="text-danger">
+								<cfset hint="aria-label='required'">
+							<cfelse>
+								<cfset class="text-dark">
+							</cfif>
+							<li>
+								<span class="#class#" #hint#>#field#</span>
+								<cfif arrayFindNoCase(colNameArray,field) GT 0>
+									<span class="text-success font-weight-bold">Present in CSV</span>
+								<cfelse>
+									<!--- Case 2. Check by identifying field in required field list --->
+									<cfif ListContainsNoCase(requiredFieldList,field)>
+										<strong class="text-dark">Required Column Not Found</strong>
+										<cfset errorMessage = "#errorMessage# <div class='pl-3 pb-1 font-weight-bold'><i class='fas fa-arrow-right text-dark'></i> #field#</div>">
+									</cfif>
+								</cfif>
+							</li>
+						</cfloop>
+					</ul>
+					<cfif len(errorMessage) GT 0>
+					<h3 class="">Error Messages</h3>
+						<cfif size EQ 1>
+							<!--- Likely a problem parsing the first line into column headers --->
+							<cfset errorMessage = "<div class='pt-3'><p>Column not found:</p> #errorMessage#</div>">
+						<cfelse>
+							<cfset errorMessage = "<div class='pt-3'><p>Columns not found:</p> #errorMessage#</div>">
+						</cfif>
+						<cfthrow message = "#NO_COLUMN_ERR# #errorMessage#">
+					</cfif>
+						<!--- Identify additional columns that will be ignored --->
+					<cfif NOT ListContainsNoCase(fieldList,aField)>
+						<h3 class="h4">Warning: Found additional column header(s) in the CSV that is not in the list of expected headers: </h3>
+						<!--- Identify additional columns that will be ignored --->
+						<cfloop list="#foundHeaders#" item="aField">
+							<cfif NOT ListContainsNoCase(fieldList,aField)>
+								<li class="pb-1 px-4 text-dark"><i class='fas fa-arrow-right text-dark'></i> #aField# </1i>
+							</cfif>
+						</cfloop>
+					</cfif>
+						<!--- Identify duplicate columns and fail if found --->
+					<cfif NOT ListLen(ListRemoveDuplicates(foundHeaders)) EQ ListLen(foundHeaders)>
+						<h3 class="h4">Warning: #DUP_COLUMN_ERR# </h3>
+						<ul class="pb-1 h4 list-unstyled">
+							<!--- Identify duplicate columns and fail if found --->
+							<cfloop list="#foundHeaders#" item="aField">
+								<cfif listValueCount(foundHeaders,aField) GT 1>
+										<li class="pb-1 px-4 text-dark"><i class='fas fa-arrow-right text-dark'></i> column ###i# = #aField# </1i>
+								</cfif>
+							<cfset i=i+1>
+							</cfloop>
+						</ul>
+					</cfif>
+					<cfset colNames="#foundHeaders#">
+					<cfset loadedRows = 0>
+					<cfset foundHighCount = 0>
+					<cfset foundHighAscii = "">
+					<cfset foundMultiByte = "">
+					<!--- Iterate through the remaining rows inserting the data into the temp table. --->
+					<cfset row = 0>
+					<cfloop condition="#iterator.hasNext()#">
+						<!--- obtain the values in the current row --->
+						<cfset rowData = iterator.next()>
+						<cfset row = row + 1>
+						<cfset columnsCountInRow = rowData.size()>
+						<cfset collValuesArray= ArrayNew(1)>
+						<cfloop index="i" from="0" to="#rowData.size() - 1#">
+							<!--- loading cells from object instead of list allows commas inside cells --->
+							<cfset thisBit = "#rowData.get(JavaCast("int",i))#" >
+							<!--- store in a coldfusion array so we won't need JavaCast to reference by position --->
+							<cfset ArrayAppend(collValuesArray,thisBit)>
+							<cfif REFind("[^\x00-\x7F]",thisBit) GT 0>
+								<!--- high ASCII --->
+								<cfif foundHighCount LT 6>
+									<cfset foundHighAscii = "#foundHighAscii# <li class='text-dark px-4 pb-1'><i class='fas fa-arrow-right text-dark'></i> #thisBit#</li>"><!--- " --->
+									<cfset foundHighCount = foundHighCount + 1>
+								</cfif>
+							<cfelseif REFind("[\xc0-\xdf][\x80-\xbf]",thisBit) GT 0>
+								<!--- multibyte --->
+								<cfif foundHighCount LT 6>
+									<cfset foundMultiByte = "#foundMultiByte# <li class='text-dark px-4 pb-1'><i class='fas fa-arrow-right text-dark'></i> #thisBit#</li>"><!--- " --->
+									<cfset foundHighCount = foundHighCount + 1>
+								</cfif>
+							</cfif>
+						</cfloop>
+						<cftry>
+						<!---Construct insert for row with a line for each entry in fieldlist using cfqueryparam if column header is in fieldlist, otherwise using null.--->
+							<cfquery name="insert" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="insert_result">
+								insert into cf_temp_citation
+									(#fieldlist#,username)
+								values (
+									<cfset separator = "">
+									<cfloop from="1" to ="#ArrayLen(fieldArray)#" index="col">
+										<cfif arrayFindNoCase(colNameArray,fieldArray[col]) GT 0>
+											<cfset fieldPos=arrayFind(colNameArray,fieldArray[col])>
+											<cfset val=trim(collValuesArray[fieldPos])>
+											<cfset val=rereplace(val,"^'+",'')>
+											<cfset val=rereplace(val,"'+$",'')>
+											<cfif val EQ ""> 
+												#separator#NULL
+											<cfelse>
+												#separator#<cfqueryparam cfsqltype="#typeArray[col]#" value="#val#">
+											</cfif>
+										<cfelse>
+											#separator#NULL
+										</cfif>
+										<cfset separator = ",">
+									</cfloop>
+									#separator#<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+								)
+							</cfquery>
+								<cfset loadedRows = loadedRows + insert_result.recordcount>
+							<cfcatch>
+								<!--- identify the problematic row --->
+								<cfset error_message="#COLUMN_ERR# from line #row# in input file.<br>
+								<p>Check format chosen for file uploaded.</p>
+								<p>Header:[#colNames#] <br>Row:[#ArrayToList(collValuesArray)#] <br>Error: #cfcatch.message#"></p>
+								<!--- " --->
+								<cfif isDefined("cfcatch.queryError")>
+									<cfset error_message = "#error_message# #cfcatch.queryError#">
+								</cfif>
+								<cfthrow message = "#error_message#">
+							</cfcatch>
+							</cftry>
+					</cfloop>
+					<cfif foundHighCount GT 0>
+						<h3 class="h4"><span class="text-danger">Warning: Check character set.</span> Found characters where the encoding is probably important in the input data.</h3>
+						<div>
+							<p>Showing #foundHighCount# examples.  If these do not appear as the correct characters, the file likely has a different encoding from the one you selected and you probably want to <a href="/tools/BulkloadCitations.cfm">reload</a> this file selecting a different encoding. If these appear as expected, then you selected the correct encoding and can continue to validate or load.</p>
+						<ul class="h4 list-unstyled">
+							<!---These include the <li></li>--->
+							#foundHighAscii# #foundMultiByte#
+						</ul>
+						</div>
+					</cfif>
+				</div>
+				<h3>
+					<cfif loadedRows EQ 0>
+						Loaded no rows from the CSV file.  The file appears to be just a header with no data. Fix file and <a href="/tools/BulkloadOtherId.cfm">reload</a>
+					<cfelse>
+						Successfully read #loadedRows# records from the CSV file. Next <a href="/tools/BulkloadCitations.cfm?action=validate">click to validate</a>.
+					</cfif>
+				</h3>
+			
+			<cfcatch>
+				<h3 class="h4">
+					Failed to read the CSV file.  Fix the errors in the file and <a href="/tools/BulkloadCitations.cfm">reload</a>.
+				</h3>
+				<cfif isDefined("arrResult")>
+					<cfset foundHighCount = 0>
+					<cfset foundHighAscii = "">
+					<cfset foundMultiByte = "">
+					<cfloop from="1" to ="#ArrayLen(arrResult[1])#" index="col">
+						<cfset thisBit=arrResult[1][col]>
+						<cfif REFind("[^\x00-\x7F]",thisBit) GT 0>
+							<!--- high ASCII --->
+							<cfif foundHighCount LT 6>
+								<cfset foundHighAscii = "#foundHighAscii# <li class='text-danger font-weight-bold m-3'>#thisBit#</li>"><!--- " --->
+								<cfset foundHighCount = foundHighCount + 1>
+							</cfif>
+						<cfelseif REFind("[\xc0-\xdf][\x80-\xbf]",thisBit) GT 0>
+							<!--- multibyte --->
+							<cfif foundHighCount LT 6>
+								<cfset foundMultiByte = "#foundMultiByte# <li class='text-danger font-weight-bold m-3'>#thisBit#</li>"><!--- " --->
+								<cfset foundHighCount = foundHighCount + 1>
+							</cfif>
+						</cfif>
+					</cfloop>
+					<cfif isDefined("foundHighCount") AND foundHighCount GT 0>
+						<h3 class="h4">Found characters with unexpected encoding in the header row. This is probably the cause of your error.</h3>
+						<div>
+							<p>Showing #foundHighCount# examples. Did you select utf-16 or unicode for the encoding for a file that does not have multibyte encoding?</p>
+						</div>
+						<ul class="py-1 h4">
+							#foundHighAscii# #foundMultiByte#
+						</ul>
+					</cfif>
+				</cfif>
+				<cfif Find("#NO_COLUMN_ERR#",cfcatch.message) GT 0>
+						#cfcatch.message#
+				<cfelseif Find("#COLUMN_ERR#",cfcatch.message) GT 0>
+						#cfcatch.message#
+				<cfelse>
+					<cfdump var="#cfcatch#">
+				</cfif>
+			</cfcatch>
+			</cftry>
+		</cfoutput>
+	</cfif>
+<!------------------------------------------------------->
+
+	<cfif #action# is "validate">
+		<h2 class="h4">Second step: Data Validation</h2>
+		<cfoutput>
+			<cfset key = ''>
+			<cfquery name="getTempTableTypes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				SELECT 
+					other_id_type, key
+				FROM 
+					cf_temp_parts
+				WHERE 
+					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+			</cfquery>
+			<cfloop query="getTempTableTypes">
+				<!--- For each row, set the target collection_object_id --->
+				<cfif getTempTableTypes.other_id_type eq 'catalog number'>
+					<!--- either based on catalog_number --->
+					<cfquery name="getCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						UPDATE
+							cf_temp_parts
+						SET
+							collection_object_id = (
+								select collection_object_id 
+								from cataloged_item 
+								where cat_num = cf_temp_parts.other_id_number 
+								and collection_cde = cf_temp_parts.collection_cde
+							),
+							status = null
+						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+							and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableTypes.key#"> 
+					</cfquery>
+				<cfelse>
+					<!--- or on specified other identifier --->
+					<cfquery name="getCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						UPDATE
+							cf_temp_parts
+						SET
+							collection_object_id= (
+								select cataloged_item.collection_object_id from cataloged_item,coll_obj_other_id_num 
+								where coll_obj_other_id_num.other_id_type = cf_temp_parts.other_id_type 
+								and cataloged_item.collection_cde = cf_temp_parts.collection_cde 
+								and display_value= cf_temp_parts.other_id_number
+								and cataloged_item.collection_object_id = coll_obj_other_id_num.COLLECTION_OBJECT_ID
+							),
+							status = null
+						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+							and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableTypes.key#"> 
+					</cfquery>
+				</cfif>
+		
+			<!--- obtain the information needed to QC each row --->
+			<cfquery name="getTempTableQC" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				SELECT 
+					key,collection_cde
+				FROM 
+					cf_temp_parts
+				WHERE 
+					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+			</cfquery>
+			<cfloop query="getTempTableQC">
+				<!--- for each row, evaluate the attribute against expectations and provide an error message --->
+				<!--- qc checks separate from getting ID numbers, includes presence of matched values in required columns --->
+				<cfquery name="flagNotMatchedDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					UPDATE cf_temp_parts
+					SET 
+						status = concat(nvl2(status, status || '; ', ''),'Unknown disposition: "' || coll_obj_disposition ||'"&mdash;not on list')
+					WHERE coll_obj_disposition is not null 
+						AND coll_obj_disposition not in (select coll_obj_disposition from ctcoll_obj_disp)
+						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+						and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableQC.key#"> 
+				</cfquery>
+				<cfquery name="flagNotMatchedPartName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					UPDATE cf_temp_parts
+					SET 
+						status = concat(nvl2(status, status || '; ', ''),' The part_name field is missing')
+					WHERE part_name IS NOT NULL
+						AND part_name not in (select part_name from ctspecimen_part_name)
+						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+						AND key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableQC.key#"> 
+				</cfquery>
+				<cfquery name="flagNotMatchedPreserv" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					UPDATE cf_temp_parts
+					SET status = concat(nvl2(status, status || '; ', ''),' The preserve method is missing')
+					WHERE preserve_method IS NOT NULL 
+					AND preserve_method not in = (select preserve_method from ctspecimen_preserv_method where preserve_method = <cfqueryparam cfsqltype="CF_SQL_varchar" value="#getTempTableQC.preserve_method#"> 
+							)
+					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+					and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableQC.key#"> 
+				</cfquery>
+				<cfquery name="flagMczAcronym" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					UPDATE cf_temp_parts
+					SET 
+						status = concat(nvl2(status, status || '; ', ''),'INSTIUTION_ACRONYM is not "MCZ" (check case)')
+					WHERE institution_acronym <> 'MCZ'
+						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+						AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
+				</cfquery>
+				<cfquery name="flagNotMatchedOther_ID_Type" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					UPDATE cf_temp_parts
+					SET 
+						status = concat(nvl2(status, status || '; ', ''), 'Unknown other_id_type: "' || other_id_type ||'"&mdash;not on list')
+					WHERE other_id_type is not null 
+						AND other_id_type <> 'catalog number'
+						AND other_id_type not in (select other_id_type from ctcoll_other_id_type)
+						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+						and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
+				</cfquery>
+				<cfquery name="flagNotMatchedCondition" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					UPDATE cf_temp_parts
+					SET 
+						status = concat(nvl2(status, status || '; ', ''), 'Unknown condition created')
+					WHERE condition != any('good','fair','unchecked','poor') 
+						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+						and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
+				</cfquery>
+				<cfquery name="FlagCdeProblems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="citationProblems_result">
+					UPDATE cf_temp_prts
+					SET
+						status = concat(nvl2(status, status || '; ', ''),'Invalid collection_cde: "' || collection_cde ||'"')
+					WHERE 
+						collection_cde IS NOT NULL
+						AND collection_cde NOT IN (
+							SELECT collection_cde 
+							FROM ctcollection_cde 
+							WHERE collection_cde = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableQC.collection_cde#">
+						)
+						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+						AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
+				</cfquery>
+				<cfquery name="flagNoCollectionObject" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					UPDATE cf_temp_parts
+					SET 
+						status = concat(nvl2(status, status || '; ', ''),' There is no match to a cataloged item on [' || other_id_type || ']=[' || other_id_number || '] in collection "' || collection_cde ||'"')
+					WHERE collection_object_id IS NULL
+						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+					AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
+				</cfquery>
 			</cfloop>
-		</table>
-	</cfoutput>
-
-
-</cfif>
-
-<!-------------------------------------------------------------------------------------------->
-
-<cfif #action# is "load">
-
-<cfoutput>
-	<cfquery name="getTempData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		select * from cf_temp_parts
-	</cfquery>
-	<cfquery name= "getEntBy" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		SELECT agent_id FROM agent_name WHERE agent_name = '#session.username#'
-	</cfquery>
-	<cfif getEntBy.recordcount is 0>
-		<cfabort showerror = "You aren't a recognized agent!">
-	<cfelseif getEntBy.recordcount gt 1>
-		<cfabort showerror = "Your login has has multiple matches.">
-	</cfif>
-	<cfset enteredbyid = getEntBy.agent_id>
-	<cftransaction>
-	<cfloop query="getTempData">
-	<cfif len(#use_part_id#) is 0 <!---AND len(#container_barcode#) gt 0--->>
-		<cfquery name="NEXTID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			select sq_collection_object_id.nextval NEXTID from dual
-		</cfquery>
-		<cfquery name="updateColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			INSERT INTO coll_object (
-				COLLECTION_OBJECT_ID,
-				COLL_OBJECT_TYPE,
-				ENTERED_PERSON_ID,
-				COLL_OBJECT_ENTERED_DATE,
-				LAST_EDITED_PERSON_ID,
-				COLL_OBJ_DISPOSITION,
-				LOT_COUNT_MODIFIER,
-				LOT_COUNT,
-				CONDITION,
-				FLAGS )
-			VALUES (
-				#NEXTID.NEXTID#,
-				'SP',
-				#enteredbyid#,
-				sysdate,
-				#enteredbyid#,
-				'#DISPOSITION#',
-				'#lot_count_modifier#',
-				#lot_count#,
-				'#condition#',
-				0 )
-		</cfquery>
-		<cfquery name="newTiss" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			INSERT INTO specimen_part (
-				  COLLECTION_OBJECT_ID,
-				  PART_NAME,
-				  PRESERVE_METHOD,
-				  DERIVED_FROM_cat_item )
-				VALUES (
-					#NEXTID.NEXTID#,
-				  '#PART_NAME#',
-				  '#PRESERVE_METHOD#'
-					,#collection_object_id# )
-		</cfquery>
-		<cfif len(#current_remarks#) gt 0>
-				<!---- new remark --->
-				<cfquery name="newCollRem" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					INSERT INTO coll_object_remark (collection_object_id, coll_object_remarks)
-					VALUES (sq_collection_object_id.currval, '#current_remarks#')
+			</cfloop>
+			<!---Missing data in required fields--->
+			<cfloop list="#requiredfieldlist#" index="requiredField">
+				<cfquery name="checkRequired" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					UPDATE cf_temp_parts
+					SET 
+						status = concat(nvl2(status, status || '; ', ''),'#requiredField# is missing')
+					WHERE #requiredField# is null
+						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
-		</cfif>
-		<cfif len(#changed_date#) gt 0>
-			<cfquery name="change_date" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				update SPECIMEN_PART_PRES_HIST set CHANGED_DATE = to_date('#CHANGED_DATE#', 'YYYY-MM-DD') where collection_object_id =#NEXTID.NEXTID# and is_current_fg = 1
+			</cfloop>
+			<!---Go through all the data and report the status--->
+			<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				SELECT institution_acronym,collection_cde,other_id_type,other_id_number,part_name,preserve_method,lot_count_modifier,lot_count,condition,coll_obj_disposition,status
+				FROM cf_temp_parts
+				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
-		</cfif>
-		<cfif len(#container_barcode#) gt 0>
-			<cfquery name="part_container_id" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				select container_id from coll_obj_cont_hist where collection_object_id = #NEXTID.NEXTID#
+			<cfquery name="pf" dbtype="query">
+				SELECT count(*) c 
+				FROM data 
+				WHERE status is not null
 			</cfquery>
-				<cfquery name="upPart" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					update container set parent_container_id=#parent_container_id#
-					where container_id = #part_container_id.container_id#
-				</cfquery>
-			<cfif #len(change_container_type)# gt 0>
-				<cfquery name="upPart" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					update container set
-					container_type='#change_container_type#'
-					where container_id=#parent_container_id#
-				</cfquery>
-			</cfif>
-		</cfif>
-	<cfelse>
-	<!--- there is an existing matching container that is not in a parent_container;
-		all we need to do is move the container to a parent IF it exists and is specified, or nothing otherwise --->
-		<cfif len(#disposition#) gt 0>
-			<cfquery name="upDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				update coll_object set COLL_OBJ_DISPOSITION = '#disposition#' where collection_object_id = #use_part_id#
-			</cfquery>
-		</cfif>
-		<cfif len(#condition#) gt 0>
-			<cfquery name="upCond" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				update coll_object set condition = '#condition#' where collection_object_id = #use_part_id#
-			</cfquery>
-		</cfif>
-		<cfif len(#lot_count#) gt 0>
-			<cfquery name="upCond" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				update coll_object set lot_count = #lot_count#, lot_count_modifier='#lot_count_modifier#' where collection_object_id = #use_part_id#
-			</cfquery>
-		</cfif>
-		<cfif len(#new_preserve_method#) gt 0>
-			<cfquery name="change_preservemethod" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				update SPECIMEN_PART set PRESERVE_METHOD = '#NEW_PRESERVE_METHOD#' where collection_object_id =#use_part_id#
-			</cfquery>
-		</cfif>
-		<cfif len(#append_to_remarks#) gt 0>
-			<cfquery name="remarksCount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				select * from coll_object_remark where collection_object_id = #use_part_id#
-			</cfquery>
-			<cfif remarksCount.recordcount is 0>
-				<cfquery name="insertRemarks" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					INSERT INTO coll_object_remark (collection_object_id, coll_object_remarks)
-					VALUES (#use_part_id#, '#append_to_remarks#')
-				</cfquery>
+			<cfif pf.c gt 0>
+				<h3 class="h4 px-0 mt-3">
+					There is a problem with #pf.c# of #data.recordcount# row(s). See the STATUS column. (<a href="/tools/BulkloadParts.cfm?action=dumpProblems">download</a>).
+				</h3>
+				<h3 class="h4 px-0">
+					Fix the problems in the data and <a href="/tools/BulkloadParts.cfm">start again</a>.
+				</h3>
 			<cfelse>
-				<cfquery name="updateRemarks" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					update coll_object_remark
-					set coll_object_remarks = DECODE(coll_object_remarks, null, '#append_to_remarks#', coll_object_remarks || '; #append_to_remarks#')
-					where collection_object_id = #use_part_id#
-				</cfquery>
+				<h3 class="h4 px-0">
+					<span class="text-success">Validation checks passed</span>. Look over the table below and <a href="/tools/BulkloadParts.cfm?action=load" class="btn-link">click to continue</a> if it all looks good or <a href="/tools/BulkloadParts.cfm" class="text-danger">start again</a>.
+				</h3>
 			</cfif>
-		</cfif>
-		<cfif len(#container_barcode#) gt 0>
-			<cfquery name="part_container_id" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				select container_id from coll_obj_cont_hist where collection_object_id = #use_part_id#
-			</cfquery>
-				<cfquery name="upPart" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					update container set parent_container_id=#parent_container_id#
-					where container_id = #part_container_id.container_id#
-				</cfquery>
-			<cfif #len(change_container_type)# gt 0>
-				<cfquery name="upPart" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					update container set
-					container_type='#change_container_type#'
-					where container_id=#parent_container_id#
-				</cfquery>
-			</cfif>
-		</cfif>
-		<cfif len(#changed_date#) gt 0>
-			<cfquery name="change_date" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				update SPECIMEN_PART_PRES_HIST set CHANGED_DATE = to_date('#CHANGED_DATE#', 'YYYY-MM-DD') where collection_object_id =#use_part_id# and is_current_fg = 1
-			</cfquery>
-		</cfif>
+			<table class='px-0 mx-0 sortable table small table-responsive w-100'>
+				<thead class="thead-light">
+					<tr>
+						<th>BULKLOAD STATUS</th>
+						<th>INSTITUTION_ACRONYM</th>
+						<th>COLLECTION_CDE</th>
+						<th>OTHER_ID_TYPE</th>
+						<th>OTHER_ID_NUMBER</th>
+						<th>PART_NAME</th>
+						<th>PART_METHOD</th>
+						<th>LOT_COUNT_MODIFIER</th>
+						<th>LOT_COUNT</th>
+						<th>CONDITION</th>
+						<th>DISPOSITION</th>
+					</tr>
+				<tbody>
+					<cfloop query="data">
+						<tr>
+							<td><strong>#data.STATUS#</strong></td>
+							<td>#data.INSTITUTION_ACRONYM#</td>
+							<td>#data.COLLECTION_CDE#</td>
+							<td>#data.OTHER_ID_TYPE#</td>
+							<td>#data.OTHER_ID_NUMBER#</td>
+							<td>#data.PART_NAME#</td>
+							<td>#data.PART_METHOD#</td>
+							<td>#data.LOT_COUNT_MODIFIER#</td>
+							<td>#data.LOT_COUNT#</td>
+							<th>#data.CONDITION#</th>
+							<td>#data.COLL_OBJ_DISPOSITION#</td>
+						</tr>
+					</cfloop>
+				</tbody>
+			</table>
+		</cfoutput>
 	</cfif>
-	</cfloop>
-	</cftransaction>
-
-	Spiffy, all done.
-	<a href="/SpecimenResults.cfm?collection_object_id=#valuelist(getTempData.collection_object_id)#">
-		See in Specimen Results
-	</a>
-</cfoutput>
-</cfif>
-         </div>
-<cfinclude template="/includes/_footer.cfm">
+	<!-------------------------------------------------------------------------------------------->
+	<cfif action is "load">
+		<h2 class="h4">Third step: Apply changes.</h2>
+		<cfoutput>
+			<cfset problem_key = "">
+			<cftransaction>
+				<cfquery name="getPartData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					SELECT * FROM cf_temp_parts
+					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+				</cfquery>
+				<cfquery name="getCounts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					SELECT count(distinct collection_object_id) ctobj FROM cf_temp_parts
+					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+				</cfquery>
+			<cftry>
+					<cfset part_updates = 0>
+					<cfset part_updates1 = 0>
+					<cfif getPartData.recordcount EQ 0>
+						<cfthrow message="You have no rows to load in the parts bulkloader table (cf_temp_parts).  <a href='/tools/BulkloadParts.cfm'>Start over</a>"><!--- " --->
+					</cfif>
+					<cfloop query="getPartData">
+						<cfset problem_key = #getPartData.key#>
+						<cfquery name="updateParts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateParts_result">
+							INSERT into specimen_part (
+							COLLECTION_OBJECT_ID,
+							PART_NAME,
+							PART_MODIFIER,
+							SAMPLED_FROM_OBJ_ID,
+							PRESERVE_METHOD,
+							DERIVED_FROM_CAT_ITEM,
+							IS_TISSUE
+							)VALUES(
+							<cfqueryparam cfsqltype="CF_SQL_decimal" value="#getPartData.COLLECTION_OBJECT_ID#">,
+							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getPartData.PART_NAME#">,
+							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getPartData.PART_MODIFIER#">,
+							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getPartData.SAMPLED_FROM_OBJ_ID#">,
+							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getPartData.PRESERVE_METHOD#">,
+							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getPartData.DERIVED_FROM_CAT_ITEM#">, 
+							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getPartData.IS_TISSUE#">
+							)
+						</cfquery>
+						<cfquery name="updateParts1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateParts1_result">
+							select COLLECTION_OBJECT_ID,
+							PART_NAME,
+							PART_MODIFIER,
+							SAMPLED_FROM_OBJ_ID,
+							PRESERVE_METHOD,
+							DERIVED_FROM_CAT_ITEM,
+							IS_TISSUE from specimen_part
+							where collection_object_id = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getPartData.collection_object_id#">
+							group by COLLECTION_OBJECT_ID,
+							PART_NAME,
+							PART_MODIFIER,
+							SAMPLED_FROM_OBJ_ID,
+							PRESERVE_METHOD,
+							DERIVED_FROM_CAT_ITEM,
+							IS_TISSUE
+							having count(*) > 1
+						</cfquery>
+						<cfset part_updates = part_updates + updateParts_result.recordcount>
+						<cfif updateParts1_result.recordcount gt 0>
+							<cftransaction action = "ROLLBACK">
+						<cfelse>
+							<cftransaction action="COMMIT">
+						</cfif>
+					</cfloop>
+					<p>Number of parts to update: #part_updates# (on #getCounts.ctobj# cataloged items)</p>
+					<cfif getPartData.recordcount eq part_updates and updateParts1_result.recordcount eq 0>
+						<h2 class="text-success">Success - loaded</h2>
+					</cfif>
+					<cfif updateParts1_result.recordcount gt 0>
+						<h2 class="text-danger">Not loaded - these have already been loaded</h2>
+					</cfif>
+				<cfcatch>
+					<cftransaction action="ROLLBACK">
+					<h2 class="h3">There was a problem updating the parts.</h2>
+					<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						SELECT institution_acronym,collection_cde,other_id_type,
+							other_id_number,part_name,preserve_method,coll_obj_disposition,condition
+						FROM cf_temp_part
+						where key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#problem_key#">
+					</cfquery>
+					<cfif getProblemData.recordcount GT 0>
+						<h3>
+							Error loading row (<span class="text-danger">#part_updates + 1#</span>) from the CSV: 
+							<cfif len(cfcatch.detail) gt 0>
+								<span class="font-weight-normal border-bottom border-danger">
+									<cfif cfcatch.detail contains "part_name">
+										Invalid part_name; 
+									<cfelseif cfcatch.detail contains "collection_cde">
+										Problem with collection_cde
+									<cfelseif cfcatch.detail contains "other_id_number">
+										Invalid other_id_number
+									<cfelseif cfcatch.detail contains "other_id_type">
+										Invalid other_id_type
+									<cfelseif cfcatch.detail contains "lot_count">
+										Invalid lot_count
+									<cfelseif cfcatch.detail contains "condition">
+										Problem with condition (#cfcatch.detail#)
+									<cfelseif cfcatch.detail contains "no data">
+										No data or the wrong data (#cfcatch.detail#)
+									<cfelse>
+										<!--- provide the raw error message if it isn't readily interpretable --->
+										#cfcatch.detail#
+									</cfif>
+								</span>
+							</cfif>
+						</h3>
+						<table class='sortable small table table-responsive table-striped d-lg-table mt-3'>
+							<thead><tr>
+								<th>COUNT</th><th>INSTITUTION_ACRONYM</th><th>COLLECTION_CDE</th>
+								<th>OTHER_ID_TYPE</th><th>OTHER_ID_NUMBER</th><th>PART_NAME</th><th>PRESERVE_METHOD</th>
+								<th>CONDITION</th><th>LOT_COUNT</th>
+								<th>COLL_OBJ_DISPOSITION</th>
+								</tr> 
+							</thead>
+							<tbody>
+								<cfset i=1>
+								<cfloop query="getProblemData">
+									<tr>
+										<td>#i#</td>
+										<td>#getProblemData.INSTITUTION_ACRONYM# </td>
+										<td>#getProblemData.COLLECTION_CDE# </td>
+										<td>#getProblemData.OTHER_ID_TYPE# </td>
+										<td>#getProblemData.OTHER_ID_NUMBER#</td>
+										<td>#getProblemData.PART_NAME#</td>
+										<td>#getProblemData.PRESERVE_METHOD#</td>
+										<td>#getProblemData.CONDITION#</td>
+										<td>#getProblemData.LOT_COUNT#</td>
+										<td>#getProblemData.COLL_OBJ_DISPOSITION#</td>
+									</tr>
+									<cfset i= i+1>
+								</cfloop>
+							</tbody>
+						</table>
+					</cfif>
+					<div>#cfcatch.message#</div>
+				</cfcatch>
+				</cftry>
+			</cftransaction>
+			
+			<cfquery name="clearTempTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="clearTempTable_result">
+				DELETE FROM cf_temp_parts
+				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+			</cfquery>
+		</cfoutput>
+	</cfif>
+</main>
+<cfinclude template="/shared/_footer.cfm">
