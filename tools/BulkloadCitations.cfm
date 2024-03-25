@@ -724,10 +724,10 @@ limitations under the License.
 						</cfif>
 					</cfloop>
 					<p>Number of citations to update: #citation_updates# (on #getCounts.ctobj# cataloged items)</p>
-					<cfif getCitData.recordcount eq citation_updates and updateCitations_result.recordcount eq 0>
+					<cfif getCitData.recordcount eq citation_updates1 and updateCitations1_result.recordcount eq 0>
 						<h2 class="text-success">Success - loaded</h2>
 					</cfif>
-					<cfif updateCitations_result.recordcount gt 0>
+					<cfif updateCitations1_result.recordcount gt 0>
 						<h2 class="text-danger">Not loaded - these have already been loaded</h2>
 					</cfif>
 				<cfcatch>
