@@ -716,7 +716,7 @@ limitations under the License.
 			select count(*) as cnt from cf_temp_parts where substr(status,1,5) NOT IN ('VALID','NOTE:')
 		</cfquery>
 		<cfif #allValid.cnt# is 0>
-			<a href="BulkloadNewParts.cfm?action=load">Load these parts.</a>
+			<span class="text-success">Validation checks passed</span>. Look over the table below and <a href="BulkloadNewParts.cfm?action=load">click to continue</a> if it all looks good. <a href="/tools/BulkloadNewParts.cfm">Try again.</a>.
 		<cfelse>
 			You must fix everything above to proceed. <a href="/tools/BulkloadNewParts.cfm">Try again.</a>
 		</cfif>

@@ -1,5 +1,34 @@
-<cfinclude template="/includes/_header.cfm">
-    <div class="basic_box">
+<!--- tools/bulkloadCitations.cfm add citations to specimens in bulk.
+
+Copyright 2008-2017 Contributors to Arctos
+Copyright 2008-2023 President and Fellows of Harvard College
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+
+--->
+
+<cfif isDefined("action") AND action is "dumpProblems">
+	<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		SELECT institution_acronym,collection_cde,other_id_type,other_id_number,part_name,preserve_method,lot_count_modifier,lot_count,condition,coll_obj_disposition, current_remarks,use_existing,container_barcode,change_container_type,condition,append_to_remarks,changed_date,new_preserve_method
+		FROM cf_temp_parts
+		WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+	</cfquery>
+	<cfinclude template="/shared/component/functions.cfc"><!---need to add to functions.cfc page--->
+	<cfset csv = queryToCSV(getProblemData)>
+	<cfheader name="Content-Type" value="text/csv">
+	<cfoutput>#csv#</cfoutput>
+	<cfabort>
+</cfif>
 
         <cfif #action# is "nothing">
 <h3 class="wikilink">Bulkload Parts</h3>
@@ -343,82 +372,82 @@ validate
 </cfif>
 <!------------------------------------------------------->
 <cfif #action# is "checkValidate">
-
 	<cfoutput>
-
-	<cfquery name="inT" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		select * from cf_temp_parts
-	</cfquery>
-	<table border>
-		<tr>
-			<td>Problem</td>
-			<td>institution_acronym</td>
-			<td>collection_cde</td>
-			<td>OTHER_ID_TYPE</td>
-			<td>OTHER_ID_NUMBER</td>
-			<td>part_name</td>
-			<td>preserve_method</td>
-			<td>disposition</td>
-			<td>lot_count_modifier</td>
-			<td>lot_count</td>
-			<td>current_remarks</td>
-			<td>condition</td>
-			<td>Container_Barcode</td>
-			<td>use_existing</td>
-			<td>change_container_type</td>
-			<td>append_to_remarks</td>
-			<td>changed_date</td>
-			<td>new_preserve_method</td>
-		</tr>
-		<cfloop query="inT">
-			<tr>
-				<td>
-					<cfif len(#collection_object_id#) gt 0 and
-							(#validated_status# is 'VALID')>
-						<a href="/SpecimenDetail.cfm?collection_object_id=#collection_object_id#"
-							target="_blank">Specimen</a>
-					<cfelseif left(validated_status,5) is 'NOTE:'>
-						<a href="/SpecimenDetail.cfm?collection_object_id=#collection_object_id#"
-							target="_blank">Specimen</a> (#validated_status#)
-					<cfelse>
-						#validated_status#
-					</cfif>
-				</td>
-				<td>#institution_acronym#</td>
-				<td>#collection_cde#</td>
-				<td>#OTHER_ID_TYPE#</td>
-				<td>#OTHER_ID_NUMBER#</td>
-				<td>#part_name#</td>
-				<td>#preserve_method#</td>
-				<td>#disposition#</td>
-				<td>#lot_count_modifier#</td>
-				<td>#lot_count#</td>
-				<td>#current_remarks#</td>
-				<td>#condition#</td>
-				<td>#Container_Barcode#</td>
-				<td>#use_existing#</td>
-				<td>#change_container_type#</td>
-				<td>#append_to_remarks#</td>
-				<td>#changed_date#</td>
-			</tr>
-		</cfloop>
-	</table>
+		<cfquery name="inT" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			select * from cf_temp_parts
+		</cfquery>
+			<cfquery name="allValid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				select count(*) as cnt from cf_temp_parts where substr(validated_status,1,5) NOT IN
+					('VALID','NOTE:')
+			</cfquery>
+			<cfif #allValid.cnt# is 0>
+				<a href="/tools/BulkloadParts.cfm?action=load">Load these parts.</a>
+			<cfelse>
+				You must fix everything above to proceed.
+			</cfif>
+			<table class='sortable px-0 mx-0 table table-responsive table-striped'>
+				<thead class="thead-light">
+				<tr>
+					<th>BULKLOADING STATUS</th>
+					<th>INSTITUTION_ACRONYM</th>
+					<th>COLLECTION_CDE</th>
+					<th>OTHER_ID_TYPE</th>
+					<th>OTHER_ID_NUMBER</th>
+					<th>PART_NAME</th>
+					<th>PRESERVE_METHOD</th>
+					<th>COLL_OBJ_DISPOSITION</th>
+					<th>LOT_COUNT_MODIFIER</th>
+					<th>LOT_COUNT</th>
+					<th>CURRENT_REMARKS</th>
+					<th>CONDITION</th>
+					<th>CONTAINER_UNIQUE_ID</th>
+					<th>USE_EXISTING</th>
+					<th>CHANGE_CONTAINER_TYPE</th>
+					<th>APPEND_TO_REMARKS</th>
+					<th>CHANGED_DATE</th>
+					<th>NEW_PRESERVE_METHOD</th>
+				</tr>
+			<cfloop query="inT">
+				<tr>
+					<td>
+						<cfif len(#collection_object_id#) gt 0 and
+								(#validated_status# is 'VALID')>
+							<a href="/specimens/Specimen.cfm?collection_object_id=#collection_object_id#"
+								target="_blank">Specimen</a>
+						<cfelseif left(validated_status,5) is 'NOTE:'>
+							<a href="/specimens/Specimen.cfm"
+								target="_blank">Specimen</a> (#status#)
+						<cfelse>
+							#status#
+						</cfif>
+					</td>
+					<td>#institution_acronym#</td>
+					<td>#collection_cde#</td>
+					<td>#OTHER_ID_TYPE#</td>
+					<td>#OTHER_ID_NUMBER#</td>
+					<td>#part_name#</td>
+					<td>#preserve_method#</td>
+					<td>#disposition#</td>
+					<td>#lot_count_modifier#</td>
+					<td>#lot_count#</td>
+					<td>#current_remarks#</td>
+					<td>#condition#</td>
+					<td>#Container_Barcode#</td>
+					<td>#use_existing#</td>
+					<td>#change_container_type#</td>
+					<td>#append_to_remarks#</td>
+					<td>#changed_date#</td>
+				</tr>
+			</cfloop>
+		</table>
 	</cfoutput>
-	<cfquery name="allValid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		select count(*) as cnt from cf_temp_parts where substr(validated_status,1,5) NOT IN
-			('VALID','NOTE:')
-	</cfquery>
-	<cfif #allValid.cnt# is 0>
-		<a href="BulkloadParts.cfm?action=loadToDb">Load these parts....</a>
-	<cfelse>
-		You must fix everything above to proceed.
-	</cfif>
+
 
 </cfif>
 
 <!-------------------------------------------------------------------------------------------->
 
-<cfif #action# is "loadToDb">
+<cfif #action# is "load">
 
 <cfoutput>
 	<cfquery name="getTempData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
