@@ -49,8 +49,6 @@ limitations under the License.
 <cfif not isDefined("action") OR len(action) EQ 0><cfset action="nothing"></cfif>
 <main class="container-fluid px-5 py-3" id="content">
 	<h1 class="h2 mt-2">Bulkload New Parts </h1>
-	
-	<h2 class="h4">Add part rows to specimen records</h2>
 	<cfif #action# is "nothing">
 		<cfoutput>
 			<p>This tool adds part rows to the specimen record. It create metadata for part history and includes specimen part attributes fields that can be empty if none exists. The cataloged items must be in the database and they can be entered using the catalog number or other ID. Error messages will appear if the values need to match values in MCZbase. It ignores rows that are exactly the same and alerts you if columns are missing. Additional columns will be ignored. Include column headings, spelled exactly as below. </p>
@@ -115,7 +113,6 @@ limitations under the License.
 			</form>
 		</cfoutput>
 	</cfif>	
-		
 	<!------------------------------------------------------->
 	<cfif #action# is "getFile">
 		<cfoutput>
@@ -481,27 +478,10 @@ limitations under the License.
 		</cftry>
 		</cfoutput>
 	</cfif>
-
 	<!------------------------------------------------------->
-	<!---
-			Things that can happen here:
-				1) Upload a part that doesn't exist
-					Solution: create a new part, optionally put it in a container that they specify in the upload.
-				2) Upload a part that already exists
-					a) use_existing = 1
-						1) part is in a container
-							Solution: warn them, create new part, optionally put it in a container that they've specified
-						 2) part is NOT already in a container
-							Solution: put the existing part into the new container that they've specified or, if
-							they haven't specified a new container, ignore this line as it does nothing.
-					b) use_existing = 0
-						1) part is in a container
-							Solution: warn them, create a new part, optionally put it in the container they've specified
-						2) part is not in a container
-							Solution: same: warning and new part
-		---->
 	<cfif #action# is "validate">
 		<cfoutput>
+			<h2 class="h4">Second step: Data Validation</h2>
 			<cfquery name="getParentContainerId" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				update cf_temp_parts set parent_container_id =
 				(select container_id from container where container.barcode = cf_temp_parts.container_unique_id)
@@ -716,13 +696,7 @@ limitations under the License.
 				where status like '%NOTE: PART EXISTS%' AND
 				use_existing = 1
 			</cfquery>
-			<cflocation url="BulkloadNewParts.cfm?action=checkValidate">
-		</cfoutput>
-	</cfif>
-<!-------------------------------------------------------------------------------------------->
-	<cfif #action# is "checkValidate">
-		<cfoutput>
-		<h2 class="h4">Second step: Data Validation
+	
 		<cfquery name="inT" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			select * from cf_temp_parts
 		</cfquery>
