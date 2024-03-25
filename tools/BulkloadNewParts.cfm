@@ -1,3 +1,21 @@
+<!--- tools/bulkloadNewParts.cfm add parts to specimens in bulk.
+
+Copyright 2008-2017 Contributors to Arctos
+Copyright 2008-2023 President and Fellows of Harvard College
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+
+--->
 <cfif isDefined("action") AND action is "dumpProblems">
 	<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		SELECT institution_acronym,collection_cde,other_id_type,other_id_number,part_name,preserve_method,lot_count_modifier,lot_count,condition,coll_obj_disposition
@@ -690,10 +708,19 @@
 <!-------------------------------------------------------------------------------------------->
 	<cfif #action# is "checkValidate">
 		<cfoutput>
-			<h2 class="h4">Second step: Data Validation</h2>
-			<cfquery name="inT" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				select * from cf_temp_parts
-			</cfquery>
+		<h2 class="h4">Second step: Data Validation</h2>
+		<cfquery name="inT" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			select * from cf_temp_parts
+		</cfquery>
+		<cfquery name="allValid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			select count(*) as cnt from cf_temp_parts where substr(status,1,5) NOT IN
+				('VALID','NOTE:')
+		</cfquery>
+		<cfif #allValid.cnt# is 0>
+			<a href="BulkloadNewParts.cfm?action=load">Load these parts....</a>
+		<cfelse>
+			You must fix everything above to proceed.
+		</cfif>
 			<table class='sortable table table-responsive table-striped d-lg-table'>
 				<thead class="thead-light">
 				<tr>
@@ -816,15 +843,6 @@
 				</tbody>
 			</table>
 		</cfoutput>
-		<cfquery name="allValid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			select count(*) as cnt from cf_temp_parts where substr(status,1,5) NOT IN
-				('VALID','NOTE:')
-		</cfquery>
-		<cfif #allValid.cnt# is 0>
-			<a href="BulkloadNewParts.cfm?action=load">Load these parts....</a>
-		<cfelse>
-			You must fix everything above to proceed.
-		</cfif>
 	</cfif>
 	<!-------------------------------------------------------------------------------------------->
 	<cfif #action# is "load">
