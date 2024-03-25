@@ -381,7 +381,7 @@ limitations under the License.
 							</cfquery>
 								<cfset loadedRows = loadedRows + insert_result.recordcount>
 							<cfcatch>
-								<!--- identify the problematic row --->
+								<!--- identify the problematic row ---><p>Consider format chosen (file uploaded).</p>
 								<cfset error_message="#COLUMN_ERR# from line #row# in input file.  <br>Header:[#colNames#] <br>Row:[#ArrayToList(collValuesArray)#] <br>Error: #cfcatch.message#"><!--- " --->
 								<cfif isDefined("cfcatch.queryError")>
 									<cfset error_message = "#error_message# #cfcatch.queryError#">
