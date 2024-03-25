@@ -631,7 +631,7 @@ limitations under the License.
 			<table class='px-0 mx-0 sortable table small table-responsive w-100'>
 				<thead class="thead-light">
 					<tr>
-						<th>STATUS&nbsp;OF&nbsp;CITATION&nbsp;BULKLOAD</th>
+						<th>BULKLOAD STATUS</th>
 						<th>INSTITUTION_ACRONYM</th>
 						<th>COLLECTION_CDE</th>
 						<th>OTHER_ID_TYPE</th>
