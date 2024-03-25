@@ -759,6 +759,8 @@ limitations under the License.
 										Invalid COLLECTION_OBJECT_ID
 									<cfelseif cfcatch.detail contains "publication_id">
 										Problem with PUBLICATION_ID (#cfcatch.detail#)
+									<cfelseif cfcatch.detail contains "unique constraint">
+										This citation has already been entered. Remove and try again.
 									<cfelseif cfcatch.detail contains "no data">
 										No data or the wrong data (#cfcatch.detail#)
 									<cfelse>
