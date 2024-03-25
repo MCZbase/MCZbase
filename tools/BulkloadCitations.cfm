@@ -593,7 +593,7 @@ limitations under the License.
 					AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
 				</cfquery>
 			</cfloop>
-		</cfloop>
+			</cfloop>
 			<!---Missing data in required fields--->
 			<cfloop list="#requiredfieldlist#" index="requiredField">
 				<cfquery name="checkRequired" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -713,7 +713,7 @@ limitations under the License.
 							select PUBLICATION_ID,COLLECTION_OBJECT_ID,CITED_TAXON_NAME_ID,OCCURS_PAGE_NUMBER,TYPE_STATUS,CITATION_REMARKS,	CITATION_PAGE_URI from citation
 							where collection_object_id = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getCitData.collection_object_id#">
 							group by publication_id,collection_object_id,cited_taxon_name_id,OCCURS_PAGE_NUMBER,TYPE_STATUS,CITATION_REMARKS,CITATION_PAGE_URI
-							having count(*) > 1
+							having count(*) > 0
 						</cfquery>
 						<cfset citation_updates = citation_updates + updateCitations_result.recordcount>
 						<cfif updateCitations_result.recordcount gt 0>
