@@ -708,20 +708,20 @@ limitations under the License.
 <!-------------------------------------------------------------------------------------------->
 	<cfif #action# is "checkValidate">
 		<cfoutput>
-		<h2 class="h4">Second step: Data Validation</h2>
+		<h2 class="h4">Second step: Data Validation
 		<cfquery name="inT" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			select * from cf_temp_parts
 		</cfquery>
 		<cfquery name="allValid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			select count(*) as cnt from cf_temp_parts where substr(status,1,5) NOT IN
-				('VALID','NOTE:')
+			select count(*) as cnt from cf_temp_parts where substr(status,1,5) NOT IN ('VALID','NOTE:')
 		</cfquery>
 		<cfif #allValid.cnt# is 0>
-			<a href="BulkloadNewParts.cfm?action=load">Load these parts....</a>
+			<a href="BulkloadNewParts.cfm?action=load">Load these parts.</a>
 		<cfelse>
-			You must fix everything above to proceed.
+			You must fix everything above to proceed. <a href="/tools/BulkloadNewParts.cfm">Try again.</a>
 		</cfif>
-			<table class='sortable table table-responsive table-striped d-lg-table'>
+		</h2>
+			<table class='sortable px-0 mx-0 table table-responsive table-striped'>
 				<thead class="thead-light">
 				<tr>
 					<th>BULKLOADING STATUS</th>
