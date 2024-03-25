@@ -533,19 +533,21 @@ limitations under the License.
 					UPDATE cf_temp_parts
 					SET 
 						status = concat(nvl2(status, status || '; ', ''),' The part_name field is missing')
-					WHERE part_name IS NOT NULL
-						AND part_name not in (select part_name from ctspecimen_part_name)
+					WHERE 
+						AND part_name|| '|' ||collection_cde NOT in (select part_name|| '|' || collection_cde from ctspecimen_part_name)
+						OR part_name is null
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						AND key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableQC.key#"> 
 				</cfquery>
 				<cfquery name="flagNotMatchedPreserv" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					UPDATE cf_temp_parts
-					SET status = concat(nvl2(status, status || '; ', ''),' The preserve_method is missing')
-					WHERE preserve_method IS NOT NULL 
-					AND preserve_method not in 
-						(select preserve_method from ctspecimen_preserv_method)
-					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-					and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableQC.key#"> 
+					SET 
+						status = concat(nvl2(status, status || '; ', ''),' The preserve_method field is missing')
+					WHERE 
+						AND preserve_method|| '|' ||collection_cde NOT in (select preserve_method|| '|' || collection_cde from ctspecimen_preserv_method)
+						OR preserve_method is null
+						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+						AND key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableQC.key#"> 
 				</cfquery>
 				<cfquery name="flagMczAcronym" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					UPDATE cf_temp_parts
