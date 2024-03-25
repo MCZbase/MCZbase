@@ -897,6 +897,8 @@ limitations under the License.
 										Problem with ATTRIBUTE_METH (#cfcatch.detail#)
 									<cfelseif cfcatch.detail contains "OTHER_ID_NUMBER">
 										Problem with OTHER_ID_NUMBER (#cfcatch.detail#)
+									<cfelseif cfcatch.detail contains "Unique">
+										This citation has already been loaded. Remove from spreadsheet.
 									<cfelseif cfcatch.detail contains "attribute_remarks">
 										Problem with ATTRIBUTE_REMARKS (#cfcatch.detail#)
 									<cfelseif cfcatch.detail contains "no data">
