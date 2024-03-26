@@ -861,20 +861,20 @@ limitations under the License.
 							<cfquery name="NEXTID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 								select sq_collection_object_id.nextval NEXTID from dual
 							</cfquery>
-							<cfquery name="updateParts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updatePartsColl_result">
+							<cfquery name="updateParts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateParts_result">
 								insert into coll_object
 								(collection_object_id, coll_object_type,entered_person_id,coll_object_entered_date,last_edited_person_id,coll_obj_disposition,lot_count_modifier,lot_count,condition,flags) 
 								values
 								(#nextid.nextid#,'SP',<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#enteredbyid#">,sysdate,<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#enteredbyid#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#coll_obj_disposition#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#lot_count_modifier#">,<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#lot_count#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#condition#">,0)
 							</cfquery>
-							<cfquery name="updateParts1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updatePartsSpec_result">
+							<cfquery name="updateParts1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateParts1_result">
 								insert into specimen_part
 								(collection_object_id,PART_NAME,PRESERVE_METHOD,DERIVED_FROM_CAT_ITEM)
 								values
 								(#nextid.nextid#,'#part_name#','#preserve_method#',#collection_object_id#)
 							</cfquery>
 							<cfif len(#current_remarks#) gt 0>
-								<cfquery name="updateParts2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updatePartsRem_result">
+								<cfquery name="updateParts2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateParts2_result">
 									INSERT INTO coll_object_remark (collection_object_id, coll_object_remarks)
 									VALUES (sq_collection_object_id.currval, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#current_remarks#">)
 								</cfquery>
@@ -901,7 +901,7 @@ limitations under the License.
 									</cfquery>
 								</cfif>
 							</cfif>
-							<cfset part_updates = part_updates + updatePartsColl_result.recordcount>
+							<cfset part_updates = part_updates + updateParts1_result.recordcount>
 						</cfloop>
 					</cftransaction> 
 					<div class="container-fluid">
