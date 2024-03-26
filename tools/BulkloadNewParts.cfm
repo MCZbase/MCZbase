@@ -626,8 +626,8 @@ limitations under the License.
 								collection.institution_acronym = '#institution_acronym#' and
 								cat_num='#other_id_number#'
 						</cfquery>
-					<cfelse>
-						<cfquery name="collObj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfelse>
+					<cfquery name="collObj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 							SELECT
 								coll_obj_other_id_num.collection_object_id
 							FROM
@@ -642,23 +642,22 @@ limitations under the License.
 								other_id_type = '#other_id_type#' and
 								display_value = '#other_id_number#'
 						</cfquery>
-					</cfif>
+				</cfif>
 				<cfif #collObj.recordcount# is 1>
-						<cfquery name="insColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					<cfquery name="insColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 							UPDATE cf_temp_parts SET collection_object_id = #collObj.collection_object_id#,
 							status='VALID'
 							where
 							key = #key#
 						</cfquery>
-					<cfelse>
-						<cfquery name="insColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-							UPDATE cf_temp_parts SET status =
-							status || ';#data.institution_acronym# #data.collection_cde# #data.other_id_type# #data.other_id_number# could not be found.'
-							where key = #key#
-						</cfquery>
-					</cfif>
+				<cfelse>
+					<cfquery name="insColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						UPDATE cf_temp_parts SET status =
+						status || ';#data.institution_acronym# #data.collection_cde# #data.other_id_type# #data.other_id_number# could not be found.'
+						where key = #key#
+					</cfquery>
+				</cfif>
 			</cfloop>
-			
 			<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				update cf_temp_parts set (status) = (
 				select
@@ -695,19 +694,17 @@ limitations under the License.
 				where status like '%NOTE: PART EXISTS%' AND
 				use_existing = 1
 			</cfquery>
-	
-		<cfquery name="inT" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="inT" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			select * from cf_temp_parts
 		</cfquery>
-		<cfquery name="allValid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="allValid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			select count(*) as cnt from cf_temp_parts where substr(status,1,5) NOT IN ('VALID','NOTE:')
 		</cfquery>
-		<cfif #allValid.cnt# is 0>
+			<cfif #allValid.cnt# is 0>
 			<span class="text-success">Validation checks passed</span>. Look over the table below and <a href="BulkloadNewParts.cfm?action=load">click to continue</a> if it all looks good. <a href="/tools/BulkloadNewParts.cfm">Try again</a>.
 		<cfelse>
 			You must fix everything above to proceed. <a href="/tools/BulkloadNewParts.cfm">Try again.</a>
 		</cfif>
-		</h2>
 			<table class='sortable px-0 mx-0 table table-responsive table-striped'>
 				<thead class="thead-light">
 				<tr>
@@ -856,28 +853,28 @@ limitations under the License.
 			<cfset enteredbyid = '#getEnteredBy.agent_id#'>
 			<cftransaction>
 			<cftry>
-				<cfset part_updates = 1>
+				<cfset part_updates = 0>
+				<cfset part_updates1 = 0>
+				<cfset part_updates2 = 0>
 					<cftransaction>
 						<cfloop query="getTempData">
 							<cfquery name="NEXTID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 								select sq_collection_object_id.nextval NEXTID from dual
 							</cfquery>
-							<cfquery name="updateParts1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updatePartsColl_result">
+							<cfquery name="updateParts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updatePartsColl_result">
 								insert into coll_object
 								(collection_object_id, coll_object_type,entered_person_id,coll_object_entered_date,last_edited_person_id,coll_obj_disposition,lot_count_modifier,lot_count,condition,flags) 
 								values
 								(#nextid.nextid#,'SP',<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#enteredbyid#">,sysdate,<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#enteredbyid#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#coll_obj_disposition#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#lot_count_modifier#">,<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#lot_count#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#condition#">,0)
 							</cfquery>
-							
-							<cfquery name="updateParts2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updatePartsSpec_result">
+							<cfquery name="updateParts1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updatePartsSpec_result">
 								insert into specimen_part
 								(collection_object_id,PART_NAME,PRESERVE_METHOD,DERIVED_FROM_CAT_ITEM)
 								values
 								(#nextid.nextid#,'#part_name#','#preserve_method#',#collection_object_id#)
 							</cfquery>
-							
 							<cfif len(#current_remarks#) gt 0>
-								<cfquery name="updateParts3" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updatePartsRem_result">
+								<cfquery name="updateParts2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updatePartsRem_result">
 									INSERT INTO coll_object_remark (collection_object_id, coll_object_remarks)
 									VALUES (sq_collection_object_id.currval, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#current_remarks#">)
 								</cfquery>
@@ -979,54 +976,53 @@ limitations under the License.
 						<cfset part_container_updates = part_container_updates + updatePartContainer_result.recordcount>
 					</cfloop>
 					<cftransaction action="commit">
-				<cfcatch>
-					<cftransaction action="rollback">
-						<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-						SELECT institution_acronym,other_id_type,other_id_number,collection_cde,part_name,preserve_method,lot_count,lot_count_modifier,condition,coll_obj_disposition,status 
-						FROM cf_temp_parts 
-						WHERE status is not null
-						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-						</cfquery>
-						<h3>Error updating row (#part_updates + 1#): #cfcatch.message#</h3>
-						<table class='sortable table small table-responsive table-striped d-lg-table'>
-							<thead class="thead-light">
-								<tr>
-									<th>institution_acronym</th>
-									<th>other_id_type</th>
-									<th>other_id_number</th>
-									<th>collection_cde</th>
-									<th>part_name</th>
-									<th>lot_count_modifier</th>
-									<th>preserve_method</th>
-									<th>lot_count</th>
-									<th>condition</th>
-									<th>coll_obj_disposition</th>
-									<th>Container_unique_id</th>
-									<th>status</th>
-								</tr> 
-							</thead>
-							<tbody>
-								<cfloop query="getProblemData">
+					<cfcatch>
+						<cftransaction action="rollback">
+							<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+							SELECT institution_acronym,other_id_type,other_id_number,collection_cde,part_name,preserve_method,lot_count,lot_count_modifier,condition,coll_obj_disposition,status 
+							FROM cf_temp_parts 
+							WHERE status is not null
+							AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+							</cfquery>
+							<h3>Error updating row (#part_updates + 1#): #cfcatch.message#</h3>
+							<table class='sortable table small table-responsive table-striped d-lg-table'>
+								<thead class="thead-light">
 									<tr>
-										<td>#getProblemData.INSTITUTION_ACRONYM#</td>
-										<td>#getProblemData.OTHER_ID_TYPE#</td>
-										<td>#getProblemData.OTHER_ID_NUMBER#</td>
-										<td>#getProblemData.COLLECTION_CDE#</td>
-										<td>#getProblemData.PART_NAME#</td>
-										<td>#getProblemData.PRESERVE_METHOD#</td>
-										<td>#getProblemData.LOT_COUNT_MODIFIER#</td>
-										<td>#getProblemData.LOT_COUNT#</td>
-										<td>#getProblemData.CONDITION#</td>
-										<td>#getProblemData.COLL_OBJ_DISPOSITION#</td>
-										<td>#getProblemData.CONTAINER_UNIQUE_ID#</td>
-										<td>#getProblemData.status#</td>
+										<th>institution_acronym</th>
+										<th>other_id_type</th>
+										<th>other_id_number</th>
+										<th>collection_cde</th>
+										<th>part_name</th>
+										<th>lot_count_modifier</th>
+										<th>preserve_method</th>
+										<th>lot_count</th>
+										<th>condition</th>
+										<th>coll_obj_disposition</th>
+										<th>Container_unique_id</th>
+										<th>status</th>
 									</tr> 
-								</cfloop>
-							</tbody>
-
-						</table>
-						<cfrethrow>
-				</cfcatch>
+								</thead>
+								<tbody>
+									<cfloop query="getProblemData">
+										<tr>
+											<td>#getProblemData.INSTITUTION_ACRONYM#</td>
+											<td>#getProblemData.OTHER_ID_TYPE#</td>
+											<td>#getProblemData.OTHER_ID_NUMBER#</td>
+											<td>#getProblemData.COLLECTION_CDE#</td>
+											<td>#getProblemData.PART_NAME#</td>
+											<td>#getProblemData.PRESERVE_METHOD#</td>
+											<td>#getProblemData.LOT_COUNT_MODIFIER#</td>
+											<td>#getProblemData.LOT_COUNT#</td>
+											<td>#getProblemData.CONDITION#</td>
+											<td>#getProblemData.COLL_OBJ_DISPOSITION#</td>
+											<td>#getProblemData.CONTAINER_UNIQUE_ID#</td>
+											<td>#getProblemData.status#</td>
+										</tr> 
+									</cfloop>
+								</tbody>
+							</table>
+							<cfrethrow>
+					</cfcatch>
 				</cftry>
 			</cftransaction>
 			<div class="container">
