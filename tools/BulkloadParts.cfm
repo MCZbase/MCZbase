@@ -511,7 +511,7 @@ limitations under the License.
 			<!--- obtain the information needed to QC each row --->
 			<cfquery name="getTempTableQC" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				SELECT 
-					key,collection_cde,preserve_method
+					key,collection_cde
 				FROM 
 					cf_temp_parts
 				WHERE 
@@ -520,7 +520,7 @@ limitations under the License.
 			<cfloop query="getTempTableQC">
 				<!--- for each row, evaluate the attribute against expectations and provide an error message --->
 				<!--- qc checks separate from getting ID numbers, includes presence of matched values in required columns --->
-				<cfquery name="flagNotMatchedDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					<cfquery name="flagNotMatchedDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						UPDATE cf_temp_parts
 						SET 
 							status = concat(nvl2(status, status || '; ', ''),'Unknown disposition: "' || coll_obj_disposition ||'"&mdash;not on list')
@@ -529,21 +529,21 @@ limitations under the License.
 							AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 							and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableQC.key#"> 
 					</cfquery>
-				<cfquery name="flagNotMatchedPartName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					<cfquery name="flagNotMatchedPartName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						UPDATE cf_temp_parts
 						SET 
-							status = concat(nvl2(status, status || '; ', ''),' The part_name field is missing')
+							status = concat(nvl2(status, status || '; ', ''),' The part_name does not match')
 						WHERE part_name|| '|' ||collection_cde NOT in (select part_name|| '|' || collection_cde from ctspecimen_part_name)
-							OR part_name is null
+							OR part_name is not null
 							AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 							AND key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableQC.key#"> 
 					</cfquery>
 				<cfquery name="flagNotMatchedPreserv" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					UPDATE cf_temp_parts
 					SET 
-						status = concat(nvl2(status, status || '; ', ''),' The preserve_method field is missing')
+						status = concat(nvl2(status, status || '; ', ''),' The preserve_method does not match.')
 					WHERE preserve_method|| '|' ||collection_cde NOT in (select preserve_method|| '|' || collection_cde from ctspecimen_preserv_method)
-						OR preserve_method is null
+						OR preserve_method is not null
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						AND key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableQC.key#"> 
 				</cfquery>
@@ -573,7 +573,7 @@ limitations under the License.
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
 				</cfquery>
-				<cfquery name="FlagCdeProblems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="partProblems_result">
+				<cfquery name="FlagCdeProblems" datasource="user_login"     username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="partProblems_result">
 					UPDATE cf_temp_parts
 					SET
 						status = concat(nvl2(status, status || '; ', ''),'Invalid collection_cde: "' || collection_cde ||'"')
@@ -581,9 +581,7 @@ limitations under the License.
 						collection_cde IS NOT NULL
 						AND collection_cde NOT IN (
 							SELECT collection_cde 
-							FROM ctcollection_cde 
-							WHERE collection_cde = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableQC.collection_cde#">
-						)
+							FROM ctcollection_cde)
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
 				</cfquery>
@@ -595,7 +593,42 @@ limitations under the License.
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 					AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
 				</cfquery>
-			
+				<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					update cf_temp_parts set (status) = (
+					select
+					decode(parent_container_id,
+					0,'NOTE: PART EXISTS',
+					'NOTE: PART EXISTS IN PARENT CONTAINER')
+					from specimen_part,coll_obj_cont_hist,container, coll_object_remark where
+					specimen_part.collection_object_id = coll_obj_cont_hist.collection_object_id AND
+					coll_obj_cont_hist.container_id = container.container_id AND
+					coll_object_remark.collection_object_id(+) = specimen_part.collection_object_id AND
+					derived_from_cat_item = cf_temp_parts.collection_object_id AND
+					cf_temp_parts.part_name=specimen_part.part_name AND
+					cf_temp_parts.preserve_method=specimen_part.preserve_method AND
+					nvl(cf_temp_parts.current_remarks, 'NULL') = nvl(coll_object_remark.coll_object_remarks, 'NULL')
+					group by parent_container_id)
+					where status='VALID'
+				</cfquery>
+				<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					update cf_temp_parts set (parent_container_id) = (
+					select container_id
+					from container where
+					barcode=container_unique_id)
+					where substr(status,1,5) IN ('VALID','NOTE:')
+				</cfquery>
+				<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					update cf_temp_parts set (use_part_id) = (
+					select min(specimen_part.collection_object_id)
+					from specimen_part, coll_object_remark where
+					specimen_part.collection_object_id = coll_object_remark.collection_object_id(+) AND
+					cf_temp_parts.part_name=specimen_part.part_name and
+					cf_temp_parts.preserve_method=specimen_part.preserve_method and
+					cf_temp_parts.collection_object_id=specimen_part.derived_from_cat_item and
+					nvl(cf_temp_parts.current_remarks, 'NULL') = nvl(coll_object_remark.coll_object_remarks, 'NULL'))
+					where status like '%NOTE: PART EXISTS%' AND
+					use_existing = 1
+				</cfquery>
 			</cfloop>
 		
 			<!---Missing data in required fields--->
@@ -680,7 +713,7 @@ limitations under the License.
 					SELECT count(distinct collection_object_id) ctobj FROM cf_temp_parts
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
-		<!---		<cfquery name= "getEntBy" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name= "getEntBy" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					SELECT agent_id FROM agent_name WHERE agent_name = '#session.username#'
 				</cfquery>
 				<cfif getEntBy.recordcount is 0>
@@ -688,7 +721,7 @@ limitations under the License.
 				<cfelseif getEntBy.recordcount gt 1>
 					<cfabort showerror = "Your login has has multiple matches.">
 				</cfif>
-				<cfset enteredbyid = getEntBy.agent_id>--->
+				<cfset enteredbyid = getEntBy.agent_id>
 			<cftry>
 					<cfset part_updates = 0>
 					<cfset part_updates1 = 0>
@@ -697,9 +730,9 @@ limitations under the License.
 					</cfif>
 					<cfloop query="getPartData">
 						<cfset problem_key = #getPartData.key#>
-				<!---		<cfquery name="NEXTID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						<cfquery name="NEXTID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 							select sq_collection_object_id.nextval NEXTID from dual
-						</cfquery>--->
+						</cfquery>
 						<cfquery name="updateParts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateParts_result">
 							INSERT into specimen_part (
 							COLLECTION_OBJECT_ID,
@@ -820,13 +853,12 @@ limitations under the License.
 					<div>#cfcatch.message#</div>
 				</cfcatch>
 				</cftry>
-		
-		
+			</cftransaction>
+			
 			<cfquery name="clearTempTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="clearTempTable_result">
 				DELETE FROM cf_temp_parts
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
-			</cftransaction>
 		</cfoutput>
 	</cfif>
 </main>
