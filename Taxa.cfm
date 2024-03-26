@@ -950,7 +950,7 @@ limitations under the License.
 					});
 					<cfif isdefined("session.username") and len(#session.username#) gt 0>
 						$('##searchResultsGrid').jqxGrid().on("columnreordered", function (event) { 
-							columnOrderChanged('fixedsearchResultsGrid'); 
+							columnOrderChanged('searchResultsGrid'); 
 						}); 
 					</cfif>
 					$("##searchResultsGrid").on("bindingcomplete", function(event) {
