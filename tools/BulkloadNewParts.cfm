@@ -978,7 +978,7 @@ limitations under the License.
 						<cfloop query="getTempData">
 							<cfset problem_key = getTempData.key>
 
-							<cfset part_updates = part_updates + updateParts_result.recordcount>
+							<cfset part_updates = part_updates + updateCheck_result.recordcount>
 						</cfloop>
 						<cftransaction action="commit">
 						<cfcatch>
