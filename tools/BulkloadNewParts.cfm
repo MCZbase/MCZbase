@@ -49,8 +49,8 @@ limitations under the License.
 <cfif not isDefined("action") OR len(action) EQ 0><cfset action="nothing"></cfif>
 <main class="container-fluid px-5 py-3" id="content">
 	<div class="row mx-0">
-	<h1 class="h2 mt-2">Bulkload New Parts </h1>
 		<div class="col-12">
+		<h1 class="h2 mt-2">Bulkload New Parts </h1>
 		<cfif #action# is "nothing">
 			<cfoutput>
 				<p>This tool adds part rows to the specimen record. It create metadata for part history and includes specimen part attributes fields that can be empty if none exists. The cataloged items must be in the database and they can be entered using the catalog number or other ID. Error messages will appear if the values need to match values in MCZbase. It ignores rows that are exactly the same and alerts you if columns are missing. Additional columns will be ignored. Include column headings, spelled exactly as below. </p>
@@ -707,7 +707,7 @@ limitations under the License.
 			<cfelse>
 				You must fix everything above to proceed. <a href="/tools/BulkloadNewParts.cfm">Try again.</a>
 			</cfif>
-				<table class='sortable px-0 mx-0 table table-responsive table-striped'>
+				<table class='sortable w-100 px-0 mx-0 table table-responsive table-striped'>
 					<thead class="thead-light">
 					<tr>
 						<th>BULKLOADING STATUS</th>
