@@ -856,6 +856,7 @@ limitations under the License.
 				<cfset part_updates = 0>
 				<cfset part_updates1 = 0>
 				<cfset part_updates2 = 0>
+				<cfset part_container_updates = 0>
 					<cftransaction>
 						<cfloop query="getTempData">
 							<cfquery name="NEXTID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -901,7 +902,7 @@ limitations under the License.
 									</cfquery>
 								</cfif>
 							</cfif>
-							<cfset part_updates = part_updates + updateParts1_result.recordcount>
+							<cfset part_updates = part_updates + updateParts_result.recordcount>
 						</cfloop>
 					</cftransaction> 
 					<div class="container-fluid">
