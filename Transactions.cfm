@@ -2897,7 +2897,7 @@ limitations under the License.
 				url: "/shared/component/functions.cfc",
 				data: { 
 					method : "getGridColumnOrder",
-					page_file_path: '#cgi.script_name#',
+					page_file_path: '#cgi.script_name#?action=#action#',
 					label: 'Default',
 					returnformat : "json",
 					queryformat : 'column'
