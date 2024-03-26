@@ -902,7 +902,7 @@ limitations under the License.
 									</cfif>
 								</cfif>
 								<cfquery name="updateCheck" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateParts_result">
-									select * from specimen_part, coll_object,coll_obj_cont_hist,container, SPECIMEN_PART_PRES_HIST,coll_object_remark
+									select specimen_part.collection_object_id from specimen_part, coll_object,coll_obj_cont_hist,container, SPECIMEN_PART_PRES_HIST,coll_object_remark
 									where collection_object_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.collection_object_id#">
 								</cfquery>
 								<cfset part_updates = part_updates + updateParts_result.recordcount>
