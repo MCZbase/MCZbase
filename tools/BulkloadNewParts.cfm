@@ -890,12 +890,12 @@ limitations under the License.
 								<cfquery name="part_container_id" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 									select container_id from coll_obj_cont_hist where collection_object_id = #updateParts2.NEXTID#
 								</cfquery>
-									<cfquery name="upPart" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+									<cfquery name="update_part_container" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updatepartcontainer_result">
 										update container set parent_container_id=#parent_container_id#
 										where container_id = #part_container_id.container_id#
 									</cfquery>
 								<cfif #len(change_container_type)# gt 0>
-									<cfquery name="upPart" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+									<cfquery name="update_part_container" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updatepartcontainer_result">
 										update container set
 										container_type='#change_container_type#'
 										where container_id=#parent_container_id#
