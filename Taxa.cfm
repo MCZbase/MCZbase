@@ -582,7 +582,8 @@ limitations under the License.
 								</span> 
 								<span id="resultLink" class="pr-2 font-weight-normal"></span>
 							</h1>
-							
+						
+							<div id="showhide"></div>
 							<div id="saveDialogButton" class="py-1"></div>
 							<div id="saveDialog"></div>
 							<div id="columnPickDialog">
@@ -712,6 +713,7 @@ limitations under the License.
 					$("##searchResultsGrid").replaceWith('<div id="searchResultsGrid" class="jqxGrid" style="z-index: 1;"></div>');
 					$('##resultCount').html('');
 					$('##resultLink').html('');
+					$('##showhide').html('');
 					$('##saveDialogButton').html('');
 					$('##actionFeedback').html('');
 					$('##selectModeContainer').hide();
