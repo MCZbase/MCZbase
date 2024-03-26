@@ -698,6 +698,9 @@ limitations under the License.
 		</cfif>
 		<script>
 
+			// prevent on columnreordered event from causing save of grid column order when loading order from persistance store
+			var columnOrderLoading = 0
+
 			<cfif isdefined("session.username") and len(#session.username#) gt 0>
 				function columnOrderChanged(gridId) { 
 					if (columnOrderLoading==0) { 
@@ -773,9 +776,6 @@ limitations under the License.
 			<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 				lookupColumnVisibilities ('#cgi.script_name#','Default');
 			</cfif>
-
-			// prevent on columnreordered event from causing save of grid column order when loading order from persistance store
-			var columnOrderLoading = 0
 
 			$(document).ready(function() {
 				/* Setup jqxgrid for Search */
