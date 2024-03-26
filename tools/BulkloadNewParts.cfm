@@ -856,9 +856,6 @@ limitations under the License.
 				<cftransaction>
 				<cftry>
 					<cfset part_updates = 0>
-					<cfset part_updates1 = 0>
-					<cfset part_updates2 = 0>
-					<cfset part_container_updates = 0>
 						<cftransaction>
 							<cfloop query="getTempData">
 								<cfquery name="NEXTID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -870,14 +867,14 @@ limitations under the License.
 									values
 									(#nextid.nextid#,'SP',<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#enteredbyid#">,sysdate,<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#enteredbyid#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#coll_obj_disposition#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#lot_count_modifier#">,<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#lot_count#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#condition#">,0)
 								</cfquery>
-								<cfquery name="updateParts1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateParts1_result">
+								<cfquery name="updateParts1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateParts_result">
 									insert into specimen_part
 									(collection_object_id,PART_NAME,PRESERVE_METHOD,DERIVED_FROM_CAT_ITEM)
 									values
 									(#nextid.nextid#,'#part_name#','#preserve_method#',#collection_object_id#)
 								</cfquery>
 								<cfif len(#current_remarks#) gt 0>
-									<cfquery name="updateParts2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateParts2_result">
+									<cfquery name="updateParts2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateParts_result">
 										INSERT INTO coll_object_remark (collection_object_id, coll_object_remarks)
 										VALUES (sq_collection_object_id.currval, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#current_remarks#">)
 									</cfquery>
@@ -892,18 +889,23 @@ limitations under the License.
 									<cfquery name="part_container_id" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 										select container_id from coll_obj_cont_hist where collection_object_id = #updateParts2.NEXTID#
 									</cfquery>
-										<cfquery name="update_part_container" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updatepartcontainer_result">
+										<cfquery name="update_part_container" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateParts_result">
 											update container set parent_container_id=#parent_container_id#
 											where container_id = #part_container_id.container_id#
 										</cfquery>
 									<cfif #len(change_container_type)# gt 0>
-										<cfquery name="update_part_container" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updatepartcontainer_result">
+										<cfquery name="update_part_container" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateParts_result">
 											update container set
 											container_type='#change_container_type#'
 											where container_id=#parent_container_id#
 										</cfquery>
 									</cfif>
 								</cfif>
+								<cfquery name="updateCheck" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateParts_result">
+									select * from specimen_part, coll_object,coll_obj_cont_hist,container, SPECIMEN_PART_PRES_HIST,coll_object_remark
+									where collection_object_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.collection_object_id#">
+									and enteredby = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+								</cfquery>
 								<cfset part_updates = part_updates + updateParts_result.recordcount>
 							</cfloop>
 						</cftransaction> 
@@ -915,12 +917,11 @@ limitations under the License.
 							</div>
 						</div>
 						<p>Number of parts added: #part_updates# (on #getCounts.ctobj# cataloged items)</p>
-						<cfif getTempData.recordcount eq part_updates and updateParts1_result.recordcount eq 0>
+						<cfif getTempData.recordcount eq part_updates and updateParts_result.recordcount eq 0>
 							<h3 class="text-success">Success - loaded</h3>
 						</cfif>
-						<cfif updateParts1_result.recordcount gt 0>
+						<cfif updateParts_result.recordcount gt 0>
 							<h3 class="text-danger">Not loaded - these have already been loaded</h3>
-							<p>#getTempData.collection_object_id#,#getTempData.Collection_cde#,#getTempData.PART_NAME#,#getTempData.PRESERVE_METHOD#,</p>
 						</cfif>
 					<cfcatch>
 						<h2>There was a problem updating parts.</h2>
