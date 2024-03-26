@@ -920,7 +920,7 @@ limitations under the License.
 						</cfif>
 						<cfif updateParts1_result.recordcount gt 0>
 							<h3 class="text-danger">Not loaded - these have already been loaded</h3>
-							<p>#updateParts1.collection_object_id#,#updateParts1.PART_NAME#,#updateParts1.PRESERVE_METHOD#,#updateParts1.DERIVED_FROM_CAT_ITEM#</p>
+							<p>#getTempData.collection_object_id#,#getTempData.PART_NAME#,#getTempData.PRESERVE_METHOD#,#getTempData.DERIVED_FROM_CAT_ITEM#</p>
 						</cfif>
 					<cfcatch>
 						<h2>There was a problem updating parts.</h2>
