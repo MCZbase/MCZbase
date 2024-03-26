@@ -520,7 +520,7 @@ limitations under the License.
 			<cfloop query="getTempTableQC">
 				<!--- for each row, evaluate the attribute against expectations and provide an error message --->
 				<!--- qc checks separate from getting ID numbers, includes presence of matched values in required columns --->
-					<cfquery name="flagNotMatchedDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="flagNotMatchedDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						UPDATE cf_temp_parts
 						SET 
 							status = concat(nvl2(status, status || '; ', ''),'Unknown disposition: "' || coll_obj_disposition ||'"&mdash;not on list')
@@ -529,7 +529,7 @@ limitations under the License.
 							AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 							and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableQC.key#"> 
 					</cfquery>
-					<cfquery name="flagNotMatchedPartName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="flagNotMatchedPartName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						UPDATE cf_temp_parts
 						SET 
 							status = concat(nvl2(status, status || '; ', ''),' The part_name field is missing')
@@ -715,7 +715,7 @@ limitations under the License.
 					SELECT count(distinct collection_object_id) ctobj FROM cf_temp_parts
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
-				<cfquery name= "getEntBy" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<!---		<cfquery name= "getEntBy" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					SELECT agent_id FROM agent_name WHERE agent_name = '#session.username#'
 				</cfquery>
 				<cfif getEntBy.recordcount is 0>
@@ -723,7 +723,7 @@ limitations under the License.
 				<cfelseif getEntBy.recordcount gt 1>
 					<cfabort showerror = "Your login has has multiple matches.">
 				</cfif>
-				<cfset enteredbyid = getEntBy.agent_id>
+				<cfset enteredbyid = getEntBy.agent_id>--->
 			<cftry>
 					<cfset part_updates = 0>
 					<cfset part_updates1 = 0>
@@ -732,9 +732,9 @@ limitations under the License.
 					</cfif>
 					<cfloop query="getPartData">
 						<cfset problem_key = #getPartData.key#>
-						<cfquery name="NEXTID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<!---		<cfquery name="NEXTID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 							select sq_collection_object_id.nextval NEXTID from dual
-						</cfquery>
+						</cfquery>--->
 						<cfquery name="updateParts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateParts_result">
 							INSERT into specimen_part (
 							COLLECTION_OBJECT_ID,
