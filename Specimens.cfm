@@ -2526,6 +2526,77 @@ Target JSON:
 		<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 			lookupColumnVisibilities ('#cgi.script_name#','Default');
 		</cfif>
+
+		<cfif isdefined("session.username") and len(#session.username#) gt 0>
+			function columnOrderChanged(gridId) { 
+				if (columnOrderLoading==0) { 
+					var columnCount = $('##'+gridId).jqxGrid("columns").length();
+					var columnMap = new Map();
+					for (var i=0; i<columnCount; i++) { 
+						var fieldName = $('##'+gridId).jqxGrid("columns").records[i].datafield;
+						if (fieldName) { 
+							var column_number = $('##'+gridId).jqxGrid("getColumnIndex",fieldName); 
+							columnMap.set(fieldName,column_number);
+						}
+					}
+					JSON.stringify(Array.from(columnMap));
+					saveColumnOrder('#cgi.script_name#',columnMap,'Default',null);
+				} else { 
+					console.log("columnOrderChanged called while loading column order, ignoring");
+				}
+			}
+		</cfif>
+
+		function loadColumnOrder(gridId) { 
+			<cfif isdefined("session.username") and len(#session.username#) gt 0>
+				jQuery.ajax({
+					dataType: "json",
+					url: "/shared/component/functions.cfc",
+					data: { 
+						method : "getGridColumnOrder",
+						page_file_path: '#cgi.script_name#',
+						label: 'Default',
+						returnformat : "json",
+						queryformat : 'column'
+					},
+					ajaxGridId : gridId,
+					error: function (jqXHR, status, message) {
+						messageDialog("Error looking up column order: " + status + " " + jqXHR.responseText ,'Error: '+ status);
+					},
+					success: function (result) {
+						var gridId = this.ajaxGridId;
+						var settings = result[0];
+						if (typeof settings !== "undefined" && settings!=null) { 
+							setColumnOrder(gridId,JSON.parse(settings.column_order));
+						}
+					}
+				});
+			<cfelse>
+				return null;
+			</cfif>
+		} 
+
+		<cfif isdefined("session.username") and len(#session.username#) gt 0>
+			function setColumnOrder(gridId, columnMap) { 
+				columnOrderLoading = 1;
+				$('##' + gridId).jqxGrid('beginupdate');
+				for (var i=0; i<columnMap.length; i++) {
+					var kvp = columnMap[i];
+					var key = kvp[0];
+					var value = kvp[1];
+					if ($('##'+gridId).jqxGrid("getColumnIndex",key) != value) { 
+						if (key && value) {
+							try {
+								console.log(key + " set to column " + value);
+								$('##'+gridId).jqxGrid("setColumnIndex",key,value);
+							} catch (e) {};
+						}
+					}
+				}
+				$('##' + gridId).jqxGrid('endupdate');
+				columnOrderLoading = 0;
+			}
+		</cfif>
 	
 		// ***** cell renderers *****
 		// cell renderer to display a thumbnail with alt tag given columns preview_uri, media_uri, and ac_description 
@@ -2900,74 +2971,6 @@ Target JSON:
 					$(parentElement).css('z-index',maxZIndex - 1); // will sit just behind dialog
 				}
 
-				function columnOrderChanged(gridId) { 
-					<cfif isdefined("session.username") and len(#session.username#) gt 0>
-					if (columnOrderLoading==0) { 
-						var columnCount = $('##'+gridId).jqxGrid("columns").length();
-						var columnMap = new Map();
-						for (var i=0; i<columnCount; i++) { 
-							var fieldName = $('##'+gridId).jqxGrid("columns").records[i].datafield;
-							if (fieldName) { 
-								var column_number = $('##'+gridId).jqxGrid("getColumnIndex",fieldName); 
-								columnMap.set(fieldName,column_number);
-							}
-						}
-						JSON.stringify(Array.from(columnMap));
-						saveColumnOrder('#cgi.script_name#',columnMap,'Default',null);
-					} else { 
-						console.log("columnOrderChanged called while loading column order, ignoring");
-					}
-					</cfif>
-				}
-
-				function loadColumnOrder(gridId) { 
-					<cfif isdefined("session.username") and len(#session.username#) gt 0>
-					jQuery.ajax({
-						dataType: "json",
-						url: "/shared/component/functions.cfc",
-						data: { 
-							method : "getGridColumnOrder",
-							page_file_path: '#cgi.script_name#',
-							label: 'Default',
-							returnformat : "json",
-							queryformat : 'column'
-						},
-						ajaxGridId : gridId,
-						error: function (jqXHR, status, message) {
-							messageDialog("Error looking up column order: " + status + " " + jqXHR.responseText ,'Error: '+ status);
-						},
-						success: function (result) {
-							var gridId = this.ajaxGridId;
-							var settings = result[0];
-							if (typeof settings !== "undefined" && settings!=null) { 
-								setColumnOrder(gridId,JSON.parse(settings.column_order));
-							}
-						}
-					});
-					</cfif>
-				} 
-
-				function setColumnOrder(gridId, columnMap) { 
-					<cfif isdefined("session.username") and len(#session.username#) gt 0>
-					columnOrderLoading = 1;
-					$('##' + gridId).jqxGrid('beginupdate');
-					for (var i=0; i<columnMap.length; i++) {
-						var kvp = columnMap[i];
-						var key = kvp[0];
-						var value = kvp[1];
-						if ($('##'+gridId).jqxGrid("getColumnIndex",key) != value) { 
-							if (key && value) {
-								try {
-									console.log(key + " set to column " + value);
-									$('##'+gridId).jqxGrid("setColumnIndex",key,value);
-								} catch (e) {};
-							}
-						}
-					}
-					$('##' + gridId).jqxGrid('endupdate');
-					columnOrderLoading = 0;
-					</cfif>
-				}
 	
 				$("##fixedsearchResultsGrid").jqxGrid({
 					width: '100%',
@@ -3037,9 +3040,11 @@ Target JSON:
 					initrowdetails: initRowDetails
 				});
 	
-				$('##fixedsearchResultsGrid').jqxGrid().on("columnreordered", function (event) { 
-					columnOrderChanged('fixedsearchResultsGrid'); 
-				}); 
+				<cfif isdefined("session.username") and len(#session.username#) gt 0>
+					$('##fixedsearchResultsGrid').jqxGrid().on("columnreordered", function (event) { 
+						columnOrderChanged('fixedsearchResultsGrid'); 
+					}); 
+				</cfif>
 
 				$("##fixedsearchResultsGrid").on("bindingcomplete", function(event) {
 
@@ -3234,9 +3239,11 @@ Target JSON:
 					initrowdetails: initRowDetails
 				});
 		
-				$('##keywordsearchResultsGrid').jqxGrid().on("columnreordered", function (event) { 
-					columnOrderChanged('keywordsearchResultsGrid'); 
-				}); 
+				<cfif isdefined("session.username") and len(#session.username#) gt 0>
+					$('##keywordsearchResultsGrid').jqxGrid().on("columnreordered", function (event) { 
+						columnOrderChanged('keywordsearchResultsGrid'); 
+					}); 
+				</cfif>
 
 				$("##keywordsearchResultsGrid").on("bindingcomplete", function(event) {
 					console.log("bindingcomlete: keywordsearchResultsGrid");
@@ -3420,9 +3427,11 @@ Target JSON:
 					initrowdetails: initRowDetails
 				});
 		
-				$('##buildersearchResultsGrid').jqxGrid().on("columnreordered", function (event) { 
-					columnOrderChanged('buildersearchResultsGrid'); 
-				}); 
+				<cfif isdefined("session.username") and len(#session.username#) gt 0>
+					$('##buildersearchResultsGrid').jqxGrid().on("columnreordered", function (event) { 
+						columnOrderChanged('buildersearchResultsGrid'); 
+					}); 
+				</cfif>
 
 				$("##buildersearchResultsGrid").on("bindingcomplete", function(event) {
 					// add a link out to this search, serializing the form as http get parameters
