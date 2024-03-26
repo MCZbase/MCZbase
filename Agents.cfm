@@ -512,6 +512,80 @@ limitations under the License.
 				lookupColumnVisibilities ('#cgi.script_name#','Default');
 			</cfif>
 
+			// prevent on columnreordered event from causing save of grid column order when loading order from persistance store
+			var columnOrderLoading = 0
+	
+			<cfif isdefined("session.username") and len(#session.username#) gt 0>
+				function columnOrderChanged(gridId) { 
+					if (columnOrderLoading==0) { 
+						var columnCount = $('##'+gridId).jqxGrid("columns").length();
+						var columnMap = new Map();
+						for (var i=0; i<columnCount; i++) { 
+							var fieldName = $('##'+gridId).jqxGrid("columns").records[i].datafield;
+							if (fieldName) { 
+								var column_number = $('##'+gridId).jqxGrid("getColumnIndex",fieldName); 
+								columnMap.set(fieldName,column_number);
+							}
+						}
+						JSON.stringify(Array.from(columnMap));
+						saveColumnOrder('#cgi.script_name#',columnMap,'Default',null);
+					} else { 
+						console.log("columnOrderChanged called while loading column order, ignoring");
+					}
+				}
+			</cfif>
+	
+			function loadColumnOrder(gridId) { 
+				<cfif isdefined("session.username") and len(#session.username#) gt 0>
+					jQuery.ajax({
+						dataType: "json",
+						url: "/shared/component/functions.cfc",
+						data: { 
+							method : "getGridColumnOrder",
+							page_file_path: '#cgi.script_name#',
+							label: 'Default',
+							returnformat : "json",
+							queryformat : 'column'
+						},
+						ajaxGridId : gridId,
+						error: function (jqXHR, status, message) {
+							messageDialog("Error looking up column order: " + status + " " + jqXHR.responseText ,'Error: '+ status);
+						},
+						success: function (result) {
+							var gridId = this.ajaxGridId;
+							var settings = result[0];
+							if (typeof settings !== "undefined" && settings!=null) { 
+								setColumnOrder(gridId,JSON.parse(settings.column_order));
+							}
+						}
+					});
+				<cfelse>
+					return null;
+				</cfif>
+			} 
+	
+			<cfif isdefined("session.username") and len(#session.username#) gt 0>
+				function setColumnOrder(gridId, columnMap) { 
+					columnOrderLoading = 1;
+					$('##' + gridId).jqxGrid('beginupdate');
+					for (var i=0; i<columnMap.length; i++) {
+						var kvp = columnMap[i];
+						var key = kvp[0];
+						var value = kvp[1];
+						if ($('##'+gridId).jqxGrid("getColumnIndex",key) != value) { 
+							if (key && value) {
+								try {
+									console.log(key + " set to column " + value);
+									$('##'+gridId).jqxGrid("setColumnIndex",key,value);
+								} catch (e) {};
+							}
+						}
+					}
+					$('##' + gridId).jqxGrid('endupdate');
+					columnOrderLoading = 0;
+				}
+			</cfif>
+
 			var linkIdCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
 				var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);
 				var vetted = rowData['edited'];
@@ -541,7 +615,7 @@ limitations under the License.
 					return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; ">' + value + flag + '</span>';
 				};
 			</cfif>
-	
+
 			$(document).ready(function() {
 				/* Setup jqxgrid for Search */
 				$('##searchForm').bind('submit', function(evt){
@@ -711,6 +785,11 @@ limitations under the License.
 						},
 						initrowdetails: initRowDetails
 					});
+					<cfif isdefined("session.username") and len(#session.username#) gt 0>
+						$('##searchResultsGrid').jqxGrid().on("columnreordered", function (event) { 
+							columnOrderChanged('searchResultsGrid'); 
+						}); 
+					</cfif>
 					$("##searchResultsGrid").on("bindingcomplete", function(event) {
 						// add a link out to this search, serializing the form as http get parameters
 						$('##resultLink').html('<a href="/Agents.cfm?execute=true&' + $('##searchForm :input').filter(function(index,element){return $(element).val()!='';}).serialize() + '">Link to this search</a>');
