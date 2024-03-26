@@ -4057,7 +4057,7 @@ function gridLoaded(gridId, searchType) {
 					saveColumnVisibilities('/Transactions.cfm?action='+targetAction,window.columnHiddenSettings,'Default');
 				</cfif>
 				$(this).dialog("close");
-			}
+			},
 			Defaults: function(){ 
 				window.columnHiddenSettings = getColumnVisibilities('searchResultsGrid');		
 				<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
