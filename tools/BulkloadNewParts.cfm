@@ -904,7 +904,6 @@ limitations under the License.
 								<cfquery name="updateCheck" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateParts_result">
 									select * from specimen_part, coll_object,coll_obj_cont_hist,container, SPECIMEN_PART_PRES_HIST,coll_object_remark
 									where collection_object_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.collection_object_id#">
-									and username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 								</cfquery>
 								<cfset part_updates = part_updates + updateParts_result.recordcount>
 							</cfloop>
