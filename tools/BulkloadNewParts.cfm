@@ -917,10 +917,10 @@ limitations under the License.
 							</div>
 						</div>
 						<p>Number of parts added: #part_updates# (on #getCounts.ctobj# cataloged items)</p>
-						<cfif getTempData.recordcount eq part_updates and updateParts_result.recordcount eq 0>
+						<cfif getTempData.recordcount eq part_updates and updateCheck_result.recordcount eq 0>
 							<h3 class="text-success">Success - loaded</h3>
 						</cfif>
-						<cfif updateParts_result.recordcount gt 0>
+						<cfif updateCheck_result.recordcount gt 0>
 							<h3 class="text-danger">Not loaded - these have already been loaded</h3>
 						</cfif>
 					<cfcatch>
