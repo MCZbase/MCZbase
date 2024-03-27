@@ -48,19 +48,21 @@ limitations under the License.
 			<!--- Search Form ---> 
 			<cfoutput>
 				<main id="content">
-					<form name="searchForm" id="searchForm">
-						<cfset showLocality=1>
-						<cfset showEvent=1>
-						<cfset showExtraFields=1>
-						<cfset newSearchTarget = "/localities/CollectingEvents.cfm">
-						<cfif pageTitle eq "Search Collecting Events"><h1 class="h2 mt-3 px-4">Find Collecting Event</h1></cfif>
-						<input type="hidden" id="method" name="method" value="getCollectingEvents">
-						<div class="row mx-0">
-							<section class="container-fluid" role="search">
-								<cfinclude template = "/localities/searchLocationForm.cfm">
-							</section>
-						</div>
-					</form>
+					<div id="searchFormDiv">
+						<form name="searchForm" id="searchForm">
+							<cfset showLocality=1>
+							<cfset showEvent=1>
+							<cfset showExtraFields=1>
+							<cfset newSearchTarget = "/localities/CollectingEvents.cfm">
+							<cfif pageTitle eq "Search Collecting Events"><h1 class="h2 mt-3 px-4">Find Collecting Event</h1></cfif>
+							<input type="hidden" id="method" name="method" value="getCollectingEvents">
+							<div class="row mx-0">
+								<section class="container-fluid" role="search">
+									<cfinclude template = "/localities/searchLocationForm.cfm">
+								</section>
+							</div>
+						</form>
+					</div>
 		
 					<!--- Results table as a jqxGrid. --->
 					<section class="container-fluid">
@@ -69,7 +71,9 @@ limitations under the License.
 								<div class="mb-5">
 									<div class="row mt-1 mb-0 pb-0 jqx-widget-header border px-2">
 										<h1 class="h4">Results: </h1>
-										<span class="d-block px-3 p-2" id="resultCount"></span> <span id="resultLink" class="d-block p-2"></span>
+										<span class="d-block px-3 p-2" id="resultCount"></span>
+										<span id="resultLink" class="d-block p-2"></span>
+										<div id="showhide"></div>
 										<div id="columnPickDialog" class="row pick-column-width">
 											<div class="col-12 col-md-3">
 												<div id="columnPick" class="px-1"></div>
@@ -361,6 +365,7 @@ limitations under the License.
 							$("##searchResultsGrid").replaceWith('<div id="searchResultsGrid" class="jqxGrid" style="z-index: 1;"></div>');
 							$('##resultCount').html('');
 							$('##resultLink').html('');
+							$('##showhide').html('');
 							$('##selectModeContainer').hide();
 					
 							var search =
@@ -489,6 +494,7 @@ limitations under the License.
 								sortable: true,
 								pageable: true,
 								editable: false,
+								enablemousewheel: #session.gridenablemousewheel#,
 								pagesize: '50',
 								pagesizeoptions: ['5','10','25','50','100'],
 								showaggregates: true,
@@ -593,6 +599,7 @@ limitations under the License.
 							$("##searchResultsGrid").on("bindingcomplete", function(event) {
 								// add a link out to this search, serializing the form as http get parameters
 								$('##resultLink').html('<a href="/localities/CollectingEvents.cfm?action=search&execute=true&' + $('##searchForm :input').filter(function(index,element){return $(element).val()!='';}).serialize() + '">Link to this search</a>');
+								$('##showhide').html('<button class="my-2 border rounded" title="hide search form" onclick=" toggleAnySearchForm(\'searchFormDiv\',\'searchFormToggleIcon\'); "><i id="searchFormToggleIcon" class="fas fa-eye-slash"></i></button>');
 								gridLoaded('searchResultsGrid','collecting event record');
 							});
 							$('##searchResultsGrid').on('rowexpand', function (event) {

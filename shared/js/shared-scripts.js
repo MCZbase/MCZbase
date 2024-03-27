@@ -1830,12 +1830,14 @@ function getColumnVisibilities(gridId) {
 };
 
 /** function setColumnVisibilities update hidden column properties for a search results grid.
+   In general, set properties in grid creation with getColHidProp instead, this function can be 
+   called on gridLoaded if the lookup from the persistence store hasn't loaded the grid properties
+   by the time the grid is created and getColHidProp is called.
  @param targetGridId the id for the jqxGrid object in the dom for which to set the hidden
 	properties of the columns, without leading # selector (typically searchResultsGrid)
  @param fieldHiddenValues an object with datafields as keys and hidden properies as values.
  @see setColumnVisibilities
  @see getColHidProp
- @deprecated set properties in grid creation with getColHidProp instead
 **/
 function setColumnVisibilities(fieldHiddenValues,targetGridId) {
 	$('#'+targetGridId).jqxGrid('beginupdate',true)
@@ -1870,7 +1872,12 @@ function saveColumnVisibilities(pageFilePath,fieldHiddenValues,label,feedbackDiv
 	if (typeof fieldHiddenValues === 'undefined') { 
 		messageDialog("Error saving column visibilities: columnHiddenSettings object was not passed in ","Error: saving column visibilities.");
 	}
-	var settings = JSON.stringify(fieldHiddenValues);
+	var settings;
+	if (fieldHiddenValues) { 
+		settings = JSON.stringify(fieldHiddenValues);
+	} else { 
+		settings = "";
+	} 
 	if (settings=="") { settings = "{}"; } 
 	console.log(settings);
 	jQuery.ajax({
@@ -1938,6 +1945,88 @@ function getColHidProp(columnName, defaultValue) {
 		return defaultValue
 	}
 }
+
+
+/** saveColumnOrder persist the grid column order in the database 
+ * @param page the page on which the grid for which to column order applies appears.
+ * @param columOrderMap an object containing key value pairs where the key is a datafield and the
+ *  value is the ordinal position of that datafield in the grid for that page.
+ * @param label the label for the user's configuration of visible grid columns on that page, default
+ *  value is Default
+ * @param feeebackdiv optional, the id for a page element which can display feedback from the save, without 
+ *  a leading # selector.
+ */
+function saveColumnOrder(pageFilePath,columnOrderMap,label,feedbackDiv) { 
+	if (typeof feedbackDiv !== 'undefined') { 
+		$('#'+feedbackDiv).html('Saving...');
+	}
+	var settings;
+	if (columnOrderMap) { 
+		if (typeof columnOrderMap === 'undefined') { 
+			messageDialog("Error saving column order: columnOrderMap was not passed in ","Error: saving column order.");
+		}
+		settings = JSON.stringify(Array.from(columnOrderMap));
+	} else {
+		settings = "";
+	}
+	if (settings=="") { settings = "[]"; } 
+	console.log(settings);
+	jQuery.ajax({
+		dataType: "json",
+		url: "/shared/component/functions.cfc",
+		data: { 
+			method : "saveGridColumnOrder",
+			page_file_path: pageFilePath,
+			column_order: settings,
+			label: label,
+			returnformat : "json",
+			queryformat : 'column'
+		},
+		error: function (jqXHR, status, message) {
+			if (typeof feedbackDiv !== 'undefined') { 
+				$('#'+feedbackDiv).html('Error.');
+			}
+			messageDialog("Error saving column order: " + status + " " + jqXHR.responseText ,'Error: '+ status);
+		},
+		success: function (result) {
+			if (typeof feedbackDiv === 'undefined') { 
+				console.log(result.DATA.MESSAGE[0]);
+			} else { 
+				$('#'+feedbackDiv).html(result.DATA.MESSAGE[0]);
+			}
+		}
+	});
+}
+
+/** lookupColumnOrder retrieve the persisted grid column order from the database 
+ * @param page the page on which the grid for which to load the column order appears.
+ * @param label the label for the user's grid configuration on that page, default
+ *  value is Default
+ */
+function lookupColumnOrder (pageFilePath,label) { 
+	jQuery.ajax({
+		dataType: "json",
+		url: "/shared/component/functions.cfc",
+		data: { 
+			method : "getGridColumnOrder",
+			page_file_path: pageFilePath,
+			label: label,
+			returnformat : "json",
+			queryformat : 'column'
+		},
+		error: function (jqXHR, status, message) {
+			messageDialog("Error looking up column order: " + status + " " + jqXHR.responseText ,'Error: '+ status);
+		},
+		success: function (result) {
+			console.log(result[0]);
+			var settings = result[0];
+			if (typeof settings !== "undefined" && settings!=null) { 
+				window.columnOrderMap = JSON.parse(settings.column_map);
+			}
+		}
+	});
+}
+
 
 /** 
  Switch a set of image controls to display the previous image in a set.
@@ -2325,3 +2414,21 @@ function lookupComment(table, column ,targetID) {
 		}
 	});
 };
+
+/** Given a search form and a toggle icon, toggle the state of the form
+ * between visible and hidden, and the icon accordingly. Assumes that
+ * the initial state before first invocation on a page is that the form is visible.
+ * @param formID the id for a div containing a search form to be hidden or shown, without
+ *  a leading # selector.
+ * @pram toggleIconId, the id for a toggle icon for the form, without a leading # selector.
+ */
+function toggleAnySearchForm(formId, toggleIconId) { 
+	$('#'+formId).toggle();	
+	if ($('#'+toggleIconId).hasClass('fa-eye-slash')) { 
+		$('#'+toggleIconId).addClass('fa-eye');
+		$('#'+toggleIconId).removeClass('fa-eye-slash');
+	} else { 
+		$('#'+toggleIconId).addClass('fa-eye-slash');
+		$('#'+toggleIconId).removeClass('fa-eye');
+	}
+}

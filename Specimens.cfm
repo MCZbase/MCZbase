@@ -2532,6 +2532,77 @@ Target JSON:
 		<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 			lookupColumnVisibilities ('#cgi.script_name#','Default');
 		</cfif>
+
+		<cfif isdefined("session.username") and len(#session.username#) gt 0>
+			function columnOrderChanged(gridId) { 
+				if (columnOrderLoading==0) { 
+					var columnCount = $('##'+gridId).jqxGrid("columns").length();
+					var columnMap = new Map();
+					for (var i=0; i<columnCount; i++) { 
+						var fieldName = $('##'+gridId).jqxGrid("columns").records[i].datafield;
+						if (fieldName) { 
+							var column_number = $('##'+gridId).jqxGrid("getColumnIndex",fieldName); 
+							columnMap.set(fieldName,column_number);
+						}
+					}
+					JSON.stringify(Array.from(columnMap));
+					saveColumnOrder('#cgi.script_name#',columnMap,'Default',null);
+				} else { 
+					console.log("columnOrderChanged called while loading column order, ignoring");
+				}
+			}
+		</cfif>
+
+		function loadColumnOrder(gridId) { 
+			<cfif isdefined("session.username") and len(#session.username#) gt 0>
+				jQuery.ajax({
+					dataType: "json",
+					url: "/shared/component/functions.cfc",
+					data: { 
+						method : "getGridColumnOrder",
+						page_file_path: '#cgi.script_name#',
+						label: 'Default',
+						returnformat : "json",
+						queryformat : 'column'
+					},
+					ajaxGridId : gridId,
+					error: function (jqXHR, status, message) {
+						messageDialog("Error looking up column order: " + status + " " + jqXHR.responseText ,'Error: '+ status);
+					},
+					success: function (result) {
+						var gridId = this.ajaxGridId;
+						var settings = result[0];
+						if (typeof settings !== "undefined" && settings!=null) { 
+							setColumnOrder(gridId,JSON.parse(settings.column_order));
+						}
+					}
+				});
+			<cfelse>
+				return null;
+			</cfif>
+		} 
+
+		<cfif isdefined("session.username") and len(#session.username#) gt 0>
+			function setColumnOrder(gridId, columnMap) { 
+				columnOrderLoading = 1;
+				$('##' + gridId).jqxGrid('beginupdate');
+				for (var i=0; i<columnMap.length; i++) {
+					var kvp = columnMap[i];
+					var key = kvp[0];
+					var value = kvp[1];
+					if ($('##'+gridId).jqxGrid("getColumnIndex",key) != value) { 
+						if (key && value) {
+							try {
+								console.log(key + " set to column " + value);
+								$('##'+gridId).jqxGrid("setColumnIndex",key,value);
+							} catch (e) {};
+						}
+					}
+				}
+				$('##' + gridId).jqxGrid('endupdate');
+				columnOrderLoading = 0;
+			}
+		</cfif>
 	
 		// ***** cell renderers *****
 		// cell renderer to display a thumbnail with alt tag given columns preview_uri, media_uri, and ac_description 
@@ -2677,6 +2748,16 @@ Target JSON:
 			return '<span style="margin-top: 4px; margin-left: 4px; float: ' + columnproperties.cellsalign + '; "><input type="button" onClick=" confirmDialog(&apos;Remove this row from these search results&apos;,&apos;Confirm Remove Row&apos;, function(){ var commit = $(&apos;##fixedsearchResultsGrid&apos;).jqxGrid(&apos;deleterow&apos;, '+ row +'); } ); " class="p-1 btn btn-xs btn-warning" value="&##8998;" aria-label="Remove"/></span>';
 		};
 		<!--- " --->
+		var removeKeywordCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
+			// Removes a row, then jqwidgets invokes the deleterow callback defined for the dataadaptor
+			return '<span style="margin-top: 4px; margin-left: 4px; float: ' + columnproperties.cellsalign + '; "><input type="button" onClick=" confirmDialog(&apos;Remove this row from these search results&apos;,&apos;Confirm Remove Row&apos;, function(){ var commit = $(&apos;##keywordsearchResultsGrid&apos;).jqxGrid(&apos;deleterow&apos;, '+ row +'); } ); " class="p-1 btn btn-xs btn-warning" value="&##8998;" aria-label="Remove"/></span>';
+		};
+		<!--- " --->
+		var removeBuilderCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
+			// Removes a row, then jqwidgets invokes the deleterow callback defined for the dataadaptor
+			return '<span style="margin-top: 4px; margin-left: 4px; float: ' + columnproperties.cellsalign + '; "><input type="button" onClick=" confirmDialog(&apos;Remove this row from these search results&apos;,&apos;Confirm Remove Row&apos;, function(){ var commit = $(&apos;##buildersearchResultsGrid&apos;).jqxGrid(&apos;deleterow&apos;, '+ row +'); } ); " class="p-1 btn btn-xs btn-warning" value="&##8998;" aria-label="Remove"/></span>';
+		};
+		<!--- " --->
 
 		// cellclass function 
 		// NOTE: Since there are three grids, and the cellclass api does not pass a reference to the grid, a separate
@@ -2723,6 +2804,9 @@ Target JSON:
 		var fixedSearchLoaded = 0;
 		var keywordSearchLoaded = 0;
 		var builderSearchLoaded = 0;
+
+		// prevent on columnreordered event from causing save of grid column order when loading order from persistance store
+		var columnOrderLoading = 0
 	
 		function serializeFormAsJSON(formID) {
 		  const array = $('##'+formID).serializeArray();
@@ -2902,6 +2986,7 @@ Target JSON:
 					var maxZIndex = getMaxZIndex();
 					$(parentElement).css('z-index',maxZIndex - 1); // will sit just behind dialog
 				}
+
 	
 				$("##fixedsearchResultsGrid").jqxGrid({
 					width: '100%',
@@ -2969,10 +3054,14 @@ Target JSON:
 						rowdetailsheight:  1 // row details will be placed in popup dialog
 					},
 					initrowdetails: initRowDetails
-		
-				
 				});
 	
+				<cfif isdefined("session.username") and len(#session.username#) gt 0>
+					$('##fixedsearchResultsGrid').jqxGrid().on("columnreordered", function (event) { 
+						columnOrderChanged('fixedsearchResultsGrid'); 
+					}); 
+				</cfif>
+
 				$("##fixedsearchResultsGrid").on("bindingcomplete", function(event) {
 
 					<cfif NOT isDefined("session.gridscrolltotop") OR session.gridscrolltotop EQ "true">
@@ -2989,6 +3078,7 @@ Target JSON:
 					if (fixedSearchLoaded==0) { 
 						gridLoaded('fixedsearchResultsGrid','occurrence record','fixed');
 						fixedSearchLoaded = 1;
+						loadColumnOrder('fixedsearchResultsGrid');
 					}
 					<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
 						$('##fixedmanageButton').html('<a href="specimens/manageSpecimens.cfm?result_id='+$('##result_id_fixedSearch').val()+'" target="_blank" class="btn btn-xs btn-secondary px-2 my-2 mx-1" >Manage</a>');
@@ -3088,7 +3178,31 @@ Target JSON:
 					loadError: function(jqXHR, textStatus, error) {
 						handleFail(jqXHR,textStatus,error, "Error performing specimen search: "); 
 					},
-					async: true
+					async: true,
+					deleterow: function (rowid, commit) {
+						console.log(rowid);
+						console.log($('##fixedsearchResultsGrid').jqxGrid('getRowData',rowid));
+						var collobjtoremove = $('##fixedsearchResultsGrid').jqxGrid('getRowData',rowid)['COLLECTION_OBJECT_ID'];
+						console.log(collobjtoremove);
+	        			$.ajax({
+            				url: "/specimens/component/search.cfc",
+            				data: { 
+								method: 'removeItemFromResult', 
+								result_id: $('##result_id_fixedSearch').val(),
+								collection_object_id: collobjtoremove
+							},
+							dataType: 'json',
+           					success : function (data) { 
+								console.log(data);
+								commit(true);
+								$('##fixedsearchResultsGrid').jqxGrid('updatebounddata');
+							},
+            				error : function (jqXHR, textStatus, error) {
+          				   	handleFail(jqXHR,textStatus,error,"removing row from result set");
+								commit(false);
+            				}
+         			});
+					} 
 				};	
 	
 				var dataAdapter = new $.jqx.dataAdapter(search);
@@ -3133,6 +3247,10 @@ Target JSON:
 						return dataAdapter.records;
 					},
 					columns: [
+						<cfif findNoCase('master',Session.gitBranch) EQ 0>
+							<cfset removerow = "{text: 'Remove', datafield: 'RemoveRow', cellsrenderer:removeKeywordCellRenderer, width: 40, cellclassname: fixedcellclass, hidable:false, hidden: false },">
+							#removerow#
+						</cfif>
 						<cfset lastrow ="">
 						<cfloop query="getFieldMetadata">
 							<cfset cellrenderer = "">
@@ -3165,6 +3283,12 @@ Target JSON:
 					initrowdetails: initRowDetails
 				});
 		
+				<cfif isdefined("session.username") and len(#session.username#) gt 0>
+					$('##keywordsearchResultsGrid').jqxGrid().on("columnreordered", function (event) { 
+						columnOrderChanged('keywordsearchResultsGrid'); 
+					}); 
+				</cfif>
+
 				$("##keywordsearchResultsGrid").on("bindingcomplete", function(event) {
 					console.log("bindingcomlete: keywordsearchResultsGrid");
 					// add a link out to this search, serializing the form as http get parameters
@@ -3173,6 +3297,7 @@ Target JSON:
 					if (keywordSearchLoaded==0) { 
 						gridLoaded('keywordsearchResultsGrid','occurrence record','keyword');
 						keywordSearchLoaded = 1;
+						loadColumnOrder('keywordsearchResultsGrid');
 					}
 					<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
 						$('##keywordmanageButton').html('<a href="specimens/manageSpecimens.cfm?result_id='+$('##result_id_keywordSearch').val()+'" target="_blank" class="btn btn-xs btn-secondary my-2 mx-1 px-2" >Manage</a>');
@@ -3269,7 +3394,31 @@ Target JSON:
 					loadError: function(jqXHR, textStatus, error) {
 						handleFail(jqXHR,textStatus,error, "Error performing specimen search: "); 
 					},
-					async: true
+					async: true,
+					deleterow: function (rowid, commit) {
+						console.log(rowid);
+						console.log($('##fixedsearchResultsGrid').jqxGrid('getRowData',rowid));
+						var collobjtoremove = $('##fixedsearchResultsGrid').jqxGrid('getRowData',rowid)['COLLECTION_OBJECT_ID'];
+						console.log(collobjtoremove);
+	        			$.ajax({
+            				url: "/specimens/component/search.cfc",
+            				data: { 
+								method: 'removeItemFromResult', 
+								result_id: $('##result_id_fixedSearch').val(),
+								collection_object_id: collobjtoremove
+							},
+							dataType: 'json',
+           					success : function (data) { 
+								console.log(data);
+								commit(true);
+								$('##fixedsearchResultsGrid').jqxGrid('updatebounddata');
+							},
+            				error : function (jqXHR, textStatus, error) {
+          				   	handleFail(jqXHR,textStatus,error,"removing row from result set");
+								commit(false);
+            				}
+         			});
+					} 
 				};	
 	
 				var dataAdapter = new $.jqx.dataAdapter(search);
@@ -3315,6 +3464,10 @@ Target JSON:
 						return dataAdapter.records;
 					},
 					columns: [
+						<cfif findNoCase('master',Session.gitBranch) EQ 0>
+							<cfset removerow = "{text: 'Remove', datafield: 'RemoveRow', cellsrenderer:removeBuilderCellRenderer, width: 40, cellclassname: fixedcellclass, hidable:false, hidden: false },">
+							#removerow#
+						</cfif>
 						<cfset lastrow ="">
 						<cfloop query="getFieldMetadata">
 							<cfset cellrenderer = "">
@@ -3347,6 +3500,12 @@ Target JSON:
 					initrowdetails: initRowDetails
 				});
 		
+				<cfif isdefined("session.username") and len(#session.username#) gt 0>
+					$('##buildersearchResultsGrid').jqxGrid().on("columnreordered", function (event) { 
+						columnOrderChanged('buildersearchResultsGrid'); 
+					}); 
+				</cfif>
+
 				$("##buildersearchResultsGrid").on("bindingcomplete", function(event) {
 					// add a link out to this search, serializing the form as http get parameters
 					$('##builderresultLink').html('<a href="/Specimens.cfm?execute=true&' + $('##builderSearchForm :input').filter(function(index,element){ return $(element).val()!='';}).not(".excludeFromLink").serialize() + '">Link to this search</a>');
@@ -3354,6 +3513,7 @@ Target JSON:
 					if (builderSearchLoaded==0) { 
 						gridLoaded('buildersearchResultsGrid','occurrence record','builder');
 						builderSearchLoaded = 1;
+						loadColumnOrder('buildersearchResultsGrid');
 					}
 					<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
 						$('##buildermanageButton').html('<a href="specimens/manageSpecimens.cfm?result_id='+$('##result_id_builderSearch').val()+'" target="_blank" class="btn btn-xs btn-secondary px-2 my-2 mx-1" >Manage</a>');
@@ -3541,18 +3701,15 @@ Target JSON:
 			}
 		}
 		function toggleSearchForm(whichGrid) { 
-			$('##'+whichGrid+'SearchFormDiv').toggle();	
-			if ($('##'+whichGrid+'SearchFormToggleIcon').hasClass('fa-eye-slash')) { 
-				$('##'+whichGrid+'SearchFormToggleIcon').addClass('fa-eye');
-				$('##'+whichGrid+'SearchFormToggleIcon').removeClass('fa-eye-slash');
-			} else { 
-				$('##'+whichGrid+'SearchFormToggleIcon').addClass('fa-eye-slash');
-				$('##'+whichGrid+'SearchFormToggleIcon').removeClass('fa-eye');
-			}
+			toggleAnySearchForm(whichGrid+"SearchFormDiv", whichGrid + "SearchFormToggleIcon");
 		}
 		function gridLoaded(gridId, searchType, whichGrid) {
 			console.log('gridLoaded:' + gridId);
 			var maxZIndex = getMaxZIndex();
+			<cfif isDefined("execute")>
+				// race condtions between grid creation and lookup of column visibities may have caused grid to be created with default columns.
+				setColumnVisibilities(window.columnHiddenSettings,gridId);
+			</cfif>
 
 			if (Object.keys(window.columnHiddenSettings).length == 0) {
 				<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
@@ -3594,6 +3751,20 @@ Target JSON:
 					</cfif>
 				},
 				buttons: [
+					<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+					{
+						text: "Defaults",
+						click: function(){ 
+							saveColumnVisibilities('#cgi.script_name#',null,'Default');
+							saveColumnOrder('#cgi.script_name#',null,'Default',null);
+							lookupColumnVisibilities ('#cgi.script_name#','Default');
+							window.columnHiddenSettings = getColumnVisibilities(whichGrid+'searchResultsGrid');
+							messageDialog("Default values for show/hide columns and column order will be used on your next search." ,'Reset to Defaults');
+							$(this).dialog("close");
+						},
+						tabindex: 1
+					},
+					</cfif>
 					{
 						text: "Ok",
 						click: function(){ 

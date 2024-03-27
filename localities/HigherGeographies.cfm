@@ -48,19 +48,21 @@ limitations under the License.
 			<!--- Search Form ---> 
 			<cfoutput>
 				<main id="content">
-					<form name="searchForm" id="searchForm">
-						<cfset showLocality=0>
-						<cfset showEvent=0>
-						<cfset showExtraFields=1>
-						<cfset newSearchTarget = "/localities/HigherGeographies.cfm">
-						<cfif pageTitle eq "Search Higher Geographies"><h1 class="h2 mt-3 px-4">Find Higher Geography</h1></cfif>
-						<input type="hidden" id="method" name="method" value="getHigherGeographies">
-						<div class="row mx-0">
-							<section class="container-fluid" role="search">
-								<cfinclude template = "/localities/searchLocationForm.cfm">
-							</section>
-						</div>
-					</form>
+					<div class="" id="searchFormDiv">
+						<form name="searchForm" id="searchForm">
+							<cfset showLocality=0>
+							<cfset showEvent=0>
+							<cfset showExtraFields=1>
+							<cfset newSearchTarget = "/localities/HigherGeographies.cfm">
+							<cfif pageTitle eq "Search Higher Geographies"><h1 class="h2 mt-3 px-4">Find Higher Geography</h1></cfif>
+							<input type="hidden" id="method" name="method" value="getHigherGeographies">
+							<div class="row mx-0">
+								<section class="container-fluid" role="search">
+									<cfinclude template = "/localities/searchLocationForm.cfm">
+								</section>
+							</div>
+						</form>
+					</div>
 		
 					<!--- Results table as a jqxGrid. --->
 					<section class="container-fluid">
@@ -70,6 +72,7 @@ limitations under the License.
 									<div class="row mt-1 mb-0 pb-0 jqx-widget-header border px-2">
 										<h1 class="h4">Results: </h1>
 										<span class="d-block px-3 p-2" id="resultCount"></span> <span id="resultLink" class="d-block p-2"></span>
+										<div id="showhide"></div>
 										<div id="columnPickDialog">
 											<div id="columnPick" class="px-1"></div>
 										</div>
@@ -151,6 +154,7 @@ limitations under the License.
 							$("##searchResultsGrid").replaceWith('<div id="searchResultsGrid" class="jqxGrid" style="z-index: 1;"></div>');
 							$('##resultCount').html('');
 							$('##resultLink').html('');
+							$('##showhide').html('');
 							$('##selectModeContainer').hide();
 					
 							var search =
@@ -217,6 +221,7 @@ limitations under the License.
 								sortable: true,
 								pageable: true,
 								editable: false,
+								enablemousewheel: #session.gridenablemousewheel#,
 								pagesize: '50',
 								pagesizeoptions: ['5','50','100'],
 								showaggregates: true,
@@ -268,6 +273,7 @@ limitations under the License.
 							$("##searchResultsGrid").on("bindingcomplete", function(event) {
 								// add a link out to this search, serializing the form as http get parameters
 								$('##resultLink').html('<a href="/localities/HigherGeographies.cfm?action=search&execute=true&' + $('##searchForm :input').filter(function(index,element){return $(element).val()!='';}).serialize() + '">Link to this search</a> <a href="/localities/Localities.cfm?action=search&execute=true&' + $('##searchForm :input').filter(function(index,element){return $(element).val()!='';}).serialize() + '">Find Localities</a>');
+								$('##showhide').html('<button class="my-2 border rounded" title="hide search form" onclick=" toggleAnySearchForm(\'searchFormDiv\',\'searchFormToggleIcon\'); "><i id="searchFormToggleIcon" class="fas fa-eye-slash"></i></button>');
 								gridLoaded('searchResultsGrid','higher geography record');
 							});
 							$('##searchResultsGrid').on('rowexpand', function (event) {
