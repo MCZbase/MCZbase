@@ -1094,9 +1094,9 @@ limitations under the License.
 						{
 							text: "Defaults",
 							click: function(){ 
-								saveColumnVisibilities('/Transactions.cfm?action='+targetAction,null,'Default');
-								saveColumnOrder('#cgi.script_name#?action='+targetAction,null,'Default',null);
-								lookupColumnVisibilities ('/Transactions.cfm?action=#action#','Default');
+								saveColumnVisibilities('#cgi.script_name#',null,'Default');
+								saveColumnOrder('#cgi.script_name#',null,'Default',null);
+								lookupColumnVisibilities ('#cgi.script_name#','Default');
 								window.columnHiddenSettings = getColumnVisibilities('searchResultsGrid');
 								messageDialog("Default values for show/hide columns and column order will be used on your next search." ,'Reset to Defaults');
 								$(this).dialog("close");
