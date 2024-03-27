@@ -858,13 +858,13 @@ limitations under the License.
 								<cfquery name="NEXTID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 									select sq_collection_object_id.nextval NEXTID from dual
 								</cfquery>
-								<cfquery name="newParts1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="newParts1_result">
+								<cfquery name="newParts1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 									insert into coll_object
 									(collection_object_id, coll_object_type,entered_person_id,coll_object_entered_date,last_edited_person_id,coll_obj_disposition,lot_count_modifier,lot_count,condition,flags) 
 									values
 									(#nextid.nextid#,'SP',<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#enteredbyid#">,sysdate,<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#enteredbyid#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#coll_obj_disposition#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#lot_count_modifier#">,<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#lot_count#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#condition#">,0)
 								</cfquery>
-								<cfquery name="newParts2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="newParts2_result">
+								<cfquery name="newParts2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 									insert into specimen_part
 									(collection_object_id,PART_NAME,PRESERVE_METHOD,DERIVED_FROM_CAT_ITEM)
 									values
@@ -877,21 +877,21 @@ limitations under the License.
 									</cfquery>
 								</cfif>
 								<cfif len(#changed_date#) gt 0>
-									<cfquery name="updateDate" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateDate_result">
+									<cfquery name="updateDate" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 										update SPECIMEN_PART_PRES_HIST set CHANGED_DATE = 'to_date('#CHANGED_DATE#', 'YYYY-MM-DD')' 
 										where collection_object_id =#newParts1.nextid# and is_current_fg = 1
 									</cfquery>
 								</cfif>
 								<cfif len(#container_unique_id#) gt 0>
-									<cfquery name="partContainerID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+									<cfquery name="partContainerID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="partContainerID_result">
 										select container_id from coll_obj_cont_hist where collection_object_id = #updateParts2.NEXTID#
 									</cfquery>
-									<cfquery name="updatePartContainer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updatePartContainer_result">
+									<cfquery name="updatePartContainer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 										update container set parent_container_id=#parent_container_id#
-										where container_id = #partContainerID.container_id#
+										where container_id = #partContainerID_result.container_id#
 									</cfquery>
 									<cfif #len(change_container_type)# gt 0>
-										<cfquery name="updatePartContainer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateParts6_result">
+										<cfquery name="updatePartContainer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 											update container set
 											container_type='#change_container_type#'
 											where container_id=#parent_container_id#
@@ -899,12 +899,13 @@ limitations under the License.
 									</cfif>
 								</cfif>
 								<cfquery name="updateCheck" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateCheck_result">
-									select specimen_part.collection_object_id from specimen_part, coll_object
+									select distinct specimen_part.collection_object_id from specimen_part, coll_object
 									where specimen_part.derived_from_cat_item = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.collection_object_id#">
 									and specimen_part.collection_object_id = coll_object.collection_object_id
 								</cfquery>
 								<cfset part_updates = part_updates + updateCheck_result.recordcount>
 								<cfif updateCheck_result.recordcount gt 0>
+									#part_updates#
 									<cftransaction action = "ROLLBACK">
 								<cfelse>
 									<cftransaction action="COMMIT">
