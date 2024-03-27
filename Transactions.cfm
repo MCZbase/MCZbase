@@ -4051,14 +4051,15 @@ function gridLoaded(gridId, searchType) {
 		modal: true, 
 		reszable: true, 
 		buttons: { 
-			Defaults: function(){ 
-				window.columnHiddenSettings = getColumnVisibilities('searchResultsGrid');		
-				<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+			<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+				Defaults: function(){ 
 					saveColumnVisibilities('/Transactions.cfm?action='+targetAction,null,'Default');
 					saveColumnOrder('#cgi.script_name#?action='+targetAction,null,'Default',null);
-				</cfif>
-				$(this).dialog("close");
-			},
+					lookupColumnVisibilities ('/Transactions.cfm?action=#action#','Default');
+					window.columnHiddenSettings = getColumnVisibilities('searchResultsGrid');		
+					$(this).dialog("close");
+				},
+			</cfif>
 			Ok: function(){ 
 				window.columnHiddenSettings = getColumnVisibilities('searchResultsGrid');		
 				<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
