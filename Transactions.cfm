@@ -4051,17 +4051,18 @@ function gridLoaded(gridId, searchType) {
 		modal: true, 
 		reszable: true, 
 		buttons: { 
-			Ok: function(){ 
-				window.columnHiddenSettings = getColumnVisibilities('searchResultsGrid');		
-				<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
-					saveColumnVisibilities('/Transactions.cfm?action='+targetAction,window.columnHiddenSettings,'Default');
-				</cfif>
-				$(this).dialog("close");
-			},
 			Defaults: function(){ 
 				window.columnHiddenSettings = getColumnVisibilities('searchResultsGrid');		
 				<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 					saveColumnVisibilities('/Transactions.cfm?action='+targetAction,null,'Default');
+					saveColumnOrder('#cgi.script_name#?action='+targetAction,null,'Default',null);
+				</cfif>
+				$(this).dialog("close");
+			},
+			Ok: function(){ 
+				window.columnHiddenSettings = getColumnVisibilities('searchResultsGrid');		
+				<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+					saveColumnVisibilities('/Transactions.cfm?action='+targetAction,window.columnHiddenSettings,'Default');
 				</cfif>
 				$(this).dialog("close");
 			}

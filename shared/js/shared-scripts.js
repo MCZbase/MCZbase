@@ -1958,10 +1958,15 @@ function saveColumnOrder(pageFilePath,columnOrderMap,label,feedbackDiv) {
 	if (typeof feedbackDiv !== 'undefined') { 
 		$('#'+feedbackDiv).html('Saving...');
 	}
-	if (typeof columnOrderMap === 'undefined') { 
-		messageDialog("Error saving column order: columnOrderMap was not passed in ","Error: saving column order.");
+	var settings;
+	if (columnOrderMap) { 
+		if (typeof columnOrderMap === 'undefined') { 
+			messageDialog("Error saving column order: columnOrderMap was not passed in ","Error: saving column order.");
+		}
+		settings = JSON.stringify(Array.from(columnOrderMap));
+	} else {
+		settings = "";
 	}
-	var settings = JSON.stringify(Array.from(columnOrderMap));
 	if (settings=="") { settings = "[]"; } 
 	console.log(settings);
 	jQuery.ajax({
