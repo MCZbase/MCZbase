@@ -2742,6 +2742,16 @@ Target JSON:
 			return '<span style="margin-top: 4px; margin-left: 4px; float: ' + columnproperties.cellsalign + '; "><input type="button" onClick=" confirmDialog(&apos;Remove this row from these search results&apos;,&apos;Confirm Remove Row&apos;, function(){ var commit = $(&apos;##fixedsearchResultsGrid&apos;).jqxGrid(&apos;deleterow&apos;, '+ row +'); } ); " class="p-1 btn btn-xs btn-warning" value="&##8998;" aria-label="Remove"/></span>';
 		};
 		<!--- " --->
+		var removeKeywordCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
+			// Removes a row, then jqwidgets invokes the deleterow callback defined for the dataadaptor
+			return '<span style="margin-top: 4px; margin-left: 4px; float: ' + columnproperties.cellsalign + '; "><input type="button" onClick=" confirmDialog(&apos;Remove this row from these search results&apos;,&apos;Confirm Remove Row&apos;, function(){ var commit = $(&apos;##keywordsearchResultsGrid&apos;).jqxGrid(&apos;deleterow&apos;, '+ row +'); } ); " class="p-1 btn btn-xs btn-warning" value="&##8998;" aria-label="Remove"/></span>';
+		};
+		<!--- " --->
+		var removeBuilderCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
+			// Removes a row, then jqwidgets invokes the deleterow callback defined for the dataadaptor
+			return '<span style="margin-top: 4px; margin-left: 4px; float: ' + columnproperties.cellsalign + '; "><input type="button" onClick=" confirmDialog(&apos;Remove this row from these search results&apos;,&apos;Confirm Remove Row&apos;, function(){ var commit = $(&apos;##buildersearchResultsGrid&apos;).jqxGrid(&apos;deleterow&apos;, '+ row +'); } ); " class="p-1 btn btn-xs btn-warning" value="&##8998;" aria-label="Remove"/></span>';
+		};
+		<!--- " --->
 
 		// cellclass function 
 		// NOTE: Since there are three grids, and the cellclass api does not pass a reference to the grid, a separate
@@ -3162,7 +3172,31 @@ Target JSON:
 					loadError: function(jqXHR, textStatus, error) {
 						handleFail(jqXHR,textStatus,error, "Error performing specimen search: "); 
 					},
-					async: true
+					async: true,
+					deleterow: function (rowid, commit) {
+						console.log(rowid);
+						console.log($('##fixedsearchResultsGrid').jqxGrid('getRowData',rowid));
+						var collobjtoremove = $('##fixedsearchResultsGrid').jqxGrid('getRowData',rowid)['COLLECTION_OBJECT_ID'];
+						console.log(collobjtoremove);
+	        			$.ajax({
+            				url: "/specimens/component/search.cfc",
+            				data: { 
+								method: 'removeItemFromResult', 
+								result_id: $('##result_id_fixedSearch').val(),
+								collection_object_id: collobjtoremove
+							},
+							dataType: 'json',
+           					success : function (data) { 
+								console.log(data);
+								commit(true);
+								$('##fixedsearchResultsGrid').jqxGrid('updatebounddata');
+							},
+            				error : function (jqXHR, textStatus, error) {
+          				   	handleFail(jqXHR,textStatus,error,"removing row from result set");
+								commit(false);
+            				}
+         			});
+					} 
 				};	
 	
 				var dataAdapter = new $.jqx.dataAdapter(search);
@@ -3207,6 +3241,10 @@ Target JSON:
 						return dataAdapter.records;
 					},
 					columns: [
+						<cfif findNoCase('master',Session.gitBranch) EQ 0>
+							<cfset removerow = "{text: 'Remove', datafield: 'RemoveRow', cellsrenderer:removeKeywordCellRenderer, width: 40, cellclassname: fixedcellclass, hidable:false, hidden: false },">
+							#removerow#
+						</cfif>
 						<cfset lastrow ="">
 						<cfloop query="getFieldMetadata">
 							<cfset cellrenderer = "">
@@ -3349,7 +3387,31 @@ Target JSON:
 					loadError: function(jqXHR, textStatus, error) {
 						handleFail(jqXHR,textStatus,error, "Error performing specimen search: "); 
 					},
-					async: true
+					async: true,
+					deleterow: function (rowid, commit) {
+						console.log(rowid);
+						console.log($('##fixedsearchResultsGrid').jqxGrid('getRowData',rowid));
+						var collobjtoremove = $('##fixedsearchResultsGrid').jqxGrid('getRowData',rowid)['COLLECTION_OBJECT_ID'];
+						console.log(collobjtoremove);
+	        			$.ajax({
+            				url: "/specimens/component/search.cfc",
+            				data: { 
+								method: 'removeItemFromResult', 
+								result_id: $('##result_id_fixedSearch').val(),
+								collection_object_id: collobjtoremove
+							},
+							dataType: 'json',
+           					success : function (data) { 
+								console.log(data);
+								commit(true);
+								$('##fixedsearchResultsGrid').jqxGrid('updatebounddata');
+							},
+            				error : function (jqXHR, textStatus, error) {
+          				   	handleFail(jqXHR,textStatus,error,"removing row from result set");
+								commit(false);
+            				}
+         			});
+					} 
 				};	
 	
 				var dataAdapter = new $.jqx.dataAdapter(search);
@@ -3395,6 +3457,10 @@ Target JSON:
 						return dataAdapter.records;
 					},
 					columns: [
+						<cfif findNoCase('master',Session.gitBranch) EQ 0>
+							<cfset removerow = "{text: 'Remove', datafield: 'RemoveRow', cellsrenderer:removeBuilderCellRenderer, width: 40, cellclassname: fixedcellclass, hidable:false, hidden: false },">
+							#removerow#
+						</cfif>
 						<cfset lastrow ="">
 						<cfloop query="getFieldMetadata">
 							<cfset cellrenderer = "">
