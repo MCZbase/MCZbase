@@ -219,7 +219,7 @@ limitations under the License.
 									<div class="col-12 col-md-2">
 										<div class="form-group mb-2">
 											<label for="number" class="data-entry-label mb-0" id="number_label">Number <span class="small">(=,!,NULL, NOT NULL)</span></label>
-											<input type="text" id="number" name="number" class="data-entry-input" value="#encodeForHtml(volume)#">
+											<input type="text" id="number" name="number" class="data-entry-input" value="#encodeForHtml(number)#">
 										</div>
 									</div>
 								</div>
