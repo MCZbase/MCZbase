@@ -702,7 +702,7 @@ limitations under the License.
 				<cfelse>
 					You must fix everything above to proceed. <a href="/tools/BulkloadNewParts.cfm">Try again.</a>
 				</cfif>
-				<table class='sortable w-100 px-0 mx-0 table table-responsive table-striped'>
+				<table class='sortable w-100 small px-0 mx-0 table table-responsive table-striped'>
 						<thead class="thead-light">
 						<tr>
 							<th>BULKLOADING STATUS</th>
@@ -911,29 +911,29 @@ limitations under the License.
 								</cfif>
 							</cfloop>
 							<div class="container-fluid">
-						<div class="row">
-							<div class="col-12 mx-auto">
-								<p>Number of parts added: #part_updates# (on #getCounts.ctobj# cataloged items)</p>
-								<h2 class="h4">Updated #part_updates# part(s).</h2>
-								<cfif getTempData.recordcount eq part_updates and updateCheck_result.recordcount eq 0>
-									<h3 class="h4 text-success">Success - loaded</h3>
-									<ul class="h4"><li>
-									<cfif len(#collection_object_id#) gt 0 and (#status# is '')>
-										<a href="/Specimens.cfm?collection_object_id=#collection_object_id#" target="_blank">Specimen</a>
-									<cfelseif status is not ''>
-										<li><a href="/SpecimenDetail.cfm?collection_object_id=#collection_object_id#" target="_blank">Specimen</a> 
-										(#status#)
-									<cfelse>
-										#status#
-									</cfif></li>
-									</ul>
-								</cfif>
-								<cfif updateCheck_result.recordcount gt 0>
-									<h3 class="text-danger h4">Not loaded - these have already been loaded</h3>
-								</cfif>
+								<div class="row">
+									<div class="col-12 mx-auto">
+										<p>Number of parts added: #part_updates# (on #getCounts.ctobj# cataloged items)</p>
+										<h2 class="h4">Updated #part_updates# part(s).</h2>
+										<cfif getTempData.recordcount eq part_updates and updateCheck_result.recordcount eq 0>
+											<h3 class="h4 text-success">Success - loaded</h3>
+											<ul class="h4"><li>
+											<cfif len(#collection_object_id#) gt 0 and (#status# is '')>
+												<a href="/Specimens.cfm?collection_object_id=#collection_object_id#" target="_blank">Specimen</a>
+											<cfelseif status is not ''>
+												<li><a href="/SpecimenDetail.cfm?collection_object_id=#collection_object_id#" target="_blank">Specimen</a> 
+												(#status#)
+											<cfelse>
+												#status#
+											</cfif></li>
+											</ul>
+										</cfif>
+										<cfif updateCheck_result.recordcount gt 0>
+											<h3 class="text-danger h4">Not loaded - these have already been loaded</h3>
+										</cfif>
+									</div>
+								</div>
 							</div>
-						</div>
-					</div>
 							<cfcatch>
 								<cftransaction action="ROLLBACK">
 									<h2 class="h4 font-weight-normal">There was a problem updating parts.</h2>
