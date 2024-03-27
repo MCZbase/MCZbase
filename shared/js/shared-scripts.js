@@ -1830,12 +1830,14 @@ function getColumnVisibilities(gridId) {
 };
 
 /** function setColumnVisibilities update hidden column properties for a search results grid.
+   In general, set properties in grid creation with getColHidProp instead, this function can be 
+   called on gridLoaded if the lookup from the persistence store hasn't loaded the grid properties
+   by the time the grid is created and getColHidProp is called.
  @param targetGridId the id for the jqxGrid object in the dom for which to set the hidden
 	properties of the columns, without leading # selector (typically searchResultsGrid)
  @param fieldHiddenValues an object with datafields as keys and hidden properies as values.
  @see setColumnVisibilities
  @see getColHidProp
- @deprecated set properties in grid creation with getColHidProp instead
 **/
 function setColumnVisibilities(fieldHiddenValues,targetGridId) {
 	$('#'+targetGridId).jqxGrid('beginupdate',true)
@@ -1910,10 +1912,9 @@ function saveColumnVisibilities(pageFilePath,fieldHiddenValues,label,feedbackDiv
  * @param label the label for the user's configuration of visible grid columns on that page, default
  *  value is Default
  */
-function lookupColumnVisibilities (pageFilePath,label,async=true) { 
+function lookupColumnVisibilities (pageFilePath,label) { 
 	jQuery.ajax({
 		dataType: "json",
-		async: async,
 		url: "/shared/component/functions.cfc",
 		data: { 
 			method : "getGridColumnHiddenSettings",
