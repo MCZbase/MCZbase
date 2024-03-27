@@ -842,6 +842,9 @@ limitations under the License.
 			</cfif>
 
 			function gridLoaded(gridId, searchType) { 
+				<cfif isDefined("execute")>
+					setColumnVisibilities(window.columnHiddenSettings,'searchResultsGrid');
+				</cfif>
 				if (Object.keys(window.columnHiddenSettings).length == 0) { 
 					window.columnHiddenSettings = getColumnVisibilities('searchResultsGrid');		
 					<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
