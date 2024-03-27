@@ -1910,9 +1910,10 @@ function saveColumnVisibilities(pageFilePath,fieldHiddenValues,label,feedbackDiv
  * @param label the label for the user's configuration of visible grid columns on that page, default
  *  value is Default
  */
-function lookupColumnVisibilities (pageFilePath,label) { 
+function lookupColumnVisibilities (pageFilePath,label,async=true) { 
 	jQuery.ajax({
 		dataType: "json",
+		async: async,
 		url: "/shared/component/functions.cfc",
 		data: { 
 			method : "getGridColumnHiddenSettings",
