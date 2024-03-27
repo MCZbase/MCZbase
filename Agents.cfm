@@ -511,7 +511,7 @@ limitations under the License.
 			<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 				$(document).ready(function() {
 					lookupColumnVisibilities ('#cgi.script_name#','Default');
-				}
+				});
 			</cfif>
 
 			// prevent on columnreordered event from causing save of grid column order when loading order from persistance store
