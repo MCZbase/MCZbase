@@ -251,7 +251,7 @@ limitations under the License.
 						</div>
 						<!--- check for required fields in header line (performng check in two different ways, Case 1, Case 2) --->
 						<!--- Loop through list of fields throw exception if required fields are missing --->
-										<cfset errorMessage = "">
+						<cfset errorMessage = "">
 						<cfloop list="#fieldList#" item="aField">
 							<cfif ListContainsNoCase(requiredFieldList,aField)>
 								<!--- Case 1. Check by splitting assembled list of foundHeaders --->
@@ -265,7 +265,7 @@ limitations under the License.
 						</cfif>
 						<cfset errorMessage = "">
 						<!--- Loop through list of fields, mark each field as fields present in input or not, throw exception if required fields are missing --->
-						<ul class="h4 mb-4">
+						<ul class="h4 mb-4 font-weight-normal">
 							<cfloop list="#fieldlist#" index="field" delimiters=",">
 								<cfset hint="">
 								<cfif listContains(requiredfieldlist,field,",")>
@@ -917,7 +917,7 @@ limitations under the License.
 										<h2 class="h4">Updated #part_updates# part(s).</h2>
 										<cfif getTempData.recordcount eq part_updates and updateCheck_result.recordcount eq 0>
 											<h3 class="h4 text-success">Success - loaded</h3>
-											<ul class="h4"><li>
+											<ul class="h4 font-weight-normal"><li>
 											<cfif len(#collection_object_id#) gt 0 and (#status# is '')>
 												<a href="/Specimens.cfm?collection_object_id=#collection_object_id#" target="_blank">Specimen</a>
 											<cfelseif status is not ''>
