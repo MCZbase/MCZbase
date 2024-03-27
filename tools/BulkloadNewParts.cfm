@@ -900,7 +900,7 @@ limitations under the License.
 									</cfif>
 								</cfif>
 								<cfquery name="updateCheck" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateCheck_result">
-									select distinct key from cf_temp_parts where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.dbuser#">
+									select distinct key from cf_temp_parts where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 								</cfquery>
 								<cfset part_updates = part_updates + updateCheck_result.recordcount>
 								<cfif updateCheck_result.recordcount gt 0>
