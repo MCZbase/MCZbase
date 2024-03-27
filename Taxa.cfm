@@ -1090,6 +1090,20 @@ limitations under the License.
 					modal: true, 
 					reszable: true, 
 					buttons: [
+						<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+						{
+							text: "Defaults",
+							click: function(){ 
+								saveColumnVisibilities('/Transactions.cfm?action='+targetAction,null,'Default');
+								saveColumnOrder('#cgi.script_name#?action='+targetAction,null,'Default',null);
+								lookupColumnVisibilities ('/Transactions.cfm?action=#action#','Default');
+								window.columnHiddenSettings = getColumnVisibilities('searchResultsGrid');
+								messageDialog("Default values for show/hide columns and column order will be used on your next search." ,'Reset to Defaults');
+								$(this).dialog("close");
+							},
+							tabindex: 1
+						},
+						</cfif>
 						{
 							text: "Ok",
 							click: function(){ 
