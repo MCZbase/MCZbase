@@ -3701,7 +3701,7 @@ Target JSON:
 			var maxZIndex = getMaxZIndex();
 			<cfif isDefined("execute")>
 				// race condtions between grid creation and lookup of column visibities may have caused grid to be created with default columns.
-				setColumnVisibilities(window.columnHiddenSettings,gridId+'searchResultsGrid');
+				setColumnVisibilities(window.columnHiddenSettings,gridId);
 			</cfif>
 
 			if (Object.keys(window.columnHiddenSettings).length == 0) {
