@@ -928,9 +928,7 @@ limitations under the License.
 					reszable: true, 
 					buttons: { 
 						<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
-						{
-							text: "Defaults",
-							click: function(){ 
+							Defaults: function(){ 
 								saveColumnVisibilities('#cgi.script_name#',null,'Default');
 								saveColumnOrder('#cgi.script_name#',null,'Default',null);
 								lookupColumnVisibilities ('#cgi.script_name#','Default');
@@ -938,8 +936,6 @@ limitations under the License.
 								messageDialog("Default values for show/hide columns and column order will be used on your next search." ,'Reset to Defaults');
 								$(this).dialog("close");
 							},
-							tabindex: 1
-						},
 						</cfif>
 						Ok: function(){ 
 							window.columnHiddenSettings = getColumnVisibilities('searchResultsGrid');		
