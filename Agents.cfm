@@ -508,9 +508,6 @@ limitations under the License.
 
 		<script>
 			window.columnHiddenSettings = new Object();
-			<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
-				lookupColumnVisibilities ('#cgi.script_name#','Default');
-			</cfif>
 
 			// prevent on columnreordered event from causing save of grid column order when loading order from persistance store
 			var columnOrderLoading = 0
@@ -617,6 +614,9 @@ limitations under the License.
 			</cfif>
 
 			$(document).ready(function() {
+				<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+					lookupColumnVisibilities ('#cgi.script_name#','Default');
+				</cfif>
 				/* Setup jqxgrid for Search */
 				$('##searchForm').bind('submit', function(evt){
 					evt.preventDefault();
