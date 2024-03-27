@@ -852,6 +852,7 @@ limitations under the License.
 						<cftry>
 							<cfset part_updates = 0>
 							<cfloop query="getTempData">
+								<cfset problem_key = getTempData.key>
 								<cfif getTempData.recordcount eq 0>
 									<cfthrow message="You have no rows to load in the part bulkloader table (cf_temp_parts).  <a href='/tools/BulkloadNewParts.cfm'>Start over</a>">
 								</cfif>
@@ -941,7 +942,7 @@ limitations under the License.
 									FROM cf_temp_parts 
 									WHERE status is not null
 										AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-									and key = <cfqueryparam cfsqltype="cf_sql_decimal" value="#problem_key#">
+									and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#problem_key#">
 								</cfquery>
 								<h3>Problematic Rows (<a href="/tools/BulkloadNewParts.cfm?action=dumpProblems">download</a>)</h3>
 								<cfif getProblemData.recordcount GT 0>
