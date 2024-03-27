@@ -880,7 +880,7 @@ limitations under the License.
 								<cfif len(#changed_date#) gt 0>
 									<cfquery name="updateDate" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 										update SPECIMEN_PART_PRES_HIST set CHANGED_DATE = 'to_date('#CHANGED_DATE#', 'YYYY-MM-DD')' 
-										where collection_object_id =#newParts1.nextid# and is_current_fg = 1
+										where collection_object_id =#newParts2.nextid# and is_current_fg = 1
 									</cfquery>
 								</cfif>
 								<cfif len(#container_unique_id#) gt 0>
