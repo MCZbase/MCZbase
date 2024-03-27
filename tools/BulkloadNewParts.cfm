@@ -856,7 +856,17 @@ limitations under the License.
 					<cftry>
 						<cftransaction>
 							<cfset part_updates = 0>
+							<cfset updateParts = 0>
 							<cfloop query="getTempData">
+								<cfif len(#collection_object_id#) gt 0 and
+							(#validated_status# is 'VALID')>
+								<a href="/SpecimenDetail.cfm?collection_object_id=#collection_object_id#" target="_blank">Specimen</a>
+					<cfelseif status is not null>
+						<a href="/SpecimenDetail.cfm?collection_object_id=#collection_object_id#"
+							target="_blank">Specimen</a> (#status#)
+					<cfelse>
+						#status#
+					</cfif>
 								<cfquery name="NEXTID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 									select sq_collection_object_id.nextval NEXTID from dual
 								</cfquery>
