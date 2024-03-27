@@ -4057,6 +4057,7 @@ function gridLoaded(gridId, searchType) {
 					saveColumnOrder('#cgi.script_name#?action='+targetAction,null,'Default',null);
 					lookupColumnVisibilities ('/Transactions.cfm?action=#action#','Default');
 					window.columnHiddenSettings = getColumnVisibilities('searchResultsGrid');		
+					setColumnVisibilities(window.columnHiddenSettings,'searchResultsGrid');
 					$(this).dialog("close");
 				},
 			</cfif>
