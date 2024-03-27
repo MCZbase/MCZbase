@@ -3674,6 +3674,20 @@ Target JSON:
 					</cfif>
 				},
 				buttons: [
+					<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+					{
+						text: "Defaults",
+						click: function(){ 
+							saveColumnVisibilities('#cgi.script_name#',null,'Default');
+							saveColumnOrder('#cgi.script_name#',null,'Default',null);
+							lookupColumnVisibilities ('#cgi.script_name#','Default');
+							window.columnHiddenSettings = getColumnVisibilities('searchResultsGrid');
+							messageDialog("Default values for show/hide columns and column order will be used on your next search." ,'Reset to Defaults');
+							$(this).dialog("close");
+						},
+						tabindex: 1
+					},
+					</cfif>
 					{
 						text: "Ok",
 						click: function(){ 
