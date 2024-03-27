@@ -859,7 +859,7 @@ limitations under the License.
 							<cfset updateParts = 0>
 							<cfloop query="getTempData">
 								<cfif len(#collection_object_id#) gt 0 and
-							(#validated_status# is 'VALID')>
+							(#status# is 'VALID')>
 								<a href="/SpecimenDetail.cfm?collection_object_id=#collection_object_id#" target="_blank">Specimen</a>
 					<cfelseif status is not null>
 						<a href="/SpecimenDetail.cfm?collection_object_id=#collection_object_id#"
