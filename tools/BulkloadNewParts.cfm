@@ -670,11 +670,6 @@ limitations under the License.
 						nvl(cf_temp_parts.current_remarks, 'NULL') = nvl(coll_object_remark.coll_object_remarks, 'NULL'))
 						where status like '%NOTE: PART EXISTS%' AND use_existing = 1
 					</cfquery>
-					<cfquery name="getGuid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-						SELECT guid
-						FROM flat 
-						WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableQC.collection_object_id#">
-					</cfquery>
 				</cfloop>
 						
 				<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -749,18 +744,7 @@ limitations under the License.
 					<tbody>
 						<cfloop query="data">
 							<tr>
-								<td>
-									<cfif len(#collection_object_id#) gt 0 and
-											(#status# is '')>
-										Cleared to load Part for <a href="/guid/#getGuid.guid#"
-											target="_blank">#getGuid.guid#</a>
-									<cfelseif #status# is not ''>
-										Cleared to load Part for <a href="/guid/#getGuid.guid#"
-											target="_blank">#getGuid.guid#</a> (#status#)
-									<cfelse>
-										#status#
-									</cfif>
-								</td>
+								<td>#status#</td>
 								<td>#institution_acronym#</td>
 								<td>#collection_cde#</td>
 								<td>#OTHER_ID_TYPE#</td>
@@ -989,7 +973,7 @@ limitations under the License.
 				<cfelse>
 				<!--- there is an existing matching container that is not in a parent_container;
 					all we need to do is move the container to a parent IF it exists and is specified, or nothing otherwise --->
-					<cfif len(#disposition#) gt 0>
+					<cfif len(#coll_obj_disposition#) gt 0>
 						<cfquery name="upDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 							update coll_object set COLL_OBJ_DISPOSITION = '#disposition#' where collection_object_id = #use_part_id#
 						</cfquery>
@@ -1053,9 +1037,9 @@ limitations under the License.
 				</cfquery>
 				</cfloop>
 				</cftransaction>
-
+				<!---insert collection_object_ids into link with a comma between them--->
 				Parts loaded.
-				<a href="/Specimens.cfm?execute=true&builderMaxRows=1&action=builderSearch&nestdepth1=1&field1=COLL_OBJECT%3ACOLL_OBJ_COLLECTION_OBJECT_ID&searchText1=3353125%2C108645" target="_blank">
+				<a href="/Specimens.cfm?execute=true&builderMaxRows=1&action=builderSearch&nestdepth1=1&field1=COLL_OBJECT%3ACOLL_OBJ_COLLECTION_OBJECT_ID&searchText1=#collection_object_id#" target="_blank">
 					See in Specimen Results
 				</a>
 			</cfoutput>
