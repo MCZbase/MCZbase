@@ -1002,6 +1002,8 @@ limitations under the License.
 										</cfloop>
 									</tbody>
 					</table>
+				</cfcatch>
+				</cftry>
 				</cfoutput>
 			</cfif>
 		</div>
