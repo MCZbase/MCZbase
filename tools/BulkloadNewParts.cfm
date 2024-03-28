@@ -918,11 +918,11 @@ limitations under the License.
 						<cfset part_updates = part_updates + newParts2_result.recordcount>
 							<h1>#part_updates#</h1>
 						<cfif len(newParts2_result.status) gt 0>
-							Hello?
+							Hello?  #part_updates#
 							<cftransaction action = "ROLLBACK">
 						<cfelse>
 							<cftransaction action="COMMIT">
-							Done
+							Done #part_updates#
 						</cfif>
 					</cfloop>
 				<cfcatch>
