@@ -477,8 +477,63 @@ limitations under the License.
 			</cfif>
 		<!------------------------------------------------------->
 			<cfif #action# is "validate">
-				<cfoutput>
-				<h2 class="h4">Second step: Data Validation</h2>
+			<cfoutput>
+			<h2 class="h4">Second step: Data Validation</h2>
+			<cfquery name="getTempTableTypes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				SELECT 
+					other_id_type, key
+				FROM 
+					cf_temp_parts
+				WHERE 
+					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+			</cfquery>
+			<cfset i= 1>
+				<cfloop query="getTempTableTypes">
+				<!--- For each row, set the target collection_object_id --->
+				<cfif getTempTableTypes.other_id_type eq 'catalog number'>
+					<!--- either based on catalog_number --->
+					<cfquery name="getCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						UPDATE
+							cf_temp_parts
+						SET
+							collection_object_id = (
+								select collection_object_id 
+								from cataloged_item 
+								where cat_num = cf_temp_parts.other_id_number and collection_cde = cf_temp_parts.collection_cde
+							),
+							status = null
+						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+							and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableTypes.key#"> 
+					</cfquery>
+				<cfelse>
+					<!--- or on specified other identifier --->
+					<cfquery name="getCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						UPDATE
+							cf_temp_parts
+						SET
+							collection_object_id= (
+								select cataloged_item.collection_object_id from cataloged_item,coll_obj_other_id_num 
+								where coll_obj_other_id_num.other_id_type = cf_temp_parts.other_id_type 
+								and cataloged_item.collection_cde = cf_temp_parts.collection_cde 
+								and display_value= cf_temp_parts.other_id_number
+								and cataloged_item.collection_object_id = coll_obj_other_id_num.COLLECTION_OBJECT_ID
+							),
+							status = null
+						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+							and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableTypes.key#"> 
+					</cfquery>
+				</cfif>
+			</cfloop>
+			<!--- obtain the information needed to QC each row --->
+			<cfquery name="getTempTableQC" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				SELECT 
+					collection_object_id, key
+				FROM 
+					cf_temp_parts
+				WHERE 
+					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+			</cfquery>
+			<cfloop query="getTempTableQC">
 				<cfquery name="getParentContainerId" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					update cf_temp_parts set parent_container_id =
 					(select container_id from container where container.barcode = cf_temp_parts.container_unique_id)
@@ -541,120 +596,84 @@ limitations under the License.
 							)
 					</cfquery>
 				<cfloop index="i" from="1" to="6">
-						<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-							update cf_temp_parts set 
-							status = concat(nvl2(status, status || '; ', ''),'Invalid PART_ATT_NAME_#i# "' || PART_ATT_NAME_#i# ||'"')
-							where PART_ATT_NAME_#i# not in
-							(select attribute_type from CTSPECPART_ATTRIBUTE_TYPE)
-						</cfquery>
-						<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-							update cf_temp_parts set 
-							status = concat(nvl2(status, status || '; ', ''),'Invalid PART_ATT_MADEDATE_#i# "' || PART_ATT_MADEDATE_#i# ||'"')
-							where is_iso8601(PART_ATT_MADEDATE_#i#) <> 'valid'
-							and PART_ATT_MADEDATE_#i# is not null
-						</cfquery>
-						<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-							update cf_temp_parts set 
-							status = status || ';scientific name (' || PART_ATT_VAL_#i# || ') matched multiple taxonomy records'
-							where PART_ATT_NAME_#i# = 'scientific name'
-							AND regexp_replace(PART_ATT_VAL_#i#, ' (\?|sp.)$', '') in
-							(select scientific_name from taxonomy group by scientific_name having count(*) > 1)
-							AND PART_ATT_VAL_#i# is not null
-						</cfquery>
-						<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-							update cf_temp_parts set 
-							status = status || 'scientific name (' || PART_ATT_VAL_#i# || ') does not exist'
-							where PART_ATT_NAME_#i# = 'scientific name'
-							AND regexp_replace(PART_ATT_VAL_#i#, ' (\?|sp.)$', '') not in
-							(select scientific_name from taxonomy group by scientific_name having count(*) = 1)
-							AND PART_ATT_VAL_#i# is not null
-							and (status not like '%;scientific name (' || PART_ATT_VAL_#i# || ') matched multiple taxonomy records%' or status is null)
-						</cfquery>
-						<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-							update cf_temp_parts set 
-							status = status || ';scientific name cannot be null'
-							where PART_ATT_NAME_#i# = 'scientific name'
-							AND PART_ATT_VAL_#i# is null
-						</cfquery>
-						<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-							update cf_temp_parts set 
-							status = status || ';PART_ATT_DETBY_#i# agent (' || PART_ATT_DETBY_#i# || ') matched multiple agent names'
-							where PART_ATT_DETBY_#i# in
-							(select agent_name from agent_name group by agent_name having count(*) > 1)
-							AND PART_ATT_DETBY_#i# is not null
-						</cfquery>
-						<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-							update cf_temp_parts set 
-							status = status || ';PART_ATT_DETBY_#i# agent (' || PART_ATT_DETBY_#i# || ') does not exist'
-							where PART_ATT_DETBY_#i# not in
-							(select agent_name from agent_name group by agent_name having count(*) = 1)
-							AND PART_ATT_DETBY_#i# is not null
-							and (status not like '%PART_ATT_DETBY_#i# agent (' || PART_ATT_DETBY_#i# || ') matched multiple agent names%' or status is null)
-						</cfquery>
-						<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-							update cf_temp_parts set 
-							status = status || ';PART_ATT_VAL_#i# is not valid for attribute(' || PART_ATT_NAME_#i# || ')'
-							where chk_att_codetables(PART_ATT_NAME_#i#,PART_ATT_VAL_#i#,COLLECTION_CDE)=0
-							and PART_ATT_NAME_#i# in
-							(select attribute_type from ctattribute_code_tables where value_code_table is not null)
-						</cfquery>
-						<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-							update cf_temp_parts set 
-							status = status || ';PART_ATT_UNITS_#i# is not valid for attribute(' || PART_ATT_NAME_#i# || ')'
-							where chk_att_codetables(PART_ATT_NAME_#i#,PART_ATT_UNITS_#i#,COLLECTION_CDE)=0
-							and PART_ATT_NAME_#i# in
-							(select attribute_type from ctattribute_code_tables where units_code_table is not null)
-						</cfquery>
-					</cfloop>
-				<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-						select * from cf_temp_parts where status is null
+					<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						update cf_temp_parts set 
+						status = concat(nvl2(status, status || '; ', ''),'Invalid PART_ATT_NAME_#i# "' || PART_ATT_NAME_#i# ||'"')
+						where PART_ATT_NAME_#i# not in
+						(select attribute_type from CTSPECPART_ATTRIBUTE_TYPE)
 					</cfquery>
+					<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						update cf_temp_parts set 
+						status = concat(nvl2(status, status || '; ', ''),'Invalid PART_ATT_MADEDATE_#i# "' || PART_ATT_MADEDATE_#i# ||'"')
+						where is_iso8601(PART_ATT_MADEDATE_#i#) <> 'valid'
+						and PART_ATT_MADEDATE_#i# is not null
+					</cfquery>
+					<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						update cf_temp_parts set 
+						status = status || ';scientific name (' || PART_ATT_VAL_#i# || ') matched multiple taxonomy records'
+						where PART_ATT_NAME_#i# = 'scientific name'
+						AND regexp_replace(PART_ATT_VAL_#i#, ' (\?|sp.)$', '') in
+						(select scientific_name from taxonomy group by scientific_name having count(*) > 1)
+						AND PART_ATT_VAL_#i# is not null
+					</cfquery>
+					<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						update cf_temp_parts set 
+						status = status || 'scientific name (' || PART_ATT_VAL_#i# || ') does not exist'
+						where PART_ATT_NAME_#i# = 'scientific name'
+						AND regexp_replace(PART_ATT_VAL_#i#, ' (\?|sp.)$', '') not in
+						(select scientific_name from taxonomy group by scientific_name having count(*) = 1)
+						AND PART_ATT_VAL_#i# is not null
+						and (status not like '%;scientific name (' || PART_ATT_VAL_#i# || ') matched multiple taxonomy records%' or status is null)
+					</cfquery>
+					<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						update cf_temp_parts set 
+						status = status || ';scientific name cannot be null'
+						where PART_ATT_NAME_#i# = 'scientific name'
+						AND PART_ATT_VAL_#i# is null
+					</cfquery>
+					<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						update cf_temp_parts set 
+						status = status || ';PART_ATT_DETBY_#i# agent (' || PART_ATT_DETBY_#i# || ') matched multiple agent names'
+						where PART_ATT_DETBY_#i# in
+						(select agent_name from agent_name group by agent_name having count(*) > 1)
+						AND PART_ATT_DETBY_#i# is not null
+					</cfquery>
+					<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						update cf_temp_parts set 
+						status = status || ';PART_ATT_DETBY_#i# agent (' || PART_ATT_DETBY_#i# || ') does not exist'
+						where PART_ATT_DETBY_#i# not in
+						(select agent_name from agent_name group by agent_name having count(*) = 1)
+						AND PART_ATT_DETBY_#i# is not null
+						and (status not like '%PART_ATT_DETBY_#i# agent (' || PART_ATT_DETBY_#i# || ') matched multiple agent names%' or status is null)
+					</cfquery>
+					<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						update cf_temp_parts set 
+						status = status || ';PART_ATT_VAL_#i# is not valid for attribute(' || PART_ATT_NAME_#i# || ')'
+						where chk_att_codetables(PART_ATT_NAME_#i#,PART_ATT_VAL_#i#,COLLECTION_CDE)=0
+						and PART_ATT_NAME_#i# in
+						(select attribute_type from ctattribute_code_tables where value_code_table is not null)
+					</cfquery>
+					<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						update cf_temp_parts set 
+						status = status || ';PART_ATT_UNITS_#i# is not valid for attribute(' || PART_ATT_NAME_#i# || ')'
+						where chk_att_codetables(PART_ATT_NAME_#i#,PART_ATT_UNITS_#i#,COLLECTION_CDE)=0
+						and PART_ATT_NAME_#i# in
+						(select attribute_type from ctattribute_code_tables where units_code_table is not null)
+					</cfquery>
+				</cfloop>
+				<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					select * from cf_temp_parts where status is null
+				</cfquery>
 				<cfloop query="data">
-						<cfif #other_id_type# is "catalog number">
-							<cfquery name="collObj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-									SELECT
-										collection_object_id
-									FROM
-										cataloged_item,
-										collection
-									WHERE
-										cataloged_item.collection_id = collection.collection_id and
-										collection.collection_cde = '#collection_cde#' and
-										collection.institution_acronym = '#institution_acronym#' and
-										cat_num='#other_id_number#'
-								</cfquery>
-						<cfelse>
-							<cfquery name="collObj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-									SELECT
-										coll_obj_other_id_num.collection_object_id
-									FROM
-										coll_obj_other_id_num,
-										cataloged_item,
-										collection
-									WHERE
-										coll_obj_other_id_num.collection_object_id = cataloged_item.collection_object_id and
-										cataloged_item.collection_id = collection.collection_id and
-										collection.collection_cde = '#collection_cde#' and
-										collection.institution_acronym = '#institution_acronym#' and
-										other_id_type = '#other_id_type#' and
-										display_value = '#other_id_number#'
-								</cfquery>
-						</cfif>
-						<cfif #collObj.recordcount# is 1>
-							<cfquery name="insColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-									UPDATE cf_temp_parts SET collection_object_id = #collObj.collection_object_id#,
-									status='VALID'
-									where
-									key = #key#
-								</cfquery>
-						<cfelse>
-							<cfquery name="insColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-								UPDATE cf_temp_parts SET status =
-								status || ';#data.institution_acronym# #data.collection_cde# #data.other_id_type# #data.other_id_number# could not be found.'
-								where key = #key#
+					<cfif #collObj.recordcount# is 1>
+						<cfquery name="insColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+								UPDATE cf_temp_parts SET collection_object_id = #collObj.collection_object_id#,
+								status='VALID'
+								where
+								key = #key#
 							</cfquery>
-						</cfif>
-					</cfloop>
+					</cfif>
+				</cfloop>
 				<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						update cf_temp_parts set (status) = (
 						select
@@ -872,7 +891,7 @@ limitations under the License.
 									(#nextid.nextid#,'#part_name#','#preserve_method#',#collection_object_id#)
 								</cfquery>
 								<cfif len(#current_remarks#) gt 0>
-									<cfquery name="newParts3" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" >
+									<cfquery name="newParts3" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" >-
 										INSERT INTO coll_object_remark (collection_object_id, coll_object_remarks)
 										VALUES (sq_collection_object_id.currval, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#current_remarks#">)
 									</cfquery>
