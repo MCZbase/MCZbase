@@ -743,10 +743,10 @@ limitations under the License.
 							<tr>
 								<td>
 									<cfif len(#collection_object_id#) gt 0 and
-											(#status# is 'VALID')>
+											(#status# is '')>
 										<a href="/SpecimenDetail.cfm?collection_object_id=#collection_object_id#"
 											target="_blank">Specimen</a>
-									<cfelseif left(status,5) is 'NOTE:'>
+									<cfelseif #status# is not ''>
 										<a href="/SpecimenDetail.cfm?collection_object_id=#collection_object_id#"
 											target="_blank">Specimen</a> (#status#)
 									<cfelse>
