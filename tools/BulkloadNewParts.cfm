@@ -810,6 +810,7 @@ limitations under the License.
 		<!-------------------------------------------------------------------------------------------->
 			<cfif #action# is "load">
 				<cfoutput>
+					<cftry>
 					<cfset problem_key = "">
 					<h2 class="h3">Third step: Apply changes.</h2>
 					<cfquery name="getTempData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
