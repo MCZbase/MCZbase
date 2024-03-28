@@ -882,17 +882,16 @@ limitations under the License.
 										</cfquery>
 									</cfif>
 								</cfif>
-								<cfquery name="updateCheck" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateCheck_result">
-									select distinct key from cf_temp_parts where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-								</cfquery>
-								<cfset part_updates = part_updates + updateCheck_result.recordcount>
-								<cfif updateCheck_result.recordcount gt 0>
-									#part_updates#
-									<cftransaction action = "ROLLBACK">
-								<cfelse>
-									<cftransaction action="COMMIT">
-								</cfif>
 							</cfloop>
+							<cfquery name="updateCheck" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateCheck_result">
+								select distinct key from cf_temp_parts where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+							</cfquery>
+							<cfset part_updates = part_updates + updateCheck_result.recordcount>
+							<cfif updateCheck_result.recordcount gt 0>
+								<cftransaction action = "ROLLBACK">
+							<cfelse>
+								<cftransaction action="COMMIT">
+							</cfif>
 							<div class="container-fluid">
 								<div class="row">
 									<div class="col-12 mx-auto">
