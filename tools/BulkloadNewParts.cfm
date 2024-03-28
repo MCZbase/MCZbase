@@ -811,7 +811,7 @@ limitations under the License.
 			<cfif #action# is "load">
 				<cfoutput>
 				<cfset problem_key = "">
-				<h2 class="h3">Third step: Apply changes.</h2>
+				<h2 class="h4">Third step: Apply changes.</h2>
 				<cfquery name="getTempData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					SELECT * FROM cf_temp_parts
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
@@ -932,9 +932,26 @@ limitations under the License.
 						FROM cf_temp_parts
 						WHERE key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#problem_key#">
 					</cfquery>
+						<cfquery name="getCollectionCodes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						SELECT collection_cde
+						FROM collection
+					</cfquery>
+					<cfset collection_codes = "">
+					<cfloop query="getCollectionCodes">
+						<cfset collection_codes = ListAppend(collection_codes,getCollectionCodes.collection_cde)>
+					</cfloop>
+					<cfquery name="getInstitution" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						SELECT distinct institution_acronym
+						FROM collection
+					</cfquery>
+					<cfset institutions = "">
+					<cfloop query="getInstitution">
+						<cfset institutions = ListAppend(institutions,getInstitution.institution_acronym)>
+					</cfloop>
 					<cfif getProblemData.recordcount GT 0>
-						<p>
-							Error loading row (<span class="text-danger">#part_updates + 1#</span>) from the CSV. Fix the issue and <a href="/tools/BulkloadNewParts.cfm">load</a> again</p> 
+						<h3 class="">
+							Error loading row (<span class="text-danger">#part_updates + 1#</span>) from the CSV. Fix the issue and <a href="/tools/BulkloadNewParts.cfm">load</a> again.
+							
 							<cfif len(cfcatch.detail) gt 0>
 								<span class="font-weight-normal border-bottom border-danger">
 									<cfif cfcatch.detail contains "Invalid INSTITUTION_ACRONYM">
