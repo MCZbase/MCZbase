@@ -661,60 +661,47 @@ limitations under the License.
 						(select attribute_type from ctattribute_code_tables where units_code_table is not null)
 					</cfquery>
 				</cfloop>
-				<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					select * from cf_temp_parts where status is null
+				<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					update cf_temp_parts set (status) = (select decode(parent_container_id,0,'','')
+					from specimen_part,coll_obj_cont_hist,container, coll_object_remark 
+					where
+					specimen_part.collection_object_id = coll_obj_cont_hist.collection_object_id AND
+					coll_obj_cont_hist.container_id = container.container_id AND
+					coll_object_remark.collection_object_id(+) = specimen_part.collection_object_id AND
+					derived_from_cat_item = cf_temp_parts.collection_object_id AND
+					cf_temp_parts.part_name=specimen_part.part_name AND
+					cf_temp_parts.preserve_method=specimen_part.preserve_method AND
+					nvl(cf_temp_parts.current_remarks, 'NULL') = nvl(coll_object_remark.coll_object_remarks, 'NULL')
+					group by parent_container_id)
+					where status=''
 				</cfquery>
-				<cfloop query="data">
-					<cfif #collObj.recordcount# is 1>
-						<cfquery name="insColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-								UPDATE cf_temp_parts SET collection_object_id = #collObj.collection_object_id#,
-								status='VALID'
-								where
-								key = #key#
-							</cfquery>
-					</cfif>
-				</cfloop>
 				<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-						update cf_temp_parts set (status) = (
-						select
-						decode(parent_container_id,
-						0,'',
-						'')
-						from specimen_part,coll_obj_cont_hist,container, coll_object_remark where
-						specimen_part.collection_object_id = coll_obj_cont_hist.collection_object_id AND
-						coll_obj_cont_hist.container_id = container.container_id AND
-						coll_object_remark.collection_object_id(+) = specimen_part.collection_object_id AND
-						derived_from_cat_item = cf_temp_parts.collection_object_id AND
-						cf_temp_parts.part_name=specimen_part.part_name AND
-						cf_temp_parts.preserve_method=specimen_part.preserve_method AND
-						nvl(cf_temp_parts.current_remarks, 'NULL') = nvl(coll_object_remark.coll_object_remarks, 'NULL')
-						group by parent_container_id)
-						where status='VALID'
-					</cfquery>
+					update cf_temp_parts set (parent_container_id) = (
+					select container_id
+					from container where
+					barcode=container_unique_id)
+					where substr(status,1,5) IN ('VALID','NOTE:')
+				</cfquery>
 				<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-						update cf_temp_parts set (parent_container_id) = (
-						select container_id
-						from container where
-						barcode=container_unique_id)
-						where substr(status,1,5) IN ('VALID','NOTE:')
-					</cfquery>
-				<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-						update cf_temp_parts set (use_part_id) = (
-						select min(specimen_part.collection_object_id)
-						from specimen_part, coll_object_remark where
-						specimen_part.collection_object_id = coll_object_remark.collection_object_id(+) AND
-						cf_temp_parts.part_name=specimen_part.part_name and
-						cf_temp_parts.preserve_method=specimen_part.preserve_method and
-						cf_temp_parts.collection_object_id=specimen_part.derived_from_cat_item and
-						nvl(cf_temp_parts.current_remarks, 'NULL') = nvl(coll_object_remark.coll_object_remarks, 'NULL'))
-						where status like '%NOTE: PART EXISTS%' AND
-						use_existing = 1
-					</cfquery>
-				<cfquery name="inT" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					select * from cf_temp_parts
+					update cf_temp_parts set (use_part_id) = (
+					select min(specimen_part.collection_object_id)
+					from specimen_part, coll_object_remark where
+					specimen_part.collection_object_id = coll_object_remark.collection_object_id(+) AND
+					cf_temp_parts.part_name=specimen_part.part_name and
+					cf_temp_parts.preserve_method=specimen_part.preserve_method and
+					cf_temp_parts.collection_object_id=specimen_part.derived_from_cat_item and
+					nvl(cf_temp_parts.current_remarks, 'NULL') = nvl(coll_object_remark.coll_object_remarks, 'NULL'))
+					where status like '%NOTE: PART EXISTS%' AND
+					use_existing = 1
+				</cfquery>
+				<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					SELECT *
+					FROM cf_temp_parts
+					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+					ORDER BY key
 				</cfquery>
 				<cfquery name="allValid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					select count(*) as cnt from cf_temp_parts where substr(status,1,5) NOT IN ('VALID','NOTE:')
+					select count(*) as cnt from cf_temp_parts where status != ''
 				</cfquery>
 				<cfif #allValid.cnt# is 0>
 					<span class="text-success">Validation checks passed</span>. Look over the table below and <a href="BulkloadNewParts.cfm?action=load">click to continue</a> if it all looks good. <a href="/tools/BulkloadNewParts.cfm">Try again</a>.
@@ -722,7 +709,7 @@ limitations under the License.
 					You must fix everything above to proceed. <a href="/tools/BulkloadNewParts.cfm">Try again.</a>
 				</cfif>
 				<table class='sortable w-100 small px-0 mx-0 table table-responsive table-striped'>
-						<thead class="thead-light">
+					<thead class="thead-light">
 						<tr>
 							<th>BULKLOADING STATUS</th>
 							<th>INSTITUTION_ACRONYM</th>
@@ -774,8 +761,8 @@ limitations under the License.
 							<th>PART_ATT_MADEDATE_6</th>
 							<th>PART_ATT_REM_6</th>
 						</tr>
-						</thead>
-						<tbody>
+					</thead>
+					<tbody>
 						<cfloop query="inT">
 							<tr>
 								<td>
@@ -840,8 +827,8 @@ limitations under the License.
 								<td>#part_att_rem_6#</td>
 							</tr>
 						</cfloop>
-						</tbody>
-					</table>
+					</tbody>
+				</table>
 			</cfoutput>
 			</cfif>
 		<!-------------------------------------------------------------------------------------------->
