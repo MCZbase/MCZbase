@@ -883,14 +883,29 @@ limitations under the License.
 									</cfif>
 								</cfif>
 							</cfloop>
-							<cfquery name="updateCheck" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateCheck_result">
-								select distinct key from cf_temp_parts where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+							<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+								SELECT institution_acronym,collection_cde,other_id_type,other_id_number,part_name,coll_obj_disposition,condition,lot_count,current_remarks,collection_object_id,parent_container_id,container_unique_id,change_container_type,use_existing,use_part_id,preserve_method,lot_count_modifier,append_to_remarks,changed_date,new_preserve_method,status
+								FROM cf_temp_parts
+								WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+								ORDER BY key
 							</cfquery>
-							<cfset part_updates = part_updates + updateCheck_result.recordcount>
-							<cfif updateCheck_result.recordcount gt 0>
-								<cftransaction action = "ROLLBACK">
+
+							<cfquery name="pf" dbtype="query">
+								SELECT count(*) c 
+								FROM data 
+								WHERE status is not null
+							</cfquery>
+							<cfif pf.c gt 0>
+								<h2>
+									There is a problem with #pf.c# of #data.recordcount# row(s). See the STATUS column. (<a href="/tools/BulkloadNewParts.cfm?action=dumpProblems">download</a>).
+								</h2>
+								<h3>
+									Fix the problem(s) noted in the status column and <a href="/tools/BulkloadNewParts.cfm">start again</a>.
+								</h3>
 							<cfelse>
-								<cftransaction action="COMMIT">
+								<h2>
+									Validation checks passed. Look over the table below and <a href="/tools/BulkloadNewParts.cfm?action=load">click to continue</a> if it all looks good.
+								</h2>
 							</cfif>
 							<div class="container-fluid">
 								<div class="row">
@@ -903,7 +918,7 @@ limitations under the License.
 											<cfif len(#collection_object_id#) gt 0 and (#status# is '')>
 												<a href="/Specimens.cfm?collection_object_id=#collection_object_id#" target="_blank">Specimen</a>
 											<cfelseif status is not ''>
-												<li><a href="/SpecimenDetail.cfm?collection_object_id=#collection_object_id#" target="_blank">Specimen</a> 
+												<li><a href="/Specimens.cfm?collection_object_id=#collection_object_id#" target="_blank">Specimen</a> 
 												(#status#)
 											<cfelse>
 												#status#
