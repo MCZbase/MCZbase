@@ -750,11 +750,11 @@ limitations under the License.
 								<td>
 									<cfif len(#collection_object_id#) gt 0 and
 											(#status# is '')>
-										<a href="/guid/#getGuid.guid#"
-											target="_blank">Specimen</a>
+										Cleared to load Part for <a href="/guid/#getGuid.guid#"
+											target="_blank">#getGuid.guid#</a>
 									<cfelseif #status# is not ''>
-										<a href="/guid/#getGuid.guid#"
-											target="_blank">Specimen</a> (#status#)
+										Cleared to load Part for <a href="/guid/#getGuid.guid#"
+											target="_blank">#getGuid.guid#</a> (#status#)
 									<cfelse>
 										#status#
 									</cfif>
