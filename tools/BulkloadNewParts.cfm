@@ -684,6 +684,13 @@ limitations under the License.
 				<cfelse>
 					You must fix everything above to proceed. <a href="/tools/BulkloadNewParts.cfm">Try again.</a>
 				</cfif>
+				<cfquery name="getGuid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					SELECT guid
+					FROM flat 
+					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+					and collection_object_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableQC.collection_object_id#">
+					ORDER BY key
+				</cfquery>
 				<table class='sortable w-100 small px-0 mx-0 table table-responsive table-striped'>
 					<thead class="thead-light">
 						<tr>
@@ -744,10 +751,10 @@ limitations under the License.
 								<td>
 									<cfif len(#collection_object_id#) gt 0 and
 											(#status# is '')>
-										<a href="/SpecimenDetail.cfm?collection_object_id=#collection_object_id#"
+										<a href="/guid/#getGuid.guid#"
 											target="_blank">Specimen</a>
 									<cfelseif #status# is not ''>
-										<a href="/SpecimenDetail.cfm?collection_object_id=#collection_object_id#"
+										<a href="/guid/#getGuid.guid#"
 											target="_blank">Specimen</a> (#status#)
 									<cfelse>
 										#status#
