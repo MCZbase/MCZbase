@@ -908,7 +908,7 @@ limitations under the License.
 							</cfif>
 						</cfif>
 						<cfquery name="searchAfter" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="searchAfter_result">
-							select from specimen_part,coll_object 
+							select collection_object_id from specimen_part,coll_object 
 							where specimen_part.collection_object_id = coll_object.collection_object_id
 							collection_object_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.collection_object_id#">
 							group by specimen_part,coll_object
@@ -916,7 +916,7 @@ limitations under the License.
 						</cfquery>
 						<cfset part_updates = part_updates + newParts2_result.recordcount>
 							<h1>#part_updates#</h1>
-						<cfif  gt 0>
+						<cfif #searchAfter.collection_object_id# gt 0>
 							Hello?  #part_updates#
 							<cftransaction action = "ROLLBACK">
 						<cfelse>
