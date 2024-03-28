@@ -929,10 +929,10 @@ limitations under the License.
 						SELECT institution_acronym,collection_cde,other_id_type,other_id_number,part_name,coll_obj_disposition,condition,lot_count,current_remarks,collection_object_id,parent_container_id,container_unique_id,change_container_type,use_existing,use_part_id,preserve_method,lot_count_modifier,append_to_remarks,changed_date,new_preserve_method,status
 						FROM cf_temp_parts
 						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+						and status <> ''
 						ORDER BY key
 					</cfquery>
 					<cfif getProblemData.recordcount GT 0>
-						<h2 class="h3">Errors are displayed one row at a time.</h2>
 						<h3>
 							Error loading row (<span class="text-danger">#part_updates + 1#</span>) from the CSV: 
 							<cfif len(cfcatch.detail) gt 0>
@@ -971,22 +971,21 @@ limitations under the License.
 					</cfif>
 					<table class='px-0 mx-0 sortable table small table-responsive table-striped d-lg-table mt-3'>
 						<thead class="thead-light">
-										<tr>
-											<th>status</th>
-											<th>institution_acronym</th>
-											<th>other_id_type</th>
-											<th>other_id_number</th>
-											<th>collection_cde</th>
-											<th>part_name</th>
-											<th>lot_count_modifier</th>
-											<th>preserve_method</th>
-											<th>lot_count</th>
-											<th>condition</th>
-											<th>coll_obj_disposition</th>
-											<th>Container_unique_id</th>
-											
-										</tr> 
-									</thead>
+							<tr>
+								<th>status</th>
+								<th>institution_acronym</th>
+								<th>other_id_type</th>
+								<th>other_id_number</th>
+								<th>collection_cde</th>
+								<th>part_name</th>
+								<th>lot_count_modifier</th>
+								<th>preserve_method</th>
+								<th>lot_count</th>
+								<th>condition</th>
+								<th>coll_obj_disposition</th>
+								<th>container_unique_id</th>
+							</tr> 
+						</thead>
 						<tbody>
 							<cfloop query="getProblemData">
 								<tr>
