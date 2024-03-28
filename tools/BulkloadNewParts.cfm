@@ -934,7 +934,7 @@ limitations under the License.
 					</cfquery>
 					<cfif getProblemData.recordcount GT 0>
 						<h3>
-							Error loading row (<span class="text-danger">#part_updates + 1#</span>) from the CSV: 
+							Error loading row (<span class="text-danger">#part_updates + 1#</span>) from the CSV. Fix the issue and load again: 
 							<cfif len(cfcatch.detail) gt 0>
 								<span class="font-weight-normal border-bottom border-danger">
 									<cfif cfcatch.detail contains "Invalid INSTITUTION_ACRONYM">
@@ -959,6 +959,8 @@ limitations under the License.
 										Problem with preserve_method (#cfcatch.detail#)
 									<cfelseif cfcatch.detail contains "lot_count_modifier">
 										Problem with lot_count_modifier (#cfcatch.detail#)
+									<cfelseif cfcatch.detail contains "container_unique_id">
+										Problem with container_unique_id (#cfcatch.detail#)
 									<cfelseif cfcatch.detail contains "no data">
 										No data or the wrong data (#cfcatch.detail#)
 									<cfelse>
