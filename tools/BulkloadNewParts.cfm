@@ -926,15 +926,15 @@ limitations under the License.
 					</cfloop>
 				<cfcatch>
 					<cftransaction action="ROLLBACK">
-					<h2 class="h3">There was a problem updating the parts.</h2>
+					<p>There was a problem updating the parts.</p>
 					<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						SELECT status, institution_acronym,collection_cde,other_id_type,other_id_number,part_name,coll_obj_disposition,condition,lot_count,current_remarks,collection_object_id,parent_container_id,container_unique_id,change_container_type,use_existing,use_part_id,preserve_method,lot_count_modifier,append_to_remarks,changed_date,new_preserve_method
 						FROM cf_temp_parts
 						WHERE key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#problem_key#">
 					</cfquery>
 					<cfif getProblemData.recordcount GT 0>
-						<h3>
-							Error loading row (<span class="text-danger">#part_updates + 1#</span>) from the CSV. Fix the issue and load again: 
+						<p>
+							Error loading row (<span class="text-danger">#part_updates + 1#</span>) from the CSV. Fix the issue and <a href="/tools/BulkloadNewParts.cfm">load</a> again</p> 
 							<cfif len(cfcatch.detail) gt 0>
 								<span class="font-weight-normal border-bottom border-danger">
 									<cfif cfcatch.detail contains "Invalid INSTITUTION_ACRONYM">
