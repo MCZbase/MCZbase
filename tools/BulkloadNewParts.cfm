@@ -846,7 +846,7 @@ limitations under the License.
 							#enteredbyid#,
 							sysdate,
 							#enteredbyid#,
-							'#DISPOSITION#',
+							'#COLL_OBJ_DISPOSITION#',
 							'#lot_count_modifier#',
 							#lot_count#,
 							'#condition#',
