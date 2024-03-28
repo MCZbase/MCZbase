@@ -764,7 +764,7 @@ limitations under the License.
 						</tr>
 					</thead>
 					<tbody>
-						<cfloop query="inT">
+						<cfloop query="data">
 							<tr>
 								<td>
 									<cfif len(#collection_object_id#) gt 0 and
