@@ -1052,8 +1052,8 @@ limitations under the License.
 				</cfloop>
 				</cftransaction>
 
-				Spiffy, all done.
-				<a href="/SpecimenResults.cfm?collection_object_id=#valuelist(getTempData.collection_object_id)#">
+				Parts loaded.
+				<a href="/Specimens.cfm?execute=true&builderMaxRows=1&action=builderSearch&nestdepth1=1&field1=COLL_OBJECT%3ACOLL_OBJ_COLLECTION_OBJECT_ID&searchText1=3353125%2C108645">
 					See in Specimen Results
 				</a>
 			</cfoutput>
