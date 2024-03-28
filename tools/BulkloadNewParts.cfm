@@ -1053,7 +1053,7 @@ limitations under the License.
 				</cftransaction>
 
 				Parts loaded.
-				<a href="/Specimens.cfm?execute=true&builderMaxRows=1&action=builderSearch&nestdepth1=1&field1=COLL_OBJECT%3ACOLL_OBJ_COLLECTION_OBJECT_ID&searchText1=3353125%2C108645">
+				<a href="/Specimens.cfm?execute=true&builderMaxRows=1&action=builderSearch&nestdepth1=1&field1=COLL_OBJECT%3ACOLL_OBJ_COLLECTION_OBJECT_ID&searchText1=3353125%2C108645" target="_blank">
 					See in Specimen Results
 				</a>
 			</cfoutput>
