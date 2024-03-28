@@ -928,10 +928,9 @@ limitations under the License.
 					<cftransaction action="ROLLBACK">
 					<h2 class="h3">There was a problem updating the parts.</h2>
 					<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-						SELECT institution_acronym,collection_cde,other_id_type,other_id_number,part_name,coll_obj_disposition,condition,lot_count,current_remarks,collection_object_id,parent_container_id,container_unique_id,change_container_type,use_existing,use_part_id,preserve_method,lot_count_modifier,append_to_remarks,changed_date,new_preserve_method,status
+						SELECT status, institution_acronym,collection_cde,other_id_type,other_id_number,part_name,coll_obj_disposition,condition,lot_count,current_remarks,collection_object_id,parent_container_id,container_unique_id,change_container_type,use_existing,use_part_id,preserve_method,lot_count_modifier,append_to_remarks,changed_date,new_preserve_method
 						FROM cf_temp_parts
 						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-						and status <> ''
 						ORDER BY key
 					</cfquery>
 					<cfif getProblemData.recordcount GT 0>
@@ -974,7 +973,7 @@ limitations under the License.
 					<table class='px-0 mx-0 sortable table small table-responsive table-striped d-lg-table mt-3'>
 						<thead class="thead-light">
 							<tr>
-								<th>status</th>
+								<th>bulkloading status</th>
 								<th>institution_acronym</th>
 								<th>other_id_type</th>
 								<th>other_id_number</th>
