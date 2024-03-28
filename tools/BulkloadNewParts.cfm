@@ -916,7 +916,7 @@ limitations under the License.
 							</cfif>
 						</cfif>
 						<cfset part_updates = part_updates + newParts2_result.recordcount>
-						<cfif updateParts_result.recordcount gt 0>
+						<cfif len(newParts2_result.status) gt 0>
 							<cftransaction action = "ROLLBACK">
 						<cfelse>
 							<cftransaction action="COMMIT">
