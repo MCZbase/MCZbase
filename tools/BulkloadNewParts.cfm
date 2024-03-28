@@ -929,7 +929,7 @@ limitations under the License.
 					<cftransaction action="ROLLBACK">
 					<p>There was a problem updating the parts.</p>
 					<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-						SELECT status, institution_acronym,collection_cde,other_id_type,other_id_number,part_name,coll_obj_disposition,condition,lot_count,current_remarks,collection_object_id,parent_container_id,container_unique_id,change_container_type,use_existing,use_part_id,preserve_method,lot_count_modifier,append_to_remarks,changed_date,new_preserve_method
+						SELECT status, institution_acronym,collection_cde,other_id_type,other_id_number,part_name,coll_obj_disposition,condition,lot_count,current_remarks,collection_object_id,parent_container_id,container_unique_id,preserve_method,lot_count_modifier
 						FROM cf_temp_parts
 						WHERE key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#problem_key#">
 					</cfquery>
@@ -976,6 +976,8 @@ limitations under the License.
 										Problem with preserve_method (#cfcatch.detail#)
 									<cfelseif cfcatch.detail contains "lot_count_modifier">
 										Problem with lot_count_modifier (#cfcatch.detail#)
+									<cfelseif cfcatch.detail contains "parent_container_id">
+										Problem with parent_container_id (#cfcatch.detail#)
 									<cfelseif cfcatch.detail contains "container_unique_id">
 										Problem with container_unique_id (#cfcatch.detail#)
 									<cfelseif cfcatch.detail contains "no data">
