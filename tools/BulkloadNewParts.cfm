@@ -831,6 +831,7 @@ limitations under the License.
 				</cfif>
 				<cfset enteredbyid = '#getEnteredBy.agent_id#'>
 				<cftry>
+					<cfset part_attribute = 0>
 					<cfloop query="getTempData">
 						<cfset problem_key = getTempData.key>
 						<cfif getTempData.recordcount eq 0>
