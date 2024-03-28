@@ -840,7 +840,7 @@ limitations under the License.
 						<cfquery name="NEXTID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 							select sq_collection_object_id.nextval NEXTID from dual
 						</cfquery>
-						<cfquery name="newParts1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="newParts1">
+						<cfquery name="newParts1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="newParts1_result">
 							insert into 
 							coll_object
 							(collection_object_id,
@@ -865,7 +865,7 @@ limitations under the License.
 							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#condition#">,
 							0)
 						</cfquery>
-						<cfquery name="newParts2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="newParts2">
+						<cfquery name="newParts2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="newParts2_result">
 							insert into 
 							specimen_part
 							(collection_object_id,
@@ -879,7 +879,7 @@ limitations under the License.
 							#collection_object_id#)
 						</cfquery>
 						<cfif len(#current_remarks#) gt 0>
-							<cfquery name="newParts3" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="newParts3">
+							<cfquery name="newParts3" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="newParts3_result">
 							INSERT INTO 
 							coll_object_remark 
 							(collection_object_id, 
@@ -890,7 +890,7 @@ limitations under the License.
 							</cfquery>
 						</cfif>
 						<cfif len(#changed_date#) gt 0>
-							<cfquery name="updateDate" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+							<cfquery name="updateDate" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="partHist_result">
 							update 
 							SPECIMEN_PART_PRES_HIST 
 							set CHANGED_DATE = 'to_date('#CHANGED_DATE#', 'YYYY-MM-DD')' 
@@ -915,7 +915,7 @@ limitations under the License.
 								</cfquery>
 							</cfif>
 						</cfif>
-						<cfset part_updates = part_updates + updateParts_result.recordcount>
+						<cfset part_updates = part_updates + newParts2_result.recordcount>
 						<cfif updateParts_result.recordcount gt 0>
 							<cftransaction action = "ROLLBACK">
 						<cfelse>
@@ -987,23 +987,23 @@ limitations under the License.
 										</tr> 
 									</thead>
 						<tbody>
-										<cfloop query="data">
-											<tr>
-												<td>#getProblemData.INSTITUTION_ACRONYM#</td>
-												<td>#getProblemData.OTHER_ID_TYPE#</td>
-												<td>#getProblemData.OTHER_ID_NUMBER#</td>
-												<td>#getProblemData.COLLECTION_CDE#</td>
-												<td>#getProblemData.PART_NAME#</td>
-												<td>#getProblemData.PRESERVE_METHOD#</td>
-												<td>#getProblemData.LOT_COUNT_MODIFIER#</td>
-												<td>#getProblemData.LOT_COUNT#</td>
-												<td>#getProblemData.CONDITION#</td>
-												<td>#getProblemData.COLL_OBJ_DISPOSITION#</td>
-												<td>#getProblemData.CONTAINER_UNIQUE_ID#</td>
-												<td>#getProblemData.status#</td>
-											</tr> 
-										</cfloop>
-									</tbody>
+							<cfloop query="getProblemData">
+								<tr>
+									<td>#getProblemData.INSTITUTION_ACRONYM#</td>
+									<td>#getProblemData.OTHER_ID_TYPE#</td>
+									<td>#getProblemData.OTHER_ID_NUMBER#</td>
+									<td>#getProblemData.COLLECTION_CDE#</td>
+									<td>#getProblemData.PART_NAME#</td>
+									<td>#getProblemData.PRESERVE_METHOD#</td>
+									<td>#getProblemData.LOT_COUNT_MODIFIER#</td>
+									<td>#getProblemData.LOT_COUNT#</td>
+									<td>#getProblemData.CONDITION#</td>
+									<td>#getProblemData.COLL_OBJ_DISPOSITION#</td>
+									<td>#getProblemData.CONTAINER_UNIQUE_ID#</td>
+									<td>#getProblemData.status#</td>
+								</tr> 
+							</cfloop>
+						</tbody>
 					</table>
 				</cfcatch>
 				</cftry>
