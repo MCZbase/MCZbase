@@ -972,6 +972,7 @@ limitations under the License.
 					<table class='px-0 mx-0 sortable table small table-responsive table-striped d-lg-table mt-3'>
 						<thead class="thead-light">
 										<tr>
+											<th>status</th>
 											<th>institution_acronym</th>
 											<th>other_id_type</th>
 											<th>other_id_number</th>
@@ -983,12 +984,13 @@ limitations under the License.
 											<th>condition</th>
 											<th>coll_obj_disposition</th>
 											<th>Container_unique_id</th>
-											<th>status</th>
+											
 										</tr> 
 									</thead>
 						<tbody>
 							<cfloop query="getProblemData">
 								<tr>
+									<td>#getProblemData.status#</td>
 									<td>#getProblemData.INSTITUTION_ACRONYM#</td>
 									<td>#getProblemData.OTHER_ID_TYPE#</td>
 									<td>#getProblemData.OTHER_ID_NUMBER#</td>
@@ -1000,7 +1002,7 @@ limitations under the License.
 									<td>#getProblemData.CONDITION#</td>
 									<td>#getProblemData.COLL_OBJ_DISPOSITION#</td>
 									<td>#getProblemData.CONTAINER_UNIQUE_ID#</td>
-									<td>#getProblemData.status#</td>
+									
 								</tr> 
 							</cfloop>
 						</tbody>
