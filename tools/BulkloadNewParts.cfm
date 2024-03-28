@@ -811,120 +811,121 @@ limitations under the License.
 			<cfif #action# is "load">
 				<cfoutput>
 				<cfset problem_key = "">
-				<h2 class="h4">Third step: Apply changes.</h2>
-				<cfquery name="getTempData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					SELECT * FROM cf_temp_parts
-					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-					and status is null
-				</cfquery>
-				<cfquery name="getCounts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					SELECT distinct count(distinct collection_object_id) ctobj FROM cf_temp_parts
-					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-				</cfquery>
-				<cfquery name= "getEnteredBy" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					SELECT agent_id FROM agent_name WHERE agent_name = '#session.username#'
-				</cfquery>
-				<cfif getEnteredBy.recordcount is 0>
-					<cfabort showerror="You aren't a recognized agent!">
-				<cfelseif getEnteredBy.recordcount gt 1>
-					<cfabort showerror="Your login has multiple matches.">
-				</cfif>
-				<cfset enteredbyid = '#getEnteredBy.agent_id#'>
-				<cftry>
-					<cfif getTempData.recordcount eq 0>
-						<cfthrow message="You have no rows to load in the part bulkloader table (cf_temp_parts).  <a href='/tools/BulkloadNewParts.cfm'>Start over</a>">
+					<cftransaction>
+					<h2 class="h4">Third step: Apply changes.</h2>
+					<cfquery name="getTempData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						SELECT * FROM cf_temp_parts
+						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+						and status is null
+					</cfquery>
+					<cfquery name="getCounts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						SELECT distinct count(distinct collection_object_id) ctobj FROM cf_temp_parts
+						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+					</cfquery>
+					<cfquery name= "getEnteredBy" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						SELECT agent_id FROM agent_name WHERE agent_name = '#session.username#'
+					</cfquery>
+					<cfif getEnteredBy.recordcount is 0>
+						<cfabort showerror="You aren't a recognized agent!">
+					<cfelseif getEnteredBy.recordcount gt 1>
+						<cfabort showerror="Your login has multiple matches.">
 					</cfif>
-					<cfset part_updates = 0>
-					<cfloop query="getTempData">
-						<cfset problem_key = getTempData.key>
-						<cfquery name="NEXTID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-							select sq_collection_object_id.nextval NEXTID from dual
-						</cfquery>
-						<cfquery name="newParts1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="newParts1_result">
-							insert into 
-							coll_object
-							(collection_object_id,
-							coll_object_type,
-							entered_person_id,
-							coll_object_entered_date,
-							last_edited_person_id,
-							coll_obj_disposition,
-							lot_count_modifier,
-							lot_count,
-							condition,
-							flags) 
-							values
-							(#nextid.nextid#,
-							'SP',
-							<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#enteredbyid#">,
-							sysdate,
-							<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#enteredbyid#">,
-							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#coll_obj_disposition#">,
-							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#lot_count_modifier#">,
-							<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#lot_count#">,
-							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#condition#">,
-							0)
-						</cfquery>
-						<cfquery name="newParts2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="newParts2_result">
-							insert into 
-							specimen_part
-							(collection_object_id,
-							PART_NAME,
-							PRESERVE_METHOD,
-							DERIVED_FROM_CAT_ITEM)
-							values
-							(#nextid.nextid#,
-							'#part_name#',
-							'#preserve_method#',
-							#collection_object_id#)
-						</cfquery>
-						<cfif len(#coll_object_remark.coll_object_remarks#) gt 0>
-							<cfquery name="newParts3" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="newParts3_result">
-							INSERT INTO 
-							coll_object_remark 
-							(collection_object_id, 
-							coll_object_remarks)
-							VALUES (
-							sq_collection_object_id.currval, 
-							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#current_remarks#">)
-							</cfquery>
+					<cfset enteredbyid = '#getEnteredBy.agent_id#'>
+					<cftry>
+						<cfif getTempData.recordcount eq 0>
+							<cfthrow message="You have no rows to load in the part bulkloader table (cf_temp_parts).  <a href='/tools/BulkloadNewParts.cfm'>Start over</a>">
 						</cfif>
-						<cfif len(#container_unique_id#) gt 0>
-							<cfquery name="partContainerID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="partContainerID_result">
-							select container_id 
-							from coll_obj_cont_hist 
-							where collection_object_id = #updateParts2.NEXTID#
+						<cfset part_updates = 0>
+						<cfloop query="getTempData">
+							<cfset problem_key = getTempData.key>
+							<cfquery name="NEXTID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+								select sq_collection_object_id.nextval NEXTID from dual
 							</cfquery>
-							<cfquery name="updatePartContainer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-							update container set parent_container_id=#parent_container_id#
-							where container_id = #partContainerID_result.container_id#
+							<cfquery name="newParts1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="newParts1_result">
+								insert into 
+								coll_object
+								(collection_object_id,
+								coll_object_type,
+								entered_person_id,
+								coll_object_entered_date,
+								last_edited_person_id,
+								coll_obj_disposition,
+								lot_count_modifier,
+								lot_count,
+								condition,
+								flags) 
+								values
+								(#nextid.nextid#,
+								'SP',
+								<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#enteredbyid#">,
+								sysdate,
+								<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#enteredbyid#">,
+								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#coll_obj_disposition#">,
+								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#lot_count_modifier#">,
+								<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#lot_count#">,
+								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#condition#">,
+								0)
 							</cfquery>
-							<cfif #len(change_container_type)# gt 0>
-								<cfquery name="updatePartContainer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-								update container set
-								container_type='#change_container_type#'
-								where container_id=#parent_container_id#
+							<cfquery name="newParts2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="newParts2_result">
+								insert into 
+								specimen_part
+								(collection_object_id,
+								PART_NAME,
+								PRESERVE_METHOD,
+								DERIVED_FROM_CAT_ITEM)
+								values
+								(#nextid.nextid#,
+								'#part_name#',
+								'#preserve_method#',
+								#collection_object_id#)
+							</cfquery>
+							<cfif len(#coll_object_remark.coll_object_remarks#) gt 0>
+								<cfquery name="newParts3" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="newParts3_result">
+								INSERT INTO 
+								coll_object_remark 
+								(collection_object_id, 
+								coll_object_remarks)
+								VALUES (
+								sq_collection_object_id.currval, 
+								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#current_remarks#">)
 								</cfquery>
 							</cfif>
-						</cfif>
-						<cfquery name="searchAfter" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="searchAfter_result">
-							select distinct collection_object_id from specimen_part,coll_object 
-							where specimen_part.collection_object_id = coll_object.collection_object_id
-							collection_object_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.collection_object_id#">
-							group by specimen_part,coll_object
-							having count(*) > 1
-						</cfquery>
-						<cfset part_updates = part_updates + newParts2_result.recordcount>
-							<h1>#part_updates#</h1>
-						<cfif #searchAfter.collection_object_id# gt 0>
-							Hello?  #part_updates#
-							<cftransaction action = "ROLLBACK">
-						<cfelse>
-							<cftransaction action="COMMIT">
-							Done #part_updates#
-						</cfif>
-					</cfloop>
-				<cfcatch>
+							<cfif len(#container_unique_id#) gt 0>
+								<cfquery name="partContainerID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="partContainerID_result">
+								select container_id 
+								from coll_obj_cont_hist 
+								where collection_object_id = #updateParts2.NEXTID#
+								</cfquery>
+								<cfquery name="updatePartContainer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+								update container set parent_container_id=#parent_container_id#
+								where container_id = #partContainerID_result.container_id#
+								</cfquery>
+								<cfif #len(change_container_type)# gt 0>
+									<cfquery name="updatePartContainer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+									update container set
+									container_type='#change_container_type#'
+									where container_id=#parent_container_id#
+									</cfquery>
+								</cfif>
+							</cfif>
+							<cfquery name="searchAfter" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="searchAfter_result">
+								select distinct collection_object_id from specimen_part,coll_object 
+								where specimen_part.collection_object_id = coll_object.collection_object_id
+								collection_object_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.collection_object_id#">
+								group by specimen_part,coll_object
+								having count(*) > 1
+							</cfquery>
+							<cfset part_updates = part_updates + newParts2_result.recordcount>
+								<h1>#part_updates#</h1>
+							<cfif #searchAfter.collection_object_id# gt 0>
+								Hello?  #part_updates#
+								<cftransaction action = "ROLLBACK">
+							<cfelse>
+								<cftransaction action="COMMIT">
+								Done #part_updates#
+							</cfif>
+						</cfloop>
+					<cfcatch>
 					<cftransaction action="ROLLBACK">
 					<p>There was a problem updating the parts.</p>
 					<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -1026,7 +1027,13 @@ limitations under the License.
 					</table>
 				</cfcatch>
 				</cftry>
-				</cfoutput>
+			</cftransaction>
+			
+			<cfquery name="clearTempTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="clearTempTable_result">
+				DELETE FROM cf_temp_attributes 
+				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+			</cfquery>
+		</cfoutput>
 			</cfif>
 		</div>
 	</div>
