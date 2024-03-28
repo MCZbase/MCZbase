@@ -670,18 +670,20 @@ limitations under the License.
 						nvl(cf_temp_parts.current_remarks, 'NULL') = nvl(coll_object_remark.coll_object_remarks, 'NULL'))
 						where status like '%NOTE: PART EXISTS%' AND use_existing = 1
 					</cfquery>
+					<cfquery name="getGuid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						SELECT guid
+						FROM flat 
+						WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableQC.collection_object_id#">
+					</cfquery>
 				</cfloop>
+						
 				<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					SELECT *
 					FROM cf_temp_parts
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 					ORDER BY key
 				</cfquery>
-				<cfquery name="getGuid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					SELECT guid
-					FROM flat 
-					WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#data.collection_object_id#">
-				</cfquery>
+				
 				<cfquery name="allValid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					select count(*) as cnt from cf_temp_parts where status = ''
 				</cfquery>
