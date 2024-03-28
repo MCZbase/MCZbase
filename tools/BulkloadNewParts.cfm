@@ -581,11 +581,7 @@ limitations under the License.
 						status = concat(nvl2(status, status || '; ', ''),'Invalid lot_count "' || lot_count ||'"')
 						where (LOT_COUNT is null OR is_number(lot_count) = 0)
 					</cfquery>
-						<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-						update cf_temp_parts set 
-						status = concat(nvl2(status, status || '; ', ''),'Same part info exists "' || collection_object_id ||'"')
-						where collection_object_id in (select collection_object_id from WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#data.collection_object_id#">)
-					</cfquery>
+		
 					<cfloop index="i" from="1" to="6">
 						<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						update cf_temp_parts set 
@@ -694,7 +690,11 @@ limitations under the License.
 				<cfelse>
 					You must fix everything above to proceed. <a href="/tools/BulkloadNewParts.cfm">Try again.</a>
 				</cfif>
-		
+				<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					update cf_temp_parts set 
+					status = concat(nvl2(status, status || '; ', ''),'Same part info exists "' || collection_object_id ||'"')
+					where collection_object_id in (select collection_object_id from WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#data.collection_object_id#">)
+				</cfquery>
 				<table class='sortable w-100 small px-0 mx-0 table table-responsive table-striped'>
 					<thead class="thead-light">
 						<tr>
