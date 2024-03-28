@@ -831,12 +831,12 @@ limitations under the License.
 				</cfif>
 				<cfset enteredbyid = '#getEnteredBy.agent_id#'>
 				<cftry>
+					<cfif getTempData.recordcount eq 0>
+						<cfthrow message="You have no rows to load in the part bulkloader table (cf_temp_parts).  <a href='/tools/BulkloadNewParts.cfm'>Start over</a>">
+					</cfif>
 					<cfset part_updates = 0>
 					<cfloop query="getTempData">
 						<cfset problem_key = getTempData.key>
-						<cfif getTempData.recordcount eq 0>
-							<cfthrow message="You have no rows to load in the part bulkloader table (cf_temp_parts).  <a href='/tools/BulkloadNewParts.cfm'>Start over</a>">
-						</cfif>
 						<cfquery name="NEXTID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 							select sq_collection_object_id.nextval NEXTID from dual
 						</cfquery>
@@ -878,7 +878,7 @@ limitations under the License.
 							'#preserve_method#',
 							#collection_object_id#)
 						</cfquery>
-						<cfif len(#current_remarks#) gt 0>
+						<cfif len(#coll_object_remark.coll_object_remarks#) gt 0>
 							<cfquery name="newParts3" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="newParts3_result">
 							INSERT INTO 
 							coll_object_remark 
@@ -887,14 +887,6 @@ limitations under the License.
 							VALUES (
 							sq_collection_object_id.currval, 
 							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#current_remarks#">)
-							</cfquery>
-						</cfif>
-						<cfif len(#changed_date#) gt 0>
-							<cfquery name="updateDate" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="partHist_result">
-							update 
-							SPECIMEN_PART_PRES_HIST 
-							set CHANGED_DATE = 'to_date('#CHANGED_DATE#', 'YYYY-MM-DD')' 
-							where collection_object_id =#newParts2.nextid# and is_current_fg = 1
 							</cfquery>
 						</cfif>
 						<cfif len(#container_unique_id#) gt 0>
@@ -915,9 +907,16 @@ limitations under the License.
 								</cfquery>
 							</cfif>
 						</cfif>
+						<cfquery name="searchAfter" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="searchAfter_result">
+							select from specimen_part,coll_object 
+							where specimen_part.collection_object_id = coll_object.collection_object_id
+							collection_object_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.collection_object_id#">
+							group by specimen_part,coll_object
+							having count(*) > 1
+						</cfquery>
 						<cfset part_updates = part_updates + newParts2_result.recordcount>
 							<h1>#part_updates#</h1>
-						<cfif len(newParts2_result.status) gt 0>
+						<cfif  gt 0>
 							Hello?  #part_updates#
 							<cftransaction action = "ROLLBACK">
 						<cfelse>
