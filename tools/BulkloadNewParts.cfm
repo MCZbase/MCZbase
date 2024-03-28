@@ -810,27 +810,27 @@ limitations under the License.
 		<!-------------------------------------------------------------------------------------------->
 			<cfif #action# is "load">
 				<cfoutput>
-					<cftry>
-					<cfset problem_key = "">
-					<h2 class="h3">Third step: Apply changes.</h2>
-					<cfquery name="getTempData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-						SELECT * FROM cf_temp_parts
-						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-						and status is null
-					</cfquery>
-					<cfquery name="getCounts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-						SELECT distinct count(distinct collection_object_id) ctobj FROM cf_temp_parts
-						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-					</cfquery>
-					<cfquery name= "getEnteredBy" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-						SELECT agent_id FROM agent_name WHERE agent_name = '#session.username#'
-					</cfquery>
-					<cfif getEnteredBy.recordcount is 0>
-						<cfabort showerror="You aren't a recognized agent!">
-					<cfelseif getEnteredBy.recordcount gt 1>
-						<cfabort showerror="Your login has multiple matches.">
-					</cfif>
-					<cfset enteredbyid = '#getEnteredBy.agent_id#'>
+				<cfset problem_key = "">
+				<h2 class="h3">Third step: Apply changes.</h2>
+				<cfquery name="getTempData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					SELECT * FROM cf_temp_parts
+					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+					and status is null
+				</cfquery>
+				<cfquery name="getCounts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					SELECT distinct count(distinct collection_object_id) ctobj FROM cf_temp_parts
+					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+				</cfquery>
+				<cfquery name= "getEnteredBy" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					SELECT agent_id FROM agent_name WHERE agent_name = '#session.username#'
+				</cfquery>
+				<cfif getEnteredBy.recordcount is 0>
+					<cfabort showerror="You aren't a recognized agent!">
+				<cfelseif getEnteredBy.recordcount gt 1>
+					<cfabort showerror="Your login has multiple matches.">
+				</cfif>
+				<cfset enteredbyid = '#getEnteredBy.agent_id#'>
+				<cftry>
 					<cfloop query="getTempData">
 						<cfset problem_key = getTempData.key>
 						<cfif getTempData.recordcount eq 0>
@@ -967,6 +967,7 @@ limitations under the License.
 								</span>
 							</cfif>
 						</h3>
+					</cfif>
 					<table class='px-0 mx-0 sortable table small table-responsive table-striped d-lg-table mt-3'>
 						<thead class="thead-light">
 										<tr>
