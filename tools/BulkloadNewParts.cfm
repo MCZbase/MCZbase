@@ -951,11 +951,10 @@ limitations under the License.
 					<cfif getProblemData.recordcount GT 0>
 						<h3 class="">
 							Error loading row (<span class="text-danger">#part_updates + 1#</span>) from the CSV. Fix the issue and <a href="/tools/BulkloadNewParts.cfm">load</a> again.
-							
 							<cfif len(cfcatch.detail) gt 0>
 								<span class="font-weight-normal border-bottom border-danger">
 									<cfif cfcatch.detail contains "Invalid INSTITUTION_ACRONYM">
-										Invalid INSTITUTION_ACRONYM-only MCZ allowed.
+										INSTITUTION_ACRONYM does not match #institutions# (all caps)
 									<cfelseif cfcatch.detail contains "collection_cde">
 										COLLECTION_CDE does not match abbreviated collection (#collection_codes#)
 									<cfelseif cfcatch.detail contains "part_name">
