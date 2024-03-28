@@ -916,10 +916,13 @@ limitations under the License.
 							</cfif>
 						</cfif>
 						<cfset part_updates = part_updates + newParts2_result.recordcount>
+							<h1>#part_updates#</h1>
 						<cfif len(newParts2_result.status) gt 0>
+							Hello?
 							<cftransaction action = "ROLLBACK">
 						<cfelse>
 							<cftransaction action="COMMIT">
+							Done
 						</cfif>
 					</cfloop>
 				<cfcatch>
