@@ -1040,7 +1040,7 @@ limitations under the License.
 					select derived_from_cat_item from specimen_part where collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.collection_object_id#">			
 				</cfquery>
 				<cfloop query="links" index="findIt">
-					<cfset coll_obj_id = #findIt# list="yes">					
+					<cfset coll_obj_id = #findIt#>					
 				</cfloop>
 				</cftransaction>
 				<!---insert collection_object_ids into link with a comma between them--->
