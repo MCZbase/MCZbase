@@ -247,7 +247,7 @@ limitations under the License.
 							<cfset fieldArray = listToArray(ucase(fieldlist))><!--- the full list of fields --->
 							<cfset typeArray = listToArray(fieldTypes)><!--- the types for the full list of fields --->
 
-							<div class="col-12 my-4">
+							<div class="col-12 px-0 my-4">
 								<h3 class="h4">Found #size# columns in header of csv file.</h3>
 								<h3 class="h4">There are #ListLen(fieldList)# columns expected in the header (of these #ListLen(requiredFieldList)# are required).</h3>
 							</div>
@@ -277,7 +277,7 @@ limitations under the License.
 									<cfelse>
 										<cfset class="text-dark">
 									</cfif>
-									<li class="d-flex col-3 list-group-numbered list-group-item col-2 px-0 mx-0">
+									<li class="d-flex col-3 small list-group-numbered list-group-item col-2 px-0 mx-0">
 										<span class="#class#" #hint#>#field#</span>
 										<cfif arrayFindNoCase(colNameArray,field) GT 0>
 											<strong class="text-success px-2"> Present in CSV</strong>
