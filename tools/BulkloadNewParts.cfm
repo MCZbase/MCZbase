@@ -268,7 +268,7 @@ limitations under the License.
 							<cfset errorMessage = "">
 							<!--- Loop through list of fields, mark each field as fields present in input or not, throw exception if required fields are missing --->
 
-							<ul class="h4 mb-4 font-weight-normal list-group list-group-horizontal">
+							<ul class="mb-4 h4 font-weight-normal align-items-start align-items list-group list-group-horizontal flex-wrap col-12">
 								<cfloop list="#fieldlist#" index="field" delimiters=",">
 									<cfset hint="">
 									<cfif listContains(requiredfieldlist,field,",")>
@@ -277,7 +277,7 @@ limitations under the License.
 									<cfelse>
 										<cfset class="text-dark">
 									</cfif>
-									<li class="list-group-item d-flex list-group-numbered">
+									<li class="d-flex col-3 list-group-numbered list-group-item col-2 px-0 mx-0">
 										<span class="#class#" #hint#>#field#</span>
 										<cfif arrayFindNoCase(colNameArray,field) GT 0>
 											<strong class="text-success">Present in CSV</strong>
