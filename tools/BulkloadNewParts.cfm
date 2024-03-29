@@ -687,6 +687,9 @@ limitations under the License.
 				<cfelse>
 					You must fix everything above to proceed. <a href="/tools/BulkloadNewParts.cfm">Try again.</a>
 				</cfif>
+					<style>
+						.sortable {width: 100px;}
+					</style>
 				<table class='sortable w-100 small px-0 mx-0 table table-responsive table-striped'>
 					<thead class="thead-light">
 						<tr>
