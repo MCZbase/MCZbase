@@ -54,6 +54,7 @@ limitations under the License.
 		<!------------------------------------------------------->
 			<cfif #action# is "nothing">
 				<cfoutput>
+				<div class="col-12">
 					<p>This tool adds part rows to the specimen record. It create metadata for part history and includes specimen part attributes fields that can be empty if none exists. The cataloged items must be in the database and they can be entered using the catalog number or other ID. Error messages will appear if the values need to match values in MCZbase. It ignores rows that are exactly the same and alerts you if columns are missing. Additional columns will be ignored. Include column headings, spelled exactly as below. </p>
 					<span class="btn btn-xs btn-info" onclick="document.getElementById('template').style.display='block';">View template</span>
 					<div id="template" style="display:none;margin: 1em 0;">
@@ -75,6 +76,7 @@ limitations under the License.
 							<li class="#class# list-group-item" #aria#> #field#</li>
 						</cfloop>
 					</ul>
+				</div>
 					<form name="atts" method="post" enctype="multipart/form-data" action="/tools/BulkloadNewParts.cfm">
 						<div class="form-row border rounded p-2">
 							<input type="hidden" name="action" value="getFile">
