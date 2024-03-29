@@ -688,7 +688,7 @@ limitations under the License.
 					You must fix everything above to proceed. <a href="/tools/BulkloadNewParts.cfm">Try again.</a>
 				</cfif>
 				<table class='sortable w-100 small px-0 mx-0 table table-responsive table-striped'>
-					<thead class="thead-light">
+					<thead class="thead-light smaller">
 						<tr>
 							<th>STATUS</th>
 							<th>INSTITUTION_ACRONYM</th>
@@ -697,8 +697,8 @@ limitations under the License.
 							<th>OTHER_ID_NUMBER</th>
 							<th>PART_NAME</th>
 							<th>PRESERVE_METHOD</th>
-							<th>COLL_OBJ_<br>DISPOSITION</th>
-							<th>LOT_COUNT<BR>_MODIFIER</th>
+							<th>COLL_OBJ_DISPOSITION</th>
+							<th>LOT_COUNT_MODIFIER</th>
 							<th>LOT_COUNT</th>
 							<th>CURRENT_REMARKS</th>
 							<th>CONDITION</th>
