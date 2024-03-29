@@ -1039,8 +1039,8 @@ limitations under the License.
 				<cfquery name="links" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					select derived_from_cat_item from specimen_part where collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.collection_object_id#">			
 				</cfquery>
-				<cfloop query="links" index="findIt">
-					<cfset coll_obj_id = #findIt#>					
+				<cfloop index="findIt" list="#links.derived_from_cat_itme#" delimiters=",">
+					<cfset coll_obj_id = "#findIt#">					
 				</cfloop>
 				</cftransaction>
 				<!---insert collection_object_ids into link with a comma between them--->
