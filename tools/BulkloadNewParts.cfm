@@ -280,11 +280,11 @@ limitations under the License.
 									<li class="d-flex col-3 list-group-numbered list-group-item col-2 px-0 mx-0">
 										<span class="#class#" #hint#>#field#</span>
 										<cfif arrayFindNoCase(colNameArray,field) GT 0>
-											<strong class="text-success"> Present in CSV</strong>
+											<strong class="text-success px-2"> Present in CSV</strong>
 										<cfelse>
 											<!--- Case 2. Check by identifying field in required field list --->
 											<cfif ListContainsNoCase(requiredFieldList,field)>
-												<strong class="text-dark"> Required Column Not Found</strong>
+												<strong class="text-dark px-2"> Required Column Not Found</strong>
 												<cfset errorMessage = "#errorMessage# <strong>#field#</strong> is missing.">
 											</cfif>
 										</cfif>
