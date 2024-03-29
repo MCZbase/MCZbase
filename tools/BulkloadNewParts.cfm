@@ -1035,7 +1035,12 @@ limitations under the License.
 				<cfquery name="upLoaded" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					update cf_temp_parts set status = ''
 				</cfquery>
-					<cfset coll_obj_id = #getTempData.collection_object_id# list="yes">
+				</cfloop>
+				<cfquery name="links" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					select derived_from_cat_item from specimen_part where collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.collection_object_id#">			
+				</cfquery>
+				<cfloop query="links" index="findIt">
+					<cfset coll_obj_id = #findIt# list="yes">					
 				</cfloop>
 				</cftransaction>
 				<!---insert collection_object_ids into link with a comma between them--->
