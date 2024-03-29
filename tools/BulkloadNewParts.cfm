@@ -73,7 +73,7 @@ limitations under the License.
 							<cfelse>
 								<cfset class="text-dark">
 							</cfif>
-							<li class="#class# list-group-item col-1 px-0 mx-0" #aria#> #field#</li>
+							<li class="#class# list-group-item col-2 px-0 mx-0" #aria#> #field#</li>
 						</cfloop>
 					</ul>
 				</div>
