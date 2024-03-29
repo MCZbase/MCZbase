@@ -379,7 +379,8 @@ limitations under the License.
 									<cfset loadedRows = loadedRows + insert_result.recordcount>
 								<cfcatch>
 									<!--- identify the problematic row --->
-									<cfset error_message="#COLUMN_ERR# from line #row# in input file.  <br>Header:[#colNames#] <br>Row:[#ArrayToList(collValuesArray)#] <br>Error: #cfcatch.message#"><!--- " --->
+									<cfset error_message="#COLUMN_ERR# from line #row# in input file.  
+														  <div class='mb-4 h4 font-weight-normal align-items-start align-items list-group list-group-horizontal flex-wrap col-12'>Header:[#colNames#] <br>Row:[#ArrayToList(collValuesArray)#] <br>Error: #cfcatch.message#</div>"><!--- " --->
 									<cfif isDefined("cfcatch.queryError")>
 										<cfset error_message = "#error_message# #cfcatch.queryError#">
 									</cfif>
