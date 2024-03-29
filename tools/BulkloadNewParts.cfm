@@ -687,9 +687,6 @@ limitations under the License.
 				<cfelse>
 					You must fix everything above to proceed. <a href="/tools/BulkloadNewParts.cfm">Try again.</a>
 				</cfif>
-					<style>
-						.sortable td {width: 100px;}
-					</style>
 				<table class='sortable w-100 small px-0 mx-0 table table-responsive table-striped'>
 					<thead class="thead-light">
 						<tr>
@@ -1038,12 +1035,13 @@ limitations under the License.
 				<cfquery name="upLoaded" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					update cf_temp_parts set status = ''
 				</cfquery>
+					<cfset coll_obj_id = #collection_object_id#>
 				</cfloop>
 				</cftransaction>
 				<!---insert collection_object_ids into link with a comma between them--->
 				Parts loaded.
-				<a href="/Specimens.cfm?execute=true&builderMaxRows=1&action=builderSearch&nestdepth1=1&field1=COLL_OBJECT%3ACOLL_OBJ_COLLECTION_OBJECT_ID&searchText1=" target="_blank">
-					See in Specimen Results
+				<a href="/Specimens.cfm?execute=true&builderMaxRows=1&action=builderSearch&nestdepth1=1&field1=COLL_OBJECT%3ACOLL_OBJ_COLLECTION_OBJECT_ID&searchText1=#coll_obj_id#" target="_blank">
+					See in Specimen Results  #coll_obj_id#
 				</a>
 			</cfoutput>
 		</cfif>
