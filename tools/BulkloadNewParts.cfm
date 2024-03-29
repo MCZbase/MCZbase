@@ -64,7 +64,7 @@ limitations under the License.
 						<textarea rows="2" cols="90" id="templatearea" class="w-100 data-entry-textarea">#fieldlist#</textarea>
 					</div>
 					<h2 class="mt-4 h4">Columns in <span class="text-danger">red</span> are required; others are optional:</h2>
-					<ul class="mb-4 h4 font-weight-normal align-items-start align-items list-group list-group-horizontal flex-wrap col-3">
+					<ul class="mb-4 h4 font-weight-normal align-items-start align-items list-group list-group-horizontal flex-wrap col-10">
 						<cfloop list="#fieldlist#" index="field" delimiters=",">
 							<cfset aria = "">
 							<cfif listContains(requiredfieldlist,field,",")>
