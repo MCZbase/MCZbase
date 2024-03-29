@@ -1037,6 +1037,7 @@ limitations under the License.
 				</cfquery>
 				</cfloop>
 				<cfset coll_obj_id = ''>
+				<cfset findIt = ''>
 				<cfquery name="links" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					select derived_from_cat_item from specimen_part where collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.collection_object_id#">			
 				</cfquery>
