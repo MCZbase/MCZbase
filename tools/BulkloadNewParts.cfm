@@ -72,7 +72,7 @@ limitations under the License.
 							<cfelse>
 								<cfset class="text-dark">
 							</cfif>
-							<li class="#class# list-group-item" #aria#><i class="fa-solid fa-circle"></i> #field#</li>
+							<li class="#class# list-group-item" #aria#><i class="fas fa-solid fa-circle" style="font-size: 8px;"></i> #field#</li>
 						</cfloop>
 					</ul>
 					<form name="atts" method="post" enctype="multipart/form-data" action="/tools/BulkloadNewParts.cfm">
