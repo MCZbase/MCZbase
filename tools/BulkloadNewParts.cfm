@@ -1035,7 +1035,7 @@ limitations under the License.
 				<cfquery name="upLoaded" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					update cf_temp_parts set status = ''
 				</cfquery>
-					<cfset coll_obj_id = #collection_object_id#>
+					<cfset coll_obj_id = #getTempData.collection_object_id# list="yes">
 				</cfloop>
 				</cftransaction>
 				<!---insert collection_object_ids into link with a comma between them--->
