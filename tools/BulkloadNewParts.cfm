@@ -1039,7 +1039,7 @@ limitations under the License.
 				</cftransaction>
 				<!---insert collection_object_ids into link with a comma between them--->
 				Parts loaded.
-				<a href="/Specimens.cfm?execute=true&builderMaxRows=1&action=builderSearch&nestdepth1=1&field1=COLL_OBJECT%3ACOLL_OBJ_COLLECTION_OBJECT_ID&searchText1=<cfloop query='getTempData'><cfset CID = ListFirst(#getTempData.collection_object_id#)>#CID#</cfloop>" target="_blank">
+				<a href="/Specimens.cfm?execute=true&builderMaxRows=1&action=builderSearch&nestdepth1=1&field1=COLL_OBJECT%3ACOLL_OBJ_COLLECTION_OBJECT_ID&searchText1=<cfloop query='getTempData'><cfset CID = ListFirst(#getTempData.collection_object_id#,)>#CID#</cfloop>" target="_blank">
 					See in Specimen Results
 				</a><br>
 			</cfoutput>
