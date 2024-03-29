@@ -49,7 +49,7 @@ limitations under the License.
 <cfif not isDefined("action") OR len(action) EQ 0><cfset action="nothing"></cfif>
 <main class="container-fluid px-5 py-3" id="content">
 	<div class="row mx-0">
-		<div class="col-12">
+		<div class="col-12 pb-3">
 			<h1 class="h2 mt-2">Bulkload New Parts </h1>
 		<!------------------------------------------------------->
 			<cfif #action# is "nothing">
@@ -78,7 +78,7 @@ limitations under the License.
 					</ul>
 				</div>
 					<form name="atts" method="post" enctype="multipart/form-data" action="/tools/BulkloadNewParts.cfm">
-						<div class="form-row border rounded p-2">
+						<div class="form-row border rounded p-2 mb-3">
 							<input type="hidden" name="action" value="getFile">
 							<div class="col-12 col-md-4">
 								<label for="fileToUpload" class="data-entry-label">File to bulkload:</label> 
