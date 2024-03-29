@@ -1048,7 +1048,7 @@ limitations under the License.
 				Parts loaded.
 				<a href="/Specimens.cfm?execute=true&builderMaxRows=1&action=builderSearch&nestdepth1=1&field1=COLL_OBJECT%3ACOLL_OBJ_COLLECTION_OBJECT_ID&searchText1=#coll_obj_id#" target="_blank">
 					See in Specimen Results  #coll_obj_id#
-				</a>
+				</a><br>#findIt#
 			</cfoutput>
 		</cfif>
 		</div>
