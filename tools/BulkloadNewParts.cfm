@@ -1036,20 +1036,12 @@ limitations under the License.
 					update cf_temp_parts set status = ''
 				</cfquery>
 				</cfloop>
-				<cfset coll_obj_id = ''>
-				<cfset findIt = ''>
-				<cfquery name="links" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					select derived_from_cat_item from getTempData where collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.collection_object_id#">			
-				</cfquery>
-				<cfloop index="findIt" list="#links.derived_from_cat_item#" delimiters=",">
-					<cfset coll_obj_id = "#findIt#">					
-				</cfloop>
 				</cftransaction>
 				<!---insert collection_object_ids into link with a comma between them--->
 				Parts loaded.
 				<a href="/Specimens.cfm?execute=true&builderMaxRows=1&action=builderSearch&nestdepth1=1&field1=COLL_OBJECT%3ACOLL_OBJ_COLLECTION_OBJECT_ID&searchText1=#coll_obj_id#" target="_blank">
-					See in Specimen Results  #coll_obj_id#
-				</a><br>#findIt#
+					See in Specimen Results  <cfloop query="getTempData" delimiters=",">#getTempData.collection_object_id#</cfloop>
+				</a><br>
 			</cfoutput>
 		</cfif>
 		</div>
