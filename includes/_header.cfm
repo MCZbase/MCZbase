@@ -466,7 +466,7 @@
 					</cfif>
 				</ul>
 			<cfelse>
-				<cfif isdefined("cgi.REDIRECT_URL") and len(cgi.REDIRECT_URL) gt 0>
+				<cfif isdefined("cgi.REDIRECT_URL") and len(cgi.REDIRECT_URL) gt 0 and refind('^#application.protocol#://#application.hostName#/.*',cgi.REDIRECT_URL)>
 					<cfset gtp=replace(cgi.REDIRECT_URL, "//", "/")>
 				<cfelse>
 					<cfset gtp=replace(cgi.SCRIPT_NAME, "//", "/")>

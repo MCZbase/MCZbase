@@ -161,7 +161,7 @@ limitations under the License.
 						<div class="search-box-header">
 							<h1 class="h3 text-white" tabindex="0">Search Taxonomy  <span class="count font-italic text-grayish mx-0"><small>(#getCount.cnt# records)</small></span></h1>
 						</div>
-						<div class="row px-3 mx-2 pt-2 pb-3">
+						<div class="row px-3 mx-2 pt-2 pb-3" id="searchFormDiv">
 							<form name="searchForm" id="searchForm" class="row">
 								<input type="hidden" name="method" value="getTaxa" class="keeponclear">
 								<input type="hidden" name="action" value="search">
@@ -582,7 +582,8 @@ limitations under the License.
 								</span> 
 								<span id="resultLink" class="pr-2 font-weight-normal"></span>
 							</h1>
-							
+						
+							<div id="showhide"></div>
 							<div id="saveDialogButton" class="py-1"></div>
 							<div id="saveDialog"></div>
 							<div id="columnPickDialog">
@@ -696,6 +697,80 @@ limitations under the License.
 			</script>
 		</cfif>
 		<script>
+
+			// prevent on columnreordered event from causing save of grid column order when loading order from persistance store
+			var columnOrderLoading = 0
+
+			<cfif isdefined("session.username") and len(#session.username#) gt 0>
+				function columnOrderChanged(gridId) { 
+					if (columnOrderLoading==0) { 
+						var columnCount = $('##'+gridId).jqxGrid("columns").length();
+						var columnMap = new Map();
+						for (var i=0; i<columnCount; i++) { 
+							var fieldName = $('##'+gridId).jqxGrid("columns").records[i].datafield;
+							if (fieldName) { 
+								var column_number = $('##'+gridId).jqxGrid("getColumnIndex",fieldName); 
+								columnMap.set(fieldName,column_number);
+							}
+						}
+						JSON.stringify(Array.from(columnMap));
+						saveColumnOrder('#cgi.script_name#',columnMap,'Default',null);
+					} else { 
+						console.log("columnOrderChanged called while loading column order, ignoring");
+					}
+				}
+			</cfif>
+	
+			function loadColumnOrder(gridId) { 
+				<cfif isdefined("session.username") and len(#session.username#) gt 0>
+					jQuery.ajax({
+						dataType: "json",
+						url: "/shared/component/functions.cfc",
+						data: { 
+							method : "getGridColumnOrder",
+							page_file_path: '#cgi.script_name#',
+							label: 'Default',
+							returnformat : "json",
+							queryformat : 'column'
+						},
+						ajaxGridId : gridId,
+						error: function (jqXHR, status, message) {
+							messageDialog("Error looking up column order: " + status + " " + jqXHR.responseText ,'Error: '+ status);
+						},
+						success: function (result) {
+							var gridId = this.ajaxGridId;
+							var settings = result[0];
+							if (typeof settings !== "undefined" && settings!=null) { 
+								setColumnOrder(gridId,JSON.parse(settings.column_order));
+							}
+						}
+					});
+				<cfelse>
+					return null;
+				</cfif>
+			} 
+	
+			<cfif isdefined("session.username") and len(#session.username#) gt 0>
+				function setColumnOrder(gridId, columnMap) { 
+					columnOrderLoading = 1;
+					$('##' + gridId).jqxGrid('beginupdate');
+					for (var i=0; i<columnMap.length; i++) {
+						var kvp = columnMap[i];
+						var key = kvp[0];
+						var value = kvp[1];
+						if ($('##'+gridId).jqxGrid("getColumnIndex",key) != value) { 
+							if (key && value) {
+								try {
+									console.log(key + " set to column " + value);
+									$('##'+gridId).jqxGrid("setColumnIndex",key,value);
+								} catch (e) {};
+							}
+						}
+					}
+					$('##' + gridId).jqxGrid('endupdate');
+					columnOrderLoading = 0;
+				}
+			</cfif>
 			
 			window.columnHiddenSettings = new Object();
 			<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
@@ -712,6 +787,7 @@ limitations under the License.
 					$("##searchResultsGrid").replaceWith('<div id="searchResultsGrid" class="jqxGrid" style="z-index: 1;"></div>');
 					$('##resultCount').html('');
 					$('##resultLink').html('');
+					$('##showhide').html('');
 					$('##saveDialogButton').html('');
 					$('##actionFeedback').html('');
 					$('##selectModeContainer').hide();
@@ -781,7 +857,7 @@ limitations under the License.
 						async: true
 					};
 					$(document).ajaxSuccess(function() {
-					$( ".messageResults" ).html( "<div class='color: red' aria-label='results'>Search successful</div>" );
+						$( ".messageResults" ).html( "<div class='color: red' aria-label='results'>Search successful</div>" );
 					});
 
 					var dataAdapter = new $.jqx.dataAdapter(search);
@@ -804,6 +880,7 @@ limitations under the License.
 						sortable: true,
 						pageable: true,
 						editable: false,
+						enablemousewheel: #session.gridenablemousewheel#,
 						pagesize: '50',
 						pagesizeoptions: ['5','50','100'], // reset in gridLoaded
 						showaggregates: true,
@@ -871,10 +948,17 @@ limitations under the License.
 						},
 						initrowdetails: initRowDetails
 					});
+					<cfif isdefined("session.username") and len(#session.username#) gt 0>
+						$('##searchResultsGrid').jqxGrid().on("columnreordered", function (event) { 
+							columnOrderChanged('searchResultsGrid'); 
+						}); 
+					</cfif>
 					$("##searchResultsGrid").on("bindingcomplete", function(event) {
 						// add a link out to this search, serializing the form as http get parameters
 						$('##resultLink').html('<a href="/Taxa.cfm?execute=true&' + $('##searchForm :input').filter(function(index,element){ return $(element).val()!='';}).serialize() + '">Link to this search</a>');
+						$('##showhide').html('<button class="my-2 border rounded" title="hide search form" onclick=" toggleAnySearchForm(\'searchFormDiv\',\'searchFormToggleIcon\'); "><i id="searchFormToggleIcon" class="fas fa-eye-slash"></i></button>');
 						gridLoaded('searchResultsGrid','taxon record');
+						loadColumnOrder('searchResultsGrid');
 					});
 					$('##searchResultsGrid').on('rowexpand', function (event) {
 						//  Create a content div, add it to the detail row, and make it into a dialog.
@@ -921,6 +1005,10 @@ limitations under the License.
 			</cfif>
 	
 			function gridLoaded(gridId, searchType) { 
+				<cfif isDefined("execute")>
+					// race condtions between grid creation and lookup of column visibities may have caused grid to be created with default columns.
+					setColumnVisibilities(window.columnHiddenSettings,'searchResultsGrid');
+				</cfif>
 				if (Object.keys(window.columnHiddenSettings).length == 0) { 
 					window.columnHiddenSettings = getColumnVisibilities('searchResultsGrid');		
 					<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
@@ -1006,6 +1094,20 @@ limitations under the License.
 					modal: true, 
 					reszable: true, 
 					buttons: [
+						<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+						{
+							text: "Defaults",
+							click: function(){ 
+								saveColumnVisibilities('#cgi.script_name#',null,'Default');
+								saveColumnOrder('#cgi.script_name#',null,'Default',null);
+								lookupColumnVisibilities ('#cgi.script_name#','Default');
+								window.columnHiddenSettings = getColumnVisibilities('searchResultsGrid');
+								messageDialog("Default values for show/hide columns and column order will be used on your next search." ,'Reset to Defaults');
+								$(this).dialog("close");
+							},
+							tabindex: 1
+						},
+						</cfif>
 						{
 							text: "Ok",
 							click: function(){ 

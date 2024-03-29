@@ -543,7 +543,7 @@ limitations under the License.
 		<!--- Search form --->
 		<section class="container-fluid" role="search">
 			<div class="row">
-				<div class="col-12 mt-1 pb-3">
+				<div class="col-12 mt-1 pb-3" id="searchFormDiv">
 					<h1 class="h3 smallcaps mb-1 pl-1">Search Transactions <span class="count font-italic color-green mx-0"><small>(#getCount.cnt# records)</small></span></h1>
 					<!--- Tab header div --->
 					<div class="tabs card-header tab-card-header px-1 pb-0">
@@ -2664,6 +2664,7 @@ limitations under the License.
 							<span class="font-weight-normal pr-2" id="resultCount"></span>
 							<span id="resultLink" class="pr-2 font-weight-normal"></span>
 						</h1> 
+						<div id="showhide" class=""></div>
 						<div id="saveDialogButton" class=""></div>
 						<div id="saveDialog"></div>
 						<div id="columnPickDialog">
@@ -2866,6 +2867,84 @@ limitations under the License.
 		$("##"+gridId+"RowDetailsDialog" + rowIndex ).parent().css('z-index', maxZIndex + 1);
 	}
 
+	// prevent on columnreordered event from causing save of grid column order when loading order from persistance store
+	var columnOrderLoading = 0
+
+	function columnOrderChanged(gridId, searchType) { 
+		var targetAction = "findAll"
+		if (searchType == "transaction") { targetAction = "findAll"; }
+		if (searchType == "loan") { targetAction = "findLoans"; }
+		if (searchType == "accn") { targetAction = "findAccessions"; }
+		if (searchType == "deacc") { targetAction = "findDeaccessions"; }
+		if (searchType == "borrow") { targetAction = "findBorrows"; }
+		if (columnOrderLoading==0) { 
+			var columnCount = $('##'+gridId).jqxGrid("columns").length();
+			var columnMap = new Map();
+			for (var i=0; i<columnCount; i++) { 
+				var fieldName = $('##'+gridId).jqxGrid("columns").records[i].datafield;
+				if (fieldName) { 
+					var column_number = $('##'+gridId).jqxGrid("getColumnIndex",fieldName); 
+					columnMap.set(fieldName,column_number);
+				}
+			}
+			JSON.stringify(Array.from(columnMap));
+			saveColumnOrder('#cgi.script_name#?action='+targetAction,columnMap,'Default',null);
+		} else { 
+			console.log("columnOrderChanged called while loading column order, ignoring");
+		}
+	}
+	
+	function loadColumnOrder(gridId,searchType) { 
+		var targetAction = "findAll"
+		if (searchType == "transaction") { targetAction = "findAll"; }
+		if (searchType == "loan") { targetAction = "findLoans"; }
+		if (searchType == "accn") { targetAction = "findAccessions"; }
+		if (searchType == "deacc") { targetAction = "findDeaccessions"; }
+		if (searchType == "borrow") { targetAction = "findBorrows"; }
+		jQuery.ajax({
+			dataType: "json",
+			url: "/shared/component/functions.cfc",
+			data: { 
+				method : "getGridColumnOrder",
+				page_file_path: '#cgi.script_name#?action='+targetAction,
+				label: 'Default',
+				returnformat : "json",
+				queryformat : 'column'
+			},
+			ajaxGridId : gridId,
+			error: function (jqXHR, status, message) {
+				messageDialog("Error looking up column order: " + status + " " + jqXHR.responseText ,'Error: '+ status);
+			},
+			success: function (result) {
+				var gridId = this.ajaxGridId;
+				var settings = result[0];
+				if (typeof settings !== "undefined" && settings!=null) { 
+					setColumnOrder(gridId,JSON.parse(settings.column_order));
+				}
+			}
+		});
+	} 
+	
+	function setColumnOrder(gridId, columnMap) { 
+		columnOrderLoading = 1;
+		$('##' + gridId).jqxGrid('beginupdate');
+		for (var i=0; i<columnMap.length; i++) {
+			var kvp = columnMap[i];
+			var key = kvp[0];
+			var value = kvp[1];
+			if ($('##'+gridId).jqxGrid("getColumnIndex",key) != value) { 
+				if (key && value) {
+					try {
+						console.log(key + " set to column " + value);
+						$('##'+gridId).jqxGrid("setColumnIndex",key,value);
+					} catch (e) {};
+				}
+			}
+		}
+		$('##' + gridId).jqxGrid('endupdate');
+		columnOrderLoading = 0;
+	}
+
 	window.columnHiddenSettings = new Object();
 	<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 		lookupColumnVisibilities ('/Transactions.cfm?action=#action#','Default');
@@ -2893,6 +2972,7 @@ $(document).ready(function() {
 		$("##searchResultsGrid").replaceWith('<div id="searchResultsGrid" class="jqxGrid" style="z-index: 1;"></div>');
 		$('##resultCount').html('');
 		$('##resultLink').html('');
+		$('##showhide').html('');
 		$('##saveDialogButton').html('');
 		$('##selectModeContainer').hide();
 		$('##actionFeedback').html('');
@@ -2960,6 +3040,7 @@ $(document).ready(function() {
 			sortable: true,
 			pageable: true,
 			editable: false,
+			enablemousewheel: #session.gridenablemousewheel#,
 			pagesize: 50,
 			pagesizeoptions: ['5','50','100'],
 			showaggregates: true,
@@ -3008,10 +3089,17 @@ $(document).ready(function() {
 			},
 			initrowdetails: initRowDetails
 		});
+		<cfif isdefined("session.username") and len(#session.username#) gt 0>
+			$('##searchResultsGrid').jqxGrid().on("columnreordered", function (event) { 
+				columnOrderChanged('searchResultsGrid','transaction'); 
+			}); 
+		</cfif>
 		$("##searchResultsGrid").on("bindingcomplete", function(event) {
 			// add a link out to this search, serializing the form as http get parameters
 			$('##resultLink').html('<a href="/Transactions.cfm?action=findAll&execute=true&' + $('##searchForm :input').filter(function(index,element){return $(element).val()!='';}).serialize() + '">Link to this search</a>');
+			$('##showhide').html('<button class="my-2 border rounded" title="hide search form" onclick=" toggleAnySearchForm(\'searchFormDiv\',\'searchFormToggleIcon\'); "><i id="searchFormToggleIcon" class="fas fa-eye-slash"></i></button>');
 			gridLoaded('searchResultsGrid','transaction');
+			loadColumnOrder('searchResultsGrid','transaction');
 		});
 		$('##searchResultsGrid').on('rowexpand', function (event) {
 			// Create a content div, add it to the detail row, and make it into a dialog.
@@ -3107,6 +3195,7 @@ $(document).ready(function() {
 		$("##searchResultsGrid").replaceWith('<div id="searchResultsGrid" class="jqxGrid" style="z-index: 1;"></div>');
 		$('##resultCount').html('');
 		$('##resultLink').html('');
+		$('##showhide').html('');
 		$('##saveDialogButton').html('');
 		$('##selectModeContainer').hide();
 		$('##actionFeedback').html('');
@@ -3179,6 +3268,7 @@ $(document).ready(function() {
 			sortable: true,
 			pageable: true,
 			editable: false,
+			enablemousewheel: #session.gridenablemousewheel#,
 			pagesize: 50,
 			pagesizeoptions: ['5','50','100'],
 			showaggregates: true,
@@ -3233,10 +3323,17 @@ $(document).ready(function() {
 			},
 			initrowdetails: initRowDetails
 		});
+		<cfif isdefined("session.username") and len(#session.username#) gt 0>
+			$('##searchResultsGrid').jqxGrid().on("columnreordered", function (event) { 
+				columnOrderChanged('searchResultsGrid','loan'); 
+			}); 
+		</cfif>
 		$("##searchResultsGrid").on("bindingcomplete", function(event) {
 			// add a link out to this search, serializing the form as http get parameters
 			$('##resultLink').html('<a href="/Transactions.cfm?action=findLoans&execute=true&' + $('##loanSearchForm :input').filter(function(index,element){return $(element).val()!='';}).serialize() + '">Link to this search</a>');
+			$('##showhide').html('<button class="my-2 border rounded" title="hide search form" onclick=" toggleAnySearchForm(\'searchFormDiv\',\'searchFormToggleIcon\'); "><i id="searchFormToggleIcon" class="fas fa-eye-slash"></i></button>');
 			gridLoaded('searchResultsGrid','loan');
+			loadColumnOrder('searchResultsGrid','loan');
 		});
 		$('##searchResultsGrid').on('rowexpand', function (event) {
 			// Create a content div, add it to the detail row, and make it into a dialog.
@@ -3279,6 +3376,7 @@ $(document).ready(function() {
 		$("##searchResultsGrid").replaceWith('<div id="searchResultsGrid" class="jqxGrid" style="z-index: 1;"></div>');
 		$('##resultCount').html('');
 		$('##resultLink').html('');
+		$('##showhide').html('');
 		$('##saveDialogButton').html('');
 		$('##selectModeContainer').hide();
 		$('##actionFeedback').html('');
@@ -3349,6 +3447,7 @@ $(document).ready(function() {
 			sortable: true,
 			pageable: true,
 			editable: false,
+			enablemousewheel: #session.gridenablemousewheel#,
 			pagesize: 50,
 			pagesizeoptions: ['5','50','100'],
 			showaggregates: true,
@@ -3401,12 +3500,17 @@ $(document).ready(function() {
 			},
 			initrowdetails: initRowDetails
 		});
+		<cfif isdefined("session.username") and len(#session.username#) gt 0>
+			$('##searchResultsGrid').jqxGrid().on("columnreordered", function (event) { 
+				columnOrderChanged('searchResultsGrid','accn'); 
+			}); 
+		</cfif>
 		$("##searchResultsGrid").on("bindingcomplete", function(event) {
 			// add a link out to this search, serializing the form as http get parameters
 			$('##resultLink').html('<a href="/Transactions.cfm?action=findAccessions&execute=true&' + $('##accnSearchForm :input').filter(function(index,element){return $(element).val()!='';}).serialize() + '">Link to this search</a>');
+			$('##showhide').html('<button class="my-2 border rounded" title="hide search form" onclick=" toggleAnySearchForm(\'searchFormDiv\',\'searchFormToggleIcon\'); "><i id="searchFormToggleIcon" class="fas fa-eye-slash"></i></button>');
 			gridLoaded('searchResultsGrid','accn');
-
-
+			loadColumnOrder('searchResultsGrid','accn');
 		});
 		$('##searchResultsGrid').on('rowexpand', function (event) {
 			// Create a content div, add it to the detail row, and make it into a dialog.
@@ -3445,6 +3549,7 @@ $(document).ready(function() {
 		$("##searchResultsGrid").replaceWith('<div id="searchResultsGrid" class="jqxGrid" style="z-index: 1;"></div>');
 		$('##resultCount').html('');
 		$('##resultLink').html('');
+		$('##showhide').html('');
 		$('##saveDialogButton').html('');
 		$('##selectModeContainer').hide();
 		$('##actionFeedback').html('');
@@ -3516,6 +3621,7 @@ $(document).ready(function() {
 			sortable: true,
 			pageable: true,
 			editable: false,
+			enablemousewheel: #session.gridenablemousewheel#,
 			pagesize: 50,
 			pagesizeoptions: ['5','50','100'],
 			showaggregates: true,
@@ -3569,11 +3675,17 @@ $(document).ready(function() {
 			},
 			initrowdetails: initRowDetails
 		});
+		<cfif isdefined("session.username") and len(#session.username#) gt 0>
+			$('##searchResultsGrid').jqxGrid().on("columnreordered", function (event) { 
+				columnOrderChanged('searchResultsGrid','deacc'); 
+			}); 
+		</cfif>
 		$("##searchResultsGrid").on("bindingcomplete", function(event) {
 			// add a link out to this search, serializing the form as http get parameters
 			$('##resultLink').html('<a href="/Transactions.cfm?action=findDeaccessions&execute=true&' + $('##deaccnSearchForm :input').filter(function(index,element){return $(element).val()!='';}).serialize() + '">Link to this search</a>');
+			$('##showhide').html('<button class="my-2 border rounded" title="hide search form" onclick=" toggleAnySearchForm(\'searchFormDiv\',\'searchFormToggleIcon\'); "><i id="searchFormToggleIcon" class="fas fa-eye-slash"></i></button>');
 			gridLoaded('searchResultsGrid','deacc');
-
+			loadColumnOrder('searchResultsGrid','deacc');
 		});
 		$('##searchResultsGrid').on('rowexpand', function (event) {
 			// Create a content div, add it to the detail row, and make it into a dialog.
@@ -3632,6 +3744,7 @@ $(document).ready(function() {
 		$("##searchResultsGrid").replaceWith('<div id="searchResultsGrid" class="jqxGrid" style="z-index: 1;"></div>');
 		$('##resultCount').html('');
 		$('##resultLink').html('');
+		$('##showhide').html('');
 		$('##saveDialogButton').html('');
 		$('##selectModeContainer').hide();
 		$('##actionFeedback').html('');
@@ -3713,6 +3826,7 @@ $(document).ready(function() {
 			sortable: true,
 			pageable: true,
 			editable: false,
+			enablemousewheel: #session.gridenablemousewheel#,
 			pagesize: 50,
 			pagesizeoptions: ['5','50','100'],
 			showaggregates: true,
@@ -3776,11 +3890,17 @@ $(document).ready(function() {
 			},
 			initrowdetails: initRowDetails
 		});
+		<cfif isdefined("session.username") and len(#session.username#) gt 0>
+			$('##searchResultsGrid').jqxGrid().on("columnreordered", function (event) { 
+				columnOrderChanged('searchResultsGrid','borrow'); 
+			}); 
+		</cfif>
 		$("##searchResultsGrid").on("bindingcomplete", function(event) {
 			// add a link out to this search, serializing the form as http get parameters
 			$('##resultLink').html('<a href="/Transactions.cfm?action=findBorrows&execute=true&' + $('##borrowSearchForm :input').filter(function(index,element){return $(element).val()!='';}).serialize() + '">Link to this search</a>');
+			$('##showhide').html('<button class="my-2 border rounded" title="hide search form" onclick=" toggleAnySearchForm(\'searchFormDiv\',\'searchFormToggleIcon\'); "><i id="searchFormToggleIcon" class="fas fa-eye-slash"></i></button>');
 			gridLoaded('searchResultsGrid','borrow');
-
+			loadColumnOrder('searchResultsGrid','borrow');
 		});
 		$('##searchResultsGrid').on('rowexpand', function (event) {
 			// Create a content div, add it to the detail row, and make it into a dialog.
@@ -3853,6 +3973,10 @@ function gridLoaded(gridId, searchType) {
 	if (searchType == "accn") { targetAction = "findAccessions"; }
 	if (searchType == "deacc") { targetAction = "findDeaccessions"; }
 	if (searchType == "borrow") { targetAction = "findBorrows"; }
+	<cfif isDefined("execute")>
+		// race condtions between grid creation and lookup of column visibities may have caused grid to be created with default columns.
+		setColumnVisibilities(window.columnHiddenSettings,'searchResultsGrid');
+	</cfif>
 	if (Object.keys(window.columnHiddenSettings).length == 0) { 
 		window.columnHiddenSettings = getColumnVisibilities('searchResultsGrid');		
 		<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
@@ -3931,13 +4055,21 @@ function gridLoaded(gridId, searchType) {
 		modal: true, 
 		reszable: true, 
 		buttons: { 
+			Defaults: function(){ 
+				saveColumnVisibilities('/Transactions.cfm?action='+targetAction,null,'Default');
+				saveColumnOrder('#cgi.script_name#?action='+targetAction,null,'Default',null);
+				lookupColumnVisibilities ('/Transactions.cfm?action=#action#','Default');
+				window.columnHiddenSettings = getColumnVisibilities('searchResultsGrid');
+				messageDialog("Default values for show/hide columns and column order will be used on your next search." ,'Reset to Defaults');
+				$(this).dialog("close");
+			},
 			Ok: function(){ 
 				window.columnHiddenSettings = getColumnVisibilities('searchResultsGrid');		
 				<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 					saveColumnVisibilities('/Transactions.cfm?action='+targetAction,window.columnHiddenSettings,'Default');
 				</cfif>
 				$(this).dialog("close");
-			 }
+			}
 		},
 		open: function (event, ui) { 
 			var maxZIndex = getMaxZIndex();

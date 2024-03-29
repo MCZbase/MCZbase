@@ -863,11 +863,11 @@ limitations under the License.
 				<cfif isdefined("gotopage") and len(gotopage) GT 0>
 					<cfset gtp = gotopage>
 				<cfelse>
-					<cfif isdefined("cgi.REDIRECT_URL") and len(cgi.REDIRECT_URL) gt 0>
+					<cfif isdefined("cgi.REDIRECT_URL") and len(cgi.REDIRECT_URL) gt 0 and refind('^#application.protocol#://#application.hostName#/.*',cgi.REDIRECT_URL)>
 						<cfset gtp=replace(cgi.REDIRECT_URL, "//", "/")>
 					<cfelse>
 						<cfset requestData = #GetHttpRequestData()#>
-						<cfif isdefined("requestData.headers.referer") and len(requestData.headers.referer) gt 0>
+						<cfif isdefined("requestData.headers.referer") and len(requestData.headers.referer) gt 0 and refind('^#application.protocol#://#application.hostName#/.*',requestData.headers.referer)>
 							<cfset gtp=requestData.headers.referer>
 						<cfelse>
 							<cfset gtp=replace(cgi.SCRIPT_NAME, "//", "/")>

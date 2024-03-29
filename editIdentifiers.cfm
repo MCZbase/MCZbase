@@ -2,7 +2,7 @@
 <div class="basic_box">
 <cfset title = "Edit Identifiers">
 <cfquery name="getIDs" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-	select 
+	SELECT
 		COLL_OBJ_OTHER_ID_NUM_ID,
 		cat_num,
 		cat_num_prefix,
@@ -11,49 +11,51 @@
 		other_id_prefix,
 		other_id_number,
 		other_id_suffix,
-		other_id_type, 
+		other_id_type,
+		display_value, 
 		cataloged_item.collection_id,
 		collection.collection_cde,
 		institution_acronym
-	from 
-		cataloged_item, 
-		coll_obj_other_id_num,
-		collection 
-	where
-		cataloged_item.collection_id=collection.collection_id and
-		cataloged_item.collection_object_id=coll_obj_other_id_num.collection_object_id (+) and 
-		cataloged_item.collection_object_id=#collection_object_id#
+	FROM 
+		cataloged_item
+		join collection on cataloged_item.collection_id=collection.collection_id
+		left join coll_obj_other_id_num on cataloged_item.collection_object_id=coll_obj_other_id_num.collection_object_id
+	WHERE
+		cataloged_item.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
 </cfquery>
 <cfquery name="ctType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-	select other_id_type from ctcoll_other_id_type
+	SELECT other_id_type 
+	FROM ctcoll_other_id_type
 </cfquery>
-
 <cfquery name="cataf" dbtype="query">
-	select cat_num from getIDs group by cat_num
+	SELECT cat_num 
+	FROM getIDs 
+	GROUP BY cat_num
 </cfquery>
-
 <cfquery name="oids" dbtype="query">
-	select 
+	SELECT 
 		COLL_OBJ_OTHER_ID_NUM_ID,
 		other_id_prefix,
 		other_id_number,
 		other_id_suffix,
-		other_id_type 
-	from 
+		other_id_type,
+		display_value 
+	FROM 
 		getIDs 
-	group by 
+	GROUP BY 
 		COLL_OBJ_OTHER_ID_NUM_ID,
 		other_id_prefix,
 		other_id_number,
 		other_id_suffix,
-		other_id_type
+		other_id_type,
+		display_value
 </cfquery>
 <cfquery name="ctcoll_cde" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-	select 
+	SELECT 
 		institution_acronym,
 		collection_cde,
 		collection_id 
-	from collection
+	FROM collection
 </cfquery>
 <cfoutput>
 	<h3>Edit existing identifiers:</h3>
@@ -98,9 +100,7 @@
 						</select>
 					</td>
 					<td nowrap="nowrap">
-						<input type="text" value="#oids.other_id_prefix#" size="12" name="other_id_prefix">
-						<input type="text" value="#oids.other_id_number#" size="12" name="other_id_number">
-						<input type="text" value="#oids.other_id_suffix#" size="12"  name="other_id_suffix">
+						<input type="text" value="#oids.display_value#" size="25"  name="display_value">
 					</td>
 					<td nowrap="nowrap">
 						<input type="button" value="Save" class="savBtn" onmouseover="this.className='savBtn btnhov'" onmouseout="this.className='savBtn'" onclick="oids#i#.Action.value='saveOIDEdits';submit();">
@@ -131,9 +131,7 @@
 						</select>
 					</td>
 					<td>
-						<input type="text" class="reqdClr" name="other_id_prefix" size="6">
-						<input type="text" class="reqdClr" name="other_id_number" size="6">
-						<input type="text" class="reqdClr" name="other_id_suffix" size="6">		
+						<input type="text" class="reqdClr" name="display_value" size="25">		
 					</td>
 					<td>
 						<input type="submit" value="Save" class="insBtn" onmouseover="this.className='insBtn btnhov'" onmouseout="this.className='insBtn'">
@@ -152,9 +150,10 @@
 	<cftransaction>
 		<cfquery name="upCat" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			UPDATE cataloged_item SET 
-				cat_num = '#cat_num#',
-				collection_id=#collection_id#		
-			WHERE collection_object_id=#collection_object_id#
+				cat_num = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#cat_num#">,
+				collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_id#">
+			WHERE 
+				collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
 		</cfquery>
 	</cftransaction>
 	<cflocation url="editIdentifiers.cfm?collection_object_id=#collection_object_id#">
@@ -163,31 +162,12 @@
 <!-------------------------------------------------------->
 <cfif #Action# is "saveOIDEdits">
 <cfoutput>
-	<cfquery name="upOIDt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-		UPDATE 
-			coll_obj_other_id_num 
-		SET 
-			other_id_type = '#other_id_type#'
-			<cfif len(#other_id_prefix#) gt 0>
-				,other_id_prefix='#other_id_prefix#'
-			<cfelse>
-				,other_id_prefix= NULL
-			</cfif>
-			<cfif len(#other_id_number#) gt 0>
-				,other_id_number=#other_id_number#
-			<cfelse>
-				,other_id_number= NULL
-			</cfif>
-			<cfif len(#other_id_suffix#) gt 0>
-				,other_id_suffix='#other_id_suffix#'
-			<cfelse>
-				,other_id_suffix= NULL
-			</cfif>			
-		WHERE 
-			COLL_OBJ_OTHER_ID_NUM_ID=#COLL_OBJ_OTHER_ID_NUM_ID#
-	</cfquery>
-	
-	
+	<cfstoredproc procedure="update_other_id" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+		<cfprocparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
+		<cfprocparam cfsqltype="CF_SQL_DECIMAL" value="#COLL_OBJ_OTHER_ID_NUM_ID#">
+		<cfprocparam cfsqltype="CF_SQL_VARCHAR" value="#display_value#">
+		<cfprocparam cfsqltype="CF_SQL_VARCHAR" value="#other_id_type#">
+	</cfstoredproc>	
 	<cflocation url="editIdentifiers.cfm?collection_object_id=#collection_object_id#">
 </cfoutput>
 </cfif>
@@ -195,47 +175,22 @@
 <cfif #Action# is "deleOID">
 <cfoutput>
 	<cfquery name="delOIDt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-		DELETE FROM 
-			coll_obj_other_id_num 
+		DELETE FROM
+			coll_obj_other_id_num
 		WHERE 
-			COLL_OBJ_OTHER_ID_NUM_ID=#COLL_OBJ_OTHER_ID_NUM_ID#
+			COLL_OBJ_OTHER_ID_NUM_ID= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#COLL_OBJ_OTHER_ID_NUM_ID#">
 	</cfquery>
-	
-
 	<cflocation url="editIdentifiers.cfm?collection_object_id=#collection_object_id#">
 </cfoutput>
 </cfif>
 <!-------------------------------------------------------->
 <cfif #Action# is "newOID">
 <cfoutput>
-	<cfquery name="newOIDt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-	INSERT INTO coll_obj_other_id_num 
-		(collection_object_id,
-		other_id_type,
-		other_id_prefix,
-		other_id_number,
-		other_id_suffix
-	) VALUES (
-		#collection_object_id#,
-		'#other_id_type#',
-		<cfif len(#other_id_prefix#) gt 0>
-			'#other_id_prefix#'
-		<cfelse>
-			NULL
-		</cfif>
-		,
-		<cfif len(#other_id_number#) gt 0>
-			#other_id_number#
-		<cfelse>
-			NULL
-		</cfif>
-		,
-		<cfif len(#other_id_suffix#) gt 0>
-			'#other_id_suffix#'
-		<cfelse>
-			NULL
-		</cfif>)
-	</cfquery>
+	<cfstoredproc procedure="parse_other_id" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+		<cfprocparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
+		<cfprocparam cfsqltype="CF_SQL_VARCHAR" value="#display_value#">
+		<cfprocparam cfsqltype="CF_SQL_VARCHAR" value="#other_id_type#">
+	</cfstoredproc>>
 	<cflocation url="editIdentifiers.cfm?collection_object_id=#collection_object_id#">
 </cfoutput>
 </cfif>

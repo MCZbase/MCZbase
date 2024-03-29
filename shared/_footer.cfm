@@ -19,11 +19,14 @@ limitations under the License.
 <footer class="footer">
 	<div class="fixed-bottom bg-inverse">
 		<cfif cgi.HTTP_HOST contains "harvard.edu" >
-			<div class="row helplinks bg-light border-top">
-				<div class="col-sm-12 col-md-6 text-center">
+			<div class="row mx-0 helplinks bg-light border-top">
+				<div class="col-sm-12 col-md-4 text-center">
 					<a href="https://mcz.harvard.edu/acknowledgment-harmful-content" class="policy_link" aria-label="acknowledgment of harmful content">Acknowledgment of Harmful Content</a>
 				</div>
-				<div class="col-sm-12 col-md-6 text-center">
+				<div class="col-sm-12 col-md-4 text-center">
+					<a href="https://mczbase.mcz.harvard.edu/info/HowToCite.cfm" class="policy_link" aria-label="How to cite MCZbase">How to Cite MCZbase</a>
+				</div>
+				<div class="col-sm-12 col-md-4 text-center">
 					<a href="/info/bugs.cfm" aria-label="feedback/report errors" target="_blank">Feedback&#8202;/&#8202;Report Errors</a>
 				</div>
 			</div>

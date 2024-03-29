@@ -238,14 +238,15 @@
             // initialize jqxGrid
             $("##grid8").jqxGrid(
             {
-                width: '100%',
-				autoheight: 'true',
-                source: dataAdapter,                
-                altrows: true,
-          		sortable: false,
-				columnsresize: true,
-                selectionmode: 'multiplecellsextended',
-                columns: [
+					width: '100%',
+					autoheight: 'true',
+					source: dataAdapter,
+					altrows: true,
+					sortable: false,
+					enablemousewheel: #session.gridenablemousewheel#,
+					columnsresize: true,
+					selectionmode: 'multiplecellsextended',
+					columns: [
                   	{ text: 'collection_cde', datafield: 'collection_cde', width: 115 },
                   	{ text: 'institution_acronym', datafield: 'institution_acronym', width: 90 },
                   	{ text: 'other_id_type', datafield: 'other_id_type', width: 90 },
