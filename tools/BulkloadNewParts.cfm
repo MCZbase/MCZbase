@@ -380,7 +380,7 @@ limitations under the License.
 								<cfcatch>
 									<!--- identify the problematic row --->
 									<cfset error_message="#COLUMN_ERR# from line #row# in input file.  
-														  <div class='mb-4 h4 font-weight-normal align-items-start align-items list-group list-group-horizontal flex-wrap col-12'>Header:[#colNames#]</div> <br>Row:[#ArrayToList(collValuesArray)#] <br>Error: #cfcatch.message#"><!--- " --->
+														  <div class='mb-2 h4 font-weight-normal align-items-start align-items list-group list-group-horizontal flex-wrap col-12'>Header:[#colNames#]</div>   <div class='mb-2 h4 font-weight-normal align-items-start align-items list-group list-group-horizontal flex-wrap col-12'>Row:[#ArrayToList(collValuesArray)#] </div>Error: #cfcatch.message#"><!--- " --->
 									<cfif isDefined("cfcatch.queryError")>
 										<cfset error_message = "#error_message# #cfcatch.queryError#">
 									</cfif>
