@@ -63,7 +63,7 @@ limitations under the License.
 						<textarea rows="2" cols="90" id="templatearea" class="w-100 data-entry-textarea">#fieldlist#</textarea>
 					</div>
 					<h2 class="mt-4 h4">Columns in <span class="text-danger">red</span> are required; others are optional:</h2>
-					<ul class="mb-4 h4 font-weight-normal">
+					<ul class="mb-4 h4 font-weight-normal list-group list-group-horizontal list-group-numbered">
 						<cfloop list="#fieldlist#" index="field" delimiters=",">
 							<cfset aria = "">
 							<cfif listContains(requiredfieldlist,field,",")>
@@ -72,7 +72,7 @@ limitations under the License.
 							<cfelse>
 								<cfset class="text-dark">
 							</cfif>
-							<li class="#class#" #aria#>#field#</li>
+							<li class="#class# list-group-item" #aria#>#field#</li>
 						</cfloop>
 					</ul>
 					<form name="atts" method="post" enctype="multipart/form-data" action="/tools/BulkloadNewParts.cfm">
