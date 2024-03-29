@@ -126,7 +126,7 @@ limitations under the License.
 						<!--- Set some constants to identify error cases in cfcatch block --->
 						<cfset NO_COLUMN_ERR = "<p>One or more required fields are missing in the header line of the csv file. <br>Missing fields: </p>">
 						<cfset DUP_COLUMN_ERR = "<p>One or more columns are duplicated in the header line of the csv file.<p>">
-						<cfset COLUMN_ERR = "Error inserting data.">
+						<cfset COLUMN_ERR = "Error inserting data ">
 						<cfset NO_HEADER_ERR = "<p>No header line found, csv file appears to be empty.</p>">
 						<cftry>
 							<!--- Parse the CSV file using Apache Commons CSV library included with coldfusion so that columns with comma delimeters will be separated properly --->
