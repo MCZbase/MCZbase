@@ -54,7 +54,7 @@ limitations under the License.
 		<!------------------------------------------------------->
 			<cfif #action# is "nothing">
 				<cfoutput>
-				<div class="col-12">
+				<div class="col-12 px-0">
 					<p>This tool adds part rows to the specimen record. It create metadata for part history and includes specimen part attributes fields that can be empty if none exists. The cataloged items must be in the database and they can be entered using the catalog number or other ID. Error messages will appear if the values need to match values in MCZbase. It ignores rows that are exactly the same and alerts you if columns are missing. Additional columns will be ignored. Include column headings, spelled exactly as below. </p>
 					<span class="btn btn-xs btn-info" onclick="document.getElementById('template').style.display='block';">View template</span>
 					<div id="template" style="display:none;margin: 1em 0;">
@@ -64,7 +64,7 @@ limitations under the License.
 						<textarea rows="2" cols="90" id="templatearea" class="w-100 data-entry-textarea">#fieldlist#</textarea>
 					</div>
 					<h2 class="mt-4 h4">Columns in <span class="text-danger">red</span> are required; others are optional:</h2>
-					<ul class="mb-4 h4 font-weight-normal align-items-start align-items list-group list-group-horizontal flex-wrap col-10">
+					<ul class="mb-4 h4 font-weight-normal align-items-start align-items list-group list-group-horizontal flex-wrap col-12">
 						<cfloop list="#fieldlist#" index="field" delimiters=",">
 							<cfset aria = "">
 							<cfif listContains(requiredfieldlist,field,",")>
@@ -73,7 +73,7 @@ limitations under the License.
 							<cfelse>
 								<cfset class="text-dark">
 							</cfif>
-							<li class="#class# list-group-item col-2" #aria#> #field#</li>
+							<li class="#class# list-group-item col-1 px-0 mx-0" #aria#> #field#</li>
 						</cfloop>
 					</ul>
 				</div>
