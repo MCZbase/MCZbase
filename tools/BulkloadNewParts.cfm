@@ -641,23 +641,23 @@ limitations under the License.
 						<cfquery name="flatWrongUnits" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 							UPDATE cf_temp_parts
 							SET 
-								status = concat(nvl2(status, status || '; ', ''),'PART_ATT_VAL_#i# not in controlled vocabulary #ctspecpart_att_att.units_code_table#')
+								status = concat(nvl2(status, status || '; ', ''),'PART_ATT_VAL_#i# not in controlled vocabulary #ctspecpart_att_att.unit_code_table#')
 							WHERE 
 								attribute_units not in (
-									<cfif ctspecpart_att_att.units_code_table EQ "CTLENGTH_UNITS">
+									<cfif ctspecpart_att_att.unit_code_table EQ "CTLENGTH_UNITS">
 										select LENGTH_UNITS from CTLENGTH_UNITS
-									<cfelseif ctspecpart_att_att.units_code_table EQ "CTWEIGHT_UNITS">
+									<cfelseif ctspecpart_att_att.unit_code_table EQ "CTWEIGHT_UNITS">
 										select WEIGHT_UNITS from CTWEIGHT_UNITS
-									<cfelseif ctspecpart_att_att.units_code_table EQ "CTNUMERIC_AGE_UNITS">
+									<cfelseif ctspecpart_att_att.unit_code_table EQ "CTNUMERIC_AGE_UNITS">
 										select NUMERIC_AGE_UNITS from CTNUMERIC_AGE_UNITS
-									<cfelseif ctspecpart_att_att.units_code_table EQ "CTAREA_UNITS">
+									<cfelseif ctspecpart_att_att.unit_code_table EQ "CTAREA_UNITS">
 										select AREA_UNITS from CTAREA_UNITS
-									<cfelseif ctspecpart_att_att.units_code_table EQ "CTTHICKNESS_UNITS">
+									<cfelseif ctspecpart_att_att.unit_code_table EQ "CTTHICKNESS_UNITS">
 										select THICKNESS_UNITS from CTTHICKNESS_UNITS
-									<cfelseif ctspecpart_att_att.units_code_table EQ "CTANGLE_UNITS">
+									<cfelseif ctspecpart_att_att.unit_code_table EQ "CTANGLE_UNITS">
 										<!--- yes the field name is inconsistent with the table --->
 										select LENGTH_UNITS from CTANGLE_UNITS
-									<cfelseif ctspecpart_att_att.units_code_table EQ "CTTISSUE_VOLUME_UNITS">
+									<cfelseif ctspecpart_att_att.unit_code_table EQ "CTTISSUE_VOLUME_UNITS">
 										select TISSUE_VOLUME_UNITS from CTTISSUE_VOLUME_UNITS
 									</cfif>
 								)
