@@ -591,10 +591,15 @@ limitations under the License.
 						update cf_temp_parts set 
 						status = concat(nvl2(status, status || '; ', ''),'Invalid PART_ATT_NAME_#i# "' || PART_ATT_NAME_#i# ||'"')
 						where PART_ATT_NAME_#i# not in (select attribute_type from CTSPECPART_ATTRIBUTE_TYPE)
+						AND PART_ATT_NAME_#i# is not null
+						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+						AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
 						</cfquery>
 						<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						update cf_temp_parts set 
 						status = concat(nvl2(status, status || '; ', ''),'Invalid PART_ATT_MADEDATE_#i# "' || PART_ATT_MADEDATE_#i# ||'"') where is_iso8601(PART_ATT_MADEDATE_#i#) <> 'valid' and PART_ATT_MADEDATE_#i# is not null
+						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+						AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
 						</cfquery>
 						<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						update cf_temp_parts set 
@@ -603,6 +608,8 @@ limitations under the License.
 						AND regexp_replace(PART_ATT_VAL_#i#, ' (\?|sp.)$', '') in
 						(select scientific_name from taxonomy group by scientific_name having count(*) > 1)
 						AND PART_ATT_VAL_#i# is not null
+						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+						AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
 						</cfquery>
 						<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						update cf_temp_parts set 
@@ -612,6 +619,8 @@ limitations under the License.
 						(select scientific_name from taxonomy group by scientific_name having count(*) = 1)
 						AND PART_ATT_VAL_#i# is not null
 						and (status not like '%;scientific name (' || PART_ATT_VAL_#i# || ') matched multiple taxonomy records%' or status is null)
+						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+						AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
 						</cfquery>
 						<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						update cf_temp_parts set 
