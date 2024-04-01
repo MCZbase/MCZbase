@@ -641,7 +641,7 @@ limitations under the License.
 						<cfquery name="PAvalues" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						update cf_temp_parts set 
 						status = status || ';PART_ATT_VALUE_#i#  (' || PART_ATT_VALUE_#i# || ') is invalid; requires value from codetable;'
-						where PART_ATT_VALUE_#i# not in
+						where PART_ATT_NAME_#i# not in
 						(select attribute_type from ctspec_part_att_att where value_code_table is not null)
 						</cfquery>
 			
