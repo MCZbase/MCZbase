@@ -618,19 +618,19 @@ limitations under the License.
 						status = status || '; scientific name cannot be null'
 						where PART_ATT_NAME_#i# = 'scientific name' AND PART_ATT_VAL_#i# is null
 						</cfquery>
-						<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						<cfquery name="bads1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						update cf_temp_parts set status = status || '<span class="font-weight-bold text-danger">; PART_ATT_DETBY_#i# agent (' || PART_ATT_DETBY_#i# || ') matched multiple agent names</span>'
 						where PART_ATT_DETBY_#i# in
 						(select agent_name from agent_name group by agent_name having count(*) > 1)
 						AND PART_ATT_DETBY_#i# is not null
 						</cfquery>
-						<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						<cfquery name="bads2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						update cf_temp_parts set 
 						status = status || '<span class="font-weight-bold text-success">; PART_ATT_DETBY_#i# agent (' || PART_ATT_DETBY_#i# || ') does not match</span>'
 						where PART_ATT_DETBY_#i# not in
 						(select agent_name from agent_name group by agent_name having count(*) = 1)
 						</cfquery>
-						<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						<cfquery name="bads3" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						update cf_temp_parts set 
 						status = status || '<span class="font-weight-bold">; PART_ATT_NAME_#i# is not valid for attribute(' || PART_ATT_NAME_#i# || ')</span>'
 						where PART_ATT_NAME_#i# not in (select attribute_type from ctspecpart_attribute_type) 
