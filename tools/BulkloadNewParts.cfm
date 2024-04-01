@@ -726,6 +726,7 @@ limitations under the License.
 					SELECT *
 					FROM cf_temp_parts
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+					and status is null
 					ORDER BY key
 				</cfquery>
 				
