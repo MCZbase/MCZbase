@@ -641,7 +641,7 @@ limitations under the License.
 						<cfquery name="PAvalues" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						select attribute_type,description from ctspecpart_attribute_type where description is not null and description like '%value_code_table%'
 						</cfquery>
-						<cfset attributeType = (select attribute_type from PAvalues)>
+						<cfset attributeType eq (select attribute_type from PAvalues)>
 						<cfif len(attributeType) gt 0>
 							select * from CTSPEC_PART_ATT_ATT where attribute_type = PART_ATT_NAME_#i#
 							
