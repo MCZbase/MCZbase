@@ -647,6 +647,7 @@ limitations under the License.
 						<cfquery name="sp_units" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						select unit_code_table from CTSPEC_PART_ATT_ATT where attribute_type = (' ||PART_ATT_NAME_#i#||') and (' ||PART_ATT_UNITS_#i#||') is not null
 						</cfquery>
+						<cfloop query="sp_units">
 						<cfquery name="flatWrongUnits" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 							UPDATE cf_temp_parts
 							SET 
@@ -673,6 +674,7 @@ limitations under the License.
 								AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 								AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
 						</cfquery>
+						</cfloop>
 						<cfquery name="flatWrongValue" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 							UPDATE cf_temp_parts
 							SET 
