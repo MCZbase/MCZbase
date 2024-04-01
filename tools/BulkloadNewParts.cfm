@@ -730,7 +730,7 @@ limitations under the License.
 				</cfquery>
 				
 				<cfquery name="allValid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					select count(*) as cnt from cf_temp_parts where status = ''
+					select count(*) as cnt from cf_temp_parts
 				</cfquery>
 				<cfif #allValid.cnt# is 0>
 					<span class="text-success">Validation checks passed</span>. #allValid.cnt# Look over the table below and <a href="BulkloadNewParts.cfm?action=load">click to continue</a> if it all looks good. Or, <a href="/tools/BulkloadNewParts.cfm">Start over</a>.
