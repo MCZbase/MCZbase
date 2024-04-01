@@ -611,7 +611,7 @@ limitations under the License.
 					<cfloop index="i" from="1" to="6">
 						<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						update cf_temp_parts set 
-						status = concat(nvl2(status, status || '; ', ''),'<span class="font-weight-bold">Invalid PART_ATT_NAME_#i# "' || PART_ATT_NAME_#i# ||'"</span>')
+						status = concat(nvl2(status, status || '; ', ''),'<span class="font-weight-bold">Invalid PART_ATT_NAME "' || PART_ATT_NAME_#i# ||'"</span>')
 						where PART_ATT_NAME_#i# not in (select attribute_type from CTSPEC_PART_ATT_ATT)
 						AND PART_ATT_NAME_#i# is not null
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
