@@ -638,12 +638,12 @@ limitations under the License.
 						status = status || ';PART_ATT_NAME_#i# is not valid for attribute(' || PART_ATT_NAME_#i# || ')'
 						where PART_ATT_NAME_#i# not in (select attribute_type from ctspecpart_attribute_type) 
 						</cfquery>
-						<cfquery name="PAvalues" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<!---			<cfquery name="PAvalues" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						update cf_temp_parts set 
 						status = status || ';PART_ATT_VAL_#i#  (' || PART_ATT_VAL_#i# || ') is invalid; requires value from codetable;'
 						where PART_ATT_NAME_#i# not in
 						(select attribute_type from ctspec_part_att_att where unit_code_table is not null)
-						</cfquery>		
+						</cfquery>		--->
 <!---						<cfquery name="sp_units" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						select unit_code_table,attribute_type from CTSPEC_PART_ATT_ATT where attribute_type = (' ||PART_ATT_NAME_#i#||') and unit_code_table is not null
 						</cfquery>
