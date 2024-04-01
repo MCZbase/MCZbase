@@ -650,9 +650,9 @@ limitations under the License.
 						<cfquery name="flatWrongUnits" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 							UPDATE cf_temp_parts
 							SET 
-								status = concat(nvl2(status, status || '; ', ''),'('||PART_ATT_UNITS_#i#||') not in controlled vocabulary')
+								status = concat(nvl2(status, status || '; ', ''),'Part attribute units not in controlled vocabulary')
 							WHERE 
-								PART_ATT_UNITS_#i# not in (
+								(' || PART_ATT_UNITS_#i# || ') not in (
 									<cfif sp_units.unit_code_table EQ "CTLENGTH_UNITS">
 										select LENGTH_UNITS from CTLENGTH_UNITS
 									<cfelseif sp_units.unit_code_table EQ "CTWEIGHT_UNITS">
