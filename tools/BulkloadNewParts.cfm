@@ -644,7 +644,7 @@ limitations under the License.
 						where PART_ATT_NAME_#i# not in
 						(select attribute_type from ctspec_part_att_att where unit_code_table is not null)
 						</cfquery>		
-						<cfquery name="sp_units" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<!---						<cfquery name="sp_units" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						select unit_code_table,attribute_type from CTSPEC_PART_ATT_ATT where attribute_type = (' ||PART_ATT_NAME_#i#||') and unit_code_table is not null
 						</cfquery>
 						<cfloop query="sp_units">
@@ -665,7 +665,7 @@ limitations under the License.
 									<cfelseif sp_units.unit_code_table EQ "CTTHICKNESS_UNITS">
 										select THICKNESS_UNITS from CTTHICKNESS_UNITS
 									<cfelseif sp_units.unit_code_table EQ "CTANGLE_UNITS">
-										<!--- yes the field name is inconsistent with the table --->
+								
 										select LENGTH_UNITS from CTANGLE_UNITS
 									<cfelseif sp_units.unit_code_table EQ "CTTISSUE_VOLUME_UNITS">
 										select TISSUE_VOLUME_UNITS from CTTISSUE_VOLUME_UNITS
@@ -674,8 +674,8 @@ limitations under the License.
 								AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 								AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
 						</cfquery>
-						</cfloop>
-						<cfquery name="flatWrongValue" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						</cfloop>--->
+	<!---					<cfquery name="flatWrongValue" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 							UPDATE cf_temp_parts
 							SET 
 								status = concat(nvl2(status, status || '; ', ''),'PART_ATT_VAL_#i# not in controlled vocabulary #ctspec_part_att_att.attribute_type#')
@@ -693,7 +693,7 @@ limitations under the License.
 								)
 								AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 								AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
-						</cfquery>
+						</cfquery>--->
 
 					</cfloop>
 					<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
