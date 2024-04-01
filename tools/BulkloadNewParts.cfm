@@ -652,7 +652,7 @@ limitations under the License.
 						AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
 						</cfquery>
 						<cfquery name="bads1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-						update cf_temp_parts set status = status || '<span class="font-weight-bold text-danger">; PART_ATT_DETBY_#i# agent (' || PART_ATT_DETBY_#i# || ') matched multiple agent names</span>'
+						update cf_temp_parts set status = status || '<span class="font-weight-bold">;&nbsp;PART_ATT_DETBY_#i# agent (' || PART_ATT_DETBY_#i# || ') matched multiple agent names</span>'
 						where PART_ATT_DETBY_#i# in
 						(select agent_name from agent_name group by agent_name having count(*) > 1)
 						AND PART_ATT_DETBY_#i# is not null
@@ -661,7 +661,7 @@ limitations under the License.
 						</cfquery>
 						<cfquery name="bads2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						update cf_temp_parts set 
-						status = status || '<span class="font-weight-bold text-success">;&nbsp;PART_ATT_DETBY_#i# agent (' || PART_ATT_DETBY_#i# || ') does not match</span>'
+						status = status || '<span class="font-weight-bold">;&nbsp;PART_ATT_DETBY_#i# agent (' || PART_ATT_DETBY_#i# || ') does not match</span>'
 						where PART_ATT_DETBY_#i# not in
 						(select agent_name from agent_name group by agent_name having count(*) = 1)
 						and PART_ATT_DETBY_#i# is not null
@@ -670,7 +670,7 @@ limitations under the License.
 						</cfquery>
 						<cfquery name="bads3" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						update cf_temp_parts set 
-						status = status || '<span class="font-weight-bold">; PART_ATT_NAME_#i# is not valid for attribute(' || PART_ATT_NAME_#i# || ')</span>'
+						status = status || '<span class="font-weight-bold">;&nbsp;PART_ATT_NAME_#i# is not valid for attribute(' || PART_ATT_NAME_#i# || ')</span>'
 						where PART_ATT_NAME_#i# not in (select attribute_type from ctspecpart_attribute_type) 
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
