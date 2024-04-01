@@ -644,11 +644,8 @@ limitations under the License.
 						where PART_ATT_NAME_#i# not in
 						(select attribute_type from ctspec_part_att_att where unit_code_table is not null)
 						</cfquery>		
-						<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-						update cf_temp_parts set 
-						status = status || ';PART_ATT_UNITS_#i# is not valid for attribute(' || PART_ATT_NAME_#i# || ')'
-						where chk_att_codetables(PART_ATT_NAME_#i#,PART_ATT_UNITS_#i#,COLLECTION_CDE)=0
-						and PART_ATT_NAME_#i# in (select attribute_type from ctattribute_code_tables where units_code_table is not null)
+						<cfquery name="sp_units" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						select unit_code_table from CTSPEC_PART_ATT_ATT were attribute_type = 'PART_ATT_NAME_#i#'
 						</cfquery>
 						<cfquery name="flatWrongUnits" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 							UPDATE cf_temp_parts
@@ -656,20 +653,20 @@ limitations under the License.
 								status = concat(nvl2(status, status || '; ', ''),'PART_ATT_UNIT_#i# not in controlled vocabulary')
 							WHERE 
 								PART_ATT_UNITS_#i# not in (
-									<cfif CTSPEC_PART_ATT_ATT.unit_code_table EQ "CTLENGTH_UNITS">
+									<cfif sp_units.unit_code_table EQ "CTLENGTH_UNITS">
 										select LENGTH_UNITS from CTLENGTH_UNITS
-									<cfelseif CTSPEC_PART_ATT_ATT.unit_code_table EQ "CTWEIGHT_UNITS">
+									<cfelseif sp_units.unit_code_table EQ "CTWEIGHT_UNITS">
 										select WEIGHT_UNITS from CTWEIGHT_UNITS
-									<cfelseif CTSPEC_PART_ATT_ATT.unit_code_table EQ "CTNUMERIC_AGE_UNITS">
+									<cfelseif sp_units.unit_code_table EQ "CTNUMERIC_AGE_UNITS">
 										select NUMERIC_AGE_UNITS from CTNUMERIC_AGE_UNITS
-									<cfelseif CTSPEC_PART_ATT_ATT.unit_code_table EQ "CTAREA_UNITS">
+									<cfelseif sp_units.unit_code_table EQ "CTAREA_UNITS">
 										select AREA_UNITS from CTAREA_UNITS
-									<cfelseif CTSPEC_PART_ATT_ATT.unit_code_table EQ "CTTHICKNESS_UNITS">
+									<cfelseif sp_units.unit_code_table EQ "CTTHICKNESS_UNITS">
 										select THICKNESS_UNITS from CTTHICKNESS_UNITS
-									<cfelseif CTSPEC_PART_ATT_ATT.unit_code_table EQ "CTANGLE_UNITS">
+									<cfelseif sp_units.unit_code_table EQ "CTANGLE_UNITS">
 										<!--- yes the field name is inconsistent with the table --->
 										select LENGTH_UNITS from CTANGLE_UNITS
-									<cfelseif CTSPEC_PART_ATT_ATT.unit_code_table EQ "CTTISSUE_VOLUME_UNITS">
+									<cfelseif sp_units.unit_code_table EQ "CTTISSUE_VOLUME_UNITS">
 										select TISSUE_VOLUME_UNITS from CTTISSUE_VOLUME_UNITS
 									</cfif>
 								)
