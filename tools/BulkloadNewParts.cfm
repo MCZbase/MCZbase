@@ -541,17 +541,25 @@ limitations under the License.
 					<cfquery name="getParentContainerId" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						update cf_temp_parts set parent_container_id =
 						(select container_id from container where container.barcode = cf_temp_parts.container_unique_id)
+						where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+						AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
 					</cfquery>
 					<cfquery name="validateGotParent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						update cf_temp_parts set 
 						status = concat(nvl2(status, status || '; ', ''),'Invalid Container Unique ID "' || container_unique_id ||'"')
-						where container_unique_id is not null and parent_container_id is null
+						where container_unique_id is not null 
+						and parent_container_id is null
+						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+						AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
 					</cfquery>
 					<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						update cf_temp_parts set 
 						status = concat(nvl2(status, status || '; ', ''),'Invalid part_name "' || part_name ||'"')
 						where part_name|| '|' ||collection_cde NOT IN (
-							select part_name|| '|' ||collection_cde from ctspecimen_part_name) OR part_name is null
+							select part_name|| '|' ||collection_cde from ctspecimen_part_name)
+						OR part_name is null
+						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+						AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
 					</cfquery>
 					<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						update cf_temp_parts set 
