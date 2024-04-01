@@ -645,7 +645,7 @@ limitations under the License.
 						(select attribute_type from ctspec_part_att_att where unit_code_table is not null)
 						</cfquery>		
 						<cfquery name="sp_units" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-						select unit_code_table from CTSPEC_PART_ATT_ATT were attribute_type = 'PART_ATT_NAME_#i#'
+						select unit_code_table from CTSPEC_PART_ATT_ATT where attribute_type = 'PART_ATT_NAME_#i#'
 						</cfquery>
 						<cfquery name="flatWrongUnits" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 							UPDATE cf_temp_parts
