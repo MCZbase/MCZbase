@@ -635,13 +635,21 @@ limitations under the License.
 						</cfquery>
 						<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						update cf_temp_parts set 
-						status = status || ';PART_ATT_VAL_#i# is not valid for attribute(' || PART_ATT_NAME_#i# || ')'
-						where PART_ATT_NAME_#i# in (select attribute_type from ctspecpart_attribute_type)
+						status = status || ';PART_ATT_NAME_#i# is not valid for attribute(' || PART_ATT_NAME_#i# || ')'
+						where PART_ATT_NAME_#i# not in (select attribute_type from ctspecpart_attribute_type) 
 						</cfquery>
+						<cfquery name="PAvalues" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						select attribute_type,description from ctspecpart_attribute_type where description is not null and description like '%value_code_table%'
+						</cfquery>
+						<cfset attributeType = (select attribute_type from PAvalues)>
+						<cfif len(attributeType) gt 0>
+							select * from CTSPEC_PART_ATT_ATT where attribute_type = PART_ATT_NAME_#i#
+							
+						</cfif>
 						<cfquery name="flatWrongUnits" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 							UPDATE cf_temp_parts
 							SET 
-								status = concat(nvl2(status, status || '; ', ''),'PART_ATT_VAL_#i# not in controlled vocabulary #ctspecpart_att_att.unit_code_table#')
+								status = concat(nvl2(status, status || '; ', ''),'PART_ATT_VAL_#i# not in controlled vocabulary #ctspecpart_att_att.attribute_type#')
 							WHERE 
 								attribute_units not in (
 									<cfif ctspecpart_att_att.unit_code_table EQ "CTLENGTH_UNITS">
