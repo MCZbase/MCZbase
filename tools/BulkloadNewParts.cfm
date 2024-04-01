@@ -636,8 +636,7 @@ limitations under the License.
 						<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						update cf_temp_parts set 
 						status = status || ';PART_ATT_VAL_#i# is not valid for attribute(' || PART_ATT_NAME_#i# || ')'
-						where #chk_specpart_att_codetables(PART_ATT_NAME_#i#,PART_ATT_VAL_#i#)#=0
-							and PART_ATT_NAME_#i# in (select attribute_type from ctspecpart_attribute_type)
+						where PART_ATT_NAME_#i# in (select attribute_type from ctspecpart_attribute_type)
 						</cfquery>
 						<cfquery name="flatWrongUnits" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 							UPDATE cf_temp_parts
