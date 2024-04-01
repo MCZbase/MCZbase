@@ -586,7 +586,7 @@ limitations under the License.
 						where (LOT_COUNT is null OR is_number(lot_count) = 0)
 					</cfquery>
 		
-					<cfloop index="i" from="1" to="5">
+					<cfloop index="i" from="1" to="6">
 						<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						update cf_temp_parts set 
 						status = concat(nvl2(status, status || '; ', ''),'Invalid PART_ATT_NAME_#i# "' || PART_ATT_NAME_#i# ||'"')
@@ -615,7 +615,7 @@ limitations under the License.
 						</cfquery>
 						<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						update cf_temp_parts set 
-						status = status || ';scientific name cannot be null'
+						status = status || '; scientific name cannot be null'
 						where PART_ATT_NAME_#i# = 'scientific name' AND PART_ATT_VAL_#i# is null
 						</cfquery>
 						<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -626,7 +626,7 @@ limitations under the License.
 						</cfquery>
 						<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						update cf_temp_parts set 
-						status = status || '<span class="font-weight-bold text-success">; PART_ATT_DETBY_#i# agent (' || PART_ATT_DETBY_#i# || ') does not exist</span>'
+						status = status || '<span class="font-weight-bold text-success">; PART_ATT_DETBY_#i# agent (' || PART_ATT_DETBY_#i# || ') does not match</span>'
 						where PART_ATT_DETBY_#i# not in
 						(select agent_name from agent_name group by agent_name having count(*) = 1)
 						</cfquery>
