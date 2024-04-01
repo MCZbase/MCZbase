@@ -638,7 +638,7 @@ limitations under the License.
 						status = status || ';PART_ATT_VAL_#i# is not valid for attribute(' || PART_ATT_NAME_#i# || ')'
 						where chk_att_codetables(PART_ATT_NAME_#i#,PART_ATT_VAL_#i#,COLLECTION_CDE)=0
 						and PART_ATT_NAME_#i# in
-						(select attribute from ctspecpart_att_att where value_code_table is not null)
+						(select attribute_type from ctspecpart_att_att where value_code_table is not null)
 						</cfquery>
 						<cfquery name="flatWrongUnits" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 							UPDATE cf_temp_parts
