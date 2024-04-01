@@ -643,7 +643,13 @@ limitations under the License.
 						status = status || ';PART_ATT_VAL_#i#  (' || PART_ATT_VAL_#i# || ') is invalid; requires value from codetable;'
 						where PART_ATT_NAME_#i# not in
 						(select attribute_type from ctspec_part_att_att where unit_code_table is not null)
-						</cfquery>			
+						</cfquery>		
+						<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						update cf_temp_parts set 
+						status = status || ';PART_ATT_UNITS_#i# is not valid for attribute(' || PART_ATT_NAME_#i# || ')'
+						where chk_att_codetables(PART_ATT_NAME_#i#,PART_ATT_UNITS_#i#,COLLECTION_CDE)=0
+						and PART_ATT_NAME_#i# in (select attribute_type from ctattribute_code_tables where units_code_table is not null)
+						</cfquery>
 						<cfquery name="flatWrongUnits" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 							UPDATE cf_temp_parts
 							SET 
@@ -689,12 +695,7 @@ limitations under the License.
 								AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 								AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
 						</cfquery>
-<!---						<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-						update cf_temp_parts set 
-						status = status || ';PART_ATT_UNITS_#i# is not valid for attribute(' || PART_ATT_NAME_#i# || ')'
-						where chk_att_codetables(PART_ATT_NAME_#i#,PART_ATT_UNITS_#i#,COLLECTION_CDE)=0
-						and PART_ATT_NAME_#i# in (select attribute_type from ctattribute_code_tables where units_code_table is not null)
-						</cfquery>--->
+
 					</cfloop>
 					<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						update cf_temp_parts set (status) = (select decode(parent_container_id,0,'','')
