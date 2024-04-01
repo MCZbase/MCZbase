@@ -733,7 +733,7 @@ limitations under the License.
 					select count(*) as cnt from cf_temp_parts where status = ''
 				</cfquery>
 				<cfif #allValid.cnt# is 0>
-					<span class="text-success">Validation checks passed</span>. Look over the table below and <a href="BulkloadNewParts.cfm?action=load">click to continue</a> if it all looks good. Or, <a href="/tools/BulkloadNewParts.cfm">Start over</a>.
+					<span class="text-success">Validation checks passed</span>. #allValid.cnt# Look over the table below and <a href="BulkloadNewParts.cfm?action=load">click to continue</a> if it all looks good. Or, <a href="/tools/BulkloadNewParts.cfm">Start over</a>.
 				<cfelse>
 					You must fix everything above to proceed. <a href="/tools/BulkloadNewParts.cfm">Try again.</a>
 				</cfif>
