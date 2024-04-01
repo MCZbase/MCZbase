@@ -639,7 +639,10 @@ limitations under the License.
 						where PART_ATT_NAME_#i# not in (select attribute_type from ctspecpart_attribute_type) 
 						</cfquery>
 						<cfquery name="PAvalues" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-						select attribute_type,description from ctspecpart_attribute_type where description is not null and description like '%value_code_table%'
+						update cf_temp_parts set 
+						status = status || ';PART_ATT_VALUE_#i#  (' || PART_ATT_VALUE_#i# || ') is invalid; requires value from codetable;'
+						where PART_ATT_VALUE_#i# not in
+						(select attribute_type from ctspec_part_att_att where value_code_table is not null)
 						</cfquery>
 			
 						<cfquery name="flatWrongUnits" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
