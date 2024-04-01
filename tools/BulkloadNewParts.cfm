@@ -586,7 +586,7 @@ limitations under the License.
 						where (LOT_COUNT is null OR is_number(lot_count) = 0)
 					</cfquery>
 		
-					<cfloop index="i" from="1" to="5">
+					<cfloop index="i" from="1" to="6">
 						<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						update cf_temp_parts set 
 						status = concat(nvl2(status, status || '; ', ''),'Invalid PART_ATT_NAME_#i# "' || PART_ATT_NAME_#i# ||'"')
