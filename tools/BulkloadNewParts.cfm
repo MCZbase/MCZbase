@@ -629,6 +629,7 @@ limitations under the License.
 						status = status || '<span class="font-weight-bold text-success">; PART_ATT_DETBY_#i# agent (' || PART_ATT_DETBY_#i# || ') does not match</span>'
 						where PART_ATT_DETBY_#i# not in
 						(select agent_name from agent_name group by agent_name having count(*) = 1)
+						and PART_ATT_DETBY_#i# is not null
 						</cfquery>
 						<cfquery name="bads3" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						update cf_temp_parts set 
