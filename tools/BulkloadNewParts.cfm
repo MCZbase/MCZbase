@@ -642,7 +642,7 @@ limitations under the License.
 						update cf_temp_parts set 
 						status = status || ';PART_ATT_VAL_#i#  (' || PART_ATT_VAL_#i# || ') is invalid; requires value from codetable;'
 						where PART_ATT_NAME_#i# not in
-						(select attribute_type from ctspec_part_att_att where value_code_table is not null)
+						(select attribute_type from ctspec_part_att_att where unit_code_table is not null)
 						</cfquery>
 			
 						<cfquery name="flatWrongUnits" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -666,6 +666,25 @@ limitations under the License.
 										select LENGTH_UNITS from CTANGLE_UNITS
 									<cfelseif ctspecpart_att_att.unit_code_table EQ "CTTISSUE_VOLUME_UNITS">
 										select TISSUE_VOLUME_UNITS from CTTISSUE_VOLUME_UNITS
+									</cfif>
+								)
+								AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+								AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
+						</cfquery>
+						<cfquery name="flatWrongValue" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+							UPDATE cf_temp_parts
+							SET 
+								status = concat(nvl2(status, status || '; ', ''),'PART_ATT_VAL_#i# not in controlled vocabulary #ctspec_part_att_att.attribute_type#')
+							WHERE 
+								attribute_value not in (
+									<cfif ctspecpart_att_att.value_code_table EQ "CTCASTE">
+										select caste from CTCASTE where cf_temp_parts.collection_cde = ctcaste.collection_cde
+									<cfelseif ctspecpart_att_att.value_code_table EQ "CTPARTASSOCIATION">
+										select partassociation from CTCASTE where cf_temp_parts.collection_cde = ctcaste.collection_cde
+									<cfelseif ctspecpart_att_att.value_code_table EQ "CTAGE_CLASS">
+										select age_class from CTAGE_CLASS where cf_temp_parts.collection_cde = ctage_class.collection_cde
+									<cfelseif ctspecpart_att_att.value_code_table EQ "CTSEX_CDE">
+										select sex_cde from CTSEX_CDE where cf_temp_parts.collection_cde = ctcaste.collection_cde
 									</cfif>
 								)
 								AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
