@@ -700,6 +700,34 @@ limitations under the License.
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
 						</cfquery>
+						<cfquery name="sp_units" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						select unit_code_table,attribute_type from CTATTRIBUTE_CODE_tabels where attribute_type = ('||PART_ATT_NAME_#i#||') and unit_code_table is not null
+						</cfquery>
+						<cfquery name="flatWrongUnits" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+							UPDATE cf_temp_parts
+							SET 
+								status = concat(nvl2(status, status || '; ', ''),'Part attribute units not in controlled vocabulary')
+							WHERE 
+								(' || PART_ATT_UNITS_#i# || ') not in (
+									<cfif sp_units.unit_code_table EQ "CTLENGTH_UNITS">
+										select LENGTH_UNITS from CTLENGTH_UNITS
+									<cfelseif sp_units.unit_code_table EQ "CTWEIGHT_UNITS">
+										select WEIGHT_UNITS from CTWEIGHT_UNITS
+									<cfelseif sp_units.unit_code_table EQ "CTNUMERIC_AGE_UNITS">
+										select NUMERIC_AGE_UNITS from CTNUMERIC_AGE_UNITS
+									<cfelseif sp_units.unit_code_table EQ "CTAREA_UNITS">
+										select AREA_UNITS from CTAREA_UNITS
+									<cfelseif sp_units.unit_code_table EQ "CTTHICKNESS_UNITS">
+										select THICKNESS_UNITS from CTTHICKNESS_UNITS
+									<cfelseif sp_units.unit_code_table EQ "CTANGLE_UNITS">
+										select LENGTH_UNITS from CTANGLE_UNITS
+									<cfelseif sp_units.unit_code_table EQ "CTTISSUE_VOLUME_UNITS">
+										select TISSUE_VOLUME_UNITS from CTTISSUE_VOLUME_UNITS
+									</cfif>
+								)
+								AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+								AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
+						</cfquery>
 		<!---				<cfquery name="PAvalues" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						update cf_temp_parts set 
 						status = status || ';PART_ATT_VAL_#i#  (' || PART_ATT_VAL_#i# || ') is invalid; requires value from codetable;'
@@ -707,9 +735,7 @@ limitations under the License.
 						(select attribute_type from ctspec_part_att_att where unit_code_table is not null)
 						</cfquery>--->
 							
-	<!---					<cfquery name="sp_units" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-						select unit_code_table,attribute_type from CTSPEC_PART_ATT_ATT where attribute_type = ('||PART_ATT_NAME_#i#||') and unit_code_table is not null
-						</cfquery>
+	<!---					
 						<cfloop query="sp_units">
 						<cfquery name="flatWrongUnits" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 							UPDATE cf_temp_parts
