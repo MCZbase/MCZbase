@@ -794,7 +794,7 @@ limitations under the License.
 				<table class='sortable w-100 small px-0 mx-0 table table-responsive table-striped'>
 					<thead class="thead-light smaller">
 						<tr>
-							<th>BULKLOADING STATUS FOR NEW PARTS</th>
+							<th>BULKLOADING&nbsp;STATUS FOR&nbsp;NEW&nbsp;PARTS</th>
 							<th>INSTITUTION_ACRONYM</th>
 							<th>COLLECTION_CDE</th>
 							<th>OTHER_ID_TYPE</th>
