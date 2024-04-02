@@ -708,7 +708,7 @@ limitations under the License.
 							SET 
 								status = concat(nvl2(status, status || '; ', ''),'Part attribute units not in controlled vocabulary')
 							WHERE 
-								''||PART_ATT_UNITS_#i#||'' not in (
+								'PART_ATT_UNITS_#i#' not in (
 									<cfif sp_units.units_code_table EQ "CTLENGTH_UNITS">
 										select LENGTH_UNITS from CTLENGTH_UNITS
 									<cfelseif sp_units.units_code_table EQ "CTWEIGHT_UNITS">
