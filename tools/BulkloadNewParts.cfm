@@ -655,8 +655,7 @@ limitations under the License.
 						</cfquery>
 						<cfquery name="bads1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						update cf_temp_parts set
-						status = concat(nvl2(status, status || '; ', ''),'attribute inconsistent with units')
-						concat(nvl2(status, status || '; ', ''),'Invalid PART_ATT_DETBY. Name matched multiple agent names')
+						status = concat(nvl2(status, status || '; ', ''),'Invalid PART_ATT_DETBY "'||PART_ATT_DETBY_#i#||'" matched multiple agent names')
 						where PART_ATT_DETBY_#i# in
 						(select agent_name from agent_name group by agent_name having count(*) > 1)
 						AND PART_ATT_DETBY_#i# is not null
