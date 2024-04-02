@@ -620,7 +620,7 @@ limitations under the License.
 						<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						update cf_temp_parts set 
 						status = concat(nvl2(status, status || '; ', ''),'<span class="font-weight-bold">Invalid  "'||PART_ATT_NAME_#i#||'"</span>')
-						where PART_ATT_NAME_#i# not in (select attribute_type from CTSPEC_PART_ATT_ATT)
+						where PART_ATT_NAME_#i# not in (select attribute_type from CTSPECPART_ATTRIBUTE_TYPE)
 						AND PART_ATT_NAME_#i# is not null
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
