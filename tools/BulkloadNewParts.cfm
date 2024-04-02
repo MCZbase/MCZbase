@@ -724,7 +724,7 @@ limitations under the License.
 						<cfquery name="flatWrongValue" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 							UPDATE cf_temp_parts
 							SET 
-								status = concat(nvl2(status, status || '; ', ''),'PART_ATT_VAL_#i# not in controlled vocabulary #ctspec_part_att_att.attribute_type#')
+								status = concat(nvl2(status, status || '; ', ''),'PART_ATT_VAL_#i# not in controlled vocabulary #ctspec_part_att_att.attribute#')
 							WHERE 
 								attribute_value not in (
 									<cfif ctspecpart_att_att.value_code_table EQ "CTCASTE">
