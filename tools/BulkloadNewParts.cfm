@@ -569,7 +569,6 @@ limitations under the License.
 						status = concat(nvl2(status, status || '; ', ''),'Invalid preserve method "'||preserve_method||'"')
 						where (preserve_method|| '|' ||collection_cde NOT IN (
 							select preserve_method|| '|' ||collection_cde from ctspecimen_preserv_method) 
-						OR preserve_method is null)
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
 					</cfquery>
