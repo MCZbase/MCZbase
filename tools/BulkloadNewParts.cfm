@@ -615,7 +615,7 @@ limitations under the License.
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
 					</cfquery>
-		<!---
+		
 					<cfloop index="i" from="1" to="6">
 						<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						update cf_temp_parts set 
@@ -673,7 +673,7 @@ limitations under the License.
 						status = concat(nvl2(status, status || '; ', ''),'<span class="font-weight-bold">Invalid determiner. "'||PART_ATT_DETBY_#i#||'" does not match an agent name.</span>')
 						where PART_ATT_DETBY_#i# not in
 						(select agent_name from agent_name group by agent_name having count(*) = 1)
-						and PART_ATT_DETBY_#i# is not nu<!------>ll
+						and PART_ATT_DETBY_#i# is not null
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
 						</cfquery>
@@ -740,7 +740,7 @@ limitations under the License.
 								AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 								AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
 						</cfquery>
-					</cfloop>--->
+					</cfloop>
 					<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						update cf_temp_parts set (status) = (select decode(parent_container_id,0,'','')
 						from specimen_part,coll_obj_cont_hist,container, coll_object_remark 
