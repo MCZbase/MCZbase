@@ -623,9 +623,11 @@ limitations under the License.
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
 						</cfquery>
+							<!---status = status || ';scientific name (' || PART_ATT_VAL_#i# || ') matched multiple taxonomy records'--->
 						<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						update cf_temp_parts set 
-						status = status || ';scientific name (' || PART_ATT_VAL_#i# || ') matched multiple taxonomy records'
+						status = concat(nvl2(status, status || '; ', ''),'Scientific Name PART_ATT_VAL_#i# "' || PART_ATT_VAL_#i# ||'"') 
+						
 						where PART_ATT_NAME_#i# = 'scientific name'
 						AND regexp_replace(PART_ATT_VAL_#i#, ' (\?|sp.)$', '') in
 						(select scientific_name from taxonomy group by scientific_name having count(*) > 1)
@@ -653,7 +655,8 @@ limitations under the License.
 						</cfquery>
 						<cfquery name="bads1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						update cf_temp_parts set
-						concat(nvl2(status, status || '; ', ''),'<span class="font-weight-bold">Invalid PART_ATT_DETBY "' || PART_ATT_DETBY_#i# ||'" matched multiple agent names </span>')
+						status = concat(nvl2(status, status || '; ', ''),'attribute inconsistent with units')
+						concat(nvl2(status, status || '; ', ''),'Invalid PART_ATT_DETBY. Name matched multiple agent names')
 						where PART_ATT_DETBY_#i# in
 						(select agent_name from agent_name group by agent_name having count(*) > 1)
 						AND PART_ATT_DETBY_#i# is not null
