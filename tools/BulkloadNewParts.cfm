@@ -701,7 +701,7 @@ limitations under the License.
 						AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
 						</cfquery>
 						<cfquery name="sp_units" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-						select unit_code_table,attribute_type from CTATTRIBUTE_CODE_tabels where attribute_type = ('||PART_ATT_NAME_#i#||') and unit_code_table is not null
+						select unit_code_table,attribute_type from CTATTRIBUTE_CODE_TABLES where attribute_type = ('||PART_ATT_NAME_#i#||') and unit_code_table is not null
 						</cfquery>
 						<cfquery name="flatWrongUnits" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 							UPDATE cf_temp_parts
