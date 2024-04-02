@@ -626,7 +626,7 @@ limitations under the License.
 							<!---status = status || ';scientific name (' || PART_ATT_VAL_#i# || ') matched multiple taxonomy records'--->
 						<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						update cf_temp_parts set 
-						status = concat(nvl2(status, status || '; ', ''),'Scientific Name PART_ATT_VAL_#i# "' || PART_ATT_VAL_#i# ||'"') 
+						status = concat(nvl2(status, status || '; ', ''),'Scientific Name "' || PART_ATT_VAL_#i# ||'" invalid') 
 						
 						where PART_ATT_NAME_#i# = 'scientific name'
 						AND regexp_replace(PART_ATT_VAL_#i#, ' (\?|sp.)$', '') in
