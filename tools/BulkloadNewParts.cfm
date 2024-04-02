@@ -907,7 +907,7 @@ limitations under the License.
 				<cfset enteredbyid = getEntBy.agent_id>
 				<cftransaction>
 				<cfloop query="getTempData">
-				<cfif len(#use_part_id#) is 0 <!---AND len(#container_unique_id#) gt 0--->>
+				<cfif len(#use_part_id#) is 0>
 					<cfquery name="NEXTID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						select sq_collection_object_id.nextval NEXTID from dual
 					</cfquery>
