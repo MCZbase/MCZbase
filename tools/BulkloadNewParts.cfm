@@ -597,6 +597,9 @@ limitations under the License.
 						update cf_temp_parts set 
 						status = concat(nvl2(status, status || '; ', ''),'Invalid CONDITION "'||CONDITION||'"')
 						where condition != 'good'
+						OR condition != 'fair'
+						OR condition != 'poor'
+						OR condition != 'unchecked'
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
 					</cfquery>
