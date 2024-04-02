@@ -685,10 +685,10 @@ limitations under the License.
 						AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
 						</cfquery>
 						<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-							update cf_temp_parts set validated_status = validated_status || ';PART_ATT_VAL_#i# is not valid for attribute(' || PART_ATT_NAME_#i# || ')'
-							where chk_att_codetables(PART_ATT_NAME_#i#,PART_ATT_VAL_#i#,COLLECTION_CDE)=0
+							update cf_temp_parts set status = concat(nvl2(status, status || '; ', ''), 'Part Attribute is not valid ('||PART_ATT_NAME_#i#||')'
+							where chk_specpart_att_codetables(PART_ATT_NAME_#i#,PART_ATT_VAL_#i#)=0
 							and PART_ATT_NAME_#i# in
-							(select attribute_type from ctattribute_code_tables where value_code_table is not null)
+							(select attribute_type from ctspec_part_att_att where Value_Code_Table is not null)
 						</cfquery>
 		<!---				<cfquery name="PAvalues" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						update cf_temp_parts set 
