@@ -695,7 +695,7 @@ limitations under the License.
 						where chk_att_codetables(PART_ATT_NAME_#i#,PART_ATT_UNITS_#i#,COLLECTION_CDE)=0
 						and PART_ATT_NAME_#i# in
 						(select attribute_type from ctattribute_code_tables where units_code_table is not null)
-		</cfquery>
+						</cfquery>
 		<!---				<cfquery name="PAvalues" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						update cf_temp_parts set 
 						status = status || ';PART_ATT_VAL_#i#  (' || PART_ATT_VAL_#i# || ') is invalid; requires value from codetable;'
