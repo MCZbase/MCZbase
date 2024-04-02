@@ -595,8 +595,8 @@ limitations under the License.
 					<!---Check to see if the container_unique_id is in MCZbase--->
 					<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						update cf_temp_parts set 
-						status = concat(nvl2(status, status || '; ', ''),'Invalid CONDITION "'||CONDITION||'"')
-						where condition not in (select good,fair,poor,unchecked from coll_object)
+						status = concat(nvl2(status, status || '; ', ''),'Missing CONDITION')
+						where condition is not null
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
 					</cfquery>
