@@ -684,13 +684,20 @@ limitations under the License.
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
 						</cfquery>
-						<cfquery name="PAvalues" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+							update cf_temp_parts set validated_status = validated_status || ';PART_ATT_VAL_#i# is not valid for attribute(' || PART_ATT_NAME_#i# || ')'
+							where chk_att_codetables(PART_ATT_NAME_#i#,PART_ATT_VAL_#i#,COLLECTION_CDE)=0
+							and PART_ATT_NAME_#i# in
+							(select attribute_type from ctattribute_code_tables where value_code_table is not null)
+						</cfquery>
+		<!---				<cfquery name="PAvalues" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						update cf_temp_parts set 
 						status = status || ';PART_ATT_VAL_#i#  (' || PART_ATT_VAL_#i# || ') is invalid; requires value from codetable;'
 						where PART_ATT_NAME_#i# not in
 						(select attribute_type from ctspec_part_att_att where unit_code_table is not null)
-						</cfquery>
-						<cfquery name="sp_units" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						</cfquery>--->
+							
+	<!---					<cfquery name="sp_units" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						select unit_code_table,attribute_type from CTSPEC_PART_ATT_ATT where attribute_type = ('||PART_ATT_NAME_#i#||') and unit_code_table is not null
 						</cfquery>
 						<cfloop query="sp_units">
@@ -739,7 +746,7 @@ limitations under the License.
 								)
 								AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 								AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
-						</cfquery>
+						</cfquery>--->
 					</cfloop>
 					<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						update cf_temp_parts set (status) = (select decode(parent_container_id,0,'','')
