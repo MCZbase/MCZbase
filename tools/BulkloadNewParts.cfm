@@ -529,7 +529,7 @@ limitations under the License.
 					</cfif>
 				</cfloop>
 				<!--- obtain the information needed to QC each row --->
-				<cfif len(getCID.collection_object_id) gt 0>
+				<cfif len(cf_temp_parts.collection_object_id) gt 0>
 				<cfquery name="getTempTableQC" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					SELECT 
 						collection_object_id, key
