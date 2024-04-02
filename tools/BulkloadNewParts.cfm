@@ -686,7 +686,7 @@ limitations under the License.
 						</cfquery>
 						<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 							update cf_temp_parts set status = concat(nvl2(status, status || '; ', ''), 'Part Attribute is not valid ('||PART_ATT_NAME_#i#||')'
-							where chk_specpart_att_codetables(PART_ATT_NAME_#i#,PART_ATT_VAL_#i#)=0
+							where chk_specpart_att_codetables('||PART_ATT_NAME_#i#||','||PART_ATT_VAL_#i#||')=0
 							and PART_ATT_NAME_#i# in
 							(select attribute_type from ctspec_part_att_att where Value_Code_Table is not null)
 						</cfquery>
