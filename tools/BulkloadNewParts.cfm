@@ -673,7 +673,7 @@ limitations under the License.
 						</cfquery>
 						<cfquery name="bads3" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						update cf_temp_parts set 
-						concat(nvl2(status, status || '; ', ''),'<span class="font-weight-bold">Invalid PART_ATT_NAME "' || PART_ATT_NAME_#i# ||'" does not match MCZbase </span>')
+						status = concat(nvl2(status, status || '; ', ''),'<span class="font-weight-bold">Invalid PART_ATT_NAME "' || PART_ATT_NAME_#i# ||'" does not match MCZbase </span>')
 						where PART_ATT_NAME_#i# not in (select attribute_type from ctspecpart_attribute_type) 
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
