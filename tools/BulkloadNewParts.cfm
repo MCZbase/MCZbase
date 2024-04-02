@@ -529,6 +529,7 @@ limitations under the License.
 					</cfif>
 				</cfloop>
 				<!--- obtain the information needed to QC each row --->
+				<cfif len(getCID.collection_object_id) gt 0>
 				<cfquery name="getTempTableQC" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					SELECT 
 						collection_object_id, key
@@ -537,6 +538,9 @@ limitations under the License.
 					WHERE 
 						username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
+				<cfelse>
+					<p>Check the Other ID Type</p>
+				</cfif>
 				<cfloop query="getTempTableQC">
 					<!---Update the container with the container_unique_id from the spreadsheet--->
 					<cfquery name="getParentContainerId" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
