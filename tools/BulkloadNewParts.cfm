@@ -709,19 +709,19 @@ limitations under the License.
 								status = concat(nvl2(status, status || '; ', ''),'Part attribute units not in controlled vocabulary')
 							WHERE 
 								(' || PART_ATT_UNITS_#i# || ') not in (
-									<cfif sp_units.unit_code_table EQ "CTLENGTH_UNITS">
+									<cfif sp_units.units_code_table EQ "CTLENGTH_UNITS">
 										select LENGTH_UNITS from CTLENGTH_UNITS
-									<cfelseif sp_units.unit_code_table EQ "CTWEIGHT_UNITS">
+									<cfelseif sp_units.units_code_table EQ "CTWEIGHT_UNITS">
 										select WEIGHT_UNITS from CTWEIGHT_UNITS
-									<cfelseif sp_units.unit_code_table EQ "CTNUMERIC_AGE_UNITS">
+									<cfelseif sp_units.units_code_table EQ "CTNUMERIC_AGE_UNITS">
 										select NUMERIC_AGE_UNITS from CTNUMERIC_AGE_UNITS
-									<cfelseif sp_units.unit_code_table EQ "CTAREA_UNITS">
+									<cfelseif sp_units.units_code_table EQ "CTAREA_UNITS">
 										select AREA_UNITS from CTAREA_UNITS
-									<cfelseif sp_units.unit_code_table EQ "CTTHICKNESS_UNITS">
+									<cfelseif sp_units.units_code_table EQ "CTTHICKNESS_UNITS">
 										select THICKNESS_UNITS from CTTHICKNESS_UNITS
-									<cfelseif sp_units.unit_code_table EQ "CTANGLE_UNITS">
+									<cfelseif sp_units.units_code_table EQ "CTANGLE_UNITS">
 										select LENGTH_UNITS from CTANGLE_UNITS
-									<cfelseif sp_units.unit_code_table EQ "CTTISSUE_VOLUME_UNITS">
+									<cfelseif sp_units.units_code_table EQ "CTTISSUE_VOLUME_UNITS">
 										select TISSUE_VOLUME_UNITS from CTTISSUE_VOLUME_UNITS
 									</cfif>
 								)
