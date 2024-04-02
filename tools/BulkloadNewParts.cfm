@@ -713,7 +713,7 @@ limitations under the License.
 										select LENGTH_UNITS from CTLENGTH_UNITS
 									<cfelseif sp_units2.units_code_table EQ "CTWEIGHT_UNITS">
 										select WEIGHT_UNITS from CTWEIGHT_UNITS
-									<cfelseif sp_units1.units_code_table EQ "CTNUMERIC_AGE_UNITS">
+									<cfelseif sp_units2.units_code_table EQ "CTNUMERIC_AGE_UNITS">
 										select NUMERIC_AGE_UNITS from CTNUMERIC_AGE_UNITS
 									<cfelseif sp_units2.units_code_table EQ "CTAREA_UNITS">
 										select AREA_UNITS from CTAREA_UNITS
