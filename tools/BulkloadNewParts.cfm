@@ -540,7 +540,7 @@ limitations under the License.
 				<cfloop query="getTempTableQC">
 					<cfquery name="CollID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						update cf_temp_parts set 
-						status = concat(nvl2(status, status || '; ', ''),'Check other id "'||collection_object_id||'"')
+						status = concat(nvl2(status, status || '; ', ''),'Check other id. Internal ID could not be created.')
 						where collection_object_id is null 
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
