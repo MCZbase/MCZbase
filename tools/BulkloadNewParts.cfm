@@ -705,7 +705,7 @@ limitations under the License.
 						where attribute_type = ('||PART_ATT_NAME_#i#||') 
 						and CTATTRIBUTE_CODE_TABLES.units_code_table is not null
 						</cfquery>
-						<cfif #sp_units2.units_code_table# is not null>
+						<cfif len(#sp_units2.units_code_table#) gt 0>
 						<cfquery name="flatWrongUnits" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 							UPDATE cf_temp_parts
 							SET 
