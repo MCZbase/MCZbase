@@ -64,7 +64,7 @@ limitations under the License.
 						<textarea rows="2" cols="90" id="templatearea" class="w-100 data-entry-textarea">#fieldlist#</textarea>
 					</div>
 					<h2 class="mt-4 h4">Columns in <span class="text-danger">red</span> are required; others are optional:</h2>
-					<ul class="mb-4 h4 small font-weight-normal align-items-start align-items list-group list-group-horizontal flex-wrap col-12">
+					<ul class="mb-4 h4 font-weight-normal align-items-start align-items list-group list-group-horizontal flex-wrap col-12">
 						<cfloop list="#fieldlist#" index="field" delimiters=",">
 							<cfset aria = "">
 							<cfif listContains(requiredfieldlist,field,",")>
@@ -595,8 +595,8 @@ limitations under the License.
 					<!---Check to see if the container_unique_id is in MCZbase--->
 					<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						update cf_temp_parts set 
-						status = concat(nvl2(status, status || '; ', ''),'Missing CONDITION')
-						where condition is null
+						status = concat(nvl2(status, status || '; ', ''),'Invalid CONDITION "'||CONDITION||'"')
+						where condition != 'good'
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
 					</cfquery>
