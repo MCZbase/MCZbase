@@ -789,7 +789,7 @@ limitations under the License.
 				<table class='sortable w-100 small px-0 mx-0 table table-responsive table-striped'>
 					<thead class="thead-light smaller">
 						<tr>
-							<th>STATUS</th>
+							<th style='width:210px'>STATUS</th>
 							<th>INSTITUTION_ACRONYM</th>
 							<th>COLLECTION_CDE</th>
 							<th>OTHER_ID_TYPE</th>
