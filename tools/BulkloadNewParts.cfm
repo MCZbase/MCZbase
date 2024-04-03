@@ -661,7 +661,7 @@ limitations under the License.
 						</cfquery>
 						<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						update cf_temp_parts set 
-						status = concat(nvl2(status, status || '; ', ''),'<span class="font-weight-bold">Invalid determiner. "'||PART_ATT_DETBY_#i#||'" does not match an agent name.</span>')
+						status = concat(nvl2(status, status || '; ', ''),'<span class="font-weight-bold">Invalid part attribute determiner <span class="font-weight-bold">"'||PART_ATT_DETBY_#i#||'"</span>')
 						where PART_ATT_DETBY_#i# not in
 						(select agent_name from agent_name group by agent_name having count(*) = 1)
 						and PART_ATT_DETBY_#i# is not null
@@ -676,7 +676,7 @@ limitations under the License.
 						AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
 						</cfquery>
 						<cfquery name="sp_val1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-						update cf_temp_parts set status = status || 'PART_ATT_VAL_#i# is not valid for attribute ('||PART_ATT_NAME_#i#||')'
+						update cf_temp_parts set status = status || 'PART_ATT_VAL_#i# is not valid for attribute <span class="font-weight-bold">"'||PART_ATT_NAME_#i#||'"</span>'
 						where CHK_SPECPART_ATT_CODETABLES(PART_ATT_NAME_#i#,PART_ATT_VAL_#i#,COLLECTION_CDE)=0
 						and PART_ATT_NAME_#i# in
 						(select attribute_type from ctspecpart_attribute_type where value_code_tables is not null)
@@ -684,7 +684,7 @@ limitations under the License.
 						AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
 						</cfquery>
 						<cfquery name="sp_units1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-						update cf_temp_parts set status = status || 'PART_ATT_UNITS_#i# is not valid for attribute ('||PART_ATT_NAME_#i#||')'
+						update cf_temp_parts set status = status || 'PART_ATT_UNITS_#i# is not valid for attribute <span class="font-weight-bold">"'||PART_ATT_NAME_#i#||'"</span>'
 						where CHK_SPECPART_ATT_CODETABLES(PART_ATT_NAME_#i#,PART_ATT_UNITS_#i#,COLLECTION_CDE)=0
 						and PART_ATT_NAME_#i# in
 						(select attribute_type from ctspecpart_attribute_type where unit_code_tables is not null)
