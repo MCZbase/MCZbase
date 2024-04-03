@@ -686,7 +686,7 @@ limitations under the License.
 						</cfquery>
 						<cfquery name="sp_val1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						update cf_temp_parts set status = status || 'PART_ATT_VAL_#i# is not valid for attribute('||PART_ATT_NAME_#i#||')'
-						where CHK_SPECPART_ATT_CODETABLES(PART_ATT_NAME_#i#,PART_ATT_UNITS_#i#,COLLECTION_CDE)=0
+						where CHK_SPECPART_ATT_CODETABLES(PART_ATT_NAME_#i#,PART_ATT_VAL_#i#,COLLECTION_CDE)=0
 						and PART_ATT_NAME_#i# in
 						(select attribute_type from ctspecpart_attribute_type where value_code_tables is not null)
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
@@ -700,62 +700,6 @@ limitations under the License.
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
 						</cfquery>
-						
-		<!---				<cfquery name="PAvalues" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-						update cf_temp_parts set 
-						status = status || ';PART_ATT_VAL_#i#  (' || PART_ATT_VAL_#i# || ') is invalid; requires value from codetable;'
-						where PART_ATT_NAME_#i# not in
-						(select attribute_type from ctspec_part_att_att where unit_code_table is not null)
-						</cfquery>--->
-							
-	<!---					
-						<cfloop query="sp_units">
-						<cfquery name="flatWrongUnits" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-							UPDATE cf_temp_parts
-							SET 
-								status = concat(nvl2(status, status || '; ', ''),'Part attribute units not in controlled vocabulary')
-							WHERE 
-								(' || PART_ATT_UNITS_#i# || ') not in (
-									<cfif sp_units.unit_code_table EQ "CTLENGTH_UNITS">
-										select LENGTH_UNITS from CTLENGTH_UNITS
-									<cfelseif sp_units.unit_code_table EQ "CTWEIGHT_UNITS">
-										select WEIGHT_UNITS from CTWEIGHT_UNITS
-									<cfelseif sp_units.unit_code_table EQ "CTNUMERIC_AGE_UNITS">
-										select NUMERIC_AGE_UNITS from CTNUMERIC_AGE_UNITS
-									<cfelseif sp_units.unit_code_table EQ "CTAREA_UNITS">
-										select AREA_UNITS from CTAREA_UNITS
-									<cfelseif sp_units.unit_code_table EQ "CTTHICKNESS_UNITS">
-										select THICKNESS_UNITS from CTTHICKNESS_UNITS
-									<cfelseif sp_units.unit_code_table EQ "CTANGLE_UNITS">
-								
-										select LENGTH_UNITS from CTANGLE_UNITS
-									<cfelseif sp_units.unit_code_table EQ "CTTISSUE_VOLUME_UNITS">
-										select TISSUE_VOLUME_UNITS from CTTISSUE_VOLUME_UNITS
-									</cfif>
-								)
-								AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-								AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
-						</cfquery>
-						</cfloop>
-						<cfquery name="flatWrongValue" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-							UPDATE cf_temp_parts
-							SET 
-								status = concat(nvl2(status, status || '; ', ''),'PART_ATT_VAL_#i# not in controlled vocabulary #ctspec_part_att_att.attribute#')
-							WHERE 
-								attribute_value not in (
-									<cfif ctspecpart_att_att.value_code_table EQ "CTCASTE">
-										select caste from CTCASTE where cf_temp_parts.collection_cde = ctcaste.collection_cde
-									<cfelseif ctspecpart_att_att.value_code_table EQ "CTPARTASSOCIATION">
-										select partassociation from CTCASTE where cf_temp_parts.collection_cde = ctcaste.collection_cde
-									<cfelseif ctspecpart_att_att.value_code_table EQ "CTAGE_CLASS">
-										select age_class from CTAGE_CLASS where cf_temp_parts.collection_cde = ctage_class.collection_cde
-									<cfelseif ctspecpart_att_att.value_code_table EQ "CTSEX_CDE">
-										select sex_cde from CTSEX_CDE where cf_temp_parts.collection_cde = ctcaste.collection_cde
-									</cfif>
-								)
-								AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-								AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
-						</cfquery>--->
 					</cfloop>
 					<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						update cf_temp_parts set (status) = (select decode(parent_container_id,0,'','')
