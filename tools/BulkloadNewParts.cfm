@@ -688,7 +688,7 @@ limitations under the License.
 						update cf_temp_parts set status = status || 'PART_ATT_VAL_#i# is not valid for attribute('||PART_ATT_NAME_#i#||')'
 						where chk_att_codetables(PART_ATT_NAME_#i#,PART_ATT_VAL_#i#,COLLECTION_CDE)=0
 						and PART_ATT_NAME_#i# in
-						(select attribute_type from ctspecpart_attribute_type where code_tables is not null)
+						(select attribute_type from ctspecpart_attribute_type where value_code_tables is not null)
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
 						</cfquery>
@@ -696,14 +696,14 @@ limitations under the License.
 						update cf_temp_parts set status = status || 'PART_ATT_UNITS_#i# is not valid for attribute('||PART_ATT_NAME_#i#||')'
 						where chk_att_codetables(PART_ATT_NAME_#i#,PART_ATT_UNITS_#i#,COLLECTION_CDE)=0
 						and PART_ATT_NAME_#i# in
-						(select attribute_type from ctattribute_code_tables where units_code_table is not null)
+						(select attribute_type from ctspecpart_attribute_type where unit_code_tables is not null)
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
 						</cfquery>
 						<cfquery name="sp_units2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-						select units_code_table,attribute_type from CTATTRIBUTE_CODE_TABLES 
+						select units_code_table,attribute_type from CTSPECPART_ATTRIBUTE_TYPE
 						where attribute_type = ('||PART_ATT_NAME_#i#||') 
-						and CTATTRIBUTE_CODE_TABLES.units_code_table is not null
+						and CTSPECPART_ATTRIBUTE_TYPE.unit_code_tables is not null
 						</cfquery>
 						<cfif len(#sp_units2.units_code_table#) gt 0>
 						<cfquery name="flatWrongUnits" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
