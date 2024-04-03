@@ -134,7 +134,7 @@ limitations under the License.
 <!----------------------------------------------------->
 <cffunction name="getMediaRelations" access="public" output="false" returntype="Query">
 	<cfargument name="media_id" required="true" type="numeric">
-	<cfquery name="relns" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cfquery name="relns" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		select * from media_relations,
 		preferred_agent_name
 		where
@@ -152,7 +152,7 @@ limitations under the License.
 		<cfset temp = QuerySetCell(result, "related_primary_key", "#related_primary_key#", i)>
 		<cfset table_name = listlast(media_relationship," ")>
 		<cfif table_name is "locality">
-			<cfquery name="d" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="d" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT
 					higher_geog || ': ' || spec_locality data
 				FROM
@@ -164,14 +164,14 @@ limitations under the License.
 			<cfset temp = QuerySetCell(result, "summary", "#d.data#", i)>
             <cfset temp = QuerySetCell(result, "link", "/showLocality.cfm?action=srch&locality_id=#related_primary_key#", i)>
 		<cfelseif #table_name# is "agent">
-			<cfquery name="d" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="d" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				select agent_name data 
 				from preferred_agent_name 
 				where agent_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#related_primary_key#">
 			</cfquery>
 			<cfset temp = QuerySetCell(result, "summary", "#d.data#", i)>
 		<cfelseif table_name is "collecting_event">
-			<cfquery name="d" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="d" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT
 					higher_geog || ': ' || spec_locality || ' (' || verbatim_date || ')' data
 				FROM
@@ -184,7 +184,7 @@ limitations under the License.
 			<cfset temp = QuerySetCell(result, "summary", "#d.data#", i)>
             <cfset temp = QuerySetCell(result, "link", "/showLocality.cfm?action=srch&collecting_event_id=#related_primary_key#", i)>
 		<cfelseif table_name is "accn">
-			<cfquery name="d" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="d" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT
 					collection || ' ' || accn_number data
 				FROM
@@ -197,7 +197,7 @@ limitations under the License.
 			<cfset temp = QuerySetCell(result, "summary", "#d.data#", i)>
             <cfset temp = QuerySetCell(result, "link", "/transactions/Accession.cfm?action=edit&transaction_id=#related_primary_key#", i)>
 		<cfelseif table_name is "deaccession">
-			<cfquery name="d" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="d" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT 
 					collection || ' ' || deacc_number data
 				FROM
@@ -210,7 +210,7 @@ limitations under the License.
 			<cfset temp = QuerySetCell(result, "summary", "#d.data#", i)>
     		        <cfset temp = QuerySetCell(result, "link", "/transactions/Deaccession.cfm?action=edit&transaction_id=#related_primary_key#", i)>
 		<cfelseif table_name is "loan">
-			<cfquery name="d" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="d" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT
 					collection || ' ' || loan_number data
 				FROM
@@ -223,7 +223,7 @@ limitations under the License.
 			<cfset temp = QuerySetCell(result, "summary", "#d.data#", i)>
     		        <cfset temp = QuerySetCell(result, "link", "/transactions/Loan.cfm?Action=editLoan&transaction_id=#related_primary_key#", i)>
 		<cfelseif table_name is "borrow">
-			<cfquery name="d" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="d" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT
 					collection || ' ' || borrow_number data
 				FROM
@@ -236,7 +236,7 @@ limitations under the License.
 			<cfset temp = QuerySetCell(result, "summary", "#d.data#", i)>
     		        <cfset temp = QuerySetCell(result, "link", "/transactions/Borrow.cfm?Action=edit&transaction_id=#related_primary_key#", i)>
 		<cfelseif table_name is "permit">
-			<cfquery name="d" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="d" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT
 					permit_Type || ' ' || agent_name || ' ' || permit_Num data
 				FROM
@@ -249,7 +249,7 @@ limitations under the License.
 			<cfset temp = QuerySetCell(result, "link", "/transactions/Permit.cfm?action=edit&permit_id=#related_primary_key#", i)>
 		<cfelseif table_name is "cataloged_item">
 		<!--- upping this to uam_god for now - see Issue 135
-			<cfquery name="d" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="d" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		---->
 			<cfquery name="d" datasource="uam_god">
 				SELECT collection || ' ' || cat_num || ' (' || scientific_name || ')' data 
@@ -291,14 +291,14 @@ limitations under the License.
 			<cfset temp = QuerySetCell(result, "summary", "#d.data#", i)>
 			<cfset temp = QuerySetCell(result, "link", "/publications/showPublication.cfm?publication_id=#related_primary_key#", i)>
 		<cfelseif #table_name# is "project">
-			<cfquery name="d" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="d" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				select project_name data from
 				project where project_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#related_primary_key#">
 			</cfquery>
 			<cfset temp = QuerySetCell(result, "summary", "#d.data#", i)>
 			<cfset temp = QuerySetCell(result, "link", "/ProjectDetail.cfm?project_id=#related_primary_key#", i)>
 		<cfelseif table_name is "taxonomy">
-			<cfquery name="d" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="d" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				select display_name data,scientific_name from
 				taxonomy where taxon_name_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#related_primary_key#">
 			</cfquery>

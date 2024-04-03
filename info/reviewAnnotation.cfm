@@ -4,7 +4,7 @@
 	<cfset action="">
 </cfif>
 
-<cfquery name="c" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="c" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 	select collection cln from collection order by collection
 </cfquery>
 <div class="container-fluid">
@@ -56,7 +56,7 @@
 			<cfif isdefined("id") and len(id) gt 0>
 				<cfset collection_object_id=id>
 			</cfif>
-			<cfquery name="ci" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="ci" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				select
 					 annotations.ANNOTATION_ID,
 					 annotations.ANNOTATE_DATE,
@@ -172,7 +172,7 @@
 				</cfloop>
 			</table>
 			<cfelseif type is "publication_id">
-			<cfquery name="tax" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="tax" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				select 
 					publication.publication_title,
 					annotations.ANNOTATION_ID,
@@ -270,7 +270,7 @@
 				</cfloop>
 			</table>
 			<cfelseif type is "taxon_name_id">
-			<cfquery name="tax" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="tax" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				select 
 					taxonomy.scientific_name, 
 					taxonomy.display_name,
@@ -361,7 +361,7 @@
 				</cfloop>
 			</table>
 			<cfelseif type is "project_id">
-			<cfquery name="tax" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="tax" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			select 
 				project.project_name,
 				annotations.ANNOTATION_ID,
@@ -455,7 +455,7 @@
 
 <cfif action is "saveReview">
 	<cfoutput>
-		<cfquery name="annotations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="annotations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			update annotations set
 				REVIEWER_AGENT_ID=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#session.myAgentId#">,
 				REVIEWED_FG=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#REVIEWED_FG#">,

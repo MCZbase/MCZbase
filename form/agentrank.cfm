@@ -3,11 +3,11 @@
 <script type='text/javascript' src='/includes/internalAjax.js'></script>
 <cfif listcontainsnocase(session.roles,"manage_agent_ranking")>
 <cfoutput>
-	<cfquery name="agnt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cfquery name="agnt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		select agent_name from preferred_agent_name 
 		where agent_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#"> 
 	</cfquery>
-	<cfquery name="pr" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cfquery name="pr" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		select 
 			agent_rank,
 			transaction_type,
@@ -25,15 +25,15 @@
 			rank_date
 	</cfquery>
 	<cfif listcontainsnocase(session.roles,"admin_agent_ranking")>
-		<cfquery name="ctagent_rank" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="ctagent_rank" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			select agent_rank from ctagent_rank order by agent_rank
 		</cfquery>
 	<cfelse>
-		<cfquery name="ctagent_rank" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="ctagent_rank" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			select agent_rank from ctagent_rank where agent_rank <> 'F' order by agent_rank
 		</cfquery>
 	</cfif>
-	<cfquery name="cttransaction_type" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cfquery name="cttransaction_type" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		select transaction_type from cttransaction_type order by transaction_type
 	</cfquery>
 	<strong><a href='/agents/Agent.cfm?agent_id=#agent_id#' target='_blank'>#agnt.agent_name#</a></strong> has been ranked #pr.recordcount# times.&nbsp;&nbsp;&nbsp;

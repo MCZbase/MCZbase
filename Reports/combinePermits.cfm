@@ -1,4 +1,4 @@
-<cfquery name="getPermitMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="getPermitMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
         select distinct media_id, uri, permit_type, permit_num 
         from (
            select media.media_id, media.media_uri as uri, p.permit_type, p.permit_num

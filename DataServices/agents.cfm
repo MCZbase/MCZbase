@@ -41,13 +41,13 @@ grant select on ds_temp_agent to public;
 sho err
 
 ---->
-<cfquery name="ctagent_type" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="ctagent_type" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 	select agent_type from ctagent_type order by agent_type
 </cfquery>
-<cfquery name="ctagent_name_type" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="ctagent_name_type" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 	select agent_name_type from ctagent_name_type order by agent_name_type
 </cfquery>
-<cfquery name="ctguid_type" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="ctguid_type" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 	select guid_type, placeholder from ctguid_type where applies_to like '%agent%' order by guid_type
 </cfquery>
 
@@ -126,7 +126,7 @@ sho err
 <cfif action is "getFile">
 <cfoutput>
 	<!--- put this in a temp table --->
-	<cfquery name="killOld" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cfquery name="killOld" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		delete from ds_temp_agent 
 		where creating_username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.dbuser#">
 	</cfquery>
@@ -181,7 +181,7 @@ sho err
 					<cfset colVals = "#colVals#,''">
 				</cfloop>
 			</cfif>
-			<cfquery name="ins" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="ins" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				insert into ds_temp_agent (#colNames#,creating_username) values (#preservesinglequotes(colVals)#,'#session.dbuser#')				
 			</cfquery>
 		</cfif>
@@ -277,7 +277,7 @@ sho err
 	  	}
 	});
 </script>
-	<cfquery name="d" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cfquery name="d" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		select * from ds_temp_agent 
 		where creating_username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.dbuser#">
 	</cfquery>
@@ -288,7 +288,7 @@ sho err
 		<div class="error">Sorry, we can only deal with agent type=person here.</div>
 		<cfabort>
 	</cfif>--->
-	<cfquery name="rpn" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cfquery name="rpn" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		select count(*) c from ds_temp_agent where preferred_name is null
 		and creating_username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.dbuser#">
 	</cfquery>
@@ -296,7 +296,7 @@ sho err
 		<div class="error">Preferred name is required for every agent.</div>
 		<cfabort>
 	</cfif>
-	<cfquery name="ont" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cfquery name="ont" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		select nt from (
 			select
 				other_name_type_1 nt
@@ -322,7 +322,7 @@ sho err
 		<div class="error">Other name types may not be "preferred"</div>
 		<cfabort>
 	</cfif>
-	<cfquery name="ctont" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cfquery name="ctont" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		select nt from  
 		(
 			select

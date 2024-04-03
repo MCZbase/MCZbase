@@ -1,10 +1,10 @@
 <cfinclude template="/includes/_header.cfm">
 <cfif action is "nothing">
 	Find gaps in catalog numbers:
-	<cfquery name="oidnum" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cfquery name="oidnum" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		select distinct(other_id_type) from coll_obj_other_id_num order by other_id_type
 	</cfquery>
-	<cfquery name="collection_id" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cfquery name="collection_id" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		select institution_acronym||' '||collection_cde CID, collection_id from collection
 		group by institution_acronym||' '||collection_cde,collection_id
 		order by institution_acronym||' '||collection_cde
@@ -23,10 +23,10 @@
 </cfif>
 
 <cfif action is "cat_num">
-<cfquery name="what" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="what" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 	select collection from collection where collection_id=#collection_id#
 </cfquery>
-<cfquery name="prefixes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="prefixes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 	select distinct nvl(cat_num_prefix,'[no prefix]') catnumprefix, cat_num_prefix from cataloged_item where collection_id=#collection_id# order by catnumprefix
 </cfquery>
 <cfoutput>
@@ -55,7 +55,7 @@
 </cfif>
 
 </cfif>
-<cfquery name="b" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="b" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 	WITH aquery AS
  		(SELECT cat_num_prefix, cat_num_integer after_gap,
  		LAG(cat_num_integer ,1,0) OVER (ORDER BY cat_num_prefix, cat_num_integer) before_gap

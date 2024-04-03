@@ -5,7 +5,7 @@
 </cfif>
 <cfif #newQuery# is 1>
 	<cfif url.src is "pubs"><!--- find using publication ID --->
-		<cfquery name="ProjDB" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="ProjDB" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			SELECT project.project_id,project_name,start_date,end_date,agent_name,project_agent_role,
 			agent_position 
 			FROM project,project_agent,agent_name,project_publication 
@@ -15,7 +15,7 @@
 		</cfquery>
 	</cfif>
 	<cfif url.src is "proj"><!--- find using project criteria --->
-		<cfquery name="ProjDB" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="ProjDB" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			SELECT 
 				project.project_id,
 				project.project_name,

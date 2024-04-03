@@ -81,7 +81,7 @@ sho err
 <cfif #action# is "getFile">
 	<cfoutput>
 		<!--- put this in a temp table --->
-		<cfquery name="killOld" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="killOld" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			delete from cf_temp_bl_relations
 		</cfquery>
 		<cffile action="READ" file="#FiletoUpload#" variable="fileContent">
@@ -111,7 +111,7 @@ sho err
 						<cfset colVals = "#colVals#,''">
 					</cfloop>
 				</cfif>
-				<cfquery name="ins" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="ins" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					insert into cf_temp_bl_relations (#colNames#) values (#preservesinglequotes(colVals)#)
 				</cfquery>
 			</cfif>
@@ -123,7 +123,7 @@ sho err
 <!------------------------------------------------------->
 <cfif #action# is "validate">
 <cfoutput>
-	<cfquery name="setStatus" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cfquery name="setStatus" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		update 
 			cf_temp_bl_relations 
 		set 
@@ -133,12 +133,12 @@ sho err
 				relationship not in (select BIOL_INDIV_RELATIONSHIP from CTBIOL_RELATIONS)
 			)
 	</cfquery>
-	<cfquery name="d" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cfquery name="d" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		select * from cf_temp_bl_relations
 	</cfquery>
 	<cfloop query="d">
 		<cfif #other_id_type# is "catalog number">
-			<cfquery name="collObj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="collObj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT 
 					collection_object_id
 				FROM
@@ -151,7 +151,7 @@ sho err
 					cat_num='#other_id_val#'
 			</cfquery>
 		<cfelse>
-			<cfquery name="collObj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="collObj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT 
 					coll_obj_other_id_num.collection_object_id
 				FROM
@@ -168,20 +168,20 @@ sho err
 			</cfquery>				
 		</cfif>
 		<cfif #collObj.recordcount# is 1>					
-			<cfquery name="insColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="insColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				UPDATE cf_temp_bl_relations SET collection_object_id = #collObj.collection_object_id#
 				where
 				key = #key#
 			</cfquery>
 		<cfelse>				
-			<cfquery name="insColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="insColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				UPDATE cf_temp_bl_relations SET validated_status = 
 				validated_status || 'identifier matched #collObj.recordcount# records' 
 				where key = #key#
 			</cfquery>
 		</cfif>
 		<cfif #related_other_id_type# is "catalog number">
-			<cfquery name="rcollObj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="rcollObj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT 
 					collection_object_id
 				FROM
@@ -194,7 +194,7 @@ sho err
 					cat_num='#related_other_id_val#'
 			</cfquery>
 		<cfelse>
-			<cfquery name="rcollObj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="rcollObj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT 
 					coll_obj_other_id_num.collection_object_id
 				FROM
@@ -211,20 +211,20 @@ sho err
 			</cfquery>				
 		</cfif>
 		<cfif #rcollObj.recordcount# is 1>					
-			<cfquery name="insColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="insColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				UPDATE cf_temp_bl_relations SET related_collection_object_id = #rcollObj.collection_object_id#
 				where
 				key = #key#
 			</cfquery>
 		<cfelse>				
-			<cfquery name="insColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="insColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				UPDATE cf_temp_bl_relations SET validated_status = 
 				validated_status || 'related identifier matched #rcollObj.recordcount# records.' 
 				where key = #key#
 			</cfquery>
 		</cfif>
 	</cfloop>
-	<cfquery name="d" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cfquery name="d" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		select * from cf_temp_bl_relations
 	</cfquery>	
 	<cfquery name="b" dbtype="query">
@@ -241,12 +241,12 @@ sho err
 <!------------------------------------------------------->
 <cfif #action# is "loadData">
 <cfoutput>
-	<cfquery name="getTempData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cfquery name="getTempData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		select * from cf_temp_bl_relations
 	</cfquery>
 	<cftransaction>
 	<cfloop query="getTempData">
-		<cfquery name="newAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="newAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			insert into biol_indiv_relations (
 				collection_object_id,
 				related_coll_object_id,

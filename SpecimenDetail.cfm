@@ -139,7 +139,7 @@
 <cfif isdefined("collection_object_id")>
 	<cfset checkSql(collection_object_id)>
 	<cfoutput>
-		<cfquery name="c" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="c" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			select GUID 
 			from <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> 
 			where collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
@@ -174,7 +174,7 @@
 	<cfset checkSql(guid)>
 	<cfif guid contains ":">
 		<cfoutput>
-			<cfquery name="c" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="c" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				select collection_object_id 
 				from <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> 
 				WHERE
@@ -186,7 +186,7 @@
 		<cfset spos=find(" ",reverse(guid))>
 		<cfset cc=left(guid,len(guid)-spos)>
 		<cfset cn=right(guid,spos)>
-		<cfquery name="c" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="c" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			select collection_object_id from
 				cataloged_item,
 				collection
@@ -245,7 +245,7 @@
 	ORDER BY
 		cat_num">
 <cfset checkSql(detSelect)>
-<cfquery name="detail" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="detail" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 	#preservesinglequotes(detSelect)#
 </cfquery>
 <cfoutput>
@@ -314,7 +314,7 @@
     <ul class="return_links">
               <li>
                 <cfif len(session.username) gt 0>
-                  <cfquery name="existingAnnotations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+                  <cfquery name="existingAnnotations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
                                       select count(*) cnt from annotations
                                       where collection_object_id = #collection_object_id#
                                   </cfquery>
@@ -494,14 +494,14 @@
 						<cfset isPrev = "no">
 						<cfset isNext = "no">
 						<!--- confirm that the record is part of an orderable result accessible to the current user --->
-						<cfquery name="positionInResult" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						<cfquery name="positionInResult" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							SELECT pagesort  
 							FROM user_search_table
 							WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
 								AND result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
 						</cfquery>
 						<cfif positionInResult.recordcount GT 0>
-							<cfquery name="getFirst" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+							<cfquery name="getFirst" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 								SELECT collection_object_id, pagesort, guid 
 								FROM (
 									SELECT user_search_table.collection_object_id, pagesort, guid
@@ -514,7 +514,7 @@
 							</cfquery>
 							<cfset firstID = getFirst.collection_object_id>
 							<cfset firstGUID = getFirst.guid>
-							<cfquery name="getLast" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+							<cfquery name="getLast" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 								SELECT collection_object_id, pagesort, guid 
 								FROM (
 									SELECT user_search_table.collection_object_id, pagesort, guid
@@ -527,7 +527,7 @@
 							</cfquery>
 							<cfset lastID = getLast.collection_object_id>
 							<cfset lastGUID = getLast.guid>
-							<cfquery name="previousNext" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+							<cfquery name="previousNext" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 								SELECT prevcol, prevguid, collection_object_id, nextcol, nextguid
 								FROM (
 									SELECT 
@@ -578,13 +578,13 @@
 						<cfif lenOfIdList gt 1>
 							<cfif currPos gt 1>
 								<cfset isPrev = "yes">
-								<cfquery name="getFirstGuid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+								<cfquery name="getFirstGuid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 									SELECT guid 
 									FROM <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
 									WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#firstID#">
 								</cfquery>
 								<cfset firstGUID = getFirstGuid.guid>
-								<cfquery name="getPreviousGuid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+								<cfquery name="getPreviousGuid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 									SELECT guid 
 									FROM <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
 									WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#prevID#">
@@ -593,13 +593,13 @@
 							</cfif>
 							<cfif currPos lt lenOfIdList>
 								<cfset isNext = "yes">
-								<cfquery name="getNextGuid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+								<cfquery name="getNextGuid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 									SELECT guid 
 									FROM <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
 									WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#nextID#">
 								</cfquery>
 								<cfset nextGUID = getNextGuid.guid>
-								<cfquery name="getLastGuid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+								<cfquery name="getLastGuid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 									SELECT guid 
 									FROM <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
 									WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#lastID#">

@@ -216,7 +216,7 @@ limitations under the License.
 										<li>Session.gitbranch: #Session.gitbranch# </li>
 									</ul>
 								</div>
-								<cfquery name="flatstatus" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+								<cfquery name="flatstatus" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 									SELECT count(*) ct, stale_flag 
 									FROM flat
 									GROUP BY stale_flag
@@ -340,14 +340,14 @@ limitations under the License.
 								</div>
 							</form>
 				
-							<cfquery name="OtherIdType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#createtimespan(0,0,60,0)#">
+							<cfquery name="OtherIdType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" cachedwithin="#createtimespan(0,0,60,0)#">
 								select distinct(other_id_type) FROM CTCOLL_OTHER_ID_TYPE ORDER BY other_Id_Type
 							</cfquery>
 							<cfquery name="collectionList" datasource="uam_god" cachedwithin="#createtimespan(0,0,60,0)#">
 								select cf_collection_id,collection from cf_collection
 								order by collection
 							</cfquery>
-							<cfquery name="getDownloadProfiles" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getProfiles_result">
+							<cfquery name="getDownloadProfiles" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getProfiles_result">
 								SELECT 
 									username, name, download_profile_id, sharing, target_search, column_list, decode(agent_name.agent_id,NULL,username,MCZBASE.get_agentnameoftype(agent_name.agent_id)) as owner_name
 								FROM 

@@ -103,7 +103,7 @@
 <cfif action is "nothing">
 
    <!--- Provide a probably sane value for sovereign_nation if none is currently provided. --->
-   <cfquery name="getLID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+   <cfquery name="getLID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
     	select distinct
 			locality_id
 		from
@@ -111,7 +111,7 @@
 		where
 			collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
    </cfquery>
-   <cfquery name="getSov" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+   <cfquery name="getSov" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
         select
             sovereign_nation, mczbase.suggest_sovereign_nation(locality_id) suggest
         from
@@ -120,7 +120,7 @@
             locality.locality_id= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getLID.locality_id#">
    </cfquery>
    <cfif len(getSov.sovereign_nation) eq 0>
-      <cfquery name="getSov" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+      <cfquery name="getSov" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
       update locality
             set sovereign_nation =  <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getSov.suggest#">
       where sovereign_nation is null and
@@ -132,7 +132,7 @@
   <div class="basic_wide_box" style="width:75em;">
     <h3 class="wikilink">Locality</h3>
     <cfoutput>
-      <cfquery name="l" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+      <cfquery name="l" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
     	select distinct
 			collection_object_id,
 			collecting_event_id,
@@ -203,7 +203,7 @@
 		where
 			collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
 	</cfquery>
-      <cfquery name="g" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+      <cfquery name="g" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		select
 			GEOLOGY_ATTRIBUTE_ID,
 			GEOLOGY_ATTRIBUTE,
@@ -228,40 +228,40 @@
 			GEO_ATT_DETERMINED_METHOD,
 			GEO_ATT_REMARK
 	</cfquery>
-      <cfquery name="ctElevUnit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+      <cfquery name="ctElevUnit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		select orig_elev_units from ctorig_elev_units
 	</cfquery>
-      <cfquery name="ctdepthUnit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+      <cfquery name="ctdepthUnit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		select depth_units from ctdepth_units
 	</cfquery>
-      <cfquery name="ctdatum" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+      <cfquery name="ctdatum" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
         select datum from ctdatum
      </cfquery>
-      <cfquery name="ctGeorefMethod" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+      <cfquery name="ctGeorefMethod" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		select georefMethod from ctgeorefmethod
 	</cfquery>
-      <cfquery name="ctVerificationStatus" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+      <cfquery name="ctVerificationStatus" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		select VerificationStatus from ctVerificationStatus order by VerificationStatus
 	</cfquery>
-      <cfquery name="cterror" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+      <cfquery name="cterror" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
         select LAT_LONG_ERROR_UNITS from ctLAT_LONG_ERROR_UNITS
      </cfquery>
-      <cfquery name="ctew" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+      <cfquery name="ctew" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
         select e_or_w from ctew
      </cfquery>
-      <cfquery name="ctns" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+      <cfquery name="ctns" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
         select n_or_s from ctns
      </cfquery>
-      <cfquery name="ctunits" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+      <cfquery name="ctunits" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
         select ORIG_LAT_LONG_UNITS from ctLAT_LONG_UNITS
       </cfquery>
-      <cfquery name="ctcollecting_source" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+      <cfquery name="ctcollecting_source" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
         select COLLECTING_SOURCE from ctcollecting_source
       </cfquery>
-      <cfquery name="ctgeology_attribute" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+      <cfquery name="ctgeology_attribute" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		select geology_attribute from ctgeology_attribute order by ordinal
 	  </cfquery>
-      <cfquery name="ctSovereignNation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#createtimespan(0,0,60,0)#">
+      <cfquery name="ctSovereignNation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" cachedwithin="#createtimespan(0,0,60,0)#">
 	    select sovereign_nation from ctsovereign_nation order by sovereign_nation
       </cfquery>
 

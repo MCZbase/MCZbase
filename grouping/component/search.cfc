@@ -37,7 +37,7 @@ limitations under the License.
 	<cfset data = ArrayNew(1)>
 	<cftry>
 		<cfset rows = 0>
-		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result" timeout="#Application.query_timeout#">
+		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="search_result" timeout="#Application.query_timeout#">
 			SELECT count(underscore_relation.collection_object_id) as specimen_count, 
 				underscore_collection.underscore_collection_id as underscore_collection_id, 
 				collection_name,
@@ -109,7 +109,7 @@ limitations under the License.
 			<cfset columnNames = ListToArray(search.columnList)>
 			<cfloop array="#columnNames#" index="columnName">
 				<cfset row["#columnName#"] = "#search[columnName][currentrow]#">
-				<cfquery name="getClob" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getClob_result">
+				<cfquery name="getClob" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getClob_result">
 					SELECT html_description 
 					FROM underscore_collection
 					WHERE
@@ -148,7 +148,7 @@ Function getNamedCollectionAutocomplete.  Search for named collections by name w
 	<cfset data = ArrayNew(1)>
 	<cftry>
 		<cfset rows = 0>
-		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result" timeout="#Application.query_timeout#">
+		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="search_result" timeout="#Application.query_timeout#">
 			SELECT 
 				underscore_collection.underscore_collection_id as underscore_collection_id, 
 				collection_name,
@@ -236,7 +236,7 @@ Function getNamedCollectionAutocomplete.  Search for named collections by name w
 		{ name: 'full_taxon_name', type: 'string' }
 	--->
 	<cftry>
-		<cfquery name="search"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result" timeout="#Application.query_timeout#" >
+		<cfquery name="search"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="search_result" timeout="#Application.query_timeout#" >
 			<cfif pagesize GT 0 >
 				SELECT * FROM (
 			</cfif>
@@ -478,7 +478,7 @@ Function getNamedCollectionAutocomplete.  Search for named collections by name w
 
 	<cfset retval = "">
 	<cftry>
-		<cfquery name="search"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result" cachedwithin="#CreateTimespan(0,1,0,0)#" timeout="#Application.query_timeout#" >
+		<cfquery name="search"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="search_result" cachedwithin="#CreateTimespan(0,1,0,0)#" timeout="#Application.query_timeout#" >
 			SELECT DISTINCT 
 				flat.guid, 
 				flat.scientific_name, 
@@ -526,7 +526,7 @@ Function getNamedCollectionAutocomplete.  Search for named collections by name w
 
 	<cfset data = ArrayNew(1)>
 	<cftry>
-		<cfquery name="getNamedGroup" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getNamedGroup_result" timeout="#Application.short_timeout#">
+		<cfquery name="getNamedGroup" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getNamedGroup_result" timeout="#Application.short_timeout#">
 			SELECT underscore_collection_id, collection_name, description, html_description,
 				mask_fg,
 				displayed_media_id
@@ -537,7 +537,7 @@ Function getNamedCollectionAutocomplete.  Search for named collections by name w
 			<!--- return no records --->
 		<cfelse> 
 			<cfset displayed_media_id = getNamedGroup.displayed_media_id>
-			<cfquery name="specimenMedia_raw" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="specimenMedia_raw_result" cachedwithin="#CreateTimespan(0,24,0,0)#" timeout="#Application.query_timeout#" >
+			<cfquery name="specimenMedia_raw" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="specimenMedia_raw_result" cachedwithin="#CreateTimespan(0,24,0,0)#" timeout="#Application.query_timeout#" >
 				<cfif len(displayed_media_id) GT 0>
 				SELECT distinct media.media_id, 
 					media.media_uri, 

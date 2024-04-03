@@ -52,7 +52,7 @@ limitations under the License.
 
 <cfswitch expression="#action#">
 	<cfcase value="edit">
-		<cfquery name="lookupEvent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="lookupEvent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			SELECT collecting_event_id, locality_id,
 				began_date, ended_date,
 				collecting_time, collecting_method,
@@ -76,13 +76,13 @@ limitations under the License.
 			<cfinclude template = "/shared/_footer.cfm">
 			<cfabort>
 		</cfif>
-		<cfquery name="lookupLocality"	 datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="lookupLocality"	 datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			SELECT spec_locality, geog_auth_rec_id 
 			FROM locality
 			WHERE 
 				locality_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#lookupEvent.locality_id#">
 		</cfquery>
-		<cfquery name="getGeo" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="getGeo" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			SELECT higher_geog 
 			FROM geog_auth_rec 
 			WHERE
@@ -142,7 +142,7 @@ limitations under the License.
 												This Collecting Event (#collecting_event_id#) contains no specimens. 
 												Please delete it if you don&apos;t have plans for it!
 											</h2>
-											<cfquery name="deleteBlocks" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+											<cfquery name="deleteBlocks" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 												SELECT 
 													count(*) ct, 'media' as block
 												FROM media_relations
@@ -297,7 +297,7 @@ limitations under the License.
 									<cfset media = getCollectingEventMediaHtml(collecting_event_id="#collecting_event_id#")>
 									<div id="mediaDiv" class="row">#media#</div>
 									<div id="addMediaDiv">
-										<cfquery name="relations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+										<cfquery name="relations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 											SELECT media_relationship as relation 
 											FROM ctmedia_relationship 
 											WHERE media_relationship like '% collecting_event'
@@ -315,7 +315,7 @@ limitations under the License.
 							<div class="col-12">
 								<div class="border bg-light rounded p-3 my-2">
 									<h3 class="h4" id="formheading">Collectors in this Collecting Event</h2>
-									<cfquery name="getCollectors" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getCollectors_result">
+									<cfquery name="getCollectors" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getCollectors_result">
 										SELECT
 											count(cataloged_item.collection_object_id) ct, 
 											agent.agent_id,
@@ -371,7 +371,7 @@ limitations under the License.
 	<cfcase value="new">
 		<cfset extra = "">
 		<cfif isDefined("locality_id") AND len(locality_id) GT 0 AND NOT (isDefined("clone_from_collecting_event_id") and len(clone_from_collecting_event_id) GT 0)>
-			<cfquery name="lookupLocality" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="lookupLocality" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT higher_geog, spec_locality, locality.geog_auth_rec_id
 				FROM 
 					locality
@@ -431,7 +431,7 @@ limitations under the License.
 				WHERE collecting_event_id= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collecting_event_id#">
 			</cfquery>
 			<cfif #hasSpecimens.ct# gt 0>
-				<cfquery name="lookupVisible" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="lookupVisible" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT count(collection_object_id) ct from cataloged_item
 					WHERE collecting_event_id= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collecting_event_id#">
 				</cfquery>
@@ -447,7 +447,7 @@ limitations under the License.
 				</div>
 			<cfelseif hasSpecimens.ct EQ 0>
 				<!--- check if something else would block deletion --->
-				<cfquery name="deleteBlocks" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="deleteBlocks" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT 
 						count(*) ct, 'media' as block
 					FROM media_relations
@@ -475,7 +475,7 @@ limitations under the License.
 					<div>Collecting Event has related media or collector numbers.  These must be removed before the collecting event can be deleted.</div>
 				<cfelse>
 					<cftransaction>
-						<cfquery name="deleteCollEvent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="deleteCollEvent_result">
+						<cfquery name="deleteCollEvent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="deleteCollEvent_result">
 							DELETE from collecting_event
 							WHERE collecting_event_id= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collecting_event_id#">
 						</cfquery>
@@ -497,10 +497,10 @@ limitations under the License.
 	</cfcase>
 	<cfcase value="makenewCollectingEvent">
 		<cftransaction>
-			<cfquery name="nextColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="nextColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT sq_collecting_event_id.nextval nextColl FROM dual
 			</cfquery>
-			<cfquery name="newCollEvent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="newCollEvent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				INSERT INTO collecting_event (
 					collecting_event_id,
 					LOCALITY_ID,

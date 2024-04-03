@@ -2,11 +2,11 @@
 <cfset addedMetaDescription="Minimal search for museum specimens and observations by taxonomy, identifications, specimen attributes, and usage history, works without javascript.">
 <cfinclude template="/shared/_header.cfm">
 <cfoutput>
-<cfquery name="getSpecimenCount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="getSpecimenCount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 	SELECT count(collection_object_id) as cnt 
 	FROM cataloged_item
 </cfquery>
-<cfquery name="ctInst" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="ctInst" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 	SELECT institution_acronym, collection, collection_id FROM collection order by collection
 </cfquery>
 <main id="content">
@@ -25,7 +25,7 @@
 						<div class="col-12 col-md-6 col-xl-4 mt-1">
 							<label for="collection" class="data-entry-label">Collection</label>
 							<cfif isdefined("collection_id") and len(#collection_id#) gt 0>
-								<cfquery name="lookupColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+								<cfquery name="lookupColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 									SELECT collection
 									FROM collection
 									WHERE collection_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collection_id#">
@@ -34,7 +34,7 @@
 									<cfset collection = lookupColl.collection>
 								</cfif>
 							<cfelseif isdefined("collection") and len(#collection#) gt 0>
-								<cfquery name="lookupCollId" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+								<cfquery name="lookupCollId" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 									SELECT collection_id 
 									FROM collection
 									WHERE collection = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collection#">
@@ -63,7 +63,7 @@
 						</div>
 						<div class="col-12 col-md-6 col-xl-4 mt-1">
 							<cfif not isdefined("type_status")><cfset type_status=""></cfif>
-							<cfquery name="ctTypeStatus" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+							<cfquery name="ctTypeStatus" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 								select type_status type_status_val from ctcitation_type_status
 							</cfquery>
 							<label for="type_status" class="data-entry-label">Basis of Citation</label>

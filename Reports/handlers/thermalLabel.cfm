@@ -59,7 +59,7 @@ limitations under the License.
 -Table of label content is the page width (4 in) minus the marginleft and marginright (.015in + .015in = .03in) in the <cfdocument> tag.
 -Table row width equals "auto" to fill the table width.
 -Table <td>s have align-top and font 10pt.--->
-		<cfquery name="getItems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="getItems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			SELECT DISTINCT
 				cataloged_item.collection_object_id,
 				collection.collection_cde,

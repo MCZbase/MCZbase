@@ -116,7 +116,7 @@
 								</div>
 							</div>
 						</form>
-						<cfquery name="isGoodEmail" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						<cfquery name="isGoodEmail" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							SELECT email, username
 							FROM 
 								cf_user_data

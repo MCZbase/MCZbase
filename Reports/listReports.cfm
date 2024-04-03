@@ -24,7 +24,7 @@ Metadata page with summary information on label reports.
 <script src="/lib/misc/sorttable.js"></script>
 	
 <!-- Obtain the list of reports -->
-<cfquery name="reports" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="reports_result">
+<cfquery name="reports" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="reports_result">
 	select 
 		report_id,
 		report_name,
@@ -43,7 +43,7 @@ Metadata page with summary information on label reports.
 	order by report_name
 </cfquery>
 <!-- Obtain a list of collection codes for which this user has expressed a preference for seeing label reports for -->
-<cfquery name="userColls" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="userColls_result">
+<cfquery name="userColls" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="userColls_result">
 	SELECT reportprefs 
 	FROM cf_users
 	WHERE 

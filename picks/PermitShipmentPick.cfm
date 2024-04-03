@@ -1,12 +1,12 @@
 <cfset jquery11=true>
 <cfinclude template="../includes/_pickHeader.cfm">
 <cfset title = "Permit Pick">
-<cfquery name="ctPermitType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="ctPermitType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 	select ct.permit_type, count(p.permit_id) uses from ctpermit_type ct left join permit p on ct.permit_type = p.permit_type 
         group by ct.permit_type 
         order by ct.permit_type
 </cfquery>
-<cfquery name="ctSpecificPermitType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="ctSpecificPermitType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
         select ct.specific_type, count(p.permit_id) uses from ctspecific_permit_type ct left join permit p on ct.specific_type = p.specific_type
         group by ct.specific_type
         order by ct.specific_type
@@ -180,7 +180,7 @@ where
 <cfif #sql# is "select * from permit, agent_name issuedTo, agent_name issuedBy where permit.issued_by_agent_id = issuedBy.agent_id and permit.issued_to_agent_id = issuedTo.agent_id ">
 	Enter some criteria.<cfabort>
 </cfif>
-<cfquery name="matchPermit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="matchPermit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 	#preservesinglequotes(sql)#
 </cfquery>
 
@@ -206,7 +206,7 @@ where
 		<cfif not (len(#shipment_id#) gt 0 and len(#permit_id#) gt 0)>
 			something bad happened <cfabort>
 		</cfif>
-		<cfquery name="addPermit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="addPermit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			INSERT INTO permit_shipment (permit_id, shipment_id) VALUES (#permit_id#, #shipment_id#)
 		</cfquery>
 		

@@ -18,7 +18,7 @@ Parameters:
 --->
 <cfoutput>
 <p>
-	<a href="/temp/loaninvoice_#cfid#_#cftoken#.pdf" target="_blank">Get the PDF</a>
+	<a href="/temp/loaninvoice_#cookie.cfid#_#cookie.cftoken#.pdf" target="_blank">Get the PDF</a>
 </p>
 <cfparam default="Bird/Mammal" name="format">
 <cfif format is "Malacology">
@@ -48,7 +48,7 @@ Change to: <select name="format">
 </cfoutput>
 <cfif format is "Cryo-Sheet" or format is "Cryo-Sheet-R">
 	<cftry>
-     <cfquery name="getItems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+     <cfquery name="getItems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
       select
            cataloged_item.collection_cde,
            cataloged_item.cat_num,
@@ -89,7 +89,7 @@ Change to: <select name="format">
 			<cfif cfcatch.detail contains 'ORA-01722: invalid number'>
 				<h3>It is likely that a part is not placed correctly in the container heirarchy, or this report is not applicable to this material.  This report expects that all parts are vials in a position within a box, slot, and rack.</h3>
 				<!--- repeat the query, but without the decimal sort --->
-		     <cfquery name="getItems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		     <cfquery name="getItems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
       		select
 		           cataloged_item.collection_cde,
       		     cataloged_item.cat_num,
@@ -183,7 +183,7 @@ Change to: <select name="format">
     	marginright=".25"
     	orientation="#orientiation#"
     	fontembed="yes"
-    	filename="#Application.webDirectory#/temp/loaninvoice_#cfid#_#cftoken#.pdf"
+    	filename="#Application.webDirectory#/temp/loaninvoice_#cookie.cfid#_#cookie.cftoken#.pdf"
     	overwrite="yes">
     <cfoutput>
     <link rel="stylesheet" type="text/css" href="/includes/_cfdocstyle.css">
@@ -259,7 +259,7 @@ Change to: <select name="format">
 
     <!-- Cases other than Cryo-Sheet -->
     <cfif format is "Cryo">
-    <cfquery name="getItems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+    <cfquery name="getItems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
           select
                cataloged_item.collection_cde,
                cataloged_item.cat_num,
@@ -290,7 +290,7 @@ Change to: <select name="format">
     	ORDER BY c5.barcode, c4.barcode, c3.barcode, decode(LENGTH(TRIM(TRANSLATE(c2.label, '0123456789',' '))),null,to_number(c2.label),c2.label), c1.barcode, cat_num
     </cfquery>
     <cfelse>
-    <cfquery name="getItems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+    <cfquery name="getItems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
     	select distinct
     	    cataloged_item.collection_cde,
                 MCZBASE.get_storage_parentage(container.container_id) as container,
@@ -488,7 +488,7 @@ Change to: <select name="format">
     	marginright=".25"
     	orientation="#orientiation#"
     	fontembed="yes"
-    	filename="#Application.webDirectory#/temp/loaninvoice_#cfid#_#cftoken#.pdf"
+    	filename="#Application.webDirectory#/temp/loaninvoice_#cookie.cfid#_#cookie.cftoken#.pdf"
     	overwrite="yes">
     <cfoutput>
     <link rel="stylesheet" type="text/css" href="/includes/_cfdocstyle.css">
@@ -763,26 +763,26 @@ Based on:
 	<cfparam name="shipped_to_addr_id" default = "">
 	<cfparam name="shipped_from_addr" default = "">
 	<cfparam name="shipped_from_addr_id" default = "">
-	<cfquery name="ship" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cfquery name="ship" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		select * 
 		from shipment 
 		where transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
 	</cfquery>
 	<!--- Test to see if there are shipping addresses. --->
 	<cfif ship.recordcount gt 0>
-		<cfquery name="shipped_to_addr_id" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="shipped_to_addr_id" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			select formatted_addr from addr where
 			addr_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#ship.shipped_to_addr_id#">
 		</cfquery>
 		<cfset shipped_to_addr = "#shipped_to_addr_id.formatted_addr#">
-		<cfquery name="shipped_from_addr_id" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="shipped_from_addr_id" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			select formatted_addr from addr where
 			addr_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#ship.shipped_from_addr_id#">
 		</cfquery>
 		<cfset shipped_from_addr = "#shipped_from_addr_id.formatted_addr#">
 		<cfoutput>
 			<p>
-				<a href="/temp/loaninvoice_#cfid#_#cftoken#.pdf" target="_blank">Get the PDF</a>
+				<a href="/temp/loaninvoice_#cookie.cfid#_#cookie.cftoken#.pdf" target="_blank">Get the PDF</a>
 			</p>
 		</cfoutput>
 
@@ -803,7 +803,7 @@ Based on:
 	marginright=".25"
 	orientation="portrait"
 	fontembed="yes"
-	filename="#Application.webDirectory#/temp/loaninvoice_#cfid#_#cftoken#.pdf"
+	filename="#Application.webDirectory#/temp/loaninvoice_#cookie.cfid#_#cookie.cftoken#.pdf"
 	overwrite="yes">
 <cfoutput>
 <link rel="stylesheet" type="text/css" href="/includes/_cfdocstyle.css">
@@ -900,7 +900,7 @@ Number of rows to print per page:
 <link rel="stylesheet" type="text/css" href="/includes/_cfdocstyle.css">
 
 <cfoutput>
-<cfquery name="getItems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="getItems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 	select
 		cat_num,
 		cataloged_item.collection_object_id,
@@ -1113,7 +1113,7 @@ Number of rows to print per page:
 
 	<font size="+2"> Museum of Vertebrate Zoology <br>
     University of California, Berkeley</font></font></b> <br>
-        <cfquery name="shipDate" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+        <cfquery name="shipDate" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
                 select shipped_date 
 					from shipment 
 					where transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transactioN_id#">
@@ -1337,7 +1337,7 @@ Number of rows to print per page:
 	fontembed="yes" >
 
 <link rel="stylesheet" type="text/css" href="/includes/_cfdocstyle.css">
-<cfquery name="getItems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="getItems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 	select
 		cat_num,
 		collection,
@@ -1391,7 +1391,7 @@ Number of rows to print per page:
          <b><font face="Arial, Helvetica, sans-serif">SPECIMEN&nbsp;&nbsp;INVOICE <br>
    <font size="+2"> Museum of Vertebrate Zoology <br>
     University of California, Berkeley</font></font></b> <br>
-        <cfquery name="shipDate" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+        <cfquery name="shipDate" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
                 select shipped_date 
 					from shipment 
 					where transaction_id = #transactioN_id#<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value=">

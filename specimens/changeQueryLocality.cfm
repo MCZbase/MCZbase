@@ -30,7 +30,7 @@ limitations under the License.
 <cfset actionWord = "To Be">
 
 <!--- For all actions, obtain data from the list of cataloged items specified by the result_id --->
-<cfquery name="specimenList" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="specimenList" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 	 SELECT distinct
 	 	cataloged_item.collection_object_id as collection_object_id,
 		cataloged_item.cat_num,

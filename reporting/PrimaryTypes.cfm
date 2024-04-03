@@ -41,7 +41,7 @@ Report on primary types, by department.
 						<input type="hidden" name="method" value="getTypes" class="keeponclear excludeFromLink">
 						<input type="hidden" name="kind" value="Primary" class="keeponclear excludeFromLink">
 						<h1 class="h2">Primary Types By Department</h1>
-						<cfquery name="getcounts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getcounts_result">
+						<cfquery name="getcounts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getcounts_result">
 							select count(collection_object_id) ct, collection_cde, collection
 							from <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat
 							where flat.toptypestatuskind = 'Primary'

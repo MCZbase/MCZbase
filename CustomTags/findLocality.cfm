@@ -54,15 +54,15 @@
 <cftransaction>
 	<cfif linguisticFlag >
 		<!--- Set up the session to run an accent insensitive search --->
-		<cfquery datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			ALTER SESSION SET NLS_COMP = LINGUISTIC
 		</cfquery>
-		<cfquery datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			ALTER SESSION SET NLS_SORT = GENERIC_M_AI
 		</cfquery>
 	</cfif>
 	<!--- run the query --->
-	<cfquery name="caller.localityResults" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cfquery name="caller.localityResults" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		select
 			<cfif (isdefined("geology_attribute") AND len(#geology_attribute#) gt 0) OR (isdefined("geo_att_value") AND len(#geo_att_value#) gt 0)>
 				distinct
@@ -531,7 +531,7 @@
 	</cfquery>
 	<cfif linguisticFlag >
 		<!--- Reset NLS_COMP back to the default, or the session will keep using the generic_m_ai comparison/sort on subsequent searches. --->
-		<cfquery datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			ALTER SESSION SET NLS_COMP = BINARY
 		</cfquery>
 	</cfif>

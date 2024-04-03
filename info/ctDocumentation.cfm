@@ -35,7 +35,7 @@
 	<cfif table is 'ctspecimen_part_name'>
 		<p>If you need to search for two values, put a pipe in between them and no spaces (e.g., skin|skull)</p>
 	</cfif>
-	<cfquery name="docs" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cfquery name="docs" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		select * from #table#
 	</cfquery>
 

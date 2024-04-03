@@ -204,7 +204,7 @@
 	</cfoutput>
 
 
-<cfquery name="getData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="getData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		#preserveSingleQuotes(SqlString)#
 	</cfquery>
 	<cfif getData.recordcount is 0>
@@ -333,18 +333,18 @@
 </cfif>
 
 <cfif isdefined("newSearch") and #newSearch# is 1>
-	<cfquery name="SpecRes#cfid##cftoken#" dbtype="query" cachedwithin="#createtimespan(0,0,0,0)#">
+	<cfquery name="SpecRes#cookie.cfid##cookie.cftoken#" dbtype="query" cachedwithin="#createtimespan(0,0,0,0)#">
 		select * from getData
 	</cfquery>
 </cfif>
-<cfquery name="SpecRes#cfid##cftoken#" dbtype="query" cachedwithin="#createtimespan(0,0,60,0)#">
+<cfquery name="SpecRes#cookie.cfid##cookie.cftoken#" dbtype="query" cachedwithin="#createtimespan(0,0,60,0)#">
 	select * from getData
 </cfquery>
 
 
 <cfoutput>
 <cfquery name="getBasic" dbtype="query">
-	select * from SpecRes#cfid##cftoken# order by #order_by#
+	select * from SpecRes#cookie.cfid##cookie.cftoken# order by #order_by#
 </cfquery>
 
 <cfquery name="s" dbtype="query">

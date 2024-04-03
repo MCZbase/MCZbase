@@ -32,7 +32,7 @@ limitations under the License.
 			<cfset email = "">
 			<cfif isDefined("session.username") AND len(session.username) GT 0>
 				<cfif isDefined("session.username") AND listcontainsnocase(session.roles,"coldfusion_user")>
-					<cfquery name="getUserInfo" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					<cfquery name="getUserInfo" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						SELECT username, preferred_agent_name.agent_name, GET_EMAILADDRESSES(agent_name.agent_id,', ') emails
 						FROM cf_users
 							left join agent_name on cf_users.username = agent_name.agent_name and agent_name.agent_name_type = 'login'
@@ -244,14 +244,14 @@ limitations under the License.
 			</cfif>
 			<cfset user_id=0>
 			<cfif isdefined("session.username") and len(#session.username#) gt 0>
-				<cfquery name="isUser"datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="isUser"datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT user_id 
 					FROM cf_users 
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
 				<cfset user_id = #isUser.user_id#>
 			</cfif>
-			<cfquery name="bugID"datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="bugID"datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				select max(bug_id) + 1 as id from cf_bugs
 			</cfquery>
 			<cfset thisDate = #dateformat(now(),"yyyy-mm-dd")#>
@@ -544,7 +544,7 @@ Complaint: #complaint#
 				</form>
 			</cfoutput>
 	
-			<cfquery name="getBug"datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="getBug"datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				select
 					BUG_ID,
 					cf_bugs.USER_ID,

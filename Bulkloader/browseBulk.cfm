@@ -26,7 +26,7 @@ table##t th {
 		<cfset enteredByCleaned = replace(enteredby,"'","","All")>
 		<cfset accnCleaned = replace(accn,"'","","All")>
 		<cfset collnCleaned = replace(colln,"'","","All")>
-		<cfquery name="markForLoad" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="markForLoad" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			UPDATE bulkloader 
 			SET LOADED = NULL 
 			WHERE 
@@ -54,7 +54,7 @@ table##t th {
 		<cfif isDefined("showOnlyPopulated") AND showOnlyPopulated EQ "true">
 			<!--- optionally, leave unpopulated columns out of download --->
 			<cfloop list="#ColNameList#" index="aColumnName">
-				<cfquery name="checkForData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="checkForData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT count(*) as ct
 					FROM bulkloader
 					WHERE 
@@ -72,7 +72,7 @@ table##t th {
 				</cfif>
 			</cfloop>
 		</cfif>
-		<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			SELECT #ColNameList# from bulkloader 
 			WHERE 
 				enteredby IN (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#enteredByCleaned#" list="yes">)
@@ -118,7 +118,7 @@ table##t th {
 	<cfset enteredByCleaned = replace(enteredby,"'","","All")>
 	<cfset accnCleaned = replace(accn,"'","","All")>
 	<cfset collnCleaned = replace(colln,"'","","All")>
-	<cfquery name="countData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cfquery name="countData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		SELECT count(*) as ct
 		FROM bulkloader
 		WHERE 
@@ -141,7 +141,7 @@ table##t th {
 	<cfloop query="getColumnsNoUser">
 		<cfset columns=ListAppend(columns,getColumnsNoUser.column_name)>
 	</cfloop>
-	<cfquery name="getLoadedValues" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cfquery name="getLoadedValues" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		SELECT distinct loaded 
 		FROM bulkloader
 		WHERE 
@@ -217,7 +217,7 @@ table##t th {
 							<cfset baseDoBulk = "#baseDoBulk#&colln=#colln#">
 						</cfif>
 						<cfloop index="i" from="1" to="#ArrayLen(loadedArray)#">
-							<cfquery name="getErrorRows" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+							<cfquery name="getErrorRows" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 								SELECT collection_object_id
 								FROM bulkloader
 								WHERE 
@@ -254,7 +254,7 @@ table##t th {
 								</cfloop>
 							</cfif>
 							<cfif columnInError NEQ "">
-								<cfquery name="getErrorCases" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+								<cfquery name="getErrorCases" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 									SELECT distinct #columnInError# value_error
 									FROM bulkloader
 									WHERE 
@@ -268,7 +268,7 @@ table##t th {
 										</cfif>
 								</cfquery>
 								<cfloop query="getErrorCases">
-									<cfquery name="getErrorRowsForCase" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+									<cfquery name="getErrorRowsForCase" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 										SELECT collection_object_id
 										FROM bulkloader
 										WHERE 
@@ -324,7 +324,7 @@ table##t th {
 	<cfset enteredByCleaned = replace(enteredby,"'","","All")>
 	<cfset accnCleaned = replace(accn,"'","","All")>
 	<cfset collnCleaned = replace(colln,"'","","All")>
-	<cfquery name="countData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cfquery name="countData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		SELECT count(*) as ct
 		FROM bulkloader
 		WHERE 
@@ -380,7 +380,7 @@ table##t th {
 				<cfif isDefined("showOnlyPopulated") AND showOnlyPopulated EQ "true">
 					<!--- optionally, leave unpopulated columns out of grid --->
 					<cfloop list="#ColNameList#" index="aColumnName">
-						<cfquery name="checkForData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						<cfquery name="checkForData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						SELECT count(*) as ct
 						FROM bulkloader
 						WHERE 
@@ -460,7 +460,7 @@ table##t th {
 	<cfoutput>
 		<cf_setDataEntryGroups>
 		<cfset delimitedAdminForGroups=ListQualify(adminForUsers, "'")>
-		<cfquery name="userList" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="userList" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			select 
 				cf_users.username, 
 				count(bulkloader.collection_object_id) as ct
@@ -472,7 +472,7 @@ table##t th {
 				cf_users.username
 			order by cf_users.username
 		</cfquery>
-		<cfquery name="ctAccn" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="ctAccn" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			select 
 				accn, 
 				count(collection_object_id) as ct 
@@ -484,7 +484,7 @@ table##t th {
 				accn 
 			order by accn
 		</cfquery>
-		<cfquery name="ctColln" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="ctColln" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			select 
 				institution_acronym || ':' || collection_cde colln, 
 				count(collection_object_id) ct
@@ -630,7 +630,7 @@ table##t th {
 				<cfset sql = "#sql# #f# and #t# ">
 			</cfif>	 
 		</cfif>
-		<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			#preservesinglequotes(sql)#	
 		</cfquery>
 		<cfset rUrl="browseBulk.cfm?action=sqlTab&enteredby=#enteredby#">
@@ -667,7 +667,7 @@ table##t th {
 		<cfset enteredByCleaned = replace(enteredby,"'","","All")>
 		<cfset accnCleaned = replace(accn,"'","","All")>
 		<cfset collnCleaned = replace(colln,"'","","All")>
-		<cfquery name="countData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="countData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			SELECT count(*) as ct
 			FROM bulkloader
 			WHERE 
@@ -736,7 +736,7 @@ table##t th {
 			</cfif>		 
 		</cfif>
 		<cfset sql="#sql# and rownum<=#MAX_BULK_ROWS#">
-		<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" timeout="#Application.query_timeout#">
+		<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
 			#preservesinglequotes(sql)#	
 		</cfquery>
 		<cfquery name="cNames" datasource="uam_god">
@@ -1009,7 +1009,7 @@ table##t th {
 						<!--- optionally, leave unpopulated columns out of table --->
 						<cfloop query="cNames">
 							<cfset aColumnName=cNames.column_name>
-							<cfquery name="checkForData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+							<cfquery name="checkForData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							SELECT count(*) as ct
 							FROM bulkloader
 							WHERE 
@@ -1128,7 +1128,7 @@ table##t th {
 	</cfloop>
 	
 		<cfset sql ="#sql# WHERE collection_object_id = #thisCollObjId#">
-	<cfquery name="up" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cfquery name="up" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		#preservesinglequotes(sql)#
 	</cfquery>
 </cfloop>
@@ -1164,7 +1164,7 @@ table##t th {
 		
 		<cfabort>
 		--->
-		<cfquery name="upBulk" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="upBulk" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			#preservesinglequotes(sql)#
 		</cfquery>
 	</cfif>
@@ -1181,7 +1181,7 @@ table##t th {
 		<cfset enteredByCleaned = replace(enteredby,"'","","All")>
 		<cfset accnCleaned = replace(accn,"'","","All")>
 		<cfset collnCleaned = replace(colln,"'","","All")>
-		<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			SELECT * 
 			FROM bulkloader
 			WHERE 

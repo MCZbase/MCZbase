@@ -31,10 +31,10 @@ limitations under the License.
 	<cfoutput>
 	<cftransaction>
 		<cftry>
-			<cfquery name="n" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="n" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				select sq_collection_object_id.nextval n from dual
 			</cfquery>
-			<cfquery name="meta" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="meta" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				select cataloged_item.collection_object_id,
 				cat_num,collection,part_name, preserve_method
 				from
@@ -47,7 +47,7 @@ limitations under the License.
 				specimen_part.collection_object_id= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#partID#">
 			</cfquery>
 			<cfif #subsample# is 1>
-			<cfquery name="parentData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="parentData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT
 					coll_obj_disposition,
 					condition,
@@ -60,7 +60,7 @@ limitations under the License.
 					coll_object.collection_object_id = specimen_part.collection_object_id AND
 					coll_object.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#partID#">
 			</cfquery>
-			<cfquery name="newCollObj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="newCollObj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				INSERT INTO coll_object (
 					COLLECTION_OBJECT_ID,
 					COLL_OBJECT_TYPE,
@@ -83,14 +83,14 @@ limitations under the License.
 					1,
 					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#parentData.condition#">)
 			</cfquery>
-			<cfquery name="decrementParentLotCount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="decrementParentLotCount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				UPDATE coll_object set LOT_COUNT = LOT_COUNT -1,
 					LAST_EDITED_PERSON_ID = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.myAgentId#">,
 					LAST_EDIT_DATE = sysdate
 				where COLLECTION_OBJECT_ID = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#partID#">
 					and LOT_COUNT > 1
 			</cfquery>
-			<cfquery name="newPart" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="newPart" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				INSERT INTO specimen_part (
 					COLLECTION_OBJECT_ID
 					,PART_NAME
@@ -104,7 +104,7 @@ limitations under the License.
 					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#partID#">,
 					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#parentData.derived_from_cat_item#">)
 			</cfquery>
-			<cfquery name="newRemark" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="newRemark" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				INSERT INTO coll_object_remark (
 					COLLECTION_OBJECT_ID,
  					COLL_OBJECT_REMARKS )
@@ -113,7 +113,7 @@ limitations under the License.
 					'Deaccessioned Subsample')
 			</cfquery>
 		</cfif>
-		<cfquery name="addDeaccItem" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="addDeaccItem" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			INSERT INTO DEACC_ITEM (
 				TRANSACTION_ID,
 				COLLECTION_OBJECT_ID,
@@ -146,7 +146,7 @@ limitations under the License.
 				)
 		</cfquery>
 
-               <cfquery name="getDeaccType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+               <cfquery name="getDeaccType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
                        select deacc_type from deaccession where transaction_id = #TRANSACTION_ID#
                </cfquery>
 
@@ -156,7 +156,7 @@ limitations under the License.
                        <cfset partDisp = "exchanged">
                </cfif>
 
-		<cfquery name="setDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="setDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
                        UPDATE coll_object SET coll_obj_disposition = 'deaccessioned - ' || '#partDisp#'
 			where collection_object_id =
 		<cfif #subsample# is 1>
@@ -183,7 +183,7 @@ limitations under the License.
 	<cfoutput>
 	<cfif isdefined("coll_obj_disposition") AND coll_obj_disposition is not "in collection">
 		<!--- see if it's a subsample --->
-		<cfquery name="isSSP" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="isSSP" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			select SAMPLED_FROM_OBJ_ID from 
 			specimen_part 
 			where collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#partID#">
@@ -259,7 +259,7 @@ limitations under the License.
 			<cfabort>
 		</cfif>
 	</cfif>
-	<cfquery name="deleDeaccItem" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cfquery name="deleDeaccItem" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		DELETE FROM deacc_item 
 		where collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#partID#">
 		and transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
@@ -289,7 +289,7 @@ limitations under the License.
 
 	<cftransaction>
 		<cftry>
-			<cfquery name="confirmItem" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="confirmItem_result">
+			<cfquery name="confirmItem" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="confirmItem_result">
 				select * from loan_item
 				WHERE
 					collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#part_id#"> AND
@@ -298,7 +298,7 @@ limitations under the License.
 			<cfif confirmItem.recordcount EQ 0>
 				<cfthrow message="specified collection object is not a loan item in the specified transaction">
 			</cfif>
-			<cfquery name="upDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="upDisp_result">
+			<cfquery name="upDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="upDisp_result">
 				UPDATE coll_object 
 				SET coll_obj_disposition = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#coll_obj_disposition#">,
 					condition = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#condition#">
@@ -307,7 +307,7 @@ limitations under the License.
 			<cfif upDisp_result.recordcount NEQ 1>
 				<cfthrow message="Record not updated. #transaction_id# #part_id# #upDisp_result.sql#">
 			</cfif>
-			<cfquery name="upItem" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="upItem_result">
+			<cfquery name="upItem" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="upItem_result">
 				UPDATE loan_item SET
 					transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
 					<cfif len(#item_instructions#) gt 0>
@@ -361,7 +361,7 @@ limitations under the License.
 
 	<cftransaction>
 		<cftry>
-			<cfquery name="confirmItem" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="confirmItem_result">
+			<cfquery name="confirmItem" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="confirmItem_result">
 				select * from loan_item
 				WHERE
 					collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#part_id#"> AND
@@ -370,7 +370,7 @@ limitations under the License.
 			<cfif confirmItem.recordcount EQ 0>
 				<cfthrow message="specified collection object is not a loan item in the specified transaction">
 			</cfif>
-			<cfquery name="upDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="upDisp_result">
+			<cfquery name="upDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="upDisp_result">
 				UPDATE coll_object 
 				SET coll_obj_disposition = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#coll_obj_disposition#">
 				where collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#part_id#">
@@ -405,7 +405,7 @@ limitations under the License.
 
 	<cfset data = ArrayNew(1)>
 	<cftry>
-		<cfquery name="getLoanItemsQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getLoanItemsQuery_result" timeout="#Application.query_timeout#">
+		<cfquery name="getLoanItemsQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getLoanItemsQuery_result" timeout="#Application.query_timeout#">
 		select 
 			loan.transaction_id,
 			cat_num as catalog_number, 
@@ -481,10 +481,10 @@ limitations under the License.
 	<cfthread name="getRemoveLoanItemHtmlThread">
 		<cftry>
 			<cfoutput>
-				<cfquery name="ctDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="ctDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						select coll_obj_disposition from ctcoll_obj_disp 
 				</cfquery>
-				<cfquery name="lookupDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="lookupDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT coll_obj_disposition 
 					from coll_object 
 					where collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#part_id#">
@@ -500,7 +500,7 @@ limitations under the License.
 						updateLoanItemDisposition(#part_id#, #transaction_id#, new_disposition,'updateStatus');
 					}
 				</script>
-				<cfquery name="getLoanItemDetails" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getLoanItemsQuery_result">
+				<cfquery name="getLoanItemDetails" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getLoanItemsQuery_result">
 					select 
 						item_descr
 					from 
@@ -511,7 +511,7 @@ limitations under the License.
 				</cfquery>
 				<h2 class="h3">Remove item #getLoanItemDetails.item_descr# from loan.</h2>
 				<!--- see if it's a subsample --->
-				<cfquery name="isSSP" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="isSSP" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					select SAMPLED_FROM_OBJ_ID 
 					from specimen_part 
 					where collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#part_id#">
@@ -577,7 +577,7 @@ limitations under the License.
 
 	<cftransaction>
 		<cftry>
-			<cfquery name="deleLoanItem" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="deleLoanItem_result">
+			<cfquery name="deleLoanItem" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="deleLoanItem_result">
 				DELETE FROM loan_item 
 				where collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#part_id#">
 					and transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
@@ -619,7 +619,7 @@ limitations under the License.
 	
 	<cftransaction>
 		<cftry>
-			<cfquery name="checkIsLoan" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="checkIsLoan" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT count(transaction_id) as ct
 				FROM loan
 				WHERE
@@ -628,13 +628,13 @@ limitations under the License.
 			<cfif checkIsLoan.ct EQ 0>
 				<cfthrow message="Provided transaction_id is not for a loan.">
 			</cfif>
-			<cfquery name="getLoan" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="getLoan" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT loan_number
 				FROM loan
 				WHERE
 					transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
 			</cfquery>
-			<cfquery name="meta" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="meta" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT cataloged_item.collection_object_id,
 					cat_num,collection,part_name, preserve_method
 				FROM
@@ -646,7 +646,7 @@ limitations under the License.
 			</cfquery>
 			<cfif subsample IS 1 >
 				<!--- create a subsample and add it as an item to the loan --->
-				<cfquery name="parentData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="parentData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT
 						coll_obj_disposition,
 						condition,
@@ -659,13 +659,13 @@ limitations under the License.
 						coll_object.collection_object_id = specimen_part.collection_object_id AND
 						coll_object.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#part_id#">
 				</cfquery>
-				<cfquery name="n" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="n" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					select sq_collection_object_id.nextval n from dual
 				</cfquery>
 				<cfloop query="n">
 					<cfset subsampleCollObjectID = n.n>
 				</cfloop>
-				<cfquery name="newCollObj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="newCollObj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					INSERT INTO coll_object (
 						COLLECTION_OBJECT_ID,
 						COLL_OBJECT_TYPE,
@@ -688,7 +688,7 @@ limitations under the License.
 						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#parentData.condition#">
 					)
 				</cfquery>
-				<cfquery name="decrementParentLotCount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="decrementParentLotCount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE coll_object 
 					SET LOT_COUNT = LOT_COUNT -1,
 						LAST_EDITED_PERSON_ID = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.myAgentId#">,
@@ -696,7 +696,7 @@ limitations under the License.
 					WHERE COLLECTION_OBJECT_ID = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#part_id#">
 						and LOT_COUNT > 1
 				</cfquery>
-				<cfquery name="newPart" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="newPart" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					INSERT INTO specimen_part (
 						COLLECTION_OBJECT_ID
 						,PART_NAME
@@ -711,7 +711,7 @@ limitations under the License.
 						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#parentData.derived_from_cat_item#">
 					)
 				</cfquery>
-				<cfquery name="newRemark" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="newRemark" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					INSERT INTO coll_object_remark (
 						COLLECTION_OBJECT_ID,
  						COLL_OBJECT_REMARKS 
@@ -722,7 +722,7 @@ limitations under the License.
 				</cfquery>
 			</cfif><!--- End subsample --->
 
-			<cfquery name="addLoanItem" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="addLoanItem" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				INSERT INTO LOAN_ITEM (
 					TRANSACTION_ID
 					,COLLECTION_OBJECT_ID
@@ -759,7 +759,7 @@ limitations under the License.
 			<cfelse>
 				<cfset targetObject = part_id>
 			</cfif>
-			<cfquery name="setDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="setDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				UPDATE coll_object 
 				SET coll_obj_disposition = 'on loan'
 				WHERE 
@@ -804,18 +804,18 @@ limitations under the License.
 				<cfthrow message="Unable to look up cataloged item.  Either guid or collection_object_id must have a value.">
 			</cfif>
 			<cfoutput>
-				<cfquery name="ctDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="ctDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						select coll_obj_disposition from ctcoll_obj_disp 
 				</cfquery>
 				<cfif isdefined("guid") AND len(guid) GT 0>
-					<cfquery name="lookupCollObjId" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					<cfquery name="lookupCollObjId" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						select collection_object_id 
 						from flat
 						where guid = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#guid#">
 					</cfquery>
 					<cfset collection_object_id = lookupCollObjId.collection_object_id>
 				</cfif>
-				<cfquery name="lookupCatalogedItem" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="lookupCatalogedItem" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT distinct
 						flat.guid, 
 						mczbase.get_numparts(cataloged_item.collection_object_id) as num_parts,
@@ -846,7 +846,7 @@ limitations under the License.
 							</cfloop>
 						</ul>
 					</div>
-					<cfquery name="lookupParts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					<cfquery name="lookupParts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						SELECT
 							specimen_part.collection_object_id as part_id,
 							part_name, part_modifier, preserve_method,

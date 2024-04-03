@@ -31,7 +31,7 @@
 		<section class="row border rounded my-2 p-2">
 			<div class="col-12 pt-2">
 				<h1 class="h2 w-100">Saved Searches for #session.username#</h1>
-				<cfquery name="getSavedSearches" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getSavedSearches_result">
+				<cfquery name="getSavedSearches" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getSavedSearches_result">
 					SELECT SEARCH_NAME, URL, canned_id, execute
 					FROM 
 						cf_users

@@ -35,7 +35,7 @@ limitations under the License.
 	<cfcase value="entryPoint">
 		<cfoutput>
 			<cfif isDefined("result_id") and len(result_id) GT 0>
-				<cfquery name="getCount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="getCount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT count(*) ct
 					FROM 
 						user_search_table
@@ -47,7 +47,7 @@ limitations under the License.
 					<cfthrow message="Unable to identify parts to work on [required variable table_name or result_id not defined].">
 				</cfif>
 				<!--- TODO: Remove support for table_name --->
-				<cfquery name="getCount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="getCount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					select count(*) ct
 					from #table_name#
 				</cfquery>
@@ -70,7 +70,7 @@ limitations under the License.
 						<cfthrow message="Unable to identify parts to work on [required variable table_name or result_id not defined].">
 					</cfif>
 					<cfif isDefined("result_id") and len(result_id) GT 0>
-						<cfquery name="colcde" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						<cfquery name="colcde" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							SELECT distinct(collection_cde) 
 							FROM 
 								user_search_table
@@ -80,7 +80,7 @@ limitations under the License.
 						</cfquery>
 					<cfelse>
 						<!--- TODO: Remove support for table_name --->
-						<cfquery name="colcde" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						<cfquery name="colcde" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							select distinct(collection_cde) 
 							from #table_name#
 						</cfquery>
@@ -90,15 +90,15 @@ limitations under the License.
 						<cfthrow message="You can only use this form on one collection at a time. Please revise your search.">
 					</cfif>
 
-					<cfquery name="ctDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					<cfquery name="ctDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						SELECT coll_obj_disposition
 						FROM ctcoll_obj_disp
 					</cfquery>
-					<cfquery name="ctNumericModifiers" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					<cfquery name="ctNumericModifiers" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						SELECT modifier 
 						FROM ctnumeric_modifiers
 					</cfquery>
-					<cfquery name="ctPreserveMethod" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					<cfquery name="ctPreserveMethod" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						SELECT preserve_method 
 						FROM ctspecimen_preserv_method 
 						WHERE collection_cde = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#colcdes#">
@@ -243,7 +243,7 @@ limitations under the License.
 								</form>
 							</div>
 							<!--- queries used for picklists on modify and delete forms --->
-							<cfquery name="existParts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+							<cfquery name="existParts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 								SELECT
 									count(specimen_part.collection_object_id) partcount,
 									specimen_part.part_name
@@ -259,7 +259,7 @@ limitations under the License.
 								GROUP BY specimen_part.part_name
 								ORDER BY specimen_part.part_name
 							</cfquery>
-							<cfquery name="existPreserve" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+							<cfquery name="existPreserve" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 								SELECT
 									count(specimen_part.collection_object_id) partcount,
 									specimen_part.preserve_method
@@ -276,7 +276,7 @@ limitations under the License.
 								ORDER BY specimen_part.preserve_method
 							</cfquery>
 							<!--- TODO: Split into two queries, this group on then group on again paired queries may not produce the expected results. --->
-							<cfquery name="existCO" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+							<cfquery name="existCO" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 								SELECT
 									coll_object.lot_count_modifier,
 									coll_object.lot_count,
@@ -523,7 +523,7 @@ limitations under the License.
 					</div>
 
 					<h2 class="h3">Specimens to be Updated</h2>
-					<cfquery name="getCollObjList" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					<cfquery name="getCollObjList" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						SELECT
 							cataloged_item.collection_object_id,
 							collection.collection,
@@ -639,7 +639,7 @@ limitations under the License.
 	<cfcase value="delPart2">
 		<cfoutput>
 			<!--- Delete fires TR_SPECIMENPART_AD for cleanup of related tables --->
-			<cfquery name="delete" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="delete_result">
+			<cfquery name="delete" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="delete_result">
 				DELETE FROM
 					specimen_part 
 				WHERE
@@ -661,7 +661,7 @@ limitations under the License.
 	<!---------------------------------------------------------------------------->
 	<cfcase value="delPart">
 		<cfoutput>
-			<cfquery name="d" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="d" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				select
 					specimen_part.collection_object_id partID,
 					collection.collection,
@@ -794,7 +794,7 @@ limitations under the License.
 						"DERIVED_FROM_CAT_ITEM" NUMBER NOT NULL ENABLE, 
 						"IS_TISSUE" NUMBER, -- deprecated 
 					---> 
-					<cfquery name="d" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					<cfquery name="d" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						UPDATE specimen_part
 						SET
 							<cfif len(new_part_name) gt 0>
@@ -825,7 +825,7 @@ limitations under the License.
 						"FIX_ENTERED_DATE" DATE, -- Not to be changed here
 						"CONDITION_REMARKS" VARCHAR2(4000), -- TODO: Add when controlled vocabulary for condition is implemented See Redmine 882
 					--->
-					<cfquery name="d" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					<cfquery name="d" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						UPDATE coll_object 
 						SET
 							LAST_EDITED_PERSON_ID = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.myAgentId#">
@@ -851,14 +851,14 @@ limitations under the License.
 				</cfif>
 				<cfif len(new_remark) gt 0>
 					<!--- Insert a coll_object_record if none exists, otherwise concatenate field value to existing record. --->
-					<cfquery name="checkForRemarks" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					<cfquery name="checkForRemarks" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						SELECT count(*) ct
 						FROM coll_object_remark
 						WHERE
 							collection_object_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#i#">
 					</cfquery>
 					<cfif checkForRemarks.ct EQ 0>
-						<cfquery name="d" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						<cfquery name="d" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							insert into coll_object_remark 
 							(
 								collection_object_id,coll_object_remarks
@@ -868,7 +868,7 @@ limitations under the License.
 							)
 						</cfquery>
 					<cfelse>
-						<cfquery name="getRemarks" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						<cfquery name="getRemarks" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							SELECT coll_object_remarks as old_remarks
 							FROM coll_object_remark
 							WHERE
@@ -882,7 +882,7 @@ limitations under the License.
 						<cfif len(update_remark_value) GT 4000>
 							<cfthrow message="Error: Unable to append, remarks would exceed 4000 characters (for #i#)">
 						</cfif>
-						<cfquery name="d" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						<cfquery name="d" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							UPDATE coll_object_remark 
 							SET coll_object_remarks = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#update_remark_value#"> 
 							WHERE collection_object_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#i#">
@@ -918,7 +918,7 @@ limitations under the License.
 			<cfthrow message="Not enough information.  [exist_part_name not provided]">
 		</cfif>
 		<cfoutput>
-			<cfquery name="d" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="d" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				select
 					specimen_part.collection_object_id partID,
 					collection.collection,
@@ -1100,7 +1100,7 @@ limitations under the License.
 	<!---------------------------------------------------------------------------->
 	<cfcase value="newPart">
 		<cfoutput>
-			<cfquery name="ids" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="ids" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT DISTINCT 
 					collection_object_id 
 				<cfif isDefined("result_id") and len(result_id) GT 0>
@@ -1128,7 +1128,7 @@ limitations under the License.
 							<cfset thisCondition = #evaluate("condition_" & n)#>
 							<cfset thisRemark = #evaluate("coll_object_remarks_" & n)#>
 							<cfif len(#thisPartName#) gt 0>
-								<cfquery name="insCollPart" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+								<cfquery name="insCollPart" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 									INSERT INTO coll_object (
 										COLLECTION_OBJECT_ID,
 										COLL_OBJECT_TYPE,
@@ -1152,7 +1152,7 @@ limitations under the License.
 										<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#thisCondition#">,
 										0 )
 								</cfquery>
-								<cfquery name="newTiss" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+								<cfquery name="newTiss" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 									INSERT INTO specimen_part (
 										COLLECTION_OBJECT_ID,
 										PART_NAME,
@@ -1168,7 +1168,7 @@ limitations under the License.
 								<cfset partCounter = partCounter + 1>
 								<cfif len(#thisRemark#) gt 0>
 									<!--- Adding a new collection object record for the part, so also insert a coll_object_remark record. --->
-									<cfquery name="newCollRem" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+									<cfquery name="newCollRem" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 										INSERT INTO coll_object_remark 
 										(
 											collection_object_id, coll_object_remarks

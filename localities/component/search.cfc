@@ -225,7 +225,7 @@ Function getSovereignNationAutocomplete.  Search for sovereign_nation by name wi
 	<cfset data = ArrayNew(1)>
 	<cftry>
 		<cfset rows = 0>
-		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
+		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="search_result">
 			SELECT 
 				sovereign_nation
 			FROM 
@@ -269,7 +269,7 @@ Function getSpecLocalityAutocomplete.  Search for spec_locality by name with a s
 	<cfset data = ArrayNew(1)>
 	<cftry>
 		<cfset rows = 0>
-		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
+		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="search_result">
 			SELECT 
 				count(flat.collection_object_id) as ct,
 				locality.spec_locality
@@ -317,7 +317,7 @@ Function getCountryAutocomplete.  Search for country by name with a substring ma
 	<cfset data = ArrayNew(1)>
 	<cftry>
 		<cfset rows = 0>
-		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
+		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="search_result">
 			SELECT 
 				count(flat.collection_object_id) as ct,
 				count(distinct geog_auth_rec.geog_auth_rec_id) as geoct,
@@ -368,7 +368,7 @@ Function getHigherGeogAutocomplete.  Search for higher geographies by higher_geo
 	<cfset data = ArrayNew(1)>
 	<cftry>
 		<cfset rows = 0>
-		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
+		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="search_result">
 			SELECT 
 				geog_auth_rec_id, higher_geog
 			FROM 
@@ -415,7 +415,7 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 	<cfset data = ArrayNew(1)>
 	<cftry>
 		<cfset rows = 0>
-		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
+		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="search_result">
 			SELECT count(*) as ct,
 				<cfswitch expression="#rank#">
 					<cfcase value="continent_ocean">continent_ocean as name</cfcase>
@@ -549,14 +549,14 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 		<cfset rows = 0>
 		<cfif linguisticFlag >
 			<!--- Set up the session to run an accent insensitive search --->
-			<cfquery datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				ALTER SESSION SET NLS_COMP = LINGUISTIC
 			</cfquery>
-			<cfquery datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				ALTER SESSION SET NLS_SORT = GENERIC_M_AI
 			</cfquery>
 		</cfif>
-		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
+		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="search_result">
 			SELECT
 				geog_auth_rec.geog_auth_rec_id,
 				geog_auth_rec.continent_ocean,
@@ -773,7 +773,7 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 		</cfquery>
 		<cfif linguisticFlag >
 			<!--- Reset NLS_COMP back to the default, or the session will keep using the generic_m_ai comparison/sort on subsequent searches. --->
-			<cfquery datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				ALTER SESSION SET NLS_COMP = BINARY
 			</cfquery>
 		</cfif>
@@ -1011,14 +1011,14 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 		<cfset rows = 0>
 		<cfif linguisticFlag >
 			<!--- Set up the session to run an accent insensitive search --->
-			<cfquery datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				ALTER SESSION SET NLS_COMP = LINGUISTIC
 			</cfquery>
-			<cfquery datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				ALTER SESSION SET NLS_SORT = GENERIC_M_AI
 			</cfquery>
 		</cfif>
-		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
+		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="search_result">
 			SELECT distinct
 				geog_auth_rec.geog_auth_rec_id,
 				geog_auth_rec.continent_ocean,
@@ -1737,7 +1737,7 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 		</cfloop>
 		<cfif linguisticFlag >
 			<!--- Reset NLS_COMP back to the default, or the session will keep using the generic_m_ai comparison/sort on subsequent searches. --->
-			<cfquery datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				ALTER SESSION SET NLS_COMP = BINARY
 			</cfquery>
 		</cfif>
@@ -1989,14 +1989,14 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 		<cfset rows = 0>
 		<cfif linguisticFlag >
 			<!--- Set up the session to run an accent insensitive search --->
-			<cfquery datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				ALTER SESSION SET NLS_COMP = LINGUISTIC
 			</cfquery>
-			<cfquery datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				ALTER SESSION SET NLS_SORT = GENERIC_M_AI
 			</cfquery>
 		</cfif>
-		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
+		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="search_result">
 			SELECT distinct
 				geog_auth_rec.geog_auth_rec_id,
 				geog_auth_rec.continent_ocean,
@@ -2999,7 +2999,7 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 		</cfloop>
 		<cfif linguisticFlag >
 			<!--- Reset NLS_COMP back to the default, or the session will keep using the generic_m_ai comparison/sort on subsequent searches. --->
-			<cfquery datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				ALTER SESSION SET NLS_COMP = BINARY
 			</cfquery>
 		</cfif>
@@ -3034,7 +3034,7 @@ Function getCEFieldAutocomplete.  Search for distinct values of a particular fie
 	<cfset data = ArrayNew(1)>
 	<cftry>
 		<cfset rows = 0>
-		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
+		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="search_result">
 			SELECT count(*) as ct,
 				<cfswitch expression="#ucase(field)#">
 					<cfcase value="VERBATIM_DATE">VERBATIM_DATE as name</cfcase>
@@ -3162,7 +3162,7 @@ Function suggestSovereignNation.  Search for sovereign_nation appropriate for a 
 	<cfset data = ArrayNew(1)>
 	<cftry>
 		<cfset rows = 0>
-		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
+		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="search_result">
 			SELECT 
 				suggest_sov_nation_from_str(country) sovereign_nation
 			FROM 
@@ -3211,7 +3211,7 @@ Function suggestSovereignNation.  Search for sovereign_nation appropriate for a 
 	</cfif>
 
 	<cfset retval = "">
-	<cfquery name="lookupLocality" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="lookupLocality_result">
+	<cfquery name="lookupLocality" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="lookupLocality_result">
 		SELECT distinct
 			locality.locality_id,
 			spec_locality,
@@ -3313,7 +3313,7 @@ Function suggestSovereignNation.  Search for sovereign_nation appropriate for a 
 	<cfset data = ArrayNew(1)>
 	<cftry>
 		<cfset rows = 0>
-		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
+		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="search_result">
 			SELECT 
 				distinct 
 				continent_ocean, country, state_prov
@@ -3358,7 +3358,7 @@ Function suggestSovereignNation.  Search for sovereign_nation appropriate for a 
 	<cfset data = ArrayNew(1)>
 	<cftry>
 		<cfset rows = 0>
-		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
+		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="search_result">
 			SELECT 
 				distinct 
 				continent_ocean, country
@@ -3402,7 +3402,7 @@ Function suggestSovereignNation.  Search for sovereign_nation appropriate for a 
 	<cfset data = ArrayNew(1)>
 	<cftry>
 		<cfset rows = 0>
-		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
+		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="search_result">
 			SELECT 
 				distinct 
 				continent_ocean, ocean_region

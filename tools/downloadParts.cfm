@@ -27,7 +27,7 @@ limitations under the License.
 	<cfthrow message="You need to do a search first before using the part downloader">
 </cfif>
 <cf_rolecheck>
-<cfquery name="getParts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="getParts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 	select F.INSTITUTION_ACRONYM,
 		F.COLLECTION_CDE,
 		'catalog number' as OTHER_ID_TYPE,

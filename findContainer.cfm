@@ -9,16 +9,16 @@
 
 <script type='text/javascript' src='/includes/_treeAjax.js'></script>
 
-<cfquery name="contType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="contType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 	SELECT container_type 
 	FROM ctContainer_Type 
 	ORDER BY container_type
 </cfquery>
-<cfquery name="collections" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="collections" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 	SELECT collection_id, institution_acronym || ' ' || collection_cde coll 
 	FROM collection
 </cfquery>
-<cfquery name="ctcoll_other_id_type" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="ctcoll_other_id_type" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 	SELECT OTHER_ID_TYPE 
 	FROM
 		ctcoll_other_id_type
@@ -32,7 +32,7 @@
 	<div id="searchContainer">
 		<cfset autoSubmit=false>
 		<cfif isdefined("container_id")>
-			<cfquery name="labelbyid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="labelbyid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT label 
 				FROM container 
 				WHERE container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#container_id#">
@@ -179,7 +179,7 @@
 			</script>
 	<cfelseif isdefined("url.result_id") and len(url.result_id) GT 0>
 		<cfset collection_object_id = "">
-		<cfquery name="getCollectionObjectIdList" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="getCollectionObjectIdList" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			SELECT collection_object_id 
 			FROM user_search_table
 			WHERE

@@ -1,7 +1,7 @@
 <cfinclude template="../includes/_pickHeader.cfm">
 <cfoutput>
 	<cfif action is "nothing">
-		<cfquery name="ctcollection" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="ctcollection" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			select collection_id,collection from collection order by collection
 		</cfquery>
 		<form name="searchForLoan" action="findLoan.cfm" method="post">
@@ -26,7 +26,7 @@
 		</form>
 	</cfif>
 	<cfif action is "srch">
-		<cfquery name="getLoan" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="getLoan" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			SELECT
 				collection,
 				Loan_number,

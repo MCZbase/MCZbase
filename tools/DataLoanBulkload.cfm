@@ -82,7 +82,7 @@ sho err
 <!------------------------------------------------------->
 <!------------------------------------------------------->
 <cfif #action# is "getFile">
-	<cfquery name="killOld" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cfquery name="killOld" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		delete from cf_temp_data_loan_item
 	</cfquery>
 	<cffile action="READ" file="#FiletoUpload#" variable="fileContent">
@@ -104,12 +104,12 @@ sho err
 		</cfif>	
 		<cfif len(#colVals#) gt 1>
 			<cfset colVals=replace(colVals,",","","first")>
-			<cfquery name="ins" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="ins" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				insert into cf_temp_data_loan_item (#colNames#) values (#preservesinglequotes(colVals)#)
 			</cfquery>
 		</cfif>
 	</cfloop>
-	<cfquery name="gotit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cfquery name="gotit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		select * from cf_temp_data_loan_item
 	</cfquery>
 	<cfdump var="#gotit#">
@@ -119,7 +119,7 @@ sho err
 <cfif action is "verify">
 <cfoutput>
 <cftransaction>
-	<cfquery name="loanID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cfquery name="loanID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		update 
 			cf_temp_data_loan_item 
 		set 
@@ -137,16 +137,16 @@ sho err
 				loan.loan_number = cf_temp_data_loan_item.loan_number
 			)
 	</cfquery>
-	<cfquery name="missedMe" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cfquery name="missedMe" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		update cf_temp_data_loan_item set status = 'loan not found' where
 		transaction_id is null
 	</cfquery>
-	<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		select * from cf_temp_data_loan_item where status is null
 	</cfquery>  
 		<cfloop query="data">
 			<cfif other_id_type is "catalog number">
-				<cfquery name="collObj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="collObj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					select 
 						cataloged_item.collection_object_id 
 					from
@@ -159,7 +159,7 @@ sho err
 						cat_num = '#other_id_number#'
 				</cfquery>
 			<cfelse>
-				<cfquery name="collObj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="collObj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					select 
 						cataloged_item.collection_object_id 
 					from
@@ -177,7 +177,7 @@ sho err
 			</cfif>
 			<cfif collObj.recordcount is 1 and len(collObj.collection_object_id) gt 0>
 				collObj.recordcount is 1....
-				<cfquery name="YayCollObj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="YayCollObj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					update
 						cf_temp_data_loan_item
 					set
@@ -186,7 +186,7 @@ sho err
 					where
 						key=#key#
 				</cfquery>
-				<cfquery name="defDescr" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="defDescr" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					update 
 						cf_temp_data_loan_item 
 						set (ITEM_DESCRIPTION)
@@ -203,7 +203,7 @@ sho err
 				</cfquery>
 			<cfelse>
 				no CI
-				<cfquery name="BooCollObj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="BooCollObj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					update
 						cf_temp_data_loan_item
 					set
@@ -214,7 +214,7 @@ sho err
 			</cfif>
 		</cfloop>
 	</cftransaction>
-	<cfquery name="done" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cfquery name="done" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		select * from cf_temp_data_loan_item
 	</cfquery> 
 	<cfdump var=#done#>
@@ -233,12 +233,12 @@ sho err
 <!------------------------------------------------------->
 <cfif #action# is "loadData">
 <cfoutput>
-	<cfquery name="getTempData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cfquery name="getTempData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		select * from cf_temp_data_loan_item
 	</cfquery>
 	<cftransaction>
 		<cfloop query="getTempData">
-			<cfquery name="move" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="move" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				INSERT INTO loan_item (
 					transaction_id,
 					collection_object_id,

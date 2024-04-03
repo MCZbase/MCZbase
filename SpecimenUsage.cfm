@@ -74,7 +74,7 @@
 	</cfif>
 	<cfif search_type EQ "projects" OR search_type EQ "both">
 	<cfset go="no"><!--- allows addition of a where 1=2 clause if no search term is set, forcing query to have parameters --->
-	<cfquery name="projects" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cfquery name="projects" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT distinct
 					project.project_id,
 					project.project_name,
@@ -193,7 +193,7 @@
 	<cfif search_type EQ "publications" OR search_type EQ "both">
 		<cfset i=1>
 		<cfset go="no">
-		<cfquery name="publication" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="publication" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			SELECT
 				publication.publication_title,
 				publication.publication_id,
@@ -392,7 +392,7 @@
 		</cfif>
 
 	</h2>
-	<cfquery name="undCollCitations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getNamedGroup_result">
+	<cfquery name="undCollCitations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getNamedGroup_result">
 		SELECT distinct 
 			collection_name, 
 			underscore_collection.underscore_collection_id
@@ -454,7 +454,7 @@
 						<li><a href="/Project.cfm?action=addPub&publication_id=#publication_id#&project_id=#toproject_id#">Add to Project</a></li>
 					</cfif>
 				</cfif>
-				<cfquery name="pubmedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="pubmedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					select
 						media.media_id,
 						media_type,
@@ -475,7 +475,7 @@
 						<div class="thumb_spcr">&nbsp;</div>
 							<cfloop query="pubmedia">
 								<cfset puri=getMediaPreview(preview_uri,media_type)>
-				            	<cfquery name="labels"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				            	<cfquery name="labels"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 									select
 										media_label,
 										label_value

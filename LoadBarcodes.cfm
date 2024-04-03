@@ -70,7 +70,7 @@ Return TempList;
     </div>
     <br>
     Duplicate scans will be ignored. 
-   <cfquery name="getDump" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+   <cfquery name="getDump" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
    	SELECT container_id, parent_container_id, timestamp,
 	get_container_barcode(container_id) child_barcode,
 	get_container_barcode(parent_container_id) parent_barcode
@@ -152,7 +152,7 @@ There are #getDump.recordcount# items in the table
 	move the file<cfflush>	
 			--->
 			
-	  <cfquery name="timeFormat" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	  <cfquery name="timeFormat" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			  ALTER SESSION SET nls_date_format = 'DD-Mon-YYYY hh24:mi:ss' 
 	  </cfquery>
     <!--- reload this form --->
@@ -204,7 +204,7 @@ There are #getDump.recordcount# items in the table
 			<!---
 			getid<cfflush>
 			--->
-			<cfquery name="pcid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="pcid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT container_id FROM container WHERE
 				barcode='#trim(parent)#'
 			</cfquery>
@@ -222,7 +222,7 @@ There are #getDump.recordcount# items in the table
 			getCID<cfflush>
 			--->
 			
-			<cfquery name="ccid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="ccid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT container_id FROM container WHERE
 				barcode='#trim(child)#'
 			</cfquery>
@@ -246,7 +246,7 @@ There are #getDump.recordcount# items in the table
 			
 			inserting<cfflush>
 			--->
-				<cfquery name="onerow" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="onerow" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					insert into  cf_temp_container_location (
 						CONTAINER_ID,
 						PARENT_CONTAINER_ID,
@@ -302,10 +302,10 @@ There are #getDump.recordcount# items in the table
    
     <cfoutput>
 		
-		 <cfquery name="timeFormat" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		 <cfquery name="timeFormat" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			  ALTER SESSION SET nls_date_format = 'DD-Mon-YYYY hh24:mi:ss' 
 	  </cfquery>
-		<cfquery name="getDump" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="getDump" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT container_id, parent_container_id, timestamp FROM cf_temp_container_location
 	group by
 	container_id, parent_container_id, timestamp
@@ -315,7 +315,7 @@ There are #getDump.recordcount# items in the table
 		<cfset i=0>
 		<cfloop query="getDump">
 			<!---- don't do anything if it's already been done ---->
-			<cfquery name="itsThere" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="itsThere" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				select count(*) cnt from container where
 				parent_container_id = #parent_container_id# and
 				to_char(parent_install_date,'DD-Mon-YYYY')='#dateformat(timeStamp,"yyyy-mm-dd")#' and
@@ -326,7 +326,7 @@ There are #getDump.recordcount# items in the table
 				<cfset ts = '#dateformat(timestamp,"yyyy-mm-dd")# #timeformat(timestamp,"HH:mm:ss")#'>
 				
 						<cftry>
-							<cfquery name="upCont" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+							<cfquery name="upCont" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 								UPDATE container SET
 									parent_container_id = #parent_container_id#,
 									parent_install_date='#ts#'
@@ -352,7 +352,7 @@ There are #getDump.recordcount# items in the table
 <cfif #action# is "checkIsLoaded">
 disabled<cfabort>
 <cfoutput>
-	<cfquery name="howMany" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cfquery name="howMany" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		SELECT container_id, parent_container_id, timestamp FROM cf_temp_container_location
 		group by
 		container_id, parent_container_id, timestamp 
@@ -360,7 +360,7 @@ disabled<cfabort>
 	
 	
 	
-	<cfquery name="isMatches" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cfquery name="isMatches" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		select 
 			cf_temp_container_location.container_id,
 			cf_temp_container_location.parent_container_id,

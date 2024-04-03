@@ -19,7 +19,7 @@ limitations under the License.
 <cfset shortCitation = "">
 <cfif isdefined("publication_id") and len(publication_id) GT 0 and isNumeric(publication_id) >
 	<!--- lookup the short form of the citation to display in the page title. --->
-	<cfquery name="lookupShort" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cfquery name="lookupShort" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		SELECT
 			formatted_publication as citation
 		FROM
@@ -41,7 +41,7 @@ limitations under the License.
 	
 	<cftry>
 		<cfif isdefined("publication_id") and len(publication_id) GT 0 >
-			<cfquery name="check" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="check_result">
+			<cfquery name="check" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="check_result">
 				select count(*) ct
 				from publication 
 				where publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#publication_id#">
@@ -65,7 +65,7 @@ limitations under the License.
 	</cfcatch>
 	</cftry>
 	
-	<cfquery name="getDetails" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getDetails_result">
+	<cfquery name="getDetails" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getDetails_result">
 		SELECT
 			PUBLICATION_ID ,
 			PUBLISHED_YEAR ,
@@ -81,7 +81,7 @@ limitations under the License.
 		WHERE
 			publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#publication_id#">
 	</cfquery>
-	<cfquery name="getAgents" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getAgents_result">
+	<cfquery name="getAgents" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getAgents_result">
 		SELECT
 			agent_name.agent_id, 
 			author_role,
@@ -97,7 +97,7 @@ limitations under the License.
 		ORDER BY
 			author_role asc, author_position asc
 	</cfquery>
-	<cfquery name="getAttributes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getAttributes_result">
+	<cfquery name="getAttributes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getAttributes_result">
 		SELECT
 			PUBLICATION_ATTRIBUTE_ID ,
 			PUBLICATION_ID ,
@@ -107,7 +107,7 @@ limitations under the License.
 		WHERE
 			publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#publication_id#">
 	</cfquery>
-	<cfquery name="citedSpecimens" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="citedSpecimens_result">
+	<cfquery name="citedSpecimens" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="citedSpecimens_result">
 		SELECT 
 			type_status, 
 			occurs_page_number, 
@@ -129,7 +129,7 @@ limitations under the License.
 		ORDER BY
 			occurs_page_number asc, scientific_name
 	</cfquery>
-	<cfquery name="taxonPublications" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="taxonPublications_result">
+	<cfquery name="taxonPublications" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="taxonPublications_result">
 		SELECT distinct
 			taxonomy.taxon_name_id,
 			taxonomy.display_name,
@@ -140,7 +140,7 @@ limitations under the License.
 		WHERE
 			taxonomy_publication.publication_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#publication_id#">
 	</cfquery>
-	<cfquery name="citedNamedGroups" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="citedNamedGroups_result">
+	<cfquery name="citedNamedGroups" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="citedNamedGroups_result">
 		SELECT collection_name, type, pages, remarks, mask_fg, underscore_collection.underscore_collection_id 
 		FROM
 			underscore_collection_citation
@@ -209,7 +209,7 @@ limitations under the License.
 				</ul>
 
 				<div id="pubMediaDiv">
-					<cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="media_result">
+					<cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="media_result">
 						SELECT
 							media_id
 						FROM media_relations
@@ -310,7 +310,7 @@ limitations under the License.
 					<div class="row">
 						<div class="col-12">
 							<h2 class="h4">Annotations:</h2>
-							<cfquery name="existingAnnotations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+							<cfquery name="existingAnnotations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 								select count(*) cnt from annotations
 								where publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#publication_id#">
 							</cfquery>
@@ -333,7 +333,7 @@ limitations under the License.
 									<cfset s = "s">
 								</cfif>
 								<p>There #are# #existingAnnotations.cnt# annotation#s# on this taxon record</p>
-								<cfquery name="AnnotationStates" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+								<cfquery name="AnnotationStates" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 									select count(*) statecount, state from annotations
 									where publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#publication_id#">
 									group by state

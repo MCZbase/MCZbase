@@ -88,7 +88,7 @@ t<cfinclude template="/includes/_header.cfm">
 </script>
 <cfif action is "nothing">
 	<cfoutput>
-		<cfquery name="l" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="l" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			select 
 				deacc_number,
 				deacc_type,
@@ -113,7 +113,7 @@ t<cfinclude template="/includes/_header.cfm">
 		<p>Deaccession Status: #l.deacc_status#</p>
 		<p>Nature of Material: #l.nature_of_material#</p>
 		
-		<cfquery name="getPartDeaccRequests" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="getPartDeaccRequests" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			select 
 				cat_num, 
 				cataloged_item.collection_object_id,

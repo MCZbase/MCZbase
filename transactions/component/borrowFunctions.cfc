@@ -26,7 +26,7 @@ limitations under the License.
 	<cfargument name="transaction_id" type="numeric" required="yes">
 	
 	<cftry>
-		<cfquery name="getBorrowItemsQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getBorrowItemsQuery_result" timeout="#Application.query_timeout#">
+		<cfquery name="getBorrowItemsQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getBorrowItemsQuery_result" timeout="#Application.query_timeout#">
 			select 
 				transaction_id, borrow_item_id, 
 				catalog_number, sci_name, no_of_spec, 
@@ -67,7 +67,7 @@ limitations under the License.
 
 	<cftransaction>
 		<cftry>
-			<cfquery name="newBorrow_Item" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="newBorrow_Item_result">
+			<cfquery name="newBorrow_Item" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="newBorrow_Item_result">
 				INSERT INTO BORROW_ITEM (
 					TRANSACTION_ID,
 					CATALOG_NUMBER,
@@ -125,7 +125,7 @@ limitations under the License.
 
 	<cftransaction>
 		<cftry>
-			<cfquery name="updateBorrow_Item" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateBorrow_Item_result">
+			<cfquery name="updateBorrow_Item" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateBorrow_Item_result">
 				UPDATE BORROW_ITEM 
 				SET
 					catalog_number =<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#CATALOG_NUMBER#">,
@@ -170,7 +170,7 @@ limitations under the License.
 
 	<cftransaction>
 		<cftry>
-			<cfquery name="delBorrow_Item" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="delBorrow_Item_result">
+			<cfquery name="delBorrow_Item" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="delBorrow_Item_result">
 				DELETE from BORROW_ITEM 
 				where
 					borrow_item_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#borrow_item_id#">
@@ -201,7 +201,7 @@ limitations under the License.
 <!--- deprecated, now uses editable grid with data load from getBorrowItemsData ---> 
 <cffunction name="getBorrowItemsHTML" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="transaction_id" type="numeric" required="yes">
-	<cfquery name="borrowItems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="borrowItems_result" timeout="#Application.query_timeout#">
+	<cfquery name="borrowItems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="borrowItems_result" timeout="#Application.query_timeout#">
 		select transaction_id,borrow_item_id,catalog_number,sci_name,
 				no_of_spec,spec_prep,type_status,country_of_origin,object_remarks 
 		from borrow_item 
@@ -240,7 +240,7 @@ limitations under the License.
 	
 	<cfset data = ArrayNew(1)>
 	<cftry>
-		<cfquery name="getBorrowItemsQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getBorrowItemsQuery_result" timeout="#Application.query_timeout#">
+		<cfquery name="getBorrowItemsQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getBorrowItemsQuery_result" timeout="#Application.query_timeout#">
 			select 
 				transaction_id, borrow_item_id, 
 				catalog_number, sci_name, 

@@ -34,7 +34,7 @@ limitations under the License.
 	<cfset shortCitation = "">
 	<cfif isdefined("publication_id") and len(publication_id) GT 0 and isNumeric(publication_id) >
 		<!--- lookup the short form of the citation to display in the page title. --->
-		<cfquery name="lookupShort" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="lookupShort" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			SELECT
 				formatted_publication as citation
 			FROM
@@ -58,11 +58,11 @@ limitations under the License.
 <cfcase value="edit">
 	<cfinclude template="/publications/component/functions.cfc" runonce="true">
 	<!---------------------------------------------------------------------------------------------------------->
-	<cfquery name="ctpublication_type" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cfquery name="ctpublication_type" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		select publication_type from ctpublication_type order by publication_type
 	</cfquery>
 
-	<cfquery name="pub" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cfquery name="pub" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		SELECT
 			publication_id,
 			published_year,
@@ -85,7 +85,7 @@ limitations under the License.
 	<cfif pub.recordcount EQ 0>
 		<cfthrow message="No publication found with the specified publication_id [#encodeForHtml(publication_id)#].">
 	</cfif>
-	<cfquery name="MCZpub" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="MCZpub_result">
+	<cfquery name="MCZpub" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="MCZpub_result">
 		SELECT
 			publication
 		FROM
@@ -98,7 +98,7 @@ limitations under the License.
 	<cfelse>
 		<cfset isMCZpub = false>
 	</cfif>
-	<cfquery name="uses" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cfquery name="uses" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		SELECT count(*) ct, 'cataloged item' as type 
 		FROM citation
 		WHERE publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#publication_id#">
@@ -119,7 +119,7 @@ limitations under the License.
 		FROM identification
 		WHERE publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#publication_id#">
 	</cfquery>
-	<cfquery name="getAuthor" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cfquery name="getAuthor" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		SELECT person.last_name as aulast
 		FROM
 			publication_author_name p
@@ -390,7 +390,7 @@ limitations under the License.
 	<!---------------------------------------------------------------------------------------------------------->
 	<cftransaction>
 		<cftry>
-			<cfquery name="pub" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="pub" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT
 					publication_id,
 					mczbase.getshortcitation(publication_id) as short_citation
@@ -401,20 +401,20 @@ limitations under the License.
 				<cfthrow message="Specified publication_id does not match a publication record.">
 			<cfelse>
 				<!--- not needed, on delete cascade fk on publication_attributes --->
-				<!--- cfquery name="dformatted_publication" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<!--- cfquery name="dformatted_publication" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					delete from formatted_publication 
 					where publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#publication_id#">
 				</cfquery --->
 				<!--- not needed, on delete cascade fk on publication_attributes --->
-				<!--- cfquery name="dpublication_attributes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<!--- cfquery name="dpublication_attributes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					delete from publication_attributes 
 					where publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#publication_id#">
 				</cfquery --->
-				<cfquery name="dpublication_author_name" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="dpublication_author_name" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					delete from publication_author_name 
 					where publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#publication_id#">
 				</cfquery>
-				<cfquery name="dpublication" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="dpublication" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					delete from publication 
 					where publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#publication_id#">
 				</cfquery>
@@ -435,16 +435,16 @@ limitations under the License.
 </cfcase>
 <cfcase value="new">
 	<!---------------------------------------------------------------------------------------------------------->
-	<cfquery name="ctpublication_type" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cfquery name="ctpublication_type" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		select publication_type from ctpublication_type order by publication_type
 	</cfquery>
-	<cfquery name="ctpublication_attribute" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cfquery name="ctpublication_attribute" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		select publication_attribute from ctpublication_attribute order by publication_attribute
 	</cfquery>
-	<cfquery name="ctmedia_type" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cfquery name="ctmedia_type" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		select media_type from ctmedia_type order by media_type
 	</cfquery>
-	<cfquery name="ctmime_type" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cfquery name="ctmime_type" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		select mime_type from ctmime_type order by mime_type
 	</cfquery>
 	<cfoutput>
@@ -598,11 +598,11 @@ limitations under the License.
 	<!---------------------------------------------------------------------------------------------------------->
 	<cfoutput>
 		<cftransaction>
-			<cfquery name="seq" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="seq" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				select sq_publication_id.nextval id from dual
 			</cfquery>
 			<cfset publication_id=seq.id>
-			<cfquery name="pub" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="pub" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				INSERT INTO publication (
 					publication_id,
 					published_year,
@@ -633,7 +633,7 @@ limitations under the License.
 				<cfloop index="i" from="1" to="#author_count#">
 					<cfset author_name_id = evaluate("author_name_id_#i#")>
 					<cfif isDefined("author_name_id") AND len(author_name_id) GT 0>
-						<cfquery name="insertAuthor" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="insertAuthor_result">
+						<cfquery name="insertAuthor" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="insertAuthor_result">
 							INSERT INTO publication_author_name (
 								publication_id,
 								agent_name_id,
@@ -659,7 +659,7 @@ limitations under the License.
 					<cfset editor_name_id = evaluate("editor_name_id_#i#")><!--- 1 based, separate from author_position --->
 					<cfset position = i + author_count><!--- author_position is single ordinal counter for both authors and editors --->
 					<cfif isDefined("editor_name_id") AND len(editor_name_id) GT 0>
-						<cfquery name="insertEditor" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="insertEditor_result">
+						<cfquery name="insertEditor" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="insertEditor_result">
 							INSERT INTO publication_author_name (
 								publication_id,
 								agent_name_id,
@@ -681,7 +681,7 @@ limitations under the License.
 
 			<!--- if there are any attributes, add them --->
 			<!--- obtain form with spaces replaced with underscores for variable passed from form, and without for database value --->
-			<cfquery name="getAttributes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getAttributes_result">
+			<cfquery name="getAttributes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getAttributes_result">
 				SELECT 
 					distinct
 					regexp_replace(publication_attribute,'[^A-Za-z]','_') as publication_attribute_name,
@@ -692,7 +692,7 @@ limitations under the License.
 				<cfif isDefined("#getAttributes.publication_attribute_name#")>
 					<cfset val = evaluate("#getAttributes.publication_attribute_name#")>
 					<cfif len(val) GT 0>
-						<cfquery name="addAtt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="attAtt_result">
+						<cfquery name="addAtt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="attAtt_result">
 							INSERT INTO publication_attributes (
 								publication_id,
 								publication_attribute, 
@@ -709,7 +709,7 @@ limitations under the License.
 		</cftransaction>
 		<cftransaction>
 			<!--- trigger rebuld of formatted publication --->
-			<cfquery name="rebuild" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="rebuild_result">
+			<cfquery name="rebuild" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="rebuild_result">
 				UPDATE publication 
 				SET last_update_date = CURRENT_TIMESTAMP
 				WHERE publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#publication_id#">

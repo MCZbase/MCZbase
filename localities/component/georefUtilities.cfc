@@ -195,7 +195,7 @@ Utility methods to support display of spatial information on maps.
 
 	<cfset retval = '{ "type": "FeatureCollection", "features": ['>
 	<cftry>
-		<cfquery name="lookupGeorefs" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
+		<cfquery name="lookupGeorefs" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="search_result">
 			SELECT
 				dec_lat, dec_long, datum,
 				decode(accepted_lat_long_fg,0,'No',1,'Yes','No') accepted,
@@ -248,7 +248,7 @@ Utility methods to support display of spatial information on maps.
 
 	<cfset retval = '{ "type": "FeatureCollection", "features": ['>
 	<cftry>
-		<cfquery name="lookupGeorefs" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
+		<cfquery name="lookupGeorefs" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="search_result">
 			SELECT
 				spec_locality,
 				locality.locality_id,
@@ -306,7 +306,7 @@ Utility methods to support display of spatial information on maps.
 
 	<cfset retval = '{'>
 	<cftry>
-		<cfquery name="lookupGeoref" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
+		<cfquery name="lookupGeoref" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="search_result">
 			SELECT
 				dec_lat, dec_long,
 				to_meters(max_error_distance, max_error_units) coordinateuncertaintyinmeters,

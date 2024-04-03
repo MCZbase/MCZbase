@@ -64,29 +64,29 @@ limitations under the License.
 <cfelse>
 	<cfset oneOfUs = 0>
 </cfif>
-<cfquery name="ctAgentType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="ctAgentType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 	select agent_type from ctagent_type order by agent_type
 </cfquery>
-<cfquery name="ctNameType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="ctNameType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 	select agent_name_type as agent_name_type from ctagent_name_type where agent_name_type != 'preferred' order by agent_name_type
 </cfquery>
-<cfquery name="ctAddrType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="ctAddrType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 	select addr_type from ctaddr_type
 	where addr_type <> 'temporary'
 </cfquery>
-<cfquery name="ctElecAddrType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="ctElecAddrType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 	select address_type from ctelectronic_addr_type
 </cfquery>
-<cfquery name="ctprefix" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="ctprefix" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 	select prefix from ctprefix order by prefix
 </cfquery>
-<cfquery name="ctsuffix" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="ctsuffix" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 	select suffix from ctsuffix order by suffix
 </cfquery>
-<cfquery name="ctRelns" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="ctRelns" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 	select AGENT_RELATIONSHIP from CTAGENT_RELATIONSHIP
 </cfquery>
-<cfquery name="ctguid_type_agent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="ctguid_type_agent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 	select guid_type, placeholder, pattern_regex, resolver_regex, resolver_replacement, search_uri
    from ctguid_type 
    where applies_to like '%agent.agentguid%'
@@ -119,7 +119,7 @@ limitations under the License.
 						return result;
 					}
 				</script>
-				<cfquery name="getAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getAgent_result">
+				<cfquery name="getAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getAgent_result">
 					SELECT 
 						agent.agent_id,
 						agent.agent_type, 
@@ -163,7 +163,7 @@ limitations under the License.
 							<cfset okToDelete = true>
 							<cfloop query="getFKFields">
 								<cfif getFKFields.delete_rule EQ "NO ACTION">
-									<cfquery name="getRels" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getRels_result">
+									<cfquery name="getRels" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getRels_result">
 										SELECT count(*) as ct 
 										FROM #getFKFields.table_name#
 										WHERE #getFKFields.column_name# = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#agent_id#">
@@ -202,7 +202,7 @@ limitations under the License.
 										<h2 class="h3"><a href="/agents/Agent.cfm?agent_id=#agent_id#" target="_blank">Agent Activity</a></h2>
 									</div>
 									<div class="col-12 col-md-4">
-										<cfquery name="rank" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+										<cfquery name="rank" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 											SELECT count(*) || ' ' || agent_rank agent_rank
 											FROM agent_rank
 											WHERE agent_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
@@ -1008,7 +1008,7 @@ limitations under the License.
 		<cfif NOT isdefined('pref_name') OR len(trim(pref_name)) EQ 0>
 			<cfthrow message="Unable to create agent: preferred name is required and was not supplied">
 		</cfif>
-		<cfquery name="agentTypeCheck" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="agentTypeCheck" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			SELECT agent_type 
 			FROM ctagent_type 
 			WHERE agent_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#agent_type#">
@@ -1018,13 +1018,13 @@ limitations under the License.
 		</cfif>
 		<cftransaction>
 			<cftry>
-				<cfquery name="agentID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="agentID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					select sq_agent_id.nextval nextAgentId from dual
 				</cfquery>
-				<cfquery name="agentNameID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="agentNameID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					select sq_agent_name_id.nextval nextAgentNameId from dual
 				</cfquery>
-				<cfquery name="insAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="insAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					INSERT INTO agent (
 						agent_id,
 						agent_type,
@@ -1068,7 +1068,7 @@ limitations under the License.
 					)
 				</cfquery>
 				<cfif agent_type EQ 'person'>
-					<cfquery name="insPerson" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					<cfquery name="insPerson" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						INSERT INTO person (
 							PERSON_ID
 							<cfif isdefined("prefix") AND len(#prefix#) gt 0>
@@ -1140,7 +1140,7 @@ limitations under the License.
 				</cfif>
 				<cfset okToAddAgent = true>
 				<cfif not isdefined("ignoreDupCheck") or ignoreDupCheck is false>
-					<cfquery name="duplicatePreferredCheck" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					<cfquery name="duplicatePreferredCheck" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						SELECT agent_name, agent_id 
 						FROM preferred_agent_name
 						WHERE 
@@ -1148,7 +1148,7 @@ limitations under the License.
 					</cfquery>
 					<cfif duplicatePreferredCheck.recordcount gt 0>
 						<!--- allow possible optional creation of agents that duplicate the preferred name of other agents --->
-						<cfquery name="findPreferredNameDups" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						<cfquery name="findPreferredNameDups" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							select
 								agent.agent_type, 
 								preferred_agent_name.agent_id, 
@@ -1250,7 +1250,7 @@ limitations under the License.
 						</cfif>
 					<cfelse>
 						<!--- allow possible optional creation of agents that duplicate other names names of other agents --->
-						<cfquery name="findPotentialDups" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						<cfquery name="findPotentialDups" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							SELECT 
 								agent.agent_type, 
 								agent_name.agent_id, 
@@ -1356,7 +1356,7 @@ limitations under the License.
 					<!--- either the duplicate checks passed, or ignoreDupCheck was true --->
 					<!--- finish creating the agent record by adding a preferred name, and then committing the transaction --->
 					<!--- NOTE: Retaining donor_card_fg_present_fg for now, this likely indicates names created through the MCZbase coldfusion UI as opposed to loads of data --->
-					<cfquery name="insName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					<cfquery name="insName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						INSERT INTO agent_name (
 							agent_name_id,
 							agent_id,

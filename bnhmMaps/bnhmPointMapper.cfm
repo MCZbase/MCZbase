@@ -7,7 +7,7 @@ Retrieving map data - please wait....
 		<cfabort>
 	</cfif>
 	<cfoutput>
-	<cfquery name="getMapData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cfquery name="getMapData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		SELECT
 			locality.locality_id locality_id,
 			lat_long_id,
@@ -27,7 +27,7 @@ Retrieving map data - please wait....
 	</cfoutput>
 
 <cfset dlPath = "#Application.webDirectory#/bnhmMaps/tabfiles/">
-<cfset dlFile = "tabfile#cfid##cftoken#.txt">
+<cfset dlFile = "tabfile#cookie.cfid##cookie.cftoken#.txt">
 <cffile action="write" file="#dlPath##dlFile#" addnewline="no" output="" nameconflict="overwrite">
 <cfoutput query="getMapData">
 	<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_geography")>

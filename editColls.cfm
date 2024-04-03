@@ -1,7 +1,7 @@
 <cfinclude template="/includes/alwaysInclude.cfm">
     <div class="basic_narrow_box">
         <h3> Agent as Collector or Preparator</h3>
-<cfquery name="getColls" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="getColls" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 	SELECT 
 		agent_name, 
 		collector_role,
@@ -113,7 +113,7 @@
 <!------------------------------------------------------------------------------------->
 <cfif #Action# is "saveEdits">
 <cfoutput>
-	<cfquery name="upColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cfquery name="upColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 	UPDATE collector SET
 		<cfif len(#newagent_id#) gt 0>
 			agent_id = #newagent_id#
@@ -135,7 +135,7 @@
 <cfif #Action# is "newColl">
 <cfoutput>
 
-	<cfquery name="newColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cfquery name="newColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 	INSERT INTO collector (
 		collection_object_id, agent_id, collector_role,coll_order)
 	VALUES (#collection_object_id#, #newagent_id#,'#collector_role#',#coll_order#)
@@ -146,7 +146,7 @@
 <!------------------------------------------------------------------------------------->
 <cfif #Action# is "deleteColl">
 <cfoutput>
-	<cfquery name="deleColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cfquery name="deleColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 	DELETE FROM  collector WHERE 
 		collection_object_id = #collection_object_id# AND
 		agent_id = #oldagent_id#

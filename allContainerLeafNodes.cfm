@@ -3,7 +3,7 @@
 <cfset title = "Container Locations">
 <cfoutput>
 <cfif isdefined("container_id")>
-	<cfquery name="leaf" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cfquery name="leaf" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		select
 			container.container_id,
 			container.container_type,
@@ -37,7 +37,7 @@
 			<td><strong>Stored As</strong></td>
 		</tr>
 		<cfloop query="leaf">
-		<cfquery name="specData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="specData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			select
 				cataloged_item.collection_object_id,
 				scientific_name,
@@ -199,7 +199,7 @@ SELECT
 </cfoutput>
 
 
- <cfquery name="allRecords" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+ <cfquery name="allRecords" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
  	#preservesinglequotes(sql)#
  </cfquery>
 </cfif>
@@ -212,7 +212,7 @@ SELECT
 	container
 	WHERE
 	parent_container_id=#container_id#">
-<cfquery name="allRecords" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="allRecords" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
  	#preservesinglequotes(sql)#
  </cfquery>
 </cfif>
@@ -233,7 +233,7 @@ SELECT
 
  <cfloop query="allRecords">
 
-	<cfquery name="thisRecord" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cfquery name="thisRecord" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 	select
 	CONTAINER_ID,
 	PARENT_CONTAINER_ID,
@@ -251,7 +251,7 @@ SELECT
 				<cfif not listfind(placedContainers,#thisRecord.container_id#)>
 					<cfif #thisRecord.container_type# is "collection object">
 					<!--- get the collection_object-id --->
-					<!---<cfquery name="collobjid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					<!---<cfquery name="collobjid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						select
 							a.derived_from_biol_indiv,
 							c.derived_from_biol_indv

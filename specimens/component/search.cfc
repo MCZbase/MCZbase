@@ -557,7 +557,7 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 		</cfif>
 
 		<cfif isDefined("searchValue") and len(searchValue) gt 0>
-			<cfquery name="getFieldMetadata" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getFieldMetadata_result">
+			<cfquery name="getFieldMetadata" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getFieldMetadata_result">
 				SELECT upper(column_name) as column_name, sql_element, data_type, category, label, disp_order
 				FROM cf_spec_res_cols_r
 				WHERE access_role = 'PUBLIC'
@@ -590,21 +590,21 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 				</cfloop>
 			</cfif>
 
-			<cfquery name="result_id_count" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="result_id_count_result" timeout="#Application.short_timeout#">
+			<cfquery name="result_id_count" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="result_id_count_result" timeout="#Application.short_timeout#">
 				SELECT count(*) ct 
 				FROM user_search_table 
 				WHERE
 					user_search_table.result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
 			</cfquery>
 			<cfif result_id_count.ct EQ 0>
-				<cfstoredproc procedure="build_query_dbms_sql" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="prepareSearch_result" timeout="#Application.query_timeout#">
+				<cfstoredproc procedure="build_query_dbms_sql" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="prepareSearch_result" timeout="#Application.query_timeout#">
 					<cfprocparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
 					<cfprocparam cfsqltype="CF_SQL_VARCHAR" value="#session.dbuser#">
 					<cfprocparam cfsqltype="CF_SQL_CLOB" value="#search_json#">
 					<cfprocresult name="buildsearch">
 				</cfstoredproc>
 			</cfif>
-			<cfquery name="searchcount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="searchcount_result" timeout="#Application.short_timeout#">
+			<cfquery name="searchcount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="searchcount_result" timeout="#Application.short_timeout#">
 				SELECT count(*) ct 
 				FROM <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flatTableName
 					join user_search_table on user_search_table.collection_object_id = flatTableName.collection_object_id
@@ -612,7 +612,7 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 					user_search_table.result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
 			</cfquery>
 			<cfset records = searchcount.ct>
-			<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result" timeout="#Application.query_timeout#">
+			<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="search_result" timeout="#Application.query_timeout#">
 				<cfif pagesize GT 0 >
 					SELECT * FROM (
 				</cfif>
@@ -844,7 +844,7 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 		<cfthrow message="Value provided for builderMaxRows is not a number">
 	</cfif>
 
-	<cfquery name="searchFields" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="searchFields_result">
+	<cfquery name="searchFields" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="searchFields_result">
 		SELECT search_category, table_name, column_name, column_alias, data_type
 		FROM cf_spec_search_cols
 		ORDER BY
@@ -957,21 +957,21 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 
 	<cftry>
 		<cfset username = session.dbuser>
-		<cfquery name="result_id_count" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="result_id_count_result">
+		<cfquery name="result_id_count" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="result_id_count_result">
 			SELECT count(*) ct 
 			FROM user_search_table 
 			WHERE
 				user_search_table.result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
 		</cfquery>
 		<cfif result_id_count.ct EQ 0>
-			<cfstoredproc procedure="build_query_dbms_sql" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="prepareSearch_result" timeout="#Application.query_timeout#">
+			<cfstoredproc procedure="build_query_dbms_sql" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="prepareSearch_result" timeout="#Application.query_timeout#">
 				<cfprocparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
 				<cfprocparam cfsqltype="CF_SQL_VARCHAR" value="#session.dbuser#">
 				<cfprocparam cfsqltype="CF_SQL_CLOB" value="#search_json#">
 				<cfprocresult name="buildsearch">
 			</cfstoredproc>
 		</cfif>
-		<cfquery name="getFieldMetadata" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getFieldMetadata_result">
+		<cfquery name="getFieldMetadata" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getFieldMetadata_result">
 			SELECT upper(column_name) as column_name, sql_element, data_type, category, label, disp_order
 			FROM cf_spec_res_cols_r
 			WHERE access_role = 'PUBLIC'
@@ -1003,7 +1003,7 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 				</cfif>
 			</cfloop>
 		</cfif>
-		<cfquery name="searchcount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="searchcount_result" timeout="#Application.short_timeout#">
+		<cfquery name="searchcount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="searchcount_result" timeout="#Application.short_timeout#">
 			SELECT count(*) ct 
 			FROM <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flatTableName
 				join user_search_table on user_search_table.collection_object_id = flatTableName.collection_object_id
@@ -1011,7 +1011,7 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 				user_search_table.result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
 		</cfquery>
 		<cfset records = searchcount.ct>
-		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result" timeout="#Application.query_timeout#">
+		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="search_result" timeout="#Application.query_timeout#">
 			<cfif pagesize GT 0 >
 				SELECT * FROM (
 			</cfif>
@@ -1581,7 +1581,7 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 		<cfif lcase(type_status) EQ "any">
 			<cfset type_status_value = "NOT NULL">
 		<cfelseif lcase(type_status) EQ "any type">
-			<cfquery name="types" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="types_result">
+			<cfquery name="types" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="types_result">
 				SELECT type_status 
 				FROM ctcitation_type_status 
 				WHERE category = 'Primary' OR category = 'Secondary'
@@ -1593,7 +1593,7 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 				<cfset typeseparator = ",">
 			</cfloop>
 		<cfelseif lcase(type_status) EQ "any primary type">
-			<cfquery name="types" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="types_result">
+			<cfquery name="types" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="types_result">
 				SELECT type_status 
 				FROM ctcitation_type_status 
 				WHERE category = 'Primary'
@@ -1942,7 +1942,7 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 
 	<cftry>
 		<cfset username = session.dbuser>
-		<cfquery name="result_id_count" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="result_id_count_result">
+		<cfquery name="result_id_count" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="result_id_count_result">
 			SELECT count(*) ct 
 			FROM user_search_table 
 			WHERE
@@ -1950,14 +1950,14 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 		</cfquery>
 		<cfif result_id_count.ct EQ 0>
 			<!--- errors are handled by build_query_dbms_sql throwing exceptions --->
-			<cfstoredproc procedure="build_query_dbms_sql" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="prepareSearch_result" timeout="#Application.query_timeout*2#">
+			<cfstoredproc procedure="build_query_dbms_sql" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="prepareSearch_result" timeout="#Application.query_timeout*2#">
 				<cfprocparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
 				<cfprocparam cfsqltype="CF_SQL_VARCHAR" value="#session.dbuser#">
 				<cfprocparam cfsqltype="CF_SQL_CLOB" value="#search_json#">
 				<cfprocresult name="buildsearch">
 			</cfstoredproc>
 		</cfif>
-		<cfquery name="getFieldMetadata" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="attrFields_result" timeout="#Application.short_timeout#">
+		<cfquery name="getFieldMetadata" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="attrFields_result" timeout="#Application.short_timeout#">
 			SELECT upper(column_name) as column_name, sql_element, data_type, category, label, disp_order
 			FROM cf_spec_res_cols_r
 			WHERE access_role = 'PUBLIC'
@@ -1989,7 +1989,7 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 				</cfif>
 			</cfloop>
 		</cfif>
-		<cfquery name="searchcount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="searchcount_result" timeout="#Application.short_timeout#">
+		<cfquery name="searchcount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="searchcount_result" timeout="#Application.short_timeout#">
 			SELECT count(*) ct 
 			FROM <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flatTableName
 				join user_search_table on user_search_table.collection_object_id = flatTableName.collection_object_id
@@ -1997,7 +1997,7 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 				user_search_table.result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
 		</cfquery>
 		<cfset records = searchcount.ct>
-		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result" timeout="#Application.query_timeout#">
+		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="search_result" timeout="#Application.query_timeout#">
 			<cfif pagesize GT 0 >
 				SELECT * FROM (
 			</cfif>
@@ -2080,7 +2080,7 @@ Function getCatalogedItemAutocompleteMeta.  Search for specimens with a substrin
 	<cfset data = ArrayNew(1)>
 	<cftry>
 		<cfset rows = 0>
-		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
+		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="search_result">
 			SELECT distinct
 				f.collection_object_id, f.guid,
 				f.scientific_name, f.spec_locality
@@ -2129,7 +2129,7 @@ Function getLocalityAutocompleteMeta.  Search for localities with a substring ma
 	<cfset data = ArrayNew(1)>
 	<cftry>
 		<cfset rows = 0>
-		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
+		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="search_result">
 			SELECT distinct
 				locality.locality_id,
 				locality.spec_locality,
@@ -2199,7 +2199,7 @@ Function getCollectingEventAutocompleteMeta.  Search for collecting events, retu
 	<cfset data = ArrayNew(1)>
 	<cftry>
 		<cfset rows = 0>
-		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
+		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="search_result">
 			SELECT distinct
 				f.collecting_event_id,
 				f.began_date, f.ended_date,
@@ -2255,7 +2255,7 @@ Function getCollectingEventAutocompleteMeta.  Search for collecting events, retu
 	<cfif not isdefined("showplaceholders")><cfset showplaceholders=""></cfif>
 
 	<cftry>
-		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
+		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="search_result">
 			SELECT DISTINCT
 				flat.guid, 
 				flat.cat_num,
@@ -2401,7 +2401,7 @@ Function getPartNameAutocompleteMeta.  Search for specimen_part.part_name values
 	<cfset data = ArrayNew(1)>
 	<cftry>
 		<cfset rows = 0>
-		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
+		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="search_result">
 			SELECT 
 				count(f.collection_object_id) ct,
 				specimen_part.part_name
@@ -2450,7 +2450,7 @@ Function getPreserveMethodAutocompleteMeta.  Search for specimen_part.part_name 
 	<cfset data = ArrayNew(1)>
 	<cftry>
 		<cfset rows = 0>
-		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
+		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="search_result">
 			SELECT 
 				count(f.collection_object_id) ct,
 				specimen_part.preserve_method
@@ -2504,7 +2504,7 @@ Function getSpecResColsAutocomplete.  Search for distinct values of fields in cf
 	<cfset data = ArrayNew(1)>
 	<cftry>
 		<cfset rows = 0>
-		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
+		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="search_result">
 			SELECT 
 				count(*) as ct,
 				<cfif field EQ "category">
@@ -2612,7 +2612,7 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 	<cfset data = ArrayNew(1)>
 	<cftry>
 		<cfset rows = 0>
-		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
+		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="search_result">
 			SELECT 
 				count(*) as ct,
 				<cfif field EQ "search_category">
@@ -2743,7 +2743,7 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 	<cfset retval = "">
 	<cftry>
 		<cfset username = session.dbuser>
-		<cfquery name="getFieldMetadata" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="attrFields_result">
+		<cfquery name="getFieldMetadata" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="attrFields_result">
 			SELECT upper(column_name) as column_name, sql_element, data_type, category, label, disp_order
 			FROM cf_spec_res_cols_r
 			WHERE access_role = 'PUBLIC'
@@ -2761,7 +2761,7 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 				</cfif>
 			ORDER by category, disp_order
 		</cfquery>
-		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
+		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="search_result">
 			SELECT 
 				<cfset comma = "">
 				<cfloop query="getFieldMetadata">
@@ -2830,7 +2830,7 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 		<cfset stream = true>
 		<cftry>
 			<cfset username = session.dbuser>
-			<cfquery name="getProfileFields" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getProfileFields_result">
+			<cfquery name="getProfileFields" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getProfileFields_result">
 				SELECT COLUMN_LIST 
 				FROM 
 					download_profile
@@ -2853,7 +2853,7 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 			<cfset valid_columns = arrayNew(1)>
 			<cfset counter = 0>
 			<cfloop list="#requested_columns#" delimiters="," index="listindex">
-				<cfquery name="getFieldMetadata" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getFieldMetadata_result">
+				<cfquery name="getFieldMetadata" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getFieldMetadata_result">
 					SELECT upper(column_name) as column_name, sql_element, data_type, category, label, disp_order
 					FROM cf_spec_res_cols_r
 					WHERE
@@ -2882,7 +2882,7 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 					<cfset valid_columns[counter] = col>
 				</cfif>
 			</cfloop>
-			<cfquery name="count" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="count_result">
+			<cfquery name="count" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="count_result">
 				SELECT count(*) ct 
 				FROM
 					user_search_table
@@ -2892,7 +2892,7 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 	
 			<cfif count.ct LT DOWNLOAD_THRESHOLD OR paging EQ "no">
 				<cflog text="Query for stream. paging=#paging# count.ct=#count.ct#" file="MCZbase">
-				<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
+				<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="search_result">
 					SELECT 
 						<cfset comma = "">
 						<cfloop array="#valid_columns#" index="idx">
@@ -2911,7 +2911,7 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 			<cfelse>
 				<cftransaction isolation="serializable">
 				<cflog text="checking token #token# in cf_download_file" file="MCZbase">
-				<cfquery name="checkToken" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="preDownload_result">
+				<cfquery name="checkToken" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="preDownload_result">
 					SELECT count(*) ct 
 					FROM cf_download_file 
 					WHERE token = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#token#">
@@ -2921,7 +2921,7 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 				<cfif checkToken.ct EQ 0>
 					<cflog text="adding token #token# to cf_download_file" file="MCZbase">
 					<cftransaction isolation="serializable">
-					<cfquery name="preDownload" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="preDownload_result">
+					<cfquery name="preDownload" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="preDownload_result">
 						INSERT into cf_download_file (
 							result_id,
 							token,
@@ -2941,7 +2941,7 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 					<cfset pagesize = 10000>
 					<cfif count.ct LTE pagesize>
 						<cflog text="before search query count.ct=[#count.ct#]" file="MCZbase">
-						<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
+						<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="search_result">
 							SELECT 
 								rownum as foundrownum,
 								<cfset comma = "">
@@ -2965,7 +2965,7 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 						<cfloop index="currentpage" from="1" to="#totalpages#">
 							<cfset pagenumber = pagenumber + 1 >
 							<cflog text="before search query count.ct=[#count.ct#] pagenumber=[#pagenumber#]" file="MCZbase">
-							<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
+							<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="search_result">
 										SELECT 
 											rownum as foundrownum,
 											<cfset comma = "">
@@ -2995,7 +2995,7 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 								<cflog text="afterQueryToCSVFile(mode=append)" file="MCZbase">
 							</cfif>
 							<cfset QueryClear(search)>
-							<cfquery name="partialDownload" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="partialDownload_result">
+							<cfquery name="partialDownload" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="partialDownload_result">
 								UPDATE cf_download_file 
 								SET 
 									status = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="processed #pagenumber*pagesize# rows">,
@@ -3010,7 +3010,7 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 						</cfloop>
 					</cfif>
 					<cfset stream = false>
-					<cfquery name="postDownload" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="postDownload_result">
+					<cfquery name="postDownload" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="postDownload_result">
 						UPDATE cf_download_file 
 						SET 
 							status = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#retval.STATUS#">,
@@ -3054,7 +3054,7 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 			<cfset error_message = trim(cfcatch.message & " " & cfcatch.detail & " " & queryError) >
 			<cflog text="Exception in downloadThread#tn# #error_message#" file="MCZbase">
 			<cfif NOT isDefined("cfcatch.errorcode") OR cfcatch.errorcode NEQ "900">
-				<cfquery name="failedDownload" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="postDownload_result">
+				<cfquery name="failedDownload" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="postDownload_result">
 					UPDATE cf_download_file 
 					SET 
 						status = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="Failed">,
@@ -3082,7 +3082,7 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 	<cfargument name="result_id" type="string" required="yes">
 
 	<cftry>
-		<cfquery name="getCount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getCount_result">
+		<cfquery name="getCount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getCount_result">
 			SELECT count(*) as ct 
 			FROM user_search_table
 			WHERE
@@ -3125,7 +3125,7 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 	<cfargument name="token" type="string" required="yes">
 
 	<cftry>
-		<cfquery name="getStatus" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getCount_result">
+		<cfquery name="getStatus" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getCount_result">
 			SELECT status, result_id, filename, message
 			FROM cf_download_file 
 			WHERE
@@ -3167,7 +3167,7 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 	<cfthread name="getDownloadRequestsThread">
 		<cfoutput>
 			<cftry>
-				<cfquery name="getDownloadStatus" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getDownloadStatus_result">
+				<cfquery name="getDownloadStatus" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getDownloadStatus_result">
 					SELECT filename, status, to_char(time_created,'yyyy-mm-dd HH24:MI') time_created,
 						name
 					FROM cf_download_file
@@ -3246,7 +3246,7 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 							</cfif>
 						)
 				</cfquery>
-				<cfquery name="getUserDefaultProfile" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getUserDefaultProfile_result">
+				<cfquery name="getUserDefaultProfile" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getUserDefaultProfile_result">
 					SELECT specimens_download_profile 
 					FROM cf_users
 					WHERE
@@ -3472,7 +3472,7 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 						</div>
 						<div class="col-12 col-md-4">
 							<label for="download_purpose" class="data-entry-label">Purpose of Download</td>
-							<cfquery name="ctPurpose" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+							<cfquery name="ctPurpose" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 								select * from ctdownload_purpose
 							</cfquery>
 							<select name="download_purpose" id="download_purpose" size="1" class="reqdClr data-entry-select" required>
@@ -3691,7 +3691,7 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 						)
 				</cfquery>
 			</cfif>
-			<cfquery name="getData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="getData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT count(*) ct
 				FROM <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flatTableName
 					join user_search_table on user_search_table.collection_object_id = flatTableName.collection_object_id
@@ -3795,7 +3795,7 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 	   <cfthread name="removeItemFromResultThread_#tn#" >
 			<cftransaction>
 			<cftry>
-				<cfquery name="getcurrentvalues" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getcurrentvalues_result" timeout="#Application.short_timeout#">
+				<cfquery name="getcurrentvalues" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getcurrentvalues_result" timeout="#Application.short_timeout#">
 					SELECT pagesort
 					FROM user_search_table
 					WHERE 
@@ -3806,7 +3806,7 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 				<cfif getcurrentvalues.recordcount NEQ 1>
 					<cfthrow message="Matched other than one record in user search table.">
 				</cfif>
-				<cfquery name="remove" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="remove_result" timeout="#Application.short_timeout#">
+				<cfquery name="remove" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="remove_result" timeout="#Application.short_timeout#">
 					DELETE FROM
 						user_search_table
 					WHERE
@@ -3817,7 +3817,7 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 				<cfif remove_result.recordcount NEQ 1>
 					<cfthrow message="Tried to remove other than one record in user search table.">
 				</cfif>
-				<cfquery name="movepagedown" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="movepagedown_result" timeout="#Application.short_timeout#">
+				<cfquery name="movepagedown" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="movepagedown_result" timeout="#Application.short_timeout#">
 					UPDATE
 						user_search_table
 					SET
@@ -3879,7 +3879,7 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 	   <cfthread name="removeItemsFromResultThread_#tn#" >
 			<cftransaction>
 			<cftry>
-				<cfquery name="getRemoveList" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getRemoveList_result" timeout="#Application.short_timeout#">
+				<cfquery name="getRemoveList" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getRemoveList_result" timeout="#Application.short_timeout#">
 					SELECT collection_object_id
 					FROM user_search_table
 					WHERE 
@@ -3900,7 +3900,7 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 				</cfif>
 				<cfset removedCounter = 0>
 				<cfloop query="getRemoveList">
-					<cfquery name="getcurrentvalues" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getcurrentvalues_result" timeout="#Application.short_timeout#">
+					<cfquery name="getcurrentvalues" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getcurrentvalues_result" timeout="#Application.short_timeout#">
 						SELECT pagesort
 						FROM user_search_table
 						WHERE 
@@ -3911,7 +3911,7 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 					<cfif getcurrentvalues.recordcount NEQ 1>
 						<cfthrow message="Matched other than one record in user search table by collection_object_id.">
 					</cfif>
-					<cfquery name="remove" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="remove_result" timeout="#Application.short_timeout#">
+					<cfquery name="remove" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="remove_result" timeout="#Application.short_timeout#">
 						DELETE FROM
 							user_search_table
 						WHERE
@@ -3924,7 +3924,7 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 					<cfelse>
 						<cfset removedCounter = removedCounter + remove_result.recordcount>
 					</cfif>
-					<cfquery name="movepagedown" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="movepagedown_result" timeout="#Application.short_timeout#">
+					<cfquery name="movepagedown" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="movepagedown_result" timeout="#Application.short_timeout#">
 						UPDATE
 							user_search_table
 						SET

@@ -25,7 +25,7 @@
 	<cfset sqlS = "SELECT * FROM #mediaFlatTableName# WHERE 1=1 #srch# and coordinates is not null">
 	
 	#sqlS#
-	<cfquery name = "tempMapData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cfquery name = "tempMapData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		#preserveSingleQuotes(sqlS)#
 	</cfquery>
 	<cfdump var=#tempMapData#>
@@ -128,7 +128,7 @@
 	<cfset thisAddress = #Application.DataProblemReportEmail#>
 <!---	
 	<cfif len(valuelist(collID.collecting_object_id)) gt 0>
-		<cfquery name="whatEmails" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="whatEmails" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			select address from
 				electronic_address,
 				collection_contacts

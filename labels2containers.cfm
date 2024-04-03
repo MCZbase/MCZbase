@@ -21,7 +21,7 @@ To use this form, all of the following must be true:
 
 <cfoutput>
 
-	<cfquery name="ctContainerType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cfquery name="ctContainerType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		select distinct(container_type) container_type from ctcontainer_type
 		where container_type <> 'collection object'
 	</cfquery>
@@ -78,7 +78,7 @@ To use this form, all of the following must be true:
 		<hr>
 		<cfloop from="#begin_barcode#" to="#end_barcode#" index="i">
 			<cfset bc = barcode_prefix & i>
-			<cfquery name="bctest" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="bctest" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				select barcode from container
 				where
 					container_type='#origContType#' and
@@ -98,7 +98,7 @@ To use this form, all of the following must be true:
 	<cftransaction>
 		<cfloop from="#begin_barcode#" to="#end_barcode#" index="i">
 			<cfset bc = barcode_prefix & i>
-			<cfquery name="upContainer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="upContainer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				update container set
 					container_type='#newContType#'
 					<cfif len(#DESCRIPTION#) gt 0>

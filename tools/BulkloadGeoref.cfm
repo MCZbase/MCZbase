@@ -101,7 +101,7 @@ sho err
 <cfif #action# is "getFile">
 <cfoutput>
 	<!--- put this in a temp table --->
-	<cfquery name="killOld" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cfquery name="killOld" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		delete from cf_temp_georef
 	</cfquery>
 
@@ -132,7 +132,7 @@ sho err
 					<cfset colVals = "#colVals#,''">
 				</cfloop>
 			</cfif>
-			<cfquery name="ins" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="ins" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				insert into cf_temp_georef (#colNames#) values (#preservesinglequotes(colVals)#)
 			</cfquery>
 
@@ -145,22 +145,22 @@ sho err
 <!------------------------------------------------------->
 <cfif action is "validate">
 <cfoutput>
-<cfquery name="d" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="d" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 	select * from cf_temp_georef
 </cfquery>
-<cfquery name="ctGEOREFMETHOD" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="ctGEOREFMETHOD" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 	select GEOREFMETHOD from ctGEOREFMETHOD
 </cfquery>
-<cfquery name="CTLAT_LONG_UNITS" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="CTLAT_LONG_UNITS" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 	select ORIG_LAT_LONG_UNITS from CTLAT_LONG_UNITS
 </cfquery>
-<cfquery name="CTDATUM" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="CTDATUM" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 	select DATUM from CTDATUM
 </cfquery>
-<cfquery name="CTVERIFICATIONSTATUS" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="CTVERIFICATIONSTATUS" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 	select VERIFICATIONSTATUS from CTVERIFICATIONSTATUS
 </cfquery>
-<cfquery name="CTLAT_LONG_ERROR_UNITS" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="CTLAT_LONG_ERROR_UNITS" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 	select LAT_LONG_ERROR_UNITS from CTLAT_LONG_ERROR_UNITS
 </cfquery>
 <cfloop query="d">
@@ -170,12 +170,12 @@ sho err
 		locality.locality_id=#Locality_ID# and
 		trim(geog_auth_rec.higher_geog)='#trim(HigherGeography)#' and
 		 trim(locality.spec_locality)='#trim(escapeQuotes(SpecLocality))#'">
-	<cfquery name="m" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cfquery name="m" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		#preservesinglequotes(sql)#
 	</cfquery>
 	<cfif len(m.locality_id) is 0>
 		<cfset ts=listappend(ts,'no Locality_ID:SpecLocality:HigherGeography match',";")>
-		<cfquery name="fail" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="fail" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			select
 				spec_locality,higher_geog
 			from locality,geog_auth_rec where
@@ -213,11 +213,11 @@ sho err
 			</table>
 		</cfif>
 	</cfif>
-	<cfquery name="a" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cfquery name="a" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		select agent_id from agent_name where agent_name='#DETERMINED_BY_AGENT#'
 	</cfquery>
 	<cfif a.recordcount is 1>
-		<cfquery name="au" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="au" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			update cf_temp_georef set DETERMINED_BY_AGENT_ID=#a.agent_id# where key=#key#
 		</cfquery>
 	<cfelse>
@@ -240,7 +240,7 @@ sho err
 			<cfset ts=listappend(ts,'bad MAX_ERROR_UNITS',";")>
 		</cfif>
 	</cfif>
-	<cfquery name="l" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cfquery name="l" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		select count(*) c from lat_long where
 		lat_long.locality_id=#Locality_ID#
 	</cfquery>
@@ -250,18 +250,18 @@ sho err
 
 
 	<cfif len(ts) gt 0>
-		<cfquery name="au" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="au" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			update cf_temp_georef set status='#ts#' where key=#key#
 		</cfquery>
 	<cfelse>
-		<cfquery name="au" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="au" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			update cf_temp_georef set status='spiffy' where key=#key#
 		</cfquery>
 	</cfif>
 
 
 </cfloop>
-<cfquery name="dp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="dp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 	select count(*) c from cf_temp_georef where status != 'spiffy'
 </cfquery>
 <cfif dp.c is 0>
@@ -270,7 +270,7 @@ sho err
 <cfelse>
 	fail. Something's busted.
 </cfif>
-<cfquery name="df" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="df" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 	select * from cf_temp_georef
 </cfquery>
 <cfset internalPath="#Application.webDirectory#/temp/">
@@ -326,7 +326,7 @@ Data:
 <!------------------------------------------------------->
 <cfif #action# is "load">
 <cfoutput>
-	<cfquery name="d" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cfquery name="d" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		select
 			*
 		from
@@ -334,7 +334,7 @@ Data:
 	</cfquery>
 	<cftransaction>
 		<cfloop query="d">
-			<cfquery name="ins" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="ins" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				insert into lat_long (
 					LAT_LONG_ID,
 					LOCALITY_ID,

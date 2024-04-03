@@ -42,7 +42,7 @@
 
 <cfheader name="Content-type" value=#deliver# >
 
-<cfquery name="occur" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="occur" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 	SELECT distinct 
 		collection_object_id,
 		cat_num, collection_cde, guid, 
@@ -94,7 +94,7 @@
 </cfif>
 
 <cfloop query=occur>
-<cfquery name="colls" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="colls" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 	SELECT 
 		agentguid
 	FROM

@@ -107,7 +107,7 @@
 	<h3 style="margin-top: 2em;">Edit Individual Attributes
         <span class="infoLInk" onClick="windowOpener('/info/attributeHelpPick.cfm','','width=600,height=600, resizable,scrollbars');">Help</span></h3>
 	<cfoutput>
-		<cfquery name="raw" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="raw" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			SELECT
 				COLL_OBJECT_REMARKS,
 				habitat,
@@ -142,7 +142,7 @@
 				cataloged_item.collection_object_id = #collection_object_id#
 		</cfquery>
 
-		<cfquery name="ctflags" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="ctflags" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			SELECT flags from ctflags
 		</cfquery>
 		<cfquery name="indiv" dbtype="query">
@@ -163,7 +163,7 @@
 				associated_species,
 				flags
 		</cfquery>
-		<cfquery name="ctattribute_type" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="ctattribute_type" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			SELECT attribute_type FROM ctattribute_type where
 			collection_cde='#indiv.collection_cde#'
 		</cfquery>
@@ -195,10 +195,10 @@
 				DETERMINED_DATE,
 				DETERMINATION_METHOD
 		</cfquery>
-		<cfquery name="ctdisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="ctdisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			select coll_obj_disposition from ctcoll_obj_disp
 		</cfquery>
-		<cfquery name="ctcoll" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="ctcoll" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			select collection_cde from ctcollection_cde
 		</cfquery>
 		<form name="details" method="post" action="editBiolIndiv.cfm">
@@ -305,10 +305,10 @@
 				</tr>
 			</table>
 			<cfif indiv.collection_cde is "Mamm">
-				<cfquery name="ctlength_units" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="ctlength_units" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					select length_units from ctlength_units order by length_units
 				</cfquery>
-				<cfquery name="ctweight_units" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="ctweight_units" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					select weight_units from ctweight_units order by weight_units
 				</cfquery>
 				<label for="mammatttab">Existing values will NOT show up in this grid; add mammal attributes only.</label>
@@ -409,11 +409,11 @@
 				<cfset thisDeterminationMethod = evaluate("determination_method_" & thisAttributeId)>
 				<cfset thisDeterminedByAgentId = evaluate("determined_by_agent_id_" & thisAttributeId)>
 				<cfif thisAttributeType is "pending delete">
-					<cfquery name="killAtt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					<cfquery name="killAtt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						delete from attributes where attribute_id=#thisAttributeId#
 					</cfquery>
 				<cfelse>
-					<cfquery name="upAtt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					<cfquery name="upAtt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						UPDATE attributes SET
 							attribute_type='#thisAttributeType#',
 							DETERMINED_BY_AGENT_ID = #thisDeterminedByAgentId#,
@@ -430,7 +430,7 @@
 			<!---- mammal grid ----->
 			<cfif isdefined("total_length")>
 				<cfif len(total_length) gt 0>
-					<cfquery name="total_length" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					<cfquery name="total_length" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						INSERT INTO attributes (
 							ATTRIBUTE_ID
 							,COLLECTION_OBJECT_ID
@@ -451,7 +451,7 @@
 					</cfquery>
 				</cfif>
 				<cfif len(tail_length) gt 0>
-					<cfquery name="tail_length" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					<cfquery name="tail_length" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						INSERT INTO attributes (
 							ATTRIBUTE_ID
 							,COLLECTION_OBJECT_ID
@@ -472,7 +472,7 @@
 					</cfquery>
 				</cfif>
 				<cfif len(hind_foot_with_claw) gt 0>
-					<cfquery name="hind_foot_with_claw" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					<cfquery name="hind_foot_with_claw" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						INSERT INTO attributes (
 							ATTRIBUTE_ID
 							,COLLECTION_OBJECT_ID
@@ -493,7 +493,7 @@
 					</cfquery>
 				</cfif>
 				<cfif len(ear_from_notch) gt 0>
-					<cfquery name="ear_from_notch" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					<cfquery name="ear_from_notch" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						INSERT INTO attributes (
 							ATTRIBUTE_ID
 							,COLLECTION_OBJECT_ID
@@ -514,7 +514,7 @@
 					</cfquery>
 				</cfif>
 				<cfif len(weight) gt 0>
-					<cfquery name="weight" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					<cfquery name="weight" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						INSERT INTO attributes (
 							ATTRIBUTE_ID
 							,COLLECTION_OBJECT_ID
@@ -540,7 +540,7 @@
 				<cfif not isdefined("attribute_units_new")>
 					<cfset attribute_units_new=''>
 				</cfif>
-				<cfquery name="newAtt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="newAtt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					INSERT INTO attributes (
 						ATTRIBUTE_ID
 						,COLLECTION_OBJECT_ID
@@ -564,19 +564,19 @@
 					)
 				</cfquery>
 			</cfif>
-			<cfquery name="upCollObj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="upCollObj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				UPDATE coll_object SET
 					last_edited_person_id = #session.myAgentId#
 					,last_edit_date = sysdate
 					,flags='#flags#'
 				WHERE collection_object_id = #collection_object_id#
 			</cfquery>
-			<cfquery name="isCORem" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="isCORem" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				select collection_object_id from coll_object_remark where
 				collection_object_id = #collection_object_id#
 			</cfquery>
 			<cfif len(isCORem.collection_object_id) gt 0>
-				<cfquery name="upCoRem" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="upCoRem" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE coll_object_remark SET
 						collection_object_id = #collection_object_id#
 						,coll_object_remarks = '#coll_object_remarks#'
@@ -587,7 +587,7 @@
 				</cfquery>
 			<cfelse>
 				<cfif len(coll_object_remarks) gt 0 OR len(habitat) gt 0 or len(associated_species) gt 0>
-					<cfquery name="newBIRem" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					<cfquery name="newBIRem" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						INSERT INTO coll_object_remark (
 							collection_object_id
 							,coll_object_remarks

@@ -8,14 +8,14 @@
 	<cfset action="entryPoint">
 </cfif>
 
-<cfquery name="ctcoll" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="ctcoll" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 	select collection, collection_id from collection order by collection
 </cfquery>
 
 <!--------------------------------------------------------------------------------->
 <cfswitch expression="#action#">
 	<cfcase value="entryPoint">
-		<cfquery name="getItemCount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="getItemCount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			SELECT
 				count(cataloged_item.collection_object_id) ct
 			FROM
@@ -24,7 +24,7 @@
 			WHERE
 				result_id=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
 		</cfquery>
-		<cfquery name="getAccns" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="getAccns" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			SELECT
 				count(cataloged_item.collection_object_id) ct,
 				accn.accn_number,
@@ -41,7 +41,7 @@
 			GROUP BY accn_number, accn_coll.collection, nvl(to_char(accn.received_date,'YYYY'),'[no date]')
 			ORDER BY accn_number
 		</cfquery>
-		<cfquery name="getItems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="getItems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			SELECT
 				cataloged_item.collection_object_id,
 				cataloged_item.collection_cde,
@@ -185,13 +185,13 @@
 			</cfif>
 		</cfif>
 		<cftransaction>
-			<cfquery name="countCheck" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="countCheck" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT count(distinct collection_object_id) ct
 				FROM user_search_table
 				WHERE
 					result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
 			</cfquery>
-			<cfquery name="accn" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="accn" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT accn.TRANSACTION_ID
 				FROM accn
 					LEFT JOIN trans on accn.TRANSACTION_ID=trans.TRANSACTION_ID
@@ -204,7 +204,7 @@
 					and collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_id#">
 			</cfquery>
 			<cfif accn.recordcount is 1 and accn.transaction_id gt 0>
-				<cfquery name="upAccn" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="upAccn_result">
+				<cfquery name="upAccn" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="upAccn_result">
 					UPDATE cataloged_item 
 					SET accn_id = #accn.transaction_id# 
 					WHERE collection_object_id  in (
