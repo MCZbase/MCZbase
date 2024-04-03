@@ -700,39 +700,7 @@ limitations under the License.
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
 						</cfquery>
-						<cfquery name="sp_units2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-						select unit_code_tables,attribute_type from CTSPECPART_ATTRIBUTE_TYPE
-						where attribute_type = ('||PART_ATT_NAME_#i#||') 
-						and CTSPECPART_ATTRIBUTE_TYPE.unit_code_tables is not null
-						</cfquery>
-						<cfif len(#sp_units2.unit_code_tables#) gt 0>
-						<cfquery name="flatWrongUnits" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-							UPDATE cf_temp_parts
-							SET 
-								status = concat(nvl2(status, status || '; ', ''),'Part attribute units not in controlled vocabulary')
-							WHERE 
-								'||PART_ATT_UNITS_#i#||' not in (
-									<cfif sp_units2.unit_code_tables EQ "CTLENGTH_UNITS">
-										select LENGTH_UNITS from CTLENGTH_UNITS
-									<cfelseif sp_units2.unit_code_tables EQ "CTWEIGHT_UNITS">
-										select WEIGHT_UNITS from CTWEIGHT_UNITS
-									<cfelseif sp_units2.unit_code_tables EQ "CTNUMERIC_AGE_UNITS">
-										select NUMERIC_AGE_UNITS from CTNUMERIC_AGE_UNITS
-									<cfelseif sp_units2.unit_code_tables EQ "CTAREA_UNITS">
-										select AREA_UNITS from CTAREA_UNITS
-									<cfelseif sp_units2.units_code_tables EQ "CTTHICKNESS_UNITS">
-										select THICKNESS_UNITS from CTTHICKNESS_UNITS
-									<cfelseif sp_units2.unit_code_tables EQ "CTANGLE_UNITS">
-										select LENGTH_UNITS from CTANGLE_UNITS
-									<cfelseif sp_units2.unit_code_tables EQ "CTTISSUE_VOLUME_UNITS">
-										select TISSUE_VOLUME_UNITS from CTTISSUE_VOLUME_UNITS
-									
-									</cfif>
-								)
-								AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-								AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
-						</cfquery>
-						</cfif>
+						
 		<!---				<cfquery name="PAvalues" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						update cf_temp_parts set 
 						status = status || ';PART_ATT_VAL_#i#  (' || PART_ATT_VAL_#i# || ') is invalid; requires value from codetable;'
