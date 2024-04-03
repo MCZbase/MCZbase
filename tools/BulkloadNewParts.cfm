@@ -679,7 +679,7 @@ limitations under the License.
 						update cf_temp_parts set status = status || 'PART_ATT_VAL_#i# is not valid for attribute <span class="font-weight-bold">"'||PART_ATT_NAME_#i#||'"</span>'
 						where CHK_SPECPART_ATT_CODETABLES(PART_ATT_NAME_#i#,PART_ATT_VAL_#i#,COLLECTION_CDE)=0
 						and PART_ATT_NAME_#i# in
-						(select attribute_type from ctspecpart_attribute_type where value_code_tables is not null)
+						(select PART_ATT_VAL_#i# from ctPART_ATT_NAME_#i#)
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
 						</cfquery>
