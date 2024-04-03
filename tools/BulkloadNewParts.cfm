@@ -670,7 +670,7 @@ limitations under the License.
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
 						</cfquery>
-						<cfquery name="sp_" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						<cfquery name="sp_part" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						update cf_temp_parts set 
 						status = concat(nvl2(status, status || '; ', ''),'<span class="font-weight-bold">Invalid PART_ATT_NAME "'||PART_ATT_NAME_#i#||'" does not match MCZbase </span>')
 						where PART_ATT_NAME_#i# not in (select attribute_type from ctspecpart_attribute_type) 
@@ -684,7 +684,7 @@ limitations under the License.
 						(select attribute_type from ctspecpart_attribute_type where value_code_tables is not null)
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
-						</cfquery>--->
+						</cfquery>
 						<cfquery name="sp_units1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						update cf_temp_parts set status = status || 'PART_ATT_UNITS_#i# is not valid for attribute <span class="font-weight-bold">"'||PART_ATT_NAME_#i#||'"</span>'
 						where MCZBASE.CHK_SPECPART_ATT_CODETABLES(PART_ATT_NAME_#i#,PART_ATT_UNITS_#i#,COLLECTION_CDE)=1
