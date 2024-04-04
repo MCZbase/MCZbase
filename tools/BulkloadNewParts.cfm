@@ -619,15 +619,7 @@ limitations under the License.
 						where PART_ATT_NAME_#i# not in (select attribute_type from CTSPECPART_ATTRIBUTE_TYPE)
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
-						</cfquery>
-						<cfquery name="badCT" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						select value_code_tables from ctspecpart_attribute_type where attribute_type like '%||PART_ATT_NAME_#i#||%'
-						</cfquery>
-						<cfloop query="badCT">
-						<cfquery name="badCT2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						select PART_ATT_NAME_#i# as paname from badCT.value_code_tables where caste = 'drone'
-						</cfquery>
-							
+						</cfquery>							
 						</cfloop>
 						<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						update cf_temp_parts set 
@@ -751,7 +743,7 @@ limitations under the License.
 				<cfif #allValid.cnt# is 0>
 					<span class="text-success">Validation checks passed</span>. Look over the table below and <a href="BulkloadNewParts.cfm?action=load">click to continue</a> if it all looks good. Or, <a href="/tools/BulkloadNewParts.cfm">Start over</a>.
 				<cfelse>
-					You must fix everything above to proceed. #badCT2.paname#<a href="/tools/BulkloadNewParts.cfm">Try again.</a>
+					You must fix everything above to proceed. <a href="/tools/BulkloadNewParts.cfm">Try again.</a>
 				</cfif>
 				<table class='sortable w-100 small px-0 mx-0 table table-responsive table-striped'>
 					<thead class="thead-light smaller">
