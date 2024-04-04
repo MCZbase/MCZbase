@@ -584,7 +584,7 @@ limitations under the License.
 					</cfquery>
 					<!---Add to the status message if the container is null --->
 					<cfquery name="chk" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						update cf_temp_parts set status = concat(nvl2(status, status || '; ', ''),'Invalid part_name <span class="font-weight-bold">"'||part_name||'"</span>')
+						update cf_temp_parts set status = concat(nvl2(status, status || '; ', ''),'Invalid part_nameA <span class="font-weight-bold">"'||part_name||'"</span>')
 						where part_name|| '|' ||collection_cde NOT IN (
 							select part_name|| '|' ||collection_cde from ctspecimen_part_name)
 						OR part_name is null
@@ -705,7 +705,7 @@ limitations under the License.
 						</cfquery>
 						<cfquery name="chk" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						update cf_temp_parts set 
-						status = concat(nvl2(status, status || '; ', ''),'<span class="font-weight-bold">Invalid PART_ATT_NAME "'||PART_ATT_NAME_#i#||'" does not match MCZbase </span>')
+						status = concat(nvl2(status, status || '; ', ''),'<span class="font-weight-bold">Invalid PART_ATT_NAME B "'||PART_ATT_NAME_#i#||'" does not match MCZbase </span>')
 						where PART_ATT_NAME_#i# not in (select attribute_type from ctspecpart_attribute_type) 
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
