@@ -537,23 +537,28 @@ limitations under the License.
 					WHERE 
 						username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
-				
+				<cfquery name="getCollcde" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					SELECT 
+						collection_cde
+					FROM 
+						collection
+				</cfquery>
 				<cfloop query="getTempTableQC">
-					<cfif collection_cde in (select collection_cde from collection)>
-					<cfquery name="CollID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						update cf_temp_parts set 
-						status = concat(nvl2(status, status || '; ', ''),'Check <span class="font-weight-bold">other id type and number</span>. Internal ID could not be created')
-						where collection_object_id is null 
-						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-						AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
-					</cfquery>
+					<cfif #getTempTableQC.collection_cde# eq #getCollcde.collection_cde#>
+						<cfquery name="CollID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+							update cf_temp_parts set 
+							status = concat(nvl2(status, status || '; ', ''),'Check <span class="font-weight-bold">other id type and number</span>. Internal ID could not be created')
+							where collection_object_id is null 
+							AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+							AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
+						</cfquery>
 					<cfelse>
-					<cfquery name="CollID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						update cf_temp_parts set 
-						status = concat(nvl2(status, status || '; ', ''),'Invalid <span class="font-weight-bold">collection_cde</span>') 
-						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-						AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
-					</cfquery>
+						<cfquery name="CollID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+							update cf_temp_parts set 
+							status = concat(nvl2(status, status || '; ', ''),'Invalid <span class="font-weight-bold">collection_cde</span>') 
+							AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+							AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
+						</cfquery>
 					</cfif>
 					<!---Update the container with the container_unique_id from the spreadsheet--->
 					<cfquery name="getParentContainerId" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
