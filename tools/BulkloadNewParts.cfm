@@ -485,7 +485,7 @@ limitations under the License.
 				<h2 class="h4">Second step: Data Validation</h2>
 				<cfquery name="getTempTableTypes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT 
-						other_id_type, institution_acronym, collection_cde, key
+						other_id_type, institution_acronym, collection_cde, other_id_number, key
 					FROM 
 						cf_temp_parts
 					WHERE 
