@@ -506,7 +506,7 @@ limitations under the License.
 									where cat_num = cf_temp_parts.other_id_number 
 									and collection_cde = cf_temp_parts.collection_cde
 									and collection.collection_id = cataloged_item.collection_id
-									and collection.institution_acronym = cf_temp_parts.insititution_acronym 
+									and collection.institution_acronym = cf_temp_parts.institution_acronym 
 								),
 								status = null
 							WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
