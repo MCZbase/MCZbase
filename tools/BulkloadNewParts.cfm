@@ -544,23 +544,8 @@ limitations under the License.
 					WHERE 
 						username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
-				<cfquery name="getCollcde" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					SELECT 
-						collection_cde
-					FROM 
-						collection
-				</cfquery>
 
 				<cfloop query="getTempTableQC">
-					<cfif #getTempTableTypes.recordcount# is 1>
-					<cfelse>
-						<cfquery name="insColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-							UPDATE cf_temp_parts SET status =
-							status || ';&nbsp;#getTempTableTypes.institution_acronym# #getTempTableTypes.collection_cde# #getTempTableTypes.other_id_type# #getTempTableTypes.other_id_number# could not be found.'
-							where key = #key#
-							and (#getTempTableTypes.institution_acronym# is null or #getTempTableTypes.collection_cde# is null or #getTempTableTypes.other_id_number# is null)
-						</cfquery>
-					</cfif>
 					<cfquery name="CollID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">						
 						update cf_temp_parts set status = concat(nvl2(status, status || '; ', ''),'Invalid other id type and number')
 						where collection_cde|| '|' ||other_id_type|| '|' ||other_id_number NOT IN (select collection_cde|| '|' ||other_id_type|| '|' ||other_id_number from cf_temp_parts)
