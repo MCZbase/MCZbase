@@ -670,20 +670,12 @@ limitations under the License.
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
 						</cfquery>
-						<!---	where PART_ATT_DETBY_#i# in
-						(select preferred_agent_name from agent_name group by agent_name having count(*) > 1)--->
-						<cfquery name="chkPAtt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						update cf_temp_parts set agent_id = (select agent_id from preferred_agent_name where PART_ATT_DETBY_#i# = preferred_agent_name.agent_name) 
-						WHERE PART_ATT_DETBY_#i# is not null
-						AND PART_ATT_NAME_#i# is not null
-						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-						AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
-						</cfquery>
 						<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						update cf_temp_parts set 
 						status = concat(nvl2(status, status || '; ', ''),'<span class="font-weight-bold">Invalid part attribute determiner <span class="font-weight-bold">"'||PART_ATT_DETBY_#i#||'"</span>')
-						where PART_ATT_NAME_#i# is not null
-						and PART_ATT_DETBY_#i# is not null
+						where PART_ATT_DETBY_#i# not in (select agent_id from preferred_agent_name where PART_ATT_DETBY_#i# = preferred_agent_name.agent_name)  
+						AND PART_ATT_NAME_#i# is not null
+						AND PART_ATT_DETBY_#i# is not null
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
 						</cfquery>
