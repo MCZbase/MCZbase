@@ -561,7 +561,7 @@ limitations under the License.
 						AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
 					</cfquery>
 					<cfquery name="m1b" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						UPDATE cf_temp_attributes
+						UPDATE cf_temp_parts
 						SET 
 							status = concat(nvl2(status, status || '; ', ''),'INSTIUTION_ACRONYM is not valid (check case)')
 						WHERE institution_acronym <> 'MCZ'
