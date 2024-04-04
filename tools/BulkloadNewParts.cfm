@@ -558,7 +558,7 @@ limitations under the License.
 							UPDATE cf_temp_parts SET status =
 							status || ';&nbsp;#getTempTableTypes.institution_acronym# #getTempTableTypes.collection_cde# #getTempTableTypes.other_id_type# #getTempTableTypes.other_id_number# could not be found.'
 							where key = #key#
-							and (#getTempTableTypes.institution_acronym# is null or #getTempTableTypes.collection_cde# is null or #getTempTableTypes.other_id_number#)
+							and (#getTempTableTypes.institution_acronym# is null or #getTempTableTypes.collection_cde# is null or #getTempTableTypes.other_id_number# is null)
 						</cfquery>
 					</cfif>
 					<cfquery name="CollID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">						
