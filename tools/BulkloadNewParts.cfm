@@ -629,7 +629,7 @@ limitations under the License.
 					<cfquery name="CollID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						update cf_temp_parts set 
 						status = concat(nvl2(status, status || '; ', ''),'Invalid <span class="font-weight-bold">collection_cde</span>') 
-						where #getTempTableQC.collection_cde# neq #getCollcde.collection_cde#
+						where '#getTempTableQC.collection_cde#'' <> '#getCollcde.collection_cde#'
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
 					</cfquery>
