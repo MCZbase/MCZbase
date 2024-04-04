@@ -584,10 +584,9 @@ limitations under the License.
 					</cfquery>
 					<!---Add to the status message if the container is null --->
 					<cfquery name="chk" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						update cf_temp_parts set status = concat(nvl2(status, status || '; ', ''),'Invalid part_nameA <span class="font-weight-bold">"'||part_name||'"</span>')
-						where part_name|| '|' ||collection_cde NOT IN (
-							select part_name|| '|' ||collection_cde from ctspecimen_part_name)
-						OR part_name is null
+						update cf_temp_parts set status = concat(nvl2(status, status || '; ', ''),'Invalid part_name <span class="font-weight-bold">"'||part_name||'"</span> in "'||collection_cde||'"')
+						where part_name|| '|' ||collection_cde NOT IN (select part_name|| '|' ||collection_cde from ctspecimen_part_name)
+						and part_name is null
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
 					</cfquery>
