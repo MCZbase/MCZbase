@@ -624,7 +624,7 @@ limitations under the License.
 						select value_code_tables from ctspecpart_attribute_type where attribute_type like '%||PART_ATT_NAME_#i#||%'
 						</cfquery>
 						<cfquery name="badCT" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						select '||PART_ATT_NAME_#i#||' from badCT where '||PART_ATT_NAME_#i#||' = '||PART_ATT_VAL_#i#||'
+						select '||PART_ATT_NAME_#i#||' from badCT.value_code_tables where '||PART_ATT_NAME_#i#||' = '||PART_ATT_VAL_#i#||'
 						</cfquery>
 						<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						update cf_temp_parts set 
