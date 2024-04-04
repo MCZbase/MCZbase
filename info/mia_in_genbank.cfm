@@ -14,7 +14,7 @@
 			Run Date represents the date on which our automatic process most recently checked GenBank.
 		</div>
 		<cfoutput>
-			<cfquery name="gb" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="gb" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				select owner, found_count, run_date, query_type, link_url
 				from cf_genbank_crawl 
 				order by owner

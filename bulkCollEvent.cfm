@@ -74,7 +74,7 @@
 
 
 
-<cfquery name="specimenList" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="specimenList" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 	 SELECT 
 	 	cataloged_item.collection_object_id as collection_object_id, 
 		cat_num,
@@ -151,11 +151,11 @@
 <cfoutput>
 	<cftransaction>
 		<cfloop list="#collection_object_id#" index="i">
-			<cfquery name="newCollEvent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="newCollEvent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				UPDATE cataloged_item SET collecting_event_id = #collecting_event_id# WHERE
 				collection_object_id=#i#
 			</cfquery>
-			<cfquery name="upEd" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="upEd" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				UPDATE coll_object SET
 					last_edited_person_id=#session.myagentid#,
 					last_edit_date=sysdate

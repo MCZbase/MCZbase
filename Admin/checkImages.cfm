@@ -20,13 +20,13 @@ limitations under the License.
 --->
 <cfset pageTitle = "Check Image">
 <cfinclude template = "/shared/_header.cfm">
-<cfquery name="agent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="agent_result">
+<cfquery name="agent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="agent_result">
 	SELECT agent_id 
 	FROM agent_name
 	WHERE agent_name = 'MCZbase Tools'
 </cfquery>
 
-<cfquery name="paths" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="paths_result">
+<cfquery name="paths" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="paths_result">
 	SELECT distinct auto_path
 	FROM media
 	WHERE
@@ -42,7 +42,7 @@ limitations under the License.
 		<div class="col-12">
 
 			<cfloop query="paths">
-				<cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="media_result">
+				<cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="media_result">
 					SELECT 
 						media_id,
 						auto_path, auto_filename, auto_extension,
@@ -67,7 +67,7 @@ limitations under the License.
 							<cfimage source="#target#" name="targetImage">
 							<cfset info = imageInfo(targetImage)>
 							<cfif len(media.width) EQ 0 OR media.width EQ 0 >
-								<cfquery name="mediawidth" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="mediawidth_result">
+								<cfquery name="mediawidth" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="mediawidth_result">
 									SELECT label_value 
 									FROM media_labels
 									WHERE
@@ -75,7 +75,7 @@ limitations under the License.
 										AND media_label='width'
 								</cfquery>
 								<cfif mediawidth.recordcount EQ 0>
-									<cfquery name="addmediawidth" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="addmediawidth_result">
+									<cfquery name="addmediawidth" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="addmediawidth_result">
 										INSERT INTO media_labels
 											(media_label,label_value,assigned_by_agent_id,media_id) 
 										VALUES (
@@ -89,7 +89,7 @@ limitations under the License.
 								</cfif>
 							</cfif>
 							<cfif len(media.height) EQ 0 OR media.height EQ 0 >
-								<cfquery name="mediaheight" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="mediaheight_result">
+								<cfquery name="mediaheight" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="mediaheight_result">
 									SELECT label_value
 									FROM media_labels
 									WHERE
@@ -97,7 +97,7 @@ limitations under the License.
 										AND media_label='height'
 								</cfquery>
 								<cfif mediaheight.recordcount EQ 0>
-									<cfquery name="addmediaheight" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="addmediaheight_result">
+									<cfquery name="addmediaheight" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="addmediaheight_result">
 										INSERT INTO media_labels
 											(media_label,label_value,assigned_by_agent_id,media_id) 
 										VALUES (

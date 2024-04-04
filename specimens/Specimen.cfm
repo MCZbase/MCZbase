@@ -27,7 +27,7 @@ limitations under the License.
 <script type='text/javascript' src='/media/js/media.js'></script>
 <cfif isdefined("collection_object_id")>
 	<cfoutput>
-		<cfquery name="c" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="c" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			select GUID 
 			from <cfif ucase(session.flatTableName) EQ "FLAT"> flat <cfelse> filtered_flat </cfif>
 			where collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
@@ -67,7 +67,7 @@ limitations under the License.
 	
 	<!---  GUID is expected to be in the form MCZ:collectioncode:catalognumber --->
 	<cfif guid contains ":">
-		<cfquery name="c" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="cresult">
+		<cfquery name="c" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="cresult">
 			select collection_object_id 
 			from <cfif ucase(session.flatTableName) EQ "FLAT"> flat <cfelse> filtered_flat </cfif>
 			WHERE
@@ -79,7 +79,7 @@ limitations under the License.
 		<cfset spos=find(" ",reverse(guid))>
 		<cfset cc=left(guid,len(guid)-spos)>
 		<cfset cn=trim(right(guid,spos))>
-		<cfquery name="c" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="cresult">
+		<cfquery name="c" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="cresult">
 			select collection_object_id 
 			from
 				cataloged_item 
@@ -110,14 +110,14 @@ limitations under the License.
 <cfelse>
 	<cfset oneOfUs = 0>
 </cfif>
-<cfquery name="check" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="check" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 	SELECT 
 		concatEncumbranceDetails(<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">) encumbranceDetail
 	FROM DUAL
 </cfquery>
 
 <!--- (2) Look up summary and type information on the specimen for the html header, this isn't reloaded, so can come from flat --->
-<cfquery name="header" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="header" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
  	SELECT 
 		collection,
 		scientific_name,
@@ -163,7 +163,7 @@ limitations under the License.
 <!--- (5) Bulk of the specimen page (formerly in SpecimenDetailBody) --->
 
 <!--- query getCatalogedItem is needed for determining what is public and what is partitioned --->
-<cfquery name="getCatalogedItem" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="getCatalogedItem" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 	SELECT 
 		cataloged_item.collection_object_id,
 		cataloged_item.collection_cde,
@@ -188,7 +188,7 @@ limitations under the License.
 <cfif oneOfUs NEQ 1 AND Findnocase("mask parts", getCatalogedItem.encumbranceDetail)>
 	<cfset partCount="">
 <cfelse>
-	<cfquery name="countParts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cfquery name="countParts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		SELECT
 			count(specimen_part.collection_object_id) ct
 		FROM
@@ -290,7 +290,7 @@ limitations under the License.
 		   <cfset isPrev = "no">
 			<cfset isNext = "no">
 			<!--- confirm that the record is part of an orderable result accessible to the current user --->
-			<cfquery name="positionInResult" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="positionInResult" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT pagesort  
 				FROM user_search_table
 				WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
@@ -298,7 +298,7 @@ limitations under the License.
 			</cfquery>
 			<cfif positionInResult.recordcount GT 0>
 				<cfset navigable = true>
-				<cfquery name="getFirst" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="getFirst" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT collection_object_id, pagesort, guid 
 					FROM (
 						SELECT user_search_table.collection_object_id, pagesort, guid
@@ -311,7 +311,7 @@ limitations under the License.
 				</cfquery>
 				<cfset firstID = getFirst.collection_object_id>
 				<cfset firstGUID = getFirst.guid>
-				<cfquery name="getLast" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="getLast" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT collection_object_id, pagesort, guid 
 					FROM (
 						SELECT user_search_table.collection_object_id, pagesort, guid
@@ -324,7 +324,7 @@ limitations under the License.
 				</cfquery>
 				<cfset lastID = getLast.collection_object_id>
 				<cfset lastGUID = getLast.guid>
-				<cfquery name="previousNext" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="previousNext" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT prevcol, prevguid, collection_object_id, nextcol, nextguid
 					FROM (
 						SELECT 
@@ -376,13 +376,13 @@ limitations under the License.
 			<cfif lenOfIdList gt 1>
 				<cfif currPos gt 1>
 					<cfset isPrev = "yes">
-					<cfquery name="getFirstGuid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					<cfquery name="getFirstGuid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						SELECT guid 
 						FROM <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
 						WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#firstID#">
 					</cfquery>
 					<cfset firstGUID = getFirstGuid.guid>
-					<cfquery name="getPreviousGuid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					<cfquery name="getPreviousGuid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						SELECT guid 
 						FROM <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
 						WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#prevID#">
@@ -391,13 +391,13 @@ limitations under the License.
 				</cfif>
 				<cfif currPos lt lenOfIdList>
 					<cfset isNext = "yes">
-					<cfquery name="getNextGuid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					<cfquery name="getNextGuid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						SELECT guid 
 						FROM <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
 						WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#nextID#">
 					</cfquery>
 					<cfset nextGUID = getNextGuid.guid>
-					<cfquery name="getLastGuid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					<cfquery name="getLastGuid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						SELECT guid 
 						FROM <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
 						WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#lastID#">

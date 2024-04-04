@@ -6,12 +6,12 @@
 </cfif>
 <script type='text/javascript' src='/includes/transAjax.js'></script>
 <!--- no security --->
-<cfquery name="ctPermitType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="ctPermitType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 	select ct.permit_type, count(p.permit_id) uses from ctpermit_type ct left join permit p on ct.permit_type = p.permit_type
         group by ct.permit_type
         order by ct.permit_type
 </cfquery>
-<cfquery name="ctSpecificPermitType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="ctSpecificPermitType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
         select ct.specific_type, ct.permit_type, count(p.permit_id) uses from ctspecific_permit_type ct left join permit p on ct.specific_type = p.specific_type
         group by ct.specific_type, ct.permit_type
         order by ct.specific_type
@@ -243,7 +243,7 @@ where
 <cfelse><!--- came in with sql defined ---->
 	<cfset thisSql = "#sql# ORDER BY #order_by# #order_order#">
 </cfif><!--- end sql isdefined --->
-<cfquery name="matchPermit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="matchPermit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 	#preservesinglequotes(thisSql)#
 </cfquery>
 
@@ -612,7 +612,7 @@ where
 <cfif not isdefined("permit_id") OR len(#permit_id#) is 0>
 	Error: You didn't pass this form a permit_id. Go back and try again.<cfabort>
 </cfif>
-<cfquery name="permitInfo" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="permitInfo" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 	select permit.permit_id,
 	issuedBy.agent_name as IssuedByAgent,
 	issuedBy.agent_id as IssuedByAgentID,
@@ -844,7 +844,7 @@ function opendialog(page,id,title) {
      jQuery(document).ready(loadPermitRelatedMedia(#permit_id#));
 
      </script>
-     <cfquery name="permituse" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+     <cfquery name="permituse" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 select 'accession' as ontype, accn_number as tnumber, accn_type as ttype, trans.transaction_type, trans.trans_date, collection.guid_prefix,
     concat('/transactions/Accession.cfm?action=edit&transaction_id=',trans.transaction_id) as uri
 from permit_trans left join trans on permit_trans.transaction_id = trans.transaction_id
@@ -942,7 +942,7 @@ from permit_shipment left join shipment on permit_shipment.shipment_id = shipmen
       <cfoutput>Error: You didn't pass this form a permit_id. Go back and try again.</cfoutput>
       <cfabort>
    </cfif>
-     <cfquery name="permitInfo" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+     <cfquery name="permitInfo" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
     select permit.permit_id,
     issuedBy.agent_name as IssuedByAgent,
     issuedTo.agent_name as IssuedToAgent,
@@ -988,7 +988,7 @@ from permit_shipment left join shipment on permit_shipment.shipment_id = shipmen
    	        onmouseover="this.className='lnkBtn btnhov'" onmouseout="this.className='lnkBtn'">
 	</form>
      </cfoutput>
-     <cfquery name="permituse" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+     <cfquery name="permituse" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 
 select 'accession' as ontype, accn_number as tnumber, accn_type as ttype, trans.transaction_type, trans.trans_date, collection.guid_prefix,
     concat('/transactions/Accession.cfm?Action=edit&transaction_id=',trans.transaction_id) as uri,
@@ -1150,7 +1150,7 @@ from permit_shipment left join shipment on permit_shipment.shipment_id = shipmen
      </table>
      </div>
      </cfoutput>
-     <cfquery name="permitsalvagereport" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+     <cfquery name="permitsalvagereport" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 select
     count(cataloged_item.collection_object_id) as cat_count,
     sum(coll_object.lot_count) as spec_count,
@@ -1210,12 +1210,12 @@ from permit_trans left join trans on permit_trans.transaction_id = trans.transac
 <!--------------------------------------------------------------------------------------------------->
 <!--------------------------------------------------------------------------------------------------->
 <cfif #Action# is "saveChanges">
-<cfquery name="ptype" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="ptype" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
    select permit_type from ctspecific_permit_type where specific_type = <cfqueryparam CFSQLTYPE="CF_SQL_VARCHAR" value="#specific_type#">
 </cfquery>
 <cfset permit_type = #ptype.permit_type#>
 <cfoutput>
-<cfquery name="updatePermit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="updatePermit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 UPDATE permit SET
 	permit_id = <cfqueryparam CFSQLTYPE="CF_SQL_DECIMAL" value="#permit_id#">
 	<cfif len(#issuedByAgentId#) gt 0>
@@ -1284,11 +1284,11 @@ UPDATE permit SET
 	Error: You didn't select an issued to agent. Do you have popups enabled?  Go back and try again.
         <cfset hasError = 1 >
 </cfif>
-<cfquery name="ptype" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="ptype" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
    select permit_type from ctspecific_permit_type where specific_type = <cfqueryparam CFSQLTYPE="CF_SQL_VARCHAR" value="#specific_type#">
 </cfquery>
 <cfset permit_type = #ptype.permit_type#>
-<cfquery name="nextPermit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="nextPermit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 	select sq_permit_id.nextval nextPermit from dual
 </cfquery>
 <cfif isdefined("specific_type") and len(#specific_type#) is 0 and ( not isdefined("permit_type") OR len(#permit_type#) is 0 )>
@@ -1298,7 +1298,7 @@ UPDATE permit SET
 <cfif hasError eq 1>
     <cfabort>
 </cfif>
-<cfquery name="newPermit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="newPermitResult">
+<cfquery name="newPermit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="newPermitResult">
 INSERT INTO permit (
 	 PERMIT_ID,
 	 ISSUED_BY_AGENT_ID
@@ -1382,7 +1382,7 @@ VALUES (
 <!--------------------------------------------------------------------------------------------------->
 <cfif #Action# is "deletePermit">
 <cfoutput>
-<cfquery name="deletePermit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="deletePermit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 DELETE FROM permit WHERE permit_id = #permit_id#
 </cfquery>
 

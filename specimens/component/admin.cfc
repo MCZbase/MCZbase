@@ -41,7 +41,7 @@ limitations under the License.
 			<cfif NOT isdefined("session.roles") OR NOT listfindnocase(session.roles,"GLOBAL_ADMIN")>
 				<cfthrow message="Insufficient Access Rights">
 			</cfif>
-				<cfquery name="doUpdate" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="doUpdate_result">
+				<cfquery name="doUpdate" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="doUpdate_result">
 					INSERT INTO cf_spec_search_cols (
 						TABLE_NAME,
 						TABLE_ALIAS,
@@ -117,7 +117,7 @@ limitations under the License.
 			<cfif len(ID) EQ 0>
 				<cfthrow message="No value provided for primary key for row to update.">
 			</cfif>
-			<cfquery name="doUpdate" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="doUpdate_result">
+			<cfquery name="doUpdate" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="doUpdate_result">
 				UPDATE cf_spec_search_cols
 				SET			
 					TABLE_NAME = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#TABLE_NAME#">, 
@@ -178,7 +178,7 @@ limitations under the License.
 			<cfif NOT isdefined("session.roles") OR NOT listfindnocase(session.roles,"GLOBAL_ADMIN")>
 				<cfthrow message="Insufficient Access Rights">
 			</cfif>
-			<cfquery name="doUpdate" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="doUpdate_result">
+			<cfquery name="doUpdate" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="doUpdate_result">
 				INSERT INTO cf_spec_res_cols_r (
 					COLUMN_NAME,
 					SQL_ELEMENT,
@@ -253,7 +253,7 @@ limitations under the License.
 			<cfif len(CF_SPEC_RES_COLS_ID) EQ 0>
 				<cfthrow message="Primary key for row to update not provided">
 			</cfif>
-			<cfquery name="doUpdate" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="doUpdate_result">
+			<cfquery name="doUpdate" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="doUpdate_result">
 				UPDATE cf_spec_res_cols_r
 				SET			
 					COLUMN_NAME = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#COLUMN_NAME#">, 
@@ -301,7 +301,7 @@ limitations under the License.
 
 	<cftransaction>
 		<cftry>
-			<cfquery name="delRow" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="delRow_result">
+			<cfquery name="delRow" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="delRow_result">
 				DELETE from cf_spec_search_cols
 				where
 					ID = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#ID#">
@@ -337,7 +337,7 @@ limitations under the License.
 
 	<cftransaction>
 		<cftry>
-			<cfquery name="delRow" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="delRow_result">
+			<cfquery name="delRow" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="delRow_result">
 				DELETE from cf_spec_res_cols_r
 				where
 					CF_SPEC_RES_COLS_ID = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#CF_SPEC_RES_COLS_ID#">

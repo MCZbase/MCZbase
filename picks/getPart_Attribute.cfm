@@ -11,10 +11,10 @@
 
 <cfif action is "nothing">
   <cfoutput>
-    <cfquery name="ctAttribute_type" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+    <cfquery name="ctAttribute_type" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			select distinct(attribute_type) from ctspecpart_attribute_type
 		</cfquery>
-    <cfquery name="thisRec" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+    <cfquery name="thisRec" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			Select * from ctspec_part_att_att
 			order by attribute_type
 		</cfquery>

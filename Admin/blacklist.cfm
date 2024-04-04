@@ -20,7 +20,7 @@
 						</div>
 					</div>
 				</form>
-				<cfquery name="all" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="all" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					select ip, to_char(listdate,'YYYY-MM-DD') as listdate
 					from blacklist 
 					order by to_number(replace(ip,'.'))
@@ -49,7 +49,7 @@
 			<cfcase value="ins">
 				<!--- add an ip address to the block list --->
 				<cftry>
-				   <cfquery name="d" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				   <cfquery name="d" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		   		   insert into blacklist 
 							(ip) 
 						values 
@@ -68,7 +68,7 @@
 			</cfcase>
 			<cfcase value="del">
 				<!--- remove an ip address from the block list --->
-				<cfquery name="d" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="d" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					delete from blacklist 
 					where ip = <cfqueryparam CFSQLTYPE="CF_SQL_VARCHAR" value="#ip#">
 				</cfquery>
@@ -95,7 +95,7 @@
 					</div>
 				</form>
 				<cfobject type="Java" class="java.net.InetAddress" name="inetAddr">
-				<cfquery name="last30" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="last30" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					select ip, to_char(listdate,'YYYY-MM-DD') as listdate, LOOKUP_HOSTNAME(ip) as hostname from blacklist 
 					where listdate > sysdate - 30
 					order by ip
@@ -123,7 +123,7 @@
 						</cfloop>
 					</cfif>
 				</ul>
-				<cfquery name="localaddr" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="localaddr" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					select ip, to_char(listdate,'YYYY-MM-DD') as listdate, LOOKUP_HOSTNAME(ip) as hostname from blacklist 
 					where ip like '140.247.%' or ip like '10.255.%'
 					order by ip

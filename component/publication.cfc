@@ -3,7 +3,7 @@
 <!--- Assemble short citation with function in the backend database.  --->
 <cffunction name="shortCitation" access="remote">
 	<cfargument name="publication_id" type="numeric" required="yes">
-	<cfquery name="p" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cfquery name="p" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		select assemble_shortcitation(publication_id) cit from publication where publication_id=#publication_id#
 	</cfquery>
 	<cfset retval = "">
@@ -15,7 +15,7 @@
 <!--- Assemble long citation with function in the backend database.  --->
 <cffunction name="longCitation" access="remote">
 	<cfargument name="publication_id" type="numeric" required="yes">
-	<cfquery name="p" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cfquery name="p" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		select assemble_fullcitation(publication_id) cit from publication where publication_id=#publication_id#
 	</cfquery>
 	<cfset retval = "">
@@ -27,10 +27,10 @@
 
 <cffunction name="shortCitation_old" access="remote">
   <cfargument name="publication_id" type="numeric" required="yes">
-  <cfquery name="p" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+  <cfquery name="p" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		select published_year from publication where publication_id=#publication_id#
 	</cfquery>
-  <cfquery name="a" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+  <cfquery name="a" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		select
 			nvl(last_name,agent_name) as last_name,
 			author_position
@@ -50,12 +50,12 @@
 		select count(*) c from a where last_name is null
 	</cfquery>
   <cfif f.c gt 0>
-    <cfquery name="p" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+    <cfquery name="p" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			select SUBSTR(publication_title,1,20) || '...' pt from publication where publication_id=#publication_id#
 		</cfquery>
     <cfreturn p.pt>
   </cfif>
-  <cfquery name="atts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+  <cfquery name="atts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		select * from publication_attributes where publication_id=#publication_id#
 	</cfquery>
   <cfquery name="publishedYearRange" dbtype="query">
@@ -82,7 +82,7 @@
 <!------------------------------------------------------------------------------------------------>
 <cffunction name="longCitation_old" access="remote" output="true">
   <cfargument name="publication_id" type="numeric" required="yes">
-  <cfquery name="p" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+  <cfquery name="p" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		select
 			publication_title,
 			published_year,
@@ -90,7 +90,7 @@
       doi
 		from publication where publication_id=#publication_id#
 	</cfquery>
-  <cfquery name="a" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+  <cfquery name="a" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		select
 			agent_name,
 			author_position
@@ -104,7 +104,7 @@
 		order by
 			author_position
 	</cfquery>
-  <cfquery name="e" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+  <cfquery name="e" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		select
 			agent_name,
 			author_position
@@ -150,7 +150,7 @@
   <cfif right(es,1) is '.'>
     <cfset es=left(es,len(es)-1)>
   </cfif>
-  <cfquery name="atts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+  <cfquery name="atts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		select * from publication_attributes where publication_id=#publication_id#
 	</cfquery>
   <cfquery name="publishedYearRange" dbtype="query">

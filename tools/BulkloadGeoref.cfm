@@ -18,7 +18,7 @@ limitations under the License.
 --->
 <!--- special case handling to dump problem data as csv --->
 <cfif isDefined("action") AND action is "dumpProblems">
-	<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		SELECT highergeography,speclocality,locality_id,dec_lat,dec_long,,max_error_distance,max_error_units,lat_long_remarks,determined_by_agent,georefmethod,orig_lat_long_units,datum,determined_date,lat_long_ref_source,extent,gpsaccuracy,verificationstatus,spatialfit 
 		FROM cf_temp_georef 
 		WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
@@ -212,7 +212,7 @@ limitations under the License.
 					</cfswitch>
 					<cfset records = CSVParser.parse(#tempFileInputStream#,#javaSelectedCharset#,#csvFormat#)>
 					<!--- cleanup any incomplete work by the same user --->
-					<cfquery name="clearTempTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="clearTempTable_result">
+					<cfquery name="clearTempTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="clearTempTable_result">
 						DELETE FROM cf_temp_georef
 						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 					</cfquery>
@@ -340,7 +340,7 @@ limitations under the License.
 							</cfloop>
 							<cftry>
 							<!---Construct insert for row with a line for each entry in fieldlist using cfqueryparam if column header is in fieldlist, otherwise using null.--->
-								<cfquery name="insert" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="insert_result">
+								<cfquery name="insert" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="insert_result">
 									insert into cf_temp_georef
 										(#fieldlist#,username)
 									values (
@@ -438,30 +438,30 @@ limitations under the License.
 		<cfoutput>
 			<h2 class="h4">Second step: Data Validation</h2>
 			<!---Get Data from the temp table and the codetables with relevant information--->
-			<cfquery name="geoData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="geoData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT highergeography,speclocality,locality_id,dec_lat,dec_long,max_error_distance,max_error_units,lat_long_remarks,determined_by_agent,determined_by_agent_id,georefmethod,orig_lat_long_units,datum,determined_date,lat_long_ref_source,extent,gpsaccuracy,verificationstatus,spatialfit,nearest_named_place,key
 				from cf_temp_georef
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
-			<cfquery name="ctGEOREFMETHOD" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="ctGEOREFMETHOD" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				select GEOREFMETHOD from ctGEOREFMETHOD
 			</cfquery>
-			<cfquery name="CTLAT_LONG_UNITS" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="CTLAT_LONG_UNITS" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				select ORIG_LAT_LONG_UNITS from CTLAT_LONG_UNITS
 			</cfquery>
-			<cfquery name="CTDATUM" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="CTDATUM" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				select DATUM from CTDATUM
 			</cfquery>
-			<cfquery name="CTVERIFICATIONSTATUS" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="CTVERIFICATIONSTATUS" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				select VERIFICATIONSTATUS from CTVERIFICATIONSTATUS
 			</cfquery>
-			<cfquery name="CTLAT_LONG_ERROR_UNITS" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="CTLAT_LONG_ERROR_UNITS" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				select LAT_LONG_ERROR_UNITS from CTLAT_LONG_ERROR_UNITS
 			</cfquery>
 			<cfset i= 1>
 			<cfloop query="geoData">
 				<cfif len(geoData.determined_by_agent_id) eq 0>
-					<cfquery name="getAgentID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					<cfquery name="getAgentID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						UPDATE
 							cf_temp_georef
 						SET
@@ -474,19 +474,19 @@ limitations under the License.
 							and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#geoData.key#"> 
 					</cfquery>
 				</cfif>
-<!---				<cfquery name="getLocText" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<!---				<cfquery name="getLocText" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					update cf_temp_georef
 					set speclocality = '#trim(speclocality)#'
 					where key = <cfqueryparam cfsqltype='CF_SQL_DECIMAL' value='#geoData.key#'>
 					username = <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#session.username#'>
 				</cfquery>
-				<cfquery name="getHGText" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="getHGText" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					update cf_temp_georef
 					set highergeography = '#trim(highergeography)#'
 					where key = <cfqueryparam cfsqltype='CF_SQL_DECIMAL' value='#geoData.key#'>
 					username = <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#session.username#'>
 				</cfquery>--->
-				<cfquery name="getCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="getCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE
 						cf_temp_georef
 					SET
@@ -495,18 +495,18 @@ limitations under the License.
 						and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#geoData.key#">
 				</cfquery>
 			</cfloop>
-			<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT status,highergeography,speclocality,locality_id,dec_lat,dec_long,max_error_distance,max_error_units,lat_long_remarks,determined_by_agent,determined_by_agent_id,georefmethod,orig_lat_long_units,datum,determined_date,lat_long_ref_source,extent,gpsaccuracy,verificationstatus,spatialfit,nearest_named_place,key
 				FROM cf_temp_georef
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				ORDER BY key
 			</cfquery>
-			<cfquery name="dataCount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="dataCount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT count(*) c 
 				FROM data 
 				WHERE status is not null
 			</cfquery>
-		<!---	<cfquery name="dataCount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<!---	<cfquery name="dataCount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				select count(*) c from cf_temp_georef where status != 'spiffy'
 			</cfquery>--->
 			<cftry>
@@ -547,7 +547,7 @@ limitations under the License.
 				</table>
 				<cfelse>
 					<h2 class="h3">There was a problem updating the geographies.</h2>
-					<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						SELECT highergeography,speclocality,locality_id,dec_lat,dec_long,max_error_distance,max_error_units,lat_long_remarks,determined_by_agent,determined_by_agent_id,georefmethod,orig_lat_long_units,datum,determined_date,lat_long_ref_source,extent,gpsaccuracy,verificationstatus,spatialfit,nearest_named_place
 						FROM cf_temp_georef
 						WHERE key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#key#">
@@ -649,11 +649,11 @@ limitations under the License.
 						</table>
 					</cfif>
 				</cfif>
-				<cfquery name="clearTempTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="clearTempTable_result">
+				<cfquery name="clearTempTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="clearTempTable_result">
 					DELETE FROM cf_temp_georef 
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
-				<cfquery name="df" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="df" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					select * from cf_temp_georef
 				</cfquery>
 <!---				<cfset internalPath="#Application.webDirectory#/temp/">
@@ -714,11 +714,11 @@ limitations under the License.
 		<cfoutput>
 			<cfset key = "">
 			<cftransaction>
-				<cfquery name="getTempData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="getTempData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT * FROM cf_temp_georef
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
-				<cfquery name="getCounts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="getCounts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT count(distinct locality_id) loc FROM cf_temp_georef
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
@@ -730,7 +730,7 @@ limitations under the License.
 					</cfif>
 					<cfloop query="getTempData">
 						<cfset key = getTempData.key>
-						<cfquery name="updateGeoref" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateGeoref_result">
+						<cfquery name="updateGeoref" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateGeoref_result">
 							INSERT into lat_long (
 								key,
 								LAT_LONG_ID,
@@ -791,7 +791,7 @@ limitations under the License.
 						</cfif>
 							)
 						</cfquery>
-						<cfquery name="updateGeoref1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateGeoref1_result">
+						<cfquery name="updateGeoref1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateGeoref1_result">
 							select LAT_LONG_ID,
 								LOCALITY_ID,
 								DEC_LAT,
@@ -850,7 +850,7 @@ limitations under the License.
 				<cfcatch>
 					<cftransaction action="ROLLBACK">
 					<h2 class="h3">There was a problem updating the georeferences.</h2>
-					<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						SELECT key,highergeography,speclocality,locality_id,dec_lat,dec_long,max_error_distance,max_error_units,lat_long_remarks,determined_by_agent,determined_by_agent_id,georefmethod,orig_lat_long_units,datum,determined_date,lat_long_ref_source,extent,gpsaccuracy,verificationstatus,spatialfit,nearest_named_place
 						FROM cf_temp_georef
 						WHERE key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.key#">
@@ -950,7 +950,7 @@ limitations under the License.
 				</cftry>
 			</cftransaction>
 			
-			<cfquery name="clearTempTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="clearTempTable_result">
+			<cfquery name="clearTempTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="clearTempTable_result">
 				DELETE FROM cf_temp_georef 
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>

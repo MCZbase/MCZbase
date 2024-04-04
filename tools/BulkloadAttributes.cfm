@@ -18,7 +18,7 @@ limitations under the License.
 --->
 <!--- special case handling to dump problem data as csv --->
 <cfif isDefined("action") AND action is "dumpProblems">
-	<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		SELECT institution_acronym,collection_cde,other_id_type,other_id_number,attribute,attribute_value,attribute_units,attribute_date,attribute_meth,determiner,remarks,status
 		FROM cf_temp_attributes 
 		WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
@@ -212,7 +212,7 @@ limitations under the License.
 				<cfset records = CSVParser.parse(#tempFileInputStream#,#javaSelectedCharset#,#csvFormat#)>
 
 				<!--- cleanup any incomplete work by the same user --->
-				<cfquery name="clearTempTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="clearTempTable_result">
+				<cfquery name="clearTempTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="clearTempTable_result">
 					DELETE FROM cf_temp_attributes 
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
@@ -355,7 +355,7 @@ limitations under the License.
 					<cftry>
 						<!--- construct insert for row with a line for each entry in fieldlist using cfqueryparam if column header is in fieldlist, otherwise using null --->
 						<!--- Note: As we can't use csvFormat.withHeader(), we can not match columns by name, we are forced to do so by number, thus arrays --->
-						<cfquery name="insert" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="insert_result">
+						<cfquery name="insert" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="insert_result">
 							insert into cf_temp_attributes
 								(#fieldlist#,username)
 							values (
@@ -487,7 +487,7 @@ limitations under the License.
 	<cfif #action# is "validate">
 		<h2 class="h4 mb-3">Second step: Data Validation</h2>
 		<cfoutput>
-			<cfquery name="getTempTableTypes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="getTempTableTypes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT 
 					other_id_type, key
 				FROM 
@@ -500,7 +500,7 @@ limitations under the License.
 				<!--- For each row, set the target collection_object_id --->
 				<cfif getTempTableTypes.other_id_type eq 'catalog number'>
 					<!--- either based on catalog_number --->
-					<cfquery name="getCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					<cfquery name="getCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						UPDATE
 							cf_temp_attributes
 						SET
@@ -515,7 +515,7 @@ limitations under the License.
 					</cfquery>
 				<cfelse>
 					<!--- or on specified other identifier --->
-					<cfquery name="getCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					<cfquery name="getCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						UPDATE
 							cf_temp_attributes
 						SET
@@ -533,7 +533,7 @@ limitations under the License.
 				</cfif>
 			</cfloop>
 			<!--- obtain the information needed to QC each row --->
-			<cfquery name="getTempTableQC" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="getTempTableQC" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT 
 					attribute_date, key, collection_cde, attribute
 				FROM 
@@ -546,7 +546,7 @@ limitations under the License.
 				<!---DATE ERROR MESSAGE--->
 				<cfset attDate = isDate(getTempTableQC.attribute_date)>
 				<cfif #attdate# eq 'NO'>
-					<cfquery name="flagDateProblem" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					<cfquery name="flagDateProblem" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						UPDATE
 							cf_temp_attributes
 						SET 
@@ -556,7 +556,7 @@ limitations under the License.
 					</cfquery>	
 				</cfif>
 				<!--- for each row, evaluate the attribute against expectations and provide an error message --->
-				<cfquery name="flatAttributeProblems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="flatAttributeProblems_result">
+				<cfquery name="flatAttributeProblems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="flatAttributeProblems_result">
 					UPDATE cf_temp_attributes
 					SET
 						status = concat(nvl2(status, status || '; ', ''),'invalid attribute for collection_cde ' || collection_cde)
@@ -570,7 +570,7 @@ limitations under the License.
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
 				</cfquery>
-				<cfquery name="ctAttribute_code_tables" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="ctAttribute_code_tables" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					select upper(value_code_table) as value_code_table, upper(units_code_table) as units_code_table
 					FROM ctattribute_code_tables
 					WHERE attribute_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableQC.attribute#">
@@ -580,7 +580,7 @@ limitations under the License.
 							the attribute does not take units --->
 					<!--- however, an entry in ctattribute_type without an entry in ctattribute_code_tables make take units. --->
 					<cfif len(ctAttribute_code_tables.units_code_table) EQ 0>
-						<cfquery name="flagNotNullUnits" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						<cfquery name="flagNotNullUnits" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							UPDATE cf_temp_attributes
 							SET 
 								status = concat(nvl2(status, status || '; ', ''),'attribute inconsistent with units')
@@ -590,7 +590,7 @@ limitations under the License.
 								AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
 						</cfquery>
 					<cfelse>
-						<cfquery name="flagNullUnits" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						<cfquery name="flagNullUnits" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							UPDATE cf_temp_attributes
 							SET 
 								status = concat(nvl2(status, status || '; ', ''),'attribute requires units from controlled vocabulary')
@@ -600,7 +600,7 @@ limitations under the License.
 								AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
 						</cfquery>
 						<cftry>
-						<cfquery name="flatWrongUnits" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						<cfquery name="flatWrongUnits" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							UPDATE cf_temp_attributes
 							SET 
 								status = concat(nvl2(status, status || '; ', ''),'attribute_units not in controlled vocabulary #ctAttribute_code_tables.units_code_table#')
@@ -633,7 +633,7 @@ limitations under the License.
 					</cfif>
 					<cfif len(ctAttribute_code_tables.value_code_table) GT 0>
 						<cftry>
-						<cfquery name="flatWrongUnits" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						<cfquery name="flatWrongUnits" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							UPDATE cf_temp_attributes
 							SET 
 								status = concat(nvl2(status, status || '; ', ''),'attribute_value not in controlled vocabulary #ctAttribute_code_tables.value_code_table#')
@@ -663,7 +663,7 @@ limitations under the License.
 			</cfloop>
 			<!--- qc checks independent of attributes, includes presence of values in required columns --->
 			<cfloop list="#requiredfieldlist#" index="requiredField">
-				<cfquery name="checkRequired" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="checkRequired" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE cf_temp_attributes
 					SET 
 						status = concat(nvl2(status, status || '; ', ''),'#requiredField# is missing')
@@ -672,7 +672,7 @@ limitations under the License.
 				</cfquery>
 			</cfloop>
 			<!---INSTITUTION_ACRONYM--->			
-			<cfquery name="m1b" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="m1b" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				UPDATE cf_temp_attributes
 				SET 
 					status = concat(nvl2(status, status || '; ', ''),'INSTIUTION_ACRONYM is not "MCZ" (check case)')
@@ -681,7 +681,7 @@ limitations under the License.
 			</cfquery>
 			<!---COLLECTION_CDE--->	
 			<!--- concat before other messages, as it is cause for unknown attribute for collection etc --->
-			<cfquery name="flagUnknownCollectionCde" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="flagUnknownCollectionCde" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				UPDATE cf_temp_attributes
 				SET 
 					status = concat('Invalid collection_cde: ' || collection_cde, nvl2(status, '; ' || status, ''))
@@ -689,7 +689,7 @@ limitations under the License.
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<!--- found a collection object --->
-			<cfquery name="flagNoCollectionObject" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="flagNoCollectionObject" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				UPDATE cf_temp_attributes
 				SET 
 					status = concat(nvl2(status, status || '; ', ''),' no match to a cataloged item on [' || other_id_type || ']=[' || other_id_number || '] in collection ' || collection_cde)
@@ -698,19 +698,19 @@ limitations under the License.
 			</cfquery>
 
 			<!--- Determiner Agent --->
-			<cfquery name="setAgentIDForDetermier" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="setAgentIDForDetermier" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				UPDATE cf_temp_attributes
 				SET determined_by_agent_id= (select agent_id from preferred_agent_name where agent_name = cf_temp_attributes.determiner)
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
-			<cfquery name="flagEmptyAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="flagEmptyAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				UPDATE cf_temp_attributes
 				SET 
 					status = concat(nvl2(status, status || '; ', ''), 'agent value (preferred name) is missing in DETERMINER column')
 				WHERE determiner is null
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
-			<cfquery name="flagNotMatchedAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="flagNotMatchedAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				UPDATE cf_temp_attributes
 				SET 
 					status = concat(nvl2(status, status || '; ', ''), 'unknown agent (no match to preferred name) in DETERMINER column')
@@ -719,7 +719,7 @@ limitations under the License.
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 
-			<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT institution_acronym,collection_cde,other_id_type,other_id_number,attribute,attribute_value,attribute_units,attribute_date, attribute_meth,determiner,remarks,status
 				FROM cf_temp_attributes
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
@@ -790,11 +790,11 @@ limitations under the License.
 		<cfoutput>
 			<cfset problem_key = "">
 			<cftransaction>
-				<cfquery name="getTempData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="getTempData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT * FROM cf_temp_attributes
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
-				<cfquery name="getCounts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="getCounts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT count(distinct collection_object_id) ctobj FROM cf_temp_attributes
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
@@ -806,7 +806,7 @@ limitations under the License.
 					</cfif>
 					<cfloop query="getTempData">
 						<cfset problem_key = getTempData.key>
-						<cfquery name="updateAttributes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateAttributes_result">
+						<cfquery name="updateAttributes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateAttributes_result">
 							INSERT into attributes (
 							COLLECTION_OBJECT_ID,
 							ATTRIBUTE_TYPE,
@@ -827,7 +827,7 @@ limitations under the License.
 							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#remarks#">
 							)
 						</cfquery>
-						<cfquery name="updateAttributes1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateAttributes1_result">
+						<cfquery name="updateAttributes1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateAttributes1_result">
 							select attribute_type,attribute_value,collection_object_id from attributes 
 							where collection_object_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.collection_object_id#">
 							group by attribute_type,attribute_value,collection_object_id
@@ -850,12 +850,12 @@ limitations under the License.
 				<cfcatch>
 					<cftransaction action="ROLLBACK">
 					<h2 class="h3">There was a problem updating the attributes.</h2>
-					<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						SELECT status,institution_acronym,collection_cde,other_id_type,other_id_number,attribute,attribute_value, attribute_units,attribute_date,attribute_meth,determiner,remarks
 						FROM cf_temp_attributes 
 						WHERE key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#problem_key#">
 					</cfquery>
-					<cfquery name="getCollectionCodes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					<cfquery name="getCollectionCodes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						SELECT collection_cde
 						FROM collection
 					</cfquery>
@@ -863,7 +863,7 @@ limitations under the License.
 					<cfloop query="getCollectionCodes">
 						<cfset collection_codes = ListAppend(collection_codes,getCollectionCodes.collection_cde)>
 					</cfloop>
-					<cfquery name="getInstitution" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					<cfquery name="getInstitution" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						SELECT distinct institution_acronym
 						FROM collection
 					</cfquery>
@@ -942,7 +942,7 @@ limitations under the License.
 				</cftry>
 			</cftransaction>
 			
-			<cfquery name="clearTempTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="clearTempTable_result">
+			<cfquery name="clearTempTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="clearTempTable_result">
 				DELETE FROM cf_temp_attributes 
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>

@@ -64,7 +64,7 @@
 
 <!---#preservesinglequotes(sql)#--->
 
-<cfquery name="allCatItemsRaw" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#createtimespan(0,0,60,0)#">
+<cfquery name="allCatItemsRaw" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" cachedwithin="#createtimespan(0,0,60,0)#">
 	#preservesinglequotes(sql)#
 </cfquery>
 <cfquery name="allCatItems" dbtype="query">
@@ -77,7 +77,7 @@
 	select part_name from allCatItemsRaw group by part_name order by part_name
 </cfquery>
 <cfset a=1>
-<cfset fileName = "FreezerLocation_#cfid#_#cftoken#.csv">
+<cfset fileName = "FreezerLocation_#cookie.cfid#_#cookie.cftoken#.csv">
 <a href="/download.cfm?file=#fileName#">Download</a>
 <cfset dlData="cataloged_item,#session.customOtherIdentifier#,part_name,location,disposition">
 <cffile action="write" file="#Application.webDirectory#/download/#fileName#" addnewline="yes" output="#dlData#">
@@ -123,7 +123,7 @@
 	</th>
 	<th>Disposition</th>
 <cfloop query="allCatItems">
-	<cfquery name="freezer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cfquery name="freezer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		select
 			CONTAINER_ID,
 			PARENT_CONTAINER_ID,

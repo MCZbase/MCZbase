@@ -33,7 +33,7 @@ limitations under the License.
 				<cfif not isDefined("session.username") OR len(session.username) EQ 0>
 					<cfthrow message="Login required to view csv download profiles">
 				</cfif>
-				<cfquery name="getProfiles" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getProfiles_result">
+				<cfquery name="getProfiles" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getProfiles_result">
 					SELECT 
 						username, name, download_profile_id, sharing, target_search, column_list,
 						decode(agent_name.agent_id,NULL,username,MCZBASE.get_agentnameoftype(agent_name.agent_id)) as owner_name
@@ -70,7 +70,7 @@ limitations under the License.
 						<tbody>
 						<cfloop query="getProfiles">
 							<cfset columnCount = ListLen(column_list)>
-							<cfquery name="checkUse" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="checkUse_result">
+							<cfquery name="checkUse" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="checkUse_result">
 								SELECT count(*) ct
 								FROM
 									cf_users
@@ -139,7 +139,7 @@ limitations under the License.
 				<cfset target_search_value = "Specimens">
 				<cfset username_value = "">
 				<cfif mode EQ "edit">
-					<cfquery name="getProfile" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getProfile_result">
+					<cfquery name="getProfile" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getProfile_result">
 						SELECT 
 							username, name, download_profile_id, sharing, target_search, column_list,
 							decode(agent_name.agent_id,NULL,username,MCZBASE.get_agentnameoftype(agent_name.agent_id)) as owner_name
@@ -159,7 +159,7 @@ limitations under the License.
 					<cfset target_search_value = getProfile.target_search>
 					<cfset username_value = getProfile.username>
 				</cfif>
-				<cfquery name="getFields" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getFields_result">
+				<cfquery name="getFields" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getFields_result">
 					SELECT column_name, category, cf_spec_res_cols_id, disp_order, label, access_role, hidden, minimal_fg
 					FROM
 						cf_spec_res_cols_r
@@ -519,7 +519,7 @@ limitations under the License.
 			<cfset column_list = "">
 			<cfset separator = "">
 			<cfloop list="#column_id_list#" index="idx">
-				<cfquery name="getCol" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getCol_result">
+				<cfquery name="getCol" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getCol_result">
 					SELECT column_name
 					FROM cf_spec_res_cols_r
 					WHERE cf_spec_res_cols_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#idx#">
@@ -532,7 +532,7 @@ limitations under the License.
 			<cfif len(column_list) EQ 0>
 				<cfthrow message="Unable to add specified profile, no fields found for the list of specified column id values.">
 			</cfif>
-			<cfquery name="createProfile" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="createProfile_result">
+			<cfquery name="createProfile" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="createProfile_result">
 				INSERT INTO download_profile
 				(
 					username,
@@ -595,7 +595,7 @@ limitations under the License.
 			<cfset column_list = "">
 			<cfset separator = "">
 			<cfloop list="#column_id_list#" index="idx">
-				<cfquery name="getCol" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getCol_result">
+				<cfquery name="getCol" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getCol_result">
 					SELECT column_name
 					FROM cf_spec_res_cols_r
 					WHERE cf_spec_res_cols_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#idx#">
@@ -608,7 +608,7 @@ limitations under the License.
 			<cfif len(column_list) EQ 0>
 				<cfthrow message="Unable to save changes to specified profile, no fields found for the list of specified column id values.">
 			</cfif>
-			<cfquery name="createProfile" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="createProfile_result">
+			<cfquery name="createProfile" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="createProfile_result">
 				UPDATE download_profile
 				SET
 					name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#name#">,
@@ -652,7 +652,7 @@ limitations under the License.
 	<cfset result=queryNew("status, message, user_search_count")>
 	<cftransaction>
 		<cftry>
-			<cfquery name="deleteProfile" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="deleteProfile_result">
+			<cfquery name="deleteProfile" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="deleteProfile_result">
 				DELETE FROM
 					download_profile
 				WHERE
@@ -661,7 +661,7 @@ limitations under the License.
 					download_profile_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#download_profile_id#">
 			</cfquery>
 			<cfif deleteProfile_result.recordcount EQ 1>
-				<cfquery name="getProfiles" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getProfiles_result">
+				<cfquery name="getProfiles" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getProfiles_result">
 					SELECT 
 						count(*) ct
 					FROM 
@@ -767,13 +767,13 @@ limitations under the License.
 	<cfset data = ArrayNew(1)>
 	<cftransaction>
 		<cftry>
-			<cfquery name="getUserID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="getUserID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT user_id 
 				FROM cf_users
 				WHERE
 					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
-			<cfquery name="upIns" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="upIns" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				INSERT INTO cf_canned_search
 				(
 					search_name,
@@ -820,7 +820,7 @@ limitations under the License.
 	<cfset data = ArrayNew(1)>
 	<cftransaction>
 		<cftry>
-			<cfquery name="getUserID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="getUserID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT user_id 
 				FROM cf_users
 				WHERE
@@ -829,7 +829,7 @@ limitations under the License.
 			<cfif getUserId.recordcount NEQ 1>
 				<cfthrow message = "delete failed, user not found">
 			</cfif>
-			<cfquery name="doDelete" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="doDelete_result">
+			<cfquery name="doDelete" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="doDelete_result">
 				DELETE 
 				FROM cf_canned_search 
 				WHERE 
@@ -841,7 +841,7 @@ limitations under the License.
 			<cfelseif doDelete_result.recordcount GT 1>
 				<cfthrow message = "delete failed, error condition">
 			</cfif> 
-			<cfquery name="userSearches" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="userSearches_result">
+			<cfquery name="userSearches" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="userSearches_result">
 				SELECT count(*) ct
 				FROM cf_canned_search
 				WHERE

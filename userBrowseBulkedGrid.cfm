@@ -52,7 +52,7 @@
 	order by internal_column_id
 </cfquery>
 <cfoutput>
-<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 	select * from bulkloader
 	where enteredby = '#session.username#'
 </cfquery>
@@ -101,7 +101,7 @@
 	</cfloop>
 	
 		<cfset sql ="#sql# WHERE collection_object_id = #thisCollObjId#">
-<cfquery name="up" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="up" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		#preservesinglequotes(sql)#
 	</cfquery>
 	

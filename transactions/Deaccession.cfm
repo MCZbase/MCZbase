@@ -8,7 +8,7 @@
 <cfif isdefined("action") AND action EQ 'edit'>
 	<cfset pageTitle = "Edit Deaccession">
 	<cfif isdefined("transaction_id") >
-		<cfquery name="deaccessionNumber" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="deaccessionNumber" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			select
 				deacc_number
 			from
@@ -56,24 +56,24 @@ limitations under the License.
 </cfif>
 
 <!--- Deaccession controlled vocabularies --->
-<cfquery name="ctDeaccessionStatus" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="ctDeaccessionStatus" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 	select deacc_status from ctdeacc_status order by deacc_status
 </cfquery>
-<cfquery name="ctDeaccessionType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="ctDeaccessionType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 	select deacc_type from ctdeacc_type order by deacc_type
 </cfquery>
-<cfquery name="ctcollection" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="ctcollection" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 	select COLLECTION_CDE, INSTITUTION_ACRONYM, DESCR, COLLECTION, COLLECTION_ID, WEB_LINK,
 		WEB_LINK_TEXT, CATNUM_PREF_FG, CATNUM_SUFF_FG, GENBANK_PRID, GENBANK_USERNAME,
 		GENBANK_PWD, LOAN_POLICY_URL, ALLOW_PREFIX_SUFFIX, GUID_PREFIX, INSTITUTION 
 	from collection order by collection
 </cfquery>
 <!--- Obtain list of transaction agent roles relevant to deaccessions --->
-<cfquery name="queryNotApplicableAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="queryNotApplicableAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 	select distinct agent_id from agent_name where agent_name = 'not applicable' and rownum < 2
 </cfquery>
 <cfset NOTAPPLICABLEAGENTID = queryNotApplicableAgent.agent_id >
-<cfquery name="cttrans_agent_role" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="cttrans_agent_role" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 	select distinct(cttrans_agent_role.trans_agent_role) 
 	from cttrans_agent_role
 		left join trans_agent_role_allowed on cttrans_agent_role.trans_agent_role = trans_agent_role_allowed.trans_agent_role
@@ -108,7 +108,7 @@ limitations under the License.
 					<div id="nextNumDiv">
 						<h2 class="h4 mx-2 mb-1" id="nextNumberSectionLabel" title="Click on a collection button and the next available deaccession number in the database for that collection will be entered">Next Available Deaccession Number:</h2>
 						<!--- Find list of all collections --->
-						<cfquery name="allCollections" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						<cfquery name="allCollections" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							select collection_id, collection_cde, collection from collection 
 							order by collection 
 						</cfquery>
@@ -116,7 +116,7 @@ limitations under the License.
 						<cfloop query="allCollections">
 							<cftry>
 								<!---- Deaccession numbers follow Dyyyy-n-CCDE format, obtain highest n for current year for each collection. --->
-								<cfquery name="nextNumberQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+								<cfquery name="nextNumberQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 									select
 									'D#dateformat(now(),"yyyy")#-' || nvl( max(to_number(substr(deacc_number,instr(deacc_number,'-')+1,instr(deacc_number,'-',1,2)-instr(deacc_number,'-')-1) + 1)) , 1) || '-#collection_cde#' as nextNumber
 									from
@@ -134,7 +134,7 @@ limitations under the License.
 								#cfcatch.detail#<br>
 								#cfcatch.message# 
 								<!--- Put an error message into nextNumberQuery.nextNumber --->
-								<cfquery name="nextNumberQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+								<cfquery name="nextNumberQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 									select 'check data' as nextNumber from dual
 								</cfquery>
 							</cfcatch>
@@ -462,7 +462,7 @@ limitations under the License.
 		 	};
 		</script>
 		<cftry>
-			<cfquery name="deaccessionDetails" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="deaccessionDetails_result">
+			<cfquery name="deaccessionDetails" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="deaccessionDetails_result">
 				select
 					trans.transaction_id,
 					trans.transaction_type,
@@ -492,7 +492,7 @@ limitations under the License.
 			<cfif deaccessionDetails.RecordCount GT 0 AND deaccessionDetails.transaction_type NEQ 'deaccession'>
 				<cfthrow message = "Request to edit an deaccession, but the provided transaction_id was for a different transaction type [#deaccessionDetails.transaction_type#].">
 			</cfif>
-			<cfquery name="transAgents" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="transAgents" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				select
 					trans_agent_id,
 					trans_agent.agent_id,
@@ -510,7 +510,7 @@ limitations under the License.
 					trans_agent_role,
 					agent_name
 			</cfquery>
-			<cfquery name="getRestrictions" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="getRestrictions" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				select distinct restriction_summary, permit_id, permit_num from (
 				select permit.restriction_summary, permit.permit_id, permit.permit_num
 				from deacc_item di 
@@ -896,7 +896,7 @@ limitations under the License.
 									Media documenting this Deaccession
 									<span class="mt-1 smaller d-block">Include correspondence, specimen lists, etc. here.  DO NOT attach permissions and rights documents here.</span>
 								</h2>
-								<cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+								<cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 									select
 										media.media_id,
 										preview_uri,
@@ -962,7 +962,7 @@ limitations under the License.
 										adialog.dialog('open');
 									};
 								</script>
-								<cfquery name="ship" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+								<cfquery name="ship" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 									select sh.*, toaddr.country_cde tocountry, toaddr.institution toinst, fromaddr.country_cde fromcountry, fromaddr.institution frominst
 									from shipment sh
 										left join addr toaddr on sh.shipped_to_addr_id  = toaddr.addr_id
@@ -1044,20 +1044,20 @@ limitations under the License.
 <cfif Action is "deleDeaccession">
 	<cftry>
 		<cftransaction>
-			<cfquery name="getDeaccessionNum" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="getDeaccessionNum" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				select deacc_number from deaccession 
 				where transaction_id = <cfqueryparam CFSQLType="CF_SQL_DECIMAL" value="#transaction_id#">
 			</cfquery>
 			<cfset deleteTarget = getDeaccessionNum.deacc_number>
-			<cfquery name="killDeaccession" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="killDeaccession" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				delete from deaccession 
 				where transaction_id = <cfqueryparam CFSQLType="CF_SQL_DECIMAL" value="#transaction_id#">
 			</cfquery>
-			<cfquery name="killTransAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="killTransAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				delete from trans_agent 
 				where transaction_id = <cfqueryparam CFSQLType="CF_SQL_DECIMAL" value="#transaction_id#">
 			</cfquery>
-			<cfquery name="killTrans" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="killTrans" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				delete from trans 
 				where transaction_id = <cfqueryparam CFSQLType="CF_SQL_DECIMAL" value="#transaction_id#">
 			</cfquery>
@@ -1129,14 +1129,14 @@ limitations under the License.
 			<cfabort>
 		</cfif>
 		<cftransaction>
-			<cfquery name="obtainTransNumber" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="obtainTransNumber_result">
+			<cfquery name="obtainTransNumber" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="obtainTransNumber_result">
 				select sq_transaction_id.nextval as trans_id from dual
 			</cfquery>
 			<cfloop query="obtainTransNumber">
 				<cfset new_transaction_id = obtainTransNumber.trans_id>
 			</cfloop>
 			<!--- date_entered has default sysdate in trans, not set from here --->
-			<cfquery name="newDeaccessionTrans" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="newDeaccessionTrans_result">
+			<cfquery name="newDeaccessionTrans" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="newDeaccessionTrans_result">
 				INSERT INTO trans (
 					TRANSACTION_ID,
 					TRANS_DATE, 
@@ -1159,7 +1159,7 @@ limitations under the License.
 					</cfif>
 				)
 			</cfquery>
-			<cfquery name="newDeaccession" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="newDeaccession_result">
+			<cfquery name="newDeaccession" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="newDeaccession_result">
 				INSERT INTO deaccession (
 					TRANSACTION_ID
 					,DEACC_TYPE
@@ -1187,7 +1187,7 @@ limitations under the License.
 				)
 			</cfquery>
 			<cfif isdefined("for_use_by") and len(for_use_by) gt 0>
-				<cfquery name="q_forUseBy" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="q_forUseBy" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					INSERT INTO trans_agent (
 						transaction_id,
 						agent_id,
@@ -1198,7 +1198,7 @@ limitations under the License.
 						'for use by')
 				</cfquery>
 			</cfif>
-			<cfquery name="q_authAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="q_authAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				INSERT INTO trans_agent (
 					transaction_id,
 					agent_id,
@@ -1208,7 +1208,7 @@ limitations under the License.
 					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#auth_agent_id#">,
 					'in-house authorized by')
 			</cfquery>
-			<cfquery name="q_recipinst" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="q_recipinst" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				INSERT INTO trans_agent (
 					transaction_id,
 					agent_id,
@@ -1219,7 +1219,7 @@ limitations under the License.
 					'recipient institution')
 			</cfquery>
 			<cfif isdefined("rec_agent_id") and len(rec_agent_id) gt 0>
-				<cfquery name="q_recievedby" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="q_recievedby" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					INSERT INTO trans_agent (
 						transaction_id,
 						agent_id,
@@ -1231,7 +1231,7 @@ limitations under the License.
 				</cfquery>
 			</cfif>
 			<cfif isdefined("inhouse_contact_agent_id") and len(inhouse_contact_agent_id) gt 0>
-				<cfquery name="q_inhousecontact" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="q_inhousecontact" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					INSERT INTO trans_agent (
 						transaction_id,
 						agent_id,
@@ -1243,7 +1243,7 @@ limitations under the License.
 				</cfquery>
 			</cfif>
 			<cfif isdefined("additional_incontact_agent_id") and len(additional_incontact_agent_id) gt 0>
-				<cfquery name="q_addinhousecontact" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="q_addinhousecontact" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					INSERT INTO trans_agent (
 						transaction_id,
 						agent_id,
@@ -1255,7 +1255,7 @@ limitations under the License.
 				</cfquery>
 			</cfif>
 			<cfif isdefined("additional_outcontact_agent_id") and len(additional_outcontact_agent_id) gt 0>
-				<cfquery name="q_addoutsidecontact" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="q_addoutsidecontact" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					INSERT INTO trans_agent (
 						transaction_id,
 						agent_id,

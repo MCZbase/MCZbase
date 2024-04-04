@@ -15,7 +15,7 @@
 <cfswitch expression="#action#">
 	<cfcase value="entryPoint">
 		<cfoutput>
-			<cfquery name="countItems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="countItems_result">
+			<cfquery name="countItems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="countItems_result">
 				SELECT count(distinct cataloged_item.collection_object_id) ct 
 				FROM
 					cataloged_item
@@ -75,7 +75,7 @@
 		<cfif not isDefined("encumbrance_id") or len(encumbrance_id) EQ 0>
 			<cfthrow message="No Enumbrance specified.">
 		</cfif>
-		<cfquery name="getRecords" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="getRecords" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			SELECT collection_object_id 
 			FROM user_search_table
 			WHERE
@@ -83,7 +83,7 @@
 		</cfquery>
 		<cfloop query="getRecords">
 			<cftransaction>
-				<cfquery name="checkEncumbrance" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="checkEncumbrance" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT count(*) ct 
 					FROM coll_object_encumbrance
 					WHERE
@@ -91,7 +91,7 @@
 						collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getRecords.collection_object_id#">
 				</cfquery>
 				<cfif checkEncumbrance.ct EQ 0>
-					<cfquery name="addToEncumbrance" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					<cfquery name="addToEncumbrance" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						INSERT INTO coll_object_encumbrance (
 							encumbrance_id,
 							collection_object_id
@@ -111,14 +111,14 @@
 		<cfif not isDefined("encumbrance_id") or len(encumbrance_id) EQ 0>
 			<cfthrow message="No Enumbrance specified.">
 		</cfif>
-		<cfquery name="getRecords" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="getRecords" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			SELECT collection_object_id 
 			FROM user_search_table
 			WHERE
 				result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
 		</cfquery>
 		<cfloop query="getRecords">
-			<cfquery name="removeFromEncumbrance" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="removeFromEncumbrance" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				DELETE 
 				FROM coll_object_encumbrance
 				WHERE
@@ -132,7 +132,7 @@
 	<cfcase value="updateComplete">
 		<cfset returnURL = "/specimens/changeQueryEncumbrance.cfm?result_id=#encodeForURL(result_id)#">
 		<cfoutput>
-			<cfquery name="countRecords" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="countRecords" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT count(distinct collection_object_id) ct
 				FROM user_search_table
 				WHERE
@@ -159,7 +159,7 @@
 
 <cfoutput>
 	<!--- NOTE: has left joins to parts and encumbrances, cfloop groups by collection_object_id and loop contains loops through parts and encumbrances --->
-	<cfquery name="getItems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cfquery name="getItems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		 SELECT distinct
 			cataloged_item.collection_object_id as collection_object_id, 
 			cat_num, 

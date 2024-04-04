@@ -29,10 +29,10 @@ limitations under the License.
 <!----------------------------------------------------------------------------------->
 <cfif action is "nothing">
 	<cfoutput>
-		<cfquery name="ctContainer_Type" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="ctContainer_Type" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			select container_type from ctcontainer_type order by container_type
 		</cfquery>
-		<cfquery name="ctinstitution_acronym" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="ctinstitution_acronym" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			select institution_acronym from collection group by institution_acronym order by institution_acronym
 		</cfquery>
 		<h1 class="h2 mt-3 mb-0 px-3">Create Containers for Barcodes</h1>
@@ -155,7 +155,7 @@ limitations under the License.
 				<cfif isdefined("cryoBarcode")>
 					<cfloop index="index" from="1" to = "#num#">
 						<cfset mczbarcode=left(numberFormat(barcode,00000000),4) & "PLACE" & right(numberFormat(barcode,00000000),4)>
-						<cfquery name="AddLabels" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						<cfquery name="AddLabels" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							INSERT INTO container 
 							(
 								container_id, parent_container_id, container_type, barcode, label, container_remarks,locked_position,institution_acronym
@@ -193,7 +193,7 @@ limitations under the License.
 							<cfset numberMask=RepeatString("0",len(#beginBarcode#))>
 							<cfset barcode=NumberFormat(barcode, numberMask)>
 						</cfif>
-						<cfquery name="AddLabels" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						<cfquery name="AddLabels" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							INSERT INTO container 
 							(
 								container_id, parent_container_id, container_type, barcode, label, container_remarks,locked_position,institution_acronym
@@ -242,7 +242,7 @@ limitations under the License.
 									<li><strong>One or More of the Unique Identifiers you are trying to create already exists.</strong></li>
 								</cfif>
 							</cfif>
-							<cfquery name="getParent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+							<cfquery name="getParent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 								SELECT label, barcode, container_id
 								FROM 
 									container 
@@ -266,7 +266,7 @@ limitations under the License.
 			<div class="row mx-0">
 				<div class="col-12 px-0">
 					<h1 class="h2 mt-3 mb-0 px-3">The series of container records with barcodes from #beginBarcode# to #endBarcode# have been created.</h1>
-					<cfquery name="getParent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					<cfquery name="getParent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						SELECT label, barcode, container_id
 						FROM 
 							container 

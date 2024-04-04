@@ -73,7 +73,7 @@ limitations under the License.
 	.nav-tabs .nav-link {background-color: #fff;border-color: #fff;border-bottom: 1px solid #f5f5f5;font-weight: 450;}	
 	.nav-tabs .nav-link.active {background-color: #f5f5f5;border-color: #f5f5f5; font-weight:550;}
 </style>
-<cfquery name="types" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="types" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 	SELECT underscore_collection_type, description 
 	FROM ctunderscore_collection_type
 	WHERE
@@ -83,7 +83,7 @@ limitations under the License.
 			underscore_collection_type <> 'workflow'
 		</cfif>
 </cfquery>
-<cfquery name="namedGroups" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="namedGroups" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 	SELECT
 		count(FF.collection_object_id) ct, 
 		underscore_collection.collection_name, 

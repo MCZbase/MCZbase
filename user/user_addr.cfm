@@ -6,24 +6,24 @@
 </cfif>
 Your address is required before you accept a loan.
 
-<cfquery name="ctNameType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="ctNameType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 	select storedvalue as agent_name_type from ctagent_name_type
 </cfquery>
-<cfquery name="ctAddrType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="ctAddrType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 	select addr_type from ctaddr_type
     where addr_type <> 'temporary'
 </cfquery>
-<cfquery name="ctElecAddrType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="ctElecAddrType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 	select electronic_addr_type from ctelectronic_addr_type
 </cfquery>
-<cfquery name="ctprefix" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="ctprefix" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 	select prefix from ctprefix order by prefix
 </cfquery>
-<cfquery name="ctsuffix" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="ctsuffix" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 	select suffix from ctsuffix order by suffix
 </cfquery>
 
-<cfquery name="addr" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="addr" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 	select
 		 ADDR_ID,
 		 STREET_ADDR1,
@@ -265,7 +265,7 @@ Add Address for <b>#session.username#</b>:
 <!------------------------------------------------------------------------------>
 <cfif #Action# is "newAddress">
 	<cfoutput>
-		<cfquery name="nextAddr" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="nextAddr" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			select max(addr_id) + 1 as nextAddrId from cf_address
 		</cfquery>
 		<cfquery name="prefName" datasource="#uam_dbo#">

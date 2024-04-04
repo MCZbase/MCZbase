@@ -69,7 +69,7 @@ getCounterHtml returns a block of html displaying information from the cf_hellow
 	<cfthread name="getCounterThread">
 		<cftry>
 			<cfoutput>
-				<cfquery name="getCounter" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="getCounter" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT 
 						text, counter, helloworld_id
 					FROM
@@ -118,13 +118,13 @@ getCounterHtml returns a block of html displaying information from the cf_hellow
 	<cfset data = ArrayNew(1)>
 	<cftransaction>
 		<cftry>
-			<cfquery name="setCounter" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="setCounter" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				UPDATE 
 					MCZBASE.cf_helloworld
 				SET
 					counter = counter + 1 
 			</cfquery>
-			<cfquery name="getCounter" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="getCounter" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT 
 					text, counter 
 				FROM
@@ -166,7 +166,7 @@ getCounterHtml returns a block of html displaying information from the cf_hellow
 	<cfset data = ArrayNew(1)>
 	<cftransaction>
 		<cftry>
-			<cfquery name="setCounter" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="setCounter" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				UPDATE 
 					MCZBASE.cf_helloworld
 				SET
@@ -174,7 +174,7 @@ getCounterHtml returns a block of html displaying information from the cf_hellow
 				WHERE
 					helloworld_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#helloworld_id#">
 			</cfquery>
-			<cfquery name="getCounter" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="getCounter" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT 
 					text, counter 
 				FROM
@@ -213,7 +213,7 @@ getCounterHtml returns a block of html displaying information from the cf_hellow
 	<cfset data = ArrayNew(1)>
 	<cftransaction>
 		<cftry>
-			<cfquery name="setText" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="setText" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				UPDATE 
 					MCZBASE.cf_helloworld
 				SET
@@ -221,7 +221,7 @@ getCounterHtml returns a block of html displaying information from the cf_hellow
 				WHERE
 					helloworld_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#helloworld_id#">
 			</cfquery>
-			<cfquery name="getCounter" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="getCounter" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT 
 					text, counter 
 				FROM
@@ -258,7 +258,7 @@ getCounterHtml returns a block of html displaying information from the cf_hellow
 
 	<cfthread name="textDialogThread">
 		<cftry>
-			<cfquery name="lookupRow" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="lookupRow_result">
+			<cfquery name="lookupRow" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="lookupRow_result">
 				select helloworld_id, text, counter
 				from MCZBASE.cf_helloworld
 				where

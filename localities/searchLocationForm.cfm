@@ -72,34 +72,34 @@ Typical use:
 	<cfset newSearchTarget="">
 </cfif>
 
-<cfquery name="ctElevUnit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedWithin="#CreateTimeSpan(0,1,0,0)#">
+<cfquery name="ctElevUnit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" cachedWithin="#CreateTimeSpan(0,1,0,0)#">
 	select orig_elev_units from ctorig_elev_units order by orig_elev_units
 </cfquery>
-<cfquery name="ctDepthUnit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedWithin="#CreateTimeSpan(0,1,0,0)#">
+<cfquery name="ctDepthUnit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" cachedWithin="#CreateTimeSpan(0,1,0,0)#">
         select depth_units from ctdepth_units order by depth_units
 </cfquery>
-<cfquery name="ctCollectingSource" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedWithin="#CreateTimeSpan(0,1,0,0)#">
+<cfquery name="ctCollectingSource" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" cachedWithin="#CreateTimeSpan(0,1,0,0)#">
 	select collecting_source from ctcollecting_source order by collecting_source
 </cfquery>
-<cfquery name="ctVerificationStatus" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedWithin="#CreateTimeSpan(0,1,0,0)#">
+<cfquery name="ctVerificationStatus" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" cachedWithin="#CreateTimeSpan(0,1,0,0)#">
 	select VerificationStatus from ctVerificationStatus order by VerificationStatus
 </cfquery>
-<cfquery name="ctGeorefMethod" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedWithin="#CreateTimeSpan(0,1,0,0)#">
+<cfquery name="ctGeorefMethod" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" cachedWithin="#CreateTimeSpan(0,1,0,0)#">
 	select georefMethod from ctgeorefmethod order by georefMethod
 </cfquery>
-<cfquery name="ctgeology_attribute" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedWithin="#CreateTimeSpan(0,1,0,0)#">
+<cfquery name="ctgeology_attribute" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" cachedWithin="#CreateTimeSpan(0,1,0,0)#">
 	select geology_attribute from ctgeology_attribute order by ordinal
 </cfquery>
-<cfquery name="ctsovereign_nation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedWithin="#CreateTimeSpan(0,1,0,0)#">
+<cfquery name="ctsovereign_nation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" cachedWithin="#CreateTimeSpan(0,1,0,0)#">
 	select ctsovereign_nation.sovereign_nation, count(locality_id) as ct from ctsovereign_nation
  		left join locality on ctsovereign_nation.sovereign_nation=locality.sovereign_nation
 	group by ctsovereign_nation.sovereign_nation
 	order by sovereign_nation
 </cfquery>
-<cfquery name="ctcollection" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedWithin="#CreateTimeSpan(0,1,0,0)#">
+<cfquery name="ctcollection" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" cachedWithin="#CreateTimeSpan(0,1,0,0)#">
 	select collection,collection_id from collection order by collection
 </cfquery>
-<cfquery name="geolocate_score_range" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedWithin="#CreateTimeSpan(0,1,0,0)#">
+<cfquery name="geolocate_score_range" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" cachedWithin="#CreateTimeSpan(0,1,0,0)#">
 	select min(geolocate_score) min_score, max(geolocate_score) max_score from lat_long where geolocate_score is not null
 </cfquery>
 
@@ -748,7 +748,7 @@ Typical use:
 											<input type="text" name="dec_long" class="data-entry-input" value="#encodeForHtml(dec_long)#">
 										</div>
 										<div class="col-12 col-md-2 py-2">
-											<cfquery name="ctDatum" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedWithin="#CreateTimeSpan(0,1,0,0)#">
+											<cfquery name="ctDatum" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" cachedWithin="#CreateTimeSpan(0,1,0,0)#">
 												select datum from ctdatum order by datum
 											</cfquery>
 											<cfif isDefined("datum")><cfset datum_val="#datum#"><cfelse><cfset datum_val=""></cfif>

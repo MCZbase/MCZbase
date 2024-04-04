@@ -69,7 +69,7 @@
 	<cfif confirm.recordcount NEQ 1>
 		<cfthrow message="Unknown controlled vocabulary table">
 	</cfif>
-	<cfquery name="docs" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cfquery name="docs" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		select * from #confirm.found_table#
 	</cfquery>
 	
@@ -249,7 +249,7 @@
 					<tr>
 						<td>#trans_agent_role#</td>
 						<td>#description#</td>
-						<cfquery name="getallowed" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						<cfquery name="getallowed" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							SELECT transaction_type, required_to_print 
 							FROM trans_agent_role_allowed
 							WHERE trans_agent_role = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trans_agent_role#">

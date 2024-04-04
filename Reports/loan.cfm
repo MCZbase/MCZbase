@@ -36,7 +36,7 @@ limitations under the License.
 <cfset top_loan_number = getLoan.loan_number>
 <cfif getLoan.loan_type EQ "exhibition-master">
 	<!--- Special handling --->
-	<cfquery name="getSubloans" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cfquery name="getSubloans" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		SELECT
 			loan.transaction_id, 
 			loan.loan_number
@@ -48,7 +48,7 @@ limitations under the License.
 			AND
 			loan_relations.relation_type = 'Subloan'
 	</cfquery>
-	<cfquery name="getSubloanCounts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cfquery name="getSubloanCounts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			SELECT sum(lot_count) lot_ct, count(coll_object.collection_object_id) item_ct
 			FROM 
 				loan_item 
@@ -83,7 +83,7 @@ limitations under the License.
 	from getLoanItemsMCZ
 	where preserve_method like '%thanol%' or preserve_method like '%alcohol%'
 </cfquery>
-<cfquery name="getRestrictions" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="getRestrictions" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 	SELECT DISTINCT 
 		restriction_summary, permit_id, permit_num, source, permit_title, specific_type
 	FROM (
@@ -106,7 +106,7 @@ limitations under the License.
 		and permit.restriction_summary is not null
 	)
 </cfquery>
-<cfquery name="getShipments" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="getShipments" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 	SELECT
 		shipment_id,
 		to_addr.formatted_addr toAddress,
@@ -444,7 +444,7 @@ limitations under the License.
 									#lot_count# #part_modifier# #part_name#
 									<cfif len(preserve_method) GT 0>(#preserve_method#)</cfif>
 									<cfif getRestrictions.recordcount GT 0>
-										<cfquery name="getSpecificRestrictions" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+										<cfquery name="getSpecificRestrictions" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 											SELECT permit.permit_num,
 												permit.specific_type,
 												permit.permit_title
@@ -519,7 +519,7 @@ limitations under the License.
 								#lot_count# #part_modifier# #part_name#
 								<cfif len(preserve_method) GT 0>(#preserve_method#)</cfif>
 								<cfif getRestrictions.recordcount GT 0>
-									<cfquery name="getSpecificRestrictions" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+									<cfquery name="getSpecificRestrictions" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 										SELECT permit.permit_num, permit_title
 										FROM loan_item li 
 											join specimen_part sp on li.collection_object_id = sp.collection_object_id

@@ -21,7 +21,7 @@ limitations under the License.
 <cfset pageTitle = "View Geological Controlled Vocabularies">
 <cfinclude template="/shared/_header.cfm">
 
-<cfquery name="ctgeology_attribute"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="ctgeology_attribute"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 	SELECT geology_attribute, type, description 
 	FROM ctgeology_attribute
 	ORDER BY ordinal
@@ -30,7 +30,7 @@ limitations under the License.
 <cfif NOT isDefined("type") OR len(type) EQ 0>
 	<cfset type = "all">
 </cfif>
-<cfquery name="cData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="cData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 	SELECT  
 		level,
 		geology_attribute_hierarchy_id,
@@ -53,7 +53,7 @@ limitations under the License.
 <main class="container py-3" id="content" >
 	<cfoutput>
 		<div class="row mx-0  my-2 pt-2 px-2">
-			<cfquery name="types"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="types_result">
+			<cfquery name="types"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="types_result">
 				SELECT distinct type 
 				FROM ctgeology_attribute
 			</cfquery>
@@ -78,7 +78,7 @@ limitations under the License.
 				<div>Values in red are not available for data entry but may be used in searches</div>
 				<cfset levelList = "">
 				<cfloop query="cData">
-					<cfquery name="locCount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					<cfquery name="locCount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						SELECT count(locality_id) ct
 						FROM geology_attributes
 						WHERE

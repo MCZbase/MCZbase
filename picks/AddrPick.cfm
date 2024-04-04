@@ -28,7 +28,7 @@
 		<cfabort>
 	</cfif>
 	<cfset searchAgentString = "%#ucase(agentname)#%" >
-	<cfquery name="getAgentId" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cfquery name="getAgentId" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		SELECT agent_name, preferred_agent_name.agent_id, formatted_addr, addr_id,VALID_ADDR_FG, addr_type
 		FROM preferred_agent_name left join addr on preferred_agent_name.agent_id = addr.agent_id
 		WHERE

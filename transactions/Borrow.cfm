@@ -5,7 +5,7 @@
 <cfif isdefined("action") AND action EQ 'edit'>
 	<cfset pageTitle = "Edit Borrow">
 	<cfif isdefined("transaction_id") >
-		<cfquery name="borrowNumber" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="borrowNumber" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			select
 				borrow_number
 			from
@@ -50,17 +50,17 @@ limitations under the License.
 </cfif>
 
 <!--- Borrow controlled vocabularies --->
-<cfquery name="ctBorrowStatus" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="ctBorrowStatus" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 	select borrow_status from ctborrow_status order by borrow_status
 </cfquery>
-<cfquery name="ctcollection" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="ctcollection" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 	select COLLECTION_CDE, INSTITUTION_ACRONYM, DESCR, COLLECTION, COLLECTION_ID, WEB_LINK,
 		WEB_LINK_TEXT, CATNUM_PREF_FG, CATNUM_SUFF_FG, GENBANK_PRID, GENBANK_USERNAME,
 		GENBANK_PWD, LOAN_POLICY_URL, ALLOW_PREFIX_SUFFIX, GUID_PREFIX, INSTITUTION 
 	from collection order by collection
 </cfquery>
 <!--- Obtain list of transaction agent roles relevant to borrows --->
-<cfquery name="cttrans_agent_role" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="cttrans_agent_role" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 	select distinct(cttrans_agent_role.trans_agent_role) 
 	from cttrans_agent_role
 		left join trans_agent_role_allowed on cttrans_agent_role.trans_agent_role = trans_agent_role_allowed.trans_agent_role
@@ -133,7 +133,7 @@ limitations under the License.
 			</cfif>
 			<cfif len(#colVals#) gt 1>
 				<cfset colVals="#transaction_id##colVals#">
-				<cfquery name="ins" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="ins" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					insert into BORROW_ITEM (#colNames#) values (#preservesinglequotes(colVals)#)
 				</cfquery>
 			</cfif>
@@ -160,7 +160,7 @@ limitations under the License.
 					<div id="nextNumDiv">
 						<h2 class="h4 mx-2 mb-1" id="nextNumberSectionLabel" title="Click on a collection button and the next available borrow number in the database for that collection will be entered">Next Available Borrow Number:</h2>
 						<!--- Find list of all collections --->
-						<cfquery name="allCollections" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						<cfquery name="allCollections" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							select collection_id, collection_cde, collection from collection 
 							order by collection 
 						</cfquery>
@@ -168,7 +168,7 @@ limitations under the License.
 						<cfloop query="allCollections">
 							<cftry>
 								<!---- Borrow numbers follow Dyyyy-n-CCDE format, obtain highest n for current year for each collection. --->
-								<cfquery name="nextNumberQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+								<cfquery name="nextNumberQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 									select
 									'B#dateformat(now(),"yyyy")#-' || nvl( max(to_number(substr(borrow_number,instr(borrow_number,'-')+1,instr(borrow_number,'-',1,2)-instr(borrow_number,'-')-1) + 1)) , 1) || '-#collection_cde#' as nextNumber
 									from
@@ -186,7 +186,7 @@ limitations under the License.
 								#cfcatch.detail#<br>
 								#cfcatch.message# 
 								<!--- Put an error message into nextNumberQuery.nextNumber --->
-								<cfquery name="nextNumberQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+								<cfquery name="nextNumberQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 									select 'check data' as nextNumber from dual
 								</cfquery>
 							</cfcatch>
@@ -546,7 +546,7 @@ limitations under the License.
 		 	};
 		</script>
 		<cftry>
-			<cfquery name="borrowDetails" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="borrowDetails_result">
+			<cfquery name="borrowDetails" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="borrowDetails_result">
 				select
 					trans.transaction_id,
 					trans.transaction_type,
@@ -583,7 +583,7 @@ limitations under the License.
 			<cfif borrowDetails.RecordCount GT 0 AND borrowDetails.transaction_type NEQ 'borrow'>
 				<cfthrow message = "Request to edit an borrow, but the provided transaction_id was for a different transaction type [#borrowDetails.transaction_type#].">
 			</cfif>
-			<cfquery name="transAgents" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="transAgents" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				select
 					trans_agent_id,
 					trans_agent.agent_id,
@@ -825,7 +825,7 @@ limitations under the License.
 					</form>
 				</section>
 				<section name="borrowItemsSection" class="row border rounded mx-0 my-2" title="Collection Objects in this Borrow">
-					<cfquery name="borrowItemCount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="borrowItemsCount_result">
+					<cfquery name="borrowItemCount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="borrowItemsCount_result">
 						select count(*) as ct 
 						from borrow_item
 						where transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
@@ -1392,20 +1392,20 @@ limitations under the License.
 <cfif Action is "deleBorrow">
 	<cftry>
 		<cftransaction>
-			<cfquery name="getBorrowNum" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="getBorrowNum" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				select borrow_number from borrow 
 				where transaction_id = <cfqueryparam CFSQLType="CF_SQL_DECIMAL" value="#transaction_id#">
 			</cfquery>
 			<cfset deleteTarget = getBorrowNum.borrow_number>
-			<cfquery name="killBorrow" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="killBorrow" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				delete from borrow 
 				where transaction_id = <cfqueryparam CFSQLType="CF_SQL_DECIMAL" value="#transaction_id#">
 			</cfquery>
-			<cfquery name="killTransAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="killTransAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				delete from trans_agent 
 				where transaction_id = <cfqueryparam CFSQLType="CF_SQL_DECIMAL" value="#transaction_id#">
 			</cfquery>
-			<cfquery name="killTrans" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="killTrans" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				delete from trans 
 				where transaction_id = <cfqueryparam CFSQLType="CF_SQL_DECIMAL" value="#transaction_id#">
 			</cfquery>
@@ -1479,14 +1479,14 @@ limitations under the License.
 			<cfabort>
 		</cfif>
 		<cftransaction>
-			<cfquery name="obtainTransNumber" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="obtainTransNumber_result">
+			<cfquery name="obtainTransNumber" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="obtainTransNumber_result">
 				select sq_transaction_id.nextval as trans_id from dual
 			</cfquery>
 			<cfloop query="obtainTransNumber">
 				<cfset new_transaction_id = obtainTransNumber.trans_id>
 			</cfloop>
 			<!--- date_entered has default sysdate in trans, not set from here --->
-			<cfquery name="newBorrowTrans" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="newBorrowTrans_result">
+			<cfquery name="newBorrowTrans" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="newBorrowTrans_result">
 				INSERT INTO trans (
 					TRANSACTION_ID,
 					TRANS_DATE, 
@@ -1509,7 +1509,7 @@ limitations under the License.
 					</cfif>
 				)
 			</cfquery>
-			<cfquery name="newBorrow" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="newBorrow_result">
+			<cfquery name="newBorrow" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="newBorrow_result">
 				INSERT INTO borrow (
 					TRANSACTION_ID
 					,borrow_number
@@ -1572,7 +1572,7 @@ limitations under the License.
 					</cfif>
 				)
 			</cfquery>
-			<cfquery name="q_overAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="q_overAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				INSERT INTO trans_agent (
 					transaction_id,
 					agent_id,
@@ -1582,7 +1582,7 @@ limitations under the License.
 					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#over_agent_id#">,
 					'borrow overseen by')
 			</cfquery>
-			<cfquery name="q_receivedby" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="q_receivedby" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				INSERT INTO trans_agent (
 					transaction_id,
 					agent_id,
@@ -1592,7 +1592,7 @@ limitations under the License.
 					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#received_agent_id#">,
 					'received by')
 			</cfquery>
-			<cfquery name="q_receivedfrom" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="q_receivedfrom" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				INSERT INTO trans_agent (
 					transaction_id,
 					agent_id,
@@ -1602,7 +1602,7 @@ limitations under the License.
 					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#received_from_agent_id#">,
 					'received from')
 			</cfquery>
-			<cfquery name="q_recipinst" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="q_recipinst" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				INSERT INTO trans_agent (
 					transaction_id,
 					agent_id,
@@ -1612,7 +1612,7 @@ limitations under the License.
 					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#lending_institution_agent_id#">,
 					'lending institution')
 			</cfquery>
-			<cfquery name="q_inhousecontact" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="q_inhousecontact" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				INSERT INTO trans_agent (
 					transaction_id,
 					agent_id,
@@ -1623,7 +1623,7 @@ limitations under the License.
 					'in-house contact')
 			</cfquery>
 			<cfif isdefined("auth_agent_id") and len(auth_agent_id) gt 0>
-				<cfquery name="q_outauthAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="q_outauthAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					INSERT INTO trans_agent (
 						transaction_id,
 						agent_id,
@@ -1635,7 +1635,7 @@ limitations under the License.
 				</cfquery>
 			</cfif>
 			<cfif isdefined("for_use_by_agent_id") and len(for_use_by_agent_id) gt 0>
-				<cfquery name="q_forUseBy" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="q_forUseBy" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					INSERT INTO trans_agent (
 						transaction_id,
 						agent_id,
@@ -1647,7 +1647,7 @@ limitations under the License.
 				</cfquery>
 			</cfif>
 			<cfif isdefined("outside_contact_agent_id") and len(outside_contact_agent_id) gt 0>
-				<cfquery name="q_addinhousecontact" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="q_addinhousecontact" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					INSERT INTO trans_agent (
 						transaction_id,
 						agent_id,
@@ -1659,7 +1659,7 @@ limitations under the License.
 				</cfquery>
 			</cfif>
 			<cfif isdefined("additional_out_contact_agent_id") and len(additional_out_contact_agent_id) gt 0>
-				<cfquery name="q_addoutsidecontact" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="q_addoutsidecontact" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					INSERT INTO trans_agent (
 						transaction_id,
 						agent_id,

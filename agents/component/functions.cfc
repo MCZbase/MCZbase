@@ -63,7 +63,7 @@ limitations under the License.
 
 	<cfset data = ArrayNew(1)>
 	<cftry>
-		<cfquery name="dupPref" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="dupPref_result">
+		<cfquery name="dupPref" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="dupPref_result">
 			SELECT agent.agent_type, preferred_agent_name.agent_id, preferred_agent_name.agent_name
 			FROM preferred_agent_name
 				left join agent on preferred_agent_name.agent_id = agent.agent_id
@@ -104,7 +104,7 @@ limitations under the License.
 
 	<cfset data = ArrayNew(1)>
 	<cftry>
-		<cfquery name="dupPref" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="dupPref_result">
+		<cfquery name="dupPref" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="dupPref_result">
 			SELECT agent.agent_type,agent_name.agent_id,agent_name.agent_name
 			FROM 
 				agent_name
@@ -146,12 +146,12 @@ limitations under the License.
 	<cfthread name="addressesThread">
 		<cfoutput>
 			<cftry>
-				<cfquery name="ctAddrType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="ctAddrType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT addr_type 
 					fROM ctaddr_type
 					WHERE addr_type <> 'temporary'
 				</cfquery>
-				<cfquery name="agentAddrs" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="agentAddrs" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT
 						addr_id,
 						addr_type,
@@ -173,7 +173,7 @@ limitations under the License.
 					<cfset i=0>
 					<ul class="list-group form-row mx-0 pr-2">
 						<cfloop query="agentAddrs">
-							<cfquery name="countUses" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result=countUses_result>
+							<cfquery name="countUses" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result=countUses_result>
 								SELECT count(shipment_id) ct 
 								FROM shipment 
 								WHERE shipped_to_addr_id = <cfqueryparam value="#agentAddrs.addr_id#" cfsqltype="CF_SQL_DECIMAL">
@@ -290,11 +290,11 @@ limitations under the License.
 	<cfset theResult=queryNew("status, message,address_id, address")>
 	<cftransaction>
 		<cftry>
-			<cfquery name="addrNextId" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="addrNextId" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				select sq_addr_id.nextval as id from dual
 			</cfquery>
 			<cfset pk = addrNextId.id>
-			<cfquery name="newAddr" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="newAddr_result">
+			<cfquery name="newAddr" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="newAddr_result">
 				INSERT INTO addr (
 					ADDR_ID
 					,STREET_ADDR1
@@ -329,7 +329,7 @@ limitations under the License.
 					,<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#addr_remarks#'>
 				)
 			</cfquery>
-			<cfquery name="newAddr" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="addrResult"> 
+			<cfquery name="newAddr" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="addrResult"> 
 				SELECT formatted_addr
 				FROM addr 
 				WHERE addr_id = <cfqueryparam value='#pk#' cfsqltype="CF_SQL_DECIMAL">
@@ -382,7 +382,7 @@ limitations under the License.
 	<cfset theResult=queryNew("status, message, address")>
 	<cftransaction>
 		<cftry>
-			<cfquery name="updateAddr" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateAddr_result">
+			<cfquery name="updateAddr" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateAddr_result">
 				UPDATE addr 
 				SET
 					AGENT_ID = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#AGENT_ID#">
@@ -402,7 +402,7 @@ limitations under the License.
 				WHERE addr_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#addr_id#">
 			</cfquery>
 			<cfif updateAddr_result.recordcount EQ 1>
-				<cfquery name="getUpdatedAddr" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getUpdatedAddr_result">
+				<cfquery name="getUpdatedAddr" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getUpdatedAddr_result">
 					SELECT formatted_addr 
 					FROM addr
 					WHERE addr_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#addr_id#">
@@ -437,7 +437,7 @@ limitations under the License.
 	<cfset theResult=queryNew("status, message")>
 	<cftransaction>
 		<cftry>
-			<cfquery name="deleteAddr" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="deleteAddr_result">
+			<cfquery name="deleteAddr" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="deleteAddr_result">
 				DELETE FROM addr 
 				WHERE addr_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#addr_id#">
 			</cfquery>
@@ -472,19 +472,19 @@ limitations under the License.
 	<cfthread name="arelationThread">
 		<cfoutput>
 			<cftry>
-				<cfquery name="agent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="agent_result">
+				<cfquery name="agent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="agent_result">
 					SELECT agent_name, edited
 					FROM agent left join preferred_agent_name on agent.agent_id = preferred_agent_name.agent_id
 					WHERE agent.agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
 				</cfquery>
 				<cfset currAgent = agent.agent_name>
-				<cfquery name="ctagent_relationship" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="ctagent_relationship" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT agent_relationship
 					FROM ctagent_relationship 
 					ORDER BY agent_relationship
 				</cfquery>
 					<h3 class="h4">Relationships of <span class="text-secondary">#currAgent#</span> to other agents</h3>
-				<cfquery name="relations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="relations_result">
+				<cfquery name="relations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="relations_result">
 					select
 						preferred_agent_name.agent_name,
 						agent_relationship, 
@@ -606,7 +606,7 @@ limitations under the License.
 					</script>
 				</div>
 				<h3 class="h4">Relationships from Other Agents</h3>
-				<cfquery name="revRelations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="revRelations_result">
+				<cfquery name="revRelations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="revRelations_result">
 					select
 						preferred_agent_name.agent_name,
 						agent_relationship, 
@@ -673,7 +673,7 @@ limitations under the License.
 			<cfif NOT isdefined("relationship") OR len(relationship) EQ 0 OR ucase(relationship) EQ ucase("Select a Relationship")>
 				<cfthrow message="Unable to insert relationship, no relationship type selected.  You must pick a relationship.">
 			</cfif>
-			<cfquery name="newRelationship" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="newRelationship_result">
+			<cfquery name="newRelationship" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="newRelationship_result">
 				INSERT INTO agent_relations (
 					AGENT_ID,
 					RELATED_AGENT_ID,
@@ -725,7 +725,7 @@ limitations under the License.
 	<cfset theResult=queryNew("status, message")>
 	<cftransaction>
 		<cftry>
-			<cfquery name="deleteRelationship" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="deleteRelationship_result">
+			<cfquery name="deleteRelationship" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="deleteRelationship_result">
 				DELETE FROM agent_relations 
 				WHERE
 				agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
@@ -776,7 +776,7 @@ limitations under the License.
 			<cfif NOT isdefined("related_agent_id") OR len(related_agent_id) EQ 0>
 				<cfthrow message="Unable to insert relationship, no related agent specified.  You must pick a related agent from the pick list..">
 			</cfif>
-			<cfquery name="updateRelationship" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateRelationship_result">
+			<cfquery name="updateRelationship" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateRelationship_result">
 				UPDATE agent_relations SET
 					related_agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#related_agent_id#">
 					, agent_relationship=<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#relationship#'>
@@ -817,10 +817,10 @@ limitations under the License.
 	<cfthread name="eaddrThread">
 		<cfoutput>
 			<cftry>
-				<cfquery name="ctElecAddrType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="ctElecAddrType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					select address_type from ctelectronic_addr_type
 				</cfquery>
-				<cfquery name="electAgentAddrs" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="electAgentAddrs_result">
+				<cfquery name="electAgentAddrs" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="electAgentAddrs_result">
 					SELECT 
 						electronic_address_id,
 						agent_id, 
@@ -929,7 +929,7 @@ limitations under the License.
 	<cfset theResult=queryNew("status, message")>
 	<cftransaction>
 		<cftry>
-			<cfquery name="newElectronicAddress" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="newElectronicAddress_result" >
+			<cfquery name="newElectronicAddress" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="newElectronicAddress_result" >
 				INSERT INTO electronic_address (
 					agent_id
 					,address_type
@@ -974,7 +974,7 @@ limitations under the License.
 	<cfset theResult=queryNew("status, message")>
 	<cftransaction>
 		<cftry>
-			<cfquery name="updateElectronicAddress" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateElectronicAddress_result">
+			<cfquery name="updateElectronicAddress" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateElectronicAddress_result">
 				UPDATE electronic_address SET
 					address_type = <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#address_type#'>,
 					address = <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#address#'>
@@ -1013,7 +1013,7 @@ limitations under the License.
 	<cfset theResult=queryNew("status, message")>
 	<cftransaction>
 		<cftry>
-			<cfquery name="deleteElectronicAddress" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="deleteElectronicAddress_result">
+			<cfquery name="deleteElectronicAddress" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="deleteElectronicAddress_result">
 				delete from electronic_address 
 				where
 					electronic_address_id=<cfqueryparam cfsqltype='CF_SQL_DECIMAL' value='#electronic_address_id#'>
@@ -1049,7 +1049,7 @@ limitations under the License.
 		<cfoutput>
 			<cftry>
 				<!--- preferred name --->
-				<cfquery name="preferredName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="preferredName_result">
+				<cfquery name="preferredName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="preferredName_result">
 					SELECT
 						agent_name.agent_name_id,
 						agent_id,
@@ -1085,7 +1085,7 @@ limitations under the License.
 					</ul>
 				</form>
 				<!--- other names --->
-				<cfquery name="notPrefName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="notPrefName_result">
+				<cfquery name="notPrefName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="notPrefName_result">
 					SELECT distinct
 						agent_name.agent_name_id,
 						agent_id,
@@ -1105,7 +1105,7 @@ limitations under the License.
 				<h3 class="h4 mt-2 mb-0">Other Names</h3>
 				<label class="data-entry-label mb-0 sr-only">Other Names</label>
 				<span class="hints text-success small px-1">(add a space between initials for all forms with two initials)</span>
-				<cfquery name="ctNameType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="ctNameType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					select agent_name_type 
 					from ctagent_name_type 
 					where agent_name_type != 'preferred' 
@@ -1220,11 +1220,11 @@ limitations under the License.
 	<cfset theResult=queryNew("status, message, agent_name_id")>
 	<cftransaction>
 		<cftry>
-			<cfquery name="newId" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="newId_result">
+			<cfquery name="newId" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="newId_result">
 				SELECT sq_agent_name_id.nextval as id FROM dual
 			</cfquery>
 			<cfset new_agent_name_id = newId.id>
-			<cfquery name="updateName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateName_result">
+			<cfquery name="updateName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateName_result">
 				INSERT INTO agent_name (
 					agent_name_id,
 					agent_id,
@@ -1273,7 +1273,7 @@ limitations under the License.
 	<cftransaction>
 		<cftry>
 			<cfset provided_agent_name_type = agent_name_type>
-			<cfquery name="checkName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="checkName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT agent_name_type 
 				FROM agent_name 
 				WHERE
@@ -1282,7 +1282,7 @@ limitations under the License.
 			<cfif provided_agent_name_type EQ 'preferred' and checkName.agent_name_type NEQ 'preferred'>
 				<cfthrow message="you can't change a preferred name to a different name type.">
 			</cfif>
-			<cfquery name="updateName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateName_result">
+			<cfquery name="updateName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateName_result">
 				UPDATE agent_name
 				SET
 					agent_name = <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#agent_name#'>,
@@ -1320,7 +1320,7 @@ limitations under the License.
 	<cfset theResult=queryNew("status, message")>
 	<cftransaction>
 		<cftry>
-			<cfquery name="checkName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="checkName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT agent_name_type 
 				FROM agent_name 
 				WHERE
@@ -1331,7 +1331,7 @@ limitations under the License.
 			</cfif>
 			<!--- Check if this name is in use by any tables that link to an agent_name. --->
 			<!--- TODO: This should be enforced by foreign keys --->
-			<cfquery name="delId" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="delId" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT
 					PROJECT_AGENT.AGENT_NAME_ID,
 					PUBLICATION_AUTHOR_NAME.AGENT_NAME_ID,
@@ -1350,7 +1350,7 @@ limitations under the License.
 			<cfif #delId.recordcount# gt 1>
 				<cfthrow message="The agent name you are trying to delete is active in a project or publication.">
 			</cfif>
-			<cfquery name="deleteAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="deleteAgent_result">
+			<cfquery name="deleteAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="deleteAgent_result">
 				DELETE FROM agent_name
 				WHERE 
 					agent_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_name_id#">
@@ -1386,14 +1386,14 @@ limitations under the License.
 	<cfthread name="groupMembersThread">
 		<cfoutput>
 			<cftry>
-				<cfquery name="lookupAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="lookupAgent_result">
+				<cfquery name="lookupAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="lookupAgent_result">
 					SELECT agent_type, agent_id
 					FROM agent
 					WHERE agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
 				</cfquery>
 				<cfloop query="lookupAgent">
 					<cfif #lookupAgent.agent_type# IS "group" OR #lookupAgent.agent_type# IS "expedition" OR #lookupAgent.agent_type# IS "vessel">
-						<cfquery name="groupMembers" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="groupMembers_result">
+						<cfquery name="groupMembers" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="groupMembers_result">
 							SELECT
 								group_agent_id,
 								member_agent_id,
@@ -1512,7 +1512,7 @@ limitations under the License.
 	<cfset theResult=queryNew("status, message, renumbered")>
 	<cftransaction>
 		<cftry>
-			<cfquery name="getCurrentNum" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getCurrentNum_result">
+			<cfquery name="getCurrentNum" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getCurrentNum_result">
 				SELECT member_order
 				FROM group_member
 				WHERE
@@ -1521,7 +1521,7 @@ limitations under the License.
 					MEMBER_AGENT_ID = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#MEMBER_AGENT_ID#">
 			</cfquery>
 			<cfset removedMemberOrder = getCurrentNum.member_order>
-			<cfquery name="removeGroupMember" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="removeGroupMember_result">
+			<cfquery name="removeGroupMember" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="removeGroupMember_result">
 				DELETE FROM group_member
 				WHERE
 					GROUP_AGENT_ID =<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
@@ -1532,7 +1532,7 @@ limitations under the License.
 				<cfthrow message="No agent removed from group. Group:[#encodeForHTML(agent_id)#] Member:[#encodeForHTML(member_agent_id)#] #removeGroupMember_result.sql#" >
 			</cfif>
 			<cfif removeGroupMember_result.recordcount eq 1>
-				<cfquery name="moveDown" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="moveDown_result">
+				<cfquery name="moveDown" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="moveDown_result">
 					UPDATE group_member
 					SET member_order = member_order - 1
 					WHERE
@@ -1572,7 +1572,7 @@ limitations under the License.
 	<cftransaction>
 		<cftry>
 			<cfif NOT isdefined("member_order") OR len(member_order) EQ 0>
-				<cfquery name="getMaxOrder" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getMaxOrder_result">
+				<cfquery name="getMaxOrder" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getMaxOrder_result">
 					SELECT nvl(max(member_order),0) as max_order
 					FROM group_member
 					WHERE
@@ -1584,7 +1584,7 @@ limitations under the License.
 				</cfloop>
 				<cfset member_order = currentMax + 1>
 			</cfif>
-			<cfquery name="getAgentType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getAgentType_result">
+			<cfquery name="getAgentType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getAgentType_result">
 				SELECT agent_type 
 				FROM agent
 				WHERE
@@ -1596,7 +1596,7 @@ limitations under the License.
 			</cfif>
 			<cfloop query="getAgentType">
 				<cfif #getAgentType.agent_type# IS "group" OR #getAgentType.agent_type# IS "expedition" OR #getAgentType.agent_type# IS "vessel">
-					<cfquery name="addGroupMember" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="addGroupMember_result">
+					<cfquery name="addGroupMember" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="addGroupMember_result">
 						INSERT INTO group_member
 							(GROUP_AGENT_ID,
 							MEMBER_AGENT_ID,
@@ -1646,7 +1646,7 @@ limitations under the License.
 	<cfset theResult=queryNew("status, message")>
 	<cftransaction>
 		<cftry>
-			<cfquery name="getMaxOrder" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getMaxOrder_result">
+			<cfquery name="getMaxOrder" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getMaxOrder_result">
 				SELECT max(member_order) as max_order
 				FROM group_member
 				WHERE
@@ -1656,7 +1656,7 @@ limitations under the License.
 			<cfloop query="getMaxOrder">
 				<cfset maxPos = getMaxOrder.max_order >
 			</cfloop>
-			<cfquery name="getCurrentPosition" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getCurrentPosition_result">
+			<cfquery name="getCurrentPosition" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getCurrentPosition_result">
 				SELECT member_order
 				FROM group_member
 				WHERE
@@ -1680,7 +1680,7 @@ limitations under the License.
 			<cfelse>
 				<cfthrow message="unknown direction [#encodeForHTML(direction)#]">
 			</cfif>
-			<cfquery name="moveAgentTwo" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="moveAgentTwo_result">
+			<cfquery name="moveAgentTwo" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="moveAgentTwo_result">
 				UPDATE group_member
 				SET MEMBER_ORDER = <cfqueryparam cfsqltype='CF_SQL_DECIMAL' value='#currentPos#'>
 				WHERE
@@ -1688,7 +1688,7 @@ limitations under the License.
 					AND
 					MEMBER_ORDER = <cfqueryparam cfsqltype='CF_SQL_DECIMAL' value='#targetPos#'>
 			</cfquery>
-			<cfquery name="moveAgentOne" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="moveAgentOne_result">
+			<cfquery name="moveAgentOne" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="moveAgentOne_result">
 				UPDATE group_member
 				SET MEMBER_ORDER = <cfqueryparam cfsqltype='CF_SQL_DECIMAL' value='#targetPos#'>
 				WHERE
@@ -1740,13 +1740,13 @@ limitations under the License.
 				</cfif>
 				<cfif isdefined("create_from_address_id") AND (not isdefined("agent_id") AND len(agent_id) GT 0) >
 					<!--- look up agent id from address --->
-					<cfquery name="qAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					<cfquery name="qAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						select agent_id from addr where addr_id = <cfqueryparam value="#create_from_address_id#" CFSQLTYPE="CF_SQL_VARCHAR">
 					</cfquery>
 					<cfset agent_id = qAgent.agent_id >
 				</cfif>
 				<cfif isdefined("addr_id") and len(#addr_id#) GT 0>
-					<cfquery name="lookupAddress" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="lookupAddress_result">
+					<cfquery name="lookupAddress" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="lookupAddress_result">
 						SELECT 
 							addr_id,
 							street_addr1,
@@ -1807,7 +1807,7 @@ limitations under the License.
 						<cfset formatted_addr = "">
 						<cfset method = "addNewAddress">
 				</cfif>
-				<cfquery name="ctAddrType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="ctAddrType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					select addr_type from ctaddr_type where addr_type = <cfqueryparam value="#address_type#" CFSQLTYPE="CF_SQL_VARCHAR">
 				</cfquery>
 				<cfif ctAddrType.addr_type IS ''>
@@ -1815,7 +1815,7 @@ limitations under the License.
 				<cfelse>
 					<cfset agent_name ="">
 					<cfif isdefined("agent_id") AND len(agent_id) GT 0 >
-						<cfquery name="query" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						<cfquery name="query" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							SELECT agent_name 
 							FROM preferred_agent_name 
 							WHERE
@@ -2044,7 +2044,7 @@ limitations under the License.
 
 	<cftransaction>
 		<cftry>
-			<cfquery name="lookupType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="lookupType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				select agent_type as existing_agent_type
 				from agent
 				where agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
@@ -2052,7 +2052,7 @@ limitations under the License.
 			<cfif lookupType.recordcount NEQ 1>
 				<cfthrow message="Unable to lookup agent_type from provided agent_id [#encodeForHTML(agent_id)#]">
 			</cfif>
-			<cfquery name="lookupGroupMembers" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="lookupGroupMembers" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				select count(*) as count_of_group_members
 				from group_member
 				where group_agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
@@ -2095,7 +2095,7 @@ limitations under the License.
 			</cfif>
 			<cfif convertFromPerson>
 				<!--- check that a person record exists to be converted from --->
-				<cfquery name="checkForPerson" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="checkForPerson" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT count(*) ct
 					FROM person 
 					WHERE
@@ -2109,7 +2109,7 @@ limitations under the License.
 			<!--- Note order of clauses for change from person: save any changes made to the person before extracting to store as remarks --->
 			<cfif updatePerson>
 				<!--- update existing person record --->
-				<cfquery name="editPerson" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="editPerson" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE person SET
 						person_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
 				<cfif len(#first_name#) gt 0>
@@ -2153,7 +2153,7 @@ limitations under the License.
 			</cfif>
 			<cfif convertFromPerson>
 				<!--- obtain person record, append name and birth/death to remarks --->
-				<cfquery name="getPerson" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getPerson_result">
+				<cfquery name="getPerson" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getPerson_result">
 					SELECT
 						PREFIX,
 						LAST_NAME,
@@ -2182,7 +2182,7 @@ limitations under the License.
 						<cfset agent_remarks = "#agent_remarks#; #remark#">
 					</cfif>
 					<!--- if name doesn't exist as an AKA, add it. --->
-					<cfquery name="checkForName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="checkForName_result">
+					<cfquery name="checkForName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="checkForName_result">
 						SELECT count(*) ct 
 						FROM agent_name
 						WHERE
@@ -2191,7 +2191,7 @@ limitations under the License.
 							and agent_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#name#">
 					</cfquery>
 					<cfif checkForName.ct EQ 0>
-						<cfquery name="addName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="addName_result">
+						<cfquery name="addName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="addName_result">
 							INSERT into agent_name (
 								agent_id, 
 								agent_name_type,
@@ -2208,7 +2208,7 @@ limitations under the License.
 				</cfloop>
 			</cfif>
 			<cfif updateAgent>
-				<cfquery name="updateAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="updateAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE agent SET
 						edited=<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#vetted#'>
 						,agent_type=<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#provided_agent_type#'>
@@ -2243,7 +2243,7 @@ limitations under the License.
 			</cfif>
 			<cfif insertPerson>
 				<!--- add a person record linked to existing agent record--->
-				<cfquery name="insPerson" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="insPerson" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					INSERT INTO person (
 						PERSON_ID
 						<cfif isdefined("prefix") AND len(#prefix#) gt 0>
@@ -2295,7 +2295,7 @@ limitations under the License.
 			</cfif>
 			<cfif removePerson>
 				<!--- Note: Various _by_person_id fields have foreign key contraints on agent.agent_id, as person.person_id is actually a foreign key to agent.agent_id --->
-				<cfquery name="deletePerson" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="deletePerson_result">
+				<cfquery name="deletePerson" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="deletePerson_result">
 					delete from person
 					where
 						person_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
@@ -2303,7 +2303,7 @@ limitations under the License.
 			</cfif>
 			<cfif isdefined("pref_name") and len(pref_name) GT 0>
 				<!--- update the preferred name, if one was provided, and the provided value is different from the current value --->
-				<cfquery name="checkName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="checkName_result">
+				<cfquery name="checkName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="checkName_result">
 					SELECT agent_name_id
 					FROM agent_name 
 					WHERE
@@ -2313,7 +2313,7 @@ limitations under the License.
 				</cfquery>
 				<cfif checkName.recordcount EQ 0>
 					<!--- current preferred name is differrent, update --->
-					<cfquery name="getNameID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getNameID_result">
+					<cfquery name="getNameID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getNameID_result">
 						SELECT agent_name_id
 						FROM agent_name 
 						WHERE
@@ -2321,7 +2321,7 @@ limitations under the License.
 							and agent_name_type = 'preferred'
 					</cfquery>
 					<cfloop query="getNameID">
-						<cfquery name="updateName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateName_result">
+						<cfquery name="updateName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateName_result">
 							UPDATE agent_name
 							SET
 								agent_name = <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#pref_name#'>
@@ -2367,7 +2367,7 @@ limitations under the License.
 			<cfif NOT listcontainsnocase(session.roles,"manage_agents")>
 				<cfthrow message="Not Authorized">
 			</cfif>
-			<cfquery name="checkType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="checkType_result">
+			<cfquery name="checkType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="checkType_result">
 				SELECT agent_type 
 				FROM agent
 				WHERE agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
@@ -2375,7 +2375,7 @@ limitations under the License.
 			<cfif checkType.recordcount NEQ 1 OR checkType.agent_type NEQ "person" >
 				<cfthrow message="Unable to convert, agent not found or already not a person.">
 			</cfif>
-			<cfquery name="getPerson" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getPerson_result">
+			<cfquery name="getPerson" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getPerson_result">
 				SELECT
 					PREFIX,
 					LAST_NAME,
@@ -2389,7 +2389,7 @@ limitations under the License.
 			</cfquery>
 			<cfif getPerson.recordcount EQ 0 >
 				<!--- error case, agent typed as person, but with no person record, allow change --->					
-				<cfquery name="updateType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateType_result">
+				<cfquery name="updateType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateType_result">
 					UPDATE agent 
 					SET agent_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#new_agent_type#">
 					WHERE agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
@@ -2400,7 +2400,7 @@ limitations under the License.
 					<cfset name = "#prefix# #first_name# #middle_name# #last_name# #suffix#">
 					<cfset name = trim(replace(name,"  "," ", "all"))>
 					<!--- add the assembled parts of the name in the person record as an aka agent name --->
-					<cfquery name="addName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="addName_result">
+					<cfquery name="addName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="addName_result">
 						INSERT into agent_name (
 							agent_id, 
 							agent_name_type,
@@ -2422,13 +2422,13 @@ limitations under the License.
 						<cfset remark = "#remark# Death Date [#death#]">
 					</cfif>
 					<cfset remark="#remark#.">
-					<cfquery name="updateAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateAgent_result">
+					<cfquery name="updateAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateAgent_result">
 						UPDATE agent
 						SET agent_remarks = nvl2(agent_remarks, agent_remarks||'; ' , '') || <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#remark#">>
 						WHERE agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
 					</cfquery>
 				</cfloop>
-				<cfquery name="updateType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateType_result">
+				<cfquery name="updateType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateType_result">
 					UPDATE agent 
 					SET agent_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#new_agent_type#">
 					WHERE agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
@@ -2436,7 +2436,7 @@ limitations under the License.
 				<cfif updateType_result.recordcount NEQ 1>
 					<cfthrow message="Error setting new type on agent.">
 				</cfif>
-				<cfquery name="removePerson" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="removePerson_result">
+				<cfquery name="removePerson" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="removePerson_result">
 					DELETE from person
 					WHERE agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
 				</cfquery>
@@ -2471,7 +2471,7 @@ limitations under the License.
 
 	<cftry>
 		<cfif listcontainsnocase(session.roles,"admin_transactions")>
-			<cfquery name="rankCount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="rankCount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				select count(*) ct, agent_rank agent_rank, 1 as status from agent_rank
 				where agent_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
 				group by agent_rank
@@ -2506,7 +2506,7 @@ limitations under the License.
 		<cfif NOT listcontainsnocase(session.roles,"admin_transactions")>
 			<cfthrow message="Not Authorized">
 		</cfif>
-		<cfquery name="addRanking" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="addRankingResult">
+		<cfquery name="addRanking" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="addRankingResult">
 			insert into agent_rank (
 				agent_id,
 				agent_rank,
@@ -2548,7 +2548,7 @@ limitations under the License.
 				 	<cfthrow message="Not Authorized">
 				</cfif>
 
-				<cfquery name="getAgentName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getAgentName_result">
+				<cfquery name="getAgentName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getAgentName_result">
 					SELECT agent_name 
 					FROM preferred_agent_name 
 					WHERE agent_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#"> 
@@ -2557,7 +2557,7 @@ limitations under the License.
 				 	<cfthrow message="specified agent [#encodeForHtml(agent_id)#] not found">
 				</cfif>
 				<h2 class="h2">Agent Rankings for #getAgentName.agent_name#</h2>
-				<cfquery name="getRankDetails" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getRankDetails_result">
+				<cfquery name="getRankDetails" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getRankDetails_result">
 					SELECT 
 						agent_rank,
 						transaction_type,
@@ -2573,15 +2573,15 @@ limitations under the License.
 						agent_rank, rank_date
 				</cfquery>
 				<cfif listcontainsnocase(session.roles,"admin_agent_ranking")>
-					<cfquery name="ctagent_rank" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					<cfquery name="ctagent_rank" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						select agent_rank from ctagent_rank order by agent_rank
 					</cfquery>
 				<cfelse>
-					<cfquery name="ctagent_rank" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					<cfquery name="ctagent_rank" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						select agent_rank from ctagent_rank where agent_rank <> 'F' order by agent_rank
 					</cfquery>
 				</cfif>
-				<cfquery name="cttransaction_type" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="cttransaction_type" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					select transaction_type from cttransaction_type order by transaction_type
 				</cfquery>
 				<h3 class="h3">

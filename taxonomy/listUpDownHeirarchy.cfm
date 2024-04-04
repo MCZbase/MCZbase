@@ -2,7 +2,7 @@
 	<cfif NOT isdefined("taxon_name_id")>
 		<h3>No taxon name id provided to look up related taxon records.</h3>
 	<cfelse>
-		<cfquery name="t" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#createtimespan(0,0,60,0)#">
+		<cfquery name="t" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" cachedwithin="#createtimespan(0,0,60,0)#">
 			select TAXON_NAME_ID, PHYLCLASS, PHYLORDER, SUBORDER, FAMILY, SUBFAMILY, GENUS, SUBGENUS, SPECIES,
 				SUBSPECIES, VALID_CATALOG_TERM_FG, SOURCE_AUTHORITY, FULL_TAXON_NAME, SCIENTIFIC_NAME, AUTHOR_TEXT, TRIBE,
 				INFRASPECIFIC_RANK, TAXON_REMARKS, PHYLUM, SUPERFAMILY, SUBPHYLUM, SUBCLASS, KINGDOM, NOMENCLATURAL_CODE,
@@ -14,7 +14,7 @@
 		<cfif len(t.species) gt 0 and len(t.genus) gt 0>
 			<!--- parent genus for subgenera, species, and subspecies --->
 			<div class="col-12 col-lg-6">
-				<cfquery name="genus" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#createtimespan(0,0,60,0)#">
+				<cfquery name="genus" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" cachedwithin="#createtimespan(0,0,60,0)#">
 					select scientific_name, display_name, author_text 
 					from taxonomy 
 					where 
@@ -32,7 +32,7 @@
 			<!--- parent species for subspecies --->
 			<div class="col-12 col-lg-6">
 				<cfif len(t.subspecies) gt 0>
-					<cfquery name="ssp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#createtimespan(0,0,60,0)#">
+					<cfquery name="ssp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" cachedwithin="#createtimespan(0,0,60,0)#">
 						select scientific_name, display_name, author_text
 						from taxonomy 
 						where 
@@ -49,7 +49,7 @@
 			</div>
 			<div class="accordion col-12 col-lg-9 col-xl-7 px-0 mb-3" id="accordionForTaxa">
 				<!--- included subspecies --->
-				<cfquery name="qsubspecies" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#createtimespan(0,0,60,0)#">
+				<cfquery name="qsubspecies" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" cachedwithin="#createtimespan(0,0,60,0)#">
 					select 
 						scientific_name, display_name, author_text
 					from 
@@ -63,7 +63,7 @@
 						scientific_name
 				</cfquery>
 				<!--- congeneric species --->
-				<cfquery name="qspecies" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#createtimespan(0,0,60,0)#">
+				<cfquery name="qspecies" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" cachedwithin="#createtimespan(0,0,60,0)#">
 					select 
 						scientific_name,
 						display_name 
@@ -123,7 +123,7 @@
 			</div><!--- accordion --->
 		<cfelseif len(t.genus) gt 0 and len(t.species) is 0>
 			<div class="accordion col-12 col-lg-9 col-xl-7 px-0" id="accordionForSpecies">
-				<cfquery name="d" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#createtimespan(0,0,60,0)#">
+				<cfquery name="d" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" cachedwithin="#createtimespan(0,0,60,0)#">
 					select 
 						scientific_name, display_name, author_text
 					from taxonomy 

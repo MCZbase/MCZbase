@@ -233,7 +233,7 @@ limitations under the License.
 					<div id="mapdiv_#geog_auth_rec_id#" style="height:100%;"></div>
 				</div>
 				<ul id="mapMetadataUL" class="px-2 px-md-4 px-xl-5">
-					<cfquery name="hasHigherPolygon" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" timeout="#Application.short_timeout#">
+					<cfquery name="hasHigherPolygon" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.short_timeout#">
 						SELECT count(*) ct 
 						FROM 
 							geog_auth_rec 
@@ -251,7 +251,7 @@ limitations under the License.
 							<div class="h4 my-2">Higher geography not mappable</div>
 						</cfif>
 					</li>
-					<cfquery name="hasGeorefs" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" timeout="#Application.short_timeout#">
+					<cfquery name="hasGeorefs" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.short_timeout#">
 						SELECT count(*) ct 
 						FROM 
 							lat_long
@@ -605,7 +605,7 @@ limitations under the License.
 						setupMap("#variables.locality_id#");
 					});
 				</script>
-				<cfquery name="getGeoreferences" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" timeout="#Application.short_timeout#">
+				<cfquery name="getGeoreferences" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.short_timeout#">
 					SELECT
 						LAT_LONG_ID,LOCALITY_ID,LAT_DEG,DEC_LAT_MIN,LAT_MIN,trim(LAT_SEC) LAT_SEC,LAT_DIR,
 						LONG_DEG,DEC_LONG_MIN,LONG_MIN,trim(LONG_SEC) LONG_SEC,LONG_DIR,trim(DEC_LAT) DEC_LAT,trim(DEC_LONG) DEC_LONG,
@@ -646,7 +646,7 @@ limitations under the License.
 				</div>
 				<div class="mb-2 col-12 px-1 px-md-3 ">
 					<ul id="mapMetadataUL" class="px-4">
-						<cfquery name="hasHigherPolygon" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" timeout="#Application.short_timeout#">
+						<cfquery name="hasHigherPolygon" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.short_timeout#">
 							SELECT count(*) ct 
 							FROM 
 								geog_auth_rec 
@@ -668,7 +668,7 @@ limitations under the License.
 								<span class="h5">Higher geography not mappable</span>
 							</cfif>
 						</li>
-						<cfquery name="hasUncertantyPolygon" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" timeout="#Application.short_timeout#">
+						<cfquery name="hasUncertantyPolygon" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.short_timeout#">
 							SELECT count(*) ct
 							FROM lat_long
 							WHERE
@@ -751,7 +751,7 @@ limitations under the License.
 					<cfset encumber = ValueList(checkForEncumbrances.encumbrance_action)>
 					<!--- potentially relevant actions: mask collector, mask locality, mask original field number. --->
 				</cfif>
-				<cfquery name="lookupLocality" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="lookupLocality" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT 
 						geog_auth_rec_id, spec_locality, sovereign_nation,
 						minimum_elevation, maximum_elevation, orig_elev_units,
@@ -780,7 +780,7 @@ limitations under the License.
 				<ul class="list-group list-unstyled mt-1 py-1">
 					<cfloop query="lookupLocality">
 						<cfset geog_auth_rec_id = "#lookupLocality.geog_auth_rec_id#">
-						<cfquery name="lookupHigherGeog" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						<cfquery name="lookupHigherGeog" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							SELECT higher_geog
 							FROM geog_auth_rec
 							WHERE 
@@ -911,7 +911,7 @@ limitations under the License.
 	<cfthread name="localityGeologyDetailsThread#tn#">
 		<cfoutput>
 			<cftry>
-				<cfquery name="getGeologicalAttributes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" timeout="#Application.query_timeout#">
+				<cfquery name="getGeologicalAttributes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
 					SELECT
 						geology_attribute_id,
 						ctgeology_attribute.type,
@@ -957,7 +957,7 @@ limitations under the License.
 								<cfset separator = "|">
 							</cfloop>
 							<cfloop query="getGeologicalAttributes">
-								<cfquery name="getParentage" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" timeout="#Application.query_timeout#">
+								<cfquery name="getParentage" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
 									SELECT distinct
 									  connect_by_root geology_attribute_hierarchy.attribute parent_attribute,
 									  connect_by_root attribute_value parent_attribute_value,
@@ -1028,7 +1028,7 @@ limitations under the License.
 	<cfthread name="localityGeoRefDetailsThread#tn#">
 		<cfoutput>
 			<cftry>
-				<cfquery name="getLocalityMetadata" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="getLocalityMetadata" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT 
 						nvl(spec_locality,'[No specific locality value]') spec_locality, 
 						locality_id, 
@@ -1066,7 +1066,7 @@ limitations under the License.
 					<cfset localityLabel = "#getLocalityMetadata.spec_locality##getLocalityMetadata.curated#">
 					<cfset localityLabel = replace(localityLabel,'"',"&quot;","all")>
 					<cfset localityLabel = replace(localityLabel,"'","\'","all")>
-					<cfquery name="getGeoreferences" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					<cfquery name="getGeoreferences" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						SELECT
 							lat_long_id,
 							georefmethod,
@@ -1125,7 +1125,7 @@ limitations under the License.
 					</cfquery>
 					<h3 class="h4 px-2 w-100">Georeferences (#getGeoreferences.recordcount#)</h3>
 					<cfif getGeoreferences.recordcount EQ 0>
-						<cfquery name="checkNoGeorefBecause" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						<cfquery name="checkNoGeorefBecause" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							SELECT
 								nogeorefbecause
 							FROM
@@ -1298,7 +1298,7 @@ limitations under the License.
 									<cfset numSole = 0>
 									<cfset numShared = 0>
 									<cfif len(localityUses.collection_id) GT 0>
-										<cfquery name="countSole" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+										<cfquery name="countSole" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 											SELECT distinct flatTableName.collecting_event_id 
 											FROM <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flatTableName
 												left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat1 on
@@ -1309,7 +1309,7 @@ limitations under the License.
 											HAVING count(distinct flatTableName.collection_cde) = 1
 										</cfquery>
 										<cfset numSole = countSole.recordcount>
-										<cfquery name="countShared" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+										<cfquery name="countShared" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 											SELECT distinct flatTableName.collecting_event_id 
 											FROM <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flatTableName
 												left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat1 on
@@ -1332,7 +1332,7 @@ limitations under the License.
 											#localityUses.numOfCollEvents# unused collecting events
 										</a>
 									<cfelse>
-										<cfquery name="sharedWith" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+										<cfquery name="sharedWith" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 											SELECT DISTINCT collection_cde 
 											FROM <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flatTableName
 												WHERE collecting_event_id in (
@@ -1403,7 +1403,7 @@ limitations under the License.
 	<cfthread name="localityMediaThread#tn#">
 		<cfoutput>
 			<cftry>
-				<cfquery name="localityMedia"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="localityMedia"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT
 						media_id
 					FROM
@@ -1476,7 +1476,7 @@ limitations under the License.
 	<cfthread name="localityVerbatimThread#tn#">
 		<cfoutput>
 			<cftry>
-				<cfquery name="getVerbatim" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getVerbatim_result">
+				<cfquery name="getVerbatim" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getVerbatim_result">
 					SELECT 
 						count(*) ct,
 						verbatim_locality
@@ -1505,7 +1505,7 @@ limitations under the License.
 						</cfif>
 					</ul>
 				</cfif>
-				<cfquery name="getVerbatimGeoref" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getVerbatimGeoref_result">
+				<cfquery name="getVerbatimGeoref" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getVerbatimGeoref_result">
 					SELECT 
 						count(*) ct,
 						verbatimcoordinates,
@@ -1541,7 +1541,7 @@ limitations under the License.
 					</ul>
 				</cfif>
 				<cfif getVerbatim.recordcount LT 21 >
-					<cfquery name="getEventList" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getEventList_result">
+					<cfquery name="getEventList" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getEventList_result">
 						SELECT 
 							collecting_event_id,
 							began_date, ended_date, verbatim_date,
@@ -1617,7 +1617,7 @@ limitations under the License.
 	<cfthread name="collEventMediaThread#tn#">
 		<cfoutput>
 			<cftry>
-				<cfquery name="collEventMedia"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="collEventMedia"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT
 						media_id, media_relations_id
 					FROM
@@ -1700,7 +1700,7 @@ limitations under the License.
 							</cfif>
 						</h2>
 						<cfif isDefined("context") and context EQ "edit">
-							<cfquery name="deleteBlocks" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+							<cfquery name="deleteBlocks" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 								SELECT 
 									count(*) ct, 'media' as block
 								FROM media_relations
@@ -1803,7 +1803,7 @@ limitations under the License.
 					<cfset encumber = ValueList(checkForEncumbrances.encumbrance_action)>
 				</cfif>
 				<!--- potentially relevant actions: mask collector, mask locality, mask original field number. --->
-				<cfquery name="getCollEventUp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getCollEventUp_result">
+				<cfquery name="getCollEventUp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getCollEventUp_result">
 					SELECT higher_geog, geog_auth_rec.geog_auth_rec_id,
 						began_date, ended_date,
 						collecting_time, collecting_method, collecting_source,

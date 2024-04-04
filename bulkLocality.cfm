@@ -3,7 +3,7 @@
 
 <!--------------------------------------------------------------------------------------------------->
 
-<cfquery name="specimenList" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="specimenList" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 	 SELECT
 	 	cataloged_item.collection_object_id as collection_object_id,
 		cataloged_item.cat_num,

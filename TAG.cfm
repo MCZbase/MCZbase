@@ -8,7 +8,7 @@
 <script language="JavaScript" src="/includes/TAG.js" type="text/javascript"></script>
 <cfoutput>
 	<cfset title="TAG Images">
-	<cfquery name="c" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cfquery name="c" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		select * from media 
                     where media_id= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#" />
                     and MCZBASE.is_media_encumbered(media.media_id) < 1
@@ -115,7 +115,7 @@
 					,COLLECTING_EVENT_ID=null">
 				</cfif>
 				<cfset s=s & " where tag_id=#tag_id#">
-				<cfquery name="c" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="c" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					#preservesinglequotes(s)#
 				</cfquery>
 			</cfloop>

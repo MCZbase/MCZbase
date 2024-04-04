@@ -6,7 +6,7 @@
 
 <cfoutput>
     <div class="basic_box">
-	<cfquery name="me" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cfquery name="me" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		select user_id from cf_users where username=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 	</cfquery>
 	<cfif len(#me.user_id#) is 0>
@@ -76,7 +76,7 @@
 
 <cfoutput>
         <div class="basic_box">
-	<cfquery name="hasCanned" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cfquery name="hasCanned" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 	select SEARCH_NAME,URL,canned_id
 	from cf_canned_search,cf_users
 	where cf_users.user_id=cf_canned_search.user_id

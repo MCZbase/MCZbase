@@ -4,7 +4,7 @@
 <cffunction name="splitGeog" access="remote">
         <cfargument name="geog" required="yes">
         <cfargument name="specloc" required="yes">
-        <cfquery name="g" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+        <cfquery name="g" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
                 select
                         country,
                         county,
@@ -31,7 +31,7 @@
 <cffunction name="geolocate" access="remote">
         <cfargument name="geog" required="yes">
         <cfargument name="specloc" required="yes">
-        <cfquery name="g" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+        <cfquery name="g" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
                 select
                         country,
                         county,
@@ -101,7 +101,7 @@
 <!----------------------------------------------------------------------------------------->
 <cffunction name="loadRecord" access="remote">
 	<cfargument name="collection_object_id" required="yes">
-	<cfquery name="d" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cfquery name="d" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		select * from #datashotbl# where collection_object_id=#collection_object_id#
 	</cfquery>
 	<cfreturn d>
@@ -110,11 +110,11 @@
 <cffunction name="deleteRecord" access="remote">
 	<cfargument name="collection_object_id" required="yes">
 	<cftransaction>
-		<cfquery name="d" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="d" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			delete from #datashotbl# where collection_object_id=#collection_object_id#
 		</cfquery>
 	</cftransaction>
-	<cfquery name="next" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cfquery name="next" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		select #collection_object_id# oldValue, max(collection_object_id) nextValue from #datashotbl# 
 		where enteredby = '#session.username#'
 	</cfquery>
@@ -122,7 +122,7 @@
 </cffunction>
 <!----------------------------------------------------------------------------------------->
 <cffunction name="getPrefs" access="remote">
-	<cfquery name="d" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cfquery name="d" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		select * from cf_dataentry_settings where username='#session.username#'
 	</cfquery>
 	<cfreturn d>
@@ -155,10 +155,10 @@
 		<cfset sql = replace(sql,"UPDATE #datashotbl# SET ,","UPDATE #datashotbl# SET ")>			
 		<cftry>
 			<cftransaction>
-				<cfquery name="new" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="new" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					#preservesinglequotes(sql)#
 				</cfquery>
-				<cfquery name="result" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="result" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					select #collection_object_id# collection_object_id, bulk_check_one(#collection_object_id#) rslt from dual
 				</cfquery>
 			</cftransaction>
@@ -208,13 +208,13 @@
 		<cfset sql = "insert into #datashotbl# (#flds#) values (#data#)">
 		<cftry>
 			<cftransaction>
-				<cfquery name="new" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="new" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					#preservesinglequotes(sql)#
 				</cfquery>
-				<cfquery name="tVal" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="tVal" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					select #datashotbl#_PKEY.currval as currval from dual
 				</cfquery>
-				<cfquery name="result" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="result" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					select #datashotbl#_PKEY.currval collection_object_id, bulk_check_one(#datashotbl#_PKEY.currval) rslt from dual
 				</cfquery>
 			</cftransaction>
@@ -257,7 +257,7 @@
 	</cfif>
 	<cfset sql=sql & " order by #gridsortcolumn# #gridsortdirection#">
 
-	<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		#preservesinglequotes(sql)#
 	</cfquery>
 </cfoutput>
@@ -271,7 +271,7 @@
 	<cfoutput>
 		<cfset colname = StructKeyList(cfgridchanged)>
 		<cfset value = cfgridchanged[colname]>
-		<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			update #datashotbl# set  #colname# = '#value#'
 			where collection_object_id=#cfgridrow.collection_object_id#
 		</cfquery>

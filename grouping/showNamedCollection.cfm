@@ -23,7 +23,7 @@ limitations under the License.
 	<cfset debug ="">
 </cfif>
 <cfif isDefined("underscore_collection_id") AND len(underscore_collection_id) GT 0>
-	<cfquery name="getTitle" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getTitleGroup_result" timeout="#Application.short_timeout#">
+	<cfquery name="getTitle" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getTitleGroup_result" timeout="#Application.short_timeout#">
 		SELECT collection_name
 		FROM underscore_collection
 		WHERE underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
@@ -44,7 +44,7 @@ limitations under the License.
 <cfif not isDefined("underscore_collection_id") OR len(underscore_collection_id) EQ 0>
 	<cfthrow message="No named group specified to show.">
 </cfif>
-<cfquery name="getNamedGroup" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getNamedGroup_result" timeout="#Application.short_timeout#">
+<cfquery name="getNamedGroup" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getNamedGroup_result" timeout="#Application.short_timeout#">
 	SELECT underscore_collection_id, collection_name, description, html_description,
 		mask_fg,
 		displayed_media_id
@@ -58,7 +58,7 @@ limitations under the License.
 			<cflocation url="/errors/forbidden.cfm" addtoken="false">
 		</cfif>
 		<!---for specimen record grid--->
-		<cfquery name="specimens" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#CreateTimespan(0,24,0,0)#" result="specimens_result" timeout="#Application.query_timeout#">
+		<cfquery name="specimens" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" cachedwithin="#CreateTimespan(0,24,0,0)#" result="specimens_result" timeout="#Application.query_timeout#">
 			SELECT * FROM (
 				SELECT DISTINCT flat.guid, flat.scientific_name
 				FROM
@@ -71,7 +71,7 @@ limitations under the License.
 				) 
 		</cfquery>
 		<cfset otherimagetypes = 0>
-		<cfquery name="specimenMedia_raw" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="specimenMedia_raw_result" cachedwithin="#CreateTimespan(0,24,0,0)#" timeout="#Application.query_timeout#" >
+		<cfquery name="specimenMedia_raw" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="specimenMedia_raw_result" cachedwithin="#CreateTimespan(0,24,0,0)#" timeout="#Application.query_timeout#" >
 			<cfif len(displayed_media_id) GT 0>
 			SELECT distinct media.media_id, 
 				media.media_uri, 
@@ -129,7 +129,7 @@ limitations under the License.
 			var specimenImageSetMetadata = JSON.parse('[]');
 			var currentSpecimenImage = 1;
 		</script>
-		<cfquery name="agentImagesForCarousel_raw" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="agentImagesForCarousel_raw_result" cachedwithin="#CreateTimespan(0,24,0,0)#" timeout="#Application.query_timeout#">
+		<cfquery name="agentImagesForCarousel_raw" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="agentImagesForCarousel_raw_result" cachedwithin="#CreateTimespan(0,24,0,0)#" timeout="#Application.query_timeout#">
 			SELECT DISTINCT media.media_id, media.media_uri, 
 				MCZBASE.get_media_descriptor(media.media_id) as alt,
 				MCZBASE.is_media_encumbered(media.media_id)  as encumb,
@@ -181,7 +181,7 @@ limitations under the License.
 			var agentImageSetMetadata = JSON.parse('#imageSetMetadata#');
 			var currentAgentImage = 1;
 		</script>
-		<cfquery name="collectingImagesForCarousel_raw" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="collectingImagesForCarousel_raw_result" cachedwithin="#CreateTimespan(0,24,0,0)#" timeout="#Application.query_timeout#">
+		<cfquery name="collectingImagesForCarousel_raw" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="collectingImagesForCarousel_raw_result" cachedwithin="#CreateTimespan(0,24,0,0)#" timeout="#Application.query_timeout#">
 			SELECT DISTINCT media_uri, media.media_id,
 				MCZBASE.get_media_descriptor(media.media_id) as alt,
 				MCZBASE.is_media_encumbered(media.media_id)  as encumb,
@@ -246,7 +246,7 @@ limitations under the License.
 			var collectingImageSetMetadata = JSON.parse('#imageSetMetadata#');
 			var currentCollectingImage = 1;
 		</script>
-		<cfquery name="points" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="points_result" cachedwithin="#CreateTimespan(0,24,0,0)#" timeout="#Application.query_timeout#">
+		<cfquery name="points" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="points_result" cachedwithin="#CreateTimespan(0,24,0,0)#" timeout="#Application.query_timeout#">
 			SELECT distinct flat.locality_id,flat.dec_lat as Latitude, flat.DEC_LONG as Longitude 
 			FROM <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat
 				join underscore_relation on underscore_relation.collection_object_id = flat.collection_object_id
@@ -481,7 +481,7 @@ limitations under the License.
 									</section><!--- end specimen images ---> 	
 								</cfif>
 								<!---  occurrence map --->
-								<cfquery name="points2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="points2_result" timeout="#Application.query_timeout#" cachedwithin="#createtimespan(0,24,0,0)#">
+								<cfquery name="points2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="points2_result" timeout="#Application.query_timeout#" cachedwithin="#createtimespan(0,24,0,0)#">
 									SELECT median(flat.dec_lat) as mylat, median(flat.dec_long) as mylng, min(flat.dec_lat) as minlat, 
 									min(flat.dec_long) as minlong, max(flat.dec_lat) as maxlat, max(flat.dec_long) as maxlong
 									from <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat
@@ -780,7 +780,7 @@ limitations under the License.
 									</cfif>
 								</div>
 								<div class="row pb-4">
-									<cfquery name="agentQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="agentQuery_result" timeout="#Application.query_timeout#">
+									<cfquery name="agentQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="agentQuery_result" timeout="#Application.query_timeout#">
 										SELECT DISTINCT 
 											agent_id, 
 											MCZBASE.get_agentnameoftype(agent_id) agent_name,
@@ -811,7 +811,7 @@ limitations under the License.
 											</ul>
 										</div>
 									</cfif>
-									<cfquery name="taxonQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="taxonQuery_result" timeout="#Application.query_timeout#">
+									<cfquery name="taxonQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="taxonQuery_result" timeout="#Application.query_timeout#">
 										SELECT DISTINCT flat.phylclass as taxon, flat.phylclass as taxonlink, 'phylclass' as rank
 										FROM
 											underscore_relation 
@@ -826,7 +826,7 @@ limitations under the License.
 									<cfset taxonQuery3_time = "not run">
 									<cfif taxonQuery.recordcount GT 0 AND taxonQuery.recordcount LT 5 >
 										<!--- try expanding to orders instead if very few classes --->
-										<cfquery name="taxonQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="taxonQuery_result" timeout="#Application.query_timeout#">
+										<cfquery name="taxonQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="taxonQuery_result" timeout="#Application.query_timeout#">
 											SELECT DISTINCT flat.phylclass || ': ' || flat.phylorder as taxon, flat.phylorder as taxonlink, 'phylorder' as rank,
 												flat.phylclass, flat.phylorder
 											FROM
@@ -841,7 +841,7 @@ limitations under the License.
 									</cfif>
 									<cfif taxonQuery.recordcount GT 0 AND taxonQuery.recordcount LT 5 >
 										<!--- try expanding to families instead if very few orders --->
-										<cfquery name="taxonQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="taxonQuery_result" timeout="#Application.query_timeout#">
+										<cfquery name="taxonQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="taxonQuery_result" timeout="#Application.query_timeout#">
 											SELECT DISTINCT flat.phylorder || ': ' || flat.family as taxon, flat.family as taxonlink, 'family' as rank,
 												flat.phylorder, flat.family
 											FROM
@@ -889,7 +889,7 @@ limitations under the License.
 											</cfif>
 										</div>
 									</cfif>
-									<cfquery name="marine" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="marine_result" timeout="#Application.query_timeout#">
+									<cfquery name="marine" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="marine_result" timeout="#Application.query_timeout#">
 										SELECT DISTINCT flat.continent_ocean as ocean
 										FROM
 											underscore_relation 
@@ -937,7 +937,7 @@ limitations under the License.
 											</cfif>
 										</div>
 									</cfif>
-									<cfquery name="geogQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="geogQuery_result" timeout="#Application.query_timeout#">
+									<cfquery name="geogQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="geogQuery_result" timeout="#Application.query_timeout#">
 										SELECT DISTINCT flat.country as geog, flat.country as geoglink, 'Country' as rank
 										FROM
 											underscore_relation 
@@ -951,7 +951,7 @@ limitations under the License.
 									<cfset geogQuery2_time = "not run">
 									<cfif geogQuery.recordcount GT 0 AND geogQuery.recordcount LT 5 >
 										<!--- try expanding to state province instead if very few countries --->
-										<cfquery name="geogQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="geogQuery_result" timeout="#Application.query_timeout#">
+										<cfquery name="geogQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="geogQuery_result" timeout="#Application.query_timeout#">
 											SELECT DISTINCT flat.country || ': ' || flat.state_prov as geog, flat.state_prov as geoglink, 'state_prov' as rank,
 												flat.country, flat.state_prov
 											FROM
@@ -1001,7 +1001,7 @@ limitations under the License.
 											</cfif>
 										</div>
 									</cfif>
-									<cfquery name="islandsQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="islandsQuery_result" timeout="#Application.query_timeout#">
+									<cfquery name="islandsQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="islandsQuery_result" timeout="#Application.query_timeout#">
 										SELECT DISTINCT flat.continent_ocean, flat.island as island
 										FROM
 											underscore_relation 
@@ -1048,7 +1048,7 @@ limitations under the License.
 											</cfif>
 										</div>
 									</cfif>
-									<cfquery name="collectors" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="collectors_result" timeout="#Application.query_timeout#">
+									<cfquery name="collectors" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="collectors_result" timeout="#Application.query_timeout#">
 										SELECT DISTINCT preferred_agent_name.agent_name, collector.agent_id, person.last_name
 										FROM
 											underscore_relation 
@@ -1204,7 +1204,7 @@ limitations under the License.
 										</div>
 									</cfif>
 									<div class="col-12 px-0">
-										<cfquery name="directCitations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="directCitations_result" timeout="#Application.query_timeout#">
+										<cfquery name="directCitations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="directCitations_result" timeout="#Application.query_timeout#">
 											SELECT
 												publication_id,
 												MCZBASE.getfullcitation(publication_id) formatted_publication,
@@ -1221,7 +1221,7 @@ limitations under the License.
 											ORDER BY
 												type, MCZBASE.getshortcitation(publication_id)
 										</cfquery>
-										<cfquery name="citations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="citations_result" timeout="#Application.query_timeout#">
+										<cfquery name="citations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="citations_result" timeout="#Application.query_timeout#">
 											SELECT
 												distinct 
 												formatted_publication.formatted_publication, 

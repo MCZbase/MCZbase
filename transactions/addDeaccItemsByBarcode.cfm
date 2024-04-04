@@ -109,7 +109,7 @@ limitations under the License.
 <cfif action is "nothing">
 	<cfoutput>
 		<main class="container" id="content">
-			<cfquery name="l" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="l" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				select 
 					deacc_number,
 					deacc_type,
@@ -135,7 +135,7 @@ limitations under the License.
 				<p>Deaccession Status: #encodeForHtml(l.deacc_status)#</p>
 				<p>Nature of Material: #encodeForHtml(l.nature_of_material)#</p>
 			
-				<cfquery name="getPartDeaccRequests" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="getPartDeaccRequests" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					select 
 						cat_num, 
 						cataloged_item.collection_object_id,

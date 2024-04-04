@@ -28,7 +28,7 @@
 			</div>
 			<cfabort>
 		</cfif>
-		<cfquery name="getMapData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="getMapData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			SELECT
 				'All collections' Collection,
 				0 collection_id,
@@ -79,12 +79,12 @@
 	<cfinclude template="/development/MediaSearchSql.cfm">
 	<cfset SqlString = "#basSelect# #basFrom# #basWhere# #srch#">
 	<cfset checkSQL(SqlString)>
-	<cfquery name="getMapData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cfquery name="getMapData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		#preserveSingleQuotes(SqlString)#
 	</cfquery>
 <cfelseif isDefined("result_id") and len(result_id) GT 0>
 	<!--- mapping search results from user_search_table by result_id ---->
-	<cfquery name="getMapData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cfquery name="getMapData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		SELECT DISTINCT
 			collection,
 			collection_id,
@@ -153,7 +153,7 @@
 	</cfif>
 	<cfset SqlString = "#basSelect# #basFrom# #basJoin# #basWhere# #basQual#">
 	<cfset checkSQL(SqlString)>
-	<cfquery name="getMapData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cfquery name="getMapData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		#preserveSingleQuotes(SqlString)#
 	</cfquery>
 </cfif><!--- end point map option --->
@@ -171,7 +171,7 @@
 	</cfquery>
 	<cfset thisAddress = #Application.DataProblemReportEmail#>
 	<cfif len(valuelist(collID.collection_id)) gt 0>
-		<cfquery name="whatEmails" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="whatEmails" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			select address from
 				electronic_address,
 				collection_contacts
@@ -252,7 +252,7 @@
 			select distinct(scientific_name) from getMapData
 		</cfquery>
 		<cfset nameList = valuelist(species.scientific_name)>
-		<cfquery name="getClass" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="getClass" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			select phylclass,genus || ' ' || species scientific_name from taxonomy where scientific_name in
 			 (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#nameList#" list="yes">)
 			 group by

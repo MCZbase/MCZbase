@@ -18,7 +18,7 @@ limitations under the License.
 --->
 <!--- special case handling to dump problem data as csv --->
 <cfif isDefined("action") AND action is "dumpProblems">
-	<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		SELECT agent_type,preferred_name,first_name,middle_name,last_name,birth_date,death_date,agent_remark,prefix,suffix,other_name_type,other_name,other_name_type_2,other_name_2,other_name_type_3,other_name_3,agentguid_guid_type,agentguid 
 		FROM cf_temp_agents 
 		WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
@@ -215,7 +215,7 @@ limitations under the License.
 				<cfset records = CSVParser.parse(#tempFileInputStream#,#javaSelectedCharset#,#csvFormat#)>
 
 				<!--- cleanup any incomplete work by the same user --->
-				<cfquery name="clearTempTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="clearTempTable_result">
+				<cfquery name="clearTempTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="clearTempTable_result">
 					DELETE FROM cf_temp_agents 
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
@@ -351,7 +351,7 @@ limitations under the License.
 					<cftry>
 						<!--- construct insert for row with a line for each entry in fieldlist using cfqueryparam if column header is in fieldlist, otherwise using null --->
 						<!--- Note: As we can't use csvFormat.withHeader(), we can not match columns by name, we are forced to do so by number, thus arrays --->
-						<cfquery name="insert" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="insert_result">
+						<cfquery name="insert" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="insert_result">
 							insert into cf_temp_agents
 								(#fieldlist#,username)
 							values (
@@ -485,34 +485,34 @@ limitations under the License.
 	<cfif #action# is "validate">
 		<h2 class="h3">Second step: Data Validation</h2>
 		<cfoutput>
-			<cfquery name="getCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="getCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				update cf_temp_agents set agent_type=
 				(select agent_type from ctagent_type where agent_type = cf_temp_agents.agent_type)
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
-			<cfquery name="getCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="getCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				update cf_temp_agents set other_name_type = 'preferred'
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
-			<cfquery name="miac" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="miac" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				UPDATE cf_temp_agents 
 				SET status = 'agent_type_not_found'
 				WHERE agent_type is null
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
-			<cfquery name="miap" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="miap" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				UPDATE cf_temp_agents 
 				SET status = 'last_name_not_found'
 				WHERE last_name is null
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
-			<cfquery name="miap" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="miap" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				UPDATE cf_temp_agents 
 				SET status = 'preferred_name_not_found'
 				WHERE preferred_name is null
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
-			<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT agent_type, preferred_name, first_name, middle_name, last_name, birth_date, death_date, agent_remark, prefix, suffix, other_name, other_name_type,other_name_2,other_name_type_2,other_name_3,other_name_type_3,agentguid_guid_type, agentguid, status
 				FROM cf_temp_agents
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
@@ -589,7 +589,7 @@ limitations under the License.
 	<cfif action is "load">
 		<h2 class="h3">Third step: Apply changes.</h2>
 		<cfoutput>
-			<cfquery name="getTempData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="getTempData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT * FROM cf_temp_agents
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
@@ -597,15 +597,15 @@ limitations under the License.
 				<cfset agent_updates = 0>
 				<cftransaction>
 					<cfloop query="getTempData">
-						<cfquery name="updateAgents" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateAgents_result">
+						<cfquery name="updateAgents" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateAgents_result">
 							insert into agent
 							(agent_id,agent_type,agent_remarks,agentguid_guid_type,agentguid,preferred_agent_name_id) values(sq_agent_id.nextval,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#agent_type#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#agent_remark#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#agentguid_guid_type#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#agentguid#">,sq_agent_id.nextval)
 						</cfquery>
-						<cfquery name="updateAgents" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateAgents_result">
+						<cfquery name="updateAgents" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateAgents_result">
 							insert into agent_name
 							(agent_name_id,agent_id,agent_name_type,agent_name) values(sq_agent_name_id.nextval,sq_agent_id.currval,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#other_name_type#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#preferred_name#">)
 						</cfquery>
-						<cfquery name="updateAgents" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateAgents_result">
+						<cfquery name="updateAgents" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateAgents_result">
 							insert into person
 							(person_id,prefix,last_name,first_name,middle_name,suffix,birth_date,death_date) values(sq_agent_id.currval,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#prefix#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#last_name#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#first_name#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#middle_name#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#suffix#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#dateformat(birth_date,'yyyy-mm-dd')#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#dateformat(death_date,'yyyy-mm-dd')#">)
 						</cfquery>
@@ -615,7 +615,7 @@ limitations under the License.
 				<h2>Updated #agent_updates# agents.</h2>
 			<cfcatch>
 				<h2>There was a problem updating container types.</h2>
-				<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT agent_type, preferred_name, first_name, middle_name, last_name, birth_date, death_date, agent_remark, prefix, suffix, other_name, other_name_type,other_name_2,other_name_type_2,other_name_3,other_name_type_3,agentguid_guid_type, agentguid, status 
 					FROM cf_temp_agents 
 					WHERE status is not null
@@ -663,7 +663,7 @@ limitations under the License.
 					<cfset agent_updates = 0>
 					<cfloop query="getTempData">
 						<cfset problem_key = getTempData.key>
-						<cfquery name="updateAgents" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateAgents_result">
+						<cfquery name="updateAgents" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateAgents_result">
 							insert into person
 							(person_id,prefix,last_name,first_name,middle_name,suffix,birth_date,death_date) values(sq_agent_id.currval,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#prefix#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#last_name#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#first_name#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#middle_name#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#suffix#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#dateformat(birth_date,'yyyy-mm-dd')#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#dateformat(death_date,'yyyy-mm-dd')#">)
 						</cfquery>
@@ -672,7 +672,7 @@ limitations under the License.
 					<cftransaction action="commit">
 				<cfcatch>
 					<cftransaction action="rollback">
-					<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						SELECT *
 						FROM cf_temp_agents 
 						WHERE key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#problem_key#">
@@ -736,7 +736,7 @@ limitations under the License.
 			<h2>Updated #agent_updates# agents.</h2>
 			<h2>Success, changes applied.</h2>
 			<!--- cleanup --->
-			<cfquery name="clearTempTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="clearTempTable_result">
+			<cfquery name="clearTempTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="clearTempTable_result">
 				DELETE FROM cf_temp_agents
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>

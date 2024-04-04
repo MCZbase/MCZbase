@@ -29,7 +29,7 @@ limitations under the License.
 <cfswitch expression="#action#">
 
 	<cfcase value="manage">
-		<cfquery name="results" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="results_result">
+		<cfquery name="results" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="results_result">
 			SELECT count(distinct collection_object_id) ct
 			FROM user_search_table
 			WHERE result_id=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
@@ -165,7 +165,7 @@ limitations under the License.
 						<div class="rounded redbox">
 							<!--- TODO: Move to backing method, add ajax reload --->
 							<div class="card bg-light border-secondary mb-3">
-								<cfquery name="collections" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="collections_result">
+								<cfquery name="collections" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="collections_result">
 									SELECT count(*) ct, 
 										collection_cde, 
 										collection_id
@@ -191,7 +191,7 @@ limitations under the License.
 								</div>
 							</div>
 							<div class="card bg-light border-secondary mb-3">
-								<cfquery name="countries" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="countries_result">
+								<cfquery name="countries" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="countries_result">
 									SELECT count(*) ct, 
 										nvl(continent_ocean,'[no continent/ocean]') as continent_ocean, nvl(country,'[no country]') as country
 									FROM user_search_table
@@ -210,7 +210,7 @@ limitations under the License.
 								</div>
 							</div>
 							<div class="card bg-light border-secondary mb-3">
-								<cfquery name="families" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="families_result">
+								<cfquery name="families" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="families_result">
 									SELECT count(*) ct, 
 										nvl(phylorder,'[no order]') as phylorder, nvl(family,'[no family]') as family
 									FROM user_search_table
@@ -229,7 +229,7 @@ limitations under the License.
 							</div>
 							<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_transactions")>
 								<div class="card bg-light border-secondary mb-3">
-									<cfquery name="accessions" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="accessions_result">
+									<cfquery name="accessions" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="accessions_result">
 										SELECT count(*) ct, 
 											accn_number, 
 											accn_coll.collection,
@@ -255,7 +255,7 @@ limitations under the License.
 								</div>
 							</cfif>
 							<div class="card bg-light border-secondary mb-3">
-								<cfquery name="localities" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="localities_result">
+								<cfquery name="localities" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="localities_result">
 									SELECT count(*) ct, 
 										locality_id, spec_locality
 									FROM user_search_table
@@ -273,7 +273,7 @@ limitations under the License.
 								</div>
 							</div>
 							<div class="card bg-light border-secondary mb-3">
-								<cfquery name="collectingEvents" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="collectingEvents_result">
+								<cfquery name="collectingEvents" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="collectingEvents_result">
 									SELECT count(*) ct, 
 										collecting_event_id, began_date, ended_date, verbatim_date
 									FROM user_search_table

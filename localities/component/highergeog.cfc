@@ -119,7 +119,7 @@ Functions supporting editing higher geographies.
 	<cfargument name="geog_auth_rec_id" type="string" required="yes">
 	
 	<cfset retval = "">
-	<cfquery name="lookupHigherGeog" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="lookupHigherGeog_result">
+	<cfquery name="lookupHigherGeog" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="lookupHigherGeog_result">
 		SELECT
 			higher_geog
 		FROM
@@ -180,13 +180,13 @@ Functions supporting editing higher geographies.
 	<cfthread name="editCreateGeogFormThread#tn#">
 		<cfoutput>
 			<cftry>
-				<cfquery name="ctguid_type_highergeography" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="ctguid_type_highergeography" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT guid_type, placeholder, pattern_regex, resolver_regex, resolver_replacement, search_uri
 				   FROM ctguid_type
 				   WHERE applies_to like '%geog_auth_rec.highergeographyid%'
 				</cfquery>
 				<cfif isdefined('clone_from_geog_auth_rec_id') AND len(clone_from_geog_auth_rec_id) GT 0>
-					<cfquery name="lookupHigherGeog" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					<cfquery name="lookupHigherGeog" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						SELECT 
 							higher_geog, 
 							continent_ocean,
@@ -224,7 +224,7 @@ Functions supporting editing higher geographies.
 						<cfset management_remarks = "#lookupHigherGeog.management_remarks#">
 					</cfloop>
 				<cfelseif mode EQ "edit">
-					<cfquery name="lookupHigherGeog" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					<cfquery name="lookupHigherGeog" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						SELECT 
 							geog_auth_rec_id,
 							higher_geog, 
@@ -654,7 +654,7 @@ Functions supporting editing higher geographies.
 
 	<cftransaction>
 		<cftry>
-			<cfquery name="updateGeog" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateGeog_result">
+			<cfquery name="updateGeog" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateGeog_result">
 				UPDATE geog_auth_rec SET
 				valid_catalog_term_fg = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#valid_catalog_term_fg#">,
 				source_authority = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#source_authority#">,

@@ -37,7 +37,7 @@ limitations under the License.
 			<cfelse>
 				<cfset pass = "sessionsearch">
 			</cfif>
-			<cfquery name="getItems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="getItems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT
 					cataloged_item.collection_object_id,
 					cataloged_item.cat_num,
@@ -167,13 +167,13 @@ limitations under the License.
 		<!--- TODO: Remove session search --->
 		<cfif pass EQ "sessionsearch">
 			<cftransaction>
-				<cfquery name="countToAdd" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="countToAdd" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					select count(*) as ct from #session.SpecSrchTab# 
 				</cfquery>
 				<cfif countToAdd.ct NEQ recordcount>
 					<cfthrow message="Add failed.  Discrepancy between the expected and actual number of records to add, user ran a new search before completing add to group.">
 				</cfif>
-				<cfquery name="unColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="unColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT underscore_collection.underscore_collection_id as id
 					FROM underscore_collection
 					WHERE underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
@@ -182,7 +182,7 @@ limitations under the License.
 				<cfif unColl.recordcount NEQ 1>
 					<cfthrow message="No such named group found, unable to add cataloged items">
 				</cfif>
-				<cfquery name="addItemsToColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="add_result">
+				<cfquery name="addItemsToColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="add_result">
 					INSERT /*+ ignore_row_on_dupkey_index ( underscore_relation (collection_object_id, underscore_collection_id ) ) */
 						into underscore_relation (underscore_collection_id, collection_object_id)
 					select #idToAdd#, collection_object_id 
@@ -191,7 +191,7 @@ limitations under the License.
 			</cftransaction>
 		<cfelseif pass EQ "result_id">
 			<cftransaction>
-				<cfquery name="countToAdd" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="countToAdd" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT count(*) as ct 
 					FROM user_search_table
 					WHERE result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
@@ -199,7 +199,7 @@ limitations under the License.
 				<cfif countToAdd.ct NEQ recordcount>
 					<cfthrow message="Add failed.  Discrepancy between the expected and actual number of records to add, result set modified since search was run.">
 				</cfif>
-				<cfquery name="unColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="unColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT underscore_collection.underscore_collection_id as id
 					FROM underscore_collection
 					WHERE underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
@@ -208,7 +208,7 @@ limitations under the License.
 				<cfif unColl.recordcount NEQ 1>
 					<cfthrow message="No such named group found, unable to add cataloged items">
 				</cfif>
-				<cfquery name="addItemsToColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="add_result">
+				<cfquery name="addItemsToColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="add_result">
 					INSERT /*+ ignore_row_on_dupkey_index ( underscore_relation (collection_object_id, underscore_collection_id ) ) */
 						into underscore_relation (underscore_collection_id, collection_object_id)
 					SELECT #idToAdd#, collection_object_id 
@@ -221,7 +221,7 @@ limitations under the License.
 				<cfthrow message="No cataloged items listed to add to named group.">
 			</cfif>
 			<cftransaction>
-				<cfquery name="countToAdd" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="countToAdd" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					select count(*) as ct 
 					from cataloged item 
 					where 
@@ -234,7 +234,7 @@ limitations under the License.
 				<cfif countToAdd.ct NEQ recordcount>
 					<cfthrow message="Add failed.  Discrepancy between the expected and actual number of records to add.">
 				</cfif>
-				<cfquery name="unColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="unColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT underscore_collection.underscore_collection_id as id
 					FROM underscore_collection
 					WHERE underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
@@ -243,7 +243,7 @@ limitations under the License.
 				<cfif unColl.recordcount NEQ 1>
 					<cfthrow message="No such named group found, unable to add cataloged items">
 				</cfif>
-				<cfquery name="addItemsToColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="add_result">
+				<cfquery name="addItemsToColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="add_result">
 					INSERT /*+ ignore_row_on_dupkey_index ( underscore_relation (collection_object_id, underscore_collection_id ) ) */
 						into underscore_relation (underscore_collection_id, collection_object_id)
 					select #idToAdd#, collection_object_id 

@@ -81,7 +81,7 @@ transaction_id number
 <!------------------------------------------------------->
 <!------------------------------------------------------->
 <cfif #action# is "getFile">
-	<cfquery name="killOld" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cfquery name="killOld" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		delete from cf_temp_loan_item
 	</cfquery>
 	<cffile action="READ" file="#FiletoUpload#" variable="fileContent">
@@ -103,12 +103,12 @@ transaction_id number
 		</cfif>
 		<cfif len(#colVals#) gt 1>
 			<cfset colVals=replace(colVals,",","","first")>
-			<cfquery name="ins" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="ins" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				insert into cf_temp_loan_item (#colNames#) values (#preservesinglequotes(colVals)#)
 			</cfquery>
 		</cfif>
 	</cfloop>
-	<cfquery name="gotit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cfquery name="gotit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		select * from cf_temp_loan_item
 	</cfquery>
 	<cfdump var="#gotit#">
@@ -118,7 +118,7 @@ transaction_id number
 <cfif action is "verify">
 <cfoutput>
 <cftransaction>
-	<cfquery name="loanID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cfquery name="loanID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		update
 			cf_temp_loan_item
 		set
@@ -132,16 +132,16 @@ transaction_id number
 				loan.loan_number = cf_temp_loan_item.loan_number
 			)
 	</cfquery>
-	<cfquery name="missedMe" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cfquery name="missedMe" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		update cf_temp_loan_item set status = 'loan not found' where
 		transaction_id is null
 	</cfquery>
-	<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		select * from cf_temp_loan_item where status is null
 	</cfquery>
 		<cfloop query="data">
 			<cfif other_id_type is "catalog number">
-				<cfquery name="collObj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="collObj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					select
 						specimen_part.collection_object_id
 					from
@@ -168,7 +168,7 @@ transaction_id number
 			            PC.barcode = '#barcode#'
 				</cfquery>
 			<cfelse>
-				<cfquery name="collObj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="collObj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					select
 						specimen_part.collection_object_id
 					from
@@ -200,7 +200,7 @@ transaction_id number
 			</cfif>
 			<cfif collObj.recordcount is 1>
 				<!---collObj.recordcount is 1....--->
-				<cfquery name="YayCollObj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="YayCollObj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					update
 						cf_temp_loan_item
 					set
@@ -208,7 +208,7 @@ transaction_id number
 					where
 						key=#key#
 				</cfquery>
-				<cfquery name="defDescr" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="defDescr" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					update
 						cf_temp_loan_item
 						set (ITEM_DESCRIPTION)
@@ -226,7 +226,7 @@ transaction_id number
 					where ITEM_DESCRIPTION is null and key=#key#
 				</cfquery>
 				<cfif len(partID) is 0>
-					<cfquery name="YayCollObj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					<cfquery name="YayCollObj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						update
 							cf_temp_loan_item
 						set
@@ -238,7 +238,7 @@ transaction_id number
 				</cfif>
 			<cfelseif collObj.recordcount is 0><!--- no part --->
 				<!---no part--->
-				<cfquery name="BooCollObj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="BooCollObj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					update
 						cf_temp_loan_item
 					set
@@ -247,7 +247,7 @@ transaction_id number
 						key=#key#
 				</cfquery>
 			<cfelseif collObj.recordcount gt 1 and len(partID) is 0>
-				<cfquery name="BooCollObj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="BooCollObj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					update
 						cf_temp_loan_item
 					set
@@ -258,7 +258,7 @@ transaction_id number
 			</cfif>
 		</cfloop>
 	</cftransaction>
-	<cfquery name="done" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cfquery name="done" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		select * from cf_temp_loan_item
 	</cfquery>
 	<cfdump var=#done#>
@@ -283,7 +283,7 @@ transaction_id number
 <!------------------------------------------------------->
 <cfif #action# is "pickPart">
 <cfoutput>
-	<cfquery name="mPart" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cfquery name="mPart" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		select * from cf_temp_loan_item where status='multiple parts found'
 	</cfquery>
 	<table border>
@@ -326,14 +326,14 @@ transaction_id number
 		<cfif left(f,6) is "PARTID">
 			<cfset thisKey = replace(f,"PARTID","","all")>
 			<cfset thisPartId=evaluate(f)>
-			<cfquery name="lData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="lData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				select * from cf_temp_loan_item where key=#thisKey#
 			</cfquery>
-			<cfquery name="mPart" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="mPart" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				update cf_temp_loan_item set status='spiffy', partID=#thisPartId# where key=#thisKey#
 			</cfquery>
 			<cfif len(lData.ITEM_DESCRIPTION) is 0>
-				<cfquery name="defDescr" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="defDescr" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					update
 						cf_temp_loan_item
 						set (ITEM_DESCRIPTION)
@@ -359,14 +359,14 @@ transaction_id number
 <!------------------------------------------------------->
 <cfif #action# is "loadData">
 <cfoutput>
-	<cfquery name="getTempData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cfquery name="getTempData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		select * from cf_temp_loan_item
 	</cfquery>
 	<cftransaction>
 		<cfloop query="getTempData">
 			<cfif subsample is "yes">
 				<cfif other_id_type is "catalog number">
-					<cfquery name="collObj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					<cfquery name="collObj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						select
 							specimen_part.collection_object_id
 						from
@@ -386,7 +386,7 @@ transaction_id number
 							sampled_from_obj_id is null
 					</cfquery>
 				<cfelse>
-					<cfquery name="collObj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					<cfquery name="collObj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						select
 							specimen_part.collection_object_id
 						from
@@ -409,11 +409,11 @@ transaction_id number
 							sampled_from_obj_id  is null
 					</cfquery>
 				</cfif>
-				<cfquery name="nid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="nid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					select sq_collection_object_id.nextval nid from dual
 				</cfquery>
 				<cfset thisPartId=nid.nid>
-				<cfquery name="makeSubsampleObj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="makeSubsampleObj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					INSERT INTO coll_object (
 						COLLECTION_OBJECT_ID,
 						COLL_OBJECT_TYPE,
@@ -439,7 +439,7 @@ transaction_id number
 						where
 							collection_object_id = #collObj.collection_object_id#)
 				</cfquery>
-				<cfquery name="makeSubsample" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="makeSubsample" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					INSERT INTO specimen_part (
 		 				COLLECTION_OBJECT_ID,
 		  				PART_NAME,
@@ -460,7 +460,7 @@ transaction_id number
 			<cfelse>
 				<cfset thisPartId=partID>
 			</cfif>
-			<cfquery name="move" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="move" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				INSERT INTO loan_item (
 					transaction_id,
 					collection_object_id,

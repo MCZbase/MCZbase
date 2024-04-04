@@ -92,7 +92,7 @@ limitations under the License.
 	<cfset oneOfUs = 0>
 </cfif>
 
-<cfquery name="ctCollection" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" timeout="#Application.short_timeout#">
+<cfquery name="ctCollection" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.short_timeout#">
 	SELECT
 		collection_cde,
 		collection,
@@ -101,7 +101,7 @@ limitations under the License.
 		collection
 	ORDER BY collection.collection
 </cfquery>
-<cfquery name="ctother_id_type" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="ctother_id_type" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 	SELECT count(*) ct, other_id_type 
 	FROM coll_obj_other_id_num co
 	GROUP BY other_id_type 
@@ -114,7 +114,7 @@ limitations under the License.
  	ORDER BY nature_of_id
 </cfquery>
 
-<cfquery name="column_headers" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="column_headers" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 	select column_name, data_type from all_tab_columns where table_name = 'FLAT' and rownum = 1
 </cfquery>
 
@@ -124,7 +124,7 @@ limitations under the License.
 </cfif>
 <cfif not isdefined("collection_cde") AND isdefined("collection_id") AND len(collection_id) GT 0 >
 	<!--- if collection id was provided, but not a collection code, lookup the collection code --->
-	<cfquery name="lookupCollection_cde" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="lookupCollection_cde_result" timeout="#Application.short_timeout#">
+	<cfquery name="lookupCollection_cde" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="lookupCollection_cde_result" timeout="#Application.short_timeout#">
 		SELECT
 			collection_cde code
 		FROM
@@ -139,7 +139,7 @@ limitations under the License.
 </cfif>
 <cfif not isdefined("underscore_collection") AND isdefined("underscore_collection_id") AND len(underscore_collection_id) GT 0 >
 	<!--- if underscore collection id was provided, but not a collection name, lookup the collection name --->
-	<cfquery name="lookupNamedGroup" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="lookupNamedGroup_result" timeout="#Application.short_timeout#">
+	<cfquery name="lookupNamedGroup" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="lookupNamedGroup_result" timeout="#Application.short_timeout#">
 		SELECT
 			collection_name
 		FROM
@@ -186,7 +186,7 @@ limitations under the License.
 		<main id="content" class="container-fluid">
 			<div class="row mr-0 mr-md-3 mr-xl-5">
 				<div class="col-12 mt-1 pb-3 mr-0 mr-md-3 mr-xl-5">
-					<cfquery name="getSpecimenCount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					<cfquery name="getSpecimenCount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						SELECT count(collection_object_id) as cnt FROM cataloged_item
 					</cfquery>
 					
@@ -543,7 +543,7 @@ limitations under the License.
 														<cfif not isdefined("taxon_name_id")><cfset taxon_name_id=""></cfif>
 														<cfif len(taxon_name_id) GT 0 and len(scientific_name) EQ 0>
 															<!--- lookup scientific name --->
-															<cfquery name="lookupTaxon" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="lookupTaxon_result">
+															<cfquery name="lookupTaxon" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="lookupTaxon_result">
 																SELECT scientific_name as sciname
 																FROM taxonomy
 																WHERE
@@ -658,7 +658,7 @@ limitations under the License.
 																<cfif not isdefined("determiner_id")><cfset determiner_id=""></cfif>
 																<!--- lookup agent name --->
 																<cfif len(determiner) EQ 0 AND len(determiner_id) GT 0>
-																	<cfquery name="lookupDeterminer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="lookupDeterminer_result">
+																	<cfquery name="lookupDeterminer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="lookupDeterminer_result">
 																		SELECT agent_name
 																		FROM preferred_agent_name
 																		WHERE
@@ -973,7 +973,7 @@ limitations under the License.
 															<cfelse>
 																<cfset collector_agent_id ="">
 																<!--- lookup collector's agent_id --->
-																<cfquery name="collectorLookup" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+																<cfquery name="collectorLookup" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 																	SELECT agent_id 
 																	FROM preferred_agent_name 
 																	WHERE agent_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collector#"> 
@@ -985,7 +985,7 @@ limitations under the License.
 															</cfif>
 														<cfelse>
 															<!--- lookup collector --->
-															<cfquery name="collectorLookup" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+															<cfquery name="collectorLookup" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 																SELECT agent_name 
 																FROM preferred_agent_name 
 																WHERE agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collector_agent_id#">
@@ -1204,7 +1204,7 @@ limitations under the License.
 														<cfif not isdefined("entered_by_id")><cfset entered_by_id=""></cfif>
 														<!--- lookup agent name --->
 														<cfif len(entered_by) EQ 0 AND len(entered_by_id) GT 0>
-															<cfquery name="lookupEnteredBy" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="lookupDeterminer_result">
+															<cfquery name="lookupEnteredBy" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="lookupDeterminer_result">
 																SELECT agent_name
 																FROM preferred_agent_name
 																WHERE
@@ -1237,7 +1237,7 @@ limitations under the License.
 														<cfif not isdefined("last_edited_person_id")><cfset last_edited_person_id=""></cfif>
 														<!--- lookup agent name --->
 														<cfif len(last_edited_person) EQ 0 AND len(last_edited_person_id) GT 0>
-															<cfquery name="lookupEnteredBy" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="lookupDeterminer_result">
+															<cfquery name="lookupEnteredBy" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="lookupDeterminer_result">
 																SELECT agent_name
 																FROM preferred_agent_name
 																WHERE
@@ -1286,7 +1286,7 @@ limitations under the License.
 															</cfif>
 															<cfif isDefined("loan_trans_id") AND len(loan_trans_id) GT 0>
 																<!--- lookup loan number (for api call &loan_trans_id=) --->
-																<cfquery name="lookupLoan" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="lookupLoan_result">
+																<cfquery name="lookupLoan" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="lookupLoan_result">
 																	SELECT loan_number as lnum
 																	FROM loan
 																	WHERE
@@ -1305,7 +1305,7 @@ limitations under the License.
 															</cfif>
 															<cfif isDefined("accn_trans_id") AND len(accn_trans_id) GT 0>
 																<!--- lookup accession number (for api call &accn_trans_id=) --->
-																<cfquery name="lookupAccn" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="lookupAccn_result">
+																<cfquery name="lookupAccn" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="lookupAccn_result">
 																	SELECT accn_number as accnum
 																	FROM accn
 																	WHERE
@@ -1982,7 +1982,7 @@ Target JSON:
 														<span id="nestMarkerStart1"></span>
 													</div>
 													<div class="col-12 col-md-4">
-														<cfquery name="fields" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="fields_result">
+														<cfquery name="fields" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="fields_result">
 															SELECT search_category, cf_spec_search_cols.table_name, cf_spec_search_cols.column_name, column_alias, data_type, 
 																label, access_role, ui_function, all_col_comments.comments
 															FROM cf_spec_search_cols
@@ -2506,7 +2506,7 @@ Target JSON:
 	
 	<!--- lastcolumn is the column to put at the end of the default column set with no width specified --->
 	<cfset lastcolumn = 'OTHERCATALOGNUMBERS'>
-	<cfquery name="getFieldMetadata" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getFieldMetadata_result">
+	<cfquery name="getFieldMetadata" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getFieldMetadata_result">
 		SELECT upper(column_name) as column_name, sql_element, data_type, category, label, disp_order, hideable, hidden, cellsrenderer, width
 		FROM cf_spec_res_cols_r
 		WHERE access_role = 'PUBLIC'

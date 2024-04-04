@@ -1,7 +1,7 @@
 <cfinclude template="/includes/alwaysInclude.cfm">
 <div class="basic_box">
 <cfset title = "Edit Identifiers">
-<cfquery name="getIDs" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="getIDs" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 	SELECT
 		COLL_OBJ_OTHER_ID_NUM_ID,
 		cat_num,
@@ -23,7 +23,7 @@
 	WHERE
 		cataloged_item.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
 </cfquery>
-<cfquery name="ctType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="ctType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 	SELECT other_id_type 
 	FROM ctcoll_other_id_type
 </cfquery>
@@ -50,7 +50,7 @@
 		other_id_type,
 		display_value
 </cfquery>
-<cfquery name="ctcoll_cde" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="ctcoll_cde" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 	SELECT 
 		institution_acronym,
 		collection_cde,
@@ -148,7 +148,7 @@
 <cfif #Action# is "saveCatEdits">
 <cfoutput>
 	<cftransaction>
-		<cfquery name="upCat" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="upCat" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			UPDATE cataloged_item SET 
 				cat_num = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#cat_num#">,
 				collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_id#">
@@ -162,7 +162,7 @@
 <!-------------------------------------------------------->
 <cfif #Action# is "saveOIDEdits">
 <cfoutput>
-	<cfstoredproc procedure="update_other_id" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cfstoredproc procedure="update_other_id" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		<cfprocparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
 		<cfprocparam cfsqltype="CF_SQL_DECIMAL" value="#COLL_OBJ_OTHER_ID_NUM_ID#">
 		<cfprocparam cfsqltype="CF_SQL_VARCHAR" value="#display_value#">
@@ -174,7 +174,7 @@
 <!-------------------------------------------------------->
 <cfif #Action# is "deleOID">
 <cfoutput>
-	<cfquery name="delOIDt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cfquery name="delOIDt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		DELETE FROM
 			coll_obj_other_id_num
 		WHERE 
@@ -186,7 +186,7 @@
 <!-------------------------------------------------------->
 <cfif #Action# is "newOID">
 <cfoutput>
-	<cfstoredproc procedure="parse_other_id" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cfstoredproc procedure="parse_other_id" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		<cfprocparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
 		<cfprocparam cfsqltype="CF_SQL_VARCHAR" value="#display_value#">
 		<cfprocparam cfsqltype="CF_SQL_VARCHAR" value="#other_id_type#">

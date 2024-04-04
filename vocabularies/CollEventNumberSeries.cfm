@@ -445,7 +445,7 @@ limitations under the License.
 			<cfif not isdefined("number_series") OR len(trim(#number_series#)) EQ 0 >
 				<cfthrow type="Application" message="Error: No value provided for required value number_series">
 			</cfif>
-			<cfquery name="save" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="insertResult">
+			<cfquery name="save" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="insertResult">
 				insert into coll_event_num_series (
 					number_series
 					<cfif isdefined("pattern")>
@@ -470,7 +470,7 @@ limitations under the License.
 					</cfif>
 				)
 			</cfquery>
-			<cfquery name="savePK" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="pkResult">
+			<cfquery name="savePK" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="pkResult">
 				select coll_event_num_series_id from coll_event_num_series 
 				where ROWIDTOCHAR(rowid) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#insertResult.GENERATEDKEY#">
 			</cfquery>
@@ -488,7 +488,7 @@ limitations under the License.
 		<cfif len("coll_event_num_series_id") EQ 0>
 			<cfthrow type="Application" message="Error: No value provided for coll_event_num_series_id">
 		<cfelse>
-			<cfquery name="numSeries" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="numSeries_result">
+			<cfquery name="numSeries" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="numSeries_result">
 				select coll_event_num_series_id, number_series, pattern, remarks, collector_agent_id,
 					case 
 						when collector_agent_id is null then '[No Agent]'
@@ -619,7 +619,7 @@ limitations under the License.
 					</section>
 					<cfif numSeries_result.recordcount GT 0>
 						<!--- list instances of the collecting event number, link out to specimen search --->
-						<cfquery name="numSeriesUse" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="numSeriesUse_result">
+						<cfquery name="numSeriesUse" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="numSeriesUse_result">
 							select coll_event_number, collecting_event_id 
 							from coll_event_number
 							where coll_event_num_series_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#coll_event_num_series_id#">

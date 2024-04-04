@@ -28,17 +28,17 @@ limitations under the License.
 	<cfset defaultenablebrowserselection = "false">
 </cfif>	
 
-<cfquery name="ctmedia_type" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" timeout="#Application.short_timeout#">
+<cfquery name="ctmedia_type" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.short_timeout#">
 	select media_type  from ctmedia_type
 </cfquery>
-<cfquery name="ctmime_type" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" timeout="#Application.short_timeout#">
+<cfquery name="ctmime_type" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.short_timeout#">
 	select mime_type  from ctmime_type
 </cfquery>
-<cfquery name="ctmedia_label" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" timeout="#Application.short_timeout#">
+<cfquery name="ctmedia_label" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.short_timeout#">
 	select media_label, description  from ctmedia_label
 </cfquery>
 <!--- media labels that are not explicitly included as controls on the form --->
-<cfquery name="ctothermedia_label" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" timeout="#Application.short_timeout#">
+<cfquery name="ctothermedia_label" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.short_timeout#">
 	select media_label, description  from ctmedia_label
 	where media_label not in ('aspect','description','made date','subject','original filename','internal remarks','remarks','light source','height','width','md5hash','owner','credit')
 </cfquery>
@@ -46,7 +46,7 @@ limitations under the License.
  Such searches are supported by the inclusion of /transactions/js/transactions.js in /shared/_header.cfm for /media/ paths 
  and the manage_transactions role, changing which role has those searches enabled will take a change there as well as here.
 --->
-<cfquery name="ctmedia_relationship" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" timeout="#Application.short_timeout#">
+<cfquery name="ctmedia_relationship" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.short_timeout#">
 	select media_relationship  from ctmedia_relationship
 	where media_relationship not in ('created by agent', 'shows cataloged_item')
 	<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_transactions")>
@@ -59,7 +59,7 @@ limitations under the License.
 	select 'ANY cataloged_item' media_relationship from dual
 </cfquery>
 <!--- Note, jqxcombobox doesn't properly handle options that vary only in trailing whitespace, so using trim() here --->
-<cfquery name="distinctExtensions" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" timeout="#Application.short_timeout#">
+<cfquery name="distinctExtensions" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.short_timeout#">
 	select trim(auto_extension) as extension, count(*) as ct
 	from media
 	where auto_extension is not null
@@ -663,7 +663,7 @@ limitations under the License.
 										<div class="form-group mb-2">
 											<input type="hidden" id="collection_object_id" name="collection_object_id" value="#encodeForHtml(collection_object_id)#">
 											<cfif isDefined("collection_object_id") AND len(collection_object_id) GT 0>
-												<cfquery name="guidLookup" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="guidLookup">
+												<cfquery name="guidLookup" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="guidLookup">
 													select distinct guid 
 													from 
 														<cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
