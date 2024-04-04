@@ -549,7 +549,6 @@ limitations under the License.
 						update cf_temp_parts set 
 						status = concat(nvl2(status, status || '; ', ''),'Check <span class="font-weight-bold">other id type and number</span>. Internal ID could not be created')
 						where collection_object_id is null 
-						and collection_cde in (select collection_cde in collection)
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
 					</cfquery>
