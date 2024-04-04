@@ -674,7 +674,7 @@ limitations under the License.
 						(select preferred_agent_name from agent_name group by agent_name having count(*) > 1)--->
 						<cfquery name="chkPAtt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						update cf_temp_parts set
-						PART_ATT_DETBY_#i#_id = NVL2(PART_ATT_DETBY_#i#, mczbase.get_agentnameoftype(PART_ATT_DETBY_#i#), '') 
+						PART_ATT_DETBY_#i# = NVL2(PART_ATT_DETBY_#i#, mczbase.get_agentnameoftype(PART_ATT_DETBY_#i#), '') 
 						WHERE PART_ATT_DETBY_#i# is not null
 						AND PART_ATT_NAME_#i# is not null
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
