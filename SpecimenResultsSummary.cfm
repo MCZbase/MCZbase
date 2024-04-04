@@ -333,18 +333,18 @@
 </cfif>
 
 <cfif isdefined("newSearch") and #newSearch# is 1>
-	<cfquery name="SpecRes#cfid##cftoken#" dbtype="query" cachedwithin="#createtimespan(0,0,0,0)#">
+	<cfquery name="SpecRes#cfid##cookie.cftoken#" dbtype="query" cachedwithin="#createtimespan(0,0,0,0)#">
 		select * from getData
 	</cfquery>
 </cfif>
-<cfquery name="SpecRes#cfid##cftoken#" dbtype="query" cachedwithin="#createtimespan(0,0,60,0)#">
+<cfquery name="SpecRes#cfid##cookie.cftoken#" dbtype="query" cachedwithin="#createtimespan(0,0,60,0)#">
 	select * from getData
 </cfquery>
 
 
 <cfoutput>
 <cfquery name="getBasic" dbtype="query">
-	select * from SpecRes#cfid##cftoken# order by #order_by#
+	select * from SpecRes#cfid##cookie.cftoken# order by #order_by#
 </cfquery>
 
 <cfquery name="s" dbtype="query">
