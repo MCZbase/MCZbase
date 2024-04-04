@@ -670,18 +670,12 @@ limitations under the License.
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
 						</cfquery>
+						<!---	where PART_ATT_DETBY_#i# in
+						(select preferred_agent_name from agent_name group by agent_name having count(*) > 1)--->
 						<cfquery name="chkPAtt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						update cf_temp_parts set
-						NVL2(VERIFIED_BY_AGENT_ID, mczbase.get_agentnameoftype(verified_by_agent_id), '') agent_id
-						WHERE MCZBASE.GET_AGENT_NAMEOFTYPE(PART_ATT_NAME_#i#,'preferred')
-						AND PART_ATT_NAME_#i# is not null
-						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-						AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
-						</cfquery>
-						<cfquery name="chkPAtt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						update cf_temp_parts set
-						status = concat(nvl2(status, status || '; ', ''),'<span class="font-weight-bold">Invalid "'||PART_ATT_DETBY_#i#||'". </span>')
-						WHERE MCZBASE.GET_AGENT_NAMEOFTYPE(PART_ATT_NAME_#i#,'preferred')=0
+						PART_ATT_DETBY_#i#_id = NVL2(VERIFIED_BY_AGENT_ID, mczbase.get_agentnameoftype(verified_by_agent_id), '') 
+						WHERE PART_ATT_DETBY_#i# is not null
 						AND PART_ATT_NAME_#i# is not null
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
@@ -689,9 +683,9 @@ limitations under the License.
 						<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						update cf_temp_parts set 
 						status = concat(nvl2(status, status || '; ', ''),'<span class="font-weight-bold">Invalid part attribute determiner <span class="font-weight-bold">"'||PART_ATT_DETBY_#i#||'"</span>')
-						where PART_ATT_DETBY_#i# not in
-						(select agent_name from agent_name group by agent_name having count(*) = 1)
+						where PART_ATT_NAME_#i# is not null
 						and PART_ATT_DETBY_#i# is not null
+						AND NVL2(VERIFIED_BY_AGENT_ID, mczbase.get_agentnameoftype(verified_by_agent_id), '') is null
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
 						</cfquery>
