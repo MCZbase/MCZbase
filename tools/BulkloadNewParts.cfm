@@ -623,9 +623,12 @@ limitations under the License.
 						<cfquery name="badCT" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						select value_code_tables from ctspecpart_attribute_type where attribute_type like '%||PART_ATT_NAME_#i#||%'
 						</cfquery>
+						<cfloop query="badCT">
 						<cfquery name="badCT" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						select caste from badCT.value_code_tables where caste = 'drone'
+						select PART_ATT_NAME_#i# from badCT.value_code_tables where caste = 'drone'
 						</cfquery>
+							
+						</cfloop>
 						<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						update cf_temp_parts set 
 						status = concat(nvl2(status, status || '; ', ''),'Invalid PART_ATT_MADEDATE_#i# "'||PART_ATT_MADEDATE_#i#||'"') where is_iso8601(PART_ATT_MADEDATE_#i#) <> '' and PART_ATT_MADEDATE_#i# is not null
