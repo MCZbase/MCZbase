@@ -502,8 +502,11 @@ limitations under the License.
 							SET
 								collection_object_id = (
 									select collection_object_id 
-									from cataloged_item 
-									where cat_num = cf_temp_parts.other_id_number and collection_cde = cf_temp_parts.collection_cde
+									from cataloged_item, collection 
+									where cat_num = cf_temp_parts.other_id_number 
+									and collection_cde = cf_temp_parts.collection_cde
+									and collection.collection_id = cataloged_item.collection_id
+									and collection.institution_acronym = cf_temp_parts.insititution_acronym 
 								),
 								status = null
 							WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
@@ -516,22 +519,39 @@ limitations under the License.
 								cf_temp_parts
 							SET
 								collection_object_id= (
-									select cataloged_item.collection_object_id from cataloged_item,coll_obj_other_id_num 
+									select cataloged_item.collection_object_id from cataloged_item,coll_obj_other_id_num,collection 
 									where coll_obj_other_id_num.other_id_type = cf_temp_parts.other_id_type 
 									and cataloged_item.collection_cde = cf_temp_parts.collection_cde 
+									and collection.collection_cde = cf_temp_parts.collection_cde
 									and display_value= cf_temp_parts.other_id_number
 									and cataloged_item.collection_object_id = coll_obj_other_id_num.COLLECTION_OBJECT_ID
+									and collection.institution_acronym = cf_temp_parts.institution_acronym
+									and collection.collection_id = cataloged_item.collection_id
 								),
 								status = null
 							WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 								and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableTypes.key#"> 
 						</cfquery>
 					</cfif>
+					<cfif #getTempTableTypes.recordcount# is 1>
+						<cfquery name="insColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+							UPDATE cf_temp_parts SET collection_object_id = #getTempTableTypes.collection_object_id#,
+							status=''
+							where
+							key = #key#
+						</cfquery>
+					<cfelse>
+						<cfquery name="insColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+							UPDATE cf_temp_parts SET status =
+							status || ';&nbsp;#getTempTableTypes.institution_acronym# #getTempTableTypes.collection_cde# #getTempTableTypes.other_id_type# #getTempTableTypes.other_id_number# could not be found.'
+							where key = #key#
+						</cfquery>
+					</cfif>
 				</cfloop>
 				<!--- obtain the information needed to QC each row --->
 				<cfquery name="getTempTableQC" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT 
-						collection_object_id, collection_cde, key
+						collection_object_id, key
 					FROM 
 						cf_temp_parts
 					WHERE 
@@ -630,7 +650,6 @@ limitations under the License.
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
 					</cfquery>
-				
 				
 				
 					<cfloop index="i" from="1" to="6">
