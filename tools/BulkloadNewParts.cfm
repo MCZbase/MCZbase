@@ -591,7 +591,7 @@ limitations under the License.
 						AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
 					</cfquery>
 					<cfquery name="chk" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						update cf_temp_parts set status = concat(nvl2(status, status || '; ', ''),'Invalid preserve method <span class="font-weight-bold">"'||preserve_method||'" in collection_cde</span>')
+						update cf_temp_parts set status = concat(nvl2(status, status || '; ', ''),'Invalid preserve method <span class="font-weight-bold">"'||preserve_method||'" in "'||collection_cde||'"</span>')
 						where (collection_cde|| '|' ||preserve_method NOT IN (select collection_cde|| '|' ||preserve_method from ctspecimen_preserv_method)) 
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
