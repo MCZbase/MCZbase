@@ -629,7 +629,7 @@ limitations under the License.
 						AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
 						</cfquery>	
 						<!---"TODO: Fix type/value/units relationship check (chk_specpart_att_codetable -- variables up to date but it is not working)"--->
-						<cfquery name="chkPAttxxxxx" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						<cfquery name="chkPAtt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						update cf_temp_parts set status = status || '<span class="font-weight-bold">"'||PART_ATT_VAL_#i#||'"</span> for "'||PART_ATT_NAME_#i#||'" part attribute name not in codetable'
 						where MCZBASE.CHK_SPECPART_ATT_CODETABLES(PART_ATT_NAME_#i#,PART_ATT_VAL_#i#,COLLECTION_CDE)=0
 						and PART_ATT_NAME_#i# in
@@ -697,7 +697,7 @@ limitations under the License.
 						</cfquery>
 					</cfloop>
 					<cfquery name="chk" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						update cf_temp_parts set (status) = (select decode(parent_container_id,0,'','')
+						update cf_temp_parts set status = (select decode(parent_container_id,0,'','')
 						from specimen_part,coll_obj_cont_hist,container, coll_object_remark 
 						where specimen_part.collection_object_id = coll_obj_cont_hist.collection_object_id AND
 						coll_obj_cont_hist.container_id = container.container_id AND
@@ -740,6 +740,7 @@ limitations under the License.
 				
 				<cfquery name="allValid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					select count(*) as cnt from cf_temp_parts
+					where status is not null
 				</cfquery>
 				<cfif #allValid.cnt# is 0>
 					<span class="text-success">Validation checks passed</span>. Look over the table below and <a href="BulkloadNewParts.cfm?action=load">click to continue</a> if it all looks good. Or, <a href="/tools/BulkloadNewParts.cfm">Start over</a>.
