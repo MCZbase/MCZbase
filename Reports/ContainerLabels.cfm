@@ -3,7 +3,7 @@
 <cfif not isdefined("header_text")>
    <cfset header_text = 'Museum of Comparative Zoology'>
 </cfif>
-<cfset targetfile="containerlabels_#cfid#_#cookie.cftoken#.pdf" >
+<cfset targetfile="containerlabels_#cookie.cfid#_#cookie.cftoken#.pdf" >
 <cfoutput>
 <p>
 	<a href="/temp/#targetfile#" target="_blank">Get the PDF</a>
@@ -35,7 +35,7 @@ Current format: #displayFormat#<br/>
 
 <cfif format is "SCSlideTray">
 
-    <cfquery name="getItems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+    <cfquery name="getItems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
     select distinct 
        get_scientific_name(cat.collection_object_id) as ident,
        cp.label,
@@ -208,7 +208,7 @@ Current format: #displayFormat#<br/>
        
 <cfif format is "SCSlideTrayFront">
 
-    <cfquery name="getItems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+    <cfquery name="getItems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
     select distinct 
        'tray ' || replace(replace(replace(cp.label,'Shared_slide-cab-',''),'_col',''),'_tray','') as tray,
         cp.barcode
@@ -281,7 +281,7 @@ Current format: #displayFormat#<br/>
        <cfset curItem = curItem + 1>
 
         <!---  For each tray, get the list of scientific names, in order by other id --->
-        <cfquery name="getTaxa" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+        <cfquery name="getTaxa" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
         select distinct
            get_scientific_name(cat.collection_object_id) as ident,
            MCZBASE.get_single_other_id_concat(cat.collection_object_id, 'other number') as othernumber

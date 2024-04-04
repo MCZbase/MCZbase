@@ -113,7 +113,7 @@
 </cfif>
 <cfif action is "findCollEventIdForSpecDetail">
 	<!--- get a collecting event ID and relocate to editCollEvnt --->
-	<cfquery name="ceid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cfquery name="ceid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		select collecting_event_id from cataloged_item where
 		collection_object_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
 	</cfquery>
@@ -130,42 +130,42 @@
 	<cfset include_counts=0>
 </cfif>
 <!--------------------------- Code-table queries -------------------------------------------------->
-<cfquery name="ctContinentOcean" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#createtimespan(0,0,60,0)#">
+<cfquery name="ctContinentOcean" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" cachedwithin="#createtimespan(0,0,60,0)#">
 	select continent_ocean from ctcontinent order by continent_ocean
 </cfquery>
-<cfquery name="ctOceanRegion" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#createtimespan(0,0,0,30)#" >
+<cfquery name="ctOceanRegion" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" cachedwithin="#createtimespan(0,0,0,30)#" >
 	select ocean_region from ctoceanregion order by ocean_region
 </cfquery>
-<cfquery name="ctIslandGroup" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#createtimespan(0,0,0,30)#">
+<cfquery name="ctIslandGroup" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" cachedwithin="#createtimespan(0,0,0,30)#">
 	select island_group from ctisland_group order by island_group
 </cfquery>
-<cfquery name="ctElevUnit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#createtimespan(0,0,60,0)#">
+<cfquery name="ctElevUnit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" cachedwithin="#createtimespan(0,0,60,0)#">
 	select orig_elev_units from ctorig_elev_units order by orig_elev_units
 </cfquery>
-<cfquery name="ctCollecting_Source" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#createtimespan(0,0,60,0)#">
+<cfquery name="ctCollecting_Source" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" cachedwithin="#createtimespan(0,0,60,0)#">
 	select collecting_source from ctCollecting_Source order by collecting_source
 </cfquery>
-<cfquery name="ctFeature" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#createtimespan(0,0,0,30)#">
+<cfquery name="ctFeature" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" cachedwithin="#createtimespan(0,0,0,30)#">
 	select distinct(feature) from ctfeature order by feature
 </cfquery>
-<cfquery name="ctWater_Feature" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#createtimespan(0,0,0,30)#">
+<cfquery name="ctWater_Feature" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" cachedwithin="#createtimespan(0,0,0,30)#">
 	select distinct(water_feature) from ctwater_feature order by water_feature
 </cfquery>
-	<cfquery name="ctGeorefMethod" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#createtimespan(0,0,60,0)#">
+	<cfquery name="ctGeorefMethod" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" cachedwithin="#createtimespan(0,0,60,0)#">
 	select georefMethod from ctgeorefmethod order by georefMethod
 </cfquery>
-<cfquery name="ctVerificationStatus" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#createtimespan(0,0,60,0)#">
+<cfquery name="ctVerificationStatus" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" cachedwithin="#createtimespan(0,0,60,0)#">
 	select VerificationStatus from ctVerificationStatus order by VerificationStatus
 </cfquery>
-<cfquery name="ctSovereignNation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#createtimespan(0,0,60,0)#">
+<cfquery name="ctSovereignNation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" cachedwithin="#createtimespan(0,0,60,0)#">
 	select sovereign_nation from ctsovereign_nation order by sovereign_nation
 </cfquery>
-<cfquery name="ctguid_type_highergeography" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="ctguid_type_highergeography" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 	select guid_type, placeholder, pattern_regex, resolver_regex, resolver_replacement, search_uri
    from ctguid_type
    where applies_to like '%geog_auth_rec.highergeographyid%'
 </cfquery>
-<cfquery name="colEventNumSeries" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="colEventNumSeries" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 	select coll_event_num_series_id, number_series, pattern, remarks, collector_agent_id,
 		CASE collector_agent_id WHEN null THEN '[No Agent]' ELSE mczbase.get_agentnameoftype(collector_agent_id) END as collector_agent
 	from coll_event_num_series
@@ -277,7 +277,7 @@
 	<br><a href="Locality.cfm?Action=editCollEvent&collecting_event_id=#collecting_event_id#">Return</a> to editing.
 	<cfabort>
 <cfelseif len(#isSpec.collection_object_id#) is 0>
-	<cfquery name="deleCollEv" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cfquery name="deleCollEv" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		delete from collecting_event
 		where collecting_event_id= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collecting_event_id#">
 	</cfquery>
@@ -290,7 +290,7 @@ You deleted a collecting event.
 <!---------------------------------------------------------------------------------------------------->
 <cfif action is "changeLocality">
 <cfoutput>
-	<cfquery name="upColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cfquery name="upColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		UPDATE collecting_event
 		SET locality_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
 		where collecting_event_id= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collecting_event_id#">
@@ -487,7 +487,7 @@ You deleted a collecting event.
 		</ul>
   </cfif>
 
-  <cfquery name="cd" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+  <cfquery name="cd" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
   	select *
 	from collecting_event
 	inner join locality on (collecting_event.locality_id = locality.locality_id)
@@ -536,7 +536,7 @@ You deleted a collecting event.
 	<cfoutput>
 		<cftransaction>
 		<cfloop list="#collecting_event_id#" index="ceid">
-			<cfquery name="upCollLoc" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="upCollLoc" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			update collecting_event set locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
 			where collecting_event_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#ceid#">
 			</cfquery>

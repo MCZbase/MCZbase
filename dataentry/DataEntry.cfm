@@ -98,56 +98,56 @@ limitations under the License.
 
 
 <cfoutput>
- <cfquery name="error_units" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+ <cfquery name="error_units" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 	select
 		ctlat_long_error_units.lat_long_error_units
 	from
 		mczbase.ctlat_long_error_units
 	order by lat_long_error_units asc
 </cfquery>
- <cfquery name="collection_full_name" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+ <cfquery name="collection_full_name" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 	select collection from ctcollections_full_names
 </cfquery>
-<cfquery name="otherIDType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="otherIDType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 	select other_id_type from ctcoll_other_id_type
 </cfquery>
-<cfquery name="currRelations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="currRelations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 	select biol_indiv_relationship from ctbiol_relations where rel_type = 'curatorial'
 </cfquery>
-<cfquery name="biolRelations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="biolRelations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 	select biol_indiv_relationship from ctbiol_relations where rel_type = 'biological'
 </cfquery>
-<cfquery name="depthUnits" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="depthUnits" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 	select depth_units from ctdepth_units
 </cfquery>
-<cfquery name="nature_of_id" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="nature_of_id" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 	select nature_of_id from ctnature_of_id
 </cfquery>
-<cfquery name="nature_of_id" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="nature_of_id" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 	select nature_of_id from ctnature_of_id
 </cfquery>
-<cfquery name="lat_long_units" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="lat_long_units" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 	select orig_lat_Long_units from ctlat_long_units
 </cfquery>
-<cfquery name="obj_disp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="obj_disp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 	select coll_obj_disposition from ctcoll_obj_disp
 </cfquery>
-<cfquery name="num_mod" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="num_mod" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 	select modifier from ctnumeric_modifiers
 </cfquery>
-<cfquery name="spec_preserv_method" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="spec_preserv_method" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 	select preserve_method from ctspecimen_preserv_method
 </cfquery>
-<cfquery name="attType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="attType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 	select attribute_type from ctattribute_type
 </cfquery>
-<cfquery name="datum" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="datum" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 	select datum from ctdatum
 </cfquery>
-<cfquery name="georefmeth" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="georefmeth" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 	select georefmethod from ctgeorefmethod
 </cfquery>
-<cfquery name="verifications" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="verifications" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 	select verificationstatus from ctverificationstatus
 </cfquery>
 	<div class="swapperBtnDiv" style="margin: 0 2rem;"> <a class="btn btn-xs btn-secondary" href="javascript:SwapDivsWithClick('swapper-first','swapper-other')">Switch Form</a> 

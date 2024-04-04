@@ -237,7 +237,7 @@ Common Names have been opportunistically entered into MCZbase. Common Name entri
 <!----------------------------------------------------------------------------------------------------->
 <cfif #content# is "Citation">
 	<cfset title="Citation Statistics">
-	<cfquery name="cit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cfquery name="cit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		SELECT
 			count(citation.collection_object_id) as cnt,
 			taxonomy.scientific_name as scientific_name,
@@ -274,7 +274,7 @@ Common Names have been opportunistically entered into MCZbase. Common Name entri
 	</cfloop>
 	</table>
 	<br>Citations by Collection:
-	<cfquery name="citColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cfquery name="citColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		SELECT
 			count(citation.collection_object_id) as cnt,
 			collection.collection_cde,
@@ -616,7 +616,7 @@ this window</A>
 <!----------------------------------------------------------------------------------------------------->
 <cfif #content# is "get_proj_name">
 	<cfset title="Find Project Name">
-	<cfquery name="projName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cfquery name="projName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		select distinct(project_name) from project order by project_name
 	</cfquery>
 	Click a Project Name to select.
@@ -652,7 +652,7 @@ this window</A>
 		</tr>
 	</form>
 	</table>
-	<cfquery name="perm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cfquery name="perm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		select
 			ISSUED_BY.agent_name issuer,
 			ISSUED_DATE,
@@ -763,7 +763,7 @@ Collection_Object_id = 99999.")
 <!----------------------------------------------------------------------------------------------------->
 <cfif #content# is "lat_long_ref_source">
 	<cfset title="Existing lat_long_ref_source">
-	<cfquery name="perm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cfquery name="perm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		select
 			distinct(lat_long_ref_source) lat_long_ref_source
 		FROM

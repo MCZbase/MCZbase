@@ -37,7 +37,7 @@ test-uam> desc uam_query.query_stats_coll
 </script>
 <cfif action is "nothing">
 <cfoutput>
-	<cfquery name="ctcollection" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cfquery name="ctcollection" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		select collection_id,collection from collection order by collection
 	</cfquery>
 <h2>Query Statistics</h2>

@@ -6,7 +6,7 @@ table.stat th {
 	cursor: pointer;
 }
 </style>
-<cfquery name="bulkSummary" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="bulkSummary" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 	select 
 		loaded, 
 		accn, 

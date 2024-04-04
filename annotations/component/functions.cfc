@@ -28,7 +28,7 @@ limitations under the License.
 	<cfthread name="getAnnotationDialogHtmlThread">
 		<cftry>
 			<cfoutput>
-				<cfquery name="hasEmail" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" timeout="#Application.short_timeout#">
+				<cfquery name="hasEmail" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.short_timeout#">
 					select email from cf_user_data,cf_users
 					where cf_user_data.user_id = cf_users.user_id and
 					cf_users.username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
@@ -38,7 +38,7 @@ limitations under the License.
 				</cfif>
 				<cfset found = FALSE>
 				<cfset manageIRI = "">
-				<cfquery name="ctmotivation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" timeout="#Application.short_timeout#">
+				<cfquery name="ctmotivation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.short_timeout#">
 					SELECT motivation, description
 					FROM ctmotivation
 					ORDER by motivation
@@ -46,7 +46,7 @@ limitations under the License.
 				<cfswitch expression="#target_type#">
 					<cfcase value="collection_object">
 						<cfset collection_object_id = target_id>
-						<cfquery name="d" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" timeout="#Application.short_timeout#">
+						<cfquery name="d" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.short_timeout#">
 							select 
 								collection.collection,
 								collection.collection_cde,
@@ -64,7 +64,7 @@ limitations under the License.
 							<cfset manageIRI = "/info/reviewAnnotation.cfm?action=show&type=collection_object_id&collection=#d.collection#&collection_object_id=#collection_object_id#">
 						</cfloop>
 						<!--- TODO: Change from fixed foreign key fields to primarykey/targettable pair to generalize annotations to any object type --->
-						<cfquery name="prevAnn" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" timeout="#Application.query_timeout#">
+						<cfquery name="prevAnn" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
 							select annotations.ANNOTATION_ID ANNOTATION_ID,
 								annotations.ANNOTATE_DATE ANNOTATE_DATE,
 								annotations.CF_USERNAME CF_USERNAME,
@@ -98,7 +98,7 @@ limitations under the License.
 					</cfcase>
 					<cfcase value="taxon_name">
 						<cfset taxon_name_id = target_id>
-						<cfquery name="d" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" timeout="#Application.short_timeout#">
+						<cfquery name="d" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.short_timeout#">
 							select 
 								display_name, author_text
 							from 
@@ -109,7 +109,7 @@ limitations under the License.
 						<cfloop query="d">
 							<cfset summary="Taxon <strong>#display_name# <span class='sm-caps'>#author_text#</span></strong>">
 						</cfloop>
-						<cfquery name="prevAnn" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" timeout="#Application.query_timeout#">
+						<cfquery name="prevAnn" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
 							select annotations.ANNOTATION_ID ANNOTATION_ID,
 								annotations.ANNOTATE_DATE ANNOTATE_DATE,
 								annotations.CF_USERNAME CF_USERNAME,
@@ -145,7 +145,7 @@ limitations under the License.
 					</cfcase>
 					<cfcase value="project">
 						<cfset project_id = target_id>
-						<cfquery name="d" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" timeout="#Application.short_timeout#">
+						<cfquery name="d" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.short_timeout#">
 							select 
 								PROJECT_NAME
 							from 
@@ -156,7 +156,7 @@ limitations under the License.
 						<cfloop query="d">
 							<cfset summary="Project <strong>#project_name#</strong>">
 						</cfloop>
-						<cfquery name="prevAnn" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" timeout="#Application.query_timeout#">
+						<cfquery name="prevAnn" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
 							select annotations.ANNOTATION_ID ANNOTATION_ID,
 								annotations.ANNOTATE_DATE ANNOTATE_DATE,
 								annotations.CF_USERNAME CF_USERNAME,
@@ -192,7 +192,7 @@ limitations under the License.
 					</cfcase>
 					<cfcase value="publication">
 						<cfset publication_id = target_id>
-						<cfquery name="d" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" timeout="#Application.short_timeout#">
+						<cfquery name="d" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.short_timeout#">
 							select 
 								formatted_publication
 							from 
@@ -204,7 +204,7 @@ limitations under the License.
 						<cfloop query="d">
 							<cfset summary="Publication <strong>#formatted_publication#</strong>">
 						</cfloop>
-						<cfquery name="prevAnn" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" timeout="#Application.query_timeout#">
+						<cfquery name="prevAnn" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
 							select annotations.ANNOTATION_ID ANNOTATION_ID,
 								annotations.ANNOTATE_DATE ANNOTATE_DATE,
 								annotations.CF_USERNAME CF_USERNAME,
@@ -373,7 +373,7 @@ limitations under the License.
 		<cfswitch expression="#target_type#">
 			<cfcase value="collection_object">
 				<cfset annotatable = true>
-				<cfquery name="annotated" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="annotated" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					select guid as annorecord
 					from <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> FLAT
 					where collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#target_id#">
@@ -401,7 +401,7 @@ limitations under the License.
 			</cfcase>
 			<cfcase value="taxon_name">
 				<cfset annotatable = true>
-				<cfquery name="annotated" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="annotated" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					select 'Taxon:' || scientific_name || ' ' || author_text as annorecord
 					from taxonomy
 					where taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#target_id#">
@@ -409,7 +409,7 @@ limitations under the License.
 			</cfcase>
 			<cfcase value="publication">
 				<cfset annotatable = true>
-				<cfquery name="annotated" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="annotated" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					select 'Publication:' || MCZBASE.getshortcitation(publication_id) as annorecord
 					from publication
 					where publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#target_id#">
@@ -440,7 +440,7 @@ limitations under the License.
 	</cftry>
 	<cfif annotatable>
 		<cftry>
-			<cfquery name="annotator" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="annotator" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				select username, first_name, last_name, affiliation, email 
 				from cf_users u left join cf_user_data ud on u.user_id = ud.user_id
 				where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">

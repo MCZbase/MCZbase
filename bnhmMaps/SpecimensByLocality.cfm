@@ -5,8 +5,8 @@ Retrieving map data - please wait....
 		<cfthrow message= "Invalid call.  The parameter result_id must be specified for SpecimensByLocality.cfm">
 	</cfif>
 	<cfset dlPath = "#Application.webDirectory#/bnhmMaps/tabfiles/">
-	<cfset dlFile = "tabfile#cfid##cookie.cftoken#.txt">
-	<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cfset dlFile = "tabfile#cookie.cfid##cookie.cftoken#.txt">
+	<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		SELECT
 			flatTable.collection_object_id,
 			flatTable.cat_num,

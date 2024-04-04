@@ -63,14 +63,14 @@ limitations under the License.
 </cfswitch>
 <!---------------------------------------------------------------------------------->
 <!--- code table used across several actions --->
-<cfquery name="ctunderscore_collection_type" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="colls_result" timeout="#Application.short_timeout#">
+<cfquery name="ctunderscore_collection_type" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="colls_result" timeout="#Application.short_timeout#">
 	SELECT underscore_collection_type, description, allowed_agent_roles 
 	FROM ctunderscore_collection_type
 </cfquery>
 <!---------------------------------------------------------------------------------->
 <cfswitch expression="#action#">
 	<cfcase value="search">
-		<cfquery name="colls" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="colls_result" timeout="#Application.short_timeout#">
+		<cfquery name="colls" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="colls_result" timeout="#Application.short_timeout#">
 			select collection_id, collection_cde, collection from collection
 		</cfquery>
 		<div id="overlaycontainer" style="position: relative;"> 
@@ -608,7 +608,7 @@ limitations under the License.
 			<cfif not isdefined("collection_name") OR len(trim(#collection_name#)) EQ 0 >
 				<cfthrow type="Application" message="Error: No value provided for required value collection_name">
 			</cfif>
-			<cfquery name="save" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="insertResult">
+			<cfquery name="save" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="insertResult">
 				insert into underscore_collection (
 					collection_name,
 					underscore_collection_type
@@ -635,7 +635,7 @@ limitations under the License.
 					</cfif>
 				)
 			</cfquery>
-			<cfquery name="savePK" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="pkResult">
+			<cfquery name="savePK" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="pkResult">
 					select underscore_collection_id from underscore_collection 
 					where ROWIDTOCHAR(rowid) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#insertResult.GENERATEDKEY#">
 			</cfquery>
@@ -654,7 +654,7 @@ limitations under the License.
 			<cfthrow type="Application" message="Error: No value provided for underscore_collection_id">
 		<cfelse>
 			<cfinclude template="/grouping/component/functions.cfc" runOnce="true">
-			<cfquery name="undColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="undColl_result">
+			<cfquery name="undColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="undColl_result">
 				SELECT 
 					underscore_collection_id, collection_name, underscore_collection_type,
 					underscore_collection.description, 
@@ -882,7 +882,7 @@ limitations under the License.
 					</section>
 				
 					<!--- list specimens in the collection, link out by guid --->
-					<cfquery name="undCollRelationsSum" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="undCollRelationsSum_result">
+					<cfquery name="undCollRelationsSum" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="undCollRelationsSum_result">
 						SELECT count(*) as ct
 						FROM underscore_relation 
 						where underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
@@ -1265,12 +1265,12 @@ limitations under the License.
 			<cfif not isdefined("underscore_collection_id") OR len(trim(#underscore_collection_id#)) EQ 0 >
 				<cfthrow type="Application" message="Error: No value provided for required value underscore_collection_id">
 			</cfif>
-			<cfquery name="getName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="delete_result">
+			<cfquery name="getName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="delete_result">
 					select collection_name from underscore_collection 
 					where
 						underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
 			</cfquery>
-			<cfquery name="delete" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="delete_result">
+			<cfquery name="delete" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="delete_result">
 					delete from underscore_collection 
 					where
 						underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">

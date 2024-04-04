@@ -135,7 +135,7 @@ limitations under the License.
 			<cfif not isdefined("journal_name") OR len(trim(#journal_name#)) EQ 0 >
 				<cfthrow type="Application" message="Error: No value provided for required value journal_name">
 			</cfif>
-			<cfquery name="save" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="insertResult">
+			<cfquery name="save" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="insertResult">
 				insert into ctjournal_name (
 					journal_name
 					<cfif isdefined("remarks")>
@@ -186,7 +186,7 @@ limitations under the License.
 		<cfif len(journal_name) EQ 0>
 			<cfthrow type="Application" message="Error: No value provided for journal_name">
 		<cfelse>
-			<cfquery name="journalTitle" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="journalTitle_result">
+			<cfquery name="journalTitle" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="journalTitle_result">
 				SELECT 
 					journal_name,
 					short_name,
@@ -201,7 +201,7 @@ limitations under the License.
 			<cfif journalTitle_result.recordcount EQ 0>
 				<cfthrow message="No matching journal name found [#encodeForHtml(journal_name)#]" >
 			</cfif>
-			<cfquery name="uses" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="uses_result">
+			<cfquery name="uses" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="uses_result">
 				SELECT count(*) ct
 				FROM 
 					publication_attributes
@@ -334,7 +334,7 @@ limitations under the License.
 			<cfif not isdefined("journal_name") OR len(trim(#journal_name#)) EQ 0 >
 				<cfthrow type="Application" message="Error: No value provided for required value journal_name">
 			</cfif>
-			<cfquery name="confirmOne" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="confirmOne_result">
+			<cfquery name="confirmOne" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="confirmOne_result">
 					SELECT journal_name
 					FROM ctjournal_name
 					WHERE
@@ -343,7 +343,7 @@ limitations under the License.
 			<cfif confirmOne.recordCount NEQ 1>
 				<cfthrow type="Application" message="Error: Specified journal_name does not match exactly one ctjournal_name record.">
 			</cfif>
-			<cfquery name="delete" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="delete_result">
+			<cfquery name="delete" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="delete_result">
 					DELETE FROM ctjournal_name
 					WHERE
 						journal_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#journal_name#">

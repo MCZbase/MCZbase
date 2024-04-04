@@ -2,29 +2,29 @@
 <cfinclude template="/includes/_frameHeader.cfm">
     <style>
         .content_box {width:100%;}</style>
-<cfquery name="ctNameType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="ctNameType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 	select agent_name_type as agent_name_type from ctagent_name_type where agent_name_type != 'preferred' order by agent_name_type
 </cfquery>
-<cfquery name="ctAgentType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="ctAgentType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 	select agent_type from ctagent_type order by agent_type
 </cfquery>
-<cfquery name="ctAddrType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="ctAddrType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 	select addr_type from ctaddr_type
 	where addr_type <> 'temporary'
 </cfquery>
-<cfquery name="ctElecAddrType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="ctElecAddrType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 	select address_type from ctelectronic_addr_type
 </cfquery>
-<cfquery name="ctprefix" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="ctprefix" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 	select prefix from ctprefix order by prefix
 </cfquery>
-<cfquery name="ctsuffix" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="ctsuffix" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 	select suffix from ctsuffix order by suffix
 </cfquery>
-<cfquery name="ctRelns" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="ctRelns" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 	select AGENT_RELATIONSHIP from CTAGENT_RELATIONSHIP
 </cfquery>
-<cfquery name="ctguid_type_agent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="ctguid_type_agent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 	select guid_type, placeholder, pattern_regex, resolver_regex, resolver_replacement, search_uri
    from ctguid_type
    where applies_to like '%agent.agentguid%'
@@ -260,7 +260,7 @@ function opendialogrank(page,id,title,agentId) {
 	<cfif not isdefined("agent_id") OR agent_id lt 0 >
 		<cfabort>
 	</cfif>
-	<cfquery name="person" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cfquery name="person" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		select
 			agent_id,
 			person_id,
@@ -302,7 +302,7 @@ function opendialogrank(page,id,title,agentId) {
 				<cfset nameStr="#nameStr# - unknown)">
 			</cfif>
 		<cfelse>
-			<cfquery name="getName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="getName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				select agent_name from agent_name where agent_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
 				and agent_name_type='preferred'
 			</cfquery>
@@ -324,7 +324,7 @@ function opendialogrank(page,id,title,agentId) {
              <p><a href="/agents/Agent.cfm?agent_id=#agent_id#" target="_self">Agent Activity</a>
           </cfif>
           <cfif listcontainsnocase(session.roles,"manage_transactions")>
-			<cfquery name="rank" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="rank" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				select count(*) || ' ' || agent_rank agent_rank
 				from agent_rank
 				where agent_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
@@ -351,13 +351,13 @@ function opendialogrank(page,id,title,agentId) {
 	   </cfif>
         </div>
 	</cfoutput>
-	<cfquery name="agentAddrs" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cfquery name="agentAddrs" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		select * from addr
 		where agent_id = <cfqueryparam value="#person.agent_id#" cfsqltype="CF_SQL_DECIMAL">
 			and addr.addr_type <> 'temporary'
 		order by valid_addr_fg DESC
 	</cfquery>
-	<cfquery name="elecagentAddrs" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cfquery name="elecagentAddrs" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		select * from electronic_address
 		where
 		agent_id = <cfqueryparam value="#person.agent_id#" cfsqltype="CF_SQL_DECIMAL">
@@ -617,7 +617,7 @@ function opendialogrank(page,id,title,agentId) {
 	<cfoutput>
 		<!----- group handling ---->
 		<cfif #person.agent_type# IS "group" OR #person.agent_type# IS "expedition" OR #person.agent_type# IS "vessel">
-			<cfquery name="grpMem" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="grpMem" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				select
 					MEMBER_AGENT_ID,
 					MEMBER_ORDER,
@@ -667,7 +667,7 @@ function opendialogrank(page,id,title,agentId) {
 			</form>
 		</cfif>
 		<!--- agent names --->
-		<cfquery name="anames" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="anames" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			select * from agent_name where agent_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
 		</cfquery>
 		<cfquery name="pname" dbtype="query">
@@ -727,7 +727,7 @@ function opendialogrank(page,id,title,agentId) {
 				<input type="submit" class="insBtn" value="Create Name">
 			</form>
 		</div>
-		<cfquery name="relns" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="relns" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			select
 				agent_relationship, agent_name, related_agent_id
 			from agent_relations, agent_name
@@ -911,7 +911,7 @@ function opendialogrank(page,id,title,agentId) {
 				<input type="submit" class="insBtn" value="Create Address">
 			</form>
 		</div></div></div>
-		<cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		    select distinct
 		        media.media_id,
 		        media.media_uri,
@@ -940,7 +940,7 @@ function opendialogrank(page,id,title,agentId) {
 			<br><span class="innerDetailLabel">Note: CT scans with mime type "model/vrml" require an external plugin such as <a href="http://cic.nist.gov/vrml/cosmoplayer.html">Cosmo3d</a> or <a href="http://mediamachines.wordpress.com/flux-player-and-flux-studio/">Flux Player</a>. For Mac users, a standalone player such as <a href="http://meshlab.sourceforge.net/">MeshLab</a> will be required.</span>
 		</cfif>
 		 		<!---cfif oneOfUs is 1>
-				 <cfquery name="hasConfirmedImageAttr"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				 <cfquery name="hasConfirmedImageAttr"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT count(*) c
 					FROM
 						ctattribute_type
@@ -968,7 +968,7 @@ function opendialogrank(page,id,title,agentId) {
 					<cfloop query="media">
 						<cfset altText = media.media_descriptor>
 						<cfset puri=getMediaPreview(preview_uri,media_type)>
-		            	<cfquery name="labels"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		            	<cfquery name="labels"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							select
 								media_label,
 								label_value
@@ -1024,7 +1024,7 @@ function opendialogrank(page,id,title,agentId) {
 <!------------------------------------------------------------------------------------------------------------->
 <cfif #Action# is "saveEditElecAddr">
 	<cfoutput>
-		<cfquery name="upElecAddr" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="upElecAddr" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			UPDATE electronic_address SET
 				address_type = <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#address_type#'>,
 				address = <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#address#'>
@@ -1039,7 +1039,7 @@ function opendialogrank(page,id,title,agentId) {
 <!------------------------------------------------------------------------------------------------------------->
 <cfif #Action# is "deleElecAddr">
 	<cfoutput>
-		<cfquery name="deleElecAddr" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="deleElecAddr" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			delete from electronic_address where
 				agent_id=<cfqueryparam cfsqltype='CF_SQL_DECIMAL' value='#agent_id#'>
 				and address_type=<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#address_type#'>
@@ -1179,7 +1179,7 @@ function opendialogrank(page,id,title,agentId) {
 <!------------------------------------------------------------------------------------------------------------->
 <cfif #Action# is "saveEditsAddr">
 	<cfoutput>
-		<cfquery name="editAddr" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="editAddr" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			UPDATE addr SET
 				STREET_ADDR1 = <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#STREET_ADDR1#'>
 				,STREET_ADDR2 = <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#STREET_ADDR2#'>
@@ -1203,7 +1203,7 @@ function opendialogrank(page,id,title,agentId) {
 <!------------------------------------------------------------------------------------------------------------->
 <cfif #Action# is "deleteAddr">
 	<cfoutput>
-		<cfquery name="killAddr" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="killAddr" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			delete from addr where addr_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#addr_id#">
 		</cfquery>
 		<cflocation url="editAllAgent.cfm?agent_id=#agent_id#">
@@ -1213,7 +1213,7 @@ function opendialogrank(page,id,title,agentId) {
 <cfif #Action# is "saveCurrentAddress">
 	<cfoutput>
 		<cftransaction>
-			<cfquery name="addr" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="addr" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				UPDATE addr SET
 					addr_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#addr_id#">
 				 	,STREET_ADDR1 = <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#STREET_ADDR1#'>
@@ -1227,7 +1227,7 @@ function opendialogrank(page,id,title,agentId) {
 				 	,MAIL_STOP = <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#MAIL_STOP#'>
 				 where addr_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#addr_id#">
 			</cfquery>
-			<cfquery name="elecaddr" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="elecaddr" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				UPDATE electronic_address
 				SET
 					AGENT_ID = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
@@ -1243,7 +1243,7 @@ function opendialogrank(page,id,title,agentId) {
 <!------------------------------------------------------------------------------------------------------------>
 <cfif #Action# is "newElecAddr">
 	<cfoutput>
-	<cfquery name="elecaddr" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cfquery name="elecaddr" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		INSERT INTO electronic_address (
 			AGENT_ID
 			,address_type
@@ -1260,10 +1260,10 @@ function opendialogrank(page,id,title,agentId) {
 <!------------------------------------------------------------------------------------------------------------>
 <cfif #Action# is "newAddress">
 	<cfoutput>
-		<cfquery name="prefName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="prefName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			select agent_name from preferred_agent_name where agent_id=#agent_id#
 		</cfquery>
-		<cfquery name="addr" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="addr" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			INSERT INTO addr (
                                 ADDR_ID
                                 ,STREET_ADDR1
@@ -1308,7 +1308,7 @@ function opendialogrank(page,id,title,agentId) {
 			Pick an agent, then click the button.
 			<cfabort>
 		</cfif>
-		<cfquery name="newReln" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="newReln" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			INSERT INTO agent_relations (
 				AGENT_ID,
 				RELATED_AGENT_ID,
@@ -1324,7 +1324,7 @@ function opendialogrank(page,id,title,agentId) {
 <!------------------------------------------------------------------------------------------------------------->
 <cfif #Action# is "deleteRelated">
 	<cfoutput>
-	<cfquery name="killRel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cfquery name="killRel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		delete from agent_relations where
 			agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
 			and related_agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#related_agent_id#">
@@ -1336,7 +1336,7 @@ function opendialogrank(page,id,title,agentId) {
 <!------------------------------------------------------------------------------------------------------------->
 <cfif #Action# is "deleteGroupMember">
 	<cfoutput>
-	<cfquery name="killGrpMem" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cfquery name="killGrpMem" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		DELETE FROM group_member
 		WHERE
 			GROUP_AGENT_ID =<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
@@ -1349,7 +1349,7 @@ function opendialogrank(page,id,title,agentId) {
 <!------------------------------------------------------------------------------------------------------------->
 <cfif #Action# is "changeRelated">
 	<cfoutput>
-		<cfquery name="changeRelated" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="changeRelated" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			UPDATE agent_relations SET
 				related_agent_id =
 					<cfif len(#newRelatedAgentId#) gt 0>
@@ -1368,7 +1368,7 @@ function opendialogrank(page,id,title,agentId) {
 <!------------------------------------------------------------------------------------------------------------->
 <cfif #Action# is "newName">
 	<cfoutput>
-		<cfquery name="updateName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="updateName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			INSERT INTO agent_name (
 				agent_name_id,
 				agent_id,
@@ -1386,7 +1386,7 @@ function opendialogrank(page,id,title,agentId) {
 <!------------------------------------------------------------------------------------------------------------->
 <cfif #Action# is "updateName">
 	<cfoutput>
-		<cfquery name="updateName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="updateName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			UPDATE agent_name
 			SET
 				agent_name = <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#agent_name#'>,
@@ -1400,7 +1400,7 @@ function opendialogrank(page,id,title,agentId) {
 <!------------------------------------------------------------------------------------------------------------->
 <cfif #Action# is "deleteName">
 	<cfoutput>
-		<cfquery name="delId" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="delId" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			SELECT
 				PROJECT_AGENT.AGENT_NAME_ID,
 				PUBLICATION_AUTHOR_NAME.AGENT_NAME_ID,
@@ -1419,7 +1419,7 @@ function opendialogrank(page,id,title,agentId) {
 		<cfif #delId.recordcount# gt 1>
 			The agent name you are trying to delete is active.<cfabort>
 		</cfif>
-		<cfquery name="deleteAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="deleteAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			DELETE FROM agent_name
 			WHERE agent_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_name_id#">
 		</cfquery>
@@ -1430,7 +1430,7 @@ function opendialogrank(page,id,title,agentId) {
 <cfif #Action# is "editPerson">
 	<cfoutput>
 		<cftransaction>
-			<cfquery name="editPerson" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="editPerson" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				UPDATE person SET
 					person_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
 			<cfif len(#first_name#) gt 0>
@@ -1471,7 +1471,7 @@ function opendialogrank(page,id,title,agentId) {
 				WHERE
 					person_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
 			</cfquery>
-			<cfquery name="updateAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="updateAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				UPDATE agent SET
 					edited=<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#editedPerson#'>
 					<cfif len(#biography#) gt 0>
@@ -1507,7 +1507,7 @@ function opendialogrank(page,id,title,agentId) {
 	<cfif not isdefined("agentguid_guid_type")><cfset agentguid_guid_type=""></cfif>
 	<cfoutput>
 		<cftransaction>
-			<cfquery name="updateAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="updateAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				UPDATE agent SET
 					edited=<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#editedPerson#'>
 					<cfif len(#biography#) gt 0>
@@ -1539,7 +1539,7 @@ function opendialogrank(page,id,title,agentId) {
 </cfif>
 <!------------------------------------------------------------------------------------------------------------->
 <cfif #action# is "makeNewGroupMemeber">
-	<cfquery name="newGroupMember" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cfquery name="newGroupMember" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		INSERT INTO group_member
 			(GROUP_AGENT_ID,
 			MEMBER_AGENT_ID,
@@ -1557,13 +1557,13 @@ function opendialogrank(page,id,title,agentId) {
 	<!--- Deprecated, replaced by /agents/editAgent.cfm --->
 	<cfoutput>
 		<cftransaction>
-			<cfquery name="agentID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="agentID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				select sq_agent_id.nextval nextAgentId from dual
 			</cfquery>
-			<cfquery name="agentNameID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="agentNameID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				select sq_agent_name_id.nextval nextAgentNameId from dual
 			</cfquery>
-			<cfquery name="insPerson" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="insPerson" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				INSERT INTO agent (
 					agent_id,
 					agent_type,
@@ -1587,7 +1587,7 @@ function opendialogrank(page,id,title,agentId) {
 					</cfif>
 				)
 			</cfquery>
-			<cfquery name="insPerson" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="insPerson" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				INSERT INTO person (
 					PERSON_ID
 					<cfif len(#prefix#) gt 0>
@@ -1645,7 +1645,7 @@ function opendialogrank(page,id,title,agentId) {
 				<cfset pref_name = #trim(name)#>
 			</cfif>
 			<cfif not isdefined("ignoreDupChek") or ignoreDupChek is false>
-				<cfquery name="dupPref" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="dupPref" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					select agent.agent_type,agent_name.agent_id,agent_name.agent_name
 						from agent_name, agent
 						where agent_name.agent_id = agent.agent_id
@@ -1682,7 +1682,7 @@ function opendialogrank(page,id,title,agentId) {
                         </div>
 				</cfif>
 			</cfif>
-			<cfquery name="insName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="insName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				INSERT INTO agent_name (
 					agent_name_id,
 					agent_id,
@@ -1708,13 +1708,13 @@ function opendialogrank(page,id,title,agentId) {
 	<cfif not isdefined("agentguid_guid_type")><cfset agentguid_guid_type=""></cfif>
 	<cfoutput>
 		<cftransaction>
-			<cfquery name="agentID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="agentID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				select sq_agent_id.nextval nextAgentId from dual
 			</cfquery>
-			<cfquery name="agentNameID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="agentNameID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				select sq_agent_name_id.nextval nextAgentNameId from dual
 			</cfquery>
-			<cfquery name="insAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="insAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				INSERT INTO agent (
 					agent_id,
 					agent_type,
@@ -1745,7 +1745,7 @@ function opendialogrank(page,id,title,agentId) {
 					)
 			</cfquery>
 			<cfif not isdefined("ignoreDupChek") or ignoreDupChek is false>
-				<cfquery name="dupPref" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="dupPref" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					select agent_id,agent_name
 					from agent_name
 					where upper(agent_name) like <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='%#ucase(agent_name)#%'>
@@ -1768,7 +1768,7 @@ function opendialogrank(page,id,title,agentId) {
 					<cfabort>
 				</cfif>
 			</cfif>
-			<cfquery name="insName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="insName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				INSERT INTO agent_name (
 					agent_name_id,
 					agent_id,

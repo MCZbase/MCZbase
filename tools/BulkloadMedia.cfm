@@ -184,13 +184,13 @@ sho err
        <cfelse>
            <!--- TODO: put this in a temp table --->
            <!--- *** Only one user can bulkload media at the same time *** --->
-           <cfquery name="killOld" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+           <cfquery name="killOld" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
            	delete from cf_temp_media
            </cfquery>
-           <cfquery name="killOld" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+           <cfquery name="killOld" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
            	delete from cf_temp_media_relations
            </cfquery>
-           <cfquery name="killOld" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+           <cfquery name="killOld" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
            	delete from cf_temp_media_labels
            </cfquery>
 
@@ -228,7 +228,7 @@ sho err
                        <cfset colVals = "#colVals#,''">
                     </cfloop>
                  </cfif>
-                 <cfquery name="ins" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+                 <cfquery name="ins" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
                     insert into cf_temp_media (#colNames#) values (#preservesinglequotes(colVals)#)
                  </cfquery>
 
@@ -243,12 +243,12 @@ sho err
 <!------------------------------------------------------->
 <cfif #action# is "validate">
 <cfoutput>
-<cfquery name="d" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="d" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 	select * from cf_temp_media
 </cfquery>
 <cfloop query="d">
 	<cfset rec_stat="">
-	<cfquery name = "c" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cfquery name = "c" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		SELECT *
 		FROM media 
 		WHERE
@@ -266,7 +266,7 @@ sho err
 		<cfloop list="#media_labels#" index="l" delimiters=";">
 			<cfset ln=listgetat(l,1,"=")>
 			<cfset lv=listgetat(l,2,"=")>
-			<cfquery name="c" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="c" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT MEDIA_LABEL 
 				FROM CTMEDIA_LABEL 
 				WHERE MEDIA_LABEL = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ln#">
@@ -276,7 +276,7 @@ sho err
 			<cfelseif ln EQ "made date" && refind("^[0-9]{4}-[0-9]{2}-[0-9]{2}$",lv) EQ 0>
 				<cfset rec_stat=listappend(rec_stat,'Media label #ln# must have a value in the form yyyy-mm-dd',";")>
 			<cfelse>
-				<cfquery name="i" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="i" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					insert into cf_temp_media_labels (
 						key,
 						MEDIA_LABEL,
@@ -296,7 +296,7 @@ sho err
 		<cfloop list="#MEDIA_RELATIONSHIPS#" index="l" delimiters=";">
 			<cfset ln=listgetat(l,1,"=")>
 			<cfset lv=listgetat(l,2,"=")>
-			<cfquery name="c" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="c" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				select MEDIA_RELATIONSHIP from CTMEDIA_RELATIONSHIP where MEDIA_RELATIONSHIP='#ln#'
 			</cfquery>
 			<cfif len(c.MEDIA_RELATIONSHIP) is 0>
@@ -304,11 +304,11 @@ sho err
 			<cfelse>
 				<cfset table_name = listlast(ln," ")>
 				<cfif table_name is "agent">
-					<cfquery name="c" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					<cfquery name="c" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						select distinct(agent_id) agent_id from agent_name where agent_name ='#lv#'
 					</cfquery>
 					<cfif c.recordcount is 1 and len(c.agent_id) gt 0>
-						<cfquery name="i" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						<cfquery name="i" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							insert into cf_temp_media_relations (
  								key,
 								MEDIA_RELATIONSHIP,
@@ -325,11 +325,11 @@ sho err
 						<cfset rec_stat=listappend(rec_stat,'Agent #lv# matched #c.recordcount# records.',";")>
 					</cfif>
 				<cfelseif table_name is "locality">
-					<cfquery name="c" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					<cfquery name="c" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						select locality_id from locality where locality_id ='#lv#'
 					</cfquery>
 					<cfif c.recordcount is 1 and len(c.locality_id) gt 0>
-						<cfquery name="i" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						<cfquery name="i" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							insert into cf_temp_media_relations (
  								key,
 								MEDIA_RELATIONSHIP,
@@ -354,11 +354,11 @@ sho err
 						<cfset idvalue=trim(listlast(lv,"|"))>
 					</cfif>
 					<cfif idtype EQ "collecting_event_id">
-						<cfquery name="c" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						<cfquery name="c" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							select collecting_event_id from collecting_event where collecting_event_id ='#idvalue#'
 						</cfquery>
 						<cfif c.recordcount is 1 and len(c.collecting_event_id) gt 0>
-							<cfquery name="i" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+							<cfquery name="i" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 								insert into cf_temp_media_relations (
 	 								key,
 									MEDIA_RELATIONSHIP,
@@ -375,7 +375,7 @@ sho err
 							<cfset rec_stat=listappend(rec_stat,'collecting_event #lv# matched #c.recordcount# records.',";")>
 						</cfif>
 					<cfelse>
-						<cfquery name="c" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						<cfquery name="c" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							select collecting_event_id 
 							from coll_event_num_series ns 
     							join coll_event_number n  on ns.coll_event_num_series_id = n.coll_event_num_series_id
@@ -385,7 +385,7 @@ sho err
 						<cfif c.recordcount gt 0>
 							<cfloop query="c">
 								<cfif len(c.collecting_event_id) gt 0>
-                                                        	<cfquery name="i" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+                                                        	<cfquery name="i" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
                                                                 	insert into cf_temp_media_relations (
                                                                         	key,
                                                                         	MEDIA_RELATIONSHIP,
@@ -405,11 +405,11 @@ sho err
 						</cfif>
 					</cfif>
 				<cfelseif table_name is "project">
-					<cfquery name="c" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					<cfquery name="c" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						select distinct(project_id) project_id from project where PROJECT_NAME ='#lv#'
 					</cfquery>
 					<cfif c.recordcount is 1 and len(c.project_id) gt 0>
-						<cfquery name="i" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						<cfquery name="i" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							insert into cf_temp_media_relations (
  								key,
 								MEDIA_RELATIONSHIP,
@@ -426,11 +426,11 @@ sho err
 						<cfset rec_stat=listappend(rec_stat,'Project #lv# matched #c.recordcount# records.',";")>
 					</cfif>
 				<cfelseif table_name is "publication">
-					<cfquery name="c" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					<cfquery name="c" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						select publication_id from publication where publication_id ='#lv#'
 					</cfquery>
 					<cfif c.recordcount is 1 and len(c.publication_id) gt 0>
-						<cfquery name="i" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						<cfquery name="i" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							insert into cf_temp_media_relations (
  								key,
 								MEDIA_RELATIONSHIP,
@@ -451,7 +451,7 @@ sho err
 					<cfset institution_acronym = listgetat(lv,1,":")>
 					<cfset collection_cde = listgetat(lv,2,":")>
 					<cfset cat_num = listgetat(lv,3,":")>
-					<cfquery name="c" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					<cfquery name="c" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						select collection_object_id from
 							cataloged_item,
 							collection
@@ -462,7 +462,7 @@ sho err
 							lower(collection.institution_acronym)='#lcase(institution_acronym)#'
 					</cfquery>
 					<cfif c.recordcount is 1 and len(c.collection_object_id) gt 0>
-						<cfquery name="i" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						<cfquery name="i" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							insert into cf_temp_media_relations (
  								key,
 								MEDIA_RELATIONSHIP,
@@ -485,7 +485,7 @@ sho err
 				<cfelseif table_name is "accn">
 					<cfset coll = listgetat(lv,1," ")>
 					<cfset accnnum = listgetat(lv,2," ")>
-					<cfquery name="c" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					<cfquery name="c" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						select a.transaction_id
 						from accn a, trans t, collection c
 						where a.transaction_id = t.transaction_id
@@ -494,7 +494,7 @@ sho err
 						and c.collection = '#coll#'
 					</cfquery>
 					<cfif c.recordcount is 1 and len(c.transaction_id) gt 0>
-						<cfquery name="i" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						<cfquery name="i" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							insert into cf_temp_media_relations (
  								key,
 								MEDIA_RELATIONSHIP,
@@ -511,11 +511,11 @@ sho err
 						<cfset rec_stat=listappend(rec_stat,'accn number #lv# matched #c.recordcount# records.',";")>
 					</cfif>
 				<cfelseif table_name is "permit">
-					<cfquery name="c" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					<cfquery name="c" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						select permit_id from permit where permit_num = '#lv#'
 					</cfquery>
 					<cfif c.recordcount is 1 and len(c.permit_id) gt 0>
-						<cfquery name="i" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						<cfquery name="i" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							insert into cf_temp_media_relations (
  								key,
 								MEDIA_RELATIONSHIP,
@@ -532,13 +532,13 @@ sho err
 						<cfset rec_stat=listappend(rec_stat,'permit number #lv# matched #c.recordcount# records.',";")>
 					</cfif>
 				<cfelseif table_name is "borrow">
-					<cfquery name="c" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					<cfquery name="c" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						select transaction_id 
 						from borrow 
 						where borrow_number = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#lv#">
 					</cfquery>
 					<cfif c.recordcount is 1 and len(c.transaction_id) gt 0>
-						<cfquery name="i" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						<cfquery name="i" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							insert into cf_temp_media_relations (
  								key,
 								MEDIA_RELATIONSHIP,
@@ -555,7 +555,7 @@ sho err
 						<cfset rec_stat=listappend(rec_stat,'permit number #lv# matched #c.recordcount# records.',";")>
 					</cfif>
 				<cfelseif table_name is "specimen_part">
-                                        <cfquery name="c" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+                                        <cfquery name="c" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
                                                 select sp.collection_object_id
                                                 from specimen_part sp
 						join (select * from coll_obj_cont_hist where current_container_fg = 1)  ch on (sp.collection_object_id = ch.collection_object_id)
@@ -564,7 +564,7 @@ sho err
                                                 where pc.barcode = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#lv#">
                                         </cfquery>
                                         <cfif c.recordcount is 1 and len(c.collection_object_id) gt 0>
-                                                <cfquery name="i" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+                                                <cfquery name="i" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
                                                         insert into cf_temp_media_relations (
                                                                 key,
                                                                 MEDIA_RELATIONSHIP,
@@ -588,20 +588,20 @@ sho err
 			</cfif>
 		</cfloop>
 	</cfif>
-	<cfquery name="c" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cfquery name="c" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		select MIME_TYPE from CTMIME_TYPE where MIME_TYPE='#MIME_TYPE#'
 	</cfquery>
 	<cfif len(c.MIME_TYPE) is 0>
 		<cfset rec_stat=listappend(rec_stat,'MIME_TYPE #MIME_TYPE# is invalid',";")>
 	</cfif>
-	<cfquery name="c" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cfquery name="c" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		select MEDIA_TYPE from CTMEDIA_TYPE where MEDIA_TYPE='#MEDIA_TYPE#'
 	</cfquery>
 	<cfif len(c.MEDIA_TYPE) is 0>
 		<cfset rec_stat=listappend(rec_stat,'MEDIA_TYPE #MEDIA_TYPE# is invalid',";")>
 	</cfif>
 	<cfif len(MEDIA_LICENSE_ID) gt 0>
-		<cfquery name="c" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="c" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			select media_license_id from CTMEDIA_LICENSE where media_license_id='#MEDIA_LICENSE_ID#'
 		</cfquery>
 		<cfif len(c.media_license_id) is 0>
@@ -623,7 +623,7 @@ sho err
 		<!--- both isimagefile and cfimage run into heap space limits with very large files --->
 		<cfif isimagefile("#escapeQuotes(media_uri)#")>
 			<cfimage action="info" source="#escapeQuotes(media_uri)#" structname="imgInfo"/>
-			<cfquery name="makeHeightLabel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="makeHeightLabel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				insert into cf_temp_media_labels (
 							key,
 							MEDIA_LABEL,
@@ -636,7 +636,7 @@ sho err
 							'#imgInfo.height#'
 						)
 			</cfquery>
-			<cfquery name="makeWidthLabel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="makeWidthLabel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						insert into cf_temp_media_labels (
 							key,
 							MEDIA_LABEL,
@@ -652,7 +652,7 @@ sho err
 			<cfhttp url="#media_uri#" method="get" getAsBinary="yes" result="result">
 			<cfset md5hash=Hash(result.filecontent,"MD5")>
 	
-			<cfquery name="makeMD5hash" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="makeMD5hash" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						insert into cf_temp_media_labels (
 							key,
 							MEDIA_LABEL,
@@ -667,11 +667,11 @@ sho err
 			</cfquery>
 		</cfif>
 	</cfif>
-	<cfquery name="c" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cfquery name="c" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		update cf_temp_media set status='#rec_stat#' where key=#key#
 	</cfquery>
 </cfloop>
-<cfquery name="bad" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="bad" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 	select * from cf_temp_media where status is not null
 </cfquery>
 <cfif len(bad.key) gt 0>
@@ -683,7 +683,7 @@ sho err
 	<br>^^^ that thing. You must click it.
 	<br>
 	(Note that the table below is "flattened." Media entries are repeated for every Label and Relationship.)
-	<cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		select
 			cf_temp_media.key,
 			status,
@@ -723,7 +723,7 @@ sho err
 <!------------------------------------------------------->
 <cfif #action# is "load">
 <cfoutput>
-	<cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		select
 			*
 		from
@@ -731,7 +731,7 @@ sho err
 	</cfquery>
 	<cftransaction>
 		<cfloop query="media">
-			<cfquery name="mid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="mid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				select sq_media_id.nextval nv from dual
 			</cfquery>
 			<cfset media_id=mid.nv>
@@ -745,11 +745,11 @@ sho err
 			<cfelse>
 				<cfset maskmedia = mask_media>
 			</cfif>
-			<cfquery name="makeMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="makeMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				insert into media (media_id,media_uri,mime_type,media_type,preview_uri, MEDIA_LICENSE_ID, MASK_MEDIA_FG)
 	            values (#media_id#,'#escapeQuotes(media_uri)#','#mime_type#','#media_type#','#preview_uri#', #medialicenseid#, #MASKMEDIA#)
 			</cfquery>
-			<cfquery name="media_relations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="media_relations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				select
 					*
 				from
@@ -758,7 +758,7 @@ sho err
 					key=#key#
 			</cfquery>
 			<cfloop query="media_relations">
-				<cfquery name="makeRelation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="makeRelation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					insert into
 						media_relations (
 						media_id,media_relationship,related_primary_key
@@ -766,7 +766,7 @@ sho err
 						#media_id#,'#MEDIA_RELATIONSHIP#',#RELATED_PRIMARY_KEY#)
 				</cfquery>
 			</cfloop>
-			<cfquery name="medialabels" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="medialabels" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				select
 					*
 				from
@@ -775,7 +775,7 @@ sho err
 					key=#key#
 			</cfquery>
 			<cfloop query="medialabels">
-				<cfquery name="makeRelation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="makeRelation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					insert into media_labels (media_id,media_label,label_value)
 					values (#media_id#,'#MEDIA_LABEL#','#LABEL_VALUE#')
 				</cfquery>

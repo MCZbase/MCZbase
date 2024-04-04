@@ -1,6 +1,6 @@
 <cfinclude template="/includes/_header.cfm">
 <cfif isdefined("media_id") and media_id gt 0>
-	<cfquery name="r" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cfquery name="r" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		select 
 			p.label_value pg,
 			niceURLNumbers(t.label_value) ttl
@@ -52,7 +52,7 @@
 </cfif>
 <cfif action is 'srchResult'>
 <cfoutput >
-	<cfquery name="d" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cfquery name="d" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		select
 			label_value,
 			niceURLNumbers(label_value) ttl
@@ -84,7 +84,7 @@
 <cfif action is 'nothing'>
 	<cfset title='Document Viewer'>
 <cfoutput>
-	<cfquery name="titles" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cfquery name="titles" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		select
 			label_value
 		from
@@ -113,7 +113,7 @@
 </cfif>
 <cfif action is 'pdf'>
 <cfoutput>
-	<cfquery name="doc" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cfquery name="doc" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		select 
 			media_uri,
 			title.label_value mtitle,
@@ -155,7 +155,7 @@
 <cfif action is 'show'>
 <cfoutput>
 	
-	<cfquery name="doc" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cfquery name="doc" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		select 
 			media_uri,
 			title.label_value mtitle,
@@ -215,7 +215,7 @@
 	</cfquery>
 	<a href="/document.cfm?ttl=#ttl#&action=pdf">[ PDF ]</a>
 	<a href="/media/#cpg.media_id#">[ Media Details ]</a>
-	<cfquery name="relMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cfquery name="relMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		select 
 			media_uri,
 			media_type,
@@ -232,7 +232,7 @@
 	<cfif relMedia.recordcount is 1>
 		<a target="_blank" href="#relMedia.media_uri#">[ download master ]</a>
 	</cfif>
-	 <cfquery name="tag" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	 <cfquery name="tag" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		select count(*) n from tag where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#cpg.media_id#">
 	</cfquery>
 	<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_media")>

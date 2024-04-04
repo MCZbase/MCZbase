@@ -144,7 +144,7 @@ function removeHelpDiv() {
 <cfif not isdefined("session.resultColumnList")>
 	<cfset session.resultColumnList=''>
 </cfif>
-<cfquery name="r_d" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" timeout="#Application.short_timeout#">
+<cfquery name="r_d" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.short_timeout#">
 	select * from cf_spec_res_cols order by disp_order
 </cfquery>
 <cfquery name="reqd" dbtype="query">
@@ -219,11 +219,11 @@ they also need special handling at TAG:SORTRESULT (do find in this document)--->
 		<font color="##FF0000" size="+2">You must enter some search criteria!</font>
 		<cfabort>
 	</cfif>
-<cfset thisTableName = "SearchResults_#cfid#_#cookie.cftoken#">
+<cfset thisTableName = "SearchResults_#cookie.cfid#_#cookie.cftoken#">
 <!--- try to drop an existing temp table with this name --->
 <cftry>
 	<cftransaction>
-	<cfquery name="tableexistscheck" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" timeout="#Application.short_timeout#">
+	<cfquery name="tableexistscheck" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.short_timeout#">
 		select count(*) as ct from user_tables where table_name = upper(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.SpecSrchTab#">)
 	</cfquery>
 	<cfif tableexistscheck.ct EQ 0>
@@ -232,7 +232,7 @@ they also need special handling at TAG:SORTRESULT (do find in this document)--->
 	<cfelseif tableexistscheck.ct EQ 1>
 		<!--- session search table exists, drop it to recreate with new search below --->
 		<!--- Note: Drop of SpecSrchTab is used to generate query statistics from entries in dba_recyclebin --->
-		<cfquery name="die" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="die" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			drop table #session.SpecSrchTab#
 		</cfquery>
 	<cfelse>
@@ -258,23 +258,23 @@ they also need special handling at TAG:SORTRESULT (do find in this document)--->
     <cfif linguisticFlag >
         <cftransaction>
         <!--- Set up the session to run an accent insensitive search --->
-        <cfquery  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+        <cfquery  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
             ALTER SESSION SET NLS_COMP = LINGUISTIC
         </cfquery>
-        <cfquery  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+        <cfquery  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
             ALTER SESSION SET NLS_SORT = GENERIC_M_AI
         </cfquery> 
         <!--- Run the query --->
-	<cfquery name="buildIt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" timeout="#Application.query_timeout#">
+	<cfquery name="buildIt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
 		#preserveSingleQuotes(SqlString)#
 	</cfquery>
         <!--- Reset NLS_COMP back to the default, or the session will keep using the generic_m_ai comparison/sort on subsequent searches. ---> 
-        <cfquery  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+        <cfquery  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
             ALTER SESSION SET NLS_COMP = BINARY
         </cfquery>
         </cftransaction>
     <cfelse>
-	<cfquery name="buildIt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" timeout="#Application.query_timeout#">
+	<cfquery name="buildIt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
 		#preserveSingleQuotes(SqlString)#
 	</cfquery>
     </cfif>
@@ -291,7 +291,7 @@ they also need special handling at TAG:SORTRESULT (do find in this document)--->
 			<input type="hidden" name="loan_request_coll_id" id="loan_request_coll_id" value="#loan_request_coll_id#">
 	</cfif>
 </form>
-	<cfquery name="summary" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" timeout="#Application.query_timeout#">
+	<cfquery name="summary" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
 		select distinct collection_object_id from #session.SpecSrchTab#
 	</cfquery>
 <cfif summary.recordcount is 0>
@@ -361,7 +361,7 @@ they also need special handling at TAG:SORTRESULT (do find in this document)--->
 <script>
 	hidePageLoad();
 </script>
-<cfquery name="mappable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" timeout="#Application.short_timeout#">
+<cfquery name="mappable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.short_timeout#">
 	select count(distinct(collection_object_id)) cnt from #session.SpecSrchTab# where dec_lat is not null and dec_long is not null
 </cfquery>
 

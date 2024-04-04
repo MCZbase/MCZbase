@@ -5,7 +5,7 @@
 <cfif isdefined("action") AND action EQ 'edit'>
 	<cfset pageTitle = "Edit Taxon">
 	<cfif isdefined("taxon_name_id") >
-		<cfquery name="TaxonIDNumber" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="TaxonIDNumber" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		select * from taxonomy where taxon_name_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#taxon_name_id#">
 		</cfquery>
 		<cfset pageTitle = "Edit Taxon #TaxonIDNumber.taxon_name_id#">
@@ -41,30 +41,30 @@ limitations under the License.
 <!-------------------------------------------------------------------------------------------------->
 <cfinclude template = "/shared/_header.cfm">
 <cfinclude template="/taxonomy/component/functions.cfc" runOnce="true">
-<cfquery name="ctInfRank" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="ctInfRank" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 	select infraspecific_rank from ctinfraspecific_rank order by infraspecific_rank
 </cfquery>
-<cfquery name="ctRelation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="ctRelation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 	select taxon_relationship  from cttaxon_relation order by taxon_relationship
 </cfquery>
-<cfquery name="ctSourceAuth" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="ctSourceAuth" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 	select source_authority from CTTAXONOMIC_AUTHORITY order by source_authority
 </cfquery>
-<cfquery name="ctnomenclatural_code" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="ctnomenclatural_code" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 	select nomenclatural_code from ctnomenclatural_code order by sort_order
 </cfquery>
-<cfquery name="cttaxon_status" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="cttaxon_status" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 	select taxon_status from cttaxon_status order by taxon_status
 </cfquery>
-<cfquery name="cttaxon_habitat" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="cttaxon_habitat" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 	select taxon_habitat from cttaxon_habitat order by taxon_habitat
 </cfquery>
-<cfquery name="ctguid_type_taxon" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="ctguid_type_taxon" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 	select guid_type, placeholder, pattern_regex, resolver_regex, resolver_replacement, search_uri
 	from ctguid_type 
 	where applies_to like '%taxonomy.taxonid%'
 </cfquery>
-<cfquery name="ctguid_type_scientificname" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="ctguid_type_scientificname" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 	select guid_type, placeholder, pattern_regex, resolver_regex, resolver_replacement, search_uri
 	from ctguid_type 
 	where applies_to like '%taxonomy.scientificnameid%'
@@ -241,10 +241,10 @@ limitations under the License.
 <!---------------------------------------------------------------------------------------------------->
 <cfif action is "edit">
 	<cfset title="Edit Taxonomy">
-	<cfquery name="getTaxa" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cfquery name="getTaxa" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		select * from taxonomy where taxon_name_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#taxon_name_id#">
 	</cfquery>
-	<cfquery name="isSourceAuthorityCurrent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cfquery name="isSourceAuthorityCurrent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		select count(*) as ct from CTTAXONOMIC_AUTHORITY where source_authority = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#gettaxa.source_authority#">
 	</cfquery>
 	<cfoutput>
@@ -1040,7 +1040,7 @@ limitations under the License.
 
 					<section class="mt-2 float-left col-12 col-md-6 pl-md-1 px-0">
 						<div class="border bg-light float-left p-3 w-100 rounded">
-							<cfquery name="habitat" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+							<cfquery name="habitat" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 								select taxon_habitat 
 								from taxon_habitat 
 								where taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#taxon_name_id#">
@@ -1084,7 +1084,7 @@ limitations under the License.
 					<section class="mt-2 float-left col-12 px-0">
 						<div class="p-3 border bg-light rounded mt-2">
 							<h2 class="h4">Annotations:</h2>
-							<cfquery name="existingAnnotations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+							<cfquery name="existingAnnotations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 								select count(*) cnt from annotations
 								where taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTaxa.taxon_name_id#">
 							</cfquery>
@@ -1107,7 +1107,7 @@ limitations under the License.
 									<cfset s = "s">
 								</cfif>
 								<p>There #are# #existingAnnotations.cnt# annotation#s# on this taxon record</p>
-								<cfquery name="annotations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+								<cfquery name="annotations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 									SELECT
 										annotation_id,
 										to_char(annotate_date,'yyyy-mm-dd') annotate_date,
@@ -1155,7 +1155,7 @@ limitations under the License.
 <cfif Action is "deleTaxon">
 	<cftry>
 		<cfoutput>
-			<cfquery name="deleTaxon" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="deleTaxon" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				DELETE FROM
 					taxonomy
 				WHERE
@@ -1191,11 +1191,11 @@ limitations under the License.
 <!---------------------------------------------------------------------------------------------------->
 <cfif action is "newTaxon">
 	<cfset title = "Add Taxon">
-	<cfquery name="getClonedFromTaxon" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cfquery name="getClonedFromTaxon" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		select * from taxonomy where taxon_name_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#taxon_name_id#">
 	</cfquery>
 	<cfoutput query="getClonedFromTaxon">
-		<cfquery name="isSourceAuthorityCurrent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="isSourceAuthorityCurrent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			select count(*) as ct from CTTAXONOMIC_AUTHORITY where source_authority = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getClonedFromTaxon.source_authority#">
 		</cfquery>
 		<main class="container-xl px-xl-5 py-3" id="content">
@@ -1648,10 +1648,10 @@ limitations under the License.
 	<cfoutput>
 		<cftransaction>
 			<cftry>
-					<cfquery name="nextID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					<cfquery name="nextID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						select sq_taxon_name_id.nextval nextID from dual
 					</cfquery>
-					<cfquery name="newTaxon" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					<cfquery name="newTaxon" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					INSERT INTO taxonomy (
 						taxon_name_id,
 						valid_catalog_term_fg,

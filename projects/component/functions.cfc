@@ -27,7 +27,7 @@ limitations under the License.
 
 	<cftry>
 		<cfset rows = 0>
-		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
+		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="search_result">
 			select distinct project_name, project_id, 
 				to_char(start_date,'YYYY-MM-DD') as start_date,
 				to_char(end_date,'YYYY-MM-DD') as end_date

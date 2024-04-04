@@ -30,7 +30,7 @@ limitations under the License.
 
 <cfset editLocalityLinkTarget = "/localities/Locality.cfm?locality_id=">
 
-<cfquery name="getGeography" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="getGeography" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 	SELECT 
 		geog_auth_rec.geog_auth_rec_id,
 		geog_auth_rec.continent_ocean,
@@ -56,7 +56,7 @@ limitations under the License.
 	WHERE
 		geog_auth_rec.geog_auth_rec_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#geog_auth_rec_id#">
 </cfquery>
-<cfquery name="getSpecimenCount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="getSpecimenCount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 	SELECT 
 		count(distinct collection_object_id) ct
 	FROM 
@@ -67,7 +67,7 @@ limitations under the License.
 		geog_auth_rec_id
 </cfquery>
 <cfset specimenCount = getSpecimenCount.ct>
-<cfquery name="getLocalities" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getLocalities_result">
+<cfquery name="getLocalities" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getLocalities_result">
 	SELECT
 		locality_id,
 		spec_locality,
@@ -81,7 +81,7 @@ limitations under the License.
 	ORDER BY
 		spec_locality
 </cfquery>
-<cfquery name="getChildren" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getChildren_result">
+<cfquery name="getChildren" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getChildren_result">
 	SELECT
 		count(flatTableName.collection_object_id) ct,
 		geog_auth_rec.higher_geog, 
@@ -106,7 +106,7 @@ limitations under the License.
   <cfset parent = ListDeleteAt(parentage,ListLen(parentage,':'),':')>
 </cfif>
 <cfif len(parent) GT 0>
-	<cfquery name="getParent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getParent_result">
+	<cfquery name="getParent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getParent_result">
 		SELECT
 			geog_auth_rec_id,
 			higher_geog
@@ -116,7 +116,7 @@ limitations under the License.
 			higher_geog = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#parent#">
 	</cfquery>
 </cfif>
-<cfquery name="points" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="points_result" cachedwithin="#CreateTimespan(1,0,0,0)#">
+<cfquery name="points" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="points_result" cachedwithin="#CreateTimespan(1,0,0,0)#">
 	SELECT distinct flat.locality_id,flat.dec_lat as Latitude,flat.DEC_LONG as Longitude 
 	FROM <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat
 	WHERE 
@@ -224,7 +224,7 @@ limitations under the License.
 								</li>
 							</cfloop>
 						<cfelse>
-							<cfquery name="getLocSummary" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getLocSummary_result">
+							<cfquery name="getLocSummary" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getLocSummary_result">
 								SELECT
 									count(locality.locality_id) ct,
 									count(accepted_lat_long.locality_id) georef_ct,

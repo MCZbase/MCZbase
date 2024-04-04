@@ -92,7 +92,7 @@ Delete an existing collecting event number record.
 
 	<cfset data = ArrayNew(1)>
 	<cftry>
-		<cfquery name="save" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="save" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			delete from coll_event_number 
 			where 
 				coll_event_number_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#coll_event_number_id#">
@@ -187,7 +187,7 @@ Delete an existing collecting event number record.
 				<cfset min_depth_scale = len(rereplace(min_depth,'^[0-9-]*[.]',''))>
 			</cfif>
 
-			<cfquery name="updateLocality" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateLocality_result">
+			<cfquery name="updateLocality" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateLocality_result">
 				UPDATE locality SET
 				geog_auth_rec_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#geog_auth_rec_id#">,
 				<cfif len(#spec_locality#) GT 0>
@@ -322,17 +322,17 @@ Delete an existing collecting event number record.
 	<cfthread name="editLocalityFormThread#tn#">
 		<cfoutput>
 			<cftry>
-			<cfquery name="ctElevUnit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#createtimespan(0,0,60,0)#">
+			<cfquery name="ctElevUnit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" cachedwithin="#createtimespan(0,0,60,0)#">
 				SELECT orig_elev_units
 				FROM ctorig_elev_units 
 				ORDER BY orig_elev_units
 			</cfquery>
-			<cfquery name="ctDepthUnit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#createtimespan(0,0,60,0)#">
+			<cfquery name="ctDepthUnit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" cachedwithin="#createtimespan(0,0,60,0)#">
 				SELECT depth_units as unit
 				FROM ctdepth_units 
 				ORDER BY depth_units
 			</cfquery>
-			<cfquery name="lookupLocality" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="lookupLocality" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT 
 					geog_auth_rec_id, spec_locality, sovereign_nation, 
 					minimum_elevation, maximum_elevation, orig_elev_units, 
@@ -369,7 +369,7 @@ Delete an existing collecting event number record.
 				<cfset curated_fg = "#lookupLocality.curated_fg#">
 				<cfset locality_remarks = "#lookupLocality.locality_remarks#">
 			</cfloop>
-			<cfquery name="lookupHigherGeog" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="lookupHigherGeog" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT higher_geog
 				FROM geog_auth_rec
 				WHERE 
@@ -604,7 +604,7 @@ Delete an existing collecting event number record.
 	<cfthread name="localityGeologyFormThread#tn#">
 		<cfoutput>
 			<cftry>
-				<cfquery name="getGeologicalAttributes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" timeout="#Application.query_timeout#">
+				<cfquery name="getGeologicalAttributes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
 					SELECT
 						geology_attribute_id,
 						ctgeology_attribute.type,
@@ -651,7 +651,7 @@ Delete an existing collecting event number record.
 								<cfset separator = "|">
 							</cfloop>
 							<cfloop query="getGeologicalAttributes">
-								<cfquery name="getParentage" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" timeout="#Application.query_timeout#">
+								<cfquery name="getParentage" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
 									SELECT distinct
 									  connect_by_root geology_attribute_hierarchy.attribute parent_attribute,
 									  connect_by_root attribute_value parent_attribute_value,
@@ -728,7 +728,7 @@ Delete an existing collecting event number record.
 	<cfset data = ArrayNew(1)>
 	<cftransaction>
 		<cftry>
-			<cfquery name="getGeoAttribute" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="getGeoAttribute" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT
 					locality_id
 				FROM
@@ -741,7 +741,7 @@ Delete an existing collecting event number record.
 			<cfif getGeoAttribute.recordcount NEQ "1">
 				<cfthrow message="Unable to delete. Found other than one attribute for the geology_attribute_id [#encodeForHtml(geology_attribute_id)#] and locality_id [#encodeForHtml(locality_id)#] provided.">
 			</cfif>
-			<cfquery name="deleteGeoAttribute" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="deleteGeoAttribute_result">
+			<cfquery name="deleteGeoAttribute" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="deleteGeoAttribute_result">
 				DELETE FROM geology_attributes
 				WHERE 
 					geology_attribute_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#geology_attribute_id#">
@@ -798,7 +798,7 @@ Delete an existing collecting event number record.
 	<cftransaction>
 		<cftry>
 			<cfif isDefined("geology_attribute_hierarchy_id") AND len(geology_attribute_hierarchy_id) GT 0>
-				<cfquery name="getGeoAttribute" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="getGeoAttribute" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT
 						attribute geology_attribute,
 						attribute_value geo_att_value
@@ -810,7 +810,7 @@ Delete an existing collecting event number record.
 				<cfset geology_attribute = getGeoAttribute.geology_attribute>
 				<cfset geo_att_value = getGeoAttribute.geo_att_value>
 			<cfelse>
-				<cfquery name="getGeoAttributeId" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="getGeoAttributeId" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT
 						geology_attribute_hierarchy_id id
 					FROM
@@ -825,7 +825,7 @@ Delete an existing collecting event number record.
 				</cfif>
 				<cfset geology_attribute_hierarchy_id = getGeoAttributeId.id>
 			</cfif>
-			<cfquery name="addGeoAttribute" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="addGeoAttribute_result">
+			<cfquery name="addGeoAttribute" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="addGeoAttribute_result">
 				INSERT INTO geology_attributes
 					( locality_id,
 						geology_attribute,
@@ -863,7 +863,7 @@ Delete an existing collecting event number record.
 			<cfif addGeoAttribute_result.recordcount NEQ 1>
 				<cfthrow message="Error inserting geology attribtue, insert would affect other than one row.">
 			</cfif>
-			<cfquery name="getPK" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getPK_result">
+			<cfquery name="getPK" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getPK_result">
 					select geology_attribute_id 
 					from geology_attributes
 					where ROWIDTOCHAR(rowid) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#addGeoAttribute_result.GENERATEDKEY#">
@@ -875,7 +875,7 @@ Delete an existing collecting event number record.
 			<cfset count=1>
 			<cfif isDefined("add_parents") AND ucase(add_parents) EQ "YES">
 				<!--- add any parents of the inserted node that aren't already present --->
-				<cfquery name="getParents" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="getParents" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT * FROM (
 						SELECT 
 							level as parentagelevel,
@@ -893,7 +893,7 @@ Delete an existing collecting event number record.
 					) WHERE parentagelevel > 1
 				</cfquery>
 				<cfloop query="getParents">
-					<cfquery name="checkParents" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					<cfquery name="checkParents" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						SELECT count(*) ct 
 						FROM geology_attributes
 						WHERE
@@ -902,7 +902,7 @@ Delete an existing collecting event number record.
 							and geo_att_value = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getParents.geo_att_value#">
 					</cfquery>
 					<cfif checkParents.ct EQ 0>
-						<cfquery name="addGeoAttribute" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="addGeoAttribute_result">
+						<cfquery name="addGeoAttribute" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="addGeoAttribute_result">
 							INSERT INTO geology_attributes
 								( locality_id,
 									geology_attribute,
@@ -988,7 +988,7 @@ Delete an existing collecting event number record.
 	<cftransaction>
 		<cftry>
 			<cfif isDefined("geology_attribute_hierarchy_id") AND len(geology_attribute_hierarchy_id) GT 0>
-				<cfquery name="getGeoAttribute" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="getGeoAttribute" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT
 						attribute geology_attribute,
 						attribute_value geo_att_value
@@ -1000,7 +1000,7 @@ Delete an existing collecting event number record.
 				<cfset geology_attribute = getGeoAttribute.geology_attribute>
 				<cfset geo_att_value = getGeoAttribute.geo_att_value>
 			<cfelse>
-				<cfquery name="getGeoAttributeId" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="getGeoAttributeId" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT
 						geology_attribute_hierarchy_id id
 					FROM
@@ -1015,7 +1015,7 @@ Delete an existing collecting event number record.
 				</cfif>
 				<cfset geology_attribute_hierarchy_id = getGeoAttributeId.id>
 			</cfif>
-			<cfquery name="updateGeoAttribute" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateGeoAttribute_result">
+			<cfquery name="updateGeoAttribute" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateGeoAttribute_result">
 				UPDATE geology_attributes 
 				SET
 					geology_attribute =<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#geology_attribute#">,
@@ -1064,7 +1064,7 @@ Delete an existing collecting event number record.
 			<cfset count=1>
 			<cfif isDefined("add_parents") AND ucase(add_parents) EQ "YES">
 				<!--- add any parents of the inserted node that aren't already present --->
-				<cfquery name="getParents" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="getParents" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT * FROM (
 						SELECT 
 							level as parentagelevel,
@@ -1082,7 +1082,7 @@ Delete an existing collecting event number record.
 					) WHERE parentagelevel > 1
 				</cfquery>
 				<cfloop query="getParents">
-					<cfquery name="checkParents" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					<cfquery name="checkParents" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						SELECT count(*) ct 
 						FROM geology_attributes
 						WHERE
@@ -1091,7 +1091,7 @@ Delete an existing collecting event number record.
 							and geo_att_value = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getParents.geo_att_value#">
 					</cfquery>
 					<cfif checkParents.ct EQ 0>
-						<cfquery name="addGeoAttribute" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="addGeoAttribute_result">
+						<cfquery name="addGeoAttribute" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="addGeoAttribute_result">
 							INSERT INTO geology_attributes
 								( locality_id,
 									geology_attribute,
@@ -1154,7 +1154,7 @@ Delete an existing collecting event number record.
 	<cfset tn = REReplace(CreateUUID(), "[-]", "", "all") >
 	<cfthread name="getGeolAttDialThread#tn#">
 		<cftry>
-			<cfquery name="currentAttributes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="currentAttributes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT
 					geology_attribute_id, 
 					geology_attributes.geology_attribute,
@@ -1164,7 +1164,7 @@ Delete an existing collecting event number record.
 				WHERE 
 					locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
 			</cfquery>
-			<cfquery name="types" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="types" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT
 					distinct type
 				FROM	
@@ -1172,7 +1172,7 @@ Delete an existing collecting event number record.
 				ORDER BY
 					type
 			</cfquery>
-			<cfquery name="ctgeology_attribute" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="ctgeology_attribute" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT
 					ctgeology_attribute.geology_attribute,
 					ctgeology_attribute.type,
@@ -1183,7 +1183,7 @@ Delete an existing collecting event number record.
 				ORDER BY
 					ctgeology_attribute.ordinal
 			</cfquery>
-			<cfquery name="getLabel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="getLabel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT 
 					nvl(spec_locality,'[No specific locality value]') locality_label
 				FROM locality
@@ -1331,7 +1331,7 @@ Delete an existing collecting event number record.
 	<cfset tn = REReplace(CreateUUID(), "[-]", "", "all") >
 	<cfthread name="editGeoAtt#tn#">
 		<cftry>
-			<cfquery name="currentAttribute" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="currentAttribute" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT
 					geology_attribute_id, 
 					ctgeology_attributes.type,
@@ -1353,7 +1353,7 @@ Delete an existing collecting event number record.
 				WHERE 
 					geology_attribute_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#geology_attribute_id#">
 			</cfquery>
-			<cfquery name="types" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="types" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT
 					distinct type
 				FROM	
@@ -1361,7 +1361,7 @@ Delete an existing collecting event number record.
 				ORDER BY
 					type
 			</cfquery>
-			<cfquery name="getLabel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="getLabel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT 
 					nvl(spec_locality,'[No specific locality value]') locality_label
 				FROM locality
@@ -1562,18 +1562,18 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 	<cfset tn = REReplace(CreateUUID(), "[-]", "", "all") >
 	<cfthread name="createLocalityFormThread#tn#">
 		<cfoutput>
-			<cfquery name="ctElevUnit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#createtimespan(0,0,60,0)#">
+			<cfquery name="ctElevUnit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" cachedwithin="#createtimespan(0,0,60,0)#">
 				SELECT orig_elev_units 
 				FROM ctorig_elev_units 
 				ORDER BY orig_elev_units
 			</cfquery>
-			<cfquery name="ctDepthUnit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#createtimespan(0,0,60,0)#">
+			<cfquery name="ctDepthUnit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" cachedwithin="#createtimespan(0,0,60,0)#">
 				SELECT depth_units as unit
 				FROM ctdepth_units 
 				ORDER BY depth_units
 			</cfquery>
 			<cfif isdefined('clone_from_locality_id') AND len(clone_from_locality_id) GT 0>
-				<cfquery name="lookupLocality" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="lookupLocality" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT geog_auth_rec_id, spec_locality, sovereign_nation, 
 						minimum_elevation, maximum_elevation, orig_elev_units, 
 						min_depth, max_depth, depth_units,
@@ -1608,7 +1608,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 			</cfif>
 			<cfset higher_geog = "">
 			<cfif isdefined('geog_auth_rec_id') AND len(geog_auth_rec_id) GT 0>
-				<cfquery name="lookupHigherGeog" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="lookupHigherGeog" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT higher_geog
 					FROM geog_auth_rec
 					WHERE 
@@ -1832,7 +1832,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 	<cfset data = ArrayNew(1)>
 	<cftransaction>
 		<cftry>
-			<cfquery name="getGeoreference" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="getGeoreference" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT
 					lat_long_id
 					accepted_lat_long_fg
@@ -1848,7 +1848,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 			<cfif getGeoreference.recordcount NEQ "1">
 				<cfthrow message="Unable to delete. Found more than one georefrence for lat_long_id and locality_id provided.">
 			</cfif>
-			<cfquery name="deleteGeoreference" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="delete_result">
+			<cfquery name="deleteGeoreference" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="delete_result">
 				DELETE FROM lat_long
 				WHERE 
 					lat_long_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#lat_long_id#">
@@ -1882,7 +1882,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 	<cfthread name="localityGeoRefFormThread#tn#">
 		<cfoutput>
 			<cftry>
-				<cfquery name="getLocalityMetadata" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="getLocalityMetadata" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT 
 						nvl(spec_locality,'[No specific locality value]') spec_locality, 
 						locality_id, 
@@ -1894,7 +1894,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 				<cfif getLocalityMetadata.recordcount NEQ 1>
 					<cfthrow message="Other than one locality found for the specified locality_id [#encodeForHtml(locality_id)#].  Locality may be used only by a department for which you do not have access.">
 				</cfif>
-				<cfquery name="getGeoreferences" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="getGeoreferences" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT
 						lat_long_id,
 						georefmethod,
@@ -1956,7 +1956,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 				</cfquery>
 				<h3 class="h4 w-100">Georeferences (#getGeoreferences.recordcount#)</h3>
 				<cfif getGeoreferences.recordcount EQ 0>
-					<cfquery name="checkNoGeorefBecause" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					<cfquery name="checkNoGeorefBecause" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						SELECT
 							nogeorefbecause
 						FROM
@@ -2126,22 +2126,22 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 	<cfset tn = REReplace(CreateUUID(), "[-]", "", "all") >
 	<cfthread name="getGeorefThread#tn#">
 		<cftry>
-			<cfquery name="ctunits" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="ctunits" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT ORIG_LAT_LONG_UNITS 
 				FROM ctlat_long_units
 				ORDER BY ORIG_LAT_LONG_UNITS
 			</cfquery>
-			<cfquery name="ctGeorefMethod" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="ctGeorefMethod" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT georefmethod 
 				FROM ctgeorefmethod
 				ORDER BY georefmethod
 			</cfquery>
-			<cfquery name="ctVerificationStatus" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="ctVerificationStatus" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT verificationStatus 
 				FROM ctVerificationStatus 
 				ORDER BY verificationStatus
 			</cfquery>
-			<cfquery name="lookupForGeolocate" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="lookupForGeolocate" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT 
 					country, state_prov, county,
 					spec_locality
@@ -2150,7 +2150,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 				WHERE
 					locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
 			</cfquery>
-			<cfquery name="getCurrentUser" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="getCurrentUser" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT agent_id, 
 						agent_name
 				FROM preferred_agent_name
@@ -2162,7 +2162,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 							and agent_name_type = 'login'
 					)
 			</cfquery>
-			<cfquery name="getLocalityMetadata" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="getLocalityMetadata" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT 
 					nvl(spec_locality,'[No specific locality value]') spec_locality, 
 					locality_id, 
@@ -3486,7 +3486,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 	<cfset data = ArrayNew(1)>
 	<cftry>
 		<cfset i = 1>
-		<cfquery name="getGeoreference" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="getGeoreference" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			SELECT
 				lat_long_id,
 				georefmethod,
@@ -3578,7 +3578,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 	<cfset tn = REReplace(CreateUUID(), "[-]", "", "all") >
 	<cfthread name="getGeorefThread#tn#">
 		<cftry>
-			<cfquery name="getGeoref" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="getGeoref" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT
 					locality_id,
 					lat_long_id,
@@ -3640,22 +3640,22 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 			<cfif getGeoref.recordcount NEQ 1>
 				<cfthrow message="Error: lat_long record not found for provided lat_long_id [#encodeForHtml(lat_long_id)#].">
 			</cfif>
-			<cfquery name="ctunits" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="ctunits" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT ORIG_LAT_LONG_UNITS 
 				FROM ctlat_long_units
 				ORDER BY ORIG_LAT_LONG_UNITS
 			</cfquery>
-			<cfquery name="ctGeorefMethod" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="ctGeorefMethod" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT georefmethod 
 				FROM ctgeorefmethod
 				ORDER BY georefmethod
 			</cfquery>
-			<cfquery name="ctVerificationStatus" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="ctVerificationStatus" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT verificationStatus 
 				FROM ctVerificationStatus 
 				ORDER BY verificationStatus
 			</cfquery>
-			<cfquery name="getCurrentUser" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="getCurrentUser" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT agent_id, 
 						agent_name
 				FROM preferred_agent_name
@@ -3669,7 +3669,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 			</cfquery>
 			<cfoutput>
 				<cfloop query="getGeoref">
-					<cfquery name="getLocalityMetadata" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					<cfquery name="getLocalityMetadata" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						SELECT 
 							nvl(spec_locality,'[No specific locality value]') spec_locality, 
 							locality_id, 
@@ -4649,7 +4649,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 	</cfif>
 
 	<cfif isDefined("clone_from_collecting_event_id") AND len(clone_from_collecting_event_id) GT 0 AND mode EQ "create" >
-		<cfquery name="eventToCloneFrom" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="eventToCloneFrom" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			SELECT locality_id, verbatim_locality, verbatimDepth, verbatimElevation,
 				verbatimCoordinates, verbatimLatitude, verbatimLongitude,
 				verbatimCoordinateSystem, verbatimSRS,
@@ -4690,7 +4690,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 			<cfset date_determined_by_agent_id = eventToCloneFrom.date_determined_by_agent_id>
 		</cfif>
 	<cfelseif mode EQ "edit" >
-		<cfquery name="getEvent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="getEvent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			SELECT
 				collecting_event_id,
 				locality_id, verbatim_locality, verbatimDepth, verbatimElevation,
@@ -4738,7 +4738,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 	<cfset higher_geog = "">
 	<cfset spec_locality = "">
 	<cfif isDefined("locality_id") AND len(locality_id) GT 0>
-		<cfquery name="lookupLocality" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="lookupLocality" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			SELECT higher_geog, spec_locality
 			FROM 
 				locality
@@ -4758,10 +4758,10 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 	<cfthread name="createCollEventFormThread#tn#">
 		<cfoutput>
 			<cftry>
-				<cfquery name="ctCollecting_Source" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedWithin="#CreateTimeSpan(0,1,0,0)#">
+				<cfquery name="ctCollecting_Source" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" cachedWithin="#CreateTimeSpan(0,1,0,0)#">
 					select collecting_source from ctcollecting_source order by collecting_source
 				</cfquery>
-				<cfquery name="ctCollecting_method" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedWithin="#CreateTimeSpan(0,1,0,0)#">
+				<cfquery name="ctCollecting_method" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" cachedWithin="#CreateTimeSpan(0,1,0,0)#">
 					select collecting_method from ctcollecting_method order by collecting_method
 				</cfquery>
 				<cfif isDefined("collecting_event_id") AND len(collecting_event_id) GT 0>
@@ -4862,7 +4862,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 							<cfset agent = "">
 						<cfelse>
 							<cfset agent = "">
-							<cfquery name="determiner" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+							<cfquery name="determiner" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 								SELECT
 									agent_name
 								FROM
@@ -5003,7 +5003,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 	<cfthread name="editCollEventFormThread#tn#">
 		<cfoutput>
 			<cftry>
-				<cfquery name="colEventNumbers" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="colEventNumbers" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT number_series,
 						MCZBASE.get_agentnameoftype(collector_agent_id) as collector_agent,
 						coll_event_number,
@@ -5043,7 +5043,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 	
 	<cftry>
 		<cfoutput>
-			<cfquery name="collEventNumberSeries" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="collEventNumberSeries" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT coll_event_num_series_id, number_series, pattern, remarks, collector_agent_id,
 					CASE collector_agent_id WHEN null THEN '[No Agent]' ELSE mczbase.get_agentnameoftype(collector_agent_id) END as collector_agent
 				FROM coll_event_num_series
@@ -5137,7 +5137,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 	<cftransaction> 
 		<cftry>
 			<cfif len(trim(coll_event_number_series)) GT 0 and len(trim(coll_event_number)) GT 0 >
-				<cfquery name="addCollEvNum" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="addCollEvNum" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					INSERT INTO coll_event_number
 						(coll_event_number, coll_event_num_series_id, collecting_event_id)
 					VALUES 
@@ -5199,7 +5199,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 	<cfset data = ArrayNew(1)>
 	<cftransaction>
 		<cftry>
-			<cfquery name="ctVerificationStatus" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="ctVerificationStatus" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				UPDATE collecting_event 
 				SET
 					began_date = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#began_date#">,
@@ -5336,7 +5336,7 @@ Probably won't be used, delete is action on localities/CollectingEvent.cfm
 			<cfif #hasSpecimens.ct# gt 0>
 				<cfthrow message="Unable to delete, Collecting Event has #hasSpecimens.ct# related cataloged items..">
 			</cfif>
-			<cfquery name="deleteBlocks" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="deleteBlocks" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT 
 					count(*) ct, 'media' as block
 				FROM media_relations
@@ -5362,7 +5362,7 @@ Probably won't be used, delete is action on localities/CollectingEvent.cfm
 			<cfif hasBlock>
 				<cfthrow message="Unable to delete, Collecting Event has related media or collector numbers.">
 			<cfelse>
-				<cfquery name="delete" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="delete" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					delete from collecting_event
 					where 
 						collecting_event_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collecting_event_id#">

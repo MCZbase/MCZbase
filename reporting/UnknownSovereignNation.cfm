@@ -28,7 +28,7 @@ Report on localities, by department, with a value of sovereign_nation of [unknow
 			<div class="col-12">
 				<h1 class="h2">Localities with Sovereign Nation of [unknown]</h1>
 				<p>This report lists (and links out to the relevant Locality search) the number of localities per department used only by that department which have no georeference, and have a value for <a href="/vocabularies/ControlledVocabulary.cfm?table=CTSOVEREIGN_NATION">sovereign nation</a> of [unknown].  Unknown sovereign nations should be cleaned up to a known sovereign nation, or to the value [no sovereign nation data], or High Seas, or [disputed], or [antartic treaty area], as appropriate.  If there are localities shared between more than one department with an [unknown] sovereign nation value and no georeference, these are listed separately as shared.</p>
-				<cfquery name="getcounts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getcounts_result">
+				<cfquery name="getcounts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getcounts_result">
 					select count(locality.locality_id) ct, mczbase.get_collcodes_for_locality(locality.locality_id, 0) colls
 					from locality
 					left outer join accepted_lat_long on locality.locality_id=accepted_lat_long.locality_id
@@ -49,7 +49,7 @@ Report on localities, by department, with a value of sovereign_nation of [unknow
 								<!--- skip, localities not used by any collection --->
 							<cfelse>
 								<!--- look up the collection_id and report the count with a link to the records --->
-								<cfquery name="getcid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getcid_result">
+								<cfquery name="getcid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getcid_result">
 									select collection_id from collection where collection_cde=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#colls#">
 								</cfquery>
 								<li class="py-1"><a href="/localities/Localities.cfm?execute=true&collection_id=#getcid.collection_id#&collnOpr=usedOnlyBy&sovereign_nation=[unknown]&findNoAccGeoRefStrict=on">#getcounts.colls#</a> (#getcounts.ct#)</li>

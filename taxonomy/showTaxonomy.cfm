@@ -7,7 +7,7 @@
 		<!--- if given a scientific name, (as in redirect from /name/Aus+bus in /errors/missing.cfm), try to look up the record --->
 		<cfif isdefined("scientific_name") and len(scientific_name) gt 0>
 			<cfset scientific_name = URLDecode(scientific_name) >
-			<cfquery name="getTID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="getTID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT taxon_name_id, scientific_name, author_text, full_taxon_name
 				FROM taxonomy 
 				WHERE upper(scientific_name) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(scientific_name)#">
@@ -49,7 +49,7 @@
 				<!---  No match on the string, look for a match on the parent of a Aus sp. or Aus bus ssp. name string (that is on Aus or Aus bus). --->
 				<cfset s=listdeleteat(scientific_name,listlen(scientific_name," ")," ")>
 				<cfset checkSql(s)>
-				<cfquery name="getTID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="getTID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT taxon_name_id 
 					FROM taxonomy 
 					WHERE upper(scientific_name) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(s)#">
@@ -63,7 +63,7 @@
 			<cfelseif listlen(scientific_name," ") is 3>
 				<!--- Name string didn't match, but desired record might contain an infraspecific rank (match Aus bus sus to Aus bus var. sus) --->
 				<cfset checkSql(scientific_name)>
-				<cfquery name="getTID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="getTID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT
 						scientific_name
 					FROM
@@ -80,7 +80,7 @@
 				</cfif>
 			<cfelseif listlen(scientific_name," ") is 4>
 				<cfset checkSql(scientific_name)>
-				<cfquery name="getTID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="getTID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT
 						scientific_name
 					FROM
@@ -98,7 +98,7 @@
 					<!--- block above matchs provided Aus bus var. sus against Aus bus sus record, but 4 part name may be subgenus e.g. Aus (Aus) bus sus. --->
 					<cfset subgenusCandidate = listgetat(scientific_name,2," ")>
 					<cfset subgenusCandidate = mid(subgenusCandidate,2,len(subgenusCandidate)-1)>
-					<cfquery name="getTIDsg" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					<cfquery name="getTIDsg" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						SELECT
 							scientific_name
 						FROM
@@ -119,12 +119,12 @@
 		</cfif>
 		<!--- if given a taxon_name_id, try to look up the record, and if scientific_name is unique, provide redirect to /name/Aus+bus --->
 		<cfif isdefined("taxon_name_id")>
-			<cfquery name="lookupNameFromID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="lookupNameFromID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				select scientific_name 
 				from taxonomy 
 				where taxon_name_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#taxon_name_id#">
 			</cfquery>
-			<cfquery name="checkForHomonyms" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="checkForHomonyms" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				select count(*) as nameCount
 				from taxonomy 
 				where scientific_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#lookupNameFromID.scientific_name#">
@@ -138,7 +138,7 @@
 			<cfelseif checkForHomonyms.nameCount GT 1>
 				<!--- don't redirect, as the redirect isn't to a unique entry --->
 				<cfset tnid = taxon_name_id>
-				<cfquery name="getHomonyms" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="getHomonyms" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT taxon_name_id, scientific_name, author_text, full_taxon_name
 					FROM taxonomy 
 					WHERE upper(scientific_name) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(lookupNameFromID.scientific_name)#">
@@ -195,7 +195,7 @@
 	<!--- Note: uppercase PHYL is used here to allow removal to produce labels as well as database field names from this list --->
 	<cfset taxaRanksList="Kingdom,Phylum,PHYLClass,Subclass,PHYLOrder,Suborder,Superfamily,Family,Subfamily,Genus,Subgenus,Species,Subspecies,Nomenclatural_Code,Taxon_Status">
 
-	<cfquery name="getDetails" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cfquery name="getDetails" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		SELECT
 			taxonomy.TAXON_NAME_ID,
 			taxonomy.VALID_CATALOG_TERM_FG,
@@ -334,7 +334,7 @@
 			imp_related_display_name,
 			imp_related_author_text
 	</cfquery>
-	<cfquery name="tax_pub" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cfquery name="tax_pub" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		select
 			taxonomy_publication_id,
 			formatted_publication,
@@ -347,7 +347,7 @@
 			taxonomy_publication.publication_id=formatted_publication.publication_id and
 			taxonomy_publication.taxon_name_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#tnid#">
 	</cfquery>
-	<cfquery name="citedSpecimens" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="citedSpecimens_result">
+	<cfquery name="citedSpecimens" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="citedSpecimens_result">
 		SELECT distinct
 			citation.type_status, 
 			citation.occurs_page_number, 
@@ -374,12 +374,12 @@
 			ctcitation_type_status.ordinal, 
 			'MCZ:' || cataloged_item.collection_cde || ':' || cataloged_item.cat_num
 	</cfquery>
-	<cfquery name="ctguid_type_taxon" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cfquery name="ctguid_type_taxon" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		select guid_type, placeholder, pattern_regex, resolver_regex, resolver_replacement, search_uri
 		from ctguid_type 
 		where guid_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#one.taxonid_guid_type#">
 	</cfquery>
-	<cfquery name="habitat" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="habitat_result">
+	<cfquery name="habitat" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="habitat_result">
 		SELECT taxon_habitat 
 		FROM taxon_habitat
 		WHERE
@@ -391,7 +391,7 @@
 	<cfif len(one.taxonid) GT 0 AND ctguid_type_taxon.recordcount GT 0 >
 		<cfset taxonidlink = REReplace(one.taxonid,ctguid_type_taxon.resolver_regex,ctguid_type_taxon.resolver_replacement)>
 	</cfif>
-	<cfquery name="ctguid_type_scientificname" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cfquery name="ctguid_type_scientificname" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		select guid_type, placeholder, pattern_regex, resolver_regex, resolver_replacement, search_uri
 		from ctguid_type 
 		where guid_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#one.scientificnameid_guid_type#">
@@ -540,7 +540,7 @@
 								</cfif>
 							</li>
 						</cfloop>
-						<cfquery name="inverse_relations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="relations_result">
+						<cfquery name="inverse_relations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="relations_result">
 							SELECT
 								scientific_name,
 								author_text,
@@ -578,7 +578,7 @@
 				</div>
 
 				<div id="specTaxMedia">
-					<cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					<cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						SELECT * from (
 							SELECT DISTINCT * FROM (
 								select
@@ -640,7 +640,7 @@
 						<h2 class="h4"> MCZbase Links:</h2>
 						
 						<ul>
-							<cfquery name="usedInIndentifications" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+							<cfquery name="usedInIndentifications" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 								select count(*) c 
 								from identification_taxonomy where 
 								taxon_name_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#one.taxon_name_id#">
@@ -658,7 +658,7 @@
 									<a href="/bnhmMaps/kml.cfm?method=gmap&action=newReq&next=colorBySpecies&scientific_name=#one.scientific_name#" class="external" target="_blank"> Google Map of MCZbase specimens </a>
 								</li>
 								--->
-								<cfquery name="getClass" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+								<cfquery name="getClass" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 									select phylclass,genus || ' ' || species scientific_name 
 									from taxonomy 
 									where scientific_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#one.scientific_name#">
@@ -681,7 +681,7 @@
 								<li>No specimens use this name in Identifications.</li>
 							</cfif>
 							
-							<cfquery name="usedInCitations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+							<cfquery name="usedInCitations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 								select count(*) c 
 								from citation 
 								where cited_taxon_name_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#one.taxon_name_id#">
@@ -759,7 +759,7 @@
 					<div class="row">
 						<div class="col-12">
 							<h2 class="h4">Annotations:</h2>
-							<cfquery name="existingAnnotations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+							<cfquery name="existingAnnotations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 								select count(*) cnt from annotations
 								where taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#tnid#">
 							</cfquery>
@@ -782,7 +782,7 @@
 									<cfset s = "s">
 								</cfif>
 								<p>There #are# #existingAnnotations.cnt# annotation#s# on this taxon record</p>
-								<cfquery name="AnnotationStates" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+								<cfquery name="AnnotationStates" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 									select count(*) statecount, state from annotations
 									where taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#tnid#">
 									group by state

@@ -28,7 +28,7 @@ Report on collecting events with problematic values for began date or ended date
 			<div class="col-12">
 				<h1 class="h2">Collecting Events with problematic dates</h1>
 				<p>This report lists (and links out to the relevant Collecting Event) collecting events with problematic values for date collected.</p>
-				<cfquery name="pre1700" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="pre1700_result">
+				<cfquery name="pre1700" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="pre1700_result">
 					SELECT collecting_event_id, 
 						verbatim_date, 
 						to_char(date_Began_date,'yyyy-mm-dd') date_began_date, 
@@ -51,7 +51,7 @@ Report on collecting events with problematic values for began date or ended date
 						</cfloop>
 					</cfif>
 				</ul>
-				<cfquery name="future" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="future_result">
+				<cfquery name="future" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="future_result">
 					SELECT collecting_event_id, 
 						verbatim_date, 
 						to_char(date_Began_date,'yyyy-mm-dd') date_began_date, 
@@ -72,7 +72,7 @@ Report on collecting events with problematic values for began date or ended date
 						</cfloop>
 					</cfif>
 				</ul>
-				<cfquery name="reversed" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="reversed_result">
+				<cfquery name="reversed" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="reversed_result">
 					SELECT collecting_event_id, 
 						verbatim_date, 
 						to_char(date_Began_date,'yyyy-mm-dd') date_began_date, 

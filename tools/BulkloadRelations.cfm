@@ -1,5 +1,5 @@
 <cfif isDefined("action") AND action is "dumpProblems">
-	<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		SELECT INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_VAL,RELATIONSHIP,RELATED_INSTITUTION_ACRONYM,RELATED_COLLECTION_CDE,RELATED_OTHER_ID_TYPE,RELATED_OTHER_ID_VAL,BIOL_INDIV_RELATION_REMARKS
 		FROM cf_temp_bl_relations
 		WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
@@ -75,7 +75,7 @@
 			<cfset arrResult = CSVToArray(CSV = fileContent.Trim()) />
 		
 			<!--- cleanup any incomplete work by the same user --->
-			<cfquery name="clearTempTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="clearTempTable_result">
+			<cfquery name="clearTempTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="clearTempTable_result">
 				DELETE FROM MCZBASE.cf_temp_bl_relations 
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
@@ -162,7 +162,7 @@
 					<cfset colValArray=listToArray(colVals)>
 					<cftry>
 						<!--- construct insert for row with a line for each entry in fieldlist using cfqueryparam if column header is in fieldlist, otherwise using null --->
-						<cfquery name="insert" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="insert_result">
+						<cfquery name="insert" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="insert_result">
 							insert into MCZBASE.CF_TEMP_BL_RELATIONS
 								(#fieldlist#,USERNAME)
 							values (
@@ -203,47 +203,47 @@
 	<cfif #action# is "validate">
 		<h2 class="h3">Second step: Data Validation</h2>
 		<cfoutput>
-			<cfquery name="getCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="getCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				update cf_temp_bl_relations set collection_object_id = 
 				(select collection_object_id from cataloged_item where cat_num = 'cf_temp_bl_relations.other_id_val' and collection_cde = cf_temp_bl_relations.collection_cde)
 				 where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
-			<cfquery name="getRCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="getRCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				update cf_temp_bl_relations set RELATED_COLLECTION_OBJECT_ID = 
 				(select collection_object_id from cataloged_item where collection_cde = cf_temp_bl_relations.related_collection_cde and cat_num = 'cf_temp_bl_relations.related_other_id_val) 
 				where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
-			<cfquery name="miaa" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="miaa" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				UPDATE cf_temp_bl_relations
 				SET validated_status = 'No ID match'
 				WHERE other_id_val is null
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
-			<cfquery name="miab" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="miab" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				UPDATE cf_temp_bl_relations
 				SET validated_status = 'No ID match'
 				WHERE related_other_id_val is null
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
-			<cfquery name="miac" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="miac" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				UPDATE cf_temp_bl_relations
 				SET validated_status = 'collection not found'
 				WHERE collection_cde is null
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
-			<cfquery name="miad" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="miad" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				UPDATE cf_temp_bl_relations
 				SET validated_status = 'related collection not found'
 				WHERE related_collection_cde is null
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
-			<cfquery name="miap" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="miap" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				UPDATE cf_temp_bl_relations
 				SET validated_status = 'bad relationship'
 				WHERE relationship not in (select biol_indiv_relationship from ctbiol_relations)
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
-			<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT INSTITUTION_ACRONYM,COLLECTION_OBJECT_ID,RELATED_COLLECTION_OBJECT_ID,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_VAL,RELATIONSHIP,RELATED_INSTITUTION_ACRONYM,RELATED_COLLECTION_CDE,RELATED_OTHER_ID_TYPE,RELATED_OTHER_ID_VAL,BIOL_INDIV_RELATION_REMARKS,VALIDATED_STATUS
 				FROM cf_temp_bl_relations 
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
@@ -307,7 +307,7 @@
 	<cfif #action# is "load">
 		<h2 class="h3">Third step: Apply changes.</h2>
 		<cfoutput>
-			<cfquery name="getTempData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="getTempData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT *
 				FROM cf_temp_bl_relations
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
@@ -316,7 +316,7 @@
 				<cfset relations_updates = 0>
 					<cftransaction>
 						<cfloop query="getTempData">
-							<cfquery name="updateRelations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateRelations_result">
+							<cfquery name="updateRelations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateRelations_result">
 							insert into 
 								BIOL_INDIV_RELATIONS (collection_object_id,related_coll_object_id,biol_indiv_relationship,biol_indiv_relation_remarks) values (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#cf_temp_bl_relations.collection_object_id#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#cf_temp_bl_relations.related_collection_object_id#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#cf_temp_bl_relations.relationship#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#cf_temp_bl_relations.biol_indiv_relation_remarks#">)
 							</cfquery>
@@ -332,7 +332,7 @@
 					</div>
 				<cfcatch>
 					<h2>There was a problem updating relationships.</h2>
-					<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						SELECT *
 						FROM cf_temp_bl_relations 
 						WHERE validated_status is not null
@@ -382,7 +382,7 @@
 					<cfset relations_updates = 0>
 					<cfloop query="getTempData">
 						<cfset problem_key = getTempData.key>
-						<cfquery name="updateRelations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateRelations_result">
+						<cfquery name="updateRelations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateRelations_result">
 							insert into 
 								BIOL_INDIV_RELATIONS (collection_object_id,related_coll_object_id,biol_indiv_relationship,biol_indiv_relation_remarks) values (cf_temp_bl_relations.collection_object_id,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#related_collection_object_id#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#relationship#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#biol_indiv_relation_remarks#">)
 						</cfquery>
@@ -391,7 +391,7 @@
 					<cftransaction action="commit">
 				<cfcatch>
 					<cftransaction action="rollback">
-						<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							SELECT INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_VAL,RELATIONSHIP,RELATED_INSTITUTION_ACRONYM,
 							RELATED_COLLECTION_CDE,RELATED_OTHER_ID_TYPE,RELATED_OTHER_ID_VAL,BIOL_INDIV_RELATION_REMARKS,validated_status
 							FROM cf_temp_bl_relations
@@ -444,7 +444,7 @@
 					</div>
 				</div>
 			</div>
-			<cfquery name="clearTempTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="clearTempTable_result">
+			<cfquery name="clearTempTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="clearTempTable_result">
 				DELETE FROM cf_temp_bl_relations 
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>

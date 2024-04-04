@@ -32,7 +32,7 @@ limitations under the License.
 				<cfelse>
 					<cfset oneOfUs = 0>
 				</cfif>
-				<cfquery name="check" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="check" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT 
 						concatEncumbranceDetails(<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">) encumbranceDetail
 					FROM DUAL
@@ -41,7 +41,7 @@ limitations under the License.
 					<cfthrow message="Record Masked">
 				</cfif>
 				<!--- Lookup live data (with redactions as specified by encumbrances) as flat may be stale --->
-				<cfquery name="summary" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="summary" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				 	SELECT DISTINCT
 						collection.collection,
 						cataloged_item.collection_object_id as collection_object_id,
@@ -238,7 +238,7 @@ limitations under the License.
 					<cfset oneOfUs = 0>
 				</cfif>
 				<!--- check for mask record, hide if mask record and not one of us ---->
-				<cfquery name="check" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="check" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT 
 						concatEncumbranceDetails(<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">) encumbranceDetail
 					FROM DUAL
@@ -246,7 +246,7 @@ limitations under the License.
 				<cfif oneOfUs EQ 0 AND Findnocase("mask record", check.encumbranceDetail)>
 					<cfthrow message="Record Masked">
 				</cfif>
-				<cfquery name="getImages" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="getImages" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				select distinct 
 					media_id, auto_host, auto_path, auto_filename, media_uri, preview_uri, mime_type, media_type, media_descriptor 
 				FROM (
@@ -342,7 +342,7 @@ limitations under the License.
 	<cfthread name="getIdentifiersThread">
 		<cfoutput>
 			<cftry>
-				<cfquery name="identifiers" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="identifiers" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT distinct
 						collection.collection, cataloged_item.cat_num, collection.guid_prefix, collection.web_link
 					FROM 
@@ -401,7 +401,7 @@ limitations under the License.
 					<cfset oneOfUs = 0>
 				</cfif>
 				<!--- check for mask record, hide if mask record and not one of us ---->
-				<cfquery name="check" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="check" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT 
 						concatEncumbranceDetails(<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">) encumbranceDetail
 					FROM DUAL
@@ -409,7 +409,7 @@ limitations under the License.
 				<cfif oneOfUs EQ 0 AND Findnocase("mask record", check.encumbranceDetail)>
 					<cfthrow message="Record Masked">
 				</cfif>
-				<cfquery name="identification" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="identification" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT
 						identification.scientific_name,
 						identification.collection_object_id,
@@ -432,7 +432,7 @@ limitations under the License.
 				</cfquery>
 				<cfset i=1>
 				<cfloop query="identification">
-					<cfquery name="determiners" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					<cfquery name="determiners" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						SELECT distinct
 							preferred_agent_name.agent_name,
 							identification_agent.agent_id,
@@ -449,7 +449,7 @@ limitations under the License.
 							identifier_order
 					</cfquery>
 					<cfset nameAsInIdentification = identification.scientific_name>
-					<cfquery name="getTaxa" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					<cfquery name="getTaxa" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						SELECT distinct
 							identification_taxonomy.variable,
 							taxonomy.taxon_name_id,
@@ -526,7 +526,7 @@ limitations under the License.
 					<cfif not isdefined("metaDesc")>
 						<cfset metaDesc="">
 					</cfif>
-					<cfquery name="getHigher" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					<cfquery name="getHigher" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						SELECT distinct replace(full_taxon_name,scientific_name,'') distinct_higher
 						FROM 
 							identification_taxonomy
@@ -539,7 +539,7 @@ limitations under the License.
 					<cfloop query="getTaxa">
 						<!--- get the list of common names for each taxon in the identification ---->
 						<cfset metaDesc=metaDesc & '; ' & full_taxon_name>
-						<cfquery name="cName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						<cfquery name="cName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							SELECT 
 								common_name 
 							FROM 
@@ -625,7 +625,7 @@ limitations under the License.
 					<cfset oneOfUs = 0>
 				</cfif>
 				<!--- check for mask record, hide if mask record and not one of us ---->
-				<cfquery name="check" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="check" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT 
 						concatEncumbranceDetails(<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">) encumbranceDetail
 					FROM DUAL
@@ -633,7 +633,7 @@ limitations under the License.
 				<cfif oneOfUs EQ 0 AND Findnocase("mask record", check.encumbranceDetail)>
 					<cfthrow message="Record Masked">
 				</cfif>
-				<cfquery name="oid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="oid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT
 						<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 							coll_obj_other_id_num.display_value, 
@@ -703,7 +703,7 @@ limitations under the License.
 					<cfset oneOfUs = 0>
 				</cfif>
 				<!--- check for mask record, hide if mask record and not one of us ---->
-				<cfquery name="check" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="check" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT 
 						concatEncumbranceDetails(<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">) encumbranceDetail
 					FROM DUAL
@@ -711,7 +711,7 @@ limitations under the License.
 				<cfif oneOfUs EQ 0 AND Findnocase("mask record", check.encumbranceDetail)>
 					<cfthrow message="Record Masked">
 				</cfif>
-				<cfquery name="citations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="citations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT distinct
 						citation.type_status,
 						citation.occurs_page_number,
@@ -813,7 +813,7 @@ limitations under the License.
 					<cfset oneOfUs = 0>
 				</cfif>
 				<!--- check for mask record, hide if mask record and not one of us ---->
-				<cfquery name="check" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="check" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT 
 						concatEncumbranceDetails(<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">) encumbranceDetail
 					FROM DUAL
@@ -821,7 +821,7 @@ limitations under the License.
 				<cfif oneOfUs EQ 0 AND Findnocase("mask record", check.encumbranceDetail)>
 					<cfthrow message="Record Masked">
 				</cfif>
-				<cfquery name="getImages" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="getImages" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT distinct 
 						media_relations.media_id, formatted_publication
 					FROM
@@ -880,7 +880,7 @@ limitations under the License.
 				<cfelse>
 					<cfset manageTransactions = 0>
 				</cfif>
-				<cfquery name="check" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="check" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT 
 						concatEncumbranceDetails(<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">) encumbranceDetail
 					FROM DUAL
@@ -894,7 +894,7 @@ limitations under the License.
 					<div class="mt-1"></div><!--- Masked, return no data on parts --->
 				<cfelse>
 					<!--- find out if any of this material is on loan --->
-					<cfquery name="loanList" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					<cfquery name="loanList" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						SELECT distinct loan_number, loan_type, loan_status, loan.transaction_id 
 						FROM
 							specimen_part 
@@ -905,7 +905,7 @@ limitations under the License.
 							specimen_part.derived_from_cat_item=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
 					</cfquery>
 					<!--- find out if any of this material has been deaccessioned --->
-					<cfquery name="deaccessionList" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					<cfquery name="deaccessionList" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						SELECT distinct deacc_number, deaccession.transaction_id, specimen_part.collection_object_id
 						FROM
 							specimen_part 
@@ -916,7 +916,7 @@ limitations under the License.
 							specimen_part.derived_from_cat_item=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
 					</cfquery>
 					<!--- retrieve all the denormalized parts data in one query, then query those results to get normalized information to display --->
-					<cfquery name="getParts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					<cfquery name="getParts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						select
 							specimen_part.collection_object_id part_id,
 							<cfif oneOfUs EQ 1>
@@ -1000,7 +1000,7 @@ limitations under the License.
 							</cfquery>
 							<cfset i=1>
 							<cfloop query="mainParts">
-								<cfquery name="historyCount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+								<cfquery name="historyCount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 									SELECT sum(cti) ct from (
 										SELECT count(*) cti 
 										FROM object_condition 
@@ -1025,7 +1025,7 @@ limitations under the License.
 										#part_disposition#
 										<cfif loanList.recordcount GT 0 AND manageTransactions IS "1">
 											<!--- look up whether this part is in an open loan --->
-											<cfquery name="partonloan" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+											<cfquery name="partonloan" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 												SELECT
 													loan_number, loan_type, loan_status, loan.transaction_id, item_descr, loan_item_remarks
 												FROM 
@@ -1048,7 +1048,7 @@ limitations under the License.
 										</cfif>
 										<cfif deaccessionList.recordcount GT 0 AND manageTransactions IS "1">
 											<!--- look up whether this part has been deaccessioned --->
-											<cfquery name="partdeacc" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+											<cfquery name="partdeacc" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 												SELECT
 													deacc_number, deacc_type, deaccession.transaction_id
 												FROM 
@@ -1157,7 +1157,7 @@ limitations under the License.
 									select * from distinctParts where sampled_from_obj_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#mainParts.part_id#">
 								</cfquery>
 								<cfloop query="subsampleParts">
-									<cfquery name="historyCount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+									<cfquery name="historyCount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 										SELECT sum(cti) ct from (
 											SELECT count(*) cti 
 											FROM object_condition 
@@ -1186,7 +1186,7 @@ limitations under the License.
 											#part_disposition#
 											<cfif loanList.recordcount GT 0 AND manageTransactions IS "1">
 												<!--- look up whether this part is in an open loan --->
-												<cfquery name="partonloan" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+												<cfquery name="partonloan" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 													SELECT
 														loan_number, loan_type, loan_status, loan.transaction_id, item_descr, loan_item_remarks
 													FROM 
@@ -1209,7 +1209,7 @@ limitations under the License.
 											</cfif>
 											<cfif deaccessionList.recordcount GT 0 AND manageTransactions IS "1">
 												<!--- look up whether this part has been deaccessioned --->
-												<cfquery name="partdeacc" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+												<cfquery name="partdeacc" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 													SELECT
 														deacc_number, deacc_type, deaccession.transaction_id
 													FROM 
@@ -1349,7 +1349,7 @@ limitations under the License.
 			<cfset oneOfUs = 0>
 		</cfif>
 		<!--- check for mask record, hide if mask record and not one of us ---->
-		<cfquery name="check" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="check" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			SELECT 
 				concatEncumbranceDetails(<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">) encumbranceDetail
 			FROM DUAL
@@ -1357,7 +1357,7 @@ limitations under the License.
 		<cfif oneOfUs EQ 0 AND Findnocase("mask record", check.encumbranceDetail)>
 			<cfthrow message="Record Masked">
 		</cfif>
-		<cfquery name="countParts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="countParts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			SELECT
 				count(specimen_part.collection_object_id) ct
 			FROM
@@ -1399,7 +1399,7 @@ limitations under the License.
 					<cfset oneOfUs = 0>
 				</cfif>
 				<!--- check for mask record, hide if mask record ---->
-				<cfquery name="check" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="check" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT 
 						concatEncumbranceDetails(<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">) encumbranceDetail
 					FROM DUAL
@@ -1407,7 +1407,7 @@ limitations under the License.
 				<cfif oneOfUs EQ 0 AND Findnocase("mask record", check.encumbranceDetail)>
 					<cfthrow message="Record Masked">
 				</cfif>
-				<cfquery name="attributes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="attributes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT distinct
 						attributes.attribute_type,
 						ctattribute_type.description as attribute_description,
@@ -1505,7 +1505,7 @@ limitations under the License.
 					<cfset oneOfUs = 0>
 				</cfif>
 				<!--- check for mask record, hide if mask record ---->
-				<cfquery name="check" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="check" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT 
 						concatEncumbranceDetails(<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">) encumbranceDetail
 					FROM DUAL
@@ -1556,7 +1556,7 @@ limitations under the License.
 							related_cat_num
 					</cfquery>
 				<cfelse>
-					<cfquery name="relns" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					<cfquery name="relns" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						SELECT 
 							distinct biol_indiv_relationship, related_coll_cde, related_collection, 
 							related_coll_object_id, related_cat_num, biol_indiv_relation_remarks 
@@ -1608,7 +1608,7 @@ limitations under the License.
 								</cfif>
 							</li>
 						</cfloop>
-						<cfquery name="lookupGuid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="named_groups">
+						<cfquery name="lookupGuid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="named_groups">
 							SELECT flat.guid
 							FROM
 								<cfif ucase(session.flatTableName) EQ "FLAT"> flat <cfelse> filtered_flat </cfif> flat
@@ -1658,7 +1658,7 @@ limitations under the License.
 				<ul class="list-group pl-0">
 					<!--- Accession for the cataloged item, display internally only --->
 					<cfif oneOfUs is 1>
-						<cfquery name="checkAccn" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						<cfquery name="checkAccn" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							SELECT
 								decode(trans.transaction_id, null, 0, 1) accnVpdVisible
 							FROM
@@ -1669,7 +1669,7 @@ limitations under the License.
 								cataloged_item.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 						</cfquery>
 						<cfif checkAccn.accnVpdVisible EQ 1>
-							<cfquery name="lookupAccn" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+							<cfquery name="lookupAccn" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 								SELECT
 									cataloged_item.accn_id,
 									cataloged_item.collection_cde catitem_coll_cde,
@@ -1704,7 +1704,7 @@ limitations under the License.
 									cataloged_item.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 							</cfquery>
 						</cfif>
-						<cfquery name="accnLimitations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						<cfquery name="accnLimitations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							select specific_type, restriction_summary 
 							from  permit_trans 
 								left join permit on permit_trans.permit_id = permit.permit_id
@@ -1724,7 +1724,7 @@ limitations under the License.
 							<!--- accession is in a different department than the cataloged item --->
 							<cfset accnDept = "(#accnCollection.collection_cde#)">
 						</cfif>
-						<cfquery name="accnMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" >
+						<cfquery name="accnMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" >
 							SELECT 
 								media.media_id,
 								media.media_uri,
@@ -1761,7 +1761,7 @@ limitations under the License.
 						</li>
 					</cfif>
 					<!--------------------  Projects ------------------------------------>	
-					<cfquery name="isProj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					<cfquery name="isProj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						SELECT 
 							project_name, project.project_id 
 						FROM
@@ -1772,7 +1772,7 @@ limitations under the License.
 							cataloged_item.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 						GROUP BY project_name, project.project_id
 					</cfquery>
-					<cfquery name="isLoan" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					<cfquery name="isLoan" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						SELECT 
 							project_name, project.project_id 
 						FROM 
@@ -1805,7 +1805,7 @@ limitations under the License.
 					</cfif>
 					<!--- Usage ---->
 					<cfif oneOfUs IS 1>
-						<cfquery name="isLoanedItem" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						<cfquery name="isLoanedItem" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							SELECT 
 								loan_item.collection_object_id 
 							FROM 
@@ -1814,7 +1814,7 @@ limitations under the License.
 							WHERE 
 								specimen_part.derived_from_cat_item = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 						</cfquery>
-						<cfquery name="loanList" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						<cfquery name="loanList" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							SELECT 
 								distinct loan_number, loan_type, loan_status, loan.transaction_id 
 							FROM
@@ -1825,7 +1825,7 @@ limitations under the License.
 								loan_number is not null AND
 								specimen_part.derived_from_cat_item = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 						</cfquery>
-						<cfquery name="isDeaccessionedItem" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						<cfquery name="isDeaccessionedItem" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							SELECT 
 								deacc_item.collection_object_id 
 							FROM
@@ -1834,7 +1834,7 @@ limitations under the License.
 							WHERE
 								specimen_part.derived_from_cat_item = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 						</cfquery>
-						<cfquery name="deaccessionList" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						<cfquery name="deaccessionList" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							SELECT 
 								distinct deacc_number, deacc_type, deaccession.transaction_id 
 							FROM
@@ -1874,7 +1874,7 @@ limitations under the License.
 							</li>
 						</cfif>
 					<cfelse>
-						<cfquery name="deaccessionCount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						<cfquery name="deaccessionCount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							SELECT
 								count(specimen_part.collection_object_id) parts,
 								count(deacc_item.collection_object_id) deaccessionedParts
@@ -1942,7 +1942,7 @@ limitations under the License.
 			<cfset oneOfUs = 0>
 		</cfif>
 		<!--- check for mask record, hide if mask record ---->
-		<cfquery name="check" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="check" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			SELECT 
 				concatEncumbranceDetails(<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">) encumbranceDetail
 			FROM DUAL
@@ -1956,7 +1956,7 @@ limitations under the License.
 				<cfif oneOfUs EQ 0 AND Findnocase("mask locality", check.encumbranceDetail) >
 					<cfset maskCoordinates = true>
 				</cfif>
-				<cfquery name="loc_collevent"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="loc_collevent"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT
 						collecting_event.collecting_event_id, 
 						locality.locality_id,
@@ -2066,7 +2066,7 @@ limitations under the License.
 						collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
 				</cfquery>
 				<!--- field coll_object_remark.habitat is labeled microhabitat --->
-				<cfquery name="microhabitatlookup"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="microhabitatlookup"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT
 						habitat
 					FROM
@@ -2084,7 +2084,7 @@ limitations under the License.
 						<cfset sep = ";">
 					</cfif>
 				</cfloop>
-				<cfquery name="coordlookup"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="coordlookup"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT
 						<cfif maskCoordinates>
 							'' as lat_long_id,
@@ -2193,7 +2193,7 @@ limitations under the License.
 					ORDER BY
 						accepted_lat_long_fg desc, determined_date asc
 				</cfquery>
-				<cfquery name="geology" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="geology" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT 
 						geology_attributes.geology_attribute,
 						geo_att_value,
@@ -2606,7 +2606,7 @@ limitations under the License.
 							<li class="list-group-item col-5 col-xl-4 px-0 font-weight-lessbold">Ich. Field Number: </li>
 							<li class="list-group-item col-7 col-xl-8 px-0">#loc_collevent.fish_field_number#</li>
 						</cfif>
-						<cfquery name="collEventNumbers"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						<cfquery name="collEventNumbers"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							SELECT
 								coll_event_number, number_series, 
 								case 
@@ -2634,7 +2634,7 @@ limitations under the License.
 								</li>
 							</cfloop>
 						</cfif>
-						<cfquery name="colls" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						<cfquery name="colls" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							SELECT
 								collector.agent_id,
 								collector.coll_order,
@@ -2691,7 +2691,7 @@ limitations under the License.
 						</cfif>
 						</ul>
 				</div>
-				<cfquery name="localityMedia"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="localityMedia"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					select
 						media_id
 					from
@@ -2701,7 +2701,7 @@ limitations under the License.
 						AND MEDIA_RELATIONSHIP like '% locality'
 						AND MCZBASE.is_media_encumbered(media_id) < 1 
 				</cfquery>
-				<cfquery name="collEventMedia"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="collEventMedia"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					select
 						media_id
 					from
@@ -2789,7 +2789,7 @@ limitations under the License.
 				<cfset oneOfUs = 0>
 			</cfif>
 			<!--- check for mask record, hide if mask record ---->
-			<cfquery name="check" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="check" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT 
 					concatEncumbranceDetails(<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">) encumbranceDetail
 				FROM DUAL
@@ -2797,7 +2797,7 @@ limitations under the License.
 			<cfif oneOfUs EQ 0 AND Findnocase("mask record", check.encumbranceDetail)>
 				<cfthrow message="Record Masked">
 			</cfif>
-			<cfquery name="preps" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="preps" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT
 					collector.agent_id,
 					collector.coll_order,
@@ -2877,7 +2877,7 @@ limitations under the License.
 					<cfset oneOfUs = 0>
 				</cfif>
 				<!--- check for mask record and prevent access, further check for mask parts below ---->
-				<cfquery name="check" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="check" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT 
 						concatEncumbranceDetails(<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">) encumbranceDetail
 					FROM DUAL
@@ -2885,7 +2885,7 @@ limitations under the License.
 				<cfif oneOfUs EQ 0 AND Findnocase("mask record", check.encumbranceDetail)>
 					<cfthrow message="Record Masked">
 				</cfif>
-				<cfquery name="object_rem" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="object_rem" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT
 						coll_object_remark.coll_object_remarks,
 						coll_object_remark.disposition_remarks,
@@ -2949,7 +2949,7 @@ limitations under the License.
 					<cfset oneOfUs = 0>
 				</cfif>
 				<!--- check for mask record and prevent access, further check for mask parts below ---->
-				<cfquery name="check" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="check" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT 
 						concatEncumbranceDetails(<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">) encumbranceDetail
 					FROM DUAL
@@ -2957,7 +2957,7 @@ limitations under the License.
 				<cfif oneOfUs EQ 0 AND Findnocase("mask record", check.encumbranceDetail)>
 					<cfthrow message="Record Masked">
 				</cfif>
-				<cfquery name="annotations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="annotations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT
 						annotation_id,
 						to_char(annotate_date,'yyyy-mm-dd') annotate_date,
@@ -3037,7 +3037,7 @@ limitations under the License.
 					<cfset oneOfUs = 0>
 				</cfif>
 				<!--- check for mask record, hide if mask record ---->
-				<cfquery name="check" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="check" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT 
 						concatEncumbranceDetails(<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">) encumbranceDetail
 					FROM DUAL
@@ -3045,7 +3045,7 @@ limitations under the License.
 				<cfif oneOfUs EQ 0 AND Findnocase("mask record", check.encumbranceDetail)>
 					<cfthrow message="Record Masked">
 				</cfif>
-				<cfquery name="meta" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="meta" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT
 						coll_object.coll_object_entered_date,
 						coll_object.last_edit_date,
@@ -3109,7 +3109,7 @@ limitations under the License.
 					<cfset oneOfUs = 0>
 				</cfif>
 				<!--- check for mask record, hide if mask record ---->
-				<cfquery name="check" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="check" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT 
 						concatEncumbranceDetails(<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">) encumbranceDetail
 					FROM DUAL
@@ -3117,7 +3117,7 @@ limitations under the License.
 				<cfif oneOfUs EQ 0 AND Findnocase("mask record", check.encumbranceDetail)>
 					<cfthrow message="Record Masked">
 				</cfif>
-				<cfquery name="named_groups" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="named_groups">
+				<cfquery name="named_groups" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="named_groups">
 					SELECT DISTINCT 
 						collection_name, underscore_relation.underscore_collection_id, mask_fg
 					FROM
@@ -3168,7 +3168,7 @@ limitations under the License.
 	<cfthread name="getHistoryThread#tn#">
 		<cfoutput>
 			<cftry>
-				<cfquery name="itemDetails" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="itemDetails" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT
 						'cataloged item' part_name,
 						cat_num,
@@ -3197,7 +3197,7 @@ limitations under the License.
 					#itemDetails.collection# #itemDetails.cat_num#
 					(#itemDetails.scientific_name#) #itemDetails.part_name#
 				</h2>
-				<cfquery name="cond" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="cond" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT 
 						object_condition_id,
 						determined_agent_id,
@@ -3241,7 +3241,7 @@ limitations under the License.
 					<h2 class="h3">(No Condition History)</h3>
 				</cfif>
 
-				<cfquery name="pres" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="pres" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT
 						SPECIMEN_PART_PRES_HIST_ID,
 						CHANGED_AGENT_ID,

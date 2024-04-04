@@ -11,7 +11,7 @@
 <!--------------------------------------------------------------------------------->
 <cfswitch expression="#action#">
 	<cfcase value="entryPoint">
-		<cfquery name="getItemCount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="getItemCount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			SELECT
 				count(cataloged_item.collection_object_id) ct
 			FROM
@@ -20,7 +20,7 @@
 			WHERE
 				result_id=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
 		</cfquery>
-		<cfquery name="getItems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="getItems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			SELECT
 				cataloged_item.collection_object_id,
 				cataloged_item.collection_cde,
@@ -94,7 +94,7 @@
 										<td>#getItems.collection# <a href="/guid/MCZ:#collection_cde#:#cat_num#" target="_blank">MCZ:#collection_cde#:#cat_num#</a></td>
 										<td style="width: 200px;">#scientific_name#</td>
 										<cfset remarks = "">
-										<cfquery name="object_rem" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+										<cfquery name="object_rem" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 											SELECT
 												coll_object_remark.coll_object_remarks
 											FROM
@@ -143,7 +143,7 @@
 			<cfset multiplicity = "one">
 		</cfif>
 		<cftransaction>
-			<cfquery name="getRecords" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getRecords_result">
+			<cfquery name="getRecords" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getRecords_result">
 				SELECT user_search_table.collection_object_id, guid 
 				FROM user_search_table
 					left join FLAT on user_search_table.collection_object_id = flat.collection_object_id
@@ -152,7 +152,7 @@
 			</cfquery>
 			<cfloop query="getRecords">
 				<cfif multiplicity EQ "many">
-					<cfquery name="countDuplicates" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					<cfquery name="countDuplicates" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						SELECT
 							count(*) ct
 						FROM
@@ -162,7 +162,7 @@
 							and coll_object_remarks = <cfqueryparam value="#remark#" cfsqltype="CF_SQL_VARCHAR">
 					</cfquery>
 					<cfif countDuplicates.ct EQ 0> 
-						<cfquery name="addRemark" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="addRemark_result">
+						<cfquery name="addRemark" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="addRemark_result">
 							INSERT INTO coll_object_remark
 							(
 								coll_object_remarks,
@@ -174,7 +174,7 @@
 						</cfquery>
 					</cfif>
 				<cfelse>
-					<cfquery name="countDuplicates" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					<cfquery name="countDuplicates" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						SELECT
 							count(*) ct
 						FROM
@@ -184,7 +184,7 @@
 							and coll_object_remarks like <cfqueryparam value="%#remark#%" cfsqltype="CF_SQL_VARCHAR">
 					</cfquery>
 					<cfif countDuplicates.ct EQ 0> 
-						<cfquery name="remarksExist" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						<cfquery name="remarksExist" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							SELECT count(*) ct
 							FROM coll_object_remark 
 							WHERE
@@ -192,7 +192,7 @@
 						</cfquery>
 						<cfif remarksExist.ct EQ 0>
 							<!--- no coll_object_remark record, insert one. --->
-							<cfquery name="addRemark" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="addRemark_result">
+							<cfquery name="addRemark" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="addRemark_result">
 								INSERT INTO coll_object_remark
 								(
 									coll_object_remarks,
@@ -204,7 +204,7 @@
 							</cfquery>
 						<cfelseif remarksExist.ct EQ 1>
 							<!--- one coll_object_remark record exists, append remark text  --->
-							<cfquery name="checkLength" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+							<cfquery name="checkLength" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 								SELECT coll_object_remarks
 								FROM coll_object_remark 
 								WHERE
@@ -214,7 +214,7 @@
 								<cfthrow message="Unable to append, length of collection object remarks would exceed 4000 for #guid# collection_object_id=[#getRecords.collection_object_id#]">
 							</cfif>
 							<cfif len(checkLength.coll_object_remarks) EQ 0>
-								<cfquery name="doUpdate" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+								<cfquery name="doUpdate" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 									UPDATE
 										coll_object_remark 
 									SET 
@@ -223,7 +223,7 @@
 										collection_object_id = <cfqueryparam value="#getRecords.collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 								</cfquery>
 							<cfelse>
-								<cfquery name="doUpdate" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+								<cfquery name="doUpdate" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 									UPDATE
 										coll_object_remark 
 									SET 

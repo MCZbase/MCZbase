@@ -1,5 +1,5 @@
 <cfinclude template="includes/_header.cfm">
-<cfquery name="ctcoll" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="ctcoll" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 	select collection, collection_id from collection order by collection
 </cfquery>
 <cfif (not isdefined("collection_object_id")) or (isdefined("collection_object_id") and listlen(collection_object_id) gt 1)>
@@ -8,7 +8,7 @@
 <!--------------------------------------------------------------------------------->
 <cfif action is "nothing">
 <cfoutput>
-<cfquery name="getItems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="getItems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 	SELECT
 		cataloged_item.collection_object_id,
 		cataloged_item.cat_num,
@@ -139,7 +139,7 @@
 <cfif #Action# is "addItems">
 	<cfoutput>
 		
-		<cfquery name="accn" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="accn" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			SELECT accn.TRANSACTION_ID FROM accn,trans WHERE
 			accn.TRANSACTION_ID=trans.TRANSACTION_ID AND
 			accn_number = '#accn_number#' 
@@ -147,7 +147,7 @@
 		</cfquery>
 		<cfif accn.recordcount is 1 and accn.transaction_id gt 0>
 			<cftransaction>
-                                <cfquery name="upAccn" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+                                <cfquery name="upAccn" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
                                  	UPDATE cataloged_item SET accn_id = #accn.transaction_id# 
 												where collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
                                 </cfquery>

@@ -47,7 +47,7 @@ content: ": ";
 </style>
 <div class="infoLink" style="text-align:right;" onclick="removeDetail()">close</div>
 <cfoutput>
-	<cfquery name="r" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cfquery name="r" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		select
 			geog_auth_rec.geog_auth_rec_id as GEOG_AUTH_REC_ID,
                         locality.locality_id as LOCALITY_ID,

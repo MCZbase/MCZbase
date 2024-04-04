@@ -2,7 +2,7 @@
 <cfset transaction_id=caller.transaction_id>
 <!---  Custom Tags for named queries used in reports for transactions --->
 <!---  getLoanMCZ - information for loan invoice headers.   --->
-<cfquery name="caller.getLoanMCZ" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="caller.getLoanMCZ" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
       SELECT * from (
       SELECT distinct
 		replace(to_char(trans_date, 'dd-Month-yyyy'),' ','') as trans_date,
@@ -109,7 +109,7 @@
         ) where rownum < 2
 </cfquery>
 <!---  getLoanItemsMCZ - information for loan item invoices.   --->
-<cfquery name="caller.getLoanItemsMCZ" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="caller.getLoanItemsMCZ" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 select
 		cat_num, cataloged_item.collection_cde, collection.institution_acronym,
                 MCZBASE.GET_TYPESTATUS(cataloged_item.collection_object_id) as type_status,
@@ -215,7 +215,7 @@ select
 <!--- /*ORDER BY catalog_number_prefix, catalog_number*/ --->
 </cfoutput>
 <!---  getDeaccMCZ - information for deaccession invoice headers.   --->
-<cfquery name="caller.getDeaccMCZ" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="caller.getDeaccMCZ" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
       SELECT * from (
       SELECT distinct
 		replace(to_char(trans_date, 'dd-Month-yyyy'),' ','') as trans_date,
@@ -307,7 +307,7 @@ select
         ) where rownum < 2
 </cfquery>
 <!---  getDeaccItemsMCZ - information for deaccession item invoices.   --->
-<cfquery name="caller.getDeaccItemsMCZ" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="caller.getDeaccItemsMCZ" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
        SELECT
 		cat_num, cataloged_item.collection_cde, collection.institution_acronym,
                 MCZBASE.GET_TYPESTATUS(cataloged_item.collection_object_id) as type_status,
@@ -409,7 +409,7 @@ select
 	  ORDER BY cat_num
 </cfquery>
 <!---  getAccMCZ - information for accession invoice headers.   --->
-<cfquery name="caller.getAccMCZ" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="caller.getAccMCZ" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 	SELECT distinct
 		replace(to_char(trans_date, 'dd-Month-yyyy'),' ','') as trans_date,
 		replace(to_char(received_date, 'dd-Month-yyyy'),' ','') as received_date,

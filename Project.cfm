@@ -30,7 +30,7 @@
 	<cfheader statuscode="301" statustext="Moved permanently">
 	<cfheader name="Location" value="/SpecimenUsage.cfm">
 </cfif>
-<cfquery name="ctProjAgRole" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="ctProjAgRole" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 	select project_agent_role from ctproject_agent_role
 </cfquery>
 <!------------------------------------------------------------------------------------------->
@@ -76,10 +76,10 @@
 <!------------------------------------------------------------------------------------------->
 <cfif Action is "createNew">
 	<cfoutput>
-		<cfquery name="nextID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="nextID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			select sq_project_id.nextval nextid from dual
 		</cfquery>
-		<cfquery name="newProj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="newProj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		INSERT INTO project (
 			PROJECT_ID,
 			PROJECT_NAME
@@ -125,7 +125,7 @@
 	<cfoutput>
 		<h2 class="wikiedit">Edit Project</h2> 
         <a href="/ProjectDetail.cfm?project_id=#project_id#">[ Detail Page ]</a>
-		<cfquery name="getDetails" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="getDetails" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			SELECT 
 				project.project_id,
 				project_name,
@@ -179,7 +179,7 @@
 			group by agent_name, agent_position, agent_name_id, project_agent_role
 			order by agent_position
 		</cfquery>
-		<cfquery name="getLoans" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="getLoans" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			select 
 				collection.collection,
 				loan.loan_number,
@@ -200,7 +200,7 @@
 				project_trans.project_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getDetails.project_id#">
 			order by collection, loan_number
 		</cfquery>
-		<cfquery name="getAccns" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="getAccns" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			select 
 				accn_number,
 				collection,
@@ -219,7 +219,7 @@
 				project_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getDetails.project_id#">
 			order by collection, accn_number
 		</cfquery>
-		<cfquery name="taxonomy" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="taxonomy" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			select 
 				taxonomy.taxon_name_id,
 				scientific_name
@@ -258,7 +258,7 @@
 		<cfelse>
 			<cfset numberOfAgents = 1>
 		</cfif>
-		<cfquery name="publications" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="publications" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			SELECT 
 				formatted_publication, formatted_publication.publication_id  
 			FROM 
@@ -628,7 +628,7 @@
 <!------------------------------------------------------------------------------------------->
 <cfif action is "removeTaxonomy">
 	<cfoutput>
-		<cfquery name="addtaxon" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="addtaxon" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			delete from project_taxonomy where
 			project_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#project_id#"> and
 			taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#taxon_name_id#">
@@ -639,7 +639,7 @@
 <!------------------------------------------------------------------------------------------->
 <cfif action is "addtaxon">
 	<cfoutput>
-		<cfquery name="addtaxon" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="addtaxon" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			insert into project_taxonomy (
 				 project_id,
 				 taxon_name_id
@@ -654,7 +654,7 @@
 <!------------------------------------------------------------------------------------------->
 <cfif action is "addLoan">
 	<cfoutput>
-		<cfquery name="addloan" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="addloan" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			insert into project_trans (
 				 project_id,
 				 transaction_id
@@ -675,7 +675,7 @@
 <!------------------------------------------------------------------------------------------->
 <cfif #Action# is "deleteSponsor">
 	<cfoutput>
-		<cfquery name="deleteSponsor" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="deleteSponsor" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			delete from project_sponsor
 			where PROJECT_SPONSOR_ID=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#PROJECT_SPONSOR_ID#">
 		</cfquery>
@@ -685,7 +685,7 @@
 <!------------------------------------------------------------------------------------------->
 <cfif #Action# is "saveSponsorChange">
 	<cfoutput>
-		<cfquery name="updateSponsor" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="updateSponsor" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			update project_sponsor
 			set 
 			agent_name_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_name_id#">,
@@ -699,28 +699,28 @@
 <cfif #Action# is "deleteProject">
  <cfoutput>
 	<cftransaction>
-	 	<cfquery name="isAgent"	 datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	 	<cfquery name="isAgent"	 datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			select agent_name_id FROM project_agent WHERE project_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#project_id#">
 		</cfquery>
 		<cfif #isAgent.recordcount# gt 0>
 			There are agents for this project! Delete denied!
 			<cfabort>
 		</cfif>
-		<cfquery name="isTrans"	 datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="isTrans"	 datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			select project_id FROM project_trans WHERE project_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#project_id#">
 		</cfquery>
 		<cfif #isTrans.recordcount# gt 0>
 			There are transactions for this project! Delete denied!
 			<cfabort>
 		</cfif>
-		<cfquery name="isPub"	 datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="isPub"	 datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			select project_id FROM project_publication WHERE project_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#project_id#">
 		</cfquery>
 		<cfif #isPub.recordcount# gt 0>
 			There are publications for this project! Delete denied!
 			<cfabort>
 		</cfif>
-		<cfquery name="killProj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="killProj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			delete from project where project_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#project_id#">
 		</cfquery>
 		<cftransaction action="commit">
@@ -734,7 +734,7 @@
 <!------------------------------------------------------------------------------------------->
 <cfif #Action# is "addSponsor">
 	 <cfoutput>
-	<cfquery name="addSponsor" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cfquery name="addSponsor" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		insert into project_sponsor
 			(PROJECT_ID,
 			AGENT_NAME_ID,
@@ -751,7 +751,7 @@
 <!------------------------------------------------------------------------------------------->
 <cfif #Action# is "removeAgent">
  <cfoutput>
- 	<cfquery name="deleAgnt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+ 	<cfquery name="deleAgnt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
  		DELETE FROM project_agent 
 		where project_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#project_id#">
 			and agent_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_name_id#">
@@ -762,7 +762,7 @@
 <!------------------------------------------------------------------------------------------->
 <cfif #Action# is "saveAgentChange">
  <cfoutput>
-	<cfquery name="upProj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cfquery name="upProj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		UPDATE project_agent 
 		SET
 			project_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#project_id#">
@@ -784,7 +784,7 @@
 <!------------------------------------------------------------------------------------------->
 <cfif #Action# is "newAgent">
 	<cfoutput>
-		<cfquery name="newProjAgnt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="newProjAgnt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			INSERT INTO project_agent (
 		 		PROJECT_ID,
 				AGENT_NAME_ID,
@@ -803,7 +803,7 @@
 <!------------------------------------------------------------------------------------------->
 <cfif #Action# is "saveEdits">
 	<cfoutput>
-		<cfquery name="upProject" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="upProject" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			UPDATE project 
 			SET 
 				project_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#project_id#">
@@ -836,7 +836,7 @@
 <!------------------------------------------------------------------------------------------->
 <cfif #Action# is "addTrans">
  <cfoutput>
-	<cfquery name="newTrans" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cfquery name="newTrans" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
  		INSERT INTO project_trans 
 			(project_id, transaction_id) 
 		values (
@@ -850,7 +850,7 @@
 <!------------------------------------------------------------------------------------------->
 <cfif #Action# is "addPub">
 	<cfoutput>
-		<cfquery name="newPub" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="newPub" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			INSERT INTO project_publication 
 				(project_id, 
 				publication_id) 
@@ -865,7 +865,7 @@
 <!------------------------------------------------------------------------------------------->
 <cfif #Action# is "delePub">
  <cfoutput>
-	<cfquery name="newPub" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cfquery name="newPub" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		DELETE FROM project_publication 
 		WHERE project_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#project_id#"> 
 			and publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#publication_id#">
@@ -876,7 +876,7 @@
 <!------------------------------------------------------------------------------------------->
 <cfif #Action# is "delTrans">
 	<cfoutput>
-		<cfquery name="delTrans" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="delTrans" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			DELETE FROM  project_trans 
 			where project_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#project_id#">
 				and transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">

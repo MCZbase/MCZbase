@@ -27,7 +27,7 @@ limitations under the License.
 	<cfargument name="condition" type="string" required="yes">
 	<cftry>
 		<cftransaction>
-			<cfquery name="upIns" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="upIns" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				update coll_object 
 				set
 					condition = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#condition#">
@@ -83,7 +83,7 @@ limitations under the License.
 											<div class="card-body" id="mediaCardBody"> 
 												<div class="row mx-0">
 													<div class="col-12 px-0">
-														<cfquery name="images" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+														<cfquery name="images" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 															SELECT
 																media.media_id,
 																media.media_uri,
@@ -99,7 +99,7 @@ limitations under the License.
 													<cfloop query="images">
 														<div id="Media_#i#">
 															<cfif len(images.media_uri) gt 0>
-																<cfquery name="getImages" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+																<cfquery name="getImages" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 																	SELECT distinct
 																		media.media_id,
 																		media.auto_host,
@@ -308,13 +308,13 @@ limitations under the License.
 		<cfthread name="getEditIdentsThread"> 
 			<cfoutput>
 			<cftry>
-				<cfquery name="ctnature" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="ctnature" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					select nature_of_id from ctnature_of_id
 				</cfquery>
-				<cfquery name="ctFormula" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="ctFormula" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					select taxa_formula from cttaxa_formula order by taxa_formula
 				</cfquery>
-				<cfquery name="getIDs" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="getIDs" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT distinct
 						identification.identification_id,
 						institution_acronym,
@@ -339,7 +339,7 @@ limitations under the License.
 					ORDER BY 
 						accepted_id_fg DESC, sort_order ASC
 				</cfquery>
-				<cfquery name="determiners" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="determiners" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT distinct
 						agent_name, identifier_order, identification_agent.agent_id, identification_agent_id
 					FROM
@@ -503,7 +503,7 @@ limitations under the License.
 											<cfset sortCount=getIds.recordcount - 1>
 											<input type="hidden" name="number_of_ids" id="number_of_ids" value="#getIds.recordcount#">
 											<cfloop query="getIds">
-												<cfquery name="determiners" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+												<cfquery name="determiners" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 													SELECT distinct
 														agent_name, identifier_order, identification_agent.agent_id, identification_agent_id
 													FROM
@@ -754,12 +754,12 @@ limitations under the License.
 						<cfset thisStoredAs = 0>
 					</cfif>
 					<cfif thisAcceptedIdFg is 1>
-						<cfquery name="upOldID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						<cfquery name="upOldID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							UPDATE identification 
 							SET ACCEPTED_ID_FG=0 
 							where collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
 						</cfquery>
-						<cfquery name="newAcceptedId" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						<cfquery name="newAcceptedId" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							UPDATE identification 
 							SET ACCEPTED_ID_FG=1, sort_order = null 
 							where identification_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#thisIdentificationId#">
@@ -767,38 +767,38 @@ limitations under the License.
 						<cfset thisStoredAs = 0>
 					</cfif>
 					<cfif thisStoredAs is 1>
-						<cfquery name="upStoredASID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						<cfquery name="upStoredASID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							UPDATE identification 
 							SET STORED_AS_FG=0 
 							where collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
 						</cfquery>
-						<cfquery name="newStoredASID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						<cfquery name="newStoredASID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							UPDATE identification 
 							SET STORED_AS_FG=1 
 							where identification_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#thisIdentificationId#">
 						</cfquery>
 						<cfelse>
-						<cfquery name="newStoredASID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						<cfquery name="newStoredASID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							UPDATE identification 
 							SET STORED_AS_FG=0 
 							where identification_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#thisIdentificationId#">
 						</cfquery>
 					</cfif>
 					<cfif thisAcceptedIdFg is "DELETE">
-						<cfquery name="deleteId" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						<cfquery name="deleteId" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							DELETE FROM identification_agent
 							WHERE identification_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#thisIdentificationId#">
 						</cfquery>
-						<cfquery name="deleteTId" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						<cfquery name="deleteTId" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							DELETE FROM identification_taxonomy 
 							WHERE identification_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#thisIdentificationId#">
 						</cfquery>
-						<cfquery name="deleteId" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						<cfquery name="deleteId" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							DELETE FROM identification 
 							WHERE identification_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#thisIdentificationId#">
 						</cfquery>
 						<cfelse>
-						<cfquery name="updateId" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						<cfquery name="updateId" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							UPDATE identification SET
 								nature_of_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#thisNature#">,
 								made_date = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#thisMadeDate#">,
@@ -831,7 +831,7 @@ limitations under the License.
 							</cftry>
 							<cfif #thisIdAgntId# is -1 and (thisIdId is not "DELETE" and thisIdId gte 0)>
 								<!--- new determiner --->
-								<cfquery name="updateIdA" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+								<cfquery name="updateIdA" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 									INSERT INTO identification_agent
 									( 
 										IDENTIFICATION_ID,
@@ -847,13 +847,13 @@ limitations under the License.
 								<!--- update or delete --->
 								<cfif #thisIdId# is "DELETE">
 									<!--- delete --->
-									<cfquery name="updateIdA" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+									<cfquery name="updateIdA" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 										DELETE FROM identification_agent
 										WHERE identification_agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#thisIdAgntId#">
 									</cfquery>
 									<cfelseif thisIdId gte 0>
 									<!--- update --->
-									<cfquery name="updateIdA" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+									<cfquery name="updateIdA" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 										UPDATE identification_agent sET
 											agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#thisIdId#">,
 											identifier_order = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#nid#">
@@ -904,7 +904,7 @@ limitations under the License.
 	<cfargument name="identification_id" type="string" required="yes">
 	<cfthread name="getIdentificationThread">
 		<cftry>
-			<cfquery name="theResult" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="theResult" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT 1 as status, identification.identification_id, identification.collection_object_id, 
 					identification.scientific_name, identification.made_date, identification.nature_of_id, 
 					identification.stored_as_fg, identification.identification_remarks, identification.accepted_id_fg, 
@@ -1012,7 +1012,7 @@ limitations under the License.
 	<cfset data = ArrayNew(1)>
 	<cftransaction>
 		<cftry>
-			<cfquery name="updateIdentificationCheck" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="newIdentificationCheck_result">
+			<cfquery name="updateIdentificationCheck" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="newIdentificationCheck_result">
 				SELECT count(*) as ct from identification
 				WHERE
 					IDENTIFICATION_ID = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value='#identification_id#'>
@@ -1020,7 +1020,7 @@ limitations under the License.
 			<cfif updateIdentificationCheck.ct NEQ 1>
 				<cfthrow message = "Unable to update identification. Provided identification_id does not match a record in the ID table.">
 			</cfif>
-			<cfquery name="updateIdentification" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateIdentification">
+			<cfquery name="updateIdentification" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateIdentification">
 				UPDATE identification SET
 					identification_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#identification_id#">,
 					MADE_DATE = <cfqueryparam cfsqltype="CF_SQL_TIMESTAMP" value="#dateformat(made_date,'yyyy-mm-dd')#">,
@@ -1045,7 +1045,7 @@ limitations under the License.
 						</cfcatch>
 					</cftry>
 					<cfif del_agnt_ is "1" and isnumeric(trans_agent_id_) and identification_agent_id_ gt 0>
-						<cfquery name="del" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						<cfquery name="del" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							delete from identification_agent 
 							where identification_agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#identification_agent_id_#">
 						</cfquery>
@@ -1053,7 +1053,7 @@ limitations under the License.
 						<cfif len(agent_id_) GT 0>
 							<!--- don't try to add/update a blank row --->
 							<cfif identification_agent_id_ is "new" and del_agnt_ is 0>
-								<cfquery name="newIdentificationAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+								<cfquery name="newIdentificationAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 									insert into identification_agent (
 										identification_id,
 										agent_id,
@@ -1067,7 +1067,7 @@ limitations under the License.
 									)
 								</cfquery>
 								<cfelseif del_agnt_ is 0>
-								<cfquery name="upIdentificationAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+								<cfquery name="upIdentificationAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 									update identification_agent set
 										agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id_#">,
 										identification_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#identification_id_#">
@@ -1138,12 +1138,12 @@ limitations under the License.
 					<cfset thisMedia_relations_id = #evaluate("MEDIA_RELATIONS_ID_" & n)#>
 					<cfset thisMedia_label_id = #evaluate("MEDIA_LABEL_ID_" & n)#>
 					<cfif thisMedia_relations_id is "DELETE">
-						<cfquery name="deleteId" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						<cfquery name="deleteId" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							DELETE FROM media_relations
 							WHERE media_relations_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#thisMedia_relations_id#">
 						</cfquery>
 					<cfelse>
-						<cfquery name="updateId" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						<cfquery name="updateId" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							UPDATE media SET
 								MEDIA_URI = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#thisMedia_uri#">,
 								PREVIEW_URI = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#thisPreview_uri#">,
@@ -1183,7 +1183,7 @@ limitations under the License.
 	<cfargument name="media_id" type="string" required="yes">
 	<cfthread name="getMediaThread">
 		<cftry>
-			<cfquery name="theResult" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="theResult" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT 1 as status, media.media_id, media.media_uri,media.preview_uri, media.media_type, media.mime_type, media.mask_media_fg, media.media_license_id 
 				FROM 
 					media
@@ -1253,7 +1253,7 @@ limitations under the License.
 	<cfargument name="media_id" type="string" required="yes">
 	<cfset r=1>
 	<cftry>
-		<cfquery name="theResult" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="theResult" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			SELECT 1 as status, media.media_id 
 					media.media_uri,media.preview_uri, media.media_type, media.mime_type, media.mask_media_fg, media.media_license_id
 				FROM 
@@ -1296,7 +1296,7 @@ limitations under the License.
 	<cfset data = ArrayNew(1)>
 	<cftransaction>
 		<cftry>
-			<cfquery name="updateMediaCheck" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="newMediaCheck_result">
+			<cfquery name="updateMediaCheck" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="newMediaCheck_result">
 				SELECT count(*) as ct from media
 				WHERE
 					MEDIA_ID = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value='#media_id#'>
@@ -1304,7 +1304,7 @@ limitations under the License.
 			<cfif updateMediaCheck.ct NEQ 1>
 				<cfthrow message = "Unable to update images. Provided media_id does not match a record in the images ID table.">
 			</cfif>
-			<cfquery name="updateMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateMedia">
+			<cfquery name="updateMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateMedia">
 				UPDATE media SET
 					media_uri = <cfqueryparam cfsqltype="CF_SQL_TIMESTAMP" value="#media_uri#">,
 					preview_uri = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#preview_uri#">,
@@ -1356,7 +1356,7 @@ limitations under the License.
 	<cfthread name="getEditOtherIDsThread">
 		<cfoutput>
 		<cftry>
-			<cfquery name="getIDs" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="getIDs" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				select 
 					coll_obj_other_id_num.COLL_OBJ_OTHER_ID_NUM_ID,
 					cataloged_item.cat_num,
@@ -1379,7 +1379,7 @@ limitations under the License.
 					cataloged_item.collection_object_id=coll_obj_other_id_num.collection_object_id (+) and 
 					cataloged_item.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
 			</cfquery>
-			<cfquery name="ctType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="ctType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				select other_id_type from ctcoll_other_id_type
 			</cfquery>
 			<cfquery name="cataf" dbtype="query">
@@ -1401,7 +1401,7 @@ limitations under the License.
 					other_id_suffix,
 					other_id_type
 			</cfquery>
-			<cfquery name="ctcoll_cde" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="ctcoll_cde" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				select 
 					institution_acronym,
 					collection_cde,
@@ -1650,7 +1650,7 @@ limitations under the License.
 					<cfset thisDisplayValue = #evaluate("display_value_" & n)#>
 					
 	
-						<cfquery name="updateOtherID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						<cfquery name="updateOtherID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							UPDATE coll_obj_other_id_num SET
 								other_id_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#thisOtherIdType#">,
 								other_id_prefix = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#thisOtherIdPrefix#">,
@@ -1687,7 +1687,7 @@ limitations under the License.
 	<cfthread name="getOtherIDsThread">
 		<cfoutput>
 			<cftry>
-				<cfquery name="oid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="oid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT
 					coll_obj_other_id_num.display_value
 					end display_value,
@@ -1753,7 +1753,7 @@ limitations under the License.
 	<cfthread name="getOtherIDs2Thread">
 		<cftry>
 			<cfoutput>
-				<cfquery name="oid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="oid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT
 					case when status = 1 and
 						concatencumbrances(coll_obj_other_id_num.collection_object_id) like '%mask original field number%' and
@@ -1820,7 +1820,7 @@ limitations under the License.
 	<cfargument name="coll_obj_other_id_num_id" type="string" required="yes">
 	<cfset r=1>
 	<cftry>
-		<cfquery name="theResult" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="theResult" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			select 1 as status, coll_obj_other_id_num_id, collection_object_id, other_id_type, other_id_prefix, other_id_number, display_name
 			from coll_obj_other_id_num
 			where coll_obj_other_id_num_id =<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#coll_obj_other_id_num_id#">
@@ -1855,7 +1855,7 @@ limitations under the License.
 	<cfset data = ArrayNew(1)>
 	<cftransaction>
 		<cftry>
-			<cfquery name="updateOtherIDCheck" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="newOtherIDCheck_result">
+			<cfquery name="updateOtherIDCheck" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="newOtherIDCheck_result">
 				SELECT count(*) as ct from coll_obj_other_id_num
 				WHERE
 					coll_obj_other_id_num_ID = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value='#coll_obj_other_id_num_id#'>
@@ -1863,7 +1863,7 @@ limitations under the License.
 			<cfif updateOtherIDCheck.ct NEQ 1>
 				<cfthrow message = "Unable to update other ID. Provided coll_obj_other_num_id does not match a record in the ID table.">
 			</cfif>
-			<cfquery name="updateOtherID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateOtherID">
+			<cfquery name="updateOtherID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateOtherID">
 				UPDATE coll_obj_other_id_num SET
 					coll_obj_other_id_num_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#coll_obj_other_id_num_id#">,
 					other_id_type = <cfqueryparam cfsqltype="CF_SQL_TIMESTAMP" value="#other_id_type#">,
@@ -1900,7 +1900,7 @@ limitations under the License.
 	<cfthread name="getEditCollectorsThread">
 		<cftry>
 			<cfoutput>
-				<cfquery name="getColls" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="getColls" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT 
 					agent_name, 
 					collector_role,
@@ -2053,22 +2053,22 @@ limitations under the License.
 	<cfargument name="collection_object_id" type="string" required="yes">
 	<cfthread name="getEditPartsThread">
 		<cftry>
-			<cfquery name="collcode" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="collcode" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				select collection_cde from cataloged_item where collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
 			</cfquery>
-			<cfquery name="ctDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="ctDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				select coll_obj_disposition from ctcoll_obj_disp order by coll_obj_disposition
 			</cfquery>
-			<cfquery name="ctModifiers" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="ctModifiers" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				select modifier from ctnumeric_modifiers order by modifier desc
 			</cfquery>
-			<cfquery name="ctPreserveMethod" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="ctPreserveMethod" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				select preserve_method
 				from ctspecimen_preserv_method
 				where collection_cde = '#collcode.collection_cde#'
 				order by preserve_method
 			</cfquery>
-			<cfquery name="rparts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="rparts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				select
 					specimen_part.collection_object_id part_id,
 					pc.label label,
@@ -2346,7 +2346,7 @@ limitations under the License.
 		<cfoutput>
 			<cftry>
 				<div id="citationsDialog">
-					<cfquery name="citations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					<cfquery name="citations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						SELECT
 							citation.type_status,
 							citation.occurs_page_number,
@@ -2369,23 +2369,23 @@ limitations under the License.
 						order by
 							substr(formatted_publication, - 4)
 					</cfquery>
-					<cfquery name="ctcollection" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					<cfquery name="ctcollection" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						select collection_id,collection from collection
 						order by collection
 					</cfquery>
-					<cfquery name="ctColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					<cfquery name="ctColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						select collection,collection_id from collection order by collection
 					</cfquery>
-					<cfquery name="ctTypeStatus" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					<cfquery name="ctTypeStatus" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						select type_status from ctcitation_type_status order by type_status
 					</cfquery>
-					<cfquery name="ctjournal_name" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					<cfquery name="ctjournal_name" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						select journal_name from ctjournal_name order by journal_name
 					</cfquery>
-					<cfquery name="ctpublication_type" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					<cfquery name="ctpublication_type" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						select publication_type from ctpublication_type order by publication_type
 					</cfquery>
-					<cfquery name="getCited" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					<cfquery name="getCited" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							SELECT
 								citation.publication_id,
 								citation.collection_object_id,
@@ -2429,7 +2429,7 @@ limitations under the License.
 							ORDER BY
 								occurs_page_number,cat_num
 						</cfquery>
-						<cfquery name="getpubs" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						<cfquery name="getpubs" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							select publication_id,formatted_publication from formatted_publication
 						</cfquery>
 					<section class="container-fluid">
@@ -2626,7 +2626,7 @@ limitations under the License.
 		<cfthread name="removeCitationThread"> 
 	<cftry>
 		<cftransaction>
-			<cfquery name="deleteCitation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="deleteCitation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				delete from citation
 				where
 				collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
@@ -2653,7 +2653,7 @@ limitations under the License.
 <cfset title="Manage Citations">
 <cfoutput>
 
-<cfquery name="getCited" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="getCited" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 	SELECT
 		citation.publication_id,
 		citation.collection_object_id,
@@ -2688,7 +2688,7 @@ limitations under the License.
 	ORDER BY
 		occurs_page_number,citSciName,cat_num
 </cfquery>
-<cfquery name="ctcollection" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="ctcollection" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 	select collection_id,collection from collection
 	order by collection
 </cfquery>
@@ -2874,7 +2874,7 @@ limitations under the License.
 <!------------------------------------------------------------------------------->
 <cfif #Action# is "newCitation">
 	<cfoutput>
-	<cfquery name="newCite" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cfquery name="newCite" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		INSERT INTO citation (
 			publication_id,
 			collection_object_id,
@@ -2924,7 +2924,7 @@ limitations under the License.
 <!------------------------------------------------------------------------------->
 <cfif #Action# is "saveEdits">
 	<cfoutput>
-	<cfquery name="edCit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cfquery name="edCit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		UPDATE citation SET
 			cit_current_fg = 1
 			<cfif len(#cited_taxon_name_id#) gt 0>
@@ -2967,7 +2967,7 @@ limitations under the License.
     <div style="width: 50em; margin: 0 auto; padding: 2em 0 3em 0;">
 <cfoutput>
 
-<cfquery name="getCited" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="getCited" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 	SELECT
 		citation.publication_id,
 		citation.collection_object_id,
@@ -3083,7 +3083,7 @@ limitations under the License.
 <!------------------------------------------------------------------------------->
 <cfif #Action# is "deleCitation">
 <cfoutput>
-	<cfquery name="deleCit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cfquery name="deleCit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 	delete from citation
 	where
 		collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
@@ -3106,7 +3106,7 @@ limitations under the License.
 	<cfoutput>
 	<cftry>
 		<cfif type is "cat_num">
-			<cfquery name="result" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="result" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				select
 					cataloged_item.COLLECTION_OBJECT_ID,
 					cataloged_item.cat_num,
@@ -3121,7 +3121,7 @@ limitations under the License.
 					collection_id=#collection_id#
 			</cfquery>
 		<cfelse>
-			<cfquery name="result" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="result" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				select
 					cataloged_item.COLLECTION_OBJECT_ID,
 					cataloged_item.cat_num,
@@ -3154,7 +3154,7 @@ limitations under the License.
 	<cfargument name="collection_object_id" type="string" required="yes">
 	<cfthread name="getEditAttributesThread"> <cfoutput>
 			<cftry>
-				<cfquery name="attribute1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="attribute1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT
 					attributes.attribute_type,
 					attributes.attribute_value,
@@ -3170,7 +3170,7 @@ limitations under the License.
 					attributes.determined_by_agent_id = attribute_determiner.agent_id and
 					attributes.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 			</cfquery>
-				<cfquery name="relns" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="relns" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT 
 					distinct biol_indiv_relationship, related_collection, related_coll_object_id, related_cat_num, biol_indiv_relation_remarks FROM (
 				SELECT
@@ -3247,7 +3247,7 @@ limitations under the License.
 									</cfif>
 								</cfloop>
 							</ul>
-							<cfquery name="code" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+							<cfquery name="code" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							select collection_cde from cataloged_item where collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL"> 
 						</cfquery>
 							<cfif #code.collection_cde# is "Mamm">
@@ -3463,7 +3463,7 @@ limitations under the License.
 						<cfset oneOfUs = 0>
 					</cfif>
 				</cfoutput>
-				<cfquery name="l" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="l" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					select distinct
 						collection_object_id,
 						collecting_event_id,
@@ -3534,7 +3534,7 @@ limitations under the License.
 					where
 						collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
 				</cfquery>
-				<cfquery name="g" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="g" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					select
 						GEOLOGY_ATTRIBUTE_ID,
 						GEOLOGY_ATTRIBUTE,
@@ -3559,40 +3559,40 @@ limitations under the License.
 						GEO_ATT_DETERMINED_METHOD,
 						GEO_ATT_REMARK
 				</cfquery>
-				<cfquery name="ctElevUnit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="ctElevUnit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					select orig_elev_units from ctorig_elev_units
 				</cfquery>
-				<cfquery name="ctdepthUnit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="ctdepthUnit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					select depth_units from ctdepth_units
 				</cfquery>
-				<cfquery name="ctdatum" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="ctdatum" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					select datum from ctdatum
 				</cfquery>
-				<cfquery name="ctGeorefMethod" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="ctGeorefMethod" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					select georefMethod from ctgeorefmethod
 				</cfquery>
-				<cfquery name="ctVerificationStatus" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="ctVerificationStatus" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					select VerificationStatus from ctVerificationStatus order by VerificationStatus
 				</cfquery>
-				<cfquery name="cterror" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="cterror" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					select LAT_LONG_ERROR_UNITS from ctLAT_LONG_ERROR_UNITS
 				</cfquery>
-				<cfquery name="ctew" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="ctew" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					select e_or_w from ctew
 				</cfquery>
-				<cfquery name="ctns" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="ctns" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					select n_or_s from ctns
 				</cfquery>
-				<cfquery name="ctunits" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="ctunits" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					select ORIG_LAT_LONG_UNITS from ctLAT_LONG_UNITS
 				</cfquery>
-				<cfquery name="ctcollecting_source" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="ctcollecting_source" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					select COLLECTING_SOURCE from ctcollecting_source
 				</cfquery>
-				<cfquery name="ctgeology_attribute" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="ctgeology_attribute" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					select geology_attribute from ctgeology_attribute order by ordinal
 				</cfquery>
-				<cfquery name="ctSovereignNation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#createtimespan(0,0,60,0)#">
+				<cfquery name="ctSovereignNation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" cachedwithin="#createtimespan(0,0,60,0)#">
 					select sovereign_nation from ctsovereign_nation order by sovereign_nation
 				</cfquery>
 				<cfquery name="cecount" datasource="uam_god">
@@ -3604,7 +3604,7 @@ limitations under the License.
 					left join collecting_event on ci.collecting_event_id = collecting_event.collecting_event_id
 					where collecting_event.locality_id = <cfqueryparam CFSQLTYPE="CF_SQL_VARCHAR" value = "#l.locality_id#">
 				</cfquery>
-				<cfquery name="getLoc" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="getLoc" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT
 						cataloged_item.collection_object_id as collection_object_id,
 						cataloged_item.cat_num,
@@ -4555,7 +4555,7 @@ function showLLFormat(orig_units) {
 	<cfargument name="collection_object_id" type="string" required="yes">
 	<cfthread name="getEditRelationsThread"> <cfoutput>
 			<cftry>
-				<cfquery name="relns" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="relns" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			SELECT 
 				distinct biol_indiv_relationship, related_collection, related_coll_object_id, related_cat_num, biol_indiv_relation_remarks FROM (
 			SELECT
@@ -4621,10 +4621,10 @@ function showLLFormat(orig_units) {
 						</div>
 					</div>
 				</cfif>
-				<cfquery name="ctReln" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="ctReln" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					select biol_indiv_relationship from ctbiol_relations
 				</cfquery>
-				<cfquery name="thisCollId" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="thisCollId" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					select collection from cataloged_item,collection where cataloged_item.collection_id=collection.collection_id and
 					collection_object_id=#collection_object_id#
 				</cfquery>
@@ -4649,7 +4649,7 @@ function showLLFormat(orig_units) {
 															<option value="#ctReln.biol_indiv_relationship#">#ctReln.biol_indiv_relationship#</option>
 														</cfloop>
 													</select>
-													<cfquery name="ctColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+													<cfquery name="ctColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 														select collection from collection 
 														group by collection order by collection
 													</cfquery>
@@ -4664,7 +4664,7 @@ function showLLFormat(orig_units) {
 														</cfloop>
 													</select>
 												</li>
-												<cfquery name="ctOtherIdType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+												<cfquery name="ctOtherIdType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 												select distinct(other_id_type) FROM ctColl_Other_Id_Type ORDER BY other_Id_Type
 												</cfquery>
 												<li class="list-group-item float-left col-12 col-md-3 px-1 py-2">
@@ -4732,7 +4732,7 @@ function showLLFormat(orig_units) {
 	<cfargument name="collection_object_id" type="string" required="yes">
 	<cfthread name="getEditTransactionsThread"> <cfoutput>
 			<cftry>
-				<cfquery name="getItems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="getItems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 	SELECT
 		cataloged_item.collection_object_id,
 		cataloged_item.cat_num,
@@ -4782,7 +4782,7 @@ function showLLFormat(orig_units) {
 					<cfelse>
 					<cfset oneOfUs = 0>
 				</cfif>
-				<cfquery name="one" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="one" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 	SELECT
 		cataloged_item.collection_object_id as collection_object_id,
 		cataloged_item.cat_num,
@@ -4891,7 +4891,7 @@ function showLLFormat(orig_units) {
 		cataloged_item.collection_object_id = specimen_part.derived_from_cat_item AND
 		cataloged_item.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 </cfquery>
-				<cfquery name="accnMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" >
+				<cfquery name="accnMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" >
 					SELECT 
 						media.media_id,
 						media.media_uri,
@@ -4997,7 +4997,7 @@ function showLLFormat(orig_units) {
 									</cfif>
 								</li>
 								<!--------------------  Project / Usage ------------------------------------>
-								<cfquery name="isProj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+								<cfquery name="isProj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 									SELECT 
 										project_name, project.project_id project_id 
 									FROM
@@ -5006,7 +5006,7 @@ function showLLFormat(orig_units) {
 										project_trans.transaction_id = <cfqueryparam value="#one.accn_id#" cfsqltype="CF_SQL_DECIMAL">
 									GROUP BY project_name, project.project_id
 								</cfquery>
-								<cfquery name="isLoan" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+								<cfquery name="isLoan" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 									SELECT 
 										project_name, project.project_id 
 									FROM 
@@ -5022,7 +5022,7 @@ function showLLFormat(orig_units) {
 									GROUP BY 
 										project_name, project.project_id
 								</cfquery>
-								<cfquery name="isLoanedItem" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+								<cfquery name="isLoanedItem" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 									SELECT 
 										loan_item.collection_object_id 
 									FROM 
@@ -5031,7 +5031,7 @@ function showLLFormat(orig_units) {
 										loan_item.collection_object_id=specimen_part.collection_object_id AND
 										specimen_part.derived_from_cat_item = <cfqueryparam value="#one.collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 								</cfquery>
-								<cfquery name="loanList" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+								<cfquery name="loanList" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 									SELECT 
 										distinct loan_number, loan_type, loan_status, loan.transaction_id 
 									FROM
@@ -5041,7 +5041,7 @@ function showLLFormat(orig_units) {
 										loan_number is not null AND
 										specimen_part.derived_from_cat_item = <cfqueryparam value="#one.collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 								</cfquery>
-								<cfquery name="isDeaccessionedItem" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+								<cfquery name="isDeaccessionedItem" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 									SELECT 
 										deacc_item.collection_object_id 
 									FROM
@@ -5049,7 +5049,7 @@ function showLLFormat(orig_units) {
 									WHERE
 										specimen_part.derived_from_cat_item = <cfqueryparam value="#one.collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 								</cfquery>
-								<cfquery name="deaccessionList" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+								<cfquery name="deaccessionList" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 									SELECT 
 										distinct deacc_number, deacc_type, deaccession.transaction_id 
 									FROM
@@ -5138,7 +5138,7 @@ function showLLFormat(orig_units) {
 		<cfoutput>
 			<cftry>
 				<!---- lookup cataloged item for collection object or part we are getting the condition history of ---->
-				<cfquery name="itemDetails" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="itemDetails" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT
 						'cataloged item' part_name,
 						cat_num,
@@ -5165,7 +5165,7 @@ function showLLFormat(orig_units) {
 				<div> <strong>Condition History of #itemDetails.collection# #itemDetails.cat_num# (<i>#itemDetails.scientific_name#</i>) #itemDetails.part_name# </strong> </div>
 				
 				<!--- lookup part history --->
-				<cfquery name="cond" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="cond" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT
 						object_condition_id,
 						determined_agent_id,
@@ -5224,7 +5224,7 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 	<cfset data = ArrayNew(1)>
 	<cftry>
 		<cfset rows = 0>
-		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
+		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="search_result">
 			SELECT
 				encumbrance_id, 
 				expiration_event, 
@@ -5277,7 +5277,7 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 	<cfthread name="getEncumbThread#tn#">
 		<cfoutput>
 			<cftry>
-					<cfquery name="getEncumbrances" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					<cfquery name="getEncumbrances" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						select 
 							collection_object_id,
 							encumbrance.encumbrance_id,
@@ -5336,7 +5336,7 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 	<cfset data = ArrayNew(1)>
 	<cftransaction>
 		<cftry>	
-			<cfquery name="removeFromEncumbrance" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="removeFromEncumbrance_result">
+			<cfquery name="removeFromEncumbrance" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="removeFromEncumbrance_result">
 				DELETE 
 				FROM coll_object_encumbrance
 				WHERE

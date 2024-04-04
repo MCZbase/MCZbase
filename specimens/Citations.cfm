@@ -5,7 +5,7 @@
 			<cftry>
 					<div id="citationsDialog">
 
-						<cfquery name="citations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						<cfquery name="citations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 								SELECT
 									citation.type_status,
 									citation.occurs_page_number,

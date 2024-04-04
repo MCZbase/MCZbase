@@ -43,7 +43,7 @@ libraries found in github.com/filteredpush/ repositories.
 	<cftry>
 		<cfswitch expression="#ucase(target)#">
 			<cfcase value="FLAT">
-				<cfquery name="queryrow" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="queryrow" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT guid as item_label, 
 						basisofrecord,
 						highergeographyid,
@@ -59,7 +59,7 @@ libraries found in github.com/filteredpush/ repositories.
 				</cfquery>
 			</cfcase>
 			<cfcase value="LOCALITY">
-				<cfquery name="queryrow" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="queryrow" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT distinct 
                   locality.locality_id as item_label,
                   '' as basisofrecord,
@@ -526,7 +526,7 @@ libraries found in github.com/filteredpush/ repositories.
 	<cfset result=structNew()> <!--- overall result to return --->
 
 	<cftry>
-		<cfquery name="queryrow" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="queryrow" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			SELECT scientific_name as item_label, 
 				kingdom, phylum, phylclass, phylorder, family, genus,
 				scientific_name, author_text,
@@ -666,7 +666,7 @@ libraries found in github.com/filteredpush/ repositories.
 	<cftry>
 		<cfswitch expression="#ucase(target)#">
 			<cfcase value="FLAT">
-				<cfquery name="queryrow" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="queryrow" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT guid as item_label, 
 						basisofrecord,
 						kingdom, phylum, phylclass, phylorder, '' as superfamily, family, subfamily, tribe, genus, '' as subgenus,
@@ -682,7 +682,7 @@ libraries found in github.com/filteredpush/ repositories.
 				</cfquery>
 			</cfcase>
 			<cfcase value="TAXONOMY">
-				<cfquery name="queryrow" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="queryrow" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT scientific_name as item_label, 
 						'' as basisofrecord,
 						kingdom, phylum, phylclass, phylorder, superfamily, family, subfamily, tribe, genus, subgenus,
@@ -1279,7 +1279,7 @@ libraries found in github.com/filteredpush/ repositories.
 	<cftry>
 		<cfswitch expression="#ucase(target)#">
 			<cfcase value="FLAT">
-				<cfquery name="flatrow" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="flatrow" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT guid as item_label,
 						basisofrecord,
 						began_date, ended_date, verbatim_date, day, month, year, 
@@ -1290,7 +1290,7 @@ libraries found in github.com/filteredpush/ repositories.
 				</cfquery>
 			</cfcase>
 			<cfcase value="COLLEVENT">
-				<cfquery name="flatrow" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="flatrow" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT collecting_event_id as item_label, 
 						'' as basisofrecord,
 						began_date, ended_date, verbatim_date, day, month, year, 

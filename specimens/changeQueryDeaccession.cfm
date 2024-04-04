@@ -12,19 +12,19 @@
 	<cfset action="entryPoint">
 </cfif>
 
-<cfquery name="ctcoll" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="ctcoll" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 	select collection, collection_id from collection order by collection
 </cfquery>
 
 <!--------------------------------------------------------------------------------->
 <cfswitch expression="#action#">
 	<cfcase value="entryPoint">
-		<cfquery name="ctDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="ctDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			SELECT coll_obj_disposition 
 			FROM ctcoll_obj_disp
 		</cfquery>
 <!--- TODO: Check if items are on loan and have a disposition on loan, if so, prevent deaccessioning. --->
-		<cfquery name="getItemCount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="getItemCount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			SELECT
 				count(cataloged_item.collection_object_id) ct,
 				count(specimen_part.collection_object_id) partct
@@ -35,7 +35,7 @@
 			WHERE
 				result_id=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
 		</cfquery>
-		<cfquery name="getDeaccessions" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="getDeaccessions" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			SELECT
 				count(cataloged_item.collection_object_id) ct,
 				deaccession.deacc_number,
@@ -54,7 +54,7 @@
 			GROUP BY deacc_number, trans_coll.collection, nvl(to_char(trans.trans_date,'YYYY'),'[no date]')
 			ORDER BY deacc_number
 		</cfquery>
-		<cfquery name="getItems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="getItems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			SELECT
 				cataloged_item.collection_object_id,
 				cataloged_item.collection_cde,
@@ -198,7 +198,7 @@
 		</cfif>
 		<cftransaction>
 			<cftry>
-				<cfquery name="countCheck" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="countCheck" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT count(distinct collection_object_id) ct
 					FROM user_search_table
 					WHERE
@@ -207,7 +207,7 @@
 				<cfif countCheck.ct EQ 0>
 					<cfthrow message="No records to update identified by result_id=#encodeForHtml(result_id)#">
 				</cfif>
-				<cfquery name="getDeacc" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="getDeacc" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT deaccession.TRANSACTION_ID
 					FROM deaccession
 						LEFT JOIN trans on deaccession.TRANSACTION_ID=trans.TRANSACTION_ID
@@ -217,7 +217,7 @@
 				</cfquery>
 				<cfif getDeacc.recordcount is 1>
 					<cfset targetDeaccession = getDeacc.transaction_id>
-					<cfquery name="getParts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					<cfquery name="getParts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						SELECT specimen_part.collection_object_id 
 						FROM user_search_table
 							join specimen_part on user_search_table.collection_object_id = specimen_part.derived_from_cat_item
@@ -231,7 +231,7 @@
 					</cfquery>
 					<cfset insertCounter = 0>
 					<cfloop query="getParts">
-						<cfquery name="addToDeacc" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="addToDeacc_result">
+						<cfquery name="addToDeacc" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="addToDeacc_result">
 							INSERT INTO deacc_item (
 								transaction_id
 								,collection_object_id
@@ -247,7 +247,7 @@
 							)
 						</cfquery>
 						<cfif isDefined("coll_obj_disposition") AND len(coll_obj_disposition) GT 0>
-							<cfquery name="upDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+							<cfquery name="upDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 								UPDATE coll_object 
 								SET coll_obj_disposition = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#coll_obj_disposition#">
 								WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getParts.collection_object_id#">

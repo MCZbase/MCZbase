@@ -3,7 +3,7 @@
 <cfoutput>
      <div style="width: 60em; margin:0 auto;padding: 1em 0 5em 0;">
 <cfif not listfindnocase(cgi.REDIRECT_URL,"project","/")>
-	<cfquery name="redir" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cfquery name="redir" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		select project_name 
 		from project 
 		where project_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#project_id#">
@@ -11,7 +11,7 @@
 	<cfheader statuscode="301" statustext="Moved permanently">
 	<cfheader name="Location" value="/project/#niceURL(redir.project_name)#">
 <cfelse>
-	<cfquery name="redir" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cfquery name="redir" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		select project_id
 		from project 
 		where niceURL(project_name)=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#niceProjName#">
@@ -58,7 +58,7 @@
 		}
 	});
 </script>	
-	<cfquery name="proj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cfquery name="proj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		SELECT 
 			project.project_id,
 			project_name,
@@ -125,7 +125,7 @@
 	</cfquery>
 	<span class="annotateSpace">
 		<cfif len(session.username) gt 0>
-			<cfquery name="existingAnnotations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="existingAnnotations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				select count(*) cnt from annotations
 				where project_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#project_id#">
 			</cfquery>

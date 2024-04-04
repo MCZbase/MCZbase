@@ -60,13 +60,13 @@ limitations under the License.
 	<cfset defaultenablebrowserselection = "false">
 </cfif>	
 
-<cfquery name="ctPermitType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" timeout="#Application.short_timeout#">
+<cfquery name="ctPermitType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.short_timeout#">
 	select ct.permit_type, count(p.permit_id) uses
 		from ctpermit_type ct left join permit p on ct.permit_type = p.permit_type
 		group by ct.permit_type
 		order by ct.permit_type
 </cfquery>
-<cfquery name="ctSpecificPermitType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" timeout="#Application.short_timeout#">
+<cfquery name="ctSpecificPermitType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.short_timeout#">
 	select ct.specific_type, ct.permit_type, count(p.permit_id) uses from 
 		ctspecific_permit_type ct left join permit p on ct.specific_type = p.specific_type
 		group by ct.specific_type, ct.permit_type
@@ -78,7 +78,7 @@ limitations under the License.
 		<div id="overlaycontainer" style="position: relative;">
 			<main id="content">
 				<cfif isdefined("permit_id") and len(permit_id) GT 0>
-					<cfquery name="lookupPermit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="lookupPermit_result">
+					<cfquery name="lookupPermit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="lookupPermit_result">
 						SELECT permit_title, permit_number, permit_type, specific_type
 						FROM permit
 						WHERE permit_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="permit_id">
@@ -848,7 +848,7 @@ limitations under the License.
 					<cfthrow message="No permit_id provided to delete">
 				</cfif>
 				<!--- FK constraints will prevent deletion of a permit if a parent permit has children or a permit is in a permit_trans or permit_shipment relationship --->
-				<cfquery name="deletePermit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="deletePermit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					DELETE FROM permit 
 					WHERE permit_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#permit_id#">
 				</cfquery>
@@ -881,7 +881,7 @@ limitations under the License.
 		<cfif not isdefined("permit_id") OR len(#permit_id#) is 0>
 			<cfthrow message="Error: Unable to edit a permissions and rights document without a permit_id">
 		</cfif>
-		<cfquery name="permitInfo" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="permitInfo" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			select distinct
 				permit.permit_id,
 				issuedBy.agent_name as IssuedByAgent,
@@ -1208,7 +1208,7 @@ limitations under the License.
 						jQuery(document).ready(loadPermitRelatedMedia(#permit_id#));
 					</script>
 					<section name="associatedMediaSection" class="mx-0 pb-2 bg-light row border rounded mt-2">
-						<cfquery name="permituse" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						<cfquery name="permituse" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							select 'accession' as ontype, accn_number as tnumber, accn_type as ttype, trans.transaction_type, trans.trans_date, collection.guid_prefix,
 								concat('/transactions/Accession.cfm?Action=edit&transaction_id=',trans.transaction_id) as uri
 							from permit_trans left join trans on permit_trans.transaction_id = trans.transaction_id
@@ -1307,7 +1307,7 @@ limitations under the License.
 		<cfif not isdefined("permit_id") OR len(#permit_id#) is 0>
 			<cfthrow message="Error: Unable to view a permissions and rights document without a permit_id">
 		</cfif>
-		<cfquery name="permitInfo" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="permitInfo" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			select distinct
 				permit.permit_id,
 				issuedBy.agent_name as IssuedByAgent,
@@ -1494,7 +1494,7 @@ limitations under the License.
 						jQuery(document).ready(loadPermitRelatedMedia(#permit_id#));
 					</script>
 					<section name="associatedMediaSection" class="mx-0 pb-2 bg-light row border rounded mt-2">
-						<cfquery name="permituse" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						<cfquery name="permituse" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							select 'accession' as ontype, accn_number as tnumber, accn_type as ttype, trans.transaction_type, trans.trans_date, collection.guid_prefix,
 								concat('/transactions/Accession.cfm?Action=edit&transaction_id=',trans.transaction_id) as uri
 							from permit_trans left join trans on permit_trans.transaction_id = trans.transaction_id
@@ -1604,13 +1604,13 @@ limitations under the License.
 				Error: You didn't select an issued to agent. 
 				<cfset hasError = 1 >
 			</cfif>
-			<cfquery name="ptype" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="ptype" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				select permit_type 
 				from ctspecific_permit_type 
 				where specific_type = <cfqueryparam CFSQLTYPE="CF_SQL_VARCHAR" value="#specific_type#">
 			</cfquery>
 			<cfset permit_type = #ptype.permit_type#>
-			<cfquery name="nextPermit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="nextPermit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				select sq_permit_id.nextval nextPermit from dual
 			</cfquery>
 			<cfif isdefined("specific_type") and len(#specific_type#) is 0 and ( not isdefined("permit_type") OR len(#permit_type#) is 0 )>
@@ -1620,7 +1620,7 @@ limitations under the License.
 			<cfif hasError eq 1>
 				<cfabort>
 			</cfif>
-			<cfquery name="newPermit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="newPermitResult">
+			<cfquery name="newPermit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="newPermitResult">
 				INSERT INTO permit (
 					PERMIT_ID,
 					ISSUED_BY_AGENT_ID
@@ -1708,7 +1708,7 @@ limitations under the License.
  		</cfif>
 	 	<cfoutput>
 			<main id="content">
-				<cfquery name="permitInfo" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="permitInfo" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					select permit.permit_id,
 					issuedBy.agent_name as IssuedByAgent,
 					issuedTo.agent_name as IssuedToAgent,
@@ -1756,7 +1756,7 @@ limitations under the License.
 						</div>
 					</cfloop>
 					<!--- NOTE: This query is duplicated in the backing method used to populate the jqx grid --->
-					<cfquery name="permituse" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					<cfquery name="permituse" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						select 'accession' as ontype, accn_number as tnumber, accn_type as ttype, trans.transaction_type, trans.trans_date, collection.guid_prefix,
 							concat('/transactions/Accession.cfm?action=edit&transaction_id=',trans.transaction_id) as uri,
 							locality.sovereign_nation,
@@ -2215,7 +2215,7 @@ limitations under the License.
 					</div>
 				</section>
 				<section class="container-fluid">
-					<cfquery name="permitsalvagereport" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					<cfquery name="permitsalvagereport" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						select
 							count(cataloged_item.collection_object_id) as cat_count,
 							sum(coll_object.lot_count) as spec_count,

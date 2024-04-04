@@ -22,7 +22,7 @@
 		<cfif isdefined("colln") and len(colln) gt 0>
 			<cfset sql = "#sql# AND institution_acronym || ':' || collection_cde IN (#colln#)">
 		</cfif>
-		<cfquery name="upBulk" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="upBulk" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			#preservesinglequotes(sql)#
 		</cfquery>
 		<cflocation url="browseBulkDatashot.cfm?action=#returnAction#&enteredby=#enteredby#&accn=#accn#&colln=#colln#" addtoken="false" >
@@ -43,11 +43,11 @@
 		<cfif isdefined("colln") and len(colln) gt 0>
 			<cfset sql = "#sql# AND institution_acronym || ':' || collection_cde IN (#colln#)">
 		</cfif>
-		<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			#preservesinglequotes(sql)#	
 		</cfquery>
 		<cfset variables.encoding="UTF-8">
-		<cfset fname = "BulkPendingData_#cfid#_#cookie.cftoken#.csv">
+		<cfset fname = "BulkPendingData_#cookie.cfid#_#cookie.cftoken#.csv">
 		<cfset variables.fileName="#Application.webDirectory#/download/#fname#">
 		<cfset header=#trim(valuelist(cNames.column_name))#>
 		<cfscript>
@@ -130,7 +130,7 @@
 	<cfoutput>
 		<cf_setDataEntryGroups>
 		<cfset delimitedAdminForGroups=ListQualify(adminForUsers, "'")>
-		<cfquery name="ctAccn" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="ctAccn" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			select 
 				accn 
 			from 
@@ -141,7 +141,7 @@
 				accn 
 			order by accn
 		</cfquery>
-		<cfquery name="ctColln" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="ctColln" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			select 
 				institution_acronym || ':' || collection_cde colln 
 			from 
@@ -287,7 +287,7 @@
 				<cfset sql = "#sql# #f# and #t# ">
 			</cfif>	 
 		</cfif>
-		<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			#preservesinglequotes(sql)#	
 		</cfquery>
 		<cfset rUrl="browseBulkDatashot.cfm?action=sqlTab&enteredby=#enteredby#">
@@ -365,7 +365,7 @@
 		</cfif>		 
 	</cfif>
 	<cfset sql="#sql# and rownum<600">
-	<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		#preservesinglequotes(sql)#	
 	</cfquery>
 	<cfquery name="cNames" datasource="uam_god">
@@ -598,7 +598,7 @@
 	</cfloop>
 	
 		<cfset sql ="#sql# WHERE collection_object_id = #thisCollObjId#">
-	<cfquery name="up" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cfquery name="up" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		#preservesinglequotes(sql)#
 	</cfquery>
 </cfloop>
@@ -631,7 +631,7 @@
 		
 		<cfabort>
 		--->
-		<cfquery name="upBulk" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="upBulk" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			#preservesinglequotes(sql)#
 		</cfquery>
 	</cfif>
@@ -663,7 +663,7 @@
 	<cfif isdefined("colln") and len(colln) gt 0>
 		<cfset sql = "#sql# AND institution_acronym || ':' || collection_cde IN (#colln#)">
 	</cfif>
-<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 	#preservesinglequotes(sql)#	
 </cfquery>
 <cfquery name="cNames" datasource="uam_god">

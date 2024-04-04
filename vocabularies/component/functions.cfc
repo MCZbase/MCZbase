@@ -42,7 +42,7 @@ Update an existing collecting event number series record.
 		<cfif len(trim(#number_series#)) EQ 0>
 			<cfthrow type="Application" message="Number Series must contain a value.">
 		</cfif>
-		<cfquery name="save" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="save" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			update coll_event_num_series set
 				number_series = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#number_series#">
 				<cfif isdefined("pattern")>
@@ -85,7 +85,7 @@ Function getNumSeriesList.  Search for collector number series returning json su
 	<cfset data = ArrayNew(1)>
 	<cftry>
 		<cfset rows = 0>
-		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
+		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="search_result">
 			SELECT 
 				coll_event_number_series_id, number_series, pattern, remarks,
 				collector_agent_id, 
@@ -139,7 +139,7 @@ Function addGeologicalAttribute add a record to the geology_attribute_heirarchy 
 	<cfset theResult=queryNew("status, message")>
 	<cftransaction>
 		<cftry>
-			<cfquery name="check" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="check" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT count(*) ct 
 				FROM geology_attribute_hierarchy
 				WHERE
@@ -152,7 +152,7 @@ Function addGeologicalAttribute add a record to the geology_attribute_heirarchy 
 					<cfthrow message="Unable to insert. A geological attribute of type=[#encodeForHTML(attribute)#] and value=[#encodeForHTML(attribute_value)#] already exists.">
 				</cfif>
 			</cfloop>
-			<cfquery name="addGeog" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="addGeog_result">
+			<cfquery name="addGeog" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="addGeog_result">
 				insert into geology_attribute_hierarchy 
 					(attribute,
 					attribute_value,
@@ -208,7 +208,7 @@ Function updateGeologicalAttribute update a record in the geology_attribute_heir
 			</cfif>
 			<cfif len(attribute) GT 0>
 				<!--- Prevent duplication of an existing attribute --->
-				<cfquery name="check" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="check" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT count(*) ct 
 					FROM geology_attribute_hierarchy
 					WHERE
@@ -224,7 +224,7 @@ Function updateGeologicalAttribute update a record in the geology_attribute_heir
 					</cfif>
 				</cfloop>
 			</cfif>
-			<cfquery name="updateGeog" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateGeog_result">
+			<cfquery name="updateGeog" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateGeog_result">
 				UPDATE geology_attribute_hierarchy 
 				SET
 					<cfif len(attribute) GT 0>
@@ -239,7 +239,7 @@ Function updateGeologicalAttribute update a record in the geology_attribute_heir
 					geology_attribute_hierarchy_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#geology_attribute_hierarchy_id#">
 			</cfquery>
 			<cfif updateGeog_result.recordcount eq 1>
-				<cfquery name="reportGeog" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="reportGeog_result">
+				<cfquery name="reportGeog" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="reportGeog_result">
 					SELECT attribute, attribute_value 
 					FROM 
 						geology_attribute_hierarchy
@@ -277,7 +277,7 @@ Function updateGeologicalAttribute update a record in the geology_attribute_heir
 	<cfset theResult=queryNew("status, message")>
 	<cftransaction>
 		<cftry>
-			<cfquery name="removeLink" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="removeLink_result">
+			<cfquery name="removeLink" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="removeLink_result">
 				UPDATE geology_attribute_hierarchy 
 				SET parent_id = NULL 
 				WHERE 
@@ -318,7 +318,7 @@ Function updateGeologicalAttribute update a record in the geology_attribute_heir
 	<cftransaction>
 		<cftry>
 			<!--- confirm that both nodes exist --->
-			<cfquery name="toMerge" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="toMergeLink_result">
+			<cfquery name="toMerge" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="toMergeLink_result">
 				SELECT
 					attribute_value, attribute, usable_value_fg
 				FROM 
@@ -329,7 +329,7 @@ Function updateGeologicalAttribute update a record in the geology_attribute_heir
 			<cfif toMerge.recordcount NEQ 1>
 				<cfthrow message="Node to merge not found.">
 			</cfif>
-			<cfquery name="mergeInto" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="mergeIntoLink_result">
+			<cfquery name="mergeInto" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="mergeIntoLink_result">
 				SELECT
 					attribute_value, attribute, usable_value_fg
 				FROM 
@@ -344,21 +344,21 @@ Function updateGeologicalAttribute update a record in the geology_attribute_heir
 				<cfthrow message="A node which is valid for data entry can not be merged into a node which is not valid for data entry.">
 			</cfif>
 			<!--- unlink the node to be removed from its parent --->
-			<cfquery name="removeLink" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="removeLink_result">
+			<cfquery name="removeLink" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="removeLink_result">
 				UPDATE geology_attribute_hierarchy 
 				SET parent_id = NULL 
 				WHERE 
 					geology_attribute_hierarchy_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#nodeToMerge#">
 			</cfquery>
 			<!--- move any child nodes of the node to be merged to be children of the merge target --->
-			<cfquery name="updateLinks" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateLinks_result">
+			<cfquery name="updateLinks" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateLinks_result">
 				UPDATE geology_attribute_hierarchy 
 				SET parent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#mergeTarget#">
 				WHERE 
 					parent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#nodeToMerge#">
 			</cfquery>
 			<!--- move all geology_attributes to the merge target --->
-			<cfquery name="updateAttributes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateAttributes_result">
+			<cfquery name="updateAttributes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateAttributes_result">
 				UPDATE geology_attributes
 				SET
 					geology_attribute = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#mergeInto.attribute#">,
@@ -369,7 +369,7 @@ Function updateGeologicalAttribute update a record in the geology_attribute_heir
 					geo_att_value = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#toMerge.attribute_value#">
 			</cfquery>
 			<!--- merge complete, remove the merged node from the tree --->
-			<cfquery name="removeNode" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="removeNode_result">
+			<cfquery name="removeNode" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="removeNode_result">
 				DELETE FROM geology_attribute_hierarchy 
 				WHERE 
 					geology_attribute_hierarchy_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#nodeToMerge#">
@@ -409,7 +409,7 @@ Function updateGeologicalAttribute update a record in the geology_attribute_heir
 				<cfthrow message="Unable to link a node to itself.">
 			</cfif>
 			<!--- Check to make sure that the parent and child attributes are of the same type --->
-			<cfquery name="checkLink" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="checkLink" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT count(distinct type) ct FROM (
 					SELECT type
 					FROM
@@ -431,7 +431,7 @@ Function updateGeologicalAttribute update a record in the geology_attribute_heir
 					<cfthrow message="Unable to link. The Parent and Child attributes must be of the same type (e.g. a lithologic attribute can't be a parent of a chronostratigraphic attribute).">
 				</cfif>
 			</cfloop>
-			<cfquery name="checkCycle" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="checkCycle" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT count(*) ct FROM (
 					SELECT
 						geology_attribute_hierarchy_id
@@ -450,14 +450,14 @@ Function updateGeologicalAttribute update a record in the geology_attribute_heir
 				</cfif>
 			</cfloop>
 
-			<cfquery name="changeLink" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="changeLink_result">
+			<cfquery name="changeLink" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="changeLink_result">
 				UPDATE geology_attribute_hierarchy 
 				SET parent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#parent#">
 				WHERE 
 					geology_attribute_hierarchy_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#child#">
 			</cfquery>
 			<cfif changeLink_result.recordcount eq 1>
-				<cfquery name="getNames" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getNames_result">
+				<cfquery name="getNames" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getNames_result">
 					SELECT p.attribute patt, p.attribute_value pattval, c.attribute catt, c.attribute_value cattval
 					FROM
 						geology_attribute_hierarchy c
@@ -493,7 +493,7 @@ Function updateGeologicalAttribute update a record in the geology_attribute_heir
 	<cfargument name="type" type="string" required="no">
 
 	<cfthread name="geoAddThread">
-		<cfquery name="ctgeology_attribute"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="ctgeology_attribute"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			SELECT geology_attribute, type, description 
 			FROM ctgeology_attribute
 			<cfif isdefined("type") AND len(type) GT 0 AND type NEQ 'all'>
@@ -560,7 +560,7 @@ Function updateGeologicalAttribute update a record in the geology_attribute_heir
 <!--- Obtain html for a geological tree navigation control. --->
 <cffunction name="getGeologyNavigationHtml" returntype="string" access="remote" returnformat="plain">
 	<cfthread name="geoNavThread">
-		<cfquery name="types"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="types_result">
+		<cfquery name="types"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="types_result">
 			SELECT distinct type 
 			FROM ctgeology_attribute
 		</cfquery>
@@ -605,7 +605,7 @@ Function updateGeologicalAttribute update a record in the geology_attribute_heir
 		<cfif NOT isDefined("type") OR len(type) EQ 0>
 			<cfset type = "all">
 		</cfif>
-		<cfquery name="terms"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="terms"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			select geology_attribute_hierarchy_id,
 				attribute_value,
 				attribute,
@@ -682,7 +682,7 @@ Function updateGeologicalAttribute update a record in the geology_attribute_heir
 		<cfif NOT isDefined("type") OR len(type) EQ 0>
 			<cfset type = "all">
 		</cfif>
-		<cfquery name="cData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="cData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			SELECT  
 				level,
 				geology_attribute_hierarchy_id,
@@ -711,7 +711,7 @@ Function updateGeologicalAttribute update a record in the geology_attribute_heir
 			<div>Values in red are not available for data entry but may be used in searches</div>
 			<cfset levelList = "">
 			<cfloop query="cData">
-				<cfquery name="locCount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="locCount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT count(locality_id) ct
 					FROM geology_attributes
 					WHERE
@@ -766,7 +766,7 @@ Function updateGeologicalAttribute update a record in the geology_attribute_heir
 	<cfthread name="listNodeInGeoTreeThread">
 		<cfoutput>
 			<!--- lookup path from root to specified node, leaving out the specified node --->
-			<cfquery name="parents" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="parents_result">
+			<cfquery name="parents" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="parents_result">
 				SELECT * FROM (
 					SELECT 
 						level as parentagelevel,
@@ -800,7 +800,7 @@ Function updateGeologicalAttribute update a record in the geology_attribute_heir
 					</li>
 			</cfloop>
 			<!--- look up the tree from the current node down to all included leaves, including the current node --->
-			<cfquery name="children" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="children_result">
+			<cfquery name="children" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="children_result">
 				SELECT
 					level,
 					geology_attribute_hierarchy_id,
@@ -893,7 +893,7 @@ Function updateGeologicalAttribute update a record in the geology_attribute_heir
 	<cfthread name="listNodePathInGeoTreeThread">
 		<cfoutput>
 			<!--- lookup path from root to specified node, leaving out the specified node --->
-			<cfquery name="parents" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="parents_result">
+			<cfquery name="parents" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="parents_result">
 				SELECT * FROM (
 					SELECT 
 						level as parentagelevel,

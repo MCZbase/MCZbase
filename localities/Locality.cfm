@@ -220,7 +220,7 @@ limitations under the License.
 							<cfset media = getLocalityMediaHtml(locality_id="#locality_id#")>
 							<div id="mediaDiv" class="row">#media#</div>
 							<div id="addMediaDiv">
-								<cfquery name="relations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+								<cfquery name="relations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 									SELECT media_relationship as relation 
 									FROM ctmedia_relationship 
 									WHERE media_relationship like '% locality'
@@ -258,7 +258,7 @@ limitations under the License.
 		<cfoutput>
 			<cfset extra = "">
 			<cfif isDefined("geog_auth_rec_id") AND len(geog_auth_rec_id) GT 0 AND NOT (isDefined("clone_from_locality_id") and len(clone_from_locality_id) GT 0)>
-				<cfquery name="lookupHigherGeog" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="lookupHigherGeog" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT higher_geog
 					FROM geog_auth_rec
 					WHERE 
@@ -294,10 +294,10 @@ limitations under the License.
 			<cfset cloneCoords = "no">
 		</cfif>
 		<cftransaction>
-			<cfquery name="nextLoc" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="nextLoc" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				select sq_locality_id.nextval nextLoc from dual
 			</cfquery>
-			<cfquery name="newLocality" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="newLocality" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				INSERT INTO locality (
 					LOCALITY_ID,
 					GEOG_AUTH_REC_ID
@@ -422,7 +422,7 @@ limitations under the License.
 					0 )
 			</cfquery>
 			<cfif #cloneCoords# is "yes">
-				<cfquery name="cloneCoordinates" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="cloneCoordinates" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT * 
 					FROM
 						 lat_long
@@ -432,7 +432,7 @@ limitations under the License.
 						accepted_lat_long_fg = 1
 				</cfquery>
 				<cfloop query="cloneCoordinates">
-					<cfquery name="newLL" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					<cfquery name="newLL" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						INSERT INTO lat_long (
 							LAT_LONG_ID,
 							LOCALITY_ID
@@ -647,7 +647,7 @@ limitations under the License.
 				<cfif countUses.total_uses GT 0>
 					<cfthrow message="Unable to delete. Locality has collecting events or media.">
 				</cfif>
-				<cfquery name="delete" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="delete_result">
+				<cfquery name="delete" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="delete_result">
 						DELETE FROM locality
 						WHERE
 							locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">

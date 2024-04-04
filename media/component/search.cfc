@@ -75,7 +75,7 @@ limitations under the License.
 		<cfthrow message = "Media ID must be an integer.  Provided value [#encodeForHtml(media_id)#] is not numeric.">
 	</cfif>
 	<cfif (isdefined("related_cataloged_item") AND len(#related_cataloged_item#) gt 0) AND related_cataloged_item NEQ 'NOT NULL' >
-		<cfquery name="guidSearch" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="guidSearch_result">
+		<cfquery name="guidSearch" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="guidSearch_result">
 			select collection_object_id as cat_item_coll_obj_id 
 			from 
 				<cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
@@ -133,7 +133,7 @@ limitations under the License.
 	<cfif isdefined("media_relationship_id") AND isdefined("media_relationship_type") and isdefined("media_relationship_value")>
 		<!--- support search from media cell renderer on specimen search for non-logged in users ---> 
 		<cfif media_relationship_id EQ "undefined" AND media_relationship_type EQ "ANY cataloged_item">
-			<cfquery name="lookup_collobject_id" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="lookup_result">
+			<cfquery name="lookup_collobject_id" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="lookup_result">
 				SELECT distinct collection_object_id 
 				FROM 	
 					<cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif>
@@ -148,7 +148,7 @@ limitations under the License.
 	<cfif isdefined("media_relationship_id_1") AND isdefined("media_relationship_type_1") and isdefined("media_relationship_value_1")>
 		<!--- support search from media cell renderer on specimen search for non-logged in users ---> 
 		<cfif media_relationship_id_1 EQ "undefined" AND media_relationship_type_1 EQ "ANY cataloged_item">
-			<cfquery name="lookup_collobject_id" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="lookup_result">
+			<cfquery name="lookup_collobject_id" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="lookup_result">
 				SELECT distinct collection_object_id 
 				FROM 	
 					<cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif>
@@ -163,7 +163,7 @@ limitations under the License.
 
 	<cfset data = ArrayNew(1)>
 	<cftry>
-		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result" timeout="#Application.query_timeout#">
+		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="search_result" timeout="#Application.query_timeout#">
 			SELECT distinct
 				media.media_id as media_id,
 				media_type, mime_type, 
@@ -783,7 +783,7 @@ limitations under the License.
 	<cfset data = ArrayNew(1)>
 	<cftry>
 		<cfset rows = 0>
-		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result" timeout="#Application.query_timeout#">
+		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="search_result" timeout="#Application.query_timeout#">
 			select 
 				count(*) ct,
 				label_value
@@ -829,7 +829,7 @@ limitations under the License.
 			</cfif>
 		</cfif>
 		<cfset rows = 0>
-		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result" timeout="#Application.query_timeout#">
+		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="search_result" timeout="#Application.query_timeout#">
 			select 
 				count(*) ct,
 				label_value
@@ -869,7 +869,7 @@ limitations under the License.
 
 	<cftry>
 		<cfset rows = 0>
-		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result" timeout="#Application.query_timeout#">
+		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="search_result" timeout="#Application.query_timeout#">
 			SELECT DISTINCT
 				media_label
 			FROM
@@ -906,7 +906,7 @@ limitations under the License.
 
 	<cftry>
 		<cfset rows = 0>
-		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result" timeout="#Application.query_timeout#">
+		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="search_result" timeout="#Application.query_timeout#">
 			select 
 				count(*) ct,
 				auto_host
@@ -946,7 +946,7 @@ limitations under the License.
 
 	<cftry>
 		<cfset rows = 0>
-		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result" timeout="#Application.query_timeout#">
+		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="search_result" timeout="#Application.query_timeout#">
 			select 
 				count(*) ct,
 				auto_path
@@ -986,7 +986,7 @@ limitations under the License.
 
 	<cftry>
 		<cfset rows = 0>
-		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result" timeout="#Application.query_timeout#">
+		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="search_result" timeout="#Application.query_timeout#">
 			select 
 				count(*) ct,
 				auto_filename
@@ -1029,7 +1029,7 @@ limitations under the License.
 
 	<cftry>
 		<cfset rows = 0>
-		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result" timeout="#Application.query_timeout#">
+		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="search_result" timeout="#Application.query_timeout#">
 			select distinct 
 				media.media_id,
 				auto_filename
@@ -1091,7 +1091,7 @@ limitations under the License.
 <cfthread name="getMediaRelationsHtmlThread">
 	<cftry>
 		<cfoutput>
-			<cfquery name="getRelationships1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" timeout="#Application.query_timeout#">
+			<cfquery name="getRelationships1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
 				SELECT 
 					media_relationship, media_id, media_relations_id, related_primary_key
 				FROM
@@ -1099,19 +1099,19 @@ limitations under the License.
 				WHERE media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 				
 			</cfquery>
-			<cfquery name="ctmedia_relationship" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#createtimespan(0,0,60,0)#">
+			<cfquery name="ctmedia_relationship" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" cachedwithin="#createtimespan(0,0,60,0)#">
 				select media_relationship from ctmedia_relationship order by media_relationship
 			</cfquery>
-			<cfquery name="ctmedia_label" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#createtimespan(0,0,60,0)#">
+			<cfquery name="ctmedia_label" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" cachedwithin="#createtimespan(0,0,60,0)#">
 				select media_label from ctmedia_label order by media_label
 			</cfquery>
-			<cfquery name="ctmedia_type" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#createtimespan(0,0,60,0)#">
+			<cfquery name="ctmedia_type" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" cachedwithin="#createtimespan(0,0,60,0)#">
 				select media_type from ctmedia_type order by media_type
 			</cfquery>
-			<cfquery name="ctmime_type" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#createtimespan(0,0,60,0)#">
+			<cfquery name="ctmime_type" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" cachedwithin="#createtimespan(0,0,60,0)#">
 				select mime_type from ctmime_type order by mime_type
 			</cfquery>
-			<cfquery name="ctmedia_license" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="ctmedia_license" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				select media_license_id,display media_license from ctmedia_license order by media_license_id
 			</cfquery>
 				
@@ -1198,7 +1198,7 @@ limitations under the License.
 	<cfset data = ArrayNew(1)>
 	<cftransaction>
 		<cftry>
-			<cfquery name="makeMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="makeMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				update media_relations set
 				media_relationship=<cfqueryparam cfsqltype="cf_sql_varchar" value="#media_relationship#" /> ,
 				related_primary_key=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#related_primary_key#" /> ,
@@ -1224,7 +1224,7 @@ limitations under the License.
 					<cfset thisRelationID=-1>
 				</cfif>
 				<cfif thisRelationID is -1>
-					<cfquery name="makeRelation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					<cfquery name="makeRelation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						insert into media_relations (
 							media_id,media_relationship,related_primary_key
 						) values (
@@ -1275,7 +1275,7 @@ limitations under the License.
 	<cfthread name="getLabelsThread">
 		<cftry>
 			<cfoutput>
-				<cfquery name="getLabels"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" timeout="#Application.query_timeout#"> 
+				<cfquery name="getLabels"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#"> 
 					select
 						media_label,
 						label_value,
@@ -1422,7 +1422,7 @@ getCounterHtml returns a block of html displaying information from the cf_hellow
 	<cfthread name="getCounterThread">
 		<cftry>
 			<cfoutput>
-				<cfquery name="getCounter" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" >
+				<cfquery name="getCounter" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" >
 					SELECT 
 						text, counter, helloworld_id
 					FROM
@@ -1471,13 +1471,13 @@ getCounterHtml returns a block of html displaying information from the cf_hellow
 	<cfset data = ArrayNew(1)>
 	<cftransaction>
 		<cftry>
-			<cfquery name="setCounter" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="setCounter" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				UPDATE 
 					MCZBASE.cf_helloworld
 				SET
 					counter = counter + 1 
 			</cfquery>
-			<cfquery name="getCounter" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="getCounter" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT 
 					text, counter 
 				FROM
@@ -1519,7 +1519,7 @@ getCounterHtml returns a block of html displaying information from the cf_hellow
 	<cfset data = ArrayNew(1)>
 	<cftransaction>
 		<cftry>
-			<cfquery name="setCounter" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="setCounter" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				UPDATE 
 					MCZBASE.cf_helloworld
 				SET
@@ -1527,7 +1527,7 @@ getCounterHtml returns a block of html displaying information from the cf_hellow
 				WHERE
 					helloworld_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#helloworld_id#">
 			</cfquery>
-			<cfquery name="getCounter" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="getCounter" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT 
 					text, counter 
 				FROM
@@ -1566,7 +1566,7 @@ getCounterHtml returns a block of html displaying information from the cf_hellow
 	<cfset data = ArrayNew(1)>
 	<cftransaction>
 		<cftry>
-			<cfquery name="setText" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="setText" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				UPDATE 
 					MCZBASE.cf_helloworld
 				SET
@@ -1574,7 +1574,7 @@ getCounterHtml returns a block of html displaying information from the cf_hellow
 				WHERE
 					helloworld_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#helloworld_id#">
 			</cfquery>
-			<cfquery name="getCounter" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="getCounter" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT 
 					text, counter 
 				FROM
@@ -1611,7 +1611,7 @@ getCounterHtml returns a block of html displaying information from the cf_hellow
 
 	<cfthread name="textDialogThread">
 		<cftry>
-			<cfquery name="lookupRow" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="lookupRow_result">
+			<cfquery name="lookupRow" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="lookupRow_result">
 				select helloworld_id, text, counter
 				from MCZBASE.cf_helloworld
 				where
@@ -1701,7 +1701,7 @@ Function getLicenseAutocompleteMeta.  Search for media licenses by name with a s
 	<cfset data = ArrayNew(1)>
 	<cftry>
       <cfset rows = 0>
-		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
+		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="search_result">
 			SELECT 
 				media_license_id, display, description 
 			FROM 
@@ -1745,7 +1745,7 @@ Function getLicenseAutocompleteMeta.  Search for media licenses by name with a s
 
 	<cftry>
 		<cfset rows = 0>
-		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
+		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="search_result">
 			select distinct 
 				media.media_id,
 				auto_filename,

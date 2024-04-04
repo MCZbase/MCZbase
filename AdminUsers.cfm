@@ -224,7 +224,7 @@
 </cfif>
 <!-------------------------------------------------->
 <cfif #Action# is "edit">
-	<cfquery name="getUsers" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cfquery name="getUsers" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		SELECT 
 			cf_users.username,
 			cf_users.user_id,
@@ -311,12 +311,12 @@
 		</td>
 		<td valign="top">
 		<table border>
-			<cfquery name="isDbUser" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="isDbUser" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT username 
 				FROM all_users 
 				WHERE username=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(username)#">
 			</cfquery>
-			<cfquery name="getAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="getAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT 
 					agent_id,
 					MCZBASE.get_agentnameoftype(agent_id) agent_name
@@ -351,7 +351,7 @@
 			<cfif len(isDbUser.username) EQ 0>
 				<td>Not a Database User:</td>
 				<td>
-					<cfquery name="hasInvite" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					<cfquery name="hasInvite" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						select user_id,allow from temp_allow_cf_user where user_id=#getUsers.user_id#
 					</cfquery>
 					<cfif hasInvite.allow is 1>
@@ -375,7 +375,7 @@
 							<a href="/AdminUsers.cfm?username=#username#&action=lockUser">Lock Account</a>
 							<!---  check if user_search_table exists for this user --->
 							<cftry>
-								<cfquery name="checkUserSearchTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+								<cfquery name="checkUserSearchTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 									select count(*) ct from #isDbUser.username#.USER_SEARCH_TABLE
 								</cfquery>
 							<cfcatch>
@@ -571,7 +571,7 @@
 <!---------------------------------------------------->
 <cfif #Action# is "adminSet">
 	<cfoutput>
-		<cfquery name="gpw" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="gpw" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			DELETE FROM temp_allow_cf_user 
 			WHERE user_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#user_id#">
 		</cfquery>
@@ -582,7 +582,7 @@
 <cfif #Action# is "makeNewDbUser">
 	<cfoutput>
 		<!--- see if they have all the right stuff to be a user --->
-		<cfquery name="getTheirEmail" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="getTheirEmail" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			SELECT 
 				EMAIL,
 				username
@@ -599,7 +599,7 @@
 			</div>
 			<cfabort>
 		</cfif>
-		<cfquery name="getMyEmail" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="getMyEmail" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			SELECT 
 				EMAIL
 			FROM 
@@ -615,7 +615,7 @@
 			</div>
 			<cfabort>
 		</cfif>
-		<cfquery name="getAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="getAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			SELECT 
 				agent_id
 			FROM 
@@ -633,7 +633,7 @@
 			<cfabort>
 		</cfif>
 		<cfif len(getTheirEmail.EMAIL) gt 0 and len(getMyEmail.EMAIL) gt 0 and getAgent.recordcount is 1>
-			<cfquery name="gpw" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="gpw" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				insert into temp_allow_cf_user (user_id,allow,invited_by_email) 
 				values (#user_id#,1,'#getMyEmail.EMAIL#')
 			</cfquery>
@@ -702,7 +702,7 @@
 <cfif #Action# is "runUpdate">
 	<cfoutput>
 	<cfif isdefined("delete") AND #delete# is "delete">
-		<cfquery name="deleteUser" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="deleteUser" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			DELETE FROM cf_users 
 			WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#username#">
 		</cfquery>
@@ -719,7 +719,7 @@
 		</cftry>
 		<cflocation url="/AdminUsers.cfm">
 	<cfelse>
-		<cfquery name="updateUser" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="updateUser" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			UPDATE cf_users SET
 				<cfif len(#username#) gt 0>
 					username = '#username#'

@@ -37,7 +37,7 @@ Update an existing arbitrary collection record (underscore_collection).
 		<cfif len(trim(#collection_name#)) EQ 0>
 			<cfthrow type="Application" message="Name of named group must contain a value.">
 		</cfif>
-		<cfquery name="save" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="save" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			update underscore_collection set
 				collection_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collection_name#">,
 				underscore_collection_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#underscore_collection_type#">
@@ -85,7 +85,7 @@ Function getUndCollList.  Search for arbitrary collections returning json suitab
 	<cfset data = ArrayNew(1)>
 	<cftry>
 		<cfset rows = 0>
-		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result" timeout="#Application.query_timeout#">
+		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="search_result" timeout="#Application.query_timeout#">
 			SELECT 
 				underscore_collection_id, 
 				collection_name, 
@@ -139,7 +139,7 @@ Function getUndCollList.  Search for arbitrary collections returning json suitab
 	<cfargument name="underscore_relation_id" type="numeric" required="yes">
 	<cftry>
 		<cftransaction>
-			<cfquery name="deleteQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="deleteQuery_result">
+			<cfquery name="deleteQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="deleteQuery_result">
 				delete from underscore_relation 
 				where underscore_relation_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_relation_id#" >
 			</cfquery>
@@ -198,7 +198,7 @@ Function getUndCollList.  Search for arbitrary collections returning json suitab
 	<cftry>
 		<cfset rows = 0>
 		<cftransaction>
-			<cfquery name="find" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="find_result">
+			<cfquery name="find" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="find_result">
 				select distinct 
 					collection_object_id 
 				from <cfif ucase(session.flatTableName) EQ "FLAT"> flat <cfelse> filtered_flat </cfif>
@@ -208,7 +208,7 @@ Function getUndCollList.  Search for arbitrary collections returning json suitab
 			</cfquery>
 			<cfif find_result.recordcount GT 0>
 				<cfloop query=find>
-					<cfquery name="check" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="check_result">
+					<cfquery name="check" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="check_result">
 						SELECT count(*) ct
 						FROM underscore_relation
 						WHERE
@@ -217,7 +217,7 @@ Function getUndCollList.  Search for arbitrary collections returning json suitab
 							collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#find.collection_object_id#">
 					</cfquery>
 					<cfif check.ct EQ 0>
-						<cfquery name="add" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="add_result">
+						<cfquery name="add" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="add_result">
 							insert into underscore_relation
 							( 
 								underscore_collection_id, 
@@ -261,7 +261,7 @@ Function getUndCollList.  Search for arbitrary collections returning json suitab
 	<cfargument name="underscore_coll_agent_id" type="numeric" required="yes">
 	<cftry>
 		<cftransaction>
-			<cfquery name="deleteQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="deleteQuery_result">
+			<cfquery name="deleteQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="deleteQuery_result">
 				delete from underscore_collection_agent 
 				where underscore_coll_agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_coll_agent_id#" >
 			</cfquery>
@@ -307,14 +307,14 @@ Function getUndCollList.  Search for arbitrary collections returning json suitab
 	<cfset data = ArrayNew(1)>
 	<cftransaction>
 		<cftry>
-			<cfquery name="creatingAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="creatingAgent_result">
+			<cfquery name="creatingAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="creatingAgent_result">
 				SELECT distinct(agent_id) 
 				FROM agent_name 
 				WHERE 
 					agent_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 					AND agent_name_type = 'login'
 			</cfquery>
-			<cfquery name="add" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="add_result">
+			<cfquery name="add" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="add_result">
 				insert into underscore_collection_agent
 				( 
 					underscore_collection_id, 
@@ -332,7 +332,7 @@ Function getUndCollList.  Search for arbitrary collections returning json suitab
 			</cfquery>
 			<cfset rowid = add_result.generatedkey>
 			<cftransaction action="commit">
-			<cfquery name="report" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="report_result">
+			<cfquery name="report" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="report_result">
 				SELECT role,
 					mczbase.get_agentnameoftype(agent_id) as agent_name
 				FROM 
@@ -373,7 +373,7 @@ Function getUndCollList.  Search for arbitrary collections returning json suitab
 	<cfset tn = REReplace(CreateUUID(), "[-]", "", "all") >
 	<cfthread name="getNewAgentRelationThread#tn#">
 		<cftry>
-			<cfquery name="getRoles" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getRoles_result" timeout="#Application.short_timeout#">
+			<cfquery name="getRoles" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getRoles_result" timeout="#Application.short_timeout#">
 				SELECT 
 					role, description
 				FROM
@@ -451,7 +451,7 @@ Function getUndCollList.  Search for arbitrary collections returning json suitab
 	<cfthread name="getAgentDivThread">
 		<cftry>
 			<cfoutput>
-				<cfquery name="agents" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="agents_result" timeout="#Application.query_timeout#">
+				<cfquery name="agents" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="agents_result" timeout="#Application.query_timeout#">
 					SELECT
 						underscore_coll_agent_id,
 						agent_id,
@@ -521,7 +521,7 @@ Function getUndCollList.  Search for arbitrary collections returning json suitab
 	<cfset data = ArrayNew(1)>
 	<cftransaction>
 		<cftry>
-			<cfquery name="update" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="update_result">
+			<cfquery name="update" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="update_result">
 				update underscore_collection_agent
 				SET
 					underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">,
@@ -532,7 +532,7 @@ Function getUndCollList.  Search for arbitrary collections returning json suitab
 					underscore_coll_agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_coll_agent_id#">
 			</cfquery>
 			<cftransaction action="commit">
-			<cfquery name="report" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="report_result">
+			<cfquery name="report" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="report_result">
 				SELECT role,
 					mczbase.get_agentnameoftype(agent_id) as agent_name
 				FROM 
@@ -574,7 +574,7 @@ Function getUndCollList.  Search for arbitrary collections returning json suitab
 	<cfset tn = REReplace(CreateUUID(), "[-]", "", "all") >
 	<cfthread name="updateAgentRelationThread#tn#">
 		<cftry>
-			<cfquery name="getData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getData_result" timeout="#Application.query_timeout#">
+			<cfquery name="getData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getData_result" timeout="#Application.query_timeout#">
 				SELECT 
 					underscore_collection_id,
 					agent_id,
@@ -589,7 +589,7 @@ Function getUndCollList.  Search for arbitrary collections returning json suitab
 				WHERE
 					underscore_coll_agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_coll_agent_id#">
 			</cfquery>
-			<cfquery name="getRoles" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getRoles_result" timeout="#Application.short_timeout#">
+			<cfquery name="getRoles" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getRoles_result" timeout="#Application.short_timeout#">
 				SELECT 
 					role, description
 				FROM
@@ -670,7 +670,7 @@ Function getUndCollList.  Search for arbitrary collections returning json suitab
 	<cfargument name="underscore_coll_citation_id" type="numeric" required="yes">
 	<cftry>
 		<cftransaction>
-			<cfquery name="deleteQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="deleteQuery_result">
+			<cfquery name="deleteQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="deleteQuery_result">
 				delete from underscore_collection_citation 
 				where underscore_coll_citation_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_coll_citation_id#" >
 			</cfquery>
@@ -719,14 +719,14 @@ Function getUndCollList.  Search for arbitrary collections returning json suitab
 	<cfset data = ArrayNew(1)>
 	<cftransaction>
 		<cftry>
-			<cfquery name="creatingAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="creatingAgent_result">
+			<cfquery name="creatingAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="creatingAgent_result">
 				SELECT distinct(agent_id) 
 				FROM agent_name 
 				WHERE 
 					agent_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 					AND agent_name_type = 'login'
 			</cfquery>
-			<cfquery name="add" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="add_result">
+			<cfquery name="add" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="add_result">
 				insert into underscore_collection_citation
 				( 
 					underscore_collection_id, 
@@ -748,7 +748,7 @@ Function getUndCollList.  Search for arbitrary collections returning json suitab
 			</cfquery>
 			<cfset rowid = add_result.generatedkey>
 			<cftransaction action="commit">
-			<cfquery name="report" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="report_result">
+			<cfquery name="report" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="report_result">
 				SELECT 
 					type,
 					mczbase.getshortcitation(publication_id) as publication
@@ -787,7 +787,7 @@ Function getUndCollList.  Search for arbitrary collections returning json suitab
 	<cfset tn = REReplace(CreateUUID(), "[-]", "", "all") >
 	<cfthread name="getNewUndCollCitationThread#tn#">
 		<cftry>
-			<cfquery name="getTypes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getTypes_result" timeout="#Application.short_timeout#">
+			<cfquery name="getTypes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getTypes_result" timeout="#Application.short_timeout#">
 				SELECT 
 					type, description
 				FROM
@@ -868,7 +868,7 @@ Function getUndCollList.  Search for arbitrary collections returning json suitab
 	<cfthread name="getCitationDivThread">
 		<cftry>
 			<cfoutput>
-				<cfquery name="citations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="citations_result" timeout="#Application.query_timeout#">
+				<cfquery name="citations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="citations_result" timeout="#Application.query_timeout#">
 					SELECT
 						underscore_coll_citation_id,
 						publication_id,
@@ -956,7 +956,7 @@ Function getUndCollList.  Search for arbitrary collections returning json suitab
 	<cfset data = ArrayNew(1)>
 	<cftransaction>
 		<cftry>
-			<cfquery name="update" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="update_result">
+			<cfquery name="update" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="update_result">
 				update underscore_collection_citation
 				SET
 					underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">,
@@ -969,7 +969,7 @@ Function getUndCollList.  Search for arbitrary collections returning json suitab
 					underscore_coll_citation_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_coll_citation_id#">
 			</cfquery>
 			<cftransaction action="commit">
-			<cfquery name="report" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="report_result">
+			<cfquery name="report" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="report_result">
 				SELECT 
 					type,
 					mczbase.getshortcitation(publication_id) as publication
@@ -1007,7 +1007,7 @@ Function getUndCollList.  Search for arbitrary collections returning json suitab
 	<cfset tn = REReplace(CreateUUID(), "[-]", "", "all") >
 	<cfthread name="updateUndCollCitationThread#tn#">
 		<cftry>
-			<cfquery name="getData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getData_result" timeout="#Application.query_timeout#">
+			<cfquery name="getData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getData_result" timeout="#Application.query_timeout#">
 				SELECT 
 					underscore_collection_id,
 					publication_id,
@@ -1025,7 +1025,7 @@ Function getUndCollList.  Search for arbitrary collections returning json suitab
 				WHERE
 					underscore_coll_citation_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_coll_citation_id#">
 			</cfquery>
-			<cfquery name="getTypes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getTypes_result" timeout="#Application.short_timeout#">
+			<cfquery name="getTypes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getTypes_result" timeout="#Application.short_timeout#">
 				SELECT 
 					type, description
 				FROM

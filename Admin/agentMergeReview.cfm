@@ -121,7 +121,7 @@ limitations under the License.
 		<cftransaction>
 			<cftry>
 				<cfloop list="#form.holdMerge#" index="i">
-					<cfquery name="upOnHold" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					<cfquery name="upOnHold" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						update agent_relations set on_hold = 1, held_by = '#session.dbuser#' where
 						agent_id = #ListGetAt(i, 1, '_')# and
 						related_agent_id = #ListGetAt(i, 2, '_')# and

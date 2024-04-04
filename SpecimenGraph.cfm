@@ -195,7 +195,7 @@
 			<cfinclude template="includes/SearchSql.cfm">
 			<cfset SqlString = "#basSelect# #basFrom# #basJoin# #basWhere# #basQual# #basGroup# #basOrder#">	
 			<cfset checkSql(SqlString)>	
-			<cfquery name="getGraph" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="getGraph" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				#preservesinglequotes(SqlString)#
 			</cfquery>
 			

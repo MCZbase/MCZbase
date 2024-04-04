@@ -12,7 +12,7 @@
 		</form>
 		<cfabort>
 	</cfif>
-	<cfquery name="getTaxa" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cfquery name="getTaxa" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			SELECT
 				scientific_name,
 				author_text,

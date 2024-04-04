@@ -36,10 +36,10 @@ limitations under the License.
 	<cfset target_label = related_value>
 	<cfset result = "">
 	<cftry> 
-		<cfquery name="ctmedia_type" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="ctmedia_type" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			select media_type from ctmedia_type order by media_type
 		</cfquery>
-		<cfquery name="ctmime_type" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="ctmime_type" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			select mime_type from ctmime_type order by mime_type
 		</cfquery>
 		<cfset result = result & "
@@ -162,7 +162,7 @@ limitations under the License.
 	<cfargument name="unlinked" type="string" required="no">
 	<cfthread name="findMediaSearchResultsThread">
 	<cftry>
-	 <cfquery name="matchMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	 <cfquery name="matchMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		select distinct media.media_id, media_uri uri, preview_uri, mime_type, media_type, 
 			MCZBASE.get_medialabel(media.media_id,'description') description
 		from media
@@ -274,7 +274,7 @@ limitations under the License.
 	<cfargument name="media_id" type="string" required="yes">
 	<cfset result = "">
 	<cftry>
-		<cfquery name="addMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="addMediaResult">
+		<cfquery name="addMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="addMediaResult">
 			INSERT INTO media_relations 
 				(media_id, related_primary_key, media_relationship,created_by_agent_id) 
 			VALUES (
@@ -309,19 +309,19 @@ limitations under the License.
 	<cfargument name="collection_object_id" type="string" required="no">
 
 	<cfset result = "">
-	<cfquery name="ctmedia_relationship" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cfquery name="ctmedia_relationship" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		select media_relationship from ctmedia_relationship order by media_relationship
 	</cfquery>
-	<cfquery name="ctmedia_label" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cfquery name="ctmedia_label" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		select media_label from ctmedia_label order by media_label
 	</cfquery>
-	<cfquery name="ctmedia_type" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cfquery name="ctmedia_type" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		select media_type from ctmedia_type order by media_type
 	</cfquery>
-	<cfquery name="ctmime_type" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cfquery name="ctmime_type" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		select mime_type from ctmime_type order by mime_type
 	</cfquery>
-	<cfquery name="ctmedia_license" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cfquery name="ctmedia_license" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		select media_license_id,display media_license from ctmedia_license order by media_license_id
 	</cfquery>
 
@@ -447,7 +447,7 @@ limitations under the License.
 </form></div></div></div>
 	</div>'>
 	<cfif isdefined("collection_object_id") and len(collection_object_id) gt 0>
-		<cfquery name="s"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="s"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			select guid from flat where collection_object_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
 		</cfquery>
 		<cfset result = result & '
@@ -458,7 +458,7 @@ limitations under the License.
 		</script>'>
 	</cfif>
 	<cfif isdefined("relationship") and len(relationship) gt 0>
-		<cfquery name="s"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="s"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			select media_relationship from ctmedia_relationship where media_relationship= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#relationship#">
 		</cfquery>
 		<cfif s.recordCount eq 1 >
@@ -495,7 +495,7 @@ limitations under the License.
 	<cfset theResult=queryNew("status, message")>
 	<cftry>
 		<!--- check if this setting exists --->
-		<cfquery name="exists" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="exists_result">
+		<cfquery name="exists" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="exists_result">
 			select count(*) ct 
 			from cf_grid_properties
 			where 
@@ -504,7 +504,7 @@ limitations under the License.
 				label = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#label#"> 
 		</cfquery>
 		<cfif exists.ct EQ 0>
-			<cfquery name="insert" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="insert_result">
+			<cfquery name="insert" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="insert_result">
 				insert into cf_grid_properties (
 					page_file_path,
 					username,
@@ -518,7 +518,7 @@ limitations under the License.
 				)
 			</cfquery>
 		<cfelse>
-			<cfquery name="update" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="update_result">
+			<cfquery name="update" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="update_result">
 				update cf_grid_properties
 				set columnhiddensettings = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#columnhiddensettings#"> 
 				where
@@ -547,7 +547,7 @@ limitations under the License.
 	
 	<cfset data = ArrayNew(1)>
 	<cftry>
-		<cfquery name="getSettings" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getSettings_result">
+		<cfquery name="getSettings" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getSettings_result">
 			select columnhiddensettings
 			from cf_grid_properties
 			where 
@@ -760,7 +760,7 @@ limitations under the License.
 	
 	<cfset returnValue = "">
 	<cfif len(guid) GT 0 and len(guid_type) GT 0>
-		<cfquery name="ctguid_type" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="ctguid_type" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			select resolver_regex, resolver_replacement
 			from ctguid_type
 			where 
@@ -851,7 +851,7 @@ limitations under the License.
 	<cfset target_id = collecting_event_id_control>
 	<cfthread name="pickCollEventThread">
 	<cftry> 
-		<cfquery name="ctCollecting_Source" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedWithin="#CreateTimeSpan(0,1,0,0)#">
+		<cfquery name="ctCollecting_Source" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" cachedWithin="#CreateTimeSpan(0,1,0,0)#">
 			SELECT 
 				collecting_source 
 			FROM
@@ -1600,7 +1600,7 @@ limitations under the License.
 	<cfset theResult=queryNew("status, message")>
 	<cftry>
 		<!--- check if this setting exists --->
-		<cfquery name="exists" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="exists_result">
+		<cfquery name="exists" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="exists_result">
 			select count(*) ct 
 			from cf_grid_properties
 			where 
@@ -1609,7 +1609,7 @@ limitations under the License.
 				label = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#label#"> 
 		</cfquery>
 		<cfif exists.ct EQ 0>
-			<cfquery name="insert" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="insert_result">
+			<cfquery name="insert" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="insert_result">
 				insert into cf_grid_properties (
 					page_file_path,
 					username,
@@ -1623,7 +1623,7 @@ limitations under the License.
 				)
 			</cfquery>
 		<cfelse>
-			<cfquery name="update" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="update_result">
+			<cfquery name="update" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="update_result">
 				update cf_grid_properties
 				set column_order = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#column_order#"> 
 				where
@@ -1652,7 +1652,7 @@ limitations under the License.
 	
 	<cfset data = ArrayNew(1)>
 	<cftry>
-		<cfquery name="getSettings" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getSettings_result">
+		<cfquery name="getSettings" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getSettings_result">
 			select column_order
 			from cf_grid_properties
 			where 

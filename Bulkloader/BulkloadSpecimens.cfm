@@ -11,7 +11,7 @@
 	<cfloop query="getColumnsNoUser">
 		<cfset columns=ListAppend(columns,getColumnsNoUser.column_name)>
 	</cfloop>
-	<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		SELECT #columns#
 		FROM bulkloader_stage
 		WHERE staging_user = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
@@ -40,7 +40,7 @@
 	<cfloop query="getColumnsNoUser">
 		<cfset columns=ListAppend(columns,getColumnsNoUser.column_name)>
 	</cfloop>
-	<cfquery name="getLoadedValues" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cfquery name="getLoadedValues" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		SELECT distinct loaded 
 		FROM bulkloader_stage
 		WHERE staging_user = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
@@ -60,7 +60,7 @@
 	<cfset csv ='"ERROR","COLUMN","VALUE","ROWS"'>
 	<cfloop index="i" from="1" to="#ArrayLen(loadedArray)#">
 		<!--- identify the error column, for that error condition, find distinct values of the column with the error, report those --->
-		<cfquery name="getErrorRows" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="getErrorRows" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			SELECT collection_object_id
 			FROM bulkloader_stage
 			WHERE staging_user = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
@@ -88,14 +88,14 @@
 		</cfif>
 		<cfif columnInError NEQ "">
 			<!--- TODO: Identify rows with the value_error --->
-			<cfquery name="getErrorCases" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="getErrorCases" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT distinct #columnInError# value_error
 				FROM bulkloader_stage
 				WHERE staging_user = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 					AND loaded like '%#errorCase#%'
 			</cfquery>
 			<cfloop query="getErrorCases">
-				<cfquery name="getErrorCaseRows" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="getErrorCaseRows" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT collection_object_id
 					FROM bulkloader_stage
 					WHERE staging_user = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
@@ -180,7 +180,7 @@
 				<h1 class="h2">First step: Read data from CSV file into Staging.</h1>
 				<cftry>
 					<!--- remove existing staged data --->
-					<cfquery name="killOld" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					<cfquery name="killOld" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						DELETE FROM bulkloader_stage
 						WHERE staging_user = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 					</cfquery>
@@ -249,7 +249,7 @@
 						<cfif len(#colVals#) gt 1>
 							<cftry>
 								<cfset colVals=replace(colVals,",","","first")>
-								<cfquery name="insert" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="insert_result">
+								<cfquery name="insert" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="insert_result">
 									insert into bulkloader_stage (#colNames#,STAGING_USER) values (#preservesinglequotes(colVals)#,'#session.username#')
 								</cfquery>
 								<cfset loadedRows = loadedRows + insert_result.recordcount>
@@ -311,7 +311,7 @@
 		<!------------------------------------------------------->
 		<cfcase value="validate">
 			<cfoutput>
-				<cfquery name="c" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="c" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT count(*) as cnt 
 					FROM bulkloader_stage
 					WHERE staging_user = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
@@ -362,26 +362,26 @@
 				<cfset movedCount = 0>
 				<cftransaction>
 					<cftry>
-						<cfquery name="stagedToMove" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						<cfquery name="stagedToMove" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							SELECT collection_object_id 
 							FROM bulkloader_stage
 							WHERE staging_user = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						</cfquery>
 						<cfset toMoveCount = stagedToMove.recordcount>
 						<cfloop query="stagedToMove">
-							<cfquery name="newID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+							<cfquery name="newID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 								UPDATE bulkloader_stage 
 								SET collection_object_id=bulkloader_pkey.nextval
 								WHERE collection_object_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
 									AND staging_user = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 							</cfquery>
 						</cfloop>
-						<cfquery name="flag" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						<cfquery name="flag" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							UPDATE bulkloader_stage 
 							SET loaded = 'BULKLOADED RECORD'
 							WHERE staging_user = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						</cfquery>
-						<cfquery name="toMove" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						<cfquery name="toMove" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							SELECT collection_object_id 
 							FROM bulkloader_stage
 							WHERE staging_user = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
@@ -390,7 +390,7 @@
 							so to check for success, need to move one record at a time --->
 						<cfset movedCount = 0>
 						<cfloop query="toMove">
-							<cfquery name="moveRow" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="moveRow_result">
+							<cfquery name="moveRow" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="moveRow_result">
 								INSERT into bulkloader (#columns#)
 									SELECT #columns# from bulkloader_stage
 									WHERE staging_user = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
@@ -399,7 +399,7 @@
 							<cfset movedCount=movedCount+moveRow_result.recordcount>
 						</cfloop>
 						<cfif movedCount EQ toMoveCount>
-							<cfquery name="cleanUp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="cleanUp_result">
+							<cfquery name="cleanUp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="cleanUp_result">
 								DELETE from bulkloader_stage 
 								WHERE staging_user = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 							</cfquery>
@@ -426,16 +426,16 @@
 		<!------------------------------------------->
 		<cfcase value="checkStaged">
 			<cfoutput>
-				<cfstoredproc datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" procedure="bulkloader_stage_check">
+				<cfstoredproc datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" procedure="bulkloader_stage_check">
 					<cfprocparam cfsqltype="CF_SQL_VARCHAR" value="#session.dbuser#">
 				</cfstoredproc>
-				<cfquery name="anyBads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="anyBads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT count(*) as cnt 
 					FROM bulkloader_stage
 					WHERE loaded is not null
 						AND staging_user = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
-				<cfquery name="allData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="allData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT count(*) as cnt 
 					FROM bulkloader_stage
 					WHERE staging_user = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
@@ -456,7 +456,7 @@
 						Click <a href="/Bulkloader/BulkloadSpecimens.cfm?action=loadAnyway">here</a> to load them to the
 						bulkloader anyway. Use The Bulkloader Browse and Edit tools to fix issues and load them.
 					</div>
-					<cfquery name="listErrors" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					<cfquery name="listErrors" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						SELECT count(*) ct, loaded 
 						FROM bulkloader_stage
 						WHERE loaded is not null
@@ -490,26 +490,26 @@
 					<cfset movedCount = 0>
 					<cftransaction>
 						<cftry>
-							<cfquery name="stagedToMove" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+							<cfquery name="stagedToMove" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 								SELECT collection_object_id 
 								FROM bulkloader_stage
 								WHERE staging_user = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 							</cfquery>
 							<cfset toMoveCount = stagedToMove.recordcount>
 							<cfloop query="stagedToMove">
-								<cfquery name="newID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+								<cfquery name="newID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 									UPDATE bulkloader_stage 
 									SET collection_object_id=bulkloader_pkey.nextval
 									WHERE collection_object_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
 										AND staging_user = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 								</cfquery>
 							</cfloop>
-							<cfquery name="flag" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+							<cfquery name="flag" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 								UPDATE bulkloader_stage 
 								SET loaded = 'BULKLOADED RECORD'
 								WHERE staging_user = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 							</cfquery>
-							<cfquery name="toMove" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+							<cfquery name="toMove" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 								SELECT collection_object_id 
 								FROM bulkloader_stage
 								WHERE staging_user = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
@@ -518,7 +518,7 @@
 								so to check for success, need to move one record at a time --->
 							<cfset movedCount = 0>
 							<cfloop query="toMove">
-								<cfquery name="moveRow" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="moveRow_result">
+								<cfquery name="moveRow" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="moveRow_result">
 									INSERT into bulkloader (#columns#)
 										SELECT #columns# from bulkloader_stage
 										WHERE staging_user = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
@@ -527,7 +527,7 @@
 								<cfset movedCount=movedCount+moveRow_result.recordcount>
 							</cfloop>
 							<cfif movedCount EQ toMoveCount>
-								<cfquery name="cleanUp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="cleanUp_result">
+								<cfquery name="cleanUp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="cleanUp_result">
 									DELETE from bulkloader_stage 
 									WHERE staging_user = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 								</cfquery>
