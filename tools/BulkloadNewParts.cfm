@@ -672,8 +672,8 @@ limitations under the License.
 						</cfquery>
 						<cfquery name="chkPAtt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						update cf_temp_parts set
-						agent_id
-						WHERE GET_AGENT_NAMEOFTYPE(PART_ATT_NAME_#i#,'preferred') is null
+						NVL2(VERIFIED_BY_AGENT_ID, mczbase.get_agentnameoftype(verified_by_agent_id), '') agent_id
+						WHERE MCZBASE.GET_AGENT_NAMEOFTYPE(PART_ATT_NAME_#i#,'preferred')
 						AND PART_ATT_NAME_#i# is not null
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
@@ -681,7 +681,7 @@ limitations under the License.
 						<cfquery name="chkPAtt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						update cf_temp_parts set
 						status = concat(nvl2(status, status || '; ', ''),'<span class="font-weight-bold">Invalid "'||PART_ATT_DETBY_#i#||'". </span>')
-						WHERE MCZBASE.GET_AGENT_NAMEOFTYPE(PART_ATT_NAME_#i#,'preferred') is null
+						WHERE MCZBASE.GET_AGENT_NAMEOFTYPE(PART_ATT_NAME_#i#,'preferred')=0
 						AND PART_ATT_NAME_#i# is not null
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
