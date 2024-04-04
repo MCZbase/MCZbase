@@ -564,8 +564,9 @@ limitations under the License.
 						UPDATE cf_temp_parts
 						SET 
 							status = concat(nvl2(status, status || '; ', ''),'INSTIUTION_ACRONYM is not valid (check case)')
-						WHERE institution_acronym <> 'MCZ'
-							AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+						WHERE (institution_acronym <> 'MCZ' OR institution_acronym <> 'HUH')
+						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+						AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
 			</cfquery>
 					<!---Add to the status message if the container is null --->
 					<cfquery name="chk" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
