@@ -503,7 +503,7 @@ limitations under the License.
 								collection_object_id = (
 									select collection_object_id 
 									from cataloged_item, collection 
-									where cataloged_itemcat_num = cf_temp_parts.other_id_number 
+									where cataloged_item.cat_num = cf_temp_parts.other_id_number 
 									and collection.collection_cde = cf_temp_parts.collection_cde
 									and collection.collection_id = cataloged_item.collection_id
 									and collection.institution_acronym = cf_temp_parts.institution_acronym 
