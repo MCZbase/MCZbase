@@ -665,9 +665,9 @@ limitations under the License.
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
 						</cfquery>
-						<cfset partAttName = chkPAttCT.part_att_name_#i#>
-						<cfset partAttVal = chkPAttCT.part_att_val_#i#>
-						<cfset partAttCollCde = chkPAttCT.collCde>
+						<cfset partAttName = '||chkPAttCT.part_att_name_#i#||'>
+						<cfset partAttVal = '||chkPAttCT.part_att_val_#i#||'>
+						<cfset partAttCollCde = #chkPAttCT.collCde#>
 						<cfloop query="chkPAttCT">
 							<cfquery name="chkPAtt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							update cf_temp_parts set status = concat(nvl2(status, status || '; ', ''),'part attribute value <span class="font-weight-bold">#partAttVal#</span> not in codetable')
