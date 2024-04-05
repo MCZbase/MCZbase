@@ -607,7 +607,6 @@
 						<cfset container_type_updates = container_type_updates + updateContainer_result.recordcount>
 					</cfloop>
 				</cftransaction>
-				<h3>Updated types for #container_type_updates# containers.</h3>
 			<cfcatch>
 				<h3>There was a problem updating container types.</h3>
 				<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -704,7 +703,7 @@
 				</cftry>
 			</cftransaction>
 			<h3>Updated #container_updates# containers.</h3>
-			<h3>Success, changes applied.</h3>
+			<h3 class="text-success">Success, changes applied.</h3>
 			<!--- cleanup --->
 			<cfquery name="clearTempTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="clearTempTable_result">
 				DELETE FROM cf_temp_cont_edit 
