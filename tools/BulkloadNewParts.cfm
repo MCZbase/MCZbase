@@ -662,7 +662,7 @@ limitations under the License.
 						update cf_temp_parts set status = status || 'part attribute value <span class="font-weight-bold">"'||PART_ATT_VAL_#i#||'"</span> not in codetable'
 						where '||PART_ATT_NAME_#i#||''|''||PART_ATT_VAL_#i#||' not in (select '||PART_ATT_NAME_#i#||''|''||PART_ATT_VAL_#i#||' from (select 
 						decode(value_code_tables, null, unit_code_tables,value_code_tables) code_table 
-							from ctspecpart_attribute_type where attribute_type = ''||PART_ATT_NAME_#i#||''))
+							from ctspecpart_attribute_type where attribute_type = 'PART_ATT_NAME_#i#'))
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
 						</cfquery>
