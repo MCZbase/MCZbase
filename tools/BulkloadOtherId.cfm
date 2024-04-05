@@ -1,3 +1,22 @@
+<!--- tools/bulkloadOtherId.cfm add other identifiers (other numbers)
+  to specimens in bulk.
+
+Copyright 2008-2017 Contributors to Arctos
+Copyright 2008-2024 President and Fellows of Harvard College
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+
+--->
 <!--- special case handling to dump problem data as csv --->
 <cfif isDefined("action") AND action is "dumpProblems">
 	<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -12,6 +31,7 @@
 	<cfabort>
 </cfif>
 <!--- end special case dump of problems --->
+
 <cfset fieldlist = "institution_acronym,collection_cde,existing_other_id_type,existing_other_id_number,new_other_id_type,new_other_id_number">
 <cfset fieldTypes ="CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR">
 <cfset requiredfieldlist = "institution_acronym,collection_cde,existing_other_id_type,existing_other_id_number,new_other_id_type,new_other_id_number">
@@ -37,7 +57,7 @@
 	<h1 class="h2 mt-2">Bulkload Other IDs</h1>
 	<cfif #action# is "nothing">
 		<cfoutput>
-			<p>This tool is used to bulkload Other IDs. Click view template download a comma-delimited text file (csv) to enter and upload data. OR, create a csv by including column headings spelled exactly as listed below. Pay attention to capitalization where it is required. Messages will help to navigate problems with the data in the uploaded .csv file. Note: The errors preventing upload are displayed first and then any warnings about content. </p>
+			<p>This tool is used to bulkload Other IDs (other numbers for specimens). Click view template download a comma-delimited text file (csv) to enter and upload data. OR, create a csv by including column headings spelled exactly as listed below. Pay attention to capitalization where it is required. Messages will help to locate, identify, and fix problems with the data in the uploaded .csv file. Note: The errors preventing upload are displayed first and then any warnings about content. </p>
 			
 			<span class="btn btn-xs btn-info" onclick="document.getElementById('template').style.display='block';">View template</span>
 			<div id="template" style="margin: 1rem 0;display:none;">
@@ -109,10 +129,10 @@
 		<h2 class="h3">First step: Reading data from CSV file.</h2>
 		<!--- Compare the numbers of headers expected against provided in CSV file --->
 		<!--- Set some constants to identify error cases in cfcatch block --->
-		<cfset NO_COLUMN_ERR = '<h4 class="mt-3">One or more required fields are missing in the header line of the csv file.</h4><p class="text-dark d-block">[<span class="font-weight-bold">Note:</span> If you uploaded csv columns that match the required headers and see "Required column not found" for those headers, check that the <span class="font-weight-bold">character set and format</span> you selected matches the file''s encodings.]</p>'>
-		<cfset DUP_COLUMN_ERR = "<p>Fix the one or more columns that are duplicated, mispelled, or added in the header line of the csv file and reload. </p>">
+		<cfset NO_COLUMN_ERR = '<h4 class="mt-3">One or more required fields are missing in the header line of the csv file.</h4><p class="text-dark d-block">[<span class="font-weight-bold">Note:</span> If you uploaded csv columns that match the required headers and see "Required column not found" for those headers, check that the <span class="font-weight-bold">character set and format</span> you selected matches the file''s encodings.]</p>'><!--- ' --->
+		<cfset DUP_COLUMN_ERR = "<p>Fix the one or more columns that are duplicated, mispelled, or added in the header line of the csv file and reload. </p>"><!--- " --->
 		<cfset COLUMN_ERR = "Error inserting data ">
-		<cfset NO_HEADER_ERR = "<h4 class='mb-3'>No header line found, csv file appears to be empty.</h4>">
+		<cfset NO_HEADER_ERR = "<h4 class='mb-3'>No header line found, csv file appears to be empty.</h4>"><!--- " --->
 
 		<cftry>
 				<!--- Parse the CSV file using Apache Commons CSV library included with coldfusion so that columns with comma delimeters will be separated properly --->
@@ -680,7 +700,7 @@
 			<cftry>
 					<cfset testParse = 0>
 					<cfif getTempData.recordcount EQ 0>
-						<cfthrow message="You have no rows to load in the Other ID bulkloader table (cf_temp_oids).  <a href='/tools/BulkloadOtherId.cfm'>Start over</a>"><!--- " --->
+						<cfthrow message="You have no rows to load in the Other ID bulkloader table (cf_temp_oids).  <a href='/tools/BulkloadOtherId.cfm'>Start over</a>">
 					</cfif>
 					<cfset i = 0>
 					<cfloop query="getTempData">
@@ -745,7 +765,7 @@
 										<cfelseif cfcatch.detail contains "NULL">
 											Missing Data (#cfcatch.detail#)
 										<cfelse>
-											 provide the raw error message if it isn't readily interpretable 
+											 <!--- provide the raw error message if it is not readily interpretable --->
 											#cfcatch.detail#
 										</cfif>
 									</span>
