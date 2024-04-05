@@ -665,12 +665,15 @@ limitations under the License.
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
 						</cfquery>
+						<cfset partAttName = chkPAttCT.part_att_name_#i#>
+						<cfset partAttVal = chkPAttCT.part_att_val_#i#>
+						<cfset partAttCollCde = chkPAttCT.collCde>
 						<cfloop query="chkPAttCT">
 							<cfquery name="chkPAtt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-							update cf_temp_parts set status = concat(nvl2(status, status || '; ', ''),'part attribute value <span class="font-weight-bold">"'||chkPAttCT.PART_ATT_VAL_#i#||'"</span> not in codetable')
-							where chk_specpart_att_codetables(chkPAttCT.part_att_name_#i#,chkPAttCT.part_att_val_#i#,chkPAttCT.COLLECTION_CDE)=0
-							and '||chkPAttCT.part_att_name_#i#||' is not null
-							and '||chkPAttCT.part_att_val_#i#||' = '||#chkPAttCT.attribute_type#||'
+							update cf_temp_parts set status = concat(nvl2(status, status || '; ', ''),'part attribute value <span class="font-weight-bold">#partAttVal#</span> not in codetable')
+							where chk_specpart_att_codetables(partAttName,partAttVal,partAttCollCde)=0
+							and #partAttName# is not null
+							and #partAttVal# = '||#chkPAttCT.attribute_type#||'
 							AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 							AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
 							</cfquery>
