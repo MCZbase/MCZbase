@@ -486,9 +486,9 @@ limitations under the License.
 				<cfquery name="getCodeTables" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					select attribute_type, decode(value_code_tables, null, unit_code_tables,value_code_tables) code_table  from ctspecpart_attribute_type
 				</cfquery>
-				<cfquery name="matchCodeTables" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					select code_table from getCodeTables
-				</cfquery>
+				<cfloop query="getCodeTables">
+					#code_table#
+				</cfloop>
 
 				<cfquery name="getTempTableTypes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT 
