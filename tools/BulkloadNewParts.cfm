@@ -659,7 +659,7 @@ limitations under the License.
 						select attribute_type, decode(value_code_tables, null, unit_code_tables,value_code_tables) code_table  from ctspecpart_attribute_type where attribute_type = '||PART_ATT_NAME_#i#||'
 						</cfquery>--->
 						<cfquery name="chkPAtt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						update cf_temp_parts set status = concat(nvl2(status, status || '; ', ''),'part attribute value <span class="font-weight-bold">"'||PART_ATT_VAL_#i#||'"</span> not in codetable'
+						update cf_temp_parts set status = concat(nvl2(status, status || '; ', ''),'part attribute value <span class="font-weight-bold">"'||PART_ATT_VAL_#i#||'"</span> not in codetable')
 						where '||PART_ATT_NAME_#i#||''|''||PART_ATT_VAL_#i#||' not in (select '||PART_ATT_NAME_#i#||''|''||PART_ATT_VAL_#i#||' from (select 
 						decode(value_code_tables, null, unit_code_tables,value_code_tables) code_table 
 							from ctspecpart_attribute_type where attribute_type = '||PART_ATT_NAME_#i#||'))
