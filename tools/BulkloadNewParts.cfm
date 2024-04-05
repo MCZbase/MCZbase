@@ -668,7 +668,7 @@ limitations under the License.
 						<cfloop query="chkPAttCT">
 							<cfquery name="chkPAtt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							update cf_temp_parts set status = concat(nvl2(status, status || '; ', ''),'part attribute value <span class="font-weight-bold">"'||PART_ATT_VAL_1||'"</span> not in codetable')
-							where chk_specpart_att_codetables(chkPAttCT.partno,chkPAttCT.partvalno,chkPAttCT.COLLECTION_CDE)=0
+							where chk_specpart_att_codetables(partno,partvalno,COLLECTION_CDE)=0
 							and #chkPAttCT.partno# is not null
 							and #chkPAttCT.partno# = #chkPAttCT.attribute_type#
 							AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
