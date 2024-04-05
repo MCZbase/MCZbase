@@ -613,7 +613,6 @@ limitations under the License.
 				occurs_page_number,citation_page_uri,cited_taxon_name_id,type_status,citation_remarks,collection_object_id,status
 				FROM cf_temp_citation
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-				and UPPER(TRIM(CITED_SCIENTIFIC_NAME)) = TRIM('CITED_SCIENTIFIC_NAME')
 			</cfquery>
 			<cfquery name="pf" dbtype="query">
 				SELECT count(*) c 
