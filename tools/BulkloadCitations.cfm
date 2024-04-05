@@ -631,7 +631,7 @@ limitations under the License.
 			</cfquery>
 			<cfif pf.c gt 0>
 				<h3 class="h4 px-0 mt-3">
-					There is a problem with #pf.c# of #data.recordcount# row(s). See the STATUS column. (<a href="/tools/BulkloadCitations.cfm?action=dumpProblems">Download</a>.)
+					There is a problem with #pf.c# of #data.recordcount# row(s). See the STATUS column (<a href="/tools/BulkloadCitations.cfm?action=dumpProblems">download</a>).
 				</h3>
 				<h3 class="h4 px-0">
 					Fix the problems in the data and <a href="/tools/BulkloadCitations.cfm">start again</a>.
