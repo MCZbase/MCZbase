@@ -51,7 +51,7 @@
 				<textarea rows="2" cols="90" id="templatearea" class="w-100 data-entry-textarea">#fieldlist#</textarea>
 			</div>
 			<h2 class="mt-4 h4">Columns in <span class="text-danger">red</span> are required; others are optional:</h2>
-			<ul class="mb-4 h4">
+			<ul class="mb-4 h4 font-weight-normal">
 				<cfloop list="#fieldlist#" index="field" delimiters=",">
 					<cfset aria = "">
 					<cfif listContains(requiredfieldlist,field,",")>
@@ -254,7 +254,7 @@
 						</cfif>
 						<cfset errorMessage = "">
 						<!--- Loop through list of fields, mark each field as fields present in input or not, throw exception if required fields are missing --->
-						<ul class="h4 mb-4">
+						<ul class="h4 mb-4 font-weight-normal">
 							<cfloop list="#fieldlist#" index="field" delimiters=",">
 								<cfset hint="">
 								<cfif listContains(requiredfieldlist,field,",")>
@@ -397,7 +397,7 @@
 						</cfif>
 						<h3>
 							<cfif loadedRows EQ 0>
-								Loaded no rows from the CSV file.  The file appears to be just a header with no data. Fix file and <a href="/tools/BulkloadOtherId.cfm">reload</a>
+								Loaded no rows from the CSV file.  The file appears to be just a header with no data. Fix file and <a href="/tools/BulkloadContEditParent.cfm">reload</a>
 							<cfelse>
 								Successfully read #loadedRows# records from the CSV file. Next <a href="/tools/BulkloadContEditParent.cfm?action=validate">click to validate</a>.
 							</cfif>
