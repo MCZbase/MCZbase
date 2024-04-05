@@ -658,7 +658,7 @@ limitations under the License.
 						<!---"TODO: Fix type/value/units relationship check (chk_specpart_att_codetable -- variables up to date but it is not working)"--->
 						<cfset ctstruct=StructNew()>
 					<cfloop query="getCodeTables">
-						<cfset StructInsert(ctstruct, #attribute_type#, #code_table#, part_att_name_#i#)>
+						<cfset StructInsert(ctstruct, #attribute_type#, #code_table#, "'||part_att_name_#i#||'")>
 					</cfloop>
 					<cfset cttable = ctstruct.find(part_att_name_#i#)>	
 					
