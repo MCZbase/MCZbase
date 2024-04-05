@@ -735,7 +735,7 @@ limitations under the License.
 					</cfif>
 				<cfcatch>
 					<cftransaction action="ROLLBACK">
-					<h2 class="h3">There was a problem updating the citations. Fix the issues and <a href="/tools/BulkloadCitations.cfm">reload</a>.</h2>
+					<h2 class="h3">There was a problem updating the citations. </h2>
 					<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						SELECT COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_NUMBER,COLLECTION_OBJECT_ID,PUBLICATION_TITLE,PUBLICATION_ID,CITED_TAXON_NAME_ID,OCCURS_PAGE_NUMBER,TYPE_STATUS,CITATION_REMARKS,CITATION_PAGE_URI
 						FROM cf_temp_citation
@@ -743,7 +743,7 @@ limitations under the License.
 					</cfquery>
 					<cfif getProblemData.recordcount GT 0>
 						<h3>
-							Error loading row (<span class="text-danger">#citation_updates + 1#</span>) from the CSV: 
+							Fix the issues and <a href="/tools/BulkloadCitations.cfm">reload</a>. Error loading row (<span class="text-danger">#citation_updates + 1#</span>) from the CSV: 
 							<cfif len(cfcatch.detail) gt 0>
 								<span class="font-weight-normal border-bottom border-danger">
 									<cfif cfcatch.detail contains "publication_id">
