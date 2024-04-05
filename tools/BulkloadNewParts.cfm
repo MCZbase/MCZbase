@@ -493,8 +493,8 @@ limitations under the License.
 				<cfscript>
 					writedump(ctstruct.find("sex"));
 				</cfscript>
-				<cfset cttable = writedump(ctstruct.find("PART_ATT_NAME_#i#"));
-					   #cttable#
+				<cfset cttable = writedump(ctstruct.find("PART_ATT_NAME_#i#"))>	
+					#cttable#
 				<cfquery name="getTempTableTypes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT 
 						other_id_type, institution_acronym, collection_cde, other_id_number, key
