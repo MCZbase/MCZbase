@@ -549,12 +549,7 @@ limitations under the License.
 					WHERE 
 						username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
-				<cfset ctstruct=StructNew()>
-					<cfloop query="getCodeTables">
-						<cfset StructInsert(ctstruct, #attribute_type#, #code_table#)>
-					</cfloop>
-					<cfset cttable = ctstruct.find(part_att_name_1)>	
-					#cttable#
+				
 				<cfloop query="getTempTableQC">
 					
 					<cfquery name="CollID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">						
@@ -661,11 +656,16 @@ limitations under the License.
 						AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
 						</cfquery>	
 						<!---"TODO: Fix type/value/units relationship check (chk_specpart_att_codetable -- variables up to date but it is not working)"--->
+						<cfset ctstruct=StructNew()>
+					<cfloop query="getCodeTables">
+						<cfset StructInsert(ctstruct, #attribute_type#, #code_table#)>
+					</cfloop>
+					<cfset cttable = ctstruct.find(part_att_name_1)>	
+					
 						<cfquery name="chkPAtt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						update cf_temp_parts set status = status || '<span class="font-weight-bold">"'||PART_ATT_VAL_#i#||'"</span> for "'||PART_ATT_NAME_#i#||'" part attribute name not in codetable'
 						where MCZBASE.CHK_SPECPART_ATT_CODETABLES(PART_ATT_NAME_#i#,PART_ATT_VAL_#i#,COLLECTION_CDE)=0
-						and PART_ATT_NAME_#i# in
-						(select attribute_type from ctspecpart_attribute_type where value_code_tables is not null)
+						and PART_ATT_NAME_#i# in (select attribute_type from cttable)
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
 						</cfquery>
