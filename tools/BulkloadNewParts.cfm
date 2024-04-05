@@ -549,14 +549,14 @@ limitations under the License.
 					WHERE 
 						username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
-<cfset ctstruct=StructNew()>
+				<cfset ctstruct=StructNew()>
 					<cfloop query="getCodeTables">
 						<cfset StructInsert(ctstruct, #attribute_type#, #code_table#)>
 					</cfloop>
 				<cfloop query="getTempTableQC">
 					
 				
-					<cfset cttable = ctstruct.find("sex")>	
+					<cfset cttable = ctstruct.find("#part_att_name_1#")>	
 					#cttable#
 					<cfquery name="CollID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">						
 						update cf_temp_parts set status = concat(nvl2(status, status || '; ', ''),'Invalid other id type and number')
