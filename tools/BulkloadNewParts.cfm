@@ -660,12 +660,9 @@ limitations under the License.
 						<cfloop query="getCodeTables">
 							<cfset StructInsert(ctstruct, #attribute_type#, #code_table#)>
 						</cfloop>							
-						<cfset cttable = ctstruct.find(part_att_name_#i#)>
+						<cfset cttable = ctstruct.find(attribute_type)>
 					
-						<cfloop query="cttable">
-							#code_table#   				
-							<br>
-						</cfloop>
+						
 					
 						<cfquery name="chkPAtt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						update cf_temp_parts set status = status || '<span class="font-weight-bold">"'||PART_ATT_VAL_#i#||'"</span> for "'||PART_ATT_NAME_#i#||'" part attribute name not in codetable'
