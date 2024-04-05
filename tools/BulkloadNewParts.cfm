@@ -487,9 +487,9 @@ limitations under the License.
 					select attribute_type, decode(value_code_tables, null, unit_code_tables,value_code_tables) code_table  from ctspecpart_attribute_type
 				</cfquery>
 				<cfquery name="matchCodeTables" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					select * from getCodeTables.code_table
+					select code_table from getCodeTables
 				</cfquery>
-#matchCodeTables.*#
+
 				<cfquery name="getTempTableTypes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT 
 						other_id_type, institution_acronym, collection_cde, other_id_number, key
