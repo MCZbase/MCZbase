@@ -656,7 +656,7 @@ limitations under the License.
 						</cfquery>	
 							
 						<cfquery name="chkPAtCT" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						select attribute_type, decode(value_code_tables, null, unit_code_tables,value_code_tables) code_table  from ctspecpart_attribute_type where attribute_type = '||PART_ATT_NAME_#i#||' and code_table is not null
+						select attribute_type, decode(value_code_tables, null, unit_code_tables,value_code_tables) code_table  from ctspecpart_attribute_type where attribute_type = '||PART_ATT_NAME_#i#||' and decode(value_code_tables, null, unit_code_tables,value_code_tables) is not null
 						</cfquery>
 						<cfif chkPAtCT.attribute_type eq '||PART_ATT_NAME_#i#||'>
 						<cfquery name="chkPAtt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
