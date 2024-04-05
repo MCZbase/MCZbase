@@ -659,7 +659,7 @@ limitations under the License.
 							and--->
 						
 						<cfquery name="chkPAttCT" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						select cf_temp_parts.part_att_name_#i# partno,cf_temp_parts.part_att_val_#i# partvalno,cf_temp_parts.collection_cde,ctspecpart_attribute_type.attribute_type,decode(value_code_tables, null, unit_code_tables,value_code_tables) code_table from ctspecpart_attribute_type, cf_temp_parts where attribute_type = '||PART_ATT_NAME_#i#||'
+						select cf_temp_parts.part_att_name_#i#,cf_temp_parts.part_att_val_#i#,cf_temp_parts.collection_cde,ctspecpart_attribute_type.attribute_type,decode(value_code_tables, null, unit_code_tables,value_code_tables) code_table from ctspecpart_attribute_type, cf_temp_parts where attribute_type = '||PART_ATT_NAME_#i#||'
 						AND cf_temp_parts.partno = attribute_type
 						and cf_temp_parts.partvalno is not null
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
@@ -668,9 +668,9 @@ limitations under the License.
 						<cfloop query="chkPAttCT">
 							<cfquery name="chkPAtt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							update cf_temp_parts set status = concat(nvl2(status, status || '; ', ''),'part attribute value <span class="font-weight-bold">"'||PART_ATT_VAL_1||'"</span> not in codetable')
-							where chk_specpart_att_codetables(partno,partvalno,COLLECTION_CDE)=0
-							and #chkPAttCT.partno# is not null
-							and #chkPAttCT.partno# = #chkPAttCT.attribute_type#
+							where chk_specpart_att_codetables(chkPAttCT.part_att_name_#i#,chkPAttCT.part_att_val_#i#,chkPAttCT.COLLECTION_CDE)=0
+							and #chkPAttCT.part_att_name_#i# is not null
+							and #chkPAttCT.part_att_val_#i# = #chkPAttCT.attribute_type#
 							AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 							AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
 							</cfquery>
