@@ -546,6 +546,7 @@ limitations under the License.
 					WHERE 
 						username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
+					<!---Loop through the temp part data and validate against code tables and requirements--->
 				<cfloop query="getTempTableQC">
 					<cfquery name="CollID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">						
 						update cf_temp_parts set status = concat(nvl2(status, status || '; ', ''),'Invalid other id type and number')
@@ -569,6 +570,7 @@ limitations under the License.
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
 					</cfquery>
+					<!---Add HUH to this, m1b, or more general query for institutions in the database when necessary--->
 					<cfquery name="m1b" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						UPDATE cf_temp_parts
 						SET 
