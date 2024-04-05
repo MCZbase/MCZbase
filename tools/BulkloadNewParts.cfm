@@ -659,7 +659,7 @@ limitations under the License.
 							and--->
 						
 						<cfquery name="chkPAttCT" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						select cf_temp_parts.part_att_name_#i# as partno,cf_temp_parts.part_att_val_#i# as partvalno,cf_temp_parts.collection_cde,ctspecpart_attribute_type.attribute_type, decode(value_code_tables, null, unit_code_tables,value_code_tables) code_table from ctspecpart_attribute_type, cf_temp_parts where attribute_type = '||PART_ATT_NAME_#i#||'
+						select cf_temp_parts.part_att_name_#i# as 'partno',cf_temp_parts.part_att_val_#i# as 'partvalno',cf_temp_parts.collection_cde,ctspecpart_attribute_type.attribute_type, decode(value_code_tables, null, unit_code_tables,value_code_tables) code_table from ctspecpart_attribute_type, cf_temp_parts where attribute_type = '||PART_ATT_NAME_#i#||'
 						AND cf_temp_parts.partno = attribute_type
 						and cf_temp_parts.partvalno is not null
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
