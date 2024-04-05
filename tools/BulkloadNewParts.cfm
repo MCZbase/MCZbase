@@ -484,7 +484,7 @@ limitations under the License.
 				<cfoutput>
 				<h2 class="h4">Second step: Data Validation</h2>
 				<cfquery name="getCodeTables" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					select attribute_type, decode(value_code_tables, null, units_code_tables,value_code_tables) code_table  from ctspecpart_attribute_type
+					select attribute_type, decode(value_code_tables, null, unit_code_tables,value_code_tables) code_table  from ctspecpart_attribute_type
 				</cfquery>
 				<cfset ctstruct=StructNew()>
 				<cfloop query="getCodeTables">
