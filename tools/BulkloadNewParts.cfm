@@ -665,19 +665,15 @@ limitations under the License.
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
 						</cfquery>
-						<cfset ctable=''>
-						<cfset ctable=#chkPAttCT.code_table#>
-						<cfset j=1>
 						<cfloop query="chkPAttCT">
 							<cfquery name="chkPAtt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							update cf_temp_parts set status = concat(nvl2(status, status || '; ', ''),'part attribute value <span class="font-weight-bold">"'||PART_ATT_VAL_#i#||'"</span> not in codetable')
-							where chk_specpart_att_codetables(PART_ATT_NAME_#j#,PART_ATT_VAL_#j#,COLLECTION_CDE)=0
-							and PART_ATT_NAME_#j# is not null
-							and part_att_name_#j# = #chkPAttCT.attribute_type#
+							where chk_specpart_att_codetables(PART_ATT_NAME_#i#,PART_ATT_VAL_#i#,COLLECTION_CDE)=0
+							and PART_ATT_NAME_#i# is not null
+							and part_att_name_#i# = #chkPAttCT.attribute_type#
 							AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 							AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
 							</cfquery>
-							<cfset j=j+1>
 						</cfloop>
 						<!---TODO: ABOVE. Fix type/value/units relationship check (chk_specpart_att_codetable)--->
 						<cfquery name="chkPAtt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
