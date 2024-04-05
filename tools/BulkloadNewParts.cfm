@@ -483,11 +483,13 @@ limitations under the License.
 			<cfif #action# is "validate">
 				<cfoutput>
 				<h2 class="h4">Second step: Data Validation</h2>
-				<cfquery name="getCodeTables" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="getCodeTables" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					select attribute_type, decode(value_code_tables, null, unit_code_tables,value_code_tables) code_table  from ctspecpart_attribute_type
 				</cfquery>
-		
-
+				<cfquery name="matchCodeTables" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					select * from getCodeTables.code_table
+				</cfquery>
+#matchCodeTables.*#
 				<cfquery name="getTempTableTypes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT 
 						other_id_type, institution_acronym, collection_cde, other_id_number, key
@@ -660,7 +662,7 @@ limitations under the License.
 						<cfloop query="getCodeTables">
 							<cfset StructInsert(ctstruct, #attribute_type#, #code_table#)>
 						</cfloop>							
-						<cfset cttable = ctstruct.find("caste")>#cttable#
+						<cfset ctstruct.find("caste")>#cttable#
 						
 					
 						<cfquery name="chkPAtt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
