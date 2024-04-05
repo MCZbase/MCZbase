@@ -658,10 +658,9 @@ limitations under the License.
 						<!---"TODO: Fix type/value/units relationship check (chk_specpart_att_codetable -- variables up to date but it is not working)"--->
 						<cfset ctstruct=StructNew()>
 					<cfloop query="getCodeTables">
-						<cfset StructInsert(ctstruct, #attribute_type#, #code_table#)>
+						<cfset StructInsert(ctstruct, #attribute_type#, #code_table#, part_att_name_#i#)>
 					</cfloop>
-					<cfset partname = "cf_temp_parts.part_att_name_#i#">
-					<cfset cttable = ctstruct.find(partname)>	
+					<cfset cttable = ctstruct.find(part_att_name_#i#)>	
 					
 						<cfquery name="chkPAtt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						update cf_temp_parts set status = status || '<span class="font-weight-bold">"'||PART_ATT_VAL_#i#||'"</span> for "'||PART_ATT_NAME_#i#||'" part attribute name not in codetable'
