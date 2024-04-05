@@ -660,10 +660,10 @@ limitations under the License.
 						<cfloop query="getCodeTables">
 							<cfset StructInsert(ctstruct, #attribute_type#, #code_table#)>
 						</cfloop>							
-						<cfset cttable = ctstruct.find()>
+						<cfset cttable = ctstruct.find(part_att_name_#i#)>
 					
 						<cfloop query="cttable">
-							part_att_name_#i#|| '|' ||code_table   				
+							#code_table#   				
 							<br>
 						</cfloop>
 					
