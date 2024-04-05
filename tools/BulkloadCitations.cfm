@@ -650,7 +650,7 @@ limitations under the License.
 						<th>OTHER_ID_TYPE</th>
 						<th>OTHER_ID_NUMBER</th>
 						<th>PUBLICATION_ID</th>
-						
+						<th>PUBLICATION_TITLE</th>
 						<th>CITED_SCIENTIFIC_NAME</th>
 						<th>OCCURS_PAGE_NUMBER</th>
 						<th>CITATION_PAGE_URI</th>
@@ -668,7 +668,7 @@ limitations under the License.
 							<td>#data.OTHER_ID_TYPE#</td>
 							<td>#data.OTHER_ID_NUMBER#</td>
 							<td>#data.PUBLICATION_ID#</td>
-							
+							<td>#data.PUBLICATION_TITLE#</td>
 							<td>#data.CITED_SCIENTIFIC_NAME#</td>
 							<td>#data.OCCURS_PAGE_NUMBER#</td>
 							<td>#data.CITATION_PAGE_URI#</td>
