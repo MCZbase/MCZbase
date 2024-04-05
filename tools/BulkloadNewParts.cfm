@@ -663,7 +663,7 @@ limitations under the License.
 						<cfset cttable = ctstruct.find()>
 					
 						<cfloop query="cttable">
-							'||cttable.part_att_name_#i#||'						
+							part_att_name_#i#|| '|' ||code_table   				
 							<br>
 						</cfloop>
 					
