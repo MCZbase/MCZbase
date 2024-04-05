@@ -702,7 +702,8 @@
 				</cfcatch>
 				</cftry>
 			</cftransaction>
-			<h3>Updated #container_updates# containers.</h3>
+			<cfif container_updates GT 1><cfset plural="s"><cfelse><cfset plural=""></cfif>
+			<h3>Updated #container_updates# container#plural#.</h3>
 			<h3 class="text-success">Success, changes applied.</h3>
 			<!--- cleanup --->
 			<cfquery name="clearTempTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="clearTempTable_result">
