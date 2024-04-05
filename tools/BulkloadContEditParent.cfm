@@ -111,7 +111,7 @@
 		<cfoutput>
 			<div class="container">
 				<h1 class="h2 mt-2">Bulkload Container Edit Parent</h1>
-				<h2 class="h3">First step: Reading data from CSV file.</h2>
+				<h2 class="h4">First step: Reading data from CSV file.</h2>
 				<!--- Compare the numbers of headers expected against provided in CSV file --->
 				<!--- Set some constants to identify error cases in cfcatch block --->
 				<cfset NO_COLUMN_ERR = "<h4 class='mt-4 mb-3'>One or more required fields are missing in the header line of the csv file. Check charset selected if columns match required headers and one column is not found.</h4>">
@@ -234,7 +234,7 @@
 						<cfset colNameArray = listToArray(ucase(foundHeaders))><!--- the list of columns/fields found in the input file --->
 						<cfset fieldArray = listToArray(ucase(fieldlist))><!--- the full list of fields --->
 						<cfset typeArray = listToArray(fieldTypes)><!--- the types for the full list of fields --->
-						<div class="col-12 my-4">
+						<div class="col-12 px-0 my-4">
 							<h3 class="h4">Found #size# columns in header of csv file.</h3>
 							<h3 class="h4">There are #ListLen(fieldList)# columns expected in the header (of these #ListLen(requiredFieldList)# are required).</h3>
 						</div>
