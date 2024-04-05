@@ -619,7 +619,7 @@ limitations under the License.
 			</cfloop>
 			<!---Go through all the data and report the status--->
 			<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				SELECT institution_acronym,collection_cde,other_id_type,other_id_number,publication_id,cited_scientific_name,
+				SELECT institution_acronym,collection_cde,other_id_type,other_id_number,publication_title,publication_id,cited_scientific_name,
 				occurs_page_number,citation_page_uri,cited_taxon_name_id,type_status,citation_remarks,collection_object_id,status
 				FROM cf_temp_citation
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
