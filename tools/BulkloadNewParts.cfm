@@ -487,9 +487,9 @@ limitations under the License.
 					select attribute_type, decode(value_code_tables, null, unit_code_tables,value_code_tables) code_table  from ctspecpart_attribute_type
 				</cfquery>
 				<cfloop query="getCodeTables">
-					#code_table#
+					<cfset cttable=listtoarray(#code_table#)>
 				</cfloop>
-
+#cttable#
 				<cfquery name="getTempTableTypes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT 
 						other_id_type, institution_acronym, collection_cde, other_id_number, key
@@ -658,11 +658,11 @@ limitations under the License.
 						AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
 						</cfquery>	
 						<!---"TODO: Fix type/value/units relationship check (chk_specpart_att_codetable -- variables up to date but it is not working)"--->
-						<cfset ctstruct=StructNew()>
+					<!---	<cfset ctstruct=StructNew()>
 						<cfloop query="getCodeTables">
 							<cfset StructInsert(ctstruct, #attribute_type#, #code_table#)>
 						</cfloop>							
-						<cfset ctstruct.find("caste")>#cttable#
+						<cfset ctstruct.find("caste")>#cttable#--->
 						
 					
 						<cfquery name="chkPAtt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
