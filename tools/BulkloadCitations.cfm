@@ -634,7 +634,7 @@ limitations under the License.
 			<table class='px-0 mx-0 sortable table small table-responsive w-100'>
 				<thead class="thead-light">
 					<tr>
-						<th>BULKLOAD STATUS</th>
+						<th>BULKLOAD&nbsp;STATUS</th>
 						<th>INSTITUTION_ACRONYM</th>
 						<th>COLLECTION_CDE</th>
 						<th>OTHER_ID_TYPE</th>
@@ -714,7 +714,7 @@ limitations under the License.
 							)
 						</cfquery>
 						<cfquery name="updateCitations1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateCitations1_result">
-							select PUBLICATION_ID,COLLECTION_OBJECT_ID,CITED_TAXON_NAME_ID,OCCURS_PAGE_NUMBER,TYPE_STATUS,CITATION_REMARKS,	CITATION_PAGE_URI from citation
+							select PUBLICATION_ID,COLLECTION_OBJECT_ID,CITED_TAXON_NAME_ID,OCCURS_PAGE_NUMBER,TYPE_STATUS,CITATION_REMARKS,CITATION_PAGE_URI from citation
 							where collection_object_id = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getCitData.collection_object_id#">
 							group by publication_id,collection_object_id,cited_taxon_name_id,OCCURS_PAGE_NUMBER,TYPE_STATUS,CITATION_REMARKS,CITATION_PAGE_URI
 							having count(*) > 1
@@ -737,7 +737,7 @@ limitations under the License.
 					<cftransaction action="ROLLBACK">
 					<h2 class="h3">There was a problem updating the citations.</h2>
 					<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						SELECT PUBLICATION_ID,COLLECTION_OBJECT_ID,CITED_TAXON_NAME_ID,OCCURS_PAGE_NUMBER,TYPE_STATUS,CITATION_REMARKS,CITATION_PAGE_URI
+						SELECT COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID,COLLECTION_OBJECT_ID,PUBLICATION_TITLE,PUBLICATION_ID,CITED_TAXON_NAME_ID,OCCURS_PAGE_NUMBER,TYPE_STATUS,CITATION_REMARKS,CITATION_PAGE_URI
 						FROM cf_temp_citation
 						where key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#problem_key#">
 					</cfquery>
@@ -774,10 +774,21 @@ limitations under the License.
 							</cfif>
 						</h3>
 						<table class='sortable small table table-responsive table-striped d-lg-table mt-3'>
-							<thead><tr>
-								<th>COUNT</th><th>PUBLICATION_ID</th><th>COLLECTION_OBJECTION_ID</th>
-								<th>OCCURS_PAGE_NUMBER</th><th>TYPE_STATUS</th><th>CITATION_REMARKS</th><th>CITATION_PAGE_URI</th>
-								<th>CITED_TAXON_NAME_ID</th>
+							<thead>
+								<tr>
+									<th>Row No.</th>
+									<th>COLLECTION_CDE</th>
+									<th>OTHER_ID_TYPE</th>
+									<th>OTHER_ID_NUMBER</th>
+									<th>COLLECTION_OBJECT_ID</th>
+									<th>PUBLICATION_TITLE</th>
+									<th>PUBLICATION_ID</th>
+									<th>CITED_TAXON_NAME_ID</th>
+									<th>OCCURS_PAGE_NUMBER</th>
+									<th>TYPE_STATUS</th>
+									<th>CITATION_REMARKS</th>
+									<th>CITATION_PAGE_URI</th>
+									<th>CITED_TAXON_NAME_ID</th>
 								</tr> 
 							</thead>
 							<tbody>
@@ -785,13 +796,18 @@ limitations under the License.
 								<cfloop query="getProblemData">
 									<tr>
 										<td>#i#</td>
-										<td>#getProblemData.PUBLICATION_ID# </td>
-										<td>#getProblemData.COLLECTION_OBJECT_ID# </td>
+										<td>#getProblemData.COLLECTION_CDE# </td>
+										<td>#getProblemData.OTHER_ID_TYPE# </td>
+										<td>#getProblemData.OTHER_ID_NUMBER# </td>
+										<td>#getProblemData.COLLECTION_OBJECT_ID#</td>
+										<td>#getProblemData.PUBLICATION_TITLE#</td>
+										<td>#getProblemData.PUBLICATION_ID#</td>
+										<td>#getProblemData.CITED_TAXON_NAME_ID#</td>
+										<td>#getProblemData.OCCURS_PAGE_NUMBER# </td>
 										<td>#getProblemData.TYPE_STATUS# </td>
+										<td>#getProblemData.CITATION_REMARKS#</td>
 										<td>#getProblemData.CITATION_PAGE_URI#</td>
 										<td>#getProblemData.CITED_TAXON_NAME_ID#</td>
-										<td>#getProblemData.OCCURS_PAGE_NUMBER#</td>
-										<td>#getProblemData.CITATION_REMARKS#</td>
 									</tr>
 									<cfset i= i+1>
 								</cfloop>
