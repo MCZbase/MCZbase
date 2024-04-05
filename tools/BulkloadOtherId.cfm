@@ -291,7 +291,7 @@ limitations under the License.
 								<!--- Case 2. Check by identifying field in required field list --->
 								<cfif ListContainsNoCase(requiredFieldList,field)>
 									<strong class="text-dark">Required column not found</strong>
-									<cfset errorMessage = "#errorMessage# <div class='pl-3 pb-1 font-weight-bold'>e<i class='fas fa-arrow-right text-dark'></i> #field#</div>">
+									<cfset errorMessage = "#errorMessage# <div class='pl-3 pb-1 font-weight-bold'><i class='fas fa-arrow-right text-dark'></i> #field#</div>">
 								</cfif>
 							</cfif>
 						</li>
@@ -366,7 +366,7 @@ limitations under the License.
 						<cfelseif REFind("[\xc0-\xdf][\x80-\xbf]",thisBit) GT 0>
 							<!--- multibyte --->
 							<cfif foundHighCount LT 6>
-								<cfset foundMultiByte = "#foundMultiByte# <li class='text-dark pb-1'>a bit; <i class='fas fa-arrow-right text-dark'></i>  #thisBit#</li>"><!--- " --->
+								<cfset foundMultiByte = "#foundMultiByte# <li class='text-dark pb-1'><i class='fas fa-arrow-right text-dark'></i>  #thisBit#</li>"><!--- " --->
 								<cfset foundHighCount = foundHighCount + 1>
 							</cfif>
 						</cfif>
