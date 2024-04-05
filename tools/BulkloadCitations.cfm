@@ -760,7 +760,7 @@ limitations under the License.
 										Problem with CITATION_REMARKS (#cfcatch.detail#)
 									<cfelseif cfcatch.detail contains "collection_object-Id">
 										Invalid COLLECTION_OBJECT_ID
-									<cfelseif cfcatch.detail contains "iintegrity constraint (MCZBASE.FK_CITATION_PUBLICATION) violated">
+									<cfelseif cfcatch.detail contains "integrity constraint (MCZBASE.FK_CITATION_PUBLICATION) violated">
 										Invalid Publication ID
 									<cfelseif cfcatch.detail contains "publication_id">
 										Problem with PUBLICATION_ID (#cfcatch.detail#)
