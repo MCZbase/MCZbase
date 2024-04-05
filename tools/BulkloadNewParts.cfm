@@ -553,11 +553,10 @@ limitations under the License.
 					<cfloop query="getCodeTables">
 						<cfset StructInsert(ctstruct, #attribute_type#, #code_table#)>
 					</cfloop>
+					<cfset cttable = ctstruct.find(part_att_name_1)>	
+					#cttable#
 				<cfloop query="getTempTableQC">
 					
-				
-					<cfset cttable = ctstruct.find("#part_att_name_1#")>	
-					#cttable#
 					<cfquery name="CollID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">						
 						update cf_temp_parts set status = concat(nvl2(status, status || '; ', ''),'Invalid other id type and number')
 						where collection_cde|| '|' ||other_id_type|| '|' ||other_id_number NOT IN (select collection_cde|| '|' ||other_id_type|| '|' ||other_id_number from cf_temp_parts)
