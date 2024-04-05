@@ -660,8 +660,7 @@ limitations under the License.
 						<cfloop query="getCodeTables">
 							<cfset StructInsert(ctstruct, #attribute_type#, #code_table#)>
 						</cfloop>							
-						<cfset cttable = ctstruct.find(attribute_type)>
-					
+						<cfset cttable = ctstruct.find("caste")>#cttable#
 						
 					
 						<cfquery name="chkPAtt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
