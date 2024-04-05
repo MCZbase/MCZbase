@@ -41,8 +41,7 @@
 		<cfoutput>
 		<div class="container">
 			<h1 class="h2 mt-2">Bulkload Container Edit Parent</h1>
-			<p>This tool is used to edit container information and/or move parts to a different parent container.</p>
-			<p>Upload a comma-delimited text file (csv).  Include column headings, spelled exactly as below.  Additional colums will be ignored</p>
+			<p>This tool is used to edit container information and/or move parts to a different parent container. Upload a comma-delimited text file (csv).  Include column headings, spelled exactly as below.  Additional colums will be ignored. The container_unique_id, container_name, and parent_unique_id fields take a mix of text, hyphens, and numbers. Only numbers are expected in the width, height, length, and number_positions fields.</p>
 			<span class="btn btn-xs btn-info" onclick="document.getElementById('template').style.display='block';">View template</span>
 			<div id="template" style="display:none;margin: 1em 0;">
 				<label for="templatearea" class="data-entry-label">
