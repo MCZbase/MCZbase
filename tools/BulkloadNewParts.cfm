@@ -549,12 +549,12 @@ limitations under the License.
 					WHERE 
 						username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
-
+<cfset ctstruct=StructNew()>
+					<cfloop query="getCodeTables">
+						<cfset StructInsert(ctstruct, #attribute_type#, #code_table#)>
+					</cfloop>
 				<cfloop query="getTempTableQC">
-					<cfset ctstruct=StructNew()>
-						<cfloop query="getCodeTables">
-							<cfset StructInsert(ctstruct, #attribute_type#, #code_table#)>
-						</cfloop>
+					
 				
 					<cfset cttable = ctstruct.find("sex")>	
 					#cttable#
