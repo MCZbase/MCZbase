@@ -311,10 +311,11 @@ limitations under the License.
 				</cfif>
 						
 				<cfif #aField# GT 1><cfset plural1="s"><cfelse><cfset plural1=""></cfif>
+				<cfif #aField# GT 1><cfset plural1a="are"><cfelse><cfset plural1a="is"></cfif>
 				<cfif #aField# GT 1><cfset plural2=""><cfelse><cfset plural2="s"></cfif>
 				<!--- Identify additional columns that will be ignored --->
 				<cfif NOT ListContainsNoCase(fieldList,aField)>
-					<h3 class="h4">Warning: Found additional column header#plural1# in the CSV that is not in the list of expected headers: </h3>
+					<h3 class="h4">Warning: Found additional column header#plural1# in the CSV that #plural1a# not in the list of expected headers: </h3>
 					<!--- Identify additional columns that will be ignored --->
 					<cfloop list="#foundHeaders#" item="aField">
 						<cfif NOT ListContainsNoCase(fieldList,aField)>
@@ -325,7 +326,7 @@ limitations under the License.
 				
 				<!--- Identify duplicate columns and fail if found --->
 				<cfif NOT ListLen(ListRemoveDuplicates(foundHeaders)) EQ ListLen(foundHeaders)>
-					<h3 class="h4">Warning: #DUP_COLUMN_ERR# </h3>
+					<h3 class="h4">Expected column header#plural1# occur#plural2# more than once: </h3>
 					<ul class="pb-1 h4 list-unstyled">
 						<!--- Identify duplicate columns and fail if found --->
 						<cfloop list="#foundHeaders#" item="aField">
@@ -335,39 +336,9 @@ limitations under the License.
 						<cfset i=i+1>
 						</cfloop>
 					</ul>
+					<cfthrow message = "#DUP_COLUMN_ERR#">
 				</cfif>
 				
-				<!---EXTRA HEADERS --They are not in list of headers --->
-			<!---	<cfif #ListLen(fieldList)# LT #ListLen(foundHeaders)#>
-					<h4>Found one or more column headers in the CSV that should not be there. </h4>
-					<p>(Note: unexpected characters at the beginning of a header often means that the wrong character set was selected.)</p>
-					<ul class="pt-1 pb-3 h4 font-weight-normal">
-						<cfset i = 1>
-						<cfloop list="#foundHeaders#" item="aField">
-							<cfif NOT ListFindNoCase(fieldList,aField)>
-								<cfset extra ="#aField#">
-								<li>#extra#</li>
-							</cfif>
-							<cfset i= i+1>
-						</cfloop>
-					</ul>
-				
-					<cfif NOT ListLen(ListRemoveDuplicates(foundHeaders)) EQ ListLen(foundHeaders)>
-						<h3 class="h4">Expected column header#plural1# occur#plural2# more than once: </h3>
-						<ul class="h4 pt-1 pb-3 font-weight-normal">
-						<cfloop list="#foundHeaders#" item="aField">
-							<cfif listValueCount(foundHeaders,aField) GT 1>
-								<cfset dups = #aField#>
-								<cfset counts1 = #listValueCount(foundHeaders,aField)#>
-								<li>#dups#</li>
-							</cfif>
-						</cfloop>
-						</ul>
-						
-					</cfif>
-					<cfthrow message = "#DUP_COLUMN_ERR#">
-				</cfif>	--->
-		
 				<cfset colNames="#foundHeaders#">
 				<cfset loadedRows = 0>
 				<cfset foundHighCount = 0>
