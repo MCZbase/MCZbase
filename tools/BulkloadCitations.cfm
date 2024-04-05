@@ -760,6 +760,8 @@ limitations under the License.
 										Problem with CITATION_REMARKS (#cfcatch.detail#)
 									<cfelseif cfcatch.detail contains "collection_object-Id">
 										Invalid COLLECTION_OBJECT_ID
+									<cfelseif cfcatch.detail contains "iintegrity constraint (MCZBASE.FK_CITATION_PUBLICATION) violated">
+										Invalid Publication ID
 									<cfelseif cfcatch.detail contains "publication_id">
 										Problem with PUBLICATION_ID (#cfcatch.detail#)
 									<cfelseif cfcatch.detail contains "unique constraint">
@@ -776,7 +778,7 @@ limitations under the License.
 						<table class='sortable small table table-responsive table-striped d-lg-table mt-3'>
 							<thead>
 								<tr>
-									<th>Row No.</th>
+									<th>COUNT</th>
 									<th>COLLECTION_CDE</th>
 									<th>OTHER_ID_TYPE</th>
 									<th>OTHER_ID_NUMBER</th>
