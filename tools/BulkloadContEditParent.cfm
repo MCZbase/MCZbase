@@ -302,9 +302,10 @@ limitations under the License.
 							</cfif>
 							<cfthrow message = "#NO_COLUMN_ERR# #errorMessage#">
 						</cfif>
+<!--- bug, not within a loop that identifies aField --->
 						<cfif NOT ListContainsNoCase(fieldList,aField)>
+							<h3 class="h4">Found additional column header(s) in the CSV that is not in the list of expected headers: </h3>
 							<ul class="py-1 h4 list-unstyled">
-							<strong>Found additional column header(s) in the CSV that is not in the list of expected headers: </strong>
 							<!--- Identify additional columns that will be ignored --->
 							<cfloop list="#foundHeaders#" item="aField">
 								<cfif NOT ListContainsNoCase(fieldList,aField)>
@@ -314,11 +315,11 @@ limitations under the License.
 							</ul>
 						</cfif>
 						<cfif NOT ListLen(ListRemoveDuplicates(foundHeaders)) EQ ListLen(foundHeaders)>
+							<h3 class="h4">Expected column header(s) occur more than once: </h3>
 							<ul class="py-1 h4 list-unstyled">
 								<cfset i=1>
 								<!--- Identify duplicate columns and fail if found --->
 								<cfif NOT ListLen(ListRemoveDuplicates(foundHeaders)) EQ ListLen(foundHeaders)>
-									<strong>#DUP_COLUMN_ERR# </strong>
 									<cfloop list="#foundHeaders#" item="aField">
 										<cfif listValueCount(foundHeaders,aField) GT 1>
 												<li class="pt-1 px-4"><i class='fas fa-arrow-right text-info'></i> <strong class="text-info">column ###i# = #aField#</strong> </1i>
@@ -327,6 +328,7 @@ limitations under the License.
 									</cfloop>
 								</cfif>
 							</ul>
+							<cfthrow message = "#DUP_COLUMN_ERR#">
 						</cfif>
 						<cfset colNames="#foundHeaders#">
 						<cfset loadedRows = 0>
