@@ -1,3 +1,21 @@
+<!--- tools/bulkloadContEditParent.cfm to move containers to new parents in bulk.
+
+Copyright 2008-2017 Contributors to Arctos
+Copyright 2008-2024 President and Fellows of Harvard College
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+
+--->
 <!--- special case handling to dump problem data as csv --->
 <cfif isDefined("action") AND action is "dumpProblems">
 	<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -284,9 +302,10 @@
 							</cfif>
 							<cfthrow message = "#NO_COLUMN_ERR# #errorMessage#">
 						</cfif>
+<!--- bug, not within a loop that identifies aField --->
 						<cfif NOT ListContainsNoCase(fieldList,aField)>
+							<h3 class="h4">Found additional column header(s) in the CSV that is not in the list of expected headers: </h3>
 							<ul class="py-1 h4 list-unstyled">
-							<strong>Found additional column header(s) in the CSV that is not in the list of expected headers: </strong>
 							<!--- Identify additional columns that will be ignored --->
 							<cfloop list="#foundHeaders#" item="aField">
 								<cfif NOT ListContainsNoCase(fieldList,aField)>
@@ -296,11 +315,11 @@
 							</ul>
 						</cfif>
 						<cfif NOT ListLen(ListRemoveDuplicates(foundHeaders)) EQ ListLen(foundHeaders)>
+							<h3 class="h4">Expected column header(s) occur more than once: </h3>
 							<ul class="py-1 h4 list-unstyled">
 								<cfset i=1>
 								<!--- Identify duplicate columns and fail if found --->
 								<cfif NOT ListLen(ListRemoveDuplicates(foundHeaders)) EQ ListLen(foundHeaders)>
-									<strong>#DUP_COLUMN_ERR# </strong>
 									<cfloop list="#foundHeaders#" item="aField">
 										<cfif listValueCount(foundHeaders,aField) GT 1>
 												<li class="pt-1 px-4"><i class='fas fa-arrow-right text-info'></i> <strong class="text-info">column ###i# = #aField#</strong> </1i>
@@ -309,6 +328,7 @@
 									</cfloop>
 								</cfif>
 							</ul>
+							<cfthrow message = "#DUP_COLUMN_ERR#">
 						</cfif>
 						<cfset colNames="#foundHeaders#">
 						<cfset loadedRows = 0>

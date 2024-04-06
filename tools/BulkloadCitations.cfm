@@ -1,7 +1,11 @@
 <!--- tools/bulkloadCitations.cfm add citations to specimens in bulk.
 
 Copyright 2008-2017 Contributors to Arctos
+<<<<<<< HEAD
 Copyright 2008-2023 President and Fellows of Harvard College
+=======
+Copyright 2008-2024 President and Fellows of Harvard College
+>>>>>>> test
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -289,7 +293,7 @@ limitations under the License.
 						</cfloop>
 					</ul>
 					<cfif len(errorMessage) GT 0>
-					<h3 class="">Error Messages</h3>
+						<h3 class="">Error Messages</h3>
 						<cfif size EQ 1>
 							<!--- Likely a problem parsing the first line into column headers --->
 							<cfset errorMessage = "<div class='pt-3'><p>Column not found:</p> #errorMessage#</div>">
@@ -298,9 +302,14 @@ limitations under the License.
 						</cfif>
 						<cfthrow message = "#NO_COLUMN_ERR# #errorMessage#">
 					</cfif>
-						<!--- Identify additional columns that will be ignored --->
+<!--- bug, should be size not aField?  aField isn't in scope and isn't numeric --->
+					<cfif #aField# GT 1><cfset plural1="s"><cfelse><cfset plural1=""></cfif>
+					<cfif #aField# GT 1><cfset plural1a="are"><cfelse><cfset plural1a="is"></cfif>
+					<cfif #aField# GT 1><cfset plural2=""><cfelse><cfset plural2="s"></cfif>
+					<!--- Identify additional columns that will be ignored --->
+<!--- bug, not within a loop that identifies aField --->
 					<cfif NOT ListContainsNoCase(fieldList,aField)>
-						<h3 class="h4">Warning: Found additional column header(s) in the CSV that is not in the list of expected headers: </h3>
+						<h3 class="h4">Warning: Found additional column header#plural1# in the CSV that #plural1a# not in the list of expected headers: </h3>
 						<!--- Identify additional columns that will be ignored --->
 						<cfloop list="#foundHeaders#" item="aField">
 							<cfif NOT ListContainsNoCase(fieldList,aField)>
@@ -308,9 +317,9 @@ limitations under the License.
 							</cfif>
 						</cfloop>
 					</cfif>
-						<!--- Identify duplicate columns and fail if found --->
+					<!--- Identify duplicate columns and fail if found --->
 					<cfif NOT ListLen(ListRemoveDuplicates(foundHeaders)) EQ ListLen(foundHeaders)>
-						<h3 class="h4">Warning: #DUP_COLUMN_ERR# </h3>
+						<h3 class="h4">Expected column header#plural1# occur#plural2# more than once: </h3>
 						<ul class="pb-1 h4 list-unstyled">
 							<!--- Identify duplicate columns and fail if found --->
 							<cfloop list="#foundHeaders#" item="aField">
@@ -320,6 +329,7 @@ limitations under the License.
 							<cfset i=i+1>
 							</cfloop>
 						</ul>
+						<cfthrow message = "#DUP_COLUMN_ERR#">
 					</cfif>
 					<cfset colNames="#foundHeaders#">
 					<cfset loadedRows = 0>

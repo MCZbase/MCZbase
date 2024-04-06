@@ -52,10 +52,10 @@ limitations under the License.
 <!--- Normal page delivery with header/footer --->
 <cfset pageTitle = "Bulkload Other IDs">
 <cfinclude template="/shared/_header.cfm">
-<cfif not isDefined("action") OR len(action) EQ 0><cfset action="nothing"></cfif>
+<cfif not isDefined("action") OR len(action) EQ 0><cfset action="entryPoint"></cfif>
 <main class="container-fluid py-3 px-5" id="content">
 	<h1 class="h2 mt-2">Bulkload Other IDs</h1>
-	<cfif #action# is "nothing">
+	<cfif #action# is "entryPoint">
 		<cfoutput>
 			<p>This tool is used to bulkload Other IDs (other numbers for specimens). Click view template download a comma-delimited text file (csv) to enter and upload data. OR, create a csv by including column headings spelled exactly as listed below. Pay attention to capitalization where it is required. Messages will help to locate, identify, and fix problems with the data in the uploaded .csv file. Note: The errors preventing upload are displayed first and then any warnings about content. </p>
 			
@@ -122,7 +122,6 @@ limitations under the License.
 			</form>
 		</cfoutput>
 	</cfif>	
-<!------------------------------------------------------->
 	<!------------------------------------------------------->
 	<cfif #action# is "getFile">
 		<cfoutput>
@@ -310,10 +309,12 @@ limitations under the License.
 					<cfthrow message = "#NO_COLUMN_ERR# #errorMessage#">
 				</cfif>
 						
+<!--- bug, should be size not aField?  aField isn't in scope and isn't numeric --->
 				<cfif #aField# GT 1><cfset plural1="s"><cfelse><cfset plural1=""></cfif>
 				<cfif #aField# GT 1><cfset plural1a="are"><cfelse><cfset plural1a="is"></cfif>
 				<cfif #aField# GT 1><cfset plural2=""><cfelse><cfset plural2="s"></cfif>
 				<!--- Identify additional columns that will be ignored --->
+<!--- bug, not within a loop that identifies aField --->
 				<cfif NOT ListContainsNoCase(fieldList,aField)>
 					<h3 class="h4">Warning: Found additional column header#plural1# in the CSV that #plural1a# not in the list of expected headers: </h3>
 					<!--- Identify additional columns that will be ignored --->
@@ -505,8 +506,7 @@ limitations under the License.
 		</cftry>
 		</cfoutput>
 	</cfif>
-<!------------------------------------------------------->
-<!------------------------------------------------------->
+	<!------------------------------------------------------->
 	<cfif #action# is "validate">
 		<h2 class="h4">Second step: Data Validation</h2>
 			<cfoutput>
@@ -654,7 +654,6 @@ limitations under the License.
 		</cfoutput>
 	</cfif>
 	<!-------------------------------------------------------------------------------------------->
-
 	<cfif action is "load">
 		<h2 class="h4">Third step: Apply changes.</h2>
 		<cfoutput>
@@ -668,7 +667,8 @@ limitations under the License.
 					SELECT count(distinct collection_object_id) ctobj FROM cf_temp_oids
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
-			<cftry>
+				<cfset success=false>
+				<cftry>
 					<cfset testParse = 0>
 					<cfif getTempData.recordcount EQ 0>
 						<cfthrow message="You have no rows to load in the Other ID bulkloader table (cf_temp_oids).  <a href='/tools/BulkloadOtherId.cfm'>Start over</a>">
@@ -704,78 +704,80 @@ limitations under the License.
 						<p>Attempted to update #i# Other IDs (on #getCounts.ctobj# cataloged items)</p>
 						<h2 class="text-danger">Not loaded - these have already been loaded</h2>
 					</cfif>
-				
-					<cfcatch>
-						<cftransaction action="ROLLBACK">
-						<h2 class="text-danger mt-4">There was a problem updating the Other IDs.</h2>
-						<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getProblemData_result">
-							SELECT institution_acronym, collection_cde,existing_other_id_type, existing_other_id_number, new_other_id_type,new_other_id_number,collection_object_id
-							FROM cf_temp_oids
-							WHERE key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#problem_key#">
-						</cfquery>
+					<cfset success=true>
+				<cfcatch>
+					<cftransaction action="ROLLBACK">
+					<h2 class="text-danger mt-4">There was a problem updating the Other IDs.</h2>
+					<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getProblemData_result">
+						SELECT institution_acronym, collection_cde,existing_other_id_type, existing_other_id_number, new_other_id_type,new_other_id_number,collection_object_id
+						FROM cf_temp_oids
+						WHERE key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#problem_key#">
+					</cfquery>
 						
-							<h3 class="h4">Errors encountered during application are displayed one row at a time.</h3>
-							<h3 class="mt-3 mb-2">
-								Error loading row (<span class="text-danger">#getProblemData_result.recordcount#</span>) from the CSV: 
-								<cfif len(cfcatch.detail) gt 0>
-									<span class="border-bottom border-danger">
-										<cfif cfcatch.detail contains "NEW_OTHER_ID_TYPE">
-											Invalid MEW_OTHER_ID_TYPE; check controlled vocabulary (Help menu)
-										<cfelseif cfcatch.detail contains "COLLECTION_CDE">
-											COLLECTION_CDE does not match abbreviated collection (e.g., Ent, Herp, Ich, IP, IZ, Mala, Mamm, Orn, SC, or VP)
-										<cfelseif cfcatch.detail contains "INSTITUTION_ACRONYM">
-											INSTITUTION_ACRONYM does not match MCZ (all caps)
-										<cfelseif cfcatch.detail contains "NEW_OTHER_ID_NUMBER">
-											Problem with NEW_OTHER_ID_NUMBER, check to see the correct new_other_id_number was entered
-										<cfelseif cfcatch.detail contains "unique constraint">
-											Problem with NEW_OTHER_ID_NUMBER (see below); NEW_OTHER_ID_NUMBER already entered; Remove and <a href="/tools/BulkloadOtherId.cfm">try again</a>
-										<cfelseif cfcatch.detail contains "COLLECTION_OBJECT_ID">
-											Problem with EXISTING_OTHER_ID_TYPE or EXISTING_OTHER_ID_NUMBER (couldn not find collection_object_id) 
-										<cfelseif cfcatch.detail contains "no data">
-											No data or the wrong data (#cfcatch.detail#)
-										<cfelseif cfcatch.detail contains "NULL">
-											Missing Data (#cfcatch.detail#)
-										<cfelse>
-											 <!--- provide the raw error message if it is not readily interpretable --->
-											#cfcatch.detail#
-										</cfif>
-									</span>
+					<h3 class="h4">Errors encountered during application are displayed one row at a time.</h3>
+					<h3 class="mt-3 mb-2">
+						Error loading row (<span class="text-danger">#getProblemData_result.recordcount#</span>) from the CSV: 
+						<cfif len(cfcatch.detail) gt 0>
+							<span class="border-bottom border-danger">
+								<cfif cfcatch.detail contains "NEW_OTHER_ID_TYPE">
+									Invalid MEW_OTHER_ID_TYPE; check controlled vocabulary (Help menu)
+								<cfelseif cfcatch.detail contains "COLLECTION_CDE">
+									COLLECTION_CDE does not match abbreviated collection (e.g., Ent, Herp, Ich, IP, IZ, Mala, Mamm, Orn, SC, or VP)
+								<cfelseif cfcatch.detail contains "INSTITUTION_ACRONYM">
+									INSTITUTION_ACRONYM does not match MCZ (all caps)
+								<cfelseif cfcatch.detail contains "NEW_OTHER_ID_NUMBER">
+									Problem with NEW_OTHER_ID_NUMBER, check to see the correct new_other_id_number was entered
+								<cfelseif cfcatch.detail contains "unique constraint">
+									Problem with NEW_OTHER_ID_NUMBER (see below); NEW_OTHER_ID_NUMBER already entered; Remove and <a href="/tools/BulkloadOtherId.cfm">try again</a>
+								<cfelseif cfcatch.detail contains "COLLECTION_OBJECT_ID">
+									Problem with EXISTING_OTHER_ID_TYPE or EXISTING_OTHER_ID_NUMBER (couldn not find collection_object_id) 
+								<cfelseif cfcatch.detail contains "no data">
+									No data or the wrong data (#cfcatch.detail#)
+								<cfelseif cfcatch.detail contains "NULL">
+									Missing Data (#cfcatch.detail#)
+								<cfelse>
+									 <!--- provide the raw error message if it is not readily interpretable --->
+									#cfcatch.detail#
 								</cfif>
-							</h3>
-							<table class='sortable table table-responsive table-striped d-lg-table'>
-								<thead>
-									<tr>
-										<th>institution_acronym</th>
-										<th>collection_cde</th>
-										<th>existing_other_id_type</th>
-										<th>existing_other_id_number</th>
-										<th>new_other_id_type</th>
-										<th>new_other_id_number</th>
-										<th>collection_object_id</th>
-									</tr>
-								</thead>
-								<tbody>
-									<cfloop query="getProblemData">
-										<tr>
-											<td>#getProblemData.institution_acronym#</td>
-											<td>#getProblemData.collection_cde#</td>
-											<td>#getProblemData.existing_other_id_type#</td>
-											<td>#getProblemData.existing_other_id_number#</td>
-											<td>#getProblemData.new_other_id_type#</td>
-											<td>#getProblemData.new_other_id_number#</td>
-											<td>#getProblemData.collection_object_id#</td>
-										</tr>
-									</cfloop>
-								</tbody>
-							</table>
-				<!---		<cfrethrow>--->
-					</cfcatch>
+							</span>
+						</cfif>
+					</h3>
+					<table class='sortable table table-responsive table-striped d-lg-table'>
+						<thead>
+							<tr>
+								<th>institution_acronym</th>
+								<th>collection_cde</th>
+								<th>existing_other_id_type</th>
+								<th>existing_other_id_number</th>
+								<th>new_other_id_type</th>
+								<th>new_other_id_number</th>
+								<th>collection_object_id</th>
+							</tr>
+						</thead>
+						<tbody>
+							<cfloop query="getProblemData">
+								<tr>
+									<td>#getProblemData.institution_acronym#</td>
+									<td>#getProblemData.collection_cde#</td>
+									<td>#getProblemData.existing_other_id_type#</td>
+									<td>#getProblemData.existing_other_id_number#</td>
+									<td>#getProblemData.new_other_id_type#</td>
+									<td>#getProblemData.new_other_id_number#</td>
+									<td>#getProblemData.collection_object_id#</td>
+								</tr>
+							</cfloop>
+						</tbody>
+					</table>
+					<!---	<cfrethrow> success instead to prevent clearing table but graceful display on error --->
+				</cfcatch>
 				</cftry>
 			</cftransaction>
-			<cfquery name="clearTempTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="clearTempTable_result">
-				DELETE FROM cf_temp_oids 
-				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-			</cfquery>
+			<cfif success>
+				<cfquery name="clearTempTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="clearTempTable_result">
+					DELETE FROM cf_temp_oids 
+					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+				</cfquery>
+			</cfif>
 		</cfoutput>
 	</cfif>
 </main>
