@@ -487,7 +487,7 @@
 			<cfset key = ''>
 			<cfquery name="getTempTableTypes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT 
-					other_id_type, scientific_name, key
+					other_id_type, key
 				FROM 
 					cf_temp_ID
 				WHERE 
@@ -530,7 +530,7 @@
 					</cfquery>
 				</cfif>
 			</cfloop>
-			<cfquery name="getTempTableQC" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+			<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT 
 					distinct key,collection_cde,scientific_name
 				FROM 
@@ -538,7 +538,7 @@
 				WHERE 
 					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
-			<cfloop query="getTempTableQC">
+			<cfloop query="data">
 				<cfquery name="ctnature" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					select nature_of_id from ctnature_of_id
 				</cfquery>
@@ -547,12 +547,12 @@
 				</cfquery>
 				<cfquery name="getTaxa" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					update cf_temp_id set taxon_name_id =
-					(SELECT taxon_name_id FROM taxonomy WHERE scientific_name = getTempTableQC.scientific_name)
+					(SELECT taxon_name_id FROM taxonomy WHERE scientific_name = data.scientific_name)
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
 				<cfquery name="getCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE cf_temp_ID SET collection_object_id= 
-					(select collection_object_id from cataloged_item where cat_num = getTempTableQC.other_id_number and collection_cde = getTempTableQC.collection_cde)
+					(select collection_object_id from cataloged_item where cat_num = data.other_id_number and collection_cde = data.collection_cde)
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
 				<cfquery name="miac" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -564,23 +564,8 @@
 					WHERE collection_object_id is null AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
 			</cfloop>
-			<cfloop list="#requiredfieldlist#" index="requiredField">
-				<cfquery name="checkRequired" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					UPDATE cf_temp_id
-					SET 
-						status = concat(nvl2(status, status || '; ', ''),'Required field, #requiredField#, is missing')
-					WHERE #requiredField# is null
-						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-				</cfquery>
-			</cfloop>
-			<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-			SELECT collection_object_id,taxon_name_id,institution_acronym,collection_cde,other_id_type,other_id_number,scientific_name,made_date,nature_of_id,accepted_fg,identification_remarks,taxa_formula,agent_1,agent_2,stored_as_fg,status
-				FROM cf_temp_ID
-				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-			</cfquery>
 			<cfset scientific_name = '#data.scientific_name#'>
 			<cfset tf = '#data.taxa_formula#'>
-			<cfloop query='data'>
 				<cfif right(scientific_name,4) is " sp.">
 					<cfset scientific_name=left(scientific_name,len(scientific_name) -4)>
 					<cfset tf = "A sp.">
@@ -615,6 +600,15 @@
 					<cfset  tf = "A">
 					<cfset scientific_name="#scientific_name#">
 				</cfif>
+			</cfloop>
+			<cfloop list="#requiredfieldlist#" index="requiredField">
+				<cfquery name="checkRequired" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					UPDATE cf_temp_id
+					SET 
+						status = concat(nvl2(status, status || '; ', ''),'Required field, #requiredField#, is missing')
+					WHERE #requiredField# is null
+						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+				</cfquery>
 			</cfloop>
 			<cfquery name="getSci" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				UPDATE cf_temp_ID SET scientific_name= '#scientific_name#'
