@@ -541,7 +541,11 @@
 			</cfquery>
 			<cfloop query="data">
 				<cfquery name="ctnature" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					select nature_of_id from ctnature_of_id
+					UPDATE cf_temp_ID SET status = 'Nature of ID not found'
+					WHERE (nature_of_id is null 
+					OR nature_of_id not in (select nature_of_id from ctnature_of_id))
+					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+					and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#data.key#"> 
 				</cfquery>
 				<cfquery name="ctFormula" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					select taxa_formula from cttaxa_formula order by taxa_formula
