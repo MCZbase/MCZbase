@@ -567,14 +567,14 @@
 				WHERE status is not null
 			</cfquery>
 			<cfif pf.c gt 0>
-				<h3>
+				<h3 class="h4 mt-3">
 					There is a problem with #pf.c# of #data.recordcount# row(s). See the STATUS column. (<a href="/tools/BulkloadIdentification.cfm?action=dumpProblems">download</a>).
 					Fix the problems in the data and <a href="/tools/BulkloadIdentification.cfm">start again</a>.
 				</h3>
 			<cfelse>
-				<h2>
+				<h3 class="h4 mt-3">
 					Validation checks passed. Look over the table below and <a href="/tools/BulkloadIdentification.cfm?action=load">click to continue</a> if it all looks good.
-				</h2>
+				</h3>
 			</cfif>
 			<table class='px-0 mx-0 sortable table table-responsive table-striped d-lg-table'>
 				<thead>
@@ -648,9 +648,9 @@
 						<cfset id_updates = id_updates + updateIds_result.recordcount>
 					</cfloop>
 				</cftransaction>
-				<h3 class="h4">Updated #id_updates# identifications.</h3>
+				<h3 class="h4 mt-3">Updated #id_updates# identifications.</h3>
 			<cfcatch>
-				<h3 class="h4">There was a problem updating Identifications.</h3>
+				<h3 class="h4 mt-3">There was a problem updating Identifications.</h3>
 				<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT *
 					FROM cf_temp_ID 
