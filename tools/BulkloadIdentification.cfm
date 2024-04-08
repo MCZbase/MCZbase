@@ -35,34 +35,68 @@
 	<h1 class="h2 mt-2">Bulkload Identification</h1>
 	<cfif #action# is "nothing">
 	<cfoutput>
-			<p>This tool is used to bulkload identifications.</p>
-			<p>Upload a comma-delimited text file (csv).  Include column headings, spelled exactly as below.  Additional colums will be ignored</p>
+			<p>This tool is used to bulkload identifications.Upload a comma-delimited text file (csv). Include column headings, spelled exactly as below. Additional colums will be ignored.</p>
 			<span class="btn btn-xs btn-info" onclick="document.getElementById('template').style.display='block';">View template</span>
-			<div id="template" style="display:none;margin: 1em 0;">
-				<label for="templatearea" class="data-entry-label">
-					Copy this header line and save it as a .csv file (<a href="/tools/BulkloadIdentification.cfm?action=getCSVHeader">download</a>)
+			<div id="template" class="my-1 mx-0" style="display:none;">
+				<label for="templatearea" class="data-entry-label mb-1">
+					Copy this header line and save it as a .csv file (<a href="/tools/BulkloadCitations.cfm?action=getCSVHeader">download</a>)
 				</label>
 				<textarea rows="2" cols="90" id="templatearea" class="w-100 data-entry-textarea">#fieldlist#</textarea>
 			</div>
-			<p>Columns in <span class="text-danger">red</span> are required; others are optional:</p>
-			<ul class="geol_hier">
+			<h2 class="mt-4 h4">Columns in <span class="text-danger">red</span> are required; others are optional:</h2>
+			<ul class="mb-4 h4 font-weight-normal">
 				<cfloop list="#fieldlist#" index="field" delimiters=",">
+					<cfset aria = "">
 					<cfif listContains(requiredfieldlist,field,",")>
 						<cfset class="text-danger">
+						<cfset aria = "aria-label='Required Field'">
 					<cfelse>
 						<cfset class="text-dark">
 					</cfif>
-					<li class="#class#">#field#</li>
+					<li class="#class#" #aria#>#field#</li>
 				</cfloop>
 			</ul>
-			<cfform name="atts" method="post" enctype="multipart/form-data" action="/tools/BulkloadIdentification.cfm">
-				<input type="hidden" name="Action" value="getFile">
-				<input type="file" name="FiletoUpload" size="45">
-				<input type="submit" value="Upload this file" class="btn btn-primary btn-xs">
-			</cfform>
+			<form name="atts" method="post" enctype="multipart/form-data" action="/tools/BulkloadIdentification.cfm">
+				<div class="form-row border rounded p-2">
+					<input type="hidden" name="action" value="getFile">
+					<div class="col-12 col-md-4">
+						<label for="fileToUpload" class="data-entry-label">File to bulkload:</label> 
+						<input type="file" name="FiletoUpload" id="fileToUpload" class="data-entry-input p-0 m-0">
+					</div>
+					<div class="col-12 col-md-3">
+						<label for="characterSet" class="data-entry-label">Character Set:</label> 
+						<select name="characterSet" id="characterSet" required class="data-entry-select reqdClr">
+							<option selected></option>
+							<option value="utf-8" >utf-8</option>
+							<option value="iso-8859-1">iso-8859-1</option>
+							<option value="windows-1252">windows-1252 (Win Latin 1)</option>
+							<option value="MacRoman">MacRoman</option>
+							<option value="x-MacCentralEurope">Macintosh Latin-2</option>
+							<option value="windows-1250">windows-1250 (Win Eastern European)</option>
+							<option value="windows-1251">windows-1251 (Win Cyrillic)</option>
+							<option value="utf-16">utf-16</option>
+							<option value="utf-32">utf-32</option>
+						</select>
+					</div>
+					<div class="col-12 col-md-3">
+						<label for="format" class="data-entry-label">Format:</label> 
+						<select name="format" id="format" required class="data-entry-select reqdClr">
+							<option value="DEFAULT" selected >Standard CSV</option>
+							<option value="TDF">Tab Separated Values</option>
+							<option value="EXCEL">CSV export from MS Excel</option>
+							<option value="RFC4180">Strict RFC4180 CSV</option>
+							<option value="ORACLE">Oracle SQL*Loader CSV</option>
+							<option value="MYSQL">CSV export from MYSQL</option>
+						</select>
+					</div>
+					<div class="col-12 col-md-2">
+						<label for="submitButton" class="data-entry-label">&nbsp;</label>
+						<input type="submit" id="submittButton" value="Upload this file" class="btn btn-primary btn-xs">
+					</div>
+				</div>
+			</form>
 		</cfoutput>
 	</cfif>
-				
 			
 	<!------------------------------------------------------->
 	<cfif #action# is "getFile">
