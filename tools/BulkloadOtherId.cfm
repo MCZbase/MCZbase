@@ -622,7 +622,8 @@ limitations under the License.
 			</cfquery>
 			<cfif pf.c gt 0>
 				<h3 class="mt-4">
-					There is a problem with #pf.c# of #data.recordcount# row(s). See the STATUS column. (<a href="/tools/BulkloadOtherId.cfm?action=dumpProblems">download</a>).
+					<cfif pf.c GT 1><cfset plural="s"><cfelse><cfset plural=""></cfif<
+					There is a problem with #pf.c# of #data.recordcount# row#plural#. See the STATUS column. (<a href="/tools/BulkloadOtherId.cfm?action=dumpProblems">download</a>).
 				</h3>
 				<h3 class="my-2">
 					Fix the problems in the data and <a href="/tools/BulkloadOtherId.cfm">start again</a>.
