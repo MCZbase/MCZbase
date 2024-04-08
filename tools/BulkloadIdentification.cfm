@@ -547,12 +547,12 @@
 				</cfquery>
 				<cfquery name="getTaxa" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					update cf_temp_id set taxon_name_id =
-					(SELECT taxon_name_id FROM taxonomy WHERE scientific_name = cf_temp_id.scientific_name)
+					(SELECT taxon_name_id FROM taxonomy WHERE scientific_name = getTempTableQC.scientific_name)
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
 				<cfquery name="getCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE cf_temp_ID SET collection_object_id= 
-					(select collection_object_id from cataloged_item where cat_num = cf_temp_ID.other_id_number and collection_cde = cf_temp_ID.collection_cde)
+					(select collection_object_id from cataloged_item where cat_num = getTempTableQC.other_id_number and collection_cde = getTempTableQC.collection_cde)
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
 				<cfquery name="miac" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
