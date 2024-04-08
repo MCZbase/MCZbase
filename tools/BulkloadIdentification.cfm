@@ -593,12 +593,11 @@
 						<th>AGENT_1</th>
 						<th>AGENT_2</th>
 						<th>STORED_AS_FG</th>
-						<th>STATUS</th>
 					</tr>
 				<tbody>
 					<cfloop query="data">
 						<tr>
-							<td>#data.STATUS#</td>
+							<td class="font-weight-bold">#data.STATUS#</td>
 							<td>#data.INSTITUTION_ACRONYM#</td>
 							<td>#data.COLLECTION_CDE#</td>
 							<td>#data.OTHER_ID_TYPE#</td>
