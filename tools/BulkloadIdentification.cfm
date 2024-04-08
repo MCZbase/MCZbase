@@ -532,7 +532,7 @@
 			</cfloop>
 			<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT 
-					distinct key,collection_cde,scientific_name
+					key,collection_cde,scientific_name
 				FROM 
 					cf_temp_id
 				WHERE 
