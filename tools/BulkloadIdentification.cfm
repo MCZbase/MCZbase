@@ -31,7 +31,7 @@
 <cfset pageTitle = "Bulkload Identification">
 <cfinclude template="/shared/_header.cfm">
 <cfif not isDefined("action") OR len(action) EQ 0><cfset action="nothing"></cfif>
-<main class="container py-3" id="content">
+<main class="container-fluid py-3" id="content">
 	<h1 class="h2 mt-2">Bulkload Identification</h1>
 	<cfif #action# is "nothing">
 	<cfoutput>
@@ -482,7 +482,7 @@
 	</cfif>
 	<!------------------------------------------------------->
 	<cfif #action# is "validate">
-		<h2 class="h3">Second step: Data Validation</h2>
+		<h2 class="h4">Second step: Data Validation</h2>
 		<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			SELECT institution_acronym,collection_cde,other_id_type,other_id_number,scientific_name,made_date,nature_of_id,accepted_fg,
 				identification_remarks,taxa_formula,agent_1,agent_2,stored_as_fg,status FROM cf_temp_id WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">	
@@ -567,10 +567,8 @@
 				WHERE status is not null
 			</cfquery>
 			<cfif pf.c gt 0>
-				<h2>
-					There is a problem with #pf.c# of #data.recordcount# row(s). See the STATUS column. (<a href="/tools/BulkloadIdentification.cfm?action=dumpProblems">download</a>).
-				</h2>
 				<h3>
+					There is a problem with #pf.c# of #data.recordcount# row(s). See the STATUS column. (<a href="/tools/BulkloadIdentification.cfm?action=dumpProblems">download</a>).
 					Fix the problems in the data and <a href="/tools/BulkloadIdentification.cfm">start again</a>.
 				</h3>
 			<cfelse>
@@ -578,7 +576,7 @@
 					Validation checks passed. Look over the table below and <a href="/tools/BulkloadIdentification.cfm?action=load">click to continue</a> if it all looks good.
 				</h2>
 			</cfif>
-			<table class='sortable table table-responsive table-striped d-lg-table'>
+			<table class='px-0 mx-0 sortable table table-responsive table-striped d-lg-table'>
 				<thead>
 					<tr>
 						<th>INSTITUTION_ACRONYM</th>
@@ -621,7 +619,7 @@
 	</cfif>
 	<!-------------------------------------------------------------------------------------------->
 	<cfif action is "load">
-		<h2 class="h3">Third step: Apply changes.</h2>
+		<h2 class="h4">Third step: Apply changes.</h2>
 		<cfoutput>
 			<cfquery name="getTempData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT * FROM cf_temp_ID
@@ -650,16 +648,16 @@
 						<cfset id_updates = id_updates + updateIds_result.recordcount>
 					</cfloop>
 				</cftransaction>
-				<h2>Updated #id_updates# identifications.</h2>
+				<h3 class="h4">Updated #id_updates# identifications.</h3>
 			<cfcatch>
-				<h2>There was a problem updating Identifications.</h2>
+				<h3 class="h4">There was a problem updating Identifications.</h3>
 				<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT *
 					FROM cf_temp_ID 
 					WHERE status is not null
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
-				<h3>Problematic Rows (<a href="/tools/BulkloadIdentification.cfm?action=dumpProblems">download</a>)</h3>
+				<h3 class="h4">Problematic Rows (<a href="/tools/BulkloadIdentification.cfm?action=dumpProblems">download</a>)</h3>
 				<table class='sortable table table-responsive table-striped d-lg-table'>
 					<thead>
 						<tr>
