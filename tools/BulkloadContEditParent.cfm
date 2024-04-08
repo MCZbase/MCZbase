@@ -302,32 +302,50 @@ limitations under the License.
 							</cfif>
 							<cfthrow message = "#NO_COLUMN_ERR# #errorMessage#">
 						</cfif>
-<!--- bug, not within a loop that identifies aField --->
-						<cfif NOT ListContainsNoCase(fieldList,aField)>
-							<h3 class="h4">Found additional column header(s) in the CSV that is not in the list of expected headers: </h3>
+						<!--- Test for additional columns not in list, warn and ignore. --->
+						<cfset containsAdditional=false>
+						<cfset additionalCount = 0>
+						<cfloop list="#foundHeaders#" item="aField">
+							<cfif NOT ListContainsNoCase(fieldList,aField)>
+								<cfset containsAdditional=true>
+								<cfset additionalCount = additionalCount+1>
+							</cfif>
+						</cfloop>
+						<cfif containsAdditional>
+							<cfif additionalCount GT 1><cfset plural1="s"><cfelse><cfset plural1=""></cfif>
+							<cfif additionalCount GT 1><cfset plural1a="are"><cfelse><cfset plural1a="is"></cfif>
+							<h3 class="h4">Warning: Found #additionalCount# additional column header#plural1# in the CSV that #plural1a# not in the list of expected headers: </h3>
 							<ul class="py-1 h4 list-unstyled">
-							<!--- Identify additional columns that will be ignored --->
-							<cfloop list="#foundHeaders#" item="aField">
-								<cfif NOT ListContainsNoCase(fieldList,aField)>
-									<li class="pt-1 px-4"><i class='fas fa-arrow-right text-info'></i> <strong class="text-info">#aField#</strong> </1i>
-								</cfif>
-							</cfloop>
+								<!--- Identify additional columns that will be ignored --->
+								<cfloop list="#foundHeaders#" item="aField">
+									<cfif NOT ListContainsNoCase(fieldList,aField)>
+										<li class="pt-1 px-4"><i class='fas fa-arrow-right text-info'></i> <strong class="text-info">#aField#</strong> </1i>
+									</cfif>
+								</cfloop>
 							</ul>
+							<!--- Do not throw an exception, additional columns to be ignored are not fatal. --->
 						</cfif>
 						<cfif NOT ListLen(ListRemoveDuplicates(foundHeaders)) EQ ListLen(foundHeaders)>
-							<h3 class="h4">Expected column header(s) occur more than once: </h3>
+							<cfset duplicateCount = 0>
+							<cfloop list="#foundHeaders#" item="aField">
+								<cfif listValueCount(foundHeaders,aField) GT 1>
+									<cfset duplicateCount = duplicateCount + 1>
+								</cfif>
+							<cfif>
+							<cfif duplicateCount GT 1><cfset plural1="s"><cfelse><cfset plural1=""></cfif>
+							<cfif duplicateCount GT 1><cfset plural2=""><cfelse><cfset plural2="s"></cfif>
+							<h3 class="h4">Expected column header#plural1# occur#plural2# more than once: </h3>
 							<ul class="py-1 h4 list-unstyled">
-								<cfset i=1>
 								<!--- Identify duplicate columns and fail if found --->
 								<cfif NOT ListLen(ListRemoveDuplicates(foundHeaders)) EQ ListLen(foundHeaders)>
 									<cfloop list="#foundHeaders#" item="aField">
 										<cfif listValueCount(foundHeaders,aField) GT 1>
 												<li class="pt-1 px-4"><i class='fas fa-arrow-right text-info'></i> <strong class="text-info">column ###i# = #aField#</strong> </1i>
 										</cfif>
-									<cfset i=i+1>
 									</cfloop>
 								</cfif>
 							</ul>
+							<!--- throw exception to gracefully abort processing. --->
 							<cfthrow message = "#DUP_COLUMN_ERR#">
 						</cfif>
 						<cfset colNames="#foundHeaders#">
