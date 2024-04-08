@@ -576,9 +576,10 @@
 					Validation checks passed. Look over the table below and <a href="/tools/BulkloadIdentification.cfm?action=load">click to continue</a> if it all looks good.
 				</h3>
 			</cfif>
-			<table class='px-0 mx-0 sortable table table-responsive table-striped d-lg-table'>
-				<thead>
+			<table class='px-0 mx-0 sortable table small table-responsive w-100'>
+				<thead class="thead-light">
 					<tr>
+						<th>BULKLOAD&nbsp;STATUS</th>
 						<th>INSTITUTION_ACRONYM</th>
 						<th>COLLECTION_CDE</th>
 						<th>OTHER_ID_TYPE</th>
@@ -597,6 +598,7 @@
 				<tbody>
 					<cfloop query="data">
 						<tr>
+							<td>#data.STATUS#</td>
 							<td>#data.INSTITUTION_ACRONYM#</td>
 							<td>#data.COLLECTION_CDE#</td>
 							<td>#data.OTHER_ID_TYPE#</td>
