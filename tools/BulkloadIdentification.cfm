@@ -537,7 +537,7 @@
 					cf_temp_id
 				WHERE 
 					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-				and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#data.key#"> 
+			
 			</cfquery>
 			<cfloop query="data">
 				<cfquery name="ctnature" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
