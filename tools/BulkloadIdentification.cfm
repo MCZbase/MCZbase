@@ -554,7 +554,7 @@
 			</cfloop>
 			<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT 
-					*
+					UPPER(*)
 				FROM 
 					cf_temp_id
 				WHERE 
