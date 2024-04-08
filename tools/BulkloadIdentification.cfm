@@ -540,8 +540,6 @@
 			
 			</cfquery>
 			<cfloop query="data">
-				
-				#data.scientific_name#
 				<cfquery name="ctnature" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					select nature_of_id from ctnature_of_id
 				</cfquery>
@@ -550,7 +548,7 @@
 				</cfquery>
 				<cfquery name="getTaxa" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					update cf_temp_id set taxon_name_id =
-					(SELECT taxon_name_id FROM taxonomy WHERE scientific_name = data.scientific_name)
+					(SELECT taxon_name_id FROM taxonomy)
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 					and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#data.key#"> 
 				</cfquery>
