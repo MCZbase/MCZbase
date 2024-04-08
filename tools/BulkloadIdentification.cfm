@@ -540,6 +540,8 @@
 			
 			</cfquery>
 			<cfloop query="data">
+				
+				#data.scientific_name#
 				<cfquery name="ctnature" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					select nature_of_id from ctnature_of_id
 				</cfquery>
