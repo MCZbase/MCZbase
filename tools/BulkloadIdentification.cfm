@@ -504,8 +504,8 @@
 							collection_object_id = (
 								select collection_object_id 
 								from cataloged_item 
-								where cat_num = cf_temp_citation.other_id_number 
-								and collection_cde = cf_temp_citation.collection_cde
+								where cat_num = cf_temp_id.other_id_number 
+								and collection_cde = cf_temp_id.collection_cde
 							),
 							status = null
 						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
