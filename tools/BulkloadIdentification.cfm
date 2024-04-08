@@ -658,9 +658,10 @@
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
 				<h3 class="h4">Problematic Rows (<a href="/tools/BulkloadIdentification.cfm?action=dumpProblems">download</a>)</h3>
-				<table class='sortable table small table-responsive table-striped d-lg-table'>
-					<thead>
+				<table class='px-0 mx-0 sortable table small table-responsive w-100'>
+					<thead class="thead-light">
 						<tr>
+							<th>BULKLOAD&nbsp;STATUS</th>
 							<th>institution_acronym</th>
 							<th>collection_cde</th>
 							<th>other_id_type</th>
@@ -680,6 +681,7 @@
 					<tbody>
 						<cfloop query="getProblemData">
 							<tr>
+								<td><strong>#getProblemData.STATUS#</strong></td>
 								<td>#getProblemData.institution_acronym#</td>
 								<td>#getProblemData.collection_cde#</td>
 								<td>#getProblemData.other_id_type#</td>
