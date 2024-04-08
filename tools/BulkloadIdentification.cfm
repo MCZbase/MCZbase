@@ -563,7 +563,6 @@
 					UPDATE cf_temp_ID SET status = 'collection_object_id not found'
 					WHERE collection_object_id is null AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
-			</cfloop>
 			<cfset scientific_name = '#data.scientific_name#'>
 			<cfset tf = '#data.taxa_formula#'>
 				<cfif right(scientific_name,4) is " sp.">
