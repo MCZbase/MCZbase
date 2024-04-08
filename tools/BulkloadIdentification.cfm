@@ -658,7 +658,7 @@
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
 				<h3 class="h4">Problematic Rows (<a href="/tools/BulkloadIdentification.cfm?action=dumpProblems">download</a>)</h3>
-				<table class='sortable table table-responsive table-striped d-lg-table'>
+				<table class='sortable table small table-responsive table-striped d-lg-table'>
 					<thead>
 						<tr>
 							<th>institution_acronym</th>
