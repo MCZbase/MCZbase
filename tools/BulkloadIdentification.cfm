@@ -403,7 +403,7 @@
 						Loaded no rows from the CSV file.  The file appears to be just a header with no data. Fix file and <a href="/tools/BulkloadIdentification.cfm">reload</a>
 					<cfelse>
 						<cfif size eq 1>Size = 1<cfelse>
-						Successfully read #loadedRows# records from the CSV file. Next <a href="/tools/BulkloadIdentification.cfm">click to validate</a>.</cfif>
+						Successfully read #loadedRows# records from the CSV file. Next <a href="/tools/BulkloadIdentification.cfm?action=validate">click to validate</a>.</cfif>
 					</cfif>
 				</h4>
 			<cfcatch>
