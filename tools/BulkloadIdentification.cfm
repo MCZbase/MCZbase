@@ -298,6 +298,27 @@
 						</cfif>
 					</cfloop>
 				</cfif>
+					<!--- Identify additional columns that will be ignored --->
+				<cfset containsAdditional=false>
+				<cfset additionalCount = 0>
+				<cfloop list="#foundHeaders#" item="aField">
+					<cfif NOT ListContainsNoCase(fieldList,aField)>
+						<cfset containsAdditional=true>
+						<cfset additionalCount = additionalCount+1>
+					</cfif>
+				</cfloop>
+				<cfif containsAdditional>
+					<cfif additionalCount GT 1><cfset plural1="s"><cfelse><cfset plural1=""></cfif>
+					<cfif additionalCount GT 1><cfset plural1a="are"><cfelse><cfset plural1a="is"></cfif>
+					<h3 class="h4">Warning: Found #additionalCount# additional column header#plural1# in the CSV that #plural1a# not in the list of expected headers: </h3>
+					<!--- Identify additional columns that will be ignored --->
+					<cfloop list="#foundHeaders#" item="aField">
+						<cfif NOT ListContainsNoCase(fieldList,aField)>
+							<li class="pb-1 px-4"><i class='fas fa-arrow-right text-info'></i> <strong class="text-info">#aField#</strong> </1i>
+						</cfif>
+					</cfloop>
+					<!--- Do not throw an exception, additional columns to be ignored are not fatal. --->
+				</cfif>
 				
 				<!--- Identify duplicate columns and fail if found --->
 				<cfif NOT ListLen(ListRemoveDuplicates(foundHeaders)) EQ ListLen(foundHeaders)>
@@ -313,6 +334,7 @@
 					</ul>
 					<cfthrow message = "#DUP_COLUMN_ERR#">
 				</cfif>
+		
 				
 				<cfset colNames="#foundHeaders#">
 				<cfset loadedRows = 0>
