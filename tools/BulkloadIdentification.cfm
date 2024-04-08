@@ -554,7 +554,7 @@
 			</cfloop>
 			<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT 
-					UPPER(*)
+					UPPER(nature_of_id),taxon_name_id,scientific_name,collection_object_id,key,institution_acronym,collection_cde,other_id_type,other_id_number,made_date,accepted_fg,identification_remarks,taxa_formula,agent_1,agent_2,stored_as_fg
 				FROM 
 					cf_temp_id
 				WHERE 
