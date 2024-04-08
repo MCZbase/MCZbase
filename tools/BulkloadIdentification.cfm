@@ -532,7 +532,7 @@
 			</cfloop>
 			<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT 
-					key,collection_cde,scientific_name
+					*
 				FROM 
 					cf_temp_id
 				WHERE 
@@ -554,7 +554,7 @@
 				</cfquery>
 				<cfquery name="getCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE cf_temp_ID SET collection_object_id= 
-					(select collection_object_id from cataloged_item where cat_num = data.other_id_number and collection_cde = data.collection_cde)
+					(select collection_object_id from cataloged_item where cat_num = '#data.other_id_number#' and collection_cde = '#data.collection_cde#')
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 					and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#data.key#"> 
 				</cfquery>
