@@ -615,15 +615,15 @@ limitations under the License.
 				FROM cf_temp_oids
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
-			<cfquery name="pf" dbtype="query">
+			<cfquery name="problemCount" dbtype="query">
 				SELECT count(*) c 
 				FROM data 
 				WHERE status is not null
 			</cfquery>
-			<cfif len(pf.c) gt 0>
+			<cfif problemCount.c gt 0>
 				<h3 class="mt-4">
-					<cfif len(pf.c) GT 1><cfset plural="s"><cfelse><cfset plural=""></cfif>
-					There is a problem with #pf.c# of #data.recordcount# row#plural#. See the STATUS column. (<a href="/tools/BulkloadOtherId.cfm?action=dumpProblems">download</a>).
+					<cfif problemCount.c GT 1><cfset plural="s"><cfelse><cfset plural=""></cfif<
+					There is a problem with #problemCount.c# of #data.recordcount# row#plural#. See the STATUS column. (<a href="/tools/BulkloadOtherId.cfm?action=dumpProblems">download</a>).
 				</h3>
 				<h3 class="my-2">
 					Fix the problems in the data and <a href="/tools/BulkloadOtherId.cfm">start again</a>.
@@ -633,7 +633,7 @@ limitations under the License.
 					<span class="text-success">Validation checks passed.</span> Look over the table below and <a href="/tools/BulkloadOtherId.cfm?action=load">click to continue</a> if it all looks good or <a href="/tools/BulkloadOtherId.cfm">start again</a>.
 				</h3>
 			</cfif>
-			<table class="px-0 sortable table small table-responsive table-striped d-lg-table">
+			<table class='px-0 sortable table small table-responsive table-striped d-lg-table'>
 				<thead>
 					<tr>
 						<th>BULKLOADING STATUS</th>
