@@ -614,7 +614,6 @@
 					UPDATE cf_temp_ID 
 					SET status = concat(nvl2(status, status || '; ', ''),'taxa_formula is not found')
 					WHERE taxa_formula is null 
-						AND taxa_formula not in (select taxa_formula from cttaxa_formula order by taxa_formula)
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						AND key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableQC.key#"> 
 				</cfquery>
