@@ -587,13 +587,14 @@
 					AND other_id_type <> 'catalog number'
 					AND other_id_type not in (select other_id_type from ctcoll_other_id_type)
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+					AND key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#data.key#"> 
 			</cfquery>
 			<cfquery name="flagNotMatchCTnature" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				UPDATE cf_temp_ID SET 
 				status = concat(nvl2(status, status || '; ', ''), 'Unknown nature of ID: "'||nature_of_id||'"')
 				WHERE nature_of_id not in (select nature_of_id from ctnature_of_id)
-				AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-				and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#data.key#"> 
+					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+					AND key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#data.key#"> 
 			</cfquery>
 			<cfquery name="getCTFormula" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				select taxa_formula from cttaxa_formula order by taxa_formula
@@ -602,18 +603,18 @@
 				update cf_temp_id set taxon_name_id =
 				(SELECT taxon_name_id FROM taxonomy where scientific_name ='#data.scientific_name#')
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-				and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#data.key#"> 
+					AND key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#data.key#"> 
 			</cfquery>
 			<cfquery name="flagNotMatchSciName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				UPDATE cf_temp_ID SET status = concat(nvl2(status, status || '; ', ''),'scientific_name not found')
 				WHERE scientific_name is null AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-				and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#data.key#"> 
+					AND key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#data.key#"> 
 			</cfquery>
 			<cfquery name="miap" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				UPDATE cf_temp_ID SET status = concat(nvl2(status, status || '; ', ''), 'collection_object_id not found')
 				WHERE collection_object_id is null 
 				AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-				and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#data.key#"> 
+					and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#data.key#"> 
 			</cfquery>
 			<!---Missing data in required fields--->
 			<cfloop list="#requiredfieldlist#" index="requiredField">
