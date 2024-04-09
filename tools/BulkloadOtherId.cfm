@@ -674,7 +674,6 @@ limitations under the License.
 					SELECT count(distinct collection_object_id) ctobj FROM cf_temp_oids
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
-				<cfset success=false>
 				<cftry>
 					<cfset testParse = 0>
 					<cfif getTempData.recordcount EQ 0>
@@ -711,7 +710,6 @@ limitations under the License.
 						<p>Attempted to update #i# Other IDs (on #getCounts.ctobj# cataloged items)</p>
 						<h2 class="text-danger">Not loaded - these have already been loaded</h2>
 					</cfif>
-					<cfset success=true>
 				<cfcatch>
 					<cftransaction action="ROLLBACK">
 					<h2 class="text-danger mt-4">There was a problem updating the Other IDs.</h2>
@@ -775,16 +773,14 @@ limitations under the License.
 							</cfloop>
 						</tbody>
 					</table>
-					<!---	<cfrethrow> success instead to prevent clearing table but graceful display on error --->
+					<cfrethrow>
 				</cfcatch>
 				</cftry>
 			</cftransaction>
-			<cfif success>
-				<cfquery name="clearTempTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="clearTempTable_result">
-					DELETE FROM cf_temp_oids 
-					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-				</cfquery>
-			</cfif>
+			<cfquery name="clearTempTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="clearTempTable_result">
+				DELETE FROM cf_temp_oids 
+				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+			</cfquery>
 		</cfoutput>
 	</cfif>
 </main>

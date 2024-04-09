@@ -851,10 +851,10 @@ limitations under the License.
 						</table>
 					</cfif>
 					<div>#cfcatch.message#</div>
+					<cfrethrow>
 				</cfcatch>
 				</cftry>
 			</cftransaction>
-			
 			<cfquery name="clearTempTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="clearTempTable_result">
 				DELETE FROM cf_temp_citation
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
