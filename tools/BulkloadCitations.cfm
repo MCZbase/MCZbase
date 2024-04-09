@@ -1,11 +1,7 @@
 <!--- tools/bulkloadCitations.cfm add citations to specimens in bulk.
 
 Copyright 2008-2017 Contributors to Arctos
-<<<<<<< HEAD
-Copyright 2008-2023 President and Fellows of Harvard College
-=======
 Copyright 2008-2024 President and Fellows of Harvard College
->>>>>>> test
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
