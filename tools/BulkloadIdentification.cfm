@@ -856,7 +856,7 @@
 							stored_as_fg,
 							made_date) 
 							VALUES
-							(#NEXTID.NEXTID#,
+							(<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#NEXTID.NEXTID#">,
 							<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">,
 							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#nature_of_id#">,
 							<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#accepted_id_fg#">,
