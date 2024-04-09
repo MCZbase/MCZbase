@@ -538,9 +538,9 @@
 						SET
 							collection_object_id= (
 								select cataloged_item.collection_object_id from cataloged_item,coll_obj_other_id_num 
-								where coll_obj_other_id_num.other_id_type = cf_temp_ID.existing_other_id_type 
+								where coll_obj_other_id_num.other_id_type = cf_temp_ID.other_id_type 
 								and cataloged_item.collection_cde = cf_temp_ID.collection_cde 
-								and display_value= cf_temp_ID.existing_other_id_number
+								and display_value= cf_temp_ID.other_id_number
 								and cataloged_item.collection_object_id = coll_obj_other_id_num.COLLECTION_OBJECT_ID
 							),
 							status = null
@@ -582,10 +582,10 @@
 			<cfquery name="flagNotMatchedExistOther_ID_Type2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				UPDATE cf_temp_ID
 				SET 
-					status = concat(nvl2(status, status || '; ', ''), 'Unknown new_other_id_type: "' || new_other_id_type ||'"&mdash;not on list')
-				WHERE new_other_id_type is not null 
-					AND new_other_id_type <> 'catalog number'
-					AND new_other_id_type not in (select other_id_type from ctcoll_other_id_type)
+					status = concat(nvl2(status, status || '; ', ''), 'Unknown other_id_type: "' || other_id_type ||'"&mdash;not on list')
+				WHERE other_id_type is not null 
+					AND other_id_type <> 'catalog number'
+					AND other_id_type not in (select other_id_type from ctcoll_other_id_type)
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<cfquery name="flagNotMatchCTnature" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
