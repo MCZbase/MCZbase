@@ -108,7 +108,6 @@
 		<cfset DUP_COLUMN_ERR = "<p>Fix the one or more columns that are duplicated, mispelled, or added in the header line of the csv file and reload. </p>"><!--- " --->
 		<cfset COLUMN_ERR = "Error inserting data ">
 		<cfset NO_HEADER_ERR = "<h4 class='mb-3'>No header line found, csv file appears to be empty.</h4>"><!--- " --->
-
 		<cftry>
 				<!--- Parse the CSV file using Apache Commons CSV library included with coldfusion so that columns with comma delimeters will be separated properly --->
 				<cfset fileProxy = CreateObject("java","java.io.File") >
@@ -503,11 +502,8 @@
 		</cfoutput>
 	</cfif>
 	<!------------------------------------------------------->
-							
-							
-							
-							
-<!------>
+
+	<!------>
 	<cfif #action# is "validate">
 		<h2 class="h4">Second step: Data Validation</h2>
 		<cfoutput>
@@ -654,7 +650,7 @@
 				</h3>
 			<cfelse>
 				<h3 class="h4 mt-3">
-					Validation checks passed. Look over the table below and <a href="/tools/BulkloadIdentification.cfm?action=load">click to continue</a> if it all looks good.
+					Validation checks passed. Look over the table below and <a href="/tools/BulkloadIdentification.cfm?action=load">click to continue</a> if it all looks good or reload to <a href="/tools/BulkloadIdentification.cfm">start again</a>.
 				</h3>
 			</cfif>
 			<table class='px-0 mx-0 sortable table small table-responsive w-100'>
