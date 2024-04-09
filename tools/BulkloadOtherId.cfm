@@ -622,7 +622,7 @@ limitations under the License.
 			</cfquery>
 			<cfif len(pf.c) gt 0>
 				<h3 class="mt-4">
-					<cfif len(pf.c) GT 1><cfset plural="s"><cfelse><cfset plural=""></cfif<
+					<cfif len(pf.c) GT 1><cfset plural="s"><cfelse><cfset plural=""></cfif>
 					There is a problem with #pf.c# of #data.recordcount# row#plural#. See the STATUS column. (<a href="/tools/BulkloadOtherId.cfm?action=dumpProblems">download</a>).
 				</h3>
 				<h3 class="my-2">
