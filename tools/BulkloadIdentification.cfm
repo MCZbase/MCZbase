@@ -908,7 +908,7 @@
 									<td>#getProblemData.scientific_name#</td>
 									<td>#getProblemData.made_date#</td>
 									<td>#getProblemData.nature_of_id#</td>
-									<td>#getProblemData.accepted_fg#</td>
+									<td>#getProblemData.accepted_id_fg#</td>
 									<td>#getProblemData.identification_remarks#</td>
 									<td>#getProblemData.agent_1#</td>
 									<td>#getProblemData.agent_2#</td>
