@@ -31,7 +31,7 @@
 <cfset pageTitle = "Bulkload Identification">
 <cfinclude template="/shared/_header.cfm">
 <cfif not isDefined("action") OR len(action) EQ 0><cfset action="nothing"></cfif>
-<main class="container-fluid py-3" id="content">
+<main class="container-fluid py-3 px-5" id="content">
 	<h1 class="h2 mt-2">Bulkload Identification</h1>
 	<cfif #action# is "nothing">
 	<cfoutput>
