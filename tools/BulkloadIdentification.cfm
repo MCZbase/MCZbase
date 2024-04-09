@@ -14,7 +14,7 @@
 		
 <!--- end special case dump of problems --->
 <cfset fieldlist = "institution_acronym,collection_cde,other_id_type,other_id_number,scientific_name,made_date,nature_of_id,accepted_fg,identification_remarks,taxa_formula,agent_1,agent_2,stored_as_fg">
-<cfset fieldTypes ="CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_NUMBER">
+<cfset fieldTypes ="CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_DECIMAL">
 <cfset requiredfieldlist = "institution_acronym,collection_cde,other_id_type,other_id_number,scientific_name,nature_of_id,accepted_fg,agent_1">
 <!--- special case handling to dump column headers as csv --->
 <cfif isDefined("action") AND action is "getCSVHeader">
@@ -769,13 +769,13 @@
 						<cfquery name="updateIds" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateIds_result">
 							insert into identification (identification_id,collection_object_id,nature_of_id,accepted_id_fg,identification_remarks,taxa_formula,scientific_name,stored_as_fg,made_date)values(
 							#NEXTID.NEXTID#,
-							<cfqueryparam cfsqltype="CF_SQL_NUMBER" value="#collection_object_id#">,
+							<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">,
 							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#nature_of_id#">,
-							<cfqueryparam cfsqltype="CF_SQL_NUMBER" value="#accepted_ID_FG#">,
+							<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#accepted_ID_FG#">,
 							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#identification_remarks#">,
 							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#taxa_formula#">,
 							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#scientific_name#">,
-							<cfqueryparam cfsqltype="CF_SQL_NUMBER" value="#stored_as_fg#">,
+							<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#stored_as_fg#">,
 							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#made_date#">
 			
 							)
@@ -804,7 +804,7 @@
 							<th>scientific_name</th>
 							<th>made_date</th>
 							<th>nature_of_id</th>
-							<th>accepted_fg</th>
+							<th>accepted_ID_fg</th>
 							<th>identification_remarks</th>
 							<th>taxa_formula</th>
 							<th>agent_1</th>
@@ -824,7 +824,7 @@
 								<td>#getProblemData.scientific_name#</td>
 								<td>#getProblemData.made_date#</td>
 								<td>#getProblemData.nature_of_id#</td>
-								<td>#getProblemData.accepted_fg#</td>
+								<td>#getProblemData.accepted_ID_fg#</td>
 								<td>#getProblemData.identification_remarks#</td>
 								<td>#getProblemData.taxa_formula#</td>
 								<td>#getProblemData.agent_1#</td>
@@ -859,11 +859,11 @@
 							(#NEXTID.NEXTID#,
 							<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">,
 							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#nature_of_id#">,
-							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#accepted_fg#">,
+							<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#accepted_ID_fg#">,
 							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#identification_remarks#">,
 							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#taxa_formula#">,
 							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#scientific_name#">,
-							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#stored_as_fg#">,
+							<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#stored_as_fg#">,
 							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#made_date#">)
 						</cfquery>
 						<cfset id_updates = id_updates + updateIds_result.recordcount>
