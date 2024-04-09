@@ -593,16 +593,7 @@
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						AND key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableQC.key#"> 
 				</cfquery>
-				<cfquery name="flagNotMatchedExistOther_ID_Type2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					UPDATE cf_temp_ID
-					SET 
-						status = concat(nvl2(status, status || '; ', ''), 'Unknown other_id_type: "' || other_id_type ||'"&mdash;not on list')
-					WHERE other_id_type is not null 
-						AND other_id_type <> 'catalog number'
-						AND other_id_type not in (select other_id_type from ctcoll_other_id_type)
-						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-						AND key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableQC.key#"> 
-				</cfquery>
+	
 				<cfquery name="flagNotMatchCTnature" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE cf_temp_ID SET 
 					status = concat(nvl2(status, status || '; ', ''), 'Unknown nature of ID: "'||nature_of_id||'"')
