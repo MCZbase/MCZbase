@@ -309,20 +309,26 @@ limitations under the License.
 					<cfthrow message = "#NO_COLUMN_ERR# #errorMessage#">
 				</cfif>
 						
-<!--- bug, should be size not aField?  aField isn't in scope and isn't numeric --->
-				<cfif #aField# GT 1><cfset plural1="s"><cfelse><cfset plural1=""></cfif>
-				<cfif #aField# GT 1><cfset plural1a="are"><cfelse><cfset plural1a="is"></cfif>
-				<cfif #aField# GT 1><cfset plural2=""><cfelse><cfset plural2="s"></cfif>
 				<!--- Identify additional columns that will be ignored --->
-<!--- bug, not within a loop that identifies aField --->
-				<cfif NOT ListContainsNoCase(fieldList,aField)>
-					<h3 class="h4">Warning: Found additional column header#plural1# in the CSV that #plural1a# not in the list of expected headers: </h3>
+				<cfset containsAdditional=false>
+				<cfset additionalCount = 0>
+				<cfloop list="#foundHeaders#" item="aField">
+					<cfif NOT ListContainsNoCase(fieldList,aField)>
+						<cfset containsAdditional=true>
+						<cfset additionalCount = additionalCount+1>
+					</cfif>
+				</cfloop>
+				<cfif containsAdditional>
+					<cfif additionalCount GT 1><cfset plural1="s"><cfelse><cfset plural1=""></cfif>
+					<cfif additionalCount GT 1><cfset plural1a="are"><cfelse><cfset plural1a="is"></cfif>
+					<h3 class="h4">Warning: Found #additionalCount# additional column header#plural1# in the CSV that #plural1a# not in the list of expected headers: </h3>
 					<!--- Identify additional columns that will be ignored --->
 					<cfloop list="#foundHeaders#" item="aField">
 						<cfif NOT ListContainsNoCase(fieldList,aField)>
 							<li class="pb-1 px-4"><i class='fas fa-arrow-right text-info'></i> <strong class="text-info">#aField#</strong> </1i>
 						</cfif>
 					</cfloop>
+					<!--- Do not throw an exception, additional columns to be ignored are not fatal. --->
 				</cfif>
 				
 				<!--- Identify duplicate columns and fail if found --->
@@ -616,7 +622,8 @@ limitations under the License.
 			</cfquery>
 			<cfif pf.c gt 0>
 				<h3 class="mt-4">
-					There is a problem with #pf.c# of #data.recordcount# row(s). See the STATUS column. (<a href="/tools/BulkloadOtherId.cfm?action=dumpProblems">download</a>).
+					<cfif pf.c GT 1><cfset plural="s"><cfelse><cfset plural=""></cfif<
+					There is a problem with #pf.c# of #data.recordcount# row#plural#. See the STATUS column. (<a href="/tools/BulkloadOtherId.cfm?action=dumpProblems">download</a>).
 				</h3>
 				<h3 class="my-2">
 					Fix the problems in the data and <a href="/tools/BulkloadOtherId.cfm">start again</a>.
