@@ -13,7 +13,7 @@
 </cfif>
 		
 <!--- end special case dump of problems --->
-<cfset fieldlist = "institution_acronym,collection_cde,other_id_type,other_id_number,scientific_name,made_date,nature_of_id,accepted_fg,identification_remarks,taxa_formula,agent_1,agent_2,stored_as_fg,sort_order">
+<cfset fieldlist = "institution_acronym,collection_cde,other_id_type,other_id_number,scientific_name,made_date,nature_of_id,accepted_fg,identification_remarks,taxa_formula,agent_1,agent_2,stored_as_fg">
 <cfset fieldTypes ="CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_NUMBER">
 <cfset requiredfieldlist = "institution_acronym,collection_cde,other_id_type,other_id_number,scientific_name,nature_of_id,accepted_fg,agent_1">
 <!--- special case handling to dump column headers as csv --->
@@ -767,7 +767,7 @@
 				<cftransaction>
 					<cfloop query="getTempData">
 						<cfquery name="updateIds" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateIds_result">
-							insert into identification (identification_id,collection_object_id,nature_of_id,accepted_id_fg,identification_remarks,taxa_formula,scientific_name,stored_as_fg,made_date,sort_order)values(
+							insert into identification (identification_id,collection_object_id,nature_of_id,accepted_id_fg,identification_remarks,taxa_formula,scientific_name,stored_as_fg,made_date)values(
 							#NEXTID.NEXTID#,
 							<cfqueryparam cfsqltype="CF_SQL_NUMBER" value="#collection_object_id#">,
 							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#nature_of_id#">,
@@ -777,7 +777,7 @@
 							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#scientific_name#">,
 							<cfqueryparam cfsqltype="CF_SQL_NUMBER" value="#stored_as_fg#">,
 							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#made_date#">
-							<cfqueryparam cfsqltype="CF_SQL_NUMBER" value="#sort_order#">
+			
 							)
 						</cfquery>
 						<cfset id_updates = id_updates + updateIds_result.recordcount>
