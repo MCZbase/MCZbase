@@ -552,7 +552,7 @@
 			<!--- obtain the information needed to QC each row --->
 			<cfquery name="getTempTableQC" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT 
-					distinct key,collection_cde,nature_of_id,scientific_name
+					distinct key,collection_cde,nature_of_id,scientific_name,taxa_formula
 				FROM 
 					cf_temp_ID
 				WHERE 
