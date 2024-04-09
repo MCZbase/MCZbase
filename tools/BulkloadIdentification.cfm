@@ -859,7 +859,7 @@
 							(#NEXTID.NEXTID#,
 							<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">,
 							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#nature_of_id#">,
-							<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#accepted_ID_fg#">,
+							<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#accepted_id_fg#">,
 							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#identification_remarks#">,
 							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#taxa_formula#">,
 							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#scientific_name#">,
