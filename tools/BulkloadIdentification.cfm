@@ -549,76 +549,130 @@
 					</cfquery>
 				</cfif>
 			</cfloop>
-			<cfquery name="flagMczAcronym" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				UPDATE cf_temp_ID
-				SET 
-					status = concat(nvl2(status, status || '; ', ''),'INSTIUTION_ACRONYM is not "MCZ" (check case)')
-				WHERE institution_acronym <> 'MCZ'
-					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-					AND key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#data.key#"> 
+			<!--- obtain the information needed to QC each row --->
+			<cfquery name="getTempTableQC" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				SELECT 
+					distinct key,collection_cde,scientific_name,nature_of_id
+				FROM 
+					cf_temp_citation
+				WHERE 
+					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
-			<cfquery name="flagMczAcronym" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				UPDATE cf_temp_ID
-				SET 
-					status = concat(nvl2(status, status || '; ', ''),'COLLECTION_CDE does not match Cryo, Ent, Herp, Ich, IP, IZ, Mala, Mamm, Orn, SC, or VP (check case)')
-				WHERE collection_cde not in (select collection_cde from ctcollection_cde)
-					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-			</cfquery>
-			<cfquery name="flagNoCollectionObject" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				UPDATE cf_temp_ID
-				SET 
-					status = concat(nvl2(status, status || '; ', ''),' There is no match to a cataloged item on "' || other_id_type || '" = "' || other_id_number || '" in collection "' || collection_cde ||'"')
-				WHERE collection_object_id IS NULL
-					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-					AND key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#data.key#"> 
-			</cfquery>
-			<cfquery name="flagNotMatchedExistOther_ID_Type1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				UPDATE cf_temp_ID
-				SET 
-					status = concat(nvl2(status, status || '; ', ''), 'Unknown other_id_type: "' || other_id_type ||'"&mdash;not on list')
-				WHERE other_id_type is not null 
-					AND other_id_type <> 'catalog number'
-					AND other_id_type not in (select other_id_type from ctcoll_other_id_type)
-					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-					AND key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#data.key#"> 
-			</cfquery>
-			<cfquery name="flagNotMatchedExistOther_ID_Type2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				UPDATE cf_temp_ID
-				SET 
-					status = concat(nvl2(status, status || '; ', ''), 'Unknown other_id_type: "' || other_id_type ||'"&mdash;not on list')
-				WHERE other_id_type is not null 
-					AND other_id_type <> 'catalog number'
-					AND other_id_type not in (select other_id_type from ctcoll_other_id_type)
-					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-					AND key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#data.key#"> 
-			</cfquery>
-			<cfquery name="flagNotMatchCTnature" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				UPDATE cf_temp_ID SET 
-				status = concat(nvl2(status, status || '; ', ''), 'Unknown nature of ID: "'||nature_of_id||'"')
-				WHERE nature_of_id not in (select nature_of_id from ctnature_of_id)
-					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-					AND key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#data.key#"> 
-			</cfquery>
-			<cfquery name="getCTFormula" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				select taxa_formula from cttaxa_formula order by taxa_formula
-			</cfquery>
-			<cfquery name="getTaxaID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				update cf_temp_id set taxon_name_id =
-				(SELECT taxon_name_id FROM taxonomy where scientific_name ='#data.scientific_name#')
-				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-					AND key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#data.key#"> 
-			</cfquery>
-			<cfquery name="flagNotMatchSciName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				UPDATE cf_temp_ID SET status = concat(nvl2(status, status || '; ', ''),'scientific_name not found')
-				WHERE scientific_name is null AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-					AND key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#data.key#"> 
-			</cfquery>
-			<cfquery name="miap" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				UPDATE cf_temp_ID SET status = concat(nvl2(status, status || '; ', ''), 'collection_object_id not found')
-				WHERE collection_object_id is null 
-					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-					AND key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#data.key#"> 
-			</cfquery>
+			<cfloop query="getTempTableQC">
+				<cfquery name="flagMczAcronym" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					UPDATE cf_temp_ID
+					SET 
+						status = concat(nvl2(status, status || '; ', ''),'INSTIUTION_ACRONYM is not "MCZ" (check case)')
+					WHERE institution_acronym <> 'MCZ'
+						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+						AND key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableQC.key#"> 
+				</cfquery>
+				<cfquery name="flagMczAcronym" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					UPDATE cf_temp_ID
+					SET 
+						status = concat(nvl2(status, status || '; ', ''),'COLLECTION_CDE does not match Cryo, Ent, Herp, Ich, IP, IZ, Mala, Mamm, Orn, SC, or VP (check case)')
+					WHERE collection_cde not in (select collection_cde from ctcollection_cde)
+						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+						AND key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableQC.key#"> 
+				</cfquery>
+				<cfquery name="flagNoCollectionObject" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					UPDATE cf_temp_ID
+					SET 
+						status = concat(nvl2(status, status || '; ', ''),' There is no match to a cataloged item on "' || other_id_type || '" = "' || other_id_number || '" in collection "' || collection_cde ||'"')
+					WHERE collection_object_id IS NULL
+						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+						AND key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableQC.key#"> 
+				</cfquery>
+				<cfquery name="flagNotMatchedExistOther_ID_Type1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					UPDATE cf_temp_ID
+					SET 
+						status = concat(nvl2(status, status || '; ', ''), 'Unknown other_id_type: "' || other_id_type ||'"&mdash;not on list')
+					WHERE other_id_type is not null 
+						AND other_id_type <> 'catalog number'
+						AND other_id_type not in (select other_id_type from ctcoll_other_id_type)
+						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+						AND key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableQC.key#"> 
+				</cfquery>
+				<cfquery name="flagNotMatchedExistOther_ID_Type2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					UPDATE cf_temp_ID
+					SET 
+						status = concat(nvl2(status, status || '; ', ''), 'Unknown other_id_type: "' || other_id_type ||'"&mdash;not on list')
+					WHERE other_id_type is not null 
+						AND other_id_type <> 'catalog number'
+						AND other_id_type not in (select other_id_type from ctcoll_other_id_type)
+						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+						AND key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableQC.key#"> 
+				</cfquery>
+				<cfquery name="flagNotMatchCTnature" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					UPDATE cf_temp_ID SET 
+					status = concat(nvl2(status, status || '; ', ''), 'Unknown nature of ID: "'||nature_of_id||'"')
+					WHERE nature_of_id not in (select nature_of_id from ctnature_of_id)
+						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+						AND key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableQC.key#"> 
+				</cfquery>
+				<cfquery name="getCTFormula" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					UPDATE cf_temp_ID SET status = concat(nvl2(status, status || '; ', ''),'taxa_formula is not found')
+					WHERE taxa_formula is null 
+						AND taxa_formula not in (select taxa_formula from cttaxa_formula order by taxa_formula)
+						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+						AND key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableQC.key#"> 
+				</cfquery>
+				<cfquery name="getTaxaID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					update cf_temp_id set taxon_name_id =
+					(SELECT taxon_name_id FROM taxonomy where scientific_name ='#data.scientific_name#')
+					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+						AND key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableQC.key#"> 
+				</cfquery>
+				<cfquery name="flagNotMatchSciName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					UPDATE cf_temp_ID SET status = concat(nvl2(status, status || '; ', ''),'scientific_name not found')
+					WHERE scientific_name is null 
+						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+						AND key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableQC.key#"> 
+				</cfquery>
+				<cfquery name="miap" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					UPDATE cf_temp_ID SET status = concat(nvl2(status, status || '; ', ''), 'collection_object_id not found')
+					WHERE collection_object_id is null 
+						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+						AND key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableQC.key#"> 
+				</cfquery>
+				<cfset scientific_name = '#getTempTableQC.scientific_name#'>
+				<cfset tf = '#getTempTableQC.taxa_formula#'>
+				<cfif right(scientific_name,4) is " sp.">
+					<cfset scientific_name=left(scientific_name,len(scientific_name) -4)>
+					<cfset tf = "A sp.">
+				<cfelseif right(scientific_name,5) is " ssp.">
+					<cfset scientific_name=left(scientific_name,len(scientific_name) -5)>
+					<cfset tf = "A ssp.">
+				<cfelseif right(scientific_name,5) is " spp.">
+					<cfset scientific_name=left(scientific_name,len(scientific_name) -5)>
+					<cfset tf = "A spp.">
+				<cfelseif right(scientific_name,5) is " var.">
+					<cfset scientific_name=left(scientific_name,len(scientific_name) -5)>
+					<cfset tf = "A var.">
+				<cfelseif right(scientific_name,9) is " sp. nov.">
+					<cfset scientific_name=left(scientific_name,len(scientific_name) -9)>
+					<cfset tf = "A sp. nov.">
+				<cfelseif right(scientific_name,10) is " gen. nov.">
+					<cfset scientific_name=left(scientific_name,len(scientific_name) -10)>
+					<cfset tf = "A gen. nov.">
+				<cfelseif right(scientific_name,8) is " (Group)">
+					<cfset scientific_name=left(scientific_name,len(scientific_name) -8)>
+					<cfset tf = "A (Group)">
+				<cfelseif right(scientific_name,4) is " nr.">
+					<cfset scientific_name=left(scientific_name,len(scientific_name) -5)>
+					<cfset tf = "A nr.">
+				<cfelseif right(scientific_name,4) is " cf.">
+					<cfset scientific_name=left(scientific_name,len(scientific_name) -4)>
+					<cfset tf = "A cf.">
+				<cfelseif right(scientific_name,2) is " ?">
+					<cfset scientific_name=left(scientific_name,len(scientific_name) -2)>
+					<cfset tf = "A ?">
+				<cfelse>
+					<cfset  tf = "A">
+					<cfset scientific_name="#scientific_name#">
+				</cfif>
+			</cfloop>
+
 			<!---Missing data in required fields--->
 			<cfloop list="#requiredfieldlist#" index="requiredField">
 				<cfquery name="checkRequired" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -630,42 +684,7 @@
 						AND key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#data.key#"> 
 				</cfquery>
 			</cfloop>
-			<cfset scientific_name = '#data.scientific_name#'>
-			<cfset tf = '#data.taxa_formula#'>
-			<cfif right(scientific_name,4) is " sp.">
-				<cfset scientific_name=left(scientific_name,len(scientific_name) -4)>
-				<cfset tf = "A sp.">
-			<cfelseif right(scientific_name,5) is " ssp.">
-				<cfset scientific_name=left(scientific_name,len(scientific_name) -5)>
-				<cfset tf = "A ssp.">
-			<cfelseif right(scientific_name,5) is " spp.">
-				<cfset scientific_name=left(scientific_name,len(scientific_name) -5)>
-				<cfset tf = "A spp.">
-			<cfelseif right(scientific_name,5) is " var.">
-				<cfset scientific_name=left(scientific_name,len(scientific_name) -5)>
-				<cfset tf = "A var.">
-			<cfelseif right(scientific_name,9) is " sp. nov.">
-				<cfset scientific_name=left(scientific_name,len(scientific_name) -9)>
-				<cfset tf = "A sp. nov.">
-			<cfelseif right(scientific_name,10) is " gen. nov.">
-				<cfset scientific_name=left(scientific_name,len(scientific_name) -10)>
-				<cfset tf = "A gen. nov.">
-			<cfelseif right(scientific_name,8) is " (Group)">
-				<cfset scientific_name=left(scientific_name,len(scientific_name) -8)>
-				<cfset tf = "A (Group)">
-			<cfelseif right(scientific_name,4) is " nr.">
-				<cfset scientific_name=left(scientific_name,len(scientific_name) -5)>
-				<cfset tf = "A nr.">
-			<cfelseif right(scientific_name,4) is " cf.">
-				<cfset scientific_name=left(scientific_name,len(scientific_name) -4)>
-				<cfset tf = "A cf.">
-			<cfelseif right(scientific_name,2) is " ?">
-				<cfset scientific_name=left(scientific_name,len(scientific_name) -2)>
-				<cfset tf = "A ?">
-			<cfelse>
-				<cfset  tf = "A">
-				<cfset scientific_name="#scientific_name#">
-			</cfif>
+			
 			<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT key,status,collection_object_id,nature_of_id,taxon_name_id,scientific_name,institution_acronym,collection_cde,other_id_type,other_id_number,made_date,accepted_fg,identification_remarks,taxa_formula,agent_1,agent_2,stored_as_fg
 				FROM cf_temp_ID
