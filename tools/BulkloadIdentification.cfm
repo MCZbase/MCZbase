@@ -737,7 +737,7 @@
 							<td>#data.scientific_name# </td>
 							<td>#data.MADE_DATE#</td>
 							<td>#data.NATURE_OF_ID#</td>
-							<td>#data.ACCEPTED__ID_FG#</td>
+							<td>#data.ACCEPTED_ID_FG#</td>
 							<td>#data.IDENTIFICATION_REMARKS#</td>
 							<td>#data.TAXA_FORMULA#</td>
 							<td>#data.AGENT_1#</td>
