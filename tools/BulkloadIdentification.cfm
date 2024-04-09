@@ -597,7 +597,7 @@
 					<cfquery name="flagNotMatchedToStoredAs" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE cf_temp_ID
 					SET 
-						status = concat(nvl2(status, status || '; ', ''), 'Stored_as_fg can only be 1 when identification is not current (accepted_fg=1 and stored_as_fg=1)')
+						status = concat(nvl2(status, status || '; ', ''), 'Stored_as_fg can only be 1 when identification is not current (accepted_fg=1 and stored_as_fg=1);Make accepted_fg=0')
 					WHERE stored_as_fg = 1
 						AND accepted_fg = 1
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
