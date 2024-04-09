@@ -518,7 +518,7 @@
 					<!--- either based on catalog_number --->
 					<cfquery name="getCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						UPDATE
-							cf_temp_oids
+							cf_temp_ID
 						SET
 							collection_object_id = (
 								select collection_object_id 
@@ -534,13 +534,13 @@
 					<!--- or on specified other identifier --->
 					<cfquery name="getCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						UPDATE
-							cf_temp_oids
+							cf_temp_ID
 						SET
 							collection_object_id= (
 								select cataloged_item.collection_object_id from cataloged_item,coll_obj_other_id_num 
-								where coll_obj_other_id_num.other_id_type = cf_temp_oids.existing_other_id_type 
-								and cataloged_item.collection_cde = cf_temp_oids.collection_cde 
-								and display_value= cf_temp_oids.existing_other_id_number
+								where coll_obj_other_id_num.other_id_type = cf_temp_ID.existing_other_id_type 
+								and cataloged_item.collection_cde = cf_temp_ID.collection_cde 
+								and display_value= cf_temp_ID.existing_other_id_number
 								and cataloged_item.collection_object_id = coll_obj_other_id_num.COLLECTION_OBJECT_ID
 							),
 							status = null
