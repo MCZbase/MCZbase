@@ -523,7 +523,7 @@
 							collection_object_id = (
 								select collection_object_id 
 								from cataloged_item 
-								where cat_num = cf_temp_ID.existing_other_id_number 
+								where cat_num = cf_temp_ID.other_id_number 
 								and collection_cde = cf_temp_ID.collection_cde
 							),
 							status = null
