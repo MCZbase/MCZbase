@@ -887,7 +887,7 @@
 								<th>scientific_name</th>
 								<th>made_date</th>
 								<th>nature_of_id</th>
-								<th>accepted_fg</th>
+								<th>accepted_id_fg</th>
 								<th>identification_remarks</th>
 								<th>agent_1</th>
 								<th>agent_2</th>
