@@ -925,7 +925,7 @@
 				</cfcatch>
 				</cftry>
 			</cftransaction>
-			<h2>Updated #id_updates# Identifications.</h2>
+			<h2>Updated #id_updates# Identification#plural#.</h2>
 			<h2>Success, changes applied.</h2>
 			<!--- cleanup --->
 			<cfquery name="clearTempTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="clearTempTable_result">
