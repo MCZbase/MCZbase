@@ -507,7 +507,7 @@
 			<cfoutput>
 			<cfquery name="getTempTableTypes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT 
-					existing_other_id_type, existing_other_id_type,new_other_id_number, key
+					other_id_type,other_id_number, key
 				FROM 
 					cf_temp_ID
 				WHERE 
