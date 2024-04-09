@@ -53,10 +53,12 @@ limitations under the License.
 <!--- Normal page delivery with header/footer --->
 <cfset pageTitle = "Bulkload Citations">
 <cfinclude template="/shared/_header.cfm">
-<cfif not isDefined("action") OR len(action) EQ 0><cfset action="nothing"></cfif>
+<cfif not isDefined("action") OR len(action) EQ 0><cfset action="entryPoint"></cfif>
 <main class="container-fluid py-3 px-5" id="content">
 	<h1 class="h2 mt-2">Bulkload Citations</h1>
-	<cfif #action# is "nothing">
+
+	<!------------------------------------------------------->
+	<cfif #action# is "entryPoint">
 		<cfoutput>
 			<p>This tool adds citations to the specimen record. The publication and specimens have to be in the code table prior to uploading this .csv. It ignores rows that are exactly the same. Additional columns will be ignored. The publication_title and/or publication_id values must appear as they do on the <a href="/Publications.cfm" class="font-weight-bold">Publication Search Results</a>. The other_id_type and other_id_number values must also be in the database. Search for them via the <a href="/Specimens.cfm" class="font-weight-bold">Specimen Search</a>. Upload a comma-delimited text file (csv). Include column headings, spelled exactly as below. Use "catalog number" as the value of other_id_type to match on catalog number.</p>
 			<span class="btn btn-xs btn-info" onclick="document.getElementById('template').style.display='block';">View template</span>
@@ -121,17 +123,17 @@ limitations under the License.
 		</cfoutput>
 	</cfif>	
 	
-		<!------------------------------------------------------->
+	<!------------------------------------------------------->
 	<cfif #action# is "getFile">
 		<cfoutput>
-		<h2 class="h4">First step: Reading data from CSV file.</h2>
-		<!--- Set some constants to identify error cases in cfcatch block --->
-		<cfset NO_COLUMN_ERR = "One or more required fields are missing in the header line of the csv file. <span class='text-danger'>[If you uploaded csv columns that match the required headers and see 'Required column not found' for the those headers, check that the character set and format you selected matches the file''s encodings.]</span>">
-		<cfset DUP_COLUMN_ERR = "One or more columns are duplicated in the header line of the csv file.">
-		<cfset COLUMN_ERR = "Error inserting data">
-		<cfset NO_HEADER_ERR = "No header line found, csv file appears to be empty.">
+			<h2 class="h4">First step: Reading data from CSV file.</h2>
+			<!--- Set some constants to identify error cases in cfcatch block --->
+			<cfset NO_COLUMN_ERR = "One or more required fields are missing in the header line of the csv file. <span class='text-danger'>[If you uploaded csv columns that match the required headers and see 'Required column not found' for the those headers, check that the character set and format you selected matches the file''s encodings.]</span>"><!--- " --->
+			<cfset DUP_COLUMN_ERR = "One or more columns are duplicated in the header line of the csv file.">
+			<cfset COLUMN_ERR = "Error inserting data">
+			<cfset NO_HEADER_ERR = "No header line found, csv file appears to be empty.">
 			<cftry>
-			<!---Parse the CSV file using Apache Commons CSV library and include with ColdFusion so columns with comma delimiters will be separated properly.--->
+				<!---Parse the CSV file using Apache Commons CSV library and include with ColdFusion so columns with comma delimiters will be separated properly.--->
 				<cfset fileProxy = CreateObject("java","java.io.File") >
 				<cfobject type="Java" name="csvFormat" class="org.apache.commons.csv.CSVFormat">
 				<cfobject type="Java" name="csvParser" class="org.apache.commons.csv.CSVParser">
@@ -234,12 +236,11 @@ limitations under the License.
 			
 				<cfloop index="i" from="0" to="#headers.size() - 1#">
 					<cfset bit = headers.get(JavaCast("int",i))> 
-						<cfif i EQ 0 and characterSet EQ 'utf-8'>
-							<!--- strip off windows non-standard UTF-8-BOM byte order mark if present (raw hex EF, BB, BF or U+FEFF --->
-							<cfset bit = "#Replace(bit,CHR(65279),'')#" >  
-						</cfif> 
-						<cfset foundHeaders = "#foundHeaders##separator##bit#" >
-			<!---		<cfset foundHeaders = "#foundHeaders##separator##headers.get(JavaCast("int",i))#" --->
+					<cfif i EQ 0 and characterSet EQ 'utf-8'>
+						<!--- strip off windows non-standard UTF-8-BOM byte order mark if present (raw hex EF, BB, BF or U+FEFF --->
+						<cfset bit = "#Replace(bit,CHR(65279),'')#" >  
+					</cfif> 
+					<cfset foundHeaders = "#foundHeaders##separator##bit#" >
 					<cfset separator = ",">
 				</cfloop>
 				<cfset colNameArray = listToArray(ucase(foundHeaders))><!--- the list of columns/fields found in the input file --->
@@ -360,7 +361,7 @@ limitations under the License.
 							</cfif>
 						</cfloop>
 						<cftry>
-						<!---Construct insert for row with a line for each entry in fieldlist using cfqueryparam if column header is in fieldlist, otherwise using null.--->
+							<!---Construct insert for row with a line for each entry in fieldlist using cfqueryparam if column header is in fieldlist, otherwise using null.--->
 							<cfquery name="insert" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="insert_result">
 								insert into cf_temp_citation
 									(#fieldlist#,username)
@@ -385,19 +386,19 @@ limitations under the License.
 									#separator#<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 								)
 							</cfquery>
-								<cfset loadedRows = loadedRows + insert_result.recordcount>
-							<cfcatch>
-								<!--- identify the problematic row --->
-								<cfset error_message="#COLUMN_ERR# from line #row# in input file.<br>
-								<p>Check format chosen for file uploaded.</p>
-								<p>Header:[#colNames#] <br>Row:[#ArrayToList(collValuesArray)#] <br>Error: #cfcatch.message#"></p>
-								<!--- " --->
-								<cfif isDefined("cfcatch.queryError")>
-									<cfset error_message = "#error_message# #cfcatch.queryError#">
-								</cfif>
-								<cfthrow message = "#error_message#">
-							</cfcatch>
-							</cftry>
+							<cfset loadedRows = loadedRows + insert_result.recordcount>
+						<cfcatch>
+							<!--- identify the problematic row --->
+							<cfset error_message="#COLUMN_ERR# from line #row# in input file.<br>
+							<p>Check format chosen for file uploaded.</p>
+							<p>Header:[#colNames#] <br>Row:[#ArrayToList(collValuesArray)#] <br>Error: #cfcatch.message#"></p>
+							<!--- " --->
+							<cfif isDefined("cfcatch.queryError")>
+								<cfset error_message = "#error_message# #cfcatch.queryError#">
+							</cfif>
+							<cfthrow message = "#error_message#">
+						</cfcatch>
+						</cftry>
 					</cfloop>
 					<cfif foundHighCount GT 0>
 						<h3 class="h4"><span class="text-danger">Warning: Check character set.</span> Found characters where the encoding is probably important in the input data.</h3>
@@ -417,7 +418,6 @@ limitations under the License.
 						Successfully read #loadedRows# records from the CSV file. Next <a href="/tools/BulkloadCitations.cfm?action=validate">click to validate</a>.
 					</cfif>
 				</h3>
-			
 			<cfcatch>
 				<h3 class="h4">
 					Failed to read the CSV file.  Fix the errors in the file and <a href="/tools/BulkloadCitations.cfm">reload</a>.
@@ -463,8 +463,8 @@ limitations under the License.
 			</cftry>
 		</cfoutput>
 	</cfif>
-<!------------------------------------------------------->
 
+	<!------------------------------------------------------->
 	<cfif #action# is "validate">
 		<h2 class="h4">Second step: Data Validation</h2>
 		<cfoutput>
@@ -481,7 +481,7 @@ limitations under the License.
 				<!--- For each row, set the target collection_object_id --->
 				<cfif getTempTableTypes.other_id_type eq 'catalog number'>
 					<!--- either based on catalog_number --->
-					<cfquery name="getCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					<cfquery name="updateCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						UPDATE
 							cf_temp_citation
 						SET
@@ -497,7 +497,7 @@ limitations under the License.
 					</cfquery>
 				<cfelse>
 					<!--- or on specified other identifier --->
-					<cfquery name="getCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					<cfquery name="updateCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						UPDATE
 							cf_temp_citation
 						SET
@@ -523,7 +523,6 @@ limitations under the License.
 				WHERE 
 					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
-			
 			<cfloop query="getTempTableQC">
 				<!--- for each row, evaluate the attribute against expectations and provide an error message --->
 				<!--- qc checks separate from getting ID numbers, includes presence of values in required columns --->
@@ -630,14 +629,14 @@ limitations under the License.
 				FROM cf_temp_citation
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
-			<cfquery name="pf" dbtype="query">
+			<cfquery name="problemsInData" dbtype="query">
 				SELECT count(*) c 
 				FROM data 
 				WHERE status is not null
 			</cfquery>
-			<cfif pf.c gt 0>
+			<cfif problemsInData.c gt 0>
 				<h3 class="h4 px-0 mt-3">
-					There is a problem with #pf.c# of #data.recordcount# row(s). See the STATUS column (<a href="/tools/BulkloadCitations.cfm?action=dumpProblems">download</a>).
+					There is a problem with #problemsInData.c# of #data.recordcount# row(s). See the STATUS column (<a href="/tools/BulkloadCitations.cfm?action=dumpProblems">download</a>).
 				</h3>
 				<h3 class="h4 px-0">
 					Fix the problems in the data and <a href="/tools/BulkloadCitations.cfm">start again</a>.
@@ -702,7 +701,7 @@ limitations under the License.
 					SELECT count(distinct collection_object_id) ctobj FROM cf_temp_citation
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
-			<cftry>
+				<cftry>
 					<cfset citation_updates = 0>
 					<cfset citation_updates1 = 0>
 					<cfif getCitData.recordcount EQ 0>
@@ -751,6 +750,7 @@ limitations under the License.
 					<cfif updateCitations1_result.recordcount gt 0>
 						<h2 class="text-danger">Not loaded - these have already been loaded</h2>
 					</cfif>
+					<cftransaction action="commit">
 				<cfcatch>
 					<cftransaction action="ROLLBACK">
 					<h2 class="h3">There was a problem updating the citations. </h2>
