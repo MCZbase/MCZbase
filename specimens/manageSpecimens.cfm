@@ -21,7 +21,7 @@ limitations under the License.
 </cfif>
 <cfset pageTitle = "Manage Specimens">
 <cfinclude template = "/shared/_header.cfm">
-<cfinclude template = "/specimmens/component/manage.cfc">
+<cfinclude template = "/specimens/component/manage.cfc">
 
 <cfif not isDefined("result_id") OR len(result_id) EQ 0>
 	<cfthrow message = "No result_id provided to manage.">
