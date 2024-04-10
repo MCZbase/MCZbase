@@ -835,7 +835,7 @@
 								'#TAXA_FORMULA#',
 								'#SCIENTIFIC_NAME#',
 								<cfif len(stored_as_fg)gt 0>
-									#stored_as_fg#
+									'#stored_as_fg#'
 								<cfelse>
 									'(null)'
 								</cfif>
@@ -868,9 +868,7 @@
 								IDENTIFIER_ORDER
 							) values (
 								sq_identification_id.currval,
-								#agent_1_id#,
-								1
-							)
+								#agent_1_id#,1)
 						</cfquery>
 						<cfset insert_id = insert_id + insertID_result.recordcount>
 						<cfif insertIDA1_result.recordcount gt 0>
