@@ -808,7 +808,7 @@
 				<cfquery name="getTempData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT * FROM cf_temp_ID
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-					AND key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="getTempData.key#"> 
+					AND key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempData.key#"> 
 				</cfquery>
 				<cftry>
 					<cfif getTempData.recordcount EQ 0>
