@@ -250,12 +250,18 @@ limitations under the License.
 					<h3 class="h4">Found #size# columns in header of csv file.</h3>
 					<h3 class="h4">There are #ListLen(fieldList)# columns expected in the header (of these #ListLen(requiredFieldList)# are required).</h3>
 				
+					<cfset reqFieldsBlock = #checkRequiredFields(fieldList=fieldList,requiredFieldList=requiredFieldList,NO_COLUMN_ERR=NO_COLUMN_ERR)>
+					#reqFieldsBlock#
+
 					<!--- check for required fields in header line (performng check in two different ways, Case 1, Case 2), listing all fields. --->
 					<!---  Throw exception and fail if any required fields are missing --->
+<!---
 					<cfset missingRequiredFields = "">
 					<cfloop list="#fieldList#" item="aField">
 						<cfif ListContainsNoCase(requiredFieldList,aField)>
+--->
 							<!--- Case 1. Check by splitting assembled list of foundHeaders --->
+<!---
 							<cfif NOT ListContainsNoCase(foundHeaders,aField)>
 								<cfset missingRequiredFields = ListAppend(missingRequiredFields,aField)>
 							</cfif>
@@ -276,6 +282,8 @@ limitations under the License.
 									<span class="text-success font-weight-bold">Present in CSV</span>
 								<cfelse>
 									<!--- Case 2. Check by identifying field in required field list --->
+--->
+<!---
 									<cfif ListContainsNoCase(requiredFieldList,field)>
 										<strong class="text-dark">Required Column Not Found</strong>
 										<cfif NOT ListContains(missingRequiredFields,field)>
@@ -295,12 +303,14 @@ limitations under the License.
 						<cfset errorMessage = "<h4 class='h4'>Columns not found:</h4><ul>#errorMessage#</ul>">
 						<cfif size EQ 1>
 							<!--- Likely a problem parsing the first line into column headers --->
+--->
+<!---
 							<cfset errorMessage = "#errorMessage#<div>Only one column found, did you select the correct file format?</div>">
 						</cfif>
- 						<cfset errorMessage = "#errorMessage#<div>Check that headers exactly match the expected ones and that you have the correct encoding and file format.</div>"><!--- " --->
+ 						<cfset errorMessage = "#errorMessage#<div>Check that headers exactly match the expected ones and that you have the correct encoding and file format.</div>">
 						<cfthrow message = "#NO_COLUMN_ERR# #errorMessage#">
 					</cfif>
-
+--->
 					<!--- Test for additional columns not in list, warn and ignore. --->
 					<cfset containsAdditional=false>
 					<cfset additionalCount = 0>
