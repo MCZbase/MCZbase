@@ -867,7 +867,6 @@
 						<cfelse>
 							<cftransaction action="COMMIT">
 						</cfif>
-						<cfset i = i+1>
 					</cfloop>
 					<cfif getTempData.recordcount eq testParse and updateID_result.recordcount eq 0>
 						<p>Number of Identifications updated: #i# (on #getCounts.ctobj# cataloged items)</p>
