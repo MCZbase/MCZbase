@@ -810,9 +810,7 @@
 					<cfif getTempData.recordcount EQ 0>
 						<cfthrow message="You have no rows to load in the Identifications bulkloader table (cf_temp_ID). <a href='/tools/BulkloadIdentification.cfm'>Start over</a>">
 					</cfif>
-					<cfset insert_id = 0>
-					<cfset insertidt = 0>
-					<cfset insertida1 = 0>
+					<cfset i = 0>
 					<cfloop query="getTempData">
 						<cfset problem_key = getTempData.key>
 						<cfif getTempData.ACCEPTED_ID_FG is 1>
@@ -876,14 +874,15 @@
 							group by identification.IDENTIFICATION_ID, identification.COLLECTION_OBJECT_ID, identification.MADE_DATE, identification.NATURE_OF_ID, identification.ACCEPTED_ID_FG,identification.IDENTIFICATION_REMARKS, identification.TAXA_FORMULA, identification.SCIENTIFIC_NAME,identification.stored_as_fg,identification_agent.agent_id,identification_agent.identifier_order,identification_agent.identification_agent_id,identification_taxonomy.taxon_name_id 
 							having count(identification.identification_id)>1
 						</cfquery>
-						<cfset insert_id = insert_id + insertID_result.recordcount>
+						<cfset testParse = testParse + 1>
 						<cfif getID_result.recordcount gt 0>
 							<cftransaction action = "ROLLBACK">
 						<cfelse>
 							<cftransaction action="COMMIT">
 						</cfif>
+						<cfset i = i+1>
 					</cfloop>
-					<cfif getID.recordcount eq insert_id and insertID_result.recordcount eq 0>
+					<cfif getTempData.recordcount eq testParse and getID_result.recordcount eq 0>
 						<p>Number of Identifications updated: #insert_id# (on #getCounts.c# cataloged items)</p>
 						<h2 class="text-success">Success - loaded</h2>
 					</cfif>
