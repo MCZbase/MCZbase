@@ -791,7 +791,6 @@
 				<cfquery name="getAcceptedID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT accepted_id_fg FROM cf_temp_ID
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-					AND key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableQC.key#"> 
 				</cfquery>
 				<cfquery name="getCounts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT count(distinct collection_object_id) c FROM cf_temp_ID
@@ -809,6 +808,7 @@
 				<cfquery name="getTempData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT * FROM cf_temp_ID
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+					AND key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="getTempData.key#"> 
 				</cfquery>
 				<cftry>
 					<cfif getTempData.recordcount EQ 0>
@@ -838,7 +838,11 @@
 								'#IDENTIFICATION_REMARKS#',
 								'#TAXA_FORMULA#',
 								'#SCIENTIFIC_NAME#',
-								#stored_as_fg#
+								<cfif len(stored_as_fg)gt 0>
+									#stored_as_fg#
+								<cfelse>
+									'(null)'
+								</cfif>
 							)
 						</cfquery>
 						<cfquery name="insertidt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
