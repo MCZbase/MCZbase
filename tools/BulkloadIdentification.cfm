@@ -861,7 +861,7 @@
 								#agent_1_id#,1)
 						</cfquery>
 						<cfquery name="getID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="sumID_result">
-							select IDENTIFICATION_ID,TAXON_NAME_ID, COLLECTION_OBJECT_ID, MADE_DATE, NATURE_OF_ID, ACCEPTED_ID_FG,IDENTIFICATION_REMARKS, TAXA_FORMULA, SCIENTIFIC_NAME,stored_as_fg 
+							select IDENTIFICATION_ID, COLLECTION_OBJECT_ID, MADE_DATE, NATURE_OF_ID, ACCEPTED_ID_FG,IDENTIFICATION_REMARKS, TAXA_FORMULA, SCIENTIFIC_NAME,stored_as_fg 
 							from identification 
 							where collection_object_id = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempData.collection_object_id#">
 							group by 
@@ -872,7 +872,7 @@
 							ACCEPTED_ID_FG,
 							IDENTIFICATION_REMARKS, 
 							TAXA_FORMULA, 
-							SCIENTIFIC_NAME
+							SCIENTIFIC_NAME,
 							stored_as_fg 
 							having count(*) > 0
 						</cfquery>
