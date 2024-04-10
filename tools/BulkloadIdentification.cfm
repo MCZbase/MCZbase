@@ -827,11 +827,7 @@
 								'#IDENTIFICATION_REMARKS#',
 								'#TAXA_FORMULA#',
 								'#SCIENTIFIC_NAME#',
-								<cfif len(stored_as_fg) GT 0>
-									#stored_as_fg#
-								<cfelse>
-									NULL
-								</cfif>
+								#stored_as_fg#
 							)
 						</cfquery>
 						<cfquery name="insertidt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
