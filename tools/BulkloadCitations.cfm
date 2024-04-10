@@ -250,7 +250,7 @@ limitations under the License.
 					<h3 class="h4">Found #size# columns in header of csv file.</h3>
 					<h3 class="h4">There are #ListLen(fieldList)# columns expected in the header (of these #ListLen(requiredFieldList)# are required).</h3>
 				
-					<cfset reqFieldsBlock = #checkRequiredFields(fieldList=fieldList,requiredFieldList=requiredFieldList,NO_COLUMN_ERR=NO_COLUMN_ERR)>
+					<cfset reqFieldsBlock = checkRequiredFields(fieldList=fieldList,requiredFieldList=requiredFieldList,NO_COLUMN_ERR=NO_COLUMN_ERR)>
 					#reqFieldsBlock#
 
 					<!--- check for required fields in header line (performng check in two different ways, Case 1, Case 2), listing all fields. --->
