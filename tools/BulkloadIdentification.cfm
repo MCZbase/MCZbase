@@ -899,7 +899,6 @@
 						FROM cf_temp_id
 						WHERE key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#problem_key#">
 					</cfquery>
-						
 					<h3 class="h4">Errors encountered during application are displayed one row at a time.</h3>
 					<h3 class="mt-3 mb-2">
 						Error loading row (<span class="text-danger">#getProblemData_result.recordcount#</span>) from the CSV: 
@@ -913,6 +912,8 @@
 									INSTITUTION_ACRONYM does not match MCZ (all caps)
 								<cfelseif cfcatch.detail contains "OTHER_ID_NUMBER">
 									Problem with OTHER_ID_NUMBER, check to see the correct other_id_number was entered
+								<cfelseif cfcatch.detail contains "MADE_DATE">
+									Problem with MADE_DATE
 								<cfelseif cfcatch.detail contains "unique constraint">
 									Problem with OTHER_ID_NUMBER (see below); OTHER_ID_NUMBER already entered; Remove and <a href="/tools/BulkloadIdentification.cfm">try again</a>
 								<cfelseif cfcatch.detail contains "COLLECTION_OBJECT_ID">
