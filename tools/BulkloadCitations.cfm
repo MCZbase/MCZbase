@@ -252,20 +252,16 @@ limitations under the License.
 				
 					<!--- check for required fields in header line (performng check in two different ways, Case 1, Case 2) --->
 					<!--- Loop through list of fields throw exception if required fields are missing --->
-					<cfset errorMessage = "">
+					<cfset missingRequiredFields = "">
 					<cfloop list="#fieldList#" item="aField">
 						<cfif ListContainsNoCase(requiredFieldList,aField)>
 							<!--- Case 1. Check by splitting assembled list of foundHeaders --->
 							<cfif NOT ListContainsNoCase(foundHeaders,aField)>
-								<cfset errorMessage = "#errorMessage# #aField# is missing.">
+								<cfset missingRequiredFields = ListAppend(missingRequiredFields,aField)>
 							</cfif>
 						</cfif>
 					</cfloop>
-					<cfif len(errorMessage) GT 0>
-						<cfthrow message = "#errorMessage# #NO_COLUMN_ERR#">
-					</cfif>
 
-					<cfset errorMessage = "">
 					<!---Loop through field list, mark each as present in input or not, throw exception if required fields are missing--->
 					<ul class="mb-4 h4 font-weight-normal">
 						<cfloop list="#fieldlist#" index="field" delimiters=",">
@@ -284,19 +280,25 @@ limitations under the License.
 									<!--- Case 2. Check by identifying field in required field list --->
 									<cfif ListContainsNoCase(requiredFieldList,field)>
 										<strong class="text-dark">Required Column Not Found</strong>
-										<cfset errorMessage = "#errorMessage# <div class='pl-3 pb-1 font-weight-bold'><i class='fas fa-arrow-right text-dark'></i> #field#</div>">
+										<cfif NOT ListContains(missingRequiredFields,field)>
+											<cfset missingRequiredFields = ListAppend(missingRequiredFields,field)>
+										</cfif>
 									</cfif>
 								</cfif>
 							</li>
 						</cfloop>
 					</ul>
+					<cfset errorMessage = "">
+					<cfloop list="#missingRequiredFields#" index="missingField">
+						<cfset errorMessage = "#errorMessage#<li>#missingField# is missing</li>">
+					</cfloop>
 					<cfif len(errorMessage) GT 0>
 						<h3 class="">Error Messages</h3>
 						<cfif size EQ 1>
 							<!--- Likely a problem parsing the first line into column headers --->
-							<cfset errorMessage = "<div class='pt-3'><p>Column not found:</p> #errorMessage#</div>">
+							<cfset errorMessage = "<div>Only one column found, did you select the correct file format?</div><ul>#errorMessage#</ul>">
 						<cfelse>
-							<cfset errorMessage = "<div class='pt-3'><p>Columns not found:</p> #errorMessage#</div>">
+							<cfset errorMessage = "<div>Columns not found:</div><ul>#errorMessage#</ul>">
 						</cfif>
 						<cfthrow message = "#NO_COLUMN_ERR# #errorMessage#">
 					</cfif>
