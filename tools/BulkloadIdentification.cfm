@@ -828,7 +828,7 @@
 								#COLLECTION_OBJECT_ID#,
 								'#MADE_DATE#',
 								'#NATURE_OF_ID#',
-								#ACCEPTED_FG#,
+								#ACCEPTED_ID_FG#,
 								'#IDENTIFICATION_REMARKS#',
 								'#TAXA_FORMULA#',
 								'#SCIENTIFIC_NAME#',
