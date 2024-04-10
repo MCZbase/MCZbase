@@ -831,7 +831,7 @@
 								IDENTIFICATION_REMARKS,
 								TAXA_FORMULA,
 								SCIENTIFIC_NAME,
-								stored_as_fg
+								STORAGE_AS_FG
 							) values (
 								#NEXTID.NEXTID#,
 								#COLLECTION_OBJECT_ID#,
@@ -841,8 +841,8 @@
 								'#IDENTIFICATION_REMARKS#',
 								'#TAXA_FORMULA#',
 								'#SCIENTIFIC_NAME#',
-								<cfif len(stored_as_fg)gt 0>
-									'#stored_as_fg#'
+								<cfif len(STORAGE_AS_FG)gt 0>
+									'#STORAGE_AS_FG#'
 								<cfelse>
 									'(null)'
 								</cfif>
