@@ -60,7 +60,7 @@ limitations under the License.
 								AND flatTableName.dec_lat is not null 
 								AND flatTableName.dec_long is not null 
 								AND flatTableName.datum is not null 
-								AND flatTableName.coordinateprecision is not null 
+								AND flatTableName.coordinate_precision is not null 
 								AND flatTableName.COORDINATEUNCERTAINTYINMETERS is not null 
 						</cfquery>
 						<cfloop query="countGoodGeorefs">
@@ -78,7 +78,7 @@ limitations under the License.
 								AND flatTableName.dec_lat is not null 
 								AND flatTableName.dec_long is not null 
 								AND flatTableName.datum is not null 
-								AND flatTableName.coordinateprecision >= 2 -- better than 1111m about one minute
+								AND flatTableName.coordinate_precision >= 2 -- better than 1111m about one minute
 								AND flatTableName.COORDINATEUNCERTAINTYINMETERS <= 1111
 						</cfquery>
 						<cfloop query="countPreciceGeorefs">
