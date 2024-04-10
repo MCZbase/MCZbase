@@ -331,7 +331,7 @@ limitations under the License.
 								<cfif listValueCount(foundHeaders,aField) GT 1>
 									<cfset duplicateCount = duplicateCount + 1>
 								</cfif>
-							<cfif>
+							</cfloop>
 							<cfif duplicateCount GT 1><cfset plural1="s"><cfelse><cfset plural1=""></cfif>
 							<cfif duplicateCount GT 1><cfset plural2=""><cfelse><cfset plural2="s"></cfif>
 							<h3 class="h4">Expected column header#plural1# occur#plural2# more than once: </h3>

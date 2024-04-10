@@ -340,7 +340,6 @@ limitations under the License.
 							<cfif listValueCount(foundHeaders,aField) GT 1>
 									<li class="pb-1 px-4 text-dark"><i class='fas fa-arrow-right text-dark'></i> #aField# </1i>
 							</cfif>
-						<cfset i=i+1>
 						</cfloop>
 					</ul>
 					<cfthrow message = "#DUP_COLUMN_ERR#">
@@ -622,7 +621,7 @@ limitations under the License.
 			</cfquery>
 			<cfif problemCount.c gt 0>
 				<h3 class="mt-4">
-					<cfif problemCount.c GT 1><cfset plural="s"><cfelse><cfset plural=""></cfif<
+					<cfif problemCount.c GT 1><cfset plural="s"><cfelse><cfset plural=""></cfif>
 					There is a problem with #problemCount.c# of #data.recordcount# row#plural#. See the STATUS column. (<a href="/tools/BulkloadOtherId.cfm?action=dumpProblems">download</a>).
 				</h3>
 				<h3 class="my-2">
