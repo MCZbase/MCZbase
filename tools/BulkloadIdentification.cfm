@@ -788,8 +788,8 @@
 		<cfoutput>
 			<cfset problem_key = "">
 			<cftransaction>
-				<cfquery name="getAcceptedID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					SELECT accepted_id_fg FROM cf_temp_ID
+				<cfquery name="getAID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					SELECT accepted_id_fg,collection_object_id FROM cf_temp_ID
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
 				<cfquery name="getCounts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -802,7 +802,7 @@
 				<cfif getAcceptedID.ACCEPTED_ID_FG is 1>
 					<cfquery name="whackOld" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						update identification set ACCEPTED_ID_FG=0 
-						where COLLECTION_OBJECT_ID=#getTempData.COLLECTION_OBJECT_ID#
+						where COLLECTION_OBJECT_ID=#getAID.COLLECTION_OBJECT_ID#
 					</cfquery>
 				</cfif>
 				<cfquery name="getTempData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
