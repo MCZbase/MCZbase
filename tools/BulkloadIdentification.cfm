@@ -806,9 +806,8 @@
 					</cfquery>
 				</cfif>
 				<cfquery name="getTempData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					SELECT key,COLLECTION_OBJECT_ID,COLLECTION_CDE,INSTITUTION_ACRONYM,OTHER_ID_TYPE,OTHER_ID_NUMBER,SCIENTIFIC_NAME,MADE_DATE,NATURE_OF_ID, ACCEPTED_ID_FG,IDENTIFICATION_REMARKS,AGENT_1,AGENT_2,STATUS,TAXON_NAME_ID,TAXA_FORMULA,AGENT_1_ID,AGENT_2_ID,STORED_AS_FG FROM cf_temp_ID
+					SELECT COLLECTION_OBJECT_ID,COLLECTION_CDE,INSTITUTION_ACRONYM,OTHER_ID_TYPE,OTHER_ID_NUMBER,SCIENTIFIC_NAME,MADE_DATE,NATURE_OF_ID, ACCEPTED_ID_FG,IDENTIFICATION_REMARKS,AGENT_1,AGENT_2,STATUS,TAXON_NAME_ID,TAXA_FORMULA,AGENT_1_ID,AGENT_2_ID,STORED_AS_FG FROM cf_temp_ID
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-					AND key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempData.key#"> 
 				</cfquery>
 				<cftry>
 					<cfif getTempData.recordcount EQ 0>
