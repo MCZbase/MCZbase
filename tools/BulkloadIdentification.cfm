@@ -754,127 +754,94 @@
 	<cfif action is "load">
 		<h2 class="h4">Third step: Apply changes.</h2>
 		<cfoutput>
-			<cfquery name="getTempData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				SELECT * FROM cf_temp_ID
-				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-			</cfquery>
-			<cfquery name="NEXTID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				select sq_identification_id.nextval NEXTID from dual
-			</cfquery>
-			<cftry>
-				<cfset id_updates = 0>
-				<cftransaction>
-					<cfloop query="getTempData">
-						<cfquery name="updateIds" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateIds_result">
-							insert into identification (identification_id,collection_object_id,nature_of_id,accepted_id_fg,identification_remarks,taxa_formula,scientific_name,stored_as_fg,made_date)values(
-							<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#NEXTID.NEXTID#">,
-							<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">,
-							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#nature_of_id#">,
-							<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#accepted_id_fg#">,
-							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#identification_remarks#">,
-							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#taxa_formula#">,
-							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#scientific_name#">,
-							<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#stored_as_fg#">,
-							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#made_date#">
-			
-							)
-						</cfquery>
-						<cfset id_updates = id_updates + updateIds_result.recordcount>
-					</cfloop>
-				</cftransaction>
-				<h3 class="h4 mt-3">Updated #id_updates# identifications.</h3>
-			<cfcatch>
-				<h3 class="h4 mt-3">There was a problem updating Identifications.</h3>
-				<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					SELECT *
-					FROM cf_temp_ID 
-					WHERE status is not null
-						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-				</cfquery>
-				<h3 class="h4">Problematic Rows (<a href="/tools/BulkloadIdentification.cfm?action=dumpProblems">download</a>)</h3>
-				<table class='px-0 mx-0 sortable table small table-responsive w-100'>
-					<thead class="thead-light">
-						<tr>
-							<th>BULKLOAD&nbsp;STATUS</th>
-							<th>institution_acronym</th>
-							<th>collection_cde</th>
-							<th>other_id_type</th>
-							<th>other_id_number</th>
-							<th>scientific_name</th>
-							<th>made_date</th>
-							<th>nature_of_id</th>
-							<th>accepted_ID_fg</th>
-							<th>identification_remarks</th>
-							<th>taxa_formula</th>
-							<th>agent_1</th>
-							<th>agent_2</th>
-							<th>stored_as_fg</th>
-						</tr> 
-					</thead>
-					<tbody>
-						<cfloop query="getProblemData">
-							<tr>
-								<td><strong>#getProblemData.STATUS#</strong></td>
-								<td>#getProblemData.institution_acronym#</td>
-								<td>#getProblemData.collection_cde#</td>
-								<td>#getProblemData.other_id_type#</td>
-								<td>#getProblemData.other_id_number#</td>
-								<td>#getProblemData.scientific_name#</td>
-								<td>#getProblemData.made_date#</td>
-								<td>#getProblemData.nature_of_id#</td>
-								<td>#getProblemData.accepted_ID_fg#</td>
-								<td>#getProblemData.identification_remarks#</td>
-								<td>#getProblemData.taxa_formula#</td>
-								<td>#getProblemData.agent_1#</td>
-								<td>#getProblemData.agent_2#</td>
-								<td>#getProblemData.stored_as_fg#</td>
-							
-							</tr> 
-						</cfloop>
-					</tbody>
-				</table>
-				<cfrethrow>
-			</cfcatch>
-			</cftry>
 			<cfset problem_key = "">
 			<cftransaction>
+				<cfquery name="getTempData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					SELECT * FROM cf_temp_ID
+					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+				</cfquery>
+				<cfquery name="getCounts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					SELECT count(distinct collection_object_id) c FROM cf_temp_ID
+					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+				</cfquery>
+				<cfquery name="NEXTID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					select sq_identification_id.nextval NEXTID from dual
+				</cfquery>
 				<cftry>
-					<cfset id_updates = 0>
-					<cfloop query="getProblemData">
+					<cfset testParse = 0>
+					<cfif getTempData.recordcount EQ 0>
+						<cfthrow message="You have no rows to load in the Identifications bulkloader table (cf_temp_ID).  <a href='/tools/BulkloadIdentification.cfm'>Start over</a>">
+					</cfif>
+					<cfset i = 0>
+					<cfloop query="getTempData">
 						<cfset problem_key = getTempData.key>
-						<cfquery name="updateIds" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateIds_result">
-							insert into identification (
-							identification_id,
-							collection_object_id,
-							nature_of_id,
-							accepted_id_fg,
-							identification_remarks,
-							taxa_formula,
-							scientific_name,
-							stored_as_fg,
-							made_date) 
-							VALUES
-							(<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#NEXTID.NEXTID#">,
-							<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">,
-							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#nature_of_id#">,
-							<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#accepted_id_fg#">,
-							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#identification_remarks#">,
-							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#taxa_formula#">,
-							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#scientific_name#">,
-							<cfqueryparam cfsqltype="CF_SQL_DECIMAL(1,0)" value="#stored_as_fg#">,
-							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#made_date#">)
+						<cfstoredproc procedure="parse_other_id" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+							<cfprocparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
+							<cfprocparam cfsqltype="cf_sql_varchar" value="#other_id_number#">
+							<cfprocparam cfsqltype="cf_sql_varchar" value="#other_id_type#">
+						</cfstoredproc>
+						<cfquery name="updateParse" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateParse_result">
+							select distinct display_value
+								from coll_obj_other_id_num 
+								where collection_object_id =<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.collection_object_id#">
+								group by display_value
+								having count(*) > 1
 						</cfquery>
-						<cfset id_updates = id_updates + updateIds_result.recordcount>
+						<cfset testParse = testParse + 1>
+						<cfif updateParse_result.recordcount gt 0>
+							<cftransaction action = "ROLLBACK">
+						<cfelse>
+							<cftransaction action="COMMIT">
+						</cfif>
+						<cfset i = i+1>
 					</cfloop>
-					<cftransaction action="commit">
+					<cfif getTempData.recordcount eq testParse and updateParse_result.recordcount eq 0>
+						<p>Number of Identifications updated: #i# (on #getCounts.ctobj# cataloged items)</p>
+						<h2 class="text-success">Success - loaded</h2>
+					</cfif>
+					<cfif updateParse_result.recordcount gt 0>
+						<p>Attempted to update #i# Identifications (on #getCounts.ctobj# cataloged items)</p>
+						<h2 class="text-danger">Not loaded - these have already been loaded</h2>
+					</cfif>
 				<cfcatch>
-					<cftransaction action="rollback">
-					<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						SELECT *
+					<cftransaction action="ROLLBACK">
+					<h2 class="text-danger mt-4">There was a problem updating the Identifications.</h2>
+					<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getProblemData_result">
+						SELECT institution_acronym, collection_cde,other_id_type, other_id_number,collection_object_id,scientific_name,made_date,nature_of_id,accepted_id_fg,identification_remarks,agent_1, agent_2,taxa_formula,agent_1_id,agent_2_id,stored_as_fg
 						FROM cf_temp_id
-						WHERE key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#problem_key#">
+						WHERE key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#problem_key#">
 					</cfquery>
-					<h3>Error updating row (#id_updates + 1#): #cfcatch.message#</h3>
+						
+					<h3 class="h4">Errors encountered during application are displayed one row at a time.</h3>
+					<h3 class="mt-3 mb-2">
+						Error loading row (<span class="text-danger">#getProblemData_result.recordcount#</span>) from the CSV: 
+						<cfif len(cfcatch.detail) gt 0>
+							<span class="border-bottom border-danger">
+								<cfif cfcatch.detail contains "OTHER_ID_TYPE">
+									Invalid OTHER_ID_TYPE; check controlled vocabulary (Help menu)
+								<cfelseif cfcatch.detail contains "COLLECTION_CDE">
+									COLLECTION_CDE does not match abbreviated collection (e.g., Ent, Herp, Ich, IP, IZ, Mala, Mamm, Orn, SC, or VP)
+								<cfelseif cfcatch.detail contains "INSTITUTION_ACRONYM">
+									INSTITUTION_ACRONYM does not match MCZ (all caps)
+								<cfelseif cfcatch.detail contains "OTHER_ID_NUMBER">
+									Problem with OTHER_ID_NUMBER, check to see the correct other_id_number was entered
+								<cfelseif cfcatch.detail contains "unique constraint">
+									Problem with OTHER_ID_NUMBER (see below); OTHER_ID_NUMBER already entered; Remove and <a href="/tools/BulkloadIdentification.cfm">try again</a>
+								<cfelseif cfcatch.detail contains "COLLECTION_OBJECT_ID">
+									Problem with OTHER_ID_TYPE or OTHER_ID_NUMBER (could not find collection_object_id) 
+								<cfelseif cfcatch.detail contains "SCIENTIFIC_NAME">
+									Problem with SCIENTIFIC_NAME 
+								<cfelseif cfcatch.detail contains "no data">
+									No data or the wrong data (#cfcatch.detail#)
+								<cfelseif cfcatch.detail contains "NULL">
+									Missing Data (#cfcatch.detail#)
+								<cfelse>
+									 <!--- provide the raw error message if it is not readily interpretable --->
+									#cfcatch.detail#
+								</cfif>
+							</span>
+						</cfif>
+					</h3>
 					<table class='sortable table table-responsive table-striped d-lg-table'>
 						<thead>
 							<tr>
@@ -882,6 +849,8 @@
 								<th>collection_cde</th>
 								<th>other_id_type</th>
 								<th>other_id_number</th>
+								<th>collection_object_id</th>
+								<th>institution_acronym</th>
 								<th>scientific_name</th>
 								<th>made_date</th>
 								<th>nature_of_id</th>
@@ -889,12 +858,9 @@
 								<th>identification_remarks</th>
 								<th>agent_1</th>
 								<th>agent_2</th>
-								<th>taxon_name_id</th>
-								<th>agent_1_id</th>
-								<th>agent_2_id</th>
 								<th>stored_as_fg</th>
-								<th>status</th>
-							</tr> 
+								<th>taxa_named_id</th>
+							</tr>
 						</thead>
 						<tbody>
 							<cfloop query="getProblemData">
@@ -903,6 +869,7 @@
 									<td>#getProblemData.collection_cde#</td>
 									<td>#getProblemData.other_id_type#</td>
 									<td>#getProblemData.other_id_number#</td>
+									<td>#getProblemData.collection_object_id#</td>
 									<td>#getProblemData.scientific_name#</td>
 									<td>#getProblemData.made_date#</td>
 									<td>#getProblemData.nature_of_id#</td>
@@ -910,12 +877,12 @@
 									<td>#getProblemData.identification_remarks#</td>
 									<td>#getProblemData.agent_1#</td>
 									<td>#getProblemData.agent_2#</td>
-									<td>#getProblemData.taxon_name_id#</td>
+									<td>#getProblemData.taxa_formula#</td>
 									<td>#getProblemData.agent_1_id#</td>
 									<td>#getProblemData.agent_2_id#</td>
 									<td>#getProblemData.stored_as_fg#</td>
-									<td>#getProblemData.status#</td>
-								</tr> 
+									<td>#getProblemData.taxa_named_id#</td>
+								</tr>
 							</cfloop>
 						</tbody>
 					</table>
@@ -923,13 +890,11 @@
 				</cfcatch>
 				</cftry>
 			</cftransaction>
-			<h2>Updated #id_updates# Identification#plural#.</h2>
-			<h2>Success, changes applied.</h2>
-			<!--- cleanup --->
 			<cfquery name="clearTempTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="clearTempTable_result">
-				DELETE FROM cf_temp_id
+				DELETE FROM cf_temp_ID 
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 		</cfoutput>
 	</cfif>
-	
+</main>
+<cfinclude template="/shared/_footer.cfm">
