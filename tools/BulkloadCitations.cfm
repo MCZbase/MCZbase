@@ -250,8 +250,8 @@ limitations under the License.
 					<h3 class="h4">Found #size# columns in header of csv file.</h3>
 					<h3 class="h4">There are #ListLen(fieldList)# columns expected in the header (of these #ListLen(requiredFieldList)# are required).</h3>
 				
-					<!--- check for required fields in header line (performng check in two different ways, Case 1, Case 2) --->
-					<!--- Loop through list of fields throw exception if required fields are missing --->
+					<!--- check for required fields in header line (performng check in two different ways, Case 1, Case 2), listing all fields. --->
+					<!---  Throw exception and fail if any required fields are missing --->
 					<cfset missingRequiredFields = "">
 					<cfloop list="#fieldList#" item="aField">
 						<cfif ListContainsNoCase(requiredFieldList,aField)>
@@ -261,8 +261,6 @@ limitations under the License.
 							</cfif>
 						</cfif>
 					</cfloop>
-
-					<!---Loop through field list, mark each as present in input or not, throw exception if required fields are missing--->
 					<ul class="mb-4 h4 font-weight-normal">
 						<cfloop list="#fieldlist#" index="field" delimiters=",">
 							<cfset hint="">
@@ -290,18 +288,18 @@ limitations under the License.
 					</ul>
 					<cfset errorMessage = "">
 					<cfloop list="#missingRequiredFields#" index="missingField">
-						<cfset errorMessage = "#errorMessage#<li>#missingField# is missing</li>">
+						<cfset errorMessage = "#errorMessage#<li style='font-size: 1.1rem;'>#missingField#</li>">
 					</cfloop>
 					<cfif len(errorMessage) GT 0>
-						<h3 class="">Error Messages</h3>
+						<h3 class="h3">Error Messages</h3>
+						<cfset errorMessage = "<h4 class='h4'>Columns not found:</h4><ul>#errorMessage#</ul>">
 						<cfif size EQ 1>
 							<!--- Likely a problem parsing the first line into column headers --->
-							<cfset errorMessage = "<div>Only one column found, did you select the correct file format?</div><ul>#errorMessage#</ul>">
-						<cfelse>
-							<cfset errorMessage = "<div>Columns not found:</div><ul>#errorMessage#</ul>">
+							<cfset errorMessage = "#errorMessage#<div>Only one column found, did you select the correct file format?</div>">
 						</cfif>
 						<cfthrow message = "#NO_COLUMN_ERR# #errorMessage#">
 					</cfif>
+
 					<!--- Test for additional columns not in list, warn and ignore. --->
 					<cfset containsAdditional=false>
 					<cfset additionalCount = 0>
@@ -325,6 +323,7 @@ limitations under the License.
 						</ul>
 						<!--- Do not throw an exception, additional columns to be ignored are not fatal. --->
 					</cfif>
+
 					<!--- Identify duplicate columns and fail if found --->
 					<cfif NOT ListLen(ListRemoveDuplicates(foundHeaders)) EQ ListLen(foundHeaders)>
 						<cfset duplicateCount = 0>
@@ -347,6 +346,7 @@ limitations under the License.
 						<!--- throw exception to gracefully abort processing. --->
 						<cfthrow message = "#DUP_COLUMN_ERR#">
 					</cfif>
+
 					<cfset colNames="#foundHeaders#">
 					<cfset loadedRows = 0>
 					<cfset foundHighCount = 0>
