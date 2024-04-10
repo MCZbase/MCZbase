@@ -788,10 +788,6 @@
 		<cfoutput>
 			<cfset problem_key = "">
 			<cftransaction>
-				<cfquery name="getAID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					SELECT accepted_id_fg,collection_object_id FROM cf_temp_ID
-					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-				</cfquery>
 				<cfquery name="getCounts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT count(distinct collection_object_id) c FROM cf_temp_ID
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
@@ -799,12 +795,6 @@
 				<cfquery name="NEXTID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					select sq_identification_id.nextval NEXTID from dual
 				</cfquery>
-				<cfif getAID.ACCEPTED_ID_FG is 1>
-					<cfquery name="sinkOld" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-						update identification set ACCEPTED_ID_FG=0 
-						where COLLECTION_OBJECT_ID=#getAID.COLLECTION_OBJECT_ID#
-					</cfquery>
-				</cfif>
 				<cfquery name="getTempData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT KEY,COLLECTION_OBJECT_ID,COLLECTION_CDE,INSTITUTION_ACRONYM,OTHER_ID_TYPE,OTHER_ID_NUMBER,SCIENTIFIC_NAME,MADE_DATE,NATURE_OF_ID, ACCEPTED_ID_FG,IDENTIFICATION_REMARKS,AGENT_1,AGENT_2,STATUS,TAXON_NAME_ID,TAXA_FORMULA,AGENT_1_ID,AGENT_2_ID,STORED_AS_FG FROM cf_temp_ID
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
@@ -816,7 +806,12 @@
 					<cfset update_id = 0>
 					<cfloop query="getTempData">
 						<cfset problem_key = getTempData.key>
-				
+						<cfif getAID.ACCEPTED_ID_FG is 1>
+							<cfquery name="sinkOld" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+								update identification set ACCEPTED_ID_FG=0 
+								where COLLECTION_OBJECT_ID=#.COLLECTION_OBJECT_ID#
+							</cfquery>
+						</cfif>
 						<cfquery name="insert_id" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateID_result">
 							insert into identification (
 								IDENTIFICATION_ID,
