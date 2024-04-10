@@ -799,8 +799,8 @@
 				<cfquery name="NEXTID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					select sq_identification_id.nextval NEXTID from dual
 				</cfquery>
-				<cfif getAcceptedID.ACCEPTED_ID_FG is 1>
-					<cfquery name="whackOld" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfif getAID.ACCEPTED_ID_FG is 1>
+					<cfquery name="sinkOld" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						update identification set ACCEPTED_ID_FG=0 
 						where COLLECTION_OBJECT_ID=#getAID.COLLECTION_OBJECT_ID#
 					</cfquery>
