@@ -807,18 +807,18 @@
 					<cfset i = 0>
 					<cfloop query="getTempData">
 						<cfset problem_key = getTempData.key>
-						<cfstoredproc procedure="parse_other_id" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+		<!---				<cfstoredproc procedure="parse_other_id" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							<cfprocparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
 							<cfprocparam cfsqltype="cf_sql_varchar" value="#other_id_number#">
 							<cfprocparam cfsqltype="cf_sql_varchar" value="#other_id_type#">
-						</cfstoredproc>
-						<cfquery name="updateParse" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateParse_result">
+						</cfstoredproc>--->
+		<!---				<cfquery name="updateParse" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateParse_result">
 							select distinct display_value
 								from coll_obj_other_id_num 
 								where collection_object_id =<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.collection_object_id#">
 								group by display_value
 								having count(*) > 1
-						</cfquery>
+						</cfquery>--->
 						<cfset testParse = testParse + 1>
 						<cfif updateParse_result.recordcount gt 0>
 							<cftransaction action = "ROLLBACK">
