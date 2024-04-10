@@ -743,7 +743,6 @@
 							<td>#data.AGENT_1#</td>
 							<td>#data.AGENT_2#</td>
 							<td>#data.STORED_AS_FG#</td>
-							<td><strong>#STATUS#</strong></td>
 						</tr>
 					</cfloop>
 				</tbody>
@@ -810,7 +809,6 @@
 							<th>agent_1</th>
 							<th>agent_2</th>
 							<th>stored_as_fg</th>
-							<th>status</th>
 						</tr> 
 					</thead>
 					<tbody>
@@ -830,7 +828,7 @@
 								<td>#getProblemData.agent_1#</td>
 								<td>#getProblemData.agent_2#</td>
 								<td>#getProblemData.stored_as_fg#</td>
-								<td>#getProblemData.status#</td>
+							
 							</tr> 
 						</cfloop>
 					</tbody>
