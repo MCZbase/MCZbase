@@ -756,8 +756,6 @@
 						<th>taxa_formula</th>
 						<th>AGENT_1</th>
 						<th>AGENT_2</th>
-						<th>AGENT_1_ID</th>
-						<th>AGENT_2_ID</th>
 						<th>STORED_AS_FG</th>
 					</tr>
 				<tbody>
@@ -776,8 +774,6 @@
 							<td>#data.TAXA_FORMULA#</td>
 							<td>#data.AGENT_1#</td>
 							<td>#data.AGENT_2#</td>
-							<td>#data.AGENT_1_ID#</td>
-							<td>#data.AGENT_2_ID#</td>
 							<td>#data.STORED_AS_FG#</td>
 						</tr>
 					</cfloop>
