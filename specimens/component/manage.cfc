@@ -44,7 +44,7 @@ limitations under the License.
 					<cfloop query="countGeorefs">
 						<cfset foundCount = countGeorefs.ct>
 						<li class="list-group-item">
-							<a href="/bnhmMaps/SpecimensByLocality.cfm?result_id=#encodeForUrl(result_id)#" class="nav-link btn btn-secondary btn-xs" target="_blank">
+							<a href="/bnhmMaps/bnhmMapData.cfm?result_id=#encodeForUrl(result_id)#" class="nav-link btn btn-secondary btn-xs" target="_blank">
 								#countGeorefs.ct# with georeferences
 							</a>
 						</li>
