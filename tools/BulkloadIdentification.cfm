@@ -868,12 +868,12 @@
 							<cftransaction action="COMMIT">
 						</cfif>
 					</cfloop>
-					<cfif getTempData.recordcount eq testParse and updateID_result.recordcount eq 0>
-						<p>Number of Identifications updated: #i# (on #getCounts.ctobj# cataloged items)</p>
+					<cfif getTempData.recordcount eq update_id and updateID_result.recordcount eq 0>
+						<p>Number of Identifications updated: #update_id# (on #getCounts.ctobj# cataloged items)</p>
 						<h2 class="text-success">Success - loaded</h2>
 					</cfif>
 					<cfif updateID_result.recordcount gt 0>
-						<p>Attempted to update #i# Identifications (on #getCounts.ctobj# cataloged items)</p>
+						<p>Attempted to update #update_id# Identifications (on #getCounts.ctobj# cataloged items)</p>
 						<h2 class="text-danger">Not loaded - these have already been loaded</h2>
 					</cfif>
 				<cfcatch>
