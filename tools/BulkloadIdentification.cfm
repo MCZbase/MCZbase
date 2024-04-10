@@ -800,7 +800,7 @@
 					select sq_identification_id.nextval NEXTID from dual
 				</cfquery>
 				<cfif ACCEPTED_ID_FG is 1>
-					<cfquery name="whackOld" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateID_result">
+					<cfquery name="whackOld" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						update cf_temp_id set ACCEPTED_ID_FG=0 
 						where COLLECTION_OBJECT_ID=#getTempData.COLLECTION_OBJECT_ID#
 					</cfquery>
