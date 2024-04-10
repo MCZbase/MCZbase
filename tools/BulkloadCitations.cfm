@@ -252,16 +252,13 @@ limitations under the License.
 					<h3 class="h4">There are #ListLen(fieldList)# columns expected in the header (of these #ListLen(requiredFieldList)# are required).</h3>
 				
 					<!--- check for required fields in header line, list all fields, throw exception and fail if any required fields are missing --->
-					<cfset reqFieldsBlock = checkRequiredFields(fieldList=fieldList,requiredFieldList=requiredFieldList,NO_COLUMN_ERR=NO_COLUMN_ERR)>
-					#reqFieldsBlock#
+					<cfset reqFieldsResponse = checkRequiredFields(fieldList=fieldList,requiredFieldList=requiredFieldList,NO_COLUMN_ERR=NO_COLUMN_ERR)>
 
 					<!--- Test for additional columns not in list, warn and ignore. --->
-					<cfset addFieldsBlock = checkAdditionalFields(fieldList=fieldList)>
-					#addFieldsBlock#
+					<cfset addFieldsResponse = checkAdditionalFields(fieldList=fieldList)>
 
 					<!--- Identify duplicate columns and fail if found --->
-					<cfset dupFieldsBlock = checkDuplicateFields(foundHeaders=foundHeaders,DUP_COLUMN_ERR=DUP_COLUMN_ERR)>
-					#dupFieldsBlock#
+					<cfset dupFieldsResponse = checkDuplicateFields(foundHeaders=foundHeaders,DUP_COLUMN_ERR=DUP_COLUMN_ERR)>
 
 					<cfset colNames="#foundHeaders#">
 					<cfset loadedRows = 0>
