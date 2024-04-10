@@ -23,7 +23,7 @@ function loadGeoreferenceSummaryHTML (result_id,targetDivId) {
 
 /** Load information about georeferences in a result set into a target div.
 */
-function loadGeoreferenceCount (result_id,targetDivId) { 
+function loadGeoreferenceCount (result_id,targetDivId,prefix,suffix) { 
 	jQuery.ajax({
 		url: "/specimens/component/manage.cfc",
 		data : {
@@ -31,7 +31,7 @@ function loadGeoreferenceCount (result_id,targetDivId) {
 			result_id: result_id
 		},
 		success: function (result) {
-			$("#" + targetDivId ).html(result);
+			$("#" + targetDivId ).html(prefix + result + suffix);
 		},
 		error: function (jqXHR, textStatus, error) {
 			handleFail(jqXHR,textStatus,error,"loading georeference count");
