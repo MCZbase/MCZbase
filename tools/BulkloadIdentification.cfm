@@ -874,7 +874,7 @@
 							TAXA_FORMULA, 
 							SCIENTIFIC_NAME
 							stored_as_fg 
-							having count(*) > 1
+							having count(*) > 0
 						</cfquery>
 						<cfset insert_id = insert_id + insertID_result.recordcount>
 						<cfif getID_result.recordcount gt 0>
