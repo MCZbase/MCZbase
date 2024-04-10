@@ -839,7 +839,7 @@
 								</cfif>
 							)
 						</cfquery>
-						<cfquery name="insertidt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						<cfquery name="insertidt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateID_result">
 							insert into identification_taxonomy (
 								IDENTIFICATION_ID,
 								TAXON_NAME_ID,
@@ -850,7 +850,7 @@
 								'A'
 							)
 						</cfquery>
-						<cfquery name="insertida1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						<cfquery name="insertida1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateID_result">
 							insert into identification_agent (
 								IDENTIFICATION_ID,
 								AGENT_ID,
