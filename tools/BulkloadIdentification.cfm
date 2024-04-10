@@ -883,7 +883,7 @@
 							<cftransaction action="COMMIT">
 						</cfif>
 					</cfloop>
-					<cfif getTempData.recordcount eq insert_id and insertID_result.recordcount eq 0>
+					<cfif getID.recordcount eq insert_id and insertID_result.recordcount eq 0>
 						<p>Number of Identifications updated: #insert_id# (on #getCounts.c# cataloged items)</p>
 						<h2 class="text-success">Success - loaded</h2>
 					</cfif>
