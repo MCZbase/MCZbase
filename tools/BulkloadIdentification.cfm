@@ -807,6 +807,7 @@
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
 				<cftry>
+					<cfset testParse = 0>
 					<cfif getTempData.recordcount EQ 0>
 						<cfthrow message="You have no rows to load in the Identifications bulkloader table (cf_temp_ID). <a href='/tools/BulkloadIdentification.cfm'>Start over</a>">
 					</cfif>
