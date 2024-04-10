@@ -860,7 +860,7 @@
 								sq_identification_id.currval,
 								#agent_1_id#,1)
 						</cfquery>
-						<cfquery name="getID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="sumID_result">
+						<cfquery name="getID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getID_result">
 							select IDENTIFICATION_ID, COLLECTION_OBJECT_ID, MADE_DATE, NATURE_OF_ID, ACCEPTED_ID_FG,IDENTIFICATION_REMARKS, TAXA_FORMULA, SCIENTIFIC_NAME,stored_as_fg 
 							from identification 
 							where collection_object_id = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempData.collection_object_id#">
@@ -874,7 +874,7 @@
 							TAXA_FORMULA, 
 							SCIENTIFIC_NAME,
 							stored_as_fg 
-							having count(*) > 0
+							having count(*) > 1
 						</cfquery>
 						<cfset insert_id = insert_id + insertID_result.recordcount>
 						<cfif getID_result.recordcount gt 0>
