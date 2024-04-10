@@ -168,7 +168,7 @@ limitations under the License.
 						<div class="rounded redbox">
 							<script>
 								function reloadHeadingBar() { 
-									loadGeoreferenceSummaryHTML(#reult_id#,"georefDiv");
+									loadGeoreferenceSummaryHTML(#result_id#,"georefDiv");
 								} 
 							</script>
 							<cfset blockgeoref = getGeoreferenceSummaryHTML(result_id = "#result_id#")>
