@@ -819,7 +819,7 @@
 								SCIENTIFIC_NAME,
 								stored_as_fg
 							) values (
-								sq_identification_id.nextval,
+								NEXTID.NEXTID,
 								#COLLECTION_OBJECT_ID#,
 								'#MADE_DATE#',
 								'#NATURE_OF_ID#',
