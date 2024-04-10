@@ -251,113 +251,17 @@ limitations under the License.
 					<h3 class="h4">Found #size# columns in header of csv file.</h3>
 					<h3 class="h4">There are #ListLen(fieldList)# columns expected in the header (of these #ListLen(requiredFieldList)# are required).</h3>
 				
+					<!--- check for required fields in header line, list all fields, throw exception and fail if any required fields are missing --->
 					<cfset reqFieldsBlock = checkRequiredFields(fieldList=fieldList,requiredFieldList=requiredFieldList,NO_COLUMN_ERR=NO_COLUMN_ERR)>
 					#reqFieldsBlock#
 
-					<!--- check for required fields in header line (performng check in two different ways, Case 1, Case 2), listing all fields. --->
-					<!---  Throw exception and fail if any required fields are missing --->
-<!---
-					<cfset missingRequiredFields = "">
-					<cfloop list="#fieldList#" item="aField">
-						<cfif ListContainsNoCase(requiredFieldList,aField)>
---->
-							<!--- Case 1. Check by splitting assembled list of foundHeaders --->
-<!---
-							<cfif NOT ListContainsNoCase(foundHeaders,aField)>
-								<cfset missingRequiredFields = ListAppend(missingRequiredFields,aField)>
-							</cfif>
-						</cfif>
-					</cfloop>
-					<ul class="mb-4 h4 font-weight-normal">
-						<cfloop list="#fieldlist#" index="field" delimiters=",">
-							<cfset hint="">
-							<cfif listContains(requiredfieldlist,field,",")>
-								<cfset class="text-danger">
-								<cfset hint="aria-label='required'">
-							<cfelse>
-								<cfset class="text-dark">
-							</cfif>
-							<li>
-								<span class="#class#" #hint#>#field#</span>
-								<cfif arrayFindNoCase(colNameArray,field) GT 0>
-									<span class="text-success font-weight-bold">Present in CSV</span>
-								<cfelse>
-									<!--- Case 2. Check by identifying field in required field list --->
---->
-<!---
-									<cfif ListContainsNoCase(requiredFieldList,field)>
-										<strong class="text-dark">Required Column Not Found</strong>
-										<cfif NOT ListContains(missingRequiredFields,field)>
-											<cfset missingRequiredFields = ListAppend(missingRequiredFields,field)>
-										</cfif>
-									</cfif>
-								</cfif>
-							</li>
-						</cfloop>
-					</ul>
-					<cfset errorMessage = "">
-					<cfloop list="#missingRequiredFields#" index="missingField">
-						<cfset errorMessage = "#errorMessage#<li style='font-size: 1.1rem;'>#missingField#</li>">
-					</cfloop>
-					<cfif len(errorMessage) GT 0>
-						<h3 class="h3">Error Messages</h3>
-						<cfset errorMessage = "<h4 class='h4'>Columns not found:</h4><ul>#errorMessage#</ul>">
-						<cfif size EQ 1>
-							<!--- Likely a problem parsing the first line into column headers --->
---->
-<!---
-							<cfset errorMessage = "#errorMessage#<div>Only one column found, did you select the correct file format?</div>">
-						</cfif>
- 						<cfset errorMessage = "#errorMessage#<div>Check that headers exactly match the expected ones and that you have the correct encoding and file format.</div>">
-						<cfthrow message = "#NO_COLUMN_ERR# #errorMessage#">
-					</cfif>
---->
 					<!--- Test for additional columns not in list, warn and ignore. --->
-					<cfset containsAdditional=false>
-					<cfset additionalCount = 0>
-					<cfloop list="#foundHeaders#" item="aField">
-						<cfif NOT ListContainsNoCase(fieldList,aField)>
-							<cfset containsAdditional=true>
-							<cfset additionalCount = additionalCount+1>
-						</cfif>
-					</cfloop>
-					<cfif NOT ListContainsNoCase(fieldList,aField)>
-						<cfif additionalCount GT 1><cfset plural1="s"><cfelse><cfset plural1=""></cfif>
-						<cfif additionalCount GT 1><cfset plural1a="are"><cfelse><cfset plural1a="is"></cfif>
-						<h3 class="h4">Warning: Found #additionalCount# additional column header#plural1# in the CSV that #plural1a# not in the list of expected headers: </h3>
-						<!--- Identify additional columns that will be ignored --->
-						<ul>
-							<cfloop list="#foundHeaders#" item="aField">
-								<cfif NOT ListContainsNoCase(fieldList,aField)>
-									<li class="pb-1 px-4 text-dark"><i class='fas fa-arrow-right text-dark'></i> #aField# </1i>
-								</cfif>
-							</cfloop>
-						</ul>
-						<!--- Do not throw an exception, additional columns to be ignored are not fatal. --->
-					</cfif>
+					<cfset addFieldsBlock = checkAdditionalFields(fieldList=fieldList)>
+					#addFieldsBlock#
 
 					<!--- Identify duplicate columns and fail if found --->
-					<cfif NOT ListLen(ListRemoveDuplicates(foundHeaders)) EQ ListLen(foundHeaders)>
-						<cfset duplicateCount = 0>
-						<cfloop list="#foundHeaders#" item="aField">
-							<cfif listValueCount(foundHeaders,aField) GT 1>
-								<cfset duplicateCount = duplicateCount + 1>
-							</cfif>
-						</cfloop>
-						<cfif duplicateCount GT 1><cfset plural1="s"><cfelse><cfset plural1=""></cfif>
-						<cfif duplicateCount GT 1><cfset plural2=""><cfelse><cfset plural2="s"></cfif>
-						<h3 class="h4">Expected column header#plural1# occur#plural2# more than once: </h3>
-						<ul class="pb-1 h4 list-unstyled">
-							<!--- Identify duplicate columns and fail if found --->
-							<cfloop list="#foundHeaders#" item="aField">
-								<cfif listValueCount(foundHeaders,aField) GT 1>
-										<li class="pb-1 px-4 text-dark"><i class='fas fa-arrow-right text-dark'></i> column ###i# = #aField# </1i>
-								</cfif>
-							</cfloop>
-						</ul>
-						<!--- throw exception to gracefully abort processing. --->
-						<cfthrow message = "#DUP_COLUMN_ERR#">
-					</cfif>
+					<cfset dupFieldsBlock = checkDuplicateFields(foundHeaders=foundHeaders,DUP_COLUMN_ERR=DUP_COLUMN_ERR)>
+					#dupFieldsBlock#
 
 					<cfset colNames="#foundHeaders#">
 					<cfset loadedRows = 0>

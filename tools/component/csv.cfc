@@ -77,4 +77,64 @@ limitations under the License.
 	</cfoutput>
 </cffunction>
 
+<cffunction name="checkAdditionalFields" returntype="string" access="remote" returnformat="plain">
+	<cfargument name="fieldList" type="string" required="yes">
+
+	<cfoutput>
+		<!--- Test for additional columns not in list, warn and ignore. --->
+		<cfset containsAdditional=false>
+		<cfset additionalCount = 0>
+		<cfloop list="#foundHeaders#" item="aField">
+			<cfif NOT ListContainsNoCase(fieldList,aField)>
+				<cfset containsAdditional=true>
+				<cfset additionalCount = additionalCount+1>
+			</cfif>
+		</cfloop>
+		<cfif NOT ListContainsNoCase(fieldList,aField)>
+			<cfif additionalCount GT 1><cfset plural1="s"><cfelse><cfset plural1=""></cfif>
+			<cfif additionalCount GT 1><cfset plural1a="are"><cfelse><cfset plural1a="is"></cfif>
+			<h3 class="h4">Warning: Found #additionalCount# additional column header#plural1# in the CSV that #plural1a# not in the list of expected headers: </h3>
+			<!--- Identify additional columns that will be ignored --->
+			<ul>
+				<cfloop list="#foundHeaders#" item="aField">
+					<cfif NOT ListContainsNoCase(fieldList,aField)>
+						<li class="pb-1 px-4 text-dark"><i class='fas fa-arrow-right text-dark'></i> #aField# </1i>
+					</cfif>
+				</cfloop>
+			</ul>
+			<!--- Do not throw an exception, additional columns to be ignored are not fatal. --->
+		</cfif>
+	</cfoutput>
+</cffunction>
+
+<cffunction name="checkDuplicateFields" returntype="string" access="remote" returnformat="plain">
+	<cfargument name="foundHeaders" type="string" required="yes">
+	<cfargument name="DUP_COLUMN_ERR" type="string" required="yes">
+
+	<cfoutput>
+		<!--- Identify duplicate columns and fail if found --->
+		<cfif NOT ListLen(ListRemoveDuplicates(foundHeaders)) EQ ListLen(foundHeaders)>
+			<cfset duplicateCount = 0>
+			<cfloop list="#foundHeaders#" item="aField">
+				<cfif listValueCount(foundHeaders,aField) GT 1>
+					<cfset duplicateCount = duplicateCount + 1>
+				</cfif>
+			</cfloop>
+			<cfif duplicateCount GT 1><cfset plural1="s"><cfelse><cfset plural1=""></cfif>
+			<cfif duplicateCount GT 1><cfset plural2=""><cfelse><cfset plural2="s"></cfif>
+			<h3 class="h4">Expected column header#plural1# occur#plural2# more than once: </h3>
+			<ul class="pb-1 h4 list-unstyled">
+				<!--- Identify duplicate columns and fail if found --->
+				<cfloop list="#foundHeaders#" item="aField">
+					<cfif listValueCount(foundHeaders,aField) GT 1>
+							<li class="pb-1 px-4 text-dark"><i class='fas fa-arrow-right text-dark'></i> column ###i# = #aField# </1i>
+					</cfif>
+				</cfloop>
+			</ul>
+			<!--- throw exception to gracefully abort processing. --->
+			<cfthrow message = "#DUP_COLUMN_ERR#">
+		</cfif>
+	</cfoutput>
+</cffunction>
+
 </cfcomponent>
