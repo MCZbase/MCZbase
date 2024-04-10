@@ -27,7 +27,7 @@ limitations under the License.
 	</cfquery>
 	<cfinclude template="/shared/component/functions.cfc">
 	<cfset csv = queryToCSV(getProblemData)>
-	<cfheader name="Content-Type" value="text/csv">
+	<cfheader name="Content-Type" value="text/csv; charset=utf-8">
 	<cfoutput>#csv#</cfoutput>
 	<cfabort>
 </cfif>
