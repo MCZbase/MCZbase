@@ -809,7 +809,7 @@
 						<cfif getAID.ACCEPTED_ID_FG is 1>
 							<cfquery name="sinkOld" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 								update identification set ACCEPTED_ID_FG=0 
-								where COLLECTION_OBJECT_ID=#.COLLECTION_OBJECT_ID#
+								where COLLECTION_OBJECT_ID=#getTempData.COLLECTION_OBJECT_ID#
 							</cfquery>
 						</cfif>
 						<cfquery name="insert_id" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateID_result">
