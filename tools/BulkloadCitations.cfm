@@ -125,6 +125,7 @@ limitations under the License.
 	
 	<!------------------------------------------------------->
 	<cfif #action# is "getFile">
+		<cfinclude template="/tools/component/csv.cfc" runOnce="true"><!--- for common csv testing functions --->
 		<cfoutput>
 			<h2 class="h4">First step: Reading data from CSV file.</h2>
 			<!--- Set some constants to identify error cases in cfcatch block --->
