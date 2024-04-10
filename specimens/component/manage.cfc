@@ -37,53 +37,56 @@ limitations under the License.
 							JOIN <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flatTableName
 								ON user_search_table.collection_object_id = flatTableName.collection_object_id
 						WHERE
-							user_search_table.result_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.result_id#">
+							user_search_table.result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.result_id#">
 							AND flatTableName.dec_lat is not null 
 							AND flatTableName.dec_long is not null 
 					</cfquery>
 					<cfloop query="countGeorefs">
+						<cfset foundCount = countGeorefs.ct>
 						<li class="list-group-item">
 							<a href="/bnhmMaps/SpecimensByLocality.cfm?result_id=#encodeForUrl(result_id)#" class="nav-link btn btn-secondary btn-xs">
 								#countGeorefs.ct# with georeferences
 							</a>
 						</li>
 					</cfloop>
-					<cfquery name="countGoodGeorefs" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						SELECT count(*) ct 
-						FROM user_search_table
-							JOIN <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flatTableName
-								ON user_search_table.collection_object_id = flatTableName.collection_object_id
-						WHERE
-							user_search_table.result_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.result_id#">
-							AND flatTableName.dec_lat is not null 
-							AND flatTableName.dec_long is not null 
-							AND flatTableName.datum is not null 
-							AND flatTableName.coordinateprecision is not null 
-							AND flatTableName.coordinateUncertantyInMeters is not null 
-					</cfquery>
-					<cfloop query="countGoodGeorefs">
-						<li class="list-group-item">
-							#countGoodGeorefs.ct# with datum, precision, and uncertainty
-						</li>
-					</cfloop>
-					<cfquery name="countPreciceGeorefs" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						SELECT count(*) ct 
-						FROM user_search_table
-							JOIN <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flatTableName
-								ON user_search_table.collection_object_id = flatTableName.collection_object_id
-						WHERE
-							user_search_table.result_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.result_id#">
-							AND flatTableName.dec_lat is not null 
-							AND flatTableName.dec_long is not null 
-							AND flatTableName.datum is not null 
-							AND flatTableName.coordinateprecision >= 2 -- better than 1111m about one minute
-							AND flatTableName.coordinateUncertantyInMeters <= 1111
-					</cfquery>
-					<cfloop query="countPreciceGeorefs">
-						<li class="list-group-item">
-							#countPreciceGeorefs.ct# with one minute precision or better
-						</li>
-					</cfloop>
+					<cfif foundCount GT 0>
+						<cfquery name="countGoodGeorefs" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+							SELECT count(*) ct 
+							FROM user_search_table
+								JOIN <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flatTableName
+									ON user_search_table.collection_object_id = flatTableName.collection_object_id
+							WHERE
+								user_search_table.result_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.result_id#">
+								AND flatTableName.dec_lat is not null 
+								AND flatTableName.dec_long is not null 
+								AND flatTableName.datum is not null 
+								AND flatTableName.coordinateprecision is not null 
+								AND flatTableName.coordinateUncertantyInMeters is not null 
+						</cfquery>
+						<cfloop query="countGoodGeorefs">
+							<li class="list-group-item">
+								#countGoodGeorefs.ct# with datum, precision, and uncertainty
+							</li>
+						</cfloop>
+						<cfquery name="countPreciceGeorefs" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+							SELECT count(*) ct 
+							FROM user_search_table
+								JOIN <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flatTableName
+									ON user_search_table.collection_object_id = flatTableName.collection_object_id
+							WHERE
+								user_search_table.result_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.result_id#">
+								AND flatTableName.dec_lat is not null 
+								AND flatTableName.dec_long is not null 
+								AND flatTableName.datum is not null 
+								AND flatTableName.coordinateprecision >= 2 -- better than 1111m about one minute
+								AND flatTableName.coordinateUncertantyInMeters <= 1111
+						</cfquery>
+						<cfloop query="countPreciceGeorefs">
+							<li class="list-group-item">
+								#countPreciceGeorefs.ct# with one minute precision or better
+							</li>
+						</cfloop>
+					</cfif>
 				<cfcatch>
 					<cfset error_message = cfcatchToErrorMessage(cfcatch)>
 					<cfset function_called = "#GetFunctionCalledName()#">
