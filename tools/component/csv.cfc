@@ -74,7 +74,7 @@ limitations under the License.
  						<cfset errorMessage = "#errorMessage#<div>Check that headers exactly match the expected ones and that you have the correct encoding and file format.</div>"><!--- " --->
 				<cfthrow message = "#NO_COLUMN_ERR# #errorMessage#">
 			</cfif>
-		<cfoutput>
+		</cfoutput>
 </cffunction>
 
 </cfcomponent>
