@@ -21,60 +21,60 @@ limitations under the License.
 <cffunction name="checkRequiredFields" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="fieldList" type="string" required="yes">
 	<cfargument name="requiredFieldList" type="string" required="yes">
-	<cfargument name="NO_COLUMN_ERROR" type="string" required="yes">
+	<cfargument name="NO_COLUMN_ERR" type="string" required="yes">
 
 	<cfoutput>
-			<!--- check for required fields in header line (performng check in two different ways, Case 1, Case 2), listing all fields. --->
-			<!---  Throw exception and fail if any required fields are missing --->
-			<cfset missingRequiredFields = "">
-			<cfloop list="#fieldList#" item="aField">
-				<cfif ListContainsNoCase(requiredFieldList,aField)>
-					<!--- Case 1. Check by splitting assembled list of foundHeaders --->
-					<cfif NOT ListContainsNoCase(foundHeaders,aField)>
-						<cfset missingRequiredFields = ListAppend(missingRequiredFields,aField)>
-					</cfif>
+		<!--- check for required fields in header line (performng check in two different ways, Case 1, Case 2), listing all fields. --->
+		<!---  Throw exception and fail if any required fields are missing --->
+		<cfset missingRequiredFields = "">
+		<cfloop list="#fieldList#" item="aField">
+			<cfif ListContainsNoCase(requiredFieldList,aField)>
+				<!--- Case 1. Check by splitting assembled list of foundHeaders --->
+				<cfif NOT ListContainsNoCase(foundHeaders,aField)>
+					<cfset missingRequiredFields = ListAppend(missingRequiredFields,aField)>
 				</cfif>
-			</cfloop>
-			<ul class="mb-4 h4 font-weight-normal">
-				<cfloop list="#fieldlist#" index="field" delimiters=",">
-					<cfset hint="">
-					<cfif listContains(requiredfieldlist,field,",")>
-						<cfset class="text-danger">
-						<cfset hint="aria-label='required'">
+			</cfif>
+		</cfloop>
+		<ul class="mb-4 h4 font-weight-normal">
+			<cfloop list="#fieldlist#" index="field" delimiters=",">
+				<cfset hint="">
+				<cfif listContains(requiredfieldlist,field,",")>
+					<cfset class="text-danger">
+					<cfset hint="aria-label='required'">
+				<cfelse>
+					<cfset class="text-dark">
+				</cfif>
+				<li>
+					<span class="#class#" #hint#>#field#</span>
+					<cfif arrayFindNoCase(colNameArray,field) GT 0>
+						<span class="text-success font-weight-bold">Present in CSV</span>
 					<cfelse>
-						<cfset class="text-dark">
-					</cfif>
-					<li>
-						<span class="#class#" #hint#>#field#</span>
-						<cfif arrayFindNoCase(colNameArray,field) GT 0>
-							<span class="text-success font-weight-bold">Present in CSV</span>
-						<cfelse>
-							<!--- Case 2. Check by identifying field in required field list --->
-							<cfif ListContainsNoCase(requiredFieldList,field)>
-								<strong class="text-dark">Required Column Not Found</strong>
-								<cfif NOT ListContains(missingRequiredFields,field)>
-									<cfset missingRequiredFields = ListAppend(missingRequiredFields,field)>
-								</cfif>
+						<!--- Case 2. Check by identifying field in required field list --->
+						<cfif ListContainsNoCase(requiredFieldList,field)>
+							<strong class="text-dark">Required Column Not Found</strong>
+							<cfif NOT ListContains(missingRequiredFields,field)>
+								<cfset missingRequiredFields = ListAppend(missingRequiredFields,field)>
 							</cfif>
 						</cfif>
-					</li>
-				</cfloop>
-			</ul>
-			<cfset errorMessage = "">
-			<cfloop list="#missingRequiredFields#" index="missingField">
-				<cfset errorMessage = "#errorMessage#<li style='font-size: 1.1rem;'>#missingField#</li>">
+					</cfif>
+				</li>
 			</cfloop>
-			<cfif len(errorMessage) GT 0>
-				<h3 class="h3">Error Messages</h3>
-				<cfset errorMessage = "<h4 class='h4'>Columns not found:</h4><ul>#errorMessage#</ul>">
-				<cfif size EQ 1>
-					<!--- Likely a problem parsing the first line into column headers --->
-					<cfset errorMessage = "#errorMessage#<div>Only one column found, did you select the correct file format?</div>">
-				</cfif>
- 						<cfset errorMessage = "#errorMessage#<div>Check that headers exactly match the expected ones and that you have the correct encoding and file format.</div>"><!--- " --->
-				<cfthrow message = "#NO_COLUMN_ERR# #errorMessage#">
+		</ul>
+		<cfset errorMessage = "">
+		<cfloop list="#missingRequiredFields#" index="missingField">
+			<cfset errorMessage = "#errorMessage#<li style='font-size: 1.1rem;'>#missingField#</li>">
+		</cfloop>
+		<cfif len(errorMessage) GT 0>
+			<h3 class="h3">Error Messages</h3>
+			<cfset errorMessage = "<h4 class='h4'>Columns not found:</h4><ul>#errorMessage#</ul>">
+			<cfif size EQ 1>
+				<!--- Likely a problem parsing the first line into column headers --->
+				<cfset errorMessage = "#errorMessage#<div>Only one column found, did you select the correct file format?</div>">
 			</cfif>
-		</cfoutput>
+ 						<cfset errorMessage = "#errorMessage#<div>Check that headers exactly match the expected ones and that you have the correct encoding and file format.</div>"><!--- " --->
+			<cfthrow message = "#NO_COLUMN_ERR# #errorMessage#">
+		</cfif>
+	</cfoutput>
 </cffunction>
 
 </cfcomponent>
