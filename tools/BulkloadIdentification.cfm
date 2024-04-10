@@ -809,7 +809,9 @@
 						<cfset problem_key = getTempData.key>
 					<cfif ACCEPTED_ID_FG is 1>
 						<cfquery name="whackOld" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-							update identification set ACCEPTED_ID_FG=0 where COLLECTION_OBJECT_ID=#COLLECTION_OBJECT_ID#
+							update identification set ACCEPTED_ID_FG=0 
+							where COLLECTION_OBJECT_ID=#COLLECTION_OBJECT_ID#
+							AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						</cfquery>
 					</cfif>
 						<cfquery name="insert_id" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateID_result">
