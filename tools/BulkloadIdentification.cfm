@@ -910,8 +910,6 @@
 									<td>#getProblemData.agent_1#</td>
 									<td>#getProblemData.agent_2#</td>
 									<td>#getProblemData.taxa_formula#</td>
-									<td>#getProblemData.agent_1_id#</td>
-									<td>#getProblemData.agent_2_id#</td>
 									<td>#getProblemData.stored_as_fg#</td>
 									<td>#getProblemData.taxon_name_id#</td>
 								</tr>
