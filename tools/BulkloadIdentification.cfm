@@ -801,9 +801,11 @@
 				</cfquery>
 				<cftry>
 					<cfif getTempData.recordcount EQ 0>
-						<cfthrow message="You have no rows to load in the Identifications bulkloader table (cf_temp_ID).  <a href='/tools/BulkloadIdentification.cfm'>Start over</a>">
+						<cfthrow message="You have no rows to load in the Identifications bulkloader table (cf_temp_ID). <a href='/tools/BulkloadIdentification.cfm'>Start over</a>">
 					</cfif>
-					<cfset update_id = 0>
+					<cfset insert_id = 0>
+					<cfset insertidt = 0>
+					<cfset insertida1 = 0>
 					<cfloop query="getTempData">
 						<cfset problem_key = getTempData.key>
 						<cfif getTempData.ACCEPTED_ID_FG is 1>
@@ -812,7 +814,7 @@
 								where COLLECTION_OBJECT_ID=#getTempData.COLLECTION_OBJECT_ID#
 							</cfquery>
 						</cfif>
-						<cfquery name="insert_id" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateID_result">
+						<cfquery name="insertID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="insertID_result">
 							insert into identification (
 								IDENTIFICATION_ID,
 								COLLECTION_OBJECT_ID,
@@ -837,9 +839,19 @@
 								<cfelse>
 									'(null)'
 								</cfif>
+								group by IDENTIFICATION_ID,
+								COLLECTION_OBJECT_ID,
+								MADE_DATE,
+								NATURE_OF_ID,
+								ACCEPTED_ID_FG,
+								IDENTIFICATION_REMARKS,
+								TAXA_FORMULA,
+								SCIENTIFIC_NAME,
+								stored_as_fg
+								having count(*) > 1
 							)
 						</cfquery>
-						<cfquery name="insertidt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateID_result">
+						<cfquery name="insertIDT" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="insertIDT_result">
 							insert into identification_taxonomy (
 								IDENTIFICATION_ID,
 								TAXON_NAME_ID,
@@ -847,10 +859,9 @@
 							) values (
 								sq_identification_id.currval,
 								#TAXON_NAME_ID#,
-								'A'
-							)
+								'A')
 						</cfquery>
-						<cfquery name="insertida1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateID_result">
+						<cfquery name="insertIDA1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="insertIDA1_result">
 							insert into identification_agent (
 								IDENTIFICATION_ID,
 								AGENT_ID,
@@ -861,19 +872,19 @@
 								1
 							)
 						</cfquery>
-						<cfset update_id = update_id + updateID_result.recordcount>
-						<cfif updateID_result.recordcount gt 0>
+						<cfset insert_id = insert_id + insertID_result.recordcount>
+						<cfif insertIDA1_result.recordcount gt 0>
 							<cftransaction action = "ROLLBACK">
 						<cfelse>
 							<cftransaction action="COMMIT">
 						</cfif>
 					</cfloop>
-					<cfif getTempData.recordcount eq update_id and updateID_result.recordcount eq 0>
-						<p>Number of Identifications updated: #update_id# (on #getCounts.c# cataloged items)</p>
+					<cfif getTempData.recordcount eq insert_id and insertID_result.recordcount eq 0>
+						<p>Number of Identifications updated: #insert_id# (on #getCounts.c# cataloged items)</p>
 						<h2 class="text-success">Success - loaded</h2>
 					</cfif>
-					<cfif updateID_result.recordcount gt 0>
-						<p>Attempted to update #update_id# Identifications (on #getCounts.c# cataloged items)</p>
+					<cfif insertIDA1_result.recordcount gt 0>
+						<p>Attempted to update #insert_id# Identifications (on #getCounts.c# cataloged items)</p>
 						<h2 class="text-danger">Not loaded - these have already been loaded</h2>
 					</cfif>
 				<cfcatch>
