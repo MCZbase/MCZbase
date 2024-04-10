@@ -3868,6 +3868,7 @@ Target JSON:
 			</cfif>
 			<cfif isdefined("session.username") AND len(#session.username#) GT 0>
 				$('##'+whichGrid+'resultBMMapLinkContainer').html(`<a id="`+whichGrid+`BMMapButton" class="btn btn-xs btn-secondary px-2 my-2 mx-1" target="_blank" href="/bnhmMaps/bnhmMapData.cfm?result_id=`+result_uuid+`" aria-label="Plot points in Berkeley Mapper">BerkeleyMapper</a>`);
+				loadGeoreferenceCount(result_uuid,whichGrid + 'BMMapButton','BerkeleyMapper (',')');
 			</cfif>
 			<cfif NOT isDefined("session.gridscrolltotop") OR session.gridscrolltotop EQ "true">
 				$("html, body").scrollTop($("##"+whichGrid+"SearchResultsSection").offset().top);
