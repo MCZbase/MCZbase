@@ -887,7 +887,7 @@
 						<p>Number of Identifications updated: #insert_id# (on #getCounts.c# cataloged items)</p>
 						<h2 class="text-success">Success - loaded</h2>
 					</cfif>
-					<cfif sumID_result.recordcount gt 0>
+					<cfif getID_result.recordcount gt 0>
 						<p>Attempted to update #insert_id# Identifications (on #getCounts.c# cataloged items)</p>
 						<h2 class="text-danger">Not loaded - these have already been loaded</h2>
 					</cfif>
