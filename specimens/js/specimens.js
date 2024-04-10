@@ -1,2 +1,23 @@
 /** Functions related to specimens used on any /specimens/ page */
 
+/** Functions for loading result set summary information */
+
+/** Load information about georeferences in a result set into a target div.
+*/
+function loadGeoreferenceSummaryHTML (result_id,targetDivId) { 
+	jQuery.ajax({
+		url: "/specimens/component/manage.cfc",
+		data : {
+			method : "getGeoreferenceSummaryHTML",
+			result_id: result_id
+		},
+		success: function (result) {
+			$("#" + targetDivId ).html(result);
+		},
+		error: function (jqXHR, textStatus, error) {
+			handleFail(jqXHR,textStatus,error,"loading specimen identifiers");
+		},
+		dataType: "html"
+	});
+};
+

@@ -21,6 +21,7 @@ limitations under the License.
 </cfif>
 <cfset pageTitle = "Manage Specimens">
 <cfinclude template = "/shared/_header.cfm">
+<cfinclude template = "/specimmens/component/manage.cfc">
 
 <cfif not isDefined("result_id") OR len(result_id) EQ 0>
 	<cfthrow message = "No result_id provided to manage.">
@@ -162,8 +163,23 @@ limitations under the License.
          					});
 							} 
 						</script>
+
+						<!--- Display summary information about the current result --->
 						<div class="rounded redbox">
-							<!--- TODO: Move to backing method, add ajax reload --->
+							<script>
+								function reloadHeadingBar() { 
+									loadGeoreferenceSummaryHTML(#reult_id#,"georefDiv");
+								} 
+							</script>
+							<cfset blockgeoref = getGeoreferenceSummaryHTML(result_id = "#result_id#")>
+							<div class="card bg-light border-secondary mb-3">
+								<div class="card-header h4">Georeferences</div>
+								<div class="card-body" id="georefDiv">
+									#blockGeoref#
+								</div>
+							</div>
+
+							<!--- TODO: Move to backing methods, add ajax reload --->
 							<div class="card bg-light border-secondary mb-3">
 								<cfquery name="collections" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="collections_result">
 									SELECT count(*) ct, 
