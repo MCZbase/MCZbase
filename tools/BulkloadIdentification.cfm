@@ -751,7 +751,7 @@
 						<th>SCIENTIFIC_NAME</th>
 						<th>MADE_DATE</th>
 						<th>NATURE_OF_ID</th>
-						<th>ACCEPTED_FG</th>
+						<th>ACCEPTED_ID_FG</th>
 						<th>IDENTIFICATION_REMARKS</th>
 						<th>taxa_formula</th>
 						<th>AGENT_1</th>
@@ -807,7 +807,7 @@
 					<cfset i = 0>
 					<cfloop query="getTempData">
 						<cfset problem_key = getTempData.key>
-					<cfif ACCEPTED_FG is 1>
+					<cfif ACCEPTED_ID_FG is 1>
 						<cfquery name="whackOld" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 							update identification set ACCEPTED_ID_FG=0 where COLLECTION_OBJECT_ID=#COLLECTION_OBJECT_ID#
 						</cfquery>
