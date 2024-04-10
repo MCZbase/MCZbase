@@ -110,7 +110,7 @@ limitations under the License.
 			JOIN <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flatTableName
 				ON user_search_table.collection_object_id = flatTableName.collection_object_id
 		WHERE
-			user_search_table.result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.result_id#">
+			user_search_table.result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.result_id#">
 			AND flatTableName.dec_lat is not null 
 			AND flatTableName.dec_long is not null 
 	</cfquery>
