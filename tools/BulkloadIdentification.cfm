@@ -13,8 +13,8 @@
 </cfif>
 		
 <!--- end special case dump of problems --->
-<cfset fieldlist = "institution_acronym,collection_cde,other_id_type,other_id_number,scientific_name,made_date,nature_of_id,accepted_id_fg,identification_remarks,taxa_formula,agent_1,agent_2,agent_1_id,agent_2_id,stored_as_fg">
-<cfset fieldTypes ="CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_DECIMAL,CF_SQL_DECIMAL,CF_SQL_DECIMAL">
+<cfset fieldlist = "institution_acronym,collection_cde,other_id_type,other_id_number,scientific_name,made_date,nature_of_id,accepted_id_fg,identification_remarks,taxa_formula,agent_1,agent_2,stored_as_fg">
+<cfset fieldTypes ="CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_DECIMAL">
 <cfset requiredfieldlist = "institution_acronym,collection_cde,other_id_type,other_id_number,scientific_name,nature_of_id,accepted_id_fg,agent_1">
 <!--- special case handling to dump column headers as csv --->
 <cfif isDefined("action") AND action is "getCSVHeader">
@@ -629,6 +629,38 @@
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						AND key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableQC.key#"> 
 				</cfquery>
+					<cfquery name="a1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				select distinct agent_id from agent_name where agent_name='#agent_1#'
+			</cfquery>
+			<cfif #a1.recordcount# is not 1>
+				<cfif len(#problem#) is 0>
+					<cfset problem = "agent_1 matched #a1.recordcount# records">
+				<cfelse>
+					<cfset problem = "#problem#; agent_1 matched #a1.recordcount# records">
+				</cfif>
+			<cfelse>
+				<cfquery name="insColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					UPDATE cf_temp_id SET agent_1_id = #a1.agent_id# where
+					key = #key#
+				</cfquery>
+			</cfif>
+			<cfif len(agent_2) gt 0>
+				<cfquery name="a2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					select distinct agent_id from agent_name where agent_name='#agent_2#'
+				</cfquery>
+				<cfif #a2.recordcount# is not 1>
+					<cfif len(#problem#) is 0>
+						<cfset problem = "agent_2 matched #a2.recordcount# records">
+					<cfelse>
+						<cfset problem = "#problem#; agent_2 matched #a2.recordcount# records">
+					</cfif>
+				<cfelse>
+					<cfquery name="insColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						UPDATE cf_temp_id SET agent_2_id = #a2.agent_id# where
+						key = #key#
+					</cfquery>
+				</cfif>
+			</cfif>
 				<cfquery name="miap" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE cf_temp_ID SET status = concat(nvl2(status, status || '; ', ''), 'collection_object_id not found')
 					WHERE collection_object_id is null 
