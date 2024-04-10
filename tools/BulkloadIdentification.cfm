@@ -553,7 +553,7 @@
 			<!--- obtain the information needed to QC each row --->
 			<cfquery name="getTempTableQC" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT 
-					key,collection_object_id,collection_cde,nature_of_id,scientific_name,taxa_formula
+					key,collection_object_id,collection_cde,nature_of_id,scientific_name,taxa_formula,agent_1_id,agent_2_id
 				FROM 
 					cf_temp_ID
 				WHERE 
@@ -594,7 +594,7 @@
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						AND key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableQC.key#"> 
 				</cfquery>
-					<cfquery name="flagNotMatchedToStoredAs" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				<cfquery name="flagNotMatchedToStoredAs" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE cf_temp_ID
 					SET 
 						status = concat(nvl2(status, status || '; ', ''), 'Stored_as_fg can only be 1 when identification is not current (accepted_id_fg=1)')
@@ -629,38 +629,38 @@
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						AND key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableQC.key#"> 
 				</cfquery>
-					<cfquery name="a1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				select distinct agent_id from agent_name where agent_name='#agent_1#'
-			</cfquery>
-			<cfif #a1.recordcount# is not 1>
-				<cfif len(#problem#) is 0>
-					<cfset problem = "agent_1 matched #a1.recordcount# records">
-				<cfelse>
-					<cfset problem = "#problem#; agent_1 matched #a1.recordcount# records">
-				</cfif>
-			<cfelse>
-				<cfquery name="insColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					UPDATE cf_temp_id SET agent_1_id = #a1.agent_id# where
-					key = #key#
+				<cfquery name="a1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					select distinct agent_id from agent_name where agent_name='#agent_1#'
 				</cfquery>
-			</cfif>
-			<cfif len(agent_2) gt 0>
-				<cfquery name="a2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					select distinct agent_id from agent_name where agent_name='#agent_2#'
-				</cfquery>
-				<cfif #a2.recordcount# is not 1>
+				<cfif #a1.recordcount# is not 1>
 					<cfif len(#problem#) is 0>
-						<cfset problem = "agent_2 matched #a2.recordcount# records">
+						<cfset problem = "agent_1 matched #a1.recordcount# records">
 					<cfelse>
-						<cfset problem = "#problem#; agent_2 matched #a2.recordcount# records">
+						<cfset problem = "#problem#; agent_1 matched #a1.recordcount# records">
 					</cfif>
 				<cfelse>
 					<cfquery name="insColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-						UPDATE cf_temp_id SET agent_2_id = #a2.agent_id# where
+						UPDATE cf_temp_id SET agent_1_id = #a1.agent_id# where
 						key = #key#
 					</cfquery>
 				</cfif>
-			</cfif>
+				<cfif len(agent_2) gt 0>
+					<cfquery name="a2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						select distinct agent_id from agent_name where agent_name='#agent_2#'
+					</cfquery>
+					<cfif #a2.recordcount# is not 1>
+						<cfif len(#problem#) is 0>
+							<cfset problem = "agent_2 matched #a2.recordcount# records">
+						<cfelse>
+							<cfset problem = "#problem#; agent_2 matched #a2.recordcount# records">
+						</cfif>
+					<cfelse>
+						<cfquery name="insColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+							UPDATE cf_temp_id SET agent_2_id = #a2.agent_id# where
+							key = #key#
+						</cfquery>
+					</cfif>
+				</cfif>
 				<cfquery name="miap" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE cf_temp_ID SET status = concat(nvl2(status, status || '; ', ''), 'collection_object_id not found')
 					WHERE collection_object_id is null 
