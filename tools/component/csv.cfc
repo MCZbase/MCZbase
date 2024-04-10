@@ -44,7 +44,7 @@ limitations under the License.
 				<cfelse>
 					<cfset class="text-dark">
 				</cfif>
-				<li>
+				<li class="pb-1 list-unstyled">
 					<span class="#class#" #hint#>#field#</span>
 					<cfif arrayFindNoCase(colNameArray,field) GT 0>
 						<span class="text-success font-weight-bold">Present in CSV</span>
@@ -71,7 +71,7 @@ limitations under the License.
 				<!--- Likely a problem parsing the first line into column headers --->
 				<cfset errorMessage = "#errorMessage#<div>Only one column found, did you select the correct file format?</div>">
 			</cfif>
- 						<cfset errorMessage = "#errorMessage#<div>Check that headers exactly match the expected ones and that you have the correct encoding and file format.</div>"><!--- " --->
+ 			<cfset errorMessage = "#errorMessage#<div>Check that headers exactly match the expected ones and that you have the correct encoding and file format.</div>"><!--- " --->
 			<cfthrow message = "#NO_COLUMN_ERR# #errorMessage#">
 		</cfif>
 	</cfoutput>
@@ -98,7 +98,7 @@ limitations under the License.
 			<ul>
 				<cfloop list="#foundHeaders#" item="aField">
 					<cfif NOT ListContainsNoCase(fieldList,aField)>
-						<li class="pb-1 px-4 text-dark"><i class='fas fa-arrow-right text-dark'></i> #aField# </1i>
+						<li class="pb-1 text-dark">#aField#</1i>
 					</cfif>
 				</cfloop>
 			</ul>
@@ -122,12 +122,12 @@ limitations under the License.
 			</cfloop>
 			<cfif duplicateCount GT 1><cfset plural1="s"><cfelse><cfset plural1=""></cfif>
 			<cfif duplicateCount GT 1><cfset plural2=""><cfelse><cfset plural2="s"></cfif>
-			<h3 class="h4">Expected column header#plural1# occur#plural2# more than once: </h3>
+			<h3 class="h4">Error: Expected column header#plural1# occur#plural2# more than once: </h3>
 			<ul class="pb-1 h4 list-unstyled">
 				<!--- Identify duplicate columns and fail if found --->
 				<cfloop list="#foundHeaders#" item="aField">
 					<cfif listValueCount(foundHeaders,aField) GT 1>
-							<li class="pb-1 px-4 text-dark"><i class='fas fa-arrow-right text-dark'></i> column ###i# = #aField# </1i>
+							<li class="pb-1 text-dark">#aField#</1i>
 					</cfif>
 				</cfloop>
 			</ul>
