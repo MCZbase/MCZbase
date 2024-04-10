@@ -804,7 +804,7 @@
 					<cfif getTempData.recordcount EQ 0>
 						<cfthrow message="You have no rows to load in the Identifications bulkloader table (cf_temp_ID).  <a href='/tools/BulkloadIdentification.cfm'>Start over</a>">
 					</cfif>
-					<cfset i = 0>
+					<cfset update_id = 0>
 					<cfloop query="getTempData">
 						<cfset problem_key = getTempData.key>
 					<cfif ACCEPTED_ID_FG is 1>
@@ -812,7 +812,7 @@
 							update identification set ACCEPTED_ID_FG=0 where COLLECTION_OBJECT_ID=#COLLECTION_OBJECT_ID#
 						</cfquery>
 					</cfif>
-						<cfquery name="insert" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						<cfquery name="insert_id" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateID_result">
 							insert into identification (
 								IDENTIFICATION_ID,
 								COLLECTION_OBJECT_ID,
@@ -861,7 +861,7 @@
 								1
 							)
 						</cfquery>
-						<cfset testParse = testParse + 1>
+						<cfset update_id = update_id + updateID_result.recordcount>
 						<cfif updateID_result.recordcount gt 0>
 							<cftransaction action = "ROLLBACK">
 						<cfelse>
