@@ -807,31 +807,73 @@
 					<cfset i = 0>
 					<cfloop query="getTempData">
 						<cfset problem_key = getTempData.key>
-		<!---				<cfstoredproc procedure="parse_other_id" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-							<cfprocparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
-							<cfprocparam cfsqltype="cf_sql_varchar" value="#other_id_number#">
-							<cfprocparam cfsqltype="cf_sql_varchar" value="#other_id_type#">
-						</cfstoredproc>--->
-		<!---				<cfquery name="updateParse" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateParse_result">
-							select distinct display_value
-								from coll_obj_other_id_num 
-								where collection_object_id =<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.collection_object_id#">
-								group by display_value
-								having count(*) > 1
-						</cfquery>--->
+					<cfif ACCEPTED_FG is 1>
+						<cfquery name="whackOld" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+							update identification set ACCEPTED_ID_FG=0 where COLLECTION_OBJECT_ID=#COLLECTION_OBJECT_ID#
+						</cfquery>
+					</cfif>
+						<cfquery name="insert" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+							insert into identification (
+								IDENTIFICATION_ID,
+								COLLECTION_OBJECT_ID,
+								MADE_DATE,
+								NATURE_OF_ID,
+								ACCEPTED_ID_FG,
+								IDENTIFICATION_REMARKS,
+								TAXA_FORMULA,
+								SCIENTIFIC_NAME,
+								stored_as_fg
+							) values (
+								sq_identification_id.nextval,
+								#COLLECTION_OBJECT_ID#,
+								'#MADE_DATE#',
+								'#NATURE_OF_ID#',
+								#ACCEPTED_FG#,
+								'#IDENTIFICATION_REMARKS#',
+								'#TAXA_FORMULA#',
+								'#SCIENTIFIC_NAME#',
+								<cfif len(stored_as_fg) GT 0>
+									#stored_as_fg#
+								<cfelse>
+									NULL
+								</cfif>
+							)
+						</cfquery>
+						<cfquery name="insertidt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+							insert into identification_taxonomy (
+								IDENTIFICATION_ID,
+								TAXON_NAME_ID,
+								VARIABLE
+							) values (
+								sq_identification_id.currval,
+								#TAXON_NAME_ID#,
+								'A'
+							)
+						</cfquery>
+						<cfquery name="insertida1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+							insert into identification_agent (
+								IDENTIFICATION_ID,
+								AGENT_ID,
+								IDENTIFIER_ORDER
+							) values (
+								sq_identification_id.currval,
+								#agent_1_id#,
+								1
+							)
+						</cfquery>
 						<cfset testParse = testParse + 1>
-						<cfif updateParse_result.recordcount gt 0>
+						<cfif updateID_result.recordcount gt 0>
 							<cftransaction action = "ROLLBACK">
 						<cfelse>
 							<cftransaction action="COMMIT">
 						</cfif>
 						<cfset i = i+1>
 					</cfloop>
-					<cfif getTempData.recordcount eq testParse and updateParse_result.recordcount eq 0>
+					<cfif getTempData.recordcount eq testParse and updateID_result.recordcount eq 0>
 						<p>Number of Identifications updated: #i# (on #getCounts.ctobj# cataloged items)</p>
 						<h2 class="text-success">Success - loaded</h2>
 					</cfif>
-					<cfif updateParse_result.recordcount gt 0>
+					<cfif updateID_result.recordcount gt 0>
 						<p>Attempted to update #i# Identifications (on #getCounts.ctobj# cataloged items)</p>
 						<h2 class="text-danger">Not loaded - these have already been loaded</h2>
 					</cfif>
