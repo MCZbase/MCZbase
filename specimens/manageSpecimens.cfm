@@ -172,8 +172,9 @@ limitations under the License.
 								} 
 							</script>
 							<cfset blockgeoref = getGeoreferenceSummaryHTML(result_id = "#result_id#")>
+							<cfset georefCount = getGeoreferenceCount(result_id = "#result_id#")>
 							<div class="card bg-light border-secondary mb-3">
-								<div class="card-header h4">Georeferences</div>
+								<div class="card-header h4">Georeferences (#georefCount#)</div>
 								<div class="card-body" id="georefDiv">
 									#blockGeoref#
 								</div>
