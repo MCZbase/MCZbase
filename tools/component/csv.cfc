@@ -44,7 +44,7 @@ limitations under the License.
 				<cfelse>
 					<cfset class="text-dark">
 				</cfif>
-				<li class="pb-1 list-unstyled">
+				<li class="pb-1">
 					<span class="#class#" #hint#>#field#</span>
 					<cfif arrayFindNoCase(colNameArray,field) GT 0>
 						<span class="text-success font-weight-bold">Present in CSV</span>
@@ -95,7 +95,7 @@ limitations under the License.
 			<cfif additionalCount GT 1><cfset plural1a="are"><cfelse><cfset plural1a="is"></cfif>
 			<h3 class="h4">Warning: Found #additionalCount# additional column header#plural1# in the CSV that #plural1a# not in the list of expected headers: </h3>
 			<!--- Identify additional columns that will be ignored --->
-			<ul>
+			<ul class="pb-1 h4">
 				<cfloop list="#foundHeaders#" item="aField">
 					<cfif NOT ListContainsNoCase(fieldList,aField)>
 						<li class="pb-1 text-dark">#aField#</1i>
@@ -115,20 +115,22 @@ limitations under the License.
 		<!--- Identify duplicate columns and fail if found --->
 		<cfif NOT ListLen(ListRemoveDuplicates(foundHeaders)) EQ ListLen(foundHeaders)>
 			<cfset duplicateCount = 0>
+			<cfset duplicateFields = "">
 			<cfloop list="#foundHeaders#" item="aField">
 				<cfif listValueCount(foundHeaders,aField) GT 1>
 					<cfset duplicateCount = duplicateCount + 1>
+					<cfif NOT ListContains(duplicateFields,aField)>
+						<cfset duplicateFields = ListAppend(duplicateFields,aField)>
+					</cfif>
 				</cfif>
 			</cfloop>
 			<cfif duplicateCount GT 1><cfset plural1="s"><cfelse><cfset plural1=""></cfif>
 			<cfif duplicateCount GT 1><cfset plural2=""><cfelse><cfset plural2="s"></cfif>
 			<h3 class="h4">Error: Expected column header#plural1# occur#plural2# more than once: </h3>
-			<ul class="pb-1 h4 list-unstyled">
+			<ul class="pb-1 h4">
 				<!--- Identify duplicate columns and fail if found --->
-				<cfloop list="#foundHeaders#" item="aField">
-					<cfif listValueCount(foundHeaders,aField) GT 1>
-							<li class="pb-1 text-dark">#aField#</1i>
-					</cfif>
+				<cfloop list="#duplicateFields#" item="aField">
+					<li class="pb-1 text-dark">#aField#</1i>
 				</cfloop>
 			</ul>
 			<!--- throw exception to gracefully abort processing. --->
