@@ -388,6 +388,8 @@ limitations under the License.
 						#cfcatch.message#
 				<cfelseif Find("#COLUMN_ERR#",cfcatch.message) GT 0>
 						#cfcatch.message#
+				<cfelseif Find("#DUP_COLUMN_ERR#",cfcatch.message) GT 0>
+						#cfcatch.message#
 				<cfelse>
 					<cfdump var="#cfcatch#">
 				</cfif>
