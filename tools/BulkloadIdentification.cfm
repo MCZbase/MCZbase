@@ -869,11 +869,11 @@
 						</cfif>
 					</cfloop>
 					<cfif getTempData.recordcount eq update_id and updateID_result.recordcount eq 0>
-						<p>Number of Identifications updated: #update_id# (on #getCounts.ctobj# cataloged items)</p>
+						<p>Number of Identifications updated: #update_id# (on #getCounts.c# cataloged items)</p>
 						<h2 class="text-success">Success - loaded</h2>
 					</cfif>
 					<cfif updateID_result.recordcount gt 0>
-						<p>Attempted to update #update_id# Identifications (on #getCounts.ctobj# cataloged items)</p>
+						<p>Attempted to update #update_id# Identifications (on #getCounts.c# cataloged items)</p>
 						<h2 class="text-danger">Not loaded - these have already been loaded</h2>
 					</cfif>
 				<cfcatch>
@@ -915,7 +915,7 @@
 							</span>
 						</cfif>
 					</h3>
-					<table class='sortable table table-responsive table-striped d-lg-table'>
+					<table class='sortable table small table-responsive table-striped d-lg-table'>
 						<thead>
 							<tr>
 								<th>institution_acronym</th>
