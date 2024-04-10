@@ -873,6 +873,8 @@
 							where collection_object_id = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempData.collection_object_id#">
 							AND identification.identification_id = identification_agent.identification_id
 							and identification_agent.identification_id = identification_taxonomy.identification_id
+							group by identification.IDENTIFICATION_ID, identification.COLLECTION_OBJECT_ID, identification.MADE_DATE, identification.NATURE_OF_ID, identification.ACCEPTED_ID_FG,identification.IDENTIFICATION_REMARKS, identification.TAXA_FORMULA, identification.SCIENTIFIC_NAME,identification.stored_as_fg,identification_agent.agent_id,identification_agent.identifier_order,identification_agent.identification_agent_id,identification_taxonomy.taxon_name_id 
+							having count(identification.identification_id)>1
 						</cfquery>
 						<cfset insert_id = insert_id + insertID_result.recordcount>
 						<cfif getID_result.recordcount gt 0>
