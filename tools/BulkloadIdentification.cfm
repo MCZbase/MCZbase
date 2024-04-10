@@ -861,20 +861,11 @@
 								#agent_1_id#,1)
 						</cfquery>
 						<cfquery name="getID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getID_result">
-							select IDENTIFICATION_ID, COLLECTION_OBJECT_ID, MADE_DATE, NATURE_OF_ID, ACCEPTED_ID_FG,IDENTIFICATION_REMARKS, TAXA_FORMULA, SCIENTIFIC_NAME,stored_as_fg 
-							from identification 
+							select identification.IDENTIFICATION_ID, identification.COLLECTION_OBJECT_ID, identification.MADE_DATE, identification.NATURE_OF_ID, identification.ACCEPTED_ID_FG,identification.IDENTIFICATION_REMARKS, identification.TAXA_FORMULA, identification.SCIENTIFIC_NAME,identification.stored_as_fg,identification_agent.agent_id,identification_agent.identifier_order,identification_agent.identification_agent_id,identification_taxonomy.taxon_name_id 
+							from identification,identification_agent, identification_taxonomy
 							where collection_object_id = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempData.collection_object_id#">
-							group by 
-							IDENTIFICATION_ID, 
-							COLLECTION_OBJECT_ID, 
-							MADE_DATE, 
-							NATURE_OF_ID, 
-							ACCEPTED_ID_FG,
-							IDENTIFICATION_REMARKS, 
-							TAXA_FORMULA, 
-							SCIENTIFIC_NAME,
-							stored_as_fg 
-							having count(*) > 1
+							AND identification.identification_id = identification_agent.identification_id
+							and identification_agent.identification_id = identification_taxonomy.identification_id
 						</cfquery>
 						<cfset insert_id = insert_id + insertID_result.recordcount>
 						<cfif getID_result.recordcount gt 0>
