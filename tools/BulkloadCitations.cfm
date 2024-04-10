@@ -264,6 +264,7 @@ limitations under the License.
 					<cfif len(errorMessage) GT 0>
 						<cfthrow message = "#errorMessage# #NO_COLUMN_ERR#">
 					</cfif>
+
 					<cfset errorMessage = "">
 					<!---Loop through field list, mark each as present in input or not, throw exception if required fields are missing--->
 					<ul class="mb-4 h4 font-weight-normal">

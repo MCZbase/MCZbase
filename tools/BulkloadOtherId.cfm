@@ -264,11 +264,8 @@ limitations under the License.
 						</cfif>
 					</cfif>
 				</cfloop>
-				<cfset errorMessage = "">
 				<cfif len(errorMessage) gt 0>
-					<cfif size eq 1 >
-						<cfthrow message = "#errorMessage# #NO_COLUMN_ERR# ">
-					</cfif>
+					<cfthrow message = "#errorMessage# #NO_COLUMN_ERR# ">
 				</cfif>
 				
 				<!--- Loop through list of fields, mark each field as fields present in input or not, throw exception if required fields are missing --->

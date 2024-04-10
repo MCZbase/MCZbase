@@ -266,9 +266,10 @@ limitations under the License.
 								</cfif>
 							</cfif>
 						</cfloop>
-						<cfif size EQ 1>
-							<cfset errorMessage = "You may have specified the wrong format, only one column header was found: #errorMessage#">
+						<cfif len(errorMessage) GT 0>
+							<cfthrow message = "#errorMessage# #NO_COLUMN_ERR#">
 						</cfif>
+
 						<cfset errorMessage = "">
 						<!--- Loop through list of fields, mark each field as fields present in input or not, throw exception if required fields are missing --->
 						<ul class="h4 mb-4 font-weight-normal">
