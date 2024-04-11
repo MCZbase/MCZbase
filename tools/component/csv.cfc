@@ -60,11 +60,15 @@ limitations under the License.
 
 <!--- given a file name, format, and characterset, load the file and return an iterator
   through commons csv CSVRecords for lines in the file after the header, having consumed
-  the first line and placing a list of found headers in variables.foundHeaders.
+  the first line and placing a list of found headers in variables.foundHeaders and 
+  the count of found headers in variables.size
+
  @param FileToUpload filename and path to the file to process.
  @param format the format for the file, using a value matched to CSVFormat constants.
  @param characterSet the character set for the file, using a value matched in java StandardCharsets.
  @return iterator through CSVRecords for lines after the header.
+   sets variables.foundHeaders
+   sets variables.size
  @see getFormatSelectHTML for formats that must be supported.
  @see getCharsetSelectHTML for character sets that must be supported.
 --->
@@ -163,12 +167,12 @@ limitations under the License.
 			<cfthrow message="#NO_HEADER_ERR# No first line found.">
 		</cfif>
 		<!---Get the number of column headers--->
-		<cfset size = headers.size()>
-		<cfif size EQ 0>
+		<cfset variables.size = headers.size()>
+		<cfif variables.size EQ 0>
 			<cfthrow message="#NO_HEADER_ERR# First line appears empty.">
 		</cfif>
 		<cfset separator = "">
-		<cfset foundHeaders = "">
+		<cfset variables.foundHeaders = "">
 		<cfloop index="i" from="0" to="#headers.size() - 1#">
 			<cfset bit = headers.get(JavaCast("int",i))>
 			<cfif i EQ 0 and characterSet EQ 'utf-8'>
@@ -177,7 +181,7 @@ limitations under the License.
 			</cfif>
 			<!--- we could strip out all unexpected characters from the header, but seems likely to cause problems. --->
 			<!--- cfset bit=REReplace(headers.get(JavaCast("int",i)),'[^A-Za-z0-9_-]','','All') --->
-			<cfset foundHeaders = "#foundHeaders##separator##bit#" >
+			<cfset variables.foundHeaders = "#foundHeaders##separator##bit#" >
 			<cfset separator = ",">
 		</cfloop>
 	</cfoutput>

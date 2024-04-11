@@ -122,14 +122,16 @@ limitations under the License.
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
 
+				<cfset variables.foundHeaders =""><!--- populated by loadCsvFile --->
+				<cfset variables.size=""><!--- populated by loadCsvFile --->
 				<cfset iterator = loadCsvFile(FileToUpload=FileToUpload,format=format,characterSet=characterSet)>			
 
 				<!--- Note: As we can't use csvFormat.withHeader(), we can not match columns by name, we are forced to do so by number, thus arrays --->
-				<cfset colNameArray = listToArray(ucase(foundHeaders))><!--- the list of columns/fields found in the input file --->
+				<cfset colNameArray = listToArray(ucase(variables.foundHeaders))><!--- the list of columns/fields found in the input file --->
 				<cfset fieldArray = listToArray(ucase(fieldlist))><!--- the full list of fields --->
 				<cfset typeArray = listToArray(fieldTypes)><!--- the types for the full list of fields --->
 				<div class="col-12 my-4 px-0">
-					<h3 class="h4">Found #size# columns in header of csv file.</h3>
+					<h3 class="h4">Found #variables.size# columns in header of csv file.</h3>
 					<h3 class="h4">There are #ListLen(fieldList)# columns expected in the header (of these #ListLen(requiredFieldList)# are required).</h3>
 				</div>
 
@@ -140,9 +142,9 @@ limitations under the License.
 				<cfset addFieldsResponse = checkAdditionalFields(fieldList=fieldList)>
 
 				<!--- Identify duplicate columns and fail if found --->
-				<cfset dupFieldsResponse = checkDuplicateFields(foundHeaders=foundHeaders,DUP_COLUMN_ERR=DUP_COLUMN_ERR)>
+				<cfset dupFieldsResponse = checkDuplicateFields(foundHeaders=variables.foundHeaders,DUP_COLUMN_ERR=DUP_COLUMN_ERR)>
 
-				<cfset colNames="#foundHeaders#">
+				<cfset colNames="#variables.foundHeaders#">
 				<cfset loadedRows = 0>
 				<cfset foundHighCount = 0>
 				<cfset foundHighAscii = "">
@@ -233,7 +235,7 @@ limitations under the License.
 					<cfif loadedRows EQ 0>
 						Loaded no rows from the CSV file.  The file appears to be just a header with no data. Fix file and <a href="/tools/BulkloadOtherId.cfm">reload</a>
 					<cfelse>
-						<cfif size eq 1>Size = 1<cfelse>
+						<cfif variables.size eq 1>Size = 1<cfelse>
 						Successfully read #loadedRows# records from the CSV file. Next <a href="/tools/BulkloadOtherId.cfm?action=validate">click to validate</a>.</cfif>
 					</cfif>
 				</h4>
