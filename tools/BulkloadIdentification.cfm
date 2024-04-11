@@ -503,7 +503,7 @@
 						status = concat(nvl2(status, status || '; ', ''), 'More than one Specimen Record in "' || collection_cde ||'" with this "' || other_id_type ||'"')
 					WHERE other_id_type is not null 
 						AND other_id_type <> 'catalog number'
-						AND other_id_type not in (SELECT *
+						AND other_id_type not in (SELECT other_id_type
 							FROM cataloged_item,coll_obj_other_id_num 
 							WHERE coll_obj_other_id_num.other_id_type = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableQC.other_id_type#"> 
 							AND cataloged_item.collection_cde = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableQC.collection_cde#">
