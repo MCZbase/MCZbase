@@ -429,6 +429,10 @@
 						username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableTypes.key#"> 
 				</cfquery>
+				<cfif getTempOtherCt.recordcount GT 1>
+					<cfthrow message="You have multiple rows with the same collection_cde, other_id_type, other_id_number combination. Use another set of IDs to identify this cataloged item. <a href='/tools/BulkloadIdentification.cfm'>Start over</a>">
+				</cfif>
+				
 				<cfif getTempTableTypes.other_id_type eq 'catalog number'>
 					<!--- either based on catalog_number --->
 					<cfquery name="getCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -465,9 +469,6 @@
 					</cfquery>
 				</cfif>
 			</cfloop>
-			<cfif getTempOtherCt.recordcount GT 0>
-				<cfthrow message="You have multiple rows with the same collection_cde, other_id_type, other_id_number combination. Use another set of IDs to identify this cataloged item. <a href='/tools/BulkloadIdentification.cfm'>Start over</a>">
-			</cfif>
 			<!--- obtain the information needed to QC each row --->
 			<cfquery name="getTempTableQC" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT key,institution_acronym,collection_cde,other_id_type,other_id_number,scientific_name,made_date,nature_of_id,accepted_id_fg,identification_remarks,agent_1,agent_2,taxa_formula,stored_as_fg
