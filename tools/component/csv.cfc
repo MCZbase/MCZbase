@@ -330,7 +330,6 @@ limitations under the License.
 			</cfif>
 		</h3>
 		<div class="border p-1">
-			<cfif inHeader EQ "yes">
 			<p>
 				Showing #foundHighCount# examples.  
 				<cfif inHeader EQ "yes">
@@ -346,4 +345,5 @@ limitations under the License.
 		</div>
 	</cfoutput>
 </cffunction>
+
 </cfcomponent>
