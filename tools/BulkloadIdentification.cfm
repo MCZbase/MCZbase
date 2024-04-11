@@ -722,7 +722,7 @@
 								SCIENTIFIC_NAME,
 								STORED_AS_FG
 							) values (
-								#identification_seq.nextval#,
+								#NEXTID.nextval#,
 								<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.COLLECTION_OBJECT_ID#">,
 								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.made_date#">,
 								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.NATURE_OF_ID#">,
@@ -741,7 +741,7 @@
 								TAXON_NAME_ID,
 								VARIABLE
 							) values (
-								identification_seq.currval,
+								NEXTID.currval,
 								<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.TAXON_NAME_ID#">,
 								'A')
 							into identification_agent (
@@ -749,7 +749,7 @@
 								AGENT_ID,
 								IDENTIFIER_ORDER
 							) values (
-								identification_seq.currval,
+								NEXTID.currval,
 								<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.AGENT_1_ID#">,
 								1
 							)
