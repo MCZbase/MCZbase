@@ -407,14 +407,14 @@
 			<cfloop query="getTempTableTypes">
 				<cfquery name="getTempOtherCt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT 
-						collection_cde,other_id_type,other_id_number
+						other_id_type
 					FROM 
 						cf_temp_ID
 					WHERE 
 						username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 					and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableTypes.key#"> 
 					and other_id_type <> 'catalog number'
-					group by collection_cde,other_id_type,other_id_number
+					group by other_id_type
 					having count(*)>1
 				</cfquery>
 				<cfif getTempOtherCt.recordcount GT 1>
@@ -499,7 +499,6 @@
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						AND key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableQC.key#"> 
 				</cfquery>
-
 				<cfquery name="getTaxaID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					update cf_temp_id set taxon_name_id =
 					(SELECT taxon_name_id FROM taxonomy where scientific_name ='#getTempTableQC.scientific_name#')
@@ -515,8 +514,8 @@
 				<cfquery name ="flagMadeDate"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE cf_temp_ID set
 					status = concat(nvl2(status, status || '; ', ''),'Invalid MADE_DATE "'||MADE_DATE||'"') WHERE MADE_DATE is not null 
-							AND is_iso8601(MADE_DATE) <> '' 
-							AND length(MADE_DATE) <> 10
+						AND is_iso8601(MADE_DATE) <> '' 
+						AND length(MADE_DATE) <> 10
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						AND key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableQC.key#"> 
 				</cfquery>
