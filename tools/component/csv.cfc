@@ -18,6 +18,10 @@ limitations under the License.
 	<cfinclude template="/shared/component/error_handler.cfc" runOnce="true">
 </cfif>
 
+<!--- output a label and select where the options on the select match a set of java 
+  StandardCharset names, and the select has name and id of characterSet.
+  @see loadCsvFile for consumption of these option values.
+--->
 <cffunction name="getCharsetSelectHTML" returntype="string" access="remote" returnformat="plain">
 	<cfoutput>
 		<label for="characterSet" class="data-entry-label">Character Set:</label> 
@@ -36,6 +40,10 @@ limitations under the License.
 	</cfoutput>
 </cffunction>
 
+<!--- output a label and select where the options on the select match a set of CSVFormat constants 
+  and the select has name and id of format.
+  @see loadCsvFile for consumption of these option values.
+--->
 <cffunction name="getFormatSelectHTML" returntype="string" access="remote" returnformat="plain">
 	<cfoutput>
 		<label for="format" class="data-entry-label">Format:</label> 
@@ -50,123 +58,136 @@ limitations under the License.
 	</cfoutput>
 </cffunction>
 
+<!--- given a file name, format, and characterset, load the file and return an iterator
+  through commons csv CSVRecords for lines in the file after the header, having consumed
+  the first line and placing a list of found headers in variables.foundHeaders.
+ @param FileToUpload filename and path to the file to process.
+ @param format the format for the file, using a value matched to CSVFormat constants.
+ @param characterSet the character set for the file, using a value matched in java StandardCharsets.
+ @return iterator through CSVRecords for lines after the header.
+ @see getFormatSelectHTML for formats that must be supported.
+ @see getCharsetSelectHTML for character sets that must be supported.
+--->
 <cffunction name="loadCsvFile" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="FileToUpload" type="string" required="yes">
 	<cfargument name="format" type="string" required="yes">
 	<cfargument name="characterSet" type="string" required="yes">
 
 	<cfoutput>
-				<!--- Parse the CSV file using Apache Commons CSV library included with coldfusion so that columns with comma delimeters will be separated properly --->
-				<cfset fileProxy = CreateObject("java","java.io.File") >
-				<cfobject type="Java" name="csvFormat" class="org.apache.commons.csv.CSVFormat" >
-				<cfobject type="Java" name="csvParser" class="org.apache.commons.csv.CSVParser" >
-				<cfobject type="Java" name="csvRecord" class="org.apache.commons.csv.CSVRecord" >			
-				<cfobject type="java" class="java.io.FileReader" name="fileReader">	
-				<cfobject type="Java" name="javaCharset" class="java.nio.charset.Charset" >
-				<cfobject type="Java" name="standardCharsets" class="java.nio.charset.StandardCharsets" >
-				<cfset filePath = fileProxy.init(JavaCast("string",#FiletoUpload#)) >
-				<cfset tempFileInputStream = CreateObject("java","java.io.FileInputStream").Init(#filePath#) >
-				<!--- Create a FileReader object to provide a reader for the CSV file --->
-				<cfset fileReader = CreateObject("java","java.io.FileReader").Init(#filePath#) >
-				<!--- we can not use the withHeader() method from coldfusion, as it is overloaded, and with no parameters provides coldfusion no means to pick the correct method --->
-				<!--- Select format of csv file based on format variable from user --->
-				<cfif not isDefined("format")><cfset format="DEFAULT"></cfif>
-				<cfswitch expression="#format#">
-					<cfcase value="DEFAULT">
-						<cfset csvFormat = CSVFormat.DEFAULT>
-					</cfcase>
-					<cfcase value="TDF">
-						<cfset csvFormat = CSVFormat.TDF>
-					</cfcase>
-					<cfcase value="RFC4180">
-						<cfset csvFormat = CSVFormat.RFC4180>
-					</cfcase>
-					<cfcase value="EXCEL">
-						<cfset csvFormat = CSVFormat.EXCEL>
-					</cfcase>
-					<cfcase value="ORACLE">
-						<cfset csvFormat = CSVFormat.ORACLE>
-					</cfcase>
-					<cfcase value="MYSQL">
-						<cfset csvFormat = CSVFormat.MYSQL>
-					</cfcase>
-					<cfdefaultcase>
-						<cfset csvFormat = CSVFormat.DEFAULT>
-					</cfdefaultcase>
-				</cfswitch>
-				<!--- Create a CSVParser using the FileReader and CSVFormat--->
-				<cfset csvParser = CSVParser.parse(fileReader, csvFormat)>
-				<!--- Select charset based on characterSet variable from user --->
-				<cfswitch expression="#characterSet#">
-					<cfcase value="utf-8">
-						<cfset javaSelectedCharset = standardCharsets.UTF_8 >
-					</cfcase>
-					<cfcase value="iso-8859-1">
-						<cfset javaSelectedCharset = standardCharsets.ISO_8859_1 >
-					</cfcase>
-					<cfcase value="windows-1250">
-						<cfset javaSelectedCharset = javaCharset.forName(JavaCast("string","windows-1250")) >
-					</cfcase>
-					<cfcase value="windows-1251">
-						<cfset javaSelectedCharset = javaCharset.forName(JavaCast("string","windows-1251")) >
-					</cfcase>
-					<cfcase value="windows-1252">
-						<cfif javaCharset.isSupported(JavaCast("string","windows-1252"))>
-							<cfset javaSelectedCharset = javaCharset.forName(JavaCast("string","windows-1252")) >
-						<cfelse>
-							<!--- if not available, iso-8859-1 will substitute, except for 0x80 to 0x9F --->
-							<!--- the following characters won't be handled correctly if the source is windows-1252:  €  Š  š  Ž  ž  Œ  œ  Ÿ --->
-							<cfset javaSelectedCharset = standardCharsets.ISO_8859_1 >
-						</cfif>
-					</cfcase>
-					<cfcase value="x-MacCentralEurope">
-						<cfset javaSelectedCharset = javaCharset.forName(JavaCast("string","x-MacCentralEurope")) >
-					</cfcase>
-					<cfcase value="MacRoman">
-						<cfset javaSelectedCharset = javaCharset.forName(JavaCast("string","x-MacRoman")) >
-					</cfcase>
-					<cfcase value="utf-16">
-						<cfset javaSelectedCharset = standardCharsets.UTF_16 >
-					</cfcase>
-					<cfcase value="utf-32">
-						<cfset javaSelectedCharset = javaCharset.forName(JavaCast("string","utf-32")) >
-					</cfcase>
-					<cfdefaultcase>
-						<cfset javaSelectedCharset = standardCharsets.UTF_8 >
-					</cfdefaultcase>
-				</cfswitch>
-				<cfset records = CSVParser.parse(#tempFileInputStream#,#javaSelectedCharset#,#csvFormat#)>
-				<!--- obtain an iterator to loops through the rows/records in the csv --->
-				<cfset iterator = records.iterator()>
-				<!---Obtain the first line of the file as the header line, we can not use the withHeader() method to do this in coldfusion --->
-				<cfif iterator.hasNext()>
-					<cfset headers = iterator.next()>
+		<!--- Parse the CSV file using Apache Commons CSV library included with coldfusion so that columns with comma delimeters will be separated properly --->
+		<cfset fileProxy = CreateObject("java","java.io.File") >
+		<cfobject type="Java" name="csvFormat" class="org.apache.commons.csv.CSVFormat" >
+		<cfobject type="Java" name="csvParser" class="org.apache.commons.csv.CSVParser" >
+		<cfobject type="Java" name="csvRecord" class="org.apache.commons.csv.CSVRecord" >			
+		<cfobject type="java" class="java.io.FileReader" name="fileReader">	
+		<cfobject type="Java" name="javaCharset" class="java.nio.charset.Charset" >
+		<cfobject type="Java" name="standardCharsets" class="java.nio.charset.StandardCharsets" >
+		<cfset filePath = fileProxy.init(JavaCast("string",#FiletoUpload#)) >
+		<cfset tempFileInputStream = CreateObject("java","java.io.FileInputStream").Init(#filePath#) >
+		<!--- Create a FileReader object to provide a reader for the CSV file --->
+		<cfset fileReader = CreateObject("java","java.io.FileReader").Init(#filePath#) >
+		<!--- we can not use the withHeader() method from coldfusion, as it is overloaded, and with no parameters provides coldfusion no means to pick the correct method --->
+		<!--- Select format of csv file based on format variable from user --->
+		<cfif not isDefined("format")><cfset format="DEFAULT"></cfif>
+		<cfswitch expression="#format#">
+			<cfcase value="DEFAULT">
+				<cfset csvFormat = CSVFormat.DEFAULT>
+			</cfcase>
+			<cfcase value="TDF">
+				<cfset csvFormat = CSVFormat.TDF>
+			</cfcase>
+			<cfcase value="RFC4180">
+				<cfset csvFormat = CSVFormat.RFC4180>
+			</cfcase>
+			<cfcase value="EXCEL">
+				<cfset csvFormat = CSVFormat.EXCEL>
+			</cfcase>
+			<cfcase value="ORACLE">
+				<cfset csvFormat = CSVFormat.ORACLE>
+			</cfcase>
+			<cfcase value="MYSQL">
+				<cfset csvFormat = CSVFormat.MYSQL>
+			</cfcase>
+			<cfdefaultcase>
+				<cfset csvFormat = CSVFormat.DEFAULT>
+			</cfdefaultcase>
+		</cfswitch>
+		<!--- Create a CSVParser using the FileReader and CSVFormat--->
+		<cfset csvParser = CSVParser.parse(fileReader, csvFormat)>
+		<!--- Select charset based on characterSet variable from user --->
+		<cfswitch expression="#characterSet#">
+			<cfcase value="utf-8">
+				<cfset javaSelectedCharset = standardCharsets.UTF_8 >
+			</cfcase>
+			<cfcase value="iso-8859-1">
+				<cfset javaSelectedCharset = standardCharsets.ISO_8859_1 >
+			</cfcase>
+			<cfcase value="windows-1250">
+				<cfset javaSelectedCharset = javaCharset.forName(JavaCast("string","windows-1250")) >
+			</cfcase>
+			<cfcase value="windows-1251">
+				<cfset javaSelectedCharset = javaCharset.forName(JavaCast("string","windows-1251")) >
+			</cfcase>
+			<cfcase value="windows-1252">
+				<cfif javaCharset.isSupported(JavaCast("string","windows-1252"))>
+					<cfset javaSelectedCharset = javaCharset.forName(JavaCast("string","windows-1252")) >
 				<cfelse>
-					<cfthrow message="#NO_HEADER_ERR# No first line found.">
+					<!--- if not available, iso-8859-1 will substitute, except for 0x80 to 0x9F --->
+					<!--- the following characters won't be handled correctly if the source is windows-1252:  €  Š  š  Ž  ž  Œ  œ  Ÿ --->
+					<cfset javaSelectedCharset = standardCharsets.ISO_8859_1 >
 				</cfif>
-				<!---Get the number of column headers--->
-				<cfset size = headers.size()>
-				<cfif size EQ 0>
-					<cfthrow message="#NO_HEADER_ERR# First line appears empty.">
-				</cfif>
-				<cfset separator = "">
-				<cfset foundHeaders = "">
-				<cfloop index="i" from="0" to="#headers.size() - 1#">
-					<cfset bit = headers.get(JavaCast("int",i))>
-					<cfif i EQ 0 and characterSet EQ 'utf-8'>
-						<!--- strip off windows non-standard UTF-8-BOM byte order mark if present (raw hex EF, BB, BF or U+FEFF --->
-						<cfset bit = "#Replace(bit,CHR(65279),'')#" >
-					</cfif>
-					<!--- we could strip out all unexpected characters from the header, but seems likely to cause problems. --->
-					<!--- cfset bit=REReplace(headers.get(JavaCast("int",i)),'[^A-Za-z0-9_-]','','All') --->
-					<cfset foundHeaders = "#foundHeaders##separator##bit#" >
-					<cfset separator = ",">
-				</cfloop>
+			</cfcase>
+			<cfcase value="x-MacCentralEurope">
+				<cfset javaSelectedCharset = javaCharset.forName(JavaCast("string","x-MacCentralEurope")) >
+			</cfcase>
+			<cfcase value="MacRoman">
+				<cfset javaSelectedCharset = javaCharset.forName(JavaCast("string","x-MacRoman")) >
+			</cfcase>
+			<cfcase value="utf-16">
+				<cfset javaSelectedCharset = standardCharsets.UTF_16 >
+			</cfcase>
+			<cfcase value="utf-32">
+				<cfset javaSelectedCharset = javaCharset.forName(JavaCast("string","utf-32")) >
+			</cfcase>
+			<cfdefaultcase>
+				<cfset javaSelectedCharset = standardCharsets.UTF_8 >
+			</cfdefaultcase>
+		</cfswitch>
+		<cfset records = CSVParser.parse(#tempFileInputStream#,#javaSelectedCharset#,#csvFormat#)>
+		<!--- obtain an iterator to loops through the rows/records in the csv --->
+		<cfset iterator = records.iterator()>
+		<!---Obtain the first line of the file as the header line, we can not use the withHeader() method to do this in coldfusion --->
+		<cfif iterator.hasNext()>
+			<cfset headers = iterator.next()>
+		<cfelse>
+			<cfthrow message="#NO_HEADER_ERR# No first line found.">
+		</cfif>
+		<!---Get the number of column headers--->
+		<cfset size = headers.size()>
+		<cfif size EQ 0>
+			<cfthrow message="#NO_HEADER_ERR# First line appears empty.">
+		</cfif>
+		<cfset separator = "">
+		<cfset foundHeaders = "">
+		<cfloop index="i" from="0" to="#headers.size() - 1#">
+			<cfset bit = headers.get(JavaCast("int",i))>
+			<cfif i EQ 0 and characterSet EQ 'utf-8'>
+				<!--- strip off windows non-standard UTF-8-BOM byte order mark if present (raw hex EF, BB, BF or U+FEFF --->
+				<cfset bit = "#Replace(bit,CHR(65279),'')#" >
+			</cfif>
+			<!--- we could strip out all unexpected characters from the header, but seems likely to cause problems. --->
+			<!--- cfset bit=REReplace(headers.get(JavaCast("int",i)),'[^A-Za-z0-9_-]','','All') --->
+			<cfset foundHeaders = "#foundHeaders##separator##bit#" >
+			<cfset separator = ",">
+		</cfloop>
 	</cfoutput>
 	<cfreturn iterator>
 </cffunction>
 
-
+<!--- given a list of provided fields and a list of required fields, check that all required
+  fields are present in the provided list, and if not, throw an exception where the message
+  includes a provided text string that identifies the exception.
+--->
 <cffunction name="checkRequiredFields" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="fieldList" type="string" required="yes">
 	<cfargument name="requiredFieldList" type="string" required="yes">
