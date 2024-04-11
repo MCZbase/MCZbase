@@ -724,6 +724,12 @@
 								where COLLECTION_OBJECT_ID=#getTempData.COLLECTION_OBJECT_ID#
 							</cfquery>
 						</cfif>
+						<cfif getTempData.STORED_AS_FG is 1>
+							<cfquery name="removeOld" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+								update identification set STORED_AS_FG=0 
+								where COLLECTION_OBJECT_ID=#getTempData.COLLECTION_OBJECT_ID#
+							</cfquery>
+						</cfif>
 						<cfquery name="insertID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="insertID_result">
 							insert into identification (
 								IDENTIFICATION_ID,
@@ -770,6 +776,19 @@
 								sq_identification_id.currval,
 								#agent_1_id#,1)
 						</cfquery>
+						<cfif len(agent_2_id) gt 0>
+							<cfquery name="insertida1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+								insert into identification_agent (
+									IDENTIFICATION_ID,
+									AGENT_ID,
+									IDENTIFIER_ORDER
+								) values (
+									sq_identification_id.currval,
+									#agent_2_id#,
+									2
+								)
+							</cfquery>
+						</cfif>
 						<cfquery name="getID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getID_result">
 							select identification.IDENTIFICATION_ID, identification.COLLECTION_OBJECT_ID, identification.MADE_DATE, identification.NATURE_OF_ID, identification.ACCEPTED_ID_FG,identification.IDENTIFICATION_REMARKS, identification.TAXA_FORMULA, identification.SCIENTIFIC_NAME,identification.stored_as_fg,identification_agent.agent_id,identification_agent.identifier_order,identification_agent.identification_agent_id,identification_taxonomy.taxon_name_id 
 							from identification,identification_agent, identification_taxonomy
@@ -817,7 +836,7 @@
 								<cfelseif cfcatch.detail contains "OTHER_ID_NUMBER">
 									Problem with OTHER_ID_NUMBER, check to see the correct other_id_number was entered
 								<cfelseif cfcatch.detail contains "MADE_DATE">
-									Problem with MADE_DATE
+									Problem with MADE_DATE (should be in ISO format "YYYY-MM-DD")
 								<cfelseif cfcatch.detail contains "unique constraint">
 									Problem with OTHER_ID_NUMBER (see below); OTHER_ID_NUMBER already entered; Remove and <a href="/tools/BulkloadIdentification.cfm">try again</a>
 								<cfelseif cfcatch.detail contains "COLLECTION_OBJECT_ID">
