@@ -469,7 +469,6 @@
 						status = concat(nvl2(status, status || '; ', ''),'INSTIUTION_ACRONYM is not "MCZ" (check case)')
 					WHERE institution_acronym <> 'MCZ'
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-		
 				</cfquery>
 				<cfquery name="flagCde" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE cf_temp_ID
@@ -477,7 +476,6 @@
 						status = concat(nvl2(status, status || '; ', ''),'COLLECTION_CDE does not match Cryo, Ent, Herp, Ich, IP, IZ, Mala, Mamm, Orn, SC, or VP (check case)')
 					WHERE collection_cde not in (select collection_cde from ctcollection_cde)
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-	
 				</cfquery>
 				<cfquery name="flagNoCollectionObject" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE cf_temp_ID
@@ -485,7 +483,6 @@
 						status = concat(nvl2(status, status || '; ', ''),' There is no match to a cataloged item on "'||other_id_type||'" = "'||other_id_number||'" in collection "'||collection_cde||'"')
 					WHERE collection_object_id IS NULL
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-					
 				</cfquery>
 				<cfquery name="flagNotMatchedExistOther_ID_Type1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE cf_temp_ID
@@ -573,6 +570,7 @@
 				</cfquery>
 				<cfquery name="a1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					select distinct agent_id from agent_name where agent_name='#agent_1#'
+					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
 				<cfif #a1.recordcount# is not 1>
 					<cfif len(#problem#) is 0>
@@ -582,13 +580,14 @@
 					</cfif>
 				<cfelse>
 					<cfquery name="insColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-						UPDATE cf_temp_id SET agent_1_id = #a1.agent_id# where
-						key = #key#
+						UPDATE cf_temp_id SET agent_1_id = #a1.agent_id#
+						and username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 					</cfquery>
 				</cfif>
 				<cfif len(agent_2) gt 0>
 					<cfquery name="a2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						select distinct agent_id from agent_name where agent_name='#agent_2#'
+						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 					</cfquery>
 					<cfif #a2.recordcount# is not 1>
 						<cfif len(#problem#) is 0>
@@ -599,7 +598,7 @@
 					<cfelse>
 						<cfquery name="insColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 							UPDATE cf_temp_id SET agent_2_id = #a2.agent_id# where
-							key = #key#
+							AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						</cfquery>
 					</cfif>
 				</cfif>
@@ -618,7 +617,6 @@
 				SELECT key,status,collection_object_id,nature_of_id,taxon_name_id,scientific_name,institution_acronym,collection_cde,other_id_type,other_id_number,made_date,accepted_id_fg,identification_remarks,taxa_formula,agent_1,agent_2,stored_as_fg
 				FROM cf_temp_ID
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-				and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableQC.key#"> 
 			</cfquery>
 			<cfquery name="problemCount" dbtype="query">
 				SELECT count(*) c 
