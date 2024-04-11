@@ -53,6 +53,7 @@ limitations under the License.
 <!--- Normal page delivery with header/footer --->
 <cfset pageTitle = "Bulk Edit Container">
 <cfinclude template="/shared/_header.cfm">
+<cfinclude template="/tools/component/csv.cfc" runOnce="true"><!--- for common csv testing functions --->
 <cfif not isDefined("action") OR len(action) EQ 0><cfset action="entryPoint"></cfif>
 <main class="container-fluid py-3" id="content">
 	<cfif #action# is "entryPoint">
@@ -105,7 +106,6 @@ limitations under the License.
 	</cfif>
 	<!------------------------------------------------------->
 	<cfif #action# is "getFile">
-		<cfinclude template="/tools/component/csv.cfc" runOnce="true"><!--- for common csv testing functions --->
 		<cfoutput>
 			<div class="container">
 				<h1 class="h2 mt-2">Bulkload Container Edit Parent</h1>
