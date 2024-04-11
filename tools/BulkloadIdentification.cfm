@@ -798,7 +798,7 @@
 					<cftransaction action="ROLLBACK">
 					<h2 class="text-danger mt-4">There was a problem updating the Identifications.</h2>
 					<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getProblemData_result">
-						SELECT institution_acronym, collection_cde,other_id_type, other_id_number,collection_object_id,scientific_name,made_date,nature_of_id,accepted_id_fg,identification_remarks,agent_1, agent_2,taxa_formula,taxon_name_id,stored_as_fg
+						SELECT institution_acronym, collection_cde,other_id_type,other_id_number,collection_object_id,scientific_name,made_date,nature_of_id,accepted_id_fg,identification_remarks,agent_1, agent_2,taxa_formula,taxon_name_id,stored_as_fg
 						FROM cf_temp_id
 						WHERE key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#problem_key#">
 					</cfquery>
