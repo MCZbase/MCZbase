@@ -126,7 +126,7 @@ limitations under the License.
 			</cfloop>
 			<cfif duplicateCount GT 1><cfset plural1="s"><cfelse><cfset plural1=""></cfif>
 			<cfif duplicateCount GT 1><cfset plural2=""><cfelse><cfset plural2="s"></cfif>
-			<h3 class="h4">Error: Expected column header#plural1# occur#plural2# more than once: </h3>
+			<h3 class="h4">Error: The following expected column header#plural1# occur#plural2# more than once: </h3>
 			<ul class="pb-1 h4">
 				<!--- Identify duplicate columns and fail if found --->
 				<cfloop list="#duplicateFields#" item="aField">
