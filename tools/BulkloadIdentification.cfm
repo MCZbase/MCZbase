@@ -752,7 +752,7 @@
 								IDENTIFIER_ORDER
 							) values (
 								sq_identification_id.currval,
-								<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.AGENT_2_ID#">,
+								<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.AGENT_1_ID#">,
 								1
 							)
 						</cfquery>
