@@ -165,13 +165,13 @@ limitations under the License.
 						<cfif REFind("[^\x00-\x7F]",thisBit) GT 0>
 							<!--- high ASCII --->
 							<cfif foundHighCount LT 6>
-								<cfset foundHighAscii = "#foundHighAscii# <li class='text-dark pb-1'><i class='fas fa-arrow-right text-dark'></i> #thisBit#</li>"><!--- " --->
+								<cfset foundHighAscii = "#foundHighAscii# <li class='text-danger font-weight-bold'>#thisBit#</li>"><!--- " --->
 								<cfset foundHighCount = foundHighCount + 1>
 							</cfif>
 						<cfelseif REFind("[\xc0-\xdf][\x80-\xbf]",thisBit) GT 0>
 							<!--- multibyte --->
 							<cfif foundHighCount LT 6>
-								<cfset foundMultiByte = "#foundMultiByte# <li class='text-dark pb-1'><i class='fas fa-arrow-right text-dark'></i>  #thisBit#</li>"><!--- " --->
+								<cfset foundMultiByte = "#foundMultiByte# <li class='text-danger font-weight-bold'>#thisBit#</li>"><!--- " --->
 								<cfset foundHighCount = foundHighCount + 1>
 							</cfif>
 						</cfif>
@@ -225,7 +225,7 @@ limitations under the License.
 					<div class="px-4">
 						<p>Showing #foundHighCount# example#plural#. If these do not appear as the correct characters, the file likely has a different encoding from the one you selected and
 						you probably want to <strong><a href="/tools/BulkloadOtherId.cfm">reload</a></strong> this file selecting a different character set. If these appear as expected, then you selected the correct encoding and can continue to validate or load.</p>
-						<ul class="h4 list-unstyled font-weight-normal ">
+						<ul class="pb-1 h4 list-unstyled">
 							<!---These include the li tags--->
 							#foundHighAscii# #foundMultiByte#
 						</ul>
