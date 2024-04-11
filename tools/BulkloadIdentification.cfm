@@ -428,8 +428,7 @@
 					WHERE 
 						username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableTypes.key#"> 
-					group by collection_cde,other_id_type,other_id_number
-					having count(*)>1
+			
 				</cfquery>
 				<cfif getTempOtherCt.recordcount GT 0>
 					<cfthrow message='You have multiple records with the same "collection_cde, other_id_type, other_id_number". Use another set of IDs to identify this cataloged item. Identifications bulkloader table (cf_temp_ID). <a href="/tools/BulkloadIdentification.cfm">Start over</a>'>
