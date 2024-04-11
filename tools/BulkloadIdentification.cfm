@@ -418,20 +418,20 @@
 				WHERE 
 					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
-			
+			<cfquery name="getTempOtherCt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				SELECT 
+					collection_cde,other_id_type,other_id_number
+				FROM 
+					getTempTableTypes
+				WHERE 
+					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+					and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableTypes.key#"> 
+			</cfquery>
+			<cfif getTempOtherCt.recordcount GT 1>
+				<cfthrow message="You have multiple rows with the same collection_cde, other_id_type, other_id_number combination. Use another set of IDs to identify this cataloged item. <a href='/tools/BulkloadIdentification.cfm'>Start over</a>">
+			</cfif>
 			<cfloop query="getTempTableTypes">
-				<cfquery name="getTempOtherCt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					SELECT 
-						collection_cde,other_id_type,other_id_number
-					FROM 
-						cf_temp_ID
-					WHERE 
-						username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-						and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableTypes.key#"> 
-				</cfquery>
-				<cfif getTempOtherCt.recordcount GT 1>
-					<cfthrow message="You have multiple rows with the same collection_cde, other_id_type, other_id_number combination. Use another set of IDs to identify this cataloged item. <a href='/tools/BulkloadIdentification.cfm'>Start over</a>">
-				</cfif>
+
 				
 				<cfif getTempTableTypes.other_id_type eq 'catalog number'>
 					<!--- either based on catalog_number --->
