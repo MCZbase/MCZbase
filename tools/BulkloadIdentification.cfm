@@ -291,17 +291,7 @@
 				</cfloop>
 			
 				<cfif foundHighCount GT 0>
-					<cfif foundHighCount GT 1><cfset plural="s"><cfelse><cfset plural=""></cfif>
-					<!---This shows when everything is correct but the code found special characters.--->
-					<h3 class="h4"><span class="text-danger">Check character set.</span> Found characters where the encoding is probably important in the input data. </h3>
-					<div class="px-4">
-						<p>Showing #foundHighCount# example#plural#. If these do not appear as the correct characters, the file likely has a different encoding from the one you selected and
-						you probably want to <strong><a href="/tools/BulkloadIdentification.cfm">reload</a></strong> this file selecting a different character set. If these appear as expected, then you selected the correct encoding and can continue to validate or load.</p>
-						<ul class="h4 list-unstyled font-weight-normal ">
-								<!---These include the <li></li>--->
-							#foundHighAscii# #foundMultiByte#
-						</ul>
-					</div>
+					<cfset extendedResult = reportExtended(foundHighCount=foundHighCount,foundHighAscii=foundHighAscii,foundMultiByte=foundMultiByte,linkTarget='/tools/BulkloadIdentification.cfm')>
 				</cfif>
 				<h4>
 					<cfif loadedRows EQ 0>
@@ -315,12 +305,11 @@
 				<h4>
 					<strong class="text-danger">Failed to read the CSV file.</strong> Fix the errors in the file and <a href="/tools/BulkloadIdentification.cfm">reload</a>
 				</h4>
-				<cfif isDefined("othResult")>
+				<cfif isDefined("variables.foundHeaders")>
 					<cfset foundHighCount = 0>
 					<cfset foundHighAscii = "">
 					<cfset foundMultiByte = "">
-					<cfloop from="1" to ="#ArrayLen(othResult[1])#" index="col">
-						<cfset thisBit=othResult[1][col]>
+					<cfloop list="#variables.foundHeaders#" index="thisBit">
 						<cfif REFind("[^\x00-\x7F]",thisBit) GT 0>
 							<!--- high ASCII --->
 							<cfif foundHighCount LT 6>
@@ -336,13 +325,7 @@
 						</cfif>
 					</cfloop>
 					<cfif isDefined("foundHighCount") AND foundHighCount GT 0>
-						<h3 class="h4">Found characters with unexpected encoding in the header row.  This is probably the cause of your error.</h3>
-						<div>
-							Showing #foundHighCount# examples. Did you select utf-16 or unicode for the encoding for a file that does not have multibyte encoding?
-						</div>
-						<ul class="pb-1 h4 list-unstyled">
-							#foundHighAscii# #foundMultiByte#
-						</ul>
+						<cfset extendedResult = reportExtended(foundHighCount=foundHighCount,foundHighAscii=foundHighAscii,foundMultiByte=foundMultiByte,linkTarget='/tools/BulkloadIdentification.cfm',inHeader='yes')>
 					</cfif>
 				</cfif>
 			
