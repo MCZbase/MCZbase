@@ -787,11 +787,11 @@
 						<cfset i = i+1>
 					</cfloop>
 					<cfif getTempData.recordcount eq testParse and getID_result.recordcount eq 0>
-						<p>Number of Identifications updated: #testParse# (on #getCounts.c# cataloged items)</p>
+						<p>Number of Identifications updated: #i# (on #getCounts.c# cataloged items)</p>
 						<h2 class="text-success">Success - loaded</h2>
 					</cfif>
 					<cfif getID_result.recordcount gt 1>
-						<p>Attempted to update #testParse# Identifications (on #getCounts.c# cataloged items)</p>
+						<p>Attempted to update #i# Identifications (on #getCounts.c# cataloged items)</p>
 						<h2 class="text-danger">Not loaded - these have already been loaded</h2>
 					</cfif>
 				<cfcatch>
