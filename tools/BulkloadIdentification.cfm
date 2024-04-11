@@ -570,7 +570,6 @@
 				</cfquery>
 				<cfquery name="a1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					select distinct agent_id from agent_name where agent_name='#agent_1#'
-					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
 				<cfif #a1.recordcount# is not 1>
 					<cfif len(#problem#) is 0>
@@ -587,7 +586,6 @@
 				<cfif len(agent_2) gt 0>
 					<cfquery name="a2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						select distinct agent_id from agent_name where agent_name='#agent_2#'
-						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 					</cfquery>
 					<cfif #a2.recordcount# is not 1>
 						<cfif len(#problem#) is 0>
