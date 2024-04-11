@@ -409,6 +409,7 @@
 	<cfif #action# is "validate">
 		<h2 class="h4">Second step: Data Validation</h2>
 			<cfoutput>
+			<cfset error_message = 'You have multiple rows with the same collection_cde, other_id_type, other_id_number combination. Use another set of IDs to identify this cataloged item. <a href="/tools/BulkloadIdentification.cfm">Start over</a>'>
 			<cfquery name="getTempOtherCt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT 
 					collection_cde,other_id_type,other_id_number, key
@@ -418,7 +419,7 @@
 					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<cfif getTempOtherCt.recordcount GT 1>
-				<cfthrow message="You have multiple rows with the same collection_cde, other_id_type, other_id_number combination. Use another set of IDs to identify this cataloged item. <a href='/tools/BulkloadIdentification.cfm'>Start over</a>">
+				<cfthrow message="#error_message#">
 			</cfif>
 			<cfquery name="getTempTableTypes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT 
