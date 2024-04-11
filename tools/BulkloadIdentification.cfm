@@ -741,7 +741,7 @@
 								TAXON_NAME_ID,
 								VARIABLE
 							) values (
-								NEXTID.currval,
+								sq_identification_id.currval,
 								<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.TAXON_NAME_ID#">,
 								'A')
 							into identification_agent (
@@ -749,7 +749,7 @@
 								AGENT_ID,
 								IDENTIFIER_ORDER
 							) values (
-								NEXTID.currval,
+								sq_identification_id.currval,
 								<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.AGENT_1_ID#">,
 								1
 							)
