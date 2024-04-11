@@ -817,8 +817,8 @@
 									Problem with OTHER_ID_NUMBER, check to see the correct other_id_number was entered
 								<cfelseif cfcatch.detail contains "MADE_DATE">
 									Problem with MADE_DATE (should be in ISO format "YYYY-MM-DD")
-								<cfelseif cfcatch.detail contains "unique constraint">
-									Problem with pk_ident_id violated; already entered; Fix and <a href="/tools/BulkloadIdentification.cfm">try again</a>.
+	<!---							<cfelseif cfcatch.detail contains "unique constraint">
+									Problem with pk_ident_id violated; already entered; Fix and <a href="/tools/BulkloadIdentification.cfm">try again</a>.--->
 								<cfelseif cfcatch.detail contains "COLLECTION_OBJECT_ID">
 									Problem with OTHER_ID_TYPE or OTHER_ID_NUMBER (could not find collection_object_id) 
 								<cfelseif cfcatch.detail contains "SCIENTIFIC_NAME">
