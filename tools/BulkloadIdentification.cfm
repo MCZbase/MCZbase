@@ -580,7 +580,6 @@
 				<cfelse>
 					<cfquery name="insColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						UPDATE cf_temp_id SET agent_1_id = #a1.agent_id#
-						and username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 					</cfquery>
 				</cfif>
 				<cfif len(agent_2) gt 0>
@@ -595,8 +594,7 @@
 						</cfif>
 					<cfelse>
 						<cfquery name="insColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-							UPDATE cf_temp_id SET agent_2_id = #a2.agent_id# where
-							AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+							UPDATE cf_temp_id SET agent_2_id = #a2.agent_id# 
 						</cfquery>
 					</cfif>
 				</cfif>
