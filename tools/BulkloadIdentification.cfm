@@ -434,7 +434,7 @@
 						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 							and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableTypes.key#"> 
 					</cfquery>
-				<cfelse>
+				<cfelseif>
 					<!--- or on specified other identifier --->
 					<cfquery name="getCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						UPDATE
@@ -452,6 +452,8 @@
 						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 							and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableTypes.key#"> 
 					</cfquery>
+				<cfelse>
+					<p>There was a problem creating the collection_object_id. It could be because there are multiple specimen records with the same other_id_type and other_id_number in that collection.</p>
 				</cfif>
 			</cfloop>
 			<!--- obtain the information needed to QC each row --->
@@ -497,7 +499,7 @@
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						AND key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableQC.key#"> 
 				</cfquery>
-				<cfquery name="flagNotMatchedExistOther_ID_Type1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+<!---				<cfquery name="flagNotMatchedExistOther_ID_Type1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE cf_temp_ID
 					SET 
 						status = concat(nvl2(status, status || '; ', ''), 'More than one Specimen Record in "' || collection_cde ||'" with this "' || other_id_type ||'"')
@@ -511,7 +513,7 @@
 							AND cataloged_item.collection_object_id = coll_obj_other_id_num.collection_object_id)
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						AND key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableQC.key#"> 
-				</cfquery>
+				</cfquery>--->
 				<cfquery name="getTaxaID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					update cf_temp_id set taxon_name_id =
 					(SELECT taxon_name_id FROM taxonomy where scientific_name ='#getTempTableQC.scientific_name#')
