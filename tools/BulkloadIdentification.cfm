@@ -790,7 +790,7 @@
 						<p>Number of Identifications updated: #testParse# (on #getCounts.c# cataloged items)</p>
 						<h2 class="text-success">Success - loaded</h2>
 					</cfif>
-					<cfif getID_result.recordcount gt 0>
+					<cfif getID_result.recordcount gt 1>
 						<p>Attempted to update #testParse# Identifications (on #getCounts.c# cataloged items)</p>
 						<h2 class="text-danger">Not loaded - these have already been loaded</h2>
 					</cfif>
