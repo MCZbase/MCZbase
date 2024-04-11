@@ -625,7 +625,6 @@
 						status = concat(nvl2(status, status || '; ', ''),'#requiredField# is missing')
 					WHERE #requiredField# is null
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-						AND key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableQC.key#"> 
 				</cfquery>
 			</cfloop>
 			
