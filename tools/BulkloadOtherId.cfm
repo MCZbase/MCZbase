@@ -124,6 +124,7 @@ limitations under the License.
 	</cfif>	
 	<!------------------------------------------------------->
 	<cfif #action# is "getFile">
+		<cfinclude template="/tools/component/csv.cfc" runOnce="true"><!--- for common csv testing functions --->
 		<cfoutput>
 			<h2 class="h3">First step: Reading data from CSV file.</h2>
 			<!--- Compare the numbers of headers expected against provided in CSV file --->

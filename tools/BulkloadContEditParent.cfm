@@ -125,6 +125,7 @@ limitations under the License.
 	</cfif>
 	<!------------------------------------------------------->
 	<cfif #action# is "getFile">
+		<cfinclude template="/tools/component/csv.cfc" runOnce="true"><!--- for common csv testing functions --->
 		<cfoutput>
 			<div class="container">
 				<h1 class="h2 mt-2">Bulkload Container Edit Parent</h1>
