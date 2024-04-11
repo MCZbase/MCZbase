@@ -18,6 +18,38 @@ limitations under the License.
 	<cfinclude template="/shared/component/error_handler.cfc" runOnce="true">
 </cfif>
 
+<cffunction name="getCharsetSelectHTML" returntype="string" access="remote" returnformat="plain">
+	<cfoutput>
+		<label for="characterSet" class="data-entry-label">Character Set:</label> 
+		<select name="characterSet" id="characterSet" required class="data-entry-select reqdClr">
+			<option selected></option>
+			<option value="utf-8" >utf-8</option>
+			<option value="iso-8859-1">iso-8859-1</option>
+			<option value="windows-1252">windows-1252 (Win Latin 1)</option>
+			<option value="MacRoman">MacRoman</option>
+			<option value="x-MacCentralEurope">Macintosh Latin-2</option>
+			<option value="windows-1250">windows-1250 (Win Eastern European)</option>
+			<option value="windows-1251">windows-1251 (Win Cyrillic)</option>
+			<option value="utf-16">utf-16</option>
+			<option value="utf-32">utf-32</option>
+		</select>
+	</cfoutput>
+</cffunction>
+
+<cffunction name="getFormatSelectHTML" returntype="string" access="remote" returnformat="plain">
+	<cfoutput>
+		<label for="format" class="data-entry-label">Format:</label> 
+		<select name="format" id="format" required class="data-entry-select reqdClr">
+			<option value="DEFAULT" selected >Standard CSV</option>
+			<option value="TDF">Tab Separated Values</option>
+			<option value="EXCEL">CSV export from MS Excel</option>
+			<option value="RFC4180">Strict RFC4180 CSV</option>
+			<option value="ORACLE">Oracle SQL*Loader CSV</option>
+			<option value="MYSQL">CSV export from MYSQL</option>
+		</select>
+	</cfoutput>
+</cffunction>
+
 <cffunction name="checkRequiredFields" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="fieldList" type="string" required="yes">
 	<cfargument name="requiredFieldList" type="string" required="yes">
