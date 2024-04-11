@@ -393,7 +393,6 @@
 	<cfif #action# is "validate">
 		<h2 class="h4">Second step: Data Validation</h2>
 		<cfoutput>
-		<cftry>
 			<cfset error_message = 'You have multiple rows with the same collection_cde, other_id_type, other_id_number combination. Use another set of IDs to identify this cataloged item. <a href="/tools/BulkloadIdentification.cfm">Start over</a>'>
 
 			<cfquery name="getTempTableTypes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -412,7 +411,6 @@
 						cf_temp_ID
 					WHERE 
 						username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-					and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableTypes.key#"> 
 					and other_id_type <> 'catalog number'
 					group by other_id_type
 					having count(*)>1
@@ -683,10 +681,6 @@
 					</cfloop>
 				</tbody>
 			</table>
-			<cfcatch>
-	
-			</cfcatch>
-		</cftry>
 		</cfoutput>
 	</cfif>
 
@@ -835,7 +829,7 @@
 								<cfelseif cfcatch.detail contains "MADE_DATE">
 									Problem with MADE_DATE (should be in ISO format "YYYY-MM-DD")
 								<cfelseif cfcatch.detail contains "unique constraint">
-									Problem with OTHER_ID_NUMBER (see below); OTHER_ID_NUMBER already entered; Remove and <a href="/tools/BulkloadIdentification.cfm">try again</a>
+									Problem with OTHER_ID_NUMBER (see below); OTHER_ID_NUMBER (not catalog number) already entered; Remove and <a href="/tools/BulkloadIdentification.cfm">try again</a>.
 								<cfelseif cfcatch.detail contains "COLLECTION_OBJECT_ID">
 									Problem with OTHER_ID_TYPE or OTHER_ID_NUMBER (could not find collection_object_id) 
 								<cfelseif cfcatch.detail contains "SCIENTIFIC_NAME">
