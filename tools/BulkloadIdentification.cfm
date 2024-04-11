@@ -740,7 +740,7 @@
 								SCIENTIFIC_NAME,
 								STORED_AS_FG
 							) values (
-								#sq_identification_id.NEXTID#,
+								#NEXTID.NEXTID#,
 								#COLLECTION_OBJECT_ID#,
 								'#MADE_DATE#',
 								'#NATURE_OF_ID#',
