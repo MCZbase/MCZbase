@@ -727,7 +727,7 @@
 								<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.ACCEPTED_ID_FG#">,
 								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.IDENTIFICATION_REMARKS#">,
 								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.TAXA_FORMULA#">,
-								<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.SCIENTIFIC_NAME#">,
+								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.SCIENTIFIC_NAME#">,
 								<cfif len(STORED_AS_FG)gt 0>
 									<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.STORED_AS_FG#">,
 								<cfelse>
