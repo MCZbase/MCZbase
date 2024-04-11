@@ -393,6 +393,7 @@
 	<cfif #action# is "validate">
 		<h2 class="h4">Second step: Data Validation</h2>
 		<cfoutput>
+		<cftry>
 			<cfset error_message = 'You have multiple rows with the same collection_cde, other_id_type, other_id_number combination. Use another set of IDs to identify this cataloged item. <a href="/tools/BulkloadIdentification.cfm">Start over</a>'>
 
 			<cfquery name="getTempTableTypes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -406,13 +407,14 @@
 			<cfloop query="getTempTableTypes">
 				<cfquery name="getTempOtherCt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT 
-						other_id_type
+						collection_cde,other_id_type,other_id_number
 					FROM 
 						cf_temp_ID
 					WHERE 
 						username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+					and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableTypes.key#"> 
 					and other_id_type <> 'catalog number'
-					group by other_id_type
+					group by collection_cde,other_id_type,other_id_number
 					having count(*)>1
 				</cfquery>
 				<cfif getTempOtherCt.recordcount GT 1>
@@ -469,7 +471,7 @@
 						status = concat(nvl2(status, status || '; ', ''),'INSTIUTION_ACRONYM is not "MCZ" (check case)')
 					WHERE institution_acronym <> 'MCZ'
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-		
+						AND key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableQC.key#"> 
 				</cfquery>
 				<cfquery name="flagCde" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE cf_temp_ID
@@ -477,7 +479,7 @@
 						status = concat(nvl2(status, status || '; ', ''),'COLLECTION_CDE does not match Cryo, Ent, Herp, Ich, IP, IZ, Mala, Mamm, Orn, SC, or VP (check case)')
 					WHERE collection_cde not in (select collection_cde from ctcollection_cde)
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-	
+						AND key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableQC.key#"> 
 				</cfquery>
 				<cfquery name="flagNoCollectionObject" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE cf_temp_ID
@@ -485,7 +487,7 @@
 						status = concat(nvl2(status, status || '; ', ''),' There is no match to a cataloged item on "'||other_id_type||'" = "'||other_id_number||'" in collection "'||collection_cde||'"')
 					WHERE collection_object_id IS NULL
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-					
+						AND key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableQC.key#"> 
 				</cfquery>
 				<cfquery name="flagNotMatchedExistOther_ID_Type1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE cf_temp_ID
@@ -495,29 +497,35 @@
 						AND other_id_type <> 'catalog number'
 						AND other_id_type not in (select other_id_type from ctcoll_other_id_type)
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+						AND key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableQC.key#"> 
 				</cfquery>
+
 				<cfquery name="getTaxaID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					update cf_temp_id set taxon_name_id =
 					(SELECT taxon_name_id FROM taxonomy where scientific_name ='#getTempTableQC.scientific_name#')
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+						AND key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableQC.key#"> 
 				</cfquery>
 				<cfquery name="flagNotMatchSciName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE cf_temp_ID SET status = concat(nvl2(status, status || '; ', ''),'scientific_name not found')
 					WHERE scientific_name is null 
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+						AND key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableQC.key#"> 
 				</cfquery>
 				<cfquery name ="flagMadeDate"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE cf_temp_ID set
 					status = concat(nvl2(status, status || '; ', ''),'Invalid MADE_DATE "'||MADE_DATE||'"') WHERE MADE_DATE is not null 
-						AND is_iso8601(MADE_DATE) <> '' 
-						AND length(MADE_DATE) <> 10
+							AND is_iso8601(MADE_DATE) <> '' 
+							AND length(MADE_DATE) <> 10
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+						AND key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableQC.key#"> 
 				</cfquery>
 				<cfquery name="flagNotMatchCTnature" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE cf_temp_ID SET 
 					status = concat(nvl2(status, status || '; ', ''), 'Unknown nature of ID: "'||nature_of_id||'"')
 					WHERE nature_of_id not in (select nature_of_id from ctnature_of_id)
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+						AND key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableQC.key#"> 
 				</cfquery>
 				<!---No accepted_id_fg validation here. Needed?--->
 				<!---No identification_remarks validation here. Needed?--->
@@ -526,6 +534,7 @@
 					SET status = concat(nvl2(status, status || '; ', ''),'taxa_formula is not found')
 					WHERE taxa_formula not in (select taxa_formula from cttaxa_formula)
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+						AND key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableQC.key#"> 
 				</cfquery>
 				<cfset scientific_name = '#getTempTableQC.scientific_name#'>
 				<cfset tf = '#getTempTableQC.taxa_formula#'>
@@ -570,6 +579,7 @@
 					WHERE stored_as_fg = 1
 						AND accepted_id_fg = 1
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+						AND key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableQC.key#"> 
 				</cfquery>
 				<cfquery name="a1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					select distinct agent_id from agent_name where agent_name='#agent_1#'
@@ -674,6 +684,10 @@
 					</cfloop>
 				</tbody>
 			</table>
+			<cfcatch>
+	
+			</cfcatch>
+		</cftry>
 		</cfoutput>
 	</cfif>
 
@@ -822,7 +836,7 @@
 								<cfelseif cfcatch.detail contains "MADE_DATE">
 									Problem with MADE_DATE (should be in ISO format "YYYY-MM-DD")
 								<cfelseif cfcatch.detail contains "unique constraint">
-									Problem with OTHER_ID_NUMBER (see below); OTHER_ID_NUMBER (not catalog number) already entered; Remove and <a href="/tools/BulkloadIdentification.cfm">try again</a>.
+									Problem with OTHER_ID_NUMBER (see below); OTHER_ID_NUMBER already entered; Remove and <a href="/tools/BulkloadIdentification.cfm">try again</a>
 								<cfelseif cfcatch.detail contains "COLLECTION_OBJECT_ID">
 									Problem with OTHER_ID_TYPE or OTHER_ID_NUMBER (could not find collection_object_id) 
 								<cfelseif cfcatch.detail contains "SCIENTIFIC_NAME">
