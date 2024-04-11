@@ -682,7 +682,7 @@
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
 				<cfquery name="NEXTID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					select sq_identification_id.nextval NEXTID from dual
+					select identification_seq.nextval from dual
 				</cfquery>
 				<cfquery name="getTempData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT KEY,COLLECTION_OBJECT_ID,COLLECTION_CDE,INSTITUTION_ACRONYM,OTHER_ID_TYPE,OTHER_ID_NUMBER,SCIENTIFIC_NAME,MADE_DATE,NATURE_OF_ID, ACCEPTED_ID_FG,IDENTIFICATION_REMARKS,AGENT_1,AGENT_2,TAXON_NAME_ID,TAXA_FORMULA,AGENT_1_ID,AGENT_2_ID,STORED_AS_FG FROM cf_temp_ID
@@ -722,7 +722,7 @@
 								SCIENTIFIC_NAME,
 								STORED_AS_FG
 							) values (
-								#NEXTID.NEXTID#,
+								#identification_seq.nextval#,
 								<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.COLLECTION_OBJECT_ID#">,
 								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.made_date#">,
 								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.NATURE_OF_ID#">,
@@ -741,7 +741,7 @@
 								TAXON_NAME_ID,
 								VARIABLE
 							) values (
-								sq_identification_id.currval,
+								identification_seq.currval,
 								<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.TAXON_NAME_ID#">,
 								'A')
 							into identification_agent (
@@ -749,7 +749,7 @@
 								AGENT_ID,
 								IDENTIFIER_ORDER
 							) values (
-								sq_identification_id.currval,
+								identification_seq.currval,
 								<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.AGENT_1_ID#">,
 								1
 							)
