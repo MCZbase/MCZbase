@@ -394,6 +394,16 @@ limitations under the License.
 					<cfdump var="#cfcatch#">
 				</cfif>
 			</cfcatch>
+			<cffinally>
+				<cftry>
+					<!--- Close the CSV parser and the reader --->
+					<cfset csvParser.close()>
+					<cfset fileReader.close()>
+				<cfcatch>
+					<!--- consume exception and proceed --->
+				</cfcatch>
+				</cftry>
+			</cffinally>
 			</cftry>
 		</cfoutput>
 	</cfif>
