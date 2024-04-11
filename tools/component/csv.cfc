@@ -313,4 +313,38 @@ limitations under the License.
 	</cfoutput>
 </cffunction>
 
+<!--- Report on extended characters found in the data --->
+<cffunction name="reportExtended" returntype="string" access="remote" returnformat="plain">
+	<cfargument name="foundHighCount" type="string" required="yes">
+	<cfargument name="foundHighAscii" type="string" required="yes">
+	<cfargument name="foundMultiByte" type="string" required="yes">
+	<cfargument name="linkTarget" type="string" required="yes">
+	<cfargument name="inHeader" type="string" required="no" default="no">
+	<cfoutput>
+		<cfif foundHighCount GT 1><cfset plural="s"><cfelse><cfset plural=""></cfif>
+		<h3 class="h4">
+			<span class="text-danger">Check character set.</span>
+			<cfif inHeader EQ "yes">
+				Found characters with unexpected encoding in the header row. This is probably the cause of your error.
+			<cfelse>
+				Found characters where the encoding is probably important in the input data.
+			</cfif>
+		</h3>
+		<div class="border p-1">
+			<p>
+				Showing #foundHighCount# example#plural#.  
+				<cfif inHeader EQ "yes">
+					Did you select utf-16 or unicode for the encoding for a file that does not have multibyte encoding?
+				<cfelse>
+					If these do not appear as the correct characters, the file likely has a different encoding from the one you selected and you probably want to <a href="#linkTarget#">reload</a> this file selecting a different encoding. If these appear as expected, then you selected the correct encoding and can continue to validate or load.
+				</cfif>
+			</p>
+			<ul class="p-1 pl-2 h4 list-unstyled">
+				<!---These include the <li></li>--->
+				#foundHighAscii# #foundMultiByte#
+			</ul>
+		</div>
+	</cfoutput>
+</cffunction>
+
 </cfcomponent>

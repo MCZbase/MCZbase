@@ -214,17 +214,7 @@ limitations under the License.
 						</cftry>
 					</cfloop>
 					<cfif foundHighCount GT 0>
-						<h3 class="h4">
-							<span class="text-danger">Check character set.</span>
-							Found characters where the encoding is probably important in the input data.
-						</h3>
-						<div>
-							<p>Showing #foundHighCount# examples.  If these do not appear as the correct characters, the file likely has a different encoding from the one you selected and you probably want to <a href="/tools/BulkloadCitations.cfm">reload</a> this file selecting a different encoding. If these appear as expected, then you selected the correct encoding and can continue to validate or load.</p>
-						<ul class="pb-1 h4 list-unstyled">
-							<!---These include the <li></li>--->
-							#foundHighAscii# #foundMultiByte#
-						</ul>
-						</div>
+						<cfset extendedResult = reportExtended(foundHighCount=foundHighCount,foundHighAscii=foundHighAscii,foundMultiByte=foundMultiByte,linkTarget='/tools/BulkloadCitations.cfm')>	
 					</cfif>
 				</div>
 				<h3>
@@ -238,12 +228,11 @@ limitations under the License.
 				<h3 class="h4">
 					Failed to read the CSV file.  Fix the errors in the file and <a href="/tools/BulkloadCitations.cfm">reload</a>.
 				</h3>
-				<cfif isDefined("arrResult")>
+				<cfif isDefined("variables.foundHeaders")>
 					<cfset foundHighCount = 0>
 					<cfset foundHighAscii = "">
 					<cfset foundMultiByte = "">
-					<cfloop from="1" to ="#ArrayLen(arrResult[1])#" index="col">
-						<cfset thisBit=arrResult[1][col]>
+					<cfloop list="#variables.foundHeaders#" index="thisBit">
 						<cfif REFind("[^\x00-\x7F]",thisBit) GT 0>
 							<!--- high ASCII --->
 							<cfif foundHighCount LT 6>
@@ -259,13 +248,7 @@ limitations under the License.
 						</cfif>
 					</cfloop>
 					<cfif isDefined("foundHighCount") AND foundHighCount GT 0>
-						<h3 class="h4">Found characters with unexpected encoding in the header row. This is probably the cause of your error.</h3>
-						<div>
-							<p>Showing #foundHighCount# examples. Did you select utf-16 or unicode for the encoding for a file that does not have multibyte encoding?</p>
-						</div>
-						<ul class="py-1 h4">
-							#foundHighAscii# #foundMultiByte#
-						</ul>
+						<cfset extendedResult = reportExtended(foundHighCount=foundHighCount,foundHighAscii=foundHighAscii,foundMultiByte=foundMultiByte,linkTarget='/tools/BulkloadCitations.cfm',inHeader='yes')>
 					</cfif>
 				</cfif>
 				<cfif Find("#NO_COLUMN_ERR#",cfcatch.message) GT 0>
