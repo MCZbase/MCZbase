@@ -708,8 +708,10 @@
 								where COLLECTION_OBJECT_ID=#getTempData.COLLECTION_OBJECT_ID#
 							</cfquery>
 						</cfif>
+						<cftransaction>
 						<cfquery name="insertID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="insertID_result">
-							insert into identification (
+							insert all
+							into identification (
 								IDENTIFICATION_ID,
 								COLLECTION_OBJECT_ID,
 								MADE_DATE,
@@ -734,9 +736,7 @@
 									'(null)'
 								</cfif>
 							)
-						</cfquery>
-						<cfquery name="insertIDT" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="insertIDT_result">
-							insert into identification_taxonomy (
+							into identification_taxonomy (
 								IDENTIFICATION_ID,
 								TAXON_NAME_ID,
 								VARIABLE
@@ -744,9 +744,7 @@
 								sq_identification_id.currval,
 								<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.TAXON_NAME_ID#">,
 								'A')
-						</cfquery>
-						<cfquery name="insertIDA1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="insertIDA1_result">
-							insert into identification_agent (
+							into identification_agent (
 								IDENTIFICATION_ID,
 								AGENT_ID,
 								IDENTIFIER_ORDER
@@ -755,7 +753,9 @@
 								<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.AGENT_1_ID#">,
 								1
 							)
+							select * from dual
 						</cfquery>
+						</cftransaction>
 						<cfif len(agent_2_id) gt 0>
 							<cfquery name="insertida2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 								insert into identification_agent (
