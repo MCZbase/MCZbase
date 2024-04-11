@@ -452,6 +452,24 @@
 						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 							and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableTypes.key#"> 
 					</cfquery>
+					<cfquery name="flagNotMatchedExistOther_ID_Type1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					UPDATE cf_temp_ID
+					SET 
+						status = concat(nvl2(status, status || '; ', ''), 'More than one Specimen Record in "' || collection_cde ||'" with this "' || other_id_type ||'"')
+					WHERE other_id_type is not null 
+						AND other_id_type <> 'catalog number'
+						AND other_id_type not in (SELECT other_id_type
+							FROM cataloged_item,coll_obj_other_id_num 
+							WHERE coll_obj_other_id_num.other_id_type = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableQC.other_id_type#"> 
+							AND cataloged_item.collection_cde = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableQC.collection_cde#">
+							AND display_value = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableQC.other_id_type#">
+							AND cataloged_item.collection_object_id = coll_obj_other_id_num.collection_object_id
+					group by other_id_type
+					having count(*)>1)
+						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+						AND key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableQC.key#"> 
+					
+				</cfquery>
 				</cfif>
 			</cfloop>
 			<!--- obtain the information needed to QC each row --->
@@ -497,24 +515,7 @@
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						AND key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableQC.key#"> 
 				</cfquery>
-				<cfquery name="flagNotMatchedExistOther_ID_Type1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					UPDATE cf_temp_ID
-					SET 
-						status = concat(nvl2(status, status || '; ', ''), 'More than one Specimen Record in "' || collection_cde ||'" with this "' || other_id_type ||'"')
-					WHERE other_id_type is not null 
-						AND other_id_type <> 'catalog number'
-						AND other_id_type not in (SELECT other_id_type
-							FROM cataloged_item,coll_obj_other_id_num 
-							WHERE coll_obj_other_id_num.other_id_type = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableQC.other_id_type#"> 
-							AND cataloged_item.collection_cde = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableQC.collection_cde#">
-							AND display_value = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableQC.other_id_type#">
-							AND cataloged_item.collection_object_id = coll_obj_other_id_num.collection_object_id
-					group by other_id_type
-					having count(*)>1)
-						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-						AND key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableQC.key#"> 
-					
-				</cfquery>
+
 				<cfquery name="getTaxaID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					update cf_temp_id set taxon_name_id =
 					(SELECT taxon_name_id FROM taxonomy where scientific_name ='#getTempTableQC.scientific_name#')
