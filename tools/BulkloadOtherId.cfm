@@ -110,12 +110,17 @@ limitations under the License.
 			<h2 class="h3">First step: Reading data from CSV file.</h2>
 			<!--- Compare the numbers of headers expected against provided in CSV file --->
 			<!--- Set some constants to identify error cases in cfcatch block --->
-			<cfset NO_COLUMN_ERR = '<h4 class="mt-3">One or more required fields are missing in the header line of the csv file.</h4><p class="text-dark d-block">[<span class="font-weight-bold">Note:</span> If you uploaded csv columns that match the required headers and see "Required column not found" for those headers, check that the <span class="font-weight-bold">character set and format</span> you selected matches the file''s encodings.]</p>'><!--- ' --->
-			<cfset DUP_COLUMN_ERR = "<p>Fix the one or more columns that are duplicated, mispelled, or added in the header line of the csv file and reload. </p>"><!--- " --->
+			<cfset NO_COLUMN_ERR = "One or more required fields are missing in the header line of the csv file. Check charset selected if columns match required headers and one column is not found.">
+			<cfset DUP_COLUMN_ERR = "One or more columns are duplicated in the header line of the csv file.">
 			<cfset COLUMN_ERR = "Error inserting data ">
-			<cfset NO_HEADER_ERR = "<h4 class='mb-3'>No header line found, csv file appears to be empty.</h4>"><!--- " --->
+			<cfset NO_HEADER_ERR = "No header line found, csv file appears to be empty.">
 
 			<cftry>
+				<!--- cleanup any incomplete work by the same user --->
+				<cfquery name="clearTempTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="clearTempTable_result">
+					DELETE FROM cf_temp_oids 
+					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+				</cfquery>
 				<!--- Parse the CSV file using Apache Commons CSV library included with coldfusion so that columns with comma delimeters will be separated properly --->
 				<cfset fileProxy = CreateObject("java","java.io.File") >
 				<cfobject type="Java" name="csvFormat" class="org.apache.commons.csv.CSVFormat" >
@@ -196,11 +201,6 @@ limitations under the License.
 					</cfdefaultcase>
 				</cfswitch>
 				<cfset records = CSVParser.parse(#tempFileInputStream#,#javaSelectedCharset#,#csvFormat#)>
-				<!--- cleanup any incomplete work by the same user --->
-				<cfquery name="clearTempTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="clearTempTable_result">
-					DELETE FROM cf_temp_oids 
-					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-				</cfquery>
 				<!--- obtain an iterator to loops through the rows/records in the csv --->
 				<cfset iterator = records.iterator()>
 				<!---Obtain the first line of the file as the header line, we can not use the withHeader() method to do this in coldfusion --->
@@ -373,11 +373,13 @@ limitations under the License.
 				</cfif>
 			
 				<cfif Find("#NO_COLUMN_ERR#",cfcatch.message) GT 0>
-					#cfcatch.message#
+					<h4 class='mb-3'>#cfcatch.message#</h4>
+				<cfelseif Find("#NO_HEADER_ERR#",cfcatch.message) GT 0>
+					<h4 class='mb-3'>#cfcatch.message#</h4>
 				<cfelseif Find("#COLUMN_ERR#",cfcatch.message) GT 0>
-					#cfcatch.message#
+					<h4 class='mb-3'>#cfcatch.message#</h4>
 				<cfelseif Find("#DUP_COLUMN_ERR#",cfcatch.message) GT 0>
-					#cfcatch.message#
+					<h4 class='mb-3'>#cfcatch.message#</h4>
 				<cfelseif Find("IOException reading next record: java.io.IOException: (line 1) invalid char between encapsulated token and delimiter",cfcatch.message) GT 0>
 					<ul class="py-1 h4 list-unstyled">
 						<li>Unable to read headers in line 1.  Did you select CSV format for a tab delimited file?</li>

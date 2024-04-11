@@ -89,30 +89,10 @@ limitations under the License.
 						<input type="file" name="FiletoUpload" id="fileToUpload" class="data-entry-input p-0 m-0">
 					</div>
 					<div class="col-12 col-md-3">
-						<label for="characterSet" class="data-entry-label">Character Set:</label> 
-						<select name="characterSet" id="characterSet" required class="data-entry-select reqdClr">
-							<option selected></option>
-							<option value="utf-8" >utf-8</option>
-							<option value="iso-8859-1">iso-8859-1</option>
-							<option value="windows-1252">windows-1252 (Win Latin 1)</option>
-							<option value="MacRoman">MacRoman</option>
-							<option value="x-MacCentralEurope">Macintosh Latin-2</option>
-							<option value="windows-1250">windows-1250 (Win Eastern European)</option>
-							<option value="windows-1251">windows-1251 (Win Cyrillic)</option>
-							<option value="utf-16">utf-16</option>
-							<option value="utf-32">utf-32</option>
-						</select>
+						<cfset charsetSelect = getCharsetSelectHTML()>
 					</div>
 					<div class="col-12 col-md-3">
-						<label for="format" class="data-entry-label">Format:</label> 
-						<select name="format" id="format" required class="data-entry-select reqdClr">
-							<option value="DEFAULT" selected >Standard CSV</option>
-							<option value="TDF">Tab Separated Values</option>
-							<option value="EXCEL">CSV export from MS Excel</option>
-							<option value="RFC4180">Strict RFC4180 CSV</option>
-							<option value="ORACLE">Oracle SQL*Loader CSV</option>
-							<option value="MYSQL">CSV export from MYSQL</option>
-						</select>
+						<cfset formatSelect = getFormatSelectHTML()>
 					</div>
 					<div class="col-12 col-md-2">
 						<label for="submitButton" class="data-entry-label">&nbsp;</label>
@@ -129,11 +109,16 @@ limitations under the License.
 		<cfoutput>
 			<h2 class="h4">First step: Reading data from CSV file.</h2>
 			<!--- Set some constants to identify error cases in cfcatch block --->
-			<cfset NO_COLUMN_ERR = "One or more required fields are missing in the header line of the csv file.">
+			<cfset NO_COLUMN_ERR = "One or more required fields are missing in the header line of the csv file. Check charset selected if columns match required headers and one column is not found.">
 			<cfset DUP_COLUMN_ERR = "One or more columns are duplicated in the header line of the csv file.">
-			<cfset COLUMN_ERR = "Error inserting data">
+			<cfset COLUMN_ERR = "Error inserting data ">
 			<cfset NO_HEADER_ERR = "No header line found, csv file appears to be empty.">
 			<cftry>
+				<!--- cleanup any incomplete work by the same user --->
+				<cfquery name="clearTempTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="clearTempTable_result">
+					DELETE FROM cf_temp_citation
+					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+				</cfquery>
 				<!---Parse the CSV file using Apache Commons CSV library and include with ColdFusion so columns with comma delimiters will be separated properly.--->
 				<cfset fileProxy = CreateObject("java","java.io.File") >
 				<cfobject type="Java" name="csvFormat" class="org.apache.commons.csv.CSVFormat">
@@ -214,11 +199,6 @@ limitations under the License.
 					</cfdefaultcase>
 				</cfswitch>
 				<cfset records = CSVParser.parse(#tempFileInputStream#,#javaSelectedCharset#,#csvFormat#)>
-				<!--- cleanup any incomplete work by the same user --->
-				<cfquery name="clearTempTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="clearTempTable_result">
-					DELETE FROM cf_temp_citation
-					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-				</cfquery>
 				<!--- obtain an iterator to loops through the rows/records in the csv --->
 				<cfset iterator = records.iterator()>
 				<!---Obtain the first line of the file as the header line, we can not use the withHeader() method to do this in coldfusion --->
@@ -385,11 +365,13 @@ limitations under the License.
 					</cfif>
 				</cfif>
 				<cfif Find("#NO_COLUMN_ERR#",cfcatch.message) GT 0>
-						#cfcatch.message#
+					<h4 class='mb-3'>#cfcatch.message#</h4>
+				<cfelseif Find("#NO_HEADER_ERR#",cfcatch.message) GT 0>
+					<h4 class='mb-3'>#cfcatch.message#</h4>
 				<cfelseif Find("#COLUMN_ERR#",cfcatch.message) GT 0>
-						#cfcatch.message#
+					<h4 class='mb-3'>#cfcatch.message#</h4>
 				<cfelseif Find("#DUP_COLUMN_ERR#",cfcatch.message) GT 0>
-						#cfcatch.message#
+					<h4 class='mb-3'>#cfcatch.message#</h4>
 				<cfelse>
 					<cfdump var="#cfcatch#">
 				</cfif>
