@@ -318,13 +318,16 @@ limitations under the License.
 			
 				<cfif foundHighCount GT 0>
 					<cfif foundHighCount GT 1><cfset plural="s"><cfelse><cfset plural=""></cfif>
-					<!---This shows when everything is correct but the code found special characters.--->
-					<h3 class="h4"><span class="text-danger">Check character set.</span> Found characters where the encoding is probably important in the input data. </h3>
+					<!--- This shows when everything is correct but the code found special characters. --->
+					<h3 class="h4">
+						<span class="text-danger">Check character set.</span>
+						Found characters where the encoding is probably important in the input data. 
+					</h3>
 					<div class="px-4">
 						<p>Showing #foundHighCount# example#plural#. If these do not appear as the correct characters, the file likely has a different encoding from the one you selected and
 						you probably want to <strong><a href="/tools/BulkloadOtherId.cfm">reload</a></strong> this file selecting a different character set. If these appear as expected, then you selected the correct encoding and can continue to validate or load.</p>
 						<ul class="h4 list-unstyled font-weight-normal ">
-								<!---These include the <li></li>--->
+							<!---These include the li tags--->
 							#foundHighAscii# #foundMultiByte#
 						</ul>
 					</div>
@@ -373,11 +376,13 @@ limitations under the License.
 				</cfif>
 			
 				<cfif Find("#NO_COLUMN_ERR#",cfcatch.message) GT 0>
-					<h4 class='mb-3'>#cfcatch.message#</h4>
+					<cfset errmessage = Replace(cfcatch.message,NO_COLUMN_ERR,"<h4 class='mb-3'>#NO_COLUMN_ERR#</h4>")>
+					#errmessage#
 				<cfelseif Find("#NO_HEADER_ERR#",cfcatch.message) GT 0>
 					<h4 class='mb-3'>#cfcatch.message#</h4>
 				<cfelseif Find("#COLUMN_ERR#",cfcatch.message) GT 0>
-					<h4 class='mb-3'>#cfcatch.message#</h4>
+					<cfset errmessage = Replace(cfcatch.message,COLUMN_ERR,"<h4 class='mb-3'>#COLUMN_ERR#</h4>")>
+					#errmessage#
 				<cfelseif Find("#DUP_COLUMN_ERR#",cfcatch.message) GT 0>
 					<h4 class='mb-3'>#cfcatch.message#</h4>
 				<cfelseif Find("IOException reading next record: java.io.IOException: (line 1) invalid char between encapsulated token and delimiter",cfcatch.message) GT 0>

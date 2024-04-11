@@ -313,7 +313,10 @@ limitations under the License.
 						</cftry>
 					</cfloop>
 					<cfif foundHighCount GT 0>
-						<h3 class="h4"><span class="text-danger">Warning: Check character set.</span> Found characters where the encoding is probably important in the input data.</h3>
+						<h3 class="h4">
+							<span class="text-danger">Check character set.</span>
+							Found characters where the encoding is probably important in the input data.
+						</h3>
 						<div>
 							<p>Showing #foundHighCount# examples.  If these do not appear as the correct characters, the file likely has a different encoding from the one you selected and you probably want to <a href="/tools/BulkloadCitations.cfm">reload</a> this file selecting a different encoding. If these appear as expected, then you selected the correct encoding and can continue to validate or load.</p>
 						<ul class="h4 list-unstyled">
@@ -365,11 +368,13 @@ limitations under the License.
 					</cfif>
 				</cfif>
 				<cfif Find("#NO_COLUMN_ERR#",cfcatch.message) GT 0>
-					<h4 class='mb-3'>#cfcatch.message#</h4>
+					<cfset errmessage = Replace(cfcatch.message,NO_COLUMN_ERR,"<h4 class='mb-3'>#NO_COLUMN_ERR#</h4>")><!--- " --->
+					#errmessage#
 				<cfelseif Find("#NO_HEADER_ERR#",cfcatch.message) GT 0>
 					<h4 class='mb-3'>#cfcatch.message#</h4>
 				<cfelseif Find("#COLUMN_ERR#",cfcatch.message) GT 0>
-					<h4 class='mb-3'>#cfcatch.message#</h4>
+					<cfset errmessage = Replace(cfcatch.message,COLUMN_ERR,"<h4 class='mb-3'>#COLUMN_ERR#</h4>")><!--- " --->
+					#errmessage#
 				<cfelseif Find("#DUP_COLUMN_ERR#",cfcatch.message) GT 0>
 					<h4 class='mb-3'>#cfcatch.message#</h4>
 				<cfelse>
