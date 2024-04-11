@@ -721,15 +721,15 @@
 								STORED_AS_FG
 							) values (
 								#NEXTID.NEXTID#,
-								#COLLECTION_OBJECT_ID#,
-								'#MADE_DATE#',
-								'#NATURE_OF_ID#',
-								#ACCEPTED_ID_FG#,
-								'#IDENTIFICATION_REMARKS#',
-								'#TAXA_FORMULA#',
-								'#SCIENTIFIC_NAME#',
+								<cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempData.COLLECTION_OBJECT_ID#">,
+								<cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempData.made_date#">,
+								<cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempData.NATURE_OF_ID#">,
+								<cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempData.ACCEPTED_ID_FG#">,
+								<cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempData.IDENTIFICATION_REMARKS#">,
+								<cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempData.TAXA_FORMULA#">,
+								<cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempData.SCIENTIFIC_NAME#">,
 								<cfif len(STORED_AS_FG)gt 0>
-									'#STORED_AS_FG#'
+									<cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempData.STORED_AS_FG#">,
 								<cfelse>
 									'(null)'
 								</cfif>
