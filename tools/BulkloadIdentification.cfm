@@ -413,6 +413,9 @@
 					WHERE 
 						username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 					and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableTypes.key#"> 
+					and other_id_type <> 'catalog number'
+					group by collection_cde,other_id_type,other_id_number
+					having count(*)>1
 				</cfquery>
 				<cfif getTempOtherCt.recordcount GT 1>
 					<cfthrow message="#error_message#">
@@ -682,7 +685,7 @@
 				</tbody>
 			</table>
 			<cfcatch>
-
+	
 			</cfcatch>
 		</cftry>
 		</cfoutput>
