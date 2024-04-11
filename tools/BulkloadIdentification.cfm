@@ -412,7 +412,7 @@
 
 			<cfquery name="getTempTableTypes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT 
-					other_id_type,key
+					collection_cde,other_id_type,other_id_number,key
 				FROM 
 					cf_temp_ID
 				WHERE 
@@ -421,7 +421,7 @@
 			<cfloop query="getTempTableTypes">
 				<cfquery name="getTempOtherCt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT 
-						collection_cde,other_id_type,other_id_number
+						*
 					FROM 
 						cf_temp_ID
 					WHERE 
