@@ -102,14 +102,19 @@
 	<cfif #action# is "getFile">
 		<cfinclude template="/tools/component/csv.cfc" runOnce="true"><!--- for common csv testing functions --->
 		<cfoutput>
-		<h2 class="h3">First step: Reading data from CSV file.</h2>
-		<!--- Compare the numbers of headers expected against provided in CSV file --->
-		<!--- Set some constants to identify error cases in cfcatch block --->
-		<cfset NO_COLUMN_ERR = "One or more required fields are missing in the header line of the csv file. Check charset selected if columns match required headers and one column is not found.">
-		<cfset DUP_COLUMN_ERR = "One or more columns are duplicated in the header line of the csv file.">
-		<cfset COLUMN_ERR = "Error inserting data ">
-		<cfset NO_HEADER_ERR = "No header line found, csv file appears to be empty.">
-		<cftry>
+			<h2 class="h3">First step: Reading data from CSV file.</h2>
+			<!--- Compare the numbers of headers expected against provided in CSV file --->
+			<!--- Set some constants to identify error cases in cfcatch block --->
+			<cfset NO_COLUMN_ERR = "One or more required fields are missing in the header line of the csv file. Check charset selected if columns match required headers and one column is not found.">
+			<cfset DUP_COLUMN_ERR = "One or more columns are duplicated in the header line of the csv file.">
+			<cfset COLUMN_ERR = "Error inserting data ">
+			<cfset NO_HEADER_ERR = "No header line found, csv file appears to be empty.">
+			<cftry>
+				<!--- cleanup any incomplete work by the same user --->
+				<cfquery name="clearTempTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="clearTempTable_result">
+					DELETE FROM cf_temp_ID 
+					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+				</cfquery>
 				<!--- Parse the CSV file using Apache Commons CSV library included with coldfusion so that columns with comma delimeters will be separated properly --->
 				<cfset fileProxy = CreateObject("java","java.io.File") >
 				<cfobject type="Java" name="csvFormat" class="org.apache.commons.csv.CSVFormat" >
@@ -190,11 +195,6 @@
 					</cfdefaultcase>
 				</cfswitch>
 				<cfset records = CSVParser.parse(#tempFileInputStream#,#javaSelectedCharset#,#csvFormat#)>
-				<!--- cleanup any incomplete work by the same user --->
-				<cfquery name="clearTempTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="clearTempTable_result">
-					DELETE FROM cf_temp_ID 
-					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-				</cfquery>
 				<!--- obtain an iterator to loops through the rows/records in the csv --->
 				<cfset iterator = records.iterator()>
 				<!---Obtain the first line of the file as the header line, we can not use the withHeader() method to do this in coldfusion --->
