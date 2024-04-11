@@ -721,15 +721,15 @@
 								STORED_AS_FG
 							) values (
 								#NEXTID.NEXTID#,
-								<cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempData.COLLECTION_OBJECT_ID#">,
-								<cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempData.made_date#">,
-								<cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempData.NATURE_OF_ID#">,
-								<cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempData.ACCEPTED_ID_FG#">,
-								<cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempData.IDENTIFICATION_REMARKS#">,
-								<cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempData.TAXA_FORMULA#">,
-								<cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempData.SCIENTIFIC_NAME#">,
+								<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.COLLECTION_OBJECT_ID#">,
+								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.made_date#">,
+								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.NATURE_OF_ID#">,
+								<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.ACCEPTED_ID_FG#">,
+								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.IDENTIFICATION_REMARKS#">,
+								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.TAXA_FORMULA#">,
+								<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.SCIENTIFIC_NAME#">,
 								<cfif len(STORED_AS_FG)gt 0>
-									<cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempData.STORED_AS_FG#">,
+									<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.STORED_AS_FG#">,
 								<cfelse>
 									'(null)'
 								</cfif>
@@ -742,7 +742,7 @@
 								VARIABLE
 							) values (
 								sq_identification_id.currval,
-								#TAXON_NAME_ID#,
+								<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.TAXON_NAME_ID#">,
 								'A')
 						</cfquery>
 						<cfquery name="insertIDA1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="insertIDA1_result">
@@ -752,7 +752,9 @@
 								IDENTIFIER_ORDER
 							) values (
 								sq_identification_id.currval,
-								#agent_1_id#,1)
+								<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.AGENT_2_ID#">,
+								1
+							)
 						</cfquery>
 						<cfif len(agent_2_id) gt 0>
 							<cfquery name="insertida1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -762,7 +764,7 @@
 									IDENTIFIER_ORDER
 								) values (
 									sq_identification_id.currval,
-									#agent_2_id#,
+									<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.AGENT_2_ID#">,
 									2
 								)
 							</cfquery>
