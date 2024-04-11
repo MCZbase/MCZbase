@@ -231,12 +231,11 @@ limitations under the License.
 					<h3>
 						<span class="text-danger">Failed to read the CSV file.</span> Fix the errors in the file and <a href="/tools/BulkloadContEditParent.cfm">reload</a>
 					</h3>
-					<cfif isDefined("othResult")>
+					<cfif isDefined("variables.foundHeaders")>
 						<cfset foundHighCount = 0>
 						<cfset foundHighAscii = "">
 						<cfset foundMultiByte = "">
-						<cfloop from="1" to ="#ArrayLen(othResult[1])#" index="col">
-							<cfset thisBit=othResult[1][col]>
+						<cfloop list="#variables.foundHeaders#" index="thisBit">
 							<cfif REFind("[^\x00-\x7F]",thisBit) GT 0>
 								<!--- high ASCII --->
 								<cfif foundHighCount LT 6>

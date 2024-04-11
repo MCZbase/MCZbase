@@ -230,12 +230,11 @@ limitations under the License.
 				<h4>
 					<strong class="text-danger">Failed to read the CSV file.</strong> Fix the errors in the file and <a href="/tools/BulkloadOtherId.cfm">reload</a>
 				</h4>
-				<cfif isDefined("othResult")>
+				<cfif isDefined("variables.foundHeaders")>
 					<cfset foundHighCount = 0>
 					<cfset foundHighAscii = "">
 					<cfset foundMultiByte = "">
-					<cfloop from="1" to ="#ArrayLen(othResult[1])#" index="col">
-						<cfset thisBit=othResult[1][col]>
+					<cfloop list="#variables.foundHeaders#" index="thisBit">
 						<cfif REFind("[^\x00-\x7F]",thisBit) GT 0>
 							<!--- high ASCII --->
 							<cfif foundHighCount LT 6>
