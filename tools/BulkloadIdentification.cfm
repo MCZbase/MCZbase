@@ -569,7 +569,7 @@
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
 				<cfquery name="a1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					select distinct agent_id from agent_name where agent_name=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.agent_1#">
+					select distinct agent_id from agent_name where agent_name=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableQC.agent_1#">
 				</cfquery>
 				<cfif #a1.recordcount# is not 1>
 					<cfif len(#a1.agent_id#) is 0>
@@ -584,7 +584,7 @@
 				</cfif>
 				<cfif len(agent_2) gt 0>
 					<cfquery name="a2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-						select distinct agent_id from agent_name where agent_name=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.agent_2#"> 
+						select distinct agent_id from agent_name where agent_name=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableQC.agent_2#"> 
 					</cfquery>
 					<cfif #a2.recordcount# is not 1>
 						<cfif len(#problem#) is 0>
