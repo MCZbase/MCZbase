@@ -321,6 +321,7 @@ limitations under the License.
 	<cfargument name="linkTarget" type="string" required="yes">
 	<cfargument name="inHeader" type="string" required="no" default="no">
 	<cfoutput>
+		<cfif foundHighCount GT 1><cfset plural="s"><cfelse><cfset plural=""></cfif>
 		<h3 class="h4">
 			<span class="text-danger">Check character set.</span>
 			<cfif inHeader EQ "yes">
@@ -331,7 +332,7 @@ limitations under the License.
 		</h3>
 		<div class="border p-1">
 			<p>
-				Showing #foundHighCount# examples.  
+				Showing #foundHighCount# example#plural#.  
 				<cfif inHeader EQ "yes">
 					Did you select utf-16 or unicode for the encoding for a file that does not have multibyte encoding?
 				<cfelse>
