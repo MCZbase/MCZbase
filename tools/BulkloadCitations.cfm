@@ -553,9 +553,7 @@ limitations under the License.
 						</cfquery>
 						<cfset citation_updates = citation_updates + updateCitations_result.recordcount>
 						<cfif updateCitations1_result.recordcount gt 0>
-							<cftransaction action = "ROLLBACK">
-						<cfelse>
-							<cftransaction action="COMMIT">
+							<cfthrow message="Error: Attempting to insert a duplicate citation: publication_id=#getCitData.PUBLICATION_ID#, collection_object_id=#getCitData.COLLECTION_OBJECT_ID#, cited_taxon_name_id=#getCitData.CITED_TAXON_NAME_ID#">
 						</cfif>
 					</cfloop>
 					<p>Number of citations to update: #citation_updates# (on #getCounts.ctobj# cataloged items)</p>
