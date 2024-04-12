@@ -547,8 +547,7 @@
 					UPDATE cf_temp_ID
 					SET 
 						status = concat(nvl2(status, status || '; ', ''), 'The stored_as_fg can only be 1 when identification is not current (accepted_id_fg=1)')
-					WHERE stored_as_fg = 1
-						AND accepted_id_fg = 1
+					WHERE stored_as_fg = 1 AND accepted_id_fg = 1
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
 				<cfquery name="a1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
