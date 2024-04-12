@@ -747,7 +747,7 @@
 									<cfif len(PUBLICATION_ID)gt 0>
 										<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.PUBLICATION_ID#">
 									<cfelse>
-										''
+										
 									</cfif>
 									
 								)
