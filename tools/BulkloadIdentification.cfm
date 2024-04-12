@@ -515,7 +515,7 @@
 					</cfquery>
 				</cfif>
 				<cfquery name="isTaxa" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					select taxon_name_id,key from taxonomy 
+					select taxon_name_id from taxonomy 
 					where scientific_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableQC.scientific_name#"> 
 				</cfquery>
 				<cfloop query="isTaxa">
