@@ -648,7 +648,6 @@ limitations under the License.
 						</table>
 					</cfif>
 					<div>#cfcatch.message#</div>
-					<cfrethrow>
 				</cfcatch>
 				</cftry>
 			</cftransaction>
