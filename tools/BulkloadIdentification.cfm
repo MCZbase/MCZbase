@@ -395,14 +395,7 @@
 					WHERE nature_of_id not in (select nature_of_id from ctnature_of_id)
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
-<!---				<cfquery name="getCTFormula" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					UPDATE cf_temp_ID 
-					SET status = concat(nvl2(status, status || '; ', ''),'taxa_formula is not found')
-					WHERE taxa_formula not in (select taxa_formula from cttaxa_formula)
-						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-				</cfquery>--->
-		<!---		<cfset scientific_name = '#getTempTableQC.scientific_name#'>
-				<cfset tf = '#getTempTableQC.taxa_formula#'>--->
+				
 				<cfif right(scientific_name,4) is " sp.">
 					<cfset scientific_name=left(scientific_name,len(scientific_name) -4)>
 					<cfset tf = "A sp.">
@@ -471,11 +464,6 @@
 						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						and scientific_name = '#TaxonomyTaxonName#'
 					</cfquery>
-		<!---			<cfquery name="updateColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-						UPDATE cf_temp_id SET taxa_formula = '#tf#'
-						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-						and scientific_name = '#scientific_name#'
-					</cfquery>--->
 				</cfif>
 				<cfquery name="flagNotMatchedToStoredAs" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE cf_temp_ID
