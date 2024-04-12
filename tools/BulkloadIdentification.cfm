@@ -775,12 +775,12 @@
 							</cfquery>
 						</cfif>
 						<cfquery name="getID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getID_result">
-							select identification.IDENTIFICATION_ID, identification.COLLECTION_OBJECT_ID, identification.MADE_DATE, identification.NATURE_OF_ID, identification.ACCEPTED_ID_FG,identification.IDENTIFICATION_REMARKS, identification.TAXA_FORMULA, identification.SCIENTIFIC_NAME,identification.stored_as_fg,identification_agent.agent_id,identification_agent.identifier_order,identification_agent.identification_agent_id,identification_taxonomy.taxon_name_id 
+							select identification.IDENTIFICATION_ID, identification.COLLECTION_OBJECT_ID, identification.MADE_DATE, identification.NATURE_OF_ID, identification.ACCEPTED_ID_FG,identification.IDENTIFICATION_REMARKS, identification.TAXA_FORMULA, identification.SCIENTIFIC_NAME,identification.stored_as_fg,identification.publication_id,identification_agent.agent_id,identification_agent.identifier_order,identification_agent.identification_agent_id,identification_taxonomy.taxon_name_id 
 							from identification,identification_agent, identification_taxonomy
 							where collection_object_id = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempData.collection_object_id#">
 							AND identification.identification_id = identification_agent.identification_id
 							and identification_agent.identification_id = identification_taxonomy.identification_id
-							group by identification.IDENTIFICATION_ID, identification.COLLECTION_OBJECT_ID, identification.MADE_DATE, identification.NATURE_OF_ID, identification.ACCEPTED_ID_FG,identification.IDENTIFICATION_REMARKS, identification.TAXA_FORMULA, identification.SCIENTIFIC_NAME,identification.stored_as_fg,identification_agent.agent_id,identification_agent.identifier_order,identification_agent.identification_agent_id,identification_taxonomy.taxon_name_id 
+							group by identification.IDENTIFICATION_ID, identification.COLLECTION_OBJECT_ID, identification.MADE_DATE, identification.NATURE_OF_ID, identification.ACCEPTED_ID_FG,identification.IDENTIFICATION_REMARKS, identification.TAXA_FORMULA, identification.SCIENTIFIC_NAME,identification.stored_as_fg,identification.publication_id,identification_agent.agent_id,identification_agent.identifier_order,identification_agent.identification_agent_id,identification_taxonomy.taxon_name_id 
 							having count(*)>1
 						</cfquery>
 						<cfset testParse = testParse + 1>
@@ -803,7 +803,7 @@
 					<cftransaction action="ROLLBACK">
 					<h2 class="text-danger mt-4">There was a problem updating the Identifications.</h2>
 					<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getProblemData_result">
-						SELECT institution_acronym, collection_cde,other_id_type,other_id_number,collection_object_id,scientific_name,made_date,nature_of_id,accepted_id_fg,identification_remarks,agent_1, agent_2,taxa_formula,taxon_name_id,stored_as_fg
+						SELECT institution_acronym, collection_cde,other_id_type,other_id_number,collection_object_id,scientific_name,made_date,nature_of_id,accepted_id_fg,identification_remarks,agent_1, agent_2,taxa_formula,taxon_name_id,stored_as_fg,publication_id
 						FROM cf_temp_id
 						WHERE key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#problem_key#">
 					</cfquery>
@@ -828,6 +828,8 @@
 									Problem with OTHER_ID_TYPE or OTHER_ID_NUMBER (could not find collection_object_id) 
 								<cfelseif cfcatch.detail contains "SCIENTIFIC_NAME">
 									Problem with SCIENTIFIC_NAME 
+								<cfelseif cfcatch.detail contains "publication_ID">
+									Issue with PUBLICATION_ID (#cfcatch.detail#)
 								<cfelseif cfcatch.detail contains "no data">
 									No data or the wrong data (#cfcatch.detail#)
 								<cfelseif cfcatch.detail contains "NULL">
