@@ -614,6 +614,23 @@
 						UPDATE cf_temp_id SET publication_id = '' 
 					</cfquery>
 				</cfif>
+				<cfquery name="getTaxa" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					select taxon_name_id from taxonomy where scientific_name = '#getTempData.scientific_name#'
+				</cfquery>
+				<cfif #isTaxa.recordcount# is not 1>
+					<cfif len(#problem#) is 0>
+						<cfset problem = "taxonomy not found">
+					<cfelseif #isTaxa.recordcount# GT 1>
+						<cfset problem = "#problem#; multiple taxonomy records found">
+					<cfelse>
+						<cfset problem = "#problem#; taxonomy not found">
+					</cfif>
+				<cfelse>
+					<cfquery name="insColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						UPDATE cf_temp_id SET taxon_name_id = #getTaxa.taxon_name_id#,taxa_formula='#tf#'
+						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+					</cfquery>
+				</cfif>
 			</cfloop>	
 			<!---Missing data in required fields--->
 			<cfloop list="#requiredfieldlist#" index="requiredField">
@@ -700,7 +717,7 @@
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
 				<cfquery name="getTempData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					SELECT KEY,COLLECTION_OBJECT_ID,COLLECTION_CDE,INSTITUTION_ACRONYM,OTHER_ID_TYPE,OTHER_ID_NUMBER,SCIENTIFIC_NAME,MADE_DATE,NATURE_OF_ID, ACCEPTED_ID_FG,IDENTIFICATION_REMARKS,AGENT_1,AGENT_2,TAXA_FORMULA,AGENT_1_ID,AGENT_2_ID,STORED_AS_FG,PUBLICATION_ID
+					SELECT KEY,COLLECTION_OBJECT_ID,COLLECTION_CDE,INSTITUTION_ACRONYM,OTHER_ID_TYPE,OTHER_ID_NUMBER,SCIENTIFIC_NAME,MADE_DATE,NATURE_OF_ID, ACCEPTED_ID_FG,IDENTIFICATION_REMARKS,AGENT_1,AGENT_2,TAXA_FORMULA,AGENT_1_ID,AGENT_2_ID,STORED_AS_FG,PUBLICATION_ID,TAXON_NAME_ID
 					FROM cf_temp_ID
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
@@ -724,9 +741,7 @@
 								where COLLECTION_OBJECT_ID=#getTempData.COLLECTION_OBJECT_ID#
 							</cfquery>
 						</cfif>
-						<cfquery name="getTaxa" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-							select taxon_name_id from taxonomy where scientific_name = '#getTempData.scientific_name#' and taxa_formula = '#getTempData.taxa_formula#' 
-						</cfquery>
+		
 						<cftransaction>
 							<cfquery name="NEXTID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 								select sq_identification_id.nextval from dual
@@ -769,9 +784,7 @@
 									VARIABLE
 								) values (
 									sq_identification_id.currval,
-									<cfif len(getTaxa.taxon_name_id)gt 0>
-										<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTaxa.TAXON_NAME_ID#">,
-									</cfif>
+									<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTaxa.TAXON_NAME_ID#">,
 									'A')
 								into identification_agent (
 									IDENTIFICATION_ID,
@@ -883,7 +896,6 @@
 								<th>taxa_formula</th>
 								<th>stored_as_fg</th>
 								<th>publication_id</th>
-								<th>taxon_named_id</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -904,7 +916,6 @@
 									<td>#getProblemData.taxa_formula#</td>
 									<td>#getProblemData.stored_as_fg#</td>
 									<td>#getProblemData.publication_id#</td>
-									<td>#getProblemData.taxon_name_id#</td>
 								</tr>
 							</cfloop>
 						</tbody>
