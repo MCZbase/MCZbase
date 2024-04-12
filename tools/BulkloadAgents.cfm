@@ -551,9 +551,9 @@ limitations under the License.
 						<cfset agent_updates = agent_updates + updateAgents_result.recordcount>
 					</cfloop>
 				</cftransaction>
-				<h2>Updated #agent_updates# agents.</h2>
+				<h3 class="mt-3">Updated #agent_updates# agents.</h3>
 			<cfcatch>
-				<h2>There was a problem updating container types.</h2>
+				<h3 class="mt-3">There was a problem updating container types.</h3>
 				<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT agent_type, preferred_name, first_name, middle_name, last_name, birth_date, death_date, agent_remark, prefix, suffix, other_name, other_name_type,other_name_2,other_name_type_2,other_name_3,other_name_type_3,agentguid_guid_type, agentguid, status 
 					FROM cf_temp_agents 
