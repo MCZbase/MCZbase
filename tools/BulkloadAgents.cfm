@@ -620,6 +620,7 @@ limitations under the License.
 					<table class='sortable px-0 mx-0 table table-responsive table-striped w-100 small'>
 						<thead>
 							<tr>
+								<th>bulkload&nbsp;status</th>
 								<th>agent_type</th>
 								<th>preferred_name</th>
 								<th>first_name</th>
@@ -639,12 +640,13 @@ limitations under the License.
 								<th>username</th>
 								<th>agentguid_guid_type</th>
 								<th>agentguid</th>
-								<th>status</th>
+								
 							</tr> 
 						</thead>
 						<tbody>
 							<cfloop query="getProblemData">
 								<tr>
+									<td>#getProblemData.status#</td>
 									<td>#getProblemData.agent_type#</td>
 									<td>#getProblemData.preferred_name#</td>
 									<td>#getProblemData.first_name#</td>
@@ -663,7 +665,6 @@ limitations under the License.
 									<td>#getProblemData.other_name_3#</td>
 									<td>#getProblemData.agentguid_guid_type#</td>
 									<td>#getProblemData.agentguid#</td>
-									<td>#getProblemData.status#</td>
 								</tr> 
 							</cfloop>
 						</tbody>
