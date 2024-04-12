@@ -465,15 +465,15 @@ limitations under the License.
 				WHERE status is not null
 			</cfquery>
 			<cfif pf.c gt 0>
-				<h3>
+				<h3 class="mt-3">
 					There is a problem with #pf.c# of #data.recordcount# row(s). See the STATUS column. (<a href="/tools/BulkloadAgents.cfm?action=dumpProblems">download</a>). Fix the problems in the data and <a href="/tools/BulkloadAgents.cfm">start again</a>.
 				</h3>
 			<cfelse>
-				<h3>
+				<h3 class="mt-3">
 					Validation checks passed. Look over the table below and <a href="/tools/BulkloadAgents.cfm?action=load">click to continue</a> if it all looks good.
 				</h3>
 			</cfif>
-			<table class='sortable table table-responsive table-striped d-lg-table'>
+			<table class='sortable table small table-responsive table-striped w-100'>
 				<thead>
 					<tr>
 						<th>AGENT_TYPE</th>
