@@ -26,6 +26,15 @@ limitations under the License.
 </cfcatch>
 </cftry>
 
+<cfif isdefined("url.action") and len(url.action) GT 0>
+	<cfset action = url.action>
+</cfif>
+<cfif isdefined("url.execute") and len(url.execute) GT 0>
+	<cfset execute = url.execute>
+</cfif>
+<cfif isdefined("url.method") and len(url.method) GT 0>
+	<cfset method = url.method>
+</cfif>
 <cfset enableMobileKeywordTabModal = false>
 <cfif not isdefined("action") AND not isDefined("execute") AND not isDefined("method")>
 	<!--- enable test for mobile browser to make the keyword tab modal on page load if no question was asked in the uri. --->
@@ -119,8 +128,10 @@ limitations under the License.
 </cfquery>
 
 <!--- ensure that pass through parameters for linking to a search are defined --->
-<cfif NOT isdefined("searchText")>
+<cfif NOT isdefined("url.searchText")>
 	<cfset searchText = "">
+<cfelse>
+	<cfset searchText = url.searchText>
 </cfif>
 <cfif not isdefined("collection_cde") AND isdefined("collection_id") AND len(collection_id) GT 0 >
 	<!--- if collection id was provided, but not a collection code, lookup the collection code --->

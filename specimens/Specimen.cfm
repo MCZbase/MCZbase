@@ -20,6 +20,15 @@ limitations under the License.
  top portion of the specimen summarys page, header, summary information/type bar, then the bulk of the body of the
  specimen summarys page, then the footer.
 --->
+<cfif isDefined("url.result_id") and len(url.result_id) GT 0>
+	<cfset result_id = url.result_id>
+</cfif>
+<cfif isDefined("url.collection_object_id") and len(url.collection_object_id) GT 0>
+	<cfset collection_object_id = url.collection_object_id>
+</cfif>
+<cfif isDefined("url.guid") and len(url.guid) GT 0>
+	<cfset guid = url.guid>
+</cfif>
 
 <!--- (1) Check the provided guid or collection object id --->
 <!--- Set page title to reflect failure condition, if queries succeed it will be changed to reflect specimen record found --->
