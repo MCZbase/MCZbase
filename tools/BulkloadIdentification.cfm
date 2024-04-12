@@ -540,8 +540,9 @@
 					</cfif>
 				<cfelse>
 					<cfquery name="insColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-						UPDATE cf_temp_id SET taxon_name_id = #isTaxa.taxon_name_id#, taxa_formula='#tf#'
+						UPDATE cf_temp_id SET taxon_name_id = '#isTaxa.taxon_name_id#', taxa_formula='#tf#'
 						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+						and scientific_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableQC.scientific_name#">
 					</cfquery>
 				</cfif>
 			</cfloop>	
