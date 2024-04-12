@@ -518,37 +518,32 @@
 					select taxon_name_id from taxonomy 
 					where scientific_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableQC.scientific_name#"> 
 				</cfquery>
-				<cfloop query="isTaxa">
-					<cfif #isTaxa.recordcount# is not 1>
-						<cfif len(#isTaxa.recordcount#) is 0>
-							<cfquery name="probColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-								UPDATE cf_temp_ID
-								SET status = concat(nvl2(status, status || '; ', ''),'taxonomy not found')
-								WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-								
-							</cfquery>
-						<cfelseif #isTaxa.recordcount# GT 1>
-							<cfquery name="probColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-								UPDATE cf_temp_ID
-								SET status = concat(nvl2(status, status || '; ', ''),'multiple taxonomy records found for this scientific name')
-								WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-								
-							</cfquery>
-						<cfelse>
-							<cfquery name="probColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-								UPDATE cf_temp_ID
-								SET status = concat(nvl2(status, status || '; ', ''),'taxonomy not found')
-								WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-								
-							</cfquery>
-						</cfif>
+				<cfif #isTaxa.recordcount# is not 1>
+					<cfif len(#isTaxa.recordcount#) is 0>
+						<cfquery name="probColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+							UPDATE cf_temp_ID
+							SET status = concat(nvl2(status, status || '; ', ''),'taxonomy not found')
+							WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+						</cfquery>
+					<cfelseif #isTaxa.recordcount# GT 1>
+						<cfquery name="probColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+							UPDATE cf_temp_ID
+							SET status = concat(nvl2(status, status || '; ', ''),'multiple taxonomy records found for this scientific name')
+							WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+						</cfquery>
 					<cfelse>
-						<cfquery name="insColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-							UPDATE cf_temp_id SET taxon_name_id = #isTaxa.taxon_name_id#, taxa_formula='#tf#'
+						<cfquery name="probColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+							UPDATE cf_temp_ID
+							SET status = concat(nvl2(status, status || '; ', ''),'taxonomy not found')
 							WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						</cfquery>
 					</cfif>
-				</cfloop>
+				<cfelse>
+					<cfquery name="insColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						UPDATE cf_temp_id SET taxon_name_id = #isTaxa.taxon_name_id#, taxa_formula='#tf#'
+						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+					</cfquery>
+				</cfif>
 			</cfloop>	
 			<!---Missing data in required fields--->
 			<cfloop list="#requiredfieldlist#" index="requiredField">
