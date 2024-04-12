@@ -124,7 +124,7 @@ limitations under the License.
 	
 <!------------------------------------------------------->
 	<cfif #action# is "getFile">
-		<h2 class="h3">First step: Reading data from CSV file.</h2>
+		<h2 class="h4">First step: Reading data from CSV file.</h2>
 		<cfoutput>
 		<!--- Compare the numbers of headers expected against provided in CSV file --->
 		<!--- Set some constants to identify error cases in cfcatch block --->
@@ -425,7 +425,7 @@ limitations under the License.
 			
 	<!------------------------------------------------------->
 	<cfif #action# is "validate">
-		<h2 class="h3">Second step: Data Validation</h2>
+		<h2 class="h4">Second step: Data Validation</h2>
 		<cfoutput>
 			<cfquery name="getCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				update cf_temp_agents set agent_type=
@@ -529,7 +529,7 @@ limitations under the License.
 	</cfif>
 	<!-------------------------------------------------------------------------------------------->
 	<cfif action is "load">
-		<h2 class="h3">Third step: Apply changes.</h2>
+		<h2 class="h4">Third step: Apply changes.</h2>
 		<cfoutput>
 			<cfquery name="getTempData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT * FROM cf_temp_agents
@@ -564,7 +564,7 @@ limitations under the License.
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
 				<h3>Problematic Rows (<a href="/tools/BulkloadAgents.cfm?action=dumpProblems">download</a>)</h3>
-				<table class='sortable table table-responsive table-striped d-lg-table'>
+				<table class='sortable table small w-100 table-responsive table-striped'>
 					<thead>
 						<tr>
 							<th>agent_type</th>
@@ -620,7 +620,7 @@ limitations under the License.
 						WHERE key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#problem_key#">
 					</cfquery>
 					<h3>Error updating row (#agent_updates + 1#): #cfcatch.message#</h3>
-					<table class='sortable table table-responsive table-striped d-lg-table'>
+					<table class='sortable table table-responsive table-striped w-100 small'>
 						<thead>
 							<tr>
 								<th>agent_type</th>
