@@ -739,7 +739,7 @@
 									<cfif len(STORED_AS_FG)gt 0>
 										<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.STORED_AS_FG#">,
 									<cfelse>
-										'(null)',
+										'0',
 									</cfif>
 									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.PUBLICATION_ID#">
 								)
