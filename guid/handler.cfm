@@ -28,31 +28,36 @@ RewriteRule "^/guid/(MCZ:[A-Za-z]+:.*)"    /guid/handler.cfm?catalog=$1 [QSA,PT]
 	<cfset accept = "">
 </cfcatch>
 </cftry>
-<cfif isdefined("occurrenceID") and len(occurrenceID) gt 0>
+<cfif isdefined("url.occurrenceID") and len(url.occurrenceID) gt 0>
+	<cfset occurrenceID = url.occurrenceID>
 	<!--- TODO: Support occurrenceID --->
 	<!--- Expected form is a UUID --->
 </cfif>
-<cfif isdefined("materialSampleID") and len(materialSampleID) gt 0>
+<cfif isdefined("url.materialSampleID") and len(url.materialSampleID) gt 0>
+	<cfset materialSampleID = url.materialSampleID>
 	<!--- TODO: Support materialSampleID --->
 	<!--- Expected form is a UUID --->
 </cfif>
-<cfif isdefined("taxonID") and len(taxonID) gt 0>
+<cfif isdefined("url.taxonID") and len(url.taxonID) gt 0>
+	<cfset taxonID = url.taxonID>
 	<!--- TODO: Support taxonID --->
 	<!--- Expected form is a UUID --->
 </cfif>
-<cfif isdefined("agent") and len(agent) gt 0>
+<cfif isdefined("url.agent") and len(url.agent) gt 0>
+	<cfset agent = url.agent>
 	<!--- TODO: Support agent guids --->
 	<!--- Expected form is a UUID --->
 </cfif>
-<cfif isdefined("catalog") and len(catalog) gt 0>
+<cfif isdefined("url.catalog") and len(url.catalog) gt 0>
+	<cfset catalog = url.catalog>
 	<!--- Expected form is a urn:catalog, Darwin Core Triplet --->
 
 	<cfif REFind('^[A-Z]+:[A-Za-z]+:[A-Za-z0-9-]+$',catalog) GT 0>
 		<cfset rdurl=catalog>
 		<!---  path terminator /{json|json-ld|turtle|rdf} is rewritten by apache to deliver, if present, override accept header. --->
-		<cfif isDefined("deliver") AND len(deliver) GT 0>
+		<cfif isDefined("url.deliver") AND len(url.deliver) GT 0>
 			<cfif find('/',deliver) EQ 1>
-   			<cfset deliver = RemoveChars(deliver,1,1)>
+   			<cfset deliver = RemoveChars(url.deliver,1,1)>
 			</cfif>
 		</cfif>
 	<cfelse>
