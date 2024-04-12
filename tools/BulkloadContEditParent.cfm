@@ -318,25 +318,25 @@ limitations under the License.
 				</cfquery>
 				<cfquery name="miac" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE cf_temp_cont_edit 
-					SET status = 'container_not_found'
+					SET status = 'container_not_found, no Unique Identifier found matching [' || container_unique_id || '].'
 					WHERE container_id is null
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
 				<cfquery name="miap" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE cf_temp_cont_edit 
-					SET status = 'parent_container_not_found'
+					SET status = 'parent_container_not_found, no Unique Identifier found matching ['|| parent_unique_id ||']'
 					WHERE parent_container_id is null and parent_unique_id is not null
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
 				<cfquery name="miap" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE cf_temp_cont_edit 
-					SET status = 'bad_container_type'
+					SET status = 'bad_container_type ['||container_type||'], container_type must be in the CTCONTAINER_TYPE controlled vocabulary.'
 					WHERE container_type not in (select container_type from ctcontainer_type)
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
 				<cfquery name="miap" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE cf_temp_cont_edit
-					SET status = 'missing_label'
+					SET status = 'missing_label, container_name is required.'
 					WHERE CONTAINER_NAME is null
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
