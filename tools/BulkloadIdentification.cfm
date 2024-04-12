@@ -469,7 +469,7 @@
 					<cfquery name="updateColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						UPDATE cf_temp_id SET taxon_name_id = '#isTaxa.taxon_name_id#'
 						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-						and scientific_name = '#scientific_name#'
+						and scientific_name = '#TaxonomyTaxonName#'
 					</cfquery>
 		<!---			<cfquery name="updateColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						UPDATE cf_temp_id SET taxa_formula = '#tf#'
