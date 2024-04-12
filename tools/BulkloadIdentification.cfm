@@ -583,17 +583,6 @@
 						</cfquery>
 					</cfif>
 				</cfif>
-				<cfif #fillTaxonNameID.recordcount# is not 1>
-					<cfif len(#a1.agent_id#) is 0>
-						<cfthrow message = "agent_1 matched #a1.recordcount# records">
-					<cfelse>
-						<cfthrow message = "#problem#; agent_1 matched #a1.recordcount# records">
-					</cfif>
-				<cfelse>
-					<cfquery name="insColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-						UPDATE cf_temp_id SET agent_1_id = #a1.agent_id#
-					</cfquery>
-				</cfif>
 				<cfif len(publication_id) gt 0>
 					<cfquery name="pub" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						select distinct publication_id from publication where publication_id=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableQC.publication_id#"> 
