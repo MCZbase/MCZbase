@@ -618,8 +618,8 @@
 				<cfquery name="isTaxa" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					select taxon_name_id from taxonomy 
 					where scientific_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableQC.scientific_name#"> 
-					AND GUID like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#getTempTableQC.other_id_number#%">
-					AND GUID like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#getTempTableQC.collection_cde#%">
+					AND GUID like '%#getTempTableQC.other_id_number#%'
+					AND GUID like '%#getTempTableQC.collection_cde#%'
 				</cfquery>
 				<cfif #isTaxa.recordcount# is not 1>
 					<cfif len(#isTaxa.recordcount#) is 0>
