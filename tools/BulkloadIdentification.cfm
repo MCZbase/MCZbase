@@ -609,7 +609,7 @@
 				</cfquery>
 			</cfloop>
 			<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				SELECT key,status,collection_object_id,nature_of_id,taxon_name_id,scientific_name,institution_acronym,collection_cde,other_id_type,other_id_number,made_date,accepted_id_fg,identification_remarks,taxa_formula,agent_1,agent_2,stored_as_fg
+				SELECT key,status,collection_object_id,nature_of_id,taxon_name_id,scientific_name,institution_acronym,collection_cde,other_id_type,other_id_number,made_date,accepted_id_fg,identification_remarks,taxa_formula,agent_1,agent_2,stored_as_fg,publication_id
 				FROM cf_temp_ID
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
@@ -645,6 +645,7 @@
 						<th>AGENT_1</th>
 						<th>AGENT_2</th>
 						<th>STORED_AS_FG</th>
+						<th>publication_id</th>
 					</tr>
 				<tbody>
 					<cfloop query="data">
@@ -663,6 +664,7 @@
 							<td>#data.AGENT_1#</td>
 							<td>#data.AGENT_2#</td>
 							<td>#data.STORED_AS_FG#</td>
+							<td>#data.PUBLICATION_ID#</td>
 						</tr>
 					</cfloop>
 				</tbody>
@@ -681,7 +683,8 @@
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
 				<cfquery name="getTempData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					SELECT KEY,COLLECTION_OBJECT_ID,COLLECTION_CDE,INSTITUTION_ACRONYM,OTHER_ID_TYPE,OTHER_ID_NUMBER,SCIENTIFIC_NAME,MADE_DATE,NATURE_OF_ID, ACCEPTED_ID_FG,IDENTIFICATION_REMARKS,AGENT_1,AGENT_2,TAXON_NAME_ID,TAXA_FORMULA,AGENT_1_ID,AGENT_2_ID,STORED_AS_FG FROM cf_temp_ID
+					SELECT KEY,COLLECTION_OBJECT_ID,COLLECTION_CDE,INSTITUTION_ACRONYM,OTHER_ID_TYPE,OTHER_ID_NUMBER,SCIENTIFIC_NAME,MADE_DATE,NATURE_OF_ID, ACCEPTED_ID_FG,IDENTIFICATION_REMARKS,AGENT_1,AGENT_2,TAXON_NAME_ID,TAXA_FORMULA,AGENT_1_ID,AGENT_2_ID,STORED_AS_FG,PUBLICATION_ID
+					FROM cf_temp_ID
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
 				<cftry>
@@ -720,7 +723,8 @@
 								IDENTIFICATION_REMARKS,
 								TAXA_FORMULA,
 								SCIENTIFIC_NAME,
-								STORED_AS_FG
+								STORED_AS_FG,
+								PUBLICATION_ID
 							) values (
 								#NEXTID.nextval#,
 								<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.COLLECTION_OBJECT_ID#">,
@@ -731,10 +735,11 @@
 								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.TAXA_FORMULA#">,
 								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.SCIENTIFIC_NAME#">,
 								<cfif len(STORED_AS_FG)gt 0>
-									<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.STORED_AS_FG#">
+									<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.STORED_AS_FG#">,
 								<cfelse>
-									'(null)'
+									'(null)',
 								</cfif>
+								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.PUBLICATION_ID#">
 							)
 							into identification_taxonomy (
 								IDENTIFICATION_ID,
