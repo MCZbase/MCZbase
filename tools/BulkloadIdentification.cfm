@@ -724,12 +724,9 @@
 								where COLLECTION_OBJECT_ID=#getTempData.COLLECTION_OBJECT_ID#
 							</cfquery>
 						</cfif>
-						<cfif len(getTempData.scientific_name) gt 0>
-							<cfquery name="taxon_name_id" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-								update identification_taxonomy set taxon_name_id = 
-								(select taxon_name_id from taxonomy where scientific_name = '#getTempData.scientific_name#' and taxa_formula = '#getTempData.taxa_formula#') 
-							</cfquery>
-						</cfif>
+						<cfquery name="getTaxa" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+							select taxon_name_id from taxonomy where scientific_name = '#getTempData.scientific_name#' and taxa_formula = '#getTempData.taxa_formula#' 
+						</cfquery>
 						<cftransaction>
 							<cfquery name="NEXTID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 								select sq_identification_id.nextval from dual
@@ -764,9 +761,7 @@
 									<cfif len(PUBLICATION_ID)gt 0>
 										<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.PUBLICATION_ID#">
 									<cfelse>
-										
 									</cfif>
-									
 								)
 								into identification_taxonomy (
 									IDENTIFICATION_ID,
@@ -774,7 +769,9 @@
 									VARIABLE
 								) values (
 									sq_identification_id.currval,
-									<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.TAXON_NAME_ID#">,
+									<cfif len(getTaxa.taxon_name_id)gt 0>
+										<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTaxa.TAXON_NAME_ID#">,
+									</cfif>
 									'A')
 								into identification_agent (
 									IDENTIFICATION_ID,
