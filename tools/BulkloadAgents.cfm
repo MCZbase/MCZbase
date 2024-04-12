@@ -249,72 +249,13 @@ limitations under the License.
 					<h3 class="h4">There are #ListLen(fieldList)# columns expected in the header (of these #ListLen(requiredFieldList)# are required).</h3>
 				</div>
 			
-				<!--- check for required fields in header line (performng check in two different ways, Case 1, Case 2) --->
-				<!--- Loop through list of fields throw exception if required fields are missing --->
-				<cfset errorMessage = "">
-				<cfloop list="#fieldList#" item="aField">
-					<cfif ListContainsNoCase(requiredFieldList,aField)>
-						<!--- Case 1. Check by splitting assembled list of foundHeaders --->
-						<cfif NOT ListContainsNoCase(foundHeaders,aField)>
-							<cfset errorMessage = "#errorMessage# <strong>#aField#</strong> is missing.">
-						</cfif>
-					</cfif>
-				</cfloop>
-				<cfif len(errorMessage) GT 0>
-					<cfthrow message = "#NO_COLUMN_ERR# #errorMessage#">
-				</cfif>
-				<cfset errorMessage = "">
-				<!--- Loop through list of fields, mark each field as fields present in input or not, throw exception if required fields are missing --->
-				<ul class="h4 mb-4">
-					<cfloop list="#fieldlist#" index="field" delimiters=",">
-						<cfset hint="">
-						<cfif listContains(requiredfieldlist,field,",")>
-							<cfset class="text-danger">
-							<cfset hint="aria-label='required'">
-						<cfelse>
-							<cfset class="text-dark">
-						</cfif>
-						<li>
-							<span class="#class#" #hint#>#field#</span>
-							<cfif arrayFindNoCase(colNameArray,field) GT 0>
-								<strong class="text-success">Present in CSV</strong>
-							<cfelse>
-								<!--- Case 2. Check by identifying field in required field list --->
-								<cfif ListContainsNoCase(requiredFieldList,field)>
-									<strong class="text-dark">Required Column Not Found</strong>
-									<cfset errorMessage = "#errorMessage# <strong>#field#</strong> is missing.">
-								</cfif>
-							</cfif>
-						</li>
-					</cfloop>
-				</ul>
-				<cfif len(errorMessage) GT 0>
-					<cfif size EQ 1>
-						<!--- likely a problem parsing the first line into column headers --->
-						<!--- to get here, upload a csv file with the correct headers as MYSQL format --->
-						<cfset errorMessage = "You may have specified the wrong format, only one column header was found. #errorMessage#">
-					</cfif>
-					<cfthrow message = "#NO_COLUMN_ERR# #errorMessage#">
-				</cfif>
-				<ul class="py-1 h4 list-unstyled">
-					<!--- Identify additional columns that will be ignored --->
-					<cfloop list="#foundHeaders#" item="aField">
-						<cfif NOT ListContainsNoCase(fieldList,aField)>
-							<li>Found additional column header [<strong>#aField#</strong>] in the CSV that is not in the list of expected headers.</1i>
-						</cfif>
-					</cfloop>
-					<!--- Identify duplicate columns and fail if found --->
-					<cfif NOT ListLen(ListRemoveDuplicates(foundHeaders)) EQ ListLen(foundHeaders)>
-						<li>At least one column header occurs more than once.</1i>
-						<cfloop list="#foundHeaders#" item="aField">
-							<cfif listValueCount(foundHeaders,aField) GT 1>
-								<li>[<strong>#aField#</strong>] is duplicated as the header for #listValueCount(foundHeaders,aField)# columns.</li>
-							</cfif>
-						</cfloop>
-						<cfthrow message = "#DUP_COLUMN_ERR#">
-					</cfif>
-				</ul>
-
+				<!--- check for required fields in header line, list all fields, throw exception and fail if any required fields are missing --->
+				<cfset reqFieldsResponse = checkRequiredFields(fieldList=fieldList,requiredFieldList=requiredFieldList,NO_COLUMN_ERR=NO_COLUMN_ERR)>
+				<!--- Test for additional columns not in list, warn and ignore. --->
+				<cfset addFieldsResponse = checkAdditionalFields(fieldList=fieldList)>
+				<!--- Identify duplicate columns and fail if found --->
+				<cfset dupFieldsResponse = checkDuplicateFields(foundHeaders=variables.foundHeaders,DUP_COLUMN_ERR=DUP_COLUMN_ERR)>
+					
 				<cfset colNames="#foundHeaders#">
 				<cfset loadedRows = 0>
 				<cfset foundHighCount = 0>
