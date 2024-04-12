@@ -504,6 +504,12 @@
 					WHERE taxa_formula not in (select taxa_formula from cttaxa_formula)
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
+				<cfquery name="getCTFormula2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					UPDATE cf_temp_ID 
+					SET taxa_formula = 'A'
+					WHERE taxa_formula not in (select taxa_formula from cttaxa_formula)
+						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+				</cfquery>
 				<cfset scientific_name = '#getTempTableQC.scientific_name#'>
 				<cfset tf = '#getTempTableQC.taxa_formula#'>
 				<cfif right(scientific_name,4) is " sp.">
