@@ -473,7 +473,7 @@ limitations under the License.
 					Validation checks passed. Look over the table below and <a href="/tools/BulkloadAgents.cfm?action=load">click to continue</a> if it all looks good.
 				</h3>
 			</cfif>
-			<table class='sortable table small table-responsive table-striped w-100'>
+			<table class='sortable px-0 mx-0 table small table-responsive table-striped w-100'>
 				<thead>
 					<tr>
 						<th>AGENT_TYPE</th>
@@ -561,7 +561,7 @@ limitations under the License.
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
 				<h3>Problematic Rows (<a href="/tools/BulkloadAgents.cfm?action=dumpProblems">download</a>)</h3>
-				<table class='sortable table small w-100 table-responsive table-striped'>
+				<table class='sortable px-0 mx-0 table small w-100 table-responsive table-striped'>
 					<thead>
 						<tr>
 							<th>agent_type</th>
@@ -617,7 +617,7 @@ limitations under the License.
 						WHERE key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#problem_key#">
 					</cfquery>
 					<h3>Error updating row (#agent_updates + 1#): #cfcatch.message#</h3>
-					<table class='sortable table table-responsive table-striped w-100 small'>
+					<table class='sortable px-0 mx-0 table table-responsive table-striped w-100 small'>
 						<thead>
 							<tr>
 								<th>agent_type</th>
