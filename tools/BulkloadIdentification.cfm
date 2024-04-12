@@ -616,7 +616,7 @@
 					</cfquery>
 				</cfif>
 				<cfquery name="isTaxa" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					select taxon_name_id from taxonomy 
+					select taxon_name_id,key from taxonomy 
 					where scientific_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableQC.scientific_name#"> 
 				</cfquery>
 				<cfloop query="isTaxa">
@@ -626,24 +626,28 @@
 								UPDATE cf_temp_ID
 								SET status = concat(nvl2(status, status || '; ', ''),'taxonomy not found')
 								WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+								and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#isTaxa.key#"> 
 							</cfquery>
 						<cfelseif #isTaxa.recordcount# GT 1>
 							<cfquery name="probColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 								UPDATE cf_temp_ID
 								SET status = concat(nvl2(status, status || '; ', ''),'multiple taxonomy records found for this scientific name')
 								WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+								and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#isTaxa.key#"> 
 							</cfquery>
 						<cfelse>
 							<cfquery name="probColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 								UPDATE cf_temp_ID
 								SET status = concat(nvl2(status, status || '; ', ''),'taxonomy not found')
 								WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+								and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#isTaxa.key#"> 
 							</cfquery>
 						</cfif>
 					<cfelse>
 						<cfquery name="insColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 							UPDATE cf_temp_id SET taxon_name_id = #isTaxa.taxon_name_id#, taxa_formula='#tf#'
 							WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+							and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#isTaxa.key#"> 
 						</cfquery>
 					</cfif>
 				</cfloop>
