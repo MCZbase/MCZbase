@@ -558,9 +558,15 @@
 				</cfquery>
 				<cfif #a1.recordcount# is not 1>
 					<cfif len(#a1.agent_id#) is 0>
-						<cfthrow message = "agent_1 matched #a1.recordcount# records">
+						UPDATE cf_temp_ID
+						SET status = concat(nvl2(status, status || '; ', ''),'agent_1 not in database')
+						WHERE agent_1 is not null
+						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 					<cfelse>
-						<cfthrow message = "#problem#; agent_1 matched #a1.recordcount# records">
+						UPDATE cf_temp_ID
+						SET status = concat(nvl2(status, status || '; ', ''),'agent_1 matched #a1.recordcount# records in the database')
+						WHERE agent_1 is not null
+						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 					</cfif>
 				<cfelse>
 					<cfquery name="insColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -572,14 +578,20 @@
 						select distinct agent_id from agent_name where agent_name=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableQC.agent_2#"> 
 					</cfquery>
 					<cfif #a2.recordcount# is not 1>
-						<cfif len(#problem#) is 0>
-							<cfset problem = "agent_2 matched #a2.recordcount# records">
+						<cfif len(#a2.agent_id#) is 0>
+							UPDATE cf_temp_ID
+							SET status = concat(nvl2(status, status || '; ', ''),'agent_2 not in database')
+							WHERE agent_1 is not null
+							AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						<cfelse>
-							<cfset problem = "#problem#; agent_2 matched #a2.recordcount# records">
+							UPDATE cf_temp_ID
+							SET status = concat(nvl2(status, status || '; ', ''),'agent_2 matched #a1.recordcount# records in the database')
+							WHERE agent_2 is not null
+							AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						</cfif>
 					<cfelse>
 						<cfquery name="insColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-							UPDATE cf_temp_id SET agent_2_id = #a2.agent_id# 
+							UPDATE cf_temp_id SET agent_2_id = #a2.agent_id#
 						</cfquery>
 					</cfif>
 				</cfif>
@@ -603,9 +615,9 @@
 						UPDATE cf_temp_id SET publication_id = '' 
 					</cfquery>
 				</cfif>
-				<cfquery name="getTaxa" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<!---				<cfquery name="getTaxa" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					select taxon_name_id from taxonomy where scientific_name = '#getTempData.scientific_name#'
-				</cfquery>
+				</cfquery>--->
 				<cfif #isTaxa.recordcount# is not 1>
 					<cfif len(#problem#) is 0>
 						<cfset problem = "taxonomy not found">
