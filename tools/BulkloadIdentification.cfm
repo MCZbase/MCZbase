@@ -858,6 +858,7 @@
 								<th>agent_2</th>
 								<th>taxa_formula</th>
 								<th>stored_as_fg</th>
+								<th>publication_id</th>
 								<th>taxon_named_id</th>
 							</tr>
 						</thead>
@@ -878,6 +879,7 @@
 									<td>#getProblemData.agent_2#</td>
 									<td>#getProblemData.taxa_formula#</td>
 									<td>#getProblemData.stored_as_fg#</td>
+									<td>#getProblemData.publication_id#</td>
 									<td>#getProblemData.taxon_name_id#</td>
 								</tr>
 							</cfloop>
