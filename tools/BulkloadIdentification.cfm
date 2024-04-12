@@ -451,23 +451,17 @@
 					select taxon_name_id from taxonomy 
 					where scientific_name = '#TaxonomyTaxonName#'
 				</cfquery>
-				<!---<cfif #isTaxa.recordcount# is not 1>
+				<cfif #isTaxa.recordcount# is not 1>
 					<cfif len(#isTaxa.recordcount#) is 0>
 						<cfquery name="probColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 							UPDATE cf_temp_ID
 							SET status = concat(nvl2(status, status || '; ', ''),'taxonomy not found')
 							WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						</cfquery>
-					<cfelseif #isTaxa.recordcount# GT 1>
-						<cfquery name="probColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-							UPDATE cf_temp_ID
-							SET status = concat(nvl2(status, status || '; ', ''),'multiple taxonomy records found for this scientific name')
-							WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-						</cfquery>
 					<cfelse>
 						<cfquery name="probColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 							UPDATE cf_temp_ID
-							SET status = concat(nvl2(status, status || '; ', ''),'taxonomy not found')
+							SET status = concat(nvl2(status, status || '; ', ''),'multiple taxonomy records found for this scientific name')
 							WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						</cfquery>
 					</cfif>
@@ -481,21 +475,6 @@
 						UPDATE cf_temp_id SET taxa_formula = '#tf#'
 						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						and scientific_name = '#scientific_name#'
-					</cfquery>
-				</cfif>--->
-					<cfset problem = ''>
-				<cfif #isTaxa.recordcount# is not 1>
-					<cfif len(#problem#) is 0>
-						<cfset problem = "taxonomy not found">
-					<cfelseif #isTaxa.recordcount# GT 1>
-						<cfset problem = "#problem#; multiple taxonomy records found">
-					<cfelse>
-						<cfset problem = "#problem#; taxonomy not found">
-					</cfif>
-				<cfelse>
-					<cfquery name="insColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-						UPDATE cf_temp_id SET taxon_name_id = #isTaxa.taxon_name_id#,taxa_formula='#tf#' where
-						key = #key#
 					</cfquery>
 				</cfif>
 				<cfquery name="flagNotMatchedToStoredAs" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
