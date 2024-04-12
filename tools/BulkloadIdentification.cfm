@@ -537,7 +537,7 @@
 						UPDATE cf_temp_id SET taxon_name_id = '#isTaxa.taxon_name_id#', taxa_formula='#tf#'
 						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						and scientific_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#scientific_name#">
-						and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableTypes.key#"> 
+					<!---	and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableTypes.key#"> --->
 					</cfquery>
 				</cfif>
 			</cfloop>	
