@@ -743,7 +743,7 @@
 									<cfelse>
 										'0',
 									</cfif>
-									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.PUBLICATION_ID#">
+									<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.PUBLICATION_ID#">
 								)
 								into identification_taxonomy (
 									IDENTIFICATION_ID,
