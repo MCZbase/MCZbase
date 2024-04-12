@@ -644,11 +644,11 @@
 						<th>NATURE_OF_ID</th>
 						<th>ACCEPTED_ID_FG</th>
 						<th>IDENTIFICATION_REMARKS</th>
-						<th>taxa_formula</th>
+						<th>TAXA_FORMULA</th>
 						<th>AGENT_1</th>
 						<th>AGENT_2</th>
 						<th>STORED_AS_FG</th>
-						<th>publication_id</th>
+						<th>PUBLICATION_ID</th>
 					</tr>
 				<tbody>
 					<cfloop query="data">
