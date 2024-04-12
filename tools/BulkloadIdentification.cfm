@@ -615,9 +615,9 @@
 						UPDATE cf_temp_id SET publication_id = '' 
 					</cfquery>
 				</cfif>
-<!---				<cfquery name="getTaxa" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					select taxon_name_id from taxonomy where scientific_name = '#getTempData.scientific_name#'
-				</cfquery>--->
+				<cfquery name="isTaxa" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					select taxon_name_id from taxonomy where scientific_name = '#taxonomy.scientific_name#'
+				</cfquery>
 				<cfif #isTaxa.recordcount# is not 1>
 					<cfif len(#problem#) is 0>
 						<cfset problem = "taxonomy not found">
