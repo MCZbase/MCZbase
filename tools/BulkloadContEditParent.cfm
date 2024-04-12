@@ -81,13 +81,14 @@ limitations under the License.
 					<li class="#class#" #aria#>#field#</li>
 				</cfloop>
 			</ul>
+			<p>The container_unique_id is the container Unique Identifier to update.  All other values provided will change this record.  Specify the current value for container type and container name if you wish to avoid changing those, leave others blank to retain current values.  To place a container in a new parent container, specify the Unique Identifier for the new parent container in parent_unique_id.</p> 
 			<p>Check the Help > Controlled Vocabulary page and select the <a href="/vocabularies/ControlledVocabulary.cfm?table=CTCONTAINER_TYPE">CTCONTAINER_TYPE</a> list for types. Submit a bug report to request an additional type when needed.</p>
 			<form name="atts" method="post" enctype="multipart/form-data" action="/tools/BulkloadContEditParent.cfm">
 				<div class="form-row border rounded p-2">
 					<input type="hidden" name="action" value="getFile">
 					<div class="col-12 col-md-4">
 						<label for="fileToUpload" class="data-entry-label">File to bulkload:</label> 
-						<input type="file" name="FiletoUpload" id="fileToUpload" class="data-entry-input p-0 m-0">
+						<input type="file" name="FileToUpload" id="fileToUpload" class="data-entry-input p-0 m-0">
 					</div>
 					<div class="col-12 col-md-3">
 						<cfset charsetSelect = getCharsetSelectHTML()>
@@ -317,25 +318,25 @@ limitations under the License.
 				</cfquery>
 				<cfquery name="miac" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE cf_temp_cont_edit 
-					SET status = 'container_not_found'
+					SET status = concat(nvl2(status, status || '; ', ''), 'container_not_found, no Unique Identifier found matching [' || container_unique_id || '].')
 					WHERE container_id is null
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
 				<cfquery name="miap" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE cf_temp_cont_edit 
-					SET status = 'parent_container_not_found'
+					SET status = concat(nvl2(status, status || '; ', ''),'parent_container_not_found, no Unique Identifier found matching ['|| parent_unique_id ||']')
 					WHERE parent_container_id is null and parent_unique_id is not null
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
 				<cfquery name="miap" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE cf_temp_cont_edit 
-					SET status = 'bad_container_type'
+					SET status = concat(nvl2(status, status || '; ', ''),'bad_container_type ['||container_type||'], container_type must be in the CTCONTAINER_TYPE controlled vocabulary.')
 					WHERE container_type not in (select container_type from ctcontainer_type)
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
 				<cfquery name="miap" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE cf_temp_cont_edit
-					SET status = 'missing_label'
+					SET status = concat(nvl2(status, status || '; ', ''), 'missing_label, container_name is required.')
 					WHERE CONTAINER_NAME is null
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>

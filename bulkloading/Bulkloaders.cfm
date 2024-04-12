@@ -19,7 +19,7 @@
 					<li><a href="/tools/BulkloadNewParts.cfm">Bulkload New Parts</a></li>
 					<li><a href="/tools/BulkloadAttributes.cfm">Bulkload Attributes</a></li>
 					<li><a href="/tools/BulkloadCitations.cfm">Bulkload Citations</a></li>
-					<li><a href="/tools/BulkloadOtherId.cfm">Bulkload Identifiers (bulk add Other IDs)</a></li>
+					<li><a href="/tools/BulkloadOtherId.cfm">Bulkload Identifiers (bulk add Other ID numbers)</a></li>
 					<li><a href="/tools/loanBulkload.cfm">Bulkload Loan Items (bulk add parts to loans)</a></li>
 					<li><a href="/tools/BulkloadIdentification.cfm">Bulkload Identifications</a></li>
 					<li><a href="/tools/BulkloadRelations.cfm">Bulkload Relationships (add relationships between specimens)</a></li>
