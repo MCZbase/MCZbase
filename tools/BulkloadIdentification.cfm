@@ -592,12 +592,12 @@
 							<p>publication_id matched #pub.recordcount# records</p>
 						</cfif>
 					<cfelse>
-						<cfquery name="insColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						<cfquery name="getPub" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 							UPDATE cf_temp_id SET publication_id = #pub.publication_id# 
 						</cfquery>
 					</cfif>
 				<cfelse>
-					<cfquery name="insColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					<cfquery name="getPub" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						UPDATE cf_temp_id SET publication_id = '' 
 					</cfquery>
 				</cfif>
