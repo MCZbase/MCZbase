@@ -81,6 +81,7 @@ limitations under the License.
 					<li class="#class#" #aria#>#field#</li>
 				</cfloop>
 			</ul>
+			<p>The container_unique_id is the container Unique Identifier to update.  All other values provided will change this record.  Specify the current value for container type and container name if you wish to avoid changing those, leave others blank to retain current values.  To place a container in a new parent container, specify the Unique Identifier for the new parent container in parent_unique_id.</p> 
 			<p>Check the Help > Controlled Vocabulary page and select the <a href="/vocabularies/ControlledVocabulary.cfm?table=CTCONTAINER_TYPE">CTCONTAINER_TYPE</a> list for types. Submit a bug report to request an additional type when needed.</p>
 			<form name="atts" method="post" enctype="multipart/form-data" action="/tools/BulkloadContEditParent.cfm">
 				<div class="form-row border rounded p-2">
