@@ -631,7 +631,7 @@
 					<span class="text-success">Validation checks passed.</span> Look over the table below and <a href="/tools/BulkloadIdentification.cfm?action=load">click to continue</a> if it all looks good or <a href="/tools/BulkloadIdentification.cfm">start again</a>.
 				</h3>
 			</cfif>
-			<table class='px-0 sortable table small table-responsive table-striped d-lg-table'>
+			<table class='px-0 mx-0 sortable table w-100 small table-responsive table-striped'>
 				<thead>
 					<tr>
 						<th>BULKLOAD&nbsp;STATUS</th>
@@ -843,7 +843,7 @@
 							</span>
 						</cfif>
 					</h3>
-					<table class='sortable table small table-responsive table-striped d-lg-table'>
+					<table class='px-0 mx-0 sortable table w-100 small table-responsive table-striped'>
 						<thead>
 							<tr>
 								<th>institution_acronym</th>
