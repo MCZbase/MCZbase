@@ -52,7 +52,7 @@ limitations under the License.
 <cfset pageTitle = "Bulkload Agents">
 <cfinclude template="/shared/_header.cfm">
 <cfif not isDefined("action") OR len(action) EQ 0><cfset action="nothing"></cfif>
-<main class="container py-3" id="content">
+<main class="container py-3 px-5" id="content">
 	<h1 class="h2 mt-2">Bulkload Agents</h1>
 	<cfif #action# is "nothing">
 		<cfoutput>
@@ -244,7 +244,7 @@ limitations under the License.
 				<cfset fieldArray = listToArray(ucase(fieldlist))><!--- the full list of fields --->
 				<cfset typeArray = listToArray(fieldTypes)><!--- the types for the full list of fields --->
 
-				<div class="col-12 my-4">
+				<div class="col-12 my-4 px-0">
 					<h3 class="h4">Found #size# columns in header of csv file.</h3>
 					<h3 class="h4">There are #ListLen(fieldList)# columns expected in the header (of these #ListLen(requiredFieldList)# are required).</h3>
 				</div>
