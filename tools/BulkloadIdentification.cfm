@@ -809,7 +809,7 @@
 						FROM cf_temp_id
 						WHERE key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#problem_key#">
 					</cfquery>
-					<h3 class="h4">Errors encountered during application are displayed one row at a time. Fix and <a href="/tools/BulkloadIdentification.cfm">start again</a></h3>
+					<h3 class="h4">Errors encountered during application are displayed one row at a time. Fix and <a href="/tools/BulkloadIdentification.cfm">start again</a>.</h3>
 					<h3 class="mt-3 mb-2">
 						Error loading row (<span class="text-danger">#getProblemData_result.recordcount#</span>) from the CSV: 
 						<cfif len(cfcatch.detail) gt 0>
