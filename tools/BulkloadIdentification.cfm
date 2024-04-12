@@ -596,6 +596,10 @@
 							UPDATE cf_temp_id SET publication_id = #pub.publication_id# 
 						</cfquery>
 					</cfif>
+				<cfelse>
+					<cfquery name="insColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						UPDATE cf_temp_id SET publication_id = '(null)' 
+					</cfquery>
 				</cfif>
 			</cfloop>	
 			<!---Missing data in required fields--->
@@ -711,55 +715,54 @@
 							<cfquery name="NEXTID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 								select sq_identification_id.nextval from dual
 							</cfquery>
-<!--- TODO: correct indentation within cftransaction --->
-						<cfquery name="insertID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="insertID_result">
-							insert all
-							into identification (
-								IDENTIFICATION_ID,
-								COLLECTION_OBJECT_ID,
-								MADE_DATE,
-								NATURE_OF_ID,
-								ACCEPTED_ID_FG,
-								IDENTIFICATION_REMARKS,
-								TAXA_FORMULA,
-								SCIENTIFIC_NAME,
-								STORED_AS_FG,
-								PUBLICATION_ID
-							) values (
-								#NEXTID.nextval#,
-								<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.COLLECTION_OBJECT_ID#">,
-								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.made_date#">,
-								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.NATURE_OF_ID#">,
-								<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.ACCEPTED_ID_FG#">,
-								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.IDENTIFICATION_REMARKS#">,
-								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.TAXA_FORMULA#">,
-								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.SCIENTIFIC_NAME#">,
-								<cfif len(STORED_AS_FG)gt 0>
-									<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.STORED_AS_FG#">,
-								<cfelse>
-									'(null)',
-								</cfif>
-								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.PUBLICATION_ID#">
-							)
-							into identification_taxonomy (
-								IDENTIFICATION_ID,
-								TAXON_NAME_ID,
-								VARIABLE
-							) values (
-								sq_identification_id.currval,
-								<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.TAXON_NAME_ID#">,
-								'A')
-							into identification_agent (
-								IDENTIFICATION_ID,
-								AGENT_ID,
-								IDENTIFIER_ORDER
-							) values (
-								sq_identification_id.currval,
-								<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.AGENT_1_ID#">,
-								1
-							)
-							select * from dual
-						</cfquery>
+							<cfquery name="insertID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="insertID_result">
+								insert all
+								into identification (
+									IDENTIFICATION_ID,
+									COLLECTION_OBJECT_ID,
+									MADE_DATE,
+									NATURE_OF_ID,
+									ACCEPTED_ID_FG,
+									IDENTIFICATION_REMARKS,
+									TAXA_FORMULA,
+									SCIENTIFIC_NAME,
+									STORED_AS_FG,
+									PUBLICATION_ID
+								) values (
+									#NEXTID.nextval#,
+									<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.COLLECTION_OBJECT_ID#">,
+									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.made_date#">,
+									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.NATURE_OF_ID#">,
+									<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.ACCEPTED_ID_FG#">,
+									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.IDENTIFICATION_REMARKS#">,
+									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.TAXA_FORMULA#">,
+									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.SCIENTIFIC_NAME#">,
+									<cfif len(STORED_AS_FG)gt 0>
+										<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.STORED_AS_FG#">,
+									<cfelse>
+										'(null)',
+									</cfif>
+									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.PUBLICATION_ID#">
+								)
+								into identification_taxonomy (
+									IDENTIFICATION_ID,
+									TAXON_NAME_ID,
+									VARIABLE
+								) values (
+									sq_identification_id.currval,
+									<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.TAXON_NAME_ID#">,
+									'A')
+								into identification_agent (
+									IDENTIFICATION_ID,
+									AGENT_ID,
+									IDENTIFIER_ORDER
+								) values (
+									sq_identification_id.currval,
+									<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.AGENT_1_ID#">,
+									1
+								)
+								select * from dual
+							</cfquery>
 						</cftransaction>
 						<cfif len(agent_2_id) gt 0>
 							<cfquery name="insertida2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
