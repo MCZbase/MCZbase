@@ -734,11 +734,16 @@
 									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.TAXA_FORMULA#">,
 									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.SCIENTIFIC_NAME#">,
 									<cfif len(STORED_AS_FG)gt 0>
-										'#getTempData.STORED_AS_FG#',
+										<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.STORED_AS_FG#">,
 									<cfelse>
 										'0',
 									</cfif>
-									'#getTempData.PUBLICATION_ID#'
+									<cfif len(PUBLICATION_ID)gt 0>
+										<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.PUBLICATION_ID#">
+									<cfelse>
+										''
+									</cfif>
+									
 								)
 								into identification_taxonomy (
 									IDENTIFICATION_ID,
