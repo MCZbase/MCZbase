@@ -797,7 +797,7 @@
 									VARIABLE
 								) values (
 									sq_identification_id.currval,
-									<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTaxa.TAXON_NAME_ID#">,
+									<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.TAXON_NAME_ID#">,
 									'A')
 								into identification_agent (
 									IDENTIFICATION_ID,
