@@ -727,7 +727,7 @@
 						<cfif len(getTempData.scientific_name) gt 0>
 							<cfquery name="taxon_name_id" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 								update identification_taxonomy set taxon_name_id = 
-								(select taxon_name_id from taxonomy where scientific_name = #getTempData.scientific_name# and taxa_formula = #getTempData.taxa_formula#) 
+								(select taxon_name_id from taxonomy where scientific_name = '#getTempData.scientific_name#' and taxa_formula = '#getTempData.taxa_formula#') 
 							</cfquery>
 						</cfif>
 						<cftransaction>
