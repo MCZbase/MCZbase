@@ -583,6 +583,17 @@
 						</cfquery>
 					</cfif>
 				</cfif>
+				<cfif #fillTaxonNameID.recordcount# is not 1>
+					<cfif len(#a1.agent_id#) is 0>
+						<cfthrow message = "agent_1 matched #a1.recordcount# records">
+					<cfelse>
+						<cfthrow message = "#problem#; agent_1 matched #a1.recordcount# records">
+					</cfif>
+				<cfelse>
+					<cfquery name="insColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						UPDATE cf_temp_id SET agent_1_id = #a1.agent_id#
+					</cfquery>
+				</cfif>
 				<cfif len(publication_id) gt 0>
 					<cfquery name="pub" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						select distinct publication_id from publication where publication_id=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableQC.publication_id#"> 
@@ -689,7 +700,7 @@
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
 				<cfquery name="getTempData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					SELECT KEY,COLLECTION_OBJECT_ID,COLLECTION_CDE,INSTITUTION_ACRONYM,OTHER_ID_TYPE,OTHER_ID_NUMBER,SCIENTIFIC_NAME,MADE_DATE,NATURE_OF_ID, ACCEPTED_ID_FG,IDENTIFICATION_REMARKS,AGENT_1,AGENT_2,TAXON_NAME_ID,TAXA_FORMULA,AGENT_1_ID,AGENT_2_ID,STORED_AS_FG,PUBLICATION_ID
+					SELECT KEY,COLLECTION_OBJECT_ID,COLLECTION_CDE,INSTITUTION_ACRONYM,OTHER_ID_TYPE,OTHER_ID_NUMBER,SCIENTIFIC_NAME,MADE_DATE,NATURE_OF_ID, ACCEPTED_ID_FG,IDENTIFICATION_REMARKS,AGENT_1,AGENT_2,TAXA_FORMULA,AGENT_1_ID,AGENT_2_ID,STORED_AS_FG,PUBLICATION_ID
 					FROM cf_temp_ID
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
@@ -713,6 +724,12 @@
 								where COLLECTION_OBJECT_ID=#getTempData.COLLECTION_OBJECT_ID#
 							</cfquery>
 						</cfif>
+						<cfif len(getTempData.scientific_name) gt 0>
+							<cfquery name="taxon_name_id" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+								update identification_taxonomy set taxon_name_id = 
+								(select taxon_name_id from taxonomy where scientific_name = #getTempData.scientific_name# and taxa_formula = #getTempData.taxa_formula#) 
+							</cfquery>
+						</cfif>
 						<cftransaction>
 							<cfquery name="NEXTID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 								select sq_identification_id.nextval from dual
@@ -733,7 +750,7 @@
 								) values (
 									#NEXTID.nextval#,
 									<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.COLLECTION_OBJECT_ID#">,
-									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.made_date#">,
+									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.MADE_DATE#">,
 									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.NATURE_OF_ID#">,
 									<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.ACCEPTED_ID_FG#">,
 									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.IDENTIFICATION_REMARKS#">,
