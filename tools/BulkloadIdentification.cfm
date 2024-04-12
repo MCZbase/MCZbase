@@ -598,7 +598,7 @@
 					</cfif>
 				<cfelse>
 					<cfquery name="insColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-						UPDATE cf_temp_id SET publication_id = '(null)' 
+						UPDATE cf_temp_id SET publication_id = '' 
 					</cfquery>
 				</cfif>
 			</cfloop>	
