@@ -484,7 +484,7 @@ limitations under the License.
 						<cfif getTaxa.recordcount is 1 and identification.taxa_formula IS 'A'>
 							<!--- simple formula with no added information just show name and link --->
 							<cfloop query="getTaxa"><!--- just to be explicit, only one row should match --->
-								<a href="/name/#getTaxa.scientific_name#">#getTaxa.display_name# </a>
+								<a href="/name/#getTaxa.scientific_name#" class='font-italic'>#getTaxa.scientific_name# </a>
 								<cfif len(getTaxa.author_text) gt 0>
 									<span class="sm-caps font-weight-lessbold">#getTaxa.author_text#</span>
 								</cfif>
@@ -500,12 +500,12 @@ limitations under the License.
 							<cfset nameAsInTaxon="#identification.taxa_formula#">
 							<cfloop query="getTaxa">
 								<!--- replace each component of the formula with the name, in a hyperlink --->
-								<cfset thisLink='<a href="/name/#getTaxa.scientific_name#" class="d-inline">#getTaxa.display_name#</a>'>
+								<cfset thisLink='<a href="/name/#getTaxa.scientific_name#" class="d-inline font-italic">#getTaxa.scientific_name#</a>'>
 								<cfif identification.taxa_formula NEQ "A x B">
 									<!--- include the authorship if not a hybrid --->
 									<cfset thisLink= '#thisLink# <span class="sm-caps font-weight-lessbold">#getTaxa.author_text#</span>'>
 								</cfif>
-								<cfset expandedVariables=#replace(expandedVariables,getTaxa.variable,thisLink)#>
+								<cfset expandedVariables=#replace(expandedVariables,getTaxa.taxa_formula,thisLink)#>
 								<cfset nameAsInTaxon=#replace(nameAsInTaxon,getTaxa.variable,getTaxa.scientific_name)#>
 								<cfset i=#i#+1>
 							</cfloop>
