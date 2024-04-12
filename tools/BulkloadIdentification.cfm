@@ -482,7 +482,7 @@
 					WHERE scientific_name is null 
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
-				<cfif len(scientific_name) gt 0>
+				<cfif flagNotMatchSciName.status = ''>
 					<cfquery name="getTaxaID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						update cf_temp_id set taxa_formula = 'A' where taxa_formula is null
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
