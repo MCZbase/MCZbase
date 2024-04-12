@@ -540,14 +540,6 @@
 					<cfset  tf = "A">
 					<cfset scientific_name="#scientific_name#">
 				</cfif>
-				<cfif len(taxa_formula) eq 0>
-					<cfquery name="getCTFormula" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						UPDATE cf_temp_ID 
-						SET taxa_formula = 'A'
-						WHERE scientific_name = '#scientific_name#'
-							AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-					</cfquery>
-				</cfif>
 				<cfquery name="flagNotMatchedToStoredAs" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE cf_temp_ID
 					SET 
