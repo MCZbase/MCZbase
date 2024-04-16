@@ -96,6 +96,7 @@
 </cfquery>
 
 <cfset colNames="">
+	<ul>
 	<cfloop from="1" to ="#ArrayLen(arrResult)#" index="o">
 		<cfset colVals="">
 			<cfloop from="1"  to ="#ArrayLen(arrResult[o])#" index="i">
@@ -112,17 +113,18 @@
 		<cfif len(#colVals#) gt 1>
 			<cfset colVals=replace(colVals,",","","first")>
 			<cftransaction>
-			<cfquery name="ins" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				insert into cf_temp_parts (#colNames#) values (#preservesinglequotes(colVals)#)
-			</cfquery>
-			insert into cf_temp_parts (#colNames#) values (#preservesinglequotes(colVals)#)
-			<cfquery name="setuseexistingflag"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				update cf_temp_parts set use_existing = 1
-			</cfquery>
+				<cfquery name="ins" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					insert into cf_temp_parts (#colNames#) values (#preservesinglequotes(colVals)#)
+				</cfquery>
+				<!--- provide queries for debugging of failure conditions --->
+				<li>insert into cf_temp_parts (#colNames#) values (#preservesinglequotes(colVals)#)</li>
+				<cfquery name="setuseexistingflag"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					update cf_temp_parts set use_existing = 1
+				</cfquery>
 			</cftransaction>
 		</cfif>
 	</cfloop>
-
+	</ul>
 	<cflocation url="BulkloadEditedParts.cfm?action=validate">
 </cfoutput>
 </cfif>
@@ -160,7 +162,7 @@ validate
 			)
 			and new_preserve_method is not null
 	</cfquery>
-    	<cfquery name="isValid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+    <cfquery name="isValid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		update cf_temp_parts set validated_status = validated_status || ';Invalid use_existing flag'
 			where use_existing not in ('0','1') OR
 			use_existing is null
@@ -262,18 +264,38 @@ validate
 				1) Upload a part that doesn't exist
 					Solution: create a new part, optionally put it in a container that they specify in the upload.
 				2) Upload a part that already exists
+					use_existing is set above to always be 1
 					a) use_existing = 1
 						1) part is in a container
 							Solution: warn them, create new part, optionally put it in a container that they've specified
 						 2) part is NOT already in a container
 						 	Solution: put the existing part into the new container that they've specified or, if
 						 	they haven't specified a new container, ignore this line as it does nothing.
+					Supported, in queries, but never used 
 					b) use_existing = 0
 						1) part is in a container
 							Solution: warn them, create a new part, optionally put it in the container they've specified
 						2) part is not in a container
 							Solution: same: warning and new part
 		---->
+		<cfquery name="findduplicates" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+			update cf_temp_parts 
+			set validated_status = 'ERROR: More that one matching part' 
+			where cf_temp_parts.key in (
+				select cf_temp_parts.key
+				from cf_temp_parts 
+					join specimen_part on  
+						cf_temp_parts.part_name=specimen_part.part_name and
+						cf_temp_parts.preserve_method=specimen_part.preserve_method and
+						cf_temp_parts.collection_object_id=specimen_part.derived_from_cat_item
+					left join coll_object_remark on specimen_part.collection_object_id = coll_object_remark.collection_object_id
+				where			
+					nvl(cf_temp_parts.current_remarks, 'NULL') = nvl(coll_object_remark.coll_object_remarks, 'NULL')
+					and use_existing = 1
+				group by cf_temp_parts.key
+				having count(cf_temp_parts.key) > 1
+			)
+		</cfquery>
 		<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			update cf_temp_parts set (validated_status) = (
 			select
@@ -321,72 +343,73 @@ validate
 
 	<cfoutput>
 
-	<cfquery name="inT" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-		select * from cf_temp_parts
-	</cfquery>
-	<table border>
-		<tr>
-			<td>Problem</td>
-			<td>institution_acronym</td>
-			<td>collection_cde</td>
-			<td>OTHER_ID_TYPE</td>
-			<td>OTHER_ID_NUMBER</td>
-			<td>part_name</td>
-			<td>preserve_method</td>
-			<td>disposition</td>
-			<td>lot_count_modifier</td>
-			<td>lot_count</td>
-			<td>current_remarks</td>
-			<td>condition</td>
-			<td>CONTAINER_UNIQUE_ID</td>
-			<td>use_existing</td>
-			<td>append_to_remarks</td>
-			<td>changed_date</td>
-			<td>new_preserve_method</td>
-		</tr>
-		<cfloop query="inT">
+		<cfquery name="inT" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+			select * from cf_temp_parts
+		</cfquery>
+		<table border>
 			<tr>
-				<td>
-					<cfif len(#collection_object_id#) gt 0 and
-							(#validated_status# is 'VALID')>
-						<a href="/SpecimenDetail.cfm?collection_object_id=#collection_object_id#"
-							target="_blank">Specimen</a>
-					<cfelseif left(validated_status,5) is 'NOTE:'>
-						<a href="/SpecimenDetail.cfm?collection_object_id=#collection_object_id#"
-							target="_blank">Specimen</a> (#validated_status#)
-					<cfelse>
-						#validated_status#
-					</cfif>
-				</td>
-				<td>#institution_acronym#</td>
-				<td>#collection_cde#</td>
-				<td>#OTHER_ID_TYPE#</td>
-				<td>#OTHER_ID_NUMBER#</td>
-				<td>#part_name#</td>
-				<td>#preserve_method#</td>
-				<td>#disposition#</td>
-				<td>#lot_count_modifier#</td>
-				<td>#lot_count#</td>
-				<td>#current_remarks#</td>
-				<td>#condition#</td>
-				<td>#CONTAINER_UNIQUE_ID#</td>
-				<td>1</td>
-				<td>#append_to_remarks#</td>
-				<td>#changed_date#</td>
-				<td>#new_preserve_method#</td>
+				<td>Problem</td>
+				<td>institution_acronym</td>
+				<td>collection_cde</td>
+				<td>OTHER_ID_TYPE</td>
+				<td>OTHER_ID_NUMBER</td>
+				<td>part_name</td>
+				<td>preserve_method</td>
+				<td>disposition</td>
+				<td>lot_count_modifier</td>
+				<td>lot_count</td>
+				<td>current_remarks</td>
+				<td>condition</td>
+				<td>CONTAINER_UNIQUE_ID</td>
+				<td>use_existing</td>
+				<td>append_to_remarks</td>
+				<td>changed_date</td>
+				<td>new_preserve_method</td>
 			</tr>
-		</cfloop>
-	</table>
+			<cfloop query="inT">
+				<tr>
+					<td>
+						<cfif len(#collection_object_id#) gt 0 and (#validated_status# is 'VALID')>
+						<cfelseif left(validated_status,5) is 'NOTE:'>
+							<a href="/SpecimenDetail.cfm?collection_object_id=#collection_object_id#"
+								target="_blank">Specimen</a> (#validated_status#)
+						<cfelseif left(validated_status,6) is 'ERROR:'>
+							<a href="/SpecimenDetail.cfm?collection_object_id=#collection_object_id#"
+								target="_blank">Specimen</a> <strong>#validated_status#</strong>
+						<cfelse>
+							<strong>ERROR: #validated_status#</strong>
+						</cfif>
+					</td>
+					<td>#institution_acronym#</td>
+					<td>#collection_cde#</td>
+					<td>#OTHER_ID_TYPE#</td>
+					<td>#OTHER_ID_NUMBER#</td>
+					<td>#part_name#</td>
+					<td>#preserve_method#</td>
+					<td>#disposition#</td>
+					<td>#lot_count_modifier#</td>
+					<td>#lot_count#</td>
+					<td>#current_remarks#</td>
+					<td>#condition#</td>
+					<td>#CONTAINER_UNIQUE_ID#</td>
+					<td>1</td>
+					<td>#append_to_remarks#</td>
+					<td>#changed_date#</td>
+					<td>#new_preserve_method#</td>
+				</tr>
+			</cfloop>
+		</table>
+		<cfquery name="allValid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+			select count(*) as cnt from cf_temp_parts where substr(validated_status,1,5) NOT IN
+				('VALID','NOTE:')
+		</cfquery>
+		<cfif #allValid.cnt# is 0>
+			<a href="/tools/BulkloadEditedParts.cfm?action=loadToDb">Load these parts....</a>
+		<cfelse>
+			You must fix all #allValid.cnt# problems above to proceed.
+			Fix the file and <a href="/tools/BulkloadEditedParts.cfm">reload</a>.
+		</cfif>
 	</cfoutput>
-	<cfquery name="allValid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-		select count(*) as cnt from cf_temp_parts where substr(validated_status,1,5) NOT IN
-			('VALID','NOTE:')
-	</cfquery>
-	<cfif #allValid.cnt# is 0>
-		<a href="BulkloadEditedParts.cfm?action=loadToDb">Load these parts....</a>
-	<cfelse>
-		You must fix everything above to proceed.
-	</cfif>
 
 </cfif>
 
