@@ -404,9 +404,10 @@ validate
 				('VALID','NOTE:')
 		</cfquery>
 		<cfif #allValid.cnt# is 0>
-			<a href="BulkloadEditedParts.cfm?action=loadToDb">Load these parts....</a>
+			<a href="/tools/BulkloadEditedParts.cfm?action=loadToDb">Load these parts....</a>
 		<cfelse>
 			You must fix all #allValid.cnt# problems above to proceed.
+			Fix the file and <a href="/tools/BulkloadEditedParts.cfm">reload</a>.
 		</cfif>
 	</cfoutput>
 
