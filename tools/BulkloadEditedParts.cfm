@@ -10,10 +10,16 @@
 		<label for="t">Copy the existing code and save as a .csv file</label>
 		<textarea rows="2" cols="80" id="t">institution_acronym,collection_cde,other_id_type,other_id_number,part_name,preserve_method,disposition,lot_count_modifier,lot_count,current_remarks,container_unique_id,change_container_type,condition,append_to_remarks,changed_date,new_preserve_method</textarea>
 	</div>
-    <p>Columns in <span style="color:red">red</span> are required and should match existing part row to update; others are optional:</p>
+	<p>Columns in <span style="color:red">red</span> are required and should match existing part row to update; others are optional:</p>
+	<p>institution_acronym, collection_cde, other_id_type, other_id_number, part_name, preserve_method, and current_remarks are required, and must exactly match the current values to find the part to update.</p>
+	<p>disposition, lot_count, lot_count_modifier, and condition will update the values on matched parts.  If you do not wish to update these values, you must specify values here that exactly match the current values.</p>
+	<p>append_to_remarks, and preserve_method are optional, and will add or update values if included.</p>
 <ul class="geol_hier" style="padding-bottom: .25em;">
 	<li style="color:red">institution_acronym</li>
 	<li style="color:red">collection_cde</li>
+		<ul style="margin-left:1em;padding-bottom: .5em;font-size: 14px;">
+				<li>Required to find matching parts.</li>
+		</ul>
 	<li style="color:red">other_id_type</li>
 		<ul style="margin-left:1em;padding-bottom: .5em;font-size: 14px;">
 				<li>To match records by catalog number, use "catalog number" for other_id_type, and the catalog number in other_id_number.</li>
@@ -22,32 +28,54 @@
 	</li>
 	<li style="color:red">other_id_number</li>
 	<li style="color:red">part_name</li>
+		<ul style="margin-left:1em;padding-bottom: .5em;font-size: 14px;">
+				<li>This is the current part name.  It is required to find matching parts.</li>
+		</ul>
 	<li style="color:red">preserve_method</li>
+		<ul style="margin-left:1em;padding-bottom: .5em;font-size: 14px;">
+				<li>This is the current preserve_method.  It is required to find matching parts.</li>
+				<li>The preserve_method can be changed by including new values in a new_preserve_method column.</li>
+		</ul>
 	<li style="color:red">disposition</li>
+		<ul style="margin-left:1em;padding-bottom: .5em;font-size: 14px;">
+				<li>The value here will update the value of the disposition.</li>
+		</ul>
 	<li>lot_count_modifier</li>
+		<ul style="margin-left:1em;padding-bottom: .5em;font-size: 14px;">
+				<li>The value here will update the value of the lot count modifier.</li>
+		</ul>
 	<li style="color:red">lot_count</li>
+		<ul style="margin-left:1em;padding-bottom: .5em;font-size: 14px;">
+				<li>The value here will update the value of the lot count.</li>
+		</ul>
 	<li>container_unique_id
 		<ul style="margin-left:1em;padding-bottom: .5em;font-size: 14px;">
-				<li>Container Unique ID in which to place this part</li>
+				<li>Container Unique ID in which to place the matching part.  Validation will warn with a NOTE if the part is already in a container</li>
 		</ul>
 	</li>
 	<li style="color:red">condition</li>
+		<ul style="margin-left:1em;padding-bottom: .5em;font-size: 14px;">
+				<li>The value here will update the value of the condition.</li>
+		</ul>
 	<li>current_remarks
 		<ul style="margin-left:1em;padding-bottom: .5em;font-size: 14px;">
+			<li>This is the current part remarks.  It is required to find matching parts.</li>
 			<li>
-				Notes in the remarks field on the specimen record now. Copy and paste into the spreadsheet if possible.
-				They must match the remarks on the record.
+				Copy and paste into the spreadsheet if possible.
+				Must exactly match the remarks on the part.
 			</li>
 		</ul>
 	</li>
 	<li>append_to_remarks
 			<ul style="margin-left:1em;padding-bottom: .5em;font-size: 14px;">
-				<li>Anything in this field will be appended to the current remarks. It will be automatically separated by a semicolon.</li>
+				<li>Anything in this field will be appended to the current part remarks. It will be automatically separated by a semicolon.</li>
 			</ul>
 	</li>
 	<li>changed_date
 			<ul style="margin-left:1em;padding-bottom: .5em;font-size: 14px;">
-				<li>If the date the part preservation was changed is different than today, use this field to mark the preservation history correctly, otherwise leave blank. Format = YYYY-MM-DD</li>
+				<li>Include if new_preserve_method has a value, and the date it was changed is different than today, otherwise leave blank.</li>
+				<li>Format = YYYY-MM-DD</li>
+				<li>If the date the part preservation was changed is different than today, a value here will record the preservation history correctly.</li>
 			</ul>
 	</li>
 	<li>new_preserve_method
