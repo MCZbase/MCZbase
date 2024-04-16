@@ -287,11 +287,11 @@ validate
 					join specimen_part on  
 						cf_temp_parts.part_name=specimen_part.part_name and
 						cf_temp_parts.preserve_method=specimen_part.preserve_method and
-						cf_temp_parts.collection_object_id=specimen_part.derived_from_cat_item and
+						cf_temp_parts.collection_object_id=specimen_part.derived_from_cat_item
 					left join coll_object_remark on specimen_part.collection_object_id = coll_object_remark.collection_object_id
 				where			
-					nvl(cf_temp_parts.current_remarks, 'NULL') = nvl(coll_object_remark.coll_object_remarks, 'NULL'))
-					and use_existing =1
+					nvl(cf_temp_parts.current_remarks, 'NULL') = nvl(coll_object_remark.coll_object_remarks, 'NULL')
+					and use_existing = 1
 				group by cf_temp_parts.key
 				having count(cf_temp_parts.key) > 1
 			)
