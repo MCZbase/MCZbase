@@ -96,7 +96,6 @@
 </cfquery>
 
 <cfset colNames="">
-	<ul>
 	<cfloop from="1" to ="#ArrayLen(arrResult)#" index="o">
 		<cfset colVals="">
 			<cfloop from="1"  to ="#ArrayLen(arrResult[o])#" index="i">
@@ -113,18 +112,17 @@
 		<cfif len(#colVals#) gt 1>
 			<cfset colVals=replace(colVals,",","","first")>
 			<cftransaction>
-				<cfquery name="ins" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					insert into cf_temp_parts (#colNames#) values (#preservesinglequotes(colVals)#)
-				</cfquery>
-				<!--- provide queries for debugging of failure conditions --->
-				<li>insert into cf_temp_parts (#colNames#) values (#preservesinglequotes(colVals)#)</li>
-				<cfquery name="setuseexistingflag"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					update cf_temp_parts set use_existing = 1
-				</cfquery>
+			<cfquery name="ins" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				insert into cf_temp_parts (#colNames#) values (#preservesinglequotes(colVals)#)
+			</cfquery>
+			insert into cf_temp_parts (#colNames#) values (#preservesinglequotes(colVals)#)
+			<cfquery name="setuseexistingflag"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				update cf_temp_parts set use_existing = 1
+			</cfquery>
 			</cftransaction>
 		</cfif>
 	</cfloop>
-	</ul>
+
 	<cflocation url="BulkloadEditedParts.cfm?action=validate">
 </cfoutput>
 </cfif>
@@ -162,7 +160,7 @@ validate
 			)
 			and new_preserve_method is not null
 	</cfquery>
-    <cfquery name="isValid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+    	<cfquery name="isValid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		update cf_temp_parts set validated_status = validated_status || ';Invalid use_existing flag'
 			where use_existing not in ('0','1') OR
 			use_existing is null
@@ -264,14 +262,14 @@ validate
 				1) Upload a part that doesn't exist
 					Solution: create a new part, optionally put it in a container that they specify in the upload.
 				2) Upload a part that already exists
-					use_existing is set above to always be 1
+					
 					a) use_existing = 1
 						1) part is in a container
 							Solution: warn them, create new part, optionally put it in a container that they've specified
 						 2) part is NOT already in a container
 						 	Solution: put the existing part into the new container that they've specified or, if
 						 	they haven't specified a new container, ignore this line as it does nothing.
-					Supported, in queries, but never used 
+					Supported, but no user option to provide 
 					b) use_existing = 0
 						1) part is in a container
 							Solution: warn them, create a new part, optionally put it in the container they've specified
