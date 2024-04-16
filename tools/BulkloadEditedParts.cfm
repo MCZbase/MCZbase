@@ -280,7 +280,7 @@ validate
 		---->
 		<cfquery name="findduplicates" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			update cf_temp_parts 
-			set validated_status = 'Error: More that one matching part' 
+			set validated_status = 'ERROR: More that one matching part' 
 			where cf_temp_parts.key in (
 				select cf_temp_parts.key
 				from cf_temp_parts 
@@ -369,15 +369,15 @@ validate
 		<cfloop query="inT">
 			<tr>
 				<td>
-					<cfif len(#collection_object_id#) gt 0 and
-							(#validated_status# is 'VALID')>
-						<a href="/SpecimenDetail.cfm?collection_object_id=#collection_object_id#"
-							target="_blank">Specimen</a>
+					<cfif len(#collection_object_id#) gt 0 and (#validated_status# is 'VALID')>
 					<cfelseif left(validated_status,5) is 'NOTE:'>
 						<a href="/SpecimenDetail.cfm?collection_object_id=#collection_object_id#"
 							target="_blank">Specimen</a> (#validated_status#)
+					<cfelseif left(validated_status,5) is 'ERROR:'>
+						<a href="/SpecimenDetail.cfm?collection_object_id=#collection_object_id#"
+							target="_blank">Specimen</a> <strong>#validated_status#</strong>
 					<cfelse>
-						#validated_status#
+						<strong>ERROR: #validated_status#</strong>
 					</cfif>
 				</td>
 				<td>#institution_acronym#</td>
@@ -407,7 +407,7 @@ validate
 	<cfif #allValid.cnt# is 0>
 		<a href="BulkloadEditedParts.cfm?action=loadToDb">Load these parts....</a>
 	<cfelse>
-		You must fix everything above to proceed.
+		You must fix all #allValid.cnt# problems above to proceed.
 	</cfif>
 
 </cfif>
