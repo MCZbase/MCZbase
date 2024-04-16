@@ -13,6 +13,7 @@
 	<p>Columns in <span style="color:red">red</span> are required and should match existing part row to update; others are optional:</p>
 	<p>institution_acronym, collection_cde, other_id_type, other_id_number, part_name, preserve_method, and current_remarks are required, and must exactly match the current values to find the part to update.</p>
 	<p>disposition, lot_count, lot_count_modifier, and condition will update the values on matched parts.  If you do not wish to update these values, you must specify values here that exactly match the current values.</p>
+	<p>To obtain a spreadsheet of current values, run a specimen search for the desired cataloged items, then go to the Manage page, and then click the <strong>Parts Report/Download</strong> button, from here you can download a csv file suitable for upload here.</p>
 	<p>append_to_remarks, and preserve_method are optional, and will add or update values if included.</p>
 <ul class="geol_hier" style="padding-bottom: .25em;">
 	<li style="color:red">institution_acronym</li>
