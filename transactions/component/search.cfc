@@ -139,7 +139,7 @@ limitations under the License.
 			WHERE
 				transaction_view.transaction_id > 0
 				<cfif isDefined("number") and len(number) gt 0>
-					and specific_number like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#number#%">
+					and upper(specific_number) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(number)#%">
 				</cfif>
 				<cfif isDefined("status") and len(status) gt 0>
 					and status like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#status#">
@@ -640,7 +640,7 @@ limitations under the License.
 				</cfif>
 				<cfif isdefined("parent_loan_number") AND len(parent_loan_number) gt 0 >
 					AND loan_relations.relation_type = 'Subloan'
-					AND parent_loan.loan_number like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#parent_loan_number#">
+					AND upper(parent_loan.loan_number) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(parent_loan_number)#">
 				</cfif>
 				<cfif isdefined("insurance_value") AND len(#insurance_value#) gt 0>
 					<cfif insurance_value EQ 'NULL'>
@@ -1807,7 +1807,7 @@ limitations under the License.
 						<cfif find(',',deacc_number) GT 0>
 							AND deacc_number in (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#deacc_number#" list="yes"> )
 						<cfelse>
-							AND deacc_number LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#deacc_number#%">
+							AND upper(deacc_number) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(deacc_number)#%">
 						</cfif>
 					</cfif>
 				</cfif>
@@ -2283,7 +2283,7 @@ limitations under the License.
 						<cfif find(',',borrow_number) GT 0>
 							AND borrow_number in (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#borrow_number#" list="yes"> )
 						<cfelse>
-							AND borrow_number LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#borrow_number#%">
+							AND upper(borrow_number) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(borrow_number)#%">
 						</cfif>
 					</cfif>
 				</cfif>
@@ -2393,7 +2393,7 @@ limitations under the License.
 					AND borrow.lenders_invoice_returned_fg = <cfqueryparam  cfsqltype="CF_SQL_DECIMAL" value="#lenders_invoice_returned#" >
 				</cfif>
 				<cfif isdefined("borrow_catalog_number") AND len(#borrow_catalog_number#) gt 0 >
-					AND borrow_item.catalog_number like <cfqueryparam  cfsqltype="CF_SQL_VARCHAR" value="%#borrow_catalog_number#%" >
+					AND upper(borrow_item.catalog_number) like <cfqueryparam  cfsqltype="CF_SQL_VARCHAR" value="%#ucase(borrow_catalog_number)#%" >
 				</cfif>
 				<cfif isdefined("borrow_sci_name") AND len(#borrow_sci_name#) gt 0 >
 					AND borrow_item.sci_name like <cfqueryparam  cfsqltype="CF_SQL_VARCHAR" value="%#borrow_sci_name#%" >
