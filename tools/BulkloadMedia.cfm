@@ -94,7 +94,7 @@ limitations under the License.
 			</ul>
 			<h2 class="h4">Media License:</h2>
 			<p>The media license id should be entered using the numeric codes below. If omitted this will default to &quot;1 - MCZ Permissions &amp; Copyright&quot;</p>
-			<div class="ml-3">
+			<div class="ml-4">
 				<dl>
 					<dt>Codes</dt>
 					<dt><span>1 </span> MCZ Permissions &amp; Copyright</dt> <dd>All MCZ images and publications should have this designation</dd>
