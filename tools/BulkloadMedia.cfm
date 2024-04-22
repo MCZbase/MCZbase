@@ -65,7 +65,7 @@ limitations under the License.
 		
 			<p>Step 1: Ensure that Media exists on the shared drive or externl URL and that the records that you want to  (e.g., specimen, agent, collecting event) exist.</p>
 			<p>Step 2: Upload a comma-delimited text file (csv).</p>
-			<p>Examples:</p>
+			<h3>Examples:</h3>
 			<ul>
 				<li>created by agent=Jane Doe
 				</li>
@@ -86,19 +86,13 @@ limitations under the License.
 			<p>The format for MEDIA_LABELS is {media_label}={value}[;{media_label}={value}]</p>
 			<p>Notes: Made date must be in the form yyyy-mm-dd. More than one media label must be separated by a semicolon, and individual values must not themselves contain semicolons.  Check the data as presented after the file has been uploaded carefully to make sure that the individual media labels and values have been correctly parsed.</p>
 			
-			<p>Examples:</p>
+			<h3>Examples:</h3>
 			<ul>
 				<li>audio bit resolution=whatever</li>
 				<li>audio bit resolution=2;audio cut id=5</li>
 				<li>audio bit resolution=2;audio cut id=5;made date=1964-01-07</li>
 			</ul>
-			<p>Errors:</p>
-			<ul>
-				<li>See <a href="https://code.mcz.harvard.edu/wiki/index.php/MCZbase_error_message_translation">MCZbase Wiki</a> for error message translations.</li>
-				<li>Note:  If you receive the same error messages after fixing them, you may have to clear your browser's cache to have the fixed csv sheet load cleanly.
-				</li>
-			</ul>
-			<p>MEDIA LICENSE:</p>
+			<h3>MEDIA LICENSE:</h3>
 			<p>The media license id should be entered using the numeric codes below. If omitted this will default to &quot;1 - MCZ Permissions &amp; Copyright&quot;</p>
 			<div>
 				<dl>
