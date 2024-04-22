@@ -63,7 +63,7 @@ limitations under the License.
 					<li><a href="/vocabularies/ControlledVocabulary.cfm?table=CTMEDIA_LICENSE">MEDIA_LICENSE (7 values)</a></li>
 				</ul>
 			<p>Step 1: Ensure that Media exists on the shared drive or externl URL and that the records that you want to  (e.g., specimen, agent, collecting event) exist.</p>
-			<p>Step 2: Upload a comma-delimited text file (csv).</p>
+			<p>Step 2: Upload a comma-delimited text file (csv). (Jump to <a href="loader">loader</a>)</p>
 			<h2 class="h4 mt-4">Media Relationships</h2>
 			<p>The format for Media_Relationship is {media_relationship}={value}[;{media_relationship}={value}]</p>
 			<p class="font-weight-bold text-dark">Relationship Examples:</p>
@@ -114,6 +114,7 @@ limitations under the License.
 				</label>
 				<textarea rows="2" cols="90" id="templatearea" class="w-100 data-entry-textarea">#fieldlist#</textarea>
 			</div>
+			<a name="loader">top</a>
 			<h2 class="mt-4 h4">Columns in <span class="text-danger">red</span> are required; others are optional:</h2>
 			<ul class="mb-4 h4 font-weight-normal">
 				<cfloop list="#fieldlist#" index="field" delimiters=",">
