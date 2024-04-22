@@ -413,7 +413,7 @@ limitations under the License.
 						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 							and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableTypes.key#"> 
 					</cfquery>
-				<cfif>
+				</cfif>
 				<cfif len(mask_media) gt 0>
 					<cfif not(mask_media EQ 1 or mask_media EQ 0)>
 						UPDATE
