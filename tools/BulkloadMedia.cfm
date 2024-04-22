@@ -106,7 +106,7 @@ limitations under the License.
 					<dt><span>9 </span> Creative Commons Attribution-NonCommercial-ShareAlike (CC BY-NC-SA)</dt><dd>This license lets others remix, tweak, and build upon your work non-commercially, as long as they credit you and license their new creations under the identical terms.</dd>
 				</dl>
 			</div>
-			<h2 class="h4">MASK MEDIA:</h2>
+			<h2 class="h4">Mask Media:</h2>
 			<p>To mark media as hidden from Public Users put a 1 in the MASK_MEDIA column. Leave blank for Public media</p>
 			<p>Upload a comma-delimited text file (csv). Include column headings, spelled exactly as below. Use "catalog number" as the value of other_id_type to match on catalog number.</p>
 			<span class="btn btn-xs btn-info" onclick="document.getElementById('template').style.display='block';">View template</span>
