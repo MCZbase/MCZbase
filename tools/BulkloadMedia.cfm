@@ -64,7 +64,9 @@ limitations under the License.
 				</ul>
 			<p>Step 1: Ensure that Media exists on the shared drive or externl URL and that the records that you want to  (e.g., specimen, agent, collecting event) exist.</p>
 			<p>Step 2: Upload a comma-delimited text file (csv).</p>
-			<h2 class="h4">Relationship Examples:</h2>
+			<h2 class="h4">Media Relationships</h2>
+			<p>The format for Media_Relationship is {media_relationship}={value}[;{media_relationship}={value}]</p>
+			<p class="font-weight-bold">Relationship Examples:</p>
 			<ul>
 				<li>created by agent=Jane Doe</li>
 				<li>created by agent=Jane Doe;assigned to project=Vocal variation in Pipilo maculatus</li>
@@ -73,17 +75,18 @@ limitations under the License.
 				<li>created by agent=Jane Doe;documents collecting_event=Baker-Foster Stickleback Collection Field Number|B93-3</li>
 				<li>created by agent=Jane Doe;documents collecting_event=1524028</li>
 			</ul>
-			<h2 class="h4">Acceptable values for relationships are:</h2>
+			<p class="font-weight-bold">Acceptable values for relationships are:</p>
 			<ul>
 				<li>Agent Name (must resolve to one agent_id)</li>
 				<li>Project Title (exact string match)</li>
 				<li>Cataloged Item (DWC triplet)</li>
 				<li>Collecting Event (collecting_event_id OR Collecting Event Number Series Type|Collecting Event Number)</li>
 			</ul>
+			<h2 class="h4">Media Labels</h2>
 			<p>The format for MEDIA_LABELS is {media_label}={value}[;{media_label}={value}]</p>
 			<p>Notes: Made date must be in the form yyyy-mm-dd. More than one media label must be separated by a semicolon, and individual values must not themselves contain semicolons.  Check the data as presented after the file has been uploaded carefully to make sure that the individual media labels and values have been correctly parsed.</p>
 			
-			<h2 class="h4">Media Label Examples:</h2>
+			<p class="font-weight-bold">Media Label Examples:</h2>
 			<ul>
 				<li>audio bit resolution=whatever</li>
 				<li>audio bit resolution=2;audio cut id=5</li>
