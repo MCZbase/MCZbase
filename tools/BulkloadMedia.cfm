@@ -17,11 +17,6 @@ limitations under the License.
 
 --->
 <!--- special case handling to dump problem data as csv --->
-	<style>
-		dl {font-size: smaller;}
-		dt {font-weight: 550;margin-top: 8px; margin-bottom: 3px;}
-		dt span {display: inline-block; width: 20px;}
-	</style>
 <cfif isDefined("action") AND action is "dumpProblems">
 	<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		SELECT MEDIA_URI,MIME_TYPE,MEDIA_TYPE,PREVIEW_URI,MEDIA_RELATIONSHIPS,MEDIA_LABELS,MEDIA_LICENSE_ID, MASK_MEDIA
