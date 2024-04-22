@@ -54,7 +54,7 @@ limitations under the License.
 	<h1 class="h2 mt-2">Bulkload Media</h1>
 	<cfif #action# is "nothing">
 		<cfoutput>
-			<p>This tool adds media records. The media can be related to records that have to be in MCZbase prior to uploading this csv. It ignores rows that are exactly the same and additional columns. Some of the values must appear as they do on the <a href="https://mczbase.mcz.harvard.edu/vocabularies/ControlledVocabulary.cfm?" class="font-weight-bold">controlled vocabularies</a> lists.</p>
+			<p>This tool adds media records. The media can be related to records that have to be in MCZbase prior to uploading this csv. It ignores rows that are exactly the same and additional columns. Some of the values must appear as they do on the following <a href="https://mczbase.mcz.harvard.edu/vocabularies/ControlledVocabulary.cfm?" class="font-weight-bold">controlled vocabularies</a> lists: </p>
 				<ul>
 					<li><a href="/vocabularies/ControlledVocabulary.cfm?table=CTMEDIA_LABEL">MEDIA_LABEL (17 values)</a></li>
 					<li><a href="/vocabularies/ControlledVocabulary.cfm?table=CTMEDIA_RELATIONSHIP">MEDIA_RELATIONSHIP (23 values)</a></li>
