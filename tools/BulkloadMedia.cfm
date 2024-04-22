@@ -103,18 +103,18 @@ limitations under the License.
 				<li><b>Note:</b>  If you receive the same error messages after fixing them, you may have to clear your browser's cache to have the fixed csv sheet load cleanly.
 				</li>
 			</ul>
-			<p style="font-weight:bold;">MEDIA LICENSE:</p>
+			<p>MEDIA LICENSE:</p>
 			<p>The media license id should be entered using the numeric codes below. If omitted this will default to &quot;1 - MCZ Permissions & Copyright&quot;</p>
 			<div>
 				<dl>
-					<dt><b>Codes</b></dt><dd></dd>
-					<dt><span>1 </span> MCZ Permissions &amp; Copyright    copyrighted material</dt> <dd> All MCZ images and publications should have this designation</dd>
+					<dt>Codes</dt>
+					<dt><span>1 </span> MCZ Permissions &amp; Copyright</dt> <dd>All MCZ images and publications should have this designation</dd>
 					<dt><span>4 </span> Rights defined by 3rd party host</dt> <dd>This material is hosted by an external party. Please refer to the licensing statement provided by the linked host.</dd>
 					<dt><span>5 </span> Creative Commons Zero (CC0)</dt><dd>CC0 enables scientists, educators, artists and other creators and owners of copyright- or database-protected content to waive those interests in their works and thereby place them as completely as possible in the public domain.</dd>
-					<dt><span>6 </span>Creative Commons Attribution (CC BY)</dt><dd>This license lets others distribute, remix, tweak, and build upon your work, even commercially, as long as they credit you for the original creation.</dd>
-					<dt><span>7</span>Creative Commons Attribution-ShareAlike (CC BY-SA)</dt> <dd>This license lets others remix, tweak, and build upon your work even for commercial purposes, as long as they credit you and license their new creations under the identical terms.</dd>
-					<dt><span>8 </span>Creative Commons Attribution-NonCommercial (CC BY-NC)</dt><dd>This license lets others remix, tweak, and build upon your work non-commercially, and although their new works must also acknowledge you and be non-commercial, they don&apos;t have to license their derivative works on the same terms.</dd>
-					<dt><span>9 </span>Creative Commons Attribution-NonCommercial-ShareAlike (CC BY-NC-SA)</dt><dd>This license lets others remix, tweak, and build upon your work non-commercially, as long as they credit you and license their new creations under the identical terms.</dd>
+					<dt><span>6 </span> Creative Commons Attribution (CC BY)</dt><dd>This license lets others distribute, remix, tweak, and build upon your work, even commercially, as long as they credit you for the original creation.</dd>
+					<dt><span>7</span> Creative Commons Attribution-ShareAlike (CC BY-SA)</dt> <dd>This license lets others remix, tweak, and build upon your work even for commercial purposes, as long as they credit you and license their new creations under the identical terms.</dd>
+					<dt><span>8 </span> Creative Commons Attribution-NonCommercial (CC BY-NC)</dt><dd>This license lets others remix, tweak, and build upon your work non-commercially, and although their new works must also acknowledge you and be non-commercial, they don&apos;t have to license their derivative works on the same terms.</dd>
+					<dt><span>9 </span> Creative Commons Attribution-NonCommercial-ShareAlike (CC BY-NC-SA)</dt><dd>This license lets others remix, tweak, and build upon your work non-commercially, as long as they credit you and license their new creations under the identical terms.</dd>
 				</dl>
 			</div>
 			<p>MASK MEDIA:</p>
