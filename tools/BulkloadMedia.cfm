@@ -95,11 +95,11 @@ limitations under the License.
 			<p>Errors:</p>
 			<ul>
 				<li>See <a href="https://code.mcz.harvard.edu/wiki/index.php/MCZbase_error_message_translation">MCZbase Wiki</a> for error message translations.</li>
-				<li><b>Note:</b>  If you receive the same error messages after fixing them, you may have to clear your browser's cache to have the fixed csv sheet load cleanly.
+				<li>Note:  If you receive the same error messages after fixing them, you may have to clear your browser's cache to have the fixed csv sheet load cleanly.
 				</li>
 			</ul>
 			<p>MEDIA LICENSE:</p>
-			<p>The media license id should be entered using the numeric codes below. If omitted this will default to &quot;1 - MCZ Permissions & Copyright&quot;</p>
+			<p>The media license id should be entered using the numeric codes below. If omitted this will default to &quot;1 - MCZ Permissions &amp; Copyright&quot;</p>
 			<div>
 				<dl>
 					<dt>Codes</dt>
