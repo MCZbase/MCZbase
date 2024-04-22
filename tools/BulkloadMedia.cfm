@@ -546,7 +546,7 @@ limitations under the License.
 		<cfoutput>
 			<cfquery name="getTempTableMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT 
-					media_URI, key
+					MEDIA_URI, MASK_MEDIA, key
 				FROM 
 					cf_temp_media
 				WHERE 
