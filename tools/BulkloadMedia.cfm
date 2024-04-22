@@ -54,7 +54,7 @@ limitations under the License.
 	<h1 class="h2 mt-2">Bulkload Media</h1>
 	<cfif #action# is "nothing">
 		<cfoutput>
-			<p>This tool adds media records. The meda can be related to records that have to be in the code table prior to uploading this csv. It ignores rows that are exactly the same and additional columns. Some of the values must appear as they do on the <a href="https://mczbase.mcz.harvard.edu/vocabularies/ControlledVocabulary.cfm?" class="font-weight-bold">controlled vocabularies</a> lists. </p>
+			<p>This tool adds media records. The meda can be related to records that have to be in the code table prior to uploading this csv. It ignores rows that are exactly the same and additional columns. Some of the values must appear as they do on the <a href="https://mczbase.mcz.harvard.edu/vocabularies/ControlledVocabulary.cfm?" class="font-weight-bold">controlled vocabularies</a> lists.</p>
 				<ul>
 					<li><a href="/vocabularies/ControlledVocabulary.cfm?table=CTMEDIA_LABEL">MEDIA_LABEL (17 values)</a></li>
 					<li><a href="/vocabularies/ControlledVocabulary.cfm?table=CTMEDIA_RELATIONSHIP">MEDIA_RELATIONSHIP (23 values)</a></li>
@@ -62,15 +62,12 @@ limitations under the License.
 					<li><a href="/vocabularies/ControlledVocabulary.cfm?table=CTMIME_TYPE">MIME_TYPE (14 values)</a></li>
 					<li><a href="/vocabularies/ControlledVocabulary.cfm?table=CTMEDIA_LICENSE">MEDIA_LICENSE (7 values)</a></li>
 				</ul>
-		
 			<p>Step 1: Ensure that Media exists on the shared drive or externl URL and that the records that you want to  (e.g., specimen, agent, collecting event) exist.</p>
 			<p>Step 2: Upload a comma-delimited text file (csv).</p>
 			<h2 class="h4">Relationship Examples:</h2>
 			<ul>
-				<li>created by agent=Jane Doe
-				</li>
-				<li>created by agent=Jane Doe;assigned to project=Vocal variation in Pipilo maculatus
-				</li>
+				<li>created by agent=Jane Doe</li>
+				<li>created by agent=Jane Doe;assigned to project=Vocal variation in Pipilo maculatus</li>
 				<li>created by agent=Jane Doe;assigned to project=Vocal variation in Pipilo maculatus;shows cataloged_item=MCZ:Bird:12345
 				</li>
 				<li>created by agent=Jane Doe;documents collecting_event=Baker-Foster Stickleback Collection Field Number|B93-3</li>
