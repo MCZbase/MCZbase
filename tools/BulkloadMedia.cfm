@@ -95,8 +95,8 @@ limitations under the License.
 			<h2 class="h4">Media License:</h2>
 			<p>The media license id should be entered using the numeric codes below. If omitted this will default to &quot;1 - MCZ Permissions &amp; Copyright&quot;</p>
 			<div class="ml-4">
+				<h4>Media License Codes</h4>
 				<dl>
-					<dt>Codes</dt>
 					<dt><span>1 </span> MCZ Permissions &amp; Copyright</dt> <dd>All MCZ images and publications should have this designation</dd>
 					<dt><span>4 </span> Rights defined by 3rd party host</dt> <dd>This material is hosted by an external party. Please refer to the licensing statement provided by the linked host.</dd>
 					<dt><span>5 </span> Creative Commons Zero (CC0)</dt><dd>CC0 enables scientists, educators, artists and other creators and owners of copyright- or database-protected content to waive those interests in their works and thereby place them as completely as possible in the public domain.</dd>
