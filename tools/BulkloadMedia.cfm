@@ -590,7 +590,7 @@ limitations under the License.
 							FROM CTMEDIA_LABEL 
 							WHERE MEDIA_LABEL = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ln#">
 						</cfquery>
-						<cfif len(getTempTableMedia.MEDIA_LABEL) is 0>
+						<cfif len(getTempTableMedia.MEDIA_LABELS) is 0>
 							<cfset rec_stat=listappend(rec_stat,'Media label #ln# is invalid',";")>
 						<cfelseif ln EQ "made date" && refind("^[0-9]{4}-[0-9]{2}-[0-9]{2}$",lv) EQ 0>
 							<cfset rec_stat=listappend(rec_stat,'Media label #ln# must have a value in the form yyyy-mm-dd',";")>
