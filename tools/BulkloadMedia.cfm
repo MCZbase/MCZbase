@@ -64,7 +64,7 @@ limitations under the License.
 				</ul>
 			<p>Step 1: Ensure that Media exists on the shared drive or externl URL and that the records that you want to  (e.g., specimen, agent, collecting event) exist.</p>
 			<p>Step 2: Upload a comma-delimited text file (csv).</p>
-			<h2 class="h4">Media Relationships</h2>
+			<h2 class="h4 mt-4">Media Relationships</h2>
 			<p>The format for Media_Relationship is {media_relationship}={value}[;{media_relationship}={value}]</p>
 			<p class="font-weight-bold text-dark">Relationship Examples:</p>
 			<ul>
@@ -82,7 +82,7 @@ limitations under the License.
 				<li>Cataloged Item (DWC triplet)</li>
 				<li>Collecting Event (collecting_event_id OR Collecting Event Number Series Type|Collecting Event Number)</li>
 			</ul>
-			<h2 class="h4">Media Labels</h2>
+			<h2 class="h4 mt-4">Media Labels</h2>
 			<p>The format for MEDIA_LABELS is {media_label}={value}[;{media_label}={value}]</p>
 			<p>Notes: Made date must be in the form yyyy-mm-dd. More than one media label must be separated by a semicolon, and individual values must not themselves contain semicolons.  Check the data as presented after the file has been uploaded carefully to make sure that the individual media labels and values have been correctly parsed.</p>
 			
@@ -92,7 +92,7 @@ limitations under the License.
 				<li>audio bit resolution=2;audio cut id=5</li>
 				<li>audio bit resolution=2;audio cut id=5;made date=1964-01-07</li>
 			</ul>
-			<h2 class="h4">Media License:</h2>
+			<h2 class="h4 mt-4">Media License:</h2>
 			<p>The media license id should be entered using the numeric codes below. If omitted this will default to &quot;1 - MCZ Permissions &amp; Copyright&quot;</p>
 			<p class="font-weight-bold text-dark">Media License Codes:</p>
 			<dl>
@@ -104,7 +104,7 @@ limitations under the License.
 				<dt class="btn-secondary"><span class="badge badge-light">8 </span> Creative Commons Attribution-NonCommercial (CC BY-NC)</dt><dd>This license lets others remix, tweak, and build upon your work non-commercially, and although their new works must also acknowledge you and be non-commercial, they don&apos;t have to license their derivative works on the same terms.</dd>
 				<dt class="btn-secondary"><span class="badge badge-light">9 </span> Creative Commons Attribution-NonCommercial-ShareAlike (CC BY-NC-SA)</dt><dd>This license lets others remix, tweak, and build upon your work non-commercially, as long as they credit you and license their new creations under the identical terms.</dd>
 			</dl>
-			<h2 class="h4">Mask Media:</h2>
+			<h2 class="h4 mt-4">Mask Media:</h2>
 			<p>To mark media as hidden from Public Users put a 1 in the MASK_MEDIA column. Leave blank for Public media</p>
 			<p>Upload a comma-delimited text file (csv). Include column headings, spelled exactly as below. Use "catalog number" as the value of other_id_type to match on catalog number.</p>
 			<span class="btn btn-xs btn-info" onclick="document.getElementById('template').style.display='block';">View template</span>
