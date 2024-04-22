@@ -66,7 +66,7 @@ limitations under the License.
 			<p>Step 2: Upload a comma-delimited text file (csv).</p>
 			<h2 class="h4">Media Relationships</h2>
 			<p>The format for Media_Relationship is {media_relationship}={value}[;{media_relationship}={value}]</p>
-			<p class="font-weight-bold">Relationship Examples:</p>
+			<p class="font-weight-bold text-dark">Relationship Examples:</p>
 			<ul>
 				<li>created by agent=Jane Doe</li>
 				<li>created by agent=Jane Doe;assigned to project=Vocal variation in Pipilo maculatus</li>
@@ -75,7 +75,7 @@ limitations under the License.
 				<li>created by agent=Jane Doe;documents collecting_event=Baker-Foster Stickleback Collection Field Number|B93-3</li>
 				<li>created by agent=Jane Doe;documents collecting_event=1524028</li>
 			</ul>
-			<p class="font-weight-bold">Acceptable values for relationships are:</p>
+			<p class="font-weight-bold text-dark">Acceptable values for relationships are:</p>
 			<ul>
 				<li>Agent Name (must resolve to one agent_id)</li>
 				<li>Project Title (exact string match)</li>
@@ -86,7 +86,7 @@ limitations under the License.
 			<p>The format for MEDIA_LABELS is {media_label}={value}[;{media_label}={value}]</p>
 			<p>Notes: Made date must be in the form yyyy-mm-dd. More than one media label must be separated by a semicolon, and individual values must not themselves contain semicolons.  Check the data as presented after the file has been uploaded carefully to make sure that the individual media labels and values have been correctly parsed.</p>
 			
-			<p class="font-weight-bold">Media Label Examples:</h2>
+			<p class="font-weight-bold text-dark">Media Label Examples:</h2>
 			<ul>
 				<li>audio bit resolution=whatever</li>
 				<li>audio bit resolution=2;audio cut id=5</li>
