@@ -563,11 +563,11 @@ limitations under the License.
 						SET
 							status = concat(nvl2(status, status || '; ', ''),'Media URI already exists on shared drive ' || media_uri)
 						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-							and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableTypes.key#"> 
+							and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableMedia.key#"> 
 					</cfquery>
 				</cfif>
-				<cfif len(mask_media) gt 0>
-					<cfif not(mask_media EQ 1 or mask_media EQ 0)>
+				<cfif len(getTempTableMedia.mask_media) gt 0>
+					<cfif not(getTempTableMedia.mask_media EQ 1 or getTempTableMedia.mask_media EQ 0)>
 						UPDATE
 							cf_temp_media
 						SET
@@ -576,8 +576,8 @@ limitations under the License.
 							and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableTypes.key#"> 
 					</cfif>
 				</cfif>
-				<cfif len(MEDIA_LABELS) gt 0>
-					<cfloop list="#media_labels#" index="l" delimiters=";">
+				<cfif len(getTempTableMedia.MEDIA_LABELS) gt 0>
+					<cfloop list="#getTempTableMedia.media_labels#" index="l" delimiters=";">
 						<cfset ln=listgetat(l,1,"=")>
 						<cfset lv=listgetat(l,2,"=")>
 						<cfquery name="c" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -585,7 +585,7 @@ limitations under the License.
 							FROM CTMEDIA_LABEL 
 							WHERE MEDIA_LABEL = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ln#">
 						</cfquery>
-						<cfif len(c.MEDIA_LABEL) is 0>
+						<cfif len(getTempTableMedia.MEDIA_LABEL) is 0>
 							<cfset rec_stat=listappend(rec_stat,'Media label #ln# is invalid',";")>
 						<cfelseif ln EQ "made date" && refind("^[0-9]{4}-[0-9]{2}-[0-9]{2}$",lv) EQ 0>
 							<cfset rec_stat=listappend(rec_stat,'Media label #ln# must have a value in the form yyyy-mm-dd',";")>
@@ -607,7 +607,7 @@ limitations under the License.
 					</cfloop>
 				</cfif>
 			</cfloop>
-			<cfif len(MEDIA_LABELS) gt 0>
+			<cfif len(getTempTableMedia.MEDIA_LABELS) gt 0>
 				<cfloop list="#media_labels#" index="l" delimiters=";">
 					<cfset ln=listgetat(l,1,"=")>
 					<cfset lv=listgetat(l,2,"=")>
@@ -616,7 +616,7 @@ limitations under the License.
 						FROM CTMEDIA_LABEL 
 						WHERE MEDIA_LABEL = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ln#">
 					</cfquery>
-					<cfif len(c.MEDIA_LABEL) is 0>
+					<cfif len(getTempTableMedia.MEDIA_LABEL) is 0>
 						<cfset rec_stat=listappend(rec_stat,'Media label #ln# is invalid',";")>
 					<cfelseif ln EQ "made date" && refind("^[0-9]{4}-[0-9]{2}-[0-9]{2}$",lv) EQ 0>
 						<cfset rec_stat=listappend(rec_stat,'Media label #ln# must have a value in the form yyyy-mm-dd',";")>
@@ -637,14 +637,14 @@ limitations under the License.
 					</cfif>
 				</cfloop>
 			</cfif>
-			<cfif len(MEDIA_RELATIONSHIPS) gt 0>
+			<cfif len(getTempTableMedia.MEDIA_RELATIONSHIPS) gt 0>
 				<cfloop list="#MEDIA_RELATIONSHIPS#" index="l" delimiters=";">
 					<cfset ln=listgetat(l,1,"=")>
 					<cfset lv=listgetat(l,2,"=")>
 					<cfquery name="c" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						select MEDIA_RELATIONSHIP from CTMEDIA_RELATIONSHIP where MEDIA_RELATIONSHIP='#ln#'
 					</cfquery>
-					<cfif len(c.MEDIA_RELATIONSHIP) is 0>
+					<cfif len(getTempTableMedia.MEDIA_RELATIONSHIP) is 0>
 						<cfset rec_stat=listappend(rec_stat,'Media relationship #ln# is invalid',";")>
 					<cfelse>
 						<cfset table_name = listlast(ln," ")>
@@ -652,7 +652,7 @@ limitations under the License.
 							<cfquery name="c" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 								select distinct(agent_id) agent_id from agent_name where agent_name ='#lv#'
 							</cfquery>
-							<cfif c.recordcount is 1 and len(c.agent_id) gt 0>
+							<cfif getTempTableMedia.recordcount is 1 and len(c.agent_id) gt 0>
 								<cfquery name="i" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 									insert into cf_temp_media_relations (
 										key,
