@@ -274,9 +274,14 @@ limitations under the License.
 				<cfset records = CSVParser.parse(#tempFileInputStream#,#javaSelectedCharset#,#csvFormat#)>
 
 				<!--- cleanup any incomplete work by the same user --->
-				<cfquery name="clearTempTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="clearTempTable_result">
-					DELETE FROM cf_temp_media 
-					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+				<cfquery name="killOld" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					delete from cf_temp_media WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+				</cfquery>
+				<cfquery name="killOld" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					delete from cf_temp_media_relations WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+				</cfquery>
+				<cfquery name="killOld" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					delete from cf_temp_media_labels WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
 
 				<!--- obtain an iterator to loops through the rows/records in the csv --->
@@ -315,7 +320,7 @@ limitations under the License.
 				</div>
 				<!--- check for required fields in header line (performng check in two different ways, Case 1, Case 2) --->
 				<!--- Loop through list of fields throw exception if required fields are missing --->
-								<cfset errorMessage = "">
+				<cfset errorMessage = "">
 				<cfloop list="#fieldList#" item="aField">
 					<cfif ListContainsNoCase(requiredFieldList,aField)>
 						<!--- Case 1. Check by splitting assembled list of foundHeaders --->
@@ -414,7 +419,7 @@ limitations under the License.
 						<!--- construct insert for row with a line for each entry in fieldlist using cfqueryparam if column header is in fieldlist, otherwise using null --->
 						<!--- Note: As we can't use csvFormat.withHeader(), we can not match columns by name, we are forced to do so by number, thus arrays --->
 						<cfquery name="insert" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="insert_result">
-							insert into cf_temp_attributes
+							insert into cf_temp_media
 								(#fieldlist#,username)
 							values (
 								<cfset separator = "">
