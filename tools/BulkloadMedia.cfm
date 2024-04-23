@@ -1078,7 +1078,7 @@ limitations under the License.
 						MEDIA_LABEL,
 						LABEL_VALUE
 				</cfquery>
-				<cfdump var=#getTempTableMedia.media_id#>
+				<cfdump var=#getTempTableMedia#>
 			</cfif>
 		</cfoutput>
 	</cfif>
