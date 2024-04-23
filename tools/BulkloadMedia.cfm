@@ -568,7 +568,7 @@ limitations under the License.
 						UPDATE
 							cf_temp_media
 						SET
-							status = concat(nvl2(status, status || '; ', ''),'Media URI exists' || media_uri)
+							status = concat(nvl2(status, status || '; ', ''),'Media URI exists')
 						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 							and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableMedia.key#"> 
 					</cfquery>
