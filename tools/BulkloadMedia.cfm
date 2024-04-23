@@ -1131,7 +1131,7 @@ limitations under the License.
 							mask_media_fg)
 							values (
 							#media_id#,
-							'#escapeQuotes(media_uri)#',
+							'#media_uri#',
 							'#mime_type#',
 							'#media_type#',
 							'#preview_uri#',
@@ -1139,9 +1139,7 @@ limitations under the License.
 							#MASKMEDIA#)
 						</cfquery>
 						<cfquery name="media_relations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-							select
-								*
-							from
+							select * from
 								cf_temp_media_relations
 							where
 								key=#key#
