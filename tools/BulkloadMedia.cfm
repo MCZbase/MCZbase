@@ -1031,7 +1031,7 @@ limitations under the License.
 				</cfif>
 			</cfif>
 			<cfquery name="c" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				update cf_temp_media set status='#status#' where key=#key#
+				update cf_temp_media set status='#getTempTableMedia.status#' where key=#key#
 			</cfquery>
 			<cfquery name="bad" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				select * from cf_temp_media where status is not null
