@@ -47,7 +47,7 @@ limitations under the License.
 		<cfoutput>#csv##chr(13)##chr(10)#</cfoutput>
 	<cfabort>
 </cfif>
-<cfset pageTitle = "Bulkload Media">
+<cfset pageTitle = "BulkloadMedia">
 <cfinclude template="/shared/_header.cfm">
 <cfif not isDefined("action") OR len(action) EQ 0><cfset action="nothing"></cfif>
 <main class="container-fluid px-5 py-3" id="content">
@@ -110,7 +110,7 @@ limitations under the License.
 			<span class="btn btn-xs btn-info" onclick="document.getElementById('template').style.display='block';">View template</span>
 			<div id="template" style="margin: 1rem 0;display:none;">
 				<label for="templatearea" class="data-entry-label mb-1">
-					Copy this header line and save it as a .csv file (<a href="/tools/BulkloadMedia.cfm?action=getCSVHeader">download</a>)
+					Copy this header line and save it as a .csv file (<a href="/tools/#pageTitle#.cfm?action=getCSVHeader">download</a>)
 				</label>
 				<textarea rows="2" cols="90" id="templatearea" class="w-100 data-entry-textarea">#fieldlist#</textarea>
 			</div>
@@ -128,7 +128,7 @@ limitations under the License.
 					<li class="#class#" #aria#>#field#</li>
 				</cfloop>
 			</ul>
-			<form name="atts" method="post" enctype="multipart/form-data" action="/tools/BulkloadMedia.cfm">
+			<form name="getFiles" method="post" enctype="multipart/form-data" action="/tools/#pageTitle#.cfm">
 				<div class="form-row border rounded p-2">
 					<input type="hidden" name="action" value="getFile">
 					<div class="col-12 col-md-4">
@@ -578,35 +578,35 @@ limitations under the License.
 						SET
 							status = concat(nvl2(status, status || '; ', ''),'MASK_MEDIA should be blank, 1 or 0' || mask_media)
 						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-							and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableTypes.key#"> 
+							and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableMedia.key#"> 
 					</cfif>
 				</cfif>
 				<cfif len(getTempTableMedia.MEDIA_LABELS) gt 0>
 					<cfloop list="#getTempTableMedia.media_labels#" index="l" delimiters=";">
 						<cfset ln=listgetat(l,1,"=")>
 						<cfset lv=listgetat(l,2,"=")>
-						<cfquery name="c" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						<cfquery name="ct" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							SELECT MEDIA_LABEL 
 							FROM CTMEDIA_LABEL 
 							WHERE MEDIA_LABEL = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ln#">
 						</cfquery>
 						<cfif len(getTempTableMedia.MEDIA_LABELS) is 0>
-							<cfquery name="i" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+							<cfquery name="iml" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 								UPDATE
 								cf_temp_media
 							SET
 								status = concat(nvl2(status, status || '; ', ''),'Media Label #ln# is invalid')
 							WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-								and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableTypes.key#"> 
+								and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableMedia.key#"> 
 							</cfquery>
 						<cfelseif ln EQ "made date" && refind("^[0-9]{4}-[0-9]{2}-[0-9]{2}$",lv) EQ 0>
-							<cfquery name="i" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+							<cfquery name="iml" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 								UPDATE
 								cf_temp_media
 							SET
 								status = concat(nvl2(status, status || '; ', ''),'Media Label #ln# must have a value in the form yyyy-mm-dd')
 							WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-								and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableTypes.key#"> 
+								and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableMedia.key#"> 
 							</cfquery>
 						<cfelse>
 							<cfquery name="i" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -626,7 +626,7 @@ limitations under the License.
 					</cfloop>
 				</cfif>
 			</cfloop>
-			<cfif len(getTempTableMedia.MEDIA_LABELS) gt 0>
+		<!---	<cfif len(getTempTableMedia.MEDIA_LABELS) gt 0>
 				<cfloop list="#getTempTableMedia.media_labels#" index="l" delimiters=";">
 					<cfset ln=listgetat(l,1,"=")>
 					<cfset lv=listgetat(l,2,"=")>
@@ -642,7 +642,7 @@ limitations under the License.
 							SET
 								status = concat(nvl2(status, status || '; ', ''),'Media Label #ln# must have a value in the form yyyy-mm-dd')
 							WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-								and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableTypes.key#"> 
+								and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableMedia.key#"> 
 						</cfquery>
 						<cfset rec_stat=listappend(rec_stat,'Media label #ln# is invalid',";")>
 					<cfelseif ln EQ "made date" && refind("^[0-9]{4}-[0-9]{2}-[0-9]{2}$",lv) EQ 0>
@@ -663,7 +663,7 @@ limitations under the License.
 						</cfquery>
 					</cfif>
 				</cfloop>
-			</cfif>
+			</cfif>--->
 			<cfif len(getTempTableMedia.MEDIA_RELATIONSHIPS) gt 0>
 				<cfloop list="#MEDIA_RELATIONSHIPS#" index="l" delimiters=";">
 					<cfset ln=listgetat(l,1,"=")>
