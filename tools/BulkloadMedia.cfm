@@ -613,15 +613,15 @@ limitations under the License.
 				</cfif>
 			</cfloop>
 			<cfif len(getTempTableMedia.MEDIA_LABELS) gt 0>
-				<cfloop list="#media_labels#" index="l" delimiters=";">
+				<cfloop list="#getTempTableMedia.media_labels#" index="l" delimiters=";">
 					<cfset ln=listgetat(l,1,"=")>
 					<cfset lv=listgetat(l,2,"=")>
-					<cfquery name="c" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					<cfquery name="ctLabel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						SELECT MEDIA_LABEL 
 						FROM CTMEDIA_LABEL 
 						WHERE MEDIA_LABEL = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ln#">
 					</cfquery>
-					<cfif len(getTempTableMedia.MEDIA_LABEL) is 0>
+					<cfif len(ctLabel.MEDIA_LABEL) is 0>
 						<cfset rec_stat=listappend(rec_stat,'Media label #ln# is invalid',";")>
 					<cfelseif ln EQ "made date" && refind("^[0-9]{4}-[0-9]{2}-[0-9]{2}$",lv) EQ 0>
 						<cfset rec_stat=listappend(rec_stat,'Media label #ln# must have a value in the form yyyy-mm-dd',";")>
