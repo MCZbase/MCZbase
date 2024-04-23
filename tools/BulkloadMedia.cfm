@@ -671,7 +671,7 @@ limitations under the License.
 					<cfquery name="ctLabel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						select MEDIA_RELATIONSHIP from CTMEDIA_RELATIONSHIP where MEDIA_RELATIONSHIP='#ln#'
 					</cfquery>
-					<cfif len(getTempTableMedia.MEDIA_RELATIONSHIP) is 0>
+					<cfif len(getTempTableMedia.MEDIA_RELATIONSHIPS) is 0>
 						<cfset rec_stat=listappend(rec_stat,'Media relationship #ln# is invalid',";")>
 					<cfelse>
 						<cfset table_name = listlast(ln," ")>
