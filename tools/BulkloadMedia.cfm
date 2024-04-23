@@ -578,7 +578,7 @@ limitations under the License.
 						UPDATE
 							cf_temp_media
 						SET
-							status = concat(nvl2(status, status || '; ', ''),'MASK_MEDIA =blank, 1 or 0' || mask_media)
+							status = concat(nvl2(status, status || '; ', ''),'MASK_MEDIA must=blank, 1 or 0')
 						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 							and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableMedia.key#"> 
 					</cfif>
@@ -676,7 +676,7 @@ limitations under the License.
 									) values (
 										#getTempTableMedia.key#,
 										'#ln#',
-										#session.myAgentId#,
+										<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">,
 										#cLocality.locality_id#
 									)
 								</cfquery>
