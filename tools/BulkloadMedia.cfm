@@ -950,10 +950,10 @@ limitations under the License.
 					</cfif>
 				</cfloop>
 			</cfif>
-			<cfquery name="c" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+			<cfquery name="ctMime" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				select MIME_TYPE from CTMIME_TYPE where MIME_TYPE='#getTempTableMedia.MIME_TYPE#'
 			</cfquery>
-			<cfif len(getTempTableMedia..MIME_TYPE) is 0>
+			<cfif len(getTempTableMedia.MIME_TYPE) is 0>
 				<cfset status=listappend(status,'MIME_TYPE #MIME_TYPE# is invalid',";")>
 			</cfif>
 			<cfquery name="ctMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
