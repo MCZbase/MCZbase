@@ -665,7 +665,7 @@ limitations under the License.
 				</cfloop>
 			</cfif>--->
 			<cfif len(getTempTableMedia.MEDIA_RELATIONSHIPS) gt 0>
-				<cfloop list="#MEDIA_RELATIONSHIPS#" index="l" delimiters=";">
+				<cfloop list="#getTempTableMedia.MEDIA_RELATIONSHIPS#" index="l" delimiters=";">
 					<cfset ln=listgetat(l,1,"=")>
 					<cfset lv=listgetat(l,2,"=")>
 					<cfquery name="ctLabel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
