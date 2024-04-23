@@ -976,7 +976,7 @@ limitations under the License.
 			<cfif left(cfhttp.statuscode,3) is not "200">
 		<!---		<cfset status=listappend(status,'#getTempTableMedia.media_uri# is invalid',";")>--->
 			</cfif>
-			<cfif len(preview_uri) gt 0>
+			<cfif len(getTempTableMedia.preview_uri) gt 0>
 				<cfhttp url="#getTempTableMedia.preview_uri#" charset="utf-8" timeout=5 method="head" />
 				<cfif left(cfhttp.statuscode,3) is not "200">
 		<!---			<cfset status=listappend(status,'#getTempTableMedia.preview_uri# is invalid',";")>--->
