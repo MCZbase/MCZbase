@@ -651,7 +651,7 @@ limitations under the License.
 										CREATED_BY_AGENT_ID,
 										RELATED_PRIMARY_KEY
 									) values (
-										#key#,
+										#getTempTableMedia.key#,
 										'#ln#',
 										#session.myAgentId#,
 										#ctLabel.agent_id#
@@ -661,7 +661,7 @@ limitations under the License.
 								<cfset rec_stat=listappend(rec_stat,'Agent #lv# matched #ctLabel.recordcount# records.',";")>
 							</cfif>
 						<cfelseif table_name is "locality">
-							<cfquery name="ctLabel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+							<cfquery name="cLocality" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 								select locality_id from locality where locality_id ='#lv#'
 							</cfquery>
 							<cfif ctLabel.recordcount is 1 and len(ctLabel.locality_id) gt 0>
@@ -672,10 +672,10 @@ limitations under the License.
 										CREATED_BY_AGENT_ID,
 										RELATED_PRIMARY_KEY
 									) values (
-										#key#,
+										#getTempTableMedia.key#,
 										'#ln#',
 										#session.myAgentId#,
-										#c.locality_id#
+										#cLocality.locality_id#
 									)
 								</cfquery>
 							<cfelse>
