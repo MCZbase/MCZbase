@@ -740,10 +740,10 @@ limitations under the License.
 								</cfif>
 							</cfif>
 						<cfelseif table_name is "project">
-							<cfquery name="ctLabel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+							<cfquery name="cProject" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 								select distinct(project_id) project_id from project where PROJECT_NAME ='#lv#'
 							</cfquery>
-							<cfif c.recordcount is 1 and len(c.project_id) gt 0>
+							<cfif cProject.recordcount is 1 and len(cProject.project_id) gt 0>
 								<cfquery name="i" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 									insert into cf_temp_media_relations (
 										key,
@@ -758,14 +758,14 @@ limitations under the License.
 									)
 								</cfquery>
 							<cfelse>
-								<cfset rec_stat=listappend(rec_stat,'Project #lv# matched #c.recordcount# records.',";")>
+								<cfset rec_stat=listappend(rec_stat,'Project #lv# matched #cProject.recordcount# records.',";")>
 							</cfif>
 						<cfelseif table_name is "publication">
-							<cfquery name="ctLabel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+							<cfquery name="cPub" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 								select publication_id from publication where publication_id ='#lv#'
 							</cfquery>
-							<cfif c.recordcount is 1 and len(ctLabel.publication_id) gt 0>
-								<cfquery name="i" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+							<cfif cPub.recordcount is 1 and len(cPub.publication_id) gt 0>
+								<cfquery name="iml" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 									insert into cf_temp_media_relations (
 										key,
 										MEDIA_RELATIONSHIP,
@@ -779,14 +779,14 @@ limitations under the License.
 									)
 								</cfquery>
 							<cfelse>
-								<cfset rec_stat=listappend(rec_stat,'publication_id #lv# matched #c.recordcount# records.',";")>
+								<cfset rec_stat=listappend(rec_stat,'publication_id #lv# matched #cPub.recordcount# records.',";")>
 							</cfif>
 						<cfelseif table_name is "cataloged_item">
 						<cftry>
 							<cfset institution_acronym = listgetat(lv,1,":")>
 							<cfset collection_cde = listgetat(lv,2,":")>
 							<cfset cat_num = listgetat(lv,3,":")>
-							<cfquery name="ctLabel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+							<cfquery name="cColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 								select collection_object_id from
 									cataloged_item,
 									collection
@@ -796,8 +796,8 @@ limitations under the License.
 									lower(collection.collection_cde)='#lcase(collection_cde)#' AND
 									lower(collection.institution_acronym)='#lcase(institution_acronym)#'
 							</cfquery>
-							<cfif c.recordcount is 1 and len(ctLabel.collection_object_id) gt 0>
-								<cfquery name="i" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+							<cfif cColl.recordcount is 1 and len(cColl.collection_object_id) gt 0>
+								<cfquery name="iml" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 									insert into cf_temp_media_relations (
 										key,
 										MEDIA_RELATIONSHIP,
@@ -807,11 +807,11 @@ limitations under the License.
 										#key#,
 										'#ln#',
 										#session.myAgentId#,
-										#c.collection_object_id#
+										#cColl.collection_object_id#
 									)
 								</cfquery>
 							<cfelse>
-								<cfset rec_stat=listappend(rec_stat,'Cataloged Item #lv# matched #c.recordcount# records.',";")>
+								<cfset rec_stat=listappend(rec_stat,'Cataloged Item #lv# matched #cColl.recordcount# records.',";")>
 							</cfif>
 							<cfcatch>
 								<cfset rec_stat=listappend(rec_stat,'#lv# is not a BOO DWC Triplet. *#institution_acronym#* *#collection_cde#* *#cat_num#*',";")>
@@ -820,7 +820,7 @@ limitations under the License.
 						<cfelseif table_name is "accn">
 							<cfset coll = listgetat(lv,1," ")>
 							<cfset accnnum = listgetat(lv,2," ")>
-							<cfquery name="ctLabel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+							<cfquery name="cTrans" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 								select a.transaction_id
 								from accn a, trans t, collection c
 								where a.transaction_id = t.transaction_id
@@ -828,8 +828,8 @@ limitations under the License.
 								and a.accn_number = #accnnum#
 								and c.collection = '#coll#'
 							</cfquery>
-							<cfif c.recordcount is 1 and len(c.transaction_id) gt 0>
-								<cfquery name="i" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+							<cfif cTrans.recordcount is 1 and len(cTrans.transaction_id) gt 0>
+								<cfquery name="iml" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 									insert into cf_temp_media_relations (
 										key,
 										MEDIA_RELATIONSHIP,
@@ -839,18 +839,18 @@ limitations under the License.
 										#key#,
 										'#ln#',
 										#session.myAgentId#,
-										#c.transaction_id#
+										#cTrans.transaction_id#
 									)
 								</cfquery>
 							<cfelse>
 								<cfset rec_stat=listappend(rec_stat,'accn number #lv# matched #c.recordcount# records.',";")>
 							</cfif>
 						<cfelseif table_name is "permit">
-							<cfquery name="ctLabel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+							<cfquery name="cPermit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 								select permit_id from permit where permit_num = '#lv#'
 							</cfquery>
 							<cfif c.recordcount is 1 and len(c.permit_id) gt 0>
-								<cfquery name="i" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+								<cfquery name="iml" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 									insert into cf_temp_media_relations (
 										key,
 										MEDIA_RELATIONSHIP,
@@ -860,20 +860,20 @@ limitations under the License.
 										<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#key#">,
 										<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ln#">,
 										<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#session.myAgentId#">,
-										<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#c.permit_id#">
+										<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#cPermit.permit_id#">
 									)
 								</cfquery>
 							<cfelse>
-								<cfset rec_stat=listappend(rec_stat,'permit number #lv# matched #c.recordcount# records.',";")>
+								<cfset rec_stat=listappend(rec_stat,'permit number #lv# matched #cPermit.recordcount# records.',";")>
 							</cfif>
 						<cfelseif table_name is "borrow">
-							<cfquery name="ctLabel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+							<cfquery name="cTrans" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 								select transaction_id 
 								from borrow 
 								where borrow_number = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#lv#">
 							</cfquery>
-							<cfif c.recordcount is 1 and len(c.transaction_id) gt 0>
-								<cfquery name="i" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+							<cfif cTrans.recordcount is 1 and len(cTrans.transaction_id) gt 0>
+								<cfquery name="iml" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 									insert into cf_temp_media_relations (
 										key,
 										MEDIA_RELATIONSHIP,
@@ -883,22 +883,22 @@ limitations under the License.
 										#key#,
 										'#ln#',
 										#session.myAgentId#,
-										#c.transaction_id#
+										#cTrans.transaction_id#
 									)
 								</cfquery>
 							<cfelse>
 								<cfset rec_stat=listappend(rec_stat,'permit number #lv# matched #c.recordcount# records.',";")>
 							</cfif>
 						<cfelseif table_name is "specimen_part">
-							<cfquery name="ctLabel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+							<cfquery name="cSpecPart" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 								select sp.collection_object_id
 								from specimen_part sp
 								join (select * from coll_obj_cont_hist where current_container_fg = 1)  ch on (sp.collection_object_id = ch.collection_object_id)
-								join  container c on (ch.container_id = c.container_id)
-								join  container pc on (c.parent_container_id = pc.container_id)
+								join  container cont on (ch.container_id = cont.container_id)
+								join  container pcont on (cont.parent_container_id = pc.container_id)
 								where pc.barcode = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#lv#">
 							</cfquery>
-							<cfif c.recordcount is 1 and len(c.collection_object_id) gt 0>
+							<cfif cSpecPart.recordcount is 1 and len(cSpecPart.collection_object_id) gt 0>
 								<cfquery name="i" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 									insert into cf_temp_media_relations (
 											key,
@@ -909,7 +909,7 @@ limitations under the License.
 											#key#,
 											'#ln#',
 											#session.myAgentId#,
-											#c.collection_object_id#
+											#cSpecPart.collection_object_id#
 									)
 								</cfquery>
 							<cfelse>
