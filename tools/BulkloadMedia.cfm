@@ -654,7 +654,7 @@ limitations under the License.
 										#getTempTableMedia.key#,
 										'#ln#',
 										#session.myAgentId#,
-										#ctLabel.agent_id#
+										#ctAgent.agent_id#
 									)
 								</cfquery>
 							<cfelse>
