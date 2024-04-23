@@ -985,8 +985,8 @@ limitations under the License.
 			<cfif not isDefined("veryLargeFiles")><cfset veryLargeFiles=""></cfif>
 			<cfif veryLargeFiles NEQ "true">
 				<!--- both isimagefile and cfimage run into heap space limits with very large files --->
-				<cfif isimagefile("#escapeQuotes(media_uri)#")>
-					<cfimage action="info" source="#escapeQuotes(media_uri)#" structname="imgInfo"/>
+				<cfif isimagefile("#media_uri#")>
+					<cfimage action="info" source="#media_uri#" structname="imgInfo"/>
 					<cfquery name="makeHeightLabel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						insert into cf_temp_media_labels (
 							key,
