@@ -626,44 +626,6 @@ limitations under the License.
 					</cfloop>
 				</cfif>
 			</cfloop>
-		<!---	<cfif len(getTempTableMedia.MEDIA_LABELS) gt 0>
-				<cfloop list="#getTempTableMedia.media_labels#" index="l" delimiters=";">
-					<cfset ln=listgetat(l,1,"=")>
-					<cfset lv=listgetat(l,2,"=")>
-					<cfquery name="ctLabel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						SELECT MEDIA_LABEL 
-						FROM CTMEDIA_LABEL 
-						WHERE MEDIA_LABEL = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ln#">
-					</cfquery>
-					<cfif len(ctLabel.MEDIA_LABEL) is 0>
-						<cfquery name="i" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-							UPDATE
-								cf_temp_media
-							SET
-								status = concat(nvl2(status, status || '; ', ''),'Media Label #ln# must have a value in the form yyyy-mm-dd')
-							WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-								and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableMedia.key#"> 
-						</cfquery>
-						<cfset rec_stat=listappend(rec_stat,'Media label #ln# is invalid',";")>
-					<cfelseif ln EQ "made date" && refind("^[0-9]{4}-[0-9]{2}-[0-9]{2}$",lv) EQ 0>
-						<cfset rec_stat=listappend(rec_stat,'Media label #ln# must have a value in the form yyyy-mm-dd',";")>
-					<cfelse>
-						<cfquery name="i" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-							insert into cf_temp_media_labels (
-								key,
-								MEDIA_LABEL,
-								ASSIGNED_BY_AGENT_ID,
-								LABEL_VALUE
-							) values (
-								<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#key#">,
-								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ln#">,
-								<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#session.myAgentId#">,
-								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#lv#">
-							)
-						</cfquery>
-					</cfif>
-				</cfloop>
-			</cfif>--->
 			<cfif len(getTempTableMedia.MEDIA_RELATIONSHIPS) gt 0>
 				<cfloop list="#getTempTableMedia.MEDIA_RELATIONSHIPS#" index="l" delimiters=";">
 					<cfset ln=listgetat(l,1,"=")>
