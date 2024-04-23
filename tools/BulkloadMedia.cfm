@@ -173,9 +173,7 @@ limitations under the License.
 
 <!------------------------------------------------------->
 <!------------------------------------------------------->
-	
 
-						
 	<cfif #action# is "getFile">
 		<cfoutput>
 			<h2 class="h4">First step: Reading data from CSV file.</h2>
@@ -555,7 +553,7 @@ limitations under the License.
 		<cfoutput>
 			<cfquery name="getTempTableMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT 
-					MEDIA_URI,MEDIA_LABELS, MEDIA_RELATIONSHIPS,STATUS, MIME_TYPE,MEDIA_TYPE,PREVIEW_URI,MASK_MEDIA,MEDIA_LICENSE_ID,key
+					MEDIA_URI,MEDIA_LABELS, MEDIA_RELATIONSHIPS,STATUS,MIME_TYPE,MEDIA_TYPE,PREVIEW_URI,MASK_MEDIA,MEDIA_LICENSE_ID,key
 				FROM 
 					cf_temp_media
 				WHERE 
@@ -570,7 +568,7 @@ limitations under the License.
 						UPDATE
 							cf_temp_media
 						SET
-							status = concat(nvl2(status, status || '; ', ''),'Media URI already exists on shared drive ' || media_uri)
+							status = concat(nvl2(status, status || '; ', ''),'Media URI exists' || media_uri)
 						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 							and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableMedia.key#"> 
 					</cfquery>
@@ -580,7 +578,7 @@ limitations under the License.
 						UPDATE
 							cf_temp_media
 						SET
-							status = concat(nvl2(status, status || '; ', ''),'MASK_MEDIA should be blank, 1 or 0' || mask_media)
+							status = concat(nvl2(status, status || '; ', ''),'MASK_MEDIA =blank, 1 or 0' || mask_media)
 						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 							and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableMedia.key#"> 
 					</cfif>
@@ -608,7 +606,7 @@ limitations under the License.
 							UPDATE
 								cf_temp_media
 							SET
-								status = concat(nvl2(status, status || '; ', ''),'Media Label #ln# must have a value in the form yyyy-mm-dd')
+								status = concat(nvl2(status, status || '; ', ''),'Media Label #ln# must be yyyy-mm-dd')
 							WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 								and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableMedia.key#"> 
 							</cfquery>
