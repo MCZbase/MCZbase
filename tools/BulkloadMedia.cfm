@@ -922,20 +922,20 @@ limitations under the License.
 				</cfloop>
 			</cfif>
 			<cfquery name="c" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				select MIME_TYPE from CTMIME_TYPE where MIME_TYPE='# getTempTableMedia.MIME_TYPE#'
+				select MIME_TYPE from CTMIME_TYPE where MIME_TYPE='#getTempTableMedia.MIME_TYPE#'
 			</cfquery>
-			<cfif len(c.MIME_TYPE) is 0>
+			<cfif len(getTempTableMedia..MIME_TYPE) is 0>
 				<cfset rec_stat=listappend(rec_stat,'MIME_TYPE #MIME_TYPE# is invalid',";")>
 			</cfif>
-			<cfquery name="c" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				select MEDIA_TYPE from CTMEDIA_TYPE where MEDIA_TYPE='# getTempTableMedia.MEDIA_TYPE#'
+			<cfquery name="ctMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				select MEDIA_TYPE from CTMEDIA_TYPE where MEDIA_TYPE='#getTempTableMedia.MEDIA_TYPE#'
 			</cfquery>
-			<cfif len(c.MEDIA_TYPE) is 0>
+			<cfif len(getTempTableMedia.MEDIA_TYPE) is 0>
 				<cfset rec_stat=listappend(rec_stat,'MEDIA_TYPE #MEDIA_TYPE# is invalid',";")>
 			</cfif>
-			<cfif len(MEDIA_LICENSE_ID) gt 0>
+			<cfif len(getTempTableMedia.MEDIA_LICENSE_ID) gt 0>
 				<cfquery name="c" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					select media_license_id from CTMEDIA_LICENSE where media_license_id='# getTempTableMedia.MEDIA_LICENSE_ID#'
+					select media_license_id from CTMEDIA_LICENSE where media_license_id='#getTempTableMedia.MEDIA_LICENSE_ID#'
 				</cfquery>
 				<cfif len(c.media_license_id) is 0>
 					<cfset rec_stat=listappend(rec_stat,'MEDIA_LICENSE_ID # getTempTableMedia.MEDIA_LICENSE_ID# is invalid',";")>
