@@ -40,7 +40,7 @@ limitations under the License.
 		AND column_name ='#data_type#'
 		AND COL.TABLE_NAME = 'CF_TEMP_PARTS'
 	</cfquery>
-		<cfoutput>#data_type#<br></cfoutput>
+		<cfoutput>#fields#:#data_type#<br></cfoutput>
 </cfloop>
 <cfset fieldTypes ="CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR">
 <cfset requiredfieldlist = "institution_acronym,collection_cde,other_id_type,other_id_number,attribute,attribute_value,attribute_date,determiner">
