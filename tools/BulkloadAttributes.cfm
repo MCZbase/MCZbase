@@ -37,7 +37,7 @@ limitations under the License.
 		SELECT DATA_TYPE
 		FROM sys.all_tab_columns col
 		WHERE col.OWNER = 'MCZBASE'
-		AND column_name =#i#
+		AND column_name ='#i#'
 		AND COL.TABLE_NAME = 'CF_TEMP_PARTS'
 		AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 		ORDER BY key
