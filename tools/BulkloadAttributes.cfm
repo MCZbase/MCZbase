@@ -39,7 +39,6 @@ limitations under the License.
 		WHERE col.OWNER = 'MCZBASE'
 		AND column_name ='#fields#'
 		AND COL.TABLE_NAME = 'CF_TEMP_PARTS'
-		ORDER BY key
 	</cfquery>
 		#fields#
 </cfloop>
