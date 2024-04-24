@@ -40,10 +40,14 @@ limitations under the License.
 	AND COL.TABLE_NAME = 'CF_TEMP_ATTRIBUTES'
 	order by col.COLUMN_ID
 </cfquery>
-<!---<cfloop query="getDataType">
-	<cfoutput>#getDataType.DATA_TYPE#<br></cfoutput>
-</cfloop>--->
-<!---<cfset fieldTypes ="CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR">--->
+<cfquery name="getRequired" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+	select comments
+	from sys.all_tab_columns col, sys.all_tab_comments tc
+	where col.OWNER = 'MCZBASE'
+	and tc.TABLE_NAME = col.TABLE_NAME
+	and COL.TABLE_NAME = 'CF_TEMP_ATTRIBUTES'
+	ORDER BY col.COLUMN_ID
+</cfquery>
 <cfset requiredfieldlist = "institution_acronym,collection_cde,other_id_type,other_id_number,attribute,attribute_value,attribute_date,determiner">
 
 <!--- special case handling to dump column headers as csv --->

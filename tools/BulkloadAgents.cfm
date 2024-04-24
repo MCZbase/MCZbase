@@ -30,9 +30,16 @@ limitations under the License.
 	<cfabort>
 </cfif>
 <!--- end special case dump of problems --->
+<cfset fieldlist = ["AGENT_TYPE","PREFERRED_NAME","FIRST_NAME","MIDDLE_NAME","LAST_NAME","BIRTH_DATE","DEATH_DATE","AGENT_REMARK","PREFIX","SUFFIX","OTHER_NAME_TYPE","OTHER_NAME","STATUS","OTHER_NAME_TYPE_2","OTHER_NAME_2","OTHER_NAME_TYPE_3","OTHER_NAME_3","USERNAME","AGENTGUID_GUID_TYPE","AGENTGUID"]>
+	
+<cfquery name="getDataType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+	SELECT col.DATA_TYPE
+	FROM sys.all_tab_columns col
+	WHERE col.OWNER = 'MCZBASE'
+	AND COL.TABLE_NAME = 'CF_TEMP_AGENTS'
+	order by col.COLUMN_ID
+</cfquery>
 
-<cfset fieldlist = "agent_type,preferred_name,first_name,middle_name,last_name,birth_date,death_date,agent_remark,prefix,suffix,other_name_type,other_name,other_name_type_2,other_name_2,other_name_type_3,other_name_3,agentguid_guid_type,agentguid">
-<cfset fieldTypes ="CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_DATE,CF_SQL_DATE,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR">
 <cfset requiredfieldlist = "agent_type,preferred_name,last_name">
 
 <!--- special case handling to dump column headers as csv --->
@@ -146,7 +153,7 @@ limitations under the License.
 				<!--- Note: As we can't use csvFormat.withHeader(), we can not match columns by name, we are forced to do so by number, thus arrays --->
 				<cfset colNameArray = listToArray(ucase(variables.foundHeaders))><!--- the list of columns/fields found in the input file --->
 				<cfset fieldArray = listToArray(ucase(fieldlist))><!--- the full list of fields --->
-				<cfset typeArray = listToArray(fieldTypes)><!--- the types for the full list of fields --->
+				<cfset typeArray = listToArray(getDataType.DATA_TYPE)><!--- the types for the full list of fields --->
 				<div class="col-12 my-4 px-0">
 					<h3 class="h4">Found #variables.size# columns in header of csv file.</h3>
 					<h3 class="h4">There are #ListLen(fieldList)# columns expected in the header (of these #ListLen(requiredFieldList)# are required).</h3>
