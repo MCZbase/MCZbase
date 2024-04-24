@@ -33,15 +33,16 @@ limitations under the License.
 <!--- end special case dump of problems --->
 <cfset fieldlist = ["KEY","OTHER_ID_TYPE","OTHER_ID_NUMBER","ATTRIBUTE","ATTRIBUTE_VALUE","ATTRIBUTE_UNITS","ATTRIBUTE_DATE","ATTRIBUTE_METH","DETERMINER","REMARKS","COLLECTION_CDE","INSTITUTION_ACRONYM"]>
 
-	<cfquery name="getDataType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-		SELECT col.DATA_TYPE
-		FROM sys.all_tab_columns col
-		WHERE col.OWNER = 'MCZBASE'
-		AND COL.TABLE_NAME = 'CF_TEMP_ATTRIBUTES'
-		order by col.COLUMN_ID
-	</cfquery>
-		<cfoutput>#getDataType.DATA_TYPE#<br></cfoutput>
-
+<cfquery name="getDataType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+	SELECT col.DATA_TYPE
+	FROM sys.all_tab_columns col
+	WHERE col.OWNER = 'MCZBASE'
+	AND COL.TABLE_NAME = 'CF_TEMP_ATTRIBUTES'
+	order by col.COLUMN_ID
+</cfquery>
+<cfloop query="getDataType">
+	<cfoutput>#getDataType.DATA_TYPE#<br></cfoutput>
+</cfloop>
 <cfset fieldTypes ="CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR">
 <cfset requiredfieldlist = "institution_acronym,collection_cde,other_id_type,other_id_number,attribute,attribute_value,attribute_date,determiner">
 
