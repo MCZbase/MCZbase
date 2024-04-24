@@ -37,7 +37,7 @@ limitations under the License.
 		SELECT DATA_TYPE
 		FROM sys.all_tab_columns col
 		WHERE col.OWNER = 'MCZBASE'
-		AND column_name ='#fields#'
+		AND column_name ='#data_type#'
 		AND COL.TABLE_NAME = 'CF_TEMP_PARTS'
 	</cfquery>
 		<cfoutput>#data_type#<br></cfoutput>
