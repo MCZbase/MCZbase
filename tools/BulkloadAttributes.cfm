@@ -39,7 +39,6 @@ limitations under the License.
 		WHERE col.OWNER = 'MCZBASE'
 		AND column_name ='#i#'
 		AND COL.TABLE_NAME = 'CF_TEMP_PARTS'
-		AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 		ORDER BY key
 	</cfquery>
 		#DATA_TYPE#
