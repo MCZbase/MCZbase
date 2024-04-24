@@ -34,7 +34,7 @@ limitations under the License.
 <cfset fieldlist = ["INSTITUTION_ACRONYM","COLLECTION_CDE","OTHER_ID_TYPE","OTHER_ID_NUMBER","ATTRIBUTE","ATTRIBUTE_VALUE","ATTRIBUTE_UNITS","ATTRIBUTE_DATE","ATTRIBUTE_METH","DETERMINER","REMARKS"]>
 <cfloop array = '#fieldlist#' item='data_type' index='fields'>
 	<cfquery name="getDataType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-		SELECT col.DATA_TYPE
+		SELECT *
 		FROM sys.all_tab_columns col
 		WHERE col.OWNER = 'MCZBASE'
 		AND column_name ='#DATA_TYPE#'
