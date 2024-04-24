@@ -32,16 +32,15 @@ limitations under the License.
 </cfif>
 <!--- end special case dump of problems --->
 <cfset fieldlist = ["INSTITUTION_ACRONYM","COLLECTION_CDE","OTHER_ID_TYPE","OTHER_ID_NUMBER","ATTRIBUTE","ATTRIBUTE_VALUE","ATTRIBUTE_UNITS","ATTRIBUTE_DATE","ATTRIBUTE_METH","DETERMINER","REMARKS"]>
-<cfloop array = '#fieldlist#' item='thisList' index='fields'>
+
 	<cfquery name="getDataType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		SELECT DATA_TYPE
 		FROM sys.all_tab_columns col
 		WHERE col.OWNER = 'MCZBASE'
-		AND column_name ='#fields#'
 		AND COL.TABLE_NAME = 'CF_TEMP_PARTS'
 	</cfquery>
 		<cfoutput>#fields#:#DATA_TYPE#<br></cfoutput>
-</cfloop>
+
 <cfset fieldTypes ="CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR">
 <cfset requiredfieldlist = "institution_acronym,collection_cde,other_id_type,other_id_number,attribute,attribute_value,attribute_date,determiner">
 
