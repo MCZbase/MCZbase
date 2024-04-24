@@ -40,7 +40,7 @@ limitations under the License.
 		AND COL.TABLE_NAME = 'CF_TEMP_ATTRIBUTES'
 		order by col.COLUMN_ID
 	</cfquery>
-		<cfoutput>#col.DATA_TYPE#<br></cfoutput>
+		<cfoutput>#getDataType.DATA_TYPE#<br></cfoutput>
 
 <cfset fieldTypes ="CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR">
 <cfset requiredfieldlist = "institution_acronym,collection_cde,other_id_type,other_id_number,attribute,attribute_value,attribute_date,determiner">
