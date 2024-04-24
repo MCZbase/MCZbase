@@ -32,7 +32,7 @@ limitations under the License.
 </cfif>
 <!--- end special case dump of problems --->
 <cfset fieldlist = ["institution_acronym","collection_cde","other_id_type","other_id_number","attribute","attribute_value","attribute_units","attribute_date","attribute_meth","determiner","remarks"]>
-<cfloop array = '#fieldlist#' index='fields'>
+<cfloop array = '#fieldlist#' item='data_type' index='fields'>
 	<cfquery name="getDataType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		SELECT DATA_TYPE
 		FROM sys.all_tab_columns col
@@ -40,7 +40,7 @@ limitations under the License.
 		AND column_name ='#fields#'
 		AND COL.TABLE_NAME = 'CF_TEMP_PARTS'
 	</cfquery>
-		#data_type#<br>
+		<cfoutput>#data_type#<br></cfoutput>
 </cfloop>
 <cfset fieldTypes ="CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR">
 <cfset requiredfieldlist = "institution_acronym,collection_cde,other_id_type,other_id_number,attribute,attribute_value,attribute_date,determiner">
