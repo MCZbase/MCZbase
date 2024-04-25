@@ -34,7 +34,7 @@ limitations under the License.
 <cfset fieldlist = "OTHER_ID_TYPE,OTHER_ID_NUMBER,ATTRIBUTE,ATTRIBUTE_VALUE,ATTRIBUTE_UNITS,ATTRIBUTE_DATE,ATTRIBUTE_METH,DETERMINER,REMARKS,COLLECTION_CDE,INSTITUTION_ACRONYM">
 
 <cfquery name="getDataType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-	SELECT col.DATA_TYPE, col.TABLE_NAME
+	SELECT col.DATA_TYPE, col.COLUMN_NAME
 	FROM sys.all_tab_columns col
 	WHERE col.OWNER = 'MCZBASE'
 	AND COL.TABLE_NAME = 'CF_TEMP_ATTRIBUTES'
@@ -49,9 +49,9 @@ limitations under the License.
 </cfloop>
 <cfquery name="getRequiredFields" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 	SELECT COMMENTS, TABLE_NAME
-	FROM sys.all_col_comments col
+	FROM sys.all_col_comments
 	where col.table_name = 'CF_TEMP_ATTRIBUTES' and col.comments like '%Required%'
-	and #getDataType.table_name# = #col.table_name# 
+	and COLUMN_NAME=#getDataType.COLUMN_NAME# 
 </cfquery>
 <cfset requiredFields = ''>
 <cfloop query = 'getRequiredFields'>
