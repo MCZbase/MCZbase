@@ -97,7 +97,7 @@ limitations under the License.
 			<ul class="mb-4 h4">
 				<cfloop list="#fieldlist#" index="field" delimiters=",">
 					<cfset aria = "">
-					<cfif listContains(requiredfieldlist,field,",")>
+					<cfif listContains(requiredFields,field,",")>
 						<cfset class="text-danger">
 						<cfset aria = "aria-label='Required Field'">
 					<cfelse>
