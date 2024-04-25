@@ -285,7 +285,7 @@ limitations under the License.
 				<!--- Loop through list of fields throw exception if required fields are missing --->
 				<cfset errorMessage = "">
 				<cfloop list="#fieldList#" item="aField">
-					<cfif ListContainsNoCase(requiredFieldList,aField)>
+					<cfif ListContainsNoCase(requiredFields,aField)>
 						<!--- Case 1. Check by splitting assembled list of foundHeaders --->
 						<cfif NOT ListContainsNoCase(foundHeaders,aField)>
 							<cfset errorMessage = "#errorMessage# <i class='fas fa-arrow-right'></i><strong> &nbsp;#aField#<br></strong>">
@@ -312,7 +312,7 @@ limitations under the License.
 								<strong class="text-success">Present in CSV</strong>
 							<cfelse>
 								<!--- Case 2. Check by identifying field in required field list --->
-								<cfif ListContainsNoCase(requiredFieldList,field)>
+								<cfif ListContainsNoCase(requiredFields,field)>
 									<strong class="text-dark">Required Column Not Found</strong>
 									<cfset errorMessage = "#errorMessage# <strong>#field#</strong> is missing.">
 								</cfif>
@@ -690,7 +690,7 @@ limitations under the License.
 				</cfloop>
 			</cfloop>
 			<!--- qc checks independent of attributes, includes presence of values in required columns --->
-			<cfloop list="#requiredfieldlist#" index="requiredField">
+			<cfloop list="#requiredFields#" index="requiredField">
 				<cfquery name="checkRequired" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE cf_temp_attributes
 					SET 
