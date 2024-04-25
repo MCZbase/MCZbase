@@ -397,7 +397,7 @@ limitations under the License.
 										<cfif val EQ ""> 
 											#separator#NULL
 										<cfelse>
-											#separator#<cfqueryparam cfsqltype="#typeArray[col]#" value="#val#">
+											#separator#<cfqueryparam cfsqltype="#getDataDetail.DATA_TYPE#" value="#val#">
 										</cfif>
 									<cfelse>
 										#separator#NULL
