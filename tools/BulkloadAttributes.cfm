@@ -51,7 +51,7 @@ limitations under the License.
 	SELECT COMMENTS
 	FROM sys.all_col_comments
 	where table_name = 'CF_TEMP_ATTRIBUTES' and comments like '%Required%'
-	and #getDataType.table_name# = #getRequiredFields.table_name# 
+	and #getDataType.table_name# = #sys.all_col_comments.table_name# 
 </cfquery>
 <cfset requiredFields = ''>
 <cfloop query = 'getRequiredFields'>
