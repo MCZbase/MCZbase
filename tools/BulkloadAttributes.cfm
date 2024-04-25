@@ -38,8 +38,9 @@ limitations under the License.
 	FROM sys.all_tab_columns col
 	WHERE col.OWNER = 'MCZBASE'
 	AND COL.TABLE_NAME = 'CF_TEMP_ATTRIBUTES'
-	and col.nullable <> 'N'
-	order by col.COLUMN_ID
+	AND col.nullable <> 'N'
+	AND data_type <> 'NUMBER'
+	ORDER BY col.COLUMN_ID
 </cfquery>
 <cfset dataType = ''>
 <cfloop query = 'getDataType'>
