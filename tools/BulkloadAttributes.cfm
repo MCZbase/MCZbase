@@ -39,7 +39,6 @@ limitations under the License.
 		left join sys.all_tab_columns tab on col.COLUMN_NAME=tab.COLUMN_NAME 
 		where col.TABLE_NAME = 'CF_TEMP_ATTRIBUTES'
 		and col.table_name = tab.table_name
-		and tab.column_id = #getDataDetails.COLUMN_ID#
 </cfquery>
 <cfset fieldSet = ''>
 <cfset dataType = ''>
