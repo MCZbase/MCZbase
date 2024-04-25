@@ -31,15 +31,15 @@ limitations under the License.
 	<cfabort>
 </cfif>
 <!--- end special case dump of problems --->
-<cfset fieldlist = "INSTITUTION_ACRONYM,COLLECTION_CDE,REMARKS,DETERMINER,ATTRIBUTE_METH,ATTRIBUTE_DATE,ATTRIBUTE_UNITS,ATTRIBUTE_VALUE,ATTRIBUTE,OTHER_ID_TYPE,OTHER_ID_NUMBER">
+<cfset fieldlist = "KEY,OTHER_ID_TYPE,OTHER_ID_NUMBER,ATTRIBUTE,ATTRIBUTE_VALUE,ATTRIBUTE_UNITS,ATTRIBUTE_DATE,ATTRIBUTE_METH,DETERMINER,REMARKS,COLLECTION_CDE,INSTITUTION_ACRONYM">
 
 <cfquery name="getDataType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 	SELECT col.DATA_TYPE
 	FROM sys.all_tab_columns col
 	WHERE col.OWNER = 'MCZBASE'
 	AND COL.TABLE_NAME = 'CF_TEMP_ATTRIBUTES'
-	and nullable='Yes'
-	order by col.COLUMN_ID desc
+	and nullable = 'Yes'
+	order by col.COLUMN_ID
 </cfquery>
 <cfloop QUERY = 'getDataType'>
 	<CFOUTPUT>#getDataType.DATA_TYPE#,</CFOUTPUT>
