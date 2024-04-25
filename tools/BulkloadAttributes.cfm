@@ -48,7 +48,7 @@ limitations under the License.
 	</CFOUTPUT>
 </cfloop>
 <cfquery name="getRequiredFields" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-	SELECT COMMENTS
+	SELECT COMMENTS, TABLE_NAME
 	FROM sys.all_col_comments col
 	where col.table_name = 'CF_TEMP_ATTRIBUTES' and col.comments like '%Required%'
 	and #getDataType.table_name# = #col.table_name# 
