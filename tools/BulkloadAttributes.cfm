@@ -54,6 +54,7 @@ limitations under the License.
 	where TABLE_NAME = 'CF_TEMP_ATTRIBUTES' 
 	and COMMENTS like '%Required%'
 	and COLUMN_NAME='#getDataType.COLUMN_NAME#' 
+	order by column_ID
 </cfquery>
 <cfset requiredFields = ''>
 <cfloop query = 'getRequiredFields'>
