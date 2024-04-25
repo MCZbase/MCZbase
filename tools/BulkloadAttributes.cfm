@@ -41,7 +41,7 @@ limitations under the License.
 	order by col.COLUMN_ID
 </cfquery>
 <cfloop QUERY = 'getDataType'>
-	<CFOUTPUT>#getDataType.DATA_TYPE#<br></CFOUTPUT>
+	<CFOUTPUT>#getDataType.DATA_TYPE#,</CFOUTPUT>
 </cfloop>
 
 <cfset requiredfieldlist = "institution_acronym,collection_cde,other_id_type,other_id_number,attribute,attribute_value,attribute_date,determiner">
@@ -145,7 +145,7 @@ limitations under the License.
 				<cfset fileProxy = CreateObject("java","java.io.File") >
 				<cfobject type="Java" name="csvFormat" class="org.apache.commons.csv.CSVFormat" >
 				<cfobject type="Java" name="csvParser" class="org.apache.commons.csv.CSVParser" >
-				<cfobject type="Java" name="csvRecord" class="org.apache.commons.csv.CSVRecord" >			
+				<cfobject type="Java" name="csvRecord" class="org.apache.commons.csv.CSVRecord" >
 				<cfobject type="java" class="java.io.FileReader" name="fileReader">	
 				<cfobject type="Java" name="javaCharset" class="java.nio.charset.Charset" >
 				<cfobject type="Java" name="standardCharsets" class="java.nio.charset.StandardCharsets" >
@@ -257,7 +257,7 @@ limitations under the License.
 				<!--- Note: As we can't use csvFormat.withHeader(), we can not match columns by name, we are forced to do so by number, thus arrays --->
 				<cfset colNameArray = listToArray(ucase(foundHeaders))><!--- the list of columns/fields found in the input file --->
 				<cfset fieldArray = listToArray(ucase(fieldlist))><!--- the full list of fields --->
-				<cfset typeArray = listToArray(#getDataType.DATA_TYPE#)><!--- the types for the full list of fields --->
+				<cfset typeArray = listToArray(ucase(#getDataType.DATA_TYPE#)><!--- the types for the full list of fields --->
 				<div class="col-12 my-4">
 					<h3 class="h4">Found #size# columns in header of csv file.</h3>
 					<h3 class="h4">There are #ListLen(fieldList)# columns expected in the header (of these #ListLen(requiredFieldList)# are required).</h3>
@@ -265,7 +265,7 @@ limitations under the License.
 
 				<!--- check for required fields in header line (performng check in two different ways, Case 1, Case 2) --->
 				<!--- Loop through list of fields throw exception if required fields are missing --->
-								<cfset errorMessage = "">
+				<cfset errorMessage = "">
 				<cfloop list="#fieldList#" item="aField">
 					<cfif ListContainsNoCase(requiredFieldList,aField)>
 						<!--- Case 1. Check by splitting assembled list of foundHeaders --->
@@ -279,7 +279,7 @@ limitations under the License.
 				</cfif>
 				<cfset errorMessage = "">
 				<!--- Loop through list of fields, mark each field as fields present in input or not, throw exception if required fields are missing --->
-				<ul class="h4 mb-4">
+				<ul class="h4 mb-4 font-weight-normal">
 					<cfloop list="#fieldlist#" index="field" delimiters=",">
 						<cfset hint="">
 						<cfif listContains(requiredfieldlist,field,",")>
