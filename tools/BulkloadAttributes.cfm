@@ -46,7 +46,7 @@ limitations under the License.
 <cfset requiredDataTypes = ''>
 <cfloop query = 'getDataDetails'>
 	<CFOUTPUT>
-		<cfif getDataDetails.comments like '%Required%'>
+		<cfif getDataDetails.comments contains '%Required%'>
 			<cfquery name="getDataRequired" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			SELECT tab.COLUMN_NAME, col.COMMENTS
 			from sys.all_col_comments col
