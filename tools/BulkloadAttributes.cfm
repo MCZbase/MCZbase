@@ -31,23 +31,34 @@ limitations under the License.
 	<cfabort>
 </cfif>
 <!--- end special case dump of problems --->
-<cfset fieldlist = "KEY,OTHER_ID_TYPE,OTHER_ID_NUMBER,ATTRIBUTE,ATTRIBUTE_VALUE,ATTRIBUTE_UNITS,ATTRIBUTE_DATE,ATTRIBUTE_METH,DETERMINER,REMARKS,COLLECTION_CDE,INSTITUTION_ACRONYM">
+<cfset fieldlist = "OTHER_ID_TYPE,OTHER_ID_NUMBER,ATTRIBUTE,ATTRIBUTE_VALUE,ATTRIBUTE_UNITS,ATTRIBUTE_DATE,ATTRIBUTE_METH,DETERMINER,REMARKS,COLLECTION_CDE,INSTITUTION_ACRONYM">
 
 <cfquery name="getDataType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 	SELECT col.DATA_TYPE
 	FROM sys.all_tab_columns col
 	WHERE col.OWNER = 'MCZBASE'
 	AND COL.TABLE_NAME = 'CF_TEMP_ATTRIBUTES'
-	and nullable = 'Yes'
+	and col.nullable <> 'N'
 	order by col.COLUMN_ID
 </cfquery>
-<cfset typearray0 = ''>
-<cfloop QUERY = 'getDataType'>
+<cfset dataType = ''>
+<cfloop query = 'getDataType'>
 	<CFOUTPUT>
-		<cfset typearray0 = '#getDataType.DATA_TYPE#'>
+		<cfset dataType = '#getDataType.DATA_TYPE#'>
 	</CFOUTPUT>
 </cfloop>
-
+<cfquery name="getRequiredFields" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+	SELECT COMMENTS
+	FROM sys.all_col_comments
+	where table_name = 'CF_TEMP_ATTRIBUTES' and comments like '%Required%'
+	and #getDataType.table_name# = #getRequiredFields.table_name# 
+</cfquery>
+<cfset requiredFields = ''>
+<cfloop query = 'getRequiredFields'>
+	<CFOUTPUT>
+		<cfset requiredFields = '#getDataType.DATA_TYPE#'>
+	</CFOUTPUT>
+</cfloop>
 
 <cfset requiredfieldlist = "institution_acronym,collection_cde,other_id_type,other_id_number,attribute,attribute_value,attribute_date,determiner">
 
