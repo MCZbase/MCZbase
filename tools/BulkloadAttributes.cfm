@@ -41,6 +41,7 @@ limitations under the License.
 	and nullable = 'Yes'
 	order by col.COLUMN_ID
 </cfquery>
+<cfset typearray0 = ''>
 <cfloop QUERY = 'getDataType'>
 	<CFOUTPUT>
 		<cfset typearray0 = '#getDataType.DATA_TYPE#'>
