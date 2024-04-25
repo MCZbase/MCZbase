@@ -48,7 +48,7 @@ limitations under the License.
 	<CFOUTPUT>
 		<cfif getDataDetails.comments contains '%Required%'>
 			<cfquery name="getDataRequired" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-			SELECT tab.COLUMN_NAME, col.COMMENTS
+			SELECT tab.COLUMN_NAME, col.COMMENTS, tab.DATA_TYPE
 			from sys.all_col_comments col
 			left join sys.all_tab_columns tab on col.COLUMN_NAME=tab.COLUMN_NAME 
 			where col.TABLE_NAME = 'CF_TEMP_ATTRIBUTES'
