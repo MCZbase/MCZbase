@@ -83,7 +83,7 @@ limitations under the License.
 					<cfelse>
 						<cfset class="text-dark">
 					</cfif>
-					<li class="#class#">#field#</li>
+					<li class="#class#" #aria#>#field#</li>
 				</cfloop>
 			</ul>
 			<form name="agts" method="post" enctype="multipart/form-data" action="/tools/BulkloadAgents.cfm">
