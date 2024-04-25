@@ -33,38 +33,37 @@ limitations under the License.
 <!--- end special case dump of problems --->
 <cfset fieldlist = "OTHER_ID_TYPE,OTHER_ID_NUMBER,ATTRIBUTE,ATTRIBUTE_VALUE,ATTRIBUTE_UNITS,ATTRIBUTE_DATE,ATTRIBUTE_METH,DETERMINER,REMARKS,COLLECTION_CDE,INSTITUTION_ACRONYM">
 
-<cfquery name="getDataType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-	SELECT col.DATA_TYPE, col.COLUMN_NAME
-	FROM sys.all_tab_columns col
-	WHERE col.OWNER = 'MCZBASE'
-	AND COL.TABLE_NAME = 'CF_TEMP_ATTRIBUTES'
-	AND col.nullable <> 'N'
-	AND data_type <> 'NUMBER'
-	ORDER BY col.COLUMN_ID
+<cfquery name="getDataDetails" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+	SELECT distinct sys.all_col_comments.COLUMN_NAME, sys.all_tab_columns.data_type, sys.all_col_comments.COMMENTS
+	from sys.all_col_comments col
+	left join sys.all_tab_columns tab on col.COLUMN_NAME=tab.COLUMN_NAME 
+	where col.TABLE_NAME = 'CF_TEMP_ATTRIBUTES'
+	and col.table_name = tab.table_name
 </cfquery>
+<cfset fieldSet = ''>
 <cfset dataType = ''>
-<cfloop query = 'getDataType'>
-	<CFOUTPUT>
-		<cfset dataType = '#getDataType.DATA_TYPE#'>
-	</CFOUTPUT>
-</cfloop>
-<cfquery name="getRequiredFields" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-	SELECT COMMENTS, COLUMN_NAME
-	FROM sys.all_col_comments
-	where TABLE_NAME = 'CF_TEMP_ATTRIBUTES' 
-	and COMMENTS like '%Required%'
-	and COLUMN_NAME='#getDataType.COLUMN_NAME#' 
-	order by column_ID
-</cfquery>
 <cfset requiredFields = ''>
-<cfloop query = 'getRequiredFields'>
+<cfset requiredDataTypes = ''>
+<cfloop query = 'getDataDetails'>
 	<CFOUTPUT>
-		<cfset requiredFields = '#getDataType.DATA_TYPE#'>
+		<cfif getDataDetails.comments like '%Required%'>
+			<cfquery name="getDataRequired" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+			SELECT tab.COLUMN_NAME, col.COMMENTS
+			from sys.all_col_comments col
+			left join sys.all_tab_columns tab on col.COLUMN_NAME=tab.COLUMN_NAME 
+			where col.TABLE_NAME = 'CF_TEMP_ATTRIBUTES'
+			AND col.COMMENTS like '%Required%'
+			and col.table_name = tab.table_name
+			and tab.column_id = #getDataDetails.COLUMN_ID#
+			</cfquery>
+			<cfset requiredFields = '#getDataRequired.COLUMN_NAME#'>
+			<cfset requiredDataTypes = '#getDataRequired.DATA_TYPE#'>
+		<cfelse>
+			<cfset fieldSet = '#getDataDetails.COLUMN_NAME#'>
+			<cfset dataType = '#getDataDetails.DATA_TYPE#'>
+		</cfif>
 	</CFOUTPUT>
 </cfloop>
-
-<!---<cfset requiredfieldlist = "institution_acronym,collection_cde,other_id_type,other_id_number,attribute,attribute_value,attribute_date,determiner">--->
-
 <!--- special case handling to dump column headers as csv --->
 <cfif isDefined("action") AND action is "getCSVHeader">
 	<cfset csv = "">
