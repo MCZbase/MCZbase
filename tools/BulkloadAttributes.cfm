@@ -100,7 +100,7 @@ SELECT sys.all_col_comments.COMMENTS,sys.all_tab_columns.COLUMN_NAME, sys.all_ta
 			<ul class="mb-4 h4">
 				<cfloop list="#fieldlist#" index="field" delimiters=",">
 					<cfset aria = "">
-					<cfif listContains(requiredFields,field,",")>
+					<cfif listContains(required,field,",")>
 						<cfset class="text-danger">
 						<cfset aria = "aria-label='Required Field'">
 					<cfelse>
