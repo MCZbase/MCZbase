@@ -275,10 +275,15 @@ SELECT sys.all_col_comments.COMMENTS,sys.all_tab_columns.COLUMN_NAME, sys.all_ta
 							and col.table_name = tab.table_name
 						</cfquery>
 						<cfset i=0>
-						<cfloop query="getDataRequired">
-							<cfset requiredData = #getDataRequired.COLUMN_NAME#>
-							<cfset i=i+1>
-						</cfloop><!--- the types for the full list of fields --->
+						<cfif getDataDetails.comments eq 'Required'>
+							<cfloop query="getDataRequired">
+								<li class='text-danger' aria-label='Required Field'>#getDataRequired.COLUMN_NAME#</li>
+								<cfset i=i+1>
+							</cfloop>
+						<cfelse>
+							<li class='text-dark' aria-label='Possible Attribute Field'>#getDataDetails.COLUMN_NAME#</li>
+						</cfif>
+							<!--- the types for the full list of fields --->
 					</cfif>
 				</cfloop>
 				<div class="col-12 my-4">
