@@ -324,7 +324,7 @@ SELECT sys.all_col_comments.COMMENTS,sys.all_tab_columns.COLUMN_NAME, sys.all_ta
 				<ul class="h4 mb-4 font-weight-normal">
 					<cfloop list="#fieldlist#" index="field" delimiters=",">
 						<cfset hint="">
-						<cfif listContains(#getDataRequired.COLUMN_NAME#,field,",")>
+						<cfif listContains(#fieldSet#,field,",")>
 							<cfset class="text-danger">
 							<cfset hint="aria-label='required'">
 						<cfelse>
