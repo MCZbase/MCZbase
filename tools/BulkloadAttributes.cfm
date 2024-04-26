@@ -108,7 +108,7 @@ SELECT sys.all_col_comments.COMMENTS,sys.all_tab_columns.COLUMN_NAME, sys.all_ta
 						and col.table_name = tab.table_name
 						and tab.column_id = #getDataDetails.COLUMN_ID#
 						</cfquery>
-						<cfset requiredCt = 0>
+						<cfset i=1>
 						<cfloop query="getDataRequired">
 							<li class='text-danger' aria-label='Required Field'>#i# #getDataRequired.COLUMN_NAME#</li>
 							<cfset i = i+1>
@@ -290,7 +290,7 @@ SELECT sys.all_col_comments.COMMENTS,sys.all_tab_columns.COLUMN_NAME, sys.all_ta
 				<cfset typeArray = '#getDataDetails.DATA_TYPE#'><!--- the types for the full list of fields --->
 				<div class="col-12 my-4">
 					<h3 class="h4">Found #size# columns in header of csv file.</h3>
-					<h3 class="h4">There are #ListLen(fieldList)# columns expected in the header (of these #requiredCt# are required).</h3>
+					<h3 class="h4">There are #ListLen(fieldList)# columns expected in the header (of these  are required).</h3>
 				</div>
 
 				<!--- check for required fields in header line (performng check in two different ways, Case 1, Case 2) --->
