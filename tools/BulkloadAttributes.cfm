@@ -144,7 +144,16 @@ SELECT sys.all_col_comments.COMMENTS,sys.all_tab_columns.COLUMN_NAME, sys.all_ta
 		<cfset DUP_COLUMN_ERR = "<p>One or more columns are duplicated in the header line of the csv file.<p>">
 		<cfset COLUMN_ERR = "<p>Error inserting data.</p>">
 		<cfset NO_HEADER_ERR = "<p>No header line found, csv file appears to be empty.</p>">
-
+		<cfquery name="getDataDetails" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+		SELECT sys.all_col_comments.COMMENTS,sys.all_tab_columns.COLUMN_NAME, sys.all_tab_columns.DATA_TYPE,sys.all_tab_columns.COLUMN_ID
+			FROM sys.all_col_comments, sys.all_tab_columns
+			where sys.all_col_comments.TABLE_NAME = 'CF_TEMP_ATTRIBUTES' 
+			and sys.all_tab_columns.COLUMN_NAME=sys.all_col_comments.COLUMN_NAME 
+			and sys.all_col_comments.TABLE_NAME = sys.all_tab_columns.TABLE_NAME
+			and sys.all_col_comments.COLUMN_NAME <> 'USERNAME'
+			and sys.all_col_comments.COLUMN_NAME <> 'STATUS'
+			and sys.all_col_comments.COLUMN_NAME <> 'KEY'
+		</cfquery>
 		<cftry>
 			<cfoutput>
 			<!--- Parse the CSV file using Apache Commons CSV library included with coldfusion so that columns with comma delimeters will be separated properly --->
