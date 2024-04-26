@@ -57,7 +57,7 @@ SELECT sys.all_col_comments.COMMENTS,sys.all_tab_columns.COLUMN_NAME, sys.all_ta
 			and tab.column_id = #getDataDetails.COLUMN_ID#
 			</cfquery>
 			<cfloop query="getDataRequired">
-				#getDataRequired.COLUMN_NAME#
+				<cfset required = '#getDataRequired.COLUMN_NAME#'>
 			</cfloop>
 		<cfelse>
 			<cfset fieldSet = '#getDataDetails.COLUMN_NAME#'>
@@ -109,10 +109,10 @@ SELECT sys.all_col_comments.COMMENTS,sys.all_tab_columns.COLUMN_NAME, sys.all_ta
 						and tab.column_id = #getDataDetails.COLUMN_ID#
 						</cfquery>
 						<cfloop query="getDataRequired">
-							<li class='text-danger' aria-label='Required Field'>#getDataRequired.COLUMN_NAME#</li>
+							<li class='text-danger' aria-label='Required Field'>#required#</li>
 						</cfloop>
 					<cfelse>
-						<li class='text-dark' aria-label='Possible Attribute Field'>#getDataDetails.COLUMN_NAME#</li>
+						<li class='text-dark' aria-label='Possible Attribute Field'>#fieldSet#</li>
 					</cfif>
 				</cfloop>
 			</ul>
