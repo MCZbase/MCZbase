@@ -287,7 +287,7 @@ SELECT sys.all_col_comments.COMMENTS,sys.all_tab_columns.COLUMN_NAME, sys.all_ta
 					where sys.all_col_comments.TABLE_NAME = 'CF_TEMP_ATTRIBUTES' 
 					and sys.all_tab_columns.COLUMN_NAME=sys.all_col_comments.COLUMN_NAME 
 					and sys.all_col_comments.TABLE_NAME = sys.all_tab_columns.TABLE_NAME
-				</cfquery>
+				</cfquery>--->
 				<cfquery name="getRequired" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT tab.COLUMN_NAME
 					from sys.all_col_comments col
@@ -295,7 +295,7 @@ SELECT sys.all_col_comments.COMMENTS,sys.all_tab_columns.COLUMN_NAME, sys.all_ta
 					where col.TABLE_NAME = 'CF_TEMP_ATTRIBUTES'
 					AND col.COMMENTS = 'Required'
 					and col.table_name = tab.table_name
-				</cfquery>--->
+				</cfquery>
 				<!--- Note: As we can't use csvFormat.withHeader(), we can not match columns by name, we are forced to do so by number, thus arrays --->
 				<cfset colNameArray = listToArray(ucase(foundHeaders))><!--- the list of columns/fields found in the input file --->
 				<cfset fieldArray = listToArray(ucase(fieldlist))><!--- the full list of fields --->
