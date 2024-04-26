@@ -43,7 +43,7 @@ SELECT sys.all_col_comments.COMMENTS,sys.all_tab_columns.COLUMN_NAME, sys.all_ta
 <CFOUTPUT>
 <cfset fieldSet = ''>
 <cfset dataType = ''>
-<cfset requiredFields = ''>
+<cfset required = ''>
 <cfset requiredDataTypes = ''>
 	<cfloop query = 'getDataDetails'>
 		<cfif getDataDetails.comments eq 'Required'>
@@ -57,7 +57,7 @@ SELECT sys.all_col_comments.COMMENTS,sys.all_tab_columns.COLUMN_NAME, sys.all_ta
 			and tab.column_id = #getDataDetails.COLUMN_ID#
 			</cfquery>
 			<cfloop query="getDataRequired">
-				#required#
+				#getDataRequired.required#
 				
 				<cfset requiredDataTypes = '#getDataRequired.DATA_TYPE#'>
 			</cfloop>
