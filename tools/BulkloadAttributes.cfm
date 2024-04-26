@@ -83,7 +83,6 @@ SELECT sys.all_col_comments.COMMENTS,sys.all_tab_columns.COLUMN_NAME, sys.all_ta
 					where col.TABLE_NAME = 'CF_TEMP_ATTRIBUTES'
 					AND col.COMMENTS = 'Required'
 					and col.table_name = tab.table_name
-					and tab.column_id = #getDataDetails.COLUMN_ID#
 				</cfquery>
 				<cfif getDataDetails.comments eq 'Required'>
 					<cfloop query="getDataRequired">
@@ -93,24 +92,6 @@ SELECT sys.all_col_comments.COMMENTS,sys.all_tab_columns.COLUMN_NAME, sys.all_ta
 					<li class='text-dark' aria-label='Possible Attribute Field'>#getDataDetails.COLUMN_NAME#</li>
 				</cfif>
 			</cfloop>
-						<!---<cfloop query = "getDataDetails">
-							<cfif getDataDetails.comments eq 'Required'>
-								<cfquery name="getDataRequired" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-								SELECT tab.COLUMN_NAME, col.COMMENTS, tab.DATA_TYPE
-								from sys.all_col_comments col
-								left join sys.all_tab_columns tab on col.COLUMN_NAME=tab.COLUMN_NAME 
-								where col.TABLE_NAME = 'CF_TEMP_ATTRIBUTES'
-								AND col.COMMENTS = 'Required'
-								and col.table_name = tab.table_name
-								and tab.column_id = #getDataDetails.COLUMN_ID#
-								</cfquery>
-								<cfloop query="getDataRequired">
-									<li class='text-danger' aria-label='Required Field'>#getDataRequired.COLUMN_NAME#</li>
-								</cfloop>
-							<cfelse>
-								<li class='text-dark' aria-label='Possible Attribute Field'>#getDataDetails.COLUMN_NAME#</li>
-							</cfif>
-						</cfloop>--->
 			</ul>
 			<form name="atts" method="post" enctype="multipart/form-data" action="/tools/BulkloadAttributes.cfm">
 				<div class="form-row border rounded p-2">
