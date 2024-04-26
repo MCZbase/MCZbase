@@ -75,35 +75,6 @@ limitations under the License.
 			WHERE
 				collecting_event.locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
 		</cfquery>
-		<!--- find out if delete can be allowed by policy --->
-		<cfquery name="countUses" datasource="uam_god">
-			SELECT 
-				sum(ct) total_uses
-			FROM (
-				SELECT
-					count(*) ct
-				FROM 
-					collecting_event
-				WHERE
-					locality_id=  <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
-				UNION
-				SELECT
-					count(*) ct
-				FROM
-					media_relations
-				WHERE
-					related_primary_key =  <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
-					AND
-					media_relationship like '%locality'
-				UNION
-				SELECT
-					count(*) ct
-				FROM 
-					lat_long	
-				WHERE
-					locality_id=  <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
-			)
-		</cfquery>
 		<cfoutput>
 			<main class="container-fluid mt-3 pb-5 mb-5" id="content">
 				<div class="row mx-0">
@@ -157,28 +128,26 @@ limitations under the License.
 									saveEditsFromFormCallback("#formId#","/localities/component/functions.cfc","#outputDiv#","saving locality record",reloadLocalityBlocks);
 								};
 							</script>			
-							<cfif countUses.total_uses GT "0">
-								<div class="row">
-									<div class="col-12 px-3">
-										<button type="button" class="btn btn-xs btn-secondary float-right mx-1 mt-2 mt-md-0" 
-											onClick=" location.assign('/localities/Locality.cfm?action=new&geog_auth_rec_id=#encodeForUrl(localityExists.geog_auth_rec_id)#');" 
+							<div class="row">
+								<div class="col-12 px-3">
+									<button type="button" class="btn btn-xs btn-secondary float-right mx-1 mt-2 mt-md-0" 
+										onClick=" location.assign('/localities/Locality.cfm?action=new&geog_auth_rec_id=#encodeForUrl(localityExists.geog_auth_rec_id)#');" 
+									>
+										New Locality in same higher geography</button>
+									<button type="button" class="btn btn-xs btn-secondary float-right mx-1 mt-2 mt-md-0" 
+										onClick=" location.assign('/localities/Locality.cfm?action=new&clone_from_locality_id=#encodeForUrl(locality_id)#');" 
+									>
+										Clone Locality
+									</button>
+									<cfif localityUses.numOfCollEvents GT "0">
+										<button type="button" class="btn btn-xs btn-warning float-right mx-1 mt-2 mt-md-0"
+											 onClick="location.assign('/Locality.cfm?Action=findCollEvent&locality_id=#encodeForUrl(locality_id)#');"
 										>
-											New Locality in same higher geography</button>
-										<button type="button" class="btn btn-xs btn-secondary float-right mx-1 mt-2 mt-md-0" 
-											onClick=" location.assign('/localities/Locality.cfm?action=new&clone_from_locality_id=#encodeForUrl(locality_id)#');" 
-										>
-											Clone Locality
+											Move Collecting Events
 										</button>
-										<cfif localityUses.numOfCollEvents GT "0">
-											<button type="button" class="btn btn-xs btn-warning float-right mx-1 mt-2 mt-md-0"
-												 onClick="location.assign('/Locality.cfm?Action=findCollEvent&locality_id=#encodeForUrl(locality_id)#');"
-											>
-												Move Collecting Events
-											</button>
-										</cfif>
-									</div>
+									</cfif>
 								</div>
-							</cfif>
+							</div>
 							<div class="row mx-0">
 								<cfset blockDeleteButton = getLocalityDeleteBitHtml(locality_id = "#locality_id#")>
 								<div class="col-12 px-1 mt-1" id="deleteButtonBit">

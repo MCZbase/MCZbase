@@ -629,7 +629,7 @@ limitations under the License.
 							</cfif>
 						</cfif>
 						<cfif len(verbatimelevation) GT 0>
-							<cfset depth_elevation = "#depth_elevation# #verbatim_elevation#">
+							<cfset depth_elevation = "#depth_elevation# #verbatimelevation#">
 						</cfif>
 						<cfset georeference="">
 						<cfif isDefined("dec_lat") AND len(dec_lat) GT 0>
