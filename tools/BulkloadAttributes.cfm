@@ -89,6 +89,7 @@ SELECT sys.all_col_comments.COMMENTS,sys.all_tab_columns.COLUMN_NAME, sys.all_ta
 			</div>
 			<h2 class="mt-4 h4">Columns in <span class="text-danger">red</span> are required; others are optional:</h2>
 			<ul class="mb-4 h4 font-weight-normal">
+				#required# 
 				<cfloop query = "getDataDetails">
 					<cfif getDataDetails.comments eq 'Required'>
 						<cfquery name="getDataRequired" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -101,7 +102,7 @@ SELECT sys.all_col_comments.COMMENTS,sys.all_tab_columns.COLUMN_NAME, sys.all_ta
 						and tab.column_id = #getDataDetails.COLUMN_ID#
 						</cfquery>
 						<cfloop query="getDataRequired">
-							<li class='text-danger' aria-label='Required Field'>#required# #getDataRequired.COLUMN_NAME#</li>
+							<li class='text-danger' aria-label='Required Field'>#getDataRequired.COLUMN_NAME#</li>
 						</cfloop>
 					<cfelse>
 						<li class='text-dark' aria-label='Possible Attribute Field'>#getDataDetails.COLUMN_NAME#</li>
