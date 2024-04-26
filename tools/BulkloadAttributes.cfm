@@ -59,8 +59,6 @@ SELECT sys.all_col_comments.COMMENTS,sys.all_tab_columns.COLUMN_NAME, sys.all_ta
 				<cfset required = '#getDataRequired.COLUMN_NAME#'>
 				#getDataRequired.COLUMN_NAME#
 			</cfloop>
-
-				fieldSet = #fieldSet#,dataType = #dataType#<br>
 		</cfloop>
 	<cfelse>
 		<cfset fieldSet = '#getDataDetails.COLUMN_NAME#'>
@@ -283,14 +281,21 @@ SELECT sys.all_col_comments.COMMENTS,sys.all_tab_columns.COLUMN_NAME, sys.all_ta
 					<cfset foundHeaders = "#foundHeaders##separator##bit#" >
 					<cfset separator = ",">
 				</cfloop>
-				<cfquery name="getCtRequired" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+<!---				<cfquery name="getDetails" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				SELECT sys.all_col_comments.COMMENTS,sys.all_tab_columns.COLUMN_NAME, sys.all_tab_columns.DATA_TYPE,sys.all_tab_columns.COLUMN_ID
+					FROM sys.all_col_comments, sys.all_tab_columns
+					where sys.all_col_comments.TABLE_NAME = 'CF_TEMP_ATTRIBUTES' 
+					and sys.all_tab_columns.COLUMN_NAME=sys.all_col_comments.COLUMN_NAME 
+					and sys.all_col_comments.TABLE_NAME = sys.all_tab_columns.TABLE_NAME
+				</cfquery>
+				<cfquery name="getRequired" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT tab.COLUMN_NAME
 					from sys.all_col_comments col
 					left join sys.all_tab_columns tab on col.COLUMN_NAME=tab.COLUMN_NAME 
 					where col.TABLE_NAME = 'CF_TEMP_ATTRIBUTES'
 					AND col.COMMENTS = 'Required'
 					and col.table_name = tab.table_name
-				</cfquery>
+				</cfquery>--->
 				<!--- Note: As we can't use csvFormat.withHeader(), we can not match columns by name, we are forced to do so by number, thus arrays --->
 				<cfset colNameArray = listToArray(ucase(foundHeaders))><!--- the list of columns/fields found in the input file --->
 				<cfset fieldArray = listToArray(ucase(fieldlist))><!--- the full list of fields --->
@@ -304,7 +309,7 @@ SELECT sys.all_col_comments.COMMENTS,sys.all_tab_columns.COLUMN_NAME, sys.all_ta
 				<!--- Loop through list of fields throw exception if required fields are missing --->
 				<cfset errorMessage = "">
 				<cfloop list="#fieldList#" item="aField">
-					<cfif #getDataRequired.COLUMN_NAME# contains #aField#>
+					<cfif #fieldSet# contains #aField#>
 						<!--- Case 1. Check by splitting assembled list of foundHeaders --->
 						<cfif NOT ListContainsNoCase(foundHeaders,aField)>
 							<cfset errorMessage = "#errorMessage# <i class='fas fa-arrow-right'></i><strong> &nbsp;#aField#<br></strong>">
