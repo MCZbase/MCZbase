@@ -47,7 +47,7 @@ SELECT sys.all_col_comments.COMMENTS
 <cfset requiredDataTypes = ''>
 <cfloop query = 'getDataDetails'>
 	<CFOUTPUT>
-		<cfif getDataDetails.comments = 'Required'>
+		<cfif getDataDetails.comments eq 'Required'>
 			<cfquery name="getDataRequired" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			SELECT tab.COLUMN_NAME, col.COMMENTS, tab.DATA_TYPE
 			from sys.all_col_comments col
