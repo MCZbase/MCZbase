@@ -39,14 +39,13 @@ SELECT sys.all_col_comments.COMMENTS,sys.all_tab_columns.COLUMN_NAME, sys.all_ta
 	where sys.all_col_comments.TABLE_NAME = 'CF_TEMP_ATTRIBUTES' 
 	and sys.all_tab_columns.COLUMN_NAME=sys.all_col_comments.COLUMN_NAME 
 	and sys.all_col_comments.TABLE_NAME = sys.all_tab_columns.TABLE_NAME
-	---and sys.all_tab_columns.COLUMN_NAME = 'ATTRIBUTE_VALUE'
 </cfquery>
+<CFOUTPUT>
 <cfset fieldSet = ''>
 <cfset dataType = ''>
 <cfset requiredFields = ''>
 <cfset requiredDataTypes = ''>
-<cfloop query = 'getDataDetails'>
-	<CFOUTPUT>
+	<cfloop query = 'getDataDetails'>
 		<cfif getDataDetails.comments eq 'Required'>
 			<cfquery name="getDataRequired" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			SELECT tab.COLUMN_NAME, col.COMMENTS, tab.DATA_TYPE
@@ -65,8 +64,8 @@ SELECT sys.all_col_comments.COMMENTS,sys.all_tab_columns.COLUMN_NAME, sys.all_ta
 			<cfset fieldSet = '#getDataDetails.COLUMN_NAME#'>
 			<cfset dataType = '#getDataDetails.DATA_TYPE#'>
 		</cfif>
-	</CFOUTPUT>
-</cfloop>
+	</cfloop>
+</CFOUTPUT>
 <!--- special case handling to dump column headers as csv --->
 <cfif isDefined("action") AND action is "getCSVHeader">
 	<cfset csv = "">
