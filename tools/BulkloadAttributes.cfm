@@ -108,9 +108,14 @@ SELECT sys.all_col_comments.COMMENTS,sys.all_tab_columns.COLUMN_NAME, sys.all_ta
 						and col.table_name = tab.table_name
 						and tab.column_id = #getDataDetails.COLUMN_ID#
 						</cfquery>
-						<cfquery name="getCtRequired">
-							SELECT count(tab.COLUMN_NAME) ct
-							from getDataRequired
+						<cfquery name="getCtRequired" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						SELECT count(tab.COLUMN_NAME) ct
+						from sys.all_col_comments col
+						left join sys.all_tab_columns tab on col.COLUMN_NAME=tab.COLUMN_NAME 
+						where col.TABLE_NAME = 'CF_TEMP_ATTRIBUTES'
+						AND col.COMMENTS = 'Required'
+						and col.table_name = tab.table_name
+						and tab.column_id = #getDataDetails.COLUMN_ID#
 						</cfquery>
 						<cfloop query="getDataRequired">
 							<li class='text-danger' aria-label='Required Field'>#i# #getDataRequired.COLUMN_NAME#</li>
@@ -293,7 +298,7 @@ SELECT sys.all_col_comments.COMMENTS,sys.all_tab_columns.COLUMN_NAME, sys.all_ta
 				<cfset typeArray = '#getDataDetails.DATA_TYPE#'><!--- the types for the full list of fields --->
 				<div class="col-12 my-4">
 					<h3 class="h4">Found #size# columns in header of csv file.</h3>
-					<h3 class="h4">There are #ListLen(fieldList)# columns expected in the header (of these #getCtRequired# are required).</h3>
+					<h3 class="h4">There are #ListLen(fieldList)# columns expected in the header (of these #getCtRequired.ct# are required).</h3>
 				</div>
 
 				<!--- check for required fields in header line (performng check in two different ways, Case 1, Case 2) --->
