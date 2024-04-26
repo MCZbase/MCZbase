@@ -56,8 +56,10 @@ limitations under the License.
 			and col.table_name = tab.table_name
 			and tab.column_id = #getDataDetails.COLUMN_ID#
 			</cfquery>
-			<cfset requiredFields = '#getDataRequired.COLUMN_NAME#'>
-			<cfset requiredDataTypes = '#getDataRequired.DATA_TYPE#'>
+			<cfloop query="getDataRequired">
+				<cfset requiredFields = '#getDataRequired.COLUMN_NAME#'>
+				<cfset requiredDataTypes = '#getDataRequired.DATA_TYPE#'>
+			</cfloop>
 		<cfelse>
 			<cfset fieldSet = '#getDataDetails.COLUMN_NAME#'>
 			<cfset dataType = '#getDataDetails.DATA_TYPE#'>
