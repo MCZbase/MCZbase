@@ -301,7 +301,7 @@ SELECT sys.all_col_comments.COMMENTS,sys.all_tab_columns.COLUMN_NAME, sys.all_ta
 				<!--- Loop through list of fields throw exception if required fields are missing --->
 				<cfset errorMessage = "">
 				<cfloop list="#fieldList#" item="aField">
-					<cfif ListContainsNoCase(requiredFields,aField)>
+					<cfif ListContainsNoCase(#getDataRequired.COLUMN_NAME#,aField)>
 						<!--- Case 1. Check by splitting assembled list of foundHeaders --->
 						<cfif NOT ListContainsNoCase(foundHeaders,aField)>
 							<cfset errorMessage = "#errorMessage# <i class='fas fa-arrow-right'></i><strong> &nbsp;#aField#<br></strong>">
