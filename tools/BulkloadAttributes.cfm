@@ -280,7 +280,6 @@ SELECT sys.all_col_comments.COMMENTS,sys.all_tab_columns.COLUMN_NAME, sys.all_ta
 					<cfset separator = ",">
 				</cfloop>
 
-			
 				<!--- Note: As we can't use csvFormat.withHeader(), we can not match columns by name, we are forced to do so by number, thus arrays --->
 				<cfset colNameArray = listToArray(ucase(foundHeaders))><!--- the list of columns/fields found in the input file --->
 				<cfset fieldArray = listToArray(ucase(fieldlist))><!--- the full list of fields --->
@@ -305,10 +304,11 @@ SELECT sys.all_col_comments.COMMENTS,sys.all_tab_columns.COLUMN_NAME, sys.all_ta
 						<h3 class="h4">Found #size# columns in header of csv file.</h3>
 						<h3 class="h4">There are  #getDataDetails.COLUMN_NAME# columns expected in the header (of these #getDataRequired.recordcount# are required).</h3>
 					</div>
-					<!--- check for required fields in header line (performng check in two different ways, Case 1, Case 2) --->
-					<!--- Loop through list of fields throw exception if required fields are missing --->
-					<cfset errorMessage = "">
-					<cfloop list="#fieldList#" item="aField">
+				</cfloop>
+				<!--- check for required fields in header line (performng check in two different ways, Case 1, Case 2) --->
+				<!--- Loop through list of fields throw exception if required fields are missing --->
+				<cfset errorMessage = "">
+				<cfloop list="#fieldList#" item="aField">
 					<cfquery name="getRequired" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						SELECT tab.COLUMN_NAME
 						from sys.all_col_comments col
@@ -472,6 +472,7 @@ SELECT sys.all_col_comments.COMMENTS,sys.all_tab_columns.COLUMN_NAME, sys.all_ta
 						Successfully read #loadedRows# records from the CSV file.  Next <a href="/tools/BulkloadAttributes.cfm?action=validate">click to validate</a>.
 					</cfif>
 				</h3>
+			</cfoutput>
 			<cfcatch>
 				<h3 class="h4">
 					Failed to read the CSV file.  Fix the errors in the file and <a href="/tools/BulkloadAttributes.cfm">reload</a>
@@ -542,7 +543,7 @@ SELECT sys.all_col_comments.COMMENTS,sys.all_tab_columns.COLUMN_NAME, sys.all_ta
 				</cfcatch>
 				</cftry>
 			</cffinally>
-			</cfoutput>
+		
 		</cftry>
 		
 	</cfif>
