@@ -171,7 +171,7 @@ SELECT sys.all_col_comments.COMMENTS,sys.all_tab_columns.COLUMN_NAME, sys.all_ta
 		<cfset NO_HEADER_ERR = "<p>No header line found, csv file appears to be empty.</p>">
 
 		<cftry>
-				<!--- Parse the CSV file using Apache Commons CSV library included with coldfusion so that columns with comma delimeters will be separated properly --->
+			<!--- Parse the CSV file using Apache Commons CSV library included with coldfusion so that columns with comma delimeters will be separated properly --->
 				<cfset fileProxy = CreateObject("java","java.io.File") >
 				<cfobject type="Java" name="csvFormat" class="org.apache.commons.csv.CSVFormat" >
 				<cfobject type="Java" name="csvParser" class="org.apache.commons.csv.CSVParser" >
@@ -290,7 +290,7 @@ SELECT sys.all_col_comments.COMMENTS,sys.all_tab_columns.COLUMN_NAME, sys.all_ta
 				<cfset typeArray = '#getDataDetails.DATA_TYPE#'><!--- the types for the full list of fields --->
 				<div class="col-12 my-4">
 					<h3 class="h4">Found #size# columns in header of csv file.</h3>
-					<h3 class="h4">There are #ListLen(fieldList)# columns expected in the header (of these  are required).</h3>
+					<h3 class="h4">There are #ListLen(fieldList)# columns expected in the header (of these #i# are required).</h3>
 				</div>
 
 				<!--- check for required fields in header line (performng check in two different ways, Case 1, Case 2) --->
@@ -312,7 +312,7 @@ SELECT sys.all_col_comments.COMMENTS,sys.all_tab_columns.COLUMN_NAME, sys.all_ta
 				<ul class="h4 mb-4 font-weight-normal">
 					<cfloop list="#fieldlist#" index="field" delimiters=",">
 						<cfset hint="">
-						<cfif listContains(requiredFields,field,",")>
+						<cfif listContains(#getDataRequired.COLUMN_NAME#,field,",")>
 							<cfset class="text-danger">
 							<cfset hint="aria-label='required'">
 						<cfelse>
@@ -324,7 +324,7 @@ SELECT sys.all_col_comments.COMMENTS,sys.all_tab_columns.COLUMN_NAME, sys.all_ta
 								<strong class="text-success">Present in CSV</strong>
 							<cfelse>
 								<!--- Case 2. Check by identifying field in required field list --->
-								<cfif ListContainsNoCase(requiredFields,field)>
+								<cfif getRequired>
 									<strong class="text-dark">Required Column Not Found</strong>
 									<cfset errorMessage = "#errorMessage# <strong>#field#</strong> is missing.">
 								</cfif>
