@@ -295,7 +295,7 @@ SELECT sys.all_col_comments.COMMENTS,sys.all_tab_columns.COLUMN_NAME, sys.all_ta
 				<cfset typeArray = '#getDataDetails.DATA_TYPE#'><!--- the types for the full list of fields --->
 				<div class="col-12 my-4">
 					<h3 class="h4">Found #size# columns in header of csv file.</h3>
-					<h3 class="h4">#typeArray#There are #ListLen(fieldList)# columns expected in the header (of these #getCtRequired.recordcount# are required).</h3>
+					<h3 class="h4">#required#There are #ListLen(fieldList)# columns expected in the header (of these #getCtRequired.recordcount# are required).</h3>
 				</div>
 
 				<!--- check for required fields in header line (performng check in two different ways, Case 1, Case 2) --->
