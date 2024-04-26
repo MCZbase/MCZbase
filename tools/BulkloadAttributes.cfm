@@ -58,8 +58,6 @@ SELECT sys.all_col_comments.COMMENTS,sys.all_tab_columns.COLUMN_NAME, sys.all_ta
 			</cfquery>
 			<cfloop query="getDataRequired">
 				#getDataRequired.COLUMN_NAME#
-				
-				<cfset requiredDataTypes = '#getDataRequired.DATA_TYPE#'>
 			</cfloop>
 		<cfelse>
 			<cfset fieldSet = '#getDataDetails.COLUMN_NAME#'>
@@ -100,7 +98,7 @@ SELECT sys.all_col_comments.COMMENTS,sys.all_tab_columns.COLUMN_NAME, sys.all_ta
 			<ul class="mb-4 h4">
 				<cfloop list="#fieldlist#" index="field" delimiters=",">
 					<cfset aria = "">
-					<cfif listContains(required,field,",")>
+					<cfif listContains(getDataRequired.COLUMN_NAME,field,",")>
 						<cfset class="text-danger">
 						<cfset aria = "aria-label='Required Field'">
 					<cfelse>
