@@ -296,12 +296,8 @@ SELECT sys.all_col_comments.COMMENTS,sys.all_tab_columns.COLUMN_NAME, sys.all_ta
 						<cfset i=0>
 						<cfloop query="getDataRequired">
 							<cfset requiredData = #getDataRequired.COLUMN_NAME#>
-								
 							<cfset i=i+1>
-						</cfloop>
-							#getDataRequired.COLUMN_NAME#<!--- the types for the full list of fields --->
-					<cfelse>
-						<cfset fieldArray = #getDataDetails.COLUMN_NAME#>
+						</cfloop><!--- the types for the full list of fields --->
 					</cfif>
 				</cfloop>
 				<div class="col-12 my-4">
