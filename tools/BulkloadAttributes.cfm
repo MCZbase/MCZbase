@@ -52,12 +52,12 @@ SELECT sys.all_col_comments.COMMENTS,sys.all_tab_columns.COLUMN_NAME, sys.all_ta
 			from sys.all_col_comments col
 			left join sys.all_tab_columns tab on col.COLUMN_NAME=tab.COLUMN_NAME 
 			where col.TABLE_NAME = 'CF_TEMP_ATTRIBUTES'
-			AND col.COMMENTS like '%Required%'
+			AND col.COMMENTS = 'Required'
 			and col.table_name = tab.table_name
 			and tab.column_id = #getDataDetails.COLUMN_ID#
 			</cfquery>
 			<cfloop query="getDataRequired">
-				#getDataRequired.required#
+				#getDataRequired.COMMENTS#
 				
 				<cfset requiredDataTypes = '#getDataRequired.DATA_TYPE#'>
 			</cfloop>
