@@ -302,7 +302,7 @@ SELECT sys.all_col_comments.COMMENTS,sys.all_tab_columns.COLUMN_NAME, sys.all_ta
 					<!--- the types for the full list of fields --->
 				<div class="col-12 my-4">
 					<h3 class="h4">Found #size# columns in header of csv file.</h3>
-					<h3 class="h4">#required#There are #ListLen(fieldList)# columns expected in the header (of these #getRequired.recordcount# are required).</h3>
+					<h3 class="h4">There are #ListLen(fieldList)# columns expected in the header (of these #getRequired.recordcount# are required).</h3>
 				</div>
 
 				<!--- check for required fields in header line (performng check in two different ways, Case 1, Case 2) --->
@@ -324,7 +324,7 @@ SELECT sys.all_col_comments.COMMENTS,sys.all_tab_columns.COLUMN_NAME, sys.all_ta
 				<ul class="h4 mb-4 font-weight-normal">
 					<cfloop list="#fieldlist#" index="field" delimiters=",">
 						<cfset hint="">
-						<cfif listContains(#required#,field,",")>
+						<cfif listContains(#getRequired.COLUMN_NAME#,field,",")>
 							<cfset class="text-danger">
 							<cfset hint="aria-label='required'">
 						<cfelse>
@@ -336,7 +336,7 @@ SELECT sys.all_col_comments.COMMENTS,sys.all_tab_columns.COLUMN_NAME, sys.all_ta
 								<strong class="text-success">Present in CSV</strong>
 							<cfelse>
 								<!--- Case 2. Check by identifying field in required field list --->
-								<cfif getRequired>
+								<cfif getRequired.COLUMN_NAME gt 0>
 									<strong class="text-dark">Required Column Not Found</strong>
 									<cfset errorMessage = "#errorMessage# <strong>#field#</strong> is missing.">
 								</cfif>
