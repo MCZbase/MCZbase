@@ -44,7 +44,6 @@ SELECT sys.all_col_comments.COMMENTS,sys.all_tab_columns.COLUMN_NAME, sys.all_ta
 <cfset fieldSet = ''>
 <cfset dataType = ''>
 <cfset required = ''>
-<cfset requiredDataTypes = ''>
 	<cfloop query = 'getDataDetails'>
 		<cfif getDataDetails.comments eq 'Required'>
 			<cfquery name="getDataRequired" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -64,7 +63,6 @@ SELECT sys.all_col_comments.COMMENTS,sys.all_tab_columns.COLUMN_NAME, sys.all_ta
 			<cfset dataType = '#getDataDetails.DATA_TYPE#'>
 		</cfif>
 	</cfloop>
-			fieldSet = #fieldSet#,
 </CFOUTPUT>
 <!--- special case handling to dump column headers as csv --->
 <cfif isDefined("action") AND action is "getCSVHeader">
@@ -118,8 +116,7 @@ SELECT sys.all_col_comments.COMMENTS,sys.all_tab_columns.COLUMN_NAME, sys.all_ta
 						and tab.column_id = #getDataDetails.COLUMN_ID#
 						</cfquery>
 						<cfloop query="getDataRequired">
-							<li class='text-danger' aria-label='Required Field'>#i# #getDataRequired.COLUMN_NAME#</li>
-							<cfset i = i+1>
+							<li class='text-danger' aria-label='Required Field'> #getDataRequired.COLUMN_NAME#</li>
 						</cfloop>
 					<cfelse>
 						<li class='text-dark' aria-label='Possible Attribute Field'>#getDataDetails.COLUMN_NAME#</li>
