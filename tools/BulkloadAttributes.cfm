@@ -62,10 +62,7 @@ SELECT sys.all_col_comments.COMMENTS,sys.all_tab_columns.COLUMN_NAME, sys.all_ta
 			<cfset fieldSet = '#getDataDetails.COLUMN_NAME#'>
 			<cfset dataType = '#getDataDetails.DATA_TYPE#'>
 		</cfif>
-			fieldSet = #fieldSet#<br>
-				<br>
-				<br>
-			dataType = #dataType#
+			fieldSet = #fieldSet#,dataType = #dataType#<br>
 	</cfloop>
 </CFOUTPUT>
 <!--- special case handling to dump column headers as csv --->
