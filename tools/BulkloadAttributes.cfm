@@ -292,10 +292,11 @@ SELECT sys.all_col_comments.COMMENTS,sys.all_tab_columns.COLUMN_NAME, sys.all_ta
 							where col.TABLE_NAME = 'CF_TEMP_ATTRIBUTES'
 							AND col.COMMENTS = 'Required'
 							and col.table_name = tab.table_name
-							and tab.column_id = #getDataDetails.COLUMN_ID#
 						</cfquery>
+						<cfset i=0>
 						<cfloop query="getDataRequired">
 							<cfset requiredData = #getDataRequired.COLUMN_NAME#>
+							<cfset i=i+1>
 						</cfloop>	<!--- the types for the full list of fields --->
 					<cfelse>
 						<cfset fieldArray = #getDataDetails.COLUMN_NAME#>
@@ -303,7 +304,7 @@ SELECT sys.all_col_comments.COMMENTS,sys.all_tab_columns.COLUMN_NAME, sys.all_ta
 				</cfloop>
 					<div class="col-12 my-4">
 						<h3 class="h4">Found #size# columns in header of csv file.</h3>
-						<h3 class="h4">There are  #getDataDetails.recordcount# columns expected in the header (of these #getDataRequired.recordcount# are required).</h3>
+						<h3 class="h4">There are  #getDataDetails.recordcount# columns expected in the header (of these #i# are required).</h3>
 					</div>
 				
 				<!--- check for required fields in header line (performng check in two different ways, Case 1, Case 2) --->
