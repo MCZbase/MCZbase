@@ -106,15 +106,6 @@ SELECT sys.all_col_comments.COMMENTS,sys.all_tab_columns.COLUMN_NAME, sys.all_ta
 						and col.table_name = tab.table_name
 						and tab.column_id = #getDataDetails.COLUMN_ID#
 						</cfquery>
-						<cfquery name="getCtRequired" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						SELECT count(tab.COLUMN_NAME) 
-						from sys.all_col_comments col
-						left join sys.all_tab_columns tab on col.COLUMN_NAME=tab.COLUMN_NAME 
-						where col.TABLE_NAME = 'CF_TEMP_ATTRIBUTES'
-						AND col.COMMENTS = 'Required'
-						and col.table_name = tab.table_name
-						and tab.column_id = #getDataDetails.COLUMN_ID#
-						</cfquery>
 						<cfloop query="getDataRequired">
 							<li class='text-danger' aria-label='Required Field'> #getDataRequired.COLUMN_NAME#</li>
 						</cfloop>
@@ -289,6 +280,14 @@ SELECT sys.all_col_comments.COMMENTS,sys.all_tab_columns.COLUMN_NAME, sys.all_ta
 					<cfset foundHeaders = "#foundHeaders##separator##bit#" >
 					<cfset separator = ",">
 				</cfloop>
+				<cfquery name="getCtRequired" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					SELECT tab.COLUMN_NAME
+					from sys.all_col_comments col
+					left join sys.all_tab_columns tab on col.COLUMN_NAME=tab.COLUMN_NAME 
+					where col.TABLE_NAME = 'CF_TEMP_ATTRIBUTES'
+					AND col.COMMENTS = 'Required'
+					and col.table_name = tab.table_name
+				</cfquery>
 				<!--- Note: As we can't use csvFormat.withHeader(), we can not match columns by name, we are forced to do so by number, thus arrays --->
 				<cfset colNameArray = listToArray(ucase(foundHeaders))><!--- the list of columns/fields found in the input file --->
 				<cfset fieldArray = listToArray(ucase(fieldlist))><!--- the full list of fields --->
