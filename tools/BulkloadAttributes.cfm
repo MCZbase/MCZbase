@@ -155,7 +155,7 @@ SELECT sys.all_col_comments.COMMENTS,sys.all_tab_columns.COLUMN_NAME, sys.all_ta
 	</cfif>
 	<!------------------------------------------------------->
 	<cfif #action# is "getFile">
-		<cfoutput>
+		
 		<h2 class="h4">First step: Reading data from CSV file.</h2>
 		<!--- Compare the numbers of headers expected against provided in CSV file --->
 		<!--- Set some constants to identify error cases in cfcatch block --->
@@ -165,6 +165,7 @@ SELECT sys.all_col_comments.COMMENTS,sys.all_tab_columns.COLUMN_NAME, sys.all_ta
 		<cfset NO_HEADER_ERR = "<p>No header line found, csv file appears to be empty.</p>">
 
 		<cftry>
+			<cfoutput>
 			<!--- Parse the CSV file using Apache Commons CSV library included with coldfusion so that columns with comma delimeters will be separated properly --->
 				<cfset fileProxy = CreateObject("java","java.io.File") >
 				<cfobject type="Java" name="csvFormat" class="org.apache.commons.csv.CSVFormat" >
@@ -543,8 +544,9 @@ SELECT sys.all_col_comments.COMMENTS,sys.all_tab_columns.COLUMN_NAME, sys.all_ta
 				</cfcatch>
 				</cftry>
 			</cffinally>
+			</cfoutput>
 		</cftry>
-		</cfoutput>
+		
 	</cfif>
 	<!------------------------------------------------------->
 	<cfif #action# is "validate">
