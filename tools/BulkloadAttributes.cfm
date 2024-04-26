@@ -44,7 +44,6 @@ SELECT sys.all_col_comments.COMMENTS,sys.all_tab_columns.COLUMN_NAME, sys.all_ta
 	and sys.all_col_comments.COLUMN_NAME <> 'KEY'
 </cfquery>
 
-
 <!--- special case handling to dump column headers as csv --->
 <cfif isDefined("action") AND action is "getCSVHeader">
 	<cfset csv = "">
@@ -279,21 +278,32 @@ SELECT sys.all_col_comments.COMMENTS,sys.all_tab_columns.COLUMN_NAME, sys.all_ta
 					<cfset foundHeaders = "#foundHeaders##separator##bit#" >
 					<cfset separator = ",">
 				</cfloop>
-<!---				<cfquery name="getDetails" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				SELECT sys.all_col_comments.COMMENTS,sys.all_tab_columns.COLUMN_NAME, sys.all_tab_columns.DATA_TYPE,sys.all_tab_columns.COLUMN_ID
-					FROM sys.all_col_comments, sys.all_tab_columns
-					where sys.all_col_comments.TABLE_NAME = 'CF_TEMP_ATTRIBUTES' 
-					and sys.all_tab_columns.COLUMN_NAME=sys.all_col_comments.COLUMN_NAME 
-					and sys.all_col_comments.TABLE_NAME = sys.all_tab_columns.TABLE_NAME
-				</cfquery>--->
-		
+
+			
 				<!--- Note: As we can't use csvFormat.withHeader(), we can not match columns by name, we are forced to do so by number, thus arrays --->
 				<cfset colNameArray = listToArray(ucase(foundHeaders))><!--- the list of columns/fields found in the input file --->
 				<cfset fieldArray = listToArray(ucase(fieldlist))><!--- the full list of fields --->
-					<!--- the types for the full list of fields --->
+				<cfloop query="getDataDetails">
+					<cfloop query = 'getDataDetails'>
+						<cfif getDataDetails.comments eq 'Required'>
+							<cfquery name="getDataRequired" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+								SELECT tab.COLUMN_NAME, col.COMMENTS, tab.DATA_TYPE
+								from sys.all_col_comments col
+								left join sys.all_tab_columns tab on col.COLUMN_NAME=tab.COLUMN_NAME 
+								where col.TABLE_NAME = 'CF_TEMP_ATTRIBUTES'
+								AND col.COMMENTS = 'Required'
+								and col.table_name = tab.table_name
+								and tab.column_id = #getDataDetails.COLUMN_ID#
+							</cfquery>
+							<cfloop query="getDataRequired">
+								<cfset requiredData = #getDataRequired.COLUMN_NAME#>
+							</cfloop>	<!--- the types for the full list of fields --->
+						<cfelse>
+							<cfset fieldArray = #getDataDetails.COLUMN_NAME#>
+						</cfif>
 				<div class="col-12 my-4">
 					<h3 class="h4">Found #size# columns in header of csv file.</h3>
-					<h3 class="h4">There are #ListLen(fieldList)# columns expected in the header (of these #getRequired.recordcount# are required).</h3>
+					<h3 class="h4">There are  #getDataDetails.COLUMN_NAME# columns expected in the header (of these #getDataRequired.recordcount# are required).</h3>
 				</div>
 
 				<!--- check for required fields in header line (performng check in two different ways, Case 1, Case 2) --->
