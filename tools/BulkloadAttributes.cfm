@@ -108,7 +108,7 @@ SELECT sys.all_col_comments.COMMENTS,sys.all_tab_columns.COLUMN_NAME, sys.all_ta
 						and col.table_name = tab.table_name
 						and tab.column_id = #getDataDetails.COLUMN_ID#
 						</cfquery>
-						<cfquery name="getCtRequired" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						<cfquery name="getCtRequired">
 							SELECT count(tab.COLUMN_NAME) ct
 							from getDataRequired
 						</cfquery>
