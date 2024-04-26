@@ -284,41 +284,39 @@ SELECT sys.all_col_comments.COMMENTS,sys.all_tab_columns.COLUMN_NAME, sys.all_ta
 				<!--- Note: As we can't use csvFormat.withHeader(), we can not match columns by name, we are forced to do so by number, thus arrays --->
 				<cfset colNameArray = listToArray(ucase(foundHeaders))><!--- the list of columns/fields found in the input file --->
 				<cfset fieldArray = listToArray(ucase(fieldlist))><!--- the full list of fields --->
-				<cfloop query="getDataDetails">
-					<cfloop query = 'getDataDetails'>
-						<cfif getDataDetails.comments eq 'Required'>
-							<cfquery name="getDataRequired" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-								SELECT tab.COLUMN_NAME, col.COMMENTS, tab.DATA_TYPE
-								from sys.all_col_comments col
-								left join sys.all_tab_columns tab on col.COLUMN_NAME=tab.COLUMN_NAME 
-								where col.TABLE_NAME = 'CF_TEMP_ATTRIBUTES'
-								AND col.COMMENTS = 'Required'
-								and col.table_name = tab.table_name
-								and tab.column_id = #getDataDetails.COLUMN_ID#
-							</cfquery>
-							<cfloop query="getDataRequired">
-								<cfset requiredData = #getDataRequired.COLUMN_NAME#>
-							</cfloop>	<!--- the types for the full list of fields --->
-						<cfelse>
-							<cfset fieldArray = #getDataDetails.COLUMN_NAME#>
-						</cfif>
-				<div class="col-12 my-4">
-					<h3 class="h4">Found #size# columns in header of csv file.</h3>
-					<h3 class="h4">There are  #getDataDetails.COLUMN_NAME# columns expected in the header (of these #getDataRequired.recordcount# are required).</h3>
-				</div>
-
-				<!--- check for required fields in header line (performng check in two different ways, Case 1, Case 2) --->
-				<!--- Loop through list of fields throw exception if required fields are missing --->
-				<cfset errorMessage = "">
-				<cfloop list="#fieldList#" item="aField">
-				<cfquery name="getRequired" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					SELECT tab.COLUMN_NAME
-					from sys.all_col_comments col
-					left join sys.all_tab_columns tab on col.COLUMN_NAME=tab.COLUMN_NAME 
-					where col.TABLE_NAME = 'CF_TEMP_ATTRIBUTES'
-					AND col.COMMENTS = 'Required'
-					and col.table_name = tab.table_name
-				</cfquery>
+				<cfloop query = 'getDataDetails'>
+					<cfif getDataDetails.comments eq 'Required'>
+						<cfquery name="getDataRequired" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+							SELECT tab.COLUMN_NAME, col.COMMENTS, tab.DATA_TYPE
+							from sys.all_col_comments col
+							left join sys.all_tab_columns tab on col.COLUMN_NAME=tab.COLUMN_NAME 
+							where col.TABLE_NAME = 'CF_TEMP_ATTRIBUTES'
+							AND col.COMMENTS = 'Required'
+							and col.table_name = tab.table_name
+							and tab.column_id = #getDataDetails.COLUMN_ID#
+						</cfquery>
+						<cfloop query="getDataRequired">
+							<cfset requiredData = #getDataRequired.COLUMN_NAME#>
+						</cfloop>	<!--- the types for the full list of fields --->
+					<cfelse>
+						<cfset fieldArray = #getDataDetails.COLUMN_NAME#>
+					</cfif>
+					<div class="col-12 my-4">
+						<h3 class="h4">Found #size# columns in header of csv file.</h3>
+						<h3 class="h4">There are  #getDataDetails.COLUMN_NAME# columns expected in the header (of these #getDataRequired.recordcount# are required).</h3>
+					</div>
+					<!--- check for required fields in header line (performng check in two different ways, Case 1, Case 2) --->
+					<!--- Loop through list of fields throw exception if required fields are missing --->
+					<cfset errorMessage = "">
+					<cfloop list="#fieldList#" item="aField">
+					<cfquery name="getRequired" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						SELECT tab.COLUMN_NAME
+						from sys.all_col_comments col
+						left join sys.all_tab_columns tab on col.COLUMN_NAME=tab.COLUMN_NAME 
+						where col.TABLE_NAME = 'CF_TEMP_ATTRIBUTES'
+						AND col.COMMENTS = 'Required'
+						and col.table_name = tab.table_name
+					</cfquery>
 					<cfif #fieldSet# contains #aField#>
 						<!--- Case 1. Check by splitting assembled list of foundHeaders --->
 						<cfif NOT ListContainsNoCase(foundHeaders,aField)>
