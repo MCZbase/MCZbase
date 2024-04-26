@@ -314,7 +314,7 @@ SELECT sys.all_col_comments.COMMENTS,sys.all_tab_columns.COLUMN_NAME, sys.all_ta
 					<cfif #getDataDetails.COLUMN_NAME# contains #aField#>
 						<!--- Case 1. Check by splitting assembled list of foundHeaders --->
 						<cfif NOT ListContainsNoCase(foundHeaders,aField)>
-							<cfset errorMessage = "#errorMessage# <i class='fas fa-arrow-right'></i><strong> &nbsp;#aField#<br></strong>">
+							<cfset errorMessage = "#errorMessage# <i class='fas fa-arrow-right'></i><strong> &nbsp;#aField#x<br></strong>">
 						</cfif>
 					</cfif>
 				</cfloop>
@@ -326,7 +326,7 @@ SELECT sys.all_col_comments.COMMENTS,sys.all_tab_columns.COLUMN_NAME, sys.all_ta
 				<ul class="h4 mb-4 font-weight-normal">
 					<cfloop list="#fieldlist#" index="field" delimiters=",">
 						<cfset hint="">
-						<cfif listContains(#getRequired.COLUMN_NAME#,field,",")>
+						<cfif listContains(#getDataDetails.COLUMN_NAME#,field,",")>
 							<cfset class="text-danger">
 							<cfset hint="aria-label='required'">
 						<cfelse>
