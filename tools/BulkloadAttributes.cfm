@@ -89,8 +89,8 @@ SELECT sys.all_col_comments.COMMENTS,sys.all_tab_columns.COLUMN_NAME, sys.all_ta
 					</cfloop>
 				<cfelse>
 					<li class='text-dark' aria-label='Possible Attribute Field'>#getDataDetails.COLUMN_NAME#</li>
-					</cfloop>
 				</cfif>
+			</cfloop>
 						<!---<cfloop query = "getDataDetails">
 							<cfif getDataDetails.comments eq 'Required'>
 								<cfquery name="getDataRequired" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
