@@ -265,7 +265,7 @@ SELECT sys.all_col_comments.COMMENTS,sys.all_tab_columns.COLUMN_NAME, sys.all_ta
 				<!--- Note: As we can't use csvFormat.withHeader(), we can not match columns by name, we are forced to do so by number, thus arrays --->
 				<cfset colNameArray = listToArray(ucase(foundHeaders))><!--- the list of columns/fields found in the input file --->
 				<cfset fieldArray = listToArray(ucase(fieldlist))><!--- the full list of fields --->
-				<cfquery name="getDataDetails" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+	<!---			<cfquery name="getDataDetails" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT sys.all_col_comments.COMMENTS,sys.all_tab_columns.COLUMN_NAME, sys.all_tab_columns.DATA_TYPE,sys.all_tab_columns.COLUMN_ID
 				FROM sys.all_col_comments, sys.all_tab_columns
 				where sys.all_col_comments.TABLE_NAME = 'CF_TEMP_ATTRIBUTES' 
@@ -274,7 +274,7 @@ SELECT sys.all_col_comments.COMMENTS,sys.all_tab_columns.COLUMN_NAME, sys.all_ta
 				and sys.all_col_comments.COLUMN_NAME <> 'USERNAME'
 				and sys.all_col_comments.COLUMN_NAME <> 'STATUS'
 				and sys.all_col_comments.COLUMN_NAME <> 'KEY'
-				</cfquery>
+				</cfquery>--->
 				<cfquery name="getDataRequired" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT tab.COLUMN_NAME, col.COMMENTS, tab.DATA_TYPE
 					from sys.all_col_comments col
