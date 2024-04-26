@@ -34,7 +34,7 @@ limitations under the License.
 <cfset fieldlist = "OTHER_ID_TYPE,OTHER_ID_NUMBER,ATTRIBUTE,ATTRIBUTE_VALUE,ATTRIBUTE_UNITS,ATTRIBUTE_DATE,ATTRIBUTE_METH,DETERMINER,REMARKS,COLLECTION_CDE,INSTITUTION_ACRONYM">
 
 <cfquery name="getDataDetails" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-SELECT sys.all_col_comments.COMMENTS,sys.all_tab_columns.COLUMN_NAME
+SELECT sys.all_col_comments.COMMENTS,sys.all_tab_columns.COLUMN_NAME, sys.all_tab_columns.DATA_TYPE
 	FROM sys.all_col_comments, sys.all_tab_columns
 	where sys.all_col_comments.TABLE_NAME = 'CF_TEMP_ATTRIBUTES' 
 	and sys.all_tab_columns.COLUMN_NAME=sys.all_col_comments.COLUMN_NAME 
