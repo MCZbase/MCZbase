@@ -56,7 +56,7 @@ SELECT sys.all_col_comments.COMMENTS,sys.all_tab_columns.COLUMN_NAME, sys.all_ta
 			and col.table_name = tab.table_name
 			and tab.column_id = #getDataDetails.COLUMN_ID#
 			</cfquery>
-			<cfloop query="getDataRequired" name="required" index='required'>
+			<cfloop query="getDataRequired" index='required'>
 				#required#
 				
 				<cfset requiredDataTypes = '#getDataRequired.DATA_TYPE#'>
