@@ -264,7 +264,7 @@ SELECT sys.all_col_comments.COMMENTS,sys.all_tab_columns.COLUMN_NAME, sys.all_ta
 				<!--- Note: As we can't use csvFormat.withHeader(), we can not match columns by name, we are forced to do so by number, thus arrays --->
 				<cfset colNameArray = listToArray(ucase(foundHeaders))><!--- the list of columns/fields found in the input file --->
 				<cfset fieldArray = listToArray(ucase(fieldlist))><!--- the full list of fields --->
-				<cfloop query = 'getDataDetails'>
+			<!---	<cfloop query = 'getDataDetails'>--->
 					<cfif getDataDetails.comments eq 'Required'>
 						<cfquery name="getDataRequired" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							SELECT tab.COLUMN_NAME, col.COMMENTS, tab.DATA_TYPE
@@ -283,7 +283,7 @@ SELECT sys.all_col_comments.COMMENTS,sys.all_tab_columns.COLUMN_NAME, sys.all_ta
 						<li class='text-dark' aria-label='Possible Attribute Field'>#getDataDetails.COLUMN_NAME#</li>
 							<!--- the types for the full list of fields --->
 					</cfif>
-				</cfloop>
+				<!---</cfloop>--->
 				<div class="col-12 my-4">
 					<h3 class="h4">Found #size# columns in header of csv file.</h3>
 					<h3 class="h4">There are  #getDataDetails.recordcount# columns expected in the header (of these #i# are required).</h3>
