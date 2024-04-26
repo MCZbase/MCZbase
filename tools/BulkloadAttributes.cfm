@@ -300,11 +300,12 @@ SELECT sys.all_col_comments.COMMENTS,sys.all_tab_columns.COLUMN_NAME, sys.all_ta
 					<cfelse>
 						<cfset fieldArray = #getDataDetails.COLUMN_NAME#>
 					</cfif>
+				</cfloop>
 					<div class="col-12 my-4">
 						<h3 class="h4">Found #size# columns in header of csv file.</h3>
 						<h3 class="h4">There are  #getDataDetails.COLUMN_NAME# columns expected in the header (of these #getDataRequired.recordcount# are required).</h3>
 					</div>
-				</cfloop>
+				
 				<!--- check for required fields in header line (performng check in two different ways, Case 1, Case 2) --->
 				<!--- Loop through list of fields throw exception if required fields are missing --->
 				<cfset errorMessage = "">
