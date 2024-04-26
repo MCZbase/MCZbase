@@ -107,7 +107,7 @@ SELECT sys.all_col_comments.COMMENTS,sys.all_tab_columns.COLUMN_NAME, sys.all_ta
 						and tab.column_id = #getDataDetails.COLUMN_ID#
 						</cfquery>
 						<cfquery name="getCtRequired" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						SELECT count(tab.COLUMN_NAME) ct
+						SELECT count(tab.COLUMN_NAME) as ct
 						from sys.all_col_comments col
 						left join sys.all_tab_columns tab on col.COLUMN_NAME=tab.COLUMN_NAME 
 						where col.TABLE_NAME = 'CF_TEMP_ATTRIBUTES'
