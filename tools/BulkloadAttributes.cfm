@@ -319,7 +319,7 @@ SELECT sys.all_col_comments.COMMENTS,sys.all_tab_columns.COLUMN_NAME, sys.all_ta
 						AND col.COMMENTS = 'Required'
 						and col.table_name = tab.table_name
 					</cfquery>
-					<cfif getDataDetails contains #aField#>
+					<cfif #getDataDetails.COLUMN_NAME# contains #aField#>
 						<!--- Case 1. Check by splitting assembled list of foundHeaders --->
 						<cfif NOT ListContainsNoCase(foundHeaders,aField)>
 							<cfset errorMessage = "#errorMessage# <i class='fas fa-arrow-right'></i><strong> &nbsp;#aField#<br></strong>">
