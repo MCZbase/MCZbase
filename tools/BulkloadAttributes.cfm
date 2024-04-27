@@ -89,12 +89,14 @@ SELECT sys.all_col_comments.COMMENTS,sys.all_tab_columns.COLUMN_NAME, sys.all_ta
 				and sys.all_col_comments.COLUMN_NAME <> 'COLLECTION_OBJECT_ID'
 				and sys.all_col_comments.COLUMN_NAME <> 'DETERMINED_BY_AGENT_ID'
 			</cfquery>
+			<cfset req = 0>
 			<cfloop query="getDataDetails">
 				<cfif getDataDetails.comments eq 'Required'>
 					<li class='text-danger' aria-label='Required Field'>#getDataDetails.COLUMN_NAME#</li>
 				<cfelse>
 					<li class='text-dark' aria-label='Field'>#getDataDetails.COLUMN_NAME#</li>
 				</cfif>
+				<cfset req = req + 1>
 			</cfloop>
 			</ul>
 			<form name="atts" method="post" enctype="multipart/form-data" action="/tools/BulkloadAttributes.cfm">
@@ -270,7 +272,7 @@ SELECT sys.all_col_comments.COMMENTS,sys.all_tab_columns.COLUMN_NAME, sys.all_ta
 
 				<div class="col-12 my-4">
 					<h3 class="h4">Found #size# columns in header of csv file.</h3>
-					<h3 class="h4">There are #ListLen(fieldList)# columns expected in the header (of these #ListLen(requiredFieldList)# are required).</h3>
+					<h3 class="h4">There are #ListLen(fieldList)# columns expected in the header (of these #req# are required).</h3>
 				</div>
 
 				<!--- check for required fields in header line (performng check in two different ways, Case 1, Case 2) --->
