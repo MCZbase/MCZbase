@@ -77,7 +77,7 @@ SELECT sys.all_col_comments.COMMENTS,sys.all_tab_columns.COLUMN_NAME, sys.all_ta
 			</div>
 			<h2 class="mt-4 h4">Columns in <span class="text-danger">red</span> are required; others are optional:</h2>
 			<ul class="mb-4 h4 font-weight-normal">
-			<cfquery name="getDataDetails" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+<!---			<cfquery name="getDataDetails" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT sys.all_col_comments.COMMENTS,sys.all_tab_columns.COLUMN_NAME, sys.all_tab_columns.DATA_TYPE,sys.all_tab_columns.COLUMN_ID
 				FROM sys.all_col_comments, sys.all_tab_columns
 				where sys.all_col_comments.TABLE_NAME = 'CF_TEMP_ATTRIBUTES' 
@@ -88,15 +88,15 @@ SELECT sys.all_col_comments.COMMENTS,sys.all_tab_columns.COLUMN_NAME, sys.all_ta
 				and sys.all_col_comments.COLUMN_NAME <> 'KEY'
 				and sys.all_col_comments.COLUMN_NAME <> 'COLLECTION_OBJECT_ID'
 				and sys.all_col_comments.COLUMN_NAME <> 'DETERMINED_BY_AGENT_ID'
-			</cfquery>
-			<cfset req = 0>
+			</cfquery>--->
+			<cfset i = 0>
 			<cfloop query="getDataDetails">
 				<cfif getDataDetails.comments eq 'Required'>
 					<li class='text-danger' aria-label='Required Field'>#getDataDetails.COLUMN_NAME#</li>
 				<cfelse>
 					<li class='text-dark' aria-label='Field'>#getDataDetails.COLUMN_NAME#</li>
 				</cfif>
-				<cfset req = req + 1>
+				<cfset i = i + 1>
 			</cfloop>
 			</ul>
 			<form name="atts" method="post" enctype="multipart/form-data" action="/tools/BulkloadAttributes.cfm">
