@@ -265,6 +265,24 @@ SELECT sys.all_col_comments.COMMENTS,sys.all_tab_columns.COLUMN_NAME, sys.all_ta
 					<cfset foundHeaders = "#foundHeaders##separator##bit#" >
 					<cfset separator = ",">
 				</cfloop>
+				<cfquery name="getDataRequired" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					SELECT sys.all_col_comments.COMMENTS,sys.all_tab_columns.COLUMN_NAME, sys.all_tab_columns.DATA_TYPE,sys.all_tab_columns.COLUMN_ID
+					FROM sys.all_col_comments, sys.all_tab_columns
+					where sys.all_col_comments.TABLE_NAME = 'CF_TEMP_ATTRIBUTES' 
+					and sys.all_tab_columns.COLUMN_NAME=sys.all_col_comments.COLUMN_NAME 
+					and sys.all_col_comments.TABLE_NAME = sys.all_tab_columns.TABLE_NAME
+					and sys.all_col_comments.COMMENTS = 'Required'
+					and sys.all_col_comments.COLUMN_NAME <> 'USERNAME'
+					and sys.all_col_comments.COLUMN_NAME <> 'STATUS'
+					and sys.all_col_comments.COLUMN_NAME <> 'KEY'
+					and sys.all_col_comments.COLUMN_NAME <> 'COLLECTION_OBJECT_ID'
+					and sys.all_col_comments.COLUMN_NAME <> 'DETERMINED_BY_AGENT_ID'
+				</cfquery>
+				<cfset i = 0>
+				<cfloop query = "getDataRequired">
+				#getDataRequired.COMMENTS#
+				<cfset i = i + 1>	
+				</cfloop>
 				<!--- Note: As we can't use csvFormat.withHeader(), we can not match columns by name, we are forced to do so by number, thus arrays --->
 				<cfset colNameArray = listToArray(ucase(foundHeaders))><!--- the list of columns/fields found in the input file --->
 				<cfset fieldArray = listToArray(ucase(fieldlist))><!--- the full list of fields --->
@@ -272,7 +290,7 @@ SELECT sys.all_col_comments.COMMENTS,sys.all_tab_columns.COLUMN_NAME, sys.all_ta
 
 				<div class="col-12 my-4">
 					<h3 class="h4">Found #size# columns in header of csv file.</h3>
-					<h3 class="h4">There are #ListLen(fieldList)# columns expected in the header (of these [required ct] are required).</h3>
+					<h3 class="h4">There are #ListLen(fieldList)# columns expected in the header (of these #i# are required).</h3>
 				</div>
 
 				<!--- check for required fields in header line (performng check in two different ways, Case 1, Case 2) --->
@@ -294,7 +312,7 @@ SELECT sys.all_col_comments.COMMENTS,sys.all_tab_columns.COLUMN_NAME, sys.all_ta
 				<ul class="h4 mb-4">
 					<cfloop list="#fieldlist#" index="field" delimiters=",">
 						<cfset hint="">
-						<cfif listContains(requiredfieldlist,field,",")>
+						<cfif listContains(##,field,",")>
 							<cfset class="text-danger">
 							<cfset hint="aria-label='required'">
 						<cfelse>
