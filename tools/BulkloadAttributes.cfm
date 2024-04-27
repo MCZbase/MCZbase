@@ -85,9 +85,9 @@ SELECT sys.all_col_comments.COMMENTS,sys.all_tab_columns.COLUMN_NAME, sys.all_ta
 					and col.table_name = tab.table_name
 				</cfquery>
 				<cfif getDataDetails.comments eq 'Required'>
-					<cfloop query="getDataRequired">
+					<!------><cfloop query="getDataRequired">
 						<li class='text-danger' aria-label='Required Field'>#getDataRequired.COLUMN_NAME#</li>
-					</cfloop>
+					<!---</cfloop>--->
 				<cfelse>
 					<li class='text-dark' aria-label='Possible Attribute Field'>#getDataDetails.COLUMN_NAME#</li>
 				</cfif>
