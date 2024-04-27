@@ -75,7 +75,7 @@ SELECT sys.all_col_comments.COMMENTS,sys.all_tab_columns.COLUMN_NAME, sys.all_ta
 			</div>
 			<h2 class="mt-4 h4">Columns in <span class="text-danger">red</span> are required; others are optional:</h2>
 			<ul class="mb-4 h4 font-weight-normal">
-			<!---<cfloop query = 'getDataDetails'>--->
+			<cfloop query = 'getDataDetails'>
 				<cfquery name="getDataRequired" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT tab.COLUMN_NAME, col.COMMENTS, tab.DATA_TYPE
 					from sys.all_col_comments col
@@ -91,7 +91,7 @@ SELECT sys.all_col_comments.COMMENTS,sys.all_tab_columns.COLUMN_NAME, sys.all_ta
 				<cfelse>
 					<li class='text-dark' aria-label='Possible Attribute Field'>#getDataDetails.COLUMN_NAME#</li>
 				</cfif>
-		<!---	</cfloop>--->
+			</cfloop>
 			</ul>
 			<form name="atts" method="post" enctype="multipart/form-data" action="/tools/BulkloadAttributes.cfm">
 				<div class="form-row border rounded p-2">
@@ -136,21 +136,23 @@ SELECT sys.all_col_comments.COMMENTS,sys.all_tab_columns.COLUMN_NAME, sys.all_ta
 	</cfif>
 	<!------------------------------------------------------->
 	<cfif #action# is "getFile">
-		<cfoutput>
-		<h2 class="h3">First step: Reading data from CSV file.</h2>
+		
+		<h2 class="h4">First step: Reading data from CSV file.</h2>
 		<!--- Compare the numbers of headers expected against provided in CSV file --->
 		<!--- Set some constants to identify error cases in cfcatch block --->
-		<cfset NO_COLUMN_ERR = "One or more required fields are missing in the header line of the csv file.">
-		<cfset DUP_COLUMN_ERR = "One or more columns are duplicated in the header line of the csv file.">
-		<cfset COLUMN_ERR = "Error inserting data">
-		<cfset NO_HEADER_ERR = "No header line found, csv file appears to be empty.">
-
+		<cfset NO_COLUMN_ERR = "<p>One or more required fields are missing in the header line of the csv file. <br>Missing fields: </p>">
+		<cfset DUP_COLUMN_ERR = "<p>One or more columns are duplicated in the header line of the csv file.<p>">
+		<cfset COLUMN_ERR = "<p>Error inserting data.</p>">
+		<cfset NO_HEADER_ERR = "<p>No header line found, csv file appears to be empty.</p>">
+	
 		<cftry>
-				<!--- Parse the CSV file using Apache Commons CSV library included with coldfusion so that columns with comma delimeters will be separated properly --->
+			<cfoutput>
+
+			<!--- Parse the CSV file using Apache Commons CSV library included with coldfusion so that columns with comma delimeters will be separated properly --->
 				<cfset fileProxy = CreateObject("java","java.io.File") >
 				<cfobject type="Java" name="csvFormat" class="org.apache.commons.csv.CSVFormat" >
 				<cfobject type="Java" name="csvParser" class="org.apache.commons.csv.CSVParser" >
-				<cfobject type="Java" name="csvRecord" class="org.apache.commons.csv.CSVRecord" >			
+				<cfobject type="Java" name="csvRecord" class="org.apache.commons.csv.CSVRecord" >
 				<cfobject type="java" class="java.io.FileReader" name="fileReader">	
 				<cfobject type="Java" name="javaCharset" class="java.nio.charset.Charset" >
 				<cfobject type="Java" name="standardCharsets" class="java.nio.charset.StandardCharsets" >
@@ -259,36 +261,72 @@ SELECT sys.all_col_comments.COMMENTS,sys.all_tab_columns.COLUMN_NAME, sys.all_ta
 					<cfset foundHeaders = "#foundHeaders##separator##bit#" >
 					<cfset separator = ",">
 				</cfloop>
+
 				<!--- Note: As we can't use csvFormat.withHeader(), we can not match columns by name, we are forced to do so by number, thus arrays --->
 				<cfset colNameArray = listToArray(ucase(foundHeaders))><!--- the list of columns/fields found in the input file --->
 				<cfset fieldArray = listToArray(ucase(fieldlist))><!--- the full list of fields --->
-				<cfset typeArray = listToArray(fieldTypes)><!--- the types for the full list of fields --->
-
+	<!---			<cfquery name="getDataDetails" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				SELECT sys.all_col_comments.COMMENTS,sys.all_tab_columns.COLUMN_NAME, sys.all_tab_columns.DATA_TYPE,sys.all_tab_columns.COLUMN_ID
+				FROM sys.all_col_comments, sys.all_tab_columns
+				where sys.all_col_comments.TABLE_NAME = 'CF_TEMP_ATTRIBUTES' 
+				and sys.all_tab_columns.COLUMN_NAME=sys.all_col_comments.COLUMN_NAME 
+				and sys.all_col_comments.TABLE_NAME = sys.all_tab_columns.TABLE_NAME
+				and sys.all_col_comments.COLUMN_NAME <> 'USERNAME'
+				and sys.all_col_comments.COLUMN_NAME <> 'STATUS'
+				and sys.all_col_comments.COLUMN_NAME <> 'KEY'
+				</cfquery>--->
+				<cfquery name="getDataRequired" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					SELECT tab.COLUMN_NAME, col.COMMENTS, tab.DATA_TYPE
+					from sys.all_col_comments col
+					left join sys.all_tab_columns tab on col.COLUMN_NAME=tab.COLUMN_NAME 
+					where col.TABLE_NAME = 'CF_TEMP_ATTRIBUTES'
+					AND col.COMMENTS = 'Required'
+					and col.table_name = tab.table_name
+				</cfquery>
+				<cfif getDataDetails.comments eq 'Required'>
+					<cfset i=0>
+					<cfloop query="getDataDetails">
+						<li class='text-danger' aria-label='Required Field'>#getDataRequired.COLUMN_NAME#</li>
+						<cfset i=i+1>
+					</cfloop>
+				<cfelse>
+					<li class='text-dark' aria-label='Possible Attribute Field'>#getDataDetails.COLUMN_NAME#</li>
+						<!--- the types for the full list of fields --->
+				</cfif>
+				<!---</cfloop>--->
 				<div class="col-12 my-4">
 					<h3 class="h4">Found #size# columns in header of csv file.</h3>
-					<h3 class="h4">There are #ListLen(fieldList)# columns expected in the header (of these #ListLen(requiredFieldList)# are required).</h3>
+					<h3 class="h4">There are  #getDataDetails.recordcount# columns expected in the header (of these #i# are required).</h3>
 				</div>
-
+				
 				<!--- check for required fields in header line (performng check in two different ways, Case 1, Case 2) --->
 				<!--- Loop through list of fields throw exception if required fields are missing --->
 				<cfset errorMessage = "">
 				<cfloop list="#fieldList#" item="aField">
-					<cfif ListContainsNoCase(requiredFieldList,aField)>
+					<cfquery name="getRequired" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						SELECT tab.COLUMN_NAME
+						from sys.all_col_comments col
+						left join sys.all_tab_columns tab on col.COLUMN_NAME=tab.COLUMN_NAME 
+						where col.TABLE_NAME = 'CF_TEMP_ATTRIBUTES'
+						AND col.COMMENTS = 'Required'
+						and col.table_name = tab.table_name
+					</cfquery>
+					<cfif #getDataDetails.COLUMN_NAME# contains #aField#>
 						<!--- Case 1. Check by splitting assembled list of foundHeaders --->
 						<cfif NOT ListContainsNoCase(foundHeaders,aField)>
-							<cfset errorMessage = "#errorMessage# <strong>#aField#</strong> is missing.">
+							<cfset errorMessage = "#errorMessage# <i class='fas fa-arrow-right'></i><strong> &nbsp;#aField#x<br></strong>">
 						</cfif>
 					</cfif>
 				</cfloop>
 				<cfif len(errorMessage) GT 0>
-					<cfthrow message = "#NO_COLUMN_ERR# #errorMessage#">
+					<cfthrow message = "#NO_COLUMN_ERR# <h4 class='px-4'> #errorMessage#</h4>">
 				</cfif>
 				<cfset errorMessage = "">
 				<!--- Loop through list of fields, mark each field as fields present in input or not, throw exception if required fields are missing --->
-				<ul class="h4 mb-4">
+				<ul class="h4 mb-4 font-weight-normal">
 					<cfloop list="#fieldlist#" index="field" delimiters=",">
 						<cfset hint="">
-						<cfif listContains(requiredfieldlist,field,",")>
+						<cfif listContains(#getDataDetails.COLUMN_NAME#,field,",")>
 							<cfset class="text-danger">
 							<cfset hint="aria-label='required'">
 						<cfelse>
@@ -300,9 +338,11 @@ SELECT sys.all_col_comments.COMMENTS,sys.all_tab_columns.COLUMN_NAME, sys.all_ta
 								<strong class="text-success">Present in CSV</strong>
 							<cfelse>
 								<!--- Case 2. Check by identifying field in required field list --->
-								<cfif ListContainsNoCase(requiredFieldList,field)>
-									<strong class="text-dark">Required Column Not Found</strong>
-									<cfset errorMessage = "#errorMessage# <strong>#field#</strong> is missing.">
+								<cfif getRequired.COLUMN_NAME gt 0>
+									<cfloop query="getRequired">
+										<strong class="text-dark">Required Column Not Found</strong>
+										<cfset errorMessage = "#errorMessage# <strong>#field#</strong> is missing.">
+									</cfloop>
 								</cfif>
 							</cfif>
 						</li>
@@ -385,7 +425,7 @@ SELECT sys.all_col_comments.COMMENTS,sys.all_tab_columns.COLUMN_NAME, sys.all_ta
 										<cfif val EQ ""> 
 											#separator#NULL
 										<cfelse>
-											#separator#<cfqueryparam cfsqltype="#typeArray[col]#" value="#val#">
+											#separator#<cfqueryparam cfsqltype="#getDataDetails.DATA_TYPE#" value="#val#">
 										</cfif>
 									<cfelse>
 										#separator#NULL
@@ -426,6 +466,7 @@ SELECT sys.all_col_comments.COMMENTS,sys.all_tab_columns.COLUMN_NAME, sys.all_ta
 						Successfully read #loadedRows# records from the CSV file.  Next <a href="/tools/BulkloadAttributes.cfm?action=validate">click to validate</a>.
 					</cfif>
 				</h3>
+			</cfoutput>
 			<cfcatch>
 				<h3 class="h4">
 					Failed to read the CSV file.  Fix the errors in the file and <a href="/tools/BulkloadAttributes.cfm">reload</a>
@@ -496,8 +537,9 @@ SELECT sys.all_col_comments.COMMENTS,sys.all_tab_columns.COLUMN_NAME, sys.all_ta
 				</cfcatch>
 				</cftry>
 			</cffinally>
+		
 		</cftry>
-		</cfoutput>
+		
 	</cfif>
 	<!------------------------------------------------------->
 	<cfif #action# is "validate">
