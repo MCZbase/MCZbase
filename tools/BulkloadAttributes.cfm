@@ -75,29 +75,21 @@ SELECT sys.all_col_comments.COMMENTS,sys.all_tab_columns.COLUMN_NAME, sys.all_ta
 			</div>
 			<h2 class="mt-4 h4">Columns in <span class="text-danger">red</span> are required; others are optional:</h2>
 			<ul class="mb-4 h4 font-weight-normal">
+			<cfquery name="getDataDetails" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				SELECT sys.all_col_comments.COMMENTS,sys.all_tab_columns.COLUMN_NAME, sys.all_tab_columns.DATA_TYPE,sys.all_tab_columns.COLUMN_ID
+				FROM sys.all_col_comments, sys.all_tab_columns
+				where sys.all_col_comments.TABLE_NAME = 'CF_TEMP_ATTRIBUTES' 
+				and sys.all_tab_columns.COLUMN_NAME=sys.all_col_comments.COLUMN_NAME 
+				and sys.all_col_comments.TABLE_NAME = sys.all_tab_columns.TABLE_NAME
+				and sys.all_col_comments.COLUMN_NAME <> 'USERNAME'
+				and sys.all_col_comments.COLUMN_NAME <> 'STATUS'
+				and sys.all_col_comments.COLUMN_NAME <> 'KEY'
+			</cfquery>
 			<cfif getDataDetails.comments eq 'Required'>
-				<cfquery name="getDataRequired" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					SELECT tab.COLUMN_NAME, col.COMMENTS, tab.DATA_TYPE
-					from sys.all_col_comments col
-					left join sys.all_tab_columns tab on col.COLUMN_NAME=tab.COLUMN_NAME 
-					where col.TABLE_NAME = 'CF_TEMP_ATTRIBUTES'
-					AND col.COMMENTS = 'Required'
-					and col.table_name = tab.table_name
-				</cfquery>
-				<cfloop query="getDataRequired">
+				<cfloop query="getDataDetails">
 					<li class='text-danger' aria-label='Required Field'>#getDataRequired.COLUMN_NAME#</li>
 				</cfloop>
 			<cfelse>
-				<cfquery name="getDataDetails" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					SELECT sys.all_col_comments.COMMENTS,sys.all_tab_columns.COLUMN_NAME, sys.all_tab_columns.DATA_TYPE,sys.all_tab_columns.COLUMN_ID
-					FROM sys.all_col_comments, sys.all_tab_columns
-					where sys.all_col_comments.TABLE_NAME = 'CF_TEMP_ATTRIBUTES' 
-					and sys.all_tab_columns.COLUMN_NAME=sys.all_col_comments.COLUMN_NAME 
-					and sys.all_col_comments.TABLE_NAME = sys.all_tab_columns.TABLE_NAME
-					and sys.all_col_comments.COLUMN_NAME <> 'USERNAME'
-					and sys.all_col_comments.COLUMN_NAME <> 'STATUS'
-					and sys.all_col_comments.COLUMN_NAME <> 'KEY'
-				</cfquery>
 				<cfloop query="getDataDetails">
 					<li class='text-dark' aria-label='Field'>#getDataDetails.COLUMN_NAME#</li>
 				</cfloop>
