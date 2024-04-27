@@ -85,16 +85,13 @@ SELECT sys.all_col_comments.COMMENTS,sys.all_tab_columns.COLUMN_NAME, sys.all_ta
 				and sys.all_col_comments.COLUMN_NAME <> 'STATUS'
 				and sys.all_col_comments.COLUMN_NAME <> 'KEY'
 			</cfquery>
-			<cfif getDataDetails.comments eq 'Required'>
-				<cfloop query="getDataDetails">
+			<cfloop query="getDataDetails">
+				<cfif getDataDetails.comments eq 'Required'>
 					<li class='text-danger' aria-label='Required Field'>#getDataDetails.COLUMN_NAME#</li>
-				</cfloop>
-			<cfelse>
-				<cfloop query="getDataDetails">
+				<cfelse>
 					<li class='text-dark' aria-label='Field'>#getDataDetails.COLUMN_NAME#</li>
-				</cfloop>
-			</cfif>
-			
+				</cfif>
+			</cfloop>
 			</ul>
 			<form name="atts" method="post" enctype="multipart/form-data" action="/tools/BulkloadAttributes.cfm">
 				<div class="form-row border rounded p-2">
