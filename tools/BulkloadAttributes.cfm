@@ -84,6 +84,8 @@ SELECT sys.all_col_comments.COMMENTS,sys.all_tab_columns.COLUMN_NAME, sys.all_ta
 				and sys.all_col_comments.COLUMN_NAME <> 'USERNAME'
 				and sys.all_col_comments.COLUMN_NAME <> 'STATUS'
 				and sys.all_col_comments.COLUMN_NAME <> 'KEY'
+				and sys.all_col_comments.COLUMN_NAME <> 'collection_object_id'
+				and sys.all_col_comments.COLUMN_NAME <> 'determined_by_agent_id'
 			</cfquery>
 			<cfloop query="getDataDetails">
 				<cfif getDataDetails.comments eq 'Required'>
