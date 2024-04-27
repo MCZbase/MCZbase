@@ -98,7 +98,7 @@ SELECT sys.all_col_comments.COMMENTS,sys.all_tab_columns.COLUMN_NAME, sys.all_ta
 					and sys.all_col_comments.COLUMN_NAME <> 'STATUS'
 					and sys.all_col_comments.COLUMN_NAME <> 'KEY'
 				</cfquery>
-				<cfloop query="getDataRequired">
+				<cfloop query="getDataDetails">
 					<li class='text-dark' aria-label='Field'>#getDataDetails.COLUMN_NAME#</li>
 				</cfloop>
 			</cfif>
