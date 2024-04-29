@@ -64,7 +64,6 @@ SELECT sys.all_col_comments.COMMENTS,sys.all_tab_columns.COLUMN_NAME, sys.all_ta
 </cfquery>
 <cfset k = 0>
 <cfloop query = "getDataRequired">
-	<cfoutput>#k# #getDataRequired.COMMENTS#</cfoutput>
 	<cfset k = k + 1>	
 </cfloop>
 <cfset commentList = ArrayToList(getDataRequired["COMMENTS"], ",")>
@@ -311,7 +310,7 @@ SELECT sys.all_col_comments.COMMENTS,sys.all_tab_columns.COLUMN_NAME, sys.all_ta
 				<ul class="h4 mb-4 font-weight-normal list-group">
 					<cfloop list="#fieldlist#" index="field" delimiters=",">
 						
-						<cfloop list="#getDataDetails.COLUMN_NAME#" index="curent_item">
+						<cfloop query="getDataDetails" endrow="#max#" startrow="1">
 							<cfset hint="">
 							<cfif listContains(requiredfieldlist,field,",")>
 								<cfset class="text-danger">
@@ -319,9 +318,9 @@ SELECT sys.all_col_comments.COMMENTS,sys.all_tab_columns.COLUMN_NAME, sys.all_ta
 							<cfelse>
 								<cfset class="text-dark">
 							</cfif>
-							<li class="list-group-item">
+							<li class="list-group-item px-0">
 								<cfloop index="current_item" list="#getDataDetails.COLUMN_NAME#">
-									<span class="#class#" #hint#>#current_item#</span>
+									<span class="#class#" #hint#>(#current_item#)</span>
 								</cfloop>
 								<span class="text-secondary">#getDataDetails.COMMENTS#</span>
 								
