@@ -328,7 +328,7 @@ SELECT sys.all_col_comments.COMMENTS,sys.all_tab_columns.COLUMN_NAME, sys.all_ta
 							</cfif>
 						</li>
 						<li class="list-group-item">
-							<cfif listContains(commentList,field,",")>
+							<cfif listContains(commentList,fieldlist,",")>
 								<cfloop list="#commentList#" index="comment" delimiters=",">
 									#comment#
 								</cfloop>
