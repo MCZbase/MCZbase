@@ -309,28 +309,29 @@ SELECT sys.all_col_comments.COMMENTS,sys.all_tab_columns.COLUMN_NAME, sys.all_ta
 				<ul class="h4 mb-4 font-weight-normal list-group list-group-horizontal">
 					<cfloop list="#fieldlist#" index="field" delimiters=",">
 						<cfloop query="getDataDetails">
-						<cfset hint="">
-						<cfif listContains(requiredfieldlist,field,",")>
-							<cfset class="text-danger">
-							<cfset hint="aria-label='required'">
-						<cfelse>
-							<cfset class="text-dark">
-						</cfif>
-						<li class="list-group-item">
-							<cfif len(getDataDetails.COMMENTS) gt 0 and len(getDataDetails.COLUMN_NAME) gt 0>
-								<span class="#class#" #hint#>#getDataDetails.COLUMN_NAME# : #getDataDetails.COMMENTS#</span>
-							</cfif>
-					<!---		<span class="#class#" #hint#>#field# </span> --->
-							<cfif arrayFindNoCase(colNameArray,field) GT 0>
-								<strong class="text-success">Present in CSV</strong> 
+							<cfset hint="">
+							<cfif listContains(requiredfieldlist,field,",")>
+								<cfset class="text-danger">
+								<cfset hint="aria-label='required'">
 							<cfelse>
-								<!--- Case 2. Check by identifying field in required field list --->
-								<cfif ListContainsNoCase(requiredfieldlist,field)>
-									<strong class="text-dark">Required Column Not Found </strong>
-									<cfset errorMessage = "#errorMessage# <strong>#field#</strong> is missing.">
-								</cfif>
+								<cfset class="text-dark">
 							</cfif>
-						</li>
+							<li class="list-group-item">
+								<cfif len(getDataDetails.COMMENTS) gt 0 and len(getDataDetails.COLUMN_NAME) gt 0>
+									<cfset listResult = listFind(1,COLUMN_NAME)>
+									<cfset arrayResult =  arrayFind(a, COLUMN_NAME)>
+									<span class="#class#" #hint#>#getDataDetails.COLUMN_NAME# : #getDataDetails.COMMENTS#</span>
+								</cfif>
+								<cfif arrayFindNoCase(colNameArray,field) GT 0>
+									<strong class="text-success">Present in CSV</strong> 
+								<cfelse>
+									<!--- Case 2. Check by identifying field in required field list --->
+									<cfif ListContainsNoCase(requiredfieldlist,field)>
+										<strong class="text-dark">Required Column Not Found </strong>
+										<cfset errorMessage = "#errorMessage# <strong>#field#</strong> is missing.">
+									</cfif>
+								</cfif>
+							</li>
 						</cfloop>
 					</cfloop>
 				</ul>
