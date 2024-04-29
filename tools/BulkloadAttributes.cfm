@@ -64,7 +64,7 @@ SELECT sys.all_col_comments.COMMENTS,sys.all_tab_columns.COLUMN_NAME, sys.all_ta
 </cfquery>
 <cfset k = 0>
 <cfloop query = "getDataRequired">
-	<cfoutput>#getDataRequired.COMMENTS#</cfoutput>
+	<cfoutput>#k# #getDataRequired.COMMENTS#</cfoutput>
 	<cfset k = k + 1>	
 </cfloop>
 <cfset commentList = ArrayToList(getDataRequired["COMMENTS"], ",")>
