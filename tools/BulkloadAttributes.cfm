@@ -49,7 +49,24 @@ SELECT sys.all_col_comments.COMMENTS,sys.all_tab_columns.COLUMN_NAME, sys.all_ta
 	and sys.all_col_comments.COLUMN_NAME <> 'COLLECTION_OBJECT_ID'
 	and sys.all_col_comments.COLUMN_NAME <> 'DETERMINED_BY_AGENT_ID'
 </cfquery>
-
+<cfquery name="getDataRequired" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+	SELECT sys.all_col_comments.COMMENTS,sys.all_tab_columns.COLUMN_NAME, sys.all_tab_columns.DATA_TYPE,sys.all_tab_columns.COLUMN_ID
+	FROM sys.all_col_comments, sys.all_tab_columns
+	where sys.all_col_comments.TABLE_NAME = 'CF_TEMP_ATTRIBUTES' 
+	and sys.all_tab_columns.COLUMN_NAME=sys.all_col_comments.COLUMN_NAME 
+	and sys.all_col_comments.TABLE_NAME = sys.all_tab_columns.TABLE_NAME
+	and sys.all_col_comments.COMMENTS = 'Required'
+	and sys.all_col_comments.COLUMN_NAME <> 'USERNAME'
+	and sys.all_col_comments.COLUMN_NAME <> 'STATUS'
+	and sys.all_col_comments.COLUMN_NAME <> 'KEY'
+	and sys.all_col_comments.COLUMN_NAME <> 'COLLECTION_OBJECT_ID'
+	and sys.all_col_comments.COLUMN_NAME <> 'DETERMINED_BY_AGENT_ID'
+</cfquery>
+<cfset i = 0>
+<cfloop query = "getDataRequired">
+	<cfoutput>#getDataRequired.COMMENTS#</cfoutput>
+	<cfset i = i + 1>	
+</cfloop>
 <!--- special case handling to dump column headers as csv --->
 <cfif isDefined("action") AND action is "getCSVHeader">
 	<cfset csv = "">
@@ -257,24 +274,7 @@ SELECT sys.all_col_comments.COMMENTS,sys.all_tab_columns.COLUMN_NAME, sys.all_ta
 					<cfset foundHeaders = "#foundHeaders##separator##bit#" >
 					<cfset separator = ",">
 				</cfloop>
-				<cfquery name="getDataRequired" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					SELECT sys.all_col_comments.COMMENTS,sys.all_tab_columns.COLUMN_NAME, sys.all_tab_columns.DATA_TYPE,sys.all_tab_columns.COLUMN_ID
-					FROM sys.all_col_comments, sys.all_tab_columns
-					where sys.all_col_comments.TABLE_NAME = 'CF_TEMP_ATTRIBUTES' 
-					and sys.all_tab_columns.COLUMN_NAME=sys.all_col_comments.COLUMN_NAME 
-					and sys.all_col_comments.TABLE_NAME = sys.all_tab_columns.TABLE_NAME
-					and sys.all_col_comments.COMMENTS = 'Required'
-					and sys.all_col_comments.COLUMN_NAME <> 'USERNAME'
-					and sys.all_col_comments.COLUMN_NAME <> 'STATUS'
-					and sys.all_col_comments.COLUMN_NAME <> 'KEY'
-					and sys.all_col_comments.COLUMN_NAME <> 'COLLECTION_OBJECT_ID'
-					and sys.all_col_comments.COLUMN_NAME <> 'DETERMINED_BY_AGENT_ID'
-				</cfquery>
-				<cfset i = 0>
-				<cfloop query = "getDataRequired">
-					<cfouput>#getDataRequired.COMMENTS#</cfoutput>
-				<cfset i = i + 1>	
-				</cfloop>
+		
 				<!--- Note: As we can't use csvFormat.withHeader(), we can not match columns by name, we are forced to do so by number, thus arrays --->
 				<cfset colNameArray = listToArray(ucase(foundHeaders))><!--- the list of columns/fields found in the input file --->
 				<cfset fieldArray = listToArray(ucase(fieldlist))><!--- the full list of fields --->
