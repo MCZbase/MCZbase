@@ -310,6 +310,7 @@ SELECT sys.all_col_comments.COMMENTS,sys.all_tab_columns.COLUMN_NAME, sys.all_ta
 			
 				<cfloop list="#fieldlist#" index="field" delimiters=",">
 					<cfloop query="getDataDetails" endrow="#max#" startrow="1">
+						<cfloop index="current_item" list="#getDataDetails.COLUMN_NAME#">
 						<ul class="h4 mb-4 font-weight-normal list-group border">
 							<cfset hint="">
 							<cfif listContains(requiredfieldlist,field,",")>
@@ -319,9 +320,9 @@ SELECT sys.all_col_comments.COMMENTS,sys.all_tab_columns.COLUMN_NAME, sys.all_ta
 								<cfset class="text-dark">
 							</cfif>
 							<li class="list-group-item px-0">
-								<cfloop index="current_item" list="#getDataDetails.COLUMN_NAME#">
-									<span class="#class#" #hint#>#current_item#</span>
-								</cfloop>
+							
+								<span class="#class#" #hint#>#current_item#</span>
+								
 								<span class="text-secondary"> (#getDataDetails.COMMENTS#)</span>
 								
 								<cfif arrayFindNoCase(colNameArray,field) GT 0>
@@ -335,6 +336,7 @@ SELECT sys.all_col_comments.COMMENTS,sys.all_tab_columns.COLUMN_NAME, sys.all_ta
 								</cfif>
 							</li>
 						</ul>
+						</cfloop>
 					</cfloop>
 				</cfloop>
 		
