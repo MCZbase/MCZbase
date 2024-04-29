@@ -324,7 +324,7 @@ SELECT sys.all_col_comments.COMMENTS,sys.all_tab_columns.COLUMN_NAME, sys.all_ta
 								<span class="text-secondary"> #getDataDetails.COMMENTS# </span>
 							</cfloop>
 								<cfloop list="#fieldlist#" index="field" delimiters=",">
-									<cfif arrayFindNoCase(colNameArray,field) GT 0>
+									<cfif arrayFindNoCase(colNameArray,field) EQ 1>
 										<strong class="text-success">Present in CSV</strong> 
 									<cfelse>
 										<!--- Case 2. Check by identifying field in required field list --->
