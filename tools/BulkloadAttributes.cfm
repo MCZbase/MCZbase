@@ -68,7 +68,7 @@ SELECT sys.all_col_comments.COMMENTS,sys.all_tab_columns.COLUMN_NAME, sys.all_ta
 	<cfset k = k + 1>	
 </cfloop>
 <cfset commentList = ArrayToList(getDataDetails["COMMENTS"], ",")>
-<cfset commentConnectList = ArrayToList(getDataRequired["COLUMN_NAME"], ",")>
+<cfset commentConnectList = ArrayToList(getDataDetails["COLUMN_NAME"], ",")>
 <!--- special case handling to dump column headers as csv --->
 <cfif isDefined("action") AND action is "getCSVHeader">
 	<cfset csv = "">
@@ -322,6 +322,8 @@ SELECT sys.all_col_comments.COMMENTS,sys.all_tab_columns.COLUMN_NAME, sys.all_ta
 						<cfif listContains(requiredfieldlist,field,",")>
 							<cfset class="text-danger">
 							<cfset hint="aria-label='required'">
+						<cfelseif listContains(commentConnectList,field,",")>
+							#commentList#
 						<cfelse>
 							<cfset class="text-dark">
 						</cfif>
