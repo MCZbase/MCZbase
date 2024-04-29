@@ -318,7 +318,8 @@ SELECT sys.all_col_comments.COMMENTS,sys.all_tab_columns.COLUMN_NAME, sys.all_ta
 								<cfset class="text-dark">
 							</cfif>
 							<li class="list-group-item">
-								<cfloop index="current_item" list="#getDataDetails.COLUMN_NAME#">
+								<cfset max=ArrayLen(fieldArray)> 
+								<cfloop index="current_item" list="#getDataDetails.COLUMN_NAME#" from="1" to="#max#">
 									<span class="#class#" #hint#>#current_item#</span>
 								</cfloop>
 						
