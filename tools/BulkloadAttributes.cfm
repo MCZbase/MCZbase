@@ -325,7 +325,7 @@ SELECT sys.all_col_comments.COMMENTS,sys.all_tab_columns.COLUMN_NAME, sys.all_ta
 								</cfif>
 							</cfif>
 							<cfloop list="#commentList#" index="comment" delimiters=",">
-								<cfif listContains(commentConnectList,field, ",")>#getDataDetails.COMMENTS#</cfif>
+								<cfif listContainsNoCase(commentConnectList,field)>#getDataDetails.COMMENTS#</cfif>
 							</cfloop>
 						</li>
 					</cfloop>
