@@ -70,7 +70,7 @@ SELECT sys.all_col_comments.COMMENTS,sys.all_tab_columns.COLUMN_NAME, sys.all_ta
 <cfset commentList = ArrayToList(getDataDetails["COMMENTS"], ",")>
 <cfset commentConnectList = ArrayToList(getDataDetails["COLUMN_NAME"], ",")>
 	<cfoutput>
-		columnName equals comments #commentConnectList.equals(commentList)#
+		
 	</cfoutput>
 <!--- special case handling to dump column headers as csv --->
 <cfif isDefined("action") AND action is "getCSVHeader">
@@ -330,9 +330,7 @@ SELECT sys.all_col_comments.COMMENTS,sys.all_tab_columns.COLUMN_NAME, sys.all_ta
 							<cfset class="text-dark">
 						</cfif>
 						<li>
-							<cfif listContains(commentConnectList,field,",")>
-							#commentList#
-							</cfif>
+							columnName equals comments #commentConnectList.equals(fieldlist)#
 							<span class="#class#" #hint#>#field#</span>
 							<cfif arrayFindNoCase(colNameArray,field) GT 0>
 								<strong class="text-success">Present in CSV</strong> 
