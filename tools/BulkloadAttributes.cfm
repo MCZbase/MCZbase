@@ -307,38 +307,37 @@ SELECT sys.all_col_comments.COMMENTS,sys.all_tab_columns.COLUMN_NAME, sys.all_ta
 				<cfset errorMessage = "">
 				<!--- Loop through list of fields, mark each field as fields present in input or not, throw exception if required fields are missing --->
 				<cfset max=ListLen(fieldList)>
-			
-				<cfloop list="#fieldlist#" index="field" delimiters=",">
 					<cfloop query="getDataDetails" endrow="#max#" startrow="1">
-						<cfloop index="current_item" list="#getDataDetails.COLUMN_NAME#">
 						<ul class="h4 mb-4 font-weight-normal list-group">
 							<cfset hint="">
-							<cfif listContains(requiredfieldlist,field,",")>
-								<cfset class="text-danger">
-								<cfset hint="aria-label='required'">
-							<cfelse>
-								<cfset class="text-dark">
-							</cfif>
-							<li class="list-group-item px-0">
-							
-								<span class="#class#" #hint#>#current_item#</span>
-								
-								<span class="text-secondary"> #getDataDetails.COMMENTS# </span>
-								
-								<cfif arrayFindNoCase(colNameArray,field) GT 0>
-									<strong class="text-success">Present in CSV</strong> 
+							<cfloop list="#fieldlist#" index="field" delimiters=",">
+								<cfif listContains(requiredfieldlist,field,",")>
+									<cfset class="text-danger">
+									<cfset hint="aria-label='required'">
 								<cfelse>
-									<!--- Case 2. Check by identifying field in required field list --->
-									<cfif ListContainsNoCase(requiredfieldlist,field)>
-										<strong class="text-dark">Required Column Not Found </strong>
-										<cfset errorMessage = "#errorMessage# <strong>#field#</strong> is missing.">
-									</cfif>
+									<cfset class="text-dark">
 								</cfif>
+							</cfloop>
+							<li class="list-group-item px-0">
+							<cfloop index="current_item" list="#getDataDetails.COLUMN_NAME#">
+								<span class="#class#" #hint#>#current_item#</span>
+								<span class="text-secondary"> #getDataDetails.COMMENTS# </span>
+							</cfloop>
+								<cfloop list="#fieldlist#" index="field" delimiters=",">
+									<cfif arrayFindNoCase(colNameArray,field) GT 0>
+										<strong class="text-success">Present in CSV</strong> 
+									<cfelse>
+										<!--- Case 2. Check by identifying field in required field list --->
+										<cfif ListContainsNoCase(requiredfieldlist,field)>
+											<strong class="text-dark">Required Column Not Found </strong>
+											<cfset errorMessage = "#errorMessage# <strong>#field#</strong> is missing.">
+										</cfif>
+									</cfif>
+								</cfloop>
 							</li>
 						</ul>
-						</cfloop>
 					</cfloop>
-				</cfloop>
+				
 		
 				<cfif len(errorMessage) GT 0>
 					<cfif size EQ 1>
