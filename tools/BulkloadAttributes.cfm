@@ -326,9 +326,9 @@ SELECT sys.all_col_comments.COMMENTS,sys.all_tab_columns.COLUMN_NAME, sys.all_ta
 									<cfset errorMessage = "#errorMessage# <strong>#field#</strong> is missing.">
 								</cfif>
 							</cfif>
-								<cfloop from="1" to="#k#" index="comment">
+								<cfloop from="#start#" to="#listLen(commentList)#" index="comment">
 								
-								#commentList[k]#<br>
+								#listGetAt(commentList,i)#<br>
 								</cfloop>
 						</li>
 					</cfloop>
