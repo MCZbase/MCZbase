@@ -101,7 +101,7 @@ SELECT sys.all_col_comments.COMMENTS,sys.all_tab_columns.COLUMN_NAME, sys.all_ta
 			<cfset i = 0>
 			<cfloop query="getDataDetails">
 				<cfif getDataDetails.comments eq 'Required'>
-					<li class='text-danger' aria-label='Required Field'>#getDataDetails.COLUMN_NAME#</li>
+					<li class='text-danger' aria-label='Required Field'>#getDataDetails.COLUMN_NAME# #getDataDetails.COMMENTS#</li>
 				<cfelse>
 					<li class='text-dark' aria-label='Field'>#getDataDetails.COLUMN_NAME#</li>
 				</cfif>
