@@ -872,7 +872,7 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 		<cfif hasEntry>
 			<cfset searchId = Evaluate("searchId"&i)>
 			<cfset joinWith = Evaluate("joinOperator"&i)>
-			<cfset nestdepth = Evaluate("nestdepth"&i)>
+			<cfset nestdepth = 0 >
 			<cfif joinWith EQ "AND">
 				<cfset join='"join":"and",'>
 			<cfelseif joinWith EQ "OR">
