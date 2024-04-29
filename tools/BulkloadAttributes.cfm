@@ -318,7 +318,7 @@ SELECT sys.all_col_comments.COMMENTS,sys.all_tab_columns.COLUMN_NAME, sys.all_ta
 							<cfelse>
 								<cfset class="text-dark">
 							</cfif>
-							<li class="list-group-item px-0">
+							<li class="list-group-item px-0 border">
 								<cfloop index="current_item" list="#getDataDetails.COLUMN_NAME#">
 									<span class="#class#" #hint#>(#current_item#)</span>
 								</cfloop>
