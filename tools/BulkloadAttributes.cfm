@@ -328,7 +328,7 @@ SELECT sys.all_col_comments.COMMENTS,sys.all_tab_columns.COLUMN_NAME, sys.all_ta
 							</cfif>
 						</li>
 						<li class="list-group-item">
-							<cfif listContains(commentList,comment,",")>
+							<cfif arrayFindNoCase(commentList,comment)gt 0>
 								<cfloop list="#commentList#" index="comment" delimiters=",">
 									#comment#
 								</cfloop>
