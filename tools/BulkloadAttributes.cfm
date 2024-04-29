@@ -304,21 +304,20 @@ SELECT sys.all_col_comments.COMMENTS,sys.all_tab_columns.COLUMN_NAME, sys.all_ta
 				<cfset errorMessage = "">
 				<!--- Loop through list of fields, mark each field as fields present in input or not, throw exception if required fields are missing --->
 				<ul class="h4 mb-4 font-weight-normal">
-					<cfquery name="getDataComments1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						SELECT sys.all_tab_columns.COLUMN_NAME,sys.all_col_comments.COMMENTS,sys.all_tab_columns.DATA_TYPE,sys.all_tab_columns.COLUMN_ID
-						FROM sys.all_col_comments, sys.all_tab_columns
-						where sys.all_col_comments.TABLE_NAME = 'CF_TEMP_ATTRIBUTES' 
-						and sys.all_tab_columns.COLUMN_NAME=sys.all_col_comments.COLUMN_NAME 
-						and sys.all_col_comments.TABLE_NAME = sys.all_tab_columns.TABLE_NAME
-						and sys.all_col_comments.COLUMN_NAME <> 'USERNAME'
-						and sys.all_col_comments.COLUMN_NAME <> 'STATUS'
-						and sys.all_col_comments.COLUMN_NAME <> 'KEY'
-						and sys.all_col_comments.COLUMN_NAME <> 'COLLECTION_OBJECT_ID'
-						and sys.all_col_comments.COLUMN_NAME <> 'DETERMINED_BY_AGENT_ID'
-						and sys.all_col_comments.COLUMN_NAME = '#field#'
-					</cfquery>
 					<cfloop list="#fieldlist#" index="field" delimiters=",">
-						
+						<cfquery name="getDataComments1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+							SELECT sys.all_tab_columns.COLUMN_NAME,sys.all_col_comments.COMMENTS,sys.all_tab_columns.DATA_TYPE,sys.all_tab_columns.COLUMN_ID
+							FROM sys.all_col_comments, sys.all_tab_columns
+							where sys.all_col_comments.TABLE_NAME = 'CF_TEMP_ATTRIBUTES' 
+							and sys.all_tab_columns.COLUMN_NAME=sys.all_col_comments.COLUMN_NAME 
+							and sys.all_col_comments.TABLE_NAME = sys.all_tab_columns.TABLE_NAME
+							and sys.all_col_comments.COLUMN_NAME <> 'USERNAME'
+							and sys.all_col_comments.COLUMN_NAME <> 'STATUS'
+							and sys.all_col_comments.COLUMN_NAME <> 'KEY'
+							and sys.all_col_comments.COLUMN_NAME <> 'COLLECTION_OBJECT_ID'
+							and sys.all_col_comments.COLUMN_NAME <> 'DETERMINED_BY_AGENT_ID'
+							and sys.all_col_comments.COLUMN_NAME = '#field#'
+						</cfquery>
 						<cfset hint="">
 						<cfif listContains(requiredfieldlist,field,",")>
 							<cfset class="text-danger">
