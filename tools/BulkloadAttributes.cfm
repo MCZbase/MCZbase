@@ -311,7 +311,7 @@ SELECT sys.all_col_comments.COMMENTS,sys.all_tab_columns.COLUMN_NAME, sys.all_ta
 						<ul class="h4 mb-4 font-weight-normal list-group">
 							<cfset hint="">
 							<cfloop index="current_item" list="#getDataDetails.COLUMN_NAME#">
-								<cfif listContains(requiredfieldlist,current_item,",")>
+								<cfif arrayFindNoCase(requiredfieldlist,current_item) GT 0>
 									<cfset class="text-danger">
 									<cfset hint="aria-label='required'">
 								<cfelse>
