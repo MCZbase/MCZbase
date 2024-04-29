@@ -320,9 +320,9 @@ SELECT sys.all_col_comments.COMMENTS,sys.all_tab_columns.COLUMN_NAME, sys.all_ta
 							</cfif>
 							<li class="list-group-item px-0 border">
 								<cfloop index="current_item" list="#getDataDetails.COLUMN_NAME#">
-									<span class="#class#" #hint#>(#current_item#)</span>
+									<span class="#class#" #hint#>#current_item#</span>
 								</cfloop>
-								<span class="text-secondary">#getDataDetails.COMMENTS#</span>
+								<span class="text-secondary"> (#getDataDetails.COMMENTS#)</span>
 								
 								<cfif arrayFindNoCase(colNameArray,field) GT 0>
 									<strong class="text-success">Present in CSV</strong> 
