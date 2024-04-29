@@ -767,7 +767,7 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 	<cfif CompareNoCase(dataType,"CTXKEYWORD") EQ 0 >
 		<cfset comparator = '"comparator": ""'>
 	</cfif>
-	<cfif left(nestDepth,5) EQ '#open'> 
+	<cfif left(nestDepth,5) EQ '"open'> 
 		<cfset search_json = '#search_json##separator#{#nestDepth#,#join##field#,#comparator#,"value": "#value#"}'>
 	<cfelse>
 		<cfset search_json = '#search_json##separator#{"nest":"#nestDepth#",#join##field#,#comparator#,"value": "#value#"}'>
