@@ -272,7 +272,7 @@ SELECT sys.all_col_comments.COMMENTS,sys.all_tab_columns.COLUMN_NAME, sys.all_ta
 				</cfquery>
 				<cfset i = 0>
 				<cfloop query = "getDataRequired">
-				#getDataRequired.COMMENTS#
+					<cfouput>#getDataRequired.COMMENTS#</cfoutput>
 				<cfset i = i + 1>	
 				</cfloop>
 				<!--- Note: As we can't use csvFormat.withHeader(), we can not match columns by name, we are forced to do so by number, thus arrays --->
