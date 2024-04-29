@@ -323,7 +323,7 @@ SELECT sys.all_col_comments.COMMENTS,sys.all_tab_columns.COLUMN_NAME, sys.all_ta
 							
 								<span class="#class#" #hint#>#current_item#</span>
 								
-								<span class="text-secondary"> (#getDataDetails.COMMENTS#)</span>
+								<span class="text-secondary"> #getDataDetails.COMMENTS# </span>
 								
 								<cfif arrayFindNoCase(colNameArray,field) GT 0>
 									<strong class="text-success">Present in CSV</strong> 
