@@ -699,7 +699,7 @@ SELECT sys.all_col_comments.COMMENTS,sys.all_tab_columns.COLUMN_NAME, sys.all_ta
 					UPDATE cf_temp_attributes
 					SET 
 						status = concat(nvl2(status, status || '; ', ''),'required field is missing')
-					WHERE #requiredField# is null
+					WHERE #requiredfieldlist# is null
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
 			</cfloop>
