@@ -285,6 +285,7 @@ SELECT sys.all_col_comments.COMMENTS,sys.all_tab_columns.COLUMN_NAME, sys.all_ta
 				<cfset fieldArray = listToArray(ucase(fieldlist))><!--- the full list of fields --->
 				<cfset typeArray = listToArray(ucase(fieldTypes))><!--- the types for the full list of fields --->
 				<cfset commentArray = listToArray(ucase(commentList))>
+				
 			
 				<div class="col-12 my-4">
 					<h3 class="h4">Found #size# columns in header of csv file.</h3>
@@ -306,31 +307,34 @@ SELECT sys.all_col_comments.COMMENTS,sys.all_tab_columns.COLUMN_NAME, sys.all_ta
 				</cfif>
 				<cfset errorMessage = "">
 				<!--- Loop through list of fields, mark each field as fields present in input or not, throw exception if required fields are missing --->
-				<ul class="h4 mb-4 font-weight-normal list-group list-group-horizontal">
+				<cfset max=ListLen(fieldList)>
+				<ul class="h4 mb-4 font-weight-normal list-group">
 					<cfloop list="#fieldlist#" index="field" delimiters=",">
-						<cfloop query="getDataDetails">
-						<cfset hint="">
-						<cfif listContains(requiredfieldlist,field,",")>
-							<cfset class="text-danger">
-							<cfset hint="aria-label='required'">
-						<cfelse>
-							<cfset class="text-dark">
-						</cfif>
-						<li class="list-group-item">
-							<cfif len(getDataDetails.COMMENTS) gt 0 and len(getDataDetails.COLUMN_NAME) gt 0>
-								<span class="#class#" #hint#>#getDataDetails.COLUMN_NAME# : #getDataDetails.COMMENTS#</span>
-							</cfif>
-					<!---		<span class="#class#" #hint#>#field# </span> --->
-							<cfif arrayFindNoCase(colNameArray,field) GT 0>
-								<strong class="text-success">Present in CSV</strong> 
+						
+						<cfloop query="getDataDetails" endrow="#max#" startrow="1">
+							<cfset hint="">
+							<cfif listContains(requiredfieldlist,field,",")>
+								<cfset class="text-danger">
+								<cfset hint="aria-label='required'">
 							<cfelse>
-								<!--- Case 2. Check by identifying field in required field list --->
-								<cfif ListContainsNoCase(requiredfieldlist,field)>
-									<strong class="text-dark">Required Column Not Found </strong>
-									<cfset errorMessage = "#errorMessage# <strong>#field#</strong> is missing.">
-								</cfif>
+								<cfset class="text-dark">
 							</cfif>
-						</li>
+							<li class="list-group-item">
+								<cfloop index="current_item" list="#getDataDetails.COLUMN_NAME#">
+									<span class="#class#" #hint#>#current_item#</span>
+								</cfloop>
+								<span class="text-secondary">#getDataDetails.COMMENTS#</span>
+								
+								<cfif arrayFindNoCase(colNameArray,field) GT 0>
+									<strong class="text-success">Present in CSV</strong> 
+								<cfelse>
+									<!--- Case 2. Check by identifying field in required field list --->
+									<cfif ListContainsNoCase(requiredfieldlist,field)>
+										<strong class="text-dark">Required Column Not Found </strong>
+										<cfset errorMessage = "#errorMessage# <strong>#field#</strong> is missing.">
+									</cfif>
+								</cfif>
+							</li>
 						</cfloop>
 					</cfloop>
 				</ul>
