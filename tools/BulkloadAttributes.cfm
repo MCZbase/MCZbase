@@ -308,7 +308,6 @@ SELECT sys.all_col_comments.COMMENTS,sys.all_tab_columns.COLUMN_NAME, sys.all_ta
 				<!--- Loop through list of fields, mark each field as fields present in input or not, throw exception if required fields are missing --->
 				<ul class="h4 mb-4 font-weight-normal">
 					<cfloop list="#fieldlist#" index="field" delimiters=",">
-					<cfloop list="#fieldlist#" index="field" delimiters=",">
 						<cfquery name="getDataComments1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							SELECT sys.all_tab_columns.COLUMN_NAME,sys.all_col_comments.COMMENTS
 							FROM sys.all_col_comments, sys.all_tab_columns
@@ -329,7 +328,7 @@ SELECT sys.all_col_comments.COMMENTS,sys.all_tab_columns.COLUMN_NAME, sys.all_ta
 						<cfelse>
 							<cfset class="text-dark">
 						</cfif>
-						<li>
+							<li><cfif arrayFindNoCase(commentArray,field) GT 0></cfif>
 							<span class="#class#" #hint#>#field# </span> 
 							<cfif arrayFindNoCase(colNameArray,field) GT 0>
 								<strong class="text-success">Present in CSV</strong> 
