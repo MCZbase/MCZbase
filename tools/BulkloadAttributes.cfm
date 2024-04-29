@@ -328,8 +328,8 @@ SELECT sys.all_col_comments.COMMENTS,sys.all_tab_columns.COLUMN_NAME, sys.all_ta
 						<cfelse>
 							<cfset class="text-dark">
 						</cfif>
-						<li>
-							<span class="#class#" #hint#>#field# #getDataDetails.COMMENTS#</span>
+							<li><cfif arrayFindNoCase(commentArray,field) GT 0>Comment</cfif>
+							<span class="#class#" #hint#>#field# </span> 
 							<cfif arrayFindNoCase(colNameArray,field) GT 0>
 								<strong class="text-success">Present in CSV</strong> 
 							<cfelse>
