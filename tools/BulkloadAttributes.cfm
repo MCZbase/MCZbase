@@ -285,8 +285,7 @@ SELECT sys.all_col_comments.COMMENTS,sys.all_tab_columns.COLUMN_NAME, sys.all_ta
 				<cfset fieldArray = listToArray(ucase(fieldlist))><!--- the full list of fields --->
 				<cfset typeArray = listToArray(ucase(fieldTypes))><!--- the types for the full list of fields --->
 				<cfset commentArray = listToArray(ucase(commentList))>
-				<cfset commentArray = ArrayNewComment(1)>
-					#ArrayNewComment[i]#
+				
 			
 				<div class="col-12 my-4">
 					<h3 class="h4">Found #size# columns in header of csv file.</h3>
@@ -319,8 +318,8 @@ SELECT sys.all_col_comments.COMMENTS,sys.all_tab_columns.COLUMN_NAME, sys.all_ta
 								<cfset class="text-dark">
 							</cfif>
 							<li class="list-group-item">
-								<cfloop collection="fieldarray" item="COMMENTS">
-								do this
+								<cfloop index="current_item" list="#getDataDetails.COLUMN_NAME#">
+								#current_item#
 								
 								</cfloop>
 						
