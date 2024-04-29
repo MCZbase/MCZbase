@@ -323,7 +323,7 @@ SELECT sys.all_col_comments.COMMENTS,sys.all_tab_columns.COLUMN_NAME, sys.all_ta
 									<cfset errorMessage = "#errorMessage# <strong>#field#</strong> is missing.">
 								</cfif>
 							</cfif>
-								<cfif #field# eq #commentConnectList#>#getDataDetails.COMMENTS#</cfif>
+								<cfif listContains(commentConnectList,field, ",")>#getDataDetails.COMMENTS#</cfif>
 						</li>
 					</cfloop>
 				</ul>
