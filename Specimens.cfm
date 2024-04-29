@@ -2293,10 +2293,10 @@ Target JSON:
 													newControls = newControls + '<input type="hidden" name="searchId'+row+'" id="searchId'+row+'" >';
 													newControls = newControls + '</div>';
 													newControls = newControls + '<div class="col-12 col-md-1">';
-													newControls = newControls + '<select name="openParens'+row+'" id="openParens'+row+'" class="data-entry-select">';
-													newControls = newControls + '<option value="0"></option><option value="1">(</option>';
-													newControls = newControls + '<option value="2">((</option><option value="3">(((</option>';
-													newControls = newControls + '<option value="4">((((</option>';
+													newControls = newControls + '<select name="closeParens'+row+'" id="closeParens'+row+'" class="data-entry-select">';
+													newControls = newControls + '<option value="0"></option><option value="1">)</option>';
+													newControls = newControls + '<option value="2">))</option><option value="3">)))</option>';
+													newControls = newControls + '<option value="4">))))</option>';
 													newControls = newControls + '</select>';
 													newControls = newControls + '<span id="nestMarkerEnd'+row+'"></span>';
 													newControls= newControls + '</div>';
