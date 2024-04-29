@@ -287,7 +287,7 @@ SELECT sys.all_col_comments.COMMENTS,sys.all_tab_columns.COLUMN_NAME, sys.all_ta
 				<cfset commentArray = listToArray(ucase(commentList))>
 				
 			
-				<div class="col-12 my-4">
+				<div class="col-12 px-0 my-4">
 					<h3 class="h4">Found #size# columns in header of csv file.</h3>
 					<h3 class="h4">There are #ListLen(fieldList)# columns expected in the header (of these #k# are required).</h3>
 				</div>
@@ -311,7 +311,7 @@ SELECT sys.all_col_comments.COMMENTS,sys.all_tab_columns.COLUMN_NAME, sys.all_ta
 				<ul class="h4 mb-4 font-weight-normal list-group">
 					<cfloop list="#fieldlist#" index="field" delimiters=",">
 						
-						<cfloop query="getDataDetails" endrow="#max#" startrow="1">
+						<cfloop list="#getDataDetails.COLUMN_NAME#" index="curent_item">
 							<cfset hint="">
 							<cfif listContains(requiredfieldlist,field,",")>
 								<cfset class="text-danger">
