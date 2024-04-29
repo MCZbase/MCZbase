@@ -62,10 +62,10 @@ SELECT sys.all_col_comments.COMMENTS,sys.all_tab_columns.COLUMN_NAME, sys.all_ta
 	and sys.all_col_comments.COLUMN_NAME <> 'COLLECTION_OBJECT_ID'
 	and sys.all_col_comments.COLUMN_NAME <> 'DETERMINED_BY_AGENT_ID'
 </cfquery>
-<cfset i = 0>
+<cfset k = 0>
 <cfloop query = "getDataRequired">
 	<cfoutput>#getDataRequired.COMMENTS#</cfoutput>
-	<cfset i = i + 1>	
+	<cfset k = k + 1>	
 </cfloop>
 <!--- special case handling to dump column headers as csv --->
 <cfif isDefined("action") AND action is "getCSVHeader">
@@ -101,7 +101,7 @@ SELECT sys.all_col_comments.COMMENTS,sys.all_tab_columns.COLUMN_NAME, sys.all_ta
 			<cfset i = 0>
 			<cfloop query="getDataDetails">
 				<cfif getDataDetails.comments eq 'Required'>
-					<li class='text-danger' aria-label='Required Field'>#getDataDetails.COLUMN_NAME# #getDataDetails.COMMENTS#</li>
+					<li class='text-danger' aria-label='Required Field'>#getDataDetails.COLUMN_NAME# </li>
 				<cfelse>
 					<li class='text-dark' aria-label='Field'>#getDataDetails.COLUMN_NAME#</li>
 				</cfif>
@@ -282,7 +282,7 @@ SELECT sys.all_col_comments.COMMENTS,sys.all_tab_columns.COLUMN_NAME, sys.all_ta
 
 				<div class="col-12 my-4">
 					<h3 class="h4">Found #size# columns in header of csv file.</h3>
-					<h3 class="h4">There are #ListLen(fieldList)# columns expected in the header (of these #i# are required).</h3>
+					<h3 class="h4">There are #ListLen(fieldList)# columns expected in the header (of these #k# are required).</h3>
 				</div>
 
 				<!--- check for required fields in header line (performng check in two different ways, Case 1, Case 2) --->
