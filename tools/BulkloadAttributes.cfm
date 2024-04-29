@@ -330,10 +330,10 @@ SELECT sys.all_col_comments.COMMENTS,sys.all_tab_columns.COLUMN_NAME, sys.all_ta
 							<span class="#class#" #hint#>#field#</span>
 							<cfif len(getDataComments1.COMMENTS)gt 0>
 							<cfloop query="getDataComments1">
-								#getDataComments1.COMMENTS#
+								#getDataComments1.COMMENTS# : #field#
 							</cfloop>
 							<cfelse>
-								no comments
+								no comments: #field#
 							</cfif>
 							<cfif arrayFindNoCase(colNameArray,field) GT 0>
 								<strong class="text-success">Present in CSV</strong> 
