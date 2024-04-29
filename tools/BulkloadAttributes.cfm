@@ -322,20 +322,14 @@ SELECT sys.all_col_comments.COMMENTS,sys.all_tab_columns.COLUMN_NAME, sys.all_ta
 						<cfif listContains(requiredfieldlist,field,",")>
 							<cfset class="text-danger">
 							<cfset hint="aria-label='required'">
-						<cfelseif listContains(commentConnectList,field,",")>
-							#commentList#
+						
 						<cfelse>
 							<cfset class="text-dark">
 						</cfif>
-						<li>
-							<span class="#class#" #hint#>#field#</span>
-							<cfif len(getDataComments1.COMMENTS)gt 0>
-							<cfloop query="getDataComments1">
-								#getDataComments1.COMMENTS# : #field#
-							</cfloop>
-							<cfelse>
-								no comments: #field#
+						<li><cfif listContains(commentConnectList,field,",")>
+							#commentList#
 							</cfif>
+							<span class="#class#" #hint#>#field#</span>
 							<cfif arrayFindNoCase(colNameArray,field) GT 0>
 								<strong class="text-success">Present in CSV</strong> 
 								
