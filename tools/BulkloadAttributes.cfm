@@ -305,7 +305,7 @@ SELECT sys.all_col_comments.COMMENTS,sys.all_tab_columns.COLUMN_NAME, sys.all_ta
 				<!--- Loop through list of fields, mark each field as fields present in input or not, throw exception if required fields are missing --->
 				<ul class="h4 mb-4 font-weight-normal">
 					<cfloop list="#fieldlist#" index="field" delimiters=",">
-						<cfloop list="#commentList#" index="comment" delimiters=",">
+						
 						<cfset hint="">
 						<cfif listContains(requiredfieldlist,field,",")>
 							<cfset class="text-danger">
@@ -325,9 +325,11 @@ SELECT sys.all_col_comments.COMMENTS,sys.all_tab_columns.COLUMN_NAME, sys.all_ta
 									<cfset errorMessage = "#errorMessage# <strong>#field#</strong> is missing.">
 								</cfif>
 							</cfif>
-							<cfif listContainsNoCase(commentConnectList,field)>#comment#</cfif>
+							<cfloop list="#commentList#" index="comment" delimiters=",">
+								<cfif listContainsNoCase(commentConnectList,field)>#comment#</cfif>
+							</cfloop>
 						</li>
-						</cfloop>
+						
 					</cfloop>
 				</ul>
 				<cfif len(errorMessage) GT 0>
