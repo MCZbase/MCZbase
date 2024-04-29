@@ -282,7 +282,7 @@ SELECT sys.all_col_comments.COMMENTS,sys.all_tab_columns.COLUMN_NAME, sys.all_ta
 				<cfset fieldArray = listToArray(ucase(fieldlist))><!--- the full list of fields --->
 				<cfset typeArray = listToArray(ucase(fieldTypes))><!--- the types for the full list of fields --->
 				<cfset commentArray = listToArray(ucase(commentList))>
-				<cfset commentConnectArray = listToArray(ucase(commentConnectList))>
+			
 				<div class="col-12 my-4">
 					<h3 class="h4">Found #size# columns in header of csv file.</h3>
 					<h3 class="h4">There are #ListLen(fieldList)# columns expected in the header (of these #k# are required).</h3>
@@ -305,7 +305,20 @@ SELECT sys.all_col_comments.COMMENTS,sys.all_tab_columns.COLUMN_NAME, sys.all_ta
 				<!--- Loop through list of fields, mark each field as fields present in input or not, throw exception if required fields are missing --->
 				<ul class="h4 mb-4 font-weight-normal">
 					<cfloop list="#fieldlist#" index="field" delimiters=",">
-						
+						<cfquery name="getDataComments1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getDataRequired_results">
+							SELECT sys.all_col_comments.COMMENTS,sys.all_tab_columns.COLUMN_NAME, sys.all_tab_columns.DATA_TYPE,sys.all_tab_columns.COLUMN_ID
+							FROM sys.all_col_comments, sys.all_tab_columns
+							where sys.all_col_comments.TABLE_NAME = 'CF_TEMP_ATTRIBUTES' 
+							and sys.all_tab_columns.COLUMN_NAME=sys.all_col_comments.COLUMN_NAME 
+							and sys.all_col_comments.TABLE_NAME = sys.all_tab_columns.TABLE_NAME
+							and sys.all_col_comments.COMMENTS = 'Required'
+							and sys.all_col_comments.COLUMN_NAME <> 'USERNAME'
+							and sys.all_col_comments.COLUMN_NAME <> 'STATUS'
+							and sys.all_col_comments.COLUMN_NAME <> 'KEY'
+							and sys.all_col_comments.COLUMN_NAME <> 'COLLECTION_OBJECT_ID'
+							and sys.all_col_comments.COLUMN_NAME <> 'DETERMINED_BY_AGENT_ID'
+							and sys.all_col_comments.COLUMN_NAME = '#field#'
+						</cfquery>
 						<cfset hint="">
 						<cfif listContains(requiredfieldlist,field,",")>
 							<cfset class="text-danger">
@@ -325,25 +338,12 @@ SELECT sys.all_col_comments.COMMENTS,sys.all_tab_columns.COLUMN_NAME, sys.all_ta
 									<cfset errorMessage = "#errorMessage# <strong>#field#</strong> is missing.">
 								</cfif>
 							</cfif>
-							<cfif #field# eq #commentConnectList#>
-								<cfquery name="getDataComments1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getDataRequired_results">
-									SELECT sys.all_col_comments.COMMENTS,sys.all_tab_columns.COLUMN_NAME, sys.all_tab_columns.DATA_TYPE,sys.all_tab_columns.COLUMN_ID
-									FROM sys.all_col_comments, sys.all_tab_columns
-									where sys.all_col_comments.TABLE_NAME = 'CF_TEMP_ATTRIBUTES' 
-									and sys.all_tab_columns.COLUMN_NAME=sys.all_col_comments.COLUMN_NAME 
-									and sys.all_col_comments.TABLE_NAME = sys.all_tab_columns.TABLE_NAME
-									and sys.all_col_comments.COMMENTS = 'Required'
-									and sys.all_col_comments.COLUMN_NAME <> 'USERNAME'
-									and sys.all_col_comments.COLUMN_NAME <> 'STATUS'
-									and sys.all_col_comments.COLUMN_NAME <> 'KEY'
-									and sys.all_col_comments.COLUMN_NAME <> 'COLLECTION_OBJECT_ID'
-									and sys.all_col_comments.COLUMN_NAME <> 'DETERMINED_BY_AGENT_ID'
-									and sys.all_col_comments.COLUMN_NAME = '#field#'
-								</cfquery>
+							
+							
 								<cfloop query="getDataComments1">
 								#getDataComments1.COMMENTS#
 								</cfloop>
-							</cfif>
+						
 						</li>
 					</cfloop>
 				</ul>
