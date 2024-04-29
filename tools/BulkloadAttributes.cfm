@@ -316,7 +316,12 @@ SELECT sys.all_col_comments.COMMENTS,sys.all_tab_columns.COLUMN_NAME, sys.all_ta
 							<cfset class="text-dark">
 						</cfif>
 						<li class="list-group-item">
-							<span class="#class#" #hint#>#field# </span> 
+							<cfif len(getDataDetails.COMMENTS) gt 0 and len(getDataDetails.COLUMN_NAME) gt 0>
+								<cfloop query="getDataDetails">
+									<span class="#class#" #hint#>#getDataDetails.COLUMN_NAME# : #getDataDetails.COMMENTS#</span>
+								</cfloop>
+							</cfif>
+					<!---		<span class="#class#" #hint#>#field# </span> --->
 							<cfif arrayFindNoCase(colNameArray,field) GT 0>
 								<strong class="text-success">Present in CSV</strong> 
 							<cfelse>
@@ -327,13 +332,13 @@ SELECT sys.all_col_comments.COMMENTS,sys.all_tab_columns.COLUMN_NAME, sys.all_ta
 								</cfif>
 							</cfif>
 						</li>
-						<li class="list-group-item">
+		<!---				<li class="list-group-item">
 							<cfif len(getDataDetails.COMMENTS) gt 0 and len(getDataDetails.COLUMN_NAME) gt 0>
 								<cfloop query="getDataDetails">
 									#getDataDetails.COLUMN_NAME#:#getDataDetails.COMMENTS#
 								</cfloop>
 							</cfif>
-						</li>
+						</li>--->
 					</cfloop>
 				</ul>
 				<cfif len(errorMessage) GT 0>
