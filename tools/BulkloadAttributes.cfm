@@ -308,22 +308,9 @@ SELECT sys.all_col_comments.COMMENTS,sys.all_tab_columns.COLUMN_NAME, sys.all_ta
 				<!--- Loop through list of fields, mark each field as fields present in input or not, throw exception if required fields are missing --->
 				<ul class="h4 mb-4 font-weight-normal">
 					<cfloop list="#commentlist#" index="comment" delimiters=",">
-						#comment#
+						<cfset acomment = '#comment#'>
 					</cfloop>
 					<cfloop list="#fieldlist#" index="field" delimiters=",">
-						<cfquery name="getDataComments1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-							SELECT sys.all_tab_columns.COLUMN_NAME,sys.all_col_comments.COMMENTS
-							FROM sys.all_col_comments, sys.all_tab_columns
-							where sys.all_col_comments.TABLE_NAME = 'CF_TEMP_ATTRIBUTES' 
-							and sys.all_tab_columns.COLUMN_NAME=sys.all_col_comments.COLUMN_NAME 
-							and sys.all_col_comments.TABLE_NAME = sys.all_tab_columns.TABLE_NAME
-							and sys.all_col_comments.COLUMN_NAME <> 'USERNAME'
-							and sys.all_col_comments.COLUMN_NAME <> 'STATUS'
-							and sys.all_col_comments.COLUMN_NAME <> 'KEY'
-							and sys.all_col_comments.COLUMN_NAME <> 'COLLECTION_OBJECT_ID'
-							and sys.all_col_comments.COLUMN_NAME <> 'DETERMINED_BY_AGENT_ID'
-							and sys.all_col_comments.COLUMN_NAME = '#fieldlist#'
-						</cfquery>
 						<cfset hint="">
 						<cfif listContains(requiredfieldlist,field,",")>
 							<cfset class="text-danger">
@@ -332,7 +319,7 @@ SELECT sys.all_col_comments.COMMENTS,sys.all_tab_columns.COLUMN_NAME, sys.all_ta
 							<cfset class="text-dark">
 						</cfif>
 						<li>
-							<span class="#class#" #hint#>#field# </span> 
+							<span class="#class#" #hint#>#field# </span> #acomment#
 							<cfif arrayFindNoCase(colNameArray,field) GT 0>
 								<strong class="text-success">Present in CSV</strong> 
 							<cfelse>
