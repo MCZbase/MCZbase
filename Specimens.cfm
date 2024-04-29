@@ -1940,7 +1940,7 @@ Target JSON:
 													</div>
 													<div class="col-12 col-md-1">
 														<label for="openParens1" class="data-entry-label">&nbsp;</label>
-														<cfif not isDefined("openParens1") OR len(trim(openParens1)) EQ 0><cfset openParens1="1"></cfif>
+														<cfif not isDefined("openParens1") OR len(trim(openParens1)) EQ 0><cfset openParens1="0"></cfif>
 														<select id="openParens1" name="openParens1" class="data-entry-select">
 															<cfif openParens1 EQ "0"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
 															<option value="0" #selected#></option>
