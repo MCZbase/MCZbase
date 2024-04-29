@@ -315,7 +315,7 @@ SELECT sys.all_col_comments.COMMENTS,sys.all_tab_columns.COLUMN_NAME, sys.all_ta
 						<cfelse>
 							<cfset class="text-dark">
 						</cfif>
-						<li class="list-group-item"><cfif arrayFindNoCase(commentArray,field) GT 0></cfif>
+						<li class="list-group-item">
 							<span class="#class#" #hint#>#field# </span> 
 							<cfif arrayFindNoCase(colNameArray,field) GT 0>
 								<strong class="text-success">Present in CSV</strong> 
@@ -328,7 +328,7 @@ SELECT sys.all_col_comments.COMMENTS,sys.all_tab_columns.COLUMN_NAME, sys.all_ta
 							</cfif>
 						</li>
 						<li class="list-group-item">
-							<cfif arrayFindNoCase(commentList,comment)gt 0>
+							<cfif arrayFindNoCase(commentList,field)gt 0>
 								<cfloop list="#commentList#" index="comment" delimiters=",">
 									#comment#
 								</cfloop>
