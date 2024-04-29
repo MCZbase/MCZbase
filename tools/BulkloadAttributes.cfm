@@ -68,7 +68,6 @@ SELECT sys.all_col_comments.COMMENTS,sys.all_tab_columns.COLUMN_NAME, sys.all_ta
 	<cfset k = k + 1>	
 </cfloop>
 <cfset commentList = ArrayToList(getDataDetails["COMMENTS"], ",")>
-<cfoutput>#commentList#</cfoutput>
 <!--- special case handling to dump column headers as csv --->
 <cfif isDefined("action") AND action is "getCSVHeader">
 	<cfset csv = "">
