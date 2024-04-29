@@ -81,18 +81,6 @@ SELECT sys.all_col_comments.COMMENTS,sys.all_tab_columns.COLUMN_NAME, sys.all_ta
 			</div>
 			<h2 class="mt-4 h4">Columns in <span class="text-danger">red</span> are required; others are optional:</h2>
 			<ul class="mb-4 h4 font-weight-normal">
-<!---			<cfquery name="getDataDetails" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				SELECT sys.all_col_comments.COMMENTS,sys.all_tab_columns.COLUMN_NAME, sys.all_tab_columns.DATA_TYPE,sys.all_tab_columns.COLUMN_ID
-				FROM sys.all_col_comments, sys.all_tab_columns
-				where sys.all_col_comments.TABLE_NAME = 'CF_TEMP_ATTRIBUTES' 
-				and sys.all_tab_columns.COLUMN_NAME=sys.all_col_comments.COLUMN_NAME 
-				and sys.all_col_comments.TABLE_NAME = sys.all_tab_columns.TABLE_NAME
-				and sys.all_col_comments.COLUMN_NAME <> 'USERNAME'
-				and sys.all_col_comments.COLUMN_NAME <> 'STATUS'
-				and sys.all_col_comments.COLUMN_NAME <> 'KEY'
-				and sys.all_col_comments.COLUMN_NAME <> 'COLLECTION_OBJECT_ID'
-				and sys.all_col_comments.COLUMN_NAME <> 'DETERMINED_BY_AGENT_ID'
-			</cfquery>--->
 			<cfset i = 0>
 			<cfloop query="getDataDetails">
 				<cfif getDataDetails.comments eq 'Required'>
@@ -315,7 +303,7 @@ SELECT sys.all_col_comments.COMMENTS,sys.all_tab_columns.COLUMN_NAME, sys.all_ta
 				<!--- Loop through list of fields, mark each field as fields present in input or not, throw exception if required fields are missing --->
 				<ul class="h4 mb-4">
 					<cfloop list="#fieldlist#" index="field" delimiters=",">
-						<cfset hint="">
+						<cfset hint="">#getDataRequired.COLUMN_NAME#
 						<cfif listContains(#getDataRequired.COLUMN_NAME#,field,",")>
 							<cfset class="text-danger">
 							<cfset hint="aria-label='required'">
