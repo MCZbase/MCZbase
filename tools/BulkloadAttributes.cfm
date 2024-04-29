@@ -775,7 +775,7 @@ SELECT sys.all_col_comments.COMMENTS,sys.all_tab_columns.COLUMN_NAME, sys.all_ta
 					Validation checks passed. Look over the table below and <a href="/tools/BulkloadAttributes.cfm?action=load">click to continue</a> if it all looks good.
 				</h3>
 			</cfif>
-			<table class='px-0 sortable table table-responsive table-striped d-xl-table w-100'>
+			<table class='px-0 sortable table table-responsive table-striped w-100'>
 				<thead>
 					<tr>
 						<th>Row</th>
