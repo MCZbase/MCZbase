@@ -1936,7 +1936,14 @@ Target JSON:
 														<a aria-label="Add more search criteria" id="addRowButton" class="btn btn-xs btn-primary rounded px-2 mr-md-auto" target="_self" href="javascript:void(0);">Add</a>
 													</div>
 													<div class="col-12 col-md-1">
-														<label for="nestButton" class="data-entry-label">Nest</label>
+														<label for="nestButton1" class="data-entry-label">Nest</label>
+														<select id="nestButton1" name="openParens1" class="data-entry-select">
+															<option value="0" selected></option>
+															<option value="1">(</option>
+															<option value="2">((</option>
+															<option value="3">(((</option>
+															<option value="4">((((</option>
+														</select>
 														<button id="nestButton1" type="button" class="btn btn-xs btn-secondary disabled" onclick="indent(1);" disabled>&gt;</button>
 														<cfif not isDefined("nestdepth1") OR len(trim(nestdepth1)) EQ 0><cfset nestdepth1="1"></cfif>
 														<input type="hidden" name="nestdepth1" id="nestdepth1" value="#nestdepth1#">
@@ -2070,9 +2077,9 @@ Target JSON:
 														</script>
 													</div>
 													<cfif isdefined("session.roles") and listfindnocase(session.roles,"global_admin")>
-														<cfset searchcol="col-md-4">
+														<cfset searchcol="col-md-3">
 													<cfelse>
-														<cfset searchcol="col-md-5">
+														<cfset searchcol="col-md-4">
 													</cfif>
 													<div class="col-12 #searchcol#">
 														<cfif not isDefined("searchText1")><cfset searchText1=""></cfif>
@@ -2082,6 +2089,16 @@ Target JSON:
 														<input type="text" class="form-control-sm d-flex data-entry-input mx-0" name="searchText1" id="searchText1" value="#encodeForHtml(searchText1)#" required>
 														<input type="hidden" name="searchId1" id="searchId1" value="#encodeForHtml(searchId1)#">
 														<input type="hidden" name="joinOperator1" id="joinOperator1" value="">
+													</div>
+													<div class="col-12 col-md-1">
+														<label class="data-entry-label" for="closeParens1">&nbsp;</label>
+														<select name="closeParens1" id="closeParens1" class="data-entry-select">
+															<option value="0" selected></option>
+															<option value="1">)</option>
+															<option value="2">))</option>
+															<option value="3">)))</option>
+															<option value="4">))))</option>
+														</select>
 													</div>
 													<cfif isdefined("session.roles") and listfindnocase(session.roles,"global_admin")>
 														<div class="col-12 col-md-1">
@@ -2107,7 +2124,7 @@ Target JSON:
 																		<cfset nestdepthval = "1">
 																	</cfif> 
 																	<cfset nextRow = row + 1>
-																	<cfset closeParen = "">
+																	<cfset closeParens = "">
 																	<cfif isDefined("nestdepth"&nextRow)>
 																		<cfset nextRownestdepthval = Evaluate("nestdepth" & nextRow)>
 																		<!--- check if next row is not incremented by one at current depth --->
@@ -2115,22 +2132,22 @@ Target JSON:
 																		<cfset nrna = ListToArray(nextRownestdepthval,".")>
 																		<cfif ArrayLen(na) EQ ArrayLen(nrna)>
 																			<cfif val(na[ArrayLen(na)]) + 1 EQ val(nrna[ArrayLen(nrna)])>
-																				<cfset closeParen = ""> 
+																				<cfset closeParens = ""> 
 																			<cfelse>
-																				<cfset closeParen = ")"> 
+																				<cfset closeParens = ")"> 
 																				<cfset parenOpen = parenOpen-1>
 																			</cfif>
 																		<cfelse>
 																			<cfif ArrayLen(na) GT ArrayLen(nrna)>
 																				<cfif parenOpen GT 0>
-																					<cfset closeParen = ")"> 
+																					<cfset closeParens = ")"> 
 																					<cfset parenOpen = parenOpen-1>
 																				</cfif>
 																			</cfif>
 																		</cfif>
 																	<cfelse>
 																		<cfif parenOpen GT 0>
-																			<cfset closeParen = ")"> 
+																			<cfset closeParens = ")"> 
 																		</cfif>
 																	</cfif> 
 																	<input type="hidden" name="nestdepth#row#" id="nestdepth#row#" value="#nestdepthval#">
@@ -2213,7 +2230,7 @@ Target JSON:
 																	<input type="hidden" name="searchId#row#" id="searchId#row#" value="#encodeForHtml(sival)#" >
 																</div>
 																<div class="col-12 col-md-1">
-																	<span id="nestMarkerEnd#row#">#closeParen#</span>
+																	<span id="nestMarkerEnd#row#">#closeParens#</span>
 																</div>
 																<div class="col-12 col-md-1">
 																	<button type='button' onclick=' $("##builderRow#row#").remove();' arial-label='remove' class='btn btn-xs px-3 btn-warning mr-auto'>Remove</button>
@@ -2237,7 +2254,11 @@ Target JSON:
 													newControls = newControls + '<input type="hidden" name="nestdepth'+row+'" id="nestdepth'+row+'">';
 													newControls = newControls + '</div>';
 													newControls = newControls + '<div class="col-12 col-md-1">';
-													newControls = newControls + '<button id="nestButton'+row+'" type="button" class="btn btn-xs btn-secondary" onclick="indent('+row+');">&gt;</button>';
+													newControls = newControls + '<select name="openParens'+row+'" id="openParens'+row+'" class="data-entry-select">';
+													newControls = newControls + '<option value="0"></option><option value="1">(</option>';
+													newControls = newControls + '<option value="2">((</option><option value="3">(((</option>';
+													newControls = newControls + '<option value="4">((((</option>';
+													newControls = newControls + '</select>';
 													newControls = newControls + '</div>';
 													newControls = newControls + '<div class="col-12 col-md-1">';
 													newControls = newControls + '<select title="Join Operator" name="JoinOperator'+row+'" id="joinOperator'+row+'" class="data-entry-select bg-white mx-0 d-flex"><option value="and">and</option><option value="or">or</option></select>';
@@ -2272,6 +2293,11 @@ Target JSON:
 													newControls = newControls + '<input type="hidden" name="searchId'+row+'" id="searchId'+row+'" >';
 													newControls = newControls + '</div>';
 													newControls = newControls + '<div class="col-12 col-md-1">';
+													newControls = newControls + '<select name="openParens'+row+'" id="openParens'+row+'" class="data-entry-select">';
+													newControls = newControls + '<option value="0"></option><option value="1">(</option>';
+													newControls = newControls + '<option value="2">((</option><option value="3">(((</option>';
+													newControls = newControls + '<option value="4">((((</option>';
+													newControls = newControls + '</select>';
 													newControls = newControls + '<span id="nestMarkerEnd'+row+'"></span>';
 													newControls= newControls + '</div>';
 													newControls= newControls + '<div class="col-12 col-md-1">';

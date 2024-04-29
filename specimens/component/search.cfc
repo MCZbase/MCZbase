@@ -767,7 +767,11 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 	<cfif CompareNoCase(dataType,"CTXKEYWORD") EQ 0 >
 		<cfset comparator = '"comparator": ""'>
 	</cfif>
-	<cfset search_json = '#search_json##separator#{"nest":"#nestDepth#",#join##field#,#comparator#,"value": "#value#"}'>
+	<cfif left(nestDepth,5) EQ '#open'> 
+		<cfset search_json = '#search_json##separator#{#nestDepth#,#join##field#,#comparator#,"value": "#value#"}'>
+	<cfelse>
+		<cfset search_json = '#search_json##separator#{"nest":"#nestDepth#",#join##field#,#comparator#,"value": "#value#"}'>
+	</cfif>
 	<cfreturn #search_json#>
 </cffunction>
 
@@ -857,6 +861,10 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 			<cfset searchText = Evaluate("searchText"&i)>
 			<cfif len(fieldProvided) EQ 0><cfthrow message="no field"></cfif>
 			<cfif len(searchText) EQ 0><cfthrow message="no text"></cfif>
+			<cfset openParens = Evaluate("openParens"&i)>
+			<cfset closeParens = Evaluate("closeParens"&i)>
+			<cfif len(openParens) EQ 0><cfset openParens = 0></cfif>
+			<cfif len(closeParens) EQ 0><cfset closeParens = 0></cfif>
 		<cfcatch>
 			<cfset hasEntry = false>
 		</cfcatch>
@@ -932,6 +940,7 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 						</cfif>
 						--->
 					</cfif>
+					<cfset nest = '"openparens":"#openParens#","closeparens":"#closeParens#"'>
 					<!--- Warning: only searchText may be passed directly from the user here, join and field must be known good values ---> 
 					<cfset search_json = search_json & constructJsonForField(join="#join#",field="#field#",value="#searchText#",separator="#separator#",nestDepth="#nest#",dataType="#searchFields.data_type#")>
 					<cfset separator = ",">
@@ -964,7 +973,7 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 				user_search_table.result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
 		</cfquery>
 		<cfif result_id_count.ct EQ 0>
-			<cfstoredproc procedure="build_query_dbms_sql" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="prepareSearch_result" timeout="#Application.query_timeout#">
+			<cfstoredproc procedure="build_query_dbms_sql_nest" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="prepareSearch_result" timeout="#Application.query_timeout#">
 				<cfprocparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
 				<cfprocparam cfsqltype="CF_SQL_VARCHAR" value="#session.dbuser#">
 				<cfprocparam cfsqltype="CF_SQL_CLOB" value="#search_json#">
