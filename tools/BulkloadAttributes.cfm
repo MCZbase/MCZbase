@@ -308,7 +308,7 @@ SELECT sys.all_col_comments.COMMENTS,sys.all_tab_columns.COLUMN_NAME, sys.all_ta
 				<!--- Loop through list of fields, mark each field as fields present in input or not, throw exception if required fields are missing --->
 				<ul class="h4 mb-4 font-weight-normal">
 						<li>
-					<cfloop list="#commentlist# ##" index="comment" delimiters=",">
+					<cfloop list="#commentlist#" index="comment" delimiters=",">
 						<cfset acomment = '#comment#'>
 					</cfloop>
 					<cfloop list="#fieldlist#" index="field" delimiters=",">
