@@ -330,7 +330,7 @@ SELECT sys.all_col_comments.COMMENTS,sys.all_tab_columns.COLUMN_NAME, sys.all_ta
 						</cfif>
 						<li>
 							<cfloop query="getDataComments1">
-								<cfoutput>#COMMENTS#</cfoutput>
+								<cfoutput>#getDataComments1.COMMENTS#</cfoutput>
 							</cfloop>
 							<span class="#class#" #hint#>#field#</span>
 							<cfif arrayFindNoCase(colNameArray,field) GT 0>
