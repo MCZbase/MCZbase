@@ -67,8 +67,8 @@ SELECT sys.all_col_comments.COMMENTS,sys.all_tab_columns.COLUMN_NAME, sys.all_ta
 	<!---<cfoutput>#getDataRequired.COMMENTS#</cfoutput>--->
 	<cfset k = k + 1>	
 </cfloop>
-<cfset commentlist = ArrayToList(getDataDetails["COMMENTS"], ",")>
-<cfset commentconnectlist = ArrayToList(getDataDetails["COLUMN_NAME"], ",")>
+<cfset commentList = ArrayToList(getDataDetails["COMMENTS"], ",")>
+<cfset commentConnectList = ArrayToList(getDataDetails["COLUMN_NAME"], ",")>
 	<cfoutput>
 		
 	</cfoutput>
@@ -284,7 +284,7 @@ SELECT sys.all_col_comments.COMMENTS,sys.all_tab_columns.COLUMN_NAME, sys.all_ta
 				<cfset colNameArray = listToArray(ucase(foundHeaders))><!--- the list of columns/fields found in the input file --->
 				<cfset fieldArray = listToArray(ucase(fieldlist))><!--- the full list of fields --->
 				<cfset typeArray = listToArray(ucase(fieldTypes))><!--- the types for the full list of fields --->
-				<cfset commentArray = listToArray(ucase(commentlist))>
+				<cfset commentArray = listToArray(ucase(commentList))>
 			
 				<div class="col-12 my-4">
 					<h3 class="h4">Found #size# columns in header of csv file.</h3>
@@ -307,11 +307,21 @@ SELECT sys.all_col_comments.COMMENTS,sys.all_tab_columns.COLUMN_NAME, sys.all_ta
 				<cfset errorMessage = "">
 				<!--- Loop through list of fields, mark each field as fields present in input or not, throw exception if required fields are missing --->
 				<ul class="h4 mb-4 font-weight-normal">
-						<li>
-					<cfloop list="#commentlist#" index="comment" delimiters=",">
-						<cfset acomment = '#comment#'>
-					</cfloop>
 					<cfloop list="#fieldlist#" index="field" delimiters=",">
+					<cfloop list="#fieldlist#" index="field" delimiters=",">
+						<cfquery name="getDataComments1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+							SELECT sys.all_tab_columns.COLUMN_NAME,sys.all_col_comments.COMMENTS
+							FROM sys.all_col_comments, sys.all_tab_columns
+							where sys.all_col_comments.TABLE_NAME = 'CF_TEMP_ATTRIBUTES' 
+							and sys.all_tab_columns.COLUMN_NAME=sys.all_col_comments.COLUMN_NAME 
+							and sys.all_col_comments.TABLE_NAME = sys.all_tab_columns.TABLE_NAME
+							and sys.all_col_comments.COLUMN_NAME <> 'USERNAME'
+							and sys.all_col_comments.COLUMN_NAME <> 'STATUS'
+							and sys.all_col_comments.COLUMN_NAME <> 'KEY'
+							and sys.all_col_comments.COLUMN_NAME <> 'COLLECTION_OBJECT_ID'
+							and sys.all_col_comments.COLUMN_NAME <> 'DETERMINED_BY_AGENT_ID'
+							and sys.all_col_comments.COLUMN_NAME = '#fieldlist#'
+						</cfquery>
 						<cfset hint="">
 						<cfif listContains(requiredfieldlist,field,",")>
 							<cfset class="text-danger">
@@ -319,8 +329,8 @@ SELECT sys.all_col_comments.COMMENTS,sys.all_tab_columns.COLUMN_NAME, sys.all_ta
 						<cfelse>
 							<cfset class="text-dark">
 						</cfif>
-					
-							<span class="#class#" #hint#>#field# </span> #acomment#
+						<li>
+							<span class="#class#" #hint#>#field# </span> 
 							<cfif arrayFindNoCase(colNameArray,field) GT 0>
 								<strong class="text-success">Present in CSV</strong> 
 							<cfelse>
