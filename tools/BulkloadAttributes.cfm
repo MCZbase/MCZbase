@@ -775,7 +775,7 @@ SELECT sys.all_col_comments.COMMENTS,sys.all_tab_columns.COLUMN_NAME, sys.all_ta
 					Validation checks passed. Look over the table below and <a href="/tools/BulkloadAttributes.cfm?action=load">click to continue</a> if it all looks good.
 				</h3>
 			</cfif>
-			<table class='px-0 sortable table table-responsive table-striped w-100'>
+			<table class='px-0 small sortable table table-responsive table-striped w-100'>
 				<thead>
 					<tr>
 						<th>Row</th>
@@ -940,7 +940,7 @@ SELECT sys.all_col_comments.COMMENTS,sys.all_tab_columns.COLUMN_NAME, sys.all_ta
 								</span>
 							</cfif>
 						</h3>
-						<table class='px-0 sortable table-danger w-100 table table-responsive table-striped mt-3'>
+						<table class='px-0 sortable small table-danger w-100 table table-responsive table-striped mt-3'>
 							<thead>
 								<tr><th>COUNT</th><th>STATUS</th>
 									<th>INSTITUTION_ACRONYM</th><th>COLLECTION_CDE</th><th>OTHER_ID_TYPE</th><th>OTHER_ID_NUMBER</th><th>ATTRIBUTE</th><th>ATTRIBUTE_VALUE</th><th>ATTRIBUTE_UNITS</th><th>ATTRIBUTE_DATE</th><th>ATTRIBUTE_METH</th><th>DETERMINER</th><th>REMARKS</th>
