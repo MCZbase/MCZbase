@@ -310,16 +310,14 @@ SELECT sys.all_col_comments.COMMENTS,sys.all_tab_columns.COLUMN_NAME, sys.all_ta
 					<cfloop query="getDataDetails" endrow="#max#" startrow="1">
 						<ul class="h4 mb-4 font-weight-normal list-group">
 							<cfset hint="">
-							<cfloop list="#fieldlist#" index="field" delimiters=",">
+							<cfloop index="current_item" list="#getDataDetails.COLUMN_NAME#">
 								<cfif listContains(requiredfieldlist,field,",")>
 									<cfset class="text-danger">
 									<cfset hint="aria-label='required'">
 								<cfelse>
 									<cfset class="text-dark">
 								</cfif>
-							</cfloop>
-							<li class="list-group-item px-0">
-								<cfloop index="current_item" list="#getDataDetails.COLUMN_NAME#">
+								<li class="list-group-item px-0">
 									<span class="#class#" #hint#>#current_item#</span>
 									<span class="text-secondary"> #getDataDetails.COMMENTS# </span>
 									<cfif arrayFindNoCase(colNameArray,current_item) GT 0>
@@ -331,8 +329,8 @@ SELECT sys.all_col_comments.COMMENTS,sys.all_tab_columns.COLUMN_NAME, sys.all_ta
 											<cfset errorMessage = "#errorMessage# <strong>#current_item#</strong> is missing.">
 										</cfif>
 									</cfif>
-								</cfloop>
-							</li>
+								</li>
+							</cfloop>
 						</ul>
 					</cfloop>
 				
