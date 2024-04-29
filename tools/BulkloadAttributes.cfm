@@ -64,10 +64,10 @@ SELECT sys.all_col_comments.COMMENTS,sys.all_tab_columns.COLUMN_NAME, sys.all_ta
 </cfquery>
 <cfset k = 0>
 <cfloop query = "getDataRequired">
-	<!---<cfoutput>#getDataRequired.COMMENTS#</cfoutput>--->
+	<cfoutput>#getDataRequired.COMMENTS#</cfoutput>
 	<cfset k = k + 1>	
 </cfloop>
-<cfset commentList = ArrayToList(getDataDetails["COMMENTS"], ",")>
+<cfset commentList = ArrayToList(getDataRequired["COMMENTS"], ",")>
 <cfset commentConnectList = ArrayToList(getDataDetails["COLUMN_NAME"], ",")>
 	<cfoutput>
 		
