@@ -328,9 +328,9 @@ SELECT sys.all_col_comments.COMMENTS,sys.all_tab_columns.COLUMN_NAME, sys.all_ta
 							</cfif>
 						</li>
 						<li class="list-group-item">
-							<cfif len(getDataDetails.COMMENTS) gt 0>
-								<cfloop list="#commentList#" index="comments" delimiters=",">
-									#commentList#
+							<cfif len(getDataDetails.COMMENTS) gt 0 and len(getDataDetails.COMMON_NAME) gt 0>
+								<cfloop query="getDataDetails">
+									#COMMENTS#
 								</cfloop>
 							</cfif>
 						</li>
