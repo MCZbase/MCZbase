@@ -2196,15 +2196,7 @@ Target JSON:
 																		<option value="4" #selected#>((((</option>
 																	</select>
 																</div>
-																<div class="col-12 col-md-1">
-																	<span id="nestMarkerStart#row#">
-																		<cfif right(nestdepthval,2) IS ".1">
-																			(
-																			<cfset parenOpen = parenOpen + 1>
-																		</cfif>
-																	</span>
-																</div>
-																<div class="col-12 col-md-3">
+																<div class="col-12 col-md-4">
 																	<select title="Select Field..." name="field#row#" id="field#row#" class="data-entry-select">
 																		<cfset category = "">
 																		<cfset optgroupOpen = false>
@@ -2299,10 +2291,7 @@ Target JSON:
 													newControls = newControls + '<option value="4">((((</option>';
 													newControls = newControls + '</select>';
 													newControls = newControls + '</div>';
-													newControls = newControls + '<div class="col-12 col-md-1">';
-													newControls = newControls + '<span id="nestMarkerStart'+row+'"></span>';
-													newControls= newControls + '</div>';
-													newControls= newControls + '<div class="col-12 col-md-3">';
+													newControls= newControls + '<div class="col-12 col-md-4">';
 													newControls = newControls + '<select title="Select Field..." name="field'+row+'" id="field'+row+'" class="data-entry-select">';
 													newControls = newControls + '<optgroup label="Select a field to search...."><option value="" selected></option></optgroup>';
 													<cfset category = "">
