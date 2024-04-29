@@ -45,7 +45,7 @@ SELECT sys.all_col_comments.COMMENTS,sys.all_tab_columns.COLUMN_NAME, sys.all_ta
 	and sys.all_col_comments.COLUMN_NAME <> 'COLLECTION_OBJECT_ID'
 	and sys.all_col_comments.COLUMN_NAME <> 'DETERMINED_BY_AGENT_ID'
 </cfquery>
-<cfreturn result/>
+<cfreturn getDataDetails_results/>
 <!--- special case handling to dump column headers as csv --->
 <cfif isDefined("action") AND action is "getCSVHeader">
 	<cfset csv = "">
