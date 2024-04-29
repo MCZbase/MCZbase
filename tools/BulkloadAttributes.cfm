@@ -49,7 +49,7 @@ SELECT sys.all_col_comments.COMMENTS,sys.all_tab_columns.COLUMN_NAME, sys.all_ta
 	and sys.all_col_comments.COLUMN_NAME <> 'COLLECTION_OBJECT_ID'
 	and sys.all_col_comments.COLUMN_NAME <> 'DETERMINED_BY_AGENT_ID'
 </cfquery>
-<cfquery name="getDataRequired" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+<cfquery name="getDataRequired" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getDataRequired_results">
 	SELECT sys.all_col_comments.COMMENTS,sys.all_tab_columns.COLUMN_NAME, sys.all_tab_columns.DATA_TYPE,sys.all_tab_columns.COLUMN_ID
 	FROM sys.all_col_comments, sys.all_tab_columns
 	where sys.all_col_comments.TABLE_NAME = 'CF_TEMP_ATTRIBUTES' 
@@ -313,7 +313,7 @@ SELECT sys.all_col_comments.COMMENTS,sys.all_tab_columns.COLUMN_NAME, sys.all_ta
 						<li>
 							<span class="#class#" #hint#>#field#</span>
 							<cfif arrayFindNoCase(colNameArray,field) GT 0>
-								<strong class="text-success">Present in CSV </strong> <cfif arrayFindNoCase(#getDataRequired_results#,field) eq #getDataRequired.COLUMN_NAME#> <span class="text-dark">#getDataRequired.COMMENTS#</span></cfif>
+								<strong class="text-success">Present in CSV </strong> <cfif arrayFindNoCase(getDataRequired_results,field) gt 0> <span class="text-dark">#getDataRequired.COMMENTS#</span></cfif>
 							<cfelse>
 								<!--- Case 2. Check by identifying field in required field list --->
 								<cfif ListContainsNoCase(requiredfieldlist,field)>
