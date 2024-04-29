@@ -325,8 +325,8 @@ SELECT sys.all_col_comments.COMMENTS,sys.all_tab_columns.COLUMN_NAME, sys.all_ta
 									<cfset errorMessage = "#errorMessage# <strong>#field#</strong> is missing.">
 								</cfif>
 							</cfif>
-							<cfloop list="#commentList#" index="comment" delimiters=",">
-								<cfif listContains(commentConnectList,field, ",")>#comment#</cfif>
+							<cfloop query="getDataDetails">
+								<cfif listContains(commentConnectList,field, ",")>#getDataDetails.Comments#</cfif>
 								<cfif listContainsNoCase(commentConnectList,field)>#comment#</cfif>
 							</cfloop>
 						</li>
