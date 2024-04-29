@@ -340,7 +340,7 @@ SELECT sys.all_col_comments.COMMENTS,sys.all_tab_columns.COLUMN_NAME, sys.all_ta
 									and sys.all_col_comments.COLUMN_NAME <> 'DETERMINED_BY_AGENT_ID'
 									and sys.all_col_comments.COLUMN_NAME = '#field#'
 								</cfquery>
-								<cfloop query="getDataDetails">
+								<cfloop query="getDataComments1">
 								#getDataComments1.COMMENTS#
 								</cfloop>
 							</cfif>
