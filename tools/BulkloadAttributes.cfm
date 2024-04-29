@@ -694,12 +694,12 @@ SELECT sys.all_col_comments.COMMENTS,sys.all_tab_columns.COLUMN_NAME, sys.all_ta
 				</cfloop>
 			</cfloop>
 			<!--- qc checks independent of attributes, includes presence of values in required columns --->
-			<cfloop list="requiredfieldlist" index="requiredfieldlist">
+			<cfloop list="#requiredfieldlist#" index="requiredField">
 				<cfquery name="checkRequired" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE cf_temp_attributes
 					SET 
-						status = concat(nvl2(status, status || '; ', ''),'required field is missing')
-					WHERE #requiredfieldlist# is null
+						status = concat(nvl2(status, status || '; ', ''),'#requiredField# is missing')
+					WHERE #requiredField# is null
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
 			</cfloop>
