@@ -306,7 +306,7 @@ SELECT sys.all_col_comments.COMMENTS,sys.all_tab_columns.COLUMN_NAME, sys.all_ta
 				</cfif>
 				<cfset errorMessage = "">
 				<!--- Loop through list of fields, mark each field as fields present in input or not, throw exception if required fields are missing --->
-				<ul class="h4 mb-4 font-weight-normal">
+				<ul class="h4 mb-4 font-weight-normal list-group list-group-horizontal">
 					<cfloop list="#fieldlist#" index="field" delimiters=",">
 						<cfset hint="">
 						<cfif listContains(requiredfieldlist,field,",")>
@@ -315,8 +315,8 @@ SELECT sys.all_col_comments.COMMENTS,sys.all_tab_columns.COLUMN_NAME, sys.all_ta
 						<cfelse>
 							<cfset class="text-dark">
 						</cfif>
-							<li><cfif arrayFindNoCase(commentArray,field) GT 0></cfif>
-							<span class="#class#" #hint#>#field# </span> #commentList#
+						<li class="list-group-item"><cfif arrayFindNoCase(commentArray,field) GT 0></cfif>
+							<span class="#class#" #hint#>#field# </span> 
 							<cfif arrayFindNoCase(colNameArray,field) GT 0>
 								<strong class="text-success">Present in CSV</strong> 
 							<cfelse>
@@ -326,6 +326,9 @@ SELECT sys.all_col_comments.COMMENTS,sys.all_tab_columns.COLUMN_NAME, sys.all_ta
 									<cfset errorMessage = "#errorMessage# <strong>#field#</strong> is missing.">
 								</cfif>
 							</cfif>
+						</li>
+						<li class="list-group-item">
+							#commentList#	
 						</li>
 					</cfloop>
 				</ul>
