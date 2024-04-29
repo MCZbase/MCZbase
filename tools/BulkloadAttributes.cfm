@@ -326,7 +326,23 @@ SELECT sys.all_col_comments.COMMENTS,sys.all_tab_columns.COLUMN_NAME, sys.all_ta
 								</cfif>
 							</cfif>
 							<cfloop query="getDataDetails">
-								<cfif ListContainsNoCase(commentConnectList,field) GT 0>#getDataDetails.COMMENTS#</cfif>
+								<cfif ListContainsNoCase(commentConnectList,field) GT 0>
+									<cfquery name="getDataComments1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getDataRequired_results">
+										SELECT sys.all_col_comments.COMMENTS,sys.all_tab_columns.COLUMN_NAME, sys.all_tab_columns.DATA_TYPE,sys.all_tab_columns.COLUMN_ID
+										FROM sys.all_col_comments, sys.all_tab_columns
+										where sys.all_col_comments.TABLE_NAME = 'CF_TEMP_ATTRIBUTES' 
+										and sys.all_tab_columns.COLUMN_NAME=sys.all_col_comments.COLUMN_NAME 
+										and sys.all_col_comments.TABLE_NAME = sys.all_tab_columns.TABLE_NAME
+										and sys.all_col_comments.COMMENTS = 'Required'
+										and sys.all_col_comments.COLUMN_NAME <> 'USERNAME'
+										and sys.all_col_comments.COLUMN_NAME <> 'STATUS'
+										and sys.all_col_comments.COLUMN_NAME <> 'KEY'
+										and sys.all_col_comments.COLUMN_NAME <> 'COLLECTION_OBJECT_ID'
+										and sys.all_col_comments.COLUMN_NAME <> 'DETERMINED_BY_AGENT_ID'
+										and sys.all_col_comments.COLUMN_NAME = '#field#'
+									</cfquery>
+									#getDataComments1.COMMENTS#
+								</cfif>
 							</cfloop>
 						</li>
 						
