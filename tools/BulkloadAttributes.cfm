@@ -325,18 +325,16 @@ SELECT sys.all_col_comments.COMMENTS,sys.all_tab_columns.COLUMN_NAME, sys.all_ta
 						<cfif listContains(requiredfieldlist,field,",")>
 							<cfset class="text-danger">
 							<cfset hint="aria-label='required'">
-						
 						<cfelse>
 							<cfset class="text-dark">
 						</cfif>
 						<li>
 							<cfloop query="getDataComments1">
-								#COMMENTS#						
+								<cfoutput>#COMMENTS#</cfoutput>
 							</cfloop>
 							<span class="#class#" #hint#>#field#</span>
 							<cfif arrayFindNoCase(colNameArray,field) GT 0>
 								<strong class="text-success">Present in CSV</strong> 
-								
 							<cfelse>
 								<!--- Case 2. Check by identifying field in required field list --->
 								<cfif ListContainsNoCase(requiredfieldlist,field)>
