@@ -2178,7 +2178,6 @@ Target JSON:
 																	</select>
 																</div>
 																<div class="col-12 col-md-1">
-																	<label for="openParens#row#" class="data-entry-label">&nbsp;</label>
 																	<cfif isDefined("openParens#row#")>
 																		<cfset openParens = Evaluate("openParens#row#")>
 																	<cfelse>
@@ -2251,7 +2250,6 @@ Target JSON:
 																	<input type="hidden" name="searchId#row#" id="searchId#row#" value="#encodeForHtml(sival)#" >
 																</div>
 																<div class="col-12 col-md-1">
-																	<label for="closeParens#row#" class="data-entry-label">&nbsp;</label>
 																	<cfif isDefined("closeParens#row#")>
 																		<cfset closeParens = Evaluate("closeParens#row#")>
 																	<cfelse>
