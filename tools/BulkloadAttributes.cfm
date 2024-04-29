@@ -308,6 +308,7 @@ SELECT sys.all_col_comments.COMMENTS,sys.all_tab_columns.COLUMN_NAME, sys.all_ta
 				<!--- Loop through list of fields, mark each field as fields present in input or not, throw exception if required fields are missing --->
 				<ul class="h4 mb-4 font-weight-normal list-group list-group-horizontal">
 					<cfloop list="#fieldlist#" index="field" delimiters=",">
+						<cfloop query="getDataDetails">
 						<cfset hint="">
 						<cfif listContains(requiredfieldlist,field,",")>
 							<cfset class="text-danger">
@@ -317,9 +318,7 @@ SELECT sys.all_col_comments.COMMENTS,sys.all_tab_columns.COLUMN_NAME, sys.all_ta
 						</cfif>
 						<li class="list-group-item">
 							<cfif len(getDataDetails.COMMENTS) gt 0 and len(getDataDetails.COLUMN_NAME) gt 0>
-								
-									<span class="#class#" #hint#>#getDataDetails.COLUMN_NAME# : #getDataDetails.COMMENTS#</span>
-								
+								<span class="#class#" #hint#>#getDataDetails.COLUMN_NAME# : #getDataDetails.COMMENTS#</span>
 							</cfif>
 					<!---		<span class="#class#" #hint#>#field# </span> --->
 							<cfif arrayFindNoCase(colNameArray,field) GT 0>
@@ -332,13 +331,7 @@ SELECT sys.all_col_comments.COMMENTS,sys.all_tab_columns.COLUMN_NAME, sys.all_ta
 								</cfif>
 							</cfif>
 						</li>
-		<!---				<li class="list-group-item">
-							<cfif len(getDataDetails.COMMENTS) gt 0 and len(getDataDetails.COLUMN_NAME) gt 0>
-								<cfloop query="getDataDetails">
-									#getDataDetails.COLUMN_NAME#:#getDataDetails.COMMENTS#
-								</cfloop>
-							</cfif>
-						</li>--->
+						</cfloop>
 					</cfloop>
 				</ul>
 				<cfif len(errorMessage) GT 0>
