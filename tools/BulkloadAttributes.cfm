@@ -309,8 +309,8 @@ SELECT sys.all_col_comments.COMMENTS,sys.all_tab_columns.COLUMN_NAME, sys.all_ta
 				<cfset max=ListLen(fieldList)>
 			
 				<cfloop list="#fieldlist#" index="field" delimiters=",">
-					<ul class="h4 mb-4 font-weight-normal list-group border">
-						<cfloop query="getDataDetails" endrow="#max#" startrow="1">
+					<cfloop query="getDataDetails" endrow="#max#" startrow="1">
+						<ul class="h4 mb-4 font-weight-normal list-group border">
 							<cfset hint="">
 							<cfif listContains(requiredfieldlist,field,",")>
 								<cfset class="text-danger">
@@ -334,8 +334,8 @@ SELECT sys.all_col_comments.COMMENTS,sys.all_tab_columns.COLUMN_NAME, sys.all_ta
 									</cfif>
 								</cfif>
 							</li>
-						</cfloop>
-					</ul>
+						</ul>
+					</cfloop>
 				</cfloop>
 		
 				<cfif len(errorMessage) GT 0>
