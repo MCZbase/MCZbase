@@ -319,7 +319,7 @@ SELECT sys.all_col_comments.COMMENTS,sys.all_tab_columns.COLUMN_NAME, sys.all_ta
 							<li class="list-group-item">
 								<cfif len(getDataDetails.COMMENTS) gt 0 and len(getDataDetails.COLUMN_NAME) gt 0>
 									<cfset listResult = listFind(1,COLUMN_NAME)>
-									<cfset arrayResult =  arrayFind(a, COLUMN_NAME)>
+									<cfset arrayResult =  arrayFind(COMMENTS, COLUMN_NAME)>
 									<span class="#class#" #hint#>#getDataDetails.COLUMN_NAME# : #getDataDetails.COMMENTS#</span>
 								</cfif>
 								<cfif arrayFindNoCase(colNameArray,field) GT 0>
