@@ -310,7 +310,7 @@ SELECT sys.all_col_comments.COMMENTS,sys.all_tab_columns.COLUMN_NAME, sys.all_ta
 				
 				<ul class="h4 mb-4 font-weight-normal list-group">
 					<cfloop list="#fieldlist#" index="field" delimiters=",">
-						<cfset max="ArrayLen(field)">
+						<cfset max="ArrayLen(#field#)">
 						<cfloop query="getDataDetails" endrow="#max#" startrow="1">
 							<cfset hint="">
 							<cfif listContains(requiredfieldlist,field,",")>
