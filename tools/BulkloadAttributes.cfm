@@ -940,7 +940,7 @@ SELECT sys.all_col_comments.COMMENTS,sys.all_tab_columns.COLUMN_NAME, sys.all_ta
 								</span>
 							</cfif>
 						</h3>
-						<table class='px-0 sortable table-danger table table-responsive table-striped d-lg-table mt-3'>
+						<table class='px-0 sortable table-danger w-100 table table-responsive table-striped mt-3'>
 							<thead>
 								<tr><th>COUNT</th><th>STATUS</th>
 									<th>INSTITUTION_ACRONYM</th><th>COLLECTION_CDE</th><th>OTHER_ID_TYPE</th><th>OTHER_ID_NUMBER</th><th>ATTRIBUTE</th><th>ATTRIBUTE_VALUE</th><th>ATTRIBUTE_UNITS</th><th>ATTRIBUTE_DATE</th><th>ATTRIBUTE_METH</th><th>DETERMINER</th><th>REMARKS</th>
