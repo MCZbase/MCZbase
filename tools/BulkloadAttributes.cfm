@@ -55,7 +55,7 @@ SELECT sys.all_col_comments.COMMENTS,sys.all_tab_columns.COLUMN_NAME, sys.all_ta
 	where sys.all_col_comments.TABLE_NAME = 'CF_TEMP_ATTRIBUTES' 
 	and sys.all_tab_columns.COLUMN_NAME=sys.all_col_comments.COLUMN_NAME 
 	and sys.all_col_comments.TABLE_NAME = sys.all_tab_columns.TABLE_NAME
-	and sys.all_col_comments.COMMENTS = 'Required'
+	and sys.all_col_comments.COMMENTS like 'Required%'
 	and sys.all_col_comments.COLUMN_NAME <> 'USERNAME'
 	and sys.all_col_comments.COLUMN_NAME <> 'STATUS'
 	and sys.all_col_comments.COLUMN_NAME <> 'KEY'
@@ -288,7 +288,7 @@ SELECT sys.all_col_comments.COMMENTS,sys.all_tab_columns.COLUMN_NAME, sys.all_ta
 			
 				<div class="col-12 my-4">
 					<h3 class="h4">Found #size# columns in header of csv file.</h3>
-					<h3 class="h4">There are #ListLen(fieldList)# columns expected in the header (of these #ListLen(fieldList)#-#k# are required).</h3>
+					<h3 class="h4">There are #ListLen(fieldList)# columns expected in the header (of these #k# are required).</h3>
 				</div>
 				<!--- check for required fields in header line (performng check in two different ways, Case 1, Case 2) --->
 				<!--- Loop through list of fields throw exception if required fields are missing --->
