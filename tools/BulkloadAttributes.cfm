@@ -309,7 +309,7 @@ SELECT sys.all_col_comments.COMMENTS,sys.all_tab_columns.COLUMN_NAME, sys.all_ta
 				<!--- Loop through list of fields, mark each field as fields present in input or not, throw exception if required fields are missing --->
 				<ul class="h4 mb-4 font-weight-normal list-group">
 					<cfloop list="#fieldlist#" index="field" delimiters=",">
-						<cfloop query="getDataDetails">
+						<cfloop query="getDataDetails" startrow="1" endrow="11">
 							<cfset hint="">
 							<cfif listContains(requiredfieldlist,field,",")>
 								<cfset class="text-danger">
@@ -318,8 +318,7 @@ SELECT sys.all_col_comments.COMMENTS,sys.all_tab_columns.COLUMN_NAME, sys.all_ta
 								<cfset class="text-dark">
 							</cfif>
 							<li class="list-group-item">
-								<cfset max=ArrayLen(fieldArray)> 
-								<cfloop index="current_item" list="#getDataDetails.COLUMN_NAME#" from="1" to="#max#">
+								<cfloop index="current_item" list="#getDataDetails.COLUMN_NAME#">
 									<span class="#class#" #hint#>#current_item#</span>
 								</cfloop>
 						
