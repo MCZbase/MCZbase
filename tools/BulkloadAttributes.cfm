@@ -289,7 +289,7 @@ SELECT sys.all_col_comments.COMMENTS,sys.all_tab_columns.COLUMN_NAME, sys.all_ta
 				<!--- Loop through list of fields throw exception if required fields are missing --->
 				<cfset errorMessage = "">
 				<cfloop list="#fieldList#" item="aField">
-					<cfif ListContainsNoCase(#getDataRequired.COLUMN_NAME#,aField)>
+					<cfif ListContainsNoCase(requiredfieldlist,aField)>
 						<!--- Case 1. Check by splitting assembled list of foundHeaders --->
 						<cfif NOT ListContainsNoCase(foundHeaders,aField)>
 							<cfset errorMessage = "#errorMessage# <strong>#aField#</strong> is missing.">
@@ -303,8 +303,8 @@ SELECT sys.all_col_comments.COMMENTS,sys.all_tab_columns.COLUMN_NAME, sys.all_ta
 				<!--- Loop through list of fields, mark each field as fields present in input or not, throw exception if required fields are missing --->
 				<ul class="h4 mb-4">
 					<cfloop list="#fieldlist#" index="field" delimiters=",">
-						<cfset hint="">#getDataRequired.COLUMN_NAME#
-						<cfif listContains(#getDataRequired.COLUMN_NAME#,field,",")>
+						<cfset hint="">
+						<cfif listContains(requiredfieldlist,field,",")>
 							<cfset class="text-danger">
 							<cfset hint="aria-label='required'">
 						<cfelse>
@@ -316,7 +316,7 @@ SELECT sys.all_col_comments.COMMENTS,sys.all_tab_columns.COLUMN_NAME, sys.all_ta
 								<strong class="text-success">Present in CSV</strong>
 							<cfelse>
 								<!--- Case 2. Check by identifying field in required field list --->
-								<cfif ListContainsNoCase(#getDataRequired.COLUMN_NAME#,field)>
+								<cfif ListContainsNoCase(requiredfieldlist,field)>
 									<strong class="text-dark">Required Column Not Found</strong>
 									<cfset errorMessage = "#errorMessage# <strong>#field#</strong> is missing.">
 								</cfif>
