@@ -313,9 +313,8 @@ SELECT sys.all_col_comments.COMMENTS,sys.all_tab_columns.COLUMN_NAME, sys.all_ta
 						<cfelse>
 							<cfset class="text-dark">
 						</cfif>
-						<cfif commentList eq valueList(#getDataDetails.COMMENTS#)>
-							<cfset class="text-primary">
-						</cfif>
+						<cfset commentList1 = valueList(#getDataDetails.COMMENTS#)>
+						#commentList1#
 						<li>
 							<span class="#class#" #hint#>#field#</span>
 							<cfif arrayFindNoCase(colNameArray,field) GT 0>
