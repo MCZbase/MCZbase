@@ -2187,13 +2187,13 @@ Target JSON:
 																	<select id="openParens#row#" name="openParens#row#" class="data-entry-select">
 																		<cfif openParens EQ "0"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
 																		<option value="0" #selected#></option>
-																		<cfif openParens EQ "0"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+																		<cfif openParens EQ "1"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
 																		<option value="1" #selected#>(</option>
-																		<cfif openParens EQ "0"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+																		<cfif openParens EQ "2"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
 																		<option value="2" #selected#>((</option>
-																		<cfif openParens EQ "0"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+																		<cfif openParens EQ "3"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
 																		<option value="3" #selected#>(((</option>
-																		<cfif openParens EQ "0"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+																		<cfif openParens EQ "4"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
 																		<option value="4" #selected#>((((</option>
 																	</select>
 																</div>
@@ -2261,13 +2261,13 @@ Target JSON:
 																		<cfif closeParens EQ "0"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
 																		<option value="0" #selected#></option>
 																		<cfif closeParens EQ "1"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
-																		<option value="1" #selected#>(</option>
+																		<option value="1" #selected#>)</option>
 																		<cfif closeParens EQ "2"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
-																		<option value="2" #selected#>((</option>
+																		<option value="2" #selected#>))</option>
 																		<cfif closeParens EQ "3"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
-																		<option value="3" #selected#>(((</option>
+																		<option value="3" #selected#>)))</option>
 																		<cfif closeParens EQ "4"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
-																		<option value="4" #selected#>((((</option>
+																		<option value="4" #selected#>))))</option>
 																	</select>
 																</div>
 																<div class="col-12 col-md-1">
