@@ -315,7 +315,7 @@ SELECT sys.all_col_comments.COMMENTS,sys.all_tab_columns.COLUMN_NAME, sys.all_ta
 							<span class="#class#" #hint#>#field#</span>
 							<cfif arrayFindNoCase(colNameArray,field) GT 0>
 								<strong class="text-success">Present in CSV</strong> 
-								<cfif #field# eq #commentConnectList#>#getDataDetails.COMMENTS#</cfif>
+								
 							<cfelse>
 								<!--- Case 2. Check by identifying field in required field list --->
 								<cfif ListContainsNoCase(requiredfieldlist,field)>
@@ -323,6 +323,7 @@ SELECT sys.all_col_comments.COMMENTS,sys.all_tab_columns.COLUMN_NAME, sys.all_ta
 									<cfset errorMessage = "#errorMessage# <strong>#field#</strong> is missing.">
 								</cfif>
 							</cfif>
+								<cfif #field# eq #commentConnectList#>#getDataDetails.COMMENTS#</cfif>
 						</li>
 					</cfloop>
 				</ul>
