@@ -328,6 +328,13 @@ SELECT sys.all_col_comments.COMMENTS,sys.all_tab_columns.COLUMN_NAME, sys.all_ta
 						</cfif>
 						<li>
 							<span class="#class#" #hint#>#field#</span>
+							<cfif len(getDataComments1.COMMENTS)gt 0>
+							<cfloop query="getDataComments1">
+								#getDataComments1.COMMENTS#
+							</cfloop>
+							<cfelse>
+								no comments
+							</cfif>
 							<cfif arrayFindNoCase(colNameArray,field) GT 0>
 								<strong class="text-success">Present in CSV</strong> 
 								
@@ -338,9 +345,6 @@ SELECT sys.all_col_comments.COMMENTS,sys.all_tab_columns.COLUMN_NAME, sys.all_ta
 									<cfset errorMessage = "#errorMessage# <strong>#field#</strong> is missing.">
 								</cfif>
 							</cfif>
-							<cfloop query="getDataComments1">
-								#getDataComments1.COMMENTS#
-							</cfloop>
 						</li>
 					</cfloop>
 				</ul>
