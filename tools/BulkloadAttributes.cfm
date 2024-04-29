@@ -311,7 +311,6 @@ SELECT sys.all_col_comments.COMMENTS,sys.all_tab_columns.COLUMN_NAME, sys.all_ta
 							where sys.all_col_comments.TABLE_NAME = 'CF_TEMP_ATTRIBUTES' 
 							and sys.all_tab_columns.COLUMN_NAME=sys.all_col_comments.COLUMN_NAME 
 							and sys.all_col_comments.TABLE_NAME = sys.all_tab_columns.TABLE_NAME
-							and sys.all_col_comments.COMMENTS = 'Required'
 							and sys.all_col_comments.COLUMN_NAME <> 'USERNAME'
 							and sys.all_col_comments.COLUMN_NAME <> 'STATUS'
 							and sys.all_col_comments.COLUMN_NAME <> 'KEY'
