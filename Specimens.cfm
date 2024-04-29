@@ -1936,17 +1936,24 @@ Target JSON:
 														<a aria-label="Add more search criteria" id="addRowButton" class="btn btn-xs btn-primary rounded px-2 mr-md-auto" target="_self" href="javascript:void(0);">Add</a>
 													</div>
 													<div class="col-12 col-md-1">
-														<label for="nestButton1" class="data-entry-label">Nest</label>
-														<select id="nestButton1" name="openParens1" class="data-entry-select">
-															<option value="0" selected></option>
-															<option value="1">(</option>
-															<option value="2">((</option>
-															<option value="3">(((</option>
-															<option value="4">((((</option>
+														<span id="nestMarkerStart1"></span>
+													</div>
+													<div class="col-12 col-md-1">
+														<label for="openParens1" class="data-entry-label">&nbsp;</label>
+														<cfif not isDefined("openParens1") OR len(trim(openParens1)) EQ 0><cfset openParens1="1"></cfif>
+														<select id="openParens1" name="openParens1" class="data-entry-select">
+															<cfif openParens1 EQ "0"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+															<option value="0" #selected#></option>
+															<cfif openParens1 EQ "0"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+															<option value="1" #selected#>(</option>
+															<cfif openParens1 EQ "0"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+															<option value="2" #selected#>((</option>
+															<cfif openParens1 EQ "0"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+															<option value="3" #selected#>(((</option>
+															<cfif openParens1 EQ "0"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+															<option value="4" #selected#>((((</option>
 														</select>
-														<button id="nestButton1" type="button" class="btn btn-xs btn-secondary disabled" onclick="indent(1);" disabled>&gt;</button>
 														<cfif not isDefined("nestdepth1") OR len(trim(nestdepth1)) EQ 0><cfset nestdepth1="1"></cfif>
-														<input type="hidden" name="nestdepth1" id="nestdepth1" value="#nestdepth1#">
 													</div>
 													<script>
 														function indent(row) {
@@ -1996,9 +2003,6 @@ Target JSON:
 															</cfif>
 														}
 													</script>
-													<div class="col-12 col-md-1">
-														<span id="nestMarkerStart1"></span>
-													</div>
 													<div class="col-12 col-md-4">
 														<cfquery name="fields" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="fields_result">
 															SELECT search_category, cf_spec_search_cols.table_name, cf_spec_search_cols.column_name, column_alias, data_type, 
@@ -2084,7 +2088,6 @@ Target JSON:
 													<div class="col-12 #searchcol#">
 														<cfif not isDefined("searchText1")><cfset searchText1=""></cfif>
 														<cfif not isDefined("searchId1")><cfset searchId1=""></cfif>
-														<!--- TODO: Add javascript to modify inputs depending on selected field. --->
 														<label for="searchText1" class="data-entry-label">Search For</label>
 														<input type="text" class="form-control-sm d-flex data-entry-input mx-0" name="searchText1" id="searchText1" value="#encodeForHtml(searchText1)#" required>
 														<input type="hidden" name="searchId1" id="searchId1" value="#encodeForHtml(searchId1)#">
@@ -2092,12 +2095,18 @@ Target JSON:
 													</div>
 													<div class="col-12 col-md-1">
 														<label class="data-entry-label" for="closeParens1">&nbsp;</label>
+														<cfif not isDefined("closeParens1") OR len(trim(closeParens1)) EQ 0><cfset closeParens1="0"></cfif>
 														<select name="closeParens1" id="closeParens1" class="data-entry-select">
-															<option value="0" selected></option>
-															<option value="1">)</option>
-															<option value="2">))</option>
-															<option value="3">)))</option>
-															<option value="4">))))</option>
+															<cfif closeParens1 EQ "0"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+															<option value="0" #selected#></option>
+															<cfif closeParens1 EQ "1"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+															<option value="1" #selected#>)</option>
+															<cfif closeParens1 EQ "2"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+															<option value="2" #selected#>))</option>
+															<cfif closeParens1 EQ "3"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+															<option value="3" #selected#>)))</option>
+															<cfif closeParens1 EQ "4"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+															<option value="4" ##>))))</option>
 														</select>
 													</div>
 													<cfif isdefined("session.roles") and listfindnocase(session.roles,"global_admin")>
@@ -2156,14 +2165,6 @@ Target JSON:
 																	</cfif>
 																</div>
 																<div class="col-12 col-md-1">
-																	<cfif row LT builderMaxRows>
-																		<cfset disabled = "disabled">
-																	<cfelse>
-																		<cfset disabled = "">
-																	</cfif>
-																	<button id="nestButton#row#" type="button" class="btn btn-xs btn-secondary #disabled#" onclick="indent("+row+");" #disabled#>&gt;</button>
-																</div>
-																<div class="col-12 col-md-1">
 																	<select title="Join Operator" name="JoinOperator#row#" id="joinOperator#row#" class="data-entry-select bg-white mx-0 d-flex">
 																		<cfif isDefined("joinOperator#row#") AND Evaluate("joinOperator#row#") EQ "or">
 																			<cfset orSel = "selected">
@@ -2174,6 +2175,26 @@ Target JSON:
 																		</cfif>
 																		<option value="and" #andSel# >and</option>
 																		<option value="or" #orSel# >or</option>
+																	</select>
+																</div>
+																<div class="col-12 col-md-1">
+																	<label for="openParens#row#" class="data-entry-label">&nbsp;</label>
+																	<cfif isDefined("openParens#row#")>
+																		<cfset openParens = Evaluate("openParens#row#")>
+																	<cfelse>
+																		<cfset openParens = 0>
+																	</cfif>
+																	<select id="openParens#row#" name="openParens#row#" class="data-entry-select">
+																		<cfif openParens EQ "0"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+																		<option value="0" #selected#></option>
+																		<cfif openParens EQ "0"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+																		<option value="1" #selected#>(</option>
+																		<cfif openParens EQ "0"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+																		<option value="2" #selected#>((</option>
+																		<cfif openParens EQ "0"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+																		<option value="3" #selected#>(((</option>
+																		<cfif openParens EQ "0"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+																		<option value="4" #selected#>((((</option>
 																	</select>
 																</div>
 																<div class="col-12 col-md-1">
@@ -2230,7 +2251,24 @@ Target JSON:
 																	<input type="hidden" name="searchId#row#" id="searchId#row#" value="#encodeForHtml(sival)#" >
 																</div>
 																<div class="col-12 col-md-1">
-																	<span id="nestMarkerEnd#row#">#closeParens#</span>
+																	<label for="closeParens#row#" class="data-entry-label">&nbsp;</label>
+																	<cfif isDefined("closeParens#row#")>
+																		<cfset closeParens = Evaluate("closeParens#row#")>
+																	<cfelse>
+																		<cfset closeParens = 0>
+																	</cfif>
+																	<select id="closeParens#row#" name="closeParens#row#" class="data-entry-select">
+																		<cfif closeParens EQ "0"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+																		<option value="0" #selected#></option>
+																		<cfif closeParens EQ "0"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+																		<option value="1" #selected#>(</option>
+																		<cfif closeParens EQ "0"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+																		<option value="2" #selected#>((</option>
+																		<cfif closeParens EQ "0"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+																		<option value="3" #selected#>(((</option>
+																		<cfif closeParens EQ "0"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+																		<option value="4" #selected#>((((</option>
+																	</select>
 																</div>
 																<div class="col-12 col-md-1">
 																	<button type='button' onclick=' $("##builderRow#row#").remove();' arial-label='remove' class='btn btn-xs px-3 btn-warning mr-auto'>Remove</button>
@@ -2254,14 +2292,14 @@ Target JSON:
 													newControls = newControls + '<input type="hidden" name="nestdepth'+row+'" id="nestdepth'+row+'">';
 													newControls = newControls + '</div>';
 													newControls = newControls + '<div class="col-12 col-md-1">';
+													newControls = newControls + '<select title="Join Operator" name="JoinOperator'+row+'" id="joinOperator'+row+'" class="data-entry-select bg-white mx-0 d-flex"><option value="and">and</option><option value="or">or</option></select>';
+													newControls = newControls + '</div>';
+													newControls = newControls + '<div class="col-12 col-md-1">';
 													newControls = newControls + '<select name="openParens'+row+'" id="openParens'+row+'" class="data-entry-select">';
 													newControls = newControls + '<option value="0"></option><option value="1">(</option>';
 													newControls = newControls + '<option value="2">((</option><option value="3">(((</option>';
 													newControls = newControls + '<option value="4">((((</option>';
 													newControls = newControls + '</select>';
-													newControls = newControls + '</div>';
-													newControls = newControls + '<div class="col-12 col-md-1">';
-													newControls = newControls + '<select title="Join Operator" name="JoinOperator'+row+'" id="joinOperator'+row+'" class="data-entry-select bg-white mx-0 d-flex"><option value="and">and</option><option value="or">or</option></select>';
 													newControls = newControls + '</div>';
 													newControls = newControls + '<div class="col-12 col-md-1">';
 													newControls = newControls + '<span id="nestMarkerStart'+row+'"></span>';
