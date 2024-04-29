@@ -313,7 +313,7 @@ SELECT sys.all_col_comments.COMMENTS,sys.all_tab_columns.COLUMN_NAME, sys.all_ta
 						<cfelse>
 							<cfset class="text-dark">
 						</cfif>
-						<cfif commentList = valueList(#getDataDetails.COMMENTS#)>
+						<cfif commentList eq valueList(#getDataDetails.COMMENTS#)>
 							<cfset class="text-primary">
 						</cfif>
 						<li>
