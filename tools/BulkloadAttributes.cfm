@@ -319,7 +319,7 @@ SELECT sys.all_col_comments.COMMENTS,sys.all_tab_columns.COLUMN_NAME, sys.all_ta
 							and sys.all_col_comments.COLUMN_NAME <> 'KEY'
 							and sys.all_col_comments.COLUMN_NAME <> 'COLLECTION_OBJECT_ID'
 							and sys.all_col_comments.COLUMN_NAME <> 'DETERMINED_BY_AGENT_ID'
-							and sys.all_col_comments.COLUMN_NAME like '%#field#%'
+							and sys.all_col_comments.COLUMN_NAME = 
 						</cfquery>
 						<cfset hint="">
 						<cfif listContains(requiredfieldlist,field,",")>
@@ -329,10 +329,7 @@ SELECT sys.all_col_comments.COMMENTS,sys.all_tab_columns.COLUMN_NAME, sys.all_ta
 							<cfset class="text-dark">
 						</cfif>
 						<li>
-							<cfloop query="getDataComments1">
-								<cfoutput>#getDataComments1.COMMENTS#</cfoutput>
-							</cfloop>
-							<span class="#class#" #hint#>#field#</span>
+							<span class="#class#" #hint#>#field# #getDataDetails.COMMENTS#</span>
 							<cfif arrayFindNoCase(colNameArray,field) GT 0>
 								<strong class="text-success">Present in CSV</strong> 
 							<cfelse>
