@@ -67,6 +67,7 @@ SELECT sys.all_col_comments.COMMENTS,sys.all_tab_columns.COLUMN_NAME, sys.all_ta
 	<cfoutput>#getDataRequired.COMMENTS#</cfoutput>
 	<cfset k = k + 1>	
 </cfloop>
+<cfset commentList = ArrayToList(getDataDetails["COMMENTS"], ",")>
 <!--- special case handling to dump column headers as csv --->
 <cfif isDefined("action") AND action is "getCSVHeader">
 	<cfset csv = "">
@@ -310,14 +311,17 @@ SELECT sys.all_col_comments.COMMENTS,sys.all_tab_columns.COLUMN_NAME, sys.all_ta
 						<cfelse>
 							<cfset class="text-dark">
 						</cfif>
+						<cfif listContains(commentList,field,",")>
+							<cfset comment=#getDataDetails.COMMENTS#>
+						</cfif>
 						<li>
 							<span class="#class#" #hint#>#field#</span>
 							<cfif arrayFindNoCase(colNameArray,field) GT 0>
-								<strong class="text-success">Present in CSV </strong> <cfif arrayFindNoCase(getDataRequired_results,field) gt 0> <span class="text-dark">#getDataRequired.COMMENTS#</span></cfif>
+								<strong class="text-success">Present in CSV --#comment#</strong> 
 							<cfelse>
 								<!--- Case 2. Check by identifying field in required field list --->
 								<cfif ListContainsNoCase(requiredfieldlist,field)>
-									<strong class="text-dark">Required Column Not Found </strong><cfif #field# eq #getDataRequired.COLUMN_NAME#> <span class="text-dark">#getDataRequired.COMMENTS#</span></cfif>
+									<strong class="text-dark">Required Column Not Found </strong>
 									<cfset errorMessage = "#errorMessage# <strong>#field#</strong> is missing.">
 								</cfif>
 							</cfif>
