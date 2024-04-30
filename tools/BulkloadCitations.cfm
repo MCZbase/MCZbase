@@ -92,7 +92,7 @@ limitations under the License.
 						<cfset class="text-dark">
 					</cfif>
 					<li class="pb-1 px-0 list-group-item">
-						<span class="#class# font-weight-lessbold" #aria#>#field#: </span> #comment#
+						<span class="#class# font-weight-lessbold" #aria#>#field#: </span> <span class="text-secondary">#comment#</span>
 					</li>
 				</cfloop>
 			</ul>
