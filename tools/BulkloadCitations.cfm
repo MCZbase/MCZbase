@@ -79,7 +79,7 @@ limitations under the License.
 							where 
 								owner = 'MCZBASE'
 							AND
-								table_name = 'cf_temp_citation'
+								table_name = 'CF_TEMP_CITATION'
 							AND
 								column_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(field)#" />
 						</cfquery>
