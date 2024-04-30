@@ -318,10 +318,9 @@ SELECT sys.all_col_comments.COMMENTS,sys.all_tab_columns.COLUMN_NAME, sys.all_ta
 									<cfset class="text-dark">
 								</cfif>
 								<li class="list-group-item px-0">
-									<span class="#class#" #hint#>#current_item#</span>
-									<span class="text-secondary"> #getDataDetails.COMMENTS# </span>
+									<span class="#class#" #hint#>#current_item#</span><span class="text-secondary">: #getDataDetails.COMMENTS# </span>
 									<cfif arrayFindNoCase(colNameArray,current_item) GT 0>
-										<strong class="text-success">Present in CSV</strong> 
+										<strong class="text-success">[ Present in CSV ]</strong> 
 									<cfelse>
 										<!--- Case 2. Check by identifying field in required field list --->
 										<cfif ListContainsNoCase(requiredfieldlist,current_item)>
