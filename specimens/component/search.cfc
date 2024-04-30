@@ -325,7 +325,7 @@ function ScriptPrefixedNumberListToJSON(listOfNumbers, integerFieldname, prefixF
 					joinPhrase = leadingJoin;
 				}
 				if (left(nestDepth,5) EQ '"open') { 
-					wherebit = wherebit & comma & '{"nest":"#nestDepth#","join":"' & joinPhrase & '","field": "' & prefixFieldName &'","comparator": "=","value": "#prefix#"}';
+					wherebit = wherebit & comma & '{#nestDepth#,"join":"' & joinPhrase & '","field": "' & prefixFieldName &'","comparator": "=","value": "#prefix#"}';
 				} else { 
 					wherebit = wherebit & comma & '{"nest":"#nestDepth#","join":"' & joinPhrase & '","field": "' & prefixFieldName &'","comparator": "=","value": "#prefix#"}';
 				}
@@ -343,7 +343,7 @@ function ScriptPrefixedNumberListToJSON(listOfNumbers, integerFieldname, prefixF
 					suffix = REReplace(suffix,"\-$","");
 				}
 				if (left(nestDepth,5) EQ '"open') { 
-					wherebit = wherebit & comma & '{"nest":"#nestDepth#","join":"and","field": "' & suffixFieldName &'","comparator": "=","value": "#suffix#"}';
+					wherebit = wherebit & comma & '{#nestDepth#,"join":"and","field": "' & suffixFieldName &'","comparator": "=","value": "#suffix#"}';
 				} else {
 					wherebit = wherebit & comma & '{"nest":"#nestDepth#","join":"and","field": "' & suffixFieldName &'","comparator": "=","value": "#suffix#"}';
 				}
@@ -411,8 +411,14 @@ function ScriptNumberListToJSON(listOfNumbers, fieldname, nestDepth, leadingJoin
 			if (ucase(fieldname) IS "CAT_NUM") { 
 				fieldname = "CAT_NUM_INTEGER";
 			}
-			result = '{"nest":"#nestDepth#.1","join":"' & leadingJoin & '","field": "' & fieldname &'","comparator": ">=","value": "#encodeForJSON(lowPart)#"';
-			result = result & '},{"nest":"#nestDepth#.2","join":"and","field": "' & fieldname &'","comparator": "<=","value": "#encodeForJSON(highPart)#"}';
+			if (left(nestDepth,5) EQ '"open') {  
+				// TODO: Increment nesting 
+				result = '{#nestDepth#,"join":"' & leadingJoin & '","field": "' & fieldname &'","comparator": ">=","value": "#encodeForJSON(lowPart)#"';
+				result = result & '},{#nestDepth#,"join":"and","field": "' & fieldname &'","comparator": "<=","value": "#encodeForJSON(highPart)#"}';
+			} else {
+				result = '{"nest":"#nestDepth#.1","join":"' & leadingJoin & '","field": "' & fieldname &'","comparator": ">=","value": "#encodeForJSON(lowPart)#"';
+				result = result & '},{"nest":"#nestDepth#.2","join":"and","field": "' & fieldname &'","comparator": "<=","value": "#encodeForJSON(highPart)#"}';
+			} 
 		} else if (ArrayLen(REMatch("^[0-9,]+$",listOfNumbers))>0) {
 			// Just a list of numbers without ranges, translates directly to IN
 			if (listOfNumbers!=",") {
