@@ -94,11 +94,6 @@ limitations under the License.
 					<li><span class="#class#" #aria#>#field#</span> #comment#</li>
 				</cfloop>
 			</ul>
-			<cfset NO_COLUMN_ERR = "One or more required fields are missing in the header line of the csv file. Check charset selected if columns match required headers and one column is not found.">
-			<cfset table_name = "CF_TEMP_CITATION">
-			<cfset reqFieldsResponse = checkRequiredFields(fieldList=fieldList,requiredFieldList=requiredFieldList,NO_COLUMN_ERR=NO_COLUMN_ERR,TABLE_NAME=TABLE_NAME)>
-				
-				
 			<form name="atts" method="post" enctype="multipart/form-data" action="/tools/BulkloadCitations.cfm">
 				<div class="form-row border rounded p-2">
 					<input type="hidden" name="action" value="getFile">
