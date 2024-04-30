@@ -100,6 +100,60 @@ limitations under the License.
 	<cfreturn result>
 </cffunction>
 
+<!--- given a string representing a json fragment in the form
+  "openParens":"0","closeParens":"0" increment the number for
+  openParens by one, and return the string with that number 
+  incremented.
+  @param nest string containing the openParens, closeParens fragment.
+  @return the input nest string with openParens incremented by one, or
+    if unable to recgnise the string or split out the numeric bits, the
+    original input string without alteration.
+--->
+<cffunction name="incrementOpenParens">
+	<cfargument name="nest" type="string" required="yes">
+	
+	<cfset result = arguments.nest>
+	<cfif left(nestDepth,5) EQ '"open') >
+		<cfset bits = rematch('"[0-9]+"',nestDepth)>
+		<cfif ArrayLen(bits) EQ 2>
+			<cfset open = replace(bits[0],'"','','all')>
+			<cfset open = val(open) + 1>
+			<cfset close = replace(bits[1],'"','','all')>
+			<cfset result = '"openParens":"#open#","closeParens":"#close#"'
+		</cfif>
+	</cfif>
+	<cfreturn result>
+</cffunction>
+
+<!--- given a string representing a json fragment in the form
+  "openParens":"0","closeParens":"0" decrement the number for
+  closeParens by one, and return the string with that number 
+  decremented.
+  @param nest string containing the openParens, closeParens fragment.
+  @return the input nest string with closeParens deccremented by one, or
+    if unable to recgnise the string or split out the numeric bits, the
+    original input string without alteration. 
+  @throws exception if decremented closeParens value is below zero.
+--->
+<cffunction name="decrementCloseParens">
+	<cfargument name="nest" type="string" required="yes">
+	
+	<cfset result = arguments.nest>
+	<cfif left(nestDepth,5) EQ '"open') >
+		<cfset bits = rematch('"[0-9]+"',nestDepth)>
+		<cfif ArrayLen(bits) EQ 2>
+			<cfset open = replace(bits[0],'"','','all')>
+			<cfset close = replace(bits[1],'"','','all')>
+			<cfset close = val(close) - 1>
+			<cfif close LT 0>
+				<cfthrow message="Error constructing query nesting. Attempting to decrement closeParens below 0">
+			</cfif>
+			<cfset result = '"openParens":"#open#","closeParens":"#close#"'
+		</cfif>
+	</cfif>
+	<cfreturn result>
+</cffunction>
+
 <!--- functions to assist in parsing catalog number ranges --->
 <cfscript>
 /**
@@ -138,6 +192,8 @@ function ScriptPrefixedNumberListToJSON(listOfNumbers, integerFieldname, prefixF
 		displayFieldName = "DISPLAY_VALUE";
 	}
 
+	nestDepth = incrementOpenParens(nest="#nestDepth#");
+
 	// Prepare list for parsing
 	listOfNumbers = trim(listOfNumbers);
 	// Change ", " to "," and then " " to "," to allow whitespace and comma separators
@@ -173,7 +229,11 @@ function ScriptPrefixedNumberListToJSON(listOfNumbers, integerFieldname, prefixF
 		wherebit = "";
 		comma = "";
 		leadingJoin = "and";
+		// TODO: Handle nesting with openParens and closeParens
 		for (i=1; i LTE ArrayLen(lparts); i=i+1) {
+			if (i EQ ArrayLen(lparts)) { 
+				nestDepth = decrementCloseParens(nest="#nestDepth#");
+			} 
 			prefix = "";
 			numeric= "";
 			suffix = "";
@@ -1279,7 +1339,7 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 	</cfif>
 	<cfif has0 AND has1>
 		<!--- create nested or clause has (other_id_number of type) or (has other_id_number_1 of type_1) --->
-		<cfset nest = '"openParens":"1","closeParens":"0"'>
+		<cfset nest = '"openParens":"2","closeParens":"0"'>
 		<cfif isDefined("other_id_type") AND len(other_id_type) GT 0>
 			<cfset field = '"field": "other_id_type"'>
 			<cfset comparator = '"comparator": "IN"'>
@@ -1288,6 +1348,7 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 			<cfset separator = ",">
 			<cfset join='"join":"and",'>
 		</cfif>
+		<cfset nest = '"openParens":"0","closeParens":"1"'>
 		<cfif isDefined("other_id_number") AND len(other_id_number) GT 0>
 			<cfif left(other_id_number,1) is "=" OR left(other_id_number,1) is "!">
 				<cfset field = '"field": "DISPLAY_VALUE"'>
@@ -1301,15 +1362,16 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 				<cfset join='"join":"and",'>
 			</cfif>
 		</cfif>
+		<cfset nest = '"openParens":"1","closeParens":"0"'>
 		<cfif isDefined("other_id_type_1") AND len(other_id_type_1) GT 0>
 			<cfset field = '"field": "other_id_type"'>
 			<cfset comparator = '"comparator": "IN"'>
 			<cfset value = escapeQuotesForJSON(value="#other_id_type_1#")>
 			<cfset search_json = '#search_json##separator#{#nest#,#join##field#,#comparator#,"value": "#value#"}'>
 			<cfset separator = ",">
-			<cfset join='"join":"and",'>
+			<cfset join='"join":"or",'>
 		</cfif>
-		<cfset nest = '"openParens":"0","closeParens":"1"'>
+		<cfset nest = '"openParens":"0","closeParens":"2"'>
 		<cfif isDefined("other_id_number_1") AND len(other_id_number_1) GT 0>
 			<cfif left(other_id_number_1,1) is "=" OR left(other_id_number_1,1) is "!">
 				<cfset field = '"field": "DISPLAY_VALUE"'>
