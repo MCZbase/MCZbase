@@ -196,6 +196,7 @@ limitations under the License.
 	<cfargument name="fieldList" type="string" required="yes">
 	<cfargument name="requiredFieldList" type="string" required="yes">
 	<cfargument name="NO_COLUMN_ERR" type="string" required="yes">
+	<cfargument name="TABLE_NAME" type="string" required="yes">
 
 	<cfoutput>
 		<!--- check for required fields in header line (performng check in two different ways, Case 1, Case 2), listing all fields. --->
@@ -209,19 +210,33 @@ limitations under the License.
 				</cfif>
 			</cfif>
 		</cfloop>
-		<ul class="mb-4 h4 font-weight-normal">
+		<ul class="mb-4 h4 font-weight-normal list-group">
 			<cfloop list="#fieldlist#" index="field" delimiters=",">
 				<cfset hint="">
+				<cfquery name = "getComments"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#"  result="getComments_result">
+					select comments 
+						from sys.all_col_comments
+					where 
+						owner = 'MCZBASE'
+					AND
+						TABLE_NAME = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(TABLE_NAME)#" />
+					AND
+						column_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(field)#" />
+				</cfquery>
+				<cfset comment = "">
+				<cfif getComments.recordcount GT 0>
+					<cfset comment = getComments.comments>
+				</cfif>
 				<cfif listContains(requiredfieldlist,field,",")>
 					<cfset class="text-danger">
 					<cfset hint="aria-label='required'">
 				<cfelse>
 					<cfset class="text-dark">
 				</cfif>
-				<li class="pb-1">
-					<span class="#class#" #hint#>#field#</span>
+				<li class="pb-1 px-0 list-group-item">
+					<span class="#class# font-weight-lessbold" #hint#>#field#:</span> <span class="text-secondary">#comment#</span>
 					<cfif arrayFindNoCase(colNameArray,field) GT 0>
-						<span class="text-success font-weight-bold">Present in CSV</span>
+						<span class="text-success font-weight-bold">[ Present in CSV ]</span>
 					<cfelse>
 						<!--- Case 2. Check by identifying field in required field list --->
 						<cfif ListContainsNoCase(requiredFieldList,field)>

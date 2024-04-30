@@ -35,42 +35,6 @@ limitations under the License.
 <cfset fieldlist = "institution_acronym,collection_cde,other_id_type,other_id_number,attribute,attribute_value,attribute_units,attribute_date,attribute_meth,determiner,remarks">
 <cfset fieldTypes ="CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR">
 <cfset requiredfieldlist = "institution_acronym,collection_cde,other_id_type,other_id_number,attribute,attribute_value,attribute_date,determiner">
-	
-	
-<cfquery name="getDataDetails" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getDataDetails_results">
-SELECT sys.all_col_comments.COMMENTS,sys.all_tab_columns.COLUMN_NAME, sys.all_tab_columns.DATA_TYPE,sys.all_tab_columns.COLUMN_ID
-	FROM sys.all_col_comments, sys.all_tab_columns
-	where sys.all_col_comments.TABLE_NAME = 'CF_TEMP_ATTRIBUTES' 
-	and sys.all_tab_columns.COLUMN_NAME=sys.all_col_comments.COLUMN_NAME 
-	and sys.all_col_comments.TABLE_NAME = sys.all_tab_columns.TABLE_NAME
-	and sys.all_col_comments.COLUMN_NAME <> 'USERNAME'
-	and sys.all_col_comments.COLUMN_NAME <> 'STATUS'
-	and sys.all_col_comments.COLUMN_NAME <> 'KEY'
-	and sys.all_col_comments.COLUMN_NAME <> 'COLLECTION_OBJECT_ID'
-	and sys.all_col_comments.COLUMN_NAME <> 'DETERMINED_BY_AGENT_ID'
-</cfquery>
-<cfquery name="getDataRequired" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getDataRequired_results">
-	SELECT sys.all_col_comments.COMMENTS,sys.all_tab_columns.COLUMN_NAME, sys.all_tab_columns.DATA_TYPE,sys.all_tab_columns.COLUMN_ID
-	FROM sys.all_col_comments, sys.all_tab_columns
-	where sys.all_col_comments.TABLE_NAME = 'CF_TEMP_ATTRIBUTES' 
-	and sys.all_tab_columns.COLUMN_NAME=sys.all_col_comments.COLUMN_NAME 
-	and sys.all_col_comments.TABLE_NAME = sys.all_tab_columns.TABLE_NAME
-	and sys.all_col_comments.COMMENTS like 'Required%'
-	and sys.all_col_comments.COLUMN_NAME <> 'USERNAME'
-	and sys.all_col_comments.COLUMN_NAME <> 'STATUS'
-	and sys.all_col_comments.COLUMN_NAME <> 'KEY'
-	and sys.all_col_comments.COLUMN_NAME <> 'COLLECTION_OBJECT_ID'
-	and sys.all_col_comments.COLUMN_NAME <> 'DETERMINED_BY_AGENT_ID'
-</cfquery>
-<cfset k = 0>
-<cfloop query = "getDataRequired">
-	<cfset k = k + 1>	
-</cfloop>
-<cfset commentList = ArrayToList(getDataRequired["COMMENTS"], ",")>
-<cfset commentConnectList = ArrayToList(getDataDetails["COLUMN_NAME"], ",")>
-	<cfoutput>
-		
-	</cfoutput>
 <!--- special case handling to dump column headers as csv --->
 <cfif isDefined("action") AND action is "getCSVHeader">
 	<cfset csv = "">
@@ -87,6 +51,7 @@ SELECT sys.all_col_comments.COMMENTS,sys.all_tab_columns.COLUMN_NAME, sys.all_ta
 <!--- Normal page delivery with header/footer --->
 <cfset pageTitle = "Bulkload Attributes">
 <cfinclude template="/shared/_header.cfm">
+<cfinclude template="/tools/component/csv.cfc" runOnce="true"><!--- for common csv functions --->
 <cfif not isDefined("action") OR len(action) EQ 0><cfset action="nothing"></cfif>
 <main class="container-fluid px-5 py-3" id="content">
 	<h1 class="h2 mt-2">Bulkload Attributes</h1>
@@ -101,35 +66,32 @@ SELECT sys.all_col_comments.COMMENTS,sys.all_tab_columns.COLUMN_NAME, sys.all_ta
 				<textarea rows="2" cols="90" id="templatearea" class="w-100 data-entry-textarea">#fieldlist#</textarea>
 			</div>
 			<h2 class="mt-4 h4">Columns in <span class="text-danger">red</span> are required; others are optional:</h2>
-			<cfset max=ListLen(fieldList)>
-			<ul class="h4 mb-3 font-weight-normal list-group">
-				<cfloop query="getDataDetails" endrow="#max#" startrow="1">
-					<cfset hint="">
-					<cfloop index="current_item" list="#getDataDetails.COLUMN_NAME#">
-						<cfif getDataDetails.COMMENTS contains 'Required'>
-							<cfset class="text-danger">
-							<cfset hint="aria-label='required'">
-						<cfelse>
-							<cfset class="text-dark">
-						</cfif>
-						<li class="list-group-item px-0">
-							<span class="#class#" #hint#>#current_item#</span><span class="text-secondary">: #getDataDetails.COMMENTS# </span>
-						</li>
-					</cfloop>
+			<ul class="mb-4 h4 font-weight-normal list-group">
+				<cfloop list="#fieldlist#" index="field" delimiters=",">
+					<cfquery name = "getComments"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#"  result="getComments_result">
+						SELECT comments
+						FROM sys.all_col_comments
+						WHERE 
+							owner = 'MCZBASE'
+							and table_name = 'CF_TEMP_ATTRIBUTES'
+							and column_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(field)#" />
+					</cfquery>
+					<cfset comment = "">
+					<cfif getComments.recordcount GT 0>
+						<cfset comment = getComments.comments>
+					</cfif>
+					<cfset aria = "">
+					<cfif listContains(requiredfieldlist,field,",")>
+						<cfset class="text-danger">
+						<cfset aria = "aria-label='Required Field'">
+					<cfelse>
+						<cfset class="text-dark">
+					</cfif>
+					<li class="pb-1 px-0 list-group-item">
+						<span class="#class# font-weight-lessbold" #aria#>#field#: </span> <span class="text-secondary">#comment#</span>
+					</li>
 				</cfloop>
 			</ul>
-			
-			<!---<ul class="mb-4 h4 font-weight-normal">
-			<cfset i = 0>
-			<cfloop query="getDataDetails">
-				<cfif getDataDetails.comments eq 'Required'>
-					<li class='text-danger' aria-label='Required Field'>#getDataDetails.COLUMN_NAME# </li>
-				<cfelse>
-					<li class='text-dark' aria-label='Field'>#getDataDetails.COLUMN_NAME#</li>
-				</cfif>
-				<cfset i = i + 1>
-			</cfloop>
-			</ul>--->
 			<form name="atts" method="post" enctype="multipart/form-data" action="/tools/BulkloadAttributes.cfm">
 				<div class="form-row border rounded p-2">
 					<input type="hidden" name="action" value="getFile">
@@ -138,30 +100,10 @@ SELECT sys.all_col_comments.COMMENTS,sys.all_tab_columns.COLUMN_NAME, sys.all_ta
 						<input type="file" name="FiletoUpload" id="fileToUpload" class="data-entry-input p-0 m-0">
 					</div>
 					<div class="col-12 col-md-3">
-						<label for="characterSet" class="data-entry-label">Character Set:</label> 
-						<select name="characterSet" id="characterSet" required class="data-entry-select reqdClr">
-							<option selected></option>
-							<option value="utf-8" >utf-8</option>
-							<option value="iso-8859-1">iso-8859-1</option>
-							<option value="windows-1252">windows-1252 (Win Latin 1)</option>
-							<option value="MacRoman">MacRoman</option>
-							<option value="x-MacCentralEurope">Macintosh Latin-2</option>
-							<option value="windows-1250">windows-1250 (Win Eastern European)</option>
-							<option value="windows-1251">windows-1251 (Win Cyrillic)</option>
-							<option value="utf-16">utf-16</option>
-							<option value="utf-32">utf-32</option>
-						</select>
+						<cfset charsetSelect = getCharsetSelectHTML()>
 					</div>
 					<div class="col-12 col-md-3">
-						<label for="format" class="data-entry-label">Format:</label> 
-						<select name="format" id="format" required class="data-entry-select reqdClr">
-							<option value="DEFAULT" selected >Standard CSV</option>
-							<option value="TDF">Tab Separated Values</option>
-							<option value="EXCEL">CSV export from MS Excel</option>
-							<option value="RFC4180">Strict RFC4180 CSV</option>
-							<option value="ORACLE">Oracle SQL*Loader CSV</option>
-							<option value="MYSQL">CSV export from MYSQL</option>
-						</select>
+						<cfset formatSelect = getFormatSelectHTML()>
 					</div>
 					<div class="col-12 col-md-2">
 						<label for="submitButton" class="data-entry-label">&nbsp;</label>
@@ -177,207 +119,38 @@ SELECT sys.all_col_comments.COMMENTS,sys.all_tab_columns.COLUMN_NAME, sys.all_ta
 		<h2 class="h3">First step: Reading data from CSV file.</h2>
 		<!--- Compare the numbers of headers expected against provided in CSV file --->
 		<!--- Set some constants to identify error cases in cfcatch block --->
-		<cfset NO_COLUMN_ERR = "One or more required fields are missing in the header line of the csv file.">
+		<cfset NO_COLUMN_ERR = "One or more required fields are missing in the header line of the csv file. Check charset selected if columns match required headers and one column is not found.">
 		<cfset DUP_COLUMN_ERR = "One or more columns are duplicated in the header line of the csv file.">
-		<cfset COLUMN_ERR = "Error inserting data">
+		<cfset COLUMN_ERR = "Error inserting data ">
 		<cfset NO_HEADER_ERR = "No header line found, csv file appears to be empty.">
+		<cfset table_name = "CF_TEMP_ATTRIBUTES">
 
 		<cftry>
-				<!--- Parse the CSV file using Apache Commons CSV library included with coldfusion so that columns with comma delimeters will be separated properly --->
-				<cfset fileProxy = CreateObject("java","java.io.File") >
-				<cfobject type="Java" name="csvFormat" class="org.apache.commons.csv.CSVFormat" >
-				<cfobject type="Java" name="csvParser" class="org.apache.commons.csv.CSVParser" >
-				<cfobject type="Java" name="csvRecord" class="org.apache.commons.csv.CSVRecord" >			
-				<cfobject type="java" class="java.io.FileReader" name="fileReader">	
-				<cfobject type="Java" name="javaCharset" class="java.nio.charset.Charset" >
-				<cfobject type="Java" name="standardCharsets" class="java.nio.charset.StandardCharsets" >
-				<cfset filePath = fileProxy.init(JavaCast("string",#FiletoUpload#)) >
-				<cfset tempFileInputStream = CreateObject("java","java.io.FileInputStream").Init(#filePath#) >
-				<!--- Create a FileReader object to provide a reader for the CSV file --->
-				<cfset fileReader = CreateObject("java","java.io.FileReader").Init(#filePath#) >
-				<!--- we can not use the withHeader() method from coldfusion, as it is overloaded, and with no parameters provides coldfusion no means to pick the correct method --->
-				<!--- Select format of csv file based on format variable from user --->
-				<cfif not isDefined("format")><cfset format="DEFAULT"></cfif>
-				<cfswitch expression="#format#">
-					<cfcase value="DEFAULT">
-						<cfset csvFormat = CSVFormat.DEFAULT>
-					</cfcase>
-					<cfcase value="TDF">
-						<cfset csvFormat = CSVFormat.TDF>
-					</cfcase>
-					<cfcase value="RFC4180">
-						<cfset csvFormat = CSVFormat.RFC4180>
-					</cfcase>
-					<cfcase value="EXCEL">
-						<cfset csvFormat = CSVFormat.EXCEL>
-					</cfcase>
-					<cfcase value="ORACLE">
-						<cfset csvFormat = CSVFormat.ORACLE>
-					</cfcase>
-					<cfcase value="MYSQL">
-						<cfset csvFormat = CSVFormat.MYSQL>
-					</cfcase>
-					<cfdefaultcase>
-						<cfset csvFormat = CSVFormat.DEFAULT>
-					</cfdefaultcase>
-				</cfswitch>
-				<!--- Create a CSVParser using the FileReader and CSVFormat--->
-				<cfset csvParser = CSVParser.parse(fileReader, csvFormat)>
-				<!--- Select charset based on characterSet variable from user --->
-				<cfswitch expression="#characterSet#">
-					<cfcase value="utf-8">
-						<cfset javaSelectedCharset = standardCharsets.UTF_8 >
-					</cfcase>
-					<cfcase value="iso-8859-1">
-						<cfset javaSelectedCharset = standardCharsets.ISO_8859_1 >
-					</cfcase>
-					<cfcase value="windows-1250">
-						<cfset javaSelectedCharset = javaCharset.forName(JavaCast("string","windows-1250")) >
-					</cfcase>
-					<cfcase value="windows-1251">
-						<cfset javaSelectedCharset = javaCharset.forName(JavaCast("string","windows-1251")) >
-					</cfcase>
-					<cfcase value="windows-1252">
-						<cfif javaCharset.isSupported(JavaCast("string","windows-1252"))>
-							<cfset javaSelectedCharset = javaCharset.forName(JavaCast("string","windows-1252")) >
-						<cfelse>
-							<!--- if not available, iso-8859-1 will substitute, except for 0x80 to 0x9F --->
-							<!--- the following characters won't be handled correctly if the source is windows-1252:  €  Š  š  Ž  ž  Œ  œ  Ÿ --->
-							<cfset javaSelectedCharset = standardCharsets.ISO_8859_1 >
-						</cfif>
-					</cfcase>
-					<cfcase value="x-MacCentralEurope">
-						<cfset javaSelectedCharset = javaCharset.forName(JavaCast("string","x-MacCentralEurope")) >
-					</cfcase>
-					<cfcase value="MacRoman">
-						<cfset javaSelectedCharset = javaCharset.forName(JavaCast("string","x-MacRoman")) >
-					</cfcase>
-					<cfcase value="utf-16">
-						<cfset javaSelectedCharset = standardCharsets.UTF_16 >
-					</cfcase>
-					<cfcase value="utf-32">
-						<cfset javaSelectedCharset = javaCharset.forName(JavaCast("string","utf-32")) >
-					</cfcase>
-					<cfdefaultcase>
-						<cfset javaSelectedCharset = standardCharsets.UTF_8 >
-					</cfdefaultcase>
-				</cfswitch>
-				<cfset records = CSVParser.parse(#tempFileInputStream#,#javaSelectedCharset#,#csvFormat#)>
+			<cfquery name="clearTempTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="clearTempTable_result">
+				DELETE FROM cf_temp_attributes
+				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+			</cfquery>
+			<cfset variables.foundHeaders =""><!--- populated by loadCsvFile --->
+			<cfset variables.size=""><!--- populated by loadCsvFile --->
+			<cfset iterator = loadCsvFile(FileToUpload=FileToUpload,format=format,characterSet=characterSet)>
 
-				<!--- cleanup any incomplete work by the same user --->
-				<cfquery name="clearTempTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="clearTempTable_result">
-					DELETE FROM cf_temp_attributes 
-					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-				</cfquery>
-
-				<!--- obtain an iterator to loops through the rows/records in the csv --->
-				<cfset iterator = records.iterator()>
-				<!---Obtain the first line of the file as the header line, we can not use the withHeader() method to do this in coldfusion --->
-				<cfif iterator.hasNext()>
-					<cfset headers = iterator.next()>
-				<cfelse>
-					<cfthrow message="#NO_HEADER_ERR# No first line found.">
-				</cfif>
-				<!---Get the number of column headers--->
-				<cfset size = headers.size()>
-				<cfif size EQ 0>
-					<cfthrow message="#NO_HEADER_ERR# First line appears empty.">
-				</cfif>
-				<cfset separator = "">
-				<cfset foundHeaders = "">
-				<cfloop index="i" from="0" to="#headers.size() - 1#">
-					<cfset bit = headers.get(JavaCast("int",i))>
-					<cfif i EQ 0 and characterSet EQ 'utf-8'>
-						<!--- strip off windows non-standard UTF-8-BOM byte order mark if present (raw hex EF, BB, BF or U+FEFF --->
-						<cfset bit = "#Replace(bit,CHR(65279),'')#" >
-					</cfif>
-					<!--- we could strip out all unexpected characters from the header, but seems likely to cause problems. --->
-					<!--- cfset bit=REReplace(headers.get(JavaCast("int",i)),'[^A-Za-z0-9_-]','','All') --->
-					<cfset foundHeaders = "#foundHeaders##separator##bit#" >
-					<cfset separator = ",">
-				</cfloop>
-		
 				<!--- Note: As we can't use csvFormat.withHeader(), we can not match columns by name, we are forced to do so by number, thus arrays --->
-				<cfset colNameArray = listToArray(ucase(foundHeaders))><!--- the list of columns/fields found in the input file --->
+				<cfset colNameArray = listToArray(ucase(variables.foundHeaders))><!---the list of columns/fields found in the input file--->
 				<cfset fieldArray = listToArray(ucase(fieldlist))><!--- the full list of fields --->
-				<cfset typeArray = listToArray(ucase(fieldTypes))><!--- the types for the full list of fields --->
-				<cfset commentArray = listToArray(ucase(commentList))>
-				
-			
-				<div class="col-12 px-0 my-4">
-					<h3 class="h4">Found #size# columns in header of csv file.</h3>
-					<h3 class="h4">There are #ListLen(fieldList)# columns expected in the header (of these #k# are required).</h3>
-				</div>
-				<!--- check for required fields in header line (performng check in two different ways, Case 1, Case 2) --->
-				<!--- Loop through list of fields throw exception if required fields are missing --->
-				<cfset errorMessage = "">
-				<cfloop list="#fieldList#" item="aField">
-					<cfif ListContainsNoCase(requiredfieldlist,aField)>
-						<!--- Case 1. Check by splitting assembled list of foundHeaders --->
-						<cfif NOT ListContainsNoCase(foundHeaders,aField)>
-							<cfset errorMessage = "#errorMessage# <strong>#aField#</strong> is missing.">
-						</cfif>
-					</cfif>
-				</cfloop>
-				<cfif len(errorMessage) GT 0>
-					<cfthrow message = "#NO_COLUMN_ERR# #errorMessage#">
-				</cfif>
-				<cfset errorMessage = "">
-				<!--- Loop through list of fields, mark each field as fields present in input or not, throw exception if required fields are missing --->
-				<cfset max=ListLen(fieldList)>
-				<ul class="h4 mb-2 font-weight-normal list-group">
-					<cfloop query="getDataDetails" endrow="#max#" startrow="1">
-						<cfset hint="">
-						<cfloop index="current_item" list="#getDataDetails.COLUMN_NAME#">
-							<cfif getDataDetails.COMMENTS contains 'Required'>
-								<cfset class="text-danger">
-								<cfset hint="aria-label='required'">
-							<cfelse>
-								<cfset class="text-dark">
-							</cfif>
-							<li class="list-group-item px-0">
-								<span class="#class#" #hint#>#current_item#</span><span class="text-secondary">: #getDataDetails.COMMENTS# </span>
-								<cfif arrayFindNoCase(colNameArray,current_item) GT 0>
-									<strong class="text-success">[ Present in CSV ]</strong> 
-								<cfelse>
-									<!--- Case 2. Check by identifying field in required field list --->
-									<cfif ListContainsNoCase(requiredfieldlist,current_item)>
-										<strong class="text-dark">Required Column Not Found </strong>
-										<cfset errorMessage = "#errorMessage# <strong>#current_item#</strong> is missing.">
-									</cfif>
-								</cfif>
-							</li>
-						</cfloop>
-					</cfloop>
-				</ul>
-		
-				<cfif len(errorMessage) GT 0>
-					<cfif size EQ 1>
-						<!--- likely a problem parsing the first line into column headers --->
-						<!--- to get here, upload a csv file with the correct headers as MYSQL format --->
-						<cfset errorMessage = "You may have specified the wrong format, only one column header was found. #errorMessage#">
-					</cfif>
-					<cfthrow message = "#NO_COLUMN_ERR# #errorMessage#">
-				</cfif>
-				<ul class="py-1 h4 list-unstyled">
-					<!--- Identify additional columns that will be ignored --->
-					<cfloop list="#foundHeaders#" item="aField">
-						<cfif NOT ListContainsNoCase(fieldList,aField)>
-							<li>Found additional column header [<strong>#aField#</strong>] in the CSV that is not in the list of expected headers.</1i>
-						</cfif>
-					</cfloop>
-					<!--- Identify duplicate columns and fail if found --->
-					<cfif NOT ListLen(ListRemoveDuplicates(foundHeaders)) EQ ListLen(foundHeaders)>
-						<li>At least one column header occurs more than once.</1i>
-						<cfloop list="#foundHeaders#" item="aField">
-							<cfif listValueCount(foundHeaders,aField) GT 1>
-								<li>[<strong>#aField#</strong>] is duplicated as the header for #listValueCount(foundHeaders,aField)# columns.</li>
-							</cfif>
-						</cfloop>
-						<cfthrow message = "#DUP_COLUMN_ERR#">
-					</cfif>
-				</ul>
+				<cfset typeArray = listToArray(fieldTypes)><!--- the types for the full list of fields --->
+					
+				<div class="col-12 my-4 px-0">
+					<h3 class="h4">Found #variables.size# columns in header of csv file.</h3>
+					<h3 class="h4">There are #ListLen(fieldList)# columns expected in the header (of these #ListLen(requiredFieldList)# are required).</h3>
+				<!--- check for required fields in header line, list all fields, throw exception and fail if any required fields are missing --->
+				<cfset reqFieldsResponse = checkRequiredFields(fieldList=fieldList,requiredFieldList=requiredFieldList,NO_COLUMN_ERR=NO_COLUMN_ERR,TABLE_NAME=TABLE_NAME)>
 
+				<!--- Test for additional columns not in list, warn and ignore. --->
+				<cfset addFieldsResponse = checkAdditionalFields(fieldList=fieldList)>
+
+				<!--- Identify duplicate columns and fail if found --->
+				<cfset dupFieldsResponse = checkDuplicateFields(foundHeaders=variables.foundHeaders,DUP_COLUMN_ERR=DUP_COLUMN_ERR)>	
+				
 				<cfset colNames="#foundHeaders#">
 				<cfset loadedRows = 0>
 				<cfset foundHighCount = 0>
