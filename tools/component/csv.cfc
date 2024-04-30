@@ -210,7 +210,7 @@ limitations under the License.
 				</cfif>
 			</cfif>
 		</cfloop>
-		<ul class="mb-4 h4 font-weight-normal">
+		<ul class="mb-4 h4 font-weight-normal list-group">
 			<cfloop list="#fieldlist#" index="field" delimiters=",">
 				<cfset hint="">
 				<cfquery name = "getComments"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#"  result="getComments_result">
@@ -233,7 +233,7 @@ limitations under the License.
 				<cfelse>
 					<cfset class="text-dark">
 				</cfif>
-				<li class="pb-1">
+				<li class="pb-1 list-group-item">
 					<span class="#class#" #hint#>#field#:</span><span> #comment#</span>
 					<cfif arrayFindNoCase(colNameArray,field) GT 0>
 						<span class="text-success font-weight-bold">[ Present in CSV ]</span>
