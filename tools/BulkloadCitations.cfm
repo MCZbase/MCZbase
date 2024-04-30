@@ -73,7 +73,7 @@ limitations under the License.
 			<ul class="mb-4 h4 font-weight-normal">
 				<cfloop list="#fieldlist#" index="field" delimiters=",">
 					<cfset aria = "">
-						<cfquery name = "getComments"  datasource="user_login" username="#session.dbuser#">
+						<cfquery name = "getComments"  datasource="user_login" username="#session.dbuser#" result="getComments_result">
 							select comment 
 								from sys.all_col_comments
 							where 
@@ -83,6 +83,8 @@ limitations under the License.
 							AND
 								column_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(field)#" />
 						</cfquery>
+						<cfdump var="#getComments_result#">
+						<cfdump var="#getComments#">
 						<cfset comment = "">
 						<cfif getComments.recordcount GT 0>
 							<cfset comment = getComments.comment>
