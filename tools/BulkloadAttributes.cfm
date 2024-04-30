@@ -56,6 +56,7 @@ limitations under the License.
 <!--- Normal page delivery with header/footer --->
 <cfset pageTitle = "Bulkload Attributes">
 <cfinclude template="/shared/_header.cfm">
+<cfinclude template="/tools/component/csv.cfc" runOnce="true"><!--- for common csv functions --->
 <cfif not isDefined("action") OR len(action) EQ 0><cfset action="nothing"></cfif>
 <main class="container-fluid px-5 py-3" id="content">
 	<h1 class="h2 mt-2">Bulkload Attributes</h1>
@@ -158,14 +159,14 @@ limitations under the License.
 			<cfset variables.size=""><!--- populated by loadCsvFile --->
 			<cfset iterator = loadCsvFile(FileToUpload=FileToUpload,format=format,characterSet=characterSet)>
 
-			<!--- Note: As we can't use csvFormat.withHeader(), we can not match columns by name, we are forced to do so by number, thus arrays --->
-			<cfset colNameArray = listToArray(ucase(variables.foundHeaders))><!---the list of columns/fields found in the input file--->
-			<cfset fieldArray = listToArray(ucase(fieldlist))><!--- the full list of fields --->
-			<cfset typeArray = listToArray(fieldTypes)><!--- the types for the full list of fields --->
-
-			<div class="col-12 my-4 px-0">
-				<h3 class="h4">Found #variables.size# columns in header of csv file.</h3>
-				<h3 class="h4">There are #ListLen(fieldList)# columns expected in the header (of these #ListLen(requiredFieldList)# are required).</h3>
+				<!--- Note: As we can't use csvFormat.withHeader(), we can not match columns by name, we are forced to do so by number, thus arrays --->
+				<cfset colNameArray = listToArray(ucase(variables.foundHeaders))><!---the list of columns/fields found in the input file--->
+				<cfset fieldArray = listToArray(ucase(fieldlist))><!--- the full list of fields --->
+				<cfset typeArray = listToArray(fieldTypes)><!--- the types for the full list of fields --->
+					
+				<div class="col-12 my-4 px-0">
+					<h3 class="h4">Found #variables.size# columns in header of csv file.</h3>
+					<h3 class="h4">There are #ListLen(fieldList)# columns expected in the header (of these #ListLen(requiredFieldList)# are required).</h3>
 				<!--- check for required fields in header line, list all fields, throw exception and fail if any required fields are missing --->
 				<cfset reqFieldsResponse = checkRequiredFields(fieldList=fieldList,requiredFieldList=requiredFieldList,NO_COLUMN_ERR=NO_COLUMN_ERR,TABLE_NAME=TABLE_NAME)>
 
