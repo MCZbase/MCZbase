@@ -101,6 +101,33 @@ SELECT sys.all_col_comments.COMMENTS,sys.all_tab_columns.COLUMN_NAME, sys.all_ta
 				<textarea rows="2" cols="90" id="templatearea" class="w-100 data-entry-textarea">#fieldlist#</textarea>
 			</div>
 			<h2 class="mt-4 h4">Columns in <span class="text-danger">red</span> are required; others are optional:</h2>
+			<cfset max=ListLen(fieldList)>
+			<ul class="h4 mb-2 font-weight-normal list-group">
+				<cfloop query="getDataDetails" endrow="#max#" startrow="1">
+					<cfset hint="">
+					<cfloop index="current_item" list="#getDataDetails.COLUMN_NAME#">
+						<cfif getDataDetails.COMMENTS contains 'Required'>
+							<cfset class="text-danger">
+							<cfset hint="aria-label='required'">
+						<cfelse>
+							<cfset class="text-dark">
+						</cfif>
+						<li class="list-group-item px-0">
+							<span class="#class#" #hint#>#current_item#</span><span class="text-secondary">: #getDataDetails.COMMENTS# </span>
+							<cfif arrayFindNoCase(colNameArray,current_item) GT 0>
+								<strong class="text-success">[ Present in CSV ]</strong> 
+							<cfelse>
+								<!--- Case 2. Check by identifying field in required field list --->
+								<cfif ListContainsNoCase(requiredfieldlist,current_item)>
+									<strong class="text-dark">Required Column Not Found </strong>
+									<cfset errorMessage = "#errorMessage# <strong>#current_item#</strong> is missing.">
+								</cfif>
+							</cfif>
+						</li>
+					</cfloop>
+				</cfloop>
+			</ul>
+			
 			<ul class="mb-4 h4 font-weight-normal">
 			<cfset i = 0>
 			<cfloop query="getDataDetails">
@@ -307,31 +334,31 @@ SELECT sys.all_col_comments.COMMENTS,sys.all_tab_columns.COLUMN_NAME, sys.all_ta
 				<cfset errorMessage = "">
 				<!--- Loop through list of fields, mark each field as fields present in input or not, throw exception if required fields are missing --->
 				<cfset max=ListLen(fieldList)>
-					<ul class="h4 mb-2 font-weight-normal list-group">
-						<cfloop query="getDataDetails" endrow="#max#" startrow="1">
-							<cfset hint="">
-							<cfloop index="current_item" list="#getDataDetails.COLUMN_NAME#">
-								<cfif getDataDetails.COMMENTS contains 'Required'>
-									<cfset class="text-danger">
-									<cfset hint="aria-label='required'">
+				<ul class="h4 mb-2 font-weight-normal list-group">
+					<cfloop query="getDataDetails" endrow="#max#" startrow="1">
+						<cfset hint="">
+						<cfloop index="current_item" list="#getDataDetails.COLUMN_NAME#">
+							<cfif getDataDetails.COMMENTS contains 'Required'>
+								<cfset class="text-danger">
+								<cfset hint="aria-label='required'">
+							<cfelse>
+								<cfset class="text-dark">
+							</cfif>
+							<li class="list-group-item px-0">
+								<span class="#class#" #hint#>#current_item#</span><span class="text-secondary">: #getDataDetails.COMMENTS# </span>
+								<cfif arrayFindNoCase(colNameArray,current_item) GT 0>
+									<strong class="text-success">[ Present in CSV ]</strong> 
 								<cfelse>
-									<cfset class="text-dark">
-								</cfif>
-								<li class="list-group-item px-0">
-									<span class="#class#" #hint#>#current_item#</span><span class="text-secondary">: #getDataDetails.COMMENTS# </span>
-									<cfif arrayFindNoCase(colNameArray,current_item) GT 0>
-										<strong class="text-success">[ Present in CSV ]</strong> 
-									<cfelse>
-										<!--- Case 2. Check by identifying field in required field list --->
-										<cfif ListContainsNoCase(requiredfieldlist,current_item)>
-											<strong class="text-dark">Required Column Not Found </strong>
-											<cfset errorMessage = "#errorMessage# <strong>#current_item#</strong> is missing.">
-										</cfif>
+									<!--- Case 2. Check by identifying field in required field list --->
+									<cfif ListContainsNoCase(requiredfieldlist,current_item)>
+										<strong class="text-dark">Required Column Not Found </strong>
+										<cfset errorMessage = "#errorMessage# <strong>#current_item#</strong> is missing.">
 									</cfif>
-								</li>
-							</cfloop>
+								</cfif>
+							</li>
 						</cfloop>
-					</ul>
+					</cfloop>
+				</ul>
 		
 				<cfif len(errorMessage) GT 0>
 					<cfif size EQ 1>
