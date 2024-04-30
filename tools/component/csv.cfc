@@ -233,7 +233,7 @@ limitations under the License.
 				<cfelse>
 					<cfset class="text-dark">
 				</cfif>
-				<li class="pb-1 list-group-item">
+				<li class="pb-1 px-0 list-group-item">
 					<span class="#class#" #hint#>#field#:</span><span> #comment#</span>
 					<cfif arrayFindNoCase(colNameArray,field) GT 0>
 						<span class="text-success font-weight-bold">[ Present in CSV ]</span>
