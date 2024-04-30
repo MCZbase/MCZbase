@@ -1654,11 +1654,23 @@ limitations under the License.
 													</cfif>
 													<!--- display the provided guids, backing query will use both these and the hidden collection_object_id for the lookup. --->
 													<!--- if user changes the value of the guid list, clear the hidden collection object id field. --->
-													<div class="col-md-12 px-0 pb-0 mt-2">
+													<div class="col-12 col-md-7 px-0 pb-0 mt-2">
 														<label for="accn_specimen_guid" class="data-entry-label mb-0 pb-0">Cataloged Item in Accession</label>
 														<input type="text" name="specimen_guid" 
 															class="data-entry-input" value="#specimen_guid#" id="accn_specimen_guid" placeholder="MCZ:Coll:nnnnn"
 															onchange="$('##collection_object_id').val('');">
+													</div>
+													<div class="col-12 col-md-5 pb-0 mt-2">
+														<label class="data-entry-label" for="sovereign_nation_accn">
+															Sovereign Nation (of specimens)
+															<a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick=" $('##sovereign_nation').autocomplete('search','%%%'); return false;" > (&##8595;) <span class="sr-only">open pick list</span></a>
+														</label>
+														<input type="text" name="sovereign_nation" id="sovereign_nation_accn" class="data-entry-input" value="#encodeforHTML(sovereign_nation)#">
+														<script>
+															$(document).ready(function() {
+																makeSovereignNationSearchAutocomplete("sovereign_nation_accn");
+															});
+														</script>
 													</div>
 													<script>
 													</script>

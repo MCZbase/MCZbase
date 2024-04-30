@@ -1308,10 +1308,14 @@ limitations under the License.
 					left join permit_shipment on shipment.shipment_id = permit_shipment.shipment_id
 					left join permit permit_from_shipment on  permit_shipment.permit_id = permit_from_shipment.permit_id
 				</cfif>
-				<cfif (isdefined("part_name") AND len(part_name) gt 0) or (isdefined("coll_obj_disposition") AND len(coll_obj_disposition) gt 0) or isdefined("collection_object_id") AND len(#collection_object_id#) gt 0 >
+				<cfif (isdefined("part_name") AND len(part_name) gt 0) or (isdefined("coll_obj_disposition") AND len(coll_obj_disposition) gt 0) or isdefined("collection_object_id") AND len(#collection_object_id#) gt 0 OR (isdefined("sovereign_nation") AND len(#sovereign_nation#) gt 0) >
 					left join cataloged_item on accn.transaction_id=cataloged_item.accn_id
 					left join specimen_part on cataloged_item.collection_object_id = specimen_part.derived_from_cat_item
 					left join coll_object on specimen_part.collection_object_id = coll_object.collection_object_id
+					<cfif isdefined("sovereign_nation") AND len(#sovereign_nation#) gt 0 >
+						left join collecting_event on cataloged_item.collecting_event_id = collecting_event.collecting_event_id
+						left join locality on collecting_event.locality_id = locality.locality_id
+					</cfif>
 				</cfif>
 				<cfif isdefined("IssuedByAgent") and len(#IssuedByAgent#) gt 0>
 					<cfif not isdefined("issued_by_id") or len(#issued_by_id#) EQ 0>
@@ -1415,6 +1419,23 @@ limitations under the License.
 
 				<cfif isdefined("collection_object_id") AND len(#collection_object_id#) gt 0 >
 					AND specimen_part.collection_object_id IN ( <cfqueryparam list="yes" cfsqltype="CF_SQL_VARCHAR" value="#collection_object_id#" > )
+				</cfif>
+				<cfif isdefined("sovereign_nation") AND len(#sovereign_nation#) gt 0 >
+					<cfif left(sovereign_nation,1) is "=">
+						AND upper(locality.sovereign_nation) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(sovereign_nation,len(sovereign_nation)-1))#">
+					<cfelseif left(sovereign_nation,1) is "$">
+						AND soundex(locality.sovereign_nation) = soundex(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(sovereign_nation,len(sovereign_nation)-1))#">)
+					<cfelseif left(sovereign_nation,2) is "!$">
+						AND soundex(locality.sovereign_nation) <> soundex(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(sovereign_nation,len(sovereign_nation)-2))#">)
+					<cfelseif left(sovereign_nation,1) is "!">
+						AND upper(locality.sovereign_nation) <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(sovereign_nation,len(sovereign_nation)-1))#">
+					<cfelse>
+						<cfif find(',',sovereign_nation) GT 0>
+							AND upper(locality.sovereign_nation) in (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(sovereign_nation)#" list="yes"> )
+						<cfelse>
+							AND upper(locality.sovereign_nation) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(sovereign_nation)#%">
+						</cfif>
+					</cfif>
 				</cfif>
 				<cfif  isdefined("accn_type") and len(#accn_type#) gt 0>
 					<cfif left(accn_type,1) is "!">
