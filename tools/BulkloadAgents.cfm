@@ -31,14 +31,7 @@ limitations under the License.
 </cfif>
 <!--- end special case dump of problems --->
 <cfset fieldlist = "AGENT_TYPE,PREFERRED_NAME,FIRST_NAME,MIDDLE_NAME,LAST_NAME,BIRTH_DATE,DEATH_DATE,AGENT_REMARK,PREFIX,SUFFIX,OTHER_NAME_TYPE,OTHER_NAME,STATUS,OTHER_NAME_TYPE_2,OTHER_NAME_2,OTHER_NAME_TYPE_3,OTHER_NAME_3,USERNAME,AGENTGUID_GUID_TYPE,AGENTGUID">
-	
-<cfquery name="getDataType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-	SELECT col.DATA_TYPE
-	FROM sys.all_tab_columns col
-	WHERE col.OWNER = 'MCZBASE'
-	AND COL.TABLE_NAME = 'CF_TEMP_AGENTS'
-	order by col.COLUMN_ID
-</cfquery>
+<cfset fieldTypes ="CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_DATE,CF_SQL_DATE,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR">
 
 <cfset requiredfieldlist = "agent_type,preferred_name,last_name">
 
