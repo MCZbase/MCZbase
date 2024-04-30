@@ -73,7 +73,7 @@ limitations under the License.
 						FROM sys.all_col_comments
 						WHERE 
 							owner = 'MCZBASE'
-							and table_name = 'CF_TEMP_CITATION'
+							and table_name = 'CF_TEMP_AGENTS'
 							and column_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(field)#" />
 					</cfquery>
 					<cfset comment = "">
