@@ -83,11 +83,9 @@ limitations under the License.
 							AND
 								column_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(field)#" />
 						</cfquery>
-						<cfdump var="#getComments_result#">
-						<cfdump var="#getComments#">
 						<cfset comment = "">
 						<cfif getComments.recordcount GT 0>
-							<cfset comment = getComments.comment>
+							<cfset comment = getComments.comments>
 						</cfif>
 					<cfif listContains(requiredfieldlist,field,",")>
 						<cfset class="text-danger">
