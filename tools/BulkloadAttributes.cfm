@@ -36,8 +36,7 @@ limitations under the License.
 <cfset fieldTypes ="CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR">
 <cfset requiredfieldlist = "institution_acronym,collection_cde,other_id_type,other_id_number,attribute,attribute_value,attribute_date,determiner">
 	
-<cfset commentList = ArrayToList(getDataRequired["COMMENTS"], ",")>
-<cfset commentConnectList = ArrayToList(getDataDetails["COLUMN_NAME"], ",")>
+
 	<cfoutput>
 		
 	</cfoutput>
