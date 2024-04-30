@@ -73,13 +73,29 @@ limitations under the License.
 			<ul class="mb-4 h4 font-weight-normal">
 				<cfloop list="#fieldlist#" index="field" delimiters=",">
 					<cfset aria = "">
+						<cfquery name = "getComments"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#"  result="getComments_result">
+							select comment 
+								from sys.all_col_comments
+							where 
+								owner = 'MCZBASE'
+							AND
+								table_name = 'CF_TEMP_CITATION'
+							AND
+								column_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(field)#" />
+						</cfquery>
+						<cfdump var="#getComments_result#">
+						<cfdump var="#getComments#">
+						<cfset comment = "">
+						<cfif getComments.recordcount GT 0>
+							<cfset comment = getComments.comment>
+						</cfif>
 					<cfif listContains(requiredfieldlist,field,",")>
 						<cfset class="text-danger">
 						<cfset aria = "aria-label='Required Field'">
 					<cfelse>
 						<cfset class="text-dark">
 					</cfif>
-					<li class="#class#" #aria#>#field#</li>
+					<li class="#class#" #aria#>#field# #comment#</li>
 				</cfloop>
 			</ul>
 			<form name="atts" method="post" enctype="multipart/form-data" action="/tools/BulkloadCitations.cfm">
