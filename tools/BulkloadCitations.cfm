@@ -73,12 +73,15 @@ limitations under the License.
 			<ul class="mb-4 h4 font-weight-normal">
 				<cfloop list="#fieldlist#" index="field" delimiters=",">
 					<cfset aria = "">
-						<cfquery name = "getComments">
+						<cfquery name = "getComments"  datasource="user_login" username="#session.dbuser#">
 							select comment 
 								from sys.all_col_comments
 							where 
+								owner = 'MCZBASE'
+							AND
 								table_name = 'cf_temp_citation'
-								<cfqueryparam type="CF_SQL_VARCHAR" value="#ucase(field)#" />
+							AND
+								column_name = <cfqueryparam type="CF_SQL_VARCHAR" value="#ucase(field)#" />
 						</cfquery>
 						<cfset comment = "">
 						<cfif getComments.recordcount GT 0>
