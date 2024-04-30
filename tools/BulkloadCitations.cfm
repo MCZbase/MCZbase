@@ -81,7 +81,7 @@ limitations under the License.
 							AND
 								table_name = 'cf_temp_citation'
 							AND
-								column_name = <cfqueryparam type="CF_SQL_VARCHAR" value="#ucase(field)#" />
+								column_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(field)#" />
 						</cfquery>
 						<cfset comment = "">
 						<cfif getComments.recordcount GT 0>
