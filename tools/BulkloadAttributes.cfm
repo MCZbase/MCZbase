@@ -147,133 +147,25 @@ limitations under the License.
 		<cfset DUP_COLUMN_ERR = "One or more columns are duplicated in the header line of the csv file.">
 		<cfset COLUMN_ERR = "Error inserting data">
 		<cfset NO_HEADER_ERR = "No header line found, csv file appears to be empty.">
+		<cfset table_name = "CF_TEMP_ATTRIBUTES">
 
 		<cftry>
-				<!--- Parse the CSV file using Apache Commons CSV library included with coldfusion so that columns with comma delimeters will be separated properly --->
-				<cfset fileProxy = CreateObject("java","java.io.File") >
-				<cfobject type="Java" name="csvFormat" class="org.apache.commons.csv.CSVFormat" >
-				<cfobject type="Java" name="csvParser" class="org.apache.commons.csv.CSVParser" >
-				<cfobject type="Java" name="csvRecord" class="org.apache.commons.csv.CSVRecord" >			
-				<cfobject type="java" class="java.io.FileReader" name="fileReader">	
-				<cfobject type="Java" name="javaCharset" class="java.nio.charset.Charset" >
-				<cfobject type="Java" name="standardCharsets" class="java.nio.charset.StandardCharsets" >
-				<cfset filePath = fileProxy.init(JavaCast("string",#FiletoUpload#)) >
-				<cfset tempFileInputStream = CreateObject("java","java.io.FileInputStream").Init(#filePath#) >
-				<!--- Create a FileReader object to provide a reader for the CSV file --->
-				<cfset fileReader = CreateObject("java","java.io.FileReader").Init(#filePath#) >
-				<!--- we can not use the withHeader() method from coldfusion, as it is overloaded, and with no parameters provides coldfusion no means to pick the correct method --->
-				<!--- Select format of csv file based on format variable from user --->
-				<cfif not isDefined("format")><cfset format="DEFAULT"></cfif>
-				<cfswitch expression="#format#">
-					<cfcase value="DEFAULT">
-						<cfset csvFormat = CSVFormat.DEFAULT>
-					</cfcase>
-					<cfcase value="TDF">
-						<cfset csvFormat = CSVFormat.TDF>
-					</cfcase>
-					<cfcase value="RFC4180">
-						<cfset csvFormat = CSVFormat.RFC4180>
-					</cfcase>
-					<cfcase value="EXCEL">
-						<cfset csvFormat = CSVFormat.EXCEL>
-					</cfcase>
-					<cfcase value="ORACLE">
-						<cfset csvFormat = CSVFormat.ORACLE>
-					</cfcase>
-					<cfcase value="MYSQL">
-						<cfset csvFormat = CSVFormat.MYSQL>
-					</cfcase>
-					<cfdefaultcase>
-						<cfset csvFormat = CSVFormat.DEFAULT>
-					</cfdefaultcase>
-				</cfswitch>
-				<!--- Create a CSVParser using the FileReader and CSVFormat--->
-				<cfset csvParser = CSVParser.parse(fileReader, csvFormat)>
-				<!--- Select charset based on characterSet variable from user --->
-				<cfswitch expression="#characterSet#">
-					<cfcase value="utf-8">
-						<cfset javaSelectedCharset = standardCharsets.UTF_8 >
-					</cfcase>
-					<cfcase value="iso-8859-1">
-						<cfset javaSelectedCharset = standardCharsets.ISO_8859_1 >
-					</cfcase>
-					<cfcase value="windows-1250">
-						<cfset javaSelectedCharset = javaCharset.forName(JavaCast("string","windows-1250")) >
-					</cfcase>
-					<cfcase value="windows-1251">
-						<cfset javaSelectedCharset = javaCharset.forName(JavaCast("string","windows-1251")) >
-					</cfcase>
-					<cfcase value="windows-1252">
-						<cfif javaCharset.isSupported(JavaCast("string","windows-1252"))>
-							<cfset javaSelectedCharset = javaCharset.forName(JavaCast("string","windows-1252")) >
-						<cfelse>
-							<!--- if not available, iso-8859-1 will substitute, except for 0x80 to 0x9F --->
-							<!--- the following characters won't be handled correctly if the source is windows-1252:  €  Š  š  Ž  ž  Œ  œ  Ÿ --->
-							<cfset javaSelectedCharset = standardCharsets.ISO_8859_1 >
-						</cfif>
-					</cfcase>
-					<cfcase value="x-MacCentralEurope">
-						<cfset javaSelectedCharset = javaCharset.forName(JavaCast("string","x-MacCentralEurope")) >
-					</cfcase>
-					<cfcase value="MacRoman">
-						<cfset javaSelectedCharset = javaCharset.forName(JavaCast("string","x-MacRoman")) >
-					</cfcase>
-					<cfcase value="utf-16">
-						<cfset javaSelectedCharset = standardCharsets.UTF_16 >
-					</cfcase>
-					<cfcase value="utf-32">
-						<cfset javaSelectedCharset = javaCharset.forName(JavaCast("string","utf-32")) >
-					</cfcase>
-					<cfdefaultcase>
-						<cfset javaSelectedCharset = standardCharsets.UTF_8 >
-					</cfdefaultcase>
-				</cfswitch>
-				<cfset records = CSVParser.parse(#tempFileInputStream#,#javaSelectedCharset#,#csvFormat#)>
+			<cfquery name="clearTempTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="clearTempTable_result">
+				DELETE FROM cf_temp_attributes
+				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+			</cfquery>
+			<cfset variables.foundHeaders =""><!--- populated by loadCsvFile --->
+			<cfset variables.size=""><!--- populated by loadCsvFile --->
+			<cfset iterator = loadCsvFile(FileToUpload=FileToUpload,format=format,characterSet=characterSet)>
 
-				<!--- cleanup any incomplete work by the same user --->
-				<cfquery name="clearTempTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="clearTempTable_result">
-					DELETE FROM cf_temp_attributes 
-					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-				</cfquery>
+			<!--- Note: As we can't use csvFormat.withHeader(), we can not match columns by name, we are forced to do so by number, thus arrays --->
+			<cfset colNameArray = listToArray(ucase(variables.foundHeaders))><!---the list of columns/fields found in the input file--->
+			<cfset fieldArray = listToArray(ucase(fieldlist))><!--- the full list of fields --->
+			<cfset typeArray = listToArray(fieldTypes)><!--- the types for the full list of fields --->
 
-				<!--- obtain an iterator to loops through the rows/records in the csv --->
-				<cfset iterator = records.iterator()>
-				<!---Obtain the first line of the file as the header line, we can not use the withHeader() method to do this in coldfusion --->
-				<cfif iterator.hasNext()>
-					<cfset headers = iterator.next()>
-				<cfelse>
-					<cfthrow message="#NO_HEADER_ERR# No first line found.">
-				</cfif>
-				<!---Get the number of column headers--->
-				<cfset size = headers.size()>
-				<cfif size EQ 0>
-					<cfthrow message="#NO_HEADER_ERR# First line appears empty.">
-				</cfif>
-				<cfset separator = "">
-				<cfset foundHeaders = "">
-				<cfloop index="i" from="0" to="#headers.size() - 1#">
-					<cfset bit = headers.get(JavaCast("int",i))>
-					<cfif i EQ 0 and characterSet EQ 'utf-8'>
-						<!--- strip off windows non-standard UTF-8-BOM byte order mark if present (raw hex EF, BB, BF or U+FEFF --->
-						<cfset bit = "#Replace(bit,CHR(65279),'')#" >
-					</cfif>
-					<!--- we could strip out all unexpected characters from the header, but seems likely to cause problems. --->
-					<!--- cfset bit=REReplace(headers.get(JavaCast("int",i)),'[^A-Za-z0-9_-]','','All') --->
-					<cfset foundHeaders = "#foundHeaders##separator##bit#" >
-					<cfset separator = ",">
-				</cfloop>
-		
-				<!--- Note: As we can't use csvFormat.withHeader(), we can not match columns by name, we are forced to do so by number, thus arrays --->
-				<cfset colNameArray = listToArray(ucase(foundHeaders))><!--- the list of columns/fields found in the input file --->
-				<cfset fieldArray = listToArray(ucase(fieldlist))><!--- the full list of fields --->
-				<cfset typeArray = listToArray(ucase(fieldTypes))><!--- the types for the full list of fields --->
-				<cfset table_name = "CF_TEMP_ATTRIBUTES">
-			
-				<div class="col-12 px-0 my-4">
-					<h3 class="h4">Found #size# columns in header of csv file.</h3>
-					<h3 class="h4">There are #ListLen(fieldList)# columns expected in the header (of these #ListLen(requiredFieldList)# are required).</h3>
-				</div>
-					
+			<div class="col-12 my-4 px-0">
+				<h3 class="h4">Found #variables.size# columns in header of csv file.</h3>
+				<h3 class="h4">There are #ListLen(fieldList)# columns expected in the header (of these #ListLen(requiredFieldList)# are required).</h3>
 				<!--- check for required fields in header line, list all fields, throw exception and fail if any required fields are missing --->
 				<cfset reqFieldsResponse = checkRequiredFields(fieldList=fieldList,requiredFieldList=requiredFieldList,NO_COLUMN_ERR=NO_COLUMN_ERR,TABLE_NAME=TABLE_NAME)>
 
