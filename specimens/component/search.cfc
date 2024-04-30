@@ -544,7 +544,7 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 	<cfset separator = "">
 	<cfset join = ''>
 
-	<cfset nest = 1>
+	<cfset nest = '"openParens":"0","closeParens":"0"'>
 	
 	<cfif isDefined("collection_cde") AND len(collection_cde) GT 0>
 		<cfset field = '"field": "collection_cde"'>
