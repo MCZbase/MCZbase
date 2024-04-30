@@ -74,7 +74,7 @@ limitations under the License.
 				<cfloop list="#fieldlist#" index="field" delimiters=",">
 					<cfset aria = "">
 						<cfquery name = "getComments"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#"  result="getComments_result">
-							select comment 
+							select comments
 								from sys.all_col_comments
 							where 
 								owner = 'MCZBASE'
