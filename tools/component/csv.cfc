@@ -222,8 +222,6 @@ limitations under the License.
 					AND
 						column_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(field)#" />
 				</cfquery>
-				<cfdump var="#getComments_result#">
-				<cfdump var="#getComments#">
 				<cfset comment = "">
 				<cfif getComments.recordcount GT 0>
 					<cfset comment = getComments.comment>
@@ -235,7 +233,7 @@ limitations under the License.
 					<cfset class="text-dark">
 				</cfif>
 				<li class="pb-1">
-					<span class="#class#" #hint#>#field#: #getComments#</span>
+					<span class="#class#" #hint#>#field#: #comment#</span>
 					<cfif arrayFindNoCase(colNameArray,field) GT 0>
 						<span class="text-success font-weight-bold">Present in CSV</span>
 					<cfelse>
