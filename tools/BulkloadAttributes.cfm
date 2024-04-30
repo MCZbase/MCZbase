@@ -119,7 +119,7 @@ SELECT sys.all_col_comments.COMMENTS,sys.all_tab_columns.COLUMN_NAME, sys.all_ta
 				</cfloop>
 			</ul>
 			
-			<ul class="mb-4 h4 font-weight-normal">
+			<!---<ul class="mb-4 h4 font-weight-normal">
 			<cfset i = 0>
 			<cfloop query="getDataDetails">
 				<cfif getDataDetails.comments eq 'Required'>
@@ -129,7 +129,7 @@ SELECT sys.all_col_comments.COMMENTS,sys.all_tab_columns.COLUMN_NAME, sys.all_ta
 				</cfif>
 				<cfset i = i + 1>
 			</cfloop>
-			</ul>
+			</ul>--->
 			<form name="atts" method="post" enctype="multipart/form-data" action="/tools/BulkloadAttributes.cfm">
 				<div class="form-row border rounded p-2">
 					<input type="hidden" name="action" value="getFile">
