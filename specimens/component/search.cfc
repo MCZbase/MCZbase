@@ -553,7 +553,6 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 		<cfset search_json = '#search_json##separator#{#nest#,#join##field#,#comparator#,"value": "#value#"}'>
 		<cfset separator = ",">
 		<cfset join='"join":"and",'>
-		<cfset nest = nest + 1>
 	</cfif>
 	<cfif isDefined("searchText") AND len(searchText) GT 0>
 		<cfset field = '"field": "keyword"'>
@@ -579,7 +578,6 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 		<cfset search_json = '#search_json##separator#{#nest#,#join##field#,#comparator#,"value": "#searchValueForJSON#"}'>
 		<cfset separator = ",">
 		<cfset join='"join":"and",'>
-		<cfset nest = nest + 1>
 	</cfif>
 	
 	<cfset search_json = "#search_json#]">
