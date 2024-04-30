@@ -32,7 +32,6 @@ limitations under the License.
 <!--- end special case dump of problems --->
 <cfset fieldlist = "AGENT_TYPE,PREFERRED_NAME,FIRST_NAME,MIDDLE_NAME,LAST_NAME,BIRTH_DATE,DEATH_DATE,AGENT_REMARK,PREFIX,SUFFIX,OTHER_NAME_TYPE,OTHER_NAME,STATUS,OTHER_NAME_TYPE_2,OTHER_NAME_2,OTHER_NAME_TYPE_3,OTHER_NAME_3,USERNAME,AGENTGUID_GUID_TYPE,AGENTGUID">
 <cfset fieldTypes ="CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_DATE,CF_SQL_DATE,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR">
-
 <cfset requiredfieldlist = "agent_type,preferred_name,last_name">
 
 <!--- special case handling to dump column headers as csv --->
@@ -67,8 +66,20 @@ limitations under the License.
 				<textarea rows="2" cols="90" id="templatearea" class="w-100 data-entry-textarea">#fieldlist#</textarea>
 			</div>
 			<h2 class="mt-4 h4">Columns in <span class="text-danger">red</span> are required; others are optional:</h2>
-			<ul class="mb-4 h4 font-weight-normal">
+			<ul class="mb-4 h4 font-weight-normal list-group">
 				<cfloop list="#fieldlist#" index="field" delimiters=",">
+					<cfquery name = "getComments"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#"  result="getComments_result">
+						SELECT comments
+						FROM sys.all_col_comments
+						WHERE 
+							owner = 'MCZBASE'
+							and table_name = 'CF_TEMP_CITATION'
+							and column_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(field)#" />
+					</cfquery>
+					<cfset comment = "">
+					<cfif getComments.recordcount GT 0>
+						<cfset comment = getComments.comments>
+					</cfif>
 					<cfset aria = "">
 					<cfif listContains(requiredfieldlist,field,",")>
 						<cfset class="text-danger">
@@ -76,7 +87,9 @@ limitations under the License.
 					<cfelse>
 						<cfset class="text-dark">
 					</cfif>
-					<li class="#class#" #aria#>#field#</li>
+					<li class="pb-1 px-0 list-group-item">
+						<span class="#class# font-weight-lessbold" #aria#>#field#: </span> <span class="text-secondary">#comment#</span>
+					</li>
 				</cfloop>
 			</ul>
 			<form name="agts" method="post" enctype="multipart/form-data" action="/tools/BulkloadAgents.cfm">
@@ -87,30 +100,10 @@ limitations under the License.
 						<input type="file" name="FiletoUpload" id="fileToUpload" class="data-entry-input p-0 m-0">
 					</div>
 					<div class="col-12 col-md-3">
-						<label for="characterSet" class="data-entry-label">Character Set:</label> 
-						<select name="characterSet" id="characterSet" required class="data-entry-select reqdClr">
-							<option selected></option>
-							<option value="utf-8" >utf-8</option>
-							<option value="iso-8859-1">iso-8859-1</option>
-							<option value="windows-1252">windows-1252 (Win Latin 1)</option>
-							<option value="MacRoman">MacRoman</option>
-							<option value="x-MacCentralEurope">Macintosh Latin-2</option>
-							<option value="windows-1250">windows-1250 (Win Eastern European)</option>
-							<option value="windows-1251">windows-1251 (Win Cyrillic)</option>
-							<option value="utf-16">utf-16</option>
-							<option value="utf-32">utf-32</option>
-						</select>
+						<cfset charsetSelect = getCharsetSelectHTML()>
 					</div>
 					<div class="col-12 col-md-3">
-						<label for="format" class="data-entry-label">Format:</label> 
-						<select name="format" id="format" required class="data-entry-select reqdClr">
-							<option value="DEFAULT" selected >Standard CSV</option>
-							<option value="TDF">Tab Separated Values</option>
-							<option value="EXCEL">CSV export from MS Excel</option>
-							<option value="RFC4180">Strict RFC4180 CSV</option>
-							<option value="ORACLE">Oracle SQL*Loader CSV</option>
-							<option value="MYSQL">CSV export from MYSQL</option>
-						</select>
+						<cfset formatSelect = getFormatSelectHTML()>
 					</div>
 					<div class="col-12 col-md-2">
 						<label for="submitButton" class="data-entry-label">&nbsp;</label>

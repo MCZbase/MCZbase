@@ -62,6 +62,7 @@ limitations under the License.
 	<cfif #action# is "entryPoint">
 		<cfoutput>
 			<p>This tool adds citations to the specimen record. The publication and specimens have to be in the code table prior to uploading this .csv. It ignores rows that are exactly the same. Additional columns will be ignored. The publication_title and/or publication_id values must appear as they do on the <a href="/Publications.cfm" class="font-weight-bold">Publication Search Results</a>. The other_id_type and other_id_number values must also be in the database. Search for them via the <a href="/Specimens.cfm" class="font-weight-bold">Specimen Search</a>. Upload a comma-delimited text file (csv). Include column headings, spelled exactly as below. Use "catalog number" as the value of other_id_type to match on catalog number.</p>
+			
 			<span class="btn btn-xs btn-info" onclick="document.getElementById('template').style.display='block';">View template</span>
 			<div id="template" class="my-1 mx-0" style="display:none;">
 				<label for="templatearea" class="data-entry-label mb-1">
