@@ -36,31 +36,6 @@ limitations under the License.
 <cfset fieldTypes ="CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR">
 <cfset requiredfieldlist = "institution_acronym,collection_cde,other_id_type,other_id_number,attribute,attribute_value,attribute_date,determiner">
 	
-	
-<cfquery name="getDataDetails" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getDataDetails_results">
-SELECT sys.all_col_comments.COMMENTS,sys.all_tab_columns.COLUMN_NAME, sys.all_tab_columns.DATA_TYPE,sys.all_tab_columns.COLUMN_ID
-	FROM sys.all_col_comments, sys.all_tab_columns
-	where sys.all_col_comments.TABLE_NAME = 'CF_TEMP_ATTRIBUTES' 
-	and sys.all_tab_columns.COLUMN_NAME=sys.all_col_comments.COLUMN_NAME 
-	and sys.all_col_comments.TABLE_NAME = sys.all_tab_columns.TABLE_NAME
-	and sys.all_col_comments.COLUMN_NAME <> 'USERNAME'
-	and sys.all_col_comments.COLUMN_NAME <> 'STATUS'
-	and sys.all_col_comments.COLUMN_NAME <> 'KEY'
-	and sys.all_col_comments.COLUMN_NAME <> 'COLLECTION_OBJECT_ID'
-	and sys.all_col_comments.COLUMN_NAME <> 'DETERMINED_BY_AGENT_ID'
-</cfquery>
-<cfquery name="getDataRequired" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getDataRequired_results">
-	SELECT sys.all_col_comments.COMMENTS
-	FROM sys.all_col_comments, sys.all_tab_columns
-	where sys.all_col_comments.TABLE_NAME = 'CF_TEMP_ATTRIBUTES' 
-	and sys.all_tab_columns.COLUMN_NAME=sys.all_col_comments.COLUMN_NAME 
-	and sys.all_col_comments.TABLE_NAME = sys.all_tab_columns.TABLE_NAME
-	and sys.all_col_comments.COMMENTS like 'Required%'
-</cfquery>
-<cfset k = 0>
-<cfloop query = "getDataRequired">
-	<cfset k = k + 1>	
-</cfloop>
 <cfset commentList = ArrayToList(getDataRequired["COMMENTS"], ",")>
 <cfset commentConnectList = ArrayToList(getDataDetails["COLUMN_NAME"], ",")>
 	<cfoutput>
@@ -103,7 +78,7 @@ SELECT sys.all_col_comments.COMMENTS,sys.all_tab_columns.COLUMN_NAME, sys.all_ta
 						FROM sys.all_col_comments
 						WHERE 
 							owner = 'MCZBASE'
-							and table_name = 'CF_TEMP_CITATION'
+							and table_name = 'CF_TEMP_ATTRIBUTES'
 							and column_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(field)#" />
 					</cfquery>
 					<cfset comment = "">
@@ -298,78 +273,18 @@ SELECT sys.all_col_comments.COMMENTS,sys.all_tab_columns.COLUMN_NAME, sys.all_ta
 			
 				<div class="col-12 px-0 my-4">
 					<h3 class="h4">Found #size# columns in header of csv file.</h3>
-					<h3 class="h4">There are #ListLen(fieldList)# columns expected in the header (of these #k# are required).</h3>
+					<h3 class="h4">There are #ListLen(fieldList)# columns expected in the header (of these #ListLen(requiredFieldList)# are required).</h3>
 				</div>
-				<!--- check for required fields in header line (performng check in two different ways, Case 1, Case 2) --->
-				<!--- Loop through list of fields throw exception if required fields are missing --->
-				<cfset errorMessage = "">
-				<cfloop list="#fieldList#" item="aField">
-					<cfif ListContainsNoCase(requiredfieldlist,aField)>
-						<!--- Case 1. Check by splitting assembled list of foundHeaders --->
-						<cfif NOT ListContainsNoCase(foundHeaders,aField)>
-							<cfset errorMessage = "#errorMessage# <strong>#aField#</strong> is missing.">
-						</cfif>
-					</cfif>
-				</cfloop>
-				<cfif len(errorMessage) GT 0>
-					<cfthrow message = "#NO_COLUMN_ERR# #errorMessage#">
-				</cfif>
-				<cfset errorMessage = "">
-				<!--- Loop through list of fields, mark each field as fields present in input or not, throw exception if required fields are missing --->
-				<cfset max=ListLen(fieldList)>
-				<ul class="h4 mb-2 font-weight-normal list-group">
-					<cfloop query="getDataDetails" endrow="#max#" startrow="1">
-						<cfset hint="">
-						<cfloop index="current_item" list="#getDataDetails.COLUMN_NAME#">
-							<cfif getDataDetails.COMMENTS contains 'Required'>
-								<cfset class="text-danger">
-								<cfset hint="aria-label='required'">
-							<cfelse>
-								<cfset class="text-dark">
-							</cfif>
-							<li class="list-group-item px-0">
-								<span class="#class#" #hint#>#current_item#</span><span class="text-secondary">: #getDataDetails.COMMENTS# </span>
-								<cfif arrayFindNoCase(colNameArray,current_item) GT 0>
-									<strong class="text-success">[ Present in CSV ]</strong> 
-								<cfelse>
-									<!--- Case 2. Check by identifying field in required field list --->
-									<cfif ListContainsNoCase(requiredfieldlist,current_item)>
-										<strong class="text-dark">Required Column Not Found </strong>
-										<cfset errorMessage = "#errorMessage# <strong>#current_item#</strong> is missing.">
-									</cfif>
-								</cfif>
-							</li>
-						</cfloop>
-					</cfloop>
-				</ul>
-		
-				<cfif len(errorMessage) GT 0>
-					<cfif size EQ 1>
-						<!--- likely a problem parsing the first line into column headers --->
-						<!--- to get here, upload a csv file with the correct headers as MYSQL format --->
-						<cfset errorMessage = "You may have specified the wrong format, only one column header was found. #errorMessage#">
-					</cfif>
-					<cfthrow message = "#NO_COLUMN_ERR# #errorMessage#">
-				</cfif>
-				<ul class="py-1 h4 list-unstyled">
-					<!--- Identify additional columns that will be ignored --->
-					<cfloop list="#foundHeaders#" item="aField">
-						<cfif NOT ListContainsNoCase(fieldList,aField)>
-							<li>Found additional column header [<strong>#aField#</strong>] in the CSV that is not in the list of expected headers.</1i>
-						</cfif>
-					</cfloop>
-					<!--- Identify duplicate columns and fail if found --->
-					<cfif NOT ListLen(ListRemoveDuplicates(foundHeaders)) EQ ListLen(foundHeaders)>
-						<li>At least one column header occurs more than once.</1i>
-						<cfloop list="#foundHeaders#" item="aField">
-							<cfif listValueCount(foundHeaders,aField) GT 1>
-								<li>[<strong>#aField#</strong>] is duplicated as the header for #listValueCount(foundHeaders,aField)# columns.</li>
-							</cfif>
-						</cfloop>
-						<cfthrow message = "#DUP_COLUMN_ERR#">
-					</cfif>
-				</ul>
+					
+				<!--- check for required fields in header line, list all fields, throw exception and fail if any required fields are missing --->
+				<cfset reqFieldsResponse = checkRequiredFields(fieldList=fieldList,requiredFieldList=requiredFieldList,NO_COLUMN_ERR=NO_COLUMN_ERR,TABLE_NAME=TABLE_NAME)>
 
+				<!--- Test for additional columns not in list, warn and ignore. --->
+				<cfset addFieldsResponse = checkAdditionalFields(fieldList=fieldList)>
+
+				<!--- Identify duplicate columns and fail if found --->
+				<cfset dupFieldsResponse = checkDuplicateFields(foundHeaders=variables.foundHeaders,DUP_COLUMN_ERR=DUP_COLUMN_ERR)>	
+				
 				<cfset colNames="#foundHeaders#">
 				<cfset loadedRows = 0>
 				<cfset foundHighCount = 0>
