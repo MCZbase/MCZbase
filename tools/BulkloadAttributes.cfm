@@ -307,8 +307,8 @@ SELECT sys.all_col_comments.COMMENTS,sys.all_tab_columns.COLUMN_NAME, sys.all_ta
 				<cfset errorMessage = "">
 				<!--- Loop through list of fields, mark each field as fields present in input or not, throw exception if required fields are missing --->
 				<cfset max=ListLen(fieldList)>
-					<cfloop query="getDataDetails" endrow="#max#" startrow="1">
-						<ul class="h4 mb-4 font-weight-normal list-group">
+					<ul class="h4 mb-4 font-weight-normal list-group">
+						<cfloop query="getDataDetails" endrow="#max#" startrow="1">
 							<cfset hint="">
 							<cfloop index="current_item" list="#getDataDetails.COLUMN_NAME#">
 								<cfif getDataDetails.COMMENTS contains 'Required'>
@@ -331,9 +331,8 @@ SELECT sys.all_col_comments.COMMENTS,sys.all_tab_columns.COLUMN_NAME, sys.all_ta
 									</cfif>
 								</li>
 							</cfloop>
-						</ul>
-					</cfloop>
-				
+						</cfloop>
+					</ul>
 		
 				<cfif len(errorMessage) GT 0>
 					<cfif size EQ 1>
