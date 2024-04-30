@@ -73,7 +73,7 @@ limitations under the License.
 			<ul class="mb-4 h4 font-weight-normal">
 				<cfloop list="#fieldlist#" index="field" delimiters=",">
 					<cfset aria = "">
-						<cfquery name = "getComments"  datasource="user_login" username="#session.dbuser#" result="getComments_result">
+						<cfquery name = "getComments"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#"  result="getComments_result">
 							select comment 
 								from sys.all_col_comments
 							where 
