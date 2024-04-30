@@ -145,7 +145,7 @@ limitations under the License.
 					<h3 class="h4">There are #ListLen(fieldList)# columns expected in the header (of these #ListLen(requiredFieldList)# are required).</h3>
 				
 					<!--- check for required fields in header line, list all fields, throw exception and fail if any required fields are missing --->
-					<cfset reqFieldsResponse = checkRequiredFields(fieldList=fieldList,requiredFieldList=requiredFieldList,NO_COLUMN_ERR=NO_COLUMN_ERR)>
+					<cfset reqFieldsResponse = checkRequiredFields(fieldList=fieldList,requiredFieldList=requiredFieldList,NO_COLUMN_ERR=NO_COLUMN_ERR,table_name=CF_TEMP_CITATION)>
 
 					<!--- Test for additional columns not in list, warn and ignore. --->
 					<cfset addFieldsResponse = checkAdditionalFields(fieldList=fieldList)>

@@ -196,6 +196,7 @@ limitations under the License.
 	<cfargument name="fieldList" type="string" required="yes">
 	<cfargument name="requiredFieldList" type="string" required="yes">
 	<cfargument name="NO_COLUMN_ERR" type="string" required="yes">
+	<cfargument name="table_name" type="string" required="yes">
 
 	<cfoutput>
 		<!--- check for required fields in header line (performng check in two different ways, Case 1, Case 2), listing all fields. --->
@@ -218,7 +219,7 @@ limitations under the License.
 					where 
 						owner = 'MCZBASE'
 					AND
-						table_name = 'CF_TEMP_CITATION'
+						table_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(table_name)#" />
 					AND
 						column_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(field)#" />
 				</cfquery>
