@@ -267,6 +267,7 @@ limitations under the License.
 				<cfset colNameArray = listToArray(ucase(foundHeaders))><!--- the list of columns/fields found in the input file --->
 				<cfset fieldArray = listToArray(ucase(fieldlist))><!--- the full list of fields --->
 				<cfset typeArray = listToArray(ucase(fieldTypes))><!--- the types for the full list of fields --->
+				<cfset TABLE_NAME = listToArray(ucase(CF_TEMP_ATTRIBUTES))>
 			
 				<div class="col-12 px-0 my-4">
 					<h3 class="h4">Found #size# columns in header of csv file.</h3>
