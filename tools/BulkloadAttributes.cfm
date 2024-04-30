@@ -102,7 +102,7 @@ SELECT sys.all_col_comments.COMMENTS,sys.all_tab_columns.COLUMN_NAME, sys.all_ta
 			</div>
 			<h2 class="mt-4 h4">Columns in <span class="text-danger">red</span> are required; others are optional:</h2>
 			<cfset max=ListLen(fieldList)>
-			<ul class="h4 mb-2 font-weight-normal list-group">
+			<ul class="h4 mb-3 font-weight-normal list-group">
 				<cfloop query="getDataDetails" endrow="#max#" startrow="1">
 					<cfset hint="">
 					<cfloop index="current_item" list="#getDataDetails.COLUMN_NAME#">
