@@ -70,7 +70,7 @@ limitations under the License.
 				<textarea rows="2" cols="90" id="templatearea" class="w-100 data-entry-textarea">#fieldlist#</textarea>
 			</div>
 			<h2 class="mt-4 h4">Columns in <span class="text-danger">red</span> are required; others are optional:</h2>
-			<ul class="mb-4 h4 font-weight-normal">
+			<ul class="mb-4 h4 font-weight-normal list-group">
 				<cfloop list="#fieldlist#" index="field" delimiters=",">
 					<cfquery name = "getComments"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#"  result="getComments_result">
 						SELECT comments
@@ -91,7 +91,9 @@ limitations under the License.
 					<cfelse>
 						<cfset class="text-dark">
 					</cfif>
-					<li><span class="#class#" #aria#>#field#</span> #comment#</li>
+					<li class="pb-1 px-0 list-group-item">
+						<span class="#class#" #aria#>#field#: </span> #comment#
+					</li>
 				</cfloop>
 			</ul>
 			<form name="atts" method="post" enctype="multipart/form-data" action="/tools/BulkloadCitations.cfm">
