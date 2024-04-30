@@ -207,11 +207,11 @@ function ScriptPrefixedNumberListToJSON(listOfNumbers, integerFieldname, prefixF
 				} else if (value CONTAINS "%" OR value CONTAINS "_") { 
 					comparator = '"comparator": "like"';
 				}
-				<cfif left(nestDepth,5) EQ '"open'> 
+				if (left(nestDepth,5) EQ '"open') {  
 					wherebit = wherebit & comma & '{#nestDepth#,"join":"' & leadingJoin & '","field": "' & displayFieldName &'",'& comparator & ',"value": "#value#"}';
-				<cfelse>
+				} else { 
 					wherebit = wherebit & comma & '{"nest":"#nestDepth#","join":"' & leadingJoin & '","field": "' & displayFieldName &'",'& comparator & ',"value": "#value#"}';
-				<cfif>
+				}
 				comma = ",";
 			} else if (partCount EQ 1 and REFind("^[A-Za-z]+$",atomParts[1])) { 
 				// just a prefix.
@@ -222,30 +222,30 @@ function ScriptPrefixedNumberListToJSON(listOfNumbers, integerFieldname, prefixF
 			} else if (partCount EQ 1 and REFind("^>[0-9]+$",atomParts[1])) { 
 				value = right(mayBeQuoted,len(mayBeQuoted)-1);
 				comparator = '"comparator": ">"';
-				<cfif left(nestDepth,5) EQ '"open'> 
+				if (left(nestDepth,5) EQ '"open') {  
 					wherebit = wherebit & comma & '{#nestDepth#,"join":"' & leadingJoin & '","field": "' & integerFieldName &'",'& comparator & ',"value": "#value#"}';
-				<cfelse>
+				} else { 
 					wherebit = wherebit & comma & '{"nest":"#nestDepth#","join":"' & leadingJoin & '","field": "' & integerFieldName &'",'& comparator & ',"value": "#value#"}';
-				</cfif>
+				}
 			} else if (partCount EQ 1 and REFind("^<[0-9]+$",atomParts[1])) { 
 				value = right(mayBeQuoted,len(mayBeQuoted)-1);
 				comparator = '"comparator": "<"';
-				<cfif left(nestDepth,5) EQ '"open'> 
+				if (left(nestDepth,5) EQ '"open') { 
 					wherebit = wherebit & comma & '{#nestDepth#,"join":"' & leadingJoin & '","field": "' & integerFieldName &'",'& comparator & ',"value": "#value#"}';
-				<cfelse>
+				} else { 
 					wherebit = wherebit & comma & '{"nest":"#nestDepth#","join":"' & leadingJoin & '","field": "' & integerFieldName &'",'& comparator & ',"value": "#value#"}';
-				</cfif>
+				}
 			} else if (partCount EQ 1 and REFind("^[0-9]+[A-Za-z]+$",atomParts[1])) { 
 				// number and suffix
 				numeric = rereplace(atomParts[1],"[^0-9]]","","all");
 				suffix = rereplace(atomParts[1],"[^A-Za-z]","","all");
 			} else if (partCount EQ 1 OR partCount GT 4) { 
 				// unexpected, and likely failure case, but try something
-				<cfif left(nestDepth,5) EQ '"open'> 
+				if (left(nestDepth,5) EQ '"open') { 
 					wherebit = wherebit & comma & '{#nestDepth#,"join":"and","field": "' & displayFieldName &'","comparator": "=","value": "#partFromList#"}';
-				<cfelse>
+				} else { 
 					wherebit = wherebit & comma & '{"nest":"#nestDepth#","join":"and","field": "' & displayFieldName &'","comparator": "=","value": "#partFromList#"}';
-				</cfif>
+				}
 				comma = ",";
 			} else if (partCount EQ 2) { 
 				if (REFind("^[0-9]+$",atomParts[1]) AND REFind("^[0-9]+$",atomParts[2])) { 
@@ -324,11 +324,11 @@ function ScriptPrefixedNumberListToJSON(listOfNumbers, integerFieldname, prefixF
 				} else { 
 					joinPhrase = leadingJoin;
 				}
-				<cfif left(nestDepth,5) EQ '"open'> 
+				if (left(nestDepth,5) EQ '"open') { 
 					wherebit = wherebit & comma & '{"nest":"#nestDepth#","join":"' & joinPhrase & '","field": "' & prefixFieldName &'","comparator": "=","value": "#prefix#"}';
-				<cfelse>
+				} else { 
 					wherebit = wherebit & comma & '{"nest":"#nestDepth#","join":"' & joinPhrase & '","field": "' & prefixFieldName &'","comparator": "=","value": "#prefix#"}';
-				</cfif>
+				}
 				comma = ",";
 				leadingJoin = "and";
 			}
@@ -342,11 +342,11 @@ function ScriptPrefixedNumberListToJSON(listOfNumbers, integerFieldname, prefixF
 					//remove any trailing dash
 					suffix = REReplace(suffix,"\-$","");
 				}
-				<cfif left(nestDepth,5) EQ '"open'> 
+				if (left(nestDepth,5) EQ '"open') { 
 					wherebit = wherebit & comma & '{"nest":"#nestDepth#","join":"and","field": "' & suffixFieldName &'","comparator": "=","value": "#suffix#"}';
-				<cfelse>
+				} else {
 					wherebit = wherebit & comma & '{"nest":"#nestDepth#","join":"and","field": "' & suffixFieldName &'","comparator": "=","value": "#suffix#"}';
-				</cfif>
+				}
 				comma = ",";
 				leadingJoin = "and";
 			}
@@ -393,11 +393,11 @@ function ScriptNumberListToJSON(listOfNumbers, fieldname, nestDepth, leadingJoin
 
 	if (ArrayLen(REMatch("^[0-9]+$",listOfNumbers))>0) {
 		//  Just a single number, exact match.
-		<cfif left(nestDepth,5) EQ '"open'> 
+		if (left(nestDepth,5) EQ '"open') {  
 			result = '{#nestDepth#,"join":"' & leadingJoin & '","field": "' & fieldname &'","comparator": "=","value": "#encodeForJSON(listOfNumbers)#"}';
-		<cfelse>
+		} else { 
 			result = '{"nest":"#nestDepth#","join":"' & leadingJoin & '","field": "' & fieldname &'","comparator": "=","value": "#encodeForJSON(listOfNumbers)#"}';
-		</cfif>
+		}
 	} else {
 		if (ArrayLen(REMatch("^[0-9]+\-[0-9]+$",listOfNumbers))>0) {
 			// Just a single range, two clauses, between start and end of range.
@@ -466,11 +466,11 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 	// if so return "AND fieldname IN ( number )"
 	if (ArrayLen(REMatch("^[0-9]+$",atom))>0) {
 		//  Just a single number, exact match.
-		<cfif left(nestDepth,5) EQ '"open'> 
+		if (left(nestDepth,5) EQ '"open') { 
 			result = '{#nestDepth#,"join":"' & leadingJoin & '","field": "' & fieldname &'","comparator": "=","value": "#encodeForJSON(atom)#"}';
-		<cfelse>
+		} else {
 			result = '{"nest":"#nestDepth#.1","join":"' & leadingJoin & '","field": "' & fieldname &'","comparator": "=","value": "#encodeForJSON(atom)#"}';
-		</cfif>
+		}
 	} else {
 		if (ArrayLen(REMatch("^[0-9]+\-[0-9]+$",atom))>0) {
 			// Just a single range, two clauses, between start and end of range.
