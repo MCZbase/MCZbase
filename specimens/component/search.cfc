@@ -207,7 +207,11 @@ function ScriptPrefixedNumberListToJSON(listOfNumbers, integerFieldname, prefixF
 				} else if (value CONTAINS "%" OR value CONTAINS "_") { 
 					comparator = '"comparator": "like"';
 				}
-				wherebit = wherebit & comma & '{"nest":"#nestDepth#","join":"' & leadingJoin & '","field": "' & displayFieldName &'",'& comparator & ',"value": "#value#"}';
+				if (left(nestDepth,5) EQ '"open') {  
+					wherebit = wherebit & comma & '{#nestDepth#,"join":"' & leadingJoin & '","field": "' & displayFieldName &'",'& comparator & ',"value": "#value#"}';
+				} else { 
+					wherebit = wherebit & comma & '{"nest":"#nestDepth#","join":"' & leadingJoin & '","field": "' & displayFieldName &'",'& comparator & ',"value": "#value#"}';
+				}
 				comma = ",";
 			} else if (partCount EQ 1 and REFind("^[A-Za-z]+$",atomParts[1])) { 
 				// just a prefix.
@@ -218,18 +222,30 @@ function ScriptPrefixedNumberListToJSON(listOfNumbers, integerFieldname, prefixF
 			} else if (partCount EQ 1 and REFind("^>[0-9]+$",atomParts[1])) { 
 				value = right(mayBeQuoted,len(mayBeQuoted)-1);
 				comparator = '"comparator": ">"';
-				wherebit = wherebit & comma & '{"nest":"#nestDepth#","join":"' & leadingJoin & '","field": "' & integerFieldName &'",'& comparator & ',"value": "#value#"}';
+				if (left(nestDepth,5) EQ '"open') {  
+					wherebit = wherebit & comma & '{#nestDepth#,"join":"' & leadingJoin & '","field": "' & integerFieldName &'",'& comparator & ',"value": "#value#"}';
+				} else { 
+					wherebit = wherebit & comma & '{"nest":"#nestDepth#","join":"' & leadingJoin & '","field": "' & integerFieldName &'",'& comparator & ',"value": "#value#"}';
+				}
 			} else if (partCount EQ 1 and REFind("^<[0-9]+$",atomParts[1])) { 
 				value = right(mayBeQuoted,len(mayBeQuoted)-1);
 				comparator = '"comparator": "<"';
-				wherebit = wherebit & comma & '{"nest":"#nestDepth#","join":"' & leadingJoin & '","field": "' & integerFieldName &'",'& comparator & ',"value": "#value#"}';
+				if (left(nestDepth,5) EQ '"open') { 
+					wherebit = wherebit & comma & '{#nestDepth#,"join":"' & leadingJoin & '","field": "' & integerFieldName &'",'& comparator & ',"value": "#value#"}';
+				} else { 
+					wherebit = wherebit & comma & '{"nest":"#nestDepth#","join":"' & leadingJoin & '","field": "' & integerFieldName &'",'& comparator & ',"value": "#value#"}';
+				}
 			} else if (partCount EQ 1 and REFind("^[0-9]+[A-Za-z]+$",atomParts[1])) { 
 				// number and suffix
 				numeric = rereplace(atomParts[1],"[^0-9]]","","all");
 				suffix = rereplace(atomParts[1],"[^A-Za-z]","","all");
 			} else if (partCount EQ 1 OR partCount GT 4) { 
 				// unexpected, and likely failure case, but try something
-				wherebit = wherebit & comma & '{"nest":"#nestDepth#","join":"and","field": "' & displayFieldName &'","comparator": "=","value": "#partFromList#"}';
+				if (left(nestDepth,5) EQ '"open') { 
+					wherebit = wherebit & comma & '{#nestDepth#,"join":"and","field": "' & displayFieldName &'","comparator": "=","value": "#partFromList#"}';
+				} else { 
+					wherebit = wherebit & comma & '{"nest":"#nestDepth#","join":"and","field": "' & displayFieldName &'","comparator": "=","value": "#partFromList#"}';
+				}
 				comma = ",";
 			} else if (partCount EQ 2) { 
 				if (REFind("^[0-9]+$",atomParts[1]) AND REFind("^[0-9]+$",atomParts[2])) { 
@@ -308,7 +324,11 @@ function ScriptPrefixedNumberListToJSON(listOfNumbers, integerFieldname, prefixF
 				} else { 
 					joinPhrase = leadingJoin;
 				}
-				wherebit = wherebit & comma & '{"nest":"#nestDepth#","join":"' & joinPhrase & '","field": "' & prefixFieldName &'","comparator": "=","value": "#prefix#"}';
+				if (left(nestDepth,5) EQ '"open') { 
+					wherebit = wherebit & comma & '{#nestDepth#,"join":"' & joinPhrase & '","field": "' & prefixFieldName &'","comparator": "=","value": "#prefix#"}';
+				} else { 
+					wherebit = wherebit & comma & '{"nest":"#nestDepth#","join":"' & joinPhrase & '","field": "' & prefixFieldName &'","comparator": "=","value": "#prefix#"}';
+				}
 				comma = ",";
 				leadingJoin = "and";
 			}
@@ -322,7 +342,11 @@ function ScriptPrefixedNumberListToJSON(listOfNumbers, integerFieldname, prefixF
 					//remove any trailing dash
 					suffix = REReplace(suffix,"\-$","");
 				}
-				wherebit = wherebit & comma & '{"nest":"#nestDepth#","join":"and","field": "' & suffixFieldName &'","comparator": "=","value": "#suffix#"}';
+				if (left(nestDepth,5) EQ '"open') { 
+					wherebit = wherebit & comma & '{#nestDepth#,"join":"and","field": "' & suffixFieldName &'","comparator": "=","value": "#suffix#"}';
+				} else {
+					wherebit = wherebit & comma & '{"nest":"#nestDepth#","join":"and","field": "' & suffixFieldName &'","comparator": "=","value": "#suffix#"}';
+				}
 				comma = ",";
 				leadingJoin = "and";
 			}
@@ -369,7 +393,11 @@ function ScriptNumberListToJSON(listOfNumbers, fieldname, nestDepth, leadingJoin
 
 	if (ArrayLen(REMatch("^[0-9]+$",listOfNumbers))>0) {
 		//  Just a single number, exact match.
-		result = '{"nest":"#nestDepth#","join":"' & leadingJoin & '","field": "' & fieldname &'","comparator": "=","value": "#encodeForJSON(listOfNumbers)#"}';
+		if (left(nestDepth,5) EQ '"open') {  
+			result = '{#nestDepth#,"join":"' & leadingJoin & '","field": "' & fieldname &'","comparator": "=","value": "#encodeForJSON(listOfNumbers)#"}';
+		} else { 
+			result = '{"nest":"#nestDepth#","join":"' & leadingJoin & '","field": "' & fieldname &'","comparator": "=","value": "#encodeForJSON(listOfNumbers)#"}';
+		}
 	} else {
 		if (ArrayLen(REMatch("^[0-9]+\-[0-9]+$",listOfNumbers))>0) {
 			// Just a single range, two clauses, between start and end of range.
@@ -383,8 +411,14 @@ function ScriptNumberListToJSON(listOfNumbers, fieldname, nestDepth, leadingJoin
 			if (ucase(fieldname) IS "CAT_NUM") { 
 				fieldname = "CAT_NUM_INTEGER";
 			}
-			result = '{"nest":"#nestDepth#.1","join":"' & leadingJoin & '","field": "' & fieldname &'","comparator": ">=","value": "#encodeForJSON(lowPart)#"';
-			result = result & '},{"nest":"#nestDepth#.2","join":"and","field": "' & fieldname &'","comparator": "<=","value": "#encodeForJSON(highPart)#"}';
+			if (left(nestDepth,5) EQ '"open') {  
+				// TODO: Increment nesting 
+				result = '{#nestDepth#,"join":"' & leadingJoin & '","field": "' & fieldname &'","comparator": ">=","value": "#encodeForJSON(lowPart)#"';
+				result = result & '},{#nestDepth#,"join":"and","field": "' & fieldname &'","comparator": "<=","value": "#encodeForJSON(highPart)#"}';
+			} else {
+				result = '{"nest":"#nestDepth#.1","join":"' & leadingJoin & '","field": "' & fieldname &'","comparator": ">=","value": "#encodeForJSON(lowPart)#"';
+				result = result & '},{"nest":"#nestDepth#.2","join":"and","field": "' & fieldname &'","comparator": "<=","value": "#encodeForJSON(highPart)#"}';
+			} 
 		} else if (ArrayLen(REMatch("^[0-9,]+$",listOfNumbers))>0) {
 			// Just a list of numbers without ranges, translates directly to IN
 			if (listOfNumbers!=",") {
@@ -438,7 +472,11 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 	// if so return "AND fieldname IN ( number )"
 	if (ArrayLen(REMatch("^[0-9]+$",atom))>0) {
 		//  Just a single number, exact match.
-		result = '{"nest":"#nestDepth#.1","join":"' & leadingJoin & '","field": "' & fieldname &'","comparator": "=","value": "#encodeForJSON(atom)#"}';
+		if (left(nestDepth,5) EQ '"open') { 
+			result = '{#nestDepth#,"join":"' & leadingJoin & '","field": "' & fieldname &'","comparator": "=","value": "#encodeForJSON(atom)#"}';
+		} else {
+			result = '{"nest":"#nestDepth#.1","join":"' & leadingJoin & '","field": "' & fieldname &'","comparator": "=","value": "#encodeForJSON(atom)#"}';
+		}
 	} else {
 		if (ArrayLen(REMatch("^[0-9]+\-[0-9]+$",atom))>0) {
 			// Just a single range, two clauses, between start and end of range.
@@ -506,16 +544,15 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 	<cfset separator = "">
 	<cfset join = ''>
 
-	<cfset nest = 1>
+	<cfset nest = '"openParens":"0","closeParens":"0"'>
 	
 	<cfif isDefined("collection_cde") AND len(collection_cde) GT 0>
 		<cfset field = '"field": "collection_cde"'>
 		<cfset comparator = '"comparator": "IN"'>
 		<cfset value = encodeForJSON(collection_cde)>
-		<cfset search_json = '#search_json##separator#{"nest":"#nest#",#join##field#,#comparator#,"value": "#value#"}'>
+		<cfset search_json = '#search_json##separator#{#nest#,#join##field#,#comparator#,"value": "#value#"}'>
 		<cfset separator = ",">
 		<cfset join='"join":"and",'>
-		<cfset nest = nest + 1>
 	</cfif>
 	<cfif isDefined("searchText") AND len(searchText) GT 0>
 		<cfset field = '"field": "keyword"'>
@@ -538,10 +575,9 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 		<cfset searchValueForJSON = searchValue>
 		<cfset searchValueForJSON = replace(searchValueForJSON,"\","\\","all")>
 		<cfset searchValueForJSON = replace(searchValueForJSON,'"','\"',"all")>
-		<cfset search_json = '#search_json##separator#{"nest":"#nest#",#join##field#,#comparator#,"value": "#searchValueForJSON#"}'>
+		<cfset search_json = '#search_json##separator#{#nest#,#join##field#,#comparator#,"value": "#searchValueForJSON#"}'>
 		<cfset separator = ",">
 		<cfset join='"join":"and",'>
-		<cfset nest = nest + 1>
 	</cfif>
 	
 	<cfset search_json = "#search_json#]">
@@ -597,7 +633,7 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 					user_search_table.result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
 			</cfquery>
 			<cfif result_id_count.ct EQ 0>
-				<cfstoredproc procedure="build_query_dbms_sql" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="prepareSearch_result" timeout="#Application.query_timeout#">
+				<cfstoredproc procedure="build_query_dbms_sql_nest" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="prepareSearch_result" timeout="#Application.query_timeout#">
 					<cfprocparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
 					<cfprocparam cfsqltype="CF_SQL_VARCHAR" value="#session.dbuser#">
 					<cfprocparam cfsqltype="CF_SQL_CLOB" value="#search_json#">
@@ -1205,30 +1241,27 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 	<cfset separator = "">
 	<cfset join = ''>
 
-	<cfset nest = 1>
+	<cfset nest = '"openParens":"0","closeParens":"0"'>
 
 	<cfif isDefined("collection") AND len(collection) GT 0>
 		<cfset field = '"field": "collection_cde"'>
 		<cfset comparator = '"comparator": "IN"'>
 		<cfset value = encodeForJSON(collection)>
-		<cfset search_json = '#search_json##separator#{"nest":"#nest#",#join##field#,#comparator#,"value": "#value#"}'>
+		<cfset search_json = '#search_json##separator#{#nest#,#join##field#,#comparator#,"value": "#value#"}'>
 		<cfset separator = ",">
 		<cfset join='"join":"and",'>
-		<cfset nest = nest + 1>
 	</cfif>
 	<cfif isDefined("cat_num") AND len(cat_num) GT 0>
 		<cfset clause = ScriptPrefixedNumberListToJSON(cat_num, "CAT_NUM_INTEGER", "CAT_NUM_PREFIX", true, nest, "and")>
 		<cfset search_json = "#search_json##separator##clause#">
 		<cfset separator = ",">
 		<cfset join='"join":"and",'>
-		<cfset nest = nest + 1>
 	</cfif>
 	<cfif isDefined("media_type") AND len(media_type) GT 0>
 		<cfset field = '"field": "media_type"'>
 		<cfset search_json = search_json & constructJsonForField(join="#join#",field="#field#",value="#media_type#",separator="#separator#",nestDepth="#nest#")>
 		<cfset separator = ",">
 		<cfset join='"join":"and",'>
-		<cfset nest = nest + 1>
 	</cfif>
 	<cfset has0 = false>
 	<cfset has1 = false>
@@ -1246,58 +1279,51 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 	</cfif>
 	<cfif has0 AND has1>
 		<!--- create nested or clause has (other_id_number of type) or (has other_id_number_1 of type_1) --->
-		<cfset innernest = 1>
+		<cfset nest = '"openParens":"1","closeParens":"0"'>
 		<cfif isDefined("other_id_type") AND len(other_id_type) GT 0>
 			<cfset field = '"field": "other_id_type"'>
 			<cfset comparator = '"comparator": "IN"'>
 			<cfset value = escapeQuotesForJSON(value="#other_id_type#")>
-			<cfset search_json = '#search_json##separator#{"nest":"#nest#.#innernest#",#join##field#,#comparator#,"value": "#value#"}'>
+			<cfset search_json = '#search_json##separator#{#nest#,#join##field#,#comparator#,"value": "#value#"}'>
 			<cfset separator = ",">
 			<cfset join='"join":"and",'>
-			<cfset innernest = innernest + 1>
 		</cfif>
 		<cfif isDefined("other_id_number") AND len(other_id_number) GT 0>
 			<cfif left(other_id_number,1) is "=" OR left(other_id_number,1) is "!">
 				<cfset field = '"field": "DISPLAY_VALUE"'>
-				<cfset search_json = search_json & constructJsonForField(join="#join#",field="#field#",value="#other_id_number#",separator="#separator#",nestDepth="#nest#.#innernest#")>
+				<cfset search_json = search_json & constructJsonForField(join="#join#",field="#field#",value="#other_id_number#",separator="#separator#",nestDepth="#nest#")>
 				<cfset separator = ",">
 				<cfset join='"join":"and",'>
-			 	<cfset innernest = innernest + 1>
 			<cfelse>
-				<cfset clause = ScriptPrefixedNumberListToJSON(other_id_number, "OTHER_ID_NUMBER", "OTHER_ID_PREFIX", false, "#nest#.#innernest#", "and")>
+				<cfset clause = ScriptPrefixedNumberListToJSON(other_id_number, "OTHER_ID_NUMBER", "OTHER_ID_PREFIX", false, "#nest#", "and")>
 				<cfset search_json = "#search_json##separator##clause#">
 				<cfset separator = ",">
 				<cfset join='"join":"and",'>
-			 	<cfset innernest = innernest + 1>
 			</cfif>
 		</cfif>
-		<cfset nest = nest + 1>
-		<cfset innernest = 1>
 		<cfif isDefined("other_id_type_1") AND len(other_id_type_1) GT 0>
 			<cfset field = '"field": "other_id_type"'>
 			<cfset comparator = '"comparator": "IN"'>
 			<cfset value = escapeQuotesForJSON(value="#other_id_type_1#")>
-			<cfset search_json = '#search_json##separator#{"nest":"#nest#.#innernest#",#join##field#,#comparator#,"value": "#value#"}'>
+			<cfset search_json = '#search_json##separator#{#nest#,#join##field#,#comparator#,"value": "#value#"}'>
 			<cfset separator = ",">
 			<cfset join='"join":"and",'>
-			<cfset innernest = innernest + 1>
 		</cfif>
+		<cfset nest = '"openParens":"0","closeParens":"1"'>
 		<cfif isDefined("other_id_number_1") AND len(other_id_number_1) GT 0>
 			<cfif left(other_id_number_1,1) is "=" OR left(other_id_number_1,1) is "!">
 				<cfset field = '"field": "DISPLAY_VALUE"'>
-				<cfset search_json = search_json & constructJsonForField(join="#join#",field="#field#",value="#other_id_number_1#",separator="#separator#",nestDepth="#nest#.#innernest#")>
+				<cfset search_json = search_json & constructJsonForField(join="#join#",field="#field#",value="#other_id_number_1#",separator="#separator#",nestDepth="#nest#")>
 				<cfset separator = ",">
 				<cfset join='"join":"and",'>
-			 	<cfset innernest = innernest + 1>
 			<cfelse>
-				<cfset clause = ScriptPrefixedNumberListToJSON(other_id_number_1, "OTHER_ID_NUMBER", "OTHER_ID_PREFIX", false, "#nest#.#innernest#", "and")>
+				<cfset clause = ScriptPrefixedNumberListToJSON(other_id_number_1, "OTHER_ID_NUMBER", "OTHER_ID_PREFIX", false, "#nest#", "and")>
 				<cfset search_json = "#search_json##separator##clause#">
 				<cfset separator = ",">
 				<cfset join='"join":"and",'>
-			 	<cfset innernest = innernest + 1>
 			</cfif>
 		</cfif>
-		<cfset nest = nest + 1>
+		<cfset nest = '"openParens":"0","closeParens":"0"'>
 	<cfelse>
 		<cfif isDefined("other_id_number") AND len(other_id_number) GT 0>
 			<cfif left(other_id_number,1) is "=" OR left(other_id_number,1) is "!">
@@ -1305,23 +1331,20 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 				<cfset search_json = search_json & constructJsonForField(join="#join#",field="#field#",value="#other_id_number#",separator="#separator#",nestDepth="#nest#")>
 				<cfset separator = ",">
 				<cfset join='"join":"and",'>
-			 	<cfset nest = nest + 1>
 			<cfelse>
 				<cfset clause = ScriptPrefixedNumberListToJSON(other_id_number, "OTHER_ID_NUMBER", "OTHER_ID_PREFIX", false, nest, "and")>
 				<cfset search_json = "#search_json##separator##clause#">
 				<cfset separator = ",">
 				<cfset join='"join":"and",'>
-			 	<cfset nest = nest + 1>
 			</cfif>
 		</cfif>
 		<cfif isDefined("other_id_type") AND len(other_id_type) GT 0>
 			<cfset field = '"field": "other_id_type"'>
 			<cfset comparator = '"comparator": "IN"'>
 			<cfset value = escapeQuotesForJSON(value="#other_id_type#")>
-			<cfset search_json = '#search_json##separator#{"nest":"#nest#",#join##field#,#comparator#,"value": "#value#"}'>
+			<cfset search_json = '#search_json##separator#{#nest#,#join##field#,#comparator#,"value": "#value#"}'>
 			<cfset separator = ",">
 			<cfset join='"join":"and",'>
-			<cfset nest = nest + 1>
 		</cfif>
 		<cfif isDefined("other_id_number_1") AND len(other_id_number_1) GT 0>
 			<cfif left(other_id_number_1,1) is "=" OR left(other_id_number_1,1) is "!">
@@ -1329,23 +1352,20 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 				<cfset search_json = search_json & constructJsonForField(join="#join#",field="#field#",value="#other_id_number_1#",separator="#separator#",nestDepth="#nest#")>
 				<cfset separator = ",">
 				<cfset join='"join":"and",'>
-			 	<cfset nest = nest + 1>
 			<cfelse>
 				<cfset clause = ScriptPrefixedNumberListToJSON(other_id_number_1, "OTHER_ID_NUMBER", "OTHER_ID_PREFIX", false, nest, "and")>
 				<cfset search_json = "#search_json##separator##clause#">
 				<cfset separator = ",">
 				<cfset join='"join":"and",'>
-			 	<cfset nest = nest + 1>
 			</cfif>
 		</cfif>
 		<cfif isDefined("other_id_type_1") AND len(other_id_type_1) GT 0>
 			<cfset field = '"field": "other_id_type"'>
 			<cfset comparator = '"comparator": "IN"'>
 			<cfset value = escapeQuotesForJSON(value="#other_id_type_1#")>
-			<cfset search_json = '#search_json##separator#{"nest":"#nest#",#join##field#,#comparator#,"value": "#value#"}'>
+			<cfset search_json = '#search_json##separator#{#nest#,#join##field#,#comparator#,"value": "#value#"}'>
 			<cfset separator = ",">
 			<cfset join='"join":"and",'>
-			<cfset nest = nest + 1>
 		</cfif>
 	</cfif>
 	<cfif isDefined("coll_object_entered_date") AND len(coll_object_entered_date) GT 0>
@@ -1354,22 +1374,20 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 		<cfset search_json = search_json & constructJsonForField(join="#join#",field="#field#",value="#searchText#",separator="#separator#",nestDepth="#nest#")>
 		<cfset separator = ",">
 		<cfset join='"join":"and",'>
-		<cfset nest = nest + 1>
 	</cfif>
 	<cfif isDefined("entered_by_id") AND len(entered_by_id) GT 0>
 		<cfset field = '"field": "ENTERED_PERSON_ID"'>
 		<cfset comparator = '"comparator": "="'>
 		<cfset value = encodeForJSON(entered_by_id)>
-		<cfset search_json = '#search_json##separator#{"nest":"#nest#",#join##field#,#comparator#,"value": "#value#"}'>
+		<cfset search_json = '#search_json##separator#{#nest#,#join##field#,#comparator#,"value": "#value#"}'>
 		<cfset separator = ",">
 		<cfset join='"join":"and",'>
-		<cfset nest = nest + 1>
 	</cfif>
 	<cfif isDefined("last_edited_person_id") AND len(last_edited_person_id) GT 0>
 		<cfset field = '"field": "LAST_EDITED_PERSON_ID"'>
 		<cfset comparator = '"comparator": "="'>
 		<cfset value = encodeForJSON(last_edited_person_id)>
-		<cfset search_json = '#search_json##separator#{"nest":"#nest#",#join##field#,#comparator#,"value": "#value#"}'>
+		<cfset search_json = '#search_json##separator#{#nest#,#join##field#,#comparator#,"value": "#value#"}'>
 		<cfset separator = ",">
 		<cfset join='"join":"and",'>
 		<cfset nest = nest + 1>
@@ -1495,7 +1513,7 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 		<cfset field = '"field": "IDENTIFICATIONS_TAXON_NAME_ID"'>
 		<cfset comparator = '"comparator": "="'>
 		<cfset value = encodeForJSON(taxon_name_id)>
-		<cfset search_json = '#search_json##separator#{"nest":"#nest#",#join##field#,#comparator#,"value": "#value#"}'>
+		<cfset search_json = '#search_json##separator#{#nest#,#join##field#,#comparator#,"value": "#value#"}'>
 		<cfset separator = ",">
 		<cfset join='"join":"and",'>
 		<cfset nest = nest + 1>
@@ -1647,7 +1665,7 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 		<cfset searchValueForJSON = searchValue>
 		<cfset searchValueForJSON = replace(searchValueForJSON,"\","\\","all")>
 		<cfset searchValueForJSON = replace(searchValueForJSON,'"','\"',"all")>
-		<cfset search_json = '#search_json##separator#{"nest":"#nest#",#join##field#,#comparator#,"value": "#searchValueForJSON#"}'>
+		<cfset search_json = '#search_json##separator#{#nest#,#join##field#,#comparator#,"value": "#searchValueForJSON#"}'>
 		<cfset separator = ",">
 		<cfset join='"join":"and",'>
 		<cfset nest = nest + 1>
@@ -1842,7 +1860,7 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 		<cfset field = '"field": "COLLECTORS_AGENT_ID"'>
 		<cfset comparator = '"comparator": "="'>
 		<cfset value = encodeForJSON(collector_agent_id)>
-		<cfset search_json = '#search_json##separator#{"nest":"#nest#",#join##field#,#comparator#,"value": "#value#"}'>
+		<cfset search_json = '#search_json##separator#{#nest#,#join##field#,#comparator#,"value": "#value#"}'>
 		<cfset separator = ",">
 		<cfset join='"join":"and",'>
 		<cfset nest = nest + 1>
@@ -1860,7 +1878,7 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 		<cfset field = '"field": "COLLECTOR_ROLE"'>
 		<cfset comparator = '"comparator": "="'>
 		<cfset value = "c">
-		<cfset search_json = '#search_json##separator#{"nest":"#nest#",#join##field#,#comparator#,"value": "#value#"}'>
+		<cfset search_json = '#search_json##separator#{#nest#,#join##field#,#comparator#,"value": "#value#"}'>
 		<cfset separator = ",">
 		<cfset join='"join":"and",'>
 		<cfset nest = nest + 1>
@@ -1870,7 +1888,7 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 		<cfset field = '"field": "CITATIONS_PUBLICATION_ID"'>
 		<cfset comparator = '"comparator": "="'>
 		<cfset value = encodeForJSON(publication_id)>
-		<cfset search_json = '#search_json##separator#{"nest":"#nest#",#join##field#,#comparator#,"value": "#value#"}'>
+		<cfset search_json = '#search_json##separator#{#nest#,#join##field#,#comparator#,"value": "#value#"}'>
 		<cfset separator = ",">
 		<cfset join='"join":"and",'>
 		<cfset nest = nest + 1>
@@ -1882,7 +1900,7 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 		<cfset field = '"field": "IDENTIFICATIONS_AGENT_ID"'>
 		<cfset comparator = '"comparator": "="'>
 		<cfset value = encodeForJSON(determiner_id)>
-		<cfset search_json = '#search_json##separator#{"nest":"#nest#",#join##field#,#comparator#,"value": "#value#"}'>
+		<cfset search_json = '#search_json##separator#{#nest#,#join##field#,#comparator#,"value": "#value#"}'>
 		<cfset separator = ",">
 		<cfset join='"join":"and",'>
 		<cfset nest = nest + 1>
@@ -1922,7 +1940,7 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 		<cfset field = '"field": "UNDERSCORE_COLLECTION_ID_RAW"'>
 		<cfset comparator = '"comparator": "="'>
 		<cfset value = encodeForJSON(underscore_collection_id)>
-		<cfset search_json = '#search_json##separator#{"nest":"#nest#",#join##field#,#comparator#,"value": "#value#"}'>
+		<cfset search_json = '#search_json##separator#{#nest#,#join##field#,#comparator#,"value": "#value#"}'>
 		<cfset separator = ",">
 		<cfset join='"join":"and",'>
 		<cfset nest = nest + 1>
@@ -1959,7 +1977,7 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 		</cfquery>
 		<cfif result_id_count.ct EQ 0>
 			<!--- errors are handled by build_query_dbms_sql throwing exceptions --->
-			<cfstoredproc procedure="build_query_dbms_sql" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="prepareSearch_result" timeout="#Application.query_timeout*2#">
+			<cfstoredproc procedure="build_query_dbms_sql_nest" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="prepareSearch_result" timeout="#Application.query_timeout*2#">
 				<cfprocparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
 				<cfprocparam cfsqltype="CF_SQL_VARCHAR" value="#session.dbuser#">
 				<cfprocparam cfsqltype="CF_SQL_CLOB" value="#search_json#">
