@@ -35,11 +35,6 @@ limitations under the License.
 <cfset fieldlist = "institution_acronym,collection_cde,other_id_type,other_id_number,attribute,attribute_value,attribute_units,attribute_date,attribute_meth,determiner,remarks">
 <cfset fieldTypes ="CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR">
 <cfset requiredfieldlist = "institution_acronym,collection_cde,other_id_type,other_id_number,attribute,attribute_value,attribute_date,determiner">
-	
-
-	<cfoutput>
-		
-	</cfoutput>
 <!--- special case handling to dump column headers as csv --->
 <cfif isDefined("action") AND action is "getCSVHeader">
 	<cfset csv = "">
@@ -105,30 +100,10 @@ limitations under the License.
 						<input type="file" name="FiletoUpload" id="fileToUpload" class="data-entry-input p-0 m-0">
 					</div>
 					<div class="col-12 col-md-3">
-						<label for="characterSet" class="data-entry-label">Character Set:</label> 
-						<select name="characterSet" id="characterSet" required class="data-entry-select reqdClr">
-							<option selected></option>
-							<option value="utf-8" >utf-8</option>
-							<option value="iso-8859-1">iso-8859-1</option>
-							<option value="windows-1252">windows-1252 (Win Latin 1)</option>
-							<option value="MacRoman">MacRoman</option>
-							<option value="x-MacCentralEurope">Macintosh Latin-2</option>
-							<option value="windows-1250">windows-1250 (Win Eastern European)</option>
-							<option value="windows-1251">windows-1251 (Win Cyrillic)</option>
-							<option value="utf-16">utf-16</option>
-							<option value="utf-32">utf-32</option>
-						</select>
+						<cfset charsetSelect = getCharsetSelectHTML()>
 					</div>
 					<div class="col-12 col-md-3">
-						<label for="format" class="data-entry-label">Format:</label> 
-						<select name="format" id="format" required class="data-entry-select reqdClr">
-							<option value="DEFAULT" selected >Standard CSV</option>
-							<option value="TDF">Tab Separated Values</option>
-							<option value="EXCEL">CSV export from MS Excel</option>
-							<option value="RFC4180">Strict RFC4180 CSV</option>
-							<option value="ORACLE">Oracle SQL*Loader CSV</option>
-							<option value="MYSQL">CSV export from MYSQL</option>
-						</select>
+						<cfset formatSelect = getFormatSelectHTML()>
 					</div>
 					<div class="col-12 col-md-2">
 						<label for="submitButton" class="data-entry-label">&nbsp;</label>
@@ -144,9 +119,9 @@ limitations under the License.
 		<h2 class="h3">First step: Reading data from CSV file.</h2>
 		<!--- Compare the numbers of headers expected against provided in CSV file --->
 		<!--- Set some constants to identify error cases in cfcatch block --->
-		<cfset NO_COLUMN_ERR = "One or more required fields are missing in the header line of the csv file.">
+		<cfset NO_COLUMN_ERR = "One or more required fields are missing in the header line of the csv file. Check charset selected if columns match required headers and one column is not found.">
 		<cfset DUP_COLUMN_ERR = "One or more columns are duplicated in the header line of the csv file.">
-		<cfset COLUMN_ERR = "Error inserting data">
+		<cfset COLUMN_ERR = "Error inserting data ">
 		<cfset NO_HEADER_ERR = "No header line found, csv file appears to be empty.">
 		<cfset table_name = "CF_TEMP_ATTRIBUTES">
 
