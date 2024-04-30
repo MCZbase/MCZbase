@@ -86,10 +86,10 @@ limitations under the License.
 					</cfif>
 					<cfset aria = "">
 					<cfif listContains(requiredfieldlist,field,",")>
-						<cfset class="text-danger">
+						<cfset class="text-danger font-weight-bold">
 						<cfset aria = "aria-label='Required Field'">
 					<cfelse>
-						<cfset class="text-dark">
+						<cfset class="text-dark font-weight-bold">
 					</cfif>
 					<li class="pb-1 px-0 list-group-item">
 						<span class="#class#" #aria#>#field#: </span> #comment#
