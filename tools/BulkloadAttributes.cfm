@@ -50,17 +50,12 @@ SELECT sys.all_col_comments.COMMENTS,sys.all_tab_columns.COLUMN_NAME, sys.all_ta
 	and sys.all_col_comments.COLUMN_NAME <> 'DETERMINED_BY_AGENT_ID'
 </cfquery>
 <cfquery name="getDataRequired" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getDataRequired_results">
-	SELECT sys.all_col_comments.COMMENTS,sys.all_tab_columns.COLUMN_NAME, sys.all_tab_columns.DATA_TYPE,sys.all_tab_columns.COLUMN_ID
+	SELECT sys.all_col_comments.COMMENTS
 	FROM sys.all_col_comments, sys.all_tab_columns
 	where sys.all_col_comments.TABLE_NAME = 'CF_TEMP_ATTRIBUTES' 
 	and sys.all_tab_columns.COLUMN_NAME=sys.all_col_comments.COLUMN_NAME 
 	and sys.all_col_comments.TABLE_NAME = sys.all_tab_columns.TABLE_NAME
 	and sys.all_col_comments.COMMENTS like 'Required%'
-	and sys.all_col_comments.COLUMN_NAME <> 'USERNAME'
-	and sys.all_col_comments.COLUMN_NAME <> 'STATUS'
-	and sys.all_col_comments.COLUMN_NAME <> 'KEY'
-	and sys.all_col_comments.COLUMN_NAME <> 'COLLECTION_OBJECT_ID'
-	and sys.all_col_comments.COLUMN_NAME <> 'DETERMINED_BY_AGENT_ID'
 </cfquery>
 <cfset k = 0>
 <cfloop query = "getDataRequired">
@@ -101,35 +96,32 @@ SELECT sys.all_col_comments.COMMENTS,sys.all_tab_columns.COLUMN_NAME, sys.all_ta
 				<textarea rows="2" cols="90" id="templatearea" class="w-100 data-entry-textarea">#fieldlist#</textarea>
 			</div>
 			<h2 class="mt-4 h4">Columns in <span class="text-danger">red</span> are required; others are optional:</h2>
-			<cfset max=ListLen(fieldList)>
-			<ul class="h4 mb-3 font-weight-normal list-group">
-				<cfloop query="getDataDetails" endrow="#max#" startrow="1">
-					<cfset hint="">
-					<cfloop index="current_item" list="#getDataDetails.COLUMN_NAME#">
-						<cfif getDataDetails.COMMENTS contains 'Required'>
-							<cfset class="text-danger">
-							<cfset hint="aria-label='required'">
-						<cfelse>
-							<cfset class="text-dark">
-						</cfif>
-						<li class="list-group-item px-0">
-							<span class="#class#" #hint#>#current_item#</span><span class="text-secondary">: #getDataDetails.COMMENTS# </span>
-						</li>
-					</cfloop>
+			<ul class="mb-4 h4 font-weight-normal list-group">
+				<cfloop list="#fieldlist#" index="field" delimiters=",">
+					<cfquery name = "getComments"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#"  result="getComments_result">
+						SELECT comments
+						FROM sys.all_col_comments
+						WHERE 
+							owner = 'MCZBASE'
+							and table_name = 'CF_TEMP_CITATION'
+							and column_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(field)#" />
+					</cfquery>
+					<cfset comment = "">
+					<cfif getComments.recordcount GT 0>
+						<cfset comment = getComments.comments>
+					</cfif>
+					<cfset aria = "">
+					<cfif listContains(requiredfieldlist,field,",")>
+						<cfset class="text-danger">
+						<cfset aria = "aria-label='Required Field'">
+					<cfelse>
+						<cfset class="text-dark">
+					</cfif>
+					<li class="pb-1 px-0 list-group-item">
+						<span class="#class# font-weight-lessbold" #aria#>#field#: </span> <span class="text-secondary">#comment#</span>
+					</li>
 				</cfloop>
 			</ul>
-			
-			<!---<ul class="mb-4 h4 font-weight-normal">
-			<cfset i = 0>
-			<cfloop query="getDataDetails">
-				<cfif getDataDetails.comments eq 'Required'>
-					<li class='text-danger' aria-label='Required Field'>#getDataDetails.COLUMN_NAME# </li>
-				<cfelse>
-					<li class='text-dark' aria-label='Field'>#getDataDetails.COLUMN_NAME#</li>
-				</cfif>
-				<cfset i = i + 1>
-			</cfloop>
-			</ul>--->
 			<form name="atts" method="post" enctype="multipart/form-data" action="/tools/BulkloadAttributes.cfm">
 				<div class="form-row border rounded p-2">
 					<input type="hidden" name="action" value="getFile">
