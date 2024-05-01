@@ -113,7 +113,7 @@ limitations under the License.
 	<cfargument name="nest" type="string" required="yes">
 	
 	<cfset result = arguments.nest>
-	<cfif left(nestDepth,5) EQ '"open') >
+	<cfif left(nestDepth,5) EQ '"open' >
 		<cfset bits = rematch('"[0-9]+"',nestDepth)>
 		<cfif ArrayLen(bits) EQ 2>
 			<cfset open = replace(bits[0],'"','','all')>
@@ -139,7 +139,7 @@ limitations under the License.
 	<cfargument name="nest" type="string" required="yes">
 	
 	<cfset result = arguments.nest>
-	<cfif left(nestDepth,5) EQ '"open') >
+	<cfif left(nestDepth,5) EQ '"open' >
 		<cfset bits = rematch('"[0-9]+"',nestDepth)>
 		<cfif ArrayLen(bits) EQ 2>
 			<cfset open = replace(bits[0],'"','','all')>
