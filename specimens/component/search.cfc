@@ -287,6 +287,7 @@ function ScriptPrefixedNumberListToJSON(listOfNumbers, integerFieldname, prefixF
 		// TODO: Handle nesting with openParens and closeParens
 		for (i=1; i LTE ArrayLen(lparts); i=i+1) {
 			if (i EQ ArrayLen(lparts)) { 
+				nestDepth = decrementOpenParens(nest="#nestDepth#");
 				nestDepth = incrementCloseParens(nest="#nestDepth#");
 			} 
 			prefix = "";
