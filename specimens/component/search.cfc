@@ -537,7 +537,11 @@ function ScriptNumberListToJSON(listOfNumbers, fieldname, nestDepth, leadingJoin
 		} else if (ArrayLen(REMatch("^[0-9,]+$",listOfNumbers))>0) {
 			// Just a list of numbers without ranges, translates directly to IN
 			if (listOfNumbers!=",") {
-				result = '{"nest":"#nestDepth#.1","join":"and","field": "' & fieldname &'","comparator": "IN","value": "#encodeForJSON(listOfNumbers)#"}';
+				if (left(nestDepth,5) EQ '"open') {  
+					result = '{#nestDepth#,"join":"and","field": "' & fieldname &'","comparator": "IN","value": "#encodeForJSON(listOfNumbers)#"}';
+				} else { 
+					result = '{"nest":"#nestDepth#.1","join":"and","field": "' & fieldname &'","comparator": "IN","value": "#encodeForJSON(listOfNumbers)#"}';
+				}
 			} else {
 				// just a comma with no numbers, return empty string
 				result = "";
@@ -605,8 +609,15 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 			if (ucase(fieldname) IS "CAT_NUM") { 
 				fieldname = "CAT_NUM_INTEGER";
 			}
-			result = '{"nest":"#nestDepth#.1","join":"' & leadingJoin & '","field": "' & fieldname &'","comparator": ">=","value": "#encodeForJSON(lowPart)#"';
-			result = result & '},{"nest":"#nestDepth#.2","join":"and","field": "' & fieldname &'","comparator": "<=","value": "#encodeForJSON(highPart)#"}';
+			if (left(nestDepth,5) EQ '"open') { 
+				nestDepth = incrementOpenParens(nestDepth);
+				result = '{#nestDepth#,"join":"' & leadingJoin & '","field": "' & fieldname &'","comparator": ">=","value": "#encodeForJSON(lowPart)#"';
+				nestDepth = incrementCloseParens(nestDepth);
+				result = result & '},{#nestDepth#,"join":"and","field": "' & fieldname &'","comparator": "<=","value": "#encodeForJSON(highPart)#"}';
+			} else { 
+				result = '{"nest":"#nestDepth#.1","join":"' & leadingJoin & '","field": "' & fieldname &'","comparator": ">=","value": "#encodeForJSON(lowPart)#"';
+				result = result & '},{"nest":"#nestDepth#.2","join":"and","field": "' & fieldname &'","comparator": "<=","value": "#encodeForJSON(highPart)#"}';
+			}
 		} else {
 			// Error state.  Not a single number, list, or range.
 			// Likely to result from two sequential commas, so return an empty string.
