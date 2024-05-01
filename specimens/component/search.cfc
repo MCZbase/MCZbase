@@ -116,9 +116,9 @@ limitations under the License.
 	<cfif left(nest,5) EQ '"open' >
 		<cfset bits = rematch('"[0-9]+"',nest)>
 		<cfif ArrayLen(bits) EQ 2>
-			<cfset open = replace(bits[0],'"','','all')>
+			<cfset open = replace(bits[1],'"','','all')>
 			<cfset open = val(open) + 1>
-			<cfset close = replace(bits[1],'"','','all')>
+			<cfset close = replace(bits[2],'"','','all')>
 			<cfset result = '"openParens":"#open#","closeParens":"#close#"'>
 		</cfif>
 	</cfif>
@@ -142,8 +142,8 @@ limitations under the License.
 	<cfif left(nest,5) EQ '"open' >
 		<cfset bits = rematch('"[0-9]+"',nest)>
 		<cfif ArrayLen(bits) EQ 2>
-			<cfset open = replace(bits[0],'"','','all')>
-			<cfset close = replace(bits[1],'"','','all')>
+			<cfset open = replace(bits[1],'"','','all')>
+			<cfset close = replace(bits[2],'"','','all')>
 			<cfset close = val(close) - 1>
 			<cfif close LT 0>
 				<cfthrow message="Error constructing query nesting. Attempting to decrement closeParens below 0">
