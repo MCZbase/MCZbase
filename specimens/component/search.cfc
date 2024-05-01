@@ -276,6 +276,7 @@ function ScriptPrefixedNumberListToJSON(listOfNumbers, integerFieldname, prefixF
 	// find prefixes and suffixes in atoms
 	if (REFind("^[0-9,]+$",listOfNumbers)>0) {
 		// list consists of only number or comma separated numbers, no ranges or prefixes, skip splitting into atoms
+		nestDepth = incrementCloseParens(nest="#nestDepth#");
 		numericClause = ScriptNumberListToJSON(listOfNumbers, integerFieldname, nestDepth, leadingJoin);
 		wherebit = numericClause;
 	} else { 
@@ -286,7 +287,7 @@ function ScriptPrefixedNumberListToJSON(listOfNumbers, integerFieldname, prefixF
 		// TODO: Handle nesting with openParens and closeParens
 		for (i=1; i LTE ArrayLen(lparts); i=i+1) {
 			if (i EQ ArrayLen(lparts)) { 
-				nestDepth = decrementCloseParens(nest="#nestDepth#");
+				nestDepth = incrementCloseParens(nest="#nestDepth#");
 			} 
 			prefix = "";
 			numeric= "";
@@ -1441,6 +1442,9 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 		</cfif>
 		<cfset nest = '"openParens":"0","closeParens":"0"'>
 	<cfelse>
+		<cfif isDefined("other_id_number") AND len(other_id_number) GT 0 AND isDefined("other_id_type") AND len(other_id_type) GT 0>
+			<cfset nest = '"openParens":"1","closeParens":"0"'>
+		</cfif>
 		<cfif isDefined("other_id_number") AND len(other_id_number) GT 0>
 			<cfif left(other_id_number,1) is "=" OR left(other_id_number,1) is "!">
 				<cfset field = '"field": "DISPLAY_VALUE"'>
@@ -1454,6 +1458,9 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 				<cfset join='"join":"and",'>
 			</cfif>
 		</cfif>
+		<cfif isDefined("other_id_number") AND len(other_id_number) GT 0 AND isDefined("other_id_type") AND len(other_id_type) GT 0>
+			<cfset nest = '"openParens":"0","closeParens":"1"'>
+		</cfif>
 		<cfif isDefined("other_id_type") AND len(other_id_type) GT 0>
 			<cfset field = '"field": "other_id_type"'>
 			<cfset comparator = '"comparator": "IN"'>
@@ -1461,6 +1468,9 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 			<cfset search_json = '#search_json##separator#{#nest#,#join##field#,#comparator#,"value": "#value#"}'>
 			<cfset separator = ",">
 			<cfset join='"join":"and",'>
+		</cfif>
+		<cfif isDefined("other_id_number_1") AND len(other_id_number_1) GT 0 AND isDefined("other_id_type_1") AND len(other_id_type_1) GT 0>
+			<cfset nest = '"openParens":"1","closeParens":"0"'>
 		</cfif>
 		<cfif isDefined("other_id_number_1") AND len(other_id_number_1) GT 0>
 			<cfif left(other_id_number_1,1) is "=" OR left(other_id_number_1,1) is "!">
@@ -1474,6 +1484,9 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 				<cfset separator = ",">
 				<cfset join='"join":"and",'>
 			</cfif>
+		</cfif>
+		<cfif isDefined("other_id_number_1") AND len(other_id_number_1) GT 0 AND isDefined("other_id_type_1") AND len(other_id_type_1) GT 0>
+			<cfset nest = '"openParens":"0","closeParens":"1"'>
 		</cfif>
 		<cfif isDefined("other_id_type_1") AND len(other_id_type_1) GT 0>
 			<cfset field = '"field": "other_id_type"'>
