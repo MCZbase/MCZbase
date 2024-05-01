@@ -119,7 +119,7 @@ limitations under the License.
 			<cfset open = replace(bits[0],'"','','all')>
 			<cfset open = val(open) + 1>
 			<cfset close = replace(bits[1],'"','','all')>
-			<cfset result = '"openParens":"#open#","closeParens":"#close#"'
+			<cfset result = '"openParens":"#open#","closeParens":"#close#"'>
 		</cfif>
 	</cfif>
 	<cfreturn result>
@@ -148,7 +148,7 @@ limitations under the License.
 			<cfif close LT 0>
 				<cfthrow message="Error constructing query nesting. Attempting to decrement closeParens below 0">
 			</cfif>
-			<cfset result = '"openParens":"#open#","closeParens":"#close#"'
+			<cfset result = '"openParens":"#open#","closeParens":"#close#"'>
 		</cfif>
 	</cfif>
 	<cfreturn result>
