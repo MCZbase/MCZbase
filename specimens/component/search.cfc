@@ -126,6 +126,31 @@ limitations under the License.
 </cffunction>
 
 <!--- given a string representing a json fragment in the form
+  "openParens":"0","closeParens":"0" increment the number for
+  closeParens by one, and return the string with that number 
+  incremented.
+  @param nest string containing the openParens, closeParens fragment.
+  @return the input nest string with closeParens incremented by one, or
+    if unable to recgnise the string or split out the numeric bits, the
+    original input string without alteration.
+--->
+<cffunction name="incrementCloseParens">
+	<cfargument name="nest" type="string" required="yes">
+	
+	<cfset result = arguments.nest>
+	<cfif left(nest,5) EQ '"open' >
+		<cfset bits = rematch('"[0-9]+"',nest)>
+		<cfif ArrayLen(bits) EQ 2>
+			<cfset open = replace(bits[1],'"','','all')>
+			<cfset close = replace(bits[2],'"','','all')>
+			<cfset close = val(close) + 1>
+			<cfset result = '"openParens":"#open#","closeParens":"#close#"'>
+		</cfif>
+	</cfif>
+	<cfreturn result>
+</cffunction>
+
+<!--- given a string representing a json fragment in the form
   "openParens":"0","closeParens":"0" decrement the number for
   closeParens by one, and return the string with that number 
   decremented.
@@ -147,6 +172,35 @@ limitations under the License.
 			<cfset close = val(close) - 1>
 			<cfif close LT 0>
 				<cfthrow message="Error constructing query nesting. Attempting to decrement closeParens below 0">
+			</cfif>
+			<cfset result = '"openParens":"#open#","closeParens":"#close#"'>
+		</cfif>
+	</cfif>
+	<cfreturn result>
+</cffunction>
+
+<!--- given a string representing a json fragment in the form
+  "openParens":"0","closeParens":"0" decrement the number for
+  openParens by one, and return the string with that number 
+  decremented.
+  @param nest string containing the openParens, closeParens fragment.
+  @return the input nest string with openParens deccremented by one, or
+    if unable to recgnise the string or split out the numeric bits, the
+    original input string without alteration. 
+  @throws exception if decremented openParens value is below zero.
+--->
+<cffunction name="decrementOpenParens">
+	<cfargument name="nest" type="string" required="yes">
+	
+	<cfset result = arguments.nest>
+	<cfif left(nest,5) EQ '"open' >
+		<cfset bits = rematch('"[0-9]+"',nest)>
+		<cfif ArrayLen(bits) EQ 2>
+			<cfset open = replace(bits[1],'"','','all')>
+			<cfset open = val(open) - 1>
+			<cfset close = replace(bits[2],'"','','all')>
+			<cfif open LT 0>
+				<cfthrow message="Error constructing query nesting. Attempting to decrement openParens below 0">
 			</cfif>
 			<cfset result = '"openParens":"#open#","closeParens":"#close#"'>
 		</cfif>
