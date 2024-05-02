@@ -49,77 +49,87 @@ limitations under the License.
 <cfinclude template="/shared/_header.cfm">
 <cfinclude template="/tools/component/csv.cfc" runOnce="true"><!--- for common csv testing functions --->
 <cfif not isDefined("action") OR len(action) EQ 0><cfset action="nothing"></cfif>
-<main class="container-fluid px-5 py-3" id="content">
-	<div class="row mx-0">
-		<div class="col-12 pb-3">
-			<h1 class="h2 mt-2">Bulkload New Parts </h1>
-			<!------------------------------------------------------->
-			<cfif #action# is "nothing">
-				<cfoutput>
-				<div class="col-12 px-0">
-					<p>This tool adds part rows to the specimen record. It create metadata for part history and includes specimen part attributes fields that can be empty if none exists. The cataloged items must be in the database and they can be entered using the catalog number or other ID. Error messages will appear if the values need to match values in MCZbase. It ignores rows that are exactly the same and alerts you if columns are missing. Additional columns will be ignored. Include column headings, spelled exactly as below. </p>
-					<span class="btn btn-xs btn-info" onclick="document.getElementById('template').style.display='block';">View template</span>
-					<div id="template" style="display:none;margin: 1em 0;">
-						<label for="templatearea" class="data-entry-label">
-							Copy this header line and save it as a .csv file (<a href="/tools/BulkloadNewParts.cfm?action=getCSVHeader">download</a>)
-						</label>
-						<textarea rows="2" cols="90" id="templatearea" class="w-100 data-entry-textarea">#fieldlist#</textarea>
+	<main class="container-fluid px-xl-5 py-3" id="content">
+		<h1 class="h2 mt-2">Bulkload New Parts </h1>
+		<!------------------------------------------------------->
+		<cfif #action# is "nothing">
+			<cfoutput>
+			<p>This tool adds part rows to the specimen record. It create metadata for part history and includes specimen part attributes fields that can be empty if none exists. The cataloged items must be in the database and they can be entered using the catalog number or other ID. Error messages will appear if the values need to match values in MCZbase. It ignores rows that are exactly the same and alerts you if columns are missing. Additional columns will be ignored. Include column headings, spelled exactly as below. </p>
+			<span class="btn btn-xs btn-info" onclick="document.getElementById('template').style.display='block';">View template</span>
+			<div id="template" style="display:none;margin: 1em 0;">
+				<label for="templatearea" class="data-entry-label">
+					Copy this header line and save it as a .csv file (<a href="/tools/BulkloadNewParts.cfm?action=getCSVHeader">download</a>)
+				</label>
+				<textarea rows="2" cols="90" id="templatearea" class="w-100 data-entry-textarea">#fieldlist#</textarea>
+			</div>
+			<h2 class="mt-4 h4">Columns in <span class="text-danger">red</span> are required; others are optional:</h2>
+			<ul class="mb-4 h4 font-weight-normal list-group">
+				<cfloop list="#fieldlist#" index="field" delimiters=",">
+					<cfquery name = "getComments"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#"  result="getComments_result">
+						SELECT comments
+						FROM sys.all_col_comments
+						WHERE 
+							owner = 'MCZBASE'
+							and table_name = 'CF_TEMP_PARTS'
+							and column_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(field)#" />
+					</cfquery>
+					<cfset comment = "">
+					<cfif getComments.recordcount GT 0>
+						<cfset comment = getComments.comments>
+					</cfif>
+					<cfset aria = "">
+					<cfif listContains(requiredfieldlist,field,",")>
+						<cfset class="text-danger">
+						<cfset aria = "aria-label='Required Field'">
+					<cfelse>
+						<cfset class="text-dark">
+					</cfif>
+					<li class="pb-1 mx-xl-5">
+						<span class="#class# font-weight-lessbold" #aria#>#field#: </span> <span class="text-secondary">#comment#</span>
+					</li>
+				</cfloop>
+			</ul>
+			<form name="atts" method="post" enctype="multipart/form-data" action="/tools/BulkloadNewParts.cfm">
+				<div class="form-row border rounded p-2 mb-3">
+					<input type="hidden" name="action" value="getFile">
+					<div class="col-12 col-md-4">
+						<label for="fileToUpload" class="data-entry-label">File to bulkload:</label> 
+						<input type="file" name="FiletoUpload" id="fileToUpload" class="data-entry-input p-0 m-0">
 					</div>
-					<h2 class="mt-4 h4">Columns in <span class="text-danger">red</span> are required; others are optional:</h2>
-					<ul class="mb-4 h4 small font-weight-normal align-items-start align-items list-group list-group-horizontal flex-wrap col-12">
-						<cfloop list="#fieldlist#" index="field" delimiters=",">
-							<cfset aria = "">
-							<cfif listContains(requiredfieldlist,field,",")>
-								<cfset class="text-danger">
-								<cfset aria = "aria-label='Required Field'">
-							<cfelse>
-								<cfset class="text-dark">
-							</cfif>
-							<li class="#class# list-group-item col-2 px-0 mx-0" #aria#> #field#</li>
-						</cfloop>
-					</ul>
+					<div class="col-12 col-md-3">
+						<label for="characterSet" class="data-entry-label">Character Set:</label> 
+						<select name="characterSet" id="characterSet" required class="data-entry-select reqdClr">
+							<option selected></option>
+							<option value="utf-8" >utf-8</option>
+							<option value="iso-8859-1">iso-8859-1</option>
+							<option value="windows-1252">windows-1252 (Win Latin 1)</option>
+							<option value="MacRoman">MacRoman</option>
+							<option value="x-MacCentralEurope">Macintosh Latin-2</option>
+							<option value="windows-1250">windows-1250 (Win Eastern European)</option>
+							<option value="windows-1251">windows-1251 (Win Cyrillic)</option>
+							<option value="utf-16">utf-16</option>
+							<option value="utf-32">utf-32</option>
+						</select>
+					</div>
+					<div class="col-12 col-md-3">
+						<label for="format" class="data-entry-label">Format:</label> 
+						<select name="format" id="format" required class="data-entry-select reqdClr">
+							<option value="DEFAULT" selected >Standard CSV</option>
+							<option value="TDF">Tab Separated Values</option>
+							<option value="EXCEL">CSV export from MS Excel</option>
+							<option value="RFC4180">Strict RFC4180 CSV</option>
+							<option value="ORACLE">Oracle SQL*Loader CSV</option>
+							<option value="MYSQL">CSV export from MYSQL</option>
+						</select>
+					</div>
+					<div class="col-12 col-md-2">
+						<label for="submitButton" class="data-entry-label">&nbsp;</label>
+						<input type="submit" id="submittButton" value="Upload this file" class="btn btn-primary btn-xs">
+					</div>
 				</div>
-				<form name="atts" method="post" enctype="multipart/form-data" action="/tools/BulkloadNewParts.cfm">
-					<div class="form-row border rounded p-2 mb-3">
-						<input type="hidden" name="action" value="getFile">
-						<div class="col-12 col-md-4">
-							<label for="fileToUpload" class="data-entry-label">File to bulkload:</label> 
-							<input type="file" name="FiletoUpload" id="fileToUpload" class="data-entry-input p-0 m-0">
-						</div>
-						<div class="col-12 col-md-3">
-							<label for="characterSet" class="data-entry-label">Character Set:</label> 
-							<select name="characterSet" id="characterSet" required class="data-entry-select reqdClr">
-								<option selected></option>
-								<option value="utf-8" >utf-8</option>
-								<option value="iso-8859-1">iso-8859-1</option>
-								<option value="windows-1252">windows-1252 (Win Latin 1)</option>
-								<option value="MacRoman">MacRoman</option>
-								<option value="x-MacCentralEurope">Macintosh Latin-2</option>
-								<option value="windows-1250">windows-1250 (Win Eastern European)</option>
-								<option value="windows-1251">windows-1251 (Win Cyrillic)</option>
-								<option value="utf-16">utf-16</option>
-								<option value="utf-32">utf-32</option>
-							</select>
-						</div>
-						<div class="col-12 col-md-3">
-							<label for="format" class="data-entry-label">Format:</label> 
-							<select name="format" id="format" required class="data-entry-select reqdClr">
-								<option value="DEFAULT" selected >Standard CSV</option>
-								<option value="TDF">Tab Separated Values</option>
-								<option value="EXCEL">CSV export from MS Excel</option>
-								<option value="RFC4180">Strict RFC4180 CSV</option>
-								<option value="ORACLE">Oracle SQL*Loader CSV</option>
-								<option value="MYSQL">CSV export from MYSQL</option>
-							</select>
-						</div>
-						<div class="col-12 col-md-2">
-							<label for="submitButton" class="data-entry-label">&nbsp;</label>
-							<input type="submit" id="submittButton" value="Upload this file" class="btn btn-primary btn-xs">
-						</div>
-					</div>
-				</form>
-				</cfoutput>
-			</cfif>	
+			</form>
+			</cfoutput>
+		</cfif>	
 			<!------------------------------------------------------->
 			<cfif #action# is "getFile">
 				<cfoutput>
