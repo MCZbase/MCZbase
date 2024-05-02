@@ -537,8 +537,9 @@ function ScriptNumberListToJSON(listOfNumbers, fieldname, nestDepth, leadingJoin
 				fieldname = "CAT_NUM_INTEGER";
 			}
 			if (left(nestDepth,5) EQ '"open') {  
-				// TODO: Increment nesting 
+				nestDepth = '"openParens":"1","closeParens":"0"';
 				result = '{#nestDepth#,"join":"' & leadingJoin & '","field": "' & fieldname &'","comparator": ">=","value": "#encodeForJSON(lowPart)#"';
+				nestDepth = '"openParens":"0","closeParens":"1"';
 				result = result & '},{#nestDepth#,"join":"and","field": "' & fieldname &'","comparator": "<=","value": "#encodeForJSON(highPart)#"}';
 			} else {
 				result = '{"nest":"#nestDepth#.1","join":"' & leadingJoin & '","field": "' & fieldname &'","comparator": ">=","value": "#encodeForJSON(lowPart)#"';
