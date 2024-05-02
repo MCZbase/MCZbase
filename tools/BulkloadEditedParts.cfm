@@ -541,7 +541,7 @@ limitations under the License.
 						AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
 					</cfquery>
 					<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						update cf_temp_parts set status = concat(nvl2(status, status || '; ', ''),'Invalid CHANGED_DATE'
+						update cf_temp_parts set status = concat(nvl2(status, status || '; ', ''),'Invalid CHANGED_DATE')
 						where isdate(changed_date) = 0
 					</cfquery>
 					<cfquery name="chkPAtt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
