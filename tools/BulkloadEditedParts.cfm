@@ -149,7 +149,7 @@ limitations under the License.
 					<cfquery name="clearTempTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="clearTempTable_result">
 						DELETE FROM cf_temp_parts 
 						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-						and use_existing = 0
+						and use_existing = 1
 					</cfquery>
 					<cfset variables.foundHeaders =""><!--- populated by loadCsvFile --->
 					<cfset variables.size=""><!--- populated by loadCsvFile --->
