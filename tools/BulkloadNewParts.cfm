@@ -632,9 +632,9 @@ limitations under the License.
 					You must fix everything above to proceed. <a href="/tools/BulkloadNewParts.cfm">Try again.</a>
 				</cfif>
 				<table class='sortable w-100 small px-0 mx-0 table table-responsive table-striped'>
-					<thead class="thead-light smaller">
+					<thead class="thead-light small">
 						<tr>
-							<th>BULKLOADING&nbsp;STATUS&nbsp;FOR&nbsp;NEW&nbsp;PARTS</th>
+							<th>BULKLOADING&nbsp;STATUS</th>
 							<th>INSTITUTION_ACRONYM</th>
 							<th>COLLECTION_CDE</th>
 							<th>OTHER_ID_TYPE</th>
