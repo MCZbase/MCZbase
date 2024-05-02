@@ -87,7 +87,7 @@ limitations under the License.
 					<cfelse>
 						<cfset class="text-dark">
 					</cfif>
-					<li class="pb-1 px-0 list-group-item">
+					<li class="pb-1">
 						<span class="#class# font-weight-lessbold" #aria#>#field#: </span> <span class="text-secondary">#comment#</span>
 					</li>
 				</cfloop>
@@ -125,6 +125,7 @@ limitations under the License.
 		<cfset DUP_COLUMN_ERR = "One or more columns are duplicated in the header line of the csv file.">
 		<cfset COLUMN_ERR = "Error inserting data">
 		<cfset NO_HEADER_ERR = "No header line found, csv file appears to be empty.">
+		<cfset TABLE_NAME = "CF_TEMP_AGENTS"
 		<cftry>
 			<!--- cleanup any incomplete work by the same user --->
 			<cfquery name="clearTempTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="clearTempTable_result">
@@ -146,7 +147,7 @@ limitations under the License.
 				</div>
 
 				<!--- check for required fields in header line, list all fields, throw exception and fail if any required fields are missing --->
-				<cfset reqFieldsResponse = checkRequiredFields(fieldList=fieldList,requiredFieldList=requiredFieldList,NO_COLUMN_ERR=NO_COLUMN_ERR)>
+				<cfset reqFieldsResponse = checkRequiredFields(fieldList=fieldList,requiredFieldList=requiredFieldList,NO_COLUMN_ERR=NO_COLUMN_ERR,TABLE_NAME=TABLE_NAME)>
 
 				<!--- Test for additional columns not in list, warn and ignore. --->
 				<cfset addFieldsResponse = checkAdditionalFields(fieldList=fieldList)>
