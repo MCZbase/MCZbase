@@ -55,7 +55,7 @@ limitations under the License.
 <cfinclude template="/shared/_header.cfm">
 <cfinclude template="/tools/component/csv.cfc" runOnce="true"><!--- for common csv testing functions --->
 <cfif not isDefined("action") OR len(action) EQ 0><cfset action="entryPoint"></cfif>
-<main class="container-fluid py-3 px-5" id="content">
+<main class="container-fluid py-3 px-xl-5" id="content">
 	<h1 class="h2 mt-2">Bulkload Citations</h1>
 
 	<!------------------------------------------------------->
@@ -92,7 +92,7 @@ limitations under the License.
 					<cfelse>
 						<cfset class="text-dark">
 					</cfif>
-					<li class="pb-1">
+					<li class="pb-1 mx-xl-5">
 						<span class="#class# font-weight-lessbold" #aria#>#field#: </span> <span class="text-secondary">#comment#</span>
 					</li>
 				</cfloop>

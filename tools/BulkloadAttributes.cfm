@@ -52,8 +52,10 @@ limitations under the License.
 <cfset pageTitle = "Bulkload Attributes">
 <cfinclude template="/shared/_header.cfm">
 <cfinclude template="/tools/component/csv.cfc" runOnce="true"><!--- for common csv functions --->
-<cfif not isDefined("action") OR len(action) EQ 0><cfset action="nothing"></cfif>
-<main class="container-fluid px-5 py-3" id="content">
+<cfif not isDefined("action") OR len(action) EQ 0>
+	<cfset action="nothing">
+</cfif>
+<main class="container-fluid px-xl-5 py-3" id="content">
 	<h1 class="h2 mt-2">Bulkload Attributes</h1>
 	<cfif #action# is "nothing">
 		<cfoutput>
@@ -87,8 +89,8 @@ limitations under the License.
 					<cfelse>
 						<cfset class="text-dark">
 					</cfif>
-					<li class="pb-1 px-2 px-xl-4 list-group-item">
-						<span class="#class# font-weight-lessbold" #aria#>&bull; #field#: </span> <span class="text-secondary">#comment#</span>
+					<li class="pb-1 mx-xl-5">
+						<span class="#class# font-weight-lessbold" #aria#>#field#: </span> <span class="text-secondary">#comment#</span>
 					</li>
 				</cfloop>
 			</ul>
