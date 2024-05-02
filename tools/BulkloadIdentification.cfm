@@ -45,8 +45,20 @@
 				<textarea rows="2" cols="90" id="templatearea" class="w-100 data-entry-textarea">#fieldlist#</textarea>
 			</div>
 			<h2 class="mt-4 h4">Columns in <span class="text-danger">red</span> are required; others are optional:</h2>
-			<ul class="mb-4 h4 font-weight-normal">
+			<ul class="mb-4 h4 font-weight-normal list-group">
 				<cfloop list="#fieldlist#" index="field" delimiters=",">
+					<cfquery name = "getComments"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#"  result="getComments_result">
+						SELECT comments
+						FROM sys.all_col_comments
+						WHERE 
+							owner = 'MCZBASE'
+							and table_name = 'CF_TEMP_ID'
+							and column_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(field)#" />
+					</cfquery>
+					<cfset comment = "">
+					<cfif getComments.recordcount GT 0>
+						<cfset comment = getComments.comments>
+					</cfif>
 					<cfset aria = "">
 					<cfif listContains(requiredfieldlist,field,",")>
 						<cfset class="text-danger">
@@ -54,7 +66,9 @@
 					<cfelse>
 						<cfset class="text-dark">
 					</cfif>
-					<li class="#class#" #aria#>#field#</li>
+					<li class="pb-1 list-group-item">
+						<span class="#class# font-weight-lessbold" #aria#>&bull; #field#: </span> <span class="text-secondary">#comment#</span>
+					</li>
 				</cfloop>
 			</ul>
 			<form name="atts" method="post" enctype="multipart/form-data" action="/tools/BulkloadIdentification.cfm">
@@ -89,6 +103,7 @@
 			<cfset DUP_COLUMN_ERR = "One or more columns are duplicated in the header line of the csv file.">
 			<cfset COLUMN_ERR = "Error inserting data ">
 			<cfset NO_HEADER_ERR = "No header line found, csv file appears to be empty.">
+			<cfset TABLE_NAME = "CF_TEMP_ID">
 			<cftry>
 				<!--- cleanup any incomplete work by the same user --->
 				<cfquery name="clearTempTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="clearTempTable_result">
@@ -110,7 +125,7 @@
 				</div>
 				
 				<!--- check for required fields in header line, list all fields, throw exception and fail if any required fields are missing --->
-				<cfset reqFieldsResponse = checkRequiredFields(fieldList=fieldList,requiredFieldList=requiredFieldList,NO_COLUMN_ERR=NO_COLUMN_ERR)>
+				<cfset reqFieldsResponse = checkRequiredFields(fieldList=fieldList,requiredFieldList=requiredFieldList,NO_COLUMN_ERR=NO_COLUMN_ERR,TABLE_NAME=TABLE_NAME)>
 
 				<!--- Test for additional columns not in list, warn and ignore. --->
 				<cfset addFieldsResponse = checkAdditionalFields(fieldList=fieldList)>
