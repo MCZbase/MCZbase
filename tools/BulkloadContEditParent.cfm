@@ -61,6 +61,8 @@ limitations under the License.
 		<div class="container">
 			<h1 class="h2 mt-2">Bulkload Container Edit Parent</h1>
 			<p>This tool is used to edit container information and/or move parts to a different parent container. Upload a comma-delimited text file (csv).  Include column headings, spelled exactly as below.  Additional colums will be ignored. The container_unique_id, container_name, and parent_unique_id fields take a mix of text, hyphens, underscores, and numbers. (Numbers should match values in MCZbase.) Only number entries are expected in the width, height, length, and number_positions fields.</p>
+			<p>The container_unique_id is the container Unique Identifier to update.  All other values provided will change this record.  Specify the current value for container type and container name if you wish to avoid changing those, leave others blank to retain current values.  To place a container in a new parent container, specify the Unique Identifier for the new parent container in parent_unique_id.</p> 
+			<p>Check the Help > Controlled Vocabulary page and select the <a href="/vocabularies/ControlledVocabulary.cfm?table=CTCONTAINER_TYPE">CTCONTAINER_TYPE</a> list for types. Submit a bug report to request an additional type when needed.</p>
 			<span class="btn btn-xs btn-info" onclick="document.getElementById('template').style.display='block';">View template</span>
 			<div id="template" style="display:none;margin: 1em 0;">
 				<label for="templatearea" class="data-entry-label">
@@ -69,8 +71,20 @@ limitations under the License.
 				<textarea rows="2" cols="90" id="templatearea" class="w-100 data-entry-textarea">#fieldlist#</textarea>
 			</div>
 			<h2 class="mt-4 h4">Columns in <span class="text-danger">red</span> are required; others are optional:</h2>
-			<ul class="mb-4 h4 font-weight-normal">
+			<ul class="mb-4 h4 font-weight-normal list-group">
 				<cfloop list="#fieldlist#" index="field" delimiters=",">
+					<cfquery name = "getComments"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#"  result="getComments_result">
+						SELECT comments
+						FROM sys.all_col_comments
+						WHERE 
+							owner = 'MCZBASE'
+							and table_name = 'CF_TEMP_CONT_EDIT'
+							and column_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(field)#" />
+					</cfquery>
+					<cfset comment = "">
+					<cfif getComments.recordcount GT 0>
+						<cfset comment = getComments.comments>
+					</cfif>
 					<cfset aria = "">
 					<cfif listContains(requiredfieldlist,field,",")>
 						<cfset class="text-danger">
@@ -78,11 +92,12 @@ limitations under the License.
 					<cfelse>
 						<cfset class="text-dark">
 					</cfif>
-					<li class="#class#" #aria#>#field#</li>
+					<li class="pb-1 px-2 px-xl-4 list-group-item">
+						<span class="#class# font-weight-lessbold" #aria#>&bull; #field#: </span> <span class="text-secondary">#comment#</span>
+					</li>
 				</cfloop>
 			</ul>
-			<p>The container_unique_id is the container Unique Identifier to update.  All other values provided will change this record.  Specify the current value for container type and container name if you wish to avoid changing those, leave others blank to retain current values.  To place a container in a new parent container, specify the Unique Identifier for the new parent container in parent_unique_id.</p> 
-			<p>Check the Help > Controlled Vocabulary page and select the <a href="/vocabularies/ControlledVocabulary.cfm?table=CTCONTAINER_TYPE">CTCONTAINER_TYPE</a> list for types. Submit a bug report to request an additional type when needed.</p>
+
 			<form name="atts" method="post" enctype="multipart/form-data" action="/tools/BulkloadContEditParent.cfm">
 				<div class="form-row border rounded p-2">
 					<input type="hidden" name="action" value="getFile">
