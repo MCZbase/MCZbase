@@ -246,8 +246,6 @@ function ScriptPrefixedNumberListToJSON(listOfNumbers, integerFieldname, prefixF
 		displayFieldName = "DISPLAY_VALUE";
 	}
 
-	nestDepth = incrementOpenParens(nest="#nestDepth#");
-
 	// Prepare list for parsing
 	listOfNumbers = trim(listOfNumbers);
 	// Change ", " to "," and then " " to "," to allow whitespace and comma separators
@@ -286,8 +284,10 @@ function ScriptPrefixedNumberListToJSON(listOfNumbers, integerFieldname, prefixF
 		leadingJoin = "and";
 		// TODO: Handle nesting with openParens and closeParens
 		for (i=1; i LTE ArrayLen(lparts); i=i+1) {
+			if (i EQ 1) { 
+				nestDepth = incrementOpenParens(nest="#nestDepth#");
+			} 
 			if (i EQ ArrayLen(lparts)) { 
-				nestDepth = decrementOpenParens(nest="#nestDepth#");
 				nestDepth = incrementCloseParens(nest="#nestDepth#");
 			} 
 			prefix = "";
@@ -467,7 +467,10 @@ function ScriptPrefixedNumberListToJSON(listOfNumbers, integerFieldname, prefixF
 				leadingJoin = "and";
 			}
 			leadingJoin = "or";
-		} 
+			if (i EQ 1) { 
+				nestDepth = decrementOpenParens(nest="#nestDepth#");
+			} 
+		} // end loop throug lparts
 	}
 	result = wherebit;
 	return result;
