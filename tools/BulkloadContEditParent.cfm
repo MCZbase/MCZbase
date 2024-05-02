@@ -61,8 +61,7 @@ limitations under the License.
 		<div class="container">
 			<h1 class="h2 mt-2">Bulkload Container Edit Parent</h1>
 			<p>This tool is used to edit container information and/or move parts to a different parent container. Upload a comma-delimited text file (csv).  Include column headings, spelled exactly as below.  Additional colums will be ignored. The container_unique_id, container_name, and parent_unique_id fields take a mix of text, hyphens, underscores, and numbers. (Numbers should match values in MCZbase.) Only number entries are expected in the width, height, length, and number_positions fields.</p>
-			<p>The container_unique_id is the container's unique identifier to update. All other values provided will change this record. Specify the current value for container type and container name if you wish to avoid changing those, leave others blank to retain current values. To place a container in a new parent container, specify the Unique Identifier for the new parent container in parent_unique_id.</p> 
-			<p>Check the Help > Controlled Vocabulary page and select the <a href="/vocabularies/ControlledVocabulary.cfm?table=CTCONTAINER_TYPE">CTCONTAINER_TYPE</a> list for types. Submit a bug report to request an additional type when needed.</p>
+			<p>The container_unique_id is the container's unique identifier to update. All other values provided will change this record. Specify the current value for container type and container name if you wish to avoid changing those, leave others blank to retain current values. To place a container in a new parent container, specify the Unique Identifier for the new parent container in parent_unique_id. Check the Help > Controlled Vocabulary page and select the <a href="/vocabularies/ControlledVocabulary.cfm?table=CTCONTAINER_TYPE">CTCONTAINER_TYPE</a> list for types. Submit a bug report to request an additional type when needed.</p>
 			<span class="btn btn-xs btn-info" onclick="document.getElementById('template').style.display='block';">View template</span>
 			<div id="template" style="display:none;margin: 1em 0;">
 				<label for="templatearea" class="data-entry-label">
@@ -132,6 +131,7 @@ limitations under the License.
 				<cfset DUP_COLUMN_ERR = "One or more columns are duplicated in the header line of the csv file.">
 				<cfset COLUMN_ERR = "Error inserting data.">
 				<cfset NO_HEADER_ERR = "No header line found, csv file appears to be empty.">
+				<cfset TABLE_NAME = "CF_TEMP_CONT_EDIT">
 				<cftry>
 					<!--- cleanup any incomplete work by the same user --->
 					<cfquery name="clearTempTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="clearTempTable_result">
@@ -153,7 +153,7 @@ limitations under the License.
 					</div>
 
 					<!--- check for required fields in header line, list all fields, throw exception and fail if any required fields are missing --->
-					<cfset reqFieldsResponse = checkRequiredFields(fieldList=fieldList,requiredFieldList=requiredFieldList,NO_COLUMN_ERR=NO_COLUMN_ERR)>
+					<cfset reqFieldsResponse = checkRequiredFields(fieldList=fieldList,requiredFieldList=requiredFieldList,NO_COLUMN_ERR=NO_COLUMN_ERR,TABLE_NAME=TABLE_NAME)>
 
 					<!--- Test for additional columns not in list, warn and ignore. --->
 					<cfset addFieldsResponse = checkAdditionalFields(fieldList=fieldList)>
