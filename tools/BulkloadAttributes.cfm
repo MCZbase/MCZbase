@@ -87,8 +87,8 @@ limitations under the License.
 					<cfelse>
 						<cfset class="text-dark">
 					</cfif>
-					<li class="pb-1 px-0 list-group-item">
-						<span class="#class# font-weight-lessbold" #aria#>#field#: </span> <span class="text-secondary">#comment#</span>
+					<li class="pb-1 px-2 px-xl-4 list-group-item">
+						<span class="#class# font-weight-lessbold" #aria#>&bull; #field#: </span> <span class="text-secondary">#comment#</span>
 					</li>
 				</cfloop>
 			</ul>
