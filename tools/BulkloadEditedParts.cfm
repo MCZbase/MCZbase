@@ -396,7 +396,7 @@ limitations under the License.
 			<!--- obtain the information needed to QC each row --->
 			<cfquery name="getTempTableQC" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT 
-					collection_object_id, collection_cde,key
+					collection_object_id,collection_cde,key
 				FROM 
 					cf_temp_parts
 				WHERE 
@@ -404,7 +404,7 @@ limitations under the License.
 			</cfquery>
 				<!---Loop through the temp part data and validate against code tables and requirements--->
 			<cfloop query="getTempTableQC">
-				<cfquery name="CollID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">						
+				<cfquery name="CollID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					update cf_temp_parts set status = concat(nvl2(status, status || '; ', ''),'Invalid other id type and number')
 					where collection_cde|| '|' ||other_id_type|| '|' ||other_id_number NOT IN (select collection_cde|| '|' ||other_id_type|| '|' ||other_id_number from cf_temp_parts)
 					AND collection_object_id is null 
@@ -633,6 +633,7 @@ limitations under the License.
 				SELECT *
 				FROM cf_temp_parts
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+				and use_existin
 				ORDER BY key
 			</cfquery>
 			<cfquery name="allValid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -803,22 +804,22 @@ limitations under the License.
 							</cfquery>
 							<cfquery name="newTiss" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 								INSERT INTO specimen_part (
-									  COLLECTION_OBJECT_ID,
-									  PART_NAME,
-									  PRESERVE_METHOD,
-									  DERIVED_FROM_cat_item )
-									VALUES (
-										#NEXTID.NEXTID#,
-									  '#PART_NAME#',
-									  '#PRESERVE_METHOD#'
-										,#collection_object_id# )
+									COLLECTION_OBJECT_ID,
+									PART_NAME,
+									PRESERVE_METHOD,
+									DERIVED_FROM_cat_item )
+								VALUES (
+									#NEXTID.NEXTID#,
+									'#PART_NAME#',
+									'#PRESERVE_METHOD#',
+									#collection_object_id# )
 							</cfquery>
 							<cfif len(#current_remarks#) gt 0>
-									<!---- new remark --->
-									<cfquery name="newCollRem" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-										INSERT INTO coll_object_remark (collection_object_id, coll_object_remarks)
-										VALUES (sq_collection_object_id.currval, '#current_remarks#')
-									</cfquery>
+								<!---- new remark --->
+								<cfquery name="newCollRem" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+									INSERT INTO coll_object_remark (collection_object_id, coll_object_remarks)
+									VALUES (sq_collection_object_id.currval, '#current_remarks#')
+								</cfquery>
 							</cfif>
 							<cfif len(#changed_date#) gt 0>
 								<cfquery name="change_date" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
