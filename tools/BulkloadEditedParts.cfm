@@ -455,6 +455,11 @@ limitations under the License.
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 					AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
 				</cfquery>
+				<cfquery name="isValid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					update cf_temp_parts set validated_status = validated_status || ';Invalid use_existing flag'
+						where use_existing not in ('0','1') OR
+						use_existing is null
+				</cfquery>
 				<cfquery name="chk" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					update cf_temp_parts set 
 					status = concat(nvl2(status, status || '; ', ''),'Invalid container_unique_id <span class="font-weight-bold">"'||container_unique_id ||'"</span>')
@@ -534,6 +539,10 @@ limitations under the License.
 						AND length(PART_ATT_MADEDATE_#i#) <> 10
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
+					</cfquery>
+					<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						update cf_temp_parts set status = concat(nvl2(status, status || '; ', ''),'Invalid CHANGED_DATE'
+						where isdate(changed_date) = 0
 					</cfquery>
 					<cfquery name="chkPAtt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						update cf_temp_parts set status = concat(nvl2(status, status || '; ', ''),'Invalid scientific name <span class="font-weight-bold">"'||PART_ATT_VAL_#i#||'"</span>') 
