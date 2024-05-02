@@ -128,6 +128,7 @@ limitations under the License.
 			<cfset DUP_COLUMN_ERR = "One or more columns are duplicated in the header line of the csv file.">
 			<cfset COLUMN_ERR = "Error inserting data ">
 			<cfset NO_HEADER_ERR = "No header line found, csv file appears to be empty.">
+			<cfset table_name = "CF_TEMP_OIDS">
 
 			<cftry>
 				<!--- cleanup any incomplete work by the same user --->
