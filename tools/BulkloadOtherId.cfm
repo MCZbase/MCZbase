@@ -151,7 +151,7 @@ limitations under the License.
 				</div>
 
 				<!--- check for required fields in header line, list all fields, throw exception and fail if any required fields are missing --->
-				<cfset reqFieldsResponse = checkRequiredFields(fieldList=fieldList,requiredFieldList=requiredFieldList,NO_COLUMN_ERR=NO_COLUMN_ERR)>
+				<cfset reqFieldsResponse = checkRequiredFields(fieldList=fieldList,requiredFieldList=requiredFieldList,NO_COLUMN_ERR=NO_COLUMN_ERR,TABLE_NAME=TABLE_NAME)>
 
 				<!--- Test for additional columns not in list, warn and ignore. --->
 				<cfset addFieldsResponse = checkAdditionalFields(fieldList=fieldList)>
