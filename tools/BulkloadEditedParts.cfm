@@ -418,6 +418,11 @@ limitations under the License.
 					where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 					AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
 				</cfquery>
+				<cfquery name="makeEdited" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					update cf_temp_parts set use_existing = 1
+					where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+					AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
+				</cfquery>
 				<!---Add to the status message if the container is null --->
 				<cfquery name="validateGotParent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					update cf_temp_parts set status = concat(nvl2(status, status || '; ', ''),'<span class="font-weight-bold">container_unique_id</span> not found')
@@ -474,6 +479,7 @@ limitations under the License.
 					update cf_temp_parts set status = concat(nvl2(status, status || '; ', ''),'Missing condition <span class="font-weight-bold">"'||CONDITION||'"</span>')
 					where CONDITION is null
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+					AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
 					AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
 				</cfquery>
 				<cfquery name="chk" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
