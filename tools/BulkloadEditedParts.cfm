@@ -633,7 +633,7 @@ limitations under the License.
 				SELECT *
 				FROM cf_temp_parts
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-				and use_existin
+				and use_existing = 1
 				ORDER BY key
 			</cfquery>
 			<cfquery name="allValid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
