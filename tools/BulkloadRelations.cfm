@@ -332,7 +332,147 @@ limitations under the License.
 	</cfif>
 	<!------------------------------------------------------->
 	<!------------------------------------------------------->
+	<cfif #action# is "validate">
+		<cfoutput>
+			<h2 class="h3">Second step: Data Validation</h2>
+			<cfquery name="getTempTableTypes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+			  <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+			</cfquery>
+			<cfset i= 1>
+			<cfloop query="getTempTableTypes">
+				<!--- For each row, set the target collection_object_id --->
+				<cfif getTempTableTypes.other_id_type eq 'catalog number'>
+					<!--- either based on catalog_number --->
+					<cfquery name="getCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						UPDATE
+							cf_temp_bl_relations
+						SET
+							collection_object_id = (
+								select collection_object_id 
+								from cataloged_item 
+								where cat_num = cf_temp_bl_relations.other_id_val
+								and collection_cde = cf_temp_bl_relations.collection_cde
+							),
+							status = null
+						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+							and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableTypes.key#"> 
+					</cfquery>
+				<cfelse>
+					<!--- or on specified other identifier --->
+					<cfquery name="getCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						UPDATE
+							cf_temp_bl_relations
+						SET
+							collection_object_id= (
+								select cataloged_item.collection_object_id from cataloged_item,coll_obj_other_id_num 
+								where coll_obj_other_id_num.other_id_type = cf_temp_bl_relations.other_id_type 
+								and cataloged_item.collection_cde = cf_temp_bl_relations.collection_cde 
+								and display_value= cf_temp_bl_relations.other_id_val
+								and cataloged_item.collection_object_id = coll_obj_other_id_num.COLLECTION_OBJECT_ID
+							),
+							status = null
+						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+							and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableTypes.key#"> 
+					</cfquery>
+				</cfif>
 
+			<cfquery name="getRCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				update cf_temp_bl_relations set RELATED_COLLECTION_OBJECT_ID = 
+				(select collection_object_id from cataloged_item 
+				where collection_cde = cf_temp_bl_relations.related_collection_cde 
+				and cat_num = cf_temp_bl_relations.related_other_id_val) 
+				where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+			</cfquery>
+			<cfquery name="miaa" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				UPDATE cf_temp_bl_relations
+				SET validated_status = 'No ID match'
+				WHERE other_id_val is null
+					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+			</cfquery>
+			<cfquery name="miab" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				UPDATE cf_temp_bl_relations
+				SET validated_status = 'No ID match'
+				WHERE related_other_id_val is null
+					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+			</cfquery>
+			<cfquery name="miac" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				UPDATE cf_temp_bl_relations
+				SET validated_status = 'collection not found'
+				WHERE collection_cde is null
+					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+			</cfquery>
+			<cfquery name="miad" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				UPDATE cf_temp_bl_relations
+				SET validated_status = 'related collection not found'
+				WHERE related_collection_cde is null
+					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+			</cfquery>
+			<cfquery name="miap" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				UPDATE cf_temp_bl_relations
+				SET validated_status = 'bad relationship'
+				WHERE relationship not in (select biol_indiv_relationship from ctbiol_relations)
+					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+			</cfquery>
+			<cfloop>
+			<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				SELECT INSTITUTION_ACRONYM,COLLECTION_OBJECT_ID,RELATED_COLLECTION_OBJECT_ID,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_VAL,RELATIONSHIP,RELATED_INSTITUTION_ACRONYM,RELATED_COLLECTION_CDE,RELATED_OTHER_ID_TYPE,RELATED_OTHER_ID_VAL,BIOL_INDIV_RELATION_REMARKS,VALIDATED_STATUS
+				FROM cf_temp_bl_relations 
+				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+			</cfquery>
+			<cfquery name="pf" dbtype="query">
+				SELECT count(*) c 
+				FROM data 
+				WHERE validated_status is not null
+			</cfquery>
+			<cfif pf.c gt 0>
+				<h2>
+					There is a problem with #pf.c# of #data.recordcount# row(s). See the STATUS column. (<a href="/tools/BulkloadRelations.cfm?action=dumpProblems">download</a>).
+				</h2>
+				<h3>
+					Fix the problems in the data and <a href="/tools/BulkloadRelations.cfm">start again</a>.
+				</h3>
+			<cfelse>
+				<h2>
+					Validation checks passed. Look over the table below and <a href="/tools/BulkloadRelations.cfm?action=load">click to continue</a> if it all looks good.
+				</h2>
+			</cfif>
+			<table class='sortable table table-responsive table-striped d-lg-table'>
+				<thead>
+					<tr>
+
+						<th>INSTITUTION_ACRONYM</th>
+						<th>COLLECTION_CDE</th>
+						<th>OTHER_ID_TYPE</th>
+						<th>OTHER_ID_VAL</th>
+						<th>RELATIONSHIP</th>
+						<th>RELATED_INSTITUTION_ACRONYM</th>
+						<th>RELATED_COLLECTION_CDE</th>
+						<th>RELATED_OTHER_ID_TYPE</th>
+						<th>RELATED_OTHER_ID_VAL</th>
+						<th>BIOL_INDIV_RELATION_REMARKS</th>
+						<th>VALIDATED_STATUS</th>
+					</tr>
+				<tbody>
+					<cfloop query="data">
+						<tr>
+				
+							<td>#data.INSTITUTION_ACRONYM#</td>
+							<td>#data.COLLECTION_CDE#</td>
+							<td>#data.OTHER_ID_TYPE#</td>
+							<td>#data.OTHER_ID_VAL#</td>
+							<td>#data.RELATIONSHIP#</td>
+							<td>#data.RELATED_INSTITUTION_ACRONYM#</td>
+							<td>#data.RELATED_COLLECTION_CDE#</td>
+							<td>#data.RELATED_OTHER_ID_TYPE#</td>
+							<td>#data.RELATED_OTHER_ID_VAL#</td>
+							<td>#data.BIOL_INDIV_RELATION_REMARKS#</td>
+							<td><strong>#VALIDATED_STATUS#</strong></td>
+						</tr>
+					</cfloop>
+				</tbody>
+			</table>
+		</cfoutput>
+	</cfif>
 				
 	<!---Load data--->					
 	<cfif #action# is "load">
