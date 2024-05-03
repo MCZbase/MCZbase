@@ -759,7 +759,7 @@ limitations under the License.
 		<cfif #action# is "load">
 			<cfoutput>
 				<cfquery name="getTempData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					select * from cf_temp_parts where status not in ('') or status is null
+					select * from cf_temp_parts where status is null
 				</cfquery>
 				<cfquery name= "getEntBy" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT agent_id FROM agent_name WHERE agent_name = '#session.username#'
@@ -772,7 +772,7 @@ limitations under the License.
 				<cfset enteredbyid = getEntBy.agent_id>
 				<cftransaction>
 					<cfloop query="getTempData">
-						<cfif len(#use_part_id#) is 0>
+						<cfif len(#status#) is 0>
 							<cfquery name="NEXTID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 								select sq_collection_object_id.nextval NEXTID from dual
 							</cfquery>
@@ -805,12 +805,12 @@ limitations under the License.
 									COLLECTION_OBJECT_ID,
 									PART_NAME,
 									PRESERVE_METHOD,
-									DERIVED_FROM_cat_item )
+									DERIVED_FROM_CAT_ITEM )
 								VALUES (
 									#NEXTID.NEXTID#,
 									'#PART_NAME#',
 									'#PRESERVE_METHOD#',
-									#collection_object_id# )
+									'#getTempData.COLLECTION_OBJECT_ID#' )
 							</cfquery>
 							<cfif len(#current_remarks#) gt 0>
 								<!---- new remark --->
