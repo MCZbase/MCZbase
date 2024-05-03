@@ -378,39 +378,67 @@ limitations under the License.
 							and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableTypes.key#"> 
 					</cfquery>
 				</cfif>
-				<cfquery name="getRCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					update cf_temp_bl_relations set RELATED_COLLECTION_OBJECT_ID = 
-					(select collection_object_id from cataloged_item 
-					where collection_cde = cf_temp_bl_relations.related_collection_cde 
-					and cat_num = cf_temp_bl_relations.related_other_id_val) 
-					where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-				</cfquery>
+				<cfif getTempTableTypes.related_other_id_type eq 'catalog number'>
+					<!--- either based on catalog_number --->
+					<cfquery name="getRID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						UPDATE
+							cf_temp_bl_relations
+						SET
+							collection_object_id = (
+								select collection_object_id 
+								from cataloged_item 
+								where cat_num = cf_temp_bl_relations.related_other_id_val
+								and collection_cde = cf_temp_bl_relations.related_collection_cde
+							),
+							status = null
+						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+							and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableTypes.key#"> 
+					</cfquery>
+				<cfelse>
+					<!--- or on specified other identifier --->
+					<cfquery name="getRID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						UPDATE
+							cf_temp_bl_relations
+						SET
+							collection_object_id= (
+								select cataloged_item.collection_object_id 
+								from cataloged_item,coll_obj_other_id_num 
+								where coll_obj_other_id_num.other_id_type = cf_temp_bl_relations.related_other_id_type 
+								and cataloged_item.collection_cde = cf_temp_bl_relations.related_collection_cde 
+								and display_value= cf_temp_bl_relations.related_other_id_val
+								and cataloged_item.collection_object_id = coll_obj_other_id_num.COLLECTION_OBJECT_ID
+							),
+							status = null
+						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+							and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableTypes.key#"> 
+					</cfquery>
+				</cfif>
 				<cfquery name="miaa" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					UPDATE cf_temp_bl_relations
+					UPDATE CF_TEMP_BL_RELATIONS
 					SET status = concat(nvl2(status, status || '; ', ''),'No ID match')
 					WHERE other_id_val is null
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
 				<cfquery name="miab" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					UPDATE cf_temp_bl_relations
+					UPDATE CF_TEMP_BL_RELATIONS
 					SET status = concat(nvl2(status, status || '; ', ''),'No ID match')
 					WHERE related_other_id_val is null
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
 				<cfquery name="miac" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					UPDATE cf_temp_bl_relations
+					UPDATE CF_TEMP_BL_RELATIONS
 					SET status = concat(nvl2(status, status || '; ', ''),'Collection not found')
 					WHERE collection_cde is null
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
 				<cfquery name="miad" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					UPDATE cf_temp_bl_relations
+					UPDATE CF_TEMP_BL_RELATIONS
 					SET status = concat(nvl2(status, status || '; ', ''),'Related collection not found')
 					WHERE related_collection_cde is null
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
 				<cfquery name="miap" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					UPDATE cf_temp_bl_relations
+					UPDATE CF_TEMP_BL_RELATIONS
 					SET status = concat(nvl2(status, status || '; ', ''),'Bad relationship')
 					WHERE relationship not in (select biol_indiv_relationship from ctbiol_relations)
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
@@ -418,7 +446,7 @@ limitations under the License.
 				</cfloop>
 				<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT INSTITUTION_ACRONYM,COLLECTION_OBJECT_ID,RELATED_COLLECTION_OBJECT_ID,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_VAL,RELATIONSHIP,RELATED_INSTITUTION_ACRONYM,RELATED_COLLECTION_CDE,RELATED_OTHER_ID_TYPE,RELATED_OTHER_ID_VAL,BIOL_INDIV_RELATION_REMARKS,STATUS
-					FROM cf_temp_bl_relations 
+					FROM CF_TEMP_BL_RELATIONS
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
 				<cfquery name="pf" dbtype="query">
@@ -480,7 +508,7 @@ limitations under the License.
 		<cfoutput>
 			<cfquery name="getTempData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT *
-				FROM cf_temp_bl_relations
+				FROM CF_TEMP_BL_RELATIONS
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<cftry>
