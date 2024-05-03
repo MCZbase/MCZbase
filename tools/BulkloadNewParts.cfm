@@ -345,6 +345,7 @@ limitations under the License.
 						cf_temp_parts
 					WHERE 
 						username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+					and use_existing = 0
 				</cfquery>
 				<cfset i= 1>
 				<cfloop query="getTempTableTypes">
