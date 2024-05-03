@@ -407,12 +407,12 @@ limitations under the License.
 					SET
 						collection_object_id= (
 							select cataloged_item.collection_object_id from cataloged_item,coll_obj_other_id_num,collection 
-							where coll_obj_other_id_num.other_id_type = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#cf_temp_parts.other_id_type#"> 
-							and cataloged_item.collection_cde = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#cf_temp_parts.collection_cde#">
-							and collection.collection_cde = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#cf_temp_parts.collection_cde#">
-							and display_value= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#cf_temp_parts.other_id_number#">
+							where coll_obj_other_id_num.other_id_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#cf_temp_parts.other_id_type#"> 
+							and cataloged_item.collection_cde = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#cf_temp_parts.collection_cde#">
+							and collection.collection_cde = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#cf_temp_parts.collection_cde#">
+							and display_value= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#cf_temp_parts.other_id_number#">
 							and cataloged_item.collection_object_id = coll_obj_other_id_num.COLLECTION_OBJECT_ID
-							and collection.institution_acronym = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#cf_temp_parts.institution_acronym#"> 
+							and collection.institution_acronym = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#cf_temp_parts.institution_acronym#"> 
 							and collection.collection_id = cataloged_item.collection_id
 						),
 						status = null
