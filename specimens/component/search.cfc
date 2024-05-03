@@ -290,6 +290,10 @@ function ScriptPrefixedNumberListToJSON(listOfNumbers, integerFieldname, prefixF
 			} else { 
 				nestDepth = '"openParens":"0","closeParens":"0"';
 			} 
+			if (ArrayLen(lparts) EQ 2 AND i EQ 2) {
+				// special case where we would miss the third clause in the if else if else block above. 
+				nestDepth = decrementOpenParens(nest="#nestDepth#");
+			}
 			prefix = "";
 			numeric= "";
 			suffix = "";
@@ -541,11 +545,13 @@ function ScriptNumberListToJSON(listOfNumbers, fieldname, nestDepth, leadingJoin
 				fieldname = "CAT_NUM_INTEGER";
 			}
 			if (left(nestDepth,5) EQ '"open') {  
+				entryNestDepth = nestDepth;
 				nestDepth = incrementOpenParens(nestDepth);
+				nestDepth = '"openParens":"0","closeParens":"0"';
 				result = '{#nestDepth#,"join":"' & leadingJoin & '","field": "' & fieldname &'","comparator": ">=","value": "#encodeForJSON(lowPart)#"';
-				nestDepth = '"openParens":"0","closeParens":"1"';
+				nestDepth = entryNestDepth;
+				nestDepth = incrementCloseParens(nestDepth);
 				result = result & '},{#nestDepth#,"join":"and","field": "' & fieldname &'","comparator": "<=","value": "#encodeForJSON(highPart)#"}';
-				nestDepth = decrementCloseParens(nestDepth);
 			} else {
 				result = '{"nest":"#nestDepth#.1","join":"' & leadingJoin & '","field": "' & fieldname &'","comparator": ">=","value": "#encodeForJSON(lowPart)#"';
 				result = result & '},{"nest":"#nestDepth#.2","join":"and","field": "' & fieldname &'","comparator": "<=","value": "#encodeForJSON(highPart)#"}';
