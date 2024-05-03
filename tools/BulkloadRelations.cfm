@@ -419,6 +419,12 @@ limitations under the License.
 					WHERE collection_object_id is null
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
+				<cfquery name="miar" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					UPDATE CF_TEMP_BL_RELATIONS
+					SET status = concat(nvl2(status, status || '; ', ''),'related_collection_object_id is null')
+					WHERE related_collection_object_id is null
+						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+				</cfquery>
 				<cfquery name="miaa" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE CF_TEMP_BL_RELATIONS
 					SET status = concat(nvl2(status, status || '; ', ''),'No ID match')
