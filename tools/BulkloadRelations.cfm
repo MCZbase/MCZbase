@@ -353,7 +353,7 @@ limitations under the License.
 								select collection_object_id 
 								from cataloged_item 
 								where cat_num = cf_temp_bl_relations.other_id_val
-								and collection_cde = cf_temp_bl_relations.collection_cde
+								and getTempTableTypes.collection_cde = cf_temp_bl_relations.collection_cde
 							),
 							status = null
 						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
@@ -366,7 +366,8 @@ limitations under the License.
 							cf_temp_bl_relations
 						SET
 							collection_object_id= (
-								select cataloged_item.collection_object_id from cataloged_item,coll_obj_other_id_num 
+								select cataloged_item.collection_object_id 
+								from cataloged_item,coll_obj_other_id_num 
 								where coll_obj_other_id_num.other_id_type = cf_temp_bl_relations.other_id_type 
 								and cataloged_item.collection_cde = cf_temp_bl_relations.collection_cde 
 								and display_value= cf_temp_bl_relations.other_id_val
@@ -415,7 +416,7 @@ limitations under the License.
 				WHERE relationship not in (select biol_indiv_relationship from ctbiol_relations)
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
-			<cfloop>
+			</cfloop>
 			<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT INSTITUTION_ACRONYM,COLLECTION_OBJECT_ID,RELATED_COLLECTION_OBJECT_ID,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_VAL,RELATIONSHIP,RELATED_INSTITUTION_ACRONYM,RELATED_COLLECTION_CDE,RELATED_OTHER_ID_TYPE,RELATED_OTHER_ID_VAL,BIOL_INDIV_RELATION_REMARKS,STATUS
 				FROM cf_temp_bl_relations 
