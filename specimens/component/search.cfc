@@ -1524,6 +1524,7 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 	<cfelse>
 		<cfif isDefined("other_id_number") AND len(other_id_number) GT 0 AND isDefined("other_id_type") AND len(other_id_type) GT 0>
 			<cfset nest = '"openParens":"1","closeParens":"0"'>
+			<!--- TODO: This gets incremented to openParens=3 on first line, but should be just 2, workaround below. --->
 		</cfif>
 		<cfif isDefined("other_id_number") AND len(other_id_number) GT 0>
 			<cfif left(other_id_number,1) is "=" OR left(other_id_number,1) is "!">
@@ -1539,6 +1540,8 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 			</cfif>
 		</cfif>
 		<cfif isDefined("other_id_number") AND len(other_id_number) GT 0 AND isDefined("other_id_type") AND len(other_id_type) GT 0>
+			<!--- cfset nest = '"openParens":"0","closeParens":"1"' --->
+			<!--- TODO: This is working but it shouldn't. closeParens should be just 1 --->
 			<cfset nest = '"openParens":"0","closeParens":"2"'>
 		</cfif>
 		<cfif isDefined("other_id_type") AND len(other_id_type) GT 0>
