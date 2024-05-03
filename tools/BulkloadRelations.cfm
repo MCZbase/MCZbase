@@ -435,7 +435,7 @@ limitations under the License.
 					</h3>
 				<cfelse>
 					<h3>
-						Validation checks passed. Look over the table below and <a href="/tools/BulkloadRelations.cfm?action=load">click to continue</a> if it all looks good.
+						Validation checks passed. Look over the table below and <a href="/tools/BulkloadRelations.cfm?action=load">click to continue</a> if it all looks good or <a href = "/tools/BulkloadRelations.cfm">start again</a>.
 					</h3>
 				</cfif>
 			<table class='sortable table table-responsive table-striped w-100 small px-0'>
@@ -489,7 +489,7 @@ limitations under the License.
 						<cfloop query="getTempData">
 							<cfquery name="updateRelations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateRelations_result">
 							insert into 
-								BIOL_INDIV_RELATIONS (collection_object_id,related_coll_object_id,biol_indiv_relationship,biol_indiv_relation_remarks) values (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#cf_temp_bl_relations.collection_object_id#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#cf_temp_bl_relations.related_collection_object_id#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#cf_temp_bl_relations.relationship#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#cf_temp_bl_relations.biol_indiv_relation_remarks#">)
+								BIOL_INDIV_RELATIONS (collection_object_id,related_coll_object_id,biol_indiv_relationship,biol_indiv_relation_remarks) values (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.collection_object_id#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.related_collection_object_id#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.relationship#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.biol_indiv_relation_remarks#">)
 							</cfquery>
 							<cfset relations_updates = relations_updates + updateRelations_result.recordcount>
 						</cfloop>
