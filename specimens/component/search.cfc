@@ -628,6 +628,7 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 			if (left(nestDepth,5) EQ '"open') { 
 				nestDepth = incrementOpenParens(nestDepth);
 				result = '{#nestDepth#,"join":"' & leadingJoin & '","field": "' & fieldname &'","comparator": ">=","value": "#encodeForJSON(lowPart)#"';
+				nestDepth = decrementOpenParens(nestDepth);
 				nestDepth = incrementCloseParens(nestDepth);
 				result = result & '},{#nestDepth#,"join":"and","field": "' & fieldname &'","comparator": "<=","value": "#encodeForJSON(highPart)#"}';
 			} else { 
