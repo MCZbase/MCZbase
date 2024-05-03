@@ -359,7 +359,7 @@ limitations under the License.
 						UPDATE
 							cf_temp_parts
 						SET
-							collection_object_id = (
+							derived_from_cat_item = (
 								select collection_object_id 
 								from cataloged_item
 								where cataloged_item.cat_num = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#cf_temp_parts.other_id_number#"> 
@@ -374,28 +374,26 @@ limitations under the License.
 					<!--- or on specified other identifier --->
 					<cfquery name="getCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						UPDATE
-							cf_temp_parts
+							cf_temp_attributes
 						SET
-							collection_object_id= (
-								select cataloged_item.collection_object_id from cataloged_item,coll_obj_other_id_num,collection 
-								where coll_obj_other_id_num.other_id_type = cf_temp_parts.other_id_type 
-								and cataloged_item.collection_cde = cf_temp_parts.collection_cde 
-								and collection.collection_cde = cf_temp_parts.collection_cde
-								and display_value= cf_temp_parts.other_id_number
+							derived_from_cat_item = (
+								select cataloged_item.collection_object_id from cataloged_item,coll_obj_other_id_num 
+								where coll_obj_other_id_num.other_id_type = cf_temp_attributes.other_id_type 
+								and cataloged_item.collection_cde = cf_temp_attributes.collection_cde 
+								and display_value= cf_temp_attributes.other_id_number
 								and cataloged_item.collection_object_id = coll_obj_other_id_num.COLLECTION_OBJECT_ID
-								and collection.institution_acronym = cf_temp_parts.institution_acronym
-								and collection.collection_id = cataloged_item.collection_id
 							),
 							status = null
 						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-							and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableTypes.key#"> 
+							and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableTypes.key#"> 
 					</cfquery>
+
 				</cfif>
 			</cfloop>
 			<!--- obtain the information needed to QC each row --->
 			<cfquery name="getTempTableQC" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT 
-					collection_object_id,collection_cde,key
+					derived_from_cat_item,collection_cde,key
 				FROM 
 					cf_temp_parts
 				WHERE 
@@ -403,6 +401,24 @@ limitations under the License.
 			</cfquery>
 				<!---Loop through the temp part data and validate against code tables and requirements--->
 			<cfloop query="getTempTableQC">
+				<cfquery name="getCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					UPDATE
+						cf_temp_parts
+					SET
+						collection_object_id= (
+							select cataloged_item.collection_object_id from cataloged_item,coll_obj_other_id_num,collection 
+							where coll_obj_other_id_num.other_id_type = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#cf_temp_parts.other_id_type#"> 
+							and cataloged_item.collection_cde = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#cf_temp_parts.collection_cde#">
+							and collection.collection_cde = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#cf_temp_parts.collection_cde#">
+							and display_value= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#cf_temp_parts.other_id_number#">
+							and cataloged_item.collection_object_id = coll_obj_other_id_num.COLLECTION_OBJECT_ID
+							and collection.institution_acronym = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#cf_temp_parts.institution_acronym#"> 
+							and collection.collection_id = cataloged_item.collection_id
+						),
+						status = null
+					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+						and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableTypes.key#"> 
+				</cfquery>
 				<cfquery name="CollID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					update cf_temp_parts set status = concat(nvl2(status, status || '; ', ''),'Invalid other id type and number')
 					where collection_cde|| '|' ||other_id_type|| '|' ||other_id_number NOT IN (select collection_cde|| '|' ||other_id_type|| '|' ||other_id_number from cf_temp_parts)
