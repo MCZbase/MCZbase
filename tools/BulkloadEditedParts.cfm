@@ -393,7 +393,7 @@ limitations under the License.
 			<!--- obtain the information needed to QC each row --->
 			<cfquery name="getTempTableQC" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT 
-					derived_from_cat_item,collection_cde,key
+					derived_from_cat_item,collection_cde,other_id_number,key
 				FROM 
 					cf_temp_parts
 				WHERE 
