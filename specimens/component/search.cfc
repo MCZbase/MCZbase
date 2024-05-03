@@ -208,6 +208,29 @@ limitations under the License.
 	<cfreturn result>
 </cffunction>
 
+<!--- given a string representing a json fragment in the form
+  "openParens":"0","closeParens":"0" set closeParens to 0, and return 
+   the string.
+  @param nest string containing the openParens, closeParens fragment.
+  @return the input nest string with closeParens set to 0, or
+    if unable to recgnise the string or split out the numeric bits, the
+    original input string without alteration.
+--->
+<cffunction name="floorCloseParens">
+	<cfargument name="nest" type="string" required="yes">
+	
+	<cfset result = arguments.nest>
+	<cfif left(nest,5) EQ '"open' >
+		<cfset bits = rematch('"[0-9]+"',nest)>
+		<cfif ArrayLen(bits) EQ 2>
+			<cfset open = replace(bits[1],'"','','all')>
+			<cfset close = "0">
+			<cfset result = '"openParens":"#open#","closeParens":"#close#"'>
+		</cfif>
+	</cfif>
+	<cfreturn result>
+</cffunction>
+
 <!--- functions to assist in parsing catalog number ranges --->
 <cfscript>
 /**
@@ -547,7 +570,7 @@ function ScriptNumberListToJSON(listOfNumbers, fieldname, nestDepth, leadingJoin
 			if (left(nestDepth,5) EQ '"open') {  
 				entryNestDepth = nestDepth;
 				nestDepth = incrementOpenParens(nestDepth);
-				nestDepth = '"openParens":"0","closeParens":"0"';
+				nestDepth = floorCloseParens(nestDept);
 				result = '{#nestDepth#,"join":"' & leadingJoin & '","field": "' & fieldname &'","comparator": ">=","value": "#encodeForJSON(lowPart)#"';
 				nestDepth = entryNestDepth;
 				nestDepth = incrementCloseParens(nestDepth);
