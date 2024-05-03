@@ -363,6 +363,7 @@ limitations under the License.
 								select collection_object_id 
 								from cataloged_item
 								where cataloged_item.cat_num = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#cf_temp_parts.other_id_number#"> 
+								and cf_temp_parts.other_id_type = 'catalog number'
 								and cataloged_item.collection_cde = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#cf_temp_parts.collection_cde#"> 
 								and institution_acronym = 'MCZ'
 							),
