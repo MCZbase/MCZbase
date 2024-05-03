@@ -354,7 +354,7 @@
 			</cfquery>
 			<cfquery name="getRCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				update cf_temp_bl_relations set RELATED_COLLECTION_OBJECT_ID = 
-				(select collection_object_id from cataloged_item where collection_cde = cf_temp_bl_relations.related_collection_cde and cat_num = 'cf_temp_bl_relations.related_other_id_val) 
+				(select collection_object_id from cataloged_item where collection_cde = cf_temp_bl_relations.related_collection_cde and cat_num = cf_temp_bl_relations.related_other_id_val) 
 				where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<cfquery name="miaa" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
