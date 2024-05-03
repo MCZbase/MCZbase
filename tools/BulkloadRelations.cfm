@@ -353,7 +353,7 @@ limitations under the License.
 								select collection_object_id 
 								from cataloged_item 
 								where cat_num = cf_temp_bl_relations.other_id_val
-								and getTempTableTypes.collection_cde = cf_temp_bl_relations.collection_cde
+								and collection_cde = cf_temp_bl_relations.collection_cde
 							),
 							status = null
 						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
