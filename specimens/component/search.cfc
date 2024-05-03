@@ -290,7 +290,7 @@ function ScriptPrefixedNumberListToJSON(listOfNumbers, integerFieldname, prefixF
 			} else { 
 				nestDepth = '"openParens":"0","closeParens":"0"';
 			} 
-			if (i ArrayLen(lparts) EQ 2) { 
+			if (ArrayLen(lparts) EQ 2) { 
 				nestDepth = decrementOpenParens(nest="#nestDepth#");
 			}
 			prefix = "";
