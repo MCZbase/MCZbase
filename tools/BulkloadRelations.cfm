@@ -30,6 +30,7 @@
 <!--- Normal page delivery with header/footer --->
 <cfset pageTitle = "Bulk Relations">
 <cfinclude template="/shared/_header.cfm">
+<cfinclude template="/tools/component/csv.cfc" runOnce="true"><!--- for common csv functions --->
 <cfif not isDefined("action") OR len(action) EQ 0>
 	<cfset action="nothing">
 </cfif>
