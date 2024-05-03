@@ -336,7 +336,7 @@ limitations under the License.
 		<cfoutput>
 			<h2 class="h4">Second step: Data Validation</h2>
 			<cfquery name="getTempTableTypes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				select other_id_type,other_id_val,collection_cde, key 
+				select other_id_type,other_id_val,collection_cde,related_other_id_type,related_other_id_val,key 
 				from cf_temp_bl_relations 
 				where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
