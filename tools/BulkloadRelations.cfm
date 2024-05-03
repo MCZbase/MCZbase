@@ -387,31 +387,31 @@ limitations under the License.
 				</cfquery>
 				<cfquery name="miaa" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE cf_temp_bl_relations
-					SET status = 'No ID match'
+					SET status = concat(nvl2(status, status || '; ', ''),'No ID match')
 					WHERE other_id_val is null
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
 				<cfquery name="miab" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE cf_temp_bl_relations
-					SET status = 'No ID match'
+					SET status = concat(nvl2(status, status || '; ', ''),'No ID match')
 					WHERE related_other_id_val is null
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
 				<cfquery name="miac" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE cf_temp_bl_relations
-					SET status = 'collection not found'
+					SET status = concat(nvl2(status, status || '; ', ''),'Collection not found')
 					WHERE collection_cde is null
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
 				<cfquery name="miad" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE cf_temp_bl_relations
-					SET status = 'related collection not found'
+					SET status = concat(nvl2(status, status || '; ', ''),'Related collection not found')
 					WHERE related_collection_cde is null
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
 				<cfquery name="miap" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE cf_temp_bl_relations
-					SET status = 'bad relationship'
+					SET status = concat(nvl2(status, status || '; ', ''),'Bad relationship')
 					WHERE relationship not in (select biol_indiv_relationship from ctbiol_relations)
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
