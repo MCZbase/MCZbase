@@ -515,25 +515,160 @@ limitations under the License.
 	</cfif>
 				
 	<!---------------------Load data--------------------------------->
-	<cfif #action# is "load">
-		<h2 class="h3">Third step: Apply changes.</h2>
+	<cfif action is "load">
+		<h2 class="h4">Third step: Apply changes.</h2>
 		<cfoutput>
-			<cfquery name="getTempData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				SELECT *
-				FROM CF_TEMP_BL_RELATIONS
-				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-			</cfquery>
+			<cfset problem_key = "">
+			<cftransaction>
+				<cfquery name="getTempData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					SELECT * FROM cf_temp_relations
+					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+				</cfquery>
+				<cfquery name="getCounts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					SELECT count(distinct collection_object_id) ctobj FROM cf_temp_relations
+					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+				</cfquery>
 			<cftry>
 				<cfset relations_updates = 0>
-					<cftransaction>
-						<cfloop query="getTempData">
-							<cfquery name="updateRelations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateRelations_result">
-							insert into 
-							BIOL_INDIV_RELATIONS (collection_object_id,related_coll_object_id,biol_indiv_relationship,biol_indiv_relation_remarks) values (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.collection_object_id#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.related_collection_object_id#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.relationship#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.biol_indiv_relation_remarks#">)
-							</cfquery>
-							<cfset relations_updates = relations_updates + updateRelations_result.recordcount>
-						</cfloop>
-					</cftransaction> 
+				<cfset relations_updates1 = 0>
+				<cfif getTempData.recordcount EQ 0>
+					<cfthrow message="You have no rows to load in the attributes bulkloader table (cf_temp_relations).  <a href='/tools/BulkloadRelations.cfm'>Start over</a>"><!--- " --->
+				</cfif>
+				<cfloop query="getTempData">
+					<cfset problem_key = getTempData.key>
+					<cfloop query="getTempData">
+						<cfquery name="updateRelations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateRelations_result">
+							INSERT into 
+							BIOL_INDIV_RELATIONS (
+							collection_object_id,
+							related_coll_object_id,
+							biol_indiv_relationship,
+							biol_indiv_relation_remarks
+							) values (
+							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.collection_object_id#">,
+							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.related_collection_object_id#">,
+							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.relationship#">,
+							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.biol_indiv_relation_remarks#">)
+						</cfquery>
+					</cfloop>
+					<cfquery name="updateRelations1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateRelations1_result">
+						select other_id_type,other_id_val,collection_object_id from BIOL_INDIV_RELATIONS 
+						where collection_object_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.collection_object_id#">
+						group by other_id_type,other_id_val,collection_object_id
+						having count(*) > 1
+					</cfquery>
+					<cfset relations_updates = relations_updates + updateRelations_result.recordcount>
+					<cfif updateRelations1_result.recordcount gt 0>
+						<cftransaction action = "ROLLBACK">
+					<cfelse>
+						<cftransaction action="COMMIT">
+					</cfif>
+				</cfloop>
+				<p>Number of attributes to update: #attributes_updates# (on #getCounts.ctobj# cataloged items)</p>
+				<cfif getTempData.recordcount eq relations_updates and updateRelations1_result.recordcount eq 0>
+					<h2 class="text-success">Success - loaded</h2>
+				</cfif>
+				<cfif updateRelations1_result.recordcount gt 0>
+					<h2 class="text-danger">Not loaded - these have already been loaded</h2>
+				</cfif>
+				<cfcatch>
+					<cftransaction action="ROLLBACK">
+					<h2 class="h3">There was a problem updating the relations.</h2>
+					<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						SELECT status,institution_acronym,collection_cde,other_id_type,other_id_val,relationship,related_institution_acronym,related_collection_cde,related_other_id_type,related_other_id_val,biol_indiv_relation_remarks
+						FROM cf_temp_relations 
+						WHERE key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#problem_key#">
+					</cfquery>
+					<cfquery name="getCollectionCodes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						SELECT collection_cde
+						FROM collection
+					</cfquery>
+					<cfset collection_codes = "">
+					<cfloop query="getCollectionCodes">
+						<cfset collection_codes = ListAppend(collection_codes,getCollectionCodes.collection_cde)>
+					</cfloop>
+					<cfquery name="getInstitution" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						SELECT distinct institution_acronym
+						FROM collection
+					</cfquery>
+					<cfset institutions = "">
+					<cfloop query="getInstitution">
+						<cfset institutions = ListAppend(institutions,getInstitution.institution_acronym)>
+					</cfloop>
+					<cfif getProblemData.recordcount GT 0>
+ 						<h2 class="h3">Errors are displayed one row at a time.</h2>
+						<h3>
+							Error loading row (<span class="text-danger">#attributes_updates + 1#</span>) from the CSV: 
+							<cfif len(cfcatch.detail) gt 0>
+								<span class="font-weight-normal border-bottom border-danger">
+									<cfif cfcatch.detail contains "Invalid RELATIONSHIP">
+										Invalid BIOL_RELATIONSHIP; check controlled vocabulary (Help menu)
+									<cfelseif cfcatch.detail contains "collection_cde">
+										COLLECTION_CDE does not match abbreviated collection (#collection_codes#)
+									<cfelseif cfcatch.detail contains "institution_acronym">
+										INSTITUTION_ACRONYM does not match #institutions# (all caps)
+									<cfelseif cfcatch.detail contains "other_id_type">
+										OTHER_ID_TYPE is not valid
+									<cfelseif cfcatch.detail contains "related_other_id_type">
+										RELATED_OTHER_ID_TYPE does not match controlled vocabulary
+									<cfelseif cfcatch.detail contains "collection_object_id">
+										Problem with COLLECTION_OBJECT_ID. (#cfcatch.detail#)
+									<cfelseif cfcatch.detail contains "related_collection_object_id">
+										Problem with RELATED_COLLECTION_OBJECT_ID. (#cfcatch.detail#)
+									<cfelseif cfcatch.detail contains "attribute_units">
+										Invalid or missing ATTRIBUTE_UNITS
+									<cfelseif cfcatch.detail contains "related_institution_acronym">
+										Invalid related_institution_acronym
+									<cfelseif cfcatch.detail contains "RELATED_OTHER_ID_VAL">
+										Problem with RELATED_OTHER_ID_VAL (#cfcatch.detail#)
+									<cfelseif cfcatch.detail contains "OTHER_ID_VAL">
+										Problem with OTHER_ID_VAL (#cfcatch.detail#)
+									<cfelseif cfcatch.detail contains "biol_indiv_relation_remarks">
+										Problem with BIOL_INDIV_RELATION_REMARKS (#cfcatch.detail#)
+									<cfelseif cfcatch.detail contains "no data">
+										No data or the wrong data (#cfcatch.detail#)
+									<cfelse>
+										<!--- provide the raw error message if it isn't readily interpretable --->
+										#cfcatch.detail#
+									</cfif>
+								</span>
+							</cfif>
+						</h3>
+						<table class='px-0 sortable small table-danger w-100 table table-responsive table-striped mt-3'>
+							<thead>
+								<tr><th>COUNT</th><th>STATUS</th>
+									<th>INSTITUTION_ACRONYM</th><th>COLLECTION_CDE</th><th>OTHER_ID_TYPE</th><th>OTHER_ID_VAL</th><th>RELATIONSHIP</th><th>RELATED_INSTITUTION ATTRIBUTE_VALUE</th><th>ATTRIBUTE_UNITS</th><th>ATTRIBUTE_DATE</th><th>ATTRIBUTE_METH</th><th>DETERMINER</th><th>REMARKS</th>
+								</tr> 
+							</thead>
+							<tbody>
+								<cfset i=1>
+								<cfloop query="getProblemData">
+									<tr>
+										<td>#i#</td>
+										<td>#getProblemData.status# </td>
+										<td>#getProblemData.institution_acronym# </td>
+										<td>#getProblemData.collection_cde# </td>
+										<td>#getProblemData.other_id_type#</td>
+										<td>#getProblemData.other_id_number#</td>
+										<td>#getProblemData.attribute# </td>
+										<td>#getProblemData.attribute_value# </td>
+										<td>#getProblemData.attribute_units# </td>
+										<td>#getProblemData.attribute_date#</td>
+										<td>#getProblemData.attribute_meth# </td>
+										<td>#getProblemData.determiner# </td>
+										<td>#getProblemData.remarks# </td>
+									</tr>
+									<cfset i= i+1>
+								</cfloop>
+							</tbody>
+						</table>
+					</cfif>
+					<div>#cfcatch.message#</div>
+				</cfcatch>
+				</cftry>
+			</cftransaction>
+				
+
 					<div class="container">
 						<div class="row">
 							<div class="col-12 mx-auto">
