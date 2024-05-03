@@ -384,7 +384,7 @@ limitations under the License.
 						UPDATE
 							cf_temp_bl_relations
 						SET
-							collection_object_id = (
+							related_collection_object_id = (
 								select collection_object_id 
 								from cataloged_item 
 								where cat_num = cf_temp_bl_relations.related_other_id_val
@@ -400,7 +400,7 @@ limitations under the License.
 						UPDATE
 							cf_temp_bl_relations
 						SET
-							collection_object_id= (
+							related_collection_object_id= (
 								select cataloged_item.collection_object_id 
 								from cataloged_item,coll_obj_other_id_num 
 								where coll_obj_other_id_num.other_id_type = cf_temp_bl_relations.related_other_id_type 
