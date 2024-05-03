@@ -300,11 +300,9 @@
 		</cfoutput>
 	</cfif>
 	<!------------------------------------------------------->
-
-
 	<cfif #action# is "validate">
-		<h2 class="h3">Second step: Data Validation</h2>
 		<cfoutput>
+			<h2 class="h3">Second step: Data Validation</h2>
 			<cfquery name="getCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				update cf_temp_bl_relations set collection_object_id = 
 				(select collection_object_id from cataloged_item where cat_num = 'cf_temp_bl_relations.other_id_val' and collection_cde = cf_temp_bl_relations.collection_cde)
