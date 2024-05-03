@@ -805,12 +805,12 @@ limitations under the License.
 									COLLECTION_OBJECT_ID,
 									PART_NAME,
 									PRESERVE_METHOD,
-									DERIVED_FROM_cat_item )
+									DERIVED_FROM_CAT_ITEM )
 								VALUES (
 									#NEXTID.NEXTID#,
 									'#PART_NAME#',
 									'#PRESERVE_METHOD#',
-									#COLLECTION_OBJECT_ID# )
+									'#getTempData.COLLECTION_OBJECT_ID#' )
 							</cfquery>
 							<cfif len(#current_remarks#) gt 0>
 								<!---- new remark --->
