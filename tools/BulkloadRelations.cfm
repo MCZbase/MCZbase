@@ -438,7 +438,7 @@ limitations under the License.
 						Validation checks passed. Look over the table below and <a href="/tools/BulkloadRelations.cfm?action=load">click to continue</a> if it all looks good.
 					</h3>
 				</cfif>
-			<table class='sortable table table-responsive table-striped small px-0'>
+			<table class='sortable table table-responsive table-striped w-100 small px-0'>
 				<thead>
 					<tr>
 						<th>STATUS</th>
