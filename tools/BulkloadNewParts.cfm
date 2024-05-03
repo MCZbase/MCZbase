@@ -397,6 +397,7 @@ limitations under the License.
 						cf_temp_parts
 					WHERE 
 						username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+					and use_existing = 0
 				</cfquery>
 					<!---Loop through the temp part data and validate against code tables and requirements--->
 				<cfloop query="getTempTableQC">
@@ -423,7 +424,7 @@ limitations under the License.
 						AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
 					</cfquery>
 					<cfquery name="makeEdited" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						update cf_temp_parts set use_existing = 1
+						update cf_temp_parts set use_existing = 0
 						where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
 					</cfquery>
