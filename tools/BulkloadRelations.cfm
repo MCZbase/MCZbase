@@ -10,10 +10,44 @@
 	<cfoutput>#csv#</cfoutput>
 	<cfabort>
 </cfif>
+
+<!------>
+<!--- tools/bulkloadAttributes.cfm add attributes to specimens in bulk.
+
+Copyright 2008-2017 Contributors to Arctos
+Copyright 2008-2023 President and Fellows of Harvard College
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+
+--->
+<!--- special case handling to dump problem data as csv --->
+<cfif isDefined("action") AND action is "dumpProblems">
+	<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+		SELECT INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_VAL,RELATIONSHIP,RELATED_INSTITUTION_ACRONYM,RELATED_COLLECTION_CDE,RELATED_OTHER_ID_TYPE,RELATED_OTHER_ID_VAL,BIOL_INDIV_RELATION_REMARKS
+		FROM cf_temp_bl_relations
+		WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+		ORDER BY key
+	</cfquery>
+	<cfinclude template="/shared/component/functions.cfc">
+	<cfset csv = queryToCSV(getProblemData)>
+	<cfheader name="Content-Type" value="text/csv">
+	<cfoutput>#csv#</cfoutput>
+	<cfabort>
+</cfif>
+<!--- end special case dump of problems --->
 <cfset fieldlist="INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_VAL,RELATIONSHIP,RELATED_INSTITUTION_ACRONYM,RELATED_COLLECTION_CDE,RELATED_OTHER_ID_TYPE,RELATED_OTHER_ID_VAL,BIOL_INDIV_RELATION_REMARKS">
 <cfset fieldTypes="CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR">
 <cfset requiredfieldlist="INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_VAL,RELATIONSHIP,RELATED_INSTITUTION_ACRONYM,RELATED_COLLECTION_CDE,RELATED_OTHER_ID_TYPE,RELATED_OTHER_ID_VAL,BIOL_INDIV_RELATION_REMARKS">
-<!------>
 <!--- special case handling to dump column headers as csv --->
 <cfif isDefined("action") AND action is "getCSVHeader">
 	<cfset csv = "">
@@ -23,34 +57,31 @@
 		<cfset separator = ",">
 	</cfloop>
 	<cfheader name="Content-Type" value="text/csv">
-	<cfoutput>#csv##chr(13)##chr(10)#</cfoutput>
+		<cfoutput>#csv##chr(13)##chr(10)#</cfoutput>
 	<cfabort>
 </cfif>
 
 <!--- Normal page delivery with header/footer --->
-<cfset pageTitle = "Bulk Relations">
+<cfset pageTitle = "Bulkload Relations">
 <cfinclude template="/shared/_header.cfm">
 <cfinclude template="/tools/component/csv.cfc" runOnce="true"><!--- for common csv functions --->
 <cfif not isDefined("action") OR len(action) EQ 0>
 	<cfset action="nothing">
 </cfif>
-	
-<main class="container py-3" id="content">
-	<h1 class="h2 mt-2">Bulkload Biological Relationships</h1>
+<main class="container-fluid px-xl-5 py-3" id="content">
+	<h1 class="h2 mt-2">Bulkload Relations</h1>
 	<cfif #action# is "nothing">
 		<cfoutput>
-			<p>Use this form to add relationships between specimens. Specimen records must already exist. This form can be used to create relationships between specimens within the MCZ or between institutions using the catalog number or another identifier.</p>
-			<p>Upload a comma-delimited text file (csv). Include column headings, spelled exactly as below. Additional colums will be ignored.</p>
+			<p>This tool adds biological relationships to the specimen record. The relationship and inverse relationship has to be in the code table prior to uploading this .csv. It ignores rows that are exactly the same. Additional columns will be ignored. The relationships must appear as they do on the <a href="https://mczbase.mcz.harvard.edu/vocabularies/ControlledVocabulary.cfm?" class="font-weight-bold">controlled vocabularies</a> lists for <a href="/vocabularies/ControlledVocabulary.cfm?table=CTBIOL_RELATIONS">BIOL_RELATIONS</a> and for some attributes the controlled vocabularies are listed in <a href="/vocabularies/ControlledVocabulary.cfm?table=CTBIOL_RELATIONS">BIOL_RELATIONS</a>. Upload a comma-delimited text file (csv). Include column headings, spelled exactly as below. Use "catalog number" as the value of other_id_type to match on catalog number.</p>
 			<span class="btn btn-xs btn-info" onclick="document.getElementById('template').style.display='block';">View template</span>
-			<div id="template" style="display:none;margin: 1em 0;">
-				<label for="templatearea" class="data-entry-label">
-					Copy this header line and save it as a .csv file 
-					(<a href="/tools/BulkloadRelations.cfm?action=getCSVHeader">download</a>)
+			<div id="template" style="margin: 1rem 0;display:none;">
+				<label for="templatearea" class="data-entry-label mb-1">
+					Copy this header line and save it as a .csv file (<a href="/tools/BulkloadRelations.cfm?action=getCSVHeader">download</a>)
 				</label>
 				<textarea rows="2" cols="90" id="templatearea" class="w-100 data-entry-textarea">#fieldlist#</textarea>
 			</div>
 			<h2 class="mt-4 h4">Columns in <span class="text-danger">red</span> are required; others are optional:</h2>
-			<ul class="mb-4 small90 font-weight-normal list-group">
+			<ul class="mb-4 h5 font-weight-normal list-group">
 				<cfloop list="#fieldlist#" index="field" delimiters=",">
 					<cfquery name = "getComments"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#"  result="getComments_result">
 						SELECT comments
@@ -97,7 +128,7 @@
 			</form>
 		</cfoutput>
 	</cfif>
-	<!------------------------------------------------>
+	<!------------------------------------------------------->
 	<cfif #action# is "getFile">
 		<cfoutput>
 		<h2 class="h3">First step: Reading data from CSV file.</h2>
@@ -107,7 +138,7 @@
 		<cfset DUP_COLUMN_ERR = "One or more columns are duplicated in the header line of the csv file.">
 		<cfset COLUMN_ERR = "Error inserting data ">
 		<cfset NO_HEADER_ERR = "No header line found, csv file appears to be empty.">
-		<cfset TABLE_NAME = "CF_TEMP_BL_RELATIONS">
+		<cfset table_name = "CF_TEMP_BL_RELATIONS">
 
 		<cftry>
 			<cfquery name="clearTempTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="clearTempTable_result">
@@ -169,8 +200,8 @@
 						</cfif>
 					</cfloop>
 					<cftry>
-					<!---construct insert for row with a line for each entry in fieldlist using cfqueryparam if column header is in fieldlist, otherwise using null--->
-					<!--- Note: As we can't use csvFormat.withHeader(), we can not match columns by name, we are forced to do so by number, thus arrays --->
+						<!--- construct insert for row with a line for each entry in fieldlist using cfqueryparam if column header is in fieldlist, otherwise using null --->
+						<!--- Note: As we can't use csvFormat.withHeader(), we can not match columns by name, we are forced to do so by number, thus arrays --->
 						<cfquery name="insert" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="insert_result">
 							insert into cf_temp_bl_relations
 								(#fieldlist#,username)
@@ -300,155 +331,8 @@
 		</cfoutput>
 	</cfif>
 	<!------------------------------------------------------->
-	<cfif #action# is "validate">
-		<cfoutput>
-			<h2 class="h3">Second step: Data Validation</h2>
-			<cfquery name="getTempTableTypes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				SELECT 
-					other_id_type, key
-				FROM 
-					cf_temp_bl_relations
-				WHERE 
-					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-			</cfquery>
-			<cfset i= 1>
-			<cfloop query="getTempTableTypes">
-				<!--- For each row, set the target collection_object_id --->
-				<cfif getTempTableTypes.other_id_type eq 'catalog number'>
-					<!--- either based on catalog_number --->
-					<cfquery name="getCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						UPDATE
-							cf_temp_bl_relations
-						SET
-							collection_object_id = (
-								select collection_object_id 
-								from cataloged_item 
-								where cat_num = cf_temp_bl_relations.other_id_number and collection_cde = cf_temp_bl_relations.collection_cde
-							),
-							status = null
-						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-							and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableTypes.key#"> 
-					</cfquery>
-				<cfelse>
-					<!--- or on specified other identifier --->
-					<cfquery name="getCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						UPDATE
-							cf_temp_bl_relations
-						SET
-							collection_object_id= (
-								select cataloged_item.collection_object_id from cataloged_item,coll_obj_other_id_num 
-								where coll_obj_other_id_num.other_id_type = cf_temp_bl_relations.other_id_type 
-								and cataloged_item.collection_cde = cf_temp_bl_relations.collection_cde 
-								and display_value= cf_temp_bl_relations.other_id_number
-								and cataloged_item.collection_object_id = coll_obj_other_id_num.COLLECTION_OBJECT_ID
-							),
-							status = null
-						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-							and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableTypes.key#"> 
-					</cfquery>
-				</cfif>
-			<cfquery name="getCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				update cf_temp_bl_relations set collection_object_id = 
-				(select collection_object_id from cataloged_item where cat_num = 'cf_temp_bl_relations.other_id_val' and collection_cde = cf_temp_bl_relations.collection_cde)
-				 where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-			</cfquery>
-			<cfquery name="getRCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				update cf_temp_bl_relations set RELATED_COLLECTION_OBJECT_ID = 
-				(select collection_object_id from cataloged_item 
-				where collection_cde = cf_temp_bl_relations.related_collection_cde 
-				and cat_num = cf_temp_bl_relations.related_other_id_val) 
-				where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-			</cfquery>
-			<cfquery name="miaa" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				UPDATE cf_temp_bl_relations
-				SET validated_status = 'No ID match'
-				WHERE other_id_val is null
-					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-			</cfquery>
-			<cfquery name="miab" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				UPDATE cf_temp_bl_relations
-				SET validated_status = 'No ID match'
-				WHERE related_other_id_val is null
-					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-			</cfquery>
-			<cfquery name="miac" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				UPDATE cf_temp_bl_relations
-				SET validated_status = 'collection not found'
-				WHERE collection_cde is null
-					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-			</cfquery>
-			<cfquery name="miad" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				UPDATE cf_temp_bl_relations
-				SET validated_status = 'related collection not found'
-				WHERE related_collection_cde is null
-					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-			</cfquery>
-			<cfquery name="miap" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				UPDATE cf_temp_bl_relations
-				SET validated_status = 'bad relationship'
-				WHERE relationship not in (select biol_indiv_relationship from ctbiol_relations)
-					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-			</cfquery>
-			<cfloop>
-			<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				SELECT INSTITUTION_ACRONYM,COLLECTION_OBJECT_ID,RELATED_COLLECTION_OBJECT_ID,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_VAL,RELATIONSHIP,RELATED_INSTITUTION_ACRONYM,RELATED_COLLECTION_CDE,RELATED_OTHER_ID_TYPE,RELATED_OTHER_ID_VAL,BIOL_INDIV_RELATION_REMARKS,VALIDATED_STATUS
-				FROM cf_temp_bl_relations 
-				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-			</cfquery>
-			<cfquery name="pf" dbtype="query">
-				SELECT count(*) c 
-				FROM data 
-				WHERE validated_status is not null
-			</cfquery>
-			<cfif pf.c gt 0>
-				<h2>
-					There is a problem with #pf.c# of #data.recordcount# row(s). See the STATUS column. (<a href="/tools/BulkloadRelations.cfm?action=dumpProblems">download</a>).
-				</h2>
-				<h3>
-					Fix the problems in the data and <a href="/tools/BulkloadRelations.cfm">start again</a>.
-				</h3>
-			<cfelse>
-				<h2>
-					Validation checks passed. Look over the table below and <a href="/tools/BulkloadRelations.cfm?action=load">click to continue</a> if it all looks good.
-				</h2>
-			</cfif>
-			<table class='sortable table table-responsive table-striped d-lg-table'>
-				<thead>
-					<tr>
+	<!------------------------------------------------------->
 
-						<th>INSTITUTION_ACRONYM</th>
-						<th>COLLECTION_CDE</th>
-						<th>OTHER_ID_TYPE</th>
-						<th>OTHER_ID_VAL</th>
-						<th>RELATIONSHIP</th>
-						<th>RELATED_INSTITUTION_ACRONYM</th>
-						<th>RELATED_COLLECTION_CDE</th>
-						<th>RELATED_OTHER_ID_TYPE</th>
-						<th>RELATED_OTHER_ID_VAL</th>
-						<th>BIOL_INDIV_RELATION_REMARKS</th>
-						<th>VALIDATED_STATUS</th>
-					</tr>
-				<tbody>
-					<cfloop query="data">
-						<tr>
-				
-							<td>#data.INSTITUTION_ACRONYM#</td>
-							<td>#data.COLLECTION_CDE#</td>
-							<td>#data.OTHER_ID_TYPE#</td>
-							<td>#data.OTHER_ID_VAL#</td>
-							<td>#data.RELATIONSHIP#</td>
-							<td>#data.RELATED_INSTITUTION_ACRONYM#</td>
-							<td>#data.RELATED_COLLECTION_CDE#</td>
-							<td>#data.RELATED_OTHER_ID_TYPE#</td>
-							<td>#data.RELATED_OTHER_ID_VAL#</td>
-							<td>#data.BIOL_INDIV_RELATION_REMARKS#</td>
-							<td><strong>#VALIDATED_STATUS#</strong></td>
-						</tr>
-					</cfloop>
-				</tbody>
-			</table>
-		</cfoutput>
-	</cfif>
 				
 	<!---Load data--->					
 	<cfif #action# is "load">
