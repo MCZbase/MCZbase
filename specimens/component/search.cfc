@@ -240,7 +240,7 @@ limitations under the License.
     if unable to recgnise the string or split out the numeric bits, the
     original input string without alteration.
 --->
-<cffunction name="floorCloseParens">
+<cffunction name="floorOpenParens">
 	<cfargument name="nest" type="string" required="yes">
 	
 	<cfset result = arguments.nest>
