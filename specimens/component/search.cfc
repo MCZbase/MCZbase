@@ -472,13 +472,13 @@ function ScriptPrefixedNumberListToJSON(listOfNumbers, integerFieldname, prefixF
 				}
 			}
 			if (Len(numeric) GT 0) { 
-				if (Len(prefix) GT 0 OR Len(suffix) GT 0) { 
-					nestDepth = incrementOpenParens(nest="#nestDepth#");
-				}
+//				if (Len(prefix) GT 0 OR Len(suffix) GT 0) { 
+//					nestDepth = incrementOpenParens(nest="#nestDepth#");
+//				}
 				wherebit = wherebit & comma & ScriptNumberListToJSON(numeric, integerFieldname, nestDepth, leadingJoin);
-				if (Len(prefix) GT 0 OR Len(suffix) GT 0) { 
-					nestDepth = decrementOpenParens(nest="#nestDepth#");
-				}
+//				if (Len(prefix) GT 0 OR Len(suffix) GT 0) { 
+//					nestDepth = decrementOpenParens(nest="#nestDepth#");
+//				}
 				comma = ",";
 				leadingJoin = "and";
 			}
