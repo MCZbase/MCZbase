@@ -1539,7 +1539,7 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 			</cfif>
 		</cfif>
 		<cfif isDefined("other_id_number") AND len(other_id_number) GT 0 AND isDefined("other_id_type") AND len(other_id_type) GT 0>
-			<cfset nest = '"openParens":"0","closeParens":"1"'>
+			<cfset nest = '"openParens":"0","closeParens":"2"'>
 		</cfif>
 		<cfif isDefined("other_id_type") AND len(other_id_type) GT 0>
 			<cfset field = '"field": "other_id_type"'>
