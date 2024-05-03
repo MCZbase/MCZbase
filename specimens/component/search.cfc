@@ -421,20 +421,20 @@ function ScriptPrefixedNumberListToJSON(listOfNumbers, integerFieldname, prefixF
 				}
 			}
 			if (Len(numeric) GT 0) { 
-				if (Len(prefix) GT 0 OR Len(suffix) GT 0) { 
-					nestDepth = incrementOpenParens(nest="#nestDepth#");
-				}
+//				if (Len(prefix) GT 0 OR Len(suffix) GT 0) { 
+//					nestDepth = incrementOpenParens(nest="#nestDepth#");
+//				}
 				wherebit = wherebit & comma & ScriptNumberListToJSON(numeric, integerFieldname, nestDepth, leadingJoin);
-				if (Len(prefix) GT 0 OR Len(suffix) GT 0) { 
-					nestDepth = decrementOpenParens(nest="#nestDepth#");
-				}
+//				if (Len(prefix) GT 0 OR Len(suffix) GT 0) { 
+//					nestDepth = decrementOpenParens(nest="#nestDepth#");
+//				}
 				comma = ",";
 				leadingJoin = "and";
 			}
 			if (Len(prefix) GT 0) { 
-				if (Len(suffix) EQ 0) { 
-					nestDepth = incrementCloseParens(nest="#nestDepth#");
-				}
+//				if (Len(suffix) EQ 0) { 
+//					nestDepth = incrementCloseParens(nest="#nestDepth#");
+//				}
 				if (embeddedSeparator EQ true) {
 					// If the prefix isn't blank and doesn't end with the separator, add it.
 					if ((prefix NEQ "") AND (Find("-",prefix) EQ 0)) {
@@ -458,7 +458,7 @@ function ScriptPrefixedNumberListToJSON(listOfNumbers, integerFieldname, prefixF
 				leadingJoin = "and";
 			}
 			if (Len(suffix) GT 0) { 
-				nestDepth = incrementCloseParens(nest="#nestDepth#");
+//				nestDepth = incrementCloseParens(nest="#nestDepth#");
 				if (embeddedSeparator EQ true) {
 					// If the suffix isn't blank and doesn't start with the separator, add it.
 					if ((suffix NEQ "") AND (Find("-",suffix) EQ 0)) {
@@ -477,9 +477,9 @@ function ScriptPrefixedNumberListToJSON(listOfNumbers, integerFieldname, prefixF
 				leadingJoin = "and";
 			}
 			leadingJoin = "or";
-			if (i EQ 1) { 
-				nestDepth = decrementOpenParens(nest="#nestDepth#");
-			} 
+//			if (i EQ 1) { 
+//				nestDepth = decrementOpenParens(nest="#nestDepth#");
+//			} 
 		} // end loop throug lparts
 	}
 	result = wherebit;
