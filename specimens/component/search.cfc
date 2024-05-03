@@ -421,7 +421,7 @@ function ScriptPrefixedNumberListToJSON(listOfNumbers, integerFieldname, prefixF
 			}
 			if (Len(numeric) GT 0) { 
 				if (Len(prefix) GT 0 OR Len(suffix) GT 0) { 
-					nestDepth = incrementOpenParens(nest="#nestDepth#");
+					nestDepth = '"openParens":"1","closeParens":"0"';
 				}
 				wherebit = wherebit & comma & ScriptNumberListToJSON(numeric, integerFieldname, nestDepth, leadingJoin);
 				comma = ",";
@@ -539,8 +539,6 @@ function ScriptNumberListToJSON(listOfNumbers, fieldname, nestDepth, leadingJoin
 			if (left(nestDepth,5) EQ '"open') {  
 				nestDepth = incrementOpenParens(nestDepth);
 				result = '{#nestDepth#,"join":"' & leadingJoin & '","field": "' & fieldname &'","comparator": ">=","value": "#encodeForJSON(lowPart)#"';
-				nestDepth = decrementOpenParens(nestDepth);
-				nestDepth = incrementCloseParens(nestDepth);
 				nestDepth = '"openParens":"0","closeParens":"1"';
 				result = result & '},{#nestDepth#,"join":"and","field": "' & fieldname &'","comparator": "<=","value": "#encodeForJSON(highPart)#"}';
 			} else {
