@@ -491,6 +491,7 @@ limitations under the License.
 					where (LOT_COUNT is null OR is_number(lot_count) = 0)
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 					AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
+					and use_existing=1
 				</cfquery>
 				<cfloop index="i" from="1" to="6">
 					<cfquery name="chkPAtt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
