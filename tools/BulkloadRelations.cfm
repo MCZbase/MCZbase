@@ -489,7 +489,7 @@ limitations under the License.
 						<cfloop query="getTempData">
 							<cfquery name="updateRelations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateRelations_result">
 							insert into 
-								BIOL_INDIV_RELATIONS (collection_object_id,related_coll_object_id,biol_indiv_relationship,biol_indiv_relation_remarks) values (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.collection_object_id#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.related_collection_object_id#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.relationship#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.biol_indiv_relation_remarks#">)
+								BIOL_INDIV_RELATIONS (collection_object_id,related_collection_object_id,biol_indiv_relationship,biol_indiv_relation_remarks) values (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.collection_object_id#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.related_collection_object_id#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.relationship#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.biol_indiv_relation_remarks#">)
 							</cfquery>
 							<cfset relations_updates = relations_updates + updateRelations_result.recordcount>
 						</cfloop>
