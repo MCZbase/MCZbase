@@ -385,44 +385,44 @@ limitations under the License.
 			</cfquery>
 			<cfquery name="miaa" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				UPDATE cf_temp_bl_relations
-				SET validated_status = 'No ID match'
+				SET status = 'No ID match'
 				WHERE other_id_val is null
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<cfquery name="miab" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				UPDATE cf_temp_bl_relations
-				SET validated_status = 'No ID match'
+				SET status = 'No ID match'
 				WHERE related_other_id_val is null
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<cfquery name="miac" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				UPDATE cf_temp_bl_relations
-				SET validated_status = 'collection not found'
+				SET status = 'collection not found'
 				WHERE collection_cde is null
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<cfquery name="miad" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				UPDATE cf_temp_bl_relations
-				SET validated_status = 'related collection not found'
+				SET status = 'related collection not found'
 				WHERE related_collection_cde is null
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<cfquery name="miap" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				UPDATE cf_temp_bl_relations
-				SET validated_status = 'bad relationship'
+				SET status = 'bad relationship'
 				WHERE relationship not in (select biol_indiv_relationship from ctbiol_relations)
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<cfloop>
 			<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				SELECT INSTITUTION_ACRONYM,COLLECTION_OBJECT_ID,RELATED_COLLECTION_OBJECT_ID,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_VAL,RELATIONSHIP,RELATED_INSTITUTION_ACRONYM,RELATED_COLLECTION_CDE,RELATED_OTHER_ID_TYPE,RELATED_OTHER_ID_VAL,BIOL_INDIV_RELATION_REMARKS,VALIDATED_STATUS
+				SELECT INSTITUTION_ACRONYM,COLLECTION_OBJECT_ID,RELATED_COLLECTION_OBJECT_ID,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_VAL,RELATIONSHIP,RELATED_INSTITUTION_ACRONYM,RELATED_COLLECTION_CDE,RELATED_OTHER_ID_TYPE,RELATED_OTHER_ID_VAL,BIOL_INDIV_RELATION_REMARKS,STATUS
 				FROM cf_temp_bl_relations 
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<cfquery name="pf" dbtype="query">
 				SELECT count(*) c 
 				FROM data 
-				WHERE validated_status is not null
+				WHERE status is not null
 			</cfquery>
 			<cfif pf.c gt 0>
 				<h2>
@@ -450,7 +450,7 @@ limitations under the License.
 						<th>RELATED_OTHER_ID_TYPE</th>
 						<th>RELATED_OTHER_ID_VAL</th>
 						<th>BIOL_INDIV_RELATION_REMARKS</th>
-						<th>VALIDATED_STATUS</th>
+						<th>STATUS</th>
 					</tr>
 				<tbody>
 					<cfloop query="data">
@@ -466,7 +466,7 @@ limitations under the License.
 							<td>#data.RELATED_OTHER_ID_TYPE#</td>
 							<td>#data.RELATED_OTHER_ID_VAL#</td>
 							<td>#data.BIOL_INDIV_RELATION_REMARKS#</td>
-							<td><strong>#VALIDATED_STATUS#</strong></td>
+							<td><strong>#STATUS#</strong></td>
 						</tr>
 					</cfloop>
 				</tbody>
@@ -506,7 +506,7 @@ limitations under the License.
 					<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						SELECT *
 						FROM cf_temp_bl_relations 
-						WHERE validated_status is not null
+						WHERE status is not null
 							AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 					</cfquery>
 					<h3>Problematic Rows (<a href="/tools/BulkloadRelations.cfm?action=dumpProblems">download</a>)</h3>
@@ -523,7 +523,7 @@ limitations under the License.
 								<th>RELATED_OTHER_ID_TYPE</th>
 								<th>RELATED_OTHER_ID_VAL</th>
 								<th>BIOL_INDIV_RELATION_REMARKS</th>
-								<th>VALIDATED_STATUS</th>
+								<th>STATUS</th>
 							</tr> 
 						</thead>
 						<tbody>
@@ -539,7 +539,7 @@ limitations under the License.
 									<td>#getProblemData.RELATED_OTHER_ID_TYPE#</td>
 									<td>#getProblemData.RELATED_OTHER_ID_VAL#</td>
 									<td>#getProblemData.BIOL_INDIV_RELATION_REMARKS#</td>
-									<td><strong>#VALIDATED_STATUS#</strong></td>
+									<td><strong>#STATUS#</strong></td>
 								</tr> 
 							</cfloop>
 						</tbody>
@@ -564,9 +564,9 @@ limitations under the License.
 					<cftransaction action="rollback">
 						<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							SELECT INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_VAL,RELATIONSHIP,RELATED_INSTITUTION_ACRONYM,
-							RELATED_COLLECTION_CDE,RELATED_OTHER_ID_TYPE,RELATED_OTHER_ID_VAL,BIOL_INDIV_RELATION_REMARKS,validated_status
+							RELATED_COLLECTION_CDE,RELATED_OTHER_ID_TYPE,RELATED_OTHER_ID_VAL,BIOL_INDIV_RELATION_REMARKS,status
 							FROM cf_temp_bl_relations
-							WHERE validated_status is not null
+							WHERE status is not null
 							AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						</cfquery>
 						<h3>Error updating row (#relations_updates + 1#): #cfcatch.message#</h3>
@@ -583,7 +583,7 @@ limitations under the License.
 									<th>RELATED_OTHER_ID_TYPE</th>
 									<th>RELATED_OTHER_ID_VAL</th>
 									<th>BIOL_INDIV_RELATION_REMARKS</th>
-									<th>VALIDATED_STATUS</th>
+									<th>STATUS</th>
 								</tr> 
 							</thead>
 							<tbody>
@@ -599,7 +599,7 @@ limitations under the License.
 										<td>#getProblemData.RELATED_OTHER_ID_TYPE#</td>
 										<td>#getProblemData.RELATED_OTHER_ID_VAL#</td>
 										<td>#getProblemData.BIOL_INDIV_RELATION_REMARKS#</td>
-										<td>#getProblemData.VALIDATED_STATUS#</td>
+										<td>#getProblemData.STATUS#</td>
 									</tr> 
 								</cfloop>
 							</tbody>
