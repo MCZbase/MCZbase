@@ -36,7 +36,7 @@
 </cfif>
 	
 <main class="container py-3" id="content">
-	<h1 class="h2 mt-2">Bulkload Relationships</h1>
+	<h1 class="h2 mt-2">Bulkload Biological Relationships</h1>
 	<cfif #action# is "nothing">
 		<cfoutput>
 			<p>Use this form to add relationships between specimens. Specimen records must already exist. This form can be used to create relationships between specimens within the MCZ or between institutions using the catalog number or another identifier.</p>
@@ -57,7 +57,7 @@
 						FROM sys.all_col_comments
 						WHERE 
 							owner = 'MCZBASE'
-							and table_name = 'CF_TEMP_ATTRIBUTES'
+							and table_name = 'CF_TEMP_BL_RELATIONS'
 							and column_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(field)#" />
 					</cfquery>
 					<cfset comment = "">
@@ -76,7 +76,7 @@
 					</li>
 				</cfloop>
 			</ul>
-			<form name="atts" method="post" enctype="multipart/form-data" action="/tools/BulkloadAttributes.cfm">
+			<form name="atts" method="post" enctype="multipart/form-data" action="/tools/BulkloadRelations.cfm">
 				<div class="form-row border rounded p-2">
 					<input type="hidden" name="action" value="getFile">
 					<div class="col-12 col-md-4">
@@ -107,11 +107,11 @@
 		<cfset DUP_COLUMN_ERR = "One or more columns are duplicated in the header line of the csv file.">
 		<cfset COLUMN_ERR = "Error inserting data ">
 		<cfset NO_HEADER_ERR = "No header line found, csv file appears to be empty.">
-		<cfset table_name = "CF_TEMP_RELATIONS">
+		<cfset table_name = "CF_TEMP_BL_RELATIONS">
 
 		<cftry>
 			<cfquery name="clearTempTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="clearTempTable_result">
-				DELETE FROM cf_temp_relations
+				DELETE FROM cf_temp_bl_relations
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<cfset variables.foundHeaders =""><!--- populated by loadCsvFile --->
@@ -172,7 +172,7 @@
 						<!--- construct insert for row with a line for each entry in fieldlist using cfqueryparam if column header is in fieldlist, otherwise using null --->
 						<!--- Note: As we can't use csvFormat.withHeader(), we can not match columns by name, we are forced to do so by number, thus arrays --->
 						<cfquery name="insert" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="insert_result">
-							insert into cf_temp_relations
+							insert into cf_temp_bl_relations
 								(#fieldlist#,username)
 							values (
 								<cfset separator = "">
