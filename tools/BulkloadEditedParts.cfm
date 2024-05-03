@@ -344,7 +344,7 @@ limitations under the License.
 			</cfquery>
 			<cfquery name="getTempTableTypes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT 
-					other_id_type, institution_acronym, collection_cde, other_id_number, key
+					other_id_type, key
 				FROM 
 					cf_temp_parts
 				WHERE 
@@ -357,19 +357,16 @@ limitations under the License.
 					<!--- either based on catalog_number --->
 					<cfquery name="getCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						UPDATE
-							cf_temp_parts
+							cf_temp_attributes
 						SET
-							derived_from_cat_item = (
+							collection_object_id = (
 								select collection_object_id 
-								from cataloged_item
-								where cataloged_item.cat_num = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#cf_temp_parts.OTHER_ID_NUMBER#"> 
-								and cf_temp_parts.other_id_type = 'catalog number'
-								and cataloged_item.collection_cde = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#cf_temp_parts.COLLECTION_CDE#"> 
-								and institution_acronym = 'MCZ'
+								from cataloged_item 
+								where cat_num = cf_temp_attributes.other_id_number and collection_cde = cf_temp_attributes.collection_cde
 							),
 							status = null
 						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-							and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableTypes.key#"> 
+							and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableTypes.key#"> 
 					</cfquery>
 				<cfelse>
 					<!--- or on specified other identifier --->
@@ -377,19 +374,19 @@ limitations under the License.
 						UPDATE
 							cf_temp_attributes
 						SET
-							derived_from_cat_item = (
+							collection_object_id= (
 								select cataloged_item.collection_object_id from cataloged_item,coll_obj_other_id_num 
-								where coll_obj_other_id_num.other_id_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#cf_temp_parts.other_id_type#"> 
-								and cataloged_item.collection_cde = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#cf_temp_parts.collection_cde#">
-								and display_value= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#cf_temp_parts.other_id_number#">
+								where coll_obj_other_id_num.other_id_type = cf_temp_attributes.other_id_type 
+								and cataloged_item.collection_cde = cf_temp_attributes.collection_cde 
+								and display_value= cf_temp_attributes.other_id_number
 								and cataloged_item.collection_object_id = coll_obj_other_id_num.COLLECTION_OBJECT_ID
 							),
 							status = null
 						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 							and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableTypes.key#"> 
 					</cfquery>
-
 				</cfif>
+				<cfset i=i+1>
 			</cfloop>
 			<!--- obtain the information needed to QC each row --->
 			<cfquery name="getTempTableQC" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
