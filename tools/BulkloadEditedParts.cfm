@@ -378,9 +378,9 @@ limitations under the License.
 						SET
 							derived_from_cat_item = (
 								select cataloged_item.collection_object_id from cataloged_item,coll_obj_other_id_num 
-								where coll_obj_other_id_num.other_id_type = cf_temp_attributes.other_id_type 
-								and cataloged_item.collection_cde = cf_temp_attributes.collection_cde 
-								and display_value= cf_temp_attributes.other_id_number
+								where coll_obj_other_id_num.other_id_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#cf_temp_parts.other_id_type#"> 
+								and cataloged_item.collection_cde = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#cf_temp_parts.collection_cde#">
+								and display_value= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#cf_temp_parts.other_id_number#">
 								and cataloged_item.collection_object_id = coll_obj_other_id_num.COLLECTION_OBJECT_ID
 							),
 							status = null
