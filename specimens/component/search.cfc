@@ -570,7 +570,7 @@ function ScriptNumberListToJSON(listOfNumbers, fieldname, nestDepth, leadingJoin
 			if (left(nestDepth,5) EQ '"open') {  
 				entryNestDepth = nestDepth;
 				nestDepth = incrementOpenParens(nestDepth);
-				nestDepth = floorCloseParens(nestDept);
+				nestDepth = floorCloseParens(nestDepth);
 				result = '{#nestDepth#,"join":"' & leadingJoin & '","field": "' & fieldname &'","comparator": ">=","value": "#encodeForJSON(lowPart)#"';
 				nestDepth = entryNestDepth;
 				nestDepth = incrementCloseParens(nestDepth);
