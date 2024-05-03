@@ -521,18 +521,18 @@ limitations under the License.
 			<cfset problem_key = "">
 			<cftransaction>
 				<cfquery name="getTempData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					SELECT * FROM cf_temp_relations
+					SELECT * FROM cf_temp_bl_relations
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
 				<cfquery name="getCounts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					SELECT count(distinct collection_object_id) ctobj FROM cf_temp_relations
+					SELECT count(distinct collection_object_id) ctobj FROM cf_temp_bl_relations
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
 				<cftry>
 					<cfset relations_updates = 0>
 					<cfset relations_updates1 = 0>
 					<cfif getTempData.recordcount EQ 0>
-						<cfthrow message="You have no rows to load in the attributes bulkloader table (cf_temp_relations).  <a href='/tools/BulkloadRelations.cfm'>Start over</a>"><!--- " --->
+						<cfthrow message="You have no rows to load in the attributes bulkloader table (cf_temp_bl_relations).  <a href='/tools/BulkloadRelations.cfm'>Start over</a>"><!--- " --->
 					</cfif>
 					<cfloop query="getTempData">
 						<cfset problem_key = getTempData.key>
