@@ -532,7 +532,7 @@ limitations under the License.
 					<cfset relations_updates = 0>
 					<cfset relations_updates1 = 0>
 					<cfif getTempData.recordcount EQ 0>
-						<cfthrow message="You have no rows to load in the attributes bulkloader table (cf_temp_bl_relations).  <a href='/tools/BulkloadRelations.cfm'>Start over</a>"><!--- " --->
+						<cfthrow message="You have no rows to load in the relations bulkloader table (cf_temp_bl_relations).  <a href='/tools/BulkloadRelations.cfm'>Start over</a>"><!--- " --->
 					</cfif>
 					<cfloop query="getTempData">
 						<cfset problem_key = getTempData.key>
@@ -564,7 +564,7 @@ limitations under the License.
 							<cftransaction action="COMMIT">
 						</cfif>
 					</cfloop>
-					<p>Number of attributes to update: #attributes_updates# (on #getCounts.ctobj# cataloged items)</p>
+					<p>Number of relations to update: #relations_updates# (on #getCounts.ctobj# cataloged items)</p>
 					<cfif getTempData.recordcount eq relations_updates and updateRelations1_result.recordcount eq 0>
 						<h2 class="text-success">Success - loaded</h2>
 					</cfif>
@@ -615,8 +615,6 @@ limitations under the License.
 											Problem with COLLECTION_OBJECT_ID. (#cfcatch.detail#)
 										<cfelseif cfcatch.detail contains "related_collection_object_id">
 											Problem with RELATED_COLLECTION_OBJECT_ID. (#cfcatch.detail#)
-										<cfelseif cfcatch.detail contains "attribute_units">
-											Invalid or missing ATTRIBUTE_UNITS
 										<cfelseif cfcatch.detail contains "related_institution_acronym">
 											Invalid related_institution_acronym
 										<cfelseif cfcatch.detail contains "RELATED_OTHER_ID_VAL">
