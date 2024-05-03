@@ -334,7 +334,7 @@ limitations under the License.
 	<!------------------------------------------------------->
 	<cfif #action# is "validate">
 		<cfoutput>
-			<h2 class="h3">Second step: Data Validation</h2>
+			<h2 class="h4">Second step: Data Validation</h2>
 			<cfquery name="getTempTableTypes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				select other_id_type,other_id_val,collection_cde, key 
 				from cf_temp_bl_relations 
@@ -502,7 +502,7 @@ limitations under the License.
 						</div>
 					</div>
 				<cfcatch>
-					<h2>There was a problem updating relationships.</h2>
+					<h3>There was a problem updating relationships.</h3>
 					<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						SELECT *
 						FROM cf_temp_bl_relations 
@@ -510,9 +510,10 @@ limitations under the License.
 							AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 					</cfquery>
 					<h3>Problematic Rows (<a href="/tools/BulkloadRelations.cfm?action=dumpProblems">download</a>)</h3>
-					<table class='sortable table table-responsive table-striped d-lg-table'>
+					<table class='sortable table table-responsive table-striped w-100 px-0 small'>
 						<thead>
 							<tr>
+								<th>STATUS</th>
 								<th>INSTITUTION_ACRONYM</th>
 								<th>COLLECTION_CDE</th>
 								<th>OTHER_ID_TYPE</th>
@@ -523,12 +524,12 @@ limitations under the License.
 								<th>RELATED_OTHER_ID_TYPE</th>
 								<th>RELATED_OTHER_ID_VAL</th>
 								<th>BIOL_INDIV_RELATION_REMARKS</th>
-								<th>STATUS</th>
-							</tr> 
+							</tr>
 						</thead>
 						<tbody>
 							<cfloop query="getProblemData">
 								<tr>
+									<td><strong>#STATUS#</strong></td>
 									<td>#getProblemData.INSTITUTION_ACRONYM#</td>
 									<td>#getProblemData.COLLECTION_CDE#</td>
 									<td>#getProblemData.OTHER_ID_TYPE#</td>
@@ -539,8 +540,7 @@ limitations under the License.
 									<td>#getProblemData.RELATED_OTHER_ID_TYPE#</td>
 									<td>#getProblemData.RELATED_OTHER_ID_VAL#</td>
 									<td>#getProblemData.BIOL_INDIV_RELATION_REMARKS#</td>
-									<td><strong>#STATUS#</strong></td>
-								</tr> 
+								</tr>
 							</cfloop>
 						</tbody>
 					</table>
