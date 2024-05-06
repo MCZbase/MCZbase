@@ -345,7 +345,7 @@ limitations under the License.
 				Found characters where the encoding is probably important in the input data.
 			</cfif>
 		</h3>
-		<div class="border p-2">
+		<div class="border py-2 px-3">
 			<p>
 				Showing #foundHighCount# example#plural#.  
 				<cfif inHeader EQ "yes">
