@@ -367,10 +367,10 @@ limitations under the License.
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableQC.key#"> 
 				</cfquery>
-				<cfif len(publication_title) gt 0>
+				<cfif len(PUBLICATION_TITLE) gt 0>
 					<cfquery name="flagNoPublication" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						UPDATE cf_temp_citation
-						SET publication_id = (select distinct publication_id from publication where publication.publication_title = <cfqueryparam cfsqltype="CF_SQL_varchar" value="#getTempTableQC.publication_title#">)
+						SET publication_id = (select distinct publication_id from publication where publication.publication_title = quotes(<cfqueryparam cfsqltype="CF_SQL_varchar" value="#getTempTableQC.publication_title#">))
 						WHERE publication_id is null
 						and publication_title is not null
 							AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
