@@ -345,7 +345,6 @@ limitations under the License.
 						cf_temp_parts
 					WHERE 
 						username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-					and use_existing = 0
 				</cfquery>
 				<cfset i= 1>
 				<cfloop query="getTempTableTypes">
@@ -375,7 +374,7 @@ limitations under the License.
 							UPDATE
 								cf_temp_parts
 							SET
-								collection_object_id= (
+								derived_from_cat_item = (
 									select cataloged_item.collection_object_id from cataloged_item,coll_obj_other_id_num,collection 
 									where coll_obj_other_id_num.other_id_type = cf_temp_parts.other_id_type 
 									and cataloged_item.collection_cde = cf_temp_parts.collection_cde 
@@ -385,11 +384,13 @@ limitations under the License.
 									and collection.institution_acronym = cf_temp_parts.institution_acronym
 									and collection.collection_id = cataloged_item.collection_id
 								),
+								use_existing=0,
 								status = null
 							WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 								and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableTypes.key#"> 
 						</cfquery>
 					</cfif>
+					<cfset derived_from_cat_item = "getCID.collection_object_id">
 				</cfloop>
 				<!--- obtain the information needed to QC each row --->
 				<cfquery name="getTempTableQC" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -439,10 +440,17 @@ limitations under the License.
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
 					</cfquery>
-						<cfquery name="chk" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					<cfquery name="chk" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						update cf_temp_parts set 
 						status = concat(nvl2(status, status || '; ', ''),'Invalid collection_cde <span class="font-weight-bold">"'||collection_cde||'"</span>') 
 						where collection_cde not in (select collection_cde from collection)
+						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+						AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
+					</cfquery>
+					<cfquery name="chk" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						update cf_temp_parts set 
+						derived_from_cat_item = 
+						where 
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
 					</cfquery>
