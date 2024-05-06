@@ -331,7 +331,9 @@ function ScriptPrefixedNumberListToJSON(listOfNumbers, integerFieldname, prefixF
 		// TODO: Handle nesting with openParens and closeParens
 		for (i=1; i LTE ArrayLen(lparts); i=i+1) {
 			if (i EQ 1) { 
-				nestDepth = incrementOpenParens(nest="#nestDepth#");
+				if (ArrayLen(lparts) GT 1) {
+					nestDepth = incrementOpenParens(nest="#nestDepth#");
+				}
 			} else if (i EQ ArrayLen(lparts)) { 
 				nestDepth = incrementCloseParens(nest="#nestDepth#");
 			} else { 
