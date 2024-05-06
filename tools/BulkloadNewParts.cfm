@@ -799,8 +799,8 @@ limitations under the License.
 								VALUES (
 									#NEXTID.NEXTID#,
 									'#PART_NAME#',
-									'#PRESERVE_METHOD#'
-									,#collection_object_id# )
+									'#PRESERVE_METHOD#',
+									,#collection_object_id#)
 							</cfquery>
 							<cfif len(#current_remarks#) gt 0>
 									<!---- new remark --->
