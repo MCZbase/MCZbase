@@ -384,6 +384,7 @@ limitations under the License.
 							and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableTypes.key#"> 
 					</cfquery>
 				</cfif>
+				<cfset i= i+1>
 			</cfloop>
 			<!--- obtain the information needed to QC each row --->
 			<cfquery name="getTempTableQC" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
