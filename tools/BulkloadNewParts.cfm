@@ -802,15 +802,15 @@ limitations under the License.
 							</cfquery>
 							<cfquery name="newTiss" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 								INSERT INTO specimen_part (
-									  COLLECTION_OBJECT_ID,
-									  PART_NAME,
-									  PRESERVE_METHOD,
-									  DERIVED_FROM_cat_item )
-									VALUES (
-										#NEXTID.NEXTID#,
-									  '#PART_NAME#',
-									  '#PRESERVE_METHOD#'
-										,#collection_object_id# )
+									COLLECTION_OBJECT_ID,
+									PART_NAME,
+									PRESERVE_METHOD,
+									DERIVED_FROM_cat_item )
+								VALUES (
+									#NEXTID.NEXTID#,
+									'#PART_NAME#',
+									'#PRESERVE_METHOD#'
+									,#collection_object_id# )
 							</cfquery>
 							<cfif len(#current_remarks#) gt 0>
 									<!---- new remark --->
