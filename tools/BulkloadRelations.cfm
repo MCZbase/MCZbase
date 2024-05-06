@@ -582,7 +582,7 @@ limitations under the License.
 							<cfset institutions = ListAppend(institutions,getInstitution.institution_acronym)>
 						</cfloop>
 						<cfif getProblemData.recordcount GT 0>
-							<h2 class="h3">Errors are displayed one row at a time.</h2>
+							<h2 class="h3">Errors are displayed one row at a time after loading step. Fix problem and <a href="/tools/BulkloadRelations.cfm">try again</a></h2>
 							<h3>
 								Error loading row (<span class="text-dark">#relations_updates + 1#</span>) from the CSV: 
 								<cfif len(cfcatch.detail) gt 0>
@@ -596,19 +596,21 @@ limitations under the License.
 										<cfelseif cfcatch.detail contains "other_id_type">
 											OTHER_ID_TYPE is not valid
 										<cfelseif cfcatch.detail contains "related_other_id_type">
-											RELATED_OTHER_ID_TYPE does not match controlled vocabulary
+											RELATED_OTHER_ID_TYPE is not valid
 										<cfelseif cfcatch.detail contains "collection_object_id">
-											Problem with COLLECTION_OBJECT_ID. (#cfcatch.detail#)
+											Problem with COLLECTION_OBJECT_ID.
 										<cfelseif cfcatch.detail contains "related_collection_object_id">
-											Problem with RELATED_COLLECTION_OBJECT_ID. (#cfcatch.detail#)
+											Problem with RELATED_COLLECTION_OBJECT_ID.
 										<cfelseif cfcatch.detail contains "related_institution_acronym">
 											Invalid related_institution_acronym
 										<cfelseif cfcatch.detail contains "RELATED_OTHER_ID_VAL">
-											Problem with RELATED_OTHER_ID_VAL (#cfcatch.detail#)
+											Problem with RELATED_OTHER_ID_VAL
+										<cfelseif cfcatch.detail contains "unique constraint">
+											This relationship exists in the record already
 										<cfelseif cfcatch.detail contains "OTHER_ID_VAL">
-											Problem with OTHER_ID_VAL (#cfcatch.detail#)
+											Problem with OTHER_ID_VAL 
 										<cfelseif cfcatch.detail contains "biol_indiv_relation_remarks">
-											Problem with BIOL_INDIV_RELATION_REMARKS (#cfcatch.detail#)
+											Problem with BIOL_INDIV_RELATION_REMARKS
 										<cfelseif cfcatch.detail contains "no data">
 											No data or the wrong data (#cfcatch.detail#)
 										<cfelse>
