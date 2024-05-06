@@ -364,7 +364,7 @@ limitations under the License.
 									and collection.collection_id = cataloged_item.collection_id
 									and collection.institution_acronym = cf_temp_parts.institution_acronym 
 								),
-								use_existing = 0
+								use_existing = 0,
 								status = null
 							WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 								and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableTypes.key#"> 
