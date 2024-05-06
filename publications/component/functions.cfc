@@ -1253,7 +1253,7 @@ limitations under the License.
 								<cfelse>
 									<cfset descr = "">
 								</cfif>
-								<option value="#available_pub_att.publication_attribute#" #selected#><span class="font-weight-lessbold">#available_pub_att.publication_attribute#</span>#descr#</option>
+								<option class="font-weight-lessbold" value="#available_pub_att.publication_attribute#" #selected#><span>#available_pub_att.publication_attribute#</span>#descr#</option>
 							</cfloop>
 						</select>
 					</div>
