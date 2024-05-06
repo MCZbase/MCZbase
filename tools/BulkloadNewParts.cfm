@@ -245,7 +245,7 @@ limitations under the License.
 							<h3 class="h4">Found characters where the encoding is probably important in the input data.</h3>
 							<div>
 								<p>Showing #foundHighCount# example#plural#.  If these do not appear as the correct characters, the file likely has a different encoding from the one you selected and
-								you probably want to <strong><a href="/tools/BulkloadNewParts.cfm">reload</a></strong> this file selecting a different encoding.  If these appear as expected, then 
+								you probably want to <strong><a href="/tools/BulkloadNewParts.cfm" class="text-danger">start again</a></strong> this file selecting a different encoding.  If these appear as expected, then 
 									you selected the correct encoding and can continue to validate or load.</p>
 							</div>
 							<ul class="pb-1 h4 list-unstyled">
@@ -254,14 +254,14 @@ limitations under the License.
 						</cfif>
 						<h3 class="h3">
 							<cfif loadedRows EQ 0>
-								Loaded no rows from the CSV file.  The file appears to be just a header with no data. Fix file and <a href="/tools/BulkloadNewParts.cfm">reload</a>
+								Loaded no rows from the CSV file.  The file appears to be just a header with no data. Fix file and <a href="/tools/BulkloadNewParts.cfm" class="text-danger">start again</a>
 							<cfelse>
-								Successfully read #loadedRows# records from the CSV file.  Next <a href="/tools/BulkloadNewParts.cfm?action=validate">click to validate</a>.
+								Successfully read #loadedRows# records from the CSV file.  Next <a href="/tools/BulkloadNewParts.cfm?action=validate" class="font-weight-lessbold">click to validate</a>.
 							</cfif>
 						</h3>
 						<cfcatch>
 							<h3 class="h4">
-								Failed to read the CSV file.  Fix the errors in the file and <a href="/tools/BulkloadNewParts.cfm">reload</a>
+								Failed to read the CSV file.  Fix the errors in the file and <a href="/tools/BulkloadNewParts.cfm" class="text-danger">start again</a>.
 							</h3>
 							<cfif isDefined("arrResult")>
 								<cfset foundHighCount = 0>
