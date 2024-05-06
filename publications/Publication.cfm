@@ -365,9 +365,9 @@ limitations under the License.
 					<h2 class="h3 pt-0 mt-0 pr-1">This publication record is not linked to any MCZbase records</h2>
 				<cfelse>
 					<h2 class="h3 pt-0 mt-0 pr-1">This publication record is used in:</h2>
-					<ul class="px-0 px-md-2">
+					<ul class="px-0 px-md-2 list-group">
 						<cfloop query="uses">
-							<li>#uses.ct# citations of a #uses.type#</li>
+							<li class="list-group-item">#uses.ct# citations of a #uses.type#</li>
 						</cfloop>
 					</ul>
 				</cfif>
