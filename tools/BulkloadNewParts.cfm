@@ -994,7 +994,15 @@ limitations under the License.
 					and use_existing = 0
 				</cfquery>
 				<!---insert collection_object_ids into link with a comma between them--->
-				Parts loaded.
+				<h3>Parts loaded.</h3>
+				<cfif getTempData.recordcount gt 1>
+					<a href="/Specimens.cfm?execute=true&builderMaxRows=1&action=builderSearch&nestdepth1=1&field1=COLL_OBJECT%3ACOLL_OBJ_COLLECTION_OBJECT_ID&searchText1=<cfloop query='getTempData'>#getTempData.collection_object_id#,</cfloop>" target="_blank">
+					See in Specimen Results
+					</a><br>
+				<cfelse>
+					<a href="/Specimens.cfm?execute=true&builderMaxRows=1&action=builderSearch&nestdepth1=1&field1=COLL_OBJECT%3ACOLL_OBJ_COLLECTION_OBJECT_ID&searchText1=<cfloop query='getTempData'>#getTempData.collection_object_id#</cfloop>" target="_blank">See in Specimen Results
+					</a><br>
+				</cfif>
 				<a href="/Specimens.cfm?execute=true&builderMaxRows=1&action=builderSearch&nestdepth1=1&field1=COLL_OBJECT%3ACOLL_OBJ_COLLECTION_OBJECT_ID&searchText1=<cfloop query='getTempData'>#getTempData.collection_object_id#</cfloop>" target="_blank">
 					See in Specimen Results
 				</a><br>
