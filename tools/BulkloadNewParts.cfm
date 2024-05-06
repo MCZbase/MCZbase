@@ -335,9 +335,6 @@ limitations under the License.
 			<cfif #action# is "validate">
 				<cfoutput>
 				<h2 class="h4">Second step: Data Validation</h2>
-				<cfquery name="getCodeTables" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					select attribute_type, decode(value_code_tables, null, unit_code_tables,value_code_tables) code_table  from ctspecpart_attribute_type
-				</cfquery>
 				<cfquery name="getTempTableTypes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT 
 						other_id_type, key
@@ -374,7 +371,7 @@ limitations under the License.
 							UPDATE
 								cf_temp_parts
 							SET
-								derived_from_cat_item = (
+								collection_object_id = (
 									select cataloged_item.collection_object_id from cataloged_item,coll_obj_other_id_num,collection 
 									where coll_obj_other_id_num.other_id_type = cf_temp_parts.other_id_type 
 									and cataloged_item.collection_cde = cf_temp_parts.collection_cde 
@@ -390,7 +387,6 @@ limitations under the License.
 								and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableTypes.key#"> 
 						</cfquery>
 					</cfif>
-					<cfset derived_from_cat_item = "getCID.collection_object_id">
 				</cfloop>
 				<!--- obtain the information needed to QC each row --->
 				<cfquery name="getTempTableQC" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
