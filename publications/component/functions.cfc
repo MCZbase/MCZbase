@@ -1373,8 +1373,8 @@ limitations under the License.
 	
 						<div class="col-12 col-md-4 pb-2">
 							<cfset id = "input_#REReplace(CreateUUID(), "[-]", "", "all")#" >
-							<label class="data-entry-label font-weight-lessbold" for="#id#">
-								#getAttributes.publication_attribute# <span class="small">#getDescription.description#</span>
+							<label class="data-entry-label" style="font-weight:520;" for="#id#">
+								#getAttributes.publication_attribute# <span class="small font-weight-normal">#getDescription.description#</span>
 							</label>
 							<cfset control = getPubAttributeControl(attribute = "#getAttributes.publication_attribute#",value="#value#",name="#getAttributes.publication_attribute#",id="#id#")>
 							#control#
