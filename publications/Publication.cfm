@@ -319,7 +319,7 @@ limitations under the License.
 					}
 				</script>
 				<cfset authorBlockContent = getAuthorsForPubHtml(publication_id = "#publication_id#")>
-				<div id="authorBlock" class="row w-100">#authorBlockContent#</div>
+				<div id="authorBlock" class="row mx-0 w-100">#authorBlockContent#</div>
 			</section>
 			
 			
