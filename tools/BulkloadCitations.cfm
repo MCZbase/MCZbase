@@ -479,7 +479,7 @@ limitations under the License.
 					There is a problem with #problemsInData.c# of #data.recordcount# row(s). See the STATUS column (<a href="/tools/BulkloadCitations.cfm?action=dumpProblems">download</a>).
 				</h3>
 				<h3 class="h4 px-0">
-					Fix the problems in the data and <a href="/tools/BulkloadCitations.cfm">start again</a>.
+					Fix the problems in the data and <a href="/tools/BulkloadCitations.cfm" class="text-danger">start again</a>.
 				</h3>
 			<cfelse>
 				<h3 class="h4 px-0">
@@ -543,7 +543,7 @@ limitations under the License.
 					<cfset citation_updates = 0>
 					<cfset citation_updates1 = 0>
 					<cfif getCitData.recordcount EQ 0>
-						<cfthrow message="You have no rows to load in the citations bulkloader table (cf_temp_citation).  <a href='/tools/BulkloadCitations.cfm'>Start over</a>"><!--- " --->
+						<cfthrow message="You have no rows to load in the citations bulkloader table (cf_temp_citation).  <a href='/tools/BulkloadCitations.cfm' class='text-danger'>Start again</a>"><!--- " --->
 					</cfif>
 					<cfloop query="getCitData">
 						<cfset problem_key = #getCitData.key#>
