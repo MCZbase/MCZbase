@@ -280,6 +280,7 @@
 			<table class='sortable table table-responsive table-striped d-lg-table'>
 				<thead>
 					<tr>
+						<th>BULKLOADING STATUS</th>
 						<th>OTHER_ID_TYPE</th>
 						<th>OTHER_ID_NUMBER</th>
 						<th>COLLECTION_CDE</th>
@@ -294,6 +295,7 @@
 				<tbody>
 					<cfloop query="data">
 						<tr>
+							<td><cfif len(data.status) eq 0>Cleared to load<cfelse><strong>#data.status#</strong></cfif></td>
 							<td>#data.OTHER_ID_TYPE#</td>
 							<td>#data.OTHER_ID_NUMBER#</td>
 							<td>#data.COLLECTION_CDE#</td>
@@ -303,7 +305,6 @@
 							<td>#data.COLLECTION_OBJECT_ID#</td>
 							<td>#data.CONTAINER_ID#</td>
 							<td>#data.PRESERVE_METHOD#</td>
-							<td><strong>#STATUS#</strong></td>
 						</tr>
 					</cfloop>
 				</tbody>

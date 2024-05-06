@@ -362,6 +362,7 @@ limitations under the License.
 			<table class='sortable px-0 mx-0 table small table-responsive table-striped w-100'>
 				<thead>
 					<tr>
+						<th>STATUS</th>
 						<th>AGENT_TYPE</th>
 						<th>PREFERRED_NAME</th>
 						<th>FIRST_NAME</th>
@@ -380,11 +381,11 @@ limitations under the License.
 						<th>OTHER_NAME_TYPE_3</th>
 						<th>agentguid_guid_type</th>
 						<th>agentguid</th>
-						<th>STATUS</th>
 					</tr>
 				<tbody>
 					<cfloop query="data">
 						<tr>
+							<td><cfif len(data.status) eq 0>Cleared to load<cfelse><strong>#data.status#</strong></cfif></td>
 							<td>#data.AGENT_TYPE#</td>
 							<td>#data.PREFERRED_NAME#</td>
 							<td>#data.FIRST_NAME#</td>
@@ -403,7 +404,6 @@ limitations under the License.
 							<td>#data.OTHER_NAME_TYPE_3#</td>
 							<td>#data.agentguid_guid_type#</td>
 							<td>#data.agentguid#</td>
-							<td><strong>#STATUS#</strong></td>
 						</tr>
 					</cfloop>
 				</tbody>

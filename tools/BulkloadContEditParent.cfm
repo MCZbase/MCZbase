@@ -395,7 +395,7 @@ limitations under the License.
 				<tbody>
 					<cfloop query="data">
 						<tr>
-							<td><strong>#STATUS#</strong></td>
+							<td><cfif len(data.status) eq 0>Cleared to load<cfelse><strong>#data.status#</strong></cfif></td>
 							<td>#data.CONTAINER_UNIQUE_ID#</td>
 							<td>#data.PARENT_UNIQUE_ID#</td>
 							<td>#data.CONTAINER_TYPE#</td>

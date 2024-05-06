@@ -700,7 +700,7 @@ limitations under the License.
 				<tbody>
 					<cfloop query="data">
 						<tr>
-							<td>#status#</td>
+							<td><cfif len(data.status) eq 0>Cleared to load<cfelse><strong>#data.status#</strong></cfif></td>
 							<td>#institution_acronym#</td>
 							<td>#collection_cde#</td>
 							<td>#OTHER_ID_TYPE#</td>

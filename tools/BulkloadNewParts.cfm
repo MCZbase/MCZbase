@@ -634,7 +634,6 @@ limitations under the License.
 					where status is not null
 				</cfquery>
 				<cfif #allValid.cnt# is 0>
-					<cfset status = "cleared to load">
 					<span class="text-success">Validation checks passed</span>. Look over the table below and <a href="BulkloadNewParts.cfm?action=load">click to continue</a> if it all looks good. Or, <a href="/tools/BulkloadNewParts.cfm">Start over</a>.
 				<cfelse>
 					You must fix everything above to proceed. <a href="/tools/BulkloadNewParts.cfm">Try again.</a>
@@ -696,7 +695,7 @@ limitations under the License.
 					<tbody>
 						<cfloop query="data">
 							<tr>
-								<td>#status#</td>
+								<td><cfif len(data.status) eq 0>Cleared to load<cfelse><strong>#data.status#</strong></cfif></td>
 								<td>#institution_acronym#</td>
 								<td>#collection_cde#</td>
 								<td>#OTHER_ID_TYPE#</td>
