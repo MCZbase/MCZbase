@@ -522,7 +522,6 @@ limitations under the License.
 					</cfif>
 					<cfloop query="getTempData">
 						<cfset problem_key = getTempData.key>
-						<cfloop query="getTempData">
 							<cfquery name="updateRelations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateRelations_result">
 								INSERT into 
 								BIOL_INDIV_RELATIONS (
@@ -536,10 +535,10 @@ limitations under the License.
 								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.relationship#">,
 								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.biol_indiv_relation_remarks#">)
 							</cfquery>
-						</cfloop>
 						<cfquery name="updateRelations1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateRelations1_result">
 							select other_id_type,other_id_value,collection_object_id from BIOL_INDIV_RELATIONS 
-							where collection_object_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.collection_object_id#">
+							where collection_object_id = 
+							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.collection_object_id#">
 							group by other_id_type,other_id_value,collection_object_id
 							having count(*) > 1
 						</cfquery>
