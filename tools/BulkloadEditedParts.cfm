@@ -365,7 +365,8 @@ limitations under the License.
 								from cataloged_item 
 								where cat_num = cf_temp_attributes.other_id_number and collection_cde = cf_temp_attributes.collection_cde
 							),
-							status = null
+							status = null,
+							use_existing = 1
 						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 							and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableTypes.key#"> 
 					</cfquery>
@@ -382,7 +383,8 @@ limitations under the License.
 								and display_value= cf_temp_attributes.other_id_number
 								and cataloged_item.collection_object_id = coll_obj_other_id_num.COLLECTION_OBJECT_ID
 							),
-							status = null
+							status = null,
+							use_existing = 1
 						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 							and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableTypes.key#"> 
 					</cfquery>
@@ -397,7 +399,7 @@ limitations under the License.
 					cf_temp_parts
 				WHERE 
 					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-				and use_existing = 1
+					and use_existing = 1
 			</cfquery>
 			<!---Loop through the temp part data and validate against code tables and requirements--->
 			<cfloop query="getTempTableQC">
@@ -412,11 +414,6 @@ limitations under the License.
 				<cfquery name="getParentContainerId" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					update cf_temp_parts set parent_container_id =
 					(select parent_container_id from container where container.barcode = cf_temp_parts.container_unique_id)
-					where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-					AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
-				</cfquery>
-				<cfquery name="makeEdited" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					update cf_temp_parts set use_existing = 1
 					where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 					AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
 				</cfquery>
@@ -613,7 +610,7 @@ limitations under the License.
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 					AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
 				</cfquery>
-				<cfquery name="chk" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				<!---<cfquery name="chk" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					update cf_temp_parts set (use_part_id) = (
 					select min(specimen_part.collection_object_id)
 					from specimen_part, coll_object_remark where
@@ -625,7 +622,7 @@ limitations under the License.
 					where use_existing = 1
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 					AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
-				</cfquery>
+				</cfquery>--->
 			</cfloop>
 			<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT *
@@ -810,7 +807,7 @@ limitations under the License.
 									#NEXTID.NEXTID#,
 									'#PART_NAME#',
 									'#PRESERVE_METHOD#',
-									'#getTempData.COLLECTION_OBJECT_ID#' )
+									'#COLLECTION_OBJECT_ID#')
 							</cfquery>
 							<cfif len(#current_remarks#) gt 0>
 								<!---- new remark --->
