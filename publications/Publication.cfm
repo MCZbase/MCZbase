@@ -256,15 +256,15 @@ limitations under the License.
 						</div>
 					</div>
 					<div class="form-row mx-0 px-1 mb-2">
-						<div class="col-12 col-md-10">
+						<div class="col-12 col-md-9">
 							<input type="button" value="Save" class="btn btn-primary btn-xs" onclick=" if (checkFormValidity($('##editPubForm')[0])) { saveEdits(); }">
 							<output id="saveResultDiv" class="text-danger">&nbsp;</output>	
 						</div>
-						<div class="col-12 col-md-2">
+						<div class="col-12 col-md-3">
 							<cfif useCount EQ 0 AND NOT isMCZpub>
 								<input type="button" value="Delete Publication" class="btn btn-danger btn-xs" onclick="editPubForm.action.value='deletePub'; confirmDialog('Delete this Publication?','Confirm Delete Publication', function() { $('##action').val('deletePub'); $('##editPubForm').removeAttr('onsubmit'); $('##editPubForm').submit(); } );" >
 							<cfelse>
-								<input type="button" value="Delete Publication" class="btn btn-danger btn-xs disabled" disabled>
+								<input type="button" value="Delete Publication" class="float-right btn btn-danger btn-xs disabled" disabled>
 							</cfif>
 						</div>
 					</div>
