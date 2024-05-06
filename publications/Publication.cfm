@@ -362,9 +362,9 @@ limitations under the License.
 
 			<section name="useSection" class="row border rounded my-2 px-4 py-3" title="Citations and other uses of this publication">
 				<cfif useCount EQ 0>
-					<h2 class="h3 pt-0 mt-0">This publication record is not linked to any MCZbase records</h2>
+					<h2 class="h3 pt-0 mt-0 pr-1">This publication record is not linked to any MCZbase records</h2>
 				<cfelse>
-					<h2 class="h3 pt-0 mt-0">This publication record is used in:</h2>
+					<h2 class="h3 pt-0 mt-0 pr-1">This publication record is used in:</h2>
 					<ul class="px-0 px-md-2">
 						<cfloop query="uses">
 							<li>#uses.ct# citations of a #uses.type#</li>
