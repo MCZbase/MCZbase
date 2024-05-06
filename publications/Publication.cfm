@@ -135,16 +135,16 @@ limitations under the License.
 	</cfloop>
 	<cfoutput>
 		<main class="container py-3" id="content" >
-			<section class="row border rounded my-2">
-				<h1 class="h2 w-100 px-2 pt-1">
-					Edit Publication: <span id="shortCitationSpan">#pub.short_citation#</span> (#pub.publication_id#)
-       			<img src="/images/info_i_2.gif" onClick="getMCZDocs('Edit Publication')" class="likeLink" alt="[ help ]">
+			<section class="row border rounded py-3 my-2">
+				<h1 class="h2 w-100 px-3">
+					Edit Publication: <span id="shortCitationSpan">#pub.short_citation#</span> (Publication ID: #pub.publication_id#)
+					<img src="/images/info_i_2.gif" onClick="getMCZDocs('Edit Publication')" class="likeLink" alt="[ help ]">
 					<span class="d-inline-block float-right">
 						<a class="btn btn-xs btn-primary text-decoration-none" href="/publications/showPublication.cfm?publication_id=#pub.publication_id#">View Publication Details</a>
 						<a class="btn btn-xs btn-primary text-decoration-none" href="/Citation.cfm?publication_id=#pub.publication_id#">Manage Citations</a>
 					</span>
 				</h1>
-				<div class="h2 px-2" id="fullCitationDiv">#pub.full_citation#</div>
+				<div class="h2 px-3" id="fullCitationDiv">#pub.full_citation#</div>
 				<form class="col-12" name="editPubForm" id="editPubForm" method="post" action="/publications/Publication.cfm">
 					<input type="hidden" name="publication_id" value="#pub.publication_id#">
 					<input type="hidden" name="action" value="saveEdit">
@@ -194,7 +194,7 @@ limitations under the License.
 							<input type="text" name="published_year" id="published_year" class="data-entry-input" value="#pub.published_year#" placeholder="yyyy" pattern="[0-9]{4}" title="numeric four digit year of publication, use published year range attribute for ranges of years.">
 						</div>
 						<div class="col-12 col-md-3">
-							<label for="is_peer_reviewed_fg">Peer Reviewed?</label>
+							<label for="is_peer_reviewed_fg" class="data-entry-label">Peer Reviewed?</label>
 							<select name="is_peer_reviewed_fg" id="is_peer_reviewed_fg" class="reqdClr data-entry-select">
 								<option <cfif pub.is_peer_reviewed_fg is 1> selected="selected" </cfif>value="1">yes</option>
 								<option <cfif pub.is_peer_reviewed_fg is 0> selected="selected" </cfif>value="0">no</option>
@@ -530,7 +530,7 @@ limitations under the License.
 									</select>
 								</div>
 								<!--- authors/editors --->
-								<div class="col-12 form-row mb-3">
+								<div class="col-12 form-row mx mb-3">
 									<input type="hidden" name="author_count" id="author_count" value="0">
 									<input type="hidden" name="editor_count" id="editor_count" value="0">
 									<script>
