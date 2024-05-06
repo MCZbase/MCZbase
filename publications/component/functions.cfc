@@ -1253,7 +1253,7 @@ limitations under the License.
 								<cfelse>
 									<cfset descr = "">
 								</cfif>
-								<option class="font-weight-lessbold" value="#available_pub_att.publication_attribute#" #selected#><span>#available_pub_att.publication_attribute#</span>#descr#</option>
+								<option value="#available_pub_att.publication_attribute#" #selected#>#available_pub_att.publication_attribute##descr#</option>
 							</cfloop>
 						</select>
 					</div>
@@ -1373,7 +1373,7 @@ limitations under the License.
 	
 						<div class="col-12 col-md-4 pb-2">
 							<cfset id = "input_#REReplace(CreateUUID(), "[-]", "", "all")#" >
-							<label class="data-entry-label" for="#id#">
+							<label class="data-entry-label font-weight-lessbold" for="#id#">
 								#getAttributes.publication_attribute# <span class="small">#getDescription.description#</span>
 							</label>
 							<cfset control = getPubAttributeControl(attribute = "#getAttributes.publication_attribute#",value="#value#",name="#getAttributes.publication_attribute#",id="#id#")>
