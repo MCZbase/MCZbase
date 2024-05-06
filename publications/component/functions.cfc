@@ -385,7 +385,7 @@ limitations under the License.
 				<div class="col-12 col-md-6">
 					<h2 class="h3" >Authors</h2> 
 					<button class="btn btn-xs btn-primary" onclick=" openAddAuthorEditorDialog('addAuthorEditorDialogDiv', '#publication_id#', 'authors', reloadAuthors); ">Add Authors</button>
-					<ol>
+					<ol class="mt-2">
 						<cfloop query="getAuthors">
 							<li value="#author_position#">
 								<a href="/agents/Agent.cfm?agent_id=#agent_id#" target="_blank">#agent_name#</a> 
