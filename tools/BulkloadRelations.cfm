@@ -538,7 +538,7 @@ limitations under the License.
 						<cfquery name="updateRelations1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateRelations1_result">
 							select biol_indiv_relationship,collection_object_id from BIOL_INDIV_RELATIONS 
 							where collection_object_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.collection_object_id#">
-							group by attribute_type,attribute_value,collection_object_id
+							group by biol_indiv_relationship,collection_object_id
 							having count(*) > 1
 						</cfquery>
 						<cfset relations_updates = relations_updates + updateRelations_result.recordcount>
