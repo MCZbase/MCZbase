@@ -404,7 +404,7 @@ limitations under the License.
 					AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
 				</cfquery>
 				<cfquery name="CollID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					update cf_temp_parts set status = concat(nvl2(status, status || '; ', ''),'collection_object_id is null')
+					update cf_temp_parts set status = concat(nvl2(status, status || '; ', ''),'collection_object_id is null; check other_id_number')
 					where collection_object_id is null 
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 					AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
