@@ -135,7 +135,7 @@ limitations under the License.
 	</cfloop>
 	<cfoutput>
 		<main class="container py-3" id="content" >
-			<section class="row border rounded py-3 my-2">
+			<section class="row border rounded pt-3 pb-2 my-2">
 				<h1 class="h2 w-100 px-3">
 					Edit Publication: <span id="shortCitationSpan">#pub.short_citation#</span> (Publication ID: #pub.publication_id#)
 					<img src="/images/info_i_2.gif" onClick="getMCZDocs('Edit Publication')" class="likeLink" alt="[ help ]">
@@ -350,7 +350,7 @@ limitations under the License.
 				<div id="attributesBlock" class="col-12">#attribBlockContent#</div>
 			</section>
 
-			<section name="mediaSection" class="row border rounded my-2 px-2" title="Media related to this publication">
+			<section name="mediaSection" class="row border rounded my-2 py-3 px-2" title="Media related to this publication">
 				<script>
 					function reloadPublicationMedia(){ 
 						loadMediaDivHTML(#publication_id#,'mediaBlock');
