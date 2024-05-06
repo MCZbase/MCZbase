@@ -367,7 +367,7 @@ limitations under the License.
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableQC.key#"> 
 				</cfquery>
-				<cfif len(PUBLICATION_TITLE) gt 0>
+<!---				<cfif len(PUBLICATION_TITLE) gt 0>
 					<cfquery name="flagNoPublication" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						UPDATE cf_temp_citation
 						SET publication_id = (select distinct publication_id from publication where publication.publication_title = quotes(<cfqueryparam cfsqltype="CF_SQL_varchar" value="#getTempTableQC.publication_title#">))
@@ -385,7 +385,7 @@ limitations under the License.
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						AND key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableQC.key#"> 
 					</cfquery>
-				</cfif>
+				</cfif>--->
 				<cfquery name="flagNoPublication2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE cf_temp_citation
 					SET cited_taxon_name_id = (
@@ -495,7 +495,6 @@ limitations under the License.
 						<th>OTHER_ID_TYPE</th>
 						<th>OTHER_ID_NUMBER</th>
 						<th>PUBLICATION_ID</th>
-						<th>PUBLICATION_TITLE</th>
 						<th>CITED_SCIENTIFIC_NAME</th>
 						<th>OCCURS_PAGE_NUMBER</th>
 						<th>CITATION_PAGE_URI</th>
@@ -513,7 +512,6 @@ limitations under the License.
 							<td>#data.OTHER_ID_TYPE#</td>
 							<td>#data.OTHER_ID_NUMBER#</td>
 							<td>#data.PUBLICATION_ID#</td>
-							<td>#data.PUBLICATION_TITLE#</td>
 							<td>#data.CITED_SCIENTIFIC_NAME#</td>
 							<td>#data.OCCURS_PAGE_NUMBER#</td>
 							<td>#data.CITATION_PAGE_URI#</td>
