@@ -232,7 +232,7 @@ limitations under the License.
 								<cfcatch>
 									<!--- identify the problematic row --->
 									<cfset error_message="#COLUMN_ERR# from line #row# in input file.  
-									  <div class='mb-2 h4 font-weight-normal align-items-start align-items list-group list-group-horizontal flex-wrap col-12 small'>Header:[#colNames#]</div>   <div class='mb-2 h4 font-weight-normal align-items-start align-items list-group list-group-horizontal flex-wrap col-12 small'>Row:[#ArrayToList(collValuesArray)#] </div>Error: #cfcatch.message#"><!--- " --->
+									<div class='mb-2 h4 font-weight-normal align-items-start align-items list-group list-group-horizontal flex-wrap col-12 small'>Header:[#colNames#]</div>   <div class='mb-2 h4 font-weight-normal align-items-start align-items list-group list-group-horizontal flex-wrap col-12 small'>Row:[#ArrayToList(collValuesArray)#] </div>Error: #cfcatch.message#"><!--- " --->
 									<cfif isDefined("cfcatch.queryError")>
 										<cfset error_message = "#error_message# #cfcatch.queryError#">
 									</cfif>
@@ -425,11 +425,6 @@ limitations under the License.
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 					AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
 				</cfquery>
-<!---				<cfquery name="makeEdited" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					update cf_temp_parts set use_existing = 0
-					where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-					AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
-				</cfquery>--->
 				<!---Add HUH to this, m1b, or more general query for institutions in the database when necessary--->
 				<cfquery name="m1b" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE cf_temp_parts
