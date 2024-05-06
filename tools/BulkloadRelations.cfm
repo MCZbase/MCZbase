@@ -1,18 +1,4 @@
-<cfif isDefined("action") AND action is "dumpProblems">
-	<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-		SELECT INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_VAL,RELATIONSHIP,RELATED_INSTITUTION_ACRONYM,RELATED_COLLECTION_CDE,RELATED_OTHER_ID_TYPE,RELATED_OTHER_ID_VAL,BIOL_INDIV_RELATION_REMARKS
-		FROM cf_temp_bl_relations
-		WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-	</cfquery>
-	<cfinclude template="/shared/component/functions.cfc"><!---need to add to functions.cfc page--->
-	<cfset csv = queryToCSV(getProblemData)>
-	<cfheader name="Content-Type" value="text/csv">
-	<cfoutput>#csv#</cfoutput>
-	<cfabort>
-</cfif>
-
-<!------>
-<!--- tools/bulkloadAttributes.cfm add attributes to specimens in bulk.
+<!--- tools/bulkloadRelations.cfm add attributes to specimens in bulk.
 
 Copyright 2008-2017 Contributors to Arctos
 Copyright 2008-2023 President and Fellows of Harvard College
@@ -481,7 +467,7 @@ limitations under the License.
 			<table class='sortable table table-responsive table-striped w-100 small px-0'>
 				<thead>
 					<tr>
-						<th>STATUS</th>
+						<th>BULKLOADING STATUS</th>
 						<th>INSTITUTION_ACRONYM</th>
 						<th>COLLECTION_CDE</th>
 						<th>OTHER_ID_TYPE</th>
@@ -496,7 +482,7 @@ limitations under the License.
 				<tbody>
 					<cfloop query="data">
 						<tr>
-							<td><strong>#STATUS#</strong></td>
+							<td><cfif len(data.status) eq 0>Cleared to load<cfelse><strong>#data.status#</strong></cfif></td>
 							<td>#data.INSTITUTION_ACRONYM#</td>
 							<td>#data.COLLECTION_CDE#</td>
 							<td>#data.OTHER_ID_TYPE#</td>
