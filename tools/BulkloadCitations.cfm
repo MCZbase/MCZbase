@@ -379,9 +379,9 @@ limitations under the License.
 				<cfelse>
 					<cfquery name="flagNoPublication1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						UPDATE cf_temp_citation
-						SET status = concat(nvl2(status, status || '; ', ''),' Publication_id field is missing')
+						SET status = concat(nvl2(status, status || '; ', ''),' Publication_Title does not match one in MCZbase.')
 						WHERE publication_id IS NULL
-						and publication_title is null
+						and publication_title is not null
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						AND key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableQC.key#"> 
 					</cfquery>
