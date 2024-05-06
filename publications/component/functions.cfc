@@ -591,7 +591,7 @@ limitations under the License.
 							</script>
 						</div>
 						<div class="col-12" id="listOfAuthorsDiv">
-							<ol id="authorListOnDialog">
+							<ol id="authorListOnDialog" class="mt-2">
 								<cfloop query="getAuthorsEditors">
 									<li>#getAuthorsEditors.agent_name#</li>
 								</cfloop>
