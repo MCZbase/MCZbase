@@ -360,7 +360,7 @@ limitations under the License.
 				<div id="mediaBlock" class="col-12">#mediaBlockContent#</div>
 			</section>
 
-			<section name="useSection" class="row border rounded my-2 px-2" title="Citations and other uses of this publication">
+			<section name="useSection" class="row mx-0 border rounded my-2 p-2" title="Citations and other uses of this publication">
 				<cfif useCount EQ 0>
 					<h2 class="h3">This publication record is not linked to any MCZbase records</h2>
 				<cfelse>
