@@ -344,50 +344,42 @@ limitations under the License.
 						username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
 				<cfset i= 1>
-				<cfloop query="getTempTableTypes">
-					<!--- For each row, set the target collection_object_id --->
-					<cfif getTempTableTypes.other_id_type eq 'catalog number'>
-						<!--- either based on catalog_number --->
-						<cfquery name="getCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-							UPDATE
-								cf_temp_parts
-							SET
-								collection_object_id = (
-									select collection_object_id 
-									from cataloged_item, collection 
-									where cataloged_item.cat_num = cf_temp_parts.other_id_number 
-									and collection.collection_cde = cf_temp_parts.collection_cde
-									and collection.collection_id = cataloged_item.collection_id
-									and collection.institution_acronym = cf_temp_parts.institution_acronym 
-								),
-								use_existing = 0,
-								status = null
-							WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-								and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableTypes.key#"> 
-						</cfquery>
-					<cfelse>
-						<!--- or on specified other identifier --->
-						<cfquery name="getCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-							UPDATE
-								cf_temp_parts
-							SET
-								collection_object_id = (
-									select cataloged_item.collection_object_id from cataloged_item,coll_obj_other_id_num,collection 
-									where coll_obj_other_id_num.other_id_type = cf_temp_parts.other_id_type 
-									and cataloged_item.collection_cde = cf_temp_parts.collection_cde 
-									and collection.collection_cde = cf_temp_parts.collection_cde
-									and display_value= cf_temp_parts.other_id_number
-									and cataloged_item.collection_object_id = coll_obj_other_id_num.COLLECTION_OBJECT_ID
-									and collection.institution_acronym = cf_temp_parts.institution_acronym
-									and collection.collection_id = cataloged_item.collection_id
-								),
-								use_existing=0,
-								status = null
-							WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-								and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableTypes.key#"> 
-						</cfquery>
-					</cfif>
-				</cfloop>
+			<cfloop query="getTempTableTypes">
+				<!--- For each row, set the target collection_object_id --->
+				<cfif getTempTableTypes.other_id_type eq 'catalog number'>
+					<!--- either based on catalog_number --->
+					<cfquery name="getCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						UPDATE
+							cf_temp_parts
+						SET
+							collection_object_id = (
+								select collection_object_id 
+								from cataloged_item 
+								where cat_num = cf_temp_parts.other_id_number and collection_cde = cf_temp_parts.collection_cde
+							),
+							status = null
+						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+							and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableTypes.key#"> 
+					</cfquery>
+				<cfelse>
+					<!--- or on specified other identifier --->
+					<cfquery name="getCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						UPDATE
+							cf_temp_parts
+						SET
+							collection_object_id= (
+								select cataloged_item.collection_object_id from cataloged_item,coll_obj_other_id_num 
+								where coll_obj_other_id_num.other_id_type = cf_temp_parts.other_id_type 
+								and cataloged_item.collection_cde = cf_temp_parts.collection_cde 
+								and display_value= cf_temp_parts.other_id_number
+								and cataloged_item.collection_object_id = coll_obj_other_id_num.COLLECTION_OBJECT_ID
+							),
+							status = null
+						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+							and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableTypes.key#"> 
+					</cfquery>
+				</cfif>
+			</cfloop>
 				<!--- obtain the information needed to QC each row --->
 				<cfquery name="getTempTableQC" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT 
@@ -606,7 +598,7 @@ limitations under the License.
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
 					</cfquery>
-					<cfquery name="chk" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+	<!---				<cfquery name="chk" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						update cf_temp_parts set (use_part_id) = (
 						select min(specimen_part.collection_object_id)
 						from specimen_part, coll_object_remark where
@@ -618,7 +610,7 @@ limitations under the License.
 						where status like '%NOTE: PART EXISTS%' AND use_existing = 1
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
-					</cfquery>
+					</cfquery>--->
 				</cfloop>
 				<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT *
