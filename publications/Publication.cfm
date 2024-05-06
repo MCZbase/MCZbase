@@ -135,22 +135,22 @@ limitations under the License.
 	</cfloop>
 	<cfoutput>
 		<main class="container py-3" id="content" >
-			<section class="row border rounded my-2">
-				<h1 class="h2 w-100 px-2 pt-1">
-					Edit Publication: <span id="shortCitationSpan">#pub.short_citation#</span> (#pub.publication_id#)
-       			<img src="/images/info_i_2.gif" onClick="getMCZDocs('Edit Publication')" class="likeLink" alt="[ help ]">
+			<section class="row border rounded pt-3 pb-2 my-2">
+				<h1 class="h2 w-100 px-3">
+					Edit Publication: <span id="shortCitationSpan">#pub.short_citation#</span> (Publication ID: #pub.publication_id#)
+					<img src="/images/info_i_2.gif" onClick="getMCZDocs('Edit Publication')" class="likeLink" alt="[ help ]">
 					<span class="d-inline-block float-right">
 						<a class="btn btn-xs btn-primary text-decoration-none" href="/publications/showPublication.cfm?publication_id=#pub.publication_id#">View Publication Details</a>
 						<a class="btn btn-xs btn-primary text-decoration-none" href="/Citation.cfm?publication_id=#pub.publication_id#">Manage Citations</a>
 					</span>
 				</h1>
-				<div class="h2 px-2" id="fullCitationDiv">#pub.full_citation#</div>
+				<div class="h2 px-3" id="fullCitationDiv">#pub.full_citation#</div>
 				<form class="col-12" name="editPubForm" id="editPubForm" method="post" action="/publications/Publication.cfm">
 					<input type="hidden" name="publication_id" value="#pub.publication_id#">
 					<input type="hidden" name="action" value="saveEdit">
 					<input type="hidden" name="method" value="savePublication">
 					<input type="hidden" name="fullCitationPlain" id="fullCitationPlain" value="#pub.full_citation_plain#">
-					<div class="form-row mb-2 bg-verylightteal">
+					<div class="form-row mx-0 p-1 mb-2 bg-verylightteal">
 						<div class="col-12 col-md-11 mr-0">
 							<label for="publication_title" class="data-entry-label">Publication Title <span class="small">#help_publication_title#</span></label>
 							<textarea name="publication_title" id="publication_title" class="reqdClr w-100" rows="3" required>#pub.publication_title#</textarea>
@@ -178,7 +178,7 @@ limitations under the License.
 							</div>
 						</div>
 					</div>
-					<div class="form-row mb-2">
+					<div class="form-row mx-0 p-1 mb-2">
 						<div class="col-12 col-md-6">
 							<label for="publication_type" class="data-entry-label">Publication Type</label>
 								<select name="publication_type" id="publication_type" class="reqdClr data-entry-select" required>
@@ -194,14 +194,14 @@ limitations under the License.
 							<input type="text" name="published_year" id="published_year" class="data-entry-input" value="#pub.published_year#" placeholder="yyyy" pattern="[0-9]{4}" title="numeric four digit year of publication, use published year range attribute for ranges of years.">
 						</div>
 						<div class="col-12 col-md-3">
-							<label for="is_peer_reviewed_fg">Peer Reviewed?</label>
+							<label for="is_peer_reviewed_fg" class="data-entry-label">Peer Reviewed?</label>
 							<select name="is_peer_reviewed_fg" id="is_peer_reviewed_fg" class="reqdClr data-entry-select">
 								<option <cfif pub.is_peer_reviewed_fg is 1> selected="selected" </cfif>value="1">yes</option>
 								<option <cfif pub.is_peer_reviewed_fg is 0> selected="selected" </cfif>value="0">no</option>
 							</select>
 						</div>
 					</div>
-					<div class="form-row mb-2">
+					<div class="form-row mx-0 p-1 mb-2">
 						<div class="col-12 col-md-4">
 							<label for="doi" class="data-entry-label">Digital Object Identifier (DOI)</label>
 							<input type="text" id="doi" name="doi" value="#encodeForHtml(pub.doi)#" class="data-entry-input" placeholder="10.1000/xyz123">
@@ -255,7 +255,7 @@ limitations under the License.
 							<input type="text" name="publication_remarks" id="publication_remarks" class="data-entry-input" value="#encodeForHtml(pub.publication_remarks)#">
 						</div>
 					</div>
-					<div class="form-row mb-2">
+					<div class="form-row mx-0 px-1 mb-2">
 						<div class="col-12 col-md-10">
 							<input type="button" value="Save" class="btn btn-primary btn-xs" onclick=" if (checkFormValidity($('##editPubForm')[0])) { saveEdits(); }">
 							<output id="saveResultDiv" class="text-danger">&nbsp;</output>	
@@ -319,7 +319,7 @@ limitations under the License.
 					}
 				</script>
 				<cfset authorBlockContent = getAuthorsForPubHtml(publication_id = "#publication_id#")>
-				<div id="authorBlock" class="row w-100">#authorBlockContent#</div>
+				<div id="authorBlock" class="row mx-0 w-100">#authorBlockContent#</div>
 			</section>
 			
 			
@@ -350,7 +350,7 @@ limitations under the License.
 				<div id="attributesBlock" class="col-12">#attribBlockContent#</div>
 			</section>
 
-			<section name="mediaSection" class="row border rounded my-2 px-2" title="Media related to this publication">
+			<section name="mediaSection" class="row border rounded my-2 py-3 px-2" title="Media related to this publication">
 				<script>
 					function reloadPublicationMedia(){ 
 						loadMediaDivHTML(#publication_id#,'mediaBlock');
@@ -360,20 +360,20 @@ limitations under the License.
 				<div id="mediaBlock" class="col-12">#mediaBlockContent#</div>
 			</section>
 
-			<section name="useSection" class="row border rounded my-2 px-2" title="Citations and other uses of this publication">
+			<section name="useSection" class="row border rounded my-2 px-4 py-3" title="Citations and other uses of this publication">
 				<cfif useCount EQ 0>
-					<h2 class="h3">This publication record is not linked to any MCZbase records</h2>
+					<h2 class="h3 pt-0 mt-0 pr-1">This publication record is not linked to any MCZbase records</h2>
 				<cfelse>
-					<h2 class="h3">This publication record is used in:</h2>
-					<ul>
+					<h2 class="h3 pt-0 mt-0 pr-1">This publication record is used in:</h2>
+					<ul class="px-0 px-md-2 list-group">
 						<cfloop query="uses">
-							<li>#uses.ct# citations of a #uses.type#</li>
+							<li class="list-group-item">#uses.ct# citations of a #uses.type#</li>
 						</cfloop>
 					</ul>
 				</cfif>
 			</section>
 
-			<section name="annotationSection" class="row border rounded my-2 px-2" title="Annotations of this publication record">
+			<section name="annotationSection" class="row border rounded my-2 p-2" title="Annotations of this publication record">
 				<script>
 					function reloadPublicationAnnotations(){ 
 						loadAnnotationDivHTML(#publication_id#,'annotationsBlock');
@@ -530,7 +530,7 @@ limitations under the License.
 									</select>
 								</div>
 								<!--- authors/editors --->
-								<div class="col-12 form-row mb-3">
+								<div class="col-12 form-row mx mb-3">
 									<input type="hidden" name="author_count" id="author_count" value="0">
 									<input type="hidden" name="editor_count" id="editor_count" value="0">
 									<script>
