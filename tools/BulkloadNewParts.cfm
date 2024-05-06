@@ -337,7 +337,7 @@ limitations under the License.
 				<h2 class="h4">Second step: Data Validation</h2>
 				<cfquery name="getTempTableTypes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT 
-						other_id_type, institution_acronym,other_id_number,collection_cde, key
+						other_id_type, key
 					FROM 
 						cf_temp_parts
 					WHERE 
@@ -355,8 +355,8 @@ limitations under the License.
 							collection_object_id = (
 								select collection_object_id 
 								from cataloged_item 
-								where cat_num = '#other_id_number#' 
-								and collection_cde = '#collection_cde#'
+								where cat_num = cf_temp_parts.other_id_number 
+								and collection_cde = cf_temp_parts.collection_cde
 								and institution_acronym = 'MCZ'
 							),
 							status = null,
@@ -372,9 +372,9 @@ limitations under the License.
 						SET
 							collection_object_id= (
 								select cataloged_item.collection_object_id from cataloged_item,coll_obj_other_id_num 
-								where coll_obj_other_id_num.other_id_type = '#other_id_type#' 
-								and cataloged_item.collection_cde = '#collection_cde#' 
-								and display_value= '#other_id_number#'
+								where coll_obj_other_id_num.other_id_type = cf_temp_parts.other_id_type 
+								and cataloged_item.collection_cde = cf_temp_parts.collection_cde 
+								and display_value= cf_temp_parts.other_id_number
 								and cataloged_item.collection_object_id = coll_obj_other_id_num.COLLECTION_OBJECT_ID
 								and institution_acronym = 'MCZ'
 							),
