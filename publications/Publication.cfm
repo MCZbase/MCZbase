@@ -150,7 +150,7 @@ limitations under the License.
 					<input type="hidden" name="action" value="saveEdit">
 					<input type="hidden" name="method" value="savePublication">
 					<input type="hidden" name="fullCitationPlain" id="fullCitationPlain" value="#pub.full_citation_plain#">
-					<div class="form-row mb-2 bg-verylightteal">
+					<div class="form-row mx-0 p-1 mb-2 bg-verylightteal">
 						<div class="col-12 col-md-11 mr-0">
 							<label for="publication_title" class="data-entry-label">Publication Title <span class="small">#help_publication_title#</span></label>
 							<textarea name="publication_title" id="publication_title" class="reqdClr w-100" rows="3" required>#pub.publication_title#</textarea>
@@ -178,7 +178,7 @@ limitations under the License.
 							</div>
 						</div>
 					</div>
-					<div class="form-row mb-2">
+					<div class="form-row mx-0 p-1 mb-2">
 						<div class="col-12 col-md-6">
 							<label for="publication_type" class="data-entry-label">Publication Type</label>
 								<select name="publication_type" id="publication_type" class="reqdClr data-entry-select" required>
@@ -201,7 +201,7 @@ limitations under the License.
 							</select>
 						</div>
 					</div>
-					<div class="form-row mb-2">
+					<div class="form-row mx-0 p-1 mb-2">
 						<div class="col-12 col-md-4">
 							<label for="doi" class="data-entry-label">Digital Object Identifier (DOI)</label>
 							<input type="text" id="doi" name="doi" value="#encodeForHtml(pub.doi)#" class="data-entry-input" placeholder="10.1000/xyz123">
@@ -255,7 +255,7 @@ limitations under the License.
 							<input type="text" name="publication_remarks" id="publication_remarks" class="data-entry-input" value="#encodeForHtml(pub.publication_remarks)#">
 						</div>
 					</div>
-					<div class="form-row mb-2">
+					<div class="form-row mx-0 px-1 mb-2">
 						<div class="col-12 col-md-10">
 							<input type="button" value="Save" class="btn btn-primary btn-xs" onclick=" if (checkFormValidity($('##editPubForm')[0])) { saveEdits(); }">
 							<output id="saveResultDiv" class="text-danger">&nbsp;</output>	
