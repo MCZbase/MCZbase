@@ -373,7 +373,7 @@ limitations under the License.
 				</cfif>
 			</section>
 
-			<section name="annotationSection" class="row border rounded my-2 px-2 pb-2" title="Annotations of this publication record">
+			<section name="annotationSection" class="row border rounded my-2 p-2" title="Annotations of this publication record">
 				<script>
 					function reloadPublicationAnnotations(){ 
 						loadAnnotationDivHTML(#publication_id#,'annotationsBlock');
