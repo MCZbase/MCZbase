@@ -19,7 +19,7 @@ limitations under the License.
 <!--- special case handling to dump problem data as csv --->
 <cfif isDefined("action") AND action is "dumpProblems">
 	<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-		SELECT INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_VAL,RELATIONSHIP,RELATED_INSTITUTION_ACRONYM,RELATED_COLLECTION_CDE,RELATED_OTHER_ID_TYPE,RELATED_OTHER_ID_VAL,BIOL_INDIV_RELATION_REMARKS
+		SELECT INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_VALUE,RELATIONSHIP,RELATED_INSTITUTION_ACRONYM,RELATED_COLLECTION_CDE,RELATED_OTHER_ID_TYPE,RELATED_OTHER_ID_VALUE,BIOL_INDIV_RELATION_REMARKS
 		FROM cf_temp_bl_relations
 		WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 		ORDER BY key
@@ -31,9 +31,9 @@ limitations under the License.
 	<cfabort>
 </cfif>
 <!--- end special case dump of problems --->
-<cfset fieldlist="INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_VAL,RELATIONSHIP,RELATED_INSTITUTION_ACRONYM,RELATED_COLLECTION_CDE,RELATED_OTHER_ID_TYPE,RELATED_OTHER_ID_VAL,BIOL_INDIV_RELATION_REMARKS">
+<cfset fieldlist="INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_VALUE,RELATIONSHIP,RELATED_INSTITUTION_ACRONYM,RELATED_COLLECTION_CDE,RELATED_OTHER_ID_TYPE,RELATED_OTHER_ID_VALUE,BIOL_INDIV_RELATION_REMARKS">
 <cfset fieldTypes="CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR">
-<cfset requiredfieldlist="INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_VAL,RELATIONSHIP,RELATED_INSTITUTION_ACRONYM,RELATED_COLLECTION_CDE,RELATED_OTHER_ID_TYPE,RELATED_OTHER_ID_VAL,BIOL_INDIV_RELATION_REMARKS">
+<cfset requiredfieldlist="INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_VALUE,RELATIONSHIP,RELATED_INSTITUTION_ACRONYM,RELATED_COLLECTION_CDE,RELATED_OTHER_ID_TYPE,RELATED_OTHER_ID_VALUE,BIOL_INDIV_RELATION_REMARKS">
 <!--- special case handling to dump column headers as csv --->
 <cfif isDefined("action") AND action is "getCSVHeader">
 	<cfset csv = "">
@@ -322,7 +322,7 @@ limitations under the License.
 		<cfoutput>
 			<h2 class="h4">Second step: Data Validation</h2>
 			<cfquery name="getTempTableTypes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				select other_id_type,other_id_val,collection_cde,related_collection_cde,related_other_id_type,related_other_id_val,key 
+				select other_id_type,other_id_value,collection_cde,related_collection_cde,related_other_id_type,related_other_id_value,key 
 				from cf_temp_bl_relations 
 				where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
@@ -338,7 +338,7 @@ limitations under the License.
 							collection_object_id = (
 								select collection_object_id 
 								from cataloged_item 
-								where cat_num = cf_temp_bl_relations.other_id_val
+								where cat_num = cf_temp_bl_relations.other_id_value
 								and collection_cde = cf_temp_bl_relations.collection_cde
 							),
 							status = null
@@ -356,7 +356,7 @@ limitations under the License.
 								from cataloged_item,coll_obj_other_id_num 
 								where coll_obj_other_id_num.other_id_type = cf_temp_bl_relations.other_id_type 
 								and cataloged_item.collection_cde = cf_temp_bl_relations.collection_cde 
-								and display_value= cf_temp_bl_relations.other_id_val
+								and display_value= cf_temp_bl_relations.other_id_value
 								and cataloged_item.collection_object_id = coll_obj_other_id_num.COLLECTION_OBJECT_ID
 							),
 							status = null
@@ -373,7 +373,7 @@ limitations under the License.
 							related_collection_object_id = (
 								select collection_object_id 
 								from cataloged_item 
-								where cat_num = cf_temp_bl_relations.related_other_id_val
+								where cat_num = cf_temp_bl_relations.related_other_id_value
 								and collection_cde = cf_temp_bl_relations.related_collection_cde
 							),
 							status = null
@@ -391,7 +391,7 @@ limitations under the License.
 								from cataloged_item,coll_obj_other_id_num 
 								where coll_obj_other_id_num.other_id_type = cf_temp_bl_relations.related_other_id_type 
 								and cataloged_item.collection_cde = cf_temp_bl_relations.related_collection_cde 
-								and display_value= cf_temp_bl_relations.related_other_id_val
+								and display_value= cf_temp_bl_relations.related_other_id_value
 								and cataloged_item.collection_object_id = coll_obj_other_id_num.COLLECTION_OBJECT_ID
 							),
 							status = null
@@ -414,13 +414,13 @@ limitations under the License.
 				<cfquery name="miaa" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE CF_TEMP_BL_RELATIONS
 					SET status = concat(nvl2(status, status || '; ', ''),'No ID match')
-					WHERE other_id_val is null
+					WHERE other_id_value is null
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
 				<cfquery name="miab" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE CF_TEMP_BL_RELATIONS
 					SET status = concat(nvl2(status, status || '; ', ''),'No ID match')
-					WHERE related_other_id_val is null
+					WHERE related_other_id_value is null
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
 				<cfquery name="miac" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -443,7 +443,7 @@ limitations under the License.
 				</cfquery>
 				</cfloop>
 				<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					SELECT INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_VAL,COLLECTION_OBJECT_ID,RELATED_INSTITUTION_ACRONYM,RELATED_COLLECTION_CDE,RELATED_OTHER_ID_TYPE,RELATED_OTHER_ID_VAL,RELATED_COLLECTION_OBJECT_ID,RELATIONSHIP,BIOL_INDIV_RELATION_REMARKS,STATUS
+					SELECT INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_VALUE,COLLECTION_OBJECT_ID,RELATED_INSTITUTION_ACRONYM,RELATED_COLLECTION_CDE,RELATED_OTHER_ID_TYPE,RELATED_OTHER_ID_VALUE,RELATED_COLLECTION_OBJECT_ID,RELATIONSHIP,BIOL_INDIV_RELATION_REMARKS,STATUS
 					FROM CF_TEMP_BL_RELATIONS
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
@@ -471,12 +471,12 @@ limitations under the License.
 						<th>INSTITUTION_ACRONYM</th>
 						<th>COLLECTION_CDE</th>
 						<th>OTHER_ID_TYPE</th>
-						<th>OTHER_ID_VAL</th>
+						<th>OTHER_ID_VALUE</th>
 						<th>RELATIONSHIP</th>
 						<th>RELATED_INSTITUTION_ACRONYM</th>
 						<th>RELATED_COLLECTION_CDE</th>
 						<th>RELATED_OTHER_ID_TYPE</th>
-						<th>RELATED_OTHER_ID_VAL</th>
+						<th>RELATED_OTHER_ID_VALUE</th>
 						<th>BIOL_INDIV_RELATION_REMARKS</th>
 					</tr>
 				<tbody>
@@ -486,12 +486,12 @@ limitations under the License.
 							<td>#data.INSTITUTION_ACRONYM#</td>
 							<td>#data.COLLECTION_CDE#</td>
 							<td>#data.OTHER_ID_TYPE#</td>
-							<td>#data.OTHER_ID_VAL#</td>
+							<td>#data.OTHER_ID_VALUE#</td>
 							<td>#data.RELATIONSHIP#</td>
 							<td>#data.RELATED_INSTITUTION_ACRONYM#</td>
 							<td>#data.RELATED_COLLECTION_CDE#</td>
 							<td>#data.RELATED_OTHER_ID_TYPE#</td>
-							<td>#data.RELATED_OTHER_ID_VAL#</td>
+							<td>#data.RELATED_OTHER_ID_VALUE#</td>
 							<td>#data.BIOL_INDIV_RELATION_REMARKS#</td>
 						</tr>
 					</cfloop>
@@ -538,9 +538,9 @@ limitations under the License.
 							</cfquery>
 						</cfloop>
 						<cfquery name="updateRelations1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateRelations1_result">
-							select other_id_type,other_id_val,collection_object_id from BIOL_INDIV_RELATIONS 
+							select other_id_type,other_id_value,collection_object_id from BIOL_INDIV_RELATIONS 
 							where collection_object_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.collection_object_id#">
-							group by other_id_type,other_id_val,collection_object_id
+							group by other_id_type,other_id_value,collection_object_id
 							having count(*) > 1
 						</cfquery>
 						<cfset relations_updates = relations_updates + updateRelations_result.recordcount>
@@ -561,7 +561,7 @@ limitations under the License.
 						<cftransaction action="ROLLBACK">
 						<h2 class="h3">There was a problem updating the relations.</h2>
 						<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-							SELECT status,institution_acronym,collection_cde,other_id_type,other_id_val,relationship,related_institution_acronym,related_collection_cde,related_other_id_type,related_other_id_val,biol_indiv_relation_remarks
+							SELECT status,institution_acronym,collection_cde,other_id_type,other_id_value,relationship,related_institution_acronym,related_collection_cde,related_other_id_type,related_other_id_value,biol_indiv_relation_remarks
 							FROM cf_temp_bl_relations 
 							WHERE key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#problem_key#">
 						</cfquery>
@@ -603,12 +603,12 @@ limitations under the License.
 											Problem with RELATED_COLLECTION_OBJECT_ID.
 										<cfelseif cfcatch.detail contains "related_institution_acronym">
 											Invalid related_institution_acronym
-										<cfelseif cfcatch.detail contains "RELATED_OTHER_ID_VAL">
-											Problem with RELATED_OTHER_ID_VAL
+										<cfelseif cfcatch.detail contains "RELATED_OTHER_ID_VALUE">
+											Problem with RELATED_OTHER_ID_VALUE
 										<cfelseif cfcatch.detail contains "unique constraint">
 											This relationship exists in the record already
-										<cfelseif cfcatch.detail contains "OTHER_ID_VAL">
-											Problem with OTHER_ID_VAL 
+										<cfelseif cfcatch.detail contains "OTHER_ID_VALUE">
+											Problem with OTHER_ID_VALUE 
 										<cfelseif cfcatch.detail contains "biol_indiv_relation_remarks">
 											Problem with BIOL_INDIV_RELATION_REMARKS
 										<cfelseif cfcatch.detail contains "no data">
@@ -635,7 +635,7 @@ limitations under the License.
 										<th>INSTITUTION_ACRONYM</th>
 										<th>COLLECTION_CDE</th>
 										<th>OTHER_ID_TYPE</th>
-										<th>OTHER_ID_VAL</th>
+										<th>OTHER_ID_VALUE</th>
 										<th>RELATIONSHIP</th>
 										<th>RELATED_INSTITUTION_ACRONYM</th>
 										<th>RELATED_COLLECTION_CDE</th>
@@ -653,12 +653,12 @@ limitations under the License.
 											<td>#getProblemData.INSTITUTION_ACRONYM#</td>
 											<td>#getProblemData.COLLECTION_CDE#</td>
 											<td>#getProblemData.OTHER_ID_TYPE#</td>
-											<td>#getProblemData.OTHER_ID_VAL#</td>
+											<td>#getProblemData.OTHER_ID_VALUE#</td>
 											<td>#getProblemData.RELATIONSHIP#</td>
 											<td>#getProblemData.RELATED_INSTITUTION_ACRONYM#</td>
 											<td>#getProblemData.RELATED_COLLECTION_CDE#</td>
 											<td>#getProblemData.RELATED_OTHER_ID_TYPE#</td>
-											<td>#getProblemData.RELATED_OTHER_ID_VAL#</td>
+											<td>#getProblemData.RELATED_OTHER_ID_VALUE#</td>
 											<td>#getProblemData.BIOL_INDIV_RELATION_REMARKS#</td>
 										</tr>
 										<cfset i= i+1>
