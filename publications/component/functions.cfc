@@ -387,7 +387,7 @@ limitations under the License.
 					<button class="btn btn-xs btn-primary" onclick=" openAddAuthorEditorDialog('addAuthorEditorDialogDiv', '#publication_id#', 'authors', reloadAuthors); ">Add Authors</button>
 					<ol class="mt-2">
 						<cfloop query="getAuthors">
-							<li value="#author_position#">
+							<li value="#author_position#" class="my-1">
 								<a href="/agents/Agent.cfm?agent_id=#agent_id#" target="_blank">#agent_name#</a> 
 								<!--- TODO: Edit --->
 								<!--- TODO: move --->
@@ -593,7 +593,7 @@ limitations under the License.
 						<div class="col-12" id="listOfAuthorsDiv">
 							<ol id="authorListOnDialog" class="mt-2">
 								<cfloop query="getAuthorsEditors">
-									<li>#getAuthorsEditors.agent_name#</li>
+									<li class="my-1">#getAuthorsEditors.agent_name#</li>
 								</cfloop>
 							</ol>
 						</div>
