@@ -2015,7 +2015,7 @@ limitations under the License.
 						onClick="opencreatemediadialog('addMediaDialog',$('##fullCitationPlain').val(),'#publication_id#','shows publication',reloadPublicationMedia);" >
 					<input type='button' 
 						value='Link Media' 
-						class='btn btn-xs btn-secondary' 
+						class='btn btn-xs btn-secondary mx-2' 
 						onClick="openlinkmediadialog('linkMediaDialog','Link media to '+$('##fullCitationPlain').val() ,'#publication_id#','shows publication',reloadPublicationMedia); " >
 				</div>
 				<div id='addMediaDialog'></div>
