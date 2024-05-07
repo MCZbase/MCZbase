@@ -431,7 +431,7 @@
 			<cfif pf.c gt 0>
 				<cfquery name="cont" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					select container_id FROM coll_obj_cont_hist where
-					collection_object_id=#coll_obj.collection_object_id#
+					collection_object_id=#coll_obj_cont_hist.collection_object_id#
 				</cfquery>
 				<cfif len(cont.container_id) is 0>
 					<cfset sts='part_container_not_found'>
@@ -570,7 +570,7 @@
 					<cfloop query="getTempData">
 						<cfset problem_key = getTempData.key>
 							<cfquery name="updatePartContainer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updatePartContainer_result">
-								insert into coll_Obj_cont_hist
+								insert into coll_obj_cont_hist
 									(collection_object_id,container_id,installed_date,current_container_fg) 
 								values (#NEXTID.NEXTID#,#container_id#,sysdate,'1')
 							</cfquery>
