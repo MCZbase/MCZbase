@@ -302,7 +302,7 @@
 	</cfif>
 	<!------------------------------------------------------->
 	<cfif #action# is "validate">
-		<h2 class="h3">Second step: Data Validation</h2>
+		<h2 class="h4">Second step: Data Validation</h2>
 		<cfoutput>
 			<cfquery name="getTempTableTypes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT 
@@ -410,11 +410,11 @@
 				WHERE status is not null
 			</cfquery>
 			<cfif pf.c gt 0>
-				<h3 class="mt-2">
+				<h3 class="mt-3">
 					There is a problem with #pf.c# of #data.recordcount# row(s). See the STATUS column. (<a href="/tools/BulkloadPartContainer.cfm?action=validate">download</a>). Fix the problems in the data and <a href="/tools/BulkloadPartContainer.cfm" class="text-danger">start again</a>.
 				</h3>
 			<cfelse>
-				<h3 class="mt-2">
+				<h3 class="mt-3">
 					Validation checks passed. Look over the table below and <a href="/tools/BulkloadPartContainer.cfm?action=load" class="btn-link font-weight-lessbold">click to continue</a> if it all looks good or <a href="/tools/BulkloadPartContainer.cfm" class="text-danger">start again</a>.
 				</h3>
 			</cfif>
