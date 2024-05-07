@@ -355,8 +355,7 @@
 				UPDATE cf_temp_barcode_parts
 					SET 
 						status = concat(nvl2(status, status || '; ', ''), 'Item not found')
-					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-						and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
+				
 			</cfif>
 			<!--- obtain the information needed to QC each row --->
 			<cfquery name="getTempTableQC" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
