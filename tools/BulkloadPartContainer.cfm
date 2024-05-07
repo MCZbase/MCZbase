@@ -355,8 +355,6 @@
 					SET 
 						status = concat(nvl2(status, status || '; ', ''), 'Item not found')
 					WHERE collection_object_id IS NULL
-						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-					AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
 			</cfif>
 			</cfloop>
 
