@@ -342,7 +342,7 @@ function ScriptPrefixedNumberListToJSON(listOfNumbers, integerFieldname, prefixF
 		numericClause = ScriptNumberListToJSON(listOfNumbers, integerFieldname, nestDepth, leadingJoin);
 		wherebit = numericClause;
 	} else { 
-		// List consists of only more than one component, with at least one prefix or suffix.
+		// List consists of more than one component, with at least one prefix or suffix.
 		// Add openParens in first clause using provided openWith for nesting.
 		nestDepth = '"openParens":"0","closeParens":"0"';
 		if (openWith GT 0) { 
@@ -362,6 +362,17 @@ function ScriptPrefixedNumberListToJSON(listOfNumbers, integerFieldname, prefixF
 					// clause A
 					// openParen added to group the elements of lparts together, end of loop adds OR leadingJoin 
 					nestDepth = incrementOpenParens(nest="#nestDepth#");
+				}
+				if (ArrayLen(lparts) EQ 1 AND i EQ 1) {
+					// special case where we would miss setting closeParens in clause B.
+					if (closeWith GT 0) { 
+						for (j=1; j LTE closeWith; j=j+1) { 
+							// closeParen passed in from calling logic, e.g. to nest a number with a number type
+							nestDepth = incrementCloseParens(nest="#nestDepth#");
+							// note that this will be modified later if the lparts atom contains a number and prefix or suffix.
+							// follow nestDepth below.
+						}
+					}
 				}
 			} else if (i EQ ArrayLen(lparts)) {
 				// clause B 
