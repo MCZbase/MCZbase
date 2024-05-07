@@ -534,8 +534,11 @@ function ScriptPrefixedNumberListToJSON(listOfNumbers, integerFieldname, prefixF
 					// number will not be the last clause, so save closeParens for later, and zero it out here.
 					nestDepth = floorCloseParens(nest="#nestDepth#");
 				} else { 
+// TODO: This works with catalog number, but not with other number with type.
+					if (closeWith GT 0) 
 					if (i EQ ArrayLen(lparts) AND i GT 1) {
 						nestDepth = decrementCloseParens(nest="#nestDepth#");
+					}
 					}
 				} 
 				wherebit = wherebit & comma & ScriptNumberListToJSON(numeric, integerFieldname, nestDepth, leadingJoin);
