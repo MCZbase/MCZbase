@@ -429,11 +429,7 @@ function ScriptPrefixedNumberListToJSON(listOfNumbers, integerFieldname, prefixF
 				} else if (value CONTAINS "%" OR value CONTAINS "_") { 
 					comparator = '"comparator": "like"';
 				}
-				if (left(nestDepth,5) EQ '"open') {  
-					wherebit = wherebit & comma & '{#nestDepth#,"join":"' & leadingJoin & '","field": "' & displayFieldName &'",'& comparator & ',"value": "#value#"}';
-				} else { 
-					wherebit = wherebit & comma & '{"nest":"#nestDepth#","join":"' & leadingJoin & '","field": "' & displayFieldName &'",'& comparator & ',"value": "#value#"}';
-				}
+				wherebit = wherebit & comma & '{#nestDepth#,"join":"' & leadingJoin & '","field": "' & displayFieldName &'",'& comparator & ',"value": "#value#"}';
 				comma = ",";
 			} else if (partCount EQ 1 and REFind("^[A-Za-z]+$",atomParts[1])) { 
 				// just a prefix.
@@ -444,30 +440,18 @@ function ScriptPrefixedNumberListToJSON(listOfNumbers, integerFieldname, prefixF
 			} else if (partCount EQ 1 and REFind("^>[0-9]+$",atomParts[1])) { 
 				value = right(mayBeQuoted,len(mayBeQuoted)-1);
 				comparator = '"comparator": ">"';
-				if (left(nestDepth,5) EQ '"open') {  
-					wherebit = wherebit & comma & '{#nestDepth#,"join":"' & leadingJoin & '","field": "' & integerFieldName &'",'& comparator & ',"value": "#value#"}';
-				} else { 
-					wherebit = wherebit & comma & '{"nest":"#nestDepth#","join":"' & leadingJoin & '","field": "' & integerFieldName &'",'& comparator & ',"value": "#value#"}';
-				}
+				wherebit = wherebit & comma & '{#nestDepth#,"join":"' & leadingJoin & '","field": "' & integerFieldName &'",'& comparator & ',"value": "#value#"}';
 			} else if (partCount EQ 1 and REFind("^<[0-9]+$",atomParts[1])) { 
 				value = right(mayBeQuoted,len(mayBeQuoted)-1);
 				comparator = '"comparator": "<"';
-				if (left(nestDepth,5) EQ '"open') { 
-					wherebit = wherebit & comma & '{#nestDepth#,"join":"' & leadingJoin & '","field": "' & integerFieldName &'",'& comparator & ',"value": "#value#"}';
-				} else { 
-					wherebit = wherebit & comma & '{"nest":"#nestDepth#","join":"' & leadingJoin & '","field": "' & integerFieldName &'",'& comparator & ',"value": "#value#"}';
-				}
+				wherebit = wherebit & comma & '{#nestDepth#,"join":"' & leadingJoin & '","field": "' & integerFieldName &'",'& comparator & ',"value": "#value#"}';
 			} else if (partCount EQ 1 and REFind("^[0-9]+[A-Za-z]+$",atomParts[1])) { 
 				// number and suffix
 				numeric = rereplace(atomParts[1],"[^0-9]]","","all");
 				suffix = rereplace(atomParts[1],"[^A-Za-z]","","all");
 			} else if (partCount EQ 1 OR partCount GT 4) { 
 				// unexpected, and likely failure case, but try something
-				if (left(nestDepth,5) EQ '"open') { 
-					wherebit = wherebit & comma & '{#nestDepth#,"join":"and","field": "' & displayFieldName &'","comparator": "=","value": "#partFromList#"}';
-				} else { 
-					wherebit = wherebit & comma & '{"nest":"#nestDepth#","join":"and","field": "' & displayFieldName &'","comparator": "=","value": "#partFromList#"}';
-				}
+				wherebit = wherebit & comma & '{#nestDepth#,"join":"and","field": "' & displayFieldName &'","comparator": "=","value": "#partFromList#"}';
 				comma = ",";
 			} else if (partCount EQ 2) { 
 				if (REFind("^[0-9]+$",atomParts[1]) AND REFind("^[0-9]+$",atomParts[2])) { 
@@ -534,7 +518,8 @@ function ScriptPrefixedNumberListToJSON(listOfNumbers, integerFieldname, prefixF
 					// number will not be the last clause, so save closeParens for later, and zero it out here.
 					nestDepth = floorCloseParens(nest="#nestDepth#");
 				} else { 
-// TODO: This works with catalog number, but not with other number with type.
+// TODO: This works with catalog number, but not with other number.
+// This shouldn't work and shouldn't be needed, if last component is just numeric, entryNestDepth should be the right value.
 					if (i EQ ArrayLen(lparts) AND i GT 1) {
 						nestDepth = decrementCloseParens(nest="#nestDepth#");
 					}
@@ -572,11 +557,7 @@ function ScriptPrefixedNumberListToJSON(listOfNumbers, integerFieldname, prefixF
 				} else { 
 					joinPhrase = leadingJoin;
 				}
-				if (left(nestDepth,5) EQ '"open') { 
-					wherebit = wherebit & comma & '{#nestDepth#,"join":"' & joinPhrase & '","field": "' & prefixFieldName &'","comparator": "=","value": "#prefix#"}';
-				} else { 
-					wherebit = wherebit & comma & '{"nest":"#nestDepth#","join":"' & joinPhrase & '","field": "' & prefixFieldName &'","comparator": "=","value": "#prefix#"}';
-				}
+				wherebit = wherebit & comma & '{#nestDepth#,"join":"' & joinPhrase & '","field": "' & prefixFieldName &'","comparator": "=","value": "#prefix#"}';
 				comma = ",";
 				leadingJoin = "and";
 			}
@@ -596,11 +577,7 @@ function ScriptPrefixedNumberListToJSON(listOfNumbers, integerFieldname, prefixF
 					//remove any trailing dash
 					suffix = REReplace(suffix,"\-$","");
 				}
-				if (left(nestDepth,5) EQ '"open') { 
-					wherebit = wherebit & comma & '{#nestDepth#,"join":"and","field": "' & suffixFieldName &'","comparator": "=","value": "#suffix#"}';
-				} else {
-					wherebit = wherebit & comma & '{"nest":"#nestDepth#","join":"and","field": "' & suffixFieldName &'","comparator": "=","value": "#suffix#"}';
-				}
+				wherebit = wherebit & comma & '{#nestDepth#,"join":"and","field": "' & suffixFieldName &'","comparator": "=","value": "#suffix#"}';
 				comma = ",";
 				leadingJoin = "and";
 			}
@@ -1623,7 +1600,7 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 			</cfif>
 		</cfif>
 		<cfset nest = '"openParens":"0","closeParens":"0"'>
-	<cfelse>
+	<cfelseif has0 >
 		<!--- has one of other id/other id 1, but not both --->
 		<!--- first, other id --->
 		<cfset nest = '"openParens":"0","closeParens":"0"'>
@@ -1645,7 +1622,7 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 		</cfif>
 		<cfif isDefined("other_id_number") AND len(other_id_number) GT 0>
 			<cfif isDefined("other_id_number") AND len(other_id_number) GT 0 AND isDefined("other_id_type") AND len(other_id_type) GT 0>
-				<!--- has both other_id_type and other_id_number --->
+				<!--- has both other_id_type and other_id_number, set up to close the wrapping clause --->
 				<cfset nest = '"openParens":"0","closeParens":"1"'>
 				<cfset openWith = 0>
 				<cfset closeWith = 1>
@@ -1667,6 +1644,7 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 				<cfset join='"join":"and",'>
 			</cfif>
 		</cfif>
+	<cfelseif has1 >
 		<!--- second, and independent, other id 1--->
 		<cfset nest = '"openParens":"0","closeParens":"0"'>
 		<cfset openWith = 0>
