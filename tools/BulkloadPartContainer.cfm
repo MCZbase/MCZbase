@@ -492,6 +492,9 @@
 					<cftransaction>
 						<cfset install_date = ''>
 						<cfloop query="getTempData">
+							<cfquery name="NEXTID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+								select sq_collection_object_id.nextval NEXTID from dual
+							</cfquery>
 							<cfquery name="updatePartContainer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updatePartContainer_result">
 								insert into 
 								coll_obj_cont_hist
@@ -500,11 +503,12 @@
 								installed_date,
 								current_container_fg
 								) values (
-								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collection_object_id#">,
+								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#NEXTID.NEXTID#">,
 								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#container_id#">,
 								sysdate,
 								1)
-							</cfquery>			
+							</cfquery>	
+							
 							<cfset part_container_updates = part_container_updates + updatePartContainer_result.recordcount>
 						</cfloop>
 					</cftransaction> 
@@ -568,7 +572,7 @@
 							<cfquery name="updatePartContainer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updatePartContainer_result">
 								insert into coll_Obj_cont_hist
 									(collection_object_id,container_id,installed_date,current_container_fg) 
-								values (#collection_object_id#,#container_id#,sysdate,'1')
+								values (#NEXTID.NEXTID#,#container_id#,sysdate,'1')
 							</cfquery>
 						<cfset part_container_updates = part_container_updates + updatePartContainer_result.recordcount>
 					</cfloop>
