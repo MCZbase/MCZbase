@@ -535,7 +535,7 @@ function ScriptPrefixedNumberListToJSON(listOfNumbers, integerFieldname, prefixF
 					nestDepth = floorCloseParens(nest="#nestDepth#");
 				} else { 
 					if (i EQ ArrayLen(lparts) AND i GT 1) {
-						nestDepth = incrementCloseParens(nest="#nestDepth#");
+						nestDepth = decrementCloseParens(nest="#nestDepth#");
 					}
 				} 
 				wherebit = wherebit & comma & ScriptNumberListToJSON(numeric, integerFieldname, nestDepth, leadingJoin);
