@@ -397,7 +397,7 @@
 					<cfquery name="contWarning" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						UPDATE cf_temp_barcode_parts
 						SET status = concat(nvl2(status, status || '; ', ''),'part container not found')
-						where container_id not in (select container_id 
+						where container_id <> (select container_id 
 						FROM coll_obj_cont_hist
 						where collection_object_id=#getTempTableQC.collection_object_id#),
 						and status = ''
