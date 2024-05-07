@@ -370,7 +370,7 @@
 				</cfif>
 		</cfloop>
 		<cfquery name="getTempTableQC" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-			select distinct key, collection_object_id from cf_temp_barcode_parts where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+			select distinct key, collection_object_id,container_unique_id from cf_temp_barcode_parts where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 		</cfquery>
 			<cfloop query="getTempTableQC">
 				<!--- see if they gave a valid parent container ---->
@@ -378,7 +378,7 @@
 					update cf_temp_barcode_parts set container_id = (
 					select distinct container_id from container 
 					where container_type <> 'collection object'
-					and barcode='#container_unique_id#')
+					and barcode=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableQC.container_unique_id#">)
 				</cfquery>
 				<cfquery name="notGoodParentFlag" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE cf_temp_barcode_parts
