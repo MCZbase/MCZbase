@@ -305,7 +305,7 @@
 		<h2 class="h4">Second step: Data Validation</h2>
 		<cfoutput>
 		<cfset KEY = ''>
-		<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+		<cfquery name="coll_obj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			select KEY,
 				trim(INSTITUTION_ACRONYM) INSTITUTION_ACRONYM,
 				trim(COLLECTION_CDE) COLLECTION_CDE,
@@ -319,48 +319,51 @@
 				cf_temp_barcode_parts
 			where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 		</cfquery>
-		<cfloop query="data">
+		<cfloop query="coll_obj">
 			<cfif other_id_type is "catalog number">
-					<cfquery name="coll_obj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					<cfquery name="coll_obj1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						update cf_temp_barcode_parts 
-							set collection_object_id = (
-							select specimen_part.collection_object_id 
-						FROM
-							cataloged_item,
-							specimen_part,
-							collection
-						WHERE
-							cataloged_item.collection_object_id = specimen_part.derived_from_cat_item AND
-							cataloged_item.collection_id = collection.collection_id AND
-							collection.COLLECTION_CDE='#COLLECTION_CDE#' AND
-							collection.INSTITUTION_ACRONYM = '#INSTITUTION_ACRONYM#' AND
-							cat_num='#OTHER_ID_NUMBER#' AND
-							part_name='#part_name#' AND
-							preserve_method = '#preserve_method#'),
-						status= null
+							SET collection_object_id = (
+								select distinct specimen_part.collection_object_id 
+							FROM
+								cataloged_item,
+								specimen_part,
+								collection
+							WHERE
+								cataloged_item.collection_object_id = specimen_part.derived_from_cat_item AND
+								cataloged_item.collection_id = collection.collection_id AND
+								collection.COLLECTION_CDE='#COLLECTION_CDE#' AND
+								collection.INSTITUTION_ACRONYM = '#INSTITUTION_ACRONYM#' AND
+								cat_num='#OTHER_ID_NUMBER#' AND
+								part_name='#part_name#' AND
+								preserve_method = '#preserve_method#'
+							),
+							status= null
 						where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#data.key#">
 					</cfquery>
 				<cfelse>
-					<cfquery name="coll_obj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					<cfquery name="coll_obj1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						update cf_temp_barcode_parts 
-							set collection_object_id = (select specimen_part.collection_object_id 
-						FROM
-							cataloged_item,
-							specimen_part,
-							coll_obj_other_id_num,
-							collection
-						WHERE
-							cataloged_item.collection_object_id = specimen_part.derived_from_cat_item AND
-							cataloged_item.collection_object_id = coll_obj_other_id_num.collection_object_id AND
-							cataloged_item.collection_id = collection.collection_id AND
-							collection.COLLECTION_CDE='#COLLECTION_CDE#' AND
-							collection.INSTITutION_ACRONYM = '#INSTITutION_ACRONYM#' AND
-							other_id_type='#other_id_type#' AND
-							display_value= '#OTHER_ID_NUMBER#' AND
-							part_name='#part_name#' AND
-							preserve_method = '#preserve_method#'),
-						status= null
+							set collection_object_id = (
+								SELECT distinct specimen_part.collection_object_id 
+								FROM
+									cataloged_item,
+									specimen_part,
+									coll_obj_other_id_num,
+									collection
+								WHERE
+									cataloged_item.collection_object_id = specimen_part.derived_from_cat_item AND
+									cataloged_item.collection_object_id = coll_obj_other_id_num.collection_object_id AND
+									cataloged_item.collection_id = collection.collection_id AND
+									collection.COLLECTION_CDE='#COLLECTION_CDE#' AND
+									collection.INSTITutION_ACRONYM = '#INSTITutION_ACRONYM#' AND
+									other_id_type='#other_id_type#' AND
+									display_value= '#OTHER_ID_NUMBER#' AND
+									part_name='#part_name#' AND
+									preserve_method = '#preserve_method#'
+								),
+								status= null
 						where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#data.key#">
 					</cfquery>
