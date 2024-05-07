@@ -483,12 +483,9 @@
 							<cfset part_container_updates = part_container_updates + updatePartContainer_result.recordcount>
 						</cfloop>
 					</cftransaction> 
-					<div class="container">
-						<div class="row">
-							<div class="col-12 mx-auto">
-								<h2 class="h3">Updated #part_container_updates# part(s) with container(s).</h2>
-							</div>
-						</div>
+				
+					<h3 class="mt-3">Updated #part_container_updates# part(s) with container(s).</h2>
+
 					</div>
 				<cfcatch>
 					<h2>There was a problem updating part container.</h2>
