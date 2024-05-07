@@ -339,7 +339,7 @@
 							cat_num='#OTHER_ID_NUMBER#' AND
 							part_name='#part_name#' AND
 							preserve_method = '#preserve_method#'
-							and username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+							
 					</cfquery>
 				<cfelse>
 					<cfquery name="coll_obj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -358,7 +358,7 @@
 							display_value= '#OTHER_ID_NUMBER#' AND
 							part_name='#part_name#' AND
 							preserve_method = '#preserve_method#'
-							and username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+							
 					</cfquery>
 				</cfif>
 				<cfif coll_obj.recordcount is not 1>
