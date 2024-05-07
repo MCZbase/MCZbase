@@ -392,7 +392,7 @@
 					<cfquery name="cont" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						select container_id 
 						FROM coll_obj_cont_hist
-						where collection_object_id=#getTempTableQC.collection_object_id#
+						where collection_object_id=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableQC.collection_object_id#">
 					</cfquery>
 					<cfquery name="contWarning" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						UPDATE cf_temp_barcode_parts
