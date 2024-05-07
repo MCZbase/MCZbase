@@ -397,6 +397,7 @@
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC2.key#"> 
 				</cfquery>
+			</cfloop>
 				<cfquery name="cont" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					select container_id 
 					FROM coll_obj_cont_hist
@@ -413,8 +414,8 @@
 				</cfquery>
 				<cfquery name="setter" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					update cf_temp_barcode_parts set
-						parent_container_id=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableQC2.container_id#">,
-						part_container_id=#cont.container_id#
+						parent_container_id=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableQC2.container_id#">
+					
 					where status = ''
 					and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC2.key#"> 
 				</cfquery>
