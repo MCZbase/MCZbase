@@ -334,7 +334,7 @@
 							collection.INSTITUTION_ACRONYM = '#INSTITUTION_ACRONYM#' AND
 							cat_num='#OTHER_ID_NUMBER#' AND
 							part_name='#part_name#' AND
-							preserve_method = '#preserve_method#')
+							preserve_method = '#preserve_method#'),
 						status= null
 						where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#data.key#">
@@ -355,7 +355,7 @@
 							other_id_type='#other_id_type#' AND
 							display_value= '#OTHER_ID_NUMBER#' AND
 							part_name='#part_name#' AND
-							preserve_method = '#preserve_method#')
+							preserve_method = '#preserve_method#'),
 						status= null
 						where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#data.key#">
@@ -392,8 +392,8 @@
 						SET status = concat(nvl2(status, status || '; ', ''),'part container not found')
 						where container_id not in (select container_id 
 						FROM coll_obj_cont_hist
-						where collection_object_id=#coll_obj.collection_object_id#)
-						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+						where collection_object_id=#coll_obj.collection_object_id#),
+						where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
 					</cfquery>
 				</cfif>
