@@ -324,10 +324,26 @@ function ScriptPrefixedNumberListToJSON(listOfNumbers, integerFieldname, prefixF
 
 	// find prefixes and suffixes in atoms
 	if (REFind("^[0-9,]+$",listOfNumbers)>0) {
-		// list consists of only number or comma separated numbers, no ranges or prefixes, skip splitting into atoms
+		// List consists of only number or comma separated numbers, no ranges or prefixes, skip splitting into atoms
+		// Use provided openParens/closeParens from calling code.
+		nestDepth = '"openParens":"0","closeParens":"0"';
+		if (openWith GT 0) { 
+			for (j=1; j LTE openWith; j=j+1) { 
+				// openParen passed in from calling logic, e.g. to nest a number with a number type
+				nestDepth = incrementOpenParens(nest="#nestDepth#");
+			}
+		}
+		if (closeWith GT 0) { 
+			for (j=1; j LTE closeWith; j=j+1) { 
+				// closeParens passed in from calling logic, e.g. to nest a number with a number type
+				nestDepth = incrementCloseParens(nest="#nestDepth#");
+			}
+		}
 		numericClause = ScriptNumberListToJSON(listOfNumbers, integerFieldname, nestDepth, leadingJoin);
 		wherebit = numericClause;
 	} else { 
+		// List consists of only more than one component, with at least one prefix or suffix.
+		// Add openParens in first clause using provided openWith for nesting.
 		nestDepth = '"openParens":"0","closeParens":"0"';
 		if (openWith GT 0) { 
 			for (j=1; j LTE openWith; j=j+1) { 
@@ -335,11 +351,11 @@ function ScriptPrefixedNumberListToJSON(listOfNumbers, integerFieldname, prefixF
 				nestDepth = incrementOpenParens(nest="#nestDepth#");
 			}
 		} 
+		// closeWith provided in call will be used later in the last block produced from splitting lparts.
 		numericClause = "";
 		wherebit = "";
 		comma = "";
 		leadingJoin = "and";
-		// TODO: Handle nesting with openParens and closeParens
 		for (i=1; i LTE ArrayLen(lparts); i=i+1) {
 			if (i EQ 1) { 
 				if (ArrayLen(lparts) GT 1) {
@@ -355,18 +371,20 @@ function ScriptPrefixedNumberListToJSON(listOfNumbers, integerFieldname, prefixF
 					for (j=1; j LTE closeWith; j=j+1) { 
 						// closeParen passed in from calling logic, e.g. to nest a number with a number type
 						nestDepth = incrementCloseParens(nest="#nestDepth#");
+						// note that this will be modified later if the lparts atom contains a number and prefix or suffix.
+						// follow nestDepth below.
 					}
+				}
+				if (ArrayLen(lparts) EQ 2 AND i EQ 2) {
+					// special case where we would miss setting openParens to 0 in clause C
+					// undoes the added openParens in the clause A, allows clause B to operate normally.
+					nestDepth = decrementOpenParens(nest="#nestDepth#");
 				}
 			} else {
 				// clause C 
 				// starting point for all internal elements of lparts is no parenthesies
 				nestDepth = '"openParens":"0","closeParens":"0"';
 			} 
-			if (ArrayLen(lparts) EQ 2 AND i EQ 2) {
-				// special case where we would miss setting openParens to 0 in clause C
-				// undoes the added openParens in the clause A, allows clause B to operate normally.
-				nestDepth = decrementOpenParens(nest="#nestDepth#");
-			}
 			prefix = "";
 			numeric= "";
 			suffix = "";
@@ -507,8 +525,10 @@ function ScriptPrefixedNumberListToJSON(listOfNumbers, integerFieldname, prefixF
 				}
 				wherebit = wherebit & comma & ScriptNumberListToJSON(numeric, integerFieldname, nestDepth, leadingJoin);
 				if (Len(prefix) GT 0 OR Len(suffix) GT 0) { 
-					// restore closeParens
+					// restore closeParens as provided from above
 					nestDepth = entryNestDepth;
+					// and increment by one, as we opened parenthesies for the grouping of number with prefix and suffix above.
+					nestDepth = incrementCloseParens(nest="#nestDepth#");
 					// we have opened the parentheses, so zero out open for suffix and prefix.
 					nestDepth = floorOpenParens(nest="#nestDepth#");
 				}
