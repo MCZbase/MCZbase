@@ -453,166 +453,36 @@
 	</cfif>--->
 				
 	<!-------------------------------------------------------------------------------------------->
-	<cfif #action# is "load">
-		<h2 class="h4">Third step: Apply changes.</h2>
-		<cfoutput>
-			<cfquery name="getTempData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				SELECT *
-				FROM cf_temp_barcode_parts
-				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-			</cfquery>
-			<cftry>
-				<cfset part_container_updates = 0>
-					<cftransaction>
-						<cfset install_date = ''>
-						<cfloop query="getTempData">
-							<cfquery name="NEXTID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-								select sq_collection_object_id.nextval NEXTID from dual
-							</cfquery>
-							<cfquery name="updateContainer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updatePartContainer_result">
-								insert into 
-								coll_obj_cont_hist
-								(collection_object_id,
-								container_id,
-								installed_date,
-								current_container_fg
-								) values (
-								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#NEXTID.NEXTID#">,
-								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#container_id#">,
-								sysdate,
-								1)
-							</cfquery>	
-							<cfquery name="updateContainerHistory" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updatePartContainer_result">
-								insert into 
-								coll_obj_cont_hist
-								(collection_object_id,
-								container_id,
-								installed_date,
-								current_container_fg
-								) values (
-								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#NEXTID.NEXTID#">,
-								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#container_id#">,
-								sysdate,
-								1)
-							</cfquery>	
-							
-							<cfset part_container_updates = part_container_updates + updatePartContainer_result.recordcount>
-						</cfloop>
-					</cftransaction> 
-				
-					<h3 class="mt-3">Updated #part_container_updates# part(s) with container(s).</h3>
-
-					</div>
-				<cfcatch>
-					<h3 class="mt-3">There was a problem updating part container.</h3>
-					<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						SELECT *
-						FROM cf_temp_barcode_parts 
-						WHERE status is not null
-							AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-					</cfquery>
-					<h3>Problematic Rows (<a href="/tools/BulkloadPartContainer.cfm?action=dumpProblems">download</a>)</h3>
-					<table class='sortable px-0 small table table-responsive table-striped'>
-						<thead>
-							<tr>
-								<th>BULKLOADING&nbsp;STATUS</th>
-								<th>CONTAINER_TYPE</th>
-								<th>CONTAINER_ID</th>
-								<th>COLLECTION_OBJECT_ID</th>
-								<th>OTHER_ID_TYPE</th>
-								<th>OTHER_ID_NUMBER</th>
-								<th>COLLECTION_CDE</th>
-								<th>INSTITUTION_ACRONYM</th>
-								<th>PART_NAME</th>
-								<th>PRESERVE_METHOD</th>
-								<th>CONTAINER_UNIQUE_ID</th>
-								
-							</tr> 
-						</thead>
-						<tbody>
-							<cfloop query="getProblemData">
-								<tr>
-									<td><cfif len(getProblemData.status) eq 0>Cleared to load<cfelse><strong>#getProblemData.status#</strong></cfif></td>
-									<td>#getProblemData.CONTAINER_TYPE#</td>
-									<td>#getProblemData.CONTAINER_ID#</td>
-									<td>#getProblemData.COLLECTION_OBJECT_ID#</td>
-									<td>#getProblemData.OTHER_ID_TYPE#</td>
-									<td>#getProblemData.OTHER_ID_NUMBER#</td>
-									<td>#getProblemData.COLLECTION_CDE#</td>
-									<td>#getProblemData.INSTITUTION_ACRONYM#</td>
-									<td>#getProblemData.PART_NAME#</td>
-									<td>#getProblemData.PRESERVE_METHOD#</td>
-									<td>#getProblemData.CONTAINER_UNIQUE_ID#</td>
-								</tr> 
-							</cfloop>
-						</tbody>
-					</table>
-					<cfrethrow>
-				</cfcatch>
-			</cftry>
-			<cfset problem_key = "">
-			<cftransaction>
-				<cftry>
-					<cfset part_container_updates = 0>
-					<cfloop query="getTempData">
-						<cfset problem_key = getTempData.key>
-							<cfquery name="updatePartContainer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updatePartContainer_result">
-								insert into coll_obj_cont_hist
-									(collection_object_id,container_id,installed_date,current_container_fg) 
-								values (#NEXTID.NEXTID#,#container_id#,sysdate,'1')
-							</cfquery>
-						<cfset part_container_updates = part_container_updates + updatePartContainer_result.recordcount>
-					</cfloop>
-					<cftransaction action="commit">
-				<cfcatch>
-					<cftransaction action="rollback">
-						<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-							SELECT other_id_type,other_id_number,collection_cde,institution_acronym,
-								part_name,preserve_method,container_unique_id,status 
-							FROM cf_temp_barcode_parts 
-							WHERE status is not null
-							AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-						</cfquery>
-						<h3>Error updating row (#part_container_updates + 1#): #cfcatch.message#</h3>
-						<table class='sortable table table-responsive table-striped d-lg-table'>
-							<thead>
-								<tr>
-									<th>other_id_type</th>
-									<th>other_id_number</th>
-									<th>collection_cde</th>
-									<th>institution_acronym</th>
-									<th>part_name</th>
-									<th>preserve_method</th>
-									<th>container_unique_id</th>
-									<th>status</th>
-								</tr> 
-							</thead>
-							<tbody>
-								<cfloop query="getProblemData">
-									<tr>
-										<td>#getProblemData.OTHER_ID_TYPE#</td>
-										<td>#getProblemData.OTHER_ID_NUMBER#</td>
-										<td>#getProblemData.COLLECTION_CDE#</td>
-										<td>#getProblemData.INSTITUTION_ACRONYM#</td>
-										<td>#getProblemData.PART_NAME#</td>
-										<td>#getProblemData.PRESERVE_METHOD#</td>
-										<td>#getProblemData.CONTAINER_UNIQUE_ID#</td>
-										<td>#getProblemData.status#</td>
-									</tr> 
-								</cfloop>
-							</tbody>
-						</table>
-						<cfrethrow>
-				</cfcatch>
-				</cftry>
-			</cftransaction>
-			<h3 class="mt-3 text-success">Success, changes applied.</h3>
-		</div>
-		<cfquery name="clearTempTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="clearTempTable_result">
-			DELETE FROM cf_temp_barcode_parts 
-			WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-		</cfquery>
-		</cfoutput>
+	<cfif action is "load">
+	<cfquery name="d" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+		select * from cf_temp_barcode_parts
+	</cfquery>
+	<cfif len(valuelist(d.status,'')) gt 0>
+		Fix this and reload - nothing's been saved.
+		<cfdump var=#d#>
+	<cfelse>
+		<cftransaction>
+			<cfloop query="d">
+				<!---cfquery name="flagIT" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					update
+						container
+					set
+						container_type='#NEW_CONTAINER_TYPE#'
+					where
+						container_id = #parent_container_id#
+				</cfquery--->
+				<cfquery name="moveIt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					UPDATE
+						container
+					SET
+						parent_container_id = #parent_container_id#
+					 WHERE
+					container_id=#part_container_id#
+				</cfquery>
+			</cfloop>
+		</cftransaction>
+		woo hoo, it worked
 	</cfif>
+</cfif>
 </main>
 <cfinclude template="/shared/_footer.cfm">
