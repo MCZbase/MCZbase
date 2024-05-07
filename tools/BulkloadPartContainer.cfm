@@ -378,8 +378,10 @@
 				</cfquery>
 				<cfquery name="isGoodParent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					update cf_temp_barcode_parts set status = concat(nvl2(status, status || '; ', ''), 'Parent container does not exist')
-					WHERE container_id not in (select container_id from container where container_type <> 'collection object'
+					WHERE container_id not in (
+					select container_id from container where container_type <> 'collection object'
 					AND barcode = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableQC.container_unique_ID#">
+					)
 					and username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 					AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
 				</cfquery>
