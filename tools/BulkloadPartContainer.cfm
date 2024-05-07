@@ -76,7 +76,7 @@
 					</li>
 				</cfloop>
 			</ul>
-			<form name="bulk" method="post" enctype="multipart/form-data" action="/tools/BulkloadPartContainer.cfm">
+			<cfform name="bulk" method="post" enctype="multipart/form-data" action="/tools/BulkloadPartContainer.cfm">
 				<div class="form-row border rounded p-2">
 					<input type="hidden" name="action" value="getFile">
 					<div class="col-12 col-md-4">
@@ -94,7 +94,7 @@
 						<input type="submit" id="submittButton" value="Upload this file" class="btn btn-primary btn-xs">
 					</div>
 				</div>
-			</form>
+			</cfform>
 		</cfoutput>
 	</cfif>
 	
@@ -108,7 +108,7 @@
 		<cfset DUP_COLUMN_ERR = "One or more columns are duplicated in the header line of the csv file.">
 		<cfset COLUMN_ERR = "Error inserting data ">
 		<cfset NO_HEADER_ERR = "No header line found, csv file appears to be empty.">
-		<cfset table_name = "CF_TEMP_BARCODE_PARTS">
+		<cfset TABLE_NAME = "CF_TEMP_BARCODE_PARTS">
 
 		<cftry>
 			<!--- cleanup any incomplete work by the same user --->
@@ -223,14 +223,15 @@
 				</cfif>
 				<h3 class="h3">
 					<cfif loadedRows EQ 0>
-						Loaded no rows from the CSV file.  The file appears to be just a header with no data. Fix file and <a href="/tools/BulkloadAttributes.cfm">reload</a>
+						Loaded no rows from the CSV file.  The file appears to be just a header with no data. Fix file and <a href="/tools/BulkloadPartContainer.cfm">reload</a>
 					<cfelse>
 						Successfully read #loadedRows# records from the CSV file.  Next <a href="/tools/BulkloadPartContainer.cfm?action=validate">click to validate</a>.
 					</cfif>
 				</h3>
 			<cfcatch>
+			
 				<h3 class="h4">
-					Failed to read the CSV file.  Fix the errors in the file and <a href="/tools/BulkloadAttributes.cfm">reload</a>
+					Failed to read the CSV file.  Fix the errors in the file and <a href="/tools/BulkloadPartContainer.cfm">reload</a>
 				</h3>
 				<cfif isDefined("arrResult")>
 					<cfset foundHighCount = 0>
