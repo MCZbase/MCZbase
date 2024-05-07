@@ -389,7 +389,8 @@ function ScriptPrefixedNumberListToJSON(listOfNumbers, integerFieldname, prefixF
 				if (ArrayLen(lparts) EQ 2 AND i EQ 2) {
 					// special case where we would miss setting openParens to 0 in clause C
 					// undoes the added openParens in the clause A, allows clause B to operate normally.
-					nestDepth = decrementOpenParens(nest="#nestDepth#");
+					if (i EQ ArrayLen(lparts) AND i GT 1) {
+					nestDepth = floorOpenParens(nest="#nestDepth#");
 				}
 			} else {
 				// clause C 
