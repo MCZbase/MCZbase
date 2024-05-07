@@ -305,15 +305,15 @@
 		<h2 class="h4">Second step: Data Validation</h2>
 		<cfoutput>
 		<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-			select KEY,
-				trim(INSTITutION_ACRONYM) INSTITUTION_ACRONYM,
+			select
+				trim(INSTITUTION_ACRONYM) INSTITUTION_ACRONYM,
 				trim(COLLECTION_CDE) COLLECTION_CDE,
 				trim(OTHER_ID_TYPE) OTHER_ID_TYPE,
-				trim(OTHER_ID_NUMBER) oidNum,
+				trim(OTHER_ID_NUMBER) OTHER_ID_NUMBER,
 				trim(part_name) part_name,
 				trim(preserve_method) preserve_method,
 				trim(container_unique_id) container_unique_id,
-				print_fg,status,key
+				print_fg,status
 			from
 				cf_temp_barcode_parts
 		</cfquery>
@@ -336,7 +336,7 @@
 							cataloged_item.collection_id = collection.collection_id AND
 							collection.COLLECTION_CDE='#COLLECTION_CDE#' AND
 							collection.INSTITutION_ACRONYM = '#INSTITutION_ACRONYM#' AND
-							cat_num='#oidnum#' AND
+							cat_num='#OTHER_ID_NUMBER#' AND
 							part_name='#part_name#' AND
 							preserve_method = '#preserve_method#'
 							and username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
