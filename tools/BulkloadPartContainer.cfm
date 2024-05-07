@@ -314,7 +314,8 @@
 			<cfloop query="getTempData1">
 				<cfif #getTempData1.other_id_type# is "catalog number">
 					<cfquery name="getCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						update cf_temp_barcode_parts set collection_object_id = 
+						update cf_temp_barcode_parts 
+						set collection_object_id = 
 						(
 							select sp.collection_object_id 
 							from specimen_part sp, cataloged_item ci
@@ -326,7 +327,8 @@
 					</cfquery>
 				<cfelse>
 					<cfquery name="getCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						update cf_temp_barcode_parts set collection_object_id = 
+						update cf_temp_barcode_parts 
+						set collection_object_id = 
 						(
 							select sp.derived_from_cat_item 
 							from specimen_part sp, coll_obj_other_id_num ot
@@ -402,7 +404,6 @@
 						<th>COLLECTION_OBJECT_ID</th>
 						<th>CONTAINER_ID</th>
 						<th>PRESERVE_METHOD</th>
-						<th>STATUS</th>
 					</tr>
 				<tbody>
 					<cfloop query="data">
