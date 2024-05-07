@@ -400,7 +400,7 @@
 						where container_id not in (select container_id 
 						FROM coll_obj_cont_hist
 						where collection_object_id=#getTempTableQC.collection_object_id#),
-						where status = ''
+						and status = ''
 						and username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
 					</cfquery>
