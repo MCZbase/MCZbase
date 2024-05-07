@@ -319,7 +319,7 @@
 					<!--- either based on catalog_number --->
 					<cfquery name="getCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						UPDATE
-							cf_temp_barcode_partsv
+							cf_temp_barcode_parts
 						SET
 							collection_object_id = (
 								select collection_object_id 
