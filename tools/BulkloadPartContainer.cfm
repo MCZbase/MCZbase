@@ -304,6 +304,7 @@
 	<cfif #action# is "validate">
 		<h2 class="h4">Second step: Data Validation</h2>
 		<cfoutput>
+		<cfset KEY = ''>
 		<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			select KEY,
 				trim(INSTITUTION_ACRONYM) INSTITUTION_ACRONYM,
@@ -316,17 +317,12 @@
 				print_fg,status
 			from
 				cf_temp_barcode_parts
+			where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 		</cfquery>
-		<!---cfquery name="goodContainers" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-			update cf_temp_barcode_parts set status='bad_container_type'
-			where new_container_type NOT IN (
-				select container_type from ctcontainer_type)
-		</cfquery--->
-		
-			<cfloop query="data">
-				<cfset sts=''>
-				<cfif other_id_type is "catalog number">
+		<cfloop query="data">
+			<cfif other_id_type is "catalog number">
 					<cfquery name="coll_obj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						update cf_temp_barcode_parts set collection_object_id = (
 						select specimen_part.collection_object_id FROM
 							cataloged_item,
 							specimen_part,
@@ -338,12 +334,14 @@
 							collection.INSTITUTION_ACRONYM = '#INSTITUTION_ACRONYM#' AND
 							cat_num='#OTHER_ID_NUMBER#' AND
 							part_name='#part_name#' AND
-							preserve_method = '#preserve_method#'
-							
+							preserve_method = '#preserve_method#'),
+						status= null
+						where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+						and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#data.key#">
 					</cfquery>
 				<cfelse>
 					<cfquery name="coll_obj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						select specimen_part.collection_object_id FROM
+						update cf_temp_barcode_parts set collection_object_id = (select specimen_part.collection_object_id FROM
 							cataloged_item,
 							specimen_part,
 							coll_obj_other_id_num,
@@ -357,45 +355,60 @@
 							other_id_type='#other_id_type#' AND
 							display_value= '#OTHER_ID_NUMBER#' AND
 							part_name='#part_name#' AND
-							preserve_method = '#preserve_method#'
-							
+							preserve_method = '#preserve_method#'),
+						status= null
+						where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+						and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#data.key#">
 					</cfquery>
 				</cfif>
-				<cfif coll_obj.recordcount is not 1>
-					<cfset sts='item_not_found'>
-				</cfif>
+		</cfloop>
+		<cfquery name="getTempTableQC" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+			select distinct key, collection_object_id from cf_temp_barcode_parts where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+		</cfquery>
+			<cfloop query="getTempTableQC">
 				<!--- see if they gave a valid parent container ---->
 				<cfquery name="isGoodParent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					select container_id from container 
+					update cf_temp_barcode_parts set container_id = (
+					select distinct container_id from container 
 					where container_type <> 'collection object'
-					and barcode='#container_unique_id#'
+					and barcode='#container_unique_id#')
 				</cfquery>
-				<cfif isGoodParent.recordcount is not 1>
-					<cfset sts='container_unique_id_not_found'>
-				</cfif>
-				<cfif sts is ''>
+				<cfquery name="notGoodParentFlag" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					UPDATE cf_temp_barcode_parts
+					SET 
+						status = concat(nvl2(status, status || '; ', ''),'container_unique_id not found')
+					WHERE container_unique_id is not null 
+						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+						and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#"> 
+				</cfquery>
+				<cfif status is ''>
 					<cfquery name="cont" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						select container_id 
 						FROM coll_obj_cont_hist
-						where
-						collection_object_id=#coll_obj.collection_object_id#
+						where collection_object_id=#coll_obj.collection_object_id#
 					</cfquery>
-					<cfif len(cont.container_id) is 0>
-						<cfset sts='part_container_not_found'>
-					</cfif>
+					<cfquery name="contWarning" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						UPDATE cf_temp_barcode_parts
+						SET status = concat(nvl2(status, status || '; ', ''),'part container not found')
+						where container_id not in (select container_id 
+						FROM coll_obj_cont_hist
+						where collection_object_id=#coll_obj.collection_object_id#),
+						where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+						and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
+					</cfquery>
 				</cfif>
-				<cfif sts is ''>
+				<cfif status is ''>
 					<cfquery name="setter" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						update cf_temp_barcode_parts set
 							parent_container_id=#isGoodParent.container_id#,
 							part_container_id=#cont.container_id#
-						where key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#data.key#"> 
+						where key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#data.key#"> 
 					</cfquery>
 				<cfelse>
-					<cfquery name="ssetter" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						update cf_temp_barcode_parts set
-							status='#sts#'
-						where key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#data.key#"> 
+					<cfquery name="setterWarning" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						UPDATE cf_temp_barcode_parts
+						SET status = concat(nvl2(status, status || '; ', ''),'part container not found')
+						where key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#data.key#"> 
 					</cfquery>
 				</cfif>
 			</cfloop>
