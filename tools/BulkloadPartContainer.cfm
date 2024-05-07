@@ -424,7 +424,7 @@
 					SET status = concat(nvl2(status, status || '; ', ''),'part container not found')
 					where key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC2.key#"> 
 				</cfquery>
-			</cfloop>
+			
 		</cfoutput>
 		<cflocation url="BulkloadPartContainer.cfm?action=load">
 	</cfif>
