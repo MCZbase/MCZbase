@@ -306,7 +306,7 @@
 		<cfoutput>
 			<cfquery name="getTempTableTypes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT 
-					other_id_type, collection_cde,institution_acronym,key
+					other_id_type, collection_cde,institution_acronym,other_id_number,key
 				FROM 
 					cf_temp_barcode_parts
 				WHERE 
@@ -325,8 +325,8 @@
 						cataloged_item.collection_object_id = specimen_part.derived_from_cat_item AND
 						cataloged_item.collection_id = collection.collection_id AND
 						collection.COLLECTION_CDE='#COLLECTION_CDE#' AND
-						collection.INSTITutION_ACRONYM = '#INSTITUTION_ACRONYM#' AND
-						cat_num='#oidnum#' AND
+						collection.INSTITUTION_ACRONYM = '#INSTITUTION_ACRONYM#' AND
+						cat_num='#OTHER_ID_NUMBER#' AND
 						part_name='#part_name#' AND
 						preserve_method = '#preserve_method#'
 				</cfquery>
@@ -342,9 +342,9 @@
 						cataloged_item.collection_object_id = coll_obj_other_id_num.collection_object_id AND
 						cataloged_item.collection_id = collection.collection_id AND
 						collection.COLLECTION_CDE='#COLLECTION_CDE#' AND
-						collection.INSTITutION_ACRONYM = '#INSTITutION_ACRONYM#' AND
+						collection.INSTITUTION_ACRONYM = '#INSTITUTION_ACRONYM#' AND
 						other_id_type='#other_id_type#' AND
-						display_value= '#oidnum#' AND
+						display_value= '#other_id_number#' AND
 						part_name='#part_name#' AND
 						preserve_method = '#preserve_method#'
 				</cfquery>
