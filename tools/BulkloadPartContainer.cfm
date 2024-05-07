@@ -100,20 +100,19 @@
 	
 	<!------------------------------------------------------->
 	<cfif #action# is "getFile">
-	<h2 class="h3">First step: Reading data from CSV file.</h2>
 		<cfoutput>
+		<h2 class="h3">First step: Reading data from CSV file.</h2>
 		<!--- Compare the numbers of headers expected against provided in CSV file --->
 		<!--- Set some constants to identify error cases in cfcatch block --->
 		<cfset NO_COLUMN_ERR = "One or more required fields are missing in the header line of the csv file. Check charset selected if columns match required headers and one column is not found.">
 		<cfset DUP_COLUMN_ERR = "One or more columns are duplicated in the header line of the csv file.">
 		<cfset COLUMN_ERR = "Error inserting data ">
 		<cfset NO_HEADER_ERR = "No header line found, csv file appears to be empty.">
-		<cfset TABLE_NAME = "CF_TEMP_BARCODE_PARTS">
+		<cfset table_name = "CF_TEMP_BARCODE_PARTS">
 
 		<cftry>
-			<!--- cleanup any incomplete work by the same user --->
 			<cfquery name="clearTempTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="clearTempTable_result">
-				DELETE FROM MCZBASE.CF_TEMP_BARCODE_PARTS 
+				DELETE FROM cf_temp_barcode_parts
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<cfset variables.foundHeaders =""><!--- populated by loadCsvFile --->
@@ -174,7 +173,7 @@
 						<!--- construct insert for row with a line for each entry in fieldlist using cfqueryparam if column header is in fieldlist, otherwise using null --->
 						<!--- Note: As we can't use csvFormat.withHeader(), we can not match columns by name, we are forced to do so by number, thus arrays --->
 						<cfquery name="insert" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="insert_result">
-							insert into CF_TEMP_BARCODE_PARTS
+							insert into cf_temp_barcode_parts
 								(#fieldlist#,username)
 							values (
 								<cfset separator = "">
@@ -214,7 +213,7 @@
 					<h3 class="h4">Found characters where the encoding is probably important in the input data.</h3>
 					<div>
 						<p>Showing #foundHighCount# example#plural#.  If these do not appear as the correct characters, the file likely has a different encoding from the one you selected and
-						you probably want to <strong><a href="/tools/BulkloadPartContainer.cfm">reload</a></strong> this file selecting a different encoding.  If these appear as expected, then 
+						you probably want to <strong><a href="/tools/BulkloadPartContainer.cfm.cfm">reload</a></strong> this file selecting a different encoding.  If these appear as expected, then 
 							you selected the correct encoding and can continue to validate or load.</p>
 					</div>
 					<ul class="pb-1 h4 list-unstyled">
@@ -223,13 +222,12 @@
 				</cfif>
 				<h3 class="h3">
 					<cfif loadedRows EQ 0>
-						Loaded no rows from the CSV file.  The file appears to be just a header with no data. Fix file and <a href="/tools/BulkloadPartContainer.cfm">reload</a>
+						Loaded no rows from the CSV file.  The file appears to be just a header with no data. Fix file and <a href="/tools/BulkloadPartContainer.cfm.cfm">reload</a>
 					<cfelse>
-						Successfully read #loadedRows# records from the CSV file.  Next <a href="/tools/BulkloadPartContainer.cfm?action=validate">click to validate</a>.
+						Successfully read #loadedRows# records from the CSV file.  Next <a href="/tools/BulkloadPartContainer.cfm.cfm?action=validate">click to validate</a>.
 					</cfif>
 				</h3>
 			<cfcatch>
-			
 				<h3 class="h4">
 					Failed to read the CSV file.  Fix the errors in the file and <a href="/tools/BulkloadPartContainer.cfm">reload</a>
 				</h3>
