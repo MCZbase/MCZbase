@@ -355,7 +355,7 @@
 							collection.COLLECTION_CDE='#COLLECTION_CDE#' AND
 							collection.INSTITutION_ACRONYM = '#INSTITutION_ACRONYM#' AND
 							other_id_type='#other_id_type#' AND
-							display_value= '#oidnum#' AND
+							display_value= '#OTHER_ID_NUMBER#' AND
 							part_name='#part_name#' AND
 							preserve_method = '#preserve_method#'
 							and username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
@@ -369,7 +369,6 @@
 					select container_id from container 
 					where container_type <> 'collection object'
 					and barcode='#container_unique_id#'
-					and username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
 				<cfif isGoodParent.recordcount is not 1>
 					<cfset sts='container_unique_id_not_found'>
@@ -378,8 +377,7 @@
 					<cfquery name="cont" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						select container_id FROM coll_obj_cont_hist where
 						collection_object_id=#coll_obj.collection_object_id#
-						where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-						and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#data.key#"> 
+						where key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#data.key#"> 
 					</cfquery>
 					<cfif len(cont.container_id) is 0>
 						<cfset sts='part_container_not_found'>
@@ -390,15 +388,13 @@
 						update cf_temp_barcode_parts set
 							parent_container_id=#isGoodParent.container_id#,
 							part_container_id=#cont.container_id#
-						where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-							and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#data.key#"> 
+						where key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#data.key#"> 
 					</cfquery>
 				<cfelse>
 					<cfquery name="ssetter" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						update cf_temp_barcode_parts set
 							status='#sts#'
-						where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-							and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#data.key#"> 
+						where key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#data.key#"> 
 					</cfquery>
 				</cfif>
 			</cfloop>
