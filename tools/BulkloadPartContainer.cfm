@@ -304,41 +304,56 @@
 	<cfif #action# is "validate">
 		<h2 class="h3">Second step: Data Validation</h2>
 		<cfoutput>
-			<cfset other_id_type = ''>
-			<cfset other_id_number = ''>
-			<cfquery name="getTempData1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				SELECT other_id_type
-				FROM cf_temp_barcode_parts
-				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+			<cfquery name="getTempTableTypes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				SELECT 
+					other_id_type, key
+				FROM 
+					cf_temp_barcode_parts
+				WHERE 
+					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
-			<cfloop query="getTempData1">
-				<cfif #getTempData1.other_id_type# is "catalog number">
+			<cfset i= 1>
+			<cfloop query="getTempTableTypes">
+				<!--- For each row, set the target collection_object_id --->
+				<cfif getTempTableTypes.other_id_type eq 'catalog number'>
+					<!--- either based on catalog_number --->
 					<cfquery name="getCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						update cf_temp_barcode_parts 
-						set collection_object_id = 
-						(
-							select sp.collection_object_id 
-							from specimen_part sp, cataloged_item ci
-							where sp.derived_from_cat_item = ci.collection_object_id
-							and ci.collection_cde = cf_temp_barcode_parts.collection_cde
-							and ci.cat_num = cf_temp_barcode_parts.other_id_number
-						) 
-						where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+						UPDATE
+							cf_temp_barcode_partsv
+						SET
+							collection_object_id = (
+								select collection_object_id 
+								from cataloged_item 
+								where cat_num = cf_temp_barcode_parts.other_id_number 
+								and collection_cde = cf_temp_barcode_parts.collection_cde
+								and institution_acronym = 'MCZ'
+							),
+							status = null,
+							use_existing=0
+						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+							and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableTypes.key#"> 
 					</cfquery>
 				<cfelse>
+					<!--- or on specified other identifier --->
 					<cfquery name="getCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						update cf_temp_barcode_parts 
-						set collection_object_id = 
-						(
-							select sp.derived_from_cat_item 
-							from specimen_part sp, coll_obj_other_id_num ot
-							where sp.derived_from_cat_item = ot.collection_object_id
-							and ot.other_id_type = cf_temp_barcode_parts.other_id_type
-							and ot.display_value = cf_temp_barcode_parts.other_id_number
-						) 
-						where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+						UPDATE
+							cf_temp_barcode_parts
+						SET
+							collection_object_id= (
+								select cataloged_item.collection_object_id from cataloged_item,coll_obj_other_id_num 
+								where coll_obj_other_id_num.other_id_type = cf_temp_barcode_parts.other_id_type 
+								and cataloged_item.collection_cde = cf_temp_barcode_parts.collection_cde 
+								and display_value= cf_temp_barcode_parts.other_id_number
+								and cataloged_item.collection_object_id = coll_obj_other_id_num.COLLECTION_OBJECT_ID
+								and institution_acronym = 'MCZ'
+							),
+							status = null,
+							use_existing = 0
+						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+							and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableTypes.key#"> 
 					</cfquery>
 				</cfif>
+				<cfset i= i+1>
 			</cfloop>
 			<cfquery name="getCoID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				update cf_temp_barcode_parts set container_id=
