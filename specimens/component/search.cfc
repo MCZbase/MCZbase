@@ -507,10 +507,10 @@ function ScriptPrefixedNumberListToJSON(listOfNumbers, integerFieldname, prefixF
 				}
 				wherebit = wherebit & comma & ScriptNumberListToJSON(numeric, integerFieldname, nestDepth, leadingJoin);
 				if (Len(prefix) GT 0 OR Len(suffix) GT 0) { 
-					// we have opened the parentheses, so zero out open for suffix and prefix.
-					nestDepth = floorOpenParens(nest="#nestDepth#");
 					// restore closeParens
 					nestDepth = entryNestDepth;
+					// we have opened the parentheses, so zero out open for suffix and prefix.
+					nestDepth = floorOpenParens(nest="#nestDepth#");
 				}
 				comma = ",";
 				leadingJoin = "and";
