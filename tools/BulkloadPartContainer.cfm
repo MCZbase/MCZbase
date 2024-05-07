@@ -350,7 +350,6 @@
 				</cfquery>
 			</cfif>
 				<cfset i= i+1>
-			</cfloop>
 			<cfif coll_obj.recordcount is not 1>
 				UPDATE cf_temp_barcode_parts
 					SET 
@@ -359,6 +358,8 @@
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 					AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
 			</cfif>
+			</cfloop>
+
 			<!--- obtain the information needed to QC each row --->
 			<cfquery name="getTempTableQC" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT 
