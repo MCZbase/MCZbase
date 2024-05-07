@@ -342,7 +342,7 @@ function ScriptPrefixedNumberListToJSON(listOfNumbers, integerFieldname, prefixF
 		numericClause = ScriptNumberListToJSON(listOfNumbers, integerFieldname, nestDepth, leadingJoin);
 		wherebit = numericClause;
 	} else { 
-		// List consists of more than one component, with at least one prefix or suffix.
+		// List consists of one or more components, with at least one prefix or suffix.
 		// Add openParens in first clause using provided openWith for nesting.
 		nestDepth = '"openParens":"0","closeParens":"0"';
 		if (openWith GT 0) { 
@@ -549,7 +549,7 @@ function ScriptPrefixedNumberListToJSON(listOfNumbers, integerFieldname, prefixF
 			if (Len(prefix) GT 0) { 
 				if (Len(suffix) EQ 0 AND Len(numeric) GT 0) { 
 					// close out the clause for number and prefix.
-					nestDepth = incrementCloseParens(nest="#nestDepth#");
+					// nestDepth = incrementCloseParens(nest="#nestDepth#");
 				}
 				if (embeddedSeparator EQ true) {
 					// If the prefix isn't blank and doesn't end with the separator, add it.
