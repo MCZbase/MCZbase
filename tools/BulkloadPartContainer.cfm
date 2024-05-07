@@ -100,11 +100,17 @@
 	
 	<!------------------------------------------------------->
 	<cfif #action# is "getFile">
-		<h2 class="h3">First step: Reading data from CSV file.</h2>
+	<h2 class="h3">First step: Reading data from CSV file.</h2>
 		<cfoutput>
-			<cffile action="READ" file="#FiletoUpload#" variable="fileContent">
-			<cfset fileContent=replace(fileContent,"'","''","all")>
-			<cfset arrResult = CSVToArray(CSV = fileContent.Trim()) />
+		<!--- Compare the numbers of headers expected against provided in CSV file --->
+		<!--- Set some constants to identify error cases in cfcatch block --->
+		<cfset NO_COLUMN_ERR = "One or more required fields are missing in the header line of the csv file. Check charset selected if columns match required headers and one column is not found.">
+		<cfset DUP_COLUMN_ERR = "One or more columns are duplicated in the header line of the csv file.">
+		<cfset COLUMN_ERR = "Error inserting data ">
+		<cfset NO_HEADER_ERR = "No header line found, csv file appears to be empty.">
+		<cfset table_name = "CF_TEMP_ATTRIBUTES">
+
+		<cftry>
 			<!--- cleanup any incomplete work by the same user --->
 			<cfquery name="clearTempTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="clearTempTable_result">
 				DELETE FROM MCZBASE.CF_TEMP_BARCODE_PARTS 
