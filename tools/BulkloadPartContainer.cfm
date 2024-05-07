@@ -461,7 +461,7 @@
 				
 	<!-------------------------------------------------------------------------------------------->
 	<cfif #action# is "load">
-		<h2 class="h3">Third step: Apply changes.</h2>
+		<h2 class="h4">Third step: Apply changes.</h2>
 		<cfoutput>
 			<cfquery name="getTempData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT *
@@ -484,11 +484,11 @@
 						</cfloop>
 					</cftransaction> 
 				
-					<h3 class="mt-3">Updated #part_container_updates# part(s) with container(s).</h2>
+					<h3 class="mt-3">Updated #part_container_updates# part(s) with container(s).</h3>
 
 					</div>
 				<cfcatch>
-					<h2>There was a problem updating part container.</h2>
+					<h3 class="mt-3">There was a problem updating part container.</h3>
 					<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						SELECT *
 						FROM cf_temp_barcode_parts 
@@ -496,9 +496,10 @@
 							AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 					</cfquery>
 					<h3>Problematic Rows (<a href="/tools/BulkloadPartContainer.cfm?action=dumpProblems">download</a>)</h3>
-					<table class='sortable table table-responsive table-striped d-lg-table'>
+					<table class='sortable px-0 small table table-responsive table-striped'>
 						<thead>
 							<tr>
+								<th>BULKLOADING&nbsp;STATUS</th>
 								<th>CONTAINER_TYPE</th>
 								<th>CONTAINER_ID</th>
 								<th>COLLECTION_OBJECT_ID</th>
@@ -509,12 +510,14 @@
 								<th>PART_NAME</th>
 								<th>PRESERVE_METHOD</th>
 								<th>CONTAINER_UNIQUE_ID</th>
-								<th>STATUS</th>
+								
 							</tr> 
 						</thead>
 						<tbody>
 							<cfloop query="getProblemData">
-								<tr><td>#getProblemData.CONTAINER_TYPE#</td>
+								<tr>
+									<td><cfif len(data.status) eq 0>Cleared to load<cfelse><strong>#data.status#</strong></cfif></td>
+									<td>#getProblemData.CONTAINER_TYPE#</td>
 									<td>#getProblemData.CONTAINER_ID#</td>
 									<td>#getProblemData.COLLECTION_OBJECT_ID#</td>
 									<td>#getProblemData.OTHER_ID_TYPE#</td>
@@ -524,7 +527,6 @@
 									<td>#getProblemData.PART_NAME#</td>
 									<td>#getProblemData.PRESERVE_METHOD#</td>
 									<td>#getProblemData.CONTAINER_UNIQUE_ID#</td>
-									<td><strong>#STATUS#</strong></td>
 								</tr> 
 							</cfloop>
 						</tbody>
