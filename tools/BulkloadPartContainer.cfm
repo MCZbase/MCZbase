@@ -365,10 +365,12 @@
 				<!---Loop through the temp part data and validate against code tables and requirements--->
 			<cfloop query="getTempTableQC">
 				<cfquery name="getPartCollObjID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					select * from
-					COLL_OBJECT 
+					update cf_temp_barcode_parts 
+					set collection_object_id = (
+					select collection_object_id from COLL_OBJECT 
 					left join specimen_part on coll_object.collection_object_id = specimen_part.collection_object_id
-					where specimen_part.derived_from_cat_item = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.collection_object_id#">
+					where specimen_part.derived_from_cat_item = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.collection_object_id#">)
+					and username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
 				<cfquery name="flagNotMatchedOther_ID_Type" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE cf_temp_barcode_parts
