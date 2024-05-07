@@ -590,7 +590,7 @@
 				</cfcatch>
 				</cftry>
 			</cftransaction>
-			<h3 class="mt-3text-success">Success, changes applied.</h3>
+			<h3 class="mt-3 text-success">Success, changes applied.</h3>
 		</div>
 		<cfquery name="clearTempTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="clearTempTable_result">
 			DELETE FROM cf_temp_barcode_parts 
