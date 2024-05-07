@@ -590,17 +590,12 @@
 				</cfcatch>
 				</cftry>
 			</cftransaction>
-			<div class="container">
-				<div class="row">
-					<div class="col-12 mx-auto">
-						<h3 class="text-success">Success, changes applied.</h3>
-					</div>
-				</div>
-			</div>
-			<cfquery name="clearTempTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="clearTempTable_result">
-				DELETE FROM cf_temp_barcode_parts 
-				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-			</cfquery>
+			<h3 class="mt-3text-success">Success, changes applied.</h3>
+		</div>
+		<cfquery name="clearTempTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="clearTempTable_result">
+			DELETE FROM cf_temp_barcode_parts 
+			WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+		</cfquery>
 		</cfoutput>
 	</cfif>
 </main>
