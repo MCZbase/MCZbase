@@ -356,7 +356,7 @@
 			<!--- obtain the information needed to QC each row --->
 			<cfquery name="getTempTableQC" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT 
-					collection_object_id,collection_cde,key
+					collection_object_id,collection_cde,container_unique_id,key
 				FROM 
 					cf_temp_barcode_parts
 				WHERE 
@@ -374,6 +374,13 @@
 					update cf_temp_barcode_parts set parent_container_id=
 					(select parent_container_id from container where container.barcode = cf_temp_barcode_parts.container_unique_id)
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+					AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
+				</cfquery>
+				<cfquery name="isGoodParent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					update cf_temp_barcode_parts set status = concat(nvl2(status, status || '; ', ''), 'Parent container does not exist')
+					WHERE container_id not in (select container_id from container where container_type <> 'collection object'
+					AND barcode = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableQC.container_unique_ID#">
+					and username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 					AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
 				</cfquery>
 				<cfquery name="miac" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -534,11 +541,11 @@
 					<cfset part_container_updates = 0>
 					<cfloop query="getTempData">
 						<cfset problem_key = getTempData.key>
-	<!---						<cfquery name="updatePartContainer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updatePartContainer_result">
+							<cfquery name="updatePartContainer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updatePartContainer_result">
 								insert into coll_Obj_cont_hist
 									(collection_object_id,container_id,installed_date,current_container_fg) 
 								values (#collection_object_id#,#container_id#,sysdate,'1')
-							</cfquery>--->
+							</cfquery>
 						<cfset part_container_updates = part_container_updates + updatePartContainer_result.recordcount>
 					</cfloop>
 					<cftransaction action="commit">
