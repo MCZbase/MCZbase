@@ -322,7 +322,7 @@
 			where new_container_type NOT IN (
 				select container_type from ctcontainer_type)
 		</cfquery--->
-		<cfoutput>
+		
 			<cfloop query="data">
 				<cfset sts=''>
 				<cfif other_id_type is "catalog number">
