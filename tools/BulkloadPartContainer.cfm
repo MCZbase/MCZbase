@@ -419,6 +419,13 @@
 				WHERE status is not null
 			</cfquery>
 			<cfif pf.c gt 0>
+				<cfquery name="cont" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					select container_id FROM coll_obj_cont_hist where
+					collection_object_id=#coll_obj.collection_object_id#
+				</cfquery>
+				<cfif len(cont.container_id) is 0>
+					<cfset sts='part_container_not_found'>
+				</cfif>
 				<h3 class="mt-3">
 					There is a problem with #pf.c# of #data.recordcount# row(s). See the STATUS column. (<a href="/tools/BulkloadPartContainer.cfm?action=validate">download</a>). Fix the problems in the data and <a href="/tools/BulkloadPartContainer.cfm" class="text-danger">start again</a>.
 				</h3>
@@ -478,9 +485,15 @@
 							<cfquery name="updatePartContainer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updatePartContainer_result">
 								insert into 
 								coll_obj_cont_hist
-									(collection_object_id,container_id,installed_date,current_container_fg) 
-								values (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collection_object_id#">,
-								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#container_id#">,sysdate,1)
+								(collection_object_id,
+								container_id,
+								installed_date,
+								current_container_fg
+								) values (
+								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collection_object_id#">,
+								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#container_id#">,
+								sysdate,
+								1)
 							</cfquery>			
 							<cfset part_container_updates = part_container_updates + updatePartContainer_result.recordcount>
 						</cfloop>
