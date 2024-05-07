@@ -340,7 +340,7 @@
 							),
 							status= null
 						where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-						and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#data.key#">
+						and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#coll_obj.key#">
 					</cfquery>
 				<cfelse>
 					<cfquery name="coll_obj1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -365,7 +365,7 @@
 								),
 								status= null
 						where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-						and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#data.key#">
+						and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#coll_obj.key#">
 					</cfquery>
 				</cfif>
 		</cfloop>
