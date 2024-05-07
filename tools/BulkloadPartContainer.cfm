@@ -322,8 +322,10 @@
 		<cfloop query="data">
 			<cfif other_id_type is "catalog number">
 					<cfquery name="coll_obj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						update cf_temp_barcode_parts set collection_object_id = (
-						select specimen_part.collection_object_id FROM
+						update cf_temp_barcode_parts 
+							set collection_object_id = (
+							select specimen_part.collection_object_id 
+						FROM
 							cataloged_item,
 							specimen_part,
 							collection
@@ -341,7 +343,9 @@
 					</cfquery>
 				<cfelse>
 					<cfquery name="coll_obj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						update cf_temp_barcode_parts set collection_object_id = (select specimen_part.collection_object_id FROM
+						update cf_temp_barcode_parts 
+							set collection_object_id = (select specimen_part.collection_object_id 
+						FROM
 							cataloged_item,
 							specimen_part,
 							coll_obj_other_id_num,
@@ -385,14 +389,14 @@
 					<cfquery name="cont" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						select container_id 
 						FROM coll_obj_cont_hist
-						where collection_object_id=#coll_obj.collection_object_id#
+						where collection_object_id=#getTempTableQC.collection_object_id#
 					</cfquery>
 					<cfquery name="contWarning" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						UPDATE cf_temp_barcode_parts
 						SET status = concat(nvl2(status, status || '; ', ''),'part container not found')
 						where container_id not in (select container_id 
 						FROM coll_obj_cont_hist
-						where collection_object_id=#coll_obj.collection_object_id#),
+						where collection_object_id=#getTempTableQC.collection_object_id#),
 						where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
 					</cfquery>
