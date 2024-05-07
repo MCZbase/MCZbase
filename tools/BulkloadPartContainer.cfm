@@ -375,9 +375,10 @@
 				</cfif>
 				<cfif sts is ''>
 					<cfquery name="cont" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						select container_id FROM coll_obj_cont_hist where
+						select container_id 
+						FROM coll_obj_cont_hist
+						where
 						collection_object_id=#coll_obj.collection_object_id#
-						where key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#data.key#"> 
 					</cfquery>
 					<cfif len(cont.container_id) is 0>
 						<cfset sts='part_container_not_found'>
