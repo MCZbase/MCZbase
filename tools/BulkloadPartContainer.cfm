@@ -314,7 +314,7 @@
 			</cfquery>
 			<cfset i= 1>
 			<cfloop query="getTempTableTypes">
-				<!--- For each row, set the target collection_object_id --->
+				<!--- For each row, set the target collection_object_id for specimen record--->
 				<cfif getTempTableTypes.other_id_type eq 'catalog number'>
 					<!--- either based on catalog_number --->
 					<cfquery name="getCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -364,8 +364,14 @@
 			</cfquery>
 				<!---Loop through the temp part data and validate against code tables and requirements--->
 			<cfloop query="getTempTableQC">
+				<cfquery name="getPartCollObjID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					select * from
+					COLL_OBJECT 
+					left join specimen_part on coll_object.collection_object_id = specimen_part.collection_object_id
+					where specimen_part.derived_from_cat_item = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.collection_object_id#">
+				</cfquery>
 				<cfquery name="flagNotMatchedOther_ID_Type" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					UPDATE cf_temp_citation
+					UPDATE cf_temp_barcode_parts
 					SET 
 						status = concat(nvl2(status, status || '; ', ''), 'Unknown other_id_type: "' || other_id_type ||'"&mdash;not on list')
 					WHERE other_id_type is not null 
@@ -495,7 +501,20 @@
 							<cfquery name="NEXTID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 								select sq_collection_object_id.nextval NEXTID from dual
 							</cfquery>
-							<cfquery name="updatePartContainer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updatePartContainer_result">
+							<cfquery name="updateContainer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updatePartContainer_result">
+								insert into 
+								coll_obj_cont_hist
+								(collection_object_id,
+								container_id,
+								installed_date,
+								current_container_fg
+								) values (
+								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#NEXTID.NEXTID#">,
+								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#container_id#">,
+								sysdate,
+								1)
+							</cfquery>	
+							<cfquery name="updateContainerHistory" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updatePartContainer_result">
 								insert into 
 								coll_obj_cont_hist
 								(collection_object_id,
