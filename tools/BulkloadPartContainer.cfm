@@ -313,7 +313,7 @@
 				trim(part_name) part_name,
 				trim(preserve_method) preserve_method,
 				trim(container_unique_id) container_unique_id,
-				print_fg
+				print_fg,status
 			from
 				cf_temp_barcode_parts
 		</cfquery>
