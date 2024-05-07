@@ -400,24 +400,22 @@
 						where container_id not in (select container_id 
 						FROM coll_obj_cont_hist
 						where collection_object_id=#getTempTableQC.collection_object_id#),
-						where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+						where status = ''
+						and username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
 					</cfquery>
-				
-				<cfif status is ''>
 					<cfquery name="setter" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						update cf_temp_barcode_parts set
 							parent_container_id=#isGoodParent.container_id#,
 							part_container_id=#cont.container_id#
-						where key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#data.key#"> 
+						where status = ''
+						and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#data.key#"> 
 					</cfquery>
-				<cfelse>
 					<cfquery name="setterWarning" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						UPDATE cf_temp_barcode_parts
 						SET status = concat(nvl2(status, status || '; ', ''),'part container not found')
 						where key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#data.key#"> 
 					</cfquery>
-				</cfif>
 			</cfloop>
 		</cfoutput>
 		<cflocation url="BulkloadPartContainer.cfm?action=load">
