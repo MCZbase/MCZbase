@@ -533,7 +533,11 @@ function ScriptPrefixedNumberListToJSON(listOfNumbers, integerFieldname, prefixF
 					nestDepth = incrementOpenParens(nest="#nestDepth#");
 					// number will not be the last clause, so save closeParens for later, and zero it out here.
 					nestDepth = floorCloseParens(nest="#nestDepth#");
-				}
+				} else { 
+					if (i EQ ArrayLen(lparts) AND i GT 1) {
+						nestDepth = decrementCloseParens(nest="#nestDepth#");
+					}
+				} 
 				wherebit = wherebit & comma & ScriptNumberListToJSON(numeric, integerFieldname, nestDepth, leadingJoin);
 				if (Len(prefix) GT 0 OR Len(suffix) GT 0) { 
 					// restore closeParens as provided from above
