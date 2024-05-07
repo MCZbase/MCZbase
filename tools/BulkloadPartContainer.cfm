@@ -76,7 +76,7 @@
 					</li>
 				</cfloop>
 			</ul>
-			<form name="bulk" method="post" enctype="multipart/form-data" action="/tools/BulkloadPartContainer.cfm">
+			<cfform name="bulk" method="post" enctype="multipart/form-data" action="/tools/BulkloadPartContainer.cfm">
 				<div class="form-row border rounded p-2">
 					<input type="hidden" name="action" value="getFile">
 					<div class="col-12 col-md-4">
@@ -94,7 +94,7 @@
 						<input type="submit" id="submittButton" value="Upload this file" class="btn btn-primary btn-xs">
 					</div>
 				</div>
-			</form>
+			</cfform>
 		</cfoutput>
 	</cfif>
 	
