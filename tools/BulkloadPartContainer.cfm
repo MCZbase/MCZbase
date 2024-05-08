@@ -473,7 +473,7 @@
 				<cfset container_part_updates = 0>
 				<cftransaction>
 					<cfloop query="getTempData">
-						<cfloop query="getTempData">
+					
 						<cfquery name="updateContainer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateContainer_result">
 							UPDATE
 								container 
@@ -531,7 +531,6 @@
 									<td>#getProblemData.PART_NAME#</td>
 									<td>#getProblemData.PRESERVE_METHOD#</td>
 									<td>#getProblemData.CONTAINER_UNIQUE_ID#</td>
-									<td><strong>#STATUS#</strong></td>
 								</tr> 
 							</cfloop>
 						</tbody>
@@ -542,15 +541,18 @@
 			<cfset problem_key = "">
 			<cftransaction>
 				<cftry>
-					<cfset part_container_updates = 0>
+					<cfset container_updates = 0>
 					<cfloop query="getTempData">
 						<cfset problem_key = getTempData.key>
-							<cfquery name="updatePartContainer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updatePartContainer_result">
-								insert into coll_Obj_cont_hist
-									(collection_object_id,container_id,installed_date,current_container_fg) 
-								values (#collection_object_id#,#container_id#,sysdate,'1')
-							</cfquery>
-						<cfset part_container_updates = part_container_updates + updatePartContainer_result.recordcount>
+						<cfquery name="updateContainer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateContainer_result">
+							UPDATE
+								container 
+							SET
+								PARENT_CONTAINER_ID = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#CONTAINER_ID#">
+							WHERE
+								CONTAINER_ID=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#CONTAINER_ID#">
+						</cfquery>
+						<cfset container_updates = container_updates + updateContainer_result.recordcount>
 					</cfloop>
 					<cftransaction action="commit">
 				<cfcatch>
@@ -562,8 +564,34 @@
 							WHERE status is not null
 							AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						</cfquery>
-						<h3>Error updating row (#part_container_updates + 1#): #cfcatch.message#</h3>
-						<table class='sortable table table-responsive table-striped d-lg-table'>
+						<cfif getProblemData.recordcount GT 0>
+						<h3>
+							Fix the issues and <a href="/tools/BulkloadCitations.cfm">reload</a>. Error loading row (<span class="text-danger">#citation_updates + 1#</span>) from the CSV: 
+							<cfif len(cfcatch.detail) gt 0>
+								<span class="font-weight-normal border-bottom border-danger">
+									<cfif cfcatch.detail contains "part_name">
+										Invalid part_name; See controlled vocabulary.
+									<cfelseif cfcatch.detail contains "institution_acronym">
+										Should be 'MCZ'.
+									<cfelseif cfcatch.detail contains "preserve_method">
+										Invalid or missing preserve_method
+									<cfelseif cfcatch.detail contains "container_unique_id">
+										Invalid container_unique_id; Search containers for existing.
+									<cfelseif cfcatch.detail contains "collection_object-Id">
+										Invalid COLLECTION_OBJECT_ID
+									<cfelseif cfcatch.detail contains "unique constraint">
+										This container has already been entered. Remove from spreadsheet and try again. (<a href="/tools/BulkloadPartContainer.cfm">Reload.</a>)
+									<cfelseif cfcatch.detail contains "no data">
+										No data or the wrong data (#cfcatch.detail#)
+									<cfelse>
+										<!--- provide the raw error message if it isn't readily interpretable --->
+										#cfcatch.detail#
+									</cfif>
+								</span>
+							</cfif>
+						</h3>
+						<!---<h3>Error updating row (#part_container_updates + 1#): #cfcatch.message#</h3>
+						<table class='sortable px-0 w-100 table table-responsive table-striped'>
 							<thead>
 								<tr>
 									<th>BULKLOADING&nbsp;STATUS</th>
@@ -590,18 +618,14 @@
 									</tr> 
 								</cfloop>
 							</tbody>
-						</table>
+						</table>--->
 						<cfrethrow>
 				</cfcatch>
 				</cftry>
 			</cftransaction>
-			<div class="container">
-				<div class="row">
-					<div class="col-12 mx-auto">
-						<h3 class="text-success">Success, changes applied.</h3>
-					</div>
-				</div>
-			</div>
+			<cfif container_updates GT 1><cfset plural="s"><cfelse><cfset plural=""></cfif>
+			<h3 class="mt-4">Updated #container_updates# container#plural#.</h3>
+			<h3 class="text-success">Success, changes applied.</h3>
 			<cfquery name="clearTempTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="clearTempTable_result">
 				DELETE FROM cf_temp_barcode_parts 
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
