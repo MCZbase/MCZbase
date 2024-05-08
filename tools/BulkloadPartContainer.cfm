@@ -382,7 +382,7 @@
 			</cfloop>
 			<cfquery name="getTempTableQC" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT 
-					key,collection_object_id
+					key,collection_object_id, container_unique_id
 				FROM 
 					cf_temp_barcode_parts
 				WHERE 
