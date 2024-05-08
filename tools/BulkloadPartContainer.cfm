@@ -356,12 +356,12 @@
 						and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableTypes.key#"> 
 					</cfquery>
 				</cfif>
-				<cfquery name="cont" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					select container_id 
-					FROM coll_obj_cont_hist
-					WHERE collection_object_id=#coll_obj.collection_object_id#
-				</cfquery>
 			</cfloop>
+			<cfquery name="cont" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				select container_id 
+				FROM coll_obj_cont_hist
+				WHERE collection_object_id=#coll_obj.collection_object_id#
+			</cfquery>
 			<cfquery name="getTempTableQC" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT key,collection_object_id, container_unique_id
 				FROM cf_temp_barcode_parts
