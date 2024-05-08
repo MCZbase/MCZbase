@@ -358,8 +358,6 @@ function ScriptPrefixedNumberListToJSON(listOfNumbers, integerFieldname, prefixF
 						nestDepth = incrementOpenParens(nest="#nestDepth#");
 					}
 				} 
-				// openParen added to group the elements of lparts together, end of loop adds OR leadingJoin 
-				nestDepth = incrementOpenParens(nest="#nestDepth#");
 				// special case where we would miss setting closeParens in clause B.
 				if (closeWith GT 0) { 
 					for (j=1; j LTE closeWith; j=j+1) { 
