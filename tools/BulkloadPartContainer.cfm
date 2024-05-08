@@ -321,7 +321,7 @@
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<cfloop query ='getTempTableTypes'> 
-			<cfif other_id_type is "catalog number">
+				<cfif other_id_type is "catalog number">
 				<cfquery name="coll_obj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					select specimen_part.collection_object_id FROM
 						cataloged_item,
@@ -368,6 +368,7 @@
 						preserve_method = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableTypes.preserve_method#">
 				</cfquery>
 			</cfif>
+			</cfloop>
 			<cfquery name="getPartCOID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT 
 					distinct key,collection_object_id
