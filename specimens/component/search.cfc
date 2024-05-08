@@ -449,6 +449,8 @@ function ScriptPrefixedNumberListToJSON(listOfNumbers, integerFieldname, prefixF
 			} else if (partCount EQ 1 and REFind("^[0-9]+$",atomParts[1])) { 
 				// just a number
 				numeric = atomParts[1];
+				prefix = "";
+				suffix = "";
 			} else if (partCount EQ 1 and REFind("^>[0-9]+$",atomParts[1])) { 
 				value = right(mayBeQuoted,len(mayBeQuoted)-1);
 				comparator = '"comparator": ">"';
