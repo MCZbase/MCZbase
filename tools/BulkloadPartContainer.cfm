@@ -356,9 +356,7 @@
 						and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableTypes.key#"> 
 					</cfquery>
 				</cfif>
-
 			</cfloop>
-
 			<cfquery name="getTempTableQC" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT key,collection_object_id, container_unique_id
 				FROM cf_temp_barcode_parts
@@ -370,31 +368,14 @@
 					FROM coll_obj_cont_hist
 					WHERE collection_object_id=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableQC.collection_object_id#">
 				</cfquery>
-				<cfquery name="flagNoCont" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					UPDATE cf_temp_barcode_parts
-					SET 
-						status = concat(nvl2(status, status || '; ', ''),'container_unique_id does not exist')
-					WHERE container_unique_id not in (select barcode from container where container_type <> 'collection object')
-					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-					AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
-				</cfquery>
 				<cfquery name="updateContID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE cf_temp_barcode_parts
 					SET container_id = (select container_id from container where barcode = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableQC.CONTAINER_UNIQUE_ID#">),
-					part_container_id = 
+					part_container_id = #cont.container_ID#
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 					AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
 				</cfquery>
 			</cfloop>
-			<cfquery name="getTempTableQC2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				SELECT 
-					key,collection_object_id, container_unique_id
-				FROM 
-					cf_temp_barcode_parts
-				WHERE 
-					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-			</cfquery>
-			<cfloop query="getTempTableQC2">
 				<cfquery name="updateParentContID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE cf_temp_barcode_parts
 					SET parent_container_id = (select container_id from container where container = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableQC.container_id#">)
@@ -403,21 +384,10 @@
 				</cfquery>
 				<cfquery name="updatePartContID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE cf_temp_barcode_parts
-					SET part_container_id = (select container_id from container where barcode = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableQC2.container_unique_id#">)
+					SET part_container_id = (select container_id from container where container = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableQC.container_id#">)
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 					AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC2.key#">
 				</cfquery>
-				<cfquery name="flagNoContHist" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					UPDATE cf_temp_barcode_parts
-					SET 
-						status = concat(nvl2(status, status || '; ', ''),'part container history not found')
-					WHERE container_id not in (
-					select container_id from coll_obj_cont_hist where collection_object_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableQC.collection_object_id#">
-					)
-					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-					AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
-				</cfquery>
-			</cfloop>
 			<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT OTHER_ID_TYPE,OTHER_ID_NUMBER,COLLECTION_OBJECT_ID,COLLECTION_CDE,CONTAINER_ID,PARENT_CONTAINER_ID,
 				INSTITUTION_ACRONYM,PART_NAME,PRESERVE_METHOD,PARENT_CONTAINER_ID,CONTAINER_UNIQUE_ID,STATUS 
