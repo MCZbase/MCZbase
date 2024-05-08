@@ -489,8 +489,6 @@ limitations under the License.
 																	<input type="text" class="data-entry-input inputHeight" id="other_id_number_1" name="other_id_number_1" placeholder="10,20-30,=BT-782" value="#encodeForHtml(other_id_number_1)#">
 																</div>
 																<div class="col-12 mb-1 col-md-6">
-																	<label for="other_id_controls_note" class="data-entry-label small">Note: </label>
-																	<p id="other_id_controls_note" class="px-1 pb-0 small mb-0">Second set of other id type/other id number fields is for testing, may not work as expected.</p>
 																</div>
 															</cfif>
 														</div>
