@@ -596,7 +596,7 @@ function ScriptPrefixedNumberListToJSON(listOfNumbers, integerFieldname, prefixF
 * @return A string containing conditions specified in JSON.
 * @see unit test testScriptNumberListToJSON
 */
-function ScriptNumberListToJSON(listOfNumbers, fieldname, nestDepth, leadingJoin) {
+function ScriptNumberListToJSON(listOfNumbers, fieldname, innerNestDepth, leadingJoin) {
 	var result = "";
 	var orBit = "";
 	var wherePart = "";
@@ -618,7 +618,7 @@ function ScriptNumberListToJSON(listOfNumbers, fieldname, nestDepth, leadingJoin
 
 	if (ArrayLen(REMatch("^[0-9]+$",listOfNumbers))>0) {
 		//  Just a single number, exact match.
-		result = '{#nestDepth#,"join":"' & leadingJoin & '","field": "' & fieldname &'","comparator": "=","value": "#encodeForJSON(listOfNumbers)#"}';
+		result = '{#innerNestDepth#,"join":"' & leadingJoin & '","field": "' & fieldname &'","comparator": "=","value": "#encodeForJSON(listOfNumbers)#"}';
 	} else {
 		if (ArrayLen(REMatch("^[0-9]+\-[0-9]+$",listOfNumbers))>0) {
 			// Just a single range, two clauses, between start and end of range.
@@ -632,18 +632,18 @@ function ScriptNumberListToJSON(listOfNumbers, fieldname, nestDepth, leadingJoin
 			if (ucase(fieldname) IS "CAT_NUM") { 
 				fieldname = "CAT_NUM_INTEGER";
 			}
-			entryNestDepth = nestDepth;
-			nestDepth = incrementOpenParens(nestDepth);
-			nestDepth = floorCloseParens(nestDepth);
-			result = '{#nestDepth#,"join":"' & leadingJoin & '","field": "' & fieldname &'","comparator": ">=","value": "#encodeForJSON(lowPart)#"';
-			nestDepth = entryNestDepth;
-			nestDepth = floorOpenParens(nestDepth);
-			nestDepth = incrementCloseParens(nestDepth);
-			result = result & '},{#nestDepth#,"join":"and","field": "' & fieldname &'","comparator": "<=","value": "#encodeForJSON(highPart)#"}';
+			entryNestDepth = innerNestDepth;
+			innerNestDepth = incrementOpenParens(innerNestDepth);
+			innerNestDepth = floorCloseParens(innerNestDepth);
+			result = '{#innerNestDepth#,"join":"' & leadingJoin & '","field": "' & fieldname &'","comparator": ">=","value": "#encodeForJSON(lowPart)#"';
+			innerNestDepth = entryNestDepth;
+			innerNestDepth = floorOpenParens(innerNestDepth);
+			innerNestDepth = incrementCloseParens(innerNestDepth);
+			result = result & '},{#innerNestDepth#,"join":"and","field": "' & fieldname &'","comparator": "<=","value": "#encodeForJSON(highPart)#"}';
 		} else if (ArrayLen(REMatch("^[0-9,]+$",listOfNumbers))>0) {
 			// Just a list of numbers without ranges, translates directly to IN
 			if (listOfNumbers!=",") {
-				result = '{#nestDepth#,"join":"and","field": "' & fieldname &'","comparator": "IN","value": "#encodeForJSON(listOfNumbers)#"}';
+				result = '{#innerNestDepth#,"join":"and","field": "' & fieldname &'","comparator": "IN","value": "#encodeForJSON(listOfNumbers)#"}';
 			} else {
 				// just a comma with no numbers, return empty string
 				result = "";
@@ -657,7 +657,7 @@ function ScriptNumberListToJSON(listOfNumbers, fieldname, nestDepth, leadingJoin
 					// for each part, check to see if part is a range
 					// if part is a range, return "OR (fieldname >= minimum AND fieldname <= maximum)"
 					// if part is a single number, return "OR fieldname IN ( number )"
-					wherePart = ScriptNumberListPartToJSON(lparts[i], fieldname, nestDepth + "." + i, "or");
+					wherePart = ScriptNumberListPartToJSON(lparts[i], fieldname, innerNestDepth + "." + i, "or");
 					// allow for the case of two or more sequential commas.
 					comma = "";
 					if (result NEQ "") { 
