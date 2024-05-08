@@ -303,7 +303,7 @@
 	<!------------------------------------------------------->
 		<!------------------------------------------------------->
 	<cfif #action# is "validate">
-		<h2 class="h3">Second step: Data Validation</h2>
+		<h2 class="h4">Second step: Data Validation</h2>
 		<cfoutput>
 			<cfset other_id_type = ''>
 			<cfset other_id_number = ''>
@@ -386,9 +386,9 @@
 					Fix the problems in the data and <a href="/tools/BulkloadPartContainer.cfm">start again</a>.
 				</h3>
 			<cfelse>
-				<h2>
-					Validation checks passed. Look over the table below and <a href="/tools/BulkloadPartContainer.cfm?action=load">click to continue</a> if it all looks good.
-				</h2>
+				<h3>
+					Validation checks passed. Look over the table below and <a href="/tools/BulkloadPartContainer.cfm?action=load" class="btn-link">click to continue</a> if it all looks good.
+				</h3>
 			</cfif>
 			<table class='sortable table table-responsive table-striped d-lg-table'>
 				<thead>
@@ -403,7 +403,6 @@
 						<th>COLLECTION_OBJECT_ID</th>
 						<th>CONTAINER_ID</th>
 						<th>PRESERVE_METHOD</th>
-						<th>STATUS</th>
 					</tr>
 				<tbody>
 					<cfloop query="data">
