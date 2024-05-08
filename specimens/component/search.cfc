@@ -591,8 +591,8 @@ function ScriptPrefixedNumberListToJSON(listOfNumbers, integerFieldname, prefixF
 * @param listOfNumbers  A string containing a list of one or more numbers or ranges
 *	 of numbers in one of the forms "1" or "1,3" or "1-3" or "1,4-9".
 * @param fieldname  The name of the fieldname on which the listOfNumbers is a condition.
-* @param nestDepth (not yet implemented, the expression nesting depth)
-* @param leadingJoin the value to use in the first join:"" in constructed JSON (not yet implemented, uses and)
+* @param innerNestDepth json fragment with openParens and closeParens values.
+* @param leadingJoin the value to use in the first join:"" in constructed JSON.
 * @return A string containing conditions specified in JSON.
 * @see unit test testScriptNumberListToJSON
 */
