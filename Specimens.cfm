@@ -454,43 +454,40 @@ limitations under the License.
 																
 													<div id="IDDetail" class="col-12 px-0" style="#IDDetailStyle#">
 													<div class="form-row col-12 col-md-12 px-0 mx-0 mb-0">
-														<cfif findNoCase('test',gitBranch) GT 0 OR (isdefined("session.roles") AND listfindnocase(session.roles,"collops") ) >
-															<!--- for now, while testing nesting, only show second other ID controls for collops users.  --->
-																<div class="col-12 mb-1 col-md-3">
-																	<cfif not isdefined("other_id_type_1")><cfset other_id_type_1=""></cfif>
-																	<label for="otherID" class="data-entry-label small">Other ID Type</label>
-																	<div name="other_id_type_1" id="other_id_type_1" class="w-100"></div>
-																	<cfset otheridtype_array = ListToArray(other_id_type_1)>
-																	<script>
-																		function setOtherIdType_1_Values() {
-																			$('##other_id_type_1').jqxComboBox('clearSelection');
-																			<cfloop query="ctother_id_type">
-																				<cfif ArrayContains(otheridtype_array, ctother_id_type.other_id_type)>
-																					$("##other_id_type_1").jqxComboBox("selectItem","#ctother_id_type.other_id_type#");
-																				</cfif>
-																			</cfloop>
-																		};
-																		$(document).ready(function () {
-																			var otheridtypesource = [
-																				<cfset comma="">
-																				<cfloop query="ctother_id_type">
-																					#comma#{name:"#ctother_id_type.other_id_type#",meta:"#ctother_id_type.other_id_type# (#ctother_id_type.ct#)"}
-																					<cfset comma=",">
-																				</cfloop>
-																			];
-																			$("##other_id_type_1").jqxComboBox({ source: otheridtypesource, displayMember:"meta", valueMember:"name", multiSelect: true, height: '21px', width: '100%' });
-																			setOtherIdType_1_Values();
-																		});
-																	</script> 
-																</div>
-																<div class="col-12 mb-1 col-md-3">
-																	<cfif not isdefined("other_id_number_1")><cfset other_id_number_1=""></cfif>
-																	<label for="other_id_number_1" class="data-entry-label small">Other ID Numbers</label>
-																	<input type="text" class="data-entry-input inputHeight" id="other_id_number_1" name="other_id_number_1" placeholder="10,20-30,=BT-782" value="#encodeForHtml(other_id_number_1)#">
-																</div>
-																<div class="col-12 mb-1 col-md-6">
-																</div>
-															</cfif>
+														<div class="col-12 mb-1 col-md-3">
+															<cfif not isdefined("other_id_type_1")><cfset other_id_type_1=""></cfif>
+															<label for="otherID" class="data-entry-label small">Other ID Type</label>
+															<div name="other_id_type_1" id="other_id_type_1" class="w-100"></div>
+															<cfset otheridtype_array = ListToArray(other_id_type_1)>
+															<script>
+																function setOtherIdType_1_Values() {
+																	$('##other_id_type_1').jqxComboBox('clearSelection');
+																	<cfloop query="ctother_id_type">
+																		<cfif ArrayContains(otheridtype_array, ctother_id_type.other_id_type)>
+																			$("##other_id_type_1").jqxComboBox("selectItem","#ctother_id_type.other_id_type#");
+																		</cfif>
+																	</cfloop>
+																};
+																$(document).ready(function () {
+																	var otheridtypesource = [
+																		<cfset comma="">
+																		<cfloop query="ctother_id_type">
+																			#comma#{name:"#ctother_id_type.other_id_type#",meta:"#ctother_id_type.other_id_type# (#ctother_id_type.ct#)"}
+																			<cfset comma=",">
+																		</cfloop>
+																	];
+																	$("##other_id_type_1").jqxComboBox({ source: otheridtypesource, displayMember:"meta", valueMember:"name", multiSelect: true, height: '21px', width: '100%' });
+																	setOtherIdType_1_Values();
+																});
+															</script> 
+															</div>
+															<div class="col-12 mb-1 col-md-3">
+																<cfif not isdefined("other_id_number_1")><cfset other_id_number_1=""></cfif>
+																<label for="other_id_number_1" class="data-entry-label small">Other ID Numbers</label>
+																<input type="text" class="data-entry-input inputHeight" id="other_id_number_1" name="other_id_number_1" placeholder="10,20-30,=BT-782" value="#encodeForHtml(other_id_number_1)#">
+															</div>
+															<div class="col-12 mb-1 col-md-6">
+															</div>
 														</div>
 													</div>
 												</div>
