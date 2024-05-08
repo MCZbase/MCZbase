@@ -307,7 +307,7 @@
 		<cfoutput>
 			<cfset key = ''>
 			<cfquery name="getTempTableTypes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				select KEY,
+				select 
 					trim(INSTITUTION_ACRONYM) INSTITUTION_ACRONYM,
 					trim(COLLECTION_CDE) COLLECTION_CDE,
 					trim(OTHER_ID_TYPE) OTHER_ID_TYPE,
@@ -315,7 +315,7 @@
 					trim(part_name) part_name,
 					trim(preserve_method) preserve_method,
 					trim(container_unique_id) container_unique_id,
-					print_fg
+					print_fg, key
 				from
 					cf_temp_barcode_parts
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
@@ -345,7 +345,7 @@
 						AND
 							username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						AND
-							key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableTypes.KEY#"> 
+							key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableTypes.key#"> 
 					</cfquery>
 				<cfelse>
 					<cfquery name="coll_obj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -394,7 +394,7 @@
 					(select container_id from container where container_type <> 'collection object'
 					and barcode = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableQC.container_unique_id#">)
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-					and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#"> 
+			
 				</cfquery>
 				<!---USE the specimen_part collection_object_id to validate/update other entries--->
 				<cfquery name="getContInfo" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
