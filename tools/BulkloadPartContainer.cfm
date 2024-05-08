@@ -440,7 +440,6 @@
 						<th>PART_NAME</th>
 						<th>CONTAINER_UNIQUE_ID</th>
 						<th>COLLECTION_OBJECT_ID</th>
-						<th>PARENT_CONTAINER_ID</th>
 						<th>CONTAINER_ID</th>
 						<th>PRESERVE_METHOD</th>
 					</tr>
@@ -455,7 +454,6 @@
 							<td>#data.PART_NAME#</td>
 							<td>#data.CONTAINER_UNIQUE_ID#</td>
 							<td>#data.COLLECTION_OBJECT_ID#</td>
-							<td>#data.PARENT_CONTAINER_ID#</td>
 							<td>#data.CONTAINER_ID#</td>
 							<td>#data.PRESERVE_METHOD#</td>
 						</tr>
