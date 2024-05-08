@@ -344,21 +344,20 @@ function ScriptPrefixedNumberListToJSON(listOfNumbers, integerFieldname, prefixF
 	} else { 
 		// List consists of one or more components, with at least one prefix or suffix.
 		// Add openParens in first clause using provided openWith for nesting.
-		nestDepth = '"openParens":"0","closeParens":"0"';
-		if (openWith GT 0) { 
-			for (j=1; j LTE openWith; j=j+1) { 
-				// openParen passed in from calling logic, e.g. to nest a number with a number type
-				nestDepth = incrementOpenParens(nest="#nestDepth#");
-			}
-		} 
-		// closeWith provided in call will be used later in the last block produced from splitting lparts.
 		numericClause = "";
 		wherebit = "";
 		comma = "";
 		leadingJoin = "and";
 		for (i=1; i LTE ArrayLen(lparts); i=i+1) {
+			nestDepth = '"openParens":"0","closeParens":"0"';
 			if (i EQ 1 and ArrayLen(lparts) EQ 1) { 
 				// only one element, but with a prefix/suffix or otherwise not just a number.
+				if (openWith GT 0) { 
+					for (j=1; j LTE openWith; j=j+1) { 
+						// openParen passed in from calling logic, e.g. to nest a number with a number type
+						nestDepth = incrementOpenParens(nest="#nestDepth#");
+					}
+				} 
 				// openParen added to group the elements of lparts together, end of loop adds OR leadingJoin 
 				nestDepth = incrementOpenParens(nest="#nestDepth#");
 				// special case where we would miss setting closeParens in clause B.
@@ -373,6 +372,13 @@ function ScriptPrefixedNumberListToJSON(listOfNumbers, integerFieldname, prefixF
 			} else if (i EQ 1 and ArrayLen(lparts) GT 1) { 
 				// clause A
 				// first of n elements where n > 1
+				if (openWith GT 0) { 
+					for (j=1; j LTE openWith; j=j+1) { 
+						// openParen passed in from calling logic, e.g. to nest a number with a number type
+						nestDepth = incrementOpenParens(nest="#nestDepth#");
+					}
+				} 
+				// closeWith provided in call will be used later in the last block produced from splitting lparts.
 				// openParen added to group the elements of lparts together, end of loop adds OR leadingJoin 
 				nestDepth = incrementOpenParens(nest="#nestDepth#");
 			} else if (ArrayLen(lparts) EQ 2 AND i EQ 2) {
@@ -1478,8 +1484,8 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 		<cfset join='"join":"and",'>
 	</cfif>
 	<cfif isDefined("cat_num") AND len(cat_num) GT 0>
-		<cfset openWith = 0>
-		<cfset closeWith = 0>
+		<cfset openWith = 1>
+		<cfset closeWith = 1>
 		<cfset clause = ScriptPrefixedNumberListToJSON(cat_num, "CAT_NUM_INTEGER", "CAT_NUM_PREFIX", true, openWith, closeWith, "and")>
 		<cfset search_json = "#search_json##separator##clause#">
 		<cfset separator = ",">
