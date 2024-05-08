@@ -339,37 +339,25 @@
 					</cfquery>
 				</cfif>
 			</cfloop>
-			<cfquery name="getCoID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+			<cfquery name="getContInfo" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				update cf_temp_barcode_parts set collection_object_id = 
+				(select collection_object_id from specimen_part where collection_object_id = '#getTempData1.collection_object_id#')
+				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+			</cfquery>
+			<cfquery name="getContInfo" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				update cf_temp_barcode_parts set container_id=
 				(select container_id from container where container.barcode = cf_temp_barcode_parts.container_unique_id)
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
-			<cfquery name="getPoID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+			<cfquery name="getContInfo" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				update cf_temp_barcode_parts set parent_container_id=
 				(select parent_container_id from container where container.barcode = cf_temp_barcode_parts.container_unique_id)
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
-			<cfquery name="miac" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				UPDATE cf_temp_barcode_parts 
-				SET status = 'container_not_found'
-				WHERE container_id is null
-					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-			</cfquery>
-			<cfquery name="miac" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				update cf_temp_barcode_parts 
-				SET status = 'part_not_found'
-				WHERE collection_object_id is null
-				and username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-			</cfquery>
-			<cfquery name="miac" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				update cf_temp_barcode_parts 
-				SET status = 'part_name_not_found'
-				WHERE part_name is null
-				and username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-			</cfquery>
+
 			<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT OTHER_ID_TYPE,OTHER_ID_NUMBER,COLLECTION_OBJECT_ID,COLLECTION_CDE,CONTAINER_ID,
-				INSTITUTION_ACRONYM,PART_NAME,PRESERVE_METHOD,CONTAINER_UNIQUE_ID,STATUS 
+				INSTITUTION_ACRONYM,PART_NAME,PRESERVE_METHOD,PARENT_CONTAINER_ID,CONTAINER_UNIQUE_ID,STATUS 
 				FROM cf_temp_barcode_parts
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
@@ -385,7 +373,7 @@
 				</h3>
 			<cfelse>
 				<h3 class="mt-3">
-					Validation checks passed. Look over the table below and <a href="/tools/BulkloadPartContainer.cfm?action=load" class="btn-link font-weight-bold">click to continue</a> if it all looks good. Or, <a href="/tools/BulkloadPartContainer.cfm">start again</a>.
+					Validation checks passed. Look over the table below and <a href="/tools/BulkloadPartContainer.cfm?action=load" class="btn-link font-weight-bold">click to continue</a> if it all looks good. Or, <a href="/tools/BulkloadPartContainer.cfm"  class="text-danger">start again</a>.
 				</h3>
 			</cfif>
 			<table class='sortable small px-0 table table-responsive table-striped w-100'>
@@ -399,6 +387,7 @@
 						<th>PART_NAME</th>
 						<th>CONTAINER_UNIQUE_ID</th>
 						<th>COLLECTION_OBJECT_ID</th>
+						<th>PARENT_CONTAINER_ID</th>
 						<th>CONTAINER_ID</th>
 						<th>PRESERVE_METHOD</th>
 					</tr>
@@ -413,6 +402,7 @@
 							<td>#data.PART_NAME#</td>
 							<td>#data.CONTAINER_UNIQUE_ID#</td>
 							<td>#data.COLLECTION_OBJECT_ID#</td>
+							<td>#data.PARENT_CONTAINER_ID#</td>
 							<td>#data.CONTAINER_ID#</td>
 							<td>#data.PRESERVE_METHOD#</td>
 						</tr>
