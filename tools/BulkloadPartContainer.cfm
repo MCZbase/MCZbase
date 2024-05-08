@@ -477,9 +477,11 @@
 							UPDATE
 								container 
 							SET
+								CONTAINER_ID = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#CONTAINER_ID#">,
 								PARENT_CONTAINER_ID = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#PARENT_CONTAINER_ID#">
-							WHERE
-								CONTAINER_ID= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#PARENT_CONTAINER_ID#">
+							where 
+								BARCODE = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#CONTAINER_UNIQUE_ID#">
+							
 						</cfquery>
 						<cfset container_part_updates = container_part_updates + updateContainer_result.recordcount>
 					</cfloop>
