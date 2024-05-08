@@ -382,13 +382,6 @@
 					AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
 				</cfquery>
 			</cfloop>
-			
-				
-			<!---	<cfquery name="cont" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					select container_id 
-					FROM coll_obj_cont_hist
-					WHERE collection_object_id=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collection_object_id#">
-				</cfquery>--->
 			<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT OTHER_ID_TYPE,OTHER_ID_NUMBER,COLLECTION_OBJECT_ID,COLLECTION_CDE,CONTAINER_ID,PARENT_CONTAINER_ID,
 				INSTITUTION_ACRONYM,PART_NAME,PRESERVE_METHOD,PARENT_CONTAINER_ID,CONTAINER_UNIQUE_ID,STATUS 
