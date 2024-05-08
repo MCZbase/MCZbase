@@ -486,7 +486,7 @@
 							UPDATE
 								CONTAINER 
 							SET
-								CONTAINER_ID = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.CONTAINER_ID#">,
+								CONTAINER_ID = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.CONTAINER_ID#">,
 							where 
 								BARCODE = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.CONTAINER_UNIQUE_ID#">
 							
