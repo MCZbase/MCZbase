@@ -387,7 +387,6 @@
 				PART_NAME,PRESERVE_METHOD,CONTAINER_ID,PARENT_CONTAINER_ID,PART_CONTAINER_ID,CONTAINER_UNIQUE_ID,STATUS 
 				FROM cf_temp_barcode_parts
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-				and status = ''
 			</cfquery>
 			<cfquery name="pf" dbtype="query">
 				SELECT count(*) c 
@@ -408,15 +407,16 @@
 				<thead>
 					<tr>
 						<th>BULKLOADING&nbsp;STATUS</th>
+						<th>INSTITUTION_ACRONYM</th>
+						<th>COLLECTION_CDE</th>
 						<th>OTHER_ID_TYPE</th>
 						<th>OTHER_ID_NUMBER</th>
-						<th>COLLECTION_CDE</th>
-						<th>INSTITUTION_ACRONYM</th>
 						<th>PART_NAME</th>
 						<th>CONTAINER_UNIQUE_ID</th>
 						<th>COLLECTION_OBJECT_ID</th>
 						<th>CONTAINER_ID</th>
 						<th>PARENT_CONTAINER_ID</th>
+						<th>PART_CONTAINER_ID</th>
 						<th>PRESERVE_METHOD</th>
 					</tr>
 				<tbody>
@@ -432,6 +432,7 @@
 							<td>#data.COLLECTION_OBJECT_ID#</td>
 							<td>#data.CONTAINER_ID#</td>
 							<td>#data.PARENT_CONTAINER_ID#</td>
+							<td>#data.PART_CONTAINER_ID#</td>
 							<td>#data.PRESERVE_METHOD#</td>
 						</tr>
 					</cfloop>
