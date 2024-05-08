@@ -392,7 +392,7 @@
 					select container_id FROM coll_obj_cont_hist where
 					collection_object_id= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableQC.collection_object_id#">
 				</cfquery>
-				<cfif len(isGoodContHist.container_id) gt 0>
+				<cfif len(isGoodContHist.container_id) eq 0>
 					<cfquery name="flagNoContHist" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						UPDATE cf_temp_barcode_parts
 						SET 
@@ -403,6 +403,8 @@
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
 					</cfquery>
+				<cfelse>
+					#isGoodContHist.container_id#
 				</cfif>
 				<!---USE the specimen_part collection_object_id to validate/update other entries--->
 			</cfloop>
