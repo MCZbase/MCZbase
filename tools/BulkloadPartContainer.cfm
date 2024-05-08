@@ -341,14 +341,14 @@
 						AND
 							part_name=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableTypes.part_name#">
 						AND
-							preserve_method = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableTypes.preserve_method#">
-						AND
-							username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-						
+							preserve_method = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableTypes.preserve_method#">),
+						status = null
+						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+							and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableTypes.key#">
 					</cfquery>
 				<cfelse>
 					<cfquery name="coll_obj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						select specimen_part.collection_object_id 
+						update cf_temp_barcode_parts set (select specimen_part.collection_object_id 
 						FROM
 							cataloged_item,
 							specimen_part,
@@ -371,10 +371,10 @@
 						AND
 							part_name= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableTypes.part_name#">
 						AND
-							preserve_method = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableTypes.preserve_method#">
-						AND
-							username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-						
+							preserve_method = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableTypes.preserve_method#">),
+						status = null
+						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+							and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableTypes.key#"> 
 					</cfquery>
 				</cfif>
 			</cfloop>
