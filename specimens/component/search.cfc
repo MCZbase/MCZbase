@@ -357,26 +357,27 @@ function ScriptPrefixedNumberListToJSON(listOfNumbers, integerFieldname, prefixF
 		comma = "";
 		leadingJoin = "and";
 		for (i=1; i LTE ArrayLen(lparts); i=i+1) {
-			if (i EQ 1) { 
-				if (ArrayLen(lparts) GT 1) {
-					// clause A
-					// openParen added to group the elements of lparts together, end of loop adds OR leadingJoin 
-					nestDepth = incrementOpenParens(nest="#nestDepth#");
-				}
-				if (ArrayLen(lparts) EQ 1 AND i EQ 1) {
-					// special case where we would miss setting closeParens in clause B.
-					if (closeWith GT 0) { 
-						for (j=1; j LTE closeWith; j=j+1) { 
-							// closeParen passed in from calling logic, e.g. to nest a number with a number type
-							nestDepth = incrementCloseParens(nest="#nestDepth#");
-							// note that this will be modified later if the lparts atom contains a number and prefix or suffix.
-							// follow nestDepth below.
-						}
+			if (i EQ 1 and ArrayLen(lparts) EQ 1) { 
+				// only one element, but with a prefix/suffix.
+				// openParen added to group the elements of lparts together, end of loop adds OR leadingJoin 
+				nestDepth = incrementOpenParens(nest="#nestDepth#");
+				// special case where we would miss setting closeParens in clause B.
+				if (closeWith GT 0) { 
+					for (j=1; j LTE closeWith; j=j+1) { 
+						// closeParen passed in from calling logic, e.g. to nest a number with a number type
+						nestDepth = incrementCloseParens(nest="#nestDepth#");
+						// note that this will be modified later if the lparts atom contains a number and prefix or suffix.
+						// follow nestDepth below.
 					}
 				}
-			} else if (i EQ ArrayLen(lparts)) {
-				// clause B 
-				// closeParen added to group the elements of lparts together 
+			} else if (i EQ 1 and ArrayLen(lparts) GT 1) { 
+				// clause A
+				// first of n elements where n > 1
+				// openParen added to group the elements of lparts together, end of loop adds OR leadingJoin 
+				nestDepth = incrementOpenParens(nest="#nestDepth#");
+			} else if (ArrayLen(lparts) EQ 2 AND i EQ 2) {
+				// second of two elements.
+				// closeParen added to group the elements of lparts together, closes out clause A.
 				nestDepth = incrementCloseParens(nest="#nestDepth#");
 				if (closeWith GT 0) { 
 					for (j=1; j LTE closeWith; j=j+1) { 
@@ -386,10 +387,21 @@ function ScriptPrefixedNumberListToJSON(listOfNumbers, integerFieldname, prefixF
 						// follow nestDepth below.
 					}
 				}
-				if (ArrayLen(lparts) EQ 2 AND i EQ 2) {
-					// special case where we would miss setting openParens to 0 in clause C
-					// undoes the added openParens in the clause A, allows clause B to operate normally.
-					nestDepth = floorOpenParens(nest="#nestDepth#");
+				// Case where we would miss setting openParens to 0 in clause C
+				// undoes the added openParens in the clause A, allows clause B to operate normally.
+				nestDepth = floorOpenParens(nest="#nestDepth#");
+			} else if (i EQ ArrayLen(lparts)) {
+				// clause B
+				// last of n elements, where n > 2
+				// closeParen added to group the elements of lparts together 
+				nestDepth = incrementCloseParens(nest="#nestDepth#");
+				if (closeWith GT 0) { 
+					for (j=1; j LTE closeWith; j=j+1) { 
+						// closeParen passed in from calling logic, e.g. to nest a number with a number type
+						nestDepth = incrementCloseParens(nest="#nestDepth#");
+						// note that this will be modified later if the lparts atom contains a number and prefix or suffix.
+						// follow nestDepth below.
+					}
 				}
 			} else {
 				// clause C 
