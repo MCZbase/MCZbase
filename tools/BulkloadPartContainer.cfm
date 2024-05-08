@@ -356,8 +356,35 @@
 						and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableTypes.key#"> 
 					</cfquery>
 				</cfif>
+				<cfquery name="cont" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					select container_id 
+					FROM coll_obj_cont_hist
+					WHERE collection_object_id=#coll_obj.collection_object_id#
+				</cfquery>
 			</cfloop>
 			<cfquery name="getTempTableQC" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				SELECT key,collection_object_id, container_unique_id
+				FROM cf_temp_barcode_parts
+				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+			</cfquery>
+			<cfloop query="getTempTableQC">
+				<cfquery name="flagNoCont" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					UPDATE cf_temp_barcode_parts
+					SET 
+						status = concat(nvl2(status, status || '; ', ''),'container_unique_id does not exist')
+					WHERE container_unique_id not in (select barcode from container where container_type <> 'collection object')
+					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+					AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
+				</cfquery>
+				<cfquery name="updateContID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					UPDATE cf_temp_barcode_parts
+					SET container_id = (select container_id from container where barcode = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableQC.CONTAINER_UNIQUE_ID#">),
+					part_container_id = 
+					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+					AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
+				</cfquery>
+			</cfloop>
+			<cfquery name="getTempTableQC2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT 
 					key,collection_object_id, container_unique_id
 				FROM 
@@ -365,27 +392,36 @@
 				WHERE 
 					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
-			<cfloop query="getTempTableQC">
-				<cfquery name="getContInfo" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					update cf_temp_barcode_parts set container_id = 
-					(select container_id from container where container_type <> 'collection object'
-					and barcode = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableQC.container_unique_id#">)
+			<cfloop query="getTempTableQC2">
+				<cfquery name="updateParentContID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					UPDATE cf_temp_barcode_parts
+					SET parent_container_id = (select container_id from container where container = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableQC.container_id#">)
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-			
+					AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC2.key#">
 				</cfquery>
-				<!---USE the specimen_part collection_object_id to validate/update other entries--->
-				<cfquery name="getContInfo" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					update cf_temp_barcode_parts set parent_container_id=
-					(select parent_container_id from container where container.barcode = cf_temp_barcode_parts.container_unique_id)
+				<cfquery name="updatePartContID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					UPDATE cf_temp_barcode_parts
+					SET part_container_id = (select container_id from container where barcode = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableQC2.container_unique_id#">)
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-					and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#"> 
+					AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC2.key#">
+				</cfquery>
+				<cfquery name="flagNoContHist" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					UPDATE cf_temp_barcode_parts
+					SET 
+						status = concat(nvl2(status, status || '; ', ''),'part container history not found')
+					WHERE container_id not in (
+					select container_id from coll_obj_cont_hist where collection_object_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableQC.collection_object_id#">
+					)
+					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+					AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
 				</cfquery>
 			</cfloop>
 			<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				SELECT OTHER_ID_TYPE,OTHER_ID_NUMBER,COLLECTION_OBJECT_ID,COLLECTION_CDE,CONTAINER_ID,
+				SELECT OTHER_ID_TYPE,OTHER_ID_NUMBER,COLLECTION_OBJECT_ID,COLLECTION_CDE,CONTAINER_ID,PARENT_CONTAINER_ID,
 				INSTITUTION_ACRONYM,PART_NAME,PRESERVE_METHOD,PARENT_CONTAINER_ID,CONTAINER_UNIQUE_ID,STATUS 
 				FROM cf_temp_barcode_parts
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+				and status = ''
 			</cfquery>
 			<cfquery name="pf" dbtype="query">
 				SELECT count(*) c 
@@ -413,8 +449,8 @@
 						<th>PART_NAME</th>
 						<th>CONTAINER_UNIQUE_ID</th>
 						<th>COLLECTION_OBJECT_ID</th>
-						<th>PARENT_CONTAINER_ID</th>
 						<th>CONTAINER_ID</th>
+						<th>PARENT_CONTAINER_ID</th>
 						<th>PRESERVE_METHOD</th>
 					</tr>
 				<tbody>
@@ -428,8 +464,8 @@
 							<td>#data.PART_NAME#</td>
 							<td>#data.CONTAINER_UNIQUE_ID#</td>
 							<td>#data.COLLECTION_OBJECT_ID#</td>
-							<td>#data.PARENT_CONTAINER_ID#</td>
 							<td>#data.CONTAINER_ID#</td>
+							<td>#data.PARENT_CONTAINER_ID#</td>
 							<td>#data.PRESERVE_METHOD#</td>
 						</tr>
 					</cfloop>
@@ -443,7 +479,7 @@
 		<h2 class="h4">Third step: Apply changes.</h2>
 		<cfoutput>
 			<cfquery name="getTempData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				SELECT * FROM cf_temp_barcode_parts
+				SELECT container_id,parent_container_id FROM cf_temp_barcode_parts
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<cftry>
@@ -452,12 +488,11 @@
 					<cfloop query="getTempData">
 						<cfquery name="updateContainer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateContainer_result">
 							UPDATE
-								container 
+								CONTAINER 
 							SET
-								CONTAINER_ID = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#CONTAINER_ID#">,
-								PARENT_CONTAINER_ID = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#PARENT_CONTAINER_ID#">
+								CONTAINER_ID = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.CONTAINER_ID#">
 							where 
-								BARCODE = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#CONTAINER_UNIQUE_ID#">
+								PARENT_CONTAINER_ID = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.PARENT_CONTAINER_ID#">
 							
 						</cfquery>
 						<cfset container_part_updates = container_part_updates + updateContainer_result.recordcount>
