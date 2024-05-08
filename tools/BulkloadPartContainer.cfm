@@ -401,7 +401,7 @@
 					<cfelse>
 
 					</cfif>
-				</cfloop>
+		
 			</cfloop>
 			<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT OTHER_ID_TYPE,OTHER_ID_NUMBER,COLLECTION_OBJECT_ID,COLLECTION_CDE,CONTAINER_ID,PARENT_CONTAINER_ID,
