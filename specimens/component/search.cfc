@@ -523,7 +523,7 @@ function ScriptPrefixedNumberListToJSON(listOfNumbers, integerFieldname, prefixF
 				}
 			}
 			if (Len(numeric) GT 0) { 
-				entryNestDepth = nestDepth;
+				localentryNestDepth = nestDepth;
 				if (Len(prefix) GT 0 OR Len(suffix) GT 0) { 
 					// group the number with the prefix and or suffix.
 					nestDepth = incrementOpenParens(nest="#nestDepth#");
@@ -533,7 +533,7 @@ function ScriptPrefixedNumberListToJSON(listOfNumbers, integerFieldname, prefixF
 				wherebit = wherebit & comma & ScriptNumberListToJSON(numeric, integerFieldname, nestDepth, leadingJoin);
 				if (Len(prefix) GT 0 OR Len(suffix) GT 0) { 
 					// restore closeParens as provided from above
-					nestDepth = entryNestDepth;
+					nestDepth = localentryNestDepth;
 					// and increment by one, as we opened parenthesies for the grouping of number with prefix and suffix above.
 					nestDepth = incrementCloseParens(nest="#nestDepth#");
 					// we have opened the parentheses, so zero out open for suffix and prefix.
@@ -543,12 +543,6 @@ function ScriptPrefixedNumberListToJSON(listOfNumbers, integerFieldname, prefixF
 				leadingJoin = "and";
 			}
 			if (Len(prefix) GT 0) { 
-				if (Len(suffix) EQ 0 AND Len(numeric) GT 0) { 
-					// close out the clause for number and prefix (?? done above, close out parent??)
-					if (i EQ ArrayLen(lparts) AND i GT 1) {
-						nestDepth = incrementCloseParens(nest="#nestDepth#");
-					}
-				}
 				if (embeddedSeparator EQ true) {
 					// If the prefix isn't blank and doesn't end with the separator, add it.
 					if ((prefix NEQ "") AND (Find("-",prefix) EQ 0)) {
@@ -568,12 +562,6 @@ function ScriptPrefixedNumberListToJSON(listOfNumbers, integerFieldname, prefixF
 				leadingJoin = "and";
 			}
 			if (Len(suffix) GT 0) { 
-				if (Len(numeric) GT 0) {
-					// close out the clause for number and suffix or for number prefix and suffix 
-					if (i EQ ArrayLen(lparts) AND i GT 1) {
-						nestDepth = incrementCloseParens(nest="#nestDepth#");
-					} 
-				}
 				if (embeddedSeparator EQ true) {
 					// If the suffix isn't blank and doesn't start with the separator, add it.
 					if ((suffix NEQ "") AND (Find("-",suffix) EQ 0)) {
@@ -588,7 +576,7 @@ function ScriptPrefixedNumberListToJSON(listOfNumbers, integerFieldname, prefixF
 				leadingJoin = "and";
 			}
 			leadingJoin = "or";
-		} // end loop throug lparts
+		} // end loop through lparts
 	}
 	result = wherebit;
 	return result;
