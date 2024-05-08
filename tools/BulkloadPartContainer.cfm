@@ -469,7 +469,7 @@
 		<h2 class="h4">Third step: Apply changes.</h2>
 		<cfoutput>
 			<cfquery name="getTempData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				SELECT container_id, container_unique_id FROM cf_temp_barcode_parts
+				SELECT * FROM cf_temp_barcode_parts
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<cftry>
@@ -480,9 +480,9 @@
 							UPDATE
 								CONTAINER 
 							SET
-								CONTAINER_ID = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.CONTAINER_ID#">,
+								PARENT_CONTAINER_ID = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.PARENT_CONTAINER_ID#">,
 							where 
-								BARCODE = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.CONTAINER_UNIQUE_ID#">
+								CONTAINER = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.parent_container_ID#">
 							
 						</cfquery>
 						<cfset container_part_updates = container_part_updates + updateContainer_result.recordcount>
