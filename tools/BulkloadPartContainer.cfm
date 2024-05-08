@@ -379,18 +379,16 @@
 				WHERE status is not null
 			</cfquery>
 			<cfif pf.c gt 0>
-				<h2>
+				<h3 class="mt-3">
 					There is a problem with #pf.c# of #data.recordcount# row(s). See the STATUS column. (<a href="/tools/BulkloadPartContainer.cfm?action=validate">download</a>).
-				</h2>
-				<h3>
 					Fix the problems in the data and <a href="/tools/BulkloadPartContainer.cfm" class="text-danger">start again</a>.
 				</h3>
 			<cfelse>
-				<h3>
-					Validation checks passed. Look over the table below and <a href="/tools/BulkloadPartContainer.cfm?action=load" class="btn-link">click to continue</a> if it all looks good. Or, <a href="/tools/BulkloadPartContainer.cfm">start again</a>.
+				<h3 class="mt-3">
+					Validation checks passed. Look over the table below and <a href="/tools/BulkloadPartContainer.cfm?action=load" class="btn-link font-weight-bold">click to continue</a> if it all looks good. Or, <a href="/tools/BulkloadPartContainer.cfm">start again</a>.
 				</h3>
 			</cfif>
-			<table class='sortable table table-responsive table-striped d-lg-table'>
+			<table class='sortable small px-0 table table-responsive table-striped w-100'>
 				<thead>
 					<tr>
 						<th>BULKLOADING STATUS</th>
