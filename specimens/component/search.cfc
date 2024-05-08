@@ -358,7 +358,7 @@ function ScriptPrefixedNumberListToJSON(listOfNumbers, integerFieldname, prefixF
 		leadingJoin = "and";
 		for (i=1; i LTE ArrayLen(lparts); i=i+1) {
 			if (i EQ 1 and ArrayLen(lparts) EQ 1) { 
-				// only one element, but with a prefix/suffix.
+				// only one element, but with a prefix/suffix or otherwise not just a number.
 				// openParen added to group the elements of lparts together, end of loop adds OR leadingJoin 
 				nestDepth = incrementOpenParens(nest="#nestDepth#");
 				// special case where we would miss setting closeParens in clause B.
@@ -529,12 +529,6 @@ function ScriptPrefixedNumberListToJSON(listOfNumbers, integerFieldname, prefixF
 					nestDepth = incrementOpenParens(nest="#nestDepth#");
 					// number will not be the last clause, so save closeParens for later, and zero it out here.
 					nestDepth = floorCloseParens(nest="#nestDepth#");
-				} else { 
-// TODO: This works with catalog number, but not with other number.
-// This shouldn't work and shouldn't be needed, if last component is just numeric, entryNestDepth should be the right value.
-					if (i EQ ArrayLen(lparts) AND i GT 1) {
-						nestDepth = decrementCloseParens(nest="#nestDepth#");
-					}
 				} 
 				wherebit = wherebit & comma & ScriptNumberListToJSON(numeric, integerFieldname, nestDepth, leadingJoin);
 				if (Len(prefix) GT 0 OR Len(suffix) GT 0) { 
@@ -636,11 +630,7 @@ function ScriptNumberListToJSON(listOfNumbers, fieldname, nestDepth, leadingJoin
 
 	if (ArrayLen(REMatch("^[0-9]+$",listOfNumbers))>0) {
 		//  Just a single number, exact match.
-		if (left(nestDepth,5) EQ '"open') {  
-			result = '{#nestDepth#,"join":"' & leadingJoin & '","field": "' & fieldname &'","comparator": "=","value": "#encodeForJSON(listOfNumbers)#"}';
-		} else { 
-			result = '{"nest":"#nestDepth#","join":"' & leadingJoin & '","field": "' & fieldname &'","comparator": "=","value": "#encodeForJSON(listOfNumbers)#"}';
-		}
+		result = '{#nestDepth#,"join":"' & leadingJoin & '","field": "' & fieldname &'","comparator": "=","value": "#encodeForJSON(listOfNumbers)#"}';
 	} else {
 		if (ArrayLen(REMatch("^[0-9]+\-[0-9]+$",listOfNumbers))>0) {
 			// Just a single range, two clauses, between start and end of range.
@@ -654,27 +644,18 @@ function ScriptNumberListToJSON(listOfNumbers, fieldname, nestDepth, leadingJoin
 			if (ucase(fieldname) IS "CAT_NUM") { 
 				fieldname = "CAT_NUM_INTEGER";
 			}
-			if (left(nestDepth,5) EQ '"open') {  
-				entryNestDepth = nestDepth;
-				nestDepth = incrementOpenParens(nestDepth);
-				nestDepth = floorCloseParens(nestDepth);
-				result = '{#nestDepth#,"join":"' & leadingJoin & '","field": "' & fieldname &'","comparator": ">=","value": "#encodeForJSON(lowPart)#"';
-				nestDepth = entryNestDepth;
-				nestDepth = floorOpenParens(nestDepth);
-				nestDepth = incrementCloseParens(nestDepth);
-				result = result & '},{#nestDepth#,"join":"and","field": "' & fieldname &'","comparator": "<=","value": "#encodeForJSON(highPart)#"}';
-			} else {
-				result = '{"nest":"#nestDepth#.1","join":"' & leadingJoin & '","field": "' & fieldname &'","comparator": ">=","value": "#encodeForJSON(lowPart)#"';
-				result = result & '},{"nest":"#nestDepth#.2","join":"and","field": "' & fieldname &'","comparator": "<=","value": "#encodeForJSON(highPart)#"}';
-			} 
+			entryNestDepth = nestDepth;
+			nestDepth = incrementOpenParens(nestDepth);
+			nestDepth = floorCloseParens(nestDepth);
+			result = '{#nestDepth#,"join":"' & leadingJoin & '","field": "' & fieldname &'","comparator": ">=","value": "#encodeForJSON(lowPart)#"';
+			nestDepth = entryNestDepth;
+			nestDepth = floorOpenParens(nestDepth);
+			nestDepth = incrementCloseParens(nestDepth);
+			result = result & '},{#nestDepth#,"join":"and","field": "' & fieldname &'","comparator": "<=","value": "#encodeForJSON(highPart)#"}';
 		} else if (ArrayLen(REMatch("^[0-9,]+$",listOfNumbers))>0) {
 			// Just a list of numbers without ranges, translates directly to IN
 			if (listOfNumbers!=",") {
-				if (left(nestDepth,5) EQ '"open') {  
-					result = '{#nestDepth#,"join":"and","field": "' & fieldname &'","comparator": "IN","value": "#encodeForJSON(listOfNumbers)#"}';
-				} else { 
-					result = '{"nest":"#nestDepth#.1","join":"and","field": "' & fieldname &'","comparator": "IN","value": "#encodeForJSON(listOfNumbers)#"}';
-				}
+				result = '{#nestDepth#,"join":"and","field": "' & fieldname &'","comparator": "IN","value": "#encodeForJSON(listOfNumbers)#"}';
 			} else {
 				// just a comma with no numbers, return empty string
 				result = "";
@@ -1236,7 +1217,6 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 					<!--- Warning: only searchText may be passed directly from the user here, join and field must be known good values ---> 
 					<cfset search_json = search_json & constructJsonForField(join="#join#",field="#field#",value="#searchText#",separator="#separator#",nestDepth="#nest#",dataType="#searchFields.data_type#")>
 					<cfset separator = ",">
-					<!--- cfset nest = nest + 1 --->
 				</cfif>
 			</cfloop>
 			<cfif not matched>
