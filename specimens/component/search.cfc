@@ -436,19 +436,10 @@ function ScriptPrefixedNumberListToJSON(listOfNumbers, integerFieldname, prefixF
 			partFromList = REReplace(lparts[i], '[^0-9A-Za-z%\-<>]',"","all");
 			atomParts = ListToArray(partFromList,"-",false);
 			partCount = ArrayLen(atomParts);
+			specialNumber = "";  // used to pass special case values to the number handling clause
 			if (REFind('^".+"$',mayBeQuoted) GT 0) { 
-				// atom is quoted, search displayFieldName
-				comparator = '"comparator": "="';
-				value = right(mayBeQuoted,len(mayBeQuoted)-1);
-				value = left(value,len(value)-1);
-				if (left(value,1) IS "!") {
-					value = ucase(right(value,len(value)-1));
-					comparator = '"comparator": "not like"';
-				} else if (value CONTAINS "%" OR value CONTAINS "_") { 
-					comparator = '"comparator": "like"';
-				}
-				wherebit = wherebit & comma & '{#nestDepth#,"join":"' & leadingJoin & '","field": "' & displayFieldName &'",'& comparator & ',"value": "#value#"}';
-				comma = ",";
+				specialNumber = mayBeQuoted;
+				// atom is quoted, search displayFieldName, handled in numeric clause below.
 			} else if (partCount EQ 1 and REFind("^[A-Za-z]+$",atomParts[1])) { 
 				// just a prefix.
 				prefix = atomParts[1];
@@ -458,21 +449,19 @@ function ScriptPrefixedNumberListToJSON(listOfNumbers, integerFieldname, prefixF
 				prefix = "";
 				suffix = "";
 			} else if (partCount EQ 1 and REFind("^>[0-9]+$",atomParts[1])) { 
-				value = right(mayBeQuoted,len(mayBeQuoted)-1);
-				comparator = '"comparator": ">"';
-				wherebit = wherebit & comma & '{#nestDepth#,"join":"' & leadingJoin & '","field": "' & integerFieldName &'",'& comparator & ',"value": "#value#"}';
+				specialNumber = mayBeQuoted;
+				// atom is greater than clause, handled in numeric clause below.
 			} else if (partCount EQ 1 and REFind("^<[0-9]+$",atomParts[1])) { 
-				value = right(mayBeQuoted,len(mayBeQuoted)-1);
-				comparator = '"comparator": "<"';
-				wherebit = wherebit & comma & '{#nestDepth#,"join":"' & leadingJoin & '","field": "' & integerFieldName &'",'& comparator & ',"value": "#value#"}';
+				specialNumber = mayBeQuoted;
+				// atom is less than than clause, handled in numeric clause below.
 			} else if (partCount EQ 1 and REFind("^[0-9]+[A-Za-z]+$",atomParts[1])) { 
 				// number and suffix
 				numeric = rereplace(atomParts[1],"[^0-9]]","","all");
 				suffix = rereplace(atomParts[1],"[^A-Za-z]","","all");
 			} else if (partCount EQ 1 OR partCount GT 4) { 
+				specialNumber = partFromList;
 				// unexpected, and likely failure case, but try something
-				wherebit = wherebit & comma & '{#nestDepth#,"join":"and","field": "' & displayFieldName &'","comparator": "=","value": "#partFromList#"}';
-				comma = ",";
+				// handled in numeric clause below.
 			} else if (partCount EQ 2) { 
 				if (REFind("^[0-9]+$",atomParts[1]) AND REFind("^[0-9]+$",atomParts[2])) { 
 					// 1-2 numeric range
@@ -530,15 +519,49 @@ function ScriptPrefixedNumberListToJSON(listOfNumbers, integerFieldname, prefixF
 					suffix = atomParts[4];
 				}
 			}
-			if (Len(numeric) GT 0) { 
+			if (Len(numeric) GT 0 OR Len(specialNumber) GT 0) {
+				// handle number clause with or without prefix and suffix, or special case handling specialNumber without prefix and suffix. 
 				localentryNestDepth = nestDepth;
 				if (Len(prefix) GT 0 OR Len(suffix) GT 0) { 
 					// group the number with the prefix and or suffix.
 					nestDepth = incrementOpenParens(nest="#nestDepth#");
 					// number will not be the last clause, so save closeParens for later, and zero it out here.
 					nestDepth = floorCloseParens(nest="#nestDepth#");
+				}
+				if (Len(specialNumber) GT 0) {  
+					// make sure that special cases are handled without prefix or suffix.
+					prefix = "";
+					suffix = "";
+					// handle special case numbers, e.g. quoted, greater than, etc. 
+					if (REFind('^".+"$',specialNumber) GT 0) { 
+						// atom is quoted, search displayFieldName
+						comparator = '"comparator": "="';
+						value = right(specialNumber,len(specialNumber)-1);
+						value = left(value,len(value)-1);
+						if (left(value,1) IS "!") {
+							value = ucase(right(value,len(value)-1));
+							comparator = '"comparator": "not like"';
+						} else if (value CONTAINS "%" OR value CONTAINS "_") { 
+							comparator = '"comparator": "like"';
+						}
+						wherebit = wherebit & comma & '{#nestDepth#,"join":"' & leadingJoin & '","field": "' & displayFieldName &'",'& comparator & ',"value": "#value#"}';
+						comma = ",";
+					} else if (partCount EQ 1 and REFind("^>[0-9]+$",atomParts[1])) { 
+						value = right(specialNumber,len(specialNumber)-1);
+						comparator = '"comparator": ">"';
+						wherebit = wherebit & comma & '{#nestDepth#,"join":"' & leadingJoin & '","field": "' & integerFieldName &'",'& comparator & ',"value": "#value#"}';
+					} else if (partCount EQ 1 and REFind("^<[0-9]+$",atomParts[1])) { 
+						value = right(specialNumber,len(specialNumber)-1);
+						comparator = '"comparator": "<"';
+						wherebit = wherebit & comma & '{#nestDepth#,"join":"' & leadingJoin & '","field": "' & integerFieldName &'",'& comparator & ',"value": "#value#"}';
+					} else if (partCount EQ 1 OR partCount GT 4) { 
+						// unexpected, and likely failure case, but try something
+						wherebit = wherebit & comma & '{#nestDepth#,"join":"and","field": "' & displayFieldName &'","comparator": "=","value": "#specialNumber#"}';
+						comma = ",";
+					} 
+				} else { 
+					wherebit = wherebit & comma & ScriptNumberListToJSON(numeric, integerFieldname, nestDepth, leadingJoin);
 				} 
-				wherebit = wherebit & comma & ScriptNumberListToJSON(numeric, integerFieldname, nestDepth, leadingJoin);
 				if (Len(prefix) GT 0 OR Len(suffix) GT 0) { 
 					// restore closeParens as provided from above
 					nestDepth = localentryNestDepth;
