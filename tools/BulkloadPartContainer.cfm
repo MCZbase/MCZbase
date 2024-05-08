@@ -378,7 +378,7 @@
 				</cfquery>
 			</cfif>
 			</cfloop>
-			<cfquery name="getPartCOID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+			<cfquery name="getTempTableQC" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT 
 					distinct key,collection_object_id
 				FROM 
@@ -386,19 +386,19 @@
 				WHERE 
 					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
-			<cfloop query="getPartCOID">
+			<cfloop query="getTempTableQC">
 				<cfquery name="getContInfo" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					update cf_temp_barcode_parts set collection_object_id = 
 					(select collection_object_id from specimen_part where collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableTypes.collection_object_id#"> )
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-					and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getPartCOID.key#"> 
+					and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableQC.key#"> 
 				</cfquery>
 				<!---USE the specimen_part collection_object_id to validate/update other entries--->
 				<cfquery name="getContInfo" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					update cf_temp_barcode_parts set parent_container_id=
 					(select parent_container_id from container where container.barcode = cf_temp_barcode_parts.container_unique_id)
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-					and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getPartCOID.key#"> 
+					and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableQC.key#"> 
 				</cfquery>
 			</cfloop>
 			<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
