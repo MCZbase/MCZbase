@@ -516,17 +516,21 @@ limitations under the License.
 					<table class='sortable table table-responsive table-striped d-lg-table'>
 						<thead>
 							<tr>
-								<th>container_unique_id</th><th>parent_unique_id</th><th>container_type</th><th>container_name</th><th>status</th>
+								<th>BULKLOADING&nbsp;STATUS</th>
+								<th>container_unique_id</th>
+								<th>parent_unique_id</th>
+								<th>container_type</th>
+								<th>container_name</th>
 							</tr> 
 						</thead>
 						<tbody>
 							<cfloop query="getProblemData">
 								<tr>
+									<td><cfif len(data.status) eq 0>Cleared to load<cfelse><strong>#getProblemData.status#</strong></cfif></td>
 									<td>#getProblemData.container_unique_id#</td>
 									<td>#getProblemData.parent_unique_id#</td>
 									<td>#getProblemData.container_type#</td>
-									<td>#getProblemData.container_name#</td>
-									<td>#getProblemData.status#</td>
+									<td>#getProblemData.container_name#</t
 								</tr> 
 							</cfloop>
 						</tbody>

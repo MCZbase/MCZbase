@@ -466,24 +466,24 @@
 		<h2 class="h3">Third step: Apply changes.</h2>
 		<cfoutput>
 			<cfquery name="getTempData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				SELECT *
-				FROM cf_temp_barcode_parts
+				SELECT * FROM cf_temp_barcode_parts
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<cftry>
-				<cfset part_container_updates = 0>
-					<cftransaction>
-						<cfset install_date = ''>
+				<cfset container_part_updates = 0>
+				<cftransaction>
+					<cfloop query="getTempData">
 						<cfloop query="getTempData">
-							<cfquery name="updatePartContainer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updatePartContainer_result">
-								insert into 
-								coll_obj_cont_hist
-									(collection_object_id,container_id,installed_date,current_container_fg) 
-								values (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collection_object_id#">,
-								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#container_id#">,sysdate,1)
-							</cfquery>			
-							<cfset part_container_updates = part_container_updates + updatePartContainer_result.recordcount>
-						</cfloop>
+						<cfquery name="updateContainer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateContainer_result">
+							UPDATE
+								container 
+							SET
+								PARENT_CONTAINER_ID = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#PARENT_CONTAINER_ID#">
+							WHERE
+								CONTAINER_ID= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#PARENT_CONTAINER_ID#">
+						</cfquery>
+						<cfset container_part_updates = container_part_updates + updateContainer_result.recordcount>
+					</cfloop>
 					</cftransaction> 
 					<div class="container">
 						<div class="row">
@@ -501,9 +501,10 @@
 							AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 					</cfquery>
 					<h3>Problematic Rows (<a href="/tools/BulkloadPartContainer.cfm?action=dumpProblems">download</a>)</h3>
-					<table class='sortable table table-responsive table-striped d-lg-table'>
+					<table class='sortable px-0 w-100 table table-responsive table-striped'>
 						<thead>
 							<tr>
+								<th>BULKLOADING&nbsp;STATUS</th>
 								<th>CONTAINER_TYPE</th>
 								<th>CONTAINER_ID</th>
 								<th>COLLECTION_OBJECT_ID</th>
@@ -514,12 +515,13 @@
 								<th>PART_NAME</th>
 								<th>PRESERVE_METHOD</th>
 								<th>CONTAINER_UNIQUE_ID</th>
-								<th>STATUS</th>
 							</tr> 
 						</thead>
 						<tbody>
 							<cfloop query="getProblemData">
-								<tr><td>#getProblemData.CONTAINER_TYPE#</td>
+								<tr>
+									<td>#getProblemData.STATUS#</td>
+									<td>#getProblemData.CONTAINER_TYPE#</td>
 									<td>#getProblemData.CONTAINER_ID#</td>
 									<td>#getProblemData.COLLECTION_OBJECT_ID#</td>
 									<td>#getProblemData.OTHER_ID_TYPE#</td>
@@ -543,11 +545,11 @@
 					<cfset part_container_updates = 0>
 					<cfloop query="getTempData">
 						<cfset problem_key = getTempData.key>
-	<!---						<cfquery name="updatePartContainer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updatePartContainer_result">
+							<cfquery name="updatePartContainer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updatePartContainer_result">
 								insert into coll_Obj_cont_hist
 									(collection_object_id,container_id,installed_date,current_container_fg) 
 								values (#collection_object_id#,#container_id#,sysdate,'1')
-							</cfquery>--->
+							</cfquery>
 						<cfset part_container_updates = part_container_updates + updatePartContainer_result.recordcount>
 					</cfloop>
 					<cftransaction action="commit">
@@ -564,19 +566,20 @@
 						<table class='sortable table table-responsive table-striped d-lg-table'>
 							<thead>
 								<tr>
-									<th>other_id_type</th>
-									<th>other_id_number</th>
-									<th>collection_cde</th>
-									<th>institution_acronym</th>
-									<th>part_name</th>
-									<th>preserve_method</th>
-									<th>container_unique_id</th>
-									<th>status</th>
+									<th>BULKLOADING&nbsp;STATUS</th>
+									<th>OTHER_ID_TYPE</th>
+									<th>OTHER_ID_NUMBER</th>
+									<th>COLLECTION_CDE</th>
+									<th>INSTITUTION_ACRONYM</th>
+									<th>PART_NAME</th>
+									<th>PRESERVE_METHOD</th>
+									<th>CONTAINER_UNIQUE_ID</th>
 								</tr> 
 							</thead>
 							<tbody>
 								<cfloop query="getProblemData">
 									<tr>
+										<td><cfif len(data.status) eq 0>Cleared to load<cfelse><strong>#getProblemData.status#</strong></cfif></td>
 										<td>#getProblemData.OTHER_ID_TYPE#</td>
 										<td>#getProblemData.OTHER_ID_NUMBER#</td>
 										<td>#getProblemData.COLLECTION_CDE#</td>
@@ -584,7 +587,6 @@
 										<td>#getProblemData.PART_NAME#</td>
 										<td>#getProblemData.PRESERVE_METHOD#</td>
 										<td>#getProblemData.CONTAINER_UNIQUE_ID#</td>
-										<td>#getProblemData.status#</td>
 									</tr> 
 								</cfloop>
 							</tbody>
