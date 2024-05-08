@@ -411,6 +411,7 @@
 				INSTITUTION_ACRONYM,PART_NAME,PRESERVE_METHOD,PARENT_CONTAINER_ID,CONTAINER_UNIQUE_ID,STATUS 
 				FROM cf_temp_barcode_parts
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+				and status = ''
 			</cfquery>
 			<cfquery name="pf" dbtype="query">
 				SELECT count(*) c 
