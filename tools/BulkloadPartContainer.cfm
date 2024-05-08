@@ -559,7 +559,7 @@
 						</cfquery>
 						<cfif getProblemData.recordcount GT 0>
 						<h3 class="mt-3">
-							Fix the issues and <a href="/tools/BulkloadCitations.cfm">reload</a>. Error loading row (<span class="text-danger">#citation_updates + 1#</span>) from the CSV: 
+							Fix the issues and <a href="/tools/BulkloadPartContainer.cfm">reload</a>. Error loading row (<span class="text-danger">#container_updates + 1#</span>) from the CSV: 
 							<cfif len(cfcatch.detail) gt 0>
 								<span class="font-weight-normal border-bottom border-danger">
 									<cfif cfcatch.detail contains "part_name">
@@ -583,35 +583,7 @@
 								</span>
 							</cfif>
 						</h3>
-						<!---<h3>Error updating row (#part_container_updates + 1#): #cfcatch.message#</h3>
-						<table class='sortable px-0 w-100 table table-responsive table-striped'>
-							<thead>
-								<tr>
-									<th>BULKLOADING&nbsp;STATUS</th>
-									<th>OTHER_ID_TYPE</th>
-									<th>OTHER_ID_NUMBER</th>
-									<th>COLLECTION_CDE</th>
-									<th>INSTITUTION_ACRONYM</th>
-									<th>PART_NAME</th>
-									<th>PRESERVE_METHOD</th>
-									<th>CONTAINER_UNIQUE_ID</th>
-								</tr> 
-							</thead>
-							<tbody>
-								<cfloop query="getProblemData">
-									<tr>
-										<td><cfif len(data.status) eq 0>Cleared to load<cfelse><strong>#getProblemData.status#</strong></cfif></td>
-										<td>#getProblemData.OTHER_ID_TYPE#</td>
-										<td>#getProblemData.OTHER_ID_NUMBER#</td>
-										<td>#getProblemData.COLLECTION_CDE#</td>
-										<td>#getProblemData.INSTITUTION_ACRONYM#</td>
-										<td>#getProblemData.PART_NAME#</td>
-										<td>#getProblemData.PRESERVE_METHOD#</td>
-										<td>#getProblemData.CONTAINER_UNIQUE_ID#</td>
-									</tr> 
-								</cfloop>
-							</tbody>
-						</table>--->
+						</cfif>
 						<cfrethrow>
 				</cfcatch>
 				</cftry>
