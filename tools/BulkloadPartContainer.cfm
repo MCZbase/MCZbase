@@ -367,7 +367,7 @@
 			</cfquery>
 			<cfloop query="getTempTableQC">
 				<cfquery name="isGoodParent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					select container_id from container where container_type <> 'collection object'
+					select container_id,barcode from container where container_type <> 'collection object'
 					and barcode = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableQC.container_unique_id#">
 				</cfquery>
 				<cfif len(isGoodParent.container_id) eq 0>
@@ -380,6 +380,14 @@
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
 					</cfquery>
+				<cfelse>
+					<cfquery name="updateParentContID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						UPDATE cf_temp_barcode_parts
+						SET parent_container_id = (select parent_container_id from container where container_type <> 'collection object'
+						AND barcode=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#isGoodParent.container_unique_id#">)
+						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+						AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
+					</cfquery>	
 				</cfif>
 				<cfquery name="isGoodContHist" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					select container_id FROM coll_obj_cont_hist where
@@ -396,6 +404,9 @@
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
 					</cfquery>
+				<cfelse>
+						
+				</cfif>
 					<cfquery name="isGoodCont" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						update cf_temp_barcode_parts set parent_container_id = 
 						(select parent_container_id from container where barcode = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableQC.container_unique_id#">)
