@@ -404,12 +404,28 @@
 						AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
 					</cfquery>
 				<cfelse>
-					#isGoodContHist.container_id#
+				</cfif>
+				<cfif len(isGoodParent.container_id) gt 0>
+					<cfquery name="isGoodCont" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						update cf_temp_barcode_parts set parent_container_id = 
+						(select parent_container_id from container where barcode = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableQC.container_unique_id#">)
+						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+					</cfquery>
+				<cfelse>
+					<cfquery name="flagNoCont" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						UPDATE cf_temp_barcode_parts
+						SET 
+							status = concat(nvl2(status, status || '; ', ''),'container_unique_id does not exist')
+						WHERE container_id not in (select container_id from container where container_type <> 'collection object'
+							and barcode='#container_unique_id#')
+						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+						AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
+					</cfquery>
 				</cfif>
 				<!---USE the specimen_part collection_object_id to validate/update other entries--->
 			</cfloop>
 			<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				SELECT OTHER_ID_TYPE,OTHER_ID_NUMBER,COLLECTION_OBJECT_ID,COLLECTION_CDE,CONTAINER_ID,
+				SELECT OTHER_ID_TYPE,OTHER_ID_NUMBER,COLLECTION_OBJECT_ID,COLLECTION_CDE,CONTAINER_ID,PARENT_CONTAINER_ID,
 				INSTITUTION_ACRONYM,PART_NAME,PRESERVE_METHOD,PARENT_CONTAINER_ID,CONTAINER_UNIQUE_ID,STATUS 
 				FROM cf_temp_barcode_parts
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
@@ -441,6 +457,7 @@
 						<th>CONTAINER_UNIQUE_ID</th>
 						<th>COLLECTION_OBJECT_ID</th>
 						<th>CONTAINER_ID</th>
+						<th>PARENT_CONTAINER_ID</th>
 						<th>PRESERVE_METHOD</th>
 					</tr>
 				<tbody>
@@ -455,6 +472,7 @@
 							<td>#data.CONTAINER_UNIQUE_ID#</td>
 							<td>#data.COLLECTION_OBJECT_ID#</td>
 							<td>#data.CONTAINER_ID#</td>
+							<td>#data.PARENT_CONTAINER_ID#</td>
 							<td>#data.PRESERVE_METHOD#</td>
 						</tr>
 					</cfloop>
@@ -480,7 +498,6 @@
 								container 
 							SET
 								CONTAINER_ID = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#CONTAINER_ID#">,
-								PARENT_CONTAINER_ID = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#PARENT_CONTAINER_ID#">
 							where 
 								BARCODE = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#CONTAINER_UNIQUE_ID#">
 							
