@@ -545,7 +545,7 @@
 							SET
 								PARENT_CONTAINER_ID = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.PARENT_CONTAINER_ID#">
 							WHERE
-								BARCODE=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.CONTAINER_UNIQUE_ID#">
+								BARCODE=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.CONTAINER_UNIQUE_ID#">
 						</cfquery>
 						<cfset container_updates = container_updates + updateContainer_result.recordcount>
 					</cfloop>
