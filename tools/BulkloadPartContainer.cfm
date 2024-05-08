@@ -370,7 +370,7 @@
 					select container_id from container where container_type <> 'collection object'
 					and barcode = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableQC.container_unique_id#">
 				</cfquery>
-				<cfif len(container_id) gt 0>
+				<cfif len(isGoodParent.container_id) gt 0>
 					<cfquery name="isGoodParent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						update cf_temp_barcode_parts set container_id = 
 						(select container_id from container where container_type <> 'collection object'
