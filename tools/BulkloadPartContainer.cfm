@@ -484,11 +484,11 @@
 					<cfloop query="getTempData">
 						<cfquery name="updateContainer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateContainer_result">
 							UPDATE
-								container 
+								CONTAINER 
 							SET
-								CONTAINER_ID = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#CONTAINER_ID#">,
+								CONTAINER_ID = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.CONTAINER_ID#">,
 							where 
-								BARCODE = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#CONTAINER_UNIQUE_ID#">
+								BARCODE = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.CONTAINER_UNIQUE_ID#">
 							
 						</cfquery>
 						<cfset container_part_updates = container_part_updates + updateContainer_result.recordcount>
