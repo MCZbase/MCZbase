@@ -463,7 +463,7 @@
 				
 	<!-------------------------------------------------------------------------------------------->
 	<cfif #action# is "load">
-		<h2 class="h3">Third step: Apply changes.</h2>
+		<h2 class="h4">Third step: Apply changes.</h2>
 		<cfoutput>
 			<cfquery name="getTempData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT * FROM cf_temp_barcode_parts
@@ -473,7 +473,6 @@
 				<cfset container_part_updates = 0>
 				<cftransaction>
 					<cfloop query="getTempData">
-					
 						<cfquery name="updateContainer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateContainer_result">
 							UPDATE
 								container 
@@ -484,16 +483,10 @@
 						</cfquery>
 						<cfset container_part_updates = container_part_updates + updateContainer_result.recordcount>
 					</cfloop>
-					</cftransaction> 
-					<div class="container">
-						<div class="row">
-							<div class="col-12 mx-auto">
-								<h2 class="h3">Updated #part_container_updates# part(s) with container(s).</h2>
-							</div>
-						</div>
-					</div>
+				</cftransaction> 
+				<h3>Updated #container_part_updates# part(s) with container(s).</h3>
 				<cfcatch>
-					<h2>There was a problem updating part container.</h2>
+					<h3>There was a problem updating part container.</h3>
 					<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						SELECT *
 						FROM cf_temp_barcode_parts 
@@ -565,7 +558,7 @@
 							AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						</cfquery>
 						<cfif getProblemData.recordcount GT 0>
-						<h3>
+						<h3 class="mt-3">
 							Fix the issues and <a href="/tools/BulkloadCitations.cfm">reload</a>. Error loading row (<span class="text-danger">#citation_updates + 1#</span>) from the CSV: 
 							<cfif len(cfcatch.detail) gt 0>
 								<span class="font-weight-normal border-bottom border-danger">
