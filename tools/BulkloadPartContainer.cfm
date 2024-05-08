@@ -344,8 +344,7 @@
 							preserve_method = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableTypes.preserve_method#">
 						AND
 							username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-						AND
-							key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableTypes.key#"> 
+						
 					</cfquery>
 				<cfelse>
 					<cfquery name="coll_obj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -375,8 +374,7 @@
 							preserve_method = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableTypes.preserve_method#">
 						AND
 							username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-						AND
-							key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableTypes.KEY#"> 
+						
 					</cfquery>
 				</cfif>
 			</cfloop>
