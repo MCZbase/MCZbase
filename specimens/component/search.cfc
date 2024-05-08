@@ -344,21 +344,20 @@ function ScriptPrefixedNumberListToJSON(listOfNumbers, integerFieldname, prefixF
 	} else { 
 		// List consists of one or more components, with at least one prefix or suffix.
 		// Add openParens in first clause using provided openWith for nesting.
-		nestDepth = '"openParens":"0","closeParens":"0"';
-		if (openWith GT 0) { 
-			for (j=1; j LTE openWith; j=j+1) { 
-				// openParen passed in from calling logic, e.g. to nest a number with a number type
-				nestDepth = incrementOpenParens(nest="#nestDepth#");
-			}
-		} 
-		// closeWith provided in call will be used later in the last block produced from splitting lparts.
 		numericClause = "";
 		wherebit = "";
 		comma = "";
 		leadingJoin = "and";
 		for (i=1; i LTE ArrayLen(lparts); i=i+1) {
+			nestDepth = '"openParens":"0","closeParens":"0"';
 			if (i EQ 1 and ArrayLen(lparts) EQ 1) { 
 				// only one element, but with a prefix/suffix or otherwise not just a number.
+				if (openWith GT 0) { 
+					for (j=1; j LTE openWith; j=j+1) { 
+						// openParen passed in from calling logic, e.g. to nest a number with a number type
+						nestDepth = incrementOpenParens(nest="#nestDepth#");
+					}
+				} 
 				// openParen added to group the elements of lparts together, end of loop adds OR leadingJoin 
 				nestDepth = incrementOpenParens(nest="#nestDepth#");
 				// special case where we would miss setting closeParens in clause B.
@@ -373,6 +372,13 @@ function ScriptPrefixedNumberListToJSON(listOfNumbers, integerFieldname, prefixF
 			} else if (i EQ 1 and ArrayLen(lparts) GT 1) { 
 				// clause A
 				// first of n elements where n > 1
+				if (openWith GT 0) { 
+					for (j=1; j LTE openWith; j=j+1) { 
+						// openParen passed in from calling logic, e.g. to nest a number with a number type
+						nestDepth = incrementOpenParens(nest="#nestDepth#");
+					}
+				} 
+				// closeWith provided in call will be used later in the last block produced from splitting lparts.
 				// openParen added to group the elements of lparts together, end of loop adds OR leadingJoin 
 				nestDepth = incrementOpenParens(nest="#nestDepth#");
 			} else if (ArrayLen(lparts) EQ 2 AND i EQ 2) {
@@ -1478,8 +1484,8 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 		<cfset join='"join":"and",'>
 	</cfif>
 	<cfif isDefined("cat_num") AND len(cat_num) GT 0>
-		<cfset openWith = 0>
-		<cfset closeWith = 0>
+		<cfset openWith = 1>
+		<cfset closeWith = 1>
 		<cfset clause = ScriptPrefixedNumberListToJSON(cat_num, "CAT_NUM_INTEGER", "CAT_NUM_PREFIX", true, openWith, closeWith, "and")>
 		<cfset search_json = "#search_json##separator##clause#">
 		<cfset separator = ",">
@@ -1550,6 +1556,7 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 		<cfset nest = '"openParens":"1","closeParens":"0"'>
 		<cfset openWith = 1>
 		<cfset closeWith = 2><!--- for second type and number) clause and outermost ) --->
+		<cfset join='"join":"or",'>
 		<cfif isDefined("other_id_type_1") AND len(other_id_type_1) GT 0>
 			<cfif isDefined("other_id_number_1") AND len(other_id_number_1) GT 0>
 				<!--- there is number following the type. --->
@@ -1563,21 +1570,23 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 			<cfset value = escapeQuotesForJSON(value="#other_id_type_1#")>
 			<cfset search_json = '#search_json##separator#{#nest#,#join##field#,#comparator#,"value": "#value#"}'>
 			<cfset separator = ",">
-			<cfset join='"join":"or",'>
+			<cfset join='"join":"and",'>
 			<cfset nest = '"openParens":"0","closeParens":"2"'><!--- used if there is an other_id_number_1 --->
 			<cfset openWith = 0>
 		</cfif>
 		<cfif isDefined("other_id_number_1") AND len(other_id_number_1) GT 0>
 			<cfif left(other_id_number_1,1) is "=" OR left(other_id_number_1,1) is "!">
+				<cfif NOT isDefined("other_id_type_1") OR len(other_id_type_1) EQ 0>
+					<!--- there is only a number, open and close inner, close outermost )  --->
+					<cfset nest = '"openParens":"1","closeParens":"2"'>
+				</cfif>
 				<cfset field = '"field": "DISPLAY_VALUE"'>
 				<cfset search_json = search_json & constructJsonForField(join="#join#",field="#field#",value="#other_id_number_1#",separator="#separator#",nestDepth="#nest#")>
 				<cfset separator = ",">
-				<cfset join='"join":"and",'>
 			<cfelse>
 				<cfset clause = ScriptPrefixedNumberListToJSON(other_id_number_1, "OTHER_ID_NUMBER", "OTHER_ID_PREFIX", false, openWith, closeWith, "and")>
 				<cfset search_json = "#search_json##separator##clause#">
 				<cfset separator = ",">
-				<cfset join='"join":"and",'>
 			</cfif>
 		</cfif>
 		<cfset nest = '"openParens":"0","closeParens":"0"'>
