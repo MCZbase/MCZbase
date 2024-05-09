@@ -458,6 +458,8 @@
 								CONTAINER 
 							SET
 								CONTAINER_ID = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.CONTAINER_ID#">
+							where 
+								container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.PART_CONTAINER_ID#">
 						</cfquery>
 						<cfset container_part_updates = container_part_updates + updateContainer_result.recordcount>
 					</cfloop>
