@@ -464,7 +464,7 @@
 				</cfquery>
 				<cftry>
 					<cfset barcodes_updates = 0>
-					<cfset barcodes_updates1 = 0>
+				<!---	<cfset barcodes_updates1 = 0>--->
 					<cfif getTempData.recordcount EQ 0>
 						<cfthrow message="You have no rows to load in the Part Container bulkloader table (cf_temp_barcode_parts).  <a href='/tools/BulkloadPartContainer.cfm' class='text-danger'>Start again</a>"><!--- " --->
 					</cfif>
@@ -478,9 +478,7 @@
 						</cfquery>
 						<cfquery name="updateBarcodes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateBarcodes_result">
 							update coll_obj_cont_hist 
-							set current_container_fg = 0 where collection_object_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.collection_object_id#">
-							and current_container_fg = 1
-							and 
+							set current_container_fg = 1 where collection_object_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.collection_object_id#">
 						</cfquery>
 <!---						<cfquery name="updateBarcodes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateBarcodes_result">
 							update coll_obj_cont_hist set collection_object_id =<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getContData.collection_object_id#">,
