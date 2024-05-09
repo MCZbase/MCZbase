@@ -2194,6 +2194,7 @@ Target JSON:
 											<script>
 												function isNestingOk() { 
 													$('##nestingFeedback').html("");		
+													$('##nestingFeedback').removeClass('text-danger');
 													var result = false;
 													var countOpen = 0;
 													var countClose = 0;
@@ -2208,9 +2209,12 @@ Target JSON:
 													if (countOpen==countClose) { 
 														result = true;
 														console.log("Parenthesies match.");
+														$('##searchbuilder-search').prop("disabled",false);
 													} else { 
-														console.log("Parenthesies mismatched.");
-														$('##nestingFeedback').html(countOpen + "( but " + countClose + " )");		
+														console.log("Parenthesies mismatched: " + countOpen + " opened, but " + countClose + " closed.");
+														$('##nestingFeedback').html("open " + countOpen + "( but <br>close" + countClose + " )");		
+														$('##nestingFeedback').addClass('text-danger');
+														$('##searchbuilder-search').prop("disabled",true);
 													} 
 													return result;
 												}
