@@ -224,7 +224,7 @@
 					<cfif loadedRows EQ 0>
 						Loaded no rows from the CSV file.  The file appears to be just a header with no data. Fix file and <a href="/tools/BulkloadPartContainer.cfm">reload</a>
 					<cfelse>
-						Successfully read #loadedRows# records from the CSV file.  Next <a href="/tools/BulkloadPartContainer.cfm?action=validate" class="btn-link">click to validate</a>.
+						Successfully read #loadedRows# records from the CSV file.  Next <a href="/tools/BulkloadPartContainer.cfm?action=validate" class="btn-link font-weight-lessbold">click to validate</a>.
 					</cfif>
 				</h3>
 			<cfcatch>
@@ -400,7 +400,7 @@
 				</h3>
 			<cfelse>
 				<h3 class="mt-3">
-					Validation checks passed. Look over the table below and <a href="/tools/BulkloadPartContainer.cfm?action=load" class="btn-link font-weight-bold">click to continue</a> if it all looks good. Or, <a href="/tools/BulkloadPartContainer.cfm"  class="text-danger">start again</a>.
+					Validation checks passed. Look over the table below and <a href="/tools/BulkloadPartContainer.cfm?action=load" class="btn-link font-weight-lessbold">click to continue</a> if it all looks good. Or, <a href="/tools/BulkloadPartContainer.cfm"  class="text-danger">start again</a>.
 				</h3>
 			</cfif>
 			<table class='sortable small px-0 table table-responsive table-striped w-100'>
@@ -448,9 +448,16 @@
 			<cfset problem_key = "">
 			<cftransaction>
 				<cfquery name="getTempData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					SELECT *
+					SELECT KEY,INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_NUMBER,COLLECTION_OBJECT_ID,
+					PART_NAME,PRESERVE_METHOD,CONTAINER_ID,PARENT_CONTAINER_ID,PART_CONTAINER_ID,CONTAINER_UNIQUE_ID,STATUS 
 					FROM cf_temp_barcode_parts
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+				</cfquery>
+				<cfquery name="getHist" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					SELECT container_id
+					FROM coll_obj_cont_hist
+					WHERE current_container_fg=1 
+					and collection_object_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.collection_object_id#">
 				</cfquery>
 				<cfquery name="getCounts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT count(distinct collection_object_id) ctobj FROM cf_temp_barcode_parts
@@ -458,65 +465,40 @@
 				</cfquery>
 				<cftry>
 					<cfset barcodes_updates = 0>
-					<cfset barcodes_updates1 = 0>
+			<!---		<cfset barcodes_updates1 = 0>--->
 					<cfif getTempData.recordcount EQ 0>
 						<cfthrow message="You have no rows to load in the Part Container bulkloader table (cf_temp_barcode_parts).  <a href='/tools/BulkloadPartContainer.cfm' class='text-danger'>Start again</a>"><!--- " --->
 					</cfif>
-					<cfset install_date = ''>
+					<cfset install_date = "">
 					<cfloop query="getTempData">
 						<cfset problem_key = #getTempData.key#>
 						<cfquery name="updateBarcodes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateBarcodes_result">
 							update container 
-							set parent_container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.parent_container_id#">
-							where container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.part_container_id#">
+							set container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.part_container_id#">
+							
 						</cfquery>
-<!---						<cfquery name="updateBarcodes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateBarcodes_result">
-							update coll_obj_cont_hist set collection_object_id =<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getContData.collection_object_id#">,
-							container_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getContData.container_id#">,
-							installed_date = sysdate,
-							current_container_fg = 1
-						</cfquery>--->
-						<cfquery name="updateBarcodes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateBarcodes_result">
-							insert into coll_obj_cont_hist 
-							(
-							collection_object_id, container_id, installed_date,current_container_fg
-							)values(
-							<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.collection_object_id#">,
-							<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.container_id#">,
-							sysdate,
-							1
-							)
-						</cfquery>
-<!---						<cfquery name="updateBarcodes1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateBarcodes1_result">
-							select collection_object_id,container_id 
-							from coll_obj_cont_hist
+						<cfquery name="updatehist" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updatehist_result">
+							insert into coll_obj_cont_hist (container_id, installed_date,current_container_fg, collection_object_id)
+							values(<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.container_id#">, sysdate, 1
 							where collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.collection_object_id#">
-							group by collection_object_id,container_id
-							having count(*) > 0
 						</cfquery>
 						<cfset barcodes_updates = barcodes_updates + updateBarcodes_result.recordcount>
-						<cfif updateBarcodes1_result.recordcount gt 0>
-							<cfthrow message="Error: Attempting to insert a duplicate part container: collection_object_id=#getTempData.COLLECTION_OBJECT_ID#, container_id=#getTempData.CONTAINER_ID#">
-						</cfif>--->
 					</cfloop>
 					<p>Number of Part Containers to update: #barcodes_updates# (on #getCounts.ctobj# cataloged items)</p>
-					<cfif getTempData.recordcount eq barcodes_updates and updateBarcodes_result.recordcount eq 0>
-						<h2 class="text-success">Success - loaded</h2>
-					</cfif>
-					<cfif updateBarcodes1_result.recordcount gt 0>
-						<h2 class="text-danger">Not loaded - these have already been loaded</h2>
+					<cfif getTempData.recordcount eq barcodes_updates> 
+						<h3 class="text-success">Success - loaded</h3>
 					</cfif>
 					<cftransaction action="commit">
 				<cfcatch>
 					<cftransaction action="ROLLBACK">
-					<h2 class="h3">There was a problem updating the part container. </h2>
 					<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						SELECT INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_NUMBER,COLLECTION_OBJECT_ID,PART_NAME,PRESERVE_METHOD,CONTAINER_ID,PARENT_CONTAINER_ID,PART_CONTAINER_ID,CONTAINER_UNIQUE_ID
+						SELECT INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_NUMBER,PART_NAME,PRESERVE_METHOD,CONTAINER_UNIQUE_ID
 						FROM cf_temp_barcode_parts
 						where key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#problem_key#">
 					</cfquery>
+					<h3 class="mt-3">There was a problem updating the part container. </h3
 					<cfif getProblemData.recordcount GT 0>
-						<h3>Fix the issues and <a href="/tools/BulkloadPartContainer.cfm">reload</a>. Error loading row (<span class="text-danger">#barcodes_updates + 1#</span>) from the CSV: 
+						<h3 class="mt-3">Fix the issues and <a href="/tools/BulkloadPartContainer.cfm" class="text-danger">start again</a>. Error loading row (<span class="text-danger">#barcodes_updates + 1#</span>) from the CSV: 
 							<cfif len(cfcatch.detail) gt 0>
 								<span class="font-weight-normal border-bottom border-danger">
 									<cfif cfcatch.detail contains "container_id">
@@ -529,6 +511,8 @@
 										This part's container has already been entered. Remove from spreadsheet and try again. (<a href="/tools/BulkloadPartContainer.cfm">Reload.</a>)
 									<cfelseif cfcatch.detail contains "no data">
 										No data or the wrong data (#cfcatch.detail#)
+									<cfelseif cfcatch.detail contains "missing expression">
+										There is something wrong with the code. Submit a bug report.
 									<cfelse>
 										<!--- provide the raw error message if it isn't readily interpretable --->
 										#cfcatch.detail#
@@ -536,7 +520,7 @@
 								</span>
 							</cfif>
 						</h3>
-						<table class='sortable small table table-responsive table-striped mt-3'>
+						<table class='sortable px-0 small w-100 table table-responsive table-striped'>
 							<thead>
 								<tr>
 									<th>COUNT</th>
