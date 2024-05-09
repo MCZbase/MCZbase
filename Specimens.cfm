@@ -2179,8 +2179,8 @@ Target JSON:
 																	</select>
 																	<script> 
 																		$(document).ready(function(){
-																			$('##openParens'+row).on("change", function(event) { isNestingOk(); } );
-																			$('##closeParens'+row).on("change", function(event) { isNestingOk(); } );
+																			$('##openParens#row#').on("change", function(event) { isNestingOk(); } );
+																			$('##closeParens#row#').on("change", function(event) { isNestingOk(); } );
 																		});
 																	</script> 
 																</div>
