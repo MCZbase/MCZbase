@@ -465,7 +465,7 @@
 					<cfset install_date = "">
 					<cfloop query="getTempData">
 						<cfset problem_key = #getTempData.key#>
-							<cfquery name="updatePartContainer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updatePartContainer_result">
+							<cfquery name="updatePartContainer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateBarcodes_result">
 								insert into coll_Obj_cont_hist
 									(collection_object_id,container_id,installed_date,current_container_fg) 
 								values (#collection_object_id#,#container_id#,sysdate,'1')
