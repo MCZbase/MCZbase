@@ -2212,7 +2212,7 @@ Target JSON:
 														$('##searchbuilder-search').prop("disabled",false);
 													} else { 
 														console.log("Parenthesies mismatched: " + countOpen + " opened, but " + countClose + " closed.");
-														$('##nestingFeedback').html("open " + countOpen + "( but <br>close" + countClose + " )");		
+														$('##nestingFeedback').html("open " + countOpen + " ( but <br>close" + countClose + " )");		
 														$('##nestingFeedback').addClass('text-danger');
 														$('##searchbuilder-search').prop("disabled",true);
 													} 
