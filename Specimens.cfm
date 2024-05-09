@@ -2200,8 +2200,8 @@ Target JSON:
 													var rows = $("##builderMaxRows").val();
 													rows = parseInt(rows);
 													for (row=0; row<=rows; row++) { 
-														countOpen = countOpen + $('##openParens'+row).val();
-														countClose = countClose + $('##closeParens'+row).val();
+														countOpen = countOpen + parseInt($('##openParens'+row).val());
+														countClose = countClose + parseInt($('##closeParens'+row).val());
 													}
 													if (countOpen==countClose) { 
 														result = true;
