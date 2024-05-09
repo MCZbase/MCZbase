@@ -357,21 +357,20 @@
 					</cfquery>
 				</cfif>
 			</cfloop>
-	
 			<cfquery name="getTempTableQC" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT key,collection_object_id, container_unique_id
 				FROM cf_temp_barcode_parts
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
-			<cfquery name="getInfo" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				SELECT co.PARENT_CONTAINER_ID, co.container_id
-				FROM coll_obj_cont_hist ch, container co
-				WHERE ch.current_container_fg = 1
-				AND ch.container_id = co.container_id
-				AND co.container_type = 'collection object'
-				AND ch.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableQC.collection_object_id#">
-			</cfquery>
 			<cfloop query="getTempTableQC">
+				<cfquery name="getInfo" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					SELECT co.PARENT_CONTAINER_ID, co.container_id
+					FROM coll_obj_cont_hist ch, container co
+					WHERE ch.current_container_fg = 1
+					AND ch.container_id = co.container_id
+					AND co.container_type = 'collection object'
+					AND ch.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableQC.collection_object_id#">
+				</cfquery>
 				<cfquery name="updatePartContID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE cf_temp_barcode_parts
 					SET part_container_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getInfo.container_id#">
