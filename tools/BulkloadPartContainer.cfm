@@ -527,7 +527,7 @@
 						where key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#problem_key#">
 					</cfquery>
 					<cfif getProblemData.recordcount GT 0>
-						<h3>Fix the issues and <a href="/tools/BulkloadPartContainer.cfm">reload</a>. Error loading row (<span class="text-danger">#barcodes_updates + 1#</span>) from the CSV: 
+						<h3>Fix the issues and <a href="/tools/BulkloadPartContainer.cfm" class="text-danger">reload</a>. Error loading row (<span class="text-danger">#barcodes_updates + 1#</span>) from the CSV: 
 							<cfif len(cfcatch.detail) gt 0>
 								<span class="font-weight-normal border-bottom border-danger">
 									<cfif cfcatch.detail contains "container_id">
@@ -540,6 +540,8 @@
 										This part's container has already been entered. Remove from spreadsheet and try again. (<a href="/tools/BulkloadPartContainer.cfm">Reload.</a>)
 									<cfelseif cfcatch.detail contains "no data">
 										No data or the wrong data (#cfcatch.detail#)
+									<cfelseif cfcatch.detail contains "missing expression">
+										There is something wrong with the code. Submit a bug report.
 									<cfelse>
 										<!--- provide the raw error message if it isn't readily interpretable --->
 										#cfcatch.detail#
