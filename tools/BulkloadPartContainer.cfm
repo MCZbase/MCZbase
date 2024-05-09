@@ -487,7 +487,7 @@
 							1
 							)
 						</cfquery>
-						<cfquery name="updateBarcodes1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateBarcodes1_result">
+<!---						<cfquery name="updateBarcodes1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateBarcodes1_result">
 							select collection_object_id,container_id 
 							from coll_obj_cont_hist
 							where collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.collection_object_id#">
@@ -497,10 +497,10 @@
 						<cfset barcodes_updates = barcodes_updates + updateBarcodes_result.recordcount>
 						<cfif updateBarcodes1_result.recordcount gt 0>
 							<cfthrow message="Error: Attempting to insert a duplicate part container: collection_object_id=#getTempData.COLLECTION_OBJECT_ID#, container_id=#getTempData.CONTAINER_ID#">
-						</cfif>
+						</cfif>--->
 					</cfloop>
 					<p>Number of Part Containers to update: #barcodes_updates# (on #getCounts.ctobj# cataloged items)</p>
-					<cfif getTempData.recordcount eq barcodes_updates and updateBarcodes1_result.recordcount eq 0>
+					<cfif getTempData.recordcount eq barcodes_updates and updateBarcodes_result.recordcount eq 0>
 						<h2 class="text-success">Success - loaded</h2>
 					</cfif>
 					<cfif updateBarcodes1_result.recordcount gt 0>
