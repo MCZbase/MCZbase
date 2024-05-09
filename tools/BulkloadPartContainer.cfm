@@ -366,7 +366,7 @@
 			<cfquery name="getInfo" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT co.PARENT_CONTAINER_ID, co.container_id
 				FROM coll_obj_cont_hist ch, container co
-				WHERE co.current_container_fg=1
+				WHERE ch.current_container_fg = 1
 				AND ch.container_id = co.container_id
 				AND co.container_type = 'collection object'
 				AND ch.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableQC.collection_object_id#">
