@@ -1931,7 +1931,7 @@ Target JSON:
 														<a aria-label="Add more search criteria" id="addRowButton" class="btn btn-xs btn-primary rounded px-2 mr-md-auto" target="_self" href="javascript:void(0);">Add</a>
 													</div>
 													<div class="col-12 col-md-1">
-														<span id="nestingFeedback"></span>
+														<output id="nestingFeedback"></output>
 													</div>
 													<div class="col-12 col-md-1">
 														<label for="openParens1" class="data-entry-label">&nbsp;</label>
