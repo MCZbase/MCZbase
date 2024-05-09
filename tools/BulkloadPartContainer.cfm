@@ -477,13 +477,13 @@
 							set parent_container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.parent_container_id#">
 							where container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.part_container_id#">
 						</cfquery>
-<!---						<cfquery name="updateBarcodes0" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateBarcodes0_result">
+						<cfquery name="updateBarcodes0" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateBarcodes0_result">
 							update coll_obj_cont_hist set container_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.container_id#">,
 							installed_date = sysdate,
 							current_container_fg = 1
 							where <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.collection_object_id#">
 						</cfquery>
-						<cfquery name="updateBarcodes1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateBarcodes1_result">
+					<!---	<cfquery name="updateBarcodes1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateBarcodes1_result">
 							select collection_object_id,container_id 
 							from coll_obj_cont_hist
 							where collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.collection_object_id#">
