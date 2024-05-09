@@ -2057,8 +2057,8 @@ Target JSON:
 													</div>
 													<script> 
 														$(document).ready(function(){
-															$('##openParens1').on("change", function(event) { isNestingOk(); } 
-															$('##closeParens1').on("change", function(event) { isNestingOk(); } 
+															$('##openParens1').on("change", function(event) { isNestingOk(); }); 
+															$('##closeParens1').on("change", function(event) { isNestingOk(); });
 														});
 													<script> 
 													<cfif isdefined("session.roles") and listfindnocase(session.roles,"global_admin")>
