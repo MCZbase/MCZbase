@@ -451,6 +451,7 @@
 			</cfquery>
 			<cftry>
 				<cfset container_part_updates = 0>
+				<cfset problem_key = "">
 				<cftransaction>
 					<cfloop query="getTempData">
 						<cfquery name="updateContainer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateContainer_result">
@@ -471,7 +472,7 @@
 						SELECT *
 						FROM cf_temp_barcode_parts 
 						WHERE status is not null
-							AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+						AND key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#problem_key#">
 					</cfquery>
 					<h3>Problematic Rows (<a href="/tools/BulkloadPartContainer.cfm?action=dumpProblems">download</a>)</h3>
 					<table class='sortable px-0 w-100 table table-responsive table-striped'>
