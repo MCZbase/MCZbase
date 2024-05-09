@@ -519,14 +519,14 @@
 					<cftransaction action="commit">
 				<cfcatch>
 					<cftransaction action="ROLLBACK">
-					<3 class="mt-3">There was a problem updating the part container. </h3>
 					<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						SELECT INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_NUMBER,PART_NAME,PRESERVE_METHOD,CONTAINER_UNIQUE_ID
 						FROM cf_temp_barcode_parts
 						where key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#problem_key#">
 					</cfquery>
+					<h3 class="mt-3">There was a problem updating the part container. </h3
 					<cfif getProblemData.recordcount GT 0>
-						<h3>Fix the issues and <a href="/tools/BulkloadPartContainer.cfm" class="text-danger">reload</a>. Error loading row (<span class="text-danger">#barcodes_updates + 1#</span>) from the CSV: 
+						<h3 class="mt-3">Fix the issues and <a href="/tools/BulkloadPartContainer.cfm" class="text-danger">start again</a>. Error loading row (<span class="text-danger">#barcodes_updates + 1#</span>) from the CSV: 
 							<cfif len(cfcatch.detail) gt 0>
 								<span class="font-weight-normal border-bottom border-danger">
 									<cfif cfcatch.detail contains "container_id">
