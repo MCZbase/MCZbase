@@ -2177,10 +2177,10 @@ Target JSON:
 																	</select>
 																	<script> 
 																		$(document).ready(function(){
-																			$('##openParens'+row).on("change", function(event) { isNestingOk(); } 
-																			$('##closeParens'+row).on("change", function(event) { isNestingOk(); } 
+																			$('##openParens'+row).on("change", function(event) { isNestingOk(); } );
+																			$('##closeParens'+row).on("change", function(event) { isNestingOk(); } );
 																		});
-																	<script> 
+																	</script> 
 																</div>
 																<div class="col-12 col-md-1">
 																	<button type='button' onclick=' $("##builderRow#row#").remove();' arial-label='remove' class='btn btn-xs px-3 btn-warning mr-auto'>Remove</button>
@@ -2278,8 +2278,8 @@ Target JSON:
 														var handleSelect = new Function(handleSelectString);
 														handleSelect();
 													});
-													$('##openParens'+row).on("change", function(event) { isNestingOk(); } 
-													$('##closeParens'+row).on("change", function(event) { isNestingOk(); } 
+													$('##openParens'+row).on("change", function(event) { isNestingOk(); } )
+													$('##closeParens'+row).on("change", function(event) { isNestingOk(); } )
 												};
 												$(document).ready(function(){
 													$("##addRowButton").click(function(){
