@@ -2060,7 +2060,7 @@ Target JSON:
 															$('##openParens1').on("change", function(event) { isNestingOk(); }); 
 															$('##closeParens1').on("change", function(event) { isNestingOk(); });
 														});
-													<script> 
+													</script> 
 													<cfif isdefined("session.roles") and listfindnocase(session.roles,"global_admin")>
 														<div class="col-12 col-md-1">
 															<label class="data-entry-label" for="debug3">Debug</label>
