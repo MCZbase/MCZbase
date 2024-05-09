@@ -1809,9 +1809,11 @@ Target JSON:
 									<aside class="collapse collapseStyle" id="collapseBuilder">
 										<div class="card card-body pl-4 py-3 pr-3">
 											<h2 class="headerSm">Search Builder Search Help</h2>
-											<p>Construct searches on arbitrary sets of fields.  Click the <i>Add</i> button to add a clause to the search, select a field to search, and specify a value to search for.  Search terms can be connected with either <i>and</i> or <i>or</i>.  Use parenthesies to group <i>or</i> terms, e.g. (genus=Urocyon or genus=Vulpes) and (state=Massachusetts or state=Vermont).
-											<p>There is a page to explain the database fields available to build a search.
-											Access it here: <a href="/specimens/viewSpecimenSearchMetadata.cfm?action=search&execute=true&method=getcf_spec_search_cols&access_role=!HIDE">Search Builder Help Page</a>
+											<p>Construct searches on arbitrary sets of fields.  Click the <i>Add</i> button to add a clause to the search, select a field to search, and specify a value to search for.</p>
+											<p>Search terms can be connected with either <i>and</i> or <i>or</i>.  Use parenthesies to group <i>or</i> terms, e.g. (genus=Urocyon or genus=Vulpes) and (state=Massachusetts or state=Vermont).</p>
+											<p>The number of parenthesies you open must equal the number of parenthesies you close in order to run a search.  If there is a mismatch in the count, then the search button will be disabled, and an error message will be show.  For example, <i>open 2 ( but close 1 )</i> means that you need to add another close parenthesis.  Checks are not performed on whether your parenthesies are correctly placed or correctly nested before running a search.  Problems with nesting of clauses with parenthesies will result in an error message if they do not produce correct syntax, or may result in unexpected results if the syntax is correct but your search logic does not match your expectations.</p>
+											<p>Many database fields in multiple tables in MCZbase are available to build a search.
+											Each available field is described here: <a href="/specimens/viewSpecimenSearchMetadata.cfm?action=search&execute=true&method=getcf_spec_search_cols&access_role=!HIDE">Search Builder Help Page</a>
 											</p>
 										</div>
 									</aside>
@@ -2183,7 +2185,7 @@ Target JSON:
 																	</script> 
 																</div>
 																<div class="col-12 col-md-1">
-																	<button type='button' onclick=' $("##builderRow#row#").remove();' arial-label='remove' class='btn btn-xs px-3 btn-warning mr-auto'>Remove</button>
+																	<button type='button' onclick=' removeBuilderRow(#row#);' arial-label='remove this row from the builder' class='btn btn-xs px-3 btn-warning mr-auto'>Remove</button>
 																</div>
 															</div>
 														</cfif>
@@ -2192,6 +2194,10 @@ Target JSON:
 							
 											</div><!--- end customFields: new form rows get appended here --->
 											<script>
+												function removeBuilderRow(row) {
+													$("##builderRow"+row).remove();
+													isNestingOk(); 
+												} 
 												function isNestingOk() { 
 													$('##nestingFeedback').html("");		
 													$('##nestingFeedback').removeClass('text-danger');
@@ -2201,7 +2207,7 @@ Target JSON:
 													var rows = $("##builderMaxRows").val();
 													rows = parseInt(rows);
 													for (row=1; row<=rows; row++) { 
-														if ($('##openParens'+row).length) { 
+														if (row && $('##openParens'+row).length) { 
 															countOpen = countOpen + parseInt($('##openParens'+row).val());
 															countClose = countClose + parseInt($('##closeParens'+row).val());
 														}
@@ -2212,7 +2218,7 @@ Target JSON:
 														$('##searchbuilder-search').prop("disabled",false);
 													} else { 
 														console.log("Parenthesies mismatched: " + countOpen + " opened, but " + countClose + " closed.");
-														$('##nestingFeedback').html("open " + countOpen + " ( but <br>close" + countClose + " )");		
+														$('##nestingFeedback').html("open " + countOpen + " ( but <br>close " + countClose + " )");		
 														$('##nestingFeedback').addClass('text-danger');
 														$('##searchbuilder-search').prop("disabled",true);
 													} 
@@ -2268,7 +2274,7 @@ Target JSON:
 													newControls = newControls + '</select>';
 													newControls= newControls + '</div>';
 													newControls= newControls + '<div class="col-12 col-md-1">';
-													newControls = newControls + `<button type='button' onclick=' $("##builderRow` + row + `").remove();' arial-label='remove' class='btn btn-xs px-3 btn-warning mr-auto'>Remove</button>`;
+													newControls = newControls + `<button type='button' onclick=' removeBuilderRow(` + row + `);' arial-label='remove this row from the builder' class='btn btn-xs px-3 btn-warning mr-auto'>Remove</button>`;
 													newControls = newControls + '</div>';
 													newControls = newControls + '</div>';
 													$("##customFields").append(newControls);
