@@ -465,7 +465,7 @@
 				</cfquery>
 				<cftry>
 					<cfset barcodes_updates = 0>
-					<cfset barcodes_updates1 = 0>
+			<!---		<cfset barcodes_updates1 = 0>--->
 					<cfif getTempData.recordcount EQ 0>
 						<cfthrow message="You have no rows to load in the Part Container bulkloader table (cf_temp_barcode_parts).  <a href='/tools/BulkloadPartContainer.cfm' class='text-danger'>Start again</a>"><!--- " --->
 					</cfif>
@@ -477,7 +477,7 @@
 							set parent_container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.parent_container_id#">
 							where container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.part_container_id#">
 						</cfquery>
-						<cfquery name="updateBarcodes0" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateBarcodes0_result">
+<!---						<cfquery name="updateBarcodes0" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateBarcodes0_result">
 							update coll_obj_cont_hist set container_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.container_id#">,
 							installed_date = sysdate,
 							current_container_fg = 1
@@ -489,18 +489,18 @@
 							where collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.collection_object_id#">
 							group by collection_object_id,container_id
 							having count(*) > 1
-						</cfquery>
+						</cfquery>--->
 						<cfset barcodes_updates = barcodes_updates + updateBarcodes_result.recordcount>
-						<cfif updateBarcodes1_result.recordcount gt 0>
+				<!---		<cfif updateBarcodes1_result.recordcount gt 0>
 							<cfthrow message="Error: Attempting to insert a duplicate part container: collection_object_id=#getTempData.COLLECTION_OBJECT_ID#, container_id=#getTempData.CONTAINER_ID#">
-						</cfif>
+						</cfif>--->
 					</cfloop>
 					<p>Number of Part Containers to update: #barcodes_updates# (on #getCounts.ctobj# cataloged items)</p>
 					<cfif getTempData.recordcount eq barcodes_updates and updateBarcodes1_result.recordcount eq 0>
 						<h3 class="text-success">Success - loaded</h3>
 					</cfif>
 					<cfif updateBarcodes1_result.recordcount gt 0>
-						<h3 class="text-danger">Not loaded - these have already been loaded</h2>
+						<h3 class="text-danger">Not loaded - these have already been loaded</h3>
 					</cfif>
 					<cftransaction action="commit">
 				<cfcatch>
