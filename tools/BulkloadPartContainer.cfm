@@ -472,7 +472,6 @@
 							</cfquery>
 						<cfset barcodes_updates = barcodes_updates + updateBarcodes_result.recordcount>
 					</cfloop>
-					<cftransaction action="commit">
 					<p>Number of Part Containers to update: #barcodes_updates# (on #getCounts.ctobj# cataloged items)</p>
 					<cfif getTempData.recordcount eq barcodes_updates> 
 						<h3 class="text-success">Success - loaded</h3>
