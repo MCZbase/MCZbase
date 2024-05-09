@@ -1931,7 +1931,7 @@ Target JSON:
 														<a aria-label="Add more search criteria" id="addRowButton" class="btn btn-xs btn-primary rounded px-2 mr-md-auto" target="_self" href="javascript:void(0);">Add</a>
 													</div>
 													<div class="col-12 col-md-1">
-														<span id="nestingFeedback"></span>
+														<output id="nestingFeedback"></output>
 													</div>
 													<div class="col-12 col-md-1">
 														<label for="openParens1" class="data-entry-label">&nbsp;</label>
@@ -2194,21 +2194,27 @@ Target JSON:
 											<script>
 												function isNestingOk() { 
 													$('##nestingFeedback').html("");		
+													$('##nestingFeedback').removeClass('text-danger');
 													var result = false;
 													var countOpen = 0;
 													var countClose = 0;
 													var rows = $("##builderMaxRows").val();
 													rows = parseInt(rows);
-													for (row=0; row<=rows; row++) { 
-														countOpen = countOpen + $('##openParens'+row).val();
-														countClose = countClose + $('##closeParens'+row).val();
+													for (row=1; row<=rows; row++) { 
+														if ($('##openParens'+row).length) { 
+															countOpen = countOpen + parseInt($('##openParens'+row).val());
+															countClose = countClose + parseInt($('##closeParens'+row).val());
+														}
 													}
 													if (countOpen==countClose) { 
 														result = true;
 														console.log("Parenthesies match.");
+														$('##searchbuilder-search').prop("disabled",false);
 													} else { 
-														console.log("Parenthesies mismatched.");
-														$('##nestingFeedback').html(countOpen + "( but " + countClose + " )");		
+														console.log("Parenthesies mismatched: " + countOpen + " opened, but " + countClose + " closed.");
+														$('##nestingFeedback').html("open " + countOpen + " ( but <br>close" + countClose + " )");		
+														$('##nestingFeedback').addClass('text-danger');
+														$('##searchbuilder-search').prop("disabled",true);
 													} 
 													return result;
 												}
