@@ -357,25 +357,10 @@
 					</cfquery>
 				</cfif>
 			</cfloop>
-<!---			<cfquery name="getTempTableData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				SELECT key,collection_object_id, container_unique_id
-				FROM cf_temp_barcode_parts
-				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-			</cfquery>
-			<cfloop query="getTempTableData">
-				<cfquery name="getInfo" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					SELECT co.PARENT_CONTAINER_ID, co.container_id
-					FROM coll_obj_cont_hist ch, container co
-					WHERE ch.current_container_fg = 1
-					AND ch.container_id = co.container_id
-					AND co.container_type = 'collection object'
-					AND ch.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableData.collection_object_id#">
-				</cfquery>
-			</cfloop>--->
 			<cfquery name="getTempTableQC" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT ct.key, ct.collection_object_id, ct.container_unique_id, ch.container_id
 				FROM cf_temp_barcode_parts ct, coll_obj_cont_hist ch, container co
-				WHERE ct.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableTypes.collection_object_id#">
+				WHERE ct.collection_object_id = ch.collection_object_id
 				AND ch.container_id = co.container_id
 				AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
