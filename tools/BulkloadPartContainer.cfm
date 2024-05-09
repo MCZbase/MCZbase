@@ -547,7 +547,7 @@
 								</span>
 							</cfif>
 						</h3>
-						<table class='sortable small table table-responsive table-striped mt-3'>
+						<table class='sortable px-0 small w-100 table table-responsive table-striped'>
 							<thead>
 								<tr>
 									<th>COUNT</th>
