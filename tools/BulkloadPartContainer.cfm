@@ -499,9 +499,9 @@
 					<cfif getTempData.recordcount eq barcodes_updates> <!---and updateBarcodes1_result.recordcount eq 0>--->
 						<h3 class="text-success">Success - loaded</h3>
 					</cfif>
-					<cfif updateBarcodes1_result.recordcount gt 0>
+				<!---	<cfif updateBarcodes1_result.recordcount gt 0>
 						<h3 class="text-danger">Not loaded - these have already been loaded</h3>
-					</cfif>
+					</cfif>--->
 					<cftransaction action="commit">
 				<cfcatch>
 					<cftransaction action="ROLLBACK">
