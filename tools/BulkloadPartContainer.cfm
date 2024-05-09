@@ -377,7 +377,7 @@
 				</cfquery>
 				<cfquery name="updatePartContID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE cf_temp_barcode_parts
-					SET part_container_id = (select parent_container_id from container where barcode= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableQC.container_unique_id#">)
+					SET part_container_id = (select container_id from container where barcode= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableQC.container_unique_id#">)
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 					AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
 				</cfquery>
@@ -474,10 +474,11 @@
 						<cfset problem_key = #getTempData.key#>
 						<cfquery name="updateBarcodes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateBarcodes_result">
 							update container 
-							set container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.container_id#">,
-							parent_container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.part_container_id#">
+							set container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.part_container_id#">
 							where container_id in 
-							(select container_id from coll_obj_cont_hist where container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.container_id#"> and collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.collection_object_id#">)
+							(select container_id from coll_obj_cont_hist 
+							where container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.container_id#"> 
+							and collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.collection_object_id#">)
 						</cfquery>
 						<cfquery name="updatehist" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updatehist_result">
 							update coll_obj_cont_hist set container_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.container_id#">,
