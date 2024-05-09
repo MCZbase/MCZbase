@@ -496,7 +496,7 @@
 						</cfif>--->
 					</cfloop>
 					<p>Number of Part Containers to update: #barcodes_updates# (on #getCounts.ctobj# cataloged items)</p>
-					<cfif getTempData.recordcount eq barcodes_updates and updateBarcodes1_result.recordcount eq 0>
+					<cfif getTempData.recordcount eq barcodes_updates> <!---and updateBarcodes1_result.recordcount eq 0>--->
 						<h3 class="text-success">Success - loaded</h3>
 					</cfif>
 					<cfif updateBarcodes1_result.recordcount gt 0>
