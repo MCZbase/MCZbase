@@ -448,9 +448,15 @@
 			<cfset problem_key = "">
 			<cftransaction>
 				<cfquery name="getTempData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					SELECT *
+					SELECT KEY,INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_NUMBER,COLLECTION_OBJECT_ID,
+					PART_NAME,PRESERVE_METHOD,CONTAINER_ID,PARENT_CONTAINER_ID,PART_CONTAINER_ID,CONTAINER_UNIQUE_ID,STATUS 
 					FROM cf_temp_barcode_parts
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+				</cfquery>
+				<cfquery name="getHist" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					SELECT container_id
+					FROM coll_obj_cont_hist
+					WHERE current_container_fg=1 and collection_object_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.collection_object_id#">
 				</cfquery>
 				<cfquery name="getCounts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT count(distinct collection_object_id) ctobj FROM cf_temp_barcode_parts
@@ -470,6 +476,12 @@
 							set parent_container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.parent_container_id#">
 							where container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.part_container_id#">
 						</cfquery>
+						<cfquery name="updateBarcodes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateBarcodes_result">
+							update coll_obj_cont_hist 
+							set current_container_fg=0 where collection_object_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.collection_object_id#">
+							and current_container_fg = 1
+							and 
+						</cfquery>
 <!---						<cfquery name="updateBarcodes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateBarcodes_result">
 							update coll_obj_cont_hist set collection_object_id =<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getContData.collection_object_id#">,
 							container_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getContData.container_id#">,
@@ -484,8 +496,7 @@
 							<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.collection_object_id#">,
 							<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.container_id#">,
 							sysdate,
-							1
-							)
+							1)
 						</cfquery>
 <!---						<cfquery name="updateBarcodes1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateBarcodes1_result">
 							select collection_object_id,container_id 
