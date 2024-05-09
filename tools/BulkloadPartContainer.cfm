@@ -457,8 +457,8 @@
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
 				<cftry>
-					<cfset barcode_updates = 0>
-					<cfset barcode_updates1 = 0>
+					<cfset barcodes_updates = 0>
+					<cfset barcodes_updates1 = 0>
 					<cfif getContData.recordcount EQ 0>
 						<cfthrow message="You have no rows to load in the Part Container bulkloader table (cf_temp_barcode_parts).  <a href='/tools/BulkloadPartContainer.cfm' class='text-danger'>Start again</a>"><!--- " --->
 					</cfif>
@@ -495,8 +495,7 @@
 						where key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#problem_key#">
 					</cfquery>
 					<cfif getProblemData.recordcount GT 0>
-						<h3>
-							Fix the issues and <a href="/tools/BulkloadPartContainer.cfm">reload</a>. Error loading row (<span class="text-danger">#barcodes_updates + 1#</span>) from the CSV: 
+						<h3>Fix the issues and <a href="/tools/BulkloadPartContainer.cfm">reload</a>. Error loading row (<span class="text-danger">#barcodes_updates + 1#</span>) from the CSV: 
 							<cfif len(cfcatch.detail) gt 0>
 								<span class="font-weight-normal border-bottom border-danger">
 									<cfif cfcatch.detail contains "container_id">
