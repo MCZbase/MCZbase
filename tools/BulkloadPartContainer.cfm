@@ -475,10 +475,7 @@
 						<cfquery name="updateBarcodes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateBarcodes_result">
 							update container 
 							set container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.part_container_id#">
-							where container_id in 
-							(select container_id from coll_obj_cont_hist 
-							where container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.container_id#"> 
-							and collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.collection_object_id#">)
+							
 						</cfquery>
 						<cfquery name="updatehist" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updatehist_result">
 							update coll_obj_cont_hist set container_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.container_id#">,
@@ -489,7 +486,7 @@
 						<cfset barcodes_updates = barcodes_updates + updateBarcodes_result.recordcount>
 					</cfloop>
 					<p>Number of Part Containers to update: #barcodes_updates# (on #getCounts.ctobj# cataloged items)</p>
-					<cfif getTempData.recordcount eq barcodes_updates> <!---and updateBarcodes1_result.recordcount eq 0>--->
+					<cfif getTempData.recordcount eq barcodes_updates> 
 						<h3 class="text-success">Success - loaded</h3>
 					</cfif>
 					<cftransaction action="commit">
