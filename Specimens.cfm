@@ -1801,8 +1801,8 @@ Target JSON:
  [{"nest":"1","field": "COUNTRY","comparator": "=","value": "FRANCE"},{"nest":"2.1","join":"and","field": "FAMILY","comparator": "=","value": "MUSTELIDAE"},{"nest":"2.2","join":"or","field": "FAMILY","comparator": "=","value": "LOPHIIDAE"},{"nest":"3","join":"and","field": "COLLECTORS_AGENT_ID","comparator": "=","value": "15172"}]
 --->
 							<section id="builderSearchPanel" role="tabpanel" aria-labelledby="builderSearchTabButton" tabindex="-1" class="mx-0 #builderTabActive# unfocus"  #builderTabShow#>
-								<div role="search" id="builderSearchFormDiv">
-									<div class="col-3 float-right px-3"> 
+								<div role="search" id="builderSearchFormDiv" class="container-fluid px-0">
+									<div class="col-9 float-right px-3"> 
 									<button class="btn btn-xs btn-dark help-btn border-0" type="button" data-toggle="collapse" data-target="##collapseBuilder" aria-expanded="false" aria-controls="collapseBuilder">
 										Search Help
 									</button>
