@@ -2185,7 +2185,7 @@ Target JSON:
 																	</script> 
 																</div>
 																<div class="col-12 col-md-1">
-																	<button type='button' onclick=' $("##builderRow#row#").remove();' arial-label='remove' class='btn btn-xs px-3 btn-warning mr-auto'>Remove</button>
+																	<button type='button' onclick=' removebuilderRow(#row#);' arial-label='remove this row from the builder' class='btn btn-xs px-3 btn-warning mr-auto'>Remove</button>
 																</div>
 															</div>
 														</cfif>
@@ -2194,6 +2194,10 @@ Target JSON:
 							
 											</div><!--- end customFields: new form rows get appended here --->
 											<script>
+												function removeBuilderRow(row) {
+													$("##builderRow"+row).remove();
+													isNestingOk(); 
+												} 
 												function isNestingOk() { 
 													$('##nestingFeedback').html("");		
 													$('##nestingFeedback').removeClass('text-danger');
@@ -2270,7 +2274,7 @@ Target JSON:
 													newControls = newControls + '</select>';
 													newControls= newControls + '</div>';
 													newControls= newControls + '<div class="col-12 col-md-1">';
-													newControls = newControls + `<button type='button' onclick=' $("##builderRow` + row + `").remove();' arial-label='remove' class='btn btn-xs px-3 btn-warning mr-auto'>Remove</button>`;
+													newControls = newControls + `<button type='button' onclick=' removeBuilderRow(row);' arial-label='remove this row from the builder' class='btn btn-xs px-3 btn-warning mr-auto'>Remove</button>`;
 													newControls = newControls + '</div>';
 													newControls = newControls + '</div>';
 													$("##customFields").append(newControls);
