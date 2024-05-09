@@ -473,7 +473,7 @@
 							set container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.parent_container_id#">
 						</cfquery>
 						<cfquery name="updatehist" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updatehist_result">
-							insert into coll_obj_cont_hist (container_id, installed_date,current_container_fg, collection_object_id)
+							insert into coll_obj_cont_hist (parent_container_id, installed_date,current_container_fg, collection_object_id)
 							values(<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.container_id#">, sysdate, 1
 							where collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.collection_object_id#">
 						</cfquery>
