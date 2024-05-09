@@ -470,7 +470,7 @@
 							where container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getContData.part_container_id#">
 						</cfquery>
 						<cfquery name="updateBarcodes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateBarcodes_result">
-							insert into coll_obj_cont_hist 
+							update coll_obj_cont_hist 
 							(
 							collection_object_id, container_id, installed_date,current_container_fg
 							)values(
