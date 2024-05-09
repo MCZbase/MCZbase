@@ -465,11 +465,13 @@
 					<cfloop query="getContData">
 						<cfset problem_key = #getContData.key#>
 						<cfquery name="updateBarcodes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateBarcodes_result">
-							update container set parent_container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getContData.parent_container_id#">
+							update container 
+							set parent_container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getContData.parent_container_id#">
 							where container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getContData.part_container_id#">
 						</cfquery>
 						<cfquery name="updateBarcodes1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateBarcodes1_result">
-							select collection_object_id,container_id from coll_obj_cont_history
+							select collection_object_id,container_id 
+							from coll_obj_cont_hist
 							where collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getContData.collection_object_id#">
 							group by collection_object_id,container_id
 							having count(*) > 0
