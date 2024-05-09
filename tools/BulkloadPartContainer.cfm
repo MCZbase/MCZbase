@@ -492,7 +492,7 @@
 							from coll_obj_cont_hist
 							where collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.collection_object_id#">
 							group by collection_object_id,container_id
-							having count(*) > 1
+							having count(*) > 0
 						</cfquery>
 						<cfset barcodes_updates = barcodes_updates + updateBarcodes_result.recordcount>
 						<cfif updateBarcodes1_result.recordcount gt 0>
