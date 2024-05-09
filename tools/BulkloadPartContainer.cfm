@@ -358,7 +358,7 @@
 				</cfif>
 			</cfloop>
 			<cfquery name="getTempTableQC" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				SELECT ct.key, ct.collection_object_id, ct.container_unique_id, ch.container_id
+				SELECT ct.key, ct.collection_object_id, ct.container_unique_id, ch.container_id,co.container_type,co.label,
 				FROM cf_temp_barcode_parts ct, coll_obj_cont_hist ch, container co
 				WHERE ct.collection_object_id = ch.collection_object_id
 				AND ch.container_id = co.container_id
@@ -470,12 +470,14 @@
 						<cfset problem_key = #getTempData.key#>
 						<cfquery name="updateBarcodes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateBarcodes_result">
 							update container 
-							set container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.parent_container_id#">
+							set container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.container_id#">,
+							parent_container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.parent_container_id#">,
+							container_type = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.parent_container_id#">,
+							label = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.parent_container_id#">,
 						</cfquery>
 						<cfquery name="updatehist" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updatehist_result">
-							insert into coll_obj_cont_hist (parent_container_id, installed_date,current_container_fg, collection_object_id)
-							values(<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.container_id#">, sysdate, 1
-							where collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.collection_object_id#">
+							insert into coll_obj_cont_hist (container_id, installed_date,current_container_fg, collection_object_id)
+							values(<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.container_id#">, sysdate, 1,<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.collection_object_id#">)
 						</cfquery>
 						<cfset barcodes_updates = barcodes_updates + updateBarcodes_result.recordcount>
 					</cfloop>
