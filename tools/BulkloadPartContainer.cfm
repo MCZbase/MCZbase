@@ -375,7 +375,7 @@
 			<cfquery name="getTempTableQC" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT ct.key, ct.collection_object_id, ct.container_unique_id, ch.container_id
 				FROM cf_temp_barcode_parts ct, coll_obj_cont_hist ch, container co
-				WHERE cf.collection_object_id = ch.collection_object_id
+				WHERE ct.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableTypes.collection_object_id#">
 				AND ch.container_id = co.container_id
 				AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
