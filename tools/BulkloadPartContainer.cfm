@@ -447,7 +447,7 @@
 		<cfoutput>
 			<cfset problem_key = "">
 			<cftransaction>
-				<cfquery name="getContData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				<cfquery name="getTempData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT *
 					FROM cf_temp_barcode_parts
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
@@ -459,47 +459,48 @@
 				<cftry>
 					<cfset barcodes_updates = 0>
 					<cfset barcodes_updates1 = 0>
-					<cfif getContData.recordcount EQ 0>
+					<cfif getTempData.recordcount EQ 0>
 						<cfthrow message="You have no rows to load in the Part Container bulkloader table (cf_temp_barcode_parts).  <a href='/tools/BulkloadPartContainer.cfm' class='text-danger'>Start again</a>"><!--- " --->
 					</cfif>
-					<cfloop query="getContData">
-						<cfset problem_key = #getContData.key#>
+					<cfset install_date = ''>
+					<cfloop query="getTempData">
+						<cfset problem_key = #getTempData.key#>
 						<cfquery name="updateBarcodes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateBarcodes_result">
 							update container 
-							set parent_container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getContData.parent_container_id#">
-							where container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getContData.part_container_id#">
+							set parent_container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.parent_container_id#">
+							where container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.part_container_id#">
 						</cfquery>
-						<cfquery name="updateBarcodes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateBarcodes_result">
+<!---						<cfquery name="updateBarcodes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateBarcodes_result">
 							update coll_obj_cont_hist set collection_object_id =<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getContData.collection_object_id#">,
 							container_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getContData.container_id#">,
 							installed_date = sysdate,
 							current_container_fg = 1
-						</cfquery>
-		<!---				<cfquery name="updateBarcodes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateBarcodes_result">
+						</cfquery>--->
+						<cfquery name="updateBarcodes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateBarcodes_result">
 							insert into coll_obj_cont_hist 
 							(
 							collection_object_id, container_id, installed_date,current_container_fg
 							)values(
-							<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getContData.collection_object_id#">,
-							<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getContData.container_id#">,
+							<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.collection_object_id#">,
+							<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.container_id#">,
 							sysdate,
 							1
 							)
-						</cfquery>--->
+						</cfquery>
 						<cfquery name="updateBarcodes1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateBarcodes1_result">
 							select collection_object_id,container_id 
 							from coll_obj_cont_hist
-							where collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getContData.collection_object_id#">
+							where collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.collection_object_id#">
 							group by collection_object_id,container_id
 							having count(*) > 1
 						</cfquery>
 						<cfset barcodes_updates = barcodes_updates + updateBarcodes_result.recordcount>
 						<cfif updateBarcodes1_result.recordcount gt 0>
-							<cfthrow message="Error: Attempting to insert a duplicate part container: collection_object_id=#getContData.COLLECTION_OBJECT_ID#, container_id=#getContData.CONTAINER_ID#">
+							<cfthrow message="Error: Attempting to insert a duplicate part container: collection_object_id=#getTempData.COLLECTION_OBJECT_ID#, container_id=#getTempData.CONTAINER_ID#">
 						</cfif>
 					</cfloop>
 					<p>Number of Part Containers to update: #barcodes_updates# (on #getCounts.ctobj# cataloged items)</p>
-					<cfif getContData.recordcount eq barcodes_updates and updateBarcodes1_result.recordcount eq 0>
+					<cfif getTempData.recordcount eq barcodes_updates and updateBarcodes1_result.recordcount eq 0>
 						<h2 class="text-success">Success - loaded</h2>
 					</cfif>
 					<cfif updateBarcodes1_result.recordcount gt 0>
@@ -535,7 +536,7 @@
 								</span>
 							</cfif>
 						</h3>
-						<table class='sortable small table table-responsive table-striped d-lg-table mt-3'>
+						<table class='sortable small table table-responsive table-striped mt-3'>
 							<thead>
 								<tr>
 									<th>COUNT</th>
@@ -576,7 +577,5 @@
 			</cfquery>
 		</cfoutput>
 	</cfif>
-</main>
-<cfinclude template="/shared/_footer.cfm">
 </main>
 <cfinclude template="/shared/_footer.cfm">
