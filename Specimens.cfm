@@ -1801,8 +1801,8 @@ Target JSON:
  [{"nest":"1","field": "COUNTRY","comparator": "=","value": "FRANCE"},{"nest":"2.1","join":"and","field": "FAMILY","comparator": "=","value": "MUSTELIDAE"},{"nest":"2.2","join":"or","field": "FAMILY","comparator": "=","value": "LOPHIIDAE"},{"nest":"3","join":"and","field": "COLLECTORS_AGENT_ID","comparator": "=","value": "15172"}]
 --->
 							<section id="builderSearchPanel" role="tabpanel" aria-labelledby="builderSearchTabButton" tabindex="-1" class="mx-0 #builderTabActive# unfocus"  #builderTabShow#>
-								<div role="search" id="builderSearchFormDiv">
-									<div class="col-3 float-right px-3"> 
+								<div role="search" id="builderSearchFormDiv" class="container-fluid px-0">
+									<div class="col-9 float-right px-3"> 
 									<button class="btn btn-xs btn-dark help-btn border-0" type="button" data-toggle="collapse" data-target="##collapseBuilder" aria-expanded="false" aria-controls="collapseBuilder">
 										Search Help
 									</button>
@@ -1810,7 +1810,7 @@ Target JSON:
 										<div class="card card-body pl-4 py-3 pr-3">
 											<h2 class="headerSm">Search Builder Search Help</h2>
 											<p>Construct searches on arbitrary sets of fields.  Click the <i>Add</i> button to add a clause to the search, select a field to search, and specify a value to search for.</p>
-											<p>Search terms can be connected with either <i>and</i> or <i>or</i>.  Use parenthesies to group <i>or</i> terms, e.g. (genus=Urocyon or genus=Vulpes) and (state=Massachusetts or state=Vermont).</p>
+											<p>Search terms can be connected with either <i>and</i> or <i>or</i>.  Use parenthesies to group <i>or</i> terms, e.g. (genus=Urocyon or genus=Vulpes) and (state=Massachusetts or state=Vermont). See an example: <a href='/Specimens.cfm?execute=true&builderMaxRows=6&action=builderSearch&openParens1=1&field1=GEOG_AUTH_REC%3ASTATE_PROV&searchText1=%3DMassachusetts&closeParens1=0&JoinOperator2=or&openParens2=0&field2=GEOG_AUTH_REC%3ASTATE_PROV&searchText2=%3DVermont&closeParens2=0&JoinOperator3=or&openParens3=0&field3=GEOG_AUTH_REC%3ASTATE_PROV&searchText3=%3DNew%20Hampshire&closeParens3=1&JoinOperator4=and&openParens4=1&field4=TAXONOMY%3AGENUS&searchText4=%3DUrocyon&closeParens4=0&JoinOperator6=or&openParens6=0&field6=TAXONOMY%3AGENUS&searchText6=%3DVulpes&closeParens6=1' target="_blank">Red or Gray foxes from MA, NH, or VT</a></p>
 											<p>The number of parenthesies you open must equal the number of parenthesies you close in order to run a search.  If there is a mismatch in the count, then the search button will be disabled, and an error message will be show.  For example, <i>open 2 ( but close 1 )</i> means that you need to add another close parenthesis.  Checks are not performed on whether your parenthesies are correctly placed or correctly nested before running a search.  Problems with nesting of clauses with parenthesies will result in an error message if they do not produce correct syntax, or may result in unexpected results if the syntax is correct but your search logic does not match your expectations.</p>
 											<p>Many database fields in multiple tables in MCZbase are available to build a search.
 											Each available field is described here: <a href="/specimens/viewSpecimenSearchMetadata.cfm?action=search&execute=true&method=getcf_spec_search_cols&access_role=!HIDE">Search Builder Help Page</a>
@@ -2179,8 +2179,8 @@ Target JSON:
 																	</select>
 																	<script> 
 																		$(document).ready(function(){
-																			$('##openParens'+row).on("change", function(event) { isNestingOk(); } );
-																			$('##closeParens'+row).on("change", function(event) { isNestingOk(); } );
+																			$('##openParens#row#').on("change", function(event) { isNestingOk(); } );
+																			$('##closeParens#row#').on("change", function(event) { isNestingOk(); } );
 																		});
 																	</script> 
 																</div>
@@ -2274,7 +2274,7 @@ Target JSON:
 													newControls = newControls + '</select>';
 													newControls= newControls + '</div>';
 													newControls= newControls + '<div class="col-12 col-md-1">';
-													newControls = newControls + `<button type='button' onclick=' removeBuilderRow(` + row + `);' arial-label='remove this row from the builder' class='btn btn-xs px-3 btn-warning mr-auto'>Remove</button>`;
+													newControls = newControls + '<button type="button" onclick=" removeBuilderRow(' + row + ');" arial-label="remove this row from the builder" class="btn btn-xs px-3 btn-warning mr-auto">Remove</button>';
 													newControls = newControls + '</div>';
 													newControls = newControls + '</div>';
 													$("##customFields").append(newControls);
