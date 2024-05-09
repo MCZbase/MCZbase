@@ -472,7 +472,7 @@
 						<cfquery name="updateBarcodes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateBarcodes_result">
 							update coll_obj_cont_hist set collection_object_id =<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getContData.collection_object_id#">,
 							container_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getContData.container_id#">,
-							installed_data = sysdate,
+							installed_date = sysdate,
 							current_container_fg = 1
 						</cfquery>
 		<!---				<cfquery name="updateBarcodes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateBarcodes_result">
