@@ -2274,7 +2274,7 @@ Target JSON:
 													newControls = newControls + '</select>';
 													newControls= newControls + '</div>';
 													newControls= newControls + '<div class="col-12 col-md-1">';
-													newControls = newControls + `<button type='button' onclick=' removeBuilderRow(` + row + `);' arial-label='remove this row from the builder' class='btn btn-xs px-3 btn-warning mr-auto'>Remove</button>`;
+													newControls = newControls + '<button type="button" onclick=" removeBuilderRow(' + row + ');" arial-label="remove this row from the builder" class="btn btn-xs px-3 btn-warning mr-auto">Remove</button>';
 													newControls = newControls + '</div>';
 													newControls = newControls + '</div>';
 													$("##customFields").append(newControls);
