@@ -478,7 +478,7 @@
 						</cfquery>
 						<cfquery name="updateBarcodes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateBarcodes_result">
 							update coll_obj_cont_hist 
-							set current_container_fg=0 where collection_object_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.collection_object_id#">
+							set current_container_fg = 0 where collection_object_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.collection_object_id#">
 							and current_container_fg = 1
 							and 
 						</cfquery>
@@ -510,19 +510,19 @@
 							<cfthrow message="Error: Attempting to insert a duplicate part container: collection_object_id=#getTempData.COLLECTION_OBJECT_ID#, container_id=#getTempData.CONTAINER_ID#">
 						</cfif>--->
 					</cfloop>
-					<p>Number of Part Containers to update: #barcodes_updates# (on #getCounts.ctobj# cataloged items)</p>
+			<!---		<p>Number of Part Containers to update: #barcodes_updates# (on #getCounts.ctobj# cataloged items)</p>
 					<cfif getTempData.recordcount eq barcodes_updates and updateBarcodes_result.recordcount eq 0>
 						<h2 class="text-success">Success - loaded</h2>
 					</cfif>
 					<cfif updateBarcodes1_result.recordcount gt 0>
 						<h2 class="text-danger">Not loaded - these have already been loaded</h2>
-					</cfif>
+					</cfif>--->
 					<cftransaction action="commit">
 				<cfcatch>
 					<cftransaction action="ROLLBACK">
 					<h2 class="h3">There was a problem updating the part container. </h2>
 					<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						SELECT INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_NUMBER,COLLECTION_OBJECT_ID,PART_NAME,PRESERVE_METHOD,CONTAINER_ID,PARENT_CONTAINER_ID,PART_CONTAINER_ID,CONTAINER_UNIQUE_ID
+						SELECT INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_NUMBER,PART_NAME,PRESERVE_METHOD,CONTAINER_UNIQUE_ID
 						FROM cf_temp_barcode_parts
 						where key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#problem_key#">
 					</cfquery>
