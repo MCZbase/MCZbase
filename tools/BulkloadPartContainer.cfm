@@ -456,7 +456,8 @@
 				<cfquery name="getHist" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT container_id
 					FROM coll_obj_cont_hist
-					WHERE current_container_fg=1 and collection_object_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.collection_object_id#">
+					WHERE current_container_fg=1 
+					and collection_object_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.collection_object_id#">
 				</cfquery>
 				<cfquery name="getCounts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT count(distinct collection_object_id) ctobj FROM cf_temp_barcode_parts
@@ -468,7 +469,7 @@
 					<cfif getTempData.recordcount EQ 0>
 						<cfthrow message="You have no rows to load in the Part Container bulkloader table (cf_temp_barcode_parts).  <a href='/tools/BulkloadPartContainer.cfm' class='text-danger'>Start again</a>"><!--- " --->
 					</cfif>
-					<cfset install_date = ''>
+					<cfset install_date = "">
 					<cfloop query="getTempData">
 						<cfset problem_key = #getTempData.key#>
 						<cfquery name="updateBarcodes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateBarcodes_result">
@@ -509,16 +510,16 @@
 						</cfif>
 					</cfloop>
 					<p>Number of Part Containers to update: #barcodes_updates# (on #getCounts.ctobj# cataloged items)</p>
-					<cfif getTempData.recordcount eq barcodes_updates and updateBarcodes_result.recordcount eq 0>
-						<h2 class="text-success">Success - loaded</h2>
+					<cfif getTempData.recordcount eq barcodes_updates and updateBarcodes1_result.recordcount eq 0>
+						<h3 class="text-success">Success - loaded</h3>
 					</cfif>
 					<cfif updateBarcodes1_result.recordcount gt 0>
-						<h2 class="text-danger">Not loaded - these have already been loaded</h2>
+						<h3 class="text-danger">Not loaded - these have already been loaded</h2>
 					</cfif>
 					<cftransaction action="commit">
 				<cfcatch>
 					<cftransaction action="ROLLBACK">
-					<h2 class="h3">There was a problem updating the part container. </h2>
+					<3 class="mt-3">There was a problem updating the part container. </h3>
 					<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						SELECT INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_NUMBER,PART_NAME,PRESERVE_METHOD,CONTAINER_UNIQUE_ID
 						FROM cf_temp_barcode_parts
