@@ -1809,7 +1809,7 @@ Target JSON:
 									<aside class="collapse collapseStyle" id="collapseBuilder">
 										<div class="card card-body pl-4 py-3 pr-3">
 											<h2 class="headerSm">Search Builder Search Help</h2>
-											<p>Construct searches on arbitrary sets of fields.  Click the <i>Add</i> button to add a clause to the search, select a field to search, and specify a value to search for.  Search terms can be connected with either <i>and</i> or <i>or</i>. but not (yet) both in the same search.
+											<p>Construct searches on arbitrary sets of fields.  Click the <i>Add</i> button to add a clause to the search, select a field to search, and specify a value to search for.  Search terms can be connected with either <i>and</i> or <i>or</i>.  Use parenthesies to group <i>or</i> terms, e.g. (genus=Urocyon or genus=Vulpes) and (state=Massachusetts or state=Vermont).
 											<p>There is a page to explain the database fields available to build a search.
 											Access it here: <a href="/specimens/viewSpecimenSearchMetadata.cfm?action=search&execute=true&method=getcf_spec_search_cols&access_role=!HIDE">Search Builder Help Page</a>
 											</p>
@@ -1931,7 +1931,7 @@ Target JSON:
 														<a aria-label="Add more search criteria" id="addRowButton" class="btn btn-xs btn-primary rounded px-2 mr-md-auto" target="_self" href="javascript:void(0);">Add</a>
 													</div>
 													<div class="col-12 col-md-1">
-														<span id="nestMarkerStart1"></span>
+														<span id="nestingFeedback"></span>
 													</div>
 													<div class="col-12 col-md-1">
 														<label for="openParens1" class="data-entry-label">&nbsp;</label>
@@ -1948,56 +1948,7 @@ Target JSON:
 															<cfif openParens1 EQ "4"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
 															<option value="4" #selected#>((((</option>
 														</select>
-														<cfif not isDefined("nestdepth1") OR len(trim(nestdepth1)) EQ 0><cfset nestdepth1="1"></cfif>
 													</div>
-													<script>
-														function indent(row) {
-															<cfif findNoCase('master',gitBranch) GT 0 >
-																messageDialog("Not implemented yet");
-															<cfelse>
-																console.log(row);
-																console.log($('##builderMaxRows').val());
-																var currentnestdepth = $('##nestdepth'+row).val();
-																console.log(currentnestdepth);
-																$('##nestdepth'+row).val(currentnestdepth+"."+1);
-																var nextRow = row + 1;
-																$('##nestMarkerStart'+row).html("(");
-																if (row==$('##builderMaxRows').val() || (row==1 && $('##builderMaxRows').val()==2)) { 
-																	// add a row, close ) on that row
-																	addBuilderRow();
-																	$('##nestdepth'+nextRow).val(currentnestdepth+"."+ 2);
-																}
-																$('##nestMarkerEnd'+nextRow).html(")");
-																$('##nestButton'+row).prop("disabled",true);
-																$('##nestButton'+row).addClass("disabled");
-															</cfif>
-														}
-														function promote(row) {
-															<cfif findNoCase('master',gitBranch) GT 0 >
-																//messageDialog("Not implemented yet");
-															<cfelse>
-																console.log(row);
-																console.log($('##builderMaxRows').val());
-																var currentnestdepth = $('##nestdepth'+row).val();
-																var nestDepthStack = currentnestdepth.split(".");
-																if (nestDepthStack.length > 1) { 
-																	nestDepthStack.pop();
-																	var nestDepthValue = nestDepthStack.pop();
-																	if (nestDepthValue=="") {  nestDepthValue="1"; }
-																	var nextNestDepthValue = parseInt(nestDepthValue) + 1;
-																	var newnestdepth  = "" + nestDepthStackPush(nestDepthStack.join("."), nextNestDepthValue);  
-																	if (newnestdepth.substr(0,1)==".") { 
-																		newnestdepth = newnestdepth.substr(1);
-																	}
-																	console.log(newnestdepth);
-																	$('##nestdepth'+row).val(newnestdepth);
-																}
-																if ($('##nestMarkerEnd'+row).html()==")") { ;
-																	$('##nestMarkerEnd'+row).html("");
-																}
-															</cfif>
-														}
-													</script>
 													<div class="col-12 col-md-4">
 														<cfquery name="fields" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="fields_result">
 															SELECT search_category, cf_spec_search_cols.table_name, cf_spec_search_cols.column_name, column_alias, data_type, 
@@ -2104,6 +2055,12 @@ Target JSON:
 															<option value="4" ##>))))</option>
 														</select>
 													</div>
+													<script> 
+														$(document).ready(function(){
+															$('##openParens1').on("change", function(event) { isNestingOk(); } 
+															$('##closeParens1').on("change", function(event) { isNestingOk(); } 
+														});
+													<script> 
 													<cfif isdefined("session.roles") and listfindnocase(session.roles,"global_admin")>
 														<div class="col-12 col-md-1">
 															<label class="data-entry-label" for="debug3">Debug</label>
@@ -2122,42 +2079,6 @@ Target JSON:
 															<div class="form-row mb-2" id="builderRow#row#">
 																<div class="col-12 col-md-1">
 																	&nbsp;
-																	<cfif isDefined("nestdepth"&row)>
-																		<cfset nestdepthval = Evaluate("nestdepth" & row)>
-																	<cfelse>
-																		<cfset nestdepthval = "1">
-																	</cfif> 
-																	<cfset nextRow = row + 1>
-																	<cfset closeParens = "">
-																	<cfif isDefined("nestdepth"&nextRow)>
-																		<cfset nextRownestdepthval = Evaluate("nestdepth" & nextRow)>
-																		<!--- check if next row is not incremented by one at current depth --->
-																		<cfset na = ListToArray(nestdepthval,".")>
-																		<cfset nrna = ListToArray(nextRownestdepthval,".")>
-																		<cfif ArrayLen(na) EQ ArrayLen(nrna)>
-																			<cfif val(na[ArrayLen(na)]) + 1 EQ val(nrna[ArrayLen(nrna)])>
-																				<cfset closeParens = ""> 
-																			<cfelse>
-																				<cfset closeParens = ")"> 
-																				<cfset parenOpen = parenOpen-1>
-																			</cfif>
-																		<cfelse>
-																			<cfif ArrayLen(na) GT ArrayLen(nrna)>
-																				<cfif parenOpen GT 0>
-																					<cfset closeParens = ")"> 
-																					<cfset parenOpen = parenOpen-1>
-																				</cfif>
-																			</cfif>
-																		</cfif>
-																	<cfelse>
-																		<cfif parenOpen GT 0>
-																			<cfset closeParens = ")"> 
-																		</cfif>
-																	</cfif> 
-																	<input type="hidden" name="nestdepth#row#" id="nestdepth#row#" value="#nestdepthval#">
-																	<cfif findNoCase('test',gitBranch) GT 0 OR (isdefined("session.roles") and listfindnocase(session.roles,"global_admin") ) >
-																		[#nestdepthval#]
-																	</cfif>
 																</div>
 																<div class="col-12 col-md-1">
 																	<select title="Join Operator" name="JoinOperator#row#" id="joinOperator#row#" class="data-entry-select bg-white mx-0 d-flex">
@@ -2254,6 +2175,12 @@ Target JSON:
 																		<cfif closeParens EQ "4"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
 																		<option value="4" #selected#>))))</option>
 																	</select>
+																	<script> 
+																		$(document).ready(function(){
+																			$('##openParens'+row).on("change", function(event) { isNestingOk(); } 
+																			$('##closeParens'+row).on("change", function(event) { isNestingOk(); } 
+																		});
+																	<script> 
 																</div>
 																<div class="col-12 col-md-1">
 																	<button type='button' onclick=' $("##builderRow#row#").remove();' arial-label='remove' class='btn btn-xs px-3 btn-warning mr-auto'>Remove</button>
@@ -2265,16 +2192,31 @@ Target JSON:
 							
 											</div><!--- end customFields: new form rows get appended here --->
 											<script>
+												function isNestingOk() { 
+													$('##nestingFeedback').html("");		
+													var result = false;
+													var countOpen = 0;
+													var countClose = 0;
+													var rows = $("##builderMaxRows").val();
+													rows = parseInt(rows);
+													for (row=0; row<=rows; row++) { 
+														countOpen = countOpen + $('##openParens'+row).val();
+														countClose = countClose + $('##closeParens'+row).val();
+													}
+													if (countOpen==countClose) { 
+														result = true;
+														console.log("Parenthesies match.");
+													} else { 
+														console.log("Parenthesies mismatched.");
+														$('##nestingFeedback').html(countOpen + "( but " + countClose + " )");		
+													} 
+													return result;
+												}
 												function addBuilderRow() { 
 													var row = $("##builderMaxRows").val();
-													var currentnestdepth = $('##nestdepth'+row).val();
-													$('##nestButton'+row).prop("disabled",true);
-													$('##nestButton'+row).addClass("disabled");
-													console.log(currentnestdepth);
 													row = parseInt(row) + 1;
 													var newControls = '<div class="form-row mb-2" id="builderRow'+row+'">';
 													newControls = newControls + '<div class="col-12 col-md-1">&nbsp;';
-													newControls = newControls + '<input type="hidden" name="nestdepth'+row+'" id="nestdepth'+row+'">';
 													newControls = newControls + '</div>';
 													newControls = newControls + '<div class="col-12 col-md-1">';
 													newControls = newControls + '<select title="Join Operator" name="JoinOperator'+row+'" id="joinOperator'+row+'" class="data-entry-select bg-white mx-0 d-flex"><option value="and">and</option><option value="or">or</option></select>';
@@ -2318,7 +2260,6 @@ Target JSON:
 													newControls = newControls + '<option value="2">))</option><option value="3">)))</option>';
 													newControls = newControls + '<option value="4">))))</option>';
 													newControls = newControls + '</select>';
-													newControls = newControls + '<span id="nestMarkerEnd'+row+'"></span>';
 													newControls= newControls + '</div>';
 													newControls= newControls + '<div class="col-12 col-md-1">';
 													newControls = newControls + `<button type='button' onclick=' $("##builderRow` + row + `").remove();' arial-label='remove' class='btn btn-xs px-3 btn-warning mr-auto'>Remove</button>`;
@@ -2337,23 +2278,12 @@ Target JSON:
 														var handleSelect = new Function(handleSelectString);
 														handleSelect();
 													});
-													var nestDepthStack = currentnestdepth.split(".");
-													var nestDepthValue = nestDepthStack.pop();
-													if (nestDepthValue=="") {  nestDepthValue="1"; }
-													var nextNestDepthValue = parseInt(nestDepthValue) + 1;
-													var newnestdepth = "" + nestDepthStackPush(nestDepthStack.join("."), nextNestDepthValue);  
-													console.log(newnestdepth);
-													if (newnestdepth!="" && newnestdepth.substr(0,1)==".") { 
-														console.log(newnestdepth.substr(1));
-														newnestdepth = newnestdepth.substr(1);
-													}
-													console.log(newnestdepth);
-													$('##nestdepth'+row).val(newnestdepth);
+													$('##openParens'+row).on("change", function(event) { isNestingOk(); } 
+													$('##closeParens'+row).on("change", function(event) { isNestingOk(); } 
 												};
 												$(document).ready(function(){
 													$("##addRowButton").click(function(){
 													   addBuilderRow();
-														promote($('##builderMaxRows').val());
 													});
 												});
 											</script>
