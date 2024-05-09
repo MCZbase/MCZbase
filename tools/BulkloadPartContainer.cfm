@@ -373,7 +373,7 @@
 				</cfquery>
 			</cfloop>
 			<cfquery name="getTempTableQC" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				SELECT key,collection_object_id, container_unique_id,container_id,parent_container_id
+				SELECT key,collection_object_id, container_unique_id
 				FROM cf_temp_barcode_parts
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
