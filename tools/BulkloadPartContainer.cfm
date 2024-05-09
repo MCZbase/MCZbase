@@ -479,7 +479,7 @@
 							parent_container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.parent_container_id#">
 						</cfquery>--->
 						
-					</cfloop>
+				<!---	</cfloop>--->
 					<p>Number of Part Containers to update: #barcodes_updates# (on #getCounts.ctobj# cataloged items)</p>
 					<cfif getTempData.recordcount eq barcodes_updates> 
 						<h3 class="text-success">Success - loaded</h3>
