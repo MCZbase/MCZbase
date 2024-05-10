@@ -2029,12 +2029,7 @@ Target JSON:
 															});
 														</script>
 													</div>
-													<cfif isdefined("session.roles") and listfindnocase(session.roles,"global_admin")>
-														<cfset searchcol="col-md-3">
-													<cfelse>
-														<cfset searchcol="col-md-4">
-													</cfif>
-													<div class="col-12 #searchcol#">
+													<div class="col-12 col-md-3">
 														<cfif not isDefined("searchText1")><cfset searchText1=""></cfif>
 														<cfif not isDefined("searchId1")><cfset searchId1=""></cfif>
 														<label for="searchText1" class="data-entry-label">Search For</label>
@@ -2064,16 +2059,16 @@ Target JSON:
 															$('##closeParens1').on("change", function(event) { isNestingOk(); });
 														});
 													</script> 
-													<cfif isdefined("session.roles") and listfindnocase(session.roles,"global_admin")>
-														<div class="col-12 col-md-1">
+													<div class="col-12 col-md-1">
+														<cfif isdefined("session.roles") and listfindnocase(session.roles,"global_admin")>
 															<label class="data-entry-label" for="debug3">Debug</label>
 															<select title="debug" name="debug" id="debug3" class="data-entry-select">
 																<option value=""></option>
 																<cfif isdefined("debug") AND len(debug) GT 0><cfset selected=" selected "><cfelse><cfset selected=""></cfif>
 																<option value="true" #selected#>Debug JSON</option>
 															</select>
-														</div>
-													</cfif>
+														</cfif>
+													</div>
 												</div>
 												<cfif builderMaxRows GT 1>
 													<cfset parenOpen = 0>
