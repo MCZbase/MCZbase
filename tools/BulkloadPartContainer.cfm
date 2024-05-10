@@ -471,8 +471,15 @@
 						<cfset problem_key = #getTempData.key#>
 							<cfquery name="updateBarcodes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateBarcodes_result">
 								insert into coll_obj_cont_hist
-									(collection_object_id,container_id,installed_date,current_container_fg) 
-								values (#collection_object_id#,#container_id#,sysdate,'1')
+								(collection_object_id,
+								container_id,
+								installed_date,
+								current_container_fg) 
+								values (
+								#collection_object_id#,
+								#parent_container_id#,
+								sysdate,
+								'1')
 							</cfquery>
 						<cfset barcodes_updates = barcodes_updates + updateBarcodes_result.recordcount>
 					</cfloop>
