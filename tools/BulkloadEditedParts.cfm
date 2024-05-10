@@ -887,18 +887,18 @@ limitations under the License.
 							</cfif>
 							<cfif len(#append_to_remarks#) gt 0>
 								<cfquery name="remarksCount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-									select * from coll_object_remark where collection_object_id = #use_part_id#
+									select * from coll_object_remark where collection_object_id = '#use_part_id#'
 								</cfquery>
 								<cfif remarksCount.recordcount is 0>
 									<cfquery name="insertRemarks" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 										INSERT INTO coll_object_remark (collection_object_id, coll_object_remarks)
-										VALUES (#use_part_id#, '#append_to_remarks#')
+										VALUES ('#use_part_id#', '#append_to_remarks#')
 									</cfquery>
 								<cfelse>
 									<cfquery name="updateRemarks" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 										update coll_object_remark
 										set coll_object_remarks = DECODE(coll_object_remarks, null, '#append_to_remarks#', coll_object_remarks || '; #append_to_remarks#')
-										where collection_object_id = #use_part_id#
+										where collection_object_id = '#use_part_id#'
 									</cfquery>
 								</cfif>
 							</cfif>
