@@ -245,7 +245,7 @@ limitations under the License.
 							</cfif>
 						</cfif>
 					</cfif>
-					<span class="#class# font-weight-lessbold" #hint#>#field#:</span> <span class="text-secondary">#comment#</span>
+					<span class="#class# font-weight-lessbold pl-3" #hint#>#field#:</span> <span class="text-secondary">#comment#</span>
 					
 				</li>
 			</cfloop>
