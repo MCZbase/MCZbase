@@ -2232,7 +2232,7 @@ Target JSON:
 																		parens.pop();
 																	} else { 
 																		console.log("Error in nesting of parenthesies, all opens consumed.");
-																		errorText = "( without )".
+																		errorText = "( without )";
 																		nestOrderOk = false;
 																	}
 																}  
@@ -2240,7 +2240,7 @@ Target JSON:
 														} 
 														if (parens.length > 0) { 
 															console.log("Error in nesting of parenthesies, remaining open.");
-															errorText = ") without (".
+															errorText = ") without (";
 															nestOrderOk = false;
 														}
 														if (nestOrderOk) { 
