@@ -1023,7 +1023,10 @@ limitations under the License.
 							</cfif>
 							<cfif len(#changed_date#) gt 0>
 								<cfquery name="change_date" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-									update SPECIMEN_PART_PRES_HIST set CHANGED_DATE = to_date('#CHANGED_DATE#', 'YYYY-MM-DD') where collection_object_id =#use_part_id# and is_current_fg = 1
+									update SPECIMEN_PART_PRES_HIST set 
+									CHANGED_DATE = to_date('#CHANGED_DATE#', 'YYYY-MM-DD') 
+									where collection_object_id =#use_part_id# 
+									and is_current_fg = 1
 								</cfquery>
 							</cfif>
 						</cfif>
