@@ -57,7 +57,7 @@ limitations under the License.
 		<!------------------------------------------------------->
 		<cfif #action# is "nothing">
 			<cfoutput>
-			<p>This tool adds part rows to the specimen record. It create metadata for part history and includes specimen part attributes fields that can be empty if none exists. The cataloged items must be in the database and they can be entered using the catalog number or other ID. Error messages will appear if the values need to match values in MCZbase. It ignores rows that are exactly the same and alerts you if columns are missing. Additional columns will be ignored. Include column headings, spelled exactly as below. </p>
+			<p>This tool adds part rows to the specimen record. It create metadata for part history and includes specimen part fields that can be empty if none exists. The cataloged items must be in the database and they can be entered using the catalog number or other ID. Error messages will appear if the values need to match values in MCZbase. It ignores rows that are exactly the same and alerts you if columns are missing. Additional columns will be ignored. Include column headings, spelled exactly as below. </p>
 			<span class="btn btn-xs btn-info" onclick="document.getElementById('template').style.display='block';">View template</span>
 			<div id="template" style="display:none;margin: 1em 0;">
 				<label for="templatearea" class="data-entry-label">
@@ -352,21 +352,23 @@ limitations under the License.
 					AND use_existing= 1
 			</cfquery>
 			<cfset i= 1>
-			<cfloop query="getTempTableTypes">
+					<cfloop query="getTempTableTypes">
 				<!--- For each row, set the target collection_object_id --->
 				<cfif getTempTableTypes.other_id_type eq 'catalog number'>
 					<!--- either based on catalog_number --->
 					<cfquery name="getCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						UPDATE
-							cf_temp_attributes
+							cf_temp_parts
 						SET
 							collection_object_id = (
 								select collection_object_id 
 								from cataloged_item 
-								where cat_num = cf_temp_attributes.other_id_number and collection_cde = cf_temp_attributes.collection_cde
+								where cat_num = cf_temp_parts.other_id_number 
+								and collection_cde = cf_temp_parts.collection_cde
+								and institution_acronym = 'MCZ'
 							),
 							status = null,
-							use_existing = 1
+							use_existing=0
 						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 							and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableTypes.key#"> 
 					</cfquery>
@@ -374,22 +376,23 @@ limitations under the License.
 					<!--- or on specified other identifier --->
 					<cfquery name="getCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						UPDATE
-							cf_temp_attributes
+							cf_temp_parts
 						SET
 							collection_object_id= (
 								select cataloged_item.collection_object_id from cataloged_item,coll_obj_other_id_num 
-								where coll_obj_other_id_num.other_id_type = cf_temp_attributes.other_id_type 
-								and cataloged_item.collection_cde = cf_temp_attributes.collection_cde 
-								and display_value= cf_temp_attributes.other_id_number
+								where coll_obj_other_id_num.other_id_type = cf_temp_parts.other_id_type 
+								and cataloged_item.collection_cde = cf_temp_parts.collection_cde 
+								and display_value= cf_temp_parts.other_id_number
 								and cataloged_item.collection_object_id = coll_obj_other_id_num.COLLECTION_OBJECT_ID
+								and institution_acronym = 'MCZ'
 							),
 							status = null,
-							use_existing = 1
+							use_existing = 0
 						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 							and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableTypes.key#"> 
 					</cfquery>
 				</cfif>
-				<cfset i=i+1>
+				<cfset i= i+1>
 			</cfloop>
 			<!--- obtain the information needed to QC each row --->
 			<cfquery name="getTempTableQC" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
