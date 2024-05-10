@@ -762,7 +762,7 @@ limitations under the License.
 									'SP',
 									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.enteredbyid#">,
 									sysdate,
-									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getEntBy.enteredbyid#">,
+									"#enteredbyid#",
 									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.collection_object_disposition#">,
 									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.lot_count_modifier#">,
 									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.lot_count#">,
