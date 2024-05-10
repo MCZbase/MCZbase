@@ -992,11 +992,11 @@ limitations under the License.
 				<!---insert collection_object_ids into link with a comma between them--->
 				<h3><span class="text-success">Success! </span> Parts loaded.</h3>
 				<cfif getTempData.recordcount gt 1>
-					<a href="/Specimens.cfm?execute=true&builderMaxRows=1&action=builderSearch&nestdepth1=1&field1=COLL_OBJECT%3ACOLL_OBJ_COLLECTION_OBJECT_ID&searchText1=<cfloop query='getTempData'>#getTempData.collection_object_id#,</cfloop>" target="_blank" class="btn-link">
+					<a href="/Specimens.cfm?execute=true&builderMaxRows=1&action=builderSearch&nestdepth1=1&field1=COLL_OBJECT%3ACOLL_OBJ_COLLECTION_OBJECT_ID&searchText1=<cfloop query='getTempData'>#getTempData.collection_object_id#,</cfloop>" target="_blank" class="btn-link font-weight-lessbold">
 						See records in Specimen Results.
 					</a>
 				<cfelse>
-					<a href="/Specimens.cfm?execute=true&builderMaxRows=1&action=builderSearch&nestdepth1=1&field1=COLL_OBJECT%3ACOLL_OBJ_COLLECTION_OBJECT_ID&searchText1=<cfloop query='getTempData'>#getTempData.collection_object_id#</cfloop>" target="_blank" class="btn-link">
+					<a href="/Specimens.cfm?execute=true&builderMaxRows=1&action=builderSearch&nestdepth1=1&field1=COLL_OBJECT%3ACOLL_OBJ_COLLECTION_OBJECT_ID&searchText1=<cfloop query='getTempData'>#getTempData.collection_object_id#</cfloop>" target="_blank" class="btn-link font-weight-lessbold">
 						See records in Specimen Results.
 					</a>
 				</cfif>
