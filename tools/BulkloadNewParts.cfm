@@ -839,7 +839,7 @@ limitations under the License.
 									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.part_att_val_1#">, 
 									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.part_att_units_1#">, 
 									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.part_att_madedate_1#">, 
-									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.numAgentId#">, 
+									'#numAgentId#', 
 									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.part_att_rem_1#">)
 								</cfquery>
 							</cfif>
@@ -861,7 +861,7 @@ limitations under the License.
 									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.part_att_val_2#">, 
 									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.part_att_units_2#">, 
 									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.part_att_madedate_2#">, 
-									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.numAgentId#">, 
+									'#numAgentId#',
 									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.part_att_rem_2#">)
 								</cfquery>
 							</cfif>
@@ -883,7 +883,7 @@ limitations under the License.
 									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.part_att_val_3#">, 
 									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.part_att_units_3#">, 
 									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.part_att_madedate_3#">, 
-									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.numAgentId#">, 
+									'#numAgentId#',
 									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.part_att_rem_3#">)
 								</cfquery>
 							</cfif>
@@ -905,7 +905,7 @@ limitations under the License.
 									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.part_att_val_4#">, 
 									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.part_att_units_4#">, 
 									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.part_att_madedate_4#">, 
-									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.numAgentId#">, 
+									'#numAgentId#',
 									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.part_att_rem_4#">)
 								</cfquery>
 							</cfif>
@@ -927,7 +927,7 @@ limitations under the License.
 									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.part_att_val_5#">, 
 									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.part_att_units_5#">, 
 									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.part_att_madedate_5#">, 
-									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.numAgentId#">, 
+									'#numAgentId#', 
 									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.part_att_rem_5#">)
 								</cfquery>
 							</cfif>
@@ -949,7 +949,7 @@ limitations under the License.
 									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.part_att_val_6#">, 
 									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.part_att_units_6#">, 
 									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.part_att_madedate_6#">, 
-									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.numAgentId#">, 
+									'#numAgentId#', 
 									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.part_att_rem_6#">)
 								</cfquery>
 							</cfif>
