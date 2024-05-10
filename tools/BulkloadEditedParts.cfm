@@ -628,14 +628,12 @@ limitations under the License.
 					group by parent_container_id)
 					where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 					AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
-					and use_existing = 1
 				</cfquery>
 				<cfquery name="chk" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					update cf_temp_parts set (parent_container_id) = (select container_id from container where
 					barcode=container_unique_id) 
 					where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 					AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
-					and use_existing = 1
 				</cfquery>
 			</cfloop>
 			<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -675,6 +673,7 @@ limitations under the License.
 						<th>APPEND_TO_REMARKS</th>
 						<th>CHANGED_DATE</th>
 						<th>NEW_PRESERVE_METHOD</th>
+						<th>USE_PART_ID</th>
 						<th>PART_ATT_NAME_1</th>
 						<th>PART_ATT_VAL_1</th>
 						<th>PART_ATT_UNITS_1</th>
@@ -733,6 +732,7 @@ limitations under the License.
 							<td>#append_to_remarks#</td>
 							<td>#changed_date#</td>
 							<td>#new_preserve_method#</td>
+							<td>#use_part_id#</td>
 							<td>#part_att_name_1#</td>
 							<td>#part_att_val_1#</td>
 							<td>#part_att_units_1#</td>
