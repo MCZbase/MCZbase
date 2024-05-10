@@ -749,10 +749,10 @@ limitations under the License.
 				where status is not null
 			</cfquery>
 			<cfif #allValid.cnt# is 0>
-				<h3 class="mt-2"><span class="text-success">Validation checks passed</span>. Look over the table below and <a href="BulkloadEditedParts.cfm?action=load">click to continue</a> if it all looks good. Or, <a href="/tools/BulkloadEditedParts.cfm" class="font-weight-lessbold btn-link">Start again</a>.
+				<h3 class="mt-2"><span class="text-success">Validation checks passed</span>. Look over the table below and <a href="BulkloadEditedParts.cfm?action=load">click to continue</a> if it all looks good. Or, <a href="/tools/BulkloadEditedParts.cfm" class="font-weight-lessbold text-danger">Start again</a>.
 				</h3>
 			<cfelse>
-				<h3 class="mt-2">You must fix everything above to proceed. <a href="/tools/BulkloadEditedParts.cfm" class="text-danger">Start again.</a></h3>
+				<h3 class="mt-2">You must fix everything above to proceed. <a href="/tools/BulkloadEditedParts.cfm" class="text-danger">start again.</a></h3>
 			</cfif>
 			<table class='sortable w-100 small px-0 mx-0 table table-responsive table-striped'>
 				<thead class="thead-light small">
