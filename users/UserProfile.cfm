@@ -538,13 +538,13 @@ limitations under the License.
 									<div class="form-row">
 										<div class="col-12 col-xl-6 float-left mb-2">
 											<div class="bg-light rounded border p-2">
-											<h3 class="h3">Your recent specimen search CSV download requests</h3>
-											<cfset downloadRequestsBlockContent = getDownloadRequestsHTML() >
-											<span id="recentDownloadRequestsDiv"> #downloadRequestsBlockContent#</span>
+												<h3 class="h3">Your recent specimen search CSV download requests</h3>
+												<cfset downloadRequestsBlockContent = getDownloadRequestsHTML() >
+												<span id="recentDownloadRequestsDiv"> #downloadRequestsBlockContent#</span>
 												<p>The number of rows and columns determine how long it takes to process. <br>Once the download link appears, it remains available for a day.</p>
-											<button class="btn btn-xs btn-secondary" 
-												id="recheckDownloadRequestsBtn" onClick=" updateDownloadsBlock('recentDownloadRequestsDiv');" 
-											>Recheck Status</button>
+												<button class="btn btn-xs btn-secondary" 
+													id="recheckDownloadRequestsBtn" onClick=" updateDownloadsBlock('recentDownloadRequestsDiv');" 
+												>Recheck Status</button>
 											</div>
 										</div>
 										<script>
