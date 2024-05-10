@@ -1821,20 +1821,6 @@ Target JSON:
 								</div>
 									<form id="builderSearchForm" class="container-fluid">
 										<script>
-											var treeMap = new Map();
-											treeMap.set("1",["1"]);
-											// functions to support nesting
-											// push value onto a stack stored as a period separated string.
-											function nestDepthStackPush(stack,value) {
-												var result = "";
-												if (stack=="") { 
-													result = value;
-												} else {
-													result = stack + "." + value;
-												}
-												return result;
-											}
-
 											// bind autocomplete to text input/hidden input, and other actions on field selection
 											function handleFieldSelection(fieldSelect,rowNumber) { 
 												var selection = $('##'+fieldSelect).val();
