@@ -368,7 +368,7 @@ limitations under the License.
 								and institution_acronym = 'MCZ'
 							),
 							status = null,
-							use_existing=0
+							use_existing=1
 						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 							and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableTypes.key#"> 
 					</cfquery>
@@ -387,7 +387,7 @@ limitations under the License.
 								and institution_acronym = 'MCZ'
 							),
 							status = null,
-							use_existing = 0
+							use_existing = 1
 						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 							and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableTypes.key#"> 
 					</cfquery>
