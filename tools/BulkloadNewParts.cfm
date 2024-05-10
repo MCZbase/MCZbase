@@ -760,9 +760,9 @@ limitations under the License.
 								VALUES (
 									#NEXTID.NEXTID#,
 									'SP',
-									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.enteredbyid#">,
+									'#enteredbyid#',
 									sysdate,
-									"#enteredbyid#",
+									'#enteredbyid#',
 									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.collection_object_disposition#">,
 									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.lot_count_modifier#">,
 									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.lot_count#">,
