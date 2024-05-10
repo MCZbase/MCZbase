@@ -1936,6 +1936,8 @@ Target JSON:
 															<option value="3" #selected#>(((</option>
 															<cfif openParens1 EQ "4"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
 															<option value="4" #selected#>((((</option>
+															<cfif openParens1 EQ "5"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+															<option value="5" #selected#>(((((</option>
 														</select>
 													</div>
 													<div class="col-12 col-md-4">
@@ -2037,6 +2039,8 @@ Target JSON:
 															<option value="3" #selected#>)))</option>
 															<cfif closeParens1 EQ "4"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
 															<option value="4" ##>))))</option>
+															<cfif closeParens1 EQ "5"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+															<option value="5" ##>)))))</option>
 														</select>
 													</div>
 													<script> 
@@ -2094,6 +2098,8 @@ Target JSON:
 																		<option value="3" #selected#>(((</option>
 																		<cfif openParens EQ "4"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
 																		<option value="4" #selected#>((((</option>
+																		<cfif openParens EQ "5"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+																		<option value=5" #selected#>(((((</option>
 																	</select>
 																</div>
 																<div class="col-12 col-md-4">
@@ -2158,6 +2164,8 @@ Target JSON:
 																		<option value="3" #selected#>)))</option>
 																		<cfif closeParens EQ "4"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
 																		<option value="4" #selected#>))))</option>
+																		<cfif closeParens EQ "5"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+																		<option value="5" #selected#>)))))</option>
 																	</select>
 																	<script> 
 																		$(document).ready(function(){
@@ -2256,6 +2264,7 @@ Target JSON:
 													newControls = newControls + '<option value="0"></option><option value="1">(</option>';
 													newControls = newControls + '<option value="2">((</option><option value="3">(((</option>';
 													newControls = newControls + '<option value="4">((((</option>';
+													newControls = newControls + '<option value="5">(((((</option>';
 													newControls = newControls + '</select>';
 													newControls = newControls + '</div>';
 													newControls= newControls + '<div class="col-12 col-md-4">';
@@ -2289,6 +2298,7 @@ Target JSON:
 													newControls = newControls + '<option value="0"></option><option value="1">)</option>';
 													newControls = newControls + '<option value="2">))</option><option value="3">)))</option>';
 													newControls = newControls + '<option value="4">))))</option>';
+													newControls = newControls + '<option value="5">)))))</option>';
 													newControls = newControls + '</select>';
 													newControls= newControls + '</div>';
 													newControls= newControls + '<div class="col-12 col-md-1">';
