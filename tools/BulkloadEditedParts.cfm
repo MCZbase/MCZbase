@@ -408,7 +408,7 @@ limitations under the License.
 			<cfloop query="getTempTableQC">
 				<cfquery name="getParentContainerId" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					update cf_temp_parts set parent_container_id =
-					(select container_id from container where container.barcode = getTempTableQC.CONTAINER_UNIQUE_ID)
+					(select container_id from container where container.barcode = cf_temp_parts.CONTAINER_UNIQUE_ID)
 				</cfquery>
 				<cfquery name="validateGotParent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					update cf_temp_parts set concat(nvl2(status, status || '; ', ''),'Container Unique ID not found')
