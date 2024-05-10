@@ -2214,9 +2214,42 @@ Target JSON:
 														}
 													}
 													if (countOpen==countClose) { 
-														result = true;
-														console.log("Parenthesies match.");
-														$('##searchbuilder-search').prop("disabled",false);
+														console.log("Parenthesies counts match.");
+														const parens = new Array();
+														var nestOrderOk = true;
+														for (row=1; row<=rows; row++) { 
+															var open = parseInt($('##openParens'+row).val());
+															var close = parseInt($('##closeParens'+row).val());
+															if (open>0) { 
+																for (i=1; i<= open; i++) { 
+																	parens.push("(");
+																}
+															}
+															if (close>0) {
+																for (i=1; i<= close; i++) { 
+																	if (parens.length > 0) { 
+																		parens.pop();
+																	} else { 
+																		console.log("Error in nesting of parenthesies, all opens consumed.");
+																		nestOrderOk = false;
+																	}
+																}  
+															}  
+														} 
+														if (parens.length > 0) { 
+															console.log("Error in nesting of parenthesies, remaining open.");
+															nestOrderOk = false;
+														}
+														if (nestOrderOk) { 
+															console.log("Parenthesies nest.");
+															result = true;
+															$('##searchbuilder-search').prop("disabled",false);
+														}  else { 
+															$('##nestingFeedback').html("nesting error");		
+															$('##nestingFeedback').addClass('text-danger');
+															$('##searchbuilder-search').prop("disabled",true);
+															result=false;
+														} 
 													} else { 
 														console.log("Parenthesies mismatched: " + countOpen + " opened, but " + countClose + " closed.");
 														$('##nestingFeedback').html("open " + countOpen + " ( but <br>close " + countClose + " )");		
