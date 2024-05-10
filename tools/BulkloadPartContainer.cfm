@@ -320,9 +320,7 @@
 					cf_temp_barcode_parts
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
-			<cfquery name="getTempContID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				select container_id from container where barcode = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableTypes.container_unique_id#">
-			</cfquery>
+		
 			<cfloop query ='getTempTableTypes'> 
 				<cfif other_id_type is "catalog number">
 					<cfquery name="coll_obj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -359,6 +357,9 @@
 						and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableTypes.key#"> 
 					</cfquery>
 				</cfif>
+				<cfquery name="getTempContID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				select container_id from container where barcode = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableTypes.container_unique_id#">
+				</cfquery>
 			</cfloop>
 			<cfquery name="getTempTableQC" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT key, collection_object_id, container_unique_id
@@ -368,7 +369,7 @@
 			<cfloop query="getTempTableQC">
 				<cfquery name="updatePartContID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE cf_temp_barcode_parts
-					SET part_container_id = (select container_id from container where parent_container_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempContID.container_id#">)
+					SET part_container_id = (select container_id from container where parent_container_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableQC.container_id#">)
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 					AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
 				</cfquery>
