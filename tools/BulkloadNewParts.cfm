@@ -630,9 +630,9 @@ limitations under the License.
 					where status is not null
 				</cfquery>
 				<cfif #allValid.cnt# is 0>
-					<span class="text-success">Validation checks passed</span>. Look over the table below and <a href="BulkloadNewParts.cfm?action=load">click to continue</a> if it all looks good. Or, <a href="/tools/BulkloadNewParts.cfm">Start over</a>.
+					<span class="text-success">Validation checks passed</span>. Look over the table below and <a href="BulkloadNewParts.cfm?action=load">click to continue</a> if it all looks good. Or, <a href="/tools/BulkloadNewParts.cfm" class="text-danger">Start again</a>.
 				<cfelse>
-					You must fix everything above to proceed. <a href="/tools/BulkloadNewParts.cfm">Try again.</a>
+					You must fix everything above to proceed. <a href="/tools/BulkloadNewParts.cfm" class="text-danger">Start again.</a>
 				</cfif>
 				<table class='sortable w-100 small px-0 mx-0 table table-responsive table-striped'>
 					<thead class="thead-light small">
@@ -992,11 +992,11 @@ limitations under the License.
 				<!---insert collection_object_ids into link with a comma between them--->
 				<h3>Parts loaded.</h3>
 				<cfif getTempData.recordcount gt 1>
-					<a href="/Specimens.cfm?execute=true&builderMaxRows=1&action=builderSearch&nestdepth1=1&field1=COLL_OBJECT%3ACOLL_OBJ_COLLECTION_OBJECT_ID&searchText1=<cfloop query='getTempData'>#getTempData.collection_object_id#,</cfloop>" target="_blank">
+					<a href="/Specimens.cfm?execute=true&builderMaxRows=1&action=builderSearch&nestdepth1=1&field1=COLL_OBJECT%3ACOLL_OBJ_COLLECTION_OBJECT_ID&searchText1=<cfloop query='getTempData'>#getTempData.collection_object_id#,</cfloop>" target="_blank" class="btn-link">
 						See records in Specimen Results.
 					</a>
 				<cfelse>
-					<a href="/Specimens.cfm?execute=true&builderMaxRows=1&action=builderSearch&nestdepth1=1&field1=COLL_OBJECT%3ACOLL_OBJ_COLLECTION_OBJECT_ID&searchText1=<cfloop query='getTempData'>#getTempData.collection_object_id#</cfloop>" target="_blank">
+					<a href="/Specimens.cfm?execute=true&builderMaxRows=1&action=builderSearch&nestdepth1=1&field1=COLL_OBJECT%3ACOLL_OBJ_COLLECTION_OBJECT_ID&searchText1=<cfloop query='getTempData'>#getTempData.collection_object_id#</cfloop>" target="_blank" class="btn-link">
 						See records in Specimen Results.
 					</a>
 				</cfif>

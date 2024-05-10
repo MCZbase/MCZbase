@@ -351,7 +351,7 @@ limitations under the License.
 				<cfif inHeader EQ "yes">
 					Did you select utf-16 or unicode for the encoding for a file that does not have multibyte encoding?
 				<cfelse>
-					If these do not appear as the correct characters, the file likely has a different encoding from the one you selected and you probably want to <a href="#linkTarget#">reload</a> this file selecting a different encoding. If these appear as expected, then you selected the correct encoding and can continue to validate or load.
+					If these do not appear as the correct characters, the file likely has a different encoding from the one you selected and you probably want to <a href="#linkTarget#" class="text-danger">start again</a> this file selecting a different encoding. If these appear as expected, then you selected the correct encoding and can continue to validate or load.
 				</cfif>
 			</p>
 			<ul class="p-1 pl-2 h4 list-unstyled">
