@@ -864,7 +864,7 @@ limitations under the License.
 							<cfif len(#disposition#) gt 0>
 								<cfquery name="upDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 									update coll_object set COLL_OBJ_DISPOSITION = '#disposition#' 
-									where collection_object_id = #use_part_id#
+									where collection_object_id = '#use_part_id#'
 								</cfquery>
 							</cfif>
 							<cfif len(#condition#) gt 0>
@@ -881,7 +881,8 @@ limitations under the License.
 							</cfif>
 							<cfif len(#new_preserve_method#) gt 0>
 								<cfquery name="change_preservemethod" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-									update SPECIMEN_PART set PRESERVE_METHOD = '#NEW_PRESERVE_METHOD#' where collection_object_id =#use_part_id#
+									update SPECIMEN_PART set PRESERVE_METHOD = '#NEW_PRESERVE_METHOD#' 
+									where collection_object_id ='#use_part_id#'
 								</cfquery>
 							</cfif>
 							<cfif len(#append_to_remarks#) gt 0>
