@@ -1812,7 +1812,7 @@ Target JSON:
 											<p>Construct searches on arbitrary sets of fields.  Click the <i>Add</i> button to add a clause to the search, select a field to search, and specify a value to search for.</p>.
 											<p>Search terms can be connected with <i>and</i> or <i>or</i>.  Searches using <i>and</i> find records where the criteria on both side of the <i>and</i> are met in each record.  Searches using <i>or</i> find records where at least one of the criteria on each side of the <i>or</i> are met.  Searching for Genus=Babelomurex <i>or</i> Genus=Chicoreus will find specimens with an identification in either of these genera. </p> 
 											<p>Use parenthesies to group <i>or</i> terms, e.g. (genus=Urocyon or genus=Vulpes) and (state=Massachusetts or state=Vermont). See an example: <a href='/Specimens.cfm?execute=true&builderMaxRows=6&action=builderSearch&openParens1=1&field1=GEOG_AUTH_REC%3ASTATE_PROV&searchText1=%3DMassachusetts&closeParens1=0&JoinOperator2=or&openParens2=0&field2=GEOG_AUTH_REC%3ASTATE_PROV&searchText2=%3DVermont&closeParens2=0&JoinOperator3=or&openParens3=0&field3=GEOG_AUTH_REC%3ASTATE_PROV&searchText3=%3DNew%20Hampshire&closeParens3=1&JoinOperator4=and&openParens4=1&field4=TAXONOMY%3AGENUS&searchText4=%3DUrocyon&closeParens4=0&JoinOperator6=or&openParens6=0&field6=TAXONOMY%3AGENUS&searchText6=%3DVulpes&closeParens6=1' target="_blank">Red or Gray foxes from MA, NH, or VT</a></p>
-											<p>The number of parenthesies you open must equal the number of parenthesies you close in order to run a search.  If there is a mismatch in the count, then the search button will be disabled, and an error message will be show.  For example, <i>open 2 ( but close 1 )</i> means that you need to add another close parenthesis.  Checks are not performed on whether your parenthesies are correctly placed or correctly nested before running a search.  Problems with nesting of clauses with parenthesies will result in an error message if they do not produce correct syntax, or may result in unexpected results if the syntax is correct but your search logic does not match your expectations.</p>
+											<p>The number of parenthesies you open must equal the number of parenthesies you close in order to run a search.  If there is a mismatch in the count, then the search button will be disabled, and an error message will be show.  For example, <i>open 2 ( but close 1 )</i> means that you need to add another close parenthesis.  Similarly, if your parenthesies incorrectly ordered so as to produce a syntax error an error message will be shown and the search button will be disabled.  Problems with nesting of <i>and</i> and <i>or</i> clauses will produce unexpected results if the logic you specified does not match your expectations.</p>
 											<p>Many database fields in multiple tables in MCZbase are available to build a search.
 											Each available field is described here: <a href="/specimens/viewSpecimenSearchMetadata.cfm?action=search&execute=true&method=getcf_spec_search_cols&access_role=!HIDE">Search Builder Help Page</a>
 											</p>
@@ -1821,20 +1821,6 @@ Target JSON:
 								</div>
 									<form id="builderSearchForm" class="container-fluid">
 										<script>
-											var treeMap = new Map();
-											treeMap.set("1",["1"]);
-											// functions to support nesting
-											// push value onto a stack stored as a period separated string.
-											function nestDepthStackPush(stack,value) {
-												var result = "";
-												if (stack=="") { 
-													result = value;
-												} else {
-													result = stack + "." + value;
-												}
-												return result;
-											}
-
 											// bind autocomplete to text input/hidden input, and other actions on field selection
 											function handleFieldSelection(fieldSelect,rowNumber) { 
 												var selection = $('##'+fieldSelect).val();
@@ -1950,6 +1936,8 @@ Target JSON:
 															<option value="3" #selected#>(((</option>
 															<cfif openParens1 EQ "4"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
 															<option value="4" #selected#>((((</option>
+															<cfif openParens1 EQ "5"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+															<option value="5" #selected#>(((((</option>
 														</select>
 													</div>
 													<div class="col-12 col-md-4">
@@ -2029,12 +2017,7 @@ Target JSON:
 															});
 														</script>
 													</div>
-													<cfif isdefined("session.roles") and listfindnocase(session.roles,"global_admin")>
-														<cfset searchcol="col-md-3">
-													<cfelse>
-														<cfset searchcol="col-md-4">
-													</cfif>
-													<div class="col-12 #searchcol#">
+													<div class="col-12 col-md-3">
 														<cfif not isDefined("searchText1")><cfset searchText1=""></cfif>
 														<cfif not isDefined("searchId1")><cfset searchId1=""></cfif>
 														<label for="searchText1" class="data-entry-label">Search For</label>
@@ -2056,6 +2039,8 @@ Target JSON:
 															<option value="3" #selected#>)))</option>
 															<cfif closeParens1 EQ "4"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
 															<option value="4" ##>))))</option>
+															<cfif closeParens1 EQ "5"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+															<option value="5" ##>)))))</option>
 														</select>
 													</div>
 													<script> 
@@ -2064,16 +2049,16 @@ Target JSON:
 															$('##closeParens1').on("change", function(event) { isNestingOk(); });
 														});
 													</script> 
-													<cfif isdefined("session.roles") and listfindnocase(session.roles,"global_admin")>
-														<div class="col-12 col-md-1">
+													<div class="col-12 col-md-1">
+														<cfif isdefined("session.roles") and listfindnocase(session.roles,"global_admin")>
 															<label class="data-entry-label" for="debug3">Debug</label>
 															<select title="debug" name="debug" id="debug3" class="data-entry-select">
 																<option value=""></option>
 																<cfif isdefined("debug") AND len(debug) GT 0><cfset selected=" selected "><cfelse><cfset selected=""></cfif>
 																<option value="true" #selected#>Debug JSON</option>
 															</select>
-														</div>
-													</cfif>
+														</cfif>
+													</div>
 												</div>
 												<cfif builderMaxRows GT 1>
 													<cfset parenOpen = 0>
@@ -2113,6 +2098,8 @@ Target JSON:
 																		<option value="3" #selected#>(((</option>
 																		<cfif openParens EQ "4"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
 																		<option value="4" #selected#>((((</option>
+																		<cfif openParens EQ "5"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+																		<option value=5" #selected#>(((((</option>
 																	</select>
 																</div>
 																<div class="col-12 col-md-4">
@@ -2177,6 +2164,8 @@ Target JSON:
 																		<option value="3" #selected#>)))</option>
 																		<cfif closeParens EQ "4"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
 																		<option value="4" #selected#>))))</option>
+																		<cfif closeParens EQ "5"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+																		<option value="5" #selected#>)))))</option>
 																	</select>
 																	<script> 
 																		$(document).ready(function(){
@@ -2214,9 +2203,45 @@ Target JSON:
 														}
 													}
 													if (countOpen==countClose) { 
-														result = true;
-														console.log("Parenthesies match.");
-														$('##searchbuilder-search').prop("disabled",false);
+														console.log("Parenthesies counts match.");
+														const parens = new Array();
+														var nestOrderOk = true;
+														var errorText = "";
+														for (row=1; row<=rows; row++) { 
+															var open = parseInt($('##openParens'+row).val());
+															var close = parseInt($('##closeParens'+row).val());
+															if (open>0) { 
+																for (i=1; i<= open; i++) { 
+																	parens.push("(");
+																}
+															}
+															if (close>0) {
+																for (i=1; i<= close; i++) { 
+																	if (parens.length > 0) { 
+																		parens.pop();
+																	} else { 
+																		console.log("Error in nesting of parenthesies, all opens consumed.");
+																		errorText = "( without )";
+																		nestOrderOk = false;
+																	}
+																}  
+															}  
+														} 
+														if (parens.length > 0) { 
+															console.log("Error in nesting of parenthesies, remaining open.");
+															errorText = ") without (";
+															nestOrderOk = false;
+														}
+														if (nestOrderOk) { 
+															console.log("Parenthesies nest.");
+															result = true;
+															$('##searchbuilder-search').prop("disabled",false);
+														}  else { 
+															$('##nestingFeedback').html("nesting error<br>"+errorText);		
+															$('##nestingFeedback').addClass('text-danger');
+															$('##searchbuilder-search').prop("disabled",true);
+															result=false;
+														} 
 													} else { 
 														console.log("Parenthesies mismatched: " + countOpen + " opened, but " + countClose + " closed.");
 														$('##nestingFeedback').html("open " + countOpen + " ( but <br>close " + countClose + " )");		
@@ -2239,6 +2264,7 @@ Target JSON:
 													newControls = newControls + '<option value="0"></option><option value="1">(</option>';
 													newControls = newControls + '<option value="2">((</option><option value="3">(((</option>';
 													newControls = newControls + '<option value="4">((((</option>';
+													newControls = newControls + '<option value="5">(((((</option>';
 													newControls = newControls + '</select>';
 													newControls = newControls + '</div>';
 													newControls= newControls + '<div class="col-12 col-md-4">';
@@ -2272,6 +2298,7 @@ Target JSON:
 													newControls = newControls + '<option value="0"></option><option value="1">)</option>';
 													newControls = newControls + '<option value="2">))</option><option value="3">)))</option>';
 													newControls = newControls + '<option value="4">))))</option>';
+													newControls = newControls + '<option value="5">)))))</option>';
 													newControls = newControls + '</select>';
 													newControls= newControls + '</div>';
 													newControls= newControls + '<div class="col-12 col-md-1">';
