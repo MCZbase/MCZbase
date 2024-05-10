@@ -716,6 +716,7 @@ limitations under the License.
 							<td>#current_remarks#</td>
 							<td>#condition#</td>
 							<td>#container_unique_id#</td>
+							<td>#use_existing#</td>
 							<td>#append_to_remarks#</td>
 							<td>#changed_date#</td>
 							<td>#new_preserve_method#</td>
