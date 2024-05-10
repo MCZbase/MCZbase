@@ -450,10 +450,10 @@ limitations under the License.
 				</cfquery>
 				<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					update cf_temp_parts set status = concat(nvl2(status, status || '; ', ''),'Invalid DISPOSITION')
-					where DISPOSITION NOT IN (
+					where COLL_OBJ_DISPOSITION NOT IN (
 						select COLL_OBJ_DISPOSITION from CTCOLL_OBJ_DISP
 						)
-						OR disposition is null
+						OR COLL_OBJ_DISPOSITION is null
 				</cfquery>
 				<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					update cf_temp_parts set status = concat(nvl2(status, status || '; ', ''),'Invalid CONTAINER_TYPE')
@@ -1008,7 +1008,7 @@ limitations under the License.
 							all we need to do is move the container to a parent IF it exists and is specified, or nothing otherwise --->
 							<cfif len(#coll_obj_disposition#) gt 0>
 								<cfquery name="upDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-									update coll_object set COLL_OBJ_DISPOSITION = '#disposition#' where collection_object_id = #use_part_id#
+									update coll_object set COLL_OBJ_DISPOSITION = '#coll_obj_disposition#' where collection_object_id = #use_part_id#
 								</cfquery>
 							</cfif>
 							<cfif len(#condition#) gt 0>
