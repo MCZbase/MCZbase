@@ -2217,6 +2217,7 @@ Target JSON:
 														console.log("Parenthesies counts match.");
 														const parens = new Array();
 														var nestOrderOk = true;
+														var errorText = "";
 														for (row=1; row<=rows; row++) { 
 															var open = parseInt($('##openParens'+row).val());
 															var close = parseInt($('##closeParens'+row).val());
@@ -2231,6 +2232,7 @@ Target JSON:
 																		parens.pop();
 																	} else { 
 																		console.log("Error in nesting of parenthesies, all opens consumed.");
+																		errorText = "( without )".
 																		nestOrderOk = false;
 																	}
 																}  
@@ -2238,6 +2240,7 @@ Target JSON:
 														} 
 														if (parens.length > 0) { 
 															console.log("Error in nesting of parenthesies, remaining open.");
+															errorText = ") without (".
 															nestOrderOk = false;
 														}
 														if (nestOrderOk) { 
@@ -2245,7 +2248,7 @@ Target JSON:
 															result = true;
 															$('##searchbuilder-search').prop("disabled",false);
 														}  else { 
-															$('##nestingFeedback').html("nesting error");		
+															$('##nestingFeedback').html("nesting error<br>"+errorText);		
 															$('##nestingFeedback').addClass('text-danger');
 															$('##searchbuilder-search').prop("disabled",true);
 															result=false;
