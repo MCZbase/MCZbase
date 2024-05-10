@@ -320,10 +320,11 @@
 					cf_temp_barcode_parts
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
+		
 			<cfloop query ='getTempTableTypes'> 
 				<cfif other_id_type is "catalog number">
 					<cfquery name="coll_obj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						update cf_temp_barcode_parts set collection_object_id = (	
+						update cf_temp_barcode_parts set collection_object_id = (
 							SELECT specimen_part.collection_object_id 
 							FROM cataloged_item, specimen_part, collection
 							WHERE cataloged_item.collection_object_id = specimen_part.derived_from_cat_item 
@@ -339,7 +340,7 @@
 					</cfquery>
 				<cfelse>
 					<cfquery name="coll_obj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						update cf_temp_barcode_parts set (
+						update cf_temp_barcode_parts set collection_object_id = (
 							SELECT specimen_part.collection_object_id 
 							FROM cataloged_item, specimen_part, coll_obj_other_id_num, collection
 							WHERE cataloged_item.collection_object_id = specimen_part.derived_from_cat_item 
@@ -356,33 +357,32 @@
 						and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableTypes.key#"> 
 					</cfquery>
 				</cfif>
+<!---				<cfquery name="coll_obj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					update cf_temp_barcode_parts set part_container_id = (select container_id from container where barcode = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableTypes.container_unique_id#">)
+				</cfquery>--->
 			</cfloop>
 			<cfquery name="getTempTableQC" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				SELECT ct.key, ct.collection_object_id, ct.container_unique_id, ch.container_id
-				FROM cf_temp_barcode_parts ct, coll_obj_cont_hist ch, container co
-				WHERE ct.collection_object_id = ch.collection_object_id
-				AND ch.container_id = co.container_id
-				AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+				SELECT key,collection_object_id,container_unique_id
+				FROM cf_temp_barcode_parts 
+				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<cfloop query="getTempTableQC">
 				<cfquery name="updatePartContID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE cf_temp_barcode_parts
-					SET part_container_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableQC.container_id#">
+					SET part_container_id = (select container_id from container where barcode = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableQC.container_unique_id#">)
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 					AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
 				</cfquery>
 				<cfquery name="updateContID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE cf_temp_barcode_parts
-					SET container_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableQC.container_id#">
-					where container_unique_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableQC.container_unique_id#">
-					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+					SET container_id = (select container_id from container where barcode = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableQC.container_unique_id#">)
+					where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 					AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
 				</cfquery>
-				<cfquery name="updateContID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				<cfquery name="updateParentContID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE cf_temp_barcode_parts
-					SET parent_container_id = (select parent_container_id from container where container_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableQC.container_id#">)
-					where container_unique_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableQC.container_unique_id#">
-					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+					SET parent_container_id = (select parent_container_id from container where barcode = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableQC.container_unique_id#">)
+					where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 					AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
 				</cfquery>
 			</cfloop>
@@ -469,16 +469,18 @@
 					<cfset install_date = "">
 					<cfloop query="getTempData">
 						<cfset problem_key = #getTempData.key#>
-						<cfquery name="updateBarcodes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateBarcodes_result">
-							update container 
-							set container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.part_container_id#">
-							
-						</cfquery>
-						<cfquery name="updatehist" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updatehist_result">
-							insert into coll_obj_cont_hist (container_id, installed_date,current_container_fg, collection_object_id)
-							values(<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.container_id#">, sysdate, 1
-							where collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.collection_object_id#">
-						</cfquery>
+							<cfquery name="updateBarcodes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateBarcodes_result">
+								insert into coll_obj_cont_hist
+								(collection_object_id,
+								container_id,
+								installed_date,
+								current_container_fg) 
+								values (
+								#collection_object_id#,
+								#parent_container_id#,
+								sysdate,
+								'1')
+							</cfquery>
 						<cfset barcodes_updates = barcodes_updates + updateBarcodes_result.recordcount>
 					</cfloop>
 					<p>Number of Part Containers to update: #barcodes_updates# (on #getCounts.ctobj# cataloged items)</p>
