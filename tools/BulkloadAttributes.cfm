@@ -572,7 +572,7 @@ limitations under the License.
 				</h3>
 			<cfelse>
 				<h3>
-					Validation checks passed. Look over the table below and <a href="/tools/BulkloadAttributes.cfm?action=load" class="btn-link font-weight-lessbold">click to continue</a> if it all looks good or <a href="/tools/BulkloadAttributes.cfm" class="text-danger">start again</a>.
+					Validation checks passed. Look over the table below and <a href="/tools/BulkloadAttributes.cfm?action=load" class="btn-link font-weight-lessbold">click to continue</a> if it all looks good. Or, <a href="/tools/BulkloadAttributes.cfm" class="text-danger">start again</a>.
 				</h3>
 			</cfif>
 			<table class='px-0 small sortable table table-responsive table-striped w-100'>
