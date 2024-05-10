@@ -83,7 +83,7 @@ limitations under the License.
 					<cfelse>
 						<cfset class="text-dark">
 					</cfif>
-					<li class="pb-1">
+					<li class="pb-0">
 						<span class="#class# font-weight-lessbold" #aria#>#field#: </span> <span class="text-secondary">#comment#</span>
 					</li>
 				</cfloop>
@@ -248,7 +248,7 @@ limitations under the License.
 								you probably want to <strong><a href="/tools/BulkloadNewParts.cfm" class="text-danger">start again</a></strong> this file selecting a different encoding.  If these appear as expected, then 
 									you selected the correct encoding and can continue to validate or load.</p>
 							</div>
-							<ul class="pb-1 h4 list-unstyled">
+							<ul class="pb-1 h4 list-unstyled px-3 mx-3">
 								#foundHighAscii# #foundMultiByte#
 							</ul>
 						</cfif>
@@ -288,7 +288,7 @@ limitations under the License.
 									<div>
 										Showing #foundHighCount# examples. Did you select utf-16 or unicode for the encoding for a file that does not have multibyte encoding?
 									</div>
-									<ul class="pb-1 h4 list-unstyled">
+									<ul class="pb-1 h4 list-unstyled mx-3 px-3">
 										#foundHighAscii# #foundMultiByte#
 									</ul>
 								</cfif>
@@ -300,17 +300,17 @@ limitations under the License.
 							<cfelseif Find("#DUP_COLUMN_ERR#",cfcatch.message) GT 0>
 								#cfcatch.message#
 							<cfelseif Find("IOException reading next record: java.io.IOException: (line 1) invalid char between encapsulated token and delimiter",cfcatch.message) GT 0>
-								<ul class="py-1 h4 list-unstyled">
+								<ul class="py-1 h4 list-unstyled mx-3 px-3">
 									<li>Unable to read headers in line 1.  Did you select CSV format for a tab delimited file?</li>
 								</ul>
 							<cfelseif Find("IOException reading next record: java.io.IOException: (line 1)",cfcatch.message) GT 0>
-								<ul class="py-1 h4 list-unstyled">
+								<ul class="py-1 h4 list-unstyled mx-3 px-3">
 									<cfif format EQ "DEFAULT"><cfset fmt="CSV: Default Comma Separated values"><cfelse><cfset fmt="#format#"></cfif>
 									<li>Unable to read headers in line 1.  Is your file actually have the format #fmt#?</li>
 									<li>#cfcatch.message#</li>
 								</ul>
 							<cfelseif Find("IOException reading next record: java.io.IOException:",cfcatch.message) GT 0>
-								<ul class="py-1 h4 list-unstyled">
+								<ul class="py-1 h4 list-unstyled px-3 mx-3">
 									<cfif format EQ "DEFAULT"><cfset fmt="CSV: Default Comma Separated values"><cfelse><cfset fmt="#format#"></cfif>
 									<li>Unable to read a record from the file.  One or more lines may not be consistent with the specified format #format#</li>
 									<li>#cfcatch.message#</li>
