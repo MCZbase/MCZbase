@@ -365,7 +365,7 @@
 			<cfloop query="getTempTableQC">
 				<cfquery name="updatePartContID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE cf_temp_barcode_parts
-					SET part_container_id = (select parent_container_id from container where barcode = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableQC.container_unique_id#">)
+					SET part_container_id = (select container_id from container where barcode = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableQC.container_unique_id#">)
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 					AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
 				</cfquery>
@@ -466,7 +466,7 @@
 					<cfloop query="getTempData">
 						<cfset problem_key = #getTempData.key#>
 							<cfquery name="updateBarcodes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateBarcodes_result">
-								insert into coll_Obj_cont_hist
+								insert into coll_obj_cont_hist
 									(collection_object_id,container_id,installed_date,current_container_fg) 
 								values (#collection_object_id#,#container_id#,sysdate,'1')
 							</cfquery>
