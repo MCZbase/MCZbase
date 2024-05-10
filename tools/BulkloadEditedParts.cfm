@@ -914,26 +914,8 @@ limitations under the License.
 		<!-------------------------------------------------------------------------------------------->
 		<cfif #action# is "load">
 			<cfoutput>
-				<cfquery name="findduplicates" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					update cf_temp_parts 
-					set validated_status = 'ERROR: More that one matching part' 
-					where cf_temp_parts.key in (
-						select cf_temp_parts.key
-						from cf_temp_parts 
-							join specimen_part on  
-								cf_temp_parts.part_name=specimen_part.part_name and
-								cf_temp_parts.preserve_method=specimen_part.preserve_method and
-								cf_temp_parts.collection_object_id=specimen_part.derived_from_cat_item
-							left join coll_object_remark on specimen_part.collection_object_id = coll_object_remark.collection_object_id
-						where			
-							nvl(cf_temp_parts.current_remarks, 'NULL') = nvl(coll_object_remark.coll_object_remarks, 'NULL')
-							and use_existing = 1
-						group by cf_temp_parts.key
-						having count(cf_temp_parts.key) > 1
-					)
-				</cfquery>
 				<cfquery name="getTempData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					select * from cf_temp_parts where status is null
+					select * from cf_temp_parts where validated_status not in ('LOADED', 'PART NOT FOUND')
 				</cfquery>
 				<cfquery name= "getEntBy" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT agent_id FROM agent_name WHERE agent_name = '#session.username#'
@@ -945,247 +927,149 @@ limitations under the License.
 				</cfif>
 				<cfset enteredbyid = getEntBy.agent_id>
 				<cftransaction>
-					<cfloop query="getTempData">
-						<cfif len(#status#) is 0>
-							<cfquery name="NEXTID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-								select sq_collection_object_id.nextval NEXTID from dual
+				<cfloop query="getTempData">
+				<cfif len(#use_part_id#) is 0 and use_existing is not 1> <!---AND len(#CONTAINER_UNIQUE_ID#) gt 0--->>
+					<cfquery name="NEXTID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						select sq_collection_object_id.nextval NEXTID from dual
+					</cfquery>
+					<cfquery name="updateColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						INSERT INTO coll_object (
+							COLLECTION_OBJECT_ID,
+							COLL_OBJECT_TYPE,
+							ENTERED_PERSON_ID,
+							COLL_OBJECT_ENTERED_DATE,
+							LAST_EDITED_PERSON_ID,
+							COLL_OBJ_DISPOSITION,
+							LOT_COUNT_MODIFIER,
+							LOT_COUNT,
+							CONDITION,
+							FLAGS )
+						VALUES (
+							#NEXTID.NEXTID#,
+							'SP',
+							#enteredbyid#,
+							sysdate,
+							#enteredbyid#,
+							'#DISPOSITION#',
+							'#lot_count_modifier#',
+							#lot_count#,
+							'#condition#',
+							1 )
+					</cfquery>
+					<cfquery name="newTiss" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						INSERT INTO specimen_part (
+							  COLLECTION_OBJECT_ID,
+							  PART_NAME,
+							  PRESERVE_METHOD,
+							  DERIVED_FROM_cat_item )
+							VALUES (
+								#NEXTID.NEXTID#,
+							  '#PART_NAME#',
+							  '#PRESERVE_METHOD#'
+								,#collection_object_id# )
+					</cfquery>
+					<cfif len(#current_remarks#) gt 0>
+							<!---- new remark --->
+							<cfquery name="newCollRem" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+								INSERT INTO coll_object_remark (collection_object_id, coll_object_remarks)
+								VALUES (sq_collection_object_id.currval, '#current_remarks#')
 							</cfquery>
-							<cfquery name="updateColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-								INSERT INTO coll_object (
-									COLLECTION_OBJECT_ID,
-									COLL_OBJECT_TYPE,
-									ENTERED_PERSON_ID,
-									COLL_OBJECT_ENTERED_DATE,
-									LAST_EDITED_PERSON_ID,
-									COLL_OBJ_DISPOSITION,
-									LOT_COUNT_MODIFIER,
-									LOT_COUNT,
-									CONDITION,
-									FLAGS )
-								VALUES (
-									#NEXTID.NEXTID#,
-									'SP',
-									#enteredbyid#,
-									sysdate,
-									#enteredbyid#,
-									'#COLL_OBJ_DISPOSITION#',
-									'#lot_count_modifier#',
-									#lot_count#,
-									'#condition#',
-									0 )
-							</cfquery>
-							<cfquery name="newTiss" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-								INSERT INTO specimen_part (
-									COLLECTION_OBJECT_ID,
-									PART_NAME,
-									PRESERVE_METHOD,
-									DERIVED_FROM_CAT_ITEM )
-								VALUES (
-									#NEXTID.NEXTID#,
-									'#PART_NAME#',
-									'#PRESERVE_METHOD#',
-									'#COLLECTION_OBJECT_ID#')
-							</cfquery>
-							<cfif len(#current_remarks#) gt 0>
-								<!---- new remark --->
-								<cfquery name="newCollRem" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-									INSERT INTO coll_object_remark (collection_object_id, coll_object_remarks)
-									VALUES (sq_collection_object_id.currval, '#current_remarks#')
-								</cfquery>
-							</cfif>
-							<cfif len(#changed_date#) gt 0>
-								<cfquery name="change_date" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-									update SPECIMEN_PART_PRES_HIST set CHANGED_DATE = to_date('#CHANGED_DATE#', 'YYYY-MM-DD') where collection_object_id =#NEXTID.NEXTID# and is_current_fg = 1
-								</cfquery>
-							</cfif>
-							<cfif len(#container_unique_id#) gt 0>
-								<cfquery name="part_container_id" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-									select container_id from coll_obj_cont_hist where collection_object_id = #NEXTID.NEXTID#
-								</cfquery>
-									<cfquery name="upPart" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-										update container set parent_container_id=#parent_container_id#
-										where container_id = #part_container_id.container_id#
-									</cfquery>
-								<cfif #len(change_container_type)# gt 0>
-									<cfquery name="upPart" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-										update container set
-										container_type='#change_container_type#'
-										where container_id=#parent_container_id#
-									</cfquery>
-								</cfif>
-							</cfif>
-
-							<cfif len(#part_att_name_1#) GT 0>
-								<cfif len(#part_att_detby_1#) GT 0>
-									<cfquery name="a" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-										select agent_id from agent_name where agent_name = trim('#part_att_detby_1#')
-									</cfquery>
-									<cfset numAgentID = a.agent_id>
-								<cfelse>
-									<cfset  numAgentID = "NULL">
-								</cfif>
-								<cfquery name="addPartAtt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-									insert into SPECIMEN_PART_ATTRIBUTE(collection_object_id, attribute_type, attribute_value, attribute_units, determined_date, determined_by_agent_id, attribute_remark)
-									values(sq_collection_object_id.currval, '#part_att_name_1#', '#part_att_val_1#', '#part_att_units_1#', '#part_att_madedate_1#', #numAgentId#, '#part_att_rem_1#')
-								</cfquery>
-							</cfif>
-							<cfif len(#part_att_name_2#) GT 0>
-								<cfif len(#part_att_detby_2#) GT 0>
-									<cfquery name="a" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-										select agent_id from agent_name where agent_name = trim('#part_att_detby_2#')
-									</cfquery>
-									<cfset numAgentID = a.agent_id>
-								<cfelse>
-									<cfset  numAgentID = "NULL">
-								</cfif>
-								<cfquery name="addPartAtt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-									insert into SPECIMEN_PART_ATTRIBUTE(collection_object_id, attribute_type, attribute_value, attribute_units, determined_date, determined_by_agent_id, attribute_remark)
-									values(sq_collection_object_id.currval, '#part_att_name_2#', '#part_att_val_2#', '#part_att_units_2#', '#part_att_madedate_2#', #numAgentId#, '#part_att_rem_2#')
-								</cfquery>
-							</cfif>
-							<cfif len(#part_att_name_3#) GT 0>
-								<cfif len(#part_att_detby_3#) GT 0>
-									<cfquery name="a" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-										select agent_id from agent_name where agent_name = trim('#part_att_detby_3#')
-									</cfquery>
-									<cfset numAgentID = a.agent_id>
-								<cfelse>
-									<cfset  numAgentID = "NULL">
-								</cfif>
-								<cfquery name="addPartAtt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-									insert into SPECIMEN_PART_ATTRIBUTE(collection_object_id, attribute_type, attribute_value, attribute_units, determined_date, determined_by_agent_id, attribute_remark)
-									values(sq_collection_object_id.currval, '#part_att_name_3#', '#part_att_val_3#', '#part_att_units_3#', '#part_att_madedate_3#', #numAgentId#, '#part_att_rem_3#')
-								</cfquery>
-							</cfif>
-							<cfif len(#part_att_name_4#) GT 0>
-								<cfif len(#part_att_detby_4#) GT 0>
-									<cfquery name="a" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-										select agent_id from agent_name where agent_name = trim('#part_att_detby_4#')
-									</cfquery>
-									<cfset numAgentID = a.agent_id>
-								<cfelse>
-									<cfset  numAgentID = "NULL">
-								</cfif>
-								<cfquery name="addPartAtt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-									insert into SPECIMEN_PART_ATTRIBUTE(collection_object_id, attribute_type, attribute_value, attribute_units, determined_date, determined_by_agent_id, attribute_remark)
-									values(sq_collection_object_id.currval, '#part_att_name_4#', '#part_att_val_4#', '#part_att_units_4#', '#part_att_madedate_4#', #numAgentId#, '#part_att_rem_4#')
-								</cfquery>
-							</cfif>
-							<cfif len(#part_att_name_5#) GT 0>
-								<cfif len(#part_att_detby_5#) GT 0>
-									<cfquery name="a" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-										select agent_id from agent_name where agent_name = trim('#part_att_detby_5#')
-									</cfquery>
-									<cfset numAgentID = a.agent_id>
-								<cfelse>
-									<cfset  numAgentID = "NULL">
-								</cfif>
-								<cfquery name="addPartAtt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-									insert into SPECIMEN_PART_ATTRIBUTE(collection_object_id, attribute_type, attribute_value, attribute_units, determined_date, determined_by_agent_id, attribute_remark)
-									values(sq_collection_object_id.currval, '#part_att_name_5#', '#part_att_val_5#', '#part_att_units_5#', '#part_att_madedate_5#', #numAgentId#, '#part_att_rem_5#')
-								</cfquery>
-							</cfif>
-							<cfif len(#part_att_name_6#) GT 0>
-								<cfif len(#part_att_detby_6#) GT 0>
-									<cfquery name="a" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-										select agent_id from agent_name where agent_name = trim('#part_att_detby_6#')
-									</cfquery>
-									<cfset numAgentID = a.agent_id>
-								<cfelse>
-									<cfset  numAgentID = "NULL">
-								</cfif>
-								<cfquery name="addPartAtt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-									insert into SPECIMEN_PART_ATTRIBUTE(collection_object_id, attribute_type, attribute_value, attribute_units, determined_date, determined_by_agent_id, attribute_remark)
-									values(sq_collection_object_id.currval, '#part_att_name_6#', '#part_att_val_6#', '#part_att_units_6#', '#part_att_madedate_6#', #numAgentId#, '#part_att_rem_6#')
-								</cfquery>
-							</cfif>
-
-						<cfelse>
-						<!--- there is an existing matching container that is not in a parent_container;
-							all we need to do is move the container to a parent IF it exists and is specified, or nothing otherwise --->
-							<cfif len(#coll_obj_disposition#) gt 0>
-								<cfquery name="upDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-									update coll_object set COLL_OBJ_DISPOSITION = '#coll_obj_disposition#' where collection_object_id = #use_part_id#
-								</cfquery>
-							</cfif>
-							<cfif len(#condition#) gt 0>
-								<cfquery name="upCond" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-									update coll_object set condition = '#condition#' where collection_object_id = #use_part_id#
-								</cfquery>
-							</cfif>
-							<cfif len(#lot_count#) gt 0>
-								<cfquery name="upCond" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-									update coll_object set lot_count = #lot_count#, lot_count_modifier='#lot_count_modifier#' where collection_object_id = #use_part_id#
-								</cfquery>
-							</cfif>
-							<cfif len(#new_preserve_method#) gt 0>
-								<cfquery name="change_preservemethod" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-									update SPECIMEN_PART set PRESERVE_METHOD = '#NEW_PRESERVE_METHOD#' where collection_object_id =#use_part_id#
-								</cfquery>
-							</cfif>
-							<cfif len(#append_to_remarks#) gt 0>
-								<cfquery name="remarksCount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-									select * from coll_object_remark where collection_object_id = #use_part_id#
-								</cfquery>
-								<cfif remarksCount.recordcount is 0>
-									<cfquery name="insertRemarks" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-										INSERT INTO coll_object_remark (collection_object_id, coll_object_remarks)
-										VALUES (#use_part_id#, '#append_to_remarks#')
-									</cfquery>
-								<cfelse>
-									<cfquery name="updateRemarks" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-										update coll_object_remark
-										set coll_object_remarks = DECODE(coll_object_remarks, null, '#append_to_remarks#', coll_object_remarks || '; #append_to_remarks#')
-										where collection_object_id = #use_part_id#
-									</cfquery>
-								</cfif>
-							</cfif>
-							<cfif len(#container_unique_id#) gt 0>
-								<cfquery name="part_container_id" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-									select container_id from coll_obj_cont_hist where collection_object_id = #use_part_id#
-								</cfquery>
-									<cfquery name="upPart" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-										update container set parent_container_id=#parent_container_id#
-										where container_id = #part_container_id.container_id#
-									</cfquery>
-								<cfif #len(change_container_type)# gt 0>
-									<cfquery name="upPart" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-										update container set
-										container_type='#change_container_type#'
-										where container_id=#parent_container_id#
-									</cfquery>
-								</cfif>
-							</cfif>
-							<cfif len(#changed_date#) gt 0>
-								<cfquery name="change_date" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-									update SPECIMEN_PART_PRES_HIST set CHANGED_DATE = to_date('#CHANGED_DATE#', 'YYYY-MM-DD') where collection_object_id =#use_part_id# and is_current_fg = 1
-								</cfquery>
-							</cfif>
-						</cfif>
-						<cfquery name="upLoaded" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-							update cf_temp_parts set status = ''
+					</cfif>
+					<cfif len(#changed_date#) gt 0>
+						<cfquery name="change_date" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+							update SPECIMEN_PART_PRES_HIST set CHANGED_DATE = to_date('#CHANGED_DATE#', 'YYYY-MM-DD') where collection_object_id =#NEXTID.NEXTID# and is_current_fg = 1
 						</cfquery>
-					</cfloop>
-				</cftransaction>
-				<cfquery name="clearTempTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="clearTempTable_result">
-					DELETE FROM cf_temp_parts 
-					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-					and use_existing = 0
-				</cfquery>
-				<!---insert collection_object_ids into link with a comma between them--->
-				<h3><span class="text-success">Success!</span> Parts loaded.</h3>
-				<cfif getTempData.recordcount gt 1>
-					<a href="/Specimens.cfm?execute=true&builderMaxRows=1&action=builderSearch&nestdepth1=1&field1=COLL_OBJECT%3ACOLL_OBJ_COLLECTION_OBJECT_ID&searchText1=<cfloop query='getTempData'>#getTempData.collection_object_id#,</cfloop>" target="_blank" class="btn-link">
-						See records in Specimen Results.
-					</a>
+					</cfif>
+					<cfif len(#CONTAINER_UNIQUE_ID#) gt 0>
+						<cfquery name="part_container_id" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+							select container_id from coll_obj_cont_hist where collection_object_id = #NEXTID.NEXTID#
+						</cfquery>
+							<cfquery name="upPart" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+								update container set parent_container_id=#parent_container_id#
+								where container_id = #part_container_id.container_id#
+							</cfquery>
+						<cfif #len(change_container_type)# gt 0>
+							<cfquery name="upPart" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+								update container set
+								container_type='#change_container_type#'
+								where container_id=#parent_container_id#
+							</cfquery>
+						</cfif>
+					</cfif>
 				<cfelse>
-					<a href="/Specimens.cfm?execute=true&builderMaxRows=1&action=builderSearch&nestdepth1=1&field1=COLL_OBJECT%3ACOLL_OBJ_COLLECTION_OBJECT_ID&searchText1=<cfloop query='getTempData'>#getTempData.collection_object_id#</cfloop>" target="_blank" class="btn-link">
-						See records in Specimen Results.
-					</a>
+				<!--- there is an existing matching container that is not in a parent_container;
+					all we need to do is move the container to a parent IF it exists and is specified, or nothing otherwise --->
+					<cfif len(#disposition#) gt 0>
+						<cfquery name="upDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+							update coll_object set COLL_OBJ_DISPOSITION = '#disposition#' where collection_object_id = #use_part_id#
+						</cfquery>
+					</cfif>
+					<cfif len(#condition#) gt 0>
+						<cfquery name="upCond" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+							update coll_object set condition = '#condition#' where collection_object_id = #use_part_id#
+						</cfquery>
+					</cfif>
+					<cfif len(#lot_count#) gt 0>
+						<cfquery name="upCond" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+							update coll_object set lot_count = #lot_count#, lot_count_modifier='#lot_count_modifier#' where collection_object_id = #use_part_id#
+						</cfquery>
+					</cfif>
+					<cfif len(#new_preserve_method#) gt 0>
+						<cfquery name="change_preservemethod" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+							update SPECIMEN_PART set PRESERVE_METHOD = '#NEW_PRESERVE_METHOD#' where collection_object_id =#use_part_id#
+						</cfquery>
+					</cfif>
+					<cfif len(#append_to_remarks#) gt 0>
+						<cfquery name="remarksCount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+							select * from coll_object_remark where collection_object_id = #use_part_id#
+						</cfquery>
+						<cfif remarksCount.recordcount is 0>
+							<cfquery name="insertRemarks" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+								INSERT INTO coll_object_remark (collection_object_id, coll_object_remarks)
+								VALUES (#use_part_id#, '#append_to_remarks#')
+							</cfquery>
+						<cfelse>
+							<cfquery name="updateRemarks" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+								update coll_object_remark
+								set coll_object_remarks = DECODE(coll_object_remarks, null, '#append_to_remarks#', coll_object_remarks || '; #append_to_remarks#')
+								where collection_object_id = #use_part_id#
+							</cfquery>
+						</cfif>
+					</cfif>
+					<cfif len(#CONTAINER_UNIQUE_ID#) gt 0>
+						<cfquery name="part_container_id" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+							select container_id from coll_obj_cont_hist where collection_object_id = #use_part_id#
+						</cfquery>
+							<cfquery name="upPart" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+								update container set parent_container_id=#parent_container_id#
+								where container_id = #part_container_id.container_id#
+							</cfquery>
+						<cfif #len(change_container_type)# gt 0>
+							<cfquery name="upPart" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+								update container set
+								container_type='#change_container_type#'
+								where container_id=#parent_container_id#
+							</cfquery>
+						</cfif>
+					</cfif>
+					<cfif len(#changed_date#) gt 0>
+						<cfquery name="change_date" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+							update SPECIMEN_PART_PRES_HIST set CHANGED_DATE = to_date('#CHANGED_DATE#', 'YYYY-MM-DD') where collection_object_id =#use_part_id# and is_current_fg = 1
+						</cfquery>
+					</cfif>
 				</cfif>
-			</cfoutput>
-		</cfif>
+				<cfquery name="upLoaded" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					update cf_temp_parts set validated_status = 'LOADED'
+				</cfquery>
+				</cfloop>
+				</cftransaction>
+				Spiffy, all done.
+				<a href="/SpecimenResults.cfm?collection_object_id=#valuelist(getTempData.collection_object_id)#">
+					See in Specimen Results
+				</a>
+				</cfoutput>
+			</cfif>
+			</div>
 		</div>
-	</div>
-</main>
+	</main>
 <cfinclude template="/shared/_footer.cfm">
