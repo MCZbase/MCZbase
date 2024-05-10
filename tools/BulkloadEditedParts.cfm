@@ -809,6 +809,8 @@ limitations under the License.
 						<th>OTHER_ID_NUMBER</th>
 						<th>PART_NAME</th>
 						<th>PRESERVE_METHOD</th>
+						<th>NEW_PRESERVE_METHOD</th>
+						<th>CHANGED_DATE</th>
 						<th>COLL_OBJ_DISPOSITION</th>
 						<th>LOT_COUNT_MODIFIER</th>
 						<th>LOT_COUNT</th>
@@ -863,6 +865,8 @@ limitations under the License.
 							<td>#OTHER_ID_NUMBER#</td>
 							<td>#part_name#</td>
 							<td>#preserve_method#</td>
+							<td>#new_preserve_method#</td>
+							<td>#changed_date#</td>
 							<td>#coll_obj_disposition#</td>
 							<td>#lot_count_modifier#</td>
 							<td>#lot_count#</td>
