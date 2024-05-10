@@ -183,7 +183,7 @@ limitations under the License.
 		</cfdocument>
 	</cfcase>
 	<cfcase value="Fluid_Consolidated_SchJ__Mala">
-		<cfquery name="getItems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="getItems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			SELECT DISTINCT
 				cataloged_item.collection_object_id,
 				collection.collection_cde,
