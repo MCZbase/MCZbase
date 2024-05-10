@@ -448,10 +448,9 @@ limitations under the License.
 				</cfquery>
 				<cfquery name="isValid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					update cf_temp_parts set status = concat(nvl2(status, status || '; ', ''),'Invalid use_existing flag')
-						where use_existing not in ('0','1') OR
-						use_existing is null
-						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-						AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
+					where (use_existing not in ('0','1') OR use_existing is null)
+					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+					AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
 				</cfquery>
 				<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					update cf_temp_parts set status = concat(nvl2(status, status || '; ', ''),'Invalid CONTAINER_UNIQUE_ID')
@@ -459,55 +458,44 @@ limitations under the License.
 						select barcode from container where barcode is not null
 						)
 					AND CONTAINER_UNIQUE_ID is not null
-						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-						AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
+					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+					AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
 				</cfquery>
 				<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					update cf_temp_parts set status = concat(nvl2(status, status || '; ', ''),'Invalid DISPOSITION')
-					where COLL_OBJ_DISPOSITION NOT IN (
-						select COLL_OBJ_DISPOSITION from CTCOLL_OBJ_DISP
-						)
-						OR COLL_OBJ_DISPOSITION is null
-						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-						AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
+					where (COLL_OBJ_DISPOSITION NOT IN (select COLL_OBJ_DISPOSITION from CTCOLL_OBJ_DISP) OR COLL_OBJ_DISPOSITION is null)
+					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+					AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
 				</cfquery>
 				<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					update cf_temp_parts set status = concat(nvl2(status, status || '; ', ''),'Invalid CONTAINER_TYPE')
-					where change_container_type NOT IN (
-						select container_type from ctcontainer_type
-						)
-						AND change_container_type is null
-						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-						AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
+					where change_container_type NOT IN (select container_type from ctcontainer_type)
+					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+					AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
 				</cfquery>
 				<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					update cf_temp_parts set status = concat(nvl2(status, status || '; ', ''),'Invalid CONDITION')
 					where CONDITION is null
-						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-						AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
+					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+					AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
 				</cfquery>
 				<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					update cf_temp_parts set status = concat(nvl2(status, status || '; ', ''),'invalid lot_count_modifier')
-					where lot_count_modifier NOT IN (
-						select modifier from ctnumeric_modifiers
-						)
-						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-						AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
+					where lot_count_modifier NOT IN (select modifier from ctnumeric_modifiers)
+					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+					AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
 				</cfquery>
 				<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					update cf_temp_parts set status = concat(nvl2(status, status || '; ', ''),'Invalid LOT_COUNT')
-					where (
-						LOT_COUNT is null OR
-						is_number(lot_count) = 0
-						)
-						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-						AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
+					where (LOT_COUNT is null OR is_number(lot_count) = 0)
+					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+					AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
 				</cfquery>
 				<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					update cf_temp_parts set status = concat(nvl2(status, status || '; ', ''),'Invalid CHANGED_DATE')
 					where isdate(changed_date) = 0
-						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-						AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
+					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+					AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
 				</cfquery>
 <!---				<cfquery name="CollID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					update cf_temp_parts set status = concat(nvl2(status, status || '; ', ''),'Invalid other id type and number')
@@ -754,6 +742,63 @@ limitations under the License.
 			<cfelse>
 				<h3 class="mt-2">You must fix everything above to proceed. <a href="/tools/BulkloadEditedParts.cfm" class="text-danger">start again.</a></h3>
 			</cfif>
+			<cfquery name="findduplicates" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+			update cf_temp_parts 
+			set status = ' More that one matching part' 
+			where cf_temp_parts.key in (
+				select cf_temp_parts.key
+				from cf_temp_parts 
+					join specimen_part on  
+						cf_temp_parts.part_name=specimen_part.part_name and
+						cf_temp_parts.preserve_method=specimen_part.preserve_method and
+						cf_temp_parts.collection_object_id=specimen_part.derived_from_cat_item
+					left join coll_object_remark on specimen_part.collection_object_id = coll_object_remark.collection_object_id
+				where			
+					nvl(cf_temp_parts.current_remarks, 'NULL') = nvl(coll_object_remark.coll_object_remarks, 'NULL')
+					and use_existing = 1
+				group by cf_temp_parts.key
+				having count(cf_temp_parts.key) > 1
+			)
+		</cfquery>
+		<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+			update cf_temp_parts set (status) = (
+			select
+			decode(parent_container_id,
+			0,'NOTE: PART EXISTS',
+			'NOTE: PART EXISTS IN PARENT CONTAINER')
+			from specimen_part,coll_obj_cont_hist,container, coll_object_remark where
+			specimen_part.collection_object_id = coll_obj_cont_hist.collection_object_id AND
+			coll_obj_cont_hist.container_id = container.container_id AND
+			coll_object_remark.collection_object_id(+) = specimen_part.collection_object_id AND
+			derived_from_cat_item = cf_temp_parts.collection_object_id AND
+			cf_temp_parts.part_name=specimen_part.part_name AND
+			cf_temp_parts.preserve_method=specimen_part.preserve_method AND
+			nvl(cf_temp_parts.current_remarks, 'NULL') = nvl(coll_object_remark.coll_object_remarks, 'NULL')
+			group by parent_container_id)
+			where status=''
+		</cfquery>
+		<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+			update cf_temp_parts set (parent_container_id) = (
+			select container_id
+			from container where
+			barcode=CONTAINER_UNIQUE_ID)
+			where status = ''
+		</cfquery>
+		<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+			update cf_temp_parts set (use_part_id) = (
+			select min(specimen_part.collection_object_id)
+			from specimen_part, coll_object_remark where
+			specimen_part.collection_object_id = coll_object_remark.collection_object_id(+) AND
+			cf_temp_parts.part_name=specimen_part.part_name and
+			cf_temp_parts.preserve_method=specimen_part.preserve_method and
+			cf_temp_parts.collection_object_id=specimen_part.derived_from_cat_item and
+			nvl(cf_temp_parts.current_remarks, 'NULL') = nvl(coll_object_remark.coll_object_remarks, 'NULL'))
+			where status is not null
+			AND use_existing =1
+		</cfquery>
+		<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+			update cf_temp_parts set validated_status = 'PART NOT FOUND' where validated_status is null
+		</cfquery>
 			<table class='sortable w-100 small px-0 mx-0 table table-responsive table-striped'>
 				<thead class="thead-light small">
 					<tr>
@@ -869,6 +914,24 @@ limitations under the License.
 		<!-------------------------------------------------------------------------------------------->
 		<cfif #action# is "load">
 			<cfoutput>
+				<cfquery name="findduplicates" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					update cf_temp_parts 
+					set validated_status = 'ERROR: More that one matching part' 
+					where cf_temp_parts.key in (
+						select cf_temp_parts.key
+						from cf_temp_parts 
+							join specimen_part on  
+								cf_temp_parts.part_name=specimen_part.part_name and
+								cf_temp_parts.preserve_method=specimen_part.preserve_method and
+								cf_temp_parts.collection_object_id=specimen_part.derived_from_cat_item
+							left join coll_object_remark on specimen_part.collection_object_id = coll_object_remark.collection_object_id
+						where			
+							nvl(cf_temp_parts.current_remarks, 'NULL') = nvl(coll_object_remark.coll_object_remarks, 'NULL')
+							and use_existing = 1
+						group by cf_temp_parts.key
+						having count(cf_temp_parts.key) > 1
+					)
+				</cfquery>
 				<cfquery name="getTempData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					select * from cf_temp_parts where status is null
 				</cfquery>
