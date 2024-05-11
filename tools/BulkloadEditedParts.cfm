@@ -405,7 +405,7 @@ limitations under the License.
 					and use_existing = 1
 			</cfquery>
 			<!---Loop through the temp part data and validate against code tables and requirements--->
-			<cfloop query="getTempTableQC">
+		<!---	<cfloop query="getTempTableQC">--->
 				<cfquery name="getParentContainerId" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					update cf_temp_parts set parent_container_id =
 					(select container_id from container where container.barcode = cf_temp_parts.CONTAINER_UNIQUE_ID)
@@ -507,7 +507,7 @@ limitations under the License.
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 					AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
 				</cfquery>
-				<cfloop index="i" from="1" to="6">
+			<!---	<cfloop index="i" from="1" to="6">
 					<cfquery name="chkPAtt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						update cf_temp_parts set 
 						status = concat(nvl2(status, status || '; ', ''),'Invalid part attribute <span class="font-weight-bold">"'||PART_ATT_NAME_#i#||'"</span>')
@@ -611,7 +611,7 @@ limitations under the License.
 						AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
 						and use_existing = 1
 					</cfquery>
-				</cfloop>
+				</cfloop>--->
 <!---				<cfquery name="chk" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE
 						cf_temp_parts set status = (select decode(parent_container_id,0,'','')
@@ -638,7 +638,7 @@ limitations under the License.
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 					AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
 				</cfquery>
-			</cfloop>
+			<!---</cfloop>--->
 			<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT *
 				FROM cf_temp_parts
