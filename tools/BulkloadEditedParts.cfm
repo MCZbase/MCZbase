@@ -339,13 +339,20 @@ limitations under the License.
 		<cfif #action# is "validate">
 			<cfoutput>
 				<h2 class="h4">Second step: Validate data from CSV file.</h2>
+				<cfquery name="checkCsvEntries" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					select * from cf_temp_parts 
+					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+				</cfquery>
+			<cfloop query="checkCsvEntries">
 				<cfquery name="getParentContainerId" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					update cf_temp_parts set parent_container_id =
 					(select container_id from container where container.barcode = cf_temp_parts.CONTAINER_UNIQUE_ID)
+					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
 				<cfquery name="validateGotParent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					update cf_temp_parts set status = status || ';Container Unique ID not found'
 					where CONTAINER_UNIQUE_ID is not null and parent_container_id is null
+					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
 				<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					update cf_temp_parts set status = status || ';Invalid part_name'
@@ -353,6 +360,7 @@ limitations under the License.
 						select part_name|| '|' ||collection_cde from ctspecimen_part_name
 						)
 						OR part_name is null
+					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
 				<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					update cf_temp_parts set status = status || ';Invalid preserve_method'
@@ -360,6 +368,7 @@ limitations under the License.
 						select preserve_method|| '|' ||collection_cde from ctspecimen_preserv_method
 						)
 						OR preserve_method is null
+					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
 				<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					update cf_temp_parts set status = status || ';Invalid new_preserve_method'
@@ -367,11 +376,13 @@ limitations under the License.
 						select preserve_method|| '|' ||collection_cde from ctspecimen_preserv_method
 						)
 						and new_preserve_method is not null
+					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
 				<cfquery name="isValid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					update cf_temp_parts set status = status || ';Invalid use_existing flag'
 						where use_existing not in ('0','1') OR
 						use_existing is null
+					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
 				<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					update cf_temp_parts set status = status || ';Invalid CONTAINER_UNIQUE_ID'
@@ -379,6 +390,7 @@ limitations under the License.
 						select barcode from container where barcode is not null
 						)
 					AND CONTAINER_UNIQUE_ID is not null
+					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
 				<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					update cf_temp_parts set status = status || ';Invalid DISPOSITION'
@@ -386,23 +398,27 @@ limitations under the License.
 						select COLL_OBJ_DISPOSITION from CTCOLL_OBJ_DISP
 						)
 						OR coll_obj_disposition is null
+					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
 				<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					update cf_temp_parts set status = status || ';Invalid CONTAINER_TYPE'
 					where change_container_type NOT IN (
 						select container_type from ctcontainer_type
 						)
-						AND change_container_type is null
+					AND change_container_type is null
+					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
 				<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					update cf_temp_parts set status = status || ';Invalid CONDITION'
 					where CONDITION is null
+					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
 				<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					update cf_temp_parts set status = status || ';invalid lot_count_modifier'
 					where lot_count_modifier NOT IN (
 						select modifier from ctnumeric_modifiers
 						)
+					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
 				<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					update cf_temp_parts set status = status || ';Invalid LOT_COUNT'
@@ -410,11 +426,14 @@ limitations under the License.
 						LOT_COUNT is null OR
 						is_number(lot_count) = 0
 						)
+					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
 				<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					update cf_temp_parts set status = status || ';Invalid CHANGED_DATE'
 					where isdate(changed_date) = 0
+					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
+			</cfloop>
 				<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					select * from cf_temp_parts where status is null
 				</cfquery>
