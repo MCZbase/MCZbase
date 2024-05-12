@@ -444,9 +444,7 @@ limitations under the License.
 								where cat_num = cf_temp_parts.other_id_number 
 								and collection_cde = cf_temp_parts.collection_cde
 								and institution_acronym = 'MCZ'
-							),
-							status = null,
-							use_existing=1
+							)
 						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 							and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableTypes.key#"> 
 					</cfquery>
@@ -463,9 +461,7 @@ limitations under the License.
 								and display_value= cf_temp_parts.other_id_number
 								and cataloged_item.collection_object_id = coll_obj_other_id_num.COLLECTION_OBJECT_ID
 								and institution_acronym = 'MCZ'
-							),
-							status = null,
-							use_existing = 1
+							)
 						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 							and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableTypes.key#"> 
 					</cfquery>
@@ -567,9 +563,6 @@ limitations under the License.
 				nvl(cf_temp_parts.current_remarks, 'NULL') = nvl(coll_object_remark.coll_object_remarks, 'NULL')
 				)
 				where status like '%NOTE: PART EXISTS%' 
-			</cfquery>
-			<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				update cf_temp_parts set status = concat(nvl2(status, status || '; ', ''),'PART NOT FOUND') where status is null
 			</cfquery>	
 			<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				update cf_temp_parts set status = 'PART NOT FOUND' where status is null
