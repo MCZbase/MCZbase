@@ -651,6 +651,8 @@ limitations under the License.
 		<!-------------------------------------------------------------------------------------------->
 		<cfif #action# is "load">
 			<cfoutput>
+				<cfset problem_key = "">
+				<cftransaction>
 				<h2 class="h4">Third Step: Load Data</h2>
 				<cfquery name="getTempData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					select * from cf_temp_parts where status not in ('LOADED', 'PART NOT FOUND')
@@ -801,12 +803,16 @@ limitations under the License.
 							update cf_temp_parts set status = 'LOADED'
 						</cfquery>
 					</cfloop>
-				</cftransaction>
 				<h3 class="mt-3">There were #upLoaded.recordcount# records updated.</h3>
 				<h3><span class="text-success">Success!</span> Parts loaded.</h3>
 				<a href="/SpecimenResults.cfm?collection_object_id=#valuelist(getTempData.collection_object_id)#" class="btn-link font-weight-lessbold">
 					See in Specimen Results.
 				</a>
+			</cftransaction>
+			<cfquery name="clearTempTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="clearTempTable_result">
+				DELETE FROM cf_temp_parts
+				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+			</cfquery>
 			</cfoutput>
 		</cfif>
 	</main>
