@@ -655,6 +655,11 @@ limitations under the License.
 				<cfquery name="getTempData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					select * from cf_temp_parts where status not in ('LOADED', 'PART NOT FOUND')
 				</cfquery>
+				<cfquery name="problemsInData" dbtype="query">
+					SELECT count(*) c 
+					FROM getTempData
+					WHERE status is not null
+				</cfquery>
 				<cfquery name= "getEntBy" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT agent_id FROM agent_name WHERE agent_name = '#session.username#'
 				</cfquery>
@@ -802,6 +807,7 @@ limitations under the License.
 						</cfquery>
 					</cfloop>
 				</cftransaction>
+				<h3 class="mt-3">There were #problemsInData.c# records updated of #getTempData.recordcount# uploaded.</h3>
 				<h3><span class="text-success">Success!</span> Parts loaded.</h3>
 				<a href="/SpecimenResults.cfm?collection_object_id=#valuelist(getTempData.collection_object_id)#" class="btn-link font-weight-lessbold">
 					See in Specimen Results.
