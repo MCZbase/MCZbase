@@ -493,7 +493,7 @@ limitations under the License.
 				update cf_temp_parts set status = concat(nvl2(status, status || '; ', ''),'PART NOT FOUND') where status is null
 			</cfquery>	
 			<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				update cf_temp_parts set status = 'PART NOT FOUND' where validated_status is null
+				update cf_temp_parts set status = 'PART NOT FOUND' where status is null
 			</cfquery>
 			</cfoutput>
 			<cflocation url="/tools/BulkloadEditedParts.cfm?action=checkValidate">
