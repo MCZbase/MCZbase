@@ -344,79 +344,79 @@ limitations under the License.
 					(select container_id from container where container.barcode = cf_temp_parts.CONTAINER_UNIQUE_ID)
 				</cfquery>
 				<cfquery name="validateGotParent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					update cf_temp_parts set validated_status = validated_status || ';Container Unique ID not found'
+					update cf_temp_parts set status = status || ';Container Unique ID not found'
 					where CONTAINER_UNIQUE_ID is not null and parent_container_id is null
 				</cfquery>
 				<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					update cf_temp_parts set validated_status = validated_status || ';Invalid part_name'
+					update cf_temp_parts set status = status || ';Invalid part_name'
 					where part_name|| '|' ||collection_cde NOT IN (
 						select part_name|| '|' ||collection_cde from ctspecimen_part_name
 						)
 						OR part_name is null
 				</cfquery>
 				<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					update cf_temp_parts set validated_status = validated_status || ';Invalid preserve_method'
+					update cf_temp_parts set status = status || ';Invalid preserve_method'
 					where preserve_method|| '|' ||collection_cde NOT IN (
 						select preserve_method|| '|' ||collection_cde from ctspecimen_preserv_method
 						)
 						OR preserve_method is null
 				</cfquery>
 				<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					update cf_temp_parts set validated_status = validated_status || ';Invalid new_preserve_method'
+					update cf_temp_parts set status = status || ';Invalid new_preserve_method'
 					where new_preserve_method|| '|' ||collection_cde NOT IN (
 						select preserve_method|| '|' ||collection_cde from ctspecimen_preserv_method
 						)
 						and new_preserve_method is not null
 				</cfquery>
 				<cfquery name="isValid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					update cf_temp_parts set validated_status = validated_status || ';Invalid use_existing flag'
+					update cf_temp_parts set status = status || ';Invalid use_existing flag'
 						where use_existing not in ('0','1') OR
 						use_existing is null
 				</cfquery>
 				<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					update cf_temp_parts set validated_status = validated_status || ';Invalid CONTAINER_UNIQUE_ID'
+					update cf_temp_parts set status = status || ';Invalid CONTAINER_UNIQUE_ID'
 					where CONTAINER_UNIQUE_ID NOT IN (
 						select barcode from container where barcode is not null
 						)
 					AND CONTAINER_UNIQUE_ID is not null
 				</cfquery>
 				<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					update cf_temp_parts set validated_status = validated_status || ';Invalid DISPOSITION'
-					where DISPOSITION NOT IN (
+					update cf_temp_parts set status = status || ';Invalid DISPOSITION'
+					where COLL_OBJ_DISPOSITION NOT IN (
 						select COLL_OBJ_DISPOSITION from CTCOLL_OBJ_DISP
 						)
 						OR disposition is null
 				</cfquery>
 				<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					update cf_temp_parts set validated_status = validated_status || ';Invalid CONTAINER_TYPE'
+					update cf_temp_parts set status = status || ';Invalid CONTAINER_TYPE'
 					where change_container_type NOT IN (
 						select container_type from ctcontainer_type
 						)
 						AND change_container_type is null
 				</cfquery>
 				<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					update cf_temp_parts set validated_status = validated_status || ';Invalid CONDITION'
+					update cf_temp_parts set status = status || ';Invalid CONDITION'
 					where CONDITION is null
 				</cfquery>
 				<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					update cf_temp_parts set validated_status = validated_status || ';invalid lot_count_modifier'
+					update cf_temp_parts set status = status || ';invalid lot_count_modifier'
 					where lot_count_modifier NOT IN (
 						select modifier from ctnumeric_modifiers
 						)
 				</cfquery>
 				<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					update cf_temp_parts set validated_status = validated_status || ';Invalid LOT_COUNT'
+					update cf_temp_parts set status = status || ';Invalid LOT_COUNT'
 					where (
 						LOT_COUNT is null OR
 						is_number(lot_count) = 0
 						)
 				</cfquery>
 				<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					update cf_temp_parts set validated_status = validated_status || ';Invalid CHANGED_DATE'
+					update cf_temp_parts set status = status || ';Invalid CHANGED_DATE'
 					where isdate(changed_date) = 0
 				</cfquery>
 				<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					select * from cf_temp_parts where validated_status is null
+					select * from cf_temp_parts where status is null
 				</cfquery>
 				<cfloop query="data">
 					<cfif #other_id_type# is "catalog number">
@@ -452,14 +452,14 @@ limitations under the License.
 						<cfif #collObj.recordcount# is 1>
 							<cfquery name="insColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 								UPDATE cf_temp_parts SET collection_object_id = #collObj.collection_object_id# ,
-								validated_status='VALID'
+								status='VALID'
 								where
 								key = #key#
 							</cfquery>
 						<cfelse>
 							<cfquery name="insColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-								UPDATE cf_temp_parts SET validated_status =
-								validated_status || ';#data.institution_acronym# #data.collection_cde# #data.other_id_type# #data.other_id_number# could not be found.'
+								UPDATE cf_temp_parts SET status =
+								status || ';#data.institution_acronym# #data.collection_cde# #data.other_id_type# #data.other_id_number# could not be found.'
 								where key = #key#
 							</cfquery>
 						</cfif>
@@ -516,14 +516,14 @@ limitations under the License.
 						cf_temp_parts.preserve_method=specimen_part.preserve_method AND
 						nvl(cf_temp_parts.current_remarks, 'NULL') = nvl(coll_object_remark.coll_object_remarks, 'NULL')
 						group by parent_container_id)
-						where validated_status='VALID'
+						where status='VALID'
 					</cfquery>
 					<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						update cf_temp_parts set (parent_container_id) = (
 						select container_id
 						from container where
 						barcode=CONTAINER_UNIQUE_ID)
-						where substr(validated_status,1,5) IN ('VALID','NOTE:')
+						where substr(status,1,5) IN ('VALID','NOTE:')
 					</cfquery>
 					<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						update cf_temp_parts set (use_part_id) = (
@@ -534,11 +534,11 @@ limitations under the License.
 						cf_temp_parts.preserve_method=specimen_part.preserve_method and
 						cf_temp_parts.collection_object_id=specimen_part.derived_from_cat_item and
 						nvl(cf_temp_parts.current_remarks, 'NULL') = nvl(coll_object_remark.coll_object_remarks, 'NULL'))
-						where validated_status like '%NOTE: PART EXISTS%' AND
+						where status like '%NOTE: PART EXISTS%' AND
 						use_existing =1
 					</cfquery>
 					<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						update cf_temp_parts set validated_status = 'PART NOT FOUND' where validated_status is null
+						update cf_temp_parts set status = 'PART NOT FOUND' where status is null
 					</cfquery>
 					<cflocation url="BulkloadEditedParts.cfm?action=checkValidate">
 			</cfoutput>
@@ -572,15 +572,15 @@ limitations under the License.
 					<cfloop query="inT">
 						<tr>
 							<td>
-								<cfif len(#collection_object_id#) gt 0 and (#validated_status# is 'VALID')>
-								<cfelseif left(validated_status,5) is 'NOTE:'>
+								<cfif len(#collection_object_id#) gt 0 and (#status# is 'VALID')>
+								<cfelseif left(status,5) is 'NOTE:'>
 									<a href="/SpecimenDetail.cfm?collection_object_id=#collection_object_id#"
-										target="_blank">Specimen</a> (#validated_status#)
-								<cfelseif left(validated_status,6) is 'ERROR:'>
+										target="_blank">Specimen</a> (#status#)
+								<cfelseif left(status,6) is 'ERROR:'>
 									<a href="/SpecimenDetail.cfm?collection_object_id=#collection_object_id#"
-										target="_blank">Specimen</a> <strong>#validated_status#</strong>
+										target="_blank">Specimen</a> <strong>#status#</strong>
 								<cfelse>
-									<strong>ERROR: #validated_status#</strong>
+									<strong>ERROR: #status#</strong>
 								</cfif>
 							</td>
 							<td>#institution_acronym#</td>
@@ -603,7 +603,7 @@ limitations under the License.
 					</cfloop>
 				</table>
 				<cfquery name="allValid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					select count(*) as cnt from cf_temp_parts where substr(validated_status,1,5) NOT IN
+					select count(*) as cnt from cf_temp_parts where substr(status,1,5) NOT IN
 						('VALID','NOTE:')
 				</cfquery>
 				<cfif #allValid.cnt# is 0>
@@ -704,7 +704,7 @@ limitations under the License.
 						all we need to do is move the container to a parent IF it exists and is specified, or nothing otherwise --->
 						<cfif len(#disposition#) gt 0>
 							<cfquery name="upDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-								update coll_object set COLL_OBJ_DISPOSITION = '#disposition#' where collection_object_id = #use_part_id#
+								update coll_object set COLL_OBJ_DISPOSITION = '#coll_obj_disposition#' where collection_object_id = #use_part_id#
 							</cfquery>
 						</cfif>
 						<cfif len(#condition#) gt 0>
@@ -762,7 +762,7 @@ limitations under the License.
 						</cfif>
 					</cfif>
 				<cfquery name="upLoaded" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					update cf_temp_parts set validated_status = 'LOADED'
+					update cf_temp_parts set status = 'LOADED'
 				</cfquery>
 				</cfloop>
 				</cftransaction>
