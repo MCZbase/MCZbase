@@ -339,6 +339,85 @@ limitations under the License.
 		<cfif #action# is "validate">
 		<cfoutput>
 			<h2 class="h4">Second step: Data Validation</h2>
+			<cfquery name="getParentContainerId" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				update cf_temp_parts set parent_container_id = (select container_id from container where container.barcode = cf_temp_parts.CONTAINER_UNIQUE_ID)
+			</cfquery>
+			<cfquery name="validateGotParent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				update cf_temp_parts set status = status || ';Container Unique ID not found'
+				where CONTAINER_UNIQUE_ID is not null and parent_container_id is null
+			</cfquery>
+			<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				update cf_temp_parts set status = status || ';Invalid part_name'
+				where part_name|| '|' ||collection_cde NOT IN (
+					select part_name|| '|' ||collection_cde from ctspecimen_part_name
+					)
+				OR part_name is null
+			</cfquery>
+			<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				update cf_temp_parts set status = status || ';Invalid preserve_method'
+				where preserve_method|| '|' ||collection_cde NOT IN (
+					select preserve_method|| '|' ||collection_cde from ctspecimen_preserv_method
+					)
+					OR preserve_method is null
+			</cfquery>
+			<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				update cf_temp_parts set status = status || ';Invalid new_preserve_method'
+				where new_preserve_method|| '|' ||collection_cde NOT IN (
+					select preserve_method|| '|' ||collection_cde from ctspecimen_preserv_method
+					)
+					and new_preserve_method is not null
+			</cfquery>
+			<cfquery name="isValid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				update cf_temp_parts set status = status || ';Invalid use_existing flag'
+					where use_existing not in ('0','1') OR
+					use_existing is null
+			</cfquery>
+			<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				update cf_temp_parts set status = status || ';Invalid CONTAINER_UNIQUE_ID'
+				where CONTAINER_UNIQUE_ID NOT IN (
+					select barcode from container where barcode is not null
+					)
+				AND CONTAINER_UNIQUE_ID is not null
+			</cfquery>
+			<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				update cf_temp_parts set status = status || ';Invalid DISPOSITION'
+				where DISPOSITION NOT IN (
+					select COLL_OBJ_DISPOSITION from CTCOLL_OBJ_DISP
+					)
+					OR disposition is null
+			</cfquery>
+			<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				update cf_temp_parts set status = status || ';Invalid CONTAINER_TYPE'
+				where change_container_type NOT IN (
+					select container_type from ctcontainer_type
+					)
+					AND change_container_type is null
+			</cfquery>
+			<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				update cf_temp_parts set status = status || ';Invalid CONDITION'
+				where CONDITION is null
+			</cfquery>
+			<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				update cf_temp_parts set status = status || ';invalid lot_count_modifier'
+				where lot_count_modifier NOT IN (
+					select modifier from ctnumeric_modifiers
+					)
+			</cfquery>
+			<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				update cf_temp_parts set status = status || ';Invalid LOT_COUNT'
+				where (
+					LOT_COUNT is null OR
+					is_number(lot_count) = 0
+					)
+			</cfquery>
+			<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				update cf_temp_parts set status = status || ';Invalid CHANGED_DATE'
+				where isdate(changed_date) = 0
+			</cfquery>
+
+			<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				select * from cf_temp_parts where status is null
+			</cfquery>
 			<cfquery name="getCodeTables" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				select attribute_type, decode(value_code_tables, null, unit_code_tables,value_code_tables) code_table  from ctspecpart_attribute_type
 			</cfquery>
