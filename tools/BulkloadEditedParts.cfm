@@ -385,7 +385,7 @@ limitations under the License.
 					where COLL_OBJ_DISPOSITION NOT IN (
 						select COLL_OBJ_DISPOSITION from CTCOLL_OBJ_DISP
 						)
-						OR disposition is null
+						OR coll_obj_disposition is null
 				</cfquery>
 				<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					update cf_temp_parts set status = status || ';Invalid CONTAINER_TYPE'
@@ -589,7 +589,7 @@ limitations under the License.
 							<td>#OTHER_ID_NUMBER#</td>
 							<td>#part_name#</td>
 							<td>#preserve_method#</td>
-							<td>#disposition#</td>
+							<td>#coll_obj_disposition#</td>
 							<td>#lot_count_modifier#</td>
 							<td>#lot_count#</td>
 							<td>#current_remarks#</td>
@@ -653,7 +653,7 @@ limitations under the License.
 								#enteredbyid#,
 								sysdate,
 								#enteredbyid#,
-								'#DISPOSITION#',
+								'#COLL_OBJ_DISPOSITION#',
 								'#lot_count_modifier#',
 								#lot_count#,
 								'#condition#',
@@ -702,7 +702,7 @@ limitations under the License.
 					<cfelse>
 					<!--- there is an existing matching container that is not in a parent_container;
 						all we need to do is move the container to a parent IF it exists and is specified, or nothing otherwise --->
-						<cfif len(#disposition#) gt 0>
+						<cfif len(#COLL_OBJ_disposition#) gt 0>
 							<cfquery name="upDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 								update coll_object set COLL_OBJ_DISPOSITION = '#coll_obj_disposition#' where collection_object_id = #use_part_id#
 							</cfquery>
