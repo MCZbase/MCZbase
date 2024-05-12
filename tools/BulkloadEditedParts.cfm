@@ -550,6 +550,17 @@ limitations under the License.
 				<cfquery name="inT" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					select * from cf_temp_parts
 				</cfquery>
+				
+				<cfquery name="allValid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					select count(*) as cnt from cf_temp_parts where substr(status,1,5) NOT IN
+						('VALID','NOTE:')
+				</cfquery>
+				<cfif #allValid.cnt# is 0>
+					<a href="/tools/BulkloadEditedParts.cfm?action=load">Load these parts....</a>
+				<cfelse>
+					You must fix all #allValid.cnt# problems above to proceed.
+					Fix the file and <a href="/tools/BulkloadEditedParts.cfm">reload</a>.
+				</cfif>
 				<table class='px-0 small sortable table table-responsive table-striped w-100'>
 					<tr>
 						<td>BULKLOADING&nbsp;STATUS</td>
@@ -603,16 +614,6 @@ limitations under the License.
 						</tr>
 					</cfloop>
 				</table>
-				<cfquery name="allValid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					select count(*) as cnt from cf_temp_parts where substr(status,1,5) NOT IN
-						('VALID','NOTE:')
-				</cfquery>
-				<cfif #allValid.cnt# is 0>
-					<a href="/tools/BulkloadEditedParts.cfm?action=load">Load these parts....</a>
-				<cfelse>
-					You must fix all #allValid.cnt# problems above to proceed.
-					Fix the file and <a href="/tools/BulkloadEditedParts.cfm">reload</a>.
-				</cfif>
 			</cfoutput>
 		</cfif>
 		<!-------------------------------------------------------------------------------------------->
