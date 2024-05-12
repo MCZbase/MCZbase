@@ -573,13 +573,13 @@ limitations under the License.
 					<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						update cf_temp_parts set status = 'PART NOT FOUND' where status is null
 					</cfquery>
-					<cflocation url="BulkloadEditedParts.cfm?action=checkValidate">
+			<!---		<cflocation url="BulkloadEditedParts.cfm?action=checkValidate">
 			</cfoutput>
-		</cfif>
+		</cfif>---->
 		<!------------------------------------------------------->
-		<cfif #action# is "checkValidate">
+		<!----<cfif #action# is "checkValidate">
 			<cfoutput>
-				<h2 class="h4">Third step: Load data.</h2>
+				<h2 class="h4">Third step: Load data.</h2>--->
 				<cfquery name="inT" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					select * from cf_temp_parts
 				</cfquery>
