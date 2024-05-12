@@ -531,6 +531,7 @@ limitations under the License.
 							group by cf_temp_parts.key
 							having count(cf_temp_parts.key) > 1
 						)
+						and username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 					</cfquery>
 					<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						update cf_temp_parts set (status) = (
@@ -548,6 +549,7 @@ limitations under the License.
 						nvl(cf_temp_parts.current_remarks, 'NULL') = nvl(coll_object_remark.coll_object_remarks, 'NULL')
 						group by parent_container_id)
 						where status='VALID'
+						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 					</cfquery>
 					<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						update cf_temp_parts set (parent_container_id) = (
