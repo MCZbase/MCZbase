@@ -799,9 +799,6 @@ limitations under the License.
 								</cfquery>
 							</cfif>
 						</cfif>
-						<cfquery name="upLoaded" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-							update cf_temp_parts set status = 'LOADED'
-						</cfquery>
 					</cfloop>
 				<h3 class="mt-3">There were ## records updated.</h3>
 				<h3><span class="text-success">Success!</span> Parts loaded.</h3>
