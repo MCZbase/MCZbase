@@ -658,7 +658,7 @@ limitations under the License.
 				<cfquery name="problemsInData" dbtype="query">
 					SELECT count(*) c 
 					FROM getTempData
-					WHERE status is not null
+					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
 				<cfquery name= "getEntBy" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT agent_id FROM agent_name WHERE agent_name = '#session.username#'
