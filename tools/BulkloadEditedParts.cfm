@@ -660,6 +660,7 @@ limitations under the License.
 				<cfquery name= "getEntBy" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT agent_id FROM agent_name WHERE agent_name = '#session.username#'
 				</cfquery>
+				<cftry>
 				<cfif getEntBy.recordcount is 0>
 					<cfabort showerror = "You aren't a recognized agent!">
 				<cfelseif getEntBy.recordcount gt 1>
@@ -800,11 +801,17 @@ limitations under the License.
 							</cfif>
 						</cfif>
 					</cfloop>
-				<h3 class="mt-3">There were ## records updated.</h3>
+				<h3 class="mt-3">There were ## parts in ## specimen records updated.</h3>
 				<h3><span class="text-success">Success!</span> Parts loaded.</h3>
 				<a href="/SpecimenResults.cfm?collection_object_id=#valuelist(getTempData.collection_object_id)#" class="btn-link font-weight-lessbold">
 					See in Specimen Results.
 				</a>
+					<cftransaction action="commit">
+				<cfcatch>
+					<cftransaction action="ROLLBACK">
+					<h2 class="h3">There was a problem updating the citations. </h2>
+				</cfcatch>
+				</cftry>
 			</cftransaction>
 			<cfquery name="clearTempTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="clearTempTable_result">
 				DELETE FROM cf_temp_parts
