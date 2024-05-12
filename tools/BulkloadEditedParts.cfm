@@ -346,7 +346,7 @@ limitations under the License.
 			<cfloop query="getTempTableQC">
 				<cfquery name="getParentContainerId" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					update cf_temp_parts set parent_container_id =
-					(select container_id from container where container.barcode = cf_temp_parts.CONTAINER_UNIQUE_ID)
+					(select container_id from container where container.barcode = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableQC.container_unique_id#">)
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 					and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableQC.key#"> 
 				</cfquery>
