@@ -547,7 +547,7 @@ limitations under the License.
 				cf_temp_parts.preserve_method=specimen_part.preserve_method AND
 				nvl(cf_temp_parts.current_remarks, 'NULL') = nvl(coll_object_remark.coll_object_remarks, 'NULL')
 				group by parent_container_id)
-				where status=concat(nvl2(status, status || '; ', ''),'VALID')
+				where status='VALID'
 			</cfquery>
 			<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				update cf_temp_parts set parent_container_id = (
