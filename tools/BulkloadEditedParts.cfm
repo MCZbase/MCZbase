@@ -16,6 +16,23 @@ See the License for the specific language governing permissions and
 limitations under the License.
 
 --->
+	<!---Things that can happen during validation step:
+		1) Upload a part that doesn't exist
+			Solution: create a new part, optionally put it in a container that they specify in the upload.
+		2) Upload a part that already exists
+			use_existing is set above to always be 1
+			a) use_existing = 1
+				1) part is in a container
+					Solution: warn them, create new part, optionally put it in a container that they've specified
+				 2) part is NOT already in a container
+					Solution: put the existing part into the new container that they've specified or, if
+					they haven't specified a new container, ignore this line as it does nothing.
+			Supported, in queries, but never used: 
+			b) use_existing = 0
+				1) part is in a container
+					Solution: warn them, create a new part, optionally put it in the container they've specified
+				2) part is not in a container
+					Solution: same: warning and new part ---->
 <!--- special case handling to dump problem data as csv --->
 <cfif isDefined("action") AND action is "dumpProblems">
 	<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -497,23 +514,6 @@ limitations under the License.
 						</cfquery>
 					</cfif>
 				</cfloop>
-	<!---Things that can happen here:
-		1) Upload a part that doesn't exist
-			Solution: create a new part, optionally put it in a container that they specify in the upload.
-		2) Upload a part that already exists
-			use_existing is set above to always be 1
-			a) use_existing = 1
-				1) part is in a container
-					Solution: warn them, create new part, optionally put it in a container that they've specified
-				 2) part is NOT already in a container
-					Solution: put the existing part into the new container that they've specified or, if
-					they haven't specified a new container, ignore this line as it does nothing.
-			Supported, in queries, but never used: 
-			b) use_existing = 0
-				1) part is in a container
-					Solution: warn them, create a new part, optionally put it in the container they've specified
-				2) part is not in a container
-					Solution: same: warning and new part ---->
 					<cfquery name="findduplicates" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						update cf_temp_parts 
 						set status = 'ERROR: More that one matching part' 
@@ -583,7 +583,6 @@ limitations under the License.
 				<cfquery name="inT" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					select * from cf_temp_parts
 				</cfquery>
-				
 				<cfquery name="allValid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					select count(*) as cnt from cf_temp_parts where substr(status,1,5) NOT IN
 						('VALID','NOTE:')
