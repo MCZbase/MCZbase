@@ -452,16 +452,18 @@ limitations under the License.
 				<cfloop query="data">
 					<cfif #other_id_type# is "catalog number">
 						<cfquery name="collObj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-								SELECT
-									collection_object_id
-								FROM
-									cataloged_item,
-									collection
-								WHERE
-									cataloged_item.collection_id = collection.collection_id and
-									collection.collection_cde = '#collection_cde#' and
-									collection.institution_acronym = '#institution_acronym#' and
-									cat_num='#other_id_number#'
+							SELECT
+								collection_object_id
+							FROM
+								cataloged_item,
+								collection
+							WHERE
+								cataloged_item.collection_id = collection.collection_id and
+								collection.collection_cde = '#collection_cde#' and
+								collection.institution_acronym = '#institution_acronym#' and
+								cat_num='#other_id_number#'
+							AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+							and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableTypes.key#"> 
 							</cfquery>
 						<cfelse>
 							<cfquery name="collObj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -478,42 +480,43 @@ limitations under the License.
 									collection.institution_acronym = '#institution_acronym#' and
 									other_id_type = '#other_id_type#' and
 									display_value = '#other_id_number#'
+								AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+								AND key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableTypes.key#"> 
 							</cfquery>
 						</cfif>
 						<cfif #collObj.recordcount# is 1>
 							<cfquery name="insColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 								UPDATE cf_temp_parts SET collection_object_id = #collObj.collection_object_id# ,
 								status='VALID'
-								where
-								key = #key#
+								where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+								AND key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableTypes.key#"> 
 							</cfquery>
 						<cfelse>
 							<cfquery name="insColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 								UPDATE cf_temp_parts SET status =
 								status || ';#data.institution_acronym# #data.collection_cde# #data.other_id_type# #data.other_id_number# could not be found.'
-								where key = #key#
+								where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+								AND key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableTypes.key#">
 							</cfquery>
 						</cfif>
 					</cfloop>
-					<!---
-						Things that can happen here:
-							1) Upload a part that doesn't exist
-								Solution: create a new part, optionally put it in a container that they specify in the upload.
-							2) Upload a part that already exists
-								use_existing is set above to always be 1
-								a) use_existing = 1
-									1) part is in a container
-										Solution: warn them, create new part, optionally put it in a container that they've specified
-									 2) part is NOT already in a container
-										Solution: put the existing part into the new container that they've specified or, if
-										they haven't specified a new container, ignore this line as it does nothing.
-								Supported, in queries, but never used 
-								b) use_existing = 0
-									1) part is in a container
-										Solution: warn them, create a new part, optionally put it in the container they've specified
-									2) part is not in a container
-										Solution: same: warning and new part
-					---->
+	<!---Things that can happen here:
+		1) Upload a part that doesn't exist
+			Solution: create a new part, optionally put it in a container that they specify in the upload.
+		2) Upload a part that already exists
+			use_existing is set above to always be 1
+			a) use_existing = 1
+				1) part is in a container
+					Solution: warn them, create new part, optionally put it in a container that they've specified
+				 2) part is NOT already in a container
+					Solution: put the existing part into the new container that they've specified or, if
+					they haven't specified a new container, ignore this line as it does nothing.
+			Supported, in queries, but never used: 
+			b) use_existing = 0
+				1) part is in a container
+					Solution: warn them, create a new part, optionally put it in the container they've specified
+				2) part is not in a container
+					Solution: same: warning and new part ---->
 					<cfquery name="findduplicates" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						update cf_temp_parts 
 						set status = 'ERROR: More that one matching part' 
