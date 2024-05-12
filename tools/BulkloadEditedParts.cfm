@@ -337,8 +337,8 @@ limitations under the License.
 		</cfif>
 		<!------------------------Validation------------------------------->
 		<cfif #action# is "validate">
-			<h2 class="h4">Second step: Validate data from CSV file.</h2>
 			<cfoutput>
+				<h2 class="h4">Second step: Validate data from CSV file.</h2>
 				<cfquery name="getParentContainerId" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					update cf_temp_parts set parent_container_id =
 					(select container_id from container where container.barcode = cf_temp_parts.CONTAINER_UNIQUE_ID)
@@ -546,6 +546,7 @@ limitations under the License.
 		<!------------------------------------------------------->
 		<cfif #action# is "checkValidate">
 			<cfoutput>
+				<h2 class="h4">Third step: Load data.</h2>
 				<cfquery name="inT" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					select * from cf_temp_parts
 				</cfquery>
@@ -617,6 +618,7 @@ limitations under the License.
 		<!-------------------------------------------------------------------------------------------->
 		<cfif #action# is "load">
 			<cfoutput>
+				<h2 class="h4">Third Step: Load Data</h2>
 				<cfquery name="getTempData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					select * from cf_temp_parts where status not in ('LOADED', 'PART NOT FOUND')
 				</cfquery>
