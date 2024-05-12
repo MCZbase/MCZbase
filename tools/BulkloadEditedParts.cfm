@@ -498,7 +498,7 @@ limitations under the License.
 			</cfoutput>
 			<cflocation url="/tools/BulkloadEditedParts.cfm?action=checkValidate">
 		</cfif>
-		<!---------------------------checkValidation-------------------------------->			
+		<!---------------------------checkValidation-------------------------------->
 	
 		<cfif #action# is "checkValidate">
 			<cfoutput>
