@@ -553,7 +553,8 @@ limitations under the License.
 				update cf_temp_parts set parent_container_id = (
 				select container_id
 				from container where
-				barcode=CONTAINER_UNIQUE_ID)
+				barcode=CONTAINER_UNIQUE_ID
+				)
 				where substr(status,1,5) IN ('VALID','NOTE:')
 			</cfquery>
 			<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -564,7 +565,8 @@ limitations under the License.
 				cf_temp_parts.part_name=specimen_part.part_name and
 				cf_temp_parts.preserve_method=specimen_part.preserve_method and
 				cf_temp_parts.collection_object_id=specimen_part.derived_from_cat_item and
-				nvl(cf_temp_parts.current_remarks, 'NULL') = nvl(coll_object_remark.coll_object_remarks, 'NULL'))
+				nvl(cf_temp_parts.current_remarks, 'NULL') = nvl(coll_object_remark.coll_object_remarks, 'NULL')
+				)
 				where status like '%NOTE: PART EXISTS%' 
 			</cfquery>
 			<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -661,7 +663,18 @@ limitations under the License.
 				<tbody>
 					<cfloop query="data">
 						<tr>
-							<td><cfif len(data.status) eq 0>Cleared to load<cfelse><strong>#data.status#</strong></cfif></td>
+							<td>
+									<cfif len(#collection_object_id#) gt 0 and (#status# is 'VALID')>
+						<cfelseif left(status,5) is 'NOTE:'>
+							<a href="/SpecimenDetail.cfm?collection_object_id=#collection_object_id#"
+								target="_blank">Specimen</a> (#status#)
+						<cfelseif left(status,6) is 'ERROR:'>
+							<a href="/SpecimenDetail.cfm?collection_object_id=#collection_object_id#"
+								target="_blank">Specimen</a> <strong>#status#</strong>
+						<cfelse>
+							<strong>ERROR: #status#</strong>
+						</cfif>
+								<!---<cfif len(data.status) eq 0>Cleared to load<cfelse><strong>#data.status#</strong></cfif>---></td>
 							<td>#institution_acronym#</td>
 							<td>#collection_cde#</td>
 							<td>#OTHER_ID_TYPE#</td>
