@@ -381,10 +381,10 @@ limitations under the License.
 			</cfquery>
 			<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				update cf_temp_parts set status = status || ';Invalid DISPOSITION'
-				where DISPOSITION NOT IN (
+				where COLL_OBJ_DISPOSITION NOT IN (
 					select COLL_OBJ_DISPOSITION from CTCOLL_OBJ_DISP
 					)
-					OR disposition is null
+					OR coll_obj_disposition is null
 			</cfquery>
 			<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				update cf_temp_parts set status = status || ';Invalid CONTAINER_TYPE'
@@ -428,7 +428,6 @@ limitations under the License.
 					cf_temp_parts
 				WHERE 
 					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-					AND use_existing= 1
 			</cfquery>
 			<cfset i= 1>
 			<cfloop query="getTempTableTypes">
@@ -570,10 +569,10 @@ limitations under the License.
 				where status like '%NOTE: PART EXISTS%' 
 			</cfquery>
 			<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				update cf_temp_parts set status = concat(nvl2(status, status || '; ', ''),'PART NOT FOUND') where status is not null
+				update cf_temp_parts set status = concat(nvl2(status, status || '; ', ''),'PART NOT FOUND') where status is null
 			</cfquery>	
 			<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				update cf_temp_parts set status = 'PART NOT FOUND' where status is not null
+				update cf_temp_parts set status = 'PART NOT FOUND' where status is null
 			</cfquery>
 			</cfoutput>
 			<cflocation url="/tools/BulkloadEditedParts.cfm?action=checkValidate">
