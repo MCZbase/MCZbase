@@ -412,8 +412,7 @@ limitations under the License.
 				</cfquery>
 			<cfelse>
 				<cfquery name="insColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					UPDATE cf_temp_parts SET validated_status =
-					status status = concat(nvl2(status, status || '; ', ''),'#data.institution_acronym# #data.collection_cde# #data.other_id_type# #data.other_id_number# could not be found.')
+					UPDATE cf_temp_parts SET status = concat(nvl2(status, status || '; ', ''),'#data.institution_acronym# #data.collection_cde# #data.other_id_type# #data.other_id_number# could not be found.')
 					where key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
 				</cfquery>
 			</cfif>	
@@ -455,7 +454,7 @@ limitations under the License.
 				)
 			</cfquery>
 			<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				update cf_temp_parts set (status) = (
+				update cf_temp_parts set status = (
 				select
 				decode(parent_container_id,
 				0,'NOTE: PART EXISTS',
@@ -472,14 +471,14 @@ limitations under the License.
 				where status=concat(nvl2(status, status || '; ', ''),'VALID')
 			</cfquery>
 			<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				update cf_temp_parts set (parent_container_id) = (
+				update cf_temp_parts set parent_container_id = (
 				select container_id
 				from container where
 				barcode=CONTAINER_UNIQUE_ID)
 				where substr(status,1,5) IN ('VALID','NOTE:')
 			</cfquery>
 			<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				update cf_temp_parts set (use_part_id) = (
+				update cf_temp_parts set use_part_id = (
 				select min(specimen_part.collection_object_id)
 				from specimen_part, coll_object_remark where
 				specimen_part.collection_object_id = coll_object_remark.collection_object_id(+) AND
@@ -491,10 +490,10 @@ limitations under the License.
 				AND use_existing =1
 			</cfquery>
 			<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				update cf_temp_parts set concat(nvl2(status, status || '; ', ''),'PART NOT FOUND') where status is null
+				update cf_temp_parts set status = concat(nvl2(status, status || '; ', ''),'PART NOT FOUND') where status is null
 			</cfquery>	
 			<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				update cf_temp_parts set validated_status = 'PART NOT FOUND' where validated_status is null
+				update cf_temp_parts set status = 'PART NOT FOUND' where validated_status is null
 			</cfquery>
 			</cfoutput>
 			<cflocation url="/tools/BulkloadEditedParts.cfm?action=checkValidate">
