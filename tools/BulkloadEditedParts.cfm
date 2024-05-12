@@ -485,7 +485,7 @@ limitations under the License.
 					---->
 					<cfquery name="findduplicates" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						update cf_temp_parts 
-						set validated_status = 'ERROR: More that one matching part' 
+						set status = 'ERROR: More that one matching part' 
 						where cf_temp_parts.key in (
 							select cf_temp_parts.key
 							from cf_temp_parts 
@@ -502,7 +502,7 @@ limitations under the License.
 						)
 					</cfquery>
 					<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						update cf_temp_parts set (validated_status) = (
+						update cf_temp_parts set (status) = (
 						select
 						decode(parent_container_id,
 						0,'NOTE: PART EXISTS',
@@ -618,7 +618,7 @@ limitations under the License.
 		<cfif #action# is "load">
 			<cfoutput>
 				<cfquery name="getTempData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					select * from cf_temp_parts where validated_status not in ('LOADED', 'PART NOT FOUND')
+					select * from cf_temp_parts where status not in ('LOADED', 'PART NOT FOUND')
 				</cfquery>
 				<cfquery name= "getEntBy" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT agent_id FROM agent_name WHERE agent_name = '#session.username#'
