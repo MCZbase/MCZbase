@@ -464,7 +464,7 @@ limitations under the License.
 								collection.institution_acronym = '#institution_acronym#' and
 								cat_num='#other_id_number#'
 							AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-							and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableTypes.key#"> 
+							and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#data.key#"> 
 						</cfquery>
 					<cfelse>
 						<cfquery name="collObj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -482,7 +482,7 @@ limitations under the License.
 								other_id_type = '#other_id_type#' and
 								display_value = '#other_id_number#'
 							AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-							AND key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableTypes.key#"> 
+							AND key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#data.key#"> 
 						</cfquery>
 					</cfif>
 					<cfif #collObj.recordcount# is 1>
@@ -490,14 +490,14 @@ limitations under the License.
 							UPDATE cf_temp_parts SET collection_object_id = #collObj.collection_object_id# ,
 							status='VALID'
 							where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-							AND key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableTypes.key#"> 
+							AND key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#data.key#"> 
 						</cfquery>
 					<cfelse>
 						<cfquery name="insColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							UPDATE cf_temp_parts SET status =
 							status || ';#data.institution_acronym# #data.collection_cde# #data.other_id_type# #data.other_id_number# could not be found.'
 							where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-							AND key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableTypes.key#">
+							AND key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#data.key#">
 						</cfquery>
 					</cfif>
 				</cfloop>
