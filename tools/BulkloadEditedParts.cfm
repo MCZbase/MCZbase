@@ -339,20 +339,22 @@ limitations under the License.
 		<cfif #action# is "validate">
 			<cfoutput>
 				<h2 class="h4">Second step: Validate data from CSV file.</h2>
-				<cfquery name="checkCsvEntries" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				<cfquery name="getTempTableQC" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					select * from cf_temp_parts 
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
-			<cfloop query="checkCsvEntries">
+			<cfloop query="getTempTableQC">
 				<cfquery name="getParentContainerId" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					update cf_temp_parts set parent_container_id =
 					(select container_id from container where container.barcode = cf_temp_parts.CONTAINER_UNIQUE_ID)
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+					and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableQC.key#"> 
 				</cfquery>
 				<cfquery name="validateGotParent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					update cf_temp_parts set status = status || ';Container Unique ID not found'
 					where CONTAINER_UNIQUE_ID is not null and parent_container_id is null
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+					and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableQC.key#"> 
 				</cfquery>
 				<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					update cf_temp_parts set status = status || ';Invalid part_name'
@@ -361,6 +363,7 @@ limitations under the License.
 						)
 						OR part_name is null
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+					and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableQC.key#"> 
 				</cfquery>
 				<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					update cf_temp_parts set status = status || ';Invalid preserve_method'
@@ -369,6 +372,7 @@ limitations under the License.
 						)
 						OR preserve_method is null
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+					and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableQC.key#"> 
 				</cfquery>
 				<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					update cf_temp_parts set status = status || ';Invalid new_preserve_method'
@@ -377,12 +381,14 @@ limitations under the License.
 						)
 						and new_preserve_method is not null
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+					and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableQC.key#"> 
 				</cfquery>
 				<cfquery name="isValid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					update cf_temp_parts set status = status || ';Invalid use_existing flag'
 						where use_existing not in ('0','1') OR
 						use_existing is null
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+					and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableQC.key#"> 
 				</cfquery>
 				<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					update cf_temp_parts set status = status || ';Invalid CONTAINER_UNIQUE_ID'
@@ -391,6 +397,7 @@ limitations under the License.
 						)
 					AND CONTAINER_UNIQUE_ID is not null
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+					and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableQC.key#"> 
 				</cfquery>
 				<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					update cf_temp_parts set status = status || ';Invalid DISPOSITION'
@@ -399,6 +406,7 @@ limitations under the License.
 						)
 						OR coll_obj_disposition is null
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+					and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableQC.key#"> 
 				</cfquery>
 				<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					update cf_temp_parts set status = status || ';Invalid CONTAINER_TYPE'
@@ -407,11 +415,13 @@ limitations under the License.
 						)
 					AND change_container_type is null
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+					and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableQC.key#"> 
 				</cfquery>
 				<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					update cf_temp_parts set status = status || ';Invalid CONDITION'
 					where CONDITION is null
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+					and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableQC.key#"> 
 				</cfquery>
 				<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					update cf_temp_parts set status = status || ';invalid lot_count_modifier'
@@ -419,6 +429,7 @@ limitations under the License.
 						select modifier from ctnumeric_modifiers
 						)
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+					and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableQC.key#"> 
 				</cfquery>
 				<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					update cf_temp_parts set status = status || ';Invalid LOT_COUNT'
@@ -427,11 +438,13 @@ limitations under the License.
 						is_number(lot_count) = 0
 						)
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+					and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableQC.key#"> 
 				</cfquery>
 				<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					update cf_temp_parts set status = status || ';Invalid CHANGED_DATE'
 					where isdate(changed_date) = 0
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+					and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableQC.key#"> 
 				</cfquery>
 			</cfloop>
 				<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
