@@ -803,7 +803,7 @@ limitations under the License.
 							update cf_temp_parts set status = 'LOADED'
 						</cfquery>
 					</cfloop>
-				<h3 class="mt-3">There were #upLoaded.recordcount# records updated.</h3>
+				<h3 class="mt-3">There were ## records updated.</h3>
 				<h3><span class="text-success">Success!</span> Parts loaded.</h3>
 				<a href="/SpecimenResults.cfm?collection_object_id=#valuelist(getTempData.collection_object_id)#" class="btn-link font-weight-lessbold">
 					See in Specimen Results.
