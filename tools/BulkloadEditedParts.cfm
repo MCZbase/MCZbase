@@ -335,7 +335,7 @@ limitations under the License.
 				</cftry>
 			</cfoutput>
 		</cfif>
-	<!------------------------------------------------------->
+		<!------------------------Validation------------------------------->
 		<cfif #action# is "validate">
 		<cfoutput>
 			<h2 class="h4">Second step: Data Validation</h2>
@@ -496,11 +496,13 @@ limitations under the License.
 			<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				update cf_temp_parts set validated_status = 'PART NOT FOUND' where validated_status is null
 			</cfquery>
+			</cfoutput>
 			<cflocation url="/tools/BulkloadEditedParts.cfm?action=checkValidate">
 		</cfif>
-		<!---------------------------second validation-------------------------------->			
-		<!------------------------------------------------------->
+		<!---------------------------checkValidation-------------------------------->			
+	
 		<cfif #action# is "checkValidate">
+			<cfoutput>
 			<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT *
 				FROM cf_temp_parts
@@ -642,7 +644,10 @@ limitations under the License.
 			</table>
 			</cfoutput>
 		</cfif>
-		
+			
+		<!--------------------END checkValidation----------------------------------->
+			
+			
 		<!---Loop through the temp part data and validate against code tables and requirements--->
 		<!---	<cfloop query="getTempTableQC">--->
 	<!---			<cfquery name="getParentContainerId" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
