@@ -462,9 +462,7 @@ limitations under the License.
 								cataloged_item.collection_id = collection.collection_id and
 								collection.collection_cde = '#collection_cde#' and
 								collection.institution_acronym = '#institution_acronym#' and
-								cat_num='#other_id_number#'
-							AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-							and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#data.key#"> 
+								cat_num='#other_id_number#'				
 						</cfquery>
 					<cfelse>
 						<cfquery name="collObj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -481,8 +479,6 @@ limitations under the License.
 								collection.institution_acronym = '#institution_acronym#' and
 								other_id_type = '#other_id_type#' and
 								display_value = '#other_id_number#'
-							AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-							AND key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#data.key#"> 
 						</cfquery>
 					</cfif>
 					<cfif #collObj.recordcount# is 1>
