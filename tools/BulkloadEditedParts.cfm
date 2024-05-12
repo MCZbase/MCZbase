@@ -556,7 +556,7 @@ limitations under the License.
 						('VALID','NOTE:')
 				</cfquery>
 				<cfif #allValid.cnt# is 0>
-					There is a problem with #pf.cnt# of #data.recordcount# row(s). See the STATUS column. (<a href="/tools/BulkloadEditedParts.cfm?action=dumpProblems">download</a>).
+					There is a problem with #allValid.cnt# of #data.recordcount# row(s). See the STATUS column. (<a href="/tools/BulkloadEditedParts.cfm?action=dumpProblems">download</a>).
 					Fix the problem(s) noted in the status column and <a href="/tools/BulkloadEditedParts.cfm" class="text-danger">start again</a>.
 				<cfelse>
 					Validation checks passed. Look over the table below and <a href="/tools/BulkloadEditedParts.cfm?action=load" class="btn-link font-weight-lessbold">click to continue</a> if it all looks good. Or, <a href="/tools/BulkloadEditedParts.cfm" class="text-danger">start again</a>.
