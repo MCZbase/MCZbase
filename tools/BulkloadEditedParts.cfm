@@ -406,7 +406,7 @@ limitations under the License.
 			</cfquery>
 			<cfif #getTempTableQC.recordcount# is 1>
 				<cfquery name="insColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					UPDATE cf_temp_parts SET collection_object_id = #collObj.collection_object_id#,
+					UPDATE cf_temp_parts SET collection_object_id = #getTempTableQC.collection_object_id#,
 					status=null
 					where key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
 				</cfquery>
