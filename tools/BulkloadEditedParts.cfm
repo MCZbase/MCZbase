@@ -536,7 +536,7 @@ limitations under the License.
 				update cf_temp_parts set status = (
 				select
 				decode(parent_container_id,
-				1,'NOTE: PART EXISTS',
+				0,'NOTE: PART EXISTS',
 				'NOTE: PART EXISTS IN PARENT CONTAINER')
 				from specimen_part,coll_obj_cont_hist,container, coll_object_remark where
 				specimen_part.collection_object_id = coll_obj_cont_hist.collection_object_id AND
