@@ -546,7 +546,7 @@ limitations under the License.
 				cf_temp_parts.part_name=specimen_part.part_name AND
 				cf_temp_parts.preserve_method=specimen_part.preserve_method AND
 				nvl(cf_temp_parts.current_remarks, 'NULL') = nvl(coll_object_remark.coll_object_remarks, 'NULL')
-				group by parent_container_id)
+				group by parent_container_id))
 				where status='VALID'
 			</cfquery>
 			<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -557,7 +557,7 @@ limitations under the License.
 				where substr(status,1,5) IN ('VALID','NOTE:')
 			</cfquery>
 			<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				update cf_temp_parts set use_part_id = (
+				update cf_temp_parts set (use_part_id) = (
 				select min(specimen_part.collection_object_id)
 				from specimen_part, coll_object_remark where
 				specimen_part.collection_object_id = coll_object_remark.collection_object_id(+) AND
@@ -566,7 +566,6 @@ limitations under the License.
 				cf_temp_parts.collection_object_id=specimen_part.derived_from_cat_item and
 				nvl(cf_temp_parts.current_remarks, 'NULL') = nvl(coll_object_remark.coll_object_remarks, 'NULL'))
 				where status like '%NOTE: PART EXISTS%' 
-				AND use_existing =1
 			</cfquery>
 			<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				update cf_temp_parts set status = concat(nvl2(status, status || '; ', ''),'PART NOT FOUND') where status is not null
