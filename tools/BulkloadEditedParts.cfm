@@ -1116,7 +1116,6 @@ lot_count_modifier,lot_count,container_unique_id,condition,current_remarks,appen
 									update SPECIMEN_PART_PRES_HIST set CHANGED_DATE = to_date('#CHANGED_DATE#', 'YYYY-MM-DD') where collection_object_id =#use_part_id# and is_current_fg = 1
 								</cfquery>
 							</cfif>
-
 							<cfif len(#part_att_name_1#) GT 0>
 								<cfif len(#part_att_detby_1#) GT 0>
 									<cfquery name="a" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
