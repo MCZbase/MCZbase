@@ -610,7 +610,7 @@ lot_count_modifier,lot_count,container_unique_id,condition,current_remarks,appen
 						</cfquery>
 						<cfquery name="chkPAtt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							update cf_temp_parts set 
-							status = concat(nvl2(status, status || '; ', ''),'<span class="font-weight-bold">Invalid part attribute determiner <span class="font-weight-bold">"'||PART_ATT_DETBY_#i#||'"</span>')
+							status = concat(nvl2(status, status || '; ', ''),'Invalid part attribute determiner "'||PART_ATT_DETBY_#i#||'"')
 							where PART_ATT_DETBY_#i# not in (select agent_name from preferred_agent_name where PART_ATT_DETBY_#i# = preferred_agent_name.agent_name)  
 							AND PART_ATT_NAME_#i# is not null
 							AND PART_ATT_DETBY_#i# is not null
@@ -619,13 +619,13 @@ lot_count_modifier,lot_count,container_unique_id,condition,current_remarks,appen
 						</cfquery>
 						<cfquery name="chkPAtt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							update cf_temp_parts set 
-							status = concat(nvl2(status, status || '; ', ''),'<span class="font-weight-bold">Invalid PART_ATT_NAME "'||PART_ATT_NAME_#i#||'" does not match MCZbase </span>')
+							status = concat(nvl2(status, status || '; ', ''),'Invalid PART_ATT_NAME "'||PART_ATT_NAME_#i#||'" does not match MCZbase')
 							where PART_ATT_NAME_#i# not in (select attribute_type from ctspecpart_attribute_type) 
 							AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 							AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
 						</cfquery>
 						<cfquery name="chkPAtt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-							update cf_temp_parts set status = status || 'PART_ATT_UNITS_#i# is not valid for attribute <span class="font-weight-bold">"'||PART_ATT_NAME_#i#||'"</span>'
+							update cf_temp_parts set status = status || 'PART_ATT_UNITS_#i# is not valid for attribute "'||PART_ATT_NAME_#i#||'"'
 							where MCZBASE.CHK_SPECPART_ATT_CODETABLES(PART_ATT_NAME_#i#,PART_ATT_UNITS_#i#,COLLECTION_CDE)=0
 							and PART_ATT_NAME_#i# in
 							(select attribute_type from ctspecpart_attribute_type where unit_code_tables is not null)
@@ -673,13 +673,7 @@ lot_count_modifier,lot_count,container_unique_id,condition,current_remarks,appen
 					<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						update cf_temp_parts set status = 'PART NOT FOUND' where status is null
 					</cfquery>
-			<!---		<cflocation url="BulkloadEditedParts.cfm?action=checkValidate">
-			</cfoutput>
-		</cfif>---->
-		<!------------------------------------------------------->
-		<!----<cfif #action# is "checkValidate">
-			<cfoutput>
-				<h2 class="h4">Third step: Load data.</h2>--->
+
 				<cfquery name="inT" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					select * from cf_temp_parts
 				</cfquery>
@@ -849,6 +843,7 @@ lot_count_modifier,lot_count,container_unique_id,condition,current_remarks,appen
 				<cfset enteredbyid = getEntBy.agent_id>
 				<cfset part_updates = 0>
 				<cfset part_updates1 = 0>
+				<cfset i = 1>
 				<cftransaction>
 					<cfloop query="getTempData">
 						<cfset problem_key = #getTempData.key#>
@@ -892,6 +887,28 @@ lot_count_modifier,lot_count,container_unique_id,condition,current_remarks,appen
 									'#PRESERVE_METHOD#',
 									#collection_object_id# )
 							</cfquery>
+							<cfif len(#PART_ATT_NAME_1#) gt 0>
+								<!---- new remark --->
+								<cfquery name="newPartAtt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+									INSERT INTO specimen_part_attribute (
+									COLLECTION_OBJECT_ID,
+									ATTRIBUTE_TYPE,
+									ATTRIBUTE_VALUE,
+									ATTRIBUTE_UNITS,
+									DETERMINED_DATE,
+									DETERMINED_BY_AGENT_ID,
+									ATTRIBUTE_REMARK)
+								VALUES (
+									sq_collection_object_id.currval,
+									'#PART_ATT_NAME_i#',
+									'#PART_ATT_VAL_i#',
+									'#PART_ATT_UNITS_i#',
+									'#PART_ATT_DETBY_i#',
+									'#PART_ATT_MADEDATE_i#',
+									'#PART_ATT_REM_i#'
+									)
+								</cfquery>
+							</cfif>
 							<cfif len(#current_remarks#) gt 0>
 								<!---- new remark --->
 								<cfquery name="newCollRem" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -983,6 +1000,7 @@ lot_count_modifier,lot_count,container_unique_id,condition,current_remarks,appen
 							</cfif>
 						</cfif>
 						<cfset part_updates = part_updates + updateColl_result.recordcount>
+						<cfset i = i + 1>
 					</cfloop>
 				<h3 class="mt-3">There were #part_updates# parts in #updateColl_result.recordcount# specimen records updated.</h3>
 				<h3><span class="text-success">Success!</span> Parts loaded.
