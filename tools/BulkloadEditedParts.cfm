@@ -997,7 +997,7 @@ lot_count_modifier,lot_count,container_unique_id,condition,current_remarks,appen
 								</cfif>
 								<cfquery name="addPartAtt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 									update SPECIMEN_PART_ATTRIBUTE set 
-									collection_object_id= sq_collection_object_id.currval, 
+									collection_object_id= #collection_object_id#, 
 									attribute_type=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.part_att_name_1#">, attribute_value=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.part_att_val_1#">, attribute_units=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.part_att_units_1#">, determined_date=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.part_att_madedate_1#">, determined_by_agent_id='#numAgentId#', 
 									attribute_remark=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.part_att_rem_1#">
 								</cfquery>
@@ -1013,7 +1013,7 @@ lot_count_modifier,lot_count,container_unique_id,condition,current_remarks,appen
 								</cfif>
 								<cfquery name="addPartAtt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 									update SPECIMEN_PART_ATTRIBUTE set 
-									collection_object_id= sq_collection_object_id.currval, 
+									collection_object_id= #collection_object_id#, 
 									attribute_type=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.part_att_name_2#">, attribute_value=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.part_att_val_2#">, attribute_units=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.part_att_units_2#">, determined_date=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.part_att_madedate_2#">, determined_by_agent_id='#numAgentId#', 
 									attribute_remark=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.part_att_rem_2#">
 								</cfquery>
@@ -1029,7 +1029,7 @@ lot_count_modifier,lot_count,container_unique_id,condition,current_remarks,appen
 								</cfif>
 								<cfquery name="addPartAtt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 									update SPECIMEN_PART_ATTRIBUTE set 
-									collection_object_id= sq_collection_object_id.currval, 
+									collection_object_id= #collection_object_id#, 
 									attribute_type=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.part_att_name_3#">, attribute_value=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.part_att_val_3#">, attribute_units=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.part_att_units_3#">, determined_date=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.part_att_madedate_3#">, determined_by_agent_id='#numAgentId#', 
 									attribute_remark=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.part_att_rem_3#">
 								</cfquery>
@@ -1045,7 +1045,7 @@ lot_count_modifier,lot_count,container_unique_id,condition,current_remarks,appen
 								</cfif>
 								<cfquery name="addPartAtt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 									update SPECIMEN_PART_ATTRIBUTE set 
-									collection_object_id= sq_collection_object_id.currval, 
+									collection_object_id= #collection_object_id#, 
 									attribute_type=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.part_att_name_4#">, attribute_value=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.part_att_val_4#">, attribute_units=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.part_att_units_4#">, determined_date=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.part_att_madedate_4#">, determined_by_agent_id='#numAgentId#', 
 									attribute_remark=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.part_att_rem_4#">
 								</cfquery>
@@ -1061,7 +1061,7 @@ lot_count_modifier,lot_count,container_unique_id,condition,current_remarks,appen
 								</cfif>
 								<cfquery name="addPartAtt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 									update SPECIMEN_PART_ATTRIBUTE set 
-									collection_object_id= sq_collection_object_id.currval, 
+									collection_object_id= #collection_object_id#, 
 									attribute_type=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.part_att_name_5#">, attribute_value=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.part_att_val_5#">, attribute_units=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.part_att_units_5#">, determined_date=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.part_att_madedate_5#">, determined_by_agent_id='#numAgentId#', 
 									attribute_remark=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.part_att_rem_5#">
 								</cfquery>
@@ -1077,7 +1077,7 @@ lot_count_modifier,lot_count,container_unique_id,condition,current_remarks,appen
 								</cfif>
 								<cfquery name="addPartAtt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 									update SPECIMEN_PART_ATTRIBUTE set 
-									collection_object_id= sq_collection_object_id.currval,
+									collection_object_id=#collection_object_id#,
 									attribute_type=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.part_att_name_6#">, attribute_value=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.part_att_val_6#">, attribute_units=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.part_att_units_6#">, determined_date=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.part_att_madedate_6#">, determined_by_agent_id='#numAgentId#', 
 									attribute_remark=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.part_att_rem_6#">
 								</cfquery>
