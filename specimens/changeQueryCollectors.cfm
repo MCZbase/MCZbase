@@ -77,6 +77,20 @@
 				ORDER BY 
 					MCZBASE.GET_AGENTNAMEOFTYPE(collector.agent_id)
 			</cfquery>
+			<script>
+				var bc = new BroadcastChannel('resultset_channel');
+				bc.onmessage = function (message) { 
+					console.log(message);
+					if (message.data.result_id == "#result_id#") { 
+						messageDialog("Warning: You have removed one or more records from this result set, you must reload this page to see the current list of records this page affects.", "Result Set Changed Warning");
+						$("##insert_button").prop("disabled",true);
+						$("##insert_button").addClass("disabled");
+						$("##remove_button").prop("disabled",true);
+						$("##remove_button").addClass("disabled");
+
+					}  
+				} 
+			</script>
 			<main class="container-fluid" id="content">
 				<section class="row mx-0" aria-labelledby="formheading">
 					<div class="col-12 pt-3">
@@ -133,7 +147,7 @@
 											value="Insert Agent" 
 											class="btn btn-xs btn-primary"
 		   								onclick="tweakColls.action.value='insertColl';submit();">
-										<input type="button" 
+										<input type="button"  id="remove_button"
 											value="Remove Agent" 
 											class="btn btn-xs btn-warning"
 		   								onclick="tweakColls.action.value='deleteColl';submit();">

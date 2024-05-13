@@ -31,6 +31,18 @@
 								result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
 						) 
 			</cfquery>
+			<script>
+				var bc = new BroadcastChannel('resultset_channel');
+				bc.onmessage = function (message) { 
+					console.log(message);
+					if (message.data.result_id == "#result_id#") { 
+						messageDialog("Warning: You have removed one or more records from this result set, you must reload this page to see the current list of records this page affects.", "Result Set Changed Warning");
+						$("##s_btn").prop("disabled",true);
+						$("##s_btn").addClass("disabled");
+
+					}  
+				} 
+			</script>
 			<section class="row mx-0" aria-labelledby="formheading">
 				<div class="col-12 pt-4">
 					<h1 class="h3 px-1" id="formheading" >

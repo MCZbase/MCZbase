@@ -71,6 +71,17 @@ limitations under the License.
 					</cfif>
 				ORDER BY cataloged_item.collection_object_id
 			</cfquery>
+			<script>
+				var bc = new BroadcastChannel('resultset_channel');
+				bc.onmessage = function (message) { 
+					console.log(message);
+					if (message.data.result_id == "#result_id#") { 
+						messageDialog("Warning: You have removed one or more records from this result set, you must reload this page to see the current list of records this page affects.", "Result Set Changed Warning");
+						$("##do_change_button").prop("disabled",true);
+						$("##do_change_button").addClass("disabled");
+					}  
+				} 
+			</script>
 			<div class="container-fluid mt-2 mb-3">
 				<div class="row mx-0">
 					<div class="col-12">
@@ -117,7 +128,7 @@ limitations under the License.
 										</select>
 									</div>
 									<div class="col-12 mt-3">
-										<input type="button" id="remove_button" value="Change" class="btn btn-xs btn-primary" onclick="changeItemsSubmitHandler();">
+										<input type="button" id="do_change_button" value="Change" class="btn btn-xs btn-primary" onclick="changeItemsSubmitHandler();">
 									</div>
 								</div>
 							</form>
