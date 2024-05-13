@@ -402,7 +402,7 @@ lot_count_modifier,lot_count,container_unique_id,condition,current_remarks,appen
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableQC.key#"> 
 					</cfquery>
-					<cfquery name="isValid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						update cf_temp_parts set status = status || ';Invalid use_existing flag'
 						where use_existing not in ('0','1') OR use_existing is null
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
@@ -675,134 +675,134 @@ lot_count_modifier,lot_count,container_unique_id,condition,current_remarks,appen
 					Fix the problem(s) noted in the status column and <a href="/tools/BulkloadEditedParts.cfm" class="text-danger">start again</a>.
 				</cfif>
 				<table class='px-0 small sortable table table-responsive table-striped w-100'>
-				<thead class="thead-light">
-					<tr>
-						<th>BULKLOADING&nbsp;STATUS</th>
-						<th>INSTITUTION_ACRONYM</th>
-						<th>COLLECTION_CDE</th>
-						<th>OTHER_ID_TYPE</th>
-						<th>OTHER_ID_NUMBER</th>
-						<th>PART_NAME</th>
-						<th>PRESERVE_METHOD</th>
-						<th>DISPOSITION</th>
-						<th>LOT_COUNT_MODIFIER</th>
-						<th>LOT_COUNT</th>
-						<th>CURRENT_REMARKS</th>
-						<th>CONDITION</th>
-						<th>CONTAINER_UNIQUE_ID</th>
-						<th>USE_EXISTING</th>
-						<th>APPEND_TO_REMARKS</th>
-						<th>CHANGED_DATE</th>
-						<th>NEW_PRESERVE_METHOD</th>
-						<th>PART_ATT_NAME_1</th>
-						<th>PART_ATT_VAL_1</th>
-						<th>PART_ATT_UNITS_1</th>
-						<th>PART_ATT_DETBY_1</th>
-						<th>PART_ATT_MADEDATE_1</th>
-						<th>PART_ATT_REM_1</th>
-						<th>PART_ATT_NAME_2</th>
-						<th>PART_ATT_VAL_2</th>
-						<th>PART_ATT_UNITS_2</th>
-						<th>PART_ATT_DETBY_2</th>
-						<th>PART_ATT_MADEDATE_2</th>
-						<th>PART_ATT_REM_2</th>
-						<th>PART_ATT_NAME_3</th>
-						<th>PART_ATT_VAL_3</th>
-						<th>PART_ATT_UNITS_3</th>
-						<th>PART_ATT_DETBY_3</th>
-						<th>PART_ATT_MADEDATE_3</th>
-						<th>PART_ATT_REM_3</th>
-						<th>PART_ATT_NAME_4</th>
-						<th>PART_ATT_VAL_4</th>
-						<th>PART_ATT_UNITS_4</th>
-						<th>PART_ATT_DETBY_4</th>
-						<th>PART_ATT_MADEDATE_4</th>
-						<th>PART_ATT_REM_4</th>
-						<th>PART_ATT_NAME_5</th>
-						<th>PART_ATT_VAL_5</th>
-						<th>PART_ATT_UNITS_5</th>
-						<th>PART_ATT_DETBY_5</th>
-						<th>PART_ATT_MADEDATE_5</th>
-						<th>PART_ATT_REM_5</th>
-						<th>PART_ATT_NAME_6</th>
-						<th>PART_ATT_VAL_6</th>
-						<th>PART_ATT_UNITS_6</th>
-						<th>PART_ATT_DETBY_6</th>
-						<th>PART_ATT_MADEDATE_6</th>
-						<th>PART_ATT_REM_6</th>
-					</tr>
-				</thead>
-				<cfloop query="inT">
-					<tbody>
+					<thead class="thead-light">
 						<tr>
-							<td>
-								<cfif len(#collection_object_id#) gt 0 and (#status# is 'VALID')>
-								<cfelseif left(status,5) is 'NOTE:'>
-									<a href="/SpecimenDetail.cfm?collection_object_id=#collection_object_id#"
-										target="_blank">Specimen</a> (#status#)
-								<cfelseif left(status,6) is 'ERROR:'>
-									<a href="/SpecimenDetail.cfm?collection_object_id=#collection_object_id#"
-										target="_blank">Specimen</a> <strong>#status#</strong>
-								<cfelse>
-									<strong>ERROR: #status#</strong>
-								</cfif>
-							</td>
-							<td>#institution_acronym#</td>
-							<td>#collection_cde#</td>
-							<td>#OTHER_ID_TYPE#</td>
-							<td>#OTHER_ID_NUMBER#</td>
-							<td>#part_name#</td>
-							<td>#preserve_method#</td>
-							<td>#coll_obj_disposition#</td>
-							<td>#lot_count_modifier#</td>
-							<td>#lot_count#</td>
-							<td>#current_remarks#</td>
-							<td>#condition#</td>
-							<td>#CONTAINER_UNIQUE_ID#</td>
-							<td>1</td>
-							<td>#append_to_remarks#</td>
-							<td>#changed_date#</td>
-							<td>#new_preserve_method#</td>
-							<td>#part_att_name_1#</td>
-							<td>#part_att_val_1#</td>
-							<td>#part_att_units_1#</td>
-							<td>#part_att_detby_1#</td>
-							<td>#part_att_madedate_1#</td>
-							<td>#part_att_rem_1#</td>
-							<td>#part_att_name_2#</td>
-							<td>#part_att_val_2#</td>
-							<td>#part_att_units_2#</td>
-							<td>#part_att_detby_2#</td>
-							<td>#part_att_madedate_2#</td>
-							<td>#part_att_rem_2#</td>
-							<td>#part_att_name_3#</td>
-							<td>#part_att_val_3#</td>
-							<td>#part_att_units_3#</td>
-							<td>#part_att_detby_3#</td>
-							<td>#part_att_madedate_3#</td>
-							<td>#part_att_rem_3#</td>
-							<td>#part_att_name_4#</td>
-							<td>#part_att_val_4#</td>
-							<td>#part_att_units_4#</td>
-							<td>#part_att_detby_4#</td>
-							<td>#part_att_madedate_4#</td>
-							<td>#part_att_rem_4#</td>
-							<td>#part_att_name_5#</td>
-							<td>#part_att_val_5#</td>
-							<td>#part_att_units_5#</td>
-							<td>#part_att_detby_5#</td>
-							<td>#part_att_madedate_5#</td>
-							<td>#part_att_rem_5#</td>
-							<td>#part_att_name_6#</td>
-							<td>#part_att_val_6#</td>
-							<td>#part_att_units_6#</td>
-							<td>#part_att_detby_6#</td>
-							<td>#part_att_madedate_6#</td>
-							<td>#part_att_rem_6#</td>
+							<th>BULKLOADING&nbsp;STATUS</th>
+							<th>INSTITUTION_ACRONYM</th>
+							<th>COLLECTION_CDE</th>
+							<th>OTHER_ID_TYPE</th>
+							<th>OTHER_ID_NUMBER</th>
+							<th>PART_NAME</th>
+							<th>PRESERVE_METHOD</th>
+							<th>DISPOSITION</th>
+							<th>LOT_COUNT_MODIFIER</th>
+							<th>LOT_COUNT</th>
+							<th>CURRENT_REMARKS</th>
+							<th>CONDITION</th>
+							<th>CONTAINER_UNIQUE_ID</th>
+							<th>USE_EXISTING</th>
+							<th>APPEND_TO_REMARKS</th>
+							<th>CHANGED_DATE</th>
+							<th>NEW_PRESERVE_METHOD</th>
+							<th>PART_ATT_NAME_1</th>
+							<th>PART_ATT_VAL_1</th>
+							<th>PART_ATT_UNITS_1</th>
+							<th>PART_ATT_DETBY_1</th>
+							<th>PART_ATT_MADEDATE_1</th>
+							<th>PART_ATT_REM_1</th>
+							<th>PART_ATT_NAME_2</th>
+							<th>PART_ATT_VAL_2</th>
+							<th>PART_ATT_UNITS_2</th>
+							<th>PART_ATT_DETBY_2</th>
+							<th>PART_ATT_MADEDATE_2</th>
+							<th>PART_ATT_REM_2</th>
+							<th>PART_ATT_NAME_3</th>
+							<th>PART_ATT_VAL_3</th>
+							<th>PART_ATT_UNITS_3</th>
+							<th>PART_ATT_DETBY_3</th>
+							<th>PART_ATT_MADEDATE_3</th>
+							<th>PART_ATT_REM_3</th>
+							<th>PART_ATT_NAME_4</th>
+							<th>PART_ATT_VAL_4</th>
+							<th>PART_ATT_UNITS_4</th>
+							<th>PART_ATT_DETBY_4</th>
+							<th>PART_ATT_MADEDATE_4</th>
+							<th>PART_ATT_REM_4</th>
+							<th>PART_ATT_NAME_5</th>
+							<th>PART_ATT_VAL_5</th>
+							<th>PART_ATT_UNITS_5</th>
+							<th>PART_ATT_DETBY_5</th>
+							<th>PART_ATT_MADEDATE_5</th>
+							<th>PART_ATT_REM_5</th>
+							<th>PART_ATT_NAME_6</th>
+							<th>PART_ATT_VAL_6</th>
+							<th>PART_ATT_UNITS_6</th>
+							<th>PART_ATT_DETBY_6</th>
+							<th>PART_ATT_MADEDATE_6</th>
+							<th>PART_ATT_REM_6</th>
 						</tr>
-					</tbody>
-				</cfloop>
-			</table>
+					</thead>
+					<cfloop query="inT">
+						<tbody>
+							<tr>
+								<td>
+									<cfif len(#collection_object_id#) gt 0 and (#status# is 'VALID')>
+									<cfelseif left(status,5) is 'NOTE:'>
+										<a href="/SpecimenDetail.cfm?collection_object_id=#collection_object_id#"
+											target="_blank">Specimen</a> (#status#)
+									<cfelseif left(status,6) is 'ERROR:'>
+										<a href="/SpecimenDetail.cfm?collection_object_id=#collection_object_id#"
+											target="_blank">Specimen</a> <strong>#status#</strong>
+									<cfelse>
+										<strong>ERROR: #status#</strong>
+									</cfif>
+								</td>
+								<td>#institution_acronym#</td>
+								<td>#collection_cde#</td>
+								<td>#OTHER_ID_TYPE#</td>
+								<td>#OTHER_ID_NUMBER#</td>
+								<td>#part_name#</td>
+								<td>#preserve_method#</td>
+								<td>#coll_obj_disposition#</td>
+								<td>#lot_count_modifier#</td>
+								<td>#lot_count#</td>
+								<td>#current_remarks#</td>
+								<td>#condition#</td>
+								<td>#CONTAINER_UNIQUE_ID#</td>
+								<td>1</td>
+								<td>#append_to_remarks#</td>
+								<td>#changed_date#</td>
+								<td>#new_preserve_method#</td>
+								<td>#part_att_name_1#</td>
+								<td>#part_att_val_1#</td>
+								<td>#part_att_units_1#</td>
+								<td>#part_att_detby_1#</td>
+								<td>#part_att_madedate_1#</td>
+								<td>#part_att_rem_1#</td>
+								<td>#part_att_name_2#</td>
+								<td>#part_att_val_2#</td>
+								<td>#part_att_units_2#</td>
+								<td>#part_att_detby_2#</td>
+								<td>#part_att_madedate_2#</td>
+								<td>#part_att_rem_2#</td>
+								<td>#part_att_name_3#</td>
+								<td>#part_att_val_3#</td>
+								<td>#part_att_units_3#</td>
+								<td>#part_att_detby_3#</td>
+								<td>#part_att_madedate_3#</td>
+								<td>#part_att_rem_3#</td>
+								<td>#part_att_name_4#</td>
+								<td>#part_att_val_4#</td>
+								<td>#part_att_units_4#</td>
+								<td>#part_att_detby_4#</td>
+								<td>#part_att_madedate_4#</td>
+								<td>#part_att_rem_4#</td>
+								<td>#part_att_name_5#</td>
+								<td>#part_att_val_5#</td>
+								<td>#part_att_units_5#</td>
+								<td>#part_att_detby_5#</td>
+								<td>#part_att_madedate_5#</td>
+								<td>#part_att_rem_5#</td>
+								<td>#part_att_name_6#</td>
+								<td>#part_att_val_6#</td>
+								<td>#part_att_units_6#</td>
+								<td>#part_att_detby_6#</td>
+								<td>#part_att_madedate_6#</td>
+								<td>#part_att_rem_6#</td>
+							</tr>
+						</tbody>
+					</cfloop>
+				</table>
 			</cfoutput>
 		</cfif>
 		<!-------------------------------------------------------------------------------------------->
