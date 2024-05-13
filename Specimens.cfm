@@ -2838,6 +2838,7 @@ Target JSON:
 			var builderreloadlistenerbound = false;
 
 			function fixedResultModifiedHere() { 
+				$('##fixedresultCount').html('Modified, record removed.');
 				var result_id = $("##result_id_fixedSearch").val();
 				bc.postMessage({"source":"search","result_id":result_id});
 				if (!fixedreloadlistenerbound) { 
@@ -2846,9 +2847,9 @@ Target JSON:
 					});
 					fixedreloadlistenerbound = true;
 				}
-				//$('##fixedsearchResultsGrid').jqxGrid('updatebounddata');
 			}
 			function keywordResultModifiedHere() { 
+				$('##keywordresultCount').html('Modified, record removed.');
 				var result_id = $("##result_id_keywordSearch").val();
 				bc.postMessage({"source":"search","result_id":result_id});
 				if (!keywordreloadlistenerbound) { 
@@ -2857,9 +2858,9 @@ Target JSON:
 					});
 					keywordreloadlistenerbound = true;
 				}
-				//$('##keywordsearchResultsGrid').jqxGrid('updatebounddata');
 			}
 			function builderResultModifiedHere() { 
+				$('##builderresultCount').html('Modified, record removed.');
 				var result_id = $("##result_id_builderSearch").val();
 				bc.postMessage({"source":"search","result_id":result_id});
 				if (!builderreloadlistenerbound) { 
@@ -2868,7 +2869,6 @@ Target JSON:
 					});
 					builderreloadlistenerbound = true;
 				}
-				//$('##buildersearchResultsGrid').jqxGrid('updatebounddata');
 			}
 	
 			bc.onmessage = function (message) { 
