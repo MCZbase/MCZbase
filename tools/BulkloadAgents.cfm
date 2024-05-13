@@ -227,19 +227,19 @@ limitations under the License.
 				</cfloop>
 			
 				<cfif foundHighCount GT 0>
-					<cfset extendedResult = reportExtended(foundHighCount=foundHighCount,foundHighAscii=foundHighAscii,foundMultiByte=foundMultiByte,linkTarget='/tools/BulkloadOtherId.cfm')>	
+					<cfset extendedResult = reportExtended(foundHighCount=foundHighCount,foundHighAscii=foundHighAscii,foundMultiByte=foundMultiByte,linkTarget='/tools/BulkloadAgents.cfm')>	
 				</cfif>
 				<h4>
 					<cfif loadedRows EQ 0>
-						Loaded no rows from the CSV file.  The file appears to be just a header with no data. Fix file and <a href="/tools/BulkloadOtherId.cfm">reload</a>
+						Loaded no rows from the CSV file.  The file appears to be just a header with no data. Fix file and <a href="/tools/BulkloadAgents.cfm">reload</a>
 					<cfelse>
 						<cfif variables.size eq 1>Size = 1<cfelse>
-						Successfully read #loadedRows# records from the CSV file. Next <a href="/tools/BulkloadOtherId.cfm?action=validate">click to validate</a>.</cfif>
+						Successfully read #loadedRows# records from the CSV file. Next <a href="/tools/BulkloadAgents.cfm?action=validate">click to validate</a>.</cfif>
 					</cfif>
 				</h4>
 			<cfcatch>
 				<h4>
-					<strong class="text-danger">Failed to read the CSV file.</strong> Fix the errors in the file and <a href="/tools/BulkloadOtherId.cfm">reload</a>
+					<strong class="text-danger">Failed to read the CSV file.</strong> Fix the errors in the file and <a href="/tools/BulkloadAgents.cfm">reload</a>
 				</h4>
 				<cfif isDefined("variables.foundHeaders")>
 					<cfset foundHighCount = 0>
@@ -261,7 +261,7 @@ limitations under the License.
 						</cfif>
 					</cfloop>
 					<cfif isDefined("foundHighCount") AND foundHighCount GT 0>
-						<cfset extendedResult = reportExtended(foundHighCount=foundHighCount,foundHighAscii=foundHighAscii,foundMultiByte=foundMultiByte,linkTarget='/tools/BulkloadOtherId.cfm',inHeader='yes')>	
+						<cfset extendedResult = reportExtended(foundHighCount=foundHighCount,foundHighAscii=foundHighAscii,foundMultiByte=foundMultiByte,linkTarget='/tools/BulkloadAgents.cfm',inHeader='yes')>	
 					</cfif>
 				</cfif>
 			
