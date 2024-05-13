@@ -341,7 +341,7 @@ limitations under the License.
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				SELECT agent_type, preferred_name, first_name, middle_name, last_name, birth_date, death_date, agent_remark, prefix, suffix, other_name, other_name_type,other_name_2,other_name_type_2,other_name_3,other_name_type_3,agentguid_guid_type, agentguid, status
+				SELECT *
 				FROM cf_temp_agents
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
@@ -428,11 +428,11 @@ limitations under the License.
 						</cfquery>
 						<cfquery name="updateAgents" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateAgents_result">
 							insert into agent_name
-							(agent_name_id,agent_id,agent_name_type,agent_name) values(sq_agent_name_id.nextval,sq_agent_id.currval,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#other_name_type#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#preferred_name#">)
+							(agent_name_id,agent_id,agent_name_type,agent_name) values (sq_agent_name_id.nextval,sq_agent_id.currval,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#other_name_type#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#preferred_name#">)
 						</cfquery>
 						<cfquery name="updateAgents" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateAgents_result">
 							insert into person
-							(person_id,prefix,last_name,first_name,middle_name,suffix,birth_date,death_date) values(sq_agent_id.currval,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#prefix#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#last_name#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#first_name#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#middle_name#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#suffix#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#dateformat(birth_date,'yyyy-mm-dd')#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#dateformat(death_date,'yyyy-mm-dd')#">)
+							(person_id,prefix,last_name,first_name,middle_name,suffix,birth_date,death_date) values (sq_agent_id.currval,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#prefix#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#last_name#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#first_name#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#middle_name#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#suffix#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#dateformat(birth_date,'yyyy-mm-dd')#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#dateformat(death_date,'yyyy-mm-dd')#">)
 						</cfquery>
 						<cfset agent_updates = agent_updates + updateAgents_result.recordcount>
 					</cfloop>
@@ -450,6 +450,7 @@ limitations under the License.
 				<table class='sortable px-0 mx-0 table small w-100 table-responsive table-striped'>
 					<thead>
 						<tr>
+							<th>status</th>
 							<th>agent_type</th>
 							<th>preferred_name</th>
 							<th>first_name</th>
@@ -460,22 +461,40 @@ limitations under the License.
 							<th>agent_remark</th>
 							<th>prefix</th>
 							<th>suffix</th>
-							<th>other_name_1</th><th>other_name_type_1</th><th>other_name_2</th><th>other_name_type_2</th><th>other_name_3</th><th>other_name_type_3</th><th>agentguid_guid_type</th><th>agentguid</th><th>status</th>
+							<th>other_name_1</th>
+							<th>other_name_type_1</th>
+							<th>other_name_2</th>
+							<th>other_name_type_2</th>
+							<th>other_name_3</th>
+							<th>other_name_type_3</th>
+							<th>agentguid_guid_type</th>
+							<th>agentguid</th>
+							
 						</tr> 
 					</thead>
 					<tbody>
 						<cfloop query="getProblemData">
 							<tr>
-								<td>#getProblemData.agent_type#</td>
-								<td>#getProblemData.preferred_name#</td>
-								<td>#getProblemData.first_name#</td>
-								<td>#getProblemData.middle_name#</td>
-								<td>#getProblemData.agent_type#</td>
-								<td>#getProblemData.preferred_name#</td>
-								<td>#getProblemData.first_name#</td>
-								<td>#getProblemData.middle_name#</td>
 								<td>#getProblemData.status#</td>
-							</tr> 
+								<td>#getProblemData.agent_type#</td>
+								<td>#getProblemData.preferred_name#</td>
+								<td>#getProblemData.first_name#</td>
+								<td>#getProblemData.middle_name#</td>
+								<td>#getProblemData.last_name#</td>
+								<td>#getProblemData.birth_date#</td>
+								<td>#getProblemData.death_date#</td>
+								<td>#getProblemData.agent_remark#</td>
+								<td>#getProblemData.prefix#</td>
+								<td>#getProblemData.suffix#</td>
+								<td>#getProblemData.other_name_1#</td>
+								<td>#getProblemData.other_name_type_1#</td>
+								<td>#getProblemData.other_name_2#</td>
+								<td>#getProblemData.other_name_type_2#</td>
+								<td>#getProblemData.other_name_3#</td>
+								<td>#getProblemData.other_name_type_3#</td>
+								<td>#getProblemData.agentguid_guid_type#</td>
+								<td>#getProblemData.agentguid#</td>
+							</tr>
 						</cfloop>
 					</tbody>
 				</table>
@@ -490,7 +509,16 @@ limitations under the License.
 						<cfset problem_key = getTempData.key>
 						<cfquery name="updateAgents" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateAgents_result">
 							insert into person
-							(person_id,prefix,last_name,first_name,middle_name,suffix,birth_date,death_date) values(sq_agent_id.currval,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#prefix#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#last_name#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#first_name#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#middle_name#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#suffix#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#dateformat(birth_date,'yyyy-mm-dd')#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#dateformat(death_date,'yyyy-mm-dd')#">)
+							(person_id,prefix,last_name,first_name,middle_name,suffix,birth_date,death_date) 
+							values 
+							(sq_agent_id.currval,
+							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#prefix#">,
+							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#last_name#">,
+							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#first_name#">,
+							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#middle_name#">,
+							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#suffix#">,
+							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#dateformat(birth_date,'yyyy-mm-dd')#">,
+							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#dateformat(death_date,'yyyy-mm-dd')#">)
 						</cfquery>
 						<cfset agent_updates = agent_updates + updateAgents_result.recordcount>
 					</cfloop>
