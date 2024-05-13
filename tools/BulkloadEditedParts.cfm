@@ -544,7 +544,7 @@ lot_count_modifier,lot_count,container_unique_id,condition,current_remarks,appen
 					</cfquery>	
 					<cfquery name="chkPAtt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						update cf_temp_parts set 
-						status = concat(nvl2(status, status || '; ', ''),'"'||PART_ATT_VAL_#i#||'" is required for "'||PART_ATT_NAME_1||'"')
+						status = concat(nvl2(status, status || '; ', ''),'"'||PART_ATT_VAL_1||'" is required for "'||PART_ATT_NAME_1||'"')
 						where chk_att_codetables(PART_ATT_NAME_1,PART_ATT_VAL_1,COLLECTION_CDE)=0
 						AND PART_ATT_NAME_1 is not null and PART_ATT_VAL_1 is null
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
