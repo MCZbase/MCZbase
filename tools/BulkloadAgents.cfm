@@ -125,7 +125,7 @@ limitations under the License.
 		<cfset DUP_COLUMN_ERR = "One or more columns are duplicated in the header line of the csv file.">
 		<cfset COLUMN_ERR = "Error inserting data">
 		<cfset NO_HEADER_ERR = "No header line found, csv file appears to be empty.">
-		<cfset TABLE_NAME = "CF_TEMP_AGENTS"
+		<cfset TABLE_NAME = "CF_TEMP_AGENTS">
 		<cftry>
 			<!--- cleanup any incomplete work by the same user --->
 			<cfquery name="clearTempTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="clearTempTable_result">
