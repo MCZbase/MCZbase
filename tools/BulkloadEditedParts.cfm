@@ -499,7 +499,58 @@ lot_count_modifier,lot_count,container_unique_id,condition,current_remarks,appen
 								display_value = '#other_id_number#'
 						</cfquery>
 					</cfif>
-						<cfloop index="i" from="1" to="6">
+					<cfif #collObj.recordcount# is 1>
+						<cfquery name="insColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+							UPDATE cf_temp_parts SET collection_object_id = #collObj.collection_object_id# ,
+							status='VALID'
+							where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+							AND key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#data.key#"> 
+						</cfquery>
+					<cfelse>
+						<cfquery name="insColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+							UPDATE cf_temp_parts SET status =
+							status || ';#data.institution_acronym# #data.collection_cde# #data.other_id_type# #data.other_id_number# could not be found.'
+							where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+							AND key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#data.key#">
+						</cfquery>
+					</cfif>
+				</cfloop>
+				<cfquery name="findduplicates" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					update cf_temp_parts 
+					set status = 'ERROR: More that one matching part' 
+					where cf_temp_parts.key in (
+						select cf_temp_parts.key
+						from cf_temp_parts 
+							join specimen_part on  
+								cf_temp_parts.part_name=specimen_part.part_name and
+								cf_temp_parts.preserve_method=specimen_part.preserve_method and
+								cf_temp_parts.collection_object_id=specimen_part.derived_from_cat_item
+							left join coll_object_remark on specimen_part.collection_object_id = coll_object_remark.collection_object_id
+						where			
+							nvl(cf_temp_parts.current_remarks, 'NULL') = nvl(coll_object_remark.coll_object_remarks, 'NULL')
+							and use_existing = 1
+						group by cf_temp_parts.key
+						having count(cf_temp_parts.key) > 1
+					)
+					and username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+				</cfquery>
+					<cfquery name="chkPAtt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						update cf_temp_parts set 
+						status = concat(nvl2(status, status || '; ', ''),'Invalid part attribute "'||PART_ATT_NAME_1||'"')
+						where PART_ATT_NAME_1 not in (select attribute_type from CTSPECPART_ATTRIBUTE_TYPE) 
+						and PART_ATT_NAME_1 is not null
+						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+						AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
+					</cfquery>	
+					<cfquery name="chkPAtt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						update cf_temp_parts set 
+						status = concat(nvl2(status, status || '; ', ''),'"'||PART_ATT_VAL_#i#||'" is required for "'||PART_ATT_NAME_1||'"')
+						where chk_att_codetables(PART_ATT_NAME_1,PART_ATT_VAL_1,COLLECTION_CDE)=0
+						AND PART_ATT_NAME_1 is not null and PART_ATT_VAL_1 is null
+						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+						AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
+					</cfquery>
+				<cfloop index="i" from="1" to="6">
 					<cfquery name="chkPAtt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						update cf_temp_parts set 
 						status = concat(nvl2(status, status || '; ', ''),'Invalid part attribute "'||PART_ATT_NAME_#i#||'"')
@@ -599,43 +650,6 @@ lot_count_modifier,lot_count,container_unique_id,condition,current_remarks,appen
 						AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
 					</cfquery>
 				</cfloop>
-					<cfif #collObj.recordcount# is 1>
-						<cfquery name="insColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-							UPDATE cf_temp_parts SET collection_object_id = #collObj.collection_object_id# ,
-							status='VALID'
-							where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-							AND key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#data.key#"> 
-						</cfquery>
-					<cfelse>
-						<cfquery name="insColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-							UPDATE cf_temp_parts SET status =
-							status || ';#data.institution_acronym# #data.collection_cde# #data.other_id_type# #data.other_id_number# could not be found.'
-							where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-							AND key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#data.key#">
-						</cfquery>
-					</cfif>
-				</cfloop>
-				<cfquery name="findduplicates" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					update cf_temp_parts 
-					set status = 'ERROR: More that one matching part' 
-					where cf_temp_parts.key in (
-						select cf_temp_parts.key
-						from cf_temp_parts 
-							join specimen_part on  
-								cf_temp_parts.part_name=specimen_part.part_name and
-								cf_temp_parts.preserve_method=specimen_part.preserve_method and
-								cf_temp_parts.collection_object_id=specimen_part.derived_from_cat_item
-							left join coll_object_remark on specimen_part.collection_object_id = coll_object_remark.collection_object_id
-						where			
-							nvl(cf_temp_parts.current_remarks, 'NULL') = nvl(coll_object_remark.coll_object_remarks, 'NULL')
-							and use_existing = 1
-						group by cf_temp_parts.key
-						having count(cf_temp_parts.key) > 1
-					)
-					and username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-				</cfquery>
-				
-			
 				<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					update cf_temp_parts set (status) = (
 					select
