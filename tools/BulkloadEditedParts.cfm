@@ -515,29 +515,29 @@ lot_count_modifier,lot_count,container_unique_id,condition,current_remarks,appen
 						</cfquery>
 					</cfif>
 				</cfloop>
-					<cfquery name="findduplicates" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						update cf_temp_parts 
-						set status = 'ERROR: More that one matching part' 
-						where cf_temp_parts.key in (
-							select cf_temp_parts.key
-							from cf_temp_parts 
-								join specimen_part on  
-									cf_temp_parts.part_name=specimen_part.part_name and
-									cf_temp_parts.preserve_method=specimen_part.preserve_method and
-									cf_temp_parts.collection_object_id=specimen_part.derived_from_cat_item
-								left join coll_object_remark on specimen_part.collection_object_id = coll_object_remark.collection_object_id
-							where			
-								nvl(cf_temp_parts.current_remarks, 'NULL') = nvl(coll_object_remark.coll_object_remarks, 'NULL')
-								and use_existing = 1
-							group by cf_temp_parts.key
-							having count(cf_temp_parts.key) > 1
-						)
-						and username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-					</cfquery>
+				<cfquery name="findduplicates" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					update cf_temp_parts 
+					set status = 'ERROR: More that one matching part' 
+					where cf_temp_parts.key in (
+						select cf_temp_parts.key
+						from cf_temp_parts 
+							join specimen_part on  
+								cf_temp_parts.part_name=specimen_part.part_name and
+								cf_temp_parts.preserve_method=specimen_part.preserve_method and
+								cf_temp_parts.collection_object_id=specimen_part.derived_from_cat_item
+							left join coll_object_remark on specimen_part.collection_object_id = coll_object_remark.collection_object_id
+						where			
+							nvl(cf_temp_parts.current_remarks, 'NULL') = nvl(coll_object_remark.coll_object_remarks, 'NULL')
+							and use_existing = 1
+						group by cf_temp_parts.key
+						having count(cf_temp_parts.key) > 1
+					)
+					and username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+				</cfquery>
 					<cfloop index="i" from="1" to="6">
 						<cfquery name="chkPAtt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							update cf_temp_parts set 
-							status = concat(nvl2(status, status || '; ', ''),'Invalid part attribute <span class="font-weight-bold">"'||PART_ATT_NAME_#i#||'"</span>')
+							status = concat(nvl2(status, status || '; ', ''),'Invalid part attribute "'||PART_ATT_NAME_#i#||'"')
 							where PART_ATT_NAME_#i# not in (select attribute_type from CTSPECPART_ATTRIBUTE_TYPE) 
 							and PART_ATT_NAME_#i# is not null
 							AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
@@ -545,8 +545,9 @@ lot_count_modifier,lot_count,container_unique_id,condition,current_remarks,appen
 						</cfquery>	
 						<cfquery name="chkPAtt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							update cf_temp_parts set 
-							status = concat(nvl2(status, status || '; ', ''),'"'||PART_ATT_VAL_#i#||'" is required when <span class="font-weight-bold">"'||PART_ATT_NAME_#i#||'"</span>')
-							where PART_ATT_NAME_#i# is not null and PART_ATT_VAL_#i# is null
+							status = concat(nvl2(status, status || '; ', ''),'"'||PART_ATT_VAL_#i#||'" is required for "'||PART_ATT_NAME_#i#||'"')
+							where chk_att_codetables(PART_ATT_NAME_#i#,PART_ATT_VAL_#i#,COLLECTION_CDE)=0
+							AND PART_ATT_NAME_#i# is not null and PART_ATT_VAL_#i# is null
 							AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 							AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
 						</cfquery>	
@@ -557,19 +558,19 @@ lot_count_modifier,lot_count,container_unique_id,condition,current_remarks,appen
 							AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 							AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
 						</cfquery>
-							<cfset partAttName = '||chkPAttCT.part_att_name_#i#||'>
-							<cfset partAttVal = '||chkPAttCT.part_att_val_#i#||'>
-							<cfset partAttCollCde = #chkPAttCT.collection_cde#>
-							<cfloop query="chkPAttCT">
-								<cfquery name="chkPAtt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-									update cf_temp_parts set status = concat(nvl2(status, status || '; ', ''),'part attribute value <span class="font-weight-bold">#partAttVal#</span> not in codetable')
-									where chk_specpart_att_codetables(partAttName,partAttVal,partAttCollCde)=0
-									and #partAttName# is not null
-									and #partAttVal# = '||#chkPAttCT.attribute_type#||'
-									AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-									AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
-								</cfquery>
-							</cfloop>
+						<cfset partAttName = '||chkPAttCT.part_att_name_#i#||'>
+						<cfset partAttVal = '||chkPAttCT.part_att_val_#i#||'>
+						<cfset partAttCollCde = #chkPAttCT.collection_cde#>
+						<cfloop query="chkPAttCT">
+							<cfquery name="chkPAtt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+								update cf_temp_parts set status = concat(nvl2(status, status || '; ', ''),'part attribute value #partAttVal# not in codetable')
+								where chk_specpart_att_codetables(partAttName,partAttVal,partAttCollCde)=0
+								and #partAttName# is not null
+								and #partAttVal# = '||#chkPAttCT.attribute_type#||'
+								AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+								AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
+							</cfquery>
+						</cfloop>
 						<!---TODO: ABOVE. Fix type/value/units relationship check (chk_specpart_att_codetable)--->
 						<cfquery name="chkPAtt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							update cf_temp_parts set 
@@ -673,21 +674,20 @@ lot_count_modifier,lot_count,container_unique_id,condition,current_remarks,appen
 					<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						update cf_temp_parts set status = 'PART NOT FOUND' where status is null
 					</cfquery>
-
-				<cfquery name="inT" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					select * from cf_temp_parts
-				</cfquery>
-				<cfquery name="allValid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					select count(*) as cnt from cf_temp_parts where substr(status,1,5) NOT IN
-						('VALID','NOTE:')
-				</cfquery>
-				<cfif #allValid.cnt# is 0>
-					Validation checks passed. Look over the table below and <a href="/tools/BulkloadEditedParts.cfm?action=load" class="btn-link font-weight-lessbold">click to continue</a> if it all looks good. Or, <a href="/tools/BulkloadEditedParts.cfm" class="text-danger">start again</a>.
-				<cfelse>
-					There is a problem with #allValid.cnt# of #allValid.recordcount# row(s). See the STATUS column. (<a href="/tools/BulkloadEditedParts.cfm?action=dumpProblems">download</a>).
-					Fix the problem(s) noted in the status column and <a href="/tools/BulkloadEditedParts.cfm" class="text-danger">start again</a>.
-				</cfif>
-				<table class='px-0 small sortable table table-responsive table-striped w-100'>
+					<cfquery name="inT" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						select * from cf_temp_parts
+					</cfquery>
+					<cfquery name="allValid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						select count(*) as cnt from cf_temp_parts where substr(status,1,5) NOT IN
+							('VALID','NOTE:')
+					</cfquery>
+					<cfif #allValid.cnt# is 0>
+						Validation checks passed. Look over the table below and <a href="/tools/BulkloadEditedParts.cfm?action=load" class="btn-link font-weight-lessbold">click to continue</a> if it all looks good. Or, <a href="/tools/BulkloadEditedParts.cfm" class="text-danger">start again</a>.
+					<cfelse>
+						There is a problem with #allValid.cnt# of #allValid.recordcount# row(s). See the STATUS column. (<a href="/tools/BulkloadEditedParts.cfm?action=dumpProblems">download</a>).
+						Fix the problem(s) noted in the status column and <a href="/tools/BulkloadEditedParts.cfm" class="text-danger">start again</a>.
+					</cfif>
+					<table class='px-0 small sortable table table-responsive table-striped w-100'>
 					<thead class="thead-light">
 						<tr>
 							<th>BULKLOADING&nbsp;STATUS</th>
