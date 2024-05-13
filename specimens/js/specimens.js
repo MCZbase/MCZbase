@@ -40,3 +40,60 @@ function loadGeoreferenceCount (result_id,targetDivId,prefix,suffix) {
 	});
 };
 
+/** Load information about collections in a result set into a target div.
+*/
+function loadCollectionsSummaryHTML (result_id,targetDivId) { 
+	jQuery.ajax({
+		url: "/specimens/component/manage.cfc",
+		data : {
+			method : "getCollectionsSummaryHTML",
+			result_id: result_id
+		},
+		success: function (result) {
+			$("#" + targetDivId ).html(result);
+		},
+		error: function (jqXHR, textStatus, error) {
+			handleFail(jqXHR,textStatus,error,"loading collections summary");
+		},
+		dataType: "html"
+	});
+};
+
+
+/** Load information about countries in a result set into a target div.
+*/
+function loadCountriesSummaryHTML (result_id,targetDivId) { 
+	jQuery.ajax({
+		url: "/specimens/component/manage.cfc",
+		data : {
+			method : "getCountriesSummaryHTML",
+			result_id: result_id
+		},
+		success: function (result) {
+			$("#" + targetDivId ).html(result);
+		},
+		error: function (jqXHR, textStatus, error) {
+			handleFail(jqXHR,textStatus,error,"loading country summary");
+		},
+		dataType: "html"
+	});
+};
+
+/** Load information about families in a result set into a target div.
+*/
+function loadFamiliesSummaryHTML (result_id,targetDivId) { 
+	jQuery.ajax({
+		url: "/specimens/component/manage.cfc",
+		data : {
+			method : "getFamiliesSummaryHTML",
+			result_id: result_id
+		},
+		success: function (result) {
+			$("#" + targetDivId ).html(result);
+		},
+		error: function (jqXHR, textStatus, error) {
+			handleFail(jqXHR,textStatus,error,"loading family summary");
+		},
+		dataType: "html"
+	});
+};

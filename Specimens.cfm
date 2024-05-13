@@ -184,14 +184,20 @@ limitations under the License.
 </style>
 	<!--- TODO: Replace with a native javascript UUID function when it becomes available --->
 	<script>
-	// From broofa's answer in https://stackoverflow.com/questions/105034/how-to-create-a-guid-uuid
-	// uses the crypto library to obtain a random number and generates RFC4122 version 4 UUID.
-	function getVersion4UUID() {
-	  return ([1e7]+-1e3+-4e3+-8e3+-1e11).replace(/[018]/g, c =>
-	    (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16)
-	  );
-	}
+		// From broofa's answer in https://stackoverflow.com/questions/105034/how-to-create-a-guid-uuid
+		// uses the crypto library to obtain a random number and generates RFC4122 version 4 UUID.
+		function getVersion4UUID() {
+		  return ([1e7]+-1e3+-4e3+-8e3+-1e11).replace(/[018]/g, c =>
+	   	 (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16)
+		  );
+		}
 	</script>
+	<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
+		<!--- enable communication between search and manage pages --->
+		<script>
+			var bc = new BroadcastChannel('resultset_channel');
+		</script>
+	</cfif>
 	
 	<div id="overlaycontainer" style="position: relative;">
 		<main id="content" class="container-fluid">
@@ -2769,22 +2775,24 @@ Target JSON:
 			return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; ">'+displayValue+'</span>';
 		};
 
-		// Remove row from result set 
-		var removeFixedCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
-			// Removes a row, then jqwidgets invokes the deleterow callback defined for the dataadaptor
-			return '<span style="margin-top: 4px; margin-left: 4px; float: ' + columnproperties.cellsalign + '; "><input type="button" onClick=" confirmDialog(&apos;Remove this row from these search results&apos;,&apos;Confirm Remove Row&apos;, function(){ var commit = $(&apos;##fixedsearchResultsGrid&apos;).jqxGrid(&apos;deleterow&apos;, '+ row +'); } ); " class="p-1 btn btn-xs btn-warning" value="&##8998;" aria-label="Remove"/></span>';
-		};
-		<!--- " --->
-		var removeKeywordCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
-			// Removes a row, then jqwidgets invokes the deleterow callback defined for the dataadaptor
-			return '<span style="margin-top: 4px; margin-left: 4px; float: ' + columnproperties.cellsalign + '; "><input type="button" onClick=" confirmDialog(&apos;Remove this row from these search results&apos;,&apos;Confirm Remove Row&apos;, function(){ var commit = $(&apos;##keywordsearchResultsGrid&apos;).jqxGrid(&apos;deleterow&apos;, '+ row +'); } ); " class="p-1 btn btn-xs btn-warning" value="&##8998;" aria-label="Remove"/></span>';
-		};
-		<!--- " --->
-		var removeBuilderCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
-			// Removes a row, then jqwidgets invokes the deleterow callback defined for the dataadaptor
-			return '<span style="margin-top: 4px; margin-left: 4px; float: ' + columnproperties.cellsalign + '; "><input type="button" onClick=" confirmDialog(&apos;Remove this row from these search results&apos;,&apos;Confirm Remove Row&apos;, function(){ var commit = $(&apos;##buildersearchResultsGrid&apos;).jqxGrid(&apos;deleterow&apos;, '+ row +'); } ); " class="p-1 btn btn-xs btn-warning" value="&##8998;" aria-label="Remove"/></span>';
-		};
-		<!--- " --->
+		<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
+			// Remove row from result set 
+			var removeFixedCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
+				// Removes a row, then jqwidgets invokes the deleterow callback defined for the dataadaptor
+				return '<span style="margin-top: 4px; margin-left: 4px; float: ' + columnproperties.cellsalign + '; "><input type="button" onClick=" confirmDialog(&apos;Remove this row from these search results&apos;,&apos;Confirm Remove Row&apos;, function(){ var commit = $(&apos;##fixedsearchResultsGrid&apos;).jqxGrid(&apos;deleterow&apos;, '+ row +'); fixedResultModifiedHere(); } ); " class="p-1 btn btn-xs btn-warning" value="&##8998;" aria-label="Remove"/></span>';
+			};
+			<!--- " --->
+			var removeKeywordCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
+				// Removes a row, then jqwidgets invokes the deleterow callback defined for the dataadaptor
+				return '<span style="margin-top: 4px; margin-left: 4px; float: ' + columnproperties.cellsalign + '; "><input type="button" onClick=" confirmDialog(&apos;Remove this row from these search results&apos;,&apos;Confirm Remove Row&apos;, function(){ var commit = $(&apos;##keywordsearchResultsGrid&apos;).jqxGrid(&apos;deleterow&apos;, '+ row +'); keywordResultModifiedHere(); } ); " class="p-1 btn btn-xs btn-warning" value="&##8998;" aria-label="Remove"/></span>';
+			};
+			<!--- " --->
+			var removeBuilderCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
+				// Removes a row, then jqwidgets invokes the deleterow callback defined for the dataadaptor
+				return '<span style="margin-top: 4px; margin-left: 4px; float: ' + columnproperties.cellsalign + '; "><input type="button" onClick=" confirmDialog(&apos;Remove this row from these search results&apos;,&apos;Confirm Remove Row&apos;, function(){ var commit = $(&apos;##buildersearchResultsGrid&apos;).jqxGrid(&apos;deleterow&apos;, '+ row +'); builderResultModifiedHere() } ); " class="p-1 btn btn-xs btn-warning" value="&##8998;" aria-label="Remove"/></span>';
+			};
+			<!--- " --->
+		</cfif>
 
 		// cellclass function 
 		// NOTE: Since there are three grids, and the cellclass api does not pass a reference to the grid, a separate
@@ -2843,7 +2851,83 @@ Target JSON:
 		  });
 		  return json;
 		}
+
+		<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
+			<!--- Enable communication between search and manage pages when modifying search results --->
+
+			var fixedreloadlistenerbound = false;
+			var keywordreloadlistenerbound = false;
+			var builderreloadlistenerbound = false;
+
+			function fixedResultModifiedHere() { 
+				$('##fixedresultCount').html('Modified, record removed.');
+				var result_id = $("##result_id_fixedSearch").val();
+				bc.postMessage({"source":"search","result_id":result_id});
+				if (!fixedreloadlistenerbound) { 
+					$('##fixedsearchResultsGrid').on("bindingcomplete", function (event) {
+						resultModified("fixedsearchResultsGrid","fixed");
+					});
+					fixedreloadlistenerbound = true;
+				}
+			}
+			function keywordResultModifiedHere() { 
+				$('##keywordresultCount').html('Modified, record removed.');
+				var result_id = $("##result_id_keywordSearch").val();
+				bc.postMessage({"source":"search","result_id":result_id});
+				if (!keywordreloadlistenerbound) { 
+					$('##keywordsearchResultsGrid').on("bindingcomplete", function (event) {
+						resultModified("keywordsearchResultsGrid","keyword");
+					});
+					keywordreloadlistenerbound = true;
+				}
+			}
+			function builderResultModifiedHere() { 
+				$('##builderresultCount').html('Modified, record removed.');
+				var result_id = $("##result_id_builderSearch").val();
+				bc.postMessage({"source":"search","result_id":result_id});
+				if (!builderreloadlistenerbound) { 
+					$('##buildersearchResultsGrid').on("bindingcomplete", function (event) {
+						resultModified("buildersearchResultsGrid","builder");
+					});
+					builderreloadlistenerbound = true;
+				}
+			}
 	
+			bc.onmessage = function (message) { 
+				console.log(message);
+				if (message.data.source == "manage" &&  message.data.result_id == $("##result_id_fixedSearch").val()) { 
+					$('##fixedresultCount').html('Modified from manage page.');
+					if (!fixedreloadlistenerbound) { 
+						$('##fixedsearchResultsGrid').on("bindingcomplete", function (event) {
+							resultModified("fixedsearchResultsGrid","fixed");
+						});
+						fixedreloadlistenerbound = true;
+					}
+					$('##fixedsearchResultsGrid').jqxGrid('updatebounddata');
+				} 
+				if (message.data.source == "manage" &&  message.data.result_id == $("##result_id_keywordSearch").val()) { 
+					$('##keywordresultCount').html('Modified from manage page.');
+					if (!keywordreloadlistenerbound) { 
+						$('##keywordsearchResultsGrid').on("bindingcomplete", function (event) {
+							resultModified("keywordsearchResultsGrid","keyword");
+						});
+						keywordreloadlistenerbound = true;
+					}
+					$('##keywordsearchResultsGrid').jqxGrid('updatebounddata');
+				} 
+				if (message.data.source == "manage" &&  message.data.result_id == $("##result_id_builderSearch").val()) { 
+					$('##builderresultCount').html('Modified from manage page.');
+					if (!builderreloadlistenerbound) { 
+						$('##buildersearchResultsGrid').on("bindingcomplete", function (event) {
+							resultModified("buildersearchResultsGrid","builder");
+						});
+						builderreloadlistenerbound = true;
+					}
+					$('##buildersearchResultsGrid').jqxGrid('updatebounddata');
+				} 
+			}
+		</cfif> 
+
 		/* End Setup jqxgrids for search ****************************************************************************************/
 		$(document).ready(function() {
 			/* Setup jqxgrid for fixed Search */
@@ -3046,7 +3130,7 @@ Target JSON:
 						return dataAdapter.records;
 					},
 					columns: [
-						<cfif findNoCase('master',Session.gitBranch) EQ 0>
+						<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
 							<cfset removerow = "{text: 'Remove', datafield: 'RemoveRow', cellsrenderer:removeFixedCellRenderer, width: 40, cellclassname: fixedcellclass, hidable:false, hidden: false },">
 							#removerow#
 						</cfif>
@@ -3208,21 +3292,21 @@ Target JSON:
 					async: true,
 					deleterow: function (rowid, commit) {
 						console.log(rowid);
-						console.log($('##fixedsearchResultsGrid').jqxGrid('getRowData',rowid));
-						var collobjtoremove = $('##fixedsearchResultsGrid').jqxGrid('getRowData',rowid)['COLLECTION_OBJECT_ID'];
+						console.log($('##keywordsearchResultsGrid').jqxGrid('getRowData',rowid));
+						var collobjtoremove = $('##keywordsearchResultsGrid').jqxGrid('getRowData',rowid)['COLLECTION_OBJECT_ID'];
 						console.log(collobjtoremove);
 	        			$.ajax({
             				url: "/specimens/component/search.cfc",
             				data: { 
 								method: 'removeItemFromResult', 
-								result_id: $('##result_id_fixedSearch').val(),
+								result_id: $('##result_id_keywordSearch').val(),
 								collection_object_id: collobjtoremove
 							},
 							dataType: 'json',
            					success : function (data) { 
 								console.log(data);
 								commit(true);
-								$('##fixedsearchResultsGrid').jqxGrid('updatebounddata');
+								$('##keywordsearchResultsGrid').jqxGrid('updatebounddata');
 							},
             				error : function (jqXHR, textStatus, error) {
           				   	handleFail(jqXHR,textStatus,error,"removing row from result set");
@@ -3274,7 +3358,7 @@ Target JSON:
 						return dataAdapter.records;
 					},
 					columns: [
-						<cfif findNoCase('master',Session.gitBranch) EQ 0>
+						<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
 							<cfset removerow = "{text: 'Remove', datafield: 'RemoveRow', cellsrenderer:removeKeywordCellRenderer, width: 40, cellclassname: fixedcellclass, hidable:false, hidden: false },">
 							#removerow#
 						</cfif>
@@ -3424,21 +3508,21 @@ Target JSON:
 					async: true,
 					deleterow: function (rowid, commit) {
 						console.log(rowid);
-						console.log($('##fixedsearchResultsGrid').jqxGrid('getRowData',rowid));
-						var collobjtoremove = $('##fixedsearchResultsGrid').jqxGrid('getRowData',rowid)['COLLECTION_OBJECT_ID'];
+						console.log($('##buildersearchResultsGrid').jqxGrid('getRowData',rowid));
+						var collobjtoremove = $('##buildersearchResultsGrid').jqxGrid('getRowData',rowid)['COLLECTION_OBJECT_ID'];
 						console.log(collobjtoremove);
 	        			$.ajax({
             				url: "/specimens/component/search.cfc",
             				data: { 
 								method: 'removeItemFromResult', 
-								result_id: $('##result_id_fixedSearch').val(),
+								result_id: $('##result_id_builderSearch').val(),
 								collection_object_id: collobjtoremove
 							},
 							dataType: 'json',
            					success : function (data) { 
 								console.log(data);
 								commit(true);
-								$('##fixedsearchResultsGrid').jqxGrid('updatebounddata');
+								$('##buildersearchResultsGrid').jqxGrid('updatebounddata');
 							},
             				error : function (jqXHR, textStatus, error) {
           				   	handleFail(jqXHR,textStatus,error,"removing row from result set");
@@ -3491,7 +3575,7 @@ Target JSON:
 						return dataAdapter.records;
 					},
 					columns: [
-						<cfif findNoCase('master',Session.gitBranch) EQ 0>
+						<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
 							<cfset removerow = "{text: 'Remove', datafield: 'RemoveRow', cellsrenderer:removeBuilderCellRenderer, width: 40, cellclassname: fixedcellclass, hidable:false, hidden: false },">
 							#removerow#
 						</cfif>
@@ -3729,6 +3813,17 @@ Target JSON:
 		}
 		function toggleSearchForm(whichGrid) { 
 			toggleAnySearchForm(whichGrid+"SearchFormDiv", whichGrid + "SearchFormToggleIcon");
+		}
+		// update resultCount control to indicate that result set has been modified.
+		function resultModified(gridId,whichGrid) { 
+			console.log('resultModified: ',whichGrid);
+			var datainformation = $('##' + gridId).jqxGrid('getdatainformation');
+			var rowcount = datainformation.rowscount;
+			if (rowcount == 1) {
+				$('##'+whichGrid+'resultCount').html('Modified to ' + rowcount + ' record');
+			} else {
+				$('##'+whichGrid+'resultCount').html('Modified to ' + rowcount + ' records');
+			}
 		}
 		function gridLoaded(gridId, searchType, whichGrid) {
 			console.log('gridLoaded:' + gridId);

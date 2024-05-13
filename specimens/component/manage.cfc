@@ -117,4 +117,134 @@ limitations under the License.
 	<cfreturn countGeorefs.ct>
 </cffunction>
 
+<!---
+ ** Obtain summary information on Collections in a result set 
+ * @param result_id the result for which to return summary information
+--->
+<cffunction name="getCollectionsSummaryHtml" returntype="string" access="remote" returnformat="plain">
+	<cfargument name="result_id" type="string" required="yes">
+
+	<cfset variables.result_id = arguments.result_id>
+	<cfthread name="getCollsSummaryThread">
+		<cfoutput>
+			<cftry>
+				<cfquery name="collections" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="collections_result">
+					SELECT count(*) ct, 
+						collection_cde, 
+						collection_id
+					FROM user_search_table
+						left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat on user_search_table.collection_object_id = flat.collection_object_id
+					WHERE result_id=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
+					GROUP BY collection_cde, collection_id
+				</cfquery>
+				<div class="card-header h4">Collections (#collections.recordcount#)</div>
+				<div class="card-body">
+					<ul class="list-group list-group-horizontal d-flex flex-wrap">
+						<cfloop query="collections">
+							<li class="list-group-item">
+								<cfif findNoCase('master',Session.gitBranch) EQ 0>
+								<cfif collections.recordcount GT 1>
+									<input type="button" onClick=" confirmDialog('Remove all records from #collections.collection_cde# from these search results','Confirm Remove By Collection Code', function() { removeCollection ('#collection_cde#'); }  ); " class="p-1 btn btn-xs btn-warning" value="&##8998;" aria-label="Remove"/>
+								</cfif>
+								</cfif>
+								#collections.collection_cde# (#collections.ct#);
+							</li>
+						</cfloop>
+					</ul>
+				</div>
+			<cfcatch>
+				<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+				<cfset function_called = "#GetFunctionCalledName()#">
+				<h2 class='h3'>Error in #function_called#:</h2>
+				<div>#error_message#</div>
+			</cfcatch>
+			</cftry>
+		</cfoutput>
+	</cfthread>
+	<cfthread action="join" name="getCollsSummaryThread" />
+	<cfreturn getCollsSummaryThread.output>
+</cffunction>
+
+<!---
+ ** Obtain summary information on Countries in a result set 
+ * @param result_id the result for which to return summary information
+--->
+<cffunction name="getCountriesSummaryHtml" returntype="string" access="remote" returnformat="plain">
+	<cfargument name="result_id" type="string" required="yes">
+
+	<cfset variables.result_id = arguments.result_id>
+	<cfthread name="getCountriesSummaryThread">
+		<cfoutput>
+			<cftry>
+				<cfquery name="countries" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="countries_result">
+					SELECT count(*) ct, 
+						nvl(continent_ocean,'[no continent/ocean]') as continent_ocean, nvl(country,'[no country]') as country
+					FROM user_search_table
+						left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat on user_search_table.collection_object_id = flat.collection_object_id
+					WHERE result_id=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
+					GROUP BY 
+						continent_ocean, country
+				</cfquery>
+				<div class="card-header h4">Countries (#countries.recordcount#)</div>
+				<div class="card-body">
+					<ul class="list-group list-group-horizontal d-flex flex-wrap">
+						<cfloop query="countries">
+							<li class="list-group-item">#countries.continent_ocean#&thinsp;:&thinsp;#countries.country# (#countries.ct#); </li>
+						</cfloop>
+					</ul>
+				</div>
+			<cfcatch>
+				<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+				<cfset function_called = "#GetFunctionCalledName()#">
+				<h2 class='h3'>Error in #function_called#:</h2>
+				<div>#error_message#</div>
+			</cfcatch>
+			</cftry>
+		</cfoutput>
+	</cfthread>
+	<cfthread action="join" name="getCountriesSummaryThread" />
+	<cfreturn getCountriesSummaryThread.output>
+</cffunction>
+
+
+<!---
+ ** Obtain summary information on Families in a result set 
+ * @param result_id the result for which to return summary information
+--->
+<cffunction name="getFamiliesSummaryHtml" returntype="string" access="remote" returnformat="plain">
+	<cfargument name="result_id" type="string" required="yes">
+
+	<cfset variables.result_id = arguments.result_id>
+	<cfthread name="getFamiliesSummaryThread">
+		<cfoutput>
+			<cftry>
+				<cfquery name="families" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="families_result">
+					SELECT count(*) ct, 
+						nvl(phylorder,'[no order]') as phylorder, nvl(family,'[no family]') as family
+					FROM user_search_table
+						left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat on user_search_table.collection_object_id = flat.collection_object_id
+					WHERE result_id=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
+					GROUP BY phylorder, family
+				</cfquery>
+				<div class="card-header h4">Families (#families.recordcount#)</div>
+				<div class="card-body">
+					<ul class="list-group list-group-horizontal d-flex flex-wrap">
+						<cfloop query="families">
+							<li class="list-group-item">#families.phylorder#&thinsp;:&thinsp;#families.family# (#families.ct#);</li>
+						</cfloop>
+					</ul>
+				</div>
+			<cfcatch>
+				<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+				<cfset function_called = "#GetFunctionCalledName()#">
+				<h2 class='h3'>Error in #function_called#:</h2>
+				<div>#error_message#</div>
+			</cfcatch>
+			</cftry>
+		</cfoutput>
+	</cfthread>
+	<cfthread action="join" name="getFamiliesSummaryThread" />
+	<cfreturn getFamiliesSummaryThread.output>
+</cffunction>
+
 </cfcomponent>

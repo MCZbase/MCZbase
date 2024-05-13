@@ -42,6 +42,9 @@ limitations under the License.
 			<style>
 				.navbar-dark .navbar-nav .active > .nav-link, .active {color:black;background-color: white;}
 			</style>
+			<script>
+				var bc = new BroadcastChannel('resultset_channel');
+			</script>
 			<div class="container pb-5">
 				<div class="row">
 					<div class="col-12 mt-4">
@@ -155,95 +158,61 @@ limitations under the License.
       	     					success : function (data) { 
 										console.log(data);
 										// TODO: Trigger reload of summary section.
+										reloadSummarySections();
 										// TODO: Trigger $('##fixedsearchResultsGrid').jqxGrid('updatebounddata'); etc on grid.
+										resultModifiedHere();
 									},
             					error : function (jqXHR, textStatus, error) {
           				   		handleFail(jqXHR,textStatus,error,"removing records from result set");
      		       				}
          					});
 							} 
+							function resultModifiedHere() { 
+								var result_id = $("##result_id_fixedSearch").val();
+								bc.postMessage({"source":"manage","result_id":"#result_id#"});
+							}
+
+							bc.onmessage = function (message) { 
+								console.log(message);
+								if (message.data.source == "search" &&  message.data.result_id == "#result_id#") { 
+									reloadSummarySections();
+								}  
+							} 
 						</script>
 
 						<!--- Display summary information about the current result --->
 						<div class="rounded redbox">
 							<script>
-								function reloadHeadingBar() { 
-									loadGeoreferenceSummaryHTML(#result_id#,"georefDiv");
+								function reloadSummarySections() { 
+									loadGeoreferenceSummaryHTML("#result_id#","georefDiv");
+									loadGeoreferenceCount ("#result_id#","georefCountDiv","",""); 
+									loadCollectionsSummaryHTML ("#result_id#","collectionsSummaryDiv");
+									loadCountriesSummaryHTML ("#result_id#","countriesSummaryDiv");
+									loadFamiliesSummaryHTML ("#result_id#","familiesSummaryDiv");
 								} 
 							</script>
 							<cfset blockgeoref = getGeoreferenceSummaryHTML(result_id = "#result_id#")>
 							<cfset georefCount = getGeoreferenceCount(result_id = "#result_id#")>
 							<div class="card bg-light border-secondary mb-3">
-								<div class="card-header h4">Georeferences (#georefCount#)</div>
+								<div class="card-header h4">Georeferences (<span id="georefCountDiv">#georefCount#</span>)</div>
 								<div class="card-body" id="georefDiv">
 									#blockGeoref#
 								</div>
 							</div>
 
+							<cfset blockcolls = getCollectionsSummaryHTML(result_id = "#result_id#")>
+							<div class="card bg-light border-secondary mb-3" id="collectionsSummaryDiv">
+								#blockcolls#
+							</div>
+							<cfset blockcountries = getCountriesSummaryHTML(result_id = "#result_id#")>
+							<div class="card bg-light border-secondary mb-3" id="countriesSummaryDiv">
+								#blockcountries#
+							</div>
+							<cfset blockfamilies = getFamiliesSummaryHTML(result_id = "#result_id#")>
+							<div class="card bg-light border-secondary mb-3" id="familiesSummaryDiv">
+								#blockfamilies#
+							</div>
 							<!--- TODO: Move to backing methods, add ajax reload --->
-							<div class="card bg-light border-secondary mb-3">
-								<cfquery name="collections" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="collections_result">
-									SELECT count(*) ct, 
-										collection_cde, 
-										collection_id
-									FROM user_search_table
-										left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat on user_search_table.collection_object_id = flat.collection_object_id
-									WHERE result_id=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
-									GROUP BY collection_cde, collection_id
-								</cfquery>
-								<div class="card-header h4">Collections (#collections.recordcount#)</div>
-								<div class="card-body">
-									<ul class="list-group list-group-horizontal d-flex flex-wrap">
-										<cfloop query="collections">
-											<li class="list-group-item">
-												<cfif findNoCase('master',Session.gitBranch) EQ 0>
-												<cfif collections.recordcount GT 1>
-													<input type="button" onClick=" confirmDialog('Remove all records from #collections.collection_cde# from these search results','Confirm Remove By Collection Code', function() { removeCollection ('#collection_cde#'); }  ); " class="p-1 btn btn-xs btn-warning" value="&##8998;" aria-label="Remove"/>
-												</cfif>
-												</cfif>
-												#collections.collection_cde# (#collections.ct#);
-											</li>
-										</cfloop>
-									</ul>
-								</div>
-							</div>
-							<div class="card bg-light border-secondary mb-3">
-								<cfquery name="countries" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="countries_result">
-									SELECT count(*) ct, 
-										nvl(continent_ocean,'[no continent/ocean]') as continent_ocean, nvl(country,'[no country]') as country
-									FROM user_search_table
-										left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat on user_search_table.collection_object_id = flat.collection_object_id
-									WHERE result_id=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
-									GROUP BY 
-										continent_ocean, country
-								</cfquery>
-								<div class="card-header h4">Countries (#countries.recordcount#)</div>
-								<div class="card-body">
-									<ul class="list-group list-group-horizontal d-flex flex-wrap">
-										<cfloop query="countries">
-											<li class="list-group-item">#countries.continent_ocean#&thinsp;:&thinsp;#countries.country# (#countries.ct#); </li>
-										</cfloop>
-									</ul>
-								</div>
-							</div>
-							<div class="card bg-light border-secondary mb-3">
-								<cfquery name="families" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="families_result">
-									SELECT count(*) ct, 
-										nvl(phylorder,'[no order]') as phylorder, nvl(family,'[no family]') as family
-									FROM user_search_table
-										left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat on user_search_table.collection_object_id = flat.collection_object_id
-									WHERE result_id=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
-									GROUP BY phylorder, family
-								</cfquery>
-								<div class="card-header h4">Families (#families.recordcount#)</div>
-								<div class="card-body">
-									<ul class="list-group list-group-horizontal d-flex flex-wrap">
-										<cfloop query="families">
-											<li class="list-group-item">#families.phylorder#&thinsp;:&thinsp;#families.family# (#families.ct#);</li>
-										</cfloop>
-									</ul>
-								</div>
-							</div>
 							<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_transactions")>
 								<div class="card bg-light border-secondary mb-3">
 									<cfquery name="accessions" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="accessions_result">
