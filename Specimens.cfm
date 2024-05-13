@@ -2851,17 +2851,14 @@ Target JSON:
 			bc.onmessage = function (message) { 
 				console.log(message);
 				if (message.data.source == "manage" &&  message.data.result_id == $("##result_id_fixedSearch").val()) { 
-					commit(true);
 					$('##fixedsearchResultsGrid').jqxGrid('updatebounddata');
 					resultModified("fixedsearchResultsGrid");
 				} 
 				if (message.data.source == "manage" &&  message.data.result_id == $("##result_id_keywordSearch").val()) { 
-					commit(true);
 					$('##keywordsearchResultsGrid').jqxGrid('updatebounddata');
 					resultModified("keywordsearchResultsGrid");
 				} 
 				if (message.data.source == "manage" &&  message.data.result_id == $("##result_id_builderSearch").val()) { 
-					commit(true);
 					$('##buildersearchResultsGrid').jqxGrid('updatebounddata');
 					resultModified("buildersearchResultsGrid");
 				} 
