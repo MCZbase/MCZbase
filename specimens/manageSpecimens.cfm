@@ -212,7 +212,6 @@ limitations under the License.
 							<div class="card bg-light border-secondary mb-3" id="familiesSummaryDiv">
 								#blockfamilies#
 							</div>
-							</div>
 							<!--- TODO: Move to backing methods, add ajax reload --->
 							<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_transactions")>
 								<div class="card bg-light border-secondary mb-3">
