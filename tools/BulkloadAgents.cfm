@@ -344,15 +344,15 @@ limitations under the License.
 					</cfquery>
 					<cfquery name="miac" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						UPDATE cf_temp_agents 
-						SET status = concat(nvl2(status, status || '; ', ''),'Birthdate invalid')
-						WHERE to_date(birthdate) like '%DD-Mon-YYYY%' 
+						SET status = concat(nvl2(status, status || '; ', ''),'birth_date invalid')
+						WHERE to_date(birth_date) like '%DD-Mon-YYYY%' 
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableType.key#">
 					</cfquery>
 					<cfquery name="miac" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						UPDATE cf_temp_agents 
-						SET status = concat(nvl2(status, status || '; ', ''),'Birthdate invalid')
-						WHERE to_date(deathdate) like '%DD-Mon-YYYY%' 
+						SET status = concat(nvl2(status, status || '; ', ''),'death_date invalid')
+						WHERE to_date(death_date) like '%DD-Mon-YYYY%' 
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableType.key#">
 					</cfquery>
