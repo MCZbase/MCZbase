@@ -60,6 +60,8 @@ limitations under the License.
 						messageDialog("Warning: You have removed one or more records from this result set, you must reload this page to see the current list of records this page affects.", "Result Set Changed Warning");
 						$(".makeChangeButton").prop("disabled",true);
 						$(".makeChangeButton").addClass("disabled");
+						$(".tabChangeButton").prop("disabled",true);
+						$(".tabChangeButton").addClass("disabled");
 					}  
 				} 
 			</script>
@@ -117,13 +119,13 @@ limitations under the License.
 
 					<div class="tabs card-header tab-card-header px-1 pb-0" id="partActionTabs">
 						<div class="tab-headers tabList" role="tablist" aria-label="Tabs for bulk Add, Edit, or Delete Parts options">
-							<button class="px-5 px-sm-3 px-md-5 col-12 col-md-auto mb-1 mb-md-0 active makeChangeButton" id="tab-1" tabid="1" role="tab" aria-controls="addPanel" aria-selected="true" tabindex="0">
+							<button class="px-5 px-sm-3 px-md-5 col-12 col-md-auto mb-1 mb-md-0 active tabChangeButton" id="tab-1" tabid="1" role="tab" aria-controls="addPanel" aria-selected="true" tabindex="0">
 								Add Parts
 							</button>
-							<button class="px-5 px-sm-3 px-md-5 col-12 col-md-auto mb-1 mb-md-0 makeChangeButton" id="tab-2" tabid="2" role="tab" aria-controls="modifyPanel" aria-selected="false" tabindex="-1">
+							<button class="px-5 px-sm-3 px-md-5 col-12 col-md-auto mb-1 mb-md-0 tabChangeButton" id="tab-2" tabid="2" role="tab" aria-controls="modifyPanel" aria-selected="false" tabindex="-1">
 								Modify Existing Parts
 							</button>
-							<button class="px-5 px-sm-3 px-md-5 col-12 col-md-auto mb-1 mb-md-0 makeChangeButton" id="tab-3" tabid="3" role="tab" aria-controls="deletePanel" aria-selected="false" tabindex="-1">
+							<button class="px-5 px-sm-3 px-md-5 col-12 col-md-auto mb-1 mb-md-0 tabChangeButton" id="tab-3" tabid="3" role="tab" aria-controls="deletePanel" aria-selected="false" tabindex="-1">
 								Delete Parts
 							</button>
 						</div>
@@ -250,7 +252,7 @@ limitations under the License.
 											</div>
 										</cfloop>
 									</div>
-									<input type="submit" value="Add Parts" class="btn ml-2 mt-2 btn-xs btn-primary">
+									<input type="submit" value="Add Parts" class="btn ml-2 mt-2 btn-xs btn-primary makeChangeButton">
 								</form>
 							</div>
 							<!--- queries used for picklists on modify and delete forms --->
@@ -460,7 +462,7 @@ limitations under the License.
 											</tr>
 										</tbody>
 									</table>
-									<input type="submit" value="Update Parts" class="btn ml-2 mt-2 btn-xs btn-secondary">
+									<input type="submit" value="Update Parts" class="btn ml-2 mt-2 btn-xs btn-secondary makeChangeButton">
 								</form>
 							</div>
 							<!--- Delete Parts tab panel ****************************** --->
@@ -525,7 +527,7 @@ limitations under the License.
 													});
 												});
 											</script>
-											<input type="submit" value="Delete Parts" class="btn btn-xs btn-danger">
+											<input type="submit" value="Delete Parts" class="btn btn-xs btn-danger makeChangeButton">
 										</div>
 									</div>
 								</form>
