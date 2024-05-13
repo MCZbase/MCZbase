@@ -765,8 +765,7 @@ lot_count_modifier,lot_count,container_unique_id,condition,current_remarks,appen
 					SELECT agent_id FROM agent_name WHERE agent_name = '#session.username#'
 				</cfquery>
 				<cftry>
-				<cfset part_updates = 0>
-				<cfset part_updates1 = 0>
+		
 				<cfif getEntBy.recordcount is 0>
 					<cfabort showerror = "You aren't a recognized agent!">
 				<cfelseif getEntBy.recordcount gt 1>
@@ -776,6 +775,8 @@ lot_count_modifier,lot_count,container_unique_id,condition,current_remarks,appen
 					<cfthrow message="You have no rows to load in the Part bulkloader table (cf_temp_parts).  <a href='/tools/BulkloadEditedParts.cfm' class='text-danger'>Start again</a>"><!--- " --->
 				</cfif>
 				<cfset enteredbyid = getEntBy.agent_id>
+				<cfset part_updates = 0>
+				<cfset part_updates1 = 0>
 				<cftransaction>
 					<cfloop query="getTempData">
 						<cfset problem_key = #getTempData.key#>
@@ -783,7 +784,7 @@ lot_count_modifier,lot_count,container_unique_id,condition,current_remarks,appen
 							<cfquery name="NEXTID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 								select sq_collection_object_id.nextval NEXTID from dual
 							</cfquery>
-							<cfquery name="updateColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+							<cfquery name="updateColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateColl_result">
 								INSERT INTO coll_object (
 									COLLECTION_OBJECT_ID,
 									COLL_OBJECT_TYPE,
@@ -909,7 +910,7 @@ lot_count_modifier,lot_count,container_unique_id,condition,current_remarks,appen
 								</cfquery>
 							</cfif>
 						</cfif>
-						<cfset part_updates = part_updates + updatePart_result.recordcount>
+						<cfset part_updates = part_updates + updateColl_result.recordcount>
 					</cfloop>
 				<h3 class="mt-3">There were ## parts in ## specimen records updated.</h3>
 				<h3><span class="text-success">Success!</span> Parts loaded.
