@@ -1002,7 +1002,7 @@ lot_count_modifier,lot_count,container_unique_id,condition,current_remarks,appen
 									attribute_remark=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.part_att_rem_1#">
 								</cfquery>
 							</cfif>
-							<cfif len(#part_att_name_2#) GT 0>
+	<!---						<cfif len(#part_att_name_2#) GT 0>
 								<cfif len(#part_att_detby_2#) GT 0>
 									<cfquery name="a" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 										select agent_id from agent_name where agent_name = trim('#part_att_detby_2#')
@@ -1081,7 +1081,7 @@ lot_count_modifier,lot_count,container_unique_id,condition,current_remarks,appen
 									attribute_type=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.part_att_name_6#">, attribute_value=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.part_att_val_6#">, attribute_units=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.part_att_units_6#">, determined_date=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.part_att_madedate_6#">, determined_by_agent_id='#numAgentId#', 
 									attribute_remark=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.part_att_rem_6#">
 								</cfquery>
-							</cfif>
+							</cfif>--->
 						<cfset part_updates = part_updates + updateColl_result.recordcount>
 						</cfif>
 					</cfloop>
