@@ -806,7 +806,7 @@ lot_count_modifier,lot_count,container_unique_id,condition,current_remarks,appen
 								<td>#part_att_detby_4#</td>
 								<td>#part_att_madedate_4#</td>
 								<td>#part_att_rem_4#</td>
-								<td>#art_att_name_5#</td>
+								<td>#part_att_name_5#</td>
 								<td>#part_att_val_5#</td>
 								<td>#part_att_units_5#</td>
 								<td>#part_att_detby_5#</td>
