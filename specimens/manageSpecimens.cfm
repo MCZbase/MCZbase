@@ -142,7 +142,7 @@ limitations under the License.
 	--->
 							</ul>
 						</nav>
-						<h2 class="h3 mt-4">Summary of #results.ct# cataloged item records that will be affected: </h2>
+						<h2 class="h3 mt-4" id="catItemCountDiv">Summary of #results.ct# cataloged item records that will be affected: </h2>
 						<script>
 							function removeCollection (collection_cde) {
 								console.log(collection_cde);
@@ -184,6 +184,9 @@ limitations under the License.
 						<div class="rounded redbox">
 							<script>
 								function reloadSummarySections() { 
+									var prefix = "Updated Summary of ";
+									var suffix = " cataloged item records in modified result set that will be affected:";
+									loadCatalogedItemCount ("#result_id#","catItemCountDiv",prefix,suffix) { 
 									loadGeoreferenceSummaryHTML("#result_id#","georefDiv");
 									loadGeoreferenceCount ("#result_id#","georefCountDiv","",""); 
 									loadCollectionsSummaryHTML ("#result_id#","collectionsSummaryDiv");

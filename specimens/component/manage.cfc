@@ -23,6 +23,42 @@ limitations under the License.
 	<cfinclude template="/shared/component/error_handler.cfc" runOnce="true">
 </cfif>
 
+<!--- obtain a count of the number of cataloged items in a result set 
+ @param result_id the guid for the result for which to return a count of records.
+--->
+<cffunction name="getCatalogedItemCount" returntype="string" access="remote" returnformat="plain">
+	<cfargument name="result_id" type="string" required="yes">
+
+	<cfquery name="results" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="results_result">
+		SELECT count(distinct collection_object_id) ct
+		FROM user_search_table
+		WHERE result_id=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
+	</cfquery>
+	<cfreturn results.ct>
+</cffunction>
+
+<!--- obtain a count of the number of georeferenced cataloged items in a result set 
+ @param result_id the guid for the result for which to return a count of georeferenced records.
+--->
+<cffunction name="getGeoreferenceCount" returntype="string" access="remote" returnformat="plain">
+	<cfargument name="result_id" type="string" required="yes">
+	
+	<cfquery name="countGeorefs" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+		SELECT count(*) ct 
+		FROM user_search_table
+			JOIN <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flatTableName
+				ON user_search_table.collection_object_id = flatTableName.collection_object_id
+		WHERE
+			user_search_table.result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.result_id#">
+			AND flatTableName.dec_lat is not null 
+			AND flatTableName.dec_long is not null 
+	</cfquery>
+	<cfreturn countGeorefs.ct>
+</cffunction>
+
+<!--- obtain a block of html summarizing the georeferences associated with a specimen search result set 
+ @param result_id the guid for the result for which to return a summary of georeferenced records.
+--->
 <cffunction name="getGeoreferenceSummaryHtml" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="result_id" type="string" required="yes">
 
@@ -99,22 +135,6 @@ limitations under the License.
 	</cfthread>
 	<cfthread action="join" name="getGeorefSummaryThread" />
 	<cfreturn getGeorefSummaryThread.output>
-</cffunction>
-
-<cffunction name="getGeoreferenceCount" returntype="string" access="remote" returnformat="plain">
-	<cfargument name="result_id" type="string" required="yes">
-	
-	<cfquery name="countGeorefs" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-		SELECT count(*) ct 
-		FROM user_search_table
-			JOIN <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flatTableName
-				ON user_search_table.collection_object_id = flatTableName.collection_object_id
-		WHERE
-			user_search_table.result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.result_id#">
-			AND flatTableName.dec_lat is not null 
-			AND flatTableName.dec_long is not null 
-	</cfquery>
-	<cfreturn countGeorefs.ct>
 </cffunction>
 
 <!---
