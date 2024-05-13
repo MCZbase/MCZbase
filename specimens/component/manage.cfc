@@ -247,4 +247,145 @@ limitations under the License.
 	<cfreturn getFamiliesSummaryThread.output>
 </cffunction>
 
+
+<!---
+ ** Obtain summary information on Accessions in a result set 
+ * @param result_id the result for which to return summary information
+--->
+<cffunction name="getAccessionsSummaryHtml" returntype="string" access="remote" returnformat="plain">
+	<cfargument name="result_id" type="string" required="yes">
+
+	<cfset variables.result_id = arguments.result_id>
+	<cfthread name="getAccessionsSummaryThread">
+		<cfoutput>
+			<cftry>
+				<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_transactions")>
+					<cfquery name="accessions" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="accessions_result">
+						SELECT count(*) ct, 
+							accn_number, 
+							accn_coll.collection,
+							nvl(to_char(accn.received_date,'YYYY'),'[no date]') year
+						FROM user_search_table
+							left join cataloged_item on user_search_table.collection_object_id = cataloged_item.collection_object_id
+							left join accn on cataloged_item.accn_id = accn.transaction_id
+							LEFT JOIN trans on accn.transaction_id = trans.transaction_id 
+							LEFT JOIN collection accn_coll on trans.collection_id=accn_coll.collection_id
+						WHERE 
+							result_id=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
+						GROUP BY accn_number, accn_coll.collection, nvl(to_char(accn.received_date,'YYYY'),'[no date]')
+						ORDER BY accn_number
+					</cfquery>
+					<div class="card-header h4">Accessions (#accessions.recordcount#)</div>
+					<div class="card-body">
+						<ul class="list-group list-group-horizontal d-flex flex-wrap">
+							<cfloop query="accessions">
+								<li class="list-group-item">#accessions.collection# #accessions.accn_number#&thinsp;:&thinsp;#accessions.year# (#accessions.ct#);</li>
+							</cfloop>
+						</ul>
+					</div>
+				</cfif>
+			<cfcatch>
+				<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+				<cfset function_called = "#GetFunctionCalledName()#">
+				<h2 class='h3'>Error in #function_called#:</h2>
+				<div>#error_message#</div>
+			</cfcatch>
+			</cftry>
+		</cfoutput>
+	</cfthread>
+	<cfthread action="join" name="getAccessionsSummaryThread" />
+	<cfreturn getAccessionsSummaryThread.output>
+</cffunction>
+
+<!---
+ ** Obtain summary information on Localities in a result set 
+ * @param result_id the result for which to return summary information
+--->
+<cffunction name="getLocalitiesSummaryHtml" returntype="string" access="remote" returnformat="plain">
+	<cfargument name="result_id" type="string" required="yes">
+
+	<cfset variables.result_id = arguments.result_id>
+	<cfthread name="getLocalitiesSummaryThread">
+		<cfoutput>
+			<cftry>
+				<cfquery name="localities" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="localities_result">
+					SELECT count(*) ct, 
+						locality_id, spec_locality
+					FROM user_search_table
+						left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat on user_search_table.collection_object_id = flat.collection_object_id
+					WHERE result_id=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
+					GROUP BY locality_id, spec_locality
+				</cfquery>
+				<div class="card-header h4">Specific Localities (#localities.recordcount#)</div>
+				<div class="card-body">
+					<ul class="list-group list-group-horizontal d-flex flex-wrap">
+						<cfloop query="localities">
+							<li class="list-group-item">#localities.spec_locality# (#localities.ct#);</li>
+						</cfloop>
+					</ul>
+				</div>
+			<cfcatch>
+				<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+				<cfset function_called = "#GetFunctionCalledName()#">
+				<h2 class='h3'>Error in #function_called#:</h2>
+				<div>#error_message#</div>
+			</cfcatch>
+			</cftry>
+		</cfoutput>
+	</cfthread>
+	<cfthread action="join" name="getLocalitiesSummaryThread" />
+	<cfreturn getLocalitiesSummaryThread.output>
+</cffunction>
+
+
+<!---
+ ** Obtain summary information on CollEvents in a result set 
+ * @param result_id the result for which to return summary information
+--->
+<cffunction name="getCollEventsSummaryHtml" returntype="string" access="remote" returnformat="plain">
+	<cfargument name="result_id" type="string" required="yes">
+
+	<cfset variables.result_id = arguments.result_id>
+	<cfthread name="getCollEventsSummaryThread">
+		<cfoutput>
+			<cftry>
+				<cfquery name="collectingEvents" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="collectingEvents_result">
+					SELECT count(*) ct, 
+						collecting_event_id, began_date, ended_date, verbatim_date
+					FROM user_search_table
+						left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat on user_search_table.collection_object_id = flat.collection_object_id
+					WHERE result_id=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
+					GROUP BY 
+						collecting_event_id, began_date, ended_date, verbatim_date
+					ORDER BY
+						began_date, ended_date
+				</cfquery>
+				<div class="card-header h4">Collecting Events (#collectingEvents.recordcount#)</div>
+				<div class="card-body">
+					<ul class="list-group list-group-horizontal d-flex flex-wrap">
+						<cfloop query="collectingEvents">
+							<cfset summary = began_date>
+							<cfif ended_date NEQ began_date>
+								<cfset summary = "#summary#/#ended_date#">
+							</cfif>
+							<cfif len(verbatim_date) GT 0 AND verbatim_date NEQ "[no verbatim date data]" >
+								<cfset summary = "#summary# [#verbatim_date#]">
+							</cfif>
+							<li class="list-group-item">#summary# (#collectingEvents.ct#);</li>
+						</cfloop>
+					</ul>
+				</div>
+			<cfcatch>
+				<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+				<cfset function_called = "#GetFunctionCalledName()#">
+				<h2 class='h3'>Error in #function_called#:</h2>
+				<div>#error_message#</div>
+			</cfcatch>
+			</cftry>
+		</cfoutput>
+	</cfthread>
+	<cfthread action="join" name="getCollEventsSummaryThread" />
+	<cfreturn getCollEventsSummaryThread.output>
+</cffunction>
+
 </cfcomponent>
