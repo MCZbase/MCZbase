@@ -3270,21 +3270,21 @@ Target JSON:
 					async: true,
 					deleterow: function (rowid, commit) {
 						console.log(rowid);
-						console.log($('##fixedsearchResultsGrid').jqxGrid('getRowData',rowid));
-						var collobjtoremove = $('##fixedsearchResultsGrid').jqxGrid('getRowData',rowid)['COLLECTION_OBJECT_ID'];
+						console.log($('##keywordsearchResultsGrid').jqxGrid('getRowData',rowid));
+						var collobjtoremove = $('##keywordsearchResultsGrid').jqxGrid('getRowData',rowid)['COLLECTION_OBJECT_ID'];
 						console.log(collobjtoremove);
 	        			$.ajax({
             				url: "/specimens/component/search.cfc",
             				data: { 
 								method: 'removeItemFromResult', 
-								result_id: $('##result_id_fixedSearch').val(),
+								result_id: $('##result_id_keywordSearch').val(),
 								collection_object_id: collobjtoremove
 							},
 							dataType: 'json',
            					success : function (data) { 
 								console.log(data);
 								commit(true);
-								$('##fixedsearchResultsGrid').jqxGrid('updatebounddata');
+								$('##keywordsearchResultsGrid').jqxGrid('updatebounddata');
 							},
             				error : function (jqXHR, textStatus, error) {
           				   	handleFail(jqXHR,textStatus,error,"removing row from result set");
@@ -3485,21 +3485,21 @@ Target JSON:
 					async: true,
 					deleterow: function (rowid, commit) {
 						console.log(rowid);
-						console.log($('##fixedsearchResultsGrid').jqxGrid('getRowData',rowid));
-						var collobjtoremove = $('##fixedsearchResultsGrid').jqxGrid('getRowData',rowid)['COLLECTION_OBJECT_ID'];
+						console.log($('##buildersearchResultsGrid').jqxGrid('getRowData',rowid));
+						var collobjtoremove = $('##buildersearchResultsGrid').jqxGrid('getRowData',rowid)['COLLECTION_OBJECT_ID'];
 						console.log(collobjtoremove);
 	        			$.ajax({
             				url: "/specimens/component/search.cfc",
             				data: { 
 								method: 'removeItemFromResult', 
-								result_id: $('##result_id_fixedSearch').val(),
+								result_id: $('##result_id_builderSearch').val(),
 								collection_object_id: collobjtoremove
 							},
 							dataType: 'json',
            					success : function (data) { 
 								console.log(data);
 								commit(true);
-								$('##fixedsearchResultsGrid').jqxGrid('updatebounddata');
+								$('##buildersearchResultsGrid').jqxGrid('updatebounddata');
 							},
             				error : function (jqXHR, textStatus, error) {
           				   	handleFail(jqXHR,textStatus,error,"removing row from result set");
