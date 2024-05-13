@@ -558,7 +558,7 @@ lot_count_modifier,lot_count,container_unique_id,condition,current_remarks,appen
 							AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 							AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
 						</cfquery>
-						<cfset partAttName = '||chkPAttCT.part_att_name_#i#||'>
+		<!---				<cfset partAttName = '||chkPAttCT.part_att_name_#i#||'>
 						<cfset partAttVal = '||chkPAttCT.part_att_val_#i#||'>
 						<cfset partAttCollCde = #chkPAttCT.collection_cde#>
 						<cfloop query="chkPAttCT">
@@ -571,7 +571,7 @@ lot_count_modifier,lot_count,container_unique_id,condition,current_remarks,appen
 								AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
 							</cfquery>
 						</cfloop>
-						<!---TODO: ABOVE. Fix type/value/units relationship check (chk_specpart_att_codetable)--->
+						<!---TODO: ABOVE. Fix type/value/units relationship check (chk_specpart_att_codetable)--->--->
 						<cfquery name="chkPAtt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							update cf_temp_parts set 
 							status = concat(nvl2(status, status || '; ', ''),'Invalid PART_ATT_MADEDATE_#i# "'||PART_ATT_MADEDATE_#i#||'"') WHERE PART_ATT_NAME_#i# is not null 
