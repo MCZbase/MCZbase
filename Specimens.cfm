@@ -177,13 +177,16 @@ limitations under the License.
 </style>
 	<!--- TODO: Replace with a native javascript UUID function when it becomes available --->
 	<script>
-	// From broofa's answer in https://stackoverflow.com/questions/105034/how-to-create-a-guid-uuid
-	// uses the crypto library to obtain a random number and generates RFC4122 version 4 UUID.
-	function getVersion4UUID() {
-	  return ([1e7]+-1e3+-4e3+-8e3+-1e11).replace(/[018]/g, c =>
-	    (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16)
-	  );
-	}
+		// From broofa's answer in https://stackoverflow.com/questions/105034/how-to-create-a-guid-uuid
+		// uses the crypto library to obtain a random number and generates RFC4122 version 4 UUID.
+		function getVersion4UUID() {
+		  return ([1e7]+-1e3+-4e3+-8e3+-1e11).replace(/[018]/g, c =>
+	   	 (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16)
+		  );
+		}
+	</script>
+	<script>
+		var bc = new BroadcastChannel('resultset_channel');
 	</script>
 	
 	<div id="overlaycontainer" style="position: relative;">
@@ -2750,7 +2753,7 @@ Target JSON:
 		// Remove row from result set 
 		var removeFixedCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
 			// Removes a row, then jqwidgets invokes the deleterow callback defined for the dataadaptor
-			return '<span style="margin-top: 4px; margin-left: 4px; float: ' + columnproperties.cellsalign + '; "><input type="button" onClick=" confirmDialog(&apos;Remove this row from these search results&apos;,&apos;Confirm Remove Row&apos;, function(){ var commit = $(&apos;##fixedsearchResultsGrid&apos;).jqxGrid(&apos;deleterow&apos;, '+ row +'); } ); " class="p-1 btn btn-xs btn-warning" value="&##8998;" aria-label="Remove"/></span>';
+			return '<span style="margin-top: 4px; margin-left: 4px; float: ' + columnproperties.cellsalign + '; "><input type="button" onClick=" confirmDialog(&apos;Remove this row from these search results&apos;,&apos;Confirm Remove Row&apos;, function(){ var commit = $(&apos;##fixedsearchResultsGrid&apos;).jqxGrid(&apos;deleterow&apos;, '+ row +'); fixedResultModifiedHere(); } ); " class="p-1 btn btn-xs btn-warning" value="&##8998;" aria-label="Remove"/></span>';
 		};
 		<!--- " --->
 		var removeKeywordCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
@@ -2821,7 +2824,20 @@ Target JSON:
 		  });
 		  return json;
 		}
-	
+
+		function fixedResultModifiedHere() { 
+			var result_id = $("##result_id_fixedSearch").val();
+			bc.postMessage({"source":"search","result_id":result_id});
+		}
+
+		bc.onmessage = function (message) { 
+			console.log(message);
+			if (message.data.source == "manage" &&  message.data.result_id == $("##result_id_fixedSearch").val()) { 
+				commit(true);
+				$('##fixedsearchResultsGrid').jqxGrid('updatebounddata');
+			} 
+		} 
+
 		/* End Setup jqxgrids for search ****************************************************************************************/
 		$(document).ready(function() {
 			/* Setup jqxgrid for fixed Search */

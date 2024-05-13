@@ -42,6 +42,9 @@ limitations under the License.
 			<style>
 				.navbar-dark .navbar-nav .active > .nav-link, .active {color:black;background-color: white;}
 			</style>
+			<script>
+				var bc = new BroadcastChannel('resultset_channel');
+			</script>
 			<div class="container pb-5">
 				<div class="row">
 					<div class="col-12 mt-4">
@@ -155,12 +158,25 @@ limitations under the License.
       	     					success : function (data) { 
 										console.log(data);
 										// TODO: Trigger reload of summary section.
+										reloadHeadingBar();
 										// TODO: Trigger $('##fixedsearchResultsGrid').jqxGrid('updatebounddata'); etc on grid.
+										resultModifiedHere();
 									},
             					error : function (jqXHR, textStatus, error) {
           				   		handleFail(jqXHR,textStatus,error,"removing records from result set");
      		       				}
          					});
+							} 
+							function resultModifiedHere() { 
+								var result_id = $("##result_id_fixedSearch").val();
+								bc.postMessage({"source":"search","result_id":"#result_id#"});
+							}
+
+							bc.onmessage = function (message) { 
+								console.log(message);
+								if (message.data.source == "search" &&  message.data.result_id == "#result_id#") { 
+									reloadHeadingBar();
+								}  
 							} 
 						</script>
 
