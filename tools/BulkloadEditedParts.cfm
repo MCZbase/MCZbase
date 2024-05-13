@@ -912,7 +912,7 @@ lot_count_modifier,lot_count,container_unique_id,condition,current_remarks,appen
 						</cfif>
 						<cfset part_updates = part_updates + updateColl_result.recordcount>
 					</cfloop>
-				<h3 class="mt-3">There were ## parts in ## specimen records updated.</h3>
+				<h3 class="mt-3">There were #part_updates# parts in #updateColl_result.recordcount# specimen records updated.</h3>
 				<h3><span class="text-success">Success!</span> Parts loaded.
 				<a href="/SpecimenResults.cfm?collection_object_id=#valuelist(getTempData.collection_object_id)#" class="btn-link font-weight-lessbold">
 					See in Specimen Results.
@@ -945,6 +945,10 @@ lot_count_modifier,lot_count,container_unique_id,condition,current_remarks,appen
 										Problem with preserve_method
 									<cfelseif cfcatch.detail contains "lot_count_modifier">
 										Invalid disposition
+									<cfelseif cfcatch.detail contains "part_name">
+										Invalid part_name
+									<cfelseif cfcatch.detail contains "part_value">
+										Invalid part_value
 									<cfelseif cfcatch.detail contains "unique constraint">
 										This change has already been entered. Remove from spreadsheet and try again. (<a href="/tools/BulkloadCitations.cfm">Reload.</a>)
 									<cfelseif cfcatch.detail contains "no data">
@@ -977,6 +981,42 @@ lot_count_modifier,lot_count,container_unique_id,condition,current_remarks,appen
 									<th>APPEND_TO_REMARKS</th>
 									<th>CHANGED_DATE</td>
 									<th>NEW_PRESERVE_METHOD</th>
+									<th>PART_ATT_NAME_1</th>
+									<th>PART_ATT_VAL_1</th>
+									<th>PART_ATT_UNITS_1</th>
+									<th>PART_ATT_DETBY_1</th>
+									<th>PART_ATT_MADEDATE_1</th>
+									<th>PART_ATT_REM_1</th>
+									<th>PART_ATT_NAME_2</th>
+									<th>PART_ATT_VAL_2</th>
+									<th>PART_ATT_UNITS_2</th>
+									<th>PART_ATT_DETBY_2</th>
+									<th>PART_ATT_MADEDATE_2</th>
+									<th>PART_ATT_REM_2</th>
+									<th>PART_ATT_NAME_3</th>
+									<th>PART_ATT_VAL_3</th>
+									<th>PART_ATT_UNITS_3</th>
+									<th>PART_ATT_DETBY_3</th>
+									<th>PART_ATT_MADEDATE_3</th>
+									<th>PART_ATT_REM_3</th>
+									<th>PART_ATT_NAME_4</th>
+									<th>PART_ATT_VAL_4</th>
+									<th>PART_ATT_UNITS_4</th>
+									<th>PART_ATT_DETBY_4</th>
+									<th>PART_ATT_MADEDATE_4</th>
+									<th>PART_ATT_REM_4</th>
+									<th>PART_ATT_NAME_5</th>
+									<th>PART_ATT_VAL_5</th>
+									<th>PART_ATT_UNITS_5</th>
+									<th>PART_ATT_DETBY_5</th>
+									<th>PART_ATT_MADEDATE_5</th>
+									<th>PART_ATT_REM_5</th>
+									<th>PART_ATT_NAME_6</th>
+									<th>PART_ATT_VAL_6</th>
+									<th>PART_ATT_UNITS_6</th>
+									<th>PART_ATT_DETBY_6</th>
+									<th>PART_ATT_MADEDATE_6</th>
+									<th>PART_ATT_REM_6</th>
 								</tr> 
 							</thead>
 							<tbody>
@@ -1001,6 +1041,42 @@ lot_count_modifier,lot_count,container_unique_id,condition,current_remarks,appen
 										<td>#getProblemData.APPEND_TO_REMARKS#</td>
 										<td>#getProblemData.CHANGED_DATE#</td>
 										<td>#getProblemData.NEW_PRESERVE_METHOD#</td>
+										<td>#getProblemData.part_att_name_1#</td>
+										<td>#getProblemData.part_att_val_1#</td>
+										<td>#getProblemData.part_att_units_1#</td>
+										<td>#getProblemData.part_att_detby_1#</td>
+										<td>#getProblemData.part_att_madedate_1#</td>
+										<td>#getProblemData.part_att_rem_1#</td>
+										<td>#getProblemData.part_att_name_2#</td>
+										<td>#getProblemData.part_att_val_2#</td>
+										<td>#getProblemData.part_att_units_2#</td>
+										<td>#getProblemData.part_att_detby_2#</td>
+										<td>#getProblemData.part_att_madedate_2#</td>
+										<td>#getProblemData.part_att_rem_2#</td>
+										<td>#getProblemData.part_att_name_3#</td>
+										<td>#getProblemData.part_att_val_3#</td>
+										<td>#getProblemData.part_att_units_3#</td>
+										<td>#getProblemData.part_att_detby_3#</td>
+										<td>#getProblemData.part_att_madedate_3#</td>
+										<td>#getProblemData.part_att_rem_3#</td>
+										<td>#getProblemData.part_att_name_4#</td>
+										<td>#getProblemData.part_att_val_4#</td>
+										<td>#getProblemData.part_att_units_4#</td>
+										<td>#getProblemData.part_att_detby_4#</td>
+										<td>#getProblemData.part_att_madedate_4#</td>
+										<td>#getProblemData.part_att_rem_4#</td>
+										<td>#getProblemData.part_att_name_5#</td>
+										<td>#getProblemData.part_att_val_5#</td>
+										<td>#getProblemData.part_att_units_5#</td>
+										<td>#getProblemData.part_att_detby_5#</td>
+										<td>#getProblemData.part_att_madedate_5#</td>
+										<td>#getProblemData.part_att_rem_5#</td>
+										<td>#getProblemData.part_att_name_6#</td>
+										<td>#getProblemData.part_att_val_6#</td>
+										<td>#getProblemData.part_att_units_6#</td>
+										<td>#getProblemData.part_att_detby_6#</td>
+										<td>#getProblemData.part_att_madedate_6#</td>
+										<td>#getProblemData.part_att_rem_6#</td>
 									</tr>
 									<cfset i= i+1>
 								</cfloop>
