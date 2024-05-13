@@ -134,7 +134,6 @@ limitations under the License.
 					console.log(message);
 					if (message.data.result_id == "#result_id#") { 
 						messageDialog("Warning: You have removed one or more records from this result set, you must reload this page to see the current list of records this page affects.", "Result Set Changed Warning");
-
 					}  
 				} 
 			</script>
@@ -333,6 +332,17 @@ limitations under the License.
 	</cfquery>
 	<div class="container-fluid">
 		<div class="row mx-1">
+			<script>
+				var bc = new BroadcastChannel('resultset_channel');
+				bc.onmessage = function (message) { 
+					console.log(message);
+					if (message.data.result_id == "#result_id#") { 
+						messageDialog("Warning: You have removed one or more records from this result set, you must reload this page to see the current list of records this page affects.", "Result Set Changed Warning");
+						$(".makechangebutton").prop("disabled",true);
+						$(".makechangebutton").addClass("disabled");
+					}  
+				} 
+			</script>
 			<div class="col-12 px-4 mt-3">
 				<cfif hasFilter>
 					<h2 class="h2 px-3">Change collecting event for #specimenList.recordCount# cataloged items [in #encodeForHtml(result_id)#]<strong>#filterTextForHead#</strong></h2>
@@ -438,7 +448,7 @@ limitations under the License.
 										</cfif>
 										<input type="submit"
 											value="Change #targetCount# to this Collecting Event"
-											class="btn btn-warning btn-xs">
+											class="btn btn-warning btn-xs makechangebutton">
 									</form>
 								</td>
 								<td>
