@@ -502,7 +502,7 @@ limitations under the License.
 								<td>#getProblemData.first_name#</td>
 								<td>#getProblemData.middle_name#</td>
 								<td>#getProblemData.last_name#</td>
-								<td>is_iso8601(#getProblemData.birth_date#)</td>
+								<td>#getProblemData.birth_date#</td>
 								<td>#getProblemData.death_date#</td>
 								<td>#getProblemData.agent_remark#</td>
 								<td>#getProblemData.prefix#</td>
@@ -618,7 +618,7 @@ limitations under the License.
 											<td>#getProblemData.first_name#</td>
 											<td>#getProblemData.middle_name#</td>
 											<td>#getProblemData.last_name#</td>
-											<td>is_iso8601(#getProblemData.birth_date#)</td>
+											<td>#getProblemData.birth_date#</td>
 											<td>#getProblemData.death_date#</td>
 											<td>#getProblemData.agent_remark#</td>
 											<td>#getProblemData.prefix#</td>
