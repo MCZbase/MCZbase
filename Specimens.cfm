@@ -2853,17 +2853,23 @@ Target JSON:
 				if (message.data.source == "manage" &&  message.data.result_id == $("##result_id_fixedSearch").val()) { 
 					$('##fixedsearchResultsGrid').jqxGrid('updatebounddata');
 					$('##fixedresultCount').html('Modified from manage page.');
-					resultModified("fixedsearchResultsGrid","fixed");
+					$('##fixedsearchResultsGrid').on("bindingcomplete", function (event) {
+						resultModified("fixedsearchResultsGrid","fixed");
+					});
 				} 
 				if (message.data.source == "manage" &&  message.data.result_id == $("##result_id_keywordSearch").val()) { 
 					$('##keywordsearchResultsGrid').jqxGrid('updatebounddata');
 					$('##keywordresultCount').html('Modified from manage page.');
-					resultModified("keywordsearchResultsGrid","keyword");
+					$('##keywordsearchResultsGrid').on("bindingcomplete", function (event) {
+						resultModified("keywordsearchResultsGrid","keyword");
+					});
 				} 
 				if (message.data.source == "manage" &&  message.data.result_id == $("##result_id_builderSearch").val()) { 
 					$('##buildersearchResultsGrid').jqxGrid('updatebounddata');
 					$('##builderresultCount').html('Modified from manage page.');
-					resultModified("buildersearchResultsGrid","builder");
+					$('##buildersearchResultsGrid').on("bindingcomplete", function (event) {
+						resultModified("buildersearchResultsGrid","builder");
+					});
 				} 
 			}
 		</cfif> 
