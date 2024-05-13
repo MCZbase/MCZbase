@@ -665,16 +665,21 @@ limitations under the License.
 					SELECT agent_id FROM agent_name WHERE agent_name = '#session.username#'
 				</cfquery>
 				<cftry>
+				<cfset part_updates = 0>
+				<cfset part_updates1 = 0>
 				<cfif getEntBy.recordcount is 0>
 					<cfabort showerror = "You aren't a recognized agent!">
 				<cfelseif getEntBy.recordcount gt 1>
 					<cfabort showerror = "Your login has has multiple matches.">
 				</cfif>
+				<cfif getTempData.recordcount EQ 0>
+					<cfthrow message="You have no rows to load in the Part bulkloader table (cf_temp_parts).  <a href='/tools/BulkloadEditedParts.cfm' class='text-danger'>Start again</a>"><!--- " --->
+				</cfif>
 				<cfset enteredbyid = getEntBy.agent_id>
 				<cftransaction>
 					<cfloop query="getTempData">
+						<cfset problem_key = #getTempData.key#>
 						<cfif len(#use_part_id#) is 0 and use_existing is not 1>
-							<!---AND len(#CONTAINER_UNIQUE_ID#) gt 0--->
 							<cfquery name="NEXTID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 								select sq_collection_object_id.nextval NEXTID from dual
 							</cfquery>
@@ -711,8 +716,8 @@ limitations under the License.
 								VALUES (
 									#NEXTID.NEXTID#,
 									'#PART_NAME#',
-									'#PRESERVE_METHOD#'
-									,#collection_object_id# )
+									'#PRESERVE_METHOD#',
+									#collection_object_id# )
 							</cfquery>
 							<cfif len(#current_remarks#) gt 0>
 								<!---- new remark --->
