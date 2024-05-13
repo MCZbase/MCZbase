@@ -341,21 +341,7 @@ limitations under the License.
 						WHERE agent_type is null
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableType.key#">
-					</cfquery>
-					<cfquery name="miac" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						UPDATE cf_temp_agents 
-						SET status = concat(nvl2(status, status || '; ', ''),'birth_date invalid')
-						WHERE birth_date = to_date(birth_date,DD-Mon-YYYY') 
-						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-						AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableType.key#">
-					</cfquery>
-					<cfquery name="miac" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						UPDATE cf_temp_agents 
-						SET status = concat(nvl2(status, status || '; ', ''),'death_date invalid')
-						WHERE death_date  = to_date(death_date,DD-Mon-YYYY')
-						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-						AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableType.key#">
-					</cfquery>
+						</cfquery>
 					<cfquery name="miap" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						UPDATE cf_temp_agents 
 						SET status = 'last_name_not_found'
