@@ -77,6 +77,16 @@
 				ORDER BY 
 					MCZBASE.GET_AGENTNAMEOFTYPE(collector.agent_id)
 			</cfquery>
+			<script>
+				var bc = new BroadcastChannel('resultset_channel');
+				bc.onmessage = function (message) { 
+					console.log(message);
+					if (message.data.result_id == "#result_id#") { 
+						messageDialog("Warning: You have removed one or more records from this result set, you must reload this page to see the current list of records this page affects.", "Result Set Changed Warning");
+
+					}  
+				} 
+			</script>
 			<main class="container-fluid" id="content">
 				<section class="row mx-0" aria-labelledby="formheading">
 					<div class="col-12 pt-3">
