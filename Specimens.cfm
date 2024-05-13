@@ -2832,44 +2832,77 @@ Target JSON:
 
 		<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
 			<!--- Enable communication between search and manage pages when modifying search results --->
+
+			var fixedreloadlistenerbound = false;
+			var keywordreloadlistenerbound = false;
+			var builderreloadlistenerbound = false;
+
 			function fixedResultModifiedHere() { 
 				var result_id = $("##result_id_fixedSearch").val();
 				bc.postMessage({"source":"search","result_id":result_id});
-				resultModified("fixedsearchResultsGrid","fixed");
+				if (!fixedreloadlistenerbound) { 
+					$('##fixedsearchResultsGrid').on("bindingcomplete", function (event) {
+						resultModified("fixedsearchResultsGrid","fixed");
+					});
+					fixedreloadlistenerbound = true;
+				}
+				$('##fixedsearchResultsGrid').jqxGrid('updatebounddata');
 			}
 			function keywordResultModifiedHere() { 
 				var result_id = $("##result_id_keywordSearch").val();
 				bc.postMessage({"source":"search","result_id":result_id});
-				resultModified("keywordsearchResultsGrid","keyword");
+				if (!keywordreloadlistenerbound) { 
+					$('##keywordsearchResultsGrid').on("bindingcomplete", function (event) {
+						resultModified("keywordsearchResultsGrid","keyword");
+					});
+					keywordreloadlistenerbound = true;
+				}
+				$('##keywordsearchResultsGrid').jqxGrid('updatebounddata');
 			}
 			function builderResultModifiedHere() { 
 				var result_id = $("##result_id_builderSearch").val();
 				bc.postMessage({"source":"search","result_id":result_id});
 				resultModified("buildersearchResultsGrid","builder");
+				if (!builderreloadlistenerbound) { 
+					$('##buildersearchResultsGrid').on("bindingcomplete", function (event) {
+						resultModified("buildersearchResultsGrid","builder");
+					});
+					builderreloadlistenerbound = true;
+				}
+				$('##buildersearchResultsGrid').jqxGrid('updatebounddata');
 			}
 	
 			bc.onmessage = function (message) { 
 				console.log(message);
 				if (message.data.source == "manage" &&  message.data.result_id == $("##result_id_fixedSearch").val()) { 
-					$('##fixedsearchResultsGrid').jqxGrid('updatebounddata');
 					$('##fixedresultCount').html('Modified from manage page.');
-					$('##fixedsearchResultsGrid').on("bindingcomplete", function (event) {
-						resultModified("fixedsearchResultsGrid","fixed");
-					});
+					if (!fixedreloadlistenerbound) { 
+						$('##fixedsearchResultsGrid').on("bindingcomplete", function (event) {
+							resultModified("fixedsearchResultsGrid","fixed");
+						});
+						fixedreloadlistenerbound = true;
+					}
+					$('##fixedsearchResultsGrid').jqxGrid('updatebounddata');
 				} 
 				if (message.data.source == "manage" &&  message.data.result_id == $("##result_id_keywordSearch").val()) { 
-					$('##keywordsearchResultsGrid').jqxGrid('updatebounddata');
 					$('##keywordresultCount').html('Modified from manage page.');
-					$('##keywordsearchResultsGrid').on("bindingcomplete", function (event) {
-						resultModified("keywordsearchResultsGrid","keyword");
-					});
+					if (!keywordreloadlistenerbound) { 
+						$('##keywordsearchResultsGrid').on("bindingcomplete", function (event) {
+							resultModified("keywordsearchResultsGrid","keyword");
+						});
+						keywordreloadlistenerbound = true;
+					}
+					$('##keywordsearchResultsGrid').jqxGrid('updatebounddata');
 				} 
 				if (message.data.source == "manage" &&  message.data.result_id == $("##result_id_builderSearch").val()) { 
-					$('##buildersearchResultsGrid').jqxGrid('updatebounddata');
 					$('##builderresultCount').html('Modified from manage page.');
-					$('##buildersearchResultsGrid').on("bindingcomplete", function (event) {
-						resultModified("buildersearchResultsGrid","builder");
-					});
+					if (!builderreloadlistenerbound) { 
+						$('##buildersearchResultsGrid').on("bindingcomplete", function (event) {
+							resultModified("buildersearchResultsGrid","builder");
+						});
+						builderreloadlistenerbound = true;
+					}
+					$('##buildersearchResultsGrid').jqxGrid('updatebounddata');
 				} 
 			}
 		</cfif> 
