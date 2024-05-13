@@ -985,10 +985,11 @@ lot_count_modifier,lot_count,container_unique_id,condition,current_remarks,appen
 									update SPECIMEN_PART_PRES_HIST set CHANGED_DATE = to_date('#CHANGED_DATE#', 'YYYY-MM-DD') where collection_object_id =#use_part_id# and is_current_fg = 1
 								</cfquery>
 							</cfif>
-							<cfquery name="NEXTID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-								select sq_collection_object_id.nextval NEXTID from dual
-							</cfquery>
+				
 							<cfif len(#part_att_name_1#) GT 0>
+								<cfquery name="NEXTID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+									select sq_collection_object_id.nextval NEXTID from dual
+								</cfquery>
 								<cfif len(#part_att_detby_1#) GT 0>
 									<cfquery name="a" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 										select agent_id from agent_name where agent_name = trim('#part_att_detby_1#')
@@ -1003,9 +1004,11 @@ lot_count_modifier,lot_count,container_unique_id,condition,current_remarks,appen
 									attribute_type=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.part_att_name_1#">, attribute_value=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.part_att_val_1#">, attribute_units=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.part_att_units_1#">, determined_date=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.part_att_madedate_1#">, determined_by_agent_id='#numAgentId#', 
 									attribute_remark=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.part_att_rem_1#">
 								</cfquery>
-									#addPartAtt.NEXTID#
 							</cfif>
 							<cfif len(#part_att_name_2#) GT 0>
+								<cfquery name="NEXTID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+									select sq_collection_object_id.nextval NEXTID from dual
+								</cfquery>
 								<cfif len(#part_att_detby_2#) GT 0>
 									<cfquery name="a" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 										select agent_id from agent_name where agent_name = trim('#part_att_detby_2#')
@@ -1022,6 +1025,9 @@ lot_count_modifier,lot_count,container_unique_id,condition,current_remarks,appen
 								</cfquery>
 							</cfif>
 							<cfif len(#part_att_name_3#) GT 0>
+								<cfquery name="NEXTID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+									select sq_collection_object_id.nextval NEXTID from dual
+								</cfquery>
 								<cfif len(#part_att_detby_3#) GT 0>
 									<cfquery name="a" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 										select agent_id from agent_name where agent_name = trim('#part_att_detby_3#')
@@ -1038,6 +1044,9 @@ lot_count_modifier,lot_count,container_unique_id,condition,current_remarks,appen
 								</cfquery>
 							</cfif>
 							<cfif len(#part_att_name_4#) GT 0>
+								<cfquery name="NEXTID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+									select sq_collection_object_id.nextval NEXTID from dual
+								</cfquery>
 								<cfif len(#part_att_detby_4#) GT 0>
 									<cfquery name="a" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 										select agent_id from agent_name where agent_name = trim('#part_att_detby_4#')
@@ -1054,6 +1063,9 @@ lot_count_modifier,lot_count,container_unique_id,condition,current_remarks,appen
 								</cfquery>
 							</cfif>
 							<cfif len(#part_att_name_5#) GT 0>
+								<cfquery name="NEXTID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+									select sq_collection_object_id.nextval NEXTID from dual
+								</cfquery>
 								<cfif len(#part_att_detby_5#) GT 0>
 									<cfquery name="a" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 										select agent_id from agent_name where agent_name = trim('#part_att_detby_5#')
@@ -1070,6 +1082,9 @@ lot_count_modifier,lot_count,container_unique_id,condition,current_remarks,appen
 								</cfquery>
 							</cfif>
 							<cfif len(#part_att_name_6#) GT 0>
+								<cfquery name="NEXTID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+									select sq_collection_object_id.nextval NEXTID from dual
+								</cfquery>
 								<cfif len(#part_att_detby_6#) GT 0>
 									<cfquery name="a" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 										select agent_id from agent_name where agent_name = trim('#part_att_detby_6#')
