@@ -186,7 +186,7 @@ limitations under the License.
 								function reloadSummarySections() { 
 									var prefix = "Updated Summary of ";
 									var suffix = " cataloged item records in modified result set that will be affected:";
-									loadCatalogedItemCount ("#result_id#","catItemCountDiv",prefix,suffix) { 
+									loadCatalogedItemCount ("#result_id#","catItemCountDiv",prefix,suffix);
 									loadGeoreferenceSummaryHTML("#result_id#","georefDiv");
 									loadGeoreferenceCount ("#result_id#","georefCountDiv","",""); 
 									loadCollectionsSummaryHTML ("#result_id#","collectionsSummaryDiv");
