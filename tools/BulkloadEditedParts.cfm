@@ -874,7 +874,7 @@ lot_count_modifier,lot_count,container_unique_id,condition,current_remarks,appen
 									'#PRESERVE_METHOD#',
 									#collection_object_id# )
 							</cfquery>
-							<cfif len(#PART_ATT_NAME_1#) gt 0>
+							<cfif len(#getTempData.PART_ATT_NAME_1#) gt 0>
 								<!---- new remark --->
 								<cfquery name="newPartAtt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 									INSERT INTO specimen_part_attribute (
@@ -1130,7 +1130,7 @@ lot_count_modifier,lot_count,container_unique_id,condition,current_remarks,appen
 					<cftransaction action="commit">
 				<cfcatch>
 					<cftransaction action="ROLLBACK">
-					<h3>There was a problem updating the citations. </h3>
+					<h3>There was a problem updating the specimen parts. </h3>
 					<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						SELECT *
 						FROM cf_temp_parts
@@ -1138,7 +1138,7 @@ lot_count_modifier,lot_count,container_unique_id,condition,current_remarks,appen
 					</cfquery>
 					<cfif getProblemData.recordcount GT 0>
 						<h3>
-							Fix the issues and <a href="/tools/BulkloadEditedParts.cfm">start again</a>. Error loading row (<span class="text-danger">##</span>) from the CSV: 
+							Fix the issues and <a href="/tools/BulkloadEditedParts.cfm">start again</a>. Error loading row (<span class="text-danger">#part_updates + 1#</span>) from the CSV: 
 							<cfif len(cfcatch.detail) gt 0>
 								<span class="font-weight-normal border-bottom border-danger">
 									<cfif cfcatch.detail contains "institution_acronym">
