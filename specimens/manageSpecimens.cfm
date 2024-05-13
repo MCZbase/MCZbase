@@ -188,6 +188,7 @@ limitations under the License.
 									loadGeoreferenceCount ("#result_id#","georefCountDiv","",""); 
 									loadCollectionsSummaryHTML ("#result_id#","collectionsSummaryDiv");
 									loadCountriesSummaryHTML ("#result_id#","countriesSummaryDiv");
+									loadFamiliesSummaryHTML ("#result_id#","familiesSummaryDiv");
 								} 
 							</script>
 							<cfset blockgeoref = getGeoreferenceSummaryHTML(result_id = "#result_id#")>
@@ -203,29 +204,16 @@ limitations under the License.
 							<div class="card bg-light border-secondary mb-3" id="collectionsSummaryDiv">
 								#blockcolls#
 							</div>
-							<!--- TODO: Move to backing methods, add ajax reload --->
 							<cfset blockcountries = getCountriesSummaryHTML(result_id = "#result_id#")>
 							<div class="card bg-light border-secondary mb-3" id="countriesSummaryDiv">
 								#blockcountries#
 							</div>
-							<div class="card bg-light border-secondary mb-3">
-								<cfquery name="families" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="families_result">
-									SELECT count(*) ct, 
-										nvl(phylorder,'[no order]') as phylorder, nvl(family,'[no family]') as family
-									FROM user_search_table
-										left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat on user_search_table.collection_object_id = flat.collection_object_id
-									WHERE result_id=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
-									GROUP BY phylorder, family
-								</cfquery>
-								<div class="card-header h4">Families (#families.recordcount#)</div>
-								<div class="card-body">
-									<ul class="list-group list-group-horizontal d-flex flex-wrap">
-										<cfloop query="families">
-											<li class="list-group-item">#families.phylorder#&thinsp;:&thinsp;#families.family# (#families.ct#);</li>
-										</cfloop>
-									</ul>
-								</div>
+							<cfset blockfamilies = getFamiliesSummaryHTML(result_id = "#result_id#")>
+							<div class="card bg-light border-secondary mb-3" id="familiesSummaryDiv">
+								#blockfamilies#
 							</div>
+							</div>
+							<!--- TODO: Move to backing methods, add ajax reload --->
 							<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_transactions")>
 								<div class="card bg-light border-secondary mb-3">
 									<cfquery name="accessions" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="accessions_result">

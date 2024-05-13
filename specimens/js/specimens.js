@@ -78,3 +78,22 @@ function loadCountriesSummaryHTML (result_id,targetDivId) {
 		dataType: "html"
 	});
 };
+
+/** Load information about families in a result set into a target div.
+*/
+function loadFamiliesSummaryHTML (result_id,targetDivId) { 
+	jQuery.ajax({
+		url: "/specimens/component/manage.cfc",
+		data : {
+			method : "getFamiliesSummaryHTML",
+			result_id: result_id
+		},
+		success: function (result) {
+			$("#" + targetDivId ).html(result);
+		},
+		error: function (jqXHR, textStatus, error) {
+			handleFail(jqXHR,textStatus,error,"loading family summary");
+		},
+		dataType: "html"
+	});
+};

@@ -205,4 +205,46 @@ limitations under the License.
 	<cfthread action="join" name="getCountriesSummaryThread" />
 	<cfreturn getCountriesSummaryThread.output>
 </cffunction>
+
+
+<!---
+ ** Obtain summary information on Families in a result set 
+ * @param result_id the result for which to return summary information
+--->
+<cffunction name="getFamiliesSummaryHtml" returntype="string" access="remote" returnformat="plain">
+	<cfargument name="result_id" type="string" required="yes">
+
+	<cfset variables.result_id = arguments.result_id>
+	<cfthread name="getFamiliesSummaryThread">
+		<cfoutput>
+			<cftry>
+				<cfquery name="families" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="families_result">
+					SELECT count(*) ct, 
+						nvl(phylorder,'[no order]') as phylorder, nvl(family,'[no family]') as family
+					FROM user_search_table
+						left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat on user_search_table.collection_object_id = flat.collection_object_id
+					WHERE result_id=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
+					GROUP BY phylorder, family
+				</cfquery>
+				<div class="card-header h4">Families (#families.recordcount#)</div>
+				<div class="card-body">
+					<ul class="list-group list-group-horizontal d-flex flex-wrap">
+						<cfloop query="families">
+							<li class="list-group-item">#families.phylorder#&thinsp;:&thinsp;#families.family# (#families.ct#);</li>
+						</cfloop>
+					</ul>
+				</div>
+			<cfcatch>
+				<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+				<cfset function_called = "#GetFunctionCalledName()#">
+				<h2 class='h3'>Error in #function_called#:</h2>
+				<div>#error_message#</div>
+			</cfcatch>
+			</cftry>
+		</cfoutput>
+	</cfthread>
+	<cfthread action="join" name="getFamiliesSummaryThread" />
+	<cfreturn getFamiliesSummaryThread.output>
+</cffunction>
+
 </cfcomponent>
