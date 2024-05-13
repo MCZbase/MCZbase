@@ -924,6 +924,68 @@ lot_count_modifier,lot_count,container_unique_id,condition,current_remarks,appen
 									</cfquery>
 								</cfif>
 							</cfif>
+					
+						<cfelse>
+						<!--- there is an existing matching container that is not in a parent_container;
+							all we need to do is move the container to a parent IF it exists and is specified, or nothing otherwise --->
+							<cfif len(#COLL_OBJ_disposition#) gt 0>
+								<cfquery name="upDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateColl_result">
+									update coll_object set COLL_OBJ_DISPOSITION = '#coll_obj_disposition#' where collection_object_id = #use_part_id#
+								</cfquery>
+							</cfif>
+							<cfif len(#condition#) gt 0>
+								<cfquery name="upCond" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+									update coll_object set condition = '#condition#' where collection_object_id = #use_part_id#
+								</cfquery>
+							</cfif>
+							<cfif len(#lot_count#) gt 0>
+								<cfquery name="upCond" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+									update coll_object set lot_count = #lot_count#, lot_count_modifier='#lot_count_modifier#' where collection_object_id = #use_part_id#
+								</cfquery>
+							</cfif>
+							<cfif len(#new_preserve_method#) gt 0>
+								<cfquery name="change_preservemethod" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+									update SPECIMEN_PART set PRESERVE_METHOD = '#NEW_PRESERVE_METHOD#' where collection_object_id =#use_part_id#
+								</cfquery>
+							</cfif>
+							<cfif len(#append_to_remarks#) gt 0>
+								<cfquery name="remarksCount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+									select * from coll_object_remark where collection_object_id = #use_part_id#
+								</cfquery>
+								<cfif remarksCount.recordcount is 0>
+									<cfquery name="insertRemarks" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+										INSERT INTO coll_object_remark (collection_object_id, coll_object_remarks)
+										VALUES (#use_part_id#, '#append_to_remarks#')
+									</cfquery>
+								<cfelse>
+									<cfquery name="updateRemarks" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+										update coll_object_remark
+										set coll_object_remarks = DECODE(coll_object_remarks, null, '#append_to_remarks#', coll_object_remarks || '; #append_to_remarks#')
+										where collection_object_id = #use_part_id#
+									</cfquery>
+								</cfif>
+							</cfif>
+							<cfif len(#CONTAINER_UNIQUE_ID#) gt 0>
+								<cfquery name="part_container_id" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+									select container_id from coll_obj_cont_hist where collection_object_id = #use_part_id#
+								</cfquery>
+									<cfquery name="upPart" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+										update container set parent_container_id=#parent_container_id#
+										where container_id = #part_container_id.container_id#
+									</cfquery>
+								<cfif #len(change_container_type)# gt 0>
+									<cfquery name="upPart" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+										update container set
+										container_type='#change_container_type#'
+										where container_id=#parent_container_id#
+									</cfquery>
+								</cfif>
+							</cfif>
+							<cfif len(#changed_date#) gt 0>
+								<cfquery name="change_date" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+									update SPECIMEN_PART_PRES_HIST set CHANGED_DATE = to_date('#CHANGED_DATE#', 'YYYY-MM-DD') where collection_object_id =#use_part_id# and is_current_fg = 1
+								</cfquery>
+							</cfif>
 							<cfif len(#part_att_name_1#) GT 0>
 								<cfif len(#part_att_detby_1#) GT 0>
 									<cfquery name="a" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -1054,67 +1116,6 @@ lot_count_modifier,lot_count,container_unique_id,condition,current_remarks,appen
 									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.part_att_madedate_6#">, 
 									'#numAgentId#', 
 									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.part_att_rem_6#">)
-								</cfquery>
-							</cfif>
-						<cfelse>
-						<!--- there is an existing matching container that is not in a parent_container;
-							all we need to do is move the container to a parent IF it exists and is specified, or nothing otherwise --->
-							<cfif len(#COLL_OBJ_disposition#) gt 0>
-								<cfquery name="upDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateColl_result">
-									update coll_object set COLL_OBJ_DISPOSITION = '#coll_obj_disposition#' where collection_object_id = #use_part_id#
-								</cfquery>
-							</cfif>
-							<cfif len(#condition#) gt 0>
-								<cfquery name="upCond" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-									update coll_object set condition = '#condition#' where collection_object_id = #use_part_id#
-								</cfquery>
-							</cfif>
-							<cfif len(#lot_count#) gt 0>
-								<cfquery name="upCond" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-									update coll_object set lot_count = #lot_count#, lot_count_modifier='#lot_count_modifier#' where collection_object_id = #use_part_id#
-								</cfquery>
-							</cfif>
-							<cfif len(#new_preserve_method#) gt 0>
-								<cfquery name="change_preservemethod" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-									update SPECIMEN_PART set PRESERVE_METHOD = '#NEW_PRESERVE_METHOD#' where collection_object_id =#use_part_id#
-								</cfquery>
-							</cfif>
-							<cfif len(#append_to_remarks#) gt 0>
-								<cfquery name="remarksCount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-									select * from coll_object_remark where collection_object_id = #use_part_id#
-								</cfquery>
-								<cfif remarksCount.recordcount is 0>
-									<cfquery name="insertRemarks" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-										INSERT INTO coll_object_remark (collection_object_id, coll_object_remarks)
-										VALUES (#use_part_id#, '#append_to_remarks#')
-									</cfquery>
-								<cfelse>
-									<cfquery name="updateRemarks" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-										update coll_object_remark
-										set coll_object_remarks = DECODE(coll_object_remarks, null, '#append_to_remarks#', coll_object_remarks || '; #append_to_remarks#')
-										where collection_object_id = #use_part_id#
-									</cfquery>
-								</cfif>
-							</cfif>
-							<cfif len(#CONTAINER_UNIQUE_ID#) gt 0>
-								<cfquery name="part_container_id" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-									select container_id from coll_obj_cont_hist where collection_object_id = #use_part_id#
-								</cfquery>
-									<cfquery name="upPart" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-										update container set parent_container_id=#parent_container_id#
-										where container_id = #part_container_id.container_id#
-									</cfquery>
-								<cfif #len(change_container_type)# gt 0>
-									<cfquery name="upPart" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-										update container set
-										container_type='#change_container_type#'
-										where container_id=#parent_container_id#
-									</cfquery>
-								</cfif>
-							</cfif>
-							<cfif len(#changed_date#) gt 0>
-								<cfquery name="change_date" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-									update SPECIMEN_PART_PRES_HIST set CHANGED_DATE = to_date('#CHANGED_DATE#', 'YYYY-MM-DD') where collection_object_id =#use_part_id# and is_current_fg = 1
 								</cfquery>
 							</cfif>
 						</cfif>
