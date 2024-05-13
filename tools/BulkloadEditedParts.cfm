@@ -852,7 +852,7 @@ lot_count_modifier,lot_count,container_unique_id,condition,current_remarks,appen
 						<!--- there is an existing matching container that is not in a parent_container;
 							all we need to do is move the container to a parent IF it exists and is specified, or nothing otherwise --->
 							<cfif len(#COLL_OBJ_disposition#) gt 0>
-								<cfquery name="upDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+								<cfquery name="upDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateColl_result">
 									update coll_object set COLL_OBJ_DISPOSITION = '#coll_obj_disposition#' where collection_object_id = #use_part_id#
 								</cfquery>
 							</cfif>
