@@ -290,6 +290,8 @@ limitations under the License.
 			coll_event_remarks,
 			fish_field_number
 		FROM localityResults
+		WHERE 
+			collecting_event_id IS NOT NULL
 		GROUP BY
 			collecting_event_id,
 			locality_id,
