@@ -169,7 +169,7 @@ limitations under the License.
 							} 
 							function resultModifiedHere() { 
 								var result_id = $("##result_id_fixedSearch").val();
-								bc.postMessage({"source":"search","result_id":"#result_id#"});
+								bc.postMessage({"source":"manage","result_id":"#result_id#"});
 							}
 
 							bc.onmessage = function (message) { 
