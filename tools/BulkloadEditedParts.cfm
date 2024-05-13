@@ -1002,7 +1002,7 @@ lot_count_modifier,lot_count,container_unique_id,condition,current_remarks,appen
 									insert into SPECIMEN_PART_ATTRIBUTE(
 									collection_object_id, attribute_type, attribute_value, attribute_units, determined_date, determined_by_agent_id, attribute_remark
 									) values (
-									sq_collection_object_id.currval, 
+									#NEXTID.NEXTID#, 
 									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.part_att_name_1#">, 
 									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.part_att_val_1#">, 
 									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.part_att_units_1#">, 
@@ -1024,7 +1024,7 @@ lot_count_modifier,lot_count,container_unique_id,condition,current_remarks,appen
 									insert into SPECIMEN_PART_ATTRIBUTE(
 									collection_object_id, attribute_type, attribute_value, attribute_units, determined_date, determined_by_agent_id, attribute_remark
 									) values (
-									#NEXTID.NEXTID#, 
+									sq_collection_object_id.currval, 
 									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.part_att_name_2#">, 
 									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.part_att_val_2#">, 
 									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.part_att_units_2#">, 
