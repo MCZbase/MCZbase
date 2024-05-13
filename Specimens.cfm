@@ -2852,14 +2852,17 @@ Target JSON:
 				console.log(message);
 				if (message.data.source == "manage" &&  message.data.result_id == $("##result_id_fixedSearch").val()) { 
 					$('##fixedsearchResultsGrid').jqxGrid('updatebounddata');
+					$('##fixedresultCount').html('Modified from manage page.');
 					resultModified("fixedsearchResultsGrid","fixed");
 				} 
 				if (message.data.source == "manage" &&  message.data.result_id == $("##result_id_keywordSearch").val()) { 
 					$('##keywordsearchResultsGrid').jqxGrid('updatebounddata');
+					$('##keywordresultCount').html('Modified from manage page.');
 					resultModified("keywordsearchResultsGrid","keyword");
 				} 
 				if (message.data.source == "manage" &&  message.data.result_id == $("##result_id_builderSearch").val()) { 
 					$('##buildersearchResultsGrid').jqxGrid('updatebounddata');
+					$('##builderresultCount').html('Modified from manage page.');
 					resultModified("buildersearchResultsGrid","builder");
 				} 
 			}
@@ -3752,13 +3755,13 @@ Target JSON:
 		}
 		// update resultCount control to indicate that result set has been modified.
 		function resultModified(gridId,whichGrid) { 
-			// $('##'+gridId).trigger( 'reloadGrid' ); 
+			console.log('resultModified: ',whichGrid);
 			var datainformation = $('##' + gridId).jqxGrid('getdatainformation');
 			var rowcount = datainformation.rowscount;
 			if (rowcount == 1) {
 				$('##'+whichGrid+'resultCount').html('Modified to ' + rowcount + ' record');
 			} else {
-				$('##'+whichGrid+'resultCount').html('Modified to ' + rowcount + ' recordss');
+				$('##'+whichGrid+'resultCount').html('Modified to ' + rowcount + ' records');
 			}
 		}
 		function gridLoaded(gridId, searchType, whichGrid) {
