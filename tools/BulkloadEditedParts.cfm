@@ -830,7 +830,6 @@ lot_count_modifier,lot_count,container_unique_id,condition,current_remarks,appen
 				<cfset enteredbyid = getEntBy.agent_id>
 				<cfset part_updates = 0>
 				<cfset part_updates1 = 0>
-				<cfset i = 1>
 				<cftransaction>
 					<cfloop query="getTempData">
 						<cfset problem_key = #getTempData.key#>
@@ -1004,6 +1003,7 @@ lot_count_modifier,lot_count,container_unique_id,condition,current_remarks,appen
 									attribute_type=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.part_att_name_1#">, attribute_value=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.part_att_val_1#">, attribute_units=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.part_att_units_1#">, determined_date=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.part_att_madedate_1#">, determined_by_agent_id='#numAgentId#', 
 									attribute_remark=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.part_att_rem_1#">
 								</cfquery>
+									#addPartAtt.NEXTID#
 							</cfif>
 							<cfif len(#part_att_name_2#) GT 0>
 								<cfif len(#part_att_detby_2#) GT 0>
@@ -1086,7 +1086,6 @@ lot_count_modifier,lot_count,container_unique_id,condition,current_remarks,appen
 								</cfquery>
 							</cfif>
 						<cfset part_updates = part_updates + updateColl_result.recordcount>
-						<cfset i = i + 1>
 						</cfif>
 					</cfloop>
 					<h3 class="mt-3">There were #part_updates# parts in #updateColl_result.recordcount# specimen records updated.</h3>
