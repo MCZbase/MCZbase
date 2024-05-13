@@ -958,23 +958,24 @@ lot_count_modifier,lot_count,container_unique_id,condition,current_remarks,appen
 						<table class='sortable small table table-responsive table-striped d-lg-table mt-3'>
 							<thead>
 								<tr>
-									<td>BULKLOADING&nbsp;STATUS</td>
-									<td>INSTITUTION_ACRONYM</td>
-									<td>COLLECTION_CDE</td>
-									<td>OTHER_ID_TYPE</td>
-									<td>OTHER_ID_NUMBER</td>
-									<td>PART_NAME</td>
-									<td>PRESERVE_METHOD</td>
-									<td>DISPOSITION</td>
-									<td>LOT_COUNT_MODIFIER</td>
-									<td>LOT_COUNT</td>
-									<td>CURRENT_REMARKS</td>
-									<td>CONDITION</td>
-									<td>CONTAINER_UNIQUE_ID</td>
-									<td>USE_EXISTING</td>
-									<td>APPEND_TO_REMARKS</td>
-									<td>CHANGED_DATE</td>
-									<td>NEW_PRESERVE_METHOD</td>
+									<th>COUNT</th>
+									<th>BULKLOADING&nbsp;STATUS</th>
+									<th>INSTITUTION_ACRONYM</th>
+									<th>COLLECTION_CDE</th>
+									<th>OTHER_ID_TYPE</th>
+									<th>OTHER_ID_NUMBER</th>
+									<th>PART_NAME</th>
+									<th>PRESERVE_METHOD</th>
+									<th>DISPOSITION</th>
+									<th>LOT_COUNT_MODIFIER</th>
+									<th>LOT_COUNT</th>
+									<th>CURRENT_REMARKS</th>
+									<th>CONDITION</th>
+									<th>CONTAINER_UNIQUE_ID</th>
+									<th>USE_EXISTING</th>
+									<th>APPEND_TO_REMARKS</th>
+									<th>CHANGED_DATE</td>
+									<th>NEW_PRESERVE_METHOD</th>
 								</tr> 
 							</thead>
 							<tbody>
@@ -982,18 +983,23 @@ lot_count_modifier,lot_count,container_unique_id,condition,current_remarks,appen
 								<cfloop query="getProblemData">
 									<tr>
 										<td>#i#</td>
+										<td>#getProblemData.STATUS# </td>
+										<td>#getProblemData.INSTITUTION_ACRONYM# </td>
 										<td>#getProblemData.COLLECTION_CDE# </td>
-										<td>#getProblemData.OTHER_ID_TYPE# </td>
-										<td>#getProblemData.OTHER_ID_NUMBER# </td>
-										<td>#getProblemData.COLLECTION_OBJECT_ID#</td>
-										<td>#getProblemData.PUBLICATION_TITLE#</td>
-										<td>#getProblemData.PUBLICATION_ID#</td>
-										<td>#getProblemData.CITED_TAXON_NAME_ID#</td>
-										<td>#getProblemData.OCCURS_PAGE_NUMBER# </td>
-										<td>#getProblemData.TYPE_STATUS# </td>
-										<td>#getProblemData.CITATION_REMARKS#</td>
-										<td>#getProblemData.CITATION_PAGE_URI#</td>
-										<td>#getProblemData.CITED_TAXON_NAME_ID#</td>
+										<td>#getProblemData.OTHER_ID_TYPE#</td>
+										<td>#getProblemData.OTHER_ID_NUMBER#</td>
+										<td>#getProblemData.PART_NAME#</td>
+										<td>#getProblemData.PRESERVE_METHOD#</td>
+										<td>#getProblemData.COLL_OBJ_DISPOSITION# </td>
+										<td>#getProblemData.LOT_COUNT_MODIFIER# </td>
+										<td>#getProblemData.LOT_COUNT#</td>
+										<td>#getProblemData.CURRENT_REMARKS#</td>
+										<td>#getProblemData.CONDITION#</td>
+										<td>#getProblemData.CONTAINER_UNIQUE_ID# </td>
+										<td>#getProblemData.USE_EXISTING#</td>
+										<td>#getProblemData.APPEND_TO_REMARKS#</td>
+										<td>#getProblemData.CHANGED_DATE#</td>
+										<td>#getProblemData.NEW_PRESERVE_METHOD#</td>
 									</tr>
 									<cfset i= i+1>
 								</cfloop>
