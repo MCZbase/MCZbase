@@ -1087,6 +1087,7 @@ lot_count_modifier,lot_count,container_unique_id,condition,current_remarks,appen
 							</cfif>
 						<cfset part_updates = part_updates + updateColl_result.recordcount>
 						<cfset i = i + 1>
+						</cfif>
 					</cfloop>
 					<h3 class="mt-3">There were #part_updates# parts in #updateColl_result.recordcount# specimen records updated.</h3>
 					<h3><span class="text-success">Success!</span> Parts loaded.
