@@ -553,7 +553,7 @@ limitations under the License.
 					</cfquery>
 					<cfif getProblemData.recordcount GT 0>
 						<h3>
-							Fix the issues and <a href="/tools/BulkloadCitations.cfm">start again</a>. Error loading row (<span class="text-danger">#agent_updates + 1#</span>) from the CSV: 
+							Fix the issues and <a href="/tools/BulkloadAgents.cfm">start again</a>. Error loading row (<span class="text-danger">#agent_updates + 1#</span>) from the CSV: 
 							<cfif len(cfcatch.detail) gt 0>
 								<span class="font-weight-normal border-bottom border-danger">
 									<cfif cfcatch.detail contains "agentguid">
@@ -585,7 +585,7 @@ limitations under the License.
 								</span>
 							</cfif>
 						</h3>
-					<table class='sortable px-0 mx-0 table table-responsive table-striped w-100 small'>
+						<table class='sortable px-0 mx-0 table table-responsive table-striped w-100 small'>
 						<thead>
 							<tr>
 								<th>bulkload&nbsp;status</th>
@@ -637,8 +637,9 @@ limitations under the License.
 							</cfloop>
 						</tbody>
 					</table>
-					<cfrethrow>
-				</cfcatch>
+						<cfrethrow>
+					</cfif>
+					<div>#cfcatch.message#</div>
 				</cftry>
 			</cftransaction>
 			<h3>Updated #agent_updates# agents.</h3>
