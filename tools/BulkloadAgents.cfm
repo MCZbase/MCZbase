@@ -318,7 +318,7 @@ limitations under the License.
 				SELECT 
 					agent_type, key
 				FROM 
-					cf_temp_citation
+					cf_temp_agents
 				WHERE 
 					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
