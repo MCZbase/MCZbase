@@ -1002,11 +1002,12 @@ lot_count_modifier,lot_count,container_unique_id,condition,current_remarks,appen
 						<cfset part_updates = part_updates + updateColl_result.recordcount>
 						<cfset i = i + 1>
 					</cfloop>
-				<h3 class="mt-3">There were #part_updates# parts in #updateColl_result.recordcount# specimen records updated.</h3>
-				<h3><span class="text-success">Success!</span> Parts loaded.
-				<a href="/SpecimenResults.cfm?collection_object_id=#valuelist(getTempData.collection_object_id)#" class="btn-link font-weight-lessbold">
-					See in Specimen Results.
-				</a></h3>
+					<h3 class="mt-3">There were #part_updates# parts in #updateColl_result.recordcount# specimen records updated.</h3>
+					<h3><span class="text-success">Success!</span> Parts loaded.
+					<a href="/SpecimenResults.cfm?collection_object_id=#valuelist(getTempData.collection_object_id)#" class="btn-link font-weight-lessbold">
+						See in Specimen Results.
+					</a>
+					</h3>
 					<cftransaction action="commit">
 				<cfcatch>
 					<cftransaction action="ROLLBACK">
