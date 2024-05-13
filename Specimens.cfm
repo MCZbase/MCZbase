@@ -2846,7 +2846,7 @@ Target JSON:
 					});
 					fixedreloadlistenerbound = true;
 				}
-				$('##fixedsearchResultsGrid').jqxGrid('updatebounddata');
+				//$('##fixedsearchResultsGrid').jqxGrid('updatebounddata');
 			}
 			function keywordResultModifiedHere() { 
 				var result_id = $("##result_id_keywordSearch").val();
@@ -2857,19 +2857,18 @@ Target JSON:
 					});
 					keywordreloadlistenerbound = true;
 				}
-				$('##keywordsearchResultsGrid').jqxGrid('updatebounddata');
+				//$('##keywordsearchResultsGrid').jqxGrid('updatebounddata');
 			}
 			function builderResultModifiedHere() { 
 				var result_id = $("##result_id_builderSearch").val();
 				bc.postMessage({"source":"search","result_id":result_id});
-				resultModified("buildersearchResultsGrid","builder");
 				if (!builderreloadlistenerbound) { 
 					$('##buildersearchResultsGrid').on("bindingcomplete", function (event) {
 						resultModified("buildersearchResultsGrid","builder");
 					});
 					builderreloadlistenerbound = true;
 				}
-				$('##buildersearchResultsGrid').jqxGrid('updatebounddata');
+				//$('##buildersearchResultsGrid').jqxGrid('updatebounddata');
 			}
 	
 			bc.onmessage = function (message) { 
