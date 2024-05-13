@@ -594,56 +594,60 @@ limitations under the License.
 					Fix the problem(s) noted in the status column and <a href="/tools/BulkloadEditedParts.cfm" class="text-danger">start again</a>.
 				</cfif>
 				<table class='px-0 small sortable table table-responsive table-striped w-100'>
-					<tr>
-						<td>BULKLOADING&nbsp;STATUS</td>
-						<td>INSTITUTION_ACRONYM</td>
-						<td>COLLECTION_CDE</td>
-						<td>OTHER_ID_TYPE</td>
-						<td>OTHER_ID_NUMBER</td>
-						<td>PART_NAME</td>
-						<td>PRESERVE_METHOD</td>
-						<td>DISPOSITION</td>
-						<td>LOT_COUNT_MODIFIER</td>
-						<td>LOT_COUNT</td>
-						<td>CURRENT_REMARKS</td>
-						<td>CONDITION</td>
-						<td>CONTAINER_UNIQUE_ID</td>
-						<td>USE_EXISTING</td>
-						<td>APPEND_TO_REMARKS</td>
-						<td>CHANGED_DATE</td>
-						<td>NEW_PRESERVE_METHOD</td>
-					</tr>
-					<cfloop query="inT">
+					<thead class="thead-light">
 						<tr>
-							<td>
-								<cfif len(#collection_object_id#) gt 0 and (#status# is 'VALID')>
-								<cfelseif left(status,5) is 'NOTE:'>
-									<a href="/SpecimenDetail.cfm?collection_object_id=#collection_object_id#"
-										target="_blank">Specimen</a> (#status#)
-								<cfelseif left(status,6) is 'ERROR:'>
-									<a href="/SpecimenDetail.cfm?collection_object_id=#collection_object_id#"
-										target="_blank">Specimen</a> <strong>#status#</strong>
-								<cfelse>
-									<strong>ERROR: #status#</strong>
-								</cfif>
-							</td>
-							<td>#institution_acronym#</td>
-							<td>#collection_cde#</td>
-							<td>#OTHER_ID_TYPE#</td>
-							<td>#OTHER_ID_NUMBER#</td>
-							<td>#part_name#</td>
-							<td>#preserve_method#</td>
-							<td>#coll_obj_disposition#</td>
-							<td>#lot_count_modifier#</td>
-							<td>#lot_count#</td>
-							<td>#current_remarks#</td>
-							<td>#condition#</td>
-							<td>#CONTAINER_UNIQUE_ID#</td>
-							<td>1</td>
-							<td>#append_to_remarks#</td>
-							<td>#changed_date#</td>
-							<td>#new_preserve_method#</td>
+							<th>BULKLOADING&nbsp;STATUS</th>
+							<th>INSTITUTION_ACRONYM</th>
+							<th>COLLECTION_CDE</th>
+							<th>OTHER_ID_TYPE</th>
+							<th>OTHER_ID_NUMBER</th>
+							<th>PART_NAME</th>
+							<th>PRESERVE_METHOD</th>
+							<th>DISPOSITION</th>
+							<th>LOT_COUNT_MODIFIER</th>
+							<th>LOT_COUNT</th>
+							<th>CURRENT_REMARKS</th>
+							<th>CONDITION</th>
+							<th>CONTAINER_UNIQUE_ID</th>
+							<th>USE_EXISTING</th>
+							<th>APPEND_TO_REMARKS</th>
+							<th>CHANGED_DATE</th>
+							<th>NEW_PRESERVE_METHOD</th>
 						</tr>
+					</thead>
+					<cfloop query="inT">
+						<tbody>
+							<tr>
+								<td>
+									<cfif len(#collection_object_id#) gt 0 and (#status# is 'VALID')>
+									<cfelseif left(status,5) is 'NOTE:'>
+										<a href="/SpecimenDetail.cfm?collection_object_id=#collection_object_id#"
+											target="_blank">Specimen</a> (#status#)
+									<cfelseif left(status,6) is 'ERROR:'>
+										<a href="/SpecimenDetail.cfm?collection_object_id=#collection_object_id#"
+											target="_blank">Specimen</a> <strong>#status#</strong>
+									<cfelse>
+										<strong>ERROR: #status#</strong>
+									</cfif>
+								</td>
+								<td>#institution_acronym#</td>
+								<td>#collection_cde#</td>
+								<td>#OTHER_ID_TYPE#</td>
+								<td>#OTHER_ID_NUMBER#</td>
+								<td>#part_name#</td>
+								<td>#preserve_method#</td>
+								<td>#coll_obj_disposition#</td>
+								<td>#lot_count_modifier#</td>
+								<td>#lot_count#</td>
+								<td>#current_remarks#</td>
+								<td>#condition#</td>
+								<td>#CONTAINER_UNIQUE_ID#</td>
+								<td>1</td>
+								<td>#append_to_remarks#</td>
+								<td>#changed_date#</td>
+								<td>#new_preserve_method#</td>
+							</tr>
+						</tbody>
 					</cfloop>
 				</table>
 			</cfoutput>
@@ -809,7 +813,88 @@ limitations under the License.
 					<cftransaction action="commit">
 				<cfcatch>
 					<cftransaction action="ROLLBACK">
-					<h2 class="h3">There was a problem updating the citations. </h2>
+					<h3>There was a problem updating the citations. </h3>
+					<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						SELECT institution_acronym,collection_cde,other_id_type,other_id_number,part_name,preserve_method,coll_obj_disposition,lot_count_modifier,lot_count,container_unique_id,condition,current_remarks,append_to_remarks,changed_date,new_preserve_method,part_att_name_1,part_att_val_1,part_att_units_1,part_att_detby_1,part_att_madedate_1,part_att_rem_1,part_att_name_2,part_att_val_2,part_att_units_2,part_att_detby_2,part_att_madedate_2,part_att_rem_2,part_att_name_3,part_att_val_3,part_att_units_3,part_att_detby_3,part_att_madedate_3,part_att_rem_3,part_att_name_4,part_att_val_4,part_att_units_4,part_att_detby_4,part_att_madedate_4,part_att_rem_4,part_att_name_5,part_att_val_5,part_att_units_5,part_att_detby_5,part_att_madedate_5,part_att_rem_5,part_att_name_6,part_att_val_6,part_att_units_6,part_att_detby_6,part_att_madedate_6,part_att_rem_6
+						FROM cf_temp_parts
+						where key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#problem_key#">
+					</cfquery>
+					<cfif getProblemData.recordcount GT 0>
+						<h3>
+							Fix the issues and <a href="/tools/BulkloadEditedParts.cfm">start again</a>. Error loading row (<span class="text-danger">##</span>) from the CSV: 
+							<cfif len(cfcatch.detail) gt 0>
+								<span class="font-weight-normal border-bottom border-danger">
+									<cfif cfcatch.detail contains "institution_acronym">
+										Invalid Institution Acronyn; Should be 'MCZ'.
+									<cfelseif cfcatch.detail contains "collection_cde">
+										Problem with collection_cde
+									<cfelseif cfcatch.detail contains "other_id_type">
+										Invalid or missing other_id_type
+									<cfelseif cfcatch.detail contains "other_id_number">
+										Invalid other_id_number
+									<cfelseif cfcatch.detail contains "part_name">
+										Invalid CITED_TAXON_NAME_ID
+									<cfelseif cfcatch.detail contains "preserve_method">
+										Problem with preserve_method
+									<cfelseif cfcatch.detail contains "lot_count_modifier">
+										Invalid disposition
+									<cfelseif cfcatch.detail contains "unique constraint">
+										This change has already been entered. Remove from spreadsheet and try again. (<a href="/tools/BulkloadCitations.cfm">Reload.</a>)
+									<cfelseif cfcatch.detail contains "no data">
+										No data or the wrong data (#cfcatch.detail#)
+									<cfelse>
+										<!--- provide the raw error message if it isn't readily interpretable --->
+										#cfcatch.detail#
+									</cfif>
+								</span>
+							</cfif>
+						</h3>
+						<table class='sortable small table table-responsive table-striped d-lg-table mt-3'>
+							<thead>
+								<tr>
+									<td>BULKLOADING&nbsp;STATUS</td>
+									<td>INSTITUTION_ACRONYM</td>
+									<td>COLLECTION_CDE</td>
+									<td>OTHER_ID_TYPE</td>
+									<td>OTHER_ID_NUMBER</td>
+									<td>PART_NAME</td>
+									<td>PRESERVE_METHOD</td>
+									<td>DISPOSITION</td>
+									<td>LOT_COUNT_MODIFIER</td>
+									<td>LOT_COUNT</td>
+									<td>CURRENT_REMARKS</td>
+									<td>CONDITION</td>
+									<td>CONTAINER_UNIQUE_ID</td>
+									<td>USE_EXISTING</td>
+									<td>APPEND_TO_REMARKS</td>
+									<td>CHANGED_DATE</td>
+									<td>NEW_PRESERVE_METHOD</td>
+								</tr> 
+							</thead>
+							<tbody>
+								<cfset i=1>
+								<cfloop query="getProblemData">
+									<tr>
+										<td>#i#</td>
+										<td>#getProblemData.COLLECTION_CDE# </td>
+										<td>#getProblemData.OTHER_ID_TYPE# </td>
+										<td>#getProblemData.OTHER_ID_NUMBER# </td>
+										<td>#getProblemData.COLLECTION_OBJECT_ID#</td>
+										<td>#getProblemData.PUBLICATION_TITLE#</td>
+										<td>#getProblemData.PUBLICATION_ID#</td>
+										<td>#getProblemData.CITED_TAXON_NAME_ID#</td>
+										<td>#getProblemData.OCCURS_PAGE_NUMBER# </td>
+										<td>#getProblemData.TYPE_STATUS# </td>
+										<td>#getProblemData.CITATION_REMARKS#</td>
+										<td>#getProblemData.CITATION_PAGE_URI#</td>
+										<td>#getProblemData.CITED_TAXON_NAME_ID#</td>
+									</tr>
+									<cfset i= i+1>
+								</cfloop>
+							</tbody>
+						</table>
+					</cfif>
+					<div>#cfcatch.message#</div>
 				</cfcatch>
 				</cftry>
 			</cftransaction>
