@@ -986,6 +986,9 @@ lot_count_modifier,lot_count,container_unique_id,condition,current_remarks,appen
 									update SPECIMEN_PART_PRES_HIST set CHANGED_DATE = to_date('#CHANGED_DATE#', 'YYYY-MM-DD') where collection_object_id =#use_part_id# and is_current_fg = 1
 								</cfquery>
 							</cfif>
+							<cfquery name="NEXTID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+								select sq_collection_object_id.nextval NEXTID from dual
+							</cfquery>
 							<cfif len(#part_att_name_1#) GT 0>
 								<cfif len(#part_att_detby_1#) GT 0>
 									<cfquery name="a" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -1021,7 +1024,7 @@ lot_count_modifier,lot_count,container_unique_id,condition,current_remarks,appen
 									insert into SPECIMEN_PART_ATTRIBUTE(
 									collection_object_id, attribute_type, attribute_value, attribute_units, determined_date, determined_by_agent_id, attribute_remark
 									) values (
-									sq_collection_object_id.currval, 
+									#NEXTID.NEXTID#, 
 									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.part_att_name_2#">, 
 									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.part_att_val_2#">, 
 									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.part_att_units_2#">, 
