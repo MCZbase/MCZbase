@@ -2835,32 +2835,32 @@ Target JSON:
 			function fixedResultModifiedHere() { 
 				var result_id = $("##result_id_fixedSearch").val();
 				bc.postMessage({"source":"search","result_id":result_id});
-				resultModified("fixedsearchResultsGrid");
+				resultModified("fixedsearchResultsGrid","fixed");
 			}
 			function keywordResultModifiedHere() { 
 				var result_id = $("##result_id_keywordSearch").val();
 				bc.postMessage({"source":"search","result_id":result_id});
-				resultModified("keywordsearchResultsGrid");
+				resultModified("keywordsearchResultsGrid","keyword");
 			}
 			function builderResultModifiedHere() { 
 				var result_id = $("##result_id_builderSearch").val();
 				bc.postMessage({"source":"search","result_id":result_id});
-				resultModified("buildersearchResultsGrid");
+				resultModified("buildersearchResultsGrid","builder");
 			}
 	
 			bc.onmessage = function (message) { 
 				console.log(message);
 				if (message.data.source == "manage" &&  message.data.result_id == $("##result_id_fixedSearch").val()) { 
 					$('##fixedsearchResultsGrid').jqxGrid('updatebounddata');
-					resultModified("fixedsearchResultsGrid");
+					resultModified("fixedsearchResultsGrid","fixed");
 				} 
 				if (message.data.source == "manage" &&  message.data.result_id == $("##result_id_keywordSearch").val()) { 
 					$('##keywordsearchResultsGrid').jqxGrid('updatebounddata');
-					resultModified("keywordsearchResultsGrid");
+					resultModified("keywordsearchResultsGrid","keyword");
 				} 
 				if (message.data.source == "manage" &&  message.data.result_id == $("##result_id_builderSearch").val()) { 
 					$('##buildersearchResultsGrid').jqxGrid('updatebounddata');
-					resultModified("buildersearchResultsGrid");
+					resultModified("buildersearchResultsGrid","builder");
 				} 
 			}
 		</cfif> 
@@ -3751,7 +3751,7 @@ Target JSON:
 			toggleAnySearchForm(whichGrid+"SearchFormDiv", whichGrid + "SearchFormToggleIcon");
 		}
 		// update resultCount control to indicate that result set has been modified.
-		function resultModified(gridId) { 
+		function resultModified(gridId,whichGrid) { 
 			var datainformation = $('##' + gridId).jqxGrid('getdatainformation');
 			var rowcount = datainformation.rowscount;
 			if (rowcount == 1) {
