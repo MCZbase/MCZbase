@@ -999,16 +999,10 @@ lot_count_modifier,lot_count,container_unique_id,condition,current_remarks,appen
 									<cfset  numAgentID = "NULL">
 								</cfif>
 								<cfquery name="addPartAtt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-									insert into SPECIMEN_PART_ATTRIBUTE(
-									collection_object_id, attribute_type, attribute_value, attribute_units, determined_date, determined_by_agent_id, attribute_remark
-									) values (
-									#NEXTID.NEXTID#, 
-									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.part_att_name_1#">, 
-									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.part_att_val_1#">, 
-									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.part_att_units_1#">, 
-									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.part_att_madedate_1#">, 
-									'#numAgentId#', 
-									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.part_att_rem_1#">)
+									update SPECIMEN_PART_ATTRIBUTE set 
+									collection_object_id= #NEXTID.NEXTID#, 
+									attribute_type=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.part_att_name_1#">, attribute_value=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.part_att_val_1#">, attribute_units=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.part_att_units_1#">, determined_date=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.part_att_madedate_1#">, determined_by_agent_id='#numAgentId#', 
+									attribute_remark=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.part_att_rem_1#">
 								</cfquery>
 							</cfif>
 							<cfif len(#part_att_name_2#) GT 0>
@@ -1021,16 +1015,10 @@ lot_count_modifier,lot_count,container_unique_id,condition,current_remarks,appen
 									<cfset  numAgentID = "NULL">
 								</cfif>
 								<cfquery name="addPartAtt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-									insert into SPECIMEN_PART_ATTRIBUTE(
-									collection_object_id, attribute_type, attribute_value, attribute_units, determined_date, determined_by_agent_id, attribute_remark
-									) values (
-									sq_collection_object_id.currval, 
-									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.part_att_name_2#">, 
-									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.part_att_val_2#">, 
-									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.part_att_units_2#">, 
-									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.part_att_madedate_2#">, 
-									'#numAgentId#',
-									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.part_att_rem_2#">)
+									update SPECIMEN_PART_ATTRIBUTE set 
+									collection_object_id= #NEXTID.NEXTID#, 
+									attribute_type=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.part_att_name_2#">, attribute_value=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.part_att_val_2#">, attribute_units=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.part_att_units_2#">, determined_date=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.part_att_madedate_2#">, determined_by_agent_id='#numAgentId#', 
+									attribute_remark=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.part_att_rem_2#">
 								</cfquery>
 							</cfif>
 							<cfif len(#part_att_name_3#) GT 0>
@@ -1043,16 +1031,10 @@ lot_count_modifier,lot_count,container_unique_id,condition,current_remarks,appen
 									<cfset  numAgentID = "NULL">
 								</cfif>
 								<cfquery name="addPartAtt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-									insert into SPECIMEN_PART_ATTRIBUTE(
-									collection_object_id, attribute_type, attribute_value, attribute_units, determined_date, determined_by_agent_id, attribute_remark
-									) values (
-									sq_collection_object_id.currval, 
-									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.part_att_name_3#">, 
-									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.part_att_val_3#">, 
-									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.part_att_units_3#">, 
-									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.part_att_madedate_3#">, 
-									'#numAgentId#',
-									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.part_att_rem_3#">)
+									update SPECIMEN_PART_ATTRIBUTE set 
+									collection_object_id= #NEXTID.NEXTID#, 
+									attribute_type=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.part_att_name_3#">, attribute_value=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.part_att_val_3#">, attribute_units=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.part_att_units_3#">, determined_date=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.part_att_madedate_3#">, determined_by_agent_id='#numAgentId#', 
+									attribute_remark=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.part_att_rem_3#">
 								</cfquery>
 							</cfif>
 							<cfif len(#part_att_name_4#) GT 0>
@@ -1065,16 +1047,10 @@ lot_count_modifier,lot_count,container_unique_id,condition,current_remarks,appen
 									<cfset  numAgentID = "NULL">
 								</cfif>
 								<cfquery name="addPartAtt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-									insert into SPECIMEN_PART_ATTRIBUTE(
-									collection_object_id, attribute_type, attribute_value, attribute_units, determined_date, determined_by_agent_id, attribute_remark
-									) values (
-									sq_collection_object_id.currval, 
-									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.part_att_name_4#">, 
-									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.part_att_val_4#">, 
-									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.part_att_units_4#">, 
-									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.part_att_madedate_4#">, 
-									'#numAgentId#',
-									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.part_att_rem_4#">)
+									update SPECIMEN_PART_ATTRIBUTE set 
+									collection_object_id= #NEXTID.NEXTID#, 
+									attribute_type=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.part_att_name_4#">, attribute_value=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.part_att_val_4#">, attribute_units=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.part_att_units_4#">, determined_date=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.part_att_madedate_4#">, determined_by_agent_id='#numAgentId#', 
+									attribute_remark=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.part_att_rem_4#">
 								</cfquery>
 							</cfif>
 							<cfif len(#part_att_name_5#) GT 0>
@@ -1087,16 +1063,10 @@ lot_count_modifier,lot_count,container_unique_id,condition,current_remarks,appen
 									<cfset  numAgentID = "NULL">
 								</cfif>
 								<cfquery name="addPartAtt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-									insert into SPECIMEN_PART_ATTRIBUTE(
-									collection_object_id, attribute_type, attribute_value, attribute_units, determined_date, determined_by_agent_id, attribute_remark
-									) values (
-									sq_collection_object_id.currval, 
-									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.part_att_name_5#">, 
-									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.part_att_val_5#">, 
-									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.part_att_units_5#">, 
-									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.part_att_madedate_5#">, 
-									'#numAgentId#', 
-									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.part_att_rem_5#">)
+									update SPECIMEN_PART_ATTRIBUTE set 
+									collection_object_id= #NEXTID.NEXTID#, 
+									attribute_type=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.part_att_name_5#">, attribute_value=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.part_att_val_5#">, attribute_units=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.part_att_units_5#">, determined_date=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.part_att_madedate_5#">, determined_by_agent_id='#numAgentId#', 
+									attribute_remark=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.part_att_rem_5#">
 								</cfquery>
 							</cfif>
 							<cfif len(#part_att_name_6#) GT 0>
@@ -1109,19 +1079,12 @@ lot_count_modifier,lot_count,container_unique_id,condition,current_remarks,appen
 									<cfset  numAgentID = "NULL">
 								</cfif>
 								<cfquery name="addPartAtt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-									insert into SPECIMEN_PART_ATTRIBUTE(
-									collection_object_id, attribute_type, attribute_value, attribute_units, determined_date, determined_by_agent_id, attribute_remark
-									) values (
-									sq_collection_object_id.currval, 
-									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.part_att_name_6#">, 
-									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.part_att_val_6#">, 
-									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.part_att_units_6#">, 
-									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.part_att_madedate_6#">, 
-									'#numAgentId#', 
-									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.part_att_rem_6#">)
+									update SPECIMEN_PART_ATTRIBUTE set 
+									collection_object_id= #NEXTID.NEXTID#, 
+									attribute_type=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.part_att_name_6#">, attribute_value=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.part_att_val_6#">, attribute_units=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.part_att_units_6#">, determined_date=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.part_att_madedate_6#">, determined_by_agent_id='#numAgentId#', 
+									attribute_remark=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.part_att_rem_6#">
 								</cfquery>
 							</cfif>
-						</cfif>
 						<cfset part_updates = part_updates + updateColl_result.recordcount>
 						<cfset i = i + 1>
 					</cfloop>
