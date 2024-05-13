@@ -3752,7 +3752,7 @@ Target JSON:
 		}
 		// update resultCount control to indicate that result set has been modified.
 		function resultModified(gridId,whichGrid) { 
-			$('##'+gridId).trigger( 'reloadGrid' ); 
+			// $('##'+gridId).trigger( 'reloadGrid' ); 
 			var datainformation = $('##' + gridId).jqxGrid('getdatainformation');
 			var rowcount = datainformation.rowscount;
 			if (rowcount == 1) {
