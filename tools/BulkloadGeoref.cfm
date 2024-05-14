@@ -445,7 +445,7 @@ limitations under the License.
 			</cfquery>
 			<cfquery name="dataCount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT count(*) c 
-				FROM data 
+				FROM cf_temp_georef
 				WHERE status is not null
 			</cfquery>
 		<!---	<cfquery name="dataCount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
