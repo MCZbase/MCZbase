@@ -125,6 +125,7 @@ limitations under the License.
 			<cfset DUP_COLUMN_ERR = "One or more columns are duplicated in the header line of the csv file.">
 			<cfset COLUMN_ERR = "Error inserting data">
 			<cfset NO_HEADER_ERR = "No header line found, csv file appears to be empty.">
+			<cfset TABLE_NAME = "CF_TEMP_GEOREF">
 				<cftry>
 				<!---Parse the CSV file using Apache Commons CSV library. Include with ColdFusion so columns with comma delimiters will be separated properly.--->
 					<cfset fileProxy = CreateObject("java","java.io.File") >
