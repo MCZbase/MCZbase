@@ -414,23 +414,15 @@ limitations under the License.
 				FROM cf_temp_oids
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
-			<cfquery name="problemCount" dbtype="query">
+			<cfquery name="pf" dbtype="query">
 				SELECT count(*) c 
 				FROM data 
 				WHERE status is not null
 			</cfquery>
-			<cfif problemCount.c gt 0>
-				<h3 class="mt-4">
-					<cfif problemCount.c GT 1><cfset plural="s"><cfelse><cfset plural=""></cfif>
-					There is a problem with #problemCount.c# of #data.recordcount# row#plural#. See the STATUS column. (<a href="/tools/BulkloadOtherId.cfm?action=dumpProblems">download</a>).
-				</h3>
-				<h3 class="my-2">
-					Fix the problems in the data and <a href="/tools/BulkloadOtherId.cfm">start again</a>.
-				</h3>
+			<cfif pf.c gt 0>
+					There is a problem with #pf.c# of #data.recordcount# row(s). See the STATUS column. (<a href="/tools/BulkloadOtherId.cfm?action=dumpProblems">download</a>). Fix the problem(s) noted in the status column and <a href="/tools/BulkloadOtherId.cfm" class="text-danger">start again</a>.
 			<cfelse>
-				<h3 class="mt-4 mb-2">
-					<span class="text-success">Validation checks passed.</span> Look over the table below and <a href="/tools/BulkloadOtherId.cfm?action=load" class="btn">click to continue</a> if it all looks good or <a href="/tools/BulkloadOtherId.cfm">start again</a>.
-				</h3>
+					<span class="text-success">Validation checks passed</span>. Look over the table below and <a href="/tools/BulkloadOtherId.cfm?action=load" class="btn-link font-weight-lessbold">click to continue</a> if it all looks good. Or, <a href="/tools/BulkloadOtherId.cfm" class="text-danger">start again</a>.
 			</cfif>
 			<table class='px-0 sortable table small table-responsive table-striped w-100'>
 				<thead>
