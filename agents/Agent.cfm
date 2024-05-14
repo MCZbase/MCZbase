@@ -87,7 +87,7 @@ limitations under the License.
 		and flat.guid IS NOT NULL
 		and flat.dec_lat is not null
 		and collector.collector_role = 'c'
-	 	and flat.dec_lat between -90 and 90 and flat.dec_long between -180 and 180
+		and flat.dec_lat between -90 and 90 and flat.dec_long between -180 and 180
 </cfquery>
 
 <cfoutput>
@@ -145,7 +145,7 @@ limitations under the License.
 							<cfif getAgent.vetted EQ 1 ><cfset vetted_marker="*"><cfelse><cfset vetted_marker=""></cfif> 
 							<cfif oneOfUs EQ 1><cfset agent_id_bit = " [Agent ID: #getAgent.agent_id#]"><cfelse><cfset agent_id_bit=""></cfif>
 							<cfset rankBit ="">
- 							<cfif listcontainsnocase(session.roles, "manage_transactions")>
+							<cfif listcontainsnocase(session.roles, "manage_transactions")>
 								<cfquery name="rank" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 									SELECT count(*) || ' ' || agent_rank agent_rank
 									FROM agent_rank
@@ -306,7 +306,7 @@ limitations under the License.
 										WHERE agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
 											AND agent_name_type <> 'preferred'
 									</cfquery>
-									<div class="card-body py-2 bg-teal">	
+									<div class="card-body py-2 bg-teal">
 										<ul class="list-group">
 											<!--- person name --->
 											<cfif getAgent.agent_type EQ "person">
@@ -392,7 +392,6 @@ limitations under the License.
 							<!--- Media --->
 							<section class="accordion" id="mediaSection"> 
 								<div class="card mb-2 bg-light">
-									
 									<cfif getMedia.recordcount LT 1>
 										<!--- cardState = collapsed --->
 										<cfset bodyClass = "collapse">
@@ -480,13 +479,12 @@ limitations under the License.
 															</script>
 														</div>
 													</div>
-											
 												</cfif>
 										</cfif>
 									</div><!--- end mediaCardBodyWrap --->
 								</div>
 								<script>
-								//  carousel fix for specimen images on small screens below.  I tried to fix this with the ratio select added to the query but that only works if there are a lot of images to choose from; for small images pools, where the most common ratio cannot be selected, this may still help.	
+								//  carousel fix for specimen images on small screens below.  I tried to fix this with the ratio select added to the query but that only works if there are a lot of images to choose from; for small images pools, where the most common ratio cannot be selected, this may still help.
 								$(window).on('load resize', function () {
 									var w = $(window).width();
 									$("##vslider-item")
@@ -834,7 +832,7 @@ limitations under the License.
 							</cfquery>
 							<cfif points.recordcount gt 0>
 							<section class="accordion" id="collectorSection1">
-								<div class="card mb-2 py-1 bg-light">		
+								<div class="card mb-2 py-1 bg-light">
 									<script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
 									<div class="heatmap">
 									<script src="https://maps.googleapis.com/maps/api/js?key=#application.gmap_api_key#&callback=initMap&libraries=visualization" async></script>
@@ -863,7 +861,7 @@ limitations under the License.
 												mapTypeId: "hybrid",
 											};
 											map = new google.maps.Map(document.getElementById('map'), mapOptions);
-										
+
 											if (bounds.getNorthEast().equals(bounds.getSouthWest())) {
 												var extendPoint1 = new google.maps.LatLng(bounds.getNorthEast().lat(), bounds.getNorthEast().lng());
 												var extendPoint2 = new google.maps.LatLng(bounds.getNorthEast().lat(), bounds.getNorthEast().lng());
@@ -1228,7 +1226,7 @@ limitations under the License.
 								</div>
 							</section>
 							<!--- named groups --->
-							<cfif oneOfUs eq 1>	
+							<cfif oneOfUs eq 1>
 								<section class="accordion" id="namedgroupSection"> 
 									<div class="card mb-2 bg-light">
 										<cfquery name="getNamedGroups" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -1475,7 +1473,7 @@ limitations under the License.
 															<cfloop query="loan_item">
 																<li class="list-group-item">Reconciled #cnt# items for Loan 
 																	<a href="/transactions/Loan.cfm?action=editLoan&transaction_id=#transaction_id#">#collection# #loan_number#</a>
-																</li>		
+																</li>
 															</cfloop>
 														</cfif>
 													</ul>
@@ -1700,7 +1698,7 @@ limitations under the License.
 												left join project on project.project_id=project_sponsor.project_id
 												left join agent_name on project_sponsor.agent_name_id = agent_name.agent_name_id
 											WHERE
-												 agent_name.agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
+												agent_name.agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
 											UNION
 											SELECT distinct
 												project_agent_role as role, 
@@ -1711,7 +1709,7 @@ limitations under the License.
 												left join project on project.project_id=project_agent.project_id
 												left join agent_name on project_agent.agent_name_id = agent_name.agent_name_id
 											WHERE
-												 agent_name.agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
+												agent_name.agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
 										</cfquery>
 										<cfif getProjRoles.recordcount GT 20 OR getProjRoles.recordcount eq 0>
 											<!--- cardState = collapsed --->

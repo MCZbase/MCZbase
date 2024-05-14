@@ -99,7 +99,7 @@ limitations under the License.
 					on underscore_relation.collection_object_id = flat.collection_object_id
 				left join media_relations
 					on media_relations.related_primary_key = underscore_relation.collection_object_id
-				left join media on media_relations.media_id = media.media_id							
+				left join media on media_relations.media_id = media.media_id
 			WHERE underscore_collection.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
 				AND media_relations.media_relationship = 'shows cataloged_item'
 				AND flat.guid is not null
@@ -393,7 +393,7 @@ limitations under the License.
 					<div class="row mx-0">
 
 						<cfif specimenImagesForCarousel.recordcount GT 0 OR agentImagesForCarousel.recordcount GT 0 OR points.recordcount GT 0 OR collectingImagesForCarousel.recordcount GT 0>
-							<div class="col-12 col-md-6 float-left px-0 mt-4 mb-3">	
+							<div class="col-12 col-md-6 float-left px-0 mt-4 mb-3">
 								<!--- specimen images --->
 								<cfif specimenImagesForCarousel.recordcount gt 0>
 									<div class="hidden" id="max_img_count">#specimenImagesForCarousel.recordcount#</div>
@@ -478,7 +478,7 @@ limitations under the License.
 												});
 											});
 										</script>
-									</section><!--- end specimen images ---> 	
+									</section><!--- end specimen images --->
 								</cfif>
 								<!---  occurrence map --->
 								<cfquery name="points2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="points2_result" timeout="#Application.query_timeout#" cachedwithin="#createtimespan(0,24,0,0)#">
@@ -495,7 +495,6 @@ limitations under the License.
 										<script>
 										let map, heatmap;
 										function initMap() {
-										
 											var ne = new google.maps.LatLng(#points2.maxlat#,#points2.maxlong#);
 											var sw = new google.maps.LatLng(#points2.minlat#,#points2.minlong#);
 											var bounds = new google.maps.LatLngBounds(sw, ne);
@@ -518,7 +517,7 @@ limitations under the License.
 												mapTypeId: "hybrid",
 											};
 											map = new google.maps.Map(document.getElementById('map'), mapOptions);
-										
+
 											if (bounds.getNorthEast().equals(bounds.getSouthWest())) {
 												var extendPoint1 = new google.maps.LatLng(bounds.getNorthEast().lat(), bounds.getNorthEast().lng());
 												var extendPoint2 = new google.maps.LatLng(bounds.getNorthEast().lat(), bounds.getNorthEast().lng());
@@ -534,7 +533,6 @@ limitations under the License.
 												});
 											}
 											map.fitBounds(bounds);
-									
 											heatmap = new google.maps.visualization.HeatmapLayer({
 												data: getPoints(),
 												map: map,
@@ -582,15 +580,12 @@ limitations under the License.
 											}
 										function getPoints() {
 											return [
-											
 												<cfloop query="points">
-												new google.maps.LatLng(#points.Latitude#,#points.Longitude#),
-												
-											</cfloop>
+													new google.maps.LatLng(#points.Latitude#,#points.Longitude#),
+												</cfloop>
 											]
 										}
 									</script>
-										
 										<div class="col-12 px-0 float-left">
 											<div class="border rounded px-1 mx-1 pb-1">
 												<h2 class="px-3 text-center pt-2">Heat Map of Georeferenced Specimen Locations</h2>
@@ -604,9 +599,9 @@ limitations under the License.
 											</div>
 										</div>
 										<!-- Async script executes immediately and must be after any DOM elements used in callback. -->
-									</section><!--- end heat map---> 	
+									</section><!--- end heat map--->
 								</cfif>
-				
+
 								<section class="otherImages float-left w-100 mt-4">
 									<div class="other-images">
 										<!--- figure out widths of sub blocks, adapt to number of blocks --->
@@ -697,7 +692,7 @@ limitations under the License.
 													<cfset collectingCt = collectingImagesForCarousel.recordcount>
 													<Cfif collectingCt GT 0>
 														<cfset otherImageTypes = otherImageTypes + 1>
-													</cfif>	
+													</cfif>
 													<cfloop query="collectingImagesForCarousel" startRow="1" endRow="1">
 														<cfset collecting_media_uri = collectingImagesForCarousel.media_uri>
 														<cfset collecting_media_id = collectingImagesForCarousel.media_id>
@@ -767,7 +762,7 @@ limitations under the License.
 										</div>
 									</div>
 								</section>
-							</div>	
+							</div>
 						</cfif><!--- end of has images or has coordinates for map --->
 
 						<section class="overview-links col mt-4 float-left">
@@ -1337,7 +1332,7 @@ limitations under the License.
 		</main>
 	</cfloop>
 	<script>
-	//  carousel fix for specimen images on small screens below.  I tried to fix this with the ratio select added to the query but that only works if there are a lot of images to choose from; for small images pools, where the most common ratio cannot be selected, this may still help.	
+	//  carousel fix for specimen images on small screens below.  I tried to fix this with the ratio select added to the query but that only works if there are a lot of images to choose from; for small images pools, where the most common ratio cannot be selected, this may still help.
 	$(window).on('load resize', function () {
 		var w = $(window).width();
 		$("##vslider-item")
