@@ -3111,8 +3111,10 @@ Target JSON:
 					},
 					columns: [
 						<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
-							<cfset removerow = "{text: 'Remove', datafield: 'RemoveRow', cellsrenderer:removeFixedCellRenderer, width: 40, cellclassname: fixedcellclass, hidable:false, hidden: false },">
-							#removerow#
+							<cfif isdefined("session.killRow") AND session.killRow is 1>
+								<cfset removerow = "{text: 'Remove', datafield: 'RemoveRow', cellsrenderer:removeFixedCellRenderer, width: 40, cellclassname: fixedcellclass, hidable:false, hidden: false },">
+								#removerow#
+							</cfif>
 						</cfif>
 						<cfset lastrow ="">
 						<cfloop query="getFieldMetadata">
@@ -3339,8 +3341,10 @@ Target JSON:
 					},
 					columns: [
 						<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
-							<cfset removerow = "{text: 'Remove', datafield: 'RemoveRow', cellsrenderer:removeKeywordCellRenderer, width: 40, cellclassname: fixedcellclass, hidable:false, hidden: false },">
-							#removerow#
+							<cfif isdefined("session.killRow") AND session.killRow is 1>
+								<cfset removerow = "{text: 'Remove', datafield: 'RemoveRow', cellsrenderer:removeKeywordCellRenderer, width: 40, cellclassname: fixedcellclass, hidable:false, hidden: false },">
+								#removerow#
+							</cfif>
 						</cfif>
 						<cfset lastrow ="">
 						<cfloop query="getFieldMetadata">
@@ -3555,8 +3559,10 @@ Target JSON:
 					},
 					columns: [
 						<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
-							<cfset removerow = "{text: 'Remove', datafield: 'RemoveRow', cellsrenderer:removeBuilderCellRenderer, width: 40, cellclassname: fixedcellclass, hidable:false, hidden: false },">
-							#removerow#
+							<cfif isdefined("session.killRow") AND session.killRow is 1>
+								<cfset removerow = "{text: 'Remove', datafield: 'RemoveRow', cellsrenderer:removeBuilderCellRenderer, width: 40, cellclassname: fixedcellclass, hidable:false, hidden: false },">
+								#removerow#
+							</cfif>
 						</cfif>
 						<cfset lastrow ="">
 						<cfloop query="getFieldMetadata">
