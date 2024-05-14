@@ -116,7 +116,7 @@ limitations under the License.
 			</div>
 			<a name="loader" class="text-white">top</a>
 			<h2 class="mt-4 h4">Columns in <span class="text-danger">red</span> are required; others are optional:</h2>
-			<ul class="mb-4 h5 font-weight-normal list-group">
+			<ul class="mb-4 h5 font-weight-normal list-group mx-xl-3">
 				<cfloop list="#fieldlist#" index="field" delimiters=",">
 					<cfquery name = "getComments"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#"  result="getComments_result">
 						SELECT comments
@@ -137,7 +137,7 @@ limitations under the License.
 					<cfelse>
 						<cfset class="text-dark">
 					</cfif>
-					<li class="pb-1 mx-xl-5">
+					<li class="pb-1 mx-xl-3">
 						<span class="#class# font-weight-lessbold" #aria#>#field#: </span> <span class="text-secondary">#comment#</span>
 					</li>
 				</cfloop>
