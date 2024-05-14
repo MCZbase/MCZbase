@@ -385,9 +385,9 @@ limitations under the License.
 				<div class="col-12 col-md-6">
 					<h2 class="h3" >Authors</h2> 
 					<button class="btn btn-xs btn-primary" onclick=" openAddAuthorEditorDialog('addAuthorEditorDialogDiv', '#publication_id#', 'authors', reloadAuthors); ">Add Authors</button>
-					<ol>
+					<ol class="mt-2">
 						<cfloop query="getAuthors">
-							<li value="#author_position#">
+							<li value="#author_position#" class="my-1">
 								<a href="/agents/Agent.cfm?agent_id=#agent_id#" target="_blank">#agent_name#</a> 
 								<!--- TODO: Edit --->
 								<!--- TODO: move --->
@@ -591,9 +591,9 @@ limitations under the License.
 							</script>
 						</div>
 						<div class="col-12" id="listOfAuthorsDiv">
-							<ol id="authorListOnDialog">
+							<ol id="authorListOnDialog" class="mt-2">
 								<cfloop query="getAuthorsEditors">
-									<li>#getAuthorsEditors.agent_name#</li>
+									<li class="my-1">#getAuthorsEditors.agent_name#</li>
 								</cfloop>
 							</ol>
 						</div>
@@ -1373,8 +1373,8 @@ limitations under the License.
 	
 						<div class="col-12 col-md-4 pb-2">
 							<cfset id = "input_#REReplace(CreateUUID(), "[-]", "", "all")#" >
-							<label class="data-entry-label" for="#id#">
-								#getAttributes.publication_attribute# <span class="small">#getDescription.description#</span>
+							<label class="data-entry-label" style="font-weight:520;" for="#id#">
+								#getAttributes.publication_attribute# <span class="small font-weight-normal">#getDescription.description#</span>
 							</label>
 							<cfset control = getPubAttributeControl(attribute = "#getAttributes.publication_attribute#",value="#value#",name="#getAttributes.publication_attribute#",id="#id#")>
 							#control#
@@ -2015,7 +2015,7 @@ limitations under the License.
 						onClick="opencreatemediadialog('addMediaDialog',$('##fullCitationPlain').val(),'#publication_id#','shows publication',reloadPublicationMedia);" >
 					<input type='button' 
 						value='Link Media' 
-						class='btn btn-xs btn-secondary' 
+						class='btn btn-xs btn-secondary mx-2' 
 						onClick="openlinkmediadialog('linkMediaDialog','Link media to '+$('##fullCitationPlain').val() ,'#publication_id#','shows publication',reloadPublicationMedia); " >
 				</div>
 				<div id='addMediaDialog'></div>
