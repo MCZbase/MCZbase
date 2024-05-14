@@ -2754,22 +2754,24 @@ Target JSON:
 		};
 
 		<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
-			// Remove row from result set 
-			var removeFixedCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
-				// Removes a row, then jqwidgets invokes the deleterow callback defined for the dataadaptor
-				return '<span style="margin-top: 4px; margin-left: 4px; float: ' + columnproperties.cellsalign + '; "><input type="button" onClick=" confirmDialog(&apos;Remove this row from these search results&apos;,&apos;Confirm Remove Row&apos;, function(){ var commit = $(&apos;##fixedsearchResultsGrid&apos;).jqxGrid(&apos;deleterow&apos;, '+ row +'); fixedResultModifiedHere(); } ); " class="p-1 btn btn-xs btn-warning" value="&##8998;" aria-label="Remove"/></span>';
-			};
-			<!--- " --->
-			var removeKeywordCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
-				// Removes a row, then jqwidgets invokes the deleterow callback defined for the dataadaptor
-				return '<span style="margin-top: 4px; margin-left: 4px; float: ' + columnproperties.cellsalign + '; "><input type="button" onClick=" confirmDialog(&apos;Remove this row from these search results&apos;,&apos;Confirm Remove Row&apos;, function(){ var commit = $(&apos;##keywordsearchResultsGrid&apos;).jqxGrid(&apos;deleterow&apos;, '+ row +'); keywordResultModifiedHere(); } ); " class="p-1 btn btn-xs btn-warning" value="&##8998;" aria-label="Remove"/></span>';
-			};
-			<!--- " --->
-			var removeBuilderCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
-				// Removes a row, then jqwidgets invokes the deleterow callback defined for the dataadaptor
-				return '<span style="margin-top: 4px; margin-left: 4px; float: ' + columnproperties.cellsalign + '; "><input type="button" onClick=" confirmDialog(&apos;Remove this row from these search results&apos;,&apos;Confirm Remove Row&apos;, function(){ var commit = $(&apos;##buildersearchResultsGrid&apos;).jqxGrid(&apos;deleterow&apos;, '+ row +'); builderResultModifiedHere() } ); " class="p-1 btn btn-xs btn-warning" value="&##8998;" aria-label="Remove"/></span>';
-			};
-			<!--- " --->
+			<cfif isdefined("session.killRow") AND session.killRow is 1>
+				// Remove row from result set 
+				var removeFixedCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
+					// Removes a row, then jqwidgets invokes the deleterow callback defined for the dataadaptor
+					return '<span style="margin-top: 4px; margin-left: 4px; float: ' + columnproperties.cellsalign + '; "><input type="button" onClick=" confirmDialog(&apos;Remove this row from these search results&apos;,&apos;Confirm Remove Row&apos;, function(){ var commit = $(&apos;##fixedsearchResultsGrid&apos;).jqxGrid(&apos;deleterow&apos;, '+ row +'); fixedResultModifiedHere(); } ); " class="p-1 btn btn-xs btn-warning" value="&##8998;" aria-label="Remove"/></span>';
+				};
+				<!--- " --->
+				var removeKeywordCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
+					// Removes a row, then jqwidgets invokes the deleterow callback defined for the dataadaptor
+					return '<span style="margin-top: 4px; margin-left: 4px; float: ' + columnproperties.cellsalign + '; "><input type="button" onClick=" confirmDialog(&apos;Remove this row from these search results&apos;,&apos;Confirm Remove Row&apos;, function(){ var commit = $(&apos;##keywordsearchResultsGrid&apos;).jqxGrid(&apos;deleterow&apos;, '+ row +'); keywordResultModifiedHere(); } ); " class="p-1 btn btn-xs btn-warning" value="&##8998;" aria-label="Remove"/></span>';
+				};
+				<!--- " --->
+				var removeBuilderCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
+					// Removes a row, then jqwidgets invokes the deleterow callback defined for the dataadaptor
+					return '<span style="margin-top: 4px; margin-left: 4px; float: ' + columnproperties.cellsalign + '; "><input type="button" onClick=" confirmDialog(&apos;Remove this row from these search results&apos;,&apos;Confirm Remove Row&apos;, function(){ var commit = $(&apos;##buildersearchResultsGrid&apos;).jqxGrid(&apos;deleterow&apos;, '+ row +'); builderResultModifiedHere() } ); " class="p-1 btn btn-xs btn-warning" value="&##8998;" aria-label="Remove"/></span>';
+				};
+				<!--- " --->
+			</cfif>
 		</cfif>
 
 		// cellclass function 
