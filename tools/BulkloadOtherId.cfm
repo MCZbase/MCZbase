@@ -32,7 +32,7 @@ limitations under the License.
 </cfif>
 <!--- end special case dump of problems --->
 
-<cfset fieldlist = "institution_acronym,collection_cde,existing_other_id_type,existing_other_id_number,new_other_id_type,new_other_id_number">
+<cfset fieldlist = "INSTITUTION_ACRONYM,COLLECTION_CDE,EXISTING_OTHER_ID_TYPE,EXISTING_OTHER_ID_NUMBER,NEW_OTHER_ID_TYPE,NEW_OTHER_ID_NUMBER">
 <cfset fieldTypes ="CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR">
 <cfset requiredfieldlist = "institution_acronym,collection_cde,existing_other_id_type,existing_other_id_number,new_other_id_type,new_other_id_number">
 
@@ -429,10 +429,10 @@ limitations under the License.
 				</h3>
 			<cfelse>
 				<h3 class="mt-4 mb-2">
-					<span class="text-success">Validation checks passed.</span> Look over the table below and <a href="/tools/BulkloadOtherId.cfm?action=load">click to continue</a> if it all looks good or <a href="/tools/BulkloadOtherId.cfm">start again</a>.
+					<span class="text-success">Validation checks passed.</span> Look over the table below and <a href="/tools/BulkloadOtherId.cfm?action=load" class="btn">click to continue</a> if it all looks good or <a href="/tools/BulkloadOtherId.cfm">start again</a>.
 				</h3>
 			</cfif>
-			<table class='px-0 sortable table small table-responsive table-striped d-lg-table'>
+			<table class='px-0 sortable table small table-responsive table-striped w-100'>
 				<thead>
 					<tr>
 						<th>BULKLOADING STATUS</th>

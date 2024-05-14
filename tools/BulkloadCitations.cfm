@@ -33,7 +33,7 @@ limitations under the License.
 </cfif>
 <!--- end special case dump of problems --->
 
-<cfset fieldlist = "institution_acronym,collection_cde,other_id_type,other_id_number,publication_id,cited_scientific_name,occurs_page_number,citation_page_uri,type_status,citation_remarks">
+<cfset fieldlist = "INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_NUMBER,PUBLICATION_ID,CITED_SCIENTIFIC_NAME,OCCURS_PAGE_NUMBER,CITATION_PAGE_URI,TYPE_STATUS,CITATION_REMARKS">
 <cfset fieldTypes ="CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_DECIMAL,CF_SQL_VARCHAR,CF_SQL_DECIMAL,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR">
 <cfset requiredfieldlist = "institution_acronym,collection_cde,other_id_type,other_id_number,cited_scientific_name,type_status,publication_id">
 
