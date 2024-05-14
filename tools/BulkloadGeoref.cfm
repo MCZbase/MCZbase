@@ -380,9 +380,9 @@ limitations under the License.
 		<cfoutput>
 			<h2 class="h4">Second step: Data Validation</h2>
 			<!---Get Data from the temp table and the codetables with relevant information--->
-			<cfquery name="geoData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+			<cfquery name="getTempData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT highergeography,speclocality,locality_id,dec_lat,dec_long,max_error_distance,max_error_units,lat_long_remarks,determined_by_agent,determined_by_agent_id,georefmethod,orig_lat_long_units,datum,determined_date,lat_long_ref_source,extent,gpsaccuracy,verificationstatus,spatialfit,nearest_named_place,key
-				from cf_temp_georef
+				FROM cf_temp_georef
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<cfquery name="ctGEOREFMETHOD" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -401,7 +401,7 @@ limitations under the License.
 				select LAT_LONG_ERROR_UNITS from CTLAT_LONG_ERROR_UNITS
 			</cfquery>
 			<cfset i= 1>
-			<cfloop query="geoData">
+			<cfloop query="getTempData">
 				<cfif len(geoData.determined_by_agent_id) eq 0>
 					<cfquery name="getAgentID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						UPDATE
@@ -416,7 +416,7 @@ limitations under the License.
 							and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#geoData.key#"> 
 					</cfquery>
 				</cfif>
-<!---				<cfquery name="getLocText" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				<cfquery name="getLocText" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					update cf_temp_georef
 					set speclocality = '#trim(speclocality)#'
 					where key = <cfqueryparam cfsqltype='CF_SQL_DECIMAL' value='#geoData.key#'>
@@ -427,7 +427,7 @@ limitations under the License.
 					set highergeography = '#trim(highergeography)#'
 					where key = <cfqueryparam cfsqltype='CF_SQL_DECIMAL' value='#geoData.key#'>
 					username = <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#session.username#'>
-				</cfquery>--->
+				</cfquery>
 				<cfquery name="getCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE
 						cf_temp_georef
@@ -448,19 +448,17 @@ limitations under the License.
 				FROM cf_temp_georef
 				WHERE status is not null
 			</cfquery>
-		<!---	<cfquery name="dataCount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				select count(*) c from cf_temp_georef where status != 'spiffy'
-			</cfquery>--->
+			<cfif dataCount.c gt 0>
+				<h3 class="mt-3">
+					There is a problem with #pf.c# of #data.recordcount# row(s). See the STATUS column. (<a href="/tools/BulkloadGeoref.cfm?action=dumpProblems" class="btn-link font-weight-lessbold">download</a>). Fix the problems in the data and <a href="/tools/BulkloadGeoref.cfm" class="text-danger">start again</a>.
+				</h3>
+			<cfelse>
+				<h3 class="mt-3">
+					<span class="text-success">Validation checks passed</span>. Look over the table below and <a href="/tools/BulkloadGeoref.cfm?action=load" class="btn-link font-weight-lessbold">click to continue</a> if it all looks good or <a href="/tools/BulkloadGeoref.cfm" class="text-danger">start again</a>.
+				</h3>
+			</cfif>
 			<cftry>
-				<cfif dataCount.c eq 0>
-<!---					<h3 class="h4 px-0">
-						There is a problem with #pf.c# of #data.recordcount# row(s). See the STATUS column. (<a href="/tools/BulkloadOtherId.cfm?action=dumpProblems">download</a>). Fix the problem(s) noted in the status column and <a href="/tools/BulkloadOtherId.cfm" class="text-danger">start again</a>.
-					</h3>
-				<cfelse>--->
-					<h3 class="h4 px-0">
-						<span class="text-success">Validation checks passed</span>. Look over the table below and <a href="/tools/BulkloadGeoref.cfm?action=load" class="btn-link font-weight-lessbold">click to continue</a> if it all looks good or <a href="/tools/BulkloadGeoref.cfm" class="text-danger">start again</a>.
-					</h3>
-				
+
 				<table class="table table-responsive">
 					<thead class="thead-light">
 						<tr>
