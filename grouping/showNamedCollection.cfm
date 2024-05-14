@@ -253,7 +253,7 @@ limitations under the License.
 				join underscore_collection on underscore_relation.underscore_collection_id = underscore_collection.underscore_collection_id
 			WHERE 
 				underscore_collection.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
-				and flat.dec_lat is not null
+				and flat.dec_lat between -90 and 90 and flat.dec_long between -180 and 180
 		</cfquery>
 
 		<main class="py-3" id="content">
@@ -495,10 +495,20 @@ limitations under the License.
 										<script>
 										let map, heatmap;
 										function initMap() {
-											var ne = new google.maps.LatLng(#points2.maxlat#, #points2.maxlong#);
-											var sw = new google.maps.LatLng(#points2.minlat# ,#points2.minlong#);
+										
+											var ne = new google.maps.LatLng(#points2.maxlat#,#points2.maxlong#);
+											var sw = new google.maps.LatLng(#points2.minlat#,#points2.minlong#);
 											var bounds = new google.maps.LatLngBounds(sw, ne);
-											var centerpoint = new google.maps.LatLng(#points2.mylat#,#points2.mylng#);
+											for (i = 0; i < bounds.length; i++) {
+												if (bounds[i].lat != " ") {
+													var weightedLoc = {
+														location: new google.maps.LatLng(#points2.minlat#,#points2.minlong#),
+														weight: parseFloat(bounds[i].Intensity)
+													};
+													heat.push(weightedLoc);
+												} 
+											}
+											var centerpoint = weightedLoc;
 											var mapOptions = {
 												zoom: 1,
 												minZoom: 1,
@@ -524,6 +534,7 @@ limitations under the License.
 												});
 											}
 											map.fitBounds(bounds);
+									
 											heatmap = new google.maps.visualization.HeatmapLayer({
 												data: getPoints(),
 												map: map,
