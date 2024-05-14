@@ -512,7 +512,7 @@ limitations under the License.
 										</cfif>
 									</div>
 									<div class="form-row">
-										<div class="col-12 col-xl-7 float-left mb-2">
+										<div class="col-12 col-xl-6 float-left mb-2">
 											<!--- download profile is an exception, it isn&apos;t in the session but retrieved on demand--->
 											<label for="specimens_default_profile" class="data-entry-label">Default Profile for Columns included when downloading Specimen results as CSV </label>
 											<select name="specimen_default_profile" id="specimen_default_profile" class="data-entry-select" onchange="changeSpecimenDefaultProfile(this.value)">
@@ -527,7 +527,7 @@ limitations under the License.
 											</select>
 										</div>
 										<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
-											<div class="col-12 col-xl-5 float-left px-0 mb-2 pt-0 pt-xl-3">
+											<div class="col-12 col-xl-12 float-left px-0 mb-2 pt-0 pt-xl-3">
 												<span class="h4 ml-3"><a href="/users/manageDownloadProfiles.cfm">Manage Profiles for columns in CSV Downloads</a></span>
 											</div>
 										</cfif>
@@ -536,13 +536,16 @@ limitations under the License.
 								<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"coldfusion_user")>
 									<cfinclude template="/specimens/component/search.cfc" runOnce="true">
 									<div class="form-row">
-										<div class="col-12 col-xl-7 float-left mb-2">
-											<h3 class="h3">Your recent specimen search CSV download requests</h3>
-											<cfset downloadRequestsBlockContent = getDownloadRequestsHTML() >
-											<span id="recentDownloadRequestsDiv">#downloadRequestsBlockContent#</span>
-											<button class="btn btn-xs btn-secondary" 
-												id="recheckDownloadRequestsBtn" onClick=" updateDownloadsBlock('recentDownloadRequestsDiv');" 
-											>Recheck Status</button>
+										<div class="col-12 col-xl-6 float-left mb-2">
+											<div class="bg-light rounded border p-2">
+												<h3 class="h3">Your recent specimen search CSV download requests</h3>
+												<cfset downloadRequestsBlockContent = getDownloadRequestsHTML() >
+												<span id="recentDownloadRequestsDiv"> #downloadRequestsBlockContent#</span>
+												<p>The number of rows and columns determine how long it takes to process. <br>Once the download link appears, it remains available for a day.</p>
+												<button class="btn btn-xs btn-secondary" 
+													id="recheckDownloadRequestsBtn" onClick=" updateDownloadsBlock('recentDownloadRequestsDiv');" 
+												>Recheck Status</button>
+											</div>
 										</div>
 										<script>
 											function updateDownloadsBlock(targetDiv) {
