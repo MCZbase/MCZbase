@@ -996,6 +996,17 @@ limitations under the License.
 					Return to the Bulk Part Management tool <a href="#targeturl#">to change your criteria</a>.
 				</p>
 			<cfelse>
+				<script>
+					var bc = new BroadcastChannel('resultset_channel');
+					bc.onmessage = function (message) { 
+						console.log(message);
+						if (message.data.result_id == "#result_id#") { 
+							messageDialog("Warning: You have removed one or more records from this result set, you must reload this page to see the current list of parts that will be changed.", "Result Set Changed Warning");
+							$(".makeChangeButton").prop("disabled",true);
+							$(".makeChangeButton").addClass("disabled");
+						}  
+					} 
+				</script>
 				<form name="modPart" method="post" action="/specimens/changeQueryParts.cfm">
 					<input type="hidden" name="action" value="modPart2">
 					<input type="hidden" name="table_name" value="#table_name#">
@@ -1015,7 +1026,7 @@ limitations under the License.
 					<input type="hidden" name="new_condition" value="#new_condition#">
 					<input type="hidden" name="new_remark" value="#new_remark#">
 					<input type="hidden" name="partID" value="#valuelist(d.partID)#">
-					<input type="submit" value="Change all of these parts" class="btn btn-xs btn-warning">
+					<input type="submit" value="Change all of these parts" class="btn btn-xs btn-warning makeChangeButton">
 				</form>
 				<h3 class="h4 px-3 mt-2">
 					Or return to the Bulk Part Management tool <a href="#targeturl#">without making changes</a>.
