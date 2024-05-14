@@ -86,8 +86,8 @@ limitations under the License.
 		and collector.collector_role = 'c'
 		and flat.guid IS NOT NULL
 		and flat.dec_lat is not null
-	and collector.collector_role = 'c'
-		
+		and collector.collector_role = 'c'
+		and flat.dec_lat between -90 and 90 and flat.dec_long between -180 and 180
 </cfquery>
 
 <cfoutput>
@@ -145,7 +145,7 @@ limitations under the License.
 							<cfif getAgent.vetted EQ 1 ><cfset vetted_marker="*"><cfelse><cfset vetted_marker=""></cfif> 
 							<cfif oneOfUs EQ 1><cfset agent_id_bit = " [Agent ID: #getAgent.agent_id#]"><cfelse><cfset agent_id_bit=""></cfif>
 							<cfset rankBit ="">
- 							<cfif listcontainsnocase(session.roles, "manage_transactions")>
+							<cfif listcontainsnocase(session.roles, "manage_transactions")>
 								<cfquery name="rank" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 									SELECT count(*) || ' ' || agent_rank agent_rank
 									FROM agent_rank
@@ -844,7 +844,16 @@ limitations under the License.
 											var ne = new google.maps.LatLng(#points2.maxlat#, #points2.maxlong#);
 											var sw = new google.maps.LatLng(#points2.minlat#,#points2.minlong#);
 											var bounds = new google.maps.LatLngBounds(sw, ne);
-											var centerpoint = new google.maps.LatLng(#points2.mylat#,#points2.mylng#);
+											for (i = 0; i < bounds.length; i++) {
+												if (bounds[i].lat != " ") {
+													var weightedLoc = {
+														location: new google.maps.LatLng(#points2.minlat#, #points2.minlong#),
+														weight: parseFloat(bounds[i].Intensity)
+													};
+													heat.push(weightedLoc);
+												} 
+											}
+											var centerpoint = weightedLoc;
 											var mapOptions = {
 												zoom: 1,
 												minZoom: 1,
