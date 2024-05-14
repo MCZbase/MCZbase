@@ -92,6 +92,18 @@
 			SELECT distinct collection from getItems
 		</cfquery>
 		<cfoutput>
+			<script>
+				var bc = new BroadcastChannel('resultset_channel');
+				bc.onmessage = function (message) { 
+					console.log(message);
+					if (message.data.result_id == "#result_id#") { 
+						messageDialog("Warning: You have removed one or more records from this result set, you must reload this page to see the current list of records this page affects.", "Result Set Changed Warning");
+						$("##s_btn").prop("disabled",true);
+						$("##s_btn").addClass("disabled");
+
+					}  
+				} 
+			</script>
 			<main class="container-xl" id="content">
 				<section class="row" aria-labelledby="formheading">
 					<div class="col-12 pt-4">

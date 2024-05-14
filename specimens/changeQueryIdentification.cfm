@@ -221,6 +221,17 @@ limitations under the License.
 			ORDER BY taxa_formula
 		</cfquery>
 		<cfoutput> 
+			<script>
+				var bc = new BroadcastChannel('resultset_channel');
+				bc.onmessage = function (message) { 
+					console.log(message);
+					if (message.data.result_id == "#result_id#") { 
+						messageDialog("Warning: You have removed one or more records from this result set, you must reload this page to see the current list of records this page affects.", "Result Set Changed Warning");
+						$("##s_btn").prop("disabled",true);
+						$("##s_btn").addClass("disabled");
+					}  
+				} 
+			</script>
 			<div class="col-12 px-3 px-xl-4 pt-4">
 				<h1 class="h2" id="formHead">Add a new Current Identification to <strong>All</strong> specimens listed below:</h1>
 				<form name="newID" method="post" action="/specimens/changeQueryIdentification.cfm">
@@ -373,7 +384,7 @@ limitations under the License.
 							});
 						</script> 
 						<div class="col-12">
-							<input type="submit" value="Add Identification to all listed specimens" class="btn btn-xs mt-2 btn-primary">
+							<input type="submit" id="s_btn" value="Add Identification to all listed specimens" class="btn btn-xs mt-2 btn-primary">
 						</div>
 					</div>
 				</form>

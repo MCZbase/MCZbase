@@ -115,6 +115,15 @@ limitations under the License.
 		<cfset showLocality=1>
 		<cfset showEvent=0>
 		<cfoutput>
+			<script>
+				var bc = new BroadcastChannel('resultset_channel');
+				bc.onmessage = function (message) { 
+					console.log(message);
+					if (message.data.result_id == "#result_id#") { 
+						messageDialog("Warning: You have removed one or more records from this result set, you must reload this page to see the current list of records this page affects.", "Result Set Changed Warning");
+					}  
+				} 
+			</script>
 			<main id="content">
 				<h1 class="h2 mt-3 mb-0 px-4">Find new locality for cataloged items [in #encodeForHtml(result_id)#]#filterTextForHead#</h1>
 				<form name="getLoc" method="post" action="/specimens/changeQueryLocality.cfm">
@@ -322,6 +331,17 @@ limitations under the License.
 	<main id="content" class="container-fluid">
 		<div class="row mx-1">
 			<div class="col-12 px-4 mt-3">
+				<script>
+					var bc = new BroadcastChannel('resultset_channel');
+					bc.onmessage = function (message) { 
+						console.log(message);
+						if (message.data.result_id == "#result_id#") { 
+							messageDialog("Warning: You have removed one or more records from this result set, you must reload this page to see the current list of records this page affects.", "Result Set Changed Warning");
+							$(".doUpdateButton").prop("disabled",true);
+							$(".doUpdatebutton").addClass("disabled");
+						}  
+					} 
+				</script>
 				<cfif hasFilter>
 					<h2 class="h2 px-3">Change locality for #specimenList.recordcount# cataloged items [in #encodeForHtml(result_id)#]<strong>#filterTextForHead#</strong></h2>
 				<cfelse>
@@ -389,9 +409,9 @@ limitations under the License.
 										<cfif hasFilter>
 											<cfset targetCount = "#specimenList.recordcount#">
 										</cfif>
-										<input type="submit"
+										<input type="submit" 
 											value="Change #targetCount# to this Locality"
-											class="btn btn-warning btn-xs">
+											class="btn btn-warning btn-xs doUpdateButton">
 									</form>
 								</td>
 								<td>#spec_locality#</td>
