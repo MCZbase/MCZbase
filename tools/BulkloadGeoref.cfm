@@ -678,7 +678,7 @@ limitations under the License.
 	<cfif #action# is "load">
 		<h2 class="h3">Third step: Apply changes.</h2>
 		<cfoutput>
-			<cfset problemKey = "">
+			<cfset problem_key = "">
 			<cftransaction>
 				<cfquery name="getTempData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT * FROM cf_temp_georef
@@ -695,7 +695,7 @@ limitations under the License.
 						<cfthrow message="You have no rows to load in the geography bulkloader table (cf_temp_georef). <a href='/tools/BulkloadGeoref.cfm'>Start over</a>"><!--- " --->
 					</cfif>
 					<cfloop query="getTempData">
-						<cfset problemKey = #getTempData.key#>
+						<cfset problem_key = #getTempData.key#>
 						<cfquery name="updateGeoref" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateGeoref_result">
 							INSERT into lat_long (
 								key,
@@ -819,7 +819,7 @@ limitations under the License.
 					<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						SELECT highergeography,speclocality,locality_id,dec_lat,dec_long,max_error_distance,max_error_units,lat_long_remarks,determined_by_agent,determined_by_agent_id,georefmethod,orig_lat_long_units,datum,determined_date,lat_long_ref_source,extent,gpsaccuracy,verificationstatus,spatialfit,nearest_named_place
 						FROM cf_temp_georef
-						WHERE key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#problemKey#">
+						WHERE key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#problem_key#">
 					</cfquery>
 					<cfif getProblemData.recordcount GT 0>
  						<h2 class="h3">Errors are displayed one row at a time.</h2>
