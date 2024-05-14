@@ -70,6 +70,18 @@ limitations under the License.
 			<h2 class="mt-4 h4">Columns in <span class="text-danger">red</span> are required; others are optional:</h2>
 			<ul class="mb-4 h5 font-weight-normal list-group">
 				<cfloop list="#fieldlist#" index="field" delimiters=",">
+					<cfquery name = "getComments"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#"  result="getComments_result">
+						SELECT comments
+						FROM sys.all_col_comments
+						WHERE 
+							owner = 'MCZBASE'
+							and table_name = 'CF_TEMP_GEOREF'
+							and column_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(field)#" />
+					</cfquery>
+					<cfset comment = "">
+					<cfif getComments.recordcount GT 0>
+						<cfset comment = getComments.comments>
+					</cfif>
 					<cfset aria = "">
 					<cfif listContains(requiredfieldlist,field,",")>
 						<cfset class="text-danger">
@@ -77,7 +89,9 @@ limitations under the License.
 					<cfelse>
 						<cfset class="text-dark">
 					</cfif>
-					<li class="#class#" #aria#>#field#</li>
+					<li class="pb-1 mx-xl-5">
+						<span class="#class# font-weight-lessbold" #aria#>#field#: </span> <span class="text-secondary">#comment#</span>
+					</li>
 				</cfloop>
 			</ul>
 			<form name="atts" method="post" enctype="multipart/form-data" action="/tools/BulkloadGeoref.cfm">
