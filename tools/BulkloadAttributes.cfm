@@ -667,14 +667,14 @@ limitations under the License.
 					</cfloop>
 					<p>Number of attributes to update: #attributes_updates# (on #getCounts.ctobj# cataloged items)</p>
 					<cfif getTempData.recordcount eq attributes_updates and updateAttributes1_result.recordcount eq 0>
-						<h2 class="text-success">Success - loaded</h2>
+						<h3 class="text-success">Success - loaded</h3>
 					</cfif>
 					<cfif updateAttributes1_result.recordcount gt 0>
-						<h2 class="text-danger">Not loaded - these have already been loaded</h2>
+						<h3 class="text-danger">Not loaded - these have already been loaded</h3>
 					</cfif>
 				<cfcatch>
 					<cftransaction action="ROLLBACK">
-					<h2 class="h3">There was a problem updating the attributes.</h2>
+					<h3>There was a problem updating the attributes.</h3>
 					<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						SELECT status,institution_acronym,collection_cde,other_id_type,other_id_number,attribute,attribute_value, attribute_units,attribute_date,attribute_meth,determiner,remarks
 						FROM cf_temp_attributes 
@@ -697,7 +697,7 @@ limitations under the License.
 						<cfset institutions = ListAppend(institutions,getInstitution.institution_acronym)>
 					</cfloop>
 					<cfif getProblemData.recordcount GT 0>
- 						<h2 class="h3">Errors are displayed one row at a time.</h2>
+ 						<h3>Errors are displayed one row at a time.</h3>
 						<h3>
 							Error loading row (<span class="text-danger">#attributes_updates + 1#</span>) from the CSV: 
 							<cfif len(cfcatch.detail) gt 0>
