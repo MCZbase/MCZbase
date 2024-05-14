@@ -31,10 +31,9 @@ limitations under the License.
 	<cfabort>
 </cfif>
 <!--- end special case dump of problems --->
-<cfset fieldlist = "OTHER_ID_TYPE,OTHER_ID_NUMBER,ATTRIBUTE,ATTRIBUTE_VALUE,ATTRIBUTE_UNITS,ATTRIBUTE_DATE,ATTRIBUTE_METH,DETERMINER,REMARKS,COLLECTION_CDE,INSTITUTION_ACRONYM">
-<cfset fieldlist = "institution_acronym,collection_cde,other_id_type,other_id_number,attribute,attribute_value,attribute_units,attribute_date,attribute_meth,determiner,remarks">
+<cfset fieldlist = "INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_NUMBER,ATTRIBUTE,ATTRIBUTE_VALUE,ATTRIBUTE_UNITS,ATTRIBUTE_DATE,ATTRIBUTE_METH,DETERMINER,REMARKS">
 <cfset fieldTypes ="CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR">
-<cfset requiredfieldlist = "institution_acronym,collection_cde,other_id_type,other_id_number,attribute,attribute_value,attribute_date,determiner">
+<cfset requiredfieldlist = "INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_NUMBER,ATTRIBUTE,ATTRIBUTE_VALUE,ATTRIBUTE_DATE,DETERMINER">
 <!--- special case handling to dump column headers as csv --->
 <cfif isDefined("action") AND action is "getCSVHeader">
 	<cfset csv = "">
@@ -68,7 +67,7 @@ limitations under the License.
 				<textarea rows="2" cols="90" id="templatearea" class="w-100 data-entry-textarea">#fieldlist#</textarea>
 			</div>
 			<h2 class="mt-4 h4">Columns in <span class="text-danger">red</span> are required; others are optional:</h2>
-			<ul class="mb-4 h5 font-weight-normal list-group mx-3 px-3">
+			<ul class="mb-4 h5 font-weight-normal list-group mx-xl-3">
 				<cfloop list="#fieldlist#" index="field" delimiters=",">
 					<cfquery name = "getComments"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#"  result="getComments_result">
 						SELECT comments
@@ -89,7 +88,7 @@ limitations under the License.
 					<cfelse>
 						<cfset class="text-dark">
 					</cfif>
-					<li>
+					<li class="pb-1 mx-xl-3">
 						<span class="#class# font-weight-lessbold" #aria#>#field#: </span> <span class="text-secondary">#comment#</span>
 					</li>
 				</cfloop>
@@ -668,14 +667,14 @@ limitations under the License.
 					</cfloop>
 					<p>Number of attributes to update: #attributes_updates# (on #getCounts.ctobj# cataloged items)</p>
 					<cfif getTempData.recordcount eq attributes_updates and updateAttributes1_result.recordcount eq 0>
-						<h2 class="text-success">Success - loaded</h2>
+						<h3 class="text-success">Success - loaded</h3>
 					</cfif>
 					<cfif updateAttributes1_result.recordcount gt 0>
-						<h2 class="text-danger">Not loaded - these have already been loaded</h2>
+						<h3 class="text-danger">Not loaded - these have already been loaded</h3>
 					</cfif>
 				<cfcatch>
 					<cftransaction action="ROLLBACK">
-					<h2 class="h3">There was a problem updating the attributes.</h2>
+					<h3>There was a problem updating the attributes.</h3>
 					<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						SELECT status,institution_acronym,collection_cde,other_id_type,other_id_number,attribute,attribute_value, attribute_units,attribute_date,attribute_meth,determiner,remarks
 						FROM cf_temp_attributes 
@@ -698,7 +697,7 @@ limitations under the License.
 						<cfset institutions = ListAppend(institutions,getInstitution.institution_acronym)>
 					</cfloop>
 					<cfif getProblemData.recordcount GT 0>
- 						<h2 class="h3">Errors are displayed one row at a time.</h2>
+ 						<h3>Errors are displayed one row at a time.</h3>
 						<h3>
 							Error loading row (<span class="text-danger">#attributes_updates + 1#</span>) from the CSV: 
 							<cfif len(cfcatch.detail) gt 0>

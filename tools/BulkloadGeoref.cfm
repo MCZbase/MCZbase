@@ -32,9 +32,9 @@ limitations under the License.
 	<cfabort>
 </cfif>
 
-<cfset fieldlist = "determined_by_agent_id,highergeography,speclocality,locality_id,dec_lat,dec_long,max_error_distance,max_error_units,lat_long_remarks,determined_by_agent,georefmethod,orig_lat_long_units,datum,determined_date,lat_long_ref_source,extent,gpsaccuracy,verificationstatus,spatialfit,nearest_named_place">
-<cfset fieldTypes ="CF_SQL_DECIMAL,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_DECIMAL,CF_SQL_DECIMAL,CF_SQL_DECIMAL,CF_SQL_DECIMAL,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_DATE,CF_SQL_VARCHAR,CF_SQL_DECIMAL,CF_SQL_DECIMAL,CF_SQL_VARCHAR,CF_SQL_DECIMAL,CF_SQL_VARCHAR">
-<cfset requiredfieldlist = "highergeography,speclocality,locality_id,determined_by_agent,georefmethod,orig_lat_long_units,datum,determined_date,lat_long_ref_source,verificationstatus">
+<cfset fieldlist = "HIGHERGEOGRAPHY,SPECLOCALITY,LOCALITY_ID,DEC_LAT,DEC_LONG,MAX_ERROR_DISTANCE,MAX_ERROR_UNITS,LAT_LONG_REMARKS,DETERMINED_BY_AGENT,GEOREFMETHOD,ORIG_LAT_LONG_UNITS,DATUM,DETERMINED_DATE,LAT_LONG_REF_SOURCE,EXTENT,GPSACCURACY,VERIFICATIONSTATUS,SPATIALFIT,NEAREST_NAMED_PLACE">
+<cfset fieldTypes ="CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_DECIMAL,CF_SQL_DECIMAL,CF_SQL_DECIMAL,CF_SQL_DECIMAL,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_DATE,CF_SQL_VARCHAR,CF_SQL_DECIMAL,CF_SQL_DECIMAL,CF_SQL_VARCHAR,CF_SQL_DECIMAL,CF_SQL_VARCHAR">
+<cfset requiredfieldlist = "HIGHERGEOGRAPHY,SPECLOCALITY,LOCALITY_ID,DETERMINED_BY_AGENT,GEOREFMETHOD,ORIG_LAT_LONG_UNITS,DATUM,DETERMINED_DATE,LAT_LONG_REF_SOURCE,VERIFICATIONSTATUS">
 		
 		
 <!--- special case handling to dump column headers as csv --->
@@ -68,8 +68,20 @@ limitations under the License.
 				<textarea rows="2" cols="90" id="templatearea" class="w-100 data-entry-textarea">#fieldlist#</textarea>
 			</div>
 			<h2 class="mt-4 h4">Columns in <span class="text-danger">red</span> are required; others are optional:</h2>
-			<ul class="mb-4 small90">
+			<ul class="mb-4 h5 font-weight-normal list-group mx-xl-3">
 				<cfloop list="#fieldlist#" index="field" delimiters=",">
+					<cfquery name = "getComments"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#"  result="getComments_result">
+						SELECT comments
+						FROM sys.all_col_comments
+						WHERE 
+							owner = 'MCZBASE'
+							and table_name = 'CF_TEMP_GEOREF'
+							and column_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(field)#" />
+					</cfquery>
+					<cfset comment = "">
+					<cfif getComments.recordcount GT 0>
+						<cfset comment = getComments.comments>
+					</cfif>
 					<cfset aria = "">
 					<cfif listContains(requiredfieldlist,field,",")>
 						<cfset class="text-danger">
@@ -77,7 +89,9 @@ limitations under the License.
 					<cfelse>
 						<cfset class="text-dark">
 					</cfif>
-					<li class="#class#" #aria#>#field#</li>
+					<li class="pb-1 mx-xl-3">
+						<span class="#class# font-weight-lessbold" #aria#>#field#: </span> <span class="text-secondary">#comment#</span>
+					</li>
 				</cfloop>
 			</ul>
 			<form name="atts" method="post" enctype="multipart/form-data" action="/tools/BulkloadGeoref.cfm">
@@ -511,13 +525,33 @@ limitations under the License.
 			</cfquery>--->
 			<cftry>
 				<cfif dataCount.c is 0>
-					<p>Passed validation. Take a look at everything below, then 
-						<a href="BulkloadGeoref.cfm?action=load">click to load</a>.
-					</p>
+					<h3 class="h4 px-0">
+						<span class="text-success">Validation checks passed</span>. Look over the table below and <a href="/tools/BulkloadGeoref.cfm?action=load" class="btn-link">click to continue</a> if it all looks good or <a href="/tools/BulkloadGeoref.cfm" class="text-danger">start again</a>.
+					</h3>
+						
 					<table class="table table-responsive">
 					<thead class="thead-light">
 						<tr>
-							<th>highergeography</th><th>speclocality</th><th>locality_id</th><th>dec_lat</th><th>dec_long</th><th>max_error_distance</th><th>max_error_units</th><th>lat_long_remarks</th><th>determined_by_agent</th><th>determined_by_agent_id</th><th>georefmethod</th><th>orig_lat_long_units</th><th>datum</th><th>determined_date</th><th>lat_long_ref_source</th><th>extent</th><th>gpsaccuracy</th><th>verificationstatus</th><th>spatialfit</th><th>nearest_named_place</th>
+							<th>highergeography</th>
+							<th>speclocality</th>
+							<th>locality_id</th>
+							<th>dec_lat</th>
+							<th>dec_long</th>
+							<th>max_error_distance</th>
+							<th>max_error_units</th>
+							<th>lat_long_remarks</th>
+							<th>determined_by_agent</th>
+							<th>determined_by_agent_id</th>
+							<th>georefmethod</th>
+							<th>orig_lat_long_units</th>
+							<th>datum</th>
+							<th>determined_date</th>
+							<th>lat_long_ref_source</th>
+							<th>extent</th>
+							<th>gpsaccuracy</th>
+							<th>verificationstatus</th>
+							<th>spatialfit</th>
+							<th>nearest_named_place</th>
 						</tr>
 					</thead>
 					<tbody>
