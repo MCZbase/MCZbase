@@ -525,13 +525,33 @@ limitations under the License.
 			</cfquery>--->
 			<cftry>
 				<cfif dataCount.c is 0>
-					<p>Passed validation. Take a look at everything below, then 
-						<a href="BulkloadGeoref.cfm?action=load">click to load</a>.
-					</p>
+					<h3 class="h4 px-0">
+						<span class="text-success">Validation checks passed</span>. Look over the table below and <a href="/tools/BulkloadGeoref.cfm?action=load" class="btn-link">click to continue</a> if it all looks good or <a href="/tools/BulkloadGeoref.cfm" class="text-danger">start again</a>.
+					</h3>
+						
 					<table class="table table-responsive">
 					<thead class="thead-light">
 						<tr>
-							<th>highergeography</th><th>speclocality</th><th>locality_id</th><th>dec_lat</th><th>dec_long</th><th>max_error_distance</th><th>max_error_units</th><th>lat_long_remarks</th><th>determined_by_agent</th><th>determined_by_agent_id</th><th>georefmethod</th><th>orig_lat_long_units</th><th>datum</th><th>determined_date</th><th>lat_long_ref_source</th><th>extent</th><th>gpsaccuracy</th><th>verificationstatus</th><th>spatialfit</th><th>nearest_named_place</th>
+							<th>highergeography</th>
+							<th>speclocality</th>
+							<th>locality_id</th>
+							<th>dec_lat</th>
+							<th>dec_long</th>
+							<th>max_error_distance</th>
+							<th>max_error_units</th>
+							<th>lat_long_remarks</th>
+							<th>determined_by_agent</th>
+							<th>determined_by_agent_id</th>
+							<th>georefmethod</th>
+							<th>orig_lat_long_units</th>
+							<th>datum</th>
+							<th>determined_date</th>
+							<th>lat_long_ref_source</th>
+							<th>extent</th>
+							<th>gpsaccuracy</th>
+							<th>verificationstatus</th>
+							<th>spatialfit</th>
+							<th>nearest_named_place</th>
 						</tr>
 					</thead>
 					<tbody>
