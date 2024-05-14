@@ -452,16 +452,16 @@ limitations under the License.
 				select count(*) c from cf_temp_georef where status != 'spiffy'
 			</cfquery>--->
 			<cftry>
-				<cfif pf.c gt 0>
-					<h3 class="h4 px-0">
+				<cfif dataCount.c eq 0>
+<!---					<h3 class="h4 px-0">
 						There is a problem with #pf.c# of #data.recordcount# row(s). See the STATUS column. (<a href="/tools/BulkloadOtherId.cfm?action=dumpProblems">download</a>). Fix the problem(s) noted in the status column and <a href="/tools/BulkloadOtherId.cfm" class="text-danger">start again</a>.
 					</h3>
-				<cfelse>
+				<cfelse>--->
 					<h3 class="h4 px-0">
 						<span class="text-success">Validation checks passed</span>. Look over the table below and <a href="/tools/BulkloadGeoref.cfm?action=load" class="btn-link font-weight-lessbold">click to continue</a> if it all looks good or <a href="/tools/BulkloadGeoref.cfm" class="text-danger">start again</a>.
 					</h3>
-				</cfif>
-					<table class="table table-responsive">
+				
+				<table class="table table-responsive">
 					<thead class="thead-light">
 						<tr>
 							<th>highergeography</th>
