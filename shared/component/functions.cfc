@@ -1600,7 +1600,7 @@ limitations under the License.
 	<cfset theResult=queryNew("status, message")>
 	<cftry>
 		<!--- check if this setting exists --->
-		<cfquery name="exists" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="exists_result">
+		<cfquery name="exists" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="exists_result">
 			select count(*) ct 
 			from cf_grid_properties
 			where 
@@ -1609,7 +1609,7 @@ limitations under the License.
 				label = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#label#"> 
 		</cfquery>
 		<cfif exists.ct EQ 0>
-			<cfquery name="insert" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="insert_result">
+			<cfquery name="insert" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="insert_result">
 				insert into cf_grid_properties (
 					page_file_path,
 					username,
@@ -1623,7 +1623,7 @@ limitations under the License.
 				)
 			</cfquery>
 		<cfelse>
-			<cfquery name="update" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="update_result">
+			<cfquery name="update" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="update_result">
 				update cf_grid_properties
 				set column_order = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#column_order#"> 
 				where
@@ -1652,7 +1652,7 @@ limitations under the License.
 	
 	<cfset data = ArrayNew(1)>
 	<cftry>
-		<cfquery name="getSettings" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getSettings_result">
+		<cfquery name="getSettings" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getSettings_result">
 			select column_order
 			from cf_grid_properties
 			where 
