@@ -829,7 +829,6 @@ limitations under the License.
 					<cfset enteredbyid = getEntBy.agent_id>
 					<cfset part_updates = 0>
 					<cfset part_updates1 = 0>
-					<cfset i = 1>
 					<cftransaction>
 						<cfloop query="getTempData">
 							<cfset problem_key = #getTempData.key#>
@@ -873,28 +872,6 @@ limitations under the License.
 										'#PRESERVE_METHOD#',
 										#collection_object_id# )
 								</cfquery>
-								<cfif len(#getTempData.PART_ATT_NAME_#i##) gt 0>
-									<!---- new remark --->
-									<cfquery name="newPartAtt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-										INSERT INTO specimen_part_attribute (
-										COLLECTION_OBJECT_ID,
-										ATTRIBUTE_TYPE,
-										ATTRIBUTE_VALUE,
-										ATTRIBUTE_UNITS,
-										DETERMINED_DATE,
-										DETERMINED_BY_AGENT_ID,
-										ATTRIBUTE_REMARK)
-									VALUES (
-										sq_collection_object_id.currval,
-										'#PART_ATT_NAME_i#',
-										'#PART_ATT_VAL_i#',
-										'#PART_ATT_UNITS_i#',
-										'#PART_ATT_DETBY_i#',
-										'#PART_ATT_MADEDATE_i#',
-										'#PART_ATT_REM_i#'
-										)
-									</cfquery>
-								</cfif>
 								<cfif len(#current_remarks#) gt 0>
 									<!---- new remark --->
 									<cfquery name="newCollRem" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -1214,7 +1191,6 @@ limitations under the License.
 								</cfif>
 							<cfset part_updates = part_updates + updateColl_result.recordcount>
 						</cfif>
-						<cfset i=i+1>
 					</cfloop>
 					<h3 class="mt-3">There were #part_updates# parts in #updateColl_result.recordcount# specimen records updated.</h3>
 					<h3><span class="text-success">Success!</span> Parts loaded.
@@ -1230,6 +1206,7 @@ limitations under the License.
 						SELECT *
 						FROM cf_temp_parts
 						where key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#problem_key#">
+						and use_existing = 1
 					</cfquery>
 					<cfif getProblemData.recordcount GT 0>
 						<h3>
