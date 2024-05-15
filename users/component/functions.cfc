@@ -751,6 +751,34 @@ limitations under the License.
 	<cfreturn result>
 </cffunction>
 
+
+<!--- changekillRows change the user profile killrow value for enabling/disabling row removal from speciemn search,
+  on success, changes the value of session.KILLROW.
+ @param tgt the target value to change killRows to, should be 0 or 1, if value other than 0, 1 will be used.
+ @return the string "success" or an error message.
+--->
+<cffunction name="changekillRows" access="remote">
+	<cfargument name="tgt" type="string" required="yes">
+
+	<cftry>
+		<cfif tgt is not 1>
+			<cfset tgt=0>
+		</cfif>
+		<cfquery name="up" datasource="cf_dbuser">
+			UPDATE cf_users 
+			SET
+				KILLROW = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#tgt#">
+			WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+		</cfquery>
+		<cfset session.KILLROW = "#tgt#">
+		<cfset result="success">
+	<cfcatch>
+		<cfset result = "#cfcatch.Message# #cfcatch.Detail#">
+	</cfcatch>
+	</cftry>
+	<cfreturn result>
+</cffunction>
+
 <!--- saveSearch save searches 
  @param search_name the user provided name for the search
  @param execute whether to execute the search immediately on page load, or only display the populated search form

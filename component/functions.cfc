@@ -4706,25 +4706,6 @@
 	<cfreturn result>
 </cffunction>
 <!----------------------------------------------------------------------------------------------------------------->
-<cffunction name="changekillRows" access="remote">
-	<cfargument name="tgt" type="string" required="yes">
-	<cftry>
-			<cfif tgt is not 1>
-				<cfset tgt=0>
-			</cfif>
-			<cfquery name="up" datasource="cf_dbuser">
-				UPDATE cf_users SET
-					KILLROW = #tgt#
-				WHERE username = '#session.username#'
-			</cfquery>
-			<cfset session.KILLROW = "#tgt#">
-		<cfset result="success">
-	<cfcatch>
-		<cfset result = "#cfcatch.Message# #cfcatch.Detail#">
-	</cfcatch>
-	</cftry>
-	<cfreturn result>
-</cffunction>
 <!----------------------------------------------------------------------------------------->
 <cffunction name="changeSpecimensDefaultAction" access="remote">
 	<cfargument name="specimens_default_action" type="string" required="yes">

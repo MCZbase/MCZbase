@@ -452,7 +452,7 @@ limitations under the License.
 									</div>
 									<div class="form-row">
 										<div class="col-12 col-md-6 float-left mb-2">
-											<label for="killRows" class="data-entry-label" >SpecimenResults Row-Removal Option</label>
+											<label for="killRow" class="data-entry-label" >SpecimenResults Row-Removal Option</label>
 											<select name="killRow" id="killRow" class="data-entry-select" onchange="changekillRows(this.value)">
 												<option value="0" <cfif session.killRow neq 1> selected="selected" </cfif>>No</option>
 												<option value="1" <cfif session.killRow is 1> selected="selected" </cfif>>Yes</option>

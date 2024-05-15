@@ -17,6 +17,23 @@ function changeSpecimenDefaultProfile(profile) {
 		}
 	);
 }
+function changekillRows (onoff) {
+	jQuery.getJSON("/users/component/functions.cfc",
+		{
+			method : "changekillRows",
+			tgt : onoff,
+			returnformat : "json",
+			queryformat : 'column'
+		},
+		function (result){
+			if (result == 'success') {
+				$('#changeFeedback').html('Specimen search remove rows changed.');
+			} else { 
+				alert('An error occured: ' + result);
+			}
+		}
+	);
+}
 /** TODO: Refactor the backing methods for these from component/functions.cfc to users/component/functions.cfc **/
 function changeBlockSuggest (onoff) {
 	$.getJSON("/component/functions.cfc",
@@ -119,21 +136,6 @@ function changeGridScrollToTop(gridscrolltotop) {
 				}	
 			}
 		);
-}
-function changekillRows (onoff) {
-	jQuery.getJSON("/component/functions.cfc",
-		{
-			method : "changekillRows",
-			tgt : onoff,
-			returnformat : "json",
-			queryformat : 'column'
-		},
-		function (result){
-			if (result != 'success') {
-				alert('An error occured: ' + result);
-			}
-		}
-	);
 }
 function changeshowObservations (tgt) {
 	jQuery.getJSON("/component/functions.cfc",
