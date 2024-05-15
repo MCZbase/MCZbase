@@ -106,7 +106,7 @@ function changeSpecimensPageSize (specimens_pagesize) {
 		);
 }
 function changekillRows (onoff) {
-	jQuery.getJSON("/component/functions.cfc",
+	jQuery.getJSON("/users/component/functions.cfc",
 		{
 			method : "changekillRows",
 			tgt : onoff,

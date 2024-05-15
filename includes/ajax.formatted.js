@@ -1020,7 +1020,7 @@ function findPart_Atrribute(a, b, c) {
 }
 
 function changekillRows(a) {
-    jQuery.getJSON("/component/functions.cfc", {
+    jQuery.getJSON("/users/component/functions.cfc", {
         method: "changekillRows",
         tgt: a,
         returnformat: "json",
