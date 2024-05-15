@@ -402,7 +402,7 @@ limitations under the License.
 			</cfquery>
 			<cfset i= 1>
 			<cfloop query="getTempData">
-				<cfif len(geoData.determined_by_agent_id) eq 0>
+				<cfif len(getTempData.determined_by_agent_id) eq 0>
 					<cfquery name="getAgentID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						UPDATE
 							cf_temp_georef
@@ -419,13 +419,13 @@ limitations under the License.
 				<cfquery name="getLocText" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					update cf_temp_georef
 					set speclocality = '#trim(speclocality)#'
-					where key = <cfqueryparam cfsqltype='CF_SQL_DECIMAL' value='#geoData.key#'>
+					where key = <cfqueryparam cfsqltype='CF_SQL_DECIMAL' value='#getTempData.key#'>
 					username = <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#session.username#'>
 				</cfquery>
 				<cfquery name="getHGText" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					update cf_temp_georef
 					set highergeography = '#trim(highergeography)#'
-					where key = <cfqueryparam cfsqltype='CF_SQL_DECIMAL' value='#geoData.key#'>
+					where key = <cfqueryparam cfsqltype='CF_SQL_DECIMAL' value='#getTempData.key#'>
 					username = <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#session.username#'>
 				</cfquery>
 				<cfquery name="getCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -434,7 +434,7 @@ limitations under the License.
 					SET
 						status = null
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-						and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#geoData.key#">
+						and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.key#">
 				</cfquery>
 			</cfloop>
 			<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -484,26 +484,26 @@ limitations under the License.
 				</thead>
 				<tbody>
 					<tr>
-						<td>#geoData.highergeography#</td>
-						<td>#geoData.speclocality#</td>
-						<td>#geoData.locality_id#</td>
-						<td>#geoData.dec_lat#</td>
-						<td>#geoData.dec_long#</td>
-						<td>#geoData.max_error_distance#</td>
-						<td>#geoData.max_error_units#</td>
-						<td>#geoData.lat_long_remarks#</td>
-						<td>#geoData.determined_by_agent#</td>
-						<td>#geoData.determined_by_agent_id#</td>
-						<td>#geoData.georefmethod#</td>
-						<td>#geoData.orig_lat_long_units#</td>
-						<td>#geoData.datum#</td>
-						<td>#geoData.determined_date#</td>
-						<td>#geoData.lat_long_ref_source#</td>
-						<td>#geoData.extent#</td>
-						<td>#geoData.gpsaccuracy#</td>
-						<td>#geoData.verificationstatus#</td>
-						<td>#geoData.spatialfit#</td>
-						<td>#geoData.nearest_named_place#</td>
+						<td>#getTempData.highergeography#</td>
+						<td>#getTempData.speclocality#</td>
+						<td>#getTempData.locality_id#</td>
+						<td>#getTempData.dec_lat#</td>
+						<td>#getTempData.dec_long#</td>
+						<td>#getTempData.max_error_distance#</td>
+						<td>#getTempData.max_error_units#</td>
+						<td>#getTempData.lat_long_remarks#</td>
+						<td>#getTempData.determined_by_agent#</td>
+						<td>#getTempData.determined_by_agent_id#</td>
+						<td>#getTempData.georefmethod#</td>
+						<td>#getTempData.orig_lat_long_units#</td>
+						<td>#getTempData.datum#</td>
+						<td>#getTempData.determined_date#</td>
+						<td>#getTempData.lat_long_ref_source#</td>
+						<td>#getTempData.extent#</td>
+						<td>#getTempData.gpsaccuracy#</td>
+						<td>#getTempData.verificationstatus#</td>
+						<td>#getTempData.spatialfit#</td>
+						<td>#getTempData.nearest_named_place#</td>
 					</tr>	
 				</tbody>
 			</table>
