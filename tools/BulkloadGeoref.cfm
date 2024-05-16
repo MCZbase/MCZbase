@@ -413,7 +413,7 @@ limitations under the License.
 							),
 							status = null
 						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-							and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#geoData.key#"> 
+							and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempData.key#"> 
 					</cfquery>
 				</cfif>
 				<cfquery name="getLocText" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
