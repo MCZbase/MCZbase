@@ -595,7 +595,9 @@ limitations under the License.
 						</cfif>
 					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#GEOREFMETHOD#">,
 					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#VERIFICATIONSTATUS#">,
-					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#VERIFIED_BY_AGENT_ID#">,
+					<cfif VERIFICATIONSTATUS) eq 'verified by MCZ collection'>
+						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#VERIFIED_BY_AGENT_ID#">,
+					</cfif>
 					<cfif len(SPATIALFIT) gt 0>
 						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#SPATIALFIT#" scale="3">
 					<cfelse>
