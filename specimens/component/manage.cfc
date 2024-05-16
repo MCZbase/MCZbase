@@ -214,7 +214,7 @@ limitations under the License.
 								<cfif continentBit EQ "[no continent/ocean]"><cfset continentBit = "NULL"></cfif>
 								<cfif countryBit EQ "[no country]"><cfset countryBit = "NULL"></cfif>
 								<cfset submitValue = "#continentBit#|#countryBit#">
-								<input type="button" onClick=" confirmDialog('Remove all records from #countries.country# in continent/ocean #countries.countinent_ocean# from these search results','Confirm Remove By Country', function() { removeByCountry ('#sumbitValue#'); }  ); " class="p-1 btn btn-xs btn-warning" value="&##8998;" aria-label="Remove"/>
+								<input type="button" onClick=" confirmDialog('Remove all records from #countries.country# in continent/ocean #countries.continent_ocean# from these search results','Confirm Remove By Country', function() { removeByCountry ('#sumbitValue#'); }  ); " class="p-1 btn btn-xs btn-warning" value="&##8998;" aria-label="Remove"/>
 							</cfif>
 							<li class="list-group-item">#countries.continent_ocean#&thinsp;:&thinsp;#countries.country# (#countries.ct#); </li>
 						</cfloop>
