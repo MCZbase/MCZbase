@@ -538,7 +538,7 @@ limitations under the License.
 				<cfquery name="getFlag" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT accepted_lat_long_fg FROM lat_long 
 					WHERE locality_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.locality_id#">
-					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+					
 				</cfquery>
 				<cftry>
 					<cfset georef_updates = 0>
