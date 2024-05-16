@@ -542,8 +542,7 @@ limitations under the License.
 						<cfthrow message="You have no rows to load in the geography bulkloader table (cf_temp_georef). <a href='/tools/BulkloadGeoref.cfm'>Start over</a>"><!--- " --->
 					</cfif>
 					<cfloop query="getTempData">
-						
-						<cfif len(#getFlag.ACCEPTED_LAT_LONG_FG#) gt 0>
+						<cfif len(#getTempData.ACCEPTED_LAT_LONG_FG#) gt 0>
 							<cfquery name="changeFlag" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 								update lat_long set accepted_lat_long_fg = 0 
 								where locality_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.locality_id#">
