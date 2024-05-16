@@ -110,6 +110,8 @@ limitations under the License.
 		and media.auto_host = 'mczbase.mcz.harvard.edu'
 		and related_primary_key=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
 		and mczbase.is_media_encumbered(media.media_id) < 1
+	ORDER BY 
+		CASE when media_relationship = 'shows agent' then 1 else 2 END
 </cfquery>
 <cfset imageSetMetadata = "[]">
 <cfif getMedia.recordcount GT 0>
