@@ -191,7 +191,7 @@ limitations under the License.
          					});
 							} 
 							function removeByCountry (continentCountryString) {
-								console.log(prefix);
+								console.log(continentCountryString);
 			        			$.ajax({
          	   				url: "/specimens/component/search.cfc",
             					data: { 
