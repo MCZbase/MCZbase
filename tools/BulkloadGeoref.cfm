@@ -535,6 +535,11 @@ limitations under the License.
 					SELECT count(distinct locality_id) loc FROM cf_temp_georef
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
+				<cfquery name="getFlag" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					SELECT accepted_lat_long_fg FROM lat_long 
+					WHERE locality_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.locality_id#">
+					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+				</cfquery>
 				<cftry>
 					<cfset georef_updates = 0>
 					<cfset georef_updates1 = 0>
@@ -543,11 +548,13 @@ limitations under the License.
 					</cfif>
 					<cfloop query="getTempData">
 						
-						<cfif len(#ACCEPTED_LAT_LONG_FG#) gt 0>
-							<cfquery name="change_date" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						<cfif len(#getFlag.ACCEPTED_LAT_LONG_FG#) gt 0>
+							<cfquery name="changeFlag" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 								update lat_long set accepted_lat_long_fg = 0 
-								where locality_id = '#getTempData.locality_id#' and accepted_lat_long_fg = 1
+								where locality_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.locality_id#">
+								and accepted_lat_long_fg = 1
 								AND key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#problem_key#">
+								AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 							</cfquery>
 						</cfif>
 						<cfquery name="updateGeoref" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateGeoref_result">
