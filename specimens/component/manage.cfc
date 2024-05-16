@@ -270,7 +270,7 @@ limitations under the License.
 								<cfif families.recordcount GT 1 && variables.allowremove EQ "yes">
 									<cfset orderBit = "#families.phylorder#">
 									<cfset familyBit = "#families.family#">
-									<cfif orderBit EQ "[no order]"><cfset familyBit = "NULL"></cfif>
+									<cfif orderBit EQ "[no order]"><cfset orderBit = "NULL"></cfif>
 									<cfif familyBit EQ "[no family]"><cfset familyBit = "NULL"></cfif>
 									<cfset submitValue = "#orderBit#|#familyBit#">
 									<input type="button" onClick=" confirmDialog('Remove all records from #families.family# in order #families.phylorder# from these search results','Confirm Remove By Family', function() { removeByFamily ('#submitValue#'); }  ); " class="p-1 btn btn-xs btn-warning" value="&##8998;" aria-label="Remove"/>
