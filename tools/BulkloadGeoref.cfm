@@ -609,7 +609,7 @@ limitations under the License.
 			<table class='mx-3 px-0 sortable table-danger table table-responsive table-striped d-lg-table mt-3'>
 				<thead>
 					<tr>
-						<th>COUNT</th><th>LAT_LONG_ID</th><th>LOCALITY_ID</th><th>DEC_LAT</th><th>DEC_LONG</th><th>DATUM</th><th>ORIG_LAT_LONG_UNITS</th><th>DETERMINED_BY_AGENT</th><th>DETERMINED_BY_AGENT_ID</th><th>DETERMINED_DATE</th><th>LAT_LONG_REF_SOURCE</th><th>LAT_LONG_REMARKS</th><th>MAX_ERROR_DISTANCE</th><th>MAX_ERROR_UNITS</th><th>ACCEPTED_LAT_LONG_FG</th><th>EXTENT</th><th>GPSACCURACY</th><th>GEOREFMETHOD</th><th>VERIFICATIONSTATUS</th><th>SPATIALFIT</th>
+						<th>COUNT</th><th>LOCALITY_ID</th><th>DEC_LAT</th><th>DEC_LONG</th><th>DATUM</th><th>ORIG_LAT_LONG_UNITS</th><th>DETERMINED_BY_AGENT</th><th>DETERMINED_BY_AGENT_ID</th><th>DETERMINED_DATE</th><th>LAT_LONG_REF_SOURCE</th><th>LAT_LONG_REMARKS</th><th>MAX_ERROR_DISTANCE</th><th>MAX_ERROR_UNITS</th><th>ACCEPTED_LAT_LONG_FG</th><th>EXTENT</th><th>GPSACCURACY</th><th>GEOREFMETHOD</th><th>VERIFICATIONSTATUS</th><th>SPATIALFIT</th>
 					</tr> 
 				</thead>
 				<tbody>
@@ -617,8 +617,6 @@ limitations under the License.
 					<cfloop query="getProblemData">
 						<tr>
 							<td>#i#</td>
-						
-							<td>#getProblemData.lat_long_id# </td>
 							<td>#getProblemData.locality_id#</td>
 							<td>#getProblemData.dec_lat#</td>
 							<td>#getProblemData.dec_long# </td>
