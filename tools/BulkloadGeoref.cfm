@@ -430,6 +430,7 @@ limitations under the License.
 						AND username = <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#session.username#'>
 					</cfquery>
 				</cfif>
+
 				<cfquery name="getHGText" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					update cf_temp_georef
 					set highergeography = <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#getTempData.HIGHERGEOGRAPHY#'>
@@ -527,6 +528,11 @@ limitations under the License.
 			<cfset georef_updates = "">
 			<cfset problem_key = "">
 			<cftransaction>
+				<cfquery name="changeFlag" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						update lat_long set accepted_lat_long_fg = 0 
+						where locality_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.locality_id#">
+						and accepted_lat_long_fg = 1
+				</cfquery>
 				<cfquery name="getTempData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT * FROM cf_temp_georef
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
@@ -542,13 +548,7 @@ limitations under the License.
 						<cfthrow message="You have no rows to load in the geography bulkloader table (cf_temp_georef). <a href='/tools/BulkloadGeoref.cfm'>Start over</a>"><!--- " --->
 					</cfif>
 					<cfloop query="getTempData">
-						<cfif len(#getTempData.ACCEPTED_LAT_LONG_FG#) gt 0>
-							<cfquery name="changeFlag" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-								update lat_long set accepted_lat_long_fg = 0 
-								where locality_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.locality_id#">
-								and accepted_lat_long_fg = 1
-							</cfquery>
-						</cfif>
+				
 						<cfquery name="updateGeoref" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateGeoref_result">
 							INSERT into lat_long (
 								LAT_LONG_ID,
