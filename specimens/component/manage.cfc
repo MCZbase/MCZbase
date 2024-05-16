@@ -406,4 +406,57 @@ limitations under the License.
 	<cfreturn getCollEventsSummaryThread.output>
 </cffunction>
 
+
+<!---
+ ** Obtain summary information on catalog number prefixes in a result set 
+ * @param result_id the result for which to return summary information
+--->
+<cffunction name="getPrefixesSummaryHtml" returntype="string" access="remote" returnformat="plain">
+	<cfargument name="result_id" type="string" required="yes">
+
+	<cfset variables.result_id = arguments.result_id>
+	<cfthread name="getPrefixSummaryThread">
+		<cfoutput>
+			<cftry>
+				<cfquery name="prefixes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="prefixes_result">
+					SELECT count(*) ct, 
+						cat_num_prefix
+					FROM user_search_table
+						left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat on user_search_table.collection_object_id = flat.collection_object_id
+					WHERE result_id=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
+					GROUP BY cat_num_prefix
+				</cfquery>
+				<div class="card-header h4">Catalog Number Prefixes (#prefixes.recordcount#)</div>
+				<div class="card-body">
+					<ul class="list-group list-group-horizontal d-flex flex-wrap">
+						<cfloop query="prefixes">
+							<li class="list-group-item">
+								<cfif len(prefixes.cat_num_prefix) EQ 0> 
+									<cfset prefixSubmit = "NULL">
+									<cfset prefixDisplay = "[no prefix]">
+								<cfelse>
+									<cfset prefixSubmit = "#prefixes.cat_num_prefix#">
+									<cfset prefixDisplay = "#prefixes.cat_num_prefix#">
+								</cfif>
+								<cfif prefixes.recordcount GT 1>
+									<input type="button" onClick=" confirmDialog('Remove all records with the catalog number prefix #prefixDisplay# from these search results','Confirm Remove By Prefix', function() { removeByPrefix ('#prefixSubmit#'); }  ); " class="p-1 btn btn-xs btn-warning" value="&##8998;" aria-label="Remove"/>
+								</cfif>
+								#prefixDisplay# (#prefixes.ct#);
+							</li>
+						</cfloop>
+					</ul>
+				</div>
+			<cfcatch>
+				<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+				<cfset function_called = "#GetFunctionCalledName()#">
+				<h2 class='h3'>Error in #function_called#:</h2>
+				<div>#error_message#</div>
+			</cfcatch>
+			</cftry>
+		</cfoutput>
+	</cfthread>
+	<cfthread action="join" name="getPrefixSummaryThread" />
+	<cfreturn getPrefixSummaryThread.output>
+</cffunction>
+
 </cfcomponent>

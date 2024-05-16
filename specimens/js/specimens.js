@@ -78,6 +78,24 @@ function loadCollectionsSummaryHTML (result_id,targetDivId) {
 	});
 };
 
+/** Load information about catalog number prefixes in a result set into a target div.
+*/
+function loadPrefixesSummaryHTML (result_id,targetDivId) { 
+	jQuery.ajax({
+		url: "/specimens/component/manage.cfc",
+		data : {
+			method : "getPrefixesSummaryHTML",
+			result_id: result_id
+		},
+		success: function (result) {
+			$("#" + targetDivId ).html(result);
+		},
+		error: function (jqXHR, textStatus, error) {
+			handleFail(jqXHR,textStatus,error,"loading prefix summary");
+		},
+		dataType: "html"
+	});
+};
 
 /** Load information about countries in a result set into a target div.
 */
