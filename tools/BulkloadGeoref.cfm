@@ -398,7 +398,7 @@ limitations under the License.
 				select VERIFICATIONSTATUS from CTVERIFICATIONSTATUS
 			</cfquery>
 			<cfquery name="VERIFIEDBY" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				select AGENT_ID from agent_name where agent_name = '#verified_by#'
+				select AGENT_ID from agent_name where agent_name = '#getTempData.verified_by#'
 			</cfquery>
 			<cfquery name="CTLAT_LONG_ERROR_UNITS" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				select LAT_LONG_ERROR_UNITS from CTLAT_LONG_ERROR_UNITS
