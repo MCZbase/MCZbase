@@ -486,6 +486,8 @@ limitations under the License.
 						<th>extent</th>
 						<th>gpsaccuracy</th>
 						<th>verificationstatus</th>
+						<th>VERIFIED_BY</th>
+						<th>VERIFIED_BY_AGENT_ID</th>
 						<th>spatialfit</th>
 						<th>nearest_named_place</th>
 					</tr>
@@ -510,6 +512,8 @@ limitations under the License.
 						<td>#getTempData.extent#</td>
 						<td>#getTempData.gpsaccuracy#</td>
 						<td>#getTempData.verificationstatus#</td>
+						<td>#getTempData.verified_by#</td>
+						<td>#getTempData.verified_by_agent_id#</td>
 						<td>#getTempData.spatialfit#</td>
 						<td>#getTempData.nearest_named_place#</td>
 					</tr>	
