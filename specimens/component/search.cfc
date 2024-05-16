@@ -3880,7 +3880,7 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 			<cftransaction>
 			<cftry>
 				<cfif variables.grouping_criterion EQ 'country'>
-					<cfset bits = ListToArray(variables.grouping_value,"|")
+					<cfset bits = ListToArray(variables.grouping_value,"|")>
 					<cfset continentBit = bits[0]>
 					<cfset countryBit = bits[1]>
 				</cfif>
