@@ -534,7 +534,7 @@ limitations under the License.
 				<cfquery name="getCounts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT count(distinct locality_id) loc FROM cf_temp_georef
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-				</cfquery
+					</cfquery>
 				<cftry>
 					<cfset georef_updates = 0>
 					<cfset georef_updates1 = 0>
