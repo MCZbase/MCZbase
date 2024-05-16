@@ -418,7 +418,7 @@ limitations under the License.
 				</cfif>
 				<cfquery name="getLocText" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					update cf_temp_georef
-					set speclocality = '#trim(speclocality)#'
+					set speclocality = <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#getTempData.SPECLOCALITY#'>)
 					where key = <cfqueryparam cfsqltype='CF_SQL_DECIMAL' value='#getTempData.key#'>
 					AND username = <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#session.username#'>
 				</cfquery>
@@ -432,7 +432,7 @@ limitations under the License.
 				</cfif>
 				<cfquery name="getHGText" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					update cf_temp_georef
-					set highergeography = '#trim(highergeography)#'
+					set highergeography = <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#getTempData.HIGHERGEOGRAPHY#'>)
 					where key = <cfqueryparam cfsqltype='CF_SQL_DECIMAL' value='#getTempData.key#'>
 					AND username = <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#session.username#'>
 				</cfquery>
@@ -468,12 +468,12 @@ limitations under the License.
 			<table class='sortable px-0 mx-0 table small table-responsive table-striped w-100'>
 				<thead class="thead-light">
 					<tr>
-						<th>highergeography</th>
-						<th>speclocality</th>
-						<th>locality_id</th>
-						<th>dec_lat</th>
-						<th>dec_long</th>
-						<th>max_error_distance</th>
+						<th>HIGHERGEOGRAPHY</th>
+						<th>SPECLOCALITY</th>
+						<th>LOCALITY_ID</th>
+						<th>DEC_LAT</th>
+						<th>DEC_LONG</th>
+						<th>MAX_ERROR_DISTANCE</th>
 						<th>max_error_units</th>
 						<th>lat_long_remarks</th>
 						<th>determined_by_agent</th>
@@ -488,8 +488,8 @@ limitations under the License.
 						<th>verificationstatus</th>
 						<th>VERIFIED_BY</th>
 						<th>VERIFIED_BY_AGENT_ID</th>
-						<th>spatialfit</th>
-						<th>nearest_named_place</th>
+						<th>SPATIALFIT</th>
+						<th>NEAREST_NAMED_PLACE</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -619,7 +619,7 @@ limitations under the License.
 			<table class='mx-3 px-0 sortable table-danger table table-responsive table-striped d-lg-table mt-3'>
 				<thead>
 					<tr>
-						<th>COUNT</th><th>LOCALITY_ID</th><th>DEC_LAT</th><th>DEC_LONG</th><th>DATUM</th><th>ORIG_LAT_LONG_UNITS</th><th>DETERMINED_BY_AGENT</th><th>DETERMINED_BY_AGENT_ID</th><th>DETERMINED_DATE</th><th>LAT_LONG_REF_SOURCE</th><th>LAT_LONG_REMARKS</th><th>MAX_ERROR_DISTANCE</th><th>MAX_ERROR_UNITS</th><th>EXTENT</th><th>GPSACCURACY</th><th>GEOREFMETHOD</th><th>VERIFICATIONSTATUS</th><th>SPATIALFIT</th>
+						<th>COUNT</th><th>LOCALITY_ID</th><th>DEC_LAT</th><th>DEC_LONG</th><th>DATUM</th><th>ORIG_LAT_LONG_UNITS</th><th>DETERMINED_BY_AGENT</th><th>DETERMINED_BY_AGENT_ID</th><th>DETERMINED_DATE</th><th>LAT_LONG_REF_SOURCE</th><th>LAT_LONG_REMARKS</th><th>MAX_ERROR_DISTANCE</th><th>MAX_ERROR_UNITS</th><th>EXTENT</th><th>GPSACCURACY</th><th>GEOREFMETHOD</th><th>VERIFICATIONSTATUS</th><th>VERIFIED_BY_AGENT_ID</th><th>SPATIALFIT</th>
 					</tr> 
 				</thead>
 				<tbody>
@@ -643,6 +643,7 @@ limitations under the License.
 							<td>#getProblemData.gpsaccuracy# </td>
 							<td>#getProblemData.georefmethod# </td>
 							<td>#getProblemData.verificationstatus# </td>
+							<td>#getProblemData.verified_BY_AGENT_ID# </td>
 							<td>#getProblemData.spatialfit#</td>
 						</tr>
 						<cfset i= i+1>
@@ -696,6 +697,7 @@ limitations under the License.
 							GPSACCURACY,
 							GEOREFMETHOD,
 							VERIFICATIONSTATUS,
+							VERIFIED_BY_AGENT_ID,
 							SPATIALFIT
 						having count(*) > 1
 					</cfquery>	
