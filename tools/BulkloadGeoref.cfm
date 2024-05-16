@@ -695,7 +695,7 @@ limitations under the License.
 								</cfif>
 							</h3>
 							<h3>Problematic Rows (<a href="/tools/BulkloadGeoref.cfm?action=dumpProblems">download</a>)</h3>
-							<table class='mx-3 px-0 sortable table-danger table table-responsive table-striped d-lg-table mt-3'>
+							<table class='mx-0 px-0 sortable table-danger table table-responsive table-striped d-lg-table mt-3'>
 							<thead>
 								<tr>
 									<th>COUNT</th>
