@@ -400,6 +400,9 @@ limitations under the License.
 			<cfquery name="CTLAT_LONG_ERROR_UNITS" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				select LAT_LONG_ERROR_UNITS from CTLAT_LONG_ERROR_UNITS
 			</cfquery>
+			<cfquery name="VERIFID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				select AGENT_ID from agent_name where agent_name = <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#getTempData.VERIFIED_BY_AGENT_ID#'>
+			</cfquery>
 			<cfset i= 1>
 			<cfloop query="getTempData">
 				<cfif len(getTempData.determined_by_agent_id) eq 0>
@@ -425,7 +428,7 @@ limitations under the License.
 				<cfif verificationstatus is 'verified by MCZ collection'>
 					<cfquery name="getVerS" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						update cf_temp_georef
-						set verified_by_agent_id = (select AGENT_ID from agent_name where agent_name = <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#getTempData.VERIFIED_BY_AGENT_ID#'>)
+						set verified_by_agent_id = (select AGENT_ID from agent_name where agent_name = <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#VERIFID.AGENT_ID#'>)
 						where key = <cfqueryparam cfsqltype='CF_SQL_DECIMAL' value='#getTempData.key#'>
 						AND username = <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#session.username#'>
 					</cfquery>
