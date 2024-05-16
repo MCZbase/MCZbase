@@ -157,13 +157,36 @@ limitations under the License.
 									dataType: 'json',
       	     					success : function (data) { 
 										console.log(data);
-										// TODO: Trigger reload of summary section.
+										// Trigger reload of summary section.
 										reloadSummarySections();
-										// TODO: Trigger $('##fixedsearchResultsGrid').jqxGrid('updatebounddata'); etc on grid.
+										// Trigger $('##fixedsearchResultsGrid').jqxGrid('updatebounddata'); etc on grid.
 										resultModifiedHere();
 									},
             					error : function (jqXHR, textStatus, error) {
-          				   		handleFail(jqXHR,textStatus,error,"removing records from result set");
+          				   		handleFail(jqXHR,textStatus,error,"removing records from result set by collection" );
+     		       				}
+         					});
+							} 
+							function removeByPrefix (prefix) {
+								console.log(prefix);
+			        			$.ajax({
+         	   				url: "/specimens/component/search.cfc",
+            					data: { 
+										method: 'removeItemsFromResult', 
+										result_id: '#result_id#',
+										grouping_criterion: 'prefix',
+										grouping_value: prefix 
+									},
+									dataType: 'json',
+      	     					success : function (data) { 
+										console.log(data);
+										// Trigger reload of summary section.
+										reloadSummarySections();
+										// Trigger $('##fixedsearchResultsGrid').jqxGrid('updatebounddata'); etc on grid.
+										resultModifiedHere();
+									},
+            					error : function (jqXHR, textStatus, error) {
+          				   		handleFail(jqXHR,textStatus,error,"removing records from result set by prefix");
      		       				}
          					});
 							} 
@@ -186,6 +209,7 @@ limitations under the License.
 								function reloadSummarySections() { 
 									var prefix = "Updated Summary of ";
 									var suffix = " cataloged item records in modified result set that will be affected:";
+									loadPrefixesSummaryHTML ("#result_id#","prefixesSummaryDiv");
 									loadCatalogedItemCount ("#result_id#","catItemCountDiv",prefix,suffix);
 									loadGeoreferenceSummaryHTML("#result_id#","georefDiv");
 									loadGeoreferenceCount ("#result_id#","georefCountDiv","",""); 
@@ -210,6 +234,10 @@ limitations under the License.
 							<cfset blockcolls = getCollectionsSummaryHTML(result_id = "#result_id#")>
 							<div class="card bg-light border-secondary mb-3" id="collectionsSummaryDiv">
 								#blockcolls#
+							</div>
+							<cfset blockprefixes = getPrefixesSummaryHTML(result_id = "#result_id#")>
+							<div class="card bg-light border-secondary mb-3" id="prefixesSummaryDiv">
+								#blockprefixes#
 							</div>
 							<cfset blockcountries = getCountriesSummaryHTML(result_id = "#result_id#")>
 							<div class="card bg-light border-secondary mb-3" id="countriesSummaryDiv">
