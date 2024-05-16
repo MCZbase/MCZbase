@@ -190,6 +190,29 @@ limitations under the License.
      		       				}
          					});
 							} 
+							function removeByCountry (continentCountryString) {
+								console.log(prefix);
+			        			$.ajax({
+         	   				url: "/specimens/component/search.cfc",
+            					data: { 
+										method: 'removeItemsFromResult', 
+										result_id: '#result_id#',
+										grouping_criterion: 'country',
+										grouping_value: continentCountryString 
+									},
+									dataType: 'json',
+      	     					success : function (data) { 
+										console.log(data);
+										// Trigger reload of summary section.
+										reloadSummarySections();
+										// Trigger $('##fixedsearchResultsGrid').jqxGrid('updatebounddata'); etc on grid.
+										resultModifiedHere();
+									},
+            					error : function (jqXHR, textStatus, error) {
+          				   		handleFail(jqXHR,textStatus,error,"removing records from result set by country");
+     		       				}
+         					});
+							} 
 							function resultModifiedHere() { 
 								var result_id = $("##result_id_fixedSearch").val();
 								bc.postMessage({"source":"manage","result_id":"#result_id#"});

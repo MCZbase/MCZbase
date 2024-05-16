@@ -194,6 +194,7 @@ limitations under the License.
 	<cfthread name="getCountriesSummaryThread">
 		<cfoutput>
 			<cftry>
+				<!--- NOTE: string replacements for null are referenced in null replacement below. --->
 				<cfquery name="countries" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="countries_result">
 					SELECT count(*) ct, 
 						nvl(continent_ocean,'[no continent/ocean]') as continent_ocean, nvl(country,'[no country]') as country
@@ -207,6 +208,14 @@ limitations under the License.
 				<div class="card-body">
 					<ul class="list-group list-group-horizontal d-flex flex-wrap">
 						<cfloop query="countries">
+							<cfif countries.recordcount GT 1>
+								<cfset continentBit = "#countries.continent_ocean#">
+								<cfset countryBit = "#countries.country#">
+								<cfif continentBit EQ "[no continent/ocean]"><cfset continentBit = "NULL"></cfif>
+								<cfif countryBit EQ "[no country]"><cfset countryBit = "NULL"></cfif>
+								<cfset submitValue = "#continentBit#|#countryBit#">
+								<input type="button" onClick=" confirmDialog('Remove all records from #countries.country# in continent/ocean #countries.countinent_ocean# from these search results','Confirm Remove By Country', function() { removeByCountry ('#sumbitValue#'); }  ); " class="p-1 btn btn-xs btn-warning" value="&##8998;" aria-label="Remove"/>
+							</cfif>
 							<li class="list-group-item">#countries.continent_ocean#&thinsp;:&thinsp;#countries.country# (#countries.ct#); </li>
 						</cfloop>
 					</ul>
