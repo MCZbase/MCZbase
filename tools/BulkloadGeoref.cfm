@@ -546,7 +546,9 @@ limitations under the License.
 						<cfset problem_key = #getTempData.key#>
 						<cfif len(#ACCEPTED_LAT_LONG_FG#) gt 0>
 							<cfquery name="change_date" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-								update lat_long set accepted_lat_long_fg = 0 where locality_id = '#getTempData.locality_id#' and accepted_lat_long_fg = 1
+								update lat_long set accepted_lat_long_fg = 0 
+								where locality_id = '#getTempData.locality_id#' and accepted_lat_long_fg = 1
+								AND key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#problem_key#">
 							</cfquery>
 						</cfif>
 						<cfquery name="updateGeoref" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateGeoref_result">
