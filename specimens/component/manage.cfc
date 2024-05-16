@@ -143,8 +143,10 @@ limitations under the License.
 --->
 <cffunction name="getCollectionsSummaryHtml" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="result_id" type="string" required="yes">
+	<cfargument name="allowremove" type="string" required="no" default="yes">
 
 	<cfset variables.result_id = arguments.result_id>
+	<cfset variables.allowremove = arguments.allowremove>
 	<cfthread name="getCollsSummaryThread">
 		<cfoutput>
 			<cftry>
@@ -162,7 +164,7 @@ limitations under the License.
 					<ul class="list-group list-group-horizontal d-flex flex-wrap">
 						<cfloop query="collections">
 							<li class="list-group-item">
-								<cfif collections.recordcount GT 1>
+								<cfif collections.recordcount GT 1 AND variables.allowremove EQ "yes">
 									<input type="button" onClick=" confirmDialog('Remove all records from #collections.collection_cde# from these search results','Confirm Remove By Collection Code', function() { removeCollection ('#collection_cde#'); }  ); " class="p-1 btn btn-xs btn-warning" value="&##8998;" aria-label="Remove"/>
 								</cfif>
 								#collections.collection_cde# (#collections.ct#);
@@ -189,8 +191,10 @@ limitations under the License.
 --->
 <cffunction name="getCountriesSummaryHtml" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="result_id" type="string" required="yes">
+	<cfargument name="allowremove" type="string" required="no" default="yes">
 
 	<cfset variables.result_id = arguments.result_id>
+	<cfset variables.allowremove = arguments.allowremove>
 	<cfthread name="getCountriesSummaryThread">
 		<cfoutput>
 			<cftry>
@@ -209,7 +213,7 @@ limitations under the License.
 					<ul class="list-group list-group-horizontal d-flex flex-wrap">
 						<cfloop query="countries">
 							<li class="list-group-item">
-								<cfif countries.recordcount GT 1>
+								<cfif countries.recordcount GT 1 AND variables.allowremove EQ "yes">
 									<cfset continentBit = "#countries.continent_ocean#">
 									<cfset countryBit = "#countries.country#">
 									<cfif continentBit EQ "[no continent/ocean]"><cfset continentBit = "NULL"></cfif>
@@ -242,11 +246,14 @@ limitations under the License.
 --->
 <cffunction name="getFamiliesSummaryHtml" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="result_id" type="string" required="yes">
+	<cfargument name="allowremove" type="string" required="no" default="yes">
 
 	<cfset variables.result_id = arguments.result_id>
+	<cfset variables.allowremove = arguments.allowremove>
 	<cfthread name="getFamiliesSummaryThread">
 		<cfoutput>
 			<cftry>
+				<!--- NOTE: string replacements for null are referenced in null replacement below. --->
 				<cfquery name="families" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="families_result">
 					SELECT count(*) ct, 
 						nvl(phylorder,'[no order]') as phylorder, nvl(family,'[no family]') as family
@@ -259,7 +266,17 @@ limitations under the License.
 				<div class="card-body">
 					<ul class="list-group list-group-horizontal d-flex flex-wrap">
 						<cfloop query="families">
-							<li class="list-group-item">#families.phylorder#&thinsp;:&thinsp;#families.family# (#families.ct#);</li>
+							<li class="list-group-item">
+								<cfif families.recordcount GT 1 && variables.allowremove EQ "yes">
+									<cfset orderBit = "#families.phylorder#">
+									<cfset familyBit = "#families.family#">
+									<cfif orderBit EQ "[no order]"><cfset familyBit = "NULL"></cfif>
+									<cfif familyBit EQ "[no family]"><cfset familyBit = "NULL"></cfif>
+									<cfset submitValue = "#orderBit#|#familyBit#">
+									<input type="button" onClick=" confirmDialog('Remove all records from #families.family# in order #families.phylorder# from these search results','Confirm Remove By Family', function() { removeByFamily ('#submitValue#'); }  ); " class="p-1 btn btn-xs btn-warning" value="&##8998;" aria-label="Remove"/>
+								</cfif>
+								#families.phylorder#&thinsp;:&thinsp;#families.family# (#families.ct#);
+							</li>
 						</cfloop>
 					</ul>
 				</div>
@@ -424,8 +441,10 @@ limitations under the License.
 --->
 <cffunction name="getPrefixesSummaryHtml" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="result_id" type="string" required="yes">
+	<cfargument name="allowremove" type="string" required="no" default="yes">
 
 	<cfset variables.result_id = arguments.result_id>
+	<cfset variables.allowremove = arguments.allowremove>
 	<cfthread name="getPrefixSummaryThread">
 		<cfoutput>
 			<cftry>
@@ -449,7 +468,7 @@ limitations under the License.
 									<cfset prefixSubmit = "#prefixes.cat_num_prefix#">
 									<cfset prefixDisplay = "#prefixes.cat_num_prefix#">
 								</cfif>
-								<cfif prefixes.recordcount GT 1>
+								<cfif prefixes.recordcount GT 1 AND variables.allowremove EQ "yes">
 									<input type="button" onClick=" confirmDialog('Remove all records with the catalog number prefix #prefixDisplay# from these search results','Confirm Remove By Prefix', function() { removeByPrefix ('#prefixSubmit#'); }  ); " class="p-1 btn btn-xs btn-warning" value="&##8998;" aria-label="Remove"/>
 								</cfif>
 								#prefixDisplay# (#prefixes.ct#);

@@ -213,6 +213,29 @@ limitations under the License.
      		       				}
          					});
 							} 
+							function removeByFamily (orderFamilyString) {
+								console.log(orderFamilyString);
+			        			$.ajax({
+         	   				url: "/specimens/component/search.cfc",
+            					data: { 
+										method: 'removeItemsFromResult', 
+										result_id: '#result_id#',
+										grouping_criterion: 'family',
+										grouping_value: orderFamilyString 
+									},
+									dataType: 'json',
+      	     					success : function (data) { 
+										console.log(data);
+										// Trigger reload of summary section.
+										reloadSummarySections();
+										// Trigger $('##fixedsearchResultsGrid').jqxGrid('updatebounddata'); etc on grid.
+										resultModifiedHere();
+									},
+            					error : function (jqXHR, textStatus, error) {
+          				   		handleFail(jqXHR,textStatus,error,"removing records from result set by family");
+     		       				}
+         					});
+							} 
 							function resultModifiedHere() { 
 								var result_id = $("##result_id_fixedSearch").val();
 								bc.postMessage({"source":"manage","result_id":"#result_id#"});
