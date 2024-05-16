@@ -611,7 +611,7 @@ limitations under the License.
 		<cfcatch>
 			<h3 class="mt-3">There was a problem updating georeferences.</h3>
 			<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				SELECT highergeography,speclocality,locality_id,dec_lat,dec_long,max_error_distance,max_error_units,lat_long_remarks,determined_by_agent,determined_by_agent_id,georefmethod,orig_lat_long_units,datum,determined_date,lat_long_ref_source,extent,gpsaccuracy,verificationstatus,spatialfit,nearest_named_place
+				SELECT highergeography,speclocality,locality_id,dec_lat,dec_long,max_error_distance,max_error_units,lat_long_remarks,determined_by_agent,determined_by_agent_id,georefmethod,orig_lat_long_units,datum,determined_date,lat_long_ref_source,extent,gpsaccuracy,verificationstatus,VERIFIED_BY_AGENT_ID,spatialfit,nearest_named_place
 				FROM cf_temp_georef
 				WHERE key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#problem_key#">
 			</cfquery>
@@ -643,7 +643,7 @@ limitations under the License.
 							<td>#getProblemData.gpsaccuracy# </td>
 							<td>#getProblemData.georefmethod# </td>
 							<td>#getProblemData.verificationstatus# </td>
-							<td>#getProblemData.verified_BY_AGENT_ID# </td>
+							<td>#getProblemData.VERIFIED_BY_AGENT_ID# </td>
 							<td>#getProblemData.spatialfit#</td>
 						</tr>
 						<cfset i= i+1>
