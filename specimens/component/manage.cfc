@@ -208,15 +208,17 @@ limitations under the License.
 				<div class="card-body">
 					<ul class="list-group list-group-horizontal d-flex flex-wrap">
 						<cfloop query="countries">
-							<cfif countries.recordcount GT 1>
-								<cfset continentBit = "#countries.continent_ocean#">
-								<cfset countryBit = "#countries.country#">
-								<cfif continentBit EQ "[no continent/ocean]"><cfset continentBit = "NULL"></cfif>
-								<cfif countryBit EQ "[no country]"><cfset countryBit = "NULL"></cfif>
-								<cfset submitValue = "#continentBit#|#countryBit#">
-								<input type="button" onClick=" confirmDialog('Remove all records from #countries.country# in continent/ocean #countries.continent_ocean# from these search results','Confirm Remove By Country', function() { removeByCountry ('#submitValue#'); }  ); " class="p-1 btn btn-xs btn-warning" value="&##8998;" aria-label="Remove"/>
-							</cfif>
-							<li class="list-group-item">#countries.continent_ocean#&thinsp;:&thinsp;#countries.country# (#countries.ct#); </li>
+							<li class="list-group-item">
+								<cfif countries.recordcount GT 1>
+									<cfset continentBit = "#countries.continent_ocean#">
+									<cfset countryBit = "#countries.country#">
+									<cfif continentBit EQ "[no continent/ocean]"><cfset continentBit = "NULL"></cfif>
+									<cfif countryBit EQ "[no country]"><cfset countryBit = "NULL"></cfif>
+									<cfset submitValue = "#continentBit#|#countryBit#">
+									<input type="button" onClick=" confirmDialog('Remove all records from #countries.country# in continent/ocean #countries.continent_ocean# from these search results','Confirm Remove By Country', function() { removeByCountry ('#submitValue#'); }  ); " class="p-1 btn btn-xs btn-warning" value="&##8998;" aria-label="Remove"/>
+								</cfif>
+								#countries.continent_ocean#&thinsp;:&thinsp;#countries.country# (#countries.ct#);
+							</li>
 						</cfloop>
 					</ul>
 				</div>
