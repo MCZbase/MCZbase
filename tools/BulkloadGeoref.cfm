@@ -527,6 +527,7 @@ limitations under the License.
 		<h2 class="h3">Third step: Apply changes.</h2>
 		<cfoutput>
 			<cfset georef_updates = "">
+			<cfset problem_key = "">
 			<cftransaction>
 				<cfquery name="getTempData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT * FROM cf_temp_georef
@@ -543,7 +544,7 @@ limitations under the License.
 						<cfthrow message="You have no rows to load in the geography bulkloader table (cf_temp_georef). <a href='/tools/BulkloadGeoref.cfm'>Start over</a>"><!--- " --->
 					</cfif>
 					<cfloop query="getTempData">
-						<cfset problem_key = #getTempData.key#>
+						
 						<cfif len(#ACCEPTED_LAT_LONG_FG#) gt 0>
 							<cfquery name="change_date" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 								update lat_long set accepted_lat_long_fg = 0 
