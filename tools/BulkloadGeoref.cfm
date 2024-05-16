@@ -418,7 +418,7 @@ limitations under the License.
 				</cfif>
 				<cfquery name="getLocText" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					update cf_temp_georef
-					set speclocality = <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#getTempData.SPECLOCALITY#'>)
+					set speclocality = <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value="#getTempData.SPECLOCALITY#">
 					where key = <cfqueryparam cfsqltype='CF_SQL_DECIMAL' value='#getTempData.key#'>
 					AND username = <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#session.username#'>
 				</cfquery>
