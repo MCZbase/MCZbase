@@ -551,6 +551,7 @@ limitations under the License.
 							GPSACCURACY,
 							GEOREFMETHOD,
 							VERIFICATIONSTATUS,
+							VERIFIED_BY_AGENT_ID,
 							SPATIALFIT
 						)VALUES(
 						sq_lat_long_id.nextval,
@@ -582,6 +583,7 @@ limitations under the License.
 						</cfif>
 					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#GEOREFMETHOD#">,
 					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#VERIFICATIONSTATUS#">,
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#VERIFIED_BY_AGENT_ID#">,
 					<cfif len(SPATIALFIT) gt 0>
 						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#SPATIALFIT#" scale="3">
 					<cfelse>
