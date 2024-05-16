@@ -637,7 +637,7 @@ limitations under the License.
 					<cftransaction action="commit">
 					<cfcatch>
 						<cftransaction action="ROLLBACK">
-						<h3 class="mt-3">There was a problem updating georeferences.</h3>
+						<p class="mt-3">There was a problem updating georeferences. Problematic Rows (<a href="/tools/BulkloadGeoref.cfm?action=dumpProblems">download</a>)</p>
 						<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							SELECT highergeography,speclocality,locality_id,dec_lat,dec_long,max_error_distance,max_error_units,lat_long_remarks,determined_by_agent,determined_by_agent_id,georefmethod,orig_lat_long_units,datum,determined_date,lat_long_ref_source,extent,gpsaccuracy,verificationstatus,VERIFIED_BY_AGENT_ID,spatialfit,nearest_named_place
 							FROM cf_temp_georef
@@ -694,7 +694,6 @@ limitations under the License.
 									</span>
 								</cfif>
 							</h3>
-							<h3>Problematic Rows (<a href="/tools/BulkloadGeoref.cfm?action=dumpProblems">download</a>)</h3>
 							<table class='mx-0 px-0 sortable table-danger table table-responsive table-striped d-lg-table mt-3'>
 							<thead>
 								<tr>
