@@ -3947,7 +3947,7 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 									<cfif variables.orderBit EQ "NULL">
 										phylorder IS NULL
 									<cfelse>
-										phylorder = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.continentBit#">
+										phylorder = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.orderBit#">
 									</cfif>
 								)
 							</cfcase>
