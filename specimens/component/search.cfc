@@ -3881,8 +3881,8 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 			<cftry>
 				<cfif variables.grouping_criterion EQ 'country'>
 					<cfset bits = ListToArray(variables.grouping_value,"|")>
-					<cfset continentBit = bits[1]>
-					<cfset countryBit = bits[2]>
+					<cfset variables.continentBit = bits[1]>
+					<cfset variables.countryBit = bits[2]>
 				</cfif>
 				<cfquery name="getRemoveList" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getRemoveList_result" timeout="#Application.short_timeout#">
 					SELECT collection_object_id
