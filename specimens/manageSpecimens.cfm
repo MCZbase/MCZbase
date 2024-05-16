@@ -235,7 +235,7 @@ limitations under the License.
 							<div class="card bg-light border-secondary mb-3" id="collectionsSummaryDiv">
 								#blockcolls#
 							</div>
-							<cfset blockcolls = getPrefixesSummaryHTML(result_id = "#result_id#")>
+							<cfset blockprefixes = getPrefixesSummaryHTML(result_id = "#result_id#")>
 							<div class="card bg-light border-secondary mb-3" id="prefixesSummaryDiv">
 								#blockprefixes#
 							</div>
