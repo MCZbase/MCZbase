@@ -544,6 +544,11 @@ limitations under the License.
 					</cfif>
 					<cfloop query="getTempData">
 						<cfset problem_key = #getTempData.key#>
+						<cfif len(#ACCEPTED_LAT_LONG_FG#) gt 0>
+							<cfquery name="change_date" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+								update lat_long set accepted_lat_long_fg = 0 where locality_id = '#getTempData.locality_id#' and accepted_lat_long_fg = 1
+							</cfquery>
+						</cfif>
 						<cfquery name="updateGeoref" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateGeoref_result">
 							INSERT into lat_long (
 								LAT_LONG_ID,
