@@ -328,7 +328,7 @@ limitations under the License.
 						</cfif>
 					</div>
 					<h3 class="h4">
-						Successfully read #loadedRows# records from the CSV file. Next <a href="/tools/BulkloadGeoref.cfm?action=validate">click to validate</a>.
+						Successfully read #loadedRows# records from the CSV file. Next <a href="/tools/BulkloadGeoref.cfm?action=validate" class="btn-link font-weight-lessbold">click to validate</a>.
 					</h3>
 				<cfcatch>
 					<h3 class="h4">
