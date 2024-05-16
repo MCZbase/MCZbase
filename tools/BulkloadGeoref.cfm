@@ -422,6 +422,14 @@ limitations under the License.
 					where key = <cfqueryparam cfsqltype='CF_SQL_DECIMAL' value='#getTempData.key#'>
 					AND username = <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#session.username#'>
 				</cfquery>
+				<cfif verificationstatus is 'verified by MCZ collection'>
+					<cfquery name="getVerS" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						update cf_temp_georef
+						set verified_by_agent_id = (select agent_id from agent_name where agent_name = '#verified_by#')
+						where key = <cfqueryparam cfsqltype='CF_SQL_DECIMAL' value='#getTempData.key#'>
+						AND username = <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#session.username#'>
+					</cfquery>
+				</cfif>
 				<cfquery name="getHGText" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					update cf_temp_georef
 					set highergeography = '#trim(highergeography)#'
