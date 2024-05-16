@@ -4177,15 +4177,30 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 					WHERE 
 						result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.result_id#">
 						AND
-						<cfif variables.grouping_criterion EQ ("collection_cde")>
-							collection_object_id IN (
-								SELECT collection_object_id 
-								FROM cataloged_item 
-								WHERE collection_cde = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.grouping_value#">
-							)
-						<cfelse>
-							<cfthrow message="Unsupported grouping criterion.">
-						</cfif>
+						<cfswitch expression="#variables.grouping_criterion#">
+							<cfcase value="collection_cde">
+								collection_object_id IN (
+									SELECT collection_object_id 
+									FROM cataloged_item 
+									WHERE collection_cde = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.grouping_value#">
+								)
+							</cfcase>
+							<cfcase value="prefix">
+								collection_object_id IN (
+									SELECT collection_object_id 
+									FROM cataloged_item 
+									WHERE
+									<cfif variables.grouping_value EQ "NULL">
+										cat_num_prefix IS NULL
+									<cfelse>
+										cat_num_prefix = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.grouping_value#">
+									</cfif>
+								)
+							</cfcase>
+							<cfdefaultcase>
+								<cfthrow message="Unsupported grouping criterion.">
+							</cfdefaultcase>
+						</cfswitch>
 				</cfquery>
 				<cfif getRemoveList.recordcount EQ 0>
 					<cfthrow message="No records identified to remove from search results.">
