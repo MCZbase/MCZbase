@@ -162,10 +162,8 @@ limitations under the License.
 					<ul class="list-group list-group-horizontal d-flex flex-wrap">
 						<cfloop query="collections">
 							<li class="list-group-item">
-								<cfif findNoCase('master',Session.gitBranch) EQ 0>
 								<cfif collections.recordcount GT 1>
 									<input type="button" onClick=" confirmDialog('Remove all records from #collections.collection_cde# from these search results','Confirm Remove By Collection Code', function() { removeCollection ('#collection_cde#'); }  ); " class="p-1 btn btn-xs btn-warning" value="&##8998;" aria-label="Remove"/>
-								</cfif>
 								</cfif>
 								#collections.collection_cde# (#collections.ct#);
 							</li>
