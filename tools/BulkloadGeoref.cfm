@@ -553,7 +553,6 @@ limitations under the License.
 							VERIFICATIONSTATUS,
 							SPATIALFIT
 						)VALUES(
-						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#key#">,
 						sq_lat_long_id.nextval,
 						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#LOCALITY_ID#">,
 						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#Dec_Lat#" scale="10">,
