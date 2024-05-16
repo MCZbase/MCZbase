@@ -605,8 +605,20 @@ limitations under the License.
 					</cfif>
 						)
 					</cfquery>
-				
-					<cfset georef_updates = georef_updates + updateGeoref_result.recordcount>
+					<cfquery name="updateGeoref1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateGeoref1_result">
+						select highergeography,speclocality,locality_id,dec_lat,dec_long,max_error_distance,max_error_units,
+						lat_long_remarks,determined_by_agent,determined_by_agent_id,georefmethod,orig_lat_long_units,datum,
+						determined_date,lat_long_ref_source,extent,gpsaccuracy,
+						verificationstatus,VERIFIED_BY_AGENT_ID,spatialfit,nearest_named_place
+						FROM lat_long
+						where collection_object_id = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getCitData.collection_object_id#">
+						group by highergeography,speclocality,locality_id,dec_lat,dec_long,max_error_distance,max_error_units,lat_long_remarks,determined_by_agent,determined_by_agent_id,georefmethod,orig_lat_long_units,datum,determined_date,lat_long_ref_source,extent,gpsaccuracy,verificationstatus,VERIFIED_BY_AGENT_ID,spatialfit,nearest_named_place
+						having count(*) > 1
+					</cfquery>
+					<cfset georef_updates = georef_updates + updateGeoref1_result.recordcount>
+					<cfif updateGeoref1_result.recordcount gt 0>
+							<cfthrow message="Error: Attempting to insert a duplicate georeference">
+						</cfif>
 				</cfloop>
 			</cftransaction>
 			<h3 class="mt-3">Updated #georef_updates# georeferences.</h3>
