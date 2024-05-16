@@ -4176,6 +4176,11 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 					<cfset variables.continentBit = bits[1]>
 					<cfset variables.countryBit = bits[2]>
 				</cfif>
+				<cfif variables.grouping_criterion EQ 'family'>
+					<cfset bits = ListToArray(variables.grouping_value,"|")>
+					<cfset variables.orderBit = bits[1]>
+					<cfset variables.familyBit = bits[2]>
+				</cfif>
 				<cfquery name="getRemoveList" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getRemoveList_result" timeout="#Application.short_timeout#">
 					SELECT collection_object_id
 					FROM user_search_table
@@ -4217,6 +4222,24 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 										continent_ocean IS NULL
 									<cfelse>
 										continent_ocean = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.continentBit#">
+									</cfif>
+								)
+							</cfcase>
+							<cfcase value="family">
+								collection_object_id IN (
+									SELECT collection_object_id 
+									FROM  <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat
+									WHERE
+									<cfif variables.familyBit EQ "NULL">
+										family IS NULL
+									<cfelse>
+										family = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.familyBit#">
+									</cfif>
+									AND
+									<cfif variables.orderBit EQ "NULL">
+										phylorder IS NULL
+									<cfelse>
+										phylorder = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.orderBit#">
 									</cfif>
 								)
 							</cfcase>
