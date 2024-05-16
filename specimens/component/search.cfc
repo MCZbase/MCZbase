@@ -3908,7 +3908,7 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 							<cfdefaultcase>
 								<cfthrow message="Unsupported grouping criterion.">
 							</cfdefaultcase>
-						</cfif>
+						</cfswitch>
 				</cfquery>
 				<cfif getRemoveList.recordcount EQ 0>
 					<cfthrow message="No records identified to remove from search results.">
