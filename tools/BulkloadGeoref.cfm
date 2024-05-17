@@ -614,7 +614,7 @@ limitations under the License.
 							determined_date,lat_long_ref_source,extent,gpsaccuracy,
 							verificationstatus,VERIFIED_BY_AGENT_ID,spatialfit,nearest_named_place
 							FROM lat_long
-							where collection_object_id = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getCitData.collection_object_id#">
+							where collection_object_id = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTemData.collection_object_id#">
 							group by highergeography,speclocality,locality_id,dec_lat,dec_long,max_error_distance,max_error_units,lat_long_remarks,determined_by_agent,determined_by_agent_id,georefmethod,orig_lat_long_units,datum,determined_date,lat_long_ref_source,extent,gpsaccuracy,verificationstatus,VERIFIED_BY_AGENT_ID,spatialfit,nearest_named_place
 							having count(*) > 1
 						</cfquery>
