@@ -1056,7 +1056,7 @@ limitations under the License.
 						SELECT *
 						FROM cf_temp_parts
 						where key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#problem_key#">
-						and use_existing = 1
+						and use_existing = 0
 					</cfquery>
 					<cfif getProblemData.recordcount GT 0>
 						<h3>
@@ -1217,7 +1217,7 @@ limitations under the License.
 					and use_existing = 0
 				</cfquery>
 				<!---insert collection_object_ids into link with a comma between them--->
-				<h3 class="mt-3"><span class="text-success">Success! </span> Parts loaded.</h3>
+			<!---	<h3 class="mt-3"><span class="text-success">Success! </span> Parts loaded.</h3>
 				<cfif getTempData.recordcount gt 1>
 					<a href="/Specimens.cfm?execute=true&builderMaxRows=1&action=builderSearch&nestdepth1=1&field1=COLL_OBJECT%3ACOLL_OBJ_COLLECTION_OBJECT_ID&searchText1=<cfloop query='getTempData'>#getTempData.collection_object_id#,</cfloop>" target="_blank" class="btn-link font-weight-lessbold">
 						See records in Specimen Results.
@@ -1226,7 +1226,7 @@ limitations under the License.
 					<a href="/Specimens.cfm?execute=true&builderMaxRows=1&action=builderSearch&nestdepth1=1&field1=COLL_OBJECT%3ACOLL_OBJ_COLLECTION_OBJECT_ID&searchText1=<cfloop query='getTempData'>#getTempData.collection_object_id#</cfloop>" target="_blank" class="btn-link font-weight-lessbold">
 						See records in Specimen Results.
 					</a>
-				</cfif>
+				</cfif>--->
 			</cfoutput>
 		</cfif>
 		</div>
