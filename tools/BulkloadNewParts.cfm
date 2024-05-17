@@ -1042,7 +1042,7 @@ limitations under the License.
 							update cf_temp_parts set status = ''
 						</cfquery>
 					</cfloop>
-					<h3 class="mt-3">There were #part_updates# parts in #updateColl_result.recordcount# specimen records updated.</h3>
+					<h3 class="mt-3"> #updateColl_result.recordcount# specimen record(s) was updated.</h3>
 					<h3><span class="text-success">Success!</span> Parts loaded.
 					<a href="/SpecimenResults.cfm?collection_object_id=#valuelist(getTempData.collection_object_id)#" class="btn-link font-weight-lessbold">
 						See in Specimen Results.
