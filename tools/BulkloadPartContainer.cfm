@@ -348,7 +348,7 @@
 							WHERE cataloged_item.collection_object_id = specimen_part.derived_from_cat_item 
 							AND cataloged_item.collection_object_id = coll_obj_other_id_num.collection_object_id 
 							AND cataloged_item.collection_id = collection.collection_id 
-							AND coll_object_remarks.collection_object_id = specimen_part.collection_object_id
+							AND coll_object_remark.collection_object_id = specimen_part.collection_object_id
 							AND collection.collection_cde = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableTypes.collection_cde#">
 							AND collection.institution_acronym = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableTypes.institution_acronym#"> 
 							AND other_id_type=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableTypes.other_id_type#"> 
