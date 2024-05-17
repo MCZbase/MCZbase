@@ -1,6 +1,6 @@
 <cfif isDefined("action") AND action is "dumpProblems">
 	<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-		SELECT INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_NUMBER,PART_NAME,PRESERVE_METHOD,CONTAINER_UNIQUE_ID
+		SELECT INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_NUMBER,PART_NAME,PRESERVE_METHOD,CONTAINER_UNIQUE_ID,PART_REMARKS
 		FROM cf_temp_barcode_parts
 		WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 	</cfquery>
@@ -392,7 +392,7 @@
 			</cfloop>
 			<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_NUMBER,COLLECTION_OBJECT_ID,
-				PART_NAME,PRESERVE_METHOD,CONTAINER_ID,PARENT_CONTAINER_ID,PART_CONTAINER_ID,CONTAINER_UNIQUE_ID,STATUS 
+				PART_NAME,PRESERVE_METHOD,CONTAINER_ID,PARENT_CONTAINER_ID,PART_CONTAINER_ID,CONTAINER_UNIQUE_ID,PART_REMARKS,STATUS 
 				FROM cf_temp_barcode_parts
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
@@ -458,7 +458,7 @@
 			<cftransaction>
 				<cfquery name="getTempData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT KEY,INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_NUMBER,COLLECTION_OBJECT_ID,
-					PART_NAME,PRESERVE_METHOD,CONTAINER_ID,PARENT_CONTAINER_ID,PART_CONTAINER_ID,CONTAINER_UNIQUE_ID,STATUS 
+					PART_NAME,PRESERVE_METHOD,CONTAINER_ID,PARENT_CONTAINER_ID,PART_CONTAINER_ID,CONTAINER_UNIQUE_ID,PART_REMARKS,STATUS 
 					FROM cf_temp_barcode_parts
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
@@ -496,7 +496,7 @@
 				<cfcatch>
 					<cftransaction action="ROLLBACK">
 					<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						SELECT INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_NUMBER,PART_NAME,PRESERVE_METHOD,CONTAINER_UNIQUE_ID
+						SELECT INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_NUMBER,PART_NAME,PRESERVE_METHOD,CONTAINER_UNIQUE_ID,PART_REMARKS
 						FROM cf_temp_barcode_parts
 						where key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#problem_key#">
 					</cfquery>
@@ -535,6 +535,7 @@
 									<th>PART_NAME</th>
 									<th>PRESERVE_METHOD</th>
 									<th>CONTAINER_UNIQUE_ID</th>
+									<th>PART_REMARKS</th>
 								</tr> 
 							</thead>
 							<tbody>
@@ -549,6 +550,7 @@
 										<td>#getProblemData.PART_NAME#</td>
 										<td>#getProblemData.PRESERVE_METHOD#</td>
 										<td>#getProblemData.CONTAINER_UNIQUE_ID#</td>
+										<td>#getProblemData.PART_REMARKS#</td>
 									</tr>
 									<cfset i= i+1>
 								</cfloop>
