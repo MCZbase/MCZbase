@@ -753,7 +753,7 @@ limitations under the License.
 							<cfquery name="NEXTID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 								select sq_collection_object_id.nextval NEXTID from dual
 							</cfquery>
-							<cfquery name="updateColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+							<cfquery name="updateColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateColl_result">
 								INSERT INTO coll_object (
 									COLLECTION_OBJECT_ID,
 									COLL_OBJECT_TYPE,
