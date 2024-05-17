@@ -810,9 +810,9 @@ limitations under the License.
 		<!-------------------------------------------------------------------------------------------->
 		<cfif #action# is "load">
 			<cfoutput>
+				<h2 class="h4">Third Step: Load Data</h2>
 				<cfset problem_key = "">
 				<cftransaction>
-				<h2 class="h4">Third Step: Load Data</h2>
 				<cfquery name="getTempData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					select * from cf_temp_parts where status not in ('LOADED', 'PART NOT FOUND')
 				</cfquery>
@@ -820,7 +820,6 @@ limitations under the License.
 					SELECT agent_id FROM agent_name WHERE agent_name = '#session.username#'
 				</cfquery>
 				<cftry>
-		
 					<cfif getEntBy.recordcount is 0>
 						<cfabort showerror = "You aren't a recognized agent!">
 					<cfelseif getEntBy.recordcount gt 1>
@@ -832,7 +831,6 @@ limitations under the License.
 					<cfset enteredbyid = getEntBy.agent_id>
 					<cfset part_updates = 0>
 					<cfset part_updates1 = 0>
-					<cftransaction>
 						<cfloop query="getTempData">
 							<cfset problem_key = #getTempData.key#>
 							<cfif len(#use_part_id#) is 0 and use_existing is not 1>
@@ -1194,7 +1192,7 @@ limitations under the License.
 								</cfif>
 							<cfset part_updates = part_updates + updateColl_result.recordcount>
 						</cfif>
-					</cfloop>
+						</cfloop>
 					<h3 class="mt-3">There were #part_updates# parts in #updateColl_result.recordcount# specimen records updated.</h3>
 					<h3><span class="text-success">Success!</span> Parts loaded.
 					<a href="/SpecimenResults.cfm?collection_object_id=#valuelist(getTempData.collection_object_id)#" class="btn-link font-weight-lessbold">
@@ -1235,7 +1233,7 @@ limitations under the License.
 									<cfelseif cfcatch.detail contains "part_value">
 										Invalid part_value
 									<cfelseif cfcatch.detail contains "unique constraint">
-										This change has already been entered. Remove from spreadsheet and try again. (<a href="/tools/BulkloadCitations.cfm">Reload.</a>)
+										This change has already been entered. Remove from spreadsheet and try again. (<a href="/tools/BulkloadEditedParts.cfm">Reload.</a>)
 									<cfelseif cfcatch.detail contains "no data">
 										No data or the wrong data (#cfcatch.detail#)
 									<cfelse>
