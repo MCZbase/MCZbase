@@ -79,7 +79,7 @@ limitations under the License.
 			<span class="btn btn-xs btn-info" onclick="document.getElementById('template').style.display='block';">View template</span>
 			<div id="template" style="display:none;margin: 1em 0;">
 				<label for="templatearea" class="data-entry-label">
-					Copy this header line and save it as a .csv file (<a href="/tools/BulkloadEditedParts.cfm?action=getCSVHeader">download</a>)
+					Copy this header line and save it as a .csv file (<a href="/tools/BulkloadEditedParts.cfm?action=getCSVHeader" class="font-weight-lessbold">download</a>)
 				</label>
 				<textarea rows="2" cols="90" id="templatearea" class="w-100 data-entry-textarea">#fieldlist#</textarea>
 			</div>
@@ -105,7 +105,7 @@ limitations under the License.
 					<cfelse>
 						<cfset class="text-dark">
 					</cfif>
-					<li class="mx-3">
+					<li class="pb-1 mx-3">
 						<span class="#class# font-weight-lessbold" #aria#>#field#: </span> <span class="text-secondary">#comment#</span>
 					</li>
 				</cfloop>
