@@ -425,6 +425,7 @@
 						<th>PARENT_CONTAINER_ID</th>
 						<th>PART_CONTAINER_ID</th>
 						<th>PRESERVE_METHOD</th>
+						<th>PART_REMARKS</th>
 					</tr>
 				<tbody>
 					<cfloop query="data">
@@ -441,6 +442,7 @@
 							<td>#data.PARENT_CONTAINER_ID#</td>
 							<td>#data.PART_CONTAINER_ID#</td>
 							<td>#data.PRESERVE_METHOD#</td>
+							<td>#data.PART_REMARKS#</td>
 						</tr>
 					</cfloop>
 				</tbody>
