@@ -497,6 +497,7 @@ limitations under the License.
 						<th>VERIFIED_BY</th>
 						<th>SPATIALFIT</th>
 						<th>NEAREST_NAMED_PLACE</th>
+						<th>ACCEPTED_LAT_LONG_FG</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -522,6 +523,7 @@ limitations under the License.
 						<td>#getTempData.verified_by#</td>
 						<td>#getTempData.spatialfit#</td>
 						<td>#getTempData.nearest_named_place#</td>
+						<td>#getTempData.accepted_lat_long_fg#</td>
 					</tr>	
 				</tbody>
 			</table>
@@ -589,7 +591,10 @@ limitations under the License.
 								NULL,
 							</cfif>
 							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#MAX_ERROR_UNITS#">,
-							1,
+							<cfif len(ACCEPTED_LAT_LONG_FG) gt 0>#ACCEPTED_LAT_LONG_FG#
+							<cfelse>
+								1
+							</cfif>,
 							<cfif len(EXTENT) gt 0>
 								<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#EXTENT#" scale="5">,
 							<cfelse>
