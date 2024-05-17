@@ -407,8 +407,7 @@
 					Fix the problems in the data and <a href="/tools/BulkloadPartContainer.cfm" class="text-danger">start again</a>.
 				</h3>
 			<cfelse>
-				<h3 class="mt-3">
-					Validation checks passed. Look over the table below and <a href="/tools/BulkloadPartContainer.cfm?action=load" class="btn-link font-weight-lessbold">click to continue</a> if it all looks good. Or, <a href="/tools/BulkloadPartContainer.cfm"  class="text-danger">start again</a>.
+				<span class="text-success">Validation checks passed.</span> Look over the table below and <a href="/tools/BulkloadPartContainer.cfm?action=load" class="btn-link font-weight-lessbold">click to continue</a> if it all looks good. Or, <a href="/tools/BulkloadPartContainer.cfm"  class="text-danger">start again</a>.
 				</h3>
 			</cfif>
 			<table class='sortable small px-0 table table-responsive table-striped w-100'>
