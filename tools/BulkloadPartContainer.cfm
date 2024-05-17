@@ -50,7 +50,7 @@
 			</div>
 			<p class="pt-2">Columns in <span class="text-danger">red</span> are required; others are optional:</p>
 			<h2 class="mt-4 h4">Columns in <span class="text-danger">red</span> are required; others are optional:</h2>
-			<ul class="mb-4 h5 font-weight-normal list-group mx-xl-3">
+			<ul class="mb-4 h5 font-weight-normal list-group mx-3">
 				<cfloop list="#fieldlist#" index="field" delimiters=",">
 					<cfquery name = "getComments"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#"  result="getComments_result">
 						SELECT comments
@@ -71,7 +71,7 @@
 					<cfelse>
 						<cfset class="text-dark">
 					</cfif>
-					<li class="pb-1 mx-xl-3">
+					<li class="pb-1 mx-3">
 						<span class="#class# font-weight-lessbold" #aria#>#field#: </span> <span class="text-secondary">#comment#</span>
 					</li>
 				</cfloop>
