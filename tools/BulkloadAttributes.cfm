@@ -566,7 +566,7 @@ limitations under the License.
 					There is a problem with #pf.c# of #data.recordcount# row(s). See the STATUS column. (<a href="/tools/BulkloadAttributes.cfm?action=dumpProblems">download</a>).
 					Fix the problem(s) noted in the status column and <a href="/tools/BulkloadAttributes.cfm" class="text-danger">start again</a>.
 			<cfelse>
-					Validation checks passed. Look over the table below and <a href="/tools/BulkloadAttributes.cfm?action=load" class="btn-link font-weight-lessbold">click to continue</a> if it all looks good. Or, <a href="/tools/BulkloadAttributes.cfm" class="text-danger">start again</a>.
+					<span class="text-success">Validation checks passed.</span> Look over the table below and <a href="/tools/BulkloadAttributes.cfm?action=load" class="btn-link font-weight-lessbold">click to continue</a> if it all looks good. Or, <a href="/tools/BulkloadAttributes.cfm" class="text-danger">start again</a>.
 			</cfif>
 			<table class='px-0 small sortable table table-responsive table-striped w-100'>
 				<thead>
