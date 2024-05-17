@@ -728,6 +728,7 @@ limitations under the License.
 		<cfif #action# is "load">
 			<cfoutput>
 				<h2 class="h4">Third step: Apply changes</h2>
+				<cfset problem_key = "">
 				<cftransaction>
 				<cfquery name="getTempData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					select * from cf_temp_parts where status is null
