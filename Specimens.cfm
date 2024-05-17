@@ -462,7 +462,7 @@ limitations under the License.
 													<div class="form-row col-12 col-md-12 px-0 mx-0 mb-0">
 														<div class="col-12 mb-1 col-md-3">
 															<cfif not isdefined("other_id_type_1")><cfset other_id_type_1=""></cfif>
-															<label for="otherID" class="data-entry-label small">Other ID Type</label>
+															<label for="otherID" class="data-entry-label small">or Other ID Type</label>
 															<div name="other_id_type_1" id="other_id_type_1" class="w-100"></div>
 															<cfset otheridtype_array = ListToArray(other_id_type_1)>
 															<script>
