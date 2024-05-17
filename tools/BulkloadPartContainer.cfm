@@ -471,7 +471,7 @@
 					<cfset install_date = "">
 					<cfloop query="getTempData">
 						<cfset problem_key = #getTempData.key#>
-						<cfquery name="updateBarcodes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						<cfquery name="updateBarcodes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateBarcodes_result">
 							UPDATE
 								container
 							SET
