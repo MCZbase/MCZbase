@@ -329,7 +329,7 @@
 							FROM cataloged_item, specimen_part, collection, coll_object_remark
 							WHERE cataloged_item.collection_object_id = specimen_part.derived_from_cat_item 
 							AND cataloged_item.collection_id = collection.collection_id
-							AND coll_object_remarks.collection_object_id = specimen_part.collection_object_id
+							AND coll_object_remark.collection_object_id = specimen_part.collection_object_id
 							AND collection.collection_cde=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableTypes.collection_cde#">
 							AND collection.institution_acronym = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableTypes.institution_acronym#">
 							AND cat_num=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableTypes.oidnum#">
