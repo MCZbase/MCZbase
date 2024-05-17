@@ -573,7 +573,8 @@ limitations under the License.
 								GEOREFMETHOD,
 								VERIFICATIONSTATUS,
 								VERIFIED_BY_AGENT_ID,
-								SPATIALFIT
+								SPATIALFIT,
+								NEAREST_NAMED_PLACE
 							)VALUES(
 							sq_lat_long_id.nextval,
 							<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#LOCALITY_ID#">,
@@ -614,6 +615,11 @@ limitations under the License.
 							<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#SPATIALFIT#" scale="3">
 						<cfelse>
 							NULL
+						</cfif>,
+						<cfif len(NEAREST_NAMED_PLACE) gt 0>
+							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#NEAREST_NAMED_PLACE#">
+						<cfelse>
+							NULL
 						</cfif>
 							)
 						</cfquery>
@@ -643,7 +649,7 @@ limitations under the License.
 					<cfcatch>
 						<cftransaction action="ROLLBACK">
 						<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-							SELECT highergeography,speclocality,locality_id,dec_lat,dec_long,max_error_distance,max_error_units,lat_long_remarks,determined_by_agent,determined_by_agent_id,georefmethod,orig_lat_long_units,datum,determined_date,lat_long_ref_source,extent,gpsaccuracy,verificationstatus,VERIFIED_BY_AGENT_ID,spatialfit,nearest_named_place
+							SELECT highergeography,speclocality,locality_id,dec_lat,dec_long,max_error_distance,max_error_units,lat_long_remarks,determined_by_agent,determined_by_agent_id,georefmethod,orig_lat_long_units,datum,determined_date,lat_long_ref_source,extent,gpsaccuracy,verificationstatus,VERIFIED_BY_AGENT_ID,spatialfit,accepted_lat_long_fg,nearest_named_place
 							FROM cf_temp_georef
 							WHERE key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#problem_key#">
 						</cfquery>
@@ -690,6 +696,8 @@ limitations under the License.
 											Invalid VERIFICATIONSTATUS
 										<cfelseif cfcatch.detail contains "spatialfit">
 											Invalid SPATIALFIT
+										<cfelseif cfcatch.detail contains "nearest_named_place">
+											Invalid NEAREST_NAMED_PLACE
 										<cfelseif cfcatch.detail contains "no data">
 											No data or the wrong data (#cfcatch.detail#)
 										<cfelse>
@@ -721,6 +729,7 @@ limitations under the License.
 									<th>VERIFICATIONSTATUS</th>
 									<th>VERIFIED_BY_AGENT_ID</th>
 									<th>SPATIALFIT</th>
+									<th>ACCEPTED_LAT_LONG_FG</th>
 								</tr> 
 							</thead>
 							<tbody>
@@ -746,6 +755,7 @@ limitations under the License.
 										<td>#getProblemData.verificationstatus# </td>
 										<td>#getProblemData.VERIFIED_BY_AGENT_ID# </td>
 										<td>#getProblemData.spatialfit#</td>
+										<td>#getProblemData.accepted_lat_long_fg#</td>
 									</tr>
 									<cfset i= i+1>
 								</cfloop>
