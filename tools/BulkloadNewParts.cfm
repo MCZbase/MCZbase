@@ -1041,6 +1041,7 @@ limitations under the License.
 					DELETE FROM cf_temp_parts 
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 					and use_existing = 0
+					AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
 				</cfquery>
 				<!---insert collection_object_ids into link with a comma between them--->
 				<h3 class="mt-3"><span class="text-success">Success! </span> Parts loaded.</h3>
