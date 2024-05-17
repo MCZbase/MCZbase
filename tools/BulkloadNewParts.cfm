@@ -1036,6 +1036,7 @@ limitations under the License.
 									and is_current_fg = 1
 								</cfquery>
 							</cfif>
+							<cfset part_updates = part_updates + updateColl_result.recordcount>
 						</cfif>
 						<cfquery name="upLoaded" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							update cf_temp_parts set status = ''
