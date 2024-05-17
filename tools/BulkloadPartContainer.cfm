@@ -326,7 +326,7 @@
 					<cfquery name="coll_obj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						update cf_temp_barcode_parts set collection_object_id = (
 							SELECT specimen_part.collection_object_id 
-							FROM cataloged_item, specimen_part, collection,coll
+							FROM cataloged_item, specimen_part, collection,coll_object_remarks
 							WHERE cataloged_item.collection_object_id = specimen_part.derived_from_cat_item 
 							AND cataloged_item.collection_id = collection.collection_id
 							AND coll_object_remarks.collection_object_id = specimen_part.collection_object_id
