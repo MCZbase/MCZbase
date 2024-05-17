@@ -56,7 +56,7 @@ limitations under the License.
 <cfinclude template="/tools/component/csv.cfc" runOnce="true"><!--- for common csv testing functions --->
 <cfif not isDefined("action") OR len(action) EQ 0><cfset action="nothing"></cfif>
 <main class="container-fluid py-3 px-5" id="content">
-	<h1 class="h2">Bulkload Geography</h1>
+	<h1 class="h2 mt-2">Bulkload Geography</h1>
 	<cfif #action# is "nothing">
 		<cfoutput>
 			<p>HigherGeography, SpecLocality, and locality_id must all match MCZbase data or this form will not work. There are still plenty of ways to hook a georeference to the wrong socket&mdash;make sure you know what you're doing before you try to use this form.  If in doubt, give your filled-out template to Collections Operations to load.</p>
