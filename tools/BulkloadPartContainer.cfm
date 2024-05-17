@@ -299,271 +299,242 @@
 		</cfoutput>
 	</cfif>
 	<!------------------------------------------------------->
-		<!------------------------------------------------------->
+	<!------------------------------------------------------->
 	<cfif #action# is "validate">
-		<h2 class="h4">Second step: Data Validation</h2>
 		<cfoutput>
-			<cfset key = ''>
-			<cfquery name="getTempTableTypes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				select 
-					trim(institution_acronym) institution_acronym,
-					trim(collection_cde) collection_cde,
-					trim(other_id_type) other_id_type,
-					trim(other_id_number) oidnum,
-					trim(part_name) part_name,
-					trim(preserve_method) preserve_method,
-					trim(container_unique_id) container_unique_id,
-					trim(part_remarks) part_remarks,
-					print_fg, 
-					key
-				from
-					cf_temp_barcode_parts
-				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-			</cfquery>
-		
-			<cfloop query ='getTempTableTypes'> 
-				<cfif other_id_type is "catalog number">
-					<cfquery name="coll_obj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						update cf_temp_barcode_parts set collection_object_id = (
-							SELECT specimen_part.collection_object_id 
-							FROM cataloged_item, specimen_part, collection, coll_object_remark
-							WHERE cataloged_item.collection_object_id = specimen_part.derived_from_cat_item 
-							AND cataloged_item.collection_id = collection.collection_id
-							AND coll_object_remark.collection_object_id = specimen_part.collection_object_id
-							AND collection.collection_cde=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableTypes.collection_cde#">
-							AND collection.institution_acronym = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableTypes.institution_acronym#">
-							AND cat_num=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableTypes.oidnum#">
-							AND part_name=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableTypes.part_name#">
-							AND preserve_method = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableTypes.preserve_method#">
-							AND coll_object_remark.coll_object_remarks = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableTypes.part_remarks#">),
-						status = null
-						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-						AND key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableTypes.key#">
-					</cfquery>
-				<cfelse>
-					<cfquery name="coll_obj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						update cf_temp_barcode_parts set collection_object_id = (
-							SELECT specimen_part.collection_object_id 
-							FROM cataloged_item, specimen_part, coll_obj_other_id_num, collection, coll_object_remark
-							WHERE cataloged_item.collection_object_id = specimen_part.derived_from_cat_item 
-							AND cataloged_item.collection_object_id = coll_obj_other_id_num.collection_object_id 
-							AND cataloged_item.collection_id = collection.collection_id 
-							AND coll_object_remark.collection_object_id = specimen_part.collection_object_id
-							AND collection.collection_cde = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableTypes.collection_cde#">
-							AND collection.institution_acronym = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableTypes.institution_acronym#"> 
-							AND other_id_type=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableTypes.other_id_type#"> 
-							AND display_value= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableTypes.oidnum#">
-							AND part_name= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableTypes.part_name#">
-							AND preserve_method = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableTypes.preserve_method#">
-							and coll_object_remark.coll_object_remarks =<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableTypes.part_remarks#">),
-						status = null
-						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-						and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableTypes.key#"> 
-					</cfquery>
-				</cfif>
-			</cfloop>
-			<cfquery name="getTempTableQC" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				SELECT key,collection_object_id,container_unique_id
-				FROM cf_temp_barcode_parts 
-				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-			</cfquery>
-			<cfloop query="getTempTableQC">
-				<cfquery name="updatePartContID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					UPDATE cf_temp_barcode_parts
-					SET part_container_id = (select container_id from container where barcode = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableQC.container_unique_id#">)
+			<div class="container-fluid">
+				<h1 class="h2 mt-2">Bulkload Container Edit Parent</h1>
+				<h2 class="h4 mb-4">Second step: Data Validation</h2>
+				<cfquery name="getCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					update cf_temp_barcode_part  set container_id=
+					(select container_id from container where container.barcode = cf_temp_barcode_part.container_unique_id)
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-					AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
 				</cfquery>
-				<cfquery name="updateContID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					UPDATE cf_temp_barcode_parts
-					SET container_id = (select container_id from container where barcode = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableQC.container_unique_id#">)
-					where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-					AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
+				<cfquery name="getCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					update cf_temp_barcode_part  set parent_container_id=
+					(select container_id from container where container.barcode = cf_temp_barcode_part.parent_unique_id)
+					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
-				<cfquery name="updateParentContID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					UPDATE cf_temp_barcode_parts
-					SET parent_container_id = (select parent_container_id from container where barcode = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableQC.container_unique_id#">)
-					where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-					AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
+				<cfquery name="miac" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					UPDATE cf_temp_barcode_part 
+					SET status = concat(nvl2(status, status || '; ', ''), 'container_not_found, no Unique Identifier found matching [' || container_unique_id || '].')
+					WHERE container_id is null
+						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
-			</cfloop>
-			<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				SELECT INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_NUMBER,COLLECTION_OBJECT_ID,
-				PART_NAME,PRESERVE_METHOD,CONTAINER_ID,PARENT_CONTAINER_ID,PART_CONTAINER_ID,CONTAINER_UNIQUE_ID,PART_REMARKS,STATUS 
-				FROM cf_temp_barcode_parts
-				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-			</cfquery>
-			<cfquery name="pf" dbtype="query">
-				SELECT count(*) c 
-				FROM data 
-				WHERE status is not null
-			</cfquery>
-			<cfif pf.c gt 0>
-				<h3 class="mt-3">
-					There is a problem with #pf.c# of #data.recordcount# row(s). See the STATUS column. (<a href="/tools/BulkloadPartContainer.cfm?action=validate">download</a>).
-					Fix the problems in the data and <a href="/tools/BulkloadPartContainer.cfm" class="text-danger">start again</a>.
-				</h3>
-			<cfelse>
-				<span class="text-success">Validation checks passed.</span> Look over the table below and <a href="/tools/BulkloadPartContainer.cfm?action=load" class="btn-link font-weight-lessbold">click to continue</a> if it all looks good. Or, <a href="/tools/BulkloadPartContainer.cfm"  class="text-danger">start again</a>.
-				</h3>
-			</cfif>
-			<table class='sortable small px-0 table table-responsive table-striped w-100'>
-				<thead>
+				<cfquery name="miap" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					UPDATE cf_temp_barcode_part  
+					SET status = concat(nvl2(status, status || '; ', ''),'parent_container_not_found, no Unique Identifier found matching ['|| parent_unique_id ||']')
+					WHERE parent_container_id is null and parent_unique_id is not null
+						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+				</cfquery>
+				<cfquery name="miap" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					UPDATE cf_temp_barcode_part 
+					SET status = concat(nvl2(status, status || '; ', ''),'bad_container_type ['||container_type||'], container_type must be in the CTCONTAINER_TYPE controlled vocabulary.')
+					WHERE container_type not in (select container_type from ctcontainer_type)
+						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+				</cfquery>
+				<cfquery name="miap" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					UPDATE cf_temp_barcode_part 
+					SET status = concat(nvl2(status, status || '; ', ''), 'missing_label, container_name is required.')
+					WHERE CONTAINER_NAME is null
+						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+				</cfquery>
+			
+				<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					SELECT CONTAINER_UNIQUE_ID, PARENT_UNIQUE_ID, CONTAINER_TYPE, CONTAINER_NAME, DESCRIPTION, REMARKS, WIDTH,
+						HEIGHT, LENGTH, NUMBER_POSITIONS, CONTAINER_ID, PARENT_CONTAINER_ID, STATUS 
+					FROM cf_temp_barcode_part 
+					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+				</cfquery>
+				<cfquery name="pf" dbtype="query">
+					SELECT count(*) c 
+					FROM data 
+					WHERE status is not null
+				</cfquery>
+				<cfif pf.c gt 0>
+					<h3>
+						There is a problem with #pf.c# of #data.recordcount# row(s). See the STATUS column. (<a href="/tools/BulkloadPartContainer.cfm?action=dumpProblems">download</a>).
+					</h3>
+					<h3>
+						Fix the problems in the data and <a href="/tools/BulkloadPartContainer.cfm">start again</a>.
+					</h3>
+				<cfelse>
+					<h3>
+						<span class="text-success">Validation checks passed.</span> Look over the table below and <a href="/tools/BulkloadPartContainer.cfm?action=load">click to continue</a> if it all looks good.
+					</h3>
+				</cfif>
+				<table class='px-0 sortable small table table-responsive table-striped d-lg-table'>
+				<thead class="thead-light">
 					<tr>
-						<th>BULKLOADING&nbsp;STATUS</th>
-						<th>INSTITUTION_ACRONYM</th>
-						<th>COLLECTION_CDE</th>
-						<th>OTHER_ID_TYPE</th>
-						<th>OTHER_ID_NUMBER</th>
-						<th>PART_NAME</th>
+						<th>STATUS</th>
 						<th>CONTAINER_UNIQUE_ID</th>
-						<th>COLLECTION_OBJECT_ID</th>
+						<th>PARENT_UNIQUE_ID</th>
+						<th>CONTAINER_TYPE</th>
+						<th>CONTAINER_NAME</th>
+						<th>DESCRIPTION</th>
+						<th>REMARKS</th>
+						<th>WIDTH</th>
+						<th>HEIGHT</th>
+						<th>LENGTH</th>
+						<th>NUMBER_POSITIONS</th>
 						<th>CONTAINER_ID</th>
 						<th>PARENT_CONTAINER_ID</th>
-						<th>PART_CONTAINER_ID</th>
-						<th>PRESERVE_METHOD</th>
-						<th>PART_REMARKS</th>
 					</tr>
 				<tbody>
 					<cfloop query="data">
 						<tr>
 							<td><cfif len(data.status) eq 0>Cleared to load<cfelse><strong>#data.status#</strong></cfif></td>
-							<td>#data.OTHER_ID_TYPE#</td>
-							<td>#data.OTHER_ID_NUMBER#</td>
-							<td>#data.COLLECTION_CDE#</td>
-							<td>#data.INSTITUTION_ACRONYM#</td>
-							<td>#data.PART_NAME#</td>
 							<td>#data.CONTAINER_UNIQUE_ID#</td>
-							<td>#data.COLLECTION_OBJECT_ID#</td>
+							<td>#data.PARENT_UNIQUE_ID#</td>
+							<td>#data.CONTAINER_TYPE#</td>
+							<td>#data.CONTAINER_NAME#</td>
+							<td>#data.DESCRIPTION#</td>
+							<td>#data.REMARKS#</td>
+							<td>#data.WIDTH#</td>
+							<td>#data.HEIGHT#</td>
+							<td>#data.LENGTH#</td>
+							<td>#data.NUMBER_POSITIONS#</td>
 							<td>#data.CONTAINER_ID#</td>
 							<td>#data.PARENT_CONTAINER_ID#</td>
-							<td>#data.PART_CONTAINER_ID#</td>
-							<td>#data.PRESERVE_METHOD#</td>
-							<td>#data.PART_REMARKS#</td>
 						</tr>
 					</cfloop>
 				</tbody>
 			</table>
+			</div>
 		</cfoutput>
 	</cfif>
-				
 	<!-------------------------------------------------------------------------------------------->
-		<cfif action is "load">
+	<cfif action is "load">
+		<div class="container">
+		<h1 class="h2 mt-2">Bulkload Part Container</h1>
 		<h2 class="h4">Third step: Apply changes.</h2>
 		<cfoutput>
+			<cfquery name="getTempData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				SELECT * FROM cf_temp_barcode_part
+				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+			</cfquery>
+			<cftry>
+				<cfset container_type_updates = 0>
+				<cftransaction>
+					<cfloop query="getTempData">
+						<cfquery name="updateContainer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateContainer_result">
+							UPDATE
+								container 
+							SET
+								CONTAINER_TYPE= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#CONTAINER_TYPE#">
+							WHERE
+								CONTAINER_ID= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#CONTAINER_ID#">
+						</cfquery>
+						<cfset container_type_updates = container_type_updates + updateContainer_result.recordcount>
+					</cfloop>
+				</cftransaction>
+			<cfcatch>
+				<h3>There was a problem updating container types.</h3>
+				<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					SELECT container_unique_id,parent_unique_id,container_type,container_name, status 
+					FROM cf_temp_barcode_part 
+					WHERE status is not null
+						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+				</cfquery>
+				<h3>Problematic Rows (<a href="/tools/BulkloadPartContainer.cfm?action=dumpProblems">download</a>)</h3>
+				<table class='sortable table table-responsive table-striped d-lg-table'>
+					<thead>
+						<tr>
+							<th>container_unique_id</th><th>parent_unique_id</th><th>container_type</th><th>container_name</th><th>status</th>
+						</tr> 
+					</thead>
+					<tbody>
+						<cfloop query="getProblemData">
+							<tr>
+								<td>#getProblemData.container_unique_id#</td>
+								<td>#getProblemData.parent_unique_id#</td>
+								<td>#getProblemData.container_type#</td>
+								<td>#getProblemData.container_name#</td>
+								<td>#getProblemData.status#</td>
+							</tr> 
+						</cfloop>
+					</tbody>
+				</table>
+				<cfrethrow>
+			</cfcatch>
+			</cftry>
 			<cfset problem_key = "">
 			<cftransaction>
-				<cfquery name="getTempData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					SELECT KEY,INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_NUMBER,COLLECTION_OBJECT_ID,
-					PART_NAME,PRESERVE_METHOD,CONTAINER_ID,PARENT_CONTAINER_ID,PART_CONTAINER_ID,CONTAINER_UNIQUE_ID,PART_REMARKS,STATUS 
-					FROM cf_temp_barcode_parts
-					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-				</cfquery>
-				<cfquery name="getCounts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					SELECT count(distinct collection_object_id) ctobj FROM cf_temp_barcode_parts
-					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-				</cfquery>
 				<cftry>
-					<cfset barcodes_updates = 0>
-					<cfif getTempData.recordcount EQ 0>
-						<cfthrow message="You have no rows to load in the Part Container bulkloader table (cf_temp_barcode_parts).  <a href='/tools/BulkloadPartContainer.cfm' class='text-danger'>Start again</a>"><!--- " --->
-					</cfif>
-					<cfset install_date = "">
+					<cfset container_updates = 0>
 					<cfloop query="getTempData">
-						<cfset problem_key = #getTempData.key#>
-						<cfquery name="updateBarcodes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateBarcodes_result">
+						<cfset problem_key = getTempData.key>
+						<cfquery name="updateContainer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateContainer_result">
 							UPDATE
-								container
+								container 
 							SET
-								parent_container_id = #parent_container_id#
+								label=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#CONTAINER_NAME#">,
+								DESCRIPTION=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#DESCRIPTION#">,
+								PARENT_INSTALL_DATE=sysdate,
+								CONTAINER_REMARKS=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#remarks#">
+								<cfif len(#WIDTH#) gt 0>
+									,WIDTH=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#WIDTH#">
+								</cfif>
+								<cfif len(#HEIGHT#) gt 0>
+									,HEIGHT=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#HEIGHT#">
+								</cfif>
+								<cfif len(#LENGTH#) gt 0>
+									,LENGTH=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#LENGTH#">
+								</cfif>
+								<cfif len(#NUMBER_POSITIONS#) gt 0>
+									,NUMBER_POSITIONS=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#NUMBER_POSITIONS#">
+								</cfif>
+								<cfif len(#parent_container_id#) gt 0>
+									,parent_container_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#parent_container_id#">
+								</cfif>
 							WHERE
-							container_id=#part_container_id#
+								CONTAINER_ID=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#CONTAINER_ID#">
 						</cfquery>
-						<cfquery name="updateBarcodes1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateBarcodes1_result">
-							insert into coll_obj_cont_hist
-								(collection_object_id,container_id,installed_date,current_container_fg) 
-							values (#collection_object_id#,#container_id#,sysdate,'1')
-						</cfquery>
-						<cfset barcodes_updates = barcodes_updates + updateBarcodes1_result.recordcount>
+						<cfset container_updates = container_updates + updateContainer_result.recordcount>
 					</cfloop>
-					<p>Number of Part Containers to update: #barcodes_updates# (on #getCounts.ctobj# cataloged items)</p>
-					<cfif getTempData.recordcount eq barcodes_updates> 
-						<h3 class="text-success">Success - loaded</h3>
-					</cfif>
 					<cftransaction action="commit">
 				<cfcatch>
-					<cftransaction action="ROLLBACK">
+					<cftransaction action="rollback">
 					<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						SELECT INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_NUMBER,PART_NAME,PRESERVE_METHOD,CONTAINER_UNIQUE_ID,PART_REMARKS
-						FROM cf_temp_barcode_parts
-						where key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#problem_key#">
+						SELECT container_unique_id,parent_unique_id,container_type,container_name, status 
+						FROM cf_temp_barcode_part 
+						WHERE key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#problem_key#">
 					</cfquery>
-					<h3 class="mt-3">There was a problem updating the part container. </h3
-					<cfif getProblemData.recordcount GT 0>
-						<h3 class="mt-3">Fix the issues and <a href="/tools/BulkloadPartContainer.cfm" class="text-danger">start again</a>. Error loading row (<span class="text-danger">#barcodes_updates + 1#</span>) from the CSV: 
-							<cfif len(cfcatch.detail) gt 0>
-								<span class="font-weight-normal border-bottom border-danger">
-									<cfif cfcatch.detail contains "container_id">
-										Invalid container_ID
-									<cfelseif cfcatch.detail contains "parent_container_id">
-										Problem with parent_container_id
-									<cfelseif cfcatch.detail contains "collection_object_id">
-										Invalid or missing collection_object_id
-									<cfelseif cfcatch.detail contains "unique constraint">
-										This part's container has already been entered. Remove from spreadsheet and try again. (<a href="/tools/BulkloadPartContainer.cfm">Reload.</a>)
-									<cfelseif cfcatch.detail contains "no data">
-										No data or the wrong data (#cfcatch.detail#)
-									<cfelseif cfcatch.detail contains "missing expression">
-										There is something wrong with the code. Submit a bug report.
-									<cfelse>
-										<!--- provide the raw error message if it isn't readily interpretable --->
-										#cfcatch.detail#
-									</cfif>
-								</span>
-							</cfif>
-						</h3>
-						<table class='sortable px-0 small w-100 table table-responsive table-striped'>
-							<thead>
+					<h3>Error updating row (#container_updates + 1#): #cfcatch.message#</h3>
+					<table class='sortable table table-responsive table-striped d-lg-table'>
+						<thead>
+							<tr>
+								<th>BULKLOADING&nbsp;STATUS</th>
+								<th>container_unique_id</th>
+								<th>parent_unique_id</th>
+								<th>container_type</th>
+								<th>container_name</th>
+							</tr> 
+						</thead>
+						<tbody>
+							<cfloop query="getProblemData">
 								<tr>
-									<th>COUNT</th>
-									<th>INSTITUTION_ACRONYM</th>
-									<th>COLLECTION_CDE</th>
-									<th>OTHER_ID_TYPE</th>
-									<th>OTHER_ID_NUMBER</th>
-									<th>PART_NAME</th>
-									<th>PRESERVE_METHOD</th>
-									<th>CONTAINER_UNIQUE_ID</th>
-									<th>PART_REMARKS</th>
-								</tr> 
-							</thead>
-							<tbody>
-								<cfset i=1>
-								<cfloop query="getProblemData">
-									<tr>
-										<td>#i#</td>
-										<td>#getProblemData.INSTITUTION_ACRONYM# </td>
-										<td>#getProblemData.COLLECTION_CDE# </td>
-										<td>#getProblemData.OTHER_ID_TYPE# </td>
-										<td>#getProblemData.OTHER_ID_NUMBER#</td>
-										<td>#getProblemData.PART_NAME#</td>
-										<td>#getProblemData.PRESERVE_METHOD#</td>
-										<td>#getProblemData.CONTAINER_UNIQUE_ID#</td>
-										<td>#getProblemData.PART_REMARKS#</td>
-									</tr>
-									<cfset i= i+1>
-								</cfloop>
-							</tbody>
-						</table>
-					</cfif>
-					<div>#cfcatch.message#</div>
+									<td><cfif len(data.status) eq 0>Cleared to load<cfelse><strong>#getProblemData.status#</strong></cfif></td>
+									<td>#getProblemData.container_unique_id#</td>
+									<td>#getProblemData.parent_unique_id#</td>
+									<td>#getProblemData.container_type#</td>
+									<td>#getProblemData.container_name#</t
+								></tr> 
+							</cfloop>
+						</tbody>
+					</table>
+					<cfrethrow>
 				</cfcatch>
 				</cftry>
 			</cftransaction>
+			<cfif container_updates GT 1><cfset plural="s"><cfelse><cfset plural=""></cfif>
+			<h3 class="mt-4">Updated #container_updates# container#plural#.</h3>
+			<h3 class="text-success">Success, changes applied.</h3>
+			<!--- cleanup --->
 			<cfquery name="clearTempTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="clearTempTable_result">
-				DELETE FROM cf_temp_barcode_parts
+				DELETE FROM cf_temp_barcode_part 
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 		</cfoutput>
+		</div>
 	</cfif>
-</main>
-<cfinclude template="/shared/_footer.cfm">
