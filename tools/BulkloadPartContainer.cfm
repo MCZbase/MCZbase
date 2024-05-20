@@ -326,16 +326,14 @@
 					<cfquery name="coll_obj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						update cf_temp_barcode_parts set collection_object_id = (
 							SELECT specimen_part.collection_object_id 
-							FROM cataloged_item, specimen_part, collection, coll_object_remark
+							FROM cataloged_item, specimen_part, collection
 							WHERE cataloged_item.collection_object_id = specimen_part.derived_from_cat_item 
 							AND cataloged_item.collection_id = collection.collection_id
-							AND coll_object_remark.collection_object_id = specimen_part.collection_object_id
 							AND collection.collection_cde=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableTypes.collection_cde#">
 							AND collection.institution_acronym = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableTypes.institution_acronym#">
 							AND cat_num=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableTypes.oidnum#">
 							AND part_name=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableTypes.part_name#">
-							AND preserve_method = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableTypes.preserve_method#">
-							AND coll_object_remark.coll_object_remarks = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableTypes.part_remarks#">),
+							AND preserve_method = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableTypes.preserve_method#">),
 						status = null
 						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						AND key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableTypes.key#">
@@ -344,18 +342,16 @@
 					<cfquery name="coll_obj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						update cf_temp_barcode_parts set collection_object_id = (
 							SELECT specimen_part.collection_object_id 
-							FROM cataloged_item, specimen_part, coll_obj_other_id_num, collection, coll_object_remark
+							FROM cataloged_item, specimen_part, coll_obj_other_id_num, collection
 							WHERE cataloged_item.collection_object_id = specimen_part.derived_from_cat_item 
 							AND cataloged_item.collection_object_id = coll_obj_other_id_num.collection_object_id 
 							AND cataloged_item.collection_id = collection.collection_id 
-							AND coll_object_remark.collection_object_id = specimen_part.collection_object_id
 							AND collection.collection_cde = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableTypes.collection_cde#">
 							AND collection.institution_acronym = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableTypes.institution_acronym#"> 
 							AND other_id_type=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableTypes.other_id_type#"> 
 							AND display_value= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableTypes.oidnum#">
 							AND part_name= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableTypes.part_name#">
-							AND preserve_method = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableTypes.preserve_method#">
-							and coll_object_remark.coll_object_remarks =<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableTypes.part_remarks#">),
+							AND preserve_method = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableTypes.preserve_method#">),
 						status = null
 						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableTypes.key#"> 
