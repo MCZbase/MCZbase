@@ -480,7 +480,7 @@
 								<th>BULKLOADING&nbsp;STATUS</th>
 								<th>CONTAINER_UNIQUE_ID</th>
 								<th>PART_CONTAINER_ID</th>
-								<th>CONTAINER_NAME</th>
+								<th>CONTAINER_id</th>
 							</tr> 
 						</thead>
 						<tbody>
@@ -489,7 +489,7 @@
 									<td><cfif len(getProblemData.status) eq 0>Cleared to load<cfelse><strong>#getProblemData.status#</strong></cfif></td>
 									<td>#getProblemData.container_unique_id#</td>
 									<td>#getProblemData.part_container_id#</td>
-									<td>#getProblemData.container_name#</t
+									<td>#getProblemData.container_id#</t
 								></tr> 
 							</cfloop>
 						</tbody>
