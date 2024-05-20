@@ -367,6 +367,10 @@
 				select container_id from container where container_type <> 'collection object'
 				and barcode=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#check.container_unique_id#">
 			</cfquery>
+				<cfquery name="cont" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				select container_id FROM coll_obj_cont_hist where
+				collection_object_id=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#check.collection_object_id#">
+			</cfquery>
 			<!--- get current container based on coll_obj_cont_hist or default--->
 			<cfquery name="getCont" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				UPDATE cf_temp_barcode_parts
