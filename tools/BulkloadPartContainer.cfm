@@ -423,7 +423,9 @@
 						<th>COLLECTION_CDE</th>
 						<th>OTHER_ID_TYPE</th>
 						<th>OTHER_ID_NUMBER</th>
+						<th>COLLECTION_OBJECT_ID</th>
 						<th>CONTAINER_UNIQUE_ID</th>
+						<th>CONTAINER_ID</th>
 					</tr>
 				<tbody>
 					<cfloop query="data">
@@ -433,7 +435,9 @@
 							<th>#data.collection_cde#</th>
 							<td>#data.other_ID_TYPE#</td>
 							<td>#data.other_id_number#</td>
+							<td>#data.collection_object_id#</td>
 							<td>#data.CONTAINER_UNIQUE_ID#</td>
+							<td>#data.container_id#</td>
 						</tr>
 					</cfloop>
 				</tbody>
