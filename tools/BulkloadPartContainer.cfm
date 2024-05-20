@@ -306,17 +306,7 @@
 			<h2 class="h4 mb-4">Second step: Data Validation</h2>
 			<cfset key = ''>
 			<cfquery name="getTempTableTypes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				select 
-					trim(institution_acronym) institution_acronym,
-					trim(collection_cde) collection_cde,
-					trim(other_id_type) other_id_type,
-					trim(other_id_number) oidnum,
-					trim(part_name) part_name,
-					trim(preserve_method) preserve_method,
-					trim(container_unique_id) container_unique_id,
-					trim(part_remarks) part_remarks,
-					print_fg, 
-					key
+	select *
 				from
 					cf_temp_barcode_parts
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
@@ -365,7 +355,6 @@
 			</cfquery>
 			<cfloop query="getTempTableCOID">
 				<!--- get current container based on coll_obj_cont_hist or default--->
-				<cfif len(getTempTableCOID.collection_object_id) gt 0>
 					<cfquery name="getCont" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						UPDATE cf_temp_barcode_parts
 						SET container_id = (
