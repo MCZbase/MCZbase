@@ -10,9 +10,9 @@
 	<cfoutput>#csv#</cfoutput>
 	<cfabort>
 </cfif>
-<cfset fieldlist = "INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_NUMBER,PART_NAME,PRESERVE_METHOD,PART_REMARKS,CONTAINER_UNIQUE_ID,NEW_UNIQUE_CONTAINER_ID,NEW_PARENT_CONTAINER_ID,NEW_CONTAINER_ID">
-<cfset fieldTypes ="CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR">
-<cfset requiredfieldlist = "OTHER_ID_TYPE,OTHER_ID_NUMBER,COLLECTION_CDE,INSTITUTION_ACRONYM,PART_NAME,PRESERVE_METHOD,PART_REMARKS,CONTAINER_UNIQUE_ID,NEW_UNIQUE_CONTAINER_ID,NEW_PARENT_CONTAINER_ID,NEW_CONTAINER_ID">
+<cfset fieldlist = "INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_NUMBER,PART_NAME,PRESERVE_METHOD,PART_REMARKS,CONTAINER_UNIQUE_ID">
+<cfset fieldTypes ="CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR">
+<cfset requiredfieldlist = "OTHER_ID_TYPE,OTHER_ID_NUMBER,COLLECTION_CDE,INSTITUTION_ACRONYM,PART_NAME,PRESERVE_METHOD,PART_REMARKS,CONTAINER_UNIQUE_ID">
 	
 
 <!--- special case handling to dump column headers as csv --->
@@ -315,7 +315,6 @@
 					trim(preserve_method) preserve_method,
 					trim(part_remarks) part_remarks,
 					trim(container_unique_id) container_unique_id,
-					trim(new_container_unique_id) new_container_unique_id,
 					print_fg, 
 					key
 				from
@@ -389,23 +388,7 @@
 				AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableCOID.key#">
 			</cfquery>
 				
-				
-			<cfquery name="setter" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				UPDATE cf_temp_barcode_parts 
-				SET new_parent_container_id = (
-				select parent_container_id from container where BARCODE = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#new_container_unique_id#">
-				)
-				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-				AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableCOID.key#">
-			</cfquery>
-			<cfquery name="setter" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				UPDATE cf_temp_barcode_parts 
-				SET new_container_id = (
-				select parent_container_id from container where BARCODE = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#new_container_unique_id#">
-				)
-				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-				AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableCOID.key#">
-			</cfquery>
+			
 
 				<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT *
