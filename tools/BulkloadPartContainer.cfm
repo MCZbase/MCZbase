@@ -373,22 +373,20 @@
 				where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableCOID.key#">
 			</cfquery>
-			<!---Update new container ID based on the container unique ID--->
-			<cfquery name="setter" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+			<!---proves parent container ID of new container_unique_id exists and is nested--->
+			<cfquery name="setter1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				UPDATE cf_temp_barcode_parts 
 				SET container_id = (select container_id from container where BARCODE = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableCOID.container_unique_id#">)
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableCOID.key#">
 			</cfquery>
-			<!---Update parent container ID based on container_unique_id (container table search)--->
-			<cfquery name="setter" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+			<!---Update new container ID based on the container unique ID--->
+			<cfquery name="setter2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				UPDATE cf_temp_barcode_parts 
-				SET parent_container_id = (select parent_container_id from container where BARCODE = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableCOID.container_unique_id#">)
+				SET parent_container_id = (select container_id from container where container_id  =#setter1.container_id#)
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableCOID.key#">
 			</cfquery>
-				
-			
 
 				<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT *
