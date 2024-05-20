@@ -387,6 +387,7 @@
 				SELECT key,container_id
 				FROM cf_temp_barcode_parts 
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+							AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getContainer.key#">
 			</cfquery>
 			<cfloop query ='getContainer'> 
 				<!---Update new container ID based on the container unique ID--->
