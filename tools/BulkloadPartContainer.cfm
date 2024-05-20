@@ -358,15 +358,19 @@
 					</cfquery>
 				</cfif>
 			</cfloop>
+			<cfquery name="check" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				select key,collection_object_id,container_unique_id from cf_temp_barcode_parts 
+				where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+			</cfquery>
 			<!--- see if they gave a valid parent container ---->
 			<cfquery name="isGoodParent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				select container_id from container where container_type <> 'collection object'
-				and barcode=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableTypes.container_unique_id#">
+				and barcode=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#check.container_unique_id#">
 			</cfquery>
 			<!--- get current container based on coll_obj_cont_hist or default--->
 			<cfquery name="getCont" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				UPDATE cf_temp_barcode_parts
-				SET container_id = (select container_id from coll_obj_cont_hist where collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">)
+				SET container_id = (select container_id from coll_obj_cont_hist where collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#check.collection_object_id#">)
 				where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<cfquery name="bad" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -380,29 +384,16 @@
 				UPDATE cf_temp_barcode_parts
 				SET 
 					status = concat(nvl2(status, status || '; ', ''),'Invalid container_unique_id--not in MCZbase')
-				WHERE container_unique_id not in (select barcode from container where container_unique_id =<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getCOID.container_unique_id#"> )
+				WHERE container_unique_id not in (select barcode from container where container_unique_id =<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#check.container_unique_id#"> )
 				AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<cfquery name="setter1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				UPDATE cf_temp_barcode_parts 
-				SET container_id = (select container_id from container where BARCODE = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getCOID.container_unique_id#">)
+				SET parent_container_id = #isGoodParent.container_id#,part_container_id=#getCont.container_id#
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+				and key=#check.key#
 			</cfquery>
-			<!---proves parent container ID of new container_unique_id exists and is nested--->
-			<cfquery name="getContainer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				SELECT key,container_id
-				FROM cf_temp_barcode_parts 
-				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-			</cfquery>
-			<cfloop query ='getContainer'> 
-				<!---Update new container ID based on the container unique ID--->
-				<cfquery name="setter2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					UPDATE cf_temp_barcode_parts 
-					SET parent_container_id = (select container_id from container where container_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getContainer.container_id#">)
-					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-					AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getContainer.key#">
-				</cfquery>
-			</cfloop>
+	
 			<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT *
 				FROM cf_temp_barcode_parts 
