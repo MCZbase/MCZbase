@@ -367,7 +367,7 @@
 				<!--- get current container based on coll_obj_cont_hist or default--->
 				<cfquery name="getCont" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE cf_temp_barcode_parts
-					SET part_container_id = (
+					SET container_id = (
 					select container_id from coll_obj_cont_hist 
 					where collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableCOID.collection_object_id#">
 					)
