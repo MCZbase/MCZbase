@@ -386,7 +386,7 @@
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 					</cfquery>
 				</cfif>	
-				<cfif len(cont1.container_id) is 0>
+				<cfif len(cont.container_id) is 0>
 					<cfquery name="cont2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE cf_temp_barcode_parts
 					SET 
@@ -398,7 +398,7 @@
 				<cfquery name="setter" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					update cf_temp_barcode_parts set
 					parent_container_id=#isGoodParent.container_id#,
-					part_container_id=#cont2.container_id#
+					part_container_id=#cont.container_id#
 					where key=#key#
 				</cfquery>	
 				
