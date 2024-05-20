@@ -410,7 +410,7 @@
 				<table class='px-0 sortable small table table-responsive table-striped'>
 				<thead class="thead-light">
 					<tr>
-						<th>STATUS</th>
+						<th>BULKLOADING&nbsp;STATUS</th>
 						<th>INSTITUTION_ACRONYM</th>
 						<th>COLLECTION_CDE</th>
 						<th>OTHER_ID_TYPE</th>
@@ -449,61 +449,6 @@
 				SELECT * FROM cf_temp_barcode_parts
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
-<!---			<cftry>
-				<cfset container_type_updates = 0>
-				<cftransaction>
-					<cfloop query="getTempData">
-						<cfquery name="updateContainer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateContainer_result">
-							UPDATE
-								container 
-							SET
-								CONTAINER_TYPE= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#CONTAINER_TYPE#">
-							WHERE
-								CONTAINER_ID= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#CONTAINER_ID#">
-						</cfquery>
-						<cfset container_type_updates = container_type_updates + updateContainer_result.recordcount>
-					</cfloop>
-				</cftransaction>
-			<cfcatch>
-				<h3>There was a problem updating container types.</h3>
-				<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					SELECT * 
-					FROM cf_temp_barcode_parts 
-					WHERE status is not null
-					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-				</cfquery>
-				<h3>Problematic Rows (<a href="/tools/BulkloadPartContainer.cfm?action=dumpProblems">download</a>)</h3>
-				<table class='px-0 small sortable table table-responsive table-striped w-100'>
-					<thead>
-						<tr>
-							<th>INSTITUTION_ACRONYM</th>
-							<th>COLLECTION_CDE</th>
-							<th>OTHER_ID_TYPE</th>
-							<th>OTHER_ID_NUMBER</th>
-							<th>CONTAINER_UNIQUE_ID</th>
-							<th>PART_NAME</th>
-							<th>PRESERVE_METHOD</th>
-							<th>STATUS</th>
-						</tr> 
-					</thead>
-					<tbody>
-						<cfloop query="getProblemData">
-							<tr>
-								<td>#getProblemData.institution_acronym#</td>
-								<td>#getProblemData.collection_cde#</td>
-								<td>#getProblemData.other_id_type#</td>
-								<td>#getProblemData.other_id_number#</td>
-								<td>#getProblemData.container_unique_id#</td>
-								<td>#getProblemData.part_name#</td>
-								<td>#getProblemData.preserve_method#</td>
-								<td>#getProblemData.status#</td>
-							</tr> 
-						</cfloop>
-					</tbody>
-				</table>
-				<cfrethrow>
-			</cfcatch>
-			</cftry>--->
 			<cfset problem_key = "">
 			<cftransaction>
 				<cftry>
