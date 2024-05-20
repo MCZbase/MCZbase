@@ -302,7 +302,7 @@
 	<!------------------------------------------------------->
 	<cfif #action# is "validate">
 		<cfoutput>
-			<h2 class="h4 mb-4">Second step: Data Validation</h2>
+			<h2 class="h4 mb-3">Second step: Data Validation</h2>
 			<cfset key = ''>
 			<cfquery name="getTempTableTypes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				select 
@@ -404,7 +404,7 @@
 						<span class="text-success">Validation checks passed.</span> Look over the table below and <a href="/tools/BulkloadPartContainer.cfm?action=load" class="btn-link font-weight-lessbold">click to continue</a> if it all looks good. Or, <a href="/tools/BulkloadPartContainer.cfm" class="text-danger">start again</a>.
 					</cfif>
 				</h3>
-				<table class='px-0 sortable small table table-responsive table-striped d-lg-table'>
+				<table class='px-0 sortable small table table-responsive table-striped'>
 				<thead class="thead-light">
 					<tr>
 						<th>STATUS</th>
