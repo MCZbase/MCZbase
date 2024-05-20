@@ -357,13 +357,25 @@
 						and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableTypes.key#"> 
 					</cfquery>
 				</cfif>
+				<!--- see if they gave a valid parent container ---->
+				<cfquery name="isGoodParent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					select container_id from container where container_type <> 'collection object'
+					and barcode=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableTypes.container_unique_id#">
+				</cfquery>
 			</cfloop>
 			<cfquery name="getTempTableCOID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT key,collection_object_id,container_unique_id
 				FROM cf_temp_barcode_parts 
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
+
 			<cfloop query ='getTempTableCOID'> 
+				<cfquery name="setter1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					UPDATE cf_temp_barcode_parts 
+					SET container_id = (select container_id from container where BARCODE = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableCOID.container_unique_id#">)
+					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+					AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableCOID.key#">
+				</cfquery>
 				<!--- get current container based on coll_obj_cont_hist or default--->
 				<cfquery name="getCont" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE cf_temp_barcode_parts
@@ -376,12 +388,7 @@
 				</cfquery>
 			</cfloop>
 			<!---proves parent container ID of new container_unique_id exists and is nested--->
-			<cfquery name="setter1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				UPDATE cf_temp_barcode_parts 
-				SET container_id = (select container_id from container where BARCODE = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableCOID.container_unique_id#">)
-				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-				AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableCOID.key#">
-			</cfquery>
+	
 			
 			<cfquery name="getContainer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT key,container_id
