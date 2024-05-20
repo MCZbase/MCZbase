@@ -371,12 +371,10 @@
 				select container_id from container 
 				where container_type <> 'collection object'
 				and barcode=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableQC.container_unique_id#">
-				and username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<cfquery name="cont" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				select container_id FROM coll_obj_cont_hist 
 				where collection_object_id=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableQC.collection_object_ID#">
-				and username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<cfloop query="getTempTableQC">
 				<cfif isGoodParent.recordcount is not 1>
