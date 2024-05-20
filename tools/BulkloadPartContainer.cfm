@@ -431,16 +431,8 @@
 						<th>STATUS</th>
 						<th>CONTAINER_UNIQUE_ID</th>
 						<th>PARENT_CONTAINER_ID</th>
-						<th>CONTAINER_TYPE</th>
-						<th>CONTAINER_NAME</th>
-						<th>DESCRIPTION</th>
-						<th>REMARKS</th>
-						<th>WIDTH</th>
-						<th>HEIGHT</th>
-						<th>LENGTH</th>
-						<th>NUMBER_POSITIONS</th>
-						<th>CONTAINER_ID</th>
 						<th>PART_CONTAINER_ID</th>
+						<th>CONTAINER_ID</th>
 					</tr>
 				<tbody>
 					<cfloop query="data">
@@ -448,16 +440,8 @@
 							<td><cfif len(data.status) eq 0>Cleared to load<cfelse><strong>#data.status#</strong></cfif></td>
 							<td>#data.CONTAINER_UNIQUE_ID#</td>
 							<td>#data.PARENT_CONTAINER_ID#</td>
-							<td>#data.CONTAINER_TYPE#</td>
-							<td>#data.CONTAINER_NAME#</td>
-							<td>#data.DESCRIPTION#</td>
-							<td>#data.REMARKS#</td>
-							<td>#data.WIDTH#</td>
-							<td>#data.HEIGHT#</td>
-							<td>#data.LENGTH#</td>
-							<td>#data.NUMBER_POSITIONS#</td>
-							<td>#data.CONTAINER_ID#</td>
 							<td>#data.PART_CONTAINER_ID#</td>
+							<td>#data.CONTAINER_ID#</td>
 						</tr>
 					</cfloop>
 				</tbody>
