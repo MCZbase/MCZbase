@@ -365,7 +365,7 @@
 			</cfquery>
 			<cfloop query="getTempTableCOID">
 				<!--- get current container based on coll_obj_cont_hist or default--->
-				<cfif len(getTempTableQC.collection_object_id) gt 0>
+				<cfif len(getTempTableCOID.collection_object_id) gt 0>
 					<cfquery name="getCont" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						UPDATE cf_temp_barcode_parts
 						SET container_id = (
