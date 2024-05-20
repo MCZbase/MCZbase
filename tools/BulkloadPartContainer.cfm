@@ -363,19 +363,16 @@
 				FROM cf_temp_barcode_parts 
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
-			<cfset container_id = 1>
-			<cfloop query="getTempTableCOID">
 				<!--- get current container based on coll_obj_cont_hist or default--->
-				<cfquery name="getCont" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					UPDATE cf_temp_barcode_parts
-					SET container_id = (
-					select container_id from coll_obj_cont_hist 
-					where collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableCOID.collection_object_id#">
-					)
-					where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-					AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableCOID.key#">
-				</cfquery>
-			</cfloop>
+			<cfquery name="getCont" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				UPDATE cf_temp_barcode_parts
+				SET container_id = (
+				select container_id from coll_obj_cont_hist 
+				where collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableCOID.collection_object_id#">
+				)
+				where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+				AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableCOID.key#">
+			</cfquery>
 				<!---Update new container ID based on the container unique ID--->
 				<cfquery name="setter" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE cf_temp_barcode_parts 
