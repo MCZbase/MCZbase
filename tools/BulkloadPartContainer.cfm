@@ -514,7 +514,7 @@
 							UPDATE
 								container 
 							SET
-								part_container_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#parent_container_id#">
+								part_container_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#container_id#">
 							WHERE
 								CONTAINER_ID=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#CONTAINER_ID#">
 						</cfquery>
