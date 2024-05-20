@@ -493,29 +493,35 @@
 			<cfcatch>
 				<h3>There was a problem updating container types.</h3>
 				<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					SELECT container_unique_id,parent_unique_id,container_type,container_name, status 
+					SELECT * 
 					FROM cf_temp_barcode_parts 
 					WHERE status is not null
-						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
 				<h3>Problematic Rows (<a href="/tools/BulkloadPartContainer.cfm?action=dumpProblems">download</a>)</h3>
-				<table class='sortable table table-responsive table-striped d-lg-table'>
+				<table class='px-0 small sortable table table-responsive table-striped w-100'>
 					<thead>
 						<tr>
+							<th>INSTITUTION_ACRONYM</th>
+							<th>COLLECTION_CDE</th>
+							<th>OTHER_ID_TYPE</th>
+							<th>OTHER_ID_NUMBER</th>
 							<th>CONTAINER_UNIQUE_ID</th>
-							<th>PART_CONTAINER_ID</th>
-							<th>CONTAINER_TYPE</th>
-							<th>CONTAINER_NAME</th>
+							<th>PART_NAME</th>
+							<th>PRESERVE_METHOD</th>
 							<th>STATUS</th>
 						</tr> 
 					</thead>
 					<tbody>
 						<cfloop query="getProblemData">
 							<tr>
+								<td>#getProblemData.institution_acronym#</td>
+								<td>#getProblemData.collection_cde#</td>
+								<td>#getProblemData.other_id_type#</td>
+								<td>#getProblemData.other_id_number#</td>
 								<td>#getProblemData.container_unique_id#</td>
-								<td>#getProblemData.part_container_id#</td>
-								<td>#getProblemData.container_type#</td>
-								<td>#getProblemData.container_name#</td>
+								<td>#getProblemData.part_name#</td>
+								<td>#getProblemData.preserve_method#</td>
 								<td>#getProblemData.status#</td>
 							</tr> 
 						</cfloop>
@@ -534,25 +540,7 @@
 							UPDATE
 								container 
 							SET
-								label=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#CONTAINER_NAME#">,
-								DESCRIPTION=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#DESCRIPTION#">,
-								PARENT_INSTALL_DATE=sysdate,
-								CONTAINER_REMARKS=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#remarks#">
-								<cfif len(#WIDTH#) gt 0>
-									,WIDTH=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#WIDTH#">
-								</cfif>
-								<cfif len(#HEIGHT#) gt 0>
-									,HEIGHT=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#HEIGHT#">
-								</cfif>
-								<cfif len(#LENGTH#) gt 0>
-									,LENGTH=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#LENGTH#">
-								</cfif>
-								<cfif len(#NUMBER_POSITIONS#) gt 0>
-									,NUMBER_POSITIONS=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#NUMBER_POSITIONS#">
-								</cfif>
-								<cfif len(#parent_container_id#) gt 0>
-									,part_container_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#parent_container_id#">
-								</cfif>
+								part_container_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#parent_container_id#">
 							WHERE
 								CONTAINER_ID=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#CONTAINER_ID#">
 						</cfquery>
