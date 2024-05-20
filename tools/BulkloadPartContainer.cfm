@@ -378,18 +378,22 @@
 			</cfquery>
 			<cfloop query="getTempTableQC">
 				<cfif isGoodParent.recordcount is not 1>
+					<cfquery name="cont1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE cf_temp_barcode_parts
 					SET 
 					status = concat(nvl2(status, status || '; ', ''),'Container unique ID not found')
 					WHERE container_unique_id not in (select barcode from container where barcode=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableQC.container_unique_id#">)
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+					</cfquery>
 				</cfif>	
 				<cfif len(cont.container_id) is 0>
+					<cfquery name="cont2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE cf_temp_barcode_parts
 					SET 
 					status = concat(nvl2(status, status || '; ', ''),'Part container not found')
 					WHERE container_id not in (select container_ID from coll_obj_cont_hist where collection_object_id=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableQC.collection_object_id#">)
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+					</cfquery>
 				</cfif>
 				<cfquery name="setter" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					update cf_temp_barcode_parts set
