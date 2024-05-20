@@ -314,9 +314,6 @@
 					trim(preserve_method) preserve_method,
 					trim(part_remarks) part_remarks,
 					trim(container_unique_id) container_unique_id,
-					trim(NEW_UNIQUE_CONTAINER_ID),
-					trim(NEW_PARENT_CONTAINER_ID),
-					trim(NEW_CONTAINER_ID),
 					print_fg, 
 					key
 				from
