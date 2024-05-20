@@ -422,6 +422,7 @@
 						<tr>
 							<td><cfif len(data.status) eq 0>Cleared to load<cfelse><strong>#data.status#</strong></cfif></td>
 							<td>#data.institution_acronym#</td>
+							<th>#data.collection_cde#</th>
 							<td>#data.other_ID_TYPE#</td>
 							<td>#data.other_id_number#</td>
 							<td>#data.CONTAINER_UNIQUE_ID#</td>
