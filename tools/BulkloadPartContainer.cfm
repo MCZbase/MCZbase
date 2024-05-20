@@ -374,14 +374,15 @@
 					where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 					AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableCOID.key#">
 				</cfquery>
-				<!---proves parent container ID of new container_unique_id exists and is nested--->
-				<cfquery name="setter1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					UPDATE cf_temp_barcode_parts 
-					SET container_id = (select container_id from container where BARCODE = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableCOID.container_unique_id#">)
-					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-					AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableCOID.key#">
-				</cfquery>
 			</cfloop>
+			<!---proves parent container ID of new container_unique_id exists and is nested--->
+			<cfquery name="setter1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				UPDATE cf_temp_barcode_parts 
+				SET container_id = (select container_id from container where BARCODE = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableCOID.container_unique_id#">)
+				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+				AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableCOID.key#">
+			</cfquery>
+			
 			<cfquery name="getContainer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT key,container_id
 				FROM cf_temp_barcode_parts 
@@ -424,7 +425,6 @@
 						<th>OTHER_ID_NUMBER</th>
 						<th>CONTAINER_UNIQUE_ID</th>
 						<th>PART_CONTAINER_ID</th>
-						<th>PARENT_CONTAINER_ID</th>
 						<th>CONTAINER_ID</th>
 					</tr>
 				<tbody>
@@ -437,7 +437,6 @@
 							<td>#data.other_id_number#</td>
 							<td>#data.CONTAINER_UNIQUE_ID#</td>
 							<td>#data.PART_CONTAINER_ID#</td>
-							<td>#data.PARENT_CONTAINER_ID#</td>
 							<td>#data.CONTAINER_ID#</td>
 						</tr>
 					</cfloop>
