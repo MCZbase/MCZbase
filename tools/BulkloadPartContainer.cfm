@@ -362,9 +362,6 @@
 					select container_id from container where container_type <> 'collection object'
 					and barcode=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableTypes.container_unique_id#">
 				</cfquery>
-				<cfif isGoodParent.recordcount is not 1>
-					<cfset status='container_unique_id_not_found'>
-				</cfif>
 			</cfloop>
 			<cfquery name="getTempTableCOID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT key,collection_object_id,container_unique_id
@@ -373,6 +370,13 @@
 			</cfquery>
 
 			<cfloop query ='getTempTableCOID'> 
+				<cfquery name="bad" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				UPDATE cf_temp_barcode_parts
+					SET 
+						status = concat(nvl2(status, status || '; ', ''),' There is no match to a cataloged item on "'||other_id_type||'" = "'||other_id_number||'" in collection "'||collection_cde||'"')
+					WHERE collection_object_id IS NULL
+						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+				</cfquery>
 				<cfquery name="setter1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE cf_temp_barcode_parts 
 					SET container_id = (select container_id from container where BARCODE = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableCOID.container_unique_id#">)
