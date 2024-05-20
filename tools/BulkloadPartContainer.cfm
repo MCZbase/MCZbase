@@ -419,8 +419,6 @@
 						<th>PART_CONTAINER_ID</th>
 						<th>PARENT_CONTAINER_ID</th>
 						<th>CONTAINER_ID</th>
-						<th>NEW_PARENT_CONTAINER_ID</th>
-						<th>NEW_CONTAINER_ID</th>
 					</tr>
 				<tbody>
 					<cfloop query="data">
@@ -434,9 +432,6 @@
 							<td>#data.PART_CONTAINER_ID#</td>
 							<td>#data.PARENT_CONTAINER_ID#</td>
 							<td>#data.CONTAINER_ID#</td>
-							<td>#data.NEW_PARENT_CONTAINER_ID#</td>
-							<td>#data.NEW_CONTAINER_ID#</td>
-							
 						</tr>
 					</cfloop>
 				</tbody>
