@@ -391,7 +391,7 @@
 			<cfquery name="setter" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				UPDATE cf_temp_barcode_parts 
 				SET new_parent_container_id = (
-				select parent_container_id from container where BARCODE = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableCOID.new_container_unique_id#">
+				select parent_container_id from container where BARCODE = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#new_container_unique_id#">
 				)
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableCOID.key#">
@@ -399,7 +399,7 @@
 			<cfquery name="setter" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				UPDATE cf_temp_barcode_parts 
 				SET new_container_id = (
-				select parent_container_id from container where BARCODE = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableCOID.new_container_unique_id#">
+				select parent_container_id from container where BARCODE = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#new_container_unique_id#">
 				)
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableCOID.key#">
