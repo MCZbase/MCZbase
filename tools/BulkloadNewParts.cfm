@@ -130,8 +130,8 @@ limitations under the License.
 			</form>
 			</cfoutput>
 		</cfif>	
-			<!------------------------------------------------------->
-			<cfif #action# is "getFile">
+		<!------------------------------------------------------->
+		<cfif #action# is "getFile">
 				<cfoutput>
 					<h2 class="h4">First step: Reading data from CSV file.</h2>
 					<!--- Compare the numbers of headers expected against provided in CSV file --->
@@ -233,7 +233,7 @@ limitations under the License.
 								<cfcatch>
 									<!--- identify the problematic row --->
 									<cfset error_message="#COLUMN_ERR# from line #row# in input file.  
-									<div class='mb-2 h4 font-weight-normal align-items-start align-items list-group list-group-horizontal flex-wrap col-12 small'>Header:[#colNames#]</div>   <div class='mb-2 h4 font-weight-normal align-items-start align-items list-group list-group-horizontal flex-wrap col-12 small'>Row:[#ArrayToList(collValuesArray)#] </div>Error: #cfcatch.message#"><!--- " --->
+									<div class='mb-2 h4 font-weight-normal align-items-start align-items list-group list-group-horizontal flex-wrap col-12 small'>Header:[#colNames#]</div>   <div class='mb-2 h4 font-weight-normal align-items-start align-items list-group list-group-horizontal flex-wrap col-12 small'>Row:[#ArrayToList(collValuesArray)#] </div>Error: This is the GET FILE SECTION#cfcatch.message#"><!--- " --->
 									<cfif isDefined("cfcatch.queryError")>
 										<cfset error_message = "#error_message# #cfcatch.queryError#">
 									</cfif>
@@ -332,19 +332,19 @@ limitations under the License.
 					</cftry>
 				</cfoutput>
 			</cfif>
-			<!------------------------------------------------------->
-			<cfif #action# is "validate">
-				<cfoutput>
-				<h2 class="h4">Second step: Data Validation</h2>
-				<cfquery name="getTempTableTypes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					SELECT 
-						other_id_type, key
-					FROM 
-						cf_temp_parts
-					WHERE 
-						username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-				</cfquery>
-				<cfset i= 1>
+		<!------------------------------------------------------->
+		<cfif #action# is "validate">
+		<cfoutput>
+			<h2 class="h4">Second step: Data Validation</h2>
+			<cfquery name="getTempTableTypes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				SELECT 
+					other_id_type, key
+				FROM 
+					cf_temp_parts
+				WHERE 
+					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+			</cfquery>
+			<cfset i= 1>
 			<cfloop query="getTempTableTypes">
 				<!--- For each row, set the target collection_object_id --->
 				<cfif getTempTableTypes.other_id_type eq 'catalog number'>
