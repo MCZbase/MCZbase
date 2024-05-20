@@ -302,12 +302,76 @@
 	<!------------------------------------------------------->
 	<cfif #action# is "validate">
 		<cfoutput>
-			<div class="container-fluid">
-				<h1 class="h2 mt-2">Bulkload Container Edit Parent</h1>
-				<h2 class="h4 mb-4">Second step: Data Validation</h2>
+			<h1 class="h2 mt-2">Bulkload Container Edit Parent</h1>
+			<h2 class="h4 mb-4">Second step: Data Validation</h2>
+			<cfset key = ''>
+			<cfquery name="getTempTableTypes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				select 
+					trim(institution_acronym) institution_acronym,
+					trim(collection_cde) collection_cde,
+					trim(other_id_type) other_id_type,
+					trim(other_id_number) oidnum,
+					trim(part_name) part_name,
+					trim(preserve_method) preserve_method,
+					trim(container_unique_id) container_unique_id,
+					trim(part_remarks) part_remarks,
+					print_fg, 
+					key
+				from
+					cf_temp_barcode_parts
+				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+			</cfquery>
+			<cfloop query ='getTempTableTypes'> 
+				<cfif other_id_type is "catalog number">
+					<cfquery name="coll_obj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						update cf_temp_barcode_parts set collection_object_id = (
+							SELECT specimen_part.collection_object_id 
+							FROM cataloged_item, specimen_part, collection, coll_object_remark
+							WHERE cataloged_item.collection_object_id = specimen_part.derived_from_cat_item 
+							AND cataloged_item.collection_id = collection.collection_id
+							AND coll_object_remark.collection_object_id = specimen_part.collection_object_id
+							AND collection.collection_cde=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableTypes.collection_cde#">
+							AND collection.institution_acronym = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableTypes.institution_acronym#">
+							AND cat_num=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableTypes.oidnum#">
+							AND part_name=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableTypes.part_name#">
+							AND preserve_method = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableTypes.preserve_method#">
+							AND coll_object_remark.coll_object_remarks = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableTypes.part_remarks#">),
+						status = null
+						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+						AND key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableTypes.key#">
+					</cfquery>
+				<cfelse>
+					<cfquery name="coll_obj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						update cf_temp_barcode_parts set collection_object_id = (
+							SELECT specimen_part.collection_object_id 
+							FROM cataloged_item, specimen_part, coll_obj_other_id_num, collection, coll_object_remark
+							WHERE cataloged_item.collection_object_id = specimen_part.derived_from_cat_item 
+							AND cataloged_item.collection_object_id = coll_obj_other_id_num.collection_object_id 
+							AND cataloged_item.collection_id = collection.collection_id 
+							AND coll_object_remark.collection_object_id = specimen_part.collection_object_id
+							AND collection.collection_cde = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableTypes.collection_cde#">
+							AND collection.institution_acronym = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableTypes.institution_acronym#"> 
+							AND other_id_type=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableTypes.other_id_type#"> 
+							AND display_value= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableTypes.oidnum#">
+							AND part_name= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableTypes.part_name#">
+							AND preserve_method = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableTypes.preserve_method#">
+							and coll_object_remark.coll_object_remarks =<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableTypes.part_remarks#">),
+						status = null
+						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+						and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableTypes.key#"> 
+					</cfquery>
+				</cfif>
+			</cfloop>
+			<cfquery name="getTempTableQC" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				SELECT key,collection_object_id,container_unique_id
+				FROM cf_temp_barcode_parts 
+				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+				AND user
+			</cfquery>
+			<cfloop query="getTempTableQC">
 				<cfquery name="getCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					update cf_temp_barcode_part  set container_id=
-					(select container_id from container where container.barcode = cf_temp_barcode_part.container_unique_id)
+					(select container_id from container where container.barcode = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableQC.container_unique_id#">)
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
 				<cfquery name="getCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -339,7 +403,7 @@
 					WHERE CONTAINER_NAME is null
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
-			
+			</cfloop>
 				<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT CONTAINER_UNIQUE_ID, PARENT_UNIQUE_ID, CONTAINER_TYPE, CONTAINER_NAME, DESCRIPTION, REMARKS, WIDTH,
 						HEIGHT, LENGTH, NUMBER_POSITIONS, CONTAINER_ID, PARENT_CONTAINER_ID, STATUS 
