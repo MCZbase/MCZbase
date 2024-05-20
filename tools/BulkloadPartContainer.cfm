@@ -475,7 +475,7 @@
 				SELECT * FROM cf_temp_barcode_parts
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
-			<cftry>
+<!---			<cftry>
 				<cfset container_type_updates = 0>
 				<cftransaction>
 					<cfloop query="getTempData">
@@ -529,7 +529,7 @@
 				</table>
 				<cfrethrow>
 			</cfcatch>
-			</cftry>
+			</cftry>--->
 			<cfset problem_key = "">
 			<cftransaction>
 				<cftry>
@@ -550,7 +550,7 @@
 				<cfcatch>
 					<cftransaction action="rollback">
 					<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						SELECT container_unique_id,part_container_id,container_type,container_name, status 
+						SELECT * 
 						FROM cf_temp_barcode_parts 
 						WHERE key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#problem_key#">
 					</cfquery>
@@ -559,10 +559,9 @@
 						<thead>
 							<tr>
 								<th>BULKLOADING&nbsp;STATUS</th>
-								<th>container_unique_id</th>
-								<th>part_container_id</th>
-								<th>container_type</th>
-								<th>container_name</th>
+								<th>CONTAINER_UNIQUE_ID</th>
+								<th>PART_CONTAINER_ID</th>
+								<th>CONTAINER_NAME</th>
 							</tr> 
 						</thead>
 						<tbody>
@@ -570,8 +569,7 @@
 								<tr>
 									<td><cfif len(data.status) eq 0>Cleared to load<cfelse><strong>#getProblemData.status#</strong></cfif></td>
 									<td>#getProblemData.container_unique_id#</td>
-									<td>#getProblemData.container_id#</td>
-									<td>#getProblemData.container_type#</td>
+									<td>#getProblemData.part_container_id#</td>
 									<td>#getProblemData.container_name#</t
 								></tr> 
 							</cfloop>
