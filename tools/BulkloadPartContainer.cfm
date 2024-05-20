@@ -304,6 +304,7 @@
 		<cfoutput>
 			<h2 class="h4 mb-3">Second step: Data Validation</h2>
 			<cfset key = ''>
+			<cfset new_container_unique_id = ''>
 			<cfquery name="getTempTableTypes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				select 
 					trim(institution_acronym) institution_acronym,
@@ -314,6 +315,7 @@
 					trim(preserve_method) preserve_method,
 					trim(part_remarks) part_remarks,
 					trim(container_unique_id) container_unique_id,
+					trim(new_container_unique_id) new_container_unique_id,
 					print_fg, 
 					key
 				from
