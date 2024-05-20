@@ -184,14 +184,21 @@ limitations under the License.
 		<cfif serverName is "mczbase-prd.rc.fas.harvard.edu" or serverName is "mczbase-prd" or serverName is "mczbase-prd1" or serverName is "mczbase-prd1.rc.fas.harvard.edu">
 			<cfset serverName="mczbase.mcz.harvard.edu" />
 		</cfif>
+		<cfif serverName is "mczbase-prod2">
+			<!--- TODO: When this goes to production, change block above instead --->
+			<cfset serverName="mczbase-prod2.rc.fas.harvard.edu">
+		</cfif>
 		<cfif serverName is "mczbase-dev">
 			<cfset serverName="mczbase-dev.rc.fas.harvard.edu" />
+		</cfif>
+		<cfif serverName is "mczbase-dev2">
+			<cfset serverName="mczbase-dev2.rc.fas.harvard.edu" />
 		</cfif>
 		<cfif serverName is "mczbase-test">
 			<cfset serverName="mczbase-test.rc.fas.harvard.edu" />
 		</cfif>
-		<cfif serverName is "mczbase-prod2">
-			<cfset serverName="mczbase-prod2.rc.fas.harvard.edu">
+		<cfif serverName is "mczbase-test2">
+			<cfset serverName="mczbase-test2.rc.fas.harvard.edu" />
 		</cfif>
  		<cfset Application.hostName = '#serverName#'><!--- make available for reference from the code --->
 
