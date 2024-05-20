@@ -363,7 +363,7 @@
 				FROM cf_temp_barcode_parts 
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
-			<cfset container_id = ''>
+			<cfset container_id = 1>
 			<cfloop query="getTempTableCOID">
 				<!--- get current container based on coll_obj_cont_hist or default--->
 				<cfquery name="getCont" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -375,15 +375,6 @@
 					where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 					AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableCOID.key#">
 				</cfquery>
-				<cfif len(getCont.container_id) eq 0>
-					<cfquery name="getContDef" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						UPDATE cf_temp_barcode_parts
-						SET container_id = 1
-						where (container_unique_id is null or container_unique_id ='The Museum of Comparative Zoology')
-						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-						AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableCOID.key#">
-					</cfquery>
-				</cfif>
 			</cfloop>
 				<!---Update new container ID based on the container unique ID--->
 				<cfquery name="setter" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
