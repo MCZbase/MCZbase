@@ -383,7 +383,7 @@
 				</cfquery>
 			</cfloop>
 			<cfquery name="getContainer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				SELECT key,container
+				SELECT key,container_id
 				FROM cf_temp_barcode_parts 
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
@@ -393,7 +393,7 @@
 					UPDATE cf_temp_barcode_parts 
 					SET parent_container_id = (select container_id from container where container_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getContainer.container_id#">)
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-					AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableCOID.key#">
+					AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getContainer.key#">
 				</cfquery>
 			</cfloop>
 
