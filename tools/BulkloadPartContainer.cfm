@@ -375,7 +375,7 @@
 				</cfquery>
 				<cfquery name="getCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					update cf_temp_barcode_parts  set parent_container_id=
-					(select container_id from container where container.barcode = cf_temp_barcode_parts.parent_unique_id)
+					(select container_id from container where container.barcode = cf_temp_barcode_parts.container_unique_id)
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
 				<cfquery name="miac" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -386,8 +386,8 @@
 				</cfquery>
 				<cfquery name="miap" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE cf_temp_barcode_parts  
-					SET status = concat(nvl2(status, status || '; ', ''),'parent_container_not_found, no Unique Identifier found matching ['|| parent_unique_id ||']')
-					WHERE parent_container_id is null and parent_unique_id is not null
+					SET status = concat(nvl2(status, status || '; ', ''),'parent_container_not_found, no Unique Identifier found matching ['|| container_unique_id ||']')
+					WHERE parent_container_id is null and container_unique_id is not null
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
 				<cfquery name="miap" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -404,7 +404,7 @@
 				</cfquery>
 			</cfloop>
 				<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					SELECT CONTAINER_UNIQUE_ID, PARENT_UNIQUE_ID, CONTAINER_TYPE, CONTAINER_NAME, DESCRIPTION, REMARKS, WIDTH,HEIGHT, LENGTH, NUMBER_POSITIONS, CONTAINER_ID, PARENT_CONTAINER_ID, STATUS 
+					SELECT CONTAINER_UNIQUE_ID, PARENT_CONTAINER_ID, CONTAINER_TYPE, CONTAINER_NAME, DESCRIPTION, REMARKS, WIDTH,HEIGHT, LENGTH, NUMBER_POSITIONS, CONTAINER_ID, PARENT_CONTAINER_ID, STATUS 
 					FROM cf_temp_barcode_parts 
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
@@ -447,7 +447,7 @@
 						<tr>
 							<td><cfif len(data.status) eq 0>Cleared to load<cfelse><strong>#data.status#</strong></cfif></td>
 							<td>#data.CONTAINER_UNIQUE_ID#</td>
-							<td>#data.PARENT_UNIQUE_ID#</td>
+							<td>#data.PARENT_CONTAINER_ID#</td>
 							<td>#data.CONTAINER_TYPE#</td>
 							<td>#data.CONTAINER_NAME#</td>
 							<td>#data.DESCRIPTION#</td>
@@ -502,14 +502,18 @@
 				<table class='sortable table table-responsive table-striped d-lg-table'>
 					<thead>
 						<tr>
-							<th>container_unique_id</th><th>parent_unique_id</th><th>container_type</th><th>container_name</th><th>status</th>
+							<th>CONTAINER_UNIQUE_ID</th>
+							<th>PART_CONTAINER_ID</th>
+							<th>CONTAINER_TYPE</th>
+							<th>CONTAINER_NAME</th>
+							<th>STATUS</th>
 						</tr> 
 					</thead>
 					<tbody>
 						<cfloop query="getProblemData">
 							<tr>
 								<td>#getProblemData.container_unique_id#</td>
-								<td>#getProblemData.parent_unique_id#</td>
+								<td>#getProblemData.part_container_id#</td>
 								<td>#getProblemData.container_type#</td>
 								<td>#getProblemData.container_name#</td>
 								<td>#getProblemData.status#</td>
@@ -547,7 +551,7 @@
 									,NUMBER_POSITIONS=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#NUMBER_POSITIONS#">
 								</cfif>
 								<cfif len(#parent_container_id#) gt 0>
-									,parent_container_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#parent_container_id#">
+									,part_container_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#parent_container_id#">
 								</cfif>
 							WHERE
 								CONTAINER_ID=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#CONTAINER_ID#">
@@ -558,7 +562,7 @@
 				<cfcatch>
 					<cftransaction action="rollback">
 					<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						SELECT container_unique_id,parent_unique_id,container_type,container_name, status 
+						SELECT container_unique_id,part_container_id,container_type,container_name, status 
 						FROM cf_temp_barcode_parts 
 						WHERE key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#problem_key#">
 					</cfquery>
@@ -568,7 +572,7 @@
 							<tr>
 								<th>BULKLOADING&nbsp;STATUS</th>
 								<th>container_unique_id</th>
-								<th>parent_unique_id</th>
+								<th>part_container_id</th>
 								<th>container_type</th>
 								<th>container_name</th>
 							</tr> 
@@ -578,7 +582,7 @@
 								<tr>
 									<td><cfif len(data.status) eq 0>Cleared to load<cfelse><strong>#getProblemData.status#</strong></cfif></td>
 									<td>#getProblemData.container_unique_id#</td>
-									<td>#getProblemData.parent_unique_id#</td>
+									<td>#getProblemData.container_id#</td>
 									<td>#getProblemData.container_type#</td>
 									<td>#getProblemData.container_name#</t
 								></tr> 
