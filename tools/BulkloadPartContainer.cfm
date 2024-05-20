@@ -486,7 +486,7 @@
 						<tbody>
 							<cfloop query="getProblemData">
 								<tr>
-									<td><cfif len(data.status) eq 0>Cleared to load<cfelse><strong>#getProblemData.status#</strong></cfif></td>
+									<td><cfif len(getProblemData.status) eq 0>Cleared to load<cfelse><strong>#getProblemData.status#</strong></cfif></td>
 									<td>#getProblemData.container_unique_id#</td>
 									<td>#getProblemData.part_container_id#</td>
 									<td>#getProblemData.container_name#</t
