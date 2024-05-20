@@ -408,6 +408,10 @@
 				<thead class="thead-light">
 					<tr>
 						<th>STATUS</th>
+						<th>INSTITUTION_ACRONYM</th>
+						<th>COLLECTION_CDE</th>
+						<th>OTHER_ID_TYPE</th>
+						<th>OTHER_ID_NUMBER</th>
 						<th>CONTAINER_UNIQUE_ID</th>
 						<th>PARENT_CONTAINER_ID</th>
 						<th>PART_CONTAINER_ID</th>
@@ -417,6 +421,9 @@
 					<cfloop query="data">
 						<tr>
 							<td><cfif len(data.status) eq 0>Cleared to load<cfelse><strong>#data.status#</strong></cfif></td>
+							<td>#data.institution_acronym#</td>
+							<td>#data.other_ID_TYPE#</td>
+							<td>#data.other_id_number#</td>
 							<td>#data.CONTAINER_UNIQUE_ID#</td>
 							<td>#data.PARENT_CONTAINER_ID#</td>
 							<td>#data.PART_CONTAINER_ID#</td>
