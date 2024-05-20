@@ -396,7 +396,7 @@
 					UPDATE cf_temp_barcode_parts
 					SET 
 						status = concat(nvl2(status, status || '; ', ''),'Container_unique_id not in MCZbase')
-					WHERE container_unique_id not in (select barcode from container where barcode ='#check.container_unique_id#')
+					WHERE container_unique_id not in (select barcode from container where barcode ='#cf_temp_barcode_parts.container_unique_id#')
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> 
 					
 				</cfquery>
