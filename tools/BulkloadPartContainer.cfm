@@ -430,7 +430,7 @@
 					<tr>
 						<th>STATUS</th>
 						<th>CONTAINER_UNIQUE_ID</th>
-						<th>PARENT_UNIQUE_ID</th>
+						<th>PARENT_CONTAINER_ID</th>
 						<th>CONTAINER_TYPE</th>
 						<th>CONTAINER_NAME</th>
 						<th>DESCRIPTION</th>
@@ -440,7 +440,7 @@
 						<th>LENGTH</th>
 						<th>NUMBER_POSITIONS</th>
 						<th>CONTAINER_ID</th>
-						<th>PARENT_CONTAINER_ID</th>
+						<th>PART_CONTAINER_ID</th>
 					</tr>
 				<tbody>
 					<cfloop query="data">
@@ -457,7 +457,7 @@
 							<td>#data.LENGTH#</td>
 							<td>#data.NUMBER_POSITIONS#</td>
 							<td>#data.CONTAINER_ID#</td>
-							<td>#data.PARENT_CONTAINER_ID#</td>
+							<td>#data.PART_CONTAINER_ID#</td>
 						</tr>
 					</cfloop>
 				</tbody>
