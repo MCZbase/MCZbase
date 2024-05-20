@@ -368,14 +368,13 @@
 				FROM cf_temp_barcode_parts 
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
-
 			<cfloop query ='getCOID'> 
 				<cfquery name="bad" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE cf_temp_barcode_parts
 					SET 
 						status = concat(nvl2(status, status || '; ', ''),' There is no match to a cataloged item on "'||other_id_type||'" = "'||other_id_number||'" in collection "'||collection_cde||'"')
 					WHERE collection_object_id IS NULL
-						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 					AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getCOID.key#">
 				</cfquery>
 				<cfquery name="bad" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -383,7 +382,7 @@
 					SET 
 						status = concat(nvl2(status, status || '; ', ''),'Invalid container_unique_id--not in MCZbase')
 					WHERE container_unique_id not in (select barcode from container where container_unique_id =<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getCOID.container_unique_id#"> )
-						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 					AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getCOID.key#">
 				</cfquery>
 				<cfquery name="setter1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -395,17 +394,12 @@
 				<!--- get current container based on coll_obj_cont_hist or default--->
 				<cfquery name="getCont" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE cf_temp_barcode_parts
-					SET container_id = (
-					select container_id from coll_obj_cont_hist 
-					where collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getCOID.collection_object_id#">
-					)
+					SET container_id = (select container_id from coll_obj_cont_hist where collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getCOID.collection_object_id#">)
 					where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 					AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getCOID.key#">
 				</cfquery>
 			</cfloop>
 			<!---proves parent container ID of new container_unique_id exists and is nested--->
-	
-			
 			<cfquery name="getContainer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT key,container_id
 				FROM cf_temp_barcode_parts 
@@ -420,17 +414,16 @@
 					AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getContainer.key#">
 				</cfquery>
 			</cfloop>
-
-				<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					SELECT *
-					FROM cf_temp_barcode_parts 
-					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-				</cfquery>
-				<cfquery name="pf" dbtype="query">
-					SELECT count(*) c 
-					FROM data 
-					WHERE status is not null
-				</cfquery>
+			<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				SELECT *
+				FROM cf_temp_barcode_parts 
+				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+			</cfquery>
+			<cfquery name="pf" dbtype="query">
+				SELECT count(*) c 
+				FROM data 
+				WHERE status is not null
+			</cfquery>
 				<h3>
 					<cfif pf.c gt 0>
 						There is a problem with #pf.c# of #data.recordcount# row(s). See the STATUS column. (<a href="/tools/BulkloadPartContainer.cfm?action=dumpProblems">download</a>). Fix the problems in the data and <a href="/tools/BulkloadPartContainer.cfm" class="text-danger">start again</a>.
