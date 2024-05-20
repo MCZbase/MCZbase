@@ -1,6 +1,6 @@
 <cfif isDefined("action") AND action is "dumpProblems">
 	<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-		SELECT INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_NUMBER,PART_NAME,PRESERVE_METHOD,CONTAINER_UNIQUE_ID,PART_REMARKS
+		SELECT INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_NUMBER,PART_NAME,PRESERVE_METHOD,CONTAINER_UNIQUE_ID,
 		FROM cf_temp_barcode_parts
 		WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 	</cfquery>
@@ -10,9 +10,9 @@
 	<cfoutput>#csv#</cfoutput>
 	<cfabort>
 </cfif>
-<cfset fieldlist = "INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_NUMBER,PART_NAME,PRESERVE_METHOD,CONTAINER_UNIQUE_ID,PART_REMARKS">
-<cfset fieldTypes ="CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR">
-<cfset requiredfieldlist = "OTHER_ID_TYPE,OTHER_ID_NUMBER,COLLECTION_CDE,INSTITUTION_ACRONYM,PART_NAME,PRESERVE_METHOD,CONTAINER_UNIQUE_ID,PART_REMARKS">
+<cfset fieldlist = "INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_NUMBER,PART_NAME,PRESERVE_METHOD,PART_REMARKS,CONTAINER_UNIQUE_ID,NEW_UNIQUE_CONTAINER_ID,NEW_PARENT_CONTAINER_ID,NEW_CONTAINER_ID">
+<cfset fieldTypes ="CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR">
+<cfset requiredfieldlist = "OTHER_ID_TYPE,OTHER_ID_NUMBER,COLLECTION_CDE,INSTITUTION_ACRONYM,PART_NAME,PRESERVE_METHOD,PART_REMARKS,CONTAINER_UNIQUE_ID,NEW_UNIQUE_CONTAINER_ID,NEW_PARENT_CONTAINER_ID,NEW_CONTAINER_ID">
 	
 
 <!--- special case handling to dump column headers as csv --->
@@ -312,8 +312,11 @@
 					trim(other_id_number) oidnum,
 					trim(part_name) part_name,
 					trim(preserve_method) preserve_method,
-					trim(container_unique_id) container_unique_id,
 					trim(part_remarks) part_remarks,
+					trim(container_unique_id) container_unique_id,
+					trim(NEW_UNIQUE_CONTAINER_ID),
+					trim(NEW_PARENT_CONTAINER_ID),
+					trim(NEW_CONTAINER_ID),
 					print_fg, 
 					key
 				from
@@ -386,6 +389,24 @@
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableCOID.key#">
 			</cfquery>
+				
+				
+			<cfquery name="setter" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				UPDATE cf_temp_barcode_parts 
+				SET new_parent_container_id = (
+				select parent_container_id from container where BARCODE = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableCOID.new_container_unique_id#">
+				)
+				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+				AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableCOID.key#">
+			</cfquery>
+			<cfquery name="setter" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				UPDATE cf_temp_barcode_parts 
+				SET new_container_id = (
+				select parent_container_id from container where BARCODE = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableCOID.new_container_unique_id#">
+				)
+				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+				AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableCOID.key#">
+			</cfquery>
 
 				<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT *
@@ -413,9 +434,11 @@
 						<th>OTHER_ID_TYPE</th>
 						<th>OTHER_ID_NUMBER</th>
 						<th>CONTAINER_UNIQUE_ID</th>
-						<th>PARENT_CONTAINER_ID</th>
 						<th>PART_CONTAINER_ID</th>
+						<th>PARENT_CONTAINER_ID</th>
 						<th>CONTAINER_ID</th>
+						<th>NEW_PARENT_CONTAINER_ID</th>
+						<th>NEW_CONTAINER_ID</th>
 					</tr>
 				<tbody>
 					<cfloop query="data">
@@ -426,9 +449,12 @@
 							<td>#data.other_ID_TYPE#</td>
 							<td>#data.other_id_number#</td>
 							<td>#data.CONTAINER_UNIQUE_ID#</td>
-							<td>#data.PARENT_CONTAINER_ID#</td>
 							<td>#data.PART_CONTAINER_ID#</td>
+							<td>#data.PARENT_CONTAINER_ID#</td>
 							<td>#data.CONTAINER_ID#</td>
+							<td>#data.NEW_PARENT_CONTAINER_ID#</td>
+							<td>#data.NEW_CONTAINER_ID#</td>
+							
 						</tr>
 					</cfloop>
 				</tbody>
