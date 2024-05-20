@@ -362,6 +362,9 @@
 					select container_id from container where container_type <> 'collection object'
 					and barcode=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableTypes.container_unique_id#">
 				</cfquery>
+				<cfif isGoodParent.recordcount is not 1>
+					<cfset status='container_unique_id_not_found'>
+				</cfif>
 			</cfloop>
 			<cfquery name="getTempTableCOID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT key,collection_object_id,container_unique_id
