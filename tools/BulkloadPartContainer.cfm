@@ -369,44 +369,43 @@
 			</cfquery>
 			<cfloop query="getTempTableQC">
 				<cfquery name="getCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					update cf_temp_barcode_part  set container_id=
+					update cf_temp_barcode_parts  set container_id=
 					(select container_id from container where container.barcode = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableQC.container_unique_id#">)
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
 				<cfquery name="getCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					update cf_temp_barcode_part  set parent_container_id=
-					(select container_id from container where container.barcode = cf_temp_barcode_part.parent_unique_id)
+					update cf_temp_barcode_parts  set parent_container_id=
+					(select container_id from container where container.barcode = cf_temp_barcode_parts.parent_unique_id)
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
 				<cfquery name="miac" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					UPDATE cf_temp_barcode_part 
+					UPDATE cf_temp_barcode_parts 
 					SET status = concat(nvl2(status, status || '; ', ''), 'container_not_found, no Unique Identifier found matching [' || container_unique_id || '].')
 					WHERE container_id is null
-						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
 				<cfquery name="miap" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					UPDATE cf_temp_barcode_part  
+					UPDATE cf_temp_barcode_parts  
 					SET status = concat(nvl2(status, status || '; ', ''),'parent_container_not_found, no Unique Identifier found matching ['|| parent_unique_id ||']')
 					WHERE parent_container_id is null and parent_unique_id is not null
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
 				<cfquery name="miap" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					UPDATE cf_temp_barcode_part 
+					UPDATE cf_temp_barcode_parts 
 					SET status = concat(nvl2(status, status || '; ', ''),'bad_container_type ['||container_type||'], container_type must be in the CTCONTAINER_TYPE controlled vocabulary.')
 					WHERE container_type not in (select container_type from ctcontainer_type)
-						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
 				<cfquery name="miap" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					UPDATE cf_temp_barcode_part 
+					UPDATE cf_temp_barcode_parts 
 					SET status = concat(nvl2(status, status || '; ', ''), 'missing_label, container_name is required.')
 					WHERE CONTAINER_NAME is null
-						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
 			</cfloop>
 				<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					SELECT CONTAINER_UNIQUE_ID, PARENT_UNIQUE_ID, CONTAINER_TYPE, CONTAINER_NAME, DESCRIPTION, REMARKS, WIDTH,
-						HEIGHT, LENGTH, NUMBER_POSITIONS, CONTAINER_ID, PARENT_CONTAINER_ID, STATUS 
-					FROM cf_temp_barcode_part 
+					SELECT CONTAINER_UNIQUE_ID, PARENT_UNIQUE_ID, CONTAINER_TYPE, CONTAINER_NAME, DESCRIPTION, REMARKS, WIDTH,HEIGHT, LENGTH, NUMBER_POSITIONS, CONTAINER_ID, PARENT_CONTAINER_ID, STATUS 
+					FROM cf_temp_barcode_parts 
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
 				<cfquery name="pf" dbtype="query">
