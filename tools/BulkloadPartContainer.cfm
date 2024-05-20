@@ -395,8 +395,8 @@
 				<cfquery name="bad" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE cf_temp_barcode_parts
 					SET 
-						status = concat(nvl2(status, status || '; ', ''),'Invalid container_unique_id--not in MCZbase')
-					WHERE container_unique_id not in (select barcode from container where container_unique_id =<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#check.container_unique_id#"> )
+						status = concat(nvl2(status, status || '; ', ''),'Container_unique_id not in MCZbase')
+					WHERE container_unique_id not in (select barcode from container where barcode =<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#check.container_unique_id#"> )
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> 
 					
 				</cfquery>
