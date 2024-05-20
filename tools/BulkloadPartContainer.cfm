@@ -302,7 +302,6 @@
 	<!------------------------------------------------------->
 	<cfif #action# is "validate">
 		<cfoutput>
-			<h1 class="h2 mt-2">Bulkload Container Edit Parent</h1>
 			<h2 class="h4 mb-4">Second step: Data Validation</h2>
 			<cfset key = ''>
 			<cfquery name="getTempTableTypes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -399,16 +398,9 @@
 					WHERE status is not null
 				</cfquery>
 				<cfif pf.c gt 0>
-					<h3>
-						There is a problem with #pf.c# of #data.recordcount# row(s). See the STATUS column. (<a href="/tools/BulkloadPartContainer.cfm?action=dumpProblems">download</a>).
-					</h3>
-					<h3>
-						Fix the problems in the data and <a href="/tools/BulkloadPartContainer.cfm">start again</a>.
-					</h3>
+					There is a problem with #pf.c# of #data.recordcount# row(s). See the STATUS column. (<a href="/tools/BulkloadPartContainer.cfm?action=dumpProblems">download</a>). Fix the problems in the data and <a href="/tools/BulkloadPartContainer.cfm" class="text-danger">start again</a>.
 				<cfelse>
-					<h3>
-						<span class="text-success">Validation checks passed.</span> Look over the table below and <a href="/tools/BulkloadPartContainer.cfm?action=load">click to continue</a> if it all looks good.
-					</h3>
+					<span class="text-success">Validation checks passed.</span> Look over the table below and <a href="/tools/BulkloadPartContainer.cfm?action=load" class="btn-link font-weight-lessbold">click to continue</a> if it all looks good. Or, <a href="/tools/BulkloadPartContainer.cfm" class="text-danger">start again</a>.
 				</cfif>
 				<table class='px-0 sortable small table table-responsive table-striped d-lg-table'>
 				<thead class="thead-light">
