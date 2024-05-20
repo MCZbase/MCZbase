@@ -393,7 +393,7 @@
 			</cfquery>
 			<cfquery name="setter1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				UPDATE cf_temp_barcode_parts 
-				SET parent_container_id = #isGoodParent.container_id#,part_container_id=#getCont.container_id#
+				SET parent_container_id = #isGoodParent.container_id#,part_container_id=#cont.container_id#
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				and key=#check.key#
 			</cfquery>
