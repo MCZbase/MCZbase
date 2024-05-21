@@ -360,18 +360,13 @@ limitations under the License.
 					FROM data 
 					WHERE status is not null
 				</cfquery>
-				<cfif pf.c gt 0>
-					<h3>
-						There is a problem with #pf.c# of #data.recordcount# row(s). See the STATUS column. (<a href="/tools/BulkloadContEditParent.cfm?action=dumpProblems">download</a>).
-					</h3>
-					<h3>
-						Fix the problems in the data and <a href="/tools/BulkloadContEditParent.cfm">start again</a>.
-					</h3>
-				<cfelse>
-					<h3>
-						<span class="text-success">Validation checks passed.</span> Look over the table below and <a href="/tools/BulkloadContEditParent.cfm?action=load">click to continue</a> if it all looks good.
-					</h3>
-				</cfif>
+				<h3 class="mt-3">
+					<cfif pf.c gt 0>
+						There is a problem with #pf.c# of #data.recordcount# row(s) (<a href="/tools/BulkloadContEditParent.cfm?action=dumpProblems">download</a>). See the STATUS column. Fix the problems in the data and <a href="/tools/BulkloadContEditParent.cfm">start again</a>.
+					<cfelse>
+						<span class="text-success">Validation checks passed.</span> Look over the table below and <a href="/tools/BulkloadContEditParent.cfm?action=load" class="btn-link font-weight-lessbold">click to continue</a> if it all looks good. Or, <a href="/tools/BulkloadContEditParent.cfm" class="text-danger">start again</a>.
+					</cfif>
+				</h3>
 				<table class='px-0 sortable small table table-responsive table-striped d-lg-table'>
 				<thead class="thead-light">
 					<tr>
