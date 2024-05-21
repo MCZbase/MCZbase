@@ -445,7 +445,7 @@ limitations under the License.
 				<cfset agent_updates = 0>
 				<cftransaction>
 					<cfloop query="getTempData">
-						<cfquery name="updateAgents1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateAgents2_result">
+						<cfquery name="updateAgents1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateAgents1_result">
 							INSERT INTO agent (
 								agent_id,
 								agent_type,
@@ -461,7 +461,7 @@ limitations under the License.
 								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#agentguid#">,sq_agent_id.nextval
 							)
 						</cfquery>
-						<cfquery name="updateAgents2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateAgents1_result">
+						<cfquery name="updateAgents2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateAgents2_result">
 							INSERT INTO agent_name (
 								agent_name_id,
 								agent_id,
@@ -516,7 +516,7 @@ limitations under the License.
 								values (sq_agent_name_id.nextval,sq_agent_id.currval,'#OTHER_NAME_TYPE_3#','#OTHER_NAME_3#')
 							</cfquery>
 						</cfif>
-						<cfset agent_updates = agent_updates + updateAgents_result.recordcount>
+						<cfset agent_updates = agent_updates + updateAgents1_result.recordcount>
 					</cfloop>
 				</cftransaction>
 				<h3 class="mt-3">Updated #agent_updates# agents.</h3>
