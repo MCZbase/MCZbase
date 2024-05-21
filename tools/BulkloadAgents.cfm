@@ -445,21 +445,7 @@ limitations under the License.
 				<cfset agent_updates = 0>
 				<cftransaction>
 					<cfloop query="getTempData">
-			
-						<cfquery name="updateAgents1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateAgents1_result">
-							INSERT INTO agent_name (
-								agent_name_id,
-								agent_id,
-								agent_name_type,
-								agent_name
-							) VALUES (
-								sq_agent_name_id.nextval,
-								sq_agent_id.currval,
-								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#other_name_type#">,
-								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#preferred_name#">
-							)
-						</cfquery>
-						<cfquery name="updateAgents2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateAgents2_result">
+						<cfquery name="updateAgents1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateAgents2_result">
 							INSERT INTO agent (
 								agent_id,
 								agent_type,
@@ -472,7 +458,20 @@ limitations under the License.
 								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#agent_type#">,
 								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#agent_remark#">,
 								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#agentguid_guid_type#">,
-								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#agentguid#">,#updateAgent1.agent_name_id#
+								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#agentguid#">,#agent_name_id#
+							)
+						</cfquery>
+						<cfquery name="updateAgents2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateAgents1_result">
+							INSERT INTO agent_name (
+								agent_name_id,
+								agent_id,
+								agent_name_type,
+								agent_name
+							) VALUES (
+								sq_agent_name_id.nextval,
+								sq_agent_id.currval,
+								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#other_name_type#">,
+								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#preferred_name#">
 							)
 						</cfquery>
 						<cfquery name="updateAgents3" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateAgents4_result">
