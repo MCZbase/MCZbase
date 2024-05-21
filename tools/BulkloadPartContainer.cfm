@@ -370,11 +370,11 @@
 			<cfquery name="isGoodParent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				select container_id from container 
 				where container_type <> 'collection object' 
-				and barcode=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#check.container_unique_id#"> 
+				and barcode=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableTypes.container_unique_id#"> 
 			</cfquery>
 			<cfquery name="cont" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				select container_id FROM coll_obj_cont_hist where 
-				collection_object_id=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#check.collection_object_id#"> 
+				collection_object_id=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableTypes.collection_object_id#"> 
 			</cfquery>
 			<cfquery name="check" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				select key,collection_object_id,container_unique_id 
