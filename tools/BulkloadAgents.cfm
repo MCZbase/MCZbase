@@ -458,7 +458,7 @@ limitations under the License.
 								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#agent_type#">,
 								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#agent_remark#">,
 								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#agentguid_guid_type#">,
-								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#agentguid#">,#agent_name_id#
+								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#agentguid#">,sq_agent_id.nextval
 							)
 						</cfquery>
 						<cfquery name="updateAgents2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateAgents1_result">
