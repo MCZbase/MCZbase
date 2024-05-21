@@ -464,7 +464,7 @@ limitations under the License.
 				</h3>
 			<cfelse>
 				<h3 class="h4 px-0">
-					<span class="text-success">Validation checks passed</span>. Look over the table below and <a href="/tools/BulkloadCitations.cfm?action=load" class="btn-link">click to continue</a> if it all looks good or <a href="/tools/BulkloadCitations.cfm" class="text-danger">start again</a>.
+					<span class="text-success">Validation checks passed</span>. Look over the table below and <a href="/tools/BulkloadCitations.cfm?action=load" class="btn-link font-weight-lessbold">click to continue</a> if it all looks good. Or, <a href="/tools/BulkloadCitations.cfm" class="text-danger">start again</a>.
 				</h3>
 			</cfif>
 			<table class='px-0 mx-0 sortable table small table-responsive w-100'>
@@ -578,7 +578,7 @@ limitations under the License.
 					</cfquery>
 					<cfif getProblemData.recordcount GT 0>
 						<h3>
-							Fix the issues and <a href="/tools/BulkloadCitations.cfm">reload</a>. Error loading row (<span class="text-danger">#citation_updates + 1#</span>) from the CSV: 
+							Fix the issues and <a href="/tools/BulkloadCitations.cfm" class="btn-link font-weight-lessbold">start again</a>. Error loading row (<span class="text-danger">#citation_updates + 1#</span>) from the CSV: 
 							<cfif len(cfcatch.detail) gt 0>
 								<span class="font-weight-normal border-bottom border-danger">
 									<cfif cfcatch.detail contains "publication_id">

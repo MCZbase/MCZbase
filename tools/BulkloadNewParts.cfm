@@ -610,7 +610,7 @@ limitations under the License.
 				<cfif #allValid.cnt# is 0>
 					<span class="text-success">Validation checks passed</span>. Look over the table below and <a href="BulkloadNewParts.cfm?action=load" class="font-weight-lessbold btn-link">click to continue</a> if it all looks good. Or, <a href="/tools/BulkloadNewParts.cfm" class="text-danger">start again</a>.
 				<cfelse>
-					You must fix everything above to proceed. <a href="/tools/BulkloadNewParts.cfm" class="text-danger">Start again.</a>
+					You must fix everything above to proceed. <a href="/tools/BulkloadNewParts.cfm" class="text-danger font-weight-lessbold">Start again.</a>
 				</cfif>
 				<table class='sortable w-100 small px-0 mx-0 table table-responsive table-striped'>
 					<thead class="thead-light small">
