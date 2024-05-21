@@ -56,6 +56,7 @@ limitations under the License.
 <cfinclude template="/tools/component/csv.cfc" runOnce="true"><!--- for common csv testing functions --->
 <cfif not isDefined("action") OR len(action) EQ 0><cfset action="entryPoint"></cfif>
 <main class="container-fluid py-3 px-xl-5" id="content">
+	<h1 class="h2 mt-2">Bulkload Container Edit Parent</h1>
 	<cfif #action# is "entryPoint">
 		<cfoutput>
 			<h1 class="h2 mt-2">Bulkload Container Edit Parent</h1>
@@ -120,7 +121,6 @@ limitations under the License.
 	<!------------------------------------------------------->
 	<cfif #action# is "getFile">
 		<cfoutput>
-			<h1 class="h2 mt-2">Bulkload Container Edit Parent</h1>
 			<h2 class="h4">First step: Reading data from CSV file.</h2>
 			<!--- Compare the numbers of headers expected against provided in CSV file --->
 			<!--- Set some constants to identify error cases in cfcatch block --->
@@ -314,9 +314,7 @@ limitations under the License.
 	<!------------------------------------------------------->
 	<cfif #action# is "validate">
 		<cfoutput>
-			<div class="container-fluid">
-				<h1 class="h2 mt-2">Bulkload Container Edit Parent</h1>
-				<h2 class="h4 mb-4">Second step: Data Validation</h2>
+			<h2 class="h4 mb-4">Second step: Data Validation</h2>
 				<cfquery name="getCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					update cf_temp_cont_edit set container_id=
 					(select container_id from container where container.barcode = cf_temp_cont_edit.container_unique_id)
@@ -412,13 +410,10 @@ limitations under the License.
 					</cfloop>
 				</tbody>
 			</table>
-			</div>
 		</cfoutput>
 	</cfif>
 	<!-------------------------------------------------------------------------------------------->
 	<cfif action is "load">
-		<div class="container">
-		<h1 class="h2 mt-2">Bulkload Container Edit Parent</h1>
 		<h2 class="h4">Third step: Apply changes.</h2>
 		<cfoutput>
 			<cfquery name="getTempData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -548,7 +543,6 @@ limitations under the License.
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 		</cfoutput>
-		</div>
 	</cfif>
 </main>
 <cfinclude template="/shared/_footer.cfm">

@@ -826,7 +826,7 @@ limitations under the License.
 						<cfabort showerror = "Your login has has multiple matches.">
 					</cfif>
 					<cfif getTempData.recordcount EQ 0>
-						<cfthrow message="You have no rows to load in the Part bulkloader table (cf_temp_parts).  <a href='/tools/BulkloadEditedParts.cfm' class='text-danger'>Start again</a>"><!--- " --->
+						<cfthrow message="You have no rows to load in the Part bulkloader table (cf_temp_parts).  <a href='/tools/BulkloadEditedParts.cfm' class='text-danger'>Start again</a>">.<!--- " --->
 					</cfif>
 					<cfset enteredbyid = getEntBy.agent_id>
 					<cfset part_updates = 0>
