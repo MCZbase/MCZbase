@@ -567,17 +567,15 @@ limitations under the License.
 					<cftransaction action="ROLLBACK">
 					<h3>There was a problem updating the citations. </h3>
 					<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						SELECT COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_NUMBER,COLLECTION_OBJECT_ID,PUBLICATION_TITLE,PUBLICATION_ID,CITED_TAXON_NAME_ID,OCCURS_PAGE_NUMBER,TYPE_STATUS,CITATION_REMARKS,CITATION_PAGE_URI
+						SELECT COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_NUMBER,COLLECTION_OBJECT_ID,PUBLICATION_ID,CITED_TAXON_NAME_ID,OCCURS_PAGE_NUMBER,TYPE_STATUS,CITATION_REMARKS,CITATION_PAGE_URI
 						FROM cf_temp_citation
 						where key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#problem_key#">
 					</cfquery>
 					<cfif getProblemData.recordcount GT 0>
 						<h3>
-							Fix the issues and <a href="/tools/BulkloadCitations.cfm" class="btn-link font-weight-lessbold">start again</a>. Error loading row (<span class="text-danger">#citation_updates + 1#</span>) from the CSV: 
+							Fix the issues and <a href="/tools/BulkloadCitations.cfm" class="text-danger font-weight-lessbold">start again</a>. Error loading row (<span class="text-danger">#citation_updates + 1#</span>) from the CSV: 
 							<cfif len(cfcatch.detail) gt 0>
 								<span class="font-weight-normal border-bottom border-danger">
-									<cfif cfcatch.detail contains "publication_id">
-										Invalid Publication Title; Publication_id; Search Publications
 									<cfelseif cfcatch.detail contains "occurs_page_number">
 										Problem with OCCURS_PAGE_NUMBER
 									<cfelseif cfcatch.detail contains "type_status">
@@ -613,7 +611,6 @@ limitations under the License.
 									<th>OTHER_ID_TYPE</th>
 									<th>OTHER_ID_NUMBER</th>
 									<th>COLLECTION_OBJECT_ID</th>
-									<th>PUBLICATION_TITLE</th>
 									<th>PUBLICATION_ID</th>
 									<th>CITED_TAXON_NAME_ID</th>
 									<th>OCCURS_PAGE_NUMBER</th>
