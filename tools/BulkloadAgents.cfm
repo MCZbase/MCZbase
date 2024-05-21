@@ -412,7 +412,7 @@ limitations under the License.
 							<td>#data.FIRST_NAME#</td>
 							<td>#data.MIDDLE_NAME#</td>
 							<td>#data.LAST_NAME#</td>
-							<td>#to_date(data.BIRTH_DATE, 'YYYY-MM-DD')#</td>
+							<td>#data.BIRTH_DATE#</td>
 							<td>#data.DEATH_DATE#</td>
 							<td>#data.AGENT_REMARK#</td>
 							<td>#data.PREFIX#</td>
