@@ -490,35 +490,35 @@ limitations under the License.
 </cffunction>
 
 <!---
- ** Obtain summary information on preservation types in a result set
+ ** Obtain summary information on part and preservation types in a result set
  * @param result_id the result for which to return summary information
 --->
-<cffunction name="getPreservationsSummaryHtml" returntype="string" access="remote" returnformat="plain">
+<cffunction name="getPartsSummaryHtml" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="result_id" type="string" required="yes">
 	<cfargument name="allowremove" type="string" required="no" default="yes">
 
 	<cfset variables.result_id = arguments.result_id>
 	<cfset variables.allowremove = arguments.allowremove>
-	<cfthread name="getPreservationSummaryThread">
+	<cfthread name="getPartsSummaryThread">
 		<cfoutput>
 			<cftry>
 				<!--- crude first cut, just strings from flat --->
-				<cfquery name="preservation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="preservation_result">
-					SELECT count(*) ct, parts
+				<cfquery name="parts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="parts_result">
+					SELECT count(user_search_table.collection_object_id) ct, parts
 					FROM user_search_table
 						left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat on user_search_table.collection_object_id = flat.collection_object_id
 					WHERE result_id=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
 					GROUP BY parts
 				</cfquery>
-				<div class="card-header h4">Preservation (#preservation.recordcount#)</div>
+				<div class="card-header h4">Lists of Parts (#parts.recordcount#)</div>
 				<div class="card-body">
 					<ul class="list-group list-group-horizontal d-flex flex-wrap">
-						<cfloop query="preservation">
+						<cfloop query="parts">
 							<li class="list-group-item">
-								<cfif preservation.recordcount GT 1 && variables.allowremove EQ "yes">
-									<input type="button" onClick=" confirmDialog('Remove all records with #preservation.parts# from these search results','Confirm Remove By Preservation', function() { removeByPreservation ('#preservation.parts#'); }  ); " class="p-1 btn btn-xs btn-warning" value="&##8998;" aria-label="Remove"/>
+								<cfif parts.recordcount GT 1 && variables.allowremove EQ "yes">
+									<input type="button" onClick=" confirmDialog('Remove all records where the list of parts matches #parts.parts# from these search results','Confirm Remove By Parts', function() { removeByParts ('#parts.parts#'); }  ); " class="p-1 btn btn-xs btn-warning" value="&##8998;" aria-label="Remove"/>
 								</cfif>
-								#preservation.parts# (#preservation.ct#);
+								#parts.parts# (#parts.ct#);
 							</li>
 						</cfloop>
 					</ul>
@@ -532,7 +532,55 @@ limitations under the License.
 			</cftry>
 		</cfoutput>
 	</cfthread>
-	<cfthread action="join" name="getPreservationSummaryThread" />
-	<cfreturn getPreservationSummaryThread.output>
+	<cfthread action="join" name="getPartsSummaryThread" />
+	<cfreturn getPartsSummaryThread.output>
 </cffunction>
+
+<!---
+ ** Obtain summary information on preservation types on parts on specimens in a result set
+ * @param result_id the result for which to return summary information
+--->
+<cffunction name="getPreservationsSummaryHtml" returntype="string" access="remote" returnformat="plain">
+	<cfargument name="result_id" type="string" required="yes">
+	<cfargument name="allowremove" type="string" required="no" default="yes">
+
+	<cfset variables.result_id = arguments.result_id>
+	<cfset variables.allowremove = arguments.allowremove>
+	<cfthread name="getPreservationsSummaryThread">
+		<cfoutput>
+			<cftry>
+				<cfquery name="preservation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="preservation_result">
+					SELECT count(flat.collection_object_id) ct, preserve_method
+					FROM user_search_table
+						left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat on user_search_table.collection_object_id = flat.collection_object_id
+						left join specimen_part on flat.collection_object_id = specimen_part.derived_from_cat_item
+					WHERE result_id=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
+					GROUP BY preserve_mentod
+				</cfquery>
+				<div class="card-header h4">Preservation Methods on any part (#preservation.recordcount#)</div>
+				<div class="card-body">
+					<ul class="list-group list-group-horizontal d-flex flex-wrap">
+						<cfloop query="preservation">
+							<li class="list-group-item">
+								<cfif preservation.recordcount GT 1 && variables.allowremove EQ "yes">
+									<input type="button" onClick=" confirmDialog('Remove all records where any part has a preserve type of #preservation.preserve_method# from these search results','Confirm Remove By Preservations', function() { removeByPreservations ('#preservation.preserve_method#'); }  ); " class="p-1 btn btn-xs btn-warning" value="&##8998;" aria-label="Remove"/>
+								</cfif>
+								#preservation.preserve_method# (#preservation.ct#);
+							</li>
+						</cfloop>
+					</ul>
+				</div>
+			<cfcatch>
+				<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+				<cfset function_called = "#GetFunctionCalledName()#">
+				<h2 class='h3'>Error in #function_called#:</h2>
+				<div>#error_message#</div>
+			</cfcatch>
+			</cftry>
+		</cfoutput>
+	</cfthread>
+	<cfthread action="join" name="getPreservationsSummaryThread" />
+	<cfreturn getPreservationsSummaryThread.output>
+</cffunction>
+
 </cfcomponent>
