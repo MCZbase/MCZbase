@@ -502,6 +502,20 @@ limitations under the License.
 								values (sq_agent_name_id.nextval,sq_agent_id.currval,'#OTHER_NAME_TYPE#','#OTHER_NAME#')
 							</cfquery>
 						</cfif>
+						<cfif len(#OTHER_NAME_2#) gt 0>
+							<cfset agent_name_id = #agent_name_id# + 1>
+							<cfquery name="newAgentName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+								insert into agent_name ( AGENT_NAME_ID,AGENT_ID,AGENT_NAME_TYPE,AGENT_NAME )
+								values (sq_agent_name_id.nextval,sq_agent_id.currval,'#OTHER_NAME_TYPE_2#','#OTHER_NAME_2#')
+							</cfquery>
+						</cfif>
+						<cfif len(#OTHER_NAME_3#) gt 0>
+							<cfset agent_name_id = #agent_name_id# + 1>
+							<cfquery name="newAgentName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+								insert into agent_name ( AGENT_NAME_ID,AGENT_ID,AGENT_NAME_TYPE,AGENT_NAME )
+								values (sq_agent_name_id.nextval,sq_agent_id.currval,'#OTHER_NAME_TYPE_3#','#OTHER_NAME_3#')
+							</cfquery>
+						</cfif>
 						<cfset agent_updates = agent_updates + updateAgents_result.recordcount>
 					</cfloop>
 				</cftransaction>
