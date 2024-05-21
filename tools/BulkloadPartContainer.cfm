@@ -474,7 +474,7 @@
 								parent_container_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.parent_container_id#">
 							WHERE
 								container_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.container_id#">
-							and key = '#key#'
+							and key = '#problem_key#'
 						</cfquery>
 						<cfset container_updates = container_updates + updateContainer_result.recordcount>
 					</cfloop>
