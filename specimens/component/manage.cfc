@@ -515,10 +515,17 @@ limitations under the License.
 					<ul class="list-group list-group-horizontal d-flex flex-wrap">
 						<cfloop query="parts">
 							<li class="list-group-item">
-								<cfif parts.recordcount GT 1 && variables.allowremove EQ "yes">
-									<input type="button" onClick=" confirmDialog('Remove all records where the list of parts matches #parts.parts# from these search results','Confirm Remove By Parts', function() { removeByParts ('#parts.parts#'); }  ); " class="p-1 btn btn-xs btn-warning" value="&##8998;" aria-label="Remove"/>
+								<cfif len(parts.parts) EQ 0> 
+									<cfset partsSubmit = "NULL">
+									<cfset partsDisplay = "[no parts]">
+								<cfelse>
+									<cfset partsSubmit = "#parts.parts#">
+									<cfset partsDisplay = "#parts.parts#">
 								</cfif>
-								#parts.parts# (#parts.ct#);
+								<cfif parts.recordcount GT 1 && variables.allowremove EQ "yes">
+									<input type="button" onClick=" confirmDialog('Remove all records where the list of parts matches #partsDisplay# from these search results','Confirm Remove By Parts', function() { removeByParts ('#partsSubmit#'); }  ); " class="p-1 btn btn-xs btn-warning" value="&##8998;" aria-label="Remove"/>
+								</cfif>
+								#partsDisplay# (#parts.ct#);
 							</li>
 						</cfloop>
 					</ul>
@@ -562,10 +569,17 @@ limitations under the License.
 					<ul class="list-group list-group-horizontal d-flex flex-wrap">
 						<cfloop query="preservation">
 							<li class="list-group-item">
-								<cfif preservation.recordcount GT 1 && variables.allowremove EQ "yes">
-									<input type="button" onClick=" confirmDialog('Remove all records where any part has a preserve type of #preservation.preserve_method# from these search results','Confirm Remove By Preservations', function() { removeByPreservations ('#preservation.preserve_method#'); }  ); " class="p-1 btn btn-xs btn-warning" value="&##8998;" aria-label="Remove"/>
+								<cfif len(preservation.preserve_method) EQ 0> 
+									<cfset preservationSubmit = "NULL">
+									<cfset preservationDisplay = "[no preserve method]">
+								<cfelse>
+									<cfset preservationSubmit = "#preservation.preserve_method#">
+									<cfset preservationDisplay = "#preservation.preserve_method#">
 								</cfif>
-								#preservation.preserve_method# (#preservation.ct#);
+								<cfif preservation.recordcount GT 1 && variables.allowremove EQ "yes">
+									<input type="button" onClick=" confirmDialog('Remove all records where any part has a preserve type of #preservationDisplay# from these search results','Confirm Remove By Preservations', function() { removeByPreservations ('#preservationSubmit#'); }  ); " class="p-1 btn btn-xs btn-warning" value="&##8998;" aria-label="Remove"/>
+								</cfif>
+								#preservationDisplay# (#preservation.ct#);
 							</li>
 						</cfloop>
 					</ul>

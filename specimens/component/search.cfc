@@ -3900,14 +3900,24 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 								collection_object_id IN (
 									SELECT collection_object_id 
 									FROM  <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat
-									WHERE parts = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.grouping_value#">
+									WHERE
+									<cfif variables.grouping_value EQ "NULL">
+										parts IS NULL
+									<cfelse>
+										parts = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.grouping_value#">
+									</cfif>
 								)
 							</cfcase>
 							<cfcase value="preserve_method">
 								collection_object_id IN (
 									SELECT derived_from_cat_item 
 									FROM specimen_part
-									WHERE preserve_method = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.grouping_value#">
+									WHERE 
+									<cfif variables.grouping_value EQ "NULL">
+										preserve_method IS NULL
+									<cfelse>
+										preserve_method = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.grouping_value#">
+									</cfif>
 								)
 							</cfcase>
 							<cfcase value="collection_cde">
