@@ -143,7 +143,7 @@ limitations under the License.
 				<cfset typeArray = listToArray(fieldTypes)><!--- the types for the full list of fields --->
 				<div class="col-12 my-4 px-0">
 					<h3 class="h4">Found #variables.size# columns in header of csv file.</h3>
-					<h3 class="h4">There are #ListLen(fieldList)# columns expected in the header (of these #ListLen(requiredFieldList)# are required).</h3>
+					There are #ListLen(fieldList)# columns expected in the header (of these #ListLen(requiredFieldList)# are required).
 				</div>
 
 				<!--- check for required fields in header line, list all fields, throw exception and fail if any required fields are missing --->
