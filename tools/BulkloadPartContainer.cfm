@@ -474,7 +474,6 @@
 								parent_container_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.parent_container_id#">
 							WHERE
 								container_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.container_id#">
-							and key = '#problem_key#'
 						</cfquery>
 						<cfset container_updates = container_updates + updateContainer_result.recordcount>
 					</cfloop>
@@ -493,7 +492,7 @@
 								<th>BULKLOADING&nbsp;STATUS</th>
 								<th>CONTAINER_UNIQUE_ID</th>
 								<th>PART_CONTAINER_ID</th>
-								<th>CONTAINER_id</th>
+								<th>CONTAINER_ID</th>
 							</tr> 
 						</thead>
 						<tbody>
