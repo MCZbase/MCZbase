@@ -469,11 +469,11 @@
 						<cfset problem_key = getTempData.key>
 						<cfquery name="updateContainer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateContainer_result">
 							UPDATE
-								coll_obj_cont_hist
+								container 
 							SET
-								container_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#container_id#">
+								parent_container_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.parent_container_id#">
 							WHERE
-								collection_object_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
+								container_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.container_id#">
 						</cfquery>
 						<cfset container_updates = container_updates + updateContainer_result.recordcount>
 					</cfloop>
