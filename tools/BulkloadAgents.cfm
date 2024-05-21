@@ -602,7 +602,7 @@ limitations under the License.
 						WHERE key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#problem_key#">
 					</cfquery>
 					<cfif getProblemData.recordcount GT 0>
-						<h3>Fix the issues and <a href="/tools/BulkloadAgents.cfm">start again</a>. Error loading row (<span class="text-danger">#agent_updates + 1#</span>) from the CSV: 
+						<h3>Fix the issues and <a href="/tools/BulkloadAgents.cfm" class="text-danger">start again</a>. Error loading row (<span class="text-danger">#agent_updates + 1#</span>) from the CSV: 
 							<cfif len(cfcatch.detail) gt 0>
 								<span class="font-weight-normal border-bottom border-danger">
 									<cfif cfcatch.detail contains "agentguid">
@@ -624,7 +624,7 @@ limitations under the License.
 									<cfelseif cfcatch.detail contains "other_name">
 										Problem with other_name
 									<cfelseif cfcatch.detail contains "unique constraint">
-										This agent has already been entered. Remove from spreadsheet and try again. (<a href="/tools/BulkloadAgents.cfm">Reload.</a>)
+										This agent has already been entered. Remove from spreadsheet and try again.
 									<cfelseif cfcatch.detail contains "no data">
 										No data or the wrong data (#cfcatch.detail#)
 									<cfelse>
