@@ -360,7 +360,7 @@
 			</cfloop>
 			<cfquery name="check" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				select key,collection_object_id
-				from cf_temp_barcode_parts 
+				from cf_temp_barcode_parts
 				where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<cfloop query="check">
@@ -370,6 +370,7 @@
 					SET part_container_id = (select container_id from coll_obj_cont_hist 
 					where collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#check.collection_object_id#">)
 					where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> 
+					and key = '#key#'
 				</cfquery>
 				<cfquery name="bad" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE cf_temp_barcode_parts
