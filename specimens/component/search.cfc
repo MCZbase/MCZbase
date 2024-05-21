@@ -3911,7 +3911,7 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 							<cfcase value="preserve_method">
 								collection_object_id IN (
 									<cfif variables.grouping_value EQ "NULL">
-										SELECT derived_from_cat_item 
+										SELECT flat.collection_object_id
 										FROM  <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat
 											left join specimen_part on flat.collection_object_id = specimen_part.derived_from_cat_item
 										WHERE 
