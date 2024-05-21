@@ -445,22 +445,8 @@ limitations under the License.
 				<cfset agent_updates = 0>
 				<cftransaction>
 					<cfloop query="getTempData">
-						<cfquery name="updateAgents1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateAgents_result">
-							INSERT INTO agent (
-								agent_id,
-								agent_type,
-								agent_remarks,
-								agentguid_guid_type,
-								agentguid,preferred_agent_name_id
-							) VALUES (
-								sq_agent_id.nextval,
-								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#agent_type#">,
-								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#agent_remark#">,
-								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#agentguid_guid_type#">,
-								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#agentguid#">,sq_agent_id.currval
-							)
-						</cfquery>
-						<cfquery name="updateAgents2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateAgents_result">
+			
+						<cfquery name="updateAgents1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateAgents1_result">
 							INSERT INTO agent_name (
 								agent_name_id,
 								agent_id,
@@ -473,8 +459,23 @@ limitations under the License.
 								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#preferred_name#">
 							)
 						</cfquery>
-						
-						<cfquery name="updateAgents3" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateAgents_result">
+						<cfquery name="updateAgents2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateAgents2_result">
+							INSERT INTO agent (
+								agent_id,
+								agent_type,
+								agent_remarks,
+								agentguid_guid_type,
+								agentguid,
+							preferred_agent_name_id
+							) VALUES (
+								sq_agent_id.nextval,
+								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#agent_type#">,
+								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#agent_remark#">,
+								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#agentguid_guid_type#">,
+								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#agentguid#">,#updateAgent1.agent_name_id#
+							)
+						</cfquery>
+						<cfquery name="updateAgents3" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateAgents4_result">
 							INSERT INTO person (
 								person_id,
 								prefix,
@@ -504,14 +505,14 @@ limitations under the License.
 						</cfif>
 						<cfif len(#OTHER_NAME_2#) gt 0>
 							<cfset agent_name_id = #agent_name_id# + 1>
-							<cfquery name="newAgentName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+							<cfquery name="updateAgents5" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 								insert into agent_name ( AGENT_NAME_ID,AGENT_ID,AGENT_NAME_TYPE,AGENT_NAME )
 								values (sq_agent_name_id.nextval,sq_agent_id.currval,'#OTHER_NAME_TYPE_2#','#OTHER_NAME_2#')
 							</cfquery>
 						</cfif>
 						<cfif len(#OTHER_NAME_3#) gt 0>
 							<cfset agent_name_id = #agent_name_id# + 1>
-							<cfquery name="newAgentName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+							<cfquery name="updateAgents6" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 								insert into agent_name ( AGENT_NAME_ID,AGENT_ID,AGENT_NAME_TYPE,AGENT_NAME )
 								values (sq_agent_name_id.nextval,sq_agent_id.currval,'#OTHER_NAME_TYPE_3#','#OTHER_NAME_3#')
 							</cfquery>
