@@ -365,7 +365,7 @@
 				</cfquery>
 				<cfquery name="cont" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					select container_id FROM coll_obj_cont_hist where 
-					collection_object_id='#getTempTableTypes.collection_object_id#' 
+					collection_object_id=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableTypes.collection_object_id#"> 
 				</cfquery>
 			</cfloop>
 		
