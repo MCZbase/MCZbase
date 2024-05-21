@@ -556,7 +556,7 @@ limitations under the License.
 						<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							SELECT status,institution_acronym,collection_cde,other_id_type,other_id_value,relationship,related_institution_acronym,related_collection_cde,related_other_id_type,related_other_id_value,biol_indiv_relation_remarks
 							FROM cf_temp_bl_relations 
-							WHERE key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#problem_key#">
+							WHERE key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#problem_key#">
 						</cfquery>
 						<cfquery name="getCollectionCodes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							SELECT collection_cde
