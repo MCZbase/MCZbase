@@ -380,7 +380,7 @@
 				</cfquery>
 			</cfloop>
 			<cfquery name="check2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				select key,collection_object_id
+				select key,container_unique_id
 				from cf_temp_barcode_parts 
 				where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
