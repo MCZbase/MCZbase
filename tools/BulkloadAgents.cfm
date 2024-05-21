@@ -229,18 +229,20 @@ limitations under the License.
 				<cfif foundHighCount GT 0>
 					<cfset extendedResult = reportExtended(foundHighCount=foundHighCount,foundHighAscii=foundHighAscii,foundMultiByte=foundMultiByte,linkTarget='/tools/BulkloadAgents.cfm')>	
 				</cfif>
-				<h4>
+				<h3 class="mt-3">
 					<cfif loadedRows EQ 0>
-						Loaded no rows from the CSV file.  The file appears to be just a header with no data. Fix file and <a href="/tools/BulkloadAgents.cfm">reload</a>
+						Loaded no rows from the CSV file. The file appears to be just a header with no data. Fix file and <a href="/tools/BulkloadAgents.cfm" class="text-danger">start again</a>
 					<cfelse>
-						<cfif variables.size eq 1>Size = 1<cfelse>
-						Successfully read #loadedRows# records from the CSV file. Next <a href="/tools/BulkloadAgents.cfm?action=validate">click to validate</a>.</cfif>
+						<cfif variables.size eq 1>
+							Size = 1
+						<cfelse>
+						Successfully read #loadedRows# records from the CSV file. Next <a href="/tools/BulkloadAgents.cfm?action=validate" class="btn-link font-weight-lessbold">click to validate</a>.</cfif>
 					</cfif>
-				</h4>
+				</h3>
 			<cfcatch>
-				<h4>
-					<strong class="text-danger">Failed to read the CSV file.</strong> Fix the errors in the file and <a href="/tools/BulkloadAgents.cfm">reload</a>
-				</h4>
+				<h3 class="mt-3">
+					<strong class="text-danger">Failed to read the CSV file.</strong> Fix the errors in the file and <a href="/tools/BulkloadAgents.cfm" class="text-danger">start again</a>.
+				</h3>
 				<cfif isDefined("variables.foundHeaders")>
 					<cfset foundHighCount = 0>
 					<cfset foundHighAscii = "">
@@ -361,7 +363,7 @@ limitations under the License.
 				</cfif>
 			</cfloop>
 			<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				SELECT *
+				SELECT agent_type,preferred_name,first_name,middle_name,last_name,to_char(birth_date,'YYYY-MM-DD'),to_char(death_date,'YYYY-MM-DD'),agent_remark,prefix,suffix,other_name_type,other_name,other_name_type_2,other_name_2,other_name_type_3,other_name_3,agentguid_guid_type,agentguid
 				FROM cf_temp_agents
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableType.key#">
@@ -371,15 +373,14 @@ limitations under the License.
 				FROM data 
 				WHERE status is not null
 			</cfquery>
-			<cfif pf.c gt 0>
-				<h3 class="mt-3">
+				
+			<h3 class="mt-3">
+				<cfif pf.c gt 0>
 					There is a problem with #pf.c# of #data.recordcount# row(s). See the STATUS column. (<a href="/tools/BulkloadAgents.cfm?action=dumpProblems">download</a>). Fix the problems in the data and <a href="/tools/BulkloadAgents.cfm" class="text-danger">start again</a>.
-				</h3>
-			<cfelse>
-				<h3 class="mt-3">
-					Validation checks passed. Look over the table below and <a href="/tools/BulkloadAgents.cfm?action=load" class="btn-link font-weigh-lessbold">click to continue</a> if it all looks good or <a href="/tools/BulkloadAgents.cfm">start again</a>.
-				</h3>
-			</cfif>
+				<cfelse>
+					<span class="text-success">Validation checks passed</span>. Look over the table below and <a href="/tools/BulkloadAgents.cfm?action=load" class="btn-link font-weigh-lessbold">click to continue</a> if it all looks good or <a href="/tools/BulkloadAgents.cfm">start again</a>.
+				</cfif>
+			</h3>
 			<table class='sortable px-0 mx-0 table small table-responsive table-striped w-100'>
 				<thead>
 					<tr>
