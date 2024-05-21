@@ -597,93 +597,93 @@ limitations under the License.
 						FROM cf_temp_agents 
 						WHERE key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#problem_key#">
 					</cfquery>
-						<cfif getProblemData.recordcount GT 0>
-							<h3>Fix the issues and <a href="/tools/BulkloadAgents.cfm">start again</a>. Error loading row (<span class="text-danger">#agent_updates + 1#</span>) from the CSV: 
-								<cfif len(cfcatch.detail) gt 0>
-									<span class="font-weight-normal border-bottom border-danger">
-										<cfif cfcatch.detail contains "agentguid">
-											Invalid agentguid
-										<cfelseif cfcatch.detail contains "agent_type">
-											Problem with agent_type
-										<cfelseif cfcatch.detail contains "preferred_name">
-											Invalid or missing preferred_name
-										<cfelseif cfcatch.detail contains "last_name">
-											Invalid last_name
-										<cfelseif cfcatch.detail contains "birth_date">
-											Invalid birthdate
-										<cfelseif cfcatch.detail contains "death_date">
-											Problem with deathdate
-										<cfelseif cfcatch.detail contains "agent_remark">
-											Invalid agent_remark
-										<cfelseif cfcatch.detail contains "other_name_type">
-											Invalid other_name_type
-										<cfelseif cfcatch.detail contains "other_name">
-											Problem with other_name
-										<cfelseif cfcatch.detail contains "unique constraint">
-											This agent has already been entered. Remove from spreadsheet and try again. (<a href="/tools/BulkloadAgents.cfm">Reload.</a>)
-										<cfelseif cfcatch.detail contains "no data">
-											No data or the wrong data (#cfcatch.detail#)
-										<cfelse>
-											<!--- provide the raw error message if it isn't readily interpretable --->
-											#cfcatch.detail#
-										</cfif>
-									</span>
-								</cfif>
-							</h3>
-							<table class='sortable px-0 mx-0 table table-responsive table-striped w-100 small'>
-								<thead class="thead-light">
+					<cfif getProblemData.recordcount GT 0>
+						<h3>Fix the issues and <a href="/tools/BulkloadAgents.cfm">start again</a>. Error loading row (<span class="text-danger">#agent_updates + 1#</span>) from the CSV: 
+							<cfif len(cfcatch.detail) gt 0>
+								<span class="font-weight-normal border-bottom border-danger">
+									<cfif cfcatch.detail contains "agentguid">
+										Invalid agentguid
+									<cfelseif cfcatch.detail contains "agent_type">
+										Problem with agent_type
+									<cfelseif cfcatch.detail contains "preferred_name">
+										Invalid or missing preferred_name
+									<cfelseif cfcatch.detail contains "last_name">
+										Invalid last_name
+									<cfelseif cfcatch.detail contains "birth_date">
+										Invalid birthdate
+									<cfelseif cfcatch.detail contains "death_date">
+										Problem with deathdate
+									<cfelseif cfcatch.detail contains "agent_remark">
+										Invalid agent_remark
+									<cfelseif cfcatch.detail contains "other_name_type">
+										Invalid other_name_type
+									<cfelseif cfcatch.detail contains "other_name">
+										Problem with other_name
+									<cfelseif cfcatch.detail contains "unique constraint">
+										This agent has already been entered. Remove from spreadsheet and try again. (<a href="/tools/BulkloadAgents.cfm">Reload.</a>)
+									<cfelseif cfcatch.detail contains "no data">
+										No data or the wrong data (#cfcatch.detail#)
+									<cfelse>
+										<!--- provide the raw error message if it isn't readily interpretable --->
+										#cfcatch.detail#
+									</cfif>
+								</span>
+							</cfif>
+						</h3>
+						<table class='sortable px-0 mx-0 table table-responsive table-striped w-100 small'>
+							<thead class="thead-light">
+								<tr>
+									<th>bulkload&nbsp;status</th>
+									<th>agent_type</th>
+									<th>preferred_name</th>
+									<th>first_name</th>
+									<th>middle_name</th>
+									<th>last_name</th>
+									<th>birth_date</th>
+									<th>death_date</th>
+									<th>agent_remark</th>
+									<th>prefix</th>
+									<th>suffix</th>
+									<th>other_name_type</th>
+									<th>other_name</th>
+									<th>other_name_type_2</th>
+									<th>other_name_2</th>
+									<th>other_name_type_3</th>
+									<th>other_name_3</th>
+									<th>username</th>
+									<th>agentguid_guid_type</th>
+									<th>agentguid</th>
+								</tr> 
+							</thead>
+							<tbody>
+								<cfloop query="getProblemData">
 									<tr>
-										<th>bulkload&nbsp;status</th>
-										<th>agent_type</th>
-										<th>preferred_name</th>
-										<th>first_name</th>
-										<th>middle_name</th>
-										<th>last_name</th>
-										<th>birth_date</th>
-										<th>death_date</th>
-										<th>agent_remark</th>
-										<th>prefix</th>
-										<th>suffix</th>
-										<th>other_name_type</th>
-										<th>other_name</th>
-										<th>other_name_type_2</th>
-										<th>other_name_2</th>
-										<th>other_name_type_3</th>
-										<th>other_name_3</th>
-										<th>username</th>
-										<th>agentguid_guid_type</th>
-										<th>agentguid</th>
+										<td>#getProblemData.status#</td>
+										<td>#getProblemData.agent_type#</td>
+										<td>#getProblemData.preferred_name#</td>
+										<td>#getProblemData.first_name#</td>
+										<td>#getProblemData.middle_name#</td>
+										<td>#getProblemData.last_name#</td>
+										<td>#getProblemData.birth_date#</td>
+										<td>#getProblemData.death_date#</td>
+										<td>#getProblemData.agent_remark#</td>
+										<td>#getProblemData.prefix#</td>
+										<td>#getProblemData.suffix#</td>
+										<td>#getProblemData.other_name_type#</td>
+										<td>#getProblemData.other_name#</td>
+										<td>#getProblemData.other_name_type_2#</td>
+										<td>#getProblemData.other_name_2#</td>
+										<td>#getProblemData.other_name_type_3#</td>
+										<td>#getProblemData.other_name_3#</td>
+										<td>#getProblemData.agentguid_guid_type#</td>
+										<td>#getProblemData.agentguid#</td>
 									</tr> 
-								</thead>
-								<tbody>
-									<cfloop query="getProblemData">
-										<tr>
-											<td>#getProblemData.status#</td>
-											<td>#getProblemData.agent_type#</td>
-											<td>#getProblemData.preferred_name#</td>
-											<td>#getProblemData.first_name#</td>
-											<td>#getProblemData.middle_name#</td>
-											<td>#getProblemData.last_name#</td>
-											<td>#getProblemData.birth_date#</td>
-											<td>#getProblemData.death_date#</td>
-											<td>#getProblemData.agent_remark#</td>
-											<td>#getProblemData.prefix#</td>
-											<td>#getProblemData.suffix#</td>
-											<td>#getProblemData.other_name_type#</td>
-											<td>#getProblemData.other_name#</td>
-											<td>#getProblemData.other_name_type_2#</td>
-											<td>#getProblemData.other_name_2#</td>
-											<td>#getProblemData.other_name_type_3#</td>
-											<td>#getProblemData.other_name_3#</td>
-											<td>#getProblemData.agentguid_guid_type#</td>
-											<td>#getProblemData.agentguid#</td>
-										</tr> 
-									</cfloop>
-								</tbody>
-							</table>
-							<cfrethrow>
-						</cfif>
-						<div>#cfcatch.message#</div>
+								</cfloop>
+							</tbody>
+						</table>
+					</cfif>
+					<div>#cfcatch.message#</div>
+					<cfrethrow>
 				</cfcatch>
 				</cftry>
 			</cftransaction>
