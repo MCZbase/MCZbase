@@ -236,6 +236,52 @@ limitations under the License.
      		       				}
          					});
 							} 
+							function removeByParts (orderPartsString) {
+								console.log(orderPartsString);
+			        			$.ajax({
+         	   				url: "/specimens/component/search.cfc",
+            					data: { 
+										method: 'removeItemsFromResult', 
+										result_id: '#result_id#',
+										grouping_criterion: 'parts',
+										grouping_value: orderPartsString 
+									},
+									dataType: 'json',
+      	     					success : function (data) { 
+										console.log(data);
+										// Trigger reload of summary section.
+										reloadSummarySections();
+										// Trigger $('##fixedsearchResultsGrid').jqxGrid('updatebounddata'); etc on grid.
+										resultModifiedHere();
+									},
+            					error : function (jqXHR, textStatus, error) {
+          				   		handleFail(jqXHR,textStatus,error,"removing records from result set by part");
+     		       				}
+         					});
+							} 
+							function removeByPreservations (orderPreservationsString) {
+								console.log(orderPreservationsString);
+			        			$.ajax({
+         	   				url: "/specimens/component/search.cfc",
+            					data: { 
+										method: 'removeItemsFromResult', 
+										result_id: '#result_id#',
+										grouping_criterion: 'preserve_method',
+										grouping_value: orderPreservationsString 
+									},
+									dataType: 'json',
+      	     					success : function (data) { 
+										console.log(data);
+										// Trigger reload of summary section.
+										reloadSummarySections();
+										// Trigger $('##fixedsearchResultsGrid').jqxGrid('updatebounddata'); etc on grid.
+										resultModifiedHere();
+									},
+            					error : function (jqXHR, textStatus, error) {
+          				   		handleFail(jqXHR,textStatus,error,"removing records from result set by preserve_method");
+     		       				}
+         					});
+							} 
 							function resultModifiedHere() { 
 								var result_id = $("##result_id_fixedSearch").val();
 								bc.postMessage({"source":"manage","result_id":"#result_id#"});
@@ -267,6 +313,8 @@ limitations under the License.
 									</cfif>
 									loadLocalitiesSummaryHTML ("#result_id#","localitiesSummaryDiv");
 									loadCollEventsSummaryHTML ("#result_id#","collEventsSummaryDiv");
+									loadPartsSummaryHTML ("#result_id#","partsSummaryDiv");
+									loadPreservationsSummaryHTML ("#result_id#","preservationsSummaryDiv");
 								} 
 							</script>
 							<cfset blockgeoref = getGeoreferenceSummaryHTML(result_id = "#result_id#")>
@@ -292,6 +340,14 @@ limitations under the License.
 							<cfset blockfamilies = getFamiliesSummaryHTML(result_id = "#result_id#")>
 							<div class="card bg-light border-secondary mb-3" id="familiesSummaryDiv">
 								#blockfamilies#
+							</div>
+							<cfset blockparts = getPartsSummaryHTML(result_id = "#result_id#")>
+							<div class="card bg-light border-secondary mb-3" id="partsSummaryDiv">
+								#blockparts#
+							</div>
+							<cfset blockpreservations = getPreservationsSummaryHTML(result_id = "#result_id#")>
+							<div class="card bg-light border-secondary mb-3" id="preservationsSummaryDiv">
+								#blockpreservations#
 							</div>
 							<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_transactions")>
 								<cfset blockaccessions = getAccessionsSummaryHTML(result_id = "#result_id#")>

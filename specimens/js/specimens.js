@@ -193,3 +193,41 @@ function loadCollEventsSummaryHTML (result_id,targetDivId) {
 		dataType: "html"
 	});
 };
+
+/** Load information about parts in a result set into a target div.
+*/
+function loadPartsSummaryHTML (result_id,targetDivId) { 
+	jQuery.ajax({
+		url: "/specimens/component/manage.cfc",
+		data : {
+			method : "getPartsSummaryHTML",
+			result_id: result_id
+		},
+		success: function (result) {
+			$("#" + targetDivId ).html(result);
+		},
+		error: function (jqXHR, textStatus, error) {
+			handleFail(jqXHR,textStatus,error,"loading part summary");
+		},
+		dataType: "html"
+	});
+};
+
+/** Load information about parts in a result set into a target div.
+*/
+function loadPreservationsSummaryHTML (result_id,targetDivId) { 
+	jQuery.ajax({
+		url: "/specimens/component/manage.cfc",
+		data : {
+			method : "getPreservationsSummaryHTML",
+			result_id: result_id
+		},
+		success: function (result) {
+			$("#" + targetDivId ).html(result);
+		},
+		error: function (jqXHR, textStatus, error) {
+			handleFail(jqXHR,textStatus,error,"loading preserve type summary");
+		},
+		dataType: "html"
+	});
+};
