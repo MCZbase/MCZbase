@@ -363,7 +363,7 @@ limitations under the License.
 				</cfif>
 			</cfloop>
 			<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				SELECT agent_type,preferred_name,first_name,middle_name,last_name,To_Date(birth_date, 'DD-MON-YYY'),To_Date(death_date, 'DD-MON-YYY'),agent_remark,prefix,suffix,other_name_type,other_name,other_name_type_2,other_name_2,other_name_type_3,other_name_3,agentguid_guid_type,agentguid,status,key
+				SELECT agent_type,preferred_name,first_name,middle_name,last_name,To_Date(birth_date, 'DD-MON-YYYY'),To_Date(death_date, 'DD-MON-YYYY'),agent_remark,prefix,suffix,other_name_type,other_name,other_name_type_2,other_name_2,other_name_type_3,other_name_3,agentguid_guid_type,agentguid,status,key
 				FROM cf_temp_agents
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableType.key#">
