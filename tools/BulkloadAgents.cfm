@@ -409,8 +409,6 @@ limitations under the License.
 					</tr>
 				<tbody>
 					<cfloop query="data">
-						<cfset birth_date = "To_Char(birth_date, 'YYYY-MM-DD')">
-						<cfset death_date = "To_Char(death_date, 'YYYY-MM-DD')">
 						<tr>
 							<td><cfif len(data.status) eq 0>Cleared to load<cfelse><strong>#data.status#</strong></cfif></td>
 							<td>#data.AGENT_TYPE#</td>
