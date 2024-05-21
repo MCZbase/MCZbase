@@ -383,7 +383,7 @@ limitations under the License.
 			<table class='sortable px-0 mx-0 table small table-responsive table-striped w-100'>
 				<thead>
 					<tr>
-						<th>STATUS</th>
+						<th>BULKLOADING&nbsp;STATUS</th>
 						<th>AGENT_TYPE</th>
 						<th>PREFERRED_NAME</th>
 						<th>FIRST_NAME</th>
@@ -412,7 +412,7 @@ limitations under the License.
 							<td>#data.FIRST_NAME#</td>
 							<td>#data.MIDDLE_NAME#</td>
 							<td>#data.LAST_NAME#</td>
-							<td>#data.BIRTH_DATE#</td>
+							<td>#to_char(data.BIRTH_DATE, 'YYYY-MM-DD')#</td>
 							<td>#data.DEATH_DATE#</td>
 							<td>#data.AGENT_REMARK#</td>
 							<td>#data.PREFIX#</td>
