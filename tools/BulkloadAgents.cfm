@@ -445,7 +445,7 @@ limitations under the License.
 				<cfset agent_updates = 0>
 				<cftransaction>
 					<cfloop query="getTempData">
-						<cfquery name="updateAgents" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateAgents_result">
+						<cfquery name="updateAgents1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateAgents_result">
 							INSERT INTO agent (
 								agent_id,
 								agent_type,
@@ -460,7 +460,7 @@ limitations under the License.
 								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#agentguid#">,sq_agent_id.currval
 							)
 						</cfquery>
-						<cfquery name="updateAgents" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateAgents_result">
+						<cfquery name="updateAgents2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateAgents_result">
 							INSERT INTO agent_name (
 								agent_name_id,
 								agent_id,
@@ -474,7 +474,7 @@ limitations under the License.
 							)
 						</cfquery>
 						
-						<cfquery name="updateAgents" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateAgents_result">
+						<cfquery name="updateAgents3" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateAgents_result">
 							INSERT INTO person (
 								person_id,
 								prefix,
@@ -495,6 +495,13 @@ limitations under the License.
 								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#dateformat(death_date,'yyyy-mm-dd')#">
 							)
 						</cfquery>
+						<cfif len(#OTHER_NAME#) gt 0>
+							<cfset agent_name_id = #agent_name_id# + 1>
+							<cfquery name="updateAgents4" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+								insert into agent_name ( AGENT_NAME_ID,AGENT_ID,AGENT_NAME_TYPE,AGENT_NAME )
+								values (sq_agent_name_id.nextval,sq_agent_id.currval,'#OTHER_NAME_TYPE#','#OTHER_NAME#')
+							</cfquery>
+						</cfif>
 						<cfset agent_updates = agent_updates + updateAgents_result.recordcount>
 					</cfloop>
 				</cftransaction>
