@@ -458,7 +458,7 @@
 		<h2 class="h4">Third step: Apply changes.</h2>
 		<cfoutput>
 			<cfquery name="getTempData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				SELECT key,parent_container_id,container_id,container_unique_id,collection_object_id FROM cf_temp_barcode_parts
+				SELECT key,parent_container_id,part_container_id,container_id,container_unique_id,collection_object_id FROM cf_temp_barcode_parts
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<cfset problem_key = "">
