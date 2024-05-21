@@ -474,7 +474,7 @@
 								container_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.container_id#">
 							WHERE
 								parent_container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.parent_container_id#">
-							and barcode = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.container_unique_id#">
+							and barcode = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.container_unique_id#">
 						</cfquery>
 						<cfset container_updates = container_updates + updateContainer_result.recordcount>
 					</cfloop>
