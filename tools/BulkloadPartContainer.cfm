@@ -432,6 +432,8 @@
 						<th>COLLECTION_OBJECT_ID</th>
 						<th>CONTAINER_UNIQUE_ID</th>
 						<th>CONTAINER_ID</th>
+						<th>PARENT_CONTAINER_ID</th>
+						<th>PART_CONTAINER_ID</th>
 					</tr>
 				<tbody>
 					<cfloop query="data">
@@ -444,6 +446,8 @@
 							<td>#data.collection_object_id#</td>
 							<td>#data.CONTAINER_UNIQUE_ID#</td>
 							<td>#data.container_id#</td>
+							<td>#data.parent_container_id#</td>
+							<td>#data.part_container_id#</td>
 						</tr>
 					</cfloop>
 				</tbody>
