@@ -452,22 +452,17 @@ limitations under the License.
 					FROM data 
 					WHERE status is not null
 				</cfquery>
+			<h3 class="mt-3">
 				<cfif pf.c gt 0>
-					<h3>
-						There is a problem with #pf.c# of #data.recordcount# row(s). See the STATUS column. (<a href="/tools/BulkloadRelations.cfm?action=dumpProblems">download</a>).
-					</h3>
-					<h3>
-						Fix the problems in the data and <a href="/tools/BulkloadRelations.cfm">start again</a>.
-					</h3>
+					There is a problem with #pf.c# of #data.recordcount# row(s). See the STATUS column. (<a href="/tools/BulkloadRelations.cfm?action=dumpProblems">download</a>). Fix the problems in the data and <a href="/tools/BulkloadRelations.cfm">start again</a>.
 				<cfelse>
-					<h3>
-						Validation checks passed. Look over the table below and <a href="/tools/BulkloadRelations.cfm?action=load">click to continue</a> if it all looks good or <a href = "/tools/BulkloadRelations.cfm">start again</a>.
-					</h3>
+					<span class="text-success">Validation checks passed.</span> Look over the table below and <a href="/tools/BulkloadRelations.cfm?action=load" class="btn-link font-weight-bold">click to continue</a> if it all looks good or <a href = "/tools/BulkloadRelations.cfm" class="text-danger">start again</a>.
 				</cfif>
+			</h3>
 			<table class='sortable table table-responsive table-striped w-100 small px-0'>
 				<thead>
 					<tr>
-						<th>BULKLOADING STATUS</th>
+						<th>BULKLOADING&nbsp;STATUS</th>
 						<th>INSTITUTION_ACRONYM</th>
 						<th>COLLECTION_CDE</th>
 						<th>OTHER_ID_TYPE</th>
@@ -629,7 +624,7 @@ limitations under the License.
 								<thead>
 									<tr>
 										<th>CT</th>
-										<th>STATUS</th>
+										<th>BULKLOAING&nbsp;STATUS</th>
 										<th>INSTITUTION_ACRONYM</th>
 										<th>COLLECTION_CDE</th>
 										<th>OTHER_ID_TYPE</th>
