@@ -576,7 +576,7 @@ limitations under the License.
 							Fix the issues and <a href="/tools/BulkloadCitations.cfm" class="text-danger font-weight-lessbold">start again</a>. Error loading row (<span class="text-danger">#citation_updates + 1#</span>) from the CSV: 
 							<cfif len(cfcatch.detail) gt 0>
 								<span class="font-weight-normal border-bottom border-danger">
-									<cfelseif cfcatch.detail contains "occurs_page_number">
+									<cfif cfcatch.detail contains "occurs_page_number">
 										Problem with OCCURS_PAGE_NUMBER
 									<cfelseif cfcatch.detail contains "type_status">
 										Invalid or missing TYPE_STATUS
@@ -611,6 +611,7 @@ limitations under the License.
 									<th>OTHER_ID_TYPE</th>
 									<th>OTHER_ID_NUMBER</th>
 									<th>COLLECTION_OBJECT_ID</th>
+									<th>PUBLICATION_TITLE</th>
 									<th>PUBLICATION_ID</th>
 									<th>CITED_TAXON_NAME_ID</th>
 									<th>OCCURS_PAGE_NUMBER</th>
