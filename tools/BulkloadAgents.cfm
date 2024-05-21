@@ -309,7 +309,7 @@ limitations under the License.
 			</cffinally>
 		</cftry>
 		</cfoutput>
-	</cfif>3
+	</cfif>
 			
 	<!------------------------------------------------------->
 	<cfif #action# is "validate">
