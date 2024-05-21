@@ -368,21 +368,17 @@
 			<cfloop query="check">
 				<!--- see if they gave a valid parent container ---->
 				<cfquery name="isGoodParent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					select container_id from container 
+					update cf_temp_barcode_parts set container_id = (select container_id from container 
 					where container_type <> 'collection object' 
-					and barcode=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#check.container_unique_id#"> 
-				</cfquery>
-				<cfquery name="cont" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					select container_id FROM coll_obj_cont_hist where 
-					collection_object_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#check.collection_object_id#"> 
+					and barcode=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#check.container_unique_id#"> )
+					where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
 				<!--- get current container based on coll_obj_cont_hist or default--->
 				<cfquery name="getCont" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE cf_temp_barcode_parts 
-					SET container_id = (select container_id from coll_obj_cont_hist 
+					SET part_container_id = (select container_id from coll_obj_cont_hist 
 					where collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#check.collection_object_id#">)
 					where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> 
-					
 				</cfquery>
 				<cfquery name="bad" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE cf_temp_barcode_parts
@@ -394,8 +390,9 @@
 				</cfquery>
 				<cfquery name="setter1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE cf_temp_barcode_parts 
-					SET parent_container_id = '#isGoodParent.container_id#',part_container_id='#cont.container_id#'
-					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> 
+					SET parent_container_id = (select container_id from container
+					where barcode = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#check.container_unique_id#">)
+					where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> 
 				</cfquery>
 			</cfloop>
 			<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
