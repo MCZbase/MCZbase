@@ -590,16 +590,14 @@ limitations under the License.
 				FROM data 
 				WHERE status is not null
 			</cfquery>
+			<h3 class="mt-3">
 			<cfif problemCount.c gt 0>
-				<h3 class="mt-4 mb-2">
-					<cfif problemCount.c GT 1><cfset plural="s"><cfelse><cfset plural=""></cfif>
-					There is a problem with #problemCount.c# of #data.recordcount# row#plural#. See the STATUS column. (<a href="/tools/BulkloadIdentification.cfm?action=dumpProblems">download</a>). Fix the problems in the data and <a href="/tools/BulkloadIdentification.cfm">start again</a>.
-				</h3>
-			<cfelse>
-				<h3 class="mt-4 mb-2">
-					<span class="text-success">Validation checks passed.</span> Look over the table below and <a href="/tools/BulkloadIdentification.cfm?action=load">click to continue</a> if it all looks good or <a href="/tools/BulkloadIdentification.cfm">start again</a>.
-				</h3>
-			</cfif>
+				<cfif problemCount.c GT 1><cfset plural="s"><cfelse><cfset plural=""></cfif>
+						There is a problem with #problemCount.c# of #data.recordcount# row#plural#. See the STATUS column. (<a href="/tools/BulkloadIdentification.cfm?action=dumpProblems">download</a>). Fix the problems in the data and <a href="/tools/BulkloadIdentification.cfm">start again</a>.
+				<cfelse>
+					<span class="text-success">Validation checks passed.</span> Look over the table below and <a href="/tools/BulkloadIdentification.cfm?action=load" class="btn-link font-weight-lessbold">click to continue</a> if it all looks good or <a href="/tools/BulkloadIdentification.cfm" class="text-danger">start again</a>.
+				</cfif>
+			</h3>
 			<table class='px-0 mx-0 sortable table w-100 small table-responsive table-striped'>
 				<thead>
 					<tr>
