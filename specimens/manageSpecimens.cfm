@@ -65,7 +65,6 @@ limitations under the License.
 										</cfif>
 									</li>
 								</cfif>
-<!-- TODO: Summarize by preservation type/preparations --->
 								<li class="nav-item mb-1">
 									<a href="/specimens/changeQueryCollectors.cfm?result_id=#encodeForUrl(result_id)#" class="btn btn-secondary btn-xs nav-link" target="_blank">Collectors/Preparators</a>
 								</li>
@@ -268,6 +267,7 @@ limitations under the License.
 									</cfif>
 									loadLocalitiesSummaryHTML ("#result_id#","localitiesSummaryDiv");
 									loadCollEventsSummaryHTML ("#result_id#","collEventsSummaryDiv");
+									loadPreservationsSummaryHTML ("#result_id#","preservationsSummaryDiv");
 								} 
 							</script>
 							<cfset blockgeoref = getGeoreferenceSummaryHTML(result_id = "#result_id#")>
@@ -293,6 +293,10 @@ limitations under the License.
 							<cfset blockfamilies = getFamiliesSummaryHTML(result_id = "#result_id#")>
 							<div class="card bg-light border-secondary mb-3" id="familiesSummaryDiv">
 								#blockfamilies#
+							</div>
+							<cfset blockpreservations = getPreservationsSummaryHTML(result_id = "#result_id#")>
+							<div class="card bg-light border-secondary mb-3" id="preservationsSummaryDiv">
+								#blockpreservations#
 							</div>
 							<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_transactions")>
 								<cfset blockaccessions = getAccessionsSummaryHTML(result_id = "#result_id#")>

@@ -489,4 +489,50 @@ limitations under the License.
 	<cfreturn getPrefixSummaryThread.output>
 </cffunction>
 
+<!---
+ ** Obtain summary information on preservation types in a result set
+ * @param result_id the result for which to return summary information
+--->
+<cffunction name="getPreservationsSummaryHtml" returntype="string" access="remote" returnformat="plain">
+	<cfargument name="result_id" type="string" required="yes">
+	<cfargument name="allowremove" type="string" required="no" default="yes">
+
+	<cfset variables.result_id = arguments.result_id>
+	<cfset variables.allowremove = arguments.allowremove>
+	<cfthread name="getPreservationSummaryThread">
+		<cfoutput>
+			<cftry>
+				<!--- crude first cut, just strings from flat --->
+				<cfquery name="preservation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="preservation_result">
+					SELECT count(*) ct, parts
+					FROM user_search_table
+						left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat on user_search_table.collection_object_id = flat.collection_object_id
+					WHERE result_id=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
+					GROUP BY parts
+				</cfquery>
+				<div class="card-header h4">Preservation (#preservation.recordcount#)</div>
+				<div class="card-body">
+					<ul class="list-group list-group-horizontal d-flex flex-wrap">
+						<cfloop query="preservation">
+							<li class="list-group-item">
+								<cfif preservation.recordcount GT 1 && variables.allowremove EQ "yes">
+									<input type="button" onClick=" confirmDialog('Remove all records with #preservation.parts# from these search results','Confirm Remove By Preservation', function() { removeByPreservation ('#submitValue#'); }  ); " class="p-1 btn btn-xs btn-warning" value="&##8998;" aria-label="Remove"/>
+								</cfif>
+								#preservation.parts# (#preservation.ct#);
+							</li>
+						</cfloop>
+					</ul>
+				</div>
+			<cfcatch>
+				<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+				<cfset function_called = "#GetFunctionCalledName()#">
+				<h2 class='h3'>Error in #function_called#:</h2>
+				<div>#error_message#</div>
+			</cfcatch>
+			</cftry>
+		</cfoutput>
+	</cfthread>
+	<cfthread action="join" name="getPreservationSummaryThread" />
+	<cfreturn getPreservationSummaryThread.output>
+</cffunction>
 </cfcomponent>

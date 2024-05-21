@@ -193,3 +193,22 @@ function loadCollEventsSummaryHTML (result_id,targetDivId) {
 		dataType: "html"
 	});
 };
+
+/** Load information about preservations in a result set into a target div.
+*/
+function loadPreservationsSummaryHTML (result_id,targetDivId) { 
+	jQuery.ajax({
+		url: "/specimens/component/manage.cfc",
+		data : {
+			method : "getPreservationsSummaryHTML",
+			result_id: result_id
+		},
+		success: function (result) {
+			$("#" + targetDivId ).html(result);
+		},
+		error: function (jqXHR, textStatus, error) {
+			handleFail(jqXHR,textStatus,error,"loading preservation summary");
+		},
+		dataType: "html"
+	});
+};
