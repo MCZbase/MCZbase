@@ -367,6 +367,8 @@ limitations under the License.
 				FROM cf_temp_agents
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableType.key#">
+				and birth_date = #dateformat(birth_date,'yyyy-mm-dd')#
+				and death_date = #dateformat(death_date,'yyyy-mm-dd')#
 			</cfquery>
 		
 			<cfquery name="pf" dbtype="query">
@@ -414,7 +416,7 @@ limitations under the License.
 							<td>#data.FIRST_NAME#</td>
 							<td>#data.MIDDLE_NAME#</td>
 							<td>#data.LAST_NAME#</td>
-							<td>#data.BIRTH_DATE#
+							<td>#data.BIRTH_DATE#</td>
 							<td>#data.DEATH_DATE#</td>
 							<td>#data.AGENT_REMARK#</td>
 							<td>#data.PREFIX#</td>
@@ -457,7 +459,7 @@ limitations under the License.
 								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#agent_type#">,
 								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#agent_remark#">,
 								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#agentguid_guid_type#">,
-								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#agentguid#">,sq_agent_id.nextval
+								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#agentguid#">,#agent_name_id#
 							)
 						</cfquery>
 						<cfquery name="updateAgents" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateAgents_result">
