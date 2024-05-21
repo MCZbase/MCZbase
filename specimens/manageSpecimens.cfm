@@ -65,6 +65,7 @@ limitations under the License.
 										</cfif>
 									</li>
 								</cfif>
+<!-- TODO: Summarize by preservation type/preparations --->
 								<li class="nav-item mb-1">
 									<a href="/specimens/changeQueryCollectors.cfm?result_id=#encodeForUrl(result_id)#" class="btn btn-secondary btn-xs nav-link" target="_blank">Collectors/Preparators</a>
 								</li>
