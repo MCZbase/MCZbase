@@ -3910,13 +3910,17 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 							</cfcase>
 							<cfcase value="preserve_method">
 								collection_object_id IN (
-									SELECT derived_from_cat_item 
-									FROM specimen_part
-									WHERE 
 									<cfif variables.grouping_value EQ "NULL">
-										preserve_method IS NULL
+										SELECT derived_from_cat_item 
+										FROM  <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat
+											left join specimen_part on flat.collection_object_id = specimen_part.derived_from_cat_item
+										WHERE 
+											specimen_part.preserve_method IS NULL
 									<cfelse>
-										preserve_method = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.grouping_value#">
+										SELECT derived_from_cat_item 
+										FROM specimen_part
+										WHERE 
+											preserve_method = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.grouping_value#">
 									</cfif>
 								)
 							</cfcase>
