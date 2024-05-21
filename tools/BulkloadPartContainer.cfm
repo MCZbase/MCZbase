@@ -458,7 +458,7 @@
 		<h2 class="h4">Third step: Apply changes.</h2>
 		<cfoutput>
 			<cfquery name="getTempData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				SELECT key,parent_container_id,container_id FROM cf_temp_barcode_parts
+				SELECT key,parent_container_id,container_id,container_unique_id FROM cf_temp_barcode_parts
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<cfset problem_key = "">
@@ -469,11 +469,12 @@
 						<cfset problem_key = getTempData.key>
 						<cfquery name="updateContainer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateContainer_result">
 							UPDATE
-								container 
+								container
 							SET
-								parent_container_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.parent_container_id#">
-							WHERE
 								container_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.container_id#">
+							WHERE
+								parent_container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.parent_container_id#">
+							and barcode = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.container_unique_id#">
 						</cfquery>
 						<cfset container_updates = container_updates + updateContainer_result.recordcount>
 					</cfloop>
