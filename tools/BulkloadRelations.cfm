@@ -667,7 +667,7 @@ limitations under the License.
 			<div class="container">
 				<div class="row">
 					<div class="col-12 mx-auto">
-						<h3 class="text-success">Success, changes applied.</h3>
+						
 					</div>
 				</div>
 			</div>
