@@ -513,25 +513,25 @@ limitations under the License.
 				<table class='sortable px-0 mx-0 table small w-100 table-responsive table-striped'>
 					<thead>
 						<tr>
-							<th>status</th>
-							<th>agent_type</th>
-							<th>preferred_name</th>
-							<th>first_name</th>
-							<th>middle_name</th>
-							<th>last_name</th>
-							<th>birth_date</th>
-							<th>death_date</th>
-							<th>agent_remark</th>
-							<th>prefix</th>
-							<th>suffix</th>
-							<th>other_name_1</th>
-							<th>other_name_type_1</th>
-							<th>other_name_2</th>
-							<th>other_name_type_2</th>
-							<th>other_name_3</th>
-							<th>other_name_type_3</th>
-							<th>agentguid_guid_type</th>
-							<th>agentguid</th>
+							<th>BULKLOADING&nbsp;STATUS</th>
+							<th>AGENT_TYPE</th>
+							<th>PREFERRED_NAME</th>
+							<th>FIRST_NAME</th>
+							<th>MIDDLE_NAME</th>
+							<th>LAST_NAME</th>
+							<th>BIRTH_DATE</th>
+							<th>DEATH_DATE</th>
+							<th>AGENT_REMARK</th>
+							<th>PREFIX</th>
+							<th>SUFFIX</th>
+							<th>OTHER_NAME_1</th>
+							<th>OTHER_NAME_TYPE_1</th>
+							<th>OTHER_NAME_2</th>
+							<th>OTHER_NAME_TYPE_2</th>
+							<th>OTHER_NAME_3</th>
+							<th>OTHER_NAME_TYPE_3</th>
+							<th>AGENTGUID_GUID_TYPE</th>
+							<th>AGENTGUID</th>
 							
 						</tr> 
 					</thead>
