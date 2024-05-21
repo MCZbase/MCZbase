@@ -374,7 +374,7 @@
 				</cfquery>
 				<cfquery name="cont" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					select container_id FROM coll_obj_cont_hist where 
-					collection_object_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#isGoodParent.collection_object_id#"> 
+					collection_object_id='#isGoodParent.collection_object_id#' 
 				</cfquery>
 			</cfloop>
 			<cfquery name="check" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
