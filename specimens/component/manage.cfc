@@ -516,7 +516,7 @@ limitations under the License.
 						<cfloop query="preservation">
 							<li class="list-group-item">
 								<cfif preservation.recordcount GT 1 && variables.allowremove EQ "yes">
-									<input type="button" onClick=" confirmDialog('Remove all records with #preservation.parts# from these search results','Confirm Remove By Preservation', function() { removeByPreservation ('#preeservation.parts#'); }  ); " class="p-1 btn btn-xs btn-warning" value="&##8998;" aria-label="Remove"/>
+									<input type="button" onClick=" confirmDialog('Remove all records with #preservation.parts# from these search results','Confirm Remove By Preservation', function() { removeByPreservation ('#preservation.parts#'); }  ); " class="p-1 btn btn-xs btn-warning" value="&##8998;" aria-label="Remove"/>
 								</cfif>
 								#preservation.parts# (#preservation.ct#);
 							</li>
