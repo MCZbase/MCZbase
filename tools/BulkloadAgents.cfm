@@ -367,8 +367,6 @@ limitations under the License.
 				FROM cf_temp_agents
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableType.key#">
-				and birth_date = '#dateformat(birth_date,'yyyy-mm-dd')#'
-				and death_date = '#dateformat(death_date,'yyyy-mm-dd')#'
 			</cfquery>
 		
 			<cfquery name="pf" dbtype="query">
