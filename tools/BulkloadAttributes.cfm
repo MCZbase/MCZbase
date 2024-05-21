@@ -562,7 +562,7 @@ limitations under the License.
 				FROM data 
 				WHERE status is not null
 			</cfquery>
-			<h3>
+			<h3 class="mt-3">
 			<cfif pf.c gt 0>
 					There is a problem with #pf.c# of #data.recordcount# row(s). See the STATUS column. (<a href="/tools/BulkloadAttributes.cfm?action=dumpProblems" class="btn-link font-weight-lessbold">download</a>).
 					Fix the problem(s) noted in the status column and <a href="/tools/BulkloadAttributes.cfm" class="text-danger">start again</a>.

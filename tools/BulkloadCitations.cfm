@@ -455,18 +455,13 @@ limitations under the License.
 				FROM data 
 				WHERE status is not null
 			</cfquery>
-			<cfif problemsInData.c gt 0>
-				<h3 class="h4 px-0 mt-3">
-					There is a problem with #problemsInData.c# of #data.recordcount# row(s). See the STATUS column (<a href="/tools/BulkloadCitations.cfm?action=dumpProblems">download</a>).
-				</h3>
-				<h3 class="h4 px-0">
-					Fix the problems in the data and <a href="/tools/BulkloadCitations.cfm" class="text-danger">start again</a>.
-				</h3>
-			<cfelse>
-				<h3 class="h4 px-0">
+			<h3 class="mt-3">
+				<cfif problemsInData.c gt 0>
+					There is a problem with #problemsInData.c# of #data.recordcount# row(s). See the STATUS column (<a href="/tools/BulkloadCitations.cfm?action=dumpProblems">download</a>). Fix the problems in the data and <a href="/tools/BulkloadCitations.cfm" class="text-danger">start again</a>.
+				<cfelse>
 					<span class="text-success">Validation checks passed</span>. Look over the table below and <a href="/tools/BulkloadCitations.cfm?action=load" class="btn-link font-weight-lessbold">click to continue</a> if it all looks good. Or, <a href="/tools/BulkloadCitations.cfm" class="text-danger">start again</a>.
-				</h3>
-			</cfif>
+				</cfif>
+			</h3>
 			<table class='px-0 mx-0 sortable table small table-responsive w-100'>
 				<thead class="thead-light">
 					<tr>
