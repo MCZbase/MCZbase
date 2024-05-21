@@ -419,15 +419,13 @@ limitations under the License.
 				FROM data 
 				WHERE status is not null
 			</cfquery>
-			<cfif pf.c gt 0>
-				<h3 class="h4 px-0">
+			<h3 class="mt-3">
+				<cfif pf.c gt 0>
 					There is a problem with #pf.c# of #data.recordcount# row(s). See the STATUS column. (<a href="/tools/BulkloadOtherId.cfm?action=dumpProblems">download</a>). Fix the problem(s) noted in the status column and <a href="/tools/BulkloadOtherId.cfm" class="text-danger">start again</a>.
-				</h3>
-			<cfelse>
-				<h3 class="h4 px-0">
+				<cfelse>
 					<span class="text-success">Validation checks passed</span>. Look over the table below and <a href="/tools/BulkloadOtherId.cfm?action=load" class="btn-link font-weight-lessbold">click to continue</a> if it all looks good. Or, <a href="/tools/BulkloadOtherId.cfm" class="text-danger">start again</a>.
-				</h3>
-			</cfif>
+				</cfif>
+			</h3>
 			<table class='px-0 sortable table small table-responsive table-striped w-100'>
 				<thead>
 					<tr>
