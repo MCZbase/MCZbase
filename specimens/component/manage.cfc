@@ -555,7 +555,7 @@ limitations under the License.
 						left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat on user_search_table.collection_object_id = flat.collection_object_id
 						left join specimen_part on flat.collection_object_id = specimen_part.derived_from_cat_item
 					WHERE result_id=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
-					GROUP BY preserve_mentod
+					GROUP BY preserve_method
 				</cfquery>
 				<div class="card-header h4">Preservation Methods on any part (#preservation.recordcount#)</div>
 				<div class="card-body">
