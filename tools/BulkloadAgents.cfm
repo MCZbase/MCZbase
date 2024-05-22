@@ -572,7 +572,7 @@ limitations under the License.
 									
 							</cfloop>
 								Remove the duplicate agents from the spreadsheet and start again.--->
-						<cfelse>
+					<!---	<cfelse>--->
 							<cfquery name="insName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 								INSERT INTO agent_name (
 									agent_name_id,
@@ -589,7 +589,7 @@ limitations under the License.
 									)
 							</cfquery>
 							<cfset agent_updates = agent_updates + updateAgents1_result.recordcount>
-						</cfif>
+							<!---</cfif>--->
 					</cfloop>
 				</cftransaction>
 				<h3 class="mt-3">Updated #agent_updates# agents.</h3>
