@@ -282,7 +282,7 @@ limitations under the License.
 				<cfset additionalCount = additionalCount+1>
 			</cfif>
 		</cfloop>
-		<cfif NOT ListContainsNoCase(fieldList,aField)>
+		<cfif containsAdditional >
 			<cfif additionalCount GT 1><cfset plural1="s"><cfelse><cfset plural1=""></cfif>
 			<cfif additionalCount GT 1><cfset plural1a="are"><cfelse><cfset plural1a="is"></cfif>
 			<h3 class="h4">Warning: Found #additionalCount# additional column header#plural1# in the CSV that #plural1a# not in the list of expected headers: </h3>
