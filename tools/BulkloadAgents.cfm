@@ -619,7 +619,7 @@ limitations under the License.
 						<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						SELECT to_char(birth_date,'DD-MON-YYYY') birth_date,agent_type, preferred_name,first_name,middle_name,last_name,to_char(death_date,'DD-MON-YYYY') death_date,agent_remark, prefix,suffix,other_name_type, other_name, other_name_type_2, other_name_2, other_name_type_3, other_name_3,agentguid_guid_type,agentguid,status 
 						FROM cf_temp_agents 
-						WHERE key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#problem_key#">
+						WHERE key = <cfqueryparam cfsqltype="CF_SQL_varchar" value="#problem_key#">
 					</cfquery>
 					<cfif getProblemData.recordcount GT 0>
 						<h3>Fix the issues and <a href="/tools/BulkloadAgents.cfm" class="text-danger">start again</a>. Error loading row (<span class="text-danger">#agent_updates + 1#</span>) from the CSV: 
