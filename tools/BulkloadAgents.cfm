@@ -475,7 +475,7 @@ limitations under the License.
 							</cfif>
 						)
 					</cfquery>
-					<cfif addAgent.agent_id is not null>
+					<cfif #insPerson.agent_id is not null>
 						<cflocation url="BulkloadAgents.cfm?action=addAgentInfo">
 					</cfif>
 				</cfloop>
