@@ -318,7 +318,7 @@ limitations under the License.
 			<cfset key = ''>
 			<cfquery name="getTempTableType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT 
-					agent_type, key
+					key,to_char(birth_date,'DD-MON-YYYY') birth_date,agent_type, agent_name_type,preferred_name,first_name,middle_name,last_name,to_char(death_date,'DD-MON-YYYY') death_date,agent_remark, prefix,suffix,other_name_type, other_name, other_name_type_2, other_name_2, other_name_type_3, other_name_3,agentguid_guid_type,agentguid,use_agent_id,status
 				FROM 
 					cf_temp_agents
 				WHERE 
