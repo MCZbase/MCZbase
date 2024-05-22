@@ -331,7 +331,6 @@ limitations under the License.
 				select sq_agent_name_id.nextval nextAgentNameId from dual
 			</cfquery>
 			<cfloop query="getTempTableType">
-				
 				<cfquery name="getCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					update cf_temp_agents set agent_type=
 					(select agent_type from ctagent_type where agent_type = cf_temp_agents.agent_type)
@@ -432,7 +431,7 @@ limitations under the License.
 		<h2 class="h4">Third step: Apply changes.</h2>
 		<cfoutput>
 			<cfquery name="getTempData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" >
-				SELECT key,to_char(birth_date,'DD-MON-YYYY') birth_date,agent_type, preferred_name,first_name,middle_name,last_name,to_char(death_date,'DD-MON-YYYY') death_date,agent_remark, prefix,suffix,other_name_type, other_name, other_name_type_2, other_name_2, other_name_type_3, other_name_3,agentguid_guid_type,agentguid,status 
+				SELECT key,to_char(birth_date,'DD-MON-YYYY') birth_date,agent_type, preferred_name,first_name,middle_name,last_name,to_char(death_date,'DD-MON-YYYY') death_date,agent_remark, prefix,suffix,other_name_type, other_name, other_name_type_2, other_name_2, other_name_type_3, other_name_3,agentguid_guid_type,agentguid,use_agent_id,status 
 				FROM cf_temp_agents
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
@@ -440,9 +439,6 @@ limitations under the License.
 				<cfset agent_updates = 0>
 				<cftransaction>
 					<cfloop query="getTempData">
-						<cfquery name="agentID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-							select sq_agent_id.nextval nextAgentId from dual
-						</cfquery>
 						<cfquery name="agentNameID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							select sq_agent_name_id.nextval nextAgentNameId from dual
 						</cfquery>
@@ -459,7 +455,7 @@ limitations under the License.
 								</cfif>
 								)
 							VALUES (
-								<cfqueryparam cfsqltype='CF_SQL_DECIMAL' value='#agentID.nextAgentId#'>,
+								<cfqueryparam cfsqltype='CF_SQL_DECIMAL' value='#getTempData.use_agent_id#'>,
 								'person',
 								<cfqueryparam cfsqltype='CF_SQL_DECIMAL' value='#agentNameID.nextAgentNameId#'>
 								<cfif len(#agentguid_guid_type#) gt 0>
