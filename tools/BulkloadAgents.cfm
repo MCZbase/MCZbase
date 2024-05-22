@@ -486,10 +486,10 @@ limitations under the License.
 						<cflocation url="BulkloadAgents.cfm?action=addAgentInfo">
 					</cfif>--->
 				</cfloop>
-			</cftransaction>
+	<!---		</cftransaction>
 		</cfoutput>
 	</cfif>
-<!---	
+
 	<cfif #action# is "addAgentInfo">
 		<cfoutput>
 			<cfquery name="getAgentData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" >
@@ -615,12 +615,12 @@ limitations under the License.
 							)
 					</cfquery>
 						<cfset agent_updates = agent_updates + updateAgents_result.recordcount>
-					</cfloop>
+					</cfloop>--->
 					<cftransaction action="commit">
 				<cfcatch>
 					<cftransaction action="rollback">
 						<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						SELECT key,to_char(birth_date,'DD-MON-YYYY') birth_date,agent_type, preferred_name,first_name,middle_name,last_name,to_char(death_date,'DD-MON-YYYY') death_date,agent_remark, prefix,suffix,other_name_type, other_name, other_name_type_2, other_name_2, other_name_type_3, other_name_3,agentguid_guid_type,agentguid,status 
+						SELECT key,to_char(birth_date,'DD-MON-YYYY') birth_date,agent_type, preferred_name,first_name,middle_name,last_name,to_char(death_date,'DD-MON-YYYY') death_date,agent_remark, prefix,suffix,other_name_type, other_name, other_name_type_2, other_name_2, other_name_type_3, other_name_3,agentguid_guid_type,agentguid,use_agent_id, status 
 						FROM cf_temp_agents 
 						WHERE key = <cfqueryparam cfsqltype="CF_SQL_varchar" value="#problem_key#">
 					</cfquery>
@@ -722,7 +722,7 @@ limitations under the License.
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 		</cfoutput>
-	</cfif>--->
+	</cfif>
 </main>
 						
 <!---						<cfif len(#OTHER_NAME#) gt 0>
