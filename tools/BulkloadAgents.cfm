@@ -318,7 +318,7 @@ limitations under the License.
 			<cfset key = ''>
 			<cfquery name="getTempTableType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT 
-					key,to_char(birth_date,'DD-MON-YYYY') birth_date,agent_type,preferred_name,first_name,middle_name,last_name,to_char(death_date,'DD-MON-YYYY') death_date,agent_remark, prefix,suffix,other_name_type, other_name, other_name_type_2, other_name_2, other_name_type_3, other_name_3,agentguid_guid_type,agentguid,use_agent_id,status
+					key,to_char(birth_date,'DD-MON-YYYY') birth_date,agent_type,preferred_name,first_name,middle_name,last_name,to_char(death_date,'DD-MON-YYYY') death_date,agent_remark, prefix,suffix,agentguid_guid_type,agentguid,use_agent_id,status
 				FROM 
 					cf_temp_agents
 				WHERE 
@@ -326,52 +326,48 @@ limitations under the License.
 			</cfquery>
 			
 			<cfloop query="getTempTableType">
-				<cfif getTempTableType.agent_type eq 'person'>
-					<cfquery name="agentID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						select sq_agent_id.nextval nextAgentId from dual
+				<cfquery name="agentID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					select sq_agent_id.nextval nextAgentId from dual
+				</cfquery>
+				<cfquery name="agentNameID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					select sq_agent_name_id.nextval nextAgentNameId from dual
+				</cfquery>
+				<cfquery name="getCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					update cf_temp_agents set agent_type=
+					(select agent_type from ctagent_type where agent_type = cf_temp_agents.agent_type)
+					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+					AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableType.key#">
+				</cfquery>
+				<cfquery name="miac" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					UPDATE cf_temp_agents 
+					SET status = 'agent_type_not_found'
+					WHERE agent_type is null
+					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+					AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableType.key#">
 					</cfquery>
-					<cfquery name="agentNameID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						select sq_agent_name_id.nextval nextAgentNameId from dual
-					</cfquery>
-					<cfquery name="getCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						update cf_temp_agents set agent_type=
-						(select agent_type from ctagent_type where agent_type = cf_temp_agents.agent_type)
-						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-						AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableType.key#">
-					</cfquery>
-					<cfquery name="miac" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						UPDATE cf_temp_agents 
-						SET status = 'agent_type_not_found'
-						WHERE agent_type is null
-						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-						AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableType.key#">
-						</cfquery>
-					<cfquery name="miap" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						UPDATE cf_temp_agents 
-						SET status = 'last_name_not_found'
-						WHERE last_name is null
-						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-						AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableType.key#">
-					</cfquery>
-					<cfquery name="miap" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						UPDATE cf_temp_agents 
-						SET status = 'preferred_name_not_found'
-						WHERE preferred_name is null
-						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-						AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableType.key#">
-					</cfquery>
-					<cfquery name="miap" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						UPDATE cf_temp_agents 
-						SET use_agent_id = '#agentID.nextAgentId#'
-						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-						AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableType.key#">
-					</cfquery>
-				<cfelse>
-					
-				</cfif>
+				<cfquery name="miap" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					UPDATE cf_temp_agents 
+					SET status = 'last_name_not_found'
+					WHERE last_name is null
+					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+					AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableType.key#">
+				</cfquery>
+				<cfquery name="miap" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					UPDATE cf_temp_agents 
+					SET status = 'preferred_name_not_found'
+					WHERE preferred_name is null
+					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+					AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableType.key#">
+				</cfquery>
+				<cfquery name="miap" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					UPDATE cf_temp_agents 
+					SET use_agent_id = '#agentID.nextAgentId#'
+					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+					AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableType.key#">
+				</cfquery>
 			</cfloop>
 			<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				SELECT to_char(birth_date,'DD-MON-YYYY') birth_date,agent_type, preferred_name,first_name,middle_name,last_name,to_char(death_date,'DD-MON-YYYY') death_date,agent_remark, prefix,suffix,other_name_type, other_name, other_name_type_2, other_name_2, other_name_type_3, other_name_3,agentguid_guid_type,agentguid,use_agent_id,status
+				SELECT to_char(birth_date,'DD-MON-YYYY') birth_date,agent_type, preferred_name,first_name,middle_name,last_name,to_char(death_date,'DD-MON-YYYY') death_date,agent_remark, prefix,suffix,agentguid_guid_type,agentguid,use_agent_id,status
 				FROM cf_temp_agents
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableType.key#">
@@ -404,12 +400,6 @@ limitations under the License.
 						<th>AGENT_REMARK</th>
 						<th>PREFIX</th>
 						<th>SUFFIX</th>
-						<th>OTHER_NAME</th>
-						<th>OTHER_NAME_TYPE</th>
-						<th>OTHER_NAME_2</th>
-						<th>OTHER_NAME_TYPE_2</th>
-						<th>OTHER_NAME_3</th>
-						<th>OTHER_NAME_TYPE_3</th>
 						<th>agentguid_guid_type</th>
 						<th>agentguid</th>
 						<th>use_agent_id</th>
@@ -428,12 +418,6 @@ limitations under the License.
 							<td>#data.AGENT_REMARK#</td>
 							<td>#data.PREFIX#</td>
 							<td>#data.SUFFIX#</td>
-							<td>#data.OTHER_NAME#</td>
-							<td>#data.OTHER_NAME_TYPE#</td>
-							<td>#data.OTHER_NAME_2#</td>
-							<td>#data.OTHER_NAME_TYPE_2#</td>
-							<td>#data.OTHER_NAME_3#</td>
-							<td>#data.OTHER_NAME_TYPE_3#</td>
 							<td>#data.agentguid_guid_type#</td>
 							<td>#data.agentguid#</td>
 							<td>#data.use_agent_id#</td>
