@@ -364,7 +364,7 @@ sho err
 			</li>
 			<li>Pick another existing agent by typing in the box and tabbing out, just like any other agent pick.</li>
 		</ol>		
-		Click Save to Arctos when you're done. You can actually click that anytime, and it will try to save what you've done.
+		Click Save to MCZbase when you're done. You can actually click that anytime, and it will try to save what you've done.
 		However, if you then reload it can be hard to tell what's what. Proceed with extreme caution
 		if you must reload.
 	</p>
@@ -372,7 +372,7 @@ sho err
 		If you picked an existing agent, we'll try to add all of your names to that agent.
 		Your preferred name will be loaded as name type "aka". Attempting to load duplicate names to an agent will return
 		"unique constraint (UAM.IU_AGENTNAME_AGENTNAME_AID) violated" - it's usually safe to ignore those, since they just mean the 
-		name is already in Arctos.
+		name is already in MCZbase.
 	</p>
 	<p>
 		Just do nothing if you decide to not use an agent that you've loaded here - for example, if you notice that it's 
@@ -399,7 +399,7 @@ sho err
 	</p>
 	
 	<form name="f">
-	<input type="button" onclick="saveAll()" value="save to Arctos">
+	<input type="button" onclick="saveAll()" value="save to MCZbase">
 	<input type="hidden" id="keyList" value="#valuelist(d.key)#">
 	<table border id="theTable" class="sortable">
 		<tr>
