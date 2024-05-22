@@ -479,7 +479,7 @@ limitations under the License.
 					<cfquery name="insPerson" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="insPerson_result">
 						update cf_temp_agents set 
 						use_agent_id = <cfqueryparam cfsqltype='CF_SQL_DECIMAL' value='#agentID.nextAgentId#'>
-						WHERE username = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#session.username#">
+						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 					</cfquery>
 					<cfif insPerson_result.recordcount gt 0>
 						<cflocation url="BulkloadAgents.cfm?action=addAgentInfo">
@@ -570,7 +570,7 @@ limitations under the License.
 							select agent.agent_type,agent_name.agent_id,agent_name.agent_name
 							from agent_name, agent
 							where agent_name.agent_id = agent.agent_id
-							and upper(agent_name.agent_name) like <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='%#ucase(pref_name)#%'>
+							and upper(agent_name.agent_name) like <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='%#ucase(preferred_name)#%'>
 						</cfquery>
 						<cfif dupPref.recordcount gt 0>
 							<h3>That agent may already exist!</h3>
