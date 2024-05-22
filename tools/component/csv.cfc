@@ -258,7 +258,7 @@ limitations under the License.
 		</cfloop>
 		<cfif len(errorMessage) GT 0>
 			<h3 class="h3">Error Messages</h3>
-			<cfset errorMessage = "<h4 class='h4'>Columns not found:</h4><ul>#errorMessage#</ul>">
+			<cfset errorMessage = "<h4 class='h4'>Required Columns not found:</h4><ul>#errorMessage#</ul>">
 			<cfif size EQ 1>
 				<!--- Likely a problem parsing the first line into column headers --->
 				<cfset errorMessage = "#errorMessage#<div>Only one column found, did you select the correct file format?</div>">
