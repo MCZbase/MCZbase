@@ -582,7 +582,7 @@ limitations under the License.
 									donor_card_present_fg)
 								VALUES (
 									<cfqueryparam cfsqltype='CF_SQL_DECIMAL' value="#savePK.agent_name_id#">,
-									<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value="#getTempData.use_agent_id#">,
+									<cfqueryparam cfsqltype='CF_SQL_DECIMAL' value="#getTempData.use_agent_id#">,
 									'preferred',
 									<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#preferred_name#'>,
 									0
