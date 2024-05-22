@@ -524,10 +524,10 @@ limitations under the License.
 								</cfif>
 								)
 						</cfquery>
-				<!---		<cfquery name="savePK" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="pkResult">
+						<cfquery name="savePK" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="pkResult">
 							select agent_name_id from agent_name
-							where ROWIDTOCHAR(rowid) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#updateAgents2_result.GENERATEDKEY#">
-						</cfquery>--->
+							where ROWIDTOCHAR(rowid) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#updateAgents1_result.GENERATEDKEY#">
+						</cfquery>
 						<cfif len(preferred_name) is 0>
 							<cfset name = "">
 							<cfif len(#prefix#) gt 0>
