@@ -477,7 +477,7 @@ limitations under the License.
 					</cfquery>
 					<cfquery name="insPerson" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="insPerson_result">
 						update cf_temp_agents set 
-						agent_id = <cfqueryparam cfsqltype='CF_SQL_DECIMAL' value='#agentID.nextAgentId#'>
+						use_agent_id = <cfqueryparam cfsqltype='CF_SQL_DECIMAL' value='#agentID.nextAgentId#'>
 					</cfquery>
 					<cfif insPerson_result.recordcount gt 0>
 						<cflocation url="BulkloadAgents.cfm?action=addAgentInfo">
