@@ -371,12 +371,12 @@ limitations under the License.
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 					AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableType.key#">
 				</cfquery>
-				<cfquery name="miap" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+<!---				<cfquery name="miap" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE cf_temp_agents 
 					SET use_agent_id = '#agentID.nextAgentId#'
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 					AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableType.key#">
-				</cfquery>
+				</cfquery>--->
 			</cfloop>
 			<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT to_char(birth_date,'DD-MON-YYYY') birth_date,agent_type, preferred_name,first_name,middle_name,last_name,to_char(death_date,'DD-MON-YYYY') death_date,agent_remark, prefix,suffix,agentguid_guid_type,agentguid,use_agent_id,status
