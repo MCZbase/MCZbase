@@ -501,6 +501,7 @@ limitations under the License.
 			<cftransaction>
 				<cftry>
 					<cfset agent_updates = 0>
+					<cfset agentID= ''>
 					<cfloop query="getAgentData">
 						<cfset problem_key = getAgentData.key>
 						<cfquery name="agentID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -529,7 +530,7 @@ limitations under the License.
 								</cfif>
 								)
 							VALUES
-								(<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value="#nextAgentId#">
+								(<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value="#agentID.nextAgentId#">
 								<cfif len(#prefix#) gt 0>
 									,<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#getAgentData.PREFIX#'>
 								</cfif>
