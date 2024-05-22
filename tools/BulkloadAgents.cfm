@@ -577,7 +577,7 @@ limitations under the License.
 									<input type="submit" class="insBtn" value="Create Agent">
 								</form>
 									<br><br>
-									<input type="cancel" value="Cancel" class="btn btn_warning btn-xs" onclick="javascript:window.location='';return false;">
+									<input type="cancel" value="Cancel" class="btn btn_warning btn-xs" onclick="javascript:window.location='/tools/BulkloadAgents.cfm';return false;">
 								<cfabort>
 								</div>
 							</cfif>
