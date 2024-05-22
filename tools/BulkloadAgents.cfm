@@ -437,6 +437,7 @@ limitations under the License.
 	<cfif action is "load">
 		<h2 class="h4">Third step: Apply changes.</h2>
 		<cfoutput>
+			<cfset problem_key = "">
 			<cfquery name="getTempData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" >
 				SELECT key,to_char(birth_date,'DD-MON-YYYY') birth_date,agent_type, preferred_name,first_name,middle_name,last_name,to_char(death_date,'DD-MON-YYYY') death_date,agent_remark, prefix,suffix,other_name_type, other_name, other_name_type_2, other_name_2, other_name_type_3, other_name_3,agentguid_guid_type,agentguid,status 
 				FROM cf_temp_agents
@@ -478,6 +479,7 @@ limitations under the License.
 					<cfquery name="insPerson" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="insPerson_result">
 						update cf_temp_agents set 
 						use_agent_id = <cfqueryparam cfsqltype='CF_SQL_DECIMAL' value='#agentID.nextAgentId#'>
+						WHERE username = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#session.username#">
 					</cfquery>
 					<cfif insPerson_result.recordcount gt 0>
 						<cflocation url="BulkloadAgents.cfm?action=addAgentInfo">
@@ -490,7 +492,7 @@ limitations under the License.
 	<cfif #action# is "addAgentInfo">
 		<cfoutput>
 			<cfquery name="getAgentData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" >
-				SELECT use_agent_id 
+				SELECT use_agent_id,key 
 				FROM cf_temp_agents
 				where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
