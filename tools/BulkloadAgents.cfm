@@ -475,6 +475,10 @@ limitations under the License.
 							</cfif>
 						)
 					</cfquery>
+					<cfquery name="insPerson" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="insPerson_result">
+						update cf_temp_agents set 
+						agent_id = <cfqueryparam cfsqltype='CF_SQL_DECIMAL' value='#agentID.nextAgentId#'>
+					</cfquery>
 					<cfif insPerson_result.recordcount gt 0>
 						<cflocation url="BulkloadAgents.cfm?action=addAgentInfo">
 					</cfif>
@@ -487,14 +491,14 @@ limitations under the License.
 		<cfoutput>
 			<cfquery name="getAgentData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" >
 				SELECT agent_id 
-				FROM agent
-				where agent_id = #insPerson.agent_id#
+				FROM cf_temp_agents
+				where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<cfset problem_key = "">
 			<cftransaction>
 				<cftry>
 					<cfset agent_updates = 0>
-					<cfloop query="getTempData">
+					<cfloop query="getAgentData">
 						<cfset problem_key = getTempData.key>
 						<cfquery name="agentID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							select sq_agent_id.nextval nextAgentId from dual
@@ -522,7 +526,7 @@ limitations under the License.
 								</cfif>
 								)
 							VALUES
-								(<cfqueryparam cfsqltype='CF_SQL_DECIMAL' value="#agentID.nextAgentId#">
+								(<cfqueryparam cfsqltype='CF_SQL_DECIMAL' value="#getAgentData.agent_id#">
 								<cfif len(#prefix#) gt 0>
 									,<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#prefix#'>
 								</cfif>
@@ -600,7 +604,7 @@ limitations under the License.
 							donor_card_present_fg)
 						VALUES (
 							<cfqueryparam cfsqltype='CF_SQL_DECIMAL' value="#agentNameID.nextAgentNameId#">,
-							<cfqueryparam cfsqltype='CF_SQL_DECIMAL' value="#agentID.nextAgentId#">,
+							<cfqueryparam cfsqltype='CF_SQL_DECIMAL' value="#getAgentData.agent_id#">,
 							'preferred',
 							<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#preferred_name#'>,
 							0
