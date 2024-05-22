@@ -565,7 +565,7 @@ limitations under the License.
 									<br><a href="/agents/Agent.cfm?agent_id=#agent_id#">#agent_name# (agent ID ## #agent_id# - #agent_type#)</a>
 								</cfloop>
 								<p>Are you sure you want to continue?</p>
-								<form name="ac" method="post" action="editAllAgent.cfm">
+								<form name="ac" method="post" action="/tools/BulkloadAgents.cfm">
 									<input type="hidden" name="action" value="insertPerson">
 									<input type="hidden" name="prefix" value="#prefix#">
 									<input type="hidden" name="LAST_NAME" value="#LAST_NAME#">
