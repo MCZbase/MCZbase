@@ -511,45 +511,45 @@ limitations under the License.
 						<cfquery name="insPerson" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							INSERT INTO person (
 								PERSON_ID
-								<cfif len(#prefix#) gt 0>
+								<cfif len(#getAgentData.PREFIX#) gt 0>
 									,prefix
 								</cfif>
-								<cfif len(#LAST_NAME#) gt 0>
+								<cfif len(#getAgentData.LAST_NAME#) gt 0>
 									,LAST_NAME
 								</cfif>
-								<cfif len(#FIRST_NAME#) gt 0>
+								<cfif len(#getAgentData.FIRST_NAME#) gt 0>
 									,FIRST_NAME
 								</cfif>
-								<cfif len(#MIDDLE_NAME#) gt 0>
+								<cfif len(#getAgentData.MIDDLE_NAME#) gt 0>
 									,MIDDLE_NAME
 								</cfif>
-								<cfif len(#SUFFIX#) gt 0>
+								<cfif len(#getAgentData.SUFFIX#) gt 0>
 									,SUFFIX
 								</cfif>
 								)
 							VALUES
-								(<cfqueryparam cfsqltype='CF_SQL_DECIMAL' value="#getAgentData.use_agent_id#">
+								(<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value="#getAgentData.use_agent_id#">
 								<cfif len(#prefix#) gt 0>
-									,<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#prefix#'>
+									,<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#getAgentData.PREFIX#'>
 								</cfif>
 								<cfif len(#LAST_NAME#) gt 0>
-									,<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#LAST_NAME#'>
+									,<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#getAgentData.LAST_NAME#'>
 								</cfif>
 								<cfif len(#FIRST_NAME#) gt 0>
-									,<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#FIRST_NAME#'>
+									,<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#getAgentData.FIRST_NAME#'>
 								</cfif>
 								<cfif len(#MIDDLE_NAME#) gt 0>
-									,<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#MIDDLE_NAME#'>
+									,<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#getAgentData.MIDDLE_NAME#'>
 								</cfif>
 								<cfif len(#SUFFIX#) gt 0>
-									,<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#SUFFIX#'>
+									,<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#getAgentData.SUFFIX#'>
 								</cfif>
 								)
 						</cfquery>
-						<cfif len(pref_name) is 0>
+						<cfif len(preferred_name) is 0>
 							<cfset name = "">
 							<cfif len(#prefix#) gt 0>
-								<cfset name = "#name# #prefix#">
+								<cfset name = "#name# #PREFIX#">
 							</cfif>
 							<cfif len(#FIRST_NAME#) gt 0>
 								<cfset name = "#name# #FIRST_NAME#">
