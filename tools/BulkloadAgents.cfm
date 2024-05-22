@@ -520,7 +520,7 @@ limitations under the License.
 							select agent_name_id from agent_name
 							where ROWIDTOCHAR(rowid) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#updateAgents1_result.GENERATEDKEY#">
 						</cfquery>
-						<cfif len(preferred_name) is 0>
+					<!---	<cfif len(preferred_name) is 0>
 							<cfset name = "">
 							<cfif len(#prefix#) gt 0>
 								<cfset name = "#name# #prefix#">
@@ -538,14 +538,14 @@ limitations under the License.
 								<cfset name = "#name# #SUFFIX#">
 							</cfif>
 							<cfset preferred_name = #trim(name)#>
-						</cfif>
-						<cfquery name="dupPref" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						</cfif>--->
+					<!---	<cfquery name="dupPref" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							select agent.agent_type,agent_name.agent_id,agent_name.agent_name
 								from agent_name, agent
 								where agent_name.agent_id = agent.agent_id
 									and upper(agent_name.agent_name) like <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='%#ucase(preferred_name)#%'>
-						</cfquery>
-						<cfif dupPref.recordcount gt 0>
+						</cfquery>--->
+						<!---<cfif dupPref.recordcount gt 0>
 							<cfloop query="dupPref">
 								<h3>That agent may already exist!</h3>
 								<p>The name you entered is either a preferred name or other name for an existing agent.</p>
@@ -571,7 +571,7 @@ limitations under the License.
 									<input type="cancel" value="Cancel" class="btn btn_warning btn-xs" onclick="javascript:window.location='/tools/BulkloadAgents.cfm'">
 									
 							</cfloop>
-								Remove the duplicate agents from the spreadsheet and start again.
+								Remove the duplicate agents from the spreadsheet and start again.--->
 						<cfelse>
 							<cfquery name="insName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 								INSERT INTO agent_name (
