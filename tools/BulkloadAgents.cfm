@@ -518,7 +518,7 @@ limitations under the License.
 							select agent_name_id from agent_name
 							where ROWIDTOCHAR(rowid) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#updateAgents2_result.GENERATEDKEY#">
 						</cfquery>--->
-						<cfif len(pref_name) is 0>
+						<cfif len(preferred_name) is 0>
 							<cfset name = "">
 							<cfif len(#prefix#) gt 0>
 								<cfset name = "#name# #prefix#">
@@ -535,7 +535,7 @@ limitations under the License.
 							<cfif len(#SUFFIX#) gt 0>
 								<cfset name = "#name# #SUFFIX#">
 							</cfif>
-							<cfset pref_name = #trim(name)#>
+							<cfset preferred_name = #trim(name)#>
 						</cfif>
 						<cfif not isdefined("ignoreDupChek") or ignoreDupChek is false>
 							<cfquery name="dupPref" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -562,7 +562,7 @@ limitations under the License.
 									<input type="hidden" name="FIRST_NAME" value="#FIRST_NAME#">
 									<input type="hidden" name="MIDDLE_NAME" value="#MIDDLE_NAME#">
 									<input type="hidden" name="SUFFIX" value="#SUFFIX#">
-									<input type="hidden" name="pref_name" value="#preferred_name#">
+									<input type="hidden" name="preferred_name" value="#preferred_name#">
 									<input type="hidden" name="ignoreDupChek" value="true">
 									<input type="submit" class="insBtn" value="Create Agent">
 								</form>
