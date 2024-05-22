@@ -490,7 +490,7 @@ limitations under the License.
 	<cfif #action# is "addAgentInfo">
 		<cfoutput>
 			<cfquery name="getAgentData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" >
-				SELECT agent_id 
+				SELECT use_agent_id 
 				FROM cf_temp_agents
 				where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
@@ -526,7 +526,7 @@ limitations under the License.
 								</cfif>
 								)
 							VALUES
-								(<cfqueryparam cfsqltype='CF_SQL_DECIMAL' value="#getAgentData.agent_id#">
+								(<cfqueryparam cfsqltype='CF_SQL_DECIMAL' value="#getAgentData.use_agent_id#">
 								<cfif len(#prefix#) gt 0>
 									,<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#prefix#'>
 								</cfif>
