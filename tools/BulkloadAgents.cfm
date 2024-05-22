@@ -324,8 +324,15 @@ limitations under the License.
 				WHERE 
 					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
+			
 			<cfloop query="getTempTableType">
 				<cfif getTempTableType.agent_type eq 'person'>
+					<cfquery name="agentID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						select sq_agent_id.nextval nextAgentId from dual
+					</cfquery>
+					<cfquery name="agentNameID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						select sq_agent_name_id.nextval nextAgentNameId from dual
+					</cfquery>
 					<cfquery name="getCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						update cf_temp_agents set agent_type=
 						(select agent_type from ctagent_type where agent_type = cf_temp_agents.agent_type)
@@ -358,12 +365,18 @@ limitations under the License.
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableType.key#">
 					</cfquery>
+					<cfquery name="miap" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						UPDATE cf_temp_agents 
+						SET use_agent_id = '#agentID.nextAgentId#'
+						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+						AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableType.key#">
+					</cfquery>
 				<cfelse>
 					
 				</cfif>
 			</cfloop>
 			<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				SELECT to_char(birth_date,'DD-MON-YYYY') birth_date,agent_type, preferred_name,first_name,middle_name,last_name,to_char(death_date,'DD-MON-YYYY') death_date,agent_remark, prefix,suffix,other_name_type, other_name, other_name_type_2, other_name_2, other_name_type_3, other_name_3,agentguid_guid_type,agentguid,status
+				SELECT to_char(birth_date,'DD-MON-YYYY') birth_date,agent_type, preferred_name,first_name,middle_name,last_name,to_char(death_date,'DD-MON-YYYY') death_date,agent_remark, prefix,suffix,other_name_type, other_name, other_name_type_2, other_name_2, other_name_type_3, other_name_3,agentguid_guid_type,agentguid,use_agent_id,status
 				FROM cf_temp_agents
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableType.key#">
@@ -404,6 +417,7 @@ limitations under the License.
 						<th>OTHER_NAME_TYPE_3</th>
 						<th>agentguid_guid_type</th>
 						<th>agentguid</th>
+						<th>use_agent_id</th>
 					</tr>
 				<tbody>
 					<cfloop query="data">
@@ -427,6 +441,7 @@ limitations under the License.
 							<td>#data.OTHER_NAME_TYPE_3#</td>
 							<td>#data.agentguid_guid_type#</td>
 							<td>#data.agentguid#</td>
+							<td>#data.use_agent_id#</td>
 						</tr>
 					</cfloop>
 				</tbody>
