@@ -596,7 +596,7 @@ limitations under the License.
 			<cfcatch>
 				<h3 class="mt-3">There was a problem updating container types.</h3>
 				<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					SELECT agent_type, preferred_name, first_name, middle_name, last_name, birth_date, death_date, agent_remark, prefix, suffix, other_name, other_name_type,other_name_2,other_name_type_2,other_name_3,other_name_type_3,agentguid_guid_type, agentguid, status 
+					SELECT agent_type, preferred_name, first_name, middle_name, last_name, birth_date, death_date, agent_remark, prefix, suffix, other_name, other_name_type,other_name_2,other_name_type_2,other_name_3,other_name_type_3,agentguid_guid_type, agentguid, use_agent_id, status 
 					FROM cf_temp_agents 
 					WHERE status is not null
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
@@ -624,6 +624,7 @@ limitations under the License.
 							<th>OTHER_NAME_TYPE_3</th>
 							<th>AGENTGUID_GUID_TYPE</th>
 							<th>AGENTGUID</th>
+							<th>USE_AGENT_ID</th>
 							
 						</tr> 
 					</thead>
@@ -649,6 +650,7 @@ limitations under the License.
 								<td>#getProblemData.other_name_type_3#</td>
 								<td>#getProblemData.agentguid_guid_type#</td>
 								<td>#getProblemData.agentguid#</td>
+								<td>#getProblemData.use_agent_id#</td>
 							</tr>
 						</cfloop>
 					</tbody>
