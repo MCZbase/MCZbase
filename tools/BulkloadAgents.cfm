@@ -324,12 +324,13 @@ limitations under the License.
 				WHERE 
 					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
-			<cfquery name="agentID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				select sq_agent_id.nextval nextAgentId from dual
-			</cfquery>
+		
 			<cfloop query="getTempTableType">
 				<cfquery name="agentID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					update cf_temp_agents set use_agent_id = '#nextAgentId#'
+					select sq_agent_id.nextval nextAgentId from dual
+				</cfquery>
+				<cfquery name="agentID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					update cf_temp_agents set use_agent_id = '#agentID.nextAgentId#'
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 					and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableType.key#">
 				</cfquery>
