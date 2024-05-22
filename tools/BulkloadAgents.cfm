@@ -444,6 +444,7 @@ limitations under the License.
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<cfset agent_updates = 0>
+			<cfset nextAgentId = ''>
 			<cftransaction>
 				<cfloop query="getTempData">
 					<cfquery name="agentID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
