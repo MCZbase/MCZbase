@@ -439,13 +439,14 @@ limitations under the License.
 		<cfoutput>
 			<cfset problem_key = "">
 			<cfquery name="getTempData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" >
-				SELECT key,to_char(birth_date,'DD-MON-YYYY') birth_date,agent_type, preferred_name,first_name,middle_name,last_name,to_char(death_date,'DD-MON-YYYY') death_date,agent_remark, prefix,suffix,other_name_type, other_name, other_name_type_2, other_name_2, other_name_type_3, other_name_3,agentguid_guid_type,agentguid,status 
+				SELECT key,to_char(birth_date,'DD-MON-YYYY') birth_date,agent_type, preferred_name,first_name,middle_name,last_name,to_char(death_date,'DD-MON-YYYY') death_date,agent_remark, prefix,suffix,other_name_type, other_name, other_name_type_2, other_name_2, other_name_type_3, other_name_3,agentguid_guid_type,agentguid,use_agent_id,status 
 				FROM cf_temp_agents
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<cfset agent_updates = 0>
 			<cfset nextAgentId = ''>
 			<cftransaction>
+			<cftry>
 				<cfloop query="getTempData">
 					<cfquery name="agentID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						select sq_agent_id.nextval nextAgentId from dual
@@ -482,140 +483,7 @@ limitations under the License.
 						use_agent_id = <cfqueryparam cfsqltype='CF_SQL_DECIMAL' value='#agentID.nextAgentId#'>
 						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 					</cfquery>
-			<!---		<cfif insPerson_result.recordcount gt 0>
-						<cflocation url="BulkloadAgents.cfm?action=addAgentInfo">
-					</cfif>--->
 				</cfloop>
-	<!---		</cftransaction>
-		</cfoutput>
-	</cfif>
-
-	<cfif #action# is "addAgentInfo">
-		<cfoutput>
-			<cfquery name="getAgentData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" >
-				SELECT use_agent_id,key,prefix,first_name,last_name,middle_name,suffix 
-				FROM cf_temp_agents
-				where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-			</cfquery>
-			<cfset problem_key = "">
-			<cftransaction>
-				<cftry>
-					<cfset agent_updates = 0>
-					<cfset agentID= ''>
-					<cfloop query="getAgentData">
-						<cfset problem_key = getAgentData.key>
-						<cfquery name="agentID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-							select sq_agent_id.nextval nextAgentId from dual
-						</cfquery>
-						<cfquery name="agentNameID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-							select sq_agent_name_id.nextval nextAgentNameId from dual
-						</cfquery>
-						<cfquery name="insPerson" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-							INSERT INTO person (
-								PERSON_ID
-								<cfif len(#getAgentData.PREFIX#) gt 0>
-									,prefix
-								</cfif>
-								<cfif len(#getAgentData.LAST_NAME#) gt 0>
-									,LAST_NAME
-								</cfif>
-								<cfif len(#getAgentData.FIRST_NAME#) gt 0>
-									,FIRST_NAME
-								</cfif>
-								<cfif len(#getAgentData.MIDDLE_NAME#) gt 0>
-									,MIDDLE_NAME
-								</cfif>
-								<cfif len(#getAgentData.SUFFIX#) gt 0>
-									,SUFFIX
-								</cfif>
-								)
-							VALUES
-								(<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value="#agentID.nextAgentId#">
-								<cfif len(#prefix#) gt 0>
-									,<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#getAgentData.PREFIX#'>
-								</cfif>
-								<cfif len(#LAST_NAME#) gt 0>
-									,<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#getAgentData.LAST_NAME#'>
-								</cfif>
-								<cfif len(#FIRST_NAME#) gt 0>
-									,<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#getAgentData.FIRST_NAME#'>
-								</cfif>
-								<cfif len(#MIDDLE_NAME#) gt 0>
-									,<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#getAgentData.MIDDLE_NAME#'>
-								</cfif>
-								<cfif len(#SUFFIX#) gt 0>
-									,<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#getAgentData.SUFFIX#'>
-								</cfif>
-								)
-						</cfquery>
-						<cfif len(preferred_name) is 0>
-							<cfset name = "">
-							<cfif len(#prefix#) gt 0>
-								<cfset name = "#name# #PREFIX#">
-							</cfif>
-							<cfif len(#FIRST_NAME#) gt 0>
-								<cfset name = "#name# #FIRST_NAME#">
-							</cfif>
-							<cfif len(#MIDDLE_NAME#) gt 0>
-								<cfset name = "#name# #MIDDLE_NAME#">
-							</cfif>
-							<cfif len(#LAST_NAME#) gt 0>
-								<cfset name = "#name# #LAST_NAME#">
-							</cfif>
-							<cfif len(#SUFFIX#) gt 0>
-								<cfset name = "#name# #SUFFIX#">
-							</cfif>
-							<cfset pref_name = #trim(name)#>
-						</cfif>
-						<cfif not isdefined("ignoreDupChek") or ignoreDupChek is false>
-						<cfquery name="dupPref" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-							select agent.agent_type,agent_name.agent_id,agent_name.agent_name
-							from agent_name, agent
-							where agent_name.agent_id = agent.agent_id
-							and upper(agent_name.agent_name) like <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='%#ucase(preferred_name)#%'>
-						</cfquery>
-						<cfif dupPref.recordcount gt 0>
-							<h3>That agent may already exist!</h3>
-							<p>The name you entered is either a preferred name or other name for an existing agent.</p>
-							<p>A duplicated preferred name will prevent MCZbase from functioning normally.</p>
-							<p>Click duplicated names below to see details. Add the fullest version of the name if it can be differentiated from another. If the need for a duplicate agent should arise, please merge the pre-existing matches (bad duplicates) so they will not create problems.</p>
-							<cfloop query="dupPref">
-								<br><a href="/agents/Agent.cfm?agent_id=#agent_id#">#agent_name# (agent ID ## #agent_id# - #agent_type#)</a>
-							</cfloop>
-							<p>Are you sure you want to continue?</p>
-							<form name="ac" method="post" action="editAllAgent.cfm">
-								<input type="hidden" name="action" value="insertPerson">
-								<input type="hidden" name="prefix" value="#prefix#">
-								<input type="hidden" name="LAST_NAME" value="#LAST_NAME#">
-								<input type="hidden" name="FIRST_NAME" value="#FIRST_NAME#">
-								<input type="hidden" name="MIDDLE_NAME" value="#MIDDLE_NAME#">
-								<input type="hidden" name="SUFFIX" value="#SUFFIX#">
-								<input type="hidden" name="pref_name" value="#pref_name#">
-								<input type="hidden" name="ignoreDupChek" value="true">
-								<input type="submit" class="insBtn" value="Create Agent">
-							</form>
-							<br><br>
-							<input type="cancel" value="Cancel" class="insBtn" style="background-color: ##ffcc00;border: 1px solid ##336666; width: 42px;" onclick="javascript:window.location='';return false;">
-							<cfabort>
-						</cfif>
-					</cfif>
-						<cfquery name="insName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						INSERT INTO agent_name (
-							agent_name_id,
-							agent_id,
-							agent_name_type,
-							agent_name,
-							donor_card_present_fg)
-						VALUES (
-							<cfqueryparam cfsqltype='CF_SQL_DECIMAL' value="#agentNameID.nextAgentNameId#">,
-							<cfqueryparam cfsqltype='CF_SQL_DECIMAL' value="#getAgentData.agent_id#">,
-							'preferred',
-							<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#preferred_name#'>,
-							0
-							)
-					</cfquery>
-						<cfset agent_updates = agent_updates + updateAgents_result.recordcount>
-					</cfloop>--->
 					<cftransaction action="commit">
 				<cfcatch>
 					<cftransaction action="rollback">
@@ -680,6 +548,7 @@ limitations under the License.
 									<th>username</th>
 									<th>agentguid_guid_type</th>
 									<th>agentguid</th>
+									<th>use_agent_id</th>
 								</tr> 
 							</thead>
 							<tbody>
@@ -704,6 +573,7 @@ limitations under the License.
 										<td>#getProblemData.other_name_3#</td>
 										<td>#getProblemData.agentguid_guid_type#</td>
 										<td>#getProblemData.agentguid#</td>
+										<td>#getProblemData.use_agent_id#</td>
 									</tr> 
 								</cfloop>
 							</tbody>
