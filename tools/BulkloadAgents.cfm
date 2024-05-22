@@ -601,14 +601,14 @@ limitations under the License.
 							<cfset agent_name_id = #agentNameID.nextAgentNameId# + 1>
 							<cfquery name="updateAgents4" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 								insert into agent_name ( AGENT_NAME_ID,AGENT_ID,AGENT_NAME_TYPE,AGENT_NAME )
-								values (#agent_name_id#,sq_agent_id.currval,'#OTHER_NAME_TYPE#','#OTHER_NAME#')
+								values (#agentNameID.nextAgentNameId#,sq_agent_id.currval,'#OTHER_NAME_TYPE#','#OTHER_NAME#')
 							</cfquery>
 						</cfif>
 						<cfif len(#OTHER_NAME_2#) gt 0>
 							<cfset agent_name_id = #agent_name_id# + 1>
 							<cfquery name="updateAgents5" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 								insert into agent_name ( AGENT_NAME_ID,AGENT_ID,AGENT_NAME_TYPE,AGENT_NAME )
-								values (#agent_name_id#,sq_agent_id.currval,'#OTHER_NAME_TYPE_2#','#OTHER_NAME_2#')
+								values (#agentNameID.nextAgentNameId#,sq_agent_id.currval,'#OTHER_NAME_TYPE_2#','#OTHER_NAME_2#')
 							</cfquery>
 						</cfif>
 						<cfif len(#OTHER_NAME_3#) gt 0>
