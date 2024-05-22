@@ -501,7 +501,7 @@ limitations under the License.
 				<cftry>
 					<cfset agent_updates = 0>
 					<cfloop query="getAgentData">
-						<cfset problem_key = getTempData.key>
+						<cfset problem_key = getAgentData.key>
 						<cfquery name="agentID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							select sq_agent_id.nextval nextAgentId from dual
 						</cfquery>
