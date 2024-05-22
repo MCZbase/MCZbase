@@ -471,11 +471,15 @@ limitations under the License.
 							) VALUES (
 								sq_agent_name_id.nextval,
 								sq_agent_id.currval,
-								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#other_name_type#">,
+								'preferred',
 								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#preferred_name#">
 							)
 						</cfquery>
-						<cfquery name="updateAgents3" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateAgents4_result">
+						<cfquery name="savePK" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="pkResult">
+							select agent_name_id from agent_name
+							where ROWIDTOCHAR(rowid) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#updateAgents2_result.GENERATEDKEY#">
+						</cfquery>
+						<cfquery name="updateAgents4" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateAgents4_result">
 							INSERT INTO person (
 								person_id,
 								prefix,
@@ -486,7 +490,7 @@ limitations under the License.
 								birth_date,
 								death_date
 							) VALUES (
-								#agent_name_id#,
+								#savePK.agent_name_id#,
 								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#prefix#">,
 								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#last_name#">,
 								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#first_name#">,
