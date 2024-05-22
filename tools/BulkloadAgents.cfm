@@ -539,7 +539,7 @@ limitations under the License.
 							</cfif>
 							<cfset preferred_name = #trim(name)#>
 						</cfif>
-						<cfif not isdefined("ignoreDupChek") or ignoreDupChek is false>
+						<!---<cfif not isdefined("ignoreDupChek") or ignoreDupChek is false>
 							<cfquery name="dupPref" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 								select agent.agent_type,agent_name.agent_id,agent_name.agent_name
 									from agent_name, agent
@@ -573,7 +573,7 @@ limitations under the License.
 								<cfabort>
 								</div>
 							</cfif>
-						</cfif>
+						</cfif>--->
 						<cfquery name="insName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							INSERT INTO agent_name (
 								agent_name_id,
