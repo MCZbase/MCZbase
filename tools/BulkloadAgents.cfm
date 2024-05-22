@@ -452,7 +452,7 @@ limitations under the License.
 						<cfquery name="agentNameID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							select sq_agent_name_id.nextval nextAgentNameId from dual
 						</cfquery>
-						<cfquery name="insPerson" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateAgents1_result">
+						<cfquery name="insPerson" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							INSERT INTO agent (
 								agent_id,
 								agent_type,
@@ -588,24 +588,24 @@ limitations under the License.
 								)
 						</cfquery>
 						<cfif len(#OTHER_NAME#) gt 0>
-							<cfset agent_name_id = #agent_name_id# + 1>
+							<cfset agent_name_id = #agentNameID.nextAgentNameId# + 1>
 							<cfquery name="updateAgents4" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 								insert into agent_name ( AGENT_NAME_ID,AGENT_ID,AGENT_NAME_TYPE,AGENT_NAME )
-								values (<cfqueryparam cfsqltype='CF_SQL_DECIMAL' value="#agentNameID.nextAgentNameId#">,<cfqueryparam cfsqltype='CF_SQL_DECIMAL' value="#agentID.nextAgentId#">,'#OTHER_NAME_TYPE#','#OTHER_NAME#')
+								values (#agent_name_id#,sq_agent_id.currval,'#OTHER_NAME_TYPE#','#OTHER_NAME#')
 							</cfquery>
 						</cfif>
 						<cfif len(#OTHER_NAME_2#) gt 0>
 							<cfset agent_name_id = #agent_name_id# + 1>
 							<cfquery name="updateAgents5" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 								insert into agent_name ( AGENT_NAME_ID,AGENT_ID,AGENT_NAME_TYPE,AGENT_NAME )
-								values (<cfqueryparam cfsqltype='CF_SQL_DECIMAL' value="#agentNameID.nextAgentNameId#">,<cfqueryparam cfsqltype='CF_SQL_DECIMAL' value="#agentID.nextAgentId#">,'#OTHER_NAME_TYPE_2#','#OTHER_NAME_2#')
+								values (#agent_name_id#,sq_agent_id.currval,'#OTHER_NAME_TYPE_2#','#OTHER_NAME_2#')
 							</cfquery>
 						</cfif>
 						<cfif len(#OTHER_NAME_3#) gt 0>
 							<cfset agent_name_id = #agent_name_id# + 1>
 							<cfquery name="updateAgents6" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 								insert into agent_name ( AGENT_NAME_ID,AGENT_ID,AGENT_NAME_TYPE,AGENT_NAME )
-								values (<cfqueryparam cfsqltype='CF_SQL_DECIMAL' value="#agentNameID.nextAgentNameId#">,<cfqueryparam cfsqltype='CF_SQL_DECIMAL' value="#agentID.nextAgentId#">,'#OTHER_NAME_TYPE_3#','#OTHER_NAME_3#')
+								values (#agent_name_id#,sq_agent_id.currval,'#OTHER_NAME_TYPE_3#','#OTHER_NAME_3#')
 							</cfquery>
 						</cfif>
 						<cfset agent_updates = agent_updates + updateAgents1_result.recordcount>
