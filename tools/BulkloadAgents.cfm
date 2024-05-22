@@ -451,7 +451,7 @@ limitations under the License.
 					<cfquery name="agentNameID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						select sq_agent_name_id.nextval nextAgentNameId from dual
 					</cfquery>
-					<cfquery name="insPerson" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					<cfquery name="insPerson" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="insPerson_result">
 						INSERT INTO agent (
 							agent_id,
 							agent_type,
@@ -475,7 +475,7 @@ limitations under the License.
 							</cfif>
 						)
 					</cfquery>
-					<cfif len(agent_id) gt 0>
+					<cfif insPerson_result.recordcount gt 0>
 						<cflocation url="BulkloadAgents.cfm?action=addAgentInfo">
 					</cfif>
 				</cfloop>
