@@ -542,7 +542,7 @@ limitations under the License.
 								select agent.agent_type,agent_name.agent_id,agent_name.agent_name
 									from agent_name, agent
 									where agent_name.agent_id = agent.agent_id
-										and upper(agent_name.agent_name) like <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='%#ucase(pref_name)#%'>
+										and upper(agent_name.agent_name) like <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='%#ucase(preferred_name)#%'>
 							</cfquery>
 							<cfif dupPref.recordcount gt 0>
 							<div>
@@ -562,7 +562,7 @@ limitations under the License.
 									<input type="hidden" name="FIRST_NAME" value="#FIRST_NAME#">
 									<input type="hidden" name="MIDDLE_NAME" value="#MIDDLE_NAME#">
 									<input type="hidden" name="SUFFIX" value="#SUFFIX#">
-									<input type="hidden" name="pref_name" value="#pref_name#">
+									<input type="hidden" name="pref_name" value="#preferred_name#">
 									<input type="hidden" name="ignoreDupChek" value="true">
 									<input type="submit" class="insBtn" value="Create Agent">
 								</form>
@@ -583,7 +583,7 @@ limitations under the License.
 								<cfqueryparam cfsqltype='CF_SQL_DECIMAL' value="#agentNameID.nextAgentNameId#">,
 								<cfqueryparam cfsqltype='CF_SQL_DECIMAL' value="#agentID.nextAgentId#">,
 								'preferred',
-								<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#pref_name#'>,
+								<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#preferred_name#'>,
 								0
 								)
 						</cfquery>
