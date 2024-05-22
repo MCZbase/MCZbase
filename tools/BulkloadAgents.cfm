@@ -492,7 +492,7 @@ limitations under the License.
 	<cfif #action# is "addAgentInfo">
 		<cfoutput>
 			<cfquery name="getAgentData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" >
-				SELECT use_agent_id,key 
+				SELECT use_agent_id,key,prefix,first_name,last_name,middle_name,suffix 
 				FROM cf_temp_agents
 				where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
