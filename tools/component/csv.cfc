@@ -234,18 +234,21 @@ limitations under the License.
 					<cfset class="text-dark">
 				</cfif>
 				<li>
+					<span class="#class# font-weight-lessbold pl-3" #hint#>#field#:</span>
 					<cfif arrayFindNoCase(colNameArray,field) GT 0>
 						<span class="text-success font-weight-bold">[ Present in CSV ]</span>
 					<cfelse>
 						<!--- Case 2. Check by identifying field in required field list --->
 						<cfif ListContainsNoCase(requiredFieldList,field)>
-							<strong class="text-dark">Required Column Not Found</strong>
+							<strong class="text-dark">[ Required Column Not Found ]</strong>
 							<cfif NOT ListContains(missingRequiredFields,field)>
 								<cfset missingRequiredFields = ListAppend(missingRequiredFields,field)>
 							</cfif>
+						<cfelse>
+							<span class="text-warning font-weight-bold">[ Not Found ]</span>
 						</cfif>
 					</cfif>
-					<span class="#class# font-weight-lessbold pl-3" #hint#>#field#:</span> <span class="text-secondary">#comment#</span>
+					<span class="text-secondary">#comment#</span>
 				</li>
 			</cfloop>
 		</ul>
