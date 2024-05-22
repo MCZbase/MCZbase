@@ -498,7 +498,7 @@ limitations under the License.
 								</cfif>
 								)
 							VALUES
-								(<cfqueryparam cfsqltype='CF_SQL_DECIMAL' value="#agentID.nextAgentId#">
+								(<cfqueryparam cfsqltype='CF_SQL_DECIMAL' value="#use_agent_id#">
 								<cfif len(#prefix#) gt 0>
 									,<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#prefix#'>
 								</cfif>
