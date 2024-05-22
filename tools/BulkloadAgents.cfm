@@ -547,12 +547,12 @@ limitations under the License.
 										and upper(agent_name.agent_name) like <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='%#ucase(preferred_name)#%'>
 							</cfquery>
 							<cfif dupPref.recordcount gt 0>
-							<div>
-									<h3>That agent may already exist!</h3>
-									<p>The name you entered is either a preferred name or other name for an existing agent.</p>
-									<p>A duplicated preferred name will prevent MCZbase from functioning normally.
-									</p>
-									<p>Click duplicated names below to see details. Add the fullest version of the name if it can be differentiated from another. If the need for a duplicate agent should arise, please merge the pre-existing matches (bad duplicates) so they will not create problems.</p>
+							<cfloop query="dupPref">
+								<h3>That agent may already exist!</h3>
+								<p>The name you entered is either a preferred name or other name for an existing agent.</p>
+								<p>A duplicated preferred name will prevent MCZbase from functioning normally.
+								</p>
+								<p>Click duplicated names below to see details. Add the fullest version of the name if it can be differentiated from another. If the need for a duplicate agent should arise, please merge the pre-existing matches (bad duplicates) so they will not create problems.</p>
 								<cfloop query="dupPref">
 									<br><a href="/agents/Agent.cfm?agent_id=#agent_id#">#agent_name# (agent ID ## #agent_id# - #agent_type#)</a>
 								</cfloop>
@@ -570,8 +570,9 @@ limitations under the License.
 								</form>
 									<br><br>
 									<input type="cancel" value="Cancel" class="btn btn_warning btn-xs" onclick="javascript:window.location='/tools/BulkloadAgents.cfm'">
-								<cfabort>
-								</div>
+									
+							</cfloop>
+								Remove the duplicate agents from the spreadsheet and start again.
 							</cfif>
 						</cfif>
 						<cfquery name="insName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
