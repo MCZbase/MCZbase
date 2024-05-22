@@ -482,14 +482,14 @@ limitations under the License.
 						use_agent_id = <cfqueryparam cfsqltype='CF_SQL_DECIMAL' value='#agentID.nextAgentId#'>
 						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 					</cfquery>
-					<cfif insPerson_result.recordcount gt 0>
+			<!---		<cfif insPerson_result.recordcount gt 0>
 						<cflocation url="BulkloadAgents.cfm?action=addAgentInfo">
-					</cfif>
+					</cfif>--->
 				</cfloop>
 			</cftransaction>
 		</cfoutput>
 	</cfif>
-	
+<!---	
 	<cfif #action# is "addAgentInfo">
 		<cfoutput>
 			<cfquery name="getAgentData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" >
@@ -722,7 +722,7 @@ limitations under the License.
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 		</cfoutput>
-	</cfif>
+	</cfif>--->
 </main>
 						
 <!---						<cfif len(#OTHER_NAME#) gt 0>
