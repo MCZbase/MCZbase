@@ -583,7 +583,7 @@ limitations under the License.
 								donor_card_present_fg)
 							VALUES (
 								<cfqueryparam cfsqltype='CF_SQL_DECIMAL' value="#agentNameID.nextAgentNameId#">,
-								<cfqueryparam cfsqltype='CF_SQL_DECIMAL' value="#use_agent_id#">,
+								<cfqueryparam cfsqltype='CF_SQL_DECIMAL' value="#agentID.nextAgentId#">,
 								'preferred',
 								<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#preferred_name#'>,
 								0
