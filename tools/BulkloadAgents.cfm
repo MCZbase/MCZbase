@@ -539,14 +539,13 @@ limitations under the License.
 							</cfif>
 							<cfset preferred_name = #trim(name)#>
 						</cfif>
-						<cfif not isdefined("ignoreDupChek") or ignoreDupChek is false>
-							<cfquery name="dupPref" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-								select agent.agent_type,agent_name.agent_id,agent_name.agent_name
-									from agent_name, agent
-									where agent_name.agent_id = agent.agent_id
-										and upper(agent_name.agent_name) like <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='%#ucase(preferred_name)#%'>
-							</cfquery>
-							<cfif dupPref.recordcount gt 0>
+						<cfquery name="dupPref" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+							select agent.agent_type,agent_name.agent_id,agent_name.agent_name
+								from agent_name, agent
+								where agent_name.agent_id = agent.agent_id
+									and upper(agent_name.agent_name) like <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='%#ucase(preferred_name)#%'>
+						</cfquery>
+						<cfif dupPref.recordcount gt 0>
 							<cfloop query="dupPref">
 								<h3>That agent may already exist!</h3>
 								<p>The name you entered is either a preferred name or other name for an existing agent.</p>
@@ -573,24 +572,24 @@ limitations under the License.
 									
 							</cfloop>
 								Remove the duplicate agents from the spreadsheet and start again.
-							</cfif>
+						<cfelse>
+							<cfquery name="insName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+								INSERT INTO agent_name (
+									agent_name_id,
+									agent_id,
+									agent_name_type,
+									agent_name,
+									donor_card_present_fg)
+								VALUES (
+									<cfqueryparam cfsqltype='CF_SQL_DECIMAL' value="#savePK.agent_name_id#">,
+									<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value="#getTempData.use_agent_id#">,
+									'preferred',
+									<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#preferred_name#'>,
+									0
+									)
+							</cfquery>
+							<cfset agent_updates = agent_updates + updateAgents1_result.recordcount>
 						</cfif>
-						<cfquery name="insName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-							INSERT INTO agent_name (
-								agent_name_id,
-								agent_id,
-								agent_name_type,
-								agent_name,
-								donor_card_present_fg)
-							VALUES (
-								<cfqueryparam cfsqltype='CF_SQL_DECIMAL' value="#savePK.agent_name_id#">,
-								<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value="#getTempData.use_agent_id#">,
-								'preferred',
-								<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#preferred_name#'>,
-								0
-								)
-						</cfquery>
-						<cfset agent_updates = agent_updates + updateAgents1_result.recordcount>
 					</cfloop>
 				</cftransaction>
 				<h3 class="mt-3">Updated #agent_updates# agents.</h3>
