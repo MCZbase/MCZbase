@@ -437,7 +437,7 @@ limitations under the License.
 	<cfif action is "load">
 		<h2 class="h4">Third step: Apply changes.</h2>
 		<cfoutput>
-			<cfquery name="getTempData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+			<cfquery name="getTempData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" >
 				SELECT key,to_char(birth_date,'DD-MON-YYYY') birth_date,agent_type, preferred_name,first_name,middle_name,last_name,to_char(death_date,'DD-MON-YYYY') death_date,agent_remark, prefix,suffix,other_name_type, other_name, other_name_type_2, other_name_2, other_name_type_3, other_name_3,agentguid_guid_type,agentguid,status 
 				FROM cf_temp_agents
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
@@ -452,7 +452,7 @@ limitations under the License.
 						<cfquery name="agentNameID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							select sq_agent_name_id.nextval nextAgentNameId from dual
 						</cfquery>
-						<cfquery name="insPerson" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						<cfquery name="insPerson" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateAgents1_result">
 							INSERT INTO agent (
 								agent_id,
 								agent_type,
@@ -567,7 +567,7 @@ limitations under the License.
 									<input type="submit" class="insBtn" value="Create Agent">
 								</form>
 									<br><br>
-									<input type="cancel" value="Cancel" class="insBtn" style="background-color: ##ffcc00;border: 1px solid ##336666; width: 42px;" onclick="javascript:window.location='';return false;">
+									<input type="cancel" value="Cancel" class="btn btn_warning btn-xs" onclick="javascript:window.location='';return false;">
 								<cfabort>
 								</div>
 							</cfif>
