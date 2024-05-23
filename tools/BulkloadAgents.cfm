@@ -586,24 +586,27 @@ limitations under the License.
 						<cfquery name="otherNameType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							select nameType from (
 								select
-									other_name_type nameType
+									other_name_type nameType,
+									other_name otherName
 								from
 									cf_temp_agents
 									where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 								union
 								select
-									other_name_type_2 nameType
+									other_name_type_2 nameType,
+									other_name_2 otherName
 								from
 									cf_temp_agents
 									where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 								union
 								select
-									other_name_type_3 nameType
+									other_name_type_3 nameType,
+									other_name_3 otherName
 								from
 									cf_temp_agents
 									where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 							)
-							group by nameType
+							group by nameType, otherName
 						</cfquery>
 						<cfif insName_result.recordcount eq 1 and len(otherNameType.nameType) gt 0>
 							<cfloop query="otherNameType">
@@ -618,7 +621,7 @@ limitations under the License.
 										<cfqueryparam cfsqltype='CF_SQL_DECIMAL' value="#getTempData.t_preferred_agent_name_id#">,
 										<cfqueryparam cfsqltype='CF_SQL_DECIMAL' value="#getTempData.t_agent_id#">,
 										<cfqueryparam cfsqltype='CF_SQL_DECIMAL' value="#otherNameType.nameType#">,
-										<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#preferred_name#'>,
+										<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#otherNameType.otherName#'>,
 										0
 										)
 								</cfquery>
@@ -749,8 +752,6 @@ limitations under the License.
 											<th>USERNAME</th>
 											<th>AGENTGUID_GUID_TYPE</th>
 											<th>AGENTGUID</th>
-								<!---			<th>T_PREFERRED_AGENT_NAME_ID</th>
-											<th>T_AGENT_ID</th>--->
 										</tr> 
 									</thead>
 									<tbody>
@@ -775,8 +776,6 @@ limitations under the License.
 												<td>#getProblemData.other_name_3#</td>
 												<td>#getProblemData.agentguid_guid_type#</td>
 												<td>#getProblemData.agentguid#</td>
-										<!---		<td>#getProblemData.t_preferred_agent_name_id#</td>
-												<td>#getProblemData.t_agent_id#</td>--->
 											</tr> 
 										</cfloop>
 									</tbody>
