@@ -210,7 +210,7 @@ limitations under the License.
 				</cfif>
 			</cfif>
 		</cfloop>
-		<table class='table table-responsive d-md-table'>
+		<table class='table table-responsive'>
 			<cfloop list="#fieldlist#" index="field" delimiters=",">
 				<cfset hint="">
 				<cfquery name = "getComments"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#"  result="getComments_result">
@@ -234,10 +234,7 @@ limitations under the License.
 					<cfset class="text-dark">
 				</cfif>
 				<tr>
-					<td>
-						<span class="#class# font-weight-lessbold pl-3" #hint#>#field#:</span>
-					</td>
-					<td>
+					<td class="pl-xl-3">
 						<cfif arrayFindNoCase(colNameArray,field) GT 0>
 							<span class="text-success font-weight-bold">[ Present in CSV ]</span>
 						<cfelse>
@@ -252,7 +249,10 @@ limitations under the License.
 							</cfif>
 						</cfif>
 					</td>
-					<td colspan="3">
+					<td class="pl-xl-1">
+						<span class="#class# font-weight-lessbold pl-3" #hint#>#field#</span>
+					</td>
+					<td colspan="3" class="pl-xl-3">
 						<span class="text-secondary">#comment#</span>
 					</td>
 				</tr>
