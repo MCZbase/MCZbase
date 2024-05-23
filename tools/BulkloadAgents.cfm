@@ -399,7 +399,7 @@ limitations under the License.
 					select sq_agent_id.nextval nextAgentId from dual
 				</cfquery>
 				<cfquery name="PreferredNameID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					select sq_agent_name_id.nextval nextPreferredNameId from dual
+					select sq_agent_name_id.nextval nextAgentNameId from dual
 				</cfquery>
 				<cfquery name="getUseAgentID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					update cf_temp_agents set temp_agent_id = '#agentID.nextAgentId#'
@@ -407,7 +407,7 @@ limitations under the License.
 					AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
 				</cfquery>
 				<cfquery name="getPreferredAgentID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					update cf_temp_agents set temp_preferred_agent_name_id = '#preferredNameID.nextAgentNameId#'
+					update cf_temp_agents set temp_preferred_agent_name_id = '#PreferredNameID.nextAgentNameId#'
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 					AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
 				</cfquery>
