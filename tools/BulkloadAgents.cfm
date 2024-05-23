@@ -584,7 +584,7 @@ limitations under the License.
 								)
 						</cfquery>
 						<cfquery name="otherNameType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-							select nameType from (
+							select nameType, otherName from (
 								select
 									other_name_type nameType,
 									other_name otherName
