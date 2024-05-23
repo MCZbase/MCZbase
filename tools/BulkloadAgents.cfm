@@ -608,8 +608,8 @@ limitations under the License.
 							)
 							group by nameType, otherName
 						</cfquery>
-							#otherNameType.otherName#,#otherNameType.nameType#
-						<cfif insName_result.recordcount eq 1 and len(otherNameType.nameType) gt 0>
+						
+						<cfif len(otherNameType.nameType) gt 0>
 							<cfloop query="otherNameType">
 								<cfquery name="insOtherName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 									INSERT INTO agent_name (
