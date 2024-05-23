@@ -316,6 +316,7 @@ limitations under the License.
 		<h2 class="h4">Second step: Data Validation</h2>
 		<cfoutput>
 			<cfset key = ''>
+			<!---Prepare for other agent_types even through working with just "person" now--->
 			<cfquery name="getTempTableType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT 
 					key,agent_type,preferred_name
@@ -324,7 +325,6 @@ limitations under the License.
 				WHERE 
 					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
-		
 			<cfloop query="getTempTableType">
 				<cfquery name="agentID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					select sq_agent_id.nextval nextAgentId from dual
@@ -389,7 +389,6 @@ limitations under the License.
 				FROM data 
 				WHERE status is not null
 			</cfquery>
-				
 			<h3 class="mt-3">
 				<cfif pf.c gt 0>
 					There is a problem with #pf.c# of #data.recordcount# row(s). See the STATUS column. (<a href="/tools/BulkloadAgents.cfm?action=dumpProblems">download</a>). Fix the problems in the data and <a href="/tools/BulkloadAgents.cfm" class="text-danger">start again</a>.
