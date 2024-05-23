@@ -583,33 +583,34 @@ limitations under the License.
 								0
 								)
 						</cfquery>
-						<cfquery name="otherNameType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-							select nameType, otherName from (
-								select
-									other_name_type nameType,
-									other_name otherName
-								from
-									cf_temp_agents
-									where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-								union
-								select
-									other_name_type_2 nameType,
-									other_name_2 otherName
-								from
-									cf_temp_agents
-									where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-								union
-								select
-									other_name_type_3 nameType,
-									other_name_3 otherName
-								from
-									cf_temp_agents
-									where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-							)
-							group by nameType, otherName
-						</cfquery>
+		
 						
 						<cfif insName_result.recordcount eq 1 and len(otherNameType.nameType) gt 1>
+							<cfquery name="otherNameType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+								select nameType, otherName from (
+									select
+										other_name_type nameType,
+										other_name otherName
+									from
+										cf_temp_agents
+										where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+									union
+									select
+										other_name_type_2 nameType,
+										other_name_2 otherName
+									from
+										cf_temp_agents
+										where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+									union
+									select
+										other_name_type_3 nameType,
+										other_name_3 otherName
+									from
+										cf_temp_agents
+										where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+								)
+								group by nameType, otherName
+							</cfquery>
 							<cfloop query="otherNameType">
 								<cfquery name="insOtherName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 									INSERT INTO agent_name (
