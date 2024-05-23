@@ -412,9 +412,14 @@ limitations under the License.
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 					AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
 				</cfquery>
-				<cfquery name="getCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					update cf_temp_agents set agent_type=
-					(select agent_type from ctagent_type where agent_type = cf_temp_agents.agent_type)
+				<cfquery name="getAgentNameType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					update cf_temp_agents set status = concat(nvl2(status, status || '; ', ''),' agent_name_type not valid; controlled vocabulary ')
+					WHERE agent_name_type not in (select agent_type from ctagent_type where agent_type = cf_temp_agents.agent_type)
+					and username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+					AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
+				</cfquery>
+				<cfquery name="get" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					update cf_temp_agents set other_name_Type = 'preferred',other_name = '#cf_temp_agents.preferred_name#'
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 					AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
 				</cfquery>
@@ -424,7 +429,7 @@ limitations under the License.
 					WHERE agent_type is null
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 					AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
-					</cfquery>
+				</cfquery>
 				<cfquery name="miap" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE cf_temp_agents 
 					SET status = 'last_name_not_found'
@@ -479,8 +484,6 @@ limitations under the License.
 						<th>OTHER_NAME_TYPE_3</th>
 						<th>AGENTGUID_GUID_TYPE</th>
 						<th>AGENTGUID</th>
-		<!---				<th>T_PREFERRED_AGENT_NAME_ID</th>
-						<th>T_AGENT_ID</th>--->
 					</tr>
 				<tbody>
 					<cfloop query="data">
@@ -504,8 +507,6 @@ limitations under the License.
 							<td>#data.OTHER_NAME_TYPE_3#</td>
 							<td>#data.agentguid_guid_type#</td>
 							<td>#data.agentguid#</td>
-					<!---		<td>#data.t_preferred_agent_name_id#</td>
-							<td>#data.t_agent_id#</td>--->
 						</tr>
 					</cfloop>
 				</tbody>
