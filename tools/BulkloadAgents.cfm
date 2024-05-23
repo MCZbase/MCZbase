@@ -419,7 +419,7 @@ limitations under the License.
 					AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
 				</cfquery>--->
 				<cfquery name="get" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					update cf_temp_agents set other_name_type = 'preferred',other_name = '#cf_temp_agents.preferred_name#'
+					update cf_temp_agents set other_name_type = 'preferred_name',other_name = '#cf_temp_agents.preferred_name#'
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 					AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
 				</cfquery>
