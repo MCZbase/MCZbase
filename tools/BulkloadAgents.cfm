@@ -525,8 +525,10 @@ limitations under the License.
 			</cfquery>
 			<cftry>
 				<cfset agent_updates = 0>
-			
+				
+						
 				<cftransaction>
+					<cfset problem_key = #getTempData.key#>
 					<cfloop query="getTempData">
 						<cfquery name="agentNameID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						select sq_agent_name_id.nextval nextAgentNameId from dual
@@ -630,7 +632,7 @@ limitations under the License.
 					SELECT agent_type, preferred_name, first_name, middle_name, last_name, birth_date, death_date, agent_remark, prefix, suffix,agentguid_guid_type, agentguid,t_preferred_agent_name_id,t_agent_id, status 
 					FROM cf_temp_agents 
 					WHERE status is not null
-						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+					where key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#problem_key#">
 				</cfquery>
 				<h3>Problematic Rows (<a href="/tools/BulkloadAgents.cfm?action=dumpProblems">download</a>)</h3>
 				<table class='sortable px-0 mx-0 table small w-100 table-responsive table-striped'>
