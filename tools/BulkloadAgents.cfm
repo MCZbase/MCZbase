@@ -551,13 +551,13 @@ limitations under the License.
 								</cfif>
 							)
 						</cfquery>
-						<cfquery name="updateAgents1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateAgents1_result">
+<!---						<cfquery name="updateAgents1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateAgents1_result">
 							select AGENT_TYPE, AGENT_ID, PREFERRED_AGENT_NAME_ID 
 							from agent
 							where agent_id = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempData.t_agent_id#">
 							group by AGENT_TYPE, AGENT_ID, PREFERRED_AGENT_NAME_ID
 							having count(*) > 1
-						</cfquery>
+						</cfquery>--->
 						<cfquery name="insName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="insName_result">
 							INSERT INTO agent_name (
 								agent_name_id,
@@ -573,7 +573,7 @@ limitations under the License.
 								0
 								)
 						</cfquery>
-						<cfif insName_result.recordcount eq 1>
+						<!---<cfif insName_result.recordcount eq 1>
 							<cfquery name="otherNameType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 								select nameType, otherName from (
 									select
@@ -616,7 +616,7 @@ limitations under the License.
 										)
 								</cfquery>
 							</cfloop>
-						</cfif>
+						</cfif>--->
 						<cfquery name="insPerson" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							INSERT INTO person (
 								PERSON_ID
