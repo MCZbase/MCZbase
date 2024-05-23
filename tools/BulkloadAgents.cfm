@@ -343,16 +343,12 @@ limitations under the License.
 				<cfabort>
 			</cfif>
 			<cfquery name="agentID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				select sq_agent_id.nextval nextAgentId from dual
+			</cfquery>
+			<cfquery name="agentID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				update cf_temp_agents set use_agent_id = '#agentID.nextAgentId#'
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
-			<cfquery name="getCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				update cf_temp_agents set agent_type=
-				(select agent_type from ctagent_type where agent_type = cf_temp_agents.agent_type)
-				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-				AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableType.key#">
-			</cfquery>
-	
 			<cfquery name="otherNameType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				select nameType from (
 					select
@@ -413,12 +409,13 @@ limitations under the License.
 				WHERE 
 					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
-
 			<cfloop query="getTempTableQC">
-				<cfquery name="agentID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					select sq_agent_id.nextval nextAgentId from dual
+				<cfquery name="getCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					update cf_temp_agents set agent_type=
+					(select agent_type from ctagent_type where agent_type = cf_temp_agents.agent_type)
+					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+					AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableType.key#">
 				</cfquery>
-
 				<cfquery name="miac" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE cf_temp_agents 
 					SET status = 'agent_type_not_found'
