@@ -385,8 +385,6 @@ limitations under the License.
 					</cfquery>
 				</cfif>
 			</cfloop>
-				</cfif>
-			</cfloop>
 			<!--- obtain the information needed to QC each row --->
 			<cfquery name="getTempTableQC" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT 
