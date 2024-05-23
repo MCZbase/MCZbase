@@ -328,6 +328,9 @@ limitations under the License.
 			<cfquery name="agentID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				select sq_agent_id.nextval nextAgentId from dual
 			</cfquery>
+			<cfquery name="agentNameID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				select sq_agent_name_id.nextval nextAgentNameId from dual
+			</cfquery>
 			<!---Prepare for other agent_types even through working with just "person" now--->
 			<cfquery name="getTempTableType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT 
@@ -408,6 +411,11 @@ limitations under the License.
 			<cfloop query="getTempTableQC">
 				<cfquery name="getUseAgentID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					update cf_temp_agents set use_agent_id = '#agentID.nextAgentId#'
+					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+					AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableType.key#">
+				</cfquery>
+				<cfquery name="getUseAgentID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					update cf_temp_agents set use_agent_name_id = '#agentNameID.nextAgentNameId#'
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 					AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableType.key#">
 				</cfquery>
@@ -520,9 +528,7 @@ limitations under the License.
 			</cfquery>
 			<cftry>
 				<cfset agent_updates = 0>
-				<cfquery name="agentNameID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					select sq_agent_name_id.nextval nextAgentNameId from dual
-				</cfquery>
+			
 				<cftransaction>
 					<cfloop query="getTempData">
 						<cfquery name="insPerson" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateAgents1_result">
