@@ -561,10 +561,10 @@ limitations under the License.
 							)
 						</cfquery>
 						<cfquery name="updateAgents1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateAgents1_result">
-							select AGENT_TYPE, AGENT_ID, PREFERRED_AGENT_NAME_ID 
+							select AGENT_TYPE, T_AGENT_ID, T_PREFERRED_AGENT_NAME_ID 
 							from agent
 							where agent_id = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempData.agent_id#">
-							group by AGENT_TYPE, AGENT_ID, PREFERRED_AGENT_NAME_ID
+							group by AGENT_TYPE, T_AGENT_ID, T_PREFERRED_AGENT_NAME_ID
 							having count(*) > 1
 						</cfquery>
 						<cfquery name="insName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
