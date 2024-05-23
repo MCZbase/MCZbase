@@ -649,7 +649,8 @@ limitations under the License.
 							<th>SUFFIX</th>
 							<th>AGENTGUID_GUID_TYPE</th>
 							<th>AGENTGUID</th>
-							<th>USE_AGENT_ID</th>
+							<th>TEMP_PREFERRED_AGENT_NAME_ID</th>
+							<th>TEMP_AGENT_ID</th>
 							
 						</tr> 
 					</thead>
@@ -669,7 +670,8 @@ limitations under the License.
 								<td>#getProblemData.suffix#</td>
 								<td>#getProblemData.agentguid_guid_type#</td>
 								<td>#getProblemData.agentguid#</td>
-								<td>#getProblemData.use_agent_id#</td>
+								<td>#getProblemData.temp_preferred_agent_name_id#</td>
+								<td>#getProblemData.temp_agent_id#</td>
 							</tr>
 						</cfloop>
 					</tbody>
@@ -694,7 +696,7 @@ limitations under the License.
 								birth_date,
 								death_date
 							) VALUES (
-								sq_agent_id.use_agent_name_id,
+								#getTempData.temp_agent_id#,
 								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#prefix#">,
 								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#last_name#">,
 								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#first_name#">,
