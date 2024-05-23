@@ -549,10 +549,6 @@ limitations under the License.
 								</cfif>
 							)
 						</cfquery>
-						<cfquery name="savePK" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="pkResult">
-							select preferred_agent_name_id from agent
-							where ROWIDTOCHAR(rowid) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#updateAgents1_result.GENERATEDKEY#">
-						</cfquery>
 						<cfquery name="insName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							INSERT INTO agent_name (
 								agent_name_id,
@@ -561,7 +557,7 @@ limitations under the License.
 								agent_name,
 								donor_card_present_fg)
 							VALUES (
-								<cfqueryparam cfsqltype='CF_SQL_DECIMAL' value="#agentNameID.nextAgentNameId#">,
+								<cfqueryparam cfsqltype='CF_SQL_DECIMAL' value="#getTempData.use_agent_name_id#">,
 								<cfqueryparam cfsqltype='CF_SQL_DECIMAL' value="#getTempData.use_agent_id#">,
 								'preferred',
 								<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#preferred_name#'>,
