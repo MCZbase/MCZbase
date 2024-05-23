@@ -633,7 +633,7 @@ limitations under the License.
 								</cfif>
 								)
 						</cfquery>
-						<cfset agent_updates = agent_updates + updateAgents_result.recordcount>
+						<cfset agent_updates = agent_updates + updateAgents1_result.recordcount>
 						<cfif updateAgents1_result.recordcount gt 0>
 							<cfthrow message="Error: Attempting to insert a duplicate agent: AGENT_ID=#getTempData.T_AGENT_ID#, PREFERRED_AGENT_NAME_ID=#getTempData.T_PREFERRED_AGENT_NAME_ID#">
 						</cfif>
@@ -755,10 +755,3 @@ limitations under the License.
 		</cfoutput>
 	</cfif>
 </main>
-
-	
-			
-			<!---		<cfquery name="savePK" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="pkResult">
-							select agent_name_id from agent_name
-							where ROWIDTOCHAR(rowid) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#updateAgents2_result.GENERATEDKEY#">
-						</cfquery>--->
