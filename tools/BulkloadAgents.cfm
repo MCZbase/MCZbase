@@ -568,66 +568,67 @@ limitations under the License.
 							group by AGENT_TYPE, AGENT_ID, PREFERRED_AGENT_NAME_ID
 							having count(*) > 1
 						</cfquery>
-						<cfquery name="insName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="insName_result">
-							INSERT INTO agent_name (
-								agent_name_id,
-								agent_id,
-								agent_name_type,
-								agent_name,
-								donor_card_present_fg)
-							VALUES (
-								<cfqueryparam cfsqltype='CF_SQL_DECIMAL' value="#getTempData.t_preferred_agent_name_id#">,
-								<cfqueryparam cfsqltype='CF_SQL_DECIMAL' value="#getTempData.t_agent_id#">,
-								'preferred',
-								<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#preferred_name#'>,
-								0
+						<cfif len(getTempData.other_name_type) eq 0>
+							<cfquery name="insName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="insName_result">
+								INSERT INTO agent_name (
+									agent_name_id,
+									agent_id,
+									agent_name_type,
+									agent_name,
+									donor_card_present_fg)
+								VALUES (
+									<cfqueryparam cfsqltype='CF_SQL_DECIMAL' value="#getTempData.t_preferred_agent_name_id#">,
+									<cfqueryparam cfsqltype='CF_SQL_DECIMAL' value="#getTempData.t_agent_id#">,
+									'preferred',
+									<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#preferred_name#'>,
+									0
+									)
+							</cfquery>
+						<cfelse>
+							<cfquery name="otherNameType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+								select nameType, otherName from (
+									select
+										other_name_type nameType,
+										other_name otherName
+									from
+										cf_temp_agents
+										where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+									union
+									select
+										other_name_type_2 nameType,
+										other_name_2 otherName
+									from
+										cf_temp_agents
+										where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+									union
+									select
+										other_name_type_3 nameType,
+										other_name_3 otherName
+									from
+										cf_temp_agents
+										where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 								)
-						</cfquery>
-						<cfquery name="otherNameType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-							select nameType, otherName from (
-								select
-									other_name_type nameType,
-									other_name otherName
-								from
-									cf_temp_agents
-									where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-								union
-								select
-									other_name_type_2 nameType,
-									other_name_2 otherName
-								from
-									cf_temp_agents
-									where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-								union
-								select
-									other_name_type_3 nameType,
-									other_name_3 otherName
-								from
-									cf_temp_agents
-									where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-							)
-							group by nameType, otherName
-						</cfquery>
-						
-						<cfif len(otherNameType.nameType) gt 0>
-							<cfloop query="otherNameType">
-								<cfquery name="insOtherName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-									INSERT INTO agent_name (
-										agent_name_id,
-										agent_id,
-										agent_name_type,
-										agent_name,
-										donor_card_present_fg)
-									VALUES (
-										<cfqueryparam cfsqltype='CF_SQL_DECIMAL' value="#OtherNameID.nextAgentNameId#">,
-										<cfqueryparam cfsqltype='CF_SQL_DECIMAL' value="#getTempData.t_agent_id#">,
-										<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value="#otherNameType.nameType#">,
-										<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#otherNameType.otherName#'>,
-										0
-										)
-								</cfquery>
-							</cfloop>
-						</cfif>
+								group by nameType, otherName
+							</cfquery>
+							<cfif len(otherNameType.nameType) gt 0>
+								<cfloop query="otherNameType">
+									<cfquery name="insOtherName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+										INSERT INTO agent_name (
+											agent_name_id,
+											agent_id,
+											agent_name_type,
+											agent_name,
+											donor_card_present_fg)
+										VALUES (
+											<cfqueryparam cfsqltype='CF_SQL_DECIMAL' value="#OtherNameID.nextAgentNameId#">,
+											<cfqueryparam cfsqltype='CF_SQL_DECIMAL' value="#getTempData.t_agent_id#">,
+											<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value="#otherNameType.nameType#">,
+											<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#otherNameType.otherName#'>,
+											0
+											)
+									</cfquery>
+								</cfloop>
+							</cfif>
 						<cfquery name="insPerson" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							INSERT INTO person (
 								PERSON_ID
