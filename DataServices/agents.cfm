@@ -277,10 +277,6 @@ sho err
 	<cfquery name="p" dbtype="query">
 		select distinct(agent_type) agent_type from d
 	</cfquery>
-	<!---<cfif valuelist(p.agent_type) is not "person">
-		<div class="error">Sorry, we can only deal with agent type=person here.</div>
-		<cfabort>
-	</cfif>--->
 	<cfquery name="rpn" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		select count(*) c from ds_temp_agent where preferred_name is null
 		and creating_username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
@@ -289,7 +285,7 @@ sho err
 		<div class="error">Preferred name is required for every agent.</div>
 		<cfabort>
 	</cfif>
-	<cfquery name="ont" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+	<cfquery name="otherNameType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		select nt from (
 			select
 				other_name_type_1 nt
