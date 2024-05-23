@@ -573,8 +573,6 @@ limitations under the License.
 								0
 								)
 						</cfquery>
-		
-						
 						<cfif insName_result.recordcount eq 1 and len(otherNameType.nameType) gt 1>
 							<cfquery name="otherNameType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 								select nameType, otherName from (
