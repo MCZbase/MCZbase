@@ -337,7 +337,7 @@ limitations under the License.
 			</cfloop>
 			<cfquery name="getTempTableQC" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT 
-					key,to_char(birth_date,'YYYY-MM-DD') birth_date,agent_type,preferred_name,first_name,middle_name,last_name,to_char(death_date,'YYYY-MM-DD') death_date,agent_remark, prefix,suffix,agentguid_guid_type,agentguid,use_agent_id,status
+					key,to_char(birth_date,'DD-Mon-YYYY') birth_date,agent_type,preferred_name,first_name,middle_name,last_name,to_char(death_date,'DD-Mon-YYYY') death_date,agent_remark, prefix,suffix,agentguid_guid_type,agentguid,use_agent_id,status
 				FROM 
 					cf_temp_agents
 				WHERE 
@@ -379,7 +379,7 @@ limitations under the License.
 				</cfquery>--->
 			</cfloop>
 			<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				SELECT to_char(birth_date,'YYYY-MM-DD') birth_date,agent_type, preferred_name,first_name,middle_name,last_name,to_char(death_date,'YYYY-MM-DD') death_date,agent_remark, prefix,suffix,agentguid_guid_type,agentguid,use_agent_id,status
+				SELECT to_char(birth_date,'DD-Mon-YYYY') birth_date,agent_type, preferred_name,first_name,middle_name,last_name,to_char(death_date,'DD-Mon-YYYY') death_date,agent_remark, prefix,suffix,agentguid_guid_type,agentguid,use_agent_id,status
 				FROM cf_temp_agents
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableType.key#">
