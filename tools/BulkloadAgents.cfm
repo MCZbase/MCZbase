@@ -371,12 +371,6 @@ limitations under the License.
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 					AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableType.key#">
 				</cfquery>
-<!---				<cfquery name="miap" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					UPDATE cf_temp_agents 
-					SET use_agent_id = '#agentID.nextAgentId#'
-					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-					AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableType.key#">
-				</cfquery>--->
 			</cfloop>
 			<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT to_char(birth_date,'DD-Mon-YYYY') birth_date,agent_type, preferred_name,first_name,middle_name,last_name,to_char(death_date,'DD-Mon-YYYY') death_date,agent_remark, prefix,suffix,agentguid_guid_type,agentguid,use_agent_id,status
@@ -477,10 +471,6 @@ limitations under the License.
 								</cfif>
 							)
 						</cfquery>
-						<cfquery name="savePK" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="pkResult">
-							select agent_name_id from agent_name
-							where ROWIDTOCHAR(rowid) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#updateAgents1_result.GENERATEDKEY#">
-						</cfquery>
 						<cfquery name="insName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateAgents1_result">
 							INSERT INTO agent_name (
 								agent_name_id,
@@ -495,6 +485,10 @@ limitations under the License.
 								<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#preferred_name#'>,
 								0
 								)
+						</cfquery>
+						<cfquery name="savePK" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="pkResult">
+							select agent_name_id from agent_name
+							where ROWIDTOCHAR(rowid) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#updateAgents1_result.GENERATEDKEY#">
 						</cfquery>
 						<cfquery name="insPerson" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							INSERT INTO person (
@@ -546,64 +540,7 @@ limitations under the License.
 								</cfif>
 								)
 						</cfquery>
-					</cfloop>
-					<!---	<cfif len(preferred_name) is 0>
-							<cfset name = "">
-							<cfif len(#prefix#) gt 0>
-								<cfset name = "#name# #prefix#">
-							</cfif>
-							<cfif len(#FIRST_NAME#) gt 0>
-								<cfset name = "#name# #FIRST_NAME#">
-							</cfif>
-							<cfif len(#MIDDLE_NAME#) gt 0>
-								<cfset name = "#name# #MIDDLE_NAME#">
-							</cfif>
-							<cfif len(#LAST_NAME#) gt 0>
-								<cfset name = "#name# #LAST_NAME#">
-							</cfif>
-							<cfif len(#SUFFIX#) gt 0>
-								<cfset name = "#name# #SUFFIX#">
-							</cfif>
-							<cfset preferred_name = #trim(name)#>
-						</cfif>--->
-					<!---	<cfquery name="dupPref" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-							select agent.agent_type,agent_name.agent_id,agent_name.agent_name
-								from agent_name, agent
-								where agent_name.agent_id = agent.agent_id
-									and upper(agent_name.agent_name) like <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='%#ucase(preferred_name)#%'>
-						</cfquery>--->
-						<!---<cfif dupPref.recordcount gt 0>
-							<cfloop query="dupPref">
-								<h3>That agent may already exist!</h3>
-								<p>The name you entered is either a preferred name or other name for an existing agent.</p>
-								<p>A duplicated preferred name will prevent MCZbase from functioning normally.
-								</p>
-								<p>Click duplicated names below to see details. Add the fullest version of the name if it can be differentiated from another. If the need for a duplicate agent should arise, please merge the pre-existing matches (bad duplicates) so they will not create problems.</p>
-								<cfloop query="dupPref">
-									<br><a href="/agents/Agent.cfm?agent_id=#agent_id#">#agent_name# (agent ID ## #agent_id# - #agent_type#)</a>
-								</cfloop>
-								<p>Are you sure you want to continue?</p>
-								<form name="ac" method="post" action="/tools/BulkloadAgents.cfm">
-									<input type="hidden" name="action" value="insertPerson">
-									<input type="hidden" name="prefix" value="#prefix#">
-									<input type="hidden" name="LAST_NAME" value="#LAST_NAME#">
-									<input type="hidden" name="FIRST_NAME" value="#FIRST_NAME#">
-									<input type="hidden" name="MIDDLE_NAME" value="#MIDDLE_NAME#">
-									<input type="hidden" name="SUFFIX" value="#SUFFIX#">
-									<input type="hidden" name="preferred_name" value="#preferred_name#">
-									<input type="hidden" name="ignoreDupChek" value="true">
-									<input type="submit" class="insBtn" value="Create Agent">
-								</form>
-									<br><br>
-									<input type="cancel" value="Cancel" class="btn btn_warning btn-xs" onclick="javascript:window.location='/tools/BulkloadAgents.cfm'">
-									
-							</cfloop>
-								Remove the duplicate agents from the spreadsheet and start again.--->
-					<!---	<cfelse>--->
-
-						<!---	<cfset agent_updates = agent_updates + updateAgents1_result.recordcount>--->
-							<!---</cfif>--->
-				
+					</cfloop>			
 				</cftransaction>
 				<h3 class="mt-3">Updated #agent_updates# agents.</h3>
 			<cfcatch>
