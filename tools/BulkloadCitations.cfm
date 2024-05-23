@@ -416,7 +416,7 @@ limitations under the License.
 				</cfquery>
 				<cfquery name="flagTaxonNotFound" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE cf_temp_citation
-					SET status = concat(nvl2(status, status || '; ', ''),'Taxon Name '|| cited_scientific_name || ' not found'; )
+					SET status = concat(nvl2(status, status || '; ', ''),'Taxon Name '|| cited_scientific_name || ' not found')
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#"> 
 						and cited_taxon_name_id IS NULL
