@@ -563,7 +563,7 @@ limitations under the License.
 								agent_name,
 								donor_card_present_fg)
 							VALUES (
-								<cfqueryparam cfsqltype='CF_SQL_DECIMAL' value="#agentNameID.nextAgentNameId#">,
+								<cfqueryparam cfsqltype='CF_SQL_DECIMAL' value="#getTempData.t_preferred_agent_name_id#">,
 								<cfqueryparam cfsqltype='CF_SQL_DECIMAL' value="#getTempData.t_agent_id#">,
 								'preferred',
 								<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#preferred_name#'>,
@@ -627,7 +627,7 @@ limitations under the License.
 			<cfcatch>
 				<h3 class="mt-3">There was a problem updating container types.</h3>
 				<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					SELECT agent_type, preferred_name, first_name, middle_name, last_name, birth_date, death_date, agent_remark, prefix, suffix,agentguid_guid_type, agentguid,t_agent_id,t_preferred_agent_name_id status 
+					SELECT agent_type, preferred_name, first_name, middle_name, last_name, birth_date, death_date, agent_remark, prefix, suffix,agentguid_guid_type, agentguid,t_preferred_agent_name_id,t_agent_id, status 
 					FROM cf_temp_agents 
 					WHERE status is not null
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
