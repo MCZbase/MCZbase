@@ -620,7 +620,7 @@ limitations under the License.
 									VALUES (
 										<cfqueryparam cfsqltype='CF_SQL_DECIMAL' value="#getTempData.t_preferred_agent_name_id#">,
 										<cfqueryparam cfsqltype='CF_SQL_DECIMAL' value="#getTempData.t_agent_id#">,
-										<cfqueryparam cfsqltype='CF_SQL_DECIMAL' value="#otherNameType.nameType#">,
+										<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value="#otherNameType.nameType#">,
 										<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#otherNameType.otherName#'>,
 										0
 										)
