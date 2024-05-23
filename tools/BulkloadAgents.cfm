@@ -401,9 +401,6 @@ limitations under the License.
 				<cfquery name="PreferredNameID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					select sq_agent_name_id.nextval nextAgentNameId from dual
 				</cfquery>
-		<!---		<cfquery name="AgentNameID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					select sq_agent_name_id.nextval nextAgentNameId from dual
-				</cfquery>--->
 				<cfquery name="getUseAgentID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					update cf_temp_agents set t_agent_id = '#agentID.nextAgentId#'
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
@@ -481,8 +478,8 @@ limitations under the License.
 						<th>OTHER_NAME_TYPE_3</th>
 						<th>AGENTGUID_GUID_TYPE</th>
 						<th>AGENTGUID</th>
-						<th>T_PREFERRED_AGENT_NAME_ID</th>
-						<th>T_AGENT_ID</th>
+		<!---				<th>T_PREFERRED_AGENT_NAME_ID</th>
+						<th>T_AGENT_ID</th>--->
 					</tr>
 				<tbody>
 					<cfloop query="data">
@@ -506,8 +503,8 @@ limitations under the License.
 							<td>#data.OTHER_NAME_TYPE_3#</td>
 							<td>#data.agentguid_guid_type#</td>
 							<td>#data.agentguid#</td>
-							<td>#data.t_preferred_agent_name_id#</td>
-							<td>#data.t_agent_id#</td>
+					<!---		<td>#data.t_preferred_agent_name_id#</td>
+							<td>#data.t_agent_id#</td>--->
 						</tr>
 					</cfloop>
 				</tbody>
@@ -707,8 +704,8 @@ limitations under the License.
 											<th>USERNAME</th>
 											<th>AGENTGUID_GUID_TYPE</th>
 											<th>AGENTGUID</th>
-											<th>T_PREFERRED_AGENT_NAME_ID</th>
-											<th>T_AGENT_ID</th>
+								<!---			<th>T_PREFERRED_AGENT_NAME_ID</th>
+											<th>T_AGENT_ID</th>--->
 										</tr> 
 									</thead>
 									<tbody>
@@ -733,8 +730,8 @@ limitations under the License.
 												<td>#getProblemData.other_name_3#</td>
 												<td>#getProblemData.agentguid_guid_type#</td>
 												<td>#getProblemData.agentguid#</td>
-												<td>#getProblemData.t_preferred_agent_name_id#</td>
-												<td>#getProblemData.t_agent_id#</td>
+										<!---		<td>#getProblemData.t_preferred_agent_name_id#</td>
+												<td>#getProblemData.t_agent_id#</td>--->
 											</tr> 
 										</cfloop>
 									</tbody>
