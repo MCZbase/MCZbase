@@ -399,7 +399,7 @@ limitations under the License.
 					select sq_agent_id.nextval nextAgentId from dual
 				</cfquery>
 				<cfquery name="PreferredNameID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					select sq_preferred_agent_name_id.nextval nextPreferredNameId from dual
+					select sq_agent_name_id.nextval nextPreferredNameId from dual
 				</cfquery>
 				<cfquery name="getUseAgentID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					update cf_temp_agents set temp_agent_id = '#agentID.nextAgentId#'
