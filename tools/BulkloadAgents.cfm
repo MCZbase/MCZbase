@@ -688,7 +688,7 @@ limitations under the License.
 							<cfset agent_name_id = #getTempData.t_preferred_agent_name_id# + 1>
 							<cfquery name="newAgentName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 								insert into agent_name ( AGENT_NAME_ID,AGENT_ID,AGENT_NAME_TYPE,AGENT_NAME )
-								values (sq_agent_name_id.nextval,sq_agent_id.currval,'#OTHER_NAME_TYPE_3#','#OTHER_NAME_3#')
+								values (sq_agent_name_id.nextval,#getTempData.t_agent_id#,'#OTHER_NAME_TYPE_3#','#OTHER_NAME_3#')
 							</cfquery>
 						</cfif>
 						<cfset agent_updates = agent_updates + insPerson_result.recordcount>
