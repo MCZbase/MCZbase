@@ -377,6 +377,29 @@ limitations under the License.
 				<div class="error">Other name types may not be "preferred"</div>
 				<cfabort>
 			</cfif>
+			<cfquery name="ctotherNameType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				select nameType from  
+				(
+					select
+						other_name_type_1 nameType
+					from
+						cf_temp_agents
+						where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.dbuser#">
+					union
+					select
+						other_name_type_2 nameType
+					from
+						cf_temp_agent
+						where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.dbuser#">
+					union
+					select
+						other_name_type_3 nameType
+					from
+						cf_temp_agent
+						where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.dbuser#">
+				)
+				where nameType not in (select agent_name_type from ctagent_name_type)
+			</cfquery>
 			<cfquery name="getTempTableQC" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT 
 					key,to_char(birth_date,'DD-Mon-YYYY') birth_date,agent_type,preferred_name,first_name,middle_name,last_name,to_char(death_date,'DD-Mon-YYYY') death_date,agent_remark, prefix,suffix,agentguid_guid_type,agentguid,use_agent_id,status
