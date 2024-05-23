@@ -629,6 +629,7 @@ limitations under the License.
 									</cfquery>
 								</cfloop>
 							</cfif>
+						</cfif>
 						<cfquery name="insPerson" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							INSERT INTO person (
 								PERSON_ID
