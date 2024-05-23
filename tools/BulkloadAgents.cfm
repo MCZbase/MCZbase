@@ -399,7 +399,7 @@ limitations under the License.
 				where nameType not in (select agent_name_type from ctagent_name_type)
 			</cfquery>
 			<cfif ctotherNameType.recordcount gt 0>
-				<div class="error">Unaccepable name type(s): #valuelist(ctont.nt)#</div>
+				<div class="error">Unaccepable name type(s): #valuelist(ctotherNameType.nameType)#</div>
 				<cfabort>
 			</cfif>
 			<cfquery name="getTempTableQC" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
