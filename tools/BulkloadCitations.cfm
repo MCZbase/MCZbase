@@ -326,7 +326,7 @@ limitations under the License.
 							),
 							status = null
 						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-							and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableTypes.key#"> 
+							and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableTypes.key#"> 
 					</cfquery>
 				<cfelse>
 					<!--- or on specified other identifier --->
@@ -343,23 +343,23 @@ limitations under the License.
 							),
 							status = null
 						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-							and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableTypes.key#"> 
+							and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableTypes.key#"> 
 					</cfquery>
 				</cfif>
 				<!--- lookup the title for the publication --->
 				<cfquery name="lookupTitle" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT publication_title 
 					FROM publication
-					WHERE publication_id = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableTypes.publication_id#"> 
+					WHERE publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableTypes.publication_id#"> 
 				</cfquery>
 				<cfif lookupTitle.recordcount EQ 1>
 					<cfloop query="lookupTitle">
 						<cfquery name="setTitle" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							UPDATE cf_temp_citation 
 							SET publication_title = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#lookupTitle.publication_title#">
-							WHERE publication_id = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableTypes.publication_id#"> 
+							WHERE publication_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableTypes.publication_id#"> 
 								and username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-								and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableTypes.key#">
+								and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableTypes.key#">
 								and publication_title IS NULL
 						</cfquery>
 					</cfloop>
@@ -370,7 +370,7 @@ limitations under the License.
 							status = concat(nvl2(status, status || '; ', ''),'Publication_id not found: "' || getTempTableTypes.publication_id)
 						WHERE 
 							username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-							and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableTypes.key#">
+							and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableTypes.key#">
 					</cfquery>
 				</cfif>
 			</cfloop>
@@ -393,7 +393,7 @@ limitations under the License.
 					WHERE type_status is not null 
 						AND type_status not in (select type_status from ctcitation_type_status)
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-						and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableQC.key#"> 
+						and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#"> 
 				</cfquery>
 				<cfquery name="lookupTaxon" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE cf_temp_citation
@@ -401,13 +401,13 @@ limitations under the License.
 						select taxon_name_id from taxonomy where scientific_name = <cfqueryparam cfsqltype="CF_SQL_varchar" value="#getTempTableQC.cited_scientific_name#"> 
 					)
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-					and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableQC.key#"> 
+					and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#"> 
 				</cfquery>
 				<cfquery name="flagTaxonNotFound" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE cf_temp_citation
 					SET status = concat(nvl2(status, status || '; ', ''),'Taxon Name '|| cited_scientific_name || ' not found'; )
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-						and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableQC.key#"> 
+						and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#"> 
 						and cited_taxon_name_id IS NULL
 						and cited_scientific_name IS NOT NULL
 				</cfquery>
@@ -573,7 +573,7 @@ limitations under the License.
 							CITATION_PAGE_URI
 							)VALUES(
 							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getCitData.PUBLICATION_ID#">,
-							<cfqueryparam cfsqltype="CF_SQL_decimal" value="#getCitData.COLLECTION_OBJECT_ID#">,
+							<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getCitData.COLLECTION_OBJECT_ID#">,
 							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getCitData.CITED_TAXON_NAME_ID#">,
 							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getCitData.OCCURS_PAGE_NUMBER#">,
 							1,
@@ -584,7 +584,7 @@ limitations under the License.
 						</cfquery>
 						<cfquery name="updateCitations1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateCitations1_result">
 							select PUBLICATION_ID,COLLECTION_OBJECT_ID,CITED_TAXON_NAME_ID,OCCURS_PAGE_NUMBER,TYPE_STATUS,CITATION_REMARKS,CITATION_PAGE_URI from citation
-							where collection_object_id = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getCitData.collection_object_id#">
+							where collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getCitData.collection_object_id#">
 							group by publication_id,collection_object_id,cited_taxon_name_id,OCCURS_PAGE_NUMBER,TYPE_STATUS,CITATION_REMARKS,CITATION_PAGE_URI
 							having count(*) > 1
 						</cfquery>
