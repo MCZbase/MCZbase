@@ -638,8 +638,7 @@ limitations under the License.
 							<cfthrow message="Error: Attempting to insert a duplicate agent: AGENT_ID=#getTempData.T_AGENT_ID#, PREFERRED_AGENT_NAME_ID=#getTempData.T_PREFERRED_AGENT_NAME_ID#">
 						</cfif>
 					</cfloop>
-					Updated #agent_updates# agents.
-					<h3 class="text-success">Success - loaded</h3>
+					<h3 class="text-success">Success - loaded #agent_updates# agents.</h3>
 					<cfif updateAgents1_result.recordcount gt 0>
 						<h3 class="text-danger">Not loaded - these have already been loaded</h3>
 					</cfif>
