@@ -570,7 +570,7 @@ limitations under the License.
 								0
 								)
 						</cfquery>
-					</cfloop>
+					
 						<cfquery name="insPerson" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							INSERT INTO person (
 								PERSON_ID
@@ -621,7 +621,7 @@ limitations under the License.
 								</cfif>
 								)
 						</cfquery>
-							
+					</cfloop>
 				</cftransaction>
 				<h3 class="mt-3">Updated #agent_updates# agents.</h3>
 			<cfcatch>
