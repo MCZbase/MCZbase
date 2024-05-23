@@ -61,8 +61,9 @@ limitations under the License.
 	<!------------------------------------------------------->
 	<cfif #action# is "entryPoint">
 		<cfoutput>
-			<p>This tool adds citations to the specimen record. The publication and specimens have to be in the code table prior to uploading this .csv. It ignores rows that are exactly the same. Additional columns will be ignored. The publication_title and/or publication_id values must appear as they do on the <a href="/Publications.cfm" class="font-weight-bold">Publication Search Results</a>. The other_id_type and other_id_number values must also be in the database. Search for them via the <a href="/Specimens.cfm" class="font-weight-bold">Specimen Search</a>. Upload a comma-delimited text file (csv). Include column headings, spelled exactly as below. Use "catalog number" as the value of other_id_type to match on catalog number.</p>
-			
+			<p>
+				This tool adds citations to the specimen record. The publication, cited taxon, and specimens have to be in MCZbase prior to uploading this .csv. This tool ignores rows that are exactly the same. Additional columns will be ignored. The cited_scientific_name must match that of exactly one <a href="/Taxa.cfm" class="font-weight-bold">taxon record</a>.  The publication_id value must match a <a href="/Publications.cfm" class="font-weight-bold">Publication</a>. The other_id_type and other_id_number values must also be in the database. Search for them via the <a href="/Specimens.cfm" class="font-weight-bold">Specimen Search</a>. Upload a comma-delimited text file (csv). Include column headings, spelled exactly as below. Use "catalog number" as the value of other_id_type to match on catalog number.
+			</p>
 			<span class="btn btn-xs btn-info" onclick="document.getElementById('template').style.display='block';">View template</span>
 			<div id="template" class="my-1 mx-0" style="display:none;">
 				<label for="templatearea" class="data-entry-label mb-1">
@@ -345,11 +346,38 @@ limitations under the License.
 							and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableTypes.key#"> 
 					</cfquery>
 				</cfif>
+				<!--- lookup the title for the publication --->
+				<cfquery name="lookupTitle" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					SELECT publication_title 
+					FROM publication
+					WHERE publication_id = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableTypes.publication_id#"> 
+				</cfquery>
+				<cfif lookupTitle.recordcount EQ 1>
+					<cfloop query="lookupTitle">
+						<cfquery name="setTitle" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+							UPDATE cf_temp_citation 
+							SET publication_title = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#lookupTitle.publication_title#">
+							WHERE publication_id = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableTypes.publication_id#"> 
+								and username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+								and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableTypes.key#">
+								and publication_title IS NULL
+						</cfquery>
+					</cfloop>
+				<cfelse>
+					<cfquery name="setTitle" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						UPDATE cf_temp_citation 
+						SET 
+							status = concat(nvl2(status, status || '; ', ''),'Publication_id not found: "' || getTempTableTypes.publication_id)
+						WHERE 
+							username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+							and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableTypes.key#">
+					</cfquery>
+				</cfif>
 			</cfloop>
 			<!--- obtain the information needed to QC each row --->
 			<cfquery name="getTempTableQC" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT 
-					distinct key,collection_cde, cited_scientific_name,publication_title
+					distinct key,collection_cde, cited_scientific_name
 				FROM 
 					cf_temp_citation
 				WHERE 
@@ -367,13 +395,21 @@ limitations under the License.
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableQC.key#"> 
 				</cfquery>
-				<cfquery name="flagNoPublication2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				<cfquery name="lookupTaxon" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE cf_temp_citation
 					SET cited_taxon_name_id = (
-					select taxon_name_id from taxonomy where scientific_name = <cfqueryparam cfsqltype="CF_SQL_varchar" value="#getTempTableQC.cited_scientific_name#"> 
+						select taxon_name_id from taxonomy where scientific_name = <cfqueryparam cfsqltype="CF_SQL_varchar" value="#getTempTableQC.cited_scientific_name#"> 
 					)
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 					and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableQC.key#"> 
+				</cfquery>
+				<cfquery name="flagTaxonNotFound" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					UPDATE cf_temp_citation
+					SET status = concat(nvl2(status, status || '; ', ''),'Taxon Name '|| cited_scientific_name || ' not found'; )
+					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+						and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableQC.key#"> 
+						and cited_taxon_name_id IS NULL
+						and cited_scientific_name IS NOT NULL
 				</cfquery>
 				<cfquery name="flagMczAcronym" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE cf_temp_citation
@@ -471,6 +507,7 @@ limitations under the License.
 						<th>OTHER_ID_TYPE</th>
 						<th>OTHER_ID_NUMBER</th>
 						<th>PUBLICATION_ID</th>
+						<th>Publication Title</th>
 						<th>CITED_SCIENTIFIC_NAME</th>
 						<th>OCCURS_PAGE_NUMBER</th>
 						<th>CITATION_PAGE_URI</th>
@@ -488,6 +525,7 @@ limitations under the License.
 							<td>#data.OTHER_ID_TYPE#</td>
 							<td>#data.OTHER_ID_NUMBER#</td>
 							<td>#data.PUBLICATION_ID#</td>
+							<td>#data.PUBLICATION_TITLE#</td>
 							<td>#data.CITED_SCIENTIFIC_NAME#</td>
 							<td>#data.OCCURS_PAGE_NUMBER#</td>
 							<td>#data.CITATION_PAGE_URI#</td>
@@ -567,7 +605,9 @@ limitations under the License.
 					<cftransaction action="ROLLBACK">
 					<h3>There was a problem updating the citations. </h3>
 					<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						SELECT COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_NUMBER,COLLECTION_OBJECT_ID,PUBLICATION_ID,CITED_TAXON_NAME_ID,OCCURS_PAGE_NUMBER,TYPE_STATUS,CITATION_REMARKS,CITATION_PAGE_URI
+						SELECT 
+							COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_NUMBER,COLLECTION_OBJECT_ID,PUBLICATION_ID,CITED_TAXON_NAME_ID,
+							OCCURS_PAGE_NUMBER,TYPE_STATUS,CITATION_REMARKS,CITATION_PAGE_URI,publication_title
 						FROM cf_temp_citation
 						where key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#problem_key#">
 					</cfquery>
