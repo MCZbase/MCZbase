@@ -574,6 +574,30 @@ limitations under the License.
 								)
 						</cfquery>
 						<cfif insName_result.recordcount eq 1>
+							<cfquery name="otherNameType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+								select
+									other_name_type,other_name
+								from
+									cf_temp_agents
+								where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+							</cfquery>
+							<cfloop query="otherNameType">
+								<cfquery name="insOtherName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+									INSERT INTO agent_name (
+										agent_name_id,
+										agent_id,
+										agent_name_type,
+										agent_name,
+										donor_card_present_fg)
+									VALUES (
+										<cfqueryparam cfsqltype='CF_SQL_DECIMAL' value="#OtherNameID.nextAgentNameId#">,
+										<cfqueryparam cfsqltype='CF_SQL_DECIMAL' value="#getTempData.t_agent_id#">,
+										<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value="#otherNameType2.other_name#">,
+										<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value="#otherNameType2.other_name_type#">,
+										0
+										)
+								</cfquery>
+							</cfloop>
 							<cfquery name="otherNameType2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 								select
 									other_name_type_2,other_name_2
