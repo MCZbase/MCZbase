@@ -377,7 +377,7 @@ limitations under the License.
 				<cfabort>
 			</cfif>
 			<cfquery name="ctotherNameType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				select nameType from  
+				select nameType from 
 				(	select
 						other_name_type nameType
 					from
@@ -387,13 +387,13 @@ limitations under the License.
 					select
 						other_name_type_2 nameType
 					from
-						cf_temp_agent
+						cf_temp_agents
 						where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 					union
 					select
 						other_name_type_3 nameType
 					from
-						cf_temp_agent
+						cf_temp_agents
 						where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				)
 				where nameType not in (select agent_name_type from ctagent_name_type)
