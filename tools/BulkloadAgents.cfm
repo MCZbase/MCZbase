@@ -629,12 +629,6 @@ limitations under the License.
 							<th>AGENT_REMARK</th>
 							<th>PREFIX</th>
 							<th>SUFFIX</th>
-							<th>OTHER_NAME_1</th>
-							<th>OTHER_NAME_TYPE_1</th>
-							<th>OTHER_NAME_2</th>
-							<th>OTHER_NAME_TYPE_2</th>
-							<th>OTHER_NAME_3</th>
-							<th>OTHER_NAME_TYPE_3</th>
 							<th>AGENTGUID_GUID_TYPE</th>
 							<th>AGENTGUID</th>
 							<th>USE_AGENT_ID</th>
@@ -655,12 +649,6 @@ limitations under the License.
 								<td>#getProblemData.agent_remark#</td>
 								<td>#getProblemData.prefix#</td>
 								<td>#getProblemData.suffix#</td>
-								<td>#getProblemData.other_name_1#</td>
-								<td>#getProblemData.other_name_type_1#</td>
-								<td>#getProblemData.other_name_2#</td>
-								<td>#getProblemData.other_name_type_2#</td>
-								<td>#getProblemData.other_name_3#</td>
-								<td>#getProblemData.other_name_type_3#</td>
 								<td>#getProblemData.agentguid_guid_type#</td>
 								<td>#getProblemData.agentguid#</td>
 								<td>#getProblemData.use_agent_id#</td>
