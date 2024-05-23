@@ -368,7 +368,7 @@ limitations under the License.
 						<cfquery name="flagTitleNotFound" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							UPDATE cf_temp_citation 
 							SET 
-								status = concat(nvl2(status, status || '; ', ''),'Publication_id not found: "' || getTempTableTypes.publication_id)
+								status = concat(nvl2(status, status || '; ', ''),'Publication_id not found: [' || publication_id || ']')
 							WHERE 
 								username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 								and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableTypes.key#">
@@ -378,7 +378,7 @@ limitations under the License.
 					<cfquery name="flagBadPublicationID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						UPDATE cf_temp_citation 
 						SET 
-							status = concat(nvl2(status, status || '; ', ''),'Publication_id is empty or not a number: "' || getTempTableTypes.publication_id)
+							status = concat(nvl2(status, status || '; ', ''),'Publication_id is empty or not a number: [' || publication_id || ']')
 						WHERE 
 							username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 							and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableTypes.key#">
