@@ -448,12 +448,12 @@ limitations under the License.
 			</cfquery>
 			<cftry>
 				<cfset agent_updates = 0>
+				<cfquery name="agentNameID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					select sq_agent_name_id.nextval nextAgentNameId from dual
+				</cfquery>
 				<cftransaction>
 					<cfloop query="getTempData">
-						<cfquery name="agentNameID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-							select sq_agent_name_id.nextval nextAgentNameId from dual
-						</cfquery>
-						<cfquery name="insPerson" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateAgents1_result">
+						<cfquery name="insPerson" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" >
 							INSERT INTO agent (
 								agent_id,
 								agent_type,
@@ -477,6 +477,25 @@ limitations under the License.
 								</cfif>
 							)
 						</cfquery>
+						<cfquery name="savePK" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="pkResult">
+							select agent_name_id from agent_name
+							where ROWIDTOCHAR(rowid) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#updateAgents1_result.GENERATEDKEY#">
+						</cfquery>
+						<cfquery name="insName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+							INSERT INTO agent_name (
+								agent_name_id,
+								agent_id,
+								agent_name_type,
+								agent_name,
+								donor_card_present_fg)
+							VALUES (
+								<cfqueryparam cfsqltype='CF_SQL_DECIMAL' value="#savePK.agent_name_id#">,
+								<cfqueryparam cfsqltype='CF_SQL_DECIMAL' value="#getTempData.use_agent_id#">,
+								'preferred',
+								<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#preferred_name#'>,
+								0
+								)
+						</cfquery>
 						<cfquery name="insPerson" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							INSERT INTO person (
 								PERSON_ID
@@ -491,6 +510,12 @@ limitations under the License.
 								</cfif>
 								<cfif len(#MIDDLE_NAME#) gt 0>
 									,MIDDLE_NAME
+								</cfif>
+								<cfif len(#BIRTH_DATE#) gt 0>
+									,BIRTH_DATE
+								</cfif>
+								<cfif len(#DEATH_DATE#) gt 0>
+									,DEATH_DATE
 								</cfif>
 								<cfif len(#SUFFIX#) gt 0>
 									,SUFFIX
@@ -510,15 +535,18 @@ limitations under the License.
 								<cfif len(#MIDDLE_NAME#) gt 0>
 									,<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#MIDDLE_NAME#'>
 								</cfif>
+								<cfif len(#BIRTH_DATE#) gt 0>
+									,<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#BIRTH_DATE#'>
+								</cfif>
+								<cfif len(#DEATH_DATE#) gt 0>
+									,<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#DEATH_DATE#'>
+								</cfif>
 								<cfif len(#SUFFIX#) gt 0>
 									,<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#SUFFIX#'>
 								</cfif>
 								)
 						</cfquery>
-						<cfquery name="savePK" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="pkResult">
-							select agent_name_id from agent_name
-							where ROWIDTOCHAR(rowid) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#updateAgents1_result.GENERATEDKEY#">
-						</cfquery>
+			
 					<!---	<cfif len(preferred_name) is 0>
 							<cfset name = "">
 							<cfif len(#prefix#) gt 0>
@@ -572,21 +600,7 @@ limitations under the License.
 							</cfloop>
 								Remove the duplicate agents from the spreadsheet and start again.--->
 					<!---	<cfelse>--->
-							<cfquery name="insName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-								INSERT INTO agent_name (
-									agent_name_id,
-									agent_id,
-									agent_name_type,
-									agent_name,
-									donor_card_present_fg)
-								VALUES (
-									<cfqueryparam cfsqltype='CF_SQL_DECIMAL' value="#savePK.agent_name_id#">,
-									<cfqueryparam cfsqltype='CF_SQL_DECIMAL' value="#getTempData.use_agent_id#">,
-									'preferred',
-									<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#preferred_name#'>,
-									0
-									)
-							</cfquery>
+
 							<cfset agent_updates = agent_updates + updateAgents1_result.recordcount>
 							<!---</cfif>--->
 					</cfloop>
