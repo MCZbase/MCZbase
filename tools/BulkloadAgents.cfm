@@ -388,7 +388,7 @@ limitations under the License.
 			</cfif>
 			<cfquery name="getTempTableQC" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT 
-					key,to_char(birth_date,'YYYY-MM-DD') birth_date,agent_type,preferred_name,first_name,middle_name,last_name,to_char(death_date,'YYYY-MM-DD') death_date,agent_remark,prefix,suffix,other_name,other_name_type,other_name_2,other_name_type_2,other_name_3,other_name_type_3,agentguid_guid_type,agentguid,use_agent_id,preferred_agent_name_id,status
+					key,to_char(birth_date,'YYYY-MM-DD') birth_date,agent_type,preferred_name,first_name,middle_name,last_name,to_char(death_date,'YYYY-MM-DD') death_date,agent_remark,prefix,suffix,other_name,other_name_type,other_name_2,other_name_type_2,other_name_3,other_name_type_3,agentguid_guid_type,agentguid,temp_agent_id,temp_preferred_agent_name_id,status
 				FROM 
 					cf_temp_agents
 				WHERE 
@@ -402,12 +402,12 @@ limitations under the License.
 					select sq_preferred_agent_name_id.nextval nextPreferredNameId from dual
 				</cfquery>
 				<cfquery name="getUseAgentID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					update cf_temp_agents set use_agent_id = '#agentID.nextAgentId#'
+					update cf_temp_agents set temp_agent_id = '#agentID.nextAgentId#'
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 					AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
 				</cfquery>
 				<cfquery name="getPreferredAgentID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					update cf_temp_agents set preferred_agent_name_id = '#preferredNameID.nextAgentNameId#'
+					update cf_temp_agents set temp_preferred_agent_name_id = '#preferredNameID.nextAgentNameId#'
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 					AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
 				</cfquery>
@@ -440,7 +440,7 @@ limitations under the License.
 				</cfquery>
 			</cfloop>
 			<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				SELECT to_char(birth_date,'YYYY-MM-DD') birth_date,agent_type, preferred_name,first_name,middle_name,last_name,to_char(death_date,'YYYY-MM-DD') death_date,agent_remark,prefix,suffix,other_name,other_name_type,other_name_2,other_name_type_2,other_name_3,other_name_type_3,agentguid_guid_type,agentguid,preferred_agent_name_id,use_agent_id,status
+				SELECT to_char(birth_date,'YYYY-MM-DD') birth_date,agent_type, preferred_name,first_name,middle_name,last_name,to_char(death_date,'YYYY-MM-DD') death_date,agent_remark,prefix,suffix,other_name,other_name_type,other_name_2,other_name_type_2,other_name_3,other_name_type_3,agentguid_guid_type,agentguid,temp_preferred_agent_name_id,temp_agent_id,status
 				FROM cf_temp_agents
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
@@ -476,10 +476,10 @@ limitations under the License.
 						<th>OTHER_NAME_TYPE_2</th>
 						<th>OTHER_NAME_3</th>
 						<th>OTHER_NAME_TYPE_3</th>
-						<th>agentguid_guid_type</th>
-						<th>agentguid</th>
-						<th>preferred_agent_name_id</th>
-						<th>use_agent_id</th>
+						<th>AGENTGUID_GUID_TYPE</th>
+						<th>AGENTGUID</th>
+						<th>TEMP_PREFERRED_AGENT_NAME_ID</th>
+						<th>TEMP_AGENT_ID</th>
 					</tr>
 				<tbody>
 					<cfloop query="data">
@@ -503,8 +503,8 @@ limitations under the License.
 							<td>#data.OTHER_NAME_TYPE_3#</td>
 							<td>#data.agentguid_guid_type#</td>
 							<td>#data.agentguid#</td>
-							<td>#data.preferred_agent_name_id#</td>
-							<td>#data.use_agent_id#</td>
+							<td>#data.temp_preferred_agent_name_id#</td>
+							<td>#data.temp_agent_id#</td>
 						</tr>
 					</cfloop>
 				</tbody>
@@ -516,7 +516,7 @@ limitations under the License.
 		<h2 class="h4">Third step: Apply changes.</h2>
 		<cfoutput>
 			<cfquery name="getTempData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" >
-				SELECT key,to_char(birth_date,'YYYY-MM-DD') birth_date,agent_type, preferred_name,first_name,middle_name,last_name,to_char(death_date,'YYYY-MM-DD') death_date,agent_remark, prefix,suffix,agentguid_guid_type,agentguid,use_agent_id,preferred_agent_name_id,status 
+				SELECT key,to_char(birth_date,'YYYY-MM-DD') birth_date,agent_type, preferred_name,first_name,middle_name,last_name,to_char(death_date,'YYYY-MM-DD') death_date,agent_remark, prefix,suffix,agentguid_guid_type,agentguid,temp_agent_id,temp_preferred_agent_name_id,status 
 				FROM cf_temp_agents
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
@@ -541,9 +541,9 @@ limitations under the License.
 								</cfif>
 								)
 							VALUES (
-								<cfqueryparam cfsqltype='CF_SQL_DECIMAL' value='#getTempData.use_agent_id#'>,
+								<cfqueryparam cfsqltype='CF_SQL_DECIMAL' value='#getTempData.temp_agent_id#'>,
 								'person',
-								<cfqueryparam cfsqltype='CF_SQL_DECIMAL' value='#getTempData.preferred_agent_name_id#'>
+								<cfqueryparam cfsqltype='CF_SQL_DECIMAL' value='#getTempData.temp_preferred_agent_name_id#'>
 								<cfif len(#agentguid_guid_type#) gt 0>
 									,<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value="#agentguid_guid_type#">
 								</cfif>
@@ -561,7 +561,7 @@ limitations under the License.
 								donor_card_present_fg)
 							VALUES (
 								<cfqueryparam cfsqltype='CF_SQL_DECIMAL' value="#agentNameID.nextAgentNameId#">,
-								<cfqueryparam cfsqltype='CF_SQL_DECIMAL' value="#getTempData.use_agent_id#">,
+								<cfqueryparam cfsqltype='CF_SQL_DECIMAL' value="#getTempData.temp_agent_id#">,
 								'preferred',
 								<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#preferred_name#'>,
 								0
@@ -594,7 +594,7 @@ limitations under the License.
 								</cfif>
 								)
 							VALUES
-								(<cfqueryparam cfsqltype='CF_SQL_DECIMAL' value="#use_agent_id#">
+								(<cfqueryparam cfsqltype='CF_SQL_DECIMAL' value="#temp_agent_id#">
 								<cfif len(#prefix#) gt 0>
 									,<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#prefix#'>
 								</cfif>
@@ -624,7 +624,7 @@ limitations under the License.
 			<cfcatch>
 				<h3 class="mt-3">There was a problem updating container types.</h3>
 				<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					SELECT agent_type, preferred_name, first_name, middle_name, last_name, birth_date, death_date, agent_remark, prefix, suffix,agentguid_guid_type, agentguid, use_agent_id, status 
+					SELECT agent_type, preferred_name, first_name, middle_name, last_name, birth_date, death_date, agent_remark, prefix, suffix,agentguid_guid_type, agentguid,temp_agent_id,temp_preferred_agent_name_id status 
 					FROM cf_temp_agents 
 					WHERE status is not null
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
