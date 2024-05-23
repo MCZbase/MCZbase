@@ -356,19 +356,19 @@ limitations under the License.
 						other_name_type nameType
 					from
 						cf_temp_agents
-						where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.dbuser#">
+						where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 					union
 					select
 						other_name_type_2 nameType
 					from
 						cf_temp_agents
-						where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.dbuser#">
+						where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 					union
 					select
 						other_name_type_3 nameType
 					from
 						cf_temp_agents
-						where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.dbuser#">
+						where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				)
 				group by nameType
 			</cfquery>
@@ -378,27 +378,30 @@ limitations under the License.
 			</cfif>
 			<cfquery name="ctotherNameType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				select nameType from  
-				(
-					select
+				(	select
 						other_name_type nameType
 					from
 						cf_temp_agents
-						where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.dbuser#">
+						where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 					union
 					select
 						other_name_type_2 nameType
 					from
 						cf_temp_agent
-						where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.dbuser#">
+						where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 					union
 					select
 						other_name_type_3 nameType
 					from
 						cf_temp_agent
-						where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.dbuser#">
+						where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				)
 				where nameType not in (select agent_name_type from ctagent_name_type)
 			</cfquery>
+			<cfif ctotherNameType.recordcount gt 0>
+				<div class="error">Unaccepable name type(s): #valuelist(ctont.nt)#</div>
+				<cfabort>
+			</cfif>
 			<cfquery name="getTempTableQC" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT 
 					key,to_char(birth_date,'DD-Mon-YYYY') birth_date,agent_type,preferred_name,first_name,middle_name,last_name,to_char(death_date,'DD-Mon-YYYY') death_date,agent_remark,prefix,suffix,other_name,other_name_type,other_name_2,other_name_type_2,other_name_3,other_name_type_3,agentguid_guid_type,agentguid,use_agent_id,status
