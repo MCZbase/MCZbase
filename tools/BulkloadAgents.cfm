@@ -531,6 +531,7 @@ limitations under the License.
 				</cfquery>
 				<cftry>
 					<cfset agent_updates = 0>
+					<cfset agent_updat
 					<cfif getTempData.recordcount EQ 0>
 						<cfthrow message="You have no rows to load in the agents bulkloader table (cf_temp_agents).  <a href='/tools/BulkloadAgents.cfm' class='text-danger'>Start again</a>"><!--- " --->
 					</cfif>
@@ -633,13 +634,13 @@ limitations under the License.
 								</cfif>
 								)
 						</cfquery>
-						<cfset agent_updates = agent_updates + updateAgents1_result.recordcount>
+						<cfset agent_updates = agent_updates + insPerson_result.recordcount>
 						<cfif updateAgents1_result.recordcount gt 0>
 							<cfthrow message="Error: Attempting to insert a duplicate agent: AGENT_ID=#getTempData.T_AGENT_ID#, PREFERRED_AGENT_NAME_ID=#getTempData.T_PREFERRED_AGENT_NAME_ID#">
 						</cfif>
 					</cfloop>
-					<h3 class="mt-3">Updated #agent_updates1# agents.</h3>
-					<cfif getTempData.recordcount eq agent_updates and updateAgents1_result.recordcount eq 0>
+					<h3 class="mt-3">Updated #agent_updates# agents.</h3>
+					<cfif getTempData.recordcount eq agent_updates and insPerson_result.recordcount eq 0>
 						<h3 class="text-success">Success - loaded</h3>
 					</cfif>
 					<cfif updateAgents1_result.recordcount gt 0>
