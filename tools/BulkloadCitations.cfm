@@ -19,7 +19,8 @@ limitations under the License.
 <!--- special case handling to dump problem data as csv --->
 <cfif isDefined("action") AND action is "dumpProblems">
 	<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-		SELECT institution_acronym,collection_cde,other_id_type,other_id_number,publication_title,publication_id,cited_scientific_name,occurs_page_number,citation_page_uri,type_status,citation_remarks
+		SELECT institution_acronym,collection_cde,other_id_type,other_id_number,publication_title as publication,
+			publication_id,cited_scientific_name,occurs_page_number,citation_page_uri,type_status,citation_remarks
 		FROM cf_temp_citation 
 		WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 		ORDER BY key
@@ -33,6 +34,7 @@ limitations under the License.
 </cfif>
 <!--- end special case dump of problems --->
 
+<!--- NOTE: Publication_title is not an input, but is reused to hold the short form of the citation to allow confirmation of the citation --->
 <cfset fieldlist = "INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_NUMBER,PUBLICATION_ID,CITED_SCIENTIFIC_NAME,OCCURS_PAGE_NUMBER,CITATION_PAGE_URI,TYPE_STATUS,CITATION_REMARKS">
 <cfset fieldTypes ="CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_DECIMAL,CF_SQL_VARCHAR,CF_SQL_DECIMAL,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR">
 <cfset requiredfieldlist = "INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_NUMBER,CITED_SCIENTIFIC_NAME,TYPE_STATUS,PUBLICATION_ID">
@@ -346,10 +348,10 @@ limitations under the License.
 							and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableTypes.key#"> 
 					</cfquery>
 				</cfif>
-				<!--- lookup the title for the publication --->
+				<!--- lookup the short citation form for the publication, put in the publication_title field --->
 				<cfif len(getTempTableTypes.publication_id) GT 0 AND REFind("^[0-9]+$",getTempTableTypes.publication_id) GT 0>
 					<cfquery name="lookupTitle" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						SELECT publication_title 
+						SELECT MCZBASE.get_citation(publication_id, 'short', 1) publication_title 
 						FROM publication
 						WHERE publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableTypes.publication_id#"> 
 					</cfquery>
@@ -518,7 +520,7 @@ limitations under the License.
 						<th>OTHER_ID_TYPE</th>
 						<th>OTHER_ID_NUMBER</th>
 						<th>PUBLICATION_ID</th>
-						<th>Publication Title</th>
+						<th>Publication</th>
 						<th>CITED_SCIENTIFIC_NAME</th>
 						<th>OCCURS_PAGE_NUMBER</th>
 						<th>CITATION_PAGE_URI</th>
@@ -662,7 +664,7 @@ limitations under the License.
 									<th>OTHER_ID_TYPE</th>
 									<th>OTHER_ID_NUMBER</th>
 									<th>COLLECTION_OBJECT_ID</th>
-									<th>PUBLICATION_TITLE</th>
+									<th>PUBLICATION</th>
 									<th>PUBLICATION_ID</th>
 									<th>CITED_TAXON_NAME_ID</th>
 									<th>OCCURS_PAGE_NUMBER</th>
