@@ -555,7 +555,7 @@ limitations under the License.
 								</cfif>
 							)
 						</cfquery>
-						<cfquery name="insName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+<!---						<cfquery name="insName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							INSERT INTO agent_name (
 								agent_name_id,
 								agent_id,
@@ -569,7 +569,7 @@ limitations under the License.
 								<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#preferred_name#'>,
 								0
 								)
-						</cfquery>
+						</cfquery>--->
 					
 						<cfquery name="insPerson" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							INSERT INTO person (
