@@ -617,57 +617,80 @@ limitations under the License.
 								</cfquery>
 							</cfloop>
 						</cfif>--->
-						<cfquery name="insPerson" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-							INSERT INTO person (
-								PERSON_ID
-								<cfif len(#prefix#) gt 0>
-									,prefix
-								</cfif>
-								<cfif len(#LAST_NAME#) gt 0>
-									,LAST_NAME
-								</cfif>
-								<cfif len(#FIRST_NAME#) gt 0>
-									,FIRST_NAME
-								</cfif>
-								<cfif len(#MIDDLE_NAME#) gt 0>
-									,MIDDLE_NAME
-								</cfif>
-								<cfif len(#BIRTH_DATE#) gt 0>
-									,BIRTH_DATE
-								</cfif>
-								<cfif len(#DEATH_DATE#) gt 0>
-									,DEATH_DATE
-								</cfif>
-								<cfif len(#SUFFIX#) gt 0>
-									,SUFFIX
-								</cfif>
-								)
-							VALUES
-								(
-								<cfqueryparam cfsqltype='CF_SQL_DECIMAL' value="#t_agent_id#">
-								<cfif len(#prefix#) gt 0>
-									,<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#prefix#'>
-								</cfif>
-								<cfif len(#LAST_NAME#) gt 0>
-									,<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#LAST_NAME#'>
-								</cfif>
-								<cfif len(#FIRST_NAME#) gt 0>
-									,<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#FIRST_NAME#'>
-								</cfif>
-								<cfif len(#MIDDLE_NAME#) gt 0>
-									,<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#MIDDLE_NAME#'>
-								</cfif>
-								<cfif len(#BIRTH_DATE#) gt 0>
-									,<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#BIRTH_DATE#'>
-								</cfif>
-								<cfif len(#DEATH_DATE#) gt 0>
-									,<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#DEATH_DATE#'>
-								</cfif>
-								<cfif len(#SUFFIX#) gt 0>
-									,<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#SUFFIX#'>
-								</cfif>
-								)
-						</cfquery>
+						<cfif #agent_type# is "person">
+							<cfquery name="insPerson" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+								INSERT INTO person (
+									PERSON_ID
+									<cfif len(#prefix#) gt 0>
+										,prefix
+									</cfif>
+									<cfif len(#LAST_NAME#) gt 0>
+										,LAST_NAME
+									</cfif>
+									<cfif len(#FIRST_NAME#) gt 0>
+										,FIRST_NAME
+									</cfif>
+									<cfif len(#MIDDLE_NAME#) gt 0>
+										,MIDDLE_NAME
+									</cfif>
+									<cfif len(#BIRTH_DATE#) gt 0>
+										,BIRTH_DATE
+									</cfif>
+									<cfif len(#DEATH_DATE#) gt 0>
+										,DEATH_DATE
+									</cfif>
+									<cfif len(#SUFFIX#) gt 0>
+										,SUFFIX
+									</cfif>
+									)
+								VALUES
+									(
+									<cfqueryparam cfsqltype='CF_SQL_DECIMAL' value="#t_agent_id#">
+									<cfif len(#prefix#) gt 0>
+										,<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#prefix#'>
+									</cfif>
+									<cfif len(#LAST_NAME#) gt 0>
+										,<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#LAST_NAME#'>
+									</cfif>
+									<cfif len(#FIRST_NAME#) gt 0>
+										,<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#FIRST_NAME#'>
+									</cfif>
+									<cfif len(#MIDDLE_NAME#) gt 0>
+										,<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#MIDDLE_NAME#'>
+									</cfif>
+									<cfif len(#BIRTH_DATE#) gt 0>
+										,<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#BIRTH_DATE#'>
+									</cfif>
+									<cfif len(#DEATH_DATE#) gt 0>
+										,<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#DEATH_DATE#'>
+									</cfif>
+									<cfif len(#SUFFIX#) gt 0>
+										,<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#SUFFIX#'>
+									</cfif>
+									)
+							</cfquery>
+						</cfif>
+						<cfif len(#OTHER_NAME#) gt 0>
+							<cfset agent_name_id = #agent_name_id# + 1>
+							<cfquery name="newAgentName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+								insert into agent_name ( AGENT_NAME_ID,AGENT_ID,AGENT_NAME_TYPE,AGENT_NAME )
+								values (sq_agent_name_id.nextval,sq_agent_id.currval,'#OTHER_NAME_TYPE#','#OTHER_NAME#')
+							</cfquery>
+						</cfif>
+						<cfif len(#OTHER_NAME_2#) gt 0>
+							<cfset agent_name_id = #agent_name_id# + 1>
+							<cfquery name="newAgentName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+								insert into agent_name ( AGENT_NAME_ID,AGENT_ID,AGENT_NAME_TYPE,AGENT_NAME )
+								values (sq_agent_name_id.nextval,sq_agent_id.currval,'#OTHER_NAME_TYPE_2#','#OTHER_NAME_2#')
+							</cfquery>
+						</cfif>
+						<cfif len(#OTHER_NAME_3#) gt 0>
+							<cfset agent_name_id = #agent_name_id# + 1>
+							<cfquery name="newAgentName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+								insert into agent_name ( AGENT_NAME_ID,AGENT_ID,AGENT_NAME_TYPE,AGENT_NAME )
+								values (sq_agent_name_id.nextval,sq_agent_id.currval,'#OTHER_NAME_TYPE_3#','#OTHER_NAME_3#')
+							</cfquery>
+						</cfif>
 						<cfset agent_updates = agent_updates + insPerson_result.recordcount>
 						<cfif updateAgents1_result.recordcount gt 0>
 							<cfthrow message="Error: Attempting to insert a duplicate agent: AGENT_ID=#getTempData.T_AGENT_ID#, PREFERRED_AGENT_NAME_ID=#getTempData.T_PREFERRED_AGENT_NAME_ID#">
