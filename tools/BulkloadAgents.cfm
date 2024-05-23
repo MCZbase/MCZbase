@@ -345,7 +345,7 @@ limitations under the License.
 				and username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<cfif rpn.c is not 0>
-				<div class="error">Preferred name is required for every agent.</div>
+				<div>Preferred name is required for every agent.</div>
 				<cfabort>
 			</cfif>
 			<cfquery name="otherNameType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -371,7 +371,7 @@ limitations under the License.
 				group by nameType
 			</cfquery>
 			<cfif listfind(valuelist(otherNameType.nameType),"preferred")>
-				<div class="error">Other name types may not be "preferred"</div>
+				<div>Other name types may not be "preferred"</div>
 				<cfabort>
 			</cfif>
 			<cfquery name="ctotherNameType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -397,7 +397,7 @@ limitations under the License.
 				where nameType not in (select agent_name_type from ctagent_name_type)
 			</cfquery>
 			<cfif ctotherNameType.recordcount gt 0>
-				<div class="error">Unaccepable name type(s): #valuelist(ctotherNameType.nameType)#</div>
+				<div>Unaccepable name type(s): #valuelist(ctotherNameType.nameType)#</div>
 				<cfabort>
 			</cfif>
 			<cfquery name="getTempTableQC" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -448,7 +448,7 @@ limitations under the License.
 				</cfquery>
 			</cfloop>
 			<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				SELECT to_char(birth_date,'YYYY-MM-DD') birth_date,agent_type, preferred_name,first_name,middle_name,last_name,to_char(death_date,'YYYY-MM-DD') death_date,agent_remark,prefix,suffix,other_name,other_name_type,other_name_2,other_name_type_2,other_name_3,other_name_type_3,agentguid_guid_type,agentguid,use_agent_id,status
+				SELECT to_char(birth_date,'YYYY-MM-DD') birth_date,agent_type, preferred_name,first_name,middle_name,last_name,to_char(death_date,'YYYY-MM-DD') death_date,agent_remark,prefix,suffix,other_name,other_name_type,other_name_2,other_name_type_2,other_name_3,other_name_type_3,agentguid_guid_type,agentguid,use_agent_name_id,use_agent_id,status
 				FROM cf_temp_agents
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
@@ -486,6 +486,7 @@ limitations under the License.
 						<th>OTHER_NAME_TYPE_3</th>
 						<th>agentguid_guid_type</th>
 						<th>agentguid</th>
+						<th>use_agent_name_id</th>
 						<th>use_agent_id</th>
 					</tr>
 				<tbody>
@@ -510,6 +511,7 @@ limitations under the License.
 							<td>#data.OTHER_NAME_TYPE_3#</td>
 							<td>#data.agentguid_guid_type#</td>
 							<td>#data.agentguid#</td>
+							<td>#data.use_agent_name_id#</td>
 							<td>#data.use_agent_id#</td>
 						</tr>
 					</cfloop>
