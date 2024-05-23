@@ -210,7 +210,7 @@ limitations under the License.
 				</cfif>
 			</cfif>
 		</cfloop>
-		<ul class="mb-4 h5 font-weight-normal list-group mx-xl-3 list-unstyled">
+		<table class='table table-responsive d-md-table'>
 			<cfloop list="#fieldlist#" index="field" delimiters=",">
 				<cfset hint="">
 				<cfquery name = "getComments"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#"  result="getComments_result">
@@ -233,25 +233,31 @@ limitations under the License.
 				<cfelse>
 					<cfset class="text-dark">
 				</cfif>
-				<li>
-					<span class="#class# font-weight-lessbold pl-3" #hint#>#field#:</span>
-					<cfif arrayFindNoCase(colNameArray,field) GT 0>
-						<span class="text-success font-weight-bold">[ Present in CSV ]</span>
-					<cfelse>
-						<!--- Case 2. Check by identifying field in required field list --->
-						<cfif ListContainsNoCase(requiredFieldList,field)>
-							<strong class="text-dark">[ Required Column Not Found ]</strong>
-							<cfif NOT ListContains(missingRequiredFields,field)>
-								<cfset missingRequiredFields = ListAppend(missingRequiredFields,field)>
-							</cfif>
+				<tr>
+					<td>
+						<span class="#class# font-weight-lessbold pl-3" #hint#>#field#:</span>
+					</td>
+					<td>
+						<cfif arrayFindNoCase(colNameArray,field) GT 0>
+							<span class="text-success font-weight-bold">[ Present in CSV ]</span>
 						<cfelse>
-							<span class="text-warning font-weight-bold">[ Not Found ]</span>
+							<!--- Case 2. Check by identifying field in required field list --->
+							<cfif ListContainsNoCase(requiredFieldList,field)>
+								<strong class="text-dark">[ Required Column Not Found ]</strong>
+								<cfif NOT ListContains(missingRequiredFields,field)>
+									<cfset missingRequiredFields = ListAppend(missingRequiredFields,field)>
+								</cfif>
+							<cfelse>
+								<span class="text-warning font-weight-bold">[ Not Found ]</span>
+							</cfif>
 						</cfif>
-					</cfif>
-					<span class="text-secondary">#comment#</span>
-				</li>
+					</td>
+					<td colspan="3">
+						<span class="text-secondary">#comment#</span>
+					</td>
+				</tr>
 			</cfloop>
-		</ul>
+		</table>
 		<cfset errorMessage = "">
 		<cfloop list="#missingRequiredFields#" index="missingField">
 			<cfset errorMessage = "#errorMessage#<li style='font-size: 1.1rem;'>#missingField#</li>">
