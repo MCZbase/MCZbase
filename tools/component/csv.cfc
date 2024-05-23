@@ -203,9 +203,9 @@ limitations under the License.
 		<!---  Throw exception and fail if any required fields are missing --->
 		<cfset missingRequiredFields = "">
 		<cfloop list="#fieldList#" item="aField">
-			<cfif ListContainsNoCase(requiredFieldList,aField)>
+			<cfif ListFindNoCase(requiredFieldList,aField) GT 0>
 				<!--- Case 1. Check by splitting assembled list of foundHeaders --->
-				<cfif NOT ListContainsNoCase(foundHeaders,aField)>
+				<cfif ListFindNoCase(foundHeaders,aField) EQ 0>
 					<cfset missingRequiredFields = ListAppend(missingRequiredFields,aField)>
 				</cfif>
 			</cfif>
@@ -239,9 +239,9 @@ limitations under the License.
 							<span class="text-success font-weight-bold">[ Present in CSV ]</span>
 						<cfelse>
 							<!--- Case 2. Check by identifying field in required field list --->
-							<cfif ListContainsNoCase(requiredFieldList,field)>
+							<cfif ListFindNoCase(requiredFieldList,field) GT 0>
 								<strong class="text-dark">[ Required Column Not Found ]</strong>
-								<cfif NOT ListContains(missingRequiredFields,field)>
+								<cfif ListFind(missingRequiredFields,field) EQ 0>
 									<cfset missingRequiredFields = ListAppend(missingRequiredFields,field)>
 								</cfif>
 							<cfelse>
@@ -283,7 +283,7 @@ limitations under the License.
 		<cfset containsAdditional=false>
 		<cfset additionalCount = 0>
 		<cfloop list="#foundHeaders#" item="aField">
-			<cfif NOT ListContainsNoCase(fieldList,aField)>
+			<cfif ListFindNoCase(fieldList,aField) EQ 0>
 				<cfset containsAdditional=true>
 				<cfset additionalCount = additionalCount+1>
 			</cfif>
@@ -295,7 +295,7 @@ limitations under the License.
 			<!--- Identify additional columns that will be ignored --->
 			<ul class="pb-1 h4">
 				<cfloop list="#foundHeaders#" item="aField">
-					<cfif NOT ListContainsNoCase(fieldList,aField)>
+					<cfif ListFindNoCase(fieldList,aField) EQ 0>
 						<li class="pb-1 text-dark">#aField#</1i>
 					</cfif>
 				</cfloop>
@@ -317,7 +317,7 @@ limitations under the License.
 			<cfloop list="#foundHeaders#" item="aField">
 				<cfif listValueCount(foundHeaders,aField) GT 1>
 					<cfset duplicateCount = duplicateCount + 1>
-					<cfif NOT ListContains(duplicateFields,aField)>
+					<cfif ListFind(duplicateFields,aField) EQ 0>
 						<cfset duplicateFields = ListAppend(duplicateFields,aField)>
 					</cfif>
 				</cfif>
