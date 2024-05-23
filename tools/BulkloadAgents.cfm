@@ -443,7 +443,6 @@ limitations under the License.
 				SELECT to_char(birth_date,'DD-Mon-YYYY') birth_date,agent_type, preferred_name,first_name,middle_name,last_name,to_char(death_date,'DD-Mon-YYYY') death_date,agent_remark,prefix,suffix,other_name,other_name_type,other_name_2,other_name_type_2,other_name_3,other_name_type_3,agentguid_guid_type,agentguid,use_agent_id,status
 				FROM cf_temp_agents
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-				AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableType.key#">
 			</cfquery>
 			<cfquery name="pf" dbtype="query">
 				SELECT count(*) c 
