@@ -530,9 +530,7 @@ limitations under the License.
 				<cftransaction>
 					<cfset problem_key = #getTempData.key#>
 					<cfloop query="getTempData">
-						<cfquery name="agentNameID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						select sq_agent_name_id.nextval nextAgentNameId from dual
-					</cfquery>
+					
 						<cfquery name="insPerson" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateAgents1_result">
 							INSERT INTO agent (
 								agent_id,
@@ -572,7 +570,7 @@ limitations under the License.
 								0
 								)
 						</cfquery>
-				
+					</cfloop>
 						<cfquery name="insPerson" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							INSERT INTO person (
 								PERSON_ID
@@ -623,7 +621,7 @@ limitations under the License.
 								</cfif>
 								)
 						</cfquery>
-					</cfloop>			
+							
 				</cftransaction>
 				<h3 class="mt-3">Updated #agent_updates# agents.</h3>
 			<cfcatch>
