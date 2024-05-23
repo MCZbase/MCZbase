@@ -249,7 +249,7 @@ limitations under the License.
 							</cfif>
 						</cfif>
 					</td>
-					<td class="pl-xl-3">
+					<td class="pl-xl-1">
 						<span class="#class# font-weight-lessbold pl-3" #hint#>#field#:</span>
 					</td>
 					<td colspan="3" class="pl-xl-3">
