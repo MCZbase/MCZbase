@@ -481,7 +481,7 @@ limitations under the License.
 							select agent_name_id from agent_name
 							where ROWIDTOCHAR(rowid) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#updateAgents1_result.GENERATEDKEY#">
 						</cfquery>
-						<cfquery name="insName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						<cfquery name="insName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateAgents1_result">
 							INSERT INTO agent_name (
 								agent_name_id,
 								agent_id,
