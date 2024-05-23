@@ -597,7 +597,8 @@ limitations under the License.
 								</cfif>
 								)
 							VALUES
-								(<cfqueryparam cfsqltype='CF_SQL_DECIMAL' value="#t_agent_id#">
+								(
+								<cfqueryparam cfsqltype='CF_SQL_DECIMAL' value="#t_agent_id#">
 								<cfif len(#prefix#) gt 0>
 									,<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#prefix#'>
 								</cfif>
@@ -624,91 +625,6 @@ limitations under the License.
 					</cfloop>
 				</cftransaction>
 				<h3 class="mt-3">Updated #agent_updates# agents.</h3>
-			<cfcatch>
-				<h3 class="mt-3">There was a problem updating container types.</h3>
-				<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					SELECT agent_type, preferred_name, first_name, middle_name, last_name, birth_date, death_date, agent_remark, prefix, suffix,agentguid_guid_type, agentguid,t_preferred_agent_name_id,t_agent_id, status 
-					FROM cf_temp_agents 
-					WHERE status is not null
-					AND key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#problem_key#">
-				</cfquery>
-				<h3>Problematic Rows (<a href="/tools/BulkloadAgents.cfm?action=dumpProblems">download</a>)</h3>
-				<table class='sortable px-0 mx-0 table small w-100 table-responsive table-striped'>
-					<thead>
-						<tr>
-							<th>BULKLOADING&nbsp;STATUS</th>
-							<th>AGENT_TYPE</th>
-							<th>PREFERRED_NAME</th>
-							<th>FIRST_NAME</th>
-							<th>MIDDLE_NAME</th>
-							<th>LAST_NAME</th>
-							<th>BIRTH_DATE</th>
-							<th>DEATH_DATE</th>
-							<th>AGENT_REMARK</th>
-							<th>PREFIX</th>
-							<th>SUFFIX</th>
-							<th>AGENTGUID_GUID_TYPE</th>
-							<th>AGENTGUID</th>
-							<th>T_PREFERRED_AGENT_NAME_ID</th>
-							<th>T_AGENT_ID</th>
-							
-						</tr> 
-					</thead>
-					<tbody>
-						<cfloop query="getProblemData">
-							<tr>
-								<td>#getProblemData.status#</td>
-								<td>#getProblemData.agent_type#</td>
-								<td>#getProblemData.preferred_name#</td>
-								<td>#getProblemData.first_name#</td>
-								<td>#getProblemData.middle_name#</td>
-								<td>#getProblemData.last_name#</td>
-								<td>#getProblemData.birth_date#</td>
-								<td>#getProblemData.death_date#</td>
-								<td>#getProblemData.agent_remark#</td>
-								<td>#getProblemData.prefix#</td>
-								<td>#getProblemData.suffix#</td>
-								<td>#getProblemData.agentguid_guid_type#</td>
-								<td>#getProblemData.agentguid#</td>
-								<td>#getProblemData.t_preferred_agent_name_id#</td>
-								<td>#getProblemData.t_agent_id#</td>
-							</tr>
-						</cfloop>
-					</tbody>
-				</table>
-				<cfrethrow>
-			</cfcatch>
-			</cftry>
-			<cfset problem_key = "">
-			<cftransaction>
-				<cftry>
-					<cfset agent_updates = 0>
-					<cfloop query="getTempData">
-						<cfset problem_key = getTempData.key>
-						<cfquery name="updateAgents" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateAgents_result">
-							INSERT INTO person (
-								person_id,
-								prefix,
-								last_name,
-								first_name,
-								middle_name,
-								suffix,
-								birth_date,
-								death_date
-							) VALUES (
-								#getTempData.t_agent_id#,
-								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#prefix#">,
-								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#last_name#">,
-								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#first_name#">,
-								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#middle_name#">,
-								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#suffix#">,
-								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#dateformat(birth_date,'yyyy-mm-dd')#">,
-								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#dateformat(death_date,'yyyy-mm-dd')#">
-							)
-						</cfquery>
-						<cfset agent_updates = agent_updates + updateAgents_result.recordcount>
-					</cfloop>
-					<cftransaction action="commit">
 				<cfcatch>
 					<cftransaction action="rollback">
 						<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -752,26 +668,28 @@ limitations under the License.
 						<table class='sortable px-0 mx-0 table table-responsive table-striped w-100 small'>
 							<thead class="thead-light">
 								<tr>
-									<th>bulkload&nbsp;status</th>
-									<th>agent_type</th>
-									<th>preferred_name</th>
-									<th>first_name</th>
-									<th>middle_name</th>
-									<th>last_name</th>
-									<th>birth_date</th>
-									<th>death_date</th>
-									<th>agent_remark</th>
-									<th>prefix</th>
-									<th>suffix</th>
-									<th>other_name_type</th>
-									<th>other_name</th>
-									<th>other_name_type_2</th>
-									<th>other_name_2</th>
-									<th>other_name_type_3</th>
-									<th>other_name_3</th>
-									<th>username</th>
-									<th>agentguid_guid_type</th>
-									<th>agentguid</th>
+									<th>BULKLOADER&nbsp;STATUS</th>
+									<th>AGENT_TYPE</th>
+									<th>PREFERRED_NAME</th>
+									<th>FIRST_NAME</th>
+									<th>MIDDLE_NAME</th>
+									<th>LAST_NAME</th>
+									<th>BIRTH_DATE</th>
+									<th>DEATH_DATE</th>
+									<th>AGENT_REMARK</th>
+									<th>PREFIX</th>
+									<th>SUFFIX</th>
+									<th>OTHER_NAME_TYPE</th>
+									<th>OTHER_NAME</th>
+									<th>OTHER_NAME_TYPE_2</th>
+									<th>OTHER_NAME_2</th>
+									<th>OTHER_NAME_TYPE_3</th>
+									<th>OTHER_NAME_3</th>
+									<th>USERNAME</th>
+									<th>AGENTGUID_GUID_TYPE</th>
+									<th>AGENTGUID</th>
+									<th>T_PREFERRED_AGENT_NAME_ID</th>
+									<th>T_AGENT_ID</th>
 								</tr> 
 							</thead>
 							<tbody>
@@ -796,6 +714,8 @@ limitations under the License.
 										<td>#getProblemData.other_name_3#</td>
 										<td>#getProblemData.agentguid_guid_type#</td>
 										<td>#getProblemData.agentguid#</td>
+										<td>#getProblemData.t_preferred_agent_name_id#</td>
+										<td>#getProblemData.t_agent_id#</td>
 									</tr> 
 								</cfloop>
 							</tbody>
