@@ -406,7 +406,6 @@ limitations under the License.
 					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<cfloop query="getTempTableQC">
-			
 				<cfquery name="getUseAgentID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					update cf_temp_agents set use_agent_id = '#agentID.nextAgentId#'
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
@@ -562,7 +561,7 @@ limitations under the License.
 								agent_name,
 								donor_card_present_fg)
 							VALUES (
-								<cfqueryparam cfsqltype='CF_SQL_DECIMAL' value="#savePK.agent_name_id#">,
+								<cfqueryparam cfsqltype='CF_SQL_DECIMAL' value="#updateAgents1_result.GENERATEDKEY#">,
 								<cfqueryparam cfsqltype='CF_SQL_DECIMAL' value="#getTempData.use_agent_id#">,
 								'preferred',
 								<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#preferred_name#'>,
