@@ -319,7 +319,7 @@ limitations under the License.
 			<!---Prepare for other agent_types even through working with just "person" now--->
 			<cfquery name="getTempTableType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT 
-					key,agent_type,preferred_name
+					key,agent_type,preferred_name,last_name
 				FROM 
 					cf_temp_agents
 				WHERE 
@@ -546,7 +546,7 @@ limitations under the License.
 								</cfif>
 								)
 						</cfquery>
-			
+					</cfloop>
 					<!---	<cfif len(preferred_name) is 0>
 							<cfset name = "">
 							<cfif len(#prefix#) gt 0>
@@ -601,15 +601,15 @@ limitations under the License.
 								Remove the duplicate agents from the spreadsheet and start again.--->
 					<!---	<cfelse>--->
 
-							<cfset agent_updates = agent_updates + updateAgents1_result.recordcount>
+						<!---	<cfset agent_updates = agent_updates + updateAgents1_result.recordcount>--->
 							<!---</cfif>--->
-					</cfloop>
+				
 				</cftransaction>
 				<h3 class="mt-3">Updated #agent_updates# agents.</h3>
 			<cfcatch>
 				<h3 class="mt-3">There was a problem updating container types.</h3>
 				<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					SELECT agent_type, preferred_name, first_name, middle_name, last_name, birth_date, death_date, agent_remark, prefix, suffix, other_name, other_name_type,other_name_2,other_name_type_2,other_name_3,other_name_type_3,agentguid_guid_type, agentguid, use_agent_id, status 
+					SELECT agent_type, preferred_name, first_name, middle_name, last_name, birth_date, death_date, agent_remark, prefix, suffix,agentguid_guid_type, agentguid, use_agent_id, status 
 					FROM cf_temp_agents 
 					WHERE status is not null
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
