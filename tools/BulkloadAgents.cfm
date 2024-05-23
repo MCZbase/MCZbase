@@ -531,7 +531,6 @@ limitations under the License.
 				</cfquery>
 				<cftry>
 					<cfset agent_updates = 0>
-					<cfset agent_updat
 					<cfif getTempData.recordcount EQ 0>
 						<cfthrow message="You have no rows to load in the agents bulkloader table (cf_temp_agents).  <a href='/tools/BulkloadAgents.cfm' class='text-danger'>Start again</a>"><!--- " --->
 					</cfif>
