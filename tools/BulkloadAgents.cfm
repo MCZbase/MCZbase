@@ -574,30 +574,36 @@ limitations under the License.
 							group by AGENT_TYPE, AGENT_ID, PREFERRED_AGENT_NAME_ID
 							having count(*) > 1
 						</cfquery>
-						<cfquery name="insName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="insName_result">
-							INSERT INTO agent_name (
-								agent_name_id,
-								agent_id,
-								agent_name_type,
-								agent_name,
-								donor_card_present_fg)
-							VALUES (
-								<cfqueryparam cfsqltype='CF_SQL_DECIMAL' value="#getTempData.t_preferred_agent_name_id#">,
-								<cfqueryparam cfsqltype='CF_SQL_DECIMAL' value="#getTempData.t_agent_id#">,
-								'preferred',
-								<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#preferred_name#'>,
-								0
-								)
-						</cfquery>
+						<cfif updateAgents1_result.recordcount neq 0>
+							This agent name already exists.
+						<cfelse>
+							<cfquery name="insName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="insName_result">
+								INSERT INTO agent_name (
+									agent_name_id,
+									agent_id,
+									agent_name_type,
+									agent_name,
+									donor_card_present_fg)
+								VALUES (
+									<cfqueryparam cfsqltype='CF_SQL_DECIMAL' value="#getTempData.t_preferred_agent_name_id#">,
+									<cfqueryparam cfsqltype='CF_SQL_DECIMAL' value="#getTempData.t_agent_id#">,
+									'preferred',
+									<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#preferred_name#'>,
+									0
+									)
+							</cfquery>
+						</cfif>
+						<!---make sure the preferred name was entered and retrieve the agent id--->
 						<cfquery name="updateAgents2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateAgents2_result">
 							select agent_name,agent_id 
 							from agent_name
 							where agent_id = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempData.t_agent_id#">
 							and agent_name_type = 'preferred'
 						</cfquery>
-						<cfif insName_result.recordcount eq 1>
+						<!---if there is a result in updateAgents2, look for entried in other name type fields--->
+						<cfif updateAgents2_result.recordcount eq 1>
 							<cfquery name="otherNameType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-								select nameType, otherName from (
+								select nameType from (
 									select
 										other_name_type nameType
 									from
@@ -616,10 +622,11 @@ limitations under the License.
 										cf_temp_agents
 										where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 								)
-								group by nameType, otherName, nameId
+								group by nameType
 							</cfquery>
+							<!---Check to see if other names exists--->
 							<cfloop query="otherNameType">
-								other names in addition to preferred name exists
+								The following other name types in addition to preferred name exists: '#nameType#'.
 							</cfloop>
 							<cfif len(getTempData.t_other_name_id) gt 0>
 								<cfquery name="insOtherName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
