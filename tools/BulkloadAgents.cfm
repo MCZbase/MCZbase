@@ -390,7 +390,7 @@ limitations under the License.
 			</cfif>
 			<cfquery name="getTempTableQC" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT 
-					key,to_char(birth_date,'YYYY-MM-DD') birth_date,agent_type,preferred_name,first_name,middle_name,last_name,to_char(death_date,'YYYY-MM-DD') death_date,agent_remark,prefix,suffix,other_name_1,other_name_type_1,other_name_2,other_name_type_2,other_name_3,other_name_type_3,t_agent_name_id_1,t_agent_name_id_2,t_agent_name_id_3,agentguid_guid_type,agentguid,status
+					key,to_char(birth_date,'YYYY-MM-DD') birth_date,agent_type,preferred_name,first_name,middle_name,last_name,to_char(death_date,'YYYY-MM-DD') death_date,agent_remark,prefix,suffix,other_name_1,other_name_type_1,other_name_2,other_name_type_2,other_name_3,other_name_type_3,agentguid_guid_type,agentguid,status
 				FROM 
 					cf_temp_agents
 				WHERE 
@@ -527,7 +527,7 @@ limitations under the License.
 			<cfset problem_key = "">
 			<cftransaction>
 				<cfquery name="getTempData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" >
-					SELECT key,to_char(birth_date,'YYYY-MM-DD') birth_date,agent_type, preferred_name,first_name,middle_name,last_name,to_char(death_date,'YYYY-MM-DD') death_date,agent_remark, prefix,suffix,agentguid_guid_type,agentguid,t_agent_id,t_preferred_agent_name_id,OTHER_NAME_1,OTHER_NAME_TYPE_1,OTHER_NAME_2,OTHER_NAME_TYPE_2,OTHER_NAME_3,OTHER_NAME_TYPE_3,status 
+					SELECT key,to_char(birth_date,'YYYY-MM-DD') birth_date,agent_type, preferred_name,first_name,middle_name,last_name,to_char(death_date,'YYYY-MM-DD') death_date,agent_remark, prefix,suffix,agentguid_guid_type,agentguid,t_agent_id,t_preferred_agent_name_id,OTHER_NAME_1,OTHER_NAME_TYPE_1,OTHER_NAME_2,OTHER_NAME_TYPE_2,OTHER_NAME_3,OTHER_NAME_TYPE_3,t_agent_name_id_1,t_agent_name_id_2,t_agent_name_id_3,status 
 					FROM cf_temp_agents
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
