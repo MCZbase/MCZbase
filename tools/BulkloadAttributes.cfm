@@ -281,6 +281,7 @@ limitations under the License.
 					</cfif>
 				</cfif>
 				<!--- identify and provide guidance for some standard failure conditions --->
+				<cfif format EQ "DEFAULT"><cfset fmt="CSV: Default Comma Separated values"><cfelse><cfset fmt="#format#"></cfif>
 				<cfif Find("#NO_COLUMN_ERR#",cfcatch.message) GT 0>
 					<h4 class='mb-3'>#cfcatch.message#</h4>
 				<cfelseif Find("#COLUMN_ERR#",cfcatch.message) GT 0>
@@ -294,7 +295,6 @@ limitations under the License.
 						Unable to read headers in line 1.  Does your file actually have the format #fmt#?  Did you select CSV format for a tab delimited file?
 					</h4>
 				<cfelseif Find("IOException reading next record: java.io.IOException: (line 1)",cfcatch.message) GT 0>
-					<cfif format EQ "DEFAULT"><cfset fmt="CSV: Default Comma Separated values"><cfelse><cfset fmt="#format#"></cfif>
 					<h4 class='mb-3'>
 						Unable to read headers in line 1.  Is your file actually have the format #fmt#?
 					</h4>
@@ -304,9 +304,8 @@ limitations under the License.
 						Does your file have an inconsitent format?  Are some lines tab delimited but others comma delimited?
 					</h4>
 				<cfelseif Find("IOException reading next record: java.io.IOException:",cfcatch.message) GT 0>
-					<cfif format EQ "DEFAULT"><cfset fmt="CSV: Default Comma Separated values"><cfelse><cfset fmt="#format#"></cfif>
 					<h4 class='mb-3'>
-						Unable to read a record from the file.  One or more lines may not be consistent with the specified format #format#
+						Unable to read a record from the file.  One or more lines may not be consistent with the specified format #fmt#
 					</h4>
 					<h4 class='mb-3'>#cfcatch.message#</h4>
 				<cfelse>
