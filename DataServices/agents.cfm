@@ -285,7 +285,7 @@ sho err
 		<div class="error">Preferred name is required for every agent.</div>
 		<cfabort>
 	</cfif>
-	<cfquery name="otherNameType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+	<cfquery name="ont" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		select nt from (
 			select
 				other_name_type_1 nt
