@@ -572,7 +572,13 @@ limitations under the License.
 								0
 								)
 						</cfquery>
-						<cfif insName_result.recordcount eq 1 and #agent_name# neq 'preferred'>
+						<cfquery name="updateAgents2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateAgents2_result">
+							select agent_name 
+							from agent_name
+							where agent_id = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempData.t_agent_id#">
+							and agent_name_type = 'preferred'
+						</cfquery>
+						<cfif insName_result.recordcount eq 1 and #updateAgents2.agent_name# neq 'preferred'>
 							<cfquery name="otherNameType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 								select nameType, otherName from (
 									select
