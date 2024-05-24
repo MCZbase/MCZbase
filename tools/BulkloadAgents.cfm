@@ -628,7 +628,7 @@ limitations under the License.
 							<cfloop query="otherNameType">
 								The following other name types in addition to preferred name exists: '#nameType#'.
 							</cfloop>
-							<cfif len(getTempData.t_other_name_id_1) gt 0>
+							<cfif len(getTempData.t_agent_name_id_1) gt 0>
 								<cfquery name="insOtherName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 									INSERT INTO agent_name (
 										agent_name_id,
@@ -645,7 +645,7 @@ limitations under the License.
 										)
 								</cfquery>
 							</cfif>
-							<cfif len(getTempData.t_other_name_id_2) gt 0>
+							<cfif len(getTempData.t_agent_name_id_2) gt 0>
 								<cfquery name="insOtherName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 									INSERT INTO agent_name (
 										agent_name_id,
@@ -662,7 +662,7 @@ limitations under the License.
 										)
 								</cfquery>
 							</cfif>
-							<cfif len(getTempData.t_other_name_id_3) gt 0>
+							<cfif len(getTempData.t_agent_name_id_3) gt 0>
 								<cfquery name="insOtherName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 									INSERT INTO agent_name (
 										agent_name_id,
