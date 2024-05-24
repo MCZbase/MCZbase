@@ -572,7 +572,7 @@ limitations under the License.
 								0
 								)
 						</cfquery>
-						<cfif insName_result.recordcount eq 1>
+						<cfif insName_result.recordcount eq 1 and insName.agent_name <> 'preferred'>
 							<cfquery name="otherNameType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 								select nameType, otherName from (
 									select
