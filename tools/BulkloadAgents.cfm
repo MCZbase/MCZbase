@@ -605,6 +605,12 @@ limitations under the License.
 							<cfquery name="otherNameType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 								select nameType from (
 									select
+										other_name_type nameType
+									from
+										cf_temp_agents
+										where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+									union
+									select
 										other_name_type_1 nameType
 									from
 										cf_temp_agents
