@@ -415,7 +415,7 @@ limitations under the License.
 					select sq_agent_name_id.nextval nextAgentNameId1 from dual
 				</cfquery>
 				<cfloop query="AgentNameID1">
-					<cfset agent_name_id = #AgentNameID1.nextAgentNameId1#>
+					<cfset agent_name_id1 = #AgentNameID1.nextAgentNameId1#>
 					<cfquery name="updateAgentID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						update cf_temp_agents set t_agent_name_id_1 = '#agent_name_id1#'
 						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
@@ -426,7 +426,7 @@ limitations under the License.
 					select sq_agent_name_id.nextval nextAgentNameId2 from dual
 				</cfquery>
 				<cfloop query="AgentNameID2">
-					<cfset agent_name_id = #AgentNameID2.nextAgentNameId2#>
+					<cfset agent_name_id2 = #AgentNameID2.nextAgentNameId2#>
 					<cfquery name="updateAgentID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						update cf_temp_agents set t_agent_name_id_2 = '#agent_name_id2#'
 						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
@@ -437,7 +437,7 @@ limitations under the License.
 					select sq_agent_name_id.nextval nextAgentNameId3 from dual
 				</cfquery>
 				<cfloop query="AgentNameID3">
-					<cfset agent_name_id = #AgentNameID3.nextAgentNameId3#>
+					<cfset agent_name_id3 = #AgentNameID3.nextAgentNameId3#>
 					<cfquery name="updateAgentID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						update cf_temp_agents set t_agent_name_id_3 = '#agent_name_id3#'
 						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
