@@ -605,6 +605,7 @@ limitations under the License.
 									from
 										cf_temp_agents
 										where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+										and other_name_id <> 'preferred'
 									union
 									select
 										other_name_type_2 nameType,
@@ -613,6 +614,7 @@ limitations under the License.
 									from
 										cf_temp_agents
 										where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+										and other_name_id_2 <> 'preferred'
 									union
 									select
 										other_name_type_3 nameType,
@@ -621,6 +623,7 @@ limitations under the License.
 									from
 										cf_temp_agents
 										where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+										and other_name_id_3 <> 'preferred'
 								)
 								group by nameType, otherName, nameId
 							</cfquery>
