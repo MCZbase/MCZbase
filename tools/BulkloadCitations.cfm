@@ -283,7 +283,7 @@ limitations under the License.
 					<h4 class='mb-3'>#cfcatch.message#</h4>
 				<cfelseif Find("invalid char between encapsulated token and delimiter",cfcatch.message) GT 0>
 					<h4 class='mb-3'>#cfcatch.message#</h4>
-					<h4 class='mb-3'>Did you upload a tab delimited file but specified a csv format?</h4>
+					<h4 class='mb-3'>Did you you specify the correct format?  For example, did you upload a tab delimited file but specified a csv format?</h4>
 				<cfelse>
 					<cfdump var="#cfcatch#">
 				</cfif>
