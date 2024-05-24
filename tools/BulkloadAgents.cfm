@@ -524,9 +524,7 @@ limitations under the License.
 						<cfthrow message="You have no rows to load in the agents bulkloader table (cf_temp_agents).  <a href='/tools/BulkloadAgents.cfm' class='text-danger'>Start again</a>"><!--- " --->
 					</cfif>
 					<cfloop query="getTempData">
-						<cfquery name="OtherNameID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-							select sq_agent_name_id.nextval nextAgentNameId from dual
-						</cfquery>
+				
 						<cfset problem_key = #getTempData.key#>
 						<cfquery name="insPerson" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="insPerson_result">
 							INSERT INTO agent (
@@ -601,6 +599,9 @@ limitations under the License.
 								group by nameType, otherName
 							</cfquery>
 							<cfloop query="otherNameType">
+								<cfquery name="OtherNameID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+									select sq_agent_name_id.nextval nextAgentNameId from dual
+								</cfquery>
 								<cfquery name="insOtherName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 									INSERT INTO agent_name (
 										agent_name_id,
