@@ -66,7 +66,7 @@ limitations under the License.
 </cfif>
 		
 <!--- Normal page delivery with header/footer --->
-<cfset pageTitle = "Bulk New Parts">
+<cfset pageTitle = "Bulk Edit Parts">
 <cfinclude template="/shared/_header.cfm">
 <cfinclude template="/tools/component/csv.cfc" runOnce="true"><!--- for common csv testing functions --->
 <cfif not isDefined("action") OR len(action) EQ 0><cfset action="nothing"></cfif>
@@ -75,7 +75,8 @@ limitations under the License.
 		<!------------------------------------------------------->
 		<cfif #action# is "nothing">
 			<cfoutput>
-			<p>This tool adds part rows to the specimen record. It create metadata for part history and includes specimen part fields that can be empty if none exists. The cataloged items must be in the database and they can be entered using the catalog number or other ID. Error messages will appear if the values need to match values in MCZbase. It ignores rows that are exactly the same and alerts you if columns are missing. Additional columns will be ignored. Include column headings, spelled exactly as below. </p>
+			<p>This tool edits existing part records of specimen records. It creates metadata for the part history. The cataloged items must be in the database and they can be entered using the catalog number or other ID.  Parts must also exist, new parts will not be added with this tool.  Error messages will appear if the values need to match values in MCZbase and if required columns are missing. Additional columns will be ignored.  The first line of the file must be the column headings, spelled exactly as below. </p>
+			<p>A file of parts to be edited can be obtained from the <strong>Parts Report/Download</strong> option from the Manage page for a specimen search result.  The Download Parts CSV option on the Parts Report/Download page has the correct format to upload here.</p>
 			<span class="btn btn-xs btn-info" onclick="document.getElementById('template').style.display='block';">View template</span>
 			<div id="template" style="display:none;margin: 1em 0;">
 				<label for="templatearea" class="data-entry-label">
