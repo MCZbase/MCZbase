@@ -416,17 +416,17 @@ limitations under the License.
 					AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
 				</cfquery>
 				<cfquery name="getAgentID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					update cf_temp_agents set t_agent_name_id_1 = '#PreferredNameID.nextAgentNameId#'
+					update cf_temp_agents set t_agent_name_id_1 = #PreferredNameID.nextAgentNameId# + 1
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 					AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
 				</cfquery>
 				<cfquery name="getAgentID2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					update cf_temp_agents set t_agent_name_id_2 = '#PreferredNameID.nextAgentNameId#'
+					update cf_temp_agents set t_agent_name_id_2 = '#PreferredNameID.nextAgentNameId# + 1
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 					AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
 				</cfquery>
 				<cfquery name="getAgentID3" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					update cf_temp_agents set t_agent_name_id_3 = '#PreferredNameID.nextAgentNameId#'
+					update cf_temp_agents set t_agent_name_id_3 =#PreferredNameID.nextAgentNameId# + 1
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 					AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
 				</cfquery>
@@ -604,12 +604,6 @@ limitations under the License.
 						<cfif updateAgents2_result.recordcount eq 1>
 							<cfquery name="otherNameType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 								select nameType from (
-									select
-										other_name_type nameType
-									from
-										cf_temp_agents
-										where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-									union
 									select
 										other_name_type_1 nameType
 									from
