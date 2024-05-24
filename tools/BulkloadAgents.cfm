@@ -338,6 +338,8 @@ limitations under the License.
 				<div>Preferred name is required for every agent.</div>
 				<cfabort>
 			</cfif>
+				
+				<!---Putting this aside for now--->
 <!---			<cfquery name="otherNameType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				select nameType from (
 					select
@@ -398,6 +400,7 @@ limitations under the License.
 				WHERE 
 					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
+				<!---Putting this aside for now--->
 		<!---	<cfloop query="getTempTableQC">
 				<cfquery name="agentID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					select sq_agent_id.nextval nextAgentId from dual
@@ -549,6 +552,7 @@ limitations under the License.
 		<h2 class="h4 mb-3">Third step: Apply changes.</h2>
 		<cfoutput>
 			<cfset problem_key = "">
+			<!---Putting this aside for now--->
 		<!---	<cftransaction>
 				<cfquery name="getTempData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" >
 					SELECT key,to_char(birth_date,'YYYY-MM-DD') birth_date,agent_type, preferred_name,first_name,middle_name,last_name,to_char(death_date,'YYYY-MM-DD') death_date,agent_remark, prefix,suffix,agentguid_guid_type,agentguid,t_agent_id,t_preferred_agent_name_id,OTHER_NAME_1,OTHER_NAME_TYPE_1,OTHER_NAME_2,OTHER_NAME_TYPE_2,OTHER_NAME_3,OTHER_NAME_TYPE_3,t_agent_name_id_1,t_agent_name_id_2,t_agent_name_id_3,status 
