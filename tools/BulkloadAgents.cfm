@@ -590,7 +590,7 @@ limitations under the License.
 								)
 						</cfquery>
 						<cfquery name="updateAgents2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateAgents2_result">
-							select agent_name 
+							select agent_name,agent_id 
 							from agent_name
 							where agent_id = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempData.t_agent_id#">
 							and agent_name_type = 'preferred'
@@ -640,8 +640,8 @@ limitations under the License.
 											agent_name,
 											donor_card_present_fg)
 										VALUES (
-											SQ_AGENT_NAME_ID.nextval,
 											<cfqueryparam cfsqltype='CF_SQL_DECIMAL' value="#otherNameType.nameId#">,
+											<cfqueryparam cfsqltype='CF_SQL_DECIMAL' value="#updateAgents2.agent_id#">,
 											<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value="#otherNameType.nameType#">,
 											<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#otherNameType.otherName#'>,
 											0
