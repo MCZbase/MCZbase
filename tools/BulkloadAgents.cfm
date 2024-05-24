@@ -19,7 +19,7 @@ limitations under the License.
 <!--- special case handling to dump problem data as csv --->
 <cfif isDefined("action") AND action is "dumpProblems">
 	<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-		SELECT agent_type,preferred_name,first_name,middle_name,last_name,birth_date,death_date,agent_remark,prefix,suffix,other_name,other_name_type,other_name_2,other_name_type_2,other_name_3,other_name_type_3,agentguid_guid_type,agentguid,t_preferred_agent_name_id,t_agent_id,status
+		SELECT agent_type,preferred_name,first_name,middle_name,last_name,birth_date,death_date,agent_remark,prefix,suffix,other_name_1,other_name_type_1,other_name_2,other_name_type_2,other_name_3,other_name_type_3,agentguid_guid_type,agentguid,t_preferred_agent_name_id,t_agent_id,status
 		FROM cf_temp_agents 
 		WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 	</cfquery>
@@ -30,7 +30,7 @@ limitations under the License.
 	<cfabort>
 </cfif>
 <!--- end special case dump of problems --->
-<cfset fieldlist = "AGENT_TYPE,PREFERRED_NAME,FIRST_NAME,MIDDLE_NAME,LAST_NAME,BIRTH_DATE,DEATH_DATE,AGENT_REMARK,PREFIX,SUFFIX,OTHER_NAME,OTHER_NAME_TYPE,OTHER_NAME_2,OTHER_NAME_TYPE_2,OTHER_NAME_3,OTHER_NAME_TYPE_3,AGENTGUID_GUID_TYPE,AGENTGUID">
+<cfset fieldlist = "AGENT_TYPE,PREFERRED_NAME,FIRST_NAME,MIDDLE_NAME,LAST_NAME,BIRTH_DATE,DEATH_DATE,AGENT_REMARK,PREFIX,SUFFIX,OTHER_NAME_1,OTHER_NAME_TYPE_1,OTHER_NAME_2,OTHER_NAME_TYPE_2,OTHER_NAME_3,OTHER_NAME_TYPE_3,AGENTGUID_GUID_TYPE,AGENTGUID">
 <cfset fieldTypes = "CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_DATE,CF_SQL_DATE,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR">
 <cfset requiredfieldlist = "AGENT_TYPE,PREFERRED_NAME,LAST_NAME">
 
@@ -339,7 +339,7 @@ limitations under the License.
 			<cfquery name="otherNameType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				select nameType from (
 					select
-						other_name_type nameType
+						other_name_type_1 nameType
 					from
 						cf_temp_agents
 						where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
@@ -365,7 +365,7 @@ limitations under the License.
 			<cfquery name="ctotherNameType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				select nameType from 
 				(	select
-						other_name_type nameType
+						other_name_type_1 nameType
 					from
 						cf_temp_agents
 						where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
@@ -390,7 +390,7 @@ limitations under the License.
 			</cfif>
 			<cfquery name="getTempTableQC" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT 
-					key,to_char(birth_date,'YYYY-MM-DD') birth_date,agent_type,preferred_name,first_name,middle_name,last_name,to_char(death_date,'YYYY-MM-DD') death_date,agent_remark,prefix,suffix,other_name,other_name_type,other_name_2,other_name_type_2,other_name_3,other_name_type_3,agentguid_guid_type,agentguid,status
+					key,to_char(birth_date,'YYYY-MM-DD') birth_date,agent_type,preferred_name,first_name,middle_name,last_name,to_char(death_date,'YYYY-MM-DD') death_date,agent_remark,prefix,suffix,other_name_1,other_name_type_1,other_name_2,other_name_type_2,other_name_3,other_name_type_3,agentguid_guid_type,agentguid,status
 				FROM 
 					cf_temp_agents
 				WHERE 
@@ -483,8 +483,8 @@ limitations under the License.
 						<th>AGENT_REMARK</th>
 						<th>PREFIX</th>
 						<th>SUFFIX</th>
-						<th>OTHER_NAME</th>
-						<th>OTHER_NAME_TYPE</th>
+						<th>OTHER_NAME_1</th>
+						<th>OTHER_NAME_TYPE_1</th>
 						<th>OTHER_NAME_2</th>
 						<th>OTHER_NAME_TYPE_2</th>
 						<th>OTHER_NAME_3</th>
@@ -506,8 +506,8 @@ limitations under the License.
 							<td>#data.AGENT_REMARK#</td>
 							<td>#data.PREFIX#</td>
 							<td>#data.SUFFIX#</td>
-							<td>#data.OTHER_NAME#</td>
-							<td>#data.OTHER_NAME_TYPE#</td>
+							<td>#data.OTHER_NAME_1#</td>
+							<td>#data.OTHER_NAME_TYPE_1#</td>
 							<td>#data.OTHER_NAME_2#</td>
 							<td>#data.OTHER_NAME_TYPE_2#</td>
 							<td>#data.OTHER_NAME_3#</td>
@@ -527,7 +527,7 @@ limitations under the License.
 			<cfset problem_key = "">
 			<cftransaction>
 				<cfquery name="getTempData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" >
-					SELECT key,to_char(birth_date,'YYYY-MM-DD') birth_date,agent_type, preferred_name,first_name,middle_name,last_name,to_char(death_date,'YYYY-MM-DD') death_date,agent_remark, prefix,suffix,agentguid_guid_type,agentguid,t_agent_id,t_preferred_agent_name_id,OTHER_NAME,OTHER_NAME_TYPE,OTHER_NAME_2,OTHER_NAME_TYPE_2,OTHER_NAME_3,OTHER_NAME_TYPE_3,status 
+					SELECT key,to_char(birth_date,'YYYY-MM-DD') birth_date,agent_type, preferred_name,first_name,middle_name,last_name,to_char(death_date,'YYYY-MM-DD') death_date,agent_remark, prefix,suffix,agentguid_guid_type,agentguid,t_agent_id,t_preferred_agent_name_id,OTHER_NAME_1,OTHER_NAME_TYPE_1,OTHER_NAME_2,OTHER_NAME_TYPE_2,OTHER_NAME_3,OTHER_NAME_TYPE_3,status 
 					FROM cf_temp_agents
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
@@ -605,7 +605,7 @@ limitations under the License.
 							<cfquery name="otherNameType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 								select nameType from (
 									select
-										other_name_type nameType
+										other_name_type_1 nameType
 									from
 										cf_temp_agents
 										where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
@@ -628,7 +628,7 @@ limitations under the License.
 							<cfloop query="otherNameType">
 								The following other name types in addition to preferred name exists: '#nameType#'.
 							</cfloop>
-							<cfif len(getTempData.other_name) gt 0>
+							<cfif len(getTempData.t_other_name_id_1) gt 0>
 								<cfquery name="insOtherName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 									INSERT INTO agent_name (
 										agent_name_id,
@@ -637,10 +637,10 @@ limitations under the License.
 										agent_name,
 										donor_card_present_fg)
 									VALUES (
-										<cfqueryparam cfsqltype='CF_SQL_DECIMAL' value="#getTempData.t_other_name_id#">,
+										<cfqueryparam cfsqltype='CF_SQL_DECIMAL' value="#getTempData.t_other_name_id_1#">,
 										<cfqueryparam cfsqltype='CF_SQL_DECIMAL' value="#getTempData.t_agent_id#">,
-										<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value="#getTempData.t_other_name_type#">,
-										<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#getTempData.other_name#'>,
+										<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value="#getTempData.t_other_name_type_1#">,
+										<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#getTempData.other_name_1#'>,
 										0
 										)
 								</cfquery>
