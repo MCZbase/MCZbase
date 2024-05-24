@@ -401,7 +401,7 @@ limitations under the License.
 					select sq_agent_id.nextval nextAgentId from dual
 				</cfquery>
 				<cfloop query="agentID">
-					<cfset pref_agent_name_id = #PreferredNameID.nextAgentNameId#>
+					<cfset agent_id = #agentID.nextAgentId#>
 					<cfquery name="getAgentID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						update cf_temp_agents set t_agent_id = #agent_id#
 						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
