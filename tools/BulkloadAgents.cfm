@@ -415,7 +415,7 @@ limitations under the License.
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 					AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
 				</cfquery>
-				<cfset agent_name_id_1 = #PreferredNameID.nextAgentNameId# + 1>
+				<cfset agent_name_id_1 = #agent_name_id# + #PreferredNameID.nextAgentNameId# + 1>
 				<cfquery name="getAgentID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					update cf_temp_agents set t_agent_name_id_1 = #agent_name_id_1#
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
