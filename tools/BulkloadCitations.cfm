@@ -479,12 +479,11 @@ limitations under the License.
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
 				</cfquery>
-				<!--- TODO: unsure about this test --->
 				<cfquery name="flagNotMatchedTaxonName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE cf_temp_citation
 					SET 
-						status = concat(nvl2(status, status || '; ', ''), 'Unknown cited_taxon_name_id created')
-					WHERE cited_taxon_name_id not in (select cited_taxon_name_id from publication)
+						status = concat(nvl2(status, status || '; ', ''), 'Unknown cited_taxon_name_id')
+					WHERE cited_taxon_name_id not in (select taxon_name_id from taxonomy)
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
 				</cfquery>
