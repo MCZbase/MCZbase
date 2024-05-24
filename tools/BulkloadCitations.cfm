@@ -20,7 +20,7 @@ limitations under the License.
 <cfif isDefined("action") AND action is "dumpProblems">
 	<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		SELECT institution_acronym,collection_cde,other_id_type,other_id_number,publication_title as publication,
-			publication_id,cited_scientific_name,occurs_page_number,citation_page_uri,type_status,citation_remarks
+			publication_id,cited_scientific_name,cited_taxon_name_id,occurs_page_number,citation_page_uri,type_status,citation_remarks
 		FROM cf_temp_citation 
 		WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 		ORDER BY key
@@ -35,8 +35,8 @@ limitations under the License.
 <!--- end special case dump of problems --->
 
 <!--- NOTE: Publication_title is not an input, but is reused to hold the short form of the citation to allow confirmation of the citation --->
-<cfset fieldlist = "INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_NUMBER,PUBLICATION_ID,CITED_SCIENTIFIC_NAME,OCCURS_PAGE_NUMBER,CITATION_PAGE_URI,TYPE_STATUS,CITATION_REMARKS">
-<cfset fieldTypes ="CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_DECIMAL,CF_SQL_VARCHAR,CF_SQL_DECIMAL,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR">
+<cfset fieldlist = "INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_NUMBER,PUBLICATION_ID,CITED_SCIENTIFIC_NAME,CITED_TAXON_NAME_ID,OCCURS_PAGE_NUMBER,CITATION_PAGE_URI,TYPE_STATUS,CITATION_REMARKS">
+<cfset fieldTypes ="CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_DECIMAL,CF_SQL_VARCHAR,CF_SQL_DECIMAL,CF_SQL_DECIMAL,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR">
 <cfset requiredfieldlist = "INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_NUMBER,CITED_SCIENTIFIC_NAME,TYPE_STATUS,PUBLICATION_ID">
 
 <!--- special case handling to dump column headers as csv --->
@@ -64,7 +64,7 @@ limitations under the License.
 	<cfif #action# is "entryPoint">
 		<cfoutput>
 			<p>
-				This tool adds citations to the specimen record. The publication, cited taxon, and specimens have to be in MCZbase prior to uploading this .csv. This tool ignores rows that are exactly the same. Additional columns will be ignored. The cited_scientific_name must match that of exactly one <a href="/Taxa.cfm" class="font-weight-bold">taxon record</a>.  The publication_id value must match a <a href="/Publications.cfm" class="font-weight-bold">Publication</a>. The other_id_type and other_id_number values must also be in the database. Search for them via the <a href="/Specimens.cfm" class="font-weight-bold">Specimen Search</a>. Upload a comma-delimited text file (csv). Include column headings, spelled exactly as below. Use "catalog number" as the value of other_id_type to match on catalog number.
+				This tool adds citations to the specimen record. The publication, cited taxon, and specimens have to be in MCZbase prior to uploading this .csv. This tool ignores rows that are exactly the same. Additional columns will be ignored. The cited_scientific_name must match that of exactly one <a href="/Taxa.cfm" class="font-weight-bold">taxon record</a>.  The publication_id value must match a <a href="/Publications.cfm" class="font-weight-bold">Publication</a>. The other_id_type and other_id_number values must also be in the database. Search for them via the <a href="/Specimens.cfm" class="font-weight-bold">Specimen Search</a>. Upload a comma-delimited text file (csv). Include column headings, spelled exactly as below. Use "catalog number" as the value of other_id_type to match on catalog number.  Citations must be unique by cataloged item, publication, and taxon, duplicates within the file or with existing citation records will be marked as errors.
 			</p>
 			<span class="btn btn-xs btn-info" onclick="document.getElementById('template').style.display='block';">View template</span>
 			<div id="template" class="my-1 mx-0" style="display:none;">
@@ -127,7 +127,7 @@ limitations under the License.
 		<cfoutput>
 			<h2 class="h4">First step: Reading data from CSV file.</h2>
 			<!--- Set some constants to identify error cases in cfcatch block --->
-			<cfset NO_COLUMN_ERR = "One or more required fields are missing in the header line of the csv file. Check charset selected if columns match required headers and one column is not found.">
+			<cfset NO_COLUMN_ERR = "One or more required fields are missing in the header line of the csv file. Check charset selected if columns match the required headers and the first column is not found.">
 			<cfset DUP_COLUMN_ERR = "One or more columns are duplicated in the header line of the csv file.">
 			<cfset COLUMN_ERR = "Error inserting data ">
 			<cfset NO_HEADER_ERR = "No header line found, csv file appears to be empty.">
@@ -271,15 +271,33 @@ limitations under the License.
 						<cfset extendedResult = reportExtended(foundHighCount=foundHighCount,foundHighAscii=foundHighAscii,foundMultiByte=foundMultiByte,linkTarget='/tools/BulkloadCitations.cfm',inHeader='yes')>
 					</cfif>
 				</cfif>
+				<!--- identify and provide guidance for some standard failure conditions --->
+				<cfif format EQ "DEFAULT"><cfset fmt="CSV: Default Comma Separated values"><cfelse><cfset fmt="#format#"></cfif>
 				<cfif Find("#NO_COLUMN_ERR#",cfcatch.message) GT 0>
-					<cfset errmessage = Replace(cfcatch.message,NO_COLUMN_ERR,"<h4 class='mb-3'>#NO_COLUMN_ERR#</h4>")><!--- " --->
-					#errmessage#
+					<h4 class='mb-3'>#cfcatch.message#</h4>
 				<cfelseif Find("#NO_HEADER_ERR#",cfcatch.message) GT 0>
 					<h4 class='mb-3'>#cfcatch.message#</h4>
 				<cfelseif Find("#COLUMN_ERR#",cfcatch.message) GT 0>
-					<cfset errmessage = Replace(cfcatch.message,COLUMN_ERR,"<h4 class='mb-3'>#COLUMN_ERR#</h4>")><!--- " --->
-					#errmessage#
+					<h4 class='mb-3'>#cfcatch.message#</h4>
 				<cfelseif Find("#DUP_COLUMN_ERR#",cfcatch.message) GT 0>
+					<h4 class='mb-3'>#cfcatch.message#</h4>
+				<cfelseif Find("IOException reading next record: java.io.IOException: (line 1) invalid char between encapsulated token and delimiter",cfcatch.message) GT 0>
+					<h4 class='mb-3'>
+						Unable to read headers in line 1.  Does your file actually have the format #fmt#?  Did you select CSV format for a tab delimited file?
+					</h4>
+				<cfelseif Find("IOException reading next record: java.io.IOException: (line 1)",cfcatch.message) GT 0>
+					<h4 class='mb-3'>
+						Unable to read headers in line 1.  Is your file actually have the format #fmt#?
+					</h4>
+					<h4 class='mb-3'>#cfcatch.message#</h4>
+				<cfelseif Find("invalid char between encapsulated token and delimiter",cfcatch.message) GT 0>
+					<h4 class='mb-3'>
+						Does your file have an inconsitent format?  Are some lines tab delimited but others comma delimited?
+					</h4>
+				<cfelseif Find("IOException reading next record: java.io.IOException:",cfcatch.message) GT 0>
+					<h4 class='mb-3'>
+						Unable to read a record from the file.  One or more lines may not be consistent with the specified format #fmt#
+					</h4>
 					<h4 class='mb-3'>#cfcatch.message#</h4>
 				<cfelse>
 					<cfdump var="#cfcatch#">
@@ -367,7 +385,7 @@ limitations under the License.
 							</cfquery>
 						</cfloop>
 					<cfelse>
-						<cfquery name="flagTitleNotFound" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						<cfquery name="flagPublicationNotFound" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							UPDATE cf_temp_citation 
 							SET 
 								status = concat(nvl2(status, status || '; ', ''),'Publication_id not found: [' || publication_id || ']')
@@ -387,10 +405,10 @@ limitations under the License.
 					</cfquery>
 				</cfif>
 			</cfloop>
-			<!--- obtain the information needed to QC each row --->
+			<!--- obtain the information needed to QC each row individually --->
 			<cfquery name="getTempTableQC" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT 
-					distinct key,collection_cde, cited_scientific_name
+					distinct key,collection_cde, cited_scientific_name, cited_taxon_name_id
 				FROM 
 					cf_temp_citation
 				WHERE 
@@ -398,89 +416,134 @@ limitations under the License.
 			</cfquery>
 			<cfloop query="getTempTableQC">
 				<!--- for each row, evaluate the attribute against expectations and provide an error message --->
-				<!--- qc checks separate from getting ID numbers, includes presence of values in required columns --->
-				<cfquery name="flagNotMatchedTypeStatus" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				<cfif len(getTempTableQC.cited_taxon_name_id) EQ 0>
+					<!--- normal case, just taxon name provided, lookup taxon id --->
+					<cfquery name="confirmOneTaxon" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						SELECT taxon_name_id 
+						FROM taxonomy
+						WHERE scientific_name = <cfqueryparam cfsqltype="CF_SQL_varchar" value="#getTempTableQC.cited_scientific_name#"> 
+					</cfquery>
+					<cfif confirmOneTaxon.recordcount EQ 1>
+						<cfquery name="lookupTaxon" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+							UPDATE cf_temp_citation
+							SET cited_taxon_name_id = (
+								select taxon_name_id from taxonomy where scientific_name = <cfqueryparam cfsqltype="CF_SQL_varchar" value="#getTempTableQC.cited_scientific_name#"> 
+							)
+							WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+							and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#"> 
+						</cfquery>
+					<cfelseif confirmOneTaxon.recordcount GT 1>
+						<cfquery name="flagTaxonNotFound" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+							UPDATE cf_temp_citation
+							SET status = concat(nvl2(status, status || '; ', ''),'Taxon Name '|| cited_scientific_name || ' matches more than one record, add a cited_taxon_name_id')
+							WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+								and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#"> 
+								and cited_taxon_name_id IS NULL
+								and cited_scientific_name IS NOT NULL
+						</cfquery>
+					</cfif>
+					<cfquery name="flagTaxonNotFound" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						UPDATE cf_temp_citation
+						SET status = concat(nvl2(status, status || '; ', ''),'Taxon Name '|| cited_scientific_name || ' not found')
+						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+							and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#"> 
+							and cited_taxon_name_id IS NULL
+							and cited_scientific_name IS NOT NULL
+					</cfquery>
+				<cfelse>
+					<!--- taxon name and taxon id provided (to disambuguate homonyms) --->
+					<cfquery name="lookupTaxon" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						SELECT count(taxon_name_id) ct 
+						FROM taxonomy
+						WHERE scientific_name = <cfqueryparam cfsqltype="CF_SQL_varchar" value="#getTempTableQC.cited_scientific_name#"> 
+							and taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_varchar" value="#getTempTableQC.cited_taxon_name_id#"> 
+					</cfquery>
+					<cfif lookupTaxon.ct EQ 1>
+						<!--- fine to proceede, matching taxon name with the same taxon name id found, supplied taxon name id will be used --->
+					<cfelse>
+						<cfquery name="flagTaxonNotMatched" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+							UPDATE cf_temp_citation
+							SET status = concat(nvl2(status, status || '; ', ''),'Taxon Name ['|| cited_scientific_name || '] with taxon_name_id ['|| cited_taxon_name_id ||'] not found')
+							WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+							and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#"> 
+						</cfquery>
+					</cfif>
+				</cfif>
+				<cfquery name="flagDuplicateCitations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE cf_temp_citation
 					SET 
-						status = concat(nvl2(status, status || '; ', ''),'Unknown type_status: "' || type_status ||'"&mdash;not on list')
-					WHERE type_status is not null 
-						AND type_status not in (select type_status from ctcitation_type_status)
-						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-						and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#"> 
-				</cfquery>
-				<cfquery name="lookupTaxon" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					UPDATE cf_temp_citation
-					SET cited_taxon_name_id = (
-						select taxon_name_id from taxonomy where scientific_name = <cfqueryparam cfsqltype="CF_SQL_varchar" value="#getTempTableQC.cited_scientific_name#"> 
-					)
-					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-					and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#"> 
-				</cfquery>
-				<cfquery name="flagTaxonNotFound" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					UPDATE cf_temp_citation
-					SET status = concat(nvl2(status, status || '; ', ''),'Taxon Name '|| cited_scientific_name || ' not found')
-					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-						and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#"> 
-						and cited_taxon_name_id IS NULL
-						and cited_scientific_name IS NOT NULL
-				</cfquery>
-				<cfquery name="flagMczAcronym" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					UPDATE cf_temp_citation
-					SET 
-						status = concat(nvl2(status, status || '; ', ''),'INSTIUTION_ACRONYM is not "MCZ" (check case)')
-					WHERE institution_acronym <> 'MCZ'
-						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-						AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
-				</cfquery>
-				<cfquery name="flagNotMatchedOther_ID_Type" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					UPDATE cf_temp_citation
-					SET 
-						status = concat(nvl2(status, status || '; ', ''), 'Unknown other_id_type: "' || other_id_type ||'"&mdash;not on list')
-					WHERE other_id_type is not null 
-						AND other_id_type <> 'catalog number'
-						AND other_id_type not in (select other_id_type from ctcoll_other_id_type)
-						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-						and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
-				</cfquery>
-				<cfquery name="flagNotMatchedTaxonName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					UPDATE cf_temp_citation
-					SET 
-						status = concat(nvl2(status, status || '; ', ''), 'Unknown cited_taxon_name_id created')
-					WHERE cited_taxon_name_id not in (select cited_taxon_name_id from publication)
-						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-						and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
-				</cfquery>
-				<cfquery name="FlagCdeProblems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="citationProblems_result">
-					UPDATE cf_temp_citation
-					SET
-						status = concat(nvl2(status, status || '; ', ''),'Invalid collection_cde: "' || collection_cde ||'"')
-					WHERE 
-						collection_cde IS NOT NULL
-						AND collection_cde NOT IN (
-							SELECT collection_cde 
-							FROM ctcollection_cde 
-							WHERE collection_cde = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableQC.collection_cde#">
+						status = concat(nvl2(status, status || '; ', ''),' Duplicate citation within file. ')
+					WHERE collection_object_id|| '|' ||publication_id|| '|' ||cited_taxon_name_id 
+						IN (
+							SELECT collection_object_id|| '|' ||publication_id|| '|' ||cited_taxon_name_id FROM cf_temp_citation
+							WHERE key <> <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
+								AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						)
-						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-						AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
-				</cfquery>
-				<cfquery name="flagNoCollectionObject" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					UPDATE cf_temp_citation
-					SET 
-						status = concat(nvl2(status, status || '; ', ''),' There is no match to a cataloged item on [' || other_id_type || ']=[' || other_id_number || '] in collection "' || collection_cde ||'"')
-					WHERE collection_object_id IS NULL
-						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-					AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
-				</cfquery>
-				<cfquery name="flagCitationExists" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					UPDATE cf_temp_citation
-					SET 
-						status = concat(nvl2(status, status || '; ', ''),' Citation already exists ')
-					WHERE collection_object_id|| '|' ||publication_id|| '|' ||cited_taxon_name_id IN (select collection_object_id|| '|' ||publication_id|| '|' ||cited_taxon_name_id from citation)
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 					AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
 				</cfquery>
 			</cfloop>
+			<!--- QC tests that can be applied to whole record set --->
+			<cfquery name="flagNotMatchedTypeStatus" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				UPDATE cf_temp_citation
+				SET 
+					status = concat(nvl2(status, status || '; ', ''),'Unknown type_status: "' || type_status ||'"&mdash;not on list')
+				WHERE type_status is not null 
+					AND type_status not in (select type_status from ctcitation_type_status)
+					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+			</cfquery>
+			<cfquery name="flagMczAcronym" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				UPDATE cf_temp_citation
+				SET 
+					status = concat(nvl2(status, status || '; ', ''),'INSTIUTION_ACRONYM is not "MCZ" (check case)')
+				WHERE institution_acronym <> 'MCZ'
+					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+			</cfquery>
+			<cfquery name="FlagCdeProblems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="citationProblems_result">
+				UPDATE cf_temp_citation
+				SET
+					status = concat(nvl2(status, status || '; ', ''),'Invalid collection_cde: "' || collection_cde ||'"')
+				WHERE 
+					collection_cde IS NOT NULL
+					AND collection_cde NOT IN (
+						SELECT collection_cde 
+						FROM ctcollection_cde 
+					)
+					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+			</cfquery>
+			<cfquery name="flagNotMatchedOther_ID_Type" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				UPDATE cf_temp_citation
+				SET 
+					status = concat(nvl2(status, status || '; ', ''), 'Unknown other_id_type: "' || other_id_type ||'"&mdash;not on list')
+				WHERE other_id_type is not null 
+					AND other_id_type <> 'catalog number'
+					AND other_id_type not in (select other_id_type from ctcoll_other_id_type)
+					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+			</cfquery>
+			<cfquery name="flagNotMatchedTaxonName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				UPDATE cf_temp_citation
+				SET 
+					status = concat(nvl2(status, status || '; ', ''), 'Unknown cited_taxon_name_id')
+				WHERE cited_taxon_name_id not in (select taxon_name_id from taxonomy)
+					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+			</cfquery>
+			<cfquery name="flagNoCollectionObject" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				UPDATE cf_temp_citation
+				SET 
+					status = concat(nvl2(status, status || '; ', ''),' There is no match to a cataloged item on [' || other_id_type || ']=[' || other_id_number || '] in collection "' || collection_cde ||'"')
+				WHERE collection_object_id IS NULL
+					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+			</cfquery>
+			<cfquery name="flagCitationExists" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				UPDATE cf_temp_citation
+				SET 
+					status = concat(nvl2(status, status || '; ', ''),' Citation already exists ')
+				WHERE 
+					collection_object_id|| '|' ||publication_id|| '|' ||cited_taxon_name_id 
+						IN (SELECT collection_object_id|| '|' ||publication_id|| '|' ||cited_taxon_name_id FROM citation)
+					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+					AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
+			</cfquery>
 		
 			<!---Missing data in required fields--->
 			<cfloop list="#requiredfieldlist#" index="requiredField">
