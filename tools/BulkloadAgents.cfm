@@ -426,7 +426,6 @@ limitations under the License.
 					select t_agent_name_id_1 from cf_temp_agents 
 					where t_agent_name_id_1 = #agent_name_id#
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-					AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
 				</cfquery>
 				<cfloop query="getExistingAgentNameID">
 					<cfif len(getTempTableQC.other_name_2) gt 0>
