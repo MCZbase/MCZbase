@@ -127,7 +127,7 @@ limitations under the License.
 		<cfoutput>
 			<h2 class="h4">First step: Reading data from CSV file.</h2>
 			<!--- Set some constants to identify error cases in cfcatch block --->
-			<cfset NO_COLUMN_ERR = "One or more required fields are missing in the header line of the csv file. Check charset selected if columns match required headers and one column is not found.">
+			<cfset NO_COLUMN_ERR = "One or more required fields are missing in the header line of the csv file. Check charset selected if columns match the required headers and the first column is not found.">
 			<cfset DUP_COLUMN_ERR = "One or more columns are duplicated in the header line of the csv file.">
 			<cfset COLUMN_ERR = "Error inserting data ">
 			<cfset NO_HEADER_ERR = "No header line found, csv file appears to be empty.">
@@ -271,19 +271,35 @@ limitations under the License.
 						<cfset extendedResult = reportExtended(foundHighCount=foundHighCount,foundHighAscii=foundHighAscii,foundMultiByte=foundMultiByte,linkTarget='/tools/BulkloadCitations.cfm',inHeader='yes')>
 					</cfif>
 				</cfif>
+				<!--- identify and provide guidance for some standard failure conditions --->
 				<cfif Find("#NO_COLUMN_ERR#",cfcatch.message) GT 0>
-					<cfset errmessage = Replace(cfcatch.message,NO_COLUMN_ERR,"<h4 class='mb-3'>#NO_COLUMN_ERR#</h4>")><!--- " --->
-					#errmessage#
+					<h4 class='mb-3'>#cfcatch.message#</h4>
 				<cfelseif Find("#NO_HEADER_ERR#",cfcatch.message) GT 0>
 					<h4 class='mb-3'>#cfcatch.message#</h4>
 				<cfelseif Find("#COLUMN_ERR#",cfcatch.message) GT 0>
-					<cfset errmessage = Replace(cfcatch.message,COLUMN_ERR,"<h4 class='mb-3'>#COLUMN_ERR#</h4>")><!--- " --->
-					#errmessage#
+					<h4 class='mb-3'>#cfcatch.message#</h4>
 				<cfelseif Find("#DUP_COLUMN_ERR#",cfcatch.message) GT 0>
 					<h4 class='mb-3'>#cfcatch.message#</h4>
-				<cfelseif Find("invalid char between encapsulated token and delimiter",cfcatch.message) GT 0>
+				<cfelseif Find("IOException reading next record: java.io.IOException: (line 1) invalid char between encapsulated token and delimiter",cfcatch.message) GT 0>
+					<h4 class='mb-3'>
+						Unable to read headers in line 1.  Does your file actually have the format #fmt#?  Did you select CSV format for a tab delimited file?
+					</h4>
+				<cfelseif Find("IOException reading next record: java.io.IOException: (line 1)",cfcatch.message) GT 0>
+					<cfif format EQ "DEFAULT"><cfset fmt="CSV: Default Comma Separated values"><cfelse><cfset fmt="#format#"></cfif>
+					<h4 class='mb-3'>
+						Unable to read headers in line 1.  Is your file actually have the format #fmt#?
+					</h4>
 					<h4 class='mb-3'>#cfcatch.message#</h4>
-					<h4 class='mb-3'>Did you you specify the correct format?  For example, did you upload a tab delimited file but specified a csv format?</h4>
+				<cfelseif Find("invalid char between encapsulated token and delimiter",cfcatch.message) GT 0>
+					<h4 class='mb-3'>
+						Does your file have an inconsitent format?  Are some lines tab delimited but others comma delimited?
+					</h4>
+				<cfelseif Find("IOException reading next record: java.io.IOException:",cfcatch.message) GT 0>
+					<cfif format EQ "DEFAULT"><cfset fmt="CSV: Default Comma Separated values"><cfelse><cfset fmt="#format#"></cfif>
+					<h4 class='mb-3'>
+						Unable to read a record from the file.  One or more lines may not be consistent with the specified format #format#
+					</h4>
+					<h4 class='mb-3'>#cfcatch.message#</h4>
 				<cfelse>
 					<cfdump var="#cfcatch#">
 				</cfif>
