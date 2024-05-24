@@ -531,9 +531,6 @@ limitations under the License.
 			</cfquery>
 		
 			<!---Missing data in required fields--->
-			</cfloop>
-		
-			<!---Missing data in required fields--->
 			<cfloop list="#requiredfieldlist#" index="requiredField">
 				<cfquery name="checkRequired" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE cf_temp_citation
