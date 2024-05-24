@@ -403,21 +403,25 @@ limitations under the License.
 				<cfquery name="PreferredNameID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					select sq_agent_name_id.nextval nextAgentNameId from dual
 				</cfquery>
-				<cfset pref_agent_name_id = #PreferredNameID.nextAgentNameId#>
-				<cfquery name="getPreferredAgentID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					update cf_temp_agents set t_preferred_agent_name_id = #pref_agent_name_id#
-					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-					AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
-				</cfquery>
+				<cfloop query="PreferredNameID">
+					<cfset pref_agent_name_id = #PreferredNameID.nextAgentNameId#>
+					<cfquery name="getPreferredAgentID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						update cf_temp_agents set t_preferred_agent_name_id = #pref_agent_name_id#
+						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+						AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
+					</cfquery>
+				</cfloop>
 				<cfquery name="AgentNameID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					select sq_agent_name_id.nextval nextAgentNameId2 from dual
 				</cfquery>
-				<cfset agent_name_id = #AgentNameID.nextAgentNameId#>
-				<cfquery name="updateAgentID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					update cf_temp_agents set t_agent_name_id_1 = #agent_name_id#
-					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-					AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
-				</cfquery>
+				<cfloop query="AgentNameID">
+					<cfset agent_name_id = #AgentNameID.nextAgentNameId#>
+					<cfquery name="updateAgentID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						update cf_temp_agents set t_agent_name_id_1 = #agent_name_id#
+						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+						AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
+					</cfquery>
+				</cfloop>
 				<cfquery name="getExistingAgentNameID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					select t_agent_name_id_1 from cf_temp_agents 
 					where t_agent_name_id_1 = #agent_name_id#
