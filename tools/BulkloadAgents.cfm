@@ -663,7 +663,7 @@ limitations under the License.
 									VALUES (
 										<cfqueryparam cfsqltype='CF_SQL_DECIMAL' value="#getTempData.t_agent_name_id_1#">,
 										<cfqueryparam cfsqltype='CF_SQL_DECIMAL' value="#getTempData.t_agent_id#">,
-										<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value="#getTempData.t_other_name_type_1#">,
+										<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value="#getTempData.other_name_type_1#">,
 										<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#getTempData.other_name_1#'>,
 										0
 										)
@@ -680,7 +680,7 @@ limitations under the License.
 									VALUES (
 										<cfqueryparam cfsqltype='CF_SQL_DECIMAL' value="#getTempData.t_agent_name_id_2#">,
 										<cfqueryparam cfsqltype='CF_SQL_DECIMAL' value="#getTempData.t_agent_id#">,
-										<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value="#getTempData.t_other_name_type_2#">,
+										<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value="#getTempData.other_name_type_2#">,
 										<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#getTempData.other_name_2#'>,
 										0
 										)
@@ -697,7 +697,7 @@ limitations under the License.
 									VALUES (
 										<cfqueryparam cfsqltype='CF_SQL_DECIMAL' value="#getTempData.t_agent_name_id_3#">,
 										<cfqueryparam cfsqltype='CF_SQL_DECIMAL' value="#getTempData.t_agent_id#">,
-										<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value="#getTempData.t_other_name_type_3#">,
+										<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value="#getTempData.other_name_type_3#">,
 										<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#getTempData.other_name_3#'>,
 										0
 										)
