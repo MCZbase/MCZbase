@@ -58,6 +58,8 @@ limitations under the License.
 		<cfoutput>
 			<p>This tool is used to bulkload agents.</p>
 			<p>Upload a comma-delimited text file (csv).  Include column headings, spelled exactly as below.  Additional colums will be ignored</p>
+			<p>	<p><a href="/info/ctDocumentation.cfm?table=ctagent_name_type">Valid agent name types</a>, <a href="/info/ctDocumentation.cfm?table=ctagent_type">Valid agent types</a>, <a href="/info/ctDocumentation.cfm?table=ctguid_type">Valid agent_guid_guid_types</a></p>
+
 			<span class="btn btn-xs btn-info" onclick="document.getElementById('template').style.display='block';">View template</span>
 			<div id="template" style="margin: 1rem 0;display:none;">
 				<label for="templatearea" class="data-entry-label mb-1">
@@ -407,8 +409,24 @@ limitations under the License.
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 					AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
 				</cfquery>
+				
 				<cfquery name="getPreferredAgentID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					update cf_temp_agents set t_preferred_agent_name_id = '#PreferredNameID.nextAgentNameId#'
+					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+					AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
+				</cfquery>
+				<cfquery name="getAgentID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					update cf_temp_agents set t_agent_name_id = '#PreferredNameID.nextAgentNameId#'
+					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+					AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
+				</cfquery>
+				<cfquery name="getAgentID2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					update cf_temp_agents set t_agent_name_id_2 = '#PreferredNameID.nextAgentNameId#'
+					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+					AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
+				</cfquery>
+				<cfquery name="getAgentID3" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					update cf_temp_agents set t_agent_name_id_3 = '#PreferredNameID.nextAgentNameId#'
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 					AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
 				</cfquery>
@@ -524,7 +542,6 @@ limitations under the License.
 						<cfthrow message="You have no rows to load in the agents bulkloader table (cf_temp_agents).  <a href='/tools/BulkloadAgents.cfm' class='text-danger'>Start again</a>"><!--- " --->
 					</cfif>
 					<cfloop query="getTempData">
-				
 						<cfset problem_key = #getTempData.key#>
 						<cfquery name="insPerson" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="insPerson_result">
 							INSERT INTO agent (
@@ -578,7 +595,7 @@ limitations under the License.
 							where agent_id = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempData.t_agent_id#">
 							and agent_name_type = 'preferred'
 						</cfquery>
-						<cfif insName_result.recordcount eq 1 and #updateAgents2.agent_name# neq 'preferred'>
+						<cfif insName_result.recordcount eq 1>
 							<cfquery name="otherNameType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 								select nameType, otherName from (
 									select
@@ -587,7 +604,6 @@ limitations under the License.
 									from
 										cf_temp_agents
 										where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-										and other_name_type <> 'preferred'
 									union
 									select
 										other_name_type_2 nameType,
@@ -595,7 +611,6 @@ limitations under the License.
 									from
 										cf_temp_agents
 										where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-										and other_name_type <> 'preferred'
 									union
 									select
 										other_name_type_3 nameType,
@@ -603,14 +618,13 @@ limitations under the License.
 									from
 										cf_temp_agents
 										where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-										and other_name_type <> 'preferred'
 								)
 								group by nameType, otherName
 							</cfquery>
-							<cfloop query="otherNameType">
 								<cfquery name="OtherNameID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 									select sq_agent_name_id.nextval nextAgentNameId from dual
 								</cfquery>
+							<cfloop query="otherNameType">
 								<cfquery name="insOtherName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 									INSERT INTO agent_name (
 										agent_name_id,
