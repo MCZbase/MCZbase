@@ -400,6 +400,14 @@ limitations under the License.
 				<cfquery name="agentID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					select sq_agent_id.nextval nextAgentId from dual
 				</cfquery>
+				<cfloop query="agentID">
+					<cfset pref_agent_name_id = #PreferredNameID.nextAgentNameId#>
+					<cfquery name="getAgentID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						update cf_temp_agents set t_agent_id = #agent_id#
+						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+						AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
+					</cfquery>
+				</cfloop>
 				<cfquery name="PreferredNameID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					select sq_agent_name_id.nextval nextAgentNameId from dual
 				</cfquery>
