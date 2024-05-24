@@ -417,7 +417,7 @@ limitations under the License.
 				<cfloop query="AgentNameID">
 					<cfset agent_name_id = #AgentNameID.nextAgentNameId2#>
 					<cfquery name="updateAgentID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						update cf_temp_agents set t_agent_name_id_1 = #agent_name_id#
+						update cf_temp_agents set t_agent_name_id_1 = '#agent_name_id#'
 						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
 					</cfquery>
