@@ -78,6 +78,7 @@ limitations under the License.
 	<cfargument name="characterSet" type="string" required="yes">
 
 	<cfoutput>
+		<h4>Loading with Character Set: #encodeForHtml(characterSet)# Format: #encodeForHtml(format)#</h4>
 		<!--- Parse the CSV file using Apache Commons CSV library included with coldfusion so that columns with comma delimeters will be separated properly --->
 		<cfset fileProxy = CreateObject("java","java.io.File") >
 		<cfobject type="Java" name="csvFormat" class="org.apache.commons.csv.CSVFormat" >
