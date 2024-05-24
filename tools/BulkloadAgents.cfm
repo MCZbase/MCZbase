@@ -547,7 +547,7 @@ limitations under the License.
 		<h2 class="h4 mb-3">Third step: Apply changes.</h2>
 		<cfoutput>
 			<cfset problem_key = "">
-			<cftransaction>
+		<!---	<cftransaction>
 				<cfquery name="getTempData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" >
 					SELECT key,to_char(birth_date,'YYYY-MM-DD') birth_date,agent_type, preferred_name,first_name,middle_name,last_name,to_char(death_date,'YYYY-MM-DD') death_date,agent_remark, prefix,suffix,agentguid_guid_type,agentguid,t_agent_id,t_preferred_agent_name_id,OTHER_NAME_1,OTHER_NAME_TYPE_1,OTHER_NAME_2,OTHER_NAME_TYPE_2,OTHER_NAME_3,OTHER_NAME_TYPE_3,t_agent_name_id_1,t_agent_name_id_2,t_agent_name_id_3,status 
 					FROM cf_temp_agents
@@ -561,7 +561,7 @@ limitations under the License.
 				<cftry>
 					<cfset agent_updates = 0>
 					<cfif getTempData.recordcount EQ 0>
-						<cfthrow message="You have no rows to load in the agents bulkloader table (cf_temp_agents).  <a href='/tools/BulkloadAgents.cfm' class='text-danger'>Start again</a>"><!--- " --->
+						<cfthrow message="You have no rows to load in the agents bulkloader table (cf_temp_agents).  <a href='/tools/BulkloadAgents.cfm' class='text-danger'>Start again</a>">
 					</cfif>
 					<cfloop query="getTempData">
 						<cfset problem_key = #getTempData.key#>
@@ -615,14 +615,14 @@ limitations under the License.
 									)
 							</cfquery>
 						</cfif>
-						<!---make sure the preferred name was entered and retrieve the agent id--->
+						
 						<cfquery name="updateAgents2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateAgents2_result">
 							select agent_name,agent_id 
 							from agent_name
 							where agent_id = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempData.t_agent_id#">
 							and agent_name_type = 'preferred'
 						</cfquery>
-						<!---if there is a result in updateAgents2, look for entried in other name type fields--->
+						
 						<cfif updateAgents2_result.recordcount eq 1>
 							<cfquery name="otherNameType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 								select nameType from (
@@ -646,7 +646,7 @@ limitations under the License.
 								)
 								group by nameType
 							</cfquery>
-							<!---Check to see if other names exists--->
+						
 							<cfset i=1>
 							<cfloop query="otherNameType">
 								OTherNames#i#: '#nameType#'.
@@ -802,7 +802,7 @@ limitations under the License.
 											<cfelseif cfcatch.detail contains "no data">
 												No data or the wrong data (#cfcatch.detail#)
 											<cfelse>
-												<!--- provide the raw error message if it isn't readily interpretable --->
+										
 												#cfcatch.detail#
 											</cfif>
 										</span>
@@ -863,8 +863,51 @@ limitations under the License.
 						<div>#cfcatch.message#</div>
 					</cfcatch>
 				</cftry>
-			</cftransaction>
+			</cftransaction>--->
 			<!--- cleanup --->
+			
+			<cftransaction>
+				<cfloop query="getTempData">
+		<cfquery name="newAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+			insert into agent ( AGENT_ID,AGENT_TYPE ,AGENT_REMARKS , PREFERRED_AGENT_NAME_ID)
+			values (sq_agent_id.nextval,'#agent_type#','#agent_remark#',#agent_name_id#)
+		</cfquery>
+		<cfquery name="newAgentName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+			insert into agent_name ( AGENT_NAME_ID,AGENT_ID,AGENT_NAME_TYPE,AGENT_NAME )
+			values (sq_agent_name_id.nextval,sq_agent_id.currval,'preferred','#preferred_name#')
+		</cfquery>
+		
+		<cfif #agent_type# is "person">
+			<cfquery name="newProj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				insert into person (PERSON_ID,PREFIX,LAST_NAME,FIRST_NAME,
+					MIDDLE_NAME,SUFFIX,BIRTH_DATE,DEATH_DATE)
+				values (sq_agent_id.currval,'#PREFIX#','#LAST_NAME#','#FIRST_NAME#',
+					'#MIDDLE_NAME#','#SUFFIX#','#dateformat(BIRTH_DATE,"yyyy-mm-dd")#', '#dateformat(DEATH_DATE,"yyyy-mm-dd")#')
+			</cfquery>
+		</cfif>
+		<cfif len(#OTHER_NAME#) gt 0>
+			<cfset agent_name_id = #agent_name_id# + 1>
+			<cfquery name="newAgentName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				insert into agent_name ( AGENT_NAME_ID,AGENT_ID,AGENT_NAME_TYPE,AGENT_NAME )
+				values (sq_agent_name_id.nextval,sq_agent_id.currval,'#OTHER_NAME_TYPE#','#OTHER_NAME#')
+			</cfquery>
+		</cfif>
+		<cfif len(#OTHER_NAME_2#) gt 0>
+			<cfset agent_name_id = #agent_name_id# + 1>
+			<cfquery name="newAgentName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				insert into agent_name ( AGENT_NAME_ID,AGENT_ID,AGENT_NAME_TYPE,AGENT_NAME )
+				values (sq_agent_name_id.nextval,sq_agent_id.currval,'#OTHER_NAME_TYPE_2#','#OTHER_NAME_2#')
+			</cfquery>
+		</cfif>
+        <cfif len(#OTHER_NAME_3#) gt 0>
+			<cfset agent_name_id = #agent_name_id# + 1>
+			<cfquery name="newAgentName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				insert into agent_name ( AGENT_NAME_ID,AGENT_ID,AGENT_NAME_TYPE,AGENT_NAME )
+				values (sq_agent_name_id.nextval,sq_agent_id.currval,'#OTHER_NAME_TYPE_3#','#OTHER_NAME_3#')
+			</cfquery>
+		</cfif>
+	</cfloop>
+			</cftransaction>
 			<cfquery name="clearTempTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="clearTempTable_result">
 				DELETE FROM cf_temp_agents
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
