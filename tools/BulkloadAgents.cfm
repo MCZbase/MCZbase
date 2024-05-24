@@ -425,7 +425,7 @@ limitations under the License.
 				<cfquery name="getExistingAgentNameID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					select t_agent_name_id_1 from cf_temp_agents 
 					where t_agent_name_id_1 = #agent_name_id#
-					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
 				<cfloop query="getExistingAgentNameID">
 					<cfif len(getTempTableQC.other_name_2) gt 0>
