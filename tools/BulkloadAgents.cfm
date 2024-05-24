@@ -823,8 +823,8 @@ limitations under the License.
 												<td>#getProblemData.agent_remark#</td>
 												<td>#getProblemData.prefix#</td>
 												<td>#getProblemData.suffix#</td>
-												<td>#getProblemData.other_name_type#</td>
-												<td>#getProblemData.other_name#</td>
+												<td>#getProblemData.other_name_type_1#</td>
+												<td>#getProblemData.other_name_1#</td>
 												<td>#getProblemData.other_name_type_2#</td>
 												<td>#getProblemData.other_name_2#</td>
 												<td>#getProblemData.other_name_type_3#</td>
