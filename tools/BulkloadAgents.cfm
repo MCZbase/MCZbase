@@ -874,7 +874,7 @@ limitations under the License.
 				<cfloop query="getTempData">
 				<cfquery name="newAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					insert into agent ( AGENT_ID,AGENT_TYPE ,AGENT_REMARKS , PREFERRED_AGENT_NAME_ID)
-					values (sq_agent_id.nextval,'#agent_type#','#agent_remark#',#agent_name_id#)
+					values (sq_agent_id.nextval,'#agent_type#','#agent_remark#',sq_agent_name_id.nextval)
 				</cfquery>
 				<cfquery name="newAgentName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					insert into agent_name ( AGENT_NAME_ID,AGENT_ID,AGENT_NAME_TYPE,AGENT_NAME )
