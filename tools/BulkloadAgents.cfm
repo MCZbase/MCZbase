@@ -889,7 +889,7 @@ limitations under the License.
 							'#MIDDLE_NAME#','#SUFFIX#','#dateformat(BIRTH_DATE,"yyyy-mm-dd")#', '#dateformat(DEATH_DATE,"yyyy-mm-dd")#')
 					</cfquery>
 				</cfif>
-				<cfif len(#OTHER_NAME#) gt 0>
+				<cfif len(#OTHER_NAME_1#) gt 0>
 					<cfset agent_name_id = #agent_name_id# + 1>
 					<cfquery name="newAgentName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						insert into agent_name ( AGENT_NAME_ID,AGENT_ID,AGENT_NAME_TYPE,AGENT_NAME )
