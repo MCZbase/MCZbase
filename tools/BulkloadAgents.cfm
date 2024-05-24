@@ -625,8 +625,10 @@ limitations under the License.
 								group by nameType
 							</cfquery>
 							<!---Check to see if other names exists--->
+							<cfset i=1>
 							<cfloop query="otherNameType">
-								The following other name types in addition to preferred name exists: '#nameType#'.
+								OTherNames#i#: '#nameType#'.
+								<cfset i=i+1>
 							</cfloop>
 							<cfif len(getTempData.t_agent_name_id_1) gt 0>
 								<cfquery name="insOtherName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
