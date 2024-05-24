@@ -517,15 +517,16 @@ limitations under the License.
 					SELECT count(distinct t_agent_id) aid FROM cf_temp_agents
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
-				<cfquery name="OtherNameID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					select sq_agent_name_id.nextval nextAgentNameId from dual
-				</cfquery>
+				
 				<cftry>
 					<cfset agent_updates = 0>
 					<cfif getTempData.recordcount EQ 0>
 						<cfthrow message="You have no rows to load in the agents bulkloader table (cf_temp_agents).  <a href='/tools/BulkloadAgents.cfm' class='text-danger'>Start again</a>"><!--- " --->
 					</cfif>
 					<cfloop query="getTempData">
+						<cfquery name="OtherNameID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+							select sq_agent_name_id.nextval nextAgentNameId from dual
+						</cfquery>
 						<cfset problem_key = #getTempData.key#>
 						<cfquery name="insPerson" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="insPerson_result">
 							INSERT INTO agent (
