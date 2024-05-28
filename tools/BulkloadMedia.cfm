@@ -426,7 +426,7 @@ limitations under the License.
 							cf_temp_media
 						SET
 							status = concat(nvl2(status, status || '; ', ''),'Media URI exists')
-						WHERE media_URI in (select media_uri from media where MEDIA_URI = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempMedia.media_uri#">)
+						WHERE media_URI in (select media_uri from media where MEDIA_URI = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia.media_uri#">)
 						and username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempMedia.key#"> 
 					</cfquery>
