@@ -914,7 +914,7 @@ limitations under the License.
 					<cfimage action="info" source="#getTempMedia.media_uri#" structname="imgInfo"/>
 					<cfquery name="makeHeightLabel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						insert into cf_temp_media_labels (
-							key,
+							KEY,
 							MEDIA_LABEL,
 							ASSIGNED_BY_AGENT_ID,
 							LABEL_VALUE
@@ -927,12 +927,10 @@ limitations under the License.
 					</cfquery>
 					<cfquery name="makeWidthLabel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						insert into cf_temp_media_labels (
-							key,
 							MEDIA_LABEL,
 							ASSIGNED_BY_AGENT_ID,
 							LABEL_VALUE
 						) values (
-							#key#,
 							'width',
 							#session.myAgentId#,
 							'#imgInfo.width#'
@@ -942,12 +940,10 @@ limitations under the License.
 					<cfset md5hash=Hash(result.filecontent,"MD5")>
 					<cfquery name="makeMD5hash" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						insert into cf_temp_media_labels (
-							key,
 							MEDIA_LABEL,
 							ASSIGNED_BY_AGENT_ID,
 							LABEL_VALUE
 						) values (
-							#key#,
 							'md5hash',
 							#session.myAgentId#,
 							'#md5Hash#'
