@@ -894,8 +894,8 @@ limitations under the License.
 			<cfif not isDefined("veryLargeFiles")><cfset veryLargeFiles=""></cfif>
 			<cfif veryLargeFiles NEQ "true">
 				<!--- both isimagefile and cfimage run into heap space limits with very large files --->
-				<cfif isimagefile("#getTempTableMedia.media_uri#")>
-					<cfimage action="info" source="#getTempTableMedia.media_uri#" structname="imgInfo"/>
+				<cfif isimagefile("#getTempMedia.media_uri#")>
+					<cfimage action="info" source="#getTempMedia.media_uri#" structname="imgInfo"/>
 					<cfquery name="makeHeightLabel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						insert into cf_temp_media_labels (
 							key,
@@ -940,7 +940,7 @@ limitations under the License.
 				</cfif>
 			</cfif>
 			<cfquery name="c" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				update cf_temp_media set status='#getTempTableMedia.status#' where key=#getTempTableMedia.key#
+				update cf_temp_media set status='#getTempMedia.status#' where key=#getTempMedia.key#
 			</cfquery>
 			<cfquery name="bad" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				select * from cf_temp_media where status is not null
@@ -987,7 +987,7 @@ limitations under the License.
 						MEDIA_LABEL,
 						LABEL_VALUE
 				</cfquery>
-				<cfdump var=#getTempTableMedia#>
+				<cfdump var=#getTempMedia#>
 			</cfif>
 		</cfoutput>
 	</cfif>
