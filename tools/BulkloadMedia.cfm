@@ -410,7 +410,7 @@ limitations under the License.
 		<cfoutput>
 			<cfquery name="getTempTableMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT 
-					KEY,STATUS,MEDIA_URI,MEDIA_LABELS, MEDIA_RELATIONSHIPS,STATUS,MIME_TYPE,MEDIA_TYPE,PREVIEW_URI,MASK_MEDIA,MEDIA_LICENSE_ID
+					MEDIA_URI,MEDIA_LABELS,MEDIA_RELATIONSHIPS,STATUS,MIME_TYPE,MEDIA_TYPE,PREVIEW_URI,MASK_MEDIA,MEDIA_LICENSE_ID,key
 				FROM 
 					cf_temp_media
 				WHERE 
@@ -427,7 +427,7 @@ limitations under the License.
 						SET
 							status = concat(nvl2(status, status || '; ', ''),'Media URI exists')
 						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-						and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableMedia.key#"> 
+							and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableMedia.key#"> 
 					</cfquery>
 				</cfif>
 				<cfif len(getTempTableMedia.mask_media) gt 0>
@@ -538,7 +538,12 @@ limitations under the License.
 									)
 								</cfquery>
 							<cfelse>
-								<cfset status=listappend(status,'locality_id #lv# matched #ctLabel.recordcount# records.',";")>
+								<cfquery name="bad" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+									UPDATE cf_temp_media
+									SET status = concat(nvl2(status, status || '; ', ''),'locality_id #lv# matched #ctLabel.recordcount# records')
+									WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+									and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableMedia.key#">
+								</cfquery>
 							</cfif>
 						<cfelseif table_name is "collecting_event">
 							<cfif isnumeric(lv)>
@@ -823,7 +828,7 @@ limitations under the License.
 			</cfif>
 			<cfif len(getTempTableMedia.MEDIA_LICENSE_ID) gt 0>
 				<cfquery name="c" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					select key,media_license_id from CTMEDIA_LICENSE where media_license_id='#getTempTableMedia.MEDIA_LICENSE_ID#'
+					select media_license_id from CTMEDIA_LICENSE where media_license_id='#getTempTableMedia.MEDIA_LICENSE_ID#'
 				</cfquery>
 				<cfif len(getTempTableMedia.media_license_id) is 0>
 				<!---	<cfset status=listappend(status,'MEDIA_LICENSE_ID #getTempTableMedia.MEDIA_LICENSE_ID# is invalid',";")>--->
@@ -947,10 +952,9 @@ limitations under the License.
 			<cfset problem_key = "">
 			<cftransaction>
 				<cfquery name="getTempData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					SELECT * FROM getTempTableMedia
+					SELECT * FROM cf_temp_media
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
-					#getTempData.media_license_id#
 				<cfquery name="getCounts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT count(distinct collection_object_id) ctobj FROM cf_temp_media
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
