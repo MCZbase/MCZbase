@@ -756,7 +756,14 @@ limitations under the License.
 									)
 								</cfquery>
 							<cfelse>
-								<cfset rec_stat=listappend(rec_stat,'accn number #labelValue# matched #c.recordcount# records.',";")>
+								<cfquery name="badML" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+									UPDATE
+										cf_temp_media
+									SET
+										status = concat(nvl2(status, status || '; ', ''),'accn number #labelValue# matched #c.recordcount# records')
+									WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+										and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#cTrans.key#"> 
+								</cfquery>
 							</cfif>
 						<cfelseif table_name is "permit">
 							<cfquery name="cPermit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -800,7 +807,14 @@ limitations under the License.
 									)
 								</cfquery>
 							<cfelse>
-								<cfset rec_stat=listappend(rec_stat,'permit number #labelValue# matched #c.recordcount# records.',";")>
+								<cfquery name="badML" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+									UPDATE
+										cf_temp_media
+									SET
+										status = concat(nvl2(status, status || '; ', ''),'permit number #labelValue# matched #c.recordcount# records')
+									WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+										and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#cTrans.key#"> 
+								</cfquery>
 							</cfif>
 						<cfelseif table_name is "specimen_part">
 							<cfquery name="cSpecPart" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -826,10 +840,24 @@ limitations under the License.
 									)
 								</cfquery>
 							<cfelse>
-								<cfset status=listappend(status,'barcode #labelValue# matched #c.recordcount# records.',";")>
+								<cfquery name="badML" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+									UPDATE
+										cf_temp_media
+									SET
+										status = concat(nvl2(status, status || '; ', ''),'barcode #labelValue# matched #c.recordcount# records')
+									WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+										and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#cSpecPart.key#"> 
+								</cfquery>
 							</cfif>
 						<cfelse>
-							<cfset status=listappend(status,'Media relationship #labelName# is not handled',";")>
+							<cfquery name="badML" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+								UPDATE
+									cf_temp_media
+								SET
+									status = concat(nvl2(status, status || '; ', ''),'Media relationship #labelName# is not handled')
+								WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+									and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#cSpecPart.key#"> 
+							</cfquery>
 						</cfif>
 					</cfif>
 				</cfloop>
