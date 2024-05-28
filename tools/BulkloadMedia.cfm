@@ -949,67 +949,52 @@ limitations under the License.
 					</cfquery>
 				</cfif>
 			</cfif>
-			<cfquery name="c" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				update cf_temp_media set status='#getTempMedia.status#' where key=#getTempMedia.key#
+			<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				select
+					cf_temp_media.key,
+					status,
+					MEDIA_URI,
+					MIME_TYPE,
+					MEDIA_TYPE,
+					PREVIEW_URI,
+					MEDIA_LICENSE_ID,
+					MEDIA_RELATIONSHIP,
+					RELATED_PRIMARY_KEY,
+					MEDIA_LABEL,
+					LABEL_VALUE
+				from
+					cf_temp_media,
+					cf_temp_media_labels,
+					cf_temp_media_relations
+				where
+					cf_temp_media.key=cf_temp_media_labels.key (+) and
+					cf_temp_media.key=cf_temp_media_relations.key (+)
+				group by
+					cf_temp_media.key,
+					status,
+					MEDIA_URI,
+					MIME_TYPE,
+					MEDIA_TYPE,
+					PREVIEW_URI,
+					MEDIA_LICENSE_ID,
+					MEDIA_RELATIONSHIP,
+					RELATED_PRIMARY_KEY,
+					MEDIA_LABEL,
+					LABEL_VALUE
 			</cfquery>
-		<!---	<cfquery name="bad" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				select * from cf_temp_media where status is not null
-			</cfquery>--->
-			<cfif len(badML.key) gt 0>
-				Oops! You must fix everything below before proceeding (see STATUS column).
-				<cfdump var=#bad#>
-			<cfelse>
-				Yay! Initial checks on your file passed. Carefully review the tables below, then
-				<a href="BulkloadMedia.cfm?action=load"><strong>click here</strong></a> to proceed.
-				<br>^^^ that thing. You must click it.
-				<br>
-				(Note that the table below is "flattened." Media entries are repeated for every Label and Relationship.)
-				<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					select
-						cf_temp_media.key,
-						status,
-						MEDIA_URI,
-						MIME_TYPE,
-						MEDIA_TYPE,
-						PREVIEW_URI,
-						MEDIA_LICENSE_ID,
-						MEDIA_RELATIONSHIP,
-						RELATED_PRIMARY_KEY,
-						MEDIA_LABEL,
-						LABEL_VALUE
-					from
-						cf_temp_media,
-						cf_temp_media_labels,
-						cf_temp_media_relations
-					where
-						cf_temp_media.key=cf_temp_media_labels.key (+) and
-						cf_temp_media.key=cf_temp_media_relations.key (+)
-					group by
-						cf_temp_media.key,
-						status,
-						MEDIA_URI,
-						MIME_TYPE,
-						MEDIA_TYPE,
-						PREVIEW_URI,
-						MEDIA_LICENSE_ID,
-						MEDIA_RELATIONSHIP,
-						RELATED_PRIMARY_KEY,
-						MEDIA_LABEL,
-						LABEL_VALUE
-				</cfquery>
-				<cfquery name="problemsInData" dbtype="query">
-					SELECT count(*) c 
-					FROM data 
-					WHERE status is not null
-				</cfquery>
-				<h3 class="mt-3">
-					<cfif problemsInData.c gt 0>
-						There is a problem with #problemsInData.c# of #data.recordcount# row(s). See the STATUS column (<a href="/tools/BulkloadMedia.cfm?action=dumpProblems">download</a>). Fix the problems in the data and <a href="/tools/BulkloadMedia.cfm" class="text-danger">start again</a>.
-					<cfelse>
-						<span class="text-success">Validation checks passed</span>. Look over the table below and <a href="/tools/BulkloadMedia.cfm?action=load" class="btn-link font-weight-lessbold">click to continue</a> if it all looks good. Or, <a href="/tools/BulkloadMedia.cfm" class="text-danger">start again</a>.
-					</cfif>
-				</h3>
-				<table class='px-0 mx-0 sortable table small table-responsive w-100'>
+			<cfquery name="problemsInData" dbtype="query">
+				SELECT count(*) c 
+				FROM data 
+				WHERE status is not null
+			</cfquery>
+			<h3 class="mt-3">
+				<cfif problemsInData.c gt 0>
+					There is a problem with #problemsInData.c# of #data.recordcount# row(s). See the STATUS column (<a href="/tools/BulkloadMedia.cfm?action=dumpProblems">download</a>). Fix the problems in the data and <a href="/tools/BulkloadMedia.cfm" class="text-danger">start again</a>.
+				<cfelse>
+					<span class="text-success">Validation checks passed</span>. Look over the table below and <a href="/tools/BulkloadMedia.cfm?action=load" class="btn-link font-weight-lessbold">click to continue</a> if it all looks good. Or, <a href="/tools/BulkloadMedia.cfm" class="text-danger">start again</a>.
+				</cfif>
+			</h3>
+			<table class='px-0 mx-0 sortable table small table-responsive w-100'>
 					<thead class="thead-light">
 						<tr>
 							<th>BULKLOAD&nbsp;STATUS</th>
@@ -1040,7 +1025,6 @@ limitations under the License.
 						</cfloop>
 					</tbody>
 				</table>
-			</cfif>
 		</cfoutput>
 	</cfif>
 <!------------------------------------------------------->
