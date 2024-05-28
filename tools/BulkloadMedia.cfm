@@ -862,33 +862,33 @@ limitations under the License.
 				</cfloop>
 			</cfif>
 			<cfquery name="ctMime" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				select MIME_TYPE from CTMIME_TYPE where MIME_TYPE='#getTempTableMedia.MIME_TYPE#'
+				select MIME_TYPE from CTMIME_TYPE where MIME_TYPE='#getTempMedia.MIME_TYPE#'
 			</cfquery>
-			<cfif len(getTempTableMedia.MIME_TYPE) is 0>
+			<cfif len(getTempMedia.MIME_TYPE) is 0>
 				<cfset status=listappend(status,'MIME_TYPE #MIME_TYPE# is invalid',";")>
 			</cfif>
 			<cfquery name="ctMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				select MEDIA_TYPE from CTMEDIA_TYPE where MEDIA_TYPE='#getTempTableMedia.MEDIA_TYPE#'
+				select MEDIA_TYPE from CTMEDIA_TYPE where MEDIA_TYPE='#getTempMedia.MEDIA_TYPE#'
 			</cfquery>
-			<cfif len(getTempTableMedia.MEDIA_TYPE) is 0>
+			<cfif len(getTempMedia.MEDIA_TYPE) is 0>
 				<!---<cfset status=listappend(status,'MEDIA_TYPE #MEDIA_TYPE# is invalid',";")>--->
 			</cfif>
-			<cfif len(getTempTableMedia.MEDIA_LICENSE_ID) gt 0>
+			<cfif len(getTempMedia.MEDIA_LICENSE_ID) gt 0>
 				<cfquery name="c" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					select media_license_id from CTMEDIA_LICENSE where media_license_id='#getTempTableMedia.MEDIA_LICENSE_ID#'
+					select media_license_id from CTMEDIA_LICENSE where media_license_id='#getTempMedia.MEDIA_LICENSE_ID#'
 				</cfquery>
-				<cfif len(getTempTableMedia.media_license_id) is 0>
-				<!---	<cfset status=listappend(status,'MEDIA_LICENSE_ID #getTempTableMedia.MEDIA_LICENSE_ID# is invalid',";")>--->
+				<cfif len(getTempMedia.media_license_id) is 0>
+				<!---	<cfset status=listappend(status,'MEDIA_LICENSE_ID #getTempMedia.MEDIA_LICENSE_ID# is invalid',";")>--->
 				</cfif>
 			</cfif>
-			<cfhttp url="#getTempTableMedia.media_uri#" charset="utf-8" timeout=5 method="head" />
+			<cfhttp url="#getTempMedia.media_uri#" charset="utf-8" timeout=5 method="head" />
 			<cfif left(cfhttp.statuscode,3) is not "200">
-		<!---		<cfset status=listappend(status,'#getTempTableMedia.media_uri# is invalid',";")>--->
+		<!---		<cfset status=listappend(status,'#getTempMedia.media_uri# is invalid',";")>--->
 			</cfif>
-			<cfif len(getTempTableMedia.preview_uri) gt 0>
-				<cfhttp url="#getTempTableMedia.preview_uri#" charset="utf-8" timeout=5 method="head" />
+			<cfif len(getTempMedia.preview_uri) gt 0>
+				<cfhttp url="#getTempMedia.preview_uri#" charset="utf-8" timeout=5 method="head" />
 				<cfif left(cfhttp.statuscode,3) is not "200">
-		<!---			<cfset status=listappend(status,'#getTempTableMedia.preview_uri# is invalid',";")>--->
+		<!---			<cfset status=listappend(status,'#getTempMedia.preview_uri# is invalid',";")>--->
 				</cfif>
 			</cfif>
 			<cfif not isDefined("veryLargeFiles")><cfset veryLargeFiles=""></cfif>
