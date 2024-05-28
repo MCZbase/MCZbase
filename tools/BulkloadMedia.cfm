@@ -904,7 +904,13 @@ limitations under the License.
 			<cfif len(getTempMedia.preview_uri) gt 0>
 				<cfhttp url="#getTempMedia.preview_uri#" charset="utf-8" timeout=5 method="head" />
 				<cfif left(cfhttp.statuscode,3) is not "200">
-		<!---			<cfset status=listappend(status,'#getTempMedia.preview_uri# is invalid',";")>--->
+					<cfquery name="badML" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						UPDATE
+							cf_temp_media
+						SET
+							status = concat(nvl2(status, status || '; ', ''),'#getTempMedia.preview_uri# is invalid')
+						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+					</cfquery>
 				</cfif>
 			</cfif>
 			<cfif not isDefined("veryLargeFiles")><cfset veryLargeFiles=""></cfif>
