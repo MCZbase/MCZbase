@@ -471,13 +471,11 @@ limitations under the License.
 						<cfelse>
 							<cfquery name="badMediaLabel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 								insert into cf_temp_media_labels (
-									key,
 									MEDIA_LABEL,
 									ASSIGNED_BY_AGENT_ID,
 									LABEL_VALUE,
 									USERNAME
 								) values (
-									<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#key#">,
 									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#labelName#">,
 									<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#session.myAgentId#">,
 									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#labelValue#">,
