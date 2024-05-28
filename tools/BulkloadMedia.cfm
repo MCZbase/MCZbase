@@ -444,7 +444,7 @@ limitations under the License.
 				<cfif len(getTempMedia.MEDIA_LABELS) gt 0>
 					<cfloop list="#getTempMedia.media_labels#" index="label" delimiters=";">
 						<cfset labelName=listgetat(label,1,"=")>
-						<cfset lableValue=listgetat(label,2,"=")>
+						<cfset labelValue=listgetat(label,2,"=")>
 						<cfquery name="ct" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							SELECT MEDIA_LABEL 
 							FROM CTMEDIA_LABEL 
