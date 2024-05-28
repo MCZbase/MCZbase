@@ -517,7 +517,12 @@ limitations under the License.
 									)
 								</cfquery>
 							<cfelse>
-								<cfset status=listappend(status,'Agent #lv# matched #ctLabel.recordcount# records.',";")>
+								<cfquery name="bad" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+									UPDATE cf_temp_media
+									SET status = concat(nvl2(status, status || '; ', ''),'Agent #lv# matched #ctLabel.recordcount# records')
+									WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+									and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableMedia.key#">
+								</cfquery>
 							</cfif>
 						<cfelseif table_name is "locality">
 							<cfquery name="cLocality" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
