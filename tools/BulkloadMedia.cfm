@@ -869,19 +869,37 @@ limitations under the License.
 				select MEDIA_TYPE from CTMEDIA_TYPE where MEDIA_TYPE='#getTempMedia.MEDIA_TYPE#'
 			</cfquery>
 			<cfif len(getTempMedia.MEDIA_TYPE) is 0>
-				<!---<cfset status=listappend(status,'MEDIA_TYPE #MEDIA_TYPE# is invalid',";")>--->
+				<cfquery name="badML" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					UPDATE
+						cf_temp_media
+					SET
+						status = concat(nvl2(status, status || '; ', ''),'MEDIA_TYPE #MEDIA_TYPE# is invalid')
+					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+				</cfquery>
 			</cfif>
 			<cfif len(getTempMedia.MEDIA_LICENSE_ID) gt 0>
 				<cfquery name="c" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					select media_license_id from CTMEDIA_LICENSE where media_license_id='#getTempMedia.MEDIA_LICENSE_ID#'
 				</cfquery>
 				<cfif len(getTempMedia.media_license_id) is 0>
-				<!---	<cfset status=listappend(status,'MEDIA_LICENSE_ID #getTempMedia.MEDIA_LICENSE_ID# is invalid',";")>--->
+					<cfquery name="badML" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						UPDATE
+							cf_temp_media
+						SET
+							status = concat(nvl2(status, status || '; ', ''),'MEDIA_LICENSE_ID #getTempMedia.MEDIA_LICENSE_ID# is invalid')
+						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+					</cfquery>
 				</cfif>
 			</cfif>
 			<cfhttp url="#getTempMedia.media_uri#" charset="utf-8" timeout=5 method="head" />
 			<cfif left(cfhttp.statuscode,3) is not "200">
-		<!---		<cfset status=listappend(status,'#getTempMedia.media_uri# is invalid',";")>--->
+				<cfquery name="badML" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					UPDATE
+						cf_temp_media
+					SET
+						status = concat(nvl2(status, status || '; ', ''),'#getTempMedia.media_uri# is invalid')
+					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+				</cfquery>
 			</cfif>
 			<cfif len(getTempMedia.preview_uri) gt 0>
 				<cfhttp url="#getTempMedia.preview_uri#" charset="utf-8" timeout=5 method="head" />
