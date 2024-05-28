@@ -57,6 +57,9 @@ limitations under the License.
 	
 <main class="container-fluid px-5 py-3" id="content">
 	<h1 class="h2 mt-2">Bulkload Media</h1>
+
+<!------------------------------------------------------->
+	
 	<cfif #action# is "nothing">
 		<cfoutput>
 			<p>This tool adds media records. The media can be related to records that have to be in MCZbase prior to uploading this csv. It ignores rows that are exactly the same and additional columns. Some of the values must appear as they do on the following <a href="https://mczbase.mcz.harvard.edu/vocabularies/ControlledVocabulary.cfm?" class="font-weight-bold">controlled vocabularies</a> lists: </p>
@@ -190,7 +193,6 @@ limitations under the License.
 		</cfoutput>
 	</cfif>
 
-<!------------------------------------------------------->
 <!------------------------------------------------------->
 
 	<cfif #action# is "getFile">
@@ -408,7 +410,7 @@ limitations under the License.
 		<cfoutput>
 			<cfquery name="getTempTableMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT 
-					MEDIA_URI,MEDIA_LABELS, MEDIA_RELATIONSHIPS,STATUS,MIME_TYPE,MEDIA_TYPE,PREVIEW_URI,MASK_MEDIA,MEDIA_LICENSE_ID,key
+					KEY,MEDIA_URI,MEDIA_LABELS, MEDIA_RELATIONSHIPS,STATUS,MIME_TYPE,MEDIA_TYPE,PREVIEW_URI,MASK_MEDIA,MEDIA_LICENSE_ID
 				FROM 
 					cf_temp_media
 				WHERE 
@@ -821,7 +823,7 @@ limitations under the License.
 			</cfif>
 			<cfif len(getTempTableMedia.MEDIA_LICENSE_ID) gt 0>
 				<cfquery name="c" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					select media_license_id from CTMEDIA_LICENSE where media_license_id='#getTempTableMedia.MEDIA_LICENSE_ID#'
+					select key,media_license_id from CTMEDIA_LICENSE where media_license_id='#getTempTableMedia.MEDIA_LICENSE_ID#'
 				</cfquery>
 				<cfif len(getTempTableMedia.media_license_id) is 0>
 				<!---	<cfset status=listappend(status,'MEDIA_LICENSE_ID #getTempTableMedia.MEDIA_LICENSE_ID# is invalid',";")>--->
