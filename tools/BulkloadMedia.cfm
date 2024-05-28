@@ -964,7 +964,7 @@ limitations under the License.
 				<br>^^^ that thing. You must click it.
 				<br>
 				(Note that the table below is "flattened." Media entries are repeated for every Label and Relationship.)
-				<cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					select
 						cf_temp_media.key,
 						status,
@@ -997,6 +997,49 @@ limitations under the License.
 						MEDIA_LABEL,
 						LABEL_VALUE
 				</cfquery>
+				<cfquery name="problemsInData" dbtype="query">
+					SELECT count(*) c 
+					FROM data 
+					WHERE status is not null
+				</cfquery>
+				<h3 class="mt-3">
+					<cfif problemsInData.c gt 0>
+						There is a problem with #problemsInData.c# of #data.recordcount# row(s). See the STATUS column (<a href="/tools/BulkloadMedia.cfm?action=dumpProblems">download</a>). Fix the problems in the data and <a href="/tools/BulkloadMedia.cfm" class="text-danger">start again</a>.
+					<cfelse>
+						<span class="text-success">Validation checks passed</span>. Look over the table below and <a href="/tools/BulkloadMedia.cfm?action=load" class="btn-link font-weight-lessbold">click to continue</a> if it all looks good. Or, <a href="/tools/BulkloadMedia.cfm" class="text-danger">start again</a>.
+					</cfif>
+				</h3>
+				<table class='px-0 mx-0 sortable table small table-responsive w-100'>
+					<thead class="thead-light">
+						<tr>
+							<th>BULKLOAD&nbsp;STATUS</th>
+							<th>MEDIA_URI</th>
+							<th>MIME_TYPE</th>
+							<th>MEDIA_TYPE</th>
+							<th>PREVIEW_URI</th>
+							<th>MEDIA_LICENSE_ID</th>
+							<th>MEDIA_RELATIONSHIP</th>
+							<th>RELATED_PRIMARY_KEY</th>
+							<th>MEDIA_LABEL</th>
+							<th>LABEL_VALUE</th>
+						</tr>
+					<tbody>
+						<cfloop query="data">
+							<tr>
+								<td><cfif len(data.status) eq 0>Cleared to load<cfelse><strong>#data.status#</strong></cfif></td>
+								<td>#data.MEDIA_URI#</td>
+								<td>#data.MIME_TYPE#</td>
+								<td>#data.MEDIA_TYPE#</td>
+								<td>#data.PREVIEW_URI#</td>
+								<td>#data.MEDIA_LICENSE_ID#</td>
+								<td>#data.MEDIA_RELATIONSHIP#</td>
+								<td>#data.RELATED_PRIMARY_KEY#</td>
+								<td>#data.MEDIA_LABEL#</td>
+								<td>#data.LABEL_VALUE#</td>
+							</tr>
+						</cfloop>
+					</tbody>
+				</table>
 				<cfdump var=#getTempMedia#>
 			</cfif>
 		</cfoutput>
