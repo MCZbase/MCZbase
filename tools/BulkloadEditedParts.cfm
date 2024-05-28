@@ -16,7 +16,8 @@ See the License for the specific language governing permissions and
 limitations under the License.
 
 --->
-	<!---Things that can happen during validation step:
+<!--- TODO: Review and rework these remarks to fit with BulkloadNewParts and BulkloadEditedParts.  --->
+<!---Things that can happen during validation step:
 		1) Upload a part that doesn't exist
 			Solution: create a new part, optionally put it in a container that they specify in the upload.
 		2) Upload a part that already exists
@@ -32,7 +33,9 @@ limitations under the License.
 				1) part is in a container
 					Solution: warn them, create a new part, optionally put it in the container they've specified
 				2) part is not in a container
-					Solution: same: warning and new part ---->
+					Solution: same: warning and new part 
+---->
+
 <!--- special case handling to dump problem data as csv --->
 <cfif isDefined("action") AND action is "dumpProblems">
 	<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -69,12 +72,13 @@ limitations under the License.
 <cfset pageTitle = "Bulk Edit Parts">
 <cfinclude template="/shared/_header.cfm">
 <cfinclude template="/tools/component/csv.cfc" runOnce="true"><!--- for common csv testing functions --->
-<cfif not isDefined("action") OR len(action) EQ 0><cfset action="nothing"></cfif>
-	<main class="container-fluid px-xl-5 py-3" id="content">
-		<h1 class="h2 mt-2">Bulkload Edited Parts </h1>
-		<!------------------------------------------------------->
-		<cfif #action# is "nothing">
-			<cfoutput>
+<cfif not isDefined("action") OR len(action) EQ 0><cfset action="entryPoint"></cfif>
+
+<main class="container-fluid px-xl-5 py-3" id="content">
+	<h1 class="h2 mt-2">Bulkload Edited Parts </h1>
+	<!------------------------------------------------------->
+	<cfif #action# is "entryPoint">
+		<cfoutput>
 			<p>This tool edits existing part records of specimen records. It creates metadata for the part history. The cataloged items must be in the database and they can be entered using the catalog number or other ID.  Parts must also exist, new parts will not be added with this tool.  Error messages will appear if the values need to match values in MCZbase and if required columns are missing. Additional columns will be ignored.  The first line of the file must be the column headings, spelled exactly as below. </p>
 			<p>A file of parts to be edited can be obtained from the <strong>Parts Report/Download</strong> option from the Manage page for a specimen search result.  The Download Parts CSV option on the Parts Report/Download page has the correct format to upload here.</p>
 			<span class="btn btn-xs btn-info" onclick="document.getElementById('template').style.display='block';">View template</span>
@@ -150,10 +154,10 @@ limitations under the License.
 					</div>
 				</div>
 			</form>
-			</cfoutput>
-		</cfif>	
-			<!------------------------------------------------------->
-		<cfif #action# is "getFile">
+		</cfoutput>
+	</cfif>	
+	<!------------------------------------------------------->
+	<cfif #action# is "getFile">
 			<cfoutput>
 				<h2 class="h4">First step: Reading data from CSV file.</h2>
 				<!--- Compare the numbers of headers expected against provided in CSV file --->
