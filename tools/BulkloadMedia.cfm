@@ -856,7 +856,6 @@ limitations under the License.
 								SET
 									status = concat(nvl2(status, status || '; ', ''),'Media relationship #labelName# is not handled')
 								WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-									and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#cSpecPart.key#"> 
 							</cfquery>
 						</cfif>
 					</cfif>
