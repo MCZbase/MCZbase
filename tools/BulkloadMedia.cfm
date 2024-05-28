@@ -410,7 +410,7 @@ limitations under the License.
 		<cfoutput>
 			<cfquery name="getTempTableMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT 
-					KEY,MEDIA_URI,MEDIA_LABELS, MEDIA_RELATIONSHIPS,STATUS,MIME_TYPE,MEDIA_TYPE,PREVIEW_URI,MASK_MEDIA,MEDIA_LICENSE_ID
+					KEY,STATUS,MEDIA_URI,MEDIA_LABELS, MEDIA_RELATIONSHIPS,STATUS,MIME_TYPE,MEDIA_TYPE,PREVIEW_URI,MASK_MEDIA,MEDIA_LICENSE_ID
 				FROM 
 					cf_temp_media
 				WHERE 
@@ -427,7 +427,7 @@ limitations under the License.
 						SET
 							status = concat(nvl2(status, status || '; ', ''),'Media URI exists')
 						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-							and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableMedia.key#"> 
+						and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableMedia.key#"> 
 					</cfquery>
 				</cfif>
 				<cfif len(getTempTableMedia.mask_media) gt 0>
