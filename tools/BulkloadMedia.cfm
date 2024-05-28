@@ -914,12 +914,10 @@ limitations under the License.
 					<cfimage action="info" source="#getTempMedia.media_uri#" structname="imgInfo"/>
 					<cfquery name="makeHeightLabel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						insert into cf_temp_media_labels (
-							KEY,
 							MEDIA_LABEL,
 							ASSIGNED_BY_AGENT_ID,
 							LABEL_VALUE
 						) values (
-							#key#,
 							'height',
 							#session.myAgentId#,
 							'#imgInfo.height#'
