@@ -955,7 +955,7 @@ limitations under the License.
 		<!---	<cfquery name="bad" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				select * from cf_temp_media where status is not null
 			</cfquery>--->
-			<cfif len(bad.key) gt 0>
+			<cfif len(badML.key) gt 0>
 				Oops! You must fix everything below before proceeding (see STATUS column).
 				<cfdump var=#bad#>
 			<cfelse>
