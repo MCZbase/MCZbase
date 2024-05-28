@@ -952,9 +952,9 @@ limitations under the License.
 			<cfquery name="c" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				update cf_temp_media set status='#getTempMedia.status#' where key=#getTempMedia.key#
 			</cfquery>
-			<cfquery name="bad" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+		<!---	<cfquery name="bad" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				select * from cf_temp_media where status is not null
-			</cfquery>
+			</cfquery>--->
 			<cfif len(bad.key) gt 0>
 				Oops! You must fix everything below before proceeding (see STATUS column).
 				<cfdump var=#bad#>
@@ -1040,7 +1040,6 @@ limitations under the License.
 						</cfloop>
 					</tbody>
 				</table>
-				<cfdump var=#getTempMedia#>
 			</cfif>
 		</cfoutput>
 	</cfif>
