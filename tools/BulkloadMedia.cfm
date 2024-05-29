@@ -488,8 +488,8 @@ limitations under the License.
 			</cfloop>
 			<cfif len(getTempMedia.MEDIA_RELATIONSHIPS) gt 0>
 				<cfloop list="#getTempMedia.MEDIA_RELATIONSHIPS#" index="l" delimiters=";">
-					<cfset ln=listgetat(l,1,"=")>
-					<cfset lv=listgetat(l,2,"=")>
+					<cfset labelName=listgetat(l,1,"=")>
+					<cfset labelValue=listgetat(l,2,"=")>
 					<cfquery name="ctLabel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						select MEDIA_RELATIONSHIP from CTMEDIA_RELATIONSHIP where MEDIA_RELATIONSHIP='#labelName#'
 					</cfquery>
