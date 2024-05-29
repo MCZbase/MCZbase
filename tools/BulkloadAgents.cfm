@@ -896,8 +896,16 @@ limitations under the License.
 						select preferred_agent_name_id from agent
 						where preferred_agent_name_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#agentNAMEID#">
 					</cfquery>
+					<cfif #agent_type# is "person">
+						<cfquery name="newProj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+							insert into person (PERSON_ID,PREFIX,LAST_NAME,FIRST_NAME,
+								MIDDLE_NAME,SUFFIX,BIRTH_DATE,DEATH_DATE)
+							values (sq_agent_id.currval,'#PREFIX#','#LAST_NAME#','#FIRST_NAME#',
+								'#MIDDLE_NAME#','#SUFFIX#','#dateformat(BIRTH_DATE,"yyyy-mm-dd")#', '#dateformat(DEATH_DATE,"yyyy-mm-dd")#')
+						</cfquery>
+					</cfif>
 				</cfloop>
-			
+
 			
 <!---				<cfif #agent_type# is "person">
 					<cfquery name="newProj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
