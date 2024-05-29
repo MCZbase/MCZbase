@@ -887,8 +887,8 @@ limitations under the License.
 						where ROWIDTOCHAR(rowid) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#insResult.GENERATEDKEY#">
 					</cfquery>
 					<cfquery name="newAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="insResult">
-						insert into agent_name (AGENT_NAME_ID, AGENT_ID, AGENT_NAME_TYPE, AGENT_REMARKS, AGENT_NAME)
-						values (#savePK.preferred_agent_name_id#,#savePK.agent_ID#,'preferred','#agent_remark#',sq_agent_name_id.nextval)
+						insert into agent_name (AGENT_NAME_ID, AGENT_ID, AGENT_NAME_TYPE, AGENT_NAME)
+						values (#savePK.preferred_agent_name_id#,#savePK.agent_ID#,'preferred',sq_agent_name_id.nextval)
 					</cfquery>
 						
 					<cfset agentNAMEID = #savePK.preferred_agent_name_id#>
