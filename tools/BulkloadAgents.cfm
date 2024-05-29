@@ -554,7 +554,7 @@ limitations under the License.
 			<cfset problem_key = "">
 			<cftransaction>
 				<cfquery name="getTempData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					select key,to_char(birth_date,'YYYY-MM-DD') birth_date,agent_type, preferred_name,first_name,middle_name,last_name,to_char(death_date,'YYYY-MM-DD') death_date,agent_remark,prefix,suffix,other_name_1,other_name_type_1,other_name_2,other_name_type_2,other_name_3,other_name_type_3,agentguid_guid_type,agentguid,t_preferred_agent_name_id,t_agent_id,status
+					select to_char(birth_date,'YYYY-MM-DD') birth_date,agent_type, preferred_name,first_name,middle_name,last_name,to_char(death_date,'YYYY-MM-DD') death_date,agent_remark,prefix,suffix,other_name_1,other_name_type_1,other_name_2,other_name_type_2,other_name_3,other_name_type_3,agentguid_guid_type,agentguid,t_preferred_agent_name_id,t_agent_id,status
 					from cf_temp_agents
 				</cfquery>
 				<cfquery name="getCounts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -569,30 +569,16 @@ limitations under the License.
 					<cfloop query="getTempData">
 						<cfset problem_key = #getTempData.key#>
 						<cfquery name="newAgents" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="insResult">
-							insert into agent (
-							AGENT_ID, 
-							AGENT_TYPE, 
-							AGENT_REMARKS, 
-							PREFERRED_AGENT_NAME_ID
-							) values (
-							sq_agent_id.nextval,
-							'#agent_type#',
-							'#agent_remark#',
-							sq_agent_name_id.nextval
-							)
+							insert into agent (AGENT_ID, AGENT_TYPE, AGENT_REMARKS, PREFERRED_AGENT_NAME_ID)
+							values (sq_agent_id.nextval,'#agent_type#','#agent_remark#',sq_agent_name_id.nextval)
 						</cfquery>
 						<cfquery name="savePK" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="pkResult">
 							select preferred_agent_name_id,agent_id from agent
 							where ROWIDTOCHAR(rowid) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#insResult.GENERATEDKEY#">
 						</cfquery>
 						<cfquery name="newPrefAgentName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="insResult">
-							insert into agent_name (
-							AGENT_NAME_ID, AGENT_ID, AGENT_NAME_TYPE, AGENT_NAME
-							) values (
-							#savePK.preferred_agent_name_id#,
-							#savePK.agent_ID#,
-							'preferred',
-							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.preferred_name#">)
+							insert into agent_name (AGENT_NAME_ID, AGENT_ID, AGENT_NAME_TYPE, AGENT_NAME)
+							values (#savePK.preferred_agent_name_id#,#savePK.agent_ID#,'preferred',sq_agent_name_id.nextval)
 						</cfquery>
 						<cfset agentNAMEID = #savePK.preferred_agent_name_id#>
 						<cfquery name="agent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="pkResult">
@@ -677,7 +663,7 @@ limitations under the License.
 										<cfelseif cfcatch.detail contains "agent_id">
 											Problem with AGENT_ID
 										<cfelseif cfcatch.detail contains "unique constraint">
-											This agent has already been entered. Remove from spreadsheet and try again.
+											This agent has already been entered. Remove from spreadsheet and try again. (<a href="/tools/BulkloadAgents.cfm">Reload.</a>)
 										<cfelseif cfcatch.detail contains "no data">
 											No data or the wrong data (#cfcatch.detail#)
 										<cfelse>
@@ -688,7 +674,7 @@ limitations under the License.
 								</cfif>
 							</h3>
 							<table class='sortable small table table-responsive table-striped d-lg-table mt-3'>
-								<thead>
+								<thead>to_char(birth_date,'YYYY-MM-DD') birth_date,agent_type,preferred_name,first_name,middle_name,last_name,to_char(death_date,'YYYY-MM-DD') death_date,agent_remark,prefix,suffix,other_name_1,other_name_type_1,other_name_2,other_name_type_2,other_name_3,other_name_type_3,agentguid_guid_type,agentguid
 									<tr>
 										<th>COUNT</th>
 										<th>BIRTH_DATE</th>
@@ -703,10 +689,6 @@ limitations under the License.
 										<th>SUFFIX</th>
 										<th>OTHER_NAME_1</th>
 										<th>OTHER_NAME_TYPE_1</th>
-										<th>OTHER_NAME_2</th>
-										<th>OTHER_NAME_TYPE_2</th>
-										<th>OTHER_NAME_3</th>
-										<th>OTHER_NAME_TYPE_3</th>
 										<th>AGENTGUID_GUID_TYPE</th>
 										<th>AGENTGUID</th>
 									</tr> 
