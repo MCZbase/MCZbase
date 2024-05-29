@@ -889,7 +889,7 @@ limitations under the License.
 					where ROWIDTOCHAR(rowid) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#insResult.GENERATEDKEY#">
 					and agent_type = 'preferred'
 				</cfquery>
-					#savePK.preferred_agent_name_id#
+					<div class="container my-5">#savePK.preferred_agent_name_id#</div>
 			
 <!---				<cfif #agent_type# is "person">
 					<cfquery name="newProj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
