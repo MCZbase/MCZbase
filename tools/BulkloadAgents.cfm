@@ -883,10 +883,11 @@ limitations under the License.
 					values (sq_agent_id.nextval,'#agent_type#','#agent_remark#',sq_agent_name_id.nextval)
 				</cfquery>
 				<cfquery name="savePK" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="pkResult">
-					select agent_name_id from agent_name
-					where ROWIDTOCHAR(rowid) = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#insResult.GENERATEDKEY#">
+					select preferred_agent_name_id from agent
+					where ROWIDTOCHAR(rowid) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#insResult.GENERATEDKEY#">
 					and agent_name_type = 'preferred'
 				</cfquery>
+					#savePK.preferred_agent_name_id#
 				<cfif #agent_type# is "person">
 					<cfquery name="newProj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						insert into person (PERSON_ID,PREFIX,LAST_NAME,FIRST_NAME,
