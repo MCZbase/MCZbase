@@ -627,7 +627,7 @@ limitations under the License.
 								'#dateformat(DEATH_DATE,"yyyy-mm-dd")#')
 							</cfquery>
 						</cfif>
-<!---						<cfquery name="NEXTID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						<!---						<cfquery name="NEXTID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							select sq_agent_name_id.nextval NEXTID from dual
 						</cfquery>
 						<cfif len(#OTHER_NAME_1#) gt 0>
@@ -681,6 +681,7 @@ limitations under the License.
 						<cfif pkResult.recordcount gt 1>
 							<cfthrow message="Error: Attempting to insert a duplicate agent">
 						</cfif>
+						<cfset agent_updates = agent_updates + pkResult.recordcount>
 					</cfloop>
 					<p>Number of agents to update: #agent_updates# (on #getCounts.AID# agents)</p>
 						<cfif getTempData.recordcount eq agent_updates and pkResult.recordcount eq 0>
