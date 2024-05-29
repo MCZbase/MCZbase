@@ -677,7 +677,7 @@ limitations under the License.
 										<cfelseif cfcatch.detail contains "agent_id">
 											Problem with AGENT_ID
 										<cfelseif cfcatch.detail contains "unique constraint">
-											This agent has already been entered. Remove from spreadsheet and <a href="/tools/BulkloadAgents.cfm">try again</a>.
+											This agent has already been entered. Remove from spreadsheet and try again.
 										<cfelseif cfcatch.detail contains "no data">
 											No data or the wrong data (#cfcatch.detail#)
 										<cfelse>
