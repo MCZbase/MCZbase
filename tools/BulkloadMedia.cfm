@@ -450,7 +450,7 @@ limitations under the License.
 							FROM CTMEDIA_LABEL 
 							WHERE MEDIA_LABEL = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#labelName#">
 						</cfquery>
-						<cfif len(ct.MEDIA_LABELS) is 0>
+						<cfif len(ct.MEDIA_LABEL) is 0>
 							<cfquery name="badMediaLabel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 								UPDATE
 									cf_temp_media
