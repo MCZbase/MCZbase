@@ -578,7 +578,7 @@ limitations under the License.
 						</cfquery>
 						<cfquery name="newPrefAgentName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="insResult">
 							insert into agent_name (AGENT_NAME_ID, AGENT_ID, AGENT_NAME_TYPE, AGENT_NAME)
-							values (#savePK.preferred_agent_name_id#,#savePK.agent_ID#,'preferred',sq_agent_name_id.nextval)
+							values (#savePK.preferred_agent_name_id#,#savePK.agent_ID#,'preferred',<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.preferred_name#">)
 						</cfquery>
 						<cfset agentNAMEID = #savePK.preferred_agent_name_id#>
 						<cfquery name="agent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="pkResult">
