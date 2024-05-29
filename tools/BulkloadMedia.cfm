@@ -863,7 +863,13 @@ limitations under the License.
 				select MIME_TYPE from CTMIME_TYPE where MIME_TYPE='#getTempMedia.MIME_TYPE#'
 			</cfquery>
 			<cfif len(getTempMedia.MIME_TYPE) is 0>
-				<cfset status=listappend(status,'MIME_TYPE #MIME_TYPE# is invalid',";")>
+				<cfquery name="badML" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					UPDATE
+						cf_temp_media
+					SET
+						status = concat(nvl2(status, status || '; ', ''),'MIME_TYPE #MIME_TYPE# is invalid')
+					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+				</cfquery>
 			</cfif>
 			<cfquery name="ctMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				select MEDIA_TYPE from CTMEDIA_TYPE where MEDIA_TYPE='#getTempMedia.MEDIA_TYPE#'
