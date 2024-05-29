@@ -558,7 +558,7 @@ limitations under the License.
 					from cf_temp_agents
 				</cfquery>
 				<cfquery name="getCounts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					SELECT count(distinct preferred_agent_name) AID FROM cf_temp_agents
+					SELECT count(distinct preferred_name) AID FROM cf_temp_agents
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
 				<cftry>
