@@ -897,7 +897,7 @@ limitations under the License.
 					</cfquery>
 				</cfif>
 				<cfif len(#OTHER_NAME_1#) gt 0>
-					<cfset agent_name_id = #savePK.agent_name_id# + 1>
+					<cfset agent_name_id = #savePK.preferred_agent_name_id# + 1>
 					<cfquery name="newAgentName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						insert into agent_name ( AGENT_NAME_ID,AGENT_ID,AGENT_NAME_TYPE,AGENT_NAME )
 						values (#agent_name_id#,#saveAID.agent_id#,'#OTHER_NAME_TYPE_1#','#OTHER_NAME_1#')
