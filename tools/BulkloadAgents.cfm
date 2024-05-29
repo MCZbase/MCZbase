@@ -553,6 +553,7 @@ limitations under the License.
 		<cfoutput>
 			<cfset problem_key = "">
 			<cftransaction>
+				
 				<cfquery name="getTempData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					select to_char(birth_date,'YYYY-MM-DD') birth_date,agent_type, preferred_name,first_name,middle_name,last_name,to_char(death_date,'YYYY-MM-DD') death_date,agent_remark,prefix,suffix,other_name_1,other_name_type_1,other_name_2,other_name_type_2,other_name_3,other_name_type_3,agentguid_guid_type,agentguid,t_preferred_agent_name_id,t_agent_id,status
 					from cf_temp_agents
@@ -561,168 +562,169 @@ limitations under the License.
 					SELECT count(distinct agent_id) AID FROM cf_temp_agents
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
-				<cfset agent_updates = 0>
-				<cfif getTempData.recordcount EQ 0>
-					<cfthrow message="You have no rows to load in the agents bulkloader table (cf_temp_agents).  <a href='/tools/BulkloadAgents.cfm' class='text-danger'>Start again</a>"><!--- " --->
-				</cfif>
-				<cfloop query="getTempData">
-					<cfset problem_key = #getTempData.key#>
-					<cfquery name="newAgents" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="insResult">
-						insert into agent (AGENT_ID, AGENT_TYPE, AGENT_REMARKS, PREFERRED_AGENT_NAME_ID)
-						values (sq_agent_id.nextval,'#agent_type#','#agent_remark#',sq_agent_name_id.nextval)
-					</cfquery>
-					<cfquery name="savePK" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="pkResult">
-						select preferred_agent_name_id,agent_id from agent
-						where ROWIDTOCHAR(rowid) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#insResult.GENERATEDKEY#">
-					</cfquery>
-					<cfquery name="newPrefAgentName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="insResult">
-						insert into agent_name (AGENT_NAME_ID, AGENT_ID, AGENT_NAME_TYPE, AGENT_NAME)
-						values (#savePK.preferred_agent_name_id#,#savePK.agent_ID#,'preferred',sq_agent_name_id.nextval)
-					</cfquery>
-					<cfset agentNAMEID = #savePK.preferred_agent_name_id#>
-					<cfquery name="agent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="pkResult">
-						select preferred_agent_name_id from agent
-						where preferred_agent_name_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#agentNAMEID#">
-					</cfquery>
-					<cfif #agent_type# is "person">
-						<cfquery name="newProj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-							insert into person (PERSON_ID,PREFIX,LAST_NAME,FIRST_NAME,
-								MIDDLE_NAME,SUFFIX,BIRTH_DATE,DEATH_DATE)
-							values (sq_agent_id.currval,'#PREFIX#','#LAST_NAME#','#FIRST_NAME#',
-								'#MIDDLE_NAME#','#SUFFIX#','#dateformat(BIRTH_DATE,"yyyy-mm-dd")#', '#dateformat(DEATH_DATE,"yyyy-mm-dd")#')
+				<cftry>
+					<cfset agent_updates = 0>
+					<cfif getTempData.recordcount EQ 0>
+						<cfthrow message="You have no rows to load in the agents bulkloader table (cf_temp_agents).  <a href='/tools/BulkloadAgents.cfm' class='text-danger'>Start again</a>"><!--- " --->
+					</cfif>
+					<cfloop query="getTempData">
+						<cfset problem_key = #getTempData.key#>
+						<cfquery name="newAgents" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="insResult">
+							insert into agent (AGENT_ID, AGENT_TYPE, AGENT_REMARKS, PREFERRED_AGENT_NAME_ID)
+							values (sq_agent_id.nextval,'#agent_type#','#agent_remark#',sq_agent_name_id.nextval)
 						</cfquery>
-					</cfif>
-					<cfquery name="NEXTID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						select sq_agent_name_id.nextval NEXTID from dual
-					</cfquery>
-					<cfif len(#OTHER_NAME_1#) gt 0>
-						<cfquery name="newAgentName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-							insert into agent_name ( AGENT_NAME_ID,AGENT_ID,AGENT_NAME_TYPE,AGENT_NAME )
-							values (#NEXTID.NEXTID#,#savePK.agent_id#,'#OTHER_NAME_TYPE_1#','#OTHER_NAME_1#')
+						<cfquery name="savePK" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="pkResult">
+							select preferred_agent_name_id,agent_id from agent
+							where ROWIDTOCHAR(rowid) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#insResult.GENERATEDKEY#">
 						</cfquery>
-					</cfif>
-					<cfif len(#OTHER_NAME_2#) gt 0>
-						<cfquery name="newAgentName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-							insert into agent_name ( AGENT_NAME_ID,AGENT_ID,AGENT_NAME_TYPE,AGENT_NAME )
-							values (#NEXTID.NEXTID#,#savePK.agent_id#,'#OTHER_NAME_TYPE_2#','#OTHER_NAME_2#')
+						<cfquery name="newPrefAgentName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="insResult">
+							insert into agent_name (AGENT_NAME_ID, AGENT_ID, AGENT_NAME_TYPE, AGENT_NAME)
+							values (#savePK.preferred_agent_name_id#,#savePK.agent_ID#,'preferred',sq_agent_name_id.nextval)
 						</cfquery>
-					</cfif>
-					<cfif len(#OTHER_NAME_3#) gt 0>
-						<cfquery name="newAgentName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-							insert into agent_name ( AGENT_NAME_ID,AGENT_ID,AGENT_NAME_TYPE,AGENT_NAME )
-							values (#NEXTID.NEXTID#,#savePK.agent_id#,'#OTHER_NAME_TYPE_3#','#OTHER_NAME_3#')
+						<cfset agentNAMEID = #savePK.preferred_agent_name_id#>
+						<cfquery name="agent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="pkResult">
+							select preferred_agent_name_id from agent
+							where preferred_agent_name_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#agentNAMEID#">
 						</cfquery>
-					</cfif>
-					<cfquery name="newAgents1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="newAgents1_result">
-						select AGENT_ID,AGENT_NAME_ID from agent
-						where agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.agent_id#">
-						group by agent_id,agent_name_id
-						having count(*) > 1
-					</cfquery>
-					<cfset agent_updates = agent_updates + updateAgents_result.recordcount>
-					<cfif updateAgents1_result.recordcount gt 0>
-						<cfthrow message="Error: Attempting to insert a duplicate agent: agent_id=#getTempData.preferred_agent_name#, agent_id=#getTempData.agent_id#, agent_name_id=#getAgentData.AGENT_NAME_ID#">
-					</cfif>
-				</cfloop>
-				<p>Number of agents to update: #agent_updates# (on #getCounts.AID# agents)</p>
-					<cfif getTempData.recordcount eq agent_updates and updateAgents1_result.recordcount eq 0>
-						<h3 class="text-success">Success - loaded</h3>
-					</cfif>
-					<cfif updateAgents1_result.recordcount gt 0>
-						<h3 class="text-danger">Not loaded - these have already been loaded</h3>
-					</cfif>
-					<cftransaction action="commit">
-				<cfcatch>
-					<cftransaction action="ROLLBACK">
-					<h3>There was a problem updating the agents. </h3>
-					<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						SELECT to_char(birth_date,'YYYY-MM-DD') birth_date,agent_type,preferred_name,first_name,middle_name,last_name,to_char(death_date,'YYYY-MM-DD') death_date,agent_remark,prefix,suffix,other_name_1,other_name_type_1,other_name_2,other_name_type_2,other_name_3,other_name_type_3,agentguid_guid_type,agentguid
-						FROM cf_temp_agents
-						where key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#problem_key#">
-					</cfquery>
-					<cfif getProblemData.recordcount GT 0>
-						<h3>
-							Fix the issues and <a href="/tools/BulkloadAgents.cfm" class="text-danger font-weight-lessbold">start again</a>. Error loading row (<span class="text-danger">#agent_updates + 1#</span>) from the CSV: 
-							<cfif len(cfcatch.detail) gt 0>
-								<span class="font-weight-normal border-bottom border-danger">
-									<cfif cfcatch.detail contains "birth_date">
-										Problem with BIRTH_DATE
-									<cfelseif cfcatch.detail contains "agent_type">
-										Invalid or missing AGENT_TYPE
-									<cfelseif cfcatch.detail contains "preferred_name">
-										Invalid PREFERRED_NAME
-									<cfelseif cfcatch.detail contains "first_name">
-										Invalid FIRST_NAME
-									<cfelseif cfcatch.detail contains "last_name">
-										Problem with LAST_NAME
-									<cfelseif cfcatch.detail contains "agentguid">
-										Invalid AGENTGUID
-									<cfelseif cfcatch.detail contains "agentguid_guid_type">
-										Invalid AGENT GUID TYPE
-									<cfelseif cfcatch.detail contains "agent_id">
-										Problem with AGENT_ID
-									<cfelseif cfcatch.detail contains "unique constraint">
-										This agent has already been entered. Remove from spreadsheet and try again. (<a href="/tools/BulkloadAgents.cfm">Reload.</a>)
-									<cfelseif cfcatch.detail contains "no data">
-										No data or the wrong data (#cfcatch.detail#)
-									<cfelse>
-										<!--- provide the raw error message if it isn't readily interpretable --->
-										#cfcatch.detail#
-									</cfif>
-								</span>
-							</cfif>
-						</h3>
-						<table class='sortable small table table-responsive table-striped d-lg-table mt-3'>
-							<thead>to_char(birth_date,'YYYY-MM-DD') birth_date,agent_type,preferred_name,first_name,middle_name,last_name,to_char(death_date,'YYYY-MM-DD') death_date,agent_remark,prefix,suffix,other_name_1,other_name_type_1,other_name_2,other_name_type_2,other_name_3,other_name_type_3,agentguid_guid_type,agentguid
-								<tr>
-									<th>COUNT</th>
-									<th>BIRTH_DATE</th>
-									<th>AGENT_TYPE</th>
-									<th>PREFERRED_NAME</th>
-									<th>FIRST_NAME</th>
-									<th>MIDDLE_NAME</th>
-									<th>LAST_NAME</th>
-									<th>DEATH_DATE</th>
-									<th>AGENT_REMARK</th>
-									<th>PREFIX</th>
-									<th>SUFFIX</th>
-									<th>OTHER_NAME_1</th>
-									<th>OTHER_NAME_TYPE_1</th>
-									<th>AGENTGUID_GUID_TYPE</th>
-									<th>AGENTGUID</th>
-								</tr> 
-							</thead>
-							<tbody>
-								<cfset i=1>
-								<cfloop query="getProblemData">
+						<cfif #agent_type# is "person">
+							<cfquery name="newProj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+								insert into person (PERSON_ID,PREFIX,LAST_NAME,FIRST_NAME,
+									MIDDLE_NAME,SUFFIX,BIRTH_DATE,DEATH_DATE)
+								values (sq_agent_id.currval,'#PREFIX#','#LAST_NAME#','#FIRST_NAME#',
+									'#MIDDLE_NAME#','#SUFFIX#','#dateformat(BIRTH_DATE,"yyyy-mm-dd")#', '#dateformat(DEATH_DATE,"yyyy-mm-dd")#')
+							</cfquery>
+						</cfif>
+						<cfquery name="NEXTID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+							select sq_agent_name_id.nextval NEXTID from dual
+						</cfquery>
+						<cfif len(#OTHER_NAME_1#) gt 0>
+							<cfquery name="newAgentName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+								insert into agent_name ( AGENT_NAME_ID,AGENT_ID,AGENT_NAME_TYPE,AGENT_NAME )
+								values (#NEXTID.NEXTID#,#savePK.agent_id#,'#OTHER_NAME_TYPE_1#','#OTHER_NAME_1#')
+							</cfquery>
+						</cfif>
+						<cfif len(#OTHER_NAME_2#) gt 0>
+							<cfquery name="newAgentName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+								insert into agent_name ( AGENT_NAME_ID,AGENT_ID,AGENT_NAME_TYPE,AGENT_NAME )
+								values (#NEXTID.NEXTID#,#savePK.agent_id#,'#OTHER_NAME_TYPE_2#','#OTHER_NAME_2#')
+							</cfquery>
+						</cfif>
+						<cfif len(#OTHER_NAME_3#) gt 0>
+							<cfquery name="newAgentName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+								insert into agent_name ( AGENT_NAME_ID,AGENT_ID,AGENT_NAME_TYPE,AGENT_NAME )
+								values (#NEXTID.NEXTID#,#savePK.agent_id#,'#OTHER_NAME_TYPE_3#','#OTHER_NAME_3#')
+							</cfquery>
+						</cfif>
+						<cfquery name="newAgents1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="newAgents1_result">
+							select AGENT_ID,AGENT_NAME_ID from agent
+							where agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.agent_id#">
+							group by agent_id,agent_name_id
+							having count(*) > 1
+						</cfquery>
+						<cfset agent_updates = agent_updates + updateAgents_result.recordcount>
+						<cfif updateAgents1_result.recordcount gt 0>
+							<cfthrow message="Error: Attempting to insert a duplicate agent: agent_id=#getTempData.preferred_agent_name#, agent_id=#getTempData.agent_id#, agent_name_id=#getAgentData.AGENT_NAME_ID#">
+						</cfif>
+					</cfloop>
+					<p>Number of agents to update: #agent_updates# (on #getCounts.AID# agents)</p>
+						<cfif getTempData.recordcount eq agent_updates and updateAgents1_result.recordcount eq 0>
+							<h3 class="text-success">Success - loaded</h3>
+						</cfif>
+						<cfif updateAgents1_result.recordcount gt 0>
+							<h3 class="text-danger">Not loaded - these have already been loaded</h3>
+						</cfif>
+						<cftransaction action="commit">
+					<cfcatch>
+						<cftransaction action="ROLLBACK">
+						<h3>There was a problem updating the agents. </h3>
+						<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+							SELECT to_char(birth_date,'YYYY-MM-DD') birth_date,agent_type,preferred_name,first_name,middle_name,last_name,to_char(death_date,'YYYY-MM-DD') death_date,agent_remark,prefix,suffix,other_name_1,other_name_type_1,other_name_2,other_name_type_2,other_name_3,other_name_type_3,agentguid_guid_type,agentguid
+							FROM cf_temp_agents
+							where key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#problem_key#">
+						</cfquery>
+						<cfif getProblemData.recordcount GT 0>
+							<h3>
+								Fix the issues and <a href="/tools/BulkloadAgents.cfm" class="text-danger font-weight-lessbold">start again</a>. Error loading row (<span class="text-danger">#agent_updates + 1#</span>) from the CSV: 
+								<cfif len(cfcatch.detail) gt 0>
+									<span class="font-weight-normal border-bottom border-danger">
+										<cfif cfcatch.detail contains "birth_date">
+											Problem with BIRTH_DATE
+										<cfelseif cfcatch.detail contains "agent_type">
+											Invalid or missing AGENT_TYPE
+										<cfelseif cfcatch.detail contains "preferred_name">
+											Invalid PREFERRED_NAME
+										<cfelseif cfcatch.detail contains "first_name">
+											Invalid FIRST_NAME
+										<cfelseif cfcatch.detail contains "last_name">
+											Problem with LAST_NAME
+										<cfelseif cfcatch.detail contains "agentguid">
+											Invalid AGENTGUID
+										<cfelseif cfcatch.detail contains "agentguid_guid_type">
+											Invalid AGENT GUID TYPE
+										<cfelseif cfcatch.detail contains "agent_id">
+											Problem with AGENT_ID
+										<cfelseif cfcatch.detail contains "unique constraint">
+											This agent has already been entered. Remove from spreadsheet and try again. (<a href="/tools/BulkloadAgents.cfm">Reload.</a>)
+										<cfelseif cfcatch.detail contains "no data">
+											No data or the wrong data (#cfcatch.detail#)
+										<cfelse>
+											<!--- provide the raw error message if it isn't readily interpretable --->
+											#cfcatch.detail#
+										</cfif>
+									</span>
+								</cfif>
+							</h3>
+							<table class='sortable small table table-responsive table-striped d-lg-table mt-3'>
+								<thead>to_char(birth_date,'YYYY-MM-DD') birth_date,agent_type,preferred_name,first_name,middle_name,last_name,to_char(death_date,'YYYY-MM-DD') death_date,agent_remark,prefix,suffix,other_name_1,other_name_type_1,other_name_2,other_name_type_2,other_name_3,other_name_type_3,agentguid_guid_type,agentguid
 									<tr>
-										<td>#i#</td>
-										<td>#getProblemData.BIRTH_DATE# </td>
-										<td>#getProblemData.AGENT_TYPE# </td>
-										<td>#getProblemData.PREFERRED_NAME# </td>
-										<td>#getProblemData.FIRST_NAME#</td>
-										<td>#getProblemData.MIDDLE_NAME#</td>
-										<td>#getProblemData.LAST_NAME#</td>
-										<td>#getProblemData.DEATH_DATE#</td>
-										<td>#getProblemData.AGENT_REMARK# </td>
-										<td>#getProblemData.PREFIX# </td>
-										<td>#getProblemData.SUFFIX#</td>
-										<td>#getProblemData.OTHER_NAME_1#</td>
-										<td>#getProblemData.OTHER_NAME_TYPE_1#</td>
-										<td>#getProblemData.OTHER_NAME_2#</td>
-										<td>#getProblemData.OTHER_NAME_TYPE_2#</td>
-										<td>#getProblemData.OTHER_NAME_3#</td>
-										<td>#getProblemData.OTHER_NAME_TYPE_3#</td>
-										<td>#getProblemData.AGENTGUID_GUID_TYPE#</td>
-										<td>#getProblemData.AGENTGUID#</td>
-									</tr>
-									<cfset i= i+1>
-								</cfloop>
-							</tbody>
-						</table>
-					</cfif>
-					<div>#cfcatch.message#</div>
-				</cfcatch>
+										<th>COUNT</th>
+										<th>BIRTH_DATE</th>
+										<th>AGENT_TYPE</th>
+										<th>PREFERRED_NAME</th>
+										<th>FIRST_NAME</th>
+										<th>MIDDLE_NAME</th>
+										<th>LAST_NAME</th>
+										<th>DEATH_DATE</th>
+										<th>AGENT_REMARK</th>
+										<th>PREFIX</th>
+										<th>SUFFIX</th>
+										<th>OTHER_NAME_1</th>
+										<th>OTHER_NAME_TYPE_1</th>
+										<th>AGENTGUID_GUID_TYPE</th>
+										<th>AGENTGUID</th>
+									</tr> 
+								</thead>
+								<tbody>
+									<cfset i=1>
+									<cfloop query="getProblemData">
+										<tr>
+											<td>#i#</td>
+											<td>#getProblemData.BIRTH_DATE# </td>
+											<td>#getProblemData.AGENT_TYPE# </td>
+											<td>#getProblemData.PREFERRED_NAME# </td>
+											<td>#getProblemData.FIRST_NAME#</td>
+											<td>#getProblemData.MIDDLE_NAME#</td>
+											<td>#getProblemData.LAST_NAME#</td>
+											<td>#getProblemData.DEATH_DATE#</td>
+											<td>#getProblemData.AGENT_REMARK# </td>
+											<td>#getProblemData.PREFIX# </td>
+											<td>#getProblemData.SUFFIX#</td>
+											<td>#getProblemData.OTHER_NAME_1#</td>
+											<td>#getProblemData.OTHER_NAME_TYPE_1#</td>
+											<td>#getProblemData.OTHER_NAME_2#</td>
+											<td>#getProblemData.OTHER_NAME_TYPE_2#</td>
+											<td>#getProblemData.OTHER_NAME_3#</td>
+											<td>#getProblemData.OTHER_NAME_TYPE_3#</td>
+											<td>#getProblemData.AGENTGUID_GUID_TYPE#</td>
+											<td>#getProblemData.AGENTGUID#</td>
+										</tr>
+										<cfset i= i+1>
+									</cfloop>
+								</tbody>
+							</table>
+						</cfif>
+						<div>#cfcatch.message#</div>
+					</cfcatch>
 				</cftry>
 			</cftransaction>
 			<cfquery name="clearTempTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="clearTempTable_result">
