@@ -890,7 +890,8 @@ limitations under the License.
 					and agent_type = 'preferred'
 				</cfquery>
 					#savePK.preferred_agent_name_id#
-				<cfif #agent_type# is "person">
+			
+<!---				<cfif #agent_type# is "person">
 					<cfquery name="newProj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						insert into person (PERSON_ID,PREFIX,LAST_NAME,FIRST_NAME,
 							MIDDLE_NAME,SUFFIX,BIRTH_DATE,DEATH_DATE)
@@ -918,8 +919,8 @@ limitations under the License.
 						insert into agent_name ( AGENT_NAME_ID,AGENT_ID,AGENT_NAME_TYPE,AGENT_NAME )
 						values (#agent_name_id#,#saveAID.agent_id#,'#OTHER_NAME_TYPE_3#','#OTHER_NAME_3#')
 					</cfquery>
-				</cfif>
-			</cfloop>
+				</cfif>--->
+		
 			</cftransaction>
 			<cfquery name="clearTempTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="clearTempTable_result">
 				DELETE FROM cf_temp_agents
