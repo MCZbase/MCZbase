@@ -730,7 +730,7 @@ limitations under the License.
 						</cftry>
 						<cfelseif table_name is "accn">
 							<cfset coll = listgetat(labelValue,1," ")>
-							<cfset accnnum = listgetat(lv,2," ")>
+							<cfset accnnum = listgetat(labelValue,2," ")>
 							<cfquery name="cTrans" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 								select a.transaction_id
 								from accn a, trans t, collection c
