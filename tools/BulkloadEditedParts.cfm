@@ -858,8 +858,9 @@ limitations under the License.
 					<cfloop query="getTempData">
 						<cfset problem_key = #getTempData.key#>
 						<cfif len(#use_part_id#) is 0 and use_existing is not 1>
+							<!--- insert a new part --->
 							<cfquery name="NEXTID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-								select sq_collection_object_id.nextval collection_object_id from dual
+								SELECT sq_collection_object_id.nextval collection_object_id FROM dual
 							</cfquery>
 							<cfquery name="updateColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateColl_result">
 								INSERT INTO coll_object (
@@ -914,7 +915,7 @@ limitations under the License.
 							<cfif len(#changed_date#) gt 0>
 								<cfquery name="change_date" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 									UPDATE SPECIMEN_PART_PRES_HIST 
-									SET CHANGED_DATE = to_date('#CHANGED_DATE#', 'YYYY-MM-DD') 
+									SET CHANGED_DATE = to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#CHANGED_DATE#">, 'YYYY-MM-DD') 
 									WHERE 
 										collection_object_id =<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#NEXTID.collection_object_id#">
 										and is_current_fg = 1
@@ -939,6 +940,7 @@ limitations under the License.
 									</cfquery>
 								</cfif>
 							</cfif>
+							<!--- part attribute 1 --->
 							<cfif len(#part_att_name_1#) GT 0>
 								<cfif len(#part_att_detby_1#) GT 0>
 									<cfquery name="a" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -970,6 +972,7 @@ limitations under the License.
 									)
 								</cfquery>
 							</cfif>
+							<!--- part attribute 2 --->
 							<cfif len(#part_att_name_2#) GT 0>
 								<cfif len(#part_att_detby_2#) GT 0>
 									<cfquery name="a" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -1001,6 +1004,7 @@ limitations under the License.
 									)
 								</cfquery>
 							</cfif>
+							<!--- part attribute 3 --->
 							<cfif len(#part_att_name_3#) GT 0>
 								<cfif len(#part_att_detby_3#) GT 0>
 									<cfquery name="a" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -1032,6 +1036,7 @@ limitations under the License.
 									)
 								</cfquery>
 							</cfif>
+							<!--- part attribute 4 --->
 							<cfif len(#part_att_name_4#) GT 0>
 								<cfif len(#part_att_detby_4#) GT 0>
 									<cfquery name="a" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -1063,6 +1068,7 @@ limitations under the License.
 									)
 								</cfquery>
 							</cfif>
+							<!--- part attribute 5 --->
 							<cfif len(#part_att_name_5#) GT 0>
 								<cfif len(#part_att_detby_5#) GT 0>
 									<cfquery name="a" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -1094,6 +1100,7 @@ limitations under the License.
 									)
 								</cfquery>
 							</cfif>
+							<!--- part attribute 6 --->
 							<cfif len(#part_att_name_6#) GT 0>
 								<cfif len(#part_att_detby_6#) GT 0>
 									<cfquery name="a" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -1123,8 +1130,7 @@ limitations under the License.
 								</cfquery>
 							</cfif>
 						<cfelse>
-							<!--- there is an existing matching container that is not in a parent_container;
-									all we need to do is move the container to a parent IF it exists and is specified, or nothing otherwise --->
+							<!--- update existing part --->
 							<cfif len(#COLL_OBJ_disposition#) gt 0>
 								<cfquery name="upDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateColl_result">
 									update coll_object set COLL_OBJ_DISPOSITION = '#coll_obj_disposition#' where collection_object_id = #use_part_id#
@@ -1166,10 +1172,13 @@ limitations under the License.
 								<cfquery name="part_container_id" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 									select container_id from coll_obj_cont_hist where collection_object_id = #use_part_id#
 								</cfquery>
-									<cfquery name="upPart" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-										update container set parent_container_id=#parent_container_id#
-										where container_id = #part_container_id.container_id#
-									</cfquery>
+								<!--- TODO: Review this comment, was not in appropriate place, may not be correct --->
+								<!--- there is an existing matching container that is not in a parent_container;
+									all we need to do is move the container to a parent IF it exists and is specified, or nothing otherwise --->
+								<cfquery name="upPart" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+									update container set parent_container_id=#parent_container_id#
+									where container_id = #part_container_id.container_id#
+								</cfquery>
 								<cfif #len(change_container_type)# gt 0>
 									<cfquery name="upPart" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 										update container set
