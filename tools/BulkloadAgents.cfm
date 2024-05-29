@@ -678,23 +678,15 @@ limitations under the License.
 								)
 							</cfquery>
 						</cfif>
-						<cfquery name="newAgents1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="newAgents1_result">
-							select agent_name
-							from agent_name
-							where agent_name_type = 'preferred'
-							group by agent_name
-							having count(*) > 1
-						</cfquery>
-						<cfset agent_updates = agent_updates + newAgents1_result.recordcount>
-						<cfif newAgents1_result.recordcount gt 0>
-							<cfthrow message="Error: Attempting to insert a duplicate agent: agent_id=#getTempData.preferred_agent_name#, agent_id=#getTempData.agent_id#, agent_name_id=#getTempData.AGENT_NAME_ID#">
+						<cfif pkResult.recordcount gt 1>
+							<cfthrow message="Error: Attempting to insert a duplicate agent">
 						</cfif>
 					</cfloop>
 					<p>Number of agents to update: #agent_updates# (on #getCounts.AID# agents)</p>
-						<cfif getTempData.recordcount eq agent_updates and newAgents1_result.recordcount eq 0>
+						<cfif getTempData.recordcount eq agent_updates and pkResult.recordcount eq 0>
 							<h3 class="text-success">Success - loaded</h3>
 						</cfif>
-						<cfif newAgents1_result.recordcount gt 0>
+						<cfif pkResult.recordcount gt 0>
 							<h3 class="text-danger">Not loaded - these have already been loaded</h3>
 						</cfif>
 						<cftransaction action="commit">
