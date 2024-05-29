@@ -617,7 +617,7 @@ limitations under the License.
 								BIRTH_DATE,
 								DEATH_DATE
 								) values (
-								sq_agent_id.currval,
+								#savePK.agent_id#,
 								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#PREFIX#">,
 								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#LAST_NAME#">,
 								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#FIRST_NAME#">,
