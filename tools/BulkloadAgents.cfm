@@ -910,7 +910,7 @@ limitations under the License.
 					<cfif len(#OTHER_NAME_1#) gt 0>
 						<cfquery name="newAgentName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							insert into agent_name ( AGENT_NAME_ID,AGENT_ID,AGENT_NAME_TYPE,AGENT_NAME )
-							values (#NEXTID.NEXTID#,#saveAID.agent_id#,'#OTHER_NAME_TYPE_1#','#OTHER_NAME_1#')
+							values (#NEXTID.NEXTID#,#savePK.agent_id#,'#OTHER_NAME_TYPE_1#','#OTHER_NAME_1#')
 						</cfquery>
 					</cfif>
 				</cfloop>
