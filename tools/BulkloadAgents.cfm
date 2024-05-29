@@ -703,6 +703,10 @@ limitations under the License.
 										<th>SUFFIX</th>
 										<th>OTHER_NAME_1</th>
 										<th>OTHER_NAME_TYPE_1</th>
+										<th>OTHER_NAME_2</th>
+										<th>OTHER_NAME_TYPE_2</th>
+										<th>OTHER_NAME_3</th>
+										<th>OTHER_NAME_TYPE_3</th>
 										<th>AGENTGUID_GUID_TYPE</th>
 										<th>AGENTGUID</th>
 									</tr> 
