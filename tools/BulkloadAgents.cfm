@@ -879,18 +879,25 @@ limitations under the License.
 				</cfquery>
 				<cfloop query="getTempData">
 					<cfquery name="newAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="insResult">
-						insert into agent ( AGENT_ID,AGENT_TYPE ,AGENT_REMARKS , PREFERRED_AGENT_NAME_ID)
+						insert into agent (AGENT_ID, AGENT_TYPE, AGENT_REMARKS, PREFERRED_AGENT_NAME_ID)
 						values (sq_agent_id.nextval,'#agent_type#','#agent_remark#',sq_agent_name_id.nextval)
 					</cfquery>
-			
 					<cfquery name="savePK" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="pkResult">
 						select preferred_agent_name_id from agent
 						where ROWIDTOCHAR(rowid) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#insResult.GENERATEDKEY#">
 					</cfquery>
-						#savePK.preferred_agent_name_id#
+					<cfquery name="newAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="insResult">
+						insert into agent_name (AGENT_NAME_ID, AGENT_ID, AGENT_NAME_TYPE, AGENT_REMARKS, AGENT_NAME)
+						values (#savePK.preferred_agent_name_id#,#sq_agent_id.currval#,'preferred','#agent_remark#',sq_agent_name_id.nextval)
+					</cfquery>
+						
+					<cfset agentNAMEID = #savePK.preferred_agent_name_id#>
+					<cfquery name="agent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="pkResult">
+						select preferred_agent_name_id from agent
+						where preferred_agent_name_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#agentNAMEID#">
+					</cfquery>
 				</cfloop>
-<!---			
-					<div class="container my-5">#savePK.preferred_agent_name_id#</div>--->
+			
 			
 <!---				<cfif #agent_type# is "person">
 					<cfquery name="newProj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
