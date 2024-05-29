@@ -883,12 +883,12 @@ limitations under the License.
 					values (sq_agent_id.nextval,'#agent_type#','#agent_remark#',sq_agent_name_id.nextval)
 				</cfquery>
 				<cfquery name="saveAID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="pkResult">
-					select agent_id from agent
+					select agent_id, agent_name_id from agent
 					where ROWIDTOCHAR(rowid) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#insResult.GENERATEDKEY#">
 				</cfquery>
 				<cfquery name="newAgentName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="insertResult">
 					insert into agent_name ( AGENT_NAME_ID,AGENT_ID,AGENT_NAME_TYPE,AGENT_NAME )
-					values (#newAgent.preferred_agent_name_id#,#saveAID.agent_id#,'preferred','#preferred_name#')
+					values (#newAgent.agent_name_id#,#saveAID.agent_id#,'preferred','#preferred_name#')
 				</cfquery>
 				<cfquery name="savePK" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="pkResult">
 					select agent_name_id from agent_name
