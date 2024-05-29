@@ -852,7 +852,7 @@ limitations under the License.
 								UPDATE
 									cf_temp_media
 								SET
-									status = concat(nvl2(status, status || '; ', ''),'Media relationship #labelName# is not handled')
+									status = concat(nvl2(status, status || '; ', ''),'Media label #labelName# is not handled')
 								WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 							</cfquery>
 						</cfif>
