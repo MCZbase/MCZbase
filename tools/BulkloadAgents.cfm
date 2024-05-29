@@ -913,38 +913,21 @@ limitations under the License.
 							values (#NEXTID.NEXTID#,#savePK.agent_id#,'#OTHER_NAME_TYPE_1#','#OTHER_NAME_1#')
 						</cfquery>
 					</cfif>
+					<cfif len(#OTHER_NAME_2#) gt 0>
+						<cfquery name="newAgentName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+							insert into agent_name ( AGENT_NAME_ID,AGENT_ID,AGENT_NAME_TYPE,AGENT_NAME )
+							values (#NEXTID.NEXTID#,#savePK.agent_id#,'#OTHER_NAME_TYPE_2#','#OTHER_NAME_2#')
+						</cfquery>
+					</cfif>
+					<cfif len(#OTHER_NAME_3#) gt 0>
+						<cfquery name="newAgentName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+							insert into agent_name ( AGENT_NAME_ID,AGENT_ID,AGENT_NAME_TYPE,AGENT_NAME )
+							values (#NEXTID.NEXTID#,#savePK.agent_id#,'#OTHER_NAME_TYPE_3#','#OTHER_NAME_3#')
+						</cfquery>
+					</cfif>
 				</cfloop>
 
-			
-<!---				<cfif #agent_type# is "person">
-					<cfquery name="newProj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						insert into person (PERSON_ID,PREFIX,LAST_NAME,FIRST_NAME,
-							MIDDLE_NAME,SUFFIX,BIRTH_DATE,DEATH_DATE)
-						values (sq_agent_id.currval,'#PREFIX#','#LAST_NAME#','#FIRST_NAME#',
-							'#MIDDLE_NAME#','#SUFFIX#','#dateformat(BIRTH_DATE,"yyyy-mm-dd")#', '#dateformat(DEATH_DATE,"yyyy-mm-dd")#')
-					</cfquery>
-				</cfif>
-				<cfif len(#OTHER_NAME_1#) gt 0>
-					<cfset agent_name_id =  + 1>
-					<cfquery name="newAgentName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						insert into agent_name ( AGENT_NAME_ID,AGENT_ID,AGENT_NAME_TYPE,AGENT_NAME )
-						values (#agent_name_id#,#saveAID.agent_id#,'#OTHER_NAME_TYPE_1#','#OTHER_NAME_1#')
-					</cfquery>
-				</cfif>
-				<cfif len(#OTHER_NAME_2#) gt 0>
-					<cfset agent_name_id = #savePK.agent_name_id# + 2>
-					<cfquery name="newAgentName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						insert into agent_name ( AGENT_NAME_ID,AGENT_ID,AGENT_NAME_TYPE,AGENT_NAME )
-						values (#agent_name_id#,#saveAID.agent_id#,'#OTHER_NAME_TYPE_2#','#OTHER_NAME_2#')
-					</cfquery>
-				</cfif>
-				<cfif len(#OTHER_NAME_3#) gt 0>
-					<cfset agent_name_id = #savePK.agent_name_id# + 3>
-					<cfquery name="newAgentName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						insert into agent_name ( AGENT_NAME_ID,AGENT_ID,AGENT_NAME_TYPE,AGENT_NAME )
-						values (#agent_name_id#,#saveAID.agent_id#,'#OTHER_NAME_TYPE_3#','#OTHER_NAME_3#')
-					</cfquery>
-				</cfif>--->
+
 		
 			</cftransaction>
 			<cfquery name="clearTempTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="clearTempTable_result">
