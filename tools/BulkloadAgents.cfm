@@ -596,7 +596,7 @@ limitations under the License.
 							#savePK.preferred_agent_name_id#,
 							#savePK.agent_ID#,
 							'preferred',
-							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.preferred_name#">
+							'#preferred_name#'
 							)
 						</cfquery>
 						<cfset agentNAMEID = #savePK.preferred_agent_name_id#>
