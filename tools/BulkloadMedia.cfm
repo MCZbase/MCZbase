@@ -91,7 +91,7 @@ limitations under the License.
 				<li>Collecting Event (collecting_event_id OR Collecting Event Number Series Type|Collecting Event Number)</li>
 			</ul>
 			<h2 class="h4 mt-4">Media Labels</h2>
-			<p>The format for MEDIA_LABELS is {media_label}={value}[;{media_label}={value}]</p>
+			<p>The format for MEDIA_LABELS is {media_label}={value}[;{media_label}={value}]. See <a href="/vocabularies/ControlledVocabulary.cfm?table=CTMEDIA_LABEL">controlled vocabulary</a> for label names and values.</p>
 			<p>Notes: Made date must be in the form yyyy-mm-dd. More than one media label must be separated by a semicolon, and individual values must not themselves contain semicolons.  Check the data as presented after the file has been uploaded carefully to make sure that the individual media labels and values have been correctly parsed.</p>
 			
 			<p class="font-weight-bold text-dark">Media Label Examples:</h2>
@@ -150,7 +150,6 @@ limitations under the License.
 					</li>
 				</cfloop>
 			</ul>
-
 			<form name="getFiles" method="post" enctype="multipart/form-data" action="/tools/#pageTitle#.cfm">
 				<div class="form-row border rounded p-2">
 					<input type="hidden" name="action" value="getFile">
@@ -403,8 +402,9 @@ limitations under the License.
 		</cftry>
 		</cfoutput>
 	</cfif>
+
 <!------------------------------------------------------->
-<!------------------------------------------------------->
+
 	<cfif #action# is "validate">
 		<h2 class="h4 mb-3">Second step: Data Validation</h2>
 		<cfoutput>
@@ -452,24 +452,24 @@ limitations under the License.
 						</cfquery>
 						<cfif len(getTempMedia.MEDIA_LABELS) is 0>
 							<cfquery name="badMediaLabel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-							UPDATE
-								cf_temp_media
-							SET
-								status = concat(nvl2(status, status || '; ', ''),'Media Label #labelName# is invalid')
-							WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-								and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempMedia.key#"> 
+								UPDATE
+									cf_temp_media
+								SET
+									status = concat(nvl2(status, status || '; ', ''),'Media Label #labelName# is invalid')
+								WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+									and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempMedia.key#"> 
 							</cfquery>
 						<cfelseif labelName EQ "made date" && refind("^[0-9]{4}-[0-9]{2}-[0-9]{2}$",labelValue) EQ 0>
 							<cfquery name="badMediaLabel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-							UPDATE
-								cf_temp_media
-							SET
-								status = concat(nvl2(status, status || '; ', ''),'Media Label #labelName# must be yyyy-mm-dd')
-							WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-								and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempMedia.key#"> 
+								UPDATE
+									cf_temp_media
+								SET
+									status = concat(nvl2(status, status || '; ', ''),'Media Label #labelName# must be yyyy-mm-dd')
+								WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+									and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempMedia.key#"> 
 							</cfquery>
 						<cfelse>
-							<cfquery name="badMediaLabel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+							<cfquery name="MediaLabel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 								insert into cf_temp_media_labels (
 									MEDIA_LABEL,
 									ASSIGNED_BY_AGENT_ID,
@@ -1039,8 +1039,9 @@ limitations under the License.
 				</table>
 		</cfoutput>
 	</cfif>
+
 <!------------------------------------------------------->
-<!------------------------------------------------------->
+
 	<cfif action is "load">
 		<h2 class="h4">Third step: Apply changes.</h2>
 		<cfoutput>
