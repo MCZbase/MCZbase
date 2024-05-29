@@ -683,11 +683,11 @@ limitations under the License.
 						</cfif>
 						<cfset agent_updates = agent_updates + pkResult.recordcount>
 					</cfloop>
-					<p>Number of agents to update: #agent_updates# (on #getCounts.AID# agents)</p>
-						<cfif getTempData.recordcount eq agent_updates and pkResult.recordcount eq 0>
+					<p>Number of agents to add: #agent_updates# </p>
+						<cfif getTempData.recordcount eq agent_updates and pkResult.recordcount eq 1>
 							<h3 class="text-success">Success - loaded</h3>
 						</cfif>
-						<cfif pkResult.recordcount gt 0>
+						<cfif pkResult.recordcount gt 1>
 							<h3 class="text-danger">Not loaded - these have already been loaded</h3>
 						</cfif>
 						<cftransaction action="commit">
