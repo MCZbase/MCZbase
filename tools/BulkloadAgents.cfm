@@ -888,7 +888,7 @@ limitations under the License.
 				</cfquery>
 				<cfquery name="newAgentName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="insertResult">
 					insert into agent_name ( AGENT_NAME_ID,AGENT_ID,AGENT_NAME_TYPE,AGENT_NAME )
-					values (sq_agent_name_id.currval,sq_agent_id.currval,'preferred','#preferred_name#')
+					values (newAgent.preferred_agent_name_id,saveAID.agent_id,'preferred','#preferred_name#')
 				</cfquery>
 				<cfquery name="savePK" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="pkResult">
 					select agent_name_id from agent_name
