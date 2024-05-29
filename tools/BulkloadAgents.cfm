@@ -878,10 +878,12 @@ limitations under the License.
 					from cf_temp_agents
 				</cfquery>
 				<cfloop query="getTempData">
-				<cfquery name="newAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="insResult">
-					insert into agent ( AGENT_ID,AGENT_TYPE ,AGENT_REMARKS , PREFERRED_AGENT_NAME_ID)
-					values (sq_agent_id.nextval,'#agent_type#','#agent_remark#',sq_agent_name_id.nextval)
-				</cfquery>
+					<cfquery name="newAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="insResult">
+						insert into agent ( AGENT_ID,AGENT_TYPE ,AGENT_REMARKS , PREFERRED_AGENT_NAME_ID)
+						values (sq_agent_id.nextval,'#agent_type#','#agent_remark#',sq_agent_name_id.nextval)
+					</cfquery>
+				</cfloop>
+				#getTempData.agent_id#
 				<cfquery name="savePK" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="pkResult">
 					select preferred_agent_name_id from agent
 					where ROWIDTOCHAR(rowid) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#insResult.GENERATEDKEY#">
@@ -897,7 +899,7 @@ limitations under the License.
 					</cfquery>
 				</cfif>
 				<cfif len(#OTHER_NAME_1#) gt 0>
-					<cfset agent_name_id = savePK.preferred_agent_name_id(JavaCast("int",savePK.preferred_agent_name_id)) + 1>
+					<cfset agent_name_id =  + 1>
 					<cfquery name="newAgentName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						insert into agent_name ( AGENT_NAME_ID,AGENT_ID,AGENT_NAME_TYPE,AGENT_NAME )
 						values (#agent_name_id#,#saveAID.agent_id#,'#OTHER_NAME_TYPE_1#','#OTHER_NAME_1#')
