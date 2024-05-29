@@ -885,7 +885,7 @@ limitations under the License.
 				<cfquery name="savePK" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="pkResult">
 					select preferred_agent_name_id from agent
 					where ROWIDTOCHAR(rowid) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#insResult.GENERATEDKEY#">
-					and agent_name_type = 'preferred'
+					and agent_type = 'preferred'
 				</cfquery>
 					#savePK.preferred_agent_name_id#
 				<cfif #agent_type# is "person">
