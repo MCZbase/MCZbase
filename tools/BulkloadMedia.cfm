@@ -511,21 +511,24 @@ limitations under the License.
 					</cfloop>
 				</cfif>
 				<cfif len(getTempMedia.MEDIA_RELATIONSHIPS) gt 0>
-					<cfloop list="#getTempMedia.MEDIA_RELATIONSHIPS#" index="l" delimiters=";">
-						<cfset labelName=listgetat(l,1,"=")>
-						<cfset labelValue=listgetat(l,2,"=")>
-						<cfquery name="ctLabel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-							select MEDIA_RELATIONSHIP from CTMEDIA_RELATIONSHIP where MEDIA_RELATIONSHIP='#labelName#'
-						</cfquery>
+					<cfloop list="#getTempMedia.MEDIA_RELATIONSHIPS#" index="label" delimiters=";">
+						<cfset labelName=listgetat(label,1,"=")>
+						<cfset labelValue=listgetat(label,2,"=")>
 						<cfif len(getTempMedia.MEDIA_RELATIONSHIPS) is 0>
-							<cfset status=listappend(status,'Media relationship #labelName# is invalid',";")>
+							<cfquery name="bad" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+								UPDATE cf_temp_media
+								SET status = concat(nvl2(status, status || '; ', ''),'Media relationship is invalid')
+								WHERE media_relationship not in (select MEDIA_RELATIONSHIP from CTMEDIA_RELATIONSHIP where MEDIA_RELATIONSHIP='#labelName#')
+								and username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+								and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempMedia.key#">
+							</cfquery>
 						<cfelse>
 							<cfset table_name = listlast(labelName," ")>
 							<cfif table_name is "agent">
 								<cfquery name="cAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 									select distinct(agent_id) agent_id from agent_name where agent_name ='#labelValue#'
 								</cfquery>
-								<cfif getTempMedia.recordcount is 1 and len(cAgent.agent_id) gt 0>
+								<cfif len(cAgent.agent_id) gt 0>
 									<cfquery name="iml" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 										insert into cf_temp_media_relations (
 											key,
