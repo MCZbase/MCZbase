@@ -427,12 +427,21 @@ limitations under the License.
 					and username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 					and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempMedia.key#"> 
 				</cfquery>
-				<cfquery name="type" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				<cfquery name="mediaType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE
 						cf_temp_media
 					SET
 						status = concat(nvl2(status, status || '; ', ''),'MEDIA_TYPE invalid (see controlled vocabulary)')
 					WHERE media_type not in (select media_type from media where MEDIA_TYPE = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia.media_type#">)
+					and username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+					and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempMedia.key#"> 
+				</cfquery>
+				<cfquery name="mediaType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					UPDATE
+						cf_temp_media
+					SET
+						status = concat(nvl2(status, status || '; ', ''),'MIME_TYPE invalid (see controlled vocabulary)')
+					WHERE mime_type not in (select mime_type from media where MIME_TYPE = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia.mime_type#">)
 					and username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 					and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempMedia.key#"> 
 				</cfquery>
