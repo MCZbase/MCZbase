@@ -1331,7 +1331,7 @@ limitations under the License.
 										determined_by_agent_id,
 										attribute_remark
 									) VALUES (
-										<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#NEXTID.collection_object_id#">,
+										<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#use_part_id#">,
 										<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.part_att_name_1#">,
 										<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.part_att_val_1#">,
 										<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.part_att_units_1#">,
@@ -1366,7 +1366,7 @@ limitations under the License.
 										determined_by_agent_id,
 										attribute_remark
 									) VALUES (
-										<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#NEXTID.collection_object_id#">,
+										<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#use_part_id#">,
 										<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.part_att_name_2#">,
 										<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.part_att_val_2#">,
 										<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.part_att_units_2#">,
@@ -1401,7 +1401,7 @@ limitations under the License.
 										determined_by_agent_id,
 										attribute_remark
 									) VALUES (
-										<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#NEXTID.collection_object_id#">,
+										<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#use_part_id#">,
 										<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.part_att_name_3#">,
 										<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.part_att_val_3#">,
 										<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.part_att_units_3#">,
@@ -1436,7 +1436,7 @@ limitations under the License.
 										determined_by_agent_id,
 										attribute_remark
 									) VALUES (
-										<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#NEXTID.collection_object_id#">,
+										<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#use_part_id#">,
 										<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.part_att_name_4#">,
 										<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.part_att_val_4#">,
 										<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.part_att_units_4#">,
@@ -1471,7 +1471,7 @@ limitations under the License.
 										determined_by_agent_id,
 										attribute_remark
 									) VALUES (
-										<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#NEXTID.collection_object_id#">,
+										<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#use_part_id#">,
 										<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.part_att_name_5#">,
 										<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.part_att_val_5#">,
 										<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.part_att_units_5#">,
@@ -1506,7 +1506,7 @@ limitations under the License.
 										determined_by_agent_id,
 										attribute_remark
 									) VALUES (
-										<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#NEXTID.collection_object_id#">,
+										<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#use_part_id#">,
 										<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.part_att_name_6#">,
 										<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.part_att_val_6#">,
 										<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.part_att_units_6#">,
