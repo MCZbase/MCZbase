@@ -35,7 +35,7 @@ limitations under the License.
 		F.SCIENTIFIC_NAME,
 		SP.PART_NAME,
 		SP.PRESERVE_METHOD,
-		CO.COLL_OBJ_DISPOSITION AS DISPOSITION,
+		CO.COLL_OBJ_DISPOSITION,
 		CO.LOT_COUNT_MODIFIER,
 		CO.LOT_COUNT,
 		COR.COLL_OBJECT_REMARKS as CURRENT_REMARKS,
@@ -113,7 +113,8 @@ limitations under the License.
 </cfquery>
 
 <cfquery name="dispositions" dbtype="query">
-	select distinct DISPOSITION from getParts
+	SELECT distinct COLL_OBJ_DISPOSITION AS DISPOSITION
+	FROM getParts
 </cfquery>
 
 <!--------------------------------------------------------------------->
@@ -263,7 +264,7 @@ limitations under the License.
 									<td>#OTHER_ID_NUMBER#</td>
 									<td>#PART_NAME#</td>
 									<td>#PRESERVE_METHOD#</td>
-									<td>#DISPOSITION#</td>
+									<td>#COLL_OBJ_DISPOSITION#</td>
 									<td>#LOT_COUNT_MODIFIER#</td>
 									<td>#LOT_COUNT#</td>
 									<td>#CURRENT_REMARKS#</td>
