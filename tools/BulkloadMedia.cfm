@@ -453,7 +453,7 @@ limitations under the License.
 						cf_temp_media
 					SET
 						status = concat(nvl2(status, status || '; ', ''),'MEDIA_LICENSE_ID #getTempMedia.MEDIA_LICENSE_ID# is invalid')
-					WHERE media_license_id not in (select media_license_id from ctmedia_license where media_license_id)
+					WHERE media_license_id not in (select media_license_id from ctmedia_license)
 					and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempMedia.key#"> 
 					and username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
