@@ -104,7 +104,7 @@ limitations under the License.
 			<h2 class="h4 mt-4">Media License:</h2>
 			<p>The media license id should be entered using the numeric codes below. If omitted this will default to &quot;1 - MCZ Permissions &amp; Copyright&quot;</p>
 			<h3 class="small90 pl-3">Media License Codes:</h3>
-			<dl class="pl-4">
+			<dl class="pl-3">
 				<dt class="btn-secondary"><span class="badge badge-light">1 </span> MCZ Permissions &amp; Copyright</dt> <dd>All MCZ images and publications should have this designation</dd>
 				<dt class="btn-secondary"><span class="badge badge-light">4 </span> Rights defined by 3rd party host</dt> <dd>This material is hosted by an external party. Please refer to the licensing statement provided by the linked host.</dd>
 				<dt class="btn-secondary"><span class="badge badge-light">5 </span> Creative Commons Zero (CC0)</dt><dd>CC0 enables scientists, educators, artists and other creators and owners of copyright- or database-protected content to waive those interests in their works and thereby place them as completely as possible in the public domain.</dd>
@@ -114,7 +114,7 @@ limitations under the License.
 				<dt class="btn-secondary"><span class="badge badge-light">9 </span> Creative Commons Attribution-NonCommercial-ShareAlike (CC BY-NC-SA)</dt><dd>This license lets others remix, tweak, and build upon your work non-commercially, as long as they credit you and license their new creations under the identical terms.</dd>
 			</dl>
 			<h2 class="h4 mt-4">Mask Media:</h2>
-			<p>Folloow all the instructions above. Reminder: To mark media as hidden from Public Users put a 1 in the MASK_MEDIA column. Enter zero or Leave blank for Public media</p>
+			<p>Follow all the instructions above. Reminder: To mark media as hidden from Public Users put a 1 in the MASK_MEDIA column. Enter zero or Leave blank for Public media</p>
 			<p>Upload a comma-delimited text file (csv). Include column headings, spelled exactly as below. Use "catalog number" as the value of other_id_type to match on catalog number.</p>
 			<span class="btn btn-xs btn-info" onclick="document.getElementById('template').style.display='block';">View template</span>
 			<div id="template" style="margin: 1rem 0;display:none;">
