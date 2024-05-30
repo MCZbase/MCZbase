@@ -1,4 +1,4 @@
-<!--- tools/bulkloadEditedParts.cfm add citations to specimens in bulk.
+<!--- tools/bulkloadEditedParts.cfm to edit existing parts of specimens in bulk.
 
 Copyright 2008-2017 Contributors to Arctos
 Copyright 2008-2024 President and Fellows of Harvard College
@@ -40,7 +40,7 @@ limitations under the License.
 <cfif isDefined("action") AND action is "dumpProblems">
 	<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		SELECT INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_NUMBER,PART_NAME,PRESERVE_METHOD,COLL_OBJ_DISPOSITION,LOT_COUNT_MODIFIER,LOT_COUNT,CONTAINER_UNIQUE_ID,CONDITION,CURRENT_REMARKS,APPEND_TO_REMARKS,CHANGED_DATE,NEW_PRESERVE_METHOD,PART_ATT_NAME_1,PART_ATT_VAL_1,PART_ATT_UNITS_1,PART_ATT_DETBY_1,PART_ATT_MADEDATE_1,PART_ATT_REM_1,PART_ATT_NAME_2,PART_ATT_VAL_2,PART_ATT_UNITS_2,PART_ATT_DETBY_2,PART_ATT_MADEDATE_2,PART_ATT_REM_2,PART_ATT_NAME_3,PART_ATT_val_3,PART_ATT_UNITS_3,PART_ATT_DETBY_3,PART_ATT_MADEDATE_3,PART_ATT_REM_3,PART_ATT_NAME_4,PART_ATT_VAL_4,PART_ATT_UNITS_4,PART_ATT_DETBY_4,PART_ATT_MADEDATE_4,PART_ATT_REM_4,PART_ATT_NAME_5,PART_ATT_VAL_5,PART_ATT_UNITS_5,PART_ATT_DETBY_5,PART_ATT_MADEDATE_5,part_ATT_REM_5,PART_ATT_NAME_6,PART_ATT_VAL_6,part_ATT_UNITS_6,PART_ATT_DETBY_6,PART_ATT_MADEDATE_6,PART_ATT_REM_6
-		FROM cf_temp_citation 
+		FROM cf_temp_parts
 		WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 		and USE_EXISTING=1
 		ORDER BY key
