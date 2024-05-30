@@ -447,7 +447,7 @@ limitations under the License.
 					and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempMedia.key#"> 
 				</cfquery>
 				<cfquery name="ctLicense" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					select media_license_id from CTMEDIA_LICENSE where media_license_id=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia.MEDIA_LICENSE_ID#">
+					select media_license_id from CTMEDIA_LICENSE where media_license_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia.MEDIA_LICENSE_ID#">
 				</cfquery>
 				<cfif getTempMedia.media_license_id NEQ 1 or getTempMedia.media_license_id NEQ 4 or getTempMedia.media_license_id NEQ 5 or getTempMedia.media_license_id NEQ 6 or getTempMedia.media_license_id NEQ 7 or getTempMedia.media_license_id NEQ 8 or getTempMedia.media_license_id NEQ 9>
 					<cfquery name="mediaLicense" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
