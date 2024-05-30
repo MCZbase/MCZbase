@@ -1226,7 +1226,7 @@ limitations under the License.
 							<cfif len(#lot_count#) gt 0>
 								<cfquery name="upCond" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 									UPDATE coll_object 
-									SET lot_count = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="lot_count#">, 
+									SET lot_count = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#lot_count#">, 
 										lot_count_modifier=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#lot_count_modifier#"> 
 									WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#use_part_id#">
 								</cfquery>
