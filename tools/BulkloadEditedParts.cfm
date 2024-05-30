@@ -698,9 +698,9 @@ limitations under the License.
 					as almost all of the error messages are concatenated onto status, instead of replacing valid --->
 			<cfquery name="cleanoutValidFromInvalid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				UPDATE cf_temp_parts 
-				SET status = REGEXP_REPLACE(status,"^VALID"," ")
+				SET status = REGEXP_REPLACE(status,'^VALID',' ')
 				WHERE 
-					status <> "VALID"
+					status <> 'VALID'
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<!--- add a note about part and container --->
