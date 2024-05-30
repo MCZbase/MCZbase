@@ -1249,7 +1249,7 @@ limitations under the License.
 											collection_object_id, 
 											coll_object_remarks
 										) VALUES (
-											<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="use_part_id#">, 
+											<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#use_part_id#">, 
 											<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#append_to_remarks#">
 										)
 									</cfquery>
