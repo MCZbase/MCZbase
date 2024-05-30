@@ -418,19 +418,24 @@ limitations under the License.
 			</cfquery>
 			<cfset i= 1>
 			<cfloop query="getTempMedia">
-				<!--- For each row, set the target collection_object_id --->
-				<cfif getTempMedia.media_URI gt 0>
-					<!--- either based on catalog_number --->
-					<cfquery name="dup" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						UPDATE
-							cf_temp_media
-						SET
-							status = concat(nvl2(status, status || '; ', ''),'Media URI exists')
-						WHERE media_URI in (select media_uri from media where MEDIA_URI = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia.media_uri#">)
-						and username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-						and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempMedia.key#"> 
-					</cfquery>
-				</cfif>
+				<cfquery name="dup" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					UPDATE
+						cf_temp_media
+					SET
+						status = concat(nvl2(status, status || '; ', ''),'Media record already exists with this MEDIA_URI')
+					WHERE media_URI in (select media_uri from media where MEDIA_URI = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia.media_uri#">)
+					and username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+					and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempMedia.key#"> 
+				</cfquery>
+				<cfquery name="type" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					UPDATE
+						cf_temp_media
+					SET
+						status = concat(nvl2(status, status || '; ', ''),'MEDIA_TYPE invalid (see controlled vocabulary)')
+					WHERE media_type not in (select media_type from media where MEDIA_TYPE = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia.media_type#">)
+					and username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+					and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempMedia.key#"> 
+				</cfquery>
 				<cfif len(getTempMedia.mask_media) gt 0>
 					<cfif not(getTempMedia.mask_media EQ 1 or getTempMedia.mask_media EQ 0)>
 						UPDATE
