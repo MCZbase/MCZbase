@@ -686,7 +686,7 @@ limitations under the License.
 				</cfquery>
 				<cfquery name="chkPAtt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE cf_temp_parts 
-					SET status = status || 'PART_ATT_UNITS_#i# is not valid for attribute "'||PART_ATT_NAME_#i#||'"'
+					SET status = concat(nvl2(status,status ||  '; ', ''), 'PART_ATT_UNITS_#i# is not valid for attribute "'||PART_ATT_NAME_#i#||'"')
 					WHERE 
 						MCZBASE.CHK_SPECPART_ATT_CODETABLES(PART_ATT_NAME_#i#,PART_ATT_UNITS_#i#,COLLECTION_CDE)=0
 						AND PART_ATT_NAME_#i# in
@@ -694,11 +694,21 @@ limitations under the License.
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
 			</cfloop>
+			<!--- to tell if there are failure cases, we need to remove the string VALID if there are any error messages, 
+					as almost all of the error messages are concatenated onto status, instead of replacing valid --->
+			<cfquery name="cleanoutValidFromInvalid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				UPDATE cf_temp_parts 
+				SET status = REGEXP_REPLACE(status,"^VALID"," ")
+				WHERE 
+					status <> "VALID"
+					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+			</cfquery>
+			<!--- add a note about part and container --->
 			<cfquery name="identifyPartParentState" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				UPDATE cf_temp_parts 
 				SET (status) = (
 					select
-						decode(parent_container_id, 0,'NOTE: PART EXISTS', 'NOTE: PART EXISTS IN PARENT CONTAINER')
+						decode(parent_container_id, 0,'VALID; NOTE: PART EXISTS', 'VALID; NOTE: PART EXISTS IN PARENT CONTAINER')
 					from 
 						specimen_part,
 						coll_obj_cont_hist,
@@ -725,7 +735,7 @@ limitations under the License.
 					from container where
 					barcode=CONTAINER_UNIQUE_ID)
 				WHERE 
-					substr(status,1,5) IN ('VALID','NOTE:')
+					substr(status,1,5) IN ('VALID')
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<cfquery name="setUsePartId" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -753,17 +763,17 @@ limitations under the License.
 				FROM cf_temp_parts
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
-			<cfquery name="allValid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+			<cfquery name="countFailures" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT count(*) as cnt 
 				FROM cf_temp_parts 
-				WHERE substr(status,1,5) NOT IN ('VALID','NOTE:')
+				WHERE substr(status,1,5) NOT IN ('VALID')
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<h3 class="mt-3">
-				<cfif #allValid.cnt# is 0>
+				<cfif #countFailures.cnt# is 0>
 					<span class="text-success">Validation checks passed.</span> Look over the table below and <a href="/tools/BulkloadEditedParts.cfm?action=load" class="btn-link font-weight-lessbold">click to continue</a> if it all looks good. Or, <a href="/tools/BulkloadEditedParts.cfm" class="text-danger">start again</a>.
 				<cfelse>
-					There is a problem with #allValid.cnt# of #allValid.recordcount# row(s). See the STATUS column. (<a href="/tools/BulkloadEditedParts.cfm?action=dumpProblems">download</a>).
+					There is a problem with #countFailures.cnt# of #countFailures.recordcount# row(s). See the STATUS column. (<a href="/tools/BulkloadEditedParts.cfm?action=dumpProblems">download</a>).
 					Fix the problem(s) noted in the status column and <a href="/tools/BulkloadEditedParts.cfm" class="text-danger">start again</a>.
 				</cfif>
 			</h3>
@@ -1278,7 +1288,6 @@ limitations under the License.
 								<!--- TODO: Review this comment, was not in appropriate place, may not be correct --->
 								<!--- there is an existing matching container that is not in a parent_container;
 									all we need to do is move the container to a parent IF it exists and is specified, or nothing otherwise --->
-<!--- TODO: cfqueryparams from here --->
 								<cfquery name="upPart" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 									UPDATE container 
 									SET parent_container_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#parent_container_id#">
