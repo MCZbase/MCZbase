@@ -827,14 +827,22 @@ limitations under the License.
 					<cfloop query="inT">
 						<tr>
 							<td>
+								<cfquery name="lookupGuid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+									SELECT collection_cde, cat_num 
+									FROM cataloged_item
+									WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#inT.collection_object_id#">
+								</cfquery>
+								<cfloop query="lookupGuid">
+									<cfset guid = "MCZ:#lookupGuid.collection_cde#:#lookupGuid.cat_num#">
+								</cfloop>
 								<cfif len(#collection_object_id#) gt 0 and (#status# is 'VALID')>
 									<!--- no need to display status --->
 								<cfelseif left(status,5) is 'NOTE:'>
-									<a href="/SpecimenDetail.cfm?collection_object_id=#collection_object_id#"
-										target="_blank">Specimen</a> (#status#)
+									<a href="/guid/#guid#"
+										target="_blank">#guid#</a> (#status#)
 								<cfelseif left(status,6) is 'ERROR:'>
-									<a href="/SpecimenDetail.cfm?collection_object_id=#collection_object_id#"
-										target="_blank">Specimen</a> <strong>#status#</strong>
+									<a href="/guid/#guid#"
+										target="_blank">#guid#</a> <strong>#status#</strong>
 								<cfelse>
 									<strong>ERROR: #status#</strong>
 								</cfif>
@@ -1200,34 +1208,33 @@ limitations under the License.
 								</cfquery>
 							</cfif>
 						<cfelse>
-<!--- TODO: need cfqueryparams --->
 							<!--- update existing part --->
 							<cfif len(#COLL_OBJ_disposition#) gt 0>
 								<cfquery name="upDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateColl_result">
 									UPDATE coll_object 
-									SET COLL_OBJ_DISPOSITION = '#coll_obj_disposition#' 
+									SET COLL_OBJ_DISPOSITION = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#coll_obj_disposition#"> 
 									WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#use_part_id#">
 								</cfquery>
 							</cfif>
 							<cfif len(#condition#) gt 0>
 								<cfquery name="upCond" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 									UPDATE coll_object 
-									SET condition = '#condition#' 
+									SET condition = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#condition#"> 
 									WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#use_part_id#">
 								</cfquery>
 							</cfif>
 							<cfif len(#lot_count#) gt 0>
 								<cfquery name="upCond" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 									UPDATE coll_object 
-									SET lot_count = #lot_count#, 
-										lot_count_modifier='#lot_count_modifier#' 
+									SET lot_count = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="lot_count#">, 
+										lot_count_modifier=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#lot_count_modifier#"> 
 									WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#use_part_id#">
 								</cfquery>
 							</cfif>
 							<cfif len(#new_preserve_method#) gt 0>
 								<cfquery name="change_preservemethod" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 									UPDATE SPECIMEN_PART 
-									SET PRESERVE_METHOD = '#NEW_PRESERVE_METHOD#' 
+									SET PRESERVE_METHOD = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#NEW_PRESERVE_METHOD#"> 
 									WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#use_part_id#">
 								</cfquery>
 							</cfif>
@@ -1242,16 +1249,21 @@ limitations under the License.
 											collection_object_id, 
 											coll_object_remarks
 										) VALUES (
-											#use_part_id#, 
-											'#append_to_remarks#'
+											<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="use_part_id#">, 
+											<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#append_to_remarks#">
 										)
 									</cfquery>
 								<cfelse>
 									<!--- NOTE: Expectation is that there is a zero to 1 relationship between part and collection_object_remark. --->
 									<cfquery name="updateRemarks" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-										update coll_object_remark
-										set coll_object_remarks = DECODE(coll_object_remarks, null, '#append_to_remarks#', coll_object_remarks || '; #append_to_remarks#')
-										where collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#use_part_id#">
+										UPDATE coll_object_remark
+										SET coll_object_remarks = 
+											DECODE(coll_object_remarks, 
+												null, 
+												<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#append_to_remarks#">,
+												coll_object_remarks || <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="; #append_to_remarks#">
+											)
+										WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#use_part_id#">
 									</cfquery>
 								</cfif>
 							</cfif>
@@ -1264,15 +1276,17 @@ limitations under the License.
 								<!--- TODO: Review this comment, was not in appropriate place, may not be correct --->
 								<!--- there is an existing matching container that is not in a parent_container;
 									all we need to do is move the container to a parent IF it exists and is specified, or nothing otherwise --->
+<!--- TODO: cfqueryparams from here --->
 								<cfquery name="upPart" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-									update container set parent_container_id=#parent_container_id#
-									where container_id = #part_container_id.container_id#
+									UPDATE container 
+									SET parent_container_id=#parent_container_id#
+									WHERE container_id = #part_container_id.container_id#
 								</cfquery>
 								<cfif #len(change_container_type)# gt 0>
 									<cfquery name="upPart" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-										update container set
-										container_type='#change_container_type#'
-										where container_id=#parent_container_id#
+										UPDATE container 
+										SET container_type='#change_container_type#'
+										WHERE container_id=#parent_container_id#
 									</cfquery>
 								</cfif>
 							</cfif>
@@ -1385,8 +1399,8 @@ limitations under the License.
 				</cfloop>
 					<h3 class="mt-3">There were #part_updates# parts in #updateColl_result.recordcount# specimen records updated.</h3>
 					<h3><span class="text-success">Success!</span> Parts loaded.
-						<a href="/SpecimenResults.cfm?collection_object_id=#valuelist(getTempData.collection_object_id)#" class="btn-link font-weight-lessbold">
-							See in Specimen Results.
+						<a href="https://mczbase-test.rc.fas.harvard.edu/Specimens.cfm?execute=true&builderMaxRows=1&action=builderSearch&openParens1=0&field1=COLL_OBJECT%3ACOLL_OBJ_COLLECTION_OBJECT_ID&searchText1=#encodeForUrl(valuelist(getTempData.collection_object_id))#&closeParens1=0" class="btn-link font-weight-lessbold">
+							See in Specimen Search Results.
 						</a>
 					</h3>
 					<cftransaction action="commit">
