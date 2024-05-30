@@ -436,7 +436,7 @@ limitations under the License.
 					and username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 					and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempMedia.key#"> 
 				</cfquery>
-				<cfquery name="mediaType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				<cfquery name="mimeType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE
 						cf_temp_media
 					SET
@@ -445,12 +445,23 @@ limitations under the License.
 					and username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 					and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempMedia.key#"> 
 				</cfquery>
+				<cfquery name="ctLicense" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					select media_license_id from CTMEDIA_LICENSE where media_license_id=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia.MEDIA_LICENSE_ID#">
+				</cfquery>
+				<cfquery name="mediaLicense" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					UPDATE
+						cf_temp_media
+					SET
+						status = concat(nvl2(status, status || '; ', ''),'MEDIA_LICENSE_ID #getTempMedia.MEDIA_LICENSE_ID# is invalid')
+					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+					and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempMedia.key#"> 
+				</cfquery>
 				<cfif len(getTempMedia.mask_media) gt 0>
 					<cfif not(getTempMedia.mask_media EQ 1 or getTempMedia.mask_media EQ 0)>
 						UPDATE
 							cf_temp_media
 						SET
-							status = concat(nvl2(status, status || '; ', ''),'MASK_MEDIA must=blank, 1 or 0')
+							status = concat(nvl2(status, status || '; ', ''),'MASK_MEDIA must = blank, 1 or 0')
 						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempMedia.key#"> 
 					</cfif>
@@ -460,8 +471,7 @@ limitations under the License.
 						<cfset labelName=listgetat(label,1,"=")>
 						<cfset labelValue=listgetat(label,2,"=")>
 						<cfquery name="ct" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-							SELECT MEDIA_LABEL 
-							FROM CTMEDIA_LABEL 
+							SELECT MEDIA_LABEL FROM CTMEDIA_LABEL 
 							WHERE MEDIA_LABEL = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#labelName#">
 						</cfquery>
 						<cfif len(ct.MEDIA_LABEL) is 0>
@@ -499,83 +509,146 @@ limitations under the License.
 						</cfif>
 					</cfloop>
 				</cfif>
-			</cfloop>
-			<cfif len(getTempMedia.MEDIA_RELATIONSHIPS) gt 0>
-				<cfloop list="#getTempMedia.MEDIA_RELATIONSHIPS#" index="l" delimiters=";">
-					<cfset labelName=listgetat(l,1,"=")>
-					<cfset labelValue=listgetat(l,2,"=")>
-					<cfquery name="ctLabel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						select MEDIA_RELATIONSHIP from CTMEDIA_RELATIONSHIP where MEDIA_RELATIONSHIP='#labelName#'
-					</cfquery>
-					<cfif len(getTempMedia.MEDIA_RELATIONSHIPS) is 0>
-						<cfset status=listappend(status,'Media relationship #labelName# is invalid',";")>
-					<cfelse>
-						<cfset table_name = listlast(labelName," ")>
-						<cfif table_name is "agent">
-							<cfquery name="cAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-								select distinct(agent_id) agent_id from agent_name where agent_name ='#labelValue#'
-							</cfquery>
-							<cfif getTempMedia.recordcount is 1 and len(cAgent.agent_id) gt 0>
-								<cfquery name="iml" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-									insert into cf_temp_media_relations (
-										key,
-										MEDIA_RELATIONSHIP,
-										CREATED_BY_AGENT_ID,
-										RELATED_PRIMARY_KEY
-									) values (
-										#getTempMedia.key#,
-										'#labelName#',
-										#session.myAgentId#,
-										#cAgent.agent_id#
-									)
+				<cfif len(getTempMedia.MEDIA_RELATIONSHIPS) gt 0>
+					<cfloop list="#getTempMedia.MEDIA_RELATIONSHIPS#" index="l" delimiters=";">
+						<cfset labelName=listgetat(l,1,"=")>
+						<cfset labelValue=listgetat(l,2,"=")>
+						<cfquery name="ctLabel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+							select MEDIA_RELATIONSHIP from CTMEDIA_RELATIONSHIP where MEDIA_RELATIONSHIP='#labelName#'
+						</cfquery>
+						<cfif len(getTempMedia.MEDIA_RELATIONSHIPS) is 0>
+							<cfset status=listappend(status,'Media relationship #labelName# is invalid',";")>
+						<cfelse>
+							<cfset table_name = listlast(labelName," ")>
+							<cfif table_name is "agent">
+								<cfquery name="cAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+									select distinct(agent_id) agent_id from agent_name where agent_name ='#labelValue#'
 								</cfquery>
-							<cfelse>
-								<cfquery name="bad" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-									UPDATE cf_temp_media
-									SET status = concat(nvl2(status, status || '; ', ''),'Agent #labelValue# matched #ctLabel.recordcount# records')
-									WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-									and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempMedia.key#">
+								<cfif getTempMedia.recordcount is 1 and len(cAgent.agent_id) gt 0>
+									<cfquery name="iml" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+										insert into cf_temp_media_relations (
+											key,
+											MEDIA_RELATIONSHIP,
+											CREATED_BY_AGENT_ID,
+											RELATED_PRIMARY_KEY
+										) values (
+											#getTempMedia.key#,
+											'#labelName#',
+											#session.myAgentId#,
+											#cAgent.agent_id#
+										)
+									</cfquery>
+								<cfelse>
+									<cfquery name="bad" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+										UPDATE cf_temp_media
+										SET status = concat(nvl2(status, status || '; ', ''),'Agent #labelValue# matched #ctLabel.recordcount# records')
+										WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+										and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempMedia.key#">
+									</cfquery>
+								</cfif>
+							<cfelseif table_name is "locality">
+								<cfquery name="cLocality" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+									select locality_id from locality where locality_id ='#labelValue#'
 								</cfquery>
-							</cfif>
-						<cfelseif table_name is "locality">
-							<cfquery name="cLocality" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-								select locality_id from locality where locality_id ='#labelValue#'
-							</cfquery>
-							<cfif ctLabel.recordcount is 1 and len(ctLabel.locality_id) gt 0>
-								<cfquery name="iml" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-									insert into cf_temp_media_relations (
-										key,
-										MEDIA_RELATIONSHIP,
-										CREATED_BY_AGENT_ID,
-										RELATED_PRIMARY_KEY
-									) values (
-										#getTempMedia.key#,
-										'#labelName#',
-										<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">,
-										#cLocality.locality_id#
-									)
+								<cfif ctLabel.recordcount is 1 and len(ctLabel.locality_id) gt 0>
+									<cfquery name="iml" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+										insert into cf_temp_media_relations (
+											key,
+											MEDIA_RELATIONSHIP,
+											CREATED_BY_AGENT_ID,
+											RELATED_PRIMARY_KEY
+										) values (
+											#getTempMedia.key#,
+											'#labelName#',
+											<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">,
+											#cLocality.locality_id#
+										)
+									</cfquery>
+								<cfelse>
+									<cfquery name="bad" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+										UPDATE cf_temp_media
+										SET status = concat(nvl2(status, status || '; ', ''),'locality_id #labelValue# matched #ctLabel.recordcount# records')
+										WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+										and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempMedia.key#">
+									</cfquery>
+								</cfif>
+							<cfelseif table_name is "collecting_event">
+								<cfif isnumeric(labelValue)>
+									<cfset idtype = "collecting_event_id">
+									<cfset idvalue = labelValue>
+								<cfelse>
+									<cfset idtype=trim(listfirst(labelValue,"|"))>
+									<cfset idvalue=trim(listlast(labelValue,"|"))>
+								</cfif>
+								<cfif idtype EQ "collecting_event_id">
+									<cfquery name="cEvent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+										select collecting_event_id from collecting_event where collecting_event_id ='#idvalue#'
+									</cfquery>
+									<cfif cEvent.recordcount is 1 and len(cEvent.collecting_event_id) gt 0>
+										<cfquery name="iml" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+											insert into cf_temp_media_relations (
+												key,
+												MEDIA_RELATIONSHIP,
+												CREATED_BY_AGENT_ID,
+												RELATED_PRIMARY_KEY
+											) values (
+												#key#,
+												'#labelName#',
+												#session.myAgentId#,
+												#cEvent.collecting_event_id#
+											)
+										</cfquery>
+									<cfelse>
+										<cfquery name="iml" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+											UPDATE
+												cf_temp_media
+											SET
+												status = concat(nvl2(status, status || '; ', ''),'collecting_event number #labelValue# matched #cEvent.recordcount#')
+											WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+												and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#cEvent.key#"> 
+										</cfquery>
+									</cfif>
+								<cfelse>
+									<cfquery name="cEvent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+										select collecting_event_id 
+										from coll_event_num_series ns 
+											join coll_event_number n  on ns.coll_event_num_series_id = n.coll_event_num_series_id
+											where ns.number_series = '#idtype#'
+											and n.coll_event_number = '#idvalue#'
+									</cfquery>
+									<cfif cEvent.recordcount gt 0>
+										<cfloop query="cEvent">
+											<cfif len(cEvent.collecting_event_id) gt 0>
+												<cfquery name="iml" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+													insert into cf_temp_media_relations (
+													key,
+													MEDIA_RELATIONSHIP,
+													CREATED_BY_AGENT_ID,
+													RELATED_PRIMARY_KEY
+													) values (
+													#d.key#,
+													'#labelName#',
+													#session.myAgentId#,
+													#c.collecting_event_id#)
+												</cfquery>
+											</cfif>
+										</cfloop>
+									<cfelse>
+										<cfquery name="iml" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+											UPDATE
+												cf_temp_media
+											SET
+												status = concat(nvl2(status, status || '; ', ''),'collecting_event number #labelValue# matched #cEvent.recordcount#')
+											WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+												and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#cEvent.key#"> 
+										</cfquery>
+									</cfif>
+								</cfif>
+							<cfelseif table_name is "project">
+								<cfquery name="cProject" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+									select distinct(project_id) project_id from project where PROJECT_NAME ='#labelValue#'
 								</cfquery>
-							<cfelse>
-								<cfquery name="bad" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-									UPDATE cf_temp_media
-									SET status = concat(nvl2(status, status || '; ', ''),'locality_id #labelValue# matched #ctLabel.recordcount# records')
-									WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-									and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempMedia.key#">
-								</cfquery>
-							</cfif>
-						<cfelseif table_name is "collecting_event">
-							<cfif isnumeric(labelValue)>
-								<cfset idtype = "collecting_event_id">
-								<cfset idvalue = labelValue>
-							<cfelse>
-								<cfset idtype=trim(listfirst(labelValue,"|"))>
-								<cfset idvalue=trim(listlast(labelValue,"|"))>
-							</cfif>
-							<cfif idtype EQ "collecting_event_id">
-								<cfquery name="cEvent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-									select collecting_event_id from collecting_event where collecting_event_id ='#idvalue#'
-								</cfquery>
-								<cfif cEvent.recordcount is 1 and len(cEvent.collecting_event_id) gt 0>
+								<cfif cProject.recordcount is 1 and len(cProject.project_id) gt 0>
 									<cfquery name="iml" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 										insert into cf_temp_media_relations (
 											key,
@@ -586,7 +659,7 @@ limitations under the License.
 											#key#,
 											'#labelName#',
 											#session.myAgentId#,
-											#cEvent.collecting_event_id#
+											#cProject.project_id#
 										)
 									</cfquery>
 								<cfelse>
@@ -594,323 +667,225 @@ limitations under the License.
 										UPDATE
 											cf_temp_media
 										SET
-											status = concat(nvl2(status, status || '; ', ''),'collecting_event number #labelValue# matched #cEvent.recordcount#')
+											status = concat(nvl2(status, status || '; ', ''),'project_id #labelValue# matched #cProject.recordcount#')
 										WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-											and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#cEvent.key#"> 
+											and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#cPub.key#"> 
 									</cfquery>
 								</cfif>
-							<cfelse>
-								<cfquery name="cEvent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-									select collecting_event_id 
-									from coll_event_num_series ns 
-										join coll_event_number n  on ns.coll_event_num_series_id = n.coll_event_num_series_id
-										where ns.number_series = '#idtype#'
-										and n.coll_event_number = '#idvalue#'
+							<cfelseif table_name is "publication">
+								<cfquery name="cPub" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+									select publication_id from publication where publication_id ='#labelValue#'
 								</cfquery>
-								<cfif cEvent.recordcount gt 0>
-									<cfloop query="cEvent">
-										<cfif len(cEvent.collecting_event_id) gt 0>
-											<cfquery name="iml" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-												insert into cf_temp_media_relations (
-												key,
-												MEDIA_RELATIONSHIP,
-												CREATED_BY_AGENT_ID,
-												RELATED_PRIMARY_KEY
-												) values (
-												#d.key#,
-												'#labelName#',
-												#session.myAgentId#,
-												#c.collecting_event_id#)
-											</cfquery>
-										</cfif>
-									</cfloop>
-								<cfelse>
-									<cfquery name="iml" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-										UPDATE
-											cf_temp_media
-										SET
-											status = concat(nvl2(status, status || '; ', ''),'collecting_event number #labelValue# matched #cEvent.recordcount#')
-										WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-											and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#cEvent.key#"> 
-									</cfquery>
-								</cfif>
-							</cfif>
-						<cfelseif table_name is "project">
-							<cfquery name="cProject" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-								select distinct(project_id) project_id from project where PROJECT_NAME ='#labelValue#'
-							</cfquery>
-							<cfif cProject.recordcount is 1 and len(cProject.project_id) gt 0>
-								<cfquery name="iml" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-									insert into cf_temp_media_relations (
-										key,
-										MEDIA_RELATIONSHIP,
-										CREATED_BY_AGENT_ID,
-										RELATED_PRIMARY_KEY
-									) values (
-										#key#,
-										'#labelName#',
-										#session.myAgentId#,
-										#cProject.project_id#
-									)
-								</cfquery>
-							<cfelse>
-								<cfquery name="iml" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-									UPDATE
-										cf_temp_media
-									SET
-										status = concat(nvl2(status, status || '; ', ''),'project_id #labelValue# matched #cProject.recordcount#')
-									WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-										and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#cPub.key#"> 
-								</cfquery>
-							</cfif>
-						<cfelseif table_name is "publication">
-							<cfquery name="cPub" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-								select publication_id from publication where publication_id ='#labelValue#'
-							</cfquery>
-							<cfif cPub.recordcount is 1 and len(cPub.publication_id) gt 0>
-								<cfquery name="insertMR" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-									insert into 
-									cf_temp_media_relations (
-										key,
-										MEDIA_RELATIONSHIP,
-										CREATED_BY_AGENT_ID,
-										RELATED_PRIMARY_KEY
-									) values (
-										#key#,
-										'#labelName#',
-										#session.myAgentId#,
-										#cPub.publication_id#
-									)
-								</cfquery>
-							<cfelse>
-								<cfquery name="badML" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-									UPDATE
-										cf_temp_media
-									SET
-										status = concat(nvl2(status, status || '; ', ''),'publication_id #labelValue# matched #cPub.recordcount#')
-									WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-										and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#cPub.key#"> 
-								</cfquery>
-							</cfif>
-						<cfelseif table_name is "cataloged_item">
-						<cftry>
-							<cfset institution_acronym = listgetat(labelValue,1,":")>
-							<cfset collection_cde = listgetat(labelValue,2,":")>
-							<cfset cat_num = listgetat(labelValue,3,":")>
-							<cfquery name="cColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-								select collection_object_id from
-									cataloged_item,
-									collection
-								WHERE
-									cataloged_item.collection_id = collection.collection_id AND
-									cat_num = '#cat_num#' AND
-									lower(collection.collection_cde)='#lcase(collection_cde)#' AND
-									lower(collection.institution_acronym)='#lcase(institution_acronym)#'
-							</cfquery>
-							<cfif cColl.recordcount is 1 and len(cColl.collection_object_id) gt 0>
-								<cfquery name="insertMediaRelations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-									insert into cf_temp_media_relations (
-										key,
-										MEDIA_RELATIONSHIP,
-										CREATED_BY_AGENT_ID,
-										RELATED_PRIMARY_KEY
-									) values (
-										#key#,
-										'#labelName#',
-										#session.myAgentId#,
-										#cColl.collection_object_id#
-									)
-								</cfquery>
-							<cfelse>
-								<cfquery name="badML" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-									UPDATE
-										cf_temp_media
-									SET
-										status = concat(nvl2(status, status || '; ', ''),'Cataloged Item #labelValue# matched #cColl.recordcount# records.')
-									WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-										and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#cPub.key#"> 
-								</cfquery>
-							</cfif>
-							<cfcatch>
-								<cfquery name="badML" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-									UPDATE
-										cf_temp_media
-									SET
-										status = concat(nvl2(status, status || '; ', ''),'#labelValue# is not a DWC Triplet. *#institution_acronym#* *#collection_cde#* *#cat_num#*')
-									WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-										and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#cPub.key#"> 
-								</cfquery>
-							</cfcatch>
-						</cftry>
-						<cfelseif table_name is "accn">
-							<cfset coll = listgetat(labelValue,1," ")>
-							<cfset accnnum = listgetat(labelValue,2," ")>
-							<cfquery name="cTrans" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-								select a.transaction_id
-								from accn a, trans t, collection c
-								where a.transaction_id = t.transaction_id
-								and t.collection_id = c.collection_id
-								and a.accn_number = #accnnum#
-								and c.collection = '#coll#'
-							</cfquery>
-							<cfif cTrans.recordcount is 1 and len(cTrans.transaction_id) gt 0>
-								<cfquery name="iml" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-									insert into cf_temp_media_relations (
-										key,
-										MEDIA_RELATIONSHIP,
-										CREATED_BY_AGENT_ID,
-										RELATED_PRIMARY_KEY
-									) values (
-										#key#,
-										'#labelName#',
-										#session.myAgentId#,
-										#cTrans.transaction_id#
-									)
-								</cfquery>
-							<cfelse>
-								<cfquery name="badML" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-									UPDATE
-										cf_temp_media
-									SET
-										status = concat(nvl2(status, status || '; ', ''),'accn number #labelValue# matched #c.recordcount# records')
-									WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-										and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#cTrans.key#"> 
-								</cfquery>
-							</cfif>
-						<cfelseif table_name is "permit">
-							<cfquery name="cPermit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-								select permit_id from permit where permit_num = '#labelValue#'
-							</cfquery>
-							<cfif c.recordcount is 1 and len(c.permit_id) gt 0>
-								<cfquery name="iml" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-									insert into cf_temp_media_relations (
-										key,
-										MEDIA_RELATIONSHIP,
-										CREATED_BY_AGENT_ID,
-										RELATED_PRIMARY_KEY
-									) values (
-										<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#key#">,
-										<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#labelName#">,
-										<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#session.myAgentId#">,
-										<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#cPermit.permit_id#">
-									)
-								</cfquery>
-							<cfelse>
-								<cfset rec_stat=listappend(rec_stat,'permit number #labelValue# matched #cPermit.recordcount# records.',";")>
-							</cfif>
-						<cfelseif table_name is "borrow">
-							<cfquery name="cTrans" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-								select transaction_id 
-								from borrow 
-								where borrow_number = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#labelValue#">
-							</cfquery>
-							<cfif cTrans.recordcount is 1 and len(cTrans.transaction_id) gt 0>
-								<cfquery name="iml" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-									insert into cf_temp_media_relations (
-										key,
-										MEDIA_RELATIONSHIP,
-										CREATED_BY_AGENT_ID,
-										RELATED_PRIMARY_KEY
-									) values (
-										#key#,
-										'#labelName#',
-										#session.myAgentId#,
-										#cTrans.transaction_id#
-									)
-								</cfquery>
-							<cfelse>
-								<cfquery name="badML" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-									UPDATE
-										cf_temp_media
-									SET
-										status = concat(nvl2(status, status || '; ', ''),'permit number #labelValue# matched #c.recordcount# records')
-									WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-										and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#cTrans.key#"> 
-								</cfquery>
-							</cfif>
-						<cfelseif table_name is "specimen_part">
-							<cfquery name="cSpecPart" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-								select sp.collection_object_id
-								from specimen_part sp
-								join (select * from coll_obj_cont_hist where current_container_fg = 1)  ch on (sp.collection_object_id = ch.collection_object_id)
-								join  container cont on (ch.container_id = cont.container_id)
-								join  container pcont on (cont.parent_container_id = pc.container_id)
-								where pc.barcode = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#labelValue#">
-							</cfquery>
-							<cfif cSpecPart.recordcount is 1 and len(cSpecPart.collection_object_id) gt 0>
-								<cfquery name="i" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-									insert into cf_temp_media_relations (
+								<cfif cPub.recordcount is 1 and len(cPub.publication_id) gt 0>
+									<cfquery name="insertMR" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+										insert into 
+										cf_temp_media_relations (
 											key,
 											MEDIA_RELATIONSHIP,
 											CREATED_BY_AGENT_ID,
 											RELATED_PRIMARY_KEY
-									) values (
+										) values (
 											#key#,
 											'#labelName#',
 											#session.myAgentId#,
-											#cSpecPart.collection_object_id#
-									)
+											#cPub.publication_id#
+										)
+									</cfquery>
+								<cfelse>
+									<cfquery name="badML" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+										UPDATE
+											cf_temp_media
+										SET
+											status = concat(nvl2(status, status || '; ', ''),'publication_id #labelValue# matched #cPub.recordcount#')
+										WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+											and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#cPub.key#"> 
+									</cfquery>
+								</cfif>
+							<cfelseif table_name is "cataloged_item">
+							<cftry>
+								<cfset institution_acronym = listgetat(labelValue,1,":")>
+								<cfset collection_cde = listgetat(labelValue,2,":")>
+								<cfset cat_num = listgetat(labelValue,3,":")>
+								<cfquery name="cColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+									select collection_object_id from
+										cataloged_item,
+										collection
+									WHERE
+										cataloged_item.collection_id = collection.collection_id AND
+										cat_num = '#cat_num#' AND
+										lower(collection.collection_cde)='#lcase(collection_cde)#' AND
+										lower(collection.institution_acronym)='#lcase(institution_acronym)#'
 								</cfquery>
+								<cfif cColl.recordcount is 1 and len(cColl.collection_object_id) gt 0>
+									<cfquery name="insertMediaRelations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+										insert into cf_temp_media_relations (
+											key,
+											MEDIA_RELATIONSHIP,
+											CREATED_BY_AGENT_ID,
+											RELATED_PRIMARY_KEY
+										) values (
+											#key#,
+											'#labelName#',
+											#session.myAgentId#,
+											#cColl.collection_object_id#
+										)
+									</cfquery>
+								<cfelse>
+									<cfquery name="badML" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+										UPDATE
+											cf_temp_media
+										SET
+											status = concat(nvl2(status, status || '; ', ''),'Cataloged Item #labelValue# matched #cColl.recordcount# records.')
+										WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+											and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#cPub.key#"> 
+									</cfquery>
+								</cfif>
+								<cfcatch>
+									<cfquery name="badML" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+										UPDATE
+											cf_temp_media
+										SET
+											status = concat(nvl2(status, status || '; ', ''),'#labelValue# is not a DWC Triplet. *#institution_acronym#* *#collection_cde#* *#cat_num#*')
+										WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+											and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#cPub.key#"> 
+									</cfquery>
+								</cfcatch>
+							</cftry>
+							<cfelseif table_name is "accn">
+								<cfset coll = listgetat(labelValue,1," ")>
+								<cfset accnnum = listgetat(labelValue,2," ")>
+								<cfquery name="cTrans" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+									select a.transaction_id
+									from accn a, trans t, collection c
+									where a.transaction_id = t.transaction_id
+									and t.collection_id = c.collection_id
+									and a.accn_number = #accnnum#
+									and c.collection = '#coll#'
+								</cfquery>
+								<cfif cTrans.recordcount is 1 and len(cTrans.transaction_id) gt 0>
+									<cfquery name="iml" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+										insert into cf_temp_media_relations (
+											key,
+											MEDIA_RELATIONSHIP,
+											CREATED_BY_AGENT_ID,
+											RELATED_PRIMARY_KEY
+										) values (
+											#key#,
+											'#labelName#',
+											#session.myAgentId#,
+											#cTrans.transaction_id#
+										)
+									</cfquery>
+								<cfelse>
+									<cfquery name="badML" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+										UPDATE
+											cf_temp_media
+										SET
+											status = concat(nvl2(status, status || '; ', ''),'accn number #labelValue# matched #c.recordcount# records')
+										WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+											and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#cTrans.key#"> 
+									</cfquery>
+								</cfif>
+							<cfelseif table_name is "permit">
+								<cfquery name="cPermit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+									select permit_id from permit where permit_num = '#labelValue#'
+								</cfquery>
+								<cfif c.recordcount is 1 and len(c.permit_id) gt 0>
+									<cfquery name="iml" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+										insert into cf_temp_media_relations (
+											key,
+											MEDIA_RELATIONSHIP,
+											CREATED_BY_AGENT_ID,
+											RELATED_PRIMARY_KEY
+										) values (
+											<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#key#">,
+											<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#labelName#">,
+											<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#session.myAgentId#">,
+											<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#cPermit.permit_id#">
+										)
+									</cfquery>
+								<cfelse>
+									<cfset rec_stat=listappend(rec_stat,'permit number #labelValue# matched #cPermit.recordcount# records.',";")>
+								</cfif>
+							<cfelseif table_name is "borrow">
+								<cfquery name="cTrans" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+									select transaction_id 
+									from borrow 
+									where borrow_number = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#labelValue#">
+								</cfquery>
+								<cfif cTrans.recordcount is 1 and len(cTrans.transaction_id) gt 0>
+									<cfquery name="iml" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+										insert into cf_temp_media_relations (
+											key,
+											MEDIA_RELATIONSHIP,
+											CREATED_BY_AGENT_ID,
+											RELATED_PRIMARY_KEY
+										) values (
+											#key#,
+											'#labelName#',
+											#session.myAgentId#,
+											#cTrans.transaction_id#
+										)
+									</cfquery>
+								<cfelse>
+									<cfquery name="badML" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+										UPDATE
+											cf_temp_media
+										SET
+											status = concat(nvl2(status, status || '; ', ''),'permit number #labelValue# matched #c.recordcount# records')
+										WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+											and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#cTrans.key#"> 
+									</cfquery>
+								</cfif>
+							<cfelseif table_name is "specimen_part">
+								<cfquery name="cSpecPart" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+									select sp.collection_object_id
+									from specimen_part sp
+									join (select * from coll_obj_cont_hist where current_container_fg = 1)  ch on (sp.collection_object_id = ch.collection_object_id)
+									join  container cont on (ch.container_id = cont.container_id)
+									join  container pcont on (cont.parent_container_id = pc.container_id)
+									where pc.barcode = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#labelValue#">
+								</cfquery>
+								<cfif cSpecPart.recordcount is 1 and len(cSpecPart.collection_object_id) gt 0>
+									<cfquery name="i" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+										insert into cf_temp_media_relations (
+												key,
+												MEDIA_RELATIONSHIP,
+												CREATED_BY_AGENT_ID,
+												RELATED_PRIMARY_KEY
+										) values (
+												#key#,
+												'#labelName#',
+												#session.myAgentId#,
+												#cSpecPart.collection_object_id#
+										)
+									</cfquery>
+								<cfelse>
+									<cfquery name="badML" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+										UPDATE
+											cf_temp_media
+										SET
+											status = concat(nvl2(status, status || '; ', ''),'barcode #labelValue# matched #c.recordcount# records')
+										WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+											and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#cSpecPart.key#"> 
+									</cfquery>
+								</cfif>
 							<cfelse>
 								<cfquery name="badML" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 									UPDATE
 										cf_temp_media
 									SET
-										status = concat(nvl2(status, status || '; ', ''),'barcode #labelValue# matched #c.recordcount# records')
+										status = concat(nvl2(status, status || '; ', ''),'Media label #labelName# is not handled')
 									WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-										and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#cSpecPart.key#"> 
 								</cfquery>
 							</cfif>
-						<cfelse>
-							<cfquery name="badML" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-								UPDATE
-									cf_temp_media
-								SET
-									status = concat(nvl2(status, status || '; ', ''),'Media label #labelName# is not handled')
-								WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-							</cfquery>
 						</cfif>
-					</cfif>
-				</cfloop>
-			</cfif>
-			<cfquery name="ctMime" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				select MIME_TYPE from CTMIME_TYPE where MIME_TYPE='#getTempMedia.MIME_TYPE#'
-			</cfquery>
-			<cfif len(getTempMedia.MIME_TYPE) is 0>
-				<cfquery name="badML" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					UPDATE
-						cf_temp_media
-					SET
-						status = concat(nvl2(status, status || '; ', ''),'MIME_TYPE #MIME_TYPE# is invalid')
-					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-				</cfquery>
-			</cfif>
-			<cfquery name="ctMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				select MEDIA_TYPE from CTMEDIA_TYPE where MEDIA_TYPE='#getTempMedia.MEDIA_TYPE#'
-			</cfquery>
-			<cfif len(getTempMedia.MEDIA_TYPE) is 0>
-				<cfquery name="badML" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					UPDATE
-						cf_temp_media
-					SET
-						status = concat(nvl2(status, status || '; ', ''),'MEDIA_TYPE #MEDIA_TYPE# is invalid')
-					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-				</cfquery>
-			</cfif>
-			<cfif len(getTempMedia.MEDIA_LICENSE_ID) gt 0>
-				<cfquery name="c" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					select media_license_id from CTMEDIA_LICENSE where media_license_id='#getTempMedia.MEDIA_LICENSE_ID#'
-				</cfquery>
-				<cfif len(getTempMedia.media_license_id) is 0>
-					<cfquery name="badML" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						UPDATE
-							cf_temp_media
-						SET
-							status = concat(nvl2(status, status || '; ', ''),'MEDIA_LICENSE_ID #getTempMedia.MEDIA_LICENSE_ID# is invalid')
-						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-					</cfquery>
+					</cfloop>
 				</cfif>
-			</cfif>
+			</cfloop>
+	
+
+			
 			<cfhttp url="#getTempMedia.media_uri#" charset="utf-8" timeout=5 method="head" />
 			<cfif left(cfhttp.statuscode,3) is not "200">
 				<cfquery name="badML" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
