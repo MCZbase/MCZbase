@@ -849,7 +849,7 @@ limitations under the License.
 								</cfloop>
 								<cfif len(#collection_object_id#) gt 0 and (#status# is 'VALID')>
 									<!--- no need to display status --->
-								<cfelseif left(status,5) is 'NOTE:'>
+								<cfelseif left(status,5) is 'VALID:'>
 									<a href="/guid/#guid#"
 										target="_blank">#guid#</a> (#status#)
 								<cfelseif left(status,6) is 'ERROR:'>
