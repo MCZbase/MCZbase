@@ -757,7 +757,7 @@ limitations under the License.
 				SET status = concat(nvl2(status,status ||  '; ', ''), 'PART NOT FOUND')
 				WHERE collection_object_id NOT IN (
 						select collection_object_id from specimen_part
-					}
+					)
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<cfquery name="inT" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
