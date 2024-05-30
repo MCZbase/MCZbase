@@ -70,8 +70,8 @@ limitations under the License.
 					<li><a href="/vocabularies/ControlledVocabulary.cfm?table=CTMIME_TYPE">MIME_TYPE (14 values)</a></li>
 					<li><a href="/vocabularies/ControlledVocabulary.cfm?table=CTMEDIA_LICENSE">MEDIA_LICENSE (7 values)</a></li>
 				</ul>
-			<p>Step 1: Ensure that Media exists on the shared drive or externl URL and that the records that you want to  (e.g., specimen, agent, collecting event) exist.</p>
-			<p>Step 2: Upload a comma-delimited text file (csv). (Jump to <a href="##loader">loader</a>)</p>
+			<p>Step 1: Ensure that Media exists on the shared drive or external URL and that the records that you want to use for relationships exist (e.g., specimen, agent, collecting event).</p>
+			<p>Step 2: Upload a comma-delimited text file (csv). <span class="font-weight-bold">(Jump to <a href="##loader" class="btn-link">uploader</a>.)</span></p>
 			<h2 class="h4 mt-4">Media Relationships</h2>
 			<p>The format for Media_Relationship is {media_relationship}={value}[;{media_relationship}={value}]</p>
 			<p class="font-weight-bold text-dark">Relationship Examples:</p>
@@ -83,8 +83,8 @@ limitations under the License.
 				<li>created by agent=Jane Doe;documents collecting_event=Baker-Foster Stickleback Collection Field Number|B93-3</li>
 				<li>created by agent=Jane Doe;documents collecting_event=1524028</li>
 			</ul>
-			<p class="font-weight-bold text-dark">Acceptable values for relationships are:</p>
-			<ul>
+			<p class="font-weight-bold text-dark pl-5">Acceptable values for relationships are:</p>
+			<ul class="pl-5">
 				<li>Agent Name (must resolve to one agent_id)</li>
 				<li>Project Title (exact string match)</li>
 				<li>Cataloged Item (DWC triplet)</li>
