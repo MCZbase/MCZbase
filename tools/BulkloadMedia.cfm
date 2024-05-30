@@ -884,31 +884,6 @@ limitations under the License.
 					</cfloop>
 				</cfif>
 			</cfloop>
-	
-
-			
-			<cfhttp url="#getTempMedia.media_uri#" charset="utf-8" timeout=5 method="head" />
-			<cfif left(cfhttp.statuscode,3) is not "200">
-				<cfquery name="badML" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					UPDATE
-						cf_temp_media
-					SET
-						status = concat(nvl2(status, status || '; ', ''),'#getTempMedia.media_uri# is invalid')
-					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-				</cfquery>
-			</cfif>
-			<cfif len(getTempMedia.preview_uri) gt 0>
-				<cfhttp url="#getTempMedia.preview_uri#" charset="utf-8" timeout=5 method="head" />
-				<cfif left(cfhttp.statuscode,3) is not "200">
-					<cfquery name="badML" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						UPDATE
-							cf_temp_media
-						SET
-							status = concat(nvl2(status, status || '; ', ''),'#getTempMedia.preview_uri# is invalid')
-						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-					</cfquery>
-				</cfif>
-			</cfif>
 			<cfif not isDefined("veryLargeFiles")><cfset veryLargeFiles=""></cfif>
 			<cfif veryLargeFiles NEQ "true">
 				<!--- both isimagefile and cfimage run into heap space limits with very large files --->
@@ -1036,23 +1011,28 @@ limitations under the License.
 		<h2 class="h4">Third step: Apply changes.</h2>
 		<cfoutput>
 			<cfset problem_key = "">
-			<cfquery name="getTempData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				SELECT * FROM cf_temp_media
-				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-			</cfquery>
 			<cftransaction>
-			
+				<cfquery name="getTempData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					SELECT * FROM cf_temp_media
+					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+				</cfquery>
 				<cfquery name="getCounts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT count(distinct media_uri) ctobj FROM cf_temp_media
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
 				<cftry>
 					<cfset media_updates = 0>
-					<cfset media_updates1 = 0>
 					<cfif getTempData.recordcount EQ 0>
 						<cfthrow message="You have no rows to load in the media bulkloader table (cf_temp_media).  <a href='/tools/BulkloadMedia.cfm'>Start over</a>"><!--- " --->
 					</cfif>
 					<cfloop query="getTempData">
+						<cfquery name="updateMedia1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateMedia1_result">
+							select media_uri,media_id 
+							from media
+							where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.media_id#">
+							group by media_uri,media_id
+							having count(*) > 1
+						</cfquery>
 						<cfset problem_key = getTempData.key>
 						<cfquery name="mid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							select sq_media_id.nextval nv from dual
@@ -1077,15 +1057,16 @@ limitations under the License.
 							media_type,
 							preview_uri,
 							media_license_id,
-							mask_media_fg)
-							values (
-							#media_id#,
-							'#media_uri#',
-							'#mime_type#',
-							'#media_type#',
-							'#preview_uri#',
-							#medialicenseid#,
-							#MASKMEDIA#)
+							mask_media_fg
+							) values (
+							<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">,
+							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.media_uri#">,
+							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.mime_type#">,
+							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.media_type#">,
+							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.preview_uri#">,
+							<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#medialicenseid#">,
+							<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#MASKMEDIA#">
+							)
 						</cfquery>
 						<cfquery name="media_relations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							select * from
@@ -1101,9 +1082,9 @@ limitations under the License.
 								media_relationship,
 								related_primary_key
 								) values (
-								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#MEDIA_ID#">,
-								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#MEDIA_RELATIONSHIP#">,
-								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#RELATED_PRIMARY_KEY#">,
+								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#make_relations.MEDIA_ID#">,
+								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#make_relations.MEDIA_RELATIONSHIP#">,
+								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#make_relations.RELATED_PRIMARY_KEY#">,
 								)
 							</cfquery>
 						</cfloop>
@@ -1121,14 +1102,104 @@ limitations under the License.
 								media_label,
 								label_value)
 								values (
-								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#MEDIA_ID#">,
-								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#MEDIA_LABEL#">,
-								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#LABEL_VALUE#">)
+								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#medialabels.MEDIA_ID#">,
+								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#medialabels.MEDIA_LABEL#">,
+								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#medialabels.LABEL_VALUE#">)
 							</cfquery>
 						</cfloop>
 					</cfloop>
-					<cfcatch>
-								
+					<p>Number of citations to update: #citation_updates# (on #getCounts.ctobj# cataloged items)</p>
+					<cfif getTempData.recordcount eq media_updates and updateMedia1_result.recordcount eq 0>
+						<h3 class="text-success">Success - loaded</h3>
+					</cfif>
+					<cfif updateCitations1_result.recordcount gt 0>
+						<h3 class="text-danger">Not loaded - these have already been loaded</h3>
+					</cfif>
+					<cftransaction action="commit">
+				<cfcatch>
+					<cftransaction action="ROLLBACK">
+					<h3>There was a problem updating the citations. </h3>
+					<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						SELECT 
+							COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_NUMBER,COLLECTION_OBJECT_ID,PUBLICATION_ID,CITED_TAXON_NAME_ID,
+							OCCURS_PAGE_NUMBER,TYPE_STATUS,CITATION_REMARKS,CITATION_PAGE_URI,publication_title
+						FROM cf_temp_citation
+						where key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#problem_key#">
+					</cfquery>
+					<cfif getProblemData.recordcount GT 0>
+						<h3>
+							Fix the issues and <a href="/tools/BulkloadCitations.cfm" class="text-danger font-weight-lessbold">start again</a>. Error loading row (<span class="text-danger">#citation_updates + 1#</span>) from the CSV: 
+							<cfif len(cfcatch.detail) gt 0>
+								<span class="font-weight-normal border-bottom border-danger">
+									<cfif cfcatch.detail contains "occurs_page_number">
+										Problem with OCCURS_PAGE_NUMBER
+									<cfelseif cfcatch.detail contains "type_status">
+										Invalid or missing TYPE_STATUS
+									<cfelseif cfcatch.detail contains "citation_page_uri">
+										Invalid CITATION_PAGE_URI
+									<cfelseif cfcatch.detail contains "cited_taxon_name_id">
+										Invalid CITED_TAXON_NAME_ID
+									<cfelseif cfcatch.detail contains "citation_remarks">
+										Problem with CITATION_REMARKS (#cfcatch.detail#)
+									<cfelseif cfcatch.detail contains "collection_object-Id">
+										Invalid COLLECTION_OBJECT_ID
+									<cfelseif cfcatch.detail contains "integrity constraint (MCZBASE.FK_CITATION_PUBLICATION) violated">
+										Invalid Publication ID
+									<cfelseif cfcatch.detail contains "publication_id">
+										Problem with PUBLICATION_ID (#cfcatch.detail#)
+									<cfelseif cfcatch.detail contains "unique constraint">
+										This citation has already been entered. Remove from spreadsheet and try again. (<a href="/tools/BulkloadCitations.cfm">Reload.</a>)
+									<cfelseif cfcatch.detail contains "no data">
+										No data or the wrong data (#cfcatch.detail#)
+									<cfelse>
+										<!--- provide the raw error message if it isn't readily interpretable --->
+										#cfcatch.detail#
+									</cfif>
+								</span>
+							</cfif>
+						</h3>
+						<table class='sortable small table table-responsive table-striped d-lg-table mt-3'>
+							<thead>
+								<tr>
+									<th>COUNT</th>
+									<th>COLLECTION_CDE</th>
+									<th>OTHER_ID_TYPE</th>
+									<th>OTHER_ID_NUMBER</th>
+									<th>COLLECTION_OBJECT_ID</th>
+									<th>PUBLICATION</th>
+									<th>PUBLICATION_ID</th>
+									<th>CITED_TAXON_NAME_ID</th>
+									<th>OCCURS_PAGE_NUMBER</th>
+									<th>TYPE_STATUS</th>
+									<th>CITATION_REMARKS</th>
+									<th>CITATION_PAGE_URI</th>
+									<th>CITED_TAXON_NAME_ID</th>
+								</tr> 
+							</thead>
+							<tbody>
+								<cfset i=1>
+								<cfloop query="getProblemData">
+									<tr>
+										<td>#i#</td>
+										<td>#getProblemData.COLLECTION_CDE# </td>
+										<td>#getProblemData.OTHER_ID_TYPE# </td>
+										<td>#getProblemData.OTHER_ID_NUMBER# </td>
+										<td>#getProblemData.COLLECTION_OBJECT_ID#</td>
+										<td>#getProblemData.PUBLICATION_TITLE#</td>
+										<td>#getProblemData.PUBLICATION_ID#</td>
+										<td>#getProblemData.CITED_TAXON_NAME_ID#</td>
+										<td>#getProblemData.OCCURS_PAGE_NUMBER# </td>
+										<td>#getProblemData.TYPE_STATUS# </td>
+										<td>#getProblemData.CITATION_REMARKS#</td>
+										<td>#getProblemData.CITATION_PAGE_URI#</td>
+										<td>#getProblemData.CITED_TAXON_NAME_ID#</td>
+									</tr>
+									<cfset i= i+1>
+								</cfloop>
+							</tbody>
+						</table>
+					</cfif>
+					<div>#cfcatch.message#</div>
 					</cfcatch>
 				</cftry>
 			</cftransaction>
@@ -1145,6 +1216,6 @@ limitations under the License.
 			Spiffy, all done.
 		</cfoutput>
 	</cfif>
-	</main>
-</div>
+				
+</main>
 <cfinclude template="/shared/_footer.cfm">
