@@ -446,19 +446,15 @@ limitations under the License.
 					and username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 					and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempMedia.key#"> 
 				</cfquery>
-				<cfquery name="ctLicense" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					select media_license_id from CTMEDIA_LICENSE where media_license_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia.MEDIA_LICENSE_ID#">
+				<cfquery name="mediaLicense" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					UPDATE
+						cf_temp_media
+					SET
+						status = concat(nvl2(status, status || '; ', ''),'MEDIA_LICENSE_ID #getTempMedia.MEDIA_LICENSE_ID# is invalid')
+					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+					and media_license_id in (select media_license_id from CTMEDIA_LICENSE)
+					and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempMedia.key#"> 
 				</cfquery>
-				<cfif getTempMedia.media_license_id NEQ 1 or getTempMedia.media_license_id NEQ 4 or getTempMedia.media_license_id NEQ 5 or getTempMedia.media_license_id NEQ 6 or getTempMedia.media_license_id NEQ 7 or getTempMedia.media_license_id NEQ 8 or getTempMedia.media_license_id NEQ 9>
-					<cfquery name="mediaLicense" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						UPDATE
-							cf_temp_media
-						SET
-							status = concat(nvl2(status, status || '; ', ''),'MEDIA_LICENSE_ID #getTempMedia.MEDIA_LICENSE_ID# is invalid')
-						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-						and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempMedia.key#"> 
-					</cfquery>
-				</cfif>
 				<cfif len(getTempMedia.mask_media) gt 0>
 					<cfif not(getTempMedia.mask_media EQ 1 or getTempMedia.mask_media EQ 0)>
 						UPDATE
