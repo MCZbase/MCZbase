@@ -78,6 +78,8 @@ limitations under the License.
 	<cfargument name="characterSet" type="string" required="yes">
 
 	<cfoutput>
+		<cfif arguments.format EQ "DEFAULT"><cfset fmt="CSV: Default Comma Separated values"><cfelse><cfset fmt="#arguments.format#"></cfif>
+		<h4>Reading with character set: #encodeForHtml(characterSet)# and format: #encodeForHtml(fmt)#</h4>
 		<!--- Parse the CSV file using Apache Commons CSV library included with coldfusion so that columns with comma delimeters will be separated properly --->
 		<cfset fileProxy = CreateObject("java","java.io.File") >
 		<cfobject type="Java" name="csvFormat" class="org.apache.commons.csv.CSVFormat" >
