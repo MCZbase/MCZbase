@@ -622,13 +622,14 @@ limitations under the License.
 						AND cf_temp_parts.part_att_val_#i# is not null
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
-				<!--- TODO: But is_iso8601() always returns a value --->
 				<cfquery name="chkPAtt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE cf_temp_parts 
-					SET status = concat(nvl2(status, status || '; ', ''),'Invalid PART_ATT_MADEDATE_#i# "'||PART_ATT_MADEDATE_#i#||'"')
+					SET status = concat(nvl2(status, status || '; ', ''),'Invalid PART_ATT_MADEDATE_#i# must be yyyy-mm-dd "'||PART_ATT_MADEDATE_#i#||'"')
 					WHERE PART_ATT_NAME_#i# is not null 
-						AND is_iso8601(PART_ATT_MADEDATE_#i#) <> '' 
-						AND length(PART_ATT_MADEDATE_#i#) <> 10
+						AND (
+							is_iso8601(PART_ATT_MADEDATE_#i#) <> 'valid' 
+							OR length(PART_ATT_MADEDATE_#i#) <> 10
+                  )
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
 				<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
