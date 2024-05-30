@@ -63,12 +63,12 @@ limitations under the License.
 	<cfif #action# is "nothing">
 		<cfoutput>
 			<p>This tool adds media records. The media can be related to records that have to be in MCZbase prior to uploading this csv. It ignores rows that are exactly the same and additional columns. Some of the values must appear as they do on the following <a href="https://mczbase.mcz.harvard.edu/vocabularies/ControlledVocabulary.cfm?" class="font-weight-bold">controlled vocabularies</a> lists: </p>
-				<ul>
-					<li><a href="/vocabularies/ControlledVocabulary.cfm?table=CTMEDIA_LABEL">MEDIA_LABEL (17 values)</a></li>
-					<li><a href="/vocabularies/ControlledVocabulary.cfm?table=CTMEDIA_RELATIONSHIP">MEDIA_RELATIONSHIP (23 values)</a></li>
-					<li><a href="/vocabularies/ControlledVocabulary.cfm?table=CTMEDIA_TYPE">MEDIA_TYPE (6 values)</a></li>
-					<li><a href="/vocabularies/ControlledVocabulary.cfm?table=CTMIME_TYPE">MIME_TYPE (14 values)</a></li>
-					<li><a href="/vocabularies/ControlledVocabulary.cfm?table=CTMEDIA_LICENSE">MEDIA_LICENSE (7 values)</a></li>
+				<ul class="list-group list-group-horizontal">
+					<li class="list-item"><a href="/vocabularies/ControlledVocabulary.cfm?table=CTMEDIA_LABEL">MEDIA_LABEL (17 values)</a></li>
+					<li class="list-item"><a href="/vocabularies/ControlledVocabulary.cfm?table=CTMEDIA_RELATIONSHIP">MEDIA_RELATIONSHIP (23 values)</a></li>
+					<li class="list-item"><a href="/vocabularies/ControlledVocabulary.cfm?table=CTMEDIA_TYPE">MEDIA_TYPE (6 values)</a></li>
+					<li class="list-item"><a href="/vocabularies/ControlledVocabulary.cfm?table=CTMIME_TYPE">MIME_TYPE (14 values)</a></li>
+					<li class="list-item"><a href="/vocabularies/ControlledVocabulary.cfm?table=CTMEDIA_LICENSE">MEDIA_LICENSE (7 values)</a></li>
 				</ul>
 			<p>Step 1: Ensure that Media exists on the shared drive or external URL and that the records that you want to use for relationships exist (e.g., specimen, agent, collecting event).</p>
 			<p>Step 2: Upload a comma-delimited text file (csv). <span class="font-weight-lessbold">(Jump to <a href="##loader" class="btn-link font-weight-bold">Loader</a>.)</span></p>
