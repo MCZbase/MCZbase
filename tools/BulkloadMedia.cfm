@@ -1032,7 +1032,7 @@ limitations under the License.
 						<cfquery name="updateMedia1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateMedia1_result">
 							select media_uri
 							from media
-							where media_uri = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.media_uri#">
+							where media_uri = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.media_uri#">
 							group by media_uri
 							having count(*) > 1
 						</cfquery>
