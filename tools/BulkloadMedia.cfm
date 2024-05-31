@@ -1167,20 +1167,20 @@ limitations under the License.
 										Problem with MEDIA_TYPE
 									<cfelseif cfcatch.detail contains "media_uri">
 										Invalid or missing MEDIA_URI
-									<cfelseif cfcatch.detail contains "media_relationships">
-										Invalid MEDIA_RELATIONSHIPS
-									<cfelseif cfcatch.detail contains "cited_taxon_name_id">
-										Invalid CITED_TAXON_NAME_ID
-									<cfelseif cfcatch.detail contains "citation_remarks">
-										Problem with CITATION_REMARKS (#cfcatch.detail#)
-									<cfelseif cfcatch.detail contains "collection_object-Id">
-										Invalid COLLECTION_OBJECT_ID
-									<cfelseif cfcatch.detail contains "integrity constraint (MCZBASE.FK_CITATION_PUBLICATION) violated">
-										Invalid Publication ID
-									<cfelseif cfcatch.detail contains "publication_id">
-										Problem with PUBLICATION_ID (#cfcatch.detail#)
+									<cfelseif cfcatch.detail contains "media_relationship">
+										Invalid MEDIA_RELATIONSHIP
+									<cfelseif cfcatch.detail contains "media_labels">
+										Invalid MEDIA_LABELS
+									<cfelseif cfcatch.detail contains "media_license_id">
+										Problem with MEDIA_LICENSE_ID
+									<cfelseif cfcatch.detail contains "mask_media">
+										Invalid MASK_MEDIA number
+									<cfelseif cfcatch.detail contains "integrity constraint">
+										Invalid MEDIA_ID 
+									<cfelseif cfcatch.detail contains "media_id">
+										Problem with MEDIA_ID (#cfcatch.detail#)
 									<cfelseif cfcatch.detail contains "unique constraint">
-										This citation has already been entered. Remove from spreadsheet and try again. (<a href="/tools/BulkloadCitations.cfm">Reload.</a>)
+										This media_uri has already been entered. Remove from spreadsheet and try again.
 									<cfelseif cfcatch.detail contains "no data">
 										No data or the wrong data (#cfcatch.detail#)
 									<cfelse>
@@ -1194,18 +1194,13 @@ limitations under the License.
 							<thead>
 								<tr>
 									<th>COUNT</th>
-									<th>COLLECTION_CDE</th>
-									<th>OTHER_ID_TYPE</th>
-									<th>OTHER_ID_NUMBER</th>
-									<th>COLLECTION_OBJECT_ID</th>
-									<th>PUBLICATION</th>
-									<th>PUBLICATION_ID</th>
-									<th>CITED_TAXON_NAME_ID</th>
-									<th>OCCURS_PAGE_NUMBER</th>
-									<th>TYPE_STATUS</th>
-									<th>CITATION_REMARKS</th>
-									<th>CITATION_PAGE_URI</th>
-									<th>CITED_TAXON_NAME_ID</th>
+									<th>MEDIA_URI</th>
+									<th>MEDIA_TYPE</th>
+									<th>PREVIEW_URI</th>
+									<th>MEDIA_RELATIONSHIPS</th>
+									<th>MEDIA_LABELS</th>
+									<th>MEDIA_LICENSE_ID</th>
+									<th>MASK_MEDIA</th>
 								</tr> 
 							</thead>
 							<tbody>
@@ -1213,18 +1208,13 @@ limitations under the License.
 								<cfloop query="getProblemData">
 									<tr>
 										<td>#i#</td>
-										<td>#getProblemData.COLLECTION_CDE# </td>
-										<td>#getProblemData.OTHER_ID_TYPE# </td>
-										<td>#getProblemData.OTHER_ID_NUMBER# </td>
-										<td>#getProblemData.COLLECTION_OBJECT_ID#</td>
-										<td>#getProblemData.PUBLICATION_TITLE#</td>
-										<td>#getProblemData.PUBLICATION_ID#</td>
-										<td>#getProblemData.CITED_TAXON_NAME_ID#</td>
-										<td>#getProblemData.OCCURS_PAGE_NUMBER# </td>
-										<td>#getProblemData.TYPE_STATUS# </td>
-										<td>#getProblemData.CITATION_REMARKS#</td>
-										<td>#getProblemData.CITATION_PAGE_URI#</td>
-										<td>#getProblemData.CITED_TAXON_NAME_ID#</td>
+										<td>#getProblemData.MEDIA_URI# </td>
+										<td>#getProblemData.MEDIA_TYPE# </td>
+										<td>#getProblemData.PREVIEW_URI# </td>
+										<td>#getProblemData.MEDIA_RELATIONSHIPS#</td>
+										<td>#getProblemData.MEDIA_LABELS#</td>
+										<td>#getProblemData.MEDIA_LICENSE_ID#</td>
+										<td>#getProblemData.MASK_MEDIA#</td>
 									</tr>
 									<cfset i= i+1>
 								</cfloop>
@@ -1247,6 +1237,5 @@ limitations under the License.
 			</cfquery>
 		</cfoutput>
 	</cfif>
-				
 </main>
 <cfinclude template="/shared/_footer.cfm">
