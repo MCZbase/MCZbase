@@ -1051,7 +1051,7 @@ limitations under the License.
 						<cfelse>
 							<cfset maskmedia = mask_media>
 						</cfif>
-						<cfquery name="makeMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						<cfquery name="makeMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="insResult">
 							insert into 
 							media (
 							media_id,
@@ -1071,6 +1071,11 @@ limitations under the License.
 							<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#MASKMEDIA#">
 							)
 						</cfquery>
+						<cfquery name="savePK" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="pkResult">
+							select media_id
+							from media
+							where ROWIDTOCHAR(rowid) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#insResult.GENERATEDKEY#">
+						</cfquery>
 						<cfquery name="media_relations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							select * from
 								cf_temp_media_relations
@@ -1085,7 +1090,7 @@ limitations under the License.
 								media_relationship,
 								related_primary_key
 								) values (
-								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#make_relations.MEDIA_ID#">,
+								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#make_relations.savePK.MEDIA_ID#">,
 								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#make_relations.MEDIA_RELATIONSHIP#">,
 								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#make_relations.RELATED_PRIMARY_KEY#">,
 								)
