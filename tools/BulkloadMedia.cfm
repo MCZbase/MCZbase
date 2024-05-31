@@ -1091,8 +1091,8 @@ limitations under the License.
 								related_primary_key
 								) values (
 								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#savePK.MEDIA_ID#">,
-								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#make_relations.MEDIA_RELATIONSHIP#">,
-								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#make_relations.RELATED_PRIMARY_KEY#">,
+								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.MEDIA_RELATIONSHIP#">,
+								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.RELATED_PRIMARY_KEY#">,
 								)
 							</cfquery>
 						</cfloop>
