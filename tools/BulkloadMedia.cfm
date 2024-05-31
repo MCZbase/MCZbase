@@ -1140,7 +1140,7 @@ limitations under the License.
 							</cfquery>
 						</cfloop>
 					</cfloop>
-					<p>Number of citations to update: #citation_updates# (on #getCounts.ctobj# cataloged items)</p>
+					<p>Number of media to add: #media_updates#</p>
 					<cfif getTempData.recordcount eq media_updates and updateMedia1_result.recordcount eq 0>
 						<h3 class="text-success">Success - loaded</h3>
 					</cfif>
@@ -1150,7 +1150,7 @@ limitations under the License.
 					<cftransaction action="commit">
 				<cfcatch>
 					<cftransaction action="ROLLBACK">
-					<h3>There was a problem updating the citations. </h3>
+					<h3>There was a problem adding media records. </h3>
 					<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						SELECT 
 							COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_NUMBER,COLLECTION_OBJECT_ID,PUBLICATION_ID,CITED_TAXON_NAME_ID,
