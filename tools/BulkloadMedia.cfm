@@ -554,7 +554,7 @@ limitations under the License.
 								</cfif>
 							<cfelseif table_name is "locality">
 								<cfquery name="cLocality" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-									select locality_id from locality where specific_locality ='#labelValue#'
+									select locality_id from locality where spec_locality ='#labelValue#'
 								</cfquery>
 								<cfif ctLabel.recordcount is 1 and len(ctLabel.locality_id) gt 0>
 									<cfquery name="iml" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
