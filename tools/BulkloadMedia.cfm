@@ -928,6 +928,7 @@ limitations under the License.
 						</cfquery>
 					</cfif>
 				</cfif>
+			</cfloop>
 				<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					select
 						cf_temp_media.key,
@@ -1004,7 +1005,7 @@ limitations under the License.
 							</cfloop>
 						</tbody>
 					</table>
-			</cfloop>
+		
 		</cfoutput>
 	</cfif>
 
