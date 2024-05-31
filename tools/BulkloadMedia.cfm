@@ -547,7 +547,7 @@ limitations under the License.
 								<cfelse>
 									<cfquery name="bad" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 										UPDATE cf_temp_media
-										SET status = concat(nvl2(status, status || '; ', ''),'Agent #labelValue# matched #ctLabel.recordcount# records')
+										SET status = concat(nvl2(status, status || '; ', ''),'Agent #labelValue# matched #cLabel.recordcount# records')
 										WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 										and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempMedia.key#">
 									</cfquery>
@@ -556,7 +556,7 @@ limitations under the License.
 								<cfquery name="cLocality" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 									select locality_id from locality where spec_locality ='#labelValue#'
 								</cfquery>
-								<cfif ctLabel.recordcount is 1 and len(ctLabel.locality_id) gt 0>
+								<cfif cLabel.recordcount is 1 and len(cLabel.locality_id) gt 0>
 									<cfquery name="iml" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 										insert into cf_temp_media_relations (
 											key,
