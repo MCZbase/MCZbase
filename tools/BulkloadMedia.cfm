@@ -514,6 +514,7 @@ limitations under the License.
 					<cfloop list="#getTempMedia.MEDIA_RELATIONSHIPS#" index="label" delimiters=";">
 						<cfset labelName=listgetat(label,1,"=")>
 						<cfset labelValue=listgetat(label,2,"=")>
+							
 						<cfif len(getTempMedia.MEDIA_RELATIONSHIPS) is 0>
 							<cfquery name="bad" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 								UPDATE cf_temp_media
@@ -532,16 +533,27 @@ limitations under the License.
 									<cfquery name="iml" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 										insert into cf_temp_media_relations (
 											KEY,
-											MEDIA_RELATIONSHIPS,
+											MEDIA_RELATIONSHIP,
 											CREATED_BY_AGENT_ID,
-											RELATED_PRIMARY_KEY,
-											USERNAME
+											RELATED_PRIMARY_KEY
 										) values (
 											#getTempMedia.key#,
 											'#labelName#',
 											#session.myAgentId#,
-											#cAgent.agent_id#,
-											<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+											#cAgent.agent_id#
+										)
+									</cfquery>
+									<cfquery name="iml" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+										update cf_temp_media_relations (
+											KEY,
+											MEDIA_RELATIONSHIP,
+											CREATED_BY_AGENT_ID,
+											RELATED_PRIMARY_KEY
+										) values (
+											#getTempMedia.key#,
+											'#labelName#',
+											#session.myAgentId#,
+											#cAgent.agent_id#
 										)
 									</cfquery>
 								<cfelse>
@@ -552,6 +564,7 @@ limitations under the License.
 										and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempMedia.key#">
 									</cfquery>
 								</cfif>
+								
 							<cfelseif table_name is "locality">
 								<cfquery name="cLocality" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 									select locality_id from locality where spec_locality ='#labelValue#'
@@ -560,7 +573,7 @@ limitations under the License.
 									<cfquery name="iml" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 										insert into cf_temp_media_relations (
 											key,
-											MEDIA_RELATIONSHIPS,
+											MEDIA_RELATIONSHIP,
 											CREATED_BY_AGENT_ID,
 											RELATED_PRIMARY_KEY,
 											USERNAME
@@ -596,7 +609,7 @@ limitations under the License.
 										<cfquery name="iml" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 											insert into cf_temp_media_relations (
 												key,
-												MEDIA_RELATIONSHIPS,
+												MEDIA_RELATIONSHIP,
 												CREATED_BY_AGENT_ID,
 												RELATED_PRIMARY_KEY,
 												USERNAME
@@ -632,7 +645,7 @@ limitations under the License.
 												<cfquery name="iml" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 													insert into cf_temp_media_relations (
 													key,
-													MEDIA_RELATIONSHIPS,
+													MEDIA_RELATIONSHIP,
 													CREATED_BY_AGENT_ID,
 													RELATED_PRIMARY_KEY,
 													username
@@ -665,7 +678,7 @@ limitations under the License.
 									<cfquery name="iml" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 										insert into cf_temp_media_relations (
 											key,
-											MEDIA_RELATIONSHIPS,
+											MEDIA_RELATIONSHIP,
 											CREATED_BY_AGENT_ID,
 											RELATED_PRIMARY_KEY,
 											USERNAME
@@ -695,7 +708,7 @@ limitations under the License.
 										insert into 
 										cf_temp_media_relations (
 											key,
-											MEDIA_RELATIONSHIPS,
+											MEDIA_RELATIONSHIP,
 											CREATED_BY_AGENT_ID,
 											RELATED_PRIMARY_KEY,
 											USERNAME
@@ -736,7 +749,7 @@ limitations under the License.
 									<cfquery name="insertMediaRelations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 										insert into cf_temp_media_relations (
 											key,
-											MEDIA_RELATIONSHIPS,
+											MEDIA_RELATIONSHIP,
 											CREATED_BY_AGENT_ID,
 											RELATED_PRIMARY_KEY,
 											username
@@ -784,7 +797,7 @@ limitations under the License.
 									<cfquery name="iml" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 										insert into cf_temp_media_relations (
 											key,
-											MEDIA_RELATIONSHIPS,
+											MEDIA_RELATIONSHIP,
 											CREATED_BY_AGENT_ID,
 											RELATED_PRIMARY_KEY,
 											username
@@ -814,7 +827,7 @@ limitations under the License.
 									<cfquery name="iml" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 										insert into cf_temp_media_relations (
 											key,
-											MEDIA_RELATIONSHIPS,
+											MEDIA_RELATIONSHIP,
 											CREATED_BY_AGENT_ID,
 											RELATED_PRIMARY_KEY,
 											username
@@ -839,7 +852,7 @@ limitations under the License.
 									<cfquery name="iml" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 										insert into cf_temp_media_relations (
 											key,
-											MEDIA_RELATIONSHIPS,
+											MEDIA_RELATIONSHIP,
 											CREATED_BY_AGENT_ID,
 											RELATED_PRIMARY_KEY,
 											username
@@ -874,7 +887,7 @@ limitations under the License.
 									<cfquery name="i" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 										insert into cf_temp_media_relations (
 												key,
-												MEDIA_RELATIONSHIPS,
+												MEDIA_RELATIONSHIP,
 												CREATED_BY_AGENT_ID,
 												RELATED_PRIMARY_KEY,
 												username
