@@ -528,7 +528,7 @@ limitations under the License.
 								<cfquery name="cAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 									select distinct(agent_id) agent_id from agent_name where agent_name ='#labelValue#'
 								</cfquery>
-								<cfif len(cAgent.agent_id) gt 0>
+								<cfif cAgent.recordcount is 1 and len(cAgent.agent_id) gt 0>
 									<cfquery name="iml" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 										insert into cf_temp_media_relations (
 											key,
@@ -622,7 +622,7 @@ limitations under the License.
 									</cfquery>
 									<cfif cEvent.recordcount gt 0>
 										<cfloop query="cEvent">
-											<cfif len(cEvent.collecting_event_id) gt 0>
+											<cfif cEvent.recordcount is 1 and len(cEvent.collecting_event_id) gt 0>
 												<cfquery name="iml" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 													insert into cf_temp_media_relations (
 													key,
@@ -1115,7 +1115,7 @@ limitations under the License.
 					<cfif getTempData.recordcount eq media_updates and updateMedia1_result.recordcount eq 0>
 						<h3 class="text-success">Success - loaded</h3>
 					</cfif>
-					<cfif updateCitations1_result.recordcount gt 0>
+					<cfif updateMedia1_result.recordcount gt 0>
 						<h3 class="text-danger">Not loaded - these have already been loaded</h3>
 					</cfif>
 					<cftransaction action="commit">
@@ -1161,7 +1161,7 @@ limitations under the License.
 								</span>
 							</cfif>
 						</h3>
-						<table class='sortable small table table-responsive table-striped d-lg-table mt-3'>
+						<table class='px-0 sortable small table table-responsive table-striped d-lg-table mt-3'>
 							<thead>
 								<tr>
 									<th>COUNT</th>
@@ -1207,16 +1207,15 @@ limitations under the License.
 				</cftry>
 			</cftransaction>
 			<!--- cleanup any incomplete work by the same user --->
-			<cfquery name="killOld" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+			<cfquery name="clearTempTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				delete from cf_temp_media WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
-			<cfquery name="killOld" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+			<cfquery name="clearTempTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				delete from cf_temp_media_relations WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
-			<cfquery name="killOld" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+			<cfquery name="clearTempTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				delete from cf_temp_media_labels WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
-			Spiffy, all done.
 		</cfoutput>
 	</cfif>
 				
