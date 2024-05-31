@@ -62,68 +62,70 @@ limitations under the License.
 	
 	<cfif #action# is "nothing">
 		<cfoutput>
-			<p>This tool adds media records. The media can be related to records that have to be in MCZbase prior to uploading this csv. It ignores rows that are exactly the same and additional columns. Some of the values must appear as they do on the following <a href="https://mczbase.mcz.harvard.edu/vocabularies/ControlledVocabulary.cfm?" class="font-weight-bold">controlled vocabularies</a> lists:
-				<ul class="list-group list-group-horizontal">
-					<li class="list-group-item font-weight-lessbold"><a href="/vocabularies/ControlledVocabulary.cfm?table=CTMEDIA_LABEL">MEDIA_LABEL (17 values)</a> </li> <span class="mt-1"> | </span>
-					<li class="list-group-item font-weight-lessbold"><a href="/vocabularies/ControlledVocabulary.cfm?table=CTMEDIA_RELATIONSHIP">MEDIA_RELATIONSHIP (23 values)</a></li> <span class="mt-1"> | </span>
-					<li class="list-group-item font-weight-lessbold"><a href="/vocabularies/ControlledVocabulary.cfm?table=CTMEDIA_TYPE">MEDIA_TYPE (6 values)</a> </li><span class="mt-1"> | </span>
-					<li class="list-group-item font-weight-lessbold"><a href="/vocabularies/ControlledVocabulary.cfm?table=CTMIME_TYPE">MIME_TYPE (14 values)</a> </li><span class="mt-1"> | </span>
-					<li class="list-group-item font-weight-lessbold"><a href="/vocabularies/ControlledVocabulary.cfm?table=CTMEDIA_LICENSE">MEDIA_LICENSE (7 values)</a></li>
-				</ul>
-			</p>
+			<div>
+				<p>This tool adds media records. The media can be related to records that have to be in MCZbase prior to uploading this csv. It ignores rows that are exactly the same and additional columns. Some of the values must appear as they do on the following <a href="https://mczbase.mcz.harvard.edu/vocabularies/ControlledVocabulary.cfm?" class="font-weight-bold">controlled vocabularies</a> lists:
+					<ul class="list-group list-group-horizontal">
+						<li class="list-group-item font-weight-lessbold"><a href="/vocabularies/ControlledVocabulary.cfm?table=CTMEDIA_LABEL">MEDIA_LABEL (17 values)</a> </li> <span class="mt-1"> | </span>
+						<li class="list-group-item font-weight-lessbold"><a href="/vocabularies/ControlledVocabulary.cfm?table=CTMEDIA_RELATIONSHIP">MEDIA_RELATIONSHIP (23 values)</a></li> <span class="mt-1"> | </span>
+						<li class="list-group-item font-weight-lessbold"><a href="/vocabularies/ControlledVocabulary.cfm?table=CTMEDIA_TYPE">MEDIA_TYPE (6 values)</a> </li><span class="mt-1"> | </span>
+						<li class="list-group-item font-weight-lessbold"><a href="/vocabularies/ControlledVocabulary.cfm?table=CTMIME_TYPE">MIME_TYPE (14 values)</a> </li><span class="mt-1"> | </span>
+						<li class="list-group-item font-weight-lessbold"><a href="/vocabularies/ControlledVocabulary.cfm?table=CTMEDIA_LICENSE">MEDIA_LICENSE (7 values)</a></li>
+					</ul>
+				</p>
 
-			<p>Step 1: Ensure that Media exists on the shared drive or external URL and that the records that you want to use for relationships exist (e.g., specimen, agent, collecting event).</p>
-			<p>Step 2: Upload a comma-delimited text file (csv). <span class="font-weight-lessbold">(Jump to <a href="##loader" class="btn-link font-weight-bold">Loader</a>.)</span></p>
-			<h2 class="h4 mt-4">Media Relationships</h2>
-			<p>The format for Media_Relationship is {media_relationship}={value}[;{media_relationship}={value}]</p>
-			<h3 class="small90 pl-3">Relationship Examples:</h3>
-			<ul class="pl-5">
-				<li>created by agent=Jane Doe</li>
-				<li>created by agent=Jane Doe;assigned to project=Vocal variation in Pipilo maculatus</li>
-				<li>created by agent=Jane Doe;assigned to project=Vocal variation in Pipilo maculatus;shows cataloged_item=MCZ:Bird:12345
-				</li>
-				<li>created by agent=Jane Doe;documents collecting_event=Baker-Foster Stickleback Collection Field Number|B93-3</li>
-				<li>created by agent=Jane Doe;documents collecting_event=1524028</li>
-			</ul>
-			<h3 class="small90 pl-3">Examples of acceptable relationship values are:</h6>
-			<ul class="pl-5">
-				<li>Agent Name (must resolve to one agent_id)</li>
-				<li>Project Title (exact string match)</li>
-				<li>Cataloged Item (DWC triplet)</li>
-				<li>Collecting Event (collecting_event_id OR Collecting Event Number Series Type|Collecting Event Number)</li>
-				<li>Accession Number</li>
-			</ul>
-			<h2 class="h4 mt-4">Media Labels</h2>
-			<p>The format for MEDIA_LABELS is {media_label}={value}[;{media_label}={value}]. See <a href="/vocabularies/ControlledVocabulary.cfm?table=CTMEDIA_LABEL">controlled vocabulary</a> for label names and values.</p>
-			<p>Notes: Made date must be in the form yyyy-mm-dd. More than one media label must be separated by a semicolon, and individual values must not themselves contain semicolons.  Check the data as presented after the file has been uploaded carefully to make sure that the individual media labels and values have been correctly parsed.</p>
-			
-			<h3 class="small90 pl-3">Label Examples:</h3>
-			<ul class="pl-5">
-				<li>audio bit resolution=whatever</li>
-				<li>audio bit resolution=2;audio cut id=5</li>
-				<li>audio bit resolution=2;audio cut id=5;made date=1964-01-07</li>
-			</ul>
-			<h2 class="h4 mt-4">Media License:</h2>
-			<p>The media license id should be entered using the numeric codes below. If omitted this will default to &quot;1 - MCZ Permissions &amp; Copyright&quot;</p>
-			<h3 class="small90 pl-3">Media License Codes:</h3>
-			<dl class="pl-3">
-				<dt class="btn-secondary"><span class="badge badge-light">1 </span> MCZ Permissions &amp; Copyright</dt> <dd>All MCZ images and publications should have this designation</dd>
-				<dt class="btn-secondary"><span class="badge badge-light">4 </span> Rights defined by 3rd party host</dt> <dd>This material is hosted by an external party. Please refer to the licensing statement provided by the linked host.</dd>
-				<dt class="btn-secondary"><span class="badge badge-light">5 </span> Creative Commons Zero (CC0)</dt><dd>CC0 enables scientists, educators, artists and other creators and owners of copyright- or database-protected content to waive those interests in their works and thereby place them as completely as possible in the public domain.</dd>
-				<dt class="btn-secondary"><span class="badge badge-light">6 </span> Creative Commons Attribution (CC BY)</dt><dd>This license lets others distribute, remix, tweak, and build upon your work, even commercially, as long as they credit you for the original creation.</dd>
-				<dt class="btn-secondary"><span class="badge badge-light">7</span> Creative Commons Attribution-ShareAlike (CC BY-SA)</dt> <dd>This license lets others remix, tweak, and build upon your work even for commercial purposes, as long as they credit you and license their new creations under the identical terms.</dd>
-				<dt class="btn-secondary"><span class="badge badge-light">8 </span> Creative Commons Attribution-NonCommercial (CC BY-NC)</dt><dd>This license lets others remix, tweak, and build upon your work non-commercially, and although their new works must also acknowledge you and be non-commercial, they don&apos;t have to license their derivative works on the same terms.</dd>
-				<dt class="btn-secondary"><span class="badge badge-light">9 </span> Creative Commons Attribution-NonCommercial-ShareAlike (CC BY-NC-SA)</dt><dd>This license lets others remix, tweak, and build upon your work non-commercially, as long as they credit you and license their new creations under the identical terms.</dd>
-			</dl>
-			<h2 class="h4 mt-4">Mask Media:</h2>
-			<p>Follow all the instructions above and read any error messages that pop up in the status column during validation or at the top of the final loading step. Reminder: To mark media as hidden from Public Users put a 1 in the MASK_MEDIA column. Enter zero or Leave blank for Public media.</p>
-			<p>Upload a comma-delimited text file (csv). Include column headings, spelled exactly as below. Use "catalog number" as the value of other_id_type to match on catalog number. Click view template and download to create a csv with the column headers in place.</p>
-			<span class="btn btn-xs btn-info" onclick="document.getElementById('template').style.display='block';">View template</span>
-			<div id="template" style="margin: 1rem 0;display:none;">
-				<label for="templatearea" class="data-entry-label mb-1">
-					Copy this header line and save it as a .csv file (<a href="/tools/#pageTitle#.cfm?action=getCSVHeader" class="font-weight-lessbold">download</a>)
-				</label>
-				<textarea rows="2" cols="90" id="templatearea" class="w-100 data-entry-textarea">#fieldlist#</textarea>
+				<p>Step 1: Ensure that Media exists on the shared drive or external URL and that the records that you want to use for relationships exist (e.g., specimen, agent, collecting event).</p>
+				<p>Step 2: Upload a comma-delimited text file (csv). <span class="font-weight-lessbold">(Jump to <a href="##loader" class="btn-link font-weight-bold">Loader</a>.)</span></p>
+				<h2 class="h4 mt-4">Media Relationships</h2>
+				<p>The format for Media_Relationship is {media_relationship}={value}[;{media_relationship}={value}]</p>
+				<h3 class="small90 pl-3">Relationship Examples:</h3>
+				<ul class="pl-5">
+					<li>created by agent=Jane Doe</li>
+					<li>created by agent=Jane Doe;assigned to project=Vocal variation in Pipilo maculatus</li>
+					<li>created by agent=Jane Doe;assigned to project=Vocal variation in Pipilo maculatus;shows cataloged_item=MCZ:Bird:12345
+					</li>
+					<li>created by agent=Jane Doe;documents collecting_event=Baker-Foster Stickleback Collection Field Number|B93-3</li>
+					<li>created by agent=Jane Doe;documents collecting_event=1524028</li>
+				</ul>
+				<h3 class="small90 pl-3">Examples of acceptable relationship values are:</h6>
+				<ul class="pl-5">
+					<li>Agent Name (must resolve to one agent_id)</li>
+					<li>Project Title (exact string match)</li>
+					<li>Cataloged Item (DWC triplet)</li>
+					<li>Collecting Event (collecting_event_id OR Collecting Event Number Series Type|Collecting Event Number)</li>
+					<li>Accession Number</li>
+				</ul>
+				<h2 class="h4 mt-4">Media Labels</h2>
+				<p>The format for MEDIA_LABELS is {media_label}={value}[;{media_label}={value}]. See <a href="/vocabularies/ControlledVocabulary.cfm?table=CTMEDIA_LABEL">controlled vocabulary</a> for label names and values.</p>
+				<p>Notes: Made date must be in the form yyyy-mm-dd. More than one media label must be separated by a semicolon, and individual values must not themselves contain semicolons.  Check the data as presented after the file has been uploaded carefully to make sure that the individual media labels and values have been correctly parsed.</p>
+
+				<h3 class="small90 pl-3">Label Examples:</h3>
+				<ul class="pl-5">
+					<li>audio bit resolution=whatever</li>
+					<li>audio bit resolution=2;audio cut id=5</li>
+					<li>audio bit resolution=2;audio cut id=5;made date=1964-01-07</li>
+				</ul>
+				<h2 class="h4 mt-4">Media License:</h2>
+				<p>The media license id should be entered using the numeric codes below. If omitted this will default to &quot;1 - MCZ Permissions &amp; Copyright&quot;</p>
+				<h3 class="small90 pl-3">Media License Codes:</h3>
+				<dl class="pl-3">
+					<dt class="btn-secondary"><span class="badge badge-light">1 </span> MCZ Permissions &amp; Copyright</dt> <dd>All MCZ images and publications should have this designation</dd>
+					<dt class="btn-secondary"><span class="badge badge-light">4 </span> Rights defined by 3rd party host</dt> <dd>This material is hosted by an external party. Please refer to the licensing statement provided by the linked host.</dd>
+					<dt class="btn-secondary"><span class="badge badge-light">5 </span> Creative Commons Zero (CC0)</dt><dd>CC0 enables scientists, educators, artists and other creators and owners of copyright- or database-protected content to waive those interests in their works and thereby place them as completely as possible in the public domain.</dd>
+					<dt class="btn-secondary"><span class="badge badge-light">6 </span> Creative Commons Attribution (CC BY)</dt><dd>This license lets others distribute, remix, tweak, and build upon your work, even commercially, as long as they credit you for the original creation.</dd>
+					<dt class="btn-secondary"><span class="badge badge-light">7</span> Creative Commons Attribution-ShareAlike (CC BY-SA)</dt> <dd>This license lets others remix, tweak, and build upon your work even for commercial purposes, as long as they credit you and license their new creations under the identical terms.</dd>
+					<dt class="btn-secondary"><span class="badge badge-light">8 </span> Creative Commons Attribution-NonCommercial (CC BY-NC)</dt><dd>This license lets others remix, tweak, and build upon your work non-commercially, and although their new works must also acknowledge you and be non-commercial, they don&apos;t have to license their derivative works on the same terms.</dd>
+					<dt class="btn-secondary"><span class="badge badge-light">9 </span> Creative Commons Attribution-NonCommercial-ShareAlike (CC BY-NC-SA)</dt><dd>This license lets others remix, tweak, and build upon your work non-commercially, as long as they credit you and license their new creations under the identical terms.</dd>
+				</dl>
+				<h2 class="h4 mt-4">Mask Media:</h2>
+				<p>Follow all the instructions above and read any error messages that pop up in the status column during validation or at the top of the final loading step. Reminder: To mark media as hidden from Public Users put a 1 in the MASK_MEDIA column. Enter zero or Leave blank for Public media.</p>
+				<p>Upload a comma-delimited text file (csv). Include column headings, spelled exactly as below. Use "catalog number" as the value of other_id_type to match on catalog number. Click view template and download to create a csv with the column headers in place.</p>
+				<span class="btn btn-xs btn-info" onclick="document.getElementById('template').style.display='block';">View template</span>
+				<div id="template" style="margin: 1rem 0;display:none;">
+					<label for="templatearea" class="data-entry-label mb-1">
+						Copy this header line and save it as a .csv file (<a href="/tools/#pageTitle#.cfm?action=getCSVHeader" class="font-weight-lessbold">download</a>)
+					</label>
+					<textarea rows="2" cols="90" id="templatearea" class="w-100 data-entry-textarea">#fieldlist#</textarea>
+				</div>
 			</div>
 			<a name="loader" class="text-white">top</a>
 			<h2 class="mt-4 h4">Columns in <span class="text-danger">red</span> are required; others are optional:</h2>
@@ -1152,23 +1154,21 @@ limitations under the License.
 					<cftransaction action="ROLLBACK">
 					<h3>There was a problem adding media records. </h3>
 					<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						SELECT 
-							COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_NUMBER,COLLECTION_OBJECT_ID,PUBLICATION_ID,CITED_TAXON_NAME_ID,
-							OCCURS_PAGE_NUMBER,TYPE_STATUS,CITATION_REMARKS,CITATION_PAGE_URI,publication_title
-						FROM cf_temp_citation
+						SELECT MEDIA_URI, MIME_TYPE, MEDIA_TYPE, PREVIEW_URI, MEDIA_RELATIONSHIPS, MEDIA_LABELS, STATUS, MEDIA_LICENSE_ID, MASK_MEDIA,USERNAME
+						FROM cf_temp_media
 						where key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#problem_key#">
 					</cfquery>
 					<cfif getProblemData.recordcount GT 0>
 						<h3>
-							Fix the issues and <a href="/tools/BulkloadCitations.cfm" class="text-danger font-weight-lessbold">start again</a>. Error loading row (<span class="text-danger">#citation_updates + 1#</span>) from the CSV: 
+							Fix the issues and <a href="/tools/BulkloadMedia.cfm" class="text-danger font-weight-lessbold">start again</a>. Error loading row (<span class="text-danger">#media_updates + 1#</span>) from the CSV: 
 							<cfif len(cfcatch.detail) gt 0>
 								<span class="font-weight-normal border-bottom border-danger">
-									<cfif cfcatch.detail contains "occurs_page_number">
-										Problem with OCCURS_PAGE_NUMBER
-									<cfelseif cfcatch.detail contains "type_status">
-										Invalid or missing TYPE_STATUS
-									<cfelseif cfcatch.detail contains "citation_page_uri">
-										Invalid CITATION_PAGE_URI
+									<cfif cfcatch.detail contains "media_type">
+										Problem with MEDIA_TYPE
+									<cfelseif cfcatch.detail contains "media_uri">
+										Invalid or missing MEDIA_URI
+									<cfelseif cfcatch.detail contains "media_relationships">
+										Invalid MEDIA_RELATIONSHIPS
 									<cfelseif cfcatch.detail contains "cited_taxon_name_id">
 										Invalid CITED_TAXON_NAME_ID
 									<cfelseif cfcatch.detail contains "citation_remarks">
