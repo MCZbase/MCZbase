@@ -1114,8 +1114,8 @@ limitations under the License.
 								related_primary_key
 								) values (
 								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#savePK.MEDIA_ID#">,
-								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.MEDIA_RELATIONSHIPS#">,
-								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.RELATED_PRIMARY_KEY#">,
+								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#MEDIA_RELATIONSHIP#">,
+								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#RELATED_PRIMARY_KEY#">,
 								)
 							</cfquery>
 						</cfloop>
@@ -1135,8 +1135,8 @@ limitations under the License.
 								label_value)
 								values (
 								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#medialabels.MEDIA_ID#">,
-								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.MEDIA_LABEL#">,
-								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.LABEL_VALUE#">)
+								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#MEDIA_LABEL#">,
+								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#LABEL_VALUE#">)
 							</cfquery>
 						</cfloop>
 					</cfloop>
