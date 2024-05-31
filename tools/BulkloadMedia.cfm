@@ -849,7 +849,7 @@ limitations under the License.
 											#key#,
 											'#labelName#',
 											#session.myAgentId#,
-											#cTrans.transaction_id#
+											#cTrans.transaction_id#,
 											#username#
 										)
 									</cfquery>
