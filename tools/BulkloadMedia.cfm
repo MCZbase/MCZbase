@@ -543,19 +543,6 @@ limitations under the License.
 											#cAgent.agent_id#
 										)
 									</cfquery>
-									<cfquery name="iml" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-										update cf_temp_media_relations (
-											KEY,
-											MEDIA_RELATIONSHIP,
-											CREATED_BY_AGENT_ID,
-											RELATED_PRIMARY_KEY
-										) values (
-											#getTempMedia.key#,
-											'#labelName#',
-											#session.myAgentId#,
-											#cAgent.agent_id#
-										)
-									</cfquery>
 								<cfelse>
 									<cfquery name="bad" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 										UPDATE cf_temp_media
