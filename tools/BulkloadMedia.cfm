@@ -886,125 +886,125 @@ limitations under the License.
 						</cfif>
 					</cfloop>
 				</cfif>
-			</cfloop>
-			<cfif not isDefined("veryLargeFiles")><cfset veryLargeFiles=""></cfif>
-			<cfif veryLargeFiles NEQ "true">
-				<!--- both isimagefile and cfimage run into heap space limits with very large files --->
-				<cfif isimagefile("#getTempMedia.media_uri#")>
-					<cfimage action="info" source="#getTempMedia.media_uri#" structname="imgInfo"/>
-					<cfquery name="makeHeightLabel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						insert into cf_temp_media_labels (
-							MEDIA_LABEL,
-							ASSIGNED_BY_AGENT_ID,
-							LABEL_VALUE
-						) values (
-							'height',
-							#session.myAgentId#,
-							'#imgInfo.height#'
-						)
-					</cfquery>
-					<cfquery name="makeWidthLabel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						insert into cf_temp_media_labels (
-							MEDIA_LABEL,
-							ASSIGNED_BY_AGENT_ID,
-							LABEL_VALUE
-						) values (
-							'width',
-							#session.myAgentId#,
-							'#imgInfo.width#'
-						)
-					</cfquery>
-					<cfhttp url="#getTempMedia.media_uri#" method="get" getAsBinary="yes" result="result">
-					<cfset md5hash=Hash(result.filecontent,"MD5")>
-					<cfquery name="makeMD5hash" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						insert into cf_temp_media_labels (
-							MEDIA_LABEL,
-							ASSIGNED_BY_AGENT_ID,
-							LABEL_VALUE
-						) values (
-							'md5hash',
-							#session.myAgentId#,
-							'#md5Hash#'
-						)
-					</cfquery>
+				<cfif not isDefined("veryLargeFiles")><cfset veryLargeFiles=""></cfif>
+				<cfif veryLargeFiles NEQ "true">
+					<!--- both isimagefile and cfimage run into heap space limits with very large files --->
+					<cfif isimagefile("#getTempMedia.media_uri#")>
+						<cfimage action="info" source="#getTempMedia.media_uri#" structname="imgInfo"/>
+						<cfquery name="makeHeightLabel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+							insert into cf_temp_media_labels (
+								MEDIA_LABEL,
+								ASSIGNED_BY_AGENT_ID,
+								LABEL_VALUE
+							) values (
+								'height',
+								#session.myAgentId#,
+								'#imgInfo.height#'
+							)
+						</cfquery>
+						<cfquery name="makeWidthLabel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+							insert into cf_temp_media_labels (
+								MEDIA_LABEL,
+								ASSIGNED_BY_AGENT_ID,
+								LABEL_VALUE
+							) values (
+								'width',
+								#session.myAgentId#,
+								'#imgInfo.width#'
+							)
+						</cfquery>
+						<cfhttp url="#getTempMedia.media_uri#" method="get" getAsBinary="yes" result="result">
+						<cfset md5hash=Hash(result.filecontent,"MD5")>
+						<cfquery name="makeMD5hash" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+							insert into cf_temp_media_labels (
+								MEDIA_LABEL,
+								ASSIGNED_BY_AGENT_ID,
+								LABEL_VALUE
+							) values (
+								'md5hash',
+								#session.myAgentId#,
+								'#md5Hash#'
+							)
+						</cfquery>
+					</cfif>
 				</cfif>
-			</cfif>
-			<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				select
-					cf_temp_media.key,
-					status,
-					MEDIA_URI,
-					MIME_TYPE,
-					MEDIA_TYPE,
-					PREVIEW_URI,
-					MEDIA_LICENSE_ID,
-					MEDIA_RELATIONSHIP,
-					RELATED_PRIMARY_KEY,
-					MEDIA_LABEL,
-					LABEL_VALUE
-				from
-					cf_temp_media,
-					cf_temp_media_labels,
-					cf_temp_media_relations
-				where
-					cf_temp_media.key=cf_temp_media_labels.key (+) and
-					cf_temp_media.key=cf_temp_media_relations.key (+)
-				group by
-					cf_temp_media.key,
-					status,
-					MEDIA_URI,
-					MIME_TYPE,
-					MEDIA_TYPE,
-					PREVIEW_URI,
-					MEDIA_LICENSE_ID,
-					MEDIA_RELATIONSHIP,
-					RELATED_PRIMARY_KEY,
-					MEDIA_LABEL,
-					LABEL_VALUE
-			</cfquery>
-			<cfquery name="problemsInData" dbtype="query">
-				SELECT count(*) c 
-				FROM data 
-				WHERE status is not null
-			</cfquery>
-			<h3 class="mt-3">
-				<cfif problemsInData.c gt 0>
-					There is a problem with #problemsInData.c# of #data.recordcount# row(s). See the STATUS column (<a href="/tools/BulkloadMedia.cfm?action=dumpProblems">download</a>). Fix the problems in the data and <a href="/tools/BulkloadMedia.cfm" class="text-danger">start again</a>.
-				<cfelse>
-					<span class="text-success">Validation checks passed</span>. Look over the table below and <a href="/tools/BulkloadMedia.cfm?action=load" class="btn-link font-weight-lessbold">click to continue</a> if it all looks good. Or, <a href="/tools/BulkloadMedia.cfm" class="text-danger">start again</a>.
-				</cfif>
-			</h3>
-			<table class='px-0 mx-0 sortable table small table-responsive w-100'>
-					<thead class="thead-light">
-						<tr>
-							<th>BULKLOAD&nbsp;STATUS</th>
-							<th>MEDIA_URI</th>
-							<th>MIME_TYPE</th>
-							<th>MEDIA_TYPE</th>
-							<th>PREVIEW_URI</th>
-							<th>MEDIA_LICENSE_ID</th>
-							<th>MEDIA_RELATIONSHIP</th>
-							<th>RELATED_PRIMARY_KEY</th>
-							<th>MEDIA_LABEL</th>
-							<th>LABEL_VALUE</th>
-						</tr>
-					<tbody>
-						<cfloop query="data">
+				<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					select
+						cf_temp_media.key,
+						status,
+						MEDIA_URI,
+						MIME_TYPE,
+						MEDIA_TYPE,
+						PREVIEW_URI,
+						MEDIA_LICENSE_ID,
+						MEDIA_RELATIONSHIP,
+						RELATED_PRIMARY_KEY,
+						MEDIA_LABEL,
+						LABEL_VALUE
+					from
+						cf_temp_media,
+						cf_temp_media_labels,
+						cf_temp_media_relations
+					where
+						cf_temp_media.key=cf_temp_media_labels.key (+) and
+						cf_temp_media.key=cf_temp_media_relations.key (+)
+					group by
+						cf_temp_media.key,
+						status,
+						MEDIA_URI,
+						MIME_TYPE,
+						MEDIA_TYPE,
+						PREVIEW_URI,
+						MEDIA_LICENSE_ID,
+						MEDIA_RELATIONSHIP,
+						RELATED_PRIMARY_KEY,
+						MEDIA_LABEL,
+						LABEL_VALUE
+				</cfquery>
+				<cfquery name="problemsInData" dbtype="query">
+					SELECT count(*) c 
+					FROM data 
+					WHERE status is not null
+				</cfquery>
+				<h3 class="mt-3">
+					<cfif problemsInData.c gt 0>
+						There is a problem with #problemsInData.c# of #data.recordcount# row(s). See the STATUS column (<a href="/tools/BulkloadMedia.cfm?action=dumpProblems">download</a>). Fix the problems in the data and <a href="/tools/BulkloadMedia.cfm" class="text-danger">start again</a>.
+					<cfelse>
+						<span class="text-success">Validation checks passed</span>. Look over the table below and <a href="/tools/BulkloadMedia.cfm?action=load" class="btn-link font-weight-lessbold">click to continue</a> if it all looks good. Or, <a href="/tools/BulkloadMedia.cfm" class="text-danger">start again</a>.
+					</cfif>
+				</h3>
+				<table class='px-0 mx-0 sortable table small table-responsive w-100'>
+						<thead class="thead-light">
 							<tr>
-								<td><cfif len(data.status) eq 0>Cleared to load<cfelse><strong>#data.status#</strong></cfif></td>
-								<td>#data.MEDIA_URI#</td>
-								<td>#data.MIME_TYPE#</td>
-								<td>#data.MEDIA_TYPE#</td>
-								<td>#data.PREVIEW_URI#</td>
-								<td>#data.MEDIA_LICENSE_ID#</td>
-								<td>#data.MEDIA_RELATIONSHIP#</td>
-								<td>#data.RELATED_PRIMARY_KEY#</td>
-								<td>#data.MEDIA_LABEL#</td>
-								<td>#data.LABEL_VALUE#</td>
+								<th>BULKLOAD&nbsp;STATUS</th>
+								<th>MEDIA_URI</th>
+								<th>MIME_TYPE</th>
+								<th>MEDIA_TYPE</th>
+								<th>PREVIEW_URI</th>
+								<th>MEDIA_LICENSE_ID</th>
+								<th>MEDIA_RELATIONSHIP</th>
+								<th>RELATED_PRIMARY_KEY</th>
+								<th>MEDIA_LABEL</th>
+								<th>LABEL_VALUE</th>
 							</tr>
-						</cfloop>
-					</tbody>
-				</table>
+						<tbody>
+							<cfloop query="data">
+								<tr>
+									<td><cfif len(data.status) eq 0>Cleared to load<cfelse><strong>#data.status#</strong></cfif></td>
+									<td>#data.MEDIA_URI#</td>
+									<td>#data.MIME_TYPE#</td>
+									<td>#data.MEDIA_TYPE#</td>
+									<td>#data.PREVIEW_URI#</td>
+									<td>#data.MEDIA_LICENSE_ID#</td>
+									<td>#data.MEDIA_RELATIONSHIP#</td>
+									<td>#data.RELATED_PRIMARY_KEY#</td>
+									<td>#data.MEDIA_LABEL#</td>
+									<td>#data.LABEL_VALUE#</td>
+								</tr>
+							</cfloop>
+						</tbody>
+					</table>
+			</cfloop>
 		</cfoutput>
 	</cfif>
 
@@ -1101,6 +1101,7 @@ limitations under the License.
 								cf_temp_media_labels
 							where
 								key=#key#
+							and 
 						</cfquery>
 						<cfloop query="medialabels">
 							<cfquery name="makeRelation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -1111,8 +1112,8 @@ limitations under the License.
 								label_value)
 								values (
 								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#medialabels.MEDIA_ID#">,
-								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#medialabels.MEDIA_LABEL#">,
-								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#medialabels.LABEL_VALUE#">)
+								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.MEDIA_LABEL#">,
+								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.LABEL_VALUE#">)
 							</cfquery>
 						</cfloop>
 					</cfloop>
