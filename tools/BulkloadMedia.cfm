@@ -1083,14 +1083,14 @@ limitations under the License.
 								key=#key#
 						</cfquery>
 						<cfloop query="media_relations">
-							<cfquery name="makeRelation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+							<cfquery name="makeRel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 								insert into
 								media_relations (
 								media_id,
 								media_relationship,
 								related_primary_key
 								) values (
-								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#make_relations.savePK.MEDIA_ID#">,
+								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#savePK.MEDIA_ID#">,
 								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#make_relations.MEDIA_RELATIONSHIP#">,
 								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#make_relations.RELATED_PRIMARY_KEY#">,
 								)
