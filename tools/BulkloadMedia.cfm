@@ -1030,10 +1030,10 @@ limitations under the License.
 					</cfif>
 					<cfloop query="getTempData">
 						<cfquery name="updateMedia1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateMedia1_result">
-							select media_uri,media_id 
+							select media_uri
 							from media
-							where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.media_id#">
-							group by media_uri,media_id
+							where media_uri = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.media_uri#">
+							group by media_uri
 							having count(*) > 1
 						</cfquery>
 						<cfset problem_key = getTempData.key>
