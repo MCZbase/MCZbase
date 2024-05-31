@@ -531,15 +531,17 @@ limitations under the License.
 								<cfif cAgent.recordcount is 1 and len(cAgent.agent_id) gt 0>
 									<cfquery name="iml" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 										insert into cf_temp_media_relations (
-											key,
+											KEY,
 											MEDIA_RELATIONSHIP,
 											CREATED_BY_AGENT_ID,
-											RELATED_PRIMARY_KEY
+											RELATED_PRIMARY_KEY,
+											USERNAME
 										) values (
 											#getTempMedia.key#,
 											'#labelName#',
 											#session.myAgentId#,
-											#cAgent.agent_id#
+											#cAgent.agent_id#,
+											<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 										)
 									</cfquery>
 								<cfelse>
@@ -552,7 +554,7 @@ limitations under the License.
 								</cfif>
 							<cfelseif table_name is "locality">
 								<cfquery name="cLocality" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-									select locality_id from locality where locality_id ='#labelValue#'
+									select locality_id from locality where specific_locality ='#labelValue#'
 								</cfquery>
 								<cfif ctLabel.recordcount is 1 and len(ctLabel.locality_id) gt 0>
 									<cfquery name="iml" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -560,12 +562,14 @@ limitations under the License.
 											key,
 											MEDIA_RELATIONSHIP,
 											CREATED_BY_AGENT_ID,
-											RELATED_PRIMARY_KEY
+											RELATED_PRIMARY_KEY,
+											USERNAME
 										) values (
 											#getTempMedia.key#,
 											'#labelName#',
-											<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">,
-											#cLocality.locality_id#
+											#session.myAgentId#,
+											#cLocality.locality_id#,
+											<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 										)
 									</cfquery>
 								<cfelse>
@@ -594,12 +598,14 @@ limitations under the License.
 												key,
 												MEDIA_RELATIONSHIP,
 												CREATED_BY_AGENT_ID,
-												RELATED_PRIMARY_KEY
+												RELATED_PRIMARY_KEY,
+												USERNAME
 											) values (
 												#key#,
 												'#labelName#',
 												#session.myAgentId#,
-												#cEvent.collecting_event_id#
+												#cEvent.collecting_event_id#,
+												#username#
 											)
 										</cfquery>
 									<cfelse>
@@ -628,19 +634,22 @@ limitations under the License.
 													key,
 													MEDIA_RELATIONSHIP,
 													CREATED_BY_AGENT_ID,
-													RELATED_PRIMARY_KEY
+													RELATED_PRIMARY_KEY,
+													username
 													) values (
 													#d.key#,
 													'#labelName#',
 													#session.myAgentId#,
-													#c.collecting_event_id#)
+													#c.collecting_event_id#,
+													<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+													)
 												</cfquery>
 											</cfif>
 										</cfloop>
 									<cfelse>
 										<cfquery name="iml" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 											UPDATE
-												cf_temp_media
+												cf_temp_media_relations
 											SET
 												status = concat(nvl2(status, status || '; ', ''),'collecting_event number #labelValue# matched #cEvent.recordcount#')
 											WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
@@ -658,19 +667,20 @@ limitations under the License.
 											key,
 											MEDIA_RELATIONSHIP,
 											CREATED_BY_AGENT_ID,
-											RELATED_PRIMARY_KEY
+											RELATED_PRIMARY_KEY,
+											USERNAME
 										) values (
 											#key#,
 											'#labelName#',
 											#session.myAgentId#,
-											#cProject.project_id#
+											#cProject.project_id#,
+											<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 										)
 									</cfquery>
 								<cfelse>
 									<cfquery name="iml" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 										UPDATE
 											cf_temp_media
-										SET
 											status = concat(nvl2(status, status || '; ', ''),'project_id #labelValue# matched #cProject.recordcount#')
 										WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 											and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#cPub.key#"> 
@@ -687,12 +697,14 @@ limitations under the License.
 											key,
 											MEDIA_RELATIONSHIP,
 											CREATED_BY_AGENT_ID,
-											RELATED_PRIMARY_KEY
+											RELATED_PRIMARY_KEY,
+											USERNAME
 										) values (
 											#key#,
 											'#labelName#',
 											#session.myAgentId#,
 											#cPub.publication_id#
+											<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 										)
 									</cfquery>
 								<cfelse>
@@ -726,12 +738,14 @@ limitations under the License.
 											key,
 											MEDIA_RELATIONSHIP,
 											CREATED_BY_AGENT_ID,
-											RELATED_PRIMARY_KEY
+											RELATED_PRIMARY_KEY,
+											username
 										) values (
 											#key#,
 											'#labelName#',
 											#session.myAgentId#,
-											#cColl.collection_object_id#
+											#cColl.collection_object_id#,
+											<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 										)
 									</cfquery>
 								<cfelse>
@@ -772,12 +786,14 @@ limitations under the License.
 											key,
 											MEDIA_RELATIONSHIP,
 											CREATED_BY_AGENT_ID,
-											RELATED_PRIMARY_KEY
+											RELATED_PRIMARY_KEY,
+											username
 										) values (
 											#key#,
 											'#labelName#',
 											#session.myAgentId#,
 											#cTrans.transaction_id#
+											#username#
 										)
 									</cfquery>
 								<cfelse>
@@ -800,12 +816,14 @@ limitations under the License.
 											key,
 											MEDIA_RELATIONSHIP,
 											CREATED_BY_AGENT_ID,
-											RELATED_PRIMARY_KEY
+											RELATED_PRIMARY_KEY,
+											username
 										) values (
 											<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#key#">,
 											<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#labelName#">,
 											<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#session.myAgentId#">,
 											<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#cPermit.permit_id#">
+											#username#
 										)
 									</cfquery>
 								<cfelse>
@@ -823,12 +841,14 @@ limitations under the License.
 											key,
 											MEDIA_RELATIONSHIP,
 											CREATED_BY_AGENT_ID,
-											RELATED_PRIMARY_KEY
+											RELATED_PRIMARY_KEY,
+											username
 										) values (
 											#key#,
 											'#labelName#',
 											#session.myAgentId#,
 											#cTrans.transaction_id#
+											#username#
 										)
 									</cfquery>
 								<cfelse>
@@ -856,12 +876,14 @@ limitations under the License.
 												key,
 												MEDIA_RELATIONSHIP,
 												CREATED_BY_AGENT_ID,
-												RELATED_PRIMARY_KEY
+												RELATED_PRIMARY_KEY,
+												username
 										) values (
 												#key#,
 												'#labelName#',
 												#session.myAgentId#,
-												#cSpecPart.collection_object_id#
+												#cSpecPart.collection_object_id#,
+												#username#
 										)
 									</cfquery>
 								<cfelse>
