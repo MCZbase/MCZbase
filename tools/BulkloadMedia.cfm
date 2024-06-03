@@ -1130,7 +1130,7 @@ limitations under the License.
 								media_label,
 								label_value
 								) values (
-								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#medialabels.MEDIA_ID#">,
+								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#savePK.MEDIA_ID#">,
 								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#MEDIA_LABEL#">,
 								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#LABEL_VALUE#">
 								)
