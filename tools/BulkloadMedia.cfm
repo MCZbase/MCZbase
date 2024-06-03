@@ -970,7 +970,7 @@ limitations under the License.
 						cf_temp_media.PREVIEW_URI,
 						cf_temp_media.MEDIA_LICENSE_ID,
 						cf_temp_media.MEDIA_RELATIONSHIPS,
-						cf_temp_media.MEDIA_LABELS
+						cf_temp_media.MEDIA_LABELS,
 						cf_temp_media_relations.MEDIA_RELATIONSHIP,
 						cf_temp_media_relations.RELATED_PRIMARY_KEY
 					from
