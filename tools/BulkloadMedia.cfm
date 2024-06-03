@@ -538,12 +538,14 @@ limitations under the License.
 											KEY,
 											MEDIA_RELATIONSHIP,
 											CREATED_BY_AGENT_ID,
-											RELATED_PRIMARY_KEY
+											RELATED_PRIMARY_KEY,
+											USERNAME
 										) values (
 											#getTempMedia.key#,
 											'#labelName#',
 											#session.myAgentId#,
-											#cAgent.agent_id#
+											#cAgent.agent_id#,
+											<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#username#">
 										)
 									</cfquery>
 								<cfelse>
@@ -608,7 +610,7 @@ limitations under the License.
 												'#labelName#',
 												#session.myAgentId#,
 												#cEvent.collecting_event_id#,
-												#username#
+												<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#username#">
 											)
 										</cfquery>
 									<cfelse>
