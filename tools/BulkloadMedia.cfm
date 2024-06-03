@@ -996,7 +996,6 @@ limitations under the License.
 								<th>MEDIA_LICENSE_ID</th>
 								<th>MEDIA_RELATIONSHIPS</th>
 								<th>MEDIA_LABELS</th>
-								<th>MEDIA_RELATIONSHIP</th>
 							</tr>
 						<tbody>
 							<cfloop query="data">
@@ -1009,7 +1008,6 @@ limitations under the License.
 									<td>#data.MEDIA_LICENSE_ID#</td>
 									<td>#data.MEDIA_RELATIONSHIPS#</td>
 									<td>#data.MEDIA_LABELS#</td>
-									<td>#data.MEDIA_RELATIONSHIP#</td>
 								</tr>
 							</cfloop>
 						</tbody>
