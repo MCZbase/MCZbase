@@ -1155,7 +1155,7 @@ limitations under the License.
 						SELECT MEDIA_URI, MIME_TYPE, MEDIA_TYPE, PREVIEW_URI, MEDIA_RELATIONSHIPS, MEDIA_LABELS, STATUS, MEDIA_LICENSE_ID, MASK_MEDIA,USERNAME
 						FROM cf_temp_media
 						where key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#problem_key#">
-						and username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#username#">
+						and username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 					</cfquery>
 					<cfif getProblemData.recordcount GT 0>
 						<h3>
