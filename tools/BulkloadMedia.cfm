@@ -949,16 +949,16 @@ limitations under the License.
 				<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					select
 						cf_temp_media.key,
-						status,
-						MEDIA_URI,
-						MIME_TYPE,
-						MEDIA_TYPE,
-						PREVIEW_URI,
-						MEDIA_LICENSE_ID,
-						MEDIA_RELATIONSHIPS,
-						RELATED_PRIMARY_KEY,
-						MEDIA_LABEL,
-						LABEL_VALUE
+						cf_temp_media.status,
+						cf_temp_media.MEDIA_URI,
+						cf_temp_media.MIME_TYPE,
+						cf_temp_media.MEDIA_TYPE,
+						cf_temp_media.PREVIEW_URI,
+						cf_temp_media.MEDIA_LICENSE_ID,
+						cf_temp_media.MEDIA_RELATIONSHIPS,
+						cf_temp_media_relations.RELATED_PRIMARY_KEY,
+						cf_temp_media_labels.MEDIA_LABEL,
+						cf_temp_media_labels.LABEL_VALUE
 					from
 						cf_temp_media,
 						cf_temp_media_labels,
@@ -969,16 +969,16 @@ limitations under the License.
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#username#">
 					group by
 						cf_temp_media.key,
-						status,
-						MEDIA_URI,
-						MIME_TYPE,
-						MEDIA_TYPE,
-						PREVIEW_URI,
-						MEDIA_LICENSE_ID,
-						MEDIA_RELATIONSHIPS,
-						RELATED_PRIMARY_KEY,
-						MEDIA_LABEL,
-						LABEL_VALUE
+						cf_temp_media.status,
+						cf_temp_media.MEDIA_URI,
+						cf_temp_media.MIME_TYPE,
+						cf_temp_media.MEDIA_TYPE,
+						cf_temp_media.PREVIEW_URI,
+						cf_temp_media.MEDIA_LICENSE_ID,
+						cf_temp_media.MEDIA_RELATIONSHIPS,
+						cf_temp_media_relations.RELATED_PRIMARY_KEY,
+						cf_temp_media_labels.MEDIA_LABEL,
+						cf_temp_media_labels.LABEL_VALUE
 				</cfquery>
 				<cfquery name="problemsInData" dbtype="query">
 					SELECT count(*) c 
