@@ -560,10 +560,17 @@ limitations under the License.
 								</cfif>
 								
 							<cfelseif table_name is "locality">
+								<cfif isnumeric(labelValue)>
+									<cfset idtype = "locality_id">
+									<cfset idvalue = labelValue>
+								<cfelse>
+									<cfset idtype=trim(listfirst(labelValue,"|"))>
+									<cfset idvalue=trim(listlast(labelValue,"|"))>
+								</cfif>
 								<cfquery name="cLocality" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 									select locality_id from locality where spec_locality ='#labelValue#'
 								</cfquery>
-								<cfif cLocality.recordcount is 1 and len(cLocality.locality_id) gt 0>
+								<cfif cLocality.recordcount is 1 and len(cLocality.locality_id) gt 0 and #idtype# neq 'locality_id'>
 									<cfquery name="insRel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 										insert into cf_temp_media_relations (
 											key,
@@ -576,6 +583,22 @@ limitations under the License.
 											<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#labelName#">,
 											<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.myAgentId#">,
 											<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#cLocality.locality_id#">,
+											<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#username#">
+										)
+									</cfquery>
+								<cfelseif cLocality.recordcount is 1 and len(cLocality.locality_id) gt 0 and #idtype# eq 'locality_id'>
+									<cfquery name="insRel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+										insert into cf_temp_media_relations (
+											key,
+											MEDIA_RELATIONSHIP,
+											CREATED_BY_AGENT_ID,
+											RELATED_PRIMARY_KEY,
+											USERNAME
+										) values (
+											<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#key#">,
+											<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#labelName#">,
+											<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.myAgentId#">,
+											<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#cLocality.labelValue#">,
 											<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#username#">
 										)
 									</cfquery>
@@ -620,9 +643,9 @@ limitations under the License.
 											UPDATE
 												cf_temp_media
 											SET
-												status = concat(nvl2(status, status || '; ', ''),'Collecting_event number #labelValue# matched #cEvent.recordcount#')
+												status = concat(nvl2(status, status || '; ', ''),'#labelValue# matched #cEvent.recordcount# records; look up Collecting_Event_ID again')
 											WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#username#">
-												and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempData.key#"> 
+												and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#key#"> 
 										</cfquery>
 									</cfif>
 								<cfelse>
