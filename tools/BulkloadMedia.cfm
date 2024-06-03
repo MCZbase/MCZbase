@@ -872,15 +872,17 @@ limitations under the License.
 								<cfif cSpecPart.recordcount is 1 and len(cSpecPart.collection_object_id) gt 0>
 									<cfquery name="i" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 										insert into cf_temp_media_relations (
-												key,
-												MEDIA_RELATIONSHIP,
-												CREATED_BY_AGENT_ID,
-												RELATED_PRIMARY_KEY
+											key,
+											MEDIA_RELATIONSHIP,
+											CREATED_BY_AGENT_ID,
+											RELATED_PRIMARY_KEY,
+											USERNAME
 										) values (
-												#key#,
-												'#labelName#',
-												#session.myAgentId#,
-												#cSpecPart.collection_object_id#
+											#key#,
+											'#labelName#',
+											#session.myAgentId#,
+											#cSpecPart.collection_object_id#,
+											<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#username#">
 										)
 									</cfquery>
 								<cfelse>
@@ -914,22 +916,26 @@ limitations under the License.
 							insert into cf_temp_media_labels (
 								MEDIA_LABEL,
 								ASSIGNED_BY_AGENT_ID,
-								LABEL_VALUE
+								LABEL_VALUE,
+								USERNAME
 							) values (
 								'height',
 								#session.myAgentId#,
-								'#imgInfo.height#'
+								'#imgInfo.height#',
+								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#username#">
 							)
 						</cfquery>
 						<cfquery name="makeWidthLabel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							insert into cf_temp_media_labels (
 								MEDIA_LABEL,
 								ASSIGNED_BY_AGENT_ID,
-								LABEL_VALUE
+								LABEL_VALUE,
+								USERNAME
 							) values (
 								'width',
 								#session.myAgentId#,
-								'#imgInfo.width#'
+								'#imgInfo.width#',
+								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#username#">
 							)
 						</cfquery>
 						<cfhttp url="#getTempMedia.media_uri#" method="get" getAsBinary="yes" result="result">
@@ -938,11 +944,13 @@ limitations under the License.
 							insert into cf_temp_media_labels (
 								MEDIA_LABEL,
 								ASSIGNED_BY_AGENT_ID,
-								LABEL_VALUE
+								LABEL_VALUE,
+								USERNAME
 							) values (
 								'md5hash',
 								#session.myAgentId#,
-								'#md5Hash#'
+								'#md5Hash#',
+								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#username#">
 							)
 						</cfquery>
 					</cfif>
@@ -968,7 +976,8 @@ limitations under the License.
 					where
 						cf_temp_media.key=cf_temp_media_labels.key (+) and
 						cf_temp_media.key=cf_temp_media_relations.key (+)
-					AND cf_temp_media.username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#username#">
+					AND 
+						cf_temp_media.username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#username#">
 					group by
 						cf_temp_media.key,
 						cf_temp_media.status,
