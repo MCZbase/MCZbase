@@ -1050,6 +1050,7 @@ limitations under the License.
 						<cfthrow message="You have no rows to load in the media bulkloader table (cf_temp_media).  <a href='/tools/BulkloadMedia.cfm'>Start over</a>"><!--- " --->
 					</cfif>
 					<cfloop query="getTempData">
+						<cfset username = '#session.username#'>
 						<cfquery name="updateMedia1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateMedia1_result">
 							select media_uri
 							from media
@@ -1109,11 +1110,13 @@ limitations under the License.
 								media_relations (
 								media_id,
 								media_relationships,
-								related_primary_key
+								related_primary_key,
+								username
 								) values (
 								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#savePK.MEDIA_ID#">,
 								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#MEDIA_RELATIONSHIP#">,
 								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#RELATED_PRIMARY_KEY#">,
+								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#username#">
 								)
 							</cfquery>
 						</cfloop>
@@ -1122,7 +1125,7 @@ limitations under the License.
 								cf_temp_media_labels
 							where
 								key=#key#
-							and 
+							and username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						</cfquery>
 						<cfloop query="medialabels">
 							<cfquery name="makeRelation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -1130,11 +1133,14 @@ limitations under the License.
 								media_labels (
 								media_id,
 								media_label,
-								label_value)
-								values (
+								label_value,
+								username
+								) values (
 								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#medialabels.MEDIA_ID#">,
 								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#MEDIA_LABEL#">,
-								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#LABEL_VALUE#">)
+								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#LABEL_VALUE#">,
+								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#username#">
+								)
 							</cfquery>
 						</cfloop>
 					</cfloop>
@@ -1153,6 +1159,7 @@ limitations under the License.
 						SELECT MEDIA_URI, MIME_TYPE, MEDIA_TYPE, PREVIEW_URI, MEDIA_RELATIONSHIPS, MEDIA_LABELS, STATUS, MEDIA_LICENSE_ID, MASK_MEDIA,USERNAME
 						FROM cf_temp_media
 						where key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#problem_key#">
+						and username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#username#">
 					</cfquery>
 					<cfif getProblemData.recordcount GT 0>
 						<h3>
