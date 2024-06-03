@@ -777,15 +777,13 @@ limitations under the License.
 								</cfcatch>
 							</cftry>
 							<cfelseif table_name is "accn">
-								<cfset coll = listgetat(labelValue,1," ")>
-								<cfset accnnum = listgetat(labelValue,2," ")>
+								<cfset labelName=listgetat(label,1,"=")>
+								<cfset labelValue=listgetat(label,2,"=")>
 								<cfquery name="cTrans" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 									select a.transaction_id
-									from accn a, trans t, collection c
+									from accn a, trans t
 									where a.transaction_id = t.transaction_id
-									and t.collection_id = c.collection_id
-									and a.accn_number = #accnnum#
-									and c.collection = '#coll#'
+									and a.accn_number = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#labelValue#">
 								</cfquery>
 								<cfif cTrans.recordcount is 1 and len(cTrans.transaction_id) gt 0>
 									<cfquery name="insRel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -796,10 +794,10 @@ limitations under the License.
 											RELATED_PRIMARY_KEY,
 											USERNAME
 										) values (
-											#key#,
-											'#labelName#',
-											#session.myAgentId#,
-											#cTrans.transaction_id#,
+											<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#key#">,
+											<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#labelName#">,
+											<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.myAgentId#">,
+											<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#cTrans.transaction_id#">,
 											<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#username#">
 										)
 									</cfquery>
@@ -856,10 +854,10 @@ limitations under the License.
 											CREATED_BY_AGENT_ID,
 											RELATED_PRIMARY_KEY
 										) values (
-											#key#,
-											'#labelName#',
-											#session.myAgentId#,
-											#cTrans.transaction_id#
+											<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#key#">,
+											<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#labelName#">,
+											<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.myAgentId#">,
+											<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#cTrans.transaction_id#">
 										)
 									</cfquery>
 								<cfelse>
@@ -890,10 +888,10 @@ limitations under the License.
 											RELATED_PRIMARY_KEY,
 											USERNAME
 										) values (
-											#key#,
-											'#labelName#',
-											#session.myAgentId#,
-											#cSpecPart.collection_object_id#,
+											<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#key#">,
+											<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#labelName#">,
+											<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.myAgentId#">,
+											<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#cSpecPart.collection_object_id#">,
 											<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#username#">
 										)
 									</cfquery>
@@ -932,8 +930,8 @@ limitations under the License.
 								USERNAME
 							) values (
 								'height',
-								#session.myAgentId#,
-								'#imgInfo.height#',
+								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.myAgentId#">,
+								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#imgInfo.height#">,
 								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#username#">
 							)
 						</cfquery>
@@ -945,8 +943,8 @@ limitations under the License.
 								USERNAME
 							) values (
 								'width',
-								#session.myAgentId#,
-								'#imgInfo.width#',
+								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.myAgentId#">,
+								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#imgInfo.width#">,
 								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#username#">
 							)
 						</cfquery>
@@ -960,8 +958,8 @@ limitations under the License.
 								USERNAME
 							) values (
 								'md5hash',
-								#session.myAgentId#,
-								'#md5Hash#',
+								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.myAgentId#">,
+								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#md5Hash#">,
 								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#username#">
 							)
 						</cfquery>
