@@ -1110,13 +1110,11 @@ limitations under the License.
 								media_relations (
 								media_id,
 								media_relationships,
-								related_primary_key,
-								username
+								related_primary_key
 								) values (
 								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#savePK.MEDIA_ID#">,
 								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#MEDIA_RELATIONSHIP#">,
-								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#RELATED_PRIMARY_KEY#">,
-								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#username#">
+								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#RELATED_PRIMARY_KEY#">
 								)
 							</cfquery>
 						</cfloop>
@@ -1133,13 +1131,11 @@ limitations under the License.
 								media_labels (
 								media_id,
 								media_label,
-								label_value,
-								username
+								label_value
 								) values (
 								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#medialabels.MEDIA_ID#">,
 								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#MEDIA_LABEL#">,
-								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#LABEL_VALUE#">,
-								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#username#">
+								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#LABEL_VALUE#">
 								)
 							</cfquery>
 						</cfloop>
