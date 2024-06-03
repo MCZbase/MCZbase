@@ -660,7 +660,7 @@ limitations under the License.
 											SET
 												status = concat(nvl2(status, status || '; ', ''),'collecting_event number #labelValue# matched #cEvent.recordcount#')
 											WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#username#">
-												and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#cEvent.key#"> 
+												and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempData.key#"> 
 										</cfquery>
 									</cfif>
 								</cfif>
