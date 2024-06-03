@@ -423,13 +423,14 @@ limitations under the License.
 			</cfquery>
 			<cfset i= 1>
 			<cfloop query="getTempMedia">
+				<cfset username = '#getTempMedia.username#'>
 				<cfquery name="dup" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE
 						cf_temp_media
 					SET
 						status = concat(nvl2(status, status || '; ', ''),'Media record already exists with this MEDIA_URI')
 					WHERE media_URI in (select media_uri from media where MEDIA_URI = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia.media_uri#">)
-					and username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+					and username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#username#">
 					and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempMedia.key#"> 
 				</cfquery>
 				<cfquery name="mediaType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -438,7 +439,7 @@ limitations under the License.
 					SET
 						status = concat(nvl2(status, status || '; ', ''),'MEDIA_TYPE invalid (see controlled vocabulary)')
 					WHERE media_type not in (select media_type from media where MEDIA_TYPE = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia.media_type#">)
-					and username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+					and username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#username#">
 					and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempMedia.key#"> 
 				</cfquery>
 				<cfquery name="mimeType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -447,7 +448,7 @@ limitations under the License.
 					SET
 						status = concat(nvl2(status, status || '; ', ''),'MIME_TYPE invalid (see controlled vocabulary)')
 					WHERE mime_type not in (select mime_type from media where MIME_TYPE = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia.mime_type#">)
-					and username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+					and username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#username#">
 					and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempMedia.key#"> 
 				</cfquery>
 				<cfquery name="mediaLicense" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -457,7 +458,7 @@ limitations under the License.
 						status = concat(nvl2(status, status || '; ', ''),'MEDIA_LICENSE_ID #getTempMedia.MEDIA_LICENSE_ID# is invalid')
 					WHERE media_license_id not in (select media_license_id from ctmedia_license)
 					and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempMedia.key#"> 
-					and username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+					and username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#username#">
 				</cfquery>
 				<cfif len(getTempMedia.mask_media) gt 0>
 					<cfif not(getTempMedia.mask_media EQ 1 or getTempMedia.mask_media EQ 0)>
@@ -465,7 +466,7 @@ limitations under the License.
 							cf_temp_media
 						SET
 							status = concat(nvl2(status, status || '; ', ''),'MASK_MEDIA must = blank, 1 or 0')
-						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#username#">
 						and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempMedia.key#"> 
 					</cfif>
 				</cfif>
@@ -483,7 +484,7 @@ limitations under the License.
 									cf_temp_media
 								SET
 									status = concat(nvl2(status, status || '; ', ''),'Media Label #labelName# is invalid')
-								WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+								WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#username#">
 							</cfquery>
 						<cfelseif labelName EQ "made date" && refind("^[0-9]{4}-[0-9]{2}-[0-9]{2}$",labelValue) EQ 0>
 							<cfquery name="badMediaLabel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -491,7 +492,7 @@ limitations under the License.
 									cf_temp_media
 								SET
 									status = concat(nvl2(status, status || '; ', ''),'Media Label #labelName# must be yyyy-mm-dd')
-								WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+								WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#username#">
 							</cfquery>
 						<cfelse>
 							<cfquery name="MediaLabel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -506,7 +507,7 @@ limitations under the License.
 									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#labelName#">,
 									<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#session.myAgentId#">,
 									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#labelValue#">,
-									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#username#">
 								)
 							</cfquery>
 						</cfif>
@@ -522,7 +523,7 @@ limitations under the License.
 								UPDATE cf_temp_media
 								SET status = concat(nvl2(status, status || '; ', ''),'Media relationship is invalid')
 								WHERE media_relationships not in (select MEDIA_RELATIONSHIPS from CTMEDIA_RELATIONSHIP where MEDIA_RELATIONSHIPS='#labelName#')
-								and username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+								and username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#username#">
 								and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempMedia.key#">
 							</cfquery>
 						<cfelse>
@@ -549,7 +550,7 @@ limitations under the License.
 									<cfquery name="bad" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 										UPDATE cf_temp_media
 										SET status = concat(nvl2(status, status || '; ', ''),'Agent #labelValue# matched #cAgent.recordcount# records')
-										WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+										WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#username#">
 										and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempMedia.key#">
 									</cfquery>
 								</cfif>
@@ -571,14 +572,14 @@ limitations under the License.
 											'#labelName#',
 											#session.myAgentId#,
 											#cLocality.locality_id#,
-											<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+											<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#username#">
 										)
 									</cfquery>
 								<cfelse>
 									<cfquery name="bad" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 										UPDATE cf_temp_media
 										SET status = concat(nvl2(status, status || '; ', ''),'locality_id #labelValue# matched #cLocality.recordcount# records')
-										WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+										WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#username#">
 										and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempMedia.key#">
 									</cfquery>
 								</cfif>
@@ -616,7 +617,7 @@ limitations under the License.
 												cf_temp_media
 											SET
 												status = concat(nvl2(status, status || '; ', ''),'collecting_event number #labelValue# matched #cEvent.recordcount#')
-											WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+											WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#username#">
 												and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#cEvent.key#"> 
 										</cfquery>
 									</cfif>
@@ -643,7 +644,7 @@ limitations under the License.
 													'#labelName#',
 													#session.myAgentId#,
 													#c.collecting_event_id#,
-													<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+													<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#username#">
 													)
 												</cfquery>
 											</cfif>
@@ -654,7 +655,7 @@ limitations under the License.
 												cf_temp_media_relations
 											SET
 												status = concat(nvl2(status, status || '; ', ''),'collecting_event number #labelValue# matched #cEvent.recordcount#')
-											WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+											WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#username#">
 												and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#cEvent.key#"> 
 										</cfquery>
 									</cfif>
@@ -676,7 +677,7 @@ limitations under the License.
 											'#labelName#',
 											#session.myAgentId#,
 											#cProject.project_id#,
-											<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+											<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#username#">
 										)
 									</cfquery>
 								<cfelse>
@@ -684,7 +685,7 @@ limitations under the License.
 										UPDATE
 											cf_temp_media
 											status = concat(nvl2(status, status || '; ', ''),'project_id #labelValue# matched #cProject.recordcount#')
-										WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+										WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#username#">
 											and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#cPub.key#"> 
 									</cfquery>
 								</cfif>
@@ -706,7 +707,7 @@ limitations under the License.
 											'#labelName#',
 											#session.myAgentId#,
 											#cPub.publication_id#
-											<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+											<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#username#">
 										)
 									</cfquery>
 								<cfelse>
@@ -715,7 +716,7 @@ limitations under the License.
 											cf_temp_media
 										SET
 											status = concat(nvl2(status, status || '; ', ''),'publication_id #labelValue# matched #cPub.recordcount#')
-										WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+										WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#username#">
 											and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#cPub.key#"> 
 									</cfquery>
 								</cfif>
@@ -766,7 +767,7 @@ limitations under the License.
 											cf_temp_media
 										SET
 											status = concat(nvl2(status, status || '; ', ''),'#labelValue# is not a DWC Triplet. *#institution_acronym#* *#collection_cde#* *#cat_num#*')
-										WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+										WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#username#">
 											and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#cPub.key#"> 
 									</cfquery>
 								</cfcatch>
@@ -788,14 +789,12 @@ limitations under the License.
 											key,
 											MEDIA_RELATIONSHIP,
 											CREATED_BY_AGENT_ID,
-											RELATED_PRIMARY_KEY,
-											username
+											RELATED_PRIMARY_KEY
 										) values (
 											#key#,
 											'#labelName#',
 											#session.myAgentId#,
 											#cTrans.transaction_id#
-											#username#
 										)
 									</cfquery>
 								<cfelse>
@@ -804,7 +803,7 @@ limitations under the License.
 											cf_temp_media
 										SET
 											status = concat(nvl2(status, status || '; ', ''),'accn number #labelValue# matched #c.recordcount# records')
-										WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+										WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#username#">
 											and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#cTrans.key#"> 
 									</cfquery>
 								</cfif>
@@ -818,14 +817,12 @@ limitations under the License.
 											key,
 											MEDIA_RELATIONSHIP,
 											CREATED_BY_AGENT_ID,
-											RELATED_PRIMARY_KEY,
-											username
+											RELATED_PRIMARY_KEY
 										) values (
 											<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#key#">,
 											<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#labelName#">,
 											<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#session.myAgentId#">,
 											<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#cPermit.permit_id#">
-											#username#
 										)
 									</cfquery>
 								<cfelse>
@@ -843,14 +840,12 @@ limitations under the License.
 											key,
 											MEDIA_RELATIONSHIP,
 											CREATED_BY_AGENT_ID,
-											RELATED_PRIMARY_KEY,
-											username
+											RELATED_PRIMARY_KEY
 										) values (
 											#key#,
 											'#labelName#',
 											#session.myAgentId#,
-											#cTrans.transaction_id#,
-											#username#
+											#cTrans.transaction_id#
 										)
 									</cfquery>
 								<cfelse>
@@ -859,7 +854,7 @@ limitations under the License.
 											cf_temp_media
 										SET
 											status = concat(nvl2(status, status || '; ', ''),'permit number #labelValue# matched #c.recordcount# records')
-										WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+										WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#username#">
 											and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#cTrans.key#"> 
 									</cfquery>
 								</cfif>
@@ -867,7 +862,7 @@ limitations under the License.
 								<cfquery name="cSpecPart" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 									select sp.collection_object_id
 									from specimen_part sp
-									join (select * from coll_obj_cont_hist where current_container_fg = 1)  ch on (sp.collection_object_id = ch.collection_object_id)
+									join (select collection_object_id from coll_obj_cont_hist where current_container_fg = 1) ch on (sp.collection_object_id = ch.collection_object_id)
 									join  container cont on (ch.container_id = cont.container_id)
 									join  container pcont on (cont.parent_container_id = pc.container_id)
 									where pc.barcode = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#labelValue#">
@@ -878,14 +873,12 @@ limitations under the License.
 												key,
 												MEDIA_RELATIONSHIP,
 												CREATED_BY_AGENT_ID,
-												RELATED_PRIMARY_KEY,
-												username
+												RELATED_PRIMARY_KEY
 										) values (
 												#key#,
 												'#labelName#',
 												#session.myAgentId#,
-												#cSpecPart.collection_object_id#,
-												#username#
+												#cSpecPart.collection_object_id#
 										)
 									</cfquery>
 								<cfelse>
@@ -894,7 +887,7 @@ limitations under the License.
 											cf_temp_media
 										SET
 											status = concat(nvl2(status, status || '; ', ''),'barcode #labelValue# matched #c.recordcount# records')
-										WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+										WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#username#">
 											and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#cSpecPart.key#"> 
 									</cfquery>
 								</cfif>
@@ -904,7 +897,7 @@ limitations under the License.
 										cf_temp_media
 									SET
 										status = concat(nvl2(status, status || '; ', ''),'Media label #labelName# is not handled')
-									WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+									WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#username#">
 								</cfquery>
 							</cfif>
 						</cfif>
@@ -973,6 +966,7 @@ limitations under the License.
 					where
 						cf_temp_media.key=cf_temp_media_labels.key (+) and
 						cf_temp_media.key=cf_temp_media_relations.key (+)
+					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#username#">
 					group by
 						cf_temp_media.key,
 						status,
@@ -1235,6 +1229,15 @@ limitations under the License.
 			<cfquery name="clearTempTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				delete from cf_temp_media_labels WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
+			<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+			DELETE cf_temp_media, cf_temp_media_labels, cf_temp_media_relations
+			WHERE 
+				cf_temp_media.key = cf_temp_media_labels.key (+) 
+			AND
+				cf_temp_media.key = cf_temp_media_relations.key (+)
+			AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+	
+				</cfquery>
 		</cfoutput>
 	</cfif>
 </main>
