@@ -521,8 +521,17 @@ limitations under the License.
 						<cfif len(getTempMedia.MEDIA_RELATIONSHIPS) is 0>
 							<cfquery name="bad" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 								UPDATE cf_temp_media
+								SET status = concat(nvl2(status, status || '; ', ''),'Media relationship is invalid.)
+								WHERE media_relationships is null
+								and username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#username#">
+								and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempMedia.key#">
+							</cfquery>
+						<cfelseif>
+							<cfquery name="bad" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+								UPDATE cf_temp_media
 								SET status = concat(nvl2(status, status || '; ', ''),'Media relationship is invalid')
-								WHERE media_relationships not in (select MEDIA_RELATIONSHIPS from CTMEDIA_RELATIONSHIP where MEDIA_RELATIONSHIPS='#labelName#')
+								WHERE media_relationships not in (select media_relationship from CTMEDIA_RELATIONSHIP where MEDIA_RELATIONSHIPS='#labelName#')
+								WHERE media_relationships not in (select media_relationship from CTMEDIA_RELATIONSHIP where MEDIA_RELATIONSHIPS='#labelName#')
 								and username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#username#">
 								and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempMedia.key#">
 							</cfquery>
@@ -969,7 +978,7 @@ limitations under the License.
 						cf_temp_media.MEDIA_TYPE,
 						cf_temp_media.PREVIEW_URI,
 						cf_temp_media.MEDIA_LICENSE_ID,
-						cf_temp_media_relations.MEDIA_RELATIONSHIP,
+						cf_temp_media.MEDIA_RELATIONSHIPS,
 						cf_temp_media_relations.RELATED_PRIMARY_KEY,
 						cf_temp_media_labels.MEDIA_LABEL,
 						cf_temp_media_labels.LABEL_VALUE
