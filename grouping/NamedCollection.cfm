@@ -624,7 +624,7 @@ limitations under the License.
 					</cfif>
 				) values (
 					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collection_name#">,
-					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#underscore_collection_type#">
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#underscore_collection_type#">,
 					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#mask_fg#">
 					<cfif isdefined("description")>
 						,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#description#">
