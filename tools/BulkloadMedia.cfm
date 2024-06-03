@@ -573,9 +573,9 @@ limitations under the License.
 											USERNAME
 										) values (
 											<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#key#">,
-											'#labelName#',
-											#session.myAgentId#,
-											#cLocality.locality_id#,
+											<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#labelName#">,
+											<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.myAgentId#">,
+											<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#cLocality.locality_id#">,
 											<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#username#">
 										)
 									</cfquery>
@@ -658,7 +658,7 @@ limitations under the License.
 											UPDATE
 												cf_temp_media
 											SET
-												status = concat(nvl2(status, status || '; ', ''),'collecting_event number #labelValue# matched #cEvent.recordcount#')
+												status = concat(nvl2(status, status || '; ', ''),'Collecting_event number #labelValue# matched #cEvent.recordcount#')
 											WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#username#">
 												and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#key#"> 
 										</cfquery>
@@ -719,7 +719,7 @@ limitations under the License.
 										UPDATE
 											cf_temp_media
 										SET
-											status = concat(nvl2(status, status || '; ', ''),'publication_id #labelValue# matched #cPub.recordcount#')
+											status = concat(nvl2(status, status || '; ', ''),'Publication_id #labelValue# matched #cPub.recordcount#')
 										WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#username#">
 											and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#cPub.key#"> 
 									</cfquery>
