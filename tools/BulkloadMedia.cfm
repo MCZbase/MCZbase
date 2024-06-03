@@ -969,7 +969,7 @@ limitations under the License.
 						cf_temp_media.MEDIA_TYPE,
 						cf_temp_media.PREVIEW_URI,
 						cf_temp_media.MEDIA_LICENSE_ID,
-						cf_temp_media.MEDIA_RELATIONSHIPS,
+						cf_temp_media_relations.MEDIA_RELATIONSHIP,
 						cf_temp_media_relations.RELATED_PRIMARY_KEY,
 						cf_temp_media_labels.MEDIA_LABEL,
 						cf_temp_media_labels.LABEL_VALUE
@@ -990,7 +990,7 @@ limitations under the License.
 						cf_temp_media.MEDIA_TYPE,
 						cf_temp_media.PREVIEW_URI,
 						cf_temp_media.MEDIA_LICENSE_ID,
-						cf_temp_media_relations.MEDIA_RELATIONSHIPS,
+						cf_temp_media_relations.MEDIA_RELATIONSHIP,
 						cf_temp_media_relations.RELATED_PRIMARY_KEY,
 						cf_temp_media_labels.MEDIA_LABEL,
 						cf_temp_media_labels.LABEL_VALUE
