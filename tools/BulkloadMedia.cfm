@@ -966,7 +966,7 @@ limitations under the License.
 					where
 						cf_temp_media.key=cf_temp_media_labels.key (+) and
 						cf_temp_media.key=cf_temp_media_relations.key (+)
-					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#username#">
+					AND cf_temp_media.username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#username#">
 					group by
 						cf_temp_media.key,
 						cf_temp_media.status,
