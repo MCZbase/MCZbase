@@ -1109,7 +1109,7 @@ limitations under the License.
 								related_primary_key
 								) values (
 								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#savePK.MEDIA_ID#">,
-								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">,
+								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.myAgentId#">,
 								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#MEDIA_RELATIONSHIP#">,
 								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#RELATED_PRIMARY_KEY#">
 								)
