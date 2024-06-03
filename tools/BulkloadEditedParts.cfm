@@ -102,7 +102,7 @@ PART_ATT_NAME_1,PART_ATT_VAL_1,PART_ATT_UNITS_1,PART_ATT_DETBY_1,PART_ATT_MADEDA
 							FROM sys.all_col_comments
 							WHERE 
 								owner = 'MCZBASE'
-								and table_name = 'cf_temp_edit_parts'
+								and table_name = 'CF_TEMP_EDIT_PARTS'
 								and column_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(field)#" />
 						</cfquery>
 						<cfset comment = "">
