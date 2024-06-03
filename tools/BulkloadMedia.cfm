@@ -748,7 +748,7 @@ limitations under the License.
 											'#labelName#',
 											#session.myAgentId#,
 											#cColl.collection_object_id#,
-											<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+											<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#username#">
 										)
 									</cfquery>
 								<cfelse>
@@ -757,7 +757,7 @@ limitations under the License.
 											cf_temp_media
 										SET
 											status = concat(nvl2(status, status || '; ', ''),'Cataloged Item #labelValue# matched #cColl.recordcount# records.')
-										WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+										WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#username#">
 											and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#cPub.key#"> 
 									</cfquery>
 								</cfif>
