@@ -708,7 +708,7 @@ limitations under the License.
 											#key#,
 											'#labelName#',
 											#session.myAgentId#,
-											#cPub.publication_id#
+											#cPub.publication_id#,
 											<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#username#">
 										)
 									</cfquery>
@@ -791,12 +791,14 @@ limitations under the License.
 											key,
 											MEDIA_RELATIONSHIP,
 											CREATED_BY_AGENT_ID,
-											RELATED_PRIMARY_KEY
+											RELATED_PRIMARY_KEY,
+											USERNAME
 										) values (
 											#key#,
 											'#labelName#',
 											#session.myAgentId#,
-											#cTrans.transaction_id#
+											#cTrans.transaction_id#,
+											<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#username#">
 										)
 									</cfquery>
 								<cfelse>
@@ -819,12 +821,14 @@ limitations under the License.
 											key,
 											MEDIA_RELATIONSHIP,
 											CREATED_BY_AGENT_ID,
-											RELATED_PRIMARY_KEY
+											RELATED_PRIMARY_KEY,
+											USERNAME
 										) values (
 											<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#key#">,
 											<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#labelName#">,
 											<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#session.myAgentId#">,
-											<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#cPermit.permit_id#">
+											<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#cPermit.permit_id#">,
+											<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#username#">
 										)
 									</cfquery>
 								<cfelse>
@@ -986,7 +990,7 @@ limitations under the License.
 						cf_temp_media.MEDIA_TYPE,
 						cf_temp_media.PREVIEW_URI,
 						cf_temp_media.MEDIA_LICENSE_ID,
-						cf_temp_media.MEDIA_RELATIONSHIPS,
+						cf_temp_media_relations.MEDIA_RELATIONSHIPS,
 						cf_temp_media_relations.RELATED_PRIMARY_KEY,
 						cf_temp_media_labels.MEDIA_LABEL,
 						cf_temp_media_labels.LABEL_VALUE
