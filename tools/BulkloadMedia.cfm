@@ -962,17 +962,7 @@ limitations under the License.
 			</cfloop>
 				<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					select
-						cf_temp_media.key,
-						cf_temp_media.status,
-						cf_temp_media.MEDIA_URI,
-						cf_temp_media.MIME_TYPE,
-						cf_temp_media.MEDIA_TYPE,
-						cf_temp_media.PREVIEW_URI,
-						cf_temp_media.MEDIA_LICENSE_ID,
-						cf_temp_media.MEDIA_RELATIONSHIPS,
-						cf_temp_media.MEDIA_LABELS,
-						cf_temp_media_relations.MEDIA_RELATIONSHIP,
-						cf_temp_media_relations.RELATED_PRIMARY_KEY
+						distinct (cf_temp_media.key), cf_temp_media.*, cf_temp_media_relations.*
 					from
 						cf_temp_media,
 						cf_temp_media_labels,
