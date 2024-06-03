@@ -962,7 +962,7 @@ limitations under the License.
 			</cfloop>
 				<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					select
-						distinct (cf_temp_media.key), cf_temp_media.*, cf_temp_media_relations.*
+						distinct (cf_temp_media.key), cf_temp_media.*
 					from
 						cf_temp_media,
 						cf_temp_media_labels,
