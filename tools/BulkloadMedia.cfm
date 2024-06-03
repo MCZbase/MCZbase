@@ -1229,15 +1229,14 @@ limitations under the License.
 			<cfquery name="clearTempTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				delete from cf_temp_media_labels WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
-			<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-			DELETE cf_temp_media, cf_temp_media_labels, cf_temp_media_relations
-			WHERE 
-				cf_temp_media.key = cf_temp_media_labels.key (+) 
-			AND
-				cf_temp_media.key = cf_temp_media_relations.key (+)
-			AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-	
-				</cfquery>
+<!---			<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				DELETE cf_temp_media, cf_temp_media_labels, cf_temp_media_relations
+				WHERE 
+					cf_temp_media.key = cf_temp_media_labels.key (+) 
+				AND
+					cf_temp_media.key = cf_temp_media_relations.key (+)
+				AND cf_temp_media.username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+			</cfquery>--->
 		</cfoutput>
 	</cfif>
 </main>
