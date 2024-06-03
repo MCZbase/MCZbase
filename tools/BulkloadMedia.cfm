@@ -971,6 +971,8 @@ limitations under the License.
 						cf_temp_media.MEDIA_LICENSE_ID,
 						cf_temp_media.MEDIA_RELATIONSHIPS,
 						cf_temp_media.MEDIA_LABELS
+						cf_temp_media_relations.MEDIA_RELATIONSHIP,
+						cf_temp_media_relations.RELATED_PRIMARY_KEY
 					from
 						cf_temp_media,
 						cf_temp_media_labels,
@@ -1004,6 +1006,7 @@ limitations under the License.
 								<th>MEDIA_LICENSE_ID</th>
 								<th>MEDIA_RELATIONSHIPS</th>
 								<th>MEDIA_LABELS</th>
+								<th>MEDIA_RELATIONSHIP</th>
 							</tr>
 						<tbody>
 							<cfloop query="data">
@@ -1016,6 +1019,7 @@ limitations under the License.
 									<td>#data.MEDIA_LICENSE_ID#</td>
 									<td>#data.MEDIA_RELATIONSHIPS#</td>
 									<td>#data.MEDIA_LABELS#</td>
+									<td>#data.MEDIA_RELATIONSHIP#</td>
 								</tr>
 							</cfloop>
 						</tbody>
@@ -1093,6 +1097,7 @@ limitations under the License.
 							from media
 							where ROWIDTOCHAR(rowid) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#insResult.GENERATEDKEY#">
 						</cfquery>
+						
 						<cfquery name="media_relations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							select * from
 								cf_temp_media_relations
