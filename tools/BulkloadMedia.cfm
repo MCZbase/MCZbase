@@ -526,14 +526,6 @@ limitations under the License.
 								and username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#username#">
 								and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempMedia.key#">
 							</cfquery>
-						<cfelseif len(getTempMedia.MEDIA_RELATIONSHIPS) gt 0>
-							<cfquery name="bad" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-								UPDATE cf_temp_media
-								SET status = concat(nvl2(status, status || '; ', ''),'Media relationship is invalid')
-								WHERE media_relationships not in (select media_relationship from CTMEDIA_RELATIONSHIP where MEDIA_RELATIONSHIPS='#labelName#')
-								and username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#username#">
-								and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempMedia.key#">
-							</cfquery>
 						<cfelse>
 							<cfset table_name = listlast(labelName," ")>
 							<cfif table_name is "agent">
@@ -990,18 +982,7 @@ limitations under the License.
 						cf_temp_media.key=cf_temp_media_relations.key (+)
 					AND 
 						cf_temp_media.username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#username#">
-					group by
-						cf_temp_media.key,
-						cf_temp_media.status,
-						cf_temp_media.MEDIA_URI,
-						cf_temp_media.MIME_TYPE,
-						cf_temp_media.MEDIA_TYPE,
-						cf_temp_media.PREVIEW_URI,
-						cf_temp_media.MEDIA_LICENSE_ID,
-						cf_temp_media_relations.MEDIA_RELATIONSHIP,
-						cf_temp_media_relations.RELATED_PRIMARY_KEY,
-						cf_temp_media_labels.MEDIA_LABEL,
-						cf_temp_media_labels.LABEL_VALUE
+
 				</cfquery>
 				<cfquery name="problemsInData" dbtype="query">
 					SELECT count(*) c 
