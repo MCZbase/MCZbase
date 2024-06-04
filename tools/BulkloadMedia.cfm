@@ -1124,9 +1124,6 @@ limitations under the License.
 							from media
 							where ROWIDTOCHAR(rowid) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#insResult.GENERATEDKEY#">
 						</cfquery>
-						<cfloop query="savePK">
-							<cfset links = '<a href = "/media/findMedia.cfm?execute=true&method=getMedia&media_id=#savePK.media_id#">media records</a>'>
-						</cfloop>
 						<cfquery name="media_relations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							select * from
 								cf_temp_media_relations
@@ -1171,10 +1168,11 @@ limitations under the License.
 							</cfquery>
 						</cfloop>
 						<cfset media_updates = media_updates + insResult.recordcount>
-				
+						<cfquery name="makeLinks" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+							select media_id from media where media_uri = '#getTempMedia.media_uri#'
+						</cfquery>
 					</cfloop>
-					<p>Number of records added: #media_updates# (#links#)
-					</p>
+					<p>Number of records added: #media_updates# media records.</p>
 					<cfif getTempData.recordcount eq media_updates and updateMedia1_result.recordcount eq 0>
 						<h3 class="text-success">Success - loaded</h3>
 					</cfif>
