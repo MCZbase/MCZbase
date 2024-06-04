@@ -517,8 +517,7 @@ limitations under the License.
 				</cfif>
 				<cfif len(getTempMedia.MEDIA_RELATIONSHIPS) gt 0>
 					<cfloop list="#getTempMedia.MEDIA_RELATIONSHIPS#" index="label" delimiters=";">
-						<cfset labelName=listgetat(label,1,"=")>
-						<cfset labelValue=listgetat(label,2,"=")>	
+						
 						<cfif len(getTempMedia.MEDIA_RELATIONSHIPS) is 0>
 							<cfquery name="warningMessage" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 								UPDATE cf_temp_media
@@ -527,7 +526,10 @@ limitations under the License.
 								and username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#username#">
 								and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempMedia.key#">
 							</cfquery>
-						<cfelse>
+						</cfif>
+						<cfif len(getTempMedia.MEDIA_RELATIONSHIPS) gt 0>
+							<cfset labelName=listgetat(label,1,"=")>
+							<cfset labelValue=listgetat(label,2,"=")>
 							<cfset table_name = listlast(labelName," ")>
 							<cfif table_name is "agent">
 								<cfquery name="cAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -558,8 +560,6 @@ limitations under the License.
 									</cfquery>
 								</cfif>					
 							<cfelseif table_name is "locality">
-								<cfset labelName=listgetat(label,1,"=")>
-								<cfset labelValue=listgetat(label,2,"=")>
 								<cfif isnumeric(labelValue)>
 									<cfset idtype = "locality_id">
 									<cfset idvalue = labelValue>
@@ -717,8 +717,6 @@ limitations under the License.
 									</cfquery>
 								</cfif>
 							<cfelseif table_name is "publication">
-								<cfset labelName=listgetat(label,1,"=")>
-								<cfset labelValue=listgetat(label,2,"=")>
 								<cfif isnumeric(labelValue)>
 									<cfset idtype = "locality_id">
 									<cfset idvalue = labelValue>
@@ -759,7 +757,6 @@ limitations under the License.
 							<cfelseif table_name is "cataloged_item">
 								<cftry>
 									<cfset table_name = listlast(labelName," ")>
-									<cfset labelName=listgetat(label,1,"=")>
 									<cfset collection_cde = listgetat(labelValue,1,":")>
 									<cfset cat_num = listgetat(labelValue,2,":")>
 									<cfquery name="cColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -809,8 +806,6 @@ limitations under the License.
 									</cfcatch>
 								</cftry>
 							<cfelseif table_name is "accn">
-								<cfset labelName=listgetat(label,1,"=")>
-								<cfset labelValue=listgetat(label,2,"=")>
 								<cfquery name="cTrans" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 									select a.transaction_id
 									from accn a, trans t
