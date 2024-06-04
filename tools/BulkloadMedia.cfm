@@ -622,7 +622,7 @@ limitations under the License.
 								</cfif>
 								<cfif idtype EQ "collecting_event_id">
 									<cfquery name="cEvent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-										select collecting_event_id from collecting_event where (collecting_event_id ='#idvalue#' OR verbatim_locality = '#idvalue#')
+										select collecting_event_id from collecting_event where (collecting_event_id ='#idvalue#' OR verbatim_locality = '#labelValue#')
 									</cfquery>
 									<cfif cEvent.recordcount is 1 and len(cEvent.collecting_event_id) gt 0>
 										<cfquery name="insRel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -729,7 +729,7 @@ limitations under the License.
 									<cfset idvalue=trim(listlast(labelValue,"|"))>
 								</cfif>
 								<cfquery name="cPub" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-									select publication_id from publication where (publication_id ='#idvalue#' OR publication_title = '#idvalue#'
+									select publication_id from publication where (publication_id ='#idvalue#' OR publication_title = '#labelValue#')
 								</cfquery>
 								<cfif cPub.recordcount is 1 and len(cPub.publication_id) gt 0>
 									<cfquery name="insertRel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
