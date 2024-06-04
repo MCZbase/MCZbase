@@ -769,8 +769,7 @@ limitations under the License.
 										WHERE
 											cataloged_item.collection_id = collection.collection_id AND
 											cat_num = '#cat_num#' AND
-											lower(collection.collection_cde)='#lcase(collection_cde)#' AND
-											lower(collection.institution_acronym)='MCZ'
+											lower(collection.collection_cde)='#lcase(collection_cde)#'
 									</cfquery>
 									<cfif cColl.recordcount is 1 and len(cColl.collection_object_id) gt 0>
 										<cfquery name="insertMediaRelations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
