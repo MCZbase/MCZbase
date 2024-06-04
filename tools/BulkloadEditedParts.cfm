@@ -744,13 +744,15 @@ limitations under the License.
 					cf_temp_edit_parts.preserve_method=specimen_part.preserve_method and
 					cf_temp_edit_parts.collection_object_id=specimen_part.derived_from_cat_item and
 					nvl(cf_temp_edit_parts.current_remarks, 'NULL') = nvl(coll_object_remark.coll_object_remarks, 'NULL'))
-				WHERE status like '%NOTE: PART EXISTS%' AND
+				WHERE 
+					status like '%NOTE: PART EXISTS%'
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<cfquery name="markPartsNotFound" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				UPDATE cf_temp_edit_parts 
 				SET status = concat(nvl2(status,status ||  '; ', ''), 'PART NOT FOUND')
-				WHERE use_part_id NOT IN (
+				WHERE 
+					use_part_id NOT IN (
 						select collection_object_id from specimen_part
 					)
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
