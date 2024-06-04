@@ -1169,7 +1169,7 @@ limitations under the License.
 							</cfquery>
 						</cfloop>
 						<cfset media_updates = media_updates + insResult.recordcount>
-						<cfset links = '<a href = "https://mczbase-dev.rc.fas.harvard.edu/media/findMedia.cfm?execute=true&method=getMedia&media_id=#savePK.media_id#">media records</a>'
+						<cfset links = '<a href = "https://mczbase-dev.rc.fas.harvard.edu/media/findMedia.cfm?execute=true&method=getMedia&media_id=#savePK.media_id#">media records</a>'>
 					</cfloop>
 					<p>Number of records added: #media_updates# ('#links#')
 					</p>
