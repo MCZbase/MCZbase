@@ -758,6 +758,7 @@ limitations under the License.
 								</cfif>
 							<cfelseif table_name is "cataloged_item">
 								<cftry>
+									<cfset table_name = listlast(labelName," ")>
 									<cfset labelName=listgetat(label,1,"=")>
 									<cfset institution_acronym = listgetat(labelValue,1,":")>
 									<cfset collection_cde = listgetat(labelValue,2,":")>
