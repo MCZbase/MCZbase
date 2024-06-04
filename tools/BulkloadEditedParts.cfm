@@ -44,7 +44,6 @@ limitations under the License.
 			PART_ATT_NAME_6,PART_ATT_VAL_6,part_ATT_UNITS_6,PART_ATT_DETBY_6,PART_ATT_MADEDATE_6,PART_ATT_REM_6
 		FROM cf_temp_edit_parts
 		WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-		and USE_EXISTING=1
 		ORDER BY key
 	</cfquery>
 	<cfinclude template="/shared/component/functions.cfc">
@@ -394,7 +393,6 @@ limitations under the License.
 							select container_id from container 
 							where container.barcode = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableQC.container_unique_id#">
 						),
-						USE_EXISTING=1,
 						STATUS = ''
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						AND key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableQC.key#"> 
@@ -792,7 +790,6 @@ limitations under the License.
 						<th>CURRENT_REMARKS</th>
 						<th>CONDITION</th>
 						<th>CONTAINER_UNIQUE_ID</th>
-						<th>USE_EXISTING</th>
 						<th>APPEND_TO_REMARKS</th>
 						<th>CHANGED_DATE</th>
 						<th>NEW_PRESERVE_METHOD</th>
@@ -870,7 +867,6 @@ limitations under the License.
 							<td>#current_remarks#</td>
 							<td>#condition#</td>
 							<td>#CONTAINER_UNIQUE_ID#</td>
-							<td>1</td>
 							<td>#append_to_remarks#</td>
 							<td>#changed_date#</td>
 							<td>#new_preserve_method#</td>
@@ -1588,7 +1584,6 @@ limitations under the License.
 									<th>CURRENT_REMARKS</th>
 									<th>CONDITION</th>
 									<th>CONTAINER_UNIQUE_ID</th>
-									<th>USE_EXISTING</th>
 									<th>APPEND_TO_REMARKS</th>
 									<th>CHANGED_DATE</td>
 									<th>NEW_PRESERVE_METHOD</th>
@@ -1648,7 +1643,6 @@ limitations under the License.
 										<td>#getProblemData.CURRENT_REMARKS#</td>
 										<td>#getProblemData.CONDITION#</td>
 										<td>#getProblemData.CONTAINER_UNIQUE_ID# </td>
-										<td>#getProblemData.USE_EXISTING#</td>
 										<td>#getProblemData.APPEND_TO_REMARKS#</td>
 										<td>#getProblemData.CHANGED_DATE#</td>
 										<td>#getProblemData.NEW_PRESERVE_METHOD#</td>
@@ -1701,7 +1695,6 @@ limitations under the License.
 			<cfquery name="clearTempTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="clearTempTable_result">
 				DELETE FROM cf_temp_edit_parts
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-				and USE_EXISTING=1
 			</cfquery>
 		</cfoutput>
 	</cfif>
