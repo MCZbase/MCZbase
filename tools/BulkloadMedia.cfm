@@ -414,6 +414,7 @@ limitations under the License.
 		<h2 class="h4 mb-3">Second step: Data Validation</h2>
 		<cfoutput>
 			<cfset key = ''>
+				
 			<cfquery name="getTempMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT *
 				FROM 
@@ -517,6 +518,8 @@ limitations under the License.
 				</cfif>
 				<cfif len(getTempMedia.MEDIA_RELATIONSHIPS) gt 0>
 					<cfloop list="#getTempMedia.MEDIA_RELATIONSHIPS#" index="label" delimiters=";">
+						<cfset labelName=listgetat(label,1,"=")>
+						<cfset labelValue=listgetat(label,2,"=")>
 							
 						<cfif len(getTempMedia.MEDIA_RELATIONSHIPS) is 0>
 							<cfquery name="warningMessage" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -528,8 +531,6 @@ limitations under the License.
 							</cfquery>
 						<cfelse>
 							<cfset table_name = listlast(labelName," ")>
-							<cfset labelName=listgetat(label,1,"=")>
-							<cfset labelValue=listgetat(label,2,"=")>
 							<cfif table_name is "agent">
 								<cfquery name="cAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 									select distinct(agent_id) agent_id from agent_name where agent_name ='#labelValue#'
@@ -560,8 +561,6 @@ limitations under the License.
 								</cfif>
 								
 							<cfelseif table_name is "locality">
-								<cfset labelName=listgetat(label,1,"=")>
-								<cfset labelValue=listgetat(label,2,"=")>
 								<cfif isnumeric(labelValue)>
 									<cfset idtype = "locality_id">
 									<cfset idvalue = labelValue>
@@ -570,7 +569,7 @@ limitations under the License.
 									<cfset idvalue=trim(listlast(labelValue,"|"))>
 								</cfif>
 								<cfquery name="cLocality" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-									select locality_id from locality where locality_id ='#idvalue#'
+									select locality_id from locality where locality_id ='#labelValue#'
 								</cfquery>
 								<cfif cLocality.recordcount is 1 and len(cLocality.locality_id) gt 0 and #idtype# neq 'locality_id'>
 									<cfquery name="insRel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -600,7 +599,7 @@ limitations under the License.
 											<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#key#">,
 											<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#labelName#">,
 											<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.myAgentId#">,
-											<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#cLocality.locality_id#">,
+											<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#cLocality.labelValue#">,
 											<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#username#">
 										)
 									</cfquery>
@@ -613,8 +612,6 @@ limitations under the License.
 									</cfquery>
 								</cfif>
 							<cfelseif table_name is "collecting_event">
-								<cfset labelName=listgetat(label,1,"=")>
-								<cfset labelValue=listgetat(label,2,"=")>
 								<cfif isnumeric(labelValue)>
 									<cfset idtype = "collecting_event_id">
 									<cfset idvalue = labelValue>
@@ -649,6 +646,7 @@ limitations under the License.
 											SET
 												status = concat(nvl2(status, status || '; ', ''),'#labelValue# matched #cEvent.recordcount# records; look up Collecting_Event_ID again')
 											WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#username#">
+												and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#key#"> 
 										</cfquery>
 									</cfif>
 								<cfelse>
@@ -691,8 +689,6 @@ limitations under the License.
 									</cfif>
 								</cfif>
 							<cfelseif table_name is "project">
-								<cfset labelName=listgetat(label,1,"=")>
-								<cfset labelValue=listgetat(label,2,"=")>
 								<cfquery name="cProject" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 									select distinct(project_id) project_id from project where PROJECT_NAME ='#labelValue#'
 								</cfquery>
@@ -718,11 +714,10 @@ limitations under the License.
 											cf_temp_media
 											status = concat(nvl2(status, status || '; ', ''),'Project_id #labelValue# matched #cProject.recordcount#')
 										WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#username#">
+											and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#cPub.key#"> 
 									</cfquery>
 								</cfif>
 							<cfelseif table_name is "publication">
-								<cfset labelName=listgetat(label,1,"=")>
-								<cfset labelValue=listgetat(label,2,"=")>
 								<cfquery name="cPub" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 									select publication_id from publication where publication_id ='#labelValue#'
 								</cfquery>
@@ -750,12 +745,11 @@ limitations under the License.
 										SET
 											status = concat(nvl2(status, status || '; ', ''),'Publication_id #labelValue# matched #cPub.recordcount#')
 										WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#username#">
+											and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#cPub.key#"> 
 									</cfquery>
 								</cfif>
 							<cfelseif table_name is "cataloged_item">
 							<cftry>
-								<cfset labelName=listgetat(label,1,"=")>
-								<cfset labelValue=listgetat(label,2,"=")>
 								<cfset institution_acronym = listgetat(labelValue,1,":")>
 								<cfset collection_cde = listgetat(labelValue,2,":")>
 								<cfset cat_num = listgetat(labelValue,3,":")>
@@ -792,6 +786,7 @@ limitations under the License.
 										SET
 											status = concat(nvl2(status, status || '; ', ''),'Cataloged Item #labelValue# matched #cColl.recordcount# records.')
 										WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#username#">
+											and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.key#"> 
 									</cfquery>
 								</cfif>
 								<cfcatch>
@@ -801,6 +796,7 @@ limitations under the License.
 										SET
 											status = concat(nvl2(status, status || '; ', ''),'#labelValue# is not a DWC Triplet. *#institution_acronym#* *#collection_cde#* *#cat_num#*')
 										WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#username#">
+											and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.key#"> 
 									</cfquery>
 								</cfcatch>
 							</cftry>
@@ -834,8 +830,9 @@ limitations under the License.
 										UPDATE
 											cf_temp_media
 										SET
-											status = concat(nvl2(status, status || '; ', ''),'Accn number #labelValue# matched #cTrans.recordcount# records')
+											status = concat(nvl2(status, status || '; ', ''),'Accn number #labelValue# matched #c.recordcount# records')
 										WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#username#">
+											and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#cTrans.key#"> 
 									</cfquery>
 								</cfif>
 							<cfelseif table_name is "permit">
@@ -893,7 +890,8 @@ limitations under the License.
 											cf_temp_media
 										SET
 											status = concat(nvl2(status, status || '; ', ''),'permit number #labelValue# matched #c.recordcount# records')
-										WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#username#"> 
+										WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#username#">
+											and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#cTrans.key#"> 
 									</cfquery>
 								</cfif>
 							<cfelseif table_name is "specimen_part">
@@ -928,6 +926,7 @@ limitations under the License.
 										SET
 											status = concat(nvl2(status, status || '; ', ''),'barcode #labelValue# matched #c.recordcount# records')
 										WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#username#">
+											and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#cSpecPart.key#"> 
 									</cfquery>
 								</cfif>
 							<cfelse>
