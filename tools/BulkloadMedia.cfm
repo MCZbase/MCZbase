@@ -785,7 +785,7 @@ limitations under the License.
 										SET
 											status = concat(nvl2(status, status || '; ', ''),'Cataloged Item #labelValue# matched #cColl.recordcount# records.')
 										WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#username#">
-											and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#cColl.key#"> 
+											and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#key#"> 
 									</cfquery>
 								</cfif>
 								<cfcatch>
@@ -795,7 +795,7 @@ limitations under the License.
 										SET
 											status = concat(nvl2(status, status || '; ', ''),'#labelValue# is not a DWC Triplet. *#institution_acronym#* *#collection_cde#* *#cat_num#*')
 										WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#username#">
-											and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#cColl.key#"> 
+											and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#key#"> 
 									</cfquery>
 								</cfcatch>
 							</cftry>
