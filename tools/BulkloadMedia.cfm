@@ -517,8 +517,7 @@ limitations under the License.
 				</cfif>
 				<cfif len(getTempMedia.MEDIA_RELATIONSHIPS) gt 0>
 					<cfloop list="#getTempMedia.MEDIA_RELATIONSHIPS#" index="label" delimiters=";">
-						<cfset labelName=listgetat(label,1,"=")>
-						<cfset labelValue=listgetat(label,2,"=")>		
+							
 						<cfif len(getTempMedia.MEDIA_RELATIONSHIPS) is 0>
 							<cfquery name="warningMessage" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 								UPDATE cf_temp_media
@@ -529,6 +528,8 @@ limitations under the License.
 							</cfquery>
 						<cfelse>
 							<cfset table_name = listlast(labelName," ")>
+							<cfset labelName=listgetat(label,1,"=")>
+							<cfset labelValue=listgetat(label,2,"=")>
 							<cfif table_name is "agent">
 								<cfquery name="cAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 									select distinct(agent_id) agent_id from agent_name where agent_name ='#labelValue#'
@@ -559,6 +560,8 @@ limitations under the License.
 								</cfif>
 								
 							<cfelseif table_name is "locality">
+								<cfset labelName=listgetat(label,1,"=")>
+								<cfset labelValue=listgetat(label,2,"=")>
 								<cfif isnumeric(labelValue)>
 									<cfset idtype = "locality_id">
 									<cfset idvalue = labelValue>
@@ -610,6 +613,8 @@ limitations under the License.
 									</cfquery>
 								</cfif>
 							<cfelseif table_name is "collecting_event">
+								<cfset labelName=listgetat(label,1,"=")>
+								<cfset labelValue=listgetat(label,2,"=")>
 								<cfif isnumeric(labelValue)>
 									<cfset idtype = "collecting_event_id">
 									<cfset idvalue = labelValue>
@@ -687,6 +692,8 @@ limitations under the License.
 									</cfif>
 								</cfif>
 							<cfelseif table_name is "project">
+								<cfset labelName=listgetat(label,1,"=")>
+								<cfset labelValue=listgetat(label,2,"=")>
 								<cfquery name="cProject" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 									select distinct(project_id) project_id from project where PROJECT_NAME ='#labelValue#'
 								</cfquery>
@@ -716,6 +723,8 @@ limitations under the License.
 									</cfquery>
 								</cfif>
 							<cfelseif table_name is "publication">
+								<cfset labelName=listgetat(label,1,"=")>
+								<cfset labelValue=listgetat(label,2,"=")>
 								<cfquery name="cPub" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 									select publication_id from publication where publication_id ='#labelValue#'
 								</cfquery>
@@ -748,6 +757,8 @@ limitations under the License.
 								</cfif>
 							<cfelseif table_name is "cataloged_item">
 							<cftry>
+								<cfset labelName=listgetat(label,1,"=")>
+								<cfset labelValue=listgetat(label,2,"=")>
 								<cfset institution_acronym = listgetat(labelValue,1,":")>
 								<cfset collection_cde = listgetat(labelValue,2,":")>
 								<cfset cat_num = listgetat(labelValue,3,":")>
