@@ -752,7 +752,7 @@ limitations under the License.
 										SET
 											status = concat(nvl2(status, status || '; ', ''),'Publication_id #labelValue# matched #cPub.recordcount#')
 										WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#username#">
-											and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#cPub.key#"> 
+											and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.key#"> 
 									</cfquery>
 								</cfif>
 							<cfelseif table_name is "cataloged_item">
