@@ -1168,9 +1168,6 @@ limitations under the License.
 							</cfquery>
 						</cfloop>
 						<cfset media_updates = media_updates + insResult.recordcount>
-						<cfquery name="makeLinks" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-							select media_id from media where media_uri = '#getTempMedia.media_uri#'
-						</cfquery>
 					</cfloop>
 					<p>Number of records added: #media_updates# media records.</p>
 					<cfif getTempData.recordcount eq media_updates and updateMedia1_result.recordcount eq 0>
