@@ -557,8 +557,7 @@ limitations under the License.
 										WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#username#">
 										and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#key#">
 									</cfquery>
-								</cfif>
-								
+								</cfif>					
 							<cfelseif table_name is "locality">
 								<cfset labelName=listgetat(label,1,"=")>
 								<cfset labelValue=listgetat(label,2,"=")>
@@ -905,6 +904,8 @@ limitations under the License.
 									</cfquery>
 								</cfif>
 							<cfelseif table_name is "specimen_part">
+								<cfset labelName=listgetat(label,1,"=")>
+								<cfset labelValue=listgetat(label,2,"=")>
 								<cfquery name="cSpecPart" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 									select sp.collection_object_id
 									from specimen_part sp
