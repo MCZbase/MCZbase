@@ -560,8 +560,6 @@ limitations under the License.
 								</cfif>
 								
 							<cfelseif table_name is "locality">
-								<cfset labelName=listgetat(label,1,"=")>
-								<cfset labelValue=listgetat(label,2,"=")>
 								<cfif isnumeric(labelValue)>
 									<cfset idtype = "locality_id">
 									<cfset idvalue = labelValue>
@@ -570,7 +568,7 @@ limitations under the License.
 									<cfset idvalue=trim(listlast(labelValue,"|"))>
 								</cfif>
 								<cfquery name="cLocality" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-									select locality_id from locality where (locality_id ='#idvalue#' OR spec_locality = '#idvalue#')
+									select locality_id from locality where locality_id ='#labelValue#'
 								</cfquery>
 								<cfif cLocality.recordcount is 1 and len(cLocality.locality_id) gt 0 and #idtype# neq 'locality_id'>
 									<cfquery name="insRel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -600,7 +598,7 @@ limitations under the License.
 											<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#key#">,
 											<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#labelName#">,
 											<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.myAgentId#">,
-											<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#cLocality.locality_id#">,
+											<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#cLocality.labelValue#">,
 											<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#username#">
 										)
 									</cfquery>
@@ -622,7 +620,7 @@ limitations under the License.
 								</cfif>
 								<cfif idtype EQ "collecting_event_id">
 									<cfquery name="cEvent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-										select collecting_event_id from collecting_event where (collecting_event_id ='#idvalue#' OR verbatim_locality = '#labelValue#')
+										select collecting_event_id from collecting_event where collecting_event_id ='#idvalue#'
 									</cfquery>
 									<cfif cEvent.recordcount is 1 and len(cEvent.collecting_event_id) gt 0>
 										<cfquery name="insRel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -719,17 +717,8 @@ limitations under the License.
 									</cfquery>
 								</cfif>
 							<cfelseif table_name is "publication">
-								<cfset labelName=listgetat(label,1,"=")>
-								<cfset labelValue=listgetat(label,2,"=")>
-								<cfif isnumeric(labelValue)>
-									<cfset idtype = "locality_id">
-									<cfset idvalue = labelValue>
-								<cfelse>
-									<cfset idtype=trim(listfirst(labelValue,"|"))>
-									<cfset idvalue=trim(listlast(labelValue,"|"))>
-								</cfif>
 								<cfquery name="cPub" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-									select publication_id from publication where (publication_id ='#idvalue#' OR publication_title = '#labelValue#')
+									select publication_id from publication where publication_id ='#labelValue#'
 								</cfquery>
 								<cfif cPub.recordcount is 1 and len(cPub.publication_id) gt 0>
 									<cfquery name="insertRel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -1170,7 +1159,7 @@ limitations under the License.
 						</cfloop>
 						<cfset media_updates = media_updates + insResult.recordcount>
 					</cfloop>
-					<p>Number of records added: #media_updates# Media Records.</p>
+					<p>Number of Media Records added: #media_updates#</p>
 					<cfif getTempData.recordcount eq media_updates and updateMedia1_result.recordcount eq 0>
 						<h3 class="text-success">Success - loaded</h3>
 					</cfif>
