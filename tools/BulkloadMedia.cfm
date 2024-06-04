@@ -1169,11 +1169,9 @@ limitations under the License.
 							</cfquery>
 						</cfloop>
 						<cfset media_updates = media_updates + insResult.recordcount>
+						<cfset links = <a href = "https://mczbase-dev.rc.fas.harvard.edu/media/findMedia.cfm?execute=true&method=getMedia&media_id=#savePK.media_id#">media records</a>
 					</cfloop>
-					<p>Number of records added: #media_updates# 
-						<cfloop query="getTempData">
-							<a href = "https://mczbase-dev.rc.fas.harvard.edu/media/findMedia.cfm?execute=true&method=getMedia&media_id=#getTempData.media_id#">media records</a>
-						</cfloop>
+					<p>Number of records added: #media_updates# ('#links#')
 					</p>
 					<cfif getTempData.recordcount eq media_updates and updateMedia1_result.recordcount eq 0>
 						<h3 class="text-success">Success - loaded</h3>
