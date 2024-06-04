@@ -1125,7 +1125,7 @@ limitations under the License.
 							where ROWIDTOCHAR(rowid) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#insResult.GENERATEDKEY#">
 						</cfquery>
 						<cfloop query="savePK">
-							<cfset links = '<a href = "https://mczbase-dev.rc.fas.harvard.edu/media/findMedia.cfm?execute=true&method=getMedia&media_id=#savePK.media_id#">media records</a>'>
+							<cfset links = '<a href = "/media/findMedia.cfm?execute=true&method=getMedia&media_id=#savePK.media_id#">media records</a>'>
 						</cfloop>
 						<cfquery name="media_relations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							select * from
