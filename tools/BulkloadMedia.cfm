@@ -518,8 +518,7 @@ limitations under the License.
 				<cfif len(getTempMedia.MEDIA_RELATIONSHIPS) gt 0>
 					<cfloop list="#getTempMedia.MEDIA_RELATIONSHIPS#" index="label" delimiters=";">
 						<cfset labelName=listgetat(label,1,"=")>
-						<cfset labelValue=listgetat(label,2,"=")>
-							
+						<cfset labelValue=listgetat(label,2,"=")>		
 						<cfif len(getTempMedia.MEDIA_RELATIONSHIPS) is 0>
 							<cfquery name="warningMessage" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 								UPDATE cf_temp_media
