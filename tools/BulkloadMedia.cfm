@@ -622,7 +622,7 @@ limitations under the License.
 								</cfif>
 								<cfif idtype EQ "collecting_event_id">
 									<cfquery name="cEvent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-										select collecting_event_id from collecting_event where collecting_event_id ='#idvalue#'
+										select collecting_event_id from collecting_event where (collecting_event_id ='#idvalue#' OR verbatim_locality = '#idvalue#')
 									</cfquery>
 									<cfif cEvent.recordcount is 1 and len(cEvent.collecting_event_id) gt 0>
 										<cfquery name="insRel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -719,8 +719,17 @@ limitations under the License.
 									</cfquery>
 								</cfif>
 							<cfelseif table_name is "publication">
+								<cfset labelName=listgetat(label,1,"=")>
+								<cfset labelValue=listgetat(label,2,"=")>
+								<cfif isnumeric(labelValue)>
+									<cfset idtype = "locality_id">
+									<cfset idvalue = labelValue>
+								<cfelse>
+									<cfset idtype=trim(listfirst(labelValue,"|"))>
+									<cfset idvalue=trim(listlast(labelValue,"|"))>
+								</cfif>
 								<cfquery name="cPub" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-									select publication_id from publication where publication_id ='#labelValue#'
+									select publication_id from publication where (publication_id ='#idvalue#' OR publication_title = '#idvalue#'
 								</cfquery>
 								<cfif cPub.recordcount is 1 and len(cPub.publication_id) gt 0>
 									<cfquery name="insertRel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
