@@ -569,7 +569,7 @@ limitations under the License.
 									<cfset idvalue=trim(listlast(labelValue,"|"))>
 								</cfif>
 								<cfquery name="cLocality" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-									select locality_id from locality where locality_id ='#labelValue#'
+									select locality_id from locality where locality_id ='#idvalue#'
 								</cfquery>
 								<cfif cLocality.recordcount is 1 and len(cLocality.locality_id) gt 0 and #idtype# neq 'locality_id'>
 									<cfquery name="insRel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
