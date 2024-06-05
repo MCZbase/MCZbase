@@ -911,7 +911,7 @@ limitations under the License.
 									select sp.collection_object_id
 									from specimen_part sp
 									join coll_obj_cont_hist ch on (sp.collection_object_id = ch.collection_object_id)
-									join container cont on (cont.container_id = getContID.container_id)
+									join container cont on (cont.container_id = ch.container_id)
 									join container pcont on (cont.parent_container_id = pcont.container_id)
 									where pcont.barcode = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#labelValue#">
 								</cfquery>
