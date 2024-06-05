@@ -907,7 +907,7 @@ limitations under the License.
 									</cfquery>
 								</cfif>
 							<cfelseif table_name is "specimen_part">
-								<cfquery name="cSpecPart2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+								<cfquery name="cSpecPart" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 									select sp.collection_object_id
 									from specimen_part sp
 									join coll_obj_cont_hist ch on (sp.collection_object_id = ch.collection_object_id)
