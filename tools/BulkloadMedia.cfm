@@ -460,7 +460,7 @@ limitations under the License.
 					UPDATE
 						cf_temp_media
 					SET
-						status = concat(nvl2(status, status || '; ', ''),'MEDIA_LICENSE_ID #getTempMedia.MEDIA_LICENSE_ID# is invalid'),
+						status = concat(nvl2(status, status || '; ', ''),'MEDIA_LICENSE_ID #getTempMedia.MEDIA_LICENSE_ID# is invalid')
 					WHERE media_license_id not in (select media_license_id from ctmedia_license)
 					and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempMedia.key#"> 
 					and username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#username#">
@@ -469,7 +469,7 @@ limitations under the License.
 					UPDATE
 						cf_temp_media
 					SET
-						status = concat(nvl2(status, status || '; ', ''),'MEDIA_LICENSE_ID =  #getLicense.display#'),
+						status = concat(nvl2(status, status || '; ', ''),'MEDIA_LICENSE_ID =  #getLicense.display#')
 					WHERE media_license_id in (select media_license_id from ctmedia_license)
 					and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempMedia.key#"> 
 					and username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#username#">
