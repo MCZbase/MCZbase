@@ -907,12 +907,20 @@ limitations under the License.
 									</cfquery>
 								</cfif>
 							<cfelseif table_name is "specimen_part">
-								<cfquery name="cSpecPart" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+								<cfquery name="cSpecPart1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="insResult">
+									select container_id from container where barcode = '#labelValue#'
+									where barcode = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#labelValue#">
+								</cfquery>
+								<cfquery name="savePK" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="pkResult">
+									select collection_object_id from coll_obj_cont_hist
+									where ROWIDTOCHAR(rowid) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#insResult.GENERATEDKEY#">
+								</cfquery>
+								<cfquery name="cSpecPart2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 									select sp.collection_object_id
 									from specimen_part sp
-									join (select collection_object_id from coll_obj_cont_hist where current_container_fg = 1) ch on (sp.collection_object_id = ch.collection_object_id)
-									join  container cont on (ch.container_id = cont.container_id)
-									join  container pcont on (cont.parent_container_id = pc.container_id)
+									join coll_obj_cont_hist ch on (savePK.collection_object_id = sp.collection_object_id)
+									join container cont on (savePK.container_id = cont.container_id)
+									join container pcont on (cont.parent_container_id = pc.container_id)
 									where pc.barcode = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#labelValue#">
 								</cfquery>
 								<cfif cSpecPart.recordcount is 1 and len(cSpecPart.collection_object_id) gt 0>
