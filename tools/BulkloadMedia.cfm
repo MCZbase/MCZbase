@@ -918,7 +918,8 @@ limitations under the License.
 								<cfquery name="cSpecPart2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 									select sp.collection_object_id
 									from specimen_part sp
-									join coll_obj_cont_hist ch on (getCollObjID.collection_object_id = sp.collection_object_id)
+									join coll_obj_cont_hist ch on ((select collection_object_id from coll_obj_cont_hist
+									where container_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getContID.container_id#">) = ch.collection_object_id)
 									join container cont on (cont.container_id = getContID.container_id)
 									join container pcont on (cont.parent_container_id = pcont.container_id)
 									where pcont.barcode = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#labelValue#">
