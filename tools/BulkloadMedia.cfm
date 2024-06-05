@@ -566,7 +566,7 @@ limitations under the License.
 								<cfelse>
 									<cfquery name="bad" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 										UPDATE cf_temp_media
-										SET status = concat(nvl2(status, status || '; ', ''),'Agent #labelValue# matched #cAgent.recordcount# records')
+										SET status = concat(nvl2(status, status || '; ', ''),'Agent '#labelValue#' matched #cAgent.recordcount# records')
 										WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#username#">
 										and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#key#">
 									</cfquery>
