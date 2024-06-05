@@ -907,21 +907,21 @@ limitations under the License.
 									</cfquery>
 								</cfif>
 							<cfelseif table_name is "specimen_part">
-								<cfquery name="cSpecPart1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="insResult">
+								<cfquery name="getContID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="insResult">
 									select container_id from container
 									where barcode = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#labelValue#">
 								</cfquery>
-								<cfquery name="savePK" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="pkResult">
+								<cfquery name="getCollObjID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="pkResult">
 									select collection_object_id from coll_obj_cont_hist
-									where ROWIDTOCHAR(rowid) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#insResult.GENERATEDKEY#">
+									where container_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getContID.container_id#">
 								</cfquery>
 								<cfquery name="cSpecPart2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 									select sp.collection_object_id
 									from specimen_part sp
-									join coll_obj_cont_hist ch on (savePK.collection_object_id = sp.collection_object_id)
-									join container cont on (savePK.container_id = cont.container_id)
-									join container pcont on (cont.parent_container_id = pc.container_id)
-									where pc.barcode = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#labelValue#">
+									join coll_obj_cont_hist ch on (getCollObjID.collection_object_id = sp.collection_object_id)
+									join container cont on (cont.container_id = getContID.container_id)
+									join container pcont on (cont.parent_container_id = pcont.container_id)
+									where pcont.barcode = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#labelValue#">
 								</cfquery>
 								<cfif cSpecPart.recordcount is 1 and len(cSpecPart.collection_object_id) gt 0>
 									<cfquery name="insRel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
