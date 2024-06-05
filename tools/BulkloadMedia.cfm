@@ -471,7 +471,6 @@ limitations under the License.
 					SET
 						status = concat(nvl2(status, status || '; ', ''),'MEDIA_LICENSE_ID =  #getLicense.display#')
 					WHERE media_license_id in (select media_license_id from ctmedia_license)
-					and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempMedia.key#"> 
 					and username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#username#">
 				</cfquery>
 				<cfif len(getTempMedia.mask_media) gt 0>
