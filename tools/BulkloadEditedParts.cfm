@@ -612,7 +612,6 @@ limitations under the License.
 					AND cf_tem_edit_parts.collection_object_id IS NOT NULL
 			</cfquery>
 			<!--- Check part attributes with general queries for the user --->
-			<cfloop index="i" from="1" to="6">
 			<cfquery name="findduplicates" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				UPDATE cf_temp_edit_parts 
 				SET status = 'ERROR: More that one matching part' 
