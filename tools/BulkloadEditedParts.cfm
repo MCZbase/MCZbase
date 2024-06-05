@@ -609,7 +609,7 @@ limitations under the License.
 								= nvl2(specimen_part.lot_count_modifier,specimen_part.lot_count_modifier,'NULL')
 					)
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-					AND cf_tem_edit_parts.collection_object_id IS NOT NULL
+					AND cf_temp_edit_parts.collection_object_id IS NOT NULL
 			</cfquery>
 			<!--- Check part attributes with general queries for the user --->
 			<cfquery name="findduplicates" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
