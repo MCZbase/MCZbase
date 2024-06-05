@@ -908,7 +908,7 @@ limitations under the License.
 								</cfif>
 							<cfelseif table_name is "specimen_part">
 								<cfquery name="cSpecPart1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="insResult">
-									select container_id from container where barcode = '#labelValue#'
+									select container_id from container
 									where barcode = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#labelValue#">
 								</cfquery>
 								<cfquery name="savePK" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="pkResult">
