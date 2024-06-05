@@ -859,7 +859,7 @@ limitations under the License.
 										UPDATE
 											cf_temp_media
 										SET
-											status = concat(nvl2(status, status || '; ', ''),'Permit number #labelValue# matched #cPermit.recordcount# records.')
+											status = concat(nvl2(status, status || '; ', ''),'Permit number #labelValue# matched #cPermit.recordcount# records')
 										WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#username#">
 									</cfquery>
 								</cfif>
