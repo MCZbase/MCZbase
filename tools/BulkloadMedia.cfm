@@ -452,10 +452,6 @@ limitations under the License.
 					and username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#username#">
 					and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempMedia.key#"> 
 				</cfquery>
-				<cfquery name="getLicense" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					select display from ctmedia_license
-					where MEDIA_LICENSE_ID = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempMedia.MEDIA_LICENSE_ID#">
-				</cfquery>
 				<cfquery name="warningMessageLicense" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE
 						cf_temp_media
@@ -463,14 +459,6 @@ limitations under the License.
 						status = concat(nvl2(status, status || '; ', ''),'MEDIA_LICENSE_ID #getTempMedia.MEDIA_LICENSE_ID# is invalid')
 					WHERE media_license_id not in (select media_license_id from ctmedia_license)
 					and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempMedia.key#"> 
-					and username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#username#">
-				</cfquery>
-				<cfquery name="getMessageDisplay" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					UPDATE
-						cf_temp_media
-					SET
-						status = concat(nvl2(status, status || '; ', ''),'MEDIA_LICENSE_ID =  #getLicense.display#')
-					WHERE media_license_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getLicense.media_license_id#"> 
 					and username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#username#">
 				</cfquery>
 				<cfif len(getTempMedia.mask_media) gt 0>
