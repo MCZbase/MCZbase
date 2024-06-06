@@ -16,49 +16,56 @@
 	<p>To obtain a spreadsheet of current values, run a specimen search for the desired cataloged items, then go to the Manage page, and then click the <strong>Parts Report/Download</strong> button, from here you can download a csv file suitable for upload here.</p>
 	<p>append_to_remarks, and preserve_method are optional, and will add or update values if included.</p>
 <ul class="geol_hier" style="padding-bottom: .25em;">
-	<li style="color:red">institution_acronym</li>
-	<li style="color:red">collection_cde</li>
+	<li><span style="color:red">institution_acronym</span></li>
+	<li><span style="color:red">collection_cde</span>
 		<ul style="margin-left:1em;padding-bottom: .5em;font-size: 14px;">
-				<li>Required to find matching parts.</li>
-		</ul>
-	<li style="color:red">other_id_type</li>
-		<ul style="margin-left:1em;padding-bottom: .5em;font-size: 14px;">
-				<li>To match records by catalog number, use "catalog number" for other_id_type, and the catalog number in other_id_number.</li>
-				<li>To match by other id types, put the type in other_id_type, and the value in other_id_number.</li>
+			<li>Required to find matching parts.</li>
 		</ul>
 	</li>
-	<li style="color:red">other_id_number</li>
-	<li style="color:red">part_name</li>
+	<li><span style="color:red">other_id_type</span>
 		<ul style="margin-left:1em;padding-bottom: .5em;font-size: 14px;">
-				<li>This is the current part name.  It is required to find matching parts.</li>
+			<li>To match records by catalog number, use "catalog number" for other_id_type, and the catalog number in other_id_number.</li>
+			<li>To match by other id types, put the type in other_id_type, and the value in other_id_number.</li>
 		</ul>
-	<li style="color:red">preserve_method</li>
+	</li>
+	<li><span style="color:red">other_id_number</span>
+	<li><span style="color:red">part_name</span>
 		<ul style="margin-left:1em;padding-bottom: .5em;font-size: 14px;">
-				<li>This is the current preserve_method.  It is required to find matching parts.</li>
-				<li>The preserve_method can be changed by including new values in a new_preserve_method column.</li>
+			<li>This is the current part name.  It is required to find matching parts.</li>
 		</ul>
-	<li style="color:red">disposition</li>
+	</li>
+	<li><span style="color:red">preserve_method</span>
 		<ul style="margin-left:1em;padding-bottom: .5em;font-size: 14px;">
-				<li>The value here will update the value of the disposition.</li>
+			<li>This is the current preserve_method.  It is required to find matching parts.</li>
+			<li>The preserve_method can be changed by including new values in a new_preserve_method column.</li>
 		</ul>
-	<li>lot_count_modifier</li>
+	</li>
+	<li><span style="color:red">disposition</span>
 		<ul style="margin-left:1em;padding-bottom: .5em;font-size: 14px;">
-				<li>The value here will update the value of the lot count modifier.</li>
+			<li>The value here will update the value of the disposition.</li>
 		</ul>
-	<li style="color:red">lot_count</li>
+	</li>
+	<li>lot_count_modifier
 		<ul style="margin-left:1em;padding-bottom: .5em;font-size: 14px;">
-				<li>The value here will update the value of the lot count.</li>
+			<li>The value here will update the value of the lot count modifier.</li>
 		</ul>
+	</li>
+	<li><span style="color:red">lot_count</span>
+		<ul style="margin-left:1em;padding-bottom: .5em;font-size: 14px;">
+			<li>The value here will update the value of the lot count.</li>
+		</ul>
+	</li>
 	<li>container_unique_id
 		<ul style="margin-left:1em;padding-bottom: .5em;font-size: 14px;">
-				<li>Container Unique ID in which to place the matching part.  Validation will warn with a NOTE if the part is already in a container</li>
+			<li>Container Unique ID in which to place the matching part.  Validation will warn with a NOTE if the part is already in a container</li>
 		</ul>
 	</li>
-	<li style="color:red">condition</li>
+	<li><span style="color:red">condition</span>
 		<ul style="margin-left:1em;padding-bottom: .5em;font-size: 14px;">
-				<li>The value here will update the value of the condition.</li>
+			<li>The value here will update the value of the condition.</li>
 		</ul>
-	<li style="color:red">current_remarks</li>
+	</li>
+	<li><span style="color:red">current_remarks</span>
 		<ul style="margin-left:1em;padding-bottom: .5em;font-size: 14px;">
 			<li>This is the current part remarks.  It is required to find matching parts.</li>
 			<li>
@@ -66,22 +73,23 @@
 				Must exactly match the remarks on the part.
 			</li>
 		</ul>
+	</li>
 	<li>append_to_remarks
-			<ul style="margin-left:1em;padding-bottom: .5em;font-size: 14px;">
-				<li>Anything in this field will be appended to the current part remarks. It will be automatically separated by a semicolon.</li>
-			</ul>
+		<ul style="margin-left:1em;padding-bottom: .5em;font-size: 14px;">
+			<li>Anything in this field will be appended to the current part remarks. It will be automatically separated by a semicolon.</li>
+		</ul>
 	</li>
 	<li>changed_date
-			<ul style="margin-left:1em;padding-bottom: .5em;font-size: 14px;">
-				<li>Include if new_preserve_method has a value, and the date it was changed is different than today, otherwise leave blank.</li>
-				<li>Format = YYYY-MM-DD</li>
-				<li>If the date the part preservation was changed is different than today, a value here will record the preservation history correctly.</li>
-			</ul>
+		<ul style="margin-left:1em;padding-bottom: .5em;font-size: 14px;">
+			<li>Include if new_preserve_method has a value, and the date it was changed is different than today, otherwise leave blank.</li>
+			<li>Format = YYYY-MM-DD</li>
+			<li>If the date the part preservation was changed is different than today, a value here will record the preservation history correctly.</li>
+		</ul>
 	</li>
 	<li>new_preserve_method
 		<ul style="margin-left:1em;padding-bottom: .5em;font-size: 14px;">
-				<li>The value in this field will replace the current preserve method for this part</li>
-			</ul>
+			<li>The value in this field will replace the current preserve method for this part</li>
+		</ul>
 	</li>
 </ul>
 
