@@ -561,7 +561,7 @@ limitations under the License.
 								<cfelse>
 									<cfquery name="bad" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 										UPDATE cf_temp_media
-										SET status = concat(nvl2(status, status || '; ', ''),'Agent '#labelValue#' matched #cAgent.recordcount# records')
+										SET status = concat(nvl2(status, status || '; ', ''),'Agent "#labelValue#" matched #cAgent.recordcount# records')
 										WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#username#">
 										and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#key#">
 									</cfquery>
@@ -726,7 +726,7 @@ limitations under the License.
 								</cfif>
 							<cfelseif table_name is "publication">
 								<cfquery name="cPub" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-									select publication_id from publication where publication_id ='#labelValue#'
+									select distinct(publication_id) publication_id from publication where publication_id ='#labelValue#'
 								</cfquery>
 								<cfif cPub.recordcount is 1 and len(cPub.publication_id) gt 0>
 									<cfquery name="insertRel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
