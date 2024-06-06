@@ -520,7 +520,7 @@ limitations under the License.
 						<cfif len(getTempMedia.MEDIA_RELATIONSHIPS) is 0>
 							<cfquery name="warningMessage" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 								UPDATE cf_temp_media
-								SET status = concat(nvl2(status, status || '; ', ''),'Media relationship name is invalid.')
+								SET status = concat(nvl2(status, status || '; ', ''),'Media relationship NAME is invalid.')
 								WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#username#">
 								and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempMedia.key#">
 							</cfquery>
@@ -534,31 +534,34 @@ limitations under the License.
 								<cfquery name="cAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 									select distinct(agent_id) agent_id from agent_name where agent_name ='#labelValue#'
 								</cfquery>
-								<cfif cAgent.recordcount is 1 and len(cAgent.agent_id) gt 0>
-									<cfquery name="insRel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-										insert into cf_temp_media_relations (
-											KEY,
-											MEDIA_RELATIONSHIP,
-											CREATED_BY_AGENT_ID,
-											RELATED_PRIMARY_KEY,
-											USERNAME
-										) values (
-											<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#key#">,
-											'#labelName#',
-											#session.myAgentId#,
-											#cAgent.agent_id#,
-											<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#username#">
-										)
-									</cfquery>
-								<cfelse>
-									<cfquery name="bad" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-										UPDATE cf_temp_media
-										SET status = concat(nvl2(status, status || '; ', ''),'Agent "#labelValue#" matched #cAgent.recordcount# records')
-										WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#username#">
-										and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#key#">
-									</cfquery>
+								<cfif len(cAgent.recordcount) gt 0>
+									<cfloop query="cAgent">
+										<cfif cAgent.recordcount is 1 and len(cAgent.agent_id) gt 0>
+											<cfquery name="insRel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+												insert into cf_temp_media_relations (
+													KEY,
+													MEDIA_RELATIONSHIP,
+													CREATED_BY_AGENT_ID,
+													RELATED_PRIMARY_KEY,
+													USERNAME
+												) values (
+													<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#key#">,
+													'#labelName#',
+													#session.myAgentId#,
+													#cAgent.agent_id#,
+													<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#username#">
+												)
+											</cfquery>
+										<cfelse>
+											<cfquery name="bad" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+												UPDATE cf_temp_media
+												SET status = concat(nvl2(status, status || '; ', ''),'AGENT_NAME #labelValue# matched #cAgent.recordcount# records -- look up AGENT_NAME again')
+												WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#username#">
+												and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#key#">
+											</cfquery>
+										</cfif>
+									</cfloop>
 								</cfif>
-								
 							<cfelseif table_name is "locality">
 								<cfif isnumeric(labelValue)>
 									<cfset idtype = "locality_id">
@@ -570,45 +573,33 @@ limitations under the License.
 								<cfquery name="cLocality" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 									select locality_id from locality where locality_id ='#idvalue#'
 								</cfquery>
-								<cfif cLocality.recordcount is 1 and len(cLocality.locality_id) gt 0 and #idtype# neq 'locality_id'>
-									<cfquery name="insRel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-										insert into cf_temp_media_relations (
-											key,
-											MEDIA_RELATIONSHIP,
-											CREATED_BY_AGENT_ID,
-											RELATED_PRIMARY_KEY,
-											USERNAME
-										) values (
-											<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#key#">,
-											<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#labelName#">,
-											<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.myAgentId#">,
-											<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#cLocality.locality_id#">,
-											<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#username#">
-										)
-									</cfquery>
-								<cfelseif cLocality.recordcount is 1 and len(cLocality.locality_id) gt 0 and #idtype# eq 'locality_id'>
-									<cfquery name="insRel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-										insert into cf_temp_media_relations (
-											key,
-											MEDIA_RELATIONSHIP,
-											CREATED_BY_AGENT_ID,
-											RELATED_PRIMARY_KEY,
-											USERNAME
-										) values (
-											<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#key#">,
-											<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#labelName#">,
-											<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.myAgentId#">,
-											<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#cLocality.locality_id#">,
-											<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#username#">
-										)
-									</cfquery>
-								<cfelse>
-									<cfquery name="warningMessageLocality" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-										UPDATE cf_temp_media
-										SET status = concat(nvl2(status, status || '; ', ''),'Locality_id #labelValue# matched #cLocality.recordcount# records')
-										WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#username#">
-										and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempMedia.key#">
-									</cfquery>
+								<cfif cLocality.recordcount gt 0>
+									<cfloop query="cLocality">
+										<cfif cLocality.recordcount is 1 and len(cLocality.locality_id) gt 0>
+											<cfquery name="insRel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+												insert into cf_temp_media_relations (
+													key,
+													MEDIA_RELATIONSHIP,
+													CREATED_BY_AGENT_ID,
+													RELATED_PRIMARY_KEY,
+													USERNAME
+												) values (
+													<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#key#">,
+													<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#labelName#">,
+													<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.myAgentId#">,
+													<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#cLocality.locality_id#">,
+													<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#username#">
+												)
+											</cfquery>
+										<cfelse>
+											<cfquery name="warningMessageLocality" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+												UPDATE cf_temp_media
+												SET status = concat(nvl2(status, status || '; ', ''),'Locality_id #labelValue# matched #cLocality.recordcount# records - look up LOCALITY_ID again')
+												WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#username#">
+												and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempMedia.key#">
+											</cfquery>
+										</cfif>
+									</cfloop>
 								</cfif>
 							<cfelseif table_name is "collecting_event">
 								<cfif isnumeric(labelValue)>
@@ -622,33 +613,38 @@ limitations under the License.
 									<cfquery name="cEvent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 										select collecting_event_id from collecting_event where collecting_event_id ='#idvalue#'
 									</cfquery>
-									<cfif cEvent.recordcount is 1 and len(cEvent.collecting_event_id) gt 0>
-										<cfquery name="insRel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-											insert into cf_temp_media_relations (
-												key,
-												MEDIA_RELATIONSHIP,
-												CREATED_BY_AGENT_ID,
-												RELATED_PRIMARY_KEY,
-												USERNAME
-											) values (
-												<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#key#">,
-												<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#labelName#">,
-												<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.myAgentId#">,
-												<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#cEvent.collecting_event_id#">,
-												<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#username#">
-											)
-										</cfquery>
-									<cfelse>
-										<cfquery name="warningMessageColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-											UPDATE
-												cf_temp_media
-											SET
-												status = concat(nvl2(status, status || '; ', ''),'#labelValue# matched #cEvent.recordcount# records; look up Collecting_Event_ID again')
-											WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#username#">
-												and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#key#"> 
-										</cfquery>
+									<!---For collecting event ID--->
+									<cfif len(cEvent.collecting_event_id) gt 0>
+										<cfloop query="cEvent">
+											<cfif cEvent.recordcount is 1 and len(cEvent.collecting_event_id) gt 0>
+												<cfquery name="insRel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+													insert into cf_temp_media_relations (
+														key,
+														MEDIA_RELATIONSHIP,
+														CREATED_BY_AGENT_ID,
+														RELATED_PRIMARY_KEY,
+														USERNAME
+													) values (
+														<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#key#">,
+														<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#labelName#">,
+														<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.myAgentId#">,
+														<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#cEvent.collecting_event_id#">,
+														<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#username#">
+													)
+												</cfquery>
+											<cfelse>
+												<cfquery name="warningMessageColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+													UPDATE
+														cf_temp_media
+													SET
+														status = concat(nvl2(status, status || '; ', ''),'#labelValue# matched #cEvent.recordcount# records - look up COLLECTING_EVENT_ID again')
+													WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#username#">
+														and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#key#"> 
+												</cfquery>
+											</cfif>
+										</cfloop>
 									</cfif>
-								<cfelse>
+								<cfelse><!---For collecting event number series--->
 									<cfquery name="cEvent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 										select collecting_event_id 
 										from coll_event_num_series ns 
@@ -681,7 +677,7 @@ limitations under the License.
 											UPDATE
 												cf_temp_media
 											SET
-												status = concat(nvl2(status, status || '; ', ''),'Collecting_event number #labelValue# matched #cEvent.recordcount#')
+												status = concat(nvl2(status, status || '; ', ''),'collecting event number series #labelValue# matched #cEvent.recordcount# values')
 											WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#username#">
 												and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#key#"> 
 										</cfquery>
@@ -877,7 +873,7 @@ limitations under the License.
 												UPDATE
 													cf_temp_media
 												SET
-													status = concat(nvl2(status, status || '; ', ''),'Permit number invalid')
+													status = concat(nvl2(status, status || '; ', ''),'#labelValue# matched #cPermit.recordcount# records - look up PERMIT NUMBER again')
 												WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#username#">
 												and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#key#">
 											</cfquery>
@@ -913,7 +909,7 @@ limitations under the License.
 												UPDATE
 													cf_temp_media
 												SET
-													status = concat(nvl2(status, status || '; ', ''),'borrow number is invalid')
+													status = concat(nvl2(status, status || '; ', ''),'#labelValue# matched #cBorrow.recordcount# records - look up BORROW NUMBER again')
 												WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#username#">
 													and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#key#"> 
 											</cfquery>
@@ -929,31 +925,35 @@ limitations under the License.
 									join container pcont on (cont.parent_container_id = pcont.container_id)
 									where pcont.barcode = (select barcode from container where barcode=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#labelValue#">)
 								</cfquery>
-								<cfif cSpecPart.recordcount is 1 and len(cSpecPart.collection_object_id) gt 0>
-									<cfquery name="insRel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-										insert into cf_temp_media_relations (
-											key,
-											MEDIA_RELATIONSHIP,
-											CREATED_BY_AGENT_ID,
-											RELATED_PRIMARY_KEY,
-											USERNAME
-										) values (
-											<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#key#">,
-											<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#labelName#">,
-											<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#session.myAgentId#">,
-											<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#cSpecPart.collection_object_id#">,
-											<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#username#">
-										)
-									</cfquery>
-								<cfelse>
-									<cfquery name="warningMessageContainer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-										UPDATE
-											cf_temp_media
-										SET
-											status = concat(nvl2(status, status || '; ', ''),'container_unique_id is invalid')
-										WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#username#">
-											and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#key#"> 
-									</cfquery>
+								<cfif len(cSpecPart.collection_object_id) gt 0>
+									<cfloop query="cSpecPart">
+										<cfif cSpecPart.recordcount is 1 and len(cSpecPart.collection_object_id) gt 0>
+											<cfquery name="insRel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+												insert into cf_temp_media_relations (
+													key,
+													MEDIA_RELATIONSHIP,
+													CREATED_BY_AGENT_ID,
+													RELATED_PRIMARY_KEY,
+													USERNAME
+												) values (
+													<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#key#">,
+													<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#labelName#">,
+													<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#session.myAgentId#">,
+													<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#cSpecPart.collection_object_id#">,
+													<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#username#">
+												)
+											</cfquery>
+										<cfelse>
+											<cfquery name="warningMessageContainer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+												UPDATE
+													cf_temp_media
+												SET
+													status = concat(nvl2(status, status || '; ', ''),'#labelValue# matched #cSpecPart.recordcount# records - look up CONTAINER_UNIQUE_ID again')
+												WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#username#">
+													and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#key#"> 
+											</cfquery>
+										</cfif>
+									</cfloop>
 								</cfif>
 							</cfif>
 						</cfif>
