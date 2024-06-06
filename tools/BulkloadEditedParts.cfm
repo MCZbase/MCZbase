@@ -58,7 +58,7 @@
 		<ul style="margin-left:1em;padding-bottom: .5em;font-size: 14px;">
 				<li>The value here will update the value of the condition.</li>
 		</ul>
-	<li style="color:red">current_remarks
+	<li style="color:red">current_remarks</li>
 		<ul style="margin-left:1em;padding-bottom: .5em;font-size: 14px;">
 			<li>This is the current part remarks.  It is required to find matching parts.</li>
 			<li>
@@ -66,7 +66,6 @@
 				Must exactly match the remarks on the part.
 			</li>
 		</ul>
-	</li>
 	<li>append_to_remarks
 			<ul style="margin-left:1em;padding-bottom: .5em;font-size: 14px;">
 				<li>Anything in this field will be appended to the current part remarks. It will be automatically separated by a semicolon.</li>
