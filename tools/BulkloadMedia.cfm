@@ -848,7 +848,7 @@ limitations under the License.
 								<cfset labelName=listgetat(label,1,"=")>
 								<cfset labelValue=listgetat(label,2,"=")>
 								<cfquery name="cPermit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-									select distinct(permit_id) permit_id from permit where permit_num = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#labelValue#">
+									select permit_id from permit where permit_num = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#labelValue#">
 								</cfquery>
 								<cfif cPermit.recordcount gt 0>
 									<cfloop query="cPermit">
@@ -913,7 +913,7 @@ limitations under the License.
 												SET
 													status = concat(nvl2(status, status || '; ', ''),'#labelValue# matched #cBorrow.recordcount# records - look up BORROW NUMBER again')
 												WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#username#">
-														and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#cBorrow.key#"> 
+												and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#cBorrow.key#"> 
 											</cfquery>
 										</cfif>
 									</cfloop>
