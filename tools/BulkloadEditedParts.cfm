@@ -626,6 +626,7 @@ limitations under the License.
 								cf_temp_edit_parts.preserve_method=specimen_part.preserve_method and
 								cf_temp_edit_parts.collection_object_id=specimen_part.derived_from_cat_item
 							left join coll_object_remark on specimen_part.collection_object_id = coll_object_remark.collection_object_id
+							left join coll_object on specimen_part.collection_object_id = coll_object.collection_object_id
 						where			
 							nvl(cf_temp_edit_parts.current_remarks, 'NULL') = nvl(coll_object_remark.coll_object_remarks, 'NULL') and
 							nvl2(cf_temp_edit_parts.lot_count,cf_temp_edit_parts.lot_count,-1) 
