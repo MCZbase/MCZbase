@@ -842,11 +842,11 @@ limitations under the License.
 											and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#cTrans.key#"> 
 									</cfquery>
 								</cfif>
-							<cfelseif tableChecked is "permit">
+							<cfelseif table_name is "permit">
 								<cfset labelName=listgetat(label,1,"=")>
 								<cfset labelValue=listgetat(label,2,"=")>
 								<cfquery name="cPermit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-									select distinct permit_id from permit where permit_num = '#labelName#'
+									select distinct(permit_id) permit_id from permit where permit_num = '#labelName#'
 								</cfquery>
 								<cfif len(cPermit.permit_id) gt 0>
 									<cfquery name="insRel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="insRel_result">
@@ -864,7 +864,7 @@ limitations under the License.
 											<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#username#">
 										)
 									</cfquery>
-							<cfelse>
+								<cfelse>
 									<cfquery name="warningMessage" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 										UPDATE
 											cf_temp_media
