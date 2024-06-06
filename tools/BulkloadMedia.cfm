@@ -927,7 +927,7 @@ limitations under the License.
 									join container pcont on (cont.parent_container_id = pcont.container_id)
 									where pcont.barcode = (select barcode from container where barcode=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#labelValue#">)
 								</cfquery>
-								<cfif len(cSpecPart.collection_object_id) gt 0>
+								<cfif cSpecPart.recordcount gt 0>
 									<cfloop query="cSpecPart">
 										<cfif cSpecPart.recordcount is 1 and len(cSpecPart.collection_object_id) gt 0>
 											<cfquery name="insRel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
