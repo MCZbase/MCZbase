@@ -530,14 +530,7 @@ limitations under the License.
 							<cfset labelValue=listgetat(label,2,"=")>
 							<!---Grabs the last word of the ct media relationship to identify the table name.--->
 							<cfset table_name = listlast(labelName," ")>
-							<cfquery name="getTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-								select distinct auto_table from ctmedia_relationship where auto_table = '#table_name#'
-							</cfquery>
-							<cfif getTable.recordcount is 1>
-							<cfset tableChecked = '#getTable.auto_table#'>
-							<cfelse>
-								<h2>Table name doesn't exist</h2>
-							</cfif>
+	
 							<cfif table_name is "agent">
 								<cfquery name="cAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 									select distinct(agent_id) agent_id from agent_name where agent_name ='#labelValue#'
