@@ -838,6 +838,7 @@ limitations under the License.
 								<cfquery name="cPermit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 									select permit_id from permit where permit_num = '#labelValue#'
 								</cfquery>
+								<cftry>
 								<cfif cPermit.recordcount is 1 and len(cPermit.permit_id) gt 0>
 									<cfquery name="insRel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 										insert into cf_temp_media_relations (
@@ -861,8 +862,10 @@ limitations under the License.
 										SET
 											status = concat(nvl2(status, status || '; ', ''),'Permit number #labelValue# matched #cPermit.recordcount# records')
 										WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#username#">
+										and 
 									</cfquery>
 								</cfif>
+								</cftry>
 							<cfelseif table_name is "borrow">
 								<cfquery name="cTrans" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 									select transaction_id 
