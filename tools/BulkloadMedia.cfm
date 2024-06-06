@@ -929,7 +929,7 @@ limitations under the License.
 										SET
 											status = concat(nvl2(status, status || '; ', ''),'barcode #labelValue# matched #c.recordcount# records')
 										WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#username#">
-											and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#cSpecPart.key#"> 
+											and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#key#"> 
 									</cfquery>
 								</cfif>
 							<cfelse>
@@ -937,8 +937,9 @@ limitations under the License.
 									UPDATE
 										cf_temp_media
 									SET
-										status = concat(nvl2(status, status || '; ', ''),'Media relations specimen part is not handled')
+										status = concat(nvl2(status, status || '; ', ''),'Media relationship for specimen part is not handled')
 									WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#username#">
+									and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#key#"> 
 								</cfquery>
 							</cfif>
 						</cfif>
