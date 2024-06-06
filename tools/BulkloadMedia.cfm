@@ -861,9 +861,9 @@ limitations under the License.
 													RELATED_PRIMARY_KEY,
 													USERNAME
 												) values (
-													<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#key#">,
+													<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#key#">,
 													<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#labelName#">,
-													<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#session.myAgentId#">,
+													<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.myAgentId#">,
 													<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#cPermit.permit_id#">,
 													<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#username#">
 												)
