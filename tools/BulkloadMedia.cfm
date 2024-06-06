@@ -846,7 +846,7 @@ limitations under the License.
 								<cfset labelName=listgetat(label,1,"=")>
 								<cfset labelValue=listgetat(label,2,"=")>
 								<cfquery name="cPermit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-									select permit_id from permit where permit_num = '#labelName#'
+									select distinct permit_id from permit where permit_num = '#labelName#'
 								</cfquery>
 								<cfif cPermit.recordcount is 1 and len(cPermit.permit_id) gt 0>
 									<cfquery name="insRel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="insRel_result">
@@ -871,7 +871,6 @@ limitations under the License.
 										SET
 											status = concat(nvl2(status, status || '; ', ''),'Permit number invalid')
 										WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#username#">
-											and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.key#"> 
 									</cfquery>
 								</cfif>
 							<cfelseif table_name is "borrow">
