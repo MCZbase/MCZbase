@@ -718,7 +718,7 @@ limitations under the License.
 								</cfif>
 							<cfelseif table_name is "publication">
 								<cfset labelName=listgetat(label,1,"=")>
-								<cfset labelValue=listgetat(label,1,"=")>
+								<cfset labelValue=listgetat(label,2,"=")>
 								<cfquery name="cPub" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 									select distinct(publication_id) publication_id from publication where publication_id ='#labelValue#'
 								</cfquery>
