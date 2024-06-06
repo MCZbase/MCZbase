@@ -534,7 +534,7 @@ limitations under the License.
 								<cfquery name="cAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 									select distinct(agent_id) agent_id from agent_name where agent_name ='#labelValue#'
 								</cfquery>
-								<cfif len(cAgent.recordcount) gt 0>
+								<cfif cAgent.recordcount gt 0>
 									<cfloop query="cAgent">
 										<cfif cAgent.recordcount is 1 and len(cAgent.agent_id) gt 0>
 											<cfquery name="insRel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
