@@ -888,7 +888,7 @@ limitations under the License.
 									from borrow 
 									where borrow_number = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#labelValue#">
 								</cfquery>
-								<cfif cPermit.recordcount gt 0>
+								<cfif cTrans.recordcount gt 0>
 									<cfloop query="cTrans">
 										<cfif cTrans.recordcount is 1 and len(cTrans.transaction_id) gt 0>
 											<cfquery name="insRel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
