@@ -543,6 +543,41 @@ limitations under the License.
 						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 							AND key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#data.key#"> 
 					</cfquery>
+					<cfquery name="getPart" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						select specimen_part.collection_object_id
+						from specimen_part   
+							left join coll_object_remark on specimen_part.collection_object_id = coll_object_remark.collection_object_id
+							left join coll_object on specimen_part.collection_object_id = coll_object.collection_object_id
+						where			
+							part_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#data.part_name#">
+							and preserve_method = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#data.preserve_method#">
+							and derived_from_cat_item = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collObj.collection_object_id#">
+							<cfif len(data.current_remarks) EQ 0>
+								and coll_object_remark.coll_object_remarks IS NULL
+							<cfelse>
+								and coll_object_remark.coll_object_remarks = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#data.current_remarks#">
+							</cfif>
+							<cfif len(data.lot_count) EQ 0>
+								and coll_object.lot_count IS NULL
+							<cfelse>
+								and coll_object.lot_count= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#data.lot_count#">
+							</cfif>
+							<cfif len(data.lot_count_modifier) EQ 0>
+								and coll_object.lot_count_modifier IS NULL
+							<cfelse>
+								and coll_object.lot_count_modifier= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#data.lot_count_modifier#">
+							</cfif>
+					</cfquery>
+					<cfif getPart.recordcount EQ 1>
+						<cfquery name="insColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+							UPDATE cf_temp_edit_parts 
+								SET 
+									part_collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getPart.collection_object_id#">,
+									status = 'VALID:' || concat(nvl2(status, status || '; ', ''),'Found Part')
+							WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+								AND key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#data.key#"> 
+						</cfquery>
+					</cfif>
 				<cfelse>
 					<cfquery name="insColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						UPDATE cf_temp_edit_parts 
@@ -616,7 +651,10 @@ limitations under the License.
 			<!--- Check part attributes with general queries for the user --->
 			<cfquery name="findduplicates" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				UPDATE cf_temp_edit_parts 
-				SET status = 'ERROR: More that one matching part' 
+				SET status = concat(
+						nvl2(status, status || '; ', ''),
+						'ERROR: More that one matching part' 
+					)
 				WHERE cf_temp_edit_parts.key in 
 					(
 						select cf_temp_edit_parts.key
