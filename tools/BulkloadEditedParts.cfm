@@ -855,7 +855,8 @@ limitations under the License.
 			<cfquery name="countFailures" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT count(*) as cnt 
 				FROM cf_temp_edit_parts 
-				WHERE substr(status,1,5) NOT IN ('VALID')
+				WHERE status <> ' :Found Cataloged Item; Found Part'
+					and collection_object_id is not null
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<h3 class="mt-3">
