@@ -835,6 +835,8 @@ limitations under the License.
 									</cfquery>
 								</cfif>
 							<cfelseif table_name is "permit">
+								<cfset labelName=listgetat(label,1,"=")>
+								<cfset labelValue=listgetat(label,2,"=")>
 								<cfquery name="cPermit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 									select permit_id from permit where permit_num = '#labelName#'
 								</cfquery>
