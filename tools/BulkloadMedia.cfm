@@ -836,7 +836,7 @@ limitations under the License.
 								</cfif>
 							<cfelseif table_name is "permit">
 								<cfquery name="cPermit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-									select permit_id from permit where permit_num = '#labelValue#'
+									select permit_id from permit where permit_num = '20523'
 								</cfquery>
 								<cfif cPermit.recordcount is 1 and len(cPermit.permit_id) gt 0>
 									<cfquery name="insRel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
