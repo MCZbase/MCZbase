@@ -650,7 +650,7 @@ limitations under the License.
 										from coll_event_num_series ns 
 										join coll_event_number n  on ns.coll_event_num_series_id = n.coll_event_num_series_id
 										where ns.number_series = '#idtype#'
-										and n.coll_event_number = '#idvalue#'
+										and n.coll_event_number = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#idvalue#">
 									</cfquery>
 									<cfif cEvent.recordcount gt 0>
 										<cfloop query="cEvent">
@@ -685,7 +685,7 @@ limitations under the License.
 								</cfif>
 							<cfelseif table_name is "project">
 								<cfquery name="cProject" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-									select distinct(project_id) project_id from project where PROJECT_NAME ='#labelValue#'
+									select distinct(project_id) project_id from project where PROJECT_NAME =<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#labelValue#">
 								</cfquery>
 								<cfif cProject.recordcount gt 0>
 									<cfloop query="cProject">
@@ -720,7 +720,7 @@ limitations under the License.
 								<cfset labelName=listgetat(label,1,"=")>
 								<cfset labelValue=listgetat(label,2,"=")>
 								<cfquery name="cPub" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-									select distinct(publication_id) publication_id from publication where publication_id ='#labelValue#'
+									select distinct(publication_id) publication_id from publication where publication_id =<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#labelValue#">
 								</cfquery>
 								<cfif cPub.recordcount gt 0>
 									<cfloop query="cPub">
@@ -848,7 +848,7 @@ limitations under the License.
 								<cfset labelName=listgetat(label,1,"=")>
 								<cfset labelValue=listgetat(label,2,"=")>
 								<cfquery name="cPermit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-									select distinct(permit_id) permit_id from permit where permit_num = '#labelValue#'
+									select distinct(permit_id) permit_id from permit where permit_num = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#labelValue#">
 								</cfquery>
 								<cfif cPermit.recordcount gt 0>
 									<cfloop query="cPermit">
@@ -861,10 +861,10 @@ limitations under the License.
 													RELATED_PRIMARY_KEY,
 													USERNAME
 												) values (
-													<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#cPermit.key#">,
+													<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#key#">,
 													<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#labelName#">,
 													<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.myAgentId#">,
-													<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#cPermit.permit_id#">,
+													<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#cPermit.permit_id#">,
 													<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#username#">
 												)
 											</cfquery>
@@ -902,7 +902,7 @@ limitations under the License.
 													<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#key#">,
 													<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#labelName#">,
 													<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.myAgentId#">,
-													<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#cBorrow.transaction_id#">,
+													<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#cBorrow.transaction_id#">,
 													<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#username#">
 												)
 											</cfquery>
