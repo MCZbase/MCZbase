@@ -935,7 +935,7 @@ limitations under the License.
 								<cfloop query="lookupGuid">
 									<cfset guid = "MCZ:#lookupGuid.collection_cde#:#lookupGuid.cat_num#">
 								</cfloop>
-								<cfif len(#collection_object_id#) gt 0 and (#status# is ':Found Cataloged Item; Found Part')>
+								<cfif len(#collection_object_id#) gt 0 and (#status# is ' :Found Cataloged Item; Found Part')>
 									<!--- no need to display status --->
 								<cfelseif left(status,5) is 'VALID'>
 									<a href="/guid/#guid#"
