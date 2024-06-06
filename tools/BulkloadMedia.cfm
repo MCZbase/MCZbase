@@ -563,11 +563,6 @@ limitations under the License.
 									</cfloop>
 								</cfif>
 							<cfelseif table_name is "locality">
-								<cfquery name="getkey" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-									select key from cf_temp_media_relations
-									WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#username#">
-									and media_relationship like '%locality%'
-								</cfquery>
 								<cfif isnumeric(labelValue)>
 									<cfset idtype = "locality_id">
 									<cfset idvalue = labelValue>
@@ -602,7 +597,7 @@ limitations under the License.
 												UPDATE cf_temp_media
 												SET status = concat(nvl2(status, status || '; ', ''),'Locality_id #labelValue# matched #cLocality.recordcount# records - look up LOCALITY_ID again')
 												WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#username#">
-												and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getkey.key#">
+												and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#key#">
 											</cfquery>
 										</cfif>
 									</cfloop>
@@ -775,7 +770,6 @@ limitations under the License.
 								</cfquery>
 								<cfif cColl.recordcount gt 0>
 									<cftry>
-										<cfloop query="cColl">
 											<cfif cColl.recordcount is 1 and len(cColl.collection_object_id) gt 0>
 												<cfquery name="insertMediaRelations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 													insert into cf_temp_media_relations (
@@ -802,7 +796,6 @@ limitations under the License.
 														and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#cColl.key#"> 
 												</cfquery>
 											</cfif>
-										</cfloop>
 										<cfcatch>
 											<cfquery name="warningMessageSpec" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 												UPDATE
