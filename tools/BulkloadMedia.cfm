@@ -883,25 +883,27 @@ limitations under the License.
 							<cfelseif table_name is "borrow">
 								<cfset labelName=listgetat(label,1,"=")>
 								<cfset labelValue=listgetat(label,2,"=")>
-								<cfquery name="cTrans" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+								<cfquery name="cBorrow" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 									select transaction_id 
 									from borrow 
 									where borrow_number = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#labelValue#">
 								</cfquery>
-								<cfif cTrans.recordcount gt 0>
-									<cfloop query="cTrans">
-										<cfif cTrans.recordcount is 1 and len(cTrans.transaction_id) gt 0>
+								<cfif cBorrow.recordcount gt 0>
+									<cfloop query="cBorrow">
+										<cfif cBorrow.recordcount is 1 and len(cBorrow.transaction_id) gt 0>
 											<cfquery name="insRel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 												insert into cf_temp_media_relations (
 													key,
 													MEDIA_RELATIONSHIP,
 													CREATED_BY_AGENT_ID,
-													RELATED_PRIMARY_KEY
+													RELATED_PRIMARY_KEY,
+													USERNAME
 												) values (
 													<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#key#">,
 													<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#labelName#">,
 													<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.myAgentId#">,
-													<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#cTrans.transaction_id#">
+													<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#cBorrow.transaction_id#">,
+													<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#username#">,
 												)
 											</cfquery>
 										<cfelse>
