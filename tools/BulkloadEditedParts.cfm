@@ -58,7 +58,7 @@
 		<ul style="margin-left:1em;padding-bottom: .5em;font-size: 14px;">
 				<li>The value here will update the value of the condition.</li>
 		</ul>
-	<li>current_remarks
+	<li style="color:red">current_remarks
 		<ul style="margin-left:1em;padding-bottom: .5em;font-size: 14px;">
 			<li>This is the current part remarks.  It is required to find matching parts.</li>
 			<li>
