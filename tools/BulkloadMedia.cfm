@@ -534,7 +534,7 @@ limitations under the License.
 								select distinct auto_table from ctmedia_relationship where auto_table like '%#LabelValue#%'
 							</cfquery>
 							<cfif getTable.recordcount is 1>
-							<cfset tableChecked = "getTable.auto_table">
+							<cfset tableChecked = '#getTable.auto_table#'>
 							<cfelse>
 								<h2>Table name doesn't exist</h2>
 							</cfif>
