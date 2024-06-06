@@ -835,10 +835,11 @@ limitations under the License.
 									</cfquery>
 								</cfif>
 							<cfelseif table_name is "permit">
-								<cfquery name="cPermit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-									select permit_id from permit where permit_num = '20523'
-								</cfquery>
+								
 								<cfif cPermit.recordcount is 1 and len(cPermit.permit_id) gt 0>
+									<cfquery name="cPermit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+										select permit_id from permit where permit_num = '20523'
+									</cfquery>
 									<cfquery name="insRel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 										insert into cf_temp_media_relations (
 											key,
@@ -859,7 +860,7 @@ limitations under the License.
 										UPDATE
 											cf_temp_media
 										SET
-											status = concat(nvl2(status, status || '; ', ''),'Permit number #labelValue# matched #cPermit.recordcount# records')
+											status = concat(nvl2(status, status || '; ', ''),'Permit number #labelValue# invalid')
 										WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#username#">
 									</cfquery>
 								</cfif>
