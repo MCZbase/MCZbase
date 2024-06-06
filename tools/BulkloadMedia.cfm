@@ -737,7 +737,7 @@ limitations under the License.
 													<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#key#">,
 													<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#labelName#">,
 													<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.myAgentId#">,
-													<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#cPub.publication_id#">,
+													<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#cPub.publication_id#">,
 													<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#username#">
 												)
 											</cfquery>
@@ -746,7 +746,7 @@ limitations under the License.
 												UPDATE
 													cf_temp_media
 												SET
-													status = concat(nvl2(status, status || '; ', ''),'Publication_id is invalid')
+													status = concat(nvl2(status, status || '; ', ''),'PUBLICATION_ID is invalid - look up publication again')
 												WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#username#">
 													and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#key#"> 
 											</cfquery>
@@ -782,7 +782,7 @@ limitations under the License.
 														<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#key#">,
 														<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#labelName#">,
 														<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.myAgentId#">,
-														<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#cColl.collection_object_id#">,
+														<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#cColl.collection_object_id#">,
 														<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#username#">
 													)
 												</cfquery>
