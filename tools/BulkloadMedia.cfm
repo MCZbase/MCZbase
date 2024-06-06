@@ -852,7 +852,7 @@ limitations under the License.
 								</cfquery>
 								<cfif cPermit.recordcount gt 0>
 									<cfloop query="cPermit">
-										<cfif cPermit.recordcount is 1 and len(cPermit.permit) gt 0>
+										<cfif cPermit.recordcount is 1 and len(cPermit.permit_id) gt 0>
 											<cfquery name="insRel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 												insert into cf_temp_media_relations (
 													key,
