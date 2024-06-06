@@ -892,9 +892,9 @@ limitations under the License.
 										UPDATE
 											cf_temp_media
 										SET
-											status = concat(nvl2(status, status || '; ', ''),'permit number #labelValue# matched #c.recordcount# records')
+											status = concat(nvl2(status, status || '; ', ''),'borrow number is invalid')
 										WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#username#">
-											and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#cTrans.key#"> 
+											and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#key#"> 
 									</cfquery>
 								</cfif>
 							<cfelseif table_name is "specimen_part">
