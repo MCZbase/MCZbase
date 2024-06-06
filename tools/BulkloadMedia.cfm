@@ -531,7 +531,7 @@ limitations under the License.
 							<!---Grabs the last word of the ct media relationship to identify the table name.--->
 							<cfset table_name = listlast(labelName," ")>
 							<cfquery name="getTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-								select auto_table from ctmedia_relationship where auto_table like '%#LabelValue#%'
+								select distinct auto_table from ctmedia_relationship where auto_table like '%#LabelValue#%'
 							</cfquery>
 							<cfif getTable.recordcount is 1>
 							<cfset tableChecked = "getTable.auto_table">
