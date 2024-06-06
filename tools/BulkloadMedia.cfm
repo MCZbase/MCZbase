@@ -557,7 +557,7 @@ limitations under the License.
 												UPDATE cf_temp_media
 												SET status = concat(nvl2(status, status || '; ', ''),'AGENT_NAME #labelValue# matched #cAgent.recordcount# records -- look up AGENT_NAME again')
 												WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#username#">
-												and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#key#">
+												and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#cAgent.key#">
 											</cfquery>
 										</cfif>
 									</cfloop>
@@ -596,7 +596,7 @@ limitations under the License.
 												UPDATE cf_temp_media
 												SET status = concat(nvl2(status, status || '; ', ''),'Locality_id #labelValue# matched #cLocality.recordcount# records - look up LOCALITY_ID again')
 												WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#username#">
-												and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempMedia.key#">
+												and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#cLocality.key#">
 											</cfquery>
 										</cfif>
 									</cfloop>
@@ -639,7 +639,7 @@ limitations under the License.
 													SET
 														status = concat(nvl2(status, status || '; ', ''),'#labelValue# matched #cEvent.recordcount# records - look up COLLECTING_EVENT_ID again')
 													WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#username#">
-														and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#key#"> 
+														and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#cEvent.key#"> 
 												</cfquery>
 											</cfif>
 										</cfloop>
@@ -679,7 +679,7 @@ limitations under the License.
 											SET
 												status = concat(nvl2(status, status || '; ', ''),'collecting event number series #labelValue# matched #cEvent.recordcount# values')
 											WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#username#">
-												and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#key#"> 
+												and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#cEvent.key#"> 
 										</cfquery>
 									</cfif>
 								</cfif>
@@ -687,8 +687,8 @@ limitations under the License.
 								<cfquery name="cProject" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 									select distinct(project_id) project_id from project where PROJECT_NAME ='#labelValue#'
 								</cfquery>
-								<cfif cEvent.recordcount gt 0>
-									<cfloop query="cEvent">
+								<cfif cProject.recordcount gt 0>
+									<cfloop query="cProject">
 										<cfif cProject.recordcount is 1 and len(cProject.project_id) gt 0>
 											<cfquery name="insRel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 												insert into cf_temp_media_relations (
@@ -711,7 +711,7 @@ limitations under the License.
 													cf_temp_media
 													status = concat(nvl2(status, status || '; ', ''),'Project_id #labelValue# matched #cProject.recordcount#')
 												WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#username#">
-													and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#cPub.key#"> 
+													and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#cProject.key#"> 
 											</cfquery>
 										</cfif>
 									</cfloop>
@@ -748,7 +748,7 @@ limitations under the License.
 												SET
 													status = concat(nvl2(status, status || '; ', ''),'PUBLICATION_ID is invalid - look up publication again')
 												WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#username#">
-													and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#key#"> 
+													and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#cPub.key#"> 
 											</cfquery>
 										</cfif>
 									</cfloop>
@@ -793,7 +793,7 @@ limitations under the License.
 													SET
 														status = concat(nvl2(status, status || '; ', ''),'Cataloged Item #labelValue# matched #cColl.recordcount# records.')
 													WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#username#">
-														and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#key#"> 
+														and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#cColl.key#"> 
 												</cfquery>
 											</cfif>
 										</cfloop>
@@ -804,7 +804,7 @@ limitations under the License.
 												SET
 													status = concat(nvl2(status, status || '; ', ''),'#labelValue# is not a DWC Triplet. *#institution_acronym#* *#collection_cde#* *#cat_num#*')
 												WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#username#">
-													and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#key#"> 
+													and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#cColl.key#"> 
 											</cfquery>
 										</cfcatch>
 									</cftry>
@@ -875,7 +875,7 @@ limitations under the License.
 												SET
 													status = concat(nvl2(status, status || '; ', ''),'#labelValue# matched #cPermit.recordcount# records - look up PERMIT NUMBER again')
 												WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#username#">
-												and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#key#">
+													and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#cPermit.key#"> 
 											</cfquery>
 										</cfif>
 									</cfloop>
@@ -913,7 +913,7 @@ limitations under the License.
 												SET
 													status = concat(nvl2(status, status || '; ', ''),'#labelValue# matched #cBorrow.recordcount# records - look up BORROW NUMBER again')
 												WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#username#">
-													and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#key#"> 
+														and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#cBorrow.key#"> 
 											</cfquery>
 										</cfif>
 									</cfloop>
@@ -954,7 +954,7 @@ limitations under the License.
 												SET
 													status = concat(nvl2(status, status || '; ', ''),'#labelValue# matched #cSpecPart.recordcount# records - look up CONTAINER_UNIQUE_ID again')
 												WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#username#">
-													and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#key#"> 
+												and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#cSpecPart.key#"> 
 											</cfquery>
 										</cfif>
 									</cfloop>
