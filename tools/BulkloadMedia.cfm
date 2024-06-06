@@ -871,6 +871,7 @@ limitations under the License.
 										SET
 											status = concat(nvl2(status, status || '; ', ''),'Permit number invalid')
 										WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#username#">
+											and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#cPermit.key#"> 
 									</cfquery>
 								</cfif>
 							<cfelseif table_name is "borrow">
