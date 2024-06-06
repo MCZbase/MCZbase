@@ -414,7 +414,6 @@ limitations under the License.
 		<h2 class="h4 mb-3">Second step: Data Validation</h2>
 		<cfoutput>
 			<cfset key = ''>
-				
 			<cfquery name="getTempMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT *
 				FROM 
@@ -486,7 +485,7 @@ limitations under the License.
 								UPDATE
 									cf_temp_media
 								SET
-									status = concat(nvl2(status, status || '; ', ''),'Media Label #labelName# is invalid')
+									status = concat(nvl2(status, status || '; ', ''),'Media label name is invalid')
 								WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#username#">
 							</cfquery>
 						<cfelseif labelName EQ "made date" && refind("^[0-9]{4}-[0-9]{2}-[0-9]{2}$",labelValue) EQ 0>
@@ -494,7 +493,7 @@ limitations under the License.
 								UPDATE
 									cf_temp_media
 								SET
-									status = concat(nvl2(status, status || '; ', ''),'Media Label #labelName# must be yyyy-mm-dd')
+									status = concat(nvl2(status, status || '; ', ''),'Media Label, made date, must be yyyy-mm-dd')
 								WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#username#">
 							</cfquery>
 						<cfelse>
@@ -517,19 +516,28 @@ limitations under the License.
 					</cfloop>
 				</cfif>
 				<cfif len(getTempMedia.MEDIA_RELATIONSHIPS) gt 0>
-					<cfloop list="#getTempMedia.MEDIA_RELATIONSHIPS#" index="label" delimiters=";">							
+					<cfloop list="#getTempMedia.MEDIA_RELATIONSHIPS#" index="label" delimiters=";">
 						<cfif len(getTempMedia.MEDIA_RELATIONSHIPS) is 0>
 							<cfquery name="warningMessage" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 								UPDATE cf_temp_media
-								SET status = concat(nvl2(status, status || '; ', ''),'Media relationship is invalid.')
-								WHERE media_relationships is null
-								and username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#username#">
+								SET status = concat(nvl2(status, status || '; ', ''),'Media relationship name is invalid.')
+								WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#username#">
 								and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempMedia.key#">
 							</cfquery>
+						<!---If the relationship is good, use conditionals to insert the other relationships--->
 						<cfelse>
 							<cfset labelName=listgetat(label,1,"=")>
 							<cfset labelValue=listgetat(label,2,"=")>
+							<!---Grabs the last word of the ct media relationship to identify the table name.--->
 							<cfset table_name = listlast(labelName," ")>
+							<cfquery name="getTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+								select auto_table from ctmedia_relationship where auto_table like '%#LabelValue#%'
+							</cfquery>
+							<cfif getTable.recordcount is 1>
+							<cfset tableChecked = "getTable.auto_table">
+							<cfelse>
+								<h2>Table name doesn't exist</h2>
+							<cfif>
 							<cfif table_name is "agent">
 								<cfquery name="cAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 									select distinct(agent_id) agent_id from agent_name where agent_name ='#labelValue#'
