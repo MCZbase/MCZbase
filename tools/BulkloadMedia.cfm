@@ -848,7 +848,7 @@ limitations under the License.
 								<cfquery name="cPermit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 									select distinct permit_id from permit where permit_num = '#labelName#'
 								</cfquery>
-									#permit_id#
+									#cPermit.permit_id#
 								<cfif cPermit.recordcount is 1 and len(cPermit.permit_id) gt 0>
 									<cfquery name="insRel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="insRel_result">
 										insert into cf_temp_media_relations (
