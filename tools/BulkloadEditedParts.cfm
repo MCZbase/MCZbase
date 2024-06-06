@@ -604,8 +604,8 @@ limitations under the License.
 							left join coll_object on specimen_part.collection_object_id = coll_object.collection_object_id
 						where			
 							nvl(cf_temp_edit_parts.current_remarks, 'NULL') = nvl(coll_object_remark.coll_object_remarks, 'NULL') and
-							nvl2(cf_temp_edit_parts.lot_count,cf_temp_edit_parts.lot_count,'NULL') 
-								= nvl2(coll_object.lot_count,coll_object.lot_count,'NULL') and
+							nvl2(cf_temp_edit_parts.lot_count,cf_temp_edit_parts.lot_count,-1) 
+								= nvl2(coll_object.lot_count,coll_object.lot_count,-1) and
 							nvl2(cf_temp_edit_parts.lot_count_modifier,cf_temp_edit_parts.lot_count_modifier,'NULL') 
 								= nvl2(coll_object.lot_count_modifier,coll_object.lot_count_modifier,'NULL')
 					)
