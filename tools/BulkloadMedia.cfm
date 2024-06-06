@@ -842,7 +842,7 @@ limitations under the License.
 											and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#cTrans.key#"> 
 									</cfquery>
 								</cfif>
-							<cfelseif table_name is "permit">
+							<cfelseif tableChecked is "permit">
 								<cfset labelName=listgetat(label,1,"=")>
 								<cfset labelValue=listgetat(label,2,"=")>
 								<cfquery name="cPermit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
