@@ -532,7 +532,7 @@ limitations under the License.
 							<cfset table_name = listlast(labelName," ")>
 							<cfif table_name is "agent">
 								<cfquery name="cAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-									select distinct(agent_id) agent_id from agent_name where agent_name ='#labelValue#'
+									select agent_id from agent_name where agent_name =<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#labelValue#">
 								</cfquery>
 								<cfif cAgent.recordcount gt 0>
 									<cfloop query="cAgent">
@@ -571,7 +571,7 @@ limitations under the License.
 									<cfset idvalue=trim(listlast(labelValue,"|"))>
 								</cfif>
 								<cfquery name="cLocality" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-									select locality_id from locality where locality_id ='#idvalue#'
+									select locality_id from locality where locality_id =<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#labelValue#">
 								</cfquery>
 								<cfif cLocality.recordcount gt 0>
 									<cfloop query="cLocality">
@@ -611,7 +611,7 @@ limitations under the License.
 								</cfif>
 								<cfif idtype EQ "collecting_event_id">
 									<cfquery name="cEvent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-										select collecting_event_id from collecting_event where collecting_event_id ='#idvalue#'
+										select collecting_event_id from collecting_event where collecting_event_id =<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#labelValue#">
 									</cfquery>
 									<!---For collecting event ID--->
 									<cfif len(cEvent.collecting_event_id) gt 0>
