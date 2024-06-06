@@ -537,7 +537,7 @@ limitations under the License.
 							<cfset tableChecked = "getTable.auto_table">
 							<cfelse>
 								<h2>Table name doesn't exist</h2>
-							<cfif>
+							</cfif>
 							<cfif table_name is "agent">
 								<cfquery name="cAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 									select distinct(agent_id) agent_id from agent_name where agent_name ='#labelValue#'
