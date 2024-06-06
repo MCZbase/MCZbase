@@ -530,7 +530,6 @@ limitations under the License.
 							<cfset labelValue=listgetat(label,2,"=")>
 							<!---Grabs the last word of the ct media relationship to identify the table name.--->
 							<cfset table_name = listlast(labelName," ")>
-	
 							<cfif table_name is "agent">
 								<cfquery name="cAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 									select distinct(agent_id) agent_id from agent_name where agent_name ='#labelValue#'
@@ -835,37 +834,41 @@ limitations under the License.
 											and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#cTrans.key#"> 
 									</cfquery>
 								</cfif>
-							<cfelseif table_name is "permit">
+							<cfelseif table_name is "shows permit">
 								<cfset labelName=listgetat(label,1,"=")>
 								<cfset labelValue=listgetat(label,2,"=")>
 								<cfquery name="cPermit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 									select distinct(permit_id) permit_id from permit where permit_num = '#labelName#'
 								</cfquery>
-								<cfif len(cPermit.permit_id) gt 0 and cPermit.permit_id.recordcount is 1>
-									<cfquery name="insRel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-										insert into cf_temp_media_relations (
-											key,
-											MEDIA_RELATIONSHIP,
-											CREATED_BY_AGENT_ID,
-											RELATED_PRIMARY_KEY,
-											USERNAME
-										) values (
-											<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#key#">,
-											<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#labelName#">,
-											<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#session.myAgentId#">,
-											<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#cPermit.permit_id#">,
-											<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#username#">
-										)
-									</cfquery>
-								<cfelse>
-									<cfquery name="warningMessage" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-										UPDATE
-											cf_temp_media
-										SET
-											status = concat(nvl2(status, status || '; ', ''),'Permit number invalid')
-										WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#username#">
-										and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#key#">
-									</cfquery>
+								<cfif cPermit.recordcount gt 0>
+									<cfloop query="cPermit">
+										<cfif cPermit.recordcount is 1 and len(cPermit.permit) gt 0>
+											<cfquery name="insRel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+												insert into cf_temp_media_relations (
+													key,
+													MEDIA_RELATIONSHIP,
+													CREATED_BY_AGENT_ID,
+													RELATED_PRIMARY_KEY,
+													USERNAME
+												) values (
+													<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#key#">,
+													<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#labelName#">,
+													<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#session.myAgentId#">,
+													<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#cPermit.permit_id#">,
+													<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#username#">
+												)
+											</cfquery>
+										<cfelse>
+											<cfquery name="warningMessage" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+												UPDATE
+													cf_temp_media
+												SET
+													status = concat(nvl2(status, status || '; ', ''),'Permit number invalid')
+												WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#username#">
+												and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#key#">
+											</cfquery>
+										</cfif>
+									</cfloop>
 								</cfif>
 							<cfelseif table_name is "borrow">
 								<cfquery name="cTrans" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
