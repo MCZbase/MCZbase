@@ -432,7 +432,7 @@ limitations under the License.
 				</cfquery>
 				<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE cf_temp_edit_parts
-					SET status = status || ';Invalid CONTAINER_TYPE'
+					SET status = concat(nvl2(status, status || '; ', ''),'Invalid CONTAINER_TYPE')
 					WHERE 
 						change_container_type NOT IN (
 							select container_type from ctcontainer_type
@@ -443,14 +443,14 @@ limitations under the License.
 				</cfquery>
 				<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE cf_temp_edit_parts 
-					SET status = status || ';Invalid CONDITION'
+					SET status = concat(nvl2(status, status || '; ', ''),'Invalid CONDITION')
 					WHERE CONDITION is null
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						AND key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableQC.key#"> 
 				</cfquery>
 				<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE cf_temp_edit_parts 
-					SET status = status || ';invalid lot_count_modifier'
+					SET status = concat(nvl2(status, status || '; ', ''),'Invalid LOT_COUNT_MODIFIER')
 					WHERE 
 						lot_count_modifier NOT IN (
 							select modifier from ctnumeric_modifiers
@@ -460,7 +460,7 @@ limitations under the License.
 				</cfquery>
 				<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE cf_temp_edit_parts 
-					SET status = status || ';Invalid LOT_COUNT'
+					SET status = concat(nvl2(status, status || '; ', ''),'Invalid LOT_COUNT')
 					WHERE 
 						(
 							LOT_COUNT is null 
@@ -472,7 +472,7 @@ limitations under the License.
 				</cfquery>
 				<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE cf_temp_edit_parts 
-					SET status = status || ';Invalid CHANGED_DATE'
+					SET status = concat(nvl2(status, status || '; ', ''),'Invalid CHANGED_DATE')
 					WHERE 
 						isdate(changed_date) = 0
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
@@ -482,7 +482,7 @@ limitations under the License.
 			<!--- check fields used for matching parts --->
 			<cfquery name="badPartNames" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				UPDATE cf_temp_edit_parts 
-				SET status = status || ';Invalid part_name'
+				SET status = concat(nvl2(status, status || '; ', ''),'Invalid PART_NAME')
 				WHERE part_name|| '|' ||collection_cde NOT IN (
 					select part_name|| '|' ||collection_cde from ctspecimen_part_name
 					)
@@ -491,7 +491,7 @@ limitations under the License.
 			</cfquery>
 			<cfquery name="badPresserveMethods" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				UPDATE cf_temp_edit_parts 
-				SET status = status || ';Invalid preserve_method'
+				SET status = concat(nvl2(status, status || '; ', ''),'Invalid PRESERVE_METHOD')
 				WHERE 
 					preserve_method|| '|' ||collection_cde NOT IN (
 						select preserve_method|| '|' ||collection_cde from ctspecimen_preserv_method
@@ -512,10 +512,9 @@ limitations under the License.
 						SELECT
 							collection_object_id
 						FROM
-							cataloged_item,
-							collection
+							cataloged_item 
+							join collection on cataloged_item.collection_id = collection.collection_id
 						WHERE
-							cataloged_item.collection_id = collection.collection_id and
 							collection.collection_cde = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collection_cde#"> and
 							collection.institution_acronym = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#institution_acronym#"> and
 							cat_num=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#other_id_number#">
@@ -525,12 +524,10 @@ limitations under the License.
 						SELECT
 							coll_obj_other_id_num.collection_object_id
 						FROM
-							coll_obj_other_id_num,
-							cataloged_item,
-							collection
+							coll_obj_other_id_num
+							join cataloged_item on coll_obj_other_id_num.collection_object_id = cataloged_item.collection_object_id 
+							join collection on cataloged_item.collection_id = collection.collection_id
 						WHERE
-							coll_obj_other_id_num.collection_object_id = cataloged_item.collection_object_id and
-							cataloged_item.collection_id = collection.collection_id and
 							collection.collection_cde = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collection_cde#"> and
 							collection.institution_acronym = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#institution_acronym#"> and
 							other_id_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#other_id_type#"> and
@@ -542,7 +539,7 @@ limitations under the License.
 						UPDATE cf_temp_edit_parts 
 							SET 
 								collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collObj.collection_object_id#">,
-								status='VALID'
+								status = concat(nvl2(status, status || '; ', ''),'Found Cataloged Item')
 						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 							AND key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#data.key#"> 
 					</cfquery>
@@ -565,7 +562,7 @@ limitations under the License.
 				UPDATE cf_temp_edit_parts 
 				SET status = concat(
 						nvl2(status, status || '; ', ''),
-						'Invalid new_preserve_method'
+						'Invalid NEW_PRESERVE_METHOD'
 					)
 				WHERE 
 					new_preserve_method|| '|' ||collection_cde NOT IN (
@@ -578,7 +575,7 @@ limitations under the License.
 				UPDATE cf_temp_edit_parts 
 				SET status = concat(
 						nvl2(status, status || '; ', ''),
-						'Invalid new_part_name'
+						'Invalid NEW_PART_NAME'
 					)
 				WHERE 
 					new_part_name || '|' ||collection_cde NOT IN (
@@ -591,7 +588,10 @@ limitations under the License.
 			<!--- confirm that parts can be found, depends on lookup of collection_object_id --->
 			<cfquery name="findunmatched" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				UPDATE cf_temp_edit_parts 
-				SET status = 'ERROR: no matching part' 
+				SET status = concat(
+						nvl2(status, status || '; ', ''),
+						'ERROR: no matching part' 
+					)
 				WHERE cf_temp_edit_parts.key NOT in 
 					(
 						select cf_temp_edit_parts.key
