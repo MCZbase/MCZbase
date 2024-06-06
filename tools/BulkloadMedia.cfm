@@ -743,9 +743,9 @@ limitations under the License.
 										UPDATE
 											cf_temp_media
 										SET
-											status = concat(nvl2(status, status || '; ', ''),'Publication_id #labelValue# matched #cPub.recordcount#')
+											status = concat(nvl2(status, status || '; ', ''),'Publication_id is invalid')
 										WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#username#">
-											and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#cPub.key#"> 
+											and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#key#"> 
 									</cfquery>
 								</cfif>
 							<cfelseif table_name is "cataloged_item">
@@ -841,8 +841,8 @@ limitations under the License.
 								<cfquery name="cPermit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 									select distinct(permit_id) permit_id from permit where permit_num = '#labelName#'
 								</cfquery>
-								<cfif len(cPermit.permit_id) gt 0>
-									<cfquery name="insRel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="insRel_result">
+								<cfif len(cPermit.permit_id) gt 0 and cPermit.permit_id.recordcount is 1>
+									<cfquery name="insRel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 										insert into cf_temp_media_relations (
 											key,
 											MEDIA_RELATIONSHIP,
