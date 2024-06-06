@@ -917,8 +917,8 @@ limitations under the License.
 										) values (
 											<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#key#">,
 											<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#labelName#">,
-											<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.myAgentId#">,
-											<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#cSpecPart.collection_object_id#">,
+											<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#session.myAgentId#">,
+											<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#cSpecPart.collection_object_id#">,
 											<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#username#">
 										)
 									</cfquery>
@@ -927,20 +927,11 @@ limitations under the License.
 										UPDATE
 											cf_temp_media
 										SET
-											status = concat(nvl2(status, status || '; ', ''),'barcode #labelValue# matched #c.recordcount# records')
+											status = concat(nvl2(status, status || '; ', ''),'container_unique_id is invalid')
 										WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#username#">
 											and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#key#"> 
 									</cfquery>
 								</cfif>
-							<cfelse>
-								<cfquery name="warningMessageLN" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-									UPDATE
-										cf_temp_media
-									SET
-										status = concat(nvl2(status, status || '; ', ''),'Media relationship for specimen part is not handled')
-									WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#username#">
-									and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#key#"> 
-								</cfquery>
 							</cfif>
 						</cfif>
 					</cfloop>
