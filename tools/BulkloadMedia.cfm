@@ -796,17 +796,17 @@ limitations under the License.
 														and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#key#"> 
 												</cfquery>
 											</cfif>
-											<cfcatch>
-												<cfquery name="warningMessageSpec" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-													UPDATE
-														cf_temp_media
-													SET
-														status = concat(nvl2(status, status || '; ', ''),'#labelValue# is not a DWC Triplet. *#institution_acronym#* *#collection_cde#* *#cat_num#*')
-													WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#username#">
-														and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#key#"> 
-												</cfquery>
-											</cfcatch>
 										</cfloop>
+										<cfcatch>
+											<cfquery name="warningMessageSpec" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+												UPDATE
+													cf_temp_media
+												SET
+													status = concat(nvl2(status, status || '; ', ''),'#labelValue# is not a DWC Triplet. *#institution_acronym#* *#collection_cde#* *#cat_num#*')
+												WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#username#">
+													and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#key#"> 
+											</cfquery>
+										</cfcatch>
 									</cftry>
 								</cfif>
 							<cfelseif table_name is "accn">
