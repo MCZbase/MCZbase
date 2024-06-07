@@ -683,36 +683,34 @@ limitations under the License.
 									<cfset idtype=trim(listfirst(labelValue,"|"))>
 									<cfset idvalue=trim(listlast(labelValue,"|"))>
 								</cfif>
-								<cfif idtype EQ "project_id">
-									<cfquery name="cProject" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-										select project_id from project where PROJECT_id =<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#idtype#">
-									</cfquery>
-									<cfif cProject.recordcount gt 0>
-										<cfif cProject.recordcount is 1 and len(cProject.project_id) gt 0>
-											<cfquery name="insRel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-												insert into cf_temp_media_relations (
-													key,
-													MEDIA_RELATIONSHIP,
-													CREATED_BY_AGENT_ID,
-													RELATED_PRIMARY_KEY,
-													USERNAME
-												) values (
-													<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#key#">,
-													<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#labelName#">,
-													<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.myAgentId#">,
-													<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#cProject.project_id#">,
-													<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#username#">
-												)
-											</cfquery>
-										<cfelse>
-											<cfquery name="warningMessageProj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-												UPDATE
-													cf_temp_media
-													status = concat(nvl2(status, status || '; ', ''),'Project_id #labelValue# matched #cProject.recordcount#')
-												WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#username#">
-													and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#cProject.key#"> 
-											</cfquery>
-										</cfif>
+								<cfquery name="cProject" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+									select project_id from project where PROJECT_ID =<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#idtype#">
+								</cfquery>
+								<cfif cProject.recordcount gt 0>
+									<cfif cProject.recordcount is 1 and len(cProject.project_id) gt 0>
+										<cfquery name="insRel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+											insert into cf_temp_media_relations (
+												key,
+												MEDIA_RELATIONSHIP,
+												CREATED_BY_AGENT_ID,
+												RELATED_PRIMARY_KEY,
+												USERNAME
+											) values (
+												<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#key#">,
+												<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#labelName#">,
+												<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.myAgentId#">,
+												<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#cProject.project_id#">,
+												<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#username#">
+											)
+										</cfquery>
+									<cfelse>
+										<cfquery name="warningMessageProj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+											UPDATE
+												cf_temp_media
+												status = concat(nvl2(status, status || '; ', ''),'Project_id #labelValue# matched #cProject.recordcount#')
+											WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#username#">
+												and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#cProject.key#"> 
+										</cfquery>
 									</cfif>
 								</cfif>
 							<cfelseif table_name is "publication">
