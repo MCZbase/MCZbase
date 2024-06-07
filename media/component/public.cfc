@@ -1578,8 +1578,8 @@ include this function and use it.
 											<!---Display project--->
 											<cfif media_rel.media_relationship eq 'shows project'>
 												<cfset cProject.project_name = replace(cProject_name," ","-","all")>
-												<cfloop query="project">
-													<a class="font-weight-lessbold" href="/project/#cProject.project_name#"> #cProject.project_name#</a><cfif project.recordcount gt 1><span>, </span></cfif>
+												<cfloop query="cProject">
+													<a class="font-weight-lessbold" href="/project/#cProject.project_name#"> #cProject.project_name#</a><cfif cProject.recordcount gt 1><span>, </span></cfif>
 												</cfloop>
 											</cfif>
 										</div>
