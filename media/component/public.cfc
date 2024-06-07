@@ -1575,9 +1575,9 @@ include this function and use it.
 												</cfloop>
 											</cfif>
 											<!---Display project--->
-											<cfif media_rel.media_relationship eq 'shows project' and project.recordcount is 1>:
+											<cfif media_rel.media_relationship eq 'shows project'>:
 												<cfloop query="project">
-													<a class="font-weight-lessbold" href="/project/#project.project_name#">#project.project_id#</a><cfif project.recordcount gt 1><span>, </span></cfif>
+													<a class="font-weight-lessbold" href="/project/#project.project_name#">#project.project_name#</a><cfif project.recordcount gt 1><span>, </span></cfif>
 												</cfloop>
 											</cfif>
 										</div>
