@@ -920,7 +920,7 @@ include this function and use it.
 											<cfif media_rel.media_relationship eq 'documents accn'>
 												<cfif oneofus eq 1>
 													<cfloop query="accns">
-														<a href="/transactions/Accession.cfm?action=edit&transaction_id=#accns.transaction_id#" class="font-weight-lessbold">#accns.accn_number#</a><cfif accns.recordcount gt 1><span>, </span></cfif>
+														<a href="/transactions/Accession.cfm?action=edit&transaction_id=#accns.transaction_id#" class="font-weight-lessbold"> #accns.accn_number#</a><cfif accns.recordcount gt 1><span>, </span> </cfif>
 													</cfloop>
 												<cfelse>
 													<span class="d-inline font-italic">Hidden</span>
@@ -929,38 +929,38 @@ include this function and use it.
 											<!---Display Agent: created by agent query--->
 											<cfif media_rel.media_relationship eq 'created by agent'>
 												<cfloop query="agents1">
-													<a class="font-weight-lessbold" href="/agents/Agent.cfm?agent_id=#agents1.agent_id#"> #agents1.agent_name#</a><cfif agents1.recordcount gt 1><span>, </span></cfif>
+													<a class="font-weight-lessbold" href="/agents/Agent.cfm?agent_id=#agents1.agent_id#"> #agents1.agent_name#</a><cfif agents1.recordcount gt 1><span>, </span> </cfif>
 												</cfloop>
 											</cfif>
 											<!---Display Agent: shows agent query--->
 											<cfif media_rel.media_relationship eq 'shows agent'>
 												<cfloop query="agents2">
-													<a class="font-weight-lessbold" href="/agents/Agent.cfm?agent_id=#agents2.agent_id#"> #agents2.agent_name#</a><cfif agents2.recordcount gt 1><span>, </span></cfif>
+													<a class="font-weight-lessbold" href="/agents/Agent.cfm?agent_id=#agents2.agent_id#"> #agents2.agent_name#</a><cfif agents2.recordcount gt 1><span>, </span> </cfif>
 												</cfloop>
 											</cfif>
 											<!---Display Agent: documents agent query--->
 											<cfif media_rel.media_relationship eq 'documents agent'>
 												<cfloop query="agents3">
-													<a class="font-weight-lessbold" href="/agents/Agent.cfm?agent_id=#agents3.agent_id#"> #agents3.agent_name#</a><cfif agents3.recordcount gt 1><span>, </span></cfif>
+													<a class="font-weight-lessbold" href="/agents/Agent.cfm?agent_id=#agents3.agent_id#"> #agents3.agent_name#</a><cfif agents3.recordcount gt 1><span>, </span> </cfif>
 												</cfloop>
 											</cfif>
 											<!---Display Agent: shows handwriting of agent query--->
 											<cfif media_rel.media_relationship eq 'shows handwriting of agent'>
 												<cfloop query="agents4">
-													<a class="font-weight-lessbold" href="/agents/Agent.cfm?agent_id=#agents4.agent_id#"> #agents4.agent_name#</a><cfif agents4.recordcount gt 1><span>, </span></cfif>
+													<a class="font-weight-lessbold" href="/agents/Agent.cfm?agent_id=#agents4.agent_id#"> #agents4.agent_name#</a><cfif agents4.recordcount gt 1><span>, </span> </cfif>
 												</cfloop>
 											</cfif>
 											<!---Display Agent: physical object created by agent query--->
 											<cfif media_rel.media_relationship eq 'physical object created by agent'>
 												<cfloop query="agents5">
-													<a class="font-weight-lessbold" href="/agents/Agent.cfm?agent_id=#agents5.agent_id#"> #agents5.agent_name#</a><cfif agents5.recordcount gt 1><span>, </span></cfif>
+													<a class="font-weight-lessbold" href="/agents/Agent.cfm?agent_id=#agents5.agent_id#"> #agents5.agent_name#</a><cfif agents5.recordcount gt 1><span>, </span> </cfif>
 												</cfloop>
 											</cfif>
 											<!---Display Borrow--->
 											<cfif media_rel.media_relationship contains 'borrow'>
 												<cfif oneofus eq 1>
 													<cfloop query="borrow">
-														<a class="font-weight-lessbold" href="/borrow/Borrow.cfm?transaction_id=#borrow.transaction_id#"> #borrow.borrow_number#</a><cfif borrow.recordcount gt 1><span>, </span></cfif>
+														<a class="font-weight-lessbold" href="/borrow/Borrow.cfm?transaction_id=#borrow.transaction_id#"> #borrow.borrow_number#</a><cfif borrow.recordcount gt 1><span>, </span> </cfif>
 													</cfloop>
 												<cfelse>
 													<span class="d-inline font-italic">Hidden</span>
@@ -970,14 +970,14 @@ include this function and use it.
 											<cfif media_rel.media_relationship contains 'collecting_event'>
 												<cfloop query="collecting_events">
 													<a class="font-weight-lessbold" href="/showLocality.cfm?action=srch&collecting_event_id=#collecting_events.collecting_event_id#">#collecting_events.verbatim_locality#  #collecting_events.collecting_source# #collecting_events.verbatim_date# 
-													<cfif collecting_events.ended_date gt 0>(#collecting_events.ended_date#)</cfif></a><cfif collecting_events.recordcount gt 1><span>, </span></cfif>
+													<cfif collecting_events.ended_date gt 0>(#collecting_events.ended_date#)</cfif></a><cfif collecting_events.recordcount gt 1><span>, </span> </cfif>
 												</cfloop>
 											</cfif>
 											<!---Display Deaccession: relationship = documents deaccession--->
 											<cfif media_rel.media_relationship eq 'documents deaccession'>
 												<cfif oneofus eq 1>
 													<cfloop query="daccns">
-														<a href="/transactions/Deaccession.cfm?action=edit&transaction_id=#daccns.transaction_id#" class="font-weight-lessbold">#daccns.deacc_number#</a><cfif daccns.recordcount gt 1><span>, </span></cfif>
+														<a href="/transactions/Deaccession.cfm?action=edit&transaction_id=#daccns.transaction_id#" class="font-weight-lessbold">#daccns.deacc_number#</a><cfif daccns.recordcount gt 1><span>, </span> </cfif>
 													</cfloop>
 												<cfelse>
 													<span class="d-inline font-italic">Hidden</span>
