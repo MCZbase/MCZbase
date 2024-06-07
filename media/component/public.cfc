@@ -1326,7 +1326,7 @@ include this function and use it.
 					and media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
 				</cfquery>
 				<cfquery name="project" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					select project_id,project_name
+					select project_id
 					from project
 					left join media_relations on project.project_id = media_relations.related_primary_key
 					and media_relations.media_relationship = 'shows project'
@@ -1577,7 +1577,7 @@ include this function and use it.
 											<!---Display project--->
 											<cfif media_rel.media_relationship eq 'shows project'>:
 												<cfloop query="project">
-													<a class="font-weight-lessbold" href="/project/'#project.project_name#'.cfm">#project.project_name#</a><cfif project.recordcount gt 1><span>, </span></cfif>
+													<a class="font-weight-lessbold" href="/project/#project.project_name#">#project.project_id#</a><cfif project.recordcount gt 1><span>, </span></cfif>
 												</cfloop>
 											</cfif>
 										</div>
