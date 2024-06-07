@@ -800,7 +800,7 @@ include this function and use it.
 					and media_relations.media_relationship = 'shows underscore_collection'
 					and media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
 				</cfquery>
-				<cfquery name="project" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				<cfquery name="cProject" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					select project.project_id,project_name
 					from project
 					left join media_relations on project.project_id = media_relations.related_primary_key
@@ -1051,8 +1051,8 @@ include this function and use it.
 											</cfif>
 											<!---Display project--->
 											<cfif media_rel.media_relationship eq 'shows project'>
-												<cfloop query="project">
-													<a class="font-weight-lessbold" href="/project/#project_name#.cfm">#project.project_name#</a><cfif project.recordcount gt 1><span>, </span></cfif>
+												<cfloop query="cProject">
+													<a class="font-weight-lessbold" href="/project/#cProject.project_name#">#cProject.project_name#</a><cfif project.recordcount gt 1><span>, </span></cfif>
 												</cfloop>
 											</cfif>
 										</div>
