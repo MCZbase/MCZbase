@@ -669,13 +669,14 @@ limitations under the License.
 					UPDATE cf_temp_edit_parts 
 					SET status = concat(nvl2(status, status || '; ', ''),'Invalid PART_ATT_MADEDATE_#i# must be yyyy-mm-dd "'||PART_ATT_MADEDATE_#i#||'"')
 					WHERE PART_ATT_NAME_#i# is not null 
+						AND PART_ATT_VAL_#i# <> 'DELETE'
 						AND (
 							is_iso8601(PART_ATT_MADEDATE_#i#) <> 'valid' 
 							OR length(PART_ATT_MADEDATE_#i#) <> 10
                   )
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
-				<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				<cfquery name="badChangedDate" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE cf_temp_edit_parts 
 					SET status = concat(nvl2(status, status || '; ', ''),'Invalid CHANGED_DATE')
 					WHERE isdate(changed_date) = 0
@@ -686,6 +687,7 @@ limitations under the License.
 					SET status = concat(nvl2(status, status || '; ', ''),'Invalid scientific name <span class="font-weight-bold">"'||PART_ATT_VAL_#i#||'"</span>') 
 					WHERE 
 						PART_ATT_NAME_#i# = 'scientific name'
+						AND PART_ATT_VAL_#i# <> 'DELETE'
 						AND regexp_replace(PART_ATT_VAL_#i#, ' (\?|sp.)$', '') in
 							(select scientific_name from taxonomy group by scientific_name having count(*) > 1)
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
@@ -695,6 +697,7 @@ limitations under the License.
 					SET status = concat(nvl2(status, status || '; ', ''), 'scientific name (' ||PART_ATT_VAL_#i# ||') does not exist')
 					WHERE 
 						PART_ATT_NAME_#i# = 'scientific name'
+						AND PART_ATT_VAL_#i# <> 'DELETE'
 						AND regexp_replace(PART_ATT_VAL_#i#, ' (\?|sp.)$', '') not in
 							(select scientific_name from taxonomy group by scientific_name having count(*) = 1)
 						AND PART_ATT_VAL_#i# is not null
@@ -705,7 +708,9 @@ limitations under the License.
 					UPDATE cf_temp_edit_parts 
 					SET status = concat(nvl2(status, status || '; ', ''),'scientific name cannot be null')
 					WHERE 
-						PART_ATT_NAME_#i# = 'scientific name' AND PART_ATT_VAL_#i# is null
+						PART_ATT_NAME_#i# = 'scientific name' 
+						AND PART_ATT_VAL_#i# is null
+						AND PART_ATT_VAL_#i# <> 'DELETE'
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
 				<cfquery name="chkPAtt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -720,7 +725,7 @@ limitations under the License.
 				</cfquery>
 				<cfquery name="chkPAtt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE cf_temp_edit_parts 
-					SET status = concat(nvl2(status, status || '; ', ''),'Invalid PART_ATT_NAME "'||PART_ATT_NAME_#i#||'" does not match MCZbase')
+					SET status = concat(nvl2(status, status || '; ', ''),'Invalid PART_ATT_NAME "'||PART_ATT_NAME_#i#||'" is not in attribute type controlled vocabulary.')
 					WHERE 
 						PART_ATT_NAME_#i# not in 
 							(select attribute_type from ctspecpart_attribute_type) 
@@ -730,6 +735,7 @@ limitations under the License.
 					UPDATE cf_temp_edit_parts 
 					SET status = concat(nvl2(status,status ||  '; ', ''), 'PART_ATT_UNITS_#i# is not valid for attribute "'||PART_ATT_NAME_#i#||'"')
 					WHERE 
+						AND PART_ATT_VAL_#i# <> 'DELETE'
 						MCZBASE.CHK_SPECPART_ATT_CODETABLES(PART_ATT_NAME_#i#,PART_ATT_UNITS_#i#,COLLECTION_CDE)=0
 						AND PART_ATT_NAME_#i# in
 							(select attribute_type from ctspecpart_attribute_type where unit_code_tables is not null)
