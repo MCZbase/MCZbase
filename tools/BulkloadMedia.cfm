@@ -684,7 +684,7 @@ limitations under the License.
 									<cfset idvalue=trim(listlast(labelValue,"|"))>
 								</cfif>
 								<cfquery name="cProject" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-									select project_id from project where (PROJECT_NAME =<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#labelValue#"> OR PROJECT_ID = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#labelValue#">)
+									select project_id from project where (PROJECT_NAME =<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#labelValue#"> OR PROJECT_ID = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#labelValue#">)
 								</cfquery>
 								<cfif cProject.recordcount gt 0>
 									<cfif cProject.recordcount is 1 and len(cProject.project_id) gt 0>
