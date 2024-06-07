@@ -616,11 +616,10 @@ limitations under the License.
 				<!--- does attribute duplicate an existing part attribute --->
 				<cfquery name="getAttributeUpdates" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT 
-						cf_temp_edit_parts.key
+						cf_temp_edit_parts.key,
 						cf_temp_edit_parts.part_att_name_#i# attribute_name,
 						cf_temp_edit_parts.part_att_val_#i# as attribute_value,
-						cf_temp_edit_parts.part_collection_object_id,
-						'#i#' as attribute_index
+						cf_temp_edit_parts.part_collection_object_id
 					FROM 
 						cf_temp_edit_parts
 					WHERE 
