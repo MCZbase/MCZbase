@@ -569,7 +569,7 @@ limitations under the License.
 									<cfset idvalue=trim(listlast(labelValue,"|"))>
 								</cfif>
 								<cfquery name="cLocality" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-									select locality_id from locality where locality_id =<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#labelValue#">
+									select locality_id from locality where (locality_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#labelValue#"> OR spec_locality = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#labelValue#">)
 								</cfquery>
 								<cfif cLocality.recordcount gt 0>
 									<cfif cLocality.recordcount is 1 and len(cLocality.locality_id) gt 0>
@@ -607,7 +607,7 @@ limitations under the License.
 								</cfif>
 								<cfif idtype EQ "collecting_event_id">
 									<cfquery name="cEvent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-										select collecting_event_id from collecting_event where collecting_event_id =<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#labelValue#">
+										select collecting_event_id from collecting_event where (collecting_event_id =<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#labelValue#"> OR VERBATIM_LOCALITY = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#labelValue#">)
 									</cfquery>
 									<!---For collecting event ID--->
 									<cfif len(cEvent.collecting_event_id) gt 0>
@@ -676,8 +676,15 @@ limitations under the License.
 									</cfif>
 								</cfif>
 							<cfelseif table_name is "project">
+								<cfif isnumeric(labelValue)>
+									<cfset idtype = "project_id">
+									<cfset idvalue = labelValue>
+								<cfelse>
+									<cfset idtype=trim(listfirst(labelValue,"|"))>
+									<cfset idvalue=trim(listlast(labelValue,"|"))>
+								</cfif>
 								<cfquery name="cProject" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-									select project_id from project where PROJECT_ID =<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#labelValue#">
+									select project_id from project where (PROJECT_NAME =<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#labelValue#"> OR PROJECT_ID = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#labelValue#">)
 								</cfquery>
 								<cfif cProject.recordcount gt 0>
 									<cfif cProject.recordcount is 1 and len(cProject.project_id) gt 0>
