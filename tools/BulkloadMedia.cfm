@@ -1271,8 +1271,8 @@ limitations under the License.
 										Invalid or missing MEDIA_URI
 									<cfelseif cfcatch.detail contains "media_relationship">
 										Invalid MEDIA_RELATIONSHIP
-									<!---<cfelseif cfcatch.detail contains "media_labels">
-										Invalid MEDIA_LABELS--->
+									<cfelseif cfcatch.detail contains "media_labels">
+										Invalid MEDIA_LABELS
 									<cfelseif cfcatch.detail contains "media_license_id">
 										Problem with MEDIA_LICENSE_ID
 									<cfelseif cfcatch.detail contains "mask_media">
