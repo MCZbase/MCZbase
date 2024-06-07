@@ -759,15 +759,6 @@ include this function and use it.
 						select null as permit_id, null as permit_type, null as permit_title from dual where 0=1
 					</cfquery>
 				</cfif>
-				<cfquery name="project" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					select distinct p.project_id as pk, p.project_name as pn
-					from project p
-						left join media_relations mr on mr.RELATED_PRIMARY_KEY = p.project_id 
-						left join media m on m.media_id = mr.media_id
-						left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
-					where m.media_id =<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
-						and ct.media_relationship = 'shows project'
-				</cfquery>
 				<cfquery name="publication" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					select distinct p.publication_id as pk, fp.formatted_publication as pub_long
 					from publication p
@@ -1000,16 +991,6 @@ include this function and use it.
 												<cfif oneofus eq 1>
 													<cfloop query="permit">
 														<a class="font-weight-lessbold" href="/transactions/Permit.cfm?action=edit&permit_id=#permit.permit_id#"> Permit ID: #permit.permit_id#/#permit.permit_type#</a><cfif permit.recordcount gt 1><span>, </span></cfif>
-													</cfloop>
-												<cfelse>
-													<span class="d-inline font-italic">Hidden</span>
-												</cfif>
-											</cfif>
-											<!---Display project: relationship like %project--->
-											<cfif media_rel.media_relationship contains 'project'>
-												<cfif oneofus eq 1>
-													<cfloop query="project">
-														<a class="font-weight-lessbold" href="/project/#project.project_name#"> Project ID: #project.project_id#/#project.project_name#</a><cfif project.recordcount gt 1><span>, </span></cfif>
 													</cfloop>
 												<cfelse>
 													<span class="d-inline font-italic">Hidden</span>
@@ -1291,15 +1272,6 @@ include this function and use it.
 						select null as permit_id, null as permit_type, null as permit_title from dual where 0=1
 					</cfquery>
 				</cfif>
-				<cfquery name="project" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					select distinct p.project_id as pk, p.project_name as pn
-					from project p
-						left join media_relations mr on mr.RELATED_PRIMARY_KEY = p.project_id 
-						left join media m on m.media_id = mr.media_id
-						left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
-					where m.media_id =<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
-						and ct.media_relationship = 'shows project'
-				</cfquery>
 				<cfquery name="publication" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					select distinct p.publication_id as pk, fp.formatted_publication as pub_long
 					from publication p
@@ -1532,16 +1504,6 @@ include this function and use it.
 												<cfif oneofus eq 1>
 													<cfloop query="permit">
 														<a class="font-weight-lessbold" href="/transactions/Permit.cfm?action=edit&permit_id=#permit.permit_id#"> Permit ID: #permit.permit_id#/#permit.permit_type#</a><cfif permit.recordcount gt 1><span>, </span></cfif>
-													</cfloop>
-												<cfelse>
-													<span class="d-inline font-italic">Hidden</span>
-												</cfif>
-											</cfif>
-											<!---Display Permit: relationship like %permit--->
-											<cfif media_rel.media_relationship contains 'project'>
-												<cfif oneofus eq 1>
-													<cfloop query="project">
-														<a class="font-weight-lessbold" href="/project/#project.project_name#"> Project ID: #project.project_id#/#project.project_name#</a><cfif project.recordcount gt 1><span>, </span></cfif>
 													</cfloop>
 												<cfelse>
 													<span class="d-inline font-italic">Hidden</span>
