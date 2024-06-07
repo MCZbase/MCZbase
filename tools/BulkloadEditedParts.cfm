@@ -610,7 +610,7 @@ limitations under the License.
 					AND changed_date is not null
 			</cfquery>
 
-			<!--- Fourth set of Validation tests: check attribute values --->: 
+			<!--- Fourth set of Validation tests: check attribute values ---> 
 			<!--- Check part attributes with general queries for the user --->
 			<cfloop index="i" from="1" to="6">
 				<!--- does attribute duplicate an existing part attribute --->
@@ -625,6 +625,7 @@ limitations under the License.
 					WHERE 
 						cf_temp_edit_parts.part_att_name_#i# is not null
 						AND cf_temp_edit_parts.part_att_val_#i# is not null
+						AND cf_temp_edit_parts.part_collection_object_id is not null
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
 				<cfloop query="getAttributeUpdates">
