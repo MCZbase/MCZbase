@@ -856,22 +856,22 @@ limitations under the License.
 						<th>COLLECTION_CDE</th>
 						<th>OTHER_ID_TYPE</th>
 						<th>OTHER_ID_NUMBER</th>
-						<th>PART_NAME</th>
-						<th>PRESERVE_METHOD</th>
-						<th>DISPOSITION</th>
-						<th>LOT_COUNT_MODIFIER</th>
-						<th>LOT_COUNT</th>
-						<th>CURRENT_REMARKS</th>
-						<th>CONDITION</th>
-						<th>CONTAINER_UNIQUE_ID</th>
-						<th>APPEND_TO_REMARKS</th>
-						<th>CHANGED_DATE</th>
 						<th>NEW_PART_NAME</th>
 						<th>NEW_PRESERVE_METHOD</th>
 						<th>NEW_COLL_OBJ_DISPOSITION</th>
 						<th>NEW_LOT_COUNT</th>
 						<th>NEW_LOT_COUNT_MODIFIER</th>
 						<th>NEW_CONDITION</th>
+						<th>PART_NAME</th>
+						<th>PRESERVE_METHOD</th>
+						<th>DISPOSITION</th>
+						<th>LOT_COUNT</th>
+						<th>LOT_COUNT_MODIFIER</th>
+						<th>CURRENT_REMARKS</th>
+						<th>CONDITION</th>
+						<th>CONTAINER_UNIQUE_ID</th>
+						<th>APPEND_TO_REMARKS</th>
+						<th>CHANGED_DATE</th>
 						<th>PART_ATT_NAME_1</th>
 						<th>PART_ATT_VAL_1</th>
 						<th>PART_ATT_UNITS_1</th>
@@ -940,22 +940,22 @@ limitations under the License.
 							<td>#collection_cde#</td>
 							<td>#OTHER_ID_TYPE#</td>
 							<td>#OTHER_ID_NUMBER#</td>
+							<td> <cfif PART_NAME NEQ NEW_PART_NAME><strong>#NEW_PART_NAME#</strong><cfelse>#NEW_PART_NAME#</cfif> </td>
+							<td> <cfif PRESERVE_METHOD NEQ NEW_PRESERVE_METHOD><strong>#NEW_PRESERVE_METHOD#</strong><cfelse>#NEW_PRESERVE_METHOD#</cfif> </td>
+							<td> <cfif COLL_OBJ_DISPOSITON NEQ NEW_COLL_OBJ_DISPOSITON><strong>#NEW_COLL_OBJ_DISPOSITON#</strong><cfelse>#NEW_COLL_OBJ_DISPOSITON#</cfif> </td>
+							<td> <cfif LOT_COUNT NEQ NEW_LOT_COUNT><strong>#NEW_LOT_COUNT#</strong><cfelse>#NEW_LOT_COUNT#</cfif> </td>
+							<td> <cfif LOT_COUNT_MODIFIER NEQ NEW_LOT_COUNT_MODIFIER><strong>#NEW_LOT_COUNT_MODIFIER#</strong><cfelse>#NEW_LOT_COUNT_MODIFIER#</cfif> </td>
+							<td> <cfif CONDITION NEQ NEW_CONDITION><strong>#NEW_CONDITION#</strong><cfelse>#NEW_CONDITION#</cfif> </td>
 							<td>#part_name#</td>
 							<td>#preserve_method#</td>
 							<td>#coll_obj_disposition#</td>
-							<td>#lot_count_modifier#</td>
 							<td>#lot_count#</td>
+							<td>#lot_count_modifier#</td>
 							<td>#current_remarks#</td>
 							<td>#condition#</td>
 							<td>#CONTAINER_UNIQUE_ID#</td>
-							<td>#append_to_remarks#</td>
+							<td><strong>#append_to_remarks#</strong></td>
 							<td>#changed_date#</td>
-							<td>#NEW_PART_NAME#</td>
-							<td>#NEW_PRESERVE_METHOD#</td>
-							<td>#NEW_COLL_OBJ_DISPOSITION#</td>
-							<td>#NEW_LOT_COUNT#</td>
-							<td>#NEW_LOT_COUNT_MODIFIER#</td>
-							<td>#NEW_CONDITION#</td>
 							<td>#part_att_name_1#</td>
 							<td>#part_att_val_1#</td>
 							<td>#part_att_units_1#</td>
