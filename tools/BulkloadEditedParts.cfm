@@ -86,7 +86,7 @@ limitations under the License.
 			<p>This tool edits existing part records of specimen records. It creates metadata for the part history. The cataloged items must be in the database and they can be entered using the catalog number or other ID.  Parts must also exist, new parts will not be added with this tool.  Error messages will appear if the values need to match values in MCZbase and if required columns are missing. Additional columns will be ignored.  The first line of the file must be the column headings, spelled exactly as below. </p>
 			<p>Institution Acronym, Collection Code, and an identifying number for the cataloged item must be specified, as must either PART_COLLECTION_OBJECT_ID or the values of PART_NAME,PRESERVE_METHOD,COLL_OBJ_DISPOSITION,CONDITION,LOT_COUNT,LOT_COUNT_MODIFIER, and CURRENT_REMARKS to uniquely identify the part to be modified.</p> 
 			<p>To change lot count or lot count modifier, both NEW_LOT_COUNT and NEW_LOT_COUNT_MODIFIER will be used.</p>
-			<p>If any of the PART_ATT_..._1 fields are populated, they will be used to add new part attributes to the specified part.  They do not edit existing part attributes, and cannot duplicate existing part attributes.</p>
+			<p>If any of the PART_ATT_..._1 fields are populated, they will be used to add new part attributes to the specified part.  They do not edit existing part attributes, and cannot duplicate existing part attribute attribute_type:attribute_value pairs.</p>
 			<p>A file of parts to be edited can be obtained from the <strong>Parts Report/Download</strong> option from the <strong>Manage</strong> page for a specimen search result.  The Download Parts CSV option on the Parts Report/Download page has the correct format to upload here.</p>
 			<div class="w-100 p-1">
 				<span class="btn btn-xs btn-info" onclick="document.getElementById('template').style.display='block';">View template</span>
@@ -640,7 +640,7 @@ limitations under the License.
 					<cfif checkExists.ct GT 0>
 						<cfquery name="flagDupAtt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							UPDATE cf_temp_edit_parts 
-							SET status = concat(nvl2(status, status || '; ', ''),'Duplicate of existing part attribute "'||PART_ATT_NAME_#i#||'"')
+							SET status = concat(nvl2(status, status || '; ', ''),'Duplicate of existing part attribute "'||PART_ATT_NAME_#i#||'":"'||PART_ATT_VALUE_#i#||'"')
 							WHERE
 								key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getAttributeUpdates.key#">
 								AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
