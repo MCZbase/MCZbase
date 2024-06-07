@@ -87,7 +87,7 @@ limitations under the License.
 			<p>Institution Acronym, Collection Code, and an identifying number for the cataloged item must be specified, as must either PART_COLLECTION_OBJECT_ID or the values of PART_NAME,PRESERVE_METHOD,COLL_OBJ_DISPOSITION,CONDITION,LOT_COUNT,LOT_COUNT_MODIFIER, and CURRENT_REMARKS to uniquely identify the part to be modified.</p> 
 			<p>To change lot count or lot count modifier, both NEW_LOT_COUNT and NEW_LOT_COUNT_MODIFIER will be used.</p>
 			<p>If any of the PART_ATT_..._1 fields are populated, they will be used to add new part attributes to the specified part.  They do not edit existing part attributes, and can result in duplicate part attributes.</p>
-			<p>A file of parts to be edited can be obtained from the <strong>Parts Report/Download</strong> option from the Manage page for a specimen search result.  The Download Parts CSV option on the Parts Report/Download page has the correct format to upload here.</p>
+			<p>A file of parts to be edited can be obtained from the <strong>Parts Report/Download</strong> option from the <strong>Manage</strong> page for a specimen search result.  The Download Parts CSV option on the Parts Report/Download page has the correct format to upload here.</p>
 			<div class="w-100">
 				<span class="btn btn-xs btn-info" onclick="document.getElementById('template').style.display='block';">View template</span>
 				<div id="template" style="display:none;margin: 1em 0;">
