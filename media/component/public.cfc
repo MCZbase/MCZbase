@@ -474,8 +474,8 @@ include this function and use it.
 								<cfset output='#output#(<a class="" href="#media_uri#">Full</a>)'>
 							</cfif>
 						</cfif>
-						<cfset output='#output#</p>'>
-						<cfset output='#output#<div class="py-1">'>
+						<cfset output='#output# </p>'>
+						<cfset output='#output# <div class="py-1">'>
 						<cfset showTitleText = trim(title)>
 						<cfif title contains 'ledger entry for'>
 							<cfset textAlign = "text-left">
@@ -527,7 +527,7 @@ include this function and use it.
 							<!--- close an unclosed italic tag resulting from truncation --->
 							<cfset showTitleText = "#showTitleText#</i>">
 						</cfif>
-						<cfset output='#output#<p class="#textAlign# col-12 my-0 py-0 px-1 smaller">#showTitleText#</p>'>
+						<cfset output='#output#<p class="#textAlign# col-12 my-0 py-0 px-1 smaller"> #showTitleText#</p>'>
 						<cfif len(#license_uri#) gt 0>
 							<cfif #captionAs# EQ "TextFull">
 								<!---height is needed on the caption within the <p> or the media will not flow well--the above comment works but may not work on other, non specimen detail pages--->
@@ -1034,7 +1034,7 @@ include this function and use it.
 											<!---Display Specimens and Ledgers: relationship = %cataloged_item--->
 											<cfif media_rel.auto_table eq 'cataloged_item'> 
 												<cfloop query="spec">
-													<a class="font-weight-lessbold" href="/guid/#spec.guid#"> #spec.guid#</a><cfif spec.recordcount gt 1><span>, </span></cfif>
+													<a class="font-weight-lessbold" href="/guid/#spec.guid#"> #spec.guid#</a><cfif spec.recordcount gt 1><span>, </span> </cfif>
 												</cfloop>
 											</cfif>
 											<!---Display Specimens parts--->
@@ -1046,7 +1046,7 @@ include this function and use it.
 											<!---Display underscore_collection--->
 											<cfif media_rel.media_relationship eq 'shows underscore_collection'>:
 												<cfloop query="underscore">
-													<a class="font-weight-lessbold" href="/grouping/showNamedCollection.cfm?underscore_collection_id=#underscore.underscore_collection_id#"> #underscore.collection_name#</a><cfif underscore.recordcount gt 1><span>, </span></cfif>
+													<a class="font-weight-lessbold" href="/grouping/showNamedCollection.cfm?underscore_collection_id=#underscore.underscore_collection_id#"> #underscore.collection_name#</a><cfif underscore.recordcount gt 1><span>, </span> </cfif>
 												</cfloop>
 											</cfif>
 											<!---Display project--->
