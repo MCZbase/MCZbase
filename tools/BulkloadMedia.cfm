@@ -872,7 +872,7 @@ limitations under the License.
 									select media_id from media m
 									where m.media_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#labelValue#">
 								</cfquery>
-								<cfif cRelMedia.recordcount is 1 and len(cRelMedia.transaction_id) gt 0>
+								<cfif cRelMedia.recordcount is 1 and len(cRelMedia.media_id) gt 0>
 									<cfquery name="insRel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 										insert into cf_temp_media_relations (
 											key,
@@ -884,7 +884,7 @@ limitations under the License.
 											<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#key#">,
 											<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#labelName#">,
 											<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.myAgentId#">,
-											<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#cRelMedia.transaction_id#">,
+											<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#cRelMedia.media_id#">,
 											<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#username#">
 										)
 									</cfquery>
