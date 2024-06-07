@@ -611,7 +611,8 @@ limitations under the License.
 			<cfquery name="save" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="insertResult">
 				insert into underscore_collection (
 					collection_name,
-					underscore_collection_type
+					underscore_collection_type,
+					mask_fg
 					<cfif isdefined("description")>
 						,description
 					</cfif>
@@ -623,7 +624,8 @@ limitations under the License.
 					</cfif>
 				) values (
 					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collection_name#">,
-					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#underscore_collection_type#">
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#underscore_collection_type#">,
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#mask_fg#">
 					<cfif isdefined("description")>
 						,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#description#">
 					</cfif>
