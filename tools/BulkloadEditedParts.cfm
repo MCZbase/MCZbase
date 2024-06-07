@@ -88,7 +88,7 @@ limitations under the License.
 			<p>To change lot count or lot count modifier, both NEW_LOT_COUNT and NEW_LOT_COUNT_MODIFIER will be used.</p>
 			<p>If any of the PART_ATT_..._1 fields are populated, they will be used to add new part attributes to the specified part.  They do not edit existing part attributes, and can result in duplicate part attributes.</p>
 			<p>A file of parts to be edited can be obtained from the <strong>Parts Report/Download</strong> option from the <strong>Manage</strong> page for a specimen search result.  The Download Parts CSV option on the Parts Report/Download page has the correct format to upload here.</p>
-			<div class="w-100">
+			<div class="w-100 p-1">
 				<span class="btn btn-xs btn-info" onclick="document.getElementById('template').style.display='block';">View template</span>
 				<div id="template" style="display:none;margin: 1em 0;">
 					<label for="templatearea" class="data-entry-label">
@@ -97,7 +97,7 @@ limitations under the License.
 					<textarea rows="2" cols="90" id="templatearea" class="w-100 data-entry-textarea">#fieldlist#</textarea>
 				</div>
 			</div>
-			<div class="w-100">
+			<div class="w-100 p-1">
 				<span class="btn btn-xs btn-info" onclick="document.getElementById('fieldmetadata').style.display='block';">View List of Columns with descriptions.</span>
 				<div id="fieldmetadata" style="display:none;margin: 1em 0;">
 					<h2 class="mt-4 h4">Columns in <span class="text-danger">red</span> are required; others are optional:</h2>
