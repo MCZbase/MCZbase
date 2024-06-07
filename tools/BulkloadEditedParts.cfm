@@ -1222,29 +1222,38 @@ limitations under the License.
 								<cfelse>
 									<cfset  numAgentID = "NULL">
 								</cfif>
-								<cfquery name="addPartAtt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-									INSERT INTO SPECIMEN_PART_ATTRIBUTE (
-										collection_object_id,
-										attribute_type,
-										attribute_value,
-										attribute_units,
-										determined_date,
-										determined_by_agent_id,
-										attribute_remark
-									) VALUES (
-										<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#part_collection_object_id#">,
-										<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.part_att_name_2#">,
-										<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.part_att_val_2#">,
-										<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.part_att_units_2#">,
-										<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.part_att_madedate_2#">,
-										<cfif numAgentId EQ "NULL">
-											NULL,
-										<cfelse>
-											<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#numAgentId#">,
-										</cfif>
-										<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.part_att_rem_2#">
-									)
-								</cfquery>
+								<cfif getTempData.part_att_val_2 EQ "DELETE">
+									<cfquery name="removePartAtt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+										DELETE FROM SPECIMEN_PART_ATTRIBUTE
+										WHERE
+											collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#part_collection_object_id#">
+											and attribute_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.part_att_name_2#">
+									</cfquery>
+								<cfelse>
+									<cfquery name="addPartAtt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+										INSERT INTO SPECIMEN_PART_ATTRIBUTE (
+											collection_object_id,
+											attribute_type,
+											attribute_value,
+											attribute_units,
+											determined_date,
+											determined_by_agent_id,
+											attribute_remark
+										) VALUES (
+											<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#part_collection_object_id#">,
+											<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.part_att_name_2#">,
+											<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.part_att_val_2#">,
+											<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.part_att_units_2#">,
+											<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.part_att_madedate_2#">,
+											<cfif numAgentId EQ "NULL">
+												NULL,
+											<cfelse>
+												<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#numAgentId#">,
+											</cfif>
+											<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.part_att_rem_2#">
+										)
+									</cfquery>
+								</cfif>
 							</cfif>
 							<cfif len(#part_att_name_3#) GT 0>
 								<cfif len(#part_att_detby_3#) GT 0>
@@ -1257,29 +1266,38 @@ limitations under the License.
 								<cfelse>
 									<cfset  numAgentID = "NULL">
 								</cfif>
-								<cfquery name="addPartAtt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-									INSERT INTO SPECIMEN_PART_ATTRIBUTE (
-										collection_object_id,
-										attribute_type,
-										attribute_value,
-										attribute_units,
-										determined_date,
-										determined_by_agent_id,
-										attribute_remark
-									) VALUES (
-										<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#part_collection_object_id#">,
-										<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.part_att_name_3#">,
-										<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.part_att_val_3#">,
-										<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.part_att_units_3#">,
-										<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.part_att_madedate_3#">,
-										<cfif numAgentId EQ "NULL">
-											NULL,
-										<cfelse>
-											<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#numAgentId#">,
-										</cfif>
-										<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.part_att_rem_3#">
-									)
-								</cfquery>
+								<cfif getTempData.part_att_val_3 EQ "DELETE">
+									<cfquery name="removePartAtt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+										DELETE FROM SPECIMEN_PART_ATTRIBUTE
+										WHERE
+											collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#part_collection_object_id#">
+											and attribute_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.part_att_name_3#">
+									</cfquery>
+								<cfelse>
+									<cfquery name="addPartAtt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+										INSERT INTO SPECIMEN_PART_ATTRIBUTE (
+											collection_object_id,
+											attribute_type,
+											attribute_value,
+											attribute_units,
+											determined_date,
+											determined_by_agent_id,
+											attribute_remark
+										) VALUES (
+											<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#part_collection_object_id#">,
+											<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.part_att_name_3#">,
+											<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.part_att_val_3#">,
+											<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.part_att_units_3#">,
+											<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.part_att_madedate_3#">,
+											<cfif numAgentId EQ "NULL">
+												NULL,
+											<cfelse>
+												<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#numAgentId#">,
+											</cfif>
+											<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.part_att_rem_3#">
+										)
+									</cfquery>
+								</cfif>
 							</cfif>
 							<cfif len(#part_att_name_4#) GT 0>
 								<cfif len(#part_att_detby_4#) GT 0>
@@ -1292,29 +1310,38 @@ limitations under the License.
 								<cfelse>
 									<cfset  numAgentID = "NULL">
 								</cfif>
-								<cfquery name="addPartAtt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-									INSERT INTO SPECIMEN_PART_ATTRIBUTE (
-										collection_object_id,
-										attribute_type,
-										attribute_value,
-										attribute_units,
-										determined_date,
-										determined_by_agent_id,
-										attribute_remark
-									) VALUES (
-										<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#part_collection_object_id#">,
-										<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.part_att_name_4#">,
-										<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.part_att_val_4#">,
-										<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.part_att_units_4#">,
-										<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.part_att_madedate_4#">,
-										<cfif numAgentId EQ "NULL">
-											NULL,
-										<cfelse>
-											<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#numAgentId#">,
-										</cfif>
-										<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.part_att_rem_4#">
-									)
-								</cfquery>
+								<cfif getTempData.part_att_val_4 EQ "DELETE">
+									<cfquery name="removePartAtt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+										DELETE FROM SPECIMEN_PART_ATTRIBUTE
+										WHERE
+											collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#part_collection_object_id#">
+											and attribute_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.part_att_name_4#">
+									</cfquery>
+								<cfelse>
+									<cfquery name="addPartAtt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+										INSERT INTO SPECIMEN_PART_ATTRIBUTE (
+											collection_object_id,
+											attribute_type,
+											attribute_value,
+											attribute_units,
+											determined_date,
+											determined_by_agent_id,
+											attribute_remark
+										) VALUES (
+											<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#part_collection_object_id#">,
+											<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.part_att_name_4#">,
+											<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.part_att_val_4#">,
+											<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.part_att_units_4#">,
+											<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.part_att_madedate_4#">,
+											<cfif numAgentId EQ "NULL">
+												NULL,
+											<cfelse>
+												<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#numAgentId#">,
+											</cfif>
+											<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.part_att_rem_4#">
+										)
+									</cfquery>
+								</cfif>
 							</cfif>
 							<cfif len(#part_att_name_5#) GT 0>
 								<cfif len(#part_att_detby_5#) GT 0>
@@ -1327,29 +1354,38 @@ limitations under the License.
 								<cfelse>
 									<cfset  numAgentID = "NULL">
 								</cfif>
-								<cfquery name="addPartAtt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-									INSERT INTO SPECIMEN_PART_ATTRIBUTE (
-										collection_object_id,
-										attribute_type,
-										attribute_value,
-										attribute_units,
-										determined_date,
-										determined_by_agent_id,
-										attribute_remark
-									) VALUES (
-										<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#part_collection_object_id#">,
-										<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.part_att_name_5#">,
-										<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.part_att_val_5#">,
-										<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.part_att_units_5#">,
-										<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.part_att_madedate_5#">,
-										<cfif numAgentId EQ "NULL">
-											NULL,
-										<cfelse>
-											<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#numAgentId#">,
-										</cfif>
-										<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.part_att_rem_5#">
-									)
-								</cfquery>
+								<cfif getTempData.part_att_val_5 EQ "DELETE">
+									<cfquery name="removePartAtt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+										DELETE FROM SPECIMEN_PART_ATTRIBUTE
+										WHERE
+											collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#part_collection_object_id#">
+											and attribute_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.part_att_name_5#">
+									</cfquery>
+								<cfelse>
+									<cfquery name="addPartAtt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+										INSERT INTO SPECIMEN_PART_ATTRIBUTE (
+											collection_object_id,
+											attribute_type,
+											attribute_value,
+											attribute_units,
+											determined_date,
+											determined_by_agent_id,
+											attribute_remark
+										) VALUES (
+											<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#part_collection_object_id#">,
+											<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.part_att_name_5#">,
+											<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.part_att_val_5#">,
+											<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.part_att_units_5#">,
+											<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.part_att_madedate_5#">,
+											<cfif numAgentId EQ "NULL">
+												NULL,
+											<cfelse>
+												<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#numAgentId#">,
+											</cfif>
+											<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.part_att_rem_5#">
+										)
+									</cfquery>
+								</cfif>
 							</cfif>
 							<cfif len(#part_att_name_6#) GT 0>
 								<cfif len(#part_att_detby_6#) GT 0>
@@ -1362,29 +1398,38 @@ limitations under the License.
 								<cfelse>
 									<cfset  numAgentID = "NULL">
 								</cfif>
-								<cfquery name="addPartAtt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-									INSERT INTO SPECIMEN_PART_ATTRIBUTE (
-										collection_object_id,
-										attribute_type,
-										attribute_value,
-										attribute_units,
-										determined_date,
-										determined_by_agent_id,
-										attribute_remark
-									) VALUES (
-										<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#part_collection_object_id#">,
-										<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.part_att_name_6#">,
-										<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.part_att_val_6#">,
-										<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.part_att_units_6#">,
-										<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.part_att_madedate_6#">,
-										<cfif numAgentId EQ "NULL">
-											NULL,
-										<cfelse>
-											<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#numAgentId#">,
-										</cfif>
-										<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.part_att_rem_6#">
-									)
-								</cfquery>
+								<cfif getTempData.part_att_val_6 EQ "DELETE">
+									<cfquery name="removePartAtt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+										DELETE FROM SPECIMEN_PART_ATTRIBUTE
+										WHERE
+											collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#part_collection_object_id#">
+											and attribute_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.part_att_name_6#">
+									</cfquery>
+								<cfelse>
+									<cfquery name="addPartAtt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+										INSERT INTO SPECIMEN_PART_ATTRIBUTE (
+											collection_object_id,
+											attribute_type,
+											attribute_value,
+											attribute_units,
+											determined_date,
+											determined_by_agent_id,
+											attribute_remark
+										) VALUES (
+											<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#part_collection_object_id#">,
+											<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.part_att_name_6#">,
+											<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.part_att_val_6#">,
+											<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.part_att_units_6#">,
+											<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.part_att_madedate_6#">,
+											<cfif numAgentId EQ "NULL">
+												NULL,
+											<cfelse>
+												<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#numAgentId#">,
+											</cfif>
+											<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.part_att_rem_6#">
+										)
+									</cfquery>
+								</cfif>
 							</cfif>
 							<cfset part_updates = part_updates + 1>
 						</cfif>
