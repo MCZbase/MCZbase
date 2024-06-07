@@ -675,7 +675,7 @@ limitations under the License.
 										</cfquery>
 									</cfif>
 								</cfif>
-							<cfelseif table_name is "project">
+				<!---			<cfelseif table_name is "project">
 								<cfset labelValue = replace(labelValue," ","-","all")>
 								<cfquery name="cProject" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 									select project_id from project where PROJECT_NAME = '#labelValue#'
@@ -706,7 +706,7 @@ limitations under the License.
 												and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#cProject.key#"> 
 										</cfquery>
 									</cfif>
-								</cfif>
+								</cfif>--->
 							<cfelseif table_name is "publication">
 								<cfset labelName=listgetat(label,1,"=")>
 								<cfset labelValue=listgetat(label,2,"=")>
