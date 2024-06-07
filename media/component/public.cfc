@@ -759,7 +759,7 @@ include this function and use it.
 						select null as permit_id, null as permit_type, null as permit_title from dual where 0=1
 					</cfquery>
 				</cfif>
-				<cfquery name="publication" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				<cfquery name="project" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					select distinct p.project_id as pk, p.project_name as pn
 					from project p
 						left join media_relations mr on mr.RELATED_PRIMARY_KEY = p.project_id 
