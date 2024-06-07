@@ -683,7 +683,7 @@ limitations under the License.
 									<cfset idtype=trim(listfirst(labelName,"|"))>
 									<cfset idvalue=trim(listlast(labelValue,"|"))>
 								</cfif>
-								<cfif #idtype# = 'project_id'>
+								<cfif #idtype# is 'project_id'>
 									<cfquery name="cProject" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 										select project_id from project where PROJECT_ID = '#idvalue#'
 									</cfquery>
