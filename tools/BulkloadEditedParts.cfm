@@ -944,7 +944,17 @@ limitations under the License.
 							<td> <cfif PRESERVE_METHOD NEQ NEW_PRESERVE_METHOD><strong>#NEW_PRESERVE_METHOD#</strong><cfelse>#NEW_PRESERVE_METHOD#</cfif> </td>
 							<td> <cfif COLL_OBJ_DISPOSITION NEQ NEW_COLL_OBJ_DISPOSITION><strong>#NEW_COLL_OBJ_DISPOSITION#</strong><cfelse>#NEW_COLL_OBJ_DISPOSITION#</cfif> </td>
 							<td> <cfif LOT_COUNT NEQ NEW_LOT_COUNT><strong>#NEW_LOT_COUNT#</strong><cfelse>#NEW_LOT_COUNT#</cfif> </td>
-							<td> <cfif LOT_COUNT_MODIFIER NEQ NEW_LOT_COUNT_MODIFIER><strong>#NEW_LOT_COUNT_MODIFIER#</strong><cfelse>#NEW_LOT_COUNT_MODIFIER#</cfif> </td>
+							<td> 
+								<cfif LOT_COUNT_MODIFIER NEQ NEW_LOT_COUNT_MODIFIER>
+									<cfif len(LOT_COUNT_MODIFIER) GT 0 AND len(new_lot_count) GT 0 AND len(NEW_LOT_COUNT_MODIFIER) EQ 0>
+										<strong>[empty]</strong>
+									<cfelse>
+										<strong>#NEW_LOT_COUNT_MODIFIER#</strong>
+									</cfif> 
+								<cfelse>
+									#NEW_LOT_COUNT_MODIFIER#
+								</cfif> 
+							</td>
 							<td> <cfif CONDITION NEQ NEW_CONDITION><strong>#NEW_CONDITION#</strong><cfelse>#NEW_CONDITION#</cfif> </td>
 							<td>#part_name#</td>
 							<td>#preserve_method#</td>
