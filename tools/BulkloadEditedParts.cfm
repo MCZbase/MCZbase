@@ -428,6 +428,7 @@ limitations under the License.
 					</cfquery>
 				</cfif>
 				<cfif #collObj.recordcount# is 1>
+					<!--- mark the collection object id for the cataloged item --->
 					<cfquery name="insColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						UPDATE cf_temp_edit_parts 
 							SET 
@@ -435,6 +436,18 @@ limitations under the License.
 								status = concat(nvl2(status, status || '; ', ''),'Found Cataloged Item')
 						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 							AND key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#data.key#"> 
+					</cfquery>
+					<!--- check that the specified part can be found --->
+					<cfquery name="markPartExists" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						UPDATE cf_temp_edit_parts 
+							SET status = 'VALID:' || concat(nvl2(status, status || '; ', ''),'Found Part')
+						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+							AND key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#data.key#">
+							AND part_collection_object_id IS NOT NULL
+							AND part_collection_object_id IN (
+								select collection_object_id from specimen_part 
+								where derived_from_cat_item = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collObj.collection_object_id#">,
+							)
 					</cfquery>
 					<cfquery name="getPart" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						select specimen_part.collection_object_id
@@ -462,7 +475,7 @@ limitations under the License.
 							</cfif>
 					</cfquery>
 					<cfif getPart.recordcount EQ 1>
-						<cfquery name="insColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						<cfquery name="setPartCollObjectID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							UPDATE cf_temp_edit_parts 
 								SET 
 									part_collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getPart.collection_object_id#">,
@@ -775,7 +788,6 @@ limitations under the License.
 					AND cf_temp_edit_parts.collection_object_id IS NOT NULL
 					AND cf_temp_edit_parts.part_collection_object_id IS NULL
 			</cfquery>
-
 		
 			<!--- Last phase of Validation tests: cleanup and prepare to report --->: 
 			<!--- to tell if there are failure cases, we need to remove the string VALID if there are any error messages, 
