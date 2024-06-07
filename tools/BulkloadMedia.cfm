@@ -676,6 +676,7 @@ limitations under the License.
 									</cfif>
 								</cfif>
 							<cfelseif table_name is "project">
+								<cfset labelValue = replace(labelValue," ","-","all")
 								<cfquery name="cProject" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 									select project_id from project where PROJECT_NAME = '#labelValue#'
 								</cfquery>
