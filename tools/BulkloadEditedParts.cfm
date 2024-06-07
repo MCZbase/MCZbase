@@ -1035,7 +1035,6 @@ limitations under the License.
 					</cfif>
 					<cfset enteredbyid = getEntBy.agent_id>
 					<cfset part_updates = 0>
-					<cfset part_updates1 = 0>
 					<cfloop query="getTempData">
 						<cfset problem_key = #getTempData.key#>
 						<cfif len(#part_collection_object_id#) is 0>
@@ -1349,10 +1348,10 @@ limitations under the License.
 									)
 								</cfquery>
 							</cfif>
-						<cfset part_updates = part_updates + updateColl_result.recordcount>
-					</cfif>
-				</cfloop>
-					<h3 class="mt-3">There were #part_updates# parts in #updateColl_result.recordcount# specimen records updated.</h3>
+							<cfset part_updates = part_updates + 1>
+						</cfif>
+					</cfloop>
+					<h3 class="mt-3">Updates applied to #getTempData.recordcount# specimen parts.</h3>
 					<h3><span class="text-success">Success!</span> Parts loaded.
 						<a href="https://mczbase-test.rc.fas.harvard.edu/Specimens.cfm?execute=true&builderMaxRows=1&action=builderSearch&openParens1=0&field1=COLL_OBJECT%3ACOLL_OBJ_COLLECTION_OBJECT_ID&searchText1=#encodeForUrl(valuelist(getTempData.collection_object_id))#&closeParens1=0" class="btn-link font-weight-lessbold">
 							See in Specimen Search Results.
