@@ -507,7 +507,7 @@ limitations under the License.
 							<cfif len(data.lot_count_modifier) EQ 0>
 								and coll_object.lot_count_modifier IS NULL
 							<cfelse>
-								and coll_object.lot_count_modifier= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#data.lot_count_modifier#">
+								and coll_object.lot_count_modifier= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#data.lot_count_modifier#">
 							</cfif>
 					</cfquery>
 					<cfif getPart.recordcount EQ 1>
