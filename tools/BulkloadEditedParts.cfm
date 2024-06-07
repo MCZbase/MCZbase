@@ -21,7 +21,7 @@ limitations under the License.
 		1) Upload a part that can not be matched to an existing part
 			Fail, and report error
 		2) Upload a part that already exists
-			Edit existing part using new values, 
+			Edit existing part using new values, and: 
 			A) part is in a parent container
 				If a new container is specified, move the part to that parent container.
 			B) part is NOT already in a parent container
@@ -86,7 +86,7 @@ limitations under the License.
 			<p>This tool edits existing part records of specimen records. It creates metadata for the part history. The cataloged items must be in the database and they can be entered using the catalog number or other ID.  Parts must also exist, new parts will not be added with this tool.  Error messages will appear if the values need to match values in MCZbase and if required columns are missing. Additional columns will be ignored.  The first line of the file must be the column headings, spelled exactly as below. </p>
 			<p>Institution Acronym, Collection Code, and an identifying number for the cataloged item must be specified, as must either PART_COLLECTION_OBJECT_ID or the values of PART_NAME,PRESERVE_METHOD,COLL_OBJ_DISPOSITION,CONDITION,LOT_COUNT,LOT_COUNT_MODIFIER, and CURRENT_REMARKS to uniquely identify the part to be modified.</p> 
 			<p>To change lot count or lot count modifier, both NEW_LOT_COUNT and NEW_LOT_COUNT_MODIFIER will be used.</p>
-			<p>If any of the PART_ATT_..._1 fields are populated, they will be used to add new part attributes to the specified part.  They do not edit existing part attributes, and can result in duplicate part attributes.</p>
+			<p>If any of the PART_ATT_..._1 fields are populated, they will be used to add new part attributes to the specified part.  They do not edit existing part attributes, and cannot duplicate existing part attributes.</p>
 			<p>A file of parts to be edited can be obtained from the <strong>Parts Report/Download</strong> option from the <strong>Manage</strong> page for a specimen search result.  The Download Parts CSV option on the Parts Report/Download page has the correct format to upload here.</p>
 			<div class="w-100 p-1">
 				<span class="btn btn-xs btn-info" onclick="document.getElementById('template').style.display='block';">View template</span>
@@ -613,6 +613,41 @@ limitations under the License.
 			<!--- Fourth set of Validation tests: check attribute values --->: 
 			<!--- Check part attributes with general queries for the user --->
 			<cfloop index="i" from="1" to="6">
+				<!--- does attribute duplicate an existing part attribute --->
+				<cfquery name="getAttributeUpdates" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					SELECT 
+						cf_temp_edit_parts.key
+						cf_temp_edit_parts.part_att_name_#i# attribute_name,
+						cf_temp_edit_parts.part_att_val_#i# as attribute_value,
+						cf_temp_edit_parts.part_collection_object_id,
+						'#i#' as attribute_index
+					FROM 
+						cf_temp_edit_parts
+					WHERE 
+						cf_temp_edit_parts.part_att_name_#i# is not null
+						AND cf_temp_edit_parts.part_att_val_#i# is not null
+						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+				</cfquery>
+				<cfloop query="getAttributeUpdates">
+					<cfquery name="checkExists" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						SELECT count(*) ct 
+						FROM specimen_part_attribute 
+						WHERE 
+							attribute_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getAttributeUpdates.attribute_name#">
+							and attribute_value = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getAttributeUpdates.attribute_value#">
+							and collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getAttributeUpdates.part_collection_object_id#">
+					</cfquery>
+					<cfif checkExists.ct GT 0>
+						<cfquery name="flagDupAtt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+							UPDATE cf_temp_edit_parts 
+							SET status = concat(nvl2(status, status || '; ', ''),'Duplicate of existing part attribute "'||PART_ATT_NAME_#i#||'"')
+							WHERE
+								key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getAttributeUppdates.key#">
+								AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+						</cfquery>
+					</cfif>
+				</cfloop>
+				<!--- are supplied attributes and values compliant with controlled vocabularies and expectations --->
 				<cfquery name="chkPAtt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE cf_temp_edit_parts 
 					SET status = concat(nvl2(status, status || '; ', ''),'Invalid part attribute "'||PART_ATT_NAME_#i#||'"')
@@ -626,22 +661,6 @@ limitations under the License.
 					WHERE 
 						chk_att_codetables(PART_ATT_NAME_#i#,PART_ATT_VAL_#i#,COLLECTION_CDE)=0
 						AND PART_ATT_NAME_#i# is not null and PART_ATT_VAL_#i# is null
-						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-				</cfquery>
-				<!--- TODO: This is a select query that is never used --->
-				<cfquery name="chkPAttCT" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					SELECT 
-						cf_temp_edit_parts.part_att_name_#i#,
-						cf_temp_edit_parts.part_att_val_#i#,
-						cf_temp_edit_parts.collection_cde,
-						ctspecpart_attribute_type.attribute_type,
-						decode(value_code_tables, null, unit_code_tables,value_code_tables) code_table 
-					FROM 
-						cf_temp_edit_parts, 
-						ctspecpart_attribute_type 
-					WHERE attribute_type = '||PART_ATT_NAME_#i#||'
-						AND cf_temp_edit_parts.part_att_name_#i# = attribute_type
-						AND cf_temp_edit_parts.part_att_val_#i# is not null
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
 				<cfquery name="chkPAtt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
