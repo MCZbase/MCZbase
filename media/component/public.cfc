@@ -1050,10 +1050,12 @@ include this function and use it.
 												</cfloop>
 											</cfif>
 											<!---Display project--->
-											<cfif media_rel.media_relationship eq 'shows project'>:
-												<!---<cfloop query="project">--->
-													<a class="font-weight-lessbold" href="/project/#project_name#.cfm">#project.project_name#</a><!---<cfif project.recordcount gt 1><span>, </span>---><!---</cfif>--->
-										<!---		</cfloop>--->
+											<cfif media_rel.media_relationship eq 'shows project'>
+												<cfif cProject.recordcount is 1>
+													<cfloop query="project">
+														<a class="font-weight-lessbold" href="/project/#project_name#.cfm">#project.project_name#</a><cfif project.recordcount gt 1><span>, </span></cfif>
+													</cfloop>
+												</cfif>
 											</cfif>
 										</div>
 										<cfset relationSeparator='<span class="px-1"> | </span>'><!--- ' --->
