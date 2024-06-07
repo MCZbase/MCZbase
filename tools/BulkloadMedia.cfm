@@ -796,8 +796,6 @@ limitations under the License.
 									</cftry>
 								</cfif>
 							<cfelseif table_name is "loan">
-								<cfset labelName=listgetat(label,1,"=")>
-								<cfset labelValue=listgetat(label,2,"=")>
 								<cfquery name="cTrans" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 									select a.transaction_id
 									from loan a, trans t
@@ -831,8 +829,6 @@ limitations under the License.
 									</cfquery>
 								</cfif>
 							<cfelseif table_name is "accn">
-								<cfset labelName=listgetat(label,1,"=")>
-								<cfset labelValue=listgetat(label,2,"=")>
 								<cfquery name="cTrans" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 									select a.transaction_id
 									from accn a, trans t
@@ -866,8 +862,6 @@ limitations under the License.
 									</cfquery>
 								</cfif>
 							<cfelseif table_name is "media">
-								<cfset labelName=listgetat(label,1,"=")>
-								<cfset labelValue=listgetat(label,2,"=")>
 								<cfquery name="cRelMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 									select media_id from media m
 									where m.media_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#labelValue#">
@@ -899,8 +893,6 @@ limitations under the License.
 									</cfquery>
 								</cfif>
 							<cfelseif table_name is "permit">
-								<cfset labelName=listgetat(label,1,"=")>
-								<cfset labelValue=listgetat(label,2,"=")>
 								<cfquery name="cPermit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 									select permit_id from permit where permit_num = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#labelValue#">
 								</cfquery>
