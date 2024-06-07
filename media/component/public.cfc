@@ -1052,7 +1052,7 @@ include this function and use it.
 											<!---Display project--->
 											<cfif media_rel.auto_table eq 'project'>:
 												<cfloop query="project">
-													<a class="font-weight-lessbold" href="/project/'#project_name#'.cfm"> #project.project_name#</a><cfif project.recordcount gt 1><span>, </span></cfif>
+													<a class="font-weight-lessbold" href="/project/#project_name#.cfm">#project.project_name#</a><cfif project.recordcount gt 1><span>, </span></cfif>
 												</cfloop>
 											</cfif>
 										</div>
