@@ -369,6 +369,12 @@ limitations under the License.
 		<cfoutput>
 			<h2 class="h4">Second step: Validate data from CSV file.</h2>
 			<cfset key = "">
+			<!--- setup for validation checks, ensure that status is empty. --->
+			<cfquery name="insColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				UPDATE cf_temp_edit_parts 
+				SET status = ''
+				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+			</cfquery>
 			<!--- First set of Validation tests: find part and collection object --->: 
 			<!--- check various terms used for matching if part_collection_object_id was not specified --->
 			<cfquery name="badDisposition" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -446,7 +452,7 @@ limitations under the License.
 							AND part_collection_object_id IS NOT NULL
 							AND part_collection_object_id IN (
 								select collection_object_id from specimen_part 
-								where derived_from_cat_item = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collObj.collection_object_id#">,
+								where derived_from_cat_item = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collObj.collection_object_id#">
 							)
 					</cfquery>
 					<cfquery name="getPart" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -866,8 +872,12 @@ limitations under the License.
 			<cfquery name="countFailures" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT count(*) as cnt 
 				FROM cf_temp_edit_parts 
-				WHERE status <> ' :Found Cataloged Item; Found Part'
-					and collection_object_id is not null
+				WHERE
+					(
+						status IS NULL or
+						status <> ' :Found Cataloged Item; Found Part'
+					)
+					AND collection_object_id is not null
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<h3 class="mt-3">
@@ -960,6 +970,8 @@ limitations under the License.
 								<cfelseif left(status,6) is 'ERROR:'>
 									<a href="/guid/#guid#"
 										target="_blank">#guid#</a> <strong>#status#</strong>
+								<cfelseif len(status) EQ 0>
+									<strong>ERROR: Validation checks not run.</strong>
 								<cfelse>
 									<strong>ERROR: #status#</strong>
 								</cfif>
