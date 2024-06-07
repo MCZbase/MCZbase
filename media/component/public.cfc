@@ -1027,20 +1027,20 @@ include this function and use it.
 											<!---Display shows publication--->
 											<cfif media_rel.media_relationship eq 'shows publication'> 
 												<cfloop query="publication">
-													<a class="font-weight-lessbold" href="/publications/showPublication.cfm?publication_id=#publication.pk#">#publication.pub_long# </a>
+													<a class="font-weight-lessbold" href="/publications/showPublication.cfm?publication_id=#publication.pk#"> #publication.pub_long# </a>
 													<cfif publication.recordcount gt 1><span> &##8226;&##8226; </span></cfif>
 												</cfloop>
 											</cfif>
 											<!---Display Specimens and Ledgers: relationship = %cataloged_item--->
 											<cfif media_rel.auto_table eq 'cataloged_item'> 
 												<cfloop query="spec">
-													<a class="font-weight-lessbold" href="/guid/#spec.guid#">#spec.guid#</a><cfif spec.recordcount gt 1><span>, </span></cfif>
+													<a class="font-weight-lessbold" href="/guid/#spec.guid#"> #spec.guid#</a><cfif spec.recordcount gt 1><span>, </span></cfif>
 												</cfloop>
 											</cfif>
 											<!---Display Specimens parts--->
 											<cfif media_rel.auto_table eq 'specimen_part'> 
 												<cfloop query="specpart">
-													<span class="font-weight-lessbold">#specpart.part_name# </span>
+													<span class="font-weight-lessbold"> #specpart.part_name# </span>
 												</cfloop>
 											</cfif>
 											<!---Display underscore_collection--->
@@ -1050,14 +1050,14 @@ include this function and use it.
 												</cfloop>
 											</cfif>
 											<!---Display project--->
-											<cfset labelValue = replace(labelValue," ","-","all")>
+											<cfset project_name = replace(project_name," ","-","all")>
 											<cfif media_rel.media_relationship eq 'shows project'>
 												<cfloop query="cProject">
-													<a class="font-weight-lessbold" href="/project/#cProject.project_name#">#cProject.project_name#</a><cfif cProject.recordcount gt 1><span>, </span></cfif>
+													<a class="font-weight-lessbold" href="/project/#cProject.project_name#"> #cProject.project_name#</a><cfif cProject.recordcount gt 1><span>, </span></cfif>
 												</cfloop>
 											</cfif>
 										</div>
-										<cfset relationSeparator='<span class="px-1"> | </span>'><!--- ' --->
+										<cfset relationSeparator=' <span class="px-1"> | </span>'><!--- ' --->
 									</cfloop> 
 									</td>
 								</tr>
@@ -1576,9 +1576,10 @@ include this function and use it.
 												</cfloop>
 											</cfif>
 											<!---Display project--->
-											<cfif media_rel.media_relationship eq 'shows project'>:
+											<cfif media_rel.media_relationship eq 'shows project'>
+												<cfset project_name = replace(project_name," ","-","all")>
 												<cfloop query="project">
-													<a class="font-weight-lessbold" href="/project/#project.project_name#">#project.project_name#</a><cfif project.recordcount gt 1><span>, </span></cfif>
+													<a class="font-weight-lessbold" href="/project/#project.project_name#"> #project.project_name#</a><cfif project.recordcount gt 1><span>, </span></cfif>
 												</cfloop>
 											</cfif>
 										</div>
