@@ -238,16 +238,16 @@ limitations under the License.
 				<tr>
 					<td class="pl-xl-3">
 						<cfif arrayFindNoCase(colNameArray,field) GT 0>
-							<span class="text-success font-weight-bold">[ Present in CSV ]</span>
+							<span class="text-success font-weight-bold">[&nbsp;Present&nbsp;in&nbsp;CSV&nbsp;]</span>
 						<cfelse>
 							<!--- Case 2. Check by identifying field in required field list --->
 							<cfif ListFindNoCase(requiredFieldList,field) GT 0>
-								<strong class="text-dark">[ Required Column Not Found ]</strong>
+								<strong class="text-dark">[&nbsp;Required&nbsp;Column&nbsp;Not&nbsp;Found&nbsp;]</strong>
 								<cfif ListFind(missingRequiredFields,field) EQ 0>
 									<cfset missingRequiredFields = ListAppend(missingRequiredFields,field)>
 								</cfif>
 							<cfelse>
-								<span class="text-warning font-weight-bold">[ Not Found ]</span>
+								<span class="text-warning font-weight-bold">[&nbsp;Not&nbsp;Found&nbsp;]</span>
 							</cfif>
 						</cfif>
 					</td>
