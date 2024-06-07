@@ -800,6 +800,13 @@ include this function and use it.
 					and media_relations.media_relationship = 'shows underscore_collection'
 					and media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
 				</cfquery>
+				<cfquery name="project" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					select project.project_id,project_name
+					from project
+					left join media_relations on project.project_id = media_relations.related_primary_key
+					and media_relations.media_relationship = 'shows project'
+					and media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
+				</cfquery>
 		
 				<!---Loop through the media to see what the metadata is for the featured image on the page--->
 				<cfloop query="media">
@@ -1042,6 +1049,12 @@ include this function and use it.
 													<a class="font-weight-lessbold" href="/grouping/showNamedCollection.cfm?underscore_collection_id=#underscore.underscore_collection_id#"> #underscore.collection_name#</a><cfif underscore.recordcount gt 1><span>, </span></cfif>
 												</cfloop>
 											</cfif>
+											<!---Display project--->
+											<cfif media_rel.media_relationship eq 'shows project'>:
+												<cfloop query="project">
+													<a class="font-weight-lessbold" href="/project/'#project_name#'.cfm"> #project.project_name#</a><cfif project.recordcount gt 1><span>, </span></cfif>
+												</cfloop>
+											</cfif>
 										</div>
 										<cfset relationSeparator='<span class="px-1"> | </span>'><!--- ' --->
 									</cfloop> 
@@ -1256,7 +1269,6 @@ include this function and use it.
 						left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
 					where m.media_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
 						and ct.media_relationship = 'transcript for audio media'
-
 				</cfquery>
 				<cfif manageTransactions EQ 1>
 					<cfquery name="permit"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -1313,7 +1325,14 @@ include this function and use it.
 					and media_relations.media_relationship = 'shows underscore_collection'
 					and media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
 				</cfquery>
-		
+				<cfquery name="project" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					select project_id,project_name
+					from project
+					left join media_relations on project.project_id = media_relations.related_primary_key
+					and media_relations.media_relationship = 'shows project'
+					and media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
+				</cfquery>
+					
 				<!---Loop through the media to see what the metadata is for the featured image on the page--->
 				<cfloop query="media">
 					<cfquery name="labels" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -1553,6 +1572,12 @@ include this function and use it.
 											<cfif media_rel.media_relationship eq 'shows underscore_collection'>:
 												<cfloop query="underscore">
 													<a class="font-weight-lessbold" href="/grouping/showNamedCollection.cfm?underscore_collection_id=#underscore.underscore_collection_id#"> #underscore.collection_name#</a><cfif underscore.recordcount gt 1><span>, </span></cfif>
+												</cfloop>
+											</cfif>
+											<!---Display project--->
+											<cfif media_rel.media_relationship eq 'shows project'>:
+												<cfloop query="project">
+													<a class="font-weight-lessbold" href="/project/'#project.project_name#'.cfm#"> '#project.project_name#'</a><cfif project.recordcount gt 1><span>, </span></cfif>
 												</cfloop>
 											</cfif>
 										</div>
