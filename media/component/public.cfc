@@ -800,13 +800,13 @@ include this function and use it.
 					and media_relations.media_relationship = 'shows underscore_collection'
 					and media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
 				</cfquery>
-				<cfquery name="cProject" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+<!---				<cfquery name="cProject" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					select project.project_id,project_name
 					from project
 					left join media_relations on project.project_id = media_relations.related_primary_key
 					and media_relations.media_relationship = 'shows project'
 					and media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
-				</cfquery>
+				</cfquery>--->
 		
 				<!---Loop through the media to see what the metadata is for the featured image on the page--->
 				<cfloop query="media">
@@ -1050,12 +1050,12 @@ include this function and use it.
 												</cfloop>
 											</cfif>
 											<!---Display project--->
-											<cfset project_name = replace(project_name," ","-","all")>
+											<!---<cfset project_name = replace(project_name," ","-","all")>
 											<cfif media_rel.media_relationship eq 'shows project'>
 												<cfloop query="cProject">
 													<a class="font-weight-lessbold" href="/project/#cProject.project_name#"> #cProject.project_name#</a><cfif cProject.recordcount gt 1><span>, </span></cfif>
 												</cfloop>
-											</cfif>
+											</cfif>--->
 										</div>
 										<cfset relationSeparator=' <span class="px-1"> | </span>'><!--- ' --->
 									</cfloop> 
@@ -1523,7 +1523,7 @@ include this function and use it.
 											<cfif media_rel.media_relationship contains 'permit'>
 												<cfif oneofus eq 1>
 													<cfloop query="permit">
-														<a class="font-weight-lessbold" href="/transactions/Permit.cfm?action=edit&permit_id=#permit.permit_id#"> Permit ID: #permit.permit_id#/#permit.permit_type#</a><cfif permit.recordcount gt 1><span>, </span></cfif>
+														<a class="font-weight-lessbold" href="/transactions/Permit.cfm?action=edit&permit_id=#permit.permit_id#">  #permit.permit_id#/#permit.permit_type#</a><cfif permit.recordcount gt 1><span>, </span></cfif>
 													</cfloop>
 												<cfelse>
 													<span class="d-inline font-italic">Hidden</span>
@@ -1539,14 +1539,14 @@ include this function and use it.
 											<!---Display Media: relationship = related to media--->
 											<cfif media_rel.media_relationship eq 'related to media'> 
 												<cfloop query="media1">
-													<a class="font-weight-lessbold" href="/media/#media1.pk#"> /media/#media1.pk#</a>
+													<a class="font-weight-lessbold" href="/media/#media1.pk#"> /media/#media1.pk# </a>
 													<cfif media1.recordcount gt 1><span>, </span></cfif>
 												</cfloop>
 											</cfif>
 											<!---Display Media: relationship = transcript for audio media--->
 											<cfif media_rel.media_relationship eq 'transcript for audio media'>
 												<cfloop query="media2">
-													<a class="font-weight-lessbold" href="/media/#media2.pk#"> /media/#media2.pk#</a>
+													<a class="font-weight-lessbold" href="/media/#media2.pk#"> /media/#media2.pk# </a>
 													<cfif media2.recordcount gt 1><span>, </span></cfif>
 												</cfloop>
 											</cfif>
@@ -1560,7 +1560,7 @@ include this function and use it.
 											<!---Display Specimens and Ledgers: relationship = %cataloged_item--->
 											<cfif media_rel.auto_table eq 'cataloged_item'> 
 												<cfloop query="spec">
-													<a class="font-weight-lessbold" href="/guid/#spec.guid#"> #spec.guid#</a><cfif spec.recordcount gt 1><span>, </span></cfif>
+													<a class="font-weight-lessbold" href="/guid/#spec.guid#"> #spec.guid# </a><cfif spec.recordcount gt 1><span>, </span></cfif>
 												</cfloop>
 											</cfif>
 											<!---Display Specimens parts--->
