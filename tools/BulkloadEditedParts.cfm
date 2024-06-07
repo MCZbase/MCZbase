@@ -35,9 +35,10 @@ limitations under the License.
 			INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_NUMBER,
 			PART_COLLECTION_OBJECT_ID,
 			PART_NAME,PRESERVE_METHOD,COLL_OBJ_DISPOSITION,LOT_COUNT_MODIFIER,LOT_COUNT,CURRENT_REMARKS,
-			CONTAINER_UNIQUE_ID,CONDITION,
+			CONDITION,
+			CONTAINER_UNIQUE_ID,
 			APPEND_TO_REMARKS,CHANGED_DATE,
-			NEW_PRESERVE_METHOD,NEW_PART_NAME,NEW_COLL_OBJ_DISPOSITION,NEW_LOT_COUNT_MODIFIER,NEW_LOT_COUNT,
+			NEW_PRESERVE_METHOD,NEW_PART_NAME,NEW_COLL_OBJ_DISPOSITION,NEW_LOT_COUNT_MODIFIER,NEW_LOT_COUNT,NEW_CONDITION
 			PART_ATT_NAME_1,PART_ATT_VAL_1,PART_ATT_UNITS_1,PART_ATT_DETBY_1,PART_ATT_MADEDATE_1,PART_ATT_REM_1,
 			PART_ATT_NAME_2,PART_ATT_VAL_2,PART_ATT_UNITS_2,PART_ATT_DETBY_2,PART_ATT_MADEDATE_2,PART_ATT_REM_2,
 			PART_ATT_NAME_3,PART_ATT_val_3,PART_ATT_UNITS_3,PART_ATT_DETBY_3,PART_ATT_MADEDATE_3,PART_ATT_REM_3,
@@ -55,9 +56,9 @@ limitations under the License.
 	<cfoutput>#csv#</cfoutput>
 	<cfabort>
 </cfif>
-<cfset fieldlist = "INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_NUMBER,PART_COLLECTION_OBJECT_ID,PART_NAME,PRESERVE_METHOD,COLL_OBJ_DISPOSITION,LOT_COUNT_MODIFIER,LOT_COUNT,CONTAINER_UNIQUE_ID,CONDITION,CURRENT_REMARKS,APPEND_TO_REMARKS,CHANGED_DATE,NEW_PRESERVE_METHOD,NEW_PART_NAME,NEW_COLL_OBJ_DISPOSITION,NEW_LOT_COUNT_MODIFIER,NEW_LOT_COUNT,PART_ATT_NAME_1,PART_ATT_VAL_1,PART_ATT_UNITS_1,PART_ATT_DETBY_1,PART_ATT_MADEDATE_1,PART_ATT_REM_1,PART_ATT_NAME_2,PART_ATT_VAL_2,PART_ATT_UNITS_2,PART_ATT_DETBY_2,PART_ATT_MADEDATE_2,PART_ATT_REM_2,PART_ATT_NAME_3,PART_ATT_val_3,PART_ATT_UNITS_3,PART_ATT_DETBY_3,PART_ATT_MADEDATE_3,PART_ATT_REM_3,PART_ATT_NAME_4,PART_ATT_VAL_4,PART_ATT_UNITS_4,PART_ATT_DETBY_4,PART_ATT_MADEDATE_4,PART_ATT_REM_4,PART_ATT_NAME_5,PART_ATT_VAL_5,PART_ATT_UNITS_5,PART_ATT_DETBY_5,PART_ATT_MADEDATE_5,part_ATT_REM_5,PART_ATT_NAME_6,PART_ATT_VAL_6,part_ATT_UNITS_6,PART_ATT_DETBY_6,PART_ATT_MADEDATE_6,PART_ATT_REM_6">
-<cfset fieldTypes ="CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_DECIMAL,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,">
-<cfset requiredfieldlist = "INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_NUMBER,CONDITION">
+<cfset fieldlist = "INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_NUMBER,PART_COLLECTION_OBJECT_ID,PART_NAME,PRESERVE_METHOD,COLL_OBJ_DISPOSITION,LOT_COUNT_MODIFIER,LOT_COUNT,CONTAINER_UNIQUE_ID,CONDITION,CURRENT_REMARKS,APPEND_TO_REMARKS,CHANGED_DATE,NEW_PRESERVE_METHOD,NEW_PART_NAME,NEW_COLL_OBJ_DISPOSITION,NEW_LOT_COUNT_MODIFIER,NEW_LOT_COUNT,NEW_CONDITION,PART_ATT_NAME_1,PART_ATT_VAL_1,PART_ATT_UNITS_1,PART_ATT_DETBY_1,PART_ATT_MADEDATE_1,PART_ATT_REM_1,PART_ATT_NAME_2,PART_ATT_VAL_2,PART_ATT_UNITS_2,PART_ATT_DETBY_2,PART_ATT_MADEDATE_2,PART_ATT_REM_2,PART_ATT_NAME_3,PART_ATT_val_3,PART_ATT_UNITS_3,PART_ATT_DETBY_3,PART_ATT_MADEDATE_3,PART_ATT_REM_3,PART_ATT_NAME_4,PART_ATT_VAL_4,PART_ATT_UNITS_4,PART_ATT_DETBY_4,PART_ATT_MADEDATE_4,PART_ATT_REM_4,PART_ATT_NAME_5,PART_ATT_VAL_5,PART_ATT_UNITS_5,PART_ATT_DETBY_5,PART_ATT_MADEDATE_5,part_ATT_REM_5,PART_ATT_NAME_6,PART_ATT_VAL_6,part_ATT_UNITS_6,PART_ATT_DETBY_6,PART_ATT_MADEDATE_6,PART_ATT_REM_6">
+<cfset fieldTypes ="CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_DECIMAL,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,">
+<cfset requiredfieldlist = "INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_NUMBER">
 	
 <cfif isDefined("action") AND action is "getCSVHeader">
 	<cfset csv = "">
@@ -83,45 +84,50 @@ limitations under the License.
 	<cfif #action# is "entryPoint">
 		<cfoutput>
 			<p>This tool edits existing part records of specimen records. It creates metadata for the part history. The cataloged items must be in the database and they can be entered using the catalog number or other ID.  Parts must also exist, new parts will not be added with this tool.  Error messages will appear if the values need to match values in MCZbase and if required columns are missing. Additional columns will be ignored.  The first line of the file must be the column headings, spelled exactly as below. </p>
-			<p>Institution Acronym, Collection Code, and an identifying number for the cataloged item must be specified, as must either PART_COLLECTION_OBJECT_ID or the values of PART_NAME,PRESERVE_METHOD,COLL_OBJ_DISPOSITION,LOT_COUNT_MODIFIER,LOT_COUNT,CURRENT_REMARKS to uniquely identify the part to be modified.</p> 
+			<p>Institution Acronym, Collection Code, and an identifying number for the cataloged item must be specified, as must either PART_COLLECTION_OBJECT_ID or the values of PART_NAME,PRESERVE_METHOD,COLL_OBJ_DISPOSITION,CONDITION,LOT_COUNT,LOT_COUNT_MODIFIER, and CURRENT_REMARKS to uniquely identify the part to be modified.</p> 
+			<p>To change lot count or lot count modifier, both NEW_LOT_COUNT and NEW_LOT_COUNT_MODIFIER will be used.</p>
 			<p>If any of the PART_ATT_..._1 fields are populated, they will be used to add new part attributes to the specified part.  They do not edit existing part attributes, and can result in duplicate part attributes.</p>
 			<p>A file of parts to be edited can be obtained from the <strong>Parts Report/Download</strong> option from the Manage page for a specimen search result.  The Download Parts CSV option on the Parts Report/Download page has the correct format to upload here.</p>
-			<span class="btn btn-xs btn-info" onclick="document.getElementById('template').style.display='block';">View template</span>
-			<div id="template" style="display:none;margin: 1em 0;">
-				<label for="templatearea" class="data-entry-label">
-					Copy this header line and save it as a .csv file (<a href="/tools/BulkloadEditedParts.cfm?action=getCSVHeader" class="font-weight-lessbold">download</a>)
-				</label>
-				<textarea rows="2" cols="90" id="templatearea" class="w-100 data-entry-textarea">#fieldlist#</textarea>
+			<div class="w-100">
+				<span class="btn btn-xs btn-info" onclick="document.getElementById('template').style.display='block';">View template</span>
+				<div id="template" style="display:none;margin: 1em 0;">
+					<label for="templatearea" class="data-entry-label">
+						Copy this header line and save it as a .csv file (<a href="/tools/BulkloadEditedParts.cfm?action=getCSVHeader" class="font-weight-lessbold">download</a>)
+					</label>
+					<textarea rows="2" cols="90" id="templatearea" class="w-100 data-entry-textarea">#fieldlist#</textarea>
+				</div>
 			</div>
-			<span class="btn btn-xs btn-info" onclick="document.getElementById('fieldmetadata').style.display='block';">View List of Columns with descriptions.</span>
-			<div id="fieldmetadata" style="display:none;margin: 1em 0;">
-				<h2 class="mt-4 h4">Columns in <span class="text-danger">red</span> are required; others are optional:</h2>
-				<ul class="mb-4 h5 font-weight-normal list-group mx-3">
-					<cfloop list="#fieldlist#" index="field" delimiters=",">
-						<cfquery name = "getComments"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#"  result="getComments_result">
-							SELECT comments
-							FROM sys.all_col_comments
-							WHERE 
-								owner = 'MCZBASE'
-								and table_name = 'CF_TEMP_EDIT_PARTS'
-								and column_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(field)#" />
-						</cfquery>
-						<cfset comment = "">
-						<cfif getComments.recordcount GT 0>
-							<cfset comment = getComments.comments>
-						</cfif>
-						<cfset aria = "">
-						<cfif listContains(requiredfieldlist,field,",")>
-							<cfset class="text-danger">
-							<cfset aria = "aria-label='Required Field'">
-						<cfelse>
-							<cfset class="text-dark">
-						</cfif>
-						<li class="pb-1 mx-3">
-							<span class="#class# font-weight-lessbold" #aria#>#field#: </span> <span class="text-secondary">#comment#</span>
-						</li>
-					</cfloop>
-				</ul>
+			<div class="w-100">
+				<span class="btn btn-xs btn-info" onclick="document.getElementById('fieldmetadata').style.display='block';">View List of Columns with descriptions.</span>
+				<div id="fieldmetadata" style="display:none;margin: 1em 0;">
+					<h2 class="mt-4 h4">Columns in <span class="text-danger">red</span> are required; others are optional:</h2>
+					<ul class="mb-4 h5 font-weight-normal list-group mx-3">
+						<cfloop list="#fieldlist#" index="field" delimiters=",">
+							<cfquery name = "getComments"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#"  result="getComments_result">
+								SELECT comments
+								FROM sys.all_col_comments
+								WHERE 
+									owner = 'MCZBASE'
+									and table_name = 'CF_TEMP_EDIT_PARTS'
+									and column_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(field)#" />
+							</cfquery>
+							<cfset comment = "">
+							<cfif getComments.recordcount GT 0>
+								<cfset comment = getComments.comments>
+							</cfif>
+							<cfset aria = "">
+							<cfif listContains(requiredfieldlist,field,",")>
+								<cfset class="text-danger">
+								<cfset aria = "aria-label='Required Field'">
+							<cfelse>
+								<cfset class="text-dark">
+							</cfif>
+							<li class="pb-1 mx-3">
+								<span class="#class# font-weight-lessbold" #aria#>#field#: </span> <span class="text-secondary">#comment#</span>
+							</li>
+						</cfloop>
+					</ul>
+				</div>
 			</div>
 			<form name="atts" method="post" enctype="multipart/form-data" action="/tools/BulkloadEditedParts.cfm">
 				<div class="form-row border rounded p-2 mb-3">
@@ -400,19 +406,6 @@ limitations under the License.
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						AND key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableQC.key#"> 
 				</cfquery>
-				<cfquery name="badDisposition" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					UPDATE cf_temp_edit_parts 
-					SET status = concat(nvl2(status, status || '; ', ''),'Invalid DISPOSITION')
-					WHERE
-						( 
-							COLL_OBJ_DISPOSITION NOT IN (
-								select COLL_OBJ_DISPOSITION from CTCOLL_OBJ_DISP
-							)
-							OR coll_obj_disposition is null
-						)
-						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-						AND key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableQC.key#"> 
-				</cfquery>
 				<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE cf_temp_edit_parts
 					SET status = concat(nvl2(status, status || '; ', ''),'Invalid CONTAINER_TYPE')
@@ -424,64 +417,30 @@ limitations under the License.
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						AND key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableQC.key#"> 
 				</cfquery>
+				<!--- check various terms used for matching if part_collection_object_id was not specified --->
+				<cfquery name="badDisposition" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					UPDATE cf_temp_edit_parts 
+					SET status = concat(nvl2(status, status || '; ', ''),'Invalid DISPOSITION, must be specified ')
+					WHERE
+						( 
+							COLL_OBJ_DISPOSITION NOT IN (
+								select COLL_OBJ_DISPOSITION from CTCOLL_OBJ_DISP
+							)
+							OR coll_obj_disposition is null
+						)
+						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+						AND key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableQC.key#"> 
+						AND part_collection_object_id is null
+				</cfquery>
 				<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE cf_temp_edit_parts 
-					SET status = concat(nvl2(status, status || '; ', ''),'Invalid CONDITION')
+					SET status = concat(nvl2(status, status || '; ', ''),'CONDITION must be specified if part_collection_object_id is not')
 					WHERE CONDITION is null
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						AND key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableQC.key#"> 
-				</cfquery>
-				<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					UPDATE cf_temp_edit_parts 
-					SET status = concat(nvl2(status, status || '; ', ''),'Invalid LOT_COUNT_MODIFIER')
-					WHERE 
-						lot_count_modifier NOT IN (
-							select modifier from ctnumeric_modifiers
-						)
-						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-						AND key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableQC.key#"> 
-				</cfquery>
-				<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					UPDATE cf_temp_edit_parts 
-					SET status = concat(nvl2(status, status || '; ', ''),'Invalid LOT_COUNT')
-					WHERE 
-						(
-							LOT_COUNT is null 
-							OR
-							is_number(lot_count) = 0
-						)
-						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-						AND key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableQC.key#"> 
-				</cfquery>
-				<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					UPDATE cf_temp_edit_parts 
-					SET status = concat(nvl2(status, status || '; ', ''),'Invalid CHANGED_DATE')
-					WHERE 
-						isdate(changed_date) = 0
-						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-						AND key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableQC.key#"> 
+						AND part_collection_object_id is null
 				</cfquery>
 			</cfloop>
-			<!--- check fields used for matching parts --->
-			<cfquery name="badPartNames" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				UPDATE cf_temp_edit_parts 
-				SET status = concat(nvl2(status, status || '; ', ''),'Invalid PART_NAME')
-				WHERE part_name|| '|' ||collection_cde NOT IN (
-					select part_name|| '|' ||collection_cde from ctspecimen_part_name
-					)
-					OR part_name is null
-					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-			</cfquery>
-			<cfquery name="badPresserveMethods" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				UPDATE cf_temp_edit_parts 
-				SET status = concat(nvl2(status, status || '; ', ''),'Invalid PRESERVE_METHOD')
-				WHERE 
-					preserve_method|| '|' ||collection_cde NOT IN (
-						select preserve_method|| '|' ||collection_cde from ctspecimen_preserv_method
-					)
-					OR preserve_method is null
-					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-			</cfquery>
 			<!--- Check row by row for matching cataloged items and then parts --->
 			<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT * 
@@ -580,7 +539,7 @@ limitations under the License.
 				UPDATE cf_temp_edit_parts 
 				SET status = concat(
 						nvl2(status, status || '; ', ''),
-						'Invalid NEW_PRESERVE_METHOD'
+						'Invalid NEW_PRESERVE_METHOD must be in preserve_method vocabulary for collection'
 					)
 				WHERE 
 					new_preserve_method|| '|' ||collection_cde NOT IN (
@@ -593,7 +552,7 @@ limitations under the License.
 				UPDATE cf_temp_edit_parts 
 				SET status = concat(
 						nvl2(status, status || '; ', ''),
-						'Invalid NEW_PART_NAME'
+						'Invalid NEW_PART_NAME, must be in part name vocabulary for collection'
 					)
 				WHERE 
 					new_part_name || '|' ||collection_cde NOT IN (
@@ -602,13 +561,58 @@ limitations under the License.
 					AND new_part_name IS NOT NULL
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
+			<cfquery name="badlotcounts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				UPDATE cf_temp_edit_parts 
+				SET status = concat(nvl2(status, status || '; ', ''),'Invalid NEW_LOT_COUNT, must be a number')
+				WHERE 
+					is_number(new_lot_count) = 0
+					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+					AND new_lot_count IS NOT NULL
+			</cfquery>
+			<cfquery name="badmodifiers" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				UPDATE cf_temp_edit_parts 
+				SET status = concat(nvl2(status, status || '; ', ''),'Invalid LOT_COUNT_MODIFIER, must be in numeric modifiers vocabulary')
+				WHERE 
+					lot_count_modifier NOT IN (
+						select modifier from ctnumeric_modifiers
+					)
+					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+					and lot_count_modifier is not null
+			</cfquery>
+			<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				UPDATE cf_temp_edit_parts 
+				SET status = concat(nvl2(status, status || '; ', ''),'Invalid CHANGED_DATE, must be a date in yyyy-mm-dd format.')
+				WHERE 
+					isdate(changed_date) = 0
+					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+					AND changed_date is not null
+			</cfquery>
 
-			<!--- confirm that parts can be found, depends on lookup of collection_object_id --->
+			<!--- confirm that part exists if part_collection_object_id is specified --->
+			<cfquery name="findunmatchedbyid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				UPDATE cf_temp_edit_parts 
+				SET status = concat(
+						nvl2(status, status || '; ', ''),
+						'ERROR: no matching part by part id' 
+					)
+				WHERE cf_temp_edit_parts.key NOT in 
+					(
+						select cf_temp_edit_parts.key
+						from cf_temp_edit_parts 
+							join specimen_part on cf_temp_edit_parts.part_collection_object_id=specimen_part.collection_object_id
+						where
+							specimen_part.collection_object_id is not null
+					)
+					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+					AND cf_temp_edit_parts.part_collection_object_id IS NOT NULL
+			</cfquery>
+
+			<!--- confirm that parts can be uniquely found, if part_collection_object_id is not specified depends on lookup of collection_object_id --->
 			<cfquery name="findunmatched" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				UPDATE cf_temp_edit_parts 
 				SET status = concat(
 						nvl2(status, status || '; ', ''),
-						'ERROR: no matching part' 
+						'ERROR: no matching part by part fields' 
 					)
 				WHERE cf_temp_edit_parts.key NOT in 
 					(
@@ -629,14 +633,13 @@ limitations under the License.
 					)
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 					AND cf_temp_edit_parts.collection_object_id IS NOT NULL
+					AND cf_temp_edit_parts.part_collection_object_id IS NULL
 			</cfquery>
-
-			<!--- Check part attributes with general queries for the user --->
 			<cfquery name="findduplicates" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				UPDATE cf_temp_edit_parts 
 				SET status = concat(
 						nvl2(status, status || '; ', ''),
-						'ERROR: More that one matching part' 
+						'ERROR: More that one matching part by part fields' 
 					)
 				WHERE cf_temp_edit_parts.key in 
 					(
@@ -658,6 +661,8 @@ limitations under the License.
 						having count(cf_temp_edit_parts.key) > 1
 					)
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+					AND cf_temp_edit_parts.collection_object_id IS NOT NULL
+					AND cf_temp_edit_parts.part_collection_object_id IS NULL
 			</cfquery>
 			<!--- Check part attributes with general queries for the user --->
 			<cfloop index="i" from="1" to="6">
@@ -868,7 +873,12 @@ limitations under the License.
 						<th>CONTAINER_UNIQUE_ID</th>
 						<th>APPEND_TO_REMARKS</th>
 						<th>CHANGED_DATE</th>
+						<th>NEW_PART_NAME</th>
 						<th>NEW_PRESERVE_METHOD</th>
+						<th>NEW_COLL_OBJ_DISPOSITION</th>
+						<th>NEW_LOT_COUNT</th>
+						<th>NEW_LOT_COUNT_MODIFIER</th>
+						<th>NEW_CONDITION</th>
 						<th>PART_ATT_NAME_1</th>
 						<th>PART_ATT_VAL_1</th>
 						<th>PART_ATT_UNITS_1</th>
@@ -945,7 +955,12 @@ limitations under the License.
 							<td>#CONTAINER_UNIQUE_ID#</td>
 							<td>#append_to_remarks#</td>
 							<td>#changed_date#</td>
-							<td>#new_preserve_method#</td>
+							<td>#NEW_PART_NAME#</td>#
+							<td>#NEW_PRESERVE_METHOD#</td>#
+							<td>#NEW_COLL_OBJ_DISPOSITION#</td>#
+							<td>#NEW_LOT_COUNT#</td>#
+							<td>#NEW_LOT_COUNT_MODIFIER#</td>#
+							<td>#NEW_CONDITION#</td>#
 							<td>#part_att_name_1#</td>
 							<td>#part_att_val_1#</td>
 							<td>#part_att_units_1#</td>
@@ -1019,298 +1034,14 @@ limitations under the License.
 					<cfloop query="getTempData">
 						<cfset problem_key = #getTempData.key#>
 						<cfif len(#part_collection_object_id#) is 0>
-							<!--- insert a new part --->
-							<cfquery name="NEXTID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-								SELECT sq_collection_object_id.nextval collection_object_id FROM dual
-							</cfquery>
-							<cfquery name="updateColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateColl_result">
-								INSERT INTO coll_object (
-									COLLECTION_OBJECT_ID,
-									COLL_OBJECT_TYPE,
-									ENTERED_PERSON_ID,
-									COLL_OBJECT_ENTERED_DATE,
-									LAST_EDITED_PERSON_ID,
-									COLL_OBJ_DISPOSITION,
-									LOT_COUNT_MODIFIER,
-									LOT_COUNT,
-									CONDITION,
-									FLAGS 
-								) VALUES (
-									<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#NEXTID.collection_object_id#">,
-									'SP',
-									<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#enteredbyid#">,
-									sysdate,
-									<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#enteredbyid#">,
-									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#COLL_OBJ_DISPOSITION#">,
-									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#lot_count_modifier#">,
-									<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#lot_count#">,
-									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#condition#">,
-									1 
-								)
-							</cfquery>
-							<cfquery name="newTiss" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-								INSERT INTO specimen_part (
-									COLLECTION_OBJECT_ID,
-									PART_NAME,
-									PRESERVE_METHOD,
-									DERIVED_FROM_cat_item
-								) VALUES (
-									<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#NEXTID.collection_object_id#">,
-									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#PART_NAME#">,
-									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#PRESERVE_METHOD#">,
-									<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#"> 
-								)
-							</cfquery>
-							<cfif len(#current_remarks#) gt 0>
-								<!---- new remark --->
-								<cfquery name="newCollRem" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-									INSERT INTO coll_object_remark (
-										collection_object_id,
-										coll_object_remarks
-									) VALUES (
-										<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#NEXTID.collection_object_id#">,
-										<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#current_remarks#">
-									)
-								</cfquery>
-							</cfif>
-							<cfif len(#changed_date#) gt 0>
-								<cfquery name="change_date" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-									UPDATE SPECIMEN_PART_PRES_HIST 
-									SET CHANGED_DATE = to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#CHANGED_DATE#">, 'YYYY-MM-DD') 
-									WHERE 
-										collection_object_id =<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#NEXTID.collection_object_id#">
-										and is_current_fg = 1
-								</cfquery>
-							</cfif>
-							<cfif len(#CONTAINER_UNIQUE_ID#) gt 0>
-								<cfquery name="part_container_id" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-									SELECT container_id 
-									FROM coll_obj_cont_hist 
-									WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#NEXTID.collection_object_id#">
-								</cfquery>
-									<cfquery name="upPart" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-										UPDATE container 
-										SET parent_container_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#parent_container_id#">
-										WHERE container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#part_container_id.container_id#">
-									</cfquery>
-								<cfif #len(change_container_type)# gt 0>
-									<cfquery name="upPart" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-										UPDATE container 
-										SET container_type=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#change_container_type#">
-										WHERE container_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#parent_container_id#">
-									</cfquery>
-								</cfif>
-							</cfif>
-							<!--- part attribute 1 --->
-							<cfif len(#part_att_name_1#) GT 0>
-								<cfif len(#part_att_detby_1#) GT 0>
-									<cfquery name="a" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-										SELECT agent_id 
-										FROM agent_name 
-										WHERE agent_name = trim(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#part_att_detby_1#">)
-									</cfquery>
-									<cfset numAgentID = a.agent_id>
-								<cfelse>
-									<cfset  numAgentID = "NULL">
-								</cfif>
-								<cfquery name="addPartAtt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-									INSERT INTO SPECIMEN_PART_ATTRIBUTE(
-										collection_object_id,
-										attribute_type,
-										attribute_value,
-										attribute_units,
-										determined_date,
-										determined_by_agent_id,
-										attribute_remark
-									) VALUES (
-										<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#NEXTID.collection_object_id#">,
-										<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.part_att_name_1#">,
-										<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.part_att_val_1#">,
-										<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.part_att_units_1#">,
-										<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.part_att_madedate_1#">,
-										<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#numAgentId#">,
-										<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.part_att_rem_1#">
-									)
-								</cfquery>
-							</cfif>
-							<!--- part attribute 2 --->
-							<cfif len(#part_att_name_2#) GT 0>
-								<cfif len(#part_att_detby_2#) GT 0>
-									<cfquery name="a" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-										SELECT agent_id 
-										FROM agent_name 
-										WHERE agent_name = trim(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#part_att_detby_2#">)
-									</cfquery>
-									<cfset numAgentID = a.agent_id>
-								<cfelse>
-									<cfset  numAgentID = "NULL">
-								</cfif>
-								<cfquery name="addPartAtt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-									insert into SPECIMEN_PART_ATTRIBUTE (
-										collection_object_id,
-										attribute_type,
-										attribute_value,
-										attribute_units,
-										determined_date,
-										determined_by_agent_id,
-										attribute_remark
-									) values (
-										<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#NEXTID.collection_object_id#">,
-										<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.part_att_name_2#">,
-										<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.part_att_val_2#">,
-										<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.part_att_units_2#">,
-										<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.part_att_madedate_2#">,
-										<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#numAgentId#">,
-										<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.part_att_rem_2#">
-									)
-								</cfquery>
-							</cfif>
-							<!--- part attribute 3 --->
-							<cfif len(#part_att_name_3#) GT 0>
-								<cfif len(#part_att_detby_3#) GT 0>
-									<cfquery name="a" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-										SELECT agent_id 
-										FROM agent_name 
-										WHERE agent_name = trim(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#part_att_detby_3#">)
-									</cfquery>
-									<cfset numAgentID = a.agent_id>
-								<cfelse>
-									<cfset  numAgentID = "NULL">
-								</cfif>
-								<cfquery name="addPartAtt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-									insert into SPECIMEN_PART_ATTRIBUTE (
-										collection_object_id,
-										attribute_type,
-										attribute_value,
-										attribute_units,
-										determined_date,
-										determined_by_agent_id,
-										attribute_remark
-									) values (
-										<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#NEXTID.collection_object_id#">,
-										<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.part_att_name_3#">,
-										<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.part_att_val_3#">,
-										<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.part_att_units_3#">,
-										<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.part_att_madedate_3#">,
-										<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#numAgentId#">,
-										<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.part_att_rem_3#">
-									)
-								</cfquery>
-							</cfif>
-							<!--- part attribute 4 --->
-							<cfif len(#part_att_name_4#) GT 0>
-								<cfif len(#part_att_detby_4#) GT 0>
-									<cfquery name="a" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-										SELECT agent_id 
-										FROM agent_name 
-										WHERE agent_name = trim(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#part_att_detby_4#">)
-									</cfquery>
-									<cfset numAgentID = a.agent_id>
-								<cfelse>
-									<cfset  numAgentID = "NULL">
-								</cfif>
-								<cfquery name="addPartAtt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-									insert into SPECIMEN_PART_ATTRIBUTE(
-										collection_object_id,
-										attribute_type,
-										attribute_value,
-										attribute_units,
-										determined_date,
-										determined_by_agent_id,
-										attribute_remark
-									) values (
-										<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#NEXTID.collection_object_id#">,
-										<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.part_att_name_4#">,
-										<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.part_att_val_4#">,
-										<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.part_att_units_4#">,
-										<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.part_att_madedate_4#">,
-										<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#numAgentId#">,
-										<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.part_att_rem_4#">
-									)
-								</cfquery>
-							</cfif>
-							<!--- part attribute 5 --->
-							<cfif len(#part_att_name_5#) GT 0>
-								<cfif len(#part_att_detby_5#) GT 0>
-									<cfquery name="a" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-										SELECT agent_id 
-										FROM agent_name 
-										WHERE agent_name = trim(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#part_att_detby_5#">)
-									</cfquery>
-									<cfset numAgentID = a.agent_id>
-								<cfelse>
-									<cfset  numAgentID = "NULL">
-								</cfif>
-								<cfquery name="addPartAtt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-									insert into SPECIMEN_PART_ATTRIBUTE (
-										collection_object_id,
-										attribute_type,
-										attribute_value,
-										attribute_units,
-										determined_date,
-										determined_by_agent_id,
-										attribute_remark
-									) values (
-										<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#NEXTID.collection_object_id#">,
-										<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.part_att_name_5#">,
-										<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.part_att_val_5#">,
-										<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.part_att_units_5#">,
-										<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.part_att_madedate_5#">,
-										<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#numAgentId#">,
-										<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.part_att_rem_5#">
-									)
-								</cfquery>
-							</cfif>
-							<!--- part attribute 6 --->
-							<cfif len(#part_att_name_6#) GT 0>
-								<cfif len(#part_att_detby_6#) GT 0>
-									<cfquery name="a" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-										select agent_id from agent_name where agent_name = trim('#part_att_detby_6#')
-									</cfquery>
-									<cfset numAgentID = a.agent_id>
-								<cfelse>
-									<cfset  numAgentID = "NULL">
-								</cfif>
-								<cfquery name="addPartAtt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-									insert into SPECIMEN_PART_ATTRIBUTE(
-										collection_object_id,
-										attribute_type,
-										attribute_value,
-										attribute_units,
-										determined_date,
-										determined_by_agent_id,
-										attribute_remark
-									) values (
-										<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#NEXTID.collection_object_id#">,
-										<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.part_att_name_6#">, 
-										<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.part_att_val_6#">, 
-										<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.part_att_units_6#">, 
-										<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.part_att_madedate_6#">, 
-										<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#numAgentId#">,
-										<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.part_att_rem_6#">)
-								</cfquery>
-							</cfif>
+							<!--- no part to modify, fail --->
+							<cfthrow message="No part to modify for #getTempData.institution_acronym#:#getTempData.collection_cde# #getTempData.other_id_type##getTempData.other_id_number#">
 						<cfelse>
 							<!--- update existing part --->
-							<cfif len(#COLL_OBJ_disposition#) gt 0>
-								<cfquery name="upDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateColl_result">
-									UPDATE coll_object 
-									SET COLL_OBJ_DISPOSITION = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#coll_obj_disposition#"> 
-									WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#part_collection_object_id#">
-								</cfquery>
-							</cfif>
-							<cfif len(#condition#) gt 0>
-								<cfquery name="upCond" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-									UPDATE coll_object 
-									SET condition = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#condition#"> 
-									WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#part_collection_object_id#">
-								</cfquery>
-							</cfif>
-							<cfif len(#lot_count#) gt 0>
-								<cfquery name="upCond" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-									UPDATE coll_object 
-									SET lot_count = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#lot_count#">, 
-										lot_count_modifier=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#lot_count_modifier#"> 
+							<cfif len(#new_part_name#) gt 0>
+								<cfquery name="change_preservemethod" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+									UPDATE SPECIMEN_PART 
+									SET part_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#NEW_part_name#"> 
 									WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#part_collection_object_id#">
 								</cfquery>
 							</cfif>
@@ -1318,6 +1049,28 @@ limitations under the License.
 								<cfquery name="change_preservemethod" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 									UPDATE SPECIMEN_PART 
 									SET PRESERVE_METHOD = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#NEW_PRESERVE_METHOD#"> 
+									WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#part_collection_object_id#">
+								</cfquery>
+							</cfif>
+							<cfif len(#new_lot_count#) gt 0>
+								<cfquery name="upCond" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+									UPDATE coll_object 
+									SET lot_count = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#new_lot_count#">, 
+										lot_count_modifier=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#new_lot_count_modifier#"> 
+									WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#part_collection_object_id#">
+								</cfquery>
+							</cfif>
+							<cfif len(#NEW_COLL_OBJ_disposition#) gt 0>
+								<cfquery name="upDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateColl_result">
+									UPDATE coll_object 
+									SET COLL_OBJ_DISPOSITION = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#NEW_coll_obj_disposition#"> 
+									WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#part_collection_object_id#">
+								</cfquery>
+							</cfif>
+							<cfif len(#new_condition#) gt 0>
+								<cfquery name="upCond" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+									UPDATE coll_object 
+									SET condition = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#new_condition#"> 
 									WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#part_collection_object_id#">
 								</cfquery>
 							</cfif>

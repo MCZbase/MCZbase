@@ -33,6 +33,7 @@ limitations under the License.
 		'catalog number' as OTHER_ID_TYPE,
 		F.CAT_NUM as OTHER_ID_NUMBER,
 		F.SCIENTIFIC_NAME,
+		SP.collection_object_id as PART_COLLECTION_OBJECT_ID,
 		SP.PART_NAME,
 		SP.PRESERVE_METHOD,
 		CO.COLL_OBJ_DISPOSITION,
@@ -54,7 +55,12 @@ limitations under the License.
 		<cfif action IS "downloadBulkloader">
 			, '' as APPEND_TO_REMARKS
 			, '' AS CHANGED_DATE
+			, '' AS NEW_PART_NAME
 			, '' AS NEW_PRESERVE_METHOD
+			, '' AS NEW_LOT_COUNT
+			, '' AS NEW_LOT_COUNT_MODIFIER
+			, '' AS NEW_COLL_OBJ_DISPOSITION
+			, '' AS NEW_CONDITION
 		</cfif>
 	from
 		flat f, 
@@ -237,8 +243,8 @@ limitations under the License.
 							<tr>
 								<th>INSTITUTION ACRONYM</th>
 								<th>COLLECTION CDE</th>
-								<!---th>OTHER_ID_TYPE</th--->
 								<th>CATALOG NUMBER</th>
+								<!--- Note: Not including the part_collection_object_id in this table, just in the csv dump --->
 								<th>PART NAME</th>
 								<th>PRESERVE METHOD</th>
 								<th>DISPOSITION</th>
@@ -260,8 +266,8 @@ limitations under the License.
 								<tr>
 									<td>#getParts.INSTITUTION_ACRONYM#</td>
 									<td>#COLLECTION_CDE#</td>
-									<!---td>#OTHER_ID_TYPE#</td--->
 									<td>#OTHER_ID_NUMBER#</td>
+									<!--- Note: Not including the part_collection_object_id in this table, just in the csv dump --->
 									<td>#PART_NAME#</td>
 									<td>#PRESERVE_METHOD#</td>
 									<td>#COLL_OBJ_DISPOSITION#</td>
