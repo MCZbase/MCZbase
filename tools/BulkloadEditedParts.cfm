@@ -672,7 +672,7 @@ limitations under the License.
 				</cfquery>
 				<cfquery name="chkPAtt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE cf_temp_edit_parts 
-					SET status = status || 'scientific name (' ||PART_ATT_VAL_#i# ||') does not exist'
+					SET status = concat(nvl2(status, status || '; ', ''), 'scientific name (' ||PART_ATT_VAL_#i# ||') does not exist')
 					WHERE 
 						PART_ATT_NAME_#i# = 'scientific name'
 						AND regexp_replace(PART_ATT_VAL_#i#, ' (\?|sp.)$', '') not in
@@ -805,31 +805,6 @@ limitations under the License.
 					status <> 'VALID'
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
-			<!--- add a note about part and container --->
-			<cfquery name="identifyPartParentState" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				UPDATE cf_temp_edit_parts 
-				SET (status) = (
-					select
-						decode(parent_container_id, 0,'VALID; NOTE: PART EXISTS', 'VALID; NOTE: PART EXISTS IN PARENT CONTAINER')
-					from 
-						specimen_part,
-						coll_obj_cont_hist,
-						container,
-						coll_object_remark 
-					where
-						specimen_part.collection_object_id = coll_obj_cont_hist.collection_object_id AND
-						coll_obj_cont_hist.container_id = container.container_id AND
-						coll_object_remark.collection_object_id(+) = specimen_part.collection_object_id AND
-						derived_from_cat_item = cf_temp_edit_parts.collection_object_id AND
-						cf_temp_edit_parts.part_name=specimen_part.part_name AND
-						cf_temp_edit_parts.preserve_method=specimen_part.preserve_method AND
-						nvl(cf_temp_edit_parts.current_remarks, 'NULL') = nvl(coll_object_remark.coll_object_remarks, 'NULL')
-					group by parent_container_id
-				)
-				WHERE 
-					status='VALID'
-					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-			</cfquery>
 			<cfquery name="setParentContainerIds" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				UPDATE cf_temp_edit_parts 
 				SET (parent_container_id) = (
@@ -853,6 +828,7 @@ limitations under the License.
 				WHERE 
 					status like '%NOTE: PART EXISTS%'
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+					part_collection_object_id IS NULL
 			</cfquery>
 			<cfquery name="markPartsNotFound" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				UPDATE cf_temp_edit_parts 
