@@ -955,12 +955,12 @@ limitations under the License.
 							<td>#CONTAINER_UNIQUE_ID#</td>
 							<td>#append_to_remarks#</td>
 							<td>#changed_date#</td>
-							<td>#NEW_PART_NAME#</td>#
-							<td>#NEW_PRESERVE_METHOD#</td>#
-							<td>#NEW_COLL_OBJ_DISPOSITION#</td>#
-							<td>#NEW_LOT_COUNT#</td>#
-							<td>#NEW_LOT_COUNT_MODIFIER#</td>#
-							<td>#NEW_CONDITION#</td>#
+							<td>#NEW_PART_NAME#</td>
+							<td>#NEW_PRESERVE_METHOD#</td>
+							<td>#NEW_COLL_OBJ_DISPOSITION#</td>
+							<td>#NEW_LOT_COUNT#</td>
+							<td>#NEW_LOT_COUNT_MODIFIER#</td>
+							<td>#NEW_CONDITION#</td>
 							<td>#part_att_name_1#</td>
 							<td>#part_att_val_1#</td>
 							<td>#part_att_units_1#</td>
