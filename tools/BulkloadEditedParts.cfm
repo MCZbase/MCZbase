@@ -642,7 +642,7 @@ limitations under the License.
 							UPDATE cf_temp_edit_parts 
 							SET status = concat(nvl2(status, status || '; ', ''),'Duplicate of existing part attribute "'||PART_ATT_NAME_#i#||'"')
 							WHERE
-								key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getAttributeUppdates.key#">
+								key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getAttributeUpdates.key#">
 								AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						</cfquery>
 					</cfif>
