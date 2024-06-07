@@ -1575,7 +1575,7 @@ include this function and use it.
 													<a class="font-weight-lessbold" href="/grouping/showNamedCollection.cfm?underscore_collection_id=#underscore.underscore_collection_id#"> #underscore.collection_name#</a><cfif underscore.recordcount gt 1><span>, </span></cfif>
 												</cfloop>
 											</cfif>
-											<!---<!---Display project--->
+											<!---Display project--->
 											<!---<cfif media_rel.media_relationship eq 'shows project'>
 												<cfset cProject.project_name = replace(cProject_name," ","-","all")>
 												<cfloop query="cProject">
