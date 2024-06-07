@@ -677,7 +677,7 @@ limitations under the License.
 								</cfif>
 							<cfelseif table_name is "project">
 								<cfquery name="cProject" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-									select distinct(project_id) project_id from project where PROJECT_NAME =<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#labelValue#">
+									select project_id from project where PROJECT_NAME =<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#labelValue#">
 								</cfquery>
 								<cfif cProject.recordcount gt 0>
 									<cfif cProject.recordcount is 1 and len(cProject.project_id) gt 0>
