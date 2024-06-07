@@ -369,79 +369,30 @@ limitations under the License.
 		<cfoutput>
 			<h2 class="h4">Second step: Validate data from CSV file.</h2>
 			<cfset key = "">
-			<!--- obtain list of keys for row by row validations --->
-			<cfquery name="getTempTableQC" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				SELECT key, container_unique_id 
-				FROM cf_temp_edit_parts 
-				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+			<!--- First set of Validation tests: find part and collection object --->: 
+			<!--- check various terms used for matching if part_collection_object_id was not specified --->
+			<cfquery name="badDisposition" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				UPDATE cf_temp_edit_parts 
+				SET status = concat(nvl2(status, status || '; ', ''),'Invalid DISPOSITION, must be specified ')
+				WHERE
+					( 
+						COLL_OBJ_DISPOSITION NOT IN (
+							select COLL_OBJ_DISPOSITION from CTCOLL_OBJ_DISP
+						)
+						OR coll_obj_disposition is null
+					)
+					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+					AND part_collection_object_id is null
 			</cfquery>
-			<cfloop query="getTempTableQC">
-				<cfquery name="getParentContainerId" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					UPDATE cf_temp_edit_parts 
-					SET 
-						parent_container_id = (
-							select container_id from container 
-							where container.barcode = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableQC.container_unique_id#">
-						),
-						STATUS = ''
-					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-						AND key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableQC.key#"> 
-				</cfquery>
-				<cfquery name="validateGotParent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					UPDATE cf_temp_edit_parts 
-					SET status = concat(nvl2(status, status || '; ', ''), 'Container Unique ID not found')
-					WHERE CONTAINER_UNIQUE_ID is not null 
-						AND parent_container_id is null
-						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-						AND key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableQC.key#"> 
-				</cfquery>
-				<cfquery name="badContainerId" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					UPDATE cf_temp_edit_parts 
-					SET status = concat(nvl2(status, status || '; ', ''),'Invalid CONTAINER_UNIQUE_ID')
-					WHERE 
-						CONTAINER_UNIQUE_ID NOT IN (
-							select barcode from container where barcode is not null
-						)
-						AND CONTAINER_UNIQUE_ID is not null
-						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-						AND key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableQC.key#"> 
-				</cfquery>
-				<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					UPDATE cf_temp_edit_parts
-					SET status = concat(nvl2(status, status || '; ', ''),'Invalid CONTAINER_TYPE')
-					WHERE 
-						change_container_type NOT IN (
-							select container_type from ctcontainer_type
-						)
-						AND change_container_type is null
-						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-						AND key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableQC.key#"> 
-				</cfquery>
-				<!--- check various terms used for matching if part_collection_object_id was not specified --->
-				<cfquery name="badDisposition" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					UPDATE cf_temp_edit_parts 
-					SET status = concat(nvl2(status, status || '; ', ''),'Invalid DISPOSITION, must be specified ')
-					WHERE
-						( 
-							COLL_OBJ_DISPOSITION NOT IN (
-								select COLL_OBJ_DISPOSITION from CTCOLL_OBJ_DISP
-							)
-							OR coll_obj_disposition is null
-						)
-						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-						AND key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableQC.key#"> 
-						AND part_collection_object_id is null
-				</cfquery>
-				<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					UPDATE cf_temp_edit_parts 
-					SET status = concat(nvl2(status, status || '; ', ''),'CONDITION must be specified if part_collection_object_id is not')
-					WHERE CONDITION is null
-						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-						AND key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableQC.key#"> 
-						AND part_collection_object_id is null
-				</cfquery>
-			</cfloop>
+			<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				UPDATE cf_temp_edit_parts 
+				SET status = concat(nvl2(status, status || '; ', ''),'CONDITION must be specified if part_collection_object_id is not')
+				WHERE CONDITION is null
+					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+					AND part_collection_object_id is null
+			</cfquery>
 			<!--- Check row by row for matching cataloged items and then parts --->
+			<!--- If successfull, this block will set the magic phrase ' :Found Cataloged Item; Found Part' --->
 			<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT * 
 				FROM cf_temp_edit_parts 
@@ -517,7 +468,8 @@ limitations under the License.
 									part_collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getPart.collection_object_id#">,
 									status = 'VALID:' || concat(nvl2(status, status || '; ', ''),'Found Part')
 							WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-								AND key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#data.key#"> 
+								AND key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#data.key#">
+								AND part_collection_object_id IS NULL
 						</cfquery>
 					</cfif>
 				<cfelse>
@@ -534,6 +486,58 @@ limitations under the License.
 				</cfif>
 			</cfloop>
 
+			<!--- Second set of Validation tests: container terms --->: 
+			<!--- check container terms, use list of keys for row by row validations of containers --->
+			<cfquery name="getTempTableQC" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				SELECT key, container_unique_id 
+				FROM cf_temp_edit_parts 
+				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+			</cfquery>
+			<cfloop query="getTempTableQC">
+				<cfquery name="getParentContainerId" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					UPDATE cf_temp_edit_parts 
+					SET 
+						parent_container_id = (
+							select container_id from container 
+							where container.barcode = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableQC.container_unique_id#">
+						),
+						STATUS = ''
+					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+						AND key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableQC.key#"> 
+				</cfquery>
+				<cfquery name="validateGotParent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					UPDATE cf_temp_edit_parts 
+					SET status = concat(nvl2(status, status || '; ', ''), 'Container Unique ID not found')
+					WHERE CONTAINER_UNIQUE_ID is not null 
+						AND parent_container_id is null
+						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+						AND key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableQC.key#"> 
+				</cfquery>
+				<cfquery name="badContainerId" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					UPDATE cf_temp_edit_parts 
+					SET status = concat(nvl2(status, status || '; ', ''),'Invalid CONTAINER_UNIQUE_ID')
+					WHERE 
+						CONTAINER_UNIQUE_ID NOT IN (
+							select barcode from container where barcode is not null
+						)
+						AND CONTAINER_UNIQUE_ID is not null
+						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+						AND key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableQC.key#"> 
+				</cfquery>
+				<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					UPDATE cf_temp_edit_parts
+					SET status = concat(nvl2(status, status || '; ', ''),'Invalid CONTAINER_TYPE')
+					WHERE 
+						change_container_type NOT IN (
+							select container_type from ctcontainer_type
+						)
+						AND change_container_type is null
+						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+						AND key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableQC.key#"> 
+				</cfquery>
+			</cfloop>
+
+			<!--- Third set of Validation tests: new values that will replace existing ones --->: 
 			<!--- Assess new values, in bulk --->
 			<cfquery name="badNewPreserve" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				UPDATE cf_temp_edit_parts 
@@ -588,82 +592,7 @@ limitations under the License.
 					AND changed_date is not null
 			</cfquery>
 
-			<!--- confirm that part exists if part_collection_object_id is specified --->
-			<cfquery name="findunmatchedbyid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				UPDATE cf_temp_edit_parts 
-				SET status = concat(
-						nvl2(status, status || '; ', ''),
-						'ERROR: no matching part by part id' 
-					)
-				WHERE cf_temp_edit_parts.key NOT in 
-					(
-						select cf_temp_edit_parts.key
-						from cf_temp_edit_parts 
-							join specimen_part on cf_temp_edit_parts.part_collection_object_id=specimen_part.collection_object_id
-						where
-							specimen_part.collection_object_id is not null
-					)
-					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-					AND cf_temp_edit_parts.part_collection_object_id IS NOT NULL
-			</cfquery>
-
-			<!--- confirm that parts can be uniquely found, if part_collection_object_id is not specified depends on lookup of collection_object_id --->
-			<cfquery name="findunmatched" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				UPDATE cf_temp_edit_parts 
-				SET status = concat(
-						nvl2(status, status || '; ', ''),
-						'ERROR: no matching part by part fields' 
-					)
-				WHERE cf_temp_edit_parts.key NOT in 
-					(
-						select cf_temp_edit_parts.key
-						from cf_temp_edit_parts 
-							join specimen_part on  
-								cf_temp_edit_parts.part_name=specimen_part.part_name and
-								cf_temp_edit_parts.preserve_method=specimen_part.preserve_method and
-								cf_temp_edit_parts.collection_object_id=specimen_part.derived_from_cat_item
-							left join coll_object_remark on specimen_part.collection_object_id = coll_object_remark.collection_object_id
-							left join coll_object on specimen_part.collection_object_id = coll_object.collection_object_id
-						where			
-							nvl(cf_temp_edit_parts.current_remarks, 'NULL') = nvl(coll_object_remark.coll_object_remarks, 'NULL') and
-							nvl2(cf_temp_edit_parts.lot_count,cf_temp_edit_parts.lot_count,-1) 
-								= nvl2(coll_object.lot_count,coll_object.lot_count,-1) and
-							nvl2(cf_temp_edit_parts.lot_count_modifier,cf_temp_edit_parts.lot_count_modifier,'NULL') 
-								= nvl2(coll_object.lot_count_modifier,coll_object.lot_count_modifier,'NULL')
-					)
-					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-					AND cf_temp_edit_parts.collection_object_id IS NOT NULL
-					AND cf_temp_edit_parts.part_collection_object_id IS NULL
-			</cfquery>
-			<cfquery name="findduplicates" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				UPDATE cf_temp_edit_parts 
-				SET status = concat(
-						nvl2(status, status || '; ', ''),
-						'ERROR: More that one matching part by part fields' 
-					)
-				WHERE cf_temp_edit_parts.key in 
-					(
-						select cf_temp_edit_parts.key
-						from cf_temp_edit_parts 
-							join specimen_part on  
-								cf_temp_edit_parts.part_name=specimen_part.part_name and
-								cf_temp_edit_parts.preserve_method=specimen_part.preserve_method and
-								cf_temp_edit_parts.collection_object_id=specimen_part.derived_from_cat_item
-							left join coll_object_remark on specimen_part.collection_object_id = coll_object_remark.collection_object_id
-							left join coll_object on specimen_part.collection_object_id = coll_object.collection_object_id
-						where			
-							nvl(cf_temp_edit_parts.current_remarks, 'NULL') = nvl(coll_object_remark.coll_object_remarks, 'NULL') and
-							nvl2(cf_temp_edit_parts.lot_count,cf_temp_edit_parts.lot_count,-1) 
-								= nvl2(coll_object.lot_count,coll_object.lot_count,-1) and
-							nvl2(cf_temp_edit_parts.lot_count_modifier,cf_temp_edit_parts.lot_count_modifier,'NULL') 
-								= nvl2(coll_object.lot_count_modifier,coll_object.lot_count_modifier,'NULL')
-						group by cf_temp_edit_parts.key
-						having count(cf_temp_edit_parts.key) > 1
-					)
-					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-					AND cf_temp_edit_parts.collection_object_id IS NOT NULL
-					AND cf_temp_edit_parts.part_collection_object_id IS NULL
-			</cfquery>
+			<!--- Fourth set of Validation tests: check attribute values --->: 
 			<!--- Check part attributes with general queries for the user --->
 			<cfloop index="i" from="1" to="6">
 				<cfquery name="chkPAtt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -768,6 +697,87 @@ limitations under the License.
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
 			</cfloop>
+
+			<!--- Fifth set of Validation tests: confirm that part was matched and exists to be updated --->: 
+			<!--- confirm that part exists if part_collection_object_id is specified --->
+			<cfquery name="findunmatchedbyid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				UPDATE cf_temp_edit_parts 
+				SET status = concat(
+						nvl2(status, status || '; ', ''),
+						'ERROR: no matching part by part id' 
+					)
+				WHERE cf_temp_edit_parts.key NOT in 
+					(
+						select cf_temp_edit_parts.key
+						from cf_temp_edit_parts 
+							join specimen_part on cf_temp_edit_parts.part_collection_object_id=specimen_part.collection_object_id
+						where
+							specimen_part.collection_object_id is not null
+					)
+					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+					AND cf_temp_edit_parts.part_collection_object_id IS NOT NULL
+			</cfquery>
+
+			<!--- confirm that parts can be uniquely found, if part_collection_object_id is not specified depends on lookup of collection_object_id --->
+			<cfquery name="findunmatched" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				UPDATE cf_temp_edit_parts 
+				SET status = concat(
+						nvl2(status, status || '; ', ''),
+						'ERROR: no matching part by part fields' 
+					)
+				WHERE cf_temp_edit_parts.key NOT in 
+					(
+						select cf_temp_edit_parts.key
+						from cf_temp_edit_parts 
+							join specimen_part on  
+								cf_temp_edit_parts.part_name=specimen_part.part_name and
+								cf_temp_edit_parts.preserve_method=specimen_part.preserve_method and
+								cf_temp_edit_parts.collection_object_id=specimen_part.derived_from_cat_item
+							left join coll_object_remark on specimen_part.collection_object_id = coll_object_remark.collection_object_id
+							left join coll_object on specimen_part.collection_object_id = coll_object.collection_object_id
+						where			
+							nvl(cf_temp_edit_parts.current_remarks, 'NULL') = nvl(coll_object_remark.coll_object_remarks, 'NULL') and
+							nvl2(cf_temp_edit_parts.lot_count,cf_temp_edit_parts.lot_count,-1) 
+								= nvl2(coll_object.lot_count,coll_object.lot_count,-1) and
+							nvl2(cf_temp_edit_parts.lot_count_modifier,cf_temp_edit_parts.lot_count_modifier,'NULL') 
+								= nvl2(coll_object.lot_count_modifier,coll_object.lot_count_modifier,'NULL')
+					)
+					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+					AND cf_temp_edit_parts.collection_object_id IS NOT NULL
+					AND cf_temp_edit_parts.part_collection_object_id IS NULL
+			</cfquery>
+			<cfquery name="findduplicates" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				UPDATE cf_temp_edit_parts 
+				SET status = concat(
+						nvl2(status, status || '; ', ''),
+						'ERROR: More that one matching part by part fields' 
+					)
+				WHERE cf_temp_edit_parts.key in 
+					(
+						select cf_temp_edit_parts.key
+						from cf_temp_edit_parts 
+							join specimen_part on  
+								cf_temp_edit_parts.part_name=specimen_part.part_name and
+								cf_temp_edit_parts.preserve_method=specimen_part.preserve_method and
+								cf_temp_edit_parts.collection_object_id=specimen_part.derived_from_cat_item
+							left join coll_object_remark on specimen_part.collection_object_id = coll_object_remark.collection_object_id
+							left join coll_object on specimen_part.collection_object_id = coll_object.collection_object_id
+						where			
+							nvl(cf_temp_edit_parts.current_remarks, 'NULL') = nvl(coll_object_remark.coll_object_remarks, 'NULL') and
+							nvl2(cf_temp_edit_parts.lot_count,cf_temp_edit_parts.lot_count,-1) 
+								= nvl2(coll_object.lot_count,coll_object.lot_count,-1) and
+							nvl2(cf_temp_edit_parts.lot_count_modifier,cf_temp_edit_parts.lot_count_modifier,'NULL') 
+								= nvl2(coll_object.lot_count_modifier,coll_object.lot_count_modifier,'NULL')
+						group by cf_temp_edit_parts.key
+						having count(cf_temp_edit_parts.key) > 1
+					)
+					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+					AND cf_temp_edit_parts.collection_object_id IS NOT NULL
+					AND cf_temp_edit_parts.part_collection_object_id IS NULL
+			</cfquery>
+
+		
+			<!--- Last phase of Validation tests: cleanup and prepare to report --->: 
 			<!--- to tell if there are failure cases, we need to remove the string VALID if there are any error messages, 
 					as almost all of the error messages are concatenated onto status, instead of replacing valid --->
 			<cfquery name="cleanoutValidFromInvalid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -835,6 +845,7 @@ limitations under the License.
 					)
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
+
 			<cfquery name="inT" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT * 
 				FROM cf_temp_edit_parts
