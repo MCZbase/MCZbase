@@ -909,7 +909,7 @@ include this function and use it.
 									<th scope="row">Relationship#plural#:&nbsp; </span></th>
 									<td class="w-80">
 									<!---Loops through the media relationships (query = media_rel) and specific relationship queries above (queries=accn, agents1-5,collecting_events, daccns,loan, locali, media1-2,publication, spec, underscore) to find related media to the featured image on the page. Displays Media Relationship even if the links are not provided within the relatedLinks div (due to permissions or not being set up yet). It is somewhat scalable with regards to new relationship type entries on the code table--->
-									<cfset relationSeparator = "">
+									<cfset relationSeparator = " ">
 				
 									<cfloop query="media_rel">
 										#relationSeparator#
