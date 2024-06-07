@@ -828,7 +828,7 @@ limitations under the License.
 				WHERE 
 					status like '%NOTE: PART EXISTS%'
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-					part_collection_object_id IS NULL
+					AND part_collection_object_id IS NULL
 			</cfquery>
 			<cfquery name="markPartsNotFound" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				UPDATE cf_temp_edit_parts 
