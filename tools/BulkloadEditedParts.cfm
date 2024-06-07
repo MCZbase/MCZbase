@@ -815,21 +815,6 @@ limitations under the License.
 					substr(status,1,5) IN ('VALID')
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
-			<cfquery name="setUsePartId" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				UPDATE cf_temp_edit_parts 
-				SET (part_collection_object_id) = (
-					select min(specimen_part.collection_object_id)
-					from specimen_part, coll_object_remark where
-					specimen_part.collection_object_id = coll_object_remark.collection_object_id(+) AND
-					cf_temp_edit_parts.part_name=specimen_part.part_name and
-					cf_temp_edit_parts.preserve_method=specimen_part.preserve_method and
-					cf_temp_edit_parts.collection_object_id=specimen_part.derived_from_cat_item and
-					nvl(cf_temp_edit_parts.current_remarks, 'NULL') = nvl(coll_object_remark.coll_object_remarks, 'NULL'))
-				WHERE 
-					status like '%NOTE: PART EXISTS%'
-					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-					AND part_collection_object_id IS NULL
-			</cfquery>
 			<cfquery name="markPartsNotFound" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				UPDATE cf_temp_edit_parts 
 				SET status = concat(nvl2(status,status ||  '; ', ''), 'PART NOT FOUND')
@@ -860,7 +845,7 @@ limitations under the License.
 				<cfif #countFailures.cnt# is 0>
 					<span class="text-success">Validation checks passed.</span> Look over the table below and <a href="/tools/BulkloadEditedParts.cfm?action=load" class="btn-link font-weight-lessbold">click to continue</a> if it all looks good. Or, <a href="/tools/BulkloadEditedParts.cfm" class="text-danger">start again</a>.
 				<cfelse>
-					There is a problem with #countFailures.cnt# of #countFailures.recordcount# row(s). See the STATUS column. (<a href="/tools/BulkloadEditedParts.cfm?action=dumpProblems">download</a>).
+					There is a problem with #countFailures.cnt# of #inT.recordcount# row(s). See the STATUS column. (<a href="/tools/BulkloadEditedParts.cfm?action=dumpProblems">download</a>).
 					Fix the problem(s) noted in the status column and <a href="/tools/BulkloadEditedParts.cfm" class="text-danger">start again</a>.
 				</cfif>
 			</h3>
@@ -947,7 +932,7 @@ limitations under the License.
 									<a href="/guid/#guid#"
 										target="_blank">#guid#</a> <strong>#status#</strong>
 								<cfelseif len(status) EQ 0>
-									<strong>ERROR: Validation checks not run.</strong>
+									<strong>BUG: Validation checks not run.</strong>
 								<cfelse>
 									<strong>ERROR: #status#</strong>
 								</cfif>
