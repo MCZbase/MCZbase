@@ -680,12 +680,18 @@ limitations under the License.
 									<cfset idtype = "project_id">
 									<cfset idvalue = labelValue>
 								<cfelse>
-									<cfset idtype=trim(listfirst(labelValue,"|"))>
+									<cfset idtype=trim(listfirst(labelName,"|"))>
 									<cfset idvalue=trim(listlast(labelValue,"|"))>
 								</cfif>
-								<cfquery name="cProject" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-									select project_id from project where '#idtype#' = '#idvalue#'
-								</cfquery>
+								<cfif #idtype# = 'project_id'>
+									<cfquery name="cProject" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+										select project_id from project where PROJECT_ID = '#idvalue#'
+									</cfquery>
+								<cfelse>
+									<cfquery name="cProject" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+										select project_id from project where PROJECT_NAME = '#idvalue#'
+									</cfquery>
+								</cfif>
 								<cfif cProject.recordcount gt 0>
 									<cfif cProject.recordcount is 1 and len(cProject.project_id) gt 0>
 										<cfquery name="insRel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
