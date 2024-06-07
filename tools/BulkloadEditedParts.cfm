@@ -650,7 +650,7 @@ limitations under the License.
 				<!--- are supplied attributes and values compliant with controlled vocabularies and expectations --->
 				<cfquery name="chkPAtt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE cf_temp_edit_parts 
-					SET status = concat(nvl2(status, status || '; ', ''),'Invalid part attribute "'||PART_ATT_NAME_#i#||'"')
+					SET status = concat(nvl2(status, status || '; ', ''),'Invalid part attribute type "'||PART_ATT_NAME_#i#||'"')
 					WHERE PART_ATT_NAME_#i# not in (select attribute_type from CTSPECPART_ATTRIBUTE_TYPE) 
 						AND PART_ATT_NAME_#i# is not null
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
@@ -660,7 +660,9 @@ limitations under the License.
 					SET status = concat(nvl2(status, status || '; ', ''),'"'||PART_ATT_VAL_#i#||'" is required for "'||PART_ATT_NAME_#i#||'"')
 					WHERE 
 						chk_att_codetables(PART_ATT_NAME_#i#,PART_ATT_VAL_#i#,COLLECTION_CDE)=0
-						AND PART_ATT_NAME_#i# is not null and PART_ATT_VAL_#i# is null
+						AND PART_ATT_NAME_#i# is not null 
+						AND PART_ATT_VAL_#i# is null
+						AND PART_ATT_VAL_#i# <> 'DELETE'
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
 				<cfquery name="chkPAtt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
