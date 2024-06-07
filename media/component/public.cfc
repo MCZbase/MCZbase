@@ -1051,13 +1051,9 @@ include this function and use it.
 											</cfif>
 											<!---Display project--->
 											<cfif media_rel.media_relationship eq 'shows project'>
-												<cfif cProject.recordcount gt 1>
-													<cfloop query="project">
-														<a class="font-weight-lessbold" href="/project/#project_name#.cfm">#project.project_name#</a><cfif project.recordcount gt 1><span>, </span></cfif>
-													</cfloop>
-												<cfelse>
-													<a class="font-weight-lessbold" href="/project/#project_name#.cfm">#project.project_name#</a>
-												</cfif>
+												<cfloop query="project">
+													<a class="font-weight-lessbold" href="/project/#project_name#.cfm">#project.project_name#</a><cfif project.recordcount gt 1><span>, </span></cfif>
+												</cfloop>
 											</cfif>
 										</div>
 										<cfset relationSeparator='<span class="px-1"> | </span>'><!--- ' --->
