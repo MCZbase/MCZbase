@@ -1327,7 +1327,7 @@ include this function and use it.
 					and media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
 				</cfquery>
 				<cfquery name="cProject" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					select project_id
+					select project_id,project_name
 					from project
 					left join media_relations on project.project_id = media_relations.related_primary_key
 					and media_relations.media_relationship = 'shows project'
