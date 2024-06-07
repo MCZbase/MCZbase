@@ -925,8 +925,6 @@ limitations under the License.
 									</cfif>
 								</cfif>
 							<cfelseif table_name is "borrow">
-								<cfset labelName=listgetat(label,1,"=")>
-								<cfset labelValue=listgetat(label,2,"=")>
 								<cfquery name="cBorrow" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 									select transaction_id 
 									from borrow 
@@ -961,8 +959,6 @@ limitations under the License.
 									</cfif>
 								</cfif>
 							<cfelseif table_name is "specimen_part">
-								<cfset labelName=listgetat(label,1,"=")>
-								<cfset labelValue=listgetat(label,2,"=")>
 								<cfquery name="cSpecPart" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 									select sp.collection_object_id
 									from specimen_part sp
