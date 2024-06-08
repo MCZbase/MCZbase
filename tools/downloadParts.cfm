@@ -171,6 +171,15 @@ limitations under the License.
 	<cfoutput>#strOutput#</cfoutput>
 	<cfabort>
 	<!--------------------------------------------------------------------->
+<cfelseif action is "downloadBulkloaderAll">
+	<!--- download csv without the storage heirarchy suitable for rountrip edits with the part bulkloader including empty fields for attributes --->
+	<cfinclude template="/shared/component/functions.cfc">
+	<cfset strOutput = QueryToCSV(getParts)>
+	<cfheader name="Content-Type" value="text/csv">
+	<cfheader name="Content-disposition" value="attachment;filename=PARTS_downloadBulk.csv">
+	<cfoutput>#strOutput#</cfoutput>
+	<cfabort>
+	<!--------------------------------------------------------------------->
 <cfelseif action is "download">
 	<!--- download csv including the storage heirarchy --->
 	<cfinclude template="/shared/component/functions.cfc">
