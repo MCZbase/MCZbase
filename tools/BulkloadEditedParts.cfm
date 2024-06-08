@@ -892,8 +892,8 @@ limitations under the License.
 									coll_obj_disposition = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#lookupCurrent.part_name#">,
 									current_remarks = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#lookupCurrent.part_name#">
 								WHERE
-									key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#inT.key#"
-									AND part_collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#inT.part_collection_object_id#"
+									key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#inT.key#">
+									AND part_collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#inT.part_collection_object_id#">
 							</cfquery>
 						</cfif>
 					</cfif>
