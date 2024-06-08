@@ -40,7 +40,7 @@ limitations under the License.
 		CO.LOT_COUNT_MODIFIER,
 		CO.LOT_COUNT,
 		COR.COLL_OBJECT_REMARKS as CURRENT_REMARKS,
-		<cfif action IS "downloadBulkloader">
+		<cfif action IS "downloadBulkloader" OR action IS "downloadBulkloaderAll">
 			pc.barcode as CONTAINER_UNIQUE_ID,
 		<cfelse>
 			pc.barcode as CONTAINER_BARCODE,
@@ -52,7 +52,7 @@ limitations under the License.
 			nvl(pc6.barcode,pc6.label) as P6_BARCODE,
 		</cfif>
 		CO.CONDITION
-		<cfif action IS "downloadBulkloader">
+		<cfif action IS "downloadBulkloader" OR action IS "downloadBulkloaderAll">
 			, '' as APPEND_TO_REMARKS
 			, '' AS CHANGED_DATE
 			, '' AS NEW_PART_NAME
@@ -61,6 +61,44 @@ limitations under the License.
 			, '' AS NEW_LOT_COUNT_MODIFIER
 			, '' AS NEW_COLL_OBJ_DISPOSITION
 			, '' AS NEW_CONDITION
+		</cfif>
+		<cfif action IS "downloadBulkloaderAll">
+			,			 '' as PART_ATT_NAME_1
+			, '' as PART_ATT_VAL_1
+			, '' as PART_ATT_UNITS_1
+			, '' as PART_ATT_DETBY_1
+			, '' as PART_ATT_MADEDATE_1
+			, '' as PART_ATT_REM_1
+			, '' as PART_ATT_NAME_2
+			, '' as PART_ATT_VAL_2
+			, '' as PART_ATT_UNITS_2
+			, '' as PART_ATT_DETBY_2
+			, '' as PART_ATT_MADEDATE_2
+			, '' as PART_ATT_REM_2
+			, '' as PART_ATT_NAME_3
+			, '' as PART_ATT_val_3
+			, '' as PART_ATT_UNITS_3
+			, '' as PART_ATT_DETBY_3
+			, '' as PART_ATT_MADEDATE_3
+			, '' as PART_ATT_REM_3
+			, '' as PART_ATT_NAME_4
+			, '' as PART_ATT_VAL_4
+			, '' as PART_ATT_UNITS_4
+			, '' as PART_ATT_DETBY_4
+			, '' as PART_ATT_MADEDATE_4
+			, '' as PART_ATT_REM_4
+			, '' as PART_ATT_NAME_5
+			, '' as PART_ATT_VAL_5
+			, '' as PART_ATT_UNITS_5
+			, '' as PART_ATT_DETBY_5
+			, '' as PART_ATT_MADEDATE_5
+			, '' as part_ATT_REM_5
+			, '' as PART_ATT_NAME_6
+			, '' as PART_ATT_VAL_6
+			, '' as part_ATT_UNITS_6
+			, '' as PART_ATT_DETBY_6
+			, '' as PART_ATT_MADEDATE_6
+			, '' as PART_ATT_REM_6
 		</cfif>
 	from
 		flat f, 
@@ -126,6 +164,15 @@ limitations under the License.
 <!--------------------------------------------------------------------->
 <cfif action is "downloadBulkloader">
 	<!--- download csv without the storage heirarchy suitable for rountrip edits with the part bulkloader --->
+	<cfinclude template="/shared/component/functions.cfc">
+	<cfset strOutput = QueryToCSV(getParts)>
+	<cfheader name="Content-Type" value="text/csv">
+	<cfheader name="Content-disposition" value="attachment;filename=PARTS_downloadBulk.csv">
+	<cfoutput>#strOutput#</cfoutput>
+	<cfabort>
+	<!--------------------------------------------------------------------->
+<cfelseif action is "downloadBulkloaderAll">
+	<!--- download csv without the storage heirarchy suitable for rountrip edits with the part bulkloader including empty fields for attributes --->
 	<cfinclude template="/shared/component/functions.cfc">
 	<cfset strOutput = QueryToCSV(getParts)>
 	<cfheader name="Content-Type" value="text/csv">
@@ -210,7 +257,8 @@ limitations under the License.
 						<div class="form-row mx-0">
 							<div class="col-12">
 								<input type="submit" value="Filter Parts" onClick='document.getElementById("action").value="nothing";document.forms["filterResults"].submit();' class="btn btn-xs mb-2 btn-secondary"></input>
-								<input type="button" value="Download Parts CSV for edit parts bulkloader" onClick='document.getElementById("action").value="downloadBulkloader";document.forms["filterResults"].submit();' class="btn btn-xs mb-2 btn-secondary"></input>
+								<input type="button" value="Download Parts CSV for Bulkload Edited Parts" onClick='document.getElementById("action").value="downloadBulkloader";document.forms["filterResults"].submit();' class="btn btn-xs mb-2 btn-secondary"></input>
+								<input type="button" value="Download Parts CSV for Bulkload Edited Parts with (blank) Attributes" onClick='document.getElementById("action").value="downloadBulkloaderAll";document.forms["filterResults"].submit();' class="btn btn-xs mb-2 btn-secondary"></input>
 								<input type="button" value="Download Parts CSV with Container placements" onClick='document.getElementById("action").value="download";document.forms["filterResults"].submit();' class="btn btn-xs mb-2 btn-secondary"></input>
 							</div>
 						</div>			
