@@ -640,7 +640,7 @@ limitations under the License.
 					<cfif checkExists.ct GT 0>
 						<cfquery name="flagDupAtt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							UPDATE cf_temp_edit_parts 
-							SET status = concat(nvl2(status, status || '; ', ''),'Duplicate of existing part attribute "'||PART_ATT_NAME_#i#||'":"'||PART_ATT_VALUE_#i#||'"')
+							SET status = concat(nvl2(status, status || '; ', ''),'Duplicate of existing part attribute "'||PART_ATT_NAME_#i#||'":"'||PART_ATT_VAL_#i#||'"')
 							WHERE
 								key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getAttributeUpdates.key#">
 								AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
