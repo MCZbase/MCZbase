@@ -869,6 +869,36 @@ limitations under the License.
 					AND collection_object_id is not null
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
+			<cfloop query="inT">
+				<!--- if just part_collection_object_id was supplied, fill in the current values for comparisons --->
+				<cfif len(inT.part_collection_object_id) GT 0>
+					<cfif len(intT.part_name) EQ 0 and len(intT.PRESERVE_METHOD) EQ 0 and len(inT.COLL_OBJ_DISPOSITION) EQ 0 and len(inT.LOT_COUNT_MODIFIER) EQ 0 and len(inT.LOT_COUNT) EQ 0 and len(inT.CURRENT_REMARKS) EQ 0>
+						<cfquery name="lookupCurrent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+							SELECT part_name, preserve_method, disposition, lot_count, lot_count_modifier, remarks 
+							FROM specimen_part  
+								left join coll_object_remark on specimen_part.collection_object_id = coll_object_remark.collection_object_id
+								left join coll_object on specimen_part.collection_object_id = coll_object.collection_object_id
+							WHERE		
+								specimen_part.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#intT.part_collection_object_id#">
+						</cfquery
+						<cfif lookupCurrent.recordcount EQ 1>
+							<cfquery name="setCurrent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+								UPDATE cf_temp_parts
+								SET 
+									part_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#lookupCurrent.part_name#">,
+									preserve_method = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#lookupCurrent.part_name#">,
+									lot_count = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#lookupCurrent.part_name#">,
+									lot_count_modifier = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#lookupCurrent.part_name#">,
+									coll_obj_disposition = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#lookupCurrent.part_name#">,
+									current_remarks = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#lookupCurrent.part_name#">
+								WHERE
+									key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#inT.key#"
+									AND part_collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#inT.part_collection_object_id#"
+							</cfquery>
+						</cfif>
+					</cfif>
+				</cfif> 
+			</cfloop>
 			<h3 class="mt-3">
 				<cfif #countFailures.cnt# is 0>
 					<span class="text-success">Validation checks passed.</span> Look over the table below and <a href="/tools/BulkloadEditedParts.cfm?action=load" class="btn-link font-weight-lessbold">click to continue</a> if it all looks good. Or, <a href="/tools/BulkloadEditedParts.cfm" class="text-danger">start again</a>.
