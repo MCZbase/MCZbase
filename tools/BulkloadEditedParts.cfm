@@ -375,7 +375,7 @@ limitations under the License.
 				SET status = ''
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
-			<!--- First set of Validation tests: find part and collection object --->: 
+			<!--- First set of Validation tests: find part and collection object --->
 			<!--- check various terms used for matching if part_collection_object_id was not specified --->
 			<cfquery name="badDisposition" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				UPDATE cf_temp_edit_parts 
