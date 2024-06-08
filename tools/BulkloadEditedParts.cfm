@@ -872,14 +872,14 @@ limitations under the License.
 			<cfloop query="inT">
 				<!--- if just part_collection_object_id was supplied, fill in the current values for comparisons --->
 				<cfif len(inT.part_collection_object_id) GT 0>
-					<cfif len(intT.part_name) EQ 0 and len(intT.PRESERVE_METHOD) EQ 0 and len(inT.COLL_OBJ_DISPOSITION) EQ 0 and len(inT.LOT_COUNT_MODIFIER) EQ 0 and len(inT.LOT_COUNT) EQ 0 and len(inT.CURRENT_REMARKS) EQ 0>
+					<cfif len(inT.part_name) EQ 0 and len(inT.PRESERVE_METHOD) EQ 0 and len(inT.COLL_OBJ_DISPOSITION) EQ 0 and len(inT.LOT_COUNT_MODIFIER) EQ 0 and len(inT.LOT_COUNT) EQ 0 and len(inT.CURRENT_REMARKS) EQ 0>
 						<cfquery name="lookupCurrent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							SELECT part_name, preserve_method, disposition, lot_count, lot_count_modifier, remarks 
 							FROM specimen_part  
 								left join coll_object_remark on specimen_part.collection_object_id = coll_object_remark.collection_object_id
 								left join coll_object on specimen_part.collection_object_id = coll_object.collection_object_id
 							WHERE		
-								specimen_part.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#intT.part_collection_object_id#">
+								specimen_part.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#inT.part_collection_object_id#">
 						</cfquery>
 						<cfif lookupCurrent.recordcount EQ 1>
 							<cfquery name="setCurrent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
