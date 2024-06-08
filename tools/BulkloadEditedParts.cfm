@@ -880,7 +880,7 @@ limitations under the License.
 								left join coll_object on specimen_part.collection_object_id = coll_object.collection_object_id
 							WHERE		
 								specimen_part.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#intT.part_collection_object_id#">
-						</cfquery
+						</cfquery>
 						<cfif lookupCurrent.recordcount EQ 1>
 							<cfquery name="setCurrent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 								UPDATE cf_temp_parts
