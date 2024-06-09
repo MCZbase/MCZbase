@@ -525,12 +525,17 @@ limitations under the License.
 							AGENT_ID, 
 							AGENT_TYPE, 
 							AGENT_REMARKS, 
-							PREFERRED_AGENT_NAME_ID)
+							PREFERRED_AGENT_NAME_ID,
+							AGENTGUID_GUID_TYPE,
+							AGENTGUID
+							)
 							values (
 							sq_agent_id.nextval,
 							'#agent_type#',
 							'#agent_remark#',
-							sq_agent_name_id.nextval
+							sq_agent_name_id.nextval,
+							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.agentguid_guid_type#">,
+							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.agent_guid#">
 							)
 						</cfquery>
 						<cfquery name="savePK" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="pkResult">
