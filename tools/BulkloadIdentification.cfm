@@ -455,8 +455,8 @@ limitations under the License.
 				FROM cttaxa_formula
 				WHERE taxa_formula like '%A%' and taxa_formula not like '%B%'
 			</cfquery>
-			<cfloop query="getFormula">
-				<cfset formulas = ListAppend(formula,getFormula.taxa_formula,'|')>
+			<cfloop query="getFormulas">
+				<cfset formulas = ListAppend(formula,getFormulas.taxa_formula,'|')>
 			</cfloop>
 			<cfloop query="getTempTableQC">
 				<!--- if formula text is end part of scientific name, separate it off and place in taxon formula --->
