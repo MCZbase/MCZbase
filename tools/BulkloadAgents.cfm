@@ -320,16 +320,17 @@ limitations under the License.
 		<h2 class="h4">Second step: Data Validation</h2>
 		<cfoutput>
 			<cfset key = ''>
+			<cfquery name="ctguid_type_agent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				select guid_type, placeholder, pattern_regex, resolver_regex, resolver_replacement, search_uri
+				from ctguid_type 
+				where applies_to like '%agentguid%'
+			</cfquery>
 			<cfquery name="ctagent_type" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				select agent_type from ctagent_type order by agent_type
 			</cfquery>
 			<cfquery name="ctagent_name_type" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				select agent_name_type from ctagent_name_type order by agent_name_type
 			</cfquery>
-			<cfquery name="ctguid_type" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				select guid_type, placeholder from ctguid_type where applies_to like '%agent%' order by guid_type
-			</cfquery>
-
 			<cfquery name="rpn" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				select count(*) c from cf_temp_agents where preferred_name is null
 				and username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
@@ -362,7 +363,22 @@ limitations under the License.
 						SET 
 							status = concat(nvl2(status, status || '; ', ''), 'Agent GUID type not valid - check controlled vocabulary')
 						WHERE 
-							agentguid_guid_type not in (select guid_type from ctguid_type where guid_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableQC.agentguid_guid_type#">)
+							agentguid_guid_type not in (select guid_type from ctguid_type_agent where guid_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableQC.agentguid_guid_type#">)
+							AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+					</cfquery>
+				</cfif>
+				<script>
+					$('##agentguid').blur( function () {
+						getGuidTypeInfo($('##agentguid_guid_type').val(), 'agentguid', 'agentguid_link','agentguid_search',getAssembledName());
+					});	
+				</script>
+				<cfif len(agentguid) gt 0>
+					<cfquery name="invGuidType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						UPDATE cf_temp_agents
+						SET 
+							status = concat(nvl2(status, status || '; ', ''), 'Agent GUID format not like #ctagentguid_agent.placeholder#')
+						WHERE 
+							agentguid not in (select pattern_resolver from ctguid_type_agent where agentguid = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableQC.agentguid#">)
 							AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 					</cfquery>
 				</cfif>
@@ -400,7 +416,7 @@ limitations under the License.
 						SET 
 							status = concat(nvl2(status, status || '; ', ''), 'Agent Guid not valid - check controlled vocabulary')
 						WHERE 
-							agentguid_guid_type not in (select guid_type from ctguid_type where guid_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableQC.agentguid_guid_type#">)
+							agentguid_guid_type not in (select guid_type from ctguid_type_agent where guid_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableQC.agentguid_guid_type#">)
 							AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 					</cfquery>	
 				</cfif>
