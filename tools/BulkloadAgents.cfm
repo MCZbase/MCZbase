@@ -435,7 +435,7 @@ limitations under the License.
 						update cf_temp_parts set 
 						status = concat(nvl2(status, status || '; ', ''),'Invalid BIRTH_DATE (need ISO format)') 
 						WHERE birth_date is not null 
-						AND is_iso8601(birth_date) <> '' 
+						AND is_iso8601(birth_date) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableQC.suffix#"> 
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 					</cfquery>
 				</cfif>
