@@ -397,7 +397,7 @@ limitations under the License.
 							status = concat(nvl2(status, status || '; ', ''), 'Agent type not valid - check controlled vocabulary')
 						WHERE 
 							other_name_type_1 not in (
-						select agent_type from ctagent_type where agent_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableQC.other_name_type_1#">
+						select agent_name_type from ctagent_name_type where agent_name_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableQC.other_name_type_1#">
 						)
 							AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 					</cfquery>
@@ -409,7 +409,7 @@ limitations under the License.
 							status = concat(nvl2(status, status || '; ', ''), 'OTHER_NAME_TYPE_2 not valid - check controlled vocabulary')
 						WHERE 
 							other_name_type_2 not in (
-						select agent_type from ctagent_type where agent_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableQC.other_name_type_2#">
+						select agent_name_type from ctagent_name_type where agent_name_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableQC.other_name_type_2#">
 						)
 							AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 					</cfquery>
@@ -421,7 +421,7 @@ limitations under the License.
 							status = concat(nvl2(status, status || '; ', ''), 'OTHER_NAME_TYPE_3 not valid - check controlled vocabulary')
 						WHERE 
 							other_name_type_3 not in (
-						select agent_type from ctagent_type where agent_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableQC.other_name_type_3#">
+						select agent_name_type from ctagent_name_type where agent_name_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableQC.other_name_type_3#">
 						)
 							AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 					</cfquery>
