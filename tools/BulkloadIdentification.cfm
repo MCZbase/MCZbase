@@ -504,7 +504,7 @@ limitations under the License.
 					<cfquery name="updateTaxon" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						UPDATE cf_temp_id 
 						SET taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#isTaxon.taxon_name_id#">,
-							scientific_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#TaxonomyTaxonName#">,
+							scientific_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#TaxonomyTaxonName#">
 						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 							and scientific_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#TaxonomyTaxonName#">
 							and key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableQC.key#">
@@ -512,8 +512,7 @@ limitations under the License.
 					<!--- populate the taxon formula if it is not allready populated --->
 					<cfquery name="fillTaxonFormula" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						UPDATE cf_temp_id 
-						SET 
-							taxa_formula = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#tf#">,
+						SET taxa_formula = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#tf#">
 						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 							and key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableQC.key#">
 							and taxa_formula IS NULL
