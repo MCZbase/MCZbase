@@ -372,7 +372,7 @@ limitations under the License.
 					<cfquery name="invGuidType2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						UPDATE cf_temp_agents
 						SET 
-							status = concat(nvl2(status, status || '; ', ''), 'Agent GUID format not like #ctagentguid_agent.placeholder#')
+							status = concat(nvl2(status, status || '; ', ''), 'Agent GUID format not correct')
 						WHERE 
 							UPPER(agentguid) LIKE 'HTTP:%'
 							AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
