@@ -375,7 +375,7 @@ limitations under the License.
 				SET status = ''
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
-			<!--- First set of Validation tests: find part and collection object --->: 
+			<!--- First set of Validation tests: find part and collection object --->
 			<!--- check various terms used for matching if part_collection_object_id was not specified --->
 			<cfquery name="badDisposition" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				UPDATE cf_temp_edit_parts 
@@ -505,7 +505,7 @@ limitations under the License.
 				</cfif>
 			</cfloop>
 
-			<!--- Second set of Validation tests: container terms --->: 
+			<!--- Second set of Validation tests: container terms ---> 
 			<!--- check container terms, use list of keys for row by row validations of containers --->
 			<cfquery name="getTempTableQC" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT key, container_unique_id 
@@ -555,7 +555,7 @@ limitations under the License.
 				</cfquery>
 			</cfloop>
 
-			<!--- Third set of Validation tests: new values that will replace existing ones --->: 
+			<!--- Third set of Validation tests: new values that will replace existing ones --->
 			<!--- Assess new values, in bulk --->
 			<cfquery name="badNewPreserve" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				UPDATE cf_temp_edit_parts 
@@ -578,7 +578,7 @@ limitations under the License.
 					)
 				WHERE 
 					new_part_name || '|' ||collection_cde NOT IN (
-						select part_name|| '|' ||collection_cde from ctspecimen_preserv_method
+						select part_name|| '|' ||collection_cde from CTSPECIMEN_PART_NAME
 					)
 					AND new_part_name IS NOT NULL
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
@@ -745,7 +745,7 @@ limitations under the License.
 				</cfquery>
 			</cfloop>
 
-			<!--- Fifth set of Validation tests: confirm that part was matched and exists to be updated --->: 
+			<!--- Fifth set of Validation tests: confirm that part was matched and exists to be updated --->
 			<!--- confirm that part exists if part_collection_object_id is specified --->
 			<cfquery name="findunmatchedbyid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				UPDATE cf_temp_edit_parts 
@@ -823,7 +823,7 @@ limitations under the License.
 					AND cf_temp_edit_parts.part_collection_object_id IS NULL
 			</cfquery>
 		
-			<!--- Last phase of Validation tests: cleanup and prepare to report --->: 
+			<!--- Last phase of Validation tests: cleanup and prepare to report --->
 			<!--- to tell if there are failure cases, we need to remove the string VALID if there are any error messages, 
 					as almost all of the error messages are concatenated onto status, instead of replacing valid --->
 			<cfquery name="cleanoutValidFromInvalid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -853,7 +853,7 @@ limitations under the License.
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 
-			<cfquery name="inT" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+			<cfquery name="getTempData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT * 
 				FROM cf_temp_edit_parts
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
@@ -869,11 +869,46 @@ limitations under the License.
 					AND collection_object_id is not null
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
+			<cfloop query="getTempData">
+				<!--- if just part_collection_object_id was supplied, fill in the current values for comparisons --->
+				<cfif len(getTempData.part_collection_object_id) GT 0>
+					<cfif len(getTempData.part_name) EQ 0 and len(getTempData.PRESERVE_METHOD) EQ 0 and len(getTempData.COLL_OBJ_DISPOSITION) EQ 0 and len(getTempData.LOT_COUNT_MODIFIER) EQ 0 and len(getTempData.LOT_COUNT) EQ 0 and len(getTempData.CURRENT_REMARKS) EQ 0>
+						<cfquery name="lookupCurrent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+							SELECT part_name, preserve_method, coll_obj_disposition, lot_count, lot_count_modifier, coll_object_remarks 
+							FROM specimen_part  
+								left join coll_object_remark on specimen_part.collection_object_id = coll_object_remark.collection_object_id
+								left join coll_object on specimen_part.collection_object_id = coll_object.collection_object_id
+							WHERE		
+								specimen_part.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.part_collection_object_id#">
+						</cfquery>
+						<cfif lookupCurrent.recordcount EQ 1>
+							<cfquery name="setCurrent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+								UPDATE cf_temp_edit_parts
+								SET 
+									part_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#lookupCurrent.part_name#">,
+									preserve_method = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#lookupCurrent.preserve_method#">,
+									lot_count = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#lookupCurrent.lot_count#">,
+									lot_count_modifier = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#lookupCurrent.lot_count_modifier#">,
+									coll_obj_disposition = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#lookupCurrent.coll_obj_disposition#">,
+									current_remarks = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#lookupCurrent.coll_object_remarks#">
+								WHERE
+									key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.key#">
+									AND part_collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.part_collection_object_id#">
+							</cfquery>
+						</cfif>
+					</cfif>
+				</cfif> 
+			</cfloop>
+			<cfquery name="getTempDataToShow" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				SELECT * 
+				FROM cf_temp_edit_parts
+				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+			</cfquery>
 			<h3 class="mt-3">
 				<cfif #countFailures.cnt# is 0>
 					<span class="text-success">Validation checks passed.</span> Look over the table below and <a href="/tools/BulkloadEditedParts.cfm?action=load" class="btn-link font-weight-lessbold">click to continue</a> if it all looks good. Or, <a href="/tools/BulkloadEditedParts.cfm" class="text-danger">start again</a>.
 				<cfelse>
-					There is a problem with #countFailures.cnt# of #inT.recordcount# row(s). See the STATUS column. (<a href="/tools/BulkloadEditedParts.cfm?action=dumpProblems">download</a>).
+					There is a problem with #countFailures.cnt# of #getTempDataToShow.recordcount# row(s). See the STATUS column. (<a href="/tools/BulkloadEditedParts.cfm?action=dumpProblems">download</a>).
 					Fix the problem(s) noted in the status column and <a href="/tools/BulkloadEditedParts.cfm" class="text-danger">start again</a>.
 				</cfif>
 			</h3>
@@ -940,13 +975,13 @@ limitations under the License.
 					</tr>
 				</thead>
 				<tbody>
-					<cfloop query="inT">
+					<cfloop query="getTempDataToShow">
 						<tr>
 							<td>
 								<cfquery name="lookupGuid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 									SELECT collection_cde, cat_num 
 									FROM cataloged_item
-									WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#inT.collection_object_id#">
+									WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempDataToShow.collection_object_id#">
 								</cfquery>
 								<cfloop query="lookupGuid">
 									<cfset guid = "MCZ:#lookupGuid.collection_cde#:#lookupGuid.cat_num#">
