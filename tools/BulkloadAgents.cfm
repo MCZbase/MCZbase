@@ -402,16 +402,6 @@ limitations under the License.
 							AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 					</cfquery>
 				</cfif>
-				<cfif len(agentguid_guid_type) gt 0>
-					<cfquery name="invAgntGuid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						UPDATE cf_temp_agents
-						SET 
-							status = concat(nvl2(status, status || '; ', ''), 'Agent Guid not valid - check controlled vocabulary')
-						WHERE 
-							agentguid_guid_type not in (select guid_type from ctguid_type where guid_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableQC.agentguid_guid_type#">)
-							AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-					</cfquery>	
-				</cfif>
 				<cfif len(other_name_type_1) gt 0>
 					<cfquery name="invAgntName1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						UPDATE cf_temp_agents
