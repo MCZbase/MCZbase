@@ -355,7 +355,16 @@ limitations under the License.
 					WHERE 
 						preferred_name in (select agent_name from preferred_agent_name where agent_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableQC.preferred_name#">)
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+				</cfquery>	
+				<cfquery name="invGuidType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="invAgntType_result">
+					UPDATE cf_temp_agents
+					SET 
+						status = concat(nvl2(status, status || '; ', ''), 'Agent GUID type not valid - check controlled vocabulary')
+					WHERE 
+						agentguid_guid_type not in (select guid_type from ctguid_type where guid_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableQC.agentguid_guid_type#">)
+						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
+				
 				<cfquery name="invAgntType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="invAgntType_result">
 					UPDATE cf_temp_agents
 					SET 
