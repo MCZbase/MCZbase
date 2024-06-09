@@ -387,7 +387,7 @@ limitations under the License.
 					SET 
 						status = concat(nvl2(status, status || '; ', ''), 'Prefix not valid - check controlled vocabulary')
 					WHERE 
-						suffix not in (select suffix from ctprefix where suffix = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableQC.suffix#">)
+						suffix not in (select suffix from ctsuffix where suffix = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableQC.suffix#">)
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
 				<cfif len(other_name_type_1) gt 0>
