@@ -320,11 +320,7 @@ limitations under the License.
 		<h2 class="h4">Second step: Data Validation</h2>
 		<cfoutput>
 			<cfset key = ''>
-			<cfquery name="ctguid_type_agent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				select guid_type, placeholder, pattern_regex, resolver_regex, resolver_replacement, search_uri
-				from ctguid_type 
-				where applies_to like '%agentguid%'
-			</cfquery>
+			
 			<cfquery name="ctagent_type" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				select agent_type from ctagent_type order by agent_type
 			</cfquery>
@@ -357,6 +353,11 @@ limitations under the License.
 						preferred_name in (select agent_name from preferred_agent_name where agent_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableQC.preferred_name#">)
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>	
+				<cfquery name="ctguid_type_agent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					select guid_type, placeholder, pattern_regex, resolver_regex, resolver_replacement, search_uri
+					from ctguid_type 
+					where applies_to like '%agentguid%'
+				</cfquery>
 				<cfif len(agentguid_guid_type) gt 0>
 					<cfquery name="invGuidType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						UPDATE cf_temp_agents
@@ -367,18 +368,13 @@ limitations under the License.
 							AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 					</cfquery>
 				</cfif>
-				<script>
-					$('##agentguid').blur( function () {
-						getGuidTypeInfo($('##agentguid_guid_type').val(), 'agentguid', 'agentguid_link','agentguid_search',getAssembledName());
-					});	
-				</script>
 				<cfif len(agentguid) gt 0>
-					<cfquery name="invGuidType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					<cfquery name="invGuidType2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						UPDATE cf_temp_agents
 						SET 
 							status = concat(nvl2(status, status || '; ', ''), 'Agent GUID format not like #ctagentguid_agent.placeholder#')
 						WHERE 
-							agentguid not in (select pattern_resolver from ctguid_type_agent where agentguid = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableQC.agentguid#">)
+							UPPER(agentguid) LIKE 'HTTP:%'
 							AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 					</cfquery>
 				</cfif>
