@@ -390,16 +390,18 @@ limitations under the License.
 						suffix not in (select suffix from ctprefix where suffix = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableQC.suffix#">)
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
-				<cfquery name="invAgntName1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					UPDATE cf_temp_agents
-					SET 
-						status = concat(nvl2(status, status || '; ', ''), 'Agent type not valid - check controlled vocabulary')
-					WHERE 
-						other_name_type_1 not in (
-					select agent_type from ctagent_type where agent_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableQC.other_name_type_1#">
-					)
-						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-				</cfquery>
+				<cfif len(other_name_type_1) gt 0>
+					<cfquery name="invAgntName1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						UPDATE cf_temp_agents
+						SET 
+							status = concat(nvl2(status, status || '; ', ''), 'Agent type not valid - check controlled vocabulary')
+						WHERE 
+							other_name_type_1 not in (
+						select agent_type from ctagent_type where agent_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableQC.other_name_type_1#">
+						)
+							AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+					</cfquery>
+				</cfif>
 				<cfif len(other_name_type_2) gt 0>
 					<cfquery name="invAgntName2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						UPDATE cf_temp_agents
