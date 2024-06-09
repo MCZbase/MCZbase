@@ -883,7 +883,7 @@ limitations under the License.
 						</cfquery>
 						<cfif lookupCurrent.recordcount EQ 1>
 							<cfquery name="setCurrent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-								UPDATE cf_temp_parts
+								UPDATE cf_temp_edit_parts
 								SET 
 									part_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#lookupCurrent.part_name#">,
 									preserve_method = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#lookupCurrent.preserve_method#">,
