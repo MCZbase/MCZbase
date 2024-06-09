@@ -436,58 +436,34 @@ limitations under the License.
 				WHERE 
 					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
+			<cfset formulas = "">
+			<!--- obtain taxon formulas containing just A, as only these are supported --->
+			<cfquery name="getFormulas" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				SELECT taxa_formula
+				FROM cttaxa_formula
+				WHERE taxa_formula like '%A%' and taxa_formula not like '%B%'
+			</cfquery>
+			<cfloop query="getFormula">
+				<cfset formulas = ListAppend(formula,getFormula.taxa_formula,'|')>
+			</cfloop>
 			<cfloop query="getTempTableQC">
-				<cfif right(scientific_name,4) is " sp.">
-					<cfset scientific_name=left(scientific_name,len(scientific_name) -4)>
-					<cfset tf = "A sp.">
-					<cfset TaxonomyTaxonName=left(scientific_name,len(scientific_name) - 4)>
-				<cfelseif right(scientific_name,5) is " ssp.">
-					<cfset scientific_name=left(scientific_name,len(scientific_name) -5)>
-					<cfset tf = "A ssp.">
-					<cfset TaxonomyTaxonName=left(scientific_name,len(scientific_name) - 5)>
-				<cfelseif right(scientific_name,5) is " spp.">
-					<cfset scientific_name=left(scientific_name,len(scientific_name) -5)>
-					<cfset tf = "A spp.">
-					<cfset TaxonomyTaxonName=left(scientific_name,len(scientific_name) - 5)>
-				<cfelseif right(scientific_name,5) is " var.">
-					<cfset scientific_name=left(scientific_name,len(scientific_name) -5)>
-					<cfset tf = "A var.">
-					<cfset TaxonomyTaxonName=left(scientific_name,len(scientific_name) - 5)>
-				<cfelseif right(scientific_name,9) is " sp. nov.">
-					<cfset scientific_name=left(scientific_name,len(scientific_name) -9)>
-					<cfset tf = "A sp. nov.">
-					<cfset TaxonomyTaxonName=left(scientific_name,len(scientific_name) - 9)>
-				<cfelseif right(scientific_name,10) is " gen. nov.">
-					<cfset scientific_name=left(scientific_name,len(scientific_name) -10)>
-					<cfset tf = "A gen. nov.">
-					<cfset TaxonomyTaxonName=left(scientific_name,len(scientific_name) - 10)>
-				<cfelseif right(scientific_name,8) is " (Group)">
-					<cfset scientific_name=left(scientific_name,len(scientific_name) -8)>
-					<cfset tf = "A (Group)">
-					<cfset TaxonomyTaxonName=left(scientific_name,len(scientific_name) - 8)>
-				<cfelseif right(scientific_name,4) is " nr.">
-					<cfset scientific_name=left(scientific_name,len(scientific_name) -5)>
-					<cfset tf = "A nr.">
-					<cfset TaxonomyTaxonName=left(scientific_name,len(scientific_name) - 5)>
-				<cfelseif right(scientific_name,4) is " cf.">
-					<cfset scientific_name=left(scientific_name,len(scientific_name) -4)>
-					<cfset tf = "A cf.">
-					<cfset TaxonomyTaxonName=left(scientific_name,len(scientific_name) - 4)>
-				<cfelseif right(scientific_name,2) is " ?">
-					<cfset scientific_name=left(scientific_name,len(scientific_name) -2)>
-					<cfset tf = "A ?">
-					<cfset TaxonomyTaxonName=left(scientific_name,len(scientific_name) - 2)>
-				<cfelse>
-					<cfset  tf = "A">
-					<cfset TaxonomyTaxonName="#scientific_name#">
-				</cfif>
-				<cfquery name="isTaxa" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<!--- if formula text is end part of scientific name, separate it off and place in taxon formula --->
+				<cfloop list="#formulas#" index="formulaWithA">
+					<cfset formula = replace("#formulaWithA#","A","")>
+					<cfset formulaLen = len(formula)>
+					<cfif right(scientific_name,formulaLen) is formula>
+						<cfset scientific_name=left(scientific_name,len(scientific_name) - formulaLen)>
+						<cfset tf = formulaWithA>
+						<cfset TaxonomyTaxonName=left(scientific_name,len(scientific_name) - formulaLen)>
+					</cfif>
+				</cfloop>
+				<cfquery name="isTaxon" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					SELECT taxon_name_id 
 					FROM taxonomy 
 					WHERE scientific_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#TaxonomyTaxonName#">
 				</cfquery>
-				<cfif #isTaxa.recordcount# is not 1>
-					<cfif len(#isTaxa.recordcount#) is 0>
+				<cfif #isTaxon.recordcount# is not 1>
+					<cfif len(#isTaxon.recordcount#) is 0>
 						<cfquery name="probColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 							UPDATE cf_temp_ID
 							SET status = concat(nvl2(status, status || '; ', ''),'taxon record for ' || scientific_name || ' not found')
@@ -505,7 +481,7 @@ limitations under the License.
 				<cfelse>
 					<cfquery name="updateColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						UPDATE cf_temp_id 
-						SET taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#isTaxa.taxon_name_id#">
+						SET taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#isTaxon.taxon_name_id#">
 						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 							and scientific_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#TaxonomyTaxonName#">
 					</cfquery>
