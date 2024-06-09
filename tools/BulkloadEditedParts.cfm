@@ -578,7 +578,7 @@ limitations under the License.
 					)
 				WHERE 
 					new_part_name || '|' ||collection_cde NOT IN (
-						select part_name|| '|' ||collection_cde from ctspecimen_preserv_method
+						select part_name|| '|' ||collection_cde from CTSPECIMEN_PART_NAME
 					)
 					AND new_part_name IS NOT NULL
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
