@@ -412,7 +412,7 @@ limitations under the License.
 					</cfquery>
 				</cfif>
 				<cfif len(other_name_type_3) gt 0>
-					<cfquery name="invAgntName3" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="invAgntPrefix_result">
+					<cfquery name="invAgntName3" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						UPDATE cf_temp_agents
 						SET 
 							status = concat(nvl2(status, status || '; ', ''), 'OTHER_NAME_TYPE_3 not valid - check controlled vocabulary')
