@@ -453,13 +453,18 @@ limitations under the License.
 			<cfquery name="getFormulas" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT taxa_formula
 				FROM cttaxa_formula
-				WHERE taxa_formula like '%A%' and taxa_formula not like '%B%'
+				WHERE 
+					taxa_formula like '%A%' 
+					and taxa_formula not like '%B%'
+					and taxa_formula <> 'A'
 			</cfquery>
 			<cfloop query="getFormulas">
 				<cfset formulas = ListAppend(formulas,getFormulas.taxa_formula,'|')>
 			</cfloop>
 			<cfloop query="getTempTableQC">
 				<!--- if formula text is end part of scientific name, separate it off and place in taxon formula --->
+				<cfset tf = "A">
+				<cfset TaxonomyTaxonName = scientific_name>
 				<cfloop list="#formulas#" index="formulaWithA">
 					<cfset formula = replace("#formulaWithA#","A","")>
 					<cfset formulaLen = len(formula)>
@@ -467,6 +472,8 @@ limitations under the License.
 						<cfset scientific_name=left(scientific_name,len(scientific_name) - formulaLen)>
 						<cfset tf = formulaWithA>
 						<cfset TaxonomyTaxonName=left(scientific_name,len(scientific_name) - formulaLen)>
+						<!--- we found a match, exit the loop through the formulas --->
+						<cfbreak>
 					</cfif>
 				</cfloop>
 				<cfquery name="isTaxon" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -493,12 +500,23 @@ limitations under the License.
 						</cfquery>
 					</cfif>
 				<cfelse>
-					<cfquery name="updateColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					<!--- set the taxon ID and strip any formula from the scientific name --->
+					<cfquery name="updateTaxon" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						UPDATE cf_temp_id 
-						SET taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#isTaxon.taxon_name_id#">
+						SET taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#isTaxon.taxon_name_id#">,
+							scientific_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#TaxonomyTaxonName#">,
 						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 							and scientific_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#TaxonomyTaxonName#">
 							and key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableQC.key#">
+					</cfquery>
+					<!--- populate the taxon formula if it is not allready populated --->
+					<cfquery name="fillTaxonFormula" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						UPDATE cf_temp_id 
+						SET 
+							taxa_formula = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#tf#">,
+						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+							and key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableQC.key#">
+							and taxa_formula IS NULL
 					</cfquery>
 				</cfif>
 				<cfquery name="a1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
