@@ -372,12 +372,15 @@ limitations under the License.
 						prefix not in (select prefix from ctprefix where prefix = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableQC.prefix#">)
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
+				<cfset numberx = #i#>
 				<cfquery name="invAgntName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="invAgntPrefix_result">
 					UPDATE cf_temp_agents
 					SET 
 						status = concat(nvl2(status, status || '; ', ''), 'Agent type not valid - check controlled vocabulary')
 					WHERE 
-						other_name_type_#i# not in (select agent_type from ctagent_type where agent_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableQC.other_name_type_#i###">)
+						other_name_type_#i# not in (
+					select agent_type from ctagent_type where agent_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableQC.other_name_type_numberx#">
+					)
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
 				<cfset i = i + 1>
