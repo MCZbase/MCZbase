@@ -57,6 +57,11 @@ limitations under the License.
 		<cfoutput>
 			<p>This tool is used to bulkload identifications.Upload a comma-delimited text file (csv). Include column headings, spelled exactly as below. Additional colums will be ignored.</p>
 			<p>Indentification bulkloads support one scientific name with any taxon formula that includes only the A taxon, and up to two agents as the determiners.</p>
+			<p>See controlled vocabularies for: 
+				<a href="/vocabularies/ControlledVocabulary.cfm?table=CTNATURE_OF_ID" target="_blank">NATURE_OF_ID</a>, 
+				<a href="/vocabularies/ControlledVocabulary.cfm?table=CTTAXA_FORMULA" target="_blank">TAXA_FORMULA</a>, and
+				<a href="/vocabularies/ControlledVocabulary.cfm?table=CTCOLL_OTHER_ID_TYPE" target="_blank">OTHER_ID_TYPE</a> (with "catalog number" as an additional option).
+			</p>
 			<span class="btn btn-xs btn-info" onclick="document.getElementById('template').style.display='block';">View template</span>
 			<div id="template" class="my-1 mx-0" style="display:none;">
 				<label for="templatearea" class="data-entry-label mb-1">
