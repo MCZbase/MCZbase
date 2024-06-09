@@ -377,7 +377,7 @@ limitations under the License.
 					SET 
 						status = concat(nvl2(status, status || '; ', ''), 'Agent type not valid - check controlled vocabulary')
 					WHERE 
-						other_name_type_#i# not in (select agent_type from ctagent_type where agent_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableQC.other_name_type_#i##">)
+						other_name_type_#i# not in (select agent_type from ctagent_type where agent_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableQC.other_name_type_#i###">)
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
 				<cfset i = i + 1>
