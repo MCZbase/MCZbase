@@ -430,6 +430,16 @@ limitations under the License.
 							AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 					</cfquery>
 				</cfif>
+				<cfif len(birth_date) gt 0>
+					<cfquery name="chkBDate" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						update cf_temp_parts set 
+						status = concat(nvl2(status, status || '; ', ''),'Invalid BIRTH_DATE (need ISO format)') WHERE birth_date is not null 
+						AND is_iso8601(birth_date) <> '' 
+						AND length(birth_date) <> 10
+						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+						AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
+					</cfquery>
+				</cfif>
 			</cfloop>
 			<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT to_char(birth_date,'YYYY-MM-DD') birth_date,agent_type, preferred_name,first_name,middle_name,last_name,to_char(death_date,'YYYY-MM-DD') death_date,agent_remark,prefix,suffix,other_name_1,other_name_type_1,other_name_2,other_name_type_2,other_name_3,other_name_type_3,agentguid_guid_type,agentguid,status
