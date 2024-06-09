@@ -437,7 +437,6 @@ limitations under the License.
 						AND is_iso8601(birth_date) <> '' 
 						AND length(birth_date) <> 10
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-						AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
 					</cfquery>
 				</cfif>
 			</cfloop>
