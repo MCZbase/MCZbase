@@ -352,7 +352,7 @@ limitations under the License.
 					SET 
 						status = concat(nvl2(status, status || '; ', ''), 'Agent name already exists')
 					WHERE 
-						agent_id in (select agent_id from agent_name where agent_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableQC.preferred_name#">)
+						preferred_name in (select agent_name from preferred_agent_name where agent_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableQC.preferred_name#">)
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
 			</cfloop>
