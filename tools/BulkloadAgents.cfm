@@ -353,11 +353,6 @@ limitations under the License.
 						preferred_name in (select agent_name from preferred_agent_name where agent_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableQC.preferred_name#">)
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>	
-				<cfquery name="ctguid_type_agent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					select guid_type, placeholder, pattern_regex, resolver_regex, resolver_replacement, search_uri
-					from ctguid_type 
-					where applies_to like '%agentguid%'
-				</cfquery>
 				<cfif len(agentguid_guid_type) gt 0>
 					<cfquery name="invGuidType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						UPDATE cf_temp_agents
@@ -369,6 +364,7 @@ limitations under the License.
 					</cfquery>
 				</cfif>
 				<cfif len(agentguid) gt 0>
+					<!--- TO_DO: use the guid resolver field on ctguid_type to check the agentguid against it.--->
 					<cfquery name="invGuidType2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						UPDATE cf_temp_agents
 						SET 
