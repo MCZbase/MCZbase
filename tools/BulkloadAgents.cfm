@@ -433,9 +433,9 @@ limitations under the License.
 				<cfif len(birth_date) gt 0>
 					<cfquery name="chkBDate" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						update cf_temp_parts set 
-						status = concat(nvl2(status, status || '; ', ''),'Invalid BIRTH_DATE (need ISO format)') WHERE birth_date is not null 
+						status = concat(nvl2(status, status || '; ', ''),'Invalid BIRTH_DATE (need ISO format)') 
+						WHERE birth_date is not null 
 						AND is_iso8601(birth_date) <> '' 
-						AND length(birth_date) <> 10
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 					</cfquery>
 				</cfif>
