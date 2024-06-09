@@ -540,7 +540,7 @@ limitations under the License.
 					<cfquery name="insColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						UPDATE cf_temp_id 
 						SET agent_1_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#a1.agent_id#"> 
-						WHERE agent_name=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableQC.agent_1#">
+						WHERE agent_1 = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableQC.agent_1#">
 							AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 					</cfquery>
 				</cfif>
@@ -570,7 +570,7 @@ limitations under the License.
 						<cfquery name="insColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 							UPDATE cf_temp_id 
 							SET agent_2_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#a2.agent_id#"> 
-							WHERE agent_name=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableQC.agent_2#"> 
+							WHERE agent_2=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableQC.agent_2#"> 
 								AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						</cfquery>
 					</cfif>
