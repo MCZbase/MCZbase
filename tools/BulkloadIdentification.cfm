@@ -677,16 +677,19 @@ limitations under the License.
 		<cfoutput>
 			<cfset problem_key = "">
 			<cftransaction>
-				<cfquery name="getCounts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					SELECT count(distinct collection_object_id) c FROM cf_temp_ID
-					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-				</cfquery>
-				<cfquery name="getTempData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					SELECT KEY,COLLECTION_OBJECT_ID,COLLECTION_CDE,INSTITUTION_ACRONYM,OTHER_ID_TYPE,OTHER_ID_NUMBER,SCIENTIFIC_NAME,MADE_DATE,NATURE_OF_ID, ACCEPTED_ID_FG,IDENTIFICATION_REMARKS,AGENT_1,AGENT_2,TAXA_FORMULA,AGENT_1_ID,AGENT_2_ID,STORED_AS_FG,PUBLICATION_ID,TAXON_NAME_ID
-					FROM cf_temp_ID
-					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-				</cfquery>
 				<cftry>
+					<cfquery name="getCounts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						SELECT count(distinct collection_object_id) c FROM cf_temp_ID
+						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+					</cfquery>
+					<cfquery name="getTempData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						SELECT 
+							KEY,COLLECTION_OBJECT_ID,COLLECTION_CDE,INSTITUTION_ACRONYM,OTHER_ID_TYPE,OTHER_ID_NUMBER,
+							SCIENTIFIC_NAME,MADE_DATE,NATURE_OF_ID, ACCEPTED_ID_FG,IDENTIFICATION_REMARKS,
+							AGENT_1,AGENT_2,TAXA_FORMULA,AGENT_1_ID,AGENT_2_ID,STORED_AS_FG,PUBLICATION_ID,TAXON_NAME_ID
+						FROM cf_temp_ID
+						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+					</cfquery>
 					<cfset testParse = 0>
 					<cfif getTempData.recordcount EQ 0>
 						<cfthrow message="You have no rows to load in the Identifications bulkloader table (cf_temp_ID). <a href='/tools/BulkloadIdentification.cfm'>Start over</a>">
@@ -696,22 +699,23 @@ limitations under the License.
 						<cfset problem_key = getTempData.key>
 						<cfif getTempData.ACCEPTED_ID_FG is 1>
 							<cfquery name="sinkOld" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-								update identification set ACCEPTED_ID_FG=0 
-								where COLLECTION_OBJECT_ID=#getTempData.COLLECTION_OBJECT_ID#
+								UPDATE identification 
+								SET ACCEPTED_ID_FG=0 
+								WHERE COLLECTION_OBJECT_ID = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.COLLECTION_OBJECT_ID#">
 							</cfquery>
 						</cfif>
 						<cfif getTempData.STORED_AS_FG is 1>
 							<cfquery name="removeOld" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-								update identification set STORED_AS_FG=0 
-								where COLLECTION_OBJECT_ID=#getTempData.COLLECTION_OBJECT_ID#
+								UPDATE identification 
+								SET STORED_AS_FG=0 
+								WHERE COLLECTION_OBJECT_ID=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.COLLECTION_OBJECT_ID#">
 							</cfquery>
 						</cfif>
 		
-						<cftransaction>
-							<cfquery name="NEXTID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-								select sq_identification_id.nextval from dual
-							</cfquery>
-							<cfquery name="insertID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="insertID_result">
+						<cfquery name="NEXTID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+							SELECT sq_identification_id.nextval from dual
+						</cfquery>
+						<cfquery name="insertID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="insertID_result">
 								insert all
 								into identification (
 									IDENTIFICATION_ID,
@@ -725,7 +729,7 @@ limitations under the License.
 									STORED_AS_FG,
 									PUBLICATION_ID
 								) values (
-									#NEXTID.nextval#,
+									<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#NEXTID.nextval#">,
 									<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.COLLECTION_OBJECT_ID#">,
 									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.MADE_DATE#">,
 									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.NATURE_OF_ID#">,
@@ -749,7 +753,7 @@ limitations under the License.
 									TAXON_NAME_ID,
 									VARIABLE
 								) values (
-									sq_identification_id.currval,
+									<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#NEXTID.nextval#">,
 									<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.TAXON_NAME_ID#">,
 									'A')
 								into identification_agent (
@@ -757,13 +761,12 @@ limitations under the License.
 									AGENT_ID,
 									IDENTIFIER_ORDER
 								) values (
-									sq_identification_id.currval,
+									<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#NEXTID.nextval#">,
 									<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.AGENT_1_ID#">,
 									1
 								)
 								select * from dual
-							</cfquery>
-						</cftransaction>
+						</cfquery>
 						<cfif len(agent_2_id) gt 0>
 							<cfquery name="insertida2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 								insert into identification_agent (
@@ -771,37 +774,38 @@ limitations under the License.
 									AGENT_ID,
 									IDENTIFIER_ORDER
 								) values (
-									sq_identification_id.currval,
+									<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#NEXTID.nextval#">,
 									<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.AGENT_2_ID#">,
 									2
 								)
 							</cfquery>
 						</cfif>
 						<cfquery name="getID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getID_result">
-							select identification.IDENTIFICATION_ID, identification.COLLECTION_OBJECT_ID, identification.MADE_DATE, identification.NATURE_OF_ID, identification.ACCEPTED_ID_FG,identification.IDENTIFICATION_REMARKS, identification.TAXA_FORMULA, identification.SCIENTIFIC_NAME,identification.stored_as_fg,identification.publication_id,identification_agent.agent_id,identification_agent.identifier_order,identification_agent.identification_agent_id,identification_taxonomy.taxon_name_id 
-							from identification,identification_agent, identification_taxonomy
-							where collection_object_id = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempData.collection_object_id#">
-							AND identification.identification_id = identification_agent.identification_id
-							and identification_agent.identification_id = identification_taxonomy.identification_id
-							group by identification.IDENTIFICATION_ID, identification.COLLECTION_OBJECT_ID, identification.MADE_DATE, identification.NATURE_OF_ID, identification.ACCEPTED_ID_FG,identification.IDENTIFICATION_REMARKS, identification.TAXA_FORMULA, identification.SCIENTIFIC_NAME,identification.stored_as_fg,identification.publication_id,identification_agent.agent_id,identification_agent.identifier_order,identification_agent.identification_agent_id,identification_taxonomy.taxon_name_id 
-							having count(*)>1
+							SELECT identification.IDENTIFICATION_ID, identification.COLLECTION_OBJECT_ID, identification.MADE_DATE, identification.NATURE_OF_ID, 
+								identification.ACCEPTED_ID_FG,identification.IDENTIFICATION_REMARKS, identification.TAXA_FORMULA, identification.SCIENTIFIC_NAME,
+								identification.stored_as_fg,identification.publication_id,identification_agent.agent_id,identification_agent.identifier_order,
+								identification_agent.identification_agent_id,identification_taxonomy.taxon_name_id 
+							FROM identification
+								join identification_agent on identification.identification_id = identification_agent.identification_id
+								join identification_taxonomy on identification.identification_id = identification_taxonomy.identification_id
+							WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempData.collection_object_id#">
+							GROUP by identification.IDENTIFICATION_ID, identification.COLLECTION_OBJECT_ID, identification.MADE_DATE, identification.NATURE_OF_ID, 
+								identification.ACCEPTED_ID_FG,identification.IDENTIFICATION_REMARKS, identification.TAXA_FORMULA, identification.SCIENTIFIC_NAME,
+								identification.stored_as_fg,identification.publication_id,identification_agent.agent_id,identification_agent.identifier_order,
+								identification_agent.identification_agent_id,identification_taxonomy.taxon_name_id 
+							HAVING count(*)>1
 						</cfquery>
 						<cfset testParse = testParse + 1>
-						<cfif getID_result.recordcount gt 0>
-							<cftransaction action = "ROLLBACK">
-						<cfelse>
-							<cftransaction action="COMMIT">
-						</cfif>
 						<cfset i = i+1>
+						<cfif getID_result.recordcount gt 0>
+							<cfthrow message="Load failed on row #i#, identification #getID.scientific_name# duplicates an existing identification."
+						</cfif>
 					</cfloop>
 					<cfif getTempData.recordcount eq testParse and getID_result.recordcount eq 0>
 						<p>Number of Identifications updated: #i# (on #getCounts.c# cataloged items)</p>
 						<h2 class="text-success">Success - loaded</h2>
 					</cfif>
-					<cfif getID_result.recordcount gt 1>
-						<p>Attempted to update #i# Identifications (on #getCounts.c# cataloged items)</p>
-						<h2 class="text-danger">Not loaded - these have already been loaded</h2>
-					</cfif>
+					<cftransaction action="COMMIT">
 				<cfcatch>
 					<cftransaction action="ROLLBACK">
 					<h2 class="text-danger mt-4">There was a problem updating the Identifications.</h2>
