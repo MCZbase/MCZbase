@@ -505,7 +505,7 @@ limitations under the License.
 				</cfif>
 			</cfloop>
 
-			<!--- Second set of Validation tests: container terms --->: 
+			<!--- Second set of Validation tests: container terms ---> 
 			<!--- check container terms, use list of keys for row by row validations of containers --->
 			<cfquery name="getTempTableQC" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT key, container_unique_id 
@@ -555,7 +555,7 @@ limitations under the License.
 				</cfquery>
 			</cfloop>
 
-			<!--- Third set of Validation tests: new values that will replace existing ones --->: 
+			<!--- Third set of Validation tests: new values that will replace existing ones --->
 			<!--- Assess new values, in bulk --->
 			<cfquery name="badNewPreserve" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				UPDATE cf_temp_edit_parts 
@@ -745,7 +745,7 @@ limitations under the License.
 				</cfquery>
 			</cfloop>
 
-			<!--- Fifth set of Validation tests: confirm that part was matched and exists to be updated --->: 
+			<!--- Fifth set of Validation tests: confirm that part was matched and exists to be updated --->
 			<!--- confirm that part exists if part_collection_object_id is specified --->
 			<cfquery name="findunmatchedbyid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				UPDATE cf_temp_edit_parts 
@@ -823,7 +823,7 @@ limitations under the License.
 					AND cf_temp_edit_parts.part_collection_object_id IS NULL
 			</cfquery>
 		
-			<!--- Last phase of Validation tests: cleanup and prepare to report --->: 
+			<!--- Last phase of Validation tests: cleanup and prepare to report --->
 			<!--- to tell if there are failure cases, we need to remove the string VALID if there are any error messages, 
 					as almost all of the error messages are concatenated onto status, instead of replacing valid --->
 			<cfquery name="cleanoutValidFromInvalid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
