@@ -539,35 +539,47 @@ limitations under the License.
 				<cfelse>
 					<cfquery name="insColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						UPDATE cf_temp_id 
-						SET agent_1_id = #a1.agent_id#
+						SET agent_1_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#a1.agent_id#"> 
+						WHERE agent_name=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableQC.agent_1#">
+							AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 					</cfquery>
 				</cfif>
 				<cfif len(agent_2) gt 0>
 					<cfquery name="a2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-						select distinct agent_id from agent_name where agent_name=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableQC.agent_2#"> 
+						SELECT DISTINCT agent_id 
+						FROM agent_name 
+						WHERE agent_name=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableQC.agent_2#"> 
 					</cfquery>
 					<cfif #a2.recordcount# is not 1>
 						<cfif len(#a2.agent_id#) is 0>
-							UPDATE cf_temp_ID
-							SET status = concat(nvl2(status, status || '; ', ''),'agent_2 not in database')
-							WHERE agent_1 is not null
-							AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+							<cfquery name="agentError" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+								UPDATE cf_temp_ID
+								SET status = concat(nvl2(status, status || '; ', ''),'agent_2 not found in database')
+								WHERE agent_2 is not null
+									AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+							</cfquery>
 						<cfelse>
-							UPDATE cf_temp_ID
-							SET status = concat(nvl2(status, status || '; ', ''),'agent_2 matched #a1.recordcount# records in the database')
-							WHERE agent_2 is not null
-							AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+							<cfquery name="agentError" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+								UPDATE cf_temp_ID
+								SET status = concat(nvl2(status, status || '; ', ''),'agent_2 matched #a2.recordcount# records in the database')
+								WHERE agent_2 is not null
+									AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+							</cfquery>
 						</cfif>
 					<cfelse>
 						<cfquery name="insColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 							UPDATE cf_temp_id 
-							SET agent_2_id = #a2.agent_id#
+							SET agent_2_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#a2.agent_id#"> 
+							WHERE agent_name=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableQC.agent_2#"> 
+								AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						</cfquery>
 					</cfif>
 				</cfif>
 				<cfif len(publication_id) gt 0>
 					<cfquery name="pub" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-						select distinct publication_id from publication where publication_id=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableQC.publication_id#"> 
+						SELECT DISTINCT publication_id 
+						FROM publication 
+						WHERE publication_id=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableQC.publication_id#"> 
 					</cfquery>
 					<cfif #pub.recordcount# is not 1>
 						<cfif len(#pub.publication_id#) is 0>
