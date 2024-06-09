@@ -874,7 +874,7 @@ limitations under the License.
 				<cfif len(inT.part_collection_object_id) GT 0>
 					<cfif len(inT.part_name) EQ 0 and len(inT.PRESERVE_METHOD) EQ 0 and len(inT.COLL_OBJ_DISPOSITION) EQ 0 and len(inT.LOT_COUNT_MODIFIER) EQ 0 and len(inT.LOT_COUNT) EQ 0 and len(inT.CURRENT_REMARKS) EQ 0>
 						<cfquery name="lookupCurrent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-							SELECT part_name, preserve_method, disposition, lot_count, lot_count_modifier, remarks 
+							SELECT part_name, preserve_method, coll_obj_disposition, lot_count, lot_count_modifier, coll_object_remarks 
 							FROM specimen_part  
 								left join coll_object_remark on specimen_part.collection_object_id = coll_object_remark.collection_object_id
 								left join coll_object on specimen_part.collection_object_id = coll_object.collection_object_id
@@ -886,11 +886,11 @@ limitations under the License.
 								UPDATE cf_temp_parts
 								SET 
 									part_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#lookupCurrent.part_name#">,
-									preserve_method = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#lookupCurrent.part_name#">,
-									lot_count = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#lookupCurrent.part_name#">,
-									lot_count_modifier = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#lookupCurrent.part_name#">,
-									coll_obj_disposition = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#lookupCurrent.part_name#">,
-									current_remarks = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#lookupCurrent.part_name#">
+									preserve_method = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#lookupCurrent.preserve_method#">,
+									lot_count = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#lookupCurrent.lot_count#">,
+									lot_count_modifier = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#lookupCurrent.lot_count_modifier#">,
+									coll_obj_disposition = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#lookupCurrent.coll_obj_disposition#">,
+									current_remarks = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#lookupCurrent.coll_object_remarks#">
 								WHERE
 									key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#inT.key#">
 									AND part_collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#inT.part_collection_object_id#">
