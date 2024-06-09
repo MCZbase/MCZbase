@@ -363,7 +363,7 @@ limitations under the License.
 						agent_type not in (select agent_type from ctagent_type where agent_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableQC.agent_type#">)
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
-				<cfquery name="invAgntPrefix" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="invAgntType_result">
+				<cfquery name="invAgntPrefix" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="invAgntPrefix_result">
 					UPDATE cf_temp_agents
 					SET 
 						status = concat(nvl2(status, status || '; ', ''), 'Prefix not valid - check controlled vocabulary')
