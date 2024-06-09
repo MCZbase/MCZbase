@@ -798,7 +798,7 @@ limitations under the License.
 						<cfset testParse = testParse + 1>
 						<cfset i = i+1>
 						<cfif getID_result.recordcount gt 0>
-							<cfthrow message="Load failed on row #i#, identification #getID.scientific_name# duplicates an existing identification."
+							<cfthrow message="Load failed on row #i#, identification #getID.scientific_name# duplicates an existing identification.">
 						</cfif>
 					</cfloop>
 					<cfif getTempData.recordcount eq testParse and getID_result.recordcount eq 0>
