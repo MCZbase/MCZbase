@@ -408,7 +408,7 @@ limitations under the License.
 						SET 
 							status = concat(nvl2(status, status || '; ', ''), 'Agent Guid not valid - check controlled vocabulary')
 						WHERE 
-							agentguid_guid_type not in (select guid_type from ctguid_type_agent where guid_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableQC.agentguid_guid_type#">)
+							agentguid_guid_type not in (select guid_type from ctguid_type where guid_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableQC.agentguid_guid_type#">)
 							AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 					</cfquery>	
 				</cfif>
