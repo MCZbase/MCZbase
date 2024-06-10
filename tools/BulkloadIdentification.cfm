@@ -635,6 +635,7 @@ limitations under the License.
 							and key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableQC.key#">
 					</cfquery>
 				</cfif>
+				<!--- TODO: Test that this does not duplicate an existing identification by name, determiners, and date --->
 			</cfloop>
 
 			<!--- Confirm that a taxon was found. --->
