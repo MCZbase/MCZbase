@@ -739,7 +739,7 @@ limitations under the License.
 						FROM cf_temp_id
 						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 					</cfquery>
-					<cfquery name="getCollOjects" dbtype="query">
+					<cfquery name="getCollObjects" dbtype="query">
 						SELECT distinct collection_object_id 
 						FROM getTempData
 					</cfquery>
