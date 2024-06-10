@@ -475,7 +475,7 @@ limitations under the License.
 				<!--- if formula text is end part of scientific name, separate it off and place in taxon formula --->
 				<cfset tf = "A">
 				<cfset TaxonomyTaxonName = getTempTableQC.scientific_name>
-				<cfloop list="#formulas#" index="formulaWithA">
+				<cfloop list="#formulas#" index="formulaWithA" delimiters="|">
 					<cfset formula = replace("#formulaWithA#","A","")>
 					<cfset formulaLen = len(formula)>
 					<cfif right(scientific_name,formulaLen) is formula and len(formula) GT 0>
