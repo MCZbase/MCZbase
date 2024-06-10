@@ -325,6 +325,7 @@ limitations under the License.
 				WHERE 
 					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
+			<!--- loop through rows, lookup collection_object_id  --->
 			<cfloop query="getTempTableTypes">
 				<cfif getTempTableTypes.existing_other_id_type eq 'catalog number'>
 					<!--- either based on catalog_number --->
@@ -385,7 +386,7 @@ limitations under the License.
 			<cfquery name="flagNotMatchedExistOther_ID_Type1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				UPDATE cf_temp_oids
 				SET 
-					status = concat(nvl2(status, status || '; ', ''), 'Unknown existing_other_id_type: "' || existing_other_id_type ||'"&mdash;not on list')
+					status = concat(nvl2(status, status || '; ', ''), 'Unknown existing_other_id_type: "' || existing_other_id_type ||'" not in controlled vocabulary.')
 				WHERE existing_other_id_type is not null 
 					AND existing_other_id_type <> 'catalog number'
 					AND existing_other_id_type not in (select other_id_type from ctcoll_other_id_type)
@@ -394,13 +395,13 @@ limitations under the License.
 			<cfquery name="flagNotMatchedExistOther_ID_Type2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				UPDATE cf_temp_oids
 				SET 
-					status = concat(nvl2(status, status || '; ', ''), 'Unknown new_other_id_type: "' || new_other_id_type ||'"&mdash;not on list')
+					status = concat(nvl2(status, status || '; ', ''), 'Unknown new_other_id_type: "' || new_other_id_type ||'" not in controlled vocabulary.')
 				WHERE new_other_id_type is not null 
 					AND new_other_id_type <> 'catalog number'
 					AND new_other_id_type not in (select other_id_type from ctcoll_other_id_type)
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
-			<!---Missing data in required fields--->
+			<!--- Missing data in required fields, if columns are present, but required fields are empty. --->
 			<cfloop list="#requiredfieldlist#" index="requiredField">
 				<cfquery name="checkRequired" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE cf_temp_oids
@@ -496,9 +497,16 @@ limitations under the License.
 						</cfif>
 						<cfset i = i+1>
 					</cfloop>
-					<cfif getTempData.recordcount eq testParse and updateParse_result.recordcount eq 0>
+					<cfif getTempData.recordcount eq testParse>
 						<p>Number of Other IDs updated: #i# (on #getCounts.ctobj# cataloged items)</p>
 						<h2 class="text-success">Success - loaded</h2>
+						<p>
+							<a href="https://mczbase-test.rc.fas.harvard.edu/Specimens.cfm?execute=true&builderMaxRows=1&action=builderSearch&openParens1=0&field1=COLL_OBJECT%3ACOLL_OBJ_COLLECTION_OBJECT_ID&searchText1=#encodeForUrl(valuelist(getTempData.collection_object_id))#&closeParens1=0" class="btn-link font-weight-lessbold">
+								See in Specimen Search Results.
+							</a>
+						</p>
+					<cfelse>
+						<cfthrow message="Number of other IDs added does not match the number of rows in the input file.">
 					</cfif>
 					<cftransaction action="COMMIT">
 				<cfcatch>

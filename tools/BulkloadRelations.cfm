@@ -33,7 +33,7 @@ limitations under the License.
 <!--- end special case dump of problems --->
 <cfset fieldlist="INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_VALUE,RELATIONSHIP,RELATED_INSTITUTION_ACRONYM,RELATED_COLLECTION_CDE,RELATED_OTHER_ID_TYPE,RELATED_OTHER_ID_VALUE,BIOL_INDIV_RELATION_REMARKS">
 <cfset fieldTypes="CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR">
-<cfset requiredfieldlist="INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_VALUE,RELATIONSHIP,RELATED_INSTITUTION_ACRONYM,RELATED_COLLECTION_CDE,RELATED_OTHER_ID_TYPE,RELATED_OTHER_ID_VALUE,BIOL_INDIV_RELATION_REMARKS">
+<cfset requiredfieldlist="INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_VALUE,RELATIONSHIP,RELATED_INSTITUTION_ACRONYM,RELATED_COLLECTION_CDE,RELATED_OTHER_ID_TYPE,RELATED_OTHER_ID_VALUE">
 <!--- special case handling to dump column headers as csv --->
 <cfif isDefined("action") AND action is "getCSVHeader">
 	<cfset csv = "">
@@ -335,7 +335,7 @@ limitations under the License.
 			</cfquery>
 			<cfset i= 1>
 			<cfloop query="getTempTableTypes">
-				<!--- For each row, set the target collection_object_id --->
+				<!--- For each row, set (1) the target collection_object_id --->
 				<cfif getTempTableTypes.other_id_type eq 'catalog number'>
 					<!--- either based on catalog_number --->
 					<cfquery name="getCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -371,6 +371,7 @@ limitations under the License.
 							and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableTypes.key#"> 
 					</cfquery>
 				</cfif>
+				<!--- For each row, and (2) the related  target collection_object_id --->
 				<cfif getTempTableTypes.related_other_id_type eq 'catalog number'>
 					<!--- either based on catalog_number --->
 					<cfquery name="getRID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -378,10 +379,10 @@ limitations under the License.
 							cf_temp_bl_relations
 						SET
 							related_collection_object_id = (
-								select collection_object_id 
+							select collection_object_id 
 								from cataloged_item 
 								where cat_num = cf_temp_bl_relations.related_other_id_value
-								and collection_cde = cf_temp_bl_relations.related_collection_cde
+									and collection_cde = cf_temp_bl_relations.related_collection_cde
 							),
 							status = null
 						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
@@ -397,68 +398,77 @@ limitations under the License.
 								select cataloged_item.collection_object_id 
 								from cataloged_item,coll_obj_other_id_num 
 								where coll_obj_other_id_num.other_id_type = cf_temp_bl_relations.related_other_id_type 
-								and cataloged_item.collection_cde = cf_temp_bl_relations.related_collection_cde 
-								and display_value= cf_temp_bl_relations.related_other_id_value
-								and cataloged_item.collection_object_id = coll_obj_other_id_num.COLLECTION_OBJECT_ID
+									and cataloged_item.collection_cde = cf_temp_bl_relations.related_collection_cde 
+									and display_value= cf_temp_bl_relations.related_other_id_value
+									and cataloged_item.collection_object_id = coll_obj_other_id_num.COLLECTION_OBJECT_ID
 							),
 							status = null
 						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 							and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableTypes.key#"> 
 					</cfquery>
 				</cfif>
-				<cfquery name="miaa" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					UPDATE CF_TEMP_BL_RELATIONS
-					SET status = concat(nvl2(status, status || '; ', ''),'collection_object_id is null')
-					WHERE collection_object_id is null
-						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-				</cfquery>
-				<cfquery name="miar" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					UPDATE CF_TEMP_BL_RELATIONS
-					SET status = concat(nvl2(status, status || '; ', ''),'related_collection_object_id is null')
-					WHERE related_collection_object_id is null
-						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-				</cfquery>
-				<cfquery name="miaa" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					UPDATE CF_TEMP_BL_RELATIONS
-					SET status = concat(nvl2(status, status || '; ', ''),'No ID match')
-					WHERE other_id_value is null
-						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-				</cfquery>
-				<cfquery name="miab" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					UPDATE CF_TEMP_BL_RELATIONS
-					SET status = concat(nvl2(status, status || '; ', ''),'No ID match')
-					WHERE related_other_id_value is null
-						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-				</cfquery>
-				<cfquery name="miac" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					UPDATE CF_TEMP_BL_RELATIONS
-					SET status = concat(nvl2(status, status || '; ', ''),'Collection not found')
-					WHERE collection_cde is null
-						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-				</cfquery>
-				<cfquery name="miad" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					UPDATE CF_TEMP_BL_RELATIONS
-					SET status = concat(nvl2(status, status || '; ', ''),'Related collection not found')
-					WHERE related_collection_cde is null
-						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-				</cfquery>
-				<cfquery name="miap" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					UPDATE CF_TEMP_BL_RELATIONS
-					SET status = concat(nvl2(status, status || '; ', ''),'Bad relationship')
-					WHERE relationship not in (select biol_indiv_relationship from ctbiol_relations)
-						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-				</cfquery>
-				</cfloop>
-				<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					SELECT INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_VALUE,COLLECTION_OBJECT_ID,RELATED_INSTITUTION_ACRONYM,RELATED_COLLECTION_CDE,RELATED_OTHER_ID_TYPE,RELATED_OTHER_ID_VALUE,RELATED_COLLECTION_OBJECT_ID,RELATIONSHIP,BIOL_INDIV_RELATION_REMARKS,STATUS
-					FROM CF_TEMP_BL_RELATIONS
-					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-				</cfquery>
-				<cfquery name="pf" dbtype="query">
-					SELECT count(*) c 
-					FROM data 
-					WHERE status is not null
-				</cfquery>
+			</cfloop>
+
+			<!--- perform validation checks in bulk --->
+			<cfquery name="miaa" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				UPDATE CF_TEMP_BL_RELATIONS
+				SET status = concat(nvl2(status, status || '; ', ''),'collection_object_id is null, unable to find cataloged item from provided other id.')
+				WHERE collection_object_id is null
+					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+			</cfquery>
+			<cfquery name="miar" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				UPDATE CF_TEMP_BL_RELATIONS
+				SET status = concat(nvl2(status, status || '; ', ''),'related_collection_object_id is null, unable to find cataloged item from provided related other id.')
+				WHERE related_collection_object_id is null
+					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+			</cfquery>
+			<cfquery name="miaa" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				UPDATE CF_TEMP_BL_RELATIONS
+				SET status = concat(nvl2(status, status || '; ', ''),'No value provided for other_id to match')
+				WHERE other_id_value is null
+					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+			</cfquery>
+			<cfquery name="miab" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				UPDATE CF_TEMP_BL_RELATIONS
+				SET status = concat(nvl2(status, status || '; ', ''),'No value provided for related other_id to match')
+				WHERE related_other_id_value is null
+					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+			</cfquery>
+			<cfquery name="miac" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				UPDATE CF_TEMP_BL_RELATIONS
+				SET status = concat(nvl2(status, status || '; ', ''),'Collection not found')
+				WHERE collection_cde is null
+					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+			</cfquery>
+			<cfquery name="miad" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				UPDATE CF_TEMP_BL_RELATIONS
+				SET status = concat(nvl2(status, status || '; ', ''),'Related collection not found')
+				WHERE related_collection_cde is null
+					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+			</cfquery>
+			<cfquery name="miap" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				UPDATE CF_TEMP_BL_RELATIONS
+				SET status = concat(nvl2(status, status || '; ', ''),'Bad relationship, not in controlled vocabulary.')
+				WHERE relationship not in (select biol_indiv_relationship from ctbiol_relations)
+					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+			</cfquery>
+			
+			<!--- report on problems, if any --->
+			<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				SELECT 
+					INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_VALUE,COLLECTION_OBJECT_ID,
+					RELATED_INSTITUTION_ACRONYM,RELATED_COLLECTION_CDE,RELATED_OTHER_ID_TYPE,RELATED_OTHER_ID_VALUE,RELATED_COLLECTION_OBJECT_ID,
+					RELATIONSHIP,BIOL_INDIV_RELATION_REMARKS,
+					STATUS
+				FROM CF_TEMP_BL_RELATIONS
+				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+				ORDER BY key
+			</cfquery>
+			<cfquery name="pf" dbtype="query">
+				SELECT count(*) c 
+				FROM data 
+				WHERE status is not null
+			</cfquery>
 			<h3 class="mt-3">
 				<cfif pf.c gt 0>
 					There is a problem with #pf.c# of #data.recordcount# row(s). See the STATUS column. (<a href="/tools/BulkloadRelations.cfm?action=dumpProblems">download</a>). Fix the problems in the data and <a href="/tools/BulkloadRelations.cfm">start again</a>.
@@ -524,24 +534,31 @@ limitations under the License.
 					</cfif>
 					<cfloop query="getTempData">
 						<cfset problem_key = getTempData.key>
-							<cfquery name="updateRelations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateRelations_result">
-								INSERT into 
+						<!--- Note: created_by added with trigger --->
+						<cfquery name="updateRelations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateRelations_result">
+							INSERT INTO 
 								BIOL_INDIV_RELATIONS (
 								collection_object_id,
 								related_coll_object_id,
 								biol_indiv_relationship,
-								biol_indiv_relation_remarks
-								) values (
+								<cfif len(getTempData.biol_indiv_relation_remarks) GT 0> 
+									biol_indiv_relation_remarks
+								</cfif>
+							) VALUES (
 								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.collection_object_id#">,
 								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.related_collection_object_id#">,
 								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.relationship#">,
-								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.biol_indiv_relation_remarks#">)
-							</cfquery>
+								<cfif len(getTempData.biol_indiv_relation_remarks) GT 0> 
+									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.biol_indiv_relation_remarks#">
+								</cfif>
+							)
+						</cfquery>
 						<cfquery name="updateRelations1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateRelations1_result">
-							select biol_indiv_relationship,collection_object_id from BIOL_INDIV_RELATIONS 
-							where collection_object_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.collection_object_id#">
-							group by biol_indiv_relationship,collection_object_id
-							having count(*) > 1
+							SELECT biol_indiv_relationship, collection_object_id 
+							FROM BIOL_INDIV_RELATIONS 
+							WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.collection_object_id#">
+							GROUP BY biol_indiv_relationship, collection_object_id
+							HAVING count(*) > 1
 						</cfquery>
 						<cfset relations_updates = relations_updates + updateRelations_result.recordcount>
 						<cfif updateRelations1_result.recordcount gt 0>
@@ -549,122 +566,131 @@ limitations under the License.
 						</cfif>
 					</cfloop>
 					<p>Number of relations to update: #relations_updates# (on #getCounts.ctobj# cataloged items)</p>
-					<cfif getTempData.recordcount eq relations_updates and updateRelations1_result.recordcount eq 0>
+					<cfif getTempData.recordcount eq relations_updates>
 						<h2 class="text-success">Success - loaded</h2>
+						<p>
+							<a href="https://mczbase-test.rc.fas.harvard.edu/Specimens.cfm?execute=true&builderMaxRows=1&action=builderSearch&openParens1=0&field1=COLL_OBJECT%3ACOLL_OBJ_COLLECTION_OBJECT_ID&searchText1=#encodeForUrl(valuelist(getTempData.collection_object_id))#&closeParens1=0" class="btn-link font-weight-lessbold">
+								See in Specimen Search Results.
+							</a>
+						</p>
+					<cfelse>
+						<cfthrow message="Number of relations updated does not match number of rows in input file.">
 					</cfif>
-						<cftransaction action="COMMIT">
-					<cfcatch>
-						<cftransaction action="ROLLBACK">
-						<h2 class="h3">There was a problem updating the relations.</h2>
+					<cftransaction action="COMMIT">
+				<cfcatch>
+					<cftransaction action="ROLLBACK">
+					<h2 class="h3">There was a problem updating the relations.</h2>
+					<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						SELECT status,institution_acronym,collection_cde,other_id_type,other_id_value,relationship,
+							related_institution_acronym,related_collection_cde,related_other_id_type,related_other_id_value,
+							biol_indiv_relation_remarks
+						FROM cf_temp_bl_relations 
+						WHERE key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#problem_key#">
+					</cfquery>
+					<cfquery name="getCollectionCodes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						SELECT collection_cde
+						FROM collection
+					</cfquery>
+					<cfset collection_codes = "">
+					<cfloop query="getCollectionCodes">
+						<cfset collection_codes = ListAppend(collection_codes,getCollectionCodes.collection_cde)>
+					</cfloop>
+					<cfquery name="getInstitution" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						SELECT distinct institution_acronym
+						FROM collection
+					</cfquery>
+					<cfset institutions = "">
+					<cfloop query="getInstitution">
+						<cfset institutions = ListAppend(institutions,getInstitution.institution_acronym)>
+					</cfloop>
+					<cfif getProblemData.recordcount GT 0>
+						<h2 class="h3">Errors are displayed one row at a time after loading step. Fix problem and <a href="/tools/BulkloadRelations.cfm">try again</a></h2>
+						<h3>
+							Error loading row (<span class="text-dark">#relations_updates + 1#</span>) from the CSV: 
+							<cfif len(cfcatch.detail) gt 0>
+								<span class="font-weight-normal border-bottom border-danger">
+									<cfif cfcatch.detail contains "Invalid RELATIONSHIP">
+										Invalid BIOL_RELATIONSHIP; check controlled vocabulary (Help menu)
+									<cfelseif cfcatch.detail contains "collection_cde">
+										COLLECTION_CDE does not match abbreviated collection (#collection_codes#)
+									<cfelseif cfcatch.detail contains "institution_acronym">
+										INSTITUTION_ACRONYM does not match #institutions# (all caps)
+									<cfelseif cfcatch.detail contains "other_id_type">
+										OTHER_ID_TYPE is not valid
+									<cfelseif cfcatch.detail contains "related_other_id_type">
+										RELATED_OTHER_ID_TYPE is not valid
+									<cfelseif cfcatch.detail contains "collection_object_id">
+										Problem with COLLECTION_OBJECT_ID.
+									<cfelseif cfcatch.detail contains "related_collection_object_id">
+										Problem with RELATED_COLLECTION_OBJECT_ID.
+									<cfelseif cfcatch.detail contains "related_institution_acronym">
+										Invalid related_institution_acronym
+									<cfelseif cfcatch.detail contains "RELATED_OTHER_ID_VALUE">
+										Problem with RELATED_OTHER_ID_VALUE
+									<cfelseif cfcatch.detail contains "unique constraint">
+										This relationship exists in the record already
+									<cfelseif cfcatch.detail contains "OTHER_ID_VALUE">
+										Problem with OTHER_ID_VALUE 
+									<cfelseif cfcatch.detail contains "biol_indiv_relation_remarks">
+										Problem with BIOL_INDIV_RELATION_REMARKS
+									<cfelseif cfcatch.detail contains "no data">
+										No data or the wrong data (#cfcatch.detail#)
+									<cfelse>
+										<!--- provide the raw error message if it isn't readily interpretable --->
+										#cfcatch.detail#
+									</cfif>
+								</span>
+							</cfif>
+						</h3>
+						<h3>There was a problem updating relationships (<a href="/tools/BulkloadRelations.cfm?action=dumpProblems">download</a>).</h3>
 						<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-							SELECT status,institution_acronym,collection_cde,other_id_type,other_id_value,relationship,related_institution_acronym,related_collection_cde,related_other_id_type,related_other_id_value,biol_indiv_relation_remarks
+							SELECT *
 							FROM cf_temp_bl_relations 
-							WHERE key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#problem_key#">
+							WHERE status is not null
+								AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						</cfquery>
-						<cfquery name="getCollectionCodes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-							SELECT collection_cde
-							FROM collection
-						</cfquery>
-						<cfset collection_codes = "">
-						<cfloop query="getCollectionCodes">
-							<cfset collection_codes = ListAppend(collection_codes,getCollectionCodes.collection_cde)>
-						</cfloop>
-						<cfquery name="getInstitution" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-							SELECT distinct institution_acronym
-							FROM collection
-						</cfquery>
-						<cfset institutions = "">
-						<cfloop query="getInstitution">
-							<cfset institutions = ListAppend(institutions,getInstitution.institution_acronym)>
-						</cfloop>
-						<cfif getProblemData.recordcount GT 0>
-							<h2 class="h3">Errors are displayed one row at a time after loading step. Fix problem and <a href="/tools/BulkloadRelations.cfm">try again</a></h2>
-							<h3>
-								Error loading row (<span class="text-dark">#relations_updates + 1#</span>) from the CSV: 
-								<cfif len(cfcatch.detail) gt 0>
-									<span class="font-weight-normal border-bottom border-danger">
-										<cfif cfcatch.detail contains "Invalid RELATIONSHIP">
-											Invalid BIOL_RELATIONSHIP; check controlled vocabulary (Help menu)
-										<cfelseif cfcatch.detail contains "collection_cde">
-											COLLECTION_CDE does not match abbreviated collection (#collection_codes#)
-										<cfelseif cfcatch.detail contains "institution_acronym">
-											INSTITUTION_ACRONYM does not match #institutions# (all caps)
-										<cfelseif cfcatch.detail contains "other_id_type">
-											OTHER_ID_TYPE is not valid
-										<cfelseif cfcatch.detail contains "related_other_id_type">
-											RELATED_OTHER_ID_TYPE is not valid
-										<cfelseif cfcatch.detail contains "collection_object_id">
-											Problem with COLLECTION_OBJECT_ID.
-										<cfelseif cfcatch.detail contains "related_collection_object_id">
-											Problem with RELATED_COLLECTION_OBJECT_ID.
-										<cfelseif cfcatch.detail contains "related_institution_acronym">
-											Invalid related_institution_acronym
-										<cfelseif cfcatch.detail contains "RELATED_OTHER_ID_VALUE">
-											Problem with RELATED_OTHER_ID_VALUE
-										<cfelseif cfcatch.detail contains "unique constraint">
-											This relationship exists in the record already
-										<cfelseif cfcatch.detail contains "OTHER_ID_VALUE">
-											Problem with OTHER_ID_VALUE 
-										<cfelseif cfcatch.detail contains "biol_indiv_relation_remarks">
-											Problem with BIOL_INDIV_RELATION_REMARKS
-										<cfelseif cfcatch.detail contains "no data">
-											No data or the wrong data (#cfcatch.detail#)
-										<cfelse>
-											<!--- provide the raw error message if it isn't readily interpretable --->
-											#cfcatch.detail#
-										</cfif>
-									</span>
-								</cfif>
-							</h3>
-							<h3>There was a problem updating relationships (<a href="/tools/BulkloadRelations.cfm?action=dumpProblems">download</a>).</h3>
-							<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-								SELECT *
-								FROM cf_temp_bl_relations 
-								WHERE status is not null
-									AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-							</cfquery>
-							<table class='px-0 sortable small w-100 table table-responsive table-striped mt-3'>
-								<thead>
+						<table class='px-0 sortable small w-100 table table-responsive table-striped mt-3'>
+							<thead>
+								<tr>
+									<th>CT</th>
+									<th>BULKLOAING&nbsp;STATUS</th>
+									<th>INSTITUTION_ACRONYM</th>
+									<th>COLLECTION_CDE</th>
+									<th>OTHER_ID_TYPE</th>
+									<th>OTHER_ID_VALUE</th>
+									<th>RELATIONSHIP</th>
+									<th>RELATED_INSTITUTION_ACRONYM</th>
+									<th>RELATED_COLLECTION_CDE</th>
+									<th>RELATED_OTHER_ID_TYPE</th>
+									<th>RELATED_OTHER_ID_VAL</th>
+									<th>BIOL_INDIV_RELATION_REMARKS</th>
+								</tr> 
+							</thead>
+							<tbody>
+								<cfset i=1>
+								<cfloop query="getProblemData">
 									<tr>
-										<th>CT</th>
-										<th>BULKLOAING&nbsp;STATUS</th>
-										<th>INSTITUTION_ACRONYM</th>
-										<th>COLLECTION_CDE</th>
-										<th>OTHER_ID_TYPE</th>
-										<th>OTHER_ID_VALUE</th>
-										<th>RELATIONSHIP</th>
-										<th>RELATED_INSTITUTION_ACRONYM</th>
-										<th>RELATED_COLLECTION_CDE</th>
-										<th>RELATED_OTHER_ID_TYPE</th>
-										<th>RELATED_OTHER_ID_VAL</th>
-										<th>BIOL_INDIV_RELATION_REMARKS</th>
-									</tr> 
-								</thead>
-								<tbody>
-									<cfset i=1>
-									<cfloop query="getProblemData">
-										<tr>
-											<td>#i#</td>
-											<td><strong>#STATUS#</strong></td>
-											<td>#getProblemData.INSTITUTION_ACRONYM#</td>
-											<td>#getProblemData.COLLECTION_CDE#</td>
-											<td>#getProblemData.OTHER_ID_TYPE#</td>
-											<td>#getProblemData.OTHER_ID_VALUE#</td>
-											<td>#getProblemData.RELATIONSHIP#</td>
-											<td>#getProblemData.RELATED_INSTITUTION_ACRONYM#</td>
-											<td>#getProblemData.RELATED_COLLECTION_CDE#</td>
-											<td>#getProblemData.RELATED_OTHER_ID_TYPE#</td>
-											<td>#getProblemData.RELATED_OTHER_ID_VALUE#</td>
-											<td>#getProblemData.BIOL_INDIV_RELATION_REMARKS#</td>
-										</tr>
-										<cfset i= i+1>
-									</cfloop>
-								</tbody>
-							</table>
-							<cfrethrow>
-						</cfif>
-						<!---<div>#cfcatch.message#</div>--->
-					</cfcatch>
+										<td>#i#</td>
+										<td><strong>#STATUS#</strong></td>
+										<td>#getProblemData.INSTITUTION_ACRONYM#</td>
+										<td>#getProblemData.COLLECTION_CDE#</td>
+										<td>#getProblemData.OTHER_ID_TYPE#</td>
+										<td>#getProblemData.OTHER_ID_VALUE#</td>
+										<td>#getProblemData.RELATIONSHIP#</td>
+										<td>#getProblemData.RELATED_INSTITUTION_ACRONYM#</td>
+										<td>#getProblemData.RELATED_COLLECTION_CDE#</td>
+										<td>#getProblemData.RELATED_OTHER_ID_TYPE#</td>
+										<td>#getProblemData.RELATED_OTHER_ID_VALUE#</td>
+										<td>#getProblemData.BIOL_INDIV_RELATION_REMARKS#</td>
+									</tr>
+									<cfset i= i+1>
+								</cfloop>
+							</tbody>
+						</table>
+						<cfrethrow>
+					</cfif>
+					<div>#cfcatch.message#</div>
+				</cfcatch>
 				</cftry>
 			</cftransaction>
 			<cfquery name="clearTempTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="clearTempTable_result">
