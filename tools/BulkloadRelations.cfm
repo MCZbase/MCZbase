@@ -58,12 +58,10 @@ limitations under the License.
 	<h1 class="h2 mt-2">Bulkload Relations</h1>
 	<cfif #action# is "nothing">
 		<cfoutput>
-			<p>This tool adds biological relationships to the specimen record. 
-				The relationship and inverse relationship has to be in the code table prior to uploading this .csv.
-				Additional columns will be ignored. 
-				The relationships must appear as they do on the controlled vocabulary for <a href="/vocabularies/ControlledVocabulary.cfm?table=CTBIOL_RELATIONS">BIOL_RELATIONS</a> 
-Upload a comma-delimited text file (csv). Include column headings, spelled exactly as below. 
-				Use "catalog number" as the value of other_id_type or related_other_id_type to match on catalog number.</p>
+			<p>This tool adds biological relationships to the specimen record. Include column headings, spelled exactly as below.  Additional columns will be ignored.  </p>
+			<p>Identify cataloged items to relate with institution codes, collection codes, and other ids, where other_id_type can be <strong>catalog number</strong> or one of the other id types in <a href="/vocabularies/ControlledVocabulary.cfm?table=CTCOLL_OTHER_ID_TYPE">CTCOLL_OTHER_ID_TYPE</a>.  You must identify the cataloged item on each side of the relationship.</p>
+			<p>The relationships must appear as they do on the controlled vocabulary for <a href="/vocabularies/ControlledVocabulary.cfm?table=CTBIOL_RELATIONS">BIOL_RELATIONS</a> Upload a comma-delimited text file (csv).  Assert the BIOL_INDIV_RELATIONSHIP, not the inverse relationship.  The relationship (and inverse relationship) must be in the code table prior to uploading this .csv.</p>
+			</p>
 			<span class="btn btn-xs btn-info" onclick="document.getElementById('template').style.display='block';">View template</span>
 			<div id="template" style="margin: 1rem 0;display:none;">
 				<label for="templatearea" class="data-entry-label mb-1">
