@@ -19,7 +19,8 @@ limitations under the License.
 <!--- special case handling to dump problem data as csv --->
 <cfif isDefined("action") AND action is "dumpProblems">
 	<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-		SELECT INSITUTION_ACRONYM,collection_cde,other_id_type,other_id_number,attribute,attribute_value,attribute_units,attribute_date,attribute_meth,determiner,remarks,status
+		SELECT INSTITUTION_ACRONYM,collection_cde,other_id_type,other_id_number,
+			attribute,attribute_value,attribute_units,attribute_date,attribute_meth,determiner,remarks,status
 		FROM cf_temp_attributes 
 		WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 		ORDER BY key
@@ -378,14 +379,14 @@ limitations under the License.
 			<!--- obtain the information needed to QC each row --->
 			<cfquery name="getTempTableQC" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT 
-					attribute_date, key, collection_cde, attribute
+					attribute_date, key, collection_cde, attribute, attribute_value, collection_object_id
 				FROM 
 					cf_temp_attributes
 				WHERE 
 					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<cfloop query="getTempTableQC">
-				<!--- For each row, evaluate the date against expectations and provide an error message --->
+				<!--- For each row, evaluate the data against expectations and provide an error message --->
 				<!---DATE ERROR MESSAGE--->
 				<cfset attDate = isDate(getTempTableQC.attribute_date)>
 				<cfif #attdate# eq 'NO'>
@@ -398,11 +399,11 @@ limitations under the License.
 							and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#"> 
 					</cfquery>	
 				</cfif>
-				<!--- for each row, evaluate the attribute against expectations and provide an error message --->
+				<!--- flag invalid collection code --->
 				<cfquery name="flatAttributeProblems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="flatAttributeProblems_result">
 					UPDATE cf_temp_attributes
 					SET
-						status = concat(nvl2(status, status || '; ', ''),'invalid attribute for collection_cde ' || collection_cde)
+						status = concat(nvl2(status, status || '; ', ''),'Attribute ['|| attribute ||'] not allowed for collection_cde ' || collection_cde)
 					WHERE 
 						attribute IS NOT NULL
 						AND attribute NOT IN (
@@ -413,6 +414,23 @@ limitations under the License.
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
 				</cfquery>
+				<!--- test for duplication of existing attribute:value pairs --->
+				<cfquery name="flatAttributeProblems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="flatAttributeProblems_result">
+					UPDATE cf_temp_attributes
+					SET
+						status = concat(nvl2(status, status || '; ', ''),'Duplicate of existing attribute:value pair ' || attribute || ':' || attribute_value)
+					WHERE 
+						attribute IS NOT NULL
+						and attribute_value IS NOT NULL
+						AND attribute || attribute_value IN (
+							SELECT attribute_type || attribute_value
+							FROM attributes
+							WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableQC.collection_object_id#">
+						)
+						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+						AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
+				</cfquery>
+				<!--- check against attribute code tables --->
 				<cfquery name="ctAttribute_code_tables" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					select upper(value_code_table) as value_code_table, upper(units_code_table) as units_code_table
 					FROM ctattribute_code_tables
@@ -426,7 +444,7 @@ limitations under the License.
 						<cfquery name="flagNotNullUnits" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							UPDATE cf_temp_attributes
 							SET 
-								status = concat(nvl2(status, status || '; ', ''),'attribute inconsistent with units')
+								status = concat(nvl2(status, status || '; ', ''),'attribute has a value for units, but units are not expected.')
 							WHERE 
 								attribute_units is not null
 								AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
@@ -471,7 +489,7 @@ limitations under the License.
 						</cfquery>
 						<cfcatch>
 						</cfcatch>
-							<!--- silently fail if another units table is added to the database but isn't added here. --->
+							<!--- silently fail if another units table is added to the database but is not added here. --->
 						</cftry>
 					</cfif>
 					<cfif len(ctAttribute_code_tables.value_code_table) GT 0>
@@ -499,7 +517,7 @@ limitations under the License.
 						</cfquery>
 						<cfcatch>
 						</cfcatch>
-							<!--- silently fail if another value code table is added to the database but isn't added here. --->
+							<!--- silently fail if another value code table is added to the database but is not added here. --->
 						</cftry>
 					</cfif>
 				</cfloop>
@@ -560,21 +578,23 @@ limitations under the License.
 					AND determined_by_agent_id IS NULL
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
+
+			<!---- Report Results --->
 			<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				SELECT institution_acronym,collection_cde,other_id_type,other_id_number,attribute,attribute_value,attribute_units,attribute_date, attribute_meth,determiner,remarks,status
+				SELECT institution_acronym,collection_cde,other_id_type,other_id_number,
+						attribute,attribute_value,attribute_units,attribute_date, attribute_meth,determiner,remarks,status
 				FROM cf_temp_attributes
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				ORDER BY key
 			</cfquery>
-			
-			<cfquery name="pf" dbtype="query">
+			<cfquery name="countNonEmptyStatus" dbtype="query">
 				SELECT count(*) c 
 				FROM data 
 				WHERE status is not null
 			</cfquery>
 			<h3 class="mt-3">
-			<cfif pf.c gt 0>
-					There is a problem with #pf.c# of #data.recordcount# row(s). See the STATUS column. (<a href="/tools/BulkloadAttributes.cfm?action=dumpProblems" class="btn-link font-weight-lessbold">download</a>).
+			<cfif countNonEmptyStatus.c gt 0>
+					There is a problem with #countNonEmptyStatus.c# of #data.recordcount# row(s). See the STATUS column. (<a href="/tools/BulkloadAttributes.cfm?action=dumpProblems" class="btn-link font-weight-lessbold">download</a>).
 					Fix the problem(s) noted in the status column and <a href="/tools/BulkloadAttributes.cfm" class="text-danger">start again</a>.
 			<cfelse>
 					<span class="text-success">Validation checks passed.</span> Look over the table below and <a href="/tools/BulkloadAttributes.cfm?action=load" class="btn-link font-weight-lessbold">click to continue</a> if it all looks good. Or, <a href="/tools/BulkloadAttributes.cfm" class="text-danger">start again</a>.
@@ -628,14 +648,16 @@ limitations under the License.
 			<cfset problem_key = "">
 			<cftransaction>
 				<cfquery name="getTempData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					SELECT * FROM cf_temp_attributes
+					SELECT * 
+					FROM cf_temp_attributes
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
 				<cfquery name="getCounts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					SELECT count(distinct collection_object_id) ctobj FROM cf_temp_attributes
+					SELECT count(distinct collection_object_id) ctobj 
+					FROM cf_temp_attributes
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
-			<cftry>
+				<cftry>
 					<cfset attributes_updates = 0>
 					<cfset attributes_updates1 = 0>
 					<cfif getTempData.recordcount EQ 0>
@@ -645,23 +667,23 @@ limitations under the License.
 						<cfset problem_key = getTempData.key>
 						<cfquery name="updateAttributes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateAttributes_result">
 							INSERT into attributes (
-							COLLECTION_OBJECT_ID,
-							ATTRIBUTE_TYPE,
-							ATTRIBUTE_VALUE,
-							ATTRIBUTE_UNITS,
-							DETERMINED_DATE,
-							DETERMINATION_METHOD,
-							DETERMINED_BY_AGENT_ID,
-							ATTRIBUTE_REMARK
+								COLLECTION_OBJECT_ID,
+								ATTRIBUTE_TYPE,
+								ATTRIBUTE_VALUE,
+								ATTRIBUTE_UNITS,
+								DETERMINED_DATE,
+								DETERMINATION_METHOD,
+								DETERMINED_BY_AGENT_ID,
+								ATTRIBUTE_REMARK
 							)VALUES(
-							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collection_object_id#">,
-							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#attribute#">,
-							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#attribute_value#">,
-							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#attribute_units#">, 
-							<cfqueryparam cfsqltype="CF_SQL_DATE" value="#attribute_date#">,
-							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#attribute_meth#">,
-							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#determined_by_agent_id#">,
-							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#remarks#">
+								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collection_object_id#">,
+								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#attribute#">,
+								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#attribute_value#">,
+								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#attribute_units#">, 
+								<cfqueryparam cfsqltype="CF_SQL_DATE" value="#attribute_date#">,
+								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#attribute_meth#">,
+								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#determined_by_agent_id#">,
+								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#remarks#">
 							)
 						</cfquery>
 						<cfquery name="updateAttributes1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateAttributes1_result">
@@ -675,9 +697,14 @@ limitations under the License.
 							<cfthrow message = "Error: attempting to insert duplicated attribute.">
 						</cfif>
 					</cfloop>
-					<p>Number of attributes to update: #attributes_updates# (on #getCounts.ctobj# cataloged items)</p>
-					<cfif getTempData.recordcount eq attributes_updates and updateAttributes1_result.recordcount eq 0>
+					<cfif getTempData.recordcount eq attributes_updates>
+						<p>Number of attributes updated: #attributes_updates# (on #getCounts.ctobj# cataloged items)</p>
 						<h3 class="text-success">Success - loaded</h3>
+						<p><a href="https://mczbase-test.rc.fas.harvard.edu/Specimens.cfm?execute=true&builderMaxRows=1&action=builderSearch&openParens1=0&field1=COLL_OBJECT%3ACOLL_OBJ_COLLECTION_OBJECT_ID&searchText1=#encodeForUrl(valuelist(getTempData.collection_object_id))#&closeParens1=0" class="btn-link font-weight-lessbold">
+							See in Specimen Search Results.
+						</a></p>
+					<cfelse>
+						<cfthrow message="Error: Number of successfull updates did not match number of records to update.">
 					</cfif>
 					<cftransaction action="COMMIT">
 				<cfcatch>
@@ -705,7 +732,7 @@ limitations under the License.
 						<cfset institutions = ListAppend(institutions,getInstitution.institution_acronym)>
 					</cfloop>
 					<cfif getProblemData.recordcount GT 0>
- 						<h3>Errors are displayed one row at a time.</h3>
+ 						<h3>Errors at this stage are displayed one row at a time, more errors may exist in this file.</h3>
 						<h3>
 							Error loading row (<span class="text-danger">#attributes_updates + 1#</span>) from the CSV: 
 							<cfif len(cfcatch.detail) gt 0>
@@ -741,17 +768,28 @@ limitations under the License.
 								</span>
 							</cfif>
 						</h3>
+						<!--- Note: we can not link to a dump of the temp table as it will be cleared for this user at the end of this step --->
+						<p>Fix the problems and <a href="/tools/BulkloadAttributes.cfm">Reload your file</a></p> 
 						<table class='px-0 sortable small table-danger w-100 table table-responsive table-striped mt-3'>
 							<thead>
-								<tr><th>COUNT</th><th>STATUS</th>
-									<th>INSTITUTION_ACRONYM</th><th>COLLECTION_CDE</th><th>OTHER_ID_TYPE</th><th>OTHER_ID_NUMBER</th><th>ATTRIBUTE</th><th>ATTRIBUTE_VALUE</th><th>ATTRIBUTE_UNITS</th><th>ATTRIBUTE_DATE</th><th>ATTRIBUTE_METH</th><th>DETERMINER</th><th>REMARKS</th>
+								<tr>
+									<th>STATUS</th>
+									<th>INSTITUTION_ACRONYM</th>
+									<th>COLLECTION_CDE</th>
+									<th>OTHER_ID_TYPE</th>
+									<th>OTHER_ID_NUMBER</th>
+									<th>ATTRIBUTE</th>
+									<th>ATTRIBUTE_VALUE</th>
+									<th>ATTRIBUTE_UNITS</th>
+									<th>ATTRIBUTE_DATE</th>
+									<th>ATTRIBUTE_METH</th>
+									<th>DETERMINER</th>
+									<th>REMARKS</th>
 								</tr> 
 							</thead>
 							<tbody>
-								<cfset i=1>
 								<cfloop query="getProblemData">
 									<tr>
-										<td>#i#</td>
 										<td>#getProblemData.status# </td>
 										<td>#getProblemData.institution_acronym# </td>
 										<td>#getProblemData.collection_cde# </td>
@@ -765,7 +803,6 @@ limitations under the License.
 										<td>#getProblemData.determiner# </td>
 										<td>#getProblemData.remarks# </td>
 									</tr>
-									<cfset i= i+1>
 								</cfloop>
 							</tbody>
 						</table>
