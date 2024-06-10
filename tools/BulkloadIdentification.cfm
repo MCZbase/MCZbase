@@ -628,7 +628,14 @@ limitations under the License.
 				</cfif>
 			</cfloop>
 
-			<!---Missing data in required fields--->
+			<!--- Confirm that a taxon was found. --->
+			<cfquery name="noTaxonMatch" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				UPDATE cf_temp_ID
+				SET status = concat(nvl2(status, status || '; ', ''),'no taxon name found for [' || scientific_name || '] with formula ['|| taxa_formula || ']')
+				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+				and taxon_name_id IS NULL
+			</cfquery>
+			<!---Missing data in required fields, which should be caught in upload step --->
 			<cfloop list="#requiredfieldlist#" index="requiredField">
 				<cfquery name="checkRequired" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE cf_temp_ID
