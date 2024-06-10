@@ -865,7 +865,7 @@ limitations under the License.
 								See in Specimen Search Results.
 							</a>
 						</p>
-					<cfelsse>
+					<cfelse>
 						<cfthrow message="Error: Number of identificaitons added does not match the number of loaded rows.">
 					</cfif>
 					<cftransaction action="COMMIT">
