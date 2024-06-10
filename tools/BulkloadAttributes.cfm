@@ -19,7 +19,8 @@ limitations under the License.
 <!--- special case handling to dump problem data as csv --->
 <cfif isDefined("action") AND action is "dumpProblems">
 	<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-		SELECT INSITUTION_ACRONYM,collection_cde,other_id_type,other_id_number,attribute,attribute_value,attribute_units,attribute_date,attribute_meth,determiner,remarks,status
+		SELECT INSTITUTION_ACRONYM,collection_cde,other_id_type,other_id_number,
+			attribute,attribute_value,attribute_units,attribute_date,attribute_meth,determiner,remarks,status
 		FROM cf_temp_attributes 
 		WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 		ORDER BY key
@@ -709,7 +710,7 @@ limitations under the License.
 						<cfset institutions = ListAppend(institutions,getInstitution.institution_acronym)>
 					</cfloop>
 					<cfif getProblemData.recordcount GT 0>
- 						<h3>Errors are displayed one row at a time.</h3>
+ 						<h3>Errors at this stage are displayed one row at a time, more errors may exist in this file.</h3>
 						<h3>
 							Error loading row (<span class="text-danger">#attributes_updates + 1#</span>) from the CSV: 
 							<cfif len(cfcatch.detail) gt 0>
