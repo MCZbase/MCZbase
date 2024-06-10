@@ -554,116 +554,109 @@ limitations under the License.
 						<cfset problem_key = #getTempData.key#>
 						<cfquery name="newAgents" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="insResult">
 							insert into agent (
-							AGENT_ID, 
-							AGENT_TYPE, 
-							AGENT_REMARKS, 
-							PREFERRED_AGENT_NAME_ID,
-							AGENTGUID_GUID_TYPE,
-							AGENTGUID
-							)
-							values (
-							sq_agent_id.nextval,
-							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.agent_type#">,
-							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.agent_remark#">,
-							sq_agent_name_id.nextval,
-							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.agentguid_guid_type#">,
-							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.agentguid#">
+								AGENT_ID, 
+								AGENT_TYPE, 
+								AGENT_REMARKS, 
+								PREFERRED_AGENT_NAME_ID,
+								AGENTGUID_GUID_TYPE,
+								AGENTGUID
+							) values (
+								sq_agent_id.nextval,
+								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.agent_type#">,
+								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.agent_remark#">,
+								sq_agent_name_id.nextval,
+								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.agentguid_guid_type#">,
+								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.agentguid#">
 							)
 						</cfquery>
 						<cfquery name="savePK" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="pkResult">
-							select preferred_agent_name_id,agent_id 
-							from agent
-							where ROWIDTOCHAR(rowid) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#insResult.GENERATEDKEY#">
+							SELECT preferred_agent_name_id, agent_id 
+							FROM agent
+							WHERE ROWIDTOCHAR(rowid) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#insResult.GENERATEDKEY#">
 						</cfquery>
 						<cfquery name="newPrefAgentName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="insResult">
-							insert into agent_name (
-							AGENT_NAME_ID, 
-							AGENT_ID, 
-							AGENT_NAME_TYPE, 
-							AGENT_NAME
+							INSERT into agent_name (
+								AGENT_NAME_ID, 
+								AGENT_ID, 
+								AGENT_NAME_TYPE, 
+								AGENT_NAME
 							) values (
-							#savePK.preferred_agent_name_id#,
-							#savePK.agent_ID#,
-							'preferred',
-							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.preferred_name#">
+								#savePK.preferred_agent_name_id#,
+								#savePK.agent_ID#,
+								'preferred',
+								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.preferred_name#">
 							)
 						</cfquery>
 						<cfset agentNAMEID = #savePK.preferred_agent_name_id#>
 						<cfquery name="agent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="pkResult">
-							select preferred_agent_name_id 
-							from agent
-							where preferred_agent_name_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#agentNAMEID#">
+							SELECT preferred_agent_name_id 
+							FROM agent
+							WHERE preferred_agent_name_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#agentNAMEID#">
 						</cfquery>
 						<cfif #agent_type# is "person">
 							<cfquery name="newPerson" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-								insert into person (
-								PERSON_ID,
-								PREFIX,
-								LAST_NAME,
-								FIRST_NAME,
-								MIDDLE_NAME,
-								SUFFIX,
-								BIRTH_DATE,
-								DEATH_DATE
+								INSERT into person (
+									PERSON_ID,
+									PREFIX,
+									LAST_NAME,
+									FIRST_NAME,
+									MIDDLE_NAME,
+									SUFFIX,
+									BIRTH_DATE,
+									DEATH_DATE
 								) values (
-								#savePK.agent_id#,
-								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#PREFIX#">,
-								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#LAST_NAME#">,
-								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#FIRST_NAME#">,
-								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#MIDDLE_NAME#">,
-								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#SUFFIX#">,
-								'#dateformat(BIRTH_DATE,"yyyy-mm-dd")#',
-								'#dateformat(DEATH_DATE,"yyyy-mm-dd")#')
+									#savePK.agent_id#,
+									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#PREFIX#">,
+									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#LAST_NAME#">,
+									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#FIRST_NAME#">,
+									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#MIDDLE_NAME#">,
+									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#SUFFIX#">,
+									'#dateformat(BIRTH_DATE,"yyyy-mm-dd")#',
+									'#dateformat(DEATH_DATE,"yyyy-mm-dd")#')
 							</cfquery>
 						</cfif>
-				<!---		<cfquery name="NEXTID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-							select sq_agent_name_id.nextval NEXTID from dual
-						</cfquery>--->
 						<cfif len(#OTHER_NAME_1#) gt 0>
 							<cfquery name="newAgentName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 								insert into agent_name (
-								AGENT_NAME_ID,
-								AGENT_ID,
-								AGENT_NAME_TYPE,
-								AGENT_NAME 
-								)
-								values (
-								SQ_AGENT_NAME_ID.NEXTVAL,
-								#savePK.agent_id#,
-								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#OTHER_NAME_TYPE_1#">,
-								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#OTHER_NAME_1#">
+									AGENT_NAME_ID,
+									AGENT_ID,
+									AGENT_NAME_TYPE,
+									AGENT_NAME 
+								) values (
+									SQ_AGENT_NAME_ID.NEXTVAL,
+									#savePK.agent_id#,
+									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#OTHER_NAME_TYPE_1#">,
+									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#OTHER_NAME_1#">
 								)
 							</cfquery>
 						</cfif>
 						<cfif len(#OTHER_NAME_2#) gt 0>
 							<cfquery name="newAgentName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-								insert into agent_name (
-								AGENT_NAME_ID,
-								AGENT_ID,
-								AGENT_NAME_TYPE,
-								AGENT_NAME 
-								)
-								values (
-								SQ_AGENT_NAME_ID.NEXTVAL,
-								#savePK.agent_id#,
-								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#OTHER_NAME_TYPE_2#">,
-								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#OTHER_NAME_2#">
+								INSERT into agent_name (
+									AGENT_NAME_ID,
+									AGENT_ID,
+									AGENT_NAME_TYPE,
+									AGENT_NAME 
+								) values (
+									SQ_AGENT_NAME_ID.NEXTVAL,
+									#savePK.agent_id#,
+									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#OTHER_NAME_TYPE_2#">,
+									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#OTHER_NAME_2#">
 								)
 							</cfquery>
 						</cfif>
 						<cfif len(#OTHER_NAME_3#) gt 0>
 							<cfquery name="newAgentName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-								insert into agent_name (
-								AGENT_NAME_ID,
-								AGENT_ID,
-								AGENT_NAME_TYPE,
-								AGENT_NAME 
-								)
-								values (
-								SQ_AGENT_NAME_ID.NEXTVAL,
-								#savePK.agent_id#,
-								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#OTHER_NAME_TYPE_3#">,
-								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#OTHER_NAME_3#">
+								INSERT into agent_name (
+									AGENT_NAME_ID,
+									AGENT_ID,
+									AGENT_NAME_TYPE,
+									AGENT_NAME 
+								) values (
+									SQ_AGENT_NAME_ID.NEXTVAL,
+									#savePK.agent_id#,
+									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#OTHER_NAME_TYPE_3#">,
+									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#OTHER_NAME_3#">
 								)
 							</cfquery>
 						</cfif>
@@ -684,9 +677,10 @@ limitations under the License.
 						<cftransaction action="ROLLBACK">
 						<h3>There was a problem updating the agents. </h3>
 						<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-							SELECT to_char(birth_date,'YYYY-MM-DD') birth_date,agent_type,preferred_name,first_name,middle_name,last_name,to_char(death_date,'YYYY-MM-DD') death_date,agent_remark,prefix,suffix,other_name_1,other_name_type_1,other_name_2,other_name_type_2,other_name_3,other_name_type_3,agentguid_guid_type,agentguid
+							SELECT 
+								to_char(birth_date,'YYYY-MM-DD') birth_date,agent_type,preferred_name,first_name,middle_name,last_name,to_char(death_date,'YYYY-MM-DD') death_date,agent_remark,prefix,suffix,other_name_1,other_name_type_1,other_name_2,other_name_type_2,other_name_3,other_name_type_3,agentguid_guid_type,agentguid
 							FROM cf_temp_agents
-							where key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#problem_key#">
+							WHERE key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#problem_key#">
 						</cfquery>
 						<cfif getProblemData.recordcount GT 0>
 							<h3>
