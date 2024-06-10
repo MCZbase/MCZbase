@@ -372,7 +372,7 @@ limitations under the License.
 					<cfquery name="invGuidType2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						UPDATE cf_temp_agents
 						SET 
-							status = concat(nvl2(status, status || '; ', ''), 'Agent GUID format not correct')
+							status = concat(nvl2(status, status || '; ', ''),'Agent GUID format not correct')
 						WHERE 
 							UPPER(agentguid) LIKE 'HTTP:%'
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
@@ -381,7 +381,7 @@ limitations under the License.
 				<cfquery name="invAgntType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE cf_temp_agents
 					SET 
-						status = concat(nvl2(status, status || '; ', ''), 'Agent type not valid - check controlled vocabulary')
+						status = concat(nvl2(status, status || '; ', ''),'Agent type not valid - check controlled vocabulary')
 					WHERE 
 						agent_type not in (
 							select agent_type from ctagent_type where agent_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableQC.agent_type#">
@@ -392,7 +392,7 @@ limitations under the License.
 					<cfquery name="invAgntPrefix" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						UPDATE cf_temp_agents
 						SET 
-							status = concat(nvl2(status, status || '; ', ''), 'Prefix not valid - check controlled vocabulary')
+							status = concat(nvl2(status, status || '; ', ''),'Prefix not valid - check controlled vocabulary')
 						WHERE 
 							prefix not in (
 								select prefix from ctprefix where prefix = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableQC.prefix#">
@@ -416,7 +416,7 @@ limitations under the License.
 					<cfquery name="invAgntName1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						UPDATE cf_temp_agents
 						SET 
-							status = concat(nvl2(status, status || '; ', ''), 'Agent type not valid - check controlled vocabulary')
+							status = concat(nvl2(status, status || '; ', ''),'Agent type not valid-check controlled vocabulary')
 						WHERE 
 							other_name_type_1 not in (
 								select agent_name_type from ctagent_name_type where agent_name_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableQC.other_name_type_1#">
@@ -692,6 +692,10 @@ limitations under the License.
 											Invalid AGENTGUID
 										<cfelseif cfcatch.detail contains "agentguid_guid_type">
 											Invalid AGENT GUID TYPE
+										<cfelseif cfcatch.detail contains "prefix">
+											Invalid PREFIX
+										<cfelseif cfcatch.detail contains "suffix">
+											Invalid SUFFIX
 										<cfelseif cfcatch.detail contains "agent_id">
 											Problem with AGENT_ID
 										<cfelseif cfcatch.detail contains "unique constraint">
