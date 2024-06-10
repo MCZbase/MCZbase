@@ -551,8 +551,15 @@ limitations under the License.
 						</cfif>
 					</cfloop>
 					<p>Number of relations to update: #relations_updates# (on #getCounts.ctobj# cataloged items)</p>
-					<cfif getTempData.recordcount eq relations_updates and updateRelations1_result.recordcount eq 0>
+					<cfif getTempData.recordcount eq relations_updates>
 						<h2 class="text-success">Success - loaded</h2>
+						<p>
+							<a href="https://mczbase-test.rc.fas.harvard.edu/Specimens.cfm?execute=true&builderMaxRows=1&action=builderSearch&openParens1=0&field1=COLL_OBJECT%3ACOLL_OBJ_COLLECTION_OBJECT_ID&searchText1=#encodeForUrl(valuelist(getTempData.collection_object_id))#&closeParens1=0" class="btn-link font-weight-lessbold">
+								See in Specimen Search Results.
+							</a>
+						</p>
+					<cfelse>
+						<cfthrow message="Number of relations updated does not match number of rows in input file.">
 					</cfif>
 					<cftransaction action="COMMIT">
 				<cfcatch>
