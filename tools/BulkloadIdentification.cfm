@@ -25,6 +25,7 @@ limitations under the License.
 			agent_1,agent_2,stored_as_fg,publication_id
 		FROM cf_temp_ID
 		WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+		ORDER BY key
 	</cfquery>
 	<cfinclude template="/shared/component/functions.cfc">
 	<cfset csv = queryToCSV(getProblemData)>
@@ -644,6 +645,7 @@ limitations under the License.
 					publication_id,taxon_name_id
 				FROM cf_temp_ID
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+				ORDER BY key
 			</cfquery>
 			<cfquery name="problemCount" dbtype="query">
 				SELECT count(*) c 
