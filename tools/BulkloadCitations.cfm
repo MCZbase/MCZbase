@@ -629,33 +629,34 @@ limitations under the License.
 					SELECT count(distinct collection_object_id) ctobj FROM cf_temp_citation
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
+				<cfset row = 0>
 				<cftry>
 					<cfset citation_updates = 0>
-					<cfset citation_updates1 = 0>
 					<cfif getCitData.recordcount EQ 0>
 						<cfthrow message="You have no rows to load in the citations bulkloader table (cf_temp_citation).  <a href='/tools/BulkloadCitations.cfm' class='text-danger'>Start again</a>"><!--- " --->
 					</cfif>
 					<cfloop query="getCitData">
+						<cfset row = row + 1>
 						<cfset problem_key = #getCitData.key#>
 						<cfquery name="updateCitations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateCitations_result">
 							INSERT into citation (
-							PUBLICATION_ID,
-							COLLECTION_OBJECT_ID,
-							CITED_TAXON_NAME_ID,
-							OCCURS_PAGE_NUMBER,
-							CIT_CURRENT_FG,
-							TYPE_STATUS,
-							CITATION_REMARKS,
-							CITATION_PAGE_URI
-							)VALUES(
-							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getCitData.PUBLICATION_ID#">,
-							<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getCitData.COLLECTION_OBJECT_ID#">,
-							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getCitData.CITED_TAXON_NAME_ID#">,
-							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getCitData.OCCURS_PAGE_NUMBER#">,
-							1,
-							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getCitData.TYPE_STATUS#">,
-							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getCitData.CITATION_REMARKS#">, 
-							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getCitData.CITATION_PAGE_URI#">
+								PUBLICATION_ID,
+								COLLECTION_OBJECT_ID,
+								CITED_TAXON_NAME_ID,
+								OCCURS_PAGE_NUMBER,
+								CIT_CURRENT_FG,
+								TYPE_STATUS,
+								CITATION_REMARKS,
+								CITATION_PAGE_URI
+							) VALUES (
+								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getCitData.PUBLICATION_ID#">,
+								<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getCitData.COLLECTION_OBJECT_ID#">,
+								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getCitData.CITED_TAXON_NAME_ID#">,
+								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getCitData.OCCURS_PAGE_NUMBER#">,
+								1,
+								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getCitData.TYPE_STATUS#">,
+								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getCitData.CITATION_REMARKS#">, 
+								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getCitData.CITATION_PAGE_URI#">
 							)
 						</cfquery>
 						<cfquery name="updateCitations1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateCitations1_result">
@@ -670,16 +671,20 @@ limitations under the License.
 						</cfif>
 					</cfloop>
 					<p>Number of citations to update: #citation_updates# (on #getCounts.ctobj# cataloged items)</p>
-					<cfif getCitData.recordcount eq citation_updates and updateCitations1_result.recordcount eq 0>
+					<cfif getCitData.recordcount eq citation_updates>
 						<h3 class="text-success">Success - loaded</h3>
-					</cfif>
-					<cfif updateCitations1_result.recordcount gt 0>
-						<h3 class="text-danger">Not loaded - these have already been loaded</h3>
+						<p>
+							<a href="https://mczbase-test.rc.fas.harvard.edu/Specimens.cfm?execute=true&builderMaxRows=1&action=builderSearch&openParens1=0&field1=COLL_OBJECT%3ACOLL_OBJ_COLLECTION_OBJECT_ID&searchText1=#encodeForUrl(valuelist(getCitData.collection_object_id))#&closeParens1=0" class="btn-link font-weight-lessbold">
+								See in Specimen Search Results.
+							</a>
+						</p>
+					<cfelse>
+						<cfthrow message="Insert would create a duplicate citation in row #row#.">
 					</cfif>
 					<cftransaction action="commit">
 				<cfcatch>
 					<cftransaction action="ROLLBACK">
-					<h3>There was a problem updating the citations. </h3>
+					<h3>There was a problem updating the citations. In this phase errors are reported one row at a time.</h3>
 					<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						SELECT 
 							COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_NUMBER,COLLECTION_OBJECT_ID,PUBLICATION_ID,CITED_TAXON_NAME_ID,
@@ -689,7 +694,7 @@ limitations under the License.
 					</cfquery>
 					<cfif getProblemData.recordcount GT 0>
 						<h3>
-							Fix the issues and <a href="/tools/BulkloadCitations.cfm" class="text-danger font-weight-lessbold">start again</a>. Error loading row (<span class="text-danger">#citation_updates + 1#</span>) from the CSV: 
+							Fix the issues and <a href="/tools/BulkloadCitations.cfm" class="text-danger font-weight-lessbold">start again</a>. Error loading row (<span class="text-danger">#row#</span>) from the CSV: 
 							<cfif len(cfcatch.detail) gt 0>
 								<span class="font-weight-normal border-bottom border-danger">
 									<cfif cfcatch.detail contains "occurs_page_number">
