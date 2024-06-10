@@ -473,7 +473,7 @@ limitations under the License.
 			<cfloop query="getTempTableQC">
 				<!--- if formula text is end part of scientific name, separate it off and place in taxon formula --->
 				<cfset tf = "A">
-				<cfset TaxonomyTaxonName = scientific_name>
+				<cfset TaxonomyTaxonName = getTempTableQC.scientific_name>
 				<cfloop list="#formulas#" index="formulaWithA">
 					<cfset formula = replace("#formulaWithA#","A","")>
 					<cfset formulaLen = len(formula)>
@@ -502,7 +502,7 @@ limitations under the License.
 					<cfelse>
 						<cfquery name="probColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 							UPDATE cf_temp_ID
-							SET status = concat(nvl2(status, status || '; ', ''),'multiple taxonomy records found for this scientific name')
+							SET status = concat(nvl2(status, status || '; ', ''),'multiple taxonomy records found for this scientific name ['|| TaxonomyTaxonName ||']')
 							WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 								and scientific_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#TaxonomyTaxonName#">
 								and key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableQC.key#">
