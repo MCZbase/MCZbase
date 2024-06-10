@@ -857,14 +857,16 @@ limitations under the License.
 							<cfthrow message="Load failed on row #i#, identification #getID.scientific_name# duplicates an existing identification.">
 						</cfif>
 					</cfloop>
-					<cfif getTempData.recordcount eq testParse and getID_result.recordcount eq 0>
-						<p>Number of Identifications updated: #i# (on #getCounts.c# cataloged items)</p>
+					<cfif getTempData.recordcount eq testParse>
+						<p>Added: #i# Identifications (on #getCounts.c# cataloged items)</p>
 						<h2 class="text-success">Success - loaded</h2>
 						<p>
 							<a href="https://mczbase-test.rc.fas.harvard.edu/Specimens.cfm?execute=true&builderMaxRows=1&action=builderSearch&openParens1=0&field1=COLL_OBJECT%3ACOLL_OBJ_COLLECTION_OBJECT_ID&searchText1=#encodeForUrl(valuelist(getCollObjects.collection_object_id))#&closeParens1=0" class="btn-link font-weight-lessbold">
 								See in Specimen Search Results.
 							</a>
 						</p>
+					<cfelsse>
+						<cfthrow message="Error: Number of identificaitons added does not match the number of loaded rows.">
 					</cfif>
 					<cftransaction action="COMMIT">
 				<cfcatch>
