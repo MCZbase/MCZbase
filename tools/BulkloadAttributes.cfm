@@ -640,7 +640,7 @@ limitations under the License.
 					FROM cf_temp_attributes
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
-			<cftry>
+				<cftry>
 					<cfset attributes_updates = 0>
 					<cfset attributes_updates1 = 0>
 					<cfif getTempData.recordcount EQ 0>
@@ -650,23 +650,23 @@ limitations under the License.
 						<cfset problem_key = getTempData.key>
 						<cfquery name="updateAttributes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateAttributes_result">
 							INSERT into attributes (
-							COLLECTION_OBJECT_ID,
-							ATTRIBUTE_TYPE,
-							ATTRIBUTE_VALUE,
-							ATTRIBUTE_UNITS,
-							DETERMINED_DATE,
-							DETERMINATION_METHOD,
-							DETERMINED_BY_AGENT_ID,
-							ATTRIBUTE_REMARK
+								COLLECTION_OBJECT_ID,
+								ATTRIBUTE_TYPE,
+								ATTRIBUTE_VALUE,
+								ATTRIBUTE_UNITS,
+								DETERMINED_DATE,
+								DETERMINATION_METHOD,
+								DETERMINED_BY_AGENT_ID,
+								ATTRIBUTE_REMARK
 							)VALUES(
-							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collection_object_id#">,
-							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#attribute#">,
-							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#attribute_value#">,
-							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#attribute_units#">, 
-							<cfqueryparam cfsqltype="CF_SQL_DATE" value="#attribute_date#">,
-							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#attribute_meth#">,
-							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#determined_by_agent_id#">,
-							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#remarks#">
+								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collection_object_id#">,
+								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#attribute#">,
+								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#attribute_value#">,
+								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#attribute_units#">, 
+								<cfqueryparam cfsqltype="CF_SQL_DATE" value="#attribute_date#">,
+								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#attribute_meth#">,
+								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#determined_by_agent_id#">,
+								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#remarks#">
 							)
 						</cfquery>
 						<cfquery name="updateAttributes1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateAttributes1_result">
@@ -681,8 +681,13 @@ limitations under the License.
 						</cfif>
 					</cfloop>
 					<p>Number of attributes to update: #attributes_updates# (on #getCounts.ctobj# cataloged items)</p>
-					<cfif getTempData.recordcount eq attributes_updates and updateAttributes1_result.recordcount eq 0>
+					<cfif getTempData.recordcount eq attributes_updates>
 						<h3 class="text-success">Success - loaded</h3>
+						<p><a href="https://mczbase-test.rc.fas.harvard.edu/Specimens.cfm?execute=true&builderMaxRows=1&action=builderSearch&openParens1=0&field1=COLL_OBJECT%3ACOLL_OBJ_COLLECTION_OBJECT_ID&searchText1=#encodeForUrl(valuelist(getTempData.collection_object_id))#&closeParens1=0" class="btn-link font-weight-lessbold">
+							See in Specimen Search Results.
+						</a></p>
+					<cfelse>
+						<cfthrow message="Error: Number of successfull updates did not match number of records to update.">
 					</cfif>
 					<cftransaction action="COMMIT">
 				<cfcatch>
