@@ -739,6 +739,10 @@ limitations under the License.
 						FROM cf_temp_id
 						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 					</cfquery>
+					<cfquery name="getCollOjects" dbtype="query'>
+						SELECT distinct collection_object_id 
+						FROM getTempData
+					</cfquery>
 					<cfset testParse = 0>
 					<cfif getTempData.recordcount EQ 0>
 						<cfthrow message="You have no rows to load in the Identifications bulkloader table (cf_temp_id). <a href='/tools/BulkloadIdentification.cfm'>Start over</a>">
@@ -856,6 +860,11 @@ limitations under the License.
 					<cfif getTempData.recordcount eq testParse and getID_result.recordcount eq 0>
 						<p>Number of Identifications updated: #i# (on #getCounts.c# cataloged items)</p>
 						<h2 class="text-success">Success - loaded</h2>
+						<p>
+							<a href="https://mczbase-test.rc.fas.harvard.edu/Specimens.cfm?execute=true&builderMaxRows=1&action=builderSearch&openParens1=0&field1=COLL_OBJECT%3ACOLL_OBJ_COLLECTION_OBJECT_ID&searchText1=#encodeForUrl(valuelist(getCollObjects.collection_object_id))#&closeParens1=0" class="btn-link font-weight-lessbold">
+								See in Specimen Search Results.
+							</a>
+						</p>
 					</cfif>
 					<cftransaction action="COMMIT">
 				<cfcatch>
