@@ -399,7 +399,7 @@ limitations under the License.
 							and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#"> 
 					</cfquery>	
 				</cfif>
-				<!--- for each row, evaluate the attribute against expectations and provide an error message --->
+				<!--- flag invalid collection code --->
 				<cfquery name="flatAttributeProblems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="flatAttributeProblems_result">
 					UPDATE cf_temp_attributes
 					SET
@@ -414,6 +414,23 @@ limitations under the License.
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
 				</cfquery>
+				<!--- test for duplication of existing attribute:value pairs --->
+				<cfquery name="flatAttributeProblems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="flatAttributeProblems_result">
+					UPDATE cf_temp_attributes
+					SET
+						status = concat(nvl2(status, status || '; ', ''),'Duplicate of existing attribute:value pair ' || attribute || ':' || attribute_value)
+					WHERE 
+						attribute IS NOT NULL
+						and attribute_value IS NOT NULL
+						AND attribute || attribute_value NOT IN (
+							SELECT attribute_type || attribute_value
+							FROM attributes
+							WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableQC.collection_object_id#">
+						)
+						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+						AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
+				</cfquery>
+				<!--- check against code tables --->
 				<cfquery name="ctAttribute_code_tables" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					select upper(value_code_table) as value_code_table, upper(units_code_table) as units_code_table
 					FROM ctattribute_code_tables
