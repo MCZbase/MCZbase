@@ -356,7 +356,7 @@ limitations under the License.
 							select agent_name from preferred_agent_name where agent_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableQC.preferred_name#">
 							)
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-					AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="getTempTableQC.key">
+					AND key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="getTempTableQC.key">
 				</cfquery>	
 				<cfif len(agentguid_guid_type) gt 0>
 					<cfquery name="invGuidType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -366,7 +366,7 @@ limitations under the License.
 						WHERE 
 							agentguid_guid_type not in (select guid_type from ctguid_type where guid_type =  <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableQC.agentguid_guid_type#">)
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-						AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="getTempTableQC.key">
+						AND key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="getTempTableQC.key">
 					</cfquery>
 				</cfif>
 				<cfif len(agentguid) gt 0>
