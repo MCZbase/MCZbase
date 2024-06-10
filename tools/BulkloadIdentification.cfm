@@ -478,7 +478,7 @@ limitations under the License.
 				<cfloop list="#formulas#" index="formulaWithA">
 					<cfset formula = replace("#formulaWithA#","A","")>
 					<cfset formulaLen = len(formula)>
-					<cfif right(scientific_name,formulaLen) is formula>
+					<cfif right(scientific_name,formulaLen) is formula and len(formula) GT 0>
 						<cfset scientific_name=left(scientific_name,len(scientific_name) - formulaLen)>
 						<cfset tf = formulaWithA>
 						<cfset TaxonomyTaxonName=left(scientific_name,len(scientific_name) - formulaLen)>
