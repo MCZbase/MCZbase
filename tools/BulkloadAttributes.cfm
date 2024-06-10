@@ -426,7 +426,7 @@ limitations under the License.
 						<cfquery name="flagNotNullUnits" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							UPDATE cf_temp_attributes
 							SET 
-								status = concat(nvl2(status, status || '; ', ''),'attribute inconsistent with units')
+								status = concat(nvl2(status, status || '; ', ''),'attribute has a value for units, but units are not expected.')
 							WHERE 
 								attribute_units is not null
 								AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
@@ -471,7 +471,7 @@ limitations under the License.
 						</cfquery>
 						<cfcatch>
 						</cfcatch>
-							<!--- silently fail if another units table is added to the database but isn't added here. --->
+							<!--- silently fail if another units table is added to the database but is not added here. --->
 						</cftry>
 					</cfif>
 					<cfif len(ctAttribute_code_tables.value_code_table) GT 0>
@@ -499,7 +499,7 @@ limitations under the License.
 						</cfquery>
 						<cfcatch>
 						</cfcatch>
-							<!--- silently fail if another value code table is added to the database but isn't added here. --->
+							<!--- silently fail if another value code table is added to the database but is not added here. --->
 						</cftry>
 					</cfif>
 				</cfloop>
@@ -560,21 +560,23 @@ limitations under the License.
 					AND determined_by_agent_id IS NULL
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
+
+			<!---- Report Results --->
 			<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				SELECT institution_acronym,collection_cde,other_id_type,other_id_number,attribute,attribute_value,attribute_units,attribute_date, attribute_meth,determiner,remarks,status
+				SELECT institution_acronym,collection_cde,other_id_type,other_id_number,
+						attribute,attribute_value,attribute_units,attribute_date, attribute_meth,determiner,remarks,status
 				FROM cf_temp_attributes
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				ORDER BY key
 			</cfquery>
-			
-			<cfquery name="pf" dbtype="query">
+			<cfquery name="countNonEmptyStatus" dbtype="query">
 				SELECT count(*) c 
 				FROM data 
 				WHERE status is not null
 			</cfquery>
 			<h3 class="mt-3">
-			<cfif pf.c gt 0>
-					There is a problem with #pf.c# of #data.recordcount# row(s). See the STATUS column. (<a href="/tools/BulkloadAttributes.cfm?action=dumpProblems" class="btn-link font-weight-lessbold">download</a>).
+			<cfif countNonEmptyStatus.c gt 0>
+					There is a problem with #countNonEmptyStatus.c# of #data.recordcount# row(s). See the STATUS column. (<a href="/tools/BulkloadAttributes.cfm?action=dumpProblems" class="btn-link font-weight-lessbold">download</a>).
 					Fix the problem(s) noted in the status column and <a href="/tools/BulkloadAttributes.cfm" class="text-danger">start again</a>.
 			<cfelse>
 					<span class="text-success">Validation checks passed.</span> Look over the table below and <a href="/tools/BulkloadAttributes.cfm?action=load" class="btn-link font-weight-lessbold">click to continue</a> if it all looks good. Or, <a href="/tools/BulkloadAttributes.cfm" class="text-danger">start again</a>.
@@ -628,11 +630,13 @@ limitations under the License.
 			<cfset problem_key = "">
 			<cftransaction>
 				<cfquery name="getTempData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					SELECT * FROM cf_temp_attributes
+					SELECT * 
+					FROM cf_temp_attributes
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
 				<cfquery name="getCounts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					SELECT count(distinct collection_object_id) ctobj FROM cf_temp_attributes
+					SELECT count(distinct collection_object_id) ctobj 
+					FROM cf_temp_attributes
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
 			<cftry>
