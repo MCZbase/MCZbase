@@ -20,7 +20,9 @@ limitations under the License.
 <!--- special case handling to dump problem data as csv --->
 <cfif isDefined("action") AND action is "dumpProblems">
 	<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-		SELECT institution_acronym,collection_cde,other_id_type,other_id_number,scientific_name,made_date,nature_of_id,accepted_id_fg,identification_remarks,taxa_formula,agent_1,agent_2,stored_as_fg,publication_id
+		SELECT institution_acronym,collection_cde,other_id_type,other_id_number,
+			scientific_name,made_date,nature_of_id,accepted_id_fg,identification_remarks,taxa_formula,
+			agent_1,agent_2,stored_as_fg,publication_id
 		FROM cf_temp_ID
 		WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 	</cfquery>
@@ -317,6 +319,24 @@ limitations under the License.
 	<cfif #action# is "validate">
 		<h2 class="h4">Second step: Data Validation</h2>
 		<cfoutput>
+			<!--- Do not allow other_id_type:other_id_number combinations other than catalog number to be repeated to reduce possibility of duplicated matches --->
+			<cfquery name="getTempOtherCt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				SELECT 
+					other_id_type, other_id_number, collection_cde
+				FROM 
+					cf_temp_ID
+				WHERE 
+					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+					and other_id_type <> 'catalog number'
+				GROUP BY other_id_type, other_id_number, collection_cde
+				HAVING count(*)>1
+			</cfquery>
+			<cfif getTempOtherCt.recordcount GT 1>
+				<cfset error_message = 'You have multiple rows with the same collection_cde, other_id_type, other_id_number combination. Use another set of IDs to identify this cataloged item. <a href="/tools/BulkloadIdentification.cfm">Start over</a>'><!--- ' --->
+				<cfthrow message="#error_message#">
+			</cfif>
+
+			<!--- peform row by row checks, filling in collection object id by other id type --->
 			<cfquery name="getTempTableTypes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT 
 					other_id_type,key
@@ -326,22 +346,6 @@ limitations under the License.
 					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<cfloop query="getTempTableTypes">
-				<!--- TODO: query does not match error message --->
-				<cfquery name="getTempOtherCt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					SELECT 
-						other_id_type
-					FROM 
-						cf_temp_ID
-					WHERE 
-						username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-						and other_id_type <> 'catalog number'
-					GROUP BY other_id_type
-					HAVING count(*)>1
-				</cfquery>
-				<cfif getTempOtherCt.recordcount GT 1>
-					<cfset error_message = 'You have multiple rows with the same collection_cde, other_id_type, other_id_number combination. Use another set of IDs to identify this cataloged item. <a href="/tools/BulkloadIdentification.cfm">Start over</a>'><!--- ' --->
-					<cfthrow message="#error_message#">
-				</cfif>
 				<cfif getTempTableTypes.other_id_type eq 'catalog number'>
 					<!--- either based on catalog_number --->
 					<cfquery name="getCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
