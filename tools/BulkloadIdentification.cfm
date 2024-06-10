@@ -797,7 +797,7 @@ limitations under the License.
 									</cfif>
 								)
 						</cfquery>
-						<cfquery name="insertID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="insertID_result">
+						<cfquery name="insertIDTaxonomy" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="insertID_result">
 								INSERT INTO identification_taxonomy (
 									IDENTIFICATION_ID,
 									TAXON_NAME_ID,
@@ -808,7 +808,7 @@ limitations under the License.
 									'A'
 								)
 						</cfquery>
-						<cfquery name="insertID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="insertID_result">
+						<cfquery name="insertDeterminer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="insertID_result">
 								INSERT INTO identification_agent (
 									IDENTIFICATION_ID,
 									AGENT_ID,
@@ -820,7 +820,7 @@ limitations under the License.
 								)
 						</cfquery>
 						<cfif len(agent_2_id) gt 0>
-							<cfquery name="insertida2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+							<cfquery name="insertDetermier2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 								INSERT INTO identification_agent (
 									IDENTIFICATION_ID,
 									AGENT_ID,
