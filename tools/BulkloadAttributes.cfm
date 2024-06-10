@@ -379,14 +379,14 @@ limitations under the License.
 			<!--- obtain the information needed to QC each row --->
 			<cfquery name="getTempTableQC" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT 
-					attribute_date, key, collection_cde, attribute
+					attribute_date, key, collection_cde, attribute, attribute_value, collection_object_id
 				FROM 
 					cf_temp_attributes
 				WHERE 
 					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<cfloop query="getTempTableQC">
-				<!--- For each row, evaluate the date against expectations and provide an error message --->
+				<!--- For each row, evaluate the data against expectations and provide an error message --->
 				<!---DATE ERROR MESSAGE--->
 				<cfset attDate = isDate(getTempTableQC.attribute_date)>
 				<cfif #attdate# eq 'NO'>
@@ -403,7 +403,7 @@ limitations under the License.
 				<cfquery name="flatAttributeProblems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="flatAttributeProblems_result">
 					UPDATE cf_temp_attributes
 					SET
-						status = concat(nvl2(status, status || '; ', ''),'invalid attribute for collection_cde ' || collection_cde)
+						status = concat(nvl2(status, status || '; ', ''),'Attribute ['|| attribute ||'] not allowed for collection_cde ' || collection_cde)
 					WHERE 
 						attribute IS NOT NULL
 						AND attribute NOT IN (
@@ -422,7 +422,7 @@ limitations under the License.
 					WHERE 
 						attribute IS NOT NULL
 						and attribute_value IS NOT NULL
-						AND attribute || attribute_value NOT IN (
+						AND attribute || attribute_value IN (
 							SELECT attribute_type || attribute_value
 							FROM attributes
 							WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableQC.collection_object_id#">
@@ -430,7 +430,7 @@ limitations under the License.
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
 				</cfquery>
-				<!--- check against code tables --->
+				<!--- check against attribute code tables --->
 				<cfquery name="ctAttribute_code_tables" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					select upper(value_code_table) as value_code_table, upper(units_code_table) as units_code_table
 					FROM ctattribute_code_tables
