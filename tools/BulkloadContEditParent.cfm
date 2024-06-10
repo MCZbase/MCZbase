@@ -412,14 +412,17 @@ limitations under the License.
 	<cfif action is "load">
 		<h2 class="h4">Third step: Apply changes.</h2>
 		<cfoutput>
-			<cfquery name="getTempData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				SELECT * FROM cf_temp_cont_edit
-				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-			</cfquery>
-			<cftry>
-				<cfset container_type_updates = 0>
-				<cftransaction>
+			<cftransaction>
+				<cfquery name="getTempData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					SELECT * FROM cf_temp_cont_edit
+					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+				</cfquery>
+				<cftry>
+					<cfset stage = "containerType"> 
+					<cfset container_type_updates = 0>
+					<cfset problem_key = "">
 					<cfloop query="getTempData">
+						<cfset problem_key = getTempData.key>
 						<cfquery name="updateContainer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateContainer_result">
 							UPDATE
 								container 
@@ -430,40 +433,8 @@ limitations under the License.
 						</cfquery>
 						<cfset container_type_updates = container_type_updates + updateContainer_result.recordcount>
 					</cfloop>
-				</cftransaction>
-			<cfcatch>
-				<h3>There was a problem updating container types.</h3>
-				<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					SELECT container_unique_id,parent_unique_id,container_type,container_name, status 
-					FROM cf_temp_cont_edit 
-					WHERE status is not null
-						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-				</cfquery>
-				<h3>Problematic Rows (<a href="/tools/BulkloadContEditParent.cfm?action=dumpProblems">download</a>)</h3>
-				<table class='sortable table table-responsive table-striped d-lg-table'>
-					<thead>
-						<tr>
-							<th>container_unique_id</th><th>parent_unique_id</th><th>container_type</th><th>container_name</th><th>status</th>
-						</tr> 
-					</thead>
-					<tbody>
-						<cfloop query="getProblemData">
-							<tr>
-								<td>#getProblemData.container_unique_id#</td>
-								<td>#getProblemData.parent_unique_id#</td>
-								<td>#getProblemData.container_type#</td>
-								<td>#getProblemData.container_name#</td>
-								<td>#getProblemData.status#</td>
-							</tr> 
-						</cfloop>
-					</tbody>
-				</table>
-				<cfrethrow>
-			</cfcatch>
-			</cftry>
-			<cfset problem_key = "">
-			<cftransaction>
-				<cftry>
+					<cfset problem_key = "">
+					<cfset stage = "containerUpdate"> 
 					<cfset container_updates = 0>
 					<cfloop query="getTempData">
 						<cfset problem_key = getTempData.key>
@@ -498,6 +469,11 @@ limitations under the License.
 					<cftransaction action="commit">
 				<cfcatch>
 					<cftransaction action="rollback">
+					<cfif stage="containerType">
+						<h3>There was a problem updating container types.</h3>
+					<cfelse>
+						<h3>There was a problem updating the containers.</h3>
+					</cfif>
 					<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						SELECT container_unique_id,parent_unique_id,container_type,container_name, status 
 						FROM cf_temp_cont_edit 
@@ -526,7 +502,6 @@ limitations under the License.
 							</cfloop>
 						</tbody>
 					</table>
-					<cfrethrow>
 				</cfcatch>
 				</cftry>
 			</cftransaction>
