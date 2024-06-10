@@ -502,7 +502,7 @@ limitations under the License.
 					<cfelse>
 						<cfquery name="probColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 							UPDATE cf_temp_ID
-							SET status = concat(nvl2(status, status || '; ', ''),'multiple taxonomy records found for this scientific name ['|| TaxonomyTaxonName ||']')
+							SET status = concat(nvl2(status, status || '; ', ''),'multiple taxonomy records found for this scientific name [#TaxonomyTaxonName#]')
 							WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 								and scientific_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#TaxonomyTaxonName#">
 								and key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableQC.key#">
