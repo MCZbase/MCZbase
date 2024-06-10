@@ -746,17 +746,28 @@ limitations under the License.
 								</span>
 							</cfif>
 						</h3>
+						<!--- Note: we can not link to a dump of the temp table as it will be cleared for this user at the end of this step --->
+						<p>Fix the problems and <a href="/tools/BulkloadAttributes.cfm">Reload your file</a></p> 
 						<table class='px-0 sortable small table-danger w-100 table table-responsive table-striped mt-3'>
 							<thead>
-								<tr><th>COUNT</th><th>STATUS</th>
-									<th>INSTITUTION_ACRONYM</th><th>COLLECTION_CDE</th><th>OTHER_ID_TYPE</th><th>OTHER_ID_NUMBER</th><th>ATTRIBUTE</th><th>ATTRIBUTE_VALUE</th><th>ATTRIBUTE_UNITS</th><th>ATTRIBUTE_DATE</th><th>ATTRIBUTE_METH</th><th>DETERMINER</th><th>REMARKS</th>
+								<tr>
+									<th>STATUS</th>
+									<th>INSTITUTION_ACRONYM</th>
+									<th>COLLECTION_CDE</th>
+									<th>OTHER_ID_TYPE</th>
+									<th>OTHER_ID_NUMBER</th>
+									<th>ATTRIBUTE</th>
+									<th>ATTRIBUTE_VALUE</th>
+									<th>ATTRIBUTE_UNITS</th>
+									<th>ATTRIBUTE_DATE</th>
+									<th>ATTRIBUTE_METH</th>
+									<th>DETERMINER</th>
+									<th>REMARKS</th>
 								</tr> 
 							</thead>
 							<tbody>
-								<cfset i=1>
 								<cfloop query="getProblemData">
 									<tr>
-										<td>#i#</td>
 										<td>#getProblemData.status# </td>
 										<td>#getProblemData.institution_acronym# </td>
 										<td>#getProblemData.collection_cde# </td>
@@ -770,7 +781,6 @@ limitations under the License.
 										<td>#getProblemData.determiner# </td>
 										<td>#getProblemData.remarks# </td>
 									</tr>
-									<cfset i= i+1>
 								</cfloop>
 							</tbody>
 						</table>
