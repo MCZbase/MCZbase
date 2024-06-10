@@ -545,18 +545,14 @@ limitations under the License.
 						</cfquery>
 						<cfset relations_updates = relations_updates + updateRelations_result.recordcount>
 						<cfif updateRelations1_result.recordcount gt 0>
-							<cftransaction action = "ROLLBACK">
-						<cfelse>
-							<cftransaction action="COMMIT">
+							<cfthrow message = "Error: insert would create duplicate relationship.">
 						</cfif>
 					</cfloop>
 					<p>Number of relations to update: #relations_updates# (on #getCounts.ctobj# cataloged items)</p>
 					<cfif getTempData.recordcount eq relations_updates and updateRelations1_result.recordcount eq 0>
 						<h2 class="text-success">Success - loaded</h2>
 					</cfif>
-					<cfif updateRelations1_result.recordcount gt 0>
-						<h2 class="text-danger">Not loaded - these have already been loaded</h2>
-					</cfif>
+						<cftransaction action="COMMIT">
 					<cfcatch>
 						<cftransaction action="ROLLBACK">
 						<h2 class="h3">There was a problem updating the relations.</h2>

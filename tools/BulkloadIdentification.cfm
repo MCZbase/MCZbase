@@ -57,6 +57,11 @@ limitations under the License.
 		<cfoutput>
 			<p>This tool is used to bulkload identifications.Upload a comma-delimited text file (csv). Include column headings, spelled exactly as below. Additional colums will be ignored.</p>
 			<p>Indentification bulkloads support one scientific name with any taxon formula that includes only the A taxon, and up to two agents as the determiners.</p>
+			<p>See controlled vocabularies for: 
+				<a href="/vocabularies/ControlledVocabulary.cfm?table=CTNATURE_OF_ID" target="_blank">NATURE_OF_ID</a>, 
+				<a href="/vocabularies/ControlledVocabulary.cfm?table=CTTAXA_FORMULA" target="_blank">TAXA_FORMULA</a>, and
+				<a href="/vocabularies/ControlledVocabulary.cfm?table=CTCOLL_OTHER_ID_TYPE" target="_blank">OTHER_ID_TYPE</a> (with "catalog number" as an additional option).
+			</p>
 			<span class="btn btn-xs btn-info" onclick="document.getElementById('template').style.display='block';">View template</span>
 			<div id="template" class="my-1 mx-0" style="display:none;">
 				<label for="templatearea" class="data-entry-label mb-1">
@@ -526,7 +531,7 @@ limitations under the License.
 				<cfif #a1.recordcount# is not 1>
 					<cfif len(#a1.agent_id#) is 0>
 						UPDATE cf_temp_ID
-						SET status = concat(nvl2(status, status || '; ', ''),'agent_1 not in database')
+						SET status = concat(nvl2(status, status || '; ', ''),'agent_1 ['|| agent_1 ||'] not in database')
 						WHERE agent_1 is not null
 							AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 							and key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableQC.key#">
@@ -556,7 +561,7 @@ limitations under the License.
 						<cfif len(#a2.agent_id#) is 0>
 							<cfquery name="agentError" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 								UPDATE cf_temp_ID
-								SET status = concat(nvl2(status, status || '; ', ''),'agent_2 not found in database')
+								SET status = concat(nvl2(status, status || '; ', ''),'agent_2 ['|| agent_2 ||'] not found in database')
 								WHERE agent_2 is not null
 									AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 									and key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableQC.key#">

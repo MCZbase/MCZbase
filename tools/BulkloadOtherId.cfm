@@ -491,9 +491,8 @@ limitations under the License.
 						</cfquery>
 						<cfset testParse = testParse + 1>
 						<cfif updateParse_result.recordcount gt 0>
-							<cftransaction action = "ROLLBACK">
+							<cfthrow message = "Error: insert would create a duplicate other id type : other id value pair.">
 						<cfelse>
-							<cftransaction action="COMMIT">
 						</cfif>
 						<cfset i = i+1>
 					</cfloop>
@@ -501,10 +500,7 @@ limitations under the License.
 						<p>Number of Other IDs updated: #i# (on #getCounts.ctobj# cataloged items)</p>
 						<h2 class="text-success">Success - loaded</h2>
 					</cfif>
-					<cfif updateParse_result.recordcount gt 0>
-						<p>Attempted to update #i# Other IDs (on #getCounts.ctobj# cataloged items)</p>
-						<h2 class="text-danger">Not loaded - these have already been loaded</h2>
-					</cfif>
+					<cftransaction action="COMMIT">
 				<cfcatch>
 					<cftransaction action="ROLLBACK">
 					<h2 class="text-danger mt-4">There was a problem updating the Other IDs.</h2>

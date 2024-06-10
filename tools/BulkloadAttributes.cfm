@@ -672,18 +672,14 @@ limitations under the License.
 						</cfquery>
 						<cfset attributes_updates = attributes_updates + updateAttributes_result.recordcount>
 						<cfif updateAttributes1_result.recordcount gt 0>
-							<cftransaction action = "ROLLBACK">
-						<cfelse>
-							<cftransaction action="COMMIT">
+							<cfthrow message = "Error: attempting to insert duplicated attribute.">
 						</cfif>
 					</cfloop>
 					<p>Number of attributes to update: #attributes_updates# (on #getCounts.ctobj# cataloged items)</p>
 					<cfif getTempData.recordcount eq attributes_updates and updateAttributes1_result.recordcount eq 0>
 						<h3 class="text-success">Success - loaded</h3>
 					</cfif>
-					<cfif updateAttributes1_result.recordcount gt 0>
-						<h3 class="text-danger">Not loaded - these have already been loaded</h3>
-					</cfif>
+					<cftransaction action="COMMIT">
 				<cfcatch>
 					<cftransaction action="ROLLBACK">
 					<h3>There was a problem updating the attributes.</h3>
