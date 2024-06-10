@@ -749,8 +749,7 @@ limitations under the License.
 							SELECT sq_identification_id.nextval from dual
 						</cfquery>
 						<cfquery name="insertID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="insertID_result">
-								insert all
-								into identification (
+								INSERT INTO identification (
 									IDENTIFICATION_ID,
 									COLLECTION_OBJECT_ID,
 									MADE_DATE,
@@ -781,32 +780,36 @@ limitations under the License.
 										''
 									</cfif>
 								)
-								into identification_taxonomy (
+						</cfquery>
+						<cfquery name="insertID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="insertID_result">
+								INSERT INTO identification_taxonomy (
 									IDENTIFICATION_ID,
 									TAXON_NAME_ID,
 									VARIABLE
-								) values (
+								) VALUES (
 									<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#NEXTID.nextval#">,
 									<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.TAXON_NAME_ID#">,
-									'A')
-								into identification_agent (
+									'A'
+								)
+						</cfquery>
+						<cfquery name="insertID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="insertID_result">
+								INSERT INTO identification_agent (
 									IDENTIFICATION_ID,
 									AGENT_ID,
 									IDENTIFIER_ORDER
-								) values (
+								) VALUES (
 									<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#NEXTID.nextval#">,
 									<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.AGENT_1_ID#">,
 									1
 								)
-								select * from dual
 						</cfquery>
 						<cfif len(agent_2_id) gt 0>
 							<cfquery name="insertida2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-								insert into identification_agent (
+								INSERT INTO identification_agent (
 									IDENTIFICATION_ID,
 									AGENT_ID,
 									IDENTIFIER_ORDER
-								) values (
+								) VALUES (
 									<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#NEXTID.nextval#">,
 									<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.AGENT_2_ID#">,
 									2
