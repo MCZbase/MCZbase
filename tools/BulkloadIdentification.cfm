@@ -491,10 +491,10 @@ limitations under the License.
 					WHERE scientific_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#TaxonomyTaxonName#">
 				</cfquery>
 				<cfif #isTaxon.recordcount# is not 1>
-					<cfif len(#isTaxon.recordcount#) is 0>
+					<cfif #isTaxon.recordcount# is 0>
 						<cfquery name="probColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 							UPDATE cf_temp_ID
-							SET status = concat(nvl2(status, status || '; ', ''),'taxon record for ' || scientific_name || ' not found')
+							SET status = concat(nvl2(status, status || '; ', ''),'taxon record for ' || scientific_name || ' not found, it may contain an incorrect forumula.')
 							WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 								and scientific_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#TaxonomyTaxonName#">
 								and key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableQC.key#">
@@ -502,7 +502,7 @@ limitations under the License.
 					<cfelse>
 						<cfquery name="probColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 							UPDATE cf_temp_ID
-							SET status = concat(nvl2(status, status || '; ', ''),'multiple taxonomy records found for this scientific name [#TaxonomyTaxonName#]')
+							SET status = concat(nvl2(status, status || '; ', ''),'multiple taxonomy records found for this scientific name [' || scientific_name || ']')
 							WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 								and scientific_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#TaxonomyTaxonName#">
 								and key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableQC.key#">
