@@ -325,6 +325,7 @@ limitations under the License.
 				WHERE 
 					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
+			<!--- loop through rows, lookup collection_object_id  --->
 			<cfloop query="getTempTableTypes">
 				<cfif getTempTableTypes.existing_other_id_type eq 'catalog number'>
 					<!--- either based on catalog_number --->
@@ -385,7 +386,7 @@ limitations under the License.
 			<cfquery name="flagNotMatchedExistOther_ID_Type1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				UPDATE cf_temp_oids
 				SET 
-					status = concat(nvl2(status, status || '; ', ''), 'Unknown existing_other_id_type: "' || existing_other_id_type ||'"&mdash;not on list')
+					status = concat(nvl2(status, status || '; ', ''), 'Unknown existing_other_id_type: "' || existing_other_id_type ||'" not in controlled vocabulary.')
 				WHERE existing_other_id_type is not null 
 					AND existing_other_id_type <> 'catalog number'
 					AND existing_other_id_type not in (select other_id_type from ctcoll_other_id_type)
@@ -394,13 +395,13 @@ limitations under the License.
 			<cfquery name="flagNotMatchedExistOther_ID_Type2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				UPDATE cf_temp_oids
 				SET 
-					status = concat(nvl2(status, status || '; ', ''), 'Unknown new_other_id_type: "' || new_other_id_type ||'"&mdash;not on list')
+					status = concat(nvl2(status, status || '; ', ''), 'Unknown new_other_id_type: "' || new_other_id_type ||'" not in controlled vocabulary.')
 				WHERE new_other_id_type is not null 
 					AND new_other_id_type <> 'catalog number'
 					AND new_other_id_type not in (select other_id_type from ctcoll_other_id_type)
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
-			<!---Missing data in required fields--->
+			<!--- Missing data in required fields, these should be caught in load. --->
 			<cfloop list="#requiredfieldlist#" index="requiredField">
 				<cfquery name="checkRequired" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE cf_temp_oids
