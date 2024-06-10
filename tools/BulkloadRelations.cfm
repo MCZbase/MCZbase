@@ -33,7 +33,7 @@ limitations under the License.
 <!--- end special case dump of problems --->
 <cfset fieldlist="INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_VALUE,RELATIONSHIP,RELATED_INSTITUTION_ACRONYM,RELATED_COLLECTION_CDE,RELATED_OTHER_ID_TYPE,RELATED_OTHER_ID_VALUE,BIOL_INDIV_RELATION_REMARKS">
 <cfset fieldTypes="CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR">
-<cfset requiredfieldlist="INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_VALUE,RELATIONSHIP,RELATED_INSTITUTION_ACRONYM,RELATED_COLLECTION_CDE,RELATED_OTHER_ID_TYPE,RELATED_OTHER_ID_VALUE,BIOL_INDIV_RELATION_REMARKS">
+<cfset requiredfieldlist="INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_VALUE,RELATIONSHIP,RELATED_INSTITUTION_ACRONYM,RELATED_COLLECTION_CDE,RELATED_OTHER_ID_TYPE,RELATED_OTHER_ID_VALUE">
 <!--- special case handling to dump column headers as csv --->
 <cfif isDefined("action") AND action is "getCSVHeader">
 	<cfset csv = "">
@@ -455,9 +455,14 @@ limitations under the License.
 			
 			<!--- report on problems, if any --->
 			<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				SELECT INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_VALUE,COLLECTION_OBJECT_ID,RELATED_INSTITUTION_ACRONYM,RELATED_COLLECTION_CDE,RELATED_OTHER_ID_TYPE,RELATED_OTHER_ID_VALUE,RELATED_COLLECTION_OBJECT_ID,RELATIONSHIP,BIOL_INDIV_RELATION_REMARKS,STATUS
+				SELECT 
+					INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_VALUE,COLLECTION_OBJECT_ID,
+					RELATED_INSTITUTION_ACRONYM,RELATED_COLLECTION_CDE,RELATED_OTHER_ID_TYPE,RELATED_OTHER_ID_VALUE,RELATED_COLLECTION_OBJECT_ID,
+					RELATIONSHIP,BIOL_INDIV_RELATION_REMARKS,
+					STATUS
 				FROM CF_TEMP_BL_RELATIONS
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+				ORDER BY key
 			</cfquery>
 			<cfquery name="pf" dbtype="query">
 				SELECT count(*) c 
@@ -529,18 +534,23 @@ limitations under the License.
 					</cfif>
 					<cfloop query="getTempData">
 						<cfset problem_key = getTempData.key>
+						<!--- Note: created_by added with trigger --->
 						<cfquery name="updateRelations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateRelations_result">
 							INSERT INTO 
 								BIOL_INDIV_RELATIONS (
 								collection_object_id,
 								related_coll_object_id,
 								biol_indiv_relationship,
-								biol_indiv_relation_remarks
+								<cfif len(getTempData.biol_indiv_relation_remarks) GT 0> 
+									biol_indiv_relation_remarks
+								</cfif>
 							) VALUES (
 								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.collection_object_id#">,
 								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.related_collection_object_id#">,
 								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.relationship#">,
-								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.biol_indiv_relation_remarks#">
+								<cfif len(getTempData.biol_indiv_relation_remarks) GT 0> 
+									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.biol_indiv_relation_remarks#">
+								</cfif>
 							)
 						</cfquery>
 						<cfquery name="updateRelations1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateRelations1_result">
