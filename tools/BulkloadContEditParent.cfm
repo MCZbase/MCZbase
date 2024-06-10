@@ -469,7 +469,7 @@ limitations under the License.
 					<cftransaction action="commit">
 				<cfcatch>
 					<cftransaction action="rollback">
-					<cfif stage="containerType">
+					<cfif stage EQ "containerType">
 						<h3>There was a problem updating container types.</h3>
 					<cfelse>
 						<h3>There was a problem updating the containers.</h3>
