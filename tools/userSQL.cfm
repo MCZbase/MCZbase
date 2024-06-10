@@ -91,7 +91,7 @@ limitations under the License.
 							<cfif session.username is "uam" or session.username is "uam_update">
 								<cfabort>
 							</cfif>
-							<cfquery name="user_sql" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+							<cfquery name="user_sql" datasource="user_login_sql" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 								#preservesinglequotes(sql)#
 							</cfquery>
 							<cfif format is "csv">
