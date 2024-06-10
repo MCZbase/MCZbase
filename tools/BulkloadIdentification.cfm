@@ -645,7 +645,7 @@ limitations under the License.
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				and taxon_name_id IS NULL
 			</cfquery>
-			<!---Missing data in required fields, which should be caught in upload step --->
+			<!---Missing data in required fields, if columns are present in uploaded file, but values are blank. --->
 			<cfloop list="#requiredfieldlist#" index="requiredField">
 				<cfquery name="checkRequired" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE cf_temp_id
