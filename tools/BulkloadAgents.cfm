@@ -361,7 +361,7 @@ limitations under the License.
 					status = concat(nvl2(status, status || '; ', ''),'Agent type not valid - check controlled vocabulary')
 				WHERE 
 					agent_type not in (select agent_type from ctagent_type) AND
-					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> AND
+					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<cfif len(prefix) gt 0>
 				<cfquery name="invAgntPrefix" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
