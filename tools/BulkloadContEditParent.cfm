@@ -24,6 +24,7 @@ limitations under the License.
 			status 
 		FROM cf_temp_cont_edit 
 		WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+		ORDER BY key
 	</cfquery>
 	<cfinclude template="/shared/component/functions.cfc">
 	<cfset csv = queryToCSV(getProblemData)>
@@ -356,6 +357,7 @@ limitations under the License.
 						HEIGHT, LENGTH, NUMBER_POSITIONS, CONTAINER_ID, PARENT_CONTAINER_ID, STATUS 
 					FROM cf_temp_cont_edit
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+					ORDER BY key
 				</cfquery>
 				<cfquery name="pf" dbtype="query">
 					SELECT count(*) c 
