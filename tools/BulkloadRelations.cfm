@@ -58,9 +58,10 @@ limitations under the License.
 	<h1 class="h2 mt-2">Bulkload Relations</h1>
 	<cfif #action# is "nothing">
 		<cfoutput>
-			<p>This tool adds biological relationships to the specimen record. Include column headings, spelled exactly as below.  Additional columns will be ignored.  </p>
+			<p>This tool adds biological relationships to the specimen record. Include column headings, spelled exactly as below.  Additional columns will be ignored.</p>
 			<p>Identify cataloged items to relate with institution codes, collection codes, and other ids, where other_id_type can be <strong>catalog number</strong> or one of the other id types in <a href="/vocabularies/ControlledVocabulary.cfm?table=CTCOLL_OTHER_ID_TYPE">CTCOLL_OTHER_ID_TYPE</a>.  You must identify the cataloged item on each side of the relationship.</p>
 			<p>The relationships must appear as they do on the controlled vocabulary for <a href="/vocabularies/ControlledVocabulary.cfm?table=CTBIOL_RELATIONS">BIOL_RELATIONS</a> Upload a comma-delimited text file (csv).  Assert the BIOL_INDIV_RELATIONSHIP, not the inverse relationship.  The relationship (and inverse relationship) must be in the code table prior to uploading this .csv.</p>
+			<p>To assert that MCZ:Orn:200 is the egg of MCZ:Orn:1, use other_id_value=200, relationship=egg of, related_other_id_value=1.  Only the forward relationships are stored in the database.<p>
 			</p>
 			<span class="btn btn-xs btn-info" onclick="document.getElementById('template').style.display='block';">View template</span>
 			<div id="template" style="margin: 1rem 0;display:none;">
@@ -431,7 +432,7 @@ limitations under the License.
 					<cfif getRelType.rel_type EQ 'functional'>
 						<cfquery name="flagRelationshipNotFound" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							UPDATE CF_TEMP_BL_RELATIONS
-							SET status = concat(nvl2(status, status || '; ', ''),'Relationship ' || relationship || ' has type functional, and can not be added here.')
+							SET status = concat(nvl2(status, status || '; ', ''),'Relationship [' || relationship || '] has type functional, and can not be added here.')
 							WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 								and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableTypes.key#"> 
 						</cfquery>
@@ -481,6 +482,14 @@ limitations under the License.
 				SET status = concat(nvl2(status, status || '; ', ''),'Bad relationship, not in controlled vocabulary.')
 				WHERE relationship not in (select biol_indiv_relationship from ctbiol_relations)
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+			</cfquery>
+			<!--- check for inverse relationships --->
+			<!--- we could accept both, and invert the object/related object, but this is likely to cause user errors --->
+			<cfquery name="flagRelationshipNotFound" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				UPDATE CF_TEMP_BL_RELATIONS
+				SET status = concat(nvl2(status, status || '; ', ''),'The value [' || relationship || ' is an inverse relationship, only values of biol_indiv_relationship can be used.')
+				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+					and relationship in (select inverse_relation from CTBIOL_RELATIONS where biol_indiv_relationship <> inverse_relation) 
 			</cfquery>
 			
 			<!--- report on problems, if any --->
