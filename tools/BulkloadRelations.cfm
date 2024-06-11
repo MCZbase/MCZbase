@@ -58,7 +58,11 @@ limitations under the License.
 	<h1 class="h2 mt-2">Bulkload Relations</h1>
 	<cfif #action# is "nothing">
 		<cfoutput>
-			<p>This tool adds biological relationships to the specimen record. The relationship and inverse relationship has to be in the code table prior to uploading this .csv. It ignores rows that are exactly the same. Additional columns will be ignored. The relationships must appear as they do on the <a href="https://mczbase.mcz.harvard.edu/vocabularies/ControlledVocabulary.cfm?" class="font-weight-bold">controlled vocabularies</a> lists for <a href="/vocabularies/ControlledVocabulary.cfm?table=CTBIOL_RELATIONS">BIOL_RELATIONS</a> and for some attributes the controlled vocabularies are listed in <a href="/vocabularies/ControlledVocabulary.cfm?table=CTBIOL_RELATIONS">BIOL_RELATIONS</a>. Upload a comma-delimited text file (csv). Include column headings, spelled exactly as below. Use "catalog number" as the value of other_id_type to match on catalog number.</p>
+			<p>This tool adds biological relationships to the specimen record. Include column headings, spelled exactly as below.  Additional columns will be ignored.</p>
+			<p>Identify cataloged items to relate with institution codes, collection codes, and other ids, where other_id_type can be <strong>catalog number</strong> or one of the other id types in <a href="/vocabularies/ControlledVocabulary.cfm?table=CTCOLL_OTHER_ID_TYPE">CTCOLL_OTHER_ID_TYPE</a>.  You must identify the cataloged item on each side of the relationship.</p>
+			<p>The relationships must appear as they do on the controlled vocabulary for <a href="/vocabularies/ControlledVocabulary.cfm?table=CTBIOL_RELATIONS">BIOL_RELATIONS</a> Upload a comma-delimited text file (csv).  Assert the BIOL_INDIV_RELATIONSHIP, not the inverse relationship.  The relationship (and inverse relationship) must be in the code table prior to uploading this .csv.</p>
+			<p>To assert that MCZ:Orn:200 is the egg of MCZ:Orn:1, use other_id_value=200, relationship=egg of, related_other_id_value=1.  Only the forward relationships are stored in the database.<p>
+			</p>
 			<span class="btn btn-xs btn-info" onclick="document.getElementById('template').style.display='block';">View template</span>
 			<div id="template" style="margin: 1rem 0;display:none;">
 				<label for="templatearea" class="data-entry-label mb-1">
@@ -329,9 +333,13 @@ limitations under the License.
 		<cfoutput>
 			<h2 class="h4">Second step: Data Validation</h2>
 			<cfquery name="getTempTableTypes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				select other_id_type,other_id_value,collection_cde,related_collection_cde,related_other_id_type,related_other_id_value,key 
-				from cf_temp_bl_relations 
-				where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+				SELECT other_id_type,other_id_value,collection_cde,
+					related_collection_cde,related_other_id_type,
+					related_other_id_value,
+					relationship,
+					key 
+				FROM cf_temp_bl_relations 
+				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<cfset i= 1>
 			<cfloop query="getTempTableTypes">
@@ -350,7 +358,7 @@ limitations under the License.
 							),
 							status = null
 						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-							and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableTypes.key#"> 
+							and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableTypes.key#"> 
 					</cfquery>
 				<cfelse>
 					<!--- or on specified other identifier --->
@@ -368,7 +376,7 @@ limitations under the License.
 							),
 							status = null
 						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-							and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableTypes.key#"> 
+							and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableTypes.key#"> 
 					</cfquery>
 				</cfif>
 				<!--- For each row, and (2) the related  target collection_object_id --->
@@ -386,7 +394,7 @@ limitations under the License.
 							),
 							status = null
 						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-							and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableTypes.key#"> 
+							and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableTypes.key#"> 
 					</cfquery>
 				<cfelse>
 					<!--- or on specified other identifier --->
@@ -404,7 +412,79 @@ limitations under the License.
 							),
 							status = null
 						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-							and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableTypes.key#"> 
+							and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableTypes.key#"> 
+					</cfquery>
+				</cfif>
+				<!--- check that the relationship is not functional --->
+				<cfquery name="getRelType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					SELECT rel_type 
+					FROM ctbiol_relations
+					WHERE biol_indiv_relationship = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableTypes.relationship#">
+				</cfquery>
+				<cfif getRelType.recordcount EQ 0>
+					<cfquery name="flagRelationshipNotFound" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						UPDATE CF_TEMP_BL_RELATIONS
+						SET status = concat(nvl2(status, status || '; ', ''),'Unknown relationship [' || relationship || '] must be in BIOL_RELATIONS controlled vocabulary.')
+						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+							and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableTypes.key#"> 
+					</cfquery>
+				<cfelse>
+					<cfif getRelType.rel_type EQ 'functional'>
+						<cfquery name="flagRelationshipFunctional" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+							UPDATE CF_TEMP_BL_RELATIONS
+							SET status = concat(nvl2(status, status || '; ', ''),'Relationship [' || relationship || '] has type functional, and can not be added here.')
+							WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+								and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableTypes.key#"> 
+						</cfquery>
+					</cfif>
+				</cfif>
+			</cfloop>
+
+			<!--- validation checks on individual rows, with collection_object_id values added --->
+			<cfquery name="getTempWithIds" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				SELECT key, 
+					institution_acronym, collection_cde, other_id_type, other_id_value, 
+					relationship, 
+					related_institution_acronym, related_collection_cde, related_other_id_type, related_other_id_value, 
+					collection_object_id, related_collection_object_id, 
+					biol_indiv_relation_remarks  
+				FROM cf_temp_bl_relations 
+				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+			</cfquery>
+			<!--- check for duplicate relationships --->
+			<cfloop query = "getTempWithIds">
+				<!--- check for existing records that would be duplicated by this load --->
+				<cfquery name="findExisting" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					SELECT count(*) ct
+					FROM biol_indiv_relations
+					WHERE
+						collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempWithIds.collection_object_id#"> 
+						and related_coll_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempWithIds.related_collection_object_id#"> 
+						and biol_indiv_relationship = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempWithIds.relationship#"> 
+				</cfquery>
+				<cfif findExisting.ct GT 0>
+					<cfquery name="flagDuplicatedExisting" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						UPDATE CF_TEMP_BL_RELATIONS
+						SET status = concat(nvl2(status, status || '; ', ''),'Relationship of this type between these two objects already exists.')
+						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+							and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempWithIds.key#"> 
+					</cfquery>
+				</cfif>
+				<!--- check for rows in this load that would create duplicates --->
+				<cfquery name="findDuplicates" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					SELECT count(*) ct
+					FROM cf_temp_bl_relations
+					WHERE
+						collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempWithIds.collection_object_id#"> 
+						and related_collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempWithIds.related_collection_object_id#"> 
+						and relationship = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempWithIds.relationship#"> 
+				</cfquery>
+				<cfif findDuplicates.ct GT 1>
+					<cfquery name="flagDuplicatedInternal" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						UPDATE CF_TEMP_BL_RELATIONS
+						SET status = concat(nvl2(status, status || '; ', ''),'Two rows in this file have the same relationship between these two objects, remove one of these two duplicates.')
+						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+							and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempWithIds.key#"> 
 					</cfquery>
 				</cfif>
 			</cfloop>
@@ -418,7 +498,7 @@ limitations under the License.
 			</cfquery>
 			<cfquery name="miar" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				UPDATE CF_TEMP_BL_RELATIONS
-				SET status = concat(nvl2(status, status || '; ', ''),'related_collection_object_id is null, unable to find cataloged item from provided related other id.')
+				SET status = concat(nvl2(status, status || '; ', ''),'related_collection_object_id is null, unable to find related cataloged item from provided related other id.')
 				WHERE related_collection_object_id is null
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
@@ -446,11 +526,13 @@ limitations under the License.
 				WHERE related_collection_cde is null
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
-			<cfquery name="miap" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+			<!--- check for inverse relationships --->
+			<!--- we could accept both, and invert the object/related object, but this is likely to cause user errors --->
+			<cfquery name="flagRelationshipInverse" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				UPDATE CF_TEMP_BL_RELATIONS
-				SET status = concat(nvl2(status, status || '; ', ''),'Bad relationship, not in controlled vocabulary.')
-				WHERE relationship not in (select biol_indiv_relationship from ctbiol_relations)
-					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+				SET status = concat(nvl2(status, status || '; ', ''),'The value [' || relationship || '] is an inverse relationship, only values of biol_indiv_relationship can be used.')
+				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+					and relationship in (select inverse_relation from CTBIOL_RELATIONS where biol_indiv_relationship <> inverse_relation) 
 			</cfquery>
 			
 			<!--- report on problems, if any --->

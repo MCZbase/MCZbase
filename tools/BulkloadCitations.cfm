@@ -561,6 +561,7 @@ limitations under the License.
 				occurs_page_number,citation_page_uri,cited_taxon_name_id,type_status,citation_remarks,collection_object_id,status
 				FROM cf_temp_citation
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+				ORDER BY key
 			</cfquery>
 			<cfquery name="problemsInData" dbtype="query">
 				SELECT count(*) c 
