@@ -440,6 +440,37 @@ limitations under the License.
 				</cfif>
 			</cfloop>
 
+			<!--- validation checks on individual rows, with collection_object_id values added --->
+			<cfquery name="getTempWithIds" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				SELECT key, 
+					institution_acronym, collection_cde, other_id_type, other_id_value, 
+					relationship, 
+					related_institution_acronym, related_collection_cde, related_other_id_type, related_other_id_value, 
+					collection_object_id, related_collection_object_id, 
+					biol_indiv_relation_remarks  
+				FROM cf_temp_bl_relations 
+				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+			</cfquery>
+			<!--- check for duplicate relationships --->
+			<cfloop query = "getTempWithIds">
+				<cfquery name="findExisting" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					SELECT count(*) ct
+					FROM biol_indiv_relations
+					WHERE
+						collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempWithIds.collection_object_id#"> 
+						and related_coll_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempWithIds.related_collection_object_id#"> 
+						and biol_indiv_relationship = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempWithIds.relationship#"> 
+				</cfquery>
+				<cfif findExisting.ct GT 0>
+					<cfquery name="flagDuplicated" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						UPDATE CF_TEMP_BL_RELATIONS
+						SET status = concat(nvl2(status, status || '; ', ''),'Relationship of this type between these two objects already exists.')
+						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+							and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableTypes.key#"> 
+					</cfquery>
+				</cfif>
+			</cfloop>
+
 			<!--- perform validation checks in bulk --->
 			<cfquery name="miaa" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				UPDATE CF_TEMP_BL_RELATIONS
