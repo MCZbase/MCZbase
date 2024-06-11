@@ -487,7 +487,12 @@ limitations under the License.
 							AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
 						</cfquery>	
 						<cfquery name="chkPAttCT" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-							select cf_temp_parts.part_att_name_#i#,cf_temp_parts.part_att_val_#i#,cf_temp_parts.collection_cde,ctspecpart_attribute_type.attribute_type,decode(value_code_tables, null, unit_code_tables,value_code_tables) code_table from ctspecpart_attribute_type, cf_temp_parts where attribute_type = '||PART_ATT_NAME_#i#||'
+							SELECT cf_temp_parts.part_att_name_#i#,cf_temp_parts.part_att_val_#i#,
+								cf_temp_parts.collection_cde,
+								ctspecpart_attribute_type.attribute_type,
+								decode(value_code_table, null, unit_code_table,value_code_table) code_table 
+							FROM ctspecpart_att_att, cf_temp_parts 
+							WHERE attribute_type = '||PART_ATT_NAME_#i#||'
 							AND cf_temp_parts.part_att_name_#i# = attribute_type
 							and cf_temp_parts.part_att_val_#i# is not null
 							AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
@@ -560,7 +565,7 @@ limitations under the License.
 							update cf_temp_parts set status = concat(nvl2(status, status || '; ', ''), 'PART_ATT_UNITS_#i# is not valid for attribute "'||PART_ATT_NAME_#i#||'". See code table.')
 							where MCZBASE.CHK_SPECPART_ATT_CODETABLES(PART_ATT_NAME_#i#,PART_ATT_UNITS_#i#,COLLECTION_CDE)=0
 							and PART_ATT_NAME_#i# in
-							(select attribute_type from ctspecpart_attribute_type where unit_code_tables is not null)
+							(select attribute_type from ctspecpart_att_att where unit_code_table is not null)
 							AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 							AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
 						</cfquery>
