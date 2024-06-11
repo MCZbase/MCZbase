@@ -19,9 +19,15 @@ limitations under the License.
 <!--- special case handling to dump problem data as csv --->
 <cfif isDefined("action") AND action is "dumpProblems">
 	<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-		SELECT agent_type,preferred_name,first_name,middle_name,last_name,birth_date,death_date,agent_remark,prefix,suffix,other_name_1,other_name_type_1,other_name_2,other_name_type_2,other_name_3,other_name_type_3,agentguid_guid_type,agentguid,t_preferred_agent_name_id,t_agent_id,status
+		SELECT agent_type,preferred_name,first_name,middle_name,last_name,
+			birth_date,death_date,agent_remark,prefix,suffix,
+			other_name_1,other_name_type_1,other_name_2,other_name_type_2,
+			other_name_3,other_name_type_3,
+			agentguid_guid_type,agentguid,t_preferred_agent_name_id,
+			t_agent_id,status
 		FROM cf_temp_agents 
 		WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+		ORDER BY key
 	</cfquery>
 	<cfinclude template="/shared/component/functions.cfc">
 	<cfset csv = queryToCSV(getProblemData)>
@@ -30,6 +36,7 @@ limitations under the License.
 	<cfabort>
 </cfif>
 <!--- end special case dump of problems --->
+
 <cfset fieldlist = "AGENT_TYPE,PREFERRED_NAME,FIRST_NAME,MIDDLE_NAME,LAST_NAME,BIRTH_DATE,DEATH_DATE,AGENT_REMARK,PREFIX,SUFFIX,OTHER_NAME_1,OTHER_NAME_TYPE_1,OTHER_NAME_2,OTHER_NAME_TYPE_2,OTHER_NAME_3,OTHER_NAME_TYPE_3,AGENTGUID_GUID_TYPE,AGENTGUID">
 <cfset fieldTypes = "CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_DATE,CF_SQL_DATE,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR">
 <cfset requiredfieldlist = "AGENT_TYPE,PREFERRED_NAME,LAST_NAME">
@@ -51,12 +58,12 @@ limitations under the License.
 <cfset pageTitle = "Bulkload Agents">
 <cfinclude template="/shared/_header.cfm">
 <cfinclude template="/tools/component/csv.cfc" runOnce="true"><!--- for common csv testing functions --->
-<cfif not isDefined("action") OR len(action) EQ 0><cfset action="nothing"></cfif>
+<cfif not isDefined("action") OR len(action) EQ 0><cfset action="entryPoint"></cfif>
 <main class="container-fluid py-3 px-xl-5" id="content">
 	<h1 class="h2 mt-2">Bulkload Agents</h1>
 	<!------------------------------------------------------->
 	
-	<cfif #action# is "nothing">
+	<cfif #action# is "entryPoint">
 		<cfoutput>
 			<p>This tool is used to bulkload agents.</p>
 			<p>Upload a comma-delimited text file (csv).  Include column headings, spelled exactly as below.  Additional colums will be ignored</p>
@@ -362,24 +369,48 @@ limitations under the License.
 					<cfquery name="invGuidType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						UPDATE cf_temp_agents
 						SET 
-							status = concat(nvl2(status, status || '; ', ''), 'Agent GUID type not valid - check controlled vocabulary')
+							status = concat(nvl2(status, status || '; ', ''), 'Agent GUID type not valid for agents - check controlled vocabulary')
 						WHERE 
-							agentguid_guid_type not in (select guid_type from ctguid_type where guid_type =  <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableQC.agentguid_guid_type#">)
+							agentguid_guid_type not in (
+								select guid_type 
+								from ctguid_type 
+								where guid_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableQC.agentguid_guid_type#">
+									and applies_to = 'agent.agentguid'
+							)
 							AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 							AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#key#">
 					</cfquery>
 				</cfif>
-				<cfif len(agentguid) gt 0>
-					<!--- TO_DO: use the guid resolver field on ctguid_type to check the agentguid against it.--->
-					<cfquery name="invGuidType2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						UPDATE cf_temp_agents
-						SET 
-							status = concat(nvl2(status, status || '; ', ''),'Agent GUID format not correct')
-						WHERE 
-							UPPER(agentguid) LIKE 'HTTP:%'
-							AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-							AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#key#">
-					</cfquery>
+				<cfif len(getTempTableQC.agentguid) GT 0>
+					<cfif len(getTempTableQC.agentguid_guid_type) EQ 0>
+						<cfquery name="invGuidType2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+							UPDATE cf_temp_agents
+							SET 
+								status = concat(nvl2(status, status || '; ', ''),'If agentguid is specified, agentguid_guid_type must also be provided.')
+							WHERE 
+								username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+								AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#key#">
+						</cfquery>
+					<cfelseif len(getTempTableQC.agentguid_guid_type) GT 0>
+						<!--- test that guid matches format --->
+						<cfquery name="getPattern" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+							SELECT pattern_regex 
+							FROM ctguid_type 
+							WHERE
+								guid_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+						</cfquery>
+						<cfif getPattern.recordcount GT 0>
+							<cfif REFind(getPattern.pattern_regex,getTempTableQC.agentguid) EQ 0>
+								<cfquery name="invGuidType2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+									UPDATE cf_temp_agents
+									SET 
+										status = concat(nvl2(status, status || '; ', ''),'Agent GUID is not in the correct format for ' || agentguid_guid_type || ' expected pattern is #getPattern.pattern_regex#')
+									WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+										AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#key#">
+								</cfquery>
+							</cfif>
+						</cfif>
+					</cfif>
 				</cfif>
 				<cfquery name="invAgntType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE cf_temp_agents
