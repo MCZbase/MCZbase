@@ -365,7 +365,7 @@ limitations under the License.
 					agent_type not in (select agent_type from ctagent_type) AND
 					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
-			<cfif len(PREFIX) gt 0>
+			<cfif len(ctprefix.PREFIX) gt 0>
 				<cfquery name="invAgntPrefix" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE cf_temp_agents
 					SET 
