@@ -424,13 +424,13 @@ limitations under the License.
 				<cfif getRelType.recordcount EQ 0>
 					<cfquery name="flagRelationshipNotFound" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						UPDATE CF_TEMP_BL_RELATIONS
-						SET status = concat(nvl2(status, status || '; ', ''),'Unknown relationship ' || relationship || ' must be in BIOL_RELATIONS controlled vocabulary.')
+						SET status = concat(nvl2(status, status || '; ', ''),'Unknown relationship [' || relationship || '] must be in BIOL_RELATIONS controlled vocabulary.')
 						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 							and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableTypes.key#"> 
 					</cfquery>
 				<cfelse>
 					<cfif getRelType.rel_type EQ 'functional'>
-						<cfquery name="flagRelationshipNotFound" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						<cfquery name="flagRelationshipFunctional" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							UPDATE CF_TEMP_BL_RELATIONS
 							SET status = concat(nvl2(status, status || '; ', ''),'Relationship [' || relationship || '] has type functional, and can not be added here.')
 							WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
@@ -449,7 +449,7 @@ limitations under the License.
 			</cfquery>
 			<cfquery name="miar" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				UPDATE CF_TEMP_BL_RELATIONS
-				SET status = concat(nvl2(status, status || '; ', ''),'related_collection_object_id is null, unable to find cataloged item from provided related other id.')
+				SET status = concat(nvl2(status, status || '; ', ''),'related_collection_object_id is null, unable to find related cataloged item from provided related other id.')
 				WHERE related_collection_object_id is null
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
@@ -477,17 +477,11 @@ limitations under the License.
 				WHERE related_collection_cde is null
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
-			<cfquery name="miap" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				UPDATE CF_TEMP_BL_RELATIONS
-				SET status = concat(nvl2(status, status || '; ', ''),'Bad relationship, not in controlled vocabulary.')
-				WHERE relationship not in (select biol_indiv_relationship from ctbiol_relations)
-					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-			</cfquery>
 			<!--- check for inverse relationships --->
 			<!--- we could accept both, and invert the object/related object, but this is likely to cause user errors --->
-			<cfquery name="flagRelationshipNotFound" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+			<cfquery name="flagRelationshipInverse" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				UPDATE CF_TEMP_BL_RELATIONS
-				SET status = concat(nvl2(status, status || '; ', ''),'The value [' || relationship || ' is an inverse relationship, only values of biol_indiv_relationship can be used.')
+				SET status = concat(nvl2(status, status || '; ', ''),'The value [' || relationship || '] is an inverse relationship, only values of biol_indiv_relationship can be used.')
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 					and relationship in (select inverse_relation from CTBIOL_RELATIONS where biol_indiv_relationship <> inverse_relation) 
 			</cfquery>
