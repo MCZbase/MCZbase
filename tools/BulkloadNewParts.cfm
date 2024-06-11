@@ -18,10 +18,12 @@ limitations under the License.
 --->
 <cfif isDefined("action") AND action is "dumpProblems">
 	<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-		SELECT use_existing,institution_acronym,collection_cde,other_id_type,other_id_number,part_name,preserve_method,lot_count_modifier,lot_count,condition,coll_obj_disposition
+		SELECT use_existing,institution_acronym,collection_cde,other_id_type,other_id_number,
+			part_name,preserve_method,lot_count_modifier,lot_count,condition,coll_obj_disposition
 		FROM cf_temp_parts
 		WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-		and use_existing=0
+			and use_existing=0
+		ORDER BY key
 	</cfquery>
 	<cfinclude template="/shared/component/functions.cfc"><!---need to add to functions.cfc page--->
 	<cfset csv = queryToCSV(getProblemData)>
@@ -29,9 +31,11 @@ limitations under the License.
 	<cfoutput>#csv#</cfoutput>
 	<cfabort>
 </cfif>
+
 <cfset fieldlist = "INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_NUMBER,CONTAINER_UNIQUE_ID,PART_NAME,PRESERVE_METHOD,LOT_COUNT_MODIFIER,LOT_COUNT,CONDITION,COLL_OBJ_DISPOSITION,CURRENT_REMARKS,PART_ATT_NAME_1,PART_ATT_VAL_1,PART_ATT_UNITS_1,PART_ATT_DETBY_1,PART_ATT_MADEDATE_1,PART_ATT_REM_1,PART_ATT_NAME_2,PART_ATT_VAL_2,PART_ATT_UNITS_2,PART_ATT_DETBY_2,PART_ATT_MADEDATE_2,PART_ATT_REM_2,PART_ATT_NAME_3,PART_ATT_VAL_3,PART_ATT_UNITS_3,PART_ATT_DETBY_3,PART_ATT_MADEDATE_3,PART_ATT_REM_3,PART_ATT_NAME_4,PART_ATT_VAL_4,PART_ATT_UNITS_4,PART_ATT_DETBY_4,PART_ATT_MADEDATE_4,PART_ATT_REM_4,PART_ATT_NAME_5,PART_ATT_VAL_5,PART_ATT_UNITS_5,PART_ATT_DETBY_5,PART_ATT_MADEDATE_5,PART_ATT_REM_5,PART_ATT_NAME_6,PART_ATT_VAL_6,PART_ATT_UNITS_6,PART_ATT_DETBY_6,PART_ATT_MADEDATE_6,PART_ATT_REM_6">
 <cfset fieldTypes ="CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_DATE,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_DATE,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_DATE,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_DATE,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_DATE,CF_SQL_VARCHAR">
 <cfset requiredfieldlist = "INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_NUMBER,PART_NAME,PRESERVE_METHOD,LOT_COUNT,CONDITION,COLL_OBJ_DISPOSITION">
+
 <cfif isDefined("action") AND action is "getCSVHeader">
 	<cfset csv = "">
 	<cfset separator = "">
@@ -49,11 +53,11 @@ limitations under the License.
 <cfinclude template="/shared/_header.cfm">
 <cfinclude template="/tools/component/csv.cfc" runOnce="true"><!--- for common csv testing functions --->
 <cfif not isDefined("action") OR len(action) EQ 0><cfset action="nothing"></cfif>
-	<main class="container-fluid px-xl-5 py-3" id="content">
-		<h1 class="h2 mt-2">Bulkload New Parts </h1>
-		<!------------------------------------------------------->
-		<cfif #action# is "nothing">
-			<cfoutput>
+<main class="container-fluid px-xl-5 py-3" id="content">
+	<h1 class="h2 mt-2">Bulkload New Parts </h1>
+	<!------------------------------------------------------->
+	<cfif #action# is "nothing">
+		<cfoutput>
 			<p>This tool adds part rows to the specimen record. It create metadata for part history and includes specimen part attributes fields that can be empty if none exists. The cataloged items must be in the database and they can be entered using the catalog number or other ID. Error messages will appear if the values need to match values in MCZbase. It ignores rows that are exactly the same and alerts you if columns are missing. Additional columns will be ignored. Include column headings, spelled exactly as below. </p>
 			<span class="btn btn-xs btn-info" onclick="document.getElementById('template').style.display='block';">View template</span>
 			<div id="template" style="display:none;margin: 1em 0;">
@@ -1062,8 +1066,8 @@ limitations under the License.
 					<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						SELECT *
 						FROM cf_temp_parts
-						where key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#problem_key#">
-						and use_existing = 0
+						WHERE key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#problem_key#">
+							and use_existing = 0
 					</cfquery>
 					<cfif getProblemData.recordcount GT 0>
 						<h3>
@@ -1221,7 +1225,7 @@ limitations under the License.
 				<cfquery name="clearTempTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="clearTempTable_result">
 					DELETE FROM cf_temp_parts 
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-					and use_existing = 0
+						and use_existing = 0
 				</cfquery>
 			</cfoutput>
 		</cfif>
