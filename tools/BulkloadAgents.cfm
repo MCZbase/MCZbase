@@ -358,7 +358,7 @@ limitations under the License.
 					status = concat(nvl2(status, status || '; ', ''), 'Agent name already exists')
 				WHERE 
 					preferred_name in (
-						select agent_name from preferred_agent_name where agent_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableQC.preferred_name#">
+						select agent_name from preferred_agent_name where agent_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#preferred_name#">
 						)
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
@@ -369,7 +369,7 @@ limitations under the License.
 						status = concat(nvl2(status, status || '; ', ''),'Prefix not valid-check controlled vocabulary')
 					WHERE 
 						prefix not in (
-							select prefix from ctprefix where prefix = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableQC.prefix#">
+							select prefix from ctprefix where prefix = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#prefix#">
 							)
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
