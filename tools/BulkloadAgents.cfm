@@ -344,7 +344,6 @@ limitations under the License.
 				<div>Preferred name is required for every agent.</div>
 				<cfabort>
 			</cfif>
-
 			<cfquery name="dupName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" >
 				UPDATE cf_temp_agents
 				SET 
@@ -369,10 +368,8 @@ limitations under the License.
 					SET 
 						status = concat(nvl2(status, status || '; ', ''),'Prefix not valid&mdash;check controlled vocabulary')
 					WHERE 
-						prefix not in (
-							select prefix from ctprefix
-							)
-						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+						PREFIX not in (select PREFIX from CTPREFIX) AND
+						username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
 			</cfif>
 			<cfif len(suffix) gt 0>
