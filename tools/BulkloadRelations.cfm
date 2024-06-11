@@ -459,7 +459,7 @@ limitations under the License.
 					WHERE
 						collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempWithIds.collection_object_id#"> 
 						and related_coll_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempWithIds.related_collection_object_id#"> 
-						and biol_indiv_relationship = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempWithIds.relationship#"> 
+						and biol_indiv_relationship = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempWithIds.relationship#"> 
 				</cfquery>
 				<cfif findExisting.ct GT 0>
 					<cfquery name="flagDuplicated" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
