@@ -330,17 +330,13 @@ limitations under the License.
 		<h2 class="h4">Second step: Data Validation</h2>
 		<cfoutput>
 			<cfset key = ''>
-			<cfquery name="ctagent_type" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				select agent_type from ctagent_type order by agent_type
-			</cfquery>
-			<cfquery name="ctagent_name_type" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				select agent_name_type from ctagent_name_type order by agent_name_type
-			</cfquery>
-			<cfquery name="ctprefix" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				select prefix from ctprefix order by prefix
-			</cfquery>
-			<cfquery name="ctsuffix" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				select suffix from ctsuffix order by suffix
+			<cfquery name="getTempData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				SELECT 
+					key,to_char(birth_date,'YYYY-MM-DD') birth_date,agent_type,preferred_name,first_name,middle_name,last_name,to_char(death_date,'YYYY-MM-DD') death_date,agent_remark,prefix,suffix,other_name_1,other_name_type_1,other_name_2,other_name_type_2,other_name_3,other_name_type_3,agentguid_guid_type,agentguid,status
+				FROM 
+					cf_temp_agents
+				WHERE 
+					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<cfquery name="rpn" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				select count(*) c from cf_temp_agents where preferred_name is null
@@ -368,7 +364,7 @@ limitations under the License.
 					agent_type not in (select agent_type from ctagent_type) AND
 					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
-			<cfif len(ctprefix.PREFIX) gt 0>
+			<cfif len(getTempData.PREFIX) gt 0>
 				<cfquery name="invAgntPrefix" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE cf_temp_agents
 					SET 
@@ -378,7 +374,7 @@ limitations under the License.
 						username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
 			</cfif>
-			<cfif len(ctsuffix.suffix) gt 0>
+			<cfif len(getTempData.suffix) gt 0>
 				<cfquery name="invAgntSuffix" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE cf_temp_agents
 					SET 
@@ -388,7 +384,7 @@ limitations under the License.
 						username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
 			</cfif>
-			<cfif len(agentguid_guid_type) gt 0>
+			<cfif len(getTempData.agentguid_guid_type) gt 0>
 				<cfquery name="invGuidType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE cf_temp_agents
 					SET 
@@ -398,7 +394,7 @@ limitations under the License.
 						username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
 			</cfif>
-			<cfif len(other_name_type_1) gt 0>
+			<cfif len(getTempData.other_name_type_1) gt 0>
 				<cfquery name="invAgntName1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE cf_temp_agents
 					SET 
@@ -408,7 +404,7 @@ limitations under the License.
 						username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
 			</cfif>
-			<cfif len(other_name_type_2) gt 0>
+			<cfif len(getTempData.other_name_type_2) gt 0>
 				<cfquery name="invAgntName2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE cf_temp_agents
 					SET 
@@ -418,7 +414,7 @@ limitations under the License.
 						username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
 			</cfif>
-			<cfif len(other_name_type_3) gt 0>
+			<cfif len(getTempData.other_name_type_3) gt 0>
 				<cfquery name="invAgntName3" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE cf_temp_agents
 					SET 
@@ -428,18 +424,11 @@ limitations under the License.
 						username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
 			</cfif>
-			<cfquery name="getTempTableQC" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				SELECT 
-					key,to_char(birth_date,'YYYY-MM-DD') birth_date,agent_type,preferred_name,first_name,middle_name,last_name,to_char(death_date,'YYYY-MM-DD') death_date,agent_remark,prefix,suffix,other_name_1,other_name_type_1,other_name_2,other_name_type_2,other_name_3,other_name_type_3,agentguid_guid_type,agentguid,status
-				FROM 
-					cf_temp_agents
-				WHERE 
-					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-			</cfquery>
+	
 			<cfset i = 1>
-			<cfloop query="getTempTableQC">
-				<cfif len(getTempTableQC.agentguid) GT 0>
-					<cfif len(getTempTableQC.agentguid_guid_type) EQ 0>
+			<cfloop query="getTempData">
+				<cfif len(getTempData.agentguid) GT 0>
+					<cfif len(getTempData.agentguid_guid_type) EQ 0>
 						<cfquery name="invGuidType2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							UPDATE cf_temp_agents
 							SET 
@@ -448,7 +437,7 @@ limitations under the License.
 								username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 								AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#key#">
 						</cfquery>
-					<cfelseif len(getTempTableQC.agentguid_guid_type) GT 0>
+					<cfelseif len(getTempData.agentguid_guid_type) GT 0>
 						<!--- test that guid matches format --->
 						<cfquery name="getPattern" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							SELECT 
@@ -459,7 +448,7 @@ limitations under the License.
 								guid_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						</cfquery>
 						<cfif getPattern.recordcount GT 0>
-							<cfif REFind(getPattern.pattern_regex,getTempTableQC.agentguid) EQ 0>
+							<cfif REFind(getPattern.pattern_regex,getTempData.agentguid) EQ 0>
 								<cfquery name="invGuidType2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 									UPDATE cf_temp_agents
 									SET 
