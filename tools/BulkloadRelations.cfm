@@ -466,7 +466,7 @@ limitations under the License.
 						UPDATE CF_TEMP_BL_RELATIONS
 						SET status = concat(nvl2(status, status || '; ', ''),'Relationship of this type between these two objects already exists.')
 						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-							and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableTypes.key#"> 
+							and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempWithIds.key#"> 
 					</cfquery>
 				</cfif>
 			</cfloop>
