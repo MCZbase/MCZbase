@@ -476,10 +476,10 @@ limitations under the License.
 					FROM cf_temp_bl_relations
 					WHERE
 						collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempWithIds.collection_object_id#"> 
-						and related_coll_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempWithIds.related_collection_object_id#"> 
+						and related_collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempWithIds.related_collection_object_id#"> 
 						and relationship = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempWithIds.relationship#"> 
 				</cfquery>
-				<cfif findDuplicates.ct GT 0>
+				<cfif findDuplicates.ct GT 1>
 					<cfquery name="flagDuplicatedInternal" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						UPDATE CF_TEMP_BL_RELATIONS
 						SET status = concat(nvl2(status, status || '; ', ''),'Two rows in this file have the same relationship between these two objects, remove one of these two duplicates.')
