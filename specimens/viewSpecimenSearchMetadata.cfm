@@ -22,12 +22,19 @@ limitations under the License.
 <cfif not isdefined("action")>
 	<cfset action="search">
 </cfif>
+<cfif action EQ "flat" AND (NOT isdefined("session.roles") OR NOT listcontainsnocase(session.roles,"coldfusion_user"))>
+	<!--- external users have no need to see the flat columns --->
+	<cfset action="search">
+</cfif>
 <cfswitch expression="#action#">
 	<cfcase value="search">
 		<cfset pageTitle = "View Specimen Search Fields">
 	</cfcase>
 	<cfcase value="results">
 		<cfset pageTitle = "View Specimen Results Columns">
+	</cfcase>
+	<cfcase value="flat">
+		<cfset pageTitle = "View Flat Table Columns">
 	</cfcase>
 	<cfdefaultcase>
 		<cfset pageTitle = "View Specimen Search Fields/Results">
@@ -44,6 +51,109 @@ limitations under the License.
 </cfif>	
 <!---------------------------------------------------------------------------------->
 <cfswitch expression="#action#">
+	<cfcase value="flat">
+		<script src="/lib/misc/sorttable.js"></script>
+		<cfoutput>
+			<main id="content">
+				<div class="container my-3">
+					<div class="row">
+						<div class="col-12">
+							<h2 class="h2">Fields in the FLAT table</h2>
+							<p>This is the list of fields in the denormalized FLAT table.  These are available for search on the <a href="/tools/userSQL.cfm?sql=SELECT+guid%2C+scientific_name%2C+country%0AFROM+flat%0AWHERE++genus+%3D+'Vulpes'%0A++and+spec_locality+like+'%25field%25'" target="_blank">User SQL</a> page.<p>
+							<p>Example Values are drawn individually from non-empty rows, so this does not represent a record in FLAT.  Fields that contain no values (in collections visible to you) are marked as '[No Values]'</p>
+							<cfquery name="myColls" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
+								SELECT DISTINCT collection_id 
+								FROM flat;
+							</cfquery>
+							<cfquery name="getFlatCols" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getFlatCols_result" timeout="#Application.query_timeout#" cachedwithin="#createtimespan(1,0,0,0)#" >
+								SELECT 
+									all_tab_columns.column_name, 
+									all_tab_columns.data_type, 
+									all_col_comments.comments definition
+								FROM all_tab_columns
+		            			left join all_col_comments
+		            				on  all_tab_columns.table_name = all_col_comments.table_name
+		            				and all_tab_columns.column_name = all_col_comments.column_name
+		            				and all_col_comments.owner = 'MCZBASE'
+								WHERE 
+									all_tab_columns.table_name='FLAT' 
+									AND all_tab_columns.owner='MCZBASE'
+								ORDER BY column_id
+							</cfquery>
+							<table class="table table-responsive sortable table-striped d-lg-table">
+								<thead class="thead-light">
+									<tr>
+										<th>Fieldname</th>
+										<th>Definition</th>
+										<th>Data Type</th>
+										<th>Example Value</th>
+									</tr>
+								</thead>
+								<tbody>
+									<cfloop query="getFlatCols">
+										<!--- get one not null example that I can see --->
+										<cfquery name="getExample" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#" cachedwithin="#createtimespan(1,0,0,0)#">
+											SELECT 
+												<cfif getFlatCols.data_type EQ 'DATE'>
+													to_char(#getFlatCols.column_name#,'yyyy-mm-dd') 
+												<cfelse>
+													#getFlatCols.column_name# 
+												</cfif>
+												as value
+											FROM flat sample(20)
+											WHERE #getFlatCols.column_name# IS NOT NULL
+												and rownum = 1
+												and collection_object_id not in (select collection_object_id from coll_object_encumbrance)
+										</cfquery>
+										<tr>
+											<td>
+												<cfif getFlatCols.data_type EQ 'DATE'>
+													to_char(#getFlatCols.column_name#,'yyyy-mm-dd') 
+												<cfelse>
+													#getFlatCols.column_name#
+												</cfif>
+											</td>
+											<td>#getFlatCols.definition#</td>
+											<td>#getFlatCols.data_type#</td>
+											<td>
+												<cfif len(trim(getExample.value)) EQ 0> 
+													<cfquery name="checkAllNull" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#" cachedwithin="#createtimespan(1,0,0,0)#" >
+														SELECT count(*) ct
+															FROM flat
+															WHERE #getFlatCols.column_name# IS NOT NULL
+													</cfquery>
+													<cfif checkAllNull.ct EQ 0>
+														[No Values]
+													<cfelse>
+														<cfquery name="getExampleAny" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#" cachedwithin="#createtimespan(1,0,0,0)#">
+															SELECT 
+																<cfif getFlatCols.data_type EQ 'DATE'>
+																	to_char(#getFlatCols.column_name#,'yyyy-mm-dd') 
+																<cfelse>
+																	#getFlatCols.column_name# 
+																</cfif>
+																as value
+															FROM flat
+															WHERE #getFlatCols.column_name# IS NOT NULL
+																and rownum = 1
+																and collection_object_id not in (select collection_object_id from coll_object_encumbrance)
+														</cfquery>
+														#getExampleAny.value#
+													</cfif>
+												<cfelse>
+													#getExample.value#
+												</cfif>
+											</td>
+										</tr>
+									</cfloop>
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			</main>
+		</cfoutput>
+	</cfcase>
 	<cfcase value="results">
 		<div id="overlaycontainer" style="position: relative;"> 
 			<!--- ensure fields have empty values present if not defined. --->
