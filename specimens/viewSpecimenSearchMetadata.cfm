@@ -67,7 +67,7 @@ limitations under the License.
 							all_tab_columns.table_name='FLAT' 
 							AND all_tab_columns.owner='MCZBASE'
 						ORDER BY column_id
-					<cfquery>
+					</cfquery>
 					<table class="table-responsive sortable">
 						<thead>
 							<th>
