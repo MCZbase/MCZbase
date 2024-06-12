@@ -538,22 +538,22 @@ limitations under the License.
 							<cfset labelValue=listgetat(label,2,"=")>
 							<!---Grabs the last word of the ct media relationship to identify the table name.--->
 							<cfset table_name = listlast(labelName," ")>
-								
-							<cfquery name = "getRPK"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" >
-								SELECT cols.table_name, cols.column_name, cols.position
-								FROM all_constraints cons, all_cons_columns cols
-								WHERE cols.table_name = '#table_name#'
-								AND cons.constraint_type = 'P'
-								AND cons.constraint_name = cols.constraint_name
-								AND cons.owner = cols.owner
-								AND cons.owner = 'MCZBASE'
-								ORDER BY cols.table_name, cols.position
-							</cfquery>
-							<cfset primarykey ='#getRPK.column_name#'>
-							
-							#primarykey#
-							#table_name#
+							<cfloop item="table_name">
+								<cfquery name = "getRPK"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" >
+									SELECT cols.table_name, cols.column_name, cols.position
+									FROM all_constraints cons, all_cons_columns cols
+									WHERE cols.table_name = '#table_name#'
+									AND cons.constraint_type = 'P'
+									AND cons.constraint_name = cols.constraint_name
+									AND cons.owner = cols.owner
+									AND cons.owner = 'MCZBASE'
+									ORDER BY cols.table_name, cols.position
+								</cfquery>
+								<cfset primarykey ='#getRPK.column_name#'>
 
+								#primarykey#
+								#table_name#
+							</cfloop>	
 							<cfif table_name is "agent">
 								<cfquery name="cAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 									SELECT agent_id 
