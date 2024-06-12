@@ -565,19 +565,18 @@ limitations under the License.
 								<cfset idtype = "#primaryKey#">
 								<cfset idvalue = labelValue>
 								<cfquery name="insRel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-									nsert into cf_temp_media_relations (
-										EY,
-										EDIA_RELATIONSHIP,
+									insert into cf_temp_media_relations (
+										KEY,
+										MEDIA_RELATIONSHIP,
 										REATED_BY_AGENT_ID,
-										ELATED_PRIMARY_KEY,
-										SERNAME
+										RELATED_PRIMARY_KEY,
+										USERNAME
 									 values (
-										cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#key#">,
-										cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#labelName#">,
-										cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.myAgentId#">,
-										cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#cidtype">,
-										cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#username#">
-									
+										<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#key#">,
+										<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#labelName#">,
+										<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.myAgentId#">,
+										<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#cidtype">,
+										<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#username#">
 								</cfquery>
 							<cfelse>
 								<cfquery name="getPrimaryVal" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
