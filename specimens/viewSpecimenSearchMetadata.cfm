@@ -54,70 +54,74 @@ limitations under the License.
 	<cfcase value="flat">
 		<cfoutput>
 			<main id="content">
-				<div class="row mx-0 mb-3">
-					<h2 class="h2">Fields in the FLAT table</h2>
-					<p>This is the list of fields in the denormalized FLAT table.  These are available for search on the User SQL page.<p>
-					<cfquery name="myColls" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
-						SELECT DISTINCT collection_id 
-						FROM flat;
-					</cfquery>
-					<cfset visibleCollections = ValueList(myColls.collection_id)>
-					<cfquery name="getFlatCols" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getFlatCols_result" timeout="#Application.query_timeout#">
-						SELECT 
-							all_tab_columns.column_name, 
-							all_tab_columns.data_type, 
-							all_col_comments.comments definition
-						FROM all_tab_columns
-            			left join all_col_comments
-            				on  all_tab_columns.table_name = all_col_comments.table_name
-            				and all_tab_columns.column_name = all_col_comments.column_name
-            				and all_col_comments.owner = 'MCZBASE'
-						WHERE 
-							all_tab_columns.table_name='FLAT' 
-							AND all_tab_columns.owner='MCZBASE'
-						ORDER BY column_id
-					</cfquery>
-					<table class="table-responsive sortable">
-						<thead>
-							<tr>
-								<th>Fieldname</th>
-								<th>Definition</th>
-								<th>Data Type</th>
-								<th>Example Value</th>
-							</tr>
-						</thead>
-						<tbody>
-							<cfloop query="getFlatCols">
-								<!--- get one not null example from a collection that I can see --->
-								<cfset coll = ListGetAt(visibleCollections,RandRange( 1, ListLen(visibleCollections) ) )>
-								<cfquery name="getExample" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">									SELECT 
-										<cfif getFlatCols.data_type EQ 'DATE'>
-											to_char(#getFlatCols.column_name#,'yyyy-mm-dd') 
-										<cfelse>
-											#getFlatCols.column_name# 
-										</cfif>
-										as value
-									FROM flat sample(10)
-									WHERE #getFlatCols.column_name# IS NOT NULL
-										and rownum = 1
-										and collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#coll#">
-										and collection_object_id not in (select collection_object_id from coll_object_encumbrance)
-								</cfquery>
-								<tr>
-									<td>
-										<cfif getFlatCols.data_type EQ 'DATE'>
-											to_char(#getFlatCols.column_name#,'yyyy-mm-dd') 
-										<cfelse>
-											#getFlatCols.column_name#
-										</cfif>
-									</td>
-									<td>#getFlatCols.definition#</td>
-									<td>#getFlatCols.data_type#</td>
-									<td>#getExample.value#</td>
-								</tr>
-							</cfloop>
-						</tbody>
-					</table>
+				<div class="container my-3">
+					<div class="row">
+						<div class="col-12">
+							<h2 class="h2">Fields in the FLAT table</h2>
+							<p>This is the list of fields in the denormalized FLAT table.  These are available for search on the User SQL page.<p>
+							<cfquery name="myColls" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
+								SELECT DISTINCT collection_id 
+								FROM flat;
+							</cfquery>
+							<cfset visibleCollections = ValueList(myColls.collection_id)>
+							<cfquery name="getFlatCols" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getFlatCols_result" timeout="#Application.query_timeout#">
+								SELECT 
+									all_tab_columns.column_name, 
+									all_tab_columns.data_type, 
+									all_col_comments.comments definition
+								FROM all_tab_columns
+		            			left join all_col_comments
+		            				on  all_tab_columns.table_name = all_col_comments.table_name
+		            				and all_tab_columns.column_name = all_col_comments.column_name
+		            				and all_col_comments.owner = 'MCZBASE'
+								WHERE 
+									all_tab_columns.table_name='FLAT' 
+									AND all_tab_columns.owner='MCZBASE'
+								ORDER BY column_id
+							</cfquery>
+							<table class="table table-responsive sortable table-striped d-lg-table">
+								<thead class="thead-light">
+									<tr>
+										<th>Fieldname</th>
+										<th>Definition</th>
+										<th>Data Type</th>
+										<th>Example Value</th>
+									</tr>
+								</thead>
+								<tbody>
+									<cfloop query="getFlatCols">
+										<!--- get one not null example from a collection that I can see --->
+										<cfset coll = ListGetAt(visibleCollections,RandRange( 1, ListLen(visibleCollections) ) )>
+										<cfquery name="getExample" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">									SELECT 
+												<cfif getFlatCols.data_type EQ 'DATE'>
+													to_char(#getFlatCols.column_name#,'yyyy-mm-dd') 
+												<cfelse>
+													#getFlatCols.column_name# 
+												</cfif>
+												as value
+											FROM flat sample(10)
+											WHERE #getFlatCols.column_name# IS NOT NULL
+												and rownum = 1
+												and collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#coll#">
+												and collection_object_id not in (select collection_object_id from coll_object_encumbrance)
+										</cfquery>
+										<tr>
+											<td>
+												<cfif getFlatCols.data_type EQ 'DATE'>
+													to_char(#getFlatCols.column_name#,'yyyy-mm-dd') 
+												<cfelse>
+													#getFlatCols.column_name#
+												</cfif>
+											</td>
+											<td>#getFlatCols.definition#</td>
+											<td>#getFlatCols.data_type#</td>
+											<td>#getExample.value#</td>
+										</tr>
+									</cfloop>
+								</tbody>
+							</table>
+						</div>
+					</div>
 				</div>
 			</main>
 		</cfoutput>
