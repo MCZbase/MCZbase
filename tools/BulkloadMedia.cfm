@@ -578,7 +578,7 @@ limitations under the License.
 										cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#cidtype">,
 										cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#username#">
 									
-								/cfquery>
+								</cfquery>
 							<cfelse>
 								<cfquery name="getPrimaryVal" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 									SELECT #primaryKey# 
