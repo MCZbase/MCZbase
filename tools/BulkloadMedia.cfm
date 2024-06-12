@@ -555,7 +555,7 @@ limitations under the License.
 								
 								'#cRPK.thisID#'
 								
-								
+							</cfif>	
 							<cfif table_name is "agent">
 								<cfquery name="cAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 									SELECT agent_id 
