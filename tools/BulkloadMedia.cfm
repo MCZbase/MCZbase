@@ -551,7 +551,7 @@ limitations under the License.
 								<cfquery name = "getRPK"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" >
 									SELECT cols.table_name, cols.column_name, cols.position
 									FROM all_constraints cons, all_cons_columns cols
-									WHERE cols.table_name = '#table_name#'
+									WHERE cols.table_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(table_name)#" />
 									AND cons.constraint_type = 'P'
 									AND cons.constraint_name = cols.constraint_name
 									AND cons.owner = cols.owner
