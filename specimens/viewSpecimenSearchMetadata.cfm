@@ -60,11 +60,11 @@ limitations under the License.
 						<div class="col-12">
 							<h2 class="h2">Fields in the FLAT table</h2>
 							<p>This is the list of fields in the denormalized FLAT table.  These are available for search on the <a href="/tools/userSQL.cfm?sql=SELECT+guid%2C+scientific_name%2C+country%0AFROM+flat%0AWHERE++genus+%3D+'Vulpes'%0A++and+spec_locality+like+'%25field%25'" target="_blank">User SQL</a> page.<p>
+							<p>Example Values are drawn individually from non-empty rows, so this does not represent a record in FLAT.  Fields that contain no values (in collections visible to you) are marked as '[No Values]'</p>
 							<cfquery name="myColls" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
 								SELECT DISTINCT collection_id 
 								FROM flat;
 							</cfquery>
-							<cfset visibleCollections = ValueList(myColls.collection_id)>
 							<cfquery name="getFlatCols" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getFlatCols_result" timeout="#Application.query_timeout#" cachedwithin="#createtimespan(1,0,0,0)#" >
 								SELECT 
 									all_tab_columns.column_name, 
@@ -91,8 +91,7 @@ limitations under the License.
 								</thead>
 								<tbody>
 									<cfloop query="getFlatCols">
-										<!--- get one not null example from a collection that I can see --->
-										<cfset coll = ListGetAt(visibleCollections,RandRange( 1, ListLen(visibleCollections) ) )>
+										<!--- get one not null example that I can see --->
 										<cfquery name="getExample" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#" cachedwithin="#createtimespan(1,0,0,0)#">
 											SELECT 
 												<cfif getFlatCols.data_type EQ 'DATE'>
