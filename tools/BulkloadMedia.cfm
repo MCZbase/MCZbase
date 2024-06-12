@@ -564,7 +564,7 @@ limitations under the License.
 								
 							<cfif isnumeric(labelValue) and len(table_name) gt 0>
 								
-								#lookupPK.primaryKey# = #labelValue#
+								<cfoutput>#primaryKey#: #labelValue#</cfoutput>
 							</cfif>
 							
 						</cfif>
