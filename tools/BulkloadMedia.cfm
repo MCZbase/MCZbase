@@ -590,7 +590,11 @@ limitations under the License.
 									#getPrimaryVal.primaryKey#
 								</cfif>
 							</cfif>
-							
+						</cfif>
+					</cfloop>
+				</cfif>
+
+											
 <!---							<cfif table_name is "agent">
 								<cfquery name="cAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 									SELECT agent_id 
@@ -787,7 +791,7 @@ limitations under the License.
 										</cfquery>
 									</cfif>
 								</cfif>--->
-							<cfelseif table_name is "publication">
+						<!---	<cfelseif table_name is "publication">
 								<cfquery name="cPub" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 									SELECT distinct(publication_id) publication_id 
 									FROM publication 
@@ -1081,7 +1085,8 @@ limitations under the License.
 							</cfif>
 						</cfif>
 					</cfloop>
-				</cfif>
+				</cfif>--->
+									
 				<cfif not isDefined("veryLargeFiles")><cfset veryLargeFiles=""></cfif>
 				<cfif veryLargeFiles NEQ "true">
 					<!--- both isimagefile and cfimage run into heap space limits with very large files --->
