@@ -548,7 +548,7 @@ limitations under the License.
 								AND cons.owner = 'MCZBASE'
 								ORDER BY cols.table_name, cols.position
 							</cfquery>
-							<cfloop query="getRPK">	'#getRPK.column_name#', </cfloop>
+							<cfloop query="getRPK">	<h2>#getRPK.column_name#,</h2> </cfloop>
 						
 
 							<cfif table_name is "agent">
