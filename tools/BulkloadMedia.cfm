@@ -561,22 +561,14 @@ limitations under the License.
 								<cfset primaryKey ='#getRPK.column_name#'>
 							</cfloop>
 							<cfoutput>#TABLE_NAME#: #primaryKey#</cfoutput>	
+								
 							<cfif isnumeric(labelValue) and len(table_name) gt 0>
 								<cfquery name="insRel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-									insert into cf_temp_media_relations (
-										KEY,
-										MEDIA_RELATIONSHIP,
-										REATED_BY_AGENT_ID,
-										RELATED_PRIMARY_KEY,
-										USERNAME
-									 values (
-										<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#key#">,
-										<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#labelName#">,
-										<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.myAgentId#">,
-										'#primaryKey#',
-										<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#username#">
+									select #primaryKey# 
+									from #table_name# 
+									where #primaryKey# = #labelValue# AND
+									username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#username#">
 								</cfquery>
-							
 							</cfif>
 						</cfif>
 					</cfloop>
