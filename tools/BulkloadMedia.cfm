@@ -539,22 +539,17 @@ limitations under the License.
 							<!---Grabs the last word of the ct media relationship to identify the table name.--->
 							<cfset table_name = listlast(labelName," ")>
 							<cfif table_name is "#table_name#">
-								<cfif isnumeric(labelValue)>
-									<cfset idtype = "locality_id">
-									<cfset idvalue = labelValue>
-								<cfelse>
-									<cfset idtype=trim(listfirst(labelValue,"|"))>
-									<cfset idvalue=trim(listlast(labelValue,"|"))>
-								</cfif>
-								<cfquery name="cRPK" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-									SELECT '#table_name#_id' as thisID 
-									FROM '#table_name#'
-									WHERE '#table_name#_id' as thisID =<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#labelValue#">
-								</cfquery>
-								
-								'#cRPK.thisID#'
-								
-							</cfif>	
+							<cfquery name = "getRPK"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#"  result="getComments_result">
+								SELECT cols.table_name, cols.column_name, cols.position, cons.status, cons.owner
+								FROM all_constraints cons, all_cons_columns cols
+								WHERE cols.table_name = '#table_name#'
+								AND cons.constraint_type = 'P'
+								AND cons.constraint_name = cols.constraint_name
+								AND cons.owner = cols.owner
+								ORDER BY cols.table_name, cols.position
+							</cfquery>
+							#getRPK.column_name#, 
+
 							<cfif table_name is "agent">
 								<cfquery name="cAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 									SELECT agent_id 
