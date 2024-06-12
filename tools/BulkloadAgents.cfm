@@ -338,14 +338,14 @@ limitations under the License.
 				WHERE 
 					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
-			<cfquery name="rpn" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				select count(*) c from cf_temp_agents where preferred_name is null
-				and username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-			</cfquery>
-			<cfif rpn.c is not 0>
-				<div>Preferred name is required for every agent.</div>
-				<cfabort>
-			</cfif>
+			<cfquery name="prefName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" >
+				UPDATE cf_temp_agents
+				SET 
+					status = concat(nvl2(status, status || '; ', ''), 'A preferred name is required for every agent')
+				WHERE 
+					preferred_name is null
+					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+			</cfquery>	
 			<cfquery name="dupName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" >
 				UPDATE cf_temp_agents
 				SET 
@@ -361,7 +361,7 @@ limitations under the License.
 				SET 
 					status = concat(nvl2(status, status || '; ', ''),'Agent type not valid - check controlled vocabulary')
 				WHERE 
-					agent_type not in (select agent_type from ctagent_type) AND
+					AGENT_TYPE not in (select agent_type from ctagent_type) AND
 					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<cfif len(getTempData.PREFIX) gt 0>
@@ -380,7 +380,7 @@ limitations under the License.
 					SET 
 						status = concat(nvl2(status, status || '; ', ''), 'Suffix not valid&mdash;check controlled vocabulary')
 					WHERE 
-						suffix not in (select suffix from ctsuffix) AND
+						SUFFIX not in (select suffix from ctsuffix) AND
 						username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
 			</cfif>
@@ -390,7 +390,7 @@ limitations under the License.
 					SET 
 						status = concat(nvl2(status, status || '; ', ''), 'Agent GUID type not valid for agents&mdash;check controlled vocabulary')
 					WHERE 
-						agentguid_guid_type not in (select guid_type from ctguid_type) AND 
+						AGENTGUID_GUID_TYPE not in (select guid_type from ctguid_type) AND 
 						username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
 			</cfif>
@@ -400,7 +400,7 @@ limitations under the License.
 					SET 
 						status = concat(nvl2(status, status || '; ', ''),'Agent type not valid&mdash;check controlled vocabulary')
 					WHERE 
-						other_name_type_1 not in (select agent_name_type from ctagent_name_type) AND 
+						OTHER_NAME_TYPE_1 not in (select agent_name_type from ctagent_name_type) AND 
 						username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
 			</cfif>
@@ -410,7 +410,7 @@ limitations under the License.
 					SET 
 						status = concat(nvl2(status, status || '; ', ''), 'OTHER_NAME_TYPE_2 not valid&mdash;check controlled vocabulary')
 					WHERE 
-						other_name_type_2 not in (select agent_name_type from ctagent_name_type) AND
+						OTHER_NAME_TYPE_2 not in (select agent_name_type from ctagent_name_type) AND
 						username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
 			</cfif>
@@ -420,7 +420,7 @@ limitations under the License.
 					SET 
 						status = concat(nvl2(status, status || '; ', ''), 'OTHER_NAME_TYPE_3 not valid&mdash;check controlled vocabulary')
 					WHERE 
-						other_name_type_3 not in (select agent_name_type from ctagent_name_type) AND
+						OTHER_NAME_TYPE_3 not in (select agent_name_type from ctagent_name_type) AND
 						username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
 			</cfif>
