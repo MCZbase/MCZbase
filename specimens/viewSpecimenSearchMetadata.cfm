@@ -52,6 +52,7 @@ limitations under the License.
 <!---------------------------------------------------------------------------------->
 <cfswitch expression="#action#">
 	<cfcase value="flat">
+		<script src="/lib/misc/sorttable.js"></script>
 		<cfoutput>
 			<main id="content">
 				<div class="container my-3">
@@ -99,7 +100,7 @@ limitations under the License.
 													#getFlatCols.column_name# 
 												</cfif>
 												as value
-											FROM flat sample(10)
+											FROM flat sample(20)
 											WHERE #getFlatCols.column_name# IS NOT NULL
 												and rownum = 1
 												and collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#coll#">
@@ -115,7 +116,33 @@ limitations under the License.
 											</td>
 											<td>#getFlatCols.definition#</td>
 											<td>#getFlatCols.data_type#</td>
-											<td>#getExample.value#</td>
+											<td>
+												<cfif len(getExample.value) EQ 0> 
+													<cfquery name="checkAllNull" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">									SELECT count(*) ct
+															FROM flat
+															WHERE #getFlatCols.column_name# IS NOT NULL
+													</cfquery>
+													<cfif checkAllNull.ct EQ 0>
+														[No Values]
+													<cfelse>
+														<cfquery name="getExampleAny" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">									SELECT 
+																<cfif getFlatCols.data_type EQ 'DATE'>
+																	to_char(#getFlatCols.column_name#,'yyyy-mm-dd') 
+																<cfelse>
+																	#getFlatCols.column_name# 
+																</cfif>
+																as value
+															FROM flat
+															WHERE #getFlatCols.column_name# IS NOT NULL
+															and rownum = 1
+															and collection_object_id not in (select collection_object_id from coll_object_encumbrance)
+														</cfquery>
+														#getExampleAny.value#
+													</cfif>
+												<cfelse>
+													#getExample.value#
+												</cfif>
+											</td>
 										</tr>
 									</cfloop>
 								</tbody>
