@@ -97,7 +97,7 @@ limitations under the License.
 											#getFlatCols.column_name# 
 										</cfif>
 										as value
-									FROM flat sample(1)
+									FROM flat sample(10)
 									WHERE #getFlatCols.column_name# IS NOT NULL
 										and rownum = 1
 										and collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#coll#">
