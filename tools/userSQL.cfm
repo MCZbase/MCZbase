@@ -38,7 +38,7 @@ limitations under the License.
 		<cfset sql = "SELECT 'test' FROM dual">
 	</cfif>
 </cfif>
-<cfset guidanceText = "#guidanceText# The <a href='/documentation/er_diagrams/' target='_blank'>E-R Diagrams</a>, <a href='https://github.com/MCZbase/DDL/tree/master/TABLE' target='_blank'>Schema documentation</a>, the list of fields in the <a href="specimens/viewSpecimenSearchMetadata.cfm?action=flat" target="_blank">FLAT table</a>, and <a href="https://github.com/MCZbase/queries_MCZbase" target="_blank">Example Query Library</a> may help in formulating queries."> <!--- " --->
+<cfset guidanceText = "#guidanceText# The <a href='/documentation/er_diagrams/' target='_blank'>E-R Diagrams</a>, <a href='https://github.com/MCZbase/DDL/tree/master/TABLE' target='_blank'>Schema documentation</a>, the list of fields in the <a href='specimens/viewSpecimenSearchMetadata.cfm?action=flat' target='_blank'>FLAT table</a>, and <a href='https://github.com/MCZbase/queries_MCZbase' target='_blank'>Example Query Library</a> may help in formulating queries."> <!--- " --->
 <cfif isDefined("sql")>
 	<!--- prevent typical copy/paste problem that users encounter, a query with normal ; termination. Strip off the ; to allow query to pass checks --->
 	<cfset sql=Trim(sql)>
