@@ -57,6 +57,11 @@ limitations under the License.
 				<div class="row mx-0 mb-3">
 					<h2 class="h2">Fields in the FLAT table</h2>
 					<p>This is the list of fields in the denormalized FLAT table.  These are available for search on the User SQL page.<p>
+					<cfquery name="myColls" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
+						SELECT DISTINCT collection_id 
+						FROM flat;
+					</cfquery>
+					<cfset visibleCollections = ValueList(myColls.collection_id)>
 					<cfquery name="getFlatCols" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getFlatCols_result" timeout="#Application.query_timeout#">
 						SELECT 
 							all_tab_columns.column_name, 
@@ -83,8 +88,8 @@ limitations under the License.
 						</thead>
 						<tbody>
 							<cfloop query="getFlatCols">
-								<!--- get one not null example --->
-								<cfset coll = RandRange(1,9)> 
+								<!--- get one not null example from a collection that I can see --->
+								<cfset coll = ListGetAt(visibleCollections,RandRange( 1, ListLen(visibleCollections) ) )>
 								<cfquery name="getExample" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">									SELECT 
 										<cfif getFlatCols.data_type EQ 'DATE'>
 											to_char(#getFlatCols.column_name#,'yyyy-mm-dd') 
@@ -92,7 +97,7 @@ limitations under the License.
 											#getFlatCols.column_name# 
 										</cfif>
 										as value
-									FROM flat
+									FROM flat sample(1)
 									WHERE #getFlatCols.column_name# IS NOT NULL
 										and rownum = 1
 										and collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#coll#">
