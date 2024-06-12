@@ -110,7 +110,7 @@ limitations under the License.
 					</table>
 				</div>
 			</main>
-		<cfoutput>
+		</cfoutput>
 	</cfcase>
 	<cfcase value="results">
 		<div id="overlaycontainer" style="position: relative;"> 
