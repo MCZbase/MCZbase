@@ -592,12 +592,12 @@ limitations under the License.
 								</cfif>
 							</cfif>
 							
-							<cfif table_name is "agent">
+<!---							<cfif table_name is "agent">
 								<cfquery name="cAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 									SELECT agent_id 
 									FROM agent_name 
 									WHERE agent_name =<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#labelValue#">
-								</cfquery>
+								</cfquery>--->
 <!---								<cfif cAgent.recordcount gt 0>
 									<cfif cAgent.recordcount is 1 and len(cAgent.agent_id) gt 0>
 										<cfquery name="insRel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
