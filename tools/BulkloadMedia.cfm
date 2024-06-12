@@ -560,10 +560,10 @@ limitations under the License.
 								</cfquery>
 								<cfset primaryKey ='#getRPK.column_name#'>
 							</cfloop>
+							<cfset idtype = "#primaryKey#">
+							<cfset idvalue = labelValue>
 							<cfoutput>#TABLE_NAME#: #primaryKey#</cfoutput>	
 							<cfif isnumeric(primaryKey)>
-								<cfset idtype = "#primaryKey#">
-								<cfset idvalue = labelValue>
 								<cfquery name="insRel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 									insert into cf_temp_media_relations (
 										KEY,
@@ -579,21 +579,7 @@ limitations under the License.
 										<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#username#">
 								</cfquery>
 							<cfelse>
-								<cfif #TABLE_NAME# is 'cataloged_item'>
-								<cfelse>
-									<cfset idtype = "#primaryKey#">
-									<cfset idvalue = labelValue>
-									<cfquery name="getPrimaryVal" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-										SELECT #primaryKey# 
-										FROM #TABLE_NAME#
-										WHERE #primaryKey# =<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#labelValue#">
-									</cfquery>
-									<!---<cfset idtype=trim(listfirst(labelValue,"|"))>
-									<cfset idvalue=trim(listlast(labelValue,"|"))>--->
-									<cfif len(getPrimaryVal.primaryKey) gt 0>
-										#getPrimaryVal.primaryKey#
-									</cfif>
-								</cfif>
+								Hello
 							</cfif>
 						</cfif>
 					</cfloop>
