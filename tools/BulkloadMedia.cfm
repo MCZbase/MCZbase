@@ -581,6 +581,8 @@ limitations under the License.
 							<cfelse>
 								<cfif #TABLE_NAME# is 'cataloged_item'>
 								<cfelse>
+									<cfset idtype = "#primaryKey#">
+									<cfset idvalue = labelValue>
 									<cfquery name="getPrimaryVal" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 										SELECT #primaryKey# 
 										FROM #TABLE_NAME#
