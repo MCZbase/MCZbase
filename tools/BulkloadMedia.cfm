@@ -578,8 +578,7 @@ limitations under the License.
 										<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#primaryKey#">,
 										<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#username#">
 								</cfquery>
-							<cfelse>
-								Hello
+							
 							</cfif>
 						</cfif>
 					</cfloop>
