@@ -540,8 +540,8 @@ limitations under the License.
 							<cfset table_name = listlast(labelName," ")>
 								
 							<cfquery name = "getRPK"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" >
-								SELECT cols.table_name, cols.column_name, cols.position, cons.status, cons.owner
-								FROM all_constraints cons, all_cons_columns cols
+								SELECT cols.table_name, cols.column_name, cols.position
+								FROM MCZBASE.all_constraints cons, MCZBASE.all_cons_columns cols
 								WHERE cols.table_name = '#table_name#'
 								AND cons.constraint_type = 'P'
 								AND cons.constraint_name = cols.constraint_name
