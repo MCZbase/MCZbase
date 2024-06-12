@@ -550,8 +550,8 @@ limitations under the License.
 								ORDER BY cols.table_name, cols.position
 							</cfquery>
 							<cfset primarykey ='#getRPK.column_name#'>
-							<cfloop query="getRPK">	<h2>#getRPK.column_name#,</h2> </cfloop>
-							#getRPK.column_name#
+							
+							#primarykey#
 							#table_name#
 
 							<cfif table_name is "agent">
