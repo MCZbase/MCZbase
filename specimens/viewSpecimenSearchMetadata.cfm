@@ -22,6 +22,9 @@ limitations under the License.
 <cfif not isdefined("action")>
 	<cfset action="search">
 </cfif>
+<cfif action EQ "flat" AND (NOT isdefined("session.roles") OR NOT listcontainsnocase(session.roles,"coldfusion_user"))>
+	<!--- external users have no need to see the flat columns --->
+	<cfset action="search">
 <cfswitch expression="#action#">
 	<cfcase value="search">
 		<cfset pageTitle = "View Specimen Search Fields">
@@ -82,7 +85,7 @@ limitations under the License.
 								<!--- get one not null example --->
 								<cfset coll = RandRange(1,9)> 
 								<cfquery name="getExample" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">									SELECT 
-										<cfif getFlatCols.datatype EQ 'DATE'>
+										<cfif getFlatCols.data_type EQ 'DATE'>
 											to_char(#getFlatCols.column_name#,'yyyy-mm-dd') 
 										<cfelse>
 											#getFlatCols.column_name# 
@@ -92,10 +95,11 @@ limitations under the License.
 									WHERE #getFlatCols.coumn_name# IS NOT NULL
 										and rowum = 1
 										and collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#col#">
+										and collection_object_id not in (select collection_object_id from coll_object_encumbrance)
 								</cfquery>
 								<tr>
 									<td>
-										<cfif getFlatCols.datatype EQ 'DATE'>
+										<cfif getFlatCols.data_type EQ 'DATE'>
 											to_char(#getFlatCols.column_name#,'yyyy-mm-dd') 
 										<cfelse>
 											#getFlatCols.column_name#
