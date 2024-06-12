@@ -541,10 +541,9 @@ limitations under the License.
 							<cfset table_name = listlast(labelName," ")>
 							<cfset separator = "">
 							<cfloop list="#table_name#" index="table" delimiters=",">
-								<cfset csv='#tbl##separator#"#table#"'>
+								<cfset tbl='#tbl##separator#"#table#"'>
 								<cfset separator = ",">
 							</cfloop>
-							<cfheader name="Content-Type" value="text/csv">
 							<cfoutput>#tbl#</cfoutput>
 								
 								
