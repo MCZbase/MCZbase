@@ -579,10 +579,12 @@ limitations under the License.
 										<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#username#">
 								</cfquery>
 							<cfelse>
+								<cfif #TABLE_NAME# is 'cataloged_item'>
+								<cfelse>
 								<cfquery name="getPrimaryVal" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 									SELECT #primaryKey# 
 									FROM #TABLE_NAME#
-									WHERE LabelValue =<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#labelValue#">
+									WHERE #primaryKey# =<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#labelValue#">
 								</cfquery>
 								<cfset idtype=trim(listfirst(labelValue,"|"))>
 								<cfset idvalue=trim(listlast(labelValue,"|"))>
