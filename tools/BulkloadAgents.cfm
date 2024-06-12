@@ -343,39 +343,39 @@ limitations under the License.
 				SET 
 					status = concat(nvl2(status, status || '; ', ''), 'PREFERRED_NAME required')
 				WHERE 
-					preferred_name is null
-					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+					preferred_name is null AND
+					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<cfquery name="lastName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" >
 				UPDATE cf_temp_agents
 				SET 
 					status = concat(nvl2(status, status || '; ', ''), 'LAST_NAME required')
 				WHERE 
-					last_name is null
-					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+					last_name is null AND
+					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<cfquery name="agentType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" >
 				UPDATE cf_temp_agents
 				SET 
 					status = concat(nvl2(status, status || '; ', ''), 'AGENT_TYPE required')
 				WHERE 
-					agent_type is null
-					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+					agent_type is null AND
+					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>	
 			<cfquery name="dupName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" >
 				UPDATE cf_temp_agents
 				SET 
-					status = concat(nvl2(status, status || '; ', ''), 'Agent name already exists')
+					status = concat(nvl2(status, status || '; ', ''), 'AGENT_NAME already exists')
 				WHERE 
 					preferred_name in (
 						select agent_name from preferred_agent_name
-						)
-					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+						) AND
+					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>	
 			<cfquery name="invAgntType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				UPDATE cf_temp_agents
 				SET 
-					status = concat(nvl2(status, status || '; ', ''),'Agent type not valid - check <a href="/vocabularies/ControlledVocabulary.cfm?table=CTAGENT_TYPE">controlled vocabulary</a>')
+					status = concat(nvl2(status, status || '; ', ''),'AGENT_TYPE not valid - check <a href="/vocabularies/ControlledVocabulary.cfm?table=CTAGENT_TYPE">controlled vocabulary</a>')
 				WHERE 
 					AGENT_TYPE not in (select agent_type from ctagent_type) AND
 					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
@@ -384,7 +384,7 @@ limitations under the License.
 				<cfquery name="invAgntPrefix" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE cf_temp_agents
 					SET 
-						status = concat(nvl2(status, status || '; ', ''),'Prefix not valid - check <a href="/vocabularies/ControlledVocabulary.cfm?table=CTPREFIX">controlled vocabulary</a>')
+						status = concat(nvl2(status, status || '; ', ''),'PREFIX not valid - check <a href="/vocabularies/ControlledVocabulary.cfm?table=CTPREFIX">controlled vocabulary</a>')
 					WHERE 
 						PREFIX not in (select PREFIX from CTPREFIX) AND
 						username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
@@ -394,7 +394,7 @@ limitations under the License.
 				<cfquery name="invAgntSuffix" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE cf_temp_agents
 					SET 
-						status = concat(nvl2(status, status || '; ', ''), 'Suffix not valid - check <a href="/vocabularies/ControlledVocabulary.cfm?table=CTSUFFIX">controlled vocabulary</a>')
+						status = concat(nvl2(status, status || '; ', ''), 'SUFFIX not valid - check <a href="/vocabularies/ControlledVocabulary.cfm?table=CTSUFFIX">controlled vocabulary</a>')
 					WHERE 
 						SUFFIX not in (select suffix from ctsuffix) AND
 						username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
@@ -404,7 +404,7 @@ limitations under the License.
 				<cfquery name="invGuidType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE cf_temp_agents
 					SET 
-						status = concat(nvl2(status, status || '; ', ''), 'Agent GUID type not valid for agents - check <a href="/vocabularies/ControlledVocabulary.cfm?table=CTGUID_TYPE">controlled vocabulary</a>')
+						status = concat(nvl2(status, status || '; ', ''), 'AGENTGUID_GUID_TYPE not valid for agents - check <a href="/vocabularies/ControlledVocabulary.cfm?table=CTGUID_TYPE">controlled vocabulary</a>')
 					WHERE 
 						AGENTGUID_GUID_TYPE not in (select guid_type from ctguid_type) AND 
 						username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
@@ -414,7 +414,7 @@ limitations under the License.
 				<cfquery name="invAgntName1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE cf_temp_agents
 					SET 
-						status = concat(nvl2(status, status || '; ', ''),'Agent type not valid - check <a href="/vocabularies/ControlledVocabulary.cfm?table=CTAGENT_NAME_TYPE">')
+						status = concat(nvl2(status, status || '; ', ''),'AGENT_TYPE not valid - check <a href="/vocabularies/ControlledVocabulary.cfm?table=CTAGENT_NAME_TYPE">')
 					WHERE 
 						OTHER_NAME_TYPE_1 not in (select agent_name_type from ctagent_name_type) AND 
 						username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
@@ -450,8 +450,8 @@ limitations under the License.
 							SET 
 								status = concat(nvl2(status, status || '; ', ''),'If agentguid is specified, agentguid_guid_type must also be provided.')
 							WHERE 
-								username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-								AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#key#">
+								username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> AND
+								key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#key#">
 						</cfquery>
 					<cfelseif len(getTempData.agentguid_guid_type) GT 0>
 						<!--- test that guid matches format --->
@@ -468,7 +468,7 @@ limitations under the License.
 								<cfquery name="invGuidType2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 									UPDATE cf_temp_agents
 									SET 
-										status = concat(nvl2(status, status || '; ', ''),'Agent GUID is not in the correct format for ' || agentguid_guid_type || ' expected pattern is #getPattern.pattern_regex#')
+										status = concat(nvl2(status, status || '; ', ''),'AGENTGUID is not in the correct format for ' || agentguid_guid_type || ' expected pattern is #getPattern.pattern_regex#')
 									WHERE 
 										username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> AND
 										key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#key#">
