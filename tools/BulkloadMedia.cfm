@@ -575,7 +575,7 @@ limitations under the License.
 										<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#key#">,
 										<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#labelName#">,
 										<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.myAgentId#">,
-										<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#cidtype">,
+										<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#primaryKey#">,
 										<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#username#">
 								</cfquery>
 							<cfelse>
