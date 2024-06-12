@@ -559,12 +559,9 @@ limitations under the License.
 									ORDER BY cols.table_name, cols.position
 								</cfquery>
 								<cfset primaryKey ='#getRPK.column_name#'>
-							</cfloop>
-							<cfoutput>#TABLE_NAME#: #primaryKey#</cfoutput>	
-								
+							</cfloop>								
 							<cfif isnumeric(labelValue) and len(table_name) gt 0>
-								
-								<cfoutput>#primaryKey#: #labelValue#</cfoutput>
+								<cfoutput>#table_name#: #primaryKey#: #labelValue#</cfoutput>
 							</cfif>
 							
 						</cfif>
