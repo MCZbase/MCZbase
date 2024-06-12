@@ -537,8 +537,18 @@ limitations under the License.
 							<cfset labelName=listgetat(label,1,"=")>
 							<cfset labelValue=listgetat(label,2,"=")>
 							<!---Grabs the last word of the ct media relationship to identify the table name.--->
+							<cfset tbl = ''>
 							<cfset table_name = listlast(labelName," ")>
-							<cfloop item="table_name" list="table_name" delimiters="; ">
+							<cfset separator = "">
+							<cfloop list="#table_name#" index="table" delimiters=",">
+								<cfset csv='#tbl##separator#"#table#"'>
+								<cfset separator = ",">
+							</cfloop>
+							<cfheader name="Content-Type" value="text/csv">
+							<cfoutput>#tbl#</cfoutput>
+								
+								
+							<cfloop list="#table_name#" index="tbl" delimiters=",">
 								<cfquery name = "getRPK"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" >
 									SELECT cols.table_name, cols.column_name, cols.position
 									FROM all_constraints cons, all_cons_columns cols
@@ -551,8 +561,7 @@ limitations under the License.
 								</cfquery>
 								<cfset primarykey ='#getRPK.column_name#'>
 							</cfloop>
-								#primarykey#
-								#table_name#
+						
 							
 							<cfif table_name is "agent">
 								<cfquery name="cAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
