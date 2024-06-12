@@ -25,6 +25,7 @@ limitations under the License.
 <cfif action EQ "flat" AND (NOT isdefined("session.roles") OR NOT listcontainsnocase(session.roles,"coldfusion_user"))>
 	<!--- external users have no need to see the flat columns --->
 	<cfset action="search">
+</cfif>
 <cfswitch expression="#action#">
 	<cfcase value="search">
 		<cfset pageTitle = "View Specimen Search Fields">
