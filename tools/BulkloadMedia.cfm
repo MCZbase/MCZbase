@@ -581,15 +581,16 @@ limitations under the License.
 							<cfelse>
 								<cfif #TABLE_NAME# is 'cataloged_item'>
 								<cfelse>
-								<cfquery name="getPrimaryVal" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-									SELECT #primaryKey# 
-									FROM #TABLE_NAME#
-									WHERE #primaryKey# =<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#labelValue#">
-								</cfquery>
-								<cfset idtype=trim(listfirst(labelValue,"|"))>
-								<cfset idvalue=trim(listlast(labelValue,"|"))>
-								<cfif len(getPrimaryVal.primaryKey) gt 0>
-									#getPrimaryVal.primaryKey#
+									<cfquery name="getPrimaryVal" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+										SELECT #primaryKey# 
+										FROM #TABLE_NAME#
+										WHERE #primaryKey# =<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#labelValue#">
+									</cfquery>
+									<cfset idtype=trim(listfirst(labelValue,"|"))>
+									<cfset idvalue=trim(listlast(labelValue,"|"))>
+									<cfif len(getPrimaryVal.primaryKey) gt 0>
+										#getPrimaryVal.primaryKey#
+									</cfif>
 								</cfif>
 							</cfif>
 						</cfif>
