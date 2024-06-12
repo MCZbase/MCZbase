@@ -58,7 +58,7 @@ limitations under the License.
 							all_tab_columns.column_name, 
 							all_tab_columns.data_type, 
 							all_col_comments.comments definition
-						FROM all_tab_columns.column_name
+						FROM all_tab_columns
             			left join all_col_comments
             				on  all_tab_columns.table_name = all_col_comments.table_name
             				and all_tab_columns.column_name = all_col_comments.column_name
