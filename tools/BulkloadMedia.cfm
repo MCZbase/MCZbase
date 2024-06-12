@@ -558,10 +558,39 @@ limitations under the License.
 									AND cons.owner = 'MCZBASE'
 									ORDER BY cols.table_name, cols.position
 								</cfquery>
-								<cfset primarykey ='#getRPK.column_name#'>
+								<cfset primaryKey ='#getRPK.column_name#'>
 							</cfloop>
-							<cfoutput>#TABLE_NAME#: #primarykey#</cfoutput>	
-						
+							<cfoutput>#TABLE_NAME#: #primaryKey#</cfoutput>	
+							<cfif isnumeric(primaryKey)>
+								<cfset idtype = "#primaryKey#">
+								<cfset idvalue = labelValue>
+								<cfquery name="insRel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+									nsert into cf_temp_media_relations (
+										EY,
+										EDIA_RELATIONSHIP,
+										REATED_BY_AGENT_ID,
+										ELATED_PRIMARY_KEY,
+										SERNAME
+									 values (
+										cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#key#">,
+										cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#labelName#">,
+										cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.myAgentId#">,
+										cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#cidtype">,
+										cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#username#">
+									
+								/cfquery>
+							<cfelse>
+								<cfquery name="getPrimaryVal" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+									SELECT #primaryKey# 
+									FROM #TABLE_NAME#
+									WHERE LabelValue =<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#labelValue#">
+								</cfquery>
+								<cfset idtype=trim(listfirst(labelValue,"|"))>
+								<cfset idvalue=trim(listlast(labelValue,"|"))>
+								<cfif len(getPrimaryVal.primaryKey) gt 0>
+									#getPrimaryVal.primaryKey#
+								</cfif>
+							</cfif>
 							
 							<cfif table_name is "agent">
 								<cfquery name="cAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -569,7 +598,7 @@ limitations under the License.
 									FROM agent_name 
 									WHERE agent_name =<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#labelValue#">
 								</cfquery>
-								<cfif cAgent.recordcount gt 0>
+<!---								<cfif cAgent.recordcount gt 0>
 									<cfif cAgent.recordcount is 1 and len(cAgent.agent_id) gt 0>
 										<cfquery name="insRel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 											insert into cf_temp_media_relations (
@@ -596,8 +625,8 @@ limitations under the License.
 												key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#cAgent.key#">
 										</cfquery>
 									</cfif>
-								</cfif>
-							<cfelseif table_name is "locality">
+								</cfif>--->
+<!---							<cfelseif table_name is "locality">
 								<cfif isnumeric(labelValue)>
 									<cfset idtype = "locality_id">
 									<cfset idvalue = labelValue>
@@ -659,7 +688,6 @@ limitations under the License.
 											VERBATIM_LOCALITY = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#labelValue#">
 											)
 									</cfquery>
-									<!---For collecting event ID--->
 									<cfif len(cEvent.collecting_event_id) gt 0>
 										<cfif cEvent.recordcount is 1 and len(cEvent.collecting_event_id) gt 0>
 											<cfquery name="insRel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -689,7 +717,7 @@ limitations under the License.
 											</cfquery>
 										</cfif>
 									</cfif>
-								<cfelse><!---For collecting event number series--->
+								<cfelse>
 									<cfquery name="cEvent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 										SELECT collecting_event_id 
 										FROM coll_event_num_series ns 
@@ -727,7 +755,7 @@ limitations under the License.
 											key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#cEvent.key#"> 
 										</cfquery>
 									</cfif>
-								</cfif>
+								</cfif>--->
 				<!---			<cfelseif table_name is "project">
 								<cfset labelValue = replace(labelValue," ","-","all")>
 								<cfquery name="cProject" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
