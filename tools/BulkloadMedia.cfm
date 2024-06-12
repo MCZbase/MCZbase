@@ -428,7 +428,7 @@ limitations under the License.
 					status = concat(nvl2(status, status || '; ', ''),'MEDIA_TYPE invalid - see <a href="/vocabularies/ControlledVocabulary.cfm?table=CTMEDIA_TYPE">controlled vocabulary</a>')
 				WHERE 
 					media_type not in (select media_type from ctmedia_type) AND
-					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#username#">
+					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<cfquery name="warningMessageMimeType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				UPDATE
@@ -437,7 +437,7 @@ limitations under the License.
 					status = concat(nvl2(status, status || '; ', ''),'MIME_TYPE invalid - see <a href="/vocabularies/ControlledVocabulary.cfm?table=CTMEDIA_TYPE">controlled vocabulary</a>')
 				WHERE 
 					mime_type not in (select mime_type from CTMIME_TYPE) AND
-					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#username#">
+					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<cfquery name="warningMessageLicense" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				UPDATE
@@ -447,7 +447,7 @@ limitations under the License.
 				WHERE
 					media_license_id not in (select media_license_id from ctmedia_license) AND
 					key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempMedia.key#"> AND
-					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#username#">
+					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<cfif len(getTempMedia.mask_media) gt 0>
 				<cfif not(getTempMedia.mask_media EQ 1 or getTempMedia.mask_media EQ 0)>
@@ -457,8 +457,7 @@ limitations under the License.
 						SET
 							status = concat(nvl2(status, status || '; ', ''),'MASK_MEDIA must = blank, 1 or 0')
 						WHERE 
-							username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#username#"> AND
-							key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempMedia.key#"> 
+							username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> 
 					</cfquery>
 				</cfif>
 			</cfif>
