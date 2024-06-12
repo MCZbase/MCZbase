@@ -108,7 +108,7 @@ limitations under the License.
 									</td>
 									<td>#getFlatCols.definition#</td>
 									<td>#getFlatCols.data_type#</td>
-									<td>#getExample.value#<td>
+									<td>#getExample.value#</td>
 								<tr>
 							</cfloop>
 						</tbody>
