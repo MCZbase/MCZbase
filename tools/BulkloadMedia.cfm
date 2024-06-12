@@ -568,8 +568,9 @@ limitations under the License.
 									from #table_name# 
 									where #primaryKey# = #labelValue# 
 								</cfquery>
+								<cfloop query="lookupPK">#lookupPK.primaryKey#</cfloop>
 							</cfif>
-							<cfloop query="lookupPK">#lookupPK.primaryKey#</cfloop>
+							
 						</cfif>
 					</cfloop>
 				</cfif>
