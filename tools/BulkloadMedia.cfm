@@ -545,9 +545,10 @@ limitations under the License.
 								AND cons.constraint_type = 'P'
 								AND cons.constraint_name = cols.constraint_name
 								AND cons.owner = cols.owner
+								AND cons.owner = 'MCZBASE'
 								ORDER BY cols.table_name, cols.position
 							</cfquery>
-							#getRPK.column_name#, 
+							'#MCZBASE.getRPK.column_name#', 
 
 							<cfif table_name is "agent">
 								<cfquery name="cAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
