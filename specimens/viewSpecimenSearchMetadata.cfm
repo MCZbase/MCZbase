@@ -140,6 +140,9 @@ limitations under the License.
 															WHERE #getFlatCols.column_name# IS NOT NULL
 																and rownum = 1
 																and collection_object_id not in (select collection_object_id from coll_object_encumbrance)
+																<cfif getFlatCols.column_name EQ 'ATTRIBUTES_JSON'>
+																	and ATTRIBUTES_JSON <> '{}'
+																</cfif>
 														</cfquery>
 														#getExampleAny.value#
 													</cfif>
