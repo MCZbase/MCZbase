@@ -564,7 +564,6 @@ limitations under the License.
 							<cfset idvalue = labelValue>
 							<cfoutput>#TABLE_NAME#: #primaryKey#</cfoutput>	
 							<cfif isnumeric(primaryKey) and len(table_name) gt 0>
-								<cfif 
 								<cfquery name="insRel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 									insert into cf_temp_media_relations (
 										KEY,
