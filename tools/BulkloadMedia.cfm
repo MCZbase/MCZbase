@@ -563,12 +563,8 @@ limitations under the License.
 							<cfoutput>#TABLE_NAME#: #primaryKey#</cfoutput>	
 								
 							<cfif isnumeric(labelValue) and len(table_name) gt 0>
-								<cfquery name="lookupPK" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-									select #primaryKey# 
-									from #table_name# 
-									where #primaryKey# = #labelValue# 
-								</cfquery>
-								<cfloop query="lookupPK">#lookupPK.primaryKey#</cfloop>
+								
+								#lookupPK.primaryKey# = #labelValue#
 							</cfif>
 							
 						</cfif>
