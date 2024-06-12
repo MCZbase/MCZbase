@@ -563,11 +563,10 @@ limitations under the License.
 							<cfoutput>#TABLE_NAME#: #primaryKey#</cfoutput>	
 								
 							<cfif isnumeric(labelValue) and len(table_name) gt 0>
-								<cfquery name="insRel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+								<cfquery name="lookupPK" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 									select #primaryKey# 
 									from #table_name# 
-									where #primaryKey# = #labelValue# AND
-									username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#username#">
+									where #primaryKey# = #labelValue# 
 								</cfquery>
 							</cfif>
 						</cfif>
