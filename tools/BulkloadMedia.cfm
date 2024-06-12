@@ -537,14 +537,14 @@ limitations under the License.
 							<cfset labelName=listgetat(label,1,"=")>
 							<cfset labelValue=listgetat(label,2,"=")>
 							<!---Grabs the last word of the ct media relationship to identify the table name.--->
-							<cfset tbl = ''>
+<!---							<cfset tbl = ''>
 							<cfset table_name = listlast(labelName," ")>
 							<cfset separator = "">
 							<cfloop list="#table_name#" index="table" delimiters=",">
 								<cfset tbl='#tbl##separator#"#table#"'>
 								<cfset separator = ",">
 							</cfloop>
-							<cfoutput>#tbl#</cfoutput>
+							<cfoutput>#tbl#</cfoutput>--->
 								
 								
 							<cfloop list="#table_name#" index="tbl" delimiters=",">
