@@ -95,7 +95,7 @@ limitations under the License.
 									FROM flat
 									WHERE #getFlatCols.column_name# IS NOT NULL
 										and rowum = 1
-										and collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#col#">
+										and collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#coll#">
 										and collection_object_id not in (select collection_object_id from coll_object_encumbrance)
 								</cfquery>
 								<tr>
