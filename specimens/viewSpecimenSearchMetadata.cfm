@@ -79,12 +79,12 @@ limitations under the License.
 					</cfquery>
 					<table class="table-responsive sortable">
 						<thead>
-							<th>
-								<td>Fieldname</td>
-								<td>Definition</td>
-								<td>Data Type</td>
-								<td>Example Value</td>
-							</th>
+							<tr>
+								<th>Fieldname</th>
+								<th>Definition</th>
+								<th>Data Type</th>
+								<th>Example Value</th>
+							</tr>
 						</thead>
 						<tbody>
 							<cfloop query="getFlatCols">
