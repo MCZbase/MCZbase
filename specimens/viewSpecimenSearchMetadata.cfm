@@ -117,7 +117,7 @@ limitations under the License.
 											<td>#getFlatCols.definition#</td>
 											<td>#getFlatCols.data_type#</td>
 											<td>
-												<cfif len(getExample.value) EQ 0> 
+												<cfif len(trim(getExample.value)) EQ 0> 
 													<cfquery name="checkAllNull" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">									SELECT count(*) ct
 															FROM flat
 															WHERE #getFlatCols.column_name# IS NOT NULL
