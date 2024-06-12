@@ -550,10 +550,10 @@ limitations under the License.
 									ORDER BY cols.table_name, cols.position
 								</cfquery>
 								<cfset primarykey ='#getRPK.column_name#'>
-
+							</cfloop>
 								#primarykey#
 								#table_name#
-							</cfloop>	
+							
 							<cfif table_name is "agent">
 								<cfquery name="cAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 									SELECT agent_id 
