@@ -560,7 +560,7 @@ limitations under the License.
 								</cfquery>
 								<cfset primarykey ='#getRPK.column_name#'>
 							</cfloop>
-							<cfoutput>#primarykey#</cfoutput>	
+							<cfoutput>#primarykey# #getRPK.column_name#</cfoutput>	
 						
 							
 							<cfif table_name is "agent">
