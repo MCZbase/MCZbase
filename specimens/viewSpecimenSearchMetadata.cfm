@@ -59,13 +59,13 @@ limitations under the License.
 					<div class="row">
 						<div class="col-12">
 							<h2 class="h2">Fields in the FLAT table</h2>
-							<p>This is the list of fields in the denormalized FLAT table.  These are available for search on the User SQL page.<p>
+							<p>This is the list of fields in the denormalized FLAT table.  These are available for search on the <a href="/tools/userSQL.cfm?sql=SELECT+guid%2C+scientific_name%2C+country%0AFROM+flat%0AWHERE++genus+%3D+'Vulpes'%0A++and+spec_locality+like+'%25field%25'" target="_blank">User SQL</a> page.<p>
 							<cfquery name="myColls" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
 								SELECT DISTINCT collection_id 
 								FROM flat;
 							</cfquery>
 							<cfset visibleCollections = ValueList(myColls.collection_id)>
-							<cfquery name="getFlatCols" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getFlatCols_result" timeout="#Application.query_timeout#">
+							<cfquery name="getFlatCols" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getFlatCols_result" timeout="#Application.query_timeout#" cachedwithin="#createtimespan(1,0,0,0)#" >
 								SELECT 
 									all_tab_columns.column_name, 
 									all_tab_columns.data_type, 
@@ -93,7 +93,8 @@ limitations under the License.
 									<cfloop query="getFlatCols">
 										<!--- get one not null example from a collection that I can see --->
 										<cfset coll = ListGetAt(visibleCollections,RandRange( 1, ListLen(visibleCollections) ) )>
-										<cfquery name="getExample" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">									SELECT 
+										<cfquery name="getExample" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#" cachedwithin="#createtimespan(1,0,0,0)#">
+											SELECT 
 												<cfif getFlatCols.data_type EQ 'DATE'>
 													to_char(#getFlatCols.column_name#,'yyyy-mm-dd') 
 												<cfelse>
@@ -118,14 +119,16 @@ limitations under the License.
 											<td>#getFlatCols.data_type#</td>
 											<td>
 												<cfif len(trim(getExample.value)) EQ 0> 
-													<cfquery name="checkAllNull" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">									SELECT count(*) ct
+													<cfquery name="checkAllNull" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#" cachedwithin="#createtimespan(1,0,0,0)#" >
+														SELECT count(*) ct
 															FROM flat
 															WHERE #getFlatCols.column_name# IS NOT NULL
 													</cfquery>
 													<cfif checkAllNull.ct EQ 0>
 														[No Values]
 													<cfelse>
-														<cfquery name="getExampleAny" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">									SELECT 
+														<cfquery name="getExampleAny" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#" cachedwithin="#createtimespan(1,0,0,0)#">
+															SELECT 
 																<cfif getFlatCols.data_type EQ 'DATE'>
 																	to_char(#getFlatCols.column_name#,'yyyy-mm-dd') 
 																<cfelse>
@@ -134,8 +137,8 @@ limitations under the License.
 																as value
 															FROM flat
 															WHERE #getFlatCols.column_name# IS NOT NULL
-															and rownum = 1
-															and collection_object_id not in (select collection_object_id from coll_object_encumbrance)
+																and rownum = 1
+																and collection_object_id not in (select collection_object_id from coll_object_encumbrance)
 														</cfquery>
 														#getExampleAny.value#
 													</cfif>
