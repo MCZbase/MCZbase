@@ -588,8 +588,8 @@ limitations under the License.
 										FROM #TABLE_NAME#
 										WHERE #primaryKey# =<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#labelValue#">
 									</cfquery>
-									<cfset idtype=trim(listfirst(labelValue,"|"))>
-									<cfset idvalue=trim(listlast(labelValue,"|"))>
+									<!---<cfset idtype=trim(listfirst(labelValue,"|"))>
+									<cfset idvalue=trim(listlast(labelValue,"|"))>--->
 									<cfif len(getPrimaryVal.primaryKey) gt 0>
 										#getPrimaryVal.primaryKey#
 									</cfif>
