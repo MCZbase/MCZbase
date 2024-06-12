@@ -538,7 +538,7 @@ limitations under the License.
 							<cfset labelValue=listgetat(label,2,"=")>
 							<!---Grabs the last word of the ct media relationship to identify the table name.--->
 <!---							<cfset tbl = ''>
-							<cfset table_name = listlast(labelName," ")>
+							
 							<cfset separator = "">
 							<cfloop list="#table_name#" index="table" delimiters=",">
 								<cfset tbl='#tbl##separator#"#table#"'>
@@ -546,7 +546,7 @@ limitations under the License.
 							</cfloop>
 							<cfoutput>#tbl#</cfoutput>--->
 								
-								
+							<cfset table_name = listlast(labelName," ")>
 							<cfloop list="#table_name#" index="tbl" delimiters=",">
 								<cfquery name = "getRPK"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" >
 									SELECT cols.table_name, cols.column_name, cols.position
