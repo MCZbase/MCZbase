@@ -537,30 +537,45 @@ limitations under the License.
 							<cfset labelName=listgetat(label,1,"=")>
 							<cfset labelValue=listgetat(label,2,"=")>
 							<!---Grabs the last word of the ct media relationship to identify the table name.--->
+<!---							<cfset tbl = ''>
+							
+							<cfset separator = "">
+							<cfloop list="#table_name#" index="table" delimiters=",">
+								<cfset tbl='#tbl##separator#"#table#"'>
+								<cfset separator = ",">
+							</cfloop>
+							<cfoutput>#tbl#</cfoutput>--->
+								
 							<cfset table_name = listlast(labelName," ")>
-							<cfloop item="table_name" list="table_name" delimiters="; ">
+							<cfloop list="#table_name#" index="tbl" delimiters=",">
 								<cfquery name = "getRPK"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" >
 									SELECT cols.table_name, cols.column_name, cols.position
 									FROM all_constraints cons, all_cons_columns cols
-									WHERE cols.table_name = '#table_name#'
+									WHERE cols.table_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(table_name)#" />
 									AND cons.constraint_type = 'P'
 									AND cons.constraint_name = cols.constraint_name
 									AND cons.owner = cols.owner
 									AND cons.owner = 'MCZBASE'
 									ORDER BY cols.table_name, cols.position
 								</cfquery>
-								<cfset primarykey ='#getRPK.column_name#'>
+								<cfset primaryKey ='#getRPK.column_name#'>
+							</cfloop>								
+							<cfif isnumeric(labelValue) and len(table_name) gt 0>
+								<cfoutput>#table_name#: #primaryKey#: #labelValue#</cfoutput>
+							</cfif>
+							
+						</cfif>
+					</cfloop>
+				</cfif>
 
-								#primarykey#
-								#table_name#
-							</cfloop>	
-							<cfif table_name is "agent">
+											
+<!---							<cfif table_name is "agent">
 								<cfquery name="cAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 									SELECT agent_id 
 									FROM agent_name 
 									WHERE agent_name =<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#labelValue#">
-								</cfquery>
-								<cfif cAgent.recordcount gt 0>
+								</cfquery>--->
+<!---								<cfif cAgent.recordcount gt 0>
 									<cfif cAgent.recordcount is 1 and len(cAgent.agent_id) gt 0>
 										<cfquery name="insRel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 											insert into cf_temp_media_relations (
@@ -587,8 +602,8 @@ limitations under the License.
 												key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#cAgent.key#">
 										</cfquery>
 									</cfif>
-								</cfif>
-							<cfelseif table_name is "locality">
+								</cfif>--->
+<!---							<cfelseif table_name is "locality">
 								<cfif isnumeric(labelValue)>
 									<cfset idtype = "locality_id">
 									<cfset idvalue = labelValue>
@@ -650,7 +665,6 @@ limitations under the License.
 											VERBATIM_LOCALITY = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#labelValue#">
 											)
 									</cfquery>
-									<!---For collecting event ID--->
 									<cfif len(cEvent.collecting_event_id) gt 0>
 										<cfif cEvent.recordcount is 1 and len(cEvent.collecting_event_id) gt 0>
 											<cfquery name="insRel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -680,7 +694,7 @@ limitations under the License.
 											</cfquery>
 										</cfif>
 									</cfif>
-								<cfelse><!---For collecting event number series--->
+								<cfelse>
 									<cfquery name="cEvent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 										SELECT collecting_event_id 
 										FROM coll_event_num_series ns 
@@ -718,7 +732,7 @@ limitations under the License.
 											key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#cEvent.key#"> 
 										</cfquery>
 									</cfif>
-								</cfif>
+								</cfif>--->
 				<!---			<cfelseif table_name is "project">
 								<cfset labelValue = replace(labelValue," ","-","all")>
 								<cfquery name="cProject" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -751,7 +765,7 @@ limitations under the License.
 										</cfquery>
 									</cfif>
 								</cfif>--->
-							<cfelseif table_name is "publication">
+						<!---	<cfelseif table_name is "publication">
 								<cfquery name="cPub" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 									SELECT distinct(publication_id) publication_id 
 									FROM publication 
@@ -1045,7 +1059,8 @@ limitations under the License.
 							</cfif>
 						</cfif>
 					</cfloop>
-				</cfif>
+				</cfif>--->
+									
 				<cfif not isDefined("veryLargeFiles")><cfset veryLargeFiles=""></cfif>
 				<cfif veryLargeFiles NEQ "true">
 					<!--- both isimagefile and cfimage run into heap space limits with very large files --->
