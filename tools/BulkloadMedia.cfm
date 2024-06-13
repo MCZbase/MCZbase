@@ -473,7 +473,6 @@ limitations under the License.
 						username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> AND
 						key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempMedia.key#"> 
 				</cfquery>
-
 				<cfif len(getTempMedia.MEDIA_LABELS) gt 0>
 					<cfloop list="#getTempMedia.media_labels#" index="label" delimiters=";">
 						<cfset labelName=listgetat(label,1,"=")>
@@ -533,19 +532,9 @@ limitations under the License.
 							</cfquery>
 						<!---If the relationship is good, use conditionals to insert the other relationships--->
 						<cfelse>
-							
 							<cfset labelName=listgetat(label,1,"=")>
 							<cfset labelValue=listgetat(label,2,"=")>
 							<!---Grabs the last word of the ct media relationship to identify the table name.--->
-<!---							<cfset tbl = ''>
-							
-							<cfset separator = "">
-							<cfloop list="#table_name#" index="table" delimiters=",">
-								<cfset tbl='#tbl##separator#"#table#"'>
-								<cfset separator = ",">
-							</cfloop>
-							<cfoutput>#tbl#</cfoutput>--->
-								
 							<cfset table_name = listlast(labelName," ")>
 							<cfloop list="#table_name#" index="tbl" delimiters=",">
 								<cfquery name = "getRPK"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" >
