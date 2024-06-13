@@ -570,7 +570,7 @@ limitations under the License.
 											)
 										</cfquery>
 									<cfelse>
-										#getRPK.column_name#
+										<span class="text-danger">#getRPK.column_name#</span>
 									<!---Is CSV value is a text value so the primaryKey must be fetched--->	
 <!---										<cfif table_name is '#table_name#' and table_name neq 'cataloged_item'>
 											<cfquery name="CID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
