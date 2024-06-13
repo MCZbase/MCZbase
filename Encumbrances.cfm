@@ -109,6 +109,15 @@
 <!-------------------------------------------------------------------->
 <cfif action is "createEncumbrance">
 	<cfoutput>
+		<cfif not isDefined("encumberingAgentId") OR len(encumberingAgentId) EQ 0>
+			<cfthrow message="No Encumbering Agent Provided.  You must select an agent.">
+		</cfif>
+		<cfif not isDefined("ENCUMBRANCE_ACTION") OR len(ENCUMBRANCE_ACTION) EQ 0>
+			<cfthrow message="No Encubrance Action provided.  You must specify an Action.">
+		</cfif>
+		<cfif not isDefined("ENCUMBRANCE") OR len(ENCUMBRANCE) EQ 0>
+			<cfthrow message="No Encubrance Name provided.  You must provide a descriptive name for the Encumbrance..">
+		</cfif>
 		<cfquery name="nextEncumbrance" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			SELECT sq_encumbrance_id.nextval nextEncumbrance FROM dual
 		</cfquery>
