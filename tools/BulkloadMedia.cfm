@@ -575,11 +575,15 @@ limitations under the License.
 											</cfquery>
 										<cfelseif #table_name# is 'loan'>
 											<cfquery name="CID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-												select #primaryKey# from #table_name# where loan_number = '#labelValue#'
+												select #primaryKey# from #table_name# where #table_name#_number = '#labelValue#'
 											</cfquery>
 										<cfelseif #table_name# is 'borrow'>
 											<cfquery name="CID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-												select #primaryKey# from #table_name# where borrow_number = '#labelValue#'
+												select #primaryKey# from #table_name# where #table_name#_number = '#labelValue#'
+											</cfquery>
+										<cfelseif #table_name# is 'project'>
+											<cfquery name="CID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+												select #primaryKey# from #table_name# where project_name = '#labelValue#'
 											</cfquery>
 										<cfelseif table_name eq 'specimen_part'>
 											<cfset #table_name# = 'flat'>
