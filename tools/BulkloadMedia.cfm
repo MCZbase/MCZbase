@@ -594,56 +594,57 @@ limitations under the License.
 										</cfquery>
 									</cfif>
 								</cfloop>
+							</cfloop>
+						</cfif>
+						<cfif not isDefined("veryLargeFiles")><cfset veryLargeFiles=""></cfif>
+						<cfif veryLargeFiles NEQ "true">
+							<!--- both isimagefile and cfimage run into heap space limits with very large files --->
+							<cfif isimagefile("#getTempMedia.media_uri#")>
+								<cfimage action="info" source="#getTempMedia.media_uri#" structname="imgInfo"/>
+								<cfquery name="makeHeightLabel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+									INSERT into cf_temp_media_labels (
+										MEDIA_LABEL,
+										ASSIGNED_BY_AGENT_ID,
+										LABEL_VALUE,
+										USERNAME
+									) VALUES (
+										'height',
+										<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.myAgentId#">,
+										<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#imgInfo.height#">,
+										<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#username#">
+									)
+								</cfquery>
+								<cfquery name="makeWidthLabel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+									insert into cf_temp_media_labels (
+										MEDIA_LABEL,
+										ASSIGNED_BY_AGENT_ID,
+										LABEL_VALUE,
+										USERNAME
+									) values (
+										'width',
+										<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.myAgentId#">,
+										<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#imgInfo.width#">,
+										<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#username#">
+									)
+								</cfquery>
+								<cfhttp url="#getTempMedia.media_uri#" method="get" getAsBinary="yes" result="result">
+								<cfset md5hash=Hash(result.filecontent,"MD5")>
+								<cfquery name="makeMD5hash" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+									INSERT into cf_temp_media_labels (
+										MEDIA_LABEL,
+										ASSIGNED_BY_AGENT_ID,
+										LABEL_VALUE,
+										USERNAME
+									) VALUES (
+										'md5hash',
+										<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.myAgentId#">,
+										<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#md5Hash#">,
+										<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#username#">
+									)
+								</cfquery>
+							</cfif>
 						</cfif>
 					</cfloop>
-				</cfif>
-				<cfif not isDefined("veryLargeFiles")><cfset veryLargeFiles=""></cfif>
-				<cfif veryLargeFiles NEQ "true">
-					<!--- both isimagefile and cfimage run into heap space limits with very large files --->
-					<cfif isimagefile("#getTempMedia.media_uri#")>
-						<cfimage action="info" source="#getTempMedia.media_uri#" structname="imgInfo"/>
-						<cfquery name="makeHeightLabel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-							INSERT into cf_temp_media_labels (
-								MEDIA_LABEL,
-								ASSIGNED_BY_AGENT_ID,
-								LABEL_VALUE,
-								USERNAME
-							) VALUES (
-								'height',
-								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.myAgentId#">,
-								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#imgInfo.height#">,
-								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#username#">
-							)
-						</cfquery>
-						<cfquery name="makeWidthLabel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-							insert into cf_temp_media_labels (
-								MEDIA_LABEL,
-								ASSIGNED_BY_AGENT_ID,
-								LABEL_VALUE,
-								USERNAME
-							) values (
-								'width',
-								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.myAgentId#">,
-								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#imgInfo.width#">,
-								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#username#">
-							)
-						</cfquery>
-						<cfhttp url="#getTempMedia.media_uri#" method="get" getAsBinary="yes" result="result">
-						<cfset md5hash=Hash(result.filecontent,"MD5")>
-						<cfquery name="makeMD5hash" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-							INSERT into cf_temp_media_labels (
-								MEDIA_LABEL,
-								ASSIGNED_BY_AGENT_ID,
-								LABEL_VALUE,
-								USERNAME
-							) VALUES (
-								'md5hash',
-								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.myAgentId#">,
-								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#md5Hash#">,
-								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#username#">
-							)
-						</cfquery>
-					</cfif>
 				</cfif>
 			</cfloop>
 			<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
