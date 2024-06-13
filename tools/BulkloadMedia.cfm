@@ -605,7 +605,7 @@ limitations under the License.
 										<cfelse>
 											<span class="text-danger"><cfoutput>#table_name#: #primaryKey#: #labelValue#</cfoutput>  </span>
 											<cfquery name="CID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-												select #rpkName# from #table_name# where #primarykey# = '#labelValue#'
+												select '||#primaryKey#||' from #table_name# where #primarykey# = '#labelValue#'
 											</cfquery>
 										</cfif>
 										<cfquery name="insRel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -619,7 +619,7 @@ limitations under the License.
 												<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#key#">,
 												<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#labelName#">,
 												<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.myAgentId#">,
-												<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#CID.primaryKey#">,
+												<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#rpkTable#">,
 												<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 											)
 										</cfquery>
