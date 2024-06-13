@@ -602,7 +602,7 @@ limitations under the License.
 												select #primaryKey# from #table_name# where #primarykey# = '#labelValue#'
 											</cfquery>
 										</cfif>
-										<cfloop query="CID">
+										<cfloop query="CID">#primaryKey#
 											<cfquery name="insRel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 												insert into cf_temp_media_relations (
 													KEY,
