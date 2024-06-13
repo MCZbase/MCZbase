@@ -552,20 +552,20 @@ limitations under the License.
 								<cfif isnumeric(labelValue) and len(table_name) gt 0>
 									<cfoutput>#table_name#: #primaryKey#: #labelValue#</cfoutput>
 									<cfquery name="insRel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-									insert into cf_temp_media_relations (
-										KEY,
-										MEDIA_RELATIONSHIP,
-										CREATED_BY_AGENT_ID,
-										RELATED_PRIMARY_KEY,
-										USERNAME
-									) values (
-										<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#key#">,
-										<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#labelName#">,
-										<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.myAgentId#">,
-										<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#labelValue#">,
-										<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-									)
-								</cfquery>
+										insert into cf_temp_media_relations (
+											KEY,
+											MEDIA_RELATIONSHIP,
+											CREATED_BY_AGENT_ID,
+											RELATED_PRIMARY_KEY,
+											USERNAME
+										) values (
+											<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#key#">,
+											<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#labelName#">,
+											<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.myAgentId#">,
+											<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#labelValue#">,
+											<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+										)
+									</cfquery>
 								<cfelse>
 									<cfset labelValueR=trim(listfirst(labelValue,""))>
 									<cfset typeOfID = listlast(labelName," ")>
@@ -662,7 +662,7 @@ limitations under the License.
 											</cfquery>
 										</cfif>
 									</cfif>--->
-				<!---				<cfelseif table_name is 'collection_event'>
+							<!---<cfelseif table_name is 'collection_event'>
 									<cfquery name="cEvent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 										SELECT collecting_event_id 
 										FROM coll_event_num_series ns 
@@ -672,7 +672,7 @@ limitations under the License.
 											ns.number_series = '#idtype#' AND 
 											n.coll_event_number = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#idvalue#">
 									</cfquery>--->
-								<cfif table_name is '#table_name#'>
+								<cfif table_name is '#table_name#' and table_name neq 'cataloged_item'>
 									<cfquery name="cLocality" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 										SELECT '#typeOfID#_id' as PKID FROM '#table_name#' 
 										WHERE (spec_locality = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#labelValueR#"> OR agent_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#labelValueR#"> OR collecting_event = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#labelValueR#"> or publication_title = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#labelValueR#"> OR VERBATIM_LOCALITY = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#labelValueR#">)
