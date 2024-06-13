@@ -570,10 +570,10 @@ limitations under the License.
 											)
 										</cfquery>
 									<cfelse>
-										<cfif table_name is 'locality' and table_name neq 'cataloged_item' and table_name neq 'specimen_part'>
+										<cfif table_name is 'agent' and table_name neq 'cataloged_item' and table_name neq 'specimen_part'>
 											<span class="text-danger"><cfoutput>#table_name#: #primaryKey#: #labelValue#</cfoutput>  </span>
 											<cfquery name="CID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-												select #primaryKey# from #table_name# where spec_locality = '#labelValue#'
+												select #primaryKey# from #table_name# where agent_name = '#labelValue#'
 											</cfquery>
 										</cfif>
 									<!---Is CSV value is a text value so the primaryKey must be fetched--->	
