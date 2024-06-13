@@ -575,7 +575,7 @@ limitations under the License.
 											<cfset #table_name# = 'flat'>
 										<cfelseif table_name eq 'cataloged_item'>
 											<cfset #table_name# eq 'flat'>
-											<cfset #coi# = 'select collection_object_id from flat where guid = '#labelValue#''>
+											<cfset #coi# = 'select collection_object_id from flat where guid = ''#labelValue#'''>
 											<cfset #labelValue# = '#coi#'>
 										</cfif>
 											<span class="text-danger"><cfoutput>#table_name#: #primaryKey#: #labelValue#</cfoutput>  </span>
