@@ -574,9 +574,9 @@ limitations under the License.
 										<cfelseif table_name eq 'specimen_part'>
 											<cfset #table_name# = 'flat'>
 										<cfelseif table_name eq 'cataloged_item'>
-											<cfset institution_acronym = listgetat(lv,1,":")>
-											<cfset collection_cde = listgetat(lv,2,":")>
-											<cfset cat_num = listgetat(lv,3,":")>
+											<cfset institution_acronym = listgetat(labelValue,1,":")>
+											<cfset collection_cde = listgetat(labelValue,2,":")>
+											<cfset cat_num = listgetat(labelValue,3,":")>
 											<cfquery name="CID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 												select #primaryKey# from flat where GUID = '#institution_acronym#:#collection_cde#:#cat_num#'
 											</cfquery>
