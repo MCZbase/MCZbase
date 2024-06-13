@@ -548,7 +548,7 @@ limitations under the License.
 								</cfquery>
 								<cfloop query='getRPK'>
 									<cfset primaryKey ='#getRPK.column_name#'>
-									<cfif primaryKey is 'agent_id'><cfset agent_id = 'labelValue'></cfif>
+									<!---<cfif primaryKey is 'agent_id'><cfset agent_id = 'labelValue'></cfif>--->
 									
 										<!---Is CSV value is a primary key ID--->
 									<cfif isnumeric(labelValue) and len(table_name) gt 0 and table_name neq 'LOAN'>
@@ -573,32 +573,17 @@ limitations under the License.
 											<cfquery name="CID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 												select '||#primaryKey#||' from agent_name where agent_name = '#labelValue#'
 											</cfquery>
-											<cfquery name="insRel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-												insert into cf_temp_media_relations (
-													KEY,
-													MEDIA_RELATIONSHIP,
-													CREATED_BY_AGENT_ID,
-													RELATED_PRIMARY_KEY,
-													USERNAME
-												) values (
-													<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#key#">,
-													<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#labelName#">,
-													<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.myAgentId#">,
-													<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#primaryKey#">,
-													<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-												)
-											</cfquery>
 										<cfelseif #table_name# is 'loan'>
 											<cfquery name="CID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-												select #primaryKey# from loan where loan_number = '#labelValue#'
+												select '||#primaryKey#||' from loan where loan_number = '#labelValue#'
 											</cfquery>
 										<cfelseif #table_name# is 'borrow'>
 											<cfquery name="CID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-												select #primaryKey# from borrow where borrow_number = '#labelValue#'
+												select '||#primaryKey#||' from borrow where borrow_number = '#labelValue#'
 											</cfquery>
 										<cfelseif #table_name# is 'project'>
 											<cfquery name="CID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-												select #primaryKey# from #table_name# where project_name = '#labelValue#'
+												select '||#primaryKey#||' from #table_name# where project_name = '#labelValue#'
 											</cfquery>
 										<cfelseif table_name eq 'specimen_part'>
 											<cfset #table_name# = 'flat'>
