@@ -571,7 +571,7 @@ limitations under the License.
 										</cfquery>
 									<cfelse>
 										<cfif table_name is '#table_name#' and table_name neq 'cataloged_item'>
-											<span class="text-danger">#getRPK.table_name# #getRPK.column_name# <cfoutput>#lableValue#</cfoutput> </span>
+											<span class="text-danger"><cfoutput>#table_name#: #primaryKey#: #labelValue#</cfoutput>  </span>
 										</cfif>
 									<!---Is CSV value is a text value so the primaryKey must be fetched--->	
 <!---										<cfif table_name is '#table_name#' and table_name neq 'cataloged_item'>
