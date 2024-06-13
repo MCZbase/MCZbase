@@ -551,7 +551,7 @@ limitations under the License.
 									<cfif primaryKey is 'agent_id'><cfset agent_id = 'labelValue'></cfif>
 									
 										<!---Is CSV value is a primary key ID--->
-									<cfif isnumeric(labelValue) and len(table_name) gt 0>
+									<cfif isnumeric(labelValue) and len(table_name) gt 0 and table_name neq 'LOAN'>
 										<cfoutput>#table_name#: #primaryKey#: #labelValue#</cfoutput>
 										<cfquery name="insRel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 											insert into cf_temp_media_relations (
