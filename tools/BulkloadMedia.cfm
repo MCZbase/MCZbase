@@ -569,7 +569,7 @@ limitations under the License.
 											)
 										</cfquery>
 									<cfelse>
-										<cfif #labelName# is 'shows agent'>
+										<cfif #labelName# is 'shows agent' OR #labelName# is 'shows handwriting of agent'>
 											<cfquery name="CID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 												select #primaryKey# from agent_name where agent_name = '#labelValue#'
 											</cfquery>
