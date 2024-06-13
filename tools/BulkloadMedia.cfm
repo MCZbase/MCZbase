@@ -550,7 +550,8 @@ limitations under the License.
 								<cfloop query='getRPK'>
 									<cfset primaryKey ='#getRPK.column_name#'>
 									<cfif primaryKey is 'agent_id'><cfset agent_id = 'labelValue'></cfif>
-									<!---Is CSV value is a primary key ID--->
+									
+										<!---Is CSV value is a primary key ID--->
 									<cfif isnumeric(labelValue) and len(table_name) gt 0>
 										<cfoutput>#table_name#: #primaryKey#: #labelValue#</cfoutput>
 										<cfquery name="insRel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -569,10 +570,11 @@ limitations under the License.
 											)
 										</cfquery>
 									<cfelse>
+										##
 									<!---Is CSV value is a text value so the primaryKey must be fetched--->	
 										<cfif table_name is '#table_name#' and table_name neq 'cataloged_item'>
 											<cfquery name="CID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-												SELECT getPK.column_name as PKID FROM '#table_name#' 
+												SELECT getRPK.column_name PKID FROM '#table_name#' 
 												WHERE (spec_locality = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#labelValue#"> OR agent_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#labelValue#"> OR collecting_event = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#labelValue#"> or publication_title = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#labelValue#"> OR VERBATIM_LOCALITY = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#labelValue#">)
 											</cfquery>
 										</cfif>
