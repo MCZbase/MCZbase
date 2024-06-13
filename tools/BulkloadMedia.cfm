@@ -574,25 +574,31 @@ limitations under the License.
 												select agent_id as primaryk from agent_name where agent_name = '#labelValue#'
 											</cfquery>
 											<cfset rpkName ='#CID.primaryk#'>
-											<cfset rpkTable ='agent_name'>
+											
 										<cfelseif #table_name# is 'loan'>
 											<cfquery name="CID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 												select transaction_id as primaryk from loan where loan_number = '#labelValue#'
 											</cfquery>
 											<cfset rpkName ='#CID.primaryk#'>
-											<cfset rpkTable ='loan_number'>
+										
+										<cfelseif #table_name# is 'specimen_part'>
+											<cfquery name="CID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+												select collection_object_id as primaryk from specimen_part where barcode = '#labelValue#'
+											</cfquery>
+											<cfset rpkName ='#CID.primaryk#'>
+										
 										<cfelseif #table_name# is 'borrow'>
 											<cfquery name="CID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 												select transaction_id as primaryk from borrow where borrow_number = '#labelValue#'
 											</cfquery>
 											<cfset rpkName ='#CID.primaryk#'>
-											<cfset rpkTable ='borrow_number'>
+											
 										<cfelseif #table_name# is 'project'>
 											<cfquery name="CID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 												select project_id as primaryk from #table_name# where project_name = '#labelValue#' 
 											</cfquery>
 											<cfset rpkName ='#CID.primaryk#'>
-											<cfset rpkTable ='project_name'>
+										
 										<cfelseif table_name eq 'cataloged_item'>
 											<cfset institution_acronym = listgetat(labelValue,1,":")>
 											<cfset collection_cde = listgetat(labelValue,2,":")>
@@ -601,7 +607,7 @@ limitations under the License.
 												select collection_object_id as primaryk from flat where GUID = '#institution_acronym#:#collection_cde#:#cat_num#'
 											</cfquery>
 											<cfset rpkName ='#CID.primaryk#'>
-											<cfset rpkTable ='GUID'>
+											
 										<cfelse>
 											<span class="text-danger"><cfoutput>#table_name#: #primaryKey#: #labelValue#</cfoutput>  </span>
 											<cfquery name="CID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
