@@ -548,9 +548,17 @@ limitations under the License.
 								</cfquery>
 								<cfloop query='getRPK'>
 									<cfset primaryKey ='#getRPK.column_name#'>
-										<!---Is CSV value is a primary key ID--->
+									<!---Is CSV value is a primary key ID--->
 									<cfif isnumeric(labelValue) and len(table_name) gt 0 and table_name neq 'LOAN'>
 										<cfoutput>#table_name#: #primaryKey#: #labelValue#</cfoutput>
+										<cfquery name="checkKey" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+											SELECT count(*) ct
+											FROM #getRPK.table_name#
+											WHERE #getRPK.column_name# = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#key#">
+										</cfquery>
+										<cfif ckeckKey.ct NEQ 1>
+											<cfthrow message="Related Primary Key value [#encodeForHtml(key)#] for #getRPK.table_name#.#getRPK.column_name# not found with relationship #encodeForHtml(labelName# ">
+										</cfif>
 										<cfquery name="insRel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 											insert into cf_temp_media_relations (
 												KEY,
