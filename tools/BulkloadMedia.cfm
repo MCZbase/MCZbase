@@ -569,6 +569,7 @@ limitations under the License.
 											)
 										</cfquery>
 									<cfelse>
+										<cfset table_name1 = ''>
 										<cfif #labelName# is 'shows agent'>
 											<cfset table_name1 = 'agent_name'>
 										<cfelseif table_name eq 'specimen_part'>
