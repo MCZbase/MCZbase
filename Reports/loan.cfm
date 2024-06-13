@@ -216,16 +216,16 @@ limitations under the License.
 				<div style="margin: 0px; border: 1px solid black; ">
 					<h2 style="font-size: small; margin-top: 2px;">Terms and Conditions</h2>
 					<ol style="margin-left: 2em;">
-						<li>Specimens are loaned to bona fide institutions, not to individuals, for non-commercial use (e.g., scientific research, education, exhibition). </li>
-						<li> Specimens are for sole use of the recipient for the specific purposes outlined in the loan request. Prior written permission from the MCZ is needed for any activities not specified in the loan request.</li>
-						<li>Loans may not be transferred to other institutions without express written permission.
-						<li>Borrowing institutions must demonstrate the ability to properly unpack, care for, use, and return the specimens according to best practices of collection curation.
+						<li>Specimens are loaned to bona fide institutions, not to individuals, for non-commercial use (e.g., scientific research, education, exhibition).</li>
+						<li>Specimens are for sole use of the recipient for the specific purposes outlined in the loan request. Prior written permission from the MCZ is needed for any activities not specified in the loan request.</li>
+						<li>Loans may not be transferred to other institutions without express written permission.</li>
+						<li>Borrowing institutions must demonstrate the ability to properly unpack, care for, use, and return the specimens according to best practices of collection curation.</li>
 						<li>Specimens must be returned by the date stated on the invoice unless a loan renewal is granted in writing.</li>
 						<li>No destructive sampling or invasive procedures may be conducted on a loaned specimen without prior written permission.</li>
 						<li>The recipient will return any unused material or derivatives (e.g., tissue, DNA/RNA extract) to the MCZ.</li>
 						<li>The recipient will provide the MCZ with reprints of any resulting publications and accession numbers for genetic data in public repositories.</li>
-						<li>The recipient will provide copies of any digital media files and all associated metadata. All resulting media is © President and Fellows of Harvard College.</li>
-						<li>Loans may be recalled at any time at the discretion of the MCZ.</li>
+						<li>The recipient will provide copies of any digital media files and all associated metadata. All resulting media is ©President and Fellows of Harvard College.</li>
+						<li>Loans are granted for a period of up to one year and may be renewed up to four times in one-year increments.  Loans that have been open for five years must be returned to the MCZ. A new loan request can then be submitted for consideration. Loans may be recalled at any time at the discretion of the MCZ.</li>
 						<cfif getRestrictions.recordcount GT 0>
 							<li>Additional Restrictions on use from original permits apply, see instructions.</li>
 						</cfif>
