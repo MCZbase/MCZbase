@@ -575,7 +575,7 @@ limitations under the License.
 											<cfset #table_name# = 'flat'>
 										<cfelseif table_name eq 'cataloged_item'>
 											<cfset table_name eq 'flat'>
-											<cfset coi = 'select collection_object_id from flat where guid = ''#labelValue#'''>
+											<cfset coi = 'select collection_object_id from flat where guid = #labelValue#'>
 											<cfset labelValue = '#coi#'>
 											<cfquery name="CID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 												select #primaryKey# from #table_name# where #primarykey# = '#labelValue#'
