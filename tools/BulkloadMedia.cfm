@@ -574,14 +574,17 @@ limitations under the License.
 										<cfelseif table_name eq 'specimen_part'>
 											<cfset #table_name# = 'flat'>
 										<cfelseif table_name eq 'cataloged_item'>
-											<cfset table_name eq 'flat'>
-											<cfset primaryKey eq 'GUID'>
+											<cfset institution_acronym = listgetat(lv,1,":")>
+											<cfset collection_cde = listgetat(lv,2,":")>
+											<cfset cat_num = listgetat(lv,3,":")>
 											<cfquery name="CID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-												select #primaryKey# from #table_name# where #primarykey# = '#labelValue#'
+												select #primaryKey# from flat where GUID = '#institution_acronym#:#collection_cde#:#cat_num#'
 											</cfquery>
 										</cfif>
 											<span class="text-danger"><cfoutput>#table_name#: #primaryKey#: #labelValue#</cfoutput>  </span>
-											
+											<cfquery name="CID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+												select #primaryKey# from #table_name# where #primarykey# = '#labelValue#'
+											</cfquery>
 										
 									<!---Is CSV value is a text value so the primaryKey must be fetched--->	
 <!---										<cfif table_name is '#table_name#' and table_name neq 'cataloged_item'>
