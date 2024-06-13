@@ -598,7 +598,7 @@ limitations under the License.
 											<cfset collection_cde = listgetat(labelValue,2,":")>
 											<cfset cat_num = listgetat(labelValue,3,":")>
 											<cfquery name="CID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-												select collection_object_id from flat where GUID = '#institution_acronym#:#collection_cde#:#cat_num#'
+												select '||#primaryKey#||' from flat where GUID = '#institution_acronym#:#collection_cde#:#cat_num#'
 											</cfquery>
 											<cfset rpkName ='#CID.primaryKey#'>
 											<cfset rpkTable ='GUID'>
