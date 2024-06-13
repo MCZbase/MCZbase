@@ -570,7 +570,7 @@ limitations under the License.
 											)
 										</cfquery>
 									<cfelse>
-										<cfif table_name is 'agent' and table_name neq 'cataloged_item' and table_name neq 'specimen_part'>
+										<cfif labelName is 'agent' and table_name neq 'cataloged_item' and table_name neq 'specimen_part'>
 											<span class="text-danger"><cfoutput>#table_name#: #primaryKey#: #labelValue#</cfoutput>  </span>
 											<cfquery name="CID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 												select #primaryKey# from #table_name# where agent_name = '#labelValue#'
