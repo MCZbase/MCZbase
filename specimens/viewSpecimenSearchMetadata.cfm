@@ -116,11 +116,14 @@ limitations under the License.
 											<td>#getFlatCols.definition#</td>
 											<td>#getFlatCols.data_type#</td>
 											<td>
-												<cfif len(trim(getExample.value)) EQ 0> 
+												<cfif len(trim(getExample.value)) EQ 0 OR ( getFlatCols.column_name EQ 'ATTRIBUTES_JSON' AND len(getExample.value) LT 3 ) > 
 													<cfquery name="checkAllNull" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#" cachedwithin="#createtimespan(1,0,0,0)#" >
 														SELECT count(*) ct
 															FROM flat
 															WHERE #getFlatCols.column_name# IS NOT NULL
+																<cfif getFlatCols.column_name EQ 'ATTRIBUTES_JSON'>
+																	and ATTRIBUTES_JSON <> '{}'
+																</cfif>
 													</cfquery>
 													<cfif checkAllNull.ct EQ 0>
 														[No Values]
@@ -137,6 +140,9 @@ limitations under the License.
 															WHERE #getFlatCols.column_name# IS NOT NULL
 																and rownum = 1
 																and collection_object_id not in (select collection_object_id from coll_object_encumbrance)
+																<cfif getFlatCols.column_name EQ 'ATTRIBUTES_JSON'>
+																	and ATTRIBUTES_JSON <> '{}'
+																</cfif>
 														</cfquery>
 														#getExampleAny.value#
 													</cfif>
