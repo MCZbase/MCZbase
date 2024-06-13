@@ -570,14 +570,14 @@ limitations under the License.
 											)
 										</cfquery>
 									<cfelse>
-										##
+										#getRPK.column_name#
 									<!---Is CSV value is a text value so the primaryKey must be fetched--->	
-										<cfif table_name is '#table_name#' and table_name neq 'cataloged_item'>
+<!---										<cfif table_name is '#table_name#' and table_name neq 'cataloged_item'>
 											<cfquery name="CID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 												SELECT '#getRPK.column_name#' PKID FROM '#table_name#' 
 												WHERE (spec_locality = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#labelValue#"> OR agent_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#labelValue#"> OR collecting_event = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#labelValue#"> or publication_title = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#labelValue#"> OR VERBATIM_LOCALITY = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#labelValue#">)
 											</cfquery>
-										</cfif>
+										</cfif>--->
 										<cfquery name="insRel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 											insert into cf_temp_media_relations (
 												key,
