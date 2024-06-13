@@ -696,7 +696,6 @@ limitations under the License.
 							</cfif>
 							</cfloop>
 						</cfloop>
-					</cfif>
 					</cfloop>
 				</cfif>
 			</cfloop>
