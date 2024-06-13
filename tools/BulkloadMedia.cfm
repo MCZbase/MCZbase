@@ -550,8 +550,8 @@ limitations under the License.
 								<cfset primaryKey ='#getRPK.column_name#'>
 								<cfif primaryKey is 'agent_id'><cfset agent_id = 'labelValue'></cfif>
 								<cfif isnumeric(labelValue) and len(table_name) gt 0>
-								<cfoutput>#table_name#: #primaryKey#: #labelValue#</cfoutput>
-								<cfquery name="insRel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+									<cfoutput>#table_name#: #primaryKey#: #labelValue#</cfoutput>
+									<cfquery name="insRel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 									insert into cf_temp_media_relations (
 										KEY,
 										MEDIA_RELATIONSHIP,
@@ -566,9 +566,9 @@ limitations under the License.
 										<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 									)
 								</cfquery>
-							<cfelse>
-								<cfset labelValueR=trim(listfirst(labelValue,""))>
-								<cfset typeOfID = listlast(labelName," ")>
+								<cfelse>
+									<cfset labelValueR=trim(listfirst(labelValue,""))>
+									<cfset typeOfID = listlast(labelName," ")>
 								<!---Find IDs if something else is provided in the CSV--->
 <!---								<cfif table_name is 'cataloged_item'>
 									<cfset institution_acronym = listgetat(labelValue,1,":")>
@@ -693,53 +693,11 @@ limitations under the License.
 										<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#username#">
 									)
 								</cfquery>
-							</cfif>
-							</cfloop>
-						</cfloop>
-					</cfloop>
-				</cfif>
-			</cfloop>
-
-
-							<cfelseif table_name is "borrow">
-								<cfquery name="cBorrow" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-									select transaction_id 
-									from borrow 
-									where borrow_number = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#labelValue#">
-								</cfquery>
-								<cfif cBorrow.recordcount gt 0>
-									<cfif cBorrow.recordcount is 1 and len(cBorrow.transaction_id) gt 0>
-										<cfquery name="insRel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-											insert into cf_temp_media_relations (
-												key,
-												MEDIA_RELATIONSHIP,
-												CREATED_BY_AGENT_ID,
-												RELATED_PRIMARY_KEY,
-												USERNAME
-											) values (
-												<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#key#">,
-												<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#labelName#">,
-												<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.myAgentId#">,
-												<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#cBorrow.transaction_id#">,
-												<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#username#">
-											)
-										</cfquery>
-									<cfelse>
-										<cfquery name="warningMessagePermit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-											UPDATE
-												cf_temp_media
-											SET
-												status = concat(nvl2(status, status || '; ', ''),'#labelValue# matched #cBorrow.recordcount# records - look up BORROW NUMBER again')
-											WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#username#">
-											and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#key#"> 
-										</cfquery>
-									</cfif>
 								</cfif>
-							
+							</cfloop>
 						</cfif>
 					</cfloop>
-				</cfif>--->
-									
+				</cfif>
 				<cfif not isDefined("veryLargeFiles")><cfset veryLargeFiles=""></cfif>
 				<cfif veryLargeFiles NEQ "true">
 					<!--- both isimagefile and cfimage run into heap space limits with very large files --->
