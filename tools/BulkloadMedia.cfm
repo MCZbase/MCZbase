@@ -568,7 +568,7 @@ limitations under the License.
 									</cfquery>
 								<cfelse>
 									<cfset labelValueR=trim(listfirst(labelValue,""))>
-									<cfset typeOfID = listlast(labelName," ")>
+									<cfset typeOfID = listlast(labelName,"")>
 								<!---Find IDs if something else is provided in the CSV--->
 <!---								<cfif table_name is 'cataloged_item'>
 									<cfset institution_acronym = listgetat(labelValue,1,":")>
