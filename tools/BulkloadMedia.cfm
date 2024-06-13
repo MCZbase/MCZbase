@@ -568,7 +568,7 @@ limitations under the License.
 									</cfquery>
 								<cfelse>
 									<cfset labelValueR=trim(listfirst(labelValue,""))>
-									<cfset typeOfID = listlast(labelName,"")>
+									<cfset table_name = listlast(labelName," ")>
 								<!---Find IDs if something else is provided in the CSV--->
 <!---								<cfif table_name is 'cataloged_item'>
 									<cfset institution_acronym = listgetat(labelValue,1,":")>
@@ -674,7 +674,7 @@ limitations under the License.
 									</cfquery>--->
 								<cfif table_name is '#table_name#' and table_name neq 'cataloged_item'>
 									<cfquery name="cID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-										SELECT '#typeOfID#_id' PKID FROM '#table_name#' 
+										SELECT '#table_name#_id' PKID FROM '#table_name#' 
 										WHERE (spec_locality = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#labelValueR#"> OR agent_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#labelValueR#"> OR collecting_event = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#labelValueR#"> or publication_title = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#labelValueR#"> OR VERBATIM_LOCALITY = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#labelValueR#">)
 									</cfquery>
 								</cfif>
