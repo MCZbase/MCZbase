@@ -577,6 +577,10 @@ limitations under the License.
 											<cfquery name="CID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 												select #primaryKey# from #table_name# where loan_number = '#labelValue#'
 											</cfquery>
+										<cfelseif #table_name# is 'borrow'>
+											<cfquery name="CID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+												select #primaryKey# from #table_name# where borrow_number = '#labelValue#'
+											</cfquery>
 										<cfelseif table_name eq 'specimen_part'>
 											<cfset #table_name# = 'flat'>
 										<cfelseif table_name eq 'cataloged_item'>
