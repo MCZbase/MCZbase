@@ -571,7 +571,7 @@ limitations under the License.
 									<cfelse>
 										<cfif #labelName# is 'shows agent'>
 											<cfset #table_name# = 'agent_name'>
-										<cfelseif table_name neq 'specimen_part'>
+										<cfelseif table_name eq 'specimen_part'>
 											<cfset #table_name# = 'flat'>
 										<cfelseif table_name eq 'cataloged_item'>
 											<cfset #labelValue# = 'select collection_object_id from flat where guid = "#labelValue#"'>
