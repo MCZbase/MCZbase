@@ -478,8 +478,7 @@ limitations under the License.
 						<cfset labelName=listgetat(label,1,"=")>
 						<cfset labelValue=listgetat(label,2,"=")>
 						<cfquery name="ct" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-							SELECT MEDIA_LABEL 
-							FROM CTMEDIA_LABEL 
+							SELECT MEDIA_LABEL FROM CTMEDIA_LABEL 
 							WHERE MEDIA_LABEL = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#labelName#">
 						</cfquery>
 						<cfif len(ct.MEDIA_LABEL) is 0>
@@ -570,13 +569,17 @@ limitations under the License.
 											)
 										</cfquery>
 									<cfelse>
-										<cfif #labelName# is 'shows agent' and table_name neq 'cataloged_item' and table_name neq 'specimen_part'>
+										<cfif #labelName# is 'shows agent'>
 											<cfset #table_name# = 'agent_name'>
-											
+										<cfelseif table_name neq 'cataloged_item'>
+											<cfset #table_name# = 'flat'>
+										<cfelseif table_name neq 'cataloged_item'>
+											<cfset #table_name# = 'flat'>
+											<cfset #primaryKey# = 'guid'>
 										</cfif>
 											<span class="text-danger"><cfoutput>#table_name#: #primaryKey#: #labelValue#</cfoutput>  </span>
 											<cfquery name="CID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-												select #primaryKey# from #table_name# where agent_name = '#labelValue#'
+												select #primaryKey# from #table_name# where #primarykey# = '#labelValue#'
 											</cfquery>
 										
 									<!---Is CSV value is a text value so the primaryKey must be fetched--->	
