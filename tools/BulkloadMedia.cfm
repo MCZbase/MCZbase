@@ -583,7 +583,12 @@ limitations under the License.
 										
 										<cfelseif #table_name# is 'specimen_part'>
 											<cfquery name="CID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-												select collection_object_id as primaryk from specimen_part where barcode = '#labelValue#'
+												select collection_object_id as primaryk
+												from specimen_part sp
+												join coll_obj_cont_hist ch on (sp.collection_object_id = ch.collection_object_id)
+												join container cont on (cont.container_id = ch.container_id)
+												join container pcont on (cont.parent_container_id = pcont.container_id)
+												where pcont.barcode = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#labelValue#">
 											</cfquery>
 											<cfset rpkName ='#CID.primaryk#'>
 										
