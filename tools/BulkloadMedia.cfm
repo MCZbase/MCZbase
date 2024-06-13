@@ -536,16 +536,16 @@ limitations under the License.
 							<cfset labelValue=listgetat(label,2,"=")>
 							<!---Grabs the last word of the ct media relationship to identify the table name.--->
 							<cfset table_name = listlast(labelName," ")>
-							<cfloop list="#table_name#" index="tbl" delimiters=",">
+							<cfloop list="#table_name#" index="table_name" delimiters=",">
 								<cfquery name = "getRPK"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" >
-									SELECT cols.table_name, cols.column_name, cols.position
+									SELECT cols.table_name, cols.column_name
 									FROM all_constraints cons, all_cons_columns cols
 									WHERE cols.table_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(table_name)#" />
 									AND cons.constraint_type = 'P'
 									AND cons.constraint_name = cols.constraint_name
 									AND cons.owner = cols.owner
 									AND cons.owner = 'MCZBASE'
-									ORDER BY cols.table_name, cols.position
+									ORDER BY cols.table_name
 								</cfquery>
 								<cfloop query='getRPK'>
 									<cfset primaryKey ='#getRPK.column_name#'>
