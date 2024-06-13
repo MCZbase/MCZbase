@@ -673,7 +673,7 @@ limitations under the License.
 											n.coll_event_number = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#idvalue#">
 									</cfquery>--->
 								<cfif table_name is '#table_name#' and table_name neq 'cataloged_item'>
-									<cfquery name="cLocality" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+									<cfquery name="cID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 										SELECT '#typeOfID#_id' PKID FROM '#table_name#' 
 										WHERE (spec_locality = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#labelValueR#"> OR agent_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#labelValueR#"> OR collecting_event = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#labelValueR#"> or publication_title = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#labelValueR#"> OR VERBATIM_LOCALITY = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#labelValueR#">)
 									</cfquery>
@@ -689,7 +689,7 @@ limitations under the License.
 										<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#key#">,
 										<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#labelName#">,
 										<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.myAgentId#">,
-										<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#PKID#">,
+										<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#cID.PKID#">,
 										<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#username#">
 									)
 								</cfquery>
