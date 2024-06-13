@@ -571,25 +571,25 @@ limitations under the License.
 									<cfelse>
 										<cfif #labelName# is 'shows agent' OR #labelName# is 'shows handwriting of agent'>
 											<cfquery name="CID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-												select '||#primaryKey#||' from agent_name where agent_name = '#labelValue#'
+												select '||#primaryKey#||' as primaryk from agent_name where agent_name = '#labelValue#'
 											</cfquery>
 											<cfset rpkName ='#CID.primaryKey#'>
 											<cfset rpkTable ='agent_name'>
 										<cfelseif #table_name# is 'loan'>
 											<cfquery name="CID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-												select '||#primaryKey#||' from loan where loan_number = '#labelValue#'
+												select '||#primaryKey#||' as primaryk from loan where loan_number = '#labelValue#'
 											</cfquery>
 											<cfset rpkName ='#CID.primaryKey#'>
 											<cfset rpkTable ='loan_number'>
 										<cfelseif #table_name# is 'borrow'>
 											<cfquery name="CID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-												select '||#primaryKey#||' from borrow where borrow_number = '#labelValue#'
+												select '||#primaryKey#||' as primaryk from borrow where borrow_number = '#labelValue#'
 											</cfquery>
 											<cfset rpkName ='#CID.primaryKey#'>
 											<cfset rpkTable ='borrow_number'>
 										<cfelseif #table_name# is 'project'>
 											<cfquery name="CID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-												select '||#primaryKey#||' from #table_name# where project_name = '#labelValue#'
+												select '||#primaryKey#||' as primaryk from #table_name# where project_name = '#labelValue#' 
 											</cfquery>
 											<cfset rpkName ='#CID.primaryKey#'>
 											<cfset rpkTable ='project_name'>
@@ -598,14 +598,14 @@ limitations under the License.
 											<cfset collection_cde = listgetat(labelValue,2,":")>
 											<cfset cat_num = listgetat(labelValue,3,":")>
 											<cfquery name="CID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-												select '||#primaryKey#||' from flat where GUID = '#institution_acronym#:#collection_cde#:#cat_num#'
+												select '||#primaryKey#||' as primaryk from flat where GUID = '#institution_acronym#:#collection_cde#:#cat_num#'
 											</cfquery>
-											<cfset rpkName ='#CID.primaryKey#'>
+											<cfset rpkName ='#CID.primarykey#'>
 											<cfset rpkTable ='GUID'>
 										<cfelse>
 											<span class="text-danger"><cfoutput>#table_name#: #primaryKey#: #labelValue#</cfoutput>  </span>
 											<cfquery name="CID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-												select '||#primaryKey#||' from #table_name# where #primarykey# = '#labelValue#'
+												select '||#primaryKey#||' as primaryk from #table_name# where #primarykey# = '#labelValue#'
 											</cfquery>
 										</cfif>
 										<cfquery name="insRel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
