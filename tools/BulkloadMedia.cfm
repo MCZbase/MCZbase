@@ -573,7 +573,7 @@ limitations under the License.
 											<cfquery name="CID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 												select #primaryKey# from agent_name where agent_name = '#labelValue#'
 											</cfquery>
-										<cfelseif #labelName# is 'loan'>
+										<cfelseif #table_name# is 'loan'>
 											<cfquery name="CID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 												select #primaryKey# from #table_name# where loan_number = '#labelValue#'
 											</cfquery>
