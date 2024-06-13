@@ -573,22 +573,26 @@ limitations under the License.
 											<cfquery name="CID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 												select '||#primaryKey#||' from agent_name where agent_name = '#labelValue#'
 											</cfquery>
-											<span class="text-primary"><cfoutput>#primaryKey#</cfoutput>  </span>
+											<cfset rpkName ='#CID.primaryKey#'>
+											<cfset rpkTable ='agent_name'>
 										<cfelseif #table_name# is 'loan'>
 											<cfquery name="CID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 												select '||#primaryKey#||' from loan where loan_number = '#labelValue#'
 											</cfquery>
-											<span class="text-success"><cfoutput>#table_name#: #primaryKey#: #labelValue#</cfoutput>  </span>
+											<cfset rpkName ='#CID.primaryKey#'>
+											<cfset rpkTable ='loan_number'>
 										<cfelseif #table_name# is 'borrow'>
 											<cfquery name="CID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 												select '||#primaryKey#||' from borrow where borrow_number = '#labelValue#'
 											</cfquery>
+											<cfset rpkName ='#CID.primaryKey#'>
+											<cfset rpkTable ='borrow_number'>
 										<cfelseif #table_name# is 'project'>
 											<cfquery name="CID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 												select '||#primaryKey#||' from #table_name# where project_name = '#labelValue#'
 											</cfquery>
-										<cfelseif table_name eq 'specimen_part'>
-											<cfset #table_name# = 'flat'>
+											<cfset rpkName ='#CID.primaryKey#'>
+											<cfset rpkTable ='project_name'>
 										<cfelseif table_name eq 'cataloged_item'>
 											<cfset institution_acronym = listgetat(labelValue,1,":")>
 											<cfset collection_cde = listgetat(labelValue,2,":")>
@@ -596,30 +600,29 @@ limitations under the License.
 											<cfquery name="CID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 												select collection_object_id from flat where GUID = '#institution_acronym#:#collection_cde#:#cat_num#'
 											</cfquery>
+											<cfset rpkName ='#CID.primaryKey#'>
+											<cfset rpkTable ='GUID'>
 										<cfelse>
 											<span class="text-danger"><cfoutput>#table_name#: #primaryKey#: #labelValue#</cfoutput>  </span>
 											<cfquery name="CID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-												select #primaryKey# from #table_name# where #primarykey# = '#labelValue#'
+												select #rpkName# from #table_name# where #primarykey# = '#labelValue#'
 											</cfquery>
 										</cfif>
-										<cfloop query="CID">#primaryKey#
-											<cfquery name="insRel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-												insert into cf_temp_media_relations (
-													KEY,
-													MEDIA_RELATIONSHIP,
-													CREATED_BY_AGENT_ID,
-													RELATED_PRIMARY_KEY,
-													USERNAME
-												) values (
-													<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#key#">,
-													<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#labelName#">,
-													<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.myAgentId#">,
-													<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#primaryKey#">,
-													<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-												)
-											</cfquery>
-											<span class="text-danger"><cfoutput>#table_name#: #primaryKey#: #labelValue#</cfoutput></span>
-										</cfloop>
+										<cfquery name="insRel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+											insert into cf_temp_media_relations (
+												KEY,
+												MEDIA_RELATIONSHIP,
+												CREATED_BY_AGENT_ID,
+												RELATED_PRIMARY_KEY,
+												USERNAME
+											) values (
+												<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#key#">,
+												<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#labelName#">,
+												<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.myAgentId#">,
+												<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#CID.primaryKey#">,
+												<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+											)
+										</cfquery>
 									</cfif>
 								</cfloop>
 							</cfloop>
