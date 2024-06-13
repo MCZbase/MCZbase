@@ -569,20 +569,20 @@ limitations under the License.
 											)
 										</cfquery>
 									<cfelse>
-										<cfset table_name1 = ''>
 										<cfif #labelName# is 'shows agent'>
-											<cfset table_name1 = 'agent_name'>
+											<cfset table_name# = 'agent_name'>
 										<cfelseif table_name eq 'specimen_part'>
-											<cfset table_name1 = 'flat'>
+											<cfset #table_name# = 'flat'>
 										<cfelseif table_name eq 'cataloged_item'>
-											<cfset table_name1 eq 'flat'>
+											<cfset table_name eq 'flat'>
 											<cfset coi = 'select collection_object_id from flat where guid = ''#labelValue#'''>
 											<cfset labelValue = '#coi#'>
+											<cfquery name="CID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+												select #primaryKey# from #table_name# where #primarykey# = '#labelValue#'
+											</cfquery>
 										</cfif>
 											<span class="text-danger"><cfoutput>#table_name#: #primaryKey#: #labelValue#</cfoutput>  </span>
-											<cfquery name="CID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-												select #primaryKey# from #table_name1# where #primarykey# = '#labelValue#'
-											</cfquery>
+											
 										
 									<!---Is CSV value is a text value so the primaryKey must be fetched--->	
 <!---										<cfif table_name is '#table_name#' and table_name neq 'cataloged_item'>
