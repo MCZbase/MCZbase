@@ -363,10 +363,25 @@ limitations under the License.
 		</cfif>
 
 		<!--- TODO: May be desiriable to not include, needs further discussion --->
-		<cfif getRestrictions.recordcount GT 0>
+		<cfif getRestrictions.recordcount EQ 0>
+			<cfdocumentsection name="Additional Restrictions">
+				<div>
+					The MCZ is committed to the spirit and letter of the Convention on Biological Diversity and its associated Nagoya Protocol on Access
+					and Benefit-Sharing, and it expects its partner users to act in a manner consistent with these international obligations. Use
+					of some specimens may be restricted by the providing country; therefore, a specimen may only be used for approved
+					purposes, and express written permission must be obtained before a loaned specimen can be used for additional purposes.
+				</div>
+			</cfdocumentsection>
+		<cfelse>
 			<cfdocumentsection name="Additional Restrictions">
 				<div style="text-align: center; font-size: 1em;">
 					Summary of restrictions imposed by original collecting agreements
+				</div>
+				<div>
+					The MCZ is committed to the spirit and letter of the Convention on Biological Diversity and its associated Nagoya Protocol on Access
+					and Benefit-Sharing, and it expects its partner users to act in a manner consistent with these international obligations. Use
+					of some specimens may be restricted by the providing country; therefore, a specimen may only be used for approved
+					purposes, and express written permission must be obtained before a loaned specimen can be used for additional purposes.
 				</div>
 				<ul>
 					<cfloop query="getRestrictions">
