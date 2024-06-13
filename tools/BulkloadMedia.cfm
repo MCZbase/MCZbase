@@ -573,10 +573,12 @@ limitations under the License.
 											<cfquery name="CID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 												select '||#primaryKey#||' from agent_name where agent_name = '#labelValue#'
 											</cfquery>
+											<span class="text-primary"><cfoutput>#table_name#: #primaryKey#: #labelValue#</cfoutput>  </span>
 										<cfelseif #table_name# is 'loan'>
 											<cfquery name="CID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 												select '||#primaryKey#||' from loan where loan_number = '#labelValue#'
 											</cfquery>
+											<span class="text-success"><cfoutput>#table_name#: #primaryKey#: #labelValue#</cfoutput>  </span>
 										<cfelseif #table_name# is 'borrow'>
 											<cfquery name="CID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 												select '||#primaryKey#||' from borrow where borrow_number = '#labelValue#'
