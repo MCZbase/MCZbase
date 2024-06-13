@@ -571,8 +571,8 @@ limitations under the License.
 									<cfelse>
 									<!---Is CSV value is a text value so the primaryKey must be fetched--->	
 										<cfif table_name is '#table_name#' and table_name neq 'cataloged_item'>
-											<cfquery name="cID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-												SELECT '#primaryKey#' as PKID FROM '#table_name#' 
+											<cfquery name="CID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+												SELECT getPK.column_name as PKID FROM '#table_name#' 
 												WHERE (spec_locality = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#labelValue#"> OR agent_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#labelValue#"> OR collecting_event = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#labelValue#"> or publication_title = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#labelValue#"> OR VERBATIM_LOCALITY = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#labelValue#">)
 											</cfquery>
 										</cfif>
@@ -587,7 +587,7 @@ limitations under the License.
 												<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#key#">,
 												<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#labelName#">,
 												<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.myAgentId#">,
-												<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#cID.PKID#">,
+												<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#CID.PKID#">,
 												<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#username#">
 											)
 										</cfquery>
