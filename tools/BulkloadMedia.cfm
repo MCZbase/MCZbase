@@ -570,7 +570,9 @@ limitations under the License.
 										</cfquery>
 									<cfelse>
 										<cfif #labelName# is 'shows agent'>
-											<cfset table_name = 'agent_name'>
+											<cfquery name="CID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+												select #primaryKey# from agent_name where agent_name = '#labelValue#'
+											</cfquery>
 										<cfelseif table_name eq 'specimen_part'>
 											<cfset #table_name# = 'flat'>
 										<cfelseif table_name eq 'cataloged_item'>
