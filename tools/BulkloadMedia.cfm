@@ -562,6 +562,21 @@ limitations under the License.
 							</cfloop>								
 							<cfif isnumeric(labelValue) and len(table_name) gt 0>
 								<cfoutput>#table_name#: #primaryKey#: #labelValue#</cfoutput>
+								<cfquery name="insRel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+									insert into cf_temp_media_relations (
+										KEY,
+										MEDIA_RELATIONSHIP,
+										CREATED_BY_AGENT_ID,
+										RELATED_PRIMARY_KEY,
+										USERNAME
+									) values (
+										<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#key#">,
+										<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#labelName#">,
+										<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.myAgentId#">,
+										<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#cAgent.agent_id#">,
+										<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+									)
+								</cfquery>
 							</cfif>
 							
 						</cfif>
