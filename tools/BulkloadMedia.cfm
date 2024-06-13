@@ -571,7 +571,7 @@ limitations under the License.
 									<cfelse>
 										<cfif #labelName# is 'shows agent' OR #labelName# is 'shows handwriting of agent'>
 											<cfquery name="CID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-												select primaryKey from agent_name where agent_name = '#labelValue#'
+												select #primaryKey# from agent_name where agent_name = '#labelValue#'
 											</cfquery>
 											<cfquery name="insRel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 												insert into cf_temp_media_relations (
