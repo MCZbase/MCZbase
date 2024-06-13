@@ -559,6 +559,7 @@ limitations under the License.
 									ORDER BY cols.table_name, cols.position
 								</cfquery>
 								<cfset primaryKey ='#getRPK.column_name#'>
+								<cfif primaryKey is 'agent_id'><cfset agent_id = 'labelValue'></cfif>
 							</cfloop>								
 							<cfif isnumeric(labelValue) and len(table_name) gt 0>
 								<cfoutput>#table_name#: #primaryKey#: #labelValue#</cfoutput>
@@ -573,7 +574,7 @@ limitations under the License.
 										<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#key#">,
 										<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#labelName#">,
 										<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.myAgentId#">,
-										'#table_name#.#primaryKey#',
+										'#labelValue#',
 										<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 									)
 								</cfquery>
