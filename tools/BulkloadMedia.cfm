@@ -614,22 +614,22 @@ limitations under the License.
 											<cfquery name="CID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 												select #primaryKey# from #table_name# where #primarykey# = '#labelValue#'
 											</cfquery>
+											<cfquery name="insRel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+												insert into cf_temp_media_relations (
+													KEY,
+													MEDIA_RELATIONSHIP,
+													CREATED_BY_AGENT_ID,
+													RELATED_PRIMARY_KEY,
+													USERNAME
+												) values (
+													<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#key#">,
+													<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#labelName#">,
+													<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.myAgentId#">,
+													<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#CID.primaryKey#">,
+													<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+												)
+											</cfquery>
 										</cfif>
-										<cfquery name="insRel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-											insert into cf_temp_media_relations (
-												KEY,
-												MEDIA_RELATIONSHIP,
-												CREATED_BY_AGENT_ID,
-												RELATED_PRIMARY_KEY,
-												USERNAME
-											) values (
-												<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#key#">,
-												<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#labelName#">,
-												<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.myAgentId#">,
-												<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#CID.primaryKey#">,
-												<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-											)
-										</cfquery>
 									</cfif>
 								</cfloop>
 							</cfloop>
