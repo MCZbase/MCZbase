@@ -563,51 +563,45 @@ limitations under the License.
 										<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#key#">,
 										<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#labelName#">,
 										<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.myAgentId#">,
-										'#labelValue#',
+										<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#labelValue#">,
 										<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 									)
 								</cfquery>
+							<cfelse>
+								<cfset labelValueR=trim(listfirst(labelValue,"|"))>
+								<cfset typeOfID = listlast(labelName," ")>
+								<!---Find IDs if something else is provided in the CSV--->
+								<cfif table_name is 'cataloged_item'>
+									
+								<cfelseif table_name is '#table_name#'>
+									<cfquery name="cLocality" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+										SELECT '#typeOfID#_id' as PKID FROM '#table_name#' 
+										WHERE (spec_locality = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#labelValueR#"> OR agent_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#labelValueR#"> OR collecting_event = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#labelValueR#"> or publication_title = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#labelValueR#">)
+									</cfquery>
+								</cfif>
+								<cfquery name="insRel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+									insert into cf_temp_media_relations (
+										key,
+										MEDIA_RELATIONSHIP,
+										CREATED_BY_AGENT_ID,
+										RELATED_PRIMARY_KEY,
+										username
+									) values (
+										<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#key#">,
+										<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#labelName#">,
+										<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.myAgentId#">,
+										<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#PKID#">,
+										<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#username#">
+									)
+								</cfquery>
 							</cfif>
-							
-						</cfif>
+						</cfloop>
+					</cfif>
 					</cfloop>
 				</cfif>
+			</cfloop>
 
 											
-<!---							<cfif table_name is "agent">
-								<cfquery name="cAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-									SELECT agent_id 
-									FROM agent_name 
-									WHERE agent_name =<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#labelValue#">
-								</cfquery>--->
-<!---								<cfif cAgent.recordcount gt 0>
-									<cfif cAgent.recordcount is 1 and len(cAgent.agent_id) gt 0>
-										<cfquery name="insRel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-											insert into cf_temp_media_relations (
-												KEY,
-												MEDIA_RELATIONSHIP,
-												CREATED_BY_AGENT_ID,
-												RELATED_PRIMARY_KEY,
-												USERNAME
-											) values (
-												<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#key#">,
-												<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#labelName#">,
-												<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.myAgentId#">,
-												<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#cAgent.agent_id#">,
-												<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#username#">
-											)
-										</cfquery>
-									<cfelse>
-										<cfquery name="bad" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-											UPDATE cf_temp_media
-											SET 
-												status = concat(nvl2(status, status || '; ', ''),'AGENT_NAME #labelValue# matched #cAgent.recordcount# records -- look up AGENT_NAME again')
-											WHERE 
-												username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#username#"> AND 
-												key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#cAgent.key#">
-										</cfquery>
-									</cfif>
-								</cfif>--->
 <!---							<cfelseif table_name is "locality">
 								<cfif isnumeric(labelValue)>
 									<cfset idtype = "locality_id">
@@ -616,14 +610,7 @@ limitations under the License.
 									<cfset idtype=trim(listfirst(labelValue,"|"))>
 									<cfset idvalue=trim(listlast(labelValue,"|"))>
 								</cfif>
-								<cfquery name="cLocality" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-									SELECT locality_id 
-									FROM locality 
-									WHERE
-										(
-										locality_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#labelValue#"> OR spec_locality = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#labelValue#">
-										)
-								</cfquery>
+			
 								<cfif cLocality.recordcount gt 0>
 									<cfif cLocality.recordcount is 1 and len(cLocality.locality_id) gt 0>
 										<cfquery name="insRel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
