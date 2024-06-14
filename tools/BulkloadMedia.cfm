@@ -561,6 +561,7 @@ limitations under the License.
 									<cfif checkKey.ct NEQ 1>
 										<cfthrow message="Related Primary Key value [#encodeForHtml(primaryKey)#] for #getRPK.table_name#.#getRPK.column_name# not found with relationship #encodeForHtml(labelName)# ">
 									</cfif>
+									<!---Require IDs for transactions, locality, collecting_event_id, permit_id, media, and publication--->
 									<cfquery name="insRel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 										insert into cf_temp_media_relations (
 											KEY,
@@ -576,7 +577,7 @@ limitations under the License.
 											<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 										)
 									</cfquery>
-								<cfelseif table_name neq 'LOAN' and table_name neq 'ACCN' and table_name neq 'BORROW' and table_name neq 'DEACCESSION'>
+								<cfelseif table_name neq 'LOAN' and table_name neq 'ACCN' and table_name neq 'BORROW' and table_name neq 'DEACCESSION' and table_name neq 'MEDIA'>
 								<!---	The relationship is a mix of text and numbers.--->
 						<!---		<cfelseif #table_name# is 'loan'>
 										<cfquery name="CID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
