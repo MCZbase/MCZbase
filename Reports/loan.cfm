@@ -160,13 +160,22 @@ limitations under the License.
 						<div>
 							This document acknowledges the loan of specimens <strong>To:</strong> #getLoan.recipientInstitutionName#.
 						</div>
-						<div>			
+						<div>
 							<strong>Borrower:</strong> #recAgentName#
 						</div>
+						<cfif len(outside_email_address) GT 0>
+							<div>
+								<strong>Contact Email:</strong> #outside_email_address#
+							</div>
+						</cfif>
+						<cfif len(outside_phone_number) GT 0>
+							<div>
+								<strong>Contact Phone:</strong> #outside_phone_number#
+							</div>
+						</cfif>
 						<div>
 							<strong>Shipped To:</strong><br>
 							#replace(replace(shipped_to_address,chr(10),"<br>","all"),"&","&amp;","all")#
-							#outside_email_address#<br>#outside_phone_number#
 						</div>
 					</td>
 					<td style="width: 45%; vertical-align: top;">
@@ -214,7 +223,17 @@ limitations under the License.
 					</div>
 				</cfif>
 				<div>
-					<strong>Instructions:</strong> #loan_instructions#
+					<strong>Instructions:</strong> 
+					<cfif len(loan_instructions) LT 751>
+						#loan_instructions#
+					<cfelse>
+						#trim(left(loan_instructions,725))#... 
+						<cfif getLoan.loan_type EQ "exhibition-master" AND getSubloans.recordcount GT 0>
+							<strong>Continued on Page #getSubloans.recordcount + 1#.</strong>
+						<cfelse>
+							<strong>Continued on Next Page.</strong>
+						</cfif>
+					</cfif>
 				</div>
 				<div style="margin: 0px; border: 1px solid black; ">
 					<h2 style="font-size: small; margin-top: 2px;">Terms and Conditions</h2>
@@ -253,6 +272,7 @@ limitations under the License.
 					<td style="width: 50%; vertical-align: top;">
 						<div>Borrower (noted above) acknowledges reading and agreeing to the terms and conditions noted in this document.<div>
 						<div><strong>Expected return date: #dateformat(return_due_date,"dd mmmm yyyy")#</strong></div>
+						<br>
 						<br>
 						<div style="text-align: right;">Borrower&##39;s Signature: ___________________________</div>
 						<div style="text-align: right;">#recAgentName#</div>
@@ -368,6 +388,11 @@ limitations under the License.
 		<!--- TODO: May be desiriable to not include, needs further discussion --->
 		<cfif getRestrictions.recordcount EQ 0>
 			<cfdocumentsection name="Additional Restrictions">
+				<cfif len(loan_instructions) GT 750>
+					<div>
+						<strong>Instructions:</strong> #loan_instructions#
+					</div style="border-bottom: 2px black solid; width; 100%; ">
+				</cfif>
 				<div>
 					The MCZ is committed to the spirit and letter of the Convention on Biological Diversity and its associated Nagoya Protocol on Access
 					and Benefit-Sharing, and it expects its partner users to act in a manner consistent with these international obligations. Use
@@ -376,6 +401,11 @@ limitations under the License.
 				</div>
 			</cfdocumentsection>
 		<cfelse>
+			<cfif len(loan_instructions) GT 750>
+				<div>
+					<strong>Instructions:</strong> #loan_instructions#
+				</div style="border-bottom: 2px black solid; width; 100%; ">
+			</cfif>
 			<cfdocumentsection name="Additional Restrictions">
 				<div style="text-align: center; font-size: 1em;">
 					Summary of restrictions imposed by original collecting agreements
