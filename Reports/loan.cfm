@@ -114,7 +114,7 @@ limitations under the License.
 		FROM loan 
 			left join loan_item on loan.transaction_id = loan_item.transaction_id 
 		WHERE 
-			loan.transaction_id = <cfqueryparm cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
+			loan.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
 	</cfquery>
 <cfelse>
 	<cfquery name="getLoanItems" dbtype="query">
@@ -533,7 +533,7 @@ limitations under the License.
 							FROM loan 
 								left join loan_item on loan.transaction_id = loan_item.transaction_id 
 							WHERE 
-								loan.transaction_id = <cfqueryparm cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
+								loan.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
 						</cfquery>
 					<cfelse>
 						<cfquery name="getLoanItems" dbtype="query">
