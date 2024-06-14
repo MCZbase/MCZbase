@@ -618,7 +618,7 @@ limitations under the License.
 								</td>
 								<td style="width: 25%; vertical-align: top;">
 									<cfif isDefined("groupBy") AND groupBy EQ "part">
-										#parts#
+										<div>#replace(parts,"<BR>","</div><div>")#</div>
 									<cfelse>
 										#lot_count# #part_modifier# #part_name#
 										<cfif len(preserve_method) GT 0>(#preserve_method#)</cfif>
@@ -697,7 +697,7 @@ limitations under the License.
 							</td>
 							<td style="width: 25%; vertical-align: top;">
 								<cfif isDefined("groupBy") AND groupBy EQ "part">
-									#parts#
+									<div>#replace(parts,"<BR>","</div><div>")#</div>
 								<cfelse>
 									#lot_count# #part_modifier# #part_name#
 									<cfif len(preserve_method) GT 0>(#preserve_method#)</cfif>
