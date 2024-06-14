@@ -584,7 +584,7 @@ limitations under the License.
 											<cfquery name="CID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 												select agent_id as primaryk from agent_name where agent_name = '#labelValue#'
 											</cfquery>
-											<cfif (CID.agent_id) gt 0>
+											<cfif (CID.primaryk) gt 0>
 												<cfset rpkName ='#CID.primaryk#'>
 											<cfelse>
 												Agent
@@ -593,7 +593,7 @@ limitations under the License.
 											<cfquery name="CID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 												select transaction_id as primaryk from loan where loan_number = '#labelValue#'
 											</cfquery>
-											<cfif (CID.transaction_id) gt 0>
+											<cfif (CID.primaryk) gt 0>
 												<cfset rpkName ='#CID.primaryk#'>
 											<cfelse>
 												Loan
@@ -617,7 +617,7 @@ limitations under the License.
 											<cfquery name="CID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 												select transaction_id as primaryk from borrow where borrow_number = '#labelValue#'
 											</cfquery>
-											<cfif (CID.transaction_id) gt 0>
+											<cfif (CID.primaryk) gt 0>
 												<cfset rpkName ='#CID.primaryk#'>
 											<cfelse>
 												Borrow
@@ -626,7 +626,7 @@ limitations under the License.
 											<cfquery name="CID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 												select project_id as primaryk from #table_name# where project_name = '#labelValue#' 
 											</cfquery>
-											<cfif (CID.project_id) gt 0>
+											<cfif (CID.primaryk) gt 0>
 												<cfset rpkName ='#CID.primaryk#'>
 											<cfelse>
 												Project
