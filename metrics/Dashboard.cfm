@@ -174,7 +174,7 @@ opacity:1
 
 					beginDate = #beginDate# <br>
 					endDate = #endDate#<br>
-						
+					<cfset selectdate = #DateFormat (Now(), "yyyy-mm-dd")#>
 			
 					<br clear = "all">
 					<cfform name="form1" format="Flash" skin="haloBlue" width="375" height="350" > 
