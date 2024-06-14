@@ -627,13 +627,17 @@ limitations under the License.
 											select collection_object_id as primaryk from flat where GUID = '#institution_acronym#:#collection_cde#:#cat_num#'
 										</cfquery>
 										<cfset rpkName ='#CID.primaryk#'>
-
+											
 									<cfelse>
-										<span class="text-danger"><cfoutput>#table_name#: #primaryKey#: #labelValue#</cfoutput>  </span>
-										<cfquery name="CID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-											select '||#primaryKey#||' as primaryk from #table_name# where #primarykey# = '#labelValue#'
-										</cfquery>
+									
 									</cfif>
+							
+								<cfelse>
+									<span class="text-danger"><cfoutput>#table_name#: #primaryKey#: #labelValue#</cfoutput>  </span>
+									<cfquery name="CID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+										select '||#primaryKey#||' as primaryk from #table_name# where #primarykey# = '#labelValue#'
+									</cfquery>
+								</cfif>
 									<cfquery name="insRel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 										insert into cf_temp_media_relations (
 											KEY,
@@ -649,7 +653,6 @@ limitations under the License.
 											<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 										)
 									</cfquery>
-						
 								</cfif>
 							</cfloop>
 						</cfif>
