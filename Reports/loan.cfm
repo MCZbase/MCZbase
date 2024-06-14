@@ -212,7 +212,7 @@ limitations under the License.
 				SELECT transaction_id, loan_number
 				FROM loan
 					left join loan_relations on loan.transaction_id = loan_relations.transaction_id
-				WHERE loan_relations.related_transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getLoan.transaction_id#">
+				WHERE loan_relations.related_transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
 					AND relation_type = 'Subloan'
 			</cfquery>
 			<cfset master_transaction_id = getParent.transaction_id>
