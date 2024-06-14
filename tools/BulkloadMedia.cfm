@@ -546,13 +546,14 @@ limitations under the License.
 									AND cons.owner = 'MCZBASE'
 									ORDER BY cols.table_name
 								</cfquery>
-								<cfset checkKey.CT = ''>
+								
 								<cfloop query='getRPK'>
 								
 									<cfset primaryKey ='#getRPK.column_name#'>
 									<!---Is CSV value is a primary key ID--->
 									<cfif isnumeric(labelValue) and len(table_name) gt 0 and table_name neq 'LOAN'>
 										<cfoutput>#table_name#: #primaryKey#: #labelValue#</cfoutput>
+										<cfset checkKey.CT = ''>
 										<cfquery name="checkKey" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 											SELECT count(*) CT
 											FROM #getRPK.table_name#
