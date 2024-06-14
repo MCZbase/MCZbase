@@ -461,7 +461,8 @@ limitations under the License.
 					</cfquery>
 				</cfif>
 			</cfif>
-			<cfset i= 1>
+				
+			<0cfset i= 1>
 			<cfloop query="getTempMedia">
 				<cfquery name="warningMessageDup" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE
@@ -551,17 +552,15 @@ limitations under the License.
 									<cfset primaryKey ='#getRPK.column_name#'>
 									<!---Is CSV value is a primary key ID--->
 									<cfif isnumeric(labelValue) and len(table_name) gt 0 and table_name neq 'LOAN'>
-								<!---		<cfoutput>#table_name#: #primaryKey#: #labelValue#</cfoutput>
-										<cfquery name="checkKey" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-											SELECT #primaryKey# as PID
-											FROM #getRPK.table_name#
-											WHERE #getRPK.column_name# = #primaryKey# AND
-											#labelValue# in (select #primaryKey# from #getRPK.table_name# where #primaryKey# is not null)
-										</cfquery>--->
 										<cfoutput>#table_name#: #primaryKey#: #labelValue#</cfoutput>
-									<!---	<cfif checkKey.PID eq 0>
+										<cfquery name="checkKey" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+											SELECT count(*) ct
+											FROM #getRPK.table_name#
+											WHERE #getRPK.column_name# = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#primaryKey#">
+										</cfquery>
+										<cfif checkKey.ct NEQ 1>
 											<cfthrow message="Related Primary Key value [#encodeForHtml(primaryKey)#] for #getRPK.table_name#.#getRPK.column_name# not found with relationship #encodeForHtml(labelName)# ">
-										</cfif>--->
+										</cfif>
 										<cfquery name="insRel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 											insert into cf_temp_media_relations (
 												KEY,
@@ -578,30 +577,20 @@ limitations under the License.
 											)
 										</cfquery>
 									<cfelse>
-										The relationship is a mix of text and numbers.
-									<!---	<cfset primaryk = ''>--->
-										<!---Is a relationship is a text value on CSV?--->
-					<!---					<cfif #labelName# is 'shows agent' OR #labelName# is 'shows handwriting of agent'>
+									<!---	The relationship is a mix of text and numbers.--->
+								<cfif #labelName# is 'shows agent' OR #labelName# is 'shows handwriting of agent'>
 											<cfquery name="CID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 												select agent_id as primaryk from agent_name where agent_name = '#labelValue#'
 											</cfquery>
-									
+											<cfset rpkName ='#CID.primaryk#'>
+											
 										<cfelseif #table_name# is 'loan'>
 											<cfquery name="CID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 												select transaction_id as primaryk from loan where loan_number = '#labelValue#'
 											</cfquery>
-											
-										<cfelseif #table_name# is 'accn'>
-											<cfquery name="CID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-												select transaction_id as primaryk from accn where accn_number = '#labelValue#'
-											</cfquery>--->
+											<cfset rpkName ='#CID.primaryk#'>
 										
-								<!---		<cfelseif #labelName# is 'related media'>
-											<cfquery name="CID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-												select media_id as primaryk from loan where media_id = '#labelValue#'
-											</cfquery>--->
-										
-			<!---							<cfelseif #table_name# is 'specimen_part'>
+										<cfelseif #table_name# is 'specimen_part'>
 											<cfquery name="CID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 												select sp.collection_object_id as primaryk
 												from specimen_part sp
@@ -609,39 +598,37 @@ limitations under the License.
 												join container cont on (cont.container_id = ch.container_id)
 												join container pcont on (cont.parent_container_id = pcont.container_id)
 												where pcont.barcode = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#labelValue#">
-											</cfquery>--->
-									
-							<!---			<cfelseif #table_name# is 'borrow'>
+											</cfquery>
+											<cfset rpkName ='#CID.primaryk#'>
+										
+										<cfelseif #table_name# is 'borrow'>
 											<cfquery name="CID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 												select transaction_id as primaryk from borrow where borrow_number = '#labelValue#'
-											</cfquery>--->
-										
-							<!---			<cfelseif #table_name# is 'project'>
+											</cfquery>
+											<cfset rpkName ='#CID.primaryk#'>
+											
+										<cfelseif #table_name# is 'project'>
 											<cfquery name="CID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 												select project_id as primaryk from #table_name# where project_name = '#labelValue#' 
 											</cfquery>
-											<cfif (CID.primaryk) gt 0>
-												<cfset rpkName ='#CID.primaryk#'>
-											<cfelse>
-												Project
-											</cfif>--->
+											<cfset rpkName ='#CID.primaryk#'>
 										
-							<!---			<cfelseif table_name eq 'cataloged_item'>
+										<cfelseif table_name eq 'cataloged_item'>
 											<cfset institution_acronym = listgetat(labelValue,1,":")>
 											<cfset collection_cde = listgetat(labelValue,2,":")>
 											<cfset cat_num = listgetat(labelValue,3,":")>
-											<cfset guidX = '#institution_acronym#:#collection_cde#:#cat_num#'>
 											<cfquery name="CID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-												select collection_object_id as primaryk from flat where GUID = '#guidX#'
-											</cfquery>--->
-									
-								<!---		<cfelse>
-											<span class="text-danger"><cfoutput>#table_name#: #primaryKey#: #labelValue#</cfoutput>  </span>--->
-									<!---		<cfquery name="CID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+												select collection_object_id as primaryk from flat where GUID = '#institution_acronym#:#collection_cde#:#cat_num#'
+											</cfquery>
+											<cfset rpkName ='#CID.primaryk#'>
+											
+										<cfelse>
+											<span class="text-danger"><cfoutput>#table_name#: #primaryKey#: #labelValue#</cfoutput>  </span>
+											<cfquery name="CID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 												select '||#primaryKey#||' as primaryk from #table_name# where #primarykey# = '#labelValue#'
-											</cfquery>--->
+											</cfquery>
 										</cfif>
-										<!---<cfquery name="insRel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+										<cfquery name="insRel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 											insert into cf_temp_media_relations (
 												KEY,
 												MEDIA_RELATIONSHIP,
@@ -652,11 +639,11 @@ limitations under the License.
 												<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#key#">,
 												<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#labelName#">,
 												<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.myAgentId#">,
-												<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#primaryk#">,
+												<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#rpkName#">,
 												<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 											)
-										</cfquery>--->
-							<!---		</cfif>--->
+										</cfquery>
+									</cfif>
 								</cfloop>
 							</cfloop>
 						</cfif>
