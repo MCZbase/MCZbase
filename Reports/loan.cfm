@@ -224,6 +224,8 @@ limitations under the License.
 			<cfdocumentsection name="Subloan only Header">
 				<div style="text-align: center; font-size: 1em;">
 					<strong> Exhibition Subloan #loan_number# </strong>
+				</div>
+				<div style="text-align: center; font-size: 1em;">
 					<strong> Parent Exhibtion Loan is: #parent_loan_number# </strong>
 				</div>
 				<div style="text-align: center; font-size: 1em;">
