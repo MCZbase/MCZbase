@@ -555,7 +555,7 @@ limitations under the License.
 										<cfoutput>#table_name#: #primaryKey#: #labelValue#</cfoutput>
 										<cfset checkKey.CT = ''>
 										<cfquery name="checkKey" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-											SELECT #primaryKey# as PID
+											SELECT #primaryKey# PID
 											FROM #getRPK.table_name#
 											WHERE #getRPK.column_name# = #primaryKey# AND
 											#labelValue# in (select #primaryKey# from #getRPK.table_name# where #primaryKey# is not null)
