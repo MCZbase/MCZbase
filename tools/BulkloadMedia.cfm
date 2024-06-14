@@ -548,7 +548,6 @@ limitations under the License.
 								</cfquery>
 								
 								<cfloop query='getRPK'>
-								
 									<cfset primaryKey ='#getRPK.column_name#'>
 									<!---Is CSV value is a primary key ID--->
 									<cfif isnumeric(labelValue) and len(table_name) gt 0 and table_name neq 'LOAN'>
