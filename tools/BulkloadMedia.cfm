@@ -551,7 +551,7 @@ limitations under the License.
 							<cfloop query='getRPK'>
 								<cfset primaryKey ='#getRPK.column_name#'>
 								<!---Is CSV value is a primary key ID--->
-								<cfif isnumeric(labelValue) and len(table_name) gt 0 and table_name neq 'LOAN'>
+								<cfif isnumeric(labelValue) and len(table_name) gt 0> 
 									<cfoutput>#table_name#: #primaryKey#: #labelValue#</cfoutput>
 									<cfquery name="checkKey" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 										SELECT count(*) ct
@@ -576,7 +576,7 @@ limitations under the License.
 											<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 										)
 									</cfquery>
-								<cfelse>
+								<cfelseif table_name neq 'LOAN' and table_name neq 'ACCN' and table_name neq 'BORROW' and table_name neq 'DEACCESSION'>>
 								<!---	The relationship is a mix of text and numbers.--->
 									<cfif #labelName# is 'shows agent' OR #labelName# is 'shows handwriting of agent'>
 										<cfquery name="CID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -584,11 +584,23 @@ limitations under the License.
 										</cfquery>
 										<cfset rpkName ='#CID.primaryk#'>
 
-									<cfelseif #table_name# is 'loan'>
+						<!---		<cfelseif #table_name# is 'loan'>
 										<cfquery name="CID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 											select transaction_id as primaryk from loan where loan_number = '#labelValue#'
 										</cfquery>
-										<cfset rpkName ='#CID.primaryk#'>
+										<cfset rpkName ='#CID.primaryk#'>--->
+											
+					<!---			<cfelseif #table_name# is 'borrow'>
+										<cfquery name="CID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+											select transaction_id as primaryk from borrow where borrow_number = '#labelValue#'
+										</cfquery>
+										<cfset rpkName ='#CID.primaryk#'>--->
+											
+						<!---		<cfelseif #table_name# is 'accn'>
+										<cfquery name="CID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+											select transaction_id as primaryk from #table_name# where accn_number = '#labelValue#' 
+										</cfquery>
+										<cfset rpkName ='#CID.primaryk#'>--->
 
 									<cfelseif #table_name# is 'specimen_part'>
 										<cfquery name="CID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -601,21 +613,9 @@ limitations under the License.
 										</cfquery>
 										<cfset rpkName ='#CID.primaryk#'>
 
-									<cfelseif #table_name# is 'borrow'>
-										<cfquery name="CID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-											select transaction_id as primaryk from borrow where borrow_number = '#labelValue#'
-										</cfquery>
-										<cfset rpkName ='#CID.primaryk#'>
-
 									<cfelseif #table_name# is 'project'>
 										<cfquery name="CID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 											select project_id as primaryk from #table_name# where project_name = '#labelValue#' 
-										</cfquery>
-										<cfset rpkName ='#CID.primaryk#'>
-											
-									<cfelseif #table_name# is 'accn'>
-										<cfquery name="CID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-											select transaction_id as primaryk from #table_name# where accn_number = '#labelValue#' 
 										</cfquery>
 										<cfset rpkName ='#CID.primaryk#'>
 
