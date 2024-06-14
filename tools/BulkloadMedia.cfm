@@ -656,7 +656,7 @@ limitations under the License.
 												<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 											)
 										</cfquery>
-									</cfif>
+							<!---		</cfif>--->
 							<!---	</cfloop>--->
 							</cfloop>
 						</cfif>
