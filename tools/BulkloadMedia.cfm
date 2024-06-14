@@ -551,7 +551,7 @@ limitations under the License.
 							<cfloop query='getRPK'>
 								<cfset primaryKey ='#getRPK.column_name#'>
 								<!---Is CSV value is a primary key ID--->
-								<cfif isnumeric(labelValue) and len(table_name) gt 0 and table_name neq 'LOAN' and table_name NEQ 'ACCN'>
+								<cfif isnumeric(labelValue) and len(table_name) gt 0 and table_name neq 'LOAN'>
 									<cfoutput>#table_name#: #primaryKey#: #labelValue#</cfoutput>
 									<cfquery name="checkKey" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 										SELECT count(*) ct
@@ -610,6 +610,12 @@ limitations under the License.
 									<cfelseif #table_name# is 'project'>
 										<cfquery name="CID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 											select project_id as primaryk from #table_name# where project_name = '#labelValue#' 
+										</cfquery>
+										<cfset rpkName ='#CID.primaryk#'>
+											
+									<cfelseif #table_name# is 'accn'>
+										<cfquery name="CID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+											select transaction_id as primaryk from #table_name# where accn_number = '#labelValue#' 
 										</cfquery>
 										<cfset rpkName ='#CID.primaryk#'>
 
