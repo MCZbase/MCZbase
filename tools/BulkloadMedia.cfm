@@ -537,7 +537,7 @@ limitations under the License.
 							<cfset table_name = listlast(labelName," ")>
 							<cfloop list="#table_name#" index="table_name" delimiters=",">
 								<cfquery name = "getRPK"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" >
-									SELECT cols.table_name, cols.column_name
+									SELECT cols.table_name, cols.column_name,key
 									FROM all_constraints cons, all_cons_columns cols
 									WHERE cols.table_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(table_name)#" />
 									AND cons.constraint_type = 'P'
