@@ -389,9 +389,9 @@ limitations under the License.
 		<cfif getRestrictions.recordcount EQ 0>
 			<cfdocumentsection name="Additional Restrictions">
 				<cfif len(loan_instructions) GT 750>
-					<div>
+					<div style="border-bottom: 1px solid black; width: 100%">
 						<strong>Instructions:</strong> #loan_instructions#
-					</div style="border-bottom: 2px black solid; width; 100%; ">
+					</div>
 				</cfif>
 				<div>
 					The MCZ is committed to the spirit and letter of the Convention on Biological Diversity and its associated Nagoya Protocol on Access
@@ -402,9 +402,9 @@ limitations under the License.
 			</cfdocumentsection>
 		<cfelse>
 			<cfif len(loan_instructions) GT 750>
-				<div>
+				<div style="border-bottom: 1px solid black; width: 100%">
 					<strong>Instructions:</strong> #loan_instructions#
-				</div style="border-bottom: 2px black solid; width; 100%; ">
+				</div>
 			</cfif>
 			<cfdocumentsection name="Additional Restrictions">
 				<div style="text-align: center; font-size: 1em;">
