@@ -26,7 +26,7 @@
 	<strong><br>Create a new encumbrance.</strong>
 	<cfset title="Create Encumbrance">
 	<cfoutput>
-		<form name="encumber" method="post" action="Encumbrances.cfm">
+		<form name="encumber" method="post" action="Encumbrances.cfm" onSubmit=" return validateForm(); ">
 			<input type="hidden" name="action" value="createEncumbrance">
 			<label for="encumberingAgent" class="likeLink" onclick="getDocs('encumbrance','encumbrancer')">
 				Encumbering Agent
@@ -62,20 +62,17 @@
 				value="Create New Encumbrance"
 				class="insBtn">
 			<script>
-				// current jquery
-				// $("##encumber").on("submit",function(event) { 
-				// old jquery
-				$("##encumber").submit(function(event) { 
+				function validateForm() { 
+					var status = true;
 					if ($("##encumberingAgentId").val()=="") { 
 						alert("Error: You must pick an Encumbering Agent");
-						event.preventDefault();
-						return false;
+						status = false;
 					} 
 					if ($("##expiration_date").val()!="" && $("##expiration_event").val()!="") { 
 						alert("Error: You may specify an expiration event or an expiration date, but not both.");
-						event.preventDefault();
-						return false;
+						status = false;
 					} 
+					return status;
 				});
 			</script>
 		</form>
