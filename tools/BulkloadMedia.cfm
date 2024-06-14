@@ -628,8 +628,8 @@ limitations under the License.
 											<span class="text-danger"><cfoutput>#table_name#: #primaryKey#: #labelValue#</cfoutput>  </span>
 											<cfquery name="CID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 												select '||#primaryKey#||' as primaryk from #table_name# where #primarykey# = '#labelValue#'
-											</cfquery>
-										</cfif>--->
+											</cfquery>--->
+										</cfif>
 										<cfquery name="insRel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 											insert into cf_temp_media_relations (
 												KEY,
