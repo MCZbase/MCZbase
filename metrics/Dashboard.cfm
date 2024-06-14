@@ -178,7 +178,7 @@ opacity:1
 			
 		<!---	<cfset endDate = "2023-07-01">
 			<cfset beginDate = "2022-06-30">--->
-			<cfparam name="Form.beginDate" default="#ADD_MONTHS(SYSDATE,-12)#"> 
+			<cfparam name="Form.beginDate" default="#dateformat(now()-12,'YYYY-MM-DD')#"> 
 			<cfparam name="Form.endDate" default="#SYSDATE#"> 
 			<cfparam name="Form.selectdate" default="#dateformat(now(), 'YYYY-MM-DD')#"> 
 			<!--- If the form has been submitted, display the selected date. ---> 
