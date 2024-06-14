@@ -603,19 +603,19 @@ limitations under the License.
 											</cfquery>
 											<cfset rpkName ='#CID.primaryk#'>
 										
-										<cfelseif #table_name# is 'borrow'  and encodeForHTML(#labelValue# [,canonicalize])>
+										<cfelseif #table_name# is 'borrow'  and encodeForHTML(#labelValue#,true)>
 											<cfquery name="CID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 												select transaction_id as primaryk from borrow where borrow_number = '#labelValue#'
 											</cfquery>
 											<cfset rpkName ='#CID.primaryk#'>
 											
-										<cfelseif #table_name# is 'project'  and encodeForHTML(#labelValue# [,canonicalize])>
+										<cfelseif #table_name# is 'project'  and encodeForHTML(#labelValue#,true)>
 											<cfquery name="CID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 												select project_id as primaryk from #table_name# where project_name = '#labelValue#' 
 											</cfquery>
 											<cfset rpkName ='#CID.primaryk#'>
 										
-										<cfelseif table_name eq 'cataloged_item' and encodeForHTML(#labelValue# [,canonicalize])>
+										<cfelseif table_name eq 'cataloged_item' and encodeForHTML(#labelValue#,true)>
 											<cfset institution_acronym = listgetat(labelValue,1,":")>
 											<cfset collection_cde = listgetat(labelValue,2,":")>
 											<cfset cat_num = listgetat(labelValue,3,":")>
