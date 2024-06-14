@@ -23,6 +23,9 @@ limitations under the License.
 <cfif not isDefined("action") OR len(action) EQ 0>
 	<cfset action="entryPoint">
 </cfif>
+<cfif not isDefined("sort")>
+	<cfset sort="cat_num">
+</cfif>
 
 <cf_getLoanFormInfo>
 <cfquery name="getLoan" dbtype="query">
@@ -424,6 +427,13 @@ limitations under the License.
 					<cf_getLoanFormInfo transaction_id="#getSubloans.transaction_id#">
 					<cfquery name="getLoanItems" dbtype="query">
 						select * from getLoanItemsMCZ
+						<cfif sort eq "cat_num"> 
+		  					order by cat_num
+						<cfelseif sort eq "cat_num_pre_int"> 
+		  					order by cat_num_prefix, cat_num_integer
+						<cfelseif sort eq "scientific_name"> 
+		  					order by scientific_name
+						</cfif>
 					</cfquery>
 					<div style="text-align: left; font-size: 1em;">
 						Specimens in Subloan #getSubloans.loan_number#

@@ -4037,7 +4037,9 @@ limitations under the License.
 					<li><a href="/Reports/MCZDrawerTags.cfm?transaction_id=#transaction_id#&Action=itemLabels&format=Malacology" target="_blank">MCZ Drawer Tags</a></li>
 					<li><a href="/edecView.cfm?transaction_id=#transaction_id#" target="_blank">USFWS eDec</a></li>
 					<cfif isdefined("session.roles") and listfindnocase(session.roles,"collops")  >
-						<li><a href="/Reports/loan.cfm?transaction_id=#transaction_id#" target="_blank">DRAFT Combined Loan Paperwork</a></li>
+						<li><a href="/Reports/loan.cfm?transaction_id=#transaction_id#" target="_blank">Combined Loan Paperwork</a></li>
+						<li><a href="/Reports/loan.cfm?transaction_id=#transaction_id#&sort=cat_num_pre_int" target="_blank">Combined Loan Paperwork (cat num sort)</a></li>
+						<li><a href="/Reports/loan.cfm?transaction_id=#transaction_id#&sort=scientific_name" target="_blank">Combined Loan Paperwork (taxon sort)</a></li>
 					</cfif>
 				</ul>
 			</cfoutput>
