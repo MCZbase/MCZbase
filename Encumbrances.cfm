@@ -62,7 +62,10 @@
 				value="Create New Encumbrance"
 				class="insBtn">
 			<script>
-				$("##encumber").on("submit",function(event) { 
+				// current jquery
+				// $("##encumber").on("submit",function(event) { 
+				// old jquery
+				$("##encumber").submit(function(event) { 
 					if ($("##encumberingAgentId").val()=="") { 
 						alert("Error: You must pick an Encumbering Agent");
 						event.preventDefault();
