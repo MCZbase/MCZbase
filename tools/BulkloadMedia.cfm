@@ -561,7 +561,7 @@ limitations under the License.
 											#labelValue# in (select #primaryKey# from #getRPK.table_name# where #primaryKey# is not null)
 										</cfquery>
 									
-										<cfif checkKey.PID NEQ 1>
+										<cfif checkKey.PID eq 0>
 											<cfthrow message="Related Primary Key value [#encodeForHtml(primaryKey)#] for #getRPK.table_name#.#getRPK.column_name# not found with relationship #encodeForHtml(labelName)# ">
 										</cfif>
 										<cfquery name="insRel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
