@@ -651,7 +651,7 @@ limitations under the License.
 										</cfif>
 									</cfif>
 								</td>
-							</div>
+							</tr>
 							<cfset totalSpecimens = totalSpecimens + 1>
 							<cfset totalLotCount = totalLotCount + lot_count>
 						</cfloop>
@@ -728,7 +728,7 @@ limitations under the License.
 									</cfif>
 								</cfif>
 							</td>
-						</div>
+						</tr>
 						<cfset totalSpecimens = totalSpecimens + 1>
 						<cfset totalLotCount = totalLotCount + lot_count>
 					</cfloop>
