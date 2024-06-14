@@ -68,7 +68,7 @@
 						event.preventDefault();
 						return false;
 					} 
-					if ($("##expiration_date").val()!="" && $("##expiration_event".val()!="") { 
+					if ($("##expiration_date").val()!="" && $("##expiration_event").val()!="") { 
 						alert("Error: You may specify an expiration event or an expiration date, but not both.");
 						event.preventDefault();
 						return false;
