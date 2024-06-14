@@ -580,19 +580,19 @@ limitations under the License.
 										</cfquery>
 									<cfelse>
 										<!---Is a relationship is a text value on CSV?--->
-										<cfif #labelName# is 'shows agent' OR #labelName# is 'shows handwriting of agent' and #labelValue# is String>
+										<cfif #labelName# is 'shows agent' OR #labelName# is 'shows handwriting of agent'  and encodeForHTML(#labelValue# [,canonicalize])>
 											<cfquery name="CID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 												select agent_id as primaryk from agent_name where agent_name = '#labelValue#'
 											</cfquery>
 											<cfset rpkName ='#CID.primaryk#'>
 											
-										<cfelseif #table_name# is 'loan'  and #labelValue# is String>
+										<cfelseif #table_name# is 'loan'  and encodeForHTML(#labelValue# [,canonicalize])>
 											<cfquery name="CID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 												select transaction_id as primaryk from loan where loan_number = '#labelValue#'
 											</cfquery>
 											<cfset rpkName ='#CID.primaryk#'>
 										
-										<cfelseif #table_name# is 'specimen_part' and #labelValue# is String>
+										<cfelseif #table_name# is 'specimen_part'  and encodeForHTML(#labelValue# [,canonicalize])>
 											<cfquery name="CID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 												select sp.collection_object_id as primaryk
 												from specimen_part sp
@@ -603,19 +603,19 @@ limitations under the License.
 											</cfquery>
 											<cfset rpkName ='#CID.primaryk#'>
 										
-										<cfelseif #table_name# is 'borrow' and #labelValue# is String>
+										<cfelseif #table_name# is 'borrow'  and encodeForHTML(#labelValue# [,canonicalize])>
 											<cfquery name="CID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 												select transaction_id as primaryk from borrow where borrow_number = '#labelValue#'
 											</cfquery>
 											<cfset rpkName ='#CID.primaryk#'>
 											
-										<cfelseif #table_name# is 'project' and #labelValue# is String>
+										<cfelseif #table_name# is 'project'  and encodeForHTML(#labelValue# [,canonicalize])>
 											<cfquery name="CID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 												select project_id as primaryk from #table_name# where project_name = '#labelValue#' 
 											</cfquery>
 											<cfset rpkName ='#CID.primaryk#'>
 										
-										<cfelseif table_name eq 'cataloged_item' and #labelValue# is String>
+										<cfelseif table_name eq 'cataloged_item' and encodeForHTML(#labelValue# [,canonicalize])>
 											<cfset institution_acronym = listgetat(labelValue,1,":")>
 											<cfset collection_cde = listgetat(labelValue,2,":")>
 											<cfset cat_num = listgetat(labelValue,3,":")>
