@@ -560,7 +560,7 @@ limitations under the License.
 											WHERE #getRPK.column_name# = #primaryKey#
 										</cfquery>
 										<cfif ckeckKey.CT NEQ 1>
-											<cfthrow message="Related Primary Key value [#encodeForHtml(key)#] for #getRPK.table_name#.#getRPK.column_name# not found with relationship #encodeForHtml(labelName)# ">
+											<cfthrow message="Related Primary Key value [#encodeForHtml(primaryKey)#] for #getRPK.table_name#.#getRPK.column_name# not found with relationship #encodeForHtml(labelName)# ">
 										</cfif>
 										<cfquery name="insRel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 											insert into cf_temp_media_relations (
