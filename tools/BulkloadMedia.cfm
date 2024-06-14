@@ -580,7 +580,7 @@ limitations under the License.
 										</cfquery>
 									<cfelse>
 										<!---Is a relationship is a text value on CSV?--->
-										<cfif #labelName# is 'shows agent' OR #labelName# is 'shows handwriting of agent'  and encodeForHTML(#labelValue# [,true])>
+										<cfif #labelName# is 'shows agent' OR #labelName# is 'shows handwriting of agent'  and encodeForHTML(#labelValue#,true)>
 											<cfquery name="CID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 												select agent_id as primaryk from agent_name where agent_name = '#labelValue#'
 											</cfquery>
