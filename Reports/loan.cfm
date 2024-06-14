@@ -83,6 +83,7 @@ limitations under the License.
 		SELECT DISTINCT
 			collection.collection AS collection,
 			cataloged_item.collection_cde as collection_cde,
+			cataloged_item.collection_object_id as collection_object_id,
 			collection.institution_acronym as institution_acronym,
 			loan_number,
 			loan_item.reconciled_date,
@@ -525,6 +526,7 @@ limitations under the License.
 								collection.collection AS collection,
 								cataloged_item.collection_cde as collection_cde,
 								collection.institution_acronym as institution_acronym,
+								cataloged_item.collection_object_id as collection_object_id,
 								loan_number,
 								loan_item.reconciled_date,
 								MCZBASE.CONCATITEMREMINLOAN(specimen_part.derived_from_cat_item, loan_item.transaction_id) as loan_item_remarks,
