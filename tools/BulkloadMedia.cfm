@@ -568,7 +568,7 @@ limitations under the License.
 												RELATED_PRIMARY_KEY,
 												USERNAME
 											) values (
-												<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#key#">,
+												<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia.key#">,
 												<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#labelName#">,
 												<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.myAgentId#">,
 												<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#labelValue#">,
