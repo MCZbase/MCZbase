@@ -122,10 +122,25 @@ limitations under the License.
 			left join geog_auth_rec on locality.geog_auth_rec_id = geog_auth_rec.geog_auth_rec_id 
 		WHERE 
 			loan.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
+		<cfif sort eq "cat_num"> 
+			ORDER BY cat_num
+		<cfelseif sort eq "cat_num_pre_int"> 
+			ORDER BY cat_num_prefix, cat_num_integer
+		<cfelseif sort eq "scientific_name"> 
+			ORDER BY scientific_name
+		</cfif>
 	</cfquery>
 <cfelse>
 	<cfquery name="getLoanItems" dbtype="query">
-		select * from getLoanItemsMCZ
+		SELECT * 
+		FROM getLoanItemsMCZ
+		<cfif sort eq "cat_num"> 
+			ORDER BY cat_num
+		<cfelseif sort eq "cat_num_pre_int"> 
+			ORDER BY cat_num_prefix, cat_num_integer
+		<cfelseif sort eq "scientific_name"> 
+			ORDER BY scientific_name
+		</cfif>
 	</cfquery>
 </cfif>
 <cfquery name="getHasFluid" dbtype="query">
@@ -548,10 +563,18 @@ limitations under the License.
 								left join geog_auth_rec on locality.geog_auth_rec_id = geog_auth_rec.geog_auth_rec_id 
 							WHERE 
 								loan.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
+							<cfif sort eq "cat_num"> 
+		  						ORDER BY cat_num
+							<cfelseif sort eq "cat_num_pre_int"> 
+		  						ORDER BY cat_num_prefix, cat_num_integer
+							<cfelseif sort eq "scientific_name"> 
+			  					ORDER BY scientific_name
+							</cfif>
 						</cfquery>
 					<cfelse>
 						<cfquery name="getLoanItems" dbtype="query">
-							select * from getLoanItemsMCZ
+							SELECT * 
+							FROM getLoanItemsMCZ
 							<cfif sort eq "cat_num"> 
 		  						order by cat_num
 							<cfelseif sort eq "cat_num_pre_int"> 
