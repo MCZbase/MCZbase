@@ -73,7 +73,7 @@
 						status = false;
 					} 
 					return status;
-				});
+				};
 			</script>
 		</form>
 	</cfoutput>
