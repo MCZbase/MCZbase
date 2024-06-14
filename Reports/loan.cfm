@@ -209,11 +209,11 @@ limitations under the License.
 		<cfif getLoan.loan_type EQ "exhibition-subloan">
 			<!--- Header for subloan in isolation is not sufficient to send, must generate paperwork to send from master exhibition loan --->
 			<cfquery name="getParent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				SELECT transaction_id, loan_number
+				SELECT loan.transaction_id, loan.loan_number
 				FROM loan
 					left join loan_relations on loan.transaction_id = loan_relations.transaction_id
 				WHERE loan_relations.related_transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
-					AND relation_type = 'Subloan'
+					AND loan_relations.relation_type = 'Subloan'
 			</cfquery>
 			<cfset master_transaction_id = getParent.transaction_id>
 			<cfset parent_loan_number = getParent.loan_number>
