@@ -592,8 +592,12 @@ limitations under the License.
 									</div>
 								</td>
 								<td style="width: 25%; vertical-align: top;">
-									#lot_count# #part_modifier# #part_name#
-									<cfif len(preserve_method) GT 0>(#preserve_method#)</cfif>
+									<cfif isDefined("groupBy") AND groupBy EQ "part">
+										#parts#
+									<cfelse>
+										#lot_count# #part_modifier# #part_name#
+										<cfif len(preserve_method) GT 0>(#preserve_method#)</cfif>
+									</cfif>
 									<cfif getRestrictions.recordcount GT 0>
 										<cfquery name="getSpecificRestrictions" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 											SELECT permit.permit_num,
@@ -667,8 +671,12 @@ limitations under the License.
 								</div>
 							</td>
 							<td style="width: 25%; vertical-align: top;">
-								#lot_count# #part_modifier# #part_name#
-								<cfif len(preserve_method) GT 0>(#preserve_method#)</cfif>
+								<cfif isDefined("groupBy") AND groupBy EQ "part">
+									#parts#
+								<cfelse>
+									#lot_count# #part_modifier# #part_name#
+									<cfif len(preserve_method) GT 0>(#preserve_method#)</cfif>
+								</cfif>
 								<cfif getRestrictions.recordcount GT 0>
 									<cfquery name="getSpecificRestrictions" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 										SELECT permit.permit_num, permit_title
