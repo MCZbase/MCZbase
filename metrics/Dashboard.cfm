@@ -178,9 +178,9 @@ opacity:1
 			
 		<!---	<cfset endDate = "2023-07-01">
 			<cfset beginDate = "2022-06-30">--->
-			<cfparam name="Form.beginDate" default="#dateformat(now()-5,'YYYY-MM-DD')#"> 
-			<cfparam name="Form.endDate" default="#dateformat(now(),'YYYY-MM-DD')#"> 
-			<cfparam name="Form.selectdate" default="#dateformat(now(), 'YYYY-MM-DD')#"> 
+			<cfparam name="Form.beginDate" default="#LSDateFormat(now()-5,'YYYY-MM-DD')#"> 
+			<cfparam name="Form.endDate" default="#LSDateFormat(now(),'YYYY-MM-DD')#"> 
+			<cfparam name="Form.selectdate" default="#LSDateFormat(now(), 'YYYY-MM-DD')#"> 
 			<!--- If the form has been submitted, display the selected date. ---> 
 			<cfif isDefined("Form.submitit")> 
 			<cfoutput><b>You selected #Form.selectedDate#</b><br><br></cfoutput> 
