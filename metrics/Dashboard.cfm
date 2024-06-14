@@ -170,7 +170,7 @@ opacity:1
 					</div>
 
 					<CFSET TodaysDate = #DateFormat (Now(), "yyyy-mm-dd")#>
-					<CFSET CheckDate = #DateFormat(TodaysDate-364,"yyyy-mm-dd")#>
+					<CFSET CheckDate = #DateFormat(TodaysDate-365,"yyyy-mm-dd")#>
 
 						#TodaysDate# <br>
 						#CheckDate#<br>
