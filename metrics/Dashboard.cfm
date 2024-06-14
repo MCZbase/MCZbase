@@ -176,7 +176,8 @@ opacity:1
 				<button type="button" class="btn btn-sm btn-outline-secondary">Export</button>
 			</div>
 			
-
+			<CFSET TodaysDate = #DateFormat (Now(), "yyyy-mm-dd")#>
+			<CFSET CheckDate = #DateFormat(TodaysDate-364,"yyyy-mm-dd")#>
 	
 </div>
 
