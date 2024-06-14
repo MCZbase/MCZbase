@@ -586,13 +586,13 @@ limitations under the License.
 											</cfquery>
 											<cfset rpkName ='#CID.primaryk#'>
 											
-										<cfelseif #table_name# is 'loan'  and encodeForHTML(#labelValue# [,true])>
+										<cfelseif #table_name# is 'loan'  and encodeForHTML(#labelValue#,true)>
 											<cfquery name="CID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 												select transaction_id as primaryk from loan where loan_number = '#labelValue#'
 											</cfquery>
 											<cfset rpkName ='#CID.primaryk#'>
 										
-										<cfelseif #table_name# is 'specimen_part'  and encodeForHTML(#labelValue# [,true])>
+										<cfelseif #table_name# is 'specimen_part'  and encodeForHTML(#labelValue#,true)>
 											<cfquery name="CID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 												select sp.collection_object_id as primaryk
 												from specimen_part sp
