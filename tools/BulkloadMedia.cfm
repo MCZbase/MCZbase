@@ -608,7 +608,7 @@ limitations under the License.
 												join container pcont on (cont.parent_container_id = pcont.container_id)
 												where pcont.barcode = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#labelValue#">
 											</cfquery>
-											<cfif (CID.collection_object_id) gt 0>
+											<cfif (CID.primaryk) gt 0>
 												<cfset rpkName ='#CID.primaryk#'>
 											<cfelse>
 												Specimen Part
