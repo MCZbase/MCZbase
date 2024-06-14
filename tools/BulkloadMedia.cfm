@@ -551,17 +551,17 @@ limitations under the License.
 									<cfset primaryKey ='#getRPK.column_name#'>
 									<!---Is CSV value is a primary key ID--->
 									<cfif isnumeric(labelValue) and len(table_name) gt 0 and table_name neq 'LOAN' and table_name neq ''>
-										<cfoutput>#table_name#: #primaryKey#: #labelValue#</cfoutput>
+								<!---		<cfoutput>#table_name#: #primaryKey#: #labelValue#</cfoutput>
 										<cfquery name="checkKey" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 											SELECT #primaryKey# as PID
 											FROM #getRPK.table_name#
 											WHERE #getRPK.column_name# = #primaryKey# AND
 											#labelValue# in (select #primaryKey# from #getRPK.table_name# where #primaryKey# is not null)
-										</cfquery>
+										</cfquery>--->
 										<cfoutput>#table_name#: #primaryKey#: #labelValue#</cfoutput>
-										<cfif checkKey.PID eq 0>
+									<!---	<cfif checkKey.PID eq 0>
 											<cfthrow message="Related Primary Key value [#encodeForHtml(primaryKey)#] for #getRPK.table_name#.#getRPK.column_name# not found with relationship #encodeForHtml(labelName)# ">
-										</cfif>
+										</cfif>--->
 										<cfquery name="insRel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 											insert into cf_temp_media_relations (
 												KEY,
