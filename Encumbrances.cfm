@@ -31,12 +31,12 @@
 			<label for="encumberingAgent" class="likeLink" onclick="getDocs('encumbrance','encumbrancer')">
 				Encumbering Agent
 			</label>
-			<input type="text" name="encumberingAgent" id="encumberingAgent" class="reqdClr"
+			<input type="text" name="encumberingAgent" id="encumberingAgent" class="reqdClr" required
 				onchange="getAgent('encumberingAgentId','encumberingAgent','encumber',this.value); return false;"
 			  	onKeyPress="return noenter(event);">
 			<input type="hidden" name="encumberingAgentId" id="encumberingAgentId"> 
 			<label for="made_date">Made Date</label>
-			<input type="text" name="made_date" id="made_date" class="reqdClr">
+			<input type="text" name="made_date" id="made_date" class="reqdClr" required>
 			<label for="expiration_date" class="likeLink" onclick="getDocs('encumbrance','expiration')">
 				Expiration Date
 			</label>
@@ -48,18 +48,33 @@
 			<label for="encumbrance" class="likeLink" onclick="getDocs('encumbrance','encumbrance_name')">
 				Encumbrance
 			</label>
-			<input type="text" name="encumbrance" id="encumbrance" size="50" class="reqdClr">
+			<input type="text" name="encumbrance" id="encumbrance" size="50" class="reqdClr" required>
 			<label for="encumbrance_action">Encumbrance Action</label>
-	        <select name="encumbrance_action" id="encumbrance_action" size="1" class="reqdClr">
+	        <select name="encumbrance_action" id="encumbrance_action" size="1" class="reqdClr" required>
 	            <cfloop query="ctEncAct">
 	              <option value="#ctEncAct.encumbrance_action#">#ctEncAct.encumbrance_action#</option>
 	            </cfloop>
 	         </select>
 			<label for="remarks">Remarks</label>
 			<textarea name="remarks" rows="3" cols="50"></textarea>
-			<br><input type="submit" 
+			<br>
+			<input type="submit" 
 				value="Create New Encumbrance"
 				class="insBtn">
+			<script>
+				$("##encumber").on("submit",function(event) { 
+					if ($("##encumberingAgentId").val()=="") { 
+						alert("Error: You must pick an Encumbering Agent");
+						event.preventDefault();
+						return false;
+					} 
+					if ($("##expiration_date").val()!="" && $("##expiration_event".val()!="") { 
+						alert("Error: You may specify an expiration event or an expiration date, but not both.");
+						event.preventDefault();
+						return false;
+					} 
+				});
+			</script>
 		</form>
 	</cfoutput>
 </cfif>
