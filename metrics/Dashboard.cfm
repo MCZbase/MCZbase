@@ -174,7 +174,7 @@ opacity:1
 
 					beginDate = #beginDate# <br>
 					endDate = #endDate#<br>
-					<cfset selectdate = #DateFormat (Now(), "yyyy-mm-dd")#>
+					<!---<cfset selectdate = #DateFormat (Now(), "yyyy-mm-dd")#>
 			
 					<br clear = "all">
 					<cfform name="form1" format="Flash" skin="haloBlue" width="375" height="350" > 
@@ -195,7 +195,7 @@ opacity:1
 					<cfinput type="dateField" name="selectdate" label="Initial date" width="100" 
 					value="#Form.selectdate#" > 
 					<cfinput type="Submit" name="submitit" value="Save" width="100"> 
-					</cfform>
+					</cfform>--->
 				</div>
 			</div>
 		</main>
