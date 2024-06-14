@@ -641,7 +641,7 @@ limitations under the License.
 												select '||#primaryKey#||' as primaryk from #table_name# where #primarykey# = '#labelValue#'
 											</cfquery>--->
 										</cfif>
-										<cfquery name="insRel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+										<!---<cfquery name="insRel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 											insert into cf_temp_media_relations (
 												KEY,
 												MEDIA_RELATIONSHIP,
@@ -655,7 +655,7 @@ limitations under the License.
 												<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#primaryk#">,
 												<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 											)
-										</cfquery>
+										</cfquery>--->
 							<!---		</cfif>--->
 								</cfloop>
 							</cfloop>
