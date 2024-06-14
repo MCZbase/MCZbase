@@ -51,6 +51,7 @@
 			<input type="text" name="encumbrance" id="encumbrance" size="50" class="reqdClr" required>
 			<label for="encumbrance_action">Encumbrance Action</label>
 	        <select name="encumbrance_action" id="encumbrance_action" size="1" class="reqdClr" required>
+					<option value=""></option>
 	            <cfloop query="ctEncAct">
 	              <option value="#ctEncAct.encumbrance_action#">#ctEncAct.encumbrance_action#</option>
 	            </cfloop>
