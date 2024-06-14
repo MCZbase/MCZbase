@@ -640,7 +640,7 @@ limitations under the License.
 											<cfquery name="CID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 												select collection_object_id as primaryk from flat where GUID = '#guidX#'
 											</cfquery>
-											<cfif (CID.collection_object_id) gt 0>
+											<cfif (CID.primaryk) gt 0>
 												<cfset rpkName ='#CID.primaryk#'>
 											<cfelse>
 												Cataloged Item
