@@ -592,7 +592,7 @@ limitations under the License.
 											
 										<cfelseif #table_name# is 'accn'>
 											<cfquery name="CID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-												select transaction_id as primaryk from loan where accn_number = '#labelValue#'
+												select transaction_id as primaryk from accn where accn_number = '#labelValue#'
 											</cfquery>
 										
 										<cfelseif #labelName# is 'related media'>
