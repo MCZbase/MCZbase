@@ -578,6 +578,7 @@ limitations under the License.
 											)
 										</cfquery>
 									<cfelse>
+										<cfset primaryk = ''>
 										<!---Is a relationship is a text value on CSV?--->
 										<cfif #labelName# is 'shows agent' OR #labelName# is 'shows handwriting of agent'>
 											<cfquery name="CID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
