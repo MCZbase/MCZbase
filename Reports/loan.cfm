@@ -618,7 +618,7 @@ limitations under the License.
 								</td>
 								<td style="width: 25%; vertical-align: top;">
 									<cfif isDefined("groupBy") AND groupBy EQ "part">
-										<div>#replace(parts,"<BR>","</div><div>")#</div>
+										#parts#
 									<cfelse>
 										#lot_count# #part_modifier# #part_name#
 										<cfif len(preserve_method) GT 0>(#preserve_method#)</cfif>
@@ -639,15 +639,16 @@ limitations under the License.
 												and permit.restriction_summary is not null
 										</cfquery>
 										<cfif getSpecificRestrictions.recordcount GT 0>
-											<div>
-												<strong>Use Restricted By:</strong>
-												<cfloop query="getSpecificRestrictions">
+											<br>
+											<strong>Use Restricted By:</strong>
+											<cfloop query="getSpecificRestrictions">
+												<span style="font-size: 0.8em;">
 													#getSpecificRestrictions.permit_num#
 													<cfif len(getSpecificRestrictions.permit_num) EQ 0>
 														#getSpecificRestrictions.permit_title#
 													</cfif>
-												</cfloop>
-											</div>
+												</span>
+											</cfloop>
 										</cfif>
 									</cfif>
 								</td>
@@ -697,7 +698,7 @@ limitations under the License.
 							</td>
 							<td style="width: 25%; vertical-align: top;">
 								<cfif isDefined("groupBy") AND groupBy EQ "part">
-									<div>#replace(parts,"<BR>","</div><div>")#</div>
+									#parts#
 								<cfelse>
 									#lot_count# #part_modifier# #part_name#
 									<cfif len(preserve_method) GT 0>(#preserve_method#)</cfif>
@@ -716,15 +717,16 @@ limitations under the License.
 											and permit.restriction_summary is not null
 									</cfquery>
 									<cfif getSpecificRestrictions.recordcount GT 0>
-										<div>
-											<strong>Use Restricted By:</strong>
-											<cfloop query="getSpecificRestrictions">
+										<br>
+										<strong>Use Restricted By:</strong>
+										<cfloop query="getSpecificRestrictions">
+											<span style="font-size: 0.8em;">
 												#getSpecificRestrictions.permit_num#
 												<cfif len(getSpecificRestrictions.permit_num) EQ 0>
 													#getSpecificRestrictions.permit_title#
 												</cfif>
-											</cfloop>
-										</div>
+											</span>
+										</cfloop>
 									</cfif>
 								</cfif>
 							</td>
