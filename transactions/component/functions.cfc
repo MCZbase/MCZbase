@@ -4040,6 +4040,9 @@ limitations under the License.
 						<li><a href="/Reports/loan.cfm?transaction_id=#transaction_id#" target="_blank">Combined Loan Paperwork</a></li>
 						<li><a href="/Reports/loan.cfm?transaction_id=#transaction_id#&sort=cat_num_pre_int" target="_blank">Combined Loan Paperwork (cat num sort)</a></li>
 						<li><a href="/Reports/loan.cfm?transaction_id=#transaction_id#&sort=scientific_name" target="_blank">Combined Loan Paperwork (taxon sort)</a></li>
+						<li><a href="/Reports/loan.cfm?transaction_id=#transaction_id#&groupBy=part" target="_blank">Combined Loan Paperwork Parts Grouped</a></li>
+						<li><a href="/Reports/loan.cfm?transaction_id=#transaction_id#&sort=cat_num_pre_int&groupBy=part" target="_blank">Combined Loan Paperwork Parts Grouped (cat num sort)</a></li>
+						<li><a href="/Reports/loan.cfm?transaction_id=#transaction_id#&sort=scientific_name&groupBy=part" target="_blank">Combined Loan Paperwork Parts Grouped (taxon sort)</a></li>
 					</cfif>
 				</ul>
 			</cfoutput>

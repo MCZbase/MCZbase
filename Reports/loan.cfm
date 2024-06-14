@@ -78,9 +78,49 @@ limitations under the License.
 			loan_relations.relation_type = 'Subloan'
 	</cfquery>
 </cfif>
-<cfquery name="getLoanItems" dbtype="query">
-	select * from getLoanItemsMCZ
-</cfquery>
+<cfif isDefined("groupBy") AND groupBy EQ "part">
+	<cfquery name="getLoanItems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+		SELECT DISTINCT
+			collection.collection AS collection,
+			cataloged_item.collection_cde as collection_cde,
+			collection.institution_acronym as institution_acronym,
+			loan_number,
+			MCZBASE.CONCATITEMREMINLOAN(specimen_part.derived_from_cat_item, loan_item.transaction_id) as loan_item_remarks,
+			concattransagent(loan.transaction_id, 'received by')  recAgentName,
+			cat_num,
+			MCZBASE.GET_TYPESTATUS(cataloged_item.collection_object_id) as type_status,
+			decode(
+				MCZBASE.GET_TYPESTATUSNAME(cataloged_item.collection_object_id,
+				MCZBASE.GET_TYPESTATUS(cataloged_item.collection_object_id)), 
+				MCZBASE.GET_SCIENTIFIC_NAME(cataloged_item.collection_object_id),
+				'', 
+				decode(MCZBASE.GET_TYPESTATUSNAME(cataloged_item.collection_object_id,
+					MCZBASE.GET_TYPESTATUS(cataloged_item.collection_object_id)),'','',
+					' of ' || MCZBASE.GET_TYPESTATUSNAME(cataloged_item.collection_object_id,
+					MCZBASE.GET_TYPESTATUS(cataloged_item.collection_object_id))
+				)
+			) as typestatusname,
+		
+			MCZBASE.CONCATPARTSINLOAN(specimen_part.derived_from_cat_item, loan_item.transaction_id) as parts,
+			MCZBASE.CONCATPARTCTINLOAN(specimen_part.derived_from_cat_item, loan_item.transaction_id) as lot_count,
+			MCZBASE.GET_SCIENTIFIC_NAME(cataloged_item.collection_object_id) as scientific_name, 
+			spec_locality,
+			higher_geog,
+			GET_CHRONOSTRATIGRAPHY(locality.locality_id) chronostrat,
+			GET_LITHOSTRATIGRAPHY(locality.locality_id) lithostrat,
+			HTF.escape_sc(concatColl(cataloged_item.collection_object_id)) as collectors,
+			cat_num_prefix,
+			cat_num_integer
+		FROM loan 
+			left join loan_item on loan.transaction_id = loan_item.transaction_id 
+		WHERE 
+			loan.transaction_id = <cfqueryparm cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
+	</cfquery>
+<cfelse>
+	<cfquery name="getLoanItems" dbtype="query">
+		select * from getLoanItemsMCZ
+	</cfquery>
+</cfif>
 <cfquery name="getHasFluid" dbtype="query">
 	select count(*) ct 
 	from getLoanItemsMCZ
@@ -457,16 +497,56 @@ limitations under the License.
 				<cfloop query="getSubloans">
 					<cfset transaction_id = getSubloans.transaction_id>
 					<cf_getLoanFormInfo transaction_id="#getSubloans.transaction_id#">
-					<cfquery name="getLoanItems" dbtype="query">
-						select * from getLoanItemsMCZ
-						<cfif sort eq "cat_num"> 
-		  					order by cat_num
-						<cfelseif sort eq "cat_num_pre_int"> 
-		  					order by cat_num_prefix, cat_num_integer
-						<cfelseif sort eq "scientific_name"> 
-		  					order by scientific_name
-						</cfif>
-					</cfquery>
+					<cfif isDefined("groupBy") AND groupBy EQ "part">
+						<cfquery name="getLoanItems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+							SELECT DISTINCT
+								collection.collection AS collection,
+								cataloged_item.collection_cde as collection_cde,
+								collection.institution_acronym as institution_acronym,
+								loan_number,
+								MCZBASE.CONCATITEMREMINLOAN(specimen_part.derived_from_cat_item, loan_item.transaction_id) as loan_item_remarks,
+								concattransagent(loan.transaction_id, 'received by')  recAgentName,
+								cat_num,
+								MCZBASE.GET_TYPESTATUS(cataloged_item.collection_object_id) as type_status,
+								decode(
+									MCZBASE.GET_TYPESTATUSNAME(cataloged_item.collection_object_id,
+									MCZBASE.GET_TYPESTATUS(cataloged_item.collection_object_id)), 
+									MCZBASE.GET_SCIENTIFIC_NAME(cataloged_item.collection_object_id),
+									'', 
+									decode(MCZBASE.GET_TYPESTATUSNAME(cataloged_item.collection_object_id,
+										MCZBASE.GET_TYPESTATUS(cataloged_item.collection_object_id)),'','',
+										' of ' || MCZBASE.GET_TYPESTATUSNAME(cataloged_item.collection_object_id,
+										MCZBASE.GET_TYPESTATUS(cataloged_item.collection_object_id))
+									)
+								) as typestatusname,
+							
+								MCZBASE.CONCATPARTSINLOAN(specimen_part.derived_from_cat_item, loan_item.transaction_id) as parts,
+								MCZBASE.CONCATPARTCTINLOAN(specimen_part.derived_from_cat_item, loan_item.transaction_id) as lot_count,
+								MCZBASE.GET_SCIENTIFIC_NAME(cataloged_item.collection_object_id) as scientific_name, 
+								spec_locality,
+								higher_geog,
+								GET_CHRONOSTRATIGRAPHY(locality.locality_id) chronostrat,
+								GET_LITHOSTRATIGRAPHY(locality.locality_id) lithostrat,
+								HTF.escape_sc(concatColl(cataloged_item.collection_object_id)) as collectors,
+								cat_num_prefix,
+								cat_num_integer
+							FROM loan 
+								left join loan_item on loan.transaction_id = loan_item.transaction_id 
+							WHERE 
+								loan.transaction_id = <cfqueryparm cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
+						</cfquery>
+					<cfelse>
+						<cfquery name="getLoanItems" dbtype="query">
+							select * from getLoanItemsMCZ
+							<cfif sort eq "cat_num"> 
+		  						order by cat_num
+							<cfelseif sort eq "cat_num_pre_int"> 
+		  						order by cat_num_prefix, cat_num_integer
+							<cfelseif sort eq "scientific_name"> 
+			  					order by scientific_name
+							</cfif>
+						</cfquery>
+					</cfif>
 					<div style="text-align: left; font-size: 1em;">
 						Specimens in Subloan #getSubloans.loan_number#
 					</div>
