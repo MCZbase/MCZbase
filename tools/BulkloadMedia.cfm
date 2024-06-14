@@ -558,7 +558,7 @@ limitations under the License.
 											SELECT #primaryKey#
 											FROM #getRPK.table_name#
 											WHERE #getRPK.column_name# = #primaryKey# AND
-											#labelValue# in (select #primaryKey# from #getRPK.table_name# where #primaryKey# is not null#)
+											#labelValue# in (select #primaryKey# from #getRPK.table_name# where #primaryKey# is not null)
 										</cfquery>
 										<cfif ckeckKey.CT NEQ 1>
 											<cfthrow message="Related Primary Key value [#encodeForHtml(primaryKey)#] for #getRPK.table_name#.#getRPK.column_name# not found with relationship #encodeForHtml(labelName)# ">
