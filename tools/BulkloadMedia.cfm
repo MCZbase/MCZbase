@@ -621,7 +621,7 @@ limitations under the License.
 											<cfelse>
 												Borrow
 											</cfif>
-										<cfelseif #table_name# is 'project'>
+							<!---			<cfelseif #table_name# is 'project'>
 											<cfquery name="CID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 												select project_id as primaryk from #table_name# where project_name = '#labelValue#' 
 											</cfquery>
@@ -629,7 +629,7 @@ limitations under the License.
 												<cfset rpkName ='#CID.primaryk#'>
 											<cfelse>
 												Project
-											</cfif>
+											</cfif>--->
 										
 										<cfelseif table_name eq 'cataloged_item'>
 											<cfset institution_acronym = listgetat(labelValue,1,":")>
