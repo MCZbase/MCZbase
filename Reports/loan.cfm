@@ -224,7 +224,7 @@ limitations under the License.
 			<cfdocumentsection name="Subloan only Header">
 				<div style="text-align: center; font-size: 1em;">
 					<strong> Exhibition Subloan #loan_number# </strong>
-					<strong> Parent Exhibtion Loan is: #getParent.parent_loan_number# </strong>
+					<strong> Parent Exhibtion Loan is: #parent_loan_number# </strong>
 				</div>
 				<div style="text-align: center; font-size: 1em;">
 					<!--- TODO: Comment, inconsistent use of Department and Collection, should list Department, except for Cryo, fix in custom tag? --->
