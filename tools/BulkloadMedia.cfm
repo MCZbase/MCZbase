@@ -592,7 +592,7 @@ limitations under the License.
 											</cfquery>
 											<cfset rpkName ='#CID.primaryk#'>
 										
-										<cfelseif #table_name# is 'specimen_part' and NOT isNumeric(#labelValue#)>
+						<!---				<cfelseif #table_name# is 'specimen_part' and NOT isNumeric(#labelValue#)>
 											<cfquery name="CID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 												select sp.collection_object_id as primaryk
 												from specimen_part sp
@@ -601,7 +601,7 @@ limitations under the License.
 												join container pcont on (cont.parent_container_id = pcont.container_id)
 												where pcont.barcode = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#labelValue#">
 											</cfquery>
-											<cfset rpkName ='#CID.primaryk#'>
+											<cfset rpkName ='#CID.primaryk#'>--->
 										
 										<cfelseif #table_name# is 'borrow' and NOT isNumeric(#labelValue#)>
 											<cfquery name="CID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -615,14 +615,14 @@ limitations under the License.
 											</cfquery>
 											<cfset rpkName ='#CID.primaryk#'>
 										
-										<cfelseif table_name eq 'cataloged_item' and NOT isNumeric(#labelValue#)>
+							<!---			<cfelseif table_name eq 'cataloged_item' and NOT isNumeric(#labelValue#)>
 											<cfset institution_acronym = listgetat(labelValue,1,":")>
 											<cfset collection_cde = listgetat(labelValue,2,":")>
 											<cfset cat_num = listgetat(labelValue,3,":")>
 											<cfquery name="CID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 												select collection_object_id as primaryk from flat where GUID = '#institution_acronym#:#collection_cde#:#cat_num#'
 											</cfquery>
-											<cfset rpkName ='#CID.primaryk#'>
+											<cfset rpkName ='#CID.primaryk#'>--->
 											
 										<!---<cfelse>
 											<span class="text-danger"><cfoutput>#table_name#: #primaryKey#: #labelValue#</cfoutput>  </span>
