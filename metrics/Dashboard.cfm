@@ -192,7 +192,7 @@ opacity:1
 			selectedDate="#Form.selectdate#" 
 			startRange="#Form.beginDate#" 
 			endRange="#Form.endDate#" 
-			mask="mmm dd, yyyy" 
+			mask="YYYY-MM-DD" 
 			dayNames="SU,MO,TU,WE,TH,FR,SA" 
 			firstDayOfWeek="1" 
 			monthNames="JAN, FEB, MAR, APR, MAY, JUN, JUL, AUG, SEP, OCT, NOV, DEC" 
