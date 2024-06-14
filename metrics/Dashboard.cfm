@@ -180,7 +180,8 @@ opacity:1
 			<CFSET CheckDate = #DateFormat(TodaysDate-364,"yyyy-mm-dd")#>
 				
 				#TodaysDate# <br>
-				#CheckDate#
+				#CheckDate#<br>
+				<br clear = "all">
 </div>
 
 
