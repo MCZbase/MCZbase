@@ -553,7 +553,7 @@ limitations under the License.
 								<!---Is CSV value is a primary key ID--->
 								<cfset idval = listlast(primaryKey,"_")>
 									#idval#
-								<cfif isnumeric(labelValue) and len(table_name) gt 0> 
+								<cfif isnumeric(labelValue) and len(table_name) gt 0 and #idval# eq 'ID'> 
 									<cfoutput>#table_name#: #primaryKey#: #labelValue#</cfoutput>
 									<cfquery name="checkKey" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 										SELECT count(*) ct
@@ -579,9 +579,9 @@ limitations under the License.
 											<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 										)
 									</cfquery>
-								<cfelseif table_name neq 'LOAN' and table_name neq 'ACCN' and table_name neq 'BORROW' and table_name neq 'DEACCESSION' and table_name neq 'MEDIA'>
+								<cfelse>
 								<!---	The relationship is a mix of text and numbers.--->
-						<!---		<cfelseif #table_name# is 'loan'>
+									<cfelseif #table_name# is 'loan'>
 										<cfquery name="CID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 											select transaction_id as primaryk from loan where loan_number = '#labelValue#'
 										</cfquery>
@@ -597,7 +597,7 @@ limitations under the License.
 										<cfquery name="CID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 											select transaction_id as primaryk from #table_name# where accn_number = '#labelValue#' 
 										</cfquery>
-										<cfset rpkName ='#CID.primaryk#'>--->
+										<cfset rpkName ='#CID.primaryk#'>
 									
 									<cfif #labelName# is 'shows agent' OR #labelName# is 'shows handwriting of agent'>
 										<cfquery name="CID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -630,10 +630,6 @@ limitations under the License.
 											select collection_object_id as primaryk from flat where GUID = '#institution_acronym#:#collection_cde#:#cat_num#'
 										</cfquery>
 										<cfset rpkName ='#CID.primaryk#'>
-											
-									<cfelse>
-									
-									</cfif>
 							
 								<cfelse>
 									<span class="text-danger"><cfoutput>#table_name#: #primaryKey#: #labelValue#</cfoutput>  </span>
