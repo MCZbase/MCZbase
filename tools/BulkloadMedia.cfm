@@ -556,7 +556,7 @@ limitations under the License.
 									<cfquery name="checkKey" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 										SELECT count(*) ct
 										FROM #getRPK.table_name#
-										WHERE #getRPK.column_name# = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#primaryKey#">
+										WHERE #getRPK.column_name# = '#labelValue#'
 									</cfquery>
 									<cfif checkKey.ct NEQ 1>
 										<cfthrow message="Related Primary Key value [#encodeForHtml(primaryKey)#] for #getRPK.table_name#.#getRPK.column_name# not found with relationship #encodeForHtml(labelName)# ">
