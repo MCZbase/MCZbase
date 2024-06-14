@@ -580,19 +580,19 @@ limitations under the License.
 										</cfquery>
 									<cfelse>
 										<!---Is a relationship is a text value on CSV?--->
-										<cfif #labelName# is 'shows agent' OR #labelName# is 'shows handwriting of agent' and NOT isNumeric(#labelValue#)>
+										<cfif #labelName# is 'shows agent' OR #labelName# is 'shows handwriting of agent'>
 											<cfquery name="CID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 												select agent_id as primaryk from agent_name where agent_name = '#labelValue#'
 											</cfquery>
 											<cfset rpkName ='#CID.primaryk#'>
 											
-										<cfelseif #table_name# is 'loan' and NOT isNumeric(#labelValue#)>
+										<cfelseif #table_name# is 'loan'>
 											<cfquery name="CID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 												select transaction_id as primaryk from loan where loan_number = '#labelValue#'
 											</cfquery>
 											<cfset rpkName ='#CID.primaryk#'>
 										
-										<cfelseif #table_name# is 'specimen_part' and NOT isNumeric(#labelValue#)>
+										<cfelseif #table_name# is 'specimen_part'>
 											<cfquery name="CID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 												select sp.collection_object_id as primaryk
 												from specimen_part sp
@@ -603,19 +603,19 @@ limitations under the License.
 											</cfquery>
 											<cfset rpkName ='#CID.primaryk#'>
 										
-										<cfelseif #table_name# is 'borrow' and NOT isNumeric(#labelValue#)>
+										<cfelseif #table_name# is 'borrow'>
 											<cfquery name="CID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 												select transaction_id as primaryk from borrow where borrow_number = '#labelValue#'
 											</cfquery>
 											<cfset rpkName ='#CID.primaryk#'>
 											
-										<cfelseif #table_name# is 'project' and NOT isNumeric(#labelValue#)>
+										<cfelseif #table_name# is 'project'>
 											<cfquery name="CID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 												select project_id as primaryk from #table_name# where project_name = '#labelValue#' 
 											</cfquery>
 											<cfset rpkName ='#CID.primaryk#'>
 										
-										<cfelseif table_name eq 'cataloged_item' and NOT isNumeric(#labelValue#)>
+										<cfelseif table_name eq 'cataloged_item'>
 											<cfset institution_acronym = listgetat(labelValue,1,":")>
 											<cfset collection_cde = listgetat(labelValue,2,":")>
 											<cfset cat_num = listgetat(labelValue,3,":")>
