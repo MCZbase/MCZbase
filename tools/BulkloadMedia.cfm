@@ -657,7 +657,7 @@ limitations under the License.
 											)
 										</cfquery>
 							<!---		</cfif>--->
-							<!---	</cfloop>--->
+								</cfloop>
 							</cfloop>
 						</cfif>
 						<cfif not isDefined("veryLargeFiles")><cfset veryLargeFiles=""></cfif>
