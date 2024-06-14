@@ -169,11 +169,11 @@ opacity:1
 						<button type="button" class="btn btn-sm btn-outline-secondary">Export</button>
 					</div>
 
-					<CFSET TodaysDate = #DateFormat (Now(), "yyyy-mm-dd")#>
-					<CFSET CheckDate = #DateFormat(DateAdd( 'm', -12, now() ),"yyyy-mm-dd")#>
+					<CFSET beginDate = #DateFormat (Now(), "yyyy-mm-dd")#>
+					<CFSET endDate = #DateFormat(DateAdd( 'm', -12, now() ),"yyyy-mm-dd")#>
 
-						#TodaysDate# <br>
-						#CheckDate#<br>
+						beginDate = #beginDate# <br>
+						endDate = #endDate#<br>
 						<br clear = "all">
 				</div>
 			</div>
