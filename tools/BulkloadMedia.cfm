@@ -550,7 +550,7 @@ limitations under the License.
 								<cfloop query='getRPK'>
 									<cfset primaryKey ='#getRPK.column_name#'>
 									<!---Is CSV value is a primary key ID--->
-									<cfif isnumeric(labelValue) and len(table_name) gt 0 and table_name neq 'LOAN'>
+									<cfif isnumeric(labelValue) and len(table_name) gt 0 and table_name neq 'LOAN' and table_name neq ''>
 										<cfoutput>#table_name#: #primaryKey#: #labelValue#</cfoutput>
 										<cfquery name="checkKey" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 											SELECT #primaryKey# as PID
@@ -595,10 +595,10 @@ limitations under the License.
 												select transaction_id as primaryk from loan where accn_number = '#labelValue#'
 											</cfquery>
 										
-								<!---		<cfelseif #table_name# is 'media'>
+										<cfelseif #labelName# is 'related media'>
 											<cfquery name="CID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 												select media_id as primaryk from loan where media_id = '#labelValue#'
-											</cfquery>--->
+											</cfquery>
 										
 										<cfelseif #table_name# is 'specimen_part'>
 											<cfquery name="CID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -634,8 +634,8 @@ limitations under the License.
 												select collection_object_id as primaryk from flat where GUID = '#guidX#'
 											</cfquery>
 									
-										<cfelse>
-											<span class="text-danger"><cfoutput>#table_name#: #primaryKey#: #labelValue#</cfoutput>  </span>
+								<!---		<cfelse>
+											<span class="text-danger"><cfoutput>#table_name#: #primaryKey#: #labelValue#</cfoutput>  </span>--->
 									<!---		<cfquery name="CID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 												select '||#primaryKey#||' as primaryk from #table_name# where #primarykey# = '#labelValue#'
 											</cfquery>--->
