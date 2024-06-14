@@ -23,6 +23,9 @@ limitations under the License.
 <cfif not isDefined("action") OR len(action) EQ 0>
 	<cfset action="entryPoint">
 </cfif>
+<cfif not isDefined("sort")>
+	<cfset sort="cat_num">
+</cfif>
 
 <cf_getLoanFormInfo>
 <cfquery name="getLoan" dbtype="query">
@@ -75,9 +78,72 @@ limitations under the License.
 			loan_relations.relation_type = 'Subloan'
 	</cfquery>
 </cfif>
-<cfquery name="getLoanItems" dbtype="query">
-	select * from getLoanItemsMCZ
-</cfquery>
+<cfif isDefined("groupBy") AND groupBy EQ "part">
+	<cfquery name="getLoanItems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+		SELECT DISTINCT
+			collection.collection AS collection,
+			cataloged_item.collection_cde as collection_cde,
+			cataloged_item.collection_object_id as collection_object_id,
+			collection.institution_acronym as institution_acronym,
+			loan_number,
+			loan_item.reconciled_date,
+			MCZBASE.CONCATITEMREMINLOAN(specimen_part.derived_from_cat_item, loan_item.transaction_id) as loan_item_remarks,
+			concattransagent(loan.transaction_id, 'received by')  recAgentName,
+			cat_num,
+			MCZBASE.GET_TYPESTATUS(cataloged_item.collection_object_id) as type_status,
+			decode(
+				MCZBASE.GET_TYPESTATUSNAME(cataloged_item.collection_object_id,
+				MCZBASE.GET_TYPESTATUS(cataloged_item.collection_object_id)), 
+				MCZBASE.GET_SCIENTIFIC_NAME(cataloged_item.collection_object_id),
+				'', 
+				decode(MCZBASE.GET_TYPESTATUSNAME(cataloged_item.collection_object_id,
+					MCZBASE.GET_TYPESTATUS(cataloged_item.collection_object_id)),'','',
+					' of ' || MCZBASE.GET_TYPESTATUSNAME(cataloged_item.collection_object_id,
+					MCZBASE.GET_TYPESTATUS(cataloged_item.collection_object_id))
+				)
+			) as typestatusname,
+		
+			MCZBASE.CONCATPARTSINLOAN(specimen_part.derived_from_cat_item, loan_item.transaction_id) as parts,
+			MCZBASE.CONCATPARTCTINLOAN(specimen_part.derived_from_cat_item, loan_item.transaction_id) as lot_count,
+			MCZBASE.GET_SCIENTIFIC_NAME(cataloged_item.collection_object_id) as scientific_name, 
+			spec_locality,
+			higher_geog,
+			GET_CHRONOSTRATIGRAPHY(locality.locality_id) chronostrat,
+			GET_LITHOSTRATIGRAPHY(locality.locality_id) lithostrat,
+			HTF.escape_sc(concatColl(cataloged_item.collection_object_id)) as collectors,
+			cat_num_prefix,
+			cat_num_integer
+		FROM loan 
+			left join loan_item on loan.transaction_id = loan_item.transaction_id 
+			left join specimen_part on loan_item.collection_object_id = specimen_part.collection_object_id 
+			left join cataloged_item on specimen_part.derived_from_cat_item = cataloged_item.collection_object_id 
+			left join collection on cataloged_item.collection_id = collection.collection_id 
+			left join collecting_event on cataloged_item.collecting_event_id = collecting_event.collecting_event_id 
+			left join locality on collecting_event.locality_id = locality.locality_id 
+			left join geog_auth_rec on locality.geog_auth_rec_id = geog_auth_rec.geog_auth_rec_id 
+		WHERE 
+			loan.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
+		<cfif sort eq "cat_num"> 
+			ORDER BY cat_num
+		<cfelseif sort eq "cat_num_pre_int"> 
+			ORDER BY cat_num_prefix, cat_num_integer
+		<cfelseif sort eq "scientific_name"> 
+			ORDER BY scientific_name
+		</cfif>
+	</cfquery>
+<cfelse>
+	<cfquery name="getLoanItems" dbtype="query">
+		SELECT * 
+		FROM getLoanItemsMCZ
+		<cfif sort eq "cat_num"> 
+			ORDER BY cat_num
+		<cfelseif sort eq "cat_num_pre_int"> 
+			ORDER BY cat_num_prefix, cat_num_integer
+		<cfelseif sort eq "scientific_name"> 
+			ORDER BY scientific_name
+		</cfif>
+	</cfquery>
+</cfif>
 <cfquery name="getHasFluid" dbtype="query">
 	select count(*) ct 
 	from getLoanItemsMCZ
@@ -139,124 +205,258 @@ limitations under the License.
     		</cfif>
 			</div>
 		</cfdocumentitem>
-
-		<cfdocumentsection name="Loan Header">
-			<div style="text-align: center; font-size: 1.2em;">
-				<strong>Invoice of Specimens</strong>
-			</div>
-			<div style="text-align: center; font-size: 1em;">
-				<!--- TODO: Comment, inconsistent use of Department and Collection, should list Department, except for Cryo, fix in custom tag? --->
-				#getLoan.collection#
-			</div>
-			<div style="text-align: center; font-size; 1em;">
-				Museum of Comparative Zoology, Harvard University
-			</div>
-			<table style="font-size: small; padding: 0px; margin: 0px;">
-				<tr>
-					<td style="width: 55%; vertical-align: top;">
-						<div>
-							This document acknowledges the loan of specimens <strong>To:</strong> #getLoan.recipientInstitutionName#.
-						</div>
-						<div>			
-							<strong>Borrower:</strong> #recAgentName#
-						</div>
-						<div>
-							<strong>Shipped To:</strong><br>
-							#replace(replace(shipped_to_address,chr(10),"<br>","all"),"&","&amp;","all")#
-							#outside_email_address#<br>#outside_phone_number#
-						</div>
-					</td>
-					<td style="width: 45%; vertical-align: top;">
-						<ul style="text-align: left; list-style: none;">
-							<cfif NOT (loan_status EQ "open" OR loan_status EQ "in process") >
-								<li style="list-style-type: none"><strong>Status:</strong> #loan_status#</strong>
-							</cfif>
-							<cfif getLoan.loan_type EQ "exhibition-master">
-								<li style="list-style-type: none"><strong>Category:</strong> Exhibition Loan</strong>
-							<cfelse>
-								<li style="list-style-type: none"><strong>Category:</strong> #getLoan.loan_type#</strong>
-							</cfif>
-							<li style="list-style-type: none"><strong>Loan Number:</strong> #getLoan.loan_number#</strong>
-							<cfif getLoan.loan_type EQ "exhibition-subloan">
-								<cfloop query="getMasterLoan">
-									<li style="list-style-type: none"><strong>Subloan of:</strong> #getMasterLoan.loan_number#</strong>
-								</cfloop>
-							</cfif>
-							<li style="list-style-type: none"><strong>Loan Date:</strong> #trans_date#</strong>
-							<li style="list-style-type: none"><strong>Approved By:</strong> #authAgentName#</strong>
-							<li style="list-style-type: none"><strong>Packed By:</strong> #processed_by_name#</strong>
-							<li style="list-style-type: none"><strong>Method of Shipment:</strong> #shipped_carrier_method#</strong>
-							<li style="list-style-type: none"><strong>Number of Packages:</strong> #no_of_packages#</strong>
-							<cfif getLoan.loan_type EQ "exhibition-master">
-								<li style="list-style-type: none"><strong>Number of Specimens:</strong> #getSubloanCounts.item_ct#</strong>
-								<li style="list-style-type: none"><strong>Number of Lots:</strong> #getSubloanCounts.lot_ct#</strong>
-							<cfelse>
-								<li style="list-style-type: none"><strong>Number of Specimens:</strong> #num_specimens#</strong>
-								<li style="list-style-type: none"><strong>Number of Lots:</strong> #num_lots#</strong>
-							</cfif>
-							<cfif len(foruse_by_name) GT 0>
-								<li style="list-style-type: none"><strong>For Use By:</strong> #foruse_by_name#</strong>
-							</cfif>
-						</ul>
-					</td>
-				</tr>
-			</table>
-			<div style="font-size: small; margin-left: 4px;">
-				<div>
-					<strong>Nature of Material:</strong> #nature_of_material#
+	
+		<cfif getLoan.loan_type EQ "exhibition-subloan">
+			<!--- Header for subloan in isolation is not sufficient to send, must generate paperwork to send from master exhibition loan --->
+			<cfquery name="getParent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				SELECT loan.transaction_id, loan.loan_number
+				FROM loan
+					left join loan_relations on loan.transaction_id = loan_relations.transaction_id
+				WHERE loan_relations.related_transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
+					AND loan_relations.relation_type = 'Subloan'
+			</cfquery>
+			<cfset master_transaction_id = getParent.transaction_id>
+			<cfset parent_loan_number = getParent.loan_number>
+			<cf_getLoanFormInfo transaction_id="#transaction_id#">
+			<cfquery name="getSubloan" dbtype="query">
+				select * from getLoanMCZ
+			</cfquery>
+			<cfdocumentsection name="Subloan only Header">
+				<div style="text-align: center; font-size: 1em;">
+					<strong> Exhibition Subloan #loan_number# </strong>
 				</div>
-				<cfif len(loan_description) GT 0>
+				<div style="text-align: center; font-size: 1em;">
+					<strong> Parent Exhibtion Loan is: #parent_loan_number# </strong>
+				</div>
+				<div style="text-align: center; font-size: 1em;">
+					<!--- TODO: Comment, inconsistent use of Department and Collection, should list Department, except for Cryo, fix in custom tag? --->
+					#getSubloan.collection#
+				</div>
+				<div style="text-align: center; font-size; 1em;">
+					Museum of Comparative Zoology, Harvard University
+				</div>
+				<table style="font-size: small; padding: 0px; margin: 0px;">
+					<tr>
+						<td style="width: 55%; vertical-align: top;">
+							<div>
+								This document acknowledges the loan of specimens <strong>To:</strong> #getSubloan.recipientInstitutionName#.
+							</div>
+							<div>			
+								<strong>Borrower:</strong> #getSubloan.recAgentName#
+							</div>
+							<div>
+								<strong>Shipped To:</strong><br>
+								#replace(replace(getSubloan.shipped_to_address,chr(10),"<br>","all"),"&","&amp;","all")#
+								#getSubloan.outside_email_address#<br>#getSubloan.outside_phone_number#
+							</div>
+						</td>
+						<td style="width: 45%; vertical-align: top;">
+							<ul style="text-align: left; list-style: none;">
+								<li style="list-style-type: none"><strong>Status:</strong> #getSubloan.loan_status#</strong>
+								<cfif getSubloan.loan_status NEQ top_loan_status >
+									<li style="list-style-type: none"><strong>#top_loan_number# Status:</strong> #top_loan_status#</strong>
+								</cfif>
+								<li style="list-style-type: none"><strong>Category:</strong> #getSubloan.loan_type#</strong>
+								<li style="list-style-type: none"><strong>Loan Number:</strong> #getSubloan.loan_number#</strong>
+								<cfif getSubloan.loan_type EQ "exhibition-subloan">
+									<li style="list-style-type: none"><strong>Subloan of:</strong> #top_loan_number#</strong>
+								</cfif>
+								<li style="list-style-type: none"><strong>Loan Date:</strong> #getSubloan.trans_date#</strong>
+								<li style="list-style-type: none"><strong>Approved By:</strong> #getSubloan.authAgentName#</strong>
+								<li style="list-style-type: none"><strong>Packed By:</strong> #getSubloan.processed_by_name#</strong>
+								<li style="list-style-type: none"><strong>Method of Shipment:</strong> #getSubloan.shipped_carrier_method#</strong>
+								<li style="list-style-type: none"><strong>Number of Packages:</strong> #getSubloan.no_of_packages#</strong>
+								<li style="list-style-type: none"><strong>Number of Specimens:</strong> #getSubloan.num_specimens#</strong>
+								<li style="list-style-type: none"><strong>Number of Lots:</strong> #getSubloan.num_lots#</strong>
+								<cfif len(getSubloan.foruse_by_name) GT 0>
+									<li style="list-style-type: none"><strong>For Use By:</strong> #getSubloan.foruse_by_name#</strong>
+								</cfif>
+							</ul>
+						</td>
+					</tr>
+				</table>
+				<div style="font-size: small; margin-left: 4px;">
 					<div>
-						<strong>Description:</strong> #loan_description#
+						<strong>Nature of Material:</strong> #getSubloan.nature_of_material#
 					</div>
-				</cfif>
-				<div>
-					<strong>Instructions:</strong> #loan_instructions#
-				</div>
-				<div style="margin: 0px; border: 1px solid black; ">
-					<h2 style="font-size: small; margin-top: 2px;">Terms and Conditions</h2>
-					<ol style="margin-left: 2em;">
-						<li>Specimens are loaned to bona fide institutions, not to individuals, for non-commercial use (e.g., scientific research, education, exhibition). </li>
-						<li> Specimens are for sole use of the recipient for the specific purposes outlined in the loan request. Prior written permission from the MCZ is needed for any activities not specified in the loan request.</li>
-						<li>Loans may not be transferred to other institutions without express written permission.
-						<li>Borrowing institutions must demonstrate the ability to properly unpack, care for, use, and return the specimens according to best practices of collection curation.
-						<li>Specimens must be returned by the date stated on the invoice unless a loan renewal is granted in writing.</li>
-						<li>No destructive sampling or invasive procedures may be conducted on a loaned specimen without prior written permission.</li>
-						<li>The recipient will return any unused material or derivatives (e.g., tissue, DNA/RNA extract) to the MCZ.</li>
-						<li>The recipient will provide the MCZ with reprints of any resulting publications and accession numbers for genetic data in public repositories.</li>
-						<li>The recipient will provide copies of any digital media files and all associated metadata. All resulting media is © President and Fellows of Harvard College.</li>
-						<li>Loans may be recalled at any time at the discretion of the MCZ.</li>
-						<cfif getRestrictions.recordcount GT 0>
-							<li>Additional Restrictions on use from original permits apply, see instructions.</li>
-						</cfif>
-					</ol>
-				</div>
-			</div>
-			<table style="font-size: small;">
-				<tr>
-					<td style="width: 50%; vertical-align: top;">
-						<h2 style="font-size: small;">UPON RECEIPT, SIGN AND RETURN ONE COPY TO:</h2>
-						<div style="border: 1px solid black;">
-							#replace(shipped_from_address,chr(10),"<br>","all")# 
-							<cfif loan_type EQ "exhibition">
-								#addInHouseContactPhEmail#
-							<cfelse>
-								#inside_phone_number#
-								<br>
-								#inside_email_address#
-							</cfif>
+					<cfif len(getSubloan.loan_description) GT 0>
+						<div>
+							<strong>Description:</strong> #getSubloan.loan_description#
 						</div>
-					</td>
-					<td style="width: 50%; vertical-align: top;">
-						<div>Borrower (noted above) acknowledges reading and agreeing to the terms and conditions noted in this document.<div>
-						<div><strong>Expected return date: #dateformat(return_due_date,"dd mmmm yyyy")#</strong></div>
-						<br>
-						<div style="text-align: right;">Borrower&##39;s Signature: ___________________________</div>
-						<div style="text-align: right;">#recAgentName#</div>
-					</td>
-				</tr>
-			</table>
-		</cfdocumentsection>
+					</cfif>
+					<div>
+						<strong>Additional Instructions:</strong> #getSubloan.loan_instructions#
+					</div>
+					<div style="margin: 0px; border: 1px solid black;">
+						<h2 style="font-size: small;">All Terms and Conditions From Loan #top_loan_number# Apply.</h2>
+					</div>
+				</div>
+				<table style="font-size: small;">
+					<tr>
+						<td style="width: 50%; vertical-align: top;">
+							<h2 style="font-size: small;">UPON RECEIPT, SIGN AND RETURN ONE COPY TO:</h2>
+							<div>
+								#replace(getSubloan.shipped_from_address,chr(10),"<br>","all")# 
+								<cfif getSubloan.loan_type EQ "exhibition">
+									#getSubloan.addInHouseContactPhEmail#
+								<cfelse>
+									#getSubloan.inside_phone_number#
+									<br>
+									#getSubloan.inside_email_address#
+								</cfif>
+							</div>
+						</td>
+						<td style="width: 50%; vertical-align: top;">
+							<strong>Paperwork to ship with loan and to sign must be printed from Parent Exhibtion Loan is: #parent_loan_number#</strong>
+							<div><strong>Expected return date: #dateformat(getSubloan.return_due_date,"dd mmmm yyyy")#</strong></div>
+							<br>
+							<div style="text-align: right;">Borrower</div>
+							<div style="text-align: right;">#getSubloan.recAgentName#</div>
+						</td>
+					</tr>
+				</table>
+			</cfdocumentsection>
+		<cfelse>
+			<!--- Normal invoice header for regular loans and exhibition-master loans. --->
+			<cfdocumentsection name="Loan Header">
+				<div style="text-align: center; font-size: 1.2em;">
+					<strong>Invoice of Specimens</strong>
+				</div>
+					
+				<div style="text-align: center; font-size: 1em;">
+					<!--- TODO: Comment, inconsistent use of Department and Collection, should list Department, except for Cryo, fix in custom tag? --->
+					#getLoan.collection#
+				</div>
+				<div style="text-align: center; font-size; 1em;">
+					Museum of Comparative Zoology, Harvard University
+				</div>
+				<table style="font-size: small; padding: 0px; margin: 0px;">
+					<tr>
+						<td style="width: 55%; vertical-align: top;">
+							<div>
+								This document acknowledges the loan of specimens <strong>To:</strong> #getLoan.recipientInstitutionName#.
+							</div>
+							<div>
+								<strong>Borrower:</strong> #recAgentName#
+							</div>
+							<cfif len(outside_email_address) GT 0>
+								<div>
+									<strong>Contact Email:</strong> #outside_email_address#
+								</div>
+							</cfif>
+							<cfif len(outside_phone_number) GT 0>
+								<div>
+									<strong>Contact Phone:</strong> #outside_phone_number#
+								</div>
+							</cfif>
+							<div>
+								<strong>Shipped To:</strong><br>
+								#replace(replace(shipped_to_address,chr(10),"<br>","all"),"&","&amp;","all")#
+							</div>
+						</td>
+						<td style="width: 45%; vertical-align: top;">
+							<ul style="text-align: left; list-style: none;">
+								<cfif NOT (loan_status EQ "open" OR loan_status EQ "in process") >
+									<li style="list-style-type: none"><strong>Status:</strong> #loan_status#</strong>
+								</cfif>
+								<cfif getLoan.loan_type EQ "exhibition-master">
+									<li style="list-style-type: none"><strong>Category:</strong> Exhibition Loan</strong>
+								<cfelse>
+									<li style="list-style-type: none"><strong>Category:</strong> #getLoan.loan_type#</strong>
+								</cfif>
+								<li style="list-style-type: none"><strong>Loan Number:</strong> #getLoan.loan_number#</strong>
+								<cfif getLoan.loan_type EQ "exhibition-subloan">
+									<cfloop query="getMasterLoan">
+										<li style="list-style-type: none"><strong>Subloan of:</strong> #getMasterLoan.loan_number#</strong>
+									</cfloop>
+								</cfif>
+								<li style="list-style-type: none"><strong>Loan Date:</strong> #trans_date#</strong>
+								<li style="list-style-type: none"><strong>Approved By:</strong> #authAgentName#</strong>
+								<li style="list-style-type: none"><strong>Packed By:</strong> #processed_by_name#</strong>
+								<li style="list-style-type: none"><strong>Method of Shipment:</strong> #shipped_carrier_method#</strong>
+								<li style="list-style-type: none"><strong>Number of Packages:</strong> #no_of_packages#</strong>
+								<cfif getLoan.loan_type EQ "exhibition-master">
+									<li style="list-style-type: none"><strong>Number of Specimens:</strong> #getSubloanCounts.item_ct#</strong>
+									<li style="list-style-type: none"><strong>Number of Lots:</strong> #getSubloanCounts.lot_ct#</strong>
+								<cfelse>
+									<li style="list-style-type: none"><strong>Number of Specimens:</strong> #num_specimens#</strong>
+									<li style="list-style-type: none"><strong>Number of Lots:</strong> #num_lots#</strong>
+								</cfif>
+								<cfif len(foruse_by_name) GT 0>
+									<li style="list-style-type: none"><strong>For Use By:</strong> #foruse_by_name#</strong>
+								</cfif>
+							</ul>
+						</td>
+					</tr>
+				</table>
+				<div style="font-size: small; margin-left: 4px;">
+					<div>
+						<strong>Nature of Material:</strong> #nature_of_material#
+					</div>
+					<cfif len(loan_description) GT 0>
+						<div>
+							<strong>Description:</strong> #loan_description#
+						</div>
+					</cfif>
+					<div>
+						<strong>Instructions:</strong> 
+						<cfif len(loan_instructions) LT 751>
+							#loan_instructions#
+						<cfelse>
+							#trim(left(loan_instructions,725))#... 
+							<cfif getLoan.loan_type EQ "exhibition-master" AND getSubloans.recordcount GT 0>
+								<strong>Continued on Page #getSubloans.recordcount + 1#.</strong>
+							<cfelse>
+								<strong>Continued on Next Page.</strong>
+							</cfif>
+						</cfif>
+					</div>
+					<div style="margin: 0px; border: 1px solid black; ">
+						<h2 style="font-size: small; margin-top: 2px;">Terms and Conditions</h2>
+						<ol style="margin-left: 2em;">
+							<li>Specimens are loaned to bona fide institutions, not to individuals, for non-commercial use (e.g., scientific research, education, exhibition).</li>
+							<li>Specimens are for sole use of the recipient for the specific purposes outlined in the loan request. Prior written permission from the MCZ is needed for any activities not specified in the loan request.</li>
+							<li>Loans may not be transferred to other institutions without express written permission.</li>
+							<li>Borrowing institutions must demonstrate the ability to properly unpack, care for, use, and return the specimens according to best practices of collection curation.</li>
+							<li>Specimens must be returned by the date stated on the invoice unless a loan renewal is granted in writing.</li>
+							<li>No destructive sampling or invasive procedures may be conducted on a loaned specimen without prior written permission.</li>
+							<li>The recipient will return any unused material or derivatives (e.g., tissue, DNA/RNA extract) to the MCZ.</li>
+							<li>The recipient will provide the MCZ with reprints of any resulting publications and accession numbers for genetic data in public repositories.</li>
+							<li>The recipient will provide copies of any digital media files and all associated metadata. All resulting media is ©President and Fellows of Harvard College.</li>
+							<li>Loans are granted for a period of up to one year and may be renewed up to four times in one-year increments.  Loans that have been open for five years must be returned to the MCZ. A new loan request can then be submitted for consideration. Loans may be recalled at any time at the discretion of the MCZ.</li>
+							<cfif getRestrictions.recordcount GT 0>
+								<li>Additional Restrictions on use from original permits apply, see instructions.</li>
+							</cfif>
+						</ol>
+					</div>
+				</div>
+				<table style="font-size: small;">
+					<tr>
+						<td style="width: 50%; vertical-align: top;">
+							<h2 style="font-size: small;">UPON RECEIPT, SIGN AND RETURN ONE COPY TO:</h2>
+							<div style="border: 1px solid black;">
+								#replace(shipped_from_address,chr(10),"<br>","all")# 
+								<cfif loan_type EQ "exhibition">
+									#addInHouseContactPhEmail#
+								<cfelse>
+									#inside_phone_number#
+									<br>
+									#inside_email_address#
+								</cfif>
+							</div>
+						</td>
+						<td style="width: 50%; vertical-align: top;">
+							<div>Borrower (noted above) acknowledges reading and agreeing to the terms and conditions noted in this document.<div>
+							<div><strong>Expected return date: #dateformat(return_due_date,"dd mmmm yyyy")#</strong></div>
+							<br>
+							<br>
+							<div style="text-align: right;">Borrower&##39;s Signature: ___________________________</div>
+							<div style="text-align: right;">#recAgentName#</div>
+						</td>
+					</tr>
+				</table>
+			</cfdocumentsection>
+		</cfif>
 
 		<cfif getLoan.loan_type EQ "exhibition-master">
 			<cfset master_transaction_id = transaction_id>
@@ -362,11 +562,38 @@ limitations under the License.
 			<cfset transaction_id = master_transaction_id>
 		</cfif>
 
-		<!--- TODO: May be desiriable to not include, needs further discussion --->
-		<cfif getRestrictions.recordcount GT 0>
+		<!--- Sumarize restrictions on material in loan inherited from accession permission and rights documents --->
+		<cfif getRestrictions.recordcount EQ 0>
+			<cfdocumentsection name="Additional Restrictions">
+				<cfif len(loan_instructions) GT 750>
+					<div style="border-bottom: 1px solid black; width: 100%">
+						<strong>Instructions:</strong> #loan_instructions#
+					</div>
+					<br>
+				</cfif>
+				<div>
+					The MCZ is committed to the spirit and letter of the Convention on Biological Diversity and its associated Nagoya Protocol on Access
+					and Benefit-Sharing, and it expects its partner users to act in a manner consistent with these international obligations. Use
+					of some specimens may be restricted by the providing country; therefore, a specimen may only be used for approved
+					purposes, and express written permission must be obtained before a loaned specimen can be used for additional purposes.
+				</div>
+			</cfdocumentsection>
+		<cfelse>
+			<cfif len(loan_instructions) GT 750>
+				<div style="border-bottom: 1px solid black; width: 100%">
+					<strong>Instructions:</strong> #loan_instructions#
+				</div>
+				<br>
+			</cfif>
 			<cfdocumentsection name="Additional Restrictions">
 				<div style="text-align: center; font-size: 1em;">
 					Summary of restrictions imposed by original collecting agreements
+				</div>
+				<div>
+					The MCZ is committed to the spirit and letter of the Convention on Biological Diversity and its associated Nagoya Protocol on Access
+					and Benefit-Sharing, and it expects its partner users to act in a manner consistent with these international obligations. Use
+					of some specimens may be restricted by the providing country; therefore, a specimen may only be used for approved
+					purposes, and express written permission must be obtained before a loaned specimen can be used for additional purposes.
 				</div>
 				<ul>
 					<cfloop query="getRestrictions">
@@ -407,9 +634,72 @@ limitations under the License.
 				<cfloop query="getSubloans">
 					<cfset transaction_id = getSubloans.transaction_id>
 					<cf_getLoanFormInfo transaction_id="#getSubloans.transaction_id#">
-					<cfquery name="getLoanItems" dbtype="query">
-						select * from getLoanItemsMCZ
-					</cfquery>
+					<cfif isDefined("groupBy") AND groupBy EQ "part">
+						<cfquery name="getLoanItems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+							SELECT DISTINCT
+								collection.collection AS collection,
+								cataloged_item.collection_cde as collection_cde,
+								collection.institution_acronym as institution_acronym,
+								cataloged_item.collection_object_id as collection_object_id,
+								loan_number,
+								loan_item.reconciled_date,
+								MCZBASE.CONCATITEMREMINLOAN(specimen_part.derived_from_cat_item, loan_item.transaction_id) as loan_item_remarks,
+								concattransagent(loan.transaction_id, 'received by')  recAgentName,
+								cat_num,
+								MCZBASE.GET_TYPESTATUS(cataloged_item.collection_object_id) as type_status,
+								decode(
+									MCZBASE.GET_TYPESTATUSNAME(cataloged_item.collection_object_id,
+									MCZBASE.GET_TYPESTATUS(cataloged_item.collection_object_id)), 
+									MCZBASE.GET_SCIENTIFIC_NAME(cataloged_item.collection_object_id),
+									'', 
+									decode(MCZBASE.GET_TYPESTATUSNAME(cataloged_item.collection_object_id,
+										MCZBASE.GET_TYPESTATUS(cataloged_item.collection_object_id)),'','',
+										' of ' || MCZBASE.GET_TYPESTATUSNAME(cataloged_item.collection_object_id,
+										MCZBASE.GET_TYPESTATUS(cataloged_item.collection_object_id))
+									)
+								) as typestatusname,
+							
+								MCZBASE.CONCATPARTSINLOAN(specimen_part.derived_from_cat_item, loan_item.transaction_id) as parts,
+								MCZBASE.CONCATPARTCTINLOAN(specimen_part.derived_from_cat_item, loan_item.transaction_id) as lot_count,
+								MCZBASE.GET_SCIENTIFIC_NAME(cataloged_item.collection_object_id) as scientific_name, 
+								spec_locality,
+								higher_geog,
+								GET_CHRONOSTRATIGRAPHY(locality.locality_id) chronostrat,
+								GET_LITHOSTRATIGRAPHY(locality.locality_id) lithostrat,
+								HTF.escape_sc(concatColl(cataloged_item.collection_object_id)) as collectors,
+								cat_num_prefix,
+								cat_num_integer
+							FROM loan 
+								left join loan_item on loan.transaction_id = loan_item.transaction_id 
+								left join specimen_part on loan_item.collection_object_id = specimen_part.collection_object_id 
+								left join cataloged_item on specimen_part.derived_from_cat_item = cataloged_item.collection_object_id 
+								left join collection on cataloged_item.collection_id = collection.collection_id 
+								left join collecting_event on cataloged_item.collecting_event_id = collecting_event.collecting_event_id 
+								left join locality on collecting_event.locality_id = locality.locality_id 
+								left join geog_auth_rec on locality.geog_auth_rec_id = geog_auth_rec.geog_auth_rec_id 
+							WHERE 
+								loan.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
+							<cfif sort eq "cat_num"> 
+		  						ORDER BY cat_num
+							<cfelseif sort eq "cat_num_pre_int"> 
+		  						ORDER BY cat_num_prefix, cat_num_integer
+							<cfelseif sort eq "scientific_name"> 
+			  					ORDER BY scientific_name
+							</cfif>
+						</cfquery>
+					<cfelse>
+						<cfquery name="getLoanItems" dbtype="query">
+							SELECT * 
+							FROM getLoanItemsMCZ
+							<cfif sort eq "cat_num"> 
+		  						order by cat_num
+							<cfelseif sort eq "cat_num_pre_int"> 
+		  						order by cat_num_prefix, cat_num_integer
+							<cfelseif sort eq "scientific_name"> 
+			  					order by scientific_name
+							</cfif>
+						</cfquery>
+					</cfif>
 					<div style="text-align: left; font-size: 1em;">
 						Specimens in Subloan #getSubloans.loan_number#
 					</div>
@@ -441,8 +731,12 @@ limitations under the License.
 									</div>
 								</td>
 								<td style="width: 25%; vertical-align: top;">
-									#lot_count# #part_modifier# #part_name#
-									<cfif len(preserve_method) GT 0>(#preserve_method#)</cfif>
+									<cfif isDefined("groupBy") AND groupBy EQ "part">
+										#parts#
+									<cfelse>
+										#lot_count# #part_modifier# #part_name#
+										<cfif len(preserve_method) GT 0>(#preserve_method#)</cfif>
+									</cfif>
 									<cfif getRestrictions.recordcount GT 0>
 										<cfquery name="getSpecificRestrictions" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 											SELECT permit.permit_num,
@@ -459,19 +753,20 @@ limitations under the License.
 												and permit.restriction_summary is not null
 										</cfquery>
 										<cfif getSpecificRestrictions.recordcount GT 0>
-											<div>
-												<strong>Use Restricted By:</strong>
-												<cfloop query="getSpecificRestrictions">
+											<br>
+											<strong>Use Restricted By:</strong>
+											<cfloop query="getSpecificRestrictions">
+												<span style="font-size: 0.8em;">
 													#getSpecificRestrictions.permit_num#
 													<cfif len(getSpecificRestrictions.permit_num) EQ 0>
 														#getSpecificRestrictions.permit_title#
 													</cfif>
-												</cfloop>
-											</div>
+												</span>
+											</cfloop>
 										</cfif>
 									</cfif>
 								</td>
-							</div>
+							</tr>
 							<cfset totalSpecimens = totalSpecimens + 1>
 							<cfset totalLotCount = totalLotCount + lot_count>
 						</cfloop>
@@ -516,8 +811,12 @@ limitations under the License.
 								</div>
 							</td>
 							<td style="width: 25%; vertical-align: top;">
-								#lot_count# #part_modifier# #part_name#
-								<cfif len(preserve_method) GT 0>(#preserve_method#)</cfif>
+								<cfif isDefined("groupBy") AND groupBy EQ "part">
+									#parts#
+								<cfelse>
+									#lot_count# #part_modifier# #part_name#
+									<cfif len(preserve_method) GT 0>(#preserve_method#)</cfif>
+								</cfif>
 								<cfif getRestrictions.recordcount GT 0>
 									<cfquery name="getSpecificRestrictions" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 										SELECT permit.permit_num, permit_title
@@ -532,19 +831,20 @@ limitations under the License.
 											and permit.restriction_summary is not null
 									</cfquery>
 									<cfif getSpecificRestrictions.recordcount GT 0>
-										<div>
-											<strong>Use Restricted By:</strong>
-											<cfloop query="getSpecificRestrictions">
+										<br>
+										<strong>Use Restricted By:</strong>
+										<cfloop query="getSpecificRestrictions">
+											<span style="font-size: 0.8em;">
 												#getSpecificRestrictions.permit_num#
 												<cfif len(getSpecificRestrictions.permit_num) EQ 0>
 													#getSpecificRestrictions.permit_title#
 												</cfif>
-											</cfloop>
-										</div>
+											</span>
+										</cfloop>
 									</cfif>
 								</cfif>
 							</td>
-						</div>
+						</tr>
 						<cfset totalSpecimens = totalSpecimens + 1>
 						<cfset totalLotCount = totalLotCount + lot_count>
 					</cfloop>
