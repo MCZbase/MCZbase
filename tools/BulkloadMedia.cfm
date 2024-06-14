@@ -535,7 +535,7 @@ limitations under the License.
 							<cfset labelValue=listgetat(label,2,"=")>
 							<!---Grabs the last word of the ct media relationship to identify the table name.--->
 							<cfset table_name = listlast(labelName," ")>
-							<cfloop list="#table_name#" index="table_name" delimiters=",">
+							<!---<cfloop list="#table_name#" index="table_name" delimiters=",">--->
 								<cfquery name = "getRPK"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" >
 									SELECT cols.table_name, cols.column_name
 									FROM all_constraints cons, all_cons_columns cols
@@ -646,7 +646,7 @@ limitations under the License.
 											)
 										</cfquery>
 									</cfif>
-								</cfloop>
+							<!---	</cfloop>--->
 							</cfloop>
 						</cfif>
 						<cfif not isDefined("veryLargeFiles")><cfset veryLargeFiles=""></cfif>
