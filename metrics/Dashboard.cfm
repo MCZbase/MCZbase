@@ -129,8 +129,8 @@ limitations under the License.
 						<button type="button" class="btn btn-sm btn-outline-secondary">Export</button>
 					</div>
 
-					<CFSET beginDate = ''>
-					<CFSET endDate = ''>
+					<CFSET beginDate = #DateFormat (Now(), "yyyy-mm-dd")#>
+					<CFSET endDate = #DateFormat(DateAdd( 'm', -12, now() ),"yyyy-mm-dd")#>
 						
 					<script>
 						function loadAnnualNumbers() { 
