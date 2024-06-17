@@ -38,7 +38,7 @@ limitations under the License.
 		<nav id="sidebarMenu" class="col-md-2 col-lg-2 d-md-block bg-light sidebar collapse">
 			<div class="sidebar-sticky pt-4 px-3">
 				<h3>Fiscal Year Reports</h3>
-				<cfform action="/metrics/Dashboard.cfm" class="pt-3">
+				<cfform action="/metrics/Dashboard.cfm" class="pt-1">
 					<label for="beginDate" class="data-entry-label">Begin Date</label>
 					<input type="date" id="beginDate" name="beginDate" class="data-entry-input">
 					<label for="endDate" class="data-entry-label mt-3">End Date</label>
