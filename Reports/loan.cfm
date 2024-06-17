@@ -634,7 +634,7 @@ limitations under the License.
 			</cfdocumentsection>
 		</cfif>
 
-		<cfset accumulatedInstructions = "">
+		<cfset accumulated_instructions = "">
 		<cfif getLoan.loan_type EQ "exhibition-master">
 			<cfset master_transaction_id = transaction_id>
 			<cfloop query="getSubloans">
