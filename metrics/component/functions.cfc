@@ -7,10 +7,7 @@
 		<!---		<cfquery name="check" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					Is a check of some sort needed here?
 				</cfquery>--->
-				<cfif endDate is null AND beginDate is null>
-					<CFSET endDate = #DateFormat (Now(), "yyyy-mm-dd")#>
-					<CFSET beginDate = #DateFormat(DateAdd( 'm', -12, now() ),"yyyy-mm-dd")#>
-				</cfif>
+
 				<!-- annual report queries -->
 				<cfsetting RequestTimeout = "0">
 				<cfset start = GetTickCount()>
