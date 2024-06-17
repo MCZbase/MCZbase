@@ -1,9 +1,10 @@
-function loadAnnualNumbers (result_id,targetDivId,endDate,beginDate) { 
+function loadAnnualNumbers (endDate,beginDate,targetDivId) { 
 	jQuery.ajax({
 		url: "/metrics/component/functions.cfc",
 		data : {
 			method : "getAnnualNumbers",
-			result_id: result_id
+			endDate: endDate,
+			beginDate: beginDate,
 		},
 		success: function (result) {
 			$("#" + targetDivId ).html(result);
