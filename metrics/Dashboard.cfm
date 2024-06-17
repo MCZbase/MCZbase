@@ -144,7 +144,7 @@ limitations under the License.
 					</div>
 
 					<cfoutput>
-						<cfset summaryAnnualBlock = getAnnualNumbersJS(endDate = "#endDate#", beginDate = "#beginDate#")>
+						<cfset summaryAnnualBlock = getAnnual(endDate = "#endDate#", beginDate = "#beginDate#")>
 					</cfoutput>
 
 					<div id="annualNumbersDiv">
