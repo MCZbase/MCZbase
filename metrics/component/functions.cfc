@@ -1,5 +1,6 @@
 <cffunction name="getAnnualNumbers" returntype="string" access="remote" returnformat="plain">
-	<cfargument name="endDate" type="string" required="yes">
+	<cfargument name="beginDate" type="string" required="no">
+	<cfargument name="endDate" type="string" required="no">
 	<cfthread name="getAnnualNumbersThread">
 		<cfoutput>
 			<cftry>
