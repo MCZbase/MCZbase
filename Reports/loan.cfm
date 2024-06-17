@@ -360,7 +360,7 @@ limitations under the License.
 											JOIN coll_object on loan_item.collection_object_id = coll_object.collection_object_id
 										WHERE transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getSubloans.transaction_id#">
 									</cfquery>
-									<cfloop getSubloanCount>
+									<cfloop query="getSubloanCount">
 										(#getSubloanCount.item_ct#)
 									</cfloop>
 								</div>
