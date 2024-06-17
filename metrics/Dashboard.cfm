@@ -33,7 +33,7 @@ limitations under the License.
 <cfoutput>
 <div class="container-fluid" id="content">
 	<div class="row">
-		<nav id="sidebarMenu" class="col-md-2 col-lg-2 d-md-block bg-light sidebar collapse">
+		<nav id="sidebarMenu" class="col-md-3 col-lg-3 d-md-block bg-light sidebar collapse">
 			<div class="sidebar-sticky pt-3">
 				<form action="/metrics/Dashboard.cfm">
 					<label for="endDate">endDate</label>
@@ -134,7 +134,7 @@ limitations under the License.
 			</div>
 		</nav>
 
-		<main role="main" class="col-md-10 ml-sm-auto col-lg-10 px-md-5">
+		<main role="main" class="col-md-9 ml-sm-auto col-lg-9 px-md-5">
 #endDate#,#beginDate#
 			<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
 				<h1 class="h2">Metrics Sandbox</h1>
