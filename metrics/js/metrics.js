@@ -1,4 +1,4 @@
-function loadAnnualNumbers (result_id,targetDivId,prefix,suffix) { 
+function loadAnnualNumbers (result_id,targetDivId,endDate,beginDate) { 
 	jQuery.ajax({
 		url: "/metrics/component/functions.cfc",
 		data : {
@@ -6,7 +6,7 @@ function loadAnnualNumbers (result_id,targetDivId,prefix,suffix) {
 			result_id: result_id
 		},
 		success: function (result) {
-			$("#" + targetDivId ).html(prefix + result + suffix);
+			$("#" + targetDivId ).html(result);
 		},
 		error: function (jqXHR, textStatus, error) {
 			handleFail(jqXHR,textStatus,error,"loading annual numbers");
