@@ -29,6 +29,8 @@ limitations under the License.
 
 <cfset endDate = #DateFormat (Now(), "yyyy-mm-dd")#>
 <cfset beginDate = #DateFormat(DateAdd( 'm', -12, now() ),"yyyy-mm-dd")#>
+	
+	#endDate#
 <meta name="theme-color" content="#563d7c">
 <cfoutput>
 <div class="container-fluid" id="content">
@@ -134,11 +136,11 @@ limitations under the License.
 						<button type="button" class="btn btn-sm btn-outline-secondary">Export</button>
 					</div>
 
-						<cfset summaryAnnualBlock = getAnnualNumbers(endDate = "#endDate#", beginDate = "#beginDate#","annualNumbersDiv">
+				<!---	<cfset summaryAnnualBlock = getAnnualNumbers(endDate = "#endDate#", beginDate = "#beginDate#","annualNumbersDiv">
 
 					<div id="annualNumbersDiv">
 						#summaryAnnualBlock#
-					</div>
+					</div>--->
 
 				</div>
 			</div>
