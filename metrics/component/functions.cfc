@@ -31,8 +31,8 @@
 						ncbi.ncbiCatItems,
 						accn.numAccns
 					FROM 
-						(select * from collection where collection_cde <> 'MCZ') c
-					LEFT JOIN (select * from collections_reported_metrics) rm on c.collection_id = rm.collection_id 
+						(select collection_id from collection where collection_cde <> 'MCZ') c
+					LEFT JOIN (select collection_id,holdings from collections_reported_metrics) rm on c.collection_id = rm.collection_id 
 					LEFT JOIN 
 						(select f.collection_id, f.collection, count(distinct f.collection_object_id) catalogeditems, sum(decode(total_parts,null, 1,total_parts)) specimens from flat f join coll_object co on f.collection_object_id = co.collection_object_id where co.COLL_OBJECT_ENTERED_DATE < to_date('#endDate#', 'YYYY-MM-DD') group by f.collection_id, f.collection) h on rm.collection_id = h.collection_id
 					LEFT JOIN 
