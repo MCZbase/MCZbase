@@ -24,11 +24,6 @@ limitations under the License.
 <cfinclude template = "/metrics/js/metrics.js">
 <cfinclude template = "/metrics/component/functions.cfc">
 
-
-<cfset endDate = #DateFormat (Now(), "yyyy-mm-dd")#>
-<cfset beginDate = #DateFormat(DateAdd( 'm', -12, now() ),"yyyy-mm-dd")#>
-	
-
 <meta name="theme-color" content="#563d7c">
 <cfoutput>
 <div class="container-fluid" id="content">
@@ -135,7 +130,8 @@ limitations under the License.
 		</nav>
 
 		<main role="main" class="col-md-9 ml-sm-auto col-lg-9 px-md-5">
-#endDate#,#beginDate#
+		<cfset endDate = #DateFormat (Now(), "yyyy-mm-dd")#>
+		<cfset beginDate = #DateFormat(DateAdd( 'm', -12, now() ),"yyyy-mm-dd")#>
 			<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
 				<h1 class="h2">Metrics Sandbox</h1>
 				<div class="btn-toolbar mb-2 mb-md-0">
