@@ -45,7 +45,7 @@ limitations under the License.
 				<form action="/metrics/Dashboard.cfm" class="mt-3">
 					<label for="beginDate" class="data-entry-label">Begin Date</label>
 					<input type="date" id="beginDate" name="beginDate" class="data-entry-input">
-					<input type="submit" value="Submit" class="btn btn-xs btn-secondary">
+					<input type="submit" value="Submit" class="btn btn-xs btn-secondary"  onClick="event.preventDefault(); $(getAnnualNumbersJS).submit();">
 				</form>
 		<!---		<ul class="nav flex-column">
 					<li class="nav-item"> <a class="nav-link active" href="##">
