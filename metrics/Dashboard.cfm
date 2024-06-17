@@ -19,6 +19,13 @@ limitations under the License.
 * Demonstration of ajax patterns in MCZbase.
 
 -->
+<cfif isDefined("endDate") and len(endDate) GT 0>
+	<cfset endDate = endDate>
+</cfif>
+<cfif isDefined("beginDate") and len(beginDate) GT 0>
+	<cfset beginDate = beginDate>
+</cfif>
+	
 <cfset pageTitle="Metrics Testing">
 <cfinclude template="/shared/_header.cfm">
 <cfinclude template = "/metrics/js/metrics.js">
@@ -128,7 +135,7 @@ limitations under the License.
 				</ul>--->
 			</div>
 		</nav>
-
+	
 		<main role="main" class="col-md-9 ml-sm-auto col-lg-9 px-md-5">
 		<cfset endDate = #DateFormat (Now(), "yyyy-mm-dd")#>
 		<cfset beginDate = #DateFormat(DateAdd( 'm', -12, now() ),"yyyy-mm-dd")#>
