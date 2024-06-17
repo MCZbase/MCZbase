@@ -67,7 +67,7 @@ opacity:1
 </style>--->
 <cfoutput>
 
-<div class="container-fluid">
+<div class="container-fluid" id="content">
 	<div class="row">
 		<nav id="sidebarMenu" class="col-md-2 col-lg-2 d-md-block bg-light sidebar collapse">
 			<div class="sidebar-sticky pt-3">
@@ -169,33 +169,20 @@ opacity:1
 						<button type="button" class="btn btn-sm btn-outline-secondary">Export</button>
 					</div>
 
-					<CFSET beginDate = #DateFormat (Now(), "yyyy-mm-dd")#>
-					<CFSET endDate = #DateFormat(DateAdd( 'm', -12, now() ),"yyyy-mm-dd")#>
+					<CFSET beginDate = ''>
+					<CFSET endDate = ''>
+						
+					<script>
+						function loadAnnualNumbers() { 
+							getAnnualNumbers(#endDate#,"annualNumbersDiv");
+						} 
+					</script>
+					<cfset summaryAnnualBlock = getAnnualNumbers(endDate = "#endDate#")>
 
-					beginDate = #beginDate# <br>
-					endDate = #endDate#<br>
-					<!---<cfset selectdate = #DateFormat (Now(), "yyyy-mm-dd")#>
-			
-					<br clear = "all">
-					<cfform name="form1" format="Flash" skin="haloBlue" width="375" height="350" > 
-					<cfcalendar name="selectedDate" 
-					selectedDate="#Form.selectdate#" 
-					startRange="#Form.beginDate#" 
-					endRange="#Form.endDate#" 
-					mask="mmm dd, yyyy" 
-					dayNames="SU,MO,TU,WE,TH,FR,SA" 
-					firstDayOfWeek="1" 
-					monthNames="JAN, FEB, MAR, APR, MAY, JUN, JUL, AUG, SEP, OCT, NOV, DEC" 
-					style="rollOverColor:##FF0000" 
-					width="200" height="150"> 
-					<cfinput type="dateField" name="beginDate" label="Block out starts"
-					width="100" value="#Form.beginDate#"> 
-					<cfinput type="dateField" name="endDate" label="Block out ends" width="100" 
-					value="#Form.endDate#"> 
-					<cfinput type="dateField" name="selectdate" label="Initial date" width="100" 
-					value="#Form.selectdate#" > 
-					<cfinput type="Submit" name="submitit" value="Save" width="100"> 
-					</cfform>--->
+					<div id="annualNumbersDiv">
+						#summaryAnnualBlock#
+					</div>
+
 				</div>
 			</div>
 		</main>
