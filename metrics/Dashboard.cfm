@@ -134,7 +134,7 @@ limitations under the License.
 						<button type="button" class="btn btn-sm btn-outline-secondary">Export</button>
 					</div>
 #endDate#, #beginDate#
-					<cfset summaryAnnualBlock = getAnnualNumbers(endDate="#endDate#",beginDate="#beginDate#","annualNumbersDiv")>
+					<cfset summaryAnnualBlock = getAnnualNumbers(endDate="#endDate#","annualNumbersDiv")>
 
 					<div id="annualNumbersDiv">
 						#summaryAnnualBlock#
