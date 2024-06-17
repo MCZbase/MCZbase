@@ -7,7 +7,7 @@ function loadAnnualNumbers (endDate,beginDate,targetDivId) {
 			beginDate: beginDate,
 		},
 		success: function (result) {
-			$("date" + targetDivId ).html(result);
+			$("#" + targetDivId ).html(result);
 		},
 		error: function (jqXHR, textStatus, error) {
 			handleFail(jqXHR,textStatus,error,"loading annual numbers");
