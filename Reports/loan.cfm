@@ -849,7 +849,8 @@ limitations under the License.
 								</cfif>
 								<cfif getRestrictions.recordcount GT 0>
 									<cfquery name="getSpecificRestrictions" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-										SELECT permit.permit_num, permit_title
+										SELECT DISTINCT
+											permit.permit_num, permit_title
 										FROM loan_item li 
 											join specimen_part sp on li.collection_object_id = sp.collection_object_id
 											join cataloged_item ci on sp.derived_from_cat_item = ci.collection_object_id
