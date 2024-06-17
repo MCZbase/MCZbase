@@ -188,6 +188,7 @@ limitations under the License.
 
 <!--------------------------------------------------------------------------------->
 <cfset font = "font: Helvetica, Arial, 'sans-serif'; ">
+<cfset font_dq = replace(font,"'",'"')>
 <cfdocument format="pdf" saveAsName="MCZ_Loan_#getLoan.loan_number#.pdf" pageType="letter" marginTop="0.5" marginBottom="0.5" marginLeft="0.5" marginRight="0.5" fontEmbed="yes">
 	<cfoutput query="getLoan">
 
@@ -546,7 +547,7 @@ limitations under the License.
 							<cfelse>
 								#trim(left(getSubloan.loan_instructions,(INSTRUCTIONS_LIMIT - 26)))#... 
 								<strong>Continued on Page #getSubloans.recordcount + 1#.</strong>
-								<cfset accumulated_instructions = "#accumulated_instructions# <div style='border-bottom: 1px solid black; width: 100%'> <strong>Additional Instructions #getSubloan.loan_number#:</strong> #getSubloan.loan_instructions# </div> <br>"><!--- " --->
+								<cfset accumulated_instructions = "#accumulated_instructions# <div style='border-bottom: 1px solid black; width: 100%; #font_dq# font-size: 1em;'> <strong style='font-size: 1.2em'>Additional Instructions #getSubloan.loan_number#:</strong> #getSubloan.loan_instructions# </div> <br>"><!--- " --->
 							</cfif>
 						</div>
 						<div style="margin: 0px; border: 1px solid black;">
@@ -585,8 +586,8 @@ limitations under the License.
 		<!--- Sumarize restrictions on material in loan inherited from accession permission and rights documents --->
 		<cfif getRestrictions.recordcount EQ 0>
 			<cfdocumentsection name="Additional Restrictions">
-				<cfif len(loan_instructions) GT 750>
-					<div style="border-bottom: 1px solid black; width: 100%">
+				<cfif len(loan_instructions) GT INSTRUCTIONS_LIMIT -1>
+					<div style="border-bottom: 1px solid black; width: 100%; #font# font-size: 1.2em;">
 						<strong>Instructions:</strong> #loan_instructions#
 					</div>
 					<br>
@@ -595,7 +596,7 @@ limitations under the License.
 						<br>
 					</cfif>
 				</cfif>
-				<div>
+				<div style="#font# font-size: 1.2em;">
 					The MCZ is committed to the spirit and letter of the Convention on Biological Diversity and its associated Nagoya Protocol on Access
 					and Benefit-Sharing, and it expects its partner users to act in a manner consistent with these international obligations. Use
 					of some specimens may be restricted by the providing country; therefore, a specimen may only be used for approved
@@ -603,8 +604,8 @@ limitations under the License.
 				</div>
 			</cfdocumentsection>
 		<cfelse>
-			<cfif len(loan_instructions) GT 750>
-				<div style="border-bottom: 1px solid black; width: 100%">
+			<cfif len(loan_instructions) GT INSTRUCTIONS_LIMIT -1 >
+				<div style="border-bottom: 1px solid black; width: 100%; #font# font-size: 1.2em;">
 					<strong>Instructions:</strong> #loan_instructions#
 				</div>
 				<br>
@@ -613,7 +614,7 @@ limitations under the License.
 				<div style="text-align: center; #font# font-size: 1em;">
 					Summary of restrictions imposed by original collecting agreements
 				</div>
-				<div>
+				<div style="#font# font-size: 1.2em;">
 					The MCZ is committed to the spirit and letter of the Convention on Biological Diversity and its associated Nagoya Protocol on Access
 					and Benefit-Sharing, and it expects its partner users to act in a manner consistent with these international obligations. Use
 					of some specimens may be restricted by the providing country; therefore, a specimen may only be used for approved
@@ -648,7 +649,7 @@ limitations under the License.
 			<div style="text-align: center; #font# font-size: 1.1em; margin-bottom: 1em;">
 				<strong>Invoice of Specimens</strong>
 			</div>
-			<div>
+			<div style="#font# font-size: 1.2em;">
 				Retain in 70% ethanol unless noted otherwise.
 			</div>
 			<cfif top_loan_type EQ "exhibition-master">
@@ -727,7 +728,7 @@ limitations under the License.
 					<div style="text-align: left; #font# font-size: 1em;">
 						Specimens in Subloan #getSubloans.loan_number#
 					</div>
-					<table>
+					<table style="#font# font-size: 1.2em;">
 						<tr>
 							<th style="width: 25%;">MCZ Number</th>
 							<th style="width: 50%;">Taxon, Locality</th>
@@ -796,19 +797,19 @@ limitations under the License.
 							<cfset totalLotCount = totalLotCount + lot_count>
 						</cfloop>
 					</table>
-					<div style="margin-bottom: 2em; border-bottom: 1px solid black;">
+					<div style="#font# font-size: 1.2em; margin-bottom: 2em; border-bottom: 1px solid black;">
 						Subloan includes #TotalSpecimens# specimens in #TotalLotCount# lots.
 						<cfset masterTotal = masterTotal + TotalSpecimens>
 						<cfset masterLotTotal = masterLotTotal + TotalLotCount>
 					</div>
 				</cfloop>
-				<div>
+				<div style="#font# font-size: 1.2em;">
 					<strong>Loan #loan_number# includes a total of #masterTotal# specimens in #masterLotTotal# lots.</strong>
 				</div>
 				<cfset transaction_id = master_transaction_id >
 				<cf_getLoanFormInfo transaction_id="#master_transaction_id#">
 			<cfelse>
-				<table>
+				<table style="#font# font-size: 1em;">
 					<tr>
 						<th style="width: 25%;">MCZ Number</th>
 						<th style="width: 50%;">Taxon, Locality</th>
