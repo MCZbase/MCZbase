@@ -37,6 +37,7 @@ limitations under the License.
 <cfset top_loan_type = getLoan.loan_type>
 <cfset top_loan_status = getLoan.loan_status>
 <cfset top_loan_number = getLoan.loan_number>
+<cfset INSTRUCTIONS_LIMIT = 451>
 <cfif getLoan.loan_type EQ "exhibition-master">
 	<!--- Special handling --->
 	<cfquery name="getSubloans" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -285,7 +286,17 @@ limitations under the License.
 						</div>
 					</cfif>
 					<div>
-						<strong>Additional Instructions:</strong> #getSubloan.loan_instructions#
+						<strong>Additional Instructions:</strong> 
+						<cfif len(getSubloan.loan_instructions) LT INSTRUCTIONS_LIMIT>
+							#getSubloan.loan_instructions#
+						<cfelse>
+							#trim(left(getSubloan.loan_instructions,(INSTRUCTIONS_LIMIT - 26)))#... 
+							<cfif getLoan.loan_type EQ "exhibition-master" AND getSubloans.recordcount GT 0>
+								<strong>Continued on Page #getSubloans.recordcount + 1#.</strong>
+							<cfelse>
+								<strong>Continued on Next Page.</strong>
+							</cfif>
+						</cfif>
 					</div>
 					<div style="margin: 0px; border: 1px solid black;">
 						<h2 style="font-size: small;">All Terms and Conditions From Loan #top_loan_number# Apply.</h2>
@@ -400,10 +411,10 @@ limitations under the License.
 					</cfif>
 					<div>
 						<strong>Instructions:</strong> 
-						<cfif len(loan_instructions) LT 751>
+						<cfif len(loan_instructions) LT INSTRUCTIONS_LIMIT>
 							#loan_instructions#
 						<cfelse>
-							#trim(left(loan_instructions,725))#... 
+							#trim(left(loan_instructions,(INSTRUCTIONS_LIMIT - 26)))#... 
 							<cfif getLoan.loan_type EQ "exhibition-master" AND getSubloans.recordcount GT 0>
 								<strong>Continued on Page #getSubloans.recordcount + 1#.</strong>
 							<cfelse>
@@ -458,6 +469,7 @@ limitations under the License.
 			</cfdocumentsection>
 		</cfif>
 
+		<cfset accumulatedInstructions = "">
 		<cfif getLoan.loan_type EQ "exhibition-master">
 			<cfset master_transaction_id = transaction_id>
 			<cfloop query="getSubloans">
@@ -527,7 +539,14 @@ limitations under the License.
 							</div>
 						</cfif>
 						<div>
-							<strong>Additional Instructions:</strong> #getSubloan.loan_instructions#
+							<strong>Additional Instructions:</strong> 
+							<cfif len(getSubloan.loan_instructions) LT INSTRUCTIONS_LIMIT>
+								#getSubloan.loan_instructions#
+							<cfelse>
+								#trim(left(getSubloan.loan_instructions,(INSTRUCTIONS_LIMIT - 26)))#... 
+								<strong>Continued on Page #getSubloans.recordcount + 1#.</strong>
+								<cfset accumulated_instructions = "#accumulated_instructions# <div style='border-bottom: 1px solid black; width: 100%'> <strong>Additional Instructions #getSubloan.loan_number#:</strong> #getSubloan.loan_instructions# </div> <br>"><!--- " --->
+							</cfif>
 						</div>
 						<div style="margin: 0px; border: 1px solid black;">
 							<h2 style="font-size: small;">All Terms and Conditions From Loan #top_loan_number# Apply.</h2>
@@ -570,6 +589,10 @@ limitations under the License.
 						<strong>Instructions:</strong> #loan_instructions#
 					</div>
 					<br>
+					<cfif getLoan.loan_type EQ "exhibition-master">
+						#accumulated_instructions#
+						<br>
+					</cfif>
 				</cfif>
 				<div>
 					The MCZ is committed to the spirit and letter of the Convention on Biological Diversity and its associated Nagoya Protocol on Access
