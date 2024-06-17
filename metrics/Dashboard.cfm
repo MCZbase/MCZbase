@@ -128,15 +128,14 @@ limitations under the License.
 						<button type="button" class="btn btn-sm btn-outline-secondary">Share</button>
 						<button type="button" class="btn btn-sm btn-outline-secondary">Export</button>
 					</div>
-
-					<CFSET beginDate = #DateFormat (Now(), "yyyy-mm-dd")#>
-					<CFSET endDate = #DateFormat(DateAdd( 'm', -12, now() ),"yyyy-mm-dd")#>
-						
-					<script>
-						function loadAnnualNumbers() { 
-							getAnnualNumbers(#endDate#,#beginDate#,"annualNumbersDiv");
+					<script> function loadit(y,m,d) { 
+						ColdFusion.navigate('Dashboard.cfm?year='+y+'&m='+m+'&d='+d,'dataarea'); 
 						} 
 					</script>
+					<cfdiv id="dataarea" />
+					<CFSET beginDate = #DateFormat (Now(), "yyyy-mm-dd")#>
+					<CFSET endDate = #DateFormat(DateAdd( 'm', -12, now() ),"yyyy-mm-dd")#>
+					<cfform name="myform" form="html"> <cfcalendar name="cal" onChange="if(cal.selectedDate) getURL('javascript:loadit(\''+cal.selectedDate.getFullYear()+'\',\''+cal.selectedDate.getMonth()+'\',\''+cal.selectedDate.getDate()+'\')')"> </cfform>	
 					<cfset summaryAnnualBlock = getAnnualNumbers(endDate = '#endDate#',beginDate='#beginDate#')>
 
 					<div id="annualNumbersDiv">
