@@ -624,11 +624,11 @@ limitations under the License.
 					of some specimens may be restricted by the providing country; therefore, a specimen may only be used for approved
 					purposes, and express written permission must be obtained before a loaned specimen can be used for additional purposes.
 				</div>
-				<ul>
+				<ul style="#font# font-size: 1em;">
 					<cfloop query="getRestrictions">
 						<cfif getRestrictions.source EQ "accession">
 							<li>
-								<strong>
+								<strong style="#font# font-size: 1.2em;">
 									#specific_type# #permit_num#
 									<cfif len(permit_num) EQ 0>#permit_title#</cfif>
 								</strong> 
@@ -636,7 +636,7 @@ limitations under the License.
 							</li>
 					<cfelse>
 						<li>
-							<strong>
+							<strong style="#font# font-size: 1.2em;">
 								#specific_type# #permit_num#
 								<cfif len(permit_num) EQ 0>#permit_title#</cfif>
 									Applies to all material in this loan:
