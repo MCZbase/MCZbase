@@ -874,7 +874,7 @@ limitations under the License.
 						<cfset totalLotCount = totalLotCount + lot_count>
 					</cfloop>
 				</table>
-				<div>
+				<div style="#font# font-size: 1.2em;">
 					Total of #TotalSpecimens# specimens in #TotalLotCount# lots.
 				</div>
 			</cfif>
@@ -883,10 +883,10 @@ limitations under the License.
 		<cfif getShipments.recordcount EQ 1>
 			<cfdocumentsection name="Shipping Labels">
 			<cfloop query="getShipments">
-				<div style="margin-bottom: 2em;">
+				<div style="#font# font-size: 1.2em; margin-bottom: 2em;">
 					Shipping Label
 				</div>
-				<table>
+				<table style="#font# font-size: 1em;">
 					<tr>
 						<td>
 							<strong style="#font# font-size: 1.2em;">From:</strong>
