@@ -187,18 +187,19 @@ limitations under the License.
 </cfquery>
 
 <!--------------------------------------------------------------------------------->
+<cfset font = "font: Helvetica, Arial, 'sans-serif'; ">
 <cfdocument format="pdf" saveAsName="MCZ_Loan_#getLoan.loan_number#.pdf" pageType="letter" marginTop="0.5" marginBottom="0.5" marginLeft="0.5" marginRight="0.5" fontEmbed="yes">
 	<cfoutput query="getLoan">
 
 		<cfdocumentitem type="header">
-			<div style="text-align: center; font-size: small;">
+			<div style="text-align: center; #font# font-size: small;">
 				Museum of Comparative Zoology Loan #getLoan.loan_number#
 			</div>
 		</cfdocumentitem>
 		
 		<!--- Footer, last page is shipping labels, not included in page count --->
 		<cfdocumentitem type="footer" evalAtPrint="true">
-			<div style="text-align: center; font-size: x-small;">
+			<div style="text-align: center; #font# font-size: x-small;">
 		   <cfif cfdocument.currentPageNumber eq cfdocument.totalPageCount>
         		Shipping Labels Generated: #dateFormat(now(),'yyyy-mm-dd')#
     		<cfelse>
@@ -223,20 +224,20 @@ limitations under the License.
 				select * from getLoanMCZ
 			</cfquery>
 			<cfdocumentsection name="Subloan only Header">
-				<div style="text-align: center; font-size: 1em;">
+				<div style="text-align: center; #font# font-size: 1em;">
 					<strong> Exhibition Subloan #loan_number# </strong>
 				</div>
-				<div style="text-align: center; font-size: 1em;">
+				<div style="text-align: center; #font# font-size: 1em;">
 					<strong> Parent Exhibtion Loan is: #parent_loan_number# </strong>
 				</div>
-				<div style="text-align: center; font-size: 1em;">
+				<div style="text-align: center; #font# font-size: 1em;">
 					<!--- TODO: Comment, inconsistent use of Department and Collection, should list Department, except for Cryo, fix in custom tag? --->
 					#getSubloan.collection#
 				</div>
-				<div style="text-align: center; font-size; 1em;">
+				<div style="text-align: center; #font# font-size; 1em;">
 					Museum of Comparative Zoology, Harvard University
 				</div>
-				<table style="font-size: small; padding: 0px; margin: 0px;">
+				<table style="#font# font-size: small; padding: 0px; margin: 0px;">
 					<tr>
 						<td style="width: 55%; vertical-align: top;">
 							<div>
@@ -276,7 +277,7 @@ limitations under the License.
 						</td>
 					</tr>
 				</table>
-				<div style="font-size: small; margin-left: 4px;">
+				<div style="#font# font-size: small; margin-left: 4px;">
 					<div>
 						<strong>Nature of Material:</strong> #getSubloan.nature_of_material#
 					</div>
@@ -299,13 +300,13 @@ limitations under the License.
 						</cfif>
 					</div>
 					<div style="margin: 0px; border: 1px solid black;">
-						<h2 style="font-size: small;">All Terms and Conditions From Loan #top_loan_number# Apply.</h2>
+						<h2 style="#font# font-size: small;">All Terms and Conditions From Loan #top_loan_number# Apply.</h2>
 					</div>
 				</div>
-				<table style="font-size: small;">
+				<table style="#font# font-size: small;">
 					<tr>
 						<td style="width: 50%; vertical-align: top;">
-							<h2 style="font-size: small;">UPON RECEIPT, SIGN AND RETURN ONE COPY TO:</h2>
+							<h2 style="#font# font-size: small;">UPON RECEIPT, SIGN AND RETURN ONE COPY TO:</h2>
 							<div>
 								#replace(getSubloan.shipped_from_address,chr(10),"<br>","all")# 
 								<cfif getSubloan.loan_type EQ "exhibition">
@@ -330,18 +331,18 @@ limitations under the License.
 		<cfelse>
 			<!--- Normal invoice header for regular loans and exhibition-master loans. --->
 			<cfdocumentsection name="Loan Header">
-				<div style="text-align: center; font-size: 1.2em;">
+				<div style="text-align: center; #font# font-size: 1.2em;">
 					<strong>Invoice of Specimens</strong>
 				</div>
 					
-				<div style="text-align: center; font-size: 1em;">
+				<div style="text-align: center; #font# font-size: 1em;">
 					<!--- TODO: Comment, inconsistent use of Department and Collection, should list Department, except for Cryo, fix in custom tag? --->
 					#getLoan.collection#
 				</div>
-				<div style="text-align: center; font-size; 1em;">
+				<div style="text-align: center; #font# font-size; 1em;">
 					Museum of Comparative Zoology, Harvard University
 				</div>
-				<table style="font-size: small; padding: 0px; margin: 0px;">
+				<table style="#font# font-size: small; padding: 0px; margin: 0px;">
 					<tr>
 						<td style="width: 55%; vertical-align: top;">
 							<div>
@@ -400,7 +401,7 @@ limitations under the License.
 						</td>
 					</tr>
 				</table>
-				<div style="font-size: small; margin-left: 4px;">
+				<div style="#font# font-size: small; margin-left: 4px;">
 					<div>
 						<strong>Nature of Material:</strong> #nature_of_material#
 					</div>
@@ -423,7 +424,7 @@ limitations under the License.
 						</cfif>
 					</div>
 					<div style="margin: 0px; border: 1px solid black; ">
-						<h2 style="font-size: small; margin-top: 2px;">Terms and Conditions</h2>
+						<h2 style="#font# font-size: small; margin-top: 2px;">Terms and Conditions</h2>
 						<ol style="margin-left: 2em;">
 							<li>Specimens are loaned to bona fide institutions, not to individuals, for non-commercial use (e.g., scientific research, education, exhibition).</li>
 							<li>Specimens are for sole use of the recipient for the specific purposes outlined in the loan request. Prior written permission from the MCZ is needed for any activities not specified in the loan request.</li>
@@ -441,10 +442,10 @@ limitations under the License.
 						</ol>
 					</div>
 				</div>
-				<table style="font-size: small;">
+				<table style="#font# font-size: small;">
 					<tr>
 						<td style="width: 50%; vertical-align: top;">
-							<h2 style="font-size: small;">UPON RECEIPT, SIGN AND RETURN ONE COPY TO:</h2>
+							<h2 style="#font# font-size: small;">UPON RECEIPT, SIGN AND RETURN ONE COPY TO:</h2>
 							<div style="border: 1px solid black;">
 								#replace(shipped_from_address,chr(10),"<br>","all")# 
 								<cfif loan_type EQ "exhibition">
@@ -479,17 +480,17 @@ limitations under the License.
 					select * from getLoanMCZ
 				</cfquery>
 				<cfdocumentsection name="Subloan Header">
-					<div style="text-align: center; font-size: 1em;">
+					<div style="text-align: center; #font# font-size: 1em;">
 						<strong> Exhibition Subloan #loan_number# </strong>
 					</div>
-					<div style="text-align: center; font-size: 1em;">
+					<div style="text-align: center; #font# font-size: 1em;">
 						<!--- TODO: Comment, inconsistent use of Department and Collection, should list Department, except for Cryo, fix in custom tag? --->
 						#getSubloan.collection#
 					</div>
-					<div style="text-align: center; font-size; 1em;">
+					<div style="text-align: center; #font# font-size; 1em;">
 						Museum of Comparative Zoology, Harvard University
 					</div>
-					<table style="font-size: small; padding: 0px; margin: 0px;">
+					<table style="#font# font-size: small; padding: 0px; margin: 0px;">
 						<tr>
 							<td style="width: 55%; vertical-align: top;">
 								<div>
@@ -529,7 +530,7 @@ limitations under the License.
 							</td>
 						</tr>
 					</table>
-					<div style="font-size: small; margin-left: 4px;">
+					<div style="#font# font-size: small; margin-left: 4px;">
 						<div>
 							<strong>Nature of Material:</strong> #getSubloan.nature_of_material#
 						</div>
@@ -549,13 +550,13 @@ limitations under the License.
 							</cfif>
 						</div>
 						<div style="margin: 0px; border: 1px solid black;">
-							<h2 style="font-size: small;">All Terms and Conditions From Loan #top_loan_number# Apply.</h2>
+							<h2 style="#font# font-size: small;">All Terms and Conditions From Loan #top_loan_number# Apply.</h2>
 						</div>
 					</div>
-					<table style="font-size: small;">
+					<table style="#font# font-size: small;">
 						<tr>
 							<td style="width: 50%; vertical-align: top;">
-								<h2 style="font-size: small;">UPON RECEIPT, SIGN AND RETURN ONE COPY TO:</h2>
+								<h2 style="#font# font-size: small;">UPON RECEIPT, SIGN AND RETURN ONE COPY TO:</h2>
 								<div>
 									#replace(getSubloan.shipped_from_address,chr(10),"<br>","all")# 
 									<cfif getSubloan.loan_type EQ "exhibition">
@@ -609,7 +610,7 @@ limitations under the License.
 				<br>
 			</cfif>
 			<cfdocumentsection name="Additional Restrictions">
-				<div style="text-align: center; font-size: 1em;">
+				<div style="text-align: center; #font# font-size: 1em;">
 					Summary of restrictions imposed by original collecting agreements
 				</div>
 				<div>
@@ -644,7 +645,7 @@ limitations under the License.
 		</cfif>
 
 		<cfdocumentsection name="Items In Loan">
-			<div style="text-align: center; font-size: 1.1em; margin-bottom: 1em;">
+			<div style="text-align: center; #font# font-size: 1.1em; margin-bottom: 1em;">
 				<strong>Invoice of Specimens</strong>
 			</div>
 			<div>
@@ -723,7 +724,7 @@ limitations under the License.
 							</cfif>
 						</cfquery>
 					</cfif>
-					<div style="text-align: left; font-size: 1em;">
+					<div style="text-align: left; #font# font-size: 1em;">
 						Specimens in Subloan #getSubloans.loan_number#
 					</div>
 					<table>
@@ -780,7 +781,7 @@ limitations under the License.
 											<br>
 											<strong>Use Restricted By:</strong>
 											<cfloop query="getSpecificRestrictions">
-												<span style="font-size: 0.8em;">
+												<span style="#font# font-size: 0.8em;">
 													#getSpecificRestrictions.permit_num#
 													<cfif len(getSpecificRestrictions.permit_num) EQ 0>
 														#getSpecificRestrictions.permit_title#
@@ -858,7 +859,7 @@ limitations under the License.
 										<br>
 										<strong>Use Restricted By:</strong>
 										<cfloop query="getSpecificRestrictions">
-											<span style="font-size: 0.8em;">
+											<span style="#font# font-size: 0.8em;">
 												#getSpecificRestrictions.permit_num#
 												<cfif len(getSpecificRestrictions.permit_num) EQ 0>
 													#getSpecificRestrictions.permit_title#
@@ -888,14 +889,14 @@ limitations under the License.
 				<table>
 					<tr>
 						<td>
-							<strong style="font-size: 1.2em;">From:</strong>
+							<strong style="#font# font-size: 1.2em;">From:</strong>
 							<br> 
 							#replace(fromAddress,chr(10),"<br>","all")# 
 						</td>
 					</tr>
 					<tr>
 						<td style="border: 1px solid black;">
-							<strong style="font-size: 1.2em;">To:</strong>
+							<strong style="#font# font-size: 1.2em;">To:</strong>
 							<br>
 							#replace(toAddress,chr(10),"<br>","all")#
 						</td>
