@@ -1,6 +1,6 @@
 <cffunction name="getAnnualNumbers" returntype="string" access="remote" returnformat="plain">
-	<cfargument name="beginDate" type="string" required="no">
 	<cfargument name="endDate" type="string" required="no">
+	<cfargument name="beginDate" type="string" required="no">
 	<cfthread name="getAnnualNumbersThread">
 		<cfoutput>
 			<cftry>
@@ -8,8 +8,8 @@
 					Is a check of some sort needed here?
 				</cfquery>--->
 				<cfif endDate is null AND beginDate is null>
-					<CFSET beginDate = #DateFormat (Now(), "yyyy-mm-dd")#>
-					<CFSET endDate = #DateFormat(DateAdd( 'm', -12, now() ),"yyyy-mm-dd")#>
+					<CFSET endDate = #DateFormat (Now(), "yyyy-mm-dd")#>
+					<CFSET beginDate = #DateFormat(DateAdd( 'm', -12, now() ),"yyyy-mm-dd")#>
 				</cfif>
 				<!-- annual report queries -->
 				<cfsetting RequestTimeout = "0">

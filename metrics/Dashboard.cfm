@@ -24,7 +24,8 @@ limitations under the License.
 <cfinclude template = "/metrics/js/metrics.js">
 <cfinclude template = "/metrics/component/functions.cfc">
 
-
+<CFSET endDate = #DateFormat (Now(), "yyyy-mm-dd")#>
+<CFSET beginDate = #DateFormat(DateAdd( 'm', -12, now() ),"yyyy-mm-dd")#>
 <meta name="theme-color" content="#563d7c">
 <cfoutput>
 <div class="container-fluid" id="content">
@@ -119,6 +120,7 @@ limitations under the License.
 				</ul>--->
 			</div>
 		</nav>
+
 		<main role="main" class="col-md-10 ml-sm-auto col-lg-10 px-md-5">
 
 			<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
@@ -129,8 +131,7 @@ limitations under the License.
 						<button type="button" class="btn btn-sm btn-outline-secondary">Export</button>
 					</div>
 	
-					<CFSET beginDate = #DateFormat (Now(), "yyyy-mm-dd")#>
-					<CFSET endDate = #DateFormat(DateAdd( 'm', -12, now() ),"yyyy-mm-dd")#>
+				
 
 					<cfset summaryAnnualBlock = getAnnualNumbers(endDate = '#endDate#',beginDate='#beginDate#')>
 
