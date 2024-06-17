@@ -655,47 +655,29 @@ limitations under the License.
 		</script>
 		<!--- links --->
 		<script>
-				<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_taxonomy")>
-					var idCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
-					return '<span class="#cellRenderClasses#" style="margin: 6px; display:block; float: ' + columnproperties.cellsalign + '; "><a target="_blank" class="px-2 btn-xs btn-outline-primary" href="#Application.serverRootUrl#/taxonomy/Taxonomy.cfm?action=edit&taxon_name_id=' + value + '">Edit</a></span>';
-					};
-				</cfif>
+			<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_taxonomy")>
+				var idCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
+				return '<span class="#cellRenderClasses#" style="margin: 6px; display:block; float: ' + columnproperties.cellsalign + '; "><a target="_blank" class="px-2 btn-xs btn-outline-primary" href="#Application.serverRootUrl#/taxonomy/Taxonomy.cfm?action=edit&taxon_name_id=' + value + '">Edit</a></span>';
+				};
+			</cfif>
 
-				var linkIdCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
-					var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);
-					var displayNameAuthor = rowData['DISPLAY_NAME_AUTHOR'];
-					return '<span class="#cellRenderClasses#" style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a target="_blank" href="/taxonomy/showTaxonomy.cfm?taxon_name_id=' + rowData['TAXON_NAME_ID'] + '">'+displayNameAuthor+'</a></span>';
-				};
+			var linkIdCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
+				var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);
+				var displayNameAuthor = rowData['DISPLAY_NAME_AUTHOR'];
+				return '<span class="#cellRenderClasses#" style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a target="_blank" href="/taxonomy/showTaxonomy.cfm?taxon_name_id=' + rowData['TAXON_NAME_ID'] + '">'+displayNameAuthor+'</a></span>';
+			};
+
+			var specimenCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
+				var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);
+				var result = "";
+				if (value==0) {
+					result = '<span class="#cellRenderClasses#" style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; ">'+value+'</span>';
+				} else { 
+					result = '<span class="#cellRenderClasses#" style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; ">' + value + '&nbsp;<a target="_blank" href="/Specimens.cfm?execute=true&builderMaxRows=1&action=builderSearch&openParens1=0&field1=IDENTIFICATION_TAXONOMY%3AIDENTIFICATIONS_TAXON_NAME_ID&searchText1=' + rowData['TAXON_NAME_ID'] + '&closeParens1=0">Specimens</a></span>';
+				}
+				return result;
+			};
 		</script>
-		<cfif findNoCase('redesign',Session.gitBranch) EQ 0>
-			<!--- Production specific links --->
-			<script>
-				var specimenCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
-					var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);
-					var result = "";
-					if (value==0) {
-						result = '<span class="#cellRenderClasses#" style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; ">'+value+'</span>';
-					} else { 
-						result = '<span class="#cellRenderClasses#" style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; ">' + value + '&nbsp;<a target="_blank" href="/SpecimenResults.cfm?taxon_name_id=' + rowData['TAXON_NAME_ID'] + '">Specimens</a></span>';
-					}
-					return result;
-				};
-			</script>
-		<cfelse>
-			<!--- Redesign specific links --->
-			<script>
-				var specimenCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
-					var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);
-					var result = "";
-					if (value==0) {
-						result = '<span class="#cellRenderClasses#" style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; ">'+value+'</span>';
-					} else { 
-						result = '<span class="#cellRenderClasses#" style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; ">' + value + '&nbsp;<a target="_blank" href="/SpecimenResults.cfm?taxon_name_id=' + rowData['TAXON_NAME_ID'] + '">Specimens</a></span>';
-					}
-					return result;
-				};
-			</script>
-		</cfif>
 		<script>
 
 			// prevent on columnreordered event from causing save of grid column order when loading order from persistance store
