@@ -135,13 +135,6 @@ limitations under the License.
 				</ul>--->
 			</div>
 		</nav>
-		<script>
-			function getAnnualNumbersJS() {
-				window.location.reload()
-			}
-
-			document.addEventListener('DOMContentLoaded', getAnnualNumbersJS);
-		</script>
 		<main role="main" class="col-md-9 ml-sm-auto col-lg-9 px-md-5">
 		<cfset endDate = #DateFormat (Now(), "yyyy-mm-dd")#>
 		<cfset beginDate = #DateFormat(DateAdd( 'm', -12, now() ),"yyyy-mm-dd")#>
