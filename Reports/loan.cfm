@@ -364,7 +364,7 @@ limitations under the License.
 										(#getSubloanCount.item_ct#)
 									</cfloop>
 								</div>
-							<cfloop>
+							</cfloop>
 						</td>
 					</tr>
 					<tr>
