@@ -23,8 +23,6 @@ limitations under the License.
 <cfinclude template="/shared/_header.cfm">
 <cfinclude template = "/metrics/js/metrics.js">
 <cfinclude template = "/metrics/component/functions.cfc">
-<!---<cfinclude template="/shared/component/error_handler.cfc" runOnce="true">--->
-<cf_rolecheck>
 
 
 <cfset endDate = #DateFormat (Now(), "yyyy-mm-dd")#>
@@ -37,6 +35,16 @@ limitations under the License.
 	<div class="row">
 		<nav id="sidebarMenu" class="col-md-2 col-lg-2 d-md-block bg-light sidebar collapse">
 			<div class="sidebar-sticky pt-3">
+				<form action="/metrics/Dashboard.cfm">
+					<label for="endDate">endDate</label>
+					<input type="date" id="endDate" name="endDate">
+					<input type="submit" value="Submit">
+				</form>
+				<form action="/metrics/Dashboard.cfm">
+					<label for="beginDate">beginDate</label>
+					<input type="date" id="beginDate" name="beginDate">
+					<input type="submit" value="Submit">
+				</form>
 		<!---		<ul class="nav flex-column">
 					<li class="nav-item"> <a class="nav-link active" href="##">
 						<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-home">
