@@ -23,6 +23,9 @@ limitations under the License.
 <cfinclude template="/shared/_header.cfm">
 <cfinclude template = "/metrics/js/metrics.js">
 <cfinclude template = "/metrics/component/functions.cfc">
+<cfinclude template="/shared/component/error_handler.cfc" runOnce="true">
+<cf_rolecheck>
+<cfinclude template = "/shared/functionLib.cfm">
 
 <CFSET endDate = #DateFormat (Now(), "yyyy-mm-dd")#>
 <CFSET beginDate = #DateFormat(DateAdd( 'm', -12, now() ),"yyyy-mm-dd")#>
