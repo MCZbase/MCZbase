@@ -329,6 +329,169 @@ limitations under the License.
 					</tr>
 				</table>
 			</cfdocumentsection>
+		<cfelseif getLoan.loan_type EQ "exhibition-master">
+			<!--- Special header for exhibition-master loans. --->
+			<cfdocumentsection name="Exhibition Loan Agreement Header">
+				<div style="text-align: center; #font# font-size; 1.2em;">
+					<strong>Museum of Comparative Zoology, Harvard University</strong>
+				</div>
+				<div style="text-align: center; #font# font-size; 1em;">
+					26 Oxford Street<br>
+					Harvard University<br>
+					Cambridge, MA 02138
+				</div>
+				<div style="width: 100%; #font# font-size; 1.2em; border-bottom: 2px solid black;">
+					<span style="text-align: center;"><strong>Exhibition Loan Agreement</strong></span>
+					<span style="text-align: right;">No. <strong>#getLoan.loan_number#</strong></span>
+				</div>
+				<table style="#font# font-size: small; padding: 0px; margin: 0px;">
+					<tr>
+						<td style="width: 40%; vertical-align: top;">
+							<strong>MCZ DEPT/LOAN ## (number of specimens)</strong>
+						</td>
+						<td style="width: 60%; vertical-align: top;">
+							<cfloop query="getSubloans">
+								<div style="#font# font-size; 1em;">
+									#getSubloans.loan_number#
+									<cfquery name="getSubloanCount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+										SELECT sum(lot_count) lot_ct, count(coll_object.collection_object_id) item_ct
+										FROM 
+											loan_item 
+											JOIN coll_object on loan_item.collection_object_id = coll_object.collection_object_id
+										WHERE transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getSubloans.transaction_id#">
+									</cfquery>
+									<cfloop getSubloanCount>
+										(#getSubloanCount.item_ct#)
+									</cfloop>
+								</div>
+							<cfloop>
+						</td>
+					</tr>
+					<tr>
+						<td style="width: 40%; vertical-align: top;">
+							<strong>MCZ LOAN CONTACT INFO:</strong>
+						</td>
+						<td style="width: 60%; vertical-align: top;">
+									#getLoan.internalContactName# /
+									#getLoan.inside_phone_number# /
+									#getLoan.inside_email_address#
+						</td>
+					</tr>
+				</table>
+			</cfdocumentsection>
+			<cfdocumentsection name="Exhibition Loan Conditions">
+				<div style="text-align: center; #font# font-size; 1.2em;">
+					<strong>CONDITIONS</strong>
+				<div style="#font# font-size; 0.8em;">
+					<h3>1. TRANSPORTATION<h3>
+					<p>The Museum of Comparative Zoology will determine the appropriate means of transportation of the loan material and will approve in writing all
+						transportation arrangements. The Borrowing Institution agrees to cover all shipping costs, including courier fee, courier travel, and courier per diem to
+						and from the Museum of Comparative Zoology.
+					</p>
+					<h3>2. PACKING</h3>
+					<p>The Museum of Comparative Zoology will determine the appropriate means of packing the loan material and will approve in writing all crating and
+						packing arrangements. The Borrowing Institution agrees to cover all crating and packing costs.
+					</p>
+					<h3>3. INSURANCE</h3>
+					<p>If insurance is arranged by the Borrowing Institution, coverage will be under
+						an All Risk fine arts "wall to wall" policy from the time that the loan object(s)
+						leaves the Museum of Comparative Zoology, until the object(s) is returned
+						to the Museum of Comparative Zoology and the final condition reports are
+						completed. Coverage will include all risk of physical damage or loss
+						including, but not limited to, loss or damage from earthquakes, floods,
+						strikes, riots, or civil commotion. The loan object(s) will be insured at the
+						value(s) assigned by the Museum of Comparative Zoology on the other side
+						of this agreement. The Borrowing Institution&apos;s policy will name "President
+						and Fellows of Harvard College" as additional insured and will waive
+						subrogation rights against Harvard University. A Certificate of Insurance
+						evidencing such coverage must be delivered to the Museum of
+						Comparative Zoology before shipment to the Borrowing Institution occurs.
+						The Borrowing Institution agrees to cover any deductible under its policy. If
+						the Museum of Comparative Zoology carries insurance under its policy, the
+						Borrowing Institution will be responsible for the cost of the premium while
+						the loan object(s) is in transit and on location.
+					</p>
+					<h3> 4. WITHDRAWAL OF OBJECTS </h3>
+					<p>The Museum of Comparative Zoology reserves the right to withdraw any
+						items whose condition has deteriorated or may deteriorate due to continued
+						travel, or whose security appears to be threatened, or when other urgent
+						reasons necessitate withdrawal.
+					</p>
+					<h3> 5. PROCEDURE IN EVENT OF MISHAP </h3>
+					<p>In the event that a loan item is damaged, destroyed, lost or stolen, the
+						Borrowing Institution shall give the Departmental contact at the Museum of
+						Comparative Zoology immediate telephone notice, followed by written
+						confirmation. The report of damage or loss should provide a description of
+						the extent and circumstances surrounding the mishap. No repairs or other
+						actions may be taken on the object(s) by the Borrowing Institution without
+						instruction in writing from the Museum of Comparative Zoology.
+					</p>
+					<h3> 6. PUBLICITY AND CREDITS </h3>
+					<p>
+						The credit line as shown on the front of this form will be used in all printed
+						material (including web) related to the loan object(s). Loans for exhibition
+						require that one copy of any catalog or publicity material be sent directly to
+						the Departmental contact at the Museum of Comparative Zoology.
+					</p>
+					<h3> 7. PHOTOGRAPHY </h3>
+					<p> All photographs of Museum of Comparative Zoology items to be used in
+						exhibition catalog, brochures, publicity releases, and the like, either will be
+						taken by the Museum of Comparative Zoology or, if taken by another
+						photographer, must be approved in writing by the Museum. Copyright to
+						any photograph of Museum of Comparative Zoology object(s), regardless of
+						the photographer and the intended use, is retained by the President and
+						Fellows of Harvard College, and a copy of any photograph must be sent
+						directly to the MCZ Departmental contact if not taken by the Museum of
+						Comparative Zoology. Use of the photograph in any publication (including
+						web) requires prior permission by the Museum of Comparative Zoology. All
+						permissions are for one time only.
+					</p>
+					<h3> 8. GENERAL CARE AND HANDLING </h3>
+					<p> The Borrowing Institution will exercise the same care and handling to the
+						loan item(s) as it does in the safekeeping of comparable property of its own.
+						Each object shall remain in the same condition in which it was received.
+						The Borrowing Institution agrees to follow all special handling, installation,
+						and packing instructions provided on the front of this document, and
+						detailed in the correspondence and the Departmental Loan document from
+						the Museum of Comparative Zoology to the Borrowing Institution.
+						Upon arrival, all travel containers must be equilibrated to the environment
+						for 24-48 hours before unpacked.
+						No restoration, repair, cleaning, or fumigation of loan objects may be
+						performed by the borrower without instruction in writing from the Museum of
+						Comparative Zoology. Other organic objects stored or exhibited with those
+						from the Museum of Comparative Zoology must be free of infestation.
+					</p>
+					<h3> 9. CONDITION REPORT </h3>
+					<p> The Museum of Comparative Zoology will provide a detailed condition
+						report of the loan item(s). The Borrowing Institution will review this condition
+						report against the loan item(s) at the time of its arrival and departure.
+					</p>
+					<h3> 10. EXHIBITION DESIGN AND INSTALLATION </h3>
+					<p> The Borrowing Institution agrees to comply with all requirements detailed on
+						the front of this document, as well as those described in correspondence
+						and the Departmental Loan document from the Museum of Comparative
+						Zoology to the Borrowing Institution.
+						Mounting fixtures must be padded at contact points with the loan
+					</p>
+					<h3> 11. LOAN FEES </h3>
+					<p> The Borrowing Institution agrees to pay administrative loan fees,
+						conservation, mount fabrication costs, courier fee, courier travel, and
+						courier per diem as detailed in correspondence and the Departmental Loan
+						document from the Museum of Comparative Zoology to the Borrowing
+						Institution.
+					</p>
+					<h3> 12. GOVERNING LAW </h3>
+					<p> 
+						This agreement shall be governed by and construed in accordance with the laws of the Commonwealth of Massachusetts.
+					</p>
+					<h3>13. NON-ASSIGNABILITY AND BINDING EFFECT</h3>
+					<p>Neither party&apos;s rights nor obligation hereunder may be assigned except with
+						the other&apos;s written consent. Subject to the foregoing, this agreement shall
+						be binding on and inure to the benefit of the parties and their successors
+						and assigns
+					</p>
+				</div>
+			</cfdocumentsection>
 		<cfelse>
 			<!--- Normal invoice header for regular loans and exhibition-master loans. --->
 			<cfdocumentsection name="Loan Header">
