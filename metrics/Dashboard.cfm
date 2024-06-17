@@ -134,10 +134,10 @@ limitations under the License.
 						
 					<script>
 						function loadAnnualNumbers() { 
-							getAnnualNumbers(#endDate#,"annualNumbersDiv");
+							getAnnualNumbers(#endDate#,#beginDate#,"annualNumbersDiv");
 						} 
 					</script>
-					<cfset summaryAnnualBlock = loadAnnualNumbers(endDate = '#endDate#',beginDate='#beginDate#')>
+					<cfset summaryAnnualBlock = getAnnualNumbers(endDate = '#endDate#',beginDate='#beginDate#')>
 
 					<div id="annualNumbersDiv">
 						#summaryAnnualBlock#
