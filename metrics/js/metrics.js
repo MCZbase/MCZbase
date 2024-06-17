@@ -1,4 +1,4 @@
-function getAnnualNumbers(endDate,beginDate) { 
+function getAnnualNumbersJS(endDate,beginDate) { 
 	jQuery.ajax({
 		url: "/metrics/component/functions.cfc",
 		data : {
