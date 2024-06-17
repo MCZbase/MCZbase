@@ -21,6 +21,7 @@ limitations under the License.
 -->
 <cfset pageTitle="Metrics Testing">
 <cfinclude template="/shared/_header.cfm">
+<cfinclude template = "/metrics/js/metrics.js">
 <cfinclude template = "/metrics/component/functions.cfc">
 
 
