@@ -36,7 +36,7 @@ limitations under the License.
 		<nav id="sidebarMenu" class="col-md-3 col-lg-3 d-md-block bg-light sidebar collapse">
 			<div class="sidebar-sticky pt-3">
 				<form action="/metrics/Dashboard.cfm" class="pt-3">
-					<label for="endDate">End Date</label>
+					<label for="endDate" class="data-entry-label">End Date</label>
 					<input type="date" id="endDate" name="endDate" class="data-entry-input">
 					<input type="submit" value="Submit" class="btn btn-xs btn-secondary">
 				</form>
