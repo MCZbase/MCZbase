@@ -591,10 +591,10 @@ limitations under the License.
 						<strong>Instructions:</strong> #loan_instructions#
 					</div>
 					<br>
-					<cfif getLoan.loan_type EQ "exhibition-master">
-						#accumulated_instructions#
-						<br>
-					</cfif>
+				</cfif>
+				<cfif getLoan.loan_type EQ "exhibition-master">
+					#accumulated_instructions#
+					<br>
 				</cfif>
 				<div style="#font# font-size: 1.2em;">
 					The MCZ is committed to the spirit and letter of the Convention on Biological Diversity and its associated Nagoya Protocol on Access
@@ -604,13 +604,17 @@ limitations under the License.
 				</div>
 			</cfdocumentsection>
 		<cfelse>
-			<cfif len(loan_instructions) GT INSTRUCTIONS_LIMIT -1 >
-				<div style="border-bottom: 1px solid black; width: 100%; #font# font-size: 1.2em;">
-					<strong>Instructions:</strong> #loan_instructions#
-				</div>
-				<br>
-			</cfif>
 			<cfdocumentsection name="Additional Restrictions">
+				<cfif len(loan_instructions) GT INSTRUCTIONS_LIMIT -1 >
+					<div style="border-bottom: 1px solid black; width: 100%; #font# font-size: 1.2em;">
+						<strong>Instructions:</strong> #loan_instructions#
+					</div>
+					<br>
+				</cfif>
+				<cfif getLoan.loan_type EQ "exhibition-master">
+					#accumulated_instructions#
+					<br>
+				</cfif>
 				<div style="text-align: center; #font# font-size: 1em;">
 					Summary of restrictions imposed by original collecting agreements
 				</div>
