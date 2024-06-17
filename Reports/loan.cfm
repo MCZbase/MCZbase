@@ -377,22 +377,31 @@ limitations under the License.
 									#getLoan.inside_email_address#
 						</td>
 					</tr>
+					<tr>
+						<td style="width: 40%; vertical-align: top;">
+							<strong>BORROWING INSTITUTION::</strong>
+						</td>
+						<td style="width: 60%; vertical-align: top;">
+									#getLoan.recipientInstitutionName#
+						</td>
+					</tr>
 				</table>
 			</cfdocumentsection>
 			<cfdocumentsection name="Exhibition Loan Conditions">
 				<div style="text-align: center; #font# font-size; 1.2em;">
 					<strong>CONDITIONS</strong>
-				<div style="#font# font-size; 0.8em;">
-					<h3>1. TRANSPORTATION<h3>
+				</div>
+				<div style="text-align: left;#font# font-size; 0.8em;">
+					<strong>1. TRANSPORTATION<strong>
 					<p>The Museum of Comparative Zoology will determine the appropriate means of transportation of the loan material and will approve in writing all
 						transportation arrangements. The Borrowing Institution agrees to cover all shipping costs, including courier fee, courier travel, and courier per diem to
 						and from the Museum of Comparative Zoology.
 					</p>
-					<h3>2. PACKING</h3>
+					<strong>2. PACKING</strong>
 					<p>The Museum of Comparative Zoology will determine the appropriate means of packing the loan material and will approve in writing all crating and
 						packing arrangements. The Borrowing Institution agrees to cover all crating and packing costs.
 					</p>
-					<h3>3. INSURANCE</h3>
+					<strong>3. INSURANCE</strong>
 					<p>If insurance is arranged by the Borrowing Institution, coverage will be under
 						an All Risk fine arts "wall to wall" policy from the time that the loan object(s)
 						leaves the Museum of Comparative Zoology, until the object(s) is returned
@@ -411,13 +420,13 @@ limitations under the License.
 						Borrowing Institution will be responsible for the cost of the premium while
 						the loan object(s) is in transit and on location.
 					</p>
-					<h3> 4. WITHDRAWAL OF OBJECTS </h3>
+					<strong> 4. WITHDRAWAL OF OBJECTS </strong>
 					<p>The Museum of Comparative Zoology reserves the right to withdraw any
 						items whose condition has deteriorated or may deteriorate due to continued
 						travel, or whose security appears to be threatened, or when other urgent
 						reasons necessitate withdrawal.
 					</p>
-					<h3> 5. PROCEDURE IN EVENT OF MISHAP </h3>
+					<strong> 5. PROCEDURE IN EVENT OF MISHAP </strong>
 					<p>In the event that a loan item is damaged, destroyed, lost or stolen, the
 						Borrowing Institution shall give the Departmental contact at the Museum of
 						Comparative Zoology immediate telephone notice, followed by written
@@ -426,14 +435,14 @@ limitations under the License.
 						actions may be taken on the object(s) by the Borrowing Institution without
 						instruction in writing from the Museum of Comparative Zoology.
 					</p>
-					<h3> 6. PUBLICITY AND CREDITS </h3>
+					<strong> 6. PUBLICITY AND CREDITS </strong>
 					<p>
 						The credit line as shown on the front of this form will be used in all printed
 						material (including web) related to the loan object(s). Loans for exhibition
 						require that one copy of any catalog or publicity material be sent directly to
 						the Departmental contact at the Museum of Comparative Zoology.
 					</p>
-					<h3> 7. PHOTOGRAPHY </h3>
+					<strong> 7. PHOTOGRAPHY </strong>
 					<p> All photographs of Museum of Comparative Zoology items to be used in
 						exhibition catalog, brochures, publicity releases, and the like, either will be
 						taken by the Museum of Comparative Zoology or, if taken by another
@@ -446,7 +455,7 @@ limitations under the License.
 						web) requires prior permission by the Museum of Comparative Zoology. All
 						permissions are for one time only.
 					</p>
-					<h3> 8. GENERAL CARE AND HANDLING </h3>
+					<strong> 8. GENERAL CARE AND HANDLING </strong>
 					<p> The Borrowing Institution will exercise the same care and handling to the
 						loan item(s) as it does in the safekeeping of comparable property of its own.
 						Each object shall remain in the same condition in which it was received.
@@ -461,30 +470,30 @@ limitations under the License.
 						Comparative Zoology. Other organic objects stored or exhibited with those
 						from the Museum of Comparative Zoology must be free of infestation.
 					</p>
-					<h3> 9. CONDITION REPORT </h3>
+					<strong> 9. CONDITION REPORT </strong>
 					<p> The Museum of Comparative Zoology will provide a detailed condition
 						report of the loan item(s). The Borrowing Institution will review this condition
 						report against the loan item(s) at the time of its arrival and departure.
 					</p>
-					<h3> 10. EXHIBITION DESIGN AND INSTALLATION </h3>
+					<strong> 10. EXHIBITION DESIGN AND INSTALLATION </strong>
 					<p> The Borrowing Institution agrees to comply with all requirements detailed on
 						the front of this document, as well as those described in correspondence
 						and the Departmental Loan document from the Museum of Comparative
 						Zoology to the Borrowing Institution.
 						Mounting fixtures must be padded at contact points with the loan
 					</p>
-					<h3> 11. LOAN FEES </h3>
+					<strong> 11. LOAN FEES </strong>
 					<p> The Borrowing Institution agrees to pay administrative loan fees,
 						conservation, mount fabrication costs, courier fee, courier travel, and
 						courier per diem as detailed in correspondence and the Departmental Loan
 						document from the Museum of Comparative Zoology to the Borrowing
 						Institution.
 					</p>
-					<h3> 12. GOVERNING LAW </h3>
+					<strong> 12. GOVERNING LAW </strong>
 					<p> 
 						This agreement shall be governed by and construed in accordance with the laws of the Commonwealth of Massachusetts.
 					</p>
-					<h3>13. NON-ASSIGNABILITY AND BINDING EFFECT</h3>
+					<strong>13. NON-ASSIGNABILITY AND BINDING EFFECT</strong>
 					<p>Neither party&apos;s rights nor obligation hereunder may be assigned except with
 						the other&apos;s written consent. Subject to the foregoing, this agreement shall
 						be binding on and inure to the benefit of the parties and their successors
