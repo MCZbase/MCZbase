@@ -37,16 +37,13 @@ limitations under the License.
 	<div class="row">
 		<nav id="sidebarMenu" class="col-md-3 col-lg-3 d-md-block bg-light sidebar collapse">
 			<div class="sidebar-sticky pt-3">
-				<form action="/metrics/Dashboard.cfm" class="pt-3">
-					<label for="endDate" class="data-entry-label">End Date</label>
-					<input type="date" id="endDate" name="endDate" class="data-entry-input">
-					<input type="submit" value="Submit" class="btn btn-xs btn-secondary">
-				</form>
-				<form action="/metrics/Dashboard.cfm" class="mt-3">
+				<cfform action="/metrics/Dashboard.cfm" class="pt-3">
 					<label for="beginDate" class="data-entry-label">Begin Date</label>
 					<input type="date" id="beginDate" name="beginDate" class="data-entry-input">
-					<input type="submit" value="Submit" class="btn btn-xs btn-secondary"  onClick="event.preventDefault(); $(getAnnualNumbersJS).submit();">
-				</form>
+					<label for="endDate" class="data-entry-label">End Date</label>
+					<input type="date" id="endDate" name="endDate" class="data-entry-input">
+					<input type="submit" value="Submit" class="btn btn-xs btn-secondary" onClick="event.preventDefault(); $(getAnnualNumbersJS).submit();">
+				</cfform>
 		<!---		<ul class="nav flex-column">
 					<li class="nav-item"> <a class="nav-link active" href="##">
 						<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-home">
