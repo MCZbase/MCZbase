@@ -27,8 +27,8 @@ limitations under the License.
 <cf_rolecheck>
 
 
-<CFSET endDate = #DateFormat (Now(), "yyyy-mm-dd")#>
-<CFSET beginDate = #DateFormat(DateAdd( 'm', -12, now() ),"yyyy-mm-dd")#>
+<cfset endDate = #DateFormat (Now(), "yyyy-mm-dd")#>
+<cfset beginDate = #DateFormat(DateAdd( 'm', -12, now() ),"yyyy-mm-dd")#>
 <meta name="theme-color" content="#563d7c">
 <cfoutput>
 <div class="container-fluid" id="content">
@@ -133,7 +133,7 @@ limitations under the License.
 						<button type="button" class="btn btn-sm btn-outline-secondary">Share</button>
 						<button type="button" class="btn btn-sm btn-outline-secondary">Export</button>
 					</div>
-
+#endDate#, #beginDate#
 					<cfset summaryAnnualBlock = getAnnualNumbers(endDate="#endDate#",beginDate="#beginDate#","annualNumbersDiv")>
 
 					<div id="annualNumbersDiv">
