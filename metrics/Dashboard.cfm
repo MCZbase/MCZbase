@@ -36,7 +36,7 @@ limitations under the License.
 <div class="container-fluid" id="content">
 	<div class="row">
 		<nav id="sidebarMenu" class="col-md-2 col-lg-2 d-md-block bg-light sidebar collapse">
-			<div class="sidebar-sticky pt-3 px-3">
+			<div class="sidebar-sticky pt-4 px-3">
 				<h3>Fiscal Year Reports</h3>
 				<cfform action="/metrics/Dashboard.cfm" class="pt-3">
 					<label for="beginDate" class="data-entry-label">Begin Date</label>
@@ -46,7 +46,7 @@ limitations under the License.
 					<input type="submit" value="Submit" class="btn btn-xs btn-secondary mt-2" onClick="event.preventDefault(); $(getAnnualNumbersJS).submit();">
 				</cfform>
 
-				<h4 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted"> 
+				<h4 class="sidebar-heading d-flex justify-content-between align-items-center px-1 mt-4 mb-1 text-muted"> 
 					<span>Other Reports</span> 
 					<!---<a class="d-flex align-items-center text-muted" href="##" aria-label="Add a new report">
 						<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus-circle">
