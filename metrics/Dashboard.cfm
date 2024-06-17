@@ -28,7 +28,7 @@ limitations under the License.
 	
 <cfset pageTitle="Metrics Testing">
 <cfinclude template="/shared/_header.cfm">
-<cfinclude template = "/metrics/js/metrics.js">
+<script type="text/javascript" src="/metrics/js/metrics.js"></script> 
 
 
 <meta name="theme-color" content="#563d7c">
