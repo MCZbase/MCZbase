@@ -35,15 +35,15 @@ limitations under the License.
 	<div class="row">
 		<nav id="sidebarMenu" class="col-md-3 col-lg-3 d-md-block bg-light sidebar collapse">
 			<div class="sidebar-sticky pt-3">
-				<form action="/metrics/Dashboard.cfm">
+				<form action="/metrics/Dashboard.cfm" class="pt-3">
 					<label for="endDate">endDate</label>
-					<input type="date" id="endDate" name="endDate">
-					<input type="submit" value="Submit">
+					<input type="date" id="endDate" name="endDate" class="data-entry-input">
+					<input type="submit" value="Submit" class="btn btn-xs btn-secondary">
 				</form>
-				<form action="/metrics/Dashboard.cfm">
-					<label for="beginDate">beginDate</label>
-					<input type="date" id="beginDate" name="beginDate">
-					<input type="submit" value="Submit">
+				<form action="/metrics/Dashboard.cfm" class="mt-3">
+					<label for="beginDate" class="data-entry-label">beginDate</label>
+					<input type="date" id="beginDate" name="beginDate" class="data-entry-input">
+					<input type="submit" value="Submit" class="btn btn-xs btn-secondary">
 				</form>
 		<!---		<ul class="nav flex-column">
 					<li class="nav-item"> <a class="nav-link active" href="##">
