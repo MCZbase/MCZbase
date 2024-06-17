@@ -360,6 +360,7 @@ limitations under the License.
 						} else {
 							var loc = encodeURIComponent(rowData['SPEC_LOCALITY']);
 							var id = encodeURIComponent(rowData['LOCALITY_ID']);
+							if (loc=="") { loc = id; } 
 							return '<span class="#cellRenderClasses#" style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a href="/Specimens.cfm?execute=true&builderMaxRows=1&action=builderSearch&nestdepth1=1&field1=LOCALITY%3ALOCALITY_LOCALITY_ID_PICK&searchText1=' + loc + '&searchId1='+ id +'" target="_blank">'+value+'</a></span>';
 						}
 					};
