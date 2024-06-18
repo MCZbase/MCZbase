@@ -108,6 +108,7 @@ limitations under the License.
 				</ul>
 			</div>
 		</nav>
+		
 		<main role="main" class="col-md-10 ml-sm-auto col-lg-10 px-md-5">
 		<cfset endDate = #DateFormat (Now(), "yyyy-mm-dd")#>
 		<cfset beginDate = #DateFormat(DateAdd( 'm', -12, now() ),"yyyy-mm-dd")#>
@@ -118,11 +119,11 @@ limitations under the License.
 						<button type="button" class="btn btn-sm btn-outline-secondary">Share</button>
 						<button type="button" class="btn btn-sm btn-outline-secondary">Export</button>
 					</div>
-
-					<cfoutput>
-						<cfset summaryAnnualBlock = getAnnualNumbers(endDate = "#endDate#", beginDate = "#beginDate#")>
-					</cfoutput>
-
+					<cfif isdefined("getAnnualNumbers")>
+						<cfoutput>
+							<cfset summaryAnnualBlock = getAnnualNumbers(endDate = "#endDate#", beginDate = "#beginDate#")>
+						</cfoutput>
+					</cfif>
 					<div id="annualNumbersDiv">
 						#summaryAnnualBlock#
 					</div>
