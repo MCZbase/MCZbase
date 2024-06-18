@@ -419,10 +419,10 @@ limitations under the License.
 						</td>
 					</tr>
 				</table>
-				<div style="text-align: left; #font# font-size; 1em; border-bottom solid black 1px; width: 100%;">
+				<div style="text-align: left; #font# font-size; 0.8em; border-bottom solid black 1px; width: 100%;">
 					Departmental Loan document(s) include an itemized list of the loaned object(s), relevant associated data, and object condition report(s).
 				</div>
-				<div style="text-align: left; #font# font-size; 1em;">
+				<div style="text-align: left; #font# font-size; 0.8em;">
 					<strong>SPECIAL HANDLING INSTRUCTIONS/ REQUIREMENTS:</strong>
 					<p>
 						See Conditions on next page and instructions in Departmental Loan document(s).
@@ -433,16 +433,16 @@ limitations under the License.
 						</p>
 					</cfif>
 				</div>
-				<div style="text-align: left; #font# font-size; 1em;">
+				<div style="text-align: left; #font# font-size; 0.8em;">
 					<strong>INSURANCE:</strong>
 					<p>Insurance Value: #getLoan.insurance_value#</p>
 					<p>Insurance Maintained By: #getLoan.insurance_maintained_by#</p>
 				</div>
-				<div style="text-align: left; #font# font-size; 1em;">
+				<div style="text-align: left; #font# font-size; 0.8em;">
 					<strong>CREDIT LINE FOR EXHIBITION LABEL/CATALOG/PROMOTION:</strong>
 					<p>Museum of Comparative Zoology, President and Fellows of Harvard College</p>
 				</div>
-				<div style="text-align: left; #font# font-size; 1em; border-bottom solid black 1px; width: 100%;">
+				<div style="text-align: left; #font# font-size; 0.8em; border-bottom solid black 1px; width: 100%;">
 					If the Borrower&apos;s loan agreement is signed by the Museum of Comparative Zoology, conditions of the Museum of
 					Comparative Zoology&apos;s loan agreement will supersede inconsistent conditions and augment other conditions of the Borrower&apos;s
 					loan agreement. The MCZ loan agreement will be governed by and construed according to the laws of the Commonwealth of Massachusetts.
@@ -458,10 +458,10 @@ limitations under the License.
 				</div>
 			</cfdocumentsection>
 			<cfdocumentsection name="Exhibition Loan Conditions">
-				<div style="text-align: center; #font# font-size; 1.2em;">
+				<div style="text-align: center; #font# font-size: 1.2em;">
 					<strong>CONDITIONS</strong>
 				</div>
-				<div style="text-align: left;#font# font-size; 0.8em;">
+				<div style="text-align: left;#font# font-size: small;">
 					<strong>1. TRANSPORTATION<strong>
 					<p>The Museum of Comparative Zoology will determine the appropriate means of transportation of the loan material and will approve in writing all
 						transportation arrangements. The Borrowing Institution agrees to cover all shipping costs, including courier fee, courier travel, and courier per diem to
@@ -982,14 +982,13 @@ limitations under the License.
 							<th style="width: 50%;">Taxon, Locality</th>
 							<th style="width: 25%;">Specimen Count</th>
 						</tr>
-						<cfset totalSpecimens = 0>
 						<cfset totalLotCount = 0>
+						<cfset totalSpecimens = 0>
 						<cfloop query="getLoanItems">
 							<tr>
 								<td style="width: 25%; vertical-align: top;">
 									#institution_acronym#:#collection_cde#:#cat_num#
 									<cfif top_loan_status EQ "closed">#reconciled_date#</cfif>
-									<cfif Len(condition) GT 0 and top_loan_type contains 'exhibition' ><BR>Condition: #condition#</cfif>
 								</td>
 								<td style="width: 50%; vertical-align: top;">
 									<div>
@@ -1010,6 +1009,7 @@ limitations under the License.
 									<cfelse>
 										#lot_count# #part_modifier# #part_name#
 										<cfif len(preserve_method) GT 0>(#preserve_method#)</cfif>
+										<cfif Len(condition) GT 0 and top_loan_type contains 'exhibition' ><BR>Condition: #condition#</cfif>
 									</cfif>
 									<cfif getRestrictions.recordcount GT 0>
 										<cfquery name="getSpecificRestrictions" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -1042,8 +1042,8 @@ limitations under the License.
 									</cfif>
 								</td>
 							</tr>
-							<cfset totalSpecimens = totalSpecimens + 1>
-							<cfset totalLotCount = totalLotCount + lot_count>
+							<cfset totalLotCount = totalLotCount + 1>
+							<cfset totalSpecimens = totalSpecimens + lot_count>
 						</cfloop>
 					</table>
 					<div style="#font# font-size: 1.2em; margin-bottom: 2em; border-bottom: 1px solid black;">
@@ -1064,8 +1064,8 @@ limitations under the License.
 						<th style="width: 50%;">Taxon, Locality</th>
 						<th style="width: 25%;">Specimen Count</th>
 					</tr>
-					<cfset totalSpecimens = 0>
 					<cfset totalLotCount = 0>
+					<cfset totalSpecimens = 0>
 					<cfloop query="getLoanItems">
 						<tr>
 							<td style="width: 25%; vertical-align: top;">
@@ -1091,6 +1091,7 @@ limitations under the License.
 								<cfelse>
 									#lot_count# #part_modifier# #part_name#
 									<cfif len(preserve_method) GT 0>(#preserve_method#)</cfif>
+									<cfif Len(condition) GT 0 and top_loan_type contains 'exhibition' ><BR>Condition: #condition#</cfif>
 								</cfif>
 								<cfif getRestrictions.recordcount GT 0>
 									<cfquery name="getSpecificRestrictions" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -1121,8 +1122,8 @@ limitations under the License.
 								</cfif>
 							</td>
 						</tr>
-						<cfset totalSpecimens = totalSpecimens + 1>
-						<cfset totalLotCount = totalLotCount + lot_count>
+						<cfset totalLotCount = totalLotCount + 1>
+						<cfset totalSpecimens = totalSpecimens + lot_count>
 					</cfloop>
 				</table>
 				<div style="#font# font-size: 1.2em;">
