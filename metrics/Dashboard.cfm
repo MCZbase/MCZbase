@@ -28,6 +28,7 @@ limitations under the License.
 	
 <cfset pageTitle="Metrics Testing">
 <cfinclude template="/shared/_header.cfm">
+<cfinclude template="/metrics/component/functions.cfc">
 <script type="text/javascript" src="/metrics/js/metrics.js"></script> 
 
 
@@ -123,7 +124,7 @@ limitations under the License.
 					<cfset summaryAnnualBlock="">
 					<cfif isdefined("getAnnualNumbers")>
 						<cfoutput>
-							<cfset summaryAnnualBlock = getAnnualNumbers(endDate = "#endDate#", beginDate = "#beginDate#")>
+							<cfset summaryAnnualBlock = getAnnualNumbers(endDate="#endDate#", beginDate="#beginDate#")>
 						</cfoutput>
 					</cfif>
 					<div id="annualNumbersDiv">
