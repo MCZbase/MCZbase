@@ -55,76 +55,72 @@ limitations under the License.
 					LEFT JOIN 
 						(select c.collection_id, c.collection, count(distinct t.transaction_id) numAccns from accn a, trans t, collection c where a.transaction_id = t.transaction_id and t.collection_id = c.collection_id and a.received_date between to_date('#beginDate#', 'YYYY-MM-DD') and  to_date('#endDate#', 'YYYY-MM-DD') group by c.collection_id, c.collection) accn on h.collection_id = accn.collection_id
 				</cfquery>
-				<main class="container-lg mx-auto my-3" id="content">
-					<section class="row" >
-						<div class="col-12 mt-3">
-							<h1 class="h2 px-2">Basic Collections Metrics</h1>
-							<table class="table table-responsive table-striped d-lg-table" id="t">
-								<thead>
-									<tr>
-										<th><strong>Collection</strong></th>
-										<th><strong>Total Holdings</strong></th>
-										<th><strong>% of Holdings in MCZbase</strong></th>
-										<th><strong>Total Records - Cataloged Items</strong></th>
-										<th><strong>Total Records - Specimens</strong></th>
-										<th><strong>Primary Types - Cataloged Items</strong></th>
-										<th><strong>Primary Types - Specimens</strong></th>
-										<th><strong>Secondary Types - Cataloged Items</strong></th>
-										<th><strong>Secondary Types - Specimens</strong></th>
-									</tr>
-								</thead>
-								<tbody>
-									<cfloop query="totals">
-										<tr>
-											<td>#collection#</td>
-											<td>#holdings#</td>
-											<td>#NumberFormat((catalogeditems/holdings)*100, '9.99')#%</td>
-											<td>#catalogeditems#</td>
-											<td>#specimens#</td>
-											<td>#primaryCatItems#</td>
-											<td>#primarySpecimens#</td>
-											<td>#secondaryCatItems#</td>
-											<td>#secondarySpecimens#</td>
-										</tr>
-									</cfloop>
-								</tbody>
-							</table>
-						</div>
-					</section>
-					<section class="col-12 mt-3">
-						<h1 class="h2 px-2">Basic Collections Metrics (cont.)</h1>
-						<table class="table table-responsive table-striped d-lg-table" id="t">
-							<thead>
+				<section class="col-12 mt-3 px-0">
+					<h1 class="h2 px-2">Basic Collections Metrics</h1>
+					<table class="table table-responsive table-striped d-lg-table" id="t">
+						<thead>
+							<tr>
+								<th><strong>Collection</strong></th>
+								<th><strong>Total Holdings</strong></th>
+								<th><strong>% of Holdings in MCZbase</strong></th>
+								<th><strong>Total Records - Cataloged Items</strong></th>
+								<th><strong>Total Records - Specimens</strong></th>
+								<th><strong>Primary Types - Cataloged Items</strong></th>
+								<th><strong>Primary Types - Specimens</strong></th>
+								<th><strong>Secondary Types - Cataloged Items</strong></th>
+								<th><strong>Secondary Types - Specimens</strong></th>
+							</tr>
+						</thead>
+						<tbody>
+							<cfloop query="totals">
 								<tr>
-									<th><strong>Collection</strong></th>
-									<th><strong>Acquired Cataloged Items</strong></th>
-									<th><strong>Acquired Specimens</strong></th>
-									<th><strong>New Records Entered in MCZbase - Cataloged Items</strong></th>
-									<th><strong>Number of Genetic Samples added To Cryo</strong></th>
-									<th><strong>Number of Cataloged Items with NCBI numbers</strong></th>
-									<th><strong>Number of NCBI numbers added</strong></th>
-									<th><strong>Number of Accessions</strong></th>
-									<th><strong>Items received but not Cataloged at and of Year</strong></th>
+									<td>#collection#</td>
+									<td>#holdings#</td>
+									<td>#NumberFormat((catalogeditems/holdings)*100, '9.99')#%</td>
+									<td>#catalogeditems#</td>
+									<td>#specimens#</td>
+									<td>#primaryCatItems#</td>
+									<td>#primarySpecimens#</td>
+									<td>#secondaryCatItems#</td>
+									<td>#secondarySpecimens#</td>
 								</tr>
-							</thead>
-							<tbody>
-								<cfloop query="totals">
-									<tr>
-										<td>#collection#</td>
-										<td>#receivedCatItems#</td>
-										<td>#receivedSpecimens#</td>
-										<td>#enteredCatItems#</td>
-										<td>&nbsp;</td>
-										<td>#ncbiCatItems#</td>
-										<td>&nbsp;</td>
-										<td>#numAccns#</td>
-										<td>&nbsp;</td>
-									</tr>
-								</cfloop>
-							</tbody>
-						</table>
-					</section>
-				</main>
+							</cfloop>
+						</tbody>
+					</table>
+				</section>
+				<section class="col-12 mt-3 px-0">
+					<h1 class="h2 px-2">Basic Collections Metrics (cont.)</h1>
+					<table class="table table-responsive table-striped d-lg-table" id="t">
+						<thead>
+							<tr>
+								<th><strong>Collection</strong></th>
+								<th><strong>Acquired Cataloged Items</strong></th>
+								<th><strong>Acquired Specimens</strong></th>
+								<th><strong>New Records Entered in MCZbase - Cataloged Items</strong></th>
+								<th><strong>Number of Genetic Samples added To Cryo</strong></th>
+								<th><strong>Number of Cataloged Items with NCBI numbers</strong></th>
+								<th><strong>Number of NCBI numbers added</strong></th>
+								<th><strong>Number of Accessions</strong></th>
+								<th><strong>Items received but not Cataloged at and of Year</strong></th>
+							</tr>
+						</thead>
+						<tbody>
+							<cfloop query="totals">
+								<tr>
+									<td>#collection#</td>
+									<td>#receivedCatItems#</td>
+									<td>#receivedSpecimens#</td>
+									<td>#enteredCatItems#</td>
+									<td>&nbsp;</td>
+									<td>#ncbiCatItems#</td>
+									<td>&nbsp;</td>
+									<td>#numAccns#</td>
+									<td>&nbsp;</td>
+								</tr>
+							</cfloop>
+						</tbody>
+					</table>
+				</section>
 			<cfcatch>
 				<!---<cfset error_message = cfcatchToErrorMessage(cfcatch)>
 				<cfset function_called = "#GetFunctionCalledName()#">--->

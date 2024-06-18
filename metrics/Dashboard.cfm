@@ -114,22 +114,24 @@ limitations under the License.
 		</nav>
 		
 		<main role="main" class="col-md-10 ml-sm-auto col-lg-10 px-md-5">
-		<cfset endDate = #DateFormat (Now(), "yyyy-mm-dd")#>
-		<cfset beginDate = #DateFormat(DateAdd( 'm', -12, now() ),"yyyy-mm-dd")#>
-			<div class="col-12">
-				<h1 class="h2">Metrics</h1>
-				<div class="btn-toolbar mb-2 mb-md-0 float-right">
-					<div class="btn-group mr-2">
-						<button type="button" class="btn btn-sm btn-outline-secondary">Share</button>
-						<button type="button" class="btn btn-sm btn-outline-secondary">Export</button>
+			<div class="row">
+				<cfset endDate = #DateFormat (Now(), "yyyy-mm-dd")#>
+				<cfset beginDate = #DateFormat(DateAdd( 'm', -12, now() ),"yyyy-mm-dd")#>
+				<div class="col-12 px-0">
+					<h1 class="h2">Metrics
+					<div class="btn-toolbar mb-2 mb-md-0 float-right">
+						<div class="btn-group mr-2">
+							<button type="button" class="btn btn-sm btn-outline-secondary">Share</button>
+							<button type="button" class="btn btn-sm btn-outline-secondary">Export</button>
+						</div>
 					</div>
-					<cfoutput>
-						<cfset summaryAnnualBlock=getAnnualNumbers(endDate="#endDate#",beginDate="#beginDate#")>
-					</cfoutput>
+				</div>
+				<cfoutput>
+					<cfset summaryAnnualBlock=getAnnualNumbers(endDate="#endDate#",beginDate="#beginDate#")>
 					<div id="annualNumbersDiv">
 						#summaryAnnualBlock#
 					</div>
-				</div>
+				</cfoutput>
 			</div>
 		</main>
 	</div>
