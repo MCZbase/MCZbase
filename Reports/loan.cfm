@@ -419,10 +419,10 @@ limitations under the License.
 						</td>
 					</tr>
 				</table>
-				<div style="text-align: left; #font# font-size; 0.8em; border-bottom solid black 1px; width: 100%;">
+				<div style="text-align: left; #font# font-size; small; border-bottom solid black 1px; width: 100%;">
 					Departmental Loan document(s) include an itemized list of the loaned object(s), relevant associated data, and object condition report(s).
 				</div>
-				<div style="text-align: left; #font# font-size; 0.8em;">
+				<div style="text-align: left; #font# font-size; small;">
 					<strong>SPECIAL HANDLING INSTRUCTIONS/ REQUIREMENTS:</strong>
 					<p>
 						See Conditions on next page and instructions in Departmental Loan document(s).
@@ -433,16 +433,16 @@ limitations under the License.
 						</p>
 					</cfif>
 				</div>
-				<div style="text-align: left; #font# font-size; 0.8em;">
+				<div style="text-align: left; #font# font-size; small;">
 					<strong>INSURANCE:</strong>
 					<p>Insurance Value: #getLoan.insurance_value#</p>
 					<p>Insurance Maintained By: #getLoan.insurance_maintained_by#</p>
 				</div>
-				<div style="text-align: left; #font# font-size; 0.8em;">
+				<div style="text-align: left; #font# font-size; small;">
 					<strong>CREDIT LINE FOR EXHIBITION LABEL/CATALOG/PROMOTION:</strong>
 					<p>Museum of Comparative Zoology, President and Fellows of Harvard College</p>
 				</div>
-				<div style="text-align: left; #font# font-size; 0.8em; border-bottom solid black 1px; width: 100%;">
+				<div style="text-align: left; #font# font-size; small; border-bottom solid black 1px; width: 100%;">
 					If the Borrower&apos;s loan agreement is signed by the Museum of Comparative Zoology, conditions of the Museum of
 					Comparative Zoology&apos;s loan agreement will supersede inconsistent conditions and augment other conditions of the Borrower&apos;s
 					loan agreement. The MCZ loan agreement will be governed by and construed according to the laws of the Commonwealth of Massachusetts.
@@ -1031,7 +1031,7 @@ limitations under the License.
 											<br>
 											<strong>Use Restricted By:</strong>
 											<cfloop query="getSpecificRestrictions">
-												<span style="#font# font-size: 0.8em;">
+												<span style="#font# font-size: small;">
 													#getSpecificRestrictions.permit_num#
 													<cfif len(getSpecificRestrictions.permit_num) EQ 0>
 														#getSpecificRestrictions.permit_title#
@@ -1111,7 +1111,7 @@ limitations under the License.
 										<br>
 										<strong>Use Restricted By:</strong>
 										<cfloop query="getSpecificRestrictions">
-											<span style="#font# font-size: 0.8em;">
+											<span style="#font# font-size: small;">
 												#getSpecificRestrictions.permit_num#
 												<cfif len(getSpecificRestrictions.permit_num) EQ 0>
 													#getSpecificRestrictions.permit_title#
