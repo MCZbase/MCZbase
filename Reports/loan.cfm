@@ -455,9 +455,9 @@ limitations under the License.
 				<div style="text-align: left; #font# font-size: small;">
 					<p>The Borrower acknowledges reading and agreeing to the conditions listed on all pages of this document.</p>
 					<p>Signature of Borrowing Institution: ____________________________________________________________</p>
-					<p>Title: ___________________________________________________ Date: _______________________________</p>
-					<p>MCZ Signature: _________________________________________________________________________________</p>
-					<p>Title: ___________________________________________________ Date: _______________________________</p>
+					<p>Title: ___________________________________________________ Date: ________________________________</p>
+					<p>MCZ Signature: _______________________________________________________________________________</p>
+					<p>Title: ___________________________________________________ Date: ________________________________</p>
 					<p>Please return all copies to MCZ Collections Operations, Museum of Comparative Zoology, Harvard University,
 					26 Oxford Street, Cambridge, MA 02138. A signed copy will be returned for your records.</p>
 				</div>
