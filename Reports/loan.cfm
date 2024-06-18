@@ -415,7 +415,7 @@ limitations under the License.
 							<strong>LOAN PERIOD:</strong>
 						</td>
 						<td style="width: 60%; vertical-align: top;">
-									#dateFormat(getLoan.trans_date,'dd-mmmm-yyyy')# to #dateFormat(getLoan.loan_due_date,'dd-mmmm-yyyy')#
+									#getLoan.trans_date# to #getLoan.return_due_date#
 						</td>
 					</tr>
 				</table>
