@@ -155,7 +155,7 @@ limitations under the License.
 		restriction_summary, benefits_summary,
 		permit_id, permit_num, source, permit_title, specific_type
 	FROM (
-	select permit.restriction_summary, benefits_summary,
+	select permit.restriction_summary, permit.benefits_summary,
 		permit.permit_id, permit.permit_num, 'accession' as source, permit_title, specific_type
 	from loan_item li 
 		join specimen_part sp on li.collection_object_id = sp.collection_object_id
