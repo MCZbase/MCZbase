@@ -166,4 +166,5 @@ limitations under the License.
 </div>
 
 </cfoutput>
+<cfoutput>Execution Time: <b>#int(getTickCount()-start)#</b> milliseconds<br></cfoutput>
 <cfinclude template="/shared/_footer.cfm">
