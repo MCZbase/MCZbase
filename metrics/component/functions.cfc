@@ -402,8 +402,8 @@ limitations under the License.
 			</cftry>
 		</cfoutput>
 	</cfthread>
-	<cfthread action="join" name="getLoanNumbersThread" />
-	<cfreturn getLoanNumbersThread.output>
+	<cfthread action="join" name="getMediaNumbersThread" />
+	<cfreturn getMediaNumbersThread.output>
 </cffunction>
 			
 <cffunction name="getCitationNumbers" access="remote" returntype="any" returnformat="json">
