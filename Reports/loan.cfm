@@ -37,7 +37,7 @@ limitations under the License.
 <cfset top_loan_type = getLoan.loan_type>
 <cfset top_loan_status = getLoan.loan_status>
 <cfset top_loan_number = getLoan.loan_number>
-<cfset INSTRUCTIONS_LIMIT = 451>
+<cfset INSTRUCTIONS_LIMIT = 751>
 <cfif getLoan.loan_type EQ "exhibition-master">
 	<!--- Special handling --->
 	<cfquery name="getSubloans" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -235,7 +235,7 @@ limitations under the License.
 					<!--- TODO: Comment, inconsistent use of Department and Collection, should list Department, except for Cryo, fix in custom tag? --->
 					#getSubloan.collection#
 				</div>
-				<div style="text-align: center; #font# font-size; 1em;">
+				<div style="text-align: center; #font# font-size: 1em;">
 					Museum of Comparative Zoology, Harvard University
 				</div>
 				<table style="#font# font-size: small; padding: 0px; margin: 0px;">
@@ -301,13 +301,13 @@ limitations under the License.
 						</cfif>
 					</div>
 					<div style="margin: 0px; border: 1px solid black;">
-						<h2 style="#font# font-size: small;">All Terms and Conditions From Loan #top_loan_number# Apply.</h2>
+						<div style="#font# font-size: small;">All Terms and Conditions From Loan #top_loan_number# Apply.</div>
 					</div>
 				</div>
 				<table style="#font# font-size: small;">
 					<tr>
 						<td style="width: 50%; vertical-align: top;">
-							<h2 style="#font# font-size: small;">UPON RECEIPT, SIGN AND RETURN ONE COPY TO:</h2>
+							<div style="#font# font-size: small;">UPON RECEIPT, SIGN AND RETURN ONE COPY TO:</div>
 							<div>
 								#replace(getSubloan.shipped_from_address,chr(10),"<br>","all")# 
 								<cfif getSubloan.loan_type EQ "exhibition">
@@ -332,15 +332,15 @@ limitations under the License.
 		<cfelseif getLoan.loan_type EQ "exhibition-master">
 			<!--- Special header for exhibition-master loans. --->
 			<cfdocumentsection name="Exhibition Loan Agreement Header">
-				<div style="text-align: center; #font# font-size; 1.2em;">
+				<div style="text-align: center; #font# font-size: 1.2em;">
 					<strong>Museum of Comparative Zoology, Harvard University</strong>
 				</div>
-				<div style="text-align: center; #font# font-size; 1em;">
+				<div style="text-align: center; #font# font-size: 1em;">
 					26 Oxford Street<br>
 					Harvard University<br>
 					Cambridge, MA 02138
 				</div>
-				<div style="width: 100%; #font# font-size; 1.2em; border-bottom: 2px solid black;">
+				<div style="width: 100%; #font# font-size: 1.2em; border-bottom: 2px solid black;">
 					<span style="text-align: center;"><strong>Exhibition Loan Agreement</strong></span>
 					<span style="text-align: right;">No. <strong>#getLoan.loan_number#</strong></span>
 				</div>
@@ -351,7 +351,7 @@ limitations under the License.
 						</td>
 						<td style="width: 60%; vertical-align: top;">
 							<cfloop query="getSubloans">
-								<div style="#font# font-size; 1em;">
+								<div style="#font# font-size: 1em;">
 									#getSubloans.loan_number#
 									<cfquery name="getSubloanCount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 										SELECT sum(lot_count) lot_ct, count(coll_object.collection_object_id) item_ct
@@ -365,7 +365,7 @@ limitations under the License.
 									</cfloop>
 								</div>
 							</cfloop>
-							<div style="#font# font-size; 1em;">
+							<div style="#font# font-size: 1em;">
 								#getLoan.loan_description#
 							</div>
 						</td>
@@ -419,10 +419,10 @@ limitations under the License.
 						</td>
 					</tr>
 				</table>
-				<div style="text-align: left; #font# font-size; small; border-bottom solid black 1px; width: 100%;">
+				<div style="text-align: left; #font# font-size: small; border-bottom solid black 1px; width: 100%;">
 					Departmental Loan document(s) include an itemized list of the loaned object(s), relevant associated data, and object condition report(s).
 				</div>
-				<div style="text-align: left; #font# font-size; small;">
+				<div style="text-align: left; #font# font-size: small;">
 					<strong>SPECIAL HANDLING INSTRUCTIONS/ REQUIREMENTS:</strong>
 					<p>
 						See Conditions on next page and instructions in Departmental Loan document(s).
@@ -433,21 +433,21 @@ limitations under the License.
 						</p>
 					</cfif>
 				</div>
-				<div style="text-align: left; #font# font-size; small;">
+				<div style="text-align: left; #font# font-size: small;">
 					<strong>INSURANCE:</strong>
 					<p>Insurance Value: #getLoan.insurance_value#</p>
 					<p>Insurance Maintained By: #getLoan.insurance_maintained_by#</p>
 				</div>
-				<div style="text-align: left; #font# font-size; small;">
+				<div style="text-align: left; #font# font-size: small;">
 					<strong>CREDIT LINE FOR EXHIBITION LABEL/CATALOG/PROMOTION:</strong>
 					<p>Museum of Comparative Zoology, President and Fellows of Harvard College</p>
 				</div>
-				<div style="text-align: left; #font# font-size; small; border-bottom solid black 1px; width: 100%;">
+				<div style="text-align: left; #font# font-size: small; border-bottom solid black 1px; width: 100%;">
 					If the Borrower&apos;s loan agreement is signed by the Museum of Comparative Zoology, conditions of the Museum of
 					Comparative Zoology&apos;s loan agreement will supersede inconsistent conditions and augment other conditions of the Borrower&apos;s
 					loan agreement. The MCZ loan agreement will be governed by and construed according to the laws of the Commonwealth of Massachusetts.
 				</div>
-				<div style="text-align: left; #font# font-size; 1em;">
+				<div style="text-align: left; #font# font-size: 1em;">
 					<p>The Borrower acknowledges reading and agreeing to the conditions listed on all pages of this document.</p>
 					<p>Signature of Borrowing Institution: ____________________________________________________________</p>
 					<p>Title: ______________________________________________ Date: _______________________________</p>
@@ -574,7 +574,7 @@ limitations under the License.
 		<cfelse>
 			<!--- Normal invoice header for regular loans and exhibition-master loans. --->
 			<cfdocumentsection name="Loan Header">
-				<div style="text-align: center; #font# font-size: 1.2em;">
+				<div style="text-align: center; #font# font-size: 1.2em; padding-top: 0px;">
 					<strong>Invoice of Specimens</strong>
 				</div>
 					
@@ -582,7 +582,7 @@ limitations under the License.
 					<!--- TODO: Comment, inconsistent use of Department and Collection, should list Department, except for Cryo, fix in custom tag? --->
 					#getLoan.collection#
 				</div>
-				<div style="text-align: center; #font# font-size; 1em;">
+				<div style="text-align: center; #font# font-size: 1em;">
 					Museum of Comparative Zoology, Harvard University
 				</div>
 				<table style="#font# font-size: small; padding: 0px; margin: 0px;">
@@ -668,7 +668,7 @@ limitations under the License.
 					</div>
 					<div style="margin: 0px; border: 1px solid black; ">
 						<h2 style="#font# font-size: small; margin-top: 2px;">Terms and Conditions</h2>
-						<ol style="margin-left: 2em;">
+						<ol style="margin-left: 2em; #font# font-size: x-small;">
 							<li>Specimens are loaned to bona fide institutions, not to individuals, for non-commercial use (e.g., scientific research, education, exhibition).</li>
 							<li>Specimens are for sole use of the recipient for the specific purposes outlined in the loan request. Prior written permission from the MCZ is needed for any activities not specified in the loan request.</li>
 							<li>Loans may not be transferred to other institutions without express written permission.</li>
@@ -688,7 +688,7 @@ limitations under the License.
 				<table style="#font# font-size: small;">
 					<tr>
 						<td style="width: 50%; vertical-align: top;">
-							<h2 style="#font# font-size: small;">UPON RECEIPT, SIGN AND RETURN ONE COPY TO:</h2>
+							<div style="#font# font-size: small;">UPON RECEIPT, SIGN AND RETURN ONE COPY TO:</div>
 							<div style="border: 1px solid black;">
 								#replace(shipped_from_address,chr(10),"<br>","all")# 
 								<cfif loan_type EQ "exhibition">
@@ -705,8 +705,10 @@ limitations under the License.
 							<div><strong>Expected return date: #dateformat(return_due_date,"dd mmmm yyyy")#</strong></div>
 							<br>
 							<br>
-							<div style="text-align: right;">Borrower&##39;s Signature: ___________________________</div>
-							<div style="text-align: right;">#recAgentName#</div>
+							<div style="text-align: left; width: 80%;">
+								<div style="text-align: right;">Borrower&##39;s Signature: ___________________________</div>
+								<div style="text-align: right;">#recAgentName#</div>
+							</div>
 						</td>
 					</tr>
 				</table>
@@ -730,7 +732,7 @@ limitations under the License.
 						<!--- TODO: Comment, inconsistent use of Department and Collection, should list Department, except for Cryo, fix in custom tag? --->
 						#getSubloan.collection#
 					</div>
-					<div style="text-align: center; #font# font-size; 1em;">
+					<div style="text-align: center; #font# font-size: 1em;">
 						Museum of Comparative Zoology, Harvard University
 					</div>
 					<table style="#font# font-size: small; padding: 0px; margin: 0px;">
@@ -793,13 +795,13 @@ limitations under the License.
 							</cfif>
 						</div>
 						<div style="margin: 0px; border: 1px solid black;">
-							<h2 style="#font# font-size: small;">All Terms and Conditions From Loan #top_loan_number# Apply.</h2>
+							<div style="#font# font-size: small;">All Terms and Conditions From Loan #top_loan_number# Apply.</div>
 						</div>
 					</div>
 					<table style="#font# font-size: small;">
 						<tr>
 							<td style="width: 50%; vertical-align: top;">
-								<h2 style="#font# font-size: small;">UPON RECEIPT, SIGN AND RETURN ONE COPY TO:</h2>
+								<div style="#font# font-size: small;">UPON RECEIPT, SIGN AND RETURN ONE COPY TO:</div>
 								<div>
 									#replace(getSubloan.shipped_from_address,chr(10),"<br>","all")# 
 									<cfif getSubloan.loan_type EQ "exhibition">
@@ -829,7 +831,7 @@ limitations under the License.
 		<cfif getRestrictions.recordcount EQ 0>
 			<cfdocumentsection name="Additional Restrictions">
 				<cfif len(loan_instructions) GT INSTRUCTIONS_LIMIT -1>
-					<div style="border-bottom: 1px solid black; width: 100%; #font# font-size: 1.2em;">
+					<div style="border-bottom: 1px solid black; width: 100%; #font# font-size: 1em;">
 						<strong>Instructions:</strong> #loan_instructions#
 					</div>
 					<br>
@@ -838,7 +840,7 @@ limitations under the License.
 					#accumulated_instructions#
 					<br>
 				</cfif>
-				<div style="#font# font-size: 1.2em;">
+				<div style="#font# font-size: 1em;">
 					The MCZ is committed to the spirit and letter of the Convention on Biological Diversity and its associated Nagoya Protocol on Access
 					and Benefit-Sharing, and it expects its partner users to act in a manner consistent with these international obligations. Use
 					of some specimens may be restricted by the providing country; therefore, a specimen may only be used for approved
@@ -848,7 +850,7 @@ limitations under the License.
 		<cfelse>
 			<cfdocumentsection name="Additional Restrictions">
 				<cfif len(loan_instructions) GT INSTRUCTIONS_LIMIT -1 >
-					<div style="border-bottom: 1px solid black; width: 100%; #font# font-size: 1.2em;">
+					<div style="border-bottom: 1px solid black; width: 100%; #font# font-size: 1em;">
 						<strong>Instructions:</strong> #loan_instructions#
 					</div>
 					<br>
@@ -860,7 +862,7 @@ limitations under the License.
 				<div style="text-align: center; #font# font-size: 1em;">
 					Summary of restrictions imposed by original collecting agreements
 				</div>
-				<div style="#font# font-size: 1.2em;">
+				<div style="#font# font-size: 1em;">
 					The MCZ is committed to the spirit and letter of the Convention on Biological Diversity and its associated Nagoya Protocol on Access
 					and Benefit-Sharing, and it expects its partner users to act in a manner consistent with these international obligations. Use
 					of some specimens may be restricted by the providing country; therefore, a specimen may only be used for approved
