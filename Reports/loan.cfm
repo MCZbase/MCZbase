@@ -164,7 +164,8 @@ limitations under the License.
 		join permit_trans on accn.transaction_id = permit_trans.transaction_id
 		join permit on permit_trans.permit_id = permit.permit_id
 	where li.transaction_id = <cfqueryparam CFSQLType="CF_SQL_DECIMAL" value="#transaction_id#">
-		and permit.restriction_summary is not null
+		and (permit.restriction_summary is not null
+		 or permit.benefits_summary is not null)
 	UNION
 	select permit.restriction_summary, permit.benefits_summary,
 		permit.permit_id, permit.permit_num, 'loan shipment' as source, permit_title, specific_type
@@ -173,7 +174,8 @@ limitations under the License.
 		join permit_shipment on shipment.shipment_id = permit_shipment.shipment_id
 		join permit on permit_shipment.permit_id = permit.permit_id
 	where loan.transaction_id = <cfqueryparam CFSQLType="CF_SQL_DECIMAL" value="#transaction_id#">
-		and permit.restriction_summary is not null
+		and (permit.restriction_summary is not null
+		 or permit.benefits_summary is not null)
 	)
 </cfquery>
 <cfquery name="getShipments" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -872,26 +874,35 @@ limitations under the License.
 				<ul style="#font# font-size: 1em;">
 					<cfloop query="getRestrictions">
 						<cfif getRestrictions.source EQ "accession">
-							<li>
-								<strong style="#font# font-size: 1.2em;">
-									#specific_type# #permit_num#
-									<cfif len(permit_num) EQ 0>#permit_title#</cfif>
+							<li style="#font# font-size: 1em;">
+								<strong style="#font# font-size: 1.1em;">
+									#getRestrictions.specific_type# #getRestrictions.permit_num#
+									<cfif len(getRestrictions.permit_num) EQ 0>#getRestrictions.permit_title#</cfif>
 								</strong> 
-								Summary of restrictions on use: #restriction_summary#<br>
-								Summary of required benefits: #benefits_summary#
+								<cfif len(getRestrictions.restriction_summary) GT 0> 
+									Summary of restrictions on use: #getRestrictions.restriction_summary#<br>
+								</cfif>
+								<cfif len(getRestrictions.benefits_summary) GT 0> 
+									Summary of required benefits: #getRestrictions.benefits_summary#
+								</cfif>
 							</li>
-					<cfelse>
-						<li>
-							<strong style="#font# font-size: 1.2em;">
-								#specific_type# #permit_num#
-								<cfif len(permit_num) EQ 0>#permit_title#</cfif>
+						<cfelse>
+							<li style="#font# font-size: 1em;">
+								<strong style="#font# font-size: 1.1em;">
+									#getRestrictions.specific_type# #getRestrictions.permit_num#
+									<cfif len(getRestrictions.permit_num) EQ 0>#getRestrictions.permit_title#</cfif>
 									Applies to all material in this loan:
-							</strong>
-							#restriction_summary#
-						</li>
-					</cfif>
-				</cfloop>
-			</ul>
+								</strong>
+								<cfif len(getRestrictions.restriction_summary) GT 0> 
+									Summary of restrictions on use: #getRestrictions.restriction_summary#<br>
+								</cfif>
+								<cfif len(getRestrictions.benefits_summary) GT 0> 
+									Summary of required benefits: #getRestrictions.benefits_summary#
+								</cfif>
+							</li>
+						</cfif>
+					</cfloop>
+				</ul>
 			</cfdocumentsection>
 		</cfif>
 
