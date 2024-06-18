@@ -139,7 +139,6 @@ limitations under the License.
 						#summaryAnnualBlock#
 					</div>
 						
-			
 					<cfset loanBlock=getLoanNumbers(endDate="#endDate#",beginDate="#beginDate#")>
 					<div id="annualLoanDiv">
 						#loanBlock#
