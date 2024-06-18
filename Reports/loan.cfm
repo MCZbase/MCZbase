@@ -365,6 +365,9 @@ limitations under the License.
 									</cfloop>
 								</div>
 							</cfloop>
+							<div style="#font# font-size; 1em;">
+								#getLoan.loan_description#
+							</div>
 						</td>
 					</tr>
 					<tr>
@@ -372,20 +375,87 @@ limitations under the License.
 							<strong>MCZ LOAN CONTACT INFO:</strong>
 						</td>
 						<td style="width: 60%; vertical-align: top;">
-									#getLoan.internalContactName# /
-									#getLoan.inside_phone_number# /
-									#getLoan.inside_email_address#
+									#getLoan.internalContactName# / #getLoan.inside_phone_number# / #getLoan.inside_email_address#
 						</td>
 					</tr>
 					<tr>
 						<td style="width: 40%; vertical-align: top;">
-							<strong>BORROWING INSTITUTION::</strong>
+							<strong>BORROWING INSTITUTION:</strong>
 						</td>
 						<td style="width: 60%; vertical-align: top;">
 									#getLoan.recipientInstitutionName#
 						</td>
 					</tr>
+					<tr>
+						<td style="width: 40%; vertical-align: top;">
+							<strong>ADDRESS:</strong>
+						</td>
+						<td style="width: 60%; vertical-align: top;">
+									#getLoan.shipped_to_address#
+						</td>
+					</tr>
+					<tr>
+						<td style="width: 40%; vertical-align: top;">
+							<strong>CONTACT INFO:</strong>
+						</td>
+						<td style="width: 60%; vertical-align: top;">
+									#getLoan.outside_contact_name# / #getLoan.outside_phone_number# / #getLoan.outside_email_address#
+						</td>
+					</tr>
+					<tr>
+						<td style="width: 40%; vertical-align: top;">
+							<strong>EXHIBIT PURPOSE, VENUE, TITLE &amp; DATES:</strong>
+						</td>
+						<td style="width: 60%; vertical-align: top;">
+									#getLoan.nature_of_material#
+						</td>
+					</tr>
+					<tr>
+						<td style="width: 40%; vertical-align: top;">
+							<strong>LOAN PERIOD:</strong>
+						</td>
+						<td style="width: 60%; vertical-align: top;">
+									#dateFormat(getLoan.trans_date,'dd-mmmm-yyyy')# to #dateFormat(getLoan.loan_due_date,'dd-mmmm-yyyy')#
+						</td>
+					</tr>
 				</table>
+				<div style="text-align: left; #font# font-size; 1em; border-bottom solid black 1px; width: 100%;">
+					Departmental Loan document(s) include an itemized list of the loaned object(s), relevant associated data, and object condition report(s).
+				</div>
+				<div style="text-align: left; #font# font-size; 1em;">
+					<strong>SPECIAL HANDLING INSTRUCTIONS/ REQUIREMENTS:</strong>
+					<p>
+						See Conditions on next page and instructions in Departmental Loan document(s).
+					</p>
+					<cfif len(getLoan.instructions) GT 0>
+						<p>
+							#getLoan.instructions#
+						</p>
+					</cfif>
+				</div>
+				<div style="text-align: left; #font# font-size; 1em;">
+					<strong>INSURANCE:</strong>
+					<p>Insurance Value: #getLoan.insurance_value#</p>
+					<p>Insurance Maintained By: #getLoan.insurance_maintained_by#</p>
+				</div>
+				<div style="text-align: left; #font# font-size; 1em;">
+					<strong>CREDIT LINE FOR EXHIBITION LABEL/CATALOG/PROMOTION:</strong>
+					<p>Museum of Comparative Zoology, President and Fellows of Harvard College</p>
+				</div>
+				<div style="text-align: left; #font# font-size; 1em; border-bottom solid black 1px; width: 100%;">
+					If the Borrower&apos;s loan agreement is signed by the Museum of Comparative Zoology, conditions of the Museum of
+					Comparative Zoology&apos;s loan agreement will supersede inconsistent conditions and augment other conditions of the Borrower&apos;s
+					loan agreement. The MCZ loan agreement will be governed by and construed according to the laws of the Commonwealth of Massachusetts.
+				</div>
+				<div style="text-align: left; #font# font-size; 1em;">
+					<p>The Borrower acknowledges reading and agreeing to the conditions listed on all pages of this document.</p>
+					<p>Signature of Borrowing Institution: ____________________________________________________________</p>
+					<p>Title: ______________________________________________ Date: _______________________________</p>
+					<p>MCZ Signature: __________________________________________________________________________</p>
+					<p>Title: ______________________________________________ Date: _______________________________</p>
+					<p>Please return all copies to MCZ Collections Operations, Museum of Comparative Zoology, Harvard University,
+					26 Oxford Street, Cambridge, MA 02138. A signed copy will be returned for your records.</p>
+				</div>
 			</cfdocumentsection>
 			<cfdocumentsection name="Exhibition Loan Conditions">
 				<div style="text-align: center; #font# font-size; 1.2em;">
@@ -869,10 +939,12 @@ limitations under the License.
 								GET_LITHOSTRATIGRAPHY(locality.locality_id) lithostrat,
 								HTF.escape_sc(concatColl(cataloged_item.collection_object_id)) as collectors,
 								cat_num_prefix,
-								cat_num_integer
+								cat_num_integer,
+								part.condition as condition
 							FROM loan 
 								left join loan_item on loan.transaction_id = loan_item.transaction_id 
 								left join specimen_part on loan_item.collection_object_id = specimen_part.collection_object_id 
+								left join collection_object part on loan_item.collection_object_id = part.collection_object_id 
 								left join cataloged_item on specimen_part.derived_from_cat_item = cataloged_item.collection_object_id 
 								left join collection on cataloged_item.collection_id = collection.collection_id 
 								left join collecting_event on cataloged_item.collecting_event_id = collecting_event.collecting_event_id 
@@ -917,6 +989,7 @@ limitations under the License.
 								<td style="width: 25%; vertical-align: top;">
 									#institution_acronym#:#collection_cde#:#cat_num#
 									<cfif top_loan_status EQ "closed">#reconciled_date#</cfif>
+									<cfif Len(condition) GT 0 and top_loan_type contains 'exhibition' ><BR>Condition: #condition#</cfif>
 								</td>
 								<td style="width: 50%; vertical-align: top;">
 									<div>
