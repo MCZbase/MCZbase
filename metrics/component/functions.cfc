@@ -279,82 +279,47 @@ limitations under the License.
 				<cfset start = GetTickCount()>
 				<cfquery name="media" datasource="uam_god">
 					SELECT
-						c.collection, 
-						ol.numOutgoingLoans,
-						ol.outgoingCatItems,
-						ol.outgoingSpecimens,
-						cl.numClosedLoans,
-						fy.num5yrLoans,
-						ty.num10yrLoans,
-						b.numBorrows,
-						opL.numOpenLoans,
-						open5.numOpenOD5,
-						open10.numOpenOD10
+						c.collection,
+						i.numImagesCatItems,
+						i.numImages,
+						p.numPermitsTrans,
+						pt.imagesPrimaryCatItems,
+						st.imagesSecondaryCatItems
 					FROM
-						(select collection_cde,institution_acronym,descr,collection,collection_id from collection where collection_cde <> 'MCZ') c
+						(select * from collection where collection_cde <> 'MCZ') c
+						left join (select f.collection_id, f.collection, count(distinct f.collection_object_id) numImagesCatItems, sum(total_parts) numImagesSpecimens, count(distinct m.media_id) numImages
+						from media m, MEDIA_RELATIONS mr, flat f, coll_object co 
+						where m.media_id = mr.media_id
+						and mr.MEDIA_RELATIONSHIP = 'shows cataloged_item'
+						and mr.RELATED_PRIMARY_KEY = f.collection_object_id
+						and f.collection_object_id = co.collection_object_id
+						group by f.collection_id, f.collection) i on c.collection_id = i.collection_id
+					LEFT JOIN 
+						(select c.collection_id, c.collection, count(distinct transaction_id) numPermitsTrans 
+						from trans t, collection c where transaction_id in
+						(select transaction_id from permit_trans where PERMIT_ID in
+						(select related_primary_key from MEDIA_RELATIONS where media_relationship like '%permit'))
+						and t.collection_id = c.collection_id
+						group by c.collection_id, collection) p on c.collection_id = p.collection_id
+					LEFT JOIN 
+						(select f.collection_id, f.collection, count(distinct f.collection_object_id) imagesPrimaryCatItems, sum(decode(total_parts,null, 1,total_parts)) imagesPrimarySpecimens
+						from flat f, citation c, ctcitation_type_status ts
+						where f.collection_object_id = c.collection_object_id
+						and c.type_status = ts.type_status
+						and ts.CATEGORY in ('Primary')
+						and f.collection_object_id in
+						(select related_primary_key from MEDIA_RELATIONS where media_relationship='shows cataloged_item')
+						group by f.collection_id, f.collection) pt on c.collection_id = pt.collection_id
 					LEFT JOIN
-						(select c.collection_id, collection, count(distinct l.transaction_id) numOutgoingLoans, count(distinct sp.derived_from_cat_item) outgoingCatItems, sum(co.lot_count) as outgoingSpecimens
-						from loan l, trans t, collection c, loan_item li, specimen_part sp, coll_object co
-						where l.transaction_id = t.transaction_id
-						and t.collection_id = c.collection_id
-						and t.transaction_id = li.transaction_id(+)
-						and li.collection_object_id = sp.collection_object_id(+)
-						and sp.collection_object_id = co.collection_object_id(+)
-						and t.TRANS_DATE between to_date('#beginDate#', 'YYYY-MM-DD') and  to_date('#endDate#', 'YYYY-MM-DD')
-						group by c.collection_id, c.collection) ol on c.collection_id = ol.collection_id
-					LEFT JOIN (select c.collection_id, collection, count(distinct l.transaction_id) numClosedLoans
-						from loan l, trans t, collection c, loan_item li, specimen_part sp, coll_object co
-						where l.transaction_id = t.transaction_id
-						and t.collection_id = c.collection_id
-						and t.transaction_id = li.transaction_id(+)
-						and li.collection_object_id = sp.collection_object_id(+)
-						and sp.collection_object_id = co.collection_object_id(+)
-						and l.CLOSED_DATE between to_date('#beginDate#', 'YYYY-MM-DD') and  to_date('#endDate#', 'YYYY-MM-DD')
-						group by c.collection_id, collection) cl on c.collection_id = cl.collection_id
-					LEFT JOIN (select c.collection_id, collection_cde, count(*)as num5yrLoans
-						from loan l, trans t, collection c
-						where l.transaction_id = t.transaction_id
-						and t.collection_id = c.collection_id
-						and l.CLOSED_DATE between to_date('#beginDate#', 'YYYY-MM-DD') and  to_date('#endDate#', 'YYYY-MM-DD')
-						and l.closed_date -l.return_due_date > (365*5)
-						group by c.collection_id, collection_cde) fy on c.collection_id = fy.collection_id
-					LEFT JOIN (select c.collection_id, collection_cde, count(*) as num10yrLoans
-						from loan l, trans t, collection c
-						where l.transaction_id = t.transaction_id
-						and t.collection_id = c.collection_id
-						and l.CLOSED_DATE between to_date('#beginDate#', 'YYYY-MM-DD') and  to_date('#endDate#', 'YYYY-MM-DD')
-						and l.closed_date -l.return_due_date > (365*10)
-						group by c.collection_id, collection_cde) ty on c.collection_id = ty.collection_id
-					LEFT JOIN (select c.collection_id, collection, count(*) as numBorrows 
-						from borrow l, trans t, collection c
-						where l.transaction_id = t.transaction_id
-						and t.collection_id = c.collection_id
-						and l.RECEIVED_DATE between to_date('#beginDate#', 'YYYY-MM-DD') and  to_date('#endDate#', 'YYYY-MM-DD')
-						group by c.collection_id, collection) b on c.collection_id = b.collection_id
-					LEFT JOIN (select c.collection_id, collection_cde, count(*) as numOpenLoans 
-						from loan l, trans t, collection c
-						where l.transaction_id = t.transaction_id
-						and t.collection_id = c.collection_id
-						and (loan_status like '%open%' or closed_date > to_date('#endDate#', 'YYYY-MM-DD'))
-						and t.trans_date <  to_date('#endDate#', 'YYYY-MM-DD')
-						group by c.collection_id, collection_cde) opL on c.collection_id = opL.collection_id
-					LEFT JOIN (select c.collection_id, collection, count(*) numOpenOD5 
-						from loan l, trans t, collection c
-						where l.transaction_id = t.transaction_id
-						and t.collection_id = c.collection_id
-						and (loan_status like '%open%' or closed_date > to_date('#endDate#', 'YYYY-MM-DD'))
-						and t.trans_date < to_date('#endDate#', 'YYYY-MM-DD')
-						and to_date('#endDate#', 'YYYY-MM-DD') - l.return_due_date > 365*5
-						group by c.collection_id, collection) open5 on c.collection_id = open5.collection_id
-					LEFT JOIN (select c.collection_id, collection, count(*) numOpenOD10
-						from loan l, trans t, collection c
-						where l.transaction_id = t.transaction_id
-						and t.collection_id = c.collection_id
-						and (loan_status like '%open%' or closed_date > to_date('#endDate#', 'YYYY-MM-DD'))
-						and t.trans_date < to_date('#endDate#', 'YYYY-MM-DD')
-						and to_date('#endDate#', 'YYYY-MM-DD') - l.return_due_date > 365*10
-						group by c.collection_id, collection) open10 on c.collection_id = open10.collection_id
-					ORDER BY collection
+						(select f.collection_id, f.collection, count(distinct f.collection_object_id) imagesSecondaryCatItems, sum(decode(total_parts,null, 1,total_parts)) imagesSecondarySpecimens
+						from flat f, citation c, ctcitation_type_status ts
+						where f.collection_object_id = c.collection_object_id
+						and c.type_status = ts.type_status
+						and ts.CATEGORY in ('Secondary')
+						and f.collection_object_id in
+						(select related_primary_key from MEDIA_RELATIONS where media_relationship='shows cataloged_item')
+						group by f.collection_id, f.collection) st on c.collection_id = st.collection_id
+						order by collection
 				</cfquery>
 				<section class="col-12 mt-3 px-0">
 					<h2 class="h3 px-2">Media Stats</h2>
