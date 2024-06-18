@@ -113,7 +113,7 @@ limitations under the License.
 			</div>
 		</nav>
 		
-		<main role="main" class="col-md-10 ml-sm-auto col-lg-10 px-md-5">
+		<main role="main" class="col-md-10 ml-sm-auto col-lg-10 px-md-5 mb-3">
 			<div class="row">
 				<cfset endDate = #DateFormat (Now(), "yyyy-mm-dd")#>
 				<cfset beginDate = #DateFormat(DateAdd( 'm', -12, now() ),"yyyy-mm-dd")#>
