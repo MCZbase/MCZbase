@@ -455,9 +455,9 @@ limitations under the License.
 				<div style="text-align: left; #font# font-size: small;">
 					<p>The Borrower acknowledges reading and agreeing to the conditions listed on all pages of this document.</p>
 					<p>Signature of Borrowing Institution: ____________________________________________________________</p>
-					<p>Title: ______________________________________________ Date: _______________________________</p>
-					<p>MCZ Signature: __________________________________________________________________________</p>
-					<p>Title: ______________________________________________ Date: _______________________________</p>
+					<p>Title: ___________________________________________________ Date: _______________________________</p>
+					<p>MCZ Signature: _________________________________________________________________________________</p>
+					<p>Title: ___________________________________________________ Date: _______________________________</p>
 					<p>Please return all copies to MCZ Collections Operations, Museum of Comparative Zoology, Harvard University,
 					26 Oxford Street, Cambridge, MA 02138. A signed copy will be returned for your records.</p>
 				</div>
@@ -862,8 +862,8 @@ limitations under the License.
 					#accumulated_instructions#
 					<br>
 				</cfif>
-				<div style="text-align: center; #font# font-size: 1em;">
-					Summary of restrictions imposed and benefits required from original collecting agreements
+				<div style="text-align: center; #font# font-size: small;">
+					<strong style="#font# font-size: small;">Summary of restrictions imposed and benefits required from original collecting agreements</strong>
 				</div>
 				<div style="#font# font-size: 1em;">
 					The MCZ is committed to the spirit and letter of the Convention on Biological Diversity and its associated Nagoya Protocol on Access
@@ -1001,11 +1001,11 @@ limitations under the License.
 						<cfset totalSpecimens = 0>
 						<cfloop query="getLoanItems">
 							<tr>
-								<td style="width: 25%; vertical-align: top; #font# font-size: 12m;">
+								<td style="width: 25%; vertical-align: top; #font# font-size: small;">
 									#institution_acronym#:#collection_cde#:#cat_num#
 									<cfif top_loan_status EQ "closed">#reconciled_date#</cfif>
 								</td>
-								<td style="width: 50%; vertical-align: top; #font# font-size: 1em;">
+								<td style="width: 50%; vertical-align: top; #font# font-size: small;">
 									<div>
 										<em>#scientific_name#</em>
 										<cfif Len(type_status) GT 0><BR></cfif><strong>#type_status#</strong><BR>
@@ -1018,7 +1018,7 @@ limitations under the License.
 										<cfif Len(loan_item_remarks) GT 0><BR>Loan Comments: #loan_item_remarks#</cfif>
 									</div>
 								</td>
-								<td style="width: 25%; vertical-align: top; #font# font-size: 1em;">
+								<td style="width: 25%; vertical-align: top; #font# font-size: small;">
 									<cfif isDefined("groupBy") AND groupBy EQ "part">
 										#parts#
 									<cfelse>
@@ -1083,11 +1083,11 @@ limitations under the License.
 					<cfset totalSpecimens = 0>
 					<cfloop query="getLoanItems">
 						<tr>
-							<td style="width: 25%; vertical-align: top; #font# font-size: 12m;">
+							<td style="width: 25%; vertical-align: top; #font# font-size: small;">
 								#institution_acronym#:#collection_cde#:#cat_num#
 								<cfif top_loan_status EQ "closed">#reconciled_date#</cfif>
 							</td>
-							<td style="width: 50%; vertical-align: top; #font# font-size: 1em;">
+							<td style="width: 50%; vertical-align: top; #font# font-size: small;">
 								<div>
 									<em>#scientific_name#</em>
 									<cfif Len(type_status) GT 0><BR></cfif><strong>#type_status#</strong><BR>
@@ -1100,7 +1100,7 @@ limitations under the License.
 									<cfif Len(loan_item_remarks) GT 0><BR>Loan Comments: #loan_item_remarks#</cfif>
 								</div>
 							</td>
-							<td style="width: 25%; vertical-align: top; #font# font-size: 1em;">
+							<td style="width: 25%; vertical-align: top; #font# font-size: small;">
 								<cfif isDefined("groupBy") AND groupBy EQ "part">
 									#parts#
 								<cfelse>
