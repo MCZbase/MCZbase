@@ -39,7 +39,7 @@ limitations under the License.
 		<nav id="sidebarMenu" class="col-md-2 col-lg-2 d-md-block bg-light sidebar collapse">
 			<div class="sidebar-sticky pt-4 px-3">
 				<h3>Report Date Range</h3>
-				<cfform action="/metrics/Dashboard.cfm" class="pt-1">
+				<cfform action="/metrics/Dashboard.cfm" class="pt-1" id="dateForm">
 					<label for="beginDate" class="data-entry-label">Begin Date</label>
 					<input type="date" id="beginDate" name="beginDate" class="data-entry-input">
 					<label for="endDate" class="data-entry-label mt-2">End Date</label>
@@ -115,8 +115,12 @@ limitations under the License.
 		
 		<main role="main" class="col-md-10 ml-sm-auto col-lg-10 px-md-5 mb-3">
 			<div class="row">
-				<cfset endDate = #DateFormat (Now(), "yyyy-mm-dd")#>
-				<cfset beginDate = #DateFormat(DateAdd( 'm', -12, now() ),"yyyy-mm-dd")#>
+				<cfif isDefined(dateForm)>
+					Hello
+				<cfelse>
+					<cfset endDate = #DateFormat (Now(), "yyyy-mm-dd")#>
+					<cfset beginDate = #DateFormat(DateAdd( 'm', -12, now() ),"yyyy-mm-dd")#>
+				</cfif>
 				<div class="col-12 px-0 mt-4">
 					<h1 class="h2 float-left">Metrics</h1>
 					<div class="btn-toolbar mb-2 mb-md-0 float-right">
