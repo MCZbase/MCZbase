@@ -119,6 +119,8 @@ limitations under the License.
 						<button type="button" class="btn btn-sm btn-outline-secondary">Share</button>
 						<button type="button" class="btn btn-sm btn-outline-secondary">Export</button>
 					</div>
+					<cfset getAnnualNumbers="">
+					<cfset summaryAnnualBlock="">
 					<cfif isdefined("getAnnualNumbers")>
 						<cfoutput>
 							<cfset summaryAnnualBlock = getAnnualNumbers(endDate = "#endDate#", beginDate = "#beginDate#")>
