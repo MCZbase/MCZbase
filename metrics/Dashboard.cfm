@@ -117,8 +117,8 @@ limitations under the License.
 		<cfset endDate = #DateFormat (Now(), "yyyy-mm-dd")#>
 		<cfset beginDate = #DateFormat(DateAdd( 'm', -12, now() ),"yyyy-mm-dd")#>
 			<div class="col-12">
-				<h1 class="h2">Metrics Sandbox</h1>
-				<div class="btn-toolbar mb-2 mb-md-0">
+				<h1 class="h2">Metrics</h1>
+				<div class="btn-toolbar mb-2 mb-md-0 float-right">
 					<div class="btn-group mr-2">
 						<button type="button" class="btn btn-sm btn-outline-secondary">Share</button>
 						<button type="button" class="btn btn-sm btn-outline-secondary">Export</button>
@@ -129,7 +129,6 @@ limitations under the License.
 					<div id="annualNumbersDiv">
 						#summaryAnnualBlock#
 					</div>
-
 				</div>
 			</div>
 		</main>
