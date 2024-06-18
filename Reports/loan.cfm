@@ -976,7 +976,7 @@ limitations under the License.
 					<div style="text-align: left; #font# font-size: 1em;">
 						Specimens in Subloan #getSubloans.loan_number#
 					</div>
-					<table style="#font# font-size: 1.2em;">
+					<table style="#font# font-size: 1em;">
 						<tr>
 							<th style="width: 25%;">MCZ Number</th>
 							<th style="width: 50%;">Taxon, Locality</th>
