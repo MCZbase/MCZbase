@@ -458,10 +458,10 @@ limitations under the License.
 				</div>
 			</cfdocumentsection>
 			<cfdocumentsection name="Exhibition Loan Conditions">
-				<div style="text-align: center; #font# font-size: 1.2em;">
+				<div style="text-align: center; #font# font-size: 1em;">
 					<strong>CONDITIONS</strong>
 				</div>
-				<div style="text-align: left;#font# font-size: small;">
+				<div style="text-align: left;#font# font-size: x-small;">
 					<strong>1. TRANSPORTATION<strong>
 					<p>The Museum of Comparative Zoology will determine the appropriate means of transportation of the loan material and will approve in writing all
 						transportation arrangements. The Borrowing Institution agrees to cover all shipping costs, including courier fee, courier travel, and courier per diem to
@@ -705,10 +705,8 @@ limitations under the License.
 							<div><strong>Expected return date: #dateformat(return_due_date,"dd mmmm yyyy")#</strong></div>
 							<br>
 							<br>
-							<div style="text-align: left; width: 80%;">
-								<div style="text-align: right;">Borrower&##39;s Signature: ___________________________</div>
-								<div style="text-align: right;">#recAgentName#</div>
-							</div>
+							<div style="text-align: right;">Borrower&##39;s Signature: ___________________________</div>
+							<div style="text-align: right;">#recAgentName#</div>
 						</td>
 					</tr>
 				</table>
