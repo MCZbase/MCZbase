@@ -438,10 +438,7 @@ limitations under the License.
 	<cfargument name="beginDate" type="date" required="no" default="2023-07-01">
 	<cfthread name="getGeorefNumbersThread">
 		<cfoutput>
-			<cftry>
-			<!-- annual report queries -->
-				<cfsetting RequestTimeout = "0">
-				<cfset start = GetTickCount()>
+			<cftry>	
 				<cfquery name="georef" datasource="uam_god">
 					SELECT
 						c.collection,

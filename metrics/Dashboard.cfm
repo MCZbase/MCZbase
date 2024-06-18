@@ -31,7 +31,8 @@ limitations under the License.
 <cfinclude template="/metrics/component/functions.cfc">
 <script type="text/javascript" src="/metrics/js/metrics.js"></script> 
 
-
+<cfsetting RequestTimeout = "0">
+<cfset start = GetTickCount()>
 <meta name="theme-color" content="#563d7c">
 <cfoutput>
 <div class="container-fluid" id="content">
