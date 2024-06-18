@@ -152,9 +152,11 @@ limitations under the License.
 </cfquery>
 <cfquery name="getRestrictions" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 	SELECT DISTINCT 
-		restriction_summary, permit_id, permit_num, source, permit_title, specific_type
+		restriction_summary, benefits_summary,
+		permit_id, permit_num, source, permit_title, specific_type
 	FROM (
-	select permit.restriction_summary, permit.permit_id, permit.permit_num, 'accession' as source, permit_title, specific_type
+	select permit.restriction_summary, benefits_summary,
+		permit.permit_id, permit.permit_num, 'accession' as source, permit_title, specific_type
 	from loan_item li 
 		join specimen_part sp on li.collection_object_id = sp.collection_object_id
 		join cataloged_item ci on sp.derived_from_cat_item = ci.collection_object_id
@@ -164,7 +166,8 @@ limitations under the License.
 	where li.transaction_id = <cfqueryparam CFSQLType="CF_SQL_DECIMAL" value="#transaction_id#">
 		and permit.restriction_summary is not null
 	UNION
-	select permit.restriction_summary, permit.permit_id, permit.permit_num, 'loan shipment' as source, permit_title, specific_type
+	select permit.restriction_summary, permit.benefits_summary,
+		permit.permit_id, permit.permit_num, 'loan shipment' as source, permit_title, specific_type
 	from loan
 		join shipment on loan.transaction_id = shipment.transaction_id
 		join permit_shipment on shipment.shipment_id = permit_shipment.shipment_id
@@ -858,7 +861,7 @@ limitations under the License.
 					<br>
 				</cfif>
 				<div style="text-align: center; #font# font-size: 1em;">
-					Summary of restrictions imposed by original collecting agreements
+					Summary of restrictions imposed and benefits required from original collecting agreements
 				</div>
 				<div style="#font# font-size: 1em;">
 					The MCZ is committed to the spirit and letter of the Convention on Biological Diversity and its associated Nagoya Protocol on Access
@@ -874,7 +877,8 @@ limitations under the License.
 									#specific_type# #permit_num#
 									<cfif len(permit_num) EQ 0>#permit_title#</cfif>
 								</strong> 
-								#restriction_summary#
+								Summary of restrictions on use: #restriction_summary#<br>
+								Summary of required benefits: #benefits_summary#
 							</li>
 					<cfelse>
 						<li>
