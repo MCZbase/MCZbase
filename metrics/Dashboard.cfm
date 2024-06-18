@@ -154,6 +154,11 @@ limitations under the License.
 						#citationBlock#
 					</div>
 					
+					<cfset georefBlock=getGeorefNumbers(endDate="#endDate#",beginDate="#beginDate#")>
+					<div id="georefDiv">
+						#georefBlock#
+					</div>
+					
 				</cfoutput>
 			</div>
 		</main>
