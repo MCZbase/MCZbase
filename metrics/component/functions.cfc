@@ -38,8 +38,8 @@ limitations under the License.
 						ncbi.ncbiCatItems,
 						accn.numAccns
 					FROM 
-						(select collection_id from collection where collection_cde <> 'MCZ') c
-					LEFT JOIN (select collection_id,holdings from MCZBASE.collections_reported_metrics) rm on c.collection_id = rm.collection_id 
+						(select collection_cde,institution_acronym,descr,collection,collection_id from collection where collection_cde <> 'MCZ') c
+					LEFT JOIN (select collection_id,holdings,reported_date from MCZBASE.collections_reported_metrics) rm on c.collection_id = rm.collection_id 
 					LEFT JOIN 
 						(select f.collection_id, f.collection, count(distinct f.collection_object_id) catalogeditems, sum(decode(total_parts,null, 1,total_parts)) specimens from flat f join coll_object co on f.collection_object_id = co.collection_object_id where co.COLL_OBJECT_ENTERED_DATE < to_date('#endDate#', 'YYYY-MM-DD') group by f.collection_id, f.collection) h on rm.collection_id = h.collection_id
 					LEFT JOIN 
@@ -56,7 +56,7 @@ limitations under the License.
 						(select c.collection_id, c.collection, count(distinct t.transaction_id) numAccns from accn a, trans t, collection c where a.transaction_id = t.transaction_id and t.collection_id = c.collection_id and a.received_date between to_date('#beginDate#', 'YYYY-MM-DD') and  to_date('#endDate#', 'YYYY-MM-DD') group by c.collection_id, c.collection) accn on h.collection_id = accn.collection_id
 				</cfquery>
 				<section class="col-12 mt-3 px-0">
-					<h1 class="h2 px-2">Basic Collections Metrics</h1>
+					<h2 class="h3 px-2">Basic Collections Metrics</h1>
 					<table class="table table-responsive table-striped d-lg-table" id="t">
 						<thead>
 							<tr>
