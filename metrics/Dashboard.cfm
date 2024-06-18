@@ -116,7 +116,7 @@ limitations under the License.
 		<main role="main" class="col-md-10 ml-sm-auto col-lg-10 px-md-5 mb-3">
 			<div class="row">
 				<cfset endDate = ''>
-				<cfif endDate gt 0>
+				<cfif endDate.recordcount gt 0>
 					<cfset endDate = #DateFormat (Now(), "yyyy-mm-dd")#>
 					<cfset beginDate = #DateFormat(DateAdd( 'm', -12, now() ),"yyyy-mm-dd")#>
 				<cfelse>
@@ -137,6 +137,23 @@ limitations under the License.
 					<div id="annualNumbersDiv">
 						#summaryAnnualBlock#
 					</div>
+						
+			
+					<cfset loanBlock=getLoanNumbers(endDate="#endDate#",beginDate="#beginDate#")>
+					<div id="annualLoanDiv">
+						#loanBlock#
+					</div>
+						
+					<cfset mediaBlock=getMediaNumbers(endDate="#endDate#",beginDate="#beginDate#")>
+					<div id="mediaDiv">
+						#mediaBlock#
+					</div>
+						
+					<cfset citationBlock=getCitationNumbers(endDate="#endDate#",beginDate="#beginDate#")>
+					<div id="citationDiv">
+						#citationBlock#
+					</div>
+					
 				</cfoutput>
 			</div>
 		</main>
