@@ -115,12 +115,13 @@ limitations under the License.
 		
 		<main role="main" class="col-md-10 ml-sm-auto col-lg-10 px-md-5 mb-3">
 			<div class="row">
-				<cfif isDefined(dateForm)>
-					Hello
+				<cfif endDate gt 0>
+				<cfset endDate = #DateFormat (Now(), "yyyy-mm-dd")#>
+				<cfset beginDate = #DateFormat(DateAdd( 'm', -12, now() ),"yyyy-mm-dd")#>
 				<cfelse>
-					<cfset endDate = #DateFormat (Now(), "yyyy-mm-dd")#>
-					<cfset beginDate = #DateFormat(DateAdd( 'm', -12, now() ),"yyyy-mm-dd")#>
-				</cfif>
+					<cfset endDate = "2023-07-01">
+					<cfset beginDate = "2022-06-30">
+				</cfelse>
 				<div class="col-12 px-0 mt-4">
 					<h1 class="h2 float-left">Metrics</h1>
 					<div class="btn-toolbar mb-2 mb-md-0 float-right">
