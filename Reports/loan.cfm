@@ -1001,11 +1001,11 @@ limitations under the License.
 						<cfset totalSpecimens = 0>
 						<cfloop query="getLoanItems">
 							<tr>
-								<td style="width: 25%; vertical-align: top;">
+								<td style="width: 25%; vertical-align: top; #font# font-size: 12m;">
 									#institution_acronym#:#collection_cde#:#cat_num#
 									<cfif top_loan_status EQ "closed">#reconciled_date#</cfif>
 								</td>
-								<td style="width: 50%; vertical-align: top;">
+								<td style="width: 50%; vertical-align: top; #font# font-size: 1em;">
 									<div>
 										<em>#scientific_name#</em>
 										<cfif Len(type_status) GT 0><BR></cfif><strong>#type_status#</strong><BR>
@@ -1018,7 +1018,7 @@ limitations under the License.
 										<cfif Len(loan_item_remarks) GT 0><BR>Loan Comments: #loan_item_remarks#</cfif>
 									</div>
 								</td>
-								<td style="width: 25%; vertical-align: top;">
+								<td style="width: 25%; vertical-align: top; #font# font-size: 1em;">
 									<cfif isDefined("groupBy") AND groupBy EQ "part">
 										#parts#
 									<cfelse>
@@ -1083,11 +1083,11 @@ limitations under the License.
 					<cfset totalSpecimens = 0>
 					<cfloop query="getLoanItems">
 						<tr>
-							<td style="width: 25%; vertical-align: top;">
+							<td style="width: 25%; vertical-align: top; #font# font-size: 12m;">
 								#institution_acronym#:#collection_cde#:#cat_num#
 								<cfif top_loan_status EQ "closed">#reconciled_date#</cfif>
 							</td>
-							<td style="width: 50%; vertical-align: top;">
+							<td style="width: 50%; vertical-align: top; #font# font-size: 1em;">
 								<div>
 									<em>#scientific_name#</em>
 									<cfif Len(type_status) GT 0><BR></cfif><strong>#type_status#</strong><BR>
@@ -1100,7 +1100,7 @@ limitations under the License.
 									<cfif Len(loan_item_remarks) GT 0><BR>Loan Comments: #loan_item_remarks#</cfif>
 								</div>
 							</td>
-							<td style="width: 25%; vertical-align: top;">
+							<td style="width: 25%; vertical-align: top; #font# font-size: 1em;">
 								<cfif isDefined("groupBy") AND groupBy EQ "part">
 									#parts#
 								<cfelse>
