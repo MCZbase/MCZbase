@@ -447,7 +447,7 @@ limitations under the License.
 					Comparative Zoology&apos;s loan agreement will supersede inconsistent conditions and augment other conditions of the Borrower&apos;s
 					loan agreement. The MCZ loan agreement will be governed by and construed according to the laws of the Commonwealth of Massachusetts.
 				</div>
-				<div style="text-align: left; #font# font-size: 1em;">
+				<div style="text-align: left; #font# font-size: small;">
 					<p>The Borrower acknowledges reading and agreeing to the conditions listed on all pages of this document.</p>
 					<p>Signature of Borrowing Institution: ____________________________________________________________</p>
 					<p>Title: ______________________________________________ Date: _______________________________</p>
