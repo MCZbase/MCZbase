@@ -223,7 +223,7 @@ limitations under the License.
 					ORDER BY collection
 				</cfquery>
 				<section class="col-12 mt-3 px-0">
-					<h2 class="h3 px-2">Loan Stats</h1>
+					<h2 class="h3 px-2">Loan Stats</h2>
 						<table class="table table-responsive table-striped d-lg-table" id="t">
 							<thead>
 								<tr>
@@ -358,7 +358,7 @@ limitations under the License.
 					ORDER BY collection
 				</cfquery>
 				<section class="col-12 mt-3 px-0">
-					<h2 class="h3 px-2">Media Stats</h1>
+					<h2 class="h3 px-2">Media Stats</h2>
 						<table class="table table-responsive table-striped d-lg-table" id="t">
 							<thead>
 								<tr>
@@ -404,4 +404,69 @@ limitations under the License.
 	</cfthread>
 	<cfthread action="join" name="getLoanNumbersThread" />
 	<cfreturn getLoanNumbersThread.output>
+</cffunction>
+			
+<cffunction name="getCitationNumbers" access="remote" returntype="any" returnformat="json">
+	<cfargument name="endDate" type="date" required="no" default="2024-07-01">
+	<cfargument name="beginDate" type="date" required="no" default="2023-07-01">
+	<cfthread name="getCitationNumbersThread">
+		<cfoutput>
+			<cftry>
+			<!-- annual report queries -->
+				<cfsetting RequestTimeout = "0">
+				<cfset start = GetTickCount()>
+				<cfquery name="citation" datasource="uam_god">
+					SELECT
+						c.collection,
+						cit.numCitations,
+						cit.numCitationCatItems
+					FROM
+						(select collection_cde,institution_acronym,descr,collection,collection_id from collection where collection_cde <> 'MCZ') c
+					LEFT JOIN 
+						(select coll.collection_id, coll.collection, count(distinct f.collection_object_id) numCitationCatItems, count(*) numCitations 
+						from coll_object co,  flat f,  citation c,  publication p, collection coll
+						where f.collection_object_id = co.collection_object_id
+						and f.collection_object_id = c.collection_object_id 
+						and c.publication_id = p.publication_id
+						and f.collection_cde = coll.collection_cde
+						and p.publication_title not like '%Placeholder%'
+					GROUP BY coll.collection_id, coll.collection) cit on c.collection_id = cit.collection_id
+				</cfquery>
+				<section class="col-12 mt-3 px-0">
+					<h2 class="h3 px-2">Citation Stats</h2>
+						<table class="table table-responsive table-striped d-lg-table" id="t">
+							<thead>
+								<tr>
+									<th><strong>Collection</strong></th>
+									<th><strong>Total Full Citations</strong></th>
+									<th><strong>Number of Cataloged Items with Full Citations</strong></th>
+									<th><strong>Number of Cataloged Items with Full Citations (w/ogenetic vouchers) added</strong></th>
+									<th><strong>Genetic Voucher Citations added </strong></th>
+								</tr>
+							</thead>
+							<tbody>
+								<cfloop query="citation">
+									<tr>
+										<td>#collection#</td>
+										<td>#numCitations#</td>
+										<td>#numCitationCatItems#</td>
+										<td>&nbsp;</td>
+										<td>&nbsp;</td>
+									</tr>
+								</cfloop>
+							</tbody>
+						</table>
+					</div>
+				</section>
+			<cfcatch>
+				<!---<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+				<cfset function_called = "#GetFunctionCalledName()#">--->
+				<h2 class='h3'>Error in function?</h2>
+				<div>Error message TBD</div>
+			</cfcatch>
+			</cftry>
+		</cfoutput>
+	</cfthread>
+	<cfthread action="join" name="getCitationNumbersThread" />
+	<cfreturn getCitationNumbersThread.output>
 </cffunction>
