@@ -427,9 +427,9 @@ limitations under the License.
 					<p>
 						See Conditions on next page and instructions in Departmental Loan document(s).
 					</p>
-					<cfif len(getLoan.instructions) GT 0>
+					<cfif len(getLoan.loan_instructions) GT 0>
 						<p>
-							#getLoan.instructions#
+							#getLoan.loan_instructions#
 						</p>
 					</cfif>
 				</div>
