@@ -13,7 +13,7 @@ limitations under the License.
 --->
 
 <cffunction name="getAnnualNumbers" access="remote" returntype="any">
-	<cfargument name="endDate" type="date" required="no" default="2024-07-01">
+	<cfargument name="endDate" type="date" required="no" default="2024-07-01" returnformat="json">
 	<cfargument name="beginDate" type="date" required="no" default="2023-07-01">
 	<cfthread name="getAnnualNumbersThread">
 		<cfoutput>
