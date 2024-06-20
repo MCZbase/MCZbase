@@ -148,6 +148,11 @@ limitations under the License.
 					
 					<input type="submit" value="Submit" class="btn btn-xs btn-secondary mt-2" onClick="event.preventDefault(); $(dateForm).submit();">
 				</form>
+				<script> 
+					function myFunction() { 
+						document.getElementById("GFG").submit(); 
+					} 
+				</script> 
 			</div>
 		</nav>
 
