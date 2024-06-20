@@ -70,7 +70,7 @@ limitations under the License.
 				<script> 
 					function submitForm() { 
 						var form = document.getElementById("dateForm"); 
-						form.action = "Dashboard.cfm##showBasic"; form.submit(); 
+						form.action = "Dashboard.cfm##getAnnualNumbers"; form.submit(); 
 					} 
 				</script>
 	
