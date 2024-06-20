@@ -19,7 +19,7 @@ limitations under the License.
 * Demonstration of ajax patterns in MCZbase.
 
 -->
-
+<cfset endDate=''>
 <cfif endDate gt 0>
 	<cfset endDate = #DateFormat (Now(), "yyyy-mm-dd")#>
 	<cfset beginDate = #DateFormat(DateAdd( 'm', -12, now() ),"yyyy-mm-dd")#>
