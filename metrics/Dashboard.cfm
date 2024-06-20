@@ -43,8 +43,8 @@ limitations under the License.
 						<tr>
 							<td>
 								<input type="text" name="action" value="#action#" />
-								<input type="text" name="beginDate" value="#beginDate#" />        
-								<input type="text" name="endDate" value="#endDate#" />                    
+								<input type="date" name="beginDate" value="#beginDate#" />        
+								<input type="date" name="endDate" value="#endDate#" />                    
 							</td>
 						</tr>
 					</table>
