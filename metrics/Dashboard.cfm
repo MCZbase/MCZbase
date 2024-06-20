@@ -36,6 +36,29 @@ limitations under the License.
 	<div class="row">
 		<nav id="sidebarMenu" class="col-md-2 col-lg-2 d-md-block bg-light sidebar collapse">
 			<div class="sidebar-sticky pt-4 px-3">
+				
+				
+				<cfform name="form" id="form" action="/metrics/Dashboard.cfm" method="post">
+					<table>
+						<tr>
+							<td>
+								<input type="text" name="action" value="#action#" />
+								<input type="text" name="beginDate" value="#beginDate#" />        
+								<input type="text" name="endDate" value="#endDate#" />                    
+							</td>
+						</tr>
+					</table>
+					<table width="100%">
+						<tr>
+							<td align="left">
+								<a href="/metrics/Dashboard.cfm?action=#action#&amp;beginDate=#beginDate#&amp;endDate=#endDate" onclick="document.form.submit();">test</a>
+							</td>
+						</tr>
+					</table> 
+				</cfform>
+				
+				
+				
 				<h3 class="text-muted"><span>Report Date Range</span></h3>
 				
 				<cfif NOT isdefined("action") or len(action) EQ 0>
@@ -115,7 +138,7 @@ limitations under the License.
 							</a> 
 						</li>
 						<li class="nav-item"> 
-							<a class="nav-link px-0"  href="Dashboard.cfm?action=showGeorefs&beginDate=#beginDate#&endDate=#endDate#" onClick="showGeorefsFunction()">
+							<a class="nav-link px-0"  href="##" onClick="showGeorefs()">
 								<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file-text">
 									<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
 									<polyline points="14 2 14 8 20 8"></polyline>
