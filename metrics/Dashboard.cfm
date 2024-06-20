@@ -47,12 +47,6 @@ limitations under the License.
 				<cfif NOT isdefined("action") or len(action) EQ 0>
 					<cfset action="showBasic">
 				</cfif>
-<!---				<form action="/metrics/Dashboard.cfm" method="post" name="pagendates">
-					<input type="date" name="endDate" size="10" value="#endDate#"><br>
-					<input type="date" name="beginDate" size="10" value="#beginDate#"><br>
-					<input type="text" name="action" size="10" value="#action#"><br>
-					<input type="submit" name="Submit">
-				</form>--->
 			
 				<cfif len(endDate) eq 0 AND NOT isdefined("action") or len(action) EQ 0>
 					<cfset endDate = #DateFormat (Now(), "yyyy-mm-dd")#>
