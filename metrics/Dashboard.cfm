@@ -36,29 +36,6 @@ limitations under the License.
 	<div class="row">
 		<nav id="sidebarMenu" class="col-md-2 col-lg-2 d-md-block bg-light sidebar collapse">
 			<div class="sidebar-sticky pt-4 px-3">
-				
-				
-				<form name="form" id="form" action="/metrics/Dashboard.cfm" method="post">
-					<table>
-						<tr>
-							<td>
-								<input type="text" name="action" value="#action#" />
-								<input type="date" name="beginDate" value="#beginDate#" />        
-								<input type="date" name="endDate" value="#endDate#" />                    
-							</td>
-						</tr>
-					</table>
-					<table width="100%">
-						<tr>
-							<td align="left">
-								<a href="/metrics/Dashboard.cfm?action=#action#&beginDate=#beginDate#&endDate=#endDate#" onclick="document.form.submit();">test</a>
-							</td>
-						</tr>
-					</table> 
-				</form>
-				
-				
-				
 				<h3 class="text-muted"><span>Report Date Range</span></h3>
 				
 				<cfif NOT isdefined("action") or len(action) EQ 0>
@@ -66,15 +43,12 @@ limitations under the License.
 				</cfif>
 			
 				<cfif len(endDate) eq 0>
-					<cfset endDate = #DateFormat (Now(), "yyyy-mm-dd")#>
-					<cfset beginDate = #DateFormat(DateAdd( 'm', -24, now() ),"yyyy-mm-dd")#>
 					<form action="/metrics/Dashboard.cfm" class="pt-1" id="dateForm">
 						<label for="beginDate" class="data-entry-label">Begin Date</label>
-						<input type="date" id="beginDate" name="beginDate" class="data-entry-input" value="#beginDate#">
+						<input type="date" id="beginDate" name="beginDate" class="data-entry-input" value="#DateFormat (Now(), "yyyy-mm-dd")#">
 						<label for="endDate" class="data-entry-label mt-2">End Date</label>
-						<input type="date" id="endDate" name="endDate" class="data-entry-input" value="#endDate#">
+						<input type="date" id="endDate" name="endDate" class="data-entry-input" value="#DateFormat (Now(), 'yyyy-mm-dd')#">
 					</form>
-					
 				<cfelse>
 					<form action="/metrics/Dashboard.cfm" class="pt-1" id="dateForm">
 						<label for="beginDate" class="data-entry-label">Begin Date</label>
@@ -83,10 +57,14 @@ limitations under the License.
 						<input type="date" id="endDate" name="endDate" class="data-entry-input" value="#endDate#">
 					</form>
 				</cfif>
-					<h3 class="sidebar-heading d-flex justify-content-between align-items-center px-1 mt-4 mb-1 text-muted"> 
-						<span>Report Type</span> 
-					</h3>
-					
+				<form method="post" action="/metrics/Dashboard.cfm">
+					<input type="beginDate" name="begin">
+					<input type="endDate" name="end">
+					<input type="submit">
+				</form>
+				<h3 class="sidebar-heading d-flex justify-content-between align-items-center px-1 mt-4 mb-1 text-muted"> 
+					<span>Report Type</span> 
+				</h3>
 					<ul class="nav flex-column mb-2">
 						<li class="nav-item"> 
 							<a class="nav-link px-0" href="Dashboard.cfm?action=showBasic&beginDate=#beginDate#&endDate=#endDate#" onClick="showBasicFunction(action=showBasic,beginDate=#beginDate#,endDate=#endDate#)">
