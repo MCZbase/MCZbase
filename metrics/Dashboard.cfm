@@ -62,8 +62,8 @@ limitations under the License.
 					<input type="endDate" name="end">
 					<input type="submit">
 				</form>
-				<cfif structKeyExists(DBform, "name")>
-					<cfinvoke component="yourcomponent" method="saveData" argumentcollection="#DBform#">
+				<cfif structKeyExists(dateForm, "beginDate")>
+					<cfinvoke component="/metrics/component/functions.cfc" method="getLoanNumbers" argumentcollection="#form#">
 				</cfif>
 				<h3 class="sidebar-heading d-flex justify-content-between align-items-center px-1 mt-4 mb-1 text-muted"> 
 					<span>Report Type</span> 
