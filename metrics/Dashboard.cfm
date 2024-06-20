@@ -38,7 +38,7 @@ limitations under the License.
 				<cfif NOT isdefined("action") or len(action) EQ 0>
 					<cfset action="showBasic">
 				</cfif>
-			
+				<cfset endDate=''>
 				<cfif len(action) gt 0>
 					<form action="/metrics/Dashboard.cfm" class="pt-1" id="dateForm">
 						<label for="beginDate" class="data-entry-label">Begin Date</label>
