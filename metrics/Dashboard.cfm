@@ -49,7 +49,7 @@ limitations under the License.
 						<input type="date" id="beginDate" name="beginDate" class="data-entry-input" value="#beginDate#">
 						<label for="endDate" class="data-entry-label mt-2">End Date</label>
 						<input type="date" id="endDate" name="endDate" class="data-entry-input" value="#endDate#">
-						<input type="url" id="showBasic" name="showBasic" class="data-entry-input" value="#action#">
+						<input type="url" id="showBasic" name="showBasic" class="btn-link" value="#action#">
 					</form>
 				</cfif>
 
