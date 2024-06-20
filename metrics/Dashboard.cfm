@@ -61,10 +61,10 @@ limitations under the License.
 							<option value="showCitations">Citation Stats</option>
 							<option value="showGeorefs">Georeference Stats</option>
 						</select>
-						<input type="submit" value="Submit">
+						<a class="btn btn-xs btn-primary" href="javascript:submitForm()">Submit to Function</a>
 					</form>
 				</cfif>
-				<a class="btn btn-xs btn-primary" href="javascript:submitForm()">Submit to Function</a>
+				
 				<script> 
 					function submitForm() { 
 						var form = document.getElementById("dateForm"); 
