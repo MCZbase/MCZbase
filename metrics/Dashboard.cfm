@@ -61,8 +61,11 @@ limitations under the License.
 				</cfif>
 				<a href="javascript:submitForm()">Submit to Function</a>
 					
-				<script> function submitForm() { var form = document.getElementById("dateForm"); form.action = "/metrics/Dashboard.cfm#getAnnualNumbers"; form.submit(); } </script>
-				<cffunction name="myFunction"> 
+				<script> 
+					function submitForm() { 
+						var form = document.getElementById("dateForm"); form.action = "/metrics/Dashboard.cfm#getAnnualNumbers"; form.submit(); } 
+				</script>
+				<cffunction name="getAnnualNumbers"> 
 					<cfargument name="form" type="struct" required="true"> 
 						<!--- access form values here --->
 						<cfoutput>#form.beginDate#</cfoutput>
