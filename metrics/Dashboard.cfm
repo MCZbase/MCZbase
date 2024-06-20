@@ -54,14 +54,12 @@ limitations under the License.
 						<input type="date" id="beginDate" name="beginDate" class="data-entry-input">
 						<label for="endDate" class="data-entry-label mt-2">End Date</label>
 						<input type="date" id="endDate" name="endDate" class="data-entry-input">
-						<select class="data-entry-select" id="action">
-							<select name="action" id="action">
-								<option value="showBasic">Basic Stats</option>
-								<option value="showLoans">Loan Stats</option>
-								<option value="showMedia">Media Stats</option>
-								<option value="showCitations">Citation Stats</option>
-								<option value="showGeorefs">Georeference Stats</option>
-							</select>
+						<select class="data-entry-select" id="action" name="action">
+							<option value="showBasic">Basic Stats</option>
+							<option value="showLoans">Loan Stats</option>
+							<option value="showMedia">Media Stats</option>
+							<option value="showCitations">Citation Stats</option>
+							<option value="showGeorefs">Georeference Stats</option>
 						</select>
 						<input type="submit" value="Submit">
 					</form>
