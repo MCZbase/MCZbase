@@ -53,12 +53,13 @@ limitations under the License.
 						<input type="date" id="beginDate" name="beginDate" class="data-entry-input" value="#beginDate#">
 						<label for="endDate" class="data-entry-label mt-2">End Date</label>
 						<input type="date" id="endDate" name="endDate" class="data-entry-input" value="#endDate#">
-						<select class="data-entry-select" id="actions">
-							<select name="actions" id="actions">
-								<option value="BasicStats">Basic Stats</option>
-								<option value="LoanStats">Loan Stats</option>
-								<option value="CitationStats">Citation Stats</option>
-								<option value="GeorefStats">Georeference Stats</option>
+						<select class="data-entry-select" id="action">
+							<select name="action" id="action">
+								<option value="showBasic">Basic Stats</option>
+								<option value="showLoans">Loan Stats</option>
+								<option value="showMedia">Media Stats</option>
+								<option value="showCitations">Citation Stats</option>
+								<option value="showGeorefs">Georeference Stats</option>
 							</select>
 						</select>
 						<input type="submit" value="Submit">
@@ -68,7 +69,7 @@ limitations under the License.
 					
 				<script> 
 					function submitForm() { 
-						var form = document.getElementById("dateForm"); form.action = "Dashboard.cfm##getAnnualNumbers"; form.submit(); } 
+						var form = document.getElementById("dateForm"); form.action = "Dashboard.cfm?action="; form.submit(); } 
 				</script>
 	
 				<h3 class="sidebar-heading d-flex justify-content-between align-items-center px-1 mt-4 mb-1 text-muted"> 
