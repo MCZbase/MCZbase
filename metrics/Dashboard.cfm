@@ -75,7 +75,7 @@ limitations under the License.
 				<h3 class="sidebar-heading d-flex justify-content-between align-items-center px-1 mt-4 mb-1 text-muted"> 
 					<span>Report Type</span> 
 				</h3>
-				<!---	<ul class="nav flex-column mb-2">
+					<ul class="nav flex-column mb-2">
 						<li class="nav-item"> 
 							<a class="nav-link px-0" href="/metrics/Dashboard.cfm?action=showBasic&beginDate=#beginDate#&endDate=#endDate#" onClick="showBasicFunction(action=showBasic,beginDate=#beginDate#,endDate=#endDate#)">
 								<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file-text">
@@ -136,7 +136,7 @@ limitations under the License.
 								Georeferences
 							</a> 
 						</li>
-					</ul>--->
+					</ul>
 			
 				<script> 
 					function showGeorefsFunction() { 
