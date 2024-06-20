@@ -35,9 +35,11 @@ limitations under the License.
 		<nav id="sidebarMenu" class="col-md-2 col-lg-2 d-md-block bg-light sidebar collapse">
 			<div class="sidebar-sticky pt-4 px-3">
 				<h3 class="text-muted"><span>Report Date Range</span></h3>
+				
 				<cfif NOT isdefined("action") or len(action) EQ 0>
 					<cfset action="showBasic">
 				</cfif>
+					
 				<cfif len(endDate) eq 0 >
 					<cfset endDate = #DateFormat (Now(), "yyyy-mm-dd")#>
 					<cfset beginDate = #DateFormat(DateAdd( 'm', -12, now() ),"yyyy-mm-dd")#>
@@ -47,11 +49,13 @@ limitations under the License.
 						<input type="date" id="beginDate" name="beginDate" class="data-entry-input" value="#beginDate#">
 						<label for="endDate" class="data-entry-label mt-2">End Date</label>
 						<input type="date" id="endDate" name="endDate" class="data-entry-input" value="#endDate#">
+						<input type="url" id="showBasic" name="showBasic" class="data-entry-input" value="#action#">
 					</form>
 				</cfif>
-					<h3 class="sidebar-heading d-flex justify-content-between align-items-center px-1 mt-4 mb-1 text-muted"> 
-						<span>Report Type</span> 
-					</h3>
+
+				<h3 class="sidebar-heading d-flex justify-content-between align-items-center px-1 mt-4 mb-1 text-muted"> 
+					<span>Report Type</span> 
+				</h3>
 					
 					<ul class="nav flex-column mb-2">
 						<li class="nav-item"> 
