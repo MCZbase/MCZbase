@@ -57,9 +57,9 @@ limitations under the License.
 						<input type="date" id="endDate" name="endDate" class="data-entry-input" value="#endDate#">
 					</form>
 				</cfif>
-				<form method="post" action="/metrics/Dashboard.cfm" id="thedateForm">
-					<input type="beginDate" name="begin">
-					<input type="endDate" name="end">
+				<form method="post" action="/metrics/Dashboard.cfm" id="form">
+					<input type="date" id="beginDate" name="beginDate">
+					<input type="date" id="endDate" name="endDate">
 					<input type="submit">
 				</form>
 				<cfif structKeyExists(form, "beginDate")>
