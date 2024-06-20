@@ -43,7 +43,7 @@ limitations under the License.
 					<cfset endDate = #DateFormat (Now(), "yyyy-mm-dd")#>
 					<cfset beginDate = #DateFormat(DateAdd( 'm', -24, now() ),"yyyy-mm-dd")#>
 				<cfelse>
-					<form action="#action#" class="pt-1" id="dateForm">
+					<form action="showBasic" class="pt-1" id="dateForm">
 						<label for="beginDate" class="data-entry-label">Begin Date</label>
 						<input type="date" id="beginDate" name="beginDate" class="data-entry-input" value="#beginDate#">
 						<label for="endDate" class="data-entry-label mt-2">End Date</label>
