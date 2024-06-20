@@ -17,9 +17,8 @@ limitations under the License.
 	<cfargument name="beginDate" type="date" required="true">
 	<cfargument name="form" type="struct" required="true"> 
 	<!--- access form values here --->
-		<cfoutput>#form.beginDate#</cfoutput>
-		<cfoutput>#form.endDate#</cfoutput>
-		<cfoutput>#form.action#</cfoutput>
+		<cfset beginDate="#form.beginDate#">
+		<cfset beginDate="#form.endDate#">
 	</cfargument>
 	<cfthread name="getAnnualNumbersThread">
 		<cfoutput>
