@@ -20,7 +20,7 @@ limitations under the License.
 
 -->
 <cfset endDate=''>
-
+<cfset action=''>
 	
 <cfset pageTitle="Metrics Testing">
 <cfinclude template="/shared/_header.cfm">
