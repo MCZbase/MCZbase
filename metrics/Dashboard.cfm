@@ -45,6 +45,13 @@ limitations under the License.
 				<cfif len(endDate) eq 0>
 					<cfset endDate = #DateFormat (Now(), "yyyy-mm-dd")#>
 					<cfset beginDate = #DateFormat(DateAdd( 'm', -12, now() ),"yyyy-mm-dd")#>
+					<form action="/metrics/Dashboard.cfm" class="pt-1" id="dateForm">
+						<label for="beginDate" class="data-entry-label">Begin Date</label>
+						<input type="date" id="beginDate" name="beginDate" class="data-entry-input" value="#beginDate#">
+						<label for="endDate" class="data-entry-label mt-2">End Date</label>
+						<input type="date" id="endDate" name="endDate" class="data-entry-input" value="#endDate#">
+					</form>
+					
 				<cfelse>
 					<form action="/metrics/Dashboard.cfm" class="pt-1" id="dateForm">
 						<label for="beginDate" class="data-entry-label">Begin Date</label>
