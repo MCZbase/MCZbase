@@ -44,9 +44,9 @@ limitations under the License.
 			<div class="sidebar-sticky pt-4 px-3">
 
 
-				<h4 class="sidebar-heading d-flex justify-content-between align-items-center px-1 mt-4 mb-1 text-muted"> 
+				<h3 class="sidebar-heading d-flex justify-content-between align-items-center px-1 mt-4 mb-1 text-muted"> 
 					<span>Report Type</span> 
-				</h4>
+				</h3>
 				<ul class="nav flex-column mb-2">
 					<li class="nav-item"> 
 						<a class="nav-link px-0" href="Dashboard.cfm?action=showBasic&beginDate=beginData&endDate=endDate">
@@ -134,7 +134,7 @@ limitations under the License.
 				</div>
 				<cfoutput>
 					<cfif action EQ "showBasic">
-						<h3>Report Date Range</h3>
+						<h3 class="h4">Change Report Date Range</h3>
 						<cfform action="/metrics/Dashboard.cfm?action=showBasic" class="pt-1" id="dateForm">
 							<label for="beginDate" class="data-entry-label">Begin Date</label>
 							<input type="date" id="beginDate" name="beginDate" class="data-entry-input">
@@ -144,7 +144,7 @@ limitations under the License.
 						</cfform>
 						<cfset summaryAnnualBlock=getAnnualNumbers(endDate="#endDate#",beginDate="#beginDate#")>
 						<div id="annualNumbersDiv">
-						#summaryAnnualBlock#
+							#summaryAnnualBlock#
 						</div>
 					</cfif>
 					<cfif action EQ "showLoans">
