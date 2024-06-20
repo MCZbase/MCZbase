@@ -66,12 +66,12 @@ limitations under the License.
 						<input type="submit" value="Submit">
 					</form>
 				</cfif>
-				<a href="javascript:submitForm()">Submit to Function</a>
+				<a class="btn btn-xs btn-primary" href="javascript:submitForm()">Submit to Function</a>
 					
 				<script> 
 					function submitForm() { 
 						var form = document.getElementById("dateForm"); 
-						form.action = "Dashboard.cfm##getAnnualNumbers"; form.submit(); 
+						form.action = "Dashboard.cfm?action=#showBasic###getAnnualNumbers"; form.submit(); 
 					} 
 				</script>
 	
