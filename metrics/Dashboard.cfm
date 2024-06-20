@@ -42,8 +42,8 @@ limitations under the License.
 	<div class="row">
 		<nav id="sidebarMenu" class="col-md-2 col-lg-2 d-md-block bg-light sidebar collapse">
 			<div class="sidebar-sticky pt-4 px-3">
-				<h3>Report Date Range</h3>
-				<cfform action="/metrics/Dashboard.cfm" class="pt-1" id="dateForm">
+				<h3 class="text-muted"><span>Report Date Range</span></h3>
+				<cfform action="/metrics/Dashboard.cfm?action=#action#&beginDate=#beginDate#&endDate=#endDate#" class="pt-1" id="dateForm">
 					<label for="beginDate" class="data-entry-label">Begin Date</label>
 					<input type="date" id="beginDate" name="beginDate" class="data-entry-input">
 					<label for="endDate" class="data-entry-label mt-2">End Date</label>
@@ -51,9 +51,9 @@ limitations under the License.
 					<input type="submit" value="Submit" class="btn btn-xs btn-secondary mt-2" onClick="event.preventDefault(); $(dateForm).submit();">
 				</cfform>
 
-				<h4 class="sidebar-heading d-flex justify-content-between align-items-center px-1 mt-4 mb-1 text-muted"> 
+				<h3 class="sidebar-heading d-flex justify-content-between align-items-center px-1 mt-4 mb-1 text-muted"> 
 					<span>Report Type</span> 
-				</h4>
+				</h3>
 				<ul class="nav flex-column mb-2">
 					<li class="nav-item"> 
 						<a class="nav-link px-0" href="Dashboard.cfm?action=showBasic&beginDate=beginData&endDate=endDate">
