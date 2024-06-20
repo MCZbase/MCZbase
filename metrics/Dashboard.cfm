@@ -69,7 +69,7 @@ limitations under the License.
 					
 				<script> 
 					function submitForm() { 
-						var form = document.getElementById("dateForm"); form.action = "Dashboard.cfm?action=showBasic"; form.submit(); } 
+						var form = document.getElementById("dateForm"); form.action = "Dashboard.cfm##getAnnualNumbers"; form.submit(); } 
 				</script>
 	
 				<h3 class="sidebar-heading d-flex justify-content-between align-items-center px-1 mt-4 mb-1 text-muted"> 
