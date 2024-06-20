@@ -38,7 +38,7 @@ limitations under the License.
 			<div class="sidebar-sticky pt-4 px-3">
 				
 				
-				<cfform name="form" id="form" action="/metrics/Dashboard.cfm" method="post">
+				<form name="form" id="form" action="/metrics/Dashboard.cfm" method="post">
 					<table>
 						<tr>
 							<td>
@@ -55,7 +55,7 @@ limitations under the License.
 							</td>
 						</tr>
 					</table> 
-				</cfform>
+				</form>
 				
 				
 				
