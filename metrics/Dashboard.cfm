@@ -52,11 +52,11 @@ limitations under the License.
 				<cfelse>
 					<form action="/metrics/Dashboard.cfm" class="pt-1" id="dateForm">
 						<label for="beginDate" class="data-entry-label">Begin Date</label>
-						<input type="date" id="beginDate" name="beginDate" class="data-entry-input">
+						<input type="date" id="beginDate" name="beginDate" class="data-entry-input" value="#beginDate#">
 						<label for="endDate" class="data-entry-label mt-2">End Date</label>
-						<input type="date" id="endDate" name="endDate" class="data-entry-input">
+						<input type="date" id="endDate" name="endDate" class="data-entry-input" value="#endDate#">
 						<label for="action" class="data-entry-label mt-2">Report Type</label>
-						<select class="data-entry-select" id="action1" name="action">
+						<select class="data-entry-select" id="action" name="action" value="#action#">
 							<option value="showBasic">Basic Stats</option>
 							<option value="showLoans">Loan Stats</option>
 							<option value="showMedia">Media Stats</option>
@@ -79,7 +79,6 @@ limitations under the License.
 				</h3>
 					<ul class="nav flex-column mb-2">
 						<li class="nav-item"> 
-						<form action="/metrics/Dashboard.cfm" class="pt-1" id="dateForm">
 							<label for="beginDate" class="data-entry-label">Begin Date</label>
 							<input type="date" id="beginDate" name="beginDate" class="data-entry-input">
 							<label for="endDate" class="data-entry-label mt-2">End Date</label>
@@ -95,7 +94,6 @@ limitations under the License.
 								</svg>
 								Basic Collection Metrics
 							</a> 
-							</form>
 						</li>
 						<li class="nav-item"> 
 							<a class="nav-link px-0" href="Dashboard.cfm?action=showLoans&beginDate=#beginDate#&endDate=#endDate#" onClick="showLoansFunction()">
