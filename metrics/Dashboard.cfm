@@ -171,7 +171,7 @@ limitations under the License.
 				</div>
 				<cfoutput>
 					<cfif action EQ "showBasic">
-						<cfset summaryAnnualBlock=getAnnualNumbers(action="#showBasic#",endDate="#endDate#",beginDate="#beginDate#")>
+						<cfset summaryAnnualBlock=getAnnualNumbers(action="showBasic",endDate="#endDate#",beginDate="#beginDate#")>
 						<div id="annualNumbersDiv">
 						#summaryAnnualBlock#
 						</div>
