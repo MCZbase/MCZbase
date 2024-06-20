@@ -143,6 +143,8 @@ limitations under the License.
 			<!-- annual report queries -->
 				<cfsetting RequestTimeout = "0">
 				<cfset start = GetTickCount()>
+				<cfset beginDate = arguments.theformData.beginDate>
+				<cfset endDate = arguments.theformData.endDate>
 				<cfquery name="loans" datasource="uam_god">
 					SELECT
 						c.collection, 
