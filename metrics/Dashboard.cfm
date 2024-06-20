@@ -57,7 +57,7 @@ limitations under the License.
 						<input type="date" id="endDate" name="endDate" class="data-entry-input" value="#endDate#">
 						<label for="action" class="data-entry-label mt-2">Report Type</label>
 						<select class="data-entry-select" id="action" name="action" value="#action#">
-							<option value="showBasic">Basic Stats</option>
+							<option value="showBasic"Stats>Basic </option>
 							<option value="showLoans">Loan Stats</option>
 							<option value="showMedia">Media Stats</option>
 							<option value="showCitations">Citation Stats</option>
@@ -79,12 +79,7 @@ limitations under the License.
 				</h3>
 					<ul class="nav flex-column mb-2">
 						<li class="nav-item"> 
-							<label for="beginDate" class="data-entry-label">Begin Date</label>
-							<input type="date" id="beginDate" name="beginDate" class="data-entry-input">
-							<label for="endDate" class="data-entry-label mt-2">End Date</label>
-							<input type="date" id="endDate" name="endDate" class="data-entry-input">
-							<label for="action" class="data-entry-label mt-2">Report Type</label>
-							<a class="nav-link px-0" href="/metrics/Dashboard.cfm?action=showBasic&beginDate=#beginDate#&endDate=#endDate###getAnnualNumbers" onClick="showBasicFunction(action=showBasic,beginDate=#beginDate#,endDate=#endDate#)">
+							<a class="nav-link px-0" href="##" onClick="showBasicFunction(action=showBasic,beginDate=#beginDate#,endDate=#endDate#)">
 								<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file-text">
 									<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
 									<polyline points="14 2 14 8 20 8"></polyline>
@@ -96,7 +91,7 @@ limitations under the License.
 							</a> 
 						</li>
 						<li class="nav-item"> 
-							<a class="nav-link px-0" href="Dashboard.cfm?action=showLoans&beginDate=#beginDate#&endDate=#endDate#" onClick="showLoansFunction()">
+							<a class="nav-link px-0" href="Dashboard.cfm?action=showLoans&beginDate=#beginDate#&endDate=#endDate#">
 								<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file-text">
 									<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
 									<polyline points="14 2 14 8 20 8"></polyline>
