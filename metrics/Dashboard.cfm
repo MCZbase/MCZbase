@@ -35,16 +35,6 @@ limitations under the License.
 		<nav id="sidebarMenu" class="col-md-2 col-lg-2 d-md-block bg-light sidebar collapse">
 			<div class="sidebar-sticky pt-4 px-3">
 				<h3 class="text-muted"><span>Report Date Range</span></h3>
-				<cfif endDate gt 0>
-					<cfset endDate = #DateFormat (Now(), "yyyy-mm-dd")#>
-					<cfset beginDate = #DateFormat(DateAdd( 'm', -12, now() ),"yyyy-mm-dd")#>
-				<cfelse>
-					<cfset endDate = "2023-07-01">
-					<cfset beginDate = "2022-06-30">
-				</cfif>
-				<cfif NOT isdefined("action") or len(action) EQ 0>
-					<cfset action="showBasic">
-				</cfif>
 			
 				<cfif len(endDate) eq 0 AND NOT isdefined("action") or len(action) EQ 0>
 					<cfset endDate = #DateFormat (Now(), "yyyy-mm-dd")#>
