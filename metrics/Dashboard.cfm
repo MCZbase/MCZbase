@@ -48,6 +48,7 @@ limitations under the License.
 						<input type="date" id="beginDate" name="beginDate" class="data-entry-input" value="#DateFormat (Now(), "yyyy-mm-dd")#">
 						<label for="endDate" class="data-entry-label mt-2">End Date</label>
 						<input type="date" id="endDate" name="endDate" class="data-entry-input" value="#DateFormat (Now(), 'yyyy-mm-dd')#">
+						<input type="submit" value="Submit">
 					</form>
 				<cfelse>
 					<form action="/metrics/Dashboard.cfm" class="pt-1" id="dateForm">
@@ -55,9 +56,17 @@ limitations under the License.
 						<input type="date" id="beginDate" name="beginDate" class="data-entry-input" value="#beginDate#">
 						<label for="endDate" class="data-entry-label mt-2">End Date</label>
 						<input type="date" id="endDate" name="endDate" class="data-entry-input" value="#endDate#">
+						<input type="submit" value="Submit">
 					</form>
 				</cfif>
-			
+				<a href="javascript:submitForm()">Submit to Function</a>
+					
+				<script> function submitForm() { var form = document.getElementById("dateForm"); form.action = "/metrics/Dashboard.cfm#getAnnualNumbers"; form.submit(); } </script>
+				<cffunction name="myFunction"> 
+					<cfargument name="form" type="struct" required="true"> 
+						<!--- access form values here --->
+						<cfoutput>#form.beginDate#</cfoutput>
+				</cffunction>
 				<h3 class="sidebar-heading d-flex justify-content-between align-items-center px-1 mt-4 mb-1 text-muted"> 
 					<span>Report Type</span> 
 				</h3>
