@@ -148,8 +148,8 @@ limitations under the License.
 							<input type="date" class="form-control-plaintext data-entry-input" id="beginDate" value="YYYY-MM-DD">
 							</div>
 							<div class="form-group mx-sm-3 mb-2">
-							<label for="endDate" class="data-entry-label">endDate</label>
-							<input type="date" class="form-control" id="endDate" placeholder="YYYY-MM-DD" value="YYYY-MM-DD">
+							<label for="endDate" class="data-entry-label">End Date</label>
+							<input type="date" class="form-control data-entry-input" id="endDate" placeholder="YYYY-MM-DD" value="YYYY-MM-DD">
 							</div>
 							<button type="submit" class="btn btn-primary btn-xs mb-2">Submit Date</button>
 						</form>
