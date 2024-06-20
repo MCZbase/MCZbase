@@ -23,7 +23,7 @@ limitations under the License.
 			<!-- annual report queries -->
 				<cfsetting RequestTimeout = "0">
 				<cfset start = GetTickCount()>
-				<cfquery name="totals" datasource="uam_god">
+				<cfquery name="showBasic" datasource="uam_god">
 					SELECT 
 						rm.holdings,
 						h.collection, 
@@ -74,7 +74,7 @@ limitations under the License.
 							</tr>
 						</thead>
 						<tbody>
-							<cfloop query="totals">
+							<cfloop query="showBasic">
 								<tr>
 									<td>#collection#</td>
 									<td>#holdings#</td>
@@ -107,7 +107,7 @@ limitations under the License.
 							</tr>
 						</thead>
 						<tbody>
-							<cfloop query="totals">
+							<cfloop query="showBasic">
 								<tr>
 									<td>#collection#</td>
 									<td>#receivedCatItems#</td>
