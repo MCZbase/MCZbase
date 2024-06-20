@@ -73,7 +73,7 @@ limitations under the License.
 					} 
 				</script>
 	
-				<h3 class="sidebar-heading d-flex justify-content-between align-items-center px-1 mt-4 mb-1 text-muted"> 
+			<!---	<h3 class="sidebar-heading d-flex justify-content-between align-items-center px-1 mt-4 mb-1 text-muted"> 
 					<span>Report Type</span> 
 				</h3>
 					<ul class="nav flex-column mb-2">
@@ -163,7 +163,7 @@ limitations under the License.
 					function showShowBasicFunction() { 
 						document.getElementById("dateForm").submit(); 
 					} 
-				</script> 
+				</script> --->
 			</div>
 		</nav>
 
