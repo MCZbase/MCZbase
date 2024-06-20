@@ -39,10 +39,10 @@ limitations under the License.
 				<cfset beginDate = ''>
 				<cfset action = ''>
 					
-				<cfif len(endDate) eq 0 >
-					<cfset endDate = #DateFormat (Now(), "yyyy-mm-dd")#>
-					<cfset beginDate = #DateFormat(DateAdd( 'm', -24, now() ),"yyyy-mm-dd")#>
-				<cfelse>
+				<cfif len(endDate) gt 0 >
+				<!---	<cfset endDate = #DateFormat (Now(), "yyyy-mm-dd")#>
+					<cfset beginDate = #DateFormat(DateAdd( 'm', -24, now() ),"yyyy-mm-dd")#>--->
+			
 					<form action="showBasic" class="pt-1" id="dateForm">
 						<label for="beginDate" class="data-entry-label">Begin Date</label>
 						<input type="date" id="beginDate" name="beginDate" class="data-entry-input" value="#beginDate#">
