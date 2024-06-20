@@ -47,12 +47,12 @@ limitations under the License.
 				<cfif NOT isdefined("action") or len(action) EQ 0>
 					<cfset action="showBasic">
 				</cfif>
-				<form action="/metrics/Dashboard.cfm" method="post" name="pagendates">
+<!---				<form action="/metrics/Dashboard.cfm" method="post" name="pagendates">
 					<input type="date" name="endDate" size="10" value="#endDate#"><br>
 					<input type="date" name="beginDate" size="10" value="#beginDate#"><br>
 					<input type="text" name="action" size="10" value="#action#"><br>
 					<input type="submit" name="Submit">
-				</form>
+				</form>--->
 				<form action="/metrics/Dashboard.cfm?action=#action#&beginDate=#beginDate#&endDate=#endDate#" class="pt-1" id="dateForm">
 					<cfif endDate gt 0>
 						<cfset endDate = #DateFormat (Now(), "yyyy-mm-dd")#>
@@ -75,7 +75,7 @@ limitations under the License.
 					<label for="endDate" class="data-entry-label mt-2">End Date</label>
 					<input type="date" id="endDate" name="endDate" class="data-entry-input" value="#endDate#">
 					
-
+				</form>
 					<h3 class="sidebar-heading d-flex justify-content-between align-items-center px-1 mt-4 mb-1 text-muted"> 
 						<span>Report Type</span> 
 					</h3>
@@ -147,7 +147,7 @@ limitations under the License.
 					</ul>
 					
 					<input type="submit" value="Submit" class="btn btn-xs btn-secondary mt-2" onClick="event.preventDefault(); $(dateForm).submit();">
-				</form>
+			<!---	</form>--->
 				<script> 
 					function myFunction() { 
 						document.getElementById("GFG").submit(); 
