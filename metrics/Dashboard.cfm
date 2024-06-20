@@ -19,6 +19,9 @@ limitations under the License.
 * Demonstration of ajax patterns in MCZbase.
 
 -->
+<cfif NOT isdefined("action") or len(action) EQ 0>
+	<cfset action="showBasic">
+</cfif>
 <cfif isDefined("endDate") and len(endDate) GT 0>
 	<cfset endDate = endDate>
 </cfif>
@@ -113,7 +116,7 @@ limitations under the License.
 				</ul>
 			</div>
 		</nav>
-		
+
 		<main role="main" class="col-md-10 ml-sm-auto col-lg-10 px-md-5 mb-3">
 			<div class="row">
 				<cfset endDate = ''>
@@ -134,31 +137,36 @@ limitations under the License.
 					</div>
 				</div>
 				<cfoutput>
-					<cfset summaryAnnualBlock=getAnnualNumbers(endDate="#endDate#",beginDate="#beginDate#")>
-					<div id="annualNumbersDiv">
+					<cfif action EQ "showBasic">
+						<cfset summaryAnnualBlock=getAnnualNumbers(endDate="#endDate#",beginDate="#beginDate#")>
+						<div id="annualNumbersDiv">
 						#summaryAnnualBlock#
-					</div>
-						
-					<cfset loanBlock=getLoanNumbers(endDate="#endDate#",beginDate="#beginDate#")>
-					<div id="annualLoanDiv">
-						#loanBlock#
-					</div>
-						
-					<cfset mediaBlock=getMediaNumbers(endDate="#endDate#",beginDate="#beginDate#")>
-					<div id="mediaDiv">
-						#mediaBlock#
-					</div>
-						
-					<cfset citationBlock=getCitationNumbers(endDate="#endDate#",beginDate="#beginDate#")>
-					<div id="citationDiv">
-						#citationBlock#
-					</div>
-					
-					<cfset georefBlock=getGeorefNumbers(endDate="#endDate#",beginDate="#beginDate#")>
-					<div id="georefDiv">
-						#georefBlock#
-					</div>
-					
+						</div>
+					</cfif>
+					<cfif action EQ "showLoans">
+						<cfset loanBlock=getLoanNumbers(endDate="#endDate#",beginDate="#beginDate#")>
+						<div id="annualLoanDiv">
+							#loanBlock#
+						</div>
+					</cfif>	
+					<cfif action EQ "showMedia">
+						<cfset mediaBlock=getMediaNumbers(endDate="#endDate#",beginDate="#beginDate#")>
+						<div id="mediaDiv">
+							#mediaBlock#
+						</div>
+					</cfif>
+					<cfif action EQ "showCitations">
+						<cfset citationBlock=getCitationNumbers(endDate="#endDate#",beginDate="#beginDate#")>
+						<div id="citationDiv">
+							#citationBlock#
+						</div>
+					</cfif>
+					<cfif action EQ "showCitations">
+						<cfset georefBlock=getGeorefNumbers(endDate="#endDate#",beginDate="#beginDate#")>
+						<div id="georefDiv">
+							#georefBlock#
+						</div>
+					</cfif>
 				</cfoutput>
 			</div>
 		</main>
