@@ -46,7 +46,7 @@ limitations under the License.
 						<input type="date" id="beginDate" name="beginDate" class="data-entry-input" value="#DateFormat (Now(), 'yyyy-mm-dd')#">
 						<label for="endDate" class="data-entry-label mt-2">End Date</label>
 						<input type="date" id="endDate" name="endDate" class="data-entry-input" value="#DateFormat (Now(), 'yyyy-mm-dd')#">
-						<input for="action" type="hidden" name="action" id="action">
+						<input for="action" type="hidden" name="action" id="action" value="showBasic">
 						<input type="submit" value="Submit">
 					</form>
 				<cfelse>
