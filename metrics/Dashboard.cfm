@@ -63,7 +63,7 @@ limitations under the License.
 					
 				<script> 
 					function submitForm() { 
-						var form = document.getElementById("dateForm"); form.action = "/metrics/Dashboard.cfm#getAnnualNumbers"; form.submit(); } 
+						var form = document.getElementById("dateForm"); form.action = "Dashboard.cfm#getAnnualNumbers"; form.submit(); } 
 				</script>
 				<cffunction name="getAnnualNumbers"> 
 					<cfargument name="form" type="struct" required="true"> 
