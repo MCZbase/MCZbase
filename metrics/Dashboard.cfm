@@ -68,15 +68,9 @@ limitations under the License.
 					
 				<script> 
 					function submitForm() { 
-						var form = document.getElementById("dateForm"); form.action = "Dashboard.cfm##getAnnualNums"; form.submit(); } 
+						var form = document.getElementById("dateForm"); form.action = "/metrics/component/functions.cfc##getAnnualNumbers"; form.submit(); } 
 				</script>
-				<cffunction name="getAnnualNums"> 
-					<cfargument name="form" type="struct" required="true"> 
-						<!--- access form values here --->
-						<cfoutput>#form.beginDate#</cfoutput>
-						<cfoutput>#form.endDate#</cfoutput>
-						<cfoutput>#form.action#</cfoutput>
-				</cffunction>
+	
 				<h3 class="sidebar-heading d-flex justify-content-between align-items-center px-1 mt-4 mb-1 text-muted"> 
 					<span>Report Type</span> 
 				</h3>
