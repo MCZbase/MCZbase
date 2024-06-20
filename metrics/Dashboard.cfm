@@ -63,10 +63,10 @@ limitations under the License.
 					<input type="submit">
 				</form>
 				<cfif structKeyExists(form, "beginDate")>
-					<cfinvoke component="/metrics/component/functions.cfc" method="getLoanNumbers" argumentcollection="#form#">
+					<cfinvoke component="/metrics/component/functions.cfc" method="getAnnualNumbers" argumentcollection="#form#">
 				</cfif>
 				<cfif structKeyExists(form, "endDate")>
-					<cfinvoke component="/metrics/component/functions.cfc" method="getLoanNumbers" argumentcollection="#form#">
+					<cfinvoke component="/metrics/component/functions.cfc" method="getAnnualNumbers" argumentcollection="#form#">
 				</cfif>
 				<h3 class="sidebar-heading d-flex justify-content-between align-items-center px-1 mt-4 mb-1 text-muted"> 
 					<span>Report Type</span> 
