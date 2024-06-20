@@ -51,9 +51,9 @@ limitations under the License.
 				<cfelse>
 					<form action="/metrics/Dashboard.cfm" class="pt-1" id="dateForm">
 						<label for="beginDate" class="data-entry-label">Begin Date</label>
-						<input type="date" id="beginDate" name="beginDate" class="data-entry-input" value="#beginDate#">
+						<input type="date" id="beginDate" name="beginDate" class="data-entry-input">
 						<label for="endDate" class="data-entry-label mt-2">End Date</label>
-						<input type="date" id="endDate" name="endDate" class="data-entry-input" value="#endDate#">
+						<input type="date" id="endDate" name="endDate" class="data-entry-input">
 						<select class="data-entry-select" id="action">
 							<select name="action" id="action">
 								<option value="showBasic">Basic Stats</option>
@@ -70,7 +70,9 @@ limitations under the License.
 					
 				<script> 
 					function submitForm() { 
-						var form = document.getElementById("dateForm"); form.action = "Dashboard.cfm##getAnnualNumbers"; form.submit(); } 
+						var form = document.getElementById("dateForm"); 
+						form.action = "Dashboard.cfm##getAnnualNumbers"; form.submit(); 
+					} 
 				</script>
 	
 				<h3 class="sidebar-heading d-flex justify-content-between align-items-center px-1 mt-4 mb-1 text-muted"> 
