@@ -151,7 +151,7 @@ limitations under the License.
 							<label for="endDate" class="data-entry-label">endDate</label>
 							<input type="date" class="form-control" id="endDate" placeholder="YYYY-MM-DD" value="YYYY-MM-DD">
 							</div>
-							<button type="submit" class="btn btn-primary btn-xs mb-2">Confirm identity</button>
+							<button type="submit" class="btn btn-primary btn-xs mb-2">Submit Date</button>
 						</form>
 						<cfset summaryAnnualBlock=getAnnualNumbers(endDate="#dateForm.endDate#",beginDate="#dateForm.beginDate#")>
 						<div id="annualNumbersDiv">
