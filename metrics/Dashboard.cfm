@@ -19,7 +19,10 @@ limitations under the License.
 * Demonstration of ajax patterns in MCZbase.
 
 -->
-
+<cfset endDate=''>
+<cfset beginDate=''>
+<cfset action=''>
+	
 <cfset pageTitle="Metrics Testing">
 <cfinclude template="/shared/_header.cfm">
 <cfinclude template="/metrics/component/functions.cfc">
@@ -34,20 +37,17 @@ limitations under the License.
 		<nav id="sidebarMenu" class="col-md-2 col-lg-2 d-md-block bg-light sidebar collapse">
 			<div class="sidebar-sticky pt-4 px-3">
 				<h3 class="text-muted"><span>Report Date Range</span></h3>
-				<cfset action="">
+				
 				<cfif NOT isdefined("action") or len(action) EQ 0>
 					<cfset action="showBasic">
 				</cfif>
-				<cfset endDate=''>
-				<cfset beginDate=''>
-				<cfif endDate is "2020-06-19">
+			
+				<cfif len(endDate) eq 0>
 					<form action="/metrics/Dashboard.cfm" class="pt-1" id="dateForm">
 						<label for="beginDate" class="data-entry-label">Begin Date</label>
-						<input type="date" id="beginDate" name="beginDate" class="data-entry-input" value="#DateFormat (Now(), 'yyyy-mm-dd')#">
+						<input type="date" id="beginDate" name="beginDate" class="data-entry-input" value="#DateFormat (Now(), "yyyy-mm-dd")#">
 						<label for="endDate" class="data-entry-label mt-2">End Date</label>
 						<input type="date" id="endDate" name="endDate" class="data-entry-input" value="#DateFormat (Now(), 'yyyy-mm-dd')#">
-						<input for="action" type="hidden" name="action" id="action" value="showBasic">
-						<input type="submit" value="Submit">
 					</form>
 				<cfelse>
 					<form action="/metrics/Dashboard.cfm" class="pt-1" id="dateForm">
@@ -55,31 +55,19 @@ limitations under the License.
 						<input type="date" id="beginDate" name="beginDate" class="data-entry-input" value="#beginDate#">
 						<label for="endDate" class="data-entry-label mt-2">End Date</label>
 						<input type="date" id="endDate" name="endDate" class="data-entry-input" value="#endDate#">
-						<label for="action" class="data-entry-label mt-2">Report Type</label>
-						<select class="data-entry-select" id="action" name="action" value="#action#">
-							<option value="showBasic"Stats>Basic </option>
-							<option value="showLoans">Loan Stats</option>
-							<option value="showMedia">Media Stats</option>
-							<option value="showCitations">Citation Stats</option>
-							<option value="showGeorefs">Georeference Stats</option>
-						</select>
-						<a class="btn btn-xs btn-primary my-3" href="javascript:submitForm()">Submit to Function</a>
 					</form>
 				</cfif>
-				
-				<script> 
-					function submitForm() { 
-						var form = document.getElementById("dateForm"); 
-						form.action = "Dashboard.cfm##getAnnualNumbers"; form.submit(); 
-					} 
-				</script>
-	
+				<form method="post" action="/metrics/Dashboard.cfm">
+					<input type="beginDate" name="begin">
+					<input type="endDate" name="end">
+					<input type="submit">
+				</form>
 				<h3 class="sidebar-heading d-flex justify-content-between align-items-center px-1 mt-4 mb-1 text-muted"> 
 					<span>Report Type</span> 
 				</h3>
 					<ul class="nav flex-column mb-2">
 						<li class="nav-item"> 
-							<a class="nav-link px-0" href="##" onClick="showBasicFunction(action=showBasic,beginDate=#beginDate#,endDate=#endDate#)">
+							<a class="nav-link px-0" href="Dashboard.cfm?action=showBasic&beginDate=#beginDate#&endDate=#endDate#" onClick="showBasicFunction(action=showBasic,beginDate=#beginDate#,endDate=#endDate#)">
 								<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file-text">
 									<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
 									<polyline points="14 2 14 8 20 8"></polyline>
@@ -90,8 +78,9 @@ limitations under the License.
 								Basic Collection Metrics
 							</a> 
 						</li>
+						
 						<li class="nav-item"> 
-							<a class="nav-link px-0" href="Dashboard.cfm?action=showLoans&beginDate=#beginDate#&endDate=#endDate#">
+							<a class="nav-link px-0" href="Dashboard.cfm?action=showLoans&beginDate=#beginDate#&endDate=#endDate#" onClick="showLoansFunction()">
 								<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file-text">
 									<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
 									<polyline points="14 2 14 8 20 8"></polyline>
@@ -139,8 +128,33 @@ limitations under the License.
 							</a> 
 						</li>
 					</ul>
+					
 			
-			
+				<script> 
+					function showGeorefsFunction() { 
+						document.getElementById("dateForm").submit(); 
+					} 
+				</script> 
+				<script> 
+					function showCitationsFunction() { 
+						document.getElementById("dateForm").submit(); 
+					} 
+				</script> 
+				<script> 
+					function showLoansFunction() { 
+						document.getElementById("dateForm").submit(); 
+					} 
+				</script> 
+				<script> 
+					function showMediaFunction() { 
+						document.getElementById("dateForm").submit(); 
+					} 
+				</script> 
+				<script> 
+					function showShowBasicFunction() { 
+						document.getElementById("dateForm").submit(); 
+					} 
+				</script> 
 			</div>
 		</nav>
 
