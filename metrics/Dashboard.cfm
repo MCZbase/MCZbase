@@ -54,7 +54,7 @@ limitations under the License.
 						<input type="date" id="beginDate" name="beginDate" class="data-entry-input">
 						<label for="endDate" class="data-entry-label mt-2">End Date</label>
 						<input type="date" id="endDate" name="endDate" class="data-entry-input">
-						<select class="data-entry-select" id="action" name="action">
+						<select class="data-entry-select" id="action1" name="action1">
 							<option value="showBasic">Basic Stats</option>
 							<option value="showLoans">Loan Stats</option>
 							<option value="showMedia">Media Stats</option>
