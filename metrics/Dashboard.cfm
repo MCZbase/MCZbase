@@ -19,13 +19,21 @@ limitations under the License.
 * Demonstration of ajax patterns in MCZbase.
 
 -->
+
+<cfif endDate gt 0>
+	<cfset endDate = #DateFormat (Now(), "yyyy-mm-dd")#>
+	<cfset beginDate = #DateFormat(DateAdd( 'm', -12, now() ),"yyyy-mm-dd")#>
+<cfelse>
+	<cfset endDate = "2023-07-01">
+	<cfset beginDate = "2022-06-30">
+</cfif>
 <cfif NOT isdefined("action") or len(action) EQ 0>
 	<cfset action="showBasic">
 </cfif>
-<cfif isDefined("endDate") and len(endDate) GT 0>
+<cfif NOT isDefined("endDate") and len(endDate) EQ 0>
 	<cfset endDate = endDate>
 </cfif>
-<cfif isDefined("beginDate") and len(beginDate) GT 0>
+<cfif NOT isDefined("beginDate") and len(beginDate) EQ 0>
 	<cfset beginDate = beginDate>
 </cfif>
 	
@@ -121,14 +129,7 @@ limitations under the License.
 
 		<main role="main" class="col-md-10 ml-sm-auto col-lg-10 px-md-5 mb-3">
 			<div class="row">
-				<cfset endDate = ''>
-				<cfif endDate gt 0>
-					<cfset endDate = #DateFormat (Now(), "yyyy-mm-dd")#>
-					<cfset beginDate = #DateFormat(DateAdd( 'm', -12, now() ),"yyyy-mm-dd")#>
-				<cfelse>
-					<cfset endDate = "2023-07-01">
-					<cfset beginDate = "2022-06-30">
-				</cfif>
+	
 				<div class="col-12 px-0 mt-4">
 					<h1 class="h2 float-left">Metrics</h1>
 					<div class="btn-toolbar mb-2 mb-md-0 float-right">
