@@ -173,29 +173,29 @@ limitations under the License.
 					<cfif action EQ "showBasic">
 						<cfset summaryAnnualBlock=getAnnualNumbers(action="showBasic",endDate="#endDate#",beginDate="#beginDate#")>
 						<div id="annualNumbersDiv">
-						#summaryAnnualBlock#
+							#summaryAnnualBlock#
 						</div>
 					</cfif>
 					<cfif action EQ "showLoans">
-						<cfset loanBlock=getLoanNumbers(action="#showLoans#",endDate="#endDate#",beginDate="#beginDate#")>
+						<cfset loanBlock=getLoanNumbers(action="showLoans",endDate="#endDate#",beginDate="#beginDate#")>
 						<div id="annualLoanDiv">
 							#loanBlock#
 						</div>
 					</cfif>	
 					<cfif action EQ "showMedia">
-						<cfset mediaBlock=getMediaNumbers(action="#showMedia#",endDate="#endDate#",beginDate="#beginDate#")>
+						<cfset mediaBlock=getMediaNumbers(action="showMedia",endDate="#endDate#",beginDate="#beginDate#")>
 						<div id="mediaDiv">
 							#mediaBlock#
 						</div>
 					</cfif>
 					<cfif action EQ "showCitations">
-						<cfset citationBlock=getCitationNumbers(action="#showCitations#",endDate="#endDate#",beginDate="#beginDate#")>
+						<cfset citationBlock=getCitationNumbers(action="showCitations",endDate="#endDate#",beginDate="#beginDate#")>
 						<div id="citationDiv">
 							#citationBlock#
 						</div>
 					</cfif>
 					<cfif action EQ "showGeorefs">
-						<cfset georefBlock=getGeorefNumbers(action="#showGeorefs#",endDate="#endDate#",beginDate="#beginDate#")>
+						<cfset georefBlock=getGeorefNumbers(action="showGeorefs",endDate="#endDate#",beginDate="#beginDate#")>
 						<div id="georefDiv">
 							#georefBlock#
 						</div>
