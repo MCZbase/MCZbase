@@ -44,7 +44,7 @@ limitations under the License.
 			<div class="sidebar-sticky pt-4 px-3">
 
 
-				<h3 class="sidebar-heading d-flex justify-content-between align-items-center px-1 mt-4 mb-1 text-muted"> 
+				<h3 class="sidebar-heading d-flex justify-content-between align-items-center px-1 mt-2 mb-1 text-muted"> 
 					<span>Report Type</span> 
 				</h3>
 				<ul class="nav flex-column mb-2">
@@ -142,7 +142,18 @@ limitations under the License.
 							<input type="date" id="endDate" name="endDate" class="data-entry-input">
 							<input type="submit" value="Submit" class="btn btn-xs btn-secondary mt-2" onClick="event.preventDefault(); $(dateForm).submit();">
 						</cfform>
-						<cfset summaryAnnualBlock=getAnnualNumbers(endDate="#endDate#",beginDate="#beginDate#")>
+						<form class="form-inline pt-1" id="dateForm" action="/metrics/Dashboard.cfm?action=showBasic">
+							<div class="form-group mb-2">
+							<label for="beginDate" class="data-entry-label">Begin Date</label>
+							<input type="date" class="form-control-plaintext data-entry-input" id="beginDate" value="YYYY-MM-DD">
+							</div>
+							<div class="form-group mx-sm-3 mb-2">
+							<label for="inputPassword2" class="sr-only">Password</label>
+							<input type="password" class="form-control" id="inputPassword2" placeholder="Password">
+							</div>
+							<button type="submit" class="btn btn-primary mb-2">Confirm identity</button>
+						</form>
+						<cfset summaryAnnualBlock=getAnnualNumbers(endDate="#dateForm.endDate#",beginDate="#dateForm.beginDate#")>
 						<div id="annualNumbersDiv">
 							#summaryAnnualBlock#
 						</div>
