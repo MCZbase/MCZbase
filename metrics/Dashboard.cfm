@@ -147,7 +147,27 @@ limitations under the License.
 					
 			
 				<script> 
-					function myFunction() { 
+					function showGeorefsFunction() { 
+						document.getElementById("dateForm").submit(); 
+					} 
+				</script> 
+				<script> 
+					function showCitationsFunction() { 
+						document.getElementById("dateForm").submit(); 
+					} 
+				</script> 
+				<script> 
+					function showLoansFunction() { 
+						document.getElementById("dateForm").submit(); 
+					} 
+				</script> 
+				<script> 
+					function showMediaFunction() { 
+						document.getElementById("dateForm").submit(); 
+					} 
+				</script> 
+				<script> 
+					function showShowBasicFunction() { 
 						document.getElementById("dateForm").submit(); 
 					} 
 				</script> 
