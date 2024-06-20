@@ -40,7 +40,7 @@ limitations under the License.
 				</cfif>
 				<cfset endDate=''>
 				<cfset beginDate=''>
-				<cfif endDate="2020-06-20">
+				<cfif endDate is "2020-06-19">
 					<form action="/metrics/Dashboard.cfm" class="pt-1" id="dateForm">
 						<label for="beginDate" class="data-entry-label">Begin Date</label>
 						<input type="date" id="beginDate" name="beginDate" class="data-entry-input" value="#DateFormat (Now(), 'yyyy-mm-dd')#">
