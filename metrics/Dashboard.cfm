@@ -42,14 +42,7 @@ limitations under the License.
 	<div class="row">
 		<nav id="sidebarMenu" class="col-md-2 col-lg-2 d-md-block bg-light sidebar collapse">
 			<div class="sidebar-sticky pt-4 px-3">
-				<h3>Report Date Range</h3>
-				<cfform action="/metrics/Dashboard.cfm" class="pt-1" id="dateForm">
-					<label for="beginDate" class="data-entry-label">Begin Date</label>
-					<input type="date" id="beginDate" name="beginDate" class="data-entry-input">
-					<label for="endDate" class="data-entry-label mt-2">End Date</label>
-					<input type="date" id="endDate" name="endDate" class="data-entry-input">
-					<input type="submit" value="Submit" class="btn btn-xs btn-secondary mt-2" onClick="event.preventDefault(); $(dateForm).submit();">
-				</cfform>
+
 
 				<h4 class="sidebar-heading d-flex justify-content-between align-items-center px-1 mt-4 mb-1 text-muted"> 
 					<span>Report Type</span> 
@@ -132,6 +125,7 @@ limitations under the License.
 				<div class="col-12 px-0 mt-4">
 					<h1 class="h2 float-left">Metrics</h1>
 					<div class="btn-toolbar mb-2 mb-md-0 float-right">
+		
 						<div class="btn-group mr-2">
 							<button type="button" class="btn btn-sm btn-outline-secondary">Share</button>
 							<button type="button" class="btn btn-sm btn-outline-secondary">Export</button>
@@ -140,6 +134,14 @@ limitations under the License.
 				</div>
 				<cfoutput>
 					<cfif action EQ "showBasic">
+						<h3>Report Date Range</h3>
+						<cfform action="/metrics/Dashboard.cfm?action=showBasic" class="pt-1" id="dateForm">
+							<label for="beginDate" class="data-entry-label">Begin Date</label>
+							<input type="date" id="beginDate" name="beginDate" class="data-entry-input">
+							<label for="endDate" class="data-entry-label mt-2">End Date</label>
+							<input type="date" id="endDate" name="endDate" class="data-entry-input">
+							<input type="submit" value="Submit" class="btn btn-xs btn-secondary mt-2" onClick="event.preventDefault(); $(dateForm).submit();">
+						</cfform>
 						<cfset summaryAnnualBlock=getAnnualNumbers(endDate="#endDate#",beginDate="#beginDate#")>
 						<div id="annualNumbersDiv">
 						#summaryAnnualBlock#
