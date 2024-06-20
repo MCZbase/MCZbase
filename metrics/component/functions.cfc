@@ -145,8 +145,6 @@ limitations under the License.
 			<!-- annual report queries -->
 				<cfsetting RequestTimeout = "0">
 				<cfset start = GetTickCount()>
-				<cfset beginDate = arguments.beginDate.name>
-				<cfset endDate = arguments.endDate.name>
 				<cfquery name="loans" datasource="uam_god">
 					SELECT
 						c.collection, 
