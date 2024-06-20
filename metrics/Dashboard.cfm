@@ -140,7 +140,7 @@ limitations under the License.
 							<cfset endDate = "2023-07-01">
 							<cfset beginDate = "2022-06-30">
 						</cfif>
-						<form class="form-inline pt-1" id="dateForm" action="/metrics/Dashboard.cfm?action=showBasic&beginDate=beginDate&endDate">
+						<form class="form-inline pt-1" id="dateForm" action="/metrics/Dashboard.cfm?action=showBasic">
 							<div class="form-group mb-2">
 							<label for="beginDate" class="data-entry-label">Begin Date</label>
 							<input type="date" class="form-control-plaintext data-entry-input" id="beginDate" value="#beginDate#">
