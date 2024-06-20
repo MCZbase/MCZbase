@@ -71,9 +71,9 @@ limitations under the License.
 						<cfset beginDate = "#beginDate#">
 					</cfif>
 					<label for="beginDate" class="data-entry-label">Begin Date</label>
-					<input type="date" id="beginDate" name="beginDate" class="data-entry-input" value="beginDate">
+					<input type="date" id="beginDate" name="beginDate" class="data-entry-input" value="#beginDate#">
 					<label for="endDate" class="data-entry-label mt-2">End Date</label>
-					<input type="date" id="endDate" name="endDate" class="data-entry-input" value="endDate">
+					<input type="date" id="endDate" name="endDate" class="data-entry-input" value="#endDate#">
 					
 
 					<h3 class="sidebar-heading d-flex justify-content-between align-items-center px-1 mt-4 mb-1 text-muted"> 
