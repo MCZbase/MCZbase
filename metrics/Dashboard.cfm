@@ -56,7 +56,7 @@ limitations under the License.
 				</h4>
 				<ul class="nav flex-column mb-2">
 					<li class="nav-item"> 
-						<a class="nav-link px-0" href="Dashboard.cfm?action=showBasic">
+						<a class="nav-link px-0" href="Dashboard.cfm?action=showBasic&beginDate=beginData&endDate=endDate">
 							<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file-text">
 								<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
 								<polyline points="14 2 14 8 20 8"></polyline>
@@ -68,7 +68,7 @@ limitations under the License.
 						</a> 
 					</li>
 					<li class="nav-item"> 
-						<a class="nav-link px-0" href="Dashboard.cfm?action=showLoans">
+						<a class="nav-link px-0" href="Dashboard.cfm?action=showLoans&beginDate=beginData&endDate=endDate">
 							<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file-text">
 								<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
 								<polyline points="14 2 14 8 20 8"></polyline>
@@ -80,7 +80,7 @@ limitations under the License.
 						</a> 
 					</li>
 					<li class="nav-item"> 
-						<a class="nav-link px-0" href="Dashboard.cfm?action=showMedia">
+						<a class="nav-link px-0" href="Dashboard.cfm?action=showMedia&beginDate=beginData&endDate=endDate">
 							<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file-text">
 								<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
 								<polyline points="14 2 14 8 20 8"></polyline>
@@ -92,7 +92,7 @@ limitations under the License.
 						</a> 
 					</li>
 					<li class="nav-item"> 
-						<a class="nav-link px-0" href="Dashboard.cfm?action=showCitations">
+						<a class="nav-link px-0" href="Dashboard.cfm?action=showCitations&beginDate=beginData&endDate=endDate">
 							<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file-text">
 								<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
 								<polyline points="14 2 14 8 20 8"></polyline>
@@ -104,7 +104,7 @@ limitations under the License.
 						</a> 
 					</li>
 					<li class="nav-item"> 
-						<a class="nav-link px-0" href="Dashboard.cfm?action=showGeorefs">
+						<a class="nav-link px-0" href="Dashboard.cfm?action=showGeorefs&beginDate=beginData&endDate=endDate">
 							<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file-text">
 								<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
 								<polyline points="14 2 14 8 20 8"></polyline>
@@ -173,8 +173,9 @@ limitations under the License.
 			</div>
 		</main>
 	</div>
+	<cfoutput>Execution Time: <b>#int(getTickCount()-start)#</b> milliseconds<br></cfoutput>
 </div>
 
 </cfoutput>
-<cfoutput>Execution Time: <b>#int(getTickCount()-start)#</b> milliseconds<br></cfoutput>
+
 <cfinclude template="/shared/_footer.cfm">
