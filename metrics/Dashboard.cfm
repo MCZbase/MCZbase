@@ -20,6 +20,7 @@ limitations under the License.
 
 -->
 <cfset endDate=''>
+<cfset beginDate=''>
 <cfset action=''>
 	
 <cfset pageTitle="Metrics Testing">
