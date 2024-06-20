@@ -56,6 +56,14 @@ limitations under the License.
 						<input type="date" id="beginDate" name="beginDate" class="data-entry-input" value="#beginDate#">
 						<label for="endDate" class="data-entry-label mt-2">End Date</label>
 						<input type="date" id="endDate" name="endDate" class="data-entry-input" value="#endDate#">
+						<select class="data-entry-select" id="actions">
+							<select name="actions" id="actions">
+								<option value="BasicStats">Basic Stats</option>
+								<option value="LoanStats">Loan Stats</option>
+								<option value="CitationStats">Citation Stats</option>
+								<option value="GeorefStats">Georeference Stats</option>
+							</select>
+						</select>
 						<input type="submit" value="Submit">
 					</form>
 				</cfif>
@@ -69,6 +77,8 @@ limitations under the License.
 					<cfargument name="form" type="struct" required="true"> 
 						<!--- access form values here --->
 						<cfoutput>#form.beginDate#</cfoutput>
+						<cfoutput>#form.endDate#</cfoutput>
+						<cfoutput>#form.action#</cfoutput>
 				</cffunction>
 				<h3 class="sidebar-heading d-flex justify-content-between align-items-center px-1 mt-4 mb-1 text-muted"> 
 					<span>Report Type</span> 
