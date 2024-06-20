@@ -51,7 +51,7 @@ limitations under the License.
 					<table width="100%">
 						<tr>
 							<td align="left">
-								<a href="/metrics/Dashboard.cfm?action=#action#&beginDate=#beginDate#&endDate=#endDate" onclick="document.form.submit();">test</a>
+								<a href="/metrics/Dashboard.cfm?action=#action#&beginDate=#beginDate#&endDate=#endDate#" onclick="document.form.submit();">test</a>
 							</td>
 						</tr>
 					</table> 
