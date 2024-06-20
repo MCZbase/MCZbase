@@ -31,10 +31,10 @@ limitations under the License.
 	<cfset action="showBasic">
 </cfif>
 <cfif NOT isDefined("endDate") and len(endDate) EQ 0>
-	<cfset endDate = endDate>
+	<cfset endDate = "#endDate#">
 </cfif>
 <cfif NOT isDefined("beginDate") and len(beginDate) EQ 0>
-	<cfset beginDate = beginDate>
+	<cfset beginDate = "#beginDate#">
 </cfif>
 	
 <cfset pageTitle="Metrics Testing">
