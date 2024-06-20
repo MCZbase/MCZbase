@@ -135,8 +135,8 @@ limitations under the License.
 </cffunction>
 			
 <cffunction name="getLoanNumbers" access="remote" returntype="any" returnformat="json">
-	<cfargument name="endDate" type="date" required="no" default="2024-07-01">
-	<cfargument name="beginDate" type="date" required="no" default="2023-07-01"><br>
+	<cfargument name="endDate" type="date" required="no">
+	<cfargument name="beginDate" type="date" required="no">
 	<cfargument name="showLoans" type="text" required="no" default="showLoans">
 	<cfthread name="getLoanNumbersThread">
 		<cfoutput>
