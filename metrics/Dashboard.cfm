@@ -75,7 +75,7 @@ limitations under the License.
 					<label for="endDate" class="data-entry-label mt-2">End Date</label>
 					<input type="date" id="endDate" name="endDate" class="data-entry-input" value="#endDate#">
 					
-				</form>
+					
 					<h3 class="sidebar-heading d-flex justify-content-between align-items-center px-1 mt-4 mb-1 text-muted"> 
 						<span>Report Type</span> 
 					</h3>
@@ -147,7 +147,7 @@ limitations under the License.
 					</ul>
 					
 					<input type="submit" value="Submit" class="btn btn-xs btn-secondary mt-2" onClick="event.preventDefault(); $(dateForm).submit();">
-			<!---	</form>--->
+				</form>
 				<script> 
 					function myFunction() { 
 						document.getElementById("GFG").submit(); 
