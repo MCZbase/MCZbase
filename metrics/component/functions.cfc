@@ -13,17 +13,16 @@ limitations under the License.
 --->
 
 <cffunction name="getAnnualNumbers" access="remote" returntype="any" returnformat="json">
-		
-	<cfargument name="beginDate" type="any" required="no"> <!--- access form values here --->
-	<cfargument name="endDate" type="any" required="no">
-
+	<cfargument name="endDate" type="any" required="false">
+	<cfargument name="beginDate" type="any" required="false">
+	
 	<cfthread name="getAnnualNumbersThread">
 		<cfoutput>
 			<cftry>
 			<!-- annual report queries -->
 				<cfsetting RequestTimeout = "0">
 				<cfset start = GetTickCount()>
-				<cfquery name="showBasic" datasource="uam_god">
+				<cfquery name="totals" datasource="uam_god">
 					SELECT 
 						rm.holdings,
 						h.collection, 
@@ -53,7 +52,7 @@ limitations under the License.
 					LEFT JOIN 
 						(select f.collection_id, f.collection, count(distinct f.collection_object_id) enteredCatItems, sum(decode(total_parts,null, 1,total_parts)) enteredSpecimens from flat f join coll_object co on f.collection_object_id = co.collection_object_id where co.COLL_OBJECT_ENTERED_DATE between to_date('#beginDate#', 'YYYY-MM-DD') and  to_date('#endDate#', 'YYYY-MM-DD') group by f.collection_id, f.collection) e on e.collection_id = h.collection_id
 					LEFT JOIN 
-						(select f.collection_id, f.collection, count(distinct f.collection_object_id) ncbiCatItems, sum(total_parts) ncbiSpecimens from COLL_OBJ_OTHER_ID_NUM oid, flat f, COLL_OBJECT CO where OTHER_ID_TYPE like '%NCBI%' AND F.COLLECTION_OBJECT_ID = CO.COLLECTION_OBJECT_ID and co.COLL_OBJECT_ENTERED_DATE < to_date('#endDate#', 'YYYY-MM-DD') and oid.collection_object_id = f.collection_object_id group by f.collection_id, f.collection) ncbi on h.collection_id = ncbi.collection_id
+						(select f.collection_id, f.collection, count(distinct f.collection_object_id) ncbiCatItems, sum(total_parts) ncbiSpecimens from COLL_OBJ_OTHER_ID_NUM oid, flat f, COLL_OBJECT CO where OTHER_ID_TYPE like '%NCBI%' 	AND F.COLLECTION_OBJECT_ID = CO.COLLECTION_OBJECT_ID and co.COLL_OBJECT_ENTERED_DATE < to_date('#endDate#', 'YYYY-MM-DD') and oid.collection_object_id = f.collection_object_id group by f.collection_id, f.collection) ncbi on h.collection_id = ncbi.collection_id
 					LEFT JOIN 
 						(select c.collection_id, c.collection, count(distinct t.transaction_id) numAccns from accn a, trans t, collection c where a.transaction_id = t.transaction_id and t.collection_id = c.collection_id and a.received_date between to_date('#beginDate#', 'YYYY-MM-DD') and  to_date('#endDate#', 'YYYY-MM-DD') group by c.collection_id, c.collection) accn on h.collection_id = accn.collection_id
 				</cfquery>
@@ -74,7 +73,7 @@ limitations under the License.
 							</tr>
 						</thead>
 						<tbody>
-							<cfloop query="showBasic">
+							<cfloop query="totals">
 								<tr>
 									<td>#collection#</td>
 									<td>#holdings#</td>
@@ -107,7 +106,7 @@ limitations under the License.
 							</tr>
 						</thead>
 						<tbody>
-							<cfloop query="showBasic">
+							<cfloop query="totals">
 								<tr>
 									<td>#collection#</td>
 									<td>#receivedCatItems#</td>
@@ -145,6 +144,7 @@ limitations under the License.
 			<!-- annual report queries -->
 				<cfsetting RequestTimeout = "0">
 				<cfset start = GetTickCount()>
+	
 				<cfquery name="loans" datasource="uam_god">
 					SELECT
 						c.collection, 
@@ -372,8 +372,8 @@ limitations under the License.
 </cffunction>
 			
 <cffunction name="getCitationNumbers" access="remote" returntype="any" returnformat="json">
-	<cfargument name="endDate" type="date" required="no" default="2024-07-01">
-	<cfargument name="beginDate" type="date" required="no" default="2023-07-01">
+	<cfargument name="endDate" type="any" required="no" default="2024-07-01">
+	<cfargument name="beginDate" type="any" required="no" default="2023-07-01">
 	<cfargument name="showCitations" type="text" required="no" default="showCitations">
 	<cfthread name="getCitationNumbersThread">
 		<cfoutput>
