@@ -57,17 +57,7 @@ limitations under the License.
 						<input type="date" id="endDate" name="endDate" class="data-entry-input" value="#endDate#">
 					</form>
 				</cfif>
-				<form method="post" action="/metrics/Dashboard.cfm" id="form">
-					<input type="date" id="beginDate" name="beginDate">
-					<input type="date" id="endDate" name="endDate">
-					<input type="submit">
-				</form>
-				<cfif structKeyExists(form, "beginDate")>
-					<cfinvoke component="functions.cfc" method="getAnnualNumbers" argumentcollection="#form#">
-				</cfif>
-				<cfif structKeyExists(form, "endDate")>
-					<cfinvoke component="functions.cfc" method="getAnnualNumbers" argumentcollection="#form#">
-				</cfif>
+			
 				<h3 class="sidebar-heading d-flex justify-content-between align-items-center px-1 mt-4 mb-1 text-muted"> 
 					<span>Report Type</span> 
 				</h3>
@@ -84,7 +74,6 @@ limitations under the License.
 								Basic Collection Metrics
 							</a> 
 						</li>
-						
 						<li class="nav-item"> 
 							<a class="nav-link px-0" href="Dashboard.cfm?action=showLoans&beginDate=#beginDate#&endDate=#endDate#" onClick="showLoansFunction()">
 								<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file-text">
@@ -134,7 +123,6 @@ limitations under the License.
 							</a> 
 						</li>
 					</ul>
-					
 			
 				<script> 
 					function showGeorefsFunction() { 
