@@ -35,9 +35,11 @@ limitations under the License.
 		<nav id="sidebarMenu" class="col-md-2 col-lg-2 d-md-block bg-light sidebar collapse">
 			<div class="sidebar-sticky pt-4 px-3">
 				<h3 class="text-muted"><span>Report Date Range</span></h3>
-				
+				<cfset action = ''>
 				<cfif NOT isdefined("action") or len(action) EQ 0>
 					<cfset action="showBasic">
+				<cfelse>
+					<cfset action = "#action#">
 				</cfif>
 					
 				<cfif len(endDate) eq 0 >
@@ -158,7 +160,7 @@ limitations under the License.
 				</script> 
 			</div>
 		</nav>
-
+		
 		<main role="main" class="col-md-10 ml-sm-auto col-lg-10 px-md-5 mb-3">
 			<div class="row">
 	
