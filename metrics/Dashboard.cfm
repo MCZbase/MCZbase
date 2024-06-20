@@ -65,7 +65,6 @@ limitations under the License.
 					</form>
 				</cfif>
 				<a class="btn btn-xs btn-primary" href="javascript:submitForm()">Submit to Function</a>
-					
 				<script> 
 					function submitForm() { 
 						var form = document.getElementById("dateForm"); 
