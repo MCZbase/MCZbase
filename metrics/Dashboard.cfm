@@ -42,9 +42,7 @@ limitations under the License.
 	<div class="row">
 		<nav id="sidebarMenu" class="col-md-2 col-lg-2 d-md-block bg-light sidebar collapse">
 			<div class="sidebar-sticky pt-4 px-3">
-
-
-				<h3 class="sidebar-heading d-flex justify-content-between align-items-center px-1 mt-2 mb-1 text-muted"> 
+				<h3 class="sidebar-heading d-flex justify-content-between align-items-center px-1 mt-2 mb-2 text-muted"> 
 					<span>Report Type</span> 
 				</h3>
 				<ul class="nav flex-column mb-2">
@@ -114,7 +112,6 @@ limitations under the License.
 
 		<main role="main" class="col-md-10 ml-sm-auto col-lg-10 px-md-5 mb-3">
 			<div class="row">
-				<cfset endDate = ''>
 				<cfif endDate gt 0>
 					<cfset endDate = #DateFormat (Now(), "yyyy-mm-dd")#>
 					<cfset beginDate = #DateFormat(DateAdd( 'm', -12, now() ),"yyyy-mm-dd")#>
@@ -145,11 +142,11 @@ limitations under the License.
 						<form class="form-inline pt-1" id="dateForm" action="/metrics/Dashboard.cfm?action=showBasic">
 							<div class="form-group mb-2">
 							<label for="beginDate" class="data-entry-label">Begin Date</label>
-							<input type="date" class="form-control-plaintext data-entry-input" id="beginDate" value="YYYY-MM-DD">
+							<input type="date" class="form-control-plaintext data-entry-input" id="beginDate" value="#beginDate#">
 							</div>
 							<div class="form-group mx-sm-3 mb-2">
 							<label for="endDate" class="data-entry-label">End Date</label>
-							<input type="date" class="form-control data-entry-input" id="endDate" placeholder="YYYY-MM-DD" value="YYYY-MM-DD">
+							<input type="date" class="form-control data-entry-input" id="endDate" placeholder="YYYY-MM-DD" value="#endDate#">
 							</div>
 							<button type="submit" class="btn btn-primary btn-xs mb-2">Submit Date</button>
 						</form>
