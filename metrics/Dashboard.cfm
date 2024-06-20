@@ -79,6 +79,12 @@ limitations under the License.
 				</h3>
 					<ul class="nav flex-column mb-2">
 						<li class="nav-item"> 
+						<form action="/metrics/Dashboard.cfm" class="pt-1" id="dateForm">
+							<label for="beginDate" class="data-entry-label">Begin Date</label>
+							<input type="date" id="beginDate" name="beginDate" class="data-entry-input">
+							<label for="endDate" class="data-entry-label mt-2">End Date</label>
+							<input type="date" id="endDate" name="endDate" class="data-entry-input">
+							<label for="action" class="data-entry-label mt-2">Report Type</label>
 							<a class="nav-link px-0" href="/metrics/Dashboard.cfm?action=showBasic&beginDate=#beginDate#&endDate=#endDate###getAnnualNumbers" onClick="showBasicFunction(action=showBasic,beginDate=#beginDate#,endDate=#endDate#)">
 								<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file-text">
 									<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
@@ -89,6 +95,7 @@ limitations under the License.
 								</svg>
 								Basic Collection Metrics
 							</a> 
+							</form>
 						</li>
 						<li class="nav-item"> 
 							<a class="nav-link px-0" href="Dashboard.cfm?action=showLoans&beginDate=#beginDate#&endDate=#endDate#" onClick="showLoansFunction()">
