@@ -37,6 +37,22 @@ limitations under the License.
 		<nav id="sidebarMenu" class="col-md-2 col-lg-2 d-md-block bg-light sidebar collapse">
 			<div class="sidebar-sticky pt-4 px-3">
 				<h3 class="text-muted"><span>Report Date Range</span></h3>
+				<cfif endDate gt 0>
+					<cfset endDate = #DateFormat (Now(), "yyyy-mm-dd")#>
+					<cfset beginDate = #DateFormat(DateAdd( 'm', -12, now() ),"yyyy-mm-dd")#>
+				<cfelse>
+					<cfset endDate = "2023-07-01">
+					<cfset beginDate = "2022-06-30">
+				</cfif>
+				<cfif NOT isdefined("action") or len(action) EQ 0>
+					<cfset action="showBasic">
+				</cfif>
+				<form action="/metrics/Dashboard.cfm" method="post" name="pagendates">
+					<input type="date" name="endDate" size="10" value="#endDate#"><br>
+					<input type="date" name="beginDate" size="10" value="#beginDate#"><br>
+					<input type="text" name="action" size="10" value="#action#"><br>
+					<input type="submit" name="Submit">
+				</form>
 				<form action="/metrics/Dashboard.cfm?action=#action#&beginDate=#beginDate#&endDate=#endDate#" class="pt-1" id="dateForm">
 					<cfif endDate gt 0>
 						<cfset endDate = #DateFormat (Now(), "yyyy-mm-dd")#>
@@ -63,6 +79,7 @@ limitations under the License.
 					<h3 class="sidebar-heading d-flex justify-content-between align-items-center px-1 mt-4 mb-1 text-muted"> 
 						<span>Report Type</span> 
 					</h3>
+					
 					<ul class="nav flex-column mb-2">
 						<li class="nav-item"> 
 							<a class="nav-link px-0" href="Dashboard.cfm?action=showBasic&beginDate=beginData&endDate=endDate">
@@ -76,7 +93,9 @@ limitations under the License.
 								</svg>
 								Basic Collection Metrics
 							</a> 
+							<input type="hidden" name="action" value="showBasic">
 						</li>
+						
 						<li class="nav-item"> 
 							<a class="nav-link px-0" href="Dashboard.cfm?action=showLoans&beginDate=beginData&endDate=endDate">
 								<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file-text">
