@@ -15,6 +15,12 @@ limitations under the License.
 <cffunction name="getAnnualNumbers" access="remote" returntype="any" returnformat="json">
 	<cfargument name="endDate" type="date" required="true">
 	<cfargument name="beginDate" type="date" required="true">
+	<cfargument name="form" type="struct" required="true"> 
+	<!--- access form values here --->
+		<cfoutput>#form.beginDate#</cfoutput>
+		<cfoutput>#form.endDate#</cfoutput>
+		<cfoutput>#form.action#</cfoutput>
+	</cfargument>
 	<cfthread name="getAnnualNumbersThread">
 		<cfoutput>
 			<cftry>
