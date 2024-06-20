@@ -135,23 +135,23 @@ limitations under the License.
 				<cfoutput>
 					<cfif action EQ "showBasic">
 						<h3 class="h4">Change Report Date Range</h3>
-						<cfform action="/metrics/Dashboard.cfm?action=showBasic" class="pt-1" id="dateForm">
+<!---						<cfform action="/metrics/Dashboard.cfm?action=showBasic" class="pt-1" id="dateForm">
 							<label for="beginDate" class="data-entry-label">Begin Date</label>
 							<input type="date" id="beginDate" name="beginDate" class="data-entry-input">
 							<label for="endDate" class="data-entry-label mt-2">End Date</label>
 							<input type="date" id="endDate" name="endDate" class="data-entry-input">
 							<input type="submit" value="Submit" class="btn btn-xs btn-secondary mt-2" onClick="event.preventDefault(); $(dateForm).submit();">
-						</cfform>
+						</cfform>--->
 						<form class="form-inline pt-1" id="dateForm" action="/metrics/Dashboard.cfm?action=showBasic">
 							<div class="form-group mb-2">
 							<label for="beginDate" class="data-entry-label">Begin Date</label>
 							<input type="date" class="form-control-plaintext data-entry-input" id="beginDate" value="YYYY-MM-DD">
 							</div>
 							<div class="form-group mx-sm-3 mb-2">
-							<label for="inputPassword2" class="sr-only">Password</label>
-							<input type="password" class="form-control" id="inputPassword2" placeholder="Password">
+							<label for="endDate" class="data-entry-label">endDate</label>
+							<input type="date" class="form-control" id="endDate" placeholder="YYYY-MM-DD" value="YYYY-MM-DD">
 							</div>
-							<button type="submit" class="btn btn-primary mb-2">Confirm identity</button>
+							<button type="submit" class="btn btn-primary btn-xs mb-2">Confirm identity</button>
 						</form>
 						<cfset summaryAnnualBlock=getAnnualNumbers(endDate="#dateForm.endDate#",beginDate="#dateForm.beginDate#")>
 						<div id="annualNumbersDiv">
