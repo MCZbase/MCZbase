@@ -38,6 +38,7 @@ limitations under the License.
 <cfset top_loan_status = getLoan.loan_status>
 <cfset top_loan_number = getLoan.loan_number>
 <cfset INSTRUCTIONS_LIMIT = 751>
+<cfset MASTER_PAGES = 2><!--- header for master exhibtion loan is two pages --->
 <cfif getLoan.loan_type EQ "exhibition-master">
 	<!--- Special handling --->
 	<cfquery name="getSubloans" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -237,7 +238,6 @@ limitations under the License.
 					<strong> Parent Exhibtion Loan is: #parent_loan_number# </strong>
 				</div>
 				<div style="text-align: center; #font# font-size: 1em;">
-					<!--- TODO: Comment, inconsistent use of Department and Collection, should list Department, except for Cryo, fix in custom tag? --->
 					#getSubloan.collection#
 				</div>
 				<div style="text-align: center; #font# font-size: 1em;">
@@ -284,27 +284,51 @@ limitations under the License.
 					</tr>
 				</table>
 				<div style="#font# font-size: small; margin-left: 4px;">
+					<cfif len(getSubloan.nature_of_material) GT 0>
 					<div>
 						<strong>Nature of Material:</strong> #getSubloan.nature_of_material#
-					</div>
-					<cfif len(getSubloan.loan_description) GT 0>
-						<div>
-							<strong>Description:</strong> #getSubloan.loan_description#
-						</div>
-					</cfif>
-					<div>
-						<strong>Additional Instructions:</strong> 
-						<cfif len(getSubloan.loan_instructions) LT INSTRUCTIONS_LIMIT>
-							#getSubloan.loan_instructions#
+						<cfif len(getSubloan.nature_of_material) LT INSTRUCTIONS_LIMIT>
+							#getSubloan.nature_of_material#
 						<cfelse>
-							#trim(left(getSubloan.loan_instructions,(INSTRUCTIONS_LIMIT - 26)))#... 
+							#trim(left(getSubloan.nature_of_material,(INSTRUCTIONS_LIMIT - 26)))#... 
 							<cfif getLoan.loan_type EQ "exhibition-master" AND getSubloans.recordcount GT 0>
-								<strong>Continued on Page #getSubloans.recordcount + 1#.</strong>
+								<strong>Continued on Page #getSubloans.recordcount + MASTER_PAGES#.</strong>
 							<cfelse>
 								<strong>Continued on Next Page.</strong>
 							</cfif>
 						</cfif>
 					</div>
+					</cfif>
+					<cfif len(getSubloan.loan_description) GT 0>
+						<div>
+							<strong>Description:</strong>
+							<cfif len(getSubloan.loan_description) LT INSTRUCTIONS_LIMIT>
+								#getSubloan.loan_description#
+							<cfelse>
+								#trim(left(getSubloan.loan_description,(INSTRUCTIONS_LIMIT - 26)))#... 
+								<cfif getLoan.loan_type EQ "exhibition-master" AND getSubloans.recordcount GT 0>
+									<strong>Continued on Page #getSubloans.recordcount + MASTER_PAGES#.</strong>
+								<cfelse>
+									<strong>Continued on Next Page.</strong>
+								</cfif>
+							</cfif>
+						</div>
+					</cfif>
+					<cfif len(getSubloan.loan_instructions) GT 0>
+						<div>
+							<strong>Additional Instructions:</strong> 
+							<cfif len(getSubloan.loan_instructions) LT INSTRUCTIONS_LIMIT>
+								#getSubloan.loan_instructions#
+							<cfelse>
+								#trim(left(getSubloan.loan_instructions,(INSTRUCTIONS_LIMIT - 26)))#... 
+								<cfif getLoan.loan_type EQ "exhibition-master" AND getSubloans.recordcount GT 0>
+									<strong>Continued on Page #getSubloans.recordcount + MASTER_PAGES#.</strong>
+								<cfelse>
+									<strong>Continued on Next Page.</strong>
+								</cfif>
+							</cfif>
+						</div>
+					</cfif>
 					<div style="margin: 0px; border: 1px solid black;">
 						<div style="#font# font-size: small;">All Terms and Conditions From Loan #top_loan_number# Apply.</div>
 					</div>
@@ -325,7 +349,7 @@ limitations under the License.
 							</div>
 						</td>
 						<td style="width: 50%; vertical-align: top;">
-							<strong>Paperwork to ship with loan and to sign must be printed from Parent Exhibtion Loan is: #parent_loan_number#</strong>
+							<strong>Paperwork to ship with loan and to sign must be printed from Parent Exhibtion Loan: #parent_loan_number#</strong>
 							<div><strong>Expected return date: #dateformat(getSubloan.return_due_date,"dd mmmm yyyy")#</strong></div>
 							<br>
 							<div style="text-align: right;">Borrower</div>
@@ -448,8 +472,8 @@ limitations under the License.
 					<p>Museum of Comparative Zoology, President and Fellows of Harvard College</p>
 				</div>
 				<div style="text-align: left; #font# font-size: small; border-bottom solid black 1px; width: 100%;">
-					If the Borrower&apos;s loan agreement is signed by the Museum of Comparative Zoology, conditions of the Museum of
-					Comparative Zoology&apos;s loan agreement will supersede inconsistent conditions and augment other conditions of the Borrower&apos;s
+					If the Borrower&#39;s loan agreement is signed by the Museum of Comparative Zoology, conditions of the Museum of
+					Comparative Zoology&#39;s loan agreement will supersede inconsistent conditions and augment other conditions of the Borrower&#39;s
 					loan agreement. The MCZ loan agreement will be governed by and construed according to the laws of the Commonwealth of Massachusetts.
 				</div>
 				<div style="text-align: left; #font# font-size: small;">
@@ -484,8 +508,8 @@ limitations under the License.
 						completed. Coverage will include all risk of physical damage or loss
 						including, but not limited to, loss or damage from earthquakes, floods,
 						strikes, riots, or civil commotion. The loan object(s) will be insured at the
-						value(s) assigned by the Museum of Comparative Zoology on the other side
-						of this agreement. The Borrowing Institution&apos;s policy will name "President
+						value(s) assigned by the Museum of Comparative Zoology in 
+						this agreement. The Borrowing Institution&#39;s policy will name "President
 						and Fellows of Harvard College" as additional insured and will waive
 						subrogation rights against Harvard University. A Certificate of Insurance
 						evidencing such coverage must be delivered to the Museum of
@@ -512,7 +536,7 @@ limitations under the License.
 					</p>
 					<strong> 6. PUBLICITY AND CREDITS </strong>
 					<p>
-						The credit line as shown on the front of this form will be used in all printed
+						The credit line as shown on the first page of this form will be used in all printed
 						material (including web) related to the loan object(s). Loans for exhibition
 						require that one copy of any catalog or publicity material be sent directly to
 						the Departmental contact at the Museum of Comparative Zoology.
@@ -535,7 +559,7 @@ limitations under the License.
 						loan item(s) as it does in the safekeeping of comparable property of its own.
 						Each object shall remain in the same condition in which it was received.
 						The Borrowing Institution agrees to follow all special handling, installation,
-						and packing instructions provided on the front of this document, and
+						and packing instructions provided on the first page of this document, and
 						detailed in the correspondence and the Departmental Loan document from
 						the Museum of Comparative Zoology to the Borrowing Institution.
 						Upon arrival, all travel containers must be equilibrated to the environment
@@ -552,10 +576,10 @@ limitations under the License.
 					</p>
 					<strong> 10. EXHIBITION DESIGN AND INSTALLATION </strong>
 					<p> The Borrowing Institution agrees to comply with all requirements detailed on
-						the front of this document, as well as those described in correspondence
+						the first page of this document, as well as those described in correspondence
 						and the Departmental Loan document from the Museum of Comparative
 						Zoology to the Borrowing Institution.
-						Mounting fixtures must be padded at contact points with the loan
+						Mounting fixtures must be padded at contact points with the loan item(s).
 					</p>
 					<strong> 11. LOAN FEES </strong>
 					<p> The Borrowing Institution agrees to pay administrative loan fees,
@@ -569,10 +593,10 @@ limitations under the License.
 						This agreement shall be governed by and construed in accordance with the laws of the Commonwealth of Massachusetts.
 					</p>
 					<strong>13. NON-ASSIGNABILITY AND BINDING EFFECT</strong>
-					<p>Neither party&apos;s rights nor obligation hereunder may be assigned except with
-						the other&apos;s written consent. Subject to the foregoing, this agreement shall
+					<p>Neither party&#39;s rights nor obligation hereunder may be assigned except with
+						the other&#39;s written consent. Subject to the foregoing, this agreement shall
 						be binding on and inure to the benefit of the parties and their successors
-						and assigns
+						and assigns.
 					</p>
 				</div>
 			</cfdocumentsection>
@@ -584,7 +608,6 @@ limitations under the License.
 				</div>
 					
 				<div style="text-align: center; #font# font-size: 1em;">
-					<!--- TODO: Comment, inconsistent use of Department and Collection, should list Department, except for Cryo, fix in custom tag? --->
 					#getLoan.collection#
 				</div>
 				<div style="text-align: center; #font# font-size: 1em;">
@@ -650,12 +673,34 @@ limitations under the License.
 					</tr>
 				</table>
 				<div style="#font# font-size: small; margin-left: 4px;">
-					<div>
-						<strong>Nature of Material:</strong> #nature_of_material#
-					</div>
+					<cfif len(nature_of_material) GT 0>
+						<div>
+							<strong>Nature of Material:</strong>
+							<cfif len(nature_of_material) LT INSTRUCTIONS_LIMIT>
+								#nature_of_material#
+							<cfelse>
+								#trim(left(nature_of_material,(INSTRUCTIONS_LIMIT - 26)))#... 
+								<cfif getLoan.loan_type EQ "exhibition-master" AND getSubloans.recordcount GT 0>
+									<strong>Continued on Page #getSubloans.recordcount + MASTER_PAGES#.</strong>
+								<cfelse>
+									<strong>Continued on Next Page.</strong>
+								</cfif>
+							</cfif>
+						</div>
+					</cfif>
 					<cfif len(loan_description) GT 0>
 						<div>
-							<strong>Description:</strong> #loan_description#
+							<strong>Description:</strong>
+							<cfif len(loan_description) LT INSTRUCTIONS_LIMIT>
+								#loan_description#
+							<cfelse>
+								#trim(left(loan_description,(INSTRUCTIONS_LIMIT - 26)))#... 
+								<cfif getLoan.loan_type EQ "exhibition-master" AND getSubloans.recordcount GT 0>
+									<strong>Continued on Page #getSubloans.recordcount + MASTER_PAGES#.</strong>
+								<cfelse>
+									<strong>Continued on Next Page.</strong>
+								</cfif>
+							</cfif>
 						</div>
 					</cfif>
 					<div>
@@ -665,7 +710,7 @@ limitations under the License.
 						<cfelse>
 							#trim(left(loan_instructions,(INSTRUCTIONS_LIMIT - 26)))#... 
 							<cfif getLoan.loan_type EQ "exhibition-master" AND getSubloans.recordcount GT 0>
-								<strong>Continued on Page #getSubloans.recordcount + 1#.</strong>
+								<strong>Continued on Page #getSubloans.recordcount + MASTER_PAGES#.</strong>
 							<cfelse>
 								<strong>Continued on Next Page.</strong>
 							</cfif>
@@ -685,7 +730,7 @@ limitations under the License.
 							<li>The recipient will provide copies of any digital media files and all associated metadata. All resulting media is ©President and Fellows of Harvard College.</li>
 							<li>Loans are granted for a period of up to one year and may be renewed up to four times in one-year increments.  Loans that have been open for five years must be returned to the MCZ. A new loan request can then be submitted for consideration. Loans may be recalled at any time at the discretion of the MCZ.</li>
 							<cfif getRestrictions.recordcount GT 0>
-								<li>Additional Restrictions on use from original permits apply, see instructions.</li>
+								<li>Additional Restrictions on use from original permits apply, a summary of these is provided below.</li>
 							</cfif>
 						</ol>
 					</div>
@@ -719,6 +764,8 @@ limitations under the License.
 		</cfif>
 
 		<cfset accumulated_instructions = "">
+		<cfset accumulated_description= "">
+		<cfset accumulated_nature= "">
 		<cfif getLoan.loan_type EQ "exhibition-master">
 			<cfset master_transaction_id = transaction_id>
 			<cfloop query="getSubloans">
@@ -732,7 +779,6 @@ limitations under the License.
 						<strong> Exhibition Subloan #loan_number# </strong>
 					</div>
 					<div style="text-align: center; #font# font-size: 1em;">
-						<!--- TODO: Comment, inconsistent use of Department and Collection, should list Department, except for Cryo, fix in custom tag? --->
 						#getSubloan.collection#
 					</div>
 					<div style="text-align: center; #font# font-size: 1em;">
@@ -779,24 +825,42 @@ limitations under the License.
 						</tr>
 					</table>
 					<div style="#font# font-size: small; margin-left: 4px;">
-						<div>
-							<strong>Nature of Material:</strong> #getSubloan.nature_of_material#
-						</div>
+						<cfif len(getSubloan.nature_of_material) GT 0>
+							<div>
+								<strong>Nature of Material:</strong> #getSubloan.nature_of_material#
+								<cfif len(getSubloan.nature_of_material) LT INSTRUCTIONS_LIMIT>
+									#getSubloan.nature_of_material#
+								<cfelse>
+									#trim(left(getSubloan.nature_of_material,(INSTRUCTIONS_LIMIT - 26)))#... 
+									<strong>Continued on Page #getSubloans.recordcount + MASTER_PAGES#.</strong>
+									<cfset accumulated_nature= "#accumulated_nature# <div style='border-bottom: 1px solid black; width: 100%; #font_dq# font-size: 1em;'> <strong style='font-size: 1.2em'>Additional Nature of Material #getSubloan.loan_number#:</strong> #getSubloan.nature_of_material# </div> <br>"><!--- " --->
+								</cfif>
+							</div>
+						</cfif>
 						<cfif len(getSubloan.loan_description) GT 0>
 							<div>
 								<strong>Description:</strong> #getSubloan.loan_description#
+								<cfif len(getSubloan.loan_description) LT INSTRUCTIONS_LIMIT>
+									#getSubloan.loan_description#
+								<cfelse>
+									#trim(left(getSubloan.loan_description,(INSTRUCTIONS_LIMIT - 26)))#... 
+									<strong>Continued on Page #getSubloans.recordcount + MASTER_PAGES#.</strong>
+									<cfset accumulated_description = "#accumulated_description# <div style='border-bottom: 1px solid black; width: 100%; #font_dq# font-size: 1em;'> <strong style='font-size: 1.2em'>Description #getSubloan.loan_number#:</strong> #getSubloan.loan_description# </div> <br>"><!--- " --->
+								</cfif>
 							</div>
 						</cfif>
-						<div>
-							<strong>Additional Instructions:</strong> 
-							<cfif len(getSubloan.loan_instructions) LT INSTRUCTIONS_LIMIT>
-								#getSubloan.loan_instructions#
-							<cfelse>
-								#trim(left(getSubloan.loan_instructions,(INSTRUCTIONS_LIMIT - 26)))#... 
-								<strong>Continued on Page #getSubloans.recordcount + 1#.</strong>
-								<cfset accumulated_instructions = "#accumulated_instructions# <div style='border-bottom: 1px solid black; width: 100%; #font_dq# font-size: 1em;'> <strong style='font-size: 1.2em'>Additional Instructions #getSubloan.loan_number#:</strong> #getSubloan.loan_instructions# </div> <br>"><!--- " --->
-							</cfif>
-						</div>
+						<cfif len(getSubloan.loan_instructions) GT 0>
+							<div>
+								<strong>Additional Instructions:</strong> 
+								<cfif len(getSubloan.loan_instructions) LT INSTRUCTIONS_LIMIT>
+									#getSubloan.loan_instructions#
+								<cfelse>
+									#trim(left(getSubloan.loan_instructions,(INSTRUCTIONS_LIMIT - 26)))#... 
+									<strong>Continued on Page #getSubloans.recordcount + MASTER_PAGES#.</strong>
+									<cfset accumulated_instructions = "#accumulated_instructions# <div style='border-bottom: 1px solid black; width: 100%; #font_dq# font-size: 1em;'> <strong style='font-size: 1.2em'>Additional Instructions #getSubloan.loan_number#:</strong> #getSubloan.loan_instructions# </div> <br>"><!--- " --->
+								</cfif>
+							</div>
+						</cfif>
 						<div style="margin: 0px; border: 1px solid black;">
 							<div style="#font# font-size: small;">All Terms and Conditions From Loan #top_loan_number# Apply.</div>
 						</div>
@@ -830,47 +894,59 @@ limitations under the License.
 			<cfset transaction_id = master_transaction_id>
 		</cfif>
 
-		<!--- Sumarize restrictions on material in loan inherited from accession permission and rights documents --->
-		<cfif getRestrictions.recordcount EQ 0>
-			<cfdocumentsection name="Additional Restrictions">
-				<cfif len(loan_instructions) GT INSTRUCTIONS_LIMIT -1>
-					<div style="border-bottom: 1px solid black; width: 100%; #font# font-size: 1em;">
-						<strong>Instructions:</strong> #loan_instructions#
-					</div>
-					<br>
-				</cfif>
-				<cfif getLoan.loan_type EQ "exhibition-master">
-					#accumulated_instructions#
-					<br>
-				</cfif>
-				<div style="#font# font-size: 1em;">
-					The MCZ is committed to the spirit and letter of the Convention on Biological Diversity and its associated Nagoya Protocol on Access
-					and Benefit-Sharing, and it expects its partner users to act in a manner consistent with these international obligations. Use
-					of some specimens may be restricted by the providing country; therefore, a specimen may only be used for approved
-					purposes, and express written permission must be obtained before a loaned specimen can be used for additional purposes.
+		<!--- Sumarize restrictions on material in loan inherited from accession permission and rights documents, and overflow long text from first page. --->
+		<cfdocumentsection name="Additional Restrictions">
+			<cfif len(nature_of_material) GT INSTRUCTIONS_LIMIT -1 OR ( getLoan.loan_type EQ "exhibition-master" AND len(accumulated_nature) GT 0)>
+				<div style="border-bottom: 1px solid black; width: 100%; #font# font-size: 1em;">
+					<strong>Nature of Material:</strong> 
+					<cfif len(nature_of_material) GT INSTRUCTIONS_LIMIT -1 >
+						#nature_of_material#
+						<br>
+					</cfif>
+					<cfif getLoan.loan_type EQ "exhibition-master" AND len(accumulated_nature) GT 0>
+						#accumulated_nature#
+						<br>
+					</cfif>
 				</div>
-			</cfdocumentsection>
-		<cfelse>
-			<cfdocumentsection name="Additional Restrictions">
-				<cfif len(loan_instructions) GT INSTRUCTIONS_LIMIT -1 >
-					<div style="border-bottom: 1px solid black; width: 100%; #font# font-size: 1em;">
-						<strong>Instructions:</strong> #loan_instructions#
-					</div>
-					<br>
-				</cfif>
-				<cfif getLoan.loan_type EQ "exhibition-master">
-					#accumulated_instructions#
-					<br>
-				</cfif>
+			</cfif>
+			<cfif len(loan_description) GT INSTRUCTIONS_LIMIT -1 OR ( getLoan.loan_type EQ "exhibition-master" AND len(accumulated_description) GT 0)>
+				<div style="border-bottom: 1px solid black; width: 100%; #font# font-size: 1em;">
+					<strong>Description:</strong> 
+					<cfif len(loan_description) GT INSTRUCTIONS_LIMIT -1 >
+						#loan_description#
+						<br>
+					</cfif>
+					<cfif getLoan.loan_type EQ "exhibition-master" AND len(accumulated_description) GT 0>
+						#accumulated_description#
+						<br>
+					</cfif>
+				</div>
+			</cfif>
+			<cfif len(loan_instructions) GT INSTRUCTIONS_LIMIT -1 OR ( getLoan.loan_type EQ "exhibition-master" AND len(accumulated_instructions) GT 0)>
+				<div style="border-bottom: 1px solid black; width: 100%; #font# font-size: 1em;">
+					<strong>Instructions:</strong> 
+					<cfif len(loan_instructions) GT INSTRUCTIONS_LIMIT -1 >
+						#loan_instructions#
+						<br>
+					</cfif>
+					<cfif getLoan.loan_type EQ "exhibition-master" AND len(accumulated_instructions) GT 0>
+						#accumulated_instructions#
+						<br>
+					</cfif>
+				</div>
+			</cfif>
+			<cfif getRestrictions.recordcount EQ 0>
 				<div style="text-align: center; #font# font-size: small;">
 					<strong style="#font# font-size: small;">Summary of restrictions imposed and benefits required from original collecting agreements</strong>
 				</div>
-				<div style="#font# font-size: 1em;">
-					The MCZ is committed to the spirit and letter of the Convention on Biological Diversity and its associated Nagoya Protocol on Access
-					and Benefit-Sharing, and it expects its partner users to act in a manner consistent with these international obligations. Use
-					of some specimens may be restricted by the providing country; therefore, a specimen may only be used for approved
-					purposes, and express written permission must be obtained before a loaned specimen can be used for additional purposes.
-				</div>
+			</cfif>
+			<div style="#font# font-size: 1em;">
+				The MCZ is committed to the spirit and letter of the Convention on Biological Diversity and its associated Nagoya Protocol on Access
+				and Benefit-Sharing, and it expects its partner users to act in a manner consistent with these international obligations. Use
+				of some specimens may be restricted by the providing country; therefore, a specimen may only be used for approved
+				purposes, and express written permission must be obtained before a loaned specimen can be used for additional purposes.
+			</div>
+			<cfif getRestrictions.recordcount EQ 0>
 				<ul style="#font# font-size: 1em;">
 					<cfloop query="getRestrictions">
 						<cfif getRestrictions.source EQ "accession">
@@ -903,8 +979,8 @@ limitations under the License.
 						</cfif>
 					</cfloop>
 				</ul>
-			</cfdocumentsection>
-		</cfif>
+			</cfif>
+		</cfdocumentsection>
 
 		<cfdocumentsection name="Items In Loan">
 			<div style="text-align: center; #font# font-size: 1.1em; margin-bottom: 1em;">
