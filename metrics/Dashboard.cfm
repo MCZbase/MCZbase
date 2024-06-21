@@ -36,32 +36,24 @@ limitations under the License.
 	<div class="row">
 		
 
-<form id="myForm">
+<!---<form id="myForm">
 	<input type="date" name="beginDate">
 	<input type="date" name="endDate"> 
 	<input type="hidden" class="btn btn-xs btn-primary" value="submit">
 </form>
-
 <a href="javascript:submitForm()">Submit to Function</a>
-
-
 <script> 
 	function submitForm() { 
 		var form = document.getElementById("myForm"); 
 		form.action = "/metrics/Dashboard.cfm##getAnnualNumbers1"; 
 		form.submit(); 
 	} 
-		
 </script>
-
 <cffunction name="getAnnualNumbers1"> 
-	
-	<cfargument name="form" type="date" required="true"> <!--- access form values here --->
+	<cfargument name="form" type="date" required="true">
 	<cfoutput>#form.beginDate#</cfoutput>
-		<cfoutput>#form.endDate#</cfoutput>
-	
-
-</cffunction>
+	<cfoutput>#form.endDate#</cfoutput>
+</cffunction>--->
 	<br clear="all">	
 		<nav id="sidebarMenu" class="col-md-2 col-lg-2 d-md-block bg-light sidebar collapse">
 			<div class="sidebar-sticky pt-4 px-3">
