@@ -255,8 +255,141 @@ limitations under the License.
 	<cfthread action="join" name="getAnnualNumbersThread" />
 	<cfreturn getAnnualNumbersThread.output>
 </cffunction>
-			
+
 <cffunction name="getLoanNumbers" access="remote" returntype="any" returnformat="json">
+	<cfargument name="endDate" type="date" required="no" default="2024-07-01">
+	<cfargument name="beginDate" type="date" required="no" default="2023-07-01">
+	<cfthread name="getLoanNumbersThread">
+		<cfoutput>
+			<cftry>
+			<!-- annual report queries -->
+				<cfsetting RequestTimeout = "0">
+				<cfset start = GetTickCount()>
+				<cfquery name="loans" datasource="uam_god">
+					SELECT
+						c.collection, 
+						ol.numOutgoingLoans,
+						ol.outgoingCatItems,
+						ol.outgoingSpecimens,
+						cl.numClosedLoans,
+						fy.num5yrLoans,
+						ty.num10yrLoans,
+						b.numBorrows,
+						opL.numOpenLoans,
+						open5.numOpenOD5,
+						open10.numOpenOD10
+					FROM
+						(select collection_cde,institution_acronym,descr,collection,collection_id from collection where collection_cde <> 'MCZ') c
+					LEFT JOIN
+						(select c.collection_id, collection, count(distinct l.transaction_id) numOutgoingLoans, count(distinct sp.derived_from_cat_item) outgoingCatItems, sum(co.lot_count) as outgoingSpecimens
+						from loan l, trans t, collection c, loan_item li, specimen_part sp, coll_object co
+						where l.transaction_id = t.transaction_id
+						and t.collection_id = c.collection_id
+						and t.transaction_id = li.transaction_id(+)
+						and li.collection_object_id = sp.collection_object_id(+)
+						and sp.collection_object_id = co.collection_object_id(+)
+						and t.TRANS_DATE between to_date('#beginDate#', 'YYYY-MM-DD') and  to_date('#endDate#', 'YYYY-MM-DD')
+						group by c.collection_id, c.collection) ol on c.collection_id = ol.collection_id
+					LEFT JOIN (select c.collection_id, collection, count(distinct l.transaction_id) numClosedLoans
+						from loan l, trans t, collection c, loan_item li, specimen_part sp, coll_object co
+						where l.transaction_id = t.transaction_id
+						and t.collection_id = c.collection_id
+						and t.transaction_id = li.transaction_id(+)
+						and li.collection_object_id = sp.collection_object_id(+)
+						and sp.collection_object_id = co.collection_object_id(+)
+						and l.CLOSED_DATE between to_date('#beginDate#', 'YYYY-MM-DD') and  to_date('#endDate#', 'YYYY-MM-DD')
+						group by c.collection_id, collection) cl on c.collection_id = cl.collection_id
+					LEFT JOIN (select c.collection_id, collection_cde, count(*)as num5yrLoans
+						from loan l, trans t, collection c
+						where l.transaction_id = t.transaction_id
+						and t.collection_id = c.collection_id
+						and l.CLOSED_DATE between to_date('#beginDate#', 'YYYY-MM-DD') and  to_date('#endDate#', 'YYYY-MM-DD')
+						and l.closed_date -l.return_due_date > (365*5)
+						group by c.collection_id, collection_cde) fy on c.collection_id = fy.collection_id
+					LEFT JOIN (select c.collection_id, collection_cde, count(*) as num10yrLoans
+						from loan l, trans t, collection c
+						where l.transaction_id = t.transaction_id
+						and t.collection_id = c.collection_id
+						and l.CLOSED_DATE between to_date('#beginDate#', 'YYYY-MM-DD') and  to_date('#endDate#', 'YYYY-MM-DD')
+						and l.closed_date -l.return_due_date > (365*10)
+						group by c.collection_id, collection_cde) ty on c.collection_id = ty.collection_id
+					LEFT JOIN (select c.collection_id, collection, count(*) as numBorrows 
+						from borrow l, trans t, collection c
+						where l.transaction_id = t.transaction_id
+						and t.collection_id = c.collection_id
+						and l.RECEIVED_DATE between to_date('#beginDate#', 'YYYY-MM-DD') and  to_date('#endDate#', 'YYYY-MM-DD')
+						group by c.collection_id, collection) b on c.collection_id = b.collection_id
+					LEFT JOIN (select c.collection_id, collection_cde, count(*) as numOpenLoans 
+						from loan l, trans t, collection c
+						where l.transaction_id = t.transaction_id
+						and t.collection_id = c.collection_id
+						and (loan_status like '%open%' or closed_date > to_date('#endDate#', 'YYYY-MM-DD'))
+						and t.trans_date <  to_date('#endDate#', 'YYYY-MM-DD')
+						group by c.collection_id, collection_cde) opL on c.collection_id = opL.collection_id
+					LEFT JOIN (select c.collection_id, collection, count(*) numOpenOD5 
+						from loan l, trans t, collection c
+						where l.transaction_id = t.transaction_id
+						and t.collection_id = c.collection_id
+						and (loan_status like '%open%' or closed_date > to_date('#endDate#', 'YYYY-MM-DD'))
+						and t.trans_date < to_date('#endDate#', 'YYYY-MM-DD')
+						and to_date('#endDate#', 'YYYY-MM-DD') - l.return_due_date > 365*5
+						group by c.collection_id, collection) open5 on c.collection_id = open5.collection_id
+					LEFT JOIN (select c.collection_id, collection, count(*) numOpenOD10
+						from loan l, trans t, collection c
+						where l.transaction_id = t.transaction_id
+						and t.collection_id = c.collection_id
+						and (loan_status like '%open%' or closed_date > to_date('#endDate#', 'YYYY-MM-DD'))
+						and t.trans_date < to_date('#endDate#', 'YYYY-MM-DD')
+						and to_date('#endDate#', 'YYYY-MM-DD') - l.return_due_date > 365*10
+						group by c.collection_id, collection) open10 on c.collection_id = open10.collection_id
+					ORDER BY collection
+				</cfquery>
+				<section class="col-12 mt-3 px-0">
+					<h2 class="h3 px-2">Loan Stats</h2>
+					<table class="table table-responsive table-striped d-lg-table" id="t">
+							<thead>
+								<tr>
+									<th><strong>Collection</strong></th>
+									<th><strong>Outgoing Loans</strong></th>
+									<th><strong>Closed Loans</strong></th>
+									<th><strong>Closed Overdue (>5 years) Loans</strong></th>
+									<th><strong>Closed Overdue (>10 years) Loans</strong></th>
+									<th><strong>Incoming loans (=Borrows)</strong></th>
+									<th><strong>Number of Open Loans</strong></th>
+									<th><strong>Number of Open Loans overdue > 5 years</strong></th>
+									<th><strong>Number of Open Loans overdue > 10 year</strong></th>
+								</tr>
+							</thead>
+							<tbody>
+								<cfloop query="loans">
+									<tr>
+										<td>#collection#</td>
+										<td>#numOutgoingLoans#</td>
+										<td>#numClosedLoans#</td>
+										<td>#num5yrLoans#</td>
+										<td>#num10yrLoans#</td>
+										<td>#numBorrows#</td>
+										<td>#numOpenLoans#</td>
+										<td>#numOpenOD5#</td>
+										<td>#numOpenOD10#</td>
+									</tr>
+								</cfloop>
+							</tbody>
+						</table>
+				</section>
+			<cfcatch>
+				<!---<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+				<cfset function_called = "#GetFunctionCalledName()#">--->
+				<h2 class='h3'>Error in function?</h2>
+				<div>Error message TBD</div>
+			</cfcatch>
+			</cftry>
+		</cfoutput>
+	</cfthread>
+	<cfthread action="join" name="getLoanNumbersThread" />
+	<cfreturn getLoanNumbersThread.output>
+</cffunction>
+<cffunction name="getLoanNumbersCopy" access="remote" returntype="any" returnformat="json">
 	<cfargument name="endDate" type="any" required="no" default="2024-07-01">
 	<cfargument name="beginDate" type="any" required="no" default="2023-07-01">
 	<cfthread name="getLoanNumbersThread">
