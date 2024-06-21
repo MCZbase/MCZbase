@@ -1036,7 +1036,7 @@ limitations under the License.
 							FROM loan 
 								left join loan_item on loan.transaction_id = loan_item.transaction_id 
 								left join specimen_part on loan_item.collection_object_id = specimen_part.collection_object_id 
-								left join collection_object part on loan_item.collection_object_id = part.collection_object_id 
+								left join coll_object part on loan_item.collection_object_id = part.collection_object_id 
 								left join cataloged_item on specimen_part.derived_from_cat_item = cataloged_item.collection_object_id 
 								left join collection on cataloged_item.collection_id = collection.collection_id 
 								left join collecting_event on cataloged_item.collecting_event_id = collecting_event.collecting_event_id 
