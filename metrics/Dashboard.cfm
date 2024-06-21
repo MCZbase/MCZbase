@@ -101,7 +101,7 @@ limitations under the License.
 						</li>--->
 						
 						<li class="nav-item"> 
-							
+							<cfset cfc = ''>
 						<!---	<cfset myObj = createObject("component", "/metrics/component/functions")>--->
 							<form> 
 								<button class="btn btn-xs btn-primary" type="button" onClick="callFunction()">
