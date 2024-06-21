@@ -255,7 +255,7 @@ limitations under the License.
 	<cfthread action="join" name="getAnnualNumbersThread" />
 	<cfreturn getAnnualNumbersThread.output>
 </cffunction>
-
+<cfif action = "showLoans">
 <cffunction name="getLoanNumbers" access="remote" returntype="any" returnformat="json">
 	<cfargument name="endDate" type="date" required="no" default="2024-07-01">
 	<cfargument name="beginDate" type="date" required="no" default="2023-07-01">
@@ -389,6 +389,7 @@ limitations under the License.
 	<cfthread action="join" name="getLoanNumbersThread" />
 	<cfreturn getLoanNumbersThread.output>
 </cffunction>
+</cfif>
 <cffunction name="getLoanNumbersCopy" access="remote" returntype="any" returnformat="json">
 	<cfargument name="endDate" type="any" required="no" default="2024-07-01">
 	<cfargument name="beginDate" type="any" required="no" default="2023-07-01">
