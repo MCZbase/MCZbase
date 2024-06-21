@@ -1290,7 +1290,6 @@ limitations under the License.
 							</td>
 						</tr>
 						<cfset totalLotCount = totalLotCount + 1>
-						<cfset totalSpecimens = totalSpecimens + lot_count>
 					</cfloop>
 				</table>
 				<div style="#font# font-size: 1.2em;">
