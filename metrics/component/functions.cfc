@@ -402,7 +402,7 @@ limitations under the License.
 				</cfquery>
 				<section class="col-12 mt-3 px-0">
 					<h2 class="h3 px-2">Citation Stats</h2>
-					<table class="table table-responsive table-striped d-lg-table" id="t">
+						<table class="table table-responsive table-striped d-lg-table" id="t">
 							<thead>
 								<tr>
 									<th><strong>Collection</strong></th>
