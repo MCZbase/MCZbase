@@ -1211,7 +1211,7 @@ limitations under the License.
 								top_loan_status,reconciled_date,
 								scientific_name, type_status, higher_geog,
 								collection, chronostrat,lithostrat,
-								spec_locality, collectors, loan_item_remarks,
+								spec_locality, collectors, loan_item_remarks
 							FROM getLoanItems
 						</cfquery>
 					<cfelse>
