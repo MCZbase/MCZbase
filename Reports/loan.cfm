@@ -1092,7 +1092,24 @@ limitations under the License.
 						</tr>
 						<cfset totalLotCount = 0>
 						<cfset totalSpecimens = 0>
-						<cfloop query="getLoanItems">
+						<cfif isDefined("groupBy") AND groupBy EQ "part">
+							<cfquery name="getLoanItemsLoop" dbtype="query">
+								SELECT distinct 
+									collection_object_id,
+									institution_acronym, collection_cde, cat_num,
+									top_loan_status,reconciled_date,
+									scientific_name, type_status, higher_geog,
+									collection, chronostrat,lithostrat,
+									spec_locality, collectors, loan_item_remarks
+								FROM getLoanItems
+							<cfquery>
+						<cfelse>
+							<cfquery name="getLoanItemsLoop" dbtype="query">
+								SELECT *
+								FROM getLoanItems
+							<cfquery>
+						</cfif>
+						<cfloop query="getLoanItemsLoop">
 							<tr>
 								<td style="width: 25%; vertical-align: top; #font# font-size: small;">
 									#institution_acronym#:#collection_cde#:#cat_num#
@@ -1113,8 +1130,21 @@ limitations under the License.
 								</td>
 								<td style="width: 25%; vertical-align: top; #font# font-size: small;">
 									<cfif isDefined("groupBy") AND groupBy EQ "part">
-										#parts#
+										<cfquery name="getLoanItemsParts" dbtype="query">
+											SELECT sum(lot_count) slc, parts
+											FROM getLoanItems
+											WHERE 
+												instututional_acronym = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#institution_acronym#">
+												and collection_cde = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collection_cde#">
+												and cat_num = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#cat_num#">
+											GROUP BY parts
+										<cfquery>
+										<cfloop query="getLoanItemsParts">
+											#parts#
+											<cfset totalSpecimens = totalSpecimens + slc>
+										</cfloop>
 									<cfelse>
+										<cfset totalSpecimens = totalSpecimens + lot_count>
 										#lot_count# #part_modifier# #part_name#
 										<cfif len(preserve_method) GT 0>(#preserve_method#)</cfif>
 										<cfif Len(condition) GT 0 and top_loan_type contains 'exhibition' ><BR>Condition: #condition#</cfif>
@@ -1132,7 +1162,7 @@ limitations under the License.
 												join permit_trans on accn.transaction_id = permit_trans.transaction_id
 												join permit on permit_trans.permit_id = permit.permit_id
 											WHERE li.transaction_id = <cfqueryparam CFSQLType="CF_SQL_DECIMAL" value="#transaction_id#">
-												and ci.collection_object_id  = <cfqueryparam CFSQLType="CF_SQL_DECIMAL" value="#getLoanItems.collection_object_id#">
+												and ci.collection_object_id  = <cfqueryparam CFSQLType="CF_SQL_DECIMAL" value="#getLoanItemsLoop.collection_object_id#">
 												and permit.restriction_summary is not null
 										</cfquery>
 										<cfif getSpecificRestrictions.recordcount GT 0>
@@ -1151,7 +1181,6 @@ limitations under the License.
 								</td>
 							</tr>
 							<cfset totalLotCount = totalLotCount + 1>
-							<cfset totalSpecimens = totalSpecimens + lot_count>
 						</cfloop>
 					</table>
 					<div style="#font# font-size: 1.2em; margin-bottom: 2em; border-bottom: 1px solid black;">
@@ -1174,7 +1203,24 @@ limitations under the License.
 					</tr>
 					<cfset totalLotCount = 0>
 					<cfset totalSpecimens = 0>
-					<cfloop query="getLoanItems">
+					<cfif isDefined("groupBy") AND groupBy EQ "part">
+						<cfquery name="getLoanItemsLoop" dbtype="query">
+							SELECT distinct 
+								collection_object_id,
+								institution_acronym, collection_cde, cat_num,
+								top_loan_status,reconciled_date,
+								scientific_name, type_status, higher_geog,
+								collection, chronostrat,lithostrat,
+								spec_locality, collectors, loan_item_remarks,
+							FROM getLoanItems
+						<cfquery>
+					<cfelse>
+						<cfquery name="getLoanItemsLoop" dbtype="query">
+							SELECT *
+							FROM getLoanItems
+						<cfquery>
+					</cfif>
+					<cfloop query="getLoanItemsLoop">
 						<tr>
 							<td style="width: 25%; vertical-align: top; #font# font-size: small;">
 								#institution_acronym#:#collection_cde#:#cat_num#
@@ -1195,8 +1241,21 @@ limitations under the License.
 							</td>
 							<td style="width: 25%; vertical-align: top; #font# font-size: small;">
 								<cfif isDefined("groupBy") AND groupBy EQ "part">
-									#parts#
+									<cfquery name="getLoanItemsParts" dbtype="query">
+										SELECT sum(lot_count) slc, parts
+										FROM getLoanItems
+										WHERE 
+											instututional_acronym = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#institution_acronym#">
+											and collection_cde = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collection_cde#">
+											and cat_num = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#cat_num#">
+										GROUP BY parts
+									<cfquery>
+									<cfloop query="getLoanItemsParts">
+										#parts#
+										<cfset totalSpecimens = totalSpecimens + slc>
+									</cfloop>
 								<cfelse>
+									<cfset totalSpecimens = totalSpecimens + lot_count>
 									#lot_count# #part_modifier# #part_name#
 									<cfif len(preserve_method) GT 0>(#preserve_method#)</cfif>
 									<cfif Len(condition) GT 0 and top_loan_type contains 'exhibition' ><BR>Condition: #condition#</cfif>
@@ -1212,7 +1271,7 @@ limitations under the License.
 											join permit_trans on accn.transaction_id = permit_trans.transaction_id
 											join permit on permit_trans.permit_id = permit.permit_id
 										WHERE li.transaction_id = <cfqueryparam CFSQLType="CF_SQL_DECIMAL" value="#transaction_id#">
-											and ci.collection_object_id  = <cfqueryparam CFSQLType="CF_SQL_DECIMAL" value="#getLoanItems.collection_object_id#">
+											and ci.collection_object_id  = <cfqueryparam CFSQLType="CF_SQL_DECIMAL" value="#getLoanItemsLoop.collection_object_id#">
 											and permit.restriction_summary is not null
 									</cfquery>
 									<cfif getSpecificRestrictions.recordcount GT 0>
