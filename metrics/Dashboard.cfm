@@ -96,8 +96,8 @@ limitations under the License.
 									// Instantiate CFC 
 									var cfc = createObject("component", "/metrics/component/functions"); 
 									// Call CFC method, pass variables as arguments 
-									var result = cfc.getLoanNumbers(beginDate,endDate); 
-									alert(result);
+									var loanBlock = cfc.getLoanNumbers(beginDate,endDate); 
+
 								} 
 							</script>
 							<script> function displayResults(results) { document.getElementById("output").innerHTML = results; } </script> 
