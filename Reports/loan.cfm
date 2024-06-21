@@ -941,7 +941,7 @@ limitations under the License.
 					<strong style="#font# font-size: small;">Summary of restrictions imposed and benefits required from original collecting agreements</strong>
 				</div>
 			</cfif>
-			<div style="#font# font-size: 1em;">
+			<div style="#font# font-size: small;">
 				The MCZ is committed to the spirit and letter of the Convention on Biological Diversity and its associated Nagoya Protocol on Access
 				and Benefit-Sharing, and it expects its partner users to act in a manner consistent with these international obligations. Use
 				of some specimens may be restricted by the providing country; therefore, a specimen may only be used for approved
