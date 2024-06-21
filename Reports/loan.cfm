@@ -382,22 +382,25 @@ limitations under the License.
 						<td style="width: 60%; vertical-align: top;">
 							<cfloop query="getSubloans">
 								<div style="#font# font-size: 1em;">
-									#getSubloans.loan_number#
 									<cfquery name="getSubloanCount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-										SELECT sum(lot_count) lot_ct, count(coll_object.collection_object_id) item_ct
+										SELECT sum(lot_count) lot_ct, count(coll_object.collection_object_id) item_ct, collection
 										FROM 
 											loan_item 
 											JOIN coll_object on loan_item.collection_object_id = coll_object.collection_object_id
-										WHERE transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getSubloans.transaction_id#">
+											JOIN trans on loan_item.transaction_id = trans.transaction_id
+											JOIN collection on trans.collection_id = collection.collection_id
+										WHERE loan_item.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getSubloans.transaction_id#">
+										GROUP BY collection
 									</cfquery>
 									<cfloop query="getSubloanCount">
-										(#getSubloanCount.item_ct#)
+										#getSubloanCount.collection# #getSubloans.loan_number#
+										(#getSubloanCount.item_ct# specimens)
 									</cfloop>
 								</div>
 							</cfloop>
-							<div style="#font# font-size: 1em;">
+							<!--- div style="#font# font-size: 1em;">
 								#getLoan.loan_description#
-							</div>
+							</div --->
 						</td>
 					</tr>
 					<tr>
