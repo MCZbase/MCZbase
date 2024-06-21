@@ -936,7 +936,7 @@ limitations under the License.
 					</cfif>
 				</div>
 			</cfif>
-			<cfif getRestrictions.recordcount EQ 0>
+			<cfif getRestrictions.recordcount GT 0>
 				<div style="text-align: center; #font# font-size: small;">
 					<strong style="#font# font-size: small;">Summary of restrictions imposed and benefits required from original collecting agreements</strong>
 				</div>
