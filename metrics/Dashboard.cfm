@@ -34,6 +34,20 @@ limitations under the License.
 <cfoutput>
 <div class="container-fluid" id="content">
 	<div class="row">
+		
+
+<form id="myForm"> <input type="text" name="name"> <input type="submit" value="Submit"> </form>
+
+<a href="javascript:submitForm()">Submit to Function</a>
+
+
+<script> function submitForm() { var form = document.getElementById("myForm"); form.action = "mypage.cfm#myFunction"; form.submit(); } </script>
+
+<cffunction name="myFunction"> <cfargument name="form" type="struct" required="true"> <!--- access form values here --->
+<cfoutput>#form.name#</cfoutput>
+
+</cffunction>
+		
 		<nav id="sidebarMenu" class="col-md-2 col-lg-2 d-md-block bg-light sidebar collapse">
 			<div class="sidebar-sticky pt-4 px-3">
 				<h3 class="text-muted"><span>Report Date Range</span></h3>
