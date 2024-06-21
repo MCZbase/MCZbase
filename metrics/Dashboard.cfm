@@ -102,6 +102,9 @@ limitations under the License.
 							<cfset beginDate = "2022-01-01">
 							<cfset endDate = "2024-01-01">
 							<cfset action = "showLoans">
+							<cfset functionsX = CreateObject("component", "functions")>
+
+							<cfset result = functionsX.getLoanNumbers("2022-01-01","2024-01-01","showLoans")>
 								<a class="nav-link px-0" href="Dashboard.cfm?action=#action#&beginDate=#beginDate#&endDate=#endDate#">
 								<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file-text">
 									<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
