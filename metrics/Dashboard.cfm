@@ -101,10 +101,9 @@ limitations under the License.
 						</li>
 						
 						<li class="nav-item"> 
-							<cfset beginDate = "2022-01-01">
-							<cfset endDate = "2024-01-01">
+							
 							<cfset myLoanResults = CreateObject("component", "/metrics/component/functions")>
-							<cfset loanresult = myLoanResults.getLoanNumbers("2022-01-01","2024-01-01")>
+							<cfset loanresult = myLoanResults.getLoanNumbers()>
 								<form> <button class="btn btn-xs btn-primary" type="button" onclick="callCFCFunction()">Click Me</button> </form> 
 								<script> 
 									function callCFCFunction() { 
