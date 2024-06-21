@@ -102,9 +102,8 @@ limitations under the License.
 							<cfset beginDate = "2022-01-01">
 							<cfset endDate = "2024-01-01">
 							<cfset myLoanResults = CreateObject("component", "/metrics/component/functions")>
-							<cfset result = myLoanResults.getLoanNumbers("2022-01-01","2024-01-01","showLoans")>
-								<a href="##" onclick="getLoanNumbers(); return false;">Run Function</a>
-								<a class="nav-link px-0" href="Dashboard.cfm?action=showLoans&beginDate=#beginDate#&endDate=#endDate###getLoanNumbers">
+							<cfset loanresult = myLoanResults.getLoanNumbers("2022-01-01","2024-01-01","showLoans")>
+								<a class="nav-link px-0" href="##" onclick="getLoanNumbers(); return false;">
 								<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file-text">
 									<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
 									<polyline points="14 2 14 8 20 8"></polyline>
@@ -116,7 +115,11 @@ limitations under the License.
 							</a> 
 						</li>
 						<li class="nav-item"> 
-							<a class="nav-link px-0" href="Dashboard.cfm?action=showMedia&beginDate=#beginDate#&endDate=#endDate#" onClick="showMediaFunction()">
+							<cfset beginDate = "2022-01-01">
+							<cfset endDate = "2024-01-01">
+							<cfset myMediaResults = CreateObject("component", "/metrics/component/functions")>
+							<cfset mediaresult = myMediaResults.getMediaNumbers("2022-01-01","2024-01-01","showMedia")>
+								<a class="nav-link px-0" href="##" onclick="getMediaNumbers(); return false;">
 								<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file-text">
 									<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
 									<polyline points="14 2 14 8 20 8"></polyline>
@@ -160,7 +163,7 @@ limitations under the License.
 
 		<main role="main" class="col-md-10 ml-sm-auto col-lg-10 px-md-5 mb-3">
 			<div class="row">
-	#result#
+				
 <!---				<div class="col-12 px-0 mt-4">
 					<h1 class="h2 float-left">Metrics</h1>
 					<div class="btn-toolbar mb-2 mb-md-0 float-right">
@@ -190,6 +193,11 @@ limitations under the License.
 							</div>
 						</div>
 					</div>
+					#loanresult#
+							
+					#basicresult#
+							
+					#citationresult#
 					<cfif action EQ "showBasic">
 						<cfset summaryAnnualBlock=getAnnualNumbers(endDate="2024-07-01",beginDate="2023-07-01")>
 						<div id="annualNumbersDiv">
