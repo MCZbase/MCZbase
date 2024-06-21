@@ -114,7 +114,7 @@ limitations under the License.
 									var endDate="2024-01-01"; 
 									var cfc = createObject("component", "/metrics/component/functions");
 									var result = "#cfc.getLoanNumbers(beginDate,endDate)#"; 
-									alert(result); 
+									
 								} 
 							</script>
 								
@@ -209,7 +209,7 @@ limitations under the License.
 							
 				<!---	<div id="basicresult">#basicresult#</div>--->
 							
-					<div id="loanresult"></div>
+					<div id="result">#result#</div>
 							
 				<!---	<div id="citationresult">#citationresult#</div>
 							
