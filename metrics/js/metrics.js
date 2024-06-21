@@ -25,7 +25,7 @@ function getLoans() {
   // Handle response
   xhr.onload = function() {
     if (xhr.status === 200) {
-      document.getElementById("loanresult").innerHTML = "Function ran"; 
+      document.getElementById("loanresult").innerHTML = "#loanresult#"; 
     }
   }
 
