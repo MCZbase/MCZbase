@@ -57,11 +57,7 @@ limitations under the License.
 						<input type="date" id="endDate" name="endDate" class="data-entry-input" value="#endDate#">
 					</form>
 				</cfif>
-				<form method="post" action="/metrics/Dashboard.cfm">
-					<input type="beginDate" name="begin">
-					<input type="endDate" name="end">
-					<input type="submit">
-				</form>
+			
 				<h3 class="sidebar-heading d-flex justify-content-between align-items-center px-1 mt-4 mb-1 text-muted"> 
 					<span>Report Type</span> 
 				</h3>
