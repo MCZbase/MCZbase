@@ -11,7 +11,8 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 --->
-
+<cfcomponent>
+	
 <cffunction name="getAnnualNumbers" access="remote" returntype="any" returnformat="json">
 	<cfargument name="endDate" type="date" required="true">
 	<cfargument name="beginDate" type="date" required="true">
@@ -511,3 +512,5 @@ limitations under the License.
 	<cfthread action="join" name="getGeorefNumbersThread" />
 	<cfreturn getGeorefNumbersThread.output>
 </cffunction>
+			
+</cfcomponent>
