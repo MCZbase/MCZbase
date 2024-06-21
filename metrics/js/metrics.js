@@ -12,3 +12,16 @@ function getAnnualNums(endDate,beginDate) {
 		dataType: "html"
 	});
 }
+
+function callFunction() {
+
+// Create CFC object
+var cfc = new ActiveXObject("functions");
+
+// Call function
+cfc.getLoanNumbers();
+
+// Update page element
+document.getElementById("#annualNumbersDiv").innerHTML = "Function ran";
+
+}
