@@ -13,7 +13,7 @@ function getAnnualNums(endDate,beginDate) {
 	});
 }
 
-function callFunction() {
+function getLoanNumbers() {
 
 // Create CFC object
 var cfc = new ActiveXObject("functions");
