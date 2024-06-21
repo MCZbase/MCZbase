@@ -191,7 +191,7 @@ limitations under the License.
 				<cfoutput>
 					<cfset functions = CreateObject("component", "functions")>
 					<cfset result = functions.getAnnualNumbers(endDate="2024-07-01",beginDate="2023-07-01")>
-						
+						#result#
 						
 						
 					<cfif action EQ "showBasic">
