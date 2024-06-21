@@ -13,18 +13,15 @@ function getAnnualNums(endDate,beginDate) {
 	});
 }
 
-function getLoanNums() {
+function callFunction() {
 
-  // Create XMLHttpRequest object
-  var xhr = new XMLHttpRequest();
+// Create CFC object
+var cfc = new ActiveXObject("functions");
 
-  // Call CFC function via AJAX
-  xhr.open('GET', 'functions.cfc?method=getLoanNumbers'); 
-  xhr.send();
+// Call function
+cfc.getLoanNumbers();
 
-  // Handle response
-  xhr.onload = function() {
-    if (xhr.status === 200) {
-      document.getElementById("loanresult").innerHTML = "Function ran"; 
-    }
-  }
+// Update page element
+document.getElementById("result").innerHTML = "Function ran";
+
+}

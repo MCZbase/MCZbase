@@ -219,7 +219,7 @@ limitations under the License.
 							#summaryAnnualBlock#
 						</div>
 					</cfif>--->
-					<cfif action EQ "showLoans">
+<!---					<cfif action EQ "showLoans">
 						<cfset loanBlock=getLoanNumbers(action="showLoans",endDate="2024-07-01",beginDate="2023-07-01")>
 						<div id="annualLoanDiv">
 							#loanBlock#
@@ -242,7 +242,7 @@ limitations under the License.
 						<div id="georefDiv">
 							#georefBlock#
 						</div>
-					</cfif>
+					</cfif>--->
 				</cfoutput>
 			</div>
 		</main>
