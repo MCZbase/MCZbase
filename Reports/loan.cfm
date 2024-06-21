@@ -987,8 +987,8 @@ limitations under the License.
 			<div style="text-align: center; #font# font-size: 1.1em; margin-bottom: 1em;">
 				<strong>Invoice of Specimens</strong>
 			</div>
-			<div style="#font# font-size: 1.2em;">
-				Retain in 70% ethanol unless noted otherwise.
+			<div style="#font# font-size: 1em;">
+				Retain fluid specimens in 70% ethanol unless noted otherwise.
 			</div>
 			<cfif top_loan_type EQ "exhibition-master">
 				<cfset master_transaction_id = transaction_id>
