@@ -14,19 +14,19 @@ function getAnnualNums(endDate,beginDate) {
 }
 
 function getLoans() {
-// Create CFC object
-var cfc = new ActiveXObject("functions");
-// Call function
-cfc.getLoanNumbers();
-// Update page element
-document.getElementById("loanresult").innerHTML = "";
-}
 
-function getCitations() {
-// Create CFC object
-var cfc = new ActiveXObject("functions");
-// Call function
-cfc.getCitationNumbers();
-// Update page element
-document.getElementById("citationresult").innerHTML = "";
+  // Create XMLHttpRequest object
+  var xhr = new XMLHttpRequest();
+
+  // Call CFC function via AJAX
+  xhr.open('GET', 'functions.cfc?method=getLoanNumbers'); 
+  xhr.send();
+
+  // Handle response
+  xhr.onload = function() {
+    if (xhr.status === 200) {
+      document.getElementById("loanresult").innerHTML = "Function ran"; 
+    }
+  }
+
 }
