@@ -473,8 +473,8 @@ limitations under the License.
 					<p>Museum of Comparative Zoology, President and Fellows of Harvard College</p>
 				</div>
 				<div style="text-align: left; #font# font-size: small; border-bottom solid black 1px; width: 100%;">
-					If the Borrower&#39;s loan agreement is signed by the Museum of Comparative Zoology, conditions of the Museum of
-					Comparative Zoology&#39;s loan agreement will supersede inconsistent conditions and augment other conditions of the Borrower&#39;s
+					If the Borrower&##39;s loan agreement is signed by the Museum of Comparative Zoology, conditions of the Museum of
+					Comparative Zoology&##39;s loan agreement will supersede inconsistent conditions and augment other conditions of the Borrower&##39;s
 					loan agreement. The MCZ loan agreement will be governed by and construed according to the laws of the Commonwealth of Massachusetts.
 				</div>
 				<div style="text-align: left; #font# font-size: small;">
@@ -510,7 +510,7 @@ limitations under the License.
 						including, but not limited to, loss or damage from earthquakes, floods,
 						strikes, riots, or civil commotion. The loan object(s) will be insured at the
 						value(s) assigned by the Museum of Comparative Zoology in 
-						this agreement. The Borrowing Institution&#39;s policy will name "President
+						this agreement. The Borrowing Institution&##39;s policy will name "President
 						and Fellows of Harvard College" as additional insured and will waive
 						subrogation rights against Harvard University. A Certificate of Insurance
 						evidencing such coverage must be delivered to the Museum of
@@ -594,8 +594,8 @@ limitations under the License.
 						This agreement shall be governed by and construed in accordance with the laws of the Commonwealth of Massachusetts.
 					</p>
 					<strong>13. NON-ASSIGNABILITY AND BINDING EFFECT</strong>
-					<p>Neither party&#39;s rights nor obligation hereunder may be assigned except with
-						the other&#39;s written consent. Subject to the foregoing, this agreement shall
+					<p>Neither party&##39;s rights nor obligation hereunder may be assigned except with
+						the other&##39;s written consent. Subject to the foregoing, this agreement shall
 						be binding on and inure to the benefit of the parties and their successors
 						and assigns.
 					</p>
