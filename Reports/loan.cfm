@@ -993,7 +993,7 @@ limitations under the License.
 				</div>
 			<cfelse>
 				<div style="text-align: center; #font# font-size: 1.1em; margin-bottom: 0.5em;">
-					<strong>Retain in 70% ethanol unless noted otherwise.</strong>
+					<strong>Retain fluid specimens in 70% ethanol unless noted otherwise.</strong>
 				</div>
 			</cfif>
 			<cfif top_loan_type EQ "exhibition-master">
