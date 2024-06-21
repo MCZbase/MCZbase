@@ -954,7 +954,7 @@ limitations under the License.
 				of some specimens may be restricted by the providing country; therefore, a specimen may only be used for approved
 				purposes, and express written permission must be obtained before a loaned specimen can be used for additional purposes.
 			</div>
-			<cfif getRestrictions.recordcount EQ 0>
+			<cfif getRestrictions.recordcount GT 0>
 				<ul style="#font# font-size: 1em;">
 					<cfloop query="getRestrictions">
 						<cfif getRestrictions.source EQ "accession">
