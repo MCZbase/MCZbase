@@ -36,15 +36,26 @@ limitations under the License.
 	<div class="row">
 		
 
-<form id="myForm"> <input type="text" name="name"> <input type="submit" value="Submit"> </form>
+<form id="myForm">
+	<input type="date" name="beginDate">
+	<input type="date" name="endDate"> 
+	<input type="submit" value="Submit"> 
+</form>
 
 <a href="javascript:submitForm()">Submit to Function</a>
 
 
-<script> function submitForm() { var form = document.getElementById("myForm"); form.action = "/metrics/Dashboard.cfm##myFunction"; form.submit(); } </script>
+<script> 
+	function submitForm() { 
+		var form = document.getElementById("myForm"); form.action = "/metrics/Dashboard.cfm##getAnnualNumbers"; form.submit(); 
+	} 
+		
+</script>
 
-<cffunction name="myFunction"> <cfargument name="form" type="struct" required="true"> <!--- access form values here --->
-<cfoutput>#form.name#</cfoutput>
+<cffunction name="myFunction"> 
+	
+	<cfargument name="form" type="struct" required="true"> <!--- access form values here --->
+	<cfoutput>#form.name#</cfoutput>
 	<br clear="all">
 
 </cffunction>
