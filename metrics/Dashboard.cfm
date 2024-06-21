@@ -203,13 +203,16 @@ limitations under the License.
 							</div>
 						</div>
 					</div>
-					#loanresult#
 							
 					#basicresult#
+							
+					#loanresult#
 							
 					#citationresult#
 							
 					#mediaresult#
+							
+					#georefresult#
 					<cfif action EQ "showBasic">
 						<cfset summaryAnnualBlock=getAnnualNumbers(endDate="2024-07-01",beginDate="2023-07-01")>
 						<div id="annualNumbersDiv">
