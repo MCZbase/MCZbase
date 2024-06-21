@@ -25,7 +25,7 @@ function callCFCFunction1() {
   // Handle response
   xhr.onload = function() {
     if (xhr.status === 200) {
-      document.getElementById("loanresult").innerHTML = "loans"; 
+      document.getElementById("loanresult").innerHTML = "loan results"; 
     }
   }
 
