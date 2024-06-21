@@ -45,6 +45,7 @@ limitations under the License.
 
 <cffunction name="myFunction"> <cfargument name="form" type="struct" required="true"> <!--- access form values here --->
 <cfoutput>#form.name#</cfoutput>
+	<br clear="all">
 
 </cffunction>
 		
