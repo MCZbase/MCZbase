@@ -41,7 +41,7 @@ limitations under the License.
 <a href="javascript:submitForm()">Submit to Function</a>
 
 
-<script> function submitForm() { var form = document.getElementById("myForm"); form.action = "mypage.cfm##myFunction"; form.submit(); } </script>
+<script> function submitForm() { var form = document.getElementById("myForm"); form.action = "/metrics/Dashboard.cfm##myFunction"; form.submit(); } </script>
 
 <cffunction name="myFunction"> <cfargument name="form" type="struct" required="true"> <!--- access form values here --->
 <cfoutput>#form.name#</cfoutput>
