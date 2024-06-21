@@ -15,13 +15,16 @@ function getAnnualNums(endDate,beginDate) {
 
 function getLoanNums() {
 
-// Create CFC object
-var cfc = new ActiveXObject("functions");
+  // Create XMLHttpRequest object
+  var xhr = new XMLHttpRequest();
 
-// Call function
-cfc.getLoanNumbers();
+  // Call CFC function via AJAX
+  xhr.open('GET', 'functions.cfc?method=getLoanNumbers'); 
+  xhr.send();
 
-// Update page element
-document.getElementById("#loanDiv").innerHTML = "Function ran";
-
-}
+  // Handle response
+  xhr.onload = function() {
+    if (xhr.status === 200) {
+      document.getElementById("loanresult").innerHTML = "Function ran"; 
+    }
+  }
