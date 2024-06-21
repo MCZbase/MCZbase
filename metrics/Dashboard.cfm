@@ -56,10 +56,10 @@ limitations under the License.
 	
 	<cfargument name="form" type="struct" required="true"> <!--- access form values here --->
 	<cfoutput>#form.name#</cfoutput>
-	<br clear="all">
+	
 
 </cffunction>
-		
+	<br clear="all">	
 		<nav id="sidebarMenu" class="col-md-2 col-lg-2 d-md-block bg-light sidebar collapse">
 			<div class="sidebar-sticky pt-4 px-3">
 				<h3 class="text-muted"><span>Report Date Range</span></h3>
