@@ -1134,7 +1134,7 @@ limitations under the License.
 											SELECT sum(lot_count) slc, parts
 											FROM getLoanItems
 											WHERE 
-												instututional_acronym = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#institution_acronym#">
+												institution_acronym = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#institution_acronym#">
 												and collection_cde = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collection_cde#">
 												and cat_num = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#cat_num#">
 											GROUP BY parts
@@ -1245,7 +1245,7 @@ limitations under the License.
 										SELECT sum(lot_count) slc, parts
 										FROM getLoanItems
 										WHERE 
-											instututional_acronym = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#institution_acronym#">
+											institution_acronym = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#institution_acronym#">
 											and collection_cde = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collection_cde#">
 											and cat_num = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#cat_num#">
 										GROUP BY parts
