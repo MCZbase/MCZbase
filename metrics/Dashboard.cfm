@@ -174,48 +174,31 @@ limitations under the License.
 						</div>
 					</div>
 							
-				<!---	<div id="basicresult">#basicresult#</div>--->
-							
-						<cfset loanBlock=getLoanNumbers(endDate="2024-07-01",beginDate="2023-07-01")>
-						<div id="annualLoanDiv">
-							#loanBlock#
-						</div>
-							
-				<!---	<div id="citationresult">#citationresult#</div>
-							
-					<div id="mediaresult">#mediaresult#</div>--->
-							
-				<!---	<div id="georefresult">#georefresult#</div>--->
-			<!---		<cfif action EQ "showBasic">
 						<cfset summaryAnnualBlock=getAnnualNumbers(endDate="2024-07-01",beginDate="2023-07-01")>
 						<div id="annualNumbersDiv">
 							#summaryAnnualBlock#
 						</div>
-					</cfif>--->
-<!---					<cfif action EQ "showLoans">
-						<cfset loanBlock=getLoanNumbers(action="showLoans",endDate="2024-07-01",beginDate="2023-07-01")>
+
+						<cfset loanBlock=getLoanNumbers(endDate="2024-07-01",beginDate="2023-07-01")>
 						<div id="annualLoanDiv">
 							#loanBlock#
-						</div>
-					</cfif>	
-					<cfif action EQ "showMedia">
-						<cfset mediaBlock=getMediaNumbers(action="showMedia",endDate="2024-07-01",beginDate="2023-07-01")>
+						</div>	
+
+						<cfset mediaBlock=getMediaNumbers(endDate="2024-07-01",beginDate="2023-07-01")>
 						<div id="mediaDiv">
 							#mediaBlock#
 						</div>
-					</cfif>
-					<cfif action EQ "showCitations">
-						<cfset citationBlock=getCitationNumbers(action="showCitations",endDate="2024-07-01",beginDate="2023-07-01")>
+
+						<cfset citationBlock=getCitationNumbers(endDate="2024-07-01",beginDate="2023-07-01")>
 						<div id="citationDiv">
 							#citationBlock#
 						</div>
-					</cfif>
-					<cfif action EQ "showGeorefs">
-						<cfset georefBlock=getGeorefNumbers(action="showGeorefs",endDate="#endDate#",beginDate="#beginDate#")>
+		
+						<cfset georefBlock=getGeorefNumbers(endDate="#endDate#",beginDate="#beginDate#")>
 						<div id="georefDiv">
 							#georefBlock#
 						</div>
-					</cfif>--->
+
 				</cfoutput>
 			</div>
 		</main>
