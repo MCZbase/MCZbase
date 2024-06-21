@@ -1,17 +1,17 @@
-function getCFCFunction1(endDate,beginDate) { 
-	jQuery.ajax({
-		url: "/metrics/component/functions.cfc",
-		data : {
-			method : "getLoanNumbers",
-			endDate: endDate,
-			beginDate: beginDate,
-		},
-		success: function (result) {
-			$("#loanresult").html(result);
-		},
-		dataType: "html"
-	});
-}
+//function getCFCFunction1(endDate,beginDate) { 
+//	jQuery.ajax({
+//		url: "/metrics/component/functions.cfc",
+//		data : {
+//			method : "getLoanNumbers",
+//			endDate: endDate,
+//			beginDate: beginDate,
+//		},
+//		success: function (result) {
+//			$("#loanresult").html(result);
+//		},
+//		dataType: "html"
+//	});
+//}
 
 //function callCFCFunction1() {
 //
