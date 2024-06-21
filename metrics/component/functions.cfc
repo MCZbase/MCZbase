@@ -13,8 +13,8 @@ limitations under the License.
 --->
 
 <cffunction name="getAnnualNumbers" access="remote" returntype="any" returnformat="json">
-	<cfargument name="endDate" type="date" required="no" default="2024-07-01">
-	<cfargument name="beginDate" type="date" required="no" default="2023-07-01">
+	<cfargument name="endDate" type="any" required="no" default="2024-07-01">
+	<cfargument name="beginDate" type="any" required="no" default="2023-07-01">
 	<cfthread name="getAnnualNumbersThread">
 		<cfoutput>
 			<cftry>
@@ -135,9 +135,8 @@ limitations under the License.
 </cffunction>
 			
 <cffunction name="getLoanNumbers" access="remote" returntype="any" returnformat="json">
-	<cfargument name="endDate" type="date" required="no" default="2024-07-01">
-	<cfargument name="beginDate" type="date" required="no" default="2023-07-01">
-	<cfargument name="action" type="text" required="yes" default="showLoans">
+	<cfargument name="endDate" type="any" required="no" default="2024-07-01">
+	<cfargument name="beginDate" type="any" required="no" default="2023-07-01">
 	<cfthread name="getLoanNumbersThread">
 		<cfoutput>
 			<cftry>
@@ -270,8 +269,9 @@ limitations under the License.
 </cffunction>
 					
 <cffunction name="getMediaNumbers" access="remote" returntype="any" returnformat="json">
-	<cfargument name="endDate" type="date" required="no" default="2024-07-01">
-	<cfargument name="beginDate" type="date" required="no" default="2023-07-01">
+	<cfargument name="endDate" type="any" required="no" default="2024-07-01">
+	<cfargument name="beginDate" type="any" required="no" default="2023-07-01">
+
 	<cfthread name="getMediaNumbersThread">
 		<cfoutput>
 			<cftry>
@@ -371,8 +371,8 @@ limitations under the License.
 </cffunction>
 			
 <cffunction name="getCitationNumbers" access="remote" returntype="any" returnformat="json">
-	<cfargument name="endDate" type="date" required="no" default="2024-07-01">
-	<cfargument name="beginDate" type="date" required="no" default="2023-07-01">
+	<cfargument name="endDate" type="any" required="no" default="2024-07-01">
+	<cfargument name="beginDate" type="any" required="no" default="2023-07-01">
 	<cfthread name="getCitationNumbersThread">
 		<cfoutput>
 			<cftry>
@@ -435,8 +435,8 @@ limitations under the License.
 </cffunction>
 				
 <cffunction name="getGeorefNumbers" access="remote" returntype="any" returnformat="json">
-	<cfargument name="endDate" type="date" required="no" default="2024-07-01">
-	<cfargument name="beginDate" type="date" required="no" default="2023-07-01">
+	<cfargument name="endDate" type="any" required="no" default="2024-07-01">
+	<cfargument name="beginDate" type="any" required="no" default="2023-07-01">
 	<cfthread name="getGeorefNumbersThread">
 		<cfoutput>
 			<cftry>	
