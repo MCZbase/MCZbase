@@ -213,12 +213,12 @@ limitations under the License.
 					#mediaresult#
 							
 					#georefresult#
-					<cfif action EQ "showBasic">
+			<!---		<cfif action EQ "showBasic">
 						<cfset summaryAnnualBlock=getAnnualNumbers(endDate="2024-07-01",beginDate="2023-07-01")>
 						<div id="annualNumbersDiv">
 							#summaryAnnualBlock#
 						</div>
-					</cfif>
+					</cfif>--->
 					<cfif action EQ "showLoans">
 						<cfset loanBlock=getLoanNumbers(action="showLoans",endDate="2024-07-01",beginDate="2023-07-01")>
 						<div id="annualLoanDiv">
