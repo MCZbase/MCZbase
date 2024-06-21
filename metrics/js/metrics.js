@@ -13,7 +13,7 @@ function getAnnualNums(endDate,beginDate) {
 	});
 }
 
-function getLoans() {
+function getLoanNumbers() {
 
   // Create XMLHttpRequest object
   var xhr = new XMLHttpRequest();
@@ -25,7 +25,7 @@ function getLoans() {
   // Handle response
   xhr.onload = function() {
     if (xhr.status === 200) {
-      document.getElementById("loanresult").innerHTML = "#loanresult#"; 
+      document.getElementById("loanresult").innerHTML = "loans"; 
     }
   }
 
