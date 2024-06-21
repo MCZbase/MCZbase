@@ -22,6 +22,6 @@ var cfc = new ActiveXObject("functions");
 cfc.getLoanNumbers();
 
 // Update page element
-document.getElementById("#annualNumbersDiv").innerHTML = "Function ran";
+document.getElementById("#loanDiv").innerHTML = "Function ran";
 
 }
