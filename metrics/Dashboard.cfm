@@ -102,7 +102,7 @@ limitations under the License.
 						
 						<li class="nav-item"> 
 							
-							<!---<cfset myObj = createObject("component", "/metrics/component/functions")>--->
+						<!---	<cfset myObj = createObject("component", "/metrics/component/functions")>--->
 							<form> 
 								<button class="btn btn-xs btn-primary" type="button" onClick="callFunction()">
 									Click Me
@@ -112,7 +112,7 @@ limitations under the License.
 								function callFunction() { 
 									var beginDate = "2022-01-01";
 									var endDate="2024-01-01"; 
-									var myObj = createObject("Component","/metrics/component/functions")
+									var myObj = createObject("Component","/metrics/component/functions");
 									var result = "#myObj.getLoanNumbers(beginDate,endDate)#"; 
 									alert(result); 
 								} 
