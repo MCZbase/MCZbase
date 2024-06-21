@@ -126,7 +126,7 @@ limitations under the License.
 				<!---<cfset error_message = cfcatchToErrorMessage(cfcatch)>
 				<cfset function_called = "#GetFunctionCalledName()#">--->
 				<h2 class='h3'>Error in function?</h2>
-				<div>Error message TBD</div>
+				<div>Error message for Basic Numbers</div>
 			</cfcatch>
 			</cftry>
 		</cfoutput>
@@ -261,7 +261,7 @@ limitations under the License.
 				<!---<cfset error_message = cfcatchToErrorMessage(cfcatch)>
 				<cfset function_called = "#GetFunctionCalledName()#">--->
 				<h2 class='h3'>Error in function?</h2>
-				<div>Error message TBD</div>
+				<div>Error message for Loan numbers</div>
 			</cfcatch>
 			</cftry>
 		</cfoutput>
