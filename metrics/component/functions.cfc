@@ -136,8 +136,7 @@ limitations under the License.
 			
 <cffunction name="getLoanNumbers" access="remote" returntype="any" returnformat="json">
 	<cfargument name="endDate" type="date" required="no" default="2024-07-01">
-	<cfargument name="beginDate" type="date" required="no" default="2023-07-01"><br>
-	<cfargument name="showLoans" type="text" required="no" default="showLoans">
+	<cfargument name="beginDate" type="date" required="no" default="2023-07-01">
 	<cfthread name="getLoanNumbersThread">
 		<cfoutput>
 			<cftry>
@@ -272,7 +271,7 @@ limitations under the License.
 <cffunction name="getMediaNumbers" access="remote" returntype="any" returnformat="json">
 	<cfargument name="endDate" type="date" required="no" default="2024-07-01">
 	<cfargument name="beginDate" type="date" required="no" default="2023-07-01">
-	<cfargument name="showMedia" type="text" required="no" default="showMedia">
+
 	<cfthread name="getMediaNumbersThread">
 		<cfoutput>
 			<cftry>
