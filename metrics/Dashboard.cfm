@@ -39,6 +39,7 @@ limitations under the License.
 <form id="myForm">
 	<input type="date" name="beginDate">
 	<input type="date" name="endDate"> 
+	<input class="btn btn-xs btn-primary" type="submit">
 </form>
 
 <a href="javascript:submitForm()">Submit to Function</a>
