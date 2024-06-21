@@ -84,9 +84,11 @@ limitations under the License.
 				</h3>
 					<ul class="nav flex-column mb-2">
 						<li class="nav-item"> 
-							<cfset beginDate = "2023-01-01">
+							<cfset beginDate = "2022-01-01">
 							<cfset endDate = "2024-01-01">
-							<a class="nav-link px-0" href="Dashboard.cfm?action=showBasic&beginDate=#beginDate#&endDate=#endDate#">
+							<cfset myBasicResults = CreateObject("component", "/metrics/component/functions")>
+							<cfset basicresult = myBasicResults.getAnnualNumbers("2022-01-01","2024-01-01","showBasics")>
+								<a class="nav-link px-0" href="##" onclick="getAnnualNumbers(); return false;">
 								<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file-text">
 									<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
 									<polyline points="14 2 14 8 20 8"></polyline>
@@ -115,7 +117,11 @@ limitations under the License.
 							</a> 
 						</li>
 						<li class="nav-item"> 
-							<a class="nav-link px-0" href="Dashboard.cfm?action=showMedia&beginDate=#beginDate#&endDate=#endDate#" onClick="showMediaFunction()">
+							<cfset beginDate = "2022-01-01">
+							<cfset endDate = "2024-01-01">
+							<cfset myMediaResults = CreateObject("component", "/metrics/component/functions")>
+							<cfset mediaresult = myMediaResults.getMediaNumbers("2022-01-01","2024-01-01","showMedia")>
+								<a class="nav-link px-0" href="##" onclick="getMediaNumbers(); return false;">
 								<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file-text">
 									<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
 									<polyline points="14 2 14 8 20 8"></polyline>
@@ -127,7 +133,11 @@ limitations under the License.
 							</a> 
 						</li>
 						<li class="nav-item"> 
-							<a class="nav-link px-0" href="Dashboard.cfm?action=showCitations&beginDate=#beginDate#&endDate=#endDate#" onClick="showCitationsFunction(action=showCitations,beginDate=#beginDate#,endDate=#endDate#)">
+							<cfset beginDate = "2022-01-01">
+							<cfset endDate = "2024-01-01">
+							<cfset myCitationResults = CreateObject("component", "/metrics/component/functions")>
+							<cfset citationresult = myCitationResults.getCitationNumbers("2022-01-01","2024-01-01","showCitations")>
+								<a class="nav-link px-0" href="##" onclick="getCitationNumbers(); return false;">
 								<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file-text">
 									<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
 									<polyline points="14 2 14 8 20 8"></polyline>
@@ -139,7 +149,11 @@ limitations under the License.
 							</a> 
 						</li>
 						<li class="nav-item"> 
-							<a class="nav-link px-0"  href="##" onClick="showGeorefs()">
+							<cfset beginDate = "2022-01-01">
+							<cfset endDate = "2024-01-01">
+							<cfset myGeorefResults = CreateObject("component", "/metrics/component/functions")>
+							<cfset georefresult = myGeorefResults.getGeorefNumbers("2022-01-01","2024-01-01","showGeorefs")>
+								<a class="nav-link px-0" href="##" onclick="getGeorefNumbers(); return false;">
 								<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file-text">
 									<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
 									<polyline points="14 2 14 8 20 8"></polyline>
@@ -189,7 +203,16 @@ limitations under the License.
 							</div>
 						</div>
 					</div>
+							
+					#basicresult#
+							
 					#loanresult#
+							
+					#citationresult#
+							
+					#mediaresult#
+							
+					#georefresult#
 					<cfif action EQ "showBasic">
 						<cfset summaryAnnualBlock=getAnnualNumbers(endDate="2024-07-01",beginDate="2023-07-01")>
 						<div id="annualNumbersDiv">
