@@ -78,30 +78,14 @@ limitations under the License.
 								</svg>
 								Basic Collection Metrics
 							</a> 
-							<script> 
-								function submitForm() { 
-									// Get form values 
-									var beginDate = document.querySelector('input[beginDate="beginDate"]').value; 
-									var endDate = document.querySelector('input[endDate="endDate"]').value; 
-									// Call CFC 
-									var results = callCFC("cfc.getLoanNumbers", { beginDate: beginDate, endDate: endDate }); 
-									// Display results 
-									displayResults(results); 
-								} 
-								
-								function callCFC() { 
-									// Variables to pass 
-									var beginDate = "2022-06-30"; 
-									var endDate = "2024-06-30"; 
-									// Instantiate CFC 
-									var cfc = createObject("component", "/metrics/component/functions"); 
-									// Call CFC method, pass variables as arguments 
-									var loanBlock = cfc.getLoanNumbers(beginDate,endDate); 
+							
 
-								} 
-							</script>
-							<script> function displayResults(results) { document.getElementById("output").innerHTML = results; } </script> 
-							<div id="output"></div>
+<cfset myObj = createObject("component", "/metrics/component/metrics")>
+<cfset result = myObj.getAnnualNumbers(beginDate, endDate)>
+
+
+<!---
+<cfcomponent> <cffunction name="process"> <cfset myObj = createObject("component", "myComponent")> <cfset result = myObj.myFunction()> </cffunction> </cfcomponent>--->
 						</li>
 						<li class="nav-item"> 
 						<!---	<cfset myLoanResults = CreateObject("component", "/metrics/component/functions")>
