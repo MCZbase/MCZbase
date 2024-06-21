@@ -112,7 +112,7 @@ limitations under the License.
 								function callFunction() { 
 									var beginDate = "2022-01-01";
 									var endDate="2024-01-01"; 
-									var cfc = new ColdFusion.Component("/metrics/component/functions.cfc");
+									var cfc = new ColdFusion.Component("/metrics/component/functions");
 									var result = "#cfc.getLoanNumbers(beginDate,endDate)#"; 
 									alert(result); 
 								} 
