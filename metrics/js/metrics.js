@@ -6,6 +6,6 @@
 		// Instantiate CFC 
 		var cfc = new ColdFusion.Component("metrics/component/functions.CFC"); 
 		// Call CFC method, pass variables as arguments 
-		var result = cfc.method(beginDate,endDate); 
+		var result = cfc.getLoanNumbers(beginDate,endDate); 
 		alert(result);
 	} 
