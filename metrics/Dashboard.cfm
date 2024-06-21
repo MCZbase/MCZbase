@@ -47,7 +47,7 @@ limitations under the License.
 				<cfif action eq 'showBasic'>
 					<form action="/metrics/Dashboard.cfm" class="pt-1" id="dateForm">
 						<label for="beginDate" class="data-entry-label">Begin Date</label>
-						<input type="date" id="beginDate" name="beginDate" class="data-entry-input" value="#DateFormat (Now()-24, "yyyy-mm-dd")#">
+						<input type="date" id="beginDate" name="beginDate" class="data-entry-input" value="#DateFormat (DateAdd('m',-12, Now()), 'yyyy-mm-dd')#">
 						<label for="endDate" class="data-entry-label mt-2">End Date</label>
 						<input type="date" id="endDate" name="endDate" class="data-entry-input" value="#DateFormat (Now(), 'yyyy-mm-dd')#">
 					</form>
