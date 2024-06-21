@@ -109,7 +109,7 @@ limitations under the License.
 									<line x1="16" y1="17" x2="8" y2="17"></line>
 									<polyline points="10 9 9 9 8 9"></polyline>
 								</svg>
-								Basic Collection Metrics
+								Loan Numbers
 							</a> 
 						</li>
 						<li class="nav-item"> 
@@ -176,7 +176,7 @@ limitations under the License.
 							
 				<!---	<div id="basicresult">#basicresult#</div>--->
 							
-					<div id="result">#result#</div>
+					<div id="result">#loanresult#</div>
 							
 				<!---	<div id="citationresult">#citationresult#</div>
 							
