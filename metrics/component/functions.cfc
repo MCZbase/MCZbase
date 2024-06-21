@@ -13,8 +13,8 @@ limitations under the License.
 --->
 
 <cffunction name="getAnnualNumbers" access="remote" returntype="any" returnformat="json">
-	<cfargument name="endDate" type="struct" required="true">
-	<cfargument name="beginDate" type="struct" required="true">
+	<cfargument name="endDate" type="date" required="true">
+	<cfargument name="beginDate" type="date" required="true">
 	<cfthread name="getAnnualNumbersThread">
 		<cfoutput>
 			<cftry>
