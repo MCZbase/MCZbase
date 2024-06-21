@@ -198,6 +198,8 @@ limitations under the License.
 					#basicresult#
 							
 					#citationresult#
+							
+					#mediaresult#
 					<cfif action EQ "showBasic">
 						<cfset summaryAnnualBlock=getAnnualNumbers(endDate="2024-07-01",beginDate="2023-07-01")>
 						<div id="annualNumbersDiv">
