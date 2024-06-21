@@ -178,7 +178,7 @@ limitations under the License.
 		<main role="main" class="col-md-10 ml-sm-auto col-lg-10 px-md-5 mb-3">
 			<div class="row">
 	
-				<div class="col-12 px-0 mt-4">
+<!---				<div class="col-12 px-0 mt-4">
 					<h1 class="h2 float-left">Metrics</h1>
 					<div class="btn-toolbar mb-2 mb-md-0 float-right">
 						<div class="btn-group mr-2">
@@ -186,7 +186,7 @@ limitations under the License.
 							<button type="button" class="btn btn-sm btn-outline-secondary">Export</button>
 						</div>
 					</div>
-				</div>
+				</div>--->
 				<cfoutput>
 					<cfset endDate = ''>
 						<!--- this gets the last year--->
