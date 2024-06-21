@@ -169,25 +169,25 @@ limitations under the License.
 				</div>
 				<cfoutput>
 					<cfif action EQ "showBasic">
-						<cfset summaryAnnualBlock=getAnnualNumbers(action="showBasic",endDate="#endDate#",beginDate="#beginDate#")>
+						<cfset summaryAnnualBlock=getAnnualNumbers(action="showBasic",endDate="2024-07-01",beginDate="2023-07-01")>
 						<div id="annualNumbersDiv">
 							#summaryAnnualBlock#
 						</div>
 					</cfif>
 					<cfif action EQ "showLoans">
-						<cfset loanBlock=getLoanNumbers(action="showLoans",endDate="#endDate#",beginDate="#beginDate#")>
+						<cfset loanBlock=getLoanNumbers(action="showLoans",endDate="2024-07-01",beginDate="2023-07-01")>
 						<div id="annualLoanDiv">
 							#loanBlock#
 						</div>
 					</cfif>	
 					<cfif action EQ "showMedia">
-						<cfset mediaBlock=getMediaNumbers(action="showMedia",endDate="#endDate#",beginDate="#beginDate#")>
+						<cfset mediaBlock=getMediaNumbers(action="showMedia",endDate="2024-07-01",beginDate="2023-07-01")>
 						<div id="mediaDiv">
 							#mediaBlock#
 						</div>
 					</cfif>
 					<cfif action EQ "showCitations">
-						<cfset citationBlock=getCitationNumbers(action="showCitations",endDate="#endDate#",beginDate="#beginDate#")>
+						<cfset citationBlock=getCitationNumbers(action="showCitations",endDate="2024-07-01",beginDate="2023-07-01")>
 						<div id="citationDiv">
 							#citationBlock#
 						</div>
