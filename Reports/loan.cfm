@@ -1102,12 +1102,12 @@ limitations under the License.
 									collection, chronostrat,lithostrat,
 									spec_locality, collectors, loan_item_remarks
 								FROM getLoanItems
-							<cfquery>
+							</cfquery>
 						<cfelse>
 							<cfquery name="getLoanItemsLoop" dbtype="query">
 								SELECT *
 								FROM getLoanItems
-							<cfquery>
+							</cfquery>
 						</cfif>
 						<cfloop query="getLoanItemsLoop">
 							<tr>
@@ -1138,7 +1138,7 @@ limitations under the License.
 												and collection_cde = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collection_cde#">
 												and cat_num = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#cat_num#">
 											GROUP BY parts
-										<cfquery>
+										</cfquery>
 										<cfloop query="getLoanItemsParts">
 											#parts#
 											<cfset totalSpecimens = totalSpecimens + slc>
@@ -1213,12 +1213,12 @@ limitations under the License.
 								collection, chronostrat,lithostrat,
 								spec_locality, collectors, loan_item_remarks,
 							FROM getLoanItems
-						<cfquery>
+						</cfquery>
 					<cfelse>
 						<cfquery name="getLoanItemsLoop" dbtype="query">
 							SELECT *
 							FROM getLoanItems
-						<cfquery>
+						</cfquery>
 					</cfif>
 					<cfloop query="getLoanItemsLoop">
 						<tr>
@@ -1249,7 +1249,7 @@ limitations under the License.
 											and collection_cde = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collection_cde#">
 											and cat_num = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#cat_num#">
 										GROUP BY parts
-									<cfquery>
+									</cfquery>
 									<cfloop query="getLoanItemsParts">
 										#parts#
 										<cfset totalSpecimens = totalSpecimens + slc>
