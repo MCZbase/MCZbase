@@ -108,6 +108,8 @@ limitations under the License.
 									displayResults(results); 
 								} 
 							</script>
+							<script> function displayResults(results) { document.getElementById("output").innerHTML = results; } </script> 
+							<div id="output"></div>
 						</li>
 						<li class="nav-item"> 
 						<!---	<cfset myLoanResults = CreateObject("component", "/metrics/component/functions")>
