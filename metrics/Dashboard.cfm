@@ -190,7 +190,7 @@ limitations under the License.
 				</div>
 				<cfoutput>
 					<cfset myCFC = CreateObject("component", "functions")>
-					<cfset result = myCFC.getAnnualNumbers()>
+					<cfset result = myCFC.getAnnualNumbers(endDate="2024-07-01",beginDate="2023-07-01")>
 						
 						
 						
