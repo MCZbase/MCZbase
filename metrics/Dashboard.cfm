@@ -66,6 +66,8 @@ limitations under the License.
 				</h3>
 					<ul class="nav flex-column mb-2">
 						<li class="nav-item"> 
+							<cfset beginDate = '2022-05-06'>
+							<cfset endDate = '2023-05-06'>
 							<cfset myObj = createObject("component", "/metrics/component/functions")>
 							<cfset summaryAnnualBlock = myObj.getAnnualNumbers(#beginDate#, #endDate#)>
 								<a class="nav-link px-0" href="##" type="button" onclick="submitForm(); return false;">
