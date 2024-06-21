@@ -27,6 +27,7 @@ limitations under the License.
 	<cfset sort="cat_num">
 </cfif>
 
+<cf_rolecheck>
 <cf_getLoanFormInfo>
 <cfquery name="getLoan" dbtype="query">
 	select * from getLoanMCZ
