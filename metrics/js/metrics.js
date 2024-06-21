@@ -13,7 +13,7 @@ function getAnnualNums(endDate,beginDate) {
 	});
 }
 
-function getLoanNumbers() {
+function callCFCFunction1() {
 
   // Create XMLHttpRequest object
   var xhr = new XMLHttpRequest();
