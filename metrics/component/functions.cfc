@@ -269,7 +269,7 @@ limitations under the License.
 		</cfoutput>
 	</cfthread>
 	<cfthread action="join" name="getLoanNumbersThread" />
-	<cfreturn getLoanNumbersThread.output>
+	<cfreturn result>
 </cffunction>
 
 					
