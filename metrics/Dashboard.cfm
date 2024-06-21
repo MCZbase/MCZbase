@@ -218,7 +218,7 @@ limitations under the License.
 							
 				<!---	<div id="basicresult">#basicresult#</div>--->
 							
-					<div id="loanresult">#loanresult#</div>
+					<div id="loanresult"></div>
 							
 				<!---	<div id="citationresult">#citationresult#</div>
 							
