@@ -35,25 +35,6 @@ limitations under the License.
 <div class="container-fluid" id="content">
 	<div class="row">
 		
-
-<!---<form id="myForm">
-	<input type="date" name="beginDate">
-	<input type="date" name="endDate"> 
-	<input type="hidden" class="btn btn-xs btn-primary" value="submit">
-</form>
-<a href="javascript:submitForm()">Submit to Function</a>
-<script> 
-	function submitForm() { 
-		var form = document.getElementById("myForm"); 
-		form.action = "/metrics/Dashboard.cfm##getAnnualNumbers1"; 
-		form.submit(); 
-	} 
-</script>
-<cffunction name="getAnnualNumbers1"> 
-	<cfargument name="form" type="date" required="true">
-	<cfoutput>#form.beginDate#</cfoutput>
-	<cfoutput>#form.endDate#</cfoutput>
-</cffunction>--->
 	<br clear="all">	
 		<nav id="sidebarMenu" class="col-md-2 col-lg-2 d-md-block bg-light sidebar collapse">
 			<div class="sidebar-sticky pt-4 px-3">
@@ -63,21 +44,21 @@ limitations under the License.
 					<cfset action="showBasic">
 				</cfif>
 			
-				<!---<cfif len(dateForm.endDate) eq 0>--->
-<!---					<form action="/metrics/Dashboard.cfm" class="pt-1" id="dateForm">
+				<cfif len(dateForm.endDate) eq 0>
+					<form action="/metrics/Dashboard.cfm" class="pt-1" id="dateForm">
 						<label for="beginDate" class="data-entry-label">Begin Date</label>
 						<input type="date" id="beginDate" name="beginDate" class="data-entry-input" value="#DateFormat (Now()-24, "yyyy-mm-dd")#">
 						<label for="endDate" class="data-entry-label mt-2">End Date</label>
 						<input type="date" id="endDate" name="endDate" class="data-entry-input" value="#DateFormat (Now(), 'yyyy-mm-dd')#">
 					</form>
-				<cfelse>--->
+				<cfelse>
 					<form action="/metrics/Dashboard.cfm" class="pt-1" id="dateForm">
 						<label for="beginDate" class="data-entry-label">Begin Date</label>
 						<input type="date" id="beginDate" name="beginDate" class="data-entry-input" value="#beginDate#">
 						<label for="endDate" class="data-entry-label mt-2">End Date</label>
 						<input type="date" id="endDate" name="endDate" class="data-entry-input" value="#endDate#">
 					</form>
-			<!---	</cfif>--->
+				</cfif>
 				<cfset beginDate = "2022-01-01">
 				<cfset endDate = "2024-01-01">
 				<h3 class="sidebar-heading d-flex justify-content-between align-items-center px-1 mt-4 mb-1 text-muted"> 
