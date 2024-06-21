@@ -84,7 +84,7 @@ limitations under the License.
 									var beginDate = document.querySelector('input[beginDate="beginDate"]').value; 
 									var endDate = document.querySelector('input[endDate="endDate"]').value; 
 									// Call CFC 
-									var results = callCFC("myCFC.getLoanNumbers", { beginDate: beginDate, endDate: endDate }); 
+									var results = callCFC("cfc.getLoanNumbers", { beginDate: beginDate, endDate: endDate }); 
 									// Display results 
 									displayResults(results); 
 								} 
@@ -94,7 +94,7 @@ limitations under the License.
 									var beginDate = "2022-06-30"; 
 									var endDate = "2024-06-30"; 
 									// Instantiate CFC 
-									var cfc = new ColdFusion.Component("metrics/component/functions"); 
+									var cfc = createObject("component", "/metrics/component/functions"); 
 									// Call CFC method, pass variables as arguments 
 									var result = cfc.getLoanNumbers(beginDate,endDate); 
 									alert(result);
