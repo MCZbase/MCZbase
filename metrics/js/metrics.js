@@ -19,7 +19,7 @@ function getLoans() {
   var xhr = new XMLHttpRequest();
 
   // Call CFC function via AJAX
-  xhr.open('GET', 'functions.cfc?method=getLoanNumbers'); 
+  xhr.open('GET', '/metrics/component/functions.cfc?method=getLoanNumbers'); 
   xhr.send();
 
   // Handle response
