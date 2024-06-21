@@ -958,10 +958,11 @@ limitations under the License.
 				<ul style="#font# font-size: 1em;">
 					<cfloop query="getRestrictions">
 						<cfif getRestrictions.source EQ "accession">
-							<li style="#font# font-size: 1em;">
-								<strong style="#font# font-size: 1.1em;">
+							<li style="#font# font-size: small;">
+								<strong style="#font# font-size: 1em;">
 									#getRestrictions.specific_type# #getRestrictions.permit_num#
 									<cfif len(getRestrictions.permit_num) EQ 0>#getRestrictions.permit_title#</cfif>
+									<br>
 								</strong> 
 								<cfif len(getRestrictions.restriction_summary) GT 0> 
 									Summary of restrictions on use: #getRestrictions.restriction_summary#<br>
@@ -971,11 +972,13 @@ limitations under the License.
 								</cfif>
 							</li>
 						<cfelse>
-							<li style="#font# font-size: 1em;">
-								<strong style="#font# font-size: 1.1em;">
+							<li style="#font# font-size: small;">
+								<strong style="#font# font-size: 1em;">
 									#getRestrictions.specific_type# #getRestrictions.permit_num#
 									<cfif len(getRestrictions.permit_num) EQ 0>#getRestrictions.permit_title#</cfif>
+									<br>
 									Applies to all material in this loan:
+									<br>
 								</strong>
 								<cfif len(getRestrictions.restriction_summary) GT 0> 
 									Summary of restrictions on use: #getRestrictions.restriction_summary#<br>
