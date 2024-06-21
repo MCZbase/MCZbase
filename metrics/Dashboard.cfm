@@ -189,11 +189,7 @@ limitations under the License.
 					</div>
 				</div>
 				<cfoutput>
-					<cfset getAnnualNumbers = CreateObject("component", "functions")>
-					<cfset result = functions.getAnnualNumbers(endDate="2024-07-01",beginDate="2023-07-01")>
-						#result#
-						
-						
+					
 					<cfif action EQ "showBasic">
 						<cfset summaryAnnualBlock=getAnnualNumbers(endDate="2024-07-01",beginDate="2023-07-01")>
 						<div id="annualNumbersDiv">
