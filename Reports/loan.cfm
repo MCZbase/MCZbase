@@ -741,14 +741,16 @@ limitations under the License.
 						<td style="width: 50%; vertical-align: top;">
 							<div style="#font# font-size: small;">UPON RECEIPT, SIGN AND RETURN ONE COPY TO:</div>
 							<div style="border: 1px solid black;">
-								#replace(shipped_from_address,chr(10),"<br>","all")# 
-								<cfif loan_type EQ "exhibition">
-									#addInHouseContactPhEmail#
-								<cfelse>
-									#inside_phone_number#
-									<br>
-									#inside_email_address#
-								</cfif>
+								#replace(shipped_from_address,chr(10),"<br>","all")#
+								<div><strong>MCZ Contact:</strong>
+									<cfif loan_type EQ "exhibition">
+										#addInHouseContactPhEmail#
+									<cfelse>
+										#inside_phone_number#
+										<br>
+										#inside_email_address#
+									</cfif>
+								</div>
 							</div>
 						</td>
 						<td style="width: 50%; vertical-align: top;">
@@ -872,13 +874,15 @@ limitations under the License.
 								<div style="#font# font-size: small;">UPON RECEIPT, SIGN AND RETURN ONE COPY TO:</div>
 								<div>
 									#replace(getSubloan.shipped_from_address,chr(10),"<br>","all")# 
-									<cfif getSubloan.loan_type EQ "exhibition">
-										#getSubloan.addInHouseContactPhEmail#
-									<cfelse>
-										#getSubloan.inside_phone_number#
-										<br>
-										#getSubloan.inside_email_address#
-									</cfif>
+									<div><strong>MCZ Contact:</strong>
+										<cfif getSubloan.loan_type EQ "exhibition">
+											#getSubloan.addInHouseContactPhEmail#
+										<cfelse>
+											#getSubloan.inside_phone_number#
+											<br>
+											#getSubloan.inside_email_address#
+										</cfif>
+									</div>
 								</div>
 							</td>
 							<td style="width: 50%; vertical-align: top;">
