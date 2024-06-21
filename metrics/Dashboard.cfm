@@ -176,7 +176,10 @@ limitations under the License.
 							
 				<!---	<div id="basicresult">#basicresult#</div>--->
 							
-					<div id="result">#loanresult#</div>
+						<cfset loanBlock=getLoanNumbers(action="showLoans",endDate="2024-07-01",beginDate="2023-07-01")>
+						<div id="annualLoanDiv">
+							#loanBlock#
+						</div>
 							
 				<!---	<div id="citationresult">#citationresult#</div>
 							
