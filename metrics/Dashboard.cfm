@@ -204,15 +204,15 @@ limitations under the License.
 						</div>
 					</div>
 							
-					<div id="basicresult">#basicresult#</div>
+				<!---	<div id="basicresult">#basicresult#</div>--->
 							
 					<div id="loanresult">#loanresult#</div>
 							
-					<div id="citationresult">#citationresult#</div>
+				<!---	<div id="citationresult">#citationresult#</div>
 							
-					<div id="mediaresult">#mediaresult#</div>
+					<div id="mediaresult">#mediaresult#</div>--->
 							
-					<div id="georefresult">#georefresult#</div>
+				<!---	<div id="georefresult">#georefresult#</div>--->
 			<!---		<cfif action EQ "showBasic">
 						<cfset summaryAnnualBlock=getAnnualNumbers(endDate="2024-07-01",beginDate="2023-07-01")>
 						<div id="annualNumbersDiv">
