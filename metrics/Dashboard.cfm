@@ -53,8 +53,9 @@ limitations under the License.
 
 <cffunction name="getAnnualNumbers1"> 
 	
-	<cfargument name="form" type="struct" required="true"> <!--- access form values here --->
+	<cfargument name="form" type="date" required="true"> <!--- access form values here --->
 	<cfoutput>#form.beginDate#</cfoutput>
+		<cfoutput>#form.endDate#</cfoutput>
 	
 
 </cffunction>
