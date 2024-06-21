@@ -105,7 +105,7 @@ limitations under the License.
 							<cfset myLoanResults = CreateObject("component", "/metrics/component/functions")>
 							<!---<cfset loanresult = myLoanResults.getLoanNumbers()>--->
 								<form> 
-									<button class="btn btn-xs btn-primary" type="button" onclick="callCFCFunction1()">
+									<button class="btn btn-xs btn-primary" type="button" onClick="callCFCFunction1()">
 										Click Me
 									</button> 
 								</form> 
