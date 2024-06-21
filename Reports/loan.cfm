@@ -1097,7 +1097,7 @@ limitations under the License.
 								SELECT distinct 
 									collection_object_id,
 									institution_acronym, collection_cde, cat_num,
-									top_loan_status,reconciled_date,
+									reconciled_date,
 									scientific_name, type_status, higher_geog,
 									collection, chronostrat,lithostrat,
 									spec_locality, collectors, loan_item_remarks
@@ -1208,7 +1208,7 @@ limitations under the License.
 							SELECT distinct 
 								collection_object_id,
 								institution_acronym, collection_cde, cat_num,
-								top_loan_status,reconciled_date,
+								reconciled_date,
 								scientific_name, type_status, higher_geog,
 								collection, chronostrat,lithostrat,
 								spec_locality, collectors, loan_item_remarks
