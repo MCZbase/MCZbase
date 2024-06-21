@@ -991,7 +991,7 @@ limitations under the License.
 			<div style="text-align: center; #font# font-size: 1.1em; margin-bottom: 1em;">
 				<strong>Invoice of Specimens</strong>
 			</div>
-			<cfif getHasFluid.ct EQ 0>
+			<cfif getHasFluid.ct EQ 0 or getHasFluid.ct EQ "">
 				<div style="text-align: center; #font# font-size: small; margin-bottom: 0.5em;">
 					Retain fluid specimens in 70% ethanol unless noted otherwise.
 				</div>
