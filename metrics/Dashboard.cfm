@@ -103,8 +103,12 @@ limitations under the License.
 						<li class="nav-item"> 
 							
 							<cfset myLoanResults = CreateObject("component", "/metrics/component/functions")>
-							<cfset loanresult = myLoanResults.getLoanNumbers()>
-								<form> <button class="btn btn-xs btn-primary" type="button" onclick="callCFCFunction1()">Click Me</button> </form> 
+							<!---<cfset loanresult = myLoanResults.getLoanNumbers()>--->
+								<form> 
+									<button class="btn btn-xs btn-primary" type="button" onclick="callCFCFunction1()">
+										Click Me
+									</button> 
+								</form> 
 								<script> 
 									function callCFCFunction1() { 
 										var beginDate = "2022-01-01";
