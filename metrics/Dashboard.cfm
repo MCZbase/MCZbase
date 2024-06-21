@@ -106,8 +106,12 @@ limitations under the License.
 							<cfset myLoanResults = CreateObject("component", "/metrics/component/functions")>
 							<cfset loanresult = myLoanResults.getLoanNumbers("2022-01-01","2024-01-01")>
 								<form> <button class="btn btn-xs btn-primary" type="button" onclick="callCFCFunction()">Click Me</button> </form> 
-								<script> function callCFCFunction() { var beginDate = "2022-01-01",var endDate="2024-01-01"; 
-										var result = "#myLoanResults.getLoanNumbers(beginDate,endDate)#"; alert(result); } 
+								<script> 
+									function callCFCFunction() { 
+										var beginDate = "2022-01-01";
+										var endDate="2024-01-01"; 
+										var result = "#myLoanResults.getLoanNumbers(beginDate,endDate)#"; 
+										alert(result); } 
 								</script>
 								<a class="nav-link px-0" href="##" onclick="getLoanNum(); return false;">
 								<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file-text">
