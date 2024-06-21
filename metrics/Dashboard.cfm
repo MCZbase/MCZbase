@@ -59,6 +59,7 @@ limitations under the License.
 						<input type="date" id="endDate" name="endDate" class="data-entry-input" value="#endDate#">
 					</form>
 				</cfif>
+				<input type="submit" name="submit" onClick="getAnnualNumbers()">
 			<!---	<cfset beginDate = "2022-01-01">
 				<cfset endDate = "2024-01-01">--->
 				<h3 class="sidebar-heading d-flex justify-content-between align-items-center px-1 mt-4 mb-1 text-muted"> 
