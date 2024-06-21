@@ -78,14 +78,13 @@ limitations under the License.
 						<input type="date" id="endDate" name="endDate" class="data-entry-input" value="#endDate#">
 					</form>
 				</cfif>
-			
+				<cfset beginDate = "2022-01-01">
+				<cfset endDate = "2024-01-01">
 				<h3 class="sidebar-heading d-flex justify-content-between align-items-center px-1 mt-4 mb-1 text-muted"> 
 					<span>Report Type</span> 
 				</h3>
 					<ul class="nav flex-column mb-2">
-<!---						<li class="nav-item"> 
-							<cfset beginDate = "2022-01-01">
-							<cfset endDate = "2024-01-01">
+						<li class="nav-item"> 
 							<cfset myBasicResults = CreateObject("component", "/metrics/component/functions")>
 							<cfset basicresult = myBasicResults.getAnnualNumbers("2022-01-01","2024-01-01")>
 								<a class="nav-link px-0" href="##" onclick="getAnnualNums(); return false;">
@@ -98,27 +97,11 @@ limitations under the License.
 								</svg>
 								Basic Collection Metrics
 							</a> 
-						</li>--->
-						
+						</li>
 						<li class="nav-item"> 
-							<cfset cfc = ''>
-						<!---	<cfset myObj = createObject("component", "/metrics/component/functions")>--->
-							<form> 
-								<button class="btn btn-xs btn-primary" type="button" onClick="callFunction()">
-									Click Me
-								</button> 
-							</form> 
-							<script> 
-								function callFunction() { 
-									var beginDate = "2022-01-01";
-									var endDate="2024-01-01"; 
-									var cfc = createObject("component", "/metrics/component/functions");
-									var result = "#cfc.getLoanNumbers(beginDate,endDate)#"; 
-									
-								} 
-							</script>
-								
-						<!---		<a class="nav-link px-0" href="##" onclick="getLoanNum(); return false;">
+							<cfset myBasicResults = CreateObject("component", "/metrics/component/functions")>
+							<cfset loanresult = myBasicResults.getloanNumbers(beginDate,endDate)>
+								<a class="nav-link px-0" href="##" onclick="getLoanNums(); return false;">
 								<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file-text">
 									<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
 									<polyline points="14 2 14 8 20 8"></polyline>
@@ -126,15 +109,13 @@ limitations under the License.
 									<line x1="16" y1="17" x2="8" y2="17"></line>
 									<polyline points="10 9 9 9 8 9"></polyline>
 								</svg>
-								Loans 
-							</a> --->
+								Basic Collection Metrics
+							</a> 
 						</li>
-				<!---		<li class="nav-item"> 
-							<cfset beginDate = "2022-01-01">
-							<cfset endDate = "2024-01-01">
+						<li class="nav-item"> 
 							<cfset myMediaResults = CreateObject("component", "/metrics/component/functions")>
-							<cfset mediaresult = myMediaResults.getMediaNumbers("2022-01-01","2024-01-01")>
-								<a class="nav-link px-0" href="##" onclick="getMedia(); return false;">
+							<cfset mediaresult = myMediaResults.getMediaNumbers(beginDate,endDate)>
+								<a class="nav-link px-0" href="##" onclick="getMediaNums(); return false;">
 								<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file-text">
 									<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
 									<polyline points="14 2 14 8 20 8"></polyline>
@@ -146,10 +127,8 @@ limitations under the License.
 							</a> 
 						</li>
 						<li class="nav-item"> 
-							<cfset beginDate = "2022-01-01">
-							<cfset endDate = "2024-01-01">
 							<cfset myCitationResults = CreateObject("component", "/metrics/component/functions")>
-							<cfset citationresult = myCitationResults.getCitationNumbers("2022-01-01","2024-01-01")>
+							<cfset citationresult = myCitationResults.getCitationNumbers(beginDate,endDate)>
 								<a class="nav-link px-0" href="##" onclick="callCitations(); return false;">
 								<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file-text">
 									<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
@@ -162,10 +141,8 @@ limitations under the License.
 							</a> 
 						</li>
 						<li class="nav-item"> 
-							<cfset beginDate = "2022-01-01">
-							<cfset endDate = "2024-01-01">
 							<cfset myGeorefResults = CreateObject("component", "/metrics/component/functions")>
-							<cfset georefresult = myGeorefResults.getGeorefNumbers("2022-01-01","2024-01-01","showGeorefs")>
+							<cfset georefresult = myGeorefResults.getGeorefNumbers(beginDate,endDate)>
 								<a class="nav-link px-0" href="##" onclick="getGeorefNumbers(); return false;">
 								<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file-text">
 									<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
@@ -176,7 +153,7 @@ limitations under the License.
 								</svg>
 								Georeferences
 							</a> 
-						</li>--->
+						</li>
 					</ul>
 					
 			
@@ -187,16 +164,6 @@ limitations under the License.
 		<main role="main" class="col-md-10 ml-sm-auto col-lg-10 px-md-5 mb-3">
 			<div class="row">
 				<cfoutput>
-					<cfset endDate = ''>
-						<!--- this gets the last year--->
-					<cfif len(endDate) gt 0>
-						<cfset endDate = #DateFormat (Now(), "yyyy-mm-dd")#>
-						<cfset beginDate = #DateFormat(DateAdd( 'm', -12, now() ),"yyyy-mm-dd")#>
-					<cfelse>
-						<!--- these will be the form generated dates--->
-						<cfset endDate = "2023-07-01">
-						<cfset beginDate = "2022-06-30">
-					</cfif>
 					<div class="col-12 px-0 mt-4">
 						<h1 class="h2 float-left">Metrics</h1>
 						<div class="btn-toolbar mb-2 mb-md-0 float-right">
