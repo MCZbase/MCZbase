@@ -13,15 +13,20 @@ function getAnnualNums(endDate,beginDate) {
 	});
 }
 
-function callFunction() {
-
+function getLoans() {
 // Create CFC object
 var cfc = new ActiveXObject("functions");
-
 // Call function
 cfc.getLoanNumbers();
-
 // Update page element
 document.getElementById("loanresult").innerHTML = "";
+}
 
+function getCitations() {
+// Create CFC object
+var cfc = new ActiveXObject("functions");
+// Call function
+cfc.getCitationNumbers();
+// Update page element
+document.getElementById("citationresult").innerHTML = "";
 }
