@@ -80,10 +80,8 @@ limitations under the License.
 							</a> 
 							
 
-<cfset myObj = createObject("component", "/metrics/component/metrics")>
-<cfset result = myObj.getAnnualNumbers(beginDate, endDate)>
-
-
+							<cfset myObj = createObject("component", "/metrics/component/functions")>
+							<cfset result = myObj.getAnnualNumbers(beginDate, endDate)>
 <!---
 <cfcomponent> <cffunction name="process"> <cfset myObj = createObject("component", "myComponent")> <cfset result = myObj.myFunction()> </cffunction> </cfcomponent>--->
 						</li>
