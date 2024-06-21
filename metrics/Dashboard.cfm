@@ -206,7 +206,7 @@ limitations under the License.
 							
 					#basicresult#
 							
-					<div id="loanDiv">#result#</div>
+					<div id="loanresult">#loanresult#</div>
 							
 					#citationresult#
 							
