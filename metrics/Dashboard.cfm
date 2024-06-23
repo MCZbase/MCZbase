@@ -66,9 +66,8 @@ limitations under the License.
 	<input type="submit" value="Submit">
 </form>
 
-<p>Click the "Try it" button to return the value of the target attribute in the form.</p>
 
-<button onclick="myFunction()">Try it</button>
+<button onclick="myFunction()" class="btn btn-xs btn-primary">get table</button>
 
 
 
