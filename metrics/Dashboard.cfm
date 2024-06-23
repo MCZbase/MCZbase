@@ -64,6 +64,7 @@ limitations under the License.
 <form id="myForm" action="/metrics/Dashboard.cfm?method=getAnnualNumbers" target="demo">
 	Begin Date: <input type="text" name="beginDate" value="#beginDate#"><br>
 	End Date: <input type="text" name="endDate" value="#endDate#"><br>
+	Method: <input type="text" name="method" value="#method#"><br>
 	<input type="submit" value="Submit">
 </form>
 
