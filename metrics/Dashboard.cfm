@@ -52,14 +52,14 @@ limitations under the License.
 						<input type="date" id="endDate" name="endDate" class="data-entry-input" value="#DateFormat (Now(), 'yyyy-mm-dd')#">
 					</form>
 				<cfelse>
-			<!---		<form action="/metrics/Dashboard.cfm?" class="pt-1" id="dateForm">
+					<form action="/metrics/Dashboard.cfm?" class="pt-1" id="dateForm">
 						<label for="beginDate" class="data-entry-label">Begin Date</label>
 						<input type="date" id="beginDate" name="beginDate" class="data-entry-input" value="#beginDate#">
 						<label for="endDate" class="data-entry-label mt-2">End Date</label>
 						<input type="date" id="endDate" name="endDate" class="data-entry-input" value="#endDate#">
 						 <input type="submit" value="Submit">
 					</form>
-				</cfif>--->
+				</cfif>
 		
 <form id="myForm" action="/metrics/Dashboard.cfm" target="_self">
 	Begin Date: <input type="text" name="beginDate" value=""><br>
