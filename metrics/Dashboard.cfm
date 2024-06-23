@@ -52,23 +52,33 @@ limitations under the License.
 						<input type="date" id="endDate" name="endDate" class="data-entry-input" value="#DateFormat (Now(), 'yyyy-mm-dd')#">
 					</form>
 				<cfelse>
-					<form action="/metrics/Dashboard.cfm?" class="pt-1" id="dateForm" target="_self">
+			<!---		<form action="/metrics/Dashboard.cfm?" class="pt-1" id="dateForm">
 						<label for="beginDate" class="data-entry-label">Begin Date</label>
 						<input type="date" id="beginDate" name="beginDate" class="data-entry-input" value="#beginDate#">
 						<label for="endDate" class="data-entry-label mt-2">End Date</label>
 						<input type="date" id="endDate" name="endDate" class="data-entry-input" value="#endDate#">
 						 <input type="submit" value="Submit">
 					</form>
-				</cfif>
-				<button onclick="myFunction()">get dates</button>
-				<script>
-					function myFunction() {
-						var x = document.getElementById("dateForm").target;
-						document.getElementById("demo").innerHTML = x;
-					}
-				</script>
-					
-					<div id="demo"></div>
+				</cfif>--->
+		
+<form id="myForm" action="/metrics/Dashboard.cfm" target="_self">
+	Begin Date: <input type="text" name="beginDate" value=""><br>
+	End Date: <input type="text" name="endDate" value=""><br>
+	<input type="submit" value="Submit">
+</form>
+
+<p>Click the "Try it" button to return the value of the target attribute in the form.</p>
+
+<button onclick="myFunction()">Try it</button>
+
+<p id="demo"></p>
+
+<script>
+function myFunction() {
+  var x = document.getElementById("myForm").target;
+  document.getElementById("demo").innerHTML = x;
+}
+</script>
 				<h3 class="sidebar-heading d-flex justify-content-between align-items-center px-1 mt-4 mb-1 text-muted"> 
 					<span>Report Type</span> 
 				</h3>
