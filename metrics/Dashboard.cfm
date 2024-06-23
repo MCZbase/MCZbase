@@ -78,33 +78,33 @@ limitations under the License.
 					</script>
 					
 					<p id="demo1"></p>
-<p id="demo2"></p>
+					<p id="demo2"></p>
 
-<script>
-var myObj1, myJSON1, date1, obj1;
-var myObj2, myJSON2, date2, obj2;
+					<script>
+					var myObj1, myJSON1, date1, obj1;
+					var myObj2, myJSON2, date2, obj2;
 
-//Storing data:
-myObj1 = { "beginDate":"2022-01-01" };
-myJSON1 = JSON.stringify(myObj1);
-localStorage.setItem("testJSON1", myJSON1);
+					//Storing data:
+					myObj1 = { "beginDate":"2022-01-01" };
+					myJSON1 = JSON.stringify(myObj1);
+					localStorage.setItem("testJSON1", myJSON1);
 
-//Retrieving data:
-date1 = localStorage.getItem("testJSON1");
-obj1 = JSON.parse(date1);
-document.getElementById("demo1").innerHTML = obj1.beginDate;
+					//Retrieving data:
+					date1 = localStorage.getItem("testJSON1");
+					obj1 = JSON.parse(date1);
+					document.getElementById("demo1").innerHTML = obj1.beginDate;
 
 
 
-myObj2 = { "endDate":"2024-01-01" };
-myJSON2 = JSON.stringify(myObj2);
-localStorage.setItem("testJSON2", myJSON2);
+					myObj2 = { "endDate":"2024-01-01" };
+					myJSON2 = JSON.stringify(myObj2);
+					localStorage.setItem("testJSON2", myJSON2);
 
-//Retrieving data:
-date2 = localStorage.getItem("testJSON2");
-obj2 = JSON.parse(date2);
-document.getElementById("demo2").innerHTML = obj2.endDate;
-</script>
+					//Retrieving data:
+					date2 = localStorage.getItem("testJSON2");
+					obj2 = JSON.parse(date2);
+					document.getElementById("demo2").innerHTML = obj2.endDate;
+					</script>
 					<ul class="nav flex-column mb-2">
 						<li class="nav-item">
 							<cfset myObj = createObject("component", "/metrics/component/functions")>
