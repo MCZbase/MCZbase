@@ -40,7 +40,7 @@ limitations under the License.
 			<div class="sidebar-sticky pt-4 px-3">
 				<h3 class="text-muted"><span>Report Date Range</span></h3>
 				
-				<cfif NOT isdefined("action") or len(action) EQ 0>
+	<!---			<cfif NOT isdefined("action") or len(action) EQ 0>
 					<cfset action="showBasic">
 				</cfif>
 			
@@ -51,7 +51,7 @@ limitations under the License.
 						<label for="endDate" class="data-entry-label mt-2">End Date</label>
 						<input type="date" id="endDate" name="endDate" class="data-entry-input" value="#DateFormat (Now(), 'yyyy-mm-dd')#">
 					</form>
-				<cfelse>
+				<cfelse>--->
 					<form action="/metrics/Dashboard.cfm?" class="pt-1" id="dateForm">
 						<label for="beginDate" class="data-entry-label">Begin Date</label>
 						<input type="date" id="beginDate" name="beginDate" class="data-entry-input" value="#beginDate#">
@@ -59,7 +59,7 @@ limitations under the License.
 						<input type="date" id="endDate" name="endDate" class="data-entry-input" value="#endDate#">
 						 <input type="submit" value="Submit">
 					</form>
-				</cfif>
+			<!---	</cfif>--->
 		
 <form id="myForm" action="/metrics/component/functions.cfc" target="demo">
 	Begin Date: <input type="date" name="beginDate" value="#beginDate#"><br>
