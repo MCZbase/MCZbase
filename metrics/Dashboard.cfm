@@ -61,7 +61,7 @@ limitations under the License.
 					</form>
 				</cfif>
 		
-<form id="myForm" action="/metrics/Dashboard.cfm" target="demo">
+<form id="myForm" action="/metrics/Dashboard.cfm?method=getAnnualNumbers" target="demo">
 	Begin Date: <input type="text" name="beginDate" value="#beginDate#"><br>
 	End Date: <input type="text" name="endDate" value="#endDate#"><br>
 	<input type="submit" value="Submit">
@@ -75,8 +75,8 @@ limitations under the License.
 
 <script>
 function myFunction() {
-  var x = document.getElementById("myForm").target;
-  document.getElementById("demo").innerHTML = x;
+	var x = document.getElementById("myForm").target;
+	document.getElementById("demo").innerHTML = x;
 }
 </script>
 				<h3 class="sidebar-heading d-flex justify-content-between align-items-center px-1 mt-4 mb-1 text-muted"> 
