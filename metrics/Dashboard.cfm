@@ -193,7 +193,7 @@ document.getElementById("demo2").innerHTML = obj2.endDate;
 						</div>
 					</div>
 						<div id="demo"></div>	
-					<!---	<cfset summaryAnnualBlock=getAnnualNumbers(endDate="2024-07-01",beginDate="2023-07-01")>--->
+						<cfset summaryAnnualBlock=getAnnualNumbers(endDate="#endDate#",beginDate="#beginDate#")>
 						<div id="annualNumbersDiv">
 							#summaryAnnualBlock#
 						</div>
