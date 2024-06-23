@@ -67,10 +67,12 @@ limitations under the License.
 						document.getElementById("demo").innerHTML = x;
 					}
 				</script>
+					
+					<div id="demo"></div>
 				<h3 class="sidebar-heading d-flex justify-content-between align-items-center px-1 mt-4 mb-1 text-muted"> 
 					<span>Report Type</span> 
 				</h3>
-					<div id="demo"></div>
+					
 					<ul class="nav flex-column mb-2">
 						<li class="nav-item">
 						<!---	<cfset myObj = createObject("component", "/metrics/component/functions")>
