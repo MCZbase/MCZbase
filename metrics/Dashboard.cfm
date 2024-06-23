@@ -57,9 +57,10 @@ limitations under the License.
 						<input type="date" id="beginDate" name="beginDate" class="data-entry-input" value="#beginDate#">
 						<label for="endDate" class="data-entry-label mt-2">End Date</label>
 						<input type="date" id="endDate" name="endDate" class="data-entry-input" value="#endDate#">
+						 <input type="submit" value="Submit">
 					</form>
 				</cfif>
-		
+				<button onclick="myFunction()">get dates</button>
 				<script>
 					function myFunction() {
 						var x = document.getElementById("dateForm").target;
