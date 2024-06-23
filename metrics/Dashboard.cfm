@@ -70,22 +70,12 @@ limitations under the License.
 				<h3 class="sidebar-heading d-flex justify-content-between align-items-center px-1 mt-4 mb-1 text-muted"> 
 					<span>Report Type</span> 
 				</h3>
-
-
-
-<script>
-var myObj, myJSON, text, obj;
-
-//Storing data:
-myObj = { "beginDate":"2022-06-06", "endDate":"2024-06-01", "method":"getLoanNumbers" };
-myJSON = JSON.stringify(myObj);
-localStorage.setItem("testJSON", myJSON);
-
-//Retrieving data:
-text = localStorage.getItem("testJSON");
-obj = JSON.parse(text);
-document.getElementById("demo").innerHTML = obj.name;
-</script>
+					<script>
+						function myFunction() {
+							var x = document.getElementById("myForm").target;
+							document.getElementById("demo").innerHTML = x;
+						}
+					</script>
 					<ul class="nav flex-column mb-2">
 						<li class="nav-item">
 							<cfset myObj = createObject("component", "/metrics/component/functions")>
