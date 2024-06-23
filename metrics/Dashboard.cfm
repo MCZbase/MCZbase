@@ -51,21 +51,18 @@ limitations under the License.
 						<label for="endDate" class="data-entry-label mt-2">End Date</label>
 						<input type="date" id="endDate" name="endDate" class="data-entry-input" value="#DateFormat (Now(), 'yyyy-mm-dd')#">
 					</form>
-				<cfelse>--->
-					<form action="/metrics/Dashboard.cfm?" class="pt-1" id="dateForm">
-						<label for="beginDate" class="data-entry-label">Begin Date</label>
-						<input type="date" id="beginDate" name="beginDate" class="data-entry-input" value="#beginDate#">
-						<label for="endDate" class="data-entry-label mt-2">End Date</label>
-						<input type="date" id="endDate" name="endDate" class="data-entry-input" value="#endDate#">
-						 <input type="submit" value="Submit">
-					</form>
+		
 			<!---	</cfif>--->
 		
 <form id="myForm" action="/metrics/component/functions.cfc" target="demo">
-	Begin Date: <input type="date" name="beginDate" value="#beginDate#"><br>
-	End Date: <input type="date" name="endDate" value="#endDate#"><br>
-	Method: <input type="text" name="method" value="#method#"><br>
-	returnFormat: <input type="text" name="returnFormat" value="JSON"><br>
+	<label for="beginDate" class="data-entry-label">Begin Date</label>
+	<input type="date" name="beginDate" class="data-entry-label" value="#beginDate#">
+	<label for="endDate" class="data-entry-label mt-2">End Date</label>
+	<input type="date" name="endDate" class="data-entry-label" value="#endDate#">
+	<label for="method" class="data-entry-label mt-2">Method</label>
+	<input type="text" name="method" value="#method#">
+	<label for="returnFormat" class="data-entry-label mt-2">returnFormat</label>
+	<input type="text" name="returnFormat" value="JSON"><br>
 	<input type="submit" value="Submit">
 </form>
 
