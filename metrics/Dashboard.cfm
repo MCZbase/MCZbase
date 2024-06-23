@@ -65,6 +65,7 @@ limitations under the License.
 	Begin Date: <input type="text" name="beginDate" value="#beginDate#"><br>
 	End Date: <input type="text" name="endDate" value="#endDate#"><br>
 	Method: <input type="text" name="method" value="#method#"><br>
+		returnFormat: <input type="text" name="returnFormat" value="JSON"><br>
 	<input type="submit" value="Submit">
 </form>
 
