@@ -61,7 +61,7 @@ limitations under the License.
 					</form>
 				</cfif>
 		
-<form id="myForm" action="/metrics/Dashboard.cfm?method=getAnnualNumbers" target="demo">
+<form id="myForm" action="/metrics/Dashboard.cfm" target="demo">
 	Begin Date: <input type="text" name="beginDate" value="#beginDate#"><br>
 	End Date: <input type="text" name="endDate" value="#endDate#"><br>
 	Method: <input type="text" name="method" value="#method#"><br>
