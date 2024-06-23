@@ -62,10 +62,10 @@ limitations under the License.
 				</cfif>
 		
 <form id="myForm" action="/metrics/component/functions.cfc" target="demo">
-	Begin Date: <input type="text" name="beginDate" value="#beginDate#"><br>
-	End Date: <input type="text" name="endDate" value="#endDate#"><br>
+	Begin Date: <input type="date" name="beginDate" value="#beginDate#"><br>
+	End Date: <input type="date" name="endDate" value="#endDate#"><br>
 	Method: <input type="text" name="method" value="#method#"><br>
-		returnFormat: <input type="text" name="returnFormat" value="JSON"><br>
+	returnFormat: <input type="text" name="returnFormat" value="JSON"><br>
 	<input type="submit" value="Submit">
 </form>
 
@@ -79,6 +79,23 @@ limitations under the License.
 function myFunction() {
 	var x = document.getElementById("myForm").target;
 	document.getElementById("demo").innerHTML = x;
+}
+</script>
+					
+<input type="date" id="beginDate" value="#beginDate#">
+<input type="date" id="endDate" value="#endDate#">
+<p>Click button</p>
+
+<button onclick="myFunction()">Try it</button>
+
+<p id="demo"></p>
+
+<script>
+function myFunction() {
+	let x = document.getElementById("beginDate").value;
+	document.getElementById("demo").innerHTML = x;
+	let y = document.getElementById("endDate").value;
+	document.getElementById("demo").innerHTML = y;
 }
 </script>
 				<h3 class="sidebar-heading d-flex justify-content-between align-items-center px-1 mt-4 mb-1 text-muted"> 
