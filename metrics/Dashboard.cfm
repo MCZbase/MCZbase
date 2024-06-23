@@ -193,12 +193,12 @@ document.getElementById("demo2").innerHTML = obj2.endDate;
 						</div>
 					</div>
 						<div id="demo"></div>	
-						<cfset summaryAnnualBlock=getAnnualNumbers(endDate="#endDate#",beginDate="#beginDate#")>
+						<!---<cfset summaryAnnualBlock=getAnnualNumbers(endDate="#endDate#",beginDate="#beginDate#")>
 						<div id="annualNumbersDiv">
 							#summaryAnnualBlock#
-						</div>
+						</div>--->
 
-						<cfset loanBlock=getLoanNumbers(endDate="2024-07-01",beginDate="2023-07-01")>
+					<!---	<cfset loanBlock=getLoanNumbers(endDate="2024-07-01",beginDate="2023-07-01")>
 						<div id="annualLoanDiv">
 							#loanBlock#
 						</div>	
@@ -217,7 +217,7 @@ document.getElementById("demo2").innerHTML = obj2.endDate;
 						<div id="georefDiv">
 							#georefBlock#
 						</div>
-
+--->
 				</cfoutput>
 			</div>
 		</main>
