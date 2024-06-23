@@ -70,7 +70,7 @@ limitations under the License.
 
 <button onclick="myFunction()">Try it</button>
 
-<p id="demo"></p>
+
 
 <script>
 function myFunction() {
@@ -171,7 +171,7 @@ function myFunction() {
 							</div>
 						</div>
 					</div>
-							
+						<div id="demo"></div>	
 					<!---	<cfset summaryAnnualBlock=getAnnualNumbers(endDate="2024-07-01",beginDate="2023-07-01")>--->
 						<div id="annualNumbersDiv">
 							#summaryAnnualBlock#
