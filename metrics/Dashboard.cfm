@@ -71,18 +71,18 @@ limitations under the License.
 
 
 
-<script>
-function myFunction() {
-	var x = document.getElementById("myForm").target;
-	document.getElementById("demo").innerHTML = x;
-}
-</script>
+
 					
 
 				<h3 class="sidebar-heading d-flex justify-content-between align-items-center px-1 mt-4 mb-1 text-muted"> 
 					<span>Report Type</span> 
 				</h3>
-					
+					<script>
+						function myFunction() {
+							var x = document.getElementById("myForm").target;
+							document.getElementById("demo").innerHTML = x;
+						}
+					</script>
 					<ul class="nav flex-column mb-2">
 						<li class="nav-item">
 							<cfset myObj = createObject("component", "/metrics/component/functions")>
