@@ -61,7 +61,7 @@ limitations under the License.
 					</form>
 				</cfif>
 		
-<!---<form id="myForm" action="/metrics/component/functions.cfc" target="demo">
+<form id="myForm" action="/metrics/component/functions.cfc" target="demo">
 	Begin Date: <input type="date" name="beginDate" value="#beginDate#"><br>
 	End Date: <input type="date" name="endDate" value="#endDate#"><br>
 	Method: <input type="text" name="method" value="#method#"><br>
@@ -71,26 +71,18 @@ limitations under the License.
 
 <p>Click the "Try it" button to return the value of the target attribute in the form.</p>
 
-<button onclick="myFunction()">Try it</button>--->
-
-
-					
-<input type="date" id="beginDate" value="#beginDate#">
-<input type="date" id="endDate" value="#endDate#">
-<p>Click button</p>
-
 <button onclick="myFunction()">Try it</button>
 
 <p id="demo"></p>
 
 <script>
 function myFunction() {
-	let x = document.getElementById("beginDate").value;
+	var x = document.getElementById("myForm").target;
 	document.getElementById("demo").innerHTML = x;
-	let y = document.getElementById("endDate").value;
-	document.getElementById("demo").innerHTML = y;
 }
 </script>
+					
+
 				<h3 class="sidebar-heading d-flex justify-content-between align-items-center px-1 mt-4 mb-1 text-muted"> 
 					<span>Report Type</span> 
 				</h3>
