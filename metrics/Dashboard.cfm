@@ -62,8 +62,8 @@ limitations under the License.
 				</cfif>
 		
 <form id="myForm" action="/metrics/Dashboard.cfm" target="demo">
-	Begin Date: <input type="text" name="beginDate" value=""><br>
-	End Date: <input type="text" name="endDate" value=""><br>
+	Begin Date: <input type="text" name="beginDate" value="#beginDate#"><br>
+	End Date: <input type="text" name="endDate" value="#endDate#"><br>
 	<input type="submit" value="Submit">
 </form>
 
