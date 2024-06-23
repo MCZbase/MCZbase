@@ -94,8 +94,6 @@ limitations under the License.
 					obj1 = JSON.parse(date1);
 					document.getElementById("demo1").innerHTML = obj1.beginDate;
 
-
-
 					myObj2 = { "endDate":"2024-01-01" };
 					myJSON2 = JSON.stringify(myObj2);
 					localStorage.setItem("testJSON2", myJSON2);
@@ -104,6 +102,19 @@ limitations under the License.
 					date2 = localStorage.getItem("testJSON2");
 					obj2 = JSON.parse(date2);
 					document.getElementById("demo2").innerHTML = obj2.endDate;
+					</script>
+					
+					<p id="demo"></p>
+
+					<script>
+						// Create an Object
+						const dates = new Object();
+						dates.beginDate = "";
+						dates.endDate = "";
+
+						// Diplay Object Content
+						document.getElementById("demo").innerHTML =
+						dates.beginDate + "  " + dates.endDate + " ";
 					</script>
 					<ul class="nav flex-column mb-2">
 						<li class="nav-item">
