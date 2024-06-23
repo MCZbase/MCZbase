@@ -69,7 +69,7 @@ limitations under the License.
 						<li class="nav-item">
 						<!---	<cfset myObj = createObject("component", "/metrics/component/functions")>
 							<cfset summaryAnnualBlock = myObj.getAnnualNumbers('#beginDate#', '#endDate#')>--->
-								<a class="nav-link px-0" href="/metrics/component/functions.cfc?method=getAnnualNumber&beginDate=2023-01-01&endDate=2024-01-01&returnFormat=JSON" type="button">
+								<a class="nav-link px-0" href="/metrics/component/functions.cfc?method=getAnnualNumbers&beginDate=2023-01-01&endDate=2024-01-01&returnFormat=JSON" type="button">
 								<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file-text">
 									<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
 									<polyline points="14 2 14 8 20 8"></polyline>
@@ -83,7 +83,7 @@ limitations under the License.
 						<li class="nav-item"> 
 						<!---	<cfset myLoanResults = CreateObject("component", "/metrics/component/functions")>
 							<cfset loanresult = myLoanResults.getloanNumbers(beginDate,endDate)>--->
-								<a class="nav-link px-0" href="/metrics/component/functions.cfc?method=getLoanNumber&beginDate=2023-01-01&endDate=2024-01-01&returnFormat=JSON" onclick="callCFC(); return false;">
+								<a class="nav-link px-0" href="/metrics/component/functions.cfc?method=getLoanNumbers&beginDate=2023-01-01&endDate=2024-01-01&returnFormat=JSON">
 								<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file-text">
 									<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
 									<polyline points="14 2 14 8 20 8"></polyline>
@@ -97,7 +97,7 @@ limitations under the License.
 						<li class="nav-item"> 
 							<!---<cfset myMediaResults = CreateObject("component", "/metrics/component/functions")>
 							<cfset mediaresult = myMediaResults.getMediaNumbers(beginDate,endDate)>--->
-								<a class="nav-link px-0" href="##" onclick="callCFC(); return false;">
+								<a class="nav-link px-0" href="/metrics/component/functions.cfc?method=getMediaNumbers&beginDate=2023-01-01&endDate=2024-01-01&returnFormat=JSON">
 								<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file-text">
 									<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
 									<polyline points="14 2 14 8 20 8"></polyline>
@@ -111,7 +111,7 @@ limitations under the License.
 						<li class="nav-item"> 
 						<!---	<cfset myCitationResults = CreateObject("component", "/metrics/component/functions")>
 							<cfset citationresult = myCitationResults.getCitationNumbers(beginDate,endDate)>--->
-								<a class="nav-link px-0" href="##" onclick="callCFC(); return false;">
+								<a class="nav-link px-0" href="/metrics/component/functions.cfc?method=getCitationNumbers&beginDate=2023-01-01&endDate=2024-01-01&returnFormat=JSON">
 								<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file-text">
 									<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
 									<polyline points="14 2 14 8 20 8"></polyline>
@@ -125,7 +125,7 @@ limitations under the License.
 						<li class="nav-item"> 
 						<!---	<cfset myGeorefResults = CreateObject("component", "/metrics/component/functions")>
 							<cfset georefresult = myGeorefResults.getGeorefNumbers(beginDate,endDate)>--->
-								<a class="nav-link px-0" href="##" onclick="callCFC(); return false;">
+								<a class="nav-link px-0" href="/metrics/component/functions.cfc?method=getGeorefNumbers&beginDate=2023-01-01&endDate=2024-01-01&returnFormat=JSON">
 								<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file-text">
 									<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
 									<polyline points="14 2 14 8 20 8"></polyline>
