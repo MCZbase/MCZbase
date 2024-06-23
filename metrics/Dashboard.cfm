@@ -85,7 +85,7 @@ var myObj1, myJSON1, date1, obj1;
 var myObj2, myJSON2, date2, obj2;
 
 //Storing data:
-myObj1 = { "beginDate":#myForm.beginDate#" };
+myObj1 = { "beginDate":"2022-01-01" };
 myJSON1 = JSON.stringify(myObj1);
 localStorage.setItem("testJSON1", myJSON1);
 
