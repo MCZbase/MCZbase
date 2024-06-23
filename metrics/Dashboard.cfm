@@ -73,7 +73,7 @@ limitations under the License.
 					<script>
 						function myFunction() {
 							var x = document.getElementById("myForm").target;
-							document.getElementById("demo").innerHTML = x;
+							document.getElementById("demo1").innerHTML = x;
 						}
 					</script>
 					
