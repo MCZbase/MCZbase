@@ -60,7 +60,7 @@ limitations under the License.
 						$.ajax({
 							url: '/metrics/component/functions.cfc',
 							type: 'POST', 
-							data: formData
+							data: formData,
 						})
 						.done(function(reponse){
 							//console.log(response);
