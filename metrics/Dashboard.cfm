@@ -66,9 +66,10 @@ fetch(url,
 		'Content-Type': 'application/json' 
 	},
 	body: JSON.stringify({
+	  	method: 'getReport',
 		beginDate,
-		endDate,
-		method: 'getReport'
+		endDate
+	
 	})
 })
 
