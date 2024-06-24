@@ -57,16 +57,19 @@ form.addEventListener('submit', e => {
 
   const beginDate = document.getElementById('beginDate').value;
   const endDate = document.getElementById('endDate').value;
- 
+
   // call CFC 
-  fetch('/metrics/component/functions.cfc?method=getAnnualNumbers&returnformat=plain')
-    .then(res => res.text())
-    .then(data => {
-
-      // display output
-      document.getElementById('outputTable').innerHTML = data;
-
-    });
+fetch('/metrics/component/functions.cfc', {
+  method: 'POST', 
+  headers: {
+    'Content-Type': 'application/json'
+  },
+  body: JSON.stringify({
+    method: 'processDates',
+    startDate: startDate,
+    endDate: endDate
+  })
+})
 
 });				
 </script>					
