@@ -56,33 +56,49 @@ limitations under the License.
 								beginDate = new Date(beginDate); 
 								endDate = new Date(endDate);
 							}
-							async function callCFC(beginDate,endDate) {
-								// Build URL
-								let url = "/metrics/component/functions.cfc?method=getAnnualNumbers&";
-								url += `beginDate=${beginDate}&endDate=${endDate}`;
-								// Add timestamp to avoid caching
-								url += `?t=${Date.now()}`;
-
-								try {
-									// Call CFC via fetch
-									const response = await fetch(url);
-									if(!response.ok) {
-										throw new Error("HTTP error: " + response.status);
-									}
-									const data = await response.text();
-
-											// Log dates after fetch completes
-											console.log(beginDate, endDate);
-
-									} catch (err) {
-										console.error(err);
-									}
-								document.getElementById("output").innerText = data;
+							// Declare variables globally
+							function getDates(beginDate,endDate) {
+							// Get date values
+							beginDate = new Date(document.getElementById("beginDate").value);
+							endDate = new Date(document.getElementById("endDate").value);
 							}
-							// Click handler
+							function callCFC() {
+							url = "/metrics/component/functions.cfc";
+							try {
+							const response = await fetch(url, {
+								method: 'POST',
+								headers: {
+								'Content-Type': 'application/json'  
+								},
+								body: JSON.stringify({
+								method: 'getDates',
+								parameters: {
+									beginDate: beginDate,
+									endDate: endDate
+								}
+							  })
+							});
+
+							if(!response.ok) {
+							  throw new Error("HTTP error: " + response.status);
+							}
+
+							const data = await response.json();
+
+							console.log(data);
+
+							} catch (err) {
+							console.error(err);
+							}
+
+							}
+
 							document.getElementById("submit").addEventListener("click", () => {
-								getDates();
-								callCFC();
+
+							getDates();
+
+							callCFC();
+
 							});
 					</script>
 				
