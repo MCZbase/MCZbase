@@ -49,7 +49,7 @@ limitations under the License.
 					<input type="submit" value="Submit">
 				</form>
 				<script>
-					const form = document.getElementById('dateForm');
+				//	const form = document.getElementById('dateForm');
 					var beginDate = document.getElementById('beginDate').value;
 					var endDate = document.getElementById('endDate').value;
 				
@@ -57,7 +57,7 @@ limitations under the License.
 						url: '/metrics/component/functions.cfc',
 						type: 'POST', 
 						data: {
-						method: 'getLoanNumbers',
+						method: 'getCitationNumbers',
 						beginDate: beginDate,
 						endDate: endDate
 						}
