@@ -72,7 +72,7 @@ limitations under the License.
 				</h3>
 
 					<script>
-						var myObj = document.getElementById("myForm").target;
+						var myObj = document.getElementById("myForm");
 						var myJSON = JSON.stringify(myObj);
 						window.location = "/metrics/Dashboard.cfm?x=" + myJSON;
 						</script>
