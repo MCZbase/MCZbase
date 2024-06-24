@@ -40,7 +40,7 @@ limitations under the License.
 			<div class="sidebar-sticky pt-4 px-3">
 				<h3 class="text-muted"><span>Report Date Range</span></h3>
 
-<form id="myForm">
+<form id="dateForm">
   <input type="date" id="beginDate" name="beginDate">
   <input type="date" id="endDate" name="endDate">
   <input type="submit" value="Submit">
@@ -49,17 +49,17 @@ limitations under the License.
 <div id="outputTable"></div>
 					
 <script>
-const form = document.getElementById('myForm');
+const form = document.getElementById('dateForm');
 
 form.addEventListener('submit', e => {
 
   e.preventDefault();
 
-  // get form values
-  const beginDate= document.getElementById('beginDate').value;
-  const endDate= document.getElementById('endDate').value;
+  const beginDate = document.getElementById('beginDate').value;
+  const endDate = document.getElementById('endDate').value;
+ 
   // call CFC 
-  fetch('metrics/component/functions.cfc?method=getAnnualNumbers&returnformat=plain')
+  fetch('/metrics/component/functions.cfc?method=getAnnualNumbers&returnformat=plain')
     .then(res => res.text())
     .then(data => {
 
