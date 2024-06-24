@@ -49,44 +49,47 @@ limitations under the License.
 						<input type="submit" onclick="callCFC()" id="submit" class="btn btn-xs btn-primary mt-1">
 					</form>
 					<script>
-						const form = document.getElementById("myForm");
-						form.addEventListener("submit", submitHandler);
-						function submitHandler(e) {
-							e.preventDefault();
-							function getDates(beginDate,endDate) {
-									// Get date values
-									beginDate = document.getElementById("beginDate").value;
-									endDate = document.getElementById("endDate").value;
-									// Parse to Date objects
-									beginDate = new Date(beginDate); 
-									endDate = new Date(endDate);
-								}
-								// Declare variables globally
-								function getDates(beginDate,endDate) {
-								// Get date values
-								beginDate = new Date(document.getElementById("beginDate").value);
-								endDate = new Date(document.getElementById("endDate").value);
-							}
-						}
+						// Define callCFC function
 						function callCFC() {
-							url = "/metrics/component/functions.cfc";
-							fetch(url, {
-								method: 'GET',
-								headers: {
-								'Content-Type': 'application/json'  
-								},
-								body: JSON.stringify({
-								method: 'getDates',
+
+						// Get date values from form
+						const beginDate = document.getElementById('beginDate').value;
+						const endDate = document.getElementById('endDate').value;
+
+						// Make fetch call
+						fetch('/metrics/component/functions.cfc', {
+							method: 'POST',
+							headers: {
+								'Content-Type': 'application/json'
+							},
+							body: JSON.stringify({
+								method: 'getAnnualNumbers',
 								parameters: {
-									beginDate: beginDate,
-									endDate: endDate
-									}
-								})
-							});
+								beginDate,
+								endDate  
+								}
+							})
+						})
+						.then(res => res.json())
+						.then(data => {
+						// Handle response
+						})
+						.catch(err => {
+							console.error(err);
+						});
+
 						}
-					document.getElementById("submit").onclick = function() {
+
+						// Add onclick handler
+						document.getElementById('submitButton').onclick = function() {
+
+						// Call function
 						callCFC();
-					}
+
+						// Prevent form submission if needed
+						return false;
+
+						};
 					</script>
 				
 				<!---<cfif action eq 'showBasic'>
