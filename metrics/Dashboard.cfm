@@ -40,9 +40,6 @@ limitations under the License.
 			<div class="sidebar-sticky pt-4 px-3">
 				<h3 class="text-muted"><span>Report Date Range</span></h3>
 				
-				<cfif NOT isdefined("action") or len(action) EQ 0>
-					<cfset action="showBasic">
-				</cfif>
 					<form>
 						<input type="date" id="beginDate" class="data-entry-input mt-1">
 						<input type="date" id="endDate" class="data-entry-input mt-1">
@@ -57,15 +54,14 @@ limitations under the License.
 						function callCFC() {
 							// get input values
 							var beginDate = document.getElementById("beginDate").value;
+							console.log(document.getElementById("beginDate").value);
 							var endDate = document.getElementById("endDate").value;
+							console.log(document.getElementById("endDate").value);
 							// build url with params  
 							buildUrl();
-							fetch(url)
-							  .then(response => {
-								console.log("Fetch called!");
-								return response.text();
-							  })
+							fetch(url); 
 						}
+						
 					</script>
 				
 				<!---<cfif action eq 'showBasic'>
