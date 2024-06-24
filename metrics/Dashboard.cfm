@@ -39,8 +39,11 @@ limitations under the License.
 				<h3 class="text-muted"><span>Report Date Range</span></h3>
 			
 				<form id="myForm">
+					<label for="beginDate" class="data-entry-label">Begin Date</label>
 					<input type="date" id="beginDate" name="beginDate" class="my-1 data-entry-input">
+					<label for="endDate" class="data-entry-label">End Date</label>
 					<input type="date" id="endDate" name="endDate" class="my-1 data-entry-input">
+					<label for="method" class="data-entry-label">Type of Report (currently method)</label>
 					<input type="text" id="method" name="method" class="my-1 data-entry-input">
 					<input type="submit" value="submit" class="my-1 btn-xs btn btn-primary">
 				</form>
