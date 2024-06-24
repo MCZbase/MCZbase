@@ -43,25 +43,23 @@ limitations under the License.
 				<cfif NOT isdefined("action") or len(action) EQ 0>
 					<cfset action="showBasic">
 				</cfif>
+					<form>
+						<input type="date" id="beginDate">
+						<input type="date" id="endDate">
+						<input type="submit" onclick="callCFC()">
+					</form>
 					<script>
 						function callCFC() {
 							// get input values
 							var beginDate = document.getElementById("beginDate").value;
 							var endDate = document.getElementById("endDate").value;
 							// build url with params  
-							var url = "/metrics/component/functions.cfc?method=getLoanNumbers&beginDate=" + beginDate + "&endDate=" + endDate;
-							fetch(url)
-								.then(response => response.date())
-								.then(data => {
-									document.getElementById("output").innerHTML = data;
-								});
+							
+							var url = "/metrics/component/functions.cfc?method=getDates&beginDate=" + beginDate + "&endDate=" + endDate;
+							
 						}
 					</script>
-					<form>
-						<input type="date" id="beginDate">
-						<input type="date" id="endDate">
-						<input type="submit" onclick="callCFC()">
-					</form>
+				
 				<!---<cfif action eq 'showBasic'>
 					<form action="/metrics/Dashboard.cfm" class="pt-1" id="dateForm">
 						<label for="beginDate" class="data-entry-label">Begin Date</label>
