@@ -1,5 +1,6 @@
 <!---
-specimens/component/functions.cfc
+metrics/component/functions.cfc
+
 Copyright 2024 President and Fellows of Harvard College
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -12,7 +13,10 @@ See the License for the specific language governing permissions and
 limitations under the License.
 --->
 <cfcomponent>
+
+<cf_rolecheck>
 <cfinclude template="/shared/component/error_handler.cfc" runOnce="true">
+
 <cffunction name="getAnnualNumbers" access="remote" returntype="any" returnformat="json">
 	<cfargument name="beginDate" type="any" required="yes">
 	<cfargument name="endDate" type="any" required="yes">
@@ -20,7 +24,7 @@ limitations under the License.
 	<cfthread name="getAnnualNumbersThread">
 		<cfoutput>
 			<cftry>
-			<!-- annual report queries -->
+				<!--- annual report queries --->
 				<cfsetting RequestTimeout = "0">
 				<cfset start = GetTickCount()>
 				<cfquery name="totals" datasource="uam_god">
@@ -124,10 +128,10 @@ limitations under the License.
 					</table>
 				</section>
 			<cfcatch>
-				<!---<cfset error_message = cfcatchToErrorMessage(cfcatch)>
-				<cfset function_called = "#GetFunctionCalledName()#">--->
-				<h2 class='h3'>Error in function?</h2>
-				<div>Error message for Basic Numbers</div>
+				<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+				<cfset function_called = "#GetFunctionCalledName()#">
+				<h2 class="h3">Error in #function_called#:</h2>
+				<div>#error_message#</div>
 			</cfcatch>
 			</cftry>
 		</cfoutput>
@@ -260,10 +264,10 @@ limitations under the License.
 						</table>
 				</section>
 			<cfcatch>
-				<!---<cfset error_message = cfcatchToErrorMessage(cfcatch)>
-				<cfset function_called = "#GetFunctionCalledName()#">--->
-				<h2 class='h3'>Error in function?</h2>
-				<div>Error message for Loan numbers</div>
+				<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+				<cfset function_called = "#GetFunctionCalledName()#">
+				<h2 class="h3">Error in #function_called#:</h2>
+				<div>#error_message#</div>
 			</cfcatch>
 			</cftry>
 		</cfoutput>
@@ -280,7 +284,7 @@ limitations under the License.
 	<cfthread name="getMediaNumbersThread">
 		<cfoutput>
 			<cftry>
-			<!-- annual report queries -->
+				<!--- annual report queries --->
 				<cfsetting RequestTimeout = "0">
 				<cfset start = GetTickCount()>
 				<cfquery name="media" datasource="uam_god">
@@ -363,10 +367,10 @@ limitations under the License.
 						</table>
 				</section>
 			<cfcatch>
-				<!---<cfset error_message = cfcatchToErrorMessage(cfcatch)>
-				<cfset function_called = "#GetFunctionCalledName()#">--->
-				<h2 class='h3'>Error in function?</h2>
-				<div>Error message TBD</div>
+				<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+				<cfset function_called = "#GetFunctionCalledName()#">
+				<h2 class="h3">Error in #function_called#:</h2>
+				<div>#error_message#</div>
 			</cfcatch>
 			</cftry>
 		</cfoutput>
@@ -381,7 +385,7 @@ limitations under the License.
 	<cfthread name="getCitationNumbersThread">
 		<cfoutput>
 			<cftry>
-			<!-- annual report queries -->
+				<!--- annual report queries --->
 				<cfsetting RequestTimeout = "0">
 				<cfset start = GetTickCount()>
 				<cfquery name="citation" datasource="uam_god">
@@ -427,10 +431,10 @@ limitations under the License.
 						</table>
 				</section>
 			<cfcatch>
-				<!---<cfset error_message = cfcatchToErrorMessage(cfcatch)>
-				<cfset function_called = "#GetFunctionCalledName()#">--->
-				<h2 class='h3'>Error in function?</h2>
-				<div>Error message TBD</div>
+				<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+				<cfset function_called = "#GetFunctionCalledName()#">
+				<h2 class="h3">Error in #function_called#:</h2>
+				<div>#error_message#</div>
 			</cfcatch>
 			</cftry>
 		</cfoutput>
@@ -505,10 +509,10 @@ limitations under the License.
 						</table>
 				</section>
 			<cfcatch>
-				<!---<cfset error_message = cfcatchToErrorMessage(cfcatch)>
-				<cfset function_called = "#GetFunctionCalledName()#">--->
-				<h2 class='h3'>Error in function?</h2>
-				<div>Error message TBD</div>
+				<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+				<cfset function_called = "#GetFunctionCalledName()#">
+				<h2 class="h3">Error in #function_called#:</h2>
+				<div>#error_message#</div>
 			</cfcatch>
 			</cftry>
 		</cfoutput>
