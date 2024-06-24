@@ -51,9 +51,6 @@ limitations under the License.
 				</cfif>
 				<script>
 					const form = document.getElementById('dateForm');
-					const dateForm = new dateForm();
-						dateForm.append('beginDate', beginDate.toISOString()); 
-						dateForm.append('endDate', endDate.toISOString());
 					var beginDate = document.getElementById('beginDate').value;
 					var endDate = document.getElementById('endDate').value;
 				
