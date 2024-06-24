@@ -63,13 +63,8 @@ limitations under the License.
 									dataType : "json",
 									data : $('##myForm').serialize(),
 									success : function (data) {
-							}
-
-							// Add onclick handler
-							document.getElementById('submitButton').onclick = callCFC() {
-								// Prevent form submission if needed
-								return false;
-							};
+								}
+							});
 						}
 					</script>
 				
