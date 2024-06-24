@@ -43,6 +43,7 @@ limitations under the License.
 <form id="dateForm">
   <input type="date" id="beginDate" name="beginDate">
   <input type="date" id="endDate" name="endDate">
+<input type="text" id="method" name="method">
   <input type="submit" value="Submit">
 </form>
 
@@ -53,13 +54,12 @@ const form = document.getElementById('dateForm');
 
 form.addEventListener('Submit', e => {
 
-  e.preventDefault();
+	e.preventDefault();
 
-  const beginDate = document.getElementById('beginDate').value;
-  const endDate = document.getElementById('endDate').value;
-
-
-const url= '/metrics/component/functions.cfc?method=getReport';
+	const beginDate = document.getElementById('beginDate').value;
+	const endDate = document.getElementById('endDate').value;
+	const method = document.getElementById('method').value;
+	const url= '/metrics/component/functions.cfc';
 fetch(url,
 	method: 'POST', 
 	headers: {
@@ -67,7 +67,8 @@ fetch(url,
 	},
 	body: JSON.stringify({
 		beginDate: beginDate,
-		endDate: endDate
+		endDate: endDate,
+		method: method
 	})
 })
 
