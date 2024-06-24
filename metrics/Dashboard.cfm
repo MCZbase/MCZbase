@@ -52,11 +52,11 @@ limitations under the License.
 							function getDates() {
 
 								// Get date values
-								startDate = document.getElementById("startDate").value;
+								beginDate = document.getElementById("beginDate").value;
 								endDate = document.getElementById("endDate").value;
 
 								// Parse to Date objects
-								startDate = new Date(startDate); 
+								beginDate = new Date(beginDate); 
 								endDate = new Date(endDate);
 
 							}
@@ -64,8 +64,8 @@ limitations under the License.
 							async function callCFC() {
 
 								// Build URL
-								let url = "cfc.cfc?method=getDates&";
-								url += `startDate=${startDate}&endDate=${endDate}`;
+								let url = "/metrics/component/functions.cfc?method=getDates&";
+								url += `beginDate=${beginDate}&endDate=${endDate}`;
 
 								// Add timestamp to avoid caching
 								url += `?t=${Date.now()}`;
