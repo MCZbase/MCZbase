@@ -45,29 +45,31 @@ limitations under the License.
 					<input type="date" id="endDate" name="endDate" class="my-1 data-entry-input">
 					<label for="method" class="data-entry-label">Type of Report (now method)</label>
 					<input type="text" id="method" name="method" class="my-1 data-entry-input">
-					<input type="submit" value="submit" class="my-1 btn-xs btn btn-primary">
+					<input type="submit" value="submit" onClick="callCFC()" class="my-1 btn-xs btn btn-primary">
 				</form>
 				<script>
-					var form = document.getElementById('myForm');
-					var formData = new FormData(form);
-					var formData = {
-							beginDate: document.getElementById('beginDate').value,
-							endDate: document.getElementById('endDate').value,
-							method: document.getElementById('method').value
-						};
-					
-					$.ajax({
-						url: '/metrics/component/functions.cfc',
-						type: 'POST', 
-						data: formData
-					})
-					.done(function(reponse){
-						//console.log(response);
-						$('##outputTable').html(response);
-					})
-					.fail(function(xhr,status,error){
-					console.error(error);
-					});
+					function callCFC(){
+						var form = document.getElementById('myForm');
+						var formData = new FormData(form);
+						var formData = {
+								beginDate: document.getElementById('beginDate').value,
+								endDate: document.getElementById('endDate').value,
+								method: document.getElementById('method').value
+							};
+
+						$.ajax({
+							url: '/metrics/component/functions.cfc',
+							type: 'POST', 
+							data: formData
+						})
+						.done(function(reponse){
+							//console.log(response);
+							$('##outputTable').html(response);
+						})
+						.fail(function(xhr,status,error){
+						console.error(error);
+						});
+					}
 				
 				</script>
 					<ul class="nav flex-column mb-2">
