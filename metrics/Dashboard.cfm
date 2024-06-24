@@ -44,7 +44,7 @@ limitations under the License.
 					<input type="submit" value="Submit" class="my-1 btn-xs btn btn-primary">
 				</form>
 				<script>
-					var form = document.getElementById('dateForm');
+					const form = document.getElementById('dateForm');
 					var beginDate = document.getElementById('beginDate').value;
 					var endDate = document.getElementById('endDate').value;
 
