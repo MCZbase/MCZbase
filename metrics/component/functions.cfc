@@ -58,7 +58,7 @@ limitations under the License.
 						(select c.collection_id, c.collection, count(distinct t.transaction_id) numAccns from accn a, trans t, collection c where a.transaction_id = t.transaction_id and t.collection_id = c.collection_id and a.received_date between to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#beginDate#">, 'YYYY-MM-DD') and  to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#endDate#">, 'YYYY-MM-DD') group by c.collection_id, c.collection) accn on h.collection_id = accn.collection_id
 				</cfquery>
 				<section class="col-12 mt-3 px-0">
-					<h2 class="h3 px-2">Basic Collections Metrics (#encodeForHtml(beginDate)#/#encodeForHtml(endDate)#</h1>
+					<h2 class="h3 px-2">Basic Collections Metrics (#encodeForHtml(beginDate)#/#encodeForHtml(endDate)#</h2>
 					<table class="table table-responsive table-striped d-lg-table" id="t">
 						<thead>
 							<tr>
@@ -144,7 +144,7 @@ limitations under the License.
 	<cfthread name="getLoanNumbersThread">
 		<cfoutput>
 			<cftry>
-			<!-- annual report queries -->
+				<!--- annual report queries for loan activity --->
 				<cfsetting RequestTimeout = "0">
 				<cfset start = GetTickCount()>
 				<cfquery name="loans" datasource="uam_god">
@@ -227,7 +227,7 @@ limitations under the License.
 					ORDER BY collection
 				</cfquery>
 				<section class="col-12 mt-3 px-0">
-					<h2 class="h3 px-2">Loan Stats</h2>
+					<h2 class="h3 px-2">Loan Activity (#encodeForHtml(beginDate)#/#encodeForHtml(endDate)#</h2>
 					<table class="table table-responsive table-striped d-lg-table" id="t">
 							<thead>
 								<tr>
