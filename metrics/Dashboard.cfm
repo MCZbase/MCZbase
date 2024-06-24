@@ -43,7 +43,7 @@ limitations under the License.
 					<input type="date" id="beginDate" name="beginDate" class="my-1 data-entry-input">
 					<label for="endDate" class="data-entry-label">End Date</label>
 					<input type="date" id="endDate" name="endDate" class="my-1 data-entry-input">
-					<label for="method" class="data-entry-label">Type of Report (currently method)</label>
+					<label for="method" class="data-entry-label">Type of Report (now method)</label>
 					<input type="text" id="method" name="method" class="my-1 data-entry-input">
 					<input type="submit" value="submit" class="my-1 btn-xs btn btn-primary">
 				</form>
