@@ -40,45 +40,36 @@ limitations under the License.
 			<div class="sidebar-sticky pt-4 px-3">
 				<h3 class="text-muted"><span>Report Date Range</span></h3>
 
-<form id="dateForm">
-  <input type="date" id="beginDate" name="beginDate">
-  <input type="date" id="endDate" name="endDate">
-<input type="text" id="method" name="method">
-  <input type="submit" value="Submit">
-</form>
+				<form id="dateForm">
+					<input type="date" id="beginDate" name="beginDate">
+					<input type="date" id="endDate" name="endDate">
+					<input type="submit" value="Submit">
+				</form>
 
-<div id="outputTable"></div>
-					
-<script>
-const form = document.getElementById('dateForm');
+				<div id="outputTable"></div>
 
-form.addEventListener('submit', e => {
+				<script>
+					const form = document.getElementById('dateForm');
 
-	e.preventDefault();
+					var beginDate = document.getElementById('beginDate').value;
+					var endDate = document.getElementById('endDate').value;
 
-	const beginDate = document.getElementById('beginDate').value;
-	const endDate = document.getElementById('endDate').value;
-	const method = document.getElementById('method').value;
-	const url= '/metrics/component/functions.cfc';
-fetch(url,
-	method: 'POST', 
-	headers: {
-		'Content-Type': 'application/json' 
-	},
-	body: JSON.stringify({
-	  	method: 'getReport',
-		beginDate,
-		endDate
-	
-	})
-})
-
-});				
-</script>					
-					
-	
-		
-	
+					$.ajax({
+						url: '/metrics/component/functions.cfc',
+						type: 'POST', 
+						data: {
+							method: 'getReport',
+							beginDate: beginDate,
+							endDate: endDate
+						}
+					})
+					.done(function(reponse){
+						console.log(response);
+					})
+					.fail(function(xhr,status,error){
+					console.error(error);
+					});
+				</script>
 					<ul class="nav flex-column mb-2">
 						<li class="nav-item">
 						<!---	<cfset myObj = createObject("component", "/metrics/component/functions")>
