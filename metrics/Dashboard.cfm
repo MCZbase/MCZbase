@@ -57,9 +57,8 @@ limitations under the License.
 						url: '/metrics/component/functions.cfc',
 						type: 'POST', 
 						data: {
-							method: 'getLoanNumbers',
-							beginDate: beginDate,
-							endDate: endDate
+						method: 'getLoanNumbers',
+						$('##dateForm').serialize()
 						}
 					})
 					.done(function(reponse){
