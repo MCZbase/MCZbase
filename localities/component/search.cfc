@@ -2119,7 +2119,11 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 					</cfif>
 				</cfif>
 				<cfif isDefined("collecting_event_id") and len(collecting_event_id) gt 0>
+					<cfif Find(",",collecting_event_id) GT 0>
+						and collecting_event.collecting_event_id IN (<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collecting_event_id#" list="yes">)
+					<cfelse>
 						and collecting_event.collecting_event_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collecting_event_id#">
+					</cfif>
 				</cfif>
 				<cfif isDefined("valid_catalog_term_fg") and len(valid_catalog_term_fg) gt 0>
 						and geog_auth_rec.valid_catalog_term_fg = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#valid_catalog_term_fg#">
