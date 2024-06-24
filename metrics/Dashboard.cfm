@@ -58,16 +58,17 @@ form.addEventListener('Submit', e => {
   const beginDate = document.getElementById('beginDate').value;
   const endDate = document.getElementById('endDate').value;
 
-  // call CFC 
-fetch('/metrics/component/functions.cfc?method=getReport', {
+
+const url= '/metrics/component/functions.cfc?method=getReport';
+fetch(url,
 	method: 'POST', 
-headers: {
-    'Content-Type': 'application/json' 
-  },
-body: JSON.stringify({
-	beginDate: beginDate,
-	endDate: endDate
-  })
+	headers: {
+		'Content-Type': 'application/json' 
+	},
+	body: JSON.stringify({
+		beginDate: beginDate,
+		endDate: endDate
+	})
 })
 
 });				
