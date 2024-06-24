@@ -43,7 +43,7 @@ limitations under the License.
 
 				</script>
 				
-					<form id="myForm" action="Dashboard.cfm" target="output">
+					<form id="myForm" action="Dashboard.cfm?method=getAnnualNumbers" target="output">
 						<input type="date" id="beginDate" class="data-entry-input mt-1" default="2022-01-01">
 						<input type="date" id="endDate" class="data-entry-input mt-1" default="2024-01-01">
 						<input type="submit" onclick="callCFC()" id="submitButton" class="btn btn-xs btn-primary mt-1">
