@@ -41,18 +41,16 @@ limitations under the License.
 			<div class="sidebar-sticky pt-4 px-3">
 				<h3 class="text-muted"><span>Report Date Range</span></h3>
 				<cfif len(beginDate) eq 0 AND len(endDate) eq 0>
-					<form id="dateForm">
-						<input type="date" id="beginDate" name="beginDate" class="data-entry-input" value="2022-06-30">
-						<input type="date" id="endDate" name="endDate" class="data-entry-input" value="2024-06-30">
-						<input type="submit" value="Submit" class="btn mt-3 btn-xs btn-primary">
-					</form>
+					<cfset beginDate='2022-06-30'>
+					<cfset endDate='2024-06-30'>
 				<cfelse>
+				</cfif>
 					<form id="dateForm">
 						<input type="date" id="beginDate" name="beginDate" class="data-entry-input">
 						<input type="date" id="endDate" name="endDate" class="data-entry-input">
 						<input type="submit" value="Submit" class="btn mt-3 btn-xs btn-primary">
 					</form>
-				</cfif>
+				
 				<script>
 				//	const form = document.getElementById('dateForm');
 					var beginDate = document.getElementById('beginDate').value;
