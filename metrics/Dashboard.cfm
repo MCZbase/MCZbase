@@ -52,20 +52,15 @@ limitations under the License.
 						var url;
 
 						function buildUrl() {
-							url = "/metrics/Dashboard.cfc?method=getLoanNumbers&showBasic&beginDate="+ beginDate + "endDate=" + endDate;
+							url = "/metrics/Dashboard.cfm?method=getLoanNumbers&showBasic&beginDate="+ beginDate + "endDate=" + endDate;
 }
 						function callCFC() {
 							// get input values
 							var beginDate = document.getElementById("beginDate").value;
 							var endDate = document.getElementById("endDate").value;
 							// build url with params  
-							
 							buildUrl();
-							
 						}
-						fetch(url)
-						
-						
 					</script>
 				
 				<!---<cfif action eq 'showBasic'>
