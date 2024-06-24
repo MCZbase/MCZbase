@@ -40,22 +40,12 @@ limitations under the License.
 			<div class="sidebar-sticky pt-4 px-3">
 				<h3 class="text-muted"><span>Report Date Range</span></h3>
 				<script> 			
-						
-					// Add onclick handler
-					document.getElementById('submitButton').onclick = function() {
 
-					// Call function
-					callCFC(beginDate,endDate);
-
-					// Prevent form submission if needed
-					return false;
-
-					};
 				</script>
 				
 					<form id="myForm" action="/metrics/Dashboard.cfm?method=getAnnualNumbers" target="output">
-						<input type="date" id="beginDate" class="data-entry-input mt-1">
-						<input type="date" id="endDate" class="data-entry-input mt-1" >
+						<input type="date" id="beginDate" class="data-entry-input mt-1" default="2022-01-01">
+						<input type="date" id="endDate" class="data-entry-input mt-1" default="2024-01-01">
 						<input type="submit" onclick="callCFC()" id="submitButton" class="btn btn-xs btn-primary mt-1">
 					</form>
 					<script>
@@ -90,6 +80,16 @@ limitations under the License.
 
 						}
 
+						// Add onclick handler
+						document.getElementById('submitButton').onclick = function() {
+
+						// Call function
+						callCFC();
+
+						// Prevent form submission if needed
+						return false;
+
+						};
 					</script>
 				
 				<!---<cfif action eq 'showBasic'>
