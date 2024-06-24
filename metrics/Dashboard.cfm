@@ -39,41 +39,9 @@ limitations under the License.
 		<nav id="sidebarMenu" class="col-md-2 col-lg-2 d-md-block bg-light sidebar collapse">
 			<div class="sidebar-sticky pt-4 px-3">
 				<h3 class="text-muted"><span>Report Date Range</span></h3>
-				
-					<form id="myForm" action="/metrics/Dashboard.cfm" target="output">
-						<input type="date" id="beginDate" class="data-entry-input mt-1">
-						<input type="date" id="endDate" class="data-entry-input mt-1">
-						<input type="submit" onclick="callCFC()" id="submit" class="btn btn-xs btn-primary mt-1">
-					</form>
-					<script>
-						// Declare variables globally
-						
-							
-
-						const form = document.getElementById("myForm");
-
-						form.addEventListener("submit", submitHandler);
-
-						function submitHandler(e) {
-							e.preventDefault();
-
-						function getDates(beginDate,endDate) {
-								// Get date values
-								beginDate = document.getElementById("beginDate").value;
-								endDate = document.getElementById("endDate").value;
-								// Parse to Date objects
-								beginDate = new Date(beginDate); 
-								endDate = new Date(endDate);
-							}
-							// Declare variables globally
-							function getDates(beginDate,endDate) {
-							// Get date values
-							beginDate = new Date(document.getElementById("beginDate").value);
-							endDate = new Date(document.getElementById("endDate").value);
-							}
-							function callCFC() {
+				<script> 			
+					function callCFC() {
 							url = "/metrics/component/functions.cfc";
-							try {
 							fetch(url, {
 								method: 'POST',
 								headers: {
@@ -84,22 +52,38 @@ limitations under the License.
 								parameters: {
 									beginDate: beginDate,
 									endDate: endDate
-								}
-							  })
+									}
+								})
 							});
-
-								if(!response.ok) {
-									throw new Error("HTTP error: " + response.status);
+						}
+					document.getElementById("submit").onclick = function() {
+						callCFC();
+					}
+				</script>
+				
+					<form id="myForm" action="/metrics/Dashboard.cfm" target="output">
+						<input type="date" id="beginDate" class="data-entry-input mt-1">
+						<input type="date" id="endDate" class="data-entry-input mt-1">
+						<input type="submit" onclick="callCFC()" id="submit" class="btn btn-xs btn-primary mt-1">
+					</form>
+					<script>
+						const form = document.getElementById("myForm");
+						form.addEventListener("submit", submitHandler);
+						function submitHandler(e) {
+							e.preventDefault();
+							function getDates(beginDate,endDate) {
+									// Get date values
+									beginDate = document.getElementById("beginDate").value;
+									endDate = document.getElementById("endDate").value;
+									// Parse to Date objects
+									beginDate = new Date(beginDate); 
+									endDate = new Date(endDate);
 								}
-
-								response.json();
-
-								console.log(data);
-
-								} catch (err) {
-									console.error(err);
-								}
-
+								// Declare variables globally
+								function getDates(beginDate,endDate) {
+								// Get date values
+								beginDate = new Date(document.getElementById("beginDate").value);
+								endDate = new Date(document.getElementById("endDate").value);
 							}
 						}
 					</script>
