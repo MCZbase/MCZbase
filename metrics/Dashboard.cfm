@@ -50,7 +50,7 @@ limitations under the License.
 					<input name="endDate" id="endDate" type="text" class="my-1 datetimeinput data-entry-input data-entry-input" placeholder="yyyy-mm-dd" value="#endDate#" aria-label="end of range for dates to display metrics.">
 					<label for="method" class="data-entry-label">Report To Show</label>
 					<select id="method" name="method" class="my-1 data-entry-input">
-						<option value="getAnnualNumbers" selected="selected">Basic Annual Report Numbers</option>
+						<option value="getAnnualNumbers" >Basic Annual Report Numbers</option>
 						<option value="getLoanNumbers" selected="selected">Loan Activity</option>
 					</select>
 					<input type="submit" value="submit" class="my-1 btn-xs btn btn-primary">
