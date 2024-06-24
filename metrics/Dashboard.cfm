@@ -61,8 +61,8 @@ limitations under the License.
 	<input type="date" name="endDate" class="data-entry-label" value="#endDate#">
 	<label for="method" class="data-entry-label mt-2">Method</label>
 	<input type="text" name="method" value="#method#">
-	<label for="returnFormat" class="data-entry-label mt-2">returnFormat</label>
-	<input type="text" name="returnFormat" value="JSON"><br>
+<!---	<label for="returnFormat" class="data-entry-label mt-2">returnFormat</label>
+	<input type="text" name="returnFormat" value="JSON"><br>--->
 	<input type="submit" value="Submit">
 </form>
 <button onclick="myFunction()" class="btn btn-xs btn-primary">get table</button>
@@ -79,16 +79,7 @@ limitations under the License.
 					
 					<p id="demo"></p>
 
-					<script>
-						// Create an Object
-						const dates = new Object();
-						dates.beginDate = "";
-						dates.endDate = "";
-
-						// Diplay Object Content
-						document.getElementById("demo").innerHTML =
-						dates.beginDate + "  " + dates.endDate + " ";
-					</script>
+	
 					<ul class="nav flex-column mb-2">
 						<li class="nav-item">
 							<cfset myObj = createObject("component", "/metrics/component/functions")>
