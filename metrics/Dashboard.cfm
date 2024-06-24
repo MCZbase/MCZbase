@@ -61,8 +61,8 @@ limitations under the License.
 	<input type="date" name="endDate" class="data-entry-label" value="#endDate#">
 	<label for="method" class="data-entry-label mt-2">Method</label>
 	<input type="text" name="method" value="#method#">
-	<label for="returnFormat" class="data-entry-label mt-2">returnFormat</label>
-	<input type="text" name="returnFormat" value="JSON"><br>
+<!---	<label for="returnFormat" class="data-entry-label mt-2">returnFormat</label>
+	<input type="text" name="returnFormat" value="JSON"><br>--->
 	<input type="submit" value="Submit">
 </form>
 <button onclick="myFunction()" class="btn btn-xs btn-primary">get table</button>
@@ -70,25 +70,26 @@ limitations under the License.
 				<h3 class="sidebar-heading d-flex justify-content-between align-items-center px-1 mt-4 mb-1 text-muted"> 
 					<span>Report Type</span> 
 				</h3>
-					<script>
+			<!---		<script>
 						function myFunction() {
 							var x = document.getElementById("myForm").target;
 							document.getElementById("demo").innerHTML = x;
 						}
-					</script>
+					</script>--->
 					
-					<p id="demo1"></p>
-					<p id="demo2"></p>
+					<!---<p id="demo1"></p>
+					<p id="demo2"></p>--->
 
 					<script>
 						var x = document.getElementById("myForm").target; 
 						var myJSON = JSON.stringify(x);
+						document.getElementById("demo").innerHTML = x;
 						window.location = "/metrics/Dashboard.cfm?x=" + myJSON;
-						</script>
+					</script>
 					
-					<p id="demo"></p>
+					<!---<p id="demo"></p>--->
 
-					<script>
+<!---					<script>
 						// Create an Object
 						const dates = new Object();
 						dates.beginDate = "";
@@ -97,7 +98,7 @@ limitations under the License.
 						// Diplay Object Content
 						document.getElementById("demo").innerHTML =
 						dates.beginDate + "  " + dates.endDate + " ";
-					</script>
+					</script>--->
 					<ul class="nav flex-column mb-2">
 						<li class="nav-item">
 							<cfset myObj = createObject("component", "/metrics/component/functions")>
