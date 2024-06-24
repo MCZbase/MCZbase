@@ -89,7 +89,7 @@ limitations under the License.
 			cataloged_item.collection_object_id as collection_object_id,
 			collection.institution_acronym as institution_acronym,
 			loan_number,
-			loan_item.reconciled_date,
+			to_char(loan_item.reconciled_date,'yyyy-mm-dd') reconciled_date,
 			MCZBASE.CONCATITEMREMINLOAN(specimen_part.derived_from_cat_item, loan_item.transaction_id) as loan_item_remarks,
 			concattransagent(loan.transaction_id, 'received by')  recAgentName,
 			cat_num,
@@ -287,7 +287,7 @@ limitations under the License.
 				<div style="#font# font-size: small; margin-left: 4px;">
 					<cfif len(getSubloan.nature_of_material) GT 0>
 					<div>
-						<strong>Nature of Material:</strong> #getSubloan.nature_of_material#
+						<strong>Nature of Material:</strong>
 						<cfif len(getSubloan.nature_of_material) LT INSTRUCTIONS_LIMIT>
 							#getSubloan.nature_of_material#
 						<cfelse>
@@ -382,22 +382,26 @@ limitations under the License.
 						<td style="width: 60%; vertical-align: top;">
 							<cfloop query="getSubloans">
 								<div style="#font# font-size: 1em;">
-									#getSubloans.loan_number#
 									<cfquery name="getSubloanCount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-										SELECT sum(lot_count) lot_ct, count(coll_object.collection_object_id) item_ct
+										SELECT sum(lot_count) lot_ct, count(coll_object.collection_object_id) item_ct, collection
 										FROM 
 											loan_item 
 											JOIN coll_object on loan_item.collection_object_id = coll_object.collection_object_id
-										WHERE transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getSubloans.transaction_id#">
+											JOIN trans on loan_item.transaction_id = trans.transaction_id
+											JOIN collection on trans.collection_id = collection.collection_id
+										WHERE loan_item.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getSubloans.transaction_id#">
+										GROUP BY collection
 									</cfquery>
 									<cfloop query="getSubloanCount">
-										(#getSubloanCount.item_ct#)
+										#getSubloanCount.collection# #getSubloans.loan_number#
+										<cfif getSubloanCount.item_ct EQ 1><cfset plural = ""><cfelse><cfset plural = "s"></cfif>
+										(#getSubloanCount.item_ct# specimen#plural#)
 									</cfloop>
 								</div>
 							</cfloop>
-							<div style="#font# font-size: 1em;">
+							<!--- div style="#font# font-size: 1em;">
 								#getLoan.loan_description#
-							</div>
+							</div --->
 						</td>
 					</tr>
 					<tr>
@@ -452,7 +456,7 @@ limitations under the License.
 				<div style="text-align: left; #font# font-size: small; border-bottom solid black 1px; width: 100%;">
 					Departmental Loan document(s) include an itemized list of the loaned object(s), relevant associated data, and object condition report(s).
 				</div>
-				<div style="text-align: left; #font# font-size: small;">
+				<div style="text-align: left; #font# font-size: small; margin-top: 1em;">
 					<strong>SPECIAL HANDLING INSTRUCTIONS/ REQUIREMENTS:</strong>
 					<p>
 						See Conditions on next page and instructions in Departmental Loan document(s).
@@ -468,11 +472,11 @@ limitations under the License.
 					<p>Insurance Value: #getLoan.insurance_value#</p>
 					<p>Insurance Maintained By: #getLoan.insurance_maintained_by#</p>
 				</div>
-				<div style="text-align: left; #font# font-size: small;">
+				<div style="text-align: left; #font# font-size: small; margin-bottom: 1em;">
 					<strong>CREDIT LINE FOR EXHIBITION LABEL/CATALOG/PROMOTION:</strong>
 					<p>Museum of Comparative Zoology, President and Fellows of Harvard College</p>
 				</div>
-				<div style="text-align: left; #font# font-size: small; border-bottom solid black 1px; width: 100%;">
+				<div style="text-align: left; #font# font-size: small; border-bottom: solid black 1px; border-top solid black 1px; width: 100%;">
 					If the Borrower&##39;s loan agreement is signed by the Museum of Comparative Zoology, conditions of the Museum of
 					Comparative Zoology&##39;s loan agreement will supersede inconsistent conditions and augment other conditions of the Borrower&##39;s
 					loan agreement. The MCZ loan agreement will be governed by and construed according to the laws of the Commonwealth of Massachusetts.
@@ -704,19 +708,21 @@ limitations under the License.
 							</cfif>
 						</div>
 					</cfif>
-					<div>
-						<strong>Instructions:</strong> 
-						<cfif len(loan_instructions) LT INSTRUCTIONS_LIMIT>
-							#loan_instructions#
-						<cfelse>
-							#trim(left(loan_instructions,(INSTRUCTIONS_LIMIT - 26)))#... 
-							<cfif getLoan.loan_type EQ "exhibition-master" AND getSubloans.recordcount GT 0>
-								<strong>Continued on Page #getSubloans.recordcount + MASTER_PAGES#.</strong>
+					<cfif len(loan_instructions) GT 0>
+						<div>
+							<strong>Instructions:</strong> 
+							<cfif len(loan_instructions) LT INSTRUCTIONS_LIMIT>
+								#loan_instructions#
 							<cfelse>
-								<strong>Continued on Next Page.</strong>
+								#trim(left(loan_instructions,(INSTRUCTIONS_LIMIT - 26)))#... 
+								<cfif getLoan.loan_type EQ "exhibition-master" AND getSubloans.recordcount GT 0>
+									<strong>Continued on Page #getSubloans.recordcount + MASTER_PAGES#.</strong>
+								<cfelse>
+									<strong>Continued on Next Page.</strong>
+								</cfif>
 							</cfif>
-						</cfif>
-					</div>
+						</div>
+					</cfif>
 					<div style="margin: 0px; border: 1px solid black; ">
 						<h2 style="#font# font-size: small; margin-top: 2px;">Terms and Conditions</h2>
 						<ol style="margin-left: 2em; #font# font-size: x-small;">
@@ -830,7 +836,7 @@ limitations under the License.
 					<div style="#font# font-size: small; margin-left: 4px;">
 						<cfif len(getSubloan.nature_of_material) GT 0>
 							<div>
-								<strong>Nature of Material:</strong> #getSubloan.nature_of_material#
+								<strong>Nature of Material:</strong>
 								<cfif len(getSubloan.nature_of_material) LT INSTRUCTIONS_LIMIT>
 									#getSubloan.nature_of_material#
 								<cfelse>
@@ -842,7 +848,7 @@ limitations under the License.
 						</cfif>
 						<cfif len(getSubloan.loan_description) GT 0>
 							<div>
-								<strong>Description:</strong> #getSubloan.loan_description#
+								<strong>Description:</strong>
 								<cfif len(getSubloan.loan_description) LT INSTRUCTIONS_LIMIT>
 									#getSubloan.loan_description#
 								<cfelse>
@@ -902,7 +908,7 @@ limitations under the License.
 		<!--- Sumarize restrictions on material in loan inherited from accession permission and rights documents, and overflow long text from first page. --->
 		<cfdocumentsection name="Additional Restrictions">
 			<cfif len(nature_of_material) GT INSTRUCTIONS_LIMIT -1 OR ( getLoan.loan_type EQ "exhibition-master" AND len(accumulated_nature) GT 0)>
-				<div style="border-bottom: 1px solid black; width: 100%; #font# font-size: 1em;">
+				<div style="border-bottom: 1px solid black; width: 100%; #font# font-size: small;">
 					<strong>Nature of Material:</strong> 
 					<cfif len(nature_of_material) GT INSTRUCTIONS_LIMIT -1 >
 						#nature_of_material#
@@ -915,7 +921,7 @@ limitations under the License.
 				</div>
 			</cfif>
 			<cfif len(loan_description) GT INSTRUCTIONS_LIMIT -1 OR ( getLoan.loan_type EQ "exhibition-master" AND len(accumulated_description) GT 0)>
-				<div style="border-bottom: 1px solid black; width: 100%; #font# font-size: 1em;">
+				<div style="border-bottom: 1px solid black; width: 100%; #font# font-size: small;">
 					<strong>Description:</strong> 
 					<cfif len(loan_description) GT INSTRUCTIONS_LIMIT -1 >
 						#loan_description#
@@ -928,7 +934,7 @@ limitations under the License.
 				</div>
 			</cfif>
 			<cfif len(loan_instructions) GT INSTRUCTIONS_LIMIT -1 OR ( getLoan.loan_type EQ "exhibition-master" AND len(accumulated_instructions) GT 0)>
-				<div style="border-bottom: 1px solid black; width: 100%; #font# font-size: 1em;">
+				<div style="border-bottom: 1px solid black; width: 100%; #font# font-size: small;">
 					<strong>Instructions:</strong> 
 					<cfif len(loan_instructions) GT INSTRUCTIONS_LIMIT -1 >
 						#loan_instructions#
@@ -951,14 +957,15 @@ limitations under the License.
 				of some specimens may be restricted by the providing country; therefore, a specimen may only be used for approved
 				purposes, and express written permission must be obtained before a loaned specimen can be used for additional purposes.
 			</div>
-			<cfif getRestrictions.recordcount EQ 0>
+			<cfif getRestrictions.recordcount GT 0>
 				<ul style="#font# font-size: 1em;">
 					<cfloop query="getRestrictions">
 						<cfif getRestrictions.source EQ "accession">
-							<li style="#font# font-size: 1em;">
-								<strong style="#font# font-size: 1.1em;">
+							<li style="#font# font-size: small;">
+								<strong style="#font# font-size: 1em;">
 									#getRestrictions.specific_type# #getRestrictions.permit_num#
 									<cfif len(getRestrictions.permit_num) EQ 0>#getRestrictions.permit_title#</cfif>
+									<br>
 								</strong> 
 								<cfif len(getRestrictions.restriction_summary) GT 0> 
 									Summary of restrictions on use: #getRestrictions.restriction_summary#<br>
@@ -968,11 +975,13 @@ limitations under the License.
 								</cfif>
 							</li>
 						<cfelse>
-							<li style="#font# font-size: 1em;">
-								<strong style="#font# font-size: 1.1em;">
+							<li style="#font# font-size: small;">
+								<strong style="#font# font-size: 1em;">
 									#getRestrictions.specific_type# #getRestrictions.permit_num#
 									<cfif len(getRestrictions.permit_num) EQ 0>#getRestrictions.permit_title#</cfif>
+									<br>
 									Applies to all material in this loan:
+									<br>
 								</strong>
 								<cfif len(getRestrictions.restriction_summary) GT 0> 
 									Summary of restrictions on use: #getRestrictions.restriction_summary#<br>
@@ -1015,7 +1024,7 @@ limitations under the License.
 								collection.institution_acronym as institution_acronym,
 								cataloged_item.collection_object_id as collection_object_id,
 								loan_number,
-								loan_item.reconciled_date,
+								to_char(loan_item.reconciled_date,'yyyy-mm-dd') reconciled_date,
 								MCZBASE.CONCATITEMREMINLOAN(specimen_part.derived_from_cat_item, loan_item.transaction_id) as loan_item_remarks,
 								concattransagent(loan.transaction_id, 'received by')  recAgentName,
 								cat_num,
@@ -1078,7 +1087,7 @@ limitations under the License.
 					<div style="text-align: left; #font# font-size: 1em;">
 						Specimens in Subloan #getSubloans.loan_number#
 					</div>
-					<table style="#font# font-size: 1em;">
+					<table style="#font# font-size: 1em; width: 100%;">
 						<tr>
 							<th style="width: 25%;">MCZ Number</th>
 							<th style="width: 50%;">Taxon, Locality</th>
@@ -1086,7 +1095,24 @@ limitations under the License.
 						</tr>
 						<cfset totalLotCount = 0>
 						<cfset totalSpecimens = 0>
-						<cfloop query="getLoanItems">
+						<cfif isDefined("groupBy") AND groupBy EQ "part">
+							<cfquery name="getLoanItemsLoop" dbtype="query">
+								SELECT distinct 
+									collection_object_id,
+									institution_acronym, collection_cde, cat_num,
+									reconciled_date,
+									scientific_name, type_status, higher_geog,
+									collection, chronostrat,lithostrat,
+									spec_locality, collectors, loan_item_remarks
+								FROM getLoanItems
+							</cfquery>
+						<cfelse>
+							<cfquery name="getLoanItemsLoop" dbtype="query">
+								SELECT *
+								FROM getLoanItems
+							</cfquery>
+						</cfif>
+						<cfloop query="getLoanItemsLoop">
 							<tr>
 								<td style="width: 25%; vertical-align: top; #font# font-size: small;">
 									#institution_acronym#:#collection_cde#:#cat_num#
@@ -1107,8 +1133,21 @@ limitations under the License.
 								</td>
 								<td style="width: 25%; vertical-align: top; #font# font-size: small;">
 									<cfif isDefined("groupBy") AND groupBy EQ "part">
-										#parts#
+										<cfquery name="getLoanItemsParts" dbtype="query">
+											SELECT sum(lot_count) slc, parts
+											FROM getLoanItems
+											WHERE 
+												institution_acronym = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#institution_acronym#">
+												and collection_cde = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collection_cde#">
+												and cat_num = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#cat_num#">
+											GROUP BY parts
+										</cfquery>
+										<cfloop query="getLoanItemsParts">
+											#parts#
+											<cfset totalSpecimens = totalSpecimens + slc>
+										</cfloop>
 									<cfelse>
+										<cfset totalSpecimens = totalSpecimens + lot_count>
 										#lot_count# #part_modifier# #part_name#
 										<cfif len(preserve_method) GT 0>(#preserve_method#)</cfif>
 										<cfif Len(condition) GT 0 and top_loan_type contains 'exhibition' ><BR>Condition: #condition#</cfif>
@@ -1126,8 +1165,9 @@ limitations under the License.
 												join permit_trans on accn.transaction_id = permit_trans.transaction_id
 												join permit on permit_trans.permit_id = permit.permit_id
 											WHERE li.transaction_id = <cfqueryparam CFSQLType="CF_SQL_DECIMAL" value="#transaction_id#">
-												and ci.collection_object_id  = <cfqueryparam CFSQLType="CF_SQL_DECIMAL" value="#getLoanItems.collection_object_id#">
-												and permit.restriction_summary is not null
+												and ci.collection_object_id  = <cfqueryparam CFSQLType="CF_SQL_DECIMAL" value="#getLoanItemsLoop.collection_object_id#">
+												and (permit.restriction_summary is not null
+													or permit.benefits_summary is not null)
 										</cfquery>
 										<cfif getSpecificRestrictions.recordcount GT 0>
 											<br>
@@ -1145,17 +1185,20 @@ limitations under the License.
 								</td>
 							</tr>
 							<cfset totalLotCount = totalLotCount + 1>
-							<cfset totalSpecimens = totalSpecimens + lot_count>
 						</cfloop>
 					</table>
-					<div style="#font# font-size: 1.2em; margin-bottom: 2em; border-bottom: 1px solid black;">
-						Subloan includes #TotalSpecimens# specimens in #TotalLotCount# lots.
+					<div style="#font# font-size: 1em; margin-bottom: 2em; border-bottom: 1px solid black;">
+						<cfif TotalSpecimens EQ 1><cfset splural = ""><cfelse><cfset splural = "s"></cfif>
+						<cfif TotalLotCount EQ 1><cfset lplural = ""><cfelse><cfset lplural = "s"></cfif>
+						Subloan #getSubloans.loan_number# includes #TotalSpecimens# specimen#splural# in #TotalLotCount# lot#lplural#.
 						<cfset masterTotal = masterTotal + TotalSpecimens>
 						<cfset masterLotTotal = masterLotTotal + TotalLotCount>
 					</div>
 				</cfloop>
 				<div style="#font# font-size: 1.2em;">
-					<strong>Loan #loan_number# includes a total of #masterTotal# specimens in #masterLotTotal# lots.</strong>
+					<cfif masterTotal EQ 1><cfset splural = ""><cfelse><cfset splural = "s"></cfif>
+					<cfif masterLotTotal EQ 1><cfset lplural = ""><cfelse><cfset lplural = "s"></cfif>
+					<strong>Loan #loan_number# includes a total of #masterTotal# specimen#splural# in #masterLotTotal# lot#lplural#.</strong>
 				</div>
 				<cfset transaction_id = master_transaction_id >
 				<cf_getLoanFormInfo transaction_id="#master_transaction_id#">
@@ -1168,7 +1211,24 @@ limitations under the License.
 					</tr>
 					<cfset totalLotCount = 0>
 					<cfset totalSpecimens = 0>
-					<cfloop query="getLoanItems">
+					<cfif isDefined("groupBy") AND groupBy EQ "part">
+						<cfquery name="getLoanItemsLoop" dbtype="query">
+							SELECT distinct 
+								collection_object_id,
+								institution_acronym, collection_cde, cat_num,
+								reconciled_date,
+								scientific_name, type_status, higher_geog,
+								collection, chronostrat,lithostrat,
+								spec_locality, collectors, loan_item_remarks
+							FROM getLoanItems
+						</cfquery>
+					<cfelse>
+						<cfquery name="getLoanItemsLoop" dbtype="query">
+							SELECT *
+							FROM getLoanItems
+						</cfquery>
+					</cfif>
+					<cfloop query="getLoanItemsLoop">
 						<tr>
 							<td style="width: 25%; vertical-align: top; #font# font-size: small;">
 								#institution_acronym#:#collection_cde#:#cat_num#
@@ -1189,8 +1249,21 @@ limitations under the License.
 							</td>
 							<td style="width: 25%; vertical-align: top; #font# font-size: small;">
 								<cfif isDefined("groupBy") AND groupBy EQ "part">
-									#parts#
+									<cfquery name="getLoanItemsParts" dbtype="query">
+										SELECT sum(lot_count) slc, parts
+										FROM getLoanItems
+										WHERE 
+											institution_acronym = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#institution_acronym#">
+											and collection_cde = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collection_cde#">
+											and cat_num = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#cat_num#">
+										GROUP BY parts
+									</cfquery>
+									<cfloop query="getLoanItemsParts">
+										#parts#
+										<cfset totalSpecimens = totalSpecimens + slc>
+									</cfloop>
 								<cfelse>
+									<cfset totalSpecimens = totalSpecimens + lot_count>
 									#lot_count# #part_modifier# #part_name#
 									<cfif len(preserve_method) GT 0>(#preserve_method#)</cfif>
 									<cfif Len(condition) GT 0 and top_loan_type contains 'exhibition' ><BR>Condition: #condition#</cfif>
@@ -1206,8 +1279,9 @@ limitations under the License.
 											join permit_trans on accn.transaction_id = permit_trans.transaction_id
 											join permit on permit_trans.permit_id = permit.permit_id
 										WHERE li.transaction_id = <cfqueryparam CFSQLType="CF_SQL_DECIMAL" value="#transaction_id#">
-											and ci.collection_object_id  = <cfqueryparam CFSQLType="CF_SQL_DECIMAL" value="#getLoanItems.collection_object_id#">
-											and permit.restriction_summary is not null
+											and ci.collection_object_id  = <cfqueryparam CFSQLType="CF_SQL_DECIMAL" value="#getLoanItemsLoop.collection_object_id#">
+											and (permit.restriction_summary is not null
+												or permit.benefits_summary is not null)
 									</cfquery>
 									<cfif getSpecificRestrictions.recordcount GT 0>
 										<br>
@@ -1225,11 +1299,12 @@ limitations under the License.
 							</td>
 						</tr>
 						<cfset totalLotCount = totalLotCount + 1>
-						<cfset totalSpecimens = totalSpecimens + lot_count>
 					</cfloop>
 				</table>
 				<div style="#font# font-size: 1.2em;">
-					Total of #TotalSpecimens# specimens in #TotalLotCount# lots.
+					<cfif TotalSpecimens EQ 1><cfset splural = ""><cfelse><cfset splural = "s"></cfif>
+					<cfif TotalLotCount EQ 1><cfset lplural = ""><cfelse><cfset lplural = "s"></cfif>
+					Total of #TotalSpecimens# specimen#splural# in #TotalLotCount# lot#lplural#.
 				</div>
 			</cfif>
 		</cfdocumentsection>
