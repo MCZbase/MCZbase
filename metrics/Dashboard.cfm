@@ -61,6 +61,8 @@ limitations under the License.
 								
 								// build url with params  
 								fetch(url); 
+								console.log(document.getElementById("beginDate").value);
+						console.log(document.getElementById("endDate").value);
 							}
 						}
 						console.log(document.getElementById("beginDate").value);
