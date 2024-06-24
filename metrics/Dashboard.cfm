@@ -42,43 +42,37 @@ limitations under the License.
 			<div class="sidebar-sticky pt-4 px-3">
 				<h3 class="text-muted"><span>Report Date Range</span></h3>
 			
-				<form id="dataForm">
+				<form id="loadReportForm">
 					<label for="beginDate" class="data-entry-label">Begin Date</label>
 					<input name="beginDate" id="beginDate" type="text" class="my-1 datetimeinput data-entry-input data-entry-input" placeholder="yyyy-mm-dd" value="#beginDate#" aria-label="start of range for dates to display metrics.">
 					<label for="endDate" class="data-entry-label">End Date</label>
 					<input name="endDate" id="endDate" type="text" class="my-1 datetimeinput data-entry-input data-entry-input" placeholder="yyyy-mm-dd" value="#endDate#" aria-label="end of range for dates to display metrics.">
-					<label for="method" class="data-entry-label">Type of Report (now method)</label>
-					<input type="text" id="method" name="method" class="my-1 data-entry-input">
-					<input type="submit" value="submit" onClick="callCFC(beginDate,endDate,method)" class="my-1 btn-xs btn btn-primary">
+					<label for="method" class="data-entry-label">Report To Show</label>
+					<select id="method" name="method" class="my-1 data-entry-input">
+						<option value="getAnnualNumbers" selected="selected">Basic Annual Report Numbers</option>
+					</select>
+					<input type="submit" value="submit" class="my-1 btn-xs btn btn-primary">
 				</form>
 				<script>
-					function callCFC(){
-						var form = document.getElementById('dataForm');
-						var formData = new FormData(form);
-						var formData = {
-								beginDate: document.getElementById('beginDate').value,
-								endDate: document.getElementById('endDate').value,
-								method: document.getElementById('method').value
-							};
-
-						$.ajax({
-							url: '/metrics/component/functions.cfc',
-							type: 'POST', 
-							data: {
-								beginDate: beginDate,
-								endDate: endDate,
-								method: method
+					$(document).ready(function() {
+						$('##loadReportForm').on('submit',function(event){ event.preventDefault; loadReport(); } );
+					});
+					function loadReport(){
+						$.ajax(
+							{
+								url: '/metrics/component/functions.cfc',
+								type: 'POST', 
+								data: $('##loadReportForm').serialize()
 							}
-						})
-						.done(function(reponse){
-							//console.log(response);
-							$('##outputTable').html(response);
-						})
-						.fail(function(xhr,status,error){
-						console.error(error);
+						).done(
+							function(reponse) {
+								console.log(response);
+								$('##outputTable').html(response);
+							}
+						).fail(function(jqXHR,textStatus,error){
+					      handleFail(jqXHR,textStatus,error,"loading metrics for date range.");
 						});
 					}
-				
 				</script>
 					<ul class="nav flex-column mb-2">
 						<li class="nav-item">
