@@ -39,53 +39,7 @@ limitations under the License.
 		<nav id="sidebarMenu" class="col-md-2 col-lg-2 d-md-block bg-light sidebar collapse">
 			<div class="sidebar-sticky pt-4 px-3">
 				<h3 class="text-muted"><span>Report Date Range</span></h3>
-				<script> 			
 
-				</script>
-				
-					<form class="col-12" name="dateForm" id="dateForm" method="post" action="/metrics/Dashboard.cfm">
-						<input type="date" id="beginDate" class="data-entry-input mt-1" default="2022-01-01">
-						<input type="date" id="endDate" class="data-entry-input mt-1" default="2024-01-01">
-						<input type="submit" onclick="callCFC()" id="submitButton" class="btn btn-xs btn-primary mt-1">
-					</form>
-					<script>
-						function handleChange(){
-							$('##saveResultDiv').html('Unsaved changes.');
-							$('##saveResultDiv').addClass('text-danger');
-							$('##saveResultDiv').removeClass('text-success');
-							$('##saveResultDiv').removeClass('text-warning');
-						};
-						$(document).ready(function() {
-							monitorForChanges('dateForm',handleChange);
-						});
-						function saveEdits(){ 
-							tableArea.action.value='saveEdit';
-								$('##saveResultDiv').html('Saving....');
-								$('##saveResultDiv').addClass('text-warning');
-								$('##saveResultDiv').removeClass('text-success');
-								$('##saveResultDiv').removeClass('text-danger');
-								jQuery.ajax({
-									url : "/publications/component/functions.cfc",
-									type : "post",
-									dataType : "json",
-									data : $('##tableArea').serialize(),
-									success : function (data) {
-										$('##saveResultDiv').html('Saved.');
-										$('##saveResultDiv').addClass('text-success');
-										$('##saveResultDiv').removeClass('text-danger');
-										$('##saveResultDiv').removeClass('text-warning');
-										reloadAllAttributes();
-									},
-									error: function(jqXHR,textStatus,error){
-										$('##saveResultDiv').html('Error.');
-										$('##saveResultDiv').addClass('text-danger');
-										$('##saveResultDiv').removeClass('text-success');
-										$('##saveResultDiv').removeClass('text-warning');
-										handleFail(jqXHR,textStatus,error,'saving loan record');
-									}
-								});
-							};
-					</script>
 				
 				<!---<cfif action eq 'showBasic'>
 					<form action="/metrics/Dashboard.cfm" class="pt-1" id="dateForm">
@@ -96,8 +50,8 @@ limitations under the License.
 					</form>--->
 		
 			<!---	</cfif>--->
-				<!---		
-				<form id="myForm" action="/metrics/Dashboard.cfm" target="demo">
+						
+				<form id="myForm" action="/metrics/Dashboard.cfm" target="showTable">
 					<label for="beginDate" class="data-entry-label">Begin Date</label>
 					<input type="date" name="beginDate" class="data-entry-label" value="">
 					<label for="endDate" class="data-entry-label mt-2">End Date</label>
@@ -108,19 +62,18 @@ limitations under the License.
 					<input type="text" name="returnFormat" value="JSON"><br>
 					<input type="submit" value="Submit">
 				</form>
-				<button onclick="myFunction()" class="btn btn-xs btn-primary">get table</button>--->
+				<button onclick="myFunction()" class="btn btn-xs btn-primary">get table</button>
 
 				<h3 class="sidebar-heading d-flex justify-content-between align-items-center px-1 mt-4 mb-1 text-muted"> 
 					<span>Report Type</span> 
 				</h3>
 
-			<!---		<script>
-						var myObj = document.getElementById("myForm");
-						var myJSON = JSON.stringify(myObj);
-						window.location = "/metrics/Dashboard.cfm?=" + myJSON;
-						</script>
+				<script>
+					var myObj = document.getElementById("myForm");
+					var myJSON = JSON.stringify(myObj);
+					window.location = "/metrics/Dashboard.cfm?=" + myJSON;
+				</script>
 					
-					<p id="demo"></p>--->
 					
 					
 	
@@ -214,7 +167,7 @@ limitations under the License.
 						</div>
 					</div>
 					
-					<div id="output"></div>
+					<div id="showTable"></div>
 						<!---<cfset summaryAnnualBlock=getAnnualNumbers(endDate="#endDate#",beginDate="#beginDate#")>
 						<div id="annualNumbersDiv">
 							#summaryAnnualBlock#
