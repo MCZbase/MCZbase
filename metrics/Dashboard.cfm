@@ -47,22 +47,16 @@ limitations under the License.
 					</form>
 					<script>
 						// Declare variables globally
-						let beginDate, endDate;
-
-							function getDates() {
-
+						
+							function getDates(beginDate,endDate) {
 								// Get date values
 								beginDate = document.getElementById("beginDate").value;
 								endDate = document.getElementById("endDate").value;
-
 								// Parse to Date objects
 								beginDate = new Date(beginDate); 
 								endDate = new Date(endDate);
-
 							}
-
 							async function callCFC() {
-
 								// Build URL
 								let url = "/metrics/component/functions.cfc?method=getAnnualNumbers&";
 								url += `beginDate=${beginDate}&endDate=${endDate}`;
