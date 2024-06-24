@@ -1172,13 +1172,15 @@ limitations under the License.
 										<cfif getSpecificRestrictions.recordcount GT 0>
 											<br>
 											<strong>Use Restricted By:</strong>
+											<cfset separator = "">
 											<cfloop query="getSpecificRestrictions">
 												<span style="#font# font-size: small;">
-													#getSpecificRestrictions.permit_num#
+													#separator##getSpecificRestrictions.permit_num#
 													<cfif len(getSpecificRestrictions.permit_num) EQ 0>
 														#getSpecificRestrictions.permit_title#
 													</cfif>
 												</span>
+												<cfset separator = ", ">
 											</cfloop>
 										</cfif>
 									</cfif>
@@ -1286,13 +1288,15 @@ limitations under the License.
 									<cfif getSpecificRestrictions.recordcount GT 0>
 										<br>
 										<strong>Use Restricted By:</strong>
+										<cfset separator = "">
 										<cfloop query="getSpecificRestrictions">
 											<span style="#font# font-size: small;">
-												#getSpecificRestrictions.permit_num#
+												#separator##getSpecificRestrictions.permit_num#
 												<cfif len(getSpecificRestrictions.permit_num) EQ 0>
 													#getSpecificRestrictions.permit_title#
 												</cfif>
 											</span>
+											<cfset separator = ", ">
 										</cfloop>
 									</cfif>
 								</cfif>
