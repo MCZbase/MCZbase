@@ -43,7 +43,25 @@ limitations under the License.
 				<cfif NOT isdefined("action") or len(action) EQ 0>
 					<cfset action="showBasic">
 				</cfif>
-			
+					<script>
+						function callCFC() {
+							// get input values
+							var beginDate = document.getElementById("beginDate").value;
+							var endDate = document.getElementById("endDate").value;
+							// build url with params  
+							var url = "/metrics/component/functions.cfc?method=getLoanNumbers&beginDate=" + beginDate + "&endDate=" + endDate;
+							fetch(url)
+								.then(response => response.date())
+								.then(data => {
+									document.getElementById("output").innerHTML = data;
+								});
+						}
+					</script>
+					<form>
+						<input type="date" id="beginDate">
+						<input type="date" id="endDate">
+						<input type="submit" onclick="callCFC()">
+					</form>
 				<!---<cfif action eq 'showBasic'>
 					<form action="/metrics/Dashboard.cfm" class="pt-1" id="dateForm">
 						<label for="beginDate" class="data-entry-label">Begin Date</label>
@@ -53,19 +71,19 @@ limitations under the License.
 					</form>--->
 		
 			<!---	</cfif>--->
-<!---		
-<form id="myForm" action="/metrics/Dashboard.cfm" target="demo">
-	<label for="beginDate" class="data-entry-label">Begin Date</label>
-	<input type="date" name="beginDate" class="data-entry-label" value="">
-	<label for="endDate" class="data-entry-label mt-2">End Date</label>
-	<input type="date" name="endDate" class="data-entry-label" value="">
-	<label for="method" class="data-entry-label mt-2">Method</label>
-	<input type="text" name="method" value="#method#">
-	<label for="returnFormat" class="data-entry-label mt-2">returnFormat</label>
-	<input type="text" name="returnFormat" value="JSON"><br>
-	<input type="submit" value="Submit">
-</form>
-<button onclick="myFunction()" class="btn btn-xs btn-primary">get table</button>--->
+				<!---		
+				<form id="myForm" action="/metrics/Dashboard.cfm" target="demo">
+					<label for="beginDate" class="data-entry-label">Begin Date</label>
+					<input type="date" name="beginDate" class="data-entry-label" value="">
+					<label for="endDate" class="data-entry-label mt-2">End Date</label>
+					<input type="date" name="endDate" class="data-entry-label" value="">
+					<label for="method" class="data-entry-label mt-2">Method</label>
+					<input type="text" name="method" value="#method#">
+					<label for="returnFormat" class="data-entry-label mt-2">returnFormat</label>
+					<input type="text" name="returnFormat" value="JSON"><br>
+					<input type="submit" value="Submit">
+				</form>
+				<button onclick="myFunction()" class="btn btn-xs btn-primary">get table</button>--->
 
 				<h3 class="sidebar-heading d-flex justify-content-between align-items-center px-1 mt-4 mb-1 text-muted"> 
 					<span>Report Type</span> 
@@ -81,25 +99,7 @@ limitations under the License.
 					
 					
 	
-					<script>
-						function callCFC() {
-							// get input values
-							var beginDate = document.getElementById("beginDate").value;
-							var endDate = document.getElementById("endDate").value;
-							// build url with params  
-							var url = "/metrics/component/functions.cfc?method=getLoanNumbers&beginDate=" + beginDate + "&endDate=" + endDate;
-							fetch(url)
-								.then(response => response.text())
-								.then(data => {
-									document.getElementById("output").innerHTML = data;
-								});
-						}
-					</script>
-					<form>
-						<input type="date" id="beginDate">
-						<input type="date" id="endDate">
-						<input type="submit" onclick="callCFC()">
-					</form>
+		
 	
 					<ul class="nav flex-column mb-2">
 						<li class="nav-item">
