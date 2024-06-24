@@ -56,52 +56,15 @@ limitations under the License.
 								beginDate = new Date(beginDate); 
 								endDate = new Date(endDate);
 							}
-							// Declare variables globally
-							function getDates(beginDate,endDate) {
-							// Get date values
-							beginDate = new Date(document.getElementById("beginDate").value);
-							endDate = new Date(document.getElementById("endDate").value);
-							}
-							function callCFC() {
-							url = "/metrics/component/functions.cfc";
-							try {
-							fetch(url, {
-								method: 'POST',
-								headers: {
-								'Content-Type': 'application/json'  
-								},
-								body: JSON.stringify({
-								method: 'getDates',
-								parameters: {
-									beginDate: beginDate,
-									endDate: endDate
-								}
-							  })
-							});
 
-							if(!response.ok) {
-							  throw new Error("HTTP error: " + response.status);
-							}
-
-							response.json();
-
-							console.log(data);
-
-							} catch (err) {
-							console.error(err);
-							}
-
-							}
 
 						const form = document.getElementById("myForm");
 
-form.addEventListener("submit", submitHandler);
+						form.addEventListener("submit", submitHandler);
 
-function submitHandler(e) {
-  e.preventDefault();
-
-  // call functions  
-}
+						function submitHandler(e) {
+							e.preventDefault();
+						}
 					</script>
 				
 				<!---<cfif action eq 'showBasic'>
