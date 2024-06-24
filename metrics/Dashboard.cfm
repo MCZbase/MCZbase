@@ -93,12 +93,8 @@ limitations under the License.
 
 							}
 
-							document.getElementById("submit").addEventListener("click", {
-
-							getDates();
-
-							callCFC();
-
+							document.addEventListener('click', () => {
+							  console.log('clicked');
 							});
 					</script>
 				
