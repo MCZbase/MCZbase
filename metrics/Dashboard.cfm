@@ -40,25 +40,7 @@ limitations under the License.
 			<div class="sidebar-sticky pt-4 px-3">
 				<h3 class="text-muted"><span>Report Date Range</span></h3>
 				<script> 			
-					function callCFC() {
-							url = "/metrics/component/functions.cfc";
-							fetch(url, {
-								method: 'POST',
-								headers: {
-								'Content-Type': 'application/json'  
-								},
-								body: JSON.stringify({
-								method: 'getDates',
-								parameters: {
-									beginDate: beginDate,
-									endDate: endDate
-									}
-								})
-							});
-						}
-					document.getElementById("submit").onclick = function() {
-						callCFC();
-					}
+
 				</script>
 				
 					<form id="myForm" action="/metrics/Dashboard.cfm" target="output">
@@ -86,6 +68,25 @@ limitations under the License.
 								endDate = new Date(document.getElementById("endDate").value);
 							}
 						}
+						function callCFC() {
+							url = "/metrics/component/functions.cfc";
+							fetch(url, {
+								method: 'GET',
+								headers: {
+								'Content-Type': 'application/json'  
+								},
+								body: JSON.stringify({
+								method: 'getDates',
+								parameters: {
+									beginDate: beginDate,
+									endDate: endDate
+									}
+								})
+							});
+						}
+					document.getElementById("submit").onclick = function() {
+						callCFC();
+					}
 					</script>
 				
 				<!---<cfif action eq 'showBasic'>
