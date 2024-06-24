@@ -41,20 +41,20 @@ limitations under the License.
 				<form id="myForm">
 					<input type="date" id="beginDate" name="beginDate" class="my-1 data-entry-input">
 					<input type="date" id="endDate" name="endDate" class="my-1 data-entry-input">
+					<input type="text" id="method" name="method" class="my-1 data-entry-input">
 					<input type="submit" value="submit" class="my-1 btn-xs btn btn-primary">
 				</form>
 				<script>
 					var form = document.getElementById('myForm');
 					var formData = new FormData(form);
 					var formData = {
-						beginDate: document.getElementById('beginDate').value,
-						endDate: document.getElementById('endDate').value,
-						method: 'getAnnualNumbers'
-					};
-					var queryString = 'beginDate=' + encodeURIComponent(#beginDate#) + 
-                  '&endDate=' + encodeURIComponent(#endDate#);
+							beginDate: document.getElementById('beginDate').value,
+							endDate: document.getElementById('endDate').value,
+							method: document.getElementById('method').value
+						};
+					
 					$.ajax({
-						url: '/metrics/component/functions.cfc?getAnnualNumbers&' + queryString,
+						url: '/metrics/component/functions.cfc',
 						type: 'POST', 
 						data: formData
 					})
