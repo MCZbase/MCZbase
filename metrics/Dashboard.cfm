@@ -70,15 +70,18 @@ limitations under the License.
 				<h3 class="sidebar-heading d-flex justify-content-between align-items-center px-1 mt-4 mb-1 text-muted"> 
 					<span>Report Type</span> 
 				</h3>
-				<!---	<script>
+					<script>
 						function myFunction() {
 							var x = document.getElementById("myForm").target;
 							document.getElementById("demo").innerHTML = x;
 						}
-					</script>--->
+					</script>
+					
+					<p id="demo1"></p>
+					<p id="demo2"></p>
 
 					<script>
-						var x = document.getElementById("myForm").target; };
+						var x = document.getElementById("myForm").target; 
 						var myJSON = JSON.stringify(x);
 						window.location = "/metrics/Dashboard.cfm?x=" + myJSON;
 						</script>
