@@ -64,7 +64,7 @@ limitations under the License.
 						}
 					})
 					.done(function(reponse){
-						console.log(response);
+						//console.log(response);
 						$('##outputTable').html(response);
 					})
 					.fail(function(xhr,status,error){
