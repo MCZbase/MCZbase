@@ -45,7 +45,7 @@ limitations under the License.
 					<input type="date" id="endDate" name="endDate" class="my-1 data-entry-input">
 					<label for="method" class="data-entry-label">Type of Report (now method)</label>
 					<input type="text" id="method" name="method" class="my-1 data-entry-input">
-					<input type="submit" value="submit" onClick="callCFC(beginDate,endDate)" class="my-1 btn-xs btn btn-primary">
+					<input type="submit" value="submit" onClick="callCFC(beginDate,endDate,method)" class="my-1 btn-xs btn btn-primary">
 				</form>
 				<script>
 					function callCFC(){
