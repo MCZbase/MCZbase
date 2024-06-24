@@ -52,7 +52,7 @@ limitations under the License.
 						var url;
 
 						function buildUrl() {
-							url = "/metrics/component/functions.cfc?method=getLoanNumbers&showBasic&beginDate="+ beginDate + "endDate=" + endDate;
+							url = "/metrics/Dashboard.cfc?method=getLoanNumbers&showBasic&beginDate="+ beginDate + "endDate=" + endDate;
 }
 						function callCFC() {
 							// get input values
@@ -67,7 +67,7 @@ limitations under the License.
 						
 						.then(response => {
 							if(!response.ok) {
-							  throw new Error("HTTP error: " + response.status);
+								throw new Error("HTTP error: " + response.status);
 							}
 							return response.text();
 						  })
