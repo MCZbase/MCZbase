@@ -44,9 +44,9 @@ limitations under the License.
 					<cfset action="showBasic">
 				</cfif>
 					<form>
-						<input type="date" id="beginDate">
-						<input type="date" id="endDate">
-						<input type="submit" onclick="callCFC()">
+						<input type="date" id="beginDate" class="data-entry-input">
+						<input type="date" id="endDate" class="data-entry-input">
+						<input type="submit" onclick="callCFC()" class="data-entry-input">
 					</form>
 					<script>
 						var url;
