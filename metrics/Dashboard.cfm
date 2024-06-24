@@ -46,7 +46,7 @@ limitations under the License.
 					<input type="submit" value="Submit">
 				</form>
 
-				<div id="outputTable"></div>
+			
 
 				<script>
 					const form = document.getElementById('dateForm');
@@ -150,7 +150,7 @@ limitations under the License.
 		<main role="main" class="col-md-10 ml-sm-auto col-lg-10 px-md-5 mb-3">
 			<div class="row">
 				<cfoutput>
-					<div class="col-12 px-0 mt-4">
+					<div class="col-12 px-0 mt-4" id="outputTable">
 						<h1 class="h2 float-left">Metrics (dates selected: #beginDate# &ndash; #endDate#)</h1>
 						<div class="btn-toolbar mb-2 mb-md-0 float-right">
 							<div class="btn-group mr-2">
@@ -160,7 +160,7 @@ limitations under the License.
 						</div>
 					</div>
 					
-					<div id="showTable"></div>
+			
 						<!---<cfset summaryAnnualBlock=getAnnualNumbers(endDate="#endDate#",beginDate="#beginDate#")>
 						<div id="annualNumbersDiv">
 							#summaryAnnualBlock#
