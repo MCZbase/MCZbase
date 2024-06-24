@@ -43,29 +43,48 @@ limitations under the License.
 
 				</script>
 				
-					<form id="myForm" action="Dashboard.cfm?method=getAnnualNumbers" target="output">
+					<form class="col-12" name="dateForm" id="dateForm" method="post" action="/metrics/Dashboard.cfm">
 						<input type="date" id="beginDate" class="data-entry-input mt-1" default="2022-01-01">
 						<input type="date" id="endDate" class="data-entry-input mt-1" default="2024-01-01">
 						<input type="submit" onclick="callCFC()" id="submitButton" class="btn btn-xs btn-primary mt-1">
 					</form>
 					<script>
-						// Define callCFC function
-						function callCFC() {
-
-							// Get date values from form
-							const beginDate = document.getElementById('beginDate').value;
-							const endDate = document.getElementById('endDate').value;
-
-					
-							jQuery.ajax({
-									url : "/metrics/component/functions.cfc",
+						function handleChange(){
+							$('##saveResultDiv').html('Unsaved changes.');
+							$('##saveResultDiv').addClass('text-danger');
+							$('##saveResultDiv').removeClass('text-success');
+							$('##saveResultDiv').removeClass('text-warning');
+						};
+						$(document).ready(function() {
+							monitorForChanges('dateForm',handleChange);
+						});
+						function saveEdits(){ 
+							tableArea.action.value='saveEdit';
+								$('##saveResultDiv').html('Saving....');
+								$('##saveResultDiv').addClass('text-warning');
+								$('##saveResultDiv').removeClass('text-success');
+								$('##saveResultDiv').removeClass('text-danger');
+								jQuery.ajax({
+									url : "/publications/component/functions.cfc",
 									type : "post",
 									dataType : "json",
-									data : $('##myForm').serialize(),
+									data : $('##tableArea').serialize(),
 									success : function (data) {
-								}
-							});
-						}
+										$('##saveResultDiv').html('Saved.');
+										$('##saveResultDiv').addClass('text-success');
+										$('##saveResultDiv').removeClass('text-danger');
+										$('##saveResultDiv').removeClass('text-warning');
+										reloadAllAttributes();
+									},
+									error: function(jqXHR,textStatus,error){
+										$('##saveResultDiv').html('Error.');
+										$('##saveResultDiv').addClass('text-danger');
+										$('##saveResultDiv').removeClass('text-success');
+										$('##saveResultDiv').removeClass('text-warning');
+										handleFail(jqXHR,textStatus,error,'saving loan record');
+									}
+								});
+							};
 					</script>
 				
 				<!---<cfif action eq 'showBasic'>
