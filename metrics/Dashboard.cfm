@@ -43,7 +43,7 @@ limitations under the License.
 
 				</script>
 				
-					<form id="myForm" action="/metrics/Dashboard.cfm?method=getAnnualNumbers" target="output">
+					<form id="myForm" action="Dashboard.cfm" target="output">
 						<input type="date" id="beginDate" class="data-entry-input mt-1" default="2022-01-01">
 						<input type="date" id="endDate" class="data-entry-input mt-1" default="2024-01-01">
 						<input type="submit" onclick="callCFC()" id="submitButton" class="btn btn-xs btn-primary mt-1">
@@ -52,44 +52,27 @@ limitations under the License.
 						// Define callCFC function
 						function callCFC() {
 
-						// Get date values from form
-						const beginDate = document.getElementById('beginDate').value;
-						const endDate = document.getElementById('endDate').value;
+							// Get date values from form
+							const beginDate = document.getElementById('beginDate').value;
+							const endDate = document.getElementById('endDate').value;
 
-						// Make fetch call
-						fetch('/metrics/component/functions.cfc', {
-							method: 'POST',
-							headers: {
-								'Content-Type': 'application/json'
-							},
-							body: JSON.stringify({
-								method: 'getAnnualNumbers',
-								parameters: {
-									beginDate,
-									endDate
-								}
-							})
-						})
-			//			.then(res => res.json())
-//							.then(data => {
-//							// Handle response
-//						})
-						.catch(err => {
-							console.error(err);
-						});
+					
+							jQuery.ajax({
+									url : "/metrics/component/functions.cfc",
+									type : "post",
+									dataType : "json",
+									data : $('##myForm').serialize(),
+									success : function (data) {
+							}
 
+							// Add onclick handler
+							document.getElementById('submitButton').onclick = function() {
+								// Call function
+								callCFC();
+								// Prevent form submission if needed
+								return false;
+							};
 						}
-
-						// Add onclick handler
-						document.getElementById('submitButton').onclick = function() {
-
-						// Call function
-						callCFC();
-
-						// Prevent form submission if needed
-						return false;
-
-						};
 					</script>
 				
 				<!---<cfif action eq 'showBasic'>
