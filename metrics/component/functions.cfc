@@ -14,8 +14,9 @@ limitations under the License.
 <cfcomponent>
 <cfinclude template="/shared/component/error_handler.cfc" runOnce="true">
 <cffunction name="getAnnualNumbers" access="remote" returntype="any" returnformat="json">
-	<cfargument name="endDate" type="any" required="no">
-	<cfargument name="beginDate" type="any" required="no">
+	<cfargument name="beginDate" type="any" required="yes">
+	<cfargument name="endDate" type="any" required="yes">
+	
 	<cfthread name="getAnnualNumbersThread">
 		<cfoutput>
 			<cftry>
