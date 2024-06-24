@@ -79,7 +79,7 @@ limitations under the License.
 									const data = await response.text();
 
 											// Log dates after fetch completes
-											console.log(startDate, endDate);
+											console.log(beginDate, endDate);
 
 									} catch (err) {
 										console.error(err);
