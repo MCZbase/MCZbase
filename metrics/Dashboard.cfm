@@ -80,17 +80,7 @@ limitations under the License.
 					<p id="demo"></p>--->
 					
 					
-					<script>
-						function callCFC() {
-							var url = "/metrics/component/functions.cfc?method=getLoanNumbers";
-							fetch(url)
-								.then(response => response.text()) 
-								.then(data => {
-								document.getElementById("output").innerHTML = data; 
-							});
-						}
-						callCFC();
-					</script>
+	
 					<script>
 						function callCFC() {
 							// get input values
