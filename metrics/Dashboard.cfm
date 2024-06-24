@@ -40,41 +40,36 @@ limitations under the License.
 			<div class="sidebar-sticky pt-4 px-3">
 				<h3 class="text-muted"><span>Report Date Range</span></h3>
 
-				
-				<!---<cfif action eq 'showBasic'>
-					<form action="/metrics/Dashboard.cfm" class="pt-1" id="dateForm">
-						<label for="beginDate" class="data-entry-label">Begin Date</label>
-						<input type="date" id="beginDate" name="beginDate" class="data-entry-input" value="#DateFormat (DateAdd('m',-12, Now()), 'yyyy-mm-dd')#">
-						<label for="endDate" class="data-entry-label mt-2">End Date</label>
-						<input type="date" id="endDate" name="endDate" class="data-entry-input" value="#DateFormat (Now(), 'yyyy-mm-dd')#">
-					</form>--->
-		
-			<!---	</cfif>--->
-						
-				<form id="myForm" action="/metrics/Dashboard.cfm" target="showTable">
-					<label for="beginDate" class="data-entry-label">Begin Date</label>
-					<input type="date" name="beginDate" class="data-entry-label" value="">
-					<label for="endDate" class="data-entry-label mt-2">End Date</label>
-					<input type="date" name="endDate" class="data-entry-label" value="">
-					<label for="method" class="data-entry-label mt-2">Method</label>
-					<input type="text" name="method" value="#method#">
-					<label for="returnFormat" class="data-entry-label mt-2">returnFormat</label>
-					<input type="text" name="returnFormat" value="JSON"><br>
-					<input type="submit" value="Submit">
-				</form>
-				<button onclick="myFunction()" class="btn btn-xs btn-primary">get table</button>
+<form id="myForm">
+  <input type="date" id="beginDate" name="beginDate">
+  <input type="date" id="endDate" name="endDate">
+  <input type="submit" value="Submit">
+</form>
 
-				<h3 class="sidebar-heading d-flex justify-content-between align-items-center px-1 mt-4 mb-1 text-muted"> 
-					<span>Report Type</span> 
-				</h3>
+<div id="outputTable"></div>
+					
+<script>
+const form = document.getElementById('myForm');
 
-				<script>
-					var myObj = document.getElementById("myForm");
-					var myJSON = JSON.stringify(myObj);
-					window.location = "/metrics/Dashboard.cfm?method=getAnnualNumbers" + myJSON;
-				</script>
-					
-					
+form.addEventListener('submit', e => {
+
+  e.preventDefault();
+
+  // get form values
+  const beginDate= document.getElementById('beginDate').value;
+  const endDate= document.getElementById('endDate').value;
+  // call CFC 
+  fetch('metrics/component/functions.cfc?method=getAnnualNumbers&returnformat=plain')
+    .then(res => res.text())
+    .then(data => {
+
+      // display output
+      document.getElementById('outputTable').innerHTML = data;
+
+    });
+
+});				
+</script>					
 					
 	
 		
