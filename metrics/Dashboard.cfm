@@ -60,11 +60,9 @@ form.addEventListener('submit', e => {
 
   // call CFC 
 fetch('/metrics/component/functions.cfc', {
-  method: 'POST', 
-  headers: {
-    'Content-Type': 'application/json'
-  },
-  body: JSON.stringify({
+	method: 'POST', 
+	type : "post",
+	dataType : "json",
     method: 'getAnnualNumbers',
     beginDate: beginDate,
     endDate: endDate
