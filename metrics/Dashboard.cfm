@@ -54,14 +54,15 @@ limitations under the License.
 							function callCFC() {
 								// get input values
 								var beginDate = document.getElementById("beginDate").value;
-								console.log(document.getElementById("beginDate").value);
+								
 								var endDate = document.getElementById("endDate").value;
-								console.log(document.getElementById("endDate").value);
+								
 								// build url with params  
 								fetch(url); 
 							}
 						}
-						
+						console.log(document.getElementById("beginDate").value);
+						console.log(document.getElementById("endDate").value);
 					</script>
 				
 				<!---<cfif action eq 'showBasic'>
