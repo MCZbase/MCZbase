@@ -52,7 +52,7 @@ limitations under the License.
 <script>
 const form = document.getElementById('dateForm');
 
-form.addEventListener('Submit', e => {
+form.addEventListener('submit', e => {
 
 	e.preventDefault();
 
@@ -66,9 +66,9 @@ fetch(url,
 		'Content-Type': 'application/json' 
 	},
 	body: JSON.stringify({
-		beginDate: beginDate,
-		endDate: endDate,
-		method: method
+		beginDate,
+		endDate,
+		method: 'getReport'
 	})
 })
 
