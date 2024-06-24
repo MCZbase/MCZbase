@@ -1,8 +1,8 @@
 <!--
 
-* /metrics/testMetrics.cfm
+* /metrics/Dashbord.cfm
 
-Copyright 2023 President and Fellows of Harvard College
+Copyright 2024 President and Fellows of Harvard College
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -16,7 +16,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 
-* Demonstration of ajax patterns in MCZbase.
+* Dashboard for obtaining annual reporting and other collections metrics.
 
 -->
 
@@ -25,6 +25,10 @@ limitations under the License.
 <cfinclude template="/shared/_header.cfm">
 <cfinclude template="/metrics/component/functions.cfc">
 <script type="text/javascript" src="/metrics/js/metrics.js"></script> 
+
+<!--- TODO: Set to most recent full year. --->
+<cfif NOT isDefined("beginDate")><cfset beginDate = '2023-01-01'></cfif>
+<cfif NOT isDefined("endDate")><cfset endDate = '2023-12-31'></cfif>
 
 <cfsetting RequestTimeout = "0">
 <cfset start = GetTickCount()>
@@ -40,9 +44,9 @@ limitations under the License.
 			
 				<form id="dataForm">
 					<label for="beginDate" class="data-entry-label">Begin Date</label>
-					<input type="date" id="beginDate" name="beginDate" class="my-1 data-entry-input">
+					<input name="beginDate" id="beginDate" type="text" class="my-1 datetimeinput data-entry-input data-entry-input" placeholder="yyyy-mm-dd" value="#beginDate#" aria-label="start of range for dates to display metrics.">
 					<label for="endDate" class="data-entry-label">End Date</label>
-					<input type="date" id="endDate" name="endDate" class="my-1 data-entry-input">
+					<input name="endDate" id="endDate" type="text" class="my-1 datetimeinput data-entry-input data-entry-input" placeholder="yyyy-mm-dd" value="#endDate#" aria-label="end of range for dates to display metrics.">
 					<label for="method" class="data-entry-label">Type of Report (now method)</label>
 					<input type="text" id="method" name="method" class="my-1 data-entry-input">
 					<input type="submit" value="submit" onClick="callCFC(beginDate,endDate,method)" class="my-1 btn-xs btn btn-primary">
@@ -155,8 +159,6 @@ limitations under the License.
 			<div class="row">
 				<cfoutput>
 					<div class="col-12 px-0 mt-4" id="outputTable">
-						<cfif NOT isDefined("beginDate")><cfset beginDate = '2023-01-01'></cfif>
-						<cfif NOT isDefined("endDate")><cfset endDate = '2023-12-31'></cfif>
 						<h1 class="h2 float-left">Metrics (dates selected: #beginDate# &ndash; #endDate#)</h1>
 						<div class="btn-toolbar mb-2 mb-md-0 float-right">
 							<div class="btn-group mr-2">
