@@ -65,7 +65,7 @@ limitations under the License.
 							function callCFC() {
 							url = "/metrics/component/functions.cfc";
 							try {
-							const response = await fetch(url, {
+							fetch(url, {
 								method: 'POST',
 								headers: {
 								'Content-Type': 'application/json'  
@@ -83,7 +83,7 @@ limitations under the License.
 							  throw new Error("HTTP error: " + response.status);
 							}
 
-							const data = await response.json();
+							response.json();
 
 							console.log(data);
 
@@ -93,7 +93,7 @@ limitations under the License.
 
 							}
 
-							document.getElementById("submit").addEventListener("click", () => {
+							document.getElementById("submit").addEventListener("click", {
 
 							getDates();
 
