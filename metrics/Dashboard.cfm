@@ -53,7 +53,7 @@ limitations under the License.
 					</form>--->
 		
 			<!---	</cfif>--->
-		
+<!---		
 <form id="myForm" action="/metrics/Dashboard.cfm" target="demo">
 	<label for="beginDate" class="data-entry-label">Begin Date</label>
 	<input type="date" name="beginDate" class="data-entry-label" value="">
@@ -61,23 +61,23 @@ limitations under the License.
 	<input type="date" name="endDate" class="data-entry-label" value="">
 	<label for="method" class="data-entry-label mt-2">Method</label>
 	<input type="text" name="method" value="#method#">
-<!---	<label for="returnFormat" class="data-entry-label mt-2">returnFormat</label>
-	<input type="text" name="returnFormat" value="JSON"><br>--->
+	<label for="returnFormat" class="data-entry-label mt-2">returnFormat</label>
+	<input type="text" name="returnFormat" value="JSON"><br>
 	<input type="submit" value="Submit">
 </form>
-<button onclick="myFunction()" class="btn btn-xs btn-primary">get table</button>
+<button onclick="myFunction()" class="btn btn-xs btn-primary">get table</button>--->
 
 				<h3 class="sidebar-heading d-flex justify-content-between align-items-center px-1 mt-4 mb-1 text-muted"> 
 					<span>Report Type</span> 
 				</h3>
 
-					<script>
+			<!---		<script>
 						var myObj = document.getElementById("myForm");
 						var myJSON = JSON.stringify(myObj);
 						window.location = "/metrics/Dashboard.cfm?=" + myJSON;
 						</script>
 					
-					<p id="demo"></p>
+					<p id="demo"></p>--->
 					
 					
 					<script>
