@@ -65,10 +65,12 @@ limitations under the License.
 					})
 					.done(function(reponse){
 						console.log(response);
+						$('#outputDiv').html(response);
 					})
 					.fail(function(xhr,status,error){
 					console.error(error);
 					});
+			
 				</script>
 					<ul class="nav flex-column mb-2">
 						<li class="nav-item">
