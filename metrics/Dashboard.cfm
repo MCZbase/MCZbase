@@ -44,9 +44,9 @@ limitations under the License.
 					<cfset endDate = '2024-06-30'>
 				</cfif>
 				<form id="dateForm">
-					<input type="date" id="beginDate" name="beginDate">
-					<input type="date" id="endDate" name="endDate">
-					<input type="submit" value="Submit">
+					<input type="date" id="beginDate" name="beginDate" class="data-entry-input">
+					<input type="date" id="endDate" name="endDate" class="data-entry-input">
+					<input type="submit" value="Submit" class="btn mt-3 btn-xs btn-primary">
 				</form>
 				<script>
 				//	const form = document.getElementById('dateForm');
