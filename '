@@ -287,7 +287,7 @@ limitations under the License.
 				<div style="#font# font-size: small; margin-left: 4px;">
 					<cfif len(getSubloan.nature_of_material) GT 0>
 					<div>
-						<strong>Nature of Material:</strong>
+						<strong>Nature of Material:</strong> #getSubloan.nature_of_material#
 						<cfif len(getSubloan.nature_of_material) LT INSTRUCTIONS_LIMIT>
 							#getSubloan.nature_of_material#
 						<cfelse>
@@ -456,7 +456,7 @@ limitations under the License.
 				<div style="text-align: left; #font# font-size: small; border-bottom solid black 1px; width: 100%;">
 					Departmental Loan document(s) include an itemized list of the loaned object(s), relevant associated data, and object condition report(s).
 				</div>
-				<div style="text-align: left; #font# font-size: small; margin-top: 1em;">
+				<div style="text-align: left; #font# font-size: small;">
 					<strong>SPECIAL HANDLING INSTRUCTIONS/ REQUIREMENTS:</strong>
 					<p>
 						See Conditions on next page and instructions in Departmental Loan document(s).
@@ -476,7 +476,7 @@ limitations under the License.
 					<strong>CREDIT LINE FOR EXHIBITION LABEL/CATALOG/PROMOTION:</strong>
 					<p>Museum of Comparative Zoology, President and Fellows of Harvard College</p>
 				</div>
-				<div style="text-align: left; #font# font-size: small; border-bottom: solid black 1px; border-top solid black 1px; width: 100%;">
+				<div style="text-align: left; #font# font-size: small; border-bottom solid black 1px; width: 100%;">
 					If the Borrower&##39;s loan agreement is signed by the Museum of Comparative Zoology, conditions of the Museum of
 					Comparative Zoology&##39;s loan agreement will supersede inconsistent conditions and augment other conditions of the Borrower&##39;s
 					loan agreement. The MCZ loan agreement will be governed by and construed according to the laws of the Commonwealth of Massachusetts.
@@ -708,21 +708,19 @@ limitations under the License.
 							</cfif>
 						</div>
 					</cfif>
-					<cfif len(loan_instructions) GT 0>
-						<div>
-							<strong>Instructions:</strong> 
-							<cfif len(loan_instructions) LT INSTRUCTIONS_LIMIT>
-								#loan_instructions#
+					<div>
+						<strong>Instructions:</strong> 
+						<cfif len(loan_instructions) LT INSTRUCTIONS_LIMIT>
+							#loan_instructions#
+						<cfelse>
+							#trim(left(loan_instructions,(INSTRUCTIONS_LIMIT - 26)))#... 
+							<cfif getLoan.loan_type EQ "exhibition-master" AND getSubloans.recordcount GT 0>
+								<strong>Continued on Page #getSubloans.recordcount + MASTER_PAGES#.</strong>
 							<cfelse>
-								#trim(left(loan_instructions,(INSTRUCTIONS_LIMIT - 26)))#... 
-								<cfif getLoan.loan_type EQ "exhibition-master" AND getSubloans.recordcount GT 0>
-									<strong>Continued on Page #getSubloans.recordcount + MASTER_PAGES#.</strong>
-								<cfelse>
-									<strong>Continued on Next Page.</strong>
-								</cfif>
+								<strong>Continued on Next Page.</strong>
 							</cfif>
-						</div>
-					</cfif>
+						</cfif>
+					</div>
 					<div style="margin: 0px; border: 1px solid black; ">
 						<h2 style="#font# font-size: small; margin-top: 2px;">Terms and Conditions</h2>
 						<ol style="margin-left: 2em; #font# font-size: x-small;">
@@ -836,7 +834,7 @@ limitations under the License.
 					<div style="#font# font-size: small; margin-left: 4px;">
 						<cfif len(getSubloan.nature_of_material) GT 0>
 							<div>
-								<strong>Nature of Material:</strong>
+								<strong>Nature of Material:</strong> #getSubloan.nature_of_material#
 								<cfif len(getSubloan.nature_of_material) LT INSTRUCTIONS_LIMIT>
 									#getSubloan.nature_of_material#
 								<cfelse>
@@ -848,7 +846,7 @@ limitations under the License.
 						</cfif>
 						<cfif len(getSubloan.loan_description) GT 0>
 							<div>
-								<strong>Description:</strong>
+								<strong>Description:</strong> #getSubloan.loan_description#
 								<cfif len(getSubloan.loan_description) LT INSTRUCTIONS_LIMIT>
 									#getSubloan.loan_description#
 								<cfelse>
@@ -908,7 +906,7 @@ limitations under the License.
 		<!--- Sumarize restrictions on material in loan inherited from accession permission and rights documents, and overflow long text from first page. --->
 		<cfdocumentsection name="Additional Restrictions">
 			<cfif len(nature_of_material) GT INSTRUCTIONS_LIMIT -1 OR ( getLoan.loan_type EQ "exhibition-master" AND len(accumulated_nature) GT 0)>
-				<div style="border-bottom: 1px solid black; width: 100%; #font# font-size: small;">
+				<div style="border-bottom: 1px solid black; width: 100%; #font# font-size: 1em;">
 					<strong>Nature of Material:</strong> 
 					<cfif len(nature_of_material) GT INSTRUCTIONS_LIMIT -1 >
 						#nature_of_material#
@@ -921,7 +919,7 @@ limitations under the License.
 				</div>
 			</cfif>
 			<cfif len(loan_description) GT INSTRUCTIONS_LIMIT -1 OR ( getLoan.loan_type EQ "exhibition-master" AND len(accumulated_description) GT 0)>
-				<div style="border-bottom: 1px solid black; width: 100%; #font# font-size: small;">
+				<div style="border-bottom: 1px solid black; width: 100%; #font# font-size: 1em;">
 					<strong>Description:</strong> 
 					<cfif len(loan_description) GT INSTRUCTIONS_LIMIT -1 >
 						#loan_description#
@@ -934,7 +932,7 @@ limitations under the License.
 				</div>
 			</cfif>
 			<cfif len(loan_instructions) GT INSTRUCTIONS_LIMIT -1 OR ( getLoan.loan_type EQ "exhibition-master" AND len(accumulated_instructions) GT 0)>
-				<div style="border-bottom: 1px solid black; width: 100%; #font# font-size: small;">
+				<div style="border-bottom: 1px solid black; width: 100%; #font# font-size: 1em;">
 					<strong>Instructions:</strong> 
 					<cfif len(loan_instructions) GT INSTRUCTIONS_LIMIT -1 >
 						#loan_instructions#
@@ -1087,7 +1085,7 @@ limitations under the License.
 					<div style="text-align: left; #font# font-size: 1em;">
 						Specimens in Subloan #getSubloans.loan_number#
 					</div>
-					<table style="#font# font-size: 1em; width: 100%;">
+					<table style="#font# font-size: 1em;">
 						<tr>
 							<th style="width: 25%;">MCZ Number</th>
 							<th style="width: 50%;">Taxon, Locality</th>
@@ -1166,8 +1164,7 @@ limitations under the License.
 												join permit on permit_trans.permit_id = permit.permit_id
 											WHERE li.transaction_id = <cfqueryparam CFSQLType="CF_SQL_DECIMAL" value="#transaction_id#">
 												and ci.collection_object_id  = <cfqueryparam CFSQLType="CF_SQL_DECIMAL" value="#getLoanItemsLoop.collection_object_id#">
-												and (permit.restriction_summary is not null
-													or permit.benefits_summary is not null)
+												and permit.restriction_summary is not null
 										</cfquery>
 										<cfif getSpecificRestrictions.recordcount GT 0>
 											<br>
@@ -1187,10 +1184,10 @@ limitations under the License.
 							<cfset totalLotCount = totalLotCount + 1>
 						</cfloop>
 					</table>
-					<div style="#font# font-size: 1em; margin-bottom: 2em; border-bottom: 1px solid black;">
+					<div style="#font# font-size: 1.2em; margin-bottom: 2em; border-bottom: 1px solid black;">
 						<cfif TotalSpecimens EQ 1><cfset splural = ""><cfelse><cfset splural = "s"></cfif>
 						<cfif TotalLotCount EQ 1><cfset lplural = ""><cfelse><cfset lplural = "s"></cfif>
-						Subloan #getSubloans.loan_number# includes #TotalSpecimens# specimen#splural# in #TotalLotCount# lot#lplural#.
+						Subloan includes #TotalSpecimens# specimen#splural# in #TotalLotCount# lot#lplural#.
 						<cfset masterTotal = masterTotal + TotalSpecimens>
 						<cfset masterLotTotal = masterLotTotal + TotalLotCount>
 					</div>
@@ -1280,8 +1277,7 @@ limitations under the License.
 											join permit on permit_trans.permit_id = permit.permit_id
 										WHERE li.transaction_id = <cfqueryparam CFSQLType="CF_SQL_DECIMAL" value="#transaction_id#">
 											and ci.collection_object_id  = <cfqueryparam CFSQLType="CF_SQL_DECIMAL" value="#getLoanItemsLoop.collection_object_id#">
-											and (permit.restriction_summary is not null
-												or permit.benefits_summary is not null)
+											and permit.restriction_summary is not null
 									</cfquery>
 									<cfif getSpecificRestrictions.recordcount GT 0>
 										<br>
