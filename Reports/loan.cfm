@@ -287,7 +287,7 @@ limitations under the License.
 				<div style="#font# font-size: small; margin-left: 4px;">
 					<cfif len(getSubloan.nature_of_material) GT 0>
 					<div>
-						<strong>Nature of Material:</strong> #getSubloan.nature_of_material#
+						<strong>Nature of Material:</strong>
 						<cfif len(getSubloan.nature_of_material) LT INSTRUCTIONS_LIMIT>
 							#getSubloan.nature_of_material#
 						<cfelse>
@@ -456,7 +456,7 @@ limitations under the License.
 				<div style="text-align: left; #font# font-size: small; border-bottom solid black 1px; width: 100%;">
 					Departmental Loan document(s) include an itemized list of the loaned object(s), relevant associated data, and object condition report(s).
 				</div>
-				<div style="text-align: left; #font# font-size: small;">
+				<div style="text-align: left; #font# font-size: small; margin-top: 1em;">
 					<strong>SPECIAL HANDLING INSTRUCTIONS/ REQUIREMENTS:</strong>
 					<p>
 						See Conditions on next page and instructions in Departmental Loan document(s).
@@ -476,7 +476,7 @@ limitations under the License.
 					<strong>CREDIT LINE FOR EXHIBITION LABEL/CATALOG/PROMOTION:</strong>
 					<p>Museum of Comparative Zoology, President and Fellows of Harvard College</p>
 				</div>
-				<div style="text-align: left; #font# font-size: small; border-bottom solid black 1px; width: 100%;">
+				<div style="text-align: left; #font# font-size: small; border-bottom: solid black 1px; border-top solid black 1px; width: 100%;">
 					If the Borrower&##39;s loan agreement is signed by the Museum of Comparative Zoology, conditions of the Museum of
 					Comparative Zoology&##39;s loan agreement will supersede inconsistent conditions and augment other conditions of the Borrower&##39;s
 					loan agreement. The MCZ loan agreement will be governed by and construed according to the laws of the Commonwealth of Massachusetts.
@@ -834,7 +834,7 @@ limitations under the License.
 					<div style="#font# font-size: small; margin-left: 4px;">
 						<cfif len(getSubloan.nature_of_material) GT 0>
 							<div>
-								<strong>Nature of Material:</strong> #getSubloan.nature_of_material#
+								<strong>Nature of Material:</strong>
 								<cfif len(getSubloan.nature_of_material) LT INSTRUCTIONS_LIMIT>
 									#getSubloan.nature_of_material#
 								<cfelse>
@@ -846,7 +846,7 @@ limitations under the License.
 						</cfif>
 						<cfif len(getSubloan.loan_description) GT 0>
 							<div>
-								<strong>Description:</strong> #getSubloan.loan_description#
+								<strong>Description:</strong>
 								<cfif len(getSubloan.loan_description) LT INSTRUCTIONS_LIMIT>
 									#getSubloan.loan_description#
 								<cfelse>
