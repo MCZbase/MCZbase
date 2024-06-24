@@ -73,6 +73,7 @@ limitations under the License.
 								$('##outputTable').html(response);
 							}
 						).fail(function(jqXHR,textStatus,error){
+							$('##outputTable').html("Error Loading Metrics");
 					      handleFail(jqXHR,textStatus,error,"loading metrics for date range.");
 						});
 					}
