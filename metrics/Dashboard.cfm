@@ -72,8 +72,8 @@ limitations under the License.
 				</h3>
 					<script>
 						function myFunction() {
-							var y = document.getElementById("myForm").target;
-							document.getElementById("demo").innerHTML = y;
+							var x = document.getElementById("myForm").target;
+							document.getElementById("demo").innerHTML = x;
 						}
 					</script>
 					
@@ -81,7 +81,7 @@ limitations under the License.
 					<p id="demo2"></p>
 
 					<script>
-						var myObj = { myFunction() };
+						var myObj = { document.getElementById("myForm").target; };
 						var myJSON = JSON.stringify(myObj);
 						window.location = "/metrics/Dashboard.cfm?x=" + myJSON;
 						</script>
