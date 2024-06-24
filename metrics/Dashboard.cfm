@@ -60,8 +60,8 @@ limitations under the License.
 						type: 'POST', 
 						data: {
 						method: 'getLoanNumbers',
-						beginDate: #beginDate#,
-						endDate: #endDate#
+						beginDate: beginDate,
+						endDate: endDate
 						}
 					})
 					.done(function(reponse){
