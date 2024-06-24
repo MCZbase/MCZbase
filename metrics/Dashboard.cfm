@@ -49,13 +49,18 @@ limitations under the License.
 						<input type="submit" onclick="callCFC()">
 					</form>
 					<script>
+						var url;
+
+						function buildUrl() {
+							url = "/metrics/component/functions.cfc?method=getLoanNumbers&beginDate="+ beginDate + "endDate=" + endDate;
+}
 						function callCFC() {
 							// get input values
 							var beginDate = document.getElementById("beginDate").value;
 							var endDate = document.getElementById("endDate").value;
 							// build url with params  
 							
-							var url = "/metrics/component/functions.cfc?method=getLoanNumbers&beginDate=" + beginDate + "&endDate=" + endDate;
+							buildUrl();
 							
 						}
 						fetch(url)
