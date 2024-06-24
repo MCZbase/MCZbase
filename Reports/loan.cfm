@@ -1166,7 +1166,8 @@ limitations under the License.
 												join permit on permit_trans.permit_id = permit.permit_id
 											WHERE li.transaction_id = <cfqueryparam CFSQLType="CF_SQL_DECIMAL" value="#transaction_id#">
 												and ci.collection_object_id  = <cfqueryparam CFSQLType="CF_SQL_DECIMAL" value="#getLoanItemsLoop.collection_object_id#">
-												and permit.restriction_summary is not null
+												and (permit.restriction_summary is not null
+													or permit.benefits_summary is not null)
 										</cfquery>
 										<cfif getSpecificRestrictions.recordcount GT 0>
 											<br>
@@ -1279,7 +1280,8 @@ limitations under the License.
 											join permit on permit_trans.permit_id = permit.permit_id
 										WHERE li.transaction_id = <cfqueryparam CFSQLType="CF_SQL_DECIMAL" value="#transaction_id#">
 											and ci.collection_object_id  = <cfqueryparam CFSQLType="CF_SQL_DECIMAL" value="#getLoanItemsLoop.collection_object_id#">
-											and permit.restriction_summary is not null
+											and (permit.restriction_summary is not null
+												or permit.benefits_summary is not null)
 									</cfquery>
 									<cfif getSpecificRestrictions.recordcount GT 0>
 										<br>
