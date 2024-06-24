@@ -55,7 +55,7 @@ limitations under the License.
 				</form>
 				<script>
 					$(document).ready(function() {
-						$('##loadReportForm').on('submit',function(event){ event.preventDefault; loadReport(); } );
+						$('##loadReportForm').on('submit',function(event){ event.preventDefault(); loadReport(); } );
 					});
 					function loadReport(){
 						$.ajax(
