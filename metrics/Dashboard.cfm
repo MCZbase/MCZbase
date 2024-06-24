@@ -64,7 +64,7 @@ limitations under the License.
 							async function callCFC() {
 
 								// Build URL
-								let url = "/metrics/component/functions.cfc?method=getDates&";
+								let url = "/metrics/component/functions.cfc?method=getAnnualNumbers&";
 								url += `beginDate=${beginDate}&endDate=${endDate}`;
 
 								// Add timestamp to avoid caching
