@@ -74,11 +74,42 @@ limitations under the License.
 					<script>
 						var myObj = document.getElementById("myForm");
 						var myJSON = JSON.stringify(myObj);
-						window.location = "/metrics/Dashboard.cfm?myObj=" + myJSON;
+						window.location = "/metrics/Dashboard.cfm?=" + myJSON;
 						</script>
 					
 					<p id="demo"></p>
-
+					
+					
+					<script>
+						function callCFC() {
+							var url = "/metrics/component/functions.cfc?method=getLoanNumbers";
+							fetch(url)
+								.then(response => response.text()) 
+								.then(data => {
+								document.getElementById("output").innerHTML = data; 
+							});
+						}
+						callCFC();
+					</script>
+					<script>
+						function callCFC() {
+							// get input values
+							var beginDate = document.getElementById("beginDate").value;
+							var endDate = document.getElementById("endDate").value;
+							// build url with params  
+							var url = "/metrics/component/functions.cfc?method=getLoanNumbers&beginDate=" + beginDate + "&endDate=" + endDate;
+							fetch(url)
+								.then(response => response.text())
+								.then(data => {
+									document.getElementById("output").innerHTML = data;
+								});
+						}
+					</script>
+					<form>
+						<input type="date" id="beginDate">
+						<input type="date" id="endDate">
+						<input type="submit" onclick="callCFC()">
+					</form>
 	
 					<ul class="nav flex-column mb-2">
 						<li class="nav-item">
@@ -167,7 +198,9 @@ limitations under the License.
 							</div>
 						</div>
 					</div>
-						<div id="demo"></div>	
+						<div id="demo"></div>
+					
+					<div id="output"></div>
 						<!---<cfset summaryAnnualBlock=getAnnualNumbers(endDate="#endDate#",beginDate="#beginDate#")>
 						<div id="annualNumbersDiv">
 							#summaryAnnualBlock#
