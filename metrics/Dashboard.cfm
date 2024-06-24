@@ -71,22 +71,22 @@ limitations under the License.
 								url += `?t=${Date.now()}`;
 
 								try {
+									// Call CFC via fetch
+									const response = await fetch(url);
+									if(!response.ok) {
+										throw new Error("HTTP error: " + response.status);
+									}
+									const data = await response.text();
 
-							// Call CFC via fetch
-							const response = await fetch(url);
+											// Log dates after fetch completes
+											console.log(startDate, endDate);
 
-							if(!response.ok) {
-								throw new Error("HTTP error: " + response.status);
-							}
+									} catch (err) {
+										console.error(err);
+									}
+				
 
-							const data = await response.text();
-
-									// Log dates after fetch completes
-									console.log(startDate, endDate);
-
-								} catch (err) {
-									console.error(err);
-								}
+								document.getElementById("output").innerText = data;
 
 							}
 
