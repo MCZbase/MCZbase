@@ -54,9 +54,9 @@ limitations under the License.
 				</script>
 				
 					<form id="myForm" action="/metrics/Dashboard.cfm?method=getAnnualNumbers" target="output">
-						<input type="date" id="beginDate" class="data-entry-input mt-1" default="2022-01-01" value="#beginDate#">
-						<input type="date" id="endDate" class="data-entry-input mt-1" default="2024-01-01" value="#endDate#">
-						<input type="submit" onclick="callCFC()" id="submit" class="btn btn-xs btn-primary mt-1">
+						<input type="date" id="beginDate" class="data-entry-input mt-1">
+						<input type="date" id="endDate" class="data-entry-input mt-1" >
+						<input type="submit" onclick="callCFC()" id="submitButton" class="btn btn-xs btn-primary mt-1">
 					</form>
 					<script>
 						// Define callCFC function
