@@ -59,13 +59,12 @@ form.addEventListener('submit', e => {
   const endDate = document.getElementById('endDate').value;
 
   // call CFC 
-fetch('/metrics/component/functions.cfc', {
+fetch('/metrics/component/functions.cfc?method=getReport', {
 	method: 'POST', 
 	type : "post",
 	dataType : "json",
-    method: 'getAnnualNumbers',
-    beginDate: beginDate,
-    endDate: endDate
+	beginDate: beginDate,
+	endDate: endDate
   })
 })
 
