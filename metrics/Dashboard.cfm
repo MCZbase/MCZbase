@@ -46,11 +46,8 @@ limitations under the License.
 						<input type="submit" onclick="callCFC()" class="btn btn-xs btn-primary mt-1">
 					</form>
 					<script>
-						var url;
-
-						function buildUrl() {
-							url = "/metrics/component/functions.cfc?method=getLoanNumbers&showBasic&beginDate="+ beginDate + "endDate=" + endDate;
-}
+						var url = "/metrics/component/functions.cfc?method=getLoanNumbers&beginDate="+ beginDate + "endDate=" + endDate;
+							
 						function callCFC() {
 							// get input values
 							var beginDate = document.getElementById("beginDate").value;
@@ -58,7 +55,6 @@ limitations under the License.
 							var endDate = document.getElementById("endDate").value;
 							console.log(document.getElementById("endDate").value);
 							// build url with params  
-							buildUrl();
 							fetch(url); 
 						}
 						
