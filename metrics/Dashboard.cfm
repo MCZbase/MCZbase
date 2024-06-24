@@ -66,9 +66,7 @@ limitations under the License.
 							}
 
 							// Add onclick handler
-							document.getElementById('submitButton').onclick = function() {
-								// Call function
-								callCFC();
+							document.getElementById('submitButton').onclick = callCFC() {
 								// Prevent form submission if needed
 								return false;
 							};
