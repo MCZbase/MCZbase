@@ -46,19 +46,22 @@ limitations under the License.
 				<form id="dateForm">
 					<input type="date" id="beginDate" name="beginDate">
 					<input type="date" id="endDate" name="endDate">
+					<input type="text" id="method" name="method">
 					<input type="submit" value="Submit">
 				</form>
 				<script>
 					const form = document.getElementById('dateForm');
-			//		var beginDate = document.getElementById('beginDate').value;
-//					var endDate = document.getElementById('endDate').value;
+					var beginDate = document.getElementById('beginDate').value;
+					var endDate = document.getElementById('endDate').value;
+					var method = document.getElementById('method').value;
 
 					$.ajax({
 						url: '/metrics/component/functions.cfc',
 						type: 'POST', 
 						data: {
 						method: 'getLoanNumbers',
-						$('##dateForm').serialize()
+						beginDate: #beginDate#,
+						endDate: #endDate#
 						}
 					})
 					.done(function(reponse){
