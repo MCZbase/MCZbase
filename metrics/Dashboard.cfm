@@ -155,6 +155,8 @@ limitations under the License.
 			<div class="row">
 				<cfoutput>
 					<div class="col-12 px-0 mt-4" id="outputTable">
+						<cfif NOT isDefined("beginDate")><cfset beginDate = '2023-01-01'></cfif>
+						<cfif NOT isDefined("endDate")><cfset endDate = '2023-12-31'></cfif>
 						<h1 class="h2 float-left">Metrics (dates selected: #beginDate# &ndash; #endDate#)</h1>
 						<div class="btn-toolbar mb-2 mb-md-0 float-right">
 							<div class="btn-group mr-2">
