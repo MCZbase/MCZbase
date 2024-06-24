@@ -34,7 +34,7 @@ limitations under the License.
 <cfoutput>
 <div class="container-fluid" id="content">
 	<div class="row">
-	<cfset beginDate=''>
+
 	<br clear="all">	
 		<nav id="sidebarMenu" class="col-md-2 col-lg-2 d-md-block bg-light sidebar collapse">
 			<div class="sidebar-sticky pt-4 px-3">
