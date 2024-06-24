@@ -65,7 +65,7 @@ limitations under the License.
 								data: $('##loadReportForm').serialize()
 							}
 						).done(
-							function(reponse) {
+							function(response) {
 								console.log(response);
 								$('##outputTable').html(response);
 							}
