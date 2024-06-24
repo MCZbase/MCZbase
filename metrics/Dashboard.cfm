@@ -49,7 +49,10 @@ limitations under the License.
 					const form = document.getElementById('dateForm');
 					var beginDate = document.getElementById('beginDate').value;
 					var endDate = document.getElementById('endDate').value;
-				
+				const formData = new FormData();
+
+formData.append('beginDate', beginDate.toISOString()); 
+formData.append('endDate', endDate.toISOString());
 
 					$.ajax({
 						url: '/metrics/component/functions.cfc',
