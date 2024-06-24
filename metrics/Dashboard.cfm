@@ -50,12 +50,12 @@ limitations under the License.
 					<cfset endDate = '2024-06-30'>
 				</cfif>
 				<script>
+					const form = document.getElementById('dateForm');
 					const dateForm = new dateForm();
 						dateForm.append('beginDate', beginDate.toISOString()); 
 						dateForm.append('endDate', endDate.toISOString());
-					//const form = document.getElementById('dateForm');
-					//var beginDate = document.getElementById('beginDate').value;
-					//var endDate = document.getElementById('endDate').value;
+					var beginDate = document.getElementById('beginDate').value;
+					var endDate = document.getElementById('endDate').value;
 				
 					$.ajax({
 						url: '/metrics/component/functions.cfc',
