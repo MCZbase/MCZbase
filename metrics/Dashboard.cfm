@@ -56,9 +56,9 @@ limitations under the License.
 		
 <form id="myForm" action="/metrics/Dashboard.cfm" target="demo">
 	<label for="beginDate" class="data-entry-label">Begin Date</label>
-	<input type="date" name="beginDate" class="data-entry-label" value="#beginDate#">
+	<input type="date" name="beginDate" class="data-entry-label" value="">
 	<label for="endDate" class="data-entry-label mt-2">End Date</label>
-	<input type="date" name="endDate" class="data-entry-label" value="#endDate#">
+	<input type="date" name="endDate" class="data-entry-label" value="">
 	<label for="method" class="data-entry-label mt-2">Method</label>
 	<input type="text" name="method" value="#method#">
 <!---	<label for="returnFormat" class="data-entry-label mt-2">returnFormat</label>
