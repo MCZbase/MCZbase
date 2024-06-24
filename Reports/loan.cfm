@@ -1173,15 +1173,7 @@ limitations under the License.
 											<br>
 											<strong>Use Restricted By:</strong>
 											<cfset separator = "">
-											<cfloop query="getSpecificRestrictions">
-												<span style="#font# font-size: small;">
-													#separator##getSpecificRestrictions.permit_num#
-													<cfif len(getSpecificRestrictions.permit_num) EQ 0>
-														#getSpecificRestrictions.permit_title#
-													</cfif>
-												</span>
-												<cfset separator = ", ">
-											</cfloop>
+											<cfloop query="getSpecificRestrictions"><span style="#font# font-size: small;">#separator##getSpecificRestrictions.permit_num#<cfif len(getSpecificRestrictions.permit_num) EQ 0> #getSpecificRestrictions.permit_title#</cfif></span><cfset separator = ", "></cfloop>
 										</cfif>
 									</cfif>
 								</td>
@@ -1289,15 +1281,7 @@ limitations under the License.
 										<br>
 										<strong>Use Restricted By:</strong>
 										<cfset separator = "">
-										<cfloop query="getSpecificRestrictions">
-											<span style="#font# font-size: small;">
-												#separator##getSpecificRestrictions.permit_num#
-												<cfif len(getSpecificRestrictions.permit_num) EQ 0>
-													#getSpecificRestrictions.permit_title#
-												</cfif>
-											</span>
-											<cfset separator = ", ">
-										</cfloop>
+										<cfloop query="getSpecificRestrictions"><span style="#font# font-size: small;">#separator##getSpecificRestrictions.permit_num#<cfif len(getSpecificRestrictions.permit_num) EQ 0> #getSpecificRestrictions.permit_title#</cfif></span><cfset separator = ", "></cfloop>
 									</cfif>
 								</cfif>
 							</td>
