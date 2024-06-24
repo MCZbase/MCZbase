@@ -60,6 +60,11 @@ limitations under the License.
 							var endDate = document.getElementById("endDate").value;
 							// build url with params  
 							buildUrl();
+							fetch(url)
+							  .then(response => {
+								console.log("Fetch called!");
+								return response.text();
+							  })
 						}
 					</script>
 				
