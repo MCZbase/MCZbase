@@ -48,15 +48,7 @@ limitations under the License.
 					<script>
 						// Declare variables globally
 						
-							function getDates(beginDate,endDate) {
-								// Get date values
-								beginDate = document.getElementById("beginDate").value;
-								endDate = document.getElementById("endDate").value;
-								// Parse to Date objects
-								beginDate = new Date(beginDate); 
-								endDate = new Date(endDate);
-							}
-
+							
 
 						const form = document.getElementById("myForm");
 
@@ -64,6 +56,51 @@ limitations under the License.
 
 						function submitHandler(e) {
 							e.preventDefault();
+
+						function getDates(beginDate,endDate) {
+								// Get date values
+								beginDate = document.getElementById("beginDate").value;
+								endDate = document.getElementById("endDate").value;
+								// Parse to Date objects
+								beginDate = new Date(beginDate); 
+								endDate = new Date(endDate);
+							}
+							// Declare variables globally
+							function getDates(beginDate,endDate) {
+							// Get date values
+							beginDate = new Date(document.getElementById("beginDate").value);
+							endDate = new Date(document.getElementById("endDate").value);
+							}
+							function callCFC() {
+							url = "/metrics/component/functions.cfc";
+							try {
+							fetch(url, {
+								method: 'POST',
+								headers: {
+								'Content-Type': 'application/json'  
+								},
+								body: JSON.stringify({
+								method: 'getDates',
+								parameters: {
+									beginDate: beginDate,
+									endDate: endDate
+								}
+							  })
+							});
+
+								if(!response.ok) {
+									throw new Error("HTTP error: " + response.status);
+								}
+
+								response.json();
+
+								console.log(data);
+
+								} catch (err) {
+									console.error(err);
+								}
+
+							}
 						}
 					</script>
 				
