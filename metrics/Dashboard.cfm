@@ -54,7 +54,7 @@ limitations under the License.
 					var queryString = 'beginDate=' + encodeURIComponent(beginDate) + 
                   '&endDate=' + encodeURIComponent(endDate);
 					$.ajax({
-						url: '/metrics/component/functions.cfc?getAnnualNumbers' + queryString,
+						url: '/metrics/component/functions.cfc?getAnnualNumbers&' + queryString,
 						type: 'POST', 
 						data: formData
 					})
