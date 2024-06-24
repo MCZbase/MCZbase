@@ -19,9 +19,7 @@ limitations under the License.
 * Demonstration of ajax patterns in MCZbase.
 
 -->
-<!---<cfset endDate=''>
-<cfset beginDate=''>
-<cfset method=''>--->
+
 	
 <cfset pageTitle="Metrics Testing">
 <cfinclude template="/shared/_header.cfm">
@@ -54,7 +52,7 @@ limitations under the License.
 						url: '/metrics/component/functions.cfc',
 						type: 'POST', 
 						data: {
-						method: 'getLoanNumbers',
+						method: 'getAnnualNumbers',
 						beginDate: beginDate,
 						endDate: endDate
 						}
