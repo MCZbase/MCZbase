@@ -40,7 +40,17 @@ limitations under the License.
 			<div class="sidebar-sticky pt-4 px-3">
 				<h3 class="text-muted"><span>Report Date Range</span></h3>
 				<script> 			
+						
+					// Add onclick handler
+					document.getElementById('submitButton').onclick = function() {
 
+					// Call function
+					callCFC();
+
+					// Prevent form submission if needed
+					return false;
+
+					};
 				</script>
 				
 					<form id="myForm" action="/metrics/Dashboard.cfm?method=getAnnualNumbers" target="output">
@@ -80,16 +90,6 @@ limitations under the License.
 
 						}
 
-						// Add onclick handler
-						document.getElementById('submitButton').onclick = function() {
-
-						// Call function
-						callCFC();
-
-						// Prevent form submission if needed
-						return false;
-
-						};
 					</script>
 				
 				<!---<cfif action eq 'showBasic'>
