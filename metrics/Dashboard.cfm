@@ -38,7 +38,7 @@ limitations under the License.
 			<div class="sidebar-sticky pt-4 px-3">
 				<h3 class="text-muted"><span>Report Date Range</span></h3>
 			
-				<form id="myForm">
+				<form id="dataForm">
 					<label for="beginDate" class="data-entry-label">Begin Date</label>
 					<input type="date" id="beginDate" name="beginDate" class="my-1 data-entry-input">
 					<label for="endDate" class="data-entry-label">End Date</label>
@@ -49,7 +49,7 @@ limitations under the License.
 				</form>
 				<script>
 					function callCFC(){
-						var form = document.getElementById('myForm');
+						var form = document.getElementById('dataForm');
 						var formData = new FormData(form);
 						var formData = {
 								beginDate: document.getElementById('beginDate').value,
@@ -60,7 +60,11 @@ limitations under the License.
 						$.ajax({
 							url: '/metrics/component/functions.cfc',
 							type: 'POST', 
-							data: formData,
+							data: {
+								beginDate: beginDate,
+								endDate: endDate,
+								method: method
+							}
 						})
 						.done(function(reponse){
 							//console.log(response);
