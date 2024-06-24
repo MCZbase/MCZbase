@@ -1085,7 +1085,7 @@ limitations under the License.
 					<div style="text-align: left; #font# font-size: 1em;">
 						Specimens in Subloan #getSubloans.loan_number#
 					</div>
-					<table style="#font# font-size: 1em;">
+					<table style="#font# font-size: 1em; width: 100%;">
 						<tr>
 							<th style="width: 25%;">MCZ Number</th>
 							<th style="width: 50%;">Taxon, Locality</th>
@@ -1184,10 +1184,10 @@ limitations under the License.
 							<cfset totalLotCount = totalLotCount + 1>
 						</cfloop>
 					</table>
-					<div style="#font# font-size: 1.2em; margin-bottom: 2em; border-bottom: 1px solid black;">
+					<div style="#font# font-size: 1em; margin-bottom: 2em; border-bottom: 1px solid black;">
 						<cfif TotalSpecimens EQ 1><cfset splural = ""><cfelse><cfset splural = "s"></cfif>
 						<cfif TotalLotCount EQ 1><cfset lplural = ""><cfelse><cfset lplural = "s"></cfif>
-						Subloan includes #TotalSpecimens# specimen#splural# in #TotalLotCount# lot#lplural#.
+						Subloan #getSubloans.loan_number# includes #TotalSpecimens# specimen#splural# in #TotalLotCount# lot#lplural#.
 						<cfset masterTotal = masterTotal + TotalSpecimens>
 						<cfset masterLotTotal = masterLotTotal + TotalLotCount>
 					</div>
