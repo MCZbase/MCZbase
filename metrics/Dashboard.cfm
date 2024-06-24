@@ -55,7 +55,7 @@ limitations under the License.
 					var endDate = document.getElementById('endDate').value;
 
 					$.ajax({
-						url: '/metrics/component/functions.cfc?method=getLoanNumbers',
+						url: '/metrics/component/functions.cfc?method=getLoanNumbers&beginDate=#beginDate#&endDate=#endDate#',
 						type: 'POST', 
 						data: {
 							method: 'getLoanNumbers',
