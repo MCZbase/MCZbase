@@ -51,7 +51,7 @@ limitations under the License.
 <script>
 const form = document.getElementById('dateForm');
 
-form.addEventListener('submit', e => {
+form.addEventListener('Submit', e => {
 
   e.preventDefault();
 
@@ -61,8 +61,10 @@ form.addEventListener('submit', e => {
   // call CFC 
 fetch('/metrics/component/functions.cfc?method=getReport', {
 	method: 'POST', 
-	type : "post",
-	dataType : "json",
+headers: {
+    'Content-Type': 'application/json' 
+  },
+body: JSON.stringify({
 	beginDate: beginDate,
 	endDate: endDate
   })
