@@ -64,7 +64,8 @@ limitations under the License.
 							
 						}
 						fetch(url)
-						  .then(response => {
+						
+						.then(response => {
 							if(!response.ok) {
 							  throw new Error("HTTP error: " + response.status);
 							}
