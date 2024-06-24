@@ -93,9 +93,15 @@ limitations under the License.
 
 							}
 
-							document.addEventListener('click', () => {
-							  console.log('clicked');
-							});
+						const form = document.getElementById("myForm");
+
+form.addEventListener("submit", submitHandler);
+
+function submitHandler(e) {
+  e.preventDefault();
+
+  // call functions  
+}
 					</script>
 				
 				<!---<cfif action eq 'showBasic'>
