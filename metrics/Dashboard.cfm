@@ -46,7 +46,7 @@ limitations under the License.
 					<form>
 						<input type="date" id="beginDate" class="data-entry-input">
 						<input type="date" id="endDate" class="data-entry-input">
-						<input type="submit" onclick="callCFC()" class="data-entry-input">
+						<input type="submit" onclick="callCFC()" class="btn btn-xs btn-primary mt-1">
 					</form>
 					<script>
 						var url;
