@@ -55,7 +55,7 @@ limitations under the License.
 							var endDate = document.getElementById("endDate").value;
 							// build url with params  
 							
-							var url = "/metrics/component/functions.cfc?method=getDates&beginDate=" + beginDate + "&endDate=" + endDate;
+							var url = "/metrics/component/functions.cfc?method=getLoanNumbers&beginDate=" + beginDate + "&endDate=" + endDate;
 							
 						}
 						fetch(url)
