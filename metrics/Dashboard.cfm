@@ -45,7 +45,7 @@ limitations under the License.
 					<input type="date" id="endDate" name="endDate" class="data-entry-input">
 					<input type="submit" value="Submit" class="btn mt-3 btn-xs btn-primary">
 				</form>
-				<cfif beginDate is null>
+				<cfif len(beginDate) eq 0>
 					<cfset beginDate = '2022-06-30'>
 					<cfset endDate = '2024-06-30'>
 				</cfif>
