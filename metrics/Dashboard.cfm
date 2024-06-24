@@ -45,17 +45,15 @@ limitations under the License.
 				</form>
 				<script>
 					const form = document.getElementById('dateForm');
-					var beginDate = document.getElementById('beginDate').value;
-					var endDate = document.getElementById('endDate').value;
-
+					var formData = {
+						beginDate: document.getElementById('beginDate').value,
+						endDate: document.getElementById('endDate').value,
+						method: 'getAnnualNumbers'
+					};
 					$.ajax({
 						url: '/metrics/component/functions.cfc',
 						type: 'POST', 
-						data: {
-						method: 'getAnnualNumbers',
-						beginDate: beginDate,
-						endDate: endDate
-						}
+						data: formData
 					})
 					.done(function(reponse){
 						//console.log(response);
