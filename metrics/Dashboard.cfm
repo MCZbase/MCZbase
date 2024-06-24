@@ -66,7 +66,6 @@ limitations under the License.
 								// Build URL
 								let url = "/metrics/component/functions.cfc?method=getAnnualNumbers&";
 								url += `beginDate=${beginDate}&endDate=${endDate}`;
-
 								// Add timestamp to avoid caching
 								url += `?t=${Date.now()}`;
 
@@ -84,19 +83,12 @@ limitations under the License.
 									} catch (err) {
 										console.error(err);
 									}
-				
-
 								document.getElementById("output").innerText = data;
-
 							}
-
 							// Click handler
 							document.getElementById("submit").addEventListener("click", () => {
-
-							  getDates();
-
-							  callCFC();
-
+								getDates();
+								callCFC();
 							});
 					</script>
 				
