@@ -86,7 +86,7 @@ limitations under the License.
 						window.location = "/metrics/Dashboard.cfm?x=" + myJSON;
 						</script>
 					
-					<p id="demo"></p>
+					
 
 					<script>
 						// Create an Object
