@@ -65,8 +65,8 @@ fetch('/metrics/component/functions.cfc', {
     'Content-Type': 'application/json'
   },
   body: JSON.stringify({
-    method: 'processDates',
-    startDate: startDate,
+    method: 'getAnnualNumbers',
+    beginDate: beginDate,
     endDate: endDate
   })
 })
