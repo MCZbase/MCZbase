@@ -70,7 +70,9 @@ limitations under the License.
 					.fail(function(xhr,status,error){
 					console.error(error);
 					});
-			
+					setTimeout(() => {
+						$('#outputTable').html(response);
+					}, 0);
 				</script>
 					<ul class="nav flex-column mb-2">
 						<li class="nav-item">
