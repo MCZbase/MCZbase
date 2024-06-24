@@ -83,7 +83,6 @@ limitations under the License.
 					<script>
 						var x = document.getElementById("myForm").target; 
 						var myJSON = JSON.stringify(x);
-						document.getElementById("demo").innerHTML = x;
 						window.location = "/metrics/Dashboard.cfm?x=" + myJSON;
 					</script>
 					
