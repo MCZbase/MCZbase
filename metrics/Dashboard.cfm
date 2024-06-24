@@ -47,9 +47,11 @@ limitations under the License.
 					</form>
 					<script>
 						function getDates() {
-							var beginDate;
-							var endDate;
+							
+							var beginDate = new Date(document.getElementById("beginDate").value);
+							var endDate = new Date(document.getElementById("endDate").value);
 							var url = "/metrics/component/functions.cfc?method=getLoanNumbers&beginDate="+ beginDate + "endDate=" + endDate;
+							callCFC();
 
 							function callCFC() {
 								// get input values
