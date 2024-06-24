@@ -39,18 +39,17 @@ limitations under the License.
 		<nav id="sidebarMenu" class="col-md-2 col-lg-2 d-md-block bg-light sidebar collapse">
 			<div class="sidebar-sticky pt-4 px-3">
 				<h3 class="text-muted"><span>Report Date Range</span></h3>
-
+				<cfif not isDefined(beginDate)>
+					<cfset beginDate = '2022-06-30'>
+					<cfset endDate = '2024-06-30'>
+				</cfif>
 				<form id="dateForm">
 					<input type="date" id="beginDate" name="beginDate">
 					<input type="date" id="endDate" name="endDate">
 					<input type="submit" value="Submit">
 				</form>
-
-			
-
 				<script>
 					const form = document.getElementById('dateForm');
-
 					var beginDate = document.getElementById('beginDate').value;
 					var endDate = document.getElementById('endDate').value;
 
@@ -72,7 +71,7 @@ limitations under the License.
 					});
 					setTimeout(() => {
 						$('##outputTable').html(response);
-					}, 1000);
+					}, 50000);
 				</script>
 					<ul class="nav flex-column mb-2">
 						<li class="nav-item">
