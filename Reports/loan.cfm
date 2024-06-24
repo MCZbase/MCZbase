@@ -476,12 +476,12 @@ limitations under the License.
 					<strong>CREDIT LINE FOR EXHIBITION LABEL/CATALOG/PROMOTION:</strong>
 					<p>Museum of Comparative Zoology, President and Fellows of Harvard College</p>
 				</div>
-				<div style="text-align: left; #font# font-size: small; border-bottom: solid black 1px; border-top solid black 1px; width: 100%;">
+				<div style="text-align: left; #font# font-size: small; border-bottom: solid black 1px; width: 100%;">
 					If the Borrower&##39;s loan agreement is signed by the Museum of Comparative Zoology, conditions of the Museum of
 					Comparative Zoology&##39;s loan agreement will supersede inconsistent conditions and augment other conditions of the Borrower&##39;s
 					loan agreement. The MCZ loan agreement will be governed by and construed according to the laws of the Commonwealth of Massachusetts.
 				</div>
-				<div style="text-align: left; #font# font-size: small;">
+				<div style="text-align: left; #font# font-size: small; margin-top: 1px;">
 					<p>The Borrower acknowledges reading and agreeing to the conditions listed on all pages of this document.</p>
 					<p>Signature of Borrowing Institution: ____________________________________________________________</p>
 					<p>Title: ___________________________________________________ Date: ________________________________</p>
