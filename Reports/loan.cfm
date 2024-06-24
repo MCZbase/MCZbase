@@ -708,19 +708,21 @@ limitations under the License.
 							</cfif>
 						</div>
 					</cfif>
-					<div>
-						<strong>Instructions:</strong> 
-						<cfif len(loan_instructions) LT INSTRUCTIONS_LIMIT>
-							#loan_instructions#
-						<cfelse>
-							#trim(left(loan_instructions,(INSTRUCTIONS_LIMIT - 26)))#... 
-							<cfif getLoan.loan_type EQ "exhibition-master" AND getSubloans.recordcount GT 0>
-								<strong>Continued on Page #getSubloans.recordcount + MASTER_PAGES#.</strong>
+					<cfif len(loan_instructions) GT 0>
+						<div>
+							<strong>Instructions:</strong> 
+							<cfif len(loan_instructions) LT INSTRUCTIONS_LIMIT>
+								#loan_instructions#
 							<cfelse>
-								<strong>Continued on Next Page.</strong>
+								#trim(left(loan_instructions,(INSTRUCTIONS_LIMIT - 26)))#... 
+								<cfif getLoan.loan_type EQ "exhibition-master" AND getSubloans.recordcount GT 0>
+									<strong>Continued on Page #getSubloans.recordcount + MASTER_PAGES#.</strong>
+								<cfelse>
+									<strong>Continued on Next Page.</strong>
+								</cfif>
 							</cfif>
-						</cfif>
-					</div>
+						</div>
+					</cfif>
 					<div style="margin: 0px; border: 1px solid black; ">
 						<h2 style="#font# font-size: small; margin-top: 2px;">Terms and Conditions</h2>
 						<ol style="margin-left: 2em; #font# font-size: x-small;">
