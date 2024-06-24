@@ -51,8 +51,8 @@ limitations under the License.
 							var beginDate = new Date(document.getElementById("beginDate").value);
 							var endDate = new Date(document.getElementById("endDate").value);
 							var url = "/metrics/component/functions.cfc?method=getLoanNumbers&beginDate="+ beginDate + "endDate=" + endDate + 't=' + Date.now();
-								console.log(document.getElementById("beginDate").value);
-						console.log(document.getElementById("endDate").value);
+							console.log(document.getElementById("beginDate").value);
+							console.log(document.getElementById("endDate").value);
 						}
 					
 					</script>
