@@ -45,7 +45,7 @@ limitations under the License.
 					document.getElementById('submitButton').onclick = function() {
 
 					// Call function
-					callCFC();
+					callCFC(beginDate,endDate);
 
 					// Prevent form submission if needed
 					return false;
