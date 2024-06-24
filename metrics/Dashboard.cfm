@@ -38,13 +38,14 @@ limitations under the License.
 			<div class="sidebar-sticky pt-4 px-3">
 				<h3 class="text-muted"><span>Report Date Range</span></h3>
 			
-				<form id="formData">
+				<form id="myForm">
 					<input type="date" id="beginDate" name="beginDate" class="my-1 data-entry-input">
 					<input type="date" id="endDate" name="endDate" class="my-1 data-entry-input">
 					<input type="submit" value="submit" class="my-1 btn-xs btn btn-primary">
 				</form>
 				<script>
-					const form = document.getElementById('formData');
+					var form = document.getElementById('myForm');
+					var formData = new FormData(form);
 					var formData = {
 						beginDate: document.getElementById('beginDate').value,
 						endDate: document.getElementById('endDate').value,
