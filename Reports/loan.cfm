@@ -1172,11 +1172,12 @@ limitations under the License.
 										<cfif getSpecificRestrictions.recordcount GT 0>
 											<br>
 											<strong>Use Restricted By:</strong>
-											<cfset iSpecRest = 0>
 											<cfloop query="getSpecificRestrictions">
-												<cfset iSpecRest = iSpecRest + 1>
 												<span style="#font# font-size: small;">
-													#getSpecificRestrictions.permit_num# <cfif len(getSpecificRestrictions.permit_num) EQ 0> #getSpecificRestrictions.permit_title#</cfif><cfif iSpecRest LT getSpecficRestriction.recordcount>,</cfif>
+													#getSpecificRestrictions.permit_num#
+													<cfif len(getSpecificRestrictions.permit_num) EQ 0>
+														#getSpecificRestrictions.permit_title#
+													</cfif>
 												</span>
 											</cfloop>
 										</cfif>
@@ -1285,11 +1286,12 @@ limitations under the License.
 									<cfif getSpecificRestrictions.recordcount GT 0>
 										<br>
 										<strong>Use Restricted By:</strong>
-										<cfset iSpecRest = 0>
 										<cfloop query="getSpecificRestrictions">
-											<cfset iSpecRest = iSpecRest + 1>
 											<span style="#font# font-size: small;">
-												#getSpecificRestrictions.permit_num# <cfif len(getSpecificRestrictions.permit_num) EQ 0> #getSpecificRestrictions.permit_title#</cfif><cfif iSpecRest LT getSpecficRestriction.recordcount>,</cfif>
+												#getSpecificRestrictions.permit_num#
+												<cfif len(getSpecificRestrictions.permit_num) EQ 0>
+													#getSpecificRestrictions.permit_title#
+												</cfif>
 											</span>
 										</cfloop>
 									</cfif>
