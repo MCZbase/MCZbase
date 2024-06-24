@@ -43,7 +43,7 @@ limitations under the License.
 					<form>
 						<input type="date" id="beginDate" class="data-entry-input mt-1">
 						<input type="date" id="endDate" class="data-entry-input mt-1">
-						<input type="submit" onclick="callCFC()" class="btn btn-xs btn-primary mt-1">
+						<input type="submit" onclick="callCFC()" id="submit" class="btn btn-xs btn-primary mt-1">
 					</form>
 					<script>
 						// Declare variables globally
