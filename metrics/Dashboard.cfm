@@ -71,7 +71,7 @@ limitations under the License.
 					console.error(error);
 					});
 					setTimeout(() => {
-						$('#outputTable').html(response);
+						$('##outputTable').html(response);
 					}, 0);
 				</script>
 					<ul class="nav flex-column mb-2">
