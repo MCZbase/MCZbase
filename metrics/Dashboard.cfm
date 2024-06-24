@@ -61,7 +61,7 @@ limitations under the License.
 						$.ajax(
 							{
 								url: '/metrics/component/functions.cfc',
-								type: 'POST', 
+								type: 'GET', 
 								data: $('##loadReportForm').serialize()
 							}
 						).done(
