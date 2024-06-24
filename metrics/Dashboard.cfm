@@ -40,8 +40,11 @@ limitations under the License.
 			<div class="sidebar-sticky pt-4 px-3">
 				<h3 class="text-muted"><span>Report Date Range</span></h3>
 				<cfif len(beginDate) eq 0>
-					<cfset beginDate = '2022-06-30'>
-					<cfset endDate = '2024-06-30'>
+					<form id="dateForm">
+						<input type="date" id="beginDate" name="beginDate" class="data-entry-input" value="2022-06-30">
+						<input type="date" id="endDate" name="endDate" class="data-entry-input" value="2024-06-30">
+						<input type="submit" value="Submit" class="btn mt-3 btn-xs btn-primary">
+					</form>
 				<cfelse>
 					<form id="dateForm">
 						<input type="date" id="beginDate" name="beginDate" class="data-entry-input">
