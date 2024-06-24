@@ -51,8 +51,8 @@ limitations under the License.
 						endDate: document.getElementById('endDate').value,
 						method: 'getAnnualNumbers'
 					};
-					var queryString = 'beginDate=' + encodeURIComponent(beginDate) + 
-                  '&endDate=' + encodeURIComponent(endDate);
+					var queryString = 'beginDate=' + encodeURIComponent(#beginDate#) + 
+                  '&endDate=' + encodeURIComponent(#endDate#);
 					$.ajax({
 						url: '/metrics/component/functions.cfc?getAnnualNumbers&' + queryString,
 						type: 'POST', 
