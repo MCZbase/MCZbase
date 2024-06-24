@@ -54,7 +54,7 @@ limitations under the License.
 		
 			<!---	</cfif>--->
 		
-<form id="myForm" action="/metrics/component/functions.cfc" target="demo">
+<form id="myForm" action="/metrics/Dashboard.cfm" target="demo">
 	<label for="beginDate" class="data-entry-label">Begin Date</label>
 	<input type="date" name="beginDate" class="data-entry-label" value="#beginDate#">
 	<label for="endDate" class="data-entry-label mt-2">End Date</label>
