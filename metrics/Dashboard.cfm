@@ -35,28 +35,27 @@ limitations under the License.
 <div class="container-fluid" id="content">
 	<div class="row">
 	<cfset beginDate=''>
-	<cfset endDate=''>
 	<br clear="all">	
 		<nav id="sidebarMenu" class="col-md-2 col-lg-2 d-md-block bg-light sidebar collapse">
 			<div class="sidebar-sticky pt-4 px-3">
 				<h3 class="text-muted"><span>Report Date Range</span></h3>
-				
+			
 				<form id="dateForm">
-					<input type="date" id="beginDate" name="beginDate" class="data-entry-input">
-					<input type="date" id="endDate" name="endDate" class="data-entry-input">
-					<input type="submit" value="Submit" class="btn mt-3 btn-xs btn-primary">
+					<input type="date" id="beginDate" name="beginDate">
+					<input type="date" id="endDate" name="endDate">
+					<input type="submit" value="Submit">
 				</form>
-
 				<script>
 					const form = document.getElementById('dateForm');
 					var beginDate = document.getElementById('beginDate').value;
 					var endDate = document.getElementById('endDate').value;
 				
+
 					$.ajax({
 						url: '/metrics/component/functions.cfc',
 						type: 'POST', 
 						data: {
-						method: 'getCitationNumbers',
+						method: 'getLoanNumbers',
 						beginDate: beginDate,
 						endDate: endDate
 						}
