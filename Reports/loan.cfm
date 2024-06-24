@@ -908,7 +908,7 @@ limitations under the License.
 		<!--- Sumarize restrictions on material in loan inherited from accession permission and rights documents, and overflow long text from first page. --->
 		<cfdocumentsection name="Additional Restrictions">
 			<cfif len(nature_of_material) GT INSTRUCTIONS_LIMIT -1 OR ( getLoan.loan_type EQ "exhibition-master" AND len(accumulated_nature) GT 0)>
-				<div style="border-bottom: 1px solid black; width: 100%; #font# font-size: 1em;">
+				<div style="border-bottom: 1px solid black; width: 100%; #font# font-size: small;">
 					<strong>Nature of Material:</strong> 
 					<cfif len(nature_of_material) GT INSTRUCTIONS_LIMIT -1 >
 						#nature_of_material#
@@ -921,7 +921,7 @@ limitations under the License.
 				</div>
 			</cfif>
 			<cfif len(loan_description) GT INSTRUCTIONS_LIMIT -1 OR ( getLoan.loan_type EQ "exhibition-master" AND len(accumulated_description) GT 0)>
-				<div style="border-bottom: 1px solid black; width: 100%; #font# font-size: 1em;">
+				<div style="border-bottom: 1px solid black; width: 100%; #font# font-size: small;">
 					<strong>Description:</strong> 
 					<cfif len(loan_description) GT INSTRUCTIONS_LIMIT -1 >
 						#loan_description#
@@ -934,7 +934,7 @@ limitations under the License.
 				</div>
 			</cfif>
 			<cfif len(loan_instructions) GT INSTRUCTIONS_LIMIT -1 OR ( getLoan.loan_type EQ "exhibition-master" AND len(accumulated_instructions) GT 0)>
-				<div style="border-bottom: 1px solid black; width: 100%; #font# font-size: 1em;">
+				<div style="border-bottom: 1px solid black; width: 100%; #font# font-size: small;">
 					<strong>Instructions:</strong> 
 					<cfif len(loan_instructions) GT INSTRUCTIONS_LIMIT -1 >
 						#loan_instructions#
