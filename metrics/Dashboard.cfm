@@ -60,7 +60,7 @@ limitations under the License.
 						$('##loadReportForm').on('submit',function(event){ event.preventDefault(); loadReport(); } );
 					});
 					function loadReport(){
-						$('##outputTable').html("Loading...");
+						$('##annualNumbersDiv').html("Loading...");
 						$.ajax(
 							{
 								url: '/metrics/component/functions.cfc',
@@ -70,10 +70,10 @@ limitations under the License.
 						).done(
 							function(response) {
 								console.log(response);
-								$('##outputTable').html(response);
+								$('##annualNumbersDiv').html(response);
 							}
 						).fail(function(jqXHR,textStatus,error){
-							$('##outputTable').html("Error Loading Metrics");
+							$('##annualNumbersDiv').html("Error Loading Metrics");
 					      handleFail(jqXHR,textStatus,error,"loading metrics for date range.");
 						});
 					}
@@ -156,21 +156,21 @@ limitations under the License.
 		<main role="main" class="col-md-10 ml-sm-auto col-lg-10 px-md-5 mb-3">
 			<div class="row">
 				<cfoutput>
-					<div class="col-12 px-0 mt-4" id="outputTable">
-						<h1 class="h2 float-left">Metrics (dates selected: #beginDate#/#endDate#)</h1>
+					<div class="col-12 px-0 mt-4">
+						<h1 class="h2 float-left">MCZbase Metrics</h1>
 						<div class="btn-toolbar mb-2 mb-md-0 float-right">
 							<div class="btn-group mr-2">
 								<button type="button" class="btn btn-sm btn-outline-secondary">Share</button>
 								<button type="button" class="btn btn-sm btn-outline-secondary">Export</button>
 							</div>
 						</div>
-					</div>
-					
-			
 						<cfset summaryAnnualBlock=getAnnualNumbers(endDate="#endDate#",beginDate="#beginDate#")>
 						<div id="annualNumbersDiv">
 							#summaryAnnualBlock#
 						</div>
+					</div>
+					
+			
 
 					<!---	<cfset loanBlock=getLoanNumbers(endDate="2024-07-01",beginDate="2023-07-01")>
 						<div id="annualLoanDiv">
