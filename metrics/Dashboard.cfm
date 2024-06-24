@@ -43,19 +43,23 @@ limitations under the License.
 					<form>
 						<input type="date" id="beginDate" class="data-entry-input mt-1">
 						<input type="date" id="endDate" class="data-entry-input mt-1">
-						<input type="submit" onclick="callCFC()" class="btn btn-xs btn-primary mt-1">
+						<input type="submit" onclick="getDates()" class="btn btn-xs btn-primary mt-1">
 					</form>
 					<script>
-						var url = "/metrics/component/functions.cfc?method=getLoanNumbers&beginDate="+ beginDate + "endDate=" + endDate;
-							
-						function callCFC() {
-							// get input values
-							var beginDate = document.getElementById("beginDate").value;
-							console.log(document.getElementById("beginDate").value);
-							var endDate = document.getElementById("endDate").value;
-							console.log(document.getElementById("endDate").value);
-							// build url with params  
-							fetch(url); 
+						function getDates() {
+							var beginDate;
+							var endDate;
+							var url = "/metrics/component/functions.cfc?method=getLoanNumbers&beginDate="+ beginDate + "endDate=" + endDate;
+
+							function callCFC() {
+								// get input values
+								var beginDate = document.getElementById("beginDate").value;
+								console.log(document.getElementById("beginDate").value);
+								var endDate = document.getElementById("endDate").value;
+								console.log(document.getElementById("endDate").value);
+								// build url with params  
+								fetch(url); 
+							}
 						}
 						
 					</script>
@@ -101,8 +105,8 @@ limitations under the License.
 	
 					<ul class="nav flex-column mb-2">
 						<li class="nav-item">
-							<cfset myObj = createObject("component", "/metrics/component/functions")>
-							<cfset summaryAnnualBlock = myObj.getAnnualNumbers('#beginDate#', '#endDate#')>
+						<!---	<cfset myObj = createObject("component", "/metrics/component/functions")>
+							<cfset summaryAnnualBlock = myObj.getAnnualNumbers('#beginDate#', '#endDate#')>--->
 								<a class="nav-link px-0" href="#summaryAnnualBlock#" type="button">
 								<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file-text">
 									<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
@@ -186,7 +190,6 @@ limitations under the License.
 							</div>
 						</div>
 					</div>
-						<div id="demo"></div>
 					
 					<div id="output"></div>
 						<!---<cfset summaryAnnualBlock=getAnnualNumbers(endDate="#endDate#",beginDate="#beginDate#")>
