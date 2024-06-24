@@ -46,9 +46,9 @@ limitations under the License.
 					<input type="submit" value="Submit">
 				</form>
 				<script>
-					const form = document.getElementById('dateForm');
-					var beginDate = document.getElementById('beginDate').value;
-					var endDate = document.getElementById('endDate').value;
+					var form = document.getElementById('dateForm');
+					//var beginDate = document.getElementById('beginDate').value;
+					//var endDate = document.getElementById('endDate').value;
 					var formData = new FormData(form);
 
 					formData.append('beginDate', beginDate.toISOString()); 
