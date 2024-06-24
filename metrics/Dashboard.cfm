@@ -80,6 +80,24 @@ limitations under the License.
 							}
 
 							const data = await response.text();
+
+									// Log dates after fetch completes
+									console.log(startDate, endDate);
+
+								} catch (err) {
+									console.error(err);
+								}
+
+							}
+
+							// Click handler
+							document.getElementById("submit").addEventListener("click", () => {
+
+							  getDates();
+
+							  callCFC();
+
+							});
 					</script>
 				
 				<!---<cfif action eq 'showBasic'>
