@@ -46,15 +46,40 @@ limitations under the License.
 						<input type="submit" onclick="getDates()" class="btn btn-xs btn-primary mt-1">
 					</form>
 					<script>
-						function getDates() {
-							
-							var beginDate = new Date(document.getElementById("beginDate").value);
-							var endDate = new Date(document.getElementById("endDate").value);
-							var url = "/metrics/component/functions.cfc?method=getLoanNumbers&beginDate="+ beginDate + "endDate=" + endDate + 't=' + Date.now();
-							console.log(document.getElementById("beginDate").value);
-							console.log(document.getElementById("endDate").value);
-						}
-					
+						// Declare variables globally
+						let beginDate, endDate;
+
+							function getDates() {
+
+								// Get date values
+								startDate = document.getElementById("startDate").value;
+								endDate = document.getElementById("endDate").value;
+
+								// Parse to Date objects
+								startDate = new Date(startDate); 
+								endDate = new Date(endDate);
+
+							}
+
+							async function callCFC() {
+
+								// Build URL
+								let url = "cfc.cfc?method=getDates&";
+								url += `startDate=${startDate}&endDate=${endDate}`;
+
+								// Add timestamp to avoid caching
+								url += `?t=${Date.now()}`;
+
+								try {
+
+							// Call CFC via fetch
+							const response = await fetch(url);
+
+							if(!response.ok) {
+								throw new Error("HTTP error: " + response.status);
+							}
+
+							const data = await response.text();
 					</script>
 				
 				<!---<cfif action eq 'showBasic'>
