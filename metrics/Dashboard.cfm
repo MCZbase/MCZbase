@@ -52,7 +52,7 @@ limitations under the License.
 						var url;
 
 						function buildUrl() {
-							url = "/metrics/Dashboard.cfm?method=getLoanNumbers&showBasic&beginDate="+ beginDate + "endDate=" + endDate;
+							url = "/metrics/component/functions.cfc?method=getLoanNumbers&showBasic&beginDate="+ beginDate + "endDate=" + endDate;
 }
 						function callCFC() {
 							// get input values
