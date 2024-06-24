@@ -35,11 +35,12 @@ limitations under the License.
 <div class="container-fluid" id="content">
 	<div class="row">
 	<cfset beginDate=''>
+	<cfset endDate=''>
 	<br clear="all">	
 		<nav id="sidebarMenu" class="col-md-2 col-lg-2 d-md-block bg-light sidebar collapse">
 			<div class="sidebar-sticky pt-4 px-3">
 				<h3 class="text-muted"><span>Report Date Range</span></h3>
-				<cfif len(beginDate) eq 0>
+				<cfif len(beginDate) eq 0 AND len(endDate) eq 0>
 					<form id="dateForm">
 						<input type="date" id="beginDate" name="beginDate" class="data-entry-input" value="2022-06-30">
 						<input type="date" id="endDate" name="endDate" class="data-entry-input" value="2024-06-30">
