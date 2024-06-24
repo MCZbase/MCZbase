@@ -19,9 +19,9 @@ limitations under the License.
 * Demonstration of ajax patterns in MCZbase.
 
 -->
-<cfset endDate=''>
+<!---<cfset endDate=''>
 <cfset beginDate=''>
-<cfset method=''>
+<cfset method=''>--->
 	
 <cfset pageTitle="Metrics Testing">
 <cfinclude template="/shared/_header.cfm">
