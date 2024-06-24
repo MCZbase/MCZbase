@@ -43,6 +43,7 @@ limitations under the License.
 				<h3 class="text-muted"><span>Report Date Range</span></h3>
 			
 				<form id="loadReportForm">
+					<input type="hidden" name="returnFormat" value="plain">
 					<label for="beginDate" class="data-entry-label">Begin Date</label>
 					<input name="beginDate" id="beginDate" type="text" class="my-1 datetimeinput data-entry-input data-entry-input" placeholder="yyyy-mm-dd" value="#beginDate#" aria-label="start of range for dates to display metrics.">
 					<label for="endDate" class="data-entry-label">End Date</label>
@@ -50,6 +51,7 @@ limitations under the License.
 					<label for="method" class="data-entry-label">Report To Show</label>
 					<select id="method" name="method" class="my-1 data-entry-input">
 						<option value="getAnnualNumbers" selected="selected">Basic Annual Report Numbers</option>
+						<option value="getLoanNumbers" selected="selected">Loan Activity</option>
 					</select>
 					<input type="submit" value="submit" class="my-1 btn-xs btn btn-primary">
 				</form>
