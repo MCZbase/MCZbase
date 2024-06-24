@@ -40,7 +40,7 @@ limitations under the License.
 			<div class="sidebar-sticky pt-4 px-3">
 				<h3 class="text-muted"><span>Report Date Range</span></h3>
 				
-					<form>
+					<form id="myForm" action="/metrics/Dashboard.cfm" target="output">
 						<input type="date" id="beginDate" class="data-entry-input mt-1">
 						<input type="date" id="endDate" class="data-entry-input mt-1">
 						<input type="submit" onclick="callCFC()" id="submit" class="btn btn-xs btn-primary mt-1">
