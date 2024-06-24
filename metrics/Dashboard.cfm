@@ -70,10 +70,10 @@ limitations under the License.
 								}
 							})
 						})
-						.then(res => res.json())
-						.then(data => {
-						// Handle response
-						})
+			//			.then(res => res.json())
+//							.then(data => {
+//							// Handle response
+//						})
 						.catch(err => {
 							console.error(err);
 						});
