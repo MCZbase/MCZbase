@@ -56,7 +56,7 @@ limitations under the License.
 								beginDate = new Date(beginDate); 
 								endDate = new Date(endDate);
 							}
-							async function callCFC() {
+							async function callCFC(beginDate,endDate) {
 								// Build URL
 								let url = "/metrics/component/functions.cfc?method=getAnnualNumbers&";
 								url += `beginDate=${beginDate}&endDate=${endDate}`;
