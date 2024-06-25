@@ -953,7 +953,8 @@ limitations under the License.
 					<strong style="#font# font-size: small;">Summary of restrictions imposed and benefits required from original collecting agreements</strong>
 				</div>
 			</cfif>
-			<cfif getRestrictions.recordcount GT 0 OR getLoan.loan_type NEQ "exhibition-master">
+			<cfif getRestrictions.recordcount GT 0 OR left(getLoan.loan_type,10) NEQ "exhibition">
+				<!--- show generic CBD text on all non-exhibition loans, and any loans where there are restrictions on use --->
 				<div style="#font# font-size: small;">
 					The MCZ is committed to the spirit and letter of the Convention on Biological Diversity and its associated Nagoya Protocol on Access
 					and Benefit-Sharing, and it expects its partner users to act in a manner consistent with these international obligations. Use
