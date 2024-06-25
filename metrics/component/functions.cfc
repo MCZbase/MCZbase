@@ -95,7 +95,7 @@ limitations under the License.
 					</table>
 				</section>
 				<section class="col-12 mt-3 px-0">
-					<h1 class="h2 px-2">Basic Collections Metrics (cont.)</h1>
+					<h2 class="h3 px-2">Basic Collections Metrics (cont.) (#encodeForHtml(beginDate)#/#encodeForHtml(endDate)#)</h1>
 					<table class="table table-responsive table-striped d-lg-table" id="t">
 						<thead>
 							<tr>
