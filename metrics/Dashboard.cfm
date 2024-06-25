@@ -44,14 +44,17 @@ limitations under the License.
 			
 				<form id="loadReportForm">
 					<input type="hidden" name="returnFormat" value="plain">
-					<label for="beginDate" class="data-entry-label">Begin Date</label>
+					<label for="beginDate" class="data-entry-label mt-3">Begin Date</label>
 					<input name="beginDate" id="beginDate" type="text" class="my-1 datetimeinput data-entry-input data-entry-input" placeholder="yyyy-mm-dd" value="#beginDate#" aria-label="start of range for dates to display metrics.">
-					<label for="endDate" class="data-entry-label">End Date</label>
+					<label for="endDate" class="data-entry-label mt-3">End Date</label>
 					<input name="endDate" id="endDate" type="text" class="my-1 datetimeinput data-entry-input data-entry-input" placeholder="yyyy-mm-dd" value="#endDate#" aria-label="end of range for dates to display metrics.">
-					<label for="method" class="data-entry-label">Report To Show</label>
+					<label for="method" class="data-entry-label mt-3">Report To Show</label>
 					<select id="method" name="method" class="my-1 data-entry-input">
-						<option value="getAnnualNumbers" >Basic Annual Report Numbers</option>
-						<option value="getLoanNumbers" selected="selected">Loan Activity</option>
+						<option value="getAnnualNumbers" selected="selected">Basic Annual Report Numbers</option>
+						<option value="getLoanNumbers">Loan Activity</option>
+						<option value="getMediaNumbers">Media Activity</option>
+						<option value="getCitationNumbers">Citation Activity</option>
+						<option value="getGeorefNumbers">Georeference Activity</option>
 					</select>
 					<input type="submit" value="submit" class="my-1 btn-xs btn btn-primary">
 				</form>
@@ -78,11 +81,9 @@ limitations under the License.
 						});
 					}
 				</script>
-					<ul class="nav flex-column mb-2">
+<!---					<ul class="nav flex-column mb-2">
 						<li class="nav-item">
-						<!---	<cfset myObj = createObject("component", "/metrics/component/functions")>
-							<cfset summaryAnnualBlock = myObj.getAnnualNumbers('#beginDate#', '#endDate#')>--->
-								<a class="nav-link px-0"  type="button">
+							<a class="nav-link px-0"  type="button">
 								<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file-text">
 									<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
 									<polyline points="14 2 14 8 20 8"></polyline>
@@ -94,9 +95,7 @@ limitations under the License.
 							</a> 
 						</li>
 						<li class="nav-item"> 
-						<!---	<cfset myLoanResults = CreateObject("component", "/metrics/component/functions")>
-							<cfset loanresult = myLoanResults.getloanNumbers(beginDate,endDate)>--->
-								<a class="nav-link px-0" href="/metrics/component/functions.cfc?method=getLoanNumbers&beginDate=2023-01-01&endDate=2024-01-01&returnFormat=JSON">
+							<a class="nav-link px-0" href="/metrics/component/functions.cfc?method=getLoanNumbers&beginDate=2023-01-01&endDate=2024-01-01&returnFormat=JSON">
 								<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file-text">
 									<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
 									<polyline points="14 2 14 8 20 8"></polyline>
@@ -108,9 +107,7 @@ limitations under the License.
 							</a> 
 						</li>
 						<li class="nav-item"> 
-							<!---<cfset myMediaResults = CreateObject("component", "/metrics/component/functions")>
-							<cfset mediaresult = myMediaResults.getMediaNumbers(beginDate,endDate)>--->
-								<a class="nav-link px-0" href="/metrics/component/functions.cfc?method=getMediaNumbers&beginDate=2023-01-01&endDate=2024-01-01&returnFormat=JSON">
+							<a class="nav-link px-0" href="/metrics/component/functions.cfc?method=getMediaNumbers&beginDate=2023-01-01&endDate=2024-01-01&returnFormat=JSON">
 								<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file-text">
 									<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
 									<polyline points="14 2 14 8 20 8"></polyline>
@@ -122,9 +119,7 @@ limitations under the License.
 							</a> 
 						</li>
 						<li class="nav-item"> 
-						<!---	<cfset myCitationResults = CreateObject("component", "/metrics/component/functions")>
-							<cfset citationresult = myCitationResults.getCitationNumbers(beginDate,endDate)>--->
-								<a class="nav-link px-0" href="/metrics/component/functions.cfc?method=getCitationNumbers&beginDate=2023-01-01&endDate=2024-01-01&returnFormat=JSON">
+							<a class="nav-link px-0" href="/metrics/component/functions.cfc?method=getCitationNumbers&beginDate=2023-01-01&endDate=2024-01-01&returnFormat=JSON">
 								<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file-text">
 									<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
 									<polyline points="14 2 14 8 20 8"></polyline>
@@ -136,9 +131,7 @@ limitations under the License.
 							</a> 
 						</li>
 						<li class="nav-item"> 
-						<!---	<cfset myGeorefResults = CreateObject("component", "/metrics/component/functions")>
-							<cfset georefresult = myGeorefResults.getGeorefNumbers(beginDate,endDate)>--->
-								<a class="nav-link px-0" href="/metrics/component/functions.cfc?method=getGeorefNumbers&beginDate=2023-01-01&endDate=2024-01-01&returnFormat=JSON">
+							<a class="nav-link px-0" href="/metrics/component/functions.cfc?method=getGeorefNumbers&beginDate=2023-01-01&endDate=2024-01-01&returnFormat=JSON">
 								<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file-text">
 									<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
 									<polyline points="14 2 14 8 20 8"></polyline>
@@ -149,7 +142,7 @@ limitations under the License.
 								Georeferences
 							</a> 
 						</li>
-					</ul>
+					</ul>--->
 			</div>
 		</nav>
 
@@ -170,28 +163,6 @@ limitations under the License.
 					<div id="annualNumbersDiv">
 						#summaryAnnualBlock#
 					</div>
-			
-
-					<!---	<cfset loanBlock=getLoanNumbers(endDate="2024-07-01",beginDate="2023-07-01")>
-						<div id="annualLoanDiv">
-							#loanBlock#
-						</div>	
-
-						<cfset mediaBlock=getMediaNumbers(endDate="2024-07-01",beginDate="2023-07-01")>
-						<div id="mediaDiv">
-							#mediaBlock#
-						</div>
-
-						<cfset citationBlock=getCitationNumbers(endDate="2024-07-01",beginDate="2023-07-01")>
-						<div id="citationDiv">
-							#citationBlock#
-						</div>
-		
-						<cfset georefBlock=getGeorefNumbers(endDate="#endDate#",beginDate="#beginDate#")>
-						<div id="georefDiv">
-							#georefBlock#
-						</div>
---->
 				</cfoutput>
 			</div>
 		</main>
