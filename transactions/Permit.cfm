@@ -110,7 +110,7 @@ limitations under the License.
 				<cfif not isdefined("permit_remarks")><cfset permit_remarks=""></cfif>
 				<cfif not isdefined("benefits_provided")><cfset benefits_provided=""></cfif>
 				<cfif not isdefined("benefits_summary")><cfset benefits_summary=""></cfif>
-				<cfif not isdefined("internal_benefits_summary")><cfset benefits_summary=""></cfif>
+				<cfif not isdefined("internal_benefits_summary")><cfset internal_benefits_summary=""></cfif>
 				<cfif not isdefined("restriction_summary")><cfset restriction_summary=""></cfif>
 				<!--- Search Form --->
 				<cfoutput>
