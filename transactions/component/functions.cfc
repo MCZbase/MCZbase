@@ -3020,8 +3020,14 @@ limitations under the License.
 					</div>
 					<div class="form-row">
 						<div class="col-12">
-							<label for="npf_benefits_summary" class="data-entry-label">Summary of Agreed Benefits</label>
+							<label for="npf_benefits_summary" class="data-entry-label">Summary of Agreed Benefits: All users</label>
 							<textarea cols='80' rows='3' name='benefits_summary' id="npf_benefits_summary" class="form-control autogrow"></textarea>
+						</div>
+					</div>
+					<div class="form-row">
+						<div class="col-12">
+							<label for="npf_internal_benefits_summary" class="data-entry-label">Summary of Agreed Benefits: Harvard only</label>
+							<textarea cols='80' rows='3' name='internal_benefits_summary' id="npf_internal_benefits_summary" class="form-control autogrow"></textarea>
 						</div>
 					</div>
 					<div class="form-row">
@@ -3080,6 +3086,7 @@ limitations under the License.
 	<cfargument name="permit_remarks" type="string" required="no">
 	<cfargument name="restriction_summary" type="string" required="no">
 	<cfargument name="benefits_summary" type="string" required="no">
+	<cfargument name="internal_benefits_summary" type="string" required="no">
 	<cfargument name="benefits_provided" type="string" required="no">
 	<cfargument name="contact_agent_id" type="string" required="no">
 
@@ -3095,6 +3102,7 @@ limitations under the License.
 		<cfif NOT isdefined('permit_remarks')><cfset permit_remarks=''></cfif>
 		<cfif NOT isdefined('restriction_summary')><cfset restriction_summary=''></cfif>
 		<cfif NOT isdefined('benefits_summary')><cfset benefits_summary=''></cfif>
+		<cfif NOT isdefined('internal_benefits_summary')><cfset internal_benefits_summary=''></cfif>
 		<cfif NOT isdefined('benefits_provided')><cfset benefits_provided=''></cfif>
 		<cfif NOT isdefined('contact_agent_id')><cfset contact_agent_id=''></cfif>
 
@@ -3145,6 +3153,9 @@ limitations under the License.
 				<cfif len(#benefits_summary#) gt 0>
 					,benefits_summary
 				</cfif>
+				<cfif len(#internal_benefits_summary#) gt 0>
+					,internal_benefits_summary
+				</cfif>
 				<cfif len(#benefits_provided#) gt 0>
 					,benefits_provided
 				</cfif>
@@ -3180,6 +3191,9 @@ limitations under the License.
 				</cfif>
 				<cfif len(#benefits_summary#) gt 0>
 					, <cfqueryparam CFSQLTYPE="CF_SQL_VARCHAR" value="#benefits_summary#">
+				</cfif>
+				<cfif len(#internal_benefits_summary#) gt 0>
+					, <cfqueryparam CFSQLTYPE="CF_SQL_VARCHAR" value="#internal_benefits_summary#">
 				</cfif>
 				<cfif len(#benefits_provided#) gt 0>
 					, <cfqueryparam CFSQLTYPE="CF_SQL_VARCHAR" value="#benefits_provided#">
@@ -5375,6 +5389,7 @@ limitations under the License.
 	<cfargument name="permit_remarks" type="string" required="no">
 	<cfargument name="restriction_summary" type="string" required="no">
 	<cfargument name="benefits_summary" type="string" required="no">
+	<cfargument name="internal_benefits_summary" type="string" required="no">
 	<cfargument name="benefits_provided" type="string" required="no">
 
 	<cfset data = ArrayNew(1)>
@@ -5428,6 +5443,9 @@ limitations under the License.
 						</cfif>
 						<cfif isdefined("benefits_summary")>
 							,benefits_summary = <cfqueryparam CFSQLTYPE="CF_SQL_VARCHAR" value="#benefits_summary#">
+						</cfif>
+						<cfif isdefined("internal_benefits_summary")>
+							,internal_benefits_summary = <cfqueryparam CFSQLTYPE="CF_SQL_VARCHAR" value="#internal_benefits_summary#">
 						</cfif>
 						<cfif isdefined("benefits_provided")>
 							,benefits_provided = <cfqueryparam CFSQLTYPE="CF_SQL_VARCHAR" value="#benefits_provided#">
