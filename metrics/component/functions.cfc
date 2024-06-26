@@ -55,7 +55,6 @@ limitations under the License.
 							#totals.collection#,#totals.holdings#,#totals.NumberFormat((catalogeditems/holdings)*100, '9.99')#,#totals.catalogeditems#,#totals.specimens#,#totals.primaryCatItems#,#totals.secondaryCatItems#,#totals.secondarySpecimens#
 						</cfoutput>
 					</cfloop>
-				
 				</cfspreadsheet>
 				<section class="col-12 mt-1 px-0">
 					<h2 class="h3 px-2">Holdings <span class="text-muted">(#encodeForHtml(beginDate)#/#encodeForHtml(endDate)#)</span></h2>
