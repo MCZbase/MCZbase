@@ -91,8 +91,8 @@ limitations under the License.
 						<h1 class="h2 float-left">MCZbase Metrics</h1>
 						<div class="btn-toolbar mb-2 mb-md-0 float-right">
 							<div class="btn-group mr-2">
-								<a id="specimencsvdownloadbutton" class="btn btn-sm btn-outline-secondary px-2 my-2 mx-1 disabled" aria-label="Export results to csv" href="/specimens/component/search.cfc?method=getSpecimensAsCSVProfile&download_profile_id=#profile_id#&result_id=#encodeForUrl(result_id)#" download="#filename#" target="_blank" onclick="handleDownloadClick();" >Share</a>
-								<a id="specimencsvdownloadbutton" class="btn btn-sm btn-outline-secondary px-2 my-2 mx-1 disabled" aria-label="Export results to csv" href="/metrics/component/functions.cfc?method=getSpecimensAsCSVProfile&download_profile_id=#profile_id#&result_id=#encodeForUrl(result_id)#" download="#filename#" target="_blank" onclick="handleDownloadClick();" >Export</a>
+								<a id="share" class="btn btn-sm btn-outline-secondary px-2 my-2 mx-1 disabled" aria-label="share results" href="##" download="##" target="_blank" onclick="handleDownloadClick();" >Share</a>
+								<a id="specimencsvdownloadbutton" class="btn btn-sm btn-outline-secondary px-2 my-2 mx-1 disabled" aria-label="Export results to csv" href="/metrics/component/functions.cfc" download="##" target="_blank" onclick="handleDownloadClick();" >Export</a>
 								<output id="downloadFeedback"></output>
 								<output id="downloadResult"></output>
 								<!---<button type="button" class="btn btn-sm btn-outline-secondary">Share</button>
