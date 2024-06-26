@@ -53,8 +53,8 @@ button.addEventListener("click", function() {
     loadingEl.classList.add("bg-dark");
     loadingEl.classList.add("bg-opacity-25");
     loadingEl.innerHTML = "
-        <span class="spinner-border text-danger" role="status"></span>
-        <span class="text-gray-800 fs-6 fw-semibold mt-5">Loading...</span>
+        <span class='spinner-border text-danger" role="status'></span>
+        <span class='text-gray-800 fs-6 fw-semibold mt-5'>Loading...</span>
     ";
 
     // Show page loading
