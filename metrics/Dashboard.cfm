@@ -23,7 +23,9 @@ limitations under the License.
 	
 <cfset pageTitle="Metrics Dashboard">
 <cfinclude template="/shared/_header.cfm">
+<cfinclude template = "/shared/functionLib.cfm">
 <cfinclude template="/metrics/component/functions.cfc">
+
 <script type="text/javascript" src="/metrics/js/metrics.js"></script> 
 
 <!--- TODO: Set to most recent full year. --->
