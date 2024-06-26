@@ -39,7 +39,7 @@ limitations under the License.
 
 	<br clear="all">	
 		<nav id="sidebarMenu" class="col-md-2 col-lg-2 d-md-block bg-light sidebar collapse">
-			<div class="sidebar-sticky pt-4 px-3">
+			<div class="sidebar-sticky pt-4 px-2">
 				
 			
 				<form id="loadReportForm">
