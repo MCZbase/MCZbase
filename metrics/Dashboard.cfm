@@ -88,7 +88,7 @@ limitations under the License.
 			<div class="row">
 				<cfoutput>
 					<div class="col-12 px-0 mt-4">
-						<h1 class="h2 float-left pt-2">MCZbase Metrics</h1>
+						<h1 class="h2 float-left pt-1">MCZbase Metrics</h1>
 						<div class="btn-toolbar mb-2 mb-md-0 float-right">
 							<div class="btn-group mr-2">
 								<button type="button" class="btn btn-sm btn-outline-secondary">Share</button>
