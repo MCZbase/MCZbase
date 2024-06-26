@@ -98,14 +98,8 @@ Search for permits. Any part of names accepted, year or full date for dates, cas
             	`	<td>
 		    	</td>
 			<td>
-                		<script>
-		                   function createPermitSDialogDone () { 
-                       			$('##permit_Num').val($('##createPermitSDlg_#shipment_id#_iframe').contents().find('##permit_number_passon').val()); 
-		                	$('##createPermitSDlg_#shipment_id#').html('').dialog('destroy');
-                   		   };
-		        	</script>
-				<span id='createPermitS_#shipment_id#'><input type='button' style='margin-left: 30px;' value='New Permit' class='lnkBtn' onClick="opendialogcallback('/Permit.cfm?headless=true&Action=newPermit','createPermitSDlg_#shipment_id#','Create New Permit', createPermitSDialogDone , 750,950 ); " ></span><div id='createPermitSDlg_#shipment_id#'></div>
-            		</td>
+				<a href="/transactions/Permit.cfm?action=new" target="_blank">Create New Permissions and Rights Document</a>
+          </td>
 		</tr>
 	</table>
 	

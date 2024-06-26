@@ -241,7 +241,7 @@ limitations under the License.
 				<div style="text-align: center; #font# font-size: 1em;">
 					#getSubloan.collection#
 				</div>
-				<div style="text-align: center; #font# font-size: 1em;">
+				<div style="text-align: center; #font# font-size: 1em; margin-bottom 1em;">
 					Museum of Comparative Zoology, Harvard University
 				</div>
 				<table style="#font# font-size: small; padding: 0px; margin: 0px;">
@@ -259,7 +259,7 @@ limitations under the License.
 								#getSubloan.outside_email_address#<br>#getSubloan.outside_phone_number#
 							</div>
 						</td>
-						<td style="width: 45%; vertical-align: top;">
+						<td style="width: 45%; vertical-align: top; margin-bottom: 1em;">
 							<ul style="text-align: left; list-style: none;">
 								<li style="list-style-type: none"><strong>Status:</strong> #getSubloan.loan_status#</strong>
 								<cfif getSubloan.loan_status NEQ top_loan_status >
@@ -330,9 +330,11 @@ limitations under the License.
 							</cfif>
 						</div>
 					</cfif>
+					<br>
 					<div style="margin: 0px; border: 1px solid black;">
 						<div style="#font# font-size: small;">All Terms and Conditions From Loan #top_loan_number# Apply.</div>
 					</div>
+					<br>
 				</div>
 				<table style="#font# font-size: small;">
 					<tr>
@@ -362,7 +364,7 @@ limitations under the License.
 		<cfelseif getLoan.loan_type EQ "exhibition-master">
 			<!--- Special header for exhibition-master loans. --->
 			<cfdocumentsection name="Exhibition Loan Agreement Header">
-				<div style="text-align: center; #font# font-size: 1.2em;">
+				<div style="text-align: center; #font# font-size: 1em;">
 					<strong>Museum of Comparative Zoology, Harvard University</strong>
 				</div>
 				<div style="text-align: center; #font# font-size: 1em;">
@@ -370,7 +372,7 @@ limitations under the License.
 					Harvard University<br>
 					Cambridge, MA 02138
 				</div>
-				<div style="width: 100%; #font# font-size: 1.2em; border-bottom: 2px solid black;">
+				<div style="width: 100%; #font# font-size: 1em; border-bottom: 2px solid black;">
 					<span style="text-align: center;"><strong>Exhibition Loan Agreement</strong></span>
 					<span style="text-align: right;">No. <strong>#getLoan.loan_number#</strong></span>
 				</div>
@@ -608,7 +610,7 @@ limitations under the License.
 		<cfelse>
 			<!--- Normal invoice header for regular loans and exhibition-master loans. --->
 			<cfdocumentsection name="Loan Header">
-				<div style="text-align: center; #font# font-size: 1.2em; padding-top: 0px;">
+				<div style="text-align: center; #font# font-size: 1em; padding-top: 0px;">
 					<strong>Invoice of Specimens</strong>
 				</div>
 					
@@ -951,12 +953,15 @@ limitations under the License.
 					<strong style="#font# font-size: small;">Summary of restrictions imposed and benefits required from original collecting agreements</strong>
 				</div>
 			</cfif>
-			<div style="#font# font-size: small;">
-				The MCZ is committed to the spirit and letter of the Convention on Biological Diversity and its associated Nagoya Protocol on Access
-				and Benefit-Sharing, and it expects its partner users to act in a manner consistent with these international obligations. Use
-				of some specimens may be restricted by the providing country; therefore, a specimen may only be used for approved
-				purposes, and express written permission must be obtained before a loaned specimen can be used for additional purposes.
-			</div>
+			<cfif getRestrictions.recordcount GT 0 OR left(getLoan.loan_type,10) NEQ "exhibition">
+				<!--- show generic CBD text on all non-exhibition loans, and any loans where there are restrictions on use --->
+				<div style="#font# font-size: small;">
+					The MCZ is committed to the spirit and letter of the Convention on Biological Diversity and its associated Nagoya Protocol on Access
+					and Benefit-Sharing, and it expects its partner users to act in a manner consistent with these international obligations. Use
+					of some specimens may be restricted by the providing country; therefore, a specimen may only be used for approved
+					purposes, and express written permission must be obtained before a loaned specimen can be used for additional purposes.
+				</div>
+			</cfif>
 			<cfif getRestrictions.recordcount GT 0>
 				<ul style="#font# font-size: 1em;">
 					<cfloop query="getRestrictions">
@@ -970,6 +975,7 @@ limitations under the License.
 								<cfif len(getRestrictions.restriction_summary) GT 0> 
 									Summary of restrictions on use: #getRestrictions.restriction_summary#<br>
 								</cfif>
+								<!--- internal_benefits_summary is not shown here, just the all users benefits summary --->
 								<cfif len(getRestrictions.benefits_summary) GT 0> 
 									Summary of required benefits: #getRestrictions.benefits_summary#
 								</cfif>
@@ -986,6 +992,7 @@ limitations under the License.
 								<cfif len(getRestrictions.restriction_summary) GT 0> 
 									Summary of restrictions on use: #getRestrictions.restriction_summary#<br>
 								</cfif>
+								<!--- internal_benefits_summary is not shown here, just the all users benefits summary --->
 								<cfif len(getRestrictions.benefits_summary) GT 0> 
 									Summary of required benefits: #getRestrictions.benefits_summary#
 								</cfif>
@@ -1189,7 +1196,7 @@ limitations under the License.
 						<cfset masterLotTotal = masterLotTotal + TotalLotCount>
 					</div>
 				</cfloop>
-				<div style="#font# font-size: 1.2em;">
+				<div style="#font# font-size: 1em;">
 					<cfif masterTotal EQ 1><cfset splural = ""><cfelse><cfset splural = "s"></cfif>
 					<cfif masterLotTotal EQ 1><cfset lplural = ""><cfelse><cfset lplural = "s"></cfif>
 					<strong>Loan #loan_number# includes a total of #masterTotal# specimen#splural# in #masterLotTotal# lot#lplural#.</strong>
@@ -1289,7 +1296,7 @@ limitations under the License.
 						<cfset totalLotCount = totalLotCount + 1>
 					</cfloop>
 				</table>
-				<div style="#font# font-size: 1.2em;">
+				<div style="#font# font-size: 1em;">
 					<cfif TotalSpecimens EQ 1><cfset splural = ""><cfelse><cfset splural = "s"></cfif>
 					<cfif TotalLotCount EQ 1><cfset lplural = ""><cfelse><cfset lplural = "s"></cfif>
 					Total of #TotalSpecimens# specimen#splural# in #TotalLotCount# lot#lplural#.
@@ -1297,16 +1304,16 @@ limitations under the License.
 			</cfif>
 		</cfdocumentsection>
 
-		<cfif getShipments.recordcount EQ 1>
+		<cfif getShipments.recordcount EQ 1 AND getLoan.loan_type NEQ "exhibition-subloan">
 			<cfdocumentsection name="Shipping Labels">
 			<cfloop query="getShipments">
-				<div style="#font# font-size: 1.2em; margin-bottom: 2em;">
+				<div style="#font# font-size: 1em; margin-bottom: 2em;">
 					Shipping Label
 				</div>
 				<table style="#font# font-size: 1em;">
 					<tr>
 						<td>
-							<strong style="#font# font-size: 1.2em;">From:</strong>
+							<strong style="#font# font-size: 1em;">From:</strong>
 							<br> 
 							#replace(fromAddress,chr(10),"<br>","all")# 
 						</td>

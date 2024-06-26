@@ -493,6 +493,9 @@ limitations under the License.
 	<cfif not isdefined("benefits_summary")>
 		<cfset benefits_summary="">
 	</cfif>
+	<cfif not isdefined("internal_benefits_summary")>
+		<cfset internal_benefits_summary="">
+	</cfif>
 	<cfif not isdefined("benefits_provided")>
 		<cfset benefits_provided="">
 	</cfif>
@@ -1679,7 +1682,7 @@ limitations under the License.
 										</div>
 
 										<div class="col-md-6">
-											<div class="border bg-light rounded px-0 pt-1 pb-3 mb-0">
+											<div class="border bg-light rounded px-0 pt-1 pb-3 mb-0 row">
 												<h3 class="h5 px-3 my-2">Permissions &amp; Rights</h3>
 												<div class="col-md-12">
 													<label for="a_permit_num" id="a_permit_picklist" class="data-entry-label mb-0 pt-0 mt-0">Document/Permit Number:</label>
@@ -1735,9 +1738,13 @@ limitations under the License.
 													<label for="accn_restriction_summary" class="data-entry-label mb-0 pb-0">Restrictions <span class="small">(accepts substring, NULL, NOT NULL)</span></label>
 													<input type="text" name="restriction_summary" class="data-entry-input" value="#restriction_summary#" id="accn_restriction_summary">
 												</div>
-												<div class="col-md-12 mt-1">
-													<label for="accn_benefits_summary" class="data-entry-label mb-0 pb-0">Benefits <span class="small">(accepts substring, NULL, NOT NULL)</span></label>
+												<div class="col-12 col-md-6 mt-1">
+													<label for="accn_benefits_summary" class="data-entry-label mb-0 pb-0">Benefits: All <span class="small">(accepts substring, NULL, NOT NULL)</span></label>
 													<input type="text" name="benefits_summary" class="data-entry-input" value="#benefits_summary#" id="accn_benefits_summary">
+												</div>
+												<div class="col-12 col-md-6 mt-1">
+													<label for="accn_internal_benefits_summary" class="data-entry-label mb-0 pb-0">Benefits: Harvard <span class="small">(accepts substring, NULL, NOT NULL)</span></label>
+													<input type="text" name="internal_benefits_summary" class="data-entry-input" value="#internal_benefits_summary#" id="accn_internal_benefits_summary">
 												</div>
 												<div class="col-md-12 mt-1">
 													<label for="accn_benefits_provided" class="data-entry-label mb-0 pb-0">Benefits Provided <span class="small">(accepts substring, NULL, NOT NULL)</span></label>
@@ -2153,7 +2160,7 @@ limitations under the License.
 										</div>
 
 										<div class="col-md-6">
-											<div class="border bg-light rounded px-0 pt-1 mb-0 pb-3">
+											<div class="border bg-light rounded px-0 pt-1 mb-0 pb-3 row">
 												<h3 class="h5 px-3 my-xl-3">Permissions &amp; Rights</h3>
 												<div class="col-md-12">
 													<label for="de_permit_num" id="de_permit_picklist" class="data-entry-label mb-0 pt-0 mt-0">Document/Permit Number:</label>
@@ -2209,9 +2216,13 @@ limitations under the License.
 													<label for="deacc_restriction_summary" class="data-entry-label mb-0 pb-0">Restrictions <span class="small">(accepts substring, NULL, NOT NULL)</span></label>
 													<input type="text" name="restriction_summary" class="data-entry-input" value="#restriction_summary#" id="deacc_restriction_summary">
 												</div>
-												<div class="col-md-12 mt-1">
-													<label for="deacc_benefits_summary" class="data-entry-label mb-0 pb-0">Benefits <span class="small">(accepts substring, NULL, NOT NULL)</span></label>
+												<div class="col-12 col-md-6 mt-1">
+													<label for="deacc_benefits_summary" class="data-entry-label mb-0 pb-0">Benefits: All <span class="small">(accepts substring, NULL, NOT NULL)</span></label>
 													<input type="text" name="benefits_summary" class="data-entry-input" value="#benefits_summary#" id="deacc_benefits_summary">
+												</div>
+												<div class="col-12 col-md-6 mt-1">
+													<label for="deacc_internal_benefits_summary" class="data-entry-label mb-0 pb-0">Benefits: Harvard <span class="small">(accepts substring, NULL, NOT NULL)</span></label>
+													<input type="text" name="internal_benefits_summary" class="data-entry-input" value="#internal_benefits_summary#" id="deacc_internal_benefits_summary">
 												</div>
 												<div class="col-md-12 mt-1">
 													<label for="deacc_benefits_provided" class="data-entry-label mb-0 pb-0">Benefits Provided <span class="small">(accepts substring, NULL, NOT NULL)</span></label>
@@ -2553,7 +2564,7 @@ limitations under the License.
 										</div>
 
 										<div class="col-md-6">
-											<div class="border bg-light rounded px-0 px-sm-2 pt-1 mb-0 pb-3">
+											<div class="border bg-light rounded px-0 px-sm-2 pt-1 mb-0 pb-3 row">
 												<h3 class="h5 px-3 my-xl-3">Permissions &amp; Rights</h3>
 												<div class="col-md-12">
 													<label for="bo_permit_num" id="bo_permit_picklist" class="data-entry-label mb-0 pt-0 mt-0">Document/Permit Number:</label>
@@ -2609,9 +2620,13 @@ limitations under the License.
 													<label for="borrow_restriction_summary" class="data-entry-label mb-0 pb-0">Restrictions <span class="small">(accepts substring, NULL, NOT NULL)</span></label>
 													<input type="text" name="restriction_summary" class="data-entry-input" value="#restriction_summary#" id="borrow_restriction_summary">
 												</div>
-												<div class="col-md-12 mt-1">
-													<label for="borrow_benefits_summary" class="data-entry-label mb-0 pb-0">Benefits <span class="small">(accepts substring, NULL, NOT NULL)</span></label>
+												<div class="col-12 col-md-6 mt-1">
+													<label for="borrow_benefits_summary" class="data-entry-label mb-0 pb-0">Benefits: All <span class="small">(accepts substring, NULL, NOT NULL)</span></label>
 													<input type="text" name="benefits_summary" class="data-entry-input" value="#benefits_summary#" id="borrow_benefits_summary">
+												</div>
+												<div class="col-12 col-md-6 mt-1">
+													<label for="borrow_internal_benefits_summary" class="data-entry-label mb-0 pb-0">Benefits: Harvard <span class="small">(accepts substring, NULL, NOT NULL)</span></label>
+													<input type="text" name="internal_benefits_summary" class="data-entry-input" value="#internal_benefits_summary#" id="borrow_internal_benefits_summary">
 												</div>
 												<div class="col-md-12 mt-1">
 													<label for="borrow_benefits_provided" class="data-entry-label mb-0 pb-0">Benefits Provided <span class="small">(accepts substring, NULL, NOT NULL)</span></label>
