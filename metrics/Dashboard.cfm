@@ -40,8 +40,6 @@ limitations under the License.
 	<br clear="all">	
 		<nav id="sidebarMenu" class="col-md-2 col-lg-2 d-md-block bg-light sidebar collapse">
 			<div class="sidebar-sticky pt-4 px-2">
-				
-			
 				<form id="loadReportForm">
 					<h3 class="h4 text-muted">Report Date Range</h3>
 					<input type="hidden" name="returnFormat" value="plain">
@@ -93,8 +91,12 @@ limitations under the License.
 						<h1 class="h2 float-left">MCZbase Metrics</h1>
 						<div class="btn-toolbar mb-2 mb-md-0 float-right">
 							<div class="btn-group mr-2">
-								<button type="button" class="btn btn-sm btn-outline-secondary">Share</button>
-								<button type="button" class="btn btn-sm btn-outline-secondary">Export</button>
+								<a id="specimencsvdownloadbutton" class="btn btn-sm btn-outline-secondary px-2 my-2 mx-1 disabled" aria-label="Export results to csv" href="/specimens/component/search.cfc?method=getSpecimensAsCSVProfile&download_profile_id=#profile_id#&result_id=#encodeForUrl(result_id)#" download="#filename#" target="_blank" onclick="handleDownloadClick();" >Share</a>
+								<a id="specimencsvdownloadbutton" class="btn btn-sm btn-outline-secondary px-2 my-2 mx-1 disabled" aria-label="Export results to csv" href="/metrics/component/functions.cfc?method=getSpecimensAsCSVProfile&download_profile_id=#profile_id#&result_id=#encodeForUrl(result_id)#" download="#filename#" target="_blank" onclick="handleDownloadClick();" >Export</a>
+								<output id="downloadFeedback"></output>
+								<output id="downloadResult"></output>
+								<!---<button type="button" class="btn btn-sm btn-outline-secondary">Share</button>
+								<button type="button" class="btn btn-sm btn-outline-secondary">Export</button>--->
 							</div>
 						</div>
 					</div>

@@ -126,6 +126,11 @@ limitations under the License.
 							</cfloop>
 						</tbody>
 					</table>
+					<cfspreadsheet 
+						action = "write" 
+						filename="C:\report.xls" 
+						query="getAnnualNumbers" 
+						overwrite="true">
 				</section>
 			<cfcatch>
 				<cfset error_message = cfcatchToErrorMessage(cfcatch)>
@@ -140,7 +145,15 @@ limitations under the License.
 	<cfreturn getAnnualNumbersThread.output>
 </cffunction>
 
+<cffunction name="exportAnnualNumbers" access="remote" returntype="any" returnformat="csv">
 
+<cfspreadsheet 
+action = "write" 
+filename="C:\SingleSheet1.xls" 
+query="getAnnualNumbers" 
+overwrite="true">				
+					
+</cffunction>
 
 <cffunction name="getLoanNumbers" access="remote" returntype="any" returnformat="json">
 	<cfargument name="endDate" type="any" required="no">
