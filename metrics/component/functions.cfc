@@ -114,6 +114,10 @@ limitations under the License.
 				<cfset start = GetTickCount()>
 				<cfquery name="ACtotals" datasource="uam_god">
 					SELECT 
+						rm.holdings,
+						h.collection, 
+						h.catalogeditems, 
+						h.specimens, 
 						a.receivedCatItems,
 						a.receivedSpecimens,
 						e.enteredCatItems,
