@@ -25,7 +25,31 @@ limitations under the License.
 <cfinclude template="/shared/_header.cfm">
 <cfinclude template="/metrics/component/functions.cfc">
 <script type="text/javascript" src="/metrics/js/metrics.js"></script> 
+<script>
+var api_url = "/metrics/Dashboard.cfm"; 
 
+// Defining async function  
+function getapi(url) { 
+	// Storing response  
+	var response = fetch(url); 
+	// Storing data in form of JSON  
+	var apidata = response.json(); 
+	console.log(apidata); 
+	if (response) { 
+		hideSpinner(); 
+	}
+	document.getElementById("data").innerHTML 
+		= "<h1>${apidata.data}</h1>"; 
+} 
+// Calling that async function  
+getapi(api_url); 
+  
+// Function to hide the Spinner 
+function hideSpinner() { 
+	document.getElementById('spinner') 
+		.style.display = 'none'; 
+}  
+</script>
 <!--- TODO: Set to most recent full year. --->
 <cfif NOT isDefined("beginDate")><cfset beginDate = '2023-01-01'></cfif>
 <cfif NOT isDefined("endDate")><cfset endDate = '2023-12-31'></cfif>
