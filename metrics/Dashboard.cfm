@@ -45,7 +45,7 @@ limitations under the License.
 			hideSpinner(); 
 		}
 		document.getElementById("annualNumbersDiv").innerHTML 
-			= "<h1>${apidata.data}</h1>"; 
+			= "<h1>${apidata.annualNumberDiv}</h1>"; 
 	} 
 	// Calling that async function  
 	getapi(api_url); 
