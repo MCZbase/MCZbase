@@ -66,7 +66,7 @@ limitations under the License.
 						<tbody>
 							<cfloop query="totals">
 								<tr>
-									<td>#collection#</td>
+									<td>#c.collection#</td>
 									<td>#holdings#</td>
 									<td>#NumberFormat((catalogeditems/holdings)*100, '9.99')#%</td>
 									<td>#catalogeditems#</td>
@@ -100,7 +100,6 @@ limitations under the License.
 	<cfthread name="getAcquisitionsThread">
 		<cfoutput>
 			<cftry>
-				<!--- annual report queries --->
 				<cfsetting RequestTimeout = "0">
 				<cfset start = GetTickCount()>
 				<cfquery name="acquisitions" datasource="uam_god">
