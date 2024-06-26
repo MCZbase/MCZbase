@@ -43,7 +43,7 @@ limitations under the License.
 		height: 100px;
 		border-radius: 50%;
 		border: 10px solid #ddd;
-		border-top-color: orange;
+		border-top-color: #dc3545;
 		animation: loading 1s linear infinite;
 	}
 	@keyframes loading {
@@ -56,7 +56,8 @@ limitations under the License.
 <!--- TODO: Set to most recent full year. --->
 <cfif NOT isDefined("beginDate")><cfset beginDate = '2023-01-01'></cfif>
 <cfif NOT isDefined("endDate")><cfset endDate = '2023-12-31'></cfif>
-
+<div class="loading-state">
+<div class="loading"></div>
 <cfsetting RequestTimeout = "0">
 <cfset start = GetTickCount()>
 <meta name="theme-color" content="#563d7c">
@@ -109,9 +110,7 @@ limitations under the License.
 					</script>
 				</div>
 			</nav>
-			<div class="loading-state">
-				<div class="loading"></div>
-					<main role="main" class="col-md-10 ml-sm-auto col-lg-10 px-md-5 mb-3">
+			<main role="main" class="col-md-10 ml-sm-auto col-lg-10 px-md-5 mb-3">
 						<div class="row">
 							<cfoutput>
 								<div class="col-12 px-0 mt-4">
@@ -130,9 +129,9 @@ limitations under the License.
 							</cfoutput>
 						</div>
 					</main>
-				</div>
 		</div>
 		<cfoutput>Execution Time: <b>#int(getTickCount()-start)#</b> milliseconds<br></cfoutput>
 	</div>
 </cfoutput>
+	</div>
 <cfinclude template="/shared/_footer.cfm">
