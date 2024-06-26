@@ -872,10 +872,10 @@ limitations under the License.
 				FROM cf_temp_edit_parts 
 				WHERE
 					(
-						status IS NULL or
-						status <> ' :Found Cataloged Item; Found Part'
+						status IS NULL
+						OR status <> ' :Found Cataloged Item; Found Part'
+						OR collection_object_id is not null
 					)
-					AND collection_object_id is not null
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<cfloop query="getTempData">
