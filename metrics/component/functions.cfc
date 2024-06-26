@@ -94,39 +94,6 @@ limitations under the License.
 						</tbody>
 					</table>
 				</section>
-				<section class="col-12 mt-3 px-0">
-					<h2 class="h3 px-2">Acquisitions (continued) <span class="text-muted">(#encodeForHtml(beginDate)#/#encodeForHtml(endDate)#)</span></h2>
-					<table class="table table-responsive table-striped d-lg-table" id="t">
-						<thead>
-							<tr>
-								<th><strong>Collection</strong></th>
-								<th><strong>Acquired Cataloged Items</strong></th>
-								<th><strong>Acquired Specimens</strong></th>
-								<th><strong>New Records Entered in MCZbase - Cataloged Items</strong></th>
-								<th><strong>Number of Genetic Samples added To Cryo</strong></th>
-								<th><strong>Number of Cataloged Items with NCBI numbers</strong></th>
-								<th><strong>Number of NCBI numbers added</strong></th>
-								<th><strong>Number of Accessions</strong></th>
-								<th><strong>Items received but not Cataloged at and of Year</strong></th>
-							</tr>
-						</thead>
-						<tbody>
-							<cfloop query="totals">
-								<tr>
-									<td>#collection#</td>
-									<td>#receivedCatItems#</td>
-									<td>#receivedSpecimens#</td>
-									<td>#enteredCatItems#</td>
-									<td>&nbsp;</td>
-									<td>#ncbiCatItems#</td>
-									<td>&nbsp;</td>
-									<td>#numAccns#</td>
-									<td>&nbsp;</td>
-								</tr>
-							</cfloop>
-						</tbody>
-					</table>
-				</section>
 			<cfcatch>
 				<cfset error_message = cfcatchToErrorMessage(cfcatch)>
 				<cfset function_called = "#GetFunctionCalledName()#">
@@ -140,6 +107,7 @@ limitations under the License.
 	<cfreturn getAnnualNumbersThread.output>
 </cffunction>
 
+					
 <cffunction name="getAcquisitions" access="remote" returntype="any" returnformat="json">
 	<cfargument name="beginDate" type="any" required="yes">
 	<cfargument name="endDate" type="any" required="yes">
