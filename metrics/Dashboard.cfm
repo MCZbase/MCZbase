@@ -21,6 +21,11 @@ limitations under the License.
 -->
 <cfset pageTitle="Metrics Dashboard">
 <cfinclude template="/shared/_header.cfm">
+<div class="page-loader flex-column bg-dark bg-opacity-25">
+	<span class="spinner-border text-danger" role="status">
+		<span class="text-gray-800 fs-6 fw-semibold mt-5">Loading...</span>
+	</span>
+</div>
 <cfinclude template="/metrics/component/functions.cfc">
 <script type="text/javascript" src="/metrics/js/metrics.js"></script> 
 
@@ -33,41 +38,35 @@ limitations under the License.
 	</div>
 </div>
 <script>
-	const api_url = "/metrics/Dashboard.cfm"; 
-	// Defining async function  
-	async function getapi(url) { 
-		// Storing response  
-		const response = await fetch(url); 
-		// Storing data in form of JSON  
-		var apidata = response.json(); 
-		console.log(apidata); 
-		if (response) { 
-			hideSpinner(); 
-		}
-		document.getElementById("annualNumbersDiv").innerHTML 
-			= "<h1>${apidata}</h1>"; 
-	} 
-	// Calling that async function  
-	getapi(api_url); 
+// Toggle
+const button = document.querySelector("##annualNumbersDiv");
 
-	// Function to hide the Spinner 
-	function hideSpinner() { 
-		document.getElementById('spinner') 
-			.style.display = 'none'; 
-	}  
+// Handle toggle click event
+button.addEventListener("click", function() {
+    // Populate the page loading element dynamically.
+    // Optionally you can skipt this part and place the HTML
+    // code in the body element by refer to the above HTML code tab.
+    const loadingEl = document.createElement("div");
+    document.body.prepend(loadingEl);
+    loadingEl.classList.add("page-loader");
+    loadingEl.classList.add("flex-column");
+    loadingEl.classList.add("bg-dark");
+    loadingEl.classList.add("bg-opacity-25");
+    loadingEl.innerHTML = "
+        <span class="spinner-border text-danger" role="status"></span>
+        <span class="text-gray-800 fs-6 fw-semibold mt-5">Loading...</span>
+    ";
+
+    // Show page loading
+    KTApp.showPageLoading();
+
+    // Hide after 3 seconds
+    setTimeout(function() {
+        KTApp.hidePageLoading();
+        loadingEl.remove();
+    }, 3000);
+});
 </script>
-<style> 
-	.overlay {
-		position: fixed;
-		width: 100%;
-		height: 100%;
-		z-index: 1000;
-		top: 40%;
-		left: 0px;
-		opacity: 0.5;
-		filter: alpha(opacity=50);
-	}
-</style>
 <cfsetting RequestTimeout = "0">
 <cfset start = GetTickCount()>
 <meta name="theme-color" content="#563d7c">
