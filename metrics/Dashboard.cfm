@@ -108,18 +108,6 @@ limitations under the License.
 						</select>
 						<input type="submit" value="submit" class="my-3 btn-xs btn btn-primary">
 					</form>
-					<script>
-						$('body').append('<div style="" id="loadingDiv"><div class="loader">Loading...</div></div>');
-						$(window).on('load', function(){
-							setTimeout(removeLoader, 2000); //wait for page load PLUS two seconds.
-						});
-						function removeLoader(){
-							$( "##loadingDiv" ).fadeOut(500, function() {
-						// fadeOut complete. Remove the loading div
-							$( "##loadingDiv" ).remove(); //makes page more lightweight 
-							});  
-						}
-					</script>
 				</div>
 			</nav>
 			<main role="main" class="col-md-10 ml-sm-auto col-lg-10 px-md-5 mb-3">
@@ -144,5 +132,17 @@ limitations under the License.
 		<cfoutput><div class="my-3">Execution Time: <b>#int(getTickCount()-start)#</b> milliseconds</div></cfoutput>
 		</div>
 	</div>
+	<script>
+		$('body').append('<div style="" id="loadingDiv"><div class="loader">Loading...</div></div>');
+		$(window).on('load', function(){
+			setTimeout(removeLoader, 2000); //wait for page load PLUS two seconds.
+		});
+		function removeLoader(){
+			$( "##loadingDiv" ).fadeOut(500, function() {
+		// fadeOut complete. Remove the loading div
+			$( "##loadingDiv" ).remove(); //makes page more lightweight 
+			});  
+		}
+	</script>
 </cfoutput>
 <cfinclude template="/shared/_footer.cfm">
