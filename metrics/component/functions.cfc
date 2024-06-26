@@ -16,8 +16,7 @@ limitations under the License.
 
 <cf_rolecheck>
 <cfinclude template="/shared/component/error_handler.cfc" runOnce="true">
-<cfsetting RequestTimeout = "0">
-<cfset start = GetTickCount()>
+	
 <cffunction name="getAnnualNumbers" access="remote" returntype="any" returnformat="json">
 	<cfargument name="beginDate" type="any" required="yes">
 	<cfargument name="endDate" type="any" required="yes">
