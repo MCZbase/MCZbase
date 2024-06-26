@@ -56,13 +56,13 @@ limitations under the License.
 				<cfcontent type="text/csv">
 				<cfoutput>#csv#</cfoutput>
 					
-				<cfheader name="Content-Disposition" value="attachment; filename=holdings.csv">
+				<!---<cfheader name="Content-Disposition" value="attachment; filename=holdings.csv">
 				<cfcontent type="text/csv">
 				<cfset file = FileOpen("holdings.csv", "write")>
 				<cfloop query="totals">
 					<cfset FileWrite(file, "#totals.collection#,#totals.holdings#,#totals.NumberFormat((catalogeditems/holdings)*100, '9.99')#,#totals.catalogeditems#,#totals.specimens#,#totals.primaryCatItems#,#totals.secondaryCatItems#,#totals.secondarySpecimens#")>
 				</cfloop>
-				<cfset FileClose(file)>
+				<cfset FileClose(file)>--->
 				<section class="col-12 mt-1 px-0">
 					<h2 class="h3 px-2">Holdings <span class="text-muted">(#encodeForHtml(beginDate)#/#encodeForHtml(endDate)#)</span></h2>
 					<div class="btn-toolbar mb-2 mb-md-0 float-right">
