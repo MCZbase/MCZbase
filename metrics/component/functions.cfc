@@ -36,13 +36,7 @@ limitations under the License.
 						p.primaryCatItems, 
 						p.primaryspecimens, 
 						s.secondaryCatItems, 
-						s.secondarySpecimens, 
-						a.receivedCatItems,
-						a.receivedSpecimens,
-						e.enteredCatItems,
-						e.enteredSpecimens,
-						ncbi.ncbiCatItems,
-						accn.numAccns
+						s.secondarySpecimens
 					FROM 
 						(select collection_cde,institution_acronym,descr,collection,collection_id from collection where collection_cde <> 'MCZ') c
 					LEFT JOIN (select collection_id,holdings,reported_date from MCZBASE.collections_reported_metrics) rm on c.collection_id = rm.collection_id 
