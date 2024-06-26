@@ -21,7 +21,13 @@ limitations under the License.
 -->
 <cfset pageTitle="Metrics Dashboard">
 <cfinclude template="/shared/_header.cfm">
-
+<div class="overlay">
+	<div class="d-flex justify-content-center">  
+		<div class="spinner text-danger" role="status" id="spinner" style="width: 3rem; height: 3rem; z-index: 20;">
+			<span class="sr-only">Loading...</span>
+		</div>
+	</div>
+</div>
 <cfinclude template="/metrics/component/functions.cfc">
 <script type="text/javascript" src="/metrics/js/metrics.js"></script> 
 
@@ -32,13 +38,7 @@ limitations under the License.
 <cfset start = GetTickCount()>
 <meta name="theme-color" content="#563d7c">
 <cfoutput>
-<div class="overlay">
-	<div class="d-flex justify-content-center">  
-		<div class="spinner text-danger" role="status" id="spinner" style="width: 3rem; height: 3rem; z-index: 20;">
-			<span class="sr-only">Loading...</span>
-		</div>
-	</div>
-</div>
+
 <div class="container-fluid" id="content">
 	<div class="row">
 	<br clear="all">	
