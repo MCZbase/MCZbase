@@ -40,15 +40,16 @@ limitations under the License.
 	<br clear="all">	
 		<nav id="sidebarMenu" class="col-md-2 col-lg-2 d-md-block bg-light sidebar collapse">
 			<div class="sidebar-sticky pt-4 px-3">
-				<h3 class="text-muted"><span>Report Date Range</span></h3>
+				
 			
 				<form id="loadReportForm">
+					<label class="h3 text-muted">Report Date Range</label>
 					<input type="hidden" name="returnFormat" value="plain">
 					<label for="beginDate" class="data-entry-label mt-2">Begin Date</label>
 					<input name="beginDate" id="beginDate" type="text" class="mb-1 datetimeinput data-entry-input data-entry-input" placeholder="yyyy-mm-dd" value="#beginDate#" aria-label="start of range for dates to display metrics.">
 					<label for="endDate" class="data-entry-label mt-2">End Date</label>
 					<input name="endDate" id="endDate" type="text" class="mb-1 datetimeinput data-entry-input data-entry-input" placeholder="yyyy-mm-dd" value="#endDate#" aria-label="end of range for dates to display metrics.">
-					<label for="method" class="data-entry-label mt-3">Report To Show</label>
+					<label for="method" class="h3 data-entry-label mt-3 text-muted">Report To Show</label>
 					<select id="method" name="method" class="my-1 data-entry-input">
 						<option value="getAnnualNumbers" selected="selected">Holdings &amp; Acquisitions</option>
 						<option value="getLoanNumbers">Loan Activity</option>
