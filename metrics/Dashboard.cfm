@@ -90,7 +90,27 @@ limitations under the License.
 				<cfoutput>
 					<div class="col-12 px-0 mt-4">
 						<h1 class="h2 float-left mb-0">MCZbase Metrics</h1>
+						<div class="btn-toolbar mb-2 mb-md-0 float-right">
+							<div class="btn-group mr-2">
+								<button type="button" class="btn btn-sm btn-outline-secondary">Share</button>
+								<button type="button" class="btn btn-sm btn-outline-secondary" onclick="toggleTaxaDetail(#toggleTo#);">Export</button>
+							</div>
+						</div>
 					</div>
+					<script>
+						$.ajax({
+							method: "GET",
+							url: "/metrics/component/functions.cfc",
+							data: {
+								method: 'downloadCSV'
+							},
+							cache: false,
+							success: function(data) {
+								console.log("Downloaded");
+							},
+							error: 'Not downloaded'
+						});
+					</script>
 					<cfset summaryAnnualBlock=getAnnualNumbers(endDate="#endDate#",beginDate="#beginDate#")>
 					<div id="annualNumbersDiv">
 						#summaryAnnualBlock#
