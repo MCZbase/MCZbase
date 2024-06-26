@@ -74,7 +74,7 @@ limitations under the License.
 <cfoutput>
 <div class="overlay">
 	<div class="d-flex justify-content-center">  
-		<div class="spinner-grow text-primary" role="status" style="width: 3rem; height: 3rem; z-index: 20;">
+		<div class="spinner text-danger" role="status" id="spinner" style="width: 3rem; height: 3rem; z-index: 20;">
 			<span class="sr-only">Loading...</span>
 		</div>
 	</div>
