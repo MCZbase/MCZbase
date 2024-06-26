@@ -44,10 +44,10 @@ limitations under the License.
 			
 				<form id="loadReportForm">
 					<input type="hidden" name="returnFormat" value="plain">
-					<label for="beginDate" class="data-entry-label mt-3">Begin Date</label>
-					<input name="beginDate" id="beginDate" type="text" class="my-1 datetimeinput data-entry-input data-entry-input" placeholder="yyyy-mm-dd" value="#beginDate#" aria-label="start of range for dates to display metrics.">
-					<label for="endDate" class="data-entry-label mt-3">End Date</label>
-					<input name="endDate" id="endDate" type="text" class="my-1 datetimeinput data-entry-input data-entry-input" placeholder="yyyy-mm-dd" value="#endDate#" aria-label="end of range for dates to display metrics.">
+					<label for="beginDate" class="data-entry-label mt-2">Begin Date</label>
+					<input name="beginDate" id="beginDate" type="text" class="mb-1 datetimeinput data-entry-input data-entry-input" placeholder="yyyy-mm-dd" value="#beginDate#" aria-label="start of range for dates to display metrics.">
+					<label for="endDate" class="data-entry-label mt-2">End Date</label>
+					<input name="endDate" id="endDate" type="text" class="mb-1 datetimeinput data-entry-input data-entry-input" placeholder="yyyy-mm-dd" value="#endDate#" aria-label="end of range for dates to display metrics.">
 					<label for="method" class="data-entry-label mt-3">Report To Show</label>
 					<select id="method" name="method" class="my-1 data-entry-input">
 						<option value="getAnnualNumbers" selected="selected">Holdings</option>
@@ -56,7 +56,7 @@ limitations under the License.
 						<option value="getCitationNumbers">Citation Activity</option>
 						<option value="getGeorefNumbers">Georeference Activity</option>
 					</select>
-					<input type="submit" value="submit" class="my-1 btn-xs btn btn-primary">
+					<input type="submit" value="submit" class="my-2 btn-xs btn btn-primary">
 				</form>
 				<script>
 					$(document).ready(function() {
