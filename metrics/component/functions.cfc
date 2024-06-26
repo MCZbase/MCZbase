@@ -47,22 +47,22 @@ limitations under the License.
 					LEFT JOIN 
 						(select f.collection_id, f.collection, count(distinct collection_object_id) receivedCatitems, sum(decode(total_parts,null, 1,total_parts)) receivedSpecimens from flat f join accn a on f.ACCN_ID = a.transaction_id join trans t on a.transaction_id = t.transaction_id where a.received_DATE between  to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#beginDate#">, 'YYYY-MM-DD') and  to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#endDate#">, 'YYYY-MM-DD') group by f.collection_id, f.collection) a on h.collection_id = a.collection_id
 				</cfquery>
-				<cfsavecontent variable="csv">
+<!---				<cfsavecontent variable="csv">
 				<cfoutput query="totals">
 					#totals.collection#,#totals.holdings#,#totals.NumberFormat((catalogeditems/holdings)*100, '9.99')#,#totals.catalogeditems#,#totals.specimens#,#totals.primaryCatItems#,#totals.secondaryCatItems#,#totals.secondarySpecimens#
 				</cfoutput> 
 				</cfsavecontent>
 				<cfheader name="Content-Disposition" value="attachment; filename=holdings.csv">
 				<cfcontent type="text/csv">
-				<cfoutput>#csv#</cfoutput>
+				<cfoutput>#csv#</cfoutput>--->
 					
-				<!---<cfheader name="Content-Disposition" value="attachment; filename=holdings.csv">
+				<cfheader name="Content-Disposition" value="attachment; filename=holdings.csv">
 				<cfcontent type="text/csv">
 				<cfset file = FileOpen("holdings.csv", "write")>
 				<cfloop query="totals">
 					<cfset FileWrite(file, "#totals.collection#,#totals.holdings#,#totals.NumberFormat((catalogeditems/holdings)*100, '9.99')#,#totals.catalogeditems#,#totals.specimens#,#totals.primaryCatItems#,#totals.secondaryCatItems#,#totals.secondarySpecimens#")>
 				</cfloop>
-				<cfset FileClose(file)>--->
+				<cfset FileClose(file)>
 				<section class="col-12 mt-1 px-0">
 					<h2 class="h3 px-2">Holdings <span class="text-muted">(#encodeForHtml(beginDate)#/#encodeForHtml(endDate)#)</span></h2>
 					<div class="btn-toolbar mb-2 mb-md-0 float-right">
