@@ -137,13 +137,7 @@
 			    <input type="submit" value="Search" class="schBtn">	
 			</td>
 			<td>
-                <script>
-                   function createPermitDialogDone () { 
-                       $('##permit_Num').val($('##createPermitDlg_#transaction_id#_iframe').contents().find('##permit_number_passon').val()); 
-                       $('##createPermitDlg_#transaction_id#').html('').dialog('destroy');
-                   };
-                </script>
-                <span id='createPermit_#transaction_id#'><input type='button' style='margin-left: 30px;' value='New Permit' class='lnkBtn' onClick="opendialogcallback('/Permit.cfm?headless=true&Action=newPermit','createPermitDlg_#transaction_id#','Create Permit', createPermitDialogDone, 750, 950);" ></span><div id='createPermitDlg_#transaction_id#'></div>
+				<a href="/transactions/Permit.cfm?action=new" target="_blank">Create New Permissions and Rights Document</a>
 			</td>
 			<td>
    			    <input type="reset" value="Clear" class="clrBtn">

@@ -780,6 +780,7 @@ limitations under the License.
 	<cfargument name="ContactAgent" default="">
 	<cfargument name="restriction_summary" default="">
 	<cfargument name="benefits_summary" default="">
+	<cfargument name="internal_benefits_summary" default="">
 	<cfargument name="benefits_provided" default="">
 
 	<cfset data = ArrayNew(1)>
@@ -920,6 +921,15 @@ limitations under the License.
 						and benefits_summary IS NOT NULL
 					<cfelse>
 						AND upper(benefits_summary) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(benefits_summary)#%">
+					</cfif>
+				</cfif>
+				<cfif isdefined("internal_benefits_summary") AND len(#internal_benefits_summary#) gt 0>
+					<cfif isdefined("internal_benefits_summary") AND internal_benefits_summary EQ "NULL">
+						and internal_benefits_summary IS NULL
+					<cfelseif isdefined("internal_benefits_summary") AND internal_benefits_summary EQ "NOT NULL">
+						and internal_benefits_summary IS NOT NULL
+					<cfelse>
+						AND upper(internal_benefits_summary) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(internal_benefits_summary)#%">
 					</cfif>
 				</cfif>
 				<cfif isdefined("benefits_provided") AND len(#benefits_provided#) gt 0>
@@ -1171,6 +1181,7 @@ limitations under the License.
 	<cfargument name="coll_obj_disposition" type="string" required="no">
 	<cfargument name="restriction_summary" type="string" required="no">
 	<cfargument name="benefits_summary" type="string" required="no">
+	<cfargument name="internal_benefits_summary" type="string" required="no">
 	<cfargument name="benefits_provided" type="string" required="no">
 	<cfargument name="issued_by_id" type="string" required="no">
 	<cfargument name="issued_to_id" type="string" required="no">
@@ -1532,6 +1543,15 @@ limitations under the License.
 						AND upper(permit.benefits_summary) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(benefits_summary)#%">
 					</cfif>
 				</cfif>
+				<cfif isdefined("internal_benefits_summary") and len(#internal_benefits_summary#) gt 0>
+					<cfif internal_benefits_summary EQ 'NULL'>
+						AND upper(permit.internal_benefits_summary) is NULL
+					<cfelseif internal_benefits_summary EQ 'NOT NULL'>
+						AND upper(permit.internal_benefits_summary) is NOT NULL
+					<cfelse>
+						AND upper(permit.internal_benefits_summary) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(internal_benefits_summary)#%">
+					</cfif>
+				</cfif>
 				<cfif isdefined("benefits_provided") and len(#benefits_provided#) gt 0>
 					<cfif benefits_provided EQ 'NULL'>
 						AND upper(permit.benefits_provided) is NULL
@@ -1676,6 +1696,7 @@ limitations under the License.
 	<cfargument name="coll_obj_disposition" type="string" required="no">
 	<cfargument name="restriction_summary" type="string" required="no">
 	<cfargument name="benefits_summary" type="string" required="no">
+	<cfargument name="internal_benefits_summary" type="string" required="no">
 	<cfargument name="benefits_provided" type="string" required="no">
 	<cfargument name="issued_by_id" type="string" required="no">
 	<cfargument name="issued_to_id" type="string" required="no">
@@ -2012,6 +2033,15 @@ limitations under the License.
 						AND upper(permit.benefits_summary) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(benefits_summary)#%">
 					</cfif>
 				</cfif>
+				<cfif isdefined("internal_benefits_summary") and len(#internal_benefits_summary#) gt 0>
+					<cfif internal_benefits_summary EQ 'NULL'>
+						AND upper(permit.internal_benefits_summary) is NULL
+					<cfelseif internal_benefits_summary EQ 'NOT NULL'>
+						AND upper(permit.internal_benefits_summary) is NOT NULL
+					<cfelse>
+						AND upper(permit.internal_benefits_summary) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(internal_benefits_summary)#%">
+					</cfif>
+				</cfif>
 				<cfif isdefined("benefits_provided") and len(#benefits_provided#) gt 0>
 					<cfif benefits_provided EQ 'NULL'>
 						AND upper(permit.benefits_provided) is NULL
@@ -2122,6 +2152,9 @@ limitations under the License.
 	<cfargument name="lenders_invoice_returned" type="string" required="no">
 	<cfargument name="shipment_count" type="string" required="no">
 	<cfargument name="foreign_shipments" type="string" required="no">
+	<cfargument name="benefits_summary" type="string" required="no">
+	<cfargument name="internal_benefits_summary" type="string" required="no">
+	<cfargument name="benefits_provided" type="string" required="no">
 
 	<!--- set start/end date range terms to same if only one is specified --->
 	<cfif isdefined("trans_date") and len(#trans_date#) gt 0>
@@ -2504,6 +2537,15 @@ limitations under the License.
 						AND upper(permit.benefits_summary) is NOT NULL
 					<cfelse>
 						AND upper(permit.benefits_summary) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(benefits_summary)#%">
+					</cfif>
+				</cfif>
+				<cfif isdefined("internal_benefits_summary") and len(#internal_benefits_summary#) gt 0>
+					<cfif internal_benefits_summary EQ 'NULL'>
+						AND upper(permit.internal_benefits_summary) is NULL
+					<cfelseif internal_benefits_summary EQ 'NOT NULL'>
+						AND upper(permit.internal_benefits_summary) is NOT NULL
+					<cfelse>
+						AND upper(permit.internal_benefits_summary) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(internal_benefits_summary)#%">
 					</cfif>
 				</cfif>
 				<cfif isdefined("benefits_provided") and len(#benefits_provided#) gt 0>

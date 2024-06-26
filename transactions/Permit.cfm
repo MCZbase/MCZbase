@@ -36,7 +36,7 @@
 /transactions/Permit.cfm
 
 Copyright 2008-2017 Contributors to Arctos
-Copyright 2008-2022 President and Fellows of Harvard College
+Copyright 2008-2024 President and Fellows of Harvard College
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -110,6 +110,7 @@ limitations under the License.
 				<cfif not isdefined("permit_remarks")><cfset permit_remarks=""></cfif>
 				<cfif not isdefined("benefits_provided")><cfset benefits_provided=""></cfif>
 				<cfif not isdefined("benefits_summary")><cfset benefits_summary=""></cfif>
+				<cfif not isdefined("internal_benefits_summary")><cfset internal_benefits_summary=""></cfif>
 				<cfif not isdefined("restriction_summary")><cfset restriction_summary=""></cfif>
 				<!--- Search Form --->
 				<cfoutput>
@@ -255,7 +256,7 @@ limitations under the License.
 											</div>
 											<div class="col-md-4">
 												<label for="benefits_summary" class="data-entry-label" id="benefits_summary_label">
-													Summary of Agreed Benefits
+													Summary of Agreed Benefits: All users
 													<span class="small">(
 													<a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick="$('##benefits_summary').val('NULL'); return false;" >NULL<span class="sr-only">use NULL to find permissions and rights documents with no values in agreed benefits</span></a>
 													,
@@ -263,6 +264,17 @@ limitations under the License.
 													)</span>
 												</label>
 												<input type="text" id="benefits_summary" name="benefits_summary" class="data-entry-input" value="#benefits_summary#" aria-labelledby="benefits_summary_label" >					
+											</div>
+											<div class="col-md-4">
+												<label for="internal_benefits_summary" class="data-entry-label" id="internal_benefits_summary_label">
+													Summary of Agreed Benefits: Harvard only
+													<span class="small">(
+													<a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick="$('##internal_benefits_summary').val('NULL'); return false;" >NULL<span class="sr-only">use NULL to find permissions and rights documents with no values in agreed benefits</span></a>
+													,
+													<a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick="$('##internal_benefits_summary').val('NOT NULL'); return false;" >NOT NULL<span class="sr-only">use NOT NULL to find permissions and rights documents with any agreed benefits</span></a>
+													)</span>
+												</label>
+												<input type="text" id="internal_benefits_summary" name="internal_benefits_summary" class="data-entry-input" value="#internal_benefits_summary#" aria-labelledby="internal_benefits_summary_label" >					
 											</div>
 											<div class="col-md-4">
 												<label for="benefits_provided" class="data-entry-label" id="benefits_provided_label">
@@ -805,9 +817,17 @@ limitations under the License.
 						</div>
 						<div class="form-row mb-2">
 							<div class="col-12">
-								<label for="benefits_summary" class="data-entry-label">Summary of Agreed Benefits (<span id="length_benefits_summary"></span>)</label>
+								<label for="benefits_summary" class="data-entry-label">Summary of Agreed Benefits: All users (<span id="length_benefits_summary"></span>)</label>
 								<textarea rows="1" name="benefits_summary" id="benefits_summary" 
 									onkeyup="countCharsLeft('benefits_summary', 4000, 'length_benefits_summary');"
+									class="autogrow border rounded w-100"></textarea>
+							</div>
+						</div>
+						<div class="form-row mb-2">
+							<div class="col-12">
+								<label for="internal_benefits_summary" class="data-entry-label">Summary of Agreed Benefits: Harvard only (<span id="length_internal_benefits_summary"></span>)</label>
+								<textarea rows="1" name="internal_benefits_summary" id="internal_benefits_summary" 
+									onkeyup="countCharsLeft('internal_benefits_summary', 4000, 'length_internal_benefits_summary');"
 									class="autogrow border rounded w-100"></textarea>
 							</div>
 						</div>
@@ -895,6 +915,7 @@ limitations under the License.
 				exp_Date,
 				restriction_summary,
 				benefits_summary,
+				internal_benefits_summary,
 				benefits_provided,
 				permit_num,
 				permit_Type,
@@ -1045,10 +1066,18 @@ limitations under the License.
 						</div>
 						<div class="form-row mb-2">
 							<div class="col-12">
-								<label for="benefits_summary" class="data-entry-label">Summary of Agreed Benefits (<span id="length_benefits_summary"></span>)</label>
+								<label for="benefits_summary" class="data-entry-label">Summary of Agreed Benefits: All users (<span id="length_benefits_summary"></span>)</label>
 								<textarea rows="1" name="benefits_summary" id="benefits_summary" 
 									onkeyup="countCharsLeft('benefits_summary', 4000, 'length_benefits_summary');"
 									class="autogrow border rounded w-100">#benefits_summary#</textarea>
+							</div>
+						</div>
+						<div class="form-row mb-2">
+							<div class="col-12">
+								<label for="internal_benefits_summary" class="data-entry-label">Summary of Agreed Benefits: Harvard only (<span id="length_internal_benefits_summary"></span>)</label>
+								<textarea rows="1" name="internal_benefits_summary" id="internal_benefits_summary" 
+									onkeyup="countCharsLeft('internal_benefits_summary', 4000, 'length_internal_benefits_summary');"
+									class="autogrow border rounded w-100">#internal_benefits_summary#</textarea>
 							</div>
 						</div>
 						<div class="form-row mb-2">
@@ -1321,6 +1350,7 @@ limitations under the License.
 				exp_Date,
 				restriction_summary,
 				benefits_summary,
+				internal_benefits_summary,
 				benefits_provided,
 				permit_num,
 				permit_Type,
@@ -1427,10 +1457,18 @@ limitations under the License.
 						</div>
 						<div class="form-row mb-2">
 							<div class="col-12">
-								<label for="benefits_summary" class="data-entry-label">Summary of Agreed Benefits (<span id="length_benefits_summary"></span>)</label>
+								<label for="benefits_summary" class="data-entry-label">Summary of Agreed Benefits: All users (<span id="length_benefits_summary"></span>)</label>
 								<textarea rows="1" name="benefits_summary" id="benefits_summary" 
 									onkeyup="countCharsLeft('benefits_summary', 4000, 'length_benefits_summary');"
 									class="autogrow border rounded w-100" readonly >#benefits_summary#</textarea>
+							</div>
+						</div>
+						<div class="form-row mb-2">
+							<div class="col-12">
+								<label for="internal_benefits_summary" class="data-entry-label">Summary of Agreed Benefits; Harvard only (<span id="length_internal_benefits_summary"></span>)</label>
+								<textarea rows="1" name="internal_benefits_summary" id="internal_benefits_summary" 
+									onkeyup="countCharsLeft('internal_benefits_summary', 4000, 'length_internal_benefits_summary');"
+									class="autogrow border rounded w-100" readonly >#internal_benefits_summary#</textarea>
 							</div>
 						</div>
 						<div class="form-row mb-2">
@@ -1651,6 +1689,9 @@ limitations under the License.
 					<cfif len(#benefits_summary#) gt 0>
 						,benefits_summary
 					</cfif>
+					<cfif len(#internal_benefits_summary#) gt 0>
+						,internal_benefits_summary
+					</cfif>
 					<cfif len(#benefits_provided#) gt 0>
 						,benefits_provided
 					</cfif>
@@ -1687,6 +1728,9 @@ limitations under the License.
 					<cfif len(#benefits_summary#) gt 0>
 						, <cfqueryparam CFSQLTYPE="CF_SQL_VARCHAR" value="#benefits_summary#">
 					</cfif>
+					<cfif len(#internal_benefits_summary#) gt 0>
+						, <cfqueryparam CFSQLTYPE="CF_SQL_VARCHAR" value="#internal_benefits_summary#">
+					</cfif>
 					<cfif len(#benefits_provided#) gt 0>
 						, <cfqueryparam CFSQLTYPE="CF_SQL_VARCHAR" value="#benefits_provided#">
 					</cfif>
@@ -1719,6 +1763,7 @@ limitations under the License.
 					to_char(exp_Date,'yyyy-mm-dd') as exp_date,
 					restriction_summary,
 					benefits_summary,
+					internal_benefits_summary,
 					benefits_provided,
 					permit_num,
 					permit_Type,
