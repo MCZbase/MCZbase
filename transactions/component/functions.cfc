@@ -169,7 +169,9 @@ limitations under the License.
 			<cfoutput>
 				<cfquery name="deaccLimitations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					select count(distinct deacc_item.collection_object_id) as ct,
-						permit.permit_id, permit.specific_type, permit.restriction_summary, permit.benefits_summary, permit.benefits_provided, 
+						permit.permit_id, permit.specific_type, permit.restriction_summary, 
+						permit.benefits_summary, permit.internal_benefits_summary, 
+						permit.benefits_provided, 
 						accn.transaction_id as accn_id, accn.accn_number
 					from  
 						deaccession 
@@ -183,9 +185,13 @@ limitations under the License.
 						deaccession.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
 						and (permit.restriction_summary IS NOT NULL 
 								or
+							 permit.internal_benefits_summary IS NOT NULL
+								or
 							 permit.benefits_summary IS NOT NULL)
 					group by
-						permit.permit_id, permit.specific_type, permit.restriction_summary, permit.benefits_summary, permit.benefits_provided, 
+						permit.permit_id, permit.specific_type, permit.restriction_summary, 
+						permit.benefits_summary, permit.internal_benefits_summary, 
+						permit.benefits_provided, 
 						accn.transaction_id, accn.accn_number
 				</cfquery>
 				<cfif deaccLimitations.recordcount GT 0>
@@ -198,7 +204,7 @@ limitations under the License.
 									<td><a href='/transactions/Accession.cfm?Action=edit&transaction_id=#accn_id#'>#accn_number#</a></td>
 									<td><a href='/transactions/Permit.cfm?Action=edit&permit_id=#permit_id#'>#specific_type#</a></td>
 									<td>#restriction_summary#</td>
-									<td>#benefits_summary#</td>
+									<td>#benefits_summary# #internal_benefits_summary#</td>
 									<td>#benefits_provided#</td>
 								</tr>
 							</cfloop>
@@ -636,14 +642,20 @@ limitations under the License.
 		<cftry>
 			<cfoutput>
 				<cfquery name="accnLimitations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					select permit.permit_id, permit.specific_type, permit.restriction_summary, permit.benefits_summary, permit.benefits_provided
+					select permit.permit_id, permit.specific_type, 
+							permit.restriction_summary, 
+							permit.benefits_summary, 
+							permit.internal_benefits_summary, 
+							permit.benefits_provided
 					from  permit_trans 
 						left join permit on permit_trans.permit_id = permit.permit_id
 					where 
 						permit_trans.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
 						and (permit.restriction_summary IS NOT NULL 
 								or
-							 permit.benefits_summary IS NOT NULL)
+							 permit.benefits_summary IS NOT NULL
+								or
+							 permit.internal_benefits_summary IS NOT NULL)
 				</cfquery>
 				<cfif accnLimitations.recordcount GT 0>
 					<table class='table table-responsive d-md-table mb-0'>
@@ -653,7 +665,16 @@ limitations under the License.
 								<tr>
 									<td><a href='/transactions/Permit.cfm?Action=edit&permit_id=#permit_id#'>#specific_type#</a></td>
 									<td>#restriction_summary#</td>
-									<td>#benefits_summary#</td>
+									<td>
+										<cfif len(benefits_summary) GT 0> 
+											<strong>Apply to all users, show in loans:</strong>
+											#benefits_summary#
+										</cfif>
+										<cfif len(internal_benefits_summary) GT 0> 
+											<strong>Apply to Harvard:</strong>
+											#internal_benefits_summary#
+										</cfif>
+									</td>
 									<td>#benefits_provided#</td>
 								</tr>
 							</cfloop>
@@ -3472,9 +3493,12 @@ limitations under the License.
 	<cfthread name="getBorrowLimitThread">
 		<cftry>
 			<cfoutput>
+				<!--- internal_benefits_summary not normally expected to apply to borrows, but including in case --->
 				<cfquery name="borrowLimitations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
 					select count(distinct borrow_item.borrow_item_id) as ct,
-						permit.permit_id, permit.specific_type, permit.restriction_summary, permit.benefits_summary, permit.benefits_provided, 
+						permit.permit_id, permit.specific_type, permit.restriction_summary, 
+						permit.benefits_summary, permit.internal_benefits_summary, 
+						permit.benefits_provided, 
 						borrow.transaction_id as borrow_id, borrow.borrow_number
 					from  
 						borrow
@@ -3485,13 +3509,19 @@ limitations under the License.
 						borrow.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
 						and (permit.restriction_summary IS NOT NULL
 								or
-							 permit.benefits_summary IS NOT NULL)
+							 permit.benefits_summary IS NOT NULL
+								or
+							 permit.internal_benefits_summary IS NOT NULL)
 					group by
-						permit.permit_id, permit.specific_type, permit.restriction_summary, permit.benefits_summary, permit.benefits_provided, 
+						permit.permit_id, permit.specific_type, permit.restriction_summary, 
+						permit.benefits_summary, permit.internal_benefits_summary, 
+						permit.benefits_provided, 
 						borrow.transaction_id, borrow.borrow_number
 					union
 					select count(distinct borrow_item.borrow_item_id) as ct,
-						permit.permit_id, permit.specific_type, permit.restriction_summary, permit.benefits_summary, permit.benefits_provided, 
+						permit.permit_id, permit.specific_type, permit.restriction_summary, 
+						permit.benefits_summary, permit.internal_benefits_summary, 
+						permit.benefits_provided, 
 						borrow.transaction_id as borrow_id, borrow.borrow_number
 					from 
 						borrow
@@ -3503,9 +3533,13 @@ limitations under the License.
 						borrow.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
 						and (permit.restriction_summary IS NOT NULL
 								or
-							 permit.benefits_summary IS NOT NULL)
+							 permit.benefits_summary IS NOT NULL
+								or
+							 permit.internal_benefits_summary IS NOT NULL)
 					group by
-						permit.permit_id, permit.specific_type, permit.restriction_summary, permit.benefits_summary, permit.benefits_provided, 
+						permit.permit_id, permit.specific_type, permit.restriction_summary, 
+						permit.benefits_summary, permit.internal_benefits_summary, 
+						permit.benefits_provided, 
 						borrow.transaction_id, borrow.borrow_number
 				</cfquery>
 				<cfif borrowLimitations.recordcount GT 0>
@@ -3517,7 +3551,7 @@ limitations under the License.
 									<td>#ct#</td>
 									<td><a href='/transactions/Permit.cfm?Action=edit&permit_id=#permit_id#'>#specific_type#</a></td>
 									<td>#restriction_summary#</td>
-									<td>#benefits_summary#</td>
+									<td>#benefits_summary# #internal_benefits_summary#</td>
 									<td>#benefits_provided#</td>
 								</tr>
 							</cfloop>
