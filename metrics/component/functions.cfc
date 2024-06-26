@@ -95,7 +95,7 @@ limitations under the License.
 					</table>
 				</section>
 				<section class="col-12 mt-3 px-0">
-					<h2 class="h3 px-2">Holdings (continued) <span class="text-muted">(#encodeForHtml(beginDate)#/#encodeForHtml(endDate)#)</span></h2>
+					<h2 class="h3 px-2">Holdings &amp; Acquisitions (continued) <span class="text-muted">(#encodeForHtml(beginDate)#/#encodeForHtml(endDate)#)</span></h2>
 					<table class="table table-responsive table-striped d-lg-table" id="t">
 						<thead>
 							<tr>
