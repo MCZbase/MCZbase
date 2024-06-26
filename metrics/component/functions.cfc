@@ -168,7 +168,7 @@ limitations under the License.
 			</cftry>
 		</cfoutput>
 	</cfthread>
-	<cfthread action="join" name="getAquisitionsThread" />
+	<cfthread action="join" name="getAcquisitionsThread" />
 	<cfreturn getAcquisitionsThread.output>
 </cffunction>
 					
