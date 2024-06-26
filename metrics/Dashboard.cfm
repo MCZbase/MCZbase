@@ -88,15 +88,11 @@ limitations under the License.
 			<div class="row">
 				<cfoutput>
 					<div class="col-12 px-0 mt-4">
-						<h1 class="h2 float-left">MCZbase Metrics</h1>
+						<h1 class="h2 float-left pt-2">MCZbase Metrics</h1>
 						<div class="btn-toolbar mb-2 mb-md-0 float-right">
 							<div class="btn-group mr-2">
-								<button id="share" class="btn btn-sm btn-outline-secondary px-2 my-2 mx-1 disabled" aria-label="share results" download="##"  onclick="handleDownloadClick();" >Share</button>
-								<button id="export" class="btn btn-sm btn-outline-secondary px-2 my-2 mx-1 disabled" aria-label="Export results to csv" download="##" onclick="handleDownloadClick();" >Export</button>
-								<output id="downloadFeedback"></output>
-								<output id="downloadResult"></output>
-								<!---<button type="button" class="btn btn-sm btn-outline-secondary">Share</button>
-								<button type="button" class="btn btn-sm btn-outline-secondary">Export</button>--->
+								<button type="button" class="btn btn-sm btn-outline-secondary">Share</button>
+								<button type="button" class="btn btn-sm btn-outline-secondary">Export</button>
 							</div>
 						</div>
 					</div>
