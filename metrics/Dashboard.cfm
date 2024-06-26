@@ -87,7 +87,7 @@ limitations under the License.
 		<main role="main" class="col-md-10 ml-sm-auto col-lg-10 px-md-5 mb-3">
 			<div class="row">
 				<cfoutput>
-					<div class="col-12 px-0 mt-4">
+					<div class="col-12 px-0 mt-4 mb-0">
 						<h1 class="h2 float-left">MCZbase Metrics</h1>
 						<div class="btn-toolbar mb-2 mb-md-0 float-right">
 							<div class="btn-group mr-2">
@@ -106,7 +106,7 @@ limitations under the License.
 			</div>
 		</main>
 	</div>
-	<cfoutput>Execution Time: <b>#int(getTickCount()-start)#</b> milliseconds<br></cfoutput>
+	<cfoutput><p class="mt-2">Execution Time: <b>#int(getTickCount()-start)#</b> milliseconds</p></cfoutput>
 </div>
 
 </cfoutput>
