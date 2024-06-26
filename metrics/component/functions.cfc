@@ -16,12 +16,15 @@ limitations under the License.
 
 <cf_rolecheck>
 <cfinclude template="/shared/component/error_handler.cfc" runOnce="true">
+	
+	
 <cffunction name="downloadCSV" access="remote" output="true">
 	<cfset file_name = "Holdings.xlsx">
 	<cfheader name='Content-Disposition' value='attachment; filename=#file_name#' charset='utf-8'> 
 	<cfcontent type="application/msexcel" file="#file_name#" deletefile="false">
 </cffunction>
 	
+		
 <cffunction name="getAnnualNumbers" access="remote" returntype="any" returnformat="json">
 	<cfargument name="beginDate" type="any" required="yes">
 	<cfargument name="endDate" type="any" required="yes">
