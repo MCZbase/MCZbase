@@ -19,15 +19,12 @@ limitations under the License.
 * Dashboard for obtaining annual reporting and other collections metrics.
 
 -->
-
-	
 <cfset pageTitle="Metrics Dashboard">
 <cfinclude template="/shared/_header.cfm">
 <cfinclude template="/metrics/component/functions.cfc">
 <script type="text/javascript" src="/metrics/js/metrics.js"></script> 
 <script>
 var api_url = "/metrics/Dashboard.cfm"; 
-
 // Defining async function  
 function getapi(url) { 
 	// Storing response  
@@ -54,7 +51,7 @@ function hideSpinner() {
 <cfif NOT isDefined("beginDate")><cfset beginDate = '2023-01-01'></cfif>
 <cfif NOT isDefined("endDate")><cfset endDate = '2023-12-31'></cfif>
 <div class="d-flex justify-content-center">
-	<div class="spinner-border text-danger" role="status">
+	<div class="spinner-border text-danger" id="spinner" role="status">
 		<span class="sr-only">Loading...</span>
 	</div>
 </div>
