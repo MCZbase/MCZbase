@@ -26,7 +26,7 @@ limitations under the License.
 <script type="text/javascript" src="/metrics/js/metrics.js"></script> 
 <div id="overlaycontainer" style="position: relative;">
 	<div class="d-flex justify-content-center">  
-		<div class="spinner text-danger" role="status" id="spinner" style="width: 3rem; height: 3rem; z-index: 20;">
+		<div class="spinner text-danger" role="status" id="spinner">
 			<span class="sr-only">Loading...</span>
 		</div>
 	</div>
