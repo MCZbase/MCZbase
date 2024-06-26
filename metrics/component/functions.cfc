@@ -184,41 +184,8 @@ limitations under the License.
 					LEFT JOIN 
 						(select c.collection_id, c.collection, count(distinct t.transaction_id) numAccns from accn a, trans t, collection c where a.transaction_id = t.transaction_id and t.collection_id = c.collection_id and a.received_date between to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#beginDate#">, 'YYYY-MM-DD') and  to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#endDate#">, 'YYYY-MM-DD') group by c.collection_id, c.collection) accn on h.collection_id = accn.collection_id
 				</cfquery>
-				<section class="col-12 mt-1 px-0">
-					<h2 class="h3 px-2">Holdings <span class="text-muted">(#encodeForHtml(beginDate)#/#encodeForHtml(endDate)#)</span></h2>
-					<table class="table table-responsive table-striped d-lg-table" id="t">
-						<thead>
-							<tr>
-								<th><strong>Collection</strong></th>
-								<th><strong>Total Holdings</strong></th>
-								<th><strong>% of Holdings in MCZbase</strong></th>
-								<th><strong>Total Records - Cataloged Items</strong></th>
-								<th><strong>Total Records - Specimens</strong></th>
-								<th><strong>Primary Types - Cataloged Items</strong></th>
-								<th><strong>Primary Types - Specimens</strong></th>
-								<th><strong>Secondary Types - Cataloged Items</strong></th>
-								<th><strong>Secondary Types - Specimens</strong></th>
-							</tr>
-						</thead>
-						<tbody>
-							<cfloop query="ACtotals">
-								<tr>
-									<td>#collection#</td>
-									<td>#holdings#</td>
-									<td>#NumberFormat((catalogeditems/holdings)*100, '9.99')#%</td>
-									<td>#catalogeditems#</td>
-									<td>#specimens#</td>
-									<td>#primaryCatItems#</td>
-									<td>#primarySpecimens#</td>
-									<td>#secondaryCatItems#</td>
-									<td>#secondarySpecimens#</td>
-								</tr>
-							</cfloop>
-						</tbody>
-					</table>
-				</section>
 				<section class="col-12 mt-3 px-0">
-					<h2 class="h3 px-2">Acquisitions (continued) <span class="text-muted">(#encodeForHtml(beginDate)#/#encodeForHtml(endDate)#)</span></h2>
+					<h2 class="h3 px-2">Acquisitions <span class="text-muted">(#encodeForHtml(beginDate)#/#encodeForHtml(endDate)#)</span></h2>
 					<table class="table table-responsive table-striped d-lg-table" id="t">
 						<thead>
 							<tr>
