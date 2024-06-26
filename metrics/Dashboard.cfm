@@ -93,11 +93,11 @@ limitations under the License.
 						<div class="btn-toolbar mb-2 mb-md-0 float-right">
 							<div class="btn-group mr-2">
 								<button type="button" class="btn btn-sm btn-outline-secondary">Share</button>
-								<button type="button" class="btn btn-sm btn-outline-secondary" onclick="downloadCSV(#data#);">Export</button>
+								<button type="button" class="btn btn-sm btn-outline-secondary" onclick="downloadCSV();">Export</button>
 							</div>
 						</div>
 					</div>
-					<script>
+				<!---	<script>
 						$.ajax({
 							method: "GET",
 							url: "/metrics/component/functions.cfc",
@@ -110,7 +110,7 @@ limitations under the License.
 							},
 							error: 'Not downloaded'
 						});
-					</script>
+					</script>--->
 					<cfset summaryAnnualBlock=getAnnualNumbers(endDate="#endDate#",beginDate="#beginDate#")>
 					<div id="annualNumbersDiv">
 						#summaryAnnualBlock#
