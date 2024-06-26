@@ -21,15 +21,15 @@ limitations under the License.
 -->
 <cfset pageTitle="Metrics Dashboard">
 <cfinclude template="/shared/_header.cfm">
+
+<cfinclude template="/metrics/component/functions.cfc">
+<script type="text/javascript" src="/metrics/js/metrics.js"></script> 
 <div class="overlay">
 	<div class="d-flex justify-content-center">  
 		<div class="spinner text-danger" role="status" id="spinner" style="width: 3rem; height: 3rem; z-index: 20;">
 			<span class="sr-only">Loading...</span>
 		</div>
 	</div>
-</div>
-<cfinclude template="/metrics/component/functions.cfc">
-<script type="text/javascript" src="/metrics/js/metrics.js"></script> 
 
 <!--- TODO: Set to most recent full year. --->
 <cfif NOT isDefined("beginDate")><cfset beginDate = '2023-01-01'></cfif>
@@ -88,7 +88,6 @@ limitations under the License.
 				</script>
 			</div>
 		</nav>
-
 		<main role="main" class="col-md-10 ml-sm-auto col-lg-10 px-md-5 mb-3">
 			<div class="row">
 				<cfoutput>
@@ -119,13 +118,15 @@ limitations under the License.
 					<div id="annualNumbersDiv">
 						#summaryAnnualBlock#
 					</div>
+			
 				</cfoutput>
 			</div>
 		</main>
 	</div>
-	<cfoutput><p class="mt-2 smaller">Execution Time: <b>#int(getTickCount()-start)#</b> milliseconds</p></cfoutput>
+	
+	<p class="mt-2 smaller">Execution Time: <b>#int(getTickCount()-start)#</b> milliseconds</p>
 </div>
 
 </cfoutput>
-
+</div>
 <cfinclude template="/shared/_footer.cfm">
