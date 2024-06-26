@@ -975,6 +975,7 @@ limitations under the License.
 								<cfif len(getRestrictions.restriction_summary) GT 0> 
 									Summary of restrictions on use: #getRestrictions.restriction_summary#<br>
 								</cfif>
+								<!--- internal_benefits_summary is not shown here, just the all users benefits summary --->
 								<cfif len(getRestrictions.benefits_summary) GT 0> 
 									Summary of required benefits: #getRestrictions.benefits_summary#
 								</cfif>
@@ -991,6 +992,7 @@ limitations under the License.
 								<cfif len(getRestrictions.restriction_summary) GT 0> 
 									Summary of restrictions on use: #getRestrictions.restriction_summary#<br>
 								</cfif>
+								<!--- internal_benefits_summary is not shown here, just the all users benefits summary --->
 								<cfif len(getRestrictions.benefits_summary) GT 0> 
 									Summary of required benefits: #getRestrictions.benefits_summary#
 								</cfif>

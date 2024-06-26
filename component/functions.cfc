@@ -2923,8 +2923,12 @@
 			<td colspan='3'><textarea cols='80' rows='3' name='restriction_summary'></textarea></td>
 		</tr>
 		<tr>
-			<td>Summary of Agreed Benefits</td>
+			<td>Summary of Agreed Benefits: All users</td>
 			<td colspan='3'><textarea cols='80' rows='3' name='benefits_summary'></textarea></td>
+		</tr>
+		<tr>
+			<td>Summary of Agreed Benefits: Harvard only</td>
+			<td colspan='3'><textarea cols='80' rows='3' name='internal_benefits_summary'></textarea></td>
 		</tr>
 		<tr>
 			<td>Benefits Provided</td>
@@ -2972,6 +2976,7 @@
     <cfargument name="permit_remarks" type="string" required="no">
     <cfargument name="restriction_summary" type="string" required="no">
     <cfargument name="benefits_summary" type="string" required="no">
+    <cfargument name="internal_benefits_summary" type="string" required="no">
     <cfargument name="benefits_provided" type="string" required="no">
     <cfargument name="contact_agent_id" type="string" required="no">
 
@@ -2987,6 +2992,7 @@
         <cfif NOT isdefined('permit_remarks')><cfset permit_remarks=''></cfif>
         <cfif NOT isdefined('restriction_summary')><cfset restriction_summary=''></cfif>
         <cfif NOT isdefined('benefits_summary')><cfset benefits_summary=''></cfif>
+        <cfif NOT isdefined('internal_benefits_summary')><cfset internal_benefits_summary=''></cfif>
         <cfif NOT isdefined('benefits_provided')><cfset benefits_provided=''></cfif>
         <cfif NOT isdefined('contact_agent_id')><cfset contact_agent_id=''></cfif>
 
@@ -3037,6 +3043,9 @@
 			 <cfif len(#benefits_summary#) gt 0>
 			 	,benefits_summary
 			 </cfif>
+			 <cfif len(#internal_benefits_summary#) gt 0>
+			 	,internal_benefits_summary
+			 </cfif>
 			 <cfif len(#benefits_provided#) gt 0>
 			 	,benefits_provided
 			 </cfif>
@@ -3072,6 +3081,9 @@
 		     </cfif>
 			 <cfif len(#benefits_summary#) gt 0>
 			 	, <cfqueryparam CFSQLTYPE="CF_SQL_VARCHAR" value="#benefits_summary#">
+		     </cfif>
+			 <cfif len(#internal_benefits_summary#) gt 0>
+			 	, <cfqueryparam CFSQLTYPE="CF_SQL_VARCHAR" value="#internal_benefits_summary#">
 		     </cfif>
 			 <cfif len(#benefits_provided#) gt 0>
 			 	, <cfqueryparam CFSQLTYPE="CF_SQL_VARCHAR" value="#benefits_provided#">
@@ -3122,6 +3134,7 @@
     <cfargument name="permit_remarks" type="string" required="no">
     <cfargument name="restriction_summary" type="string" required="no">
     <cfargument name="benefits_summary" type="string" required="no">
+    <cfargument name="internal_benefits_summary" type="string" required="no">
     <cfargument name="benefits_provided" type="string" required="no">
     <cfargument name="contact_agent_id" type="string" required="no">
 
@@ -3135,6 +3148,7 @@
         <cfif NOT isdefined('permit_remarks')><cfset permit_remarks=''></cfif>
         <cfif NOT isdefined('restriction_summary')><cfset restriction_summary=''></cfif>
         <cfif NOT isdefined('benefits_summary')><cfset benefits_summary=''></cfif>
+        <cfif NOT isdefined('internal_benefits_summary')><cfset internal_benefits_summary=''></cfif>
         <cfif NOT isdefined('benefits_provided')><cfset benefits_provided=''></cfif>
         <cfif NOT isdefined('contact_agent_id')><cfset contact_agent_id=''></cfif>
 		<cfquery name="ptype" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -3179,6 +3193,9 @@
 		    </cfif>
 			<cfif len(#benefits_summary#) gt 0>
 			 	,benefits_summary = <cfqueryparam CFSQLTYPE="CF_SQL_VARCHAR" value="#benefits_summary#">
+		    </cfif>
+			<cfif len(#internal_benefits_summary#) gt 0>
+			 	,internal_benefits_summary = <cfqueryparam CFSQLTYPE="CF_SQL_VARCHAR" value="#internal_benefits_summary#">
 		    </cfif>
 			<cfif len(#benefits_provided#) gt 0>
 			 	,benefits_provided = <cfqueryparam CFSQLTYPE="CF_SQL_VARCHAR" value="#benefits_provided#">
