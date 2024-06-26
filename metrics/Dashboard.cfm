@@ -23,9 +23,7 @@ limitations under the License.
 	
 <cfset pageTitle="Metrics Dashboard">
 <cfinclude template="/shared/_header.cfm">
-<cfinclude template = "/shared/functionLib.cfm">
 <cfinclude template="/metrics/component/functions.cfc">
-
 <script type="text/javascript" src="/metrics/js/metrics.js"></script> 
 
 <!--- TODO: Set to most recent full year. --->
@@ -85,8 +83,7 @@ limitations under the License.
 				</script>
 			</div>
 		</nav>
-		<div id="overlaycontainer" style="position: relative;">
-			<main role="main" class="col-md-10 ml-sm-auto col-lg-10 px-md-5 mb-3">
+		<main role="main" class="col-md-10 ml-sm-auto col-lg-10 px-md-5 mb-3">
 				<div class="row">
 					<cfoutput>
 						<div class="col-12 px-0 mt-4">
@@ -106,13 +103,6 @@ limitations under the License.
 					</cfoutput>
 				</div>
 			</main>
-			<div id="overlay" style="position: absolute; top:0px; left:0px; width: 100%; height: 100%; background: rgba(0,0,0,0.5); border-color: transparent; opacity: 0.99; display: none; z-index: 2;">
-				<div  style="position: absolute; left: 50%; top: 25%; width: 10em; height: 2.4em;line-height: 2.4em; padding: 5px; color: ##333333; border-color: ##898989; border-style: solid; margin-left: -5em; opacity: 1;">
-					<div  style="float: left; overflow: hidden; height: 32px; width: 32px;"></div>
-					<div style="float: left; display: block; margin-left: 1em;" >Searching...</div>	
-				</div>
-			</div>	
-		</div><!--- end overlaycontainer --->	
 	</div>
 	<cfoutput>Execution Time: <b>#int(getTickCount()-start)#</b> milliseconds<br></cfoutput>
 </div>
