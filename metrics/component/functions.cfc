@@ -129,7 +129,7 @@ limitations under the License.
 					<cfspreadsheet 
 						action = "write" 
 						filename="C:\report.xls" 
-						query="getAnnualNumbers" 
+						query="totals" 
 						overwrite="true">
 				</section>
 			<cfcatch>
