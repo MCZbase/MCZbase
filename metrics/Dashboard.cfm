@@ -61,6 +61,7 @@ limitations under the License.
 				</form>
 				<script>
 					$(document).ready(function() {
+						$('##annualNumbersDiv').html("Loading...");
 						$('##loadReportForm').on('submit',function(event){ event.preventDefault(); loadReport(); } );
 					});
 					function loadReport(){
