@@ -58,7 +58,7 @@ limitations under the License.
 						<option value="getCitationNumbers">Citation Activity</option>
 						<option value="getGeorefNumbers">Georeference Activity</option>
 					</select>
-					<input type="submit" value="submit" class="my-2 btn-xs btn btn-primary">
+					<input type="submit" value="submit" class="my-3 btn-xs btn btn-primary">
 				</form>
 				<script>
 					$(document).ready(function() {
