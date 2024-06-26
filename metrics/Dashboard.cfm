@@ -21,49 +21,13 @@ limitations under the License.
 -->
 <cfset pageTitle="Metrics Dashboard">
 <cfinclude template="/shared/_header.cfm">
-<div class="page-loader flex-column bg-dark bg-opacity-25">
-	<span class="spinner-border text-danger" role="status">
-		<span class="text-gray-800 fs-6 fw-semibold mt-5">Loading...</span>
-	</span>
-</div>
+
 <cfinclude template="/metrics/component/functions.cfc">
 <script type="text/javascript" src="/metrics/js/metrics.js"></script> 
 
 <!--- TODO: Set to most recent full year. --->
 <cfif NOT isDefined("beginDate")><cfset beginDate = '2023-01-01'></cfif>
 <cfif NOT isDefined("endDate")><cfset endDate = '2023-12-31'></cfif>
-<div class="d-flex justify-content-center">
-	<div class="spinner-border text-danger" id="spinner" role="status">
-		<span class="sr-only">Loading...</span>
-	</div>
-</div>
-<script>
-// Toggle
-const button = document.querySelector("##annualNumbersDiv");
-
-// Handle toggle click event
-button.addEventListener("click", function() {
-    // Populate the page loading element dynamically.
-    // Optionally you can skipt this part and place the HTML
-    // code in the body element by refer to the above HTML code tab.
-    const loadingEl = document.createElement("div");
-    document.body.prepend(loadingEl);
-    loadingEl.classList.add("page-loader");
-    loadingEl.classList.add("flex-column");
-    loadingEl.classList.add("bg-dark");
-    loadingEl.classList.add("bg-opacity-25");
-    loadingEl.innerHTML = "Loading...";
-
-    // Show page loading
-    KTApp.showPageLoading();
-
-    // Hide after 3 seconds
-    setTimeout(function() {
-        KTApp.hidePageLoading();
-        loadingEl.remove();
-    }, 3000);
-});
-</script>
 <cfsetting RequestTimeout = "0">
 <cfset start = GetTickCount()>
 <meta name="theme-color" content="#563d7c">
