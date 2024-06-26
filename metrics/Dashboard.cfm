@@ -26,38 +26,51 @@ limitations under the License.
 <cfinclude template="/metrics/component/functions.cfc">
 <script type="text/javascript" src="/metrics/js/metrics.js"></script> 
 <style>
-	.loading-state {
-		position: fixed;
-		top: 0;
-		left: 0;
-		width: 100%;
-		height: 100%;
-		background-color: rgba(0, 0, 0, 0.3);
-		z-index: 9999;
-		display: flex;
-		justify-content: center;
-		align-items: center;
-	}
-	.loading {
-		width: 100px;
-		height: 100px;
-		border-radius: 50%;
-		border: 10px solid #ddd;
-		border-top-color: #dc3545;
-		animation: loading 1s linear infinite;
-	}
-	@keyframes loading {
-		to {
-			transform: rotate(360deg);
-		}
-	}
+html, body {
+	width: 100%;
+	height: 100%;
+	overflow: hidden;
+	margin: 0;
+	padding: 0;
+}
+
+canvas {
+	display: block;
+}
 
 </style>
+<script>
+var spinnerSize = 192;
+var spinnerSpeed = 10;
+var spinnerColor;
+
+function setup() {
+	createCanvas(windowWidth, windowHeight);
+	spinnerColor = color(33, 150, 243);
+}
+
+function draw() {
+	background(255);
+	var step = frameCount % (spinnerSpeed * 7.25);
+	var angle = map(step, 0, spinnerSpeed * 7.25, 0, TWO_PI);
+	push();
+	translate(width / 2, height / 2);
+	rotate(angle);
+	noFill();
+	stroke(spinnerColor);
+	strokeWeight(spinnerSize / 10);
+	strokeCap(SQUARE);
+	arc(0, 0, spinnerSize - (spinnerSize / 20), spinnerSize - (spinnerSize / 20), 0, PI + HALF_PI, OPEN);
+	pop();
+}
+
+function windowResized() {
+	resizeCanvas(windowWidth, windowHeight);
+}
+</script>
 <!--- TODO: Set to most recent full year. --->
 <cfif NOT isDefined("beginDate")><cfset beginDate = '2023-01-01'></cfif>
 <cfif NOT isDefined("endDate")><cfset endDate = '2023-12-31'></cfif>
-<div class="loading-state">
-<div class="loading"></div>
 <cfsetting RequestTimeout = "0">
 <cfset start = GetTickCount()>
 <meta name="theme-color" content="#563d7c">
@@ -133,5 +146,4 @@ limitations under the License.
 		<cfoutput>Execution Time: <b>#int(getTickCount()-start)#</b> milliseconds<br></cfoutput>
 	</div>
 </cfoutput>
-	</div>
 <cfinclude template="/shared/_footer.cfm">
