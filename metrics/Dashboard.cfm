@@ -29,7 +29,11 @@ limitations under the License.
 <!--- TODO: Set to most recent full year. --->
 <cfif NOT isDefined("beginDate")><cfset beginDate = '2023-01-01'></cfif>
 <cfif NOT isDefined("endDate")><cfset endDate = '2023-12-31'></cfif>
-
+<div class="d-flex justify-content-center">
+	<div class="spinner-border" role="status">
+		<span class="sr-only">Loading...</span>
+	</div>
+</div>
 <cfsetting RequestTimeout = "0">
 <cfset start = GetTickCount()>
 <meta name="theme-color" content="#563d7c">
