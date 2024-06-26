@@ -61,7 +61,7 @@ limitations under the License.
 				</form>
 				<script>
 					$(document).ready(function() {
-						$('##loadReportForm').on('submit',function(event){ event.preventDefault(); loadReport();$('##annualNumbersDiv').html("Loading..."); } );
+						$('##loadReportForm').on('submit',function(event){ event.preventDefault(); loadReport(); } );
 					});
 					function loadReport(){
 						$('##annualNumbersDiv').html("Loading...");
@@ -90,15 +90,7 @@ limitations under the License.
 				<cfoutput>
 					<div class="col-12 px-0 mt-4">
 						<h1 class="h2 float-left mb-0">MCZbase Metrics</h1>
-						<div class="btn-toolbar mb-2 mb-md-0 float-right">
-							<div class="btn-group mr-2">
-					
-								<button type="button" class="btn btn-sm btn-outline-secondary">Share</button>
-								<button type="button" class="btn btn-sm btn-outline-secondary">Export</button>
-							</div>
-						</div>
 					</div>
-					
 					<cfset summaryAnnualBlock=getAnnualNumbers(endDate="#endDate#",beginDate="#beginDate#")>
 					<div id="annualNumbersDiv">
 						#summaryAnnualBlock#
