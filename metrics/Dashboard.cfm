@@ -61,7 +61,7 @@ limitations under the License.
 				</form>
 				<script>
 					$(document).ready(function() {
-						$('##loadReportForm').on('submit',function(event){ event.preventDefault(); loadReport(); } );
+						$('##loadReportForm').on('submit',function(event){ event.preventDefault(); loadReport();$('##annualNumbersDiv').html("Loading..."); } );
 					});
 					function loadReport(){
 						$('##annualNumbersDiv').html("Loading...");
@@ -88,8 +88,8 @@ limitations under the License.
 		<main role="main" class="col-md-10 ml-sm-auto col-lg-10 px-md-5 mb-3">
 			<div class="row">
 				<cfoutput>
-					<div class="col-12 px-0 mt-4 mb-0">
-						<h1 class="h2 float-left">MCZbase Metrics</h1>
+					<div class="col-12 px-0 mt-4">
+						<h1 class="h2 float-left mb-0">MCZbase Metrics</h1>
 						<div class="btn-toolbar mb-2 mb-md-0 float-right">
 							<div class="btn-group mr-2">
 					
