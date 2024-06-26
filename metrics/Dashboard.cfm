@@ -32,7 +32,7 @@ limitations under the License.
 		width: 10em;
 		height: 10em;
 	}
-	.loader {            
+	.loader {
 		margin: 60px auto;
 		font-size: 10px;
 		position: relative;
@@ -67,13 +67,13 @@ limitations under the License.
 			transform: rotate(360deg);
 		}
 	}
-	#loadingDiv {
+	##loadingDiv {
 		position:absolute;;
 		top:0;
 		left:0;
 		width:100%;
 		height:100%;
-		background-color:#000;
+		background-color:##000;
 	}
 
 </style>
@@ -114,9 +114,9 @@ limitations under the License.
 							setTimeout(removeLoader, 2000); //wait for page load PLUS two seconds.
 						});
 						function removeLoader(){
-							$( "#loadingDiv" ).fadeOut(500, function() {
+							$( "##loadingDiv" ).fadeOut(500, function() {
 						// fadeOut complete. Remove the loading div
-							$( "#loadingDiv" ).remove(); //makes page more lightweight 
+							$( "##loadingDiv" ).remove(); //makes page more lightweight 
 							});  
 						}
 					</script>
