@@ -44,7 +44,7 @@ limitations under the License.
 		if (response) { 
 			hideSpinner(); 
 		}
-		document.getElementById("data").innerHTML 
+		document.getElementById("annualNumbersDiv").innerHTML 
 			= "<h1>${apidata.data}</h1>"; 
 	} 
 	// Calling that async function  
