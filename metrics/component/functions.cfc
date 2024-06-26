@@ -16,17 +16,15 @@ limitations under the License.
 
 <cf_rolecheck>
 <cfinclude template="/shared/component/error_handler.cfc" runOnce="true">
-
+<cfsetting RequestTimeout = "0">
+<cfset start = GetTickCount()>
 <cffunction name="getAnnualNumbers" access="remote" returntype="any" returnformat="json">
 	<cfargument name="beginDate" type="any" required="yes">
 	<cfargument name="endDate" type="any" required="yes">
-	
 	<cfthread name="getAnnualNumbersThread">
 		<cfoutput>
 			<cftry>
 				<!--- annual report queries --->
-				<cfsetting RequestTimeout = "0">
-				<cfset start = GetTickCount()>
 				<cfquery name="totals" datasource="uam_god">
 					SELECT 
 						rm.holdings,
@@ -110,8 +108,6 @@ limitations under the License.
 		<cfoutput>
 			<cftry>
 				<!--- annual report queries --->
-				<cfsetting RequestTimeout = "0">
-				<cfset start = GetTickCount()>
 				<cfquery name="ACtotals" datasource="uam_god">
 					SELECT 
 						rm.holdings,
@@ -192,8 +188,6 @@ limitations under the License.
 		<cfoutput>
 			<cftry>
 				<!--- annual report queries for loan activity --->
-				<cfsetting RequestTimeout = "0">
-				<cfset start = GetTickCount()>
 				<cfquery name="loans" datasource="uam_god">
 					SELECT
 						c.collection, 
@@ -323,13 +317,10 @@ limitations under the License.
 <cffunction name="getMediaNumbers" access="remote" returntype="any" returnformat="json">
 	<cfargument name="endDate" type="any" required="no" default="2024-07-01">
 	<cfargument name="beginDate" type="any" required="no" default="2023-07-01">
-
 	<cfthread name="getMediaNumbersThread">
 		<cfoutput>
 			<cftry>
 				<!--- annual report queries --->
-				<cfsetting RequestTimeout = "0">
-				<cfset start = GetTickCount()>
 				<cfquery name="media" datasource="uam_god">
 					SELECT
 						c.collection,
@@ -421,7 +412,8 @@ limitations under the License.
 	<cfthread action="join" name="getMediaNumbersThread" />
 	<cfreturn getMediaNumbersThread.output>
 </cffunction>
-			
+
+					
 <cffunction name="getCitationNumbers" access="remote" returntype="any" returnformat="json">
 	<cfargument name="endDate" type="any" required="no" default="2024-07-01">
 	<cfargument name="beginDate" type="any" required="no" default="2023-07-01">
@@ -429,8 +421,6 @@ limitations under the License.
 		<cfoutput>
 			<cftry>
 				<!--- annual report queries --->
-				<cfsetting RequestTimeout = "0">
-				<cfset start = GetTickCount()>
 				<cfquery name="citation" datasource="uam_god">
 					SELECT
 						c.collection,
