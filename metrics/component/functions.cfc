@@ -126,11 +126,6 @@ limitations under the License.
 							</cfloop>
 						</tbody>
 					</table>
-					<cfspreadsheet 
-						action = "write" 
-						filename="C:\report.xls" 
-						query="totals" 
-						overwrite="true">
 				</section>
 			<cfcatch>
 				<cfset error_message = cfcatchToErrorMessage(cfcatch)>
