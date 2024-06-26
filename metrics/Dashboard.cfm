@@ -107,7 +107,7 @@ limitations under the License.
 			</div>
 		</main>
 	</div>
-	<cfoutput><p class="mt-2">Execution Time: <b>#int(getTickCount()-start)#</b> milliseconds</p></cfoutput>
+	<cfoutput><p class="mt-2 smaller">Execution Time: <b>#int(getTickCount()-start)#</b> milliseconds</p></cfoutput>
 </div>
 
 </cfoutput>
