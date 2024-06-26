@@ -49,7 +49,14 @@ limitations under the License.
 				</cfquery>
 				<cfheader name="Content-Disposition" value="attachment; filename=holdings.csv">
 				<cfcontent type="application/csv">
-				<cfspreadsheet action="write" filename="holdings.csv" query="totals" format="csv">
+				<cfspreadsheet action="write" filename="holdings.csv" overwrite="">
+					<cfloop query="totals">
+						<cfoutput>
+							#totals.collection#,#totals.holdings#,#totals.NumberFormat((catalogeditems/holdings)*100, '9.99')#,#totals.catalogeditems#,#totals.specimens#,#totals.primaryCatItems#,#totals.secondaryCatItems#,#totals.secondarySpecimens#
+						</cfoutput>
+					</cfloop>
+				
+				</cfspreadsheet>
 				<section class="col-12 mt-1 px-0">
 					<h2 class="h3 px-2">Holdings <span class="text-muted">(#encodeForHtml(beginDate)#/#encodeForHtml(endDate)#)</span></h2>
 					<div class="btn-toolbar mb-2 mb-md-0 float-right">
