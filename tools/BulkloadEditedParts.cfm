@@ -987,11 +987,19 @@ limitations under the License.
 					<cfloop query="getTempDataToShow">
 						<tr>
 							<td>
-								<cfquery name="lookupGuid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-									SELECT collection_cde, cat_num 
-									FROM cataloged_item
-									WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempDataToShow.collection_object_id#">
-								</cfquery>
+								<cfif len(getTempDataToShow.collection_object_id) EQ 0>
+									<!--- fail gracefully if no collection_object_id --->
+									<cfquery name="lookupGuid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+										SELECT 'error' as collection_cde, 'error' as cat_num 
+										FROM dual
+									</cfquery>
+								<cfelse>
+									<cfquery name="lookupGuid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+										SELECT collection_cde, cat_num 
+										FROM cataloged_item
+										WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempDataToShow.collection_object_id#">
+									</cfquery>
+								</cfif>
 								<cfloop query="lookupGuid">
 									<cfset guid = "MCZ:#lookupGuid.collection_cde#:#lookupGuid.cat_num#">
 								</cfloop>
