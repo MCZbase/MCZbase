@@ -379,7 +379,7 @@ limitations under the License.
 			<!--- check various terms used for matching if part_collection_object_id was not specified --->
 			<cfquery name="badDisposition" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				UPDATE cf_temp_edit_parts 
-				SET status = concat(nvl2(status, status || '; ', ''),'Invalid DISPOSITION, must be specified ')
+				SET status = concat(nvl2(status, status || '; ', ''),'Invalid COLL_OBJ_DISPOSITION, must be specified ')
 				WHERE
 					( 
 						COLL_OBJ_DISPOSITION NOT IN (
@@ -852,6 +852,13 @@ limitations under the License.
 					)
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
+			<cfquery name="markCONotFound" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				UPDATE cf_temp_edit_parts 
+				SET status = concat(nvl2(status,status ||  '; ', ''), 'Cataloged Item NOT FOUND')
+				WHERE 
+					collection_object_id IS NULL
+					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+			</cfquery>
 
 			<cfquery name="getTempData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT * 
@@ -864,10 +871,10 @@ limitations under the License.
 				FROM cf_temp_edit_parts 
 				WHERE
 					(
-						status IS NULL or
-						status <> ' :Found Cataloged Item; Found Part'
+						status IS NULL
+						OR status <> ' :Found Cataloged Item; Found Part'
+						OR collection_object_id is not null
 					)
-					AND collection_object_id is not null
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<cfloop query="getTempData">
@@ -929,7 +936,7 @@ limitations under the License.
 						<th>NEW_CONDITION</th>
 						<th>PART_NAME</th>
 						<th>PRESERVE_METHOD</th>
-						<th>DISPOSITION</th>
+						<th>COLL_OBJ_DISPOSITION</th>
 						<th>LOT_COUNT</th>
 						<th>LOT_COUNT_MODIFIER</th>
 						<th>CURRENT_REMARKS</th>
@@ -979,11 +986,19 @@ limitations under the License.
 					<cfloop query="getTempDataToShow">
 						<tr>
 							<td>
-								<cfquery name="lookupGuid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-									SELECT collection_cde, cat_num 
-									FROM cataloged_item
-									WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempDataToShow.collection_object_id#">
-								</cfquery>
+								<cfif len(getTempDataToShow.collection_object_id) EQ 0>
+									<!--- fail gracefully if no collection_object_id --->
+									<cfquery name="lookupGuid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+										SELECT 'error' as collection_cde, 'error' as cat_num 
+										FROM dual
+									</cfquery>
+								<cfelse>
+									<cfquery name="lookupGuid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+										SELECT collection_cde, cat_num 
+										FROM cataloged_item
+										WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempDataToShow.collection_object_id#">
+									</cfquery>
+								</cfif>
 								<cfloop query="lookupGuid">
 									<cfset guid = "MCZ:#lookupGuid.collection_cde#:#lookupGuid.cat_num#">
 								</cfloop>
@@ -1530,7 +1545,7 @@ limitations under the License.
 									<th>OTHER_ID_NUMBER</th>
 									<th>PART_NAME</th>
 									<th>PRESERVE_METHOD</th>
-									<th>DISPOSITION</th>
+									<th>COLL_OBJ_DISPOSITION</th>
 									<th>LOT_COUNT_MODIFIER</th>
 									<th>LOT_COUNT</th>
 									<th>CURRENT_REMARKS</th>
