@@ -33,7 +33,7 @@ limitations under the License.
 	</div>
 </div>
 <script>
-	var api_url = "/metrics/Dashboard.cfm"; 
+	const api_url = "/metrics/Dashboard.cfm"; 
 	// Defining async function  
 	async function getapi(url) { 
 		// Storing response  
@@ -56,13 +56,31 @@ limitations under the License.
 			.style.display = 'none'; 
 	}  
 </script>
+<style> 
+	.overlay {
+		position: fixed;
+		width: 100%;
+		height: 100%;
+		z-index: 1000;
+		top: 40%;
+		left: 0px;
+		opacity: 0.5;
+		filter: alpha(opacity=50);
+	}
+</style>
 <cfsetting RequestTimeout = "0">
 <cfset start = GetTickCount()>
 <meta name="theme-color" content="#563d7c">
 <cfoutput>
+<div class="overlay">
+	<div class="d-flex justify-content-center">  
+		<div class="spinner-grow text-primary" role="status" style="width: 3rem; height: 3rem; z-index: 20;">
+			<span class="sr-only">Loading...</span>
+		</div>
+	</div>
+</div>
 <div class="container-fluid" id="content">
 	<div class="row">
-
 	<br clear="all">	
 		<nav id="sidebarMenu" class="col-md-2 col-lg-2 d-md-block bg-light sidebar collapse">
 			<div class="sidebar-sticky pt-4 px-2">
