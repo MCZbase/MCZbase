@@ -26,40 +26,58 @@ limitations under the License.
 <cfinclude template="/metrics/component/functions.cfc">
 <script type="text/javascript" src="/metrics/js/metrics.js"></script> 
 <style>
-main {
-	display: block;
-}
+.loader,
+	.loader:after {
+		border-radius: 50%;
+		width: 10em;
+		height: 10em;
+	}
+	.loader {            
+		margin: 60px auto;
+		font-size: 10px;
+		position: relative;
+		text-indent: -9999em;
+		border-top: 1.1em solid rgba(255, 255, 255, 0.2);
+		border-right: 1.1em solid rgba(255, 255, 255, 0.2);
+		border-bottom: 1.1em solid rgba(255, 255, 255, 0.2);
+		border-left: 1.1em solid #ffffff;
+		-webkit-transform: translateZ(0);
+		-ms-transform: translateZ(0);
+		transform: translateZ(0);
+		-webkit-animation: load8 1.1s infinite linear;
+		animation: load8 1.1s infinite linear;
+	}
+	@-webkit-keyframes load8 {
+		0% {
+			-webkit-transform: rotate(0deg);
+			transform: rotate(0deg);
+		}
+		100% {
+			-webkit-transform: rotate(360deg);
+			transform: rotate(360deg);
+		}
+	}
+	@keyframes load8 {
+		0% {
+			-webkit-transform: rotate(0deg);
+			transform: rotate(0deg);
+		}
+		100% {
+			-webkit-transform: rotate(360deg);
+			transform: rotate(360deg);
+		}
+	}
+	#loadingDiv {
+		position:absolute;;
+		top:0;
+		left:0;
+		width:100%;
+		height:100%;
+		background-color:#000;
+	}
 
 </style>
-<script>
-var spinnerSize = 192;
-var spinnerSpeed = 10;
-var spinnerColor;
 
-function setup() {
-	createCanvas(windowWidth, windowHeight);
-	spinnerColor = color(33, 150, 243);
-}
-
-function draw() {
-	background(255);
-	var step = frameCount % (spinnerSpeed * 7.25);
-	var angle = map(step, 0, spinnerSpeed * 7.25, 0, TWO_PI);
-	push();
-	translate(width / 2, height / 2);
-	rotate(angle);
-	noFill();
-	stroke(spinnerColor);
-	strokeWeight(spinnerSize / 10);
-	strokeCap(SQUARE);
-	arc(0, 0, spinnerSize - (spinnerSize / 20), spinnerSize - (spinnerSize / 20), 0, PI + HALF_PI, OPEN);
-	pop();
-}
-
-function windowResized() {
-	resizeCanvas(windowWidth, windowHeight);
-}
-</script>
 <!--- TODO: Set to most recent full year. --->
 <cfif NOT isDefined("beginDate")><cfset beginDate = '2023-01-01'></cfif>
 <cfif NOT isDefined("endDate")><cfset endDate = '2023-12-31'></cfif>
@@ -91,26 +109,15 @@ function windowResized() {
 						<input type="submit" value="submit" class="my-3 btn-xs btn btn-primary">
 					</form>
 					<script>
-						$(document).ready(function() {
-							$('##loadReportForm').on('submit',function(event){ event.preventDefault(); loadReport(); } );
+						$('body').append('<div style="" id="loadingDiv"><div class="loader">Loading...</div></div>');
+						$(window).on('load', function(){
+							setTimeout(removeLoader, 2000); //wait for page load PLUS two seconds.
 						});
-						function loadReport(){
-							$('##annualNumbersDiv').html("Loading...");
-							$.ajax(
-								{
-									url: '/metrics/component/functions.cfc',
-									type: 'GET', 
-									data: $('##loadReportForm').serialize()
-								}
-							).done(
-								function(response) {
-									console.log(response);
-									$('##annualNumbersDiv').html(response);
-								}
-							).fail(function(jqXHR,textStatus,error){
-								$('##annualNumbersDiv').html("Error Loading Metrics");
-							handleFail(jqXHR,textStatus,error,"loading metrics for date range.");
-							});
+						function removeLoader(){
+							$( "#loadingDiv" ).fadeOut(500, function() {
+						// fadeOut complete. Remove the loading div
+							$( "#loadingDiv" ).remove(); //makes page more lightweight 
+							});  
 						}
 					</script>
 				</div>
