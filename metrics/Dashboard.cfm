@@ -24,12 +24,7 @@ limitations under the License.
 
 <cfinclude template="/metrics/component/functions.cfc">
 <script type="text/javascript" src="/metrics/js/metrics.js"></script> 
-<div id="overlaycontainer" style="position: relative;">
-	<div class="d-flex justify-content-center">  
-		<div class="spinner text-danger" role="status" id="spinner">
-			<span class="sr-only">Loading...</span>
-		</div>
-	</div>
+
 
 <!--- TODO: Set to most recent full year. --->
 <cfif NOT isDefined("beginDate")><cfset beginDate = '2023-01-01'></cfif>
@@ -128,5 +123,4 @@ limitations under the License.
 </div>
 
 </cfoutput>
-</div>
 <cfinclude template="/shared/_footer.cfm">
