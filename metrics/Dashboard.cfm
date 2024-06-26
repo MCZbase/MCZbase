@@ -124,26 +124,26 @@ function windowResized() {
 				</div>
 			</nav>
 			<main role="main" class="col-md-10 ml-sm-auto col-lg-10 px-md-5 mb-3">
-						<div class="row">
-							<cfoutput>
-								<div class="col-12 px-0 mt-4">
-									<h1 class="h2 float-left pt-1">MCZbase Metrics</h1>
-									<div class="btn-toolbar mb-2 mb-md-0 float-right">
-										<div class="btn-group mr-2">
-											<button type="button" class="btn btn-sm btn-outline-secondary">Share</button>
-											<button type="button" class="btn btn-sm btn-outline-secondary">Export</button>
-										</div>
-									</div>
+				<div class="row">
+					<cfoutput>
+						<div class="col-12 px-0 mt-4">
+							<h1 class="h2 float-left pt-1">MCZbase Metrics</h1>
+							<div class="btn-toolbar mb-2 mb-md-0 float-right">
+								<div class="btn-group mr-2">
+									<button type="button" class="btn btn-sm btn-outline-secondary">Share</button>
+									<button type="button" class="btn btn-sm btn-outline-secondary">Export</button>
 								</div>
-								<cfset summaryAnnualBlock=getAnnualNumbers(endDate="#endDate#",beginDate="#beginDate#")>
-								<div id="annualNumbersDiv">
-									#summaryAnnualBlock#
-								</div>
-							</cfoutput>
+							</div>
 						</div>
-					</main>
-		</div>
+						<cfset summaryAnnualBlock=getAnnualNumbers(endDate="#endDate#",beginDate="#beginDate#")>
+						<div id="annualNumbersDiv">
+							#summaryAnnualBlock#
+						</div>
+					</cfoutput>
+				</div>
+			</main>
 		<cfoutput>Execution Time: <b>#int(getTickCount()-start)#</b> milliseconds<br></cfoutput>
+		</div>
 	</div>
 </cfoutput>
 <cfinclude template="/shared/_footer.cfm">
