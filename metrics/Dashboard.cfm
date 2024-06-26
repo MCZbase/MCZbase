@@ -26,14 +26,6 @@ limitations under the License.
 <cfinclude template="/metrics/component/functions.cfc">
 <script type="text/javascript" src="/metrics/js/metrics.js"></script> 
 <style>
-html, body {
-	width: 100%;
-	height: 100%;
-
-	margin: 0;
-	padding: 0;
-}
-
 main {
 	display: block;
 }
@@ -142,7 +134,7 @@ function windowResized() {
 					</cfoutput>
 				</div>
 			</main>
-		<cfoutput>Execution Time: <b>#int(getTickCount()-start)#</b> milliseconds<br></cfoutput>
+		<cfoutput><div class="my-3">Execution Time: <b>#int(getTickCount()-start)#</b> milliseconds</div></cfoutput>
 		</div>
 	</div>
 </cfoutput>
