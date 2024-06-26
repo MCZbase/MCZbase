@@ -24,18 +24,9 @@ limitations under the License.
 
 <cfinclude template="/metrics/component/functions.cfc">
 <script type="text/javascript" src="/metrics/js/metrics.js"></script> 
-<style>
-.myspinner {
-   height: 100vh;
-   display:flex;
-   flex-direction: column;
-   justify-content: center;
-   align-items: center;
- }	
-</style>
-<div id="overlay">
+<div id="overlaycontainer" style="position: relative;">
 	<div class="d-flex justify-content-center">  
-		<div class="spinner myspinner text-danger" role="status" id="spinner" style="width: 3rem; height: 3rem; z-index: 200;">
+		<div class="spinner text-danger" role="status" id="spinner" style="width: 3rem; height: 3rem; z-index: 20;">
 			<span class="sr-only">Loading...</span>
 		</div>
 	</div>
@@ -137,6 +128,5 @@ limitations under the License.
 </div>
 
 </cfoutput>
-
+</div>
 <cfinclude template="/shared/_footer.cfm">
-	</div>
