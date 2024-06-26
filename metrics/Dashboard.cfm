@@ -35,9 +35,9 @@ limitations under the License.
 <script>
 	var api_url = "/metrics/Dashboard.cfm"; 
 	// Defining async function  
-	function getapi(url) { 
+	async function getapi(url) { 
 		// Storing response  
-		var response = fetch(url); 
+		const response = await fetch(url); 
 		// Storing data in form of JSON  
 		var apidata = response.json(); 
 		console.log(apidata); 
