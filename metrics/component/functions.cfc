@@ -596,7 +596,7 @@ limitations under the License.
 						<h2 class="h3 px-2 float-left mb-0">Georeferencing Activity <span class="text-muted">(#encodeForHtml(beginDate)#/#encodeForHtml(endDate)#)</span></h2>
 						<div class="btn-toolbar mb-2 mb-md-0 float-right">
 							<div class="btn-group mr-2">
-								<a type="button" class="btn btn-sm btn-outline-secondary" href="mailto:demo@example.com?Subject=GeoreferenceActivity#beginDate#_to_#endDate#&body=Metrics&attachement=""/#application.webDirectory##filePath##targetFile#"">Share</a>
+								<a type="button" class="btn btn-sm btn-outline-secondary" href="mailto:demo@example.com?Subject=GeoreferenceActivity#beginDate#_to_#endDate#&body=Metrics&attachement=""/#filePath##targetFile#"">Share</a>
 								<a href="#filePath##targetFile#" class="btn btn-sm btn-outline-secondary">Export Table</a>
 							</div>
 						</div>
