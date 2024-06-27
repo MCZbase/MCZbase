@@ -16,6 +16,7 @@ limitations under the License.
 
 <cf_rolecheck>
 <cfinclude template="/shared/component/error_handler.cfc" runOnce="true">
+<cfinclude template="/shared/component/functions.cfc">
 	
 <!--- 
  ** given a query, write a serialization of that query as csv, with a header line
