@@ -23,7 +23,7 @@ limitations under the License.
 <cfinclude template="/shared/_header.cfm">
 
 <cfinclude template="/metrics/component/functions.cfc">
-<!---<cfinclude template="/shared/component/functions.cfc">--->
+<cfinclude template="/shared/component/functions.cfc">
 <script type="text/javascript" src="/metrics/js/metrics.js"></script> 
 
 <cfset targetFile = "citation_number.csv">
