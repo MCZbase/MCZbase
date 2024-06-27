@@ -265,6 +265,7 @@
 			SCIENTIFIC_NAME,
 			display_name,
 			AUTHOR_TEXT,
+			year_of_publication,
 			INFRASPECIFIC_RANK,
 			<cfloop list="#taxaRanksList#" index="i">
 				#i#,
