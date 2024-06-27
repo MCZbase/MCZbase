@@ -676,7 +676,7 @@ limitations under the License.
 					</div>
 
 					<div class="form-row">
-						<div class="col-12 col-md-6 col-xl-3 px-0 float-left ml-2">
+						<div class="col-12 col-md-6 col-xl-3 px-1">
 							<label for="infraspecific_rank" class="data-entry-label">Infraspecific Rank</label>
 							<select name="infraspecific_rank" id="infraspecific_rank" class="data-entry-select" data-style="btn-primary" show-tick>
 								<option value=""></option>
@@ -688,7 +688,7 @@ limitations under the License.
 							</select>
 						</div>
 					
-						<div class="col-12 col-md-4 col-xl-7 px-0 ml-2 float-left">
+						<div class="col-12 col-md-4 col-xl-7 px-1">
 							<label for="author_text" class="data-entry-label">Authorship (including year)</label>
 							<input type="text" name="author_text" id="author_text" value="#encodeForHTML(gettaxa.author_text)#" class="data-entry-input">
 							<span class="infoLink botanical"
@@ -696,7 +696,7 @@ limitations under the License.
 								 <small class="link-color">Find in IPNI</small>
 							</span>
 						</div>
-						<div class="col-12 col-md-2 col-xl-2 px-0 float-left ml-2">
+						<div class="col-12 col-md-2 col-xl-2 px-1 ">
 							<label for="year_of_publication" class="data-entry-label">Year of publication</label>
 							<input type="text" name="year_of_publication" id="year_of_publication" value="#encodeForHTML(gettaxa.year_of_publication)#" class="data-entry-input">
 						</div>
@@ -719,13 +719,10 @@ limitations under the License.
 					</div>
 						
 					<div class="form-row px-0 mb-3">
-						<div class="col-12 px-0 mt-0">
-							<label for="taxon_remarks" class="col-12 col-md-3 col-form-label mt-1 float-left text-right">Remarks (<span id="length_taxon_remarks">0 characters 4000 left</span>)</label>
-							<div class="col-12 col-md-9 float-left">
+							<label for="taxon_remarks" class="data-entry-label">Remarks (<span id="length_taxon_remarks">0 characters 4000 left</span>)</label>
 							<textarea name="taxon_remarks" id="taxon_remarks" 
 								onkeyup="countCharsLeft('taxon_remarks', 4000, 'length_taxon_remarks');"
-								rows="3" class="data-entry-textarea col-12 mt-1 autogrow">#encodeForHTML(gettaxa.taxon_remarks)#</textarea>
-							</div>
+								rows="3" class="data-entry-textarea col-12 autogrow">#encodeForHTML(gettaxa.taxon_remarks)#</textarea>
 						</div>
 					</div>
 					<script>
