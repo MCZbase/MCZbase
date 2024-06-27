@@ -30,6 +30,7 @@ limitations under the License.
 	<cfargument name="species" type="string" required="no">
 	<cfargument name="subspecies" type="string" required="no">
 	<cfargument name="author_text" type="string" required="no">
+	<cfargument name="year_of_publication" type="string" required="no">
 	<cfargument name="infraspecific_author" type="string" required="yes">
 	<cfargument name="infraspecific_rank" type="string" required="no">	
 	<cfargument name="kingdom" type="string" required="no">		
@@ -86,6 +87,7 @@ limitations under the License.
 				<cfif isdefined("species") and len(species) GT 0> ,species = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#species#"> <cfelse> ,species = NULL </cfif>
 				<cfif isdefined("subspecies") and len(subspecies) GT 0> ,subspecies = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#subspecies#"> <cfelse> ,subspecies = NULL </cfif>
 				<cfif isdefined("author_text") and len(author_text) GT 0> ,author_text = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#author_text#"> <cfelse> ,author_text = NULL </cfif>
+				<cfif isdefined("year_of_publication") and len(year_of_publication) GT 0> ,year_of_publication = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#year_of_publication#"> <cfelse> ,year_of_publication = NULL </cfif>
 				<cfif isdefined("infraspecific_rank") and len(infraspecific_rank) GT 0> ,infraspecific_rank = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#infraspecific_rank#"> <cfelse> ,infraspecific_rank = NULL </cfif>
 				<cfif isdefined("infraspecific_author") and len(infraspecific_author) GT 0> ,infraspecific_author = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#infraspecific_author#"> <cfelse> ,infraspecific_author = NULL </cfif>
 				<cfif isdefined("kingdom") and len(kingdom) GT 0> ,kingdom = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(kingdom)#"> <cfelse> ,kingdom = NULL </cfif>
