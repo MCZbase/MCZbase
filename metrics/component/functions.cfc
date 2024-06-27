@@ -434,7 +434,7 @@ limitations under the License.
 				</cfquery>
 				<section class="col-12 mt-2 px-0">
 					<h2 class="h3 px-2">Citation Stats</h2>
-					<div id="resultDownloadButtonContainer"><button id="citationcsvbutton" class="btn btn-xs btn-secondary px-2 my-2 mx-1" aria-label="Export results to csv" onclick="querytoCSVfile('annualNumbersDiv', 'media_numbers_#beginDate#_#endDate#.csv'); ">Export to CSV</button></div>
+					<div id="resultDownloadButtonContainer"><button id="citationcsvbutton" class="btn btn-xs btn-secondary px-2 my-2 mx-1" aria-label="Export results to csv" onclick="querytoCSVfile('annualNumbersDiv', 'citation_numbers_#beginDate#_#endDate#.csv'); ">Export to CSV</button></div>
 						<table class="table table-responsive table-striped d-lg-table" id="t">
 							<thead>
 								<tr>
