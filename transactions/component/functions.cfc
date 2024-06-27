@@ -4056,16 +4056,32 @@ limitations under the License.
 					sort={a field name that is in the select portion of the query specified in the custom tag}, or
 					sort={cat_num_pre_int}, which is interpreted as order by cat_num_prefix, cat_num_integer.
 					--->
+					<cfif okToPrint >
+					<!--- TODO: just okToPrint by July 1 --->
+					<cfif isdefined("session.roles") and listfindnocase(session.roles,"collops")  >
+						<li><a href="/Reports/loan.cfm?transaction_id=#transaction_id#" target="_blank">Combined Loan Paperwork</a></li>
+						<li><a href="/Reports/loan.cfm?transaction_id=#transaction_id#&sort=cat_num_pre_int" target="_blank">Combined Loan Paperwork (cat num sort)</a></li>
+						<li><a href="/Reports/loan.cfm?transaction_id=#transaction_id#&sort=scientific_name" target="_blank">Combined Loan Paperwork (taxon sort)</a></li>
+						<li><a href="/Reports/loan.cfm?transaction_id=#transaction_id#&groupBy=part" target="_blank">Combined Loan Paperwork Parts Grouped</a></li>
+						<li><a href="/Reports/loan.cfm?transaction_id=#transaction_id#&sort=cat_num_pre_int&groupBy=part" target="_blank">Combined Loan Paperwork Parts Grouped (cat num sort)</a></li>
+						<li><a href="/Reports/loan.cfm?transaction_id=#transaction_id#&sort=scientific_name&groupBy=part" target="_blank">Combined Loan Paperwork Parts Grouped (taxon sort)</a></li>
+					</cfif>
+					<cfelse>
+						<li>Invoice unavailable: #notOKMessage#</li>
+					</cfif>
 					<cfif okToPrint  >
+						<!--- TODO: remove by July 1 --->
 						<li><a href="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_loan_header" target="_blank">MCZ Invoice Header</a></li>
 					<cfelse>
 						<li>Invoice unavailable: #notOKMessage#</li>
 					</cfif>
 					<li><a href="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_files_loan_header" target="_blank">Header Copy for MCZ Files</a></li>
 					<cfif inhouse.c is 1 and outside.c is 1 and loanDetails.loan_type eq 'exhibition-master' and recipientinstitution.c GT 0 >
+						<!--- TODO: remove by July 1 --->
 						<li><a href="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_exhibition_loan_header" target="_blank">MCZ Exhibition Loan Header</a></li>
 					</cfif>
 					<cfif inhouse.c is 1 and outside.c is 1 and loanDetails.loan_type eq 'exhibition-master' and recipientinstitution.c GT 0 >
+						<!--- TODO: remove by July 1 --->
 						<li><a href="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_exhib_loan_header_five_plus" target="_blank">MCZ Exhibition Loan Header Long</a></li>
 					</cfif>
 					<cfif inhouse.c is 1 and outside.c is 1 >
@@ -4084,14 +4100,6 @@ limitations under the License.
 					</cfif>
 					<li><a href="/Reports/MCZDrawerTags.cfm?transaction_id=#transaction_id#&Action=itemLabels&format=Malacology" target="_blank">MCZ Drawer Tags</a></li>
 					<li><a href="/edecView.cfm?transaction_id=#transaction_id#" target="_blank">USFWS eDec</a></li>
-					<cfif isdefined("session.roles") and listfindnocase(session.roles,"collops")  >
-						<li><a href="/Reports/loan.cfm?transaction_id=#transaction_id#" target="_blank">Combined Loan Paperwork</a></li>
-						<li><a href="/Reports/loan.cfm?transaction_id=#transaction_id#&sort=cat_num_pre_int" target="_blank">Combined Loan Paperwork (cat num sort)</a></li>
-						<li><a href="/Reports/loan.cfm?transaction_id=#transaction_id#&sort=scientific_name" target="_blank">Combined Loan Paperwork (taxon sort)</a></li>
-						<li><a href="/Reports/loan.cfm?transaction_id=#transaction_id#&groupBy=part" target="_blank">Combined Loan Paperwork Parts Grouped</a></li>
-						<li><a href="/Reports/loan.cfm?transaction_id=#transaction_id#&sort=cat_num_pre_int&groupBy=part" target="_blank">Combined Loan Paperwork Parts Grouped (cat num sort)</a></li>
-						<li><a href="/Reports/loan.cfm?transaction_id=#transaction_id#&sort=scientific_name&groupBy=part" target="_blank">Combined Loan Paperwork Parts Grouped (taxon sort)</a></li>
-					</cfif>
 				</ul>
 			</cfoutput>
 		<cfcatch>
