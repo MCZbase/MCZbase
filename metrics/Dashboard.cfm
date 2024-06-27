@@ -53,10 +53,7 @@ limitations under the License.
 				and p.publication_title not like '%Placeholder%'
 			GROUP BY coll.collection_id, coll.collection) cit on c.collection_id = cit.collection_id
 		</cfquery>
-<cfoutput>
-<cfset csv = queryToCSV(citationNums)> 
-<cffile action="write" file="/#application.webDirectory##filePath##targetFile#" output = "#csv#" addnewline="No">
-</cfoutput>
+
 		
 <div class="container-fluid" id="content">
 	<div class="row">
@@ -113,12 +110,6 @@ limitations under the License.
 				<cfoutput>
 					<div class="col-12 px-0 mt-4">
 						<h1 class="h2 float-left mb-0">MCZbase Metrics</h1>
-						<div class="btn-toolbar mb-2 mb-md-0 float-right">
-							<div class="btn-group mr-2">
-								<button type="button" class="btn btn-sm btn-outline-secondary">Share</button>
-								<a href="#filePath##targetFile#" class="btn btn-sm btn-outline-secondary">Export Table</a>
-							</div>
-						</div>
 					</div>
 					<cfset summaryAnnualBlock=getAnnualNumbers(endDate="#endDate#",beginDate="#beginDate#")>
 					<div id="annualNumbersDiv">
