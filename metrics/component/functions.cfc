@@ -124,7 +124,7 @@ limitations under the License.
 					LEFT JOIN 
 						(select f.collection_id, f.collection, count(distinct f.collection_object_id) enteredCatItems, sum(decode(total_parts,null, 1,total_parts)) enteredSpecimens from flat f join coll_object co on f.collection_object_id = co.collection_object_id where co.COLL_OBJECT_ENTERED_DATE between to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#beginDate#">, 'YYYY-MM-DD') and  to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#endDate#">, 'YYYY-MM-DD') group by f.collection_id, f.collection) e on e.collection_id = h.collection_id
 					LEFT JOIN 
-						(select f.collection_id, f.collection, count(distinct f.collection_object_id) ncbiCatItems, sum(total_parts) ncbiSpecimens from COLL_OBJ_OTHER_ID_NUM oid, flat f, COLL_OBJECT CO where OTHER_ID_TYPE like '%NCBI%' 	AND F.COLLECTION_OBJECT_ID = CO.COLLECTION_OBJECT_ID and co.COLL_OBJECT_ENTERED_DATE < to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#endDate#">, 'YYYY-MM-DD') and oid.collection_object_id = f.collection_object_id group by f.collection_id, f.collection) ncbi on h.collection_id = ncbi.collection_id
+						(select f.collection_id, f.collection, count(distinct f.collection_object_id) ncbiCatItems, sum(total_parts) ncbiSpecimens from COLL_OBJ_OTHER_ID_NUM oid, flat f, COLL_OBJECT CO where OTHER_ID_TYPE like '%NCBI%' AND F.COLLECTION_OBJECT_ID = CO.COLLECTION_OBJECT_ID and co.COLL_OBJECT_ENTERED_DATE < to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#endDate#">, 'YYYY-MM-DD') and oid.collection_object_id = f.collection_object_id group by f.collection_id, f.collection) ncbi on h.collection_id = ncbi.collection_id
 					LEFT JOIN 
 						(select c.collection_id, c.collection, count(distinct t.transaction_id) numAccns from accn a, trans t, collection c where a.transaction_id = t.transaction_id and t.collection_id = c.collection_id and a.received_date between to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#beginDate#">, 'YYYY-MM-DD') and  to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#endDate#">, 'YYYY-MM-DD') group by c.collection_id, c.collection) accn on h.collection_id = accn.collection_id
 				</cfquery>
@@ -415,7 +415,7 @@ limitations under the License.
 		<cfoutput>
 			<cftry>
 				<!--- annual report queries --->
-				<cfquery name="citation" datasource="uam_god">
+				<cfquery name="citation" datasource="uam_god" result="citation_result">
 					SELECT
 						c.collection,
 						cit.numCitations,
@@ -434,6 +434,7 @@ limitations under the License.
 				</cfquery>
 				<section class="col-12 mt-2 px-0">
 					<h2 class="h3 px-2">Citation Stats</h2>
+					$('##citation_result').html(`<button id="specimencsvbutton" class="btn btn-xs btn-secondary px-2 my-2 mx-1" aria-label="Export results to csv" onclick=" openDownloadAgreeDialog('downloadAgreeDialogDiv', '` + filename + `'); " >Export to CSV</button>`);
 						<table class="table table-responsive table-striped d-lg-table" id="t">
 							<thead>
 								<tr>
