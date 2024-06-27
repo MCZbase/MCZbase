@@ -26,8 +26,7 @@ limitations under the License.
 <cfinclude template="/shared/component/functions.cfc">
 <script type="text/javascript" src="/metrics/js/metrics.js"></script> 
 
-<cfset targetFile = "citation_number.csv">
-<cfset filePath = "/metrics/datafiles/">
+
 	
 <!--- TODO: Set to most recent full year. --->
 <cfif NOT isDefined("beginDate")><cfset beginDate = '2022-06-30'></cfif>
