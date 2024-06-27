@@ -34,7 +34,56 @@ limitations under the License.
 <cfset start = GetTickCount()>
 <meta name="theme-color" content="#563d7c">
 <cfoutput>
+	<cfquery name="citationNums" datasource="uam_god" result="citation_result">
+			SELECT
+				c.collection,
+				cit.numCitations,
+				cit.numCitationCatItems
+			FROM
+				(select collection_cde,institution_acronym,descr,collection,collection_id from collection where collection_cde <> 'MCZ') c
+			LEFT JOIN 
+				(select coll.collection_id, coll.collection, count(distinct f.collection_object_id) numCitationCatItems, count(*) numCitations 
+				from coll_object co,  flat f,  citation c,  publication p, collection coll
+				where f.collection_object_id = co.collection_object_id
+				and f.collection_object_id = c.collection_object_id 
+				and c.publication_id = p.publication_id
+				and f.collection_cde = coll.collection_cde
+				and p.publication_title not like '%Placeholder%'
+			GROUP BY coll.collection_id, coll.collection) cit on c.collection_id = cit.collection_id
+		</cfquery>
+		<script>
+			function QueryToCSV2(query){
+				var csv = createobject( 'java', 'java.lang.StringBuffer');
+				var i = 1;
+				var j = 1;
+				var cols = "";
+				var headers = "";
+				var endOfLine = chr(13) & chr(10);
+				if (arraylen(arguments) gte 2) headers = arguments[2];
+				if (arraylen(arguments) gte 3) cols = arguments[3];
+				if (not len( trim( cols ) ) ) cols = query.columnlist;
+				if (not len( trim( headers ) ) ) headers = cols;
+				headers = listtoarray( headers );
+				cols = listtoarray( cols );
 
+				for (i = 1; i lte arraylen( headers ); i = i + 1)
+					csv.append( '"' & headers[i] & '",' );
+				csv.append( endOfLine );
+
+				for (i = 1; i lte query.recordcount; i= i + 1){
+					for (j = 1; j lte arraylen( cols ); j=j + 1){
+						if (isNumeric( query[cols[j]][i] ) )
+							csv.append( query[cols[j]][i] & ',' );
+						else
+							csv.append( '"' & query[cols[j]][i] & '",' );
+
+					}
+					csv.append( endOfLine );
+				}
+				return csv.toString();
+			}
+		</script>
+		
 <div class="container-fluid" id="content">
 	<div class="row">
 	<br clear="all">	
@@ -84,23 +133,7 @@ limitations under the License.
 				</script>
 			</div>
 		</nav>
-		<cfquery name="citationNums" datasource="uam_god" result="citation_result">
-			SELECT
-				c.collection,
-				cit.numCitations,
-				cit.numCitationCatItems
-			FROM
-				(select collection_cde,institution_acronym,descr,collection,collection_id from collection where collection_cde <> 'MCZ') c
-			LEFT JOIN 
-				(select coll.collection_id, coll.collection, count(distinct f.collection_object_id) numCitationCatItems, count(*) numCitations 
-				from coll_object co,  flat f,  citation c,  publication p, collection coll
-				where f.collection_object_id = co.collection_object_id
-				and f.collection_object_id = c.collection_object_id 
-				and c.publication_id = p.publication_id
-				and f.collection_cde = coll.collection_cde
-				and p.publication_title not like '%Placeholder%'
-			GROUP BY coll.collection_id, coll.collection) cit on c.collection_id = cit.collection_id
-		</cfquery>
+	
 		<main role="main" class="col-md-10 ml-sm-auto col-lg-10 px-md-5 mb-3">
 			<div class="row">
 				<cfoutput>
@@ -109,7 +142,7 @@ limitations under the License.
 						<div class="btn-toolbar mb-2 mb-md-0 float-right">
 							<div class="btn-group mr-2">
 								<button type="button" class="btn btn-sm btn-outline-secondary">Share</button>
-								<button type="button" class="btn btn-sm btn-outline-secondary" onclick="queryToCSVFile(queryToConvert=citationNums)">Export</button>
+								<button type="button" class="btn btn-sm btn-outline-secondary" onclick="QueryToCSV2(citationNums)">Export</button>
 							</div>
 						</div>
 					</div>
