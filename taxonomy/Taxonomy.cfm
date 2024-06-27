@@ -676,35 +676,29 @@ limitations under the License.
 					</div>
 
 					<div class="form-row">
-						<div class="col-12 col-md-6 col-xl-3 px-0 float-left">
-							<label for="infraspecific_rank" class="col-12 col-md-4 pb-0 col-form-label align-left float-left"><span>Infraspecific Rank</span></label>
-							<div class="col-12 col-md-8 float-left">
-								<select name="infraspecific_rank" id="infraspecific_rank" class="data-entry-select my-1" data-style="btn-primary" show-tick>
-									<option value=""></option>
-									<cfloop query="ctInfRank">
-										<option
-											<cfif gettaxa.infraspecific_rank is ctinfrank.infraspecific_rank> selected="selected" </cfif>
-											value="#ctInfRank.infraspecific_rank#">#ctInfRank.infraspecific_rank#</option>
-									</cfloop>
-								</select>
-							</div>
+						<div class="col-12 col-md-6 col-xl-3 px-0 float-left ml-2">
+							<label for="infraspecific_rank" class="data-entry-label">Infraspecific Rank</label>
+							<select name="infraspecific_rank" id="infraspecific_rank" class="data-entry-select" data-style="btn-primary" show-tick>
+								<option value=""></option>
+								<cfloop query="ctInfRank">
+									<option
+										<cfif gettaxa.infraspecific_rank is ctinfrank.infraspecific_rank> selected="selected" </cfif>
+										value="#ctInfRank.infraspecific_rank#">#ctInfRank.infraspecific_rank#</option>
+								</cfloop>
+							</select>
 						</div>
 					
-						<div class="col-12 col-md-4 col-xl-7 px-0 float-left">
-							<label for="author_text" class="col-12 col-md-2 col-xl-1 col-form-label pb-0 align-left float-left">Authorship <small>(incl. year)</small></label>
-							<div class="col-12 col-md-10 col-xl-11 mb-2 float-left">
-								<input type="text" name="author_text" id="author_text" value="#encodeForHTML(gettaxa.author_text)#" class="data-entry-input mt-1">
-								<span class="infoLink botanical"
-									onclick=" window.open('https://ipni.org/?q='+$('##genus').val()+'%20'+$('##species').val(),'_blank'); ">
-									 <small class="link-color">Find in IPNI</small>
-								</span>
-							 </div>
+						<div class="col-12 col-md-4 col-xl-7 px-0 ml-2 float-left">
+							<label for="author_text" class="data-entry-label">Authorship (including year)</label>
+							<input type="text" name="author_text" id="author_text" value="#encodeForHTML(gettaxa.author_text)#" class="data-entry-input">
+							<span class="infoLink botanical"
+								onclick=" window.open('https://ipni.org/?q='+$('##genus').val()+'%20'+$('##species').val(),'_blank'); ">
+								 <small class="link-color">Find in IPNI</small>
+							</span>
 						</div>
-						<div class="col-12 col-md-2 col-xl-2 px-0 float-left">
-							<label for="year_of_publication" class="col-12 col-md-2 col-xl-1 col-form-label pb-0 align-left float-left">Year</label>
-							<div class="col-12 col-md-10 col-xl-11 mb-2 float-left">
-								<input type="text" name="year_of_publication" id="year_of_publication" value="#encodeForHTML(gettaxa.year_of_publication)#" class="data-entry-input mt-1">
-							 </div>
+						<div class="col-12 col-md-2 col-xl-2 px-0 float-left ml-2">
+							<label for="year_of_publication" class="data-entry-label">Year of publication</label>
+							<input type="text" name="year_of_publication" id="year_of_publication" value="#encodeForHTML(gettaxa.year_of_publication)#" class="data-entry-input">
 						</div>
 					</div>
 
