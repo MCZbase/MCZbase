@@ -34,24 +34,6 @@ limitations under the License.
 <cfset start = GetTickCount()>
 <meta name="theme-color" content="#563d7c">
 <cfoutput>
-	<cfquery name="citationNums" datasource="uam_god" result="citation_result">
-			SELECT
-				c.collection,
-				cit.numCitations,
-				cit.numCitationCatItems
-			FROM
-				(select collection_cde,institution_acronym,descr,collection,collection_id from collection where collection_cde <> 'MCZ') c
-			LEFT JOIN 
-				(select coll.collection_id, coll.collection, count(distinct f.collection_object_id) numCitationCatItems, count(*) numCitations 
-				from coll_object co,  flat f,  citation c,  publication p, collection coll
-				where f.collection_object_id = co.collection_object_id
-				and f.collection_object_id = c.collection_object_id 
-				and c.publication_id = p.publication_id
-				and f.collection_cde = coll.collection_cde
-				and p.publication_title not like '%Placeholder%'
-			GROUP BY coll.collection_id, coll.collection) cit on c.collection_id = cit.collection_id
-		</cfquery>
-
 		
 <div class="container-fluid" id="content">
 	<div class="row">
