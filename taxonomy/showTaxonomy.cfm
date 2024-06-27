@@ -8,7 +8,7 @@
 		<cfif isdefined("scientific_name") and len(scientific_name) gt 0>
 			<cfset scientific_name = URLDecode(scientific_name) >
 			<cfquery name="getTID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				SELECT taxon_name_id, scientific_name, author_text, full_taxon_name
+				SELECT taxon_name_id, scientific_name, author_text, full_taxon_name, year_of_publication
 				FROM taxonomy 
 				WHERE upper(scientific_name) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(scientific_name)#">
 			</cfquery>
@@ -139,7 +139,7 @@
 				<!--- don't redirect, as the redirect isn't to a unique entry --->
 				<cfset tnid = taxon_name_id>
 				<cfquery name="getHomonyms" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					SELECT taxon_name_id, scientific_name, author_text, full_taxon_name
+					SELECT taxon_name_id, scientific_name, author_text, full_taxon_name, year_of_publication
 					FROM taxonomy 
 					WHERE upper(scientific_name) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(lookupNameFromID.scientific_name)#">
 				</cfquery>
@@ -209,6 +209,7 @@
 			taxonomy.SCIENTIFIC_NAME,
 			taxonomy.display_name,
 			taxonomy.AUTHOR_TEXT,
+			taxonomy.year_of_publication,
 			taxonomy.INFRASPECIFIC_AUTHOR,
 			taxonomy.INFRASPECIFIC_RANK,
 			taxonomy.taxonid_guid_type,
@@ -470,6 +471,9 @@
 				</cfif>
 				<cfif len(scientificnameidlink) GT 0>
 					<p>dwc:scientificNameID: <a href="#scientificnameidlink#" target="_blank">#one.scientificnameid#</a></p>
+				</cfif>
+				<cfif len(one.year_of_publication) GT 0>
+					<p>Published In: #one.year_of_publication#</p>
 				</cfif>
 				<cfif len(one.taxon_remarks) GT 0>
 					<p>Remarks: #one.taxon_remarks#</p>
