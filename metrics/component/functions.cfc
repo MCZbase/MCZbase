@@ -27,7 +27,7 @@ limitations under the License.
  * contains the name of the file that was written.
  **REPEATED HERE FOR TESTING -- IS ALSO IN /shared/component/functions.cfc
 --->
-<cffunction name="queryToCSVFile"  access="remote" returntype="any" output="false" access="public">
+<cffunction name="queryToCSVFile"  access="remote" returntype="any" output="false">
 	<cfargument name="queryToConvert" type="query" required="true">
 	<cfargument name="mode" type="string" required="no" default="create">
 	<cfargument name="timestamp" type="string" required="no">
