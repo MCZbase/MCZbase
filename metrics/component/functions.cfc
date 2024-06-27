@@ -415,7 +415,7 @@ limitations under the License.
 		<cfoutput>
 			<cftry>
 				<!--- annual report queries --->
-				<cfquery name="citation" datasource="uam_god" result="citation_result">
+				<cfquery name="citationNums" datasource="uam_god" result="citation_result">
 					SELECT
 						c.collection,
 						cit.numCitations,
@@ -434,12 +434,6 @@ limitations under the License.
 				</cfquery>
 				<section class="col-12 mt-2 px-0">
 					<h2 class="h3 px-2">Citation Stats</h2>
-					
-					<cfargument name="queryToConvert" type="query" required="true">
-	<cfargument name="mode" type="string" required="no" default="create">
-	<cfargument name="timestamp" type="string" required="no">
-	<cfargument name="written" type="string" required="no">
-					<div id="resultDownloadButtonContainer"><button id="citationcsvbutton" class="btn btn-xs btn-secondary px-2 my-2 mx-1" aria-label="Export results to csv" onclick="querytoCSVfile('citation', 'citation_numbers.csv'); ">Export to CSV</button></div>
 						<table class="table table-responsive table-striped d-lg-table" id="t">
 							<thead>
 								<tr>
@@ -451,7 +445,7 @@ limitations under the License.
 								</tr>
 							</thead>
 							<tbody>
-								<cfloop query="citation">
+								<cfloop query="citationNums">
 									<tr>
 										<td>#collection#</td>
 										<td>#numCitations#</td>
