@@ -42,7 +42,7 @@ limitations under the License.
 					SELECT 
 						rm.holdings,
 						h.collection, 
-						h.catalogeditems, 
+						h.catalogeditems as cataloged_items, 
 						h.specimens, 
 						p.primaryCatItems, 
 						p.primaryspecimens, 
@@ -53,7 +53,7 @@ limitations under the License.
 					LEFT JOIN 
 						(select collection_id,holdings,reported_date from MCZBASE.collections_reported_metrics) rm on c.collection_id = rm.collection_id 
 					LEFT JOIN 
-						(select f.collection_id, f.collection, count(distinct f.collection_object_id) catalogeditems, sum(decode(total_parts,null, 1,total_parts)) specimens from flat f join coll_object co on f.collection_object_id = co.collection_object_id where co.COLL_OBJECT_ENTERED_DATE < to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#endDate#">, 'YYYY-MM-DD') group by f.collection_id, f.collection) h on rm.collection_id = h.collection_id
+						(select f.collection_id, f.collection, count(distinct f.collection_object_id) cataloged_items, sum(decode(total_parts,null, 1,total_parts)) specimens from flat f join coll_object co on f.collection_object_id = co.collection_object_id where co.COLL_OBJECT_ENTERED_DATE < to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#endDate#">, 'YYYY-MM-DD') group by f.collection_id, f.collection) h on rm.collection_id = h.collection_id
 					LEFT JOIN 
 						(select f.collection_id, f.collection, ts.CATEGORY, count(distinct f.collection_object_id) primaryCatItems, sum(decode(total_parts,null, 1,total_parts)) primarySpecimens from coll_object co join flat f on co.collection_object_id = f.collection_object_id join citation c on f.collection_object_id = c.collection_object_id join ctcitation_type_status ts on c.type_status =  ts.type_status where ts.CATEGORY in ('Primary') and co.COLL_OBJECT_ENTERED_DATE <  to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#endDate#">, 'YYYY-MM-DD') group by f.collection_id, f.collection, ts.CATEGORY) p on h.collection_id = p.collection_id
 					LEFT JOIN 
@@ -95,7 +95,7 @@ limitations under the License.
 									<td>#collection#</td>
 									<td>#holdings#</td>
 									<td>#NumberFormat((catalogeditems/holdings)*100, '9.99')#%</td>
-									<td>#catalogeditems#</td>
+									<td>#cataloged_items#</td>
 									<td>#specimens#</td>
 									<td>#primaryCatItems#</td>
 									<td>#primarySpecimens#</td>
