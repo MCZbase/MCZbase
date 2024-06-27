@@ -96,20 +96,7 @@ limitations under the License.
 							</div>
 						</div>
 					</div>
-				<!---	<script>
-						$.ajax({
-							method: "GET",
-							url: "/metrics/component/functions.cfc",
-							data: {
-								method: 'downloadCSV'
-							},
-							cache: false,
-							success: function(data) {
-								console.log("Downloaded");
-							},
-							error: 'Not downloaded'
-						});
-					</script>--->
+		
 					<cfset summaryAnnualBlock=getAnnualNumbers(endDate="#endDate#",beginDate="#beginDate#")>
 					<div id="annualNumbersDiv">
 						#summaryAnnualBlock#
