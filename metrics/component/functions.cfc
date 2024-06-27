@@ -40,7 +40,7 @@ limitations under the License.
 					LEFT JOIN 
 						(select collection_id,holdings,reported_date from MCZBASE.collections_reported_metrics) rm on c.collection_id = rm.collection_id 
 					LEFT JOIN 
-						(select f.collection_id, f.collection, count(distinct f.collection_object_id) catalogeditems, sum(decode(total_parts,null, 1,total_parts)) specimens from flat f join coll_object co on f.collection_object_id = co.collection_object_id where co.COLL_OBJECT_ENTERED_DATE < to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#endDate#">, 'YYYY-MM-DD') group by f.collection_id, f.collection) h on c.collection_id = h.collection_id
+						(select f.collection_id, f.collection, count(distinct f.collection_object_id) catalogeditems, sum(decode(total_parts,null, 1,total_parts)) specimens from flat f join coll_object co on f.collection_object_id = co.collection_object_id where co.COLL_OBJECT_ENTERED_DATE < to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#endDate#">, 'YYYY-MM-DD') group by f.collection_id, f.collection) h on rm.collection_id = h.collection_id
 					LEFT JOIN 
 						(select f.collection_id, f.collection, ts.CATEGORY, count(distinct f.collection_object_id) primaryCatItems, sum(decode(total_parts,null, 1,total_parts)) primarySpecimens from coll_object co join flat f on co.collection_object_id = f.collection_object_id join citation c on f.collection_object_id = c.collection_object_id join ctcitation_type_status ts on c.type_status =  ts.type_status where ts.CATEGORY in ('Primary') and co.COLL_OBJECT_ENTERED_DATE <  to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#endDate#">, 'YYYY-MM-DD') group by f.collection_id, f.collection, ts.CATEGORY) p on h.collection_id = p.collection_id
 					LEFT JOIN 
@@ -118,9 +118,9 @@ limitations under the License.
 						accn.numAccns
 					FROM 
 						(select collection_cde,institution_acronym,descr,collection,collection_id from collection where collection_cde <> 'MCZ') c
-					LEFT JOIN (select collection_id,holdings,reported_date from MCZBASE.collections_reported_metrics) rm on c.collection_id = rm.collection_id 
+					
 					LEFT JOIN 
-						(select f.collection_id, f.collection, count(distinct f.collection_object_id) catalogeditems, sum(decode(total_parts,null, 1,total_parts)) specimens from flat f join coll_object co on f.collection_object_id = co.collection_object_id where co.COLL_OBJECT_ENTERED_DATE < to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#endDate#">, 'YYYY-MM-DD') group by f.collection_id, f.collection) h on rm.collection_id = h.collection_id
+						(select f.collection_id, f.collection, count(distinct f.collection_object_id) catalogeditems, sum(decode(total_parts,null, 1,total_parts)) specimens from flat f join coll_object co on f.collection_object_id = co.collection_object_id where co.COLL_OBJECT_ENTERED_DATE < to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#endDate#">, 'YYYY-MM-DD') group by f.collection_id, f.collection) h on c.collection_id = h.collection_id
 					LEFT JOIN 
 						(select f.collection_id, f.collection, count(distinct collection_object_id) receivedCatitems, sum(decode(total_parts,null, 1,total_parts)) receivedSpecimens from flat f join accn a on f.ACCN_ID = a.transaction_id join trans t on a.transaction_id = t.transaction_id where a.received_DATE between  to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#beginDate#">, 'YYYY-MM-DD') and  to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#endDate#">, 'YYYY-MM-DD') group by f.collection_id, f.collection) a on h.collection_id = a.collection_id
 					LEFT JOIN 
