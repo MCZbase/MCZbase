@@ -130,7 +130,7 @@ limitations under the License.
 	<cfthread name="getAcquisitionsThread">
 		<cfoutput>
 			<cftry>
-				<cfset targetFile = "acquisition_numbers.csv">
+				<cfset targetFile = "acquisition_numbers_#beginDate#_to_#endDate#.csv">
 				<cfset filePath = "/metrics/datafiles/">
 				<!--- annual report queries --->
 				<cfquery name="ACtotals" datasource="uam_god">
@@ -222,7 +222,7 @@ limitations under the License.
 	<cfthread name="getLoanNumbersThread">
 		<cfoutput>
 			<cftry>
-				<cfset targetFile = "loan_numbers.csv">
+				<cfset targetFile = "loan_numbers_#beginDate#_to_#endDate#.csv">
 				<cfset filePath = "/metrics/datafiles/">
 				<!--- annual report queries for loan activity --->
 				<cfquery name="loans" datasource="uam_god">
@@ -369,7 +369,7 @@ limitations under the License.
 	<cfthread name="getMediaNumbersThread">
 		<cfoutput>
 			<cftry>
-				<cfset targetFile = "media_numbers.csv">
+				<cfset targetFile = "media_numbers_#beginDate#_to_#endDate#.csv">
 				<cfset filePath = "/metrics/datafiles/">
 				<!--- annual report queries --->
 				<cfquery name="media" datasource="uam_god">
@@ -483,7 +483,7 @@ limitations under the License.
 	<cfthread name="getCitationNumbersThread">
 		<cfoutput>
 			<cftry>
-				<cfset targetFile = "citation_numbers.csv">
+				<cfset targetFile = "citation_numbers_#beginDate#_to_#endDate#.csv">
 				<cfset filePath = "/metrics/datafiles/">
 				<!--- annual report queries --->
 				<cfquery name="citationNums" datasource="uam_god" result="citation_result">
@@ -559,7 +559,7 @@ limitations under the License.
 	<cfthread name="getGeorefNumbersThread">
 		<cfoutput>
 			<cftry>
-				<cfset targetFile = "georeference_numbers.csv">
+				<cfset targetFile = "georeference_numbers_#beginDate#_to_#endDate#.csv">
 				<cfset filePath = "/metrics/datafiles/">
 				<cfquery name="georef" datasource="uam_god">
 					SELECT
