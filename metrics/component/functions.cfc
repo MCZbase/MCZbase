@@ -66,11 +66,13 @@ limitations under the License.
 					<cffile action="write" file="/#application.webDirectory##filePath##targetFile#" output = "#csv#" addnewline="No">
 				</cfoutput>
 				<section class="col-12 mt-1 px-0">
-					<h2 class="h3 px-2 float-left mb-0">Holdings <span class="text-muted">(#encodeForHtml(beginDate)#/#encodeForHtml(endDate)#)</span></h2>
-					<div class="btn-toolbar mb-2 mb-md-0 float-right">
-						<div class="btn-group mr-2">
-							<button type="button" class="btn btn-sm btn-outline-secondary">Share</button>
-							<a href="#filePath##targetFile#" class="btn btn-sm btn-outline-secondary">Export Table</a>
+					<div class="mt-1 mb-3">
+						<h2 class="h3 px-2 float-left mb-0">Holdings <span class="text-muted">(#encodeForHtml(beginDate)#/#encodeForHtml(endDate)#)</span></h2>
+						<div class="btn-toolbar mb-2 mb-md-0 float-right">
+							<div class="btn-group mr-2">
+								<button type="button" class="btn btn-sm btn-outline-secondary">Share</button>
+								<a href="#filePath##targetFile#" class="btn btn-sm btn-outline-secondary">Export Table</a>
+							</div>
 						</div>
 					</div>
 					<table class="table table-responsive table-striped d-lg-table" id="t">
