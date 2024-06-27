@@ -690,14 +690,20 @@ limitations under the License.
 							</div>
 						</div>
 					
-						<div class="col-12 col-md-6 col-xl-9 px-0 float-left">
-							<label for="author_text" class="col-12 col-md-2 col-xl-1 col-form-label pb-0 align-left float-left">Author</label>
+						<div class="col-12 col-md-4 col-xl-7 px-0 float-left">
+							<label for="author_text" class="col-12 col-md-2 col-xl-1 col-form-label pb-0 align-left float-left">Authorship <small>(incl. year)</small></label>
 							<div class="col-12 col-md-10 col-xl-11 mb-2 float-left">
 								<input type="text" name="author_text" id="author_text" value="#encodeForHTML(gettaxa.author_text)#" class="data-entry-input mt-1">
 								<span class="infoLink botanical"
 									onclick=" window.open('https://ipni.org/?q='+$('##genus').val()+'%20'+$('##species').val(),'_blank'); ">
 									 <small class="link-color">Find in IPNI</small>
 								</span>
+							 </div>
+						</div>
+						<div class="col-12 col-md-2 col-xl-2 px-0 float-left">
+							<label for="year_of_publication" class="col-12 col-md-2 col-xl-1 col-form-label pb-0 align-left float-left">Year</label>
+							<div class="col-12 col-md-10 col-xl-11 mb-2 float-left">
+								<input type="text" name="year_of_publication" id="year_of_publication" value="#encodeForHTML(gettaxa.year_of_publication)#" class="data-entry-input mt-1">
 							 </div>
 						</div>
 					</div>
@@ -1585,14 +1591,20 @@ limitations under the License.
 							</div>
 						</div>
 					
-						<div class="col-12 col-md-6 col-xl-9 px-0 float-left">
-							<label for="author_text" class="col-12 col-md-2 col-xl-1 pb-1 col-form-label align-left float-left">Author</label>
+						<div class="col-12 col-md-4 col-xl-7 px-0 float-left">
+							<label for="author_text" class="col-12 col-md-2 col-xl-1 pb-1 col-form-label align-left float-left">Author <small>(inc. year)</small></label>
 							<div class="col-12 col-md-10 col-xl-11 float-left">
 								<input type="text" name="author_text" id="author_text" value="#encodeForHTML(getClonedFromTaxon.author_text)#" class="data-entry-input mt-1">
 								<span class="infoLink botanical"
 									onclick=" window.open('https://ipni.org/?q='+$('##genus').val()+'%20'+$('##species').val(),'_blank'); ">
 									 <small class="link-color">Find in IPNI</small>
 								</span>
+							 </div>
+						</div>
+						<div class="col-12 col-md-2 col-xl-2 px-0 float-left">
+							<label for="year_of_publication" class="col-12 col-md-2 col-xl-1 col-form-label pb-0 align-left float-left">Year</label>
+							<div class="col-12 col-md-10 col-xl-11 mb-2 float-left">
+								<input type="text" name="year_of_publication" id="year_of_publication" value="#encodeForHTML(gettaxa.year_of_publication)#" class="data-entry-input mt-1">
 							 </div>
 						</div>
 					</div>
@@ -1658,6 +1670,9 @@ limitations under the License.
 						source_authority
 					<cfif len(#author_text#) gt 0>
 						,author_text
+					</cfif>
+					<cfif len(#year_of_publication#) gt 0>
+						,year_of_publication
 					</cfif>
 					<cfif len(#taxonid_guid_type#) gt 0>	
 						,taxonid_guid_type 
@@ -1758,6 +1773,9 @@ limitations under the License.
 						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#source_authority#">
 					<cfif len(#author_text#) gt 0>
 						,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(author_text)#">
+					</cfif>
+					<cfif len(#year_of_publication#) gt 0>
+						,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(year_of_publication)#">
 					</cfif>
 					<cfif len(#taxonid_guid_type#) gt 0>	
 						,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#taxonid_guid_type#">
