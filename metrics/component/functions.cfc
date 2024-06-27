@@ -597,7 +597,7 @@ limitations under the License.
 						<div class="btn-toolbar mb-2 mb-md-0 float-right">
 							<div class="btn-group mr-2">
 								<a type="button" class="btn btn-sm btn-outline-secondary" 
-								   href="mailto:demo@example.com?subject=Georeference_Activity_#beginDate#_to_#endDate#&body=Metrics$attachment=/metrics/datafiles/#targetFile#">Share</a>
+								   href="mailto:demo@example.com?subject=Georeference_Activity_#beginDate#_to_#endDate#&body=Metrics$attachment=/#application.webDirectory#/metrics/datafiles/#targetFile#">Share</a>
 								<a href="#filePath##targetFile#" class="btn btn-sm btn-outline-secondary">Export Table</a>
 							</div>
 						</div>
