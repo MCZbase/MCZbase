@@ -527,7 +527,7 @@
 						</cfloop>
 					</cfif>
 				</ul>
-				<h2 class="h4">Synonymns and other Related Names:</h2>
+				<h2 class="h4">Synonyms and other Related Names:</h2>
 				<ul>
 					<cfif related.recordcount is 0 and imp_related.recordcount is 0>
 						<li><b>No related names recorded.</b></li>
