@@ -92,7 +92,7 @@ limitations under the License.
 						<div class="btn-toolbar mb-2 mb-md-0 float-right">
 							<div class="btn-group mr-2">
 								<button type="button" class="btn btn-sm btn-outline-secondary">Share</button>
-								<button type="button" class="btn btn-sm btn-outline-secondary" onclick="queryToCSVFile(queryToConvert=citationNums)">Export</button>
+								<button type="button" class="btn btn-sm btn-outline-secondary" onclick="queryToCSVFile(query=citationNums)">Export</button>
 							</div>
 						</div>
 					</div>
