@@ -1583,7 +1583,7 @@ limitations under the License.
 						</div>
 					
 						<div class="col-12 col-md-4 col-xl-7 px-0 float-left">
-							<label for="author_text" class="col-12 col-md-2 col-xl-1 pb-1 col-form-label align-left float-left">Author <small>(inc. year)</small></label>
+							<label for="author_text" class="col-12 col-md-2 col-xl-1 pb-1 col-form-label align-left float-left">Authorship (including year)</label>
 							<div class="col-12 col-md-10 col-xl-11 float-left">
 								<input type="text" name="author_text" id="author_text" value="#encodeForHTML(getClonedFromTaxon.author_text)#" class="data-entry-input mt-1">
 								<span class="infoLink botanical"
@@ -1595,7 +1595,7 @@ limitations under the License.
 						<div class="col-12 col-md-2 col-xl-2 px-0 float-left">
 							<label for="year_of_publication" class="col-12 col-md-2 col-xl-1 col-form-label pb-0 align-left float-left">Year</label>
 							<div class="col-12 col-md-10 col-xl-11 mb-2 float-left">
-								<input type="text" name="year_of_publication" id="year_of_publication" value="#encodeForHTML(gettaxa.year_of_publication)#" class="data-entry-input mt-1">
+								<input type="text" name="year_of_publication" id="year_of_publication" value="#encodeForHTML(getClonedFromTaxon.year_of_publication)#" class="data-entry-input mt-1">
 							 </div>
 						</div>
 					</div>
