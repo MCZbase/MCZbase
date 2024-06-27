@@ -152,8 +152,20 @@ limitations under the License.
 					LEFT JOIN 
 						(select c.collection_id, c.collection, count(distinct t.transaction_id) numAccns from accn a, trans t, collection c where a.transaction_id = t.transaction_id and t.collection_id = c.collection_id and a.received_date between to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#beginDate#">, 'YYYY-MM-DD') and  to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#endDate#">, 'YYYY-MM-DD') group by c.collection_id, c.collection) accn on h.collection_id = accn.collection_id
 				</cfquery>
+				<cfoutput>
+					<cfset csv = queryToCSV(ACtotals)> 
+					<cffile action="write" file="/#application.webDirectory##filePath##targetFile#" output = "#csv#" addnewline="No">
+				</cfoutput>
 				<section class="col-12 mt-2 px-0">
-					<h2 class="h3 px-2">Acquisitions <span class="text-muted">(#encodeForHtml(beginDate)#/#encodeForHtml(endDate)#)</span></h2>
+					<div class="mt-1 mb-3 float-left w-100">
+						<h2 class="h3 px-2 float-left mb-0">Acquisitions <span class="text-muted">(#encodeForHtml(beginDate)#/#encodeForHtml(endDate)#)</span></h2>
+						<div class="btn-toolbar mb-2 mb-md-0 float-right">
+							<div class="btn-group mr-2">
+								<button type="button" class="btn btn-sm btn-outline-secondary">Share</button>
+								<a href="#filePath##targetFile#" class="btn btn-sm btn-outline-secondary">Export Table</a>
+							</div>
+						</div>
+					</div>
 					<table class="table table-responsive table-striped d-lg-table" id="t">
 						<thead>
 							<tr>
@@ -285,8 +297,20 @@ limitations under the License.
 						group by c.collection_id, collection) open10 on c.collection_id = open10.collection_id
 					ORDER BY collection
 				</cfquery>
+				<cfoutput>
+					<cfset csv = queryToCSV(loans)> 
+					<cffile action="write" file="/#application.webDirectory##filePath##targetFile#" output = "#csv#" addnewline="No">
+				</cfoutput>
 				<section class="col-12 mt-2 px-0">
-					<h2 class="h3 px-2">Loan Activity (#encodeForHtml(beginDate)#/#encodeForHtml(endDate)#)</h2>
+					<div class="mt-1 mb-3 float-left w-100">
+						<h2 class="h3 px-2 float-left mb-0">Loan Activity <span class="text-muted">(#encodeForHtml(beginDate)#/#encodeForHtml(endDate)#)</span></h2>
+						<div class="btn-toolbar mb-2 mb-md-0 float-right">
+							<div class="btn-group mr-2">
+								<button type="button" class="btn btn-sm btn-outline-secondary">Share</button>
+								<a href="#filePath##targetFile#" class="btn btn-sm btn-outline-secondary">Export Table</a>
+							</div>
+						</div>
+					</div>
 					<table class="table table-responsive table-striped d-lg-table" id="t">
 							<thead>
 								<tr>
@@ -383,8 +407,20 @@ limitations under the License.
 						group by f.collection_id, f.collection) st on c.collection_id = st.collection_id
 						order by collection
 				</cfquery>
+				<cfoutput>
+					<cfset csv = queryToCSV(media)> 
+					<cffile action="write" file="/#application.webDirectory##filePath##targetFile#" output = "#csv#" addnewline="No">
+				</cfoutput>
 				<section class="col-12 mt-2 px-0">
-					<h2 class="h3 px-2">Media Stats</h2>
+					<div class="mt-1 mb-3 float-left w-100">
+						<h2 class="h3 px-2 float-left mb-0">Media Activity <span class="text-muted">(#encodeForHtml(beginDate)#/#encodeForHtml(endDate)#)</span></h2>
+						<div class="btn-toolbar mb-2 mb-md-0 float-right">
+							<div class="btn-group mr-2">
+								<button type="button" class="btn btn-sm btn-outline-secondary">Share</button>
+								<a href="#filePath##targetFile#" class="btn btn-sm btn-outline-secondary">Export Table</a>
+							</div>
+						</div>
+					</div>
 					<table class="table table-responsive table-striped d-lg-table" id="t">
 							<thead>
 								<tr>
@@ -456,8 +492,20 @@ limitations under the License.
 						and p.publication_title not like '%Placeholder%'
 					GROUP BY coll.collection_id, coll.collection) cit on c.collection_id = cit.collection_id
 				</cfquery>
+				<cfoutput>
+					<cfset csv = queryToCSV(citationNums)> 
+					<cffile action="write" file="/#application.webDirectory##filePath##targetFile#" output = "#csv#" addnewline="No">
+				</cfoutput>
 				<section class="col-12 mt-2 px-0">
-					<h2 class="h3 px-2">Citation Stats</h2>
+					<div class="mt-1 mb-3 float-left w-100">
+						<h2 class="h3 px-2 float-left mb-0">Citation Activity <span class="text-muted">(#encodeForHtml(beginDate)#/#encodeForHtml(endDate)#)</span></h2>
+						<div class="btn-toolbar mb-2 mb-md-0 float-right">
+							<div class="btn-group mr-2">
+								<button type="button" class="btn btn-sm btn-outline-secondary">Share</button>
+								<a href="#filePath##targetFile#" class="btn btn-sm btn-outline-secondary">Export Table</a>
+							</div>
+						</div>
+					</div>
 						<table class="table table-responsive table-striped d-lg-table" id="t">
 							<thead>
 								<tr>
@@ -526,8 +574,20 @@ limitations under the License.
 						and f.VERIFICATIONSTATUS like 'verified%'
 						group by f.collection_id, f.collection) vgl on c.collection_id = vgl.collection_id
 				</cfquery>
+				<cfoutput>
+					<cfset csv = queryToCSV(georef)> 
+					<cffile action="write" file="/#application.webDirectory##filePath##targetFile#" output = "#csv#" addnewline="No">
+				</cfoutput>
 				<section class="col-12 mt-2 px-0">
-					<h2 class="h3 px-2">Georeference Stats</h2>
+					<div class="mt-1 mb-3 float-left w-100">
+						<h2 class="h3 px-2 float-left mb-0">Georeferencing Activity <span class="text-muted">(#encodeForHtml(beginDate)#/#encodeForHtml(endDate)#)</span></h2>
+						<div class="btn-toolbar mb-2 mb-md-0 float-right">
+							<div class="btn-group mr-2">
+								<button type="button" class="btn btn-sm btn-outline-secondary">Share</button>
+								<a href="#filePath##targetFile#" class="btn btn-sm btn-outline-secondary">Export Table</a>
+							</div>
+						</div>
+					</div>
 					<table class="table table-responsive table-striped d-lg-table" id="t">
 							<thead>
 								<tr>
