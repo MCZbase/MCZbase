@@ -1,6 +1,6 @@
 #graph 1: 
 
-library(ggplot2)
+#library(ggplot2)
 
 data <- read.csv('/var/www/html/arctos/metrics/datafiles/chart_data.csv')
 
@@ -9,12 +9,12 @@ head(data)
 names(data)
 
 ggplot(
-  data = iris, 
-  aes(x = Sepal.Length, y = Sepal.Width, color = Species)) +
+  data = getStats, 
+  aes(x = citation_type, y = taxa, color = Collections)) +
   geom_point() +
-  labs(title = "Sepal Length vs. Sepal Width by Species",
-       x = "Sepal Length",
-       y = "Sepal Width") +
+  labs(title = "Types vs. Taxa Counts by Collections",
+       x = "Types",
+       y = "Taxa Counts") +
   theme_minimal()
 
 
