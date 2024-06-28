@@ -590,7 +590,7 @@ limitations under the License.
 				<cfoutput>
 					<cfset csv = queryToCSV(georef)> 
 					<cffile action="write" file="/#application.webDirectory##filePath##targetFile#" output = "#csv#" addnewline="No">
-					<cfset tempurl="#https://mczbase-dev.rc.fas.harvard.edu/metrics/Dashboard.cfm?method=getAnnualNumbers#">
+					<cfset tempurl="https://mczbase-dev.rc.fas.harvard.edu/metrics/Dashboard.cfm?method=getAnnualNumbers">
 					<cfset beginDateVar = "beginDate=#beginDate#">
 					<cfset endDateVar = "endDate=#endDate#">
 				</cfoutput>
