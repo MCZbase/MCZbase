@@ -95,7 +95,6 @@ limitations under the License.
 					<div id="annualNumbersDiv">
 						#summaryAnnualBlock#
 					</div>
-			
 				</cfoutput>
 			</div>
 		</main>
