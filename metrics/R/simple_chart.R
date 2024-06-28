@@ -1,7 +1,7 @@
 #graph 1: 
 #library(gganimate)
+#library(tidyverse)
 library(tibble)
-library(tidyverse)
 library(ggplot2)
 library(dplyr)
 library(plotly)
