@@ -31,8 +31,8 @@ limitations under the License.
 
 
 <cffunction name="getAnnualChart" access="remote" returntype="any" returnformat="json">
-	<cfargument name="beginDate" type="any" required="yes">
-	<cfargument name="endDate" type="any" required="yes">
+<!---	<cfargument name="beginDate" type="any" required="yes">
+	<cfargument name="endDate" type="any" required="yes">--->
 	<cfthread name="getAnnualChartThread">
 		<cfoutput>
 			<cftry>
