@@ -30,7 +30,95 @@ limitations under the License.
 --->
 
 
-			
+<cffunction name="getAnnualChart" access="remote" returntype="any" returnformat="json">
+	<cfargument name="beginDate" type="any" required="yes">
+	<cfargument name="endDate" type="any" required="yes">
+	<cfthread name="getAnnualChartThread">
+		<cfoutput>
+			<cftry>
+				<cfset targetFile = "chart_numbers_#beginDate#_to_#endDate#.csv">
+				<cfset filePath = "/metrics/datafiles/">
+				<!--- annual report queries --->
+				<cfquery name="chartQuery" datasource="uam_god">
+					SELECT 
+						rm.holdings,
+						h.collection, 
+						h.catalogeditems, 
+						h.specimens, 
+						p.primaryCatItems, 
+						p.primaryspecimens, 
+						s.secondaryCatItems, 
+						s.secondarySpecimens
+					FROM 
+						(select collection_cde,institution_acronym,descr,collection,collection_id from collection where collection_cde <> 'MCZ') c
+					LEFT JOIN 
+						(select collection_id,holdings,reported_date from MCZBASE.collections_reported_metrics) rm on c.collection_id = rm.collection_id 
+					LEFT JOIN 
+						(select f.collection_id, f.collection, count(distinct f.collection_object_id) catalogeditems, sum(decode(total_parts,null, 1,total_parts)) specimens from flat f join coll_object co on f.collection_object_id = co.collection_object_id where co.COLL_OBJECT_ENTERED_DATE < to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#endDate#">, 'YYYY-MM-DD') group by f.collection_id, f.collection) h on rm.collection_id = h.collection_id
+					LEFT JOIN 
+						(select f.collection_id, f.collection, ts.CATEGORY, count(distinct f.collection_object_id) primaryCatItems, sum(decode(total_parts,null, 1,total_parts)) primarySpecimens from coll_object co join flat f on co.collection_object_id = f.collection_object_id join citation c on f.collection_object_id = c.collection_object_id join ctcitation_type_status ts on c.type_status =  ts.type_status where ts.CATEGORY in ('Primary') and co.COLL_OBJECT_ENTERED_DATE <  to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#endDate#">, 'YYYY-MM-DD') group by f.collection_id, f.collection, ts.CATEGORY) p on h.collection_id = p.collection_id
+					LEFT JOIN 
+						(select f.collection_id, f.collection, ts.CATEGORY, count(distinct f.collection_object_id) secondaryCatItems, sum(decode(total_parts,null, 1,total_parts)) secondarySpecimens from coll_object co join flat f on co.collection_object_id = f.collection_object_id join citation c on f.collection_object_id = c.collection_object_id join ctcitation_type_status ts on c.type_status =  ts.type_status where ts.CATEGORY in ('Secondary') and co.COLL_OBJECT_ENTERED_DATE <  to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#endDate#">, 'YYYY-MM-DD') group by f.collection_id, f.collection, ts.CATEGORY) s on h.collection_id = s.collection_id
+					LEFT JOIN 
+						(select f.collection_id, f.collection, count(distinct collection_object_id) receivedCatitems, sum(decode(total_parts,null, 1,total_parts)) receivedSpecimens from flat f join accn a on f.ACCN_ID = a.transaction_id join trans t on a.transaction_id = t.transaction_id where a.received_DATE between  to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#beginDate#">, 'YYYY-MM-DD') and  to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#endDate#">, 'YYYY-MM-DD') group by f.collection_id, f.collection) a on h.collection_id = a.collection_id
+				</cfquery>	
+				<cfoutput>
+					<cfset csv = queryToCSV(chartQuery)> 
+					<cffile action="write" file="/#application.webDirectory##filePath##targetFile#" output = "#csv#" addnewline="No">
+				</cfoutput>
+				<section class="col-12 mt-1 px-0">
+					<div class="mt-1 mb-3 float-left w-100">
+						<h2 class="h3 px-2 float-left mb-0">This Years Metrics <span class="text-muted">(#encodeForHtml(beginDate)#/#encodeForHtml(endDate)#)</span></h2>
+						<div class="btn-toolbar mb-2 mb-md-0 float-right">
+							<div class="btn-group mr-2">
+								<a href="#filePath##targetFile#" class="btn btn-xs btn-outline-secondary">Export Table</a>
+							</div>
+						</div>
+					</div>
+					Chart Goes Here
+					<!---<table class="table table-responsive table-striped d-lg-table" id="t">
+						<thead>
+							<tr>
+								<th><strong>Collection</strong></th>
+								<th><strong>Total Holdings</strong></th>
+								<th><strong>% of Holdings in MCZbase</strong></th>
+								<th><strong>Total Records - Cataloged Items</strong></th>
+								<th><strong>Total Records - Specimens</strong></th>
+								<th><strong>Primary Types - Cataloged Items</strong></th>
+								<th><strong>Primary Types - Specimens</strong></th>
+								<th><strong>Secondary Types - Cataloged Items</strong></th>
+								<th><strong>Secondary Types - Specimens</strong></th>
+							</tr>
+						</thead>
+						<tbody>
+							<cfloop query="totals">
+								<tr>
+									<td>#collection#</td>
+									<td>#holdings#</td>
+									<td>#NumberFormat((catalogeditems/holdings)*100, '9.99')#%</td>
+									<td>#catalogeditems#</td>
+									<td>#specimens#</td>
+									<td>#primaryCatItems#</td>
+									<td>#primarySpecimens#</td>
+									<td>#secondaryCatItems#</td>
+									<td>#secondarySpecimens#</td>
+								</tr>
+							</cfloop>
+						</tbody>
+					</table>--->
+				</section>
+			<cfcatch>
+				<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+				<cfset function_called = "#GetFunctionCalledName()#">
+				<h2 class="h3">Error in #function_called#:</h2>
+				<div>#error_message#</div>
+			</cfcatch>
+			</cftry>
+		</cfoutput>
+	</cfthread>
+	<cfthread action="join" name="getAnnualNumbersThread" />
+	<cfreturn getAnnualNumbersThread.output>
+</cffunction>			
 			
 <cffunction name="getAnnualNumbers" access="remote" returntype="any" returnformat="json">
 	<cfargument name="beginDate" type="any" required="yes">
