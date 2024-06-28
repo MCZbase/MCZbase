@@ -873,7 +873,7 @@ limitations under the License.
 					(
 						status IS NULL
 						OR status <> ' :Found Cataloged Item; Found Part'
-						OR collection_object_id is not null
+						OR collection_object_id IS NULL
 					)
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
