@@ -595,7 +595,7 @@ limitations under the License.
 					<cfset endDateVar = "endDate=#endDate#">
 				</cfoutput>
 				<cfset csvpath = expandpath('./_csv/')>
-				<cfmail type="html" to="to@address.com" from="from@address.com" mimeattach="#tempurl##beginDateVar##endDateVar#" subject="Georef Report">
+				<cfmail type="html" to="to@address.com" from="from@oeb.harvard.edu" mimeattach="#tempurl##beginDateVar##endDateVar#" subject="Georef Report">
 				</cfmail>
 				<section class="col-12 mt-2 px-0">
 					<div class="mt-1 mb-3 float-left w-100">
