@@ -40,7 +40,13 @@ limitations under the License.
 				<cfset filePath = "/metrics/datafiles/">
 				<!--- annual report queries --->
 				<cfquery name="chartQuery" datasource="uam_god">
-					
+					SELECT rm.holdings as HOLDINGS,h.collection as COLLECTION,h.catalogeditems as 'CATALOGED ITEMS',h.specimens as 'SPECIMENS',p.primaryCatItems as 'PRIMARY CATALOGED ITEMS',p.primaryspecimens as 'PRIMARY SPECIMENS',s.secondaryCatItems,s.secondarySpecimens
+					FROM (select collection_cde,institution_acronym,descr,collection,collection_id from collection where collection_cde <> 'MCZ' and collection <> 'Special Collections' and collection <> 'Herpetology Observations') c
+					LEFT JOIN (select collection_id,holdings,reported_date from MCZBASE.collections_reported_metrics) rm on c.collection_id = rm.collection_id 
+					LEFT JOIN (select f.collection_id, f.collection, count(distinct f.collection_object_id) catalogeditems, sum(decode(total_parts,null, 1,total_parts)) specimens from flat f join coll_object co on f.collection_object_id = co.collection_object_id where co.COLL_OBJECT_ENTERED_DATE < to_date('#endDate#','YYYY-MM-DD') group by f.collection_id, f.collection) h on rm.collection_id = h.collection_id
+					LEFT JOIN (select f.collection_id, f.collection, ts.CATEGORY, count(distinct f.collection_object_id) primaryCatItems, sum(decode(total_parts,null, 1,total_parts)) primarySpecimens from coll_object co join flat f on co.collection_object_id = f.collection_object_id join citation c on f.collection_object_id = c.collection_object_id join ctcitation_type_status ts on c.type_status = ts.type_status where ts.CATEGORY in ('Primary') and co.COLL_OBJECT_ENTERED_DATE < to_date('#endDate#','YYYY-MM-DD') group by f.collection_id, f.collection, ts.CATEGORY) p on h.collection_id = p.collection_id
+					LEFT JOIN (select f.collection_id, f.collection, ts.CATEGORY, count(distinct f.collection_object_id) secondaryCatItems, sum(decode(total_parts,null, 1,total_parts)) secondarySpecimens from coll_object co join flat f on co.collection_object_id = f.collection_object_id join citation c on f.collection_object_id = c.collection_object_id join ctcitation_type_status ts on c.type_status = ts.type_status where ts.CATEGORY in ('Secondary') and co.COLL_OBJECT_ENTERED_DATE < to_date('#endDate#','YYYY-MM-DD') group by f.collection_id, f.collection, ts.CATEGORY) s 
+					on h.collection_id = s.collection_id
 				</cfquery>	
 				<cfoutput>
 					<cfset csv = queryToCSV(chartQuery)> 
