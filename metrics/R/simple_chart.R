@@ -18,3 +18,12 @@ str(data)
 head(data)
 names(data)
 
+ggplot(
+  data = iris, 
+  aes(x = Sepal.Length, y = Sepal.Width, color = Species)) +
+  geom_point() +
+  labs(title = "Sepal Length vs. Sepal Width by Species",
+       x = "Sepal Length",
+       y = "Sepal Width") +
+  theme_minimal()
+
