@@ -1,5 +1,5 @@
 #graph 1: 
-library(gganimate)
+#library(gganimate)
 library(tibble)
 library(tidyverse)
 library(ggplot2)
