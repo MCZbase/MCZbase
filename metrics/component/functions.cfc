@@ -590,20 +590,14 @@ limitations under the License.
 				<cfoutput>
 					<cfset csv = queryToCSV(georef)> 
 					<cffile action="write" file="/#application.webDirectory##filePath##targetFile#" output = "#csv#" addnewline="No">
-					<cfset tempurl="https://mczbase-dev.rc.fas.harvard.edu/metrics/Dashboard.cfm?method=getAnnualNumbers">
-					<cfset beginDateVar = "beginDate=#beginDate#">
-					<cfset endDateVar = "endDate=#endDate#">
 				</cfoutput>
-				<cfset csvpath = expandpath('./_csv/')>
-				<cfmail type="html" to="to@address.com" from="from@oeb.harvard.edu" mimeattach="#tempurl##beginDateVar##endDateVar#" subject="Georef Report">
-				</cfmail>
 				<section class="col-12 mt-2 px-0">
 					<div class="mt-1 mb-3 float-left w-100">
 						<h2 class="h3 px-2 float-left mb-0">Georeferencing Activity <span class="text-muted">(#encodeForHtml(beginDate)#/#encodeForHtml(endDate)#)</span></h2>
 						<div class="btn-toolbar mb-2 mb-md-0 float-right">
 							<div class="btn-group mr-2">
-								<a type="button" class="btn btn-sm btn-outline-secondary" 
-								href="mailto:demo@example.com?subject=Georeference_Activity_#beginDate#_to_#endDate#&body=MCZ Metrics&attachment=#tempurl##beginDateVar##endDateVar#>Share</a>
+								<!---<a type="button" class="btn btn-sm btn-outline-secondary" 
+								href="mailto:demo@example.com?subject=Georeference_Activity_#beginDate#_to_#endDate#&body=MCZ Metrics&attachment=#tempurl##beginDateVar##endDateVar#>Share</a>--->
 								<a href="#filePath##targetFile#" class="btn btn-sm btn-outline-secondary">Export Table</a>
 							</div>
 						</div>
