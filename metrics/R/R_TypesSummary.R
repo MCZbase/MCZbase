@@ -5,9 +5,9 @@
 ## when we roll over the dots, information about Collection, type status, and specific count comes up.
 ### BULLSEYE CHART
 library(ggplot2)
-#library(plotly)
-#library(dplyr)
-#library(tidyr)
+library(plotly)
+library(dplyr)
+library(tidyr)
 
 #types1 <- filter(count_type_collection2, SPECIMENS >= 50) 
 
@@ -23,7 +23,7 @@ library(ggplot2)
 
 # Create a basic scatter plot
 ggplot(
-  data = chart_data, 
+  data = iris, 
   aes(x = Sepal.Length, y = Sepal.Width, color = Species)) +
   geom_point() +
   labs(title = "Sepal Length vs. Sepal Width by Species",
