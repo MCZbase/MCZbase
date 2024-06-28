@@ -73,8 +73,7 @@ limitations under the License.
 						<h2 class="h3 px-2 float-left mb-0">Holdings <span class="text-muted">(#encodeForHtml(beginDate)#/#encodeForHtml(endDate)#)</span></h2>
 						<div class="btn-toolbar mb-2 mb-md-0 float-right">
 							<div class="btn-group mr-2">
-								<button type="button" class="btn btn-sm btn-outline-secondary">Share</button>
-								<a href="#filePath##targetFile#" class="btn btn-sm btn-outline-secondary">Export Table</a>
+								<a href="#filePath##targetFile#" class="btn btn-xs btn-outline-secondary">Export Table</a>
 							</div>
 						</div>
 					</div>
@@ -166,8 +165,7 @@ limitations under the License.
 						<h2 class="h3 px-2 float-left mb-0">Acquisitions <span class="text-muted">(#encodeForHtml(beginDate)#/#encodeForHtml(endDate)#)</span></h2>
 						<div class="btn-toolbar mb-2 mb-md-0 float-right">
 							<div class="btn-group mr-2">
-								<button type="button" class="btn btn-sm btn-outline-secondary">Share</button>
-								<a href="#filePath##targetFile#" class="btn btn-sm btn-outline-secondary">Export Table</a>
+								<a href="#filePath##targetFile#" class="btn btn-xs btn-outline-secondary">Export Table</a>
 							</div>
 						</div>
 					</div>
@@ -313,8 +311,7 @@ limitations under the License.
 						<h2 class="h3 px-2 float-left mb-0">Loan Activity <span class="text-muted">(#encodeForHtml(beginDate)#/#encodeForHtml(endDate)#)</span></h2>
 						<div class="btn-toolbar mb-2 mb-md-0 float-right">
 							<div class="btn-group mr-2">
-								<button type="button" class="btn btn-sm btn-outline-secondary">Share</button>
-								<a href="#filePath##targetFile#" class="btn btn-sm btn-outline-secondary">Export Table</a>
+								<a href="#filePath##targetFile#" class="btn btn-xs btn-outline-secondary">Export Table</a>
 							</div>
 						</div>
 					</div>
@@ -425,8 +422,7 @@ limitations under the License.
 						<h2 class="h3 px-2 float-left mb-0">Media Activity <span class="text-muted">(#encodeForHtml(beginDate)#/#encodeForHtml(endDate)#)</span></h2>
 						<div class="btn-toolbar mb-2 mb-md-0 float-right">
 							<div class="btn-group mr-2">
-								<button type="button" class="btn btn-sm btn-outline-secondary">Share</button>
-								<a href="#filePath##targetFile#" class="btn btn-sm btn-outline-secondary">Export Table</a>
+								<a href="#filePath##targetFile#" class="btn btn-xs btn-outline-secondary">Export Table</a>
 							</div>
 						</div>
 					</div>
@@ -512,8 +508,7 @@ limitations under the License.
 						<h2 class="h3 px-2 float-left mb-0">Citation Activity <span class="text-muted">(#encodeForHtml(beginDate)#/#encodeForHtml(endDate)#)</span></h2>
 						<div class="btn-toolbar mb-2 mb-md-0 float-right">
 							<div class="btn-group mr-2">
-								<button type="button" class="btn btn-sm btn-outline-secondary">Share</button>
-								<a href="#filePath##targetFile#" class="btn btn-sm btn-outline-secondary">Export Table</a>
+								<a href="#filePath##targetFile#" class="btn btn-xs btn-outline-secondary">Export Table</a>
 							</div>
 						</div>
 					</div>
