@@ -598,7 +598,7 @@ limitations under the License.
 							<div class="btn-group mr-2">
 								<!---<a type="button" class="btn btn-sm btn-outline-secondary" 
 								href="mailto:demo@example.com?subject=Georeference_Activity_#beginDate#_to_#endDate#&body=MCZ Metrics&attachment=#tempurl##beginDateVar##endDateVar#>Share</a>--->
-								<a href="#filePath##targetFile#" class="btn btn-sm btn-outline-secondary">Export Table</a>
+								<a href="#filePath##targetFile#" class="btn btn-xs btn-outline-secondary">Export Table</a>
 							</div>
 						</div>
 					</div>
