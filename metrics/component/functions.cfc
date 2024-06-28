@@ -116,8 +116,8 @@ limitations under the License.
 			</cftry>
 		</cfoutput>
 	</cfthread>
-	<cfthread action="join" name="getAnnualNumbersThread" />
-	<cfreturn getAnnualNumbersThread.output>
+	<cfthread action="join" name="getAnnualChartThread" />
+	<cfreturn getAnnualChartThread.output>
 </cffunction>			
 			
 <cffunction name="getAnnualNumbers" access="remote" returntype="any" returnformat="json">
