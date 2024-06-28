@@ -4,7 +4,7 @@
 library(tibble)
 library(ggplot2)
 library(dplyr)
-library(plotly)
+#library(plotly)
 library(gapminder)
 library(ggthemes)
 library(gifski)
