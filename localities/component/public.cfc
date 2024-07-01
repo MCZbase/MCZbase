@@ -1452,6 +1452,7 @@ limitations under the License.
 	   into the variables scope.    See: https://gist.github.com/bennadel/9760037 for more examples of
    	scope issues related to cfthread 
 	--->
+	<cfset variables.locality_id = rereplace(arguments.locality_id,"[^0-9]*","">
 	<cfset variables.context = arguments.context>
 
 	<!--- Check for encumbrances --->
@@ -1466,7 +1467,7 @@ limitations under the License.
  				join coll_object_encumbrance on cataloged_item.collection_object_id = coll_object_encumbrance.collection_object_id
 				join encumbrance on coll_object_encumbrance.encumbrance_id = encumbrance.encumbrance_id
 			WHERE
-				collecting_event.locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
+				collecting_event.locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.locality_id#">
 		</cfquery>
 		<cfset encumber = ValueList(checkForEncumbrances.encumbrance_action)>
 		<!--- potentially relevant actions: mask collector, mask locality, mask original field number, mask locality. --->
@@ -1482,7 +1483,7 @@ limitations under the License.
 						verbatim_locality
 					FROM collecting_event
 					WHERE
-						locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
+						locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.locality_id#">
 						and verbatim_locality is not null
 					GROUP BY 
 						verbatim_locality
@@ -1497,7 +1498,7 @@ limitations under the License.
 							<cfloop query="getVerbatim">
 								<cfif ct GT 1><cfset counts=" (in #ct# collecting events)"><cfelse><cfset counts=""></cfif>
 								<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_locality")>
-									<li><a href="/localities/CollectingEvents.cfm?action=search&execute=true&method=getCollectingEvents&locality_id=#locality_id#&MinElevOper=%3D&MaxElevOper=%3D&MinElevOperM=%3D&MaxElevOperM=%3D&minDepthOper=%3D&MaxDepthOper=%3D&minDepthOperM=%3D&MaxDepthOperM=%3D&geology_attribute_hier=0&gs_comparator=%3D&verbatim_locality=%3D#encodeForUrl(verbatim_locality)#&begDateOper=%3D&endDateOper=%3D&accentInsensitive=1&include_counts=0">#verbatim_locality#</a>#counts#</li>
+									<li><a href="/localities/CollectingEvents.cfm?action=search&execute=true&method=getCollectingEvents&locality_id=#variables.locality_id#&MinElevOper=%3D&MaxElevOper=%3D&MinElevOperM=%3D&MaxElevOperM=%3D&minDepthOper=%3D&MaxDepthOper=%3D&minDepthOperM=%3D&MaxDepthOperM=%3D&geology_attribute_hier=0&gs_comparator=%3D&verbatim_locality=%3D#encodeForUrl(verbatim_locality)#&begDateOper=%3D&endDateOper=%3D&accentInsensitive=1&include_counts=0">#verbatim_locality#</a>#counts#</li>
 								<cfelse>
 									<li>#verbatim_locality##counts# </li>
 								</cfif>
@@ -1513,7 +1514,7 @@ limitations under the License.
 						verbatimcoordinatesystem, verbatimsrs
 					FROM collecting_event
 					WHERE
-						locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
+						locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.locality_id#">
 						and (verbatimcoordinates is not null or verbatimlatitude is not null)
 					GROUP BY 
 						verbatimcoordinates,
@@ -1531,7 +1532,7 @@ limitations under the License.
 							<cfloop query="getVerbatimGeoref">
 								<cfif ct GT 1><cfset counts=" (in #ct# collecting events)"><cfelse><cfset counts=""></cfif>
 								<li>
-									<a href="/localities/CollectingEvents.cfm?action=search&execute=true&method=getCollectingEvents&locality_id=#locality_id#&MinElevOper=%3D&MaxElevOper=%3D&MinElevOperM=%3D&MaxElevOperM=%3D&minDepthOper=%3D&MaxDepthOper=%3D&minDepthOperM=%3D&MaxDepthOperM=%3D&geology_attribute_hier=0&gs_comparator=%3D&begDateOper=%3D&endDateOper=%3D&verbatimCoordinates=#encodeForUrl(verbatimcoordinates)#&verbatimCoordinateSystem=#encodeForUrl(verbatimcoordinatesystem)#&verbatimSRS=%3D#encodeForUrl(verbatimsrs)#&verbatimlatitude=#encodeForUrl(verbatimlatitude)#&verbatimlongigude=#encodeForUrl(verbatimlongitude)#&accentInsensitive=1&include_counts=0">
+									<a href="/localities/CollectingEvents.cfm?action=search&execute=true&method=getCollectingEvents&locality_id=#variables.locality_id#&MinElevOper=%3D&MaxElevOper=%3D&MinElevOperM=%3D&MaxElevOperM=%3D&minDepthOper=%3D&MaxDepthOper=%3D&minDepthOperM=%3D&MaxDepthOperM=%3D&geology_attribute_hier=0&gs_comparator=%3D&begDateOper=%3D&endDateOper=%3D&verbatimCoordinates=#encodeForUrl(verbatimcoordinates)#&verbatimCoordinateSystem=#encodeForUrl(verbatimcoordinatesystem)#&verbatimSRS=%3D#encodeForUrl(verbatimsrs)#&verbatimlatitude=#encodeForUrl(verbatimlatitude)#&verbatimlongigude=#encodeForUrl(verbatimlongitude)#&accentInsensitive=1&include_counts=0">
 										#verbatimcoordinatesystem# #verbatimcoordinates# #verbatimlatitude# #verbatimlongitude# #verbatimsrs#
 									</a> 
 									 #counts#
@@ -1551,11 +1552,11 @@ limitations under the License.
 							verbatimcoordinatesystem, verbatimsrs
 						FROM collecting_event
 						WHERE
-							locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
+							locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.locality_id#">
 							and verbatim_locality is not null
 					</cfquery>
 					<cfif getEventList.recordcount GT 0>
-						<div class="h4">Collecting Events <a href="/localities/CollectingEvents.cfm?action=search&execute=true&method=getCollectingEvents&locality_id=#locality_id#&accentInsensitive=1&include_counts=1" target="_blank">(#getEventList.recordcount#)</a></div>
+						<div class="h4">Collecting Events <a href="/localities/CollectingEvents.cfm?action=search&execute=true&method=getCollectingEvents&locality_id=#variable.locality_id#&accentInsensitive=1&include_counts=1" target="_blank">(#getEventList.recordcount#)</a></div>
 						<ul class="px-2 pl-xl-4 ml-xl-1">
 							<cfloop query="getEventList">
 								<li>
@@ -1589,7 +1590,7 @@ limitations under the License.
 				<cfif isDefined("context") and context EQ "edit" and isdefined("session.roles") and listfindnocase(session.roles,"manage_locality")>
 					<form name="createNewCollEventForm" id="createNewCollEventForm" method="post" action="/localities/CollectingEvent.cfm">
 						<input type="hidden" name="action" value="new">
-						<input type="hidden" name="locality_id" value="#locality_id#">
+						<input type="hidden" name="locality_id" value="#variables.locality_id#">
 					</form>
 					<input type="button" class="btn btn-secondary btn-xs" onClick=" $('##createNewCollEventForm').submit(); " value="Add a Collecting Event to this Locality">
 				</cfif>
