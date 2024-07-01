@@ -862,7 +862,7 @@ limitations under the License.
 						<p>Added: #i# Identifications (on #getCounts.c# cataloged items)</p>
 						<h2 class="text-success">Success - loaded</h2>
 						<p>
-							<a href="https://mczbase-test.rc.fas.harvard.edu/Specimens.cfm?execute=true&builderMaxRows=1&action=builderSearch&openParens1=0&field1=COLL_OBJECT%3ACOLL_OBJ_COLLECTION_OBJECT_ID&searchText1=#encodeForUrl(valuelist(getCollObjects.collection_object_id))#&closeParens1=0" class="btn-link font-weight-lessbold">
+							<a href="/Specimens.cfm?execute=true&builderMaxRows=1&action=builderSearch&openParens1=0&field1=COLL_OBJECT%3ACOLL_OBJ_COLLECTION_OBJECT_ID&searchText1=#encodeForUrl(valuelist(getCollObjects.collection_object_id))#&closeParens1=0" class="btn-link font-weight-lessbold">
 								See in Specimen Search Results.
 							</a>
 						</p>
