@@ -891,7 +891,7 @@ function makePartsAtrributeUnitSearchPicker(nameControl) {
 			$('#'+nameControl).val("=" + result.item.id);
 		},
 		minLength: 3
-	};
+	});
 } 
 
 /** 
