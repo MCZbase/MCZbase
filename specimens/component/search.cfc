@@ -2463,6 +2463,7 @@ Function getPartAtrributeUnits.  Search for units in use for part attributes, re
 			WHERE
 				attribute_units like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#arguments.term#%">
 				AND attribute_units IS NOT NULL
+			ORDER BY attribute_units
 		</cfquery>
 		<cfset rows = search_result.recordcount>
 		<cfset i = 1>
