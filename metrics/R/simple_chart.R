@@ -19,11 +19,11 @@ library(tidyr)
 # names(data)
 
 # use this one for seeing on the webpage
-#simple_chart <- read_csv('/var/www/html/arctos/metrics/datafiles/chart_data.csv')
+simple_chart <- read_csv('/var/www/html/arctos/metrics/datafiles/chart_data.csv')
 # change to this for testing in R after importing chart_data.csv
 # simple_chart <- chart_data_mk3
 
-simple_chart <- chart_data
+#simple_chart <- chart_data
 
 
 chart1 <- ggplot(simple_chart, aes(x="HOLDINGS", y=ENTEREDCATITEMS, fill=COLLECTION)) +
