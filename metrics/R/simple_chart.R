@@ -12,16 +12,17 @@ library(png)
 library(readr)
 library(tidyr)
 
-  
+# use to check for loading errors  
 # data <- read.csv('/var/www/html/arctos/metrics/datafiles/chart_data.csv')
 # str(data)
 # head(data)
 # names(data)
 
-# use this one for seeing on the webpage
+# use this one when testing is finished and want to go "live"
 simple_chart <- read_csv('/var/www/html/arctos/metrics/datafiles/chart_data.csv', show_col_types = FALSE)
-# change to this for testing in R after importing chart_data.csv
-# simple_chart <- chart_data_mk3
+
+# uncomment and use for testing in R after importing dataset in top right box with readr 
+# as chart_data.csv after download from testMetrics.cfm 
 
 #simple_chart <- chart_data
 
@@ -30,5 +31,9 @@ chart1 <- ggplot(simple_chart, aes(x="HOLDINGS", y=ENTEREDCATITEMS, fill=COLLECT
   geom_bar(stat="identity",width = 1)+
   coord_polar("y", start=0)
 
-ggsave('/var/www/html/arctos/metrics/R/graphs/chart1.png', chart1, width=6, height=4,dpi=300)
+# make sure all instances in R plots, Photoshop, etc are closed before refreshing webpage.
+ggsave('/var/www/html/arctos/metrics/R/graphs/chart1.png', chart1, width=600, height=400, units=c('px'), dpi=72)
+
+# uncomment and use print(chart1) during testing
+
 #print(chart1)
