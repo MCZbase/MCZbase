@@ -11,7 +11,6 @@ library(ggthemes)
 library(png)
 library(readr)
 library(tidyr)
-library(dplyr)
 
   
 data <- read.csv('/var/www/html/arctos/metrics/datafiles/chart_data.csv')
