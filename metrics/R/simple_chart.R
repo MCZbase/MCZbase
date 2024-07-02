@@ -31,4 +31,4 @@ chart2 <- ggplot(simple_chart, aes(x="HOLDINGS", y=ENTEREDCATITEMS, fill=COLLECT
   coord_polar("y", start=0)
 
 ggsave('/var/www/html/arctos/metrics/R/graphs/chart2.png', chart1, width=6, height=4,dpi=300)
-#print(chart1)
+#print(chart2)
