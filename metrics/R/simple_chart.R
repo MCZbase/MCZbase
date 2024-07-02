@@ -11,29 +11,50 @@ library(ggthemes)
 library(png)
 library(readr)
 library(tidyr)
-
+library(dplyr)
+library(viridis)
+library(forcats)
+library(hrbrthemes)
+library(grid)
 # use to check for loading errors  
 # data <- read.csv('/var/www/html/arctos/metrics/datafiles/chart_data.csv')
 # str(data)
 # head(data)
 # names(data)
 
+
 # use this one when testing is finished and want to go "live"
-simple_chart <- read_csv('/var/www/html/arctos/metrics/datafiles/chart_data.csv', show_col_types = FALSE)
+df <- read_csv('/var/www/html/arctos/metrics/datafiles/chart_data.csv', show_col_types = FALSE)
 
 # uncomment and use for testing in R after importing dataset in top right box with readr 
 # as chart_data.csv after download from testMetrics.cfm 
 
-#simple_chart <- chart_data
+#df <- chart_data
+
+df$COLLECTIONS <- c("Mala", "Mamm","Ent","Orn","HerpObs","IZ","VP","IP","Herp","Cryo","SC","Ich")
 
 
-chart1 <- ggplot(simple_chart, aes(x="HOLDINGS", y=ENTEREDCATITEMS, fill=COLLECTION)) +
-  geom_bar(stat="identity",width = 1)+
-  coord_polar("y", start=0)
+dodge <- position_dodge(width = 0.2)
+
+xmin <- min(df$SPECIMENS[1])
+xmax <- max(df$SPECIMENS[5])
+df %>% group_by(COLLECTIONS)
+pr <- percent_rank(df$CATALOGEDITEMS/df$HOLDINGS)
+
+
+ chart1 <- ggplot(df, aes(x = "", y = pr, fill = COLLECTIONS)) +
+   geom_bar(stat = "identity",width = 1) +
+   coord_polar("y", start=0) +
+   facet_wrap(~COLLECTIONS,nrow = 3)+
+   xlab("") +
+   ylab("Percent of Holdings in MCZbase")
+
+#chart1
 
 # make sure all instances in R plots, Photoshop, etc are closed before refreshing webpage.
-ggsave('/var/www/html/arctos/metrics/R/graphs/chart1.png', chart1, width=1000, height=640, units=c('px'), dpi=72)
+ggsave('/var/www/html/arctos/metrics/R/graphs/chart1.png', chart1, width=1200, height=900, units=c('px'), dpi=300)
 
 # uncomment and use print(chart1) during testing
 
 #print(chart1)
+
