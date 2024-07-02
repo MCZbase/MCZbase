@@ -26,9 +26,9 @@ simple_chart <- read_csv('/var/www/html/arctos/metrics/datafiles/chart_data.csv'
 #simple_chart <- chart_data
 
 
-chart2 <- ggplot(simple_chart, aes(x="HOLDINGS", y=ENTEREDCATITEMS, fill=COLLECTION)) +
+chart1 <- ggplot(simple_chart, aes(x="HOLDINGS", y=ENTEREDCATITEMS, fill=COLLECTION)) +
   geom_bar(stat="identity",width = 1)+
   coord_polar("y", start=0)
 
-ggsave('/var/www/html/arctos/metrics/R/graphs/chart2.png', chart2, width=6, height=4,dpi=300)
-#print(chart2)
+ggsave('/var/www/html/arctos/metrics/R/graphs/chart1.png', chart1, width=6, height=4,dpi=300)
+#print(chart1)
