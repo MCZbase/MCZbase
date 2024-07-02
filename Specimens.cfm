@@ -1195,6 +1195,16 @@ limitations under the License.
 																	});
 																</script>
 															</div>
+															<div class="col-12 mb-1 col-md-2">
+																<label for="part_attribute_value" class="data-entry-label small">Part Attribute Value</label>
+																<cfif not isdefined("part_attribute_value")><cfset part_attribute_value=""></cfif>
+																<input type="text" class="data-entry-input inputHeight" id="part_attribute_value" name="part_attribute_value" value="#encodeForHtml(part_attribute_value)#">
+															</div>
+															<div class="col-12 mb-1 col-md-2">
+																<label for="part_attribute_units" class="data-entry-label small">Part Attribute Units</label>
+																<cfif not isdefined("part_attribute_units")><cfset part_attribute_units=""></cfif>
+																<input type="text" class="data-entry-input inputHeight" id="part_attribute_units" name="part_attribute_units" value="#encodeForHtml(part_attribute_units)#">
+															</div>
 														</div>
 													</div>
 												</div>
