@@ -13,29 +13,21 @@ library(readr)
 library(tidyr)
 
   
-data <- read.csv('/var/www/html/arctos/metrics/datafiles/chart_data.csv')
-str(data)
-head(data)
-names(data)
+# data <- read.csv('/var/www/html/arctos/metrics/datafiles/chart_data.csv')
+# str(data)
+# head(data)
+# names(data)
 
 # use this one for seeing on the webpage
 #simple_chart <- read_csv('/var/www/html/arctos/metrics/datafiles/chart_data.csv')
 # change to this for testing in R after importing chart_data.csv
 # simple_chart <- chart_data_mk3
 
+simple_chart <- chart_data
 
 
-# barplot
-# displayPlot <- ggplot(simple_chart, aes(x = factor(HOLDINGS[3]), y = RECEIVEDCATITEMS[3],z =ENTEREDCATITEMS, fill = COLLECTION[3])) +
-#                       geom_bar(stat = "identity", position = "dodge") +
-#                       xlab(expression("Entered")) +
-#                       ylab(expression("Received")) +
-#                       zlab(expression("Entered")) +
-#                       scale_fill_brewer(palette = "Greens") +
-#                       theme_few()
-# 
-# print(displayPlot)
-
-
-
-
+chart1 <- ggplot(simple_chart, aes(x="HOLDINGS", y=ENTEREDCATITEMS, fill=COLLECTION)) +
+  geom_bar(stat="identity",width = 1)+
+  coord_polar("y", start=0)
+print(chart1)
+ggsave('/var/www/html/arctos/metrics/R/graphs/chart1.png',width=6, height=4,dpi=300)
