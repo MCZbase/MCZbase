@@ -134,7 +134,7 @@ left join (select c.collection_id, c.collection, count(distinct t.transaction_id
 			</div>
 			<div class="col-12">
 				<!--- chart created by R script --->
-				<img src="/metrics/R/graphs/chart1.png"/>
+				<img src="/var/www/html/arctos/metrics/R/graphs/chart1.png"/>
 			</div>
 		</div>
 	</div>
