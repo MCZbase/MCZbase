@@ -32,7 +32,7 @@ chart1 <- ggplot(simple_chart, aes(x="HOLDINGS", y=ENTEREDCATITEMS, fill=COLLECT
   coord_polar("y", start=0)
 
 # make sure all instances in R plots, Photoshop, etc are closed before refreshing webpage.
-ggsave('/var/www/html/arctos/metrics/R/graphs/chart1.png', chart1, width=600, height=400, units=c('px'), dpi=72)
+ggsave('/var/www/html/arctos/metrics/R/graphs/chart1.png', chart1, width=1000, height=640, units=c('px'), dpi=72)
 
 # uncomment and use print(chart1) during testing
 
