@@ -30,4 +30,4 @@ chart1 <- ggplot(simple_chart, aes(x="HOLDINGS", y=ENTEREDCATITEMS, fill=COLLECT
   geom_bar(stat="identity",width = 1)+
   coord_polar("y", start=0)
 #print(chart1)
-ggsave('/var/www/html/arctos/metrics/R/graphs/chart1.png',width=6, height=4,dpi=300)
+ggsave('/metrics/R/graphs/chart1.png',width=6, height=4,dpi=300)
