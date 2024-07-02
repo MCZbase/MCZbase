@@ -1211,9 +1211,15 @@ limitations under the License.
 																<label for="part_attribute_units" class="data-entry-label small">
 																	Part Attribute Units
 																	<a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick="$('##part_attribute_units').val('NOT NULL'); return false;" > (Any) <span class="sr-only">use NOT NULL to find cataloged items with any part attribute units</span></a>
+																	<a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick="$('##part_attribute_units').autocomplete('search','%%%'); return false;" > (&##8595;) <span class="sr-only">open pick list</span></a>
 																</label>
 																<cfif not isdefined("part_attribute_units")><cfset part_attribute_units=""></cfif>
 																<input type="text" class="data-entry-input inputHeight" id="part_attribute_units" name="part_attribute_units" value="#encodeForHtml(part_attribute_units)#">
+																<script>
+																	jQuery(document).ready(function() {
+																		makePartsAtrributeUnitSearchPicker("part_attribute_units");
+																	});
+																</script>
 															</div>
 															<div class="col-12 mb-1 col-md-2">
 																<label for="part_attribute_remarks" class="data-entry-label small">
@@ -1223,6 +1229,20 @@ limitations under the License.
 																<cfif not isdefined("part_attribute_remarks")><cfset part_attribute_remarks=""></cfif>
 																<input type="text" class="data-entry-input inputHeight" id="part_attribute_remarks" name="part_attribute_remarks" value="#encodeForHtml(part_attribute_remarks)#">
 															</div>
+															<div class="col-12 mb-1 col-md-2">
+																<!--- TODO: Add an autocomplete when controlled --->
+																<label for="condition" class="data-entry-label small">Condition</label>
+																<cfif not isdefined("condition")><cfset condition=""></cfif>
+																<input type="text" class="data-entry-input inputHeight" id="condition" name="condition" value="#encodeForHtml(condition)#">
+															</div>
+															<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"collops")>
+																<!--- TODO: Add when popluated --->
+																<div class="col-12 mb-1 col-md-2">
+																	<label for="condition_remarks" class="data-entry-label small">Condition Remarks</label>
+																	<cfif not isdefined("condition_remarks_remarks")><cfset condition_remarks=""></cfif>
+																	<input type="text" class="data-entry-input inputHeight" id="condition_remarks" name="condition_remarks" value="#encodeForHtml(condition_remarks)#">
+																</div>
+															</cfif>
 														</div>
 													</div>
 												</div>

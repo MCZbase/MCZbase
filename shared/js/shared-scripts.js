@@ -862,6 +862,38 @@ function makePublicationPicker(nameControl, idControl) {
 	};
 };
 
+/** Bind a control to an autocomplete for any part attribute units value, not checking 
+  if the attribute units are appropriate for a unit type, intended for search on units.
+  @param nameControl the control to become the attribute units autocomplete.
+**/
+function makePartsAtrributeUnitSearchPicker(nameControl) { 
+	$('#'+nameControl).autocomplete({
+		source: function (request, response) { 
+			$.ajax({
+				url: "/specimens/component/search.cfc",
+				data: { term: request.term, method: 'getPartAttributeUnits' },
+				dataType: 'json',
+				success : function (data) { response(data); },
+				error : function (jqXHR, status, error) {
+					var message = "";
+					if (error == 'timeout') { 
+						message = ' Server took too long to respond.';
+               } else if (error && error.toString().startsWith('Syntax Error: "JSON.parse:')) {
+                  message = ' Backing method did not return JSON.';
+					} else { 
+						message = jqXHR.responseText;
+					}
+					messageDialog('Error:' + message ,'Error: ' + error);
+				}
+			})
+		},
+		select: function (event, result) {
+			$('#'+nameControl).val("=" + result.item.id);
+		},
+		minLength: 3
+	};
+} 
+
 /** 
  * function handleFail general handler for ajax fail methods.
  *	fail: function(jqXHR,textStatus,error){

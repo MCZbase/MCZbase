@@ -1763,6 +1763,18 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 		<cfset separator = ",">
 		<cfset join='"join":"and",'>
 	</cfif>
+	<cfif isDefined("condition") AND len(condition) GT 0>
+		<cfset field = '"field": "condition"'>
+		<cfset search_json = search_json & constructJsonForField(join="#join#",field="#field#",value="#condition#",separator="#separator#",nestDepth="#nest#")>
+		<cfset separator = ",">
+		<cfset join='"join":"and",'>
+	</cfif>
+	<cfif isDefined("condition_remarks") AND len(condition_remarks) GT 0>
+		<cfset field = '"field": "condition_remarks"'>
+		<cfset search_json = search_json & constructJsonForField(join="#join#",field="#field#",value="#condition_remarks#",separator="#separator#",nestDepth="#nest#")>
+		<cfset separator = ",">
+		<cfset join='"join":"and",'>
+	</cfif>
 	<cfif isDefined("coll_object_remarks") AND len(coll_object_remarks) GT 0>
 		<cfset field = '"field": "coll_object_remarks"'>
 		<cfset search_json = search_json & constructJsonForField(join="#join#",field="#field#",value="#coll_object_remarks#",separator="#separator#",nestDepth="#nest#")>
@@ -2404,11 +2416,11 @@ Function getCatalogedItemAutocompleteMeta.  Search for specimens with a substrin
 			FROM
 				#session.flatTableName# f
 			WHERE
-				f.guid like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#term#%">
+				f.guid like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#arguments.term#%">
 				OR
-				f.scientific_name like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#term#%">
+				f.scientific_name like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#arguments.term#%">
 				OR
-				f.spec_locality like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#term#%">
+				f.spec_locality like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#arguments.term#%">
 		</cfquery>
 		<cfset rows = search_result.recordcount>
 		<cfset i = 1>
@@ -2417,6 +2429,46 @@ Function getCatalogedItemAutocompleteMeta.  Search for specimens with a substrin
 			<cfset row["id"] = "#search.collection_object_id#">
 			<cfset row["value"] = "#search.guid#" >
 			<cfset row["meta"] = "#search.guid# (#search.scientific_name# #search.spec_locality#)" >
+			<cfset data[i]  = row>
+			<cfset i = i + 1>
+		</cfloop>
+		<cfreturn #serializeJSON(data)#>
+	<cfcatch>
+		<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
+		<cfset error_message = trim(cfcatch.message & " " & cfcatch.detail & " " & queryError) >
+		<cfset function_called = "#GetFunctionCalledName()#">
+		<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+		<cfabort>
+	</cfcatch>
+	</cftry>
+	<cfreturn #serializeJSON(data)#>
+</cffunction>
+
+<!---
+Function getPartAtrributeUnits.  Search for units in use for part attributes, returning json suitable for jquery-ui autocomplete.
+
+@param term information to search for.
+@return a json structure containing id and value, with units in value and id.
+--->
+<cffunction name="getPartAttributeUnits" access="remote" returntype="any" returnformat="json">
+	<cfargument name="term" type="string" required="yes">
+	<cfset data = ArrayNew(1)>
+	<cftry>
+		<cfset rows = 0>
+		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="search_result">
+			SELECT distinct
+				attribute_units
+			FROM
+				specimen_part_attribute
+			WHERE
+				attribute_units like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#arguments.term#%">
+		</cfquery>
+		<cfset rows = search_result.recordcount>
+		<cfset i = 1>
+		<cfloop query="search">
+			<cfset row = StructNew()>
+			<cfset row["id"] = "#search.attribute_units#">
+			<cfset row["value"] = "#search.attribute_units#" >
 			<cfset data[i]  = row>
 			<cfset i = i + 1>
 		</cfloop>
