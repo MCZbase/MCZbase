@@ -1404,6 +1404,7 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 	<cfargument name="coll_obj_disposition" type="string" required="no">
 	<cfargument name="disposition_remarks" type="string" required="no">
 	<cfargument name="other_id_number" type="string" required="no">
+	<cfargument name="part_attribute_type" type="string" required="no">
 	<cfargument name="type_status" type="string" required="no">
 	<cfargument name="full_taxon_name" type="string" required="no">
 	<cfargument name="any_taxa_term" type="string" required="no">
@@ -1735,6 +1736,12 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 	<cfif isDefined("part_name") AND len(part_name) GT 0>
 		<cfset field = '"field": "part_name"'>
 		<cfset search_json = search_json & constructJsonForField(join="#join#",field="#field#",value="#part_name#",separator="#separator#",nestDepth="#nest#")>
+		<cfset separator = ",">
+		<cfset join='"join":"and",'>
+	</cfif>
+	<cfif isDefined("part_attribute_type") AND len(part_attribute_type) GT 0>
+		<cfset field = '"field": "attribute_type"'>
+		<cfset search_json = search_json & constructJsonForField(join="#join#",field="#field#",value="#part_attribute_type#",separator="#separator#",nestDepth="#nest#")>
 		<cfset separator = ",">
 		<cfset join='"join":"and",'>
 	</cfif>

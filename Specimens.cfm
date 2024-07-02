@@ -1185,6 +1185,16 @@ limitations under the License.
 																<cfif not isdefined("disposition_remarks")><cfset disposition_remarks=""></cfif>
 																<input type="text" class="data-entry-input inputHeight" id="disposition_remarks" name="disposition_remarks" value="#encodeForHtml(disposition_remarks)#">
 															</div>
+															<div class="col-12 mb-1 col-md-2">
+																<label for="part_attribute_type" class="data-entry-label small">Part Attribute Type</label>
+																<cfif not isdefined("part_attribute_type")><cfset part_attribute_type=""></cfif>
+																<input type="text" class="data-entry-input inputHeight" id="part_attribute_type" name="part_attribute_type" value="#encodeForHtml(part_attribute_type)#">
+																<script>
+																	jQuery(document).ready(function() {
+																		makeCTFieldSearchAutocomplete("part_attribute_type","SPECPART_ATTRIBUTE_TYPE");
+																	});
+																</script>
+															</div>
 														</div>
 													</div>
 												</div>
