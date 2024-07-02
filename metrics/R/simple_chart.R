@@ -19,7 +19,7 @@ library(tidyr)
 # names(data)
 
 # use this one for seeing on the webpage
-simple_chart <- read_csv('/var/www/html/arctos/metrics/datafiles/chart_data.csv')
+simple_chart <- read_csv('/var/www/html/arctos/metrics/datafiles/chart_data.csv', show_col_types = FALSE)
 # change to this for testing in R after importing chart_data.csv
 # simple_chart <- chart_data_mk3
 
