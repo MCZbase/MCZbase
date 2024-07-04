@@ -6,22 +6,22 @@
 ## based on accn transactions limited by a date range for entered_date
 #NCBISPECIMENS stores all other ID with NCBI up until endDate of range
 
+
+# library(viridis)
+# library(forcats)
+# library(grid)
+# library(purrr)
+# library(scales)
+# library(showtext)
+# library(showtextdb)
+# library(sysfonts)
+# library(ggtext)
+
 library(ggplot2)
 library(ggthemes)
 library(png)
 library(readr)
 library(tidyr)
-library(viridis)
-library(forcats)
-library(grid)
-library(purrr)
-library(scales)
-library(showtext)
-library(showtextdb)
-library(sysfonts)
-library(ggtext)
-
-
 
 
 
@@ -54,7 +54,7 @@ df %>% mutate(across(where(is.numeric),
                       replace_na, 0))
 TOTAL <- sum(df$HOLDINGS)
 # create scatter plot colored by genre in different panels
-ggplot(df, aes(x="", y=df$HOLDINGS, fill=COLLECTIONS)) +
+chart1 <- ggplot(df, aes(x="", y=df$HOLDINGS, fill=COLLECTIONS)) +
   geom_bar(stat="identity", width=1) +
   coord_polar("y", start=0) +
   geom_text(aes(label = paste0(format(round(df$HOLDINGS/sum(df$HOLDINGS)*100, 1), nsmall = 0), " %")), 
