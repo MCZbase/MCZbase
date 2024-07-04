@@ -26,7 +26,7 @@ library(tidyr)
 
 
 # use this one when testing is finished and want to go "live"
-#df <- read_csv('/var/www/html/arctos/metrics/datafiles/chart_data.csv', show_col_types = FALSE)
+df <- read_csv('/var/www/html/arctos/metrics/datafiles/chart_data.csv', show_col_types = FALSE)
 
 # use to check for loading errors  
 # str(data)
@@ -37,7 +37,7 @@ library(tidyr)
 # as chart_data.csv after download from testMetrics.cfm 
 
 #local load
-df <- read_csv("C:/Users/mih744/Downloads/chart_data.csv")
+#df <- read_csv("C:/Users/mih744/Downloads/chart_data.csv")
 
 # makes a column with abbreviated collections for labels
 df$COLLECTIONS <- c("Mala", "Mamm","Ent","Orn","HerpObs","IZ","VP","IP","Herp","Cryo","SC","Ich")
