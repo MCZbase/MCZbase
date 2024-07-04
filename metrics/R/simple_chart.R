@@ -43,7 +43,7 @@ df <- read_csv('/var/www/html/arctos/metrics/datafiles/chart_data.csv', show_col
 df$COLLECTIONS <- c("Mala", "Mamm","Ent","Orn","HerpObs","IZ","VP","IP","Herp","Cryo","SC","Ich")
 
 # make calculations based on collection grouping
-df %>% group_by(COLLECTIONS)
+#df %>% group_by(COLLECTIONS)
 
 # filter out Herp Obs row
 df <-df %>% 
