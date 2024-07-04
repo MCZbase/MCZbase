@@ -17,23 +17,27 @@ library(grid)
 library(purrr)
 library(scales)
 library(showtext)
+library(showtextdb)
+library(sysfonts)
 library(ggtext)
 
-# use to check for loading errors  
-# data <- read.csv('/var/www/html/arctos/metrics/datafiles/chart_data.csv')
-# str(data)
-# head(data)
-# names(data)
+
+
 
 
 # use this one when testing is finished and want to go "live"
-df <- read_csv('/var/www/html/arctos/metrics/datafiles/chart_data.csv', show_col_types = FALSE)
+#df <- read_csv('/var/www/html/arctos/metrics/datafiles/chart_data.csv', show_col_types = FALSE)
+
+# use to check for loading errors  
+# str(data)
+# head(data)
+# names(data)
 
 # uncomment and use for testing in R after importing dataset in top right box with readr 
 # as chart_data.csv after download from testMetrics.cfm 
 
 #local load
-#df <- read_csv("C:/Users/mih744/Downloads/chart_data.csv")
+df <- read_csv("C:/Users/mih744/Downloads/chart_data.csv")
 
 # makes a column with abbreviated collections for labels
 df$COLLECTIONS <- c("Mala", "Mamm","Ent","Orn","HerpObs","IZ","VP","IP","Herp","Cryo","SC","Ich")

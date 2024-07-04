@@ -47,32 +47,32 @@ from
 	(select * from collection where collection_cde <> 'MCZ') c
 left join (select * from MCZBASE.collections_reported_metrics) rm on c.collection_id = rm.collection_id 
 left join (select f.collection_id, f.collection, count(distinct f.collection_object_id) catalogeditems, sum(decode(total_parts,null, 1,total_parts)) specimens
-        from flat f
-        join coll_object co on f.collection_object_id = co.collection_object_id
-        where co.COLL_OBJECT_ENTERED_DATE < to_date('2024-06-30', 'YYYY-MM-DD')
-        group by f.collection_id, f.collection) h on rm.collection_id = h.collection_id
+	from flat f
+	join coll_object co on f.collection_object_id = co.collection_object_id
+	where co.COLL_OBJECT_ENTERED_DATE < to_date('2024-06-30', 'YYYY-MM-DD')
+	group by f.collection_id, f.collection) h on rm.collection_id = h.collection_id
 left join  ( select f.collection_id, f.collection, ts.CATEGORY, count(distinct f.collection_object_id) primaryCatItems, sum(decode(total_parts,null, 1,total_parts)) primarySpecimens
-        from coll_object co
-        join flat f on co.collection_object_id = f.collection_object_id
-        join citation c on f.collection_object_id = c.collection_object_id
-        join ctcitation_type_status ts on c.type_status =  ts.type_status
-        where ts.CATEGORY in ('Primary')
-        and co.COLL_OBJECT_ENTERED_DATE <  to_date('2024-06-30', 'YYYY-MM-DD')
-        group by f.collection_id, f.collection, ts.CATEGORY) p on h.collection_id = p.collection_id
+	from coll_object co
+	join flat f on co.collection_object_id = f.collection_object_id
+	join citation c on f.collection_object_id = c.collection_object_id
+	join ctcitation_type_status ts on c.type_status =  ts.type_status
+	where ts.CATEGORY in ('Primary')
+	and co.COLL_OBJECT_ENTERED_DATE <  to_date('2024-06-30', 'YYYY-MM-DD')
+	group by f.collection_id, f.collection, ts.CATEGORY) p on h.collection_id = p.collection_id
 left join (select f.collection_id, f.collection, ts.CATEGORY, count(distinct f.collection_object_id) secondaryCatItems, sum(decode(total_parts,null, 1,total_parts)) secondarySpecimens
-        from coll_object co
-        join flat f on co.collection_object_id = f.collection_object_id
-        join citation c on f.collection_object_id = c.collection_object_id
-        join ctcitation_type_status ts on c.type_status =  ts.type_status
-        where ts.CATEGORY in ('Secondary')
-        and co.COLL_OBJECT_ENTERED_DATE <  to_date('2024-06-30', 'YYYY-MM-DD')
-        group by f.collection_id, f.collection, ts.CATEGORY) s on h.collection_id = s.collection_id
+	from coll_object co
+	join flat f on co.collection_object_id = f.collection_object_id
+	join citation c on f.collection_object_id = c.collection_object_id
+	join ctcitation_type_status ts on c.type_status =  ts.type_status
+	where ts.CATEGORY in ('Secondary')
+	and co.COLL_OBJECT_ENTERED_DATE <  to_date('2024-06-30', 'YYYY-MM-DD')
+	group by f.collection_id, f.collection, ts.CATEGORY) s on h.collection_id = s.collection_id
 left join (select f.collection_id, f.collection, count(distinct collection_object_id) receivedCatitems, sum(decode(total_parts,null, 1,total_parts)) receivedSpecimens
-    	from flat f
-    	join accn a on f.ACCN_ID = a.transaction_id
-    	join trans t on a.transaction_id = t.transaction_id
-    	where a.received_DATE between  to_date('2019-07-01', 'YYYY-MM-DD') and  to_date('2024-06-30', 'YYYY-MM-DD')
-    	group by f.collection_id, f.collection) a 
+	from flat f
+	join accn a on f.ACCN_ID = a.transaction_id
+	join trans t on a.transaction_id = t.transaction_id
+	where a.received_DATE between  to_date('2019-07-01', 'YYYY-MM-DD') and  to_date('2024-06-30', 'YYYY-MM-DD')
+	group by f.collection_id, f.collection) a 
 	on h.collection_id = a.collection_id
 left join (select f.collection_id, f.collection, count(distinct f.collection_object_id) enteredCatItems, sum(decode(total_parts,null, 1,total_parts)) enteredSpecimens 
 	from flat f
