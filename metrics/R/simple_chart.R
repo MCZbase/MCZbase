@@ -46,21 +46,22 @@ df$COLLECTIONS <- c("Mala", "Mamm","Ent","Orn","HerpObs","IZ","VP","IP","Herp","
 #df %>% group_by(COLLECTIONS)
 
 # filter out Herp Obs row
-df <-df %>% 
-  filter(COLLECTIONS != 'HerpObs')
+#df <-df %>% 
+ # filter(COLLECTIONS != 'HerpObs')
 
 # use purrr package to change the NAs to zeros so the rows don't get deleted.
-df %>% mutate(across(where(is.numeric),
-                      replace_na, 0))
+#df %>% mutate(across(where(is.numeric), replace_na, 0))
+  
 TOTAL <- sum(df$HOLDINGS)
 # create scatter plot colored by genre in different panels
-chart1 <- ggplot(df, aes(x="", y=df$HOLDINGS, fill=COLLECTIONS)) +
+chart1 <- ggplot(df %>% mutate(across(where(is.numeric), replace_na, 0)), aes(x="", y=df$HOLDINGS, fill=COLLECTIONS)) +
   geom_bar(stat="identity", width=1) +
   coord_polar("y", start=0) +
   geom_text(aes(label = paste0(format(round(df$HOLDINGS/sum(df$HOLDINGS)*100, 1), nsmall = 0), " %")), 
             position = position_stack(vjust = .5),size=4, color="white") +
             labs(title = "Holdings per Collection", 
             caption = "Source: Annual Metrics Reported by Collections Staff") +
+  
       theme_void()
 
 # make sure all instances in R plots, Photoshop, etc are closed before refreshing webpage.
