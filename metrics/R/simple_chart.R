@@ -67,7 +67,7 @@ chart1 <- ggplot(df, aes(x="", y=df$HOLDINGS, fill=COLLECTIONS)) +
 #chart1
 
 # make sure all instances in R plots, Photoshop, etc are closed before refreshing webpage.
-ggsave('/var/www/html/arctos/metrics/R/graphs/chart1.png', chart1, width=1000, height=800, units=c('px'), dpi=300)
+ggsave('/var/www/html/arctos/metrics/R/graphs/chart1.png', chart1, width=1000, height=800, units=c('px'), dpi=72)
 
 
 
