@@ -25,8 +25,7 @@ limitations under the License.
 
 <cfset targetFile = "chart_data.csv">
 <cfset filePath = "/metrics/datafiles/">
-<cfset beginDate = '2022-06-30'>
-<cfset endDate = '2023-07-01'>
+
 <cfquery name="getStats" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select 
 		rm.holdings,
