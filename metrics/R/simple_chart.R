@@ -23,7 +23,7 @@ library(png)
 library(readr)
 
 # use this one when testing is finished and want to go "live"
-#df <- read_csv('/var/www/html/arctos/metrics/datafiles/chart_data.csv', show_col_types = FALSE)
+df <- read_csv('/var/www/html/arctos/metrics/datafiles/chart_data.csv', show_col_types = FALSE)
 
 # use to check for loading errors  
 # str(data)
@@ -31,7 +31,7 @@ library(readr)
 # names(data)
 
 #local load for testing
-df <- read_csv("C:/Users/mih744/Downloads/chart_data.csv")
+#df <- read_csv("C:/Users/mih744/Downloads/chart_data.csv")
 
 # makes a column with abbreviated collections for labels
 df$COLLECTIONS <- c("Mala", "Mamm","Ent","Orn","HerpObs","IZ","VP","IP","Herp","Cryo","SC","Ich")
@@ -54,7 +54,7 @@ chart1 <- ggplot(df, aes(x="", y=df$HOLDINGS, fill=COLLECTIONS)) +
 # uncomment and use chart or print(chart1) during testing
 chart1
 
-# make sure all instances in R plots, Photoshop, etc are closed before refreshing webpage.
+# !!!make sure all instances in R plots, environment, Photoshop, etc are closed before refreshing webpage.
 ggsave('/var/www/html/arctos/metrics/R/graphs/chart1.png', chart1, width=840, height=600, units=c('px'), dpi=72)
 
 # this was about labs in chart1 to put white percentages in the pie parts
