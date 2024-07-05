@@ -31,7 +31,7 @@ df <- read_csv('/var/www/html/arctos/metrics/datafiles/chart_data.csv', show_col
 # names(data)
 
 #local load for testing
-df <- read_csv("C:/Users/mih744/Downloads/chart_data.csv")
+#df <- read_csv("C:/Users/mih744/Downloads/chart_data.csv")
 
 # makes a column with abbreviated collections for labels after changing export procedure query insert line
 # and creating a new column in cf_temp_chart_data
@@ -47,11 +47,20 @@ TOTAL <- sum(df$HOLDINGS)
 per <- round(df$HOLDINGS/sum(df$HOLDINGS)*100, 1)
 
 # create scatter plot colored by genre in different panels
-chart1 <- ggplot(df, aes(x="", y=df$HOLDINGS, fill=COLLECTION )) +
+# chart1 <- ggplot(df, aes(x="", y=df$HOLDINGS, fill=COLLECTION )) +
+#   geom_bar(stat="identity", width=1) +
+#   coord_polar("y", start=0) +
+#   labs(title = "Holdings per Collection", 
+#   caption = "Source: Annual Metrics Reported by Collections Staff") +
+#   theme_void()
+# # uncomment and use chart or print(chart1) during testing
+# chart1
+
+chart1 <- ggplot(df, aes(x="", y=df$CATALOGEDITEMS, fill=COLLECTION )) +
   geom_bar(stat="identity", width=1) +
   coord_polar("y", start=0) +
-  labs(title = "Holdings per Collection", 
-  caption = "Source: Annual Metrics Reported by Collections Staff") +
+  labs(title = "Cataloged Items per Collection", 
+       caption = "Source: Cataloged Items from MCZbase") +
   theme_void()
 # uncomment and use chart or print(chart1) during testing
 chart1
