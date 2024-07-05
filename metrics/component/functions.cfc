@@ -35,7 +35,7 @@ limitations under the License.
 		<cfoutput>
 			<cfset targetFile = "chart_numbers_#beginDate#_to_#endDate#.csv">
 			<cfset filePath = "/metrics/datafiles/">
-			<!--- annual report queries --->
+			<!--- repeat the query that is in the procedure for the download --->
 			<cfquery name="getStats" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				select 
 					rm.holdings,
@@ -109,7 +109,7 @@ limitations under the License.
 			</cfoutput>
 			<cftry>
 				<cfexecute name = "/usr/bin/Rscript" 
-					arguments = "#application.webDirectory#/metrics/R/simple_chart2.R" 
+					arguments = "#application.webDirectory#/metrics/R/simple_chart.R" 
 					variable = "chartOutput"
 					timeout = "10000"
 					errorVariable = "chartError"> 
@@ -126,7 +126,7 @@ limitations under the License.
 					<div class="row">
 						<div class="col-12">
 							<!--- chart created by R script --->
-							<img src="/metrics/R/graphs/chart2.png" width="100%" />
+							<img src="/metrics/R/graphs/chart.png" width="100%" />
 						</div>
 					</div>
 				</div>
