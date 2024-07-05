@@ -34,7 +34,7 @@ df <- read_csv('/var/www/html/arctos/metrics/datafiles/chart_data.csv', show_col
 #df <- read_csv("C:/Users/mih744/Downloads/chart_data.csv")
 
 # makes a column with abbreviated collections for labels
-df$COLLECTIONS <- c("Mala", "Mamm","Ent","Orn","HerpObs","IZ","VP","IP","Herp","Cryo","SC","Ich")
+df$COLLECTIONS <- c("Ent", "Herp","Ich","IP","IZ","Mala","Mamm","Orn","VP")
 
 # make calculations based on collection grouping
 #df %>% group_by(COLLECTIONS)
