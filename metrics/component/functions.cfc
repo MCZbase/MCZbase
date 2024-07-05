@@ -34,8 +34,6 @@ limitations under the License.
 <cfinclude template="/shared/_header.cfm">
 <cfinclude template = "/shared/component/functions.cfc">
 
-<cfset beginDate = '2022-06-30'>
-<cfset endDate = '2023-07-01'>
 	<cfthread name="getAnnualChartThread">
 		<cfoutput>
 			<cfset targetFile = "chart_numbers_#beginDate#_to_#endDate#.csv">
@@ -162,7 +160,8 @@ limitations under the License.
 	</cfthread>
 	<cfthread action="join" name="getAnnualChartThread" />
 	<cfreturn getAnnualChartThread.output>
-</cffunction>			
+</cffunction>
+						
 			
 <cffunction name="getAnnualNumbers" access="remote" returntype="any" returnformat="json">
 	<cfargument name="beginDate" type="any" required="yes">
