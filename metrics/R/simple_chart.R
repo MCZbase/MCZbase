@@ -15,16 +15,13 @@
 # library(showtext)
 # library(showtextdb)
 # library(sysfonts)
-# library(ggtext)
+# 
 
 library(ggplot2)
 library(ggthemes)
 library(png)
 library(readr)
-
-
-
-
+library(ggtext)
 # use this one when testing is finished and want to go "live"
 df <- read_csv('/var/www/html/arctos/metrics/datafiles/chart_data.csv', show_col_types = FALSE)
 
