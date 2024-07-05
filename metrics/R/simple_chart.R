@@ -63,13 +63,13 @@ chart1 <- ggplot(df, aes(x="", y=df$HOLDINGS, fill=COLLECTIONS)) +
             labs(title = "Holdings per Collection", 
             caption = "Source: Annual Metrics Reported by Collections Staff") +
       theme_void()
-
-chart1
+# uncomment and use chart or print(chart1) during testing
+#chart1
 
 # make sure all instances in R plots, Photoshop, etc are closed before refreshing webpage.
 ggsave('/var/www/html/arctos/metrics/R/graphs/chart1.png', chart1, width=1200, height=900, units=c('px'), dpi=300)
 
-# uncomment and use print(chart1) during testing
+
 
 #print(chart1)
 
