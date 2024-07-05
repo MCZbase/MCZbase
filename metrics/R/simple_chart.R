@@ -40,7 +40,7 @@ df$COLLECTIONS <- c("Mala", "Mamm","Ent","Orn","HerpObs","IZ","VP","IP","Herp","
 #df %>% group_by(COLLECTIONS)
 
 # filter out Herp Obs row
-df <- filter(COLLECTIONS != 'HerpObs')
+#df <- filter(COLLECTIONS != 'HerpObs')
 
 TOTAL <- sum(df$HOLDINGS)
 
