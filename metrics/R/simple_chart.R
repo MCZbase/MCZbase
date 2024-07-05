@@ -21,9 +21,9 @@ library(ggplot2)
 library(ggthemes)
 library(png)
 library(readr)
-library(tidyr)
-library(purrr)
-library(dplyr)
+# library(tidyr)
+# library(purrr)
+# library(dplyr)
 
 
 
@@ -38,7 +38,7 @@ df <- read_csv('/var/www/html/arctos/metrics/datafiles/chart_data.csv', show_col
 # uncomment and use for testing in R after importing dataset in top right box with readr 
 # as chart_data.csv after download from testMetrics.cfm 
 
-#local load
+#local load for testing
 #df <- read_csv("C:/Users/mih744/Downloads/chart_data.csv")
 
 # makes a column with abbreviated collections for labels
@@ -62,8 +62,9 @@ chart1 <- ggplot(df, aes(x="", y=df$HOLDINGS, fill=COLLECTIONS)) +
             position = position_stack(vjust = .5),size=4, color="white") +
             labs(title = "Holdings per Collection", 
             caption = "Source: Annual Metrics Reported by Collections Staff") +
-  
       theme_void()
+
+chart1
 
 # make sure all instances in R plots, Photoshop, etc are closed before refreshing webpage.
 ggsave('/var/www/html/arctos/metrics/R/graphs/chart1.png', chart1, width=1200, height=900, units=c('px'), dpi=300)
