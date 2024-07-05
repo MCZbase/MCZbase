@@ -42,21 +42,21 @@ df <- read_csv("C:/Users/mih744/Downloads/chart_data.csv")
 # filter out Herp Obs row
 #df <- filter(COLLECTIONS != 'HerpObs')
 
-TOTAL <- sum(df$HOLDINGS)
-per <- round(df$HOLDINGS/sum(df$HOLDINGS)*100, 1)
+TOTAL <- sum(df$CATALOGEDITEMS)
+per <- round(df$CATALOGEDITEMS/sum(df$CATALOGEDITEMS)*100, 1)
 
 # create scatter plot colored by genre in different panels
-chart1 <- ggplot(df, aes(x="", y=df$HOLDINGS, fill=COLLECTION )) +
+chart2 <- ggplot(df, aes(x="", y=df$CATALOGEDITEMS, fill=COLLECTION )) +
   geom_bar(stat="identity", width=1) +
   coord_polar("y", start=0) +
   labs(title = "Holdings per Collection", 
   caption = "Source: Annual Metrics Reported by Collections Staff") +
   theme_void()
 # uncomment and use chart or print(chart1) during testing
-chart1
+chart2
 
 # !!!make sure all instances in R plots, environment, Photoshop, etc are closed before refreshing webpage.
-ggsave('/var/www/html/arctos/metrics/R/graphs/chart1.png', chart1, dpi=96)
+ggsave('/var/www/html/arctos/metrics/R/graphs/chart2.png', chart2, dpi=96)
 
 # this was about labs in chart1 to put white percentages in the pie parts
 #  geom_text(aes(label = paste0(format(round(df$HOLDINGS/sum(df$HOLDINGS)*100, 1), nsmall = 0), "")), 
