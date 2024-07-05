@@ -31,74 +31,132 @@ limitations under the License.
 
 
 <cffunction name="getAnnualChart" access="remote" returntype="any" returnformat="json">
+<cfinclude template="/shared/_header.cfm">
+<cfinclude template = "/shared/component/functions.cfc">
+
 <cfset beginDate = '2022-06-30'>
 <cfset endDate = '2023-07-01'>
 	<cfthread name="getAnnualChartThread">
 		<cfoutput>
+			<cfset targetFile = "chart_numbers_#beginDate#_to_#endDate#.csv">
+			<cfset filePath = "/metrics/datafiles/">
+			<!--- annual report queries --->
+			<cfquery name="getStats" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				select 
+					rm.holdings,
+					h.collection, 
+					h.catalogeditems, 
+					h.specimens, 
+					p.primaryCatItems, 
+					p.primaryspecimens, 
+					s.secondaryCatItems, 
+					s.secondarySpecimens, 
+					a.receivedCatItems,
+					a.receivedSpecimens,
+					e.enteredCatItems,
+					e.enteredSpecimens,
+					ncbi.ncbiCatItems,
+					accn.numAccns  
+				from 
+					(select * from collection where collection_cde <> 'MCZ') c
+				left join (select * from MCZBASE.collections_reported_metrics) rm on c.collection_id = rm.collection_id 
+				left join (select f.collection_id, f.collection, count(distinct f.collection_object_id) catalogeditems, sum(decode(total_parts,null, 1,total_parts)) specimens
+					from flat f
+					join coll_object co on f.collection_object_id = co.collection_object_id
+					where co.COLL_OBJECT_ENTERED_DATE < to_date('2024-06-30', 'YYYY-MM-DD')
+					group by f.collection_id, f.collection) h on rm.collection_id = h.collection_id
+				left join  ( select f.collection_id, f.collection, ts.CATEGORY, count(distinct f.collection_object_id) primaryCatItems, sum(decode(total_parts,null, 1,total_parts)) primarySpecimens
+					from coll_object co
+					join flat f on co.collection_object_id = f.collection_object_id
+					join citation c on f.collection_object_id = c.collection_object_id
+					join ctcitation_type_status ts on c.type_status =  ts.type_status
+					where ts.CATEGORY in ('Primary')
+					and co.COLL_OBJECT_ENTERED_DATE <  to_date('2024-06-30', 'YYYY-MM-DD')
+					group by f.collection_id, f.collection, ts.CATEGORY) p on h.collection_id = p.collection_id
+				left join (select f.collection_id, f.collection, ts.CATEGORY, count(distinct f.collection_object_id) secondaryCatItems, sum(decode(total_parts,null, 1,total_parts)) secondarySpecimens
+					from coll_object co
+					join flat f on co.collection_object_id = f.collection_object_id
+					join citation c on f.collection_object_id = c.collection_object_id
+					join ctcitation_type_status ts on c.type_status =  ts.type_status
+					where ts.CATEGORY in ('Secondary')
+					and co.COLL_OBJECT_ENTERED_DATE <  to_date('2024-06-30', 'YYYY-MM-DD')
+					group by f.collection_id, f.collection, ts.CATEGORY) s on h.collection_id = s.collection_id
+				left join (select f.collection_id, f.collection, count(distinct collection_object_id) receivedCatitems, sum(decode(total_parts,null, 1,total_parts)) receivedSpecimens
+					from flat f
+					join accn a on f.ACCN_ID = a.transaction_id
+					join trans t on a.transaction_id = t.transaction_id
+					where a.received_DATE between  to_date('2019-07-01', 'YYYY-MM-DD') and  to_date('2024-06-30', 'YYYY-MM-DD')
+					group by f.collection_id, f.collection) a 
+					on h.collection_id = a.collection_id
+				left join (select f.collection_id, f.collection, count(distinct f.collection_object_id) enteredCatItems, sum(decode(total_parts,null, 1,total_parts)) enteredSpecimens 
+					from flat f
+					join coll_object co on f.collection_object_id = co.collection_object_id
+					where co.COLL_OBJECT_ENTERED_DATE between to_date('2019-07-01', 'YYYY-MM-DD') and  to_date('2024-06-30', 'YYYY-MM-DD')
+					group by f.collection_id, f.collection) e 
+					on e.collection_id = h.collection_id
+				left join (select f.collection_id, f.collection, count(distinct f.collection_object_id) ncbiCatItems, sum(total_parts) ncbiSpecimens 
+					from COLL_OBJ_OTHER_ID_NUM oid, flat f, COLL_OBJECT CO 
+					where OTHER_ID_TYPE like '%NCBI%'
+					AND F.COLLECTION_OBJECT_ID = CO.COLLECTIOn_OBJECT_ID
+					and co.COLL_OBJECT_ENTERED_DATE < to_date('2024-06-30', 'YYYY-MM-DD')
+					and oid.collection_object_id = f.collection_object_id
+					group by f.collection_id, f.collection) ncbi on h.collection_id = ncbi.collection_id
+				left join (select c.collection_id, c.collection, count(distinct t.transaction_id) numAccns
+					from accn a, trans t, collection c
+					where a.transaction_id = t.transaction_id
+					and t.collection_id = c.collection_id
+					and a.received_date between to_date('2019-07-01', 'YYYY-MM-DD') and  to_date('2024-06-30', 'YYYY-MM-DD')
+					group by c.collection_id, c.collection) accn on h.collection_id = accn.collection_id
+			</cfquery>
+			<cfoutput>
+				<cfset csv = queryToCSV(getStats)> 
+				<cffile action="write" file="#application.webDirectory##filePath##targetFile#" output = "#csv#" addnewline="No">
+			</cfoutput>
 			<cftry>
-				<cfset targetFile = "chart_numbers_#beginDate#_to_#endDate#.csv">
-				<cfset filePath = "/metrics/datafiles/">
-				<!--- annual report queries --->
-				<cfquery name="chartQuery" datasource="uam_god">
-					SELECT rm.holdings as "HOLDINGS",h.collection as "COLLECTION",h.catalogeditems as "CATALOGED ITEMS",h.specimens as "SPECIMENS",p.primaryCatItems as "PRIMARY CATALOGED ITEMS",p.primaryspecimens as "PRIMARY SPECIMENS",s.secondaryCatItems as "Secondary Cataloged Item",s.secondarySpecimens as "Secondary Specimen"
-					FROM (select collection_cde,institution_acronym,descr,collection,collection_id from collection where collection_cde <> 'MCZ' and collection <> 'Special Collections' and collection <> 'Herpetology Observations') c
-					LEFT JOIN (select collection_id,holdings,reported_date from MCZBASE.collections_reported_metrics) rm on c.collection_id = rm.collection_id 
-					LEFT JOIN (select f.collection_id, f.collection, count(distinct f.collection_object_id) catalogeditems, sum(decode(total_parts,null, 1,total_parts)) specimens from flat f join coll_object co on f.collection_object_id = co.collection_object_id where co.COLL_OBJECT_ENTERED_DATE < to_date('#endDate#','YYYY-MM-DD') group by f.collection_id, f.collection) h on rm.collection_id = h.collection_id
-					LEFT JOIN (select f.collection_id, f.collection, ts.CATEGORY, count(distinct f.collection_object_id) primaryCatItems, sum(decode(total_parts,null, 1,total_parts)) primarySpecimens from coll_object co join flat f on co.collection_object_id = f.collection_object_id join citation c on f.collection_object_id = c.collection_object_id join ctcitation_type_status ts on c.type_status = ts.type_status where ts.CATEGORY in ('Primary') and co.COLL_OBJECT_ENTERED_DATE < to_date('#endDate#','YYYY-MM-DD') group by f.collection_id, f.collection, ts.CATEGORY) p on h.collection_id = p.collection_id
-					LEFT JOIN (select f.collection_id, f.collection, ts.CATEGORY, count(distinct f.collection_object_id) secondaryCatItems, sum(decode(total_parts,null, 1,total_parts)) secondarySpecimens from coll_object co join flat f on co.collection_object_id = f.collection_object_id join citation c on f.collection_object_id = c.collection_object_id join ctcitation_type_status ts on c.type_status = ts.type_status where ts.CATEGORY in ('Secondary') and co.COLL_OBJECT_ENTERED_DATE < to_date('#endDate#','YYYY-MM-DD') group by f.collection_id, f.collection, ts.CATEGORY) s 
-					on h.collection_id = s.collection_id
-				</cfquery>	
-				<cfoutput>
-					<cfset csv = queryToCSV(chartQuery)> 
-					<cffile action="write" file="/#application.webDirectory##filePath##targetFile#" output = "#csv#" addnewline="No">
-				</cfoutput>
-				<section class="col-12 mt-1 px-0">
-					<div class="mt-1 mb-3 float-left w-100">
-						<h2 class="h3 px-2 float-left mb-0">This Years Metrics <span class="text-muted">(#encodeForHtml(beginDate)#/#encodeForHtml(endDate)#)</span></h2>
-						<div class="btn-toolbar mb-2 mb-md-0 float-right">
-							<div class="btn-group mr-2">
-								<a href="#filePath##targetFile#" class="btn btn-xs btn-outline-secondary">Export Table</a>
-							</div>
+				<cfexecute name = "/usr/bin/Rscript" 
+					arguments = "#application.webDirectory#/metrics/R/simple_chart.R" 
+					variable = "chartOutput"
+					timeout = "10000"
+					errorVariable = "chartError"> 
+				</cfexecute>
+				<cfcatch>
+					<h3>Error loading chart</h3>
+					<cfdump var="#cfcatch#">
+					<cfset chartOutput = "">
+					<cfset errorVariable="">
+				</cfcatch>
+			</cftry>
+			<cftry>
+				<div class="container">
+					<div class="row">
+						<h1 class="h3 mt-3">Herpetology Citations</h1>
+						<div class="col-12">
+							<h3 class="h4 mt-1">Data Visualization Testing</h3>
+							<p>Data that is imported into the R script is /metrics/datafiles/chart_data.csv and available here: <a href="#filePath##targetFile#">download table</a>.</p> This data comes from a temporary table in the database generated by a procedure and scheduled job which is then queried by CF to create the csv.
 						</div>
 					</div>
-					Chart Goes Here
-					<!---<table class="table table-responsive table-striped d-lg-table" id="t">
-						<thead>
-							<tr>
-								<th><strong>Collection</strong></th>
-								<th><strong>Total Holdings</strong></th>
-								<th><strong>% of Holdings in MCZbase</strong></th>
-								<th><strong>Total Records - Cataloged Items</strong></th>
-								<th><strong>Total Records - Specimens</strong></th>
-								<th><strong>Primary Types - Cataloged Items</strong></th>
-								<th><strong>Primary Types - Specimens</strong></th>
-								<th><strong>Secondary Types - Cataloged Items</strong></th>
-								<th><strong>Secondary Types - Specimens</strong></th>
-							</tr>
-						</thead>
-						<tbody>
-							<cfloop query="totals">
-								<tr>
-									<td>#collection#</td>
-									<td>#holdings#</td>
-									<td>#NumberFormat((catalogeditems/holdings)*100, '9.99')#%</td>
-									<td>#catalogeditems#</td>
-									<td>#specimens#</td>
-									<td>#primaryCatItems#</td>
-									<td>#primarySpecimens#</td>
-									<td>#secondaryCatItems#</td>
-									<td>#secondarySpecimens#</td>
-								</tr>
-							</cfloop>
-						</tbody>
-					</table>--->
-				</section>
-			<cfcatch>
-				<cfset error_message = cfcatchToErrorMessage(cfcatch)>
-				<cfset function_called = "#GetFunctionCalledName()#">
-				<h2 class="h3">Error in #function_called#:</h2>
-				<div>#error_message#</div>
-			</cfcatch>
+					<div class="row">
+						<div class="col-12">
+							Script output: [#chartOutput#]
+						</div>
+						<div class="col-12">
+							Script errors: [#chartError#]
+						</div>
+						<div class="col-12">
+							<p> Chart1 should appear.</p>
+						</div>
+						<div class="col-12">
+							<!--- chart created by R script --->
+							<img src="/metrics/R/graphs/chart1.png"/>
+						</div>
+					</div>
+				</div>
+				<cfcatch>
+					<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+					<cfset function_called = "#GetFunctionCalledName()#">
+					<h2 class="h3">Error in #function_called#:</h2>
+					<div>#error_message#</div>
+				</cfcatch>
 			</cftry>
 		</cfoutput>
 	</cfthread>
