@@ -51,7 +51,7 @@ TOTAL <- sum(df$HOLDINGS)
 chart1 <- ggplot(df, aes(x="", y=df$HOLDINGS, fill=COLLECTIONS)) +
   geom_bar(stat="identity", width=1) +
   coord_polar("y", start=0) +
-  geom_text(aes(label = paste0(format(round(df$HOLDINGS/sum(df$HOLDINGS)*100, 2), nsmall = 0), " %")), 
+  geom_text(aes(label = paste0(format(round(df$HOLDINGS/sum(df$HOLDINGS)*100, 1), nsmall = 0), " %")), 
             position = position_stack(vjust = .5),size=3, color="white") +
             labs(title = "Holdings per Collection", 
             caption = "Source: Annual Metrics Reported by Collections Staff") +
