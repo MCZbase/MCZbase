@@ -49,8 +49,8 @@ per <- round(df$CATALOGEDITEMS/sum(df$CATALOGEDITEMS)*100, 1)
 chart2 <- ggplot(df, aes(x="", y=df$CATALOGEDITEMS, fill=COLLECTION )) +
   geom_bar(stat="identity", width=1) +
   coord_polar("y", start=0) +
-  labs(title = "Holdings per Collection", 
-  caption = "Source: Annual Metrics Reported by Collections Staff") +
+  labs(title = "Cataloged Items per Collection", 
+  caption = "Source: Cataloged Items from MCZbase") +
   theme_void()
 # uncomment and use chart or print(chart1) during testing
 chart2

@@ -5,7 +5,7 @@
 # ENTEREDCATITEMS stores the distinct collection_object_ids from flat 
 ## based on accn transactions limited by a date range for entered_date
 #NCBISPECIMENS stores all other ID with NCBI up until endDate of range
-
+# make sure permissions and ownership are correct on png files in directory via ssh
 
 # library(viridis)
 # library(forcats)
@@ -33,7 +33,8 @@ df <- read_csv('/var/www/html/arctos/metrics/datafiles/chart_data.csv', show_col
 #local load for testing
 df <- read_csv("C:/Users/mih744/Downloads/chart_data.csv")
 
-# makes a column with abbreviated collections for labels
+# makes a column with abbreviated collections for labels after changing export procedure query insert line
+# and creating a new column in cf_temp_chart_data
 #df$COLLECTIONS <- c("Ent", "Herp","Ich","IP","IZ","Mala","Mamm","Orn","VP")
 
 # make calculations based on collection grouping
