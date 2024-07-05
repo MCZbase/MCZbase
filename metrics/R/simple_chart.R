@@ -31,10 +31,10 @@ df <- read_csv('/var/www/html/arctos/metrics/datafiles/chart_data.csv', show_col
 # names(data)
 
 #local load for testing
-#df <- read_csv("C:/Users/mih744/Downloads/chart_data.csv")
+df <- read_csv("C:/Users/mih744/Downloads/chart_data.csv")
 
 # makes a column with abbreviated collections for labels
-df$COLLECTIONS <- c("Ent", "Herp","Ich","IP","IZ","Mala","Mamm","Orn","VP")
+#df$COLLECTIONS <- c("Ent", "Herp","Ich","IP","IZ","Mala","Mamm","Orn","VP")
 
 # make calculations based on collection grouping
 #df %>% group_by(COLLECTIONS)
@@ -45,7 +45,7 @@ df$COLLECTIONS <- c("Ent", "Herp","Ich","IP","IZ","Mala","Mamm","Orn","VP")
 TOTAL <- sum(df$HOLDINGS)
 
 # create scatter plot colored by genre in different panels
-chart1 <- ggplot(df, aes(x="", y=df$HOLDINGS, fill=COLLECTIONS)) +
+chart1 <- ggplot(df, aes(x="", y=df$HOLDINGS, fill=COLLECTION)) +
   geom_bar(stat="identity", width=1) +
   coord_polar("y", start=0) +
   labs(title = "Holdings per Collection", 
