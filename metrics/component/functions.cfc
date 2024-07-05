@@ -126,7 +126,7 @@ limitations under the License.
 					<div class="row">
 						<div class="col-12">
 							<!--- chart created by R script --->
-							<img src="/metrics/R/graphs/chart1.png"/>
+							<img src="/metrics/R/graphs/chart1.png" width="100%" />
 						</div>
 					</div>
 				</div>
