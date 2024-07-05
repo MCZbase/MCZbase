@@ -53,7 +53,7 @@ limitations under the License.
 					ncbi.ncbiCatItems,
 					accn.numAccns  
 				from 
-					(select * from collection where collection_cde <> 'MCZ' AND collection_cde <> 'Cryo' AND collection_cde <> 'HerpObs') c
+					(select * from collection where collection_cde = 'Ent' AND collection_cde = 'Herp' AND collection_cde = 'Ich' AND collection_cde = 'IP' AND collection_cde = 'IZ' AND collection_cde = 'Mala' AND collection_cde = 'Mamm' AND collection_cde = 'Orn' AND collection_cde = 'VP') c
 				left join (select * from MCZBASE.collections_reported_metrics) rm on c.collection_id = rm.collection_id 
 				left join (select f.collection_id, f.collection, count(distinct f.collection_object_id) catalogeditems, sum(decode(total_parts,null, 1,total_parts)) specimens
 					from flat f
