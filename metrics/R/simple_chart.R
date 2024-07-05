@@ -59,7 +59,7 @@ chart1 <- ggplot(df, aes(x="", y=df$HOLDINGS, fill=COLLECTIONS)) +
   geom_bar(stat="identity", width=1) +
   coord_polar("y", start=0) +
   geom_text(aes(label = paste0(format(round(df$HOLDINGS/sum(df$HOLDINGS)*100, 1), nsmall = 0), " %")), 
-            position = position_stack(vjust = .5),size=4, color="white") +
+            position = position_stack(vjust = .95),size=2, color="white") +
             labs(title = "Holdings per Collection", 
             caption = "Source: Annual Metrics Reported by Collections Staff") +
       theme_void()
@@ -67,7 +67,7 @@ chart1 <- ggplot(df, aes(x="", y=df$HOLDINGS, fill=COLLECTIONS)) +
 #chart1
 
 # make sure all instances in R plots, Photoshop, etc are closed before refreshing webpage.
-ggsave('/var/www/html/arctos/metrics/R/graphs/chart1.png', chart1, width=1200, height=900, units=c('px'), dpi=300)
+ggsave('/var/www/html/arctos/metrics/R/graphs/chart1.png', chart1, width=1000, height=800, units=c('px'), dpi=300)
 
 
 
