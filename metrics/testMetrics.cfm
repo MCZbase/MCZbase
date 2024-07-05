@@ -130,7 +130,7 @@ left join (select c.collection_id, c.collection, count(distinct t.transaction_id
 				Script errors: [#chartError#]
 			</div>
 			<div class="col-12">
-				<p> Chart that looks like a bullseye should appear.</p>
+				<p> Chart1 should appear.</p>
 			</div>
 			<div class="col-12">
 				<!--- chart created by R script --->
