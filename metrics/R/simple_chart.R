@@ -52,7 +52,7 @@ df$COLLECTIONS <- c("Mala", "Mamm","Ent","Orn","HerpObs","IZ","VP","IP","Herp","
  # filter(COLLECTIONS != 'HerpObs')
 
 # use purrr package to change the NAs to zeros so the rows don't get deleted.
-df %>% mutate(across(where(is.numeric), replace_na, 0))
+df <- mutate(across(where(is.numeric), replace_na, 0))
 TOTAL <- sum(df$HOLDINGS)
 # create scatter plot colored by genre in different panels
 chart1 <- ggplot(df, aes(x="", y=df$HOLDINGS, fill=COLLECTIONS)) +
@@ -64,7 +64,7 @@ chart1 <- ggplot(df, aes(x="", y=df$HOLDINGS, fill=COLLECTIONS)) +
             caption = "Source: Annual Metrics Reported by Collections Staff") +
       theme_void()
 # uncomment and use chart or print(chart1) during testing
-#chart1
+chart1
 
 # make sure all instances in R plots, Photoshop, etc are closed before refreshing webpage.
 ggsave('/var/www/html/arctos/metrics/R/graphs/chart1.png', chart1, width=1000, height=800, units=c('px'), dpi=72)
