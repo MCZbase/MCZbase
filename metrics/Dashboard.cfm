@@ -86,10 +86,10 @@ limitations under the License.
 			</div>
 		</nav>
 	
-		<main role="main" class="col-md-10 ml-sm-auto col-lg-10 px-md-5 mb-3">
+		<main role="main" class="col-md-10 px-3 ml-sm-auto col-lg-10 px-md-5 mb-3">
 			<div class="row">
 				<cfoutput>
-					<div class="col-12 px-3 mt-4">
+					<div class="col-12 px-0 mt-4">
 						<h1 class="h2 float-left mb-0">MCZbase Metrics</h1>
 					</div>
 					<cfset summaryAnnualBlock=getAnnualChart(endDate="#endDate#",beginDate="#beginDate#")>
