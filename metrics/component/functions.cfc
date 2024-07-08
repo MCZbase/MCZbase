@@ -30,7 +30,7 @@ limitations under the License.
 --->
 
 
-<cffunction name="getAnnualChart" access="remote" returntype="any" returnformat="json">
+<cffunction name="getAnnualChart" access="remote" returntype="any" returnformat="plain">
 	<cfthread name="getAnnualChartThread">
 		<cfoutput>
 			<cfset targetFile = "chart_numbers_#beginDate#_to_#endDate#.csv">
