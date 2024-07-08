@@ -29,7 +29,7 @@ limitations under the License.
 	
 <!--- TODO: Set to most recent full year. --->
 <cfif NOT isDefined("beginDate")><cfset beginDate = '2022-06-30'></cfif>
-<cfif NOT isDefined("endDate")><cfoutput><cfset endDate = '#to_date(now(), "YYYY-MM-DD")#'></cfoutput></cfif>
+<cfif NOT isDefined("endDate")><cfoutput><cfset endDate = '#dateFormat(now(), "yyyy-mm-dd")#'></cfoutput></cfif>
 <cfsetting RequestTimeout = "0">
 <cfset start = GetTickCount()>
 <meta name="theme-color" content="#563d7c">
