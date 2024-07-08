@@ -35,8 +35,8 @@ limitations under the License.
 		<cfoutput>
 			<cfset targetFile = "chart_numbers_#beginDate#_to_#endDate#.csv">
 			<cfset filePath = "/metrics/datafiles/">
-			<!--- repeat the query that is in the procedure for the download --->
-<!---			<cfquery name="getStats" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			 repeat the query that is in the procedure for the download 
+			<cfquery name="getStats" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				select 
 					rm.holdings,
 					h.collection, 
@@ -106,8 +106,8 @@ limitations under the License.
 			<cfoutput>
 				<cfset csv = queryToCSV(getStats)> 
 				<cffile action="write" file="#application.webDirectory##filePath##targetFile#" output = "#csv#" addnewline="No">
-			</cfoutput>--->
-<!---			<cftry>
+			</cfoutput>
+			<cftry>
 				<cfexecute name = "/usr/bin/Rscript" 
 					arguments = "#application.webDirectory#/metrics/R/simple_chart.R" 
 					variable = "chartOutput"
@@ -120,7 +120,7 @@ limitations under the License.
 					<cfset chartOutput = "">
 					<cfset errorVariable="">
 				</cfcatch>
-			</cftry>--->
+			</cftry>
 			<cftry>
 				<div class="container">
 					<div class="row">
