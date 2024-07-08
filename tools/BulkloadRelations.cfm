@@ -453,7 +453,7 @@ limitations under the License.
 			</cfquery>
 			<!--- check for duplicate relationships --->
 			<cfloop query = "getTempWithIds">
-				<cfif len(getTempWithIds.collection_object_id) GT 0 AND len(getTemWithIds.related_collection_object_id) GT 0>
+				<cfif len(getTempWithIds.collection_object_id) GT 0 AND len(getTempWithIds.related_collection_object_id) GT 0>
 					<!--- check for existing records that would be duplicated by this load --->
 					<cfquery name="findExisting" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						SELECT count(*) ct
@@ -530,11 +530,17 @@ limitations under the License.
 			</cfquery>
 			<!--- check for inverse relationships --->
 			<!--- we could accept both, and invert the object/related object, but this is likely to cause user errors --->
+			<!--- note that some relationships are defined recipocally --->
 			<cfquery name="flagRelationshipInverse" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				UPDATE CF_TEMP_BL_RELATIONS
 				SET status = concat(nvl2(status, status || '; ', ''),'The value [' || relationship || '] is an inverse relationship, only values of biol_indiv_relationship can be used.')
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-					and relationship in (select inverse_relation from CTBIOL_RELATIONS where biol_indiv_relationship <> inverse_relation) 
+					and relationship in (
+						select inverse_relation from CTBIOL_RELATIONS where biol_indiv_relationship <> inverse_relation
+					) 
+					and relationship not in (
+						select biol_indiv_relationship from CTBIOL_RELATIONS
+					) 
 			</cfquery>
 			
 			<!--- report on problems, if any --->
