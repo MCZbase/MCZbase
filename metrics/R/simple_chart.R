@@ -65,13 +65,13 @@ chart1
 
 
 
-p = ggplot(df, aes(x=COLLECTION, y=CATALOGEDITEMS, fill=CATALOGEDITEMS)) +
+chart2 = ggplot(df, aes(x=COLLECTION, y=CATALOGEDITEMS, fill=CATALOGEDITEMS)) +
   geom_bar(width=.5, stat="identity") + theme_light() +
   scale_fill_gradient(low="red", high="white", limits=c(4000,2000000)) +
   theme(axis.title.y=element_text(angle=0))
-p + theme(axis.text.x = element_text(angle=45, vjust = 1, hjust=1))
+chart2 + theme(axis.text.x = element_text(angle=45, vjust = 1, hjust=1))
 # text with angle to avoid name overlap
-p + coord_polar() + aes(x=reorder(COLLECTION, CATALOGEDITEMS)) +
+chart2 + coord_polar() + aes(x=reorder(COLLECTION, CATALOGEDITEMS)) +
   theme(axis.text.x = element_text(angle=-30)) 
 
 
