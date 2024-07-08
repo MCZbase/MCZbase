@@ -128,7 +128,7 @@ limitations under the License.
 							
 							<!--- chart created by R script --->
 							<img src="/metrics/R/graphs/chart1.png" width="672" />
-							<p>MCZbase data used in chart can be <a href="#filePath##targetFile#">downloaded</a>. Chart and data are updated on Fridays at midmight (weekly).</p>
+							<p class="small">MCZbase data used in chart can be <a href="#filePath##targetFile#">downloaded</a>. Chart and data are updated on Fridays at midmight (weekly).</p>
 						</div>
 					</div>
 				</div>
