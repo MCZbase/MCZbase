@@ -66,7 +66,7 @@ chart1 <- ggplot(df, aes(x="", y=df$CATALOGEDITEMS, fill=COLLECTION )) +
 chart1
 
 # !!!make sure all instances in R plots, environment, Photoshop, etc are closed before refreshing webpage.
-ggsave('/var/www/html/arctos/metrics/R/graphs/chart1.png', chart1, maxheight="650", units="px", dpi=98)
+ggsave('/var/www/html/arctos/metrics/R/graphs/chart1.png', chart1, height="650", units="px", dpi=98)
 
 # this was about labs in chart1 to put white percentages in the pie parts
 #  geom_text(aes(label = paste0(format(round(df$HOLDINGS/sum(df$HOLDINGS)*100, 1), nsmall = 0), "")), 
