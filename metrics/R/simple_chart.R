@@ -72,7 +72,7 @@ chart2 = ggplot(df, aes(x=COLLECTION, y=CATALOGEDITEMS, fill=CATALOGEDITEMS)) +
 chart2 + theme(axis.text.x = element_text(angle=45, vjust = 1, hjust=1))
 # text with angle to avoid name overlap
 chart2 + coord_polar() + aes(x=reorder(COLLECTION, CATALOGEDITEMS)) +
-  theme(axis.text.x = element_text(angle=-30)) 
+  theme(axis.text.x = element_text(angle=-31)) 
 
 
 # !!!make sure all instances in R plots, environment, Photoshop, etc are closed before refreshing webpage.
