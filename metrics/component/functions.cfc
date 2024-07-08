@@ -31,7 +31,6 @@ limitations under the License.
 
 
 <cffunction name="getAnnualChart" access="remote" returntype="any" returnformat="json">
-	<cfset beginDate = ADD_MONTHS(sysdate,-12)>
 	<cfthread name="getAnnualChartThread">
 		<cfoutput>
 			<cfset targetFile = "chart_numbers_#beginDate#_to_#endDate#.csv">
@@ -81,13 +80,13 @@ limitations under the License.
 					from flat f
 					join accn a on f.ACCN_ID = a.transaction_id
 					join trans t on a.transaction_id = t.transaction_id
-					where a.received_DATE between  to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#beginDate#">, 'YYYY-MM-DD') and  to_date('2023-06-30', 'YYYY-MM-DD')
+					where a.received_DATE between  to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="ADD_MONTHS(sysdate,-12)">, 'YYYY-MM-DD') and  to_date('2023-06-30', 'YYYY-MM-DD')
 					group by f.collection_id, f.collection) a 
 					on h.collection_id = a.collection_id
 				left join (select f.collection_id, f.collection, count(distinct f.collection_object_id) enteredCatItems, sum(decode(total_parts,null, 1,total_parts)) enteredSpecimens 
 					from flat f
 					join coll_object co on f.collection_object_id = co.collection_object_id
-					where co.COLL_OBJECT_ENTERED_DATE between to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#beginDate#">, 'YYYY-MM-DD') and to_date('2023-06-30', 'YYYY-MM-DD')
+					where co.COLL_OBJECT_ENTERED_DATE between to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="ADD_MONTHS(sysdate,-12)">, 'YYYY-MM-DD') and to_date('2023-06-30', 'YYYY-MM-DD')
 					group by f.collection_id, f.collection) e 
 					on e.collection_id = h.collection_id
 				left join (select f.collection_id, f.collection, count(distinct f.collection_object_id) ncbiCatItems, sum(total_parts) ncbiSpecimens 
@@ -101,7 +100,7 @@ limitations under the License.
 					from accn a, trans t, collection c
 					where a.transaction_id = t.transaction_id
 					and t.collection_id = c.collection_id
-					and a.received_date between to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#beginDate#">, 'YYYY-MM-DD') and  to_date('2024-06-30', 'YYYY-MM-DD')
+					and a.received_date between to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="ADD_MONTHS(sysdate,-12)">, 'YYYY-MM-DD') and  to_date('2024-06-30', 'YYYY-MM-DD')
 					group by c.collection_id, c.collection) accn on h.collection_id = accn.collection_id
 			</cfquery>
 			<cfoutput>
