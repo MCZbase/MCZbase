@@ -35,8 +35,8 @@ limitations under the License.
 		<cfoutput>
 			<cfset targetFile = "chart_numbers_#beginDate#_to_#endDate#.csv">
 			<cfset filePath = "/metrics/datafiles/">
-		<!---	 repeat the query that is in the procedure for the download and to run through simple_chart.R --->
-		<!---	<cfquery name="getStats" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<!--- repeat the query that is in the procedure for the download --->
+<!---			<cfquery name="getStats" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				select 
 					rm.holdings,
 					h.collection, 
@@ -58,7 +58,7 @@ limitations under the License.
 				left join (select f.collection_id, f.collection, count(distinct f.collection_object_id) catalogeditems, sum(decode(total_parts,null, 1,total_parts)) specimens
 					from flat f
 					join coll_object co on f.collection_object_id = co.collection_object_id
-					where co.COLL_OBJECT_ENTERED_DATE < to_date('2023-06-30', 'YYYY-MM-DD')
+					where co.COLL_OBJECT_ENTERED_DATE < to_date('2024-06-30', 'YYYY-MM-DD')
 					group by f.collection_id, f.collection) h on rm.collection_id = h.collection_id
 				left join  ( select f.collection_id, f.collection, ts.CATEGORY, count(distinct f.collection_object_id) primaryCatItems, sum(decode(total_parts,null, 1,total_parts)) primarySpecimens
 					from coll_object co
@@ -74,40 +74,40 @@ limitations under the License.
 					join citation c on f.collection_object_id = c.collection_object_id
 					join ctcitation_type_status ts on c.type_status =  ts.type_status
 					where ts.CATEGORY in ('Secondary')
-					and co.COLL_OBJECT_ENTERED_DATE <  to_date('2023-06-30', 'YYYY-MM-DD')
+					and co.COLL_OBJECT_ENTERED_DATE <  to_date('2024-06-30', 'YYYY-MM-DD')
 					group by f.collection_id, f.collection, ts.CATEGORY) s on h.collection_id = s.collection_id
 				left join (select f.collection_id, f.collection, count(distinct collection_object_id) receivedCatitems, sum(decode(total_parts,null, 1,total_parts)) receivedSpecimens
 					from flat f
 					join accn a on f.ACCN_ID = a.transaction_id
 					join trans t on a.transaction_id = t.transaction_id
-					where a.received_DATE between  to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="ADD_MONTHS(sysdate,-12)">, 'YYYY-MM-DD') and  to_date('2023-06-30', 'YYYY-MM-DD')
+					where a.received_DATE between  to_date('2019-07-01', 'YYYY-MM-DD') and  to_date('2024-06-30', 'YYYY-MM-DD')
 					group by f.collection_id, f.collection) a 
 					on h.collection_id = a.collection_id
 				left join (select f.collection_id, f.collection, count(distinct f.collection_object_id) enteredCatItems, sum(decode(total_parts,null, 1,total_parts)) enteredSpecimens 
 					from flat f
 					join coll_object co on f.collection_object_id = co.collection_object_id
-					where co.COLL_OBJECT_ENTERED_DATE between to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="ADD_MONTHS(sysdate,-12)">, 'YYYY-MM-DD') and to_date('2023-06-30', 'YYYY-MM-DD')
+					where co.COLL_OBJECT_ENTERED_DATE between to_date('2019-07-01', 'YYYY-MM-DD') and  to_date('2024-06-30', 'YYYY-MM-DD')
 					group by f.collection_id, f.collection) e 
 					on e.collection_id = h.collection_id
 				left join (select f.collection_id, f.collection, count(distinct f.collection_object_id) ncbiCatItems, sum(total_parts) ncbiSpecimens 
 					from COLL_OBJ_OTHER_ID_NUM oid, flat f, COLL_OBJECT CO 
 					where OTHER_ID_TYPE like '%NCBI%'
 					AND F.COLLECTION_OBJECT_ID = CO.COLLECTIOn_OBJECT_ID
-					and co.COLL_OBJECT_ENTERED_DATE < to_date('2023-06-30', 'YYYY-MM-DD')
+					and co.COLL_OBJECT_ENTERED_DATE < to_date('2024-06-30', 'YYYY-MM-DD')
 					and oid.collection_object_id = f.collection_object_id
 					group by f.collection_id, f.collection) ncbi on h.collection_id = ncbi.collection_id
 				left join (select c.collection_id, c.collection, count(distinct t.transaction_id) numAccns
 					from accn a, trans t, collection c
 					where a.transaction_id = t.transaction_id
 					and t.collection_id = c.collection_id
-					and a.received_date between to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="ADD_MONTHS(sysdate,-12)">, 'YYYY-MM-DD') and  to_date('2024-06-30', 'YYYY-MM-DD')
+					and a.received_date between to_date('2019-07-01', 'YYYY-MM-DD') and  to_date('2024-06-30', 'YYYY-MM-DD')
 					group by c.collection_id, c.collection) accn on h.collection_id = accn.collection_id
-			</cfquery>--->
+			</cfquery>
 			<cfoutput>
 				<cfset csv = queryToCSV(getStats)> 
 				<cffile action="write" file="#application.webDirectory##filePath##targetFile#" output = "#csv#" addnewline="No">
-			</cfoutput>
-			<cftry>
+			</cfoutput>--->
+<!---			<cftry>
 				<cfexecute name = "/usr/bin/Rscript" 
 					arguments = "#application.webDirectory#/metrics/R/simple_chart.R" 
 					variable = "chartOutput"
@@ -120,13 +120,14 @@ limitations under the License.
 					<cfset chartOutput = "">
 					<cfset errorVariable="">
 				</cfcatch>
-			</cftry>
+			</cftry>--->
 			<cftry>
 				<div class="container">
 					<div class="row">
-						<div class="col-12 px-0 pt-2">
+						<div class="col-12 px-0">
 							<!--- chart created by R script --->
 							<img src="/metrics/R/graphs/chart1.png" width="672" />
+							
 							<p class="small mt-3">MCZbase data used in chart can be <a href="#filePath##targetFile#">downloaded</a>. Chart and data are updated on Fridays at midmight (weekly).</p>
 						</div>
 					</div>
