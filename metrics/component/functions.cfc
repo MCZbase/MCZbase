@@ -30,13 +30,13 @@ limitations under the License.
 --->
 
 
-<cffunction name="getAnnualChart" access="remote" returntype="any" returnformat="plain">
+<cffunction name="getAnnualChart" access="remote" returntype="any" returnformat="json">
 	<cfthread name="getAnnualChartThread">
 		<cfoutput>
 			<cfset targetFile = "chart_numbers_#beginDate#_to_#endDate#.csv">
 			<cfset filePath = "/metrics/datafiles/">
 		<!---	 repeat the query that is in the procedure for the download and to run through simple_chart.R --->
-			<cfquery name="getStats" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<!---	<cfquery name="getStats" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				select 
 					rm.holdings,
 					h.collection, 
@@ -102,7 +102,7 @@ limitations under the License.
 					and t.collection_id = c.collection_id
 					and a.received_date between to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="ADD_MONTHS(sysdate,-12)">, 'YYYY-MM-DD') and  to_date('2024-06-30', 'YYYY-MM-DD')
 					group by c.collection_id, c.collection) accn on h.collection_id = accn.collection_id
-			</cfquery>
+			</cfquery>--->
 			<cfoutput>
 				<cfset csv = queryToCSV(getStats)> 
 				<cffile action="write" file="#application.webDirectory##filePath##targetFile#" output = "#csv#" addnewline="No">
