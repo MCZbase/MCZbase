@@ -127,7 +127,7 @@ limitations under the License.
 						<div class="col-12">
 							<p>MCZbase data used in chart can be <a href="#filePath##targetFile#">downloaded</a>.</p>
 							<!--- chart created by R script --->
-							<img src="/metrics/R/graphs/chart1.png" width="100%" />
+							<img src="/metrics/R/graphs/chart1.png" />
 						</div>
 					</div>
 				</div>
