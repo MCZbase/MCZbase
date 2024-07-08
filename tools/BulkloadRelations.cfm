@@ -453,7 +453,7 @@ limitations under the License.
 			</cfquery>
 			<!--- check for duplicate relationships --->
 			<cfloop query = "getTempWithIds">
-				<cfif len(getTempWithIds.collection_object_id) GT 0 AND len(getTemWithIds.related_collection_object_id) GT 0>
+				<cfif len(getTempWithIds.collection_object_id) GT 0 AND len(getTempWithIds.related_collection_object_id) GT 0>
 					<!--- check for existing records that would be duplicated by this load --->
 					<cfquery name="findExisting" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						SELECT count(*) ct
