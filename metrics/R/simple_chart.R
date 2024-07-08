@@ -31,20 +31,18 @@ df <- read_csv('/var/www/html/arctos/metrics/datafiles/chart_data.csv', show_col
 # names(data)
 
 #local load for testing
-#df <- read_csv("C:/Users/mih744/Downloads/chart_data.csv")
-
-# makes a column with abbreviated collections for labels after changing export procedure query insert line
-# and creating a new column in cf_temp_chart_data
-#df$COLLECTIONS <- c("Ent", "Herp","Ich","IP","IZ","Mala","Mamm","Orn","VP")
+df <- read_csv("C:/Users/mih744/Downloads/chart_data.csv")
 
 # make calculations based on collection grouping
 #df %>% group_by(COLLECTIONS)
 
-# filter out Herp Obs row
-#df <- filter(COLLECTIONS != 'HerpObs')
+# filter out Herp Obs row (only 47 rows -- outlier)
+filter <- !(df$CATALOGEDITEMS == 47)
+df <- df[filter, ]
 
-TOTAL <- sum(df$HOLDINGS)
-per <- round(df$HOLDINGS/sum(df$HOLDINGS)*100, 1)
+# makes a column with abbreviated collections for labels after changing export procedure query insert line
+# and creating a new column in cf_temp_chart_data
+df$COLLECTIONS <- c("Mala","Mamm","Ent","Orn","IZ", "VP","IP","Herp","Cryo","SC", "Ich")
 
 # create scatter plot colored by genre in different panels
 # chart1 <- ggplot(df, aes(x="", y=df$HOLDINGS, fill=COLLECTION )) +
@@ -56,18 +54,30 @@ per <- round(df$HOLDINGS/sum(df$HOLDINGS)*100, 1)
 # # uncomment and use chart or print(chart1) during testing
 # chart1
 
-chart1 <- ggplot(df, aes(x="", y=df$CATALOGEDITEMS, fill=COLLECTION )) +
+chart1 <- ggplot(df, aes(x="", y=CATALOGEDITEMS, fill=COLLECTION )) +
   geom_bar(stat="identity", width=1) +
   coord_polar("y", start=0) +
   labs(title = "Cataloged Items per Collection", 
        caption = "Source: Cataloged Items from MCZbase") +
-  theme_void()
+ theme_void()
 # uncomment and use chart or print(chart1) during testing
 chart1
 
+
+
+p = ggplot(df, aes(x=COLLECTION, y=CATALOGEDITEMS, fill=CATALOGEDITEMS)) +
+  geom_bar(width=.5, stat="identity") + theme_light() +
+  scale_fill_gradient(low="red", high="white", limits=c(4000,2000000)) +
+  theme(axis.title.y=element_text(angle=0))
+p + theme(axis.text.x = element_text(angle=45, vjust = 1, hjust=1))
+# text with angle to avoid name overlap
+p + coord_polar() + aes(x=reorder(COLLECTION, CATALOGEDITEMS)) +
+  theme(axis.text.x = element_text(angle=-30)) 
+
+
 # !!!make sure all instances in R plots, environment, Photoshop, etc are closed before refreshing webpage.
 ggsave('/var/www/html/arctos/metrics/R/graphs/chart1.png', chart1, width=7, height=5, units="in", dpi=96)
-
+ggsave('/var/www/html/arctos/metrics/R/graphs/chart2.png', chart2, width=7, height=5, units="in", dpi=96)
 # this was about labs in chart1 to put white percentages in the pie parts
 #  geom_text(aes(label = paste0(format(round(df$HOLDINGS/sum(df$HOLDINGS)*100, 1), nsmall = 0), "")), 
 #       position = position_stack(vjust = .5),size=3, color="white")
