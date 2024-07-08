@@ -35,7 +35,7 @@ limitations under the License.
 		<cfoutput>
 			<cfset targetFile = "chart_numbers_#beginDate#_to_#endDate#.csv">
 			<cfset filePath = "/metrics/datafiles/">
-			 repeat the query that is in the procedure for the download 
+		<!---	 repeat the query that is in the procedure for the download and to run through simple_chart.R --->
 			<cfquery name="getStats" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				select 
 					rm.holdings,
