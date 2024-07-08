@@ -88,7 +88,7 @@ limitations under the License.
 				left join (select f.collection_id, f.collection, count(distinct f.collection_object_id) enteredCatItems, sum(decode(total_parts,null, 1,total_parts)) enteredSpecimens 
 					from flat f
 					join coll_object co on f.collection_object_id = co.collection_object_id
-					where co.COLL_OBJECT_ENTERED_DATE between to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#beginDate#">, 'YYYY-MM-DD') and to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="endDate#">, 'YYYY-MM-DD')
+					where co.COLL_OBJECT_ENTERED_DATE between to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#beginDate#">, 'YYYY-MM-DD') and to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#endDate#">, 'YYYY-MM-DD')
 					group by f.collection_id, f.collection) e 
 					on e.collection_id = h.collection_id
 				left join (select f.collection_id, f.collection, count(distinct f.collection_object_id) ncbiCatItems, sum(total_parts) ncbiSpecimens 
