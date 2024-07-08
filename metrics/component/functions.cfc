@@ -32,15 +32,9 @@ limitations under the License.
 
 <cffunction name="getAnnualChart" access="remote" returntype="any" returnformat="plain">
 	<cfthread name="getAnnualChartThread">
-	
 		<cfoutput>
-			<cfquery name="beginD" datasource="uam_god">
-				SELECT (EXTRACT (YEAR FROM ADD_MONTHS (sysdate, -12))||'-07-01') as start from dual 
-			</cfquery>
-			<cfquery name="endD" datasource="uam_god">
-				SELECT sysdate as end from dual 
-			</cfquery>
-			<cfset targetFile = "chart_numbers_#beginD.start#_to_#endD.end#.csv">
+			<cfset beginDate = 
+			<cfset targetFile = "chart_numbers.csv">
 			<cfset filePath = "/metrics/datafiles/">
 
 			<cftry>
