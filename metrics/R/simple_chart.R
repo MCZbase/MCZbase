@@ -57,7 +57,7 @@ per <- round(df$HOLDINGS/sum(df$HOLDINGS)*100, 1)
 # chart1
 
 chart1 <- ggplot(df, aes(x="", y=df$CATALOGEDITEMS, fill=COLLECTION )) +
-  geom_bar(stat="identity", width=1) +
+  geom_bar(stat="identity", width=0) +
   coord_polar("y", start=0) +
   labs(title = "Cataloged Items per Collection", 
        caption = "Source: Cataloged Items from MCZbase") +
