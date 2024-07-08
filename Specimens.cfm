@@ -1185,6 +1185,64 @@ limitations under the License.
 																<cfif not isdefined("disposition_remarks")><cfset disposition_remarks=""></cfif>
 																<input type="text" class="data-entry-input inputHeight" id="disposition_remarks" name="disposition_remarks" value="#encodeForHtml(disposition_remarks)#">
 															</div>
+															<div class="col-12 mb-1 col-md-2">
+																<label for="part_attribute_type" class="data-entry-label small">
+																	Part Attribute Type
+																	<a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick="$('##part_attribute_type').val('NOT NULL'); return false;" > (Any) <span class="sr-only">use NOT NULL to find cataloged items with any part attribute</span></a>
+																	<a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick="$('##part_attribute_type').autocomplete('search','%%%'); return false;" > (&##8595;) <span class="sr-only">open pick list</span></a>
+</label>
+																<cfif not isdefined("part_attribute_type")><cfset part_attribute_type=""></cfif>
+																<input type="text" class="data-entry-input inputHeight" id="part_attribute_type" name="part_attribute_type" value="#encodeForHtml(part_attribute_type)#">
+																<script>
+																	jQuery(document).ready(function() {
+																		makeCTFieldSearchAutocomplete("part_attribute_type","SPECPART_ATTRIBUTE_TYPE");
+																	});
+																</script>
+															</div>
+															<div class="col-12 mb-1 col-md-2">
+																<label for="part_attribute_value" class="data-entry-label small">
+																	Part Attribute Value
+																	<a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick="$('##part_attribute_value').val('NOT NULL'); return false;" > (Any) <span class="sr-only">use NOT NULL to find cataloged items with any part attribute value</span></a>
+																</label>
+																<cfif not isdefined("part_attribute_value")><cfset part_attribute_value=""></cfif>
+																<input type="text" class="data-entry-input inputHeight" id="part_attribute_value" name="part_attribute_value" value="#encodeForHtml(part_attribute_value)#">
+															</div>
+															<div class="col-12 mb-1 col-md-2">
+																<label for="part_attribute_units" class="data-entry-label small">
+																	Part Attribute Units
+																	<a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick="$('##part_attribute_units').val('NOT NULL'); return false;" > (Any) <span class="sr-only">use NOT NULL to find cataloged items with any part attribute units</span></a>
+																	<a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick="$('##part_attribute_units').autocomplete('search','%%%'); return false;" > (&##8595;) <span class="sr-only">open pick list</span></a>
+																</label>
+																<cfif not isdefined("part_attribute_units")><cfset part_attribute_units=""></cfif>
+																<input type="text" class="data-entry-input inputHeight" id="part_attribute_units" name="part_attribute_units" value="#encodeForHtml(part_attribute_units)#">
+																<script>
+																	jQuery(document).ready(function() {
+																		makePartsAtrributeUnitSearchPicker("part_attribute_units");
+																	});
+																</script>
+															</div>
+															<div class="col-12 mb-1 col-md-2">
+																<label for="part_attribute_remarks" class="data-entry-label small">
+																	Part Attribute Remarks
+																	<a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick="$('##part_attribute_remarks').val('NOT NULL'); return false;" > (Any) <span class="sr-only">use NOT NULL to find cataloged items with any part attribute remarks</span></a>
+																</label>
+																<cfif not isdefined("part_attribute_remarks")><cfset part_attribute_remarks=""></cfif>
+																<input type="text" class="data-entry-input inputHeight" id="part_attribute_remarks" name="part_attribute_remarks" value="#encodeForHtml(part_attribute_remarks)#">
+															</div>
+															<div class="col-12 mb-1 col-md-2">
+																<!--- TODO: Add an autocomplete when controlled --->
+																<label for="condition" class="data-entry-label small">Condition</label>
+																<cfif not isdefined("condition")><cfset condition=""></cfif>
+																<input type="text" class="data-entry-input inputHeight" id="condition" name="condition" value="#encodeForHtml(condition)#">
+															</div>
+															<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"collops")>
+																<!--- TODO: Add when popluated --->
+																<div class="col-12 mb-1 col-md-2">
+																	<label for="condition_remarks" class="data-entry-label small">Condition Remarks</label>
+																	<cfif not isdefined("condition_remarks_remarks")><cfset condition_remarks=""></cfif>
+																	<input type="text" class="data-entry-input inputHeight" id="condition_remarks" name="condition_remarks" value="#encodeForHtml(condition_remarks)#">
+																</div>
+															</cfif>
 														</div>
 													</div>
 												</div>
