@@ -32,8 +32,16 @@ limitations under the License.
 
 <cffunction name="getAnnualChart" access="remote" returntype="any" returnformat="plain">
 	<cfthread name="getAnnualChartThread">
+	
 		<cfoutput>
-			<cfset targetFile = "chart_numbers_#beginDate#_to_#endDate#.csv">
+			<cfquery name="beginD" datasource="uam_god">
+				SELECT (EXTRACT (YEAR FROM ADD_MONTHS (sysdate, -12))||'-07-01') as start from dual 
+			</cfquery>
+			<cfquery name="endD" datasource="uam_god">
+				SELECT sysdate as end from dual 
+			</cfquery>
+			<cfset beginDate = beginD.
+			<cfset targetFile = "chart_numbers_#beginD.start#_to_#endD.end#.csv">
 			<cfset filePath = "/metrics/datafiles/">
 
 			<cftry>
@@ -43,7 +51,7 @@ limitations under the License.
 							<!--- chart created by R script --->
 							<img src="/metrics/R/graphs/chart1.png" width="672" />
 							
-							<p class="small mt-3">MCZbase data used in chart can be <a href="#filePath##targetFile#">downloaded</a>. Chart and data are updated on Fridays at midmight (weekly).</p>
+							<p class="small mt-3">MCZbase data used in chart can be <a href="#filePath##targetFile#">downloaded</a>. Chart and data are updated on Fridays at midnight (1 fiscal year back to present ).</p>
 						</div>
 					</div>
 				</div>
