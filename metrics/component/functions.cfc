@@ -103,7 +103,7 @@ limitations under the License.
 					where a.transaction_id = t.transaction_id
 					and t.collection_id = c.collection_id
 					and a.received_date between to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#beginDate#">, 'YYYY-MM-DD') and  to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#endDate#">, 'YYYY-MM-DD')
-					group by c.collection_id, c.collection) accn on h.vvvvvvvvvvvvvvvcollection_id = accn.collection_id
+					group by c.collection_id, c.collection) accn on h.collection_id = accn.collection_id
 			</cfquery>
 			<cfoutput>
 				<cfset csv = queryToCSV(getStats)> 
