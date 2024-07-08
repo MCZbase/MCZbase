@@ -125,9 +125,10 @@ limitations under the License.
 				<div class="container">
 					<div class="row">
 						<div class="col-12 px-0">
-							<p>MCZbase data used in chart can be <a href="#filePath##targetFile#">downloaded</a>.</p>
+							
 							<!--- chart created by R script --->
 							<img src="/metrics/R/graphs/chart1.png" width="672" />
+							<p>MCZbase data used in chart can be <a href="#filePath##targetFile#">downloaded</a>. Chart and data are updated on Fridays at midmight (weekly).</p>
 						</div>
 					</div>
 				</div>
