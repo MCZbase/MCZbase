@@ -630,16 +630,16 @@ limitations under the License.
 								BIOL_INDIV_RELATIONS (
 								collection_object_id,
 								related_coll_object_id,
-								biol_indiv_relationship,
+								biol_indiv_relationship
 								<cfif len(getTempData.biol_indiv_relation_remarks) GT 0> 
-									biol_indiv_relation_remarks
+									,biol_indiv_relation_remarks
 								</cfif>
 							) VALUES (
 								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.collection_object_id#">,
 								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.related_collection_object_id#">,
-								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.relationship#">,
+								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.relationship#">
 								<cfif len(getTempData.biol_indiv_relation_remarks) GT 0> 
-									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.biol_indiv_relation_remarks#">
+									,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.biol_indiv_relation_remarks#">
 								</cfif>
 							)
 						</cfquery>
