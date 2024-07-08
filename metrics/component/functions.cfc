@@ -40,7 +40,6 @@ limitations under the License.
 			<cfquery name="endD" datasource="uam_god">
 				SELECT sysdate as end from dual 
 			</cfquery>
-			<cfset beginDate = beginD.
 			<cfset targetFile = "chart_numbers_#beginD.start#_to_#endD.end#.csv">
 			<cfset filePath = "/metrics/datafiles/">
 
