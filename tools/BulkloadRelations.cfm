@@ -630,30 +630,20 @@ limitations under the License.
 								BIOL_INDIV_RELATIONS (
 								collection_object_id,
 								related_coll_object_id,
-								biol_indiv_relationship,
+								biol_indiv_relationship
 								<cfif len(getTempData.biol_indiv_relation_remarks) GT 0> 
-									biol_indiv_relation_remarks
+									,biol_indiv_relation_remarks
 								</cfif>
 							) VALUES (
 								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.collection_object_id#">,
 								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.related_collection_object_id#">,
-								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.relationship#">,
+								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.relationship#">
 								<cfif len(getTempData.biol_indiv_relation_remarks) GT 0> 
-									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.biol_indiv_relation_remarks#">
+									,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.biol_indiv_relation_remarks#">
 								</cfif>
 							)
 						</cfquery>
-						<cfquery name="updateRelations1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateRelations1_result">
-							SELECT biol_indiv_relationship, collection_object_id 
-							FROM BIOL_INDIV_RELATIONS 
-							WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.collection_object_id#">
-							GROUP BY biol_indiv_relationship, collection_object_id
-							HAVING count(*) > 1
-						</cfquery>
 						<cfset relations_updates = relations_updates + updateRelations_result.recordcount>
-						<cfif updateRelations1_result.recordcount gt 0>
-							<cfthrow message = "Error: insert would create duplicate relationship.">
-						</cfif>
 					</cfloop>
 					<p>Number of relations to update: #relations_updates# (on #getCounts.ctobj# cataloged items)</p>
 					<cfif getTempData.recordcount eq relations_updates>
