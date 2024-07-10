@@ -1452,7 +1452,7 @@ limitations under the License.
 	   into the variables scope.    See: https://gist.github.com/bennadel/9760037 for more examples of
    	scope issues related to cfthread 
 	--->
-	<cfset variables.locality_id = rereplace(arguments.locality_id,"[^0-9]*","">
+	<cfset variables.locality_id = rereplace(arguments.locality_id,"[^0-9]*","")>
 	<cfset variables.context = arguments.context>
 
 	<!--- Check for encumbrances --->

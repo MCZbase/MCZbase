@@ -28,8 +28,9 @@ limitations under the License.
 
 	
 <!--- TODO: Set to most recent full year. Fix Begin date --->
-<cfoutput><cfif NOT isDefined("beginDate")><cfset beginDate = '#DateFormat(DateAdd("yyyy", -1, endDate),"yyyy-mm-dd")#'></cfif>
-<cfif NOT isDefined("endDate")><cfset endDate = '#dateFormat(now(), "yyyy-mm-dd")#'></cfif></cfoutput>
+<cfoutput><cfif NOT isDefined("endDate")><cfset endDate = '#dateFormat(now(), "yyyy-mm-dd")#'></cfif>
+<cfif NOT isDefined("beginDate")><cfset beginDate = '#DateFormat(DateAdd("yyyy", -1, endDate),"yyyy-mm-dd")#'></cfif></cfoutput>
+
 <cfsetting RequestTimeout = "0">
 <cfset start = GetTickCount()>
 <meta name="theme-color" content="#563d7c">
@@ -50,8 +51,7 @@ limitations under the License.
 					<h3 class="h4 text-muted mt-3">Report to Show</h3>
 					<label for="method" class="sr-only">Report To Show</label>
 					<select id="method" name="method" class="my-1 data-entry-input">
-						<option value="getAnnualNumbers" selected="selected">select report</option>
-						<option value="getAnnualNumbers">Holdings</option>
+						<option value="getAnnualNumbers" selected="selected">Holdings</option>
 						<option value="getAcquisitions">Acquisitions</option>
 						<option value="getLoanNumbers">Loan Activity</option>
 						<option value="getMediaNumbers">Media Activity</option>
