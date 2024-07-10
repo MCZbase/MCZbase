@@ -29,13 +29,14 @@ limitations under the License.
  **REPEATED HERE FOR TESTING -- IS ALSO IN /shared/component/functions.cfc
 --->
 
-
+<!---This function uses the SQL procedure (CHART_DATA_EXPORT), scheduled job (CHART_DATA), and temp table (CF_TEMP_CHART_DATA) to produce a png to write to /metrics/R/graphs/chart1.png
+** TO DO: make date pass to dates from form to CHART_DATA_EXPORT (if possible) or at least use sysdate minus 1 year (e.g., change the year YYYY to -1)
+--->
 <cffunction name="getAnnualChart" access="remote" returntype="any" returnformat="plain">
 	<cfthread name="getAnnualChartThread">
 		<cfoutput>
 			<cfset targetFile = "chart_numbers.csv">
 			<cfset filePath = "/metrics/datafiles/">
-
 			<cftry>
 				<div class="container">
 					<div class="row">
