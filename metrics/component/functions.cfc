@@ -107,7 +107,8 @@ limitations under the License.
 							</div>
 						</div>
 					</div>
-					<table class="table table-responsive table-striped d-lg-table" id="t">
+					<div class="table-responsive">
+						<table class="table table-striped d-lg-table" id="t">
 						<thead>
 							<tr>
 								<th><strong>Collection</strong></th>
@@ -137,6 +138,7 @@ limitations under the License.
 							</cfloop>
 						</tbody>
 					</table>
+					</div>
 				</section>
 			<cfcatch>
 				<cfset error_message = cfcatchToErrorMessage(cfcatch)>
