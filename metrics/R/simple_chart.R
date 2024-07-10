@@ -64,7 +64,6 @@ chart1 <- ggplot(df, aes(x="", y=CATALOGEDITEMS, fill=COLLECTION )) +
 chart1
 
 
-
 chart2 = ggplot(df, aes(x=COLLECTION, y=CATALOGEDITEMS, fill=CATALOGEDITEMS)) +
   geom_bar(width=.5, stat="identity") + theme_light() +
   scale_fill_gradient(low="red", high="white", limits=c(4000,2000000)) +
