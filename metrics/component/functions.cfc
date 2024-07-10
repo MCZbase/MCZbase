@@ -100,7 +100,7 @@ limitations under the License.
 				</cfoutput>
 				<section class="col-12 mt-1 px-0">
 					<div class="mt-1 mb-3 float-left w-100">
-						<h2 class="h3 px-2 float-left mb-0">Holdings <span class="text-muted">(#encodeForHtml(beginDate)#/#encodeForHtml(endDate)#)</span></h2>
+						<h2 class="h3 px-2 float-left mb-1">Holdings <span class="text-muted">(#encodeForHtml(beginDate)#/#encodeForHtml(endDate)#)</span></h2>
 						<div class="btn-toolbar mb-2 mb-md-0 float-right">
 							<div class="btn-group mr-2">
 								<a href="#filePath##targetFile#" class="btn btn-xs btn-outline-secondary">Export Table</a>
