@@ -441,62 +441,62 @@ limitations under the License.
 				MCZBASE.count_citations_for_loan(trans.transaction_id) as citation_count
 			from
 				loan
-				left join trans on loan.transaction_id = trans.transaction_id
-				left join collection on trans.collection_id = collection.collection_id
+				join trans on loan.transaction_id = trans.transaction_id
+				join collection on trans.collection_id = collection.collection_id
 				left join project_trans on trans.transaction_id = project_trans.transaction_id
 				left join project on project_trans.project_id = project.project_id
 				left join permit_trans on loan.transaction_id = permit_trans.transaction_id
 				left join permit on permit_trans.permit_id = permit.permit_id 
-				left join ctloan_type on loan.loan_type= ctloan_type.loan_type
+				join ctloan_type on loan.loan_type= ctloan_type.loan_type
 				<cfif (isdefined("trans_agent_role_1") AND len(trans_agent_role_1) gt 0) OR (isdefined("agent_1") AND len(agent_1) gt 0) >
-					left join trans_agent trans_agent_1 on trans.transaction_id = trans_agent_1.transaction_id
+					join trans_agent trans_agent_1 on trans.transaction_id = trans_agent_1.transaction_id
 				</cfif>
 				<cfif not isdefined("agent_1_id") OR len(agent_1_id) eq 0 >
 					<cfif isdefined("agent_1") AND len(agent_1) gt 0 >
-						left join preferred_agent_name trans_agent_name_1 on trans_agent_1.agent_id = trans_agent_name_1.agent_id
+						join preferred_agent_name trans_agent_name_1 on trans_agent_1.agent_id = trans_agent_name_1.agent_id
 					</cfif>
 				</cfif>
 				<cfif (isdefined("trans_agent_role_2") AND len(trans_agent_role_2) gt 0) OR (isdefined("agent_2") AND len(agent_2) gt 0) >
-					left join trans_agent trans_agent_2 on trans.transaction_id = trans_agent_2.transaction_id
+					join trans_agent trans_agent_2 on trans.transaction_id = trans_agent_2.transaction_id
 				</cfif>
 				<cfif not isdefined("agent_2_id") OR len(agent_2_id) eq 0 >
 					<cfif isdefined("agent_2") AND len(agent_2) gt 0 >
-						left join preferred_agent_name trans_agent_name_2 on trans_agent_2.agent_id = trans_agent_name_2.agent_id
+						join preferred_agent_name trans_agent_name_2 on trans_agent_2.agent_id = trans_agent_name_2.agent_id
 					</cfif>
 				</cfif>
 				<cfif (isdefined("trans_agent_role_3") AND len(trans_agent_role_3) gt 0) OR (isdefined("agent_3") AND len(agent_3) gt 0) >
-					left join trans_agent trans_agent_3 on trans.transaction_id = trans_agent_3.transaction_id
+					join trans_agent trans_agent_3 on trans.transaction_id = trans_agent_3.transaction_id
 				</cfif>
 				<cfif not isdefined("agent_3_id") OR len(agent_3_id) eq 0 >
 					<cfif isdefined("agent_3") AND len(agent_3) gt 0 >
-						left join preferred_agent_name trans_agent_name_3 on trans_agent_3.agent_id = trans_agent_name_3.agent_id
+						join preferred_agent_name trans_agent_name_3 on trans_agent_3.agent_id = trans_agent_name_3.agent_id
 					</cfif>
 				</cfif>
 				<cfif (isdefined("collection_object_id") AND len(#collection_object_id#) gt 0) OR (isdefined("part_name") AND len(part_name) gt 0) or (isdefined("coll_obj_disposition") AND len(coll_obj_disposition) gt 0) OR (isdefined("sovereign_nation") AND len(#sovereign_nation#) gt 0) >
-					left join loan_item on loan.transaction_id = loan_item.transaction_id
+					join loan_item on loan.transaction_id = loan_item.transaction_id
 				</cfif>
 				<cfif (isdefined("part_name") AND len(part_name) gt 0) or (isdefined("coll_obj_disposition") AND len(coll_obj_disposition) gt 0) OR (isdefined("sovereign_nation") AND len(#sovereign_nation#) gt 0) >
-					left join loan_item on loan.transaction_id=loan_item.transaction_id 
-					left join coll_object on loan_item.collection_object_id=coll_object.collection_object_id
-					left join specimen_part on coll_object.collection_object_id = specimen_part.collection_object_id 
+					join loan_item on loan.transaction_id=loan_item.transaction_id 
+					join coll_object on loan_item.collection_object_id=coll_object.collection_object_id
+					join specimen_part on coll_object.collection_object_id = specimen_part.collection_object_id 
 					<cfif isdefined("sovereign_nation") AND len(#sovereign_nation#) gt 0 >
-						left join cataloged_item cat_coll_object on specimen_part.derived_from_cat_item = cat_coll_object.collection_object_id
-						left join collecting_event on cat_coll_object.collecting_event_id = collecting_event.collecting_event_id
-						left join locality on collecting_event.locality_id = locality.locality_id
+						join cataloged_item cat_coll_object on specimen_part.derived_from_cat_item = cat_coll_object.collection_object_id
+						join collecting_event on cat_coll_object.collecting_event_id = collecting_event.collecting_event_id
+						join locality on collecting_event.locality_id = locality.locality_id
 					</cfif>
 				</cfif>
 				<cfif (isdefined("permit_id") AND len(#permit_id#) gt 0) OR (isdefined("permit_type") AND len(#permit_type#) GT 0) OR (isdefined("permit_specific_type") AND len(#permit_specific_type#) GT 0) >
-					left join shipment on loan.transaction_id = shipment.transaction_id
-					left join permit_shipment on shipment.shipment_id = permit_shipment.shipment_id
-					left join permit permit_from_shipment on  permit_shipment.permit_id = permit_from_shipment.permit_id
+					join shipment on loan.transaction_id = shipment.transaction_id
+					join permit_shipment on shipment.shipment_id = permit_shipment.shipment_id
+					join permit permit_from_shipment on  permit_shipment.permit_id = permit_from_shipment.permit_id
 				</cfif>
 				<cfif isdefined("parent_loan_number") AND len(parent_loan_number) gt 0 >
-					left join loan_relations on loan.transaction_id = loan_relations.related_transaction_id
-					left join loan parent_loan on loan_relations.transaction_id = parent_loan.transaction_id
+					join loan_relations on loan.transaction_id = loan_relations.related_transaction_id
+					join loan parent_loan on loan_relations.transaction_id = parent_loan.transaction_id
 				</cfif>
 				<cfif (isdefined("country_cde") AND len(country_cde) gt 0) OR (isdefined("formatted_addr") AND len(formatted_addr) gt 0) >
-					left join shipment on trans.transaction_id = shipment.transaction_id
-					left join addr on shipment.shipped_to_addr_id = addr.addr_id
+					join shipment on trans.transaction_id = shipment.transaction_id
+					join addr on shipment.shipped_to_addr_id = addr.addr_id
 				</cfif>
 			where
 				trans.transaction_id is not null
