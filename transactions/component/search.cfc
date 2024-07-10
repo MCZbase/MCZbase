@@ -472,11 +472,15 @@ limitations under the License.
 						join preferred_agent_name trans_agent_name_3 on trans_agent_3.agent_id = trans_agent_name_3.agent_id
 					</cfif>
 				</cfif>
+				<cfset loan_item_joined = false>
 				<cfif (isdefined("collection_object_id") AND len(#collection_object_id#) gt 0) OR (isdefined("part_name") AND len(part_name) gt 0) or (isdefined("coll_obj_disposition") AND len(coll_obj_disposition) gt 0) OR (isdefined("sovereign_nation") AND len(#sovereign_nation#) gt 0) >
 					join loan_item on loan.transaction_id = loan_item.transaction_id
+					<cfset loan_item_joined = true>
 				</cfif>
 				<cfif (isdefined("part_name") AND len(part_name) gt 0) or (isdefined("coll_obj_disposition") AND len(coll_obj_disposition) gt 0) OR (isdefined("sovereign_nation") AND len(#sovereign_nation#) gt 0) >
-					join loan_item on loan.transaction_id=loan_item.transaction_id 
+					<cfif NOT loan_item_joined>
+						join loan_item on loan.transaction_id=loan_item.transaction_id 
+					</cfif>
 					join coll_object on loan_item.collection_object_id=coll_object.collection_object_id
 					join specimen_part on coll_object.collection_object_id = specimen_part.collection_object_id 
 					<cfif isdefined("sovereign_nation") AND len(#sovereign_nation#) gt 0 >
