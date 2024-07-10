@@ -87,17 +87,15 @@ limitations under the License.
 		</nav>
 	
 		<main role="main" class="col-md-10 px-3 ml-sm-auto col-lg-10 px-md-5 mb-3">
-			<div class="row mx-0">
-				<cfoutput>
-					<div class="col-12 px-1 mt-4">
-						<h1 class="h2 float-left mb-3">MCZbase Metrics</h1>
-					</div>
-					<cfset summaryAnnualBlock=getAnnualNumbers(endDate="#endDate#",beginDate="#beginDate#")>
-					<div id="annualNumbersDiv">
-						#summaryAnnualBlock#
-					</div>
-				</cfoutput>
-			</div>
+			<cfoutput>
+				<div class="col-12 px-1 mt-4">
+					<h1 class="h2 float-left mb-3">MCZbase Metrics</h1>
+				</div>
+				<cfset summaryAnnualBlock=getAnnualNumbers(endDate="#endDate#",beginDate="#beginDate#")>
+				<div id="annualNumbersDiv">
+					#summaryAnnualBlock#
+				</div>
+			</cfoutput>
 		</main>
 	</div>
 	
