@@ -443,7 +443,7 @@ function ScriptPrefixedNumberListToJSON(listOfNumbers, integerFieldname, prefixF
 				prefix = atomParts[1];
 			} else if (partCount EQ 1 and REFind('^[^0-9"]+$',atomParts[1]) and REFind('[%_]+',atomParts[1])) { 
 				// string with no numbers and at least one wildcard, treat as if quoted
-				if (REFind('^".*"$',atomParts[1]) { 
+				if (REFind('^".*"$',atomParts[1])) { 
 					specialNumber = atomParts[1];
 				} else {
 					// enclose in quotes if not present.
