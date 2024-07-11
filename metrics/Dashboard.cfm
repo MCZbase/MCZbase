@@ -90,10 +90,10 @@ limitations under the License.
 			<cfoutput>
 				<div class="col-12 px-1 mt-4">
 					<h1 class="h2 float-left mb-1">MCZbase Metrics</h1>
-				</div>
-				<cfset summaryAnnualBlock=getAnnualNumbers(endDate="#endDate#",beginDate="#beginDate#")>
-				<div id="annualNumbersDiv">
-					#summaryAnnualBlock#
+					<cfset summaryAnnualBlock=getAnnualNumbers(endDate="#endDate#",beginDate="#beginDate#")>
+					<div id="annualNumbersDiv">
+						#summaryAnnualBlock#
+					</div>
 				</div>
 			</cfoutput>
 		</main>
