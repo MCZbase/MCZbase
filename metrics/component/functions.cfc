@@ -259,21 +259,21 @@ limitations under the License.
 				<!--- annual report queries for loan activity --->
 				<cfquery name="loans" datasource="uam_god">
 					SELECT
-						c.collection, 
-						ol.numOutgoingLoans,
-						cl.numClosedLoans,
-						fy.num5yrLoans,
-						ty.num10yrLoans,
-						b.numBorrows,
-						opL.numOpenLoans,
-						open5.numOpenOD5,
-						open10.numOpenOD10,
-						ol.outgoingCatItems,
-						ol.outgoingSpecimens
+						c.Collection, 
+						ol.Num_Outgoing_Loans,
+						cl.Num_Closed_Loans,
+						fy.Num_5yr_Loans,
+						ty.Num_10yr_Loans,
+						b.Num_Borrows,
+						opL.Num_Open_Loans,
+						open5.Num_Open_OverDue_5yrs,
+						open10.Num_Open_OverDue_10yrs,
+						ol.Outgoing_CatItems,
+						ol.Outgoing_Specimens
 					FROM
 						(select collection_cde,institution_acronym,descr,collection,collection_id from collection where collection_cde <> 'MCZ') c
 					LEFT JOIN
-						(select c.collection_id, collection, count(distinct l.transaction_id) numOutgoingLoans, count(distinct sp.derived_from_cat_item) outgoingCatItems, sum(co.lot_count) as outgoingSpecimens
+						(select c.collection_id, collection, count(distinct l.transaction_id) Num_Outgoing_Loans, count(distinct sp.derived_from_cat_item) Outgoing_CatItems, sum(co.lot_count) as Outgoing_Specimens
 						from loan l, trans t, collection c, loan_item li, specimen_part sp, coll_object co
 						where l.transaction_id = t.transaction_id
 						and t.collection_id = c.collection_id
@@ -282,7 +282,7 @@ limitations under the License.
 						and sp.collection_object_id = co.collection_object_id(+)
 						and t.TRANS_DATE between to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#beginDate#">, 'YYYY-MM-DD') and  to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#endDate#">, 'YYYY-MM-DD')
 						group by c.collection_id, c.collection) ol on c.collection_id = ol.collection_id
-					LEFT JOIN (select c.collection_id, collection, count(distinct l.transaction_id) numClosedLoans
+					LEFT JOIN (select c.collection_id, collection, count(distinct l.transaction_id) Num_Closed_Loans
 						from loan l, trans t, collection c, loan_item li, specimen_part sp, coll_object co
 						where l.transaction_id = t.transaction_id
 						and t.collection_id = c.collection_id
@@ -291,34 +291,34 @@ limitations under the License.
 						and sp.collection_object_id = co.collection_object_id(+)
 						and l.CLOSED_DATE between to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#beginDate#">, 'YYYY-MM-DD') and  to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#endDate#">, 'YYYY-MM-DD')
 						group by c.collection_id, collection) cl on c.collection_id = cl.collection_id
-					LEFT JOIN (select c.collection_id, collection_cde, count(*)as num5yrLoans
+					LEFT JOIN (select c.collection_id, collection_cde, count(*)as Num_5yr_Loans
 						from loan l, trans t, collection c
 						where l.transaction_id = t.transaction_id
 						and t.collection_id = c.collection_id
 						and l.CLOSED_DATE between to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#beginDate#">, 'YYYY-MM-DD') and  to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#endDate#">, 'YYYY-MM-DD')
 						and l.closed_date -l.return_due_date > (365*5)
 						group by c.collection_id, collection_cde) fy on c.collection_id = fy.collection_id
-					LEFT JOIN (select c.collection_id, collection_cde, count(*) as num10yrLoans
+					LEFT JOIN (select c.collection_id, collection_cde, count(*) as Num_10yr_Loans
 						from loan l, trans t, collection c
 						where l.transaction_id = t.transaction_id
 						and t.collection_id = c.collection_id
 						and l.CLOSED_DATE between to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#beginDate#">, 'YYYY-MM-DD') and  to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#endDate#">, 'YYYY-MM-DD')
 						and l.closed_date -l.return_due_date > (365*10)
 						group by c.collection_id, collection_cde) ty on c.collection_id = ty.collection_id
-					LEFT JOIN (select c.collection_id, collection, count(*) as numBorrows 
+					LEFT JOIN (select c.collection_id, collection, count(*) as Num_Borrows 
 						from borrow l, trans t, collection c
 						where l.transaction_id = t.transaction_id
 						and t.collection_id = c.collection_id
 						and l.RECEIVED_DATE between to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#beginDate#">, 'YYYY-MM-DD') and  to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#endDate#">, 'YYYY-MM-DD')
 						group by c.collection_id, collection) b on c.collection_id = b.collection_id
-					LEFT JOIN (select c.collection_id, collection_cde, count(*) as numOpenLoans 
+					LEFT JOIN (select c.collection_id, collection_cde, count(*) as Num_Open_Loans 
 						from loan l, trans t, collection c
 						where l.transaction_id = t.transaction_id
 						and t.collection_id = c.collection_id
 						and (loan_status like '%open%' or closed_date > to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#endDate#">, 'YYYY-MM-DD'))
 						and t.trans_date <  to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#endDate#">, 'YYYY-MM-DD')
 						group by c.collection_id, collection_cde) opL on c.collection_id = opL.collection_id
-					LEFT JOIN (select c.collection_id, collection, count(*) numOpenOD5 
+					LEFT JOIN (select c.collection_id, collection, count(*) Num_Open_OverDue_5yrs 
 						from loan l, trans t, collection c
 						where l.transaction_id = t.transaction_id
 						and t.collection_id = c.collection_id
@@ -326,7 +326,7 @@ limitations under the License.
 						and t.trans_date < to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#endDate#">, 'YYYY-MM-DD')
 						and to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#endDate#">, 'YYYY-MM-DD') - l.return_due_date > 365*5
 						group by c.collection_id, collection) open5 on c.collection_id = open5.collection_id
-					LEFT JOIN (select c.collection_id, collection, count(*) numOpenOD10
+					LEFT JOIN (select c.collection_id, collection, count(*) Num_Open_OverDue_10yrs
 						from loan l, trans t, collection c
 						where l.transaction_id = t.transaction_id
 						and t.collection_id = c.collection_id
@@ -367,15 +367,17 @@ limitations under the License.
 							<tbody>
 								<cfloop query="loans">
 									<tr>
-										<td>#collection#</td>
-										<td>#numOutgoingLoans#</td>
-										<td>#numClosedLoans#</td>
-										<td>#num5yrLoans#</td>
-										<td>#num10yrLoans#</td>
-										<td>#numBorrows#</td>
-										<td>#numOpenLoans#</td>
-										<td>#numOpenOD5#</td>
-										<td>#numOpenOD10#</td>
+										<td>#Collection#</td>
+										<td>#Num_Outgoing_Loans#</td>
+										<td>#Num_Closed_Loans#</td>
+										<td>#Num_5yr_Loans#</td>
+										<td>#Num_10yr_Loans#</td>
+										<td>#Num_Borrows#</td>
+										<td>#Num_OpenLoans#</td>
+										<td>#Num_Open_OverDue_5yrs#</td>
+										<td>#Num_Open_OverDue_10yrs#</td>
+										<td>#Outgoing_CatItems#,
+										<td>#Outgoing_Specimens#</td>
 									</tr>
 								</cfloop>
 							</tbody>
