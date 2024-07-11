@@ -252,11 +252,11 @@ limitations under the License.
 				</div>
 				<div class="col-12">
 					<!--- chart created by R script --->
-<!---					<img src="/metrics/R/graphs/chart1.png"/>
+					<img src="/metrics/R/graphs/chart1.png"/>
 				</div>
 			</div>
 		</div>
-	</cfoutput>--->
+	</cfoutput>
 	<cfcatch>
 		<cfset error_message = cfcatchToErrorMessage(cfcatch)>
 		<cfset function_called = "#GetFunctionCalledName()#">
@@ -264,4 +264,4 @@ limitations under the License.
 		<div>#error_message#</div>
 	</cfcatch>
 </cftry>
-<!---<cfinclude template="/shared/_footer.cfm">--->
+<cfinclude template="/shared/_footer.cfm">--->
