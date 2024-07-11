@@ -109,35 +109,35 @@ limitations under the License.
 					</div>
 					<div class="table-responsive">
 						<table class="table table-striped d-lg-table" id="t">
-						<thead>
-							<tr>
-								<th><strong>Collection</strong></th>
-								<th><strong>Total Holdings</strong></th>
-								<th><strong>% of Holdings in MCZbase</strong></th>
-								<th><strong>Total Records - Cataloged Items</strong></th>
-								<th><strong>Total Records - Specimens</strong></th>
-								<th><strong>Primary Types - Cataloged Items</strong></th>
-								<th><strong>Primary Types - Specimens</strong></th>
-								<th><strong>Secondary Types - Cataloged Items</strong></th>
-								<th><strong>Secondary Types - Specimens</strong></th>
-							</tr>
-						</thead>
-						<tbody>
-							<cfloop query="totals">
+							<thead>
 								<tr>
-									<td>#collection#</td>
-									<td>#holdings#</td>
-									<td>#NumberFormat((catalogeditems/holdings)*100, '9.99')#%</td>
-									<td>#catalogeditems#</td>
-									<td>#specimens#</td>
-									<td>#primaryCatItems#</td>
-									<td>#primarySpecimens#</td>
-									<td>#secondaryCatItems#</td>
-									<td>#secondarySpecimens#</td>
+									<th><strong>Collection</strong></th>
+									<th><strong>Total Holdings</strong></th>
+									<th><strong>% of Holdings in MCZbase</strong></th>
+									<th><strong>Total Records - Cataloged Items</strong></th>
+									<th><strong>Total Records - Specimens</strong></th>
+									<th><strong>Primary Types - Cataloged Items</strong></th>
+									<th><strong>Primary Types - Specimens</strong></th>
+									<th><strong>Secondary Types - Cataloged Items</strong></th>
+									<th><strong>Secondary Types - Specimens</strong></th>
 								</tr>
-							</cfloop>
-						</tbody>
-					</table>
+							</thead>
+							<tbody>
+								<cfloop query="totals">
+									<tr>
+										<td>#collection#</td>
+										<td>#holdings#</td>
+										<td>#NumberFormat((catalogeditems/holdings)*100, '9.99')#%</td>
+										<td>#catalogeditems#</td>
+										<td>#specimens#</td>
+										<td>#primaryCatItems#</td>
+										<td>#primarySpecimens#</td>
+										<td>#secondaryCatItems#</td>
+										<td>#secondarySpecimens#</td>
+									</tr>
+								</cfloop>
+							</tbody>
+						</table>
 					</div>
 				</section>
 			<cfcatch>
@@ -201,36 +201,38 @@ limitations under the License.
 							</div>
 						</div>
 					</div>
-					<table class="table table-responsive table-striped d-lg-table" id="t">
-						<thead>
-							<tr>
-								<th><strong>Collection</strong></th>
-								<th><strong>Acquired Cataloged Items</strong></th>
-								<th><strong>Acquired Specimens</strong></th>
-								<th><strong>New Records Entered in MCZbase - Cataloged Items</strong></th>
-								<th><strong>Number of Genetic Samples added To Cryo</strong></th>
-								<th><strong>Number of Cataloged Items with NCBI numbers</strong></th>
-								<th><strong>Number of NCBI numbers added</strong></th>
-								<th><strong>Number of Accessions</strong></th>
-								<th><strong>Items received but not Cataloged at and of Year</strong></th>
-							</tr>
-						</thead>
-						<tbody>
-							<cfloop query="ACtotals">
+					<div class="table-responsive">
+						<table class="table table-striped d-lg-table" id="t">
+							<thead>
 								<tr>
-									<td>#collection#</td>
-									<td>#receivedCatItems#</td>
-									<td>#receivedSpecimens#</td>
-									<td>#enteredCatItems#</td>
-									<td>&nbsp;</td>
-									<td>#ncbiCatItems#</td>
-									<td>&nbsp;</td>
-									<td>#numAccns#</td>
-									<td>&nbsp;</td>
+									<th><strong>Collection</strong></th>
+									<th><strong>Acquired Cataloged Items</strong></th>
+									<th><strong>Acquired Specimens</strong></th>
+									<th><strong>New Records Entered in MCZbase - Cataloged Items</strong></th>
+									<th><strong>Number of Genetic Samples added To Cryo</strong></th>
+									<th><strong>Number of Cataloged Items with NCBI numbers</strong></th>
+									<th><strong>Number of NCBI numbers added</strong></th>
+									<th><strong>Number of Accessions</strong></th>
+									<th><strong>Items received but not Cataloged at and of Year</strong></th>
 								</tr>
-							</cfloop>
-						</tbody>
-					</table>
+							</thead>
+							<tbody>
+								<cfloop query="ACtotals">
+									<tr>
+										<td>#collection#</td>
+										<td>#receivedCatItems#</td>
+										<td>#receivedSpecimens#</td>
+										<td>#enteredCatItems#</td>
+										<td>&nbsp;</td>
+										<td>#ncbiCatItems#</td>
+										<td>&nbsp;</td>
+										<td>#numAccns#</td>
+										<td>&nbsp;</td>
+									</tr>
+								</cfloop>
+							</tbody>
+						</table>
+					</div>
 				</section>
 			<cfcatch>
 				<cfset error_message = cfcatchToErrorMessage(cfcatch)>
@@ -347,7 +349,8 @@ limitations under the License.
 							</div>
 						</div>
 					</div>
-					<table class="table table-responsive table-striped d-lg-table" id="t">
+					<div class="table-responsive">
+						<table class="table table-striped d-lg-table" id="t">
 							<thead>
 								<tr>
 									<th><strong>Collection</strong></th>
@@ -377,6 +380,7 @@ limitations under the License.
 								</cfloop>
 							</tbody>
 						</table>
+					</div>
 				</section>
 			<cfcatch>
 				<cfset error_message = cfcatchToErrorMessage(cfcatch)>
@@ -458,7 +462,8 @@ limitations under the License.
 							</div>
 						</div>
 					</div>
-					<table class="table table-responsive table-striped d-lg-table" id="t">
+					<div class="table-responsive">
+						<table class="table table-responsive table-striped d-lg-table" id="t">
 							<thead>
 								<tr>
 									<th><strong>Collection</strong></th>
@@ -490,6 +495,7 @@ limitations under the License.
 								</cfloop>
 							</tbody>
 						</table>
+					</div>
 				</section>
 			<cfcatch>
 				<cfset error_message = cfcatchToErrorMessage(cfcatch)>
@@ -544,7 +550,8 @@ limitations under the License.
 							</div>
 						</div>
 					</div>
-						<table class="table table-responsive table-striped d-lg-table" id="t">
+					<div class="table-respponsive">
+						<table class="table table-striped d-lg-table" id="t">
 							<thead>
 								<tr>
 									<th><strong>Collection</strong></th>
@@ -566,6 +573,7 @@ limitations under the License.
 								</cfloop>
 							</tbody>
 						</table>
+					</div>
 				</section>
 			<cfcatch>
 				<cfset error_message = cfcatchToErrorMessage(cfcatch)>
@@ -631,7 +639,8 @@ limitations under the License.
 							</div>
 						</div>
 					</div>
-					<table class="table table-responsive table-striped d-lg-table" id="t">
+					<div class="table-responsive">
+						<table class="table table-striped d-lg-table" id="t">
 							<thead>
 								<tr>
 									<th><strong>Collection</strong></th>
@@ -661,6 +670,7 @@ limitations under the License.
 								</cfloop>
 							</tbody>
 						</table>
+					</div>
 				</section>
 			<cfcatch>
 				<cfset error_message = cfcatchToErrorMessage(cfcatch)>
