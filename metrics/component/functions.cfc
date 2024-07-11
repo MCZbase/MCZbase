@@ -378,7 +378,7 @@ limitations under the License.
 										<td>#Num_Open_Loans#</td>
 										<td>#Num_Open_OverDue_5yrs#</td>
 										<td>#Num_Open_OverDue_10yrs#</td>
-										<td>#Outgoing_CatItems#,
+										<td>#Outgoing_CatItems#</td>
 										<td>#Outgoing_Specimens#</td>
 									</tr>
 								</cfloop>
