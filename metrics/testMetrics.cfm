@@ -25,8 +25,8 @@ limitations under the License.
 
 <cfset targetFile = "chart_data.csv">
 <cfset filePath = "/metrics/datafiles/">
-
-<cfquery name="getStats" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<!--temp commenting -->
+<!---<cfquery name="getStats" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select 
 		rm.holdings,
 		h.collection, 
@@ -96,7 +96,7 @@ limitations under the License.
 <cfoutput>
 	<cfset csv = queryToCSV(getStats)> 
 	<cffile action="write" file="#application.webDirectory##filePath##targetFile#" output = "#csv#" addnewline="No">
-</cfoutput>
+</cfoutput>--->
 <cftry>
 	<cfexecute name = "/usr/bin/Rscript" 
 		arguments = "#application.webDirectory#/metrics/R/simple_chart.R" 
@@ -133,7 +133,7 @@ limitations under the License.
 				</div>
 				<div class="col-12">
 					<!--- chart created by R script --->
-					<img src="#application.webDirectory#/metrics/R/graphs/chart1.png"/>
+					<img src="/metrics/R/graphs/chart1.png"/>
 				</div>
 			</div>
 		</div>
