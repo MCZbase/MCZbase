@@ -21,7 +21,7 @@ limitations under the License.
 -->
 <cfset pageTitle="Metrics Testing">
 <cfinclude template="/shared/_header.cfm">
-<cfinclude template = "/shared/component/functions.cfc">
+<!---<cfinclude template = "/shared/component/functions.cfc">--->
 
 <cfset targetFile = "chart_data.csv">
 <cfset filePath = "/metrics/datafiles/">
