@@ -261,15 +261,15 @@ limitations under the License.
 					SELECT
 						c.collection, 
 						ol.numOutgoingLoans,
-						ol.outgoingCatItems,
-						ol.outgoingSpecimens,
 						cl.numClosedLoans,
 						fy.num5yrLoans,
 						ty.num10yrLoans,
 						b.numBorrows,
 						opL.numOpenLoans,
 						open5.numOpenOD5,
-						open10.numOpenOD10
+						open10.numOpenOD10,
+						ol.outgoingCatItems,
+						ol.outgoingSpecimens
 					FROM
 						(select collection_cde,institution_acronym,descr,collection,collection_id from collection where collection_cde <> 'MCZ') c
 					LEFT JOIN
