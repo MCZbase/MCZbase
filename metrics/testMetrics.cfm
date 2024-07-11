@@ -138,12 +138,12 @@ limitations under the License.
 * Demonstration of ajax patterns in MCZbase.
 
 -->
-<cfset pageTitle="Metrics Testing">
+<!---<cfset pageTitle="Metrics Testing">
 <cfinclude template="/shared/_header.cfm">
 <cfinclude template = "/shared/component/functions.cfc">
 
 <cfset targetFile = "chart_data.csv">
-<cfset filePath = "/metrics/datafiles/">
+<cfset filePath = "/metrics/datafiles/">--->
 
 <cfquery name="getStats" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select 
