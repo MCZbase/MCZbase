@@ -194,8 +194,8 @@ limitations under the License.
 				</cfoutput>
 				<section class="col-12 mt-2 px-0">
 					<div class="mt-1 mb-3 float-left w-100">
-						<h2 class="h3 mt-0 px-2 float-left mb-1">Acquisitions <span class="text-muted">(#encodeForHtml(beginDate)#/#encodeForHtml(endDate)#)</span></h2>
-						<div class="btn-toolbar mb-2 mb-md-0 float-right">
+						<h2 class="h3 mt-0 mb-1 px-2 float-left">Acquisitions <span class="text-muted">(#encodeForHtml(beginDate)#/#encodeForHtml(endDate)#)</span></h2>
+						<div class="btn-toolbar mt-2 float-right">
 							<div class="btn-group mr-2">
 								<a href="#filePath##targetFile#" class="btn btn-xs btn-outline-secondary">Export Table</a>
 							</div>
@@ -341,7 +341,7 @@ limitations under the License.
 				<section class="col-12 mt-2 px-0">
 					<div class="mt-1 mb-3 float-left w-100">
 						<h2 class="h3 mt-0 px-2 float-left mb-1">Loan Activity <span class="text-muted">(#encodeForHtml(beginDate)#/#encodeForHtml(endDate)#)</span></h2>
-						<div class="btn-toolbar mb-2 mb-md-0 float-right">
+						<div class="btn-toolbar mt-2 float-right">
 							<div class="btn-group mr-2">
 								<a href="#filePath##targetFile#" class="btn btn-xs btn-outline-secondary">Export Table</a>
 							</div>
@@ -452,7 +452,7 @@ limitations under the License.
 				<section class="col-12 mt-2 px-0">
 					<div class="mt-1 mb-3 float-left w-100">
 						<h2 class="h3 mt-0 px-2 float-left mb-1">Media Activity <span class="text-muted">(#encodeForHtml(beginDate)#/#encodeForHtml(endDate)#)</span></h2>
-						<div class="btn-toolbar mb-2 mb-md-0 float-right">
+						<div class="btn-toolbar mt-2 float-right">
 							<div class="btn-group mr-2">
 								<a href="#filePath##targetFile#" class="btn btn-xs btn-outline-secondary">Export Table</a>
 							</div>
@@ -538,7 +538,7 @@ limitations under the License.
 				<section class="col-12 mt-2 px-0">
 					<div class="mt-1 mb-3 float-left w-100">
 						<h2 class="h3 px-2 float-left mb-0">Citation Activity <span class="text-muted">(#encodeForHtml(beginDate)#/#encodeForHtml(endDate)#)</span></h2>
-						<div class="btn-toolbar mb-2 mb-md-0 float-right">
+						<div class="btn-toolbar mt-2 float-right">
 							<div class="btn-group mr-2">
 								<a href="#filePath##targetFile#" class="btn btn-xs btn-outline-secondary">Export Table</a>
 							</div>
@@ -620,8 +620,10 @@ limitations under the License.
 				</cfoutput>
 				<section class="col-12 mt-2 px-0">
 					<div class="mt-1 mb-3 float-left w-100">
-						<h2 class="h3 px-2 float-left mb-0">Georeferencing Activity <span class="text-muted">(#encodeForHtml(beginDate)#/#encodeForHtml(endDate)#)</span></h2>
-						<div class="btn-toolbar mb-2 mb-md-0 float-right">
+						<h2 class="h3 px-2 float-left mb-0">Georeferencing Activity 
+							<span class="text-muted">(#encodeForHtml(beginDate)#/#encodeForHtml(endDate)#)</span>
+						</h2>
+						<div class="btn-toolbar mt-2 float-right">
 							<div class="btn-group mr-2">
 								<!---<a type="button" class="btn btn-sm btn-outline-secondary" 
 								href="mailto:demo@example.com?subject=Georeference_Activity_#beginDate#_to_#endDate#&body=MCZ Metrics&attachment=#tempurl##beginDateVar##endDateVar#>Share</a>--->
