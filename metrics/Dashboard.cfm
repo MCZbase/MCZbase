@@ -64,7 +64,7 @@ limitations under the License.
 						$('##loadReportForm').on('submit',function(event){ event.preventDefault(); loadReport(); } );
 					});
 					function loadReport(){
-						$('##annualNumbersDiv').html("Loading...");
+						$('##annualNumbersDiv').html(<p>"Loading..."</p>);
 						$.ajax(
 							{
 								url: '/metrics/component/functions.cfc',
