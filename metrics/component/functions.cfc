@@ -362,6 +362,8 @@ limitations under the License.
 									<th><strong>Number of Open Loans</strong></th>
 									<th><strong>Number of Open Loans overdue > 5 years</strong></th>
 									<th><strong>Number of Open Loans overdue > 10 year</strong></th>
+									<th><strong>Outgoing Cataloged Items</strong></th>
+									<th><strong>Outgoing Specimens</strong></th>
 								</tr>
 							</thead>
 							<tbody>
