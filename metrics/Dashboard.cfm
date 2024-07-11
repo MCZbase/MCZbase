@@ -35,9 +35,6 @@ limitations under the License.
 <cfset start = GetTickCount()>
 <meta name="theme-color" content="#563d7c">
 <cfoutput>
-	<style>
-		.move {color: red;}
-	</style>
 <div class="container-fluid" id="content">
 	<div class="row">
 	<br clear="all">	
@@ -67,7 +64,7 @@ limitations under the License.
 						$('##loadReportForm').on('submit',function(event){ event.preventDefault(); loadReport(); } );
 					});
 					function loadReport(){
-						$('##annualNumbersDiv').html("Loading...").addClass(move);
+						$('##annualNumbersDiv').html("Loading...");
 						$.ajax(
 							{
 								url: '/metrics/component/functions.cfc',
@@ -93,7 +90,7 @@ limitations under the License.
 				<div class="col-12 mt-4">
 					<h1 class="h2 float-left px-1 mb-1">MCZbase Metrics</h1>
 					<cfset summaryAnnualBlock=getAnnualNumbers(endDate="#endDate#",beginDate="#beginDate#")>
-					<div id="annualNumbersDiv">
+					<div id="annualNumbersDiv"> 
 						#summaryAnnualBlock#
 					</div>
 				</div>
