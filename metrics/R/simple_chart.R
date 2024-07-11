@@ -31,7 +31,7 @@ df <- read_csv('/var/www/html/arctos/metrics/datafiles/chart_data.csv', show_col
 # names(data)
 
 #local load for testing
-df <- read_csv("C:/Users/mih744/Downloads/chart_data.csv")
+#df <- read_csv("C:/Users/mih744/Downloads/chart_data.csv")
 
 # make calculations based on collection grouping
 #df %>% group_by(COLLECTIONS)
