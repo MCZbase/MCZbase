@@ -133,7 +133,7 @@ limitations under the License.
 				</div>
 				<div class="col-12">
 					<!--- chart created by R script --->
-					<img src="/metrics/R/graphs/chart1.png"/>
+					<img src="#application.webDirectory#/metrics/R/graphs/chart1.png"/>
 				</div>
 			</div>
 		</div>
