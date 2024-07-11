@@ -93,7 +93,7 @@ limitations under the License.
 			<cfoutput>
 				<div class="col-12 mt-4">
 					<h1 class="h2 float-left mb-1 w-100">MCZbase Metrics</h1>
-					<cfset summaryAnnualBlock=getAnnualChart(endDate="#dateFormat(now(), 'yyyy-mm-dd')#", beginDate="#DateFormat(2022-07-01 ),'yyyy-mm-dd')#")>
+					<cfset summaryAnnualBlock=getAnnualChart(endDate="2023-07-01",beginDate="2024-06-30")>
 					<div id="annualNumbersDiv"> 
 						#summaryAnnualBlock#
 					</div>
