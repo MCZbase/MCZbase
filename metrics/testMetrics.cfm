@@ -138,14 +138,14 @@ limitations under the License.
 * Demonstration of ajax patterns in MCZbase.
 
 -->
-<!---<cfset pageTitle="Metrics Testing">
+<cfset pageTitle="Metrics Testing">
 <cfinclude template="/shared/_header.cfm">
 <cfinclude template = "/shared/component/functions.cfc">
 
 <cfset targetFile = "chart_data.csv">
-<cfset filePath = "/metrics/datafiles/">--->
-<!--temp commenting -->
-<!---<cfquery name="getStats" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfset filePath = "/metrics/datafiles/">
+
+<cfquery name="getStats" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select 
 		rm.holdings,
 		h.collection, 
@@ -215,8 +215,8 @@ limitations under the License.
 <cfoutput>
 	<cfset csv = queryToCSV(getStats)> 
 	<cffile action="write" file="#application.webDirectory##filePath##targetFile#" output = "#csv#" addnewline="No">
-</cfoutput>--->
-<!---<cftry>
+</cfoutput>
+<cftry>
 	<cfexecute name = "/usr/bin/Rscript" 
 		arguments = "#application.webDirectory#/metrics/R/simple_chart.R" 
 		variable = "chartOutput"
@@ -264,4 +264,4 @@ limitations under the License.
 		<div>#error_message#</div>
 	</cfcatch>
 </cftry>
-<cfinclude template="/shared/_footer.cfm">--->
+<cfinclude template="/shared/_footer.cfm">
