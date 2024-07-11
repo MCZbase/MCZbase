@@ -35,7 +35,9 @@ limitations under the License.
 <cfset start = GetTickCount()>
 <meta name="theme-color" content="#563d7c">
 <cfoutput>
-		
+	<style>
+		.move {color: red;}
+	</style>
 <div class="container-fluid" id="content">
 	<div class="row">
 	<br clear="all">	
