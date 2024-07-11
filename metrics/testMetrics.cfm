@@ -31,8 +31,8 @@ limitations under the License.
 
 	
 <!--- TODO: Set to most recent full year. Fix Begin date --->
-<cfoutput><cfif NOT isDefined("endDate")><cfset endDate = '#dateFormat(now(), "yyyy-mm-dd")#'></cfif>
-<cfif NOT isDefined("beginDate")><cfset beginDate = '#DateFormat(DateAdd("yyyy", -1, endDate),"yyyy-mm-dd")#'></cfif></cfoutput>
+<!---<cfoutput><cfif NOT isDefined("endDate")><cfset endDate = '#dateFormat(now(), "yyyy-mm-dd")#'></cfif>
+<cfif NOT isDefined("beginDate")><cfset beginDate = '#DateFormat(DateAdd("yyyy", -1, endDate),"yyyy-mm-dd")#'></cfif></cfoutput>--->
 
 <cfsetting RequestTimeout = "0">
 <cfset start = GetTickCount()>
