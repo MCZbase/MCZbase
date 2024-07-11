@@ -65,7 +65,7 @@ limitations under the License.
 						$('##loadReportForm').on('submit',function(event){ event.preventDefault(); loadReport(); } );
 					});
 					function loadReport(){
-						$('##annualNumbersDiv').html("Loading...");
+						$('##annualNumbersDiv').html("Loading...").addClass(move);
 						$.ajax(
 							{
 								url: '/metrics/component/functions.cfc',
@@ -88,8 +88,8 @@ limitations under the License.
 	
 		<main role="main" class="col-md-10 px-3 ml-sm-auto col-lg-10 px-md-5 mb-3">
 			<cfoutput>
-				<div class="col-12 px-1 mt-4">
-					<h1 class="h2 float-left mb-1">MCZbase Metrics</h1>
+				<div class="col-12 mt-4">
+					<h1 class="h2 float-left px-1 mb-1">MCZbase Metrics</h1>
 					<cfset summaryAnnualBlock=getAnnualNumbers(endDate="#endDate#",beginDate="#beginDate#")>
 					<div id="annualNumbersDiv">
 						#summaryAnnualBlock#
