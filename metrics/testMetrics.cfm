@@ -54,7 +54,7 @@ limitations under the License.
 					<h3 class="h4 text-muted mt-3">Report to Show</h3>
 					<label for="method" class="sr-only">Report To Show</label>
 					<select id="method" name="method" class="my-1 data-entry-input">
-						<option value="getAnnualChart" selected="selected">Chart (Today - 1 yr)</option>
+						<option value="getAnnualChart" selected="selected">Chart (today - 1 yr)</option>
 						<option value="getAcquisitions">Acquisitions</option>
 						<option value="getLoanNumbers">Loan Activity</option>
 						<option value="getMediaNumbers">Media Activity</option>
