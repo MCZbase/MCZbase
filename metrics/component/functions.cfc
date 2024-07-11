@@ -373,7 +373,7 @@ limitations under the License.
 										<td>#Num_5yr_Loans#</td>
 										<td>#Num_10yr_Loans#</td>
 										<td>#Num_Borrows#</td>
-										<td>#Num_OpenLoans#</td>
+										<td>#Num_Open_Loans#</td>
 										<td>#Num_Open_OverDue_5yrs#</td>
 										<td>#Num_Open_OverDue_10yrs#</td>
 										<td>#Outgoing_CatItems#,
