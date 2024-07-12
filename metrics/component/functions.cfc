@@ -230,7 +230,7 @@ limitations under the License.
 										<td>&nbsp;</td>
 										<td>#Num_Accns#</td>
 										<td>&nbsp;</td>
-										<td>Cataloged_Items</td>
+										<td>#Cataloged_Items#</td>
 										<td>#Specimens#</td>
 									</tr>
 								</cfloop>
