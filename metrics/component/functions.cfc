@@ -212,8 +212,8 @@ limitations under the License.
 									<th><strong>Number of Genetic Samples added To Cryo</strong></th>
 									<th><strong>Number of Cataloged Items with NCBI numbers</strong></th>
 									<th><strong>Number of NCBI numbers added</strong></th>
-									<th><strong>Number of Accessions</strong></th>
 									<th><strong>Items received but not Cataloged at End of Year</strong></th>
+									<th><strong>Number of Accessions</strong></th>
 									<th><strong>Total Cataloged Items</strong></th>
 									<th><strong>Total Specimens (parts)</strong></th>
 								</tr>
@@ -230,7 +230,6 @@ limitations under the License.
 										<td>#NCBI_Cat_Items#</td>
 										<td>&nbsp;</td>
 										<td>#Num_Accns#</td>
-										<td>&nbsp;</td>
 										<td>#Cataloged_Items#</td>
 										<td>#Specimens#</td>
 									</tr>
