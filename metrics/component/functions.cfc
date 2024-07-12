@@ -609,7 +609,7 @@ limitations under the License.
 						c.Collection,
 						l.Num_Localities,
 						gl.Num_GeoRef_Localities,
-						vgl.Num_Verif_GeoRef_Localities,
+						vgl.Num_Verified_GeoRef_Localities,
 						gl.Num_GeoRef_Cat_Items
 					FROM
 						(select * from collection where collection_cde<>'MCZ') c
