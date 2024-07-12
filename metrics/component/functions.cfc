@@ -611,7 +611,7 @@ limitations under the License.
 						gl.Num_GeoRef_Localities,
 						vgl.Num_Verif_GeoRef_Localities,
 						gl.Num_GeoRef_Cat_Items,
-						gl.Num_Verified_GeoRef_Specimens
+						Num_Verified_GeoRef_Specimens
 					FROM
 						(select * from collection where collection_cde<>'MCZ') c
 						left join (select collection_id, collection, count(distinct locality_id) Num_Localities 
