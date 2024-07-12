@@ -416,14 +416,14 @@ limitations under the License.
 				<cfquery name="media" datasource="uam_god">
 					SELECT
 						c.collection,
-						i.numImagesCatItems,
-						i.numImages,
-						p.numPermitsTrans,
-						pt.imagesPrimaryCatItems,
-						st.imagesSecondaryCatItems
+						i.Num_Images_Cat_Items,
+						i.Num_Images,
+						p.Num_Permits_Trans,
+						pt.Images_Primary_Cat_Items,
+						st.Images_Secondary_Cat_Items
 					FROM
 						(select * from collection where collection_cde <> 'MCZ') c
-						left join (select f.collection_id, f.collection, count(distinct f.collection_object_id) numImagesCatItems, sum(total_parts) numImagesSpecimens, count(distinct m.media_id) numImages
+						left join (select f.collection_id, f.collection, count(distinct f.collection_object_id) numImagesCatItems, sum(total_parts) numImagesSpecimens, count(distinct m.media_id) Num_Images
 						from media m, MEDIA_RELATIONS mr, flat f, coll_object co 
 						where m.media_id = mr.media_id
 						and mr.MEDIA_RELATIONSHIP = 'shows cataloged_item'
@@ -431,14 +431,14 @@ limitations under the License.
 						and f.collection_object_id = co.collection_object_id
 						group by f.collection_id, f.collection) i on c.collection_id = i.collection_id
 					LEFT JOIN 
-						(select c.collection_id, c.collection, count(distinct transaction_id) numPermitsTrans 
+						(select c.collection_id, c.collection, count(distinct transaction_id) Num_Permits_Trans 
 						from trans t, collection c where transaction_id in
 						(select transaction_id from permit_trans where PERMIT_ID in
 						(select related_primary_key from MEDIA_RELATIONS where media_relationship like '%permit'))
 						and t.collection_id = c.collection_id
 						group by c.collection_id, collection) p on c.collection_id = p.collection_id
 					LEFT JOIN 
-						(select f.collection_id, f.collection, count(distinct f.collection_object_id) imagesPrimaryCatItems, sum(decode(total_parts,null, 1,total_parts)) imagesPrimarySpecimens
+						(select f.collection_id, f.collection, count(distinct f.collection_object_id) imagesPrimaryCatItems, sum(decode(total_parts,null, 1,total_parts)) Images_Primary_Specimens
 						from flat f, citation c, ctcitation_type_status ts
 						where f.collection_object_id = c.collection_object_id
 						and c.type_status = ts.type_status
@@ -447,7 +447,7 @@ limitations under the License.
 						(select related_primary_key from MEDIA_RELATIONS where media_relationship='shows cataloged_item')
 						group by f.collection_id, f.collection) pt on c.collection_id = pt.collection_id
 					LEFT JOIN
-						(select f.collection_id, f.collection, count(distinct f.collection_object_id) imagesSecondaryCatItems, sum(decode(total_parts,null, 1,total_parts)) imagesSecondarySpecimens
+						(select f.collection_id, f.collection, count(distinct f.collection_object_id) Images_Secondary_Cat_Items, sum(decode(total_parts,null, 1,total_parts)) Images_Secondary_Specimens
 						from flat f, citation c, ctcitation_type_status ts
 						where f.collection_object_id = c.collection_object_id
 						and c.type_status = ts.type_status
@@ -489,16 +489,16 @@ limitations under the License.
 							<tbody>
 								<cfloop query="media">
 									<tr>
-										<td>#collection#</td>
-										<td>#numImagesCatItems#</td>
-										<td>#numImages#</td>
+										<td>#Collection#</td>
+										<td>#Num_Images_Cat_Items#</td>
+										<td>#Num_Images#</td>
 										<td>&nbsp;</td>
 										<td>&nbsp;</td>
-										<td>#numPermitsTrans#</td>
+										<td>#Num_Permits_Trans#</td>
 										<td>&nbsp;</td>
-										<td>#imagesPrimaryCatItems#</td>
+										<td>#Images_Primary_Cat_Items#</td>
 										<td>&nbsp;</td>
-										<td>#imagesSecondaryCatItems#</td>
+										<td>#Images_Secondary_Cat_Items#</td>
 									</tr>
 								</cfloop>
 							</tbody>
