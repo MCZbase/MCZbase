@@ -423,7 +423,7 @@ limitations under the License.
 						st.Images_Secondary_Cat_Items
 					FROM
 						(select * from collection where collection_cde <> 'MCZ') c
-						left join (select f.collection_id, f.collection, count(distinct f.collection_object_id) numImagesCatItems, sum(total_parts) numImagesSpecimens, count(distinct m.media_id) Num_Images
+						left join (select f.collection_id, f.collection, count(distinct f.collection_object_id) Num_Images_Cat_Items, sum(total_parts) numImagesSpecimens, count(distinct m.media_id) Num_Images
 						from media m, MEDIA_RELATIONS mr, flat f, coll_object co 
 						where m.media_id = mr.media_id
 						and mr.MEDIA_RELATIONSHIP = 'shows cataloged_item'
