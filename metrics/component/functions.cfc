@@ -167,14 +167,14 @@ limitations under the License.
 				<cfquery name="ACtotals" datasource="uam_god">
 					SELECT 
 						h.Collection, 
-						h.Cataloged_Items, 
-						h.Specimens,
 						a.Received_Cat_Items,
 						a.Received_Specimens,
 						e.Entered_Cat_Items,
 						e.Entered_Specimens,
-						ncbi.ncbi_Cat_Items,
-						accn.Num_Accns
+						ncbi.NCBI_Cat_Items,
+						accn.Num_Accns,
+						h.Cataloged_Items, 
+						h.Specimens
 					FROM 
 						(select collection_cde,institution_acronym,descr,collection,collection_id from collection where collection_cde <> 'MCZ') c
 					LEFT JOIN 
@@ -214,8 +214,8 @@ limitations under the License.
 									<th><strong>Number of NCBI numbers added</strong></th>
 									<th><strong>Number of Accessions</strong></th>
 									<th><strong>Items received but not Cataloged at End of Year</strong></th>
-									<th><strong>Cataloged Items</strong></th>
-									<th><strong>Specimens (parts)</strong></th>
+									<th><strong>Total Cataloged Items</strong></th>
+									<th><strong>Total Specimens (parts)</strong></th>
 								</tr>
 							</thead>
 							<tbody>
@@ -225,6 +225,7 @@ limitations under the License.
 										<td>#Received_Cat_Items#</td>
 										<td>#Received_Specimens#</td>
 										<td>#Entered_Cat_Items#</td>
+										<td>#Entered_Specimens#</td>
 										<td>&nbsp;</td>
 										<td>#NCBI_Cat_Items#</td>
 										<td>&nbsp;</td>
