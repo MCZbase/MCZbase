@@ -68,7 +68,7 @@ limitations under the License.
 	<cfthread name="getAnnualNumbersThread">
 		<cfoutput>
 			<cftry>
-				<cfset targetFile = "holding_numbers_#beginDate#_to_#endDate#.csv">
+				<cfset targetFile = "Holdings_#beginDate#_to_#endDate#.csv">
 				<cfset filePath = "/metrics/datafiles/">
 				<!--- annual report queries --->
 				<cfquery name="totals" datasource="uam_god">
