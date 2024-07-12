@@ -438,7 +438,7 @@ limitations under the License.
 						and t.collection_id = c.collection_id
 						group by c.collection_id, collection) p on c.collection_id = p.collection_id
 					LEFT JOIN 
-						(select f.collection_id, f.collection, count(distinct f.collection_object_id) imagesPrimaryCatItems, sum(decode(total_parts,null, 1,total_parts)) Images_Primary_Specimens
+						(select f.collection_id, f.collection, count(distinct f.collection_object_id) Images_Primary_Cat_Items, sum(decode(total_parts,null, 1,total_parts)) Images_Primary_Specimens
 						from flat f, citation c, ctcitation_type_status ts
 						where f.collection_object_id = c.collection_object_id
 						and c.type_status = ts.type_status
