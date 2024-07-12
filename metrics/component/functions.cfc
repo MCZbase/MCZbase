@@ -127,7 +127,7 @@ limitations under the License.
 									<tr>
 										<td>#Collection#</td>
 										<td>#Holdings#</td>
-										<td>#NumberFormat((catalogeditems/holdings)*100, '9.99')#%</td>
+										<td>#NumberFormat((Cataloged_Items/Holdings)*100, '9.99')#%</td>
 										<td>#Cataloged_Items#</td>
 										<td>#Specimens#</td>
 										<td>#Primary_Cat_Items#</td>
