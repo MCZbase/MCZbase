@@ -530,13 +530,13 @@ limitations under the License.
 				<!--- annual report queries --->
 				<cfquery name="citationNums" datasource="uam_god" result="citation_result">
 					SELECT
-						c.collection,
-						cit.numCitations,
-						cit.numCitationCatItems
+						c.Collection,
+						cit.Num_Citations,
+						cit.Num_Citation_Cat_Items
 					FROM
 						(select collection_cde,institution_acronym,descr,collection,collection_id from collection where collection_cde <> 'MCZ') c
 					LEFT JOIN 
-						(select coll.collection_id, coll.collection, count(distinct f.collection_object_id) numCitationCatItems, count(*) numCitations 
+						(select coll.collection_id, coll.collection, count(distinct f.collection_object_id) Num_Citation_Cat_Items, count(*) Num_Citations 
 						from coll_object co,  flat f,  citation c,  publication p, collection coll
 						where f.collection_object_id = co.collection_object_id
 						and f.collection_object_id = c.collection_object_id 
@@ -572,9 +572,9 @@ limitations under the License.
 							<tbody>
 								<cfloop query="citationNums">
 									<tr>
-										<td>#collection#</td>
-										<td>#numCitations#</td>
-										<td>#numCitationCatItems#</td>
+										<td>#Collection#</td>
+										<td>#Num_Citations#</td>
+										<td>#Num_Citation_Cat_Items#</td>
 										<td>&nbsp;</td>
 										<td>&nbsp;</td>
 									</tr>
