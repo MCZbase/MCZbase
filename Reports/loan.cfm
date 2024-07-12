@@ -196,11 +196,11 @@ limitations under the License.
 <!--------------------------------------------------------------------------------->
 <cfset font = "font: Helvetica, Arial, 'sans-serif'; ">
 <cfset font_dq = replace(font,"'",'"')>
-<cfdocument format="pdf" saveAsName="MCZ_Loan_#getLoan.loan_number#.pdf" pageType="letter" marginTop="0.5" marginBottom="0.5" marginLeft="0.5" marginRight="0.5" fontEmbed="yes">
+<cfdocument format="pdf" saveAsName="MCZ_Loan_#getLoan.loan_number#.pdf" pageType="letter" marginTop="0.6" marginBottom="0.6" marginLeft="0.5" marginRight="0.5" fontEmbed="yes">
 	<cfoutput query="getLoan">
 
 		<cfdocumentitem type="header">
-			<div style="text-align: center; #font# font-size: small;">
+			<div style="text-align: center; #font# font-size: small; position: relative; top: 2em;">
 				Museum of Comparative Zoology Loan #getLoan.loan_number#
 			</div>
 		</cfdocumentitem>
