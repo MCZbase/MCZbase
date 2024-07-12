@@ -75,7 +75,6 @@ limitations under the License.
 					SELECT 
 						h.Collection, 
 						rm.Holdings,
-						NumberFormat((catalogeditems/holdings)*100, '9.99') as percent_Holdings,
 						h.Cataloged_Items, 
 						h.Specimens, 
 						p.Primary_Cat_Items, 
