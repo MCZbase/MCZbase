@@ -606,24 +606,25 @@ limitations under the License.
 				<cfset filePath = "/metrics/datafiles/">
 				<cfquery name="georef" datasource="uam_god">
 					SELECT
-						c.collection,
-						l.numLocalities,
-						gl.numGeoRefdLocalities,
-						vgl.numVerGRLocalities,
-						gl.numGeoRefdCatItems
+						c.Collection,
+						l.Num_Localities,
+						gl.Num_GeoRef_Localities,
+						vgl.Num_Verif_GeoRef_Localities,
+						gl.Num_GeoRef_Cat_Items,
+						gl.Num_Verified_GeoRef_Specimens
 					FROM
 						(select * from collection where collection_cde<>'MCZ') c
-						left join (select collection_id, collection, count(distinct locality_id) numLocalities 
+						left join (select collection_id, collection, count(distinct locality_id) Num_Localities 
 						from flat
 						group by collection_id, collection) l on c.collection_id = l.collection_id
 					LEFT JOIN
-						(select f.collection_id, f.collection, count(distinct f.collection_object_id) numGeoRefdCatItems, sum(total_parts) numGeoRefdSpecimens, count(distinct locality_id) numGeoRefdLocalities
+						(select f.collection_id, f.collection, count(distinct f.collection_object_id) Num_GeoRef_Cat_Items, sum(total_parts) Num_GeoRef_Specimens, count(distinct locality_id) Num_GeoRef_Localities
 						from flat f, coll_object co
 						where dec_lat is not null and dec_long is not null
 						and f.collection_object_id = co.collection_object_id
 						group by f.collection_id, f.collection) gl on c.collection_id = gl.collection_id
 					LEFT JOIN
-						(select f.collection_id, f.collection, count(distinct f.collection_object_id) numVerGRCatItems, sum(total_parts) numVerGRSpecimens, count(distinct locality_id) numVerGRLocalities
+						(select f.collection_id, f.collection, count(distinct f.collection_object_id) Num_GeoRef_Cat_Items, sum(total_parts) Num_Verified_GeoRef_Specimens, count(distinct locality_id) Num_Verified_GeoRef_Localities
 						from flat f, coll_object co
 						where dec_lat is not null and dec_long is not null
 						and f.collection_object_id = co.collection_object_id
@@ -665,12 +666,12 @@ limitations under the License.
 							<tbody>
 								<cfloop query="georef">
 									<tr>
-										<td>#collection#</td>
-										<td>#numLocalities#</td>
-										<td>#numGeoRefdLocalities#</td>
-										<td>#NumberFormat((numGeoRefdLocalities/numLocalities)*100, '9.99')#%</td>
-										<td>#numVerGRLocalities#</td>
-										<td>#numGeoRefdCatItems#</td>
+										<td>#Collection#</td>
+										<td>#Num_Localities#</td>
+										<td>#Num_GeoRef_Localities#</td>
+										<td>#NumberFormat((Num_GeoRef_Localities/Num_Localities)*100, '9.99')#%</td>
+										<td>#Num_Verified_GeoRef_Localities#</td>
+										<td>#Num_GeoRef_Cat_Items#</td>
 										<td>&nbsp;</td>
 										<td>&nbsp;</td>
 										<td>&nbsp;</td>
