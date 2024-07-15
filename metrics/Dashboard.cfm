@@ -1,6 +1,6 @@
 <!--
 
-* /metrics/testMetrics.cfm
+* /metrics/Dashbord.cfm
 
 Copyright 2024 President and Fellows of Harvard College
 
@@ -19,22 +19,18 @@ limitations under the License.
 * Dashboard for obtaining annual reporting and other collections metrics.
 
 -->
-<cfset pageTitle="Metrics Testing">
+<cfset pageTitle="Metrics Dashboard">
 <cfinclude template="/shared/_header.cfm">
-<!---<cfinclude template = "/shared/component/functions.cfc">--->
 
-<cfset targetFile = "chart_data.csv">
-<cfset filePath = "/metrics/datafiles/">
 <cfinclude template="/metrics/component/functions.cfc">
 <script type="text/javascript" src="/metrics/js/metrics.js"></script> 
 
 
 	
 <!--- TODO: Set to most recent full year. Fix Begin date --->
-<!---<cfoutput><cfif NOT isDefined("endDate")><cfset endDate = '#dateFormat(now(), "yyyy-mm-dd")#'></cfif>
-<cfif NOT isDefined("beginDate")><cfset beginDate = '#DateFormat(DateAdd("yyyy", -1, endDate),"yyyy-mm-dd")#'></cfif></cfoutput>--->
-<cfset beginDate = ''>
-<cfset endDate = ''>
+<cfoutput><cfif NOT isDefined("endDate")><cfset endDate = '#dateFormat(now(), "yyyy-mm-dd")#'></cfif>
+<cfif NOT isDefined("beginDate")><cfset beginDate = '#DateFormat(DateAdd("yyyy", -1, endDate),"yyyy-mm-dd")#'></cfif></cfoutput>
+
 <cfsetting RequestTimeout = "0">
 <cfset start = GetTickCount()>
 <meta name="theme-color" content="#563d7c">
@@ -54,8 +50,7 @@ limitations under the License.
 					<h3 class="h4 text-muted mt-3">Report to Show</h3>
 					<label for="method" class="sr-only">Report To Show</label>
 					<select id="method" name="method" class="my-1 data-entry-input">
-						<option value="getAnnualChart" selected="selected">Chart (today - 1 yr)</option>
-						<option value="getAnnualNumbers">Holdings</option>
+						<option value="getAnnualNumbers" selected="selected">Holdings</option>
 						<option value="getAcquisitions">Acquisitions</option>
 						<option value="getLoanNumbers">Loan Activity</option>
 						<option value="getMediaNumbers">Media Activity</option>
@@ -94,15 +89,7 @@ limitations under the License.
 			<cfoutput>
 				<div class="col-12 mt-4">
 					<h1 class="h2 float-left mb-1 w-100">MCZbase Metrics</h1>
-					<cfoutput>
-						<cfif NOT isDefined("endDate")>
-							<cfset endDate = '#dateFormat(now(), "yyyy-mm-dd")#'>
-						</cfif>
-						<cfif NOT isDefined("beginDate")>
-							<cfset beginDate = '#DateFormat(DateAdd("yyyy", -1, endDate),"yyyy-mm-dd")#'>
-						</cfif>
-					</cfoutput>
-					<cfset summaryAnnualBlock=getAnnualChart(endDate="#endDate#",beginDate="#beginDate#")>
+					<cfset summaryAnnualBlock=getAnnualNumbers(endDate="#endDate#",beginDate="#beginDate#")>
 					<div id="annualNumbersDiv"> 
 						#summaryAnnualBlock#
 					</div>
@@ -113,5 +100,6 @@ limitations under the License.
 	
 	<!---<p class="mt-2 smaller">Execution Time: <b>#int(getTickCount()-start)#</b> milliseconds</p>--->
 </div>
+
 </cfoutput>
 <cfinclude template="/shared/_footer.cfm">
