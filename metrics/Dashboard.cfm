@@ -97,7 +97,7 @@ limitations under the License.
 					$("##beginDate").datepicker({ dateFormat: 'yy-mm-dd'});
 					$("##endDate").datepicker({ dateFormat: 'yy-mm-dd'});
 				});
-			</cfscript>
+			</script>
 			<div class="container-fluid" id="content">
 				<div class="row">
 				<br clear="all">	
