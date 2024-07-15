@@ -26,14 +26,14 @@ limitations under the License.
 	<cfset action = "showMetrics">
 </cfif>
 <!--- obtain beginDate and endDate from either URL or Form scope --->
-<cfif isDefined("url.beginDate">
+<cfif isDefined("url.beginDate")>
 	<cfset variables.beginDate=url.beginDate>
-<cfelseif isDefined("form.beginDate">
+<cfelseif isDefined("form.beginDate")>
 	<cfset variables.beginDate=form.beginDate>
 </cfif> 
-<cfif isDefined("url.endDate">
+<cfif isDefined("url.endDate")>
 	<cfset variables.endDate=url.endDate>
-<cfelseif isDefined("form.endDate">
+<cfelseif isDefined("form.endDate")>
 	<cfset variables.endDate=form.endDate>
 </cfif> 
 
