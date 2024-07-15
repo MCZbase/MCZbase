@@ -576,74 +576,76 @@ limitations under the License.
 	<cfset variables.endDate = arguments.endDate>
 	<cfset variables.returnAs = arguments.returnAs>
 	<cfthread name="getCitationNumbersThread">
-		<cfoutput>
-			<cftry>
-				<cfset targetFile = "citation_numbers_#beginDate#_to_#endDate#.csv">
-				<cfset filePath = "/metrics/datafiles/">
-				<!--- annual report queries --->
-				<cfquery name="citationNums" datasource="uam_god" result="citation_result" cachedwithin="#createtimespan(7,0,0,0)#">
-					SELECT
-						c.Collection,
-						cit.Num_Citations,
-						cit.Num_Citation_Cat_Items
-					FROM
-						(select collection_cde,institution_acronym,descr,collection,collection_id from collection where collection_cde <> 'MCZ') c
-					LEFT JOIN 
-						(select coll.collection_id, coll.collection, count(distinct f.collection_object_id) Num_Citation_Cat_Items, count(*) Num_Citations 
-						from coll_object co,  flat f,  citation c,  publication p, collection coll
-						where f.collection_object_id = co.collection_object_id
-						and f.collection_object_id = c.collection_object_id 
-						and c.publication_id = p.publication_id
-						and f.collection_cde = coll.collection_cde
-						and p.publication_title not like '%Placeholder%'
+		<cftry>
+			<!--- annual report queries, citation activity --->
+			<cfquery name="citationNums" datasource="uam_god" result="citation_result" cachedwithin="#createtimespan(7,0,0,0)#">
+				SELECT
+					c.Collection,
+					cit.Num_Citations,
+					cit.Num_Citation_Cat_Items
+				FROM
+					(select collection_cde,institution_acronym,descr,collection,collection_id from collection where collection_cde <> 'MCZ') c
+				LEFT JOIN 
+					(select coll.collection_id, coll.collection, count(distinct f.collection_object_id) Num_Citation_Cat_Items, count(*) Num_Citations 
+					from coll_object co,  flat f,  citation c,  publication p, collection coll
+					where f.collection_object_id = co.collection_object_id
+					and f.collection_object_id = c.collection_object_id 
+					and c.publication_id = p.publication_id
+					and f.collection_cde = coll.collection_cde
+					and p.publication_title not like '%Placeholder%'
 					GROUP BY coll.collection_id, coll.collection) cit on c.collection_id = cit.collection_id
 				</cfquery>
+			<cfif variables.returnAs EQ "csv">
+				<cfset csv = queryToCSV(citationNums)> 
+				<cfoutput>#csv#</cfoutput>
+			<cfelse>
 				<cfoutput>
-					<cfset csv = queryToCSV(citationNums)> 
-					<cffile action="write" file="/#application.webDirectory##filePath##targetFile#" output = "#csv#" addnewline="No">
-				</cfoutput>
-				<section class="col-12 mt-2 px-0">
-					<div class="mt-1 mb-3 float-left w-100">
-						<h2 class="h3 px-0 mt-0 float-left mb-0">Citation Activity <span class="text-muted">(#encodeForHtml(beginDate)#/#encodeForHtml(endDate)#)</span></h2>
-						<div class="btn-toolbar mt-2 float-right">
-							<div class="btn-group mr-2">
-								<a href="#filePath##targetFile#" class="btn btn-xs btn-outline-secondary">Export Table</a>
+					<section class="col-12 mt-2 px-0">
+						<div class="mt-1 mb-3 float-left w-100">
+							<h2 class="h3 px-0 mt-0 float-left mb-0">Citation Activity <span class="text-muted">(#encodeForHtml(beginDate)#/#encodeForHtml(endDate)#)</span></h2>
+							<div class="btn-toolbar mt-2 float-right">
+								<div class="btn-group mr-2">
+									<a href="#filePath##targetFile#" class="btn btn-xs btn-outline-secondary">Export Table</a>
+									<a href="/metrics/Dashboard.cfm?action=dowloadCitationActivity&returnAs=csv&beginDate=#encodeForURL(beginDate)#&endDate=#encodeForUrl(endDate)#" class="btn btn-xs btn-outline-secondary">Export Table</a>
+								</div>
 							</div>
 						</div>
-					</div>
-					<div class="table-respponsive">
-						<table class="table table-striped d-lg-table" id="t">
-							<thead>
-								<tr>
-									<th><strong>Collection</strong></th>
-									<th><strong>Total Full Citations</strong></th>
-									<th><strong>Number of Cataloged Items with Full Citations</strong></th>
-									<th><strong>Number of Cataloged Items with Full Citations (w/ogenetic vouchers) added</strong></th>
-									<th><strong>Genetic Voucher Citations added </strong></th>
-								</tr>
-							</thead>
-							<tbody>
-								<cfloop query="citationNums">
+						<div class="table-respponsive">
+							<table class="table table-striped d-lg-table" id="t">
+								<thead>
 									<tr>
-										<td>#Collection#</td>
-										<td>#Num_Citations#</td>
-										<td>#Num_Citation_Cat_Items#</td>
-										<td>&nbsp;</td>
-										<td>&nbsp;</td>
+										<th><strong>Collection</strong></th>
+										<th><strong>Total Full Citations</strong></th>
+										<th><strong>Number of Cataloged Items with Full Citations</strong></th>
+										<th><strong>Number of Cataloged Items with Full Citations (w/ogenetic vouchers) added</strong></th>
+										<th><strong>Genetic Voucher Citations added </strong></th>
 									</tr>
-								</cfloop>
-							</tbody>
-						</table>
-					</div>
-				</section>
-			<cfcatch>
+								</thead>
+								<tbody>
+									<cfloop query="citationNums">
+										<tr>
+											<td>#Collection#</td>
+											<td>#Num_Citations#</td>
+											<td>#Num_Citation_Cat_Items#</td>
+											<td>&nbsp;</td>
+											<td>&nbsp;</td>
+										</tr>
+									</cfloop>
+								</tbody>
+							</table>
+						</div>
+					</section>
+				</cfoutput>
+			</cfif>
+		<cfcatch>
+			<cfoutput>
 				<cfset error_message = cfcatchToErrorMessage(cfcatch)>
 				<cfset function_called = "#GetFunctionCalledName()#">
 				<h2 class="h3">Error in #function_called#:</h2>
 				<div>#error_message#</div>
-			</cfcatch>
-			</cftry>
-		</cfoutput>
+			</cfoutput>
+		</cfcatch>
+		</cftry>
 	</cfthread>
 	<cfthread action="join" name="getCitationNumbersThread" />
 	<cfreturn getCitationNumbersThread.output>
@@ -664,94 +666,93 @@ limitations under the License.
 	<cfset variables.endDate = arguments.endDate>
 	<cfset variables.returnAs = arguments.returnAs>
 	<cfthread name="getGeorefNumbersThread">
-		<cfoutput>
-			<cftry>
-				<cfset targetFile = "georeference_numbers_#beginDate#_to_#endDate#.csv">
-				<cfset filePath = "/metrics/datafiles/">
-				<cfquery name="georef" datasource="uam_god" cachedwithin="#createtimespan(7,0,0,0)#">
-					SELECT
-						c.Collection,
-						l.Num_Localities,
-						gl.Num_GeoRef_Localities,
-						vgl.Num_Verified_GeoRef_Localities,
-						gl.Num_GeoRef_Cat_Items
-					FROM
-						(select * from collection where collection_cde<>'MCZ') c
-						left join (select collection_id, collection, count(distinct locality_id) Num_Localities 
-						from flat
-						group by collection_id, collection) l on c.collection_id = l.collection_id
-					LEFT JOIN
-						(select f.collection_id, f.collection, count(distinct f.collection_object_id) Num_GeoRef_Cat_Items, sum(total_parts) Num_GeoRef_Specimens, count(distinct locality_id) Num_GeoRef_Localities
-						from flat f, coll_object co
-						where dec_lat is not null and dec_long is not null
-						and f.collection_object_id = co.collection_object_id
-						group by f.collection_id, f.collection) gl on c.collection_id = gl.collection_id
-					LEFT JOIN
-						(select f.collection_id, f.collection, count(distinct f.collection_object_id) Num_GeoRef_Cat_Items, sum(total_parts) Num_Verified_GeoRef_Specimens, count(distinct locality_id) Num_Verified_GeoRef_Localities
-						from flat f, coll_object co
-						where dec_lat is not null and dec_long is not null
-						and f.collection_object_id = co.collection_object_id
-						and f.VERIFICATIONSTATUS like 'verified%'
-						group by f.collection_id, f.collection) vgl on c.collection_id = vgl.collection_id
-				</cfquery>
+		<cftry>
+			<cfquery name="georef" datasource="uam_god" cachedwithin="#createtimespan(7,0,0,0)#">
+				SELECT
+					c.Collection,
+					l.Num_Localities,
+					gl.Num_GeoRef_Localities,
+					vgl.Num_Verified_GeoRef_Localities,
+					gl.Num_GeoRef_Cat_Items
+				FROM
+					(select * from collection where collection_cde<>'MCZ') c
+					left join (select collection_id, collection, count(distinct locality_id) Num_Localities 
+					from flat
+					group by collection_id, collection) l on c.collection_id = l.collection_id
+				LEFT JOIN
+					(select f.collection_id, f.collection, count(distinct f.collection_object_id) Num_GeoRef_Cat_Items, sum(total_parts) Num_GeoRef_Specimens, count(distinct locality_id) Num_GeoRef_Localities
+					from flat f, coll_object co
+					where dec_lat is not null and dec_long is not null
+					and f.collection_object_id = co.collection_object_id
+					group by f.collection_id, f.collection) gl on c.collection_id = gl.collection_id
+				LEFT JOIN
+					(select f.collection_id, f.collection, count(distinct f.collection_object_id) Num_GeoRef_Cat_Items, sum(total_parts) Num_Verified_GeoRef_Specimens, count(distinct locality_id) Num_Verified_GeoRef_Localities
+					from flat f, coll_object co
+					where dec_lat is not null and dec_long is not null
+					and f.collection_object_id = co.collection_object_id
+					and f.VERIFICATIONSTATUS like 'verified%'
+					group by f.collection_id, f.collection) vgl on c.collection_id = vgl.collection_id
+			</cfquery>
+			<cfif variables.returnAs EQ "csv">
+				<cfset csv = queryToCSV(georef)> 
+				<cfoutput>#csv#</cfoutput>
+			<cfelse>
 				<cfoutput>
-					<cfset csv = queryToCSV(georef)> 
-					<cffile action="write" file="/#application.webDirectory##filePath##targetFile#" output = "#csv#" addnewline="No">
-				</cfoutput>
-				<section class="col-12 mt-2 px-0">
-					<div class="mt-1 mb-3 float-left w-100">
-						<h2 class="h3 px-0 mt-0 float-left mb-0">Georeferencing Activity 
-							<span class="text-muted">(#encodeForHtml(beginDate)#/#encodeForHtml(endDate)#)</span>
-						</h2>
-						<div class="btn-toolbar mt-2 float-right">
-							<div class="btn-group mr-2">
-								<!---<a type="button" class="btn btn-sm btn-outline-secondary" 
-								href="mailto:demo@example.com?subject=Georeference_Activity_#beginDate#_to_#endDate#&body=MCZ Metrics&attachment=#tempurl##beginDateVar##endDateVar#>Share</a>--->
-								<a href="#filePath##targetFile#" class="btn btn-xs btn-outline-secondary">Export Table</a>
+					<section class="col-12 mt-2 px-0">
+						<div class="mt-1 mb-3 float-left w-100">
+							<h2 class="h3 px-0 mt-0 float-left mb-0">Georeferencing Activity 
+								<span class="text-muted">(#encodeForHtml(beginDate)#/#encodeForHtml(endDate)#)</span>
+							</h2>
+							<div class="btn-toolbar mt-2 float-right">
+								<div class="btn-group mr-2">
+									<a href="/metrics/Dashboard.cfm?action=dowloadGeoreferenceActivity&returnAs=csv&beginDate=#encodeForURL(beginDate)#&endDate=#encodeForUrl(endDate)#" class="btn btn-xs btn-outline-secondary">Export Table</a>
+								</div>
 							</div>
 						</div>
-					</div>
-					<div class="table-responsive">
-						<table class="table table-striped d-lg-table" id="t">
-							<thead>
-								<tr>
-									<th><strong>Collection</strong></th>
-									<th><strong>Total Number of Localities</strong></th>
-									<th><strong>Records Georeferenced - Localities</strong></th>
-									<th><strong>% of Localities Georeferenced</strong></th>
-									<th><strong>Records Georeferences Verified - Localities</strong></th>
-									<th><strong>Records Georeferenced Total - Cataloged Items</strong></th>
-									<th><strong>% of Cataloged Items Georeferenced</strong></th>
-									<th><strong>Records Georeferenced in FY - Localities</strong></th>
-									<th><strong>Records Georeferenced in FY - Cataloged Items</strong></th>
-								</tr>
-							</thead>
-							<tbody>
-								<cfloop query="georef">
+						<div class="table-responsive">
+							<table class="table table-striped d-lg-table" id="t">
+								<thead>
 									<tr>
-										<td>#Collection#</td>
-										<td>#Num_Localities#</td>
-										<td>#Num_GeoRef_Localities#</td>
-										<td>#NumberFormat((Num_GeoRef_Localities/Num_Localities)*100, '9.99')#%</td>
-										<td>#Num_Verified_GeoRef_Localities#</td>
-										<td>#Num_GeoRef_Cat_Items#</td>
-										<td>&nbsp;</td>
-										<td>&nbsp;</td>
-										<td>&nbsp;</td>
+										<th><strong>Collection</strong></th>
+										<th><strong>Total Number of Localities</strong></th>
+										<th><strong>Records Georeferenced - Localities</strong></th>
+										<th><strong>% of Localities Georeferenced</strong></th>
+										<th><strong>Records Georeferences Verified - Localities</strong></th>
+										<th><strong>Records Georeferenced Total - Cataloged Items</strong></th>
+										<th><strong>% of Cataloged Items Georeferenced</strong></th>
+										<th><strong>Records Georeferenced in FY - Localities</strong></th>
+										<th><strong>Records Georeferenced in FY - Cataloged Items</strong></th>
 									</tr>
-								</cfloop>
-							</tbody>
-						</table>
-					</div>
-				</section>
-			<cfcatch>
+								</thead>
+								<tbody>
+									<cfloop query="georef">
+										<tr>
+											<td>#Collection#</td>
+											<td>#Num_Localities#</td>
+											<td>#Num_GeoRef_Localities#</td>
+											<td>#NumberFormat((Num_GeoRef_Localities/Num_Localities)*100, '9.99')#%</td>
+											<td>#Num_Verified_GeoRef_Localities#</td>
+											<td>#Num_GeoRef_Cat_Items#</td>
+											<td>&nbsp;</td>
+											<td>&nbsp;</td>
+											<td>&nbsp;</td>
+										</tr>
+									</cfloop>
+								</tbody>
+							</table>
+						</div>
+					</section>
+				</cfoutput>
+			</cfif>
+		<cfcatch>
+			<cfoutput>
 				<cfset error_message = cfcatchToErrorMessage(cfcatch)>
 				<cfset function_called = "#GetFunctionCalledName()#">
 				<h2 class="h3">Error in #function_called#:</h2>
 				<div>#error_message#</div>
-			</cfcatch>
-			</cftry>
-		</cfoutput>
+			</cfoutput>
+		</cfcatch>
+		</cftry>
 	</cfthread>
 	<cfthread action="join" name="getGeorefNumbersThread" />
 	<cfreturn getGeorefNumbersThread.output>
