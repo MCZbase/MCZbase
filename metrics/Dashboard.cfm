@@ -92,6 +92,12 @@ limitations under the License.
 		<script type="text/javascript" src="/metrics/js/metrics.js"></script> 
 		<meta name="theme-color" content="#563d7c">
 		<cfoutput>
+			<script>
+				$(document).ready(function() {
+					$("##beginDate").datepicker({ dateFormat: 'yy-mm-dd'});
+					$("##endDate").datepicker({ dateFormat: 'yy-mm-dd'});
+				});
+			</cfscript>
 			<div class="container-fluid" id="content">
 				<div class="row">
 				<br clear="all">	
@@ -114,7 +120,7 @@ limitations under the License.
 									<option value="getCitationNumbers">Citation Activity</option>
 									<option value="getGeorefNumbers">Georeference Activity</option>
 								</select>
-								<input type="submit" value="submit" class="my-3 btn-xs btn btn-primary">
+								<input type="submit" value="Show Report" class="my-3 btn-xs btn btn-primary" aria-label="Show the selected report for the specified date range">
 							</form>
 							<script>
 								$(document).ready(function() {
