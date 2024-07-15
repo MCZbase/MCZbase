@@ -206,7 +206,7 @@ limitations under the License.
 					(select c.collection_id, c.collection, count(distinct t.transaction_id) Num_Accns from accn a, trans t, collection c where a.transaction_id = t.transaction_id and t.collection_id = c.collection_id and a.received_date between to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#beginDate#">, 'YYYY-MM-DD') and  to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#endDate#">, 'YYYY-MM-DD') group by c.collection_id, c.collection) accn on h.collection_id = accn.collection_id
 			</cfquery>
 			<cfif variables.returnAs EQ "csv">
-				<cfset csv = queryToCSV(totals)> 
+				<cfset csv = queryToCSV(ACtotals)> 
 				<cfoutput>#csv#</cfoutput>
 			<cfelse>
 				<cfoutput>
