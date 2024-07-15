@@ -448,111 +448,114 @@ limitations under the License.
 	<cfset variables.endDate = arguments.endDate>
 	<cfset variables.returnAs = arguments.returnAs>
 	<cfthread name="getMediaNumbersThread">
-		<cfoutput>
-			<cftry>
-				<cfset targetFile = "media_numbers_#beginDate#_to_#endDate#.csv">
-				<cfset filePath = "/metrics/datafiles/">
-				<!--- annual report queries --->
-				<cfquery name="media" datasource="uam_god" cachedwithin="#createtimespan(7,0,0,0)#">
-					SELECT
-						c.collection,
-						i.Num_Images_Cat_Items,
-						i.Num_Images,
-						p.Num_Permits_Trans,
-						pt.Images_Primary_Cat_Items,
-						st.Images_Secondary_Cat_Items
-					FROM
-						(select * from collection where collection_cde <> 'MCZ') c
-						left join (select f.collection_id, f.collection, count(distinct f.collection_object_id) Num_Images_Cat_Items, sum(total_parts) numImagesSpecimens, count(distinct m.media_id) Num_Images
-						from media m, MEDIA_RELATIONS mr, flat f, coll_object co 
-						where m.media_id = mr.media_id
-						and mr.MEDIA_RELATIONSHIP = 'shows cataloged_item'
-						and mr.RELATED_PRIMARY_KEY = f.collection_object_id
-						and f.collection_object_id = co.collection_object_id
-						group by f.collection_id, f.collection) i on c.collection_id = i.collection_id
-					LEFT JOIN 
-						(select c.collection_id, c.collection, count(distinct transaction_id) Num_Permits_Trans 
-						from trans t, collection c where transaction_id in
-						(select transaction_id from permit_trans where PERMIT_ID in
-						(select related_primary_key from MEDIA_RELATIONS where media_relationship like '%permit'))
-						and t.collection_id = c.collection_id
-						group by c.collection_id, collection) p on c.collection_id = p.collection_id
-					LEFT JOIN 
-						(select f.collection_id, f.collection, count(distinct f.collection_object_id) Images_Primary_Cat_Items, sum(decode(total_parts,null, 1,total_parts)) Images_Primary_Specimens
-						from flat f, citation c, ctcitation_type_status ts
-						where f.collection_object_id = c.collection_object_id
-						and c.type_status = ts.type_status
-						and ts.CATEGORY in ('Primary')
-						and f.collection_object_id in
-						(select related_primary_key from MEDIA_RELATIONS where media_relationship='shows cataloged_item')
-						group by f.collection_id, f.collection) pt on c.collection_id = pt.collection_id
-					LEFT JOIN
-						(select f.collection_id, f.collection, count(distinct f.collection_object_id) Images_Secondary_Cat_Items, sum(decode(total_parts,null, 1,total_parts)) Images_Secondary_Specimens
-						from flat f, citation c, ctcitation_type_status ts
-						where f.collection_object_id = c.collection_object_id
-						and c.type_status = ts.type_status
-						and ts.CATEGORY in ('Secondary')
-						and f.collection_object_id in
-						(select related_primary_key from MEDIA_RELATIONS where media_relationship='shows cataloged_item')
-						group by f.collection_id, f.collection) st on c.collection_id = st.collection_id
-						order by collection
-				</cfquery>
+		<cftry>
+			<cfset targetFile = "media_numbers_#beginDate#_to_#endDate#.csv">
+			<cfset filePath = "/metrics/datafiles/">
+			<!--- annual report queries --->
+			<cfquery name="media" datasource="uam_god" cachedwithin="#createtimespan(7,0,0,0)#">
+				SELECT
+					c.collection,
+					i.Num_Images_Cat_Items,
+					i.Num_Images,
+					p.Num_Permits_Trans,
+					pt.Images_Primary_Cat_Items,
+					st.Images_Secondary_Cat_Items
+				FROM
+					(select * from collection where collection_cde <> 'MCZ') c
+					left join (select f.collection_id, f.collection, count(distinct f.collection_object_id) Num_Images_Cat_Items, sum(total_parts) numImagesSpecimens, count(distinct m.media_id) Num_Images
+					from media m, MEDIA_RELATIONS mr, flat f, coll_object co 
+					where m.media_id = mr.media_id
+					and mr.MEDIA_RELATIONSHIP = 'shows cataloged_item'
+					and mr.RELATED_PRIMARY_KEY = f.collection_object_id
+					and f.collection_object_id = co.collection_object_id
+					group by f.collection_id, f.collection) i on c.collection_id = i.collection_id
+				LEFT JOIN 
+					(select c.collection_id, c.collection, count(distinct transaction_id) Num_Permits_Trans 
+					from trans t, collection c where transaction_id in
+					(select transaction_id from permit_trans where PERMIT_ID in
+					(select related_primary_key from MEDIA_RELATIONS where media_relationship like '%permit'))
+					and t.collection_id = c.collection_id
+					group by c.collection_id, collection) p on c.collection_id = p.collection_id
+				LEFT JOIN 
+					(select f.collection_id, f.collection, count(distinct f.collection_object_id) Images_Primary_Cat_Items, sum(decode(total_parts,null, 1,total_parts)) Images_Primary_Specimens
+					from flat f, citation c, ctcitation_type_status ts
+					where f.collection_object_id = c.collection_object_id
+					and c.type_status = ts.type_status
+					and ts.CATEGORY in ('Primary')
+					and f.collection_object_id in
+					(select related_primary_key from MEDIA_RELATIONS where media_relationship='shows cataloged_item')
+					group by f.collection_id, f.collection) pt on c.collection_id = pt.collection_id
+				LEFT JOIN
+					(select f.collection_id, f.collection, count(distinct f.collection_object_id) Images_Secondary_Cat_Items, sum(decode(total_parts,null, 1,total_parts)) Images_Secondary_Specimens
+					from flat f, citation c, ctcitation_type_status ts
+					where f.collection_object_id = c.collection_object_id
+					and c.type_status = ts.type_status
+					and ts.CATEGORY in ('Secondary')
+					and f.collection_object_id in
+					(select related_primary_key from MEDIA_RELATIONS where media_relationship='shows cataloged_item')
+					group by f.collection_id, f.collection) st on c.collection_id = st.collection_id
+					order by collection
+			</cfquery>
+			<cfif variables.returnAs EQ "csv">
+				<cfset csv = queryToCSV(media)> 
+				<cfoutput>#csv#</cfoutput>
+			<cfelse>
 				<cfoutput>
-					<cfset csv = queryToCSV(media)> 
-					<cffile action="write" file="/#application.webDirectory##filePath##targetFile#" output = "#csv#" addnewline="No">
-				</cfoutput>
-				<section class="col-12 mt-2 px-0">
-					<div class="mt-1 mb-3 float-left w-100">
-						<h2 class="h3 mt-0 px-0 float-left mb-1">Media Activity <span class="text-muted">(#encodeForHtml(beginDate)#/#encodeForHtml(endDate)#)</span></h2>
-						<div class="btn-toolbar mt-2 float-right">
-							<div class="btn-group mr-2">
-								<a href="#filePath##targetFile#" class="btn btn-xs btn-outline-secondary">Export Table</a>
+					<section class="col-12 mt-2 px-0">
+						<div class="mt-1 mb-3 float-left w-100">
+							<h2 class="h3 mt-0 px-0 float-left mb-1">Media Activity <span class="text-muted">(#encodeForHtml(beginDate)#/#encodeForHtml(endDate)#)</span></h2>
+							<div class="btn-toolbar mt-2 float-right">
+								<div class="btn-group mr-2">
+									<a href="/metrics/Dashboard.cfm?action=dowloadMediaActivity&returnAs=csv&beginDate=#encodeForURL(beginDate)#&endDate=#encodeForUrl(endDate)#" class="btn btn-xs btn-outline-secondary">Export Table</a>
+								</div>
 							</div>
 						</div>
-					</div>
-					<div class="table-responsive">
-						<table class="table table-responsive table-striped d-lg-table" id="t">
-							<thead>
-								<tr>
-									<th><strong>Collection</strong></th>
-									<th><strong>Number of Cataloged Items with Media</strong></th>
-									<th><strong>Number of Media Items</strong></th>
-									<th><strong>Number of Cataloged Items with Media added</strong></th>
-									<th><strong>Number of Media Items added</strong></th>
-									<th><strong>Number of Transactions with Associated "Permit" Documents</strong></th>
-									<th><strong>Number of Transactions with Associated "Permit" Documents in time span</strong></th>
-									<th><strong>Number of Primary Types with Images</strong></th>
-									<th><strong>% of Primary Types Imaged</strong></th>
-									<th><strong>Number of Secondary Types with Images</strong></th>
-								</tr>
-							</thead>
-							<tbody>
-								<cfloop query="media">
+						<div class="table-responsive">
+							<table class="table table-responsive table-striped d-lg-table" id="t">
+								<thead>
 									<tr>
-										<td>#Collection#</td>
-										<td>#Num_Images_Cat_Items#</td>
-										<td>#Num_Images#</td>
-										<td>&nbsp;</td>
-										<td>&nbsp;</td>
-										<td>#Num_Permits_Trans#</td>
-										<td>&nbsp;</td>
-										<td>#Images_Primary_Cat_Items#</td>
-										<td>&nbsp;</td>
-										<td>#Images_Secondary_Cat_Items#</td>
+										<th><strong>Collection</strong></th>
+										<th><strong>Number of Cataloged Items with Media</strong></th>
+										<th><strong>Number of Media Items</strong></th>
+										<th><strong>Number of Cataloged Items with Media added</strong></th>
+										<th><strong>Number of Media Items added</strong></th>
+										<th><strong>Number of Transactions with Associated "Permit" Documents</strong></th>
+										<th><strong>Number of Transactions with Associated "Permit" Documents in time span</strong></th>
+										<th><strong>Number of Primary Types with Images</strong></th>
+										<th><strong>% of Primary Types Imaged</strong></th>
+										<th><strong>Number of Secondary Types with Images</strong></th>
 									</tr>
-								</cfloop>
-							</tbody>
-						</table>
-					</div>
-				</section>
-			<cfcatch>
+								</thead>
+								<tbody>
+									<cfloop query="media">
+										<tr>
+											<td>#Collection#</td>
+											<td>#Num_Images_Cat_Items#</td>
+											<td>#Num_Images#</td>
+											<td>&nbsp;</td>
+											<td>&nbsp;</td>
+											<td>#Num_Permits_Trans#</td>
+											<td>&nbsp;</td>
+											<td>#Images_Primary_Cat_Items#</td>
+											<td>&nbsp;</td>
+											<td>#Images_Secondary_Cat_Items#</td>
+										</tr>
+									</cfloop>
+								</tbody>
+							</table>
+						</div>
+					</section>
+				</cfoutput>
+			</cfif>
+		<cfcatch>
+			<cfoutput>
 				<cfset error_message = cfcatchToErrorMessage(cfcatch)>
 				<cfset function_called = "#GetFunctionCalledName()#">
 				<h2 class="h3">Error in #function_called#:</h2>
 				<div>#error_message#</div>
-			</cfcatch>
-			</cftry>
-		</cfoutput>
+			</cfoutput>
+		</cfcatch>
+		</cftry>
 	</cfthread>
 	<cfthread action="join" name="getMediaNumbersThread" />
 	<cfreturn getMediaNumbersThread.output>

@@ -65,7 +65,7 @@ limitations under the License.
 		<cfabort>
 	</cfcase>
 	<cfcase value="dowloadAcquisitions">
-		<!--- download holdings table as csv  --->
+		<!--- download accessions table as csv  --->
 		<cfset csv = getAcquisitions(beginDate="#beginDate#",endDate="#endDate#",returnAs="csv")>
 		<cfheader name="Content-Type" value="text/csv">
 		<cfset beginDate = rereplace(beginDate,'[^0-9]','','all')>
@@ -76,12 +76,23 @@ limitations under the License.
 		<cfabort>
 	</cfcase>
 	<cfcase value="dowloadLoanActivity">
-		<!--- download holdings table as csv  --->
+		<!--- download loan table as csv  --->
 		<cfset csv = getLoanNumbers(beginDate="#beginDate#",endDate="#endDate#",returnAs="csv")>
 		<cfheader name="Content-Type" value="text/csv">
 		<cfset beginDate = rereplace(beginDate,'[^0-9]','','all')>
 		<cfset endDate = rereplace(endDate,'[^0-9]','','all')>
 		<cfset targetFile = "Loan_Activity_#beginDate#_to_#endDate#.csv">
+		<cfheader name="Content-disposition" value="attachment;filename=#targetFile#">
+		<cfoutput>#csv#</cfoutput>
+		<cfabort>
+	</cfcase>
+	<cfcase value="dowloadMediaActivity">
+		<!--- download media table as csv  --->
+		<cfset csv = getMediaNumbers(beginDate="#beginDate#",endDate="#endDate#",returnAs="csv")>
+		<cfheader name="Content-Type" value="text/csv">
+		<cfset beginDate = rereplace(beginDate,'[^0-9]','','all')>
+		<cfset endDate = rereplace(endDate,'[^0-9]','','all')>
+		<cfset targetFile = "Media_Activity_#beginDate#_to_#endDate#.csv">
 		<cfheader name="Content-disposition" value="attachment;filename=#targetFile#">
 		<cfoutput>#csv#</cfoutput>
 		<cfabort>
