@@ -140,4 +140,9 @@ limitations under the License.
 		</cfoutput>
 		<cfinclude template="/shared/_footer.cfm">
 	</cfcase>
+	<cfdefaultcase>
+		<cfoutput>
+			Error: Unknown action
+		</cfoutput>
+	</cfdefaultcase>
 </cfswitch>
