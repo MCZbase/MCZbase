@@ -449,8 +449,6 @@ limitations under the License.
 	<cfset variables.returnAs = arguments.returnAs>
 	<cfthread name="getMediaNumbersThread">
 		<cftry>
-			<cfset targetFile = "media_numbers_#beginDate#_to_#endDate#.csv">
-			<cfset filePath = "/metrics/datafiles/">
 			<!--- annual report queries --->
 			<cfquery name="media" datasource="uam_god" cachedwithin="#createtimespan(7,0,0,0)#">
 				SELECT
@@ -605,7 +603,6 @@ limitations under the License.
 							<h2 class="h3 px-0 mt-0 float-left mb-0">Citation Activity <span class="text-muted">(#encodeForHtml(beginDate)#/#encodeForHtml(endDate)#)</span></h2>
 							<div class="btn-toolbar mt-2 float-right">
 								<div class="btn-group mr-2">
-									<a href="#filePath##targetFile#" class="btn btn-xs btn-outline-secondary">Export Table</a>
 									<a href="/metrics/Dashboard.cfm?action=dowloadCitationActivity&returnAs=csv&beginDate=#encodeForURL(beginDate)#&endDate=#encodeForUrl(endDate)#" class="btn btn-xs btn-outline-secondary">Export Table</a>
 								</div>
 							</div>
