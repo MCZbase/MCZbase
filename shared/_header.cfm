@@ -677,6 +677,9 @@ limitations under the License.
 										<div class="h5 dropdown-header px-4 text-danger">Reports &amp; Statistics</div>
 										<a class="dropdown-item" href="/reporting/Reports.cfm">List of Reports</a>
 										<a class="dropdown-item" href="/info/queryStats.cfm">Query Statistics</a>
+										<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_specimens")>
+											<a class="dropdown-item" href="/metrics/Dashboard.cfm">Annual Reporting Metrics</a>
+										</cfif>
 									</div>
 									<div>
 										<div class="h5 dropdown-header px-4 text-danger">Aggregators</div>
