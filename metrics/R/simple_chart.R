@@ -64,19 +64,19 @@ chart1 <- ggplot(df, aes(x="", y=CATALOGEDITEMS, fill=COLLECTION )) +
 chart1
 
 
-chart2 = ggplot(df, aes(x=COLLECTION, y=CATALOGEDITEMS, fill=CATALOGEDITEMS)) +
-  geom_bar(width=.5, stat="identity") + theme_light() +
-  scale_fill_gradient(low="red", high="white", limits=c(4000,2000000)) +
-  theme(axis.title.y=element_text(angle=0))
-chart2 + theme(axis.text.x = element_text(angle=45, vjust = 1, hjust=1))
-# text with angle to avoid name overlap
-chart2 + coord_polar() + aes(x=reorder(COLLECTION, CATALOGEDITEMS)) +
-  theme(axis.text.x = element_text(angle=-31)) 
+# chart2 = ggplot(df, aes(x=COLLECTION, y=CATALOGEDITEMS, fill=CATALOGEDITEMS)) +
+#   geom_bar(width=.5, stat="identity") + theme_light() +
+#   scale_fill_gradient(low="red", high="white", limits=c(4000,2000000)) +
+#   theme(axis.title.y=element_text(angle=0))
+# chart2 + theme(axis.text.x = element_text(angle=45, vjust = 1, hjust=1))
+# # text with angle to avoid name overlap
+# chart2 + coord_polar() + aes(x=reorder(COLLECTION, CATALOGEDITEMS)) +
+#   theme(axis.text.x = element_text(angle=-31)) 
 
 
 # !!!make sure all instances in R plots, environment, Photoshop, etc are closed before refreshing webpage.
 ggsave('/var/www/html/arctos/metrics/R/graphs/chart1.png', chart1, width=7, height=5, units="in", dpi=96)
-ggsave('/var/www/html/arctos/metrics/R/graphs/chart2.png', chart2, width=7, height=5, units="in", dpi=96)
+# ggsave('/var/www/html/arctos/metrics/R/graphs/chart2.png', chart2, width=7, height=5, units="in", dpi=96)
 # this was about labs in chart1 to put white percentages in the pie parts
 #  geom_text(aes(label = paste0(format(round(df$HOLDINGS/sum(df$HOLDINGS)*100, 1), nsmall = 0), "")), 
 #       position = position_stack(vjust = .5),size=3, color="white")
