@@ -155,7 +155,7 @@ limitations under the License.
 						</div>
 					</section>
 				</cfoutput>
-			<cfif>
+			</cfif>
 		<cfcatch>
 			<cfoutput>
 				<cfset error_message = cfcatchToErrorMessage(cfcatch)>
