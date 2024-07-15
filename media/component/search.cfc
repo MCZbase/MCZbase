@@ -74,7 +74,9 @@ limitations under the License.
 	<cfif isdefined("media_id") AND len(trim(media_id)) GT 0 AND NOT isnumeric(#media_id#)>
 		<cfthrow message = "Media ID must be an integer.  Provided value [#encodeForHtml(media_id)#] is not numeric.">
 	</cfif>
-	<cfif (isdefined("related_cataloged_item") AND len(#related_cataloged_item#) gt 0) AND related_cataloged_item NEQ 'NOT NULL' >
+	<cfif (isdefined("related_cataloged_item") AND len(#related_cataloged_item#) gt 0) AND find('%',related_cataloged_item) GT 0 >
+		<!--- take no action here, but we will handle this case when adding a where clause below --->
+	<cfelseif (isdefined("related_cataloged_item") AND len(#related_cataloged_item#) gt 0) AND related_cataloged_item NEQ 'NOT NULL' >
 		<cfquery name="guidSearch" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="guidSearch_result">
 			select collection_object_id as cat_item_coll_obj_id 
 			from 
@@ -711,6 +713,13 @@ limitations under the License.
 						AND media_relations_ci.media_relationship = 'shows cataloged_item'
 						<cfif related_cataloged_item IS 'NOT NULL'>
 							AND media_relations_ci.related_primary_key IS NOT NULL
+						<cfelseif find('%',related_cataloged_item) GT 0>
+							<!--- handle wild card search directly without using the list of collection_object_id values from above --->
+							AND media_relations_ci.related_primary_key IN (
+								select collection_object_id 
+								from <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat
+								where flat.guid like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#related_cataloged_item#" >
+							)
 						<cfelse>
 							AND media_relations_ci.related_primary_key in ( <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#" list="yes"> )
 						</cfif>

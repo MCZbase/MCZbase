@@ -1556,7 +1556,7 @@ limitations under the License.
 							and verbatim_locality is not null
 					</cfquery>
 					<cfif getEventList.recordcount GT 0>
-						<div class="h4">Collecting Events <a href="/localities/CollectingEvents.cfm?action=search&execute=true&method=getCollectingEvents&locality_id=#variable.locality_id#&accentInsensitive=1&include_counts=1" target="_blank">(#getEventList.recordcount#)</a></div>
+						<div class="h4">Collecting Events <a href="/localities/CollectingEvents.cfm?action=search&execute=true&method=getCollectingEvents&locality_id=#variables.locality_id#&accentInsensitive=1&include_counts=1" target="_blank">(#getEventList.recordcount#)</a></div>
 						<ul class="px-2 pl-xl-4 ml-xl-1">
 							<cfloop query="getEventList">
 								<li>
