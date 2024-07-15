@@ -440,7 +440,6 @@ limitations under the License.
 						username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
 			</cfif>
-	
 			<cfset i = 1>
 			<cfloop query="getTempData">
 				<cfif len(getTempData.agentguid) GT 0>
