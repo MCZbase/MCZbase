@@ -37,13 +37,19 @@ limitations under the License.
 	<cfset variables.endDate=form.endDate>
 </cfif> 
 
-<!--- TODO: Set to most recent full year. Fix Begin date --->
-<cfset currentYear = '#dateFormat(now(), "yyyy")#'>
+<!--- If not provided, Set to most recent full fiscal year  --->
+<cfset currentYear = DateFormat(now(), "yyyy")>
+<cfset lastYear = DateFormat(DateAdd("yyyy", -1, now()))>
 <cfif NOT isDefined("endDate") OR len(endDate) EQ 0>
-	<cfset endDate = '#dateFormat(now(), "yyyy-mm-dd")#'>
+	<cfif DateCompare(now(),createDate(currentYear,7,1) LT 0> 
+		<!--- before the end of the fiscal year, go to end of previous full fiscal year--->
+		<cfset endDate = "#currentYear#-06-30">
+	<cfelse>
+		<cfset endDate = "#previousYear#-06-30">
+	</cfif>
 </cfif>
 <cfif NOT isDefined("beginDate")>
-	<cfset beginDate = '#DateFormat(DateAdd("yyyy", -1, endDate),"yyyy-mm-dd")#'>
+	<cfset beginDate = '#DateFormat(DateAdd("dd",1,DateAdd("yyyy", -1, endDate)),"yyyy-mm-dd")#'>
 </cfif>
 
 <cfswitch expression="#action#">
