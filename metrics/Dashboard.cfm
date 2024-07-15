@@ -43,9 +43,9 @@ limitations under the License.
 <cfif NOT isDefined("endDate") OR len(endDate) EQ 0>
 	<cfif DateCompare(now(),createDate(currentYear,7,1)) LT 0> 
 		<!--- before the end of the fiscal year, go to end of previous full fiscal year--->
-		<cfset endDate = "#currentYear#-06-30">
-	<cfelse>
 		<cfset endDate = "#previousYear#-06-30">
+	<cfelse>
+		<cfset endDate = "#currentYear#-06-30">
 	</cfif>
 </cfif>
 <cfif NOT isDefined("beginDate")>
