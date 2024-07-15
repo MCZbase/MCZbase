@@ -117,7 +117,7 @@ limitations under the License.
 							<h2 class="h3 mt-0 px-0 float-left mb-1">Holdings <span class="text-muted">(#encodeForHtml(beginDate)#/#encodeForHtml(endDate)#)</span></h2>
 							<div class="btn-toolbar mt-2 float-right">
 								<div class="btn-group mr-2">
-									<a href="/metrics/component/functions.cfc?method=getAnnualNumbers&returnAs=csv&beginDate=#encodeForURL(beginDate)#&endDate=#encodeForUrl(endDate)#" class="btn btn-xs btn-outline-secondary">Export Table</a>
+									<a href="/metrics/Dashboard.cfm?action=dowloadHoldings&returnAs=csv&beginDate=#encodeForURL(beginDate)#&endDate=#encodeForUrl(endDate)#" class="btn btn-xs btn-outline-secondary">Export Table</a>
 								</div>
 							</div>
 						</div>
