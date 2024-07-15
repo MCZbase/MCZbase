@@ -107,7 +107,7 @@ limitations under the License.
 				<cfset csv = queryToCSV(totals)> 
 				<cffile action="write" file="/#application.webDirectory##filePath##targetFile#" output = "#csv#" addnewline="No">
 			--->
-			<cfif variables.returnAs = "csv">
+			<cfif variables.returnAs EQ "csv">
 				<cfset csv = queryToCSV(totals)> 
 				<cfoutput>#csv#</cfoutput>
 			<cfelse>
