@@ -49,7 +49,7 @@ limitations under the License.
 	</cfif>
 </cfif>
 <cfif NOT isDefined("beginDate")>
-	<cfset beginDate = '#DateFormat(DateAdd("dd",1,DateAdd("yyyy", -1, endDate)),"yyyy-mm-dd")#'>
+	<cfset beginDate = '#DateFormat(DateAdd("d",1,DateAdd("yyyy", -1, endDate)),"yyyy-mm-dd")#'>
 </cfif>
 
 <cfswitch expression="#action#">
