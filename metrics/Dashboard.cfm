@@ -41,7 +41,7 @@ limitations under the License.
 <cfset currentYear = DateFormat(now(), "yyyy")>
 <cfset lastYear = DateFormat(DateAdd("yyyy", -1, now()))>
 <cfif NOT isDefined("endDate") OR len(endDate) EQ 0>
-	<cfif DateCompare(now(),createDate(currentYear,7,1) LT 0> 
+	<cfif DateCompare(now(),createDate(currentYear,7,1)) LT 0> 
 		<!--- before the end of the fiscal year, go to end of previous full fiscal year--->
 		<cfset endDate = "#currentYear#-06-30">
 	<cfelse>
