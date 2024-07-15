@@ -49,7 +49,7 @@ limitations under the License.
 <cfswitch expression="#action#">
 	<cfcase value="dowloadHoldings">
 		<!--- download holdings table as csv  --->
-		<cfset csv = getAnnualNumbers(beginDate="#beginDate#",endDate="#endDate#",renderAs="csv")>
+		<cfset csv = getAnnualNumbers(beginDate="#beginDate#",endDate="#endDate#",returnAs="csv")>
 		<cfheader name="Content-Type" value="text/csv">
 		<cfset beginDate = rereplace(beginDate,'[^0-9]','','all')>
 		<cfset endDate = rereplace(endDate,'[^0-9]','','all')>
