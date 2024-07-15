@@ -79,7 +79,7 @@ limitations under the License.
 			<cfset filePath = "/metrics/datafiles/">
 			--->
 			<!--- annual report queries --->
-			<cfquery name="totals" datasource="uam_god">
+			<cfquery name="totals" datasource="uam_god" cachedwithin="#createtimespan(7,0,0,0)#">
 				SELECT 
 					h.Collection, 
 					rm.Holdings,
