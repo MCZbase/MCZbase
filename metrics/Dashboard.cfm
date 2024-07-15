@@ -19,9 +19,9 @@ limitations under the License.
 * Dashboard for obtaining annual reporting and other collections metrics.
 
 --->
+<cf_rolecheck>
 
 <cfinclude template="/metrics/component/functions.cfc">
-<script type="text/javascript" src="/metrics/js/metrics.js"></script> 
 <cfif NOT isDefined("action") OR len(action) EQ 0>
 	<cfset action = "showMetrics">
 </cfif>
@@ -61,7 +61,7 @@ limitations under the License.
 	<cfcase value="showMetrics">
 		<cfset pageTitle="Metrics Dashboard">
 		<cfinclude template="/shared/_header.cfm">
-		<cfsetting RequestTimeout = "0">
+		<script type="text/javascript" src="/metrics/js/metrics.js"></script> 
 		<meta name="theme-color" content="#563d7c">
 		<cfoutput>
 			<div class="container-fluid" id="content">
