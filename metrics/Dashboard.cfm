@@ -58,6 +58,17 @@ limitations under the License.
 		<cfoutput>#csv#</cfoutput>
 		<cfabort>
 	</cfcase>
+	<cfcase value="dowloadAcquisitions">
+		<!--- download holdings table as csv  --->
+		<cfset csv = getAcquisitions(beginDate="#beginDate#",endDate="#endDate#",returnAs="csv")>
+		<cfheader name="Content-Type" value="text/csv">
+		<cfset beginDate = rereplace(beginDate,'[^0-9]','','all')>
+		<cfset endDate = rereplace(endDate,'[^0-9]','','all')>
+		<cfset targetFile = "Acquisitions_#beginDate#_to_#endDate#.csv">
+		<cfheader name="Content-disposition" value="attachment;filename=#targetFile#">
+		<cfoutput>#csv#</cfoutput>
+		<cfabort>
+	</cfcase>
 	<cfcase value="showMetrics">
 		<cfset pageTitle="Metrics Dashboard">
 		<cfinclude template="/shared/_header.cfm">

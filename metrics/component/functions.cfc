@@ -61,7 +61,11 @@ limitations under the License.
 	<cfreturn getAnnualChartThread.output>
 </cffunction>
 						
-<!---REPORT: HOLDINGS		--->
+<!--- getAnnualNumbers  REPORT: HOLDINGS within an arbitary period, holdings as of endDate
+@param beginDate starting date for range to report 
+@param endDate end date for range to report
+@param returnAs html or csv, if csv returns result as csv, otherwise as html table 
+--->
 <cffunction name="getAnnualNumbers" access="remote" returntype="any" returnformat="json">
 	<cfargument name="beginDate" type="any" required="yes">
 	<cfargument name="endDate" type="any" required="yes">
@@ -73,12 +77,7 @@ limitations under the License.
 	<cfset variables.returnAs = arguments.returnAs>
 	<cfthread name="getAnnualNumbersThread">
 		<cftry>
-			<!--- TODO: Remove ? --->
-			<!--- 
-			<cfset targetFile = "Holdings_#beginDate#_to_#endDate#.csv">
-			<cfset filePath = "/metrics/datafiles/">
-			--->
-			<!--- annual report queries --->
+			<!--- annual report queries: holdings by collection --->
 			<cfquery name="totals" datasource="uam_god" cachedwithin="#createtimespan(7,0,0,0)#">
 				SELECT 
 					h.Collection, 
@@ -102,11 +101,6 @@ limitations under the License.
 				LEFT JOIN 
 					(select f.collection_id, f.collection, count(distinct collection_object_id) Received_Cat_Items, sum(decode(total_parts,null, 1,total_parts)) Received_Specimens from flat f join accn a on f.ACCN_ID = a.transaction_id join trans t on a.transaction_id = t.transaction_id where a.received_DATE between  to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#beginDate#">, 'YYYY-MM-DD') and  to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#endDate#">, 'YYYY-MM-DD') group by f.collection_id, f.collection) a on h.collection_id = a.collection_id
 			</cfquery>
-			<!--- TODO: Remove? Shouldn't need to write to file on every page load, provide as on demand link --->
-			<!---
-				<cfset csv = queryToCSV(totals)> 
-				<cffile action="write" file="/#application.webDirectory##filePath##targetFile#" output = "#csv#" addnewline="No">
-			--->
 			<cfif variables.returnAs EQ "csv">
 				<cfset csv = queryToCSV(totals)> 
 				<cfoutput>#csv#</cfoutput>
@@ -170,115 +164,135 @@ limitations under the License.
 	<cfreturn getAnnualNumbersThread.output>
 </cffunction>
 
-<!---REPORT: ACQUISITIONS		--->
+<!--- getAcquisitions REPORT: ACQUISITIONS within a specified time period 
+@param beginDate starting date for range to report 
+@param endDate end date for range to report
+@param returnAs html or csv, if csv returns result as csv, otherwise as html table 
+--->
 <cffunction name="getAcquisitions" access="remote" returntype="any" returnformat="json">
 	<cfargument name="beginDate" type="any" required="yes">
 	<cfargument name="endDate" type="any" required="yes">
+	<cfargument name="returnAs" type="string" required="no" default="html">
 	
+	<!--- make arguments available within thread --->
+	<cfset variables.beginDate = arguments.beginDate>
+	<cfset variables.endDate = arguments.endDate>
+	<cfset variables.returnAs = arguments.returnAs>
 	<cfthread name="getAcquisitionsThread">
-		<cfoutput>
-			<cftry>
-				<cfset targetFile = "acquisition_numbers_#beginDate#_to_#endDate#.csv">
-				<cfset filePath = "/metrics/datafiles/">
-				<!--- annual report queries --->
-				<cfquery name="ACtotals" datasource="uam_god">
-					SELECT 
-						h.Collection, 
-						a.Received_Cat_Items,
-						a.Received_Specimens,
-						e.Entered_Cat_Items,
-						e.Entered_Specimens,
-						ncbi.NCBI_Cat_Items,
-						accn.Num_Accns,
-						h.Cataloged_Items, 
-						h.Specimens
-					FROM 
-						(select collection_cde,institution_acronym,descr,collection,collection_id from collection where collection_cde <> 'MCZ') c
-					LEFT JOIN 
-						(select f.collection_id, f.collection, count(distinct f.collection_object_id) Cataloged_Items, sum(decode(total_parts,null, 1,total_parts)) Specimens from flat f join coll_object co on f.collection_object_id = co.collection_object_id where co.COLL_OBJECT_ENTERED_DATE < to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#endDate#">, 'YYYY-MM-DD') group by f.collection_id, f.collection) h on c.collection_id = h.collection_id
-					LEFT JOIN 
-						(select f.collection_id, f.collection, count(distinct collection_object_id) Received_Cat_Items, sum(decode(total_parts,null, 1,total_parts)) Received_Specimens from flat f join accn a on f.ACCN_ID = a.transaction_id join trans t on a.transaction_id = t.transaction_id where a.received_DATE between  to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#beginDate#">, 'YYYY-MM-DD') and  to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#endDate#">, 'YYYY-MM-DD') group by f.collection_id, f.collection) a on h.collection_id = a.collection_id
-					LEFT JOIN 
-						(select f.collection_id, f.collection, count(distinct f.collection_object_id) Entered_Cat_Items, sum(decode(total_parts,null, 1,total_parts)) Entered_Specimens from flat f join coll_object co on f.collection_object_id = co.collection_object_id where co.COLL_OBJECT_ENTERED_DATE between to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#beginDate#">, 'YYYY-MM-DD') and  to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#endDate#">, 'YYYY-MM-DD') group by f.collection_id, f.collection) e on e.collection_id = h.collection_id
-					LEFT JOIN 
-						(select f.collection_id, f.collection, count(distinct f.collection_object_id) NCBI_Cat_Items, sum(total_parts) ncbiSpecimens from COLL_OBJ_OTHER_ID_NUM oid, flat f, COLL_OBJECT CO where OTHER_ID_TYPE like '%NCBI%' AND F.COLLECTION_OBJECT_ID = CO.COLLECTION_OBJECT_ID and co.COLL_OBJECT_ENTERED_DATE < to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#endDate#">, 'YYYY-MM-DD') and oid.collection_object_id = f.collection_object_id group by f.collection_id, f.collection) ncbi on h.collection_id = ncbi.collection_id
-					LEFT JOIN 
-						(select c.collection_id, c.collection, count(distinct t.transaction_id) Num_Accns from accn a, trans t, collection c where a.transaction_id = t.transaction_id and t.collection_id = c.collection_id and a.received_date between to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#beginDate#">, 'YYYY-MM-DD') and  to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#endDate#">, 'YYYY-MM-DD') group by c.collection_id, c.collection) accn on h.collection_id = accn.collection_id
-				</cfquery>
+		<cftry>
+			<!--- annual report queries --->
+			<cfquery name="ACtotals" datasource="uam_god" cachedwithin="#createtimespan(7,0,0,0)#">
+				SELECT
+					h.Collection, 
+					a.Received_Cat_Items,
+					a.Received_Specimens,
+					e.Entered_Cat_Items,
+					e.Entered_Specimens,
+					ncbi.NCBI_Cat_Items,
+					accn.Num_Accns,
+					h.Cataloged_Items, 
+					h.Specimens
+				FROM 
+					(select collection_cde,institution_acronym,descr,collection,collection_id from collection where collection_cde <> 'MCZ') c
+				LEFT JOIN 
+					(select f.collection_id, f.collection, count(distinct f.collection_object_id) Cataloged_Items, sum(decode(total_parts,null, 1,total_parts)) Specimens from flat f join coll_object co on f.collection_object_id = co.collection_object_id where co.COLL_OBJECT_ENTERED_DATE < to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#endDate#">, 'YYYY-MM-DD') group by f.collection_id, f.collection) h on c.collection_id = h.collection_id
+				LEFT JOIN 
+					(select f.collection_id, f.collection, count(distinct collection_object_id) Received_Cat_Items, sum(decode(total_parts,null, 1,total_parts)) Received_Specimens from flat f join accn a on f.ACCN_ID = a.transaction_id join trans t on a.transaction_id = t.transaction_id where a.received_DATE between  to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#beginDate#">, 'YYYY-MM-DD') and  to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#endDate#">, 'YYYY-MM-DD') group by f.collection_id, f.collection) a on h.collection_id = a.collection_id
+				LEFT JOIN 
+					(select f.collection_id, f.collection, count(distinct f.collection_object_id) Entered_Cat_Items, sum(decode(total_parts,null, 1,total_parts)) Entered_Specimens from flat f join coll_object co on f.collection_object_id = co.collection_object_id where co.COLL_OBJECT_ENTERED_DATE between to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#beginDate#">, 'YYYY-MM-DD') and  to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#endDate#">, 'YYYY-MM-DD') group by f.collection_id, f.collection) e on e.collection_id = h.collection_id
+				LEFT JOIN 
+					(select f.collection_id, f.collection, count(distinct f.collection_object_id) NCBI_Cat_Items, sum(total_parts) ncbiSpecimens from COLL_OBJ_OTHER_ID_NUM oid, flat f, COLL_OBJECT CO where OTHER_ID_TYPE like '%NCBI%' AND F.COLLECTION_OBJECT_ID = CO.COLLECTION_OBJECT_ID and co.COLL_OBJECT_ENTERED_DATE < to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#endDate#">, 'YYYY-MM-DD') and oid.collection_object_id = f.collection_object_id group by f.collection_id, f.collection) ncbi on h.collection_id = ncbi.collection_id
+				LEFT JOIN 
+					(select c.collection_id, c.collection, count(distinct t.transaction_id) Num_Accns from accn a, trans t, collection c where a.transaction_id = t.transaction_id and t.collection_id = c.collection_id and a.received_date between to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#beginDate#">, 'YYYY-MM-DD') and  to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#endDate#">, 'YYYY-MM-DD') group by c.collection_id, c.collection) accn on h.collection_id = accn.collection_id
+			</cfquery>
+			<cfif variables.returnAs EQ "csv">
+				<cfset csv = queryToCSV(totals)> 
+				<cfoutput>#csv#</cfoutput>
+			<cfelse>
 				<cfoutput>
-					<cfset csv = queryToCSV(ACtotals)> 
-					<cffile action="write" file="/#application.webDirectory##filePath##targetFile#" output = "#csv#" addnewline="No">
-				</cfoutput>
-				<section class="col-12 mt-2 px-0">
-					<div class="mt-1 mb-3 float-left w-100">
-						<h2 class="h3 mt-0 mb-1 px-0 float-left">Acquisitions <span class="text-muted">(#encodeForHtml(beginDate)#/#encodeForHtml(endDate)#)</span></h2>
-						<div class="btn-toolbar mt-2 float-right">
-							<div class="btn-group mr-2">
-								<a href="#filePath##targetFile#" class="btn btn-xs btn-outline-secondary">Export Table</a>
+					<section class="col-12 mt-2 px-0">
+						<div class="mt-1 mb-3 float-left w-100">
+							<h2 class="h3 mt-0 mb-1 px-0 float-left">Acquisitions <span class="text-muted">(#encodeForHtml(beginDate)#/#encodeForHtml(endDate)#)</span></h2>
+							<div class="btn-toolbar mt-2 float-right">
+								<div class="btn-group mr-2">
+									<a href="/metrics/Dashboard.cfm?action=dowloadAcquistions&returnAs=csv&beginDate=#encodeForURL(beginDate)#&endDate=#encodeForUrl(endDate)#" class="btn btn-xs btn-outline-secondary">Export Table</a>
+								</div>
 							</div>
 						</div>
-					</div>
-					<div class="table-responsive">
-						<table class="table table-striped d-lg-table" id="t">
-							<thead>
-								<tr>
-									<th><strong>Collection</strong></th>
-									<th><strong>Acquired Cataloged Items</strong></th>
-									<th><strong>Acquired Specimens</strong></th>
-									<th><strong>New Records Entered in MCZbase - Cataloged Items</strong></th>
-									<th><strong>Number of Genetic Samples added To Cryo</strong></th>
-									<th><strong>Number of Cataloged Items with NCBI numbers</strong></th>
-									<th><strong>Number of NCBI numbers added</strong></th>
-									<th><strong>Items received but not Cataloged at End of Year</strong></th>
-									<th><strong>Number of Accessions</strong></th>
-									<th><strong>Total Cataloged Items</strong></th>
-									<th><strong>Total Specimens (parts)</strong></th>
-								</tr>
-							</thead>
-							<tbody>
-								<cfloop query="ACtotals">
+						<div class="table-responsive">
+							<table class="table table-striped d-lg-table" id="t">
+								<thead>
 									<tr>
-										<td>#collection#</td>
-										<td>#Received_Cat_Items#</td>
-										<td>#Received_Specimens#</td>
-										<td>#Entered_Cat_Items#</td>
-										<td>#Entered_Specimens#</td>
-										<td>&nbsp;</td>
-										<td>#NCBI_Cat_Items#</td>
-										<td>&nbsp;</td>
-										<td>#Num_Accns#</td>
-										<td>#Cataloged_Items#</td>
-										<td>#Specimens#</td>
+										<th><strong>Collection</strong></th>
+										<th><strong>Acquired Cataloged Items</strong></th>
+										<th><strong>Acquired Specimens</strong></th>
+										<th><strong>New Records Entered in MCZbase - Cataloged Items</strong></th>
+										<th><strong>Number of Genetic Samples added To Cryo</strong></th>
+										<th><strong>Number of Cataloged Items with NCBI numbers</strong></th>
+										<th><strong>Number of NCBI numbers added</strong></th>
+										<th><strong>Items received but not Cataloged at End of Year</strong></th>
+										<th><strong>Number of Accessions</strong></th>
+										<th><strong>Total Cataloged Items</strong></th>
+										<th><strong>Total Specimens (parts)</strong></th>
 									</tr>
-								</cfloop>
-							</tbody>
-						</table>
-					</div>
-				</section>
-			<cfcatch>
+								</thead>
+								<tbody>
+									<cfloop query="ACtotals">
+										<tr>
+											<td>#collection#</td>
+											<td>#Received_Cat_Items#</td>
+											<td>#Received_Specimens#</td>
+											<td>#Entered_Cat_Items#</td>
+											<td>#Entered_Specimens#</td>
+											<td>&nbsp;</td>
+											<td>#NCBI_Cat_Items#</td>
+											<td>&nbsp;</td>
+											<td>#Num_Accns#</td>
+											<td>#Cataloged_Items#</td>
+											<td>#Specimens#</td>
+										</tr>
+									</cfloop>
+								</tbody>
+							</table>
+						</div>
+					</section>
+				</cfoutput>
+			</cfif>
+		<cfcatch>
+			<cfoutput>
 				<cfset error_message = cfcatchToErrorMessage(cfcatch)>
 				<cfset function_called = "#GetFunctionCalledName()#">
 				<h2 class="h3">Error in #function_called#:</h2>
 				<div>#error_message#</div>
-			</cfcatch>
-			</cftry>
-		</cfoutput>
+			</cfoutput>
+		</cfcatch>
+		</cftry>
 	</cfthread>
 	<cfthread action="join" name="getAcquisitionsThread" />
 	<cfreturn getAcquisitionsThread.output>
 </cffunction>
 					
-					
+<!--- getLoanNumbers report on loan activity 
+@param beginDate starting date for range to report 
+@param endDate end date for range to report
+@param returnAs html or csv, if csv returns result as csv, otherwise as html table 
+--->
 <cffunction name="getLoanNumbers" access="remote" returntype="any" returnformat="json">
 	<cfargument name="endDate" type="any" required="no">
 	<cfargument name="beginDate" type="any" required="no">
+	<cfargument name="returnAs" type="string" required="no" default="html">
+	
+	<!--- make arguments available within thread --->
+	<cfset variables.beginDate = arguments.beginDate>
+	<cfset variables.endDate = arguments.endDate>
+	<cfset variables.returnAs = arguments.returnAs>
 	<cfthread name="getLoanNumbersThread">
 		<cfoutput>
 			<cftry>
 				<cfset targetFile = "loan_numbers_#beginDate#_to_#endDate#.csv">
 				<cfset filePath = "/metrics/datafiles/">
 				<!--- annual report queries for loan activity --->
-				<cfquery name="loans" datasource="uam_god">
+				<cfquery name="loans" datasource="uam_god" cachedwithin="#createtimespan(7,0,0,0)#">
 					SELECT
 						c.Collection, 
 						ol.Num_Outgoing_Loans,
@@ -420,17 +434,27 @@ limitations under the License.
 	<cfreturn getLoanNumbersThread.output>
 </cffunction>
 
-					
+<!--- getMediaNumbers report on media activity in a specified time period 
+@param beginDate starting date for range to report 
+@param endDate end date for range to report
+@param returnAs html or csv, if csv returns result as csv, otherwise as html table 
+--->
 <cffunction name="getMediaNumbers" access="remote" returntype="any" returnformat="json">
 	<cfargument name="endDate" type="any" required="no" default="2024-07-01">
 	<cfargument name="beginDate" type="any" required="no" default="2023-07-01">
+	<cfargument name="returnAs" type="string" required="no" default="html">
+	
+	<!--- make arguments available within thread --->
+	<cfset variables.beginDate = arguments.beginDate>
+	<cfset variables.endDate = arguments.endDate>
+	<cfset variables.returnAs = arguments.returnAs>
 	<cfthread name="getMediaNumbersThread">
 		<cfoutput>
 			<cftry>
 				<cfset targetFile = "media_numbers_#beginDate#_to_#endDate#.csv">
 				<cfset filePath = "/metrics/datafiles/">
 				<!--- annual report queries --->
-				<cfquery name="media" datasource="uam_god">
+				<cfquery name="media" datasource="uam_god" cachedwithin="#createtimespan(7,0,0,0)#">
 					SELECT
 						c.collection,
 						i.Num_Images_Cat_Items,
@@ -535,17 +559,27 @@ limitations under the License.
 	<cfreturn getMediaNumbersThread.output>
 </cffunction>
 
-					
+<!--- getCitationNumbers obtain report on citations of specimens within a specified time period.				
+@param beginDate starting date for range to report 
+@param endDate end date for range to report
+@param returnAs html or csv, if csv returns result as csv, otherwise as html table 
+--->
 <cffunction name="getCitationNumbers" access="remote" returntype="any" returnformat="json">
 	<cfargument name="endDate" type="any" required="no" default="2024-07-01">
 	<cfargument name="beginDate" type="any" required="no" default="2023-07-01">
+	<cfargument name="returnAs" type="string" required="no" default="html">
+	
+	<!--- make arguments available within thread --->
+	<cfset variables.beginDate = arguments.beginDate>
+	<cfset variables.endDate = arguments.endDate>
+	<cfset variables.returnAs = arguments.returnAs>
 	<cfthread name="getCitationNumbersThread">
 		<cfoutput>
 			<cftry>
 				<cfset targetFile = "citation_numbers_#beginDate#_to_#endDate#.csv">
 				<cfset filePath = "/metrics/datafiles/">
 				<!--- annual report queries --->
-				<cfquery name="citationNums" datasource="uam_god" result="citation_result">
+				<cfquery name="citationNums" datasource="uam_god" result="citation_result" cachedwithin="#createtimespan(7,0,0,0)#">
 					SELECT
 						c.Collection,
 						cit.Num_Citations,
@@ -612,16 +646,27 @@ limitations under the License.
 	<cfthread action="join" name="getCitationNumbersThread" />
 	<cfreturn getCitationNumbersThread.output>
 </cffunction>
-				
+
+<!--- getGeorefNumbers report on georeferences and georeferencing activity within a specified time period 			
+@param beginDate starting date for range to report 
+@param endDate end date for range to report
+@param returnAs html or csv, if csv returns result as csv, otherwise as html table 
+--->
 <cffunction name="getGeorefNumbers" access="remote" returntype="any" returnformat="json">
 	<cfargument name="endDate" type="any" required="no" default="2024-07-01">
 	<cfargument name="beginDate" type="any" required="no" default="2023-07-01">
+	<cfargument name="returnAs" type="string" required="no" default="html">
+	
+	<!--- make arguments available within thread --->
+	<cfset variables.beginDate = arguments.beginDate>
+	<cfset variables.endDate = arguments.endDate>
+	<cfset variables.returnAs = arguments.returnAs>
 	<cfthread name="getGeorefNumbersThread">
 		<cfoutput>
 			<cftry>
 				<cfset targetFile = "georeference_numbers_#beginDate#_to_#endDate#.csv">
 				<cfset filePath = "/metrics/datafiles/">
-				<cfquery name="georef" datasource="uam_god">
+				<cfquery name="georef" datasource="uam_god" cachedwithin="#createtimespan(7,0,0,0)#">
 					SELECT
 						c.Collection,
 						l.Num_Localities,
