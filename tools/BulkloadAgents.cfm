@@ -338,7 +338,6 @@ limitations under the License.
 					cf_temp_agents
 				WHERE 
 					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> AND
-					key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#key#">
 			</cfquery>
 			<cfloop query="getTempData">
 				<cfquery name="prefName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" >
