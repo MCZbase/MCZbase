@@ -51,8 +51,8 @@ limitations under the License.
 		<!--- download holdings table as csv  --->
 		<cfset csv = getAnnualNumbers(beginDate="#beginDate#",endDate="#endDate#",renderAs="csv")>
 		<cfheader name="Content-Type" value="text/csv">
-		<cfset beginDate = rereplace(beginDate,'[^0-9]','','all'>
-		<cfset endDate = rereplace(endDate,'[^0-9]','','all'>
+		<cfset beginDate = rereplace(beginDate,'[^0-9]','','all')>
+		<cfset endDate = rereplace(endDate,'[^0-9]','','all')>
 		<cfset targetFile = "Holdings_#beginDate#_to_#endDate#.csv">
 		<cfheader name="Content-disposition" value="attachment;filename=#targetFile#">
 		<cfoutput>#csv#</cfoutput>
