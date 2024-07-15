@@ -340,6 +340,9 @@
 								<div class="h5 dropdown-header px-4 text-danger">Reports &amp; Statistics</div>
 								<a class="dropdown-item"  target="_top" href="/reporting/Reports.cfm">List of Reports</a>
 								<a class="dropdown-item"  target="_top" href="/info/queryStats.cfm">Query Stats</a>
+								<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_specimens")>
+									<a class="dropdown-item" target="_top" href="/metrics/Dashboard.cfm">Annual Reporting Metrics</a>
+								</cfif>
 							</div>
 							<div style="float:left;width: 49%;">
 								<div class="h5 dropdown-header px-4 text-danger">Aggregators</div>
