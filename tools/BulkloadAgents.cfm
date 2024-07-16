@@ -451,8 +451,18 @@ limitations under the License.
 							username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> AND
 							key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#key#">
 					</cfquery>
+					<cfif len(getTempData.agentguid) GT 0>
+						<cfquery name="invGuidType2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+							UPDATE cf_temp_agents
+							SET 
+								status = concat(nvl2(status, status || '; ', ''),'If agentguid is specified, valid agentguid_guid_type must also be provided.')
+							WHERE 
+								username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> AND
+								key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#key#">
+						</cfquery>
+					</cfif>
 				</cfif>
-				<cfif len(getTempData.agentguid_guid_type) GT 0>
+				<cfif len(getTempData.agentguid) EQ 0>
 					<cfif len(getTempData.agentguid) EQ 0>
 						<cfquery name="invGuidType2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							UPDATE cf_temp_agents
@@ -485,7 +495,7 @@ limitations under the License.
 							</cfif>
 						</cfif>
 					</cfif>
-			</cfif>
+				</cfif>
 			</cfloop>
 			<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT 
