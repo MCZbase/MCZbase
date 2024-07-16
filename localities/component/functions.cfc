@@ -4568,6 +4568,13 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 							related_primary_key =  <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
 							AND
 							media_relationship like '%locality'
+						UNION
+						SELECT
+							count(*) ct
+						FROM
+							lat_long
+						WHERE
+							lat_long.locality_id =  <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
 					)
 				</cfquery>
 				<cfif countUses.total_uses EQ "0">
