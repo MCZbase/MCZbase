@@ -149,9 +149,9 @@ limitations under the License.
 									<option value="getAnnualNumbers" selected="selected">Holdings</option>
 									<option value="getAcquisitions">Acquisitions</option>
 									<option value="getLoanNumbers">Loan Activity</option>
-									<option value="getMediaNumbers">Media Activity</option>
-									<option value="getCitationNumbers">Citation Activity</option>
-									<option value="getGeorefNumbers">Georeference Activity</option>
+									<option value="getMediaNumbers">Media (current)</option>
+									<option value="getCitationNumbers">Citations (current)</option>
+									<option value="getGeorefNumbers">Georeferences (current)</option>
 								</select>
 								<input type="submit" value="Show Report" class="my-3 btn-xs btn btn-primary" aria-label="Show the selected report for the specified date range">
 							</form>
