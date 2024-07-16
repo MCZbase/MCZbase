@@ -480,7 +480,7 @@ limitations under the License.
 							FROM 
 								ctguid_type 
 							WHERE
-								guid_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+								guid_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#guid_type#">
 						</cfquery>
 						<cfif getPattern.recordcount GT 0>
 							<cfif REFind(getPattern.pattern_regex,getTempData.agentguid) EQ 0>
@@ -495,7 +495,7 @@ limitations under the License.
 							</cfif>
 						</cfif>
 					</cfif>
-				</cfif>
+				t</cfif>
 			</cfloop>
 			<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT 
