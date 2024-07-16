@@ -509,7 +509,7 @@ limitations under the License.
 							</div>
 						</div>
 						<div class="table-responsive">
-							<table class="table table-responsive table-striped d-lg-table" id="t">
+							<table class="table table-striped d-lg-table" id="t">
 								<thead>
 									<tr>
 										<th><strong>Collection</strong></th>
@@ -607,7 +607,7 @@ limitations under the License.
 								</div>
 							</div>
 						</div>
-						<div class="table-respponsive">
+						<div class="table-responsive">
 							<table class="table table-striped d-lg-table" id="t">
 								<thead>
 									<tr>
