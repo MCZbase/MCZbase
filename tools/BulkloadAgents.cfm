@@ -23,8 +23,7 @@ limitations under the License.
 			birth_date,death_date,agent_remark,prefix,suffix,
 			other_name_1,other_name_type_1,other_name_2,other_name_type_2,
 			other_name_3,other_name_type_3,
-			agentguid_guid_type,agentguid,t_preferred_agent_name_id,
-			t_agent_id,status
+			agentguid_guid_type,agentguid,status
 		FROM cf_temp_agents 
 		WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 		ORDER BY key
