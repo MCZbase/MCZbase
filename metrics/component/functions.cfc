@@ -500,8 +500,12 @@ limitations under the License.
 			<cfelse>
 				<cfoutput>
 					<section class="col-12 mt-2 px-0">
-						<div class="my-2 float-left w-100">
+						<div class="my-1 float-left w-100">
+							<!---
+							TODO: Media queries do not use dates. 
 							<h2 class="h3 mt-0 px-0 float-left mb-1">Media Activity <span class="text-muted">(#encodeForHtml(beginDate)#/#encodeForHtml(endDate)#)</span></h2>
+							--->
+							<h2 class="h3 mt-0 px-0 float-left mb-1">Media Activity <span class="text-muted">(current values)</span></h2>
 							<div class="btn-toolbar my-1 mt-md-0 float-right">
 								<div class="btn-group mr-2">
 									<a href="/metrics/Dashboard.cfm?action=dowloadMediaActivity&returnAs=csv&beginDate=#encodeForURL(beginDate)#&endDate=#encodeForUrl(endDate)#" class="btn btn-xs btn-outline-secondary">Export Table</a>
@@ -600,7 +604,11 @@ limitations under the License.
 				<cfoutput>
 					<section class="col-12 mt-2 px-0">
 						<div class="my-2 float-left w-100">
+							<!--- 
+								TODO: Citation query does not use dates 
 							<h2 class="h3 px-0 mt-0 float-left mb-0">Citation Activity <span class="text-muted">(#encodeForHtml(beginDate)#/#encodeForHtml(endDate)#)</span></h2>
+							--->
+							<h2 class="h3 px-0 mt-0 float-left mb-0">Citation Activity <span class="text-muted">(current values)</span></h2>
 							<div class="btn-toolbar my-1 mt-md-0 float-right">
 								<div class="btn-group mr-2">
 									<a href="/metrics/Dashboard.cfm?action=dowloadCitationActivity&returnAs=csv&beginDate=#encodeForURL(beginDate)#&endDate=#encodeForUrl(endDate)#" class="btn btn-xs btn-outline-secondary">Export Table</a>
@@ -697,8 +705,14 @@ limitations under the License.
 				<cfoutput>
 					<section class="col-12 mt-2 px-0">
 						<div class="my-2 float-left w-100">
+							<!--- 
+								TODO: Georeferencing queries do not use dates 
 							<h2 class="h3 px-0 mt-0 float-left mb-0">Georeferencing Activity 
 								<span class="text-muted">(#encodeForHtml(beginDate)#/#encodeForHtml(endDate)#)</span>
+							</h2>
+							--->
+							<h2 class="h3 px-0 mt-0 float-left mb-0">Georeferencing Activity 
+								<span class="text-muted">(current values)</span>
 							</h2>
 							<div class="btn-toolbar my-1 mt-lg-0 float-right">
 								<div class="btn-group mr-2">
