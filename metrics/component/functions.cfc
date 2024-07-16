@@ -242,9 +242,9 @@ limitations under the License.
 											<td>#Received_Specimens#</td>
 											<td>#Entered_Cat_Items#</td>
 											<td>#Entered_Specimens#</td>
-											<td>&nbsp;</td>
+											<td>N/A</td>
 											<td>#NCBI_Cat_Items#</td>
-											<td>&nbsp;</td>
+											<td>N/A</td>
 											<td>#Num_Accns#</td>
 											<td>#Cataloged_Items#</td>
 											<td>#Specimens#</td>
@@ -534,12 +534,12 @@ limitations under the License.
 											<td>#Collection#</td>
 											<td>#Num_Images_Cat_Items#</td>
 											<td>#Num_Images#</td>
-											<td>&nbsp;</td>
-											<td>&nbsp;</td>
+											<td>N/A</td>
+											<td>N/A</td>
 											<td>#Num_Permits_Trans#</td>
-											<td>&nbsp;</td>
+											<td>N/A</td>
 											<td>#Images_Primary_Cat_Items#</td>
-											<td>&nbsp;</td>
+											<td>N/A</td>
 											<td>#Images_Secondary_Cat_Items#</td>
 										</tr>
 									</cfloop>
@@ -632,8 +632,8 @@ limitations under the License.
 											<td>#Collection#</td>
 											<td>#Num_Citations#</td>
 											<td>#Num_Citation_Cat_Items#</td>
-											<td>&nbsp;</td>
-											<td>&nbsp;</td>
+											<td>N/A</td>
+											<td>N/A</td>
 										</tr>
 									</cfloop>
 								</tbody>
@@ -744,9 +744,9 @@ limitations under the License.
 											<td>#NumberFormat((Num_GeoRef_Localities/Num_Localities)*100, '9.99')#%</td>
 											<td>#Num_Verified_GeoRef_Localities#</td>
 											<td>#Num_GeoRef_Cat_Items#</td>
-											<td>&nbsp;</td>
-											<td>&nbsp;</td>
-											<td>&nbsp;</td>
+											<td>N/A</td>
+											<td>N/A</td>
+											<td>N/A</td>
 										</tr>
 									</cfloop>
 								</tbody>
