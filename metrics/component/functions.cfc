@@ -113,8 +113,8 @@ limitations under the License.
 								</div>
 							</div>
 						</div>
-						<div class="table-responsive">
-							<table class="table table-striped d-lg-table" id="t">
+						<div class="table-responsiv-lg">
+							<table class="table table-striped" id="t">
 								<thead>
 									<tr>
 										<th><strong>Collection</strong></th>
@@ -217,8 +217,8 @@ limitations under the License.
 								</div>
 							</div>
 						</div>
-						<div class="table-responsive">
-							<table class="table table-striped d-lg-table" id="t">
+						<div class="table-responsive-lg">
+							<table class="table table-striped" id="t">
 								<thead>
 									<tr>
 										<th><strong>Collection</strong></th>
@@ -380,8 +380,8 @@ limitations under the License.
 								</div>
 							</div>
 						</div>
-						<div class="table-responsive">
-							<table class="table table-striped d-lg-table" id="t">
+						<div class="table-responsive-lg">
+							<table class="table table-striped" id="t">
 								<thead>
 									<tr>
 										<th><strong>Collection</strong></th>
@@ -508,8 +508,8 @@ limitations under the License.
 								</div>
 							</div>
 						</div>
-						<div class="table-responsive">
-							<table class="table table-striped d-lg-table" id="t">
+						<div class="table-responsive-lg">
+							<table class="table table-striped" id="t">
 								<thead>
 									<tr>
 										<th><strong>Collection</strong></th>
@@ -607,8 +607,8 @@ limitations under the License.
 								</div>
 							</div>
 						</div>
-						<div class="table-responsive">
-							<table class="table table-striped d-lg-table" id="t">
+						<div class="table-responsive-lg">
+							<table class="table table-striped" id="t">
 								<thead>
 									<tr>
 										<th><strong>Collection</strong></th>
@@ -706,8 +706,8 @@ limitations under the License.
 								</div>
 							</div>
 						</div>
-						<div class="table-responsive">
-							<table class="table table-striped d-lg-table" id="t">
+						<div class="table-responsive-lg">
+							<table class="table table-striped" id="t">
 								<thead>
 									<tr>
 										<th><strong>Collection</strong></th>
