@@ -113,7 +113,7 @@ limitations under the License.
 								</div>
 							</div>
 						</div>
-						<div class="table-responsiv-lg">
+						<div class="table-responsive-lg">
 							<table class="table table-striped" id="t">
 								<thead>
 									<tr>
