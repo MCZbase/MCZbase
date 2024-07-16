@@ -105,16 +105,16 @@ limitations under the License.
 			<cfelse>
 				<cfoutput>
 					<section class="col-12 mt-1 px-0">
-						<div class="mt-1 mb-3 float-left w-100">
+						<div class="my-2 float-left w-100">
 							<h2 class="h3 mt-0 px-0 float-left mb-1">Holdings <span class="text-muted">(as of #encodeForHtml(endDate)#)</span></h2>
-							<div class="btn-toolbar mt-2 float-right">
+							<div class="btn-toolbar my-1 mt-md-0 float-right">
 								<div class="btn-group mr-2">
 									<a href="/metrics/Dashboard.cfm?action=dowloadHoldings&returnAs=csv&beginDate=#encodeForURL(beginDate)#&endDate=#encodeForUrl(endDate)#" class="btn btn-xs btn-outline-secondary">Export Table</a>
 								</div>
 							</div>
 						</div>
-						<div class="table-responsive">
-							<table class="table table-striped d-lg-table" id="t">
+						<div class="table-responsive-lg">
+							<table class="table table-striped" id="t">
 								<thead>
 									<tr>
 										<th><strong>Collection</strong></th>
@@ -209,16 +209,16 @@ limitations under the License.
 			<cfelse>
 				<cfoutput>
 					<section class="col-12 mt-2 px-0">
-						<div class="mt-1 mb-3 float-left w-100">
+						<div class="my-2 float-left w-100">
 							<h2 class="h3 mt-0 mb-1 px-0 float-left">Acquisitions <span class="text-muted">(#encodeForHtml(beginDate)#/#encodeForHtml(endDate)#)</span></h2>
-							<div class="btn-toolbar mt-2 float-right">
+							<div class="btn-toolbar my-1 mt-md-0 float-right">
 								<div class="btn-group mr-2">
 									<a href="/metrics/Dashboard.cfm?action=dowloadAcquisitions&returnAs=csv&beginDate=#encodeForURL(beginDate)#&endDate=#encodeForUrl(endDate)#" class="btn btn-xs btn-outline-secondary">Export Table</a>
 								</div>
 							</div>
 						</div>
-						<div class="table-responsive">
-							<table class="table table-striped d-lg-table" id="t">
+						<div class="table-responsive-lg">
+							<table class="table table-striped" id="t">
 								<thead>
 									<tr>
 										<th><strong>Collection</strong></th>
@@ -242,9 +242,9 @@ limitations under the License.
 											<td>#Received_Specimens#</td>
 											<td>#Entered_Cat_Items#</td>
 											<td>#Entered_Specimens#</td>
-											<td>&nbsp;</td>
+											<td>N/A</td>
 											<td>#NCBI_Cat_Items#</td>
-											<td>&nbsp;</td>
+											<td>N/A</td>
 											<td>#Num_Accns#</td>
 											<td>#Cataloged_Items#</td>
 											<td>#Specimens#</td>
@@ -372,16 +372,16 @@ limitations under the License.
 			<cfelse>
 				<cfoutput>
 					<section class="col-12 mt-2 px-0">
-						<div class="mt-1 mb-3 float-left w-100">
+						<div class="my-2 float-left w-100">
 							<h2 class="h3 mt-0 px-0 float-left mb-1">Loan Activity <span class="text-muted">(#encodeForHtml(beginDate)#/#encodeForHtml(endDate)#)</span></h2>
-							<div class="btn-toolbar mt-2 float-right">
+							<div class="btn-toolbar my-1 mt-md-0 float-right">
 								<div class="btn-group mr-2">
 									<a href="/metrics/Dashboard.cfm?action=dowloadLoanActivity&returnAs=csv&beginDate=#encodeForURL(beginDate)#&endDate=#encodeForUrl(endDate)#" class="btn btn-xs btn-outline-secondary">Export Table</a>
 								</div>
 							</div>
 						</div>
-						<div class="table-responsive">
-							<table class="table table-striped d-lg-table" id="t">
+						<div class="table-responsive-lg">
+							<table class="table table-striped" id="t">
 								<thead>
 									<tr>
 										<th><strong>Collection</strong></th>
@@ -500,16 +500,20 @@ limitations under the License.
 			<cfelse>
 				<cfoutput>
 					<section class="col-12 mt-2 px-0">
-						<div class="mt-1 mb-3 float-left w-100">
+						<div class="my-1 float-left w-100">
+							<!---
+							TODO: Media queries do not use dates. 
 							<h2 class="h3 mt-0 px-0 float-left mb-1">Media Activity <span class="text-muted">(#encodeForHtml(beginDate)#/#encodeForHtml(endDate)#)</span></h2>
-							<div class="btn-toolbar mt-2 float-right">
+							--->
+							<h2 class="h3 mt-0 px-0 float-left mb-1">Media Activity <span class="text-muted">(current values)</span></h2>
+							<div class="btn-toolbar my-1 mt-md-0 float-right">
 								<div class="btn-group mr-2">
 									<a href="/metrics/Dashboard.cfm?action=dowloadMediaActivity&returnAs=csv&beginDate=#encodeForURL(beginDate)#&endDate=#encodeForUrl(endDate)#" class="btn btn-xs btn-outline-secondary">Export Table</a>
 								</div>
 							</div>
 						</div>
-						<div class="table-responsive">
-							<table class="table table-responsive table-striped d-lg-table" id="t">
+						<div class="table-responsive-lg">
+							<table class="table table-striped" id="t">
 								<thead>
 									<tr>
 										<th><strong>Collection</strong></th>
@@ -530,12 +534,12 @@ limitations under the License.
 											<td>#Collection#</td>
 											<td>#Num_Images_Cat_Items#</td>
 											<td>#Num_Images#</td>
-											<td>&nbsp;</td>
-											<td>&nbsp;</td>
+											<td>N/A</td>
+											<td>N/A</td>
 											<td>#Num_Permits_Trans#</td>
-											<td>&nbsp;</td>
+											<td>N/A</td>
 											<td>#Images_Primary_Cat_Items#</td>
-											<td>&nbsp;</td>
+											<td>N/A</td>
 											<td>#Images_Secondary_Cat_Items#</td>
 										</tr>
 									</cfloop>
@@ -599,16 +603,20 @@ limitations under the License.
 			<cfelse>
 				<cfoutput>
 					<section class="col-12 mt-2 px-0">
-						<div class="mt-1 mb-3 float-left w-100">
+						<div class="my-2 float-left w-100">
+							<!--- 
+								TODO: Citation query does not use dates 
 							<h2 class="h3 px-0 mt-0 float-left mb-0">Citation Activity <span class="text-muted">(#encodeForHtml(beginDate)#/#encodeForHtml(endDate)#)</span></h2>
-							<div class="btn-toolbar mt-2 float-right">
+							--->
+							<h2 class="h3 px-0 mt-0 float-left mb-0">Citation Activity <span class="text-muted">(current values)</span></h2>
+							<div class="btn-toolbar my-1 mt-md-0 float-right">
 								<div class="btn-group mr-2">
 									<a href="/metrics/Dashboard.cfm?action=dowloadCitationActivity&returnAs=csv&beginDate=#encodeForURL(beginDate)#&endDate=#encodeForUrl(endDate)#" class="btn btn-xs btn-outline-secondary">Export Table</a>
 								</div>
 							</div>
 						</div>
-						<div class="table-respponsive">
-							<table class="table table-striped d-lg-table" id="t">
+						<div class="table-responsive-lg">
+							<table class="table table-striped" id="t">
 								<thead>
 									<tr>
 										<th><strong>Collection</strong></th>
@@ -624,8 +632,8 @@ limitations under the License.
 											<td>#Collection#</td>
 											<td>#Num_Citations#</td>
 											<td>#Num_Citation_Cat_Items#</td>
-											<td>&nbsp;</td>
-											<td>&nbsp;</td>
+											<td>N/A</td>
+											<td>N/A</td>
 										</tr>
 									</cfloop>
 								</tbody>
@@ -696,18 +704,24 @@ limitations under the License.
 			<cfelse>
 				<cfoutput>
 					<section class="col-12 mt-2 px-0">
-						<div class="mt-1 mb-3 float-left w-100">
+						<div class="my-2 float-left w-100">
+							<!--- 
+								TODO: Georeferencing queries do not use dates 
 							<h2 class="h3 px-0 mt-0 float-left mb-0">Georeferencing Activity 
 								<span class="text-muted">(#encodeForHtml(beginDate)#/#encodeForHtml(endDate)#)</span>
 							</h2>
-							<div class="btn-toolbar mt-2 float-right">
+							--->
+							<h2 class="h3 px-0 mt-0 float-left mb-0">Georeferencing Activity 
+								<span class="text-muted">(current values)</span>
+							</h2>
+							<div class="btn-toolbar my-1 mt-lg-0 float-right">
 								<div class="btn-group mr-2">
 									<a href="/metrics/Dashboard.cfm?action=dowloadGeoreferenceActivity&returnAs=csv&beginDate=#encodeForURL(beginDate)#&endDate=#encodeForUrl(endDate)#" class="btn btn-xs btn-outline-secondary">Export Table</a>
 								</div>
 							</div>
 						</div>
-						<div class="table-responsive">
-							<table class="table table-striped d-lg-table" id="t">
+						<div class="table-responsive-lg">
+							<table class="table table-striped" id="t">
 								<thead>
 									<tr>
 										<th><strong>Collection</strong></th>
@@ -730,9 +744,9 @@ limitations under the License.
 											<td>#NumberFormat((Num_GeoRef_Localities/Num_Localities)*100, '9.99')#%</td>
 											<td>#Num_Verified_GeoRef_Localities#</td>
 											<td>#Num_GeoRef_Cat_Items#</td>
-											<td>&nbsp;</td>
-											<td>&nbsp;</td>
-											<td>&nbsp;</td>
+											<td>N/A</td>
+											<td>N/A</td>
+											<td>N/A</td>
 										</tr>
 									</cfloop>
 								</tbody>

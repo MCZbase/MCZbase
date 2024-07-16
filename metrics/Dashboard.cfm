@@ -134,7 +134,7 @@ limitations under the License.
 			<div class="container-fluid" id="content">
 				<div class="row">
 				<br clear="all">	
-					<nav id="sidebarMenu" class="col-md-2 col-lg-2 d-md-block sidebar" style="background-color: ##efeded;border: ##e3e3e3;">
+					<nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block sidebar" style="background-color: ##efeded;border: ##e3e3e3;">
 						<div class="sidebar-sticky pt-4 px-2" style="background-color: ##efeded;">
 							<form id="loadReportForm">
 								<h3 class="h4 text-muted">Report Date Range</h3>
@@ -149,9 +149,9 @@ limitations under the License.
 									<option value="getAnnualNumbers" selected="selected">Holdings</option>
 									<option value="getAcquisitions">Acquisitions</option>
 									<option value="getLoanNumbers">Loan Activity</option>
-									<option value="getMediaNumbers">Media Activity</option>
-									<option value="getCitationNumbers">Citation Activity</option>
-									<option value="getGeorefNumbers">Georeference Activity</option>
+									<option value="getMediaNumbers">Media (current)</option>
+									<option value="getCitationNumbers">Citations (current)</option>
+									<option value="getGeorefNumbers">Georeferences (current)</option>
 								</select>
 								<input type="submit" value="Show Report" class="my-3 btn-xs btn btn-primary" aria-label="Show the selected report for the specified date range">
 							</form>
@@ -181,9 +181,11 @@ limitations under the License.
 						</div>
 					</nav>
 				
-					<main role="main" class="col-md-10 px-3 ml-sm-auto col-lg-10 px-md-5 mb-3">
+					<main role="main" class="col-md-9 px-3 ml-sm-auto col-lg-10 mb-3">
 						<div class="col-12 mt-4">
-							<h1 class="h2 float-left mb-1 w-100">MCZbase Metrics</h1>
+							<h1 class="h2 float-left mb-1 w-100">MCZbase Metrics 
+							</h1>
+							<p class="text-muted small">Reports are generated from the current MCZbase data and may not match numbers printed in previous annual reports.</p>
 							<cfset summaryAnnualBlock=getAnnualNumbers(endDate="#endDate#",beginDate="#beginDate#")>
 							<div id="annualNumbersDiv"> 
 								#summaryAnnualBlock#

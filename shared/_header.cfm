@@ -678,7 +678,7 @@ limitations under the License.
 										<a class="dropdown-item" href="/reporting/Reports.cfm">List of Reports</a>
 										<a class="dropdown-item" href="/info/queryStats.cfm">Query Statistics</a>
 										<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_specimens")>
-											<a class="dropdown-item" href="/metrics/Dashboard.cfm">Annual Reporting Metrics</a>
+											<a class="dropdown-item" href="/metrics/Dashboard.cfm">Reporting Metrics</a>
 										</cfif>
 									</div>
 									<div>
