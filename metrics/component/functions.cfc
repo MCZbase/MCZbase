@@ -105,9 +105,9 @@ limitations under the License.
 			<cfelse>
 				<cfoutput>
 					<section class="col-12 mt-1 px-0">
-						<div class="my-1 float-left w-100">
+						<div class="my-2 float-left w-100">
 							<h2 class="h3 mt-0 px-0 float-left mb-1">Holdings <span class="text-muted">(as of #encodeForHtml(endDate)#)</span></h2>
-							<div class="btn-toolbar my-2 mt-md-0 float-right">
+							<div class="btn-toolbar my-1 mt-md-0 float-right">
 								<div class="btn-group mr-2">
 									<a href="/metrics/Dashboard.cfm?action=dowloadHoldings&returnAs=csv&beginDate=#encodeForURL(beginDate)#&endDate=#encodeForUrl(endDate)#" class="btn btn-xs btn-outline-secondary">Export Table</a>
 								</div>
@@ -209,9 +209,9 @@ limitations under the License.
 			<cfelse>
 				<cfoutput>
 					<section class="col-12 mt-2 px-0">
-						<div class="my-1 float-left w-100">
+						<div class="my-2 float-left w-100">
 							<h2 class="h3 mt-0 mb-1 px-0 float-left">Acquisitions <span class="text-muted">(#encodeForHtml(beginDate)#/#encodeForHtml(endDate)#)</span></h2>
-							<div class="btn-toolbar my-2 mt-md-0 float-right">
+							<div class="btn-toolbar my-1 mt-md-0 float-right">
 								<div class="btn-group mr-2">
 									<a href="/metrics/Dashboard.cfm?action=dowloadAcquisitions&returnAs=csv&beginDate=#encodeForURL(beginDate)#&endDate=#encodeForUrl(endDate)#" class="btn btn-xs btn-outline-secondary">Export Table</a>
 								</div>
@@ -372,9 +372,9 @@ limitations under the License.
 			<cfelse>
 				<cfoutput>
 					<section class="col-12 mt-2 px-0">
-						<div class="my-1 float-left w-100">
+						<div class="my-2 float-left w-100">
 							<h2 class="h3 mt-0 px-0 float-left mb-1">Loan Activity <span class="text-muted">(#encodeForHtml(beginDate)#/#encodeForHtml(endDate)#)</span></h2>
-							<div class="btn-toolbar my-2 mt-md-0 float-right">
+							<div class="btn-toolbar my-1 mt-md-0 float-right">
 								<div class="btn-group mr-2">
 									<a href="/metrics/Dashboard.cfm?action=dowloadLoanActivity&returnAs=csv&beginDate=#encodeForURL(beginDate)#&endDate=#encodeForUrl(endDate)#" class="btn btn-xs btn-outline-secondary">Export Table</a>
 								</div>
@@ -500,9 +500,9 @@ limitations under the License.
 			<cfelse>
 				<cfoutput>
 					<section class="col-12 mt-2 px-0">
-						<div class="my-1 float-left w-100">
+						<div class="my-2 float-left w-100">
 							<h2 class="h3 mt-0 px-0 float-left mb-1">Media Activity <span class="text-muted">(#encodeForHtml(beginDate)#/#encodeForHtml(endDate)#)</span></h2>
-							<div class="btn-toolbar my-2 mt-md-0 float-right">
+							<div class="btn-toolbar my-1 mt-md-0 float-right">
 								<div class="btn-group mr-2">
 									<a href="/metrics/Dashboard.cfm?action=dowloadMediaActivity&returnAs=csv&beginDate=#encodeForURL(beginDate)#&endDate=#encodeForUrl(endDate)#" class="btn btn-xs btn-outline-secondary">Export Table</a>
 								</div>
@@ -599,9 +599,9 @@ limitations under the License.
 			<cfelse>
 				<cfoutput>
 					<section class="col-12 mt-2 px-0">
-						<div class="my-1 float-left w-100">
+						<div class="my-2 float-left w-100">
 							<h2 class="h3 px-0 mt-0 float-left mb-0">Citation Activity <span class="text-muted">(#encodeForHtml(beginDate)#/#encodeForHtml(endDate)#)</span></h2>
-							<div class="btn-toolbar my-2 mt-md-0 float-right">
+							<div class="btn-toolbar my-1 mt-md-0 float-right">
 								<div class="btn-group mr-2">
 									<a href="/metrics/Dashboard.cfm?action=dowloadCitationActivity&returnAs=csv&beginDate=#encodeForURL(beginDate)#&endDate=#encodeForUrl(endDate)#" class="btn btn-xs btn-outline-secondary">Export Table</a>
 								</div>
@@ -696,11 +696,11 @@ limitations under the License.
 			<cfelse>
 				<cfoutput>
 					<section class="col-12 mt-2 px-0">
-						<div class="my-1 float-left w-100">
+						<div class="my-2 float-left w-100">
 							<h2 class="h3 px-0 mt-0 float-left mb-0">Georeferencing Activity 
 								<span class="text-muted">(#encodeForHtml(beginDate)#/#encodeForHtml(endDate)#)</span>
 							</h2>
-							<div class="btn-toolbar my-2 mt-lg-0 float-right">
+							<div class="btn-toolbar my-1 mt-lg-0 float-right">
 								<div class="btn-group mr-2">
 									<a href="/metrics/Dashboard.cfm?action=dowloadGeoreferenceActivity&returnAs=csv&beginDate=#encodeForURL(beginDate)#&endDate=#encodeForUrl(endDate)#" class="btn btn-xs btn-outline-secondary">Export Table</a>
 								</div>
