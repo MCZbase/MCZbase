@@ -251,7 +251,6 @@ transaction_id number
 						key=#key#
 				</cfquery>
 			</cfif>
-		</cfloop>
 	</cftransaction>
 	<cfquery name="done" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		select * from cf_temp_loan_item
