@@ -206,7 +206,7 @@ transaction_id number
 						cf_temp_loan_item
 					set
 						status='spiffy',
-						collObj.coll_obj_disposition = 'on loan'
+						coll_obj_disposition = 'on loan'
 					where
 						key=#key#
 				</cfquery>
@@ -234,7 +234,7 @@ transaction_id number
 						set
 							partID = #collObj.collection_object_id#,
 							status='spiffy',
-							collObj.coll_obj_disposition = 'on loan'
+							coll_obj_disposition = 'on loan'
 						where
 							key=#key#
 					</cfquery>
