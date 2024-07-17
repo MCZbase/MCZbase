@@ -112,7 +112,7 @@ transaction_id number
 		select * from cf_temp_loan_item
 	</cfquery>
 	<cfdump var="#gotit#">
-	<p>If the above table is accurate, <a href="loanBulkload.cfm?action=verify">click here to validate</a>. <br><span style="font-size: 10px;">Program will retrieve PartID and Transaction_ID.</span></p>
+	<p>If the above table is accurate, <a href="loanBulkload.cfm?action=verify">click here to validate</a>. Program will retrieve PartID and Transaction_ID.</p>
 </cfif>
 <!------------------------------------------------------->
 <cfif action is "verify">
