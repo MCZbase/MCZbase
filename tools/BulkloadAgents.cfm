@@ -476,7 +476,7 @@ limitations under the License.
 						<cfquery name="invGuidType2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							UPDATE cf_temp_agents
 							SET 
-								status = concat(nvl2(status, status || '; ', ''),'If agentguid_guid_type is specified, valid agentguid_guid_type must also be provided.')
+								status = concat(nvl2(status, status || '; ', ''),'If agentguid is specified, valid agentguid_guid_type must also be provided.')
 							WHERE 
 								username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> AND
 								key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#key#">
