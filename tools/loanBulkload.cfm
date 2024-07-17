@@ -117,29 +117,30 @@ transaction_id number
 <!------------------------------------------------------->
 <cfif action is "verify">
 <cfoutput>
-	<cftransaction>
-		<cfquery name="loanID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-			update
-				cf_temp_loan_item
-			set
-				(transaction_id)
-			= (select
-					loan.transaction_id
-				from
-					trans,loan
-				where
-					trans.transaction_id = loan.transaction_id and
-					loan.loan_number = cf_temp_loan_item.loan_number
-				)
-		</cfquery>
-		<cfquery name="missedMe" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-			update cf_temp_loan_item set status = 'loan not found' where
-			transaction_id is null
-		</cfquery>
-		<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-			select * from cf_temp_loan_item where status is null
-		</cfquery>
+<cftransaction>
+	<cfquery name="loanID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+		update
+			cf_temp_loan_item
+		set
+			(transaction_id)
+		= (select
+				loan.transaction_id
+			from
+				trans,loan
+			where
+				trans.transaction_id = loan.transaction_id and
+				loan.loan_number = cf_temp_loan_item.loan_number
+			)
+	</cfquery>
+	<cfquery name="missedMe" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+		update cf_temp_loan_item set status = 'loan not found' where
+		transaction_id is null
+	</cfquery>
+	<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+		select * from cf_temp_loan_item where status is null
+	</cfquery>
 		<cfloop query="data">
+			<cfset msg="spiffy">
 			<cfif other_id_type is "catalog number">
 				<cfquery name="collObj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					select
@@ -149,9 +150,9 @@ transaction_id number
 						collection,
 						specimen_part,
 						coll_object,
-						(select * from COLL_OBJ_CONT_HIST where CURRENT_CONTAINER_FG = 1) ch,
-						CONTAINER c,
-						container pc
+			            (select * from COLL_OBJ_CONT_HIST where CURRENT_CONTAINER_FG = 1) ch,
+			            CONTAINER c,
+			            container pc
 					where
 						cataloged_item.collection_id = collection.collection_id and
 						cataloged_item.collection_object_id = specimen_part.derived_from_cat_item and
@@ -162,10 +163,10 @@ transaction_id number
 						cat_num = '#other_id_number#' and
 						coll_obj_disposition != 'on loan' and
 						sampled_from_obj_id is null and
-						specimen_part.collection_object_id = ch.COLLECTION_OBJECT_ID(+) and
-						ch.CONTAINER_ID = C.CONTAINER_ID(+) and
-						C.PARENT_CONTAINER_ID = PC.CONTAINER_ID(+) and
-						PC.barcode = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#barcode#">
+			            specimen_part.collection_object_id = ch.COLLECTION_OBJECT_ID(+) and
+			            ch.CONTAINER_ID = C.CONTAINER_ID(+) and
+			            C.PARENT_CONTAINER_ID = PC.CONTAINER_ID(+) and
+			            PC.barcode = '#barcode#'
 				</cfquery>
 			<cfelse>
 				<cfquery name="collObj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -178,8 +179,8 @@ transaction_id number
 						coll_object,
 						coll_obj_other_id_num,
 						(select * from COLL_OBJ_CONT_HIST where CURRENT_CONTAINER_FG = 1) ch,
-						CONTAINER c,
-						container pc
+			            CONTAINER c,
+			            container pc
 					where
 						cataloged_item.collection_id = collection.collection_id and
 						cataloged_item.collection_object_id = coll_obj_other_id_num.collection_object_id and
@@ -191,86 +192,95 @@ transaction_id number
 						display_value = '#other_id_number#' and
 						other_id_type = '#other_id_type#' and
 						coll_obj_disposition != 'on loan' and
-						sampled_from_obj_id  is null and
+						sampled_from_obj_id  is null
 						specimen_part.collection_object_id = ch.COLLECTION_OBJECT_ID(+) and
-						ch.CONTAINER_ID = C.CONTAINER_ID(+) and
-						C.PARENT_CONTAINER_ID = PC.CONTAINER_ID(+) and
-						PC.barcode = '#barcode#'
+			            ch.CONTAINER_ID = C.CONTAINER_ID(+) and
+			            C.PARENT_CONTAINER_ID = PC.CONTAINER_ID(+) and
+			            PC.barcode = '#barcode#'
 				</cfquery>
 			</cfif>
-			<cfif collObj.recordcount is not 1>
-				<cfset msg="collection object found #collObj.recordcount# times = check that part exists and is not on loan">
-			</cfif>
-			<!---collObj.recordcount is 1....--->
-			<cfquery name="YayCollObj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				update
-					cf_temp_loan_item
-				set
-					status='spiffy',
-					partID = <cfif len(collObj.collection_object_id) gt 0>#collObj.collection_object_id#<cfelse>NULL</cfif>,
-					coll_obj_disposition = 'on loan'
-				where
-					key=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#key#">
-			</cfquery>
-		</cfloop>
-		<cfquery name="defDescr" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-			update
-				cf_temp_loan_item
-			set (ITEM_DESCRIPTION)
-				= (
-					select collection.collection || ' ' || cat_num || ' ' || part_name
-					from
-						cataloged_item,
-						collection,
-						specimen_part
+			<cfif collObj.recordcount is 1>
+				<!---collObj.recordcount is 1....--->
+				<cfquery name="YayCollObj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					update
+						cf_temp_loan_item
+					set
+						status='spiffy',
+						coll_obj_disposition = 'on loan'
 					where
-						specimen_part.collection_object_id = #collObj.collection_object_id# and
-						specimen_part.derived_from_cat_item = cataloged_item.collection_object_id and
-						cataloged_item.collection_id = collection.collection_id
-				)
-			where ITEM_DESCRIPTION is null and key=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#key#"> 
-				and status='spiffy'
-		</cfquery>
-	</cftransaction>			
-		<cfelseif collObj.recordcount is 0><!--- no part --->
-			<!---no part--->
-			<cfquery name="BooCollObj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				update
-					cf_temp_loan_item
-				set
-					status='no part found'
-				where
-					key=#key#
-			</cfquery>
-		<cfelseif collObj.recordcount gt 1 and len(partID) is 0>
-			<cfquery name="BooCollObj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				update
-					cf_temp_loan_item
-				set
-					status='multiple parts found'
-				where
-					key=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#key#">
-			</cfquery>
-		</cfif>
-		<cfquery name="done" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-			select * from cf_temp_loan_item
-		</cfquery>
-		<cfdump var=#done#>
-		<cfquery name="bads" dbtype="query">
-			select count(*) c from done where status != 'spiffy'
-		</cfquery>
-		<cfif #bads.c# EQ 1>
-			There is #bads.c# bad record<br>
-		<cfelse>
-			There are #bads.c# bad records<br>
-		</cfif>
-		<cfif bads.c is 0 or bads.c is ''>
-			If everything in the table above looks OK, <a href="loanBulkload.cfm?action=loadData">click here to finalize loading</a>.
-		<cfelse>
-			Something isn't happy. Check the status column in the above table, fix your data, and try again.
-			<br> Duplicate parts? <a href="loanBulkload.cfm?action=pickPart">You can pick them</a>.
-		</cfif>
-	</cfoutput>
+						key=#key#
+				</cfquery>
+				<cfquery name="defDescr" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					update
+						cf_temp_loan_item
+						set (ITEM_DESCRIPTION)
+						= (
+							select collection.collection || ' ' || cat_num || ' ' || part_name
+							from
+							cataloged_item,
+							collection,
+							specimen_part
+							where
+							specimen_part.collection_object_id = #collObj.collection_object_id# and
+							specimen_part.derived_from_cat_item = cataloged_item.collection_object_id and
+							cataloged_item.collection_id = collection.collection_id
+					)
+					where ITEM_DESCRIPTION is null and key=#key#
+				</cfquery>
+				<cfif len(partID) is 0>
+					<cfquery name="YayCollObj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						update
+							cf_temp_loan_item
+						set
+							partID = #collObj.collection_object_id#,
+							status='spiffy',
+							coll_obj_disposition = 'on loan'
+						where
+							key=#key#
+					</cfquery>
+				</cfif>
+			<cfelseif collObj.recordcount is 0><!--- no part --->
+				<!---no part--->
+				<cfquery name="BooCollObj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					update
+						cf_temp_loan_item
+					set
+						status='no part found'
+					where
+						key=#key#
+				</cfquery>
+			<cfelseif collObj.recordcount gt 1 and len(partID) is 0>
+				<cfquery name="BooCollObj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					update
+						cf_temp_loan_item
+					set
+						status='multiple parts found'
+					where
+						key=#key#
+				</cfquery>
+			</cfif>
+		</cfloop>
+	</cftransaction>
+	<cfquery name="done" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+		select * from cf_temp_loan_item
+	</cfquery>
+	<cfdump var=#done#>
+	<cfquery name="bads" dbtype="query">
+		select count(*) c from done where status != 'spiffy'
+	</cfquery>
+	<cfif #bads.c# EQ 1>
+		There is #bads.c# bad record<br>
+	<cfelse>
+		There are #bads.c# bad records<br>
+	</cfif>
+	<cfif bads.c is 0 or bads.c is ''>
+		If everything in the table above looks OK, <a href="loanBulkload.cfm?action=loadData">click here to finalize loading</a>.
+	<cfelse>
+		Something isn't happy. Check the status column in the above table, fix your data, and try again.
+		<br> Duplicate parts? <a href="loanBulkload.cfm?action=pickPart">You can pick them</a>.
+	</cfif>
+
+</cfoutput>
 </cfif>
 <!------------------------------------------------------->
 <!------------------------------------------------------->
