@@ -251,26 +251,25 @@ transaction_id number
 						key=#key#
 				</cfquery>
 			</cfif>
+		<cfquery name="done" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+			select * from cf_temp_loan_item
+		</cfquery>
+		<cfdump var=#done#>
+		<cfquery name="bads" dbtype="query">
+			select count(*) c from done where status != 'spiffy'
+		</cfquery>
+		<cfif #bads.c# EQ 1>
+			There is #bads.c# bad record<br>
+		<cfelse>
+			There are #bads.c# bad records<br>
+		</cfif>
+		<cfif bads.c is 0 or bads.c is ''>
+			If everything in the table above looks OK, <a href="loanBulkload.cfm?action=loadData">click here to finalize loading</a>.
+		<cfelse>
+			Something isn't happy. Check the status column in the above table, fix your data, and try again.
+			<br> Duplicate parts? <a href="loanBulkload.cfm?action=pickPart">You can pick them</a>.
+		</cfif>
 	</cftransaction>
-	<cfquery name="done" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-		select * from cf_temp_loan_item
-	</cfquery>
-	<cfdump var=#done#>
-	<cfquery name="bads" dbtype="query">
-		select count(*) c from done where status != 'spiffy'
-	</cfquery>
-	<cfif #bads.c# EQ 1>
-		There is #bads.c# bad record<br>
-	<cfelse>
-		There are #bads.c# bad records<br>
-	</cfif>
-	<cfif bads.c is 0 or bads.c is ''>
-		If everything in the table above looks OK, <a href="loanBulkload.cfm?action=loadData">click here to finalize loading</a>.
-	<cfelse>
-		Something isn't happy. Check the status column in the above table, fix your data, and try again.
-		<br> Duplicate parts? <a href="loanBulkload.cfm?action=pickPart">You can pick them</a>.
-	</cfif>
-
 </cfoutput>
 </cfif>
 <!------------------------------------------------------->
