@@ -117,28 +117,28 @@ transaction_id number
 <!------------------------------------------------------->
 <cfif action is "verify">
 <cfoutput>
-<cftransaction>
-	<cfquery name="loanID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-		update
-			cf_temp_loan_item
-		set
-			(transaction_id)
-		= (select
-				loan.transaction_id
-			from
-				trans,loan
-			where
-				trans.transaction_id = loan.transaction_id and
-				loan.loan_number = cf_temp_loan_item.loan_number
-			)
-	</cfquery>
-	<cfquery name="missedMe" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-		update cf_temp_loan_item set status = 'loan not found' where
-		transaction_id is null
-	</cfquery>
-	<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-		select * from cf_temp_loan_item where status is null
-	</cfquery>
+	<cftransaction>
+		<cfquery name="loanID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+			update
+				cf_temp_loan_item
+			set
+				(transaction_id)
+			= (select
+					loan.transaction_id
+				from
+					trans,loan
+				where
+					trans.transaction_id = loan.transaction_id and
+					loan.loan_number = cf_temp_loan_item.loan_number
+				)
+		</cfquery>
+		<cfquery name="missedMe" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+			update cf_temp_loan_item set status = 'loan not found' where
+			transaction_id is null
+		</cfquery>
+		<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+			select * from cf_temp_loan_item where status is null
+		</cfquery>
 		<cfloop query="data">
 			<cfif other_id_type is "catalog number">
 				<cfquery name="collObj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -165,7 +165,7 @@ transaction_id number
 						specimen_part.collection_object_id = ch.COLLECTION_OBJECT_ID(+) and
 						ch.CONTAINER_ID = C.CONTAINER_ID(+) and
 						C.PARENT_CONTAINER_ID = PC.CONTAINER_ID(+) and
-						PC.barcode = '#barcode#'
+						PC.barcode = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#barcode#">
 				</cfquery>
 			<cfelse>
 				<cfquery name="collObj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -210,7 +210,7 @@ transaction_id number
 					partID = <cfif len(collObj.collection_object_id) gt 0>#collObj.collection_object_id#<cfelse>NULL</cfif>,
 					coll_obj_disposition = 'on loan'
 				where
-					key=#key#
+					key=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#key#">
 			</cfquery>
 		</cfloop>
 		<cfquery name="defDescr" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -228,29 +228,30 @@ transaction_id number
 						specimen_part.derived_from_cat_item = cataloged_item.collection_object_id and
 						cataloged_item.collection_id = collection.collection_id
 				)
-			where ITEM_DESCRIPTION is null and key=#key# and status='spiffy'
+			where ITEM_DESCRIPTION is null and key=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#key#"> 
+				and status='spiffy'
 		</cfquery>
-				
-			<cfelseif collObj.recordcount is 0><!--- no part --->
-				<!---no part--->
-				<cfquery name="BooCollObj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					update
-						cf_temp_loan_item
-					set
-						status='no part found'
-					where
-						key=#key#
-				</cfquery>
-			<cfelseif collObj.recordcount gt 1 and len(partID) is 0>
-				<cfquery name="BooCollObj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					update
-						cf_temp_loan_item
-					set
-						status='multiple parts found'
-					where
-						key=#key#
-				</cfquery>
-			</cfif>
+	</cftransaction>			
+		<cfelseif collObj.recordcount is 0><!--- no part --->
+			<!---no part--->
+			<cfquery name="BooCollObj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				update
+					cf_temp_loan_item
+				set
+					status='no part found'
+				where
+					key=#key#
+			</cfquery>
+		<cfelseif collObj.recordcount gt 1 and len(partID) is 0>
+			<cfquery name="BooCollObj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				update
+					cf_temp_loan_item
+				set
+					status='multiple parts found'
+				where
+					key=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#key#">
+			</cfquery>
+		</cfif>
 		<cfquery name="done" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			select * from cf_temp_loan_item
 		</cfquery>
@@ -269,8 +270,7 @@ transaction_id number
 			Something isn't happy. Check the status column in the above table, fix your data, and try again.
 			<br> Duplicate parts? <a href="loanBulkload.cfm?action=pickPart">You can pick them</a>.
 		</cfif>
-	</cftransaction>
-</cfoutput>
+	</cfoutput>
 </cfif>
 <!------------------------------------------------------->
 <!------------------------------------------------------->
