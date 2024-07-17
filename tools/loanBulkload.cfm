@@ -191,7 +191,7 @@ transaction_id number
 						display_value = '#other_id_number#' and
 						other_id_type = '#other_id_type#' and
 						coll_obj_disposition != 'on loan' and
-						sampled_from_obj_id  is null
+						sampled_from_obj_id  is null and
 						specimen_part.collection_object_id = ch.COLLECTION_OBJECT_ID(+) and
 			            ch.CONTAINER_ID = C.CONTAINER_ID(+) and
 			            C.PARENT_CONTAINER_ID = PC.CONTAINER_ID(+) and
