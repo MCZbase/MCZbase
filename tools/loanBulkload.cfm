@@ -149,9 +149,9 @@ transaction_id number
 						collection,
 						specimen_part,
 						coll_object,
-			            (select * from COLL_OBJ_CONT_HIST where CURRENT_CONTAINER_FG = 1) ch,
-			            CONTAINER c,
-			            container pc
+						(select * from COLL_OBJ_CONT_HIST where CURRENT_CONTAINER_FG = 1) ch,
+						CONTAINER c,
+						container pc
 					where
 						cataloged_item.collection_id = collection.collection_id and
 						cataloged_item.collection_object_id = specimen_part.derived_from_cat_item and
@@ -162,10 +162,10 @@ transaction_id number
 						cat_num = '#other_id_number#' and
 						coll_obj_disposition != 'on loan' and
 						sampled_from_obj_id is null and
-			            specimen_part.collection_object_id = ch.COLLECTION_OBJECT_ID(+) and
-			            ch.CONTAINER_ID = C.CONTAINER_ID(+) and
-			            C.PARENT_CONTAINER_ID = PC.CONTAINER_ID(+) and
-			            PC.barcode = '#barcode#'
+						specimen_part.collection_object_id = ch.COLLECTION_OBJECT_ID(+) and
+						ch.CONTAINER_ID = C.CONTAINER_ID(+) and
+						C.PARENT_CONTAINER_ID = PC.CONTAINER_ID(+) and
+						PC.barcode = '#barcode#'
 				</cfquery>
 			<cfelse>
 				<cfquery name="collObj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -178,8 +178,8 @@ transaction_id number
 						coll_object,
 						coll_obj_other_id_num,
 						(select * from COLL_OBJ_CONT_HIST where CURRENT_CONTAINER_FG = 1) ch,
-			            CONTAINER c,
-			            container pc
+						CONTAINER c,
+						container pc
 					where
 						cataloged_item.collection_id = collection.collection_id and
 						cataloged_item.collection_object_id = coll_obj_other_id_num.collection_object_id and
@@ -193,49 +193,44 @@ transaction_id number
 						coll_obj_disposition != 'on loan' and
 						sampled_from_obj_id  is null and
 						specimen_part.collection_object_id = ch.COLLECTION_OBJECT_ID(+) and
-			            ch.CONTAINER_ID = C.CONTAINER_ID(+) and
-			            C.PARENT_CONTAINER_ID = PC.CONTAINER_ID(+) and
-			            PC.barcode = '#barcode#'
+						ch.CONTAINER_ID = C.CONTAINER_ID(+) and
+						C.PARENT_CONTAINER_ID = PC.CONTAINER_ID(+) and
+						PC.barcode = '#barcode#'
 				</cfquery>
 			</cfif>
-			<cfif collObj.recordcount is 1>
-				<!---collObj.recordcount is 1....--->
-				<cfquery name="YayCollObj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					update
-						cf_temp_loan_item
-					set
-						status='spiffy'
+			<cfif collObj.recordcount is not 1>
+				<cfset msg="collection object found #collObj.recordcount# times = check that part exists and is not on loan">
+			</cfif>
+			<!---collObj.recordcount is 1....--->
+			<cfquery name="YayCollObj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				update
+					cf_temp_loan_item
+				set
+					status='spiffy',
+					partID = <cfif len(collObj.collection_object_id) gt 0>#collObj.collection_object_id#<cfelse>NULL</cfif>,
+					coll_obj_disposition = 'on loan'
+				where
+					key=#key#
+			</cfquery>
+		</cfloop>
+		<cfquery name="defDescr" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+			update
+				cf_temp_loan_item
+			set (ITEM_DESCRIPTION)
+				= (
+					select collection.collection || ' ' || cat_num || ' ' || part_name
+					from
+						cataloged_item,
+						collection,
+						specimen_part
 					where
-						key=#key#
-				</cfquery>
-				<cfquery name="defDescr" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					update
-						cf_temp_loan_item
-						set (ITEM_DESCRIPTION)
-						= (
-							select collection.collection || ' ' || cat_num || ' ' || part_name
-							from
-							cataloged_item,
-							collection,
-							specimen_part
-							where
-							specimen_part.collection_object_id = #collObj.collection_object_id# and
-							specimen_part.derived_from_cat_item = cataloged_item.collection_object_id and
-							cataloged_item.collection_id = collection.collection_id
-					)
-					where ITEM_DESCRIPTION is null and key=#key#
-				</cfquery>
-				<cfif len(partID) is 0>
-					<cfquery name="YayCollObj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						update
-							cf_temp_loan_item
-						set
-							partID = #collObj.collection_object_id#,
-							status='spiffy'
-						where
-							key=#key#
-					</cfquery>
-				</cfif>
+						specimen_part.collection_object_id = #collObj.collection_object_id# and
+						specimen_part.derived_from_cat_item = cataloged_item.collection_object_id and
+						cataloged_item.collection_id = collection.collection_id
+				)
+			where ITEM_DESCRIPTION is null and key=#key# and status='spiffy'
+		</cfquery>
+				
 			<cfelseif collObj.recordcount is 0><!--- no part --->
 				<!---no part--->
 				<cfquery name="BooCollObj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
