@@ -205,8 +205,7 @@ transaction_id number
 					update
 						cf_temp_loan_item
 					set
-						status='spiffy',
-						coll_obj_disposition = 'on loan'
+						status='spiffy'
 					where
 						key=#key#
 				</cfquery>
@@ -233,8 +232,7 @@ transaction_id number
 							cf_temp_loan_item
 						set
 							partID = #collObj.collection_object_id#,
-							status='spiffy',
-							coll_obj_disposition = 'on loan'
+							status='spiffy'
 						where
 							key=#key#
 					</cfquery>
