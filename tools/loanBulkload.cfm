@@ -487,9 +487,8 @@ transaction_id number
 				UPDATE 
 					coll_object 
 				SET coll_obj_disposition = 'on loan'
-				WHERE collection_object_id = '#collObj.collection_object_id#'
+				WHERE collection_object_id = '#thisPartId#'
 				and coll_object_type = 'SP'
-				and entered_person_id = #session.myAgentId#
 			</cfquery>
 		</cfloop>
 	</cftransaction>
