@@ -112,7 +112,7 @@ transaction_id number
 		select * from cf_temp_loan_item
 	</cfquery>
 	<cfdump var="#gotit#">
-	If the above table is accurate, <a href="loanBulkload.cfm?action=verify">click here to proceed</a>.
+	If the above table is accurate, <a href="loanBulkload.cfm?action=verify">click here to validate</a>.
 </cfif>
 <!------------------------------------------------------->
 <cfif action is "verify">
@@ -266,16 +266,14 @@ transaction_id number
 	<cfquery name="bads" dbtype="query">
 		select count(*) c from done where status != 'spiffy'
 	</cfquery>
-	<cfif #bads.c# EQ 1>
-		There is #bads.c# bad record<br>
-	<cfelse>
-		There are #bads.c# bad records<br>
+	<cfif #bads.c# gt 0>
+		<p>There is #bads.c# bad record(s)</p>
 	</cfif>
 	<cfif bads.c is 0 or bads.c is ''>
-		If everything in the table above looks OK, <a href="loanBulkload.cfm?action=loadData">click here to finalize loading</a>.
+		<p>If everything in the table above looks OK, <a href="loanBulkload.cfm?action=loadData">click here to finalize loading</a>.</p>
 	<cfelse>
-		Something isn't happy. Check the status column in the above table, fix your data, and try again.
-		<br> Duplicate parts? <a href="loanBulkload.cfm?action=pickPart">You can pick them</a>.
+		<p>Something isn't happy. Check the status column in the above table, fix your data, and try again.
+		<br> Duplicate parts? <a href="loanBulkload.cfm?action=pickPart">You can pick them</a>.</p>
 	</cfif>
 
 </cfoutput>
