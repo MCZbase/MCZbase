@@ -490,7 +490,7 @@ transaction_id number
 			</cfquery>
 		</cfloop>
 	</cftransaction>
-	<p>Spiffy, all done.</p>
+	<p style="padding: 1em 3em">Spiffy, all done.</p>
 </cfoutput>
 </cfif>
 <cfinclude template="/includes/_footer.cfm">
