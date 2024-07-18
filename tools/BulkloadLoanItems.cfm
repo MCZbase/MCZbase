@@ -600,6 +600,7 @@
 					</cfquery>
 				<cfelse>
 					<cfset thisPartId=#partID#>
+						#partID#
 					<cfquery name="updateDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						update coll_object set 
 							coll_obj_disposition = 'on loan'
