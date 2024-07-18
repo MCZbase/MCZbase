@@ -186,7 +186,7 @@
 						<!--- construct insert for row with a line for each entry in fieldlist using cfqueryparam if column header is in fieldlist, otherwise using null --->
 						<!--- Note: As we can't use csvFormat.withHeader(), we can not match columns by name, we are forced to do so by number, thus arrays --->
 						<cfquery name="insert" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="insert_result">
-							insert into cf_temp_loan_items
+							insert into cf_temp_loan_item
 								(#fieldlist#,username)
 							values (
 								<cfset separator = "">
