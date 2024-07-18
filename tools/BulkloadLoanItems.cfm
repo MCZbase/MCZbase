@@ -337,7 +337,7 @@
 			</cfloop>
 			<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT 
-					INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_NUMBER,PART_NAME,ITEM_INSTRUCTIONS,ITEM_REMARKS,BARCODE,SUBSAMPLE,LOAN_NUMBER,STATUS
+					INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_NUMBER,PART_NAME,ITEM_INSTRUCTIONS,ITEM_REMARKS,BARCODE,SUBSAMPLE,LOAN_NUMBER,PARTID,STATUS
 				FROM 
 					cf_temp_LOAN_ITEM
 				WHERE 
@@ -369,6 +369,7 @@
 						<th>BARCODE</th>
 						<th>SUBSAMPLE</th>
 						<th>LOAN_NUMBER</th>
+						<th>PARTID</th>
 					</tr>
 				<tbody>
 					<cfloop query="data">
@@ -384,6 +385,7 @@
 							<td>#data.BARCODE#</td>
 							<td>#data.SUBSAMPLE#</td>
 							<td>#data.LOAN_NUMBER#</td>
+							<td>#data.PARTID#</td>
 						</tr>
 					</cfloop>
 				</tbody>
