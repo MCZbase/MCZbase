@@ -321,64 +321,66 @@
 				WHERE 
 					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
-			<cfif other_id_type is "catalog number">
-				<cfquery name="collObj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					select
-						specimen_part.collection_object_id
-					from
-						cataloged_item,
-						collection,
-						specimen_part,
-						coll_object,
-						(select * from COLL_OBJ_CONT_HIST where CURRENT_CONTAINER_FG = 1) ch,
-						CONTAINER c,
-						container pc
-					where
-						cataloged_item.collection_id = collection.collection_id and
-						cataloged_item.collection_object_id = specimen_part.derived_from_cat_item and
-						specimen_part.collection_object_id = coll_object.collection_object_id and
-						collection.institution_acronym = '#institution_acronym#' and
-						collection.collection_cde = '#collection_cde#' and
-						part_name = '#part_name#' and
-						cat_num = '#other_id_number#' and
-						coll_obj_disposition != 'on loan' and
-						sampled_from_obj_id is null and
-						specimen_part.collection_object_id = ch.COLLECTION_OBJECT_ID(+) and
-						ch.CONTAINER_ID = C.CONTAINER_ID(+) and
-						C.PARENT_CONTAINER_ID = PC.CONTAINER_ID(+) and
-					PC.barcode = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#BARCODE#">
-				</cfquery>
-			<cfelse>
-				<cfquery name="collObj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					select
-						specimen_part.collection_object_id
-					from
-						cataloged_item,
-						collection,
-						specimen_part,
-						coll_object,
-						coll_obj_other_id_num,
-						(select * from COLL_OBJ_CONT_HIST where CURRENT_CONTAINER_FG = 1) ch,
-						CONTAINER c,
-						container pc
-					where
-						cataloged_item.collection_id = collection.collection_id and
-						cataloged_item.collection_object_id = coll_obj_other_id_num.collection_object_id and
-						cataloged_item.collection_object_id = specimen_part.derived_from_cat_item and
-						specimen_part.collection_object_id = coll_object.collection_object_id and
-						collection.institution_acronym = '#institution_acronym#' and
-						collection.collection_cde = '#collection_cde#' and
-						part_name = '#part_name#' and
-						display_value = '#other_id_number#' and
-						other_id_type = '#other_id_type#' and
-						coll_obj_disposition != 'on loan' and
-						sampled_from_obj_id  is null
-						specimen_part.collection_object_id = ch.COLLECTION_OBJECT_ID(+) and
-						ch.CONTAINER_ID = C.CONTAINER_ID(+) and
-						C.PARENT_CONTAINER_ID = PC.CONTAINER_ID(+) and
+			<cfloop query="getTempTableTypes">
+				<cfif getTempTableTypes.other_id_type is "catalog number">
+					<cfquery name="collObj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						select
+							specimen_part.collection_object_id
+						from
+							cataloged_item,
+							collection,
+							specimen_part,
+							coll_object,
+							(select * from COLL_OBJ_CONT_HIST where CURRENT_CONTAINER_FG = 1) ch,
+							CONTAINER c,
+							container pc
+						where
+							cataloged_item.collection_id = collection.collection_id and
+							cataloged_item.collection_object_id = specimen_part.derived_from_cat_item and
+							specimen_part.collection_object_id = coll_object.collection_object_id and
+							collection.institution_acronym = '#institution_acronym#' and
+							collection.collection_cde = '#collection_cde#' and
+							part_name = '#part_name#' and
+							cat_num = '#other_id_number#' and
+							coll_obj_disposition != 'on loan' and
+							sampled_from_obj_id is null and
+							specimen_part.collection_object_id = ch.COLLECTION_OBJECT_ID(+) and
+							ch.CONTAINER_ID = C.CONTAINER_ID(+) and
+							C.PARENT_CONTAINER_ID = PC.CONTAINER_ID(+) and
 						PC.barcode = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#BARCODE#">
-				</cfquery>
-			</cfif>
+					</cfquery>
+				<cfelse>
+					<cfquery name="collObj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						select
+							specimen_part.collection_object_id
+						from
+							cataloged_item,
+							collection,
+							specimen_part,
+							coll_object,
+							coll_obj_other_id_num,
+							(select * from COLL_OBJ_CONT_HIST where CURRENT_CONTAINER_FG = 1) ch,
+							CONTAINER c,
+							container pc
+						where
+							cataloged_item.collection_id = collection.collection_id and
+							cataloged_item.collection_object_id = coll_obj_other_id_num.collection_object_id and
+							cataloged_item.collection_object_id = specimen_part.derived_from_cat_item and
+							specimen_part.collection_object_id = coll_object.collection_object_id and
+							collection.institution_acronym = '#institution_acronym#' and
+							collection.collection_cde = '#collection_cde#' and
+							part_name = '#part_name#' and
+							display_value = '#other_id_number#' and
+							other_id_type = '#other_id_type#' and
+							coll_obj_disposition != 'on loan' and
+							sampled_from_obj_id  is null
+							specimen_part.collection_object_id = ch.COLLECTION_OBJECT_ID(+) and
+							ch.CONTAINER_ID = C.CONTAINER_ID(+) and
+							C.PARENT_CONTAINER_ID = PC.CONTAINER_ID(+) and
+							PC.barcode = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#BARCODE#">
+					</cfquery>
+				</cfif>
+			</cfloop>
 			<cfset key = ''>
 			<cfset i = 1>
 			<cfquery name="getTempData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
