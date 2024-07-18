@@ -362,7 +362,7 @@
 			</cfloop>
 			<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT 
-					INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_NUMBER,PART_NAME,ITEM_INSTRUCTIONS,ITEM_REMARKS,BARCODE,SUBSAMPLE,LOAN_NUMBER,TRANSACTION_ID,PARTID,ITEM_DESCRIPTION,BARCODE,STATUS
+					INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_NUMBER,PART_NAME,ITEM_INSTRUCTIONS,ITEM_REMARKS,BARCODE,SUBSAMPLE,LOAN_NUMBER,STATUS
 				FROM 
 					cf_temp_LOAN_ITEM
 				WHERE 
@@ -389,7 +389,7 @@
 						<th>OTHER_ID_TYPE</th>
 						<th>OTHER_ID_NUMBER</th>
 						<th>PART_NAME</th>
-						<th>ITEM_DESCRIPTION</th>
+						<th>ITEM_INSTRUCTIONS</th>
 						<th>ITEM_REMARKS</th>
 						<th>BARCODE</th>
 						<th>SUBSAMPLE</th>
@@ -404,13 +404,10 @@
 							<td>#data.OTHER_ID_TYPE#</td>
 							<td>#data.OTHER_ID_NUMBER#</td>
 							<td>#data.PART_NAME#</td>
-							<td>#data.ITEM_DESCRIPTION#</td>
+							<td>#data.ITEM_INSTRUCTIONS#</td>
 							<td>#data.ITEM_REMARKS#</td>
 							<td>#data.BARCODE#</td>
-							<td>#data.PARTID#</td>
-							<td>#data.ITEM_INSTRUCTIONS#</td>
 							<td>#data.SUBSAMPLE#</td>
-							<td>#data.TRANSACTION_ID#</td>
 							<td>#data.LOAN_NUMBER#</td>
 						</tr>
 					</cfloop>
