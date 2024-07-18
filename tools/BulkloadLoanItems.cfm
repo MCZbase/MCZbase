@@ -324,8 +324,8 @@
 			<cfloop query="getTempTableTypes">
 				<cfif getTempTableTypes.other_id_type is "catalog number">
 					<cfquery name="collObj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						select
-							specimen_part.collection_object_id as partid
+						UPDATE cf_temp_loan_items set PARTID = (select
+							specimen_part.collection_object_id
 						from
 							cataloged_item,
 							collection,
@@ -347,11 +347,11 @@
 							specimen_part.collection_object_id = ch.COLLECTION_OBJECT_ID(+) and
 							ch.CONTAINER_ID = C.CONTAINER_ID(+) and
 							C.PARENT_CONTAINER_ID = PC.CONTAINER_ID(+) and
-							PC.barcode = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#BARCODE#">
+							PC.barcode = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#BARCODE#">)
 					</cfquery>
 				<cfelse>
 					<cfquery name="collObj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						select
+						UPDATE cf_temp_loan_items set PARTID = (select
 							specimen_part.collection_object_id as partid
 						from
 							cataloged_item,
@@ -377,14 +377,14 @@
 							specimen_part.collection_object_id = ch.COLLECTION_OBJECT_ID(+) and
 							ch.CONTAINER_ID = C.CONTAINER_ID(+) and
 							C.PARENT_CONTAINER_ID = PC.CONTAINER_ID(+) and
-							PC.barcode = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#BARCODE#">
+							PC.barcode = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#BARCODE#">)
 					</cfquery>
 				</cfif>
 			</cfloop>
 			<cfset key = ''>
 			<cfset i = 1>
 			<cfquery name="getTempData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				SELECT INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_NUMBER,PART_NAME,ITEM_INSTRUCTIONS,ITEM_REMARKS,BARCODE,SUBSAMPLE,LOAN_NUMBER
+				SELECT INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_NUMBER,PART_NAME,ITEM_INSTRUCTIONS,ITEM_REMARKS,BARCODE,SUBSAMPLE,LOAN_NUMBER,PARTID
 				FROM 
 					CF_TEMP_LOAN_ITEM
 				WHERE 
@@ -395,7 +395,7 @@
 				<cfquery name="getPartID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE cf_temp_loan_item
 					SET 
-						PARTID = #collObj.collection_object_id#
+						PARTID = #getTempData.collection_object_id#
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 					and key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#key#">
 				</cfquery>
