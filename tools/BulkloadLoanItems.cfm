@@ -597,7 +597,7 @@
 							collection_object_id = #collObj.collection_object_id#)
 					</cfquery>
 				<cfelse>
-					<cfset thisPartId=partID>
+					<cfset thisPartId=#partID#>
 					<cfquery name="updateDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						update coll_object set 
 							coll_obj_disposition = 'on loan'
