@@ -471,7 +471,7 @@ transaction_id number
 					RECONCILED_BY_PERSON_ID,
 					reconciled_date,
 					item_descr, 
-					item_instructions,
+					item_instructions
 					<cfif len(#ITEM_REMARKS#) gt 0>
 						,LOAN_ITEM_REMARKS
 					</cfif>
@@ -482,7 +482,7 @@ transaction_id number
 					  #session.myAgentId#,
 					  sysdate,
 					  '#ITEM_DESCRIPTION#',
-						'#item_instructions#',
+						'#item_instructions#'
 					  <cfif len(#ITEM_REMARKS#) gt 0>
 						,'#ITEM_REMARKS#'
 					</cfif>
