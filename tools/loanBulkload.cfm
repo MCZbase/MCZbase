@@ -490,7 +490,8 @@ transaction_id number
 			</cfquery>
 		</cfloop>
 	</cftransaction>
-	<p style="padding: 1em 3em">Spiffy, all done.</p>
+	<p style="padding: 1em 3em">Spiffy, all done. </p>
+					<p style="padding:1em 3em">DO NOT refresh browser again. Go back to main page for <a href="/bulkloading/Bulkloaders.cfm"> Bulkloaders</a></p>
 </cfoutput>
 </cfif>
 <cfinclude template="/includes/_footer.cfm">
