@@ -313,6 +313,64 @@
 	<cfif #action# is "validate">
 		<h2 class="h4">Second step: Data Validation</h2>
 		<cfoutput>
+			<cfif other_id_type is "catalog number">
+				<cfquery name="collObj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					select
+						specimen_part.collection_object_id
+					from
+						cataloged_item,
+						collection,
+						specimen_part,
+						coll_object,
+						(select * from COLL_OBJ_CONT_HIST where CURRENT_CONTAINER_FG = 1) ch,
+						CONTAINER c,
+						container pc
+					where
+						cataloged_item.collection_id = collection.collection_id and
+						cataloged_item.collection_object_id = specimen_part.derived_from_cat_item and
+						specimen_part.collection_object_id = coll_object.collection_object_id and
+						collection.institution_acronym = '#institution_acronym#' and
+						collection.collection_cde = '#collection_cde#' and
+						part_name = '#part_name#' and
+						cat_num = '#other_id_number#' and
+						coll_obj_disposition != 'on loan' and
+						sampled_from_obj_id is null and
+						specimen_part.collection_object_id = ch.COLLECTION_OBJECT_ID(+) and
+						ch.CONTAINER_ID = C.CONTAINER_ID(+) and
+						C.PARENT_CONTAINER_ID = PC.CONTAINER_ID(+) and
+					PC.barcode = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#BARCODE#">
+				</cfquery>
+			<cfelse>
+				<cfquery name="collObj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					select
+						specimen_part.collection_object_id
+					from
+						cataloged_item,
+						collection,
+						specimen_part,
+						coll_object,
+						coll_obj_other_id_num,
+						(select * from COLL_OBJ_CONT_HIST where CURRENT_CONTAINER_FG = 1) ch,
+						CONTAINER c,
+						container pc
+					where
+						cataloged_item.collection_id = collection.collection_id and
+						cataloged_item.collection_object_id = coll_obj_other_id_num.collection_object_id and
+						cataloged_item.collection_object_id = specimen_part.derived_from_cat_item and
+						specimen_part.collection_object_id = coll_object.collection_object_id and
+						collection.institution_acronym = '#institution_acronym#' and
+						collection.collection_cde = '#collection_cde#' and
+						part_name = '#part_name#' and
+						display_value = '#other_id_number#' and
+						other_id_type = '#other_id_type#' and
+						coll_obj_disposition != 'on loan' and
+						sampled_from_obj_id  is null
+						specimen_part.collection_object_id = ch.COLLECTION_OBJECT_ID(+) and
+						ch.CONTAINER_ID = C.CONTAINER_ID(+) and
+						C.PARENT_CONTAINER_ID = PC.CONTAINER_ID(+) and
+						PC.barcode = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#BARCODE#">
+				</cfquery>
+			</cfif>
 			<cfset key = ''>
 			<cfset i = 1>
 			<cfquery name="getTempData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -324,7 +382,13 @@
 			</cfquery>
 			
 			<cfloop query="getTempData">
-
+				<cfquery name="getPartID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					UPDATE cf_temp_loan_item
+					SET 
+						PARTID = #collObj.collection_object_id#
+					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+					and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#key#">
+				</cfquery>
 			</cfloop>
 			<cfloop list="#requiredfieldlist#" index="requiredField">
 				<cfquery name="checkRequired" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -337,7 +401,7 @@
 			</cfloop>
 			<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT 
-					INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_NUMBER,PART_NAME,ITEM_INSTRUCTIONS,ITEM_REMARKS,BARCODE,SUBSAMPLE,LOAN_NUMBER,PARTID,STATUS
+					INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_NUMBER,PART_NAME,ITEM_INSTRUCTIONS,ITEM_REMARKS,BARCODE,SUBSAMPLE,LOAN_NUMBER,PARTID,STATUS,USERNAME
 				FROM 
 					cf_temp_LOAN_ITEM
 				WHERE 
