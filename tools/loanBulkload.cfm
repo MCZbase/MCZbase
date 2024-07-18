@@ -23,7 +23,6 @@ transaction_id number
 <script type='text/javascript' src='/includes/loadLoanPart.js'></script>
 
 
-
 <cfif #action# is "nothing">
      <div style="margin: 0 auto;width: 56em;padding: 1em 0 3em 0;">
 <cfoutput>
@@ -46,7 +45,7 @@ transaction_id number
         <p style="margin: 1em 0;"><span class="likeLink" onclick="document.getElementById('template').style.display='block';">view template</span></p>
 	<div id="template" style="display:none; margin: 1em 0;">
 		<label for="t">Copy the following code and save as a .csv file</label>
-		<textarea rows="2" cols="80" id="t">INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_NUMBER,PART_NAME,ITEM_DESCRIPTION,ITEM_REMARKS,BARCODE,SUBSAMPLE,LOAN_NUMBER</textarea>
+		<textarea rows="2" cols="80" id="t">INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_NUMBER,PART_NAME,ITEM_INSTRUCTIONS,ITEM_REMARKS,BARCODE,SUBSAMPLE,LOAN_NUMBER</textarea>
 	</div>
     
 <ul class="geol_hier">
@@ -55,7 +54,7 @@ transaction_id number
 	<li style="color: red;">Other_Id_Type (required. "catalog number" is acceptable)</li>
 	<li style="color: red;">Other_Id_Number (required; display value)</li>
 	<li style="color: red;">Part_Name (required)</li>
-	<li>Item_Description</li>
+	<li>Item_Instructions</li>
 	<li>Item_Remarks</li>
 	<li style="color: red;">Barcode (required, a.k.a. container unique Id)</li>
 	<li style="color: red;">subsample (required. "yes" creates a new part subsample. "no" puts the entire part on loan)</li>
@@ -66,7 +65,7 @@ transaction_id number
 
 <p>
 <div id="template">
-		<textarea rows="2" cols="80" style="display: none;" id="t">INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_NUMBER,PART_NAME,ITEM_DESCRIPTION,ITEM_REMARKS,BARCODE,SUBSAMPLE,LOAN_NUMBER</textarea>
+		<textarea rows="2" cols="80" style="display: none;" id="t">INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_NUMBER,PART_NAME,ITEM_INSTRUCTIONS,ITEM_REMARKS,BARCODE,SUBSAMPLE,LOAN_NUMBER</textarea>
 	</div>
 
 <cfform name="catnum" method="post" enctype="multipart/form-data">
@@ -471,7 +470,8 @@ transaction_id number
 					collection_object_id,
 					RECONCILED_BY_PERSON_ID,
 					reconciled_date,
-					item_descr
+					item_descr. 
+					item_instructions,
 					<cfif len(#ITEM_REMARKS#) gt 0>
 						,LOAN_ITEM_REMARKS
 					</cfif>
@@ -481,6 +481,7 @@ transaction_id number
 					  #thisPartId#,
 					  #session.myAgentId#,
 					  sysdate,
+					  item_instructions,
 					  '#ITEM_DESCRIPTION#'
 					  <cfif len(#ITEM_REMARKS#) gt 0>
 						,'#ITEM_REMARKS#'
