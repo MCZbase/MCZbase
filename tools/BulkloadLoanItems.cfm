@@ -315,7 +315,7 @@
 		<cfoutput>
 			<cfquery name="getTempTableTypes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT 
-					other_id_type, other_id_number, part_name, barcode, institution_acronym, key
+					other_id_type, other_id_number, part_name, barcode, institution_acronym, collection_cde, key
 				FROM 
 					cf_temp_LOAN_ITEM
 				WHERE 
