@@ -354,7 +354,7 @@
 			</cfloop>
 			<cfloop list="#requiredfieldlist#" index="requiredField">
 				<cfquery name="checkRequired" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					UPDATE cf_temp_attributes
+					UPDATE cf_temp_loan_item
 					SET 
 						status = concat(nvl2(status, status || '; ', ''),'#requiredField# is missing')
 					WHERE #requiredField# is null
