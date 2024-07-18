@@ -325,8 +325,8 @@
 			</cfquery>
 			
 			<cfloop query="getTempData">
-							<!---INSTITUTION_ACRONYM--->			
-<!---				<cfquery name="m1b" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				<!---INSTITUTION_ACRONYM--->			
+<!---			<cfquery name="m1b" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE CF_TEMP_LOAN_ITEM
 					SET 
 						status = concat(nvl2(status, status || '; ', ''),'INSTIUTION_ACRONYM is not "MCZ" (check case)')
@@ -419,7 +419,7 @@
 	<!-------------------------------------------------------------------------------------------->
 	<!------------------------------------------------------->
 	<!------------------------------------------------------->
-	<cfif #action# is "pickPart">
+<!---	<cfif #action# is "pickPart">
 	<cfoutput>
 		<cfquery name="mPart" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			select * from cf_temp_loan_item where status='multiple parts found'
@@ -456,9 +456,9 @@
 		</form>
 		</table>
 	</cfoutput>
-	</cfif>
+	</cfif>--->
 	<!------------------------------------------------------->
-	<cfif #action# is "savePickPart">
+<!---	<cfif #action# is "savePickPart">
 	<cfoutput>
 		<cfloop list="#form.fieldnames#" index="f">
 			<cfif left(f,6) is "PARTID">
@@ -493,10 +493,10 @@
 		</cfloop>
 		<cflocation url="BulkloadLoanItems.cfm?action=loadData">
 	</cfoutput>
-	</cfif>
+	</cfif>--->
 	<!------------------------------------------------------->
 	<!-------------------------------------------------------------------------------------------->
-	<cfif #action# is "loadData">
+	<cfif #action# is "load">
 	<cfoutput>
 		<cfquery name="getTempData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			select * from cf_temp_loan_item
