@@ -13,7 +13,7 @@
 </cfif>
 <!--- end special case dump of problems --->
 
-<cfset fieldlist = "INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_NUMBER,PART_NAME,ITEM_INSTRUCTIONS,ITEM_REMARKS,BARCODE,SUBSAMPLE,LOAN_NUMBER">
+<cfset fieldlist = "INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_NUMBER,PART_NAME,ITEM_INSTRUCTIONS,ITEM_REMARKS,BARCODE,PARTID,TRANSACTION_ID,SUBSAMPLE,LOAN_NUMBER">
 <cfset fieldTypes = "CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR">
 <cfset requiredfieldlist = "INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_NUMBER,PART_NAME,BARCODE,SUBSAMPLE,LOAN_NUMBER">
 
@@ -316,8 +316,7 @@
 			<cfset key = ''>
 			<cfset i = 1>
 			<cfquery name="getTempData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				SELECT 
-					INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_NUMBER,PART_NAME,ITEM_INSTRUCTIONS,ITEM_REMARKS,BARCODE,SUBSAMPLE,LOAN_NUMBER,status
+				SELECT INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_NUMBER,PART_NAME,ITEM_INSTRUCTIONS,ITEM_REMARKS,BARCODE,SUBSAMPLE,TRANSACTION_ID,PARTID,ITEM_DESCRIPTION,LOAN_NUMBER,BARCODE,STATUS
 				FROM 
 					CF_TEMP_LOAN_ITEM
 				WHERE 
@@ -363,7 +362,7 @@
 			</cfloop>
 			<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT 
-					INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_NUMBER,PART_NAME,ITEM_DESCRIPTION,ITEM_INSTRUCTIONS,ITEM_REMARKS,BARCODE,SUBSAMPLE,LOAN_NUMBER,STATUS
+					INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_NUMBER,PART_NAME,ITEM_INSTRUCTIONS,ITEM_REMARKS,BARCODE,SUBSAMPLE,TRANSACTION_ID,PARTID,ITEM_DESCRIPTION,LOAN_NUMBER,BARCODE,STATUS
 				FROM 
 					cf_temp_LOAN_ITEM
 				WHERE 
@@ -408,7 +407,10 @@
 							<td>#data.ITEM_DESCRIPTION#</td>
 							<td>#data.ITEM_REMARKS#</td>
 							<td>#data.BARCODE#</td>
+							<td>#data.PARTID#</td>
+							<td>#data.ITEM_INSTRUCTIONS#</td>
 							<td>#data.SUBSAMPLE#</td>
+							<td>#data.TRANSACTION_ID#</td>
 							<td>#data.LOAN_NUMBER#</td>
 						</tr>
 					</cfloop>
@@ -597,12 +599,12 @@
 							collection_object_id = #collObj.collection_object_id#)
 					</cfquery>
 				<cfelse>
-					<cfset thisPartId=#thisPartID#>
+					<cfset thisPartId=#partID#>
 					<cfquery name="updateDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						update coll_object set 
 							coll_obj_disposition = 'on loan'
 						where
-							collection_object_id =#thisPartId#
+							collection_object_id =#partID#
 					</cfquery>
 				</cfif>
 				<cfquery name="move" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
