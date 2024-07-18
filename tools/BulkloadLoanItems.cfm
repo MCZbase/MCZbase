@@ -397,7 +397,7 @@
 					SET 
 						PARTID = #collObj.collection_object_id#
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-					and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#key#">
+					and key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#key#">
 				</cfquery>
 			</cfloop>
 			<cfloop list="#requiredfieldlist#" index="requiredField">
