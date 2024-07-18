@@ -45,7 +45,7 @@ transaction_id number
         <p style="margin: 1em 0;"><span class="likeLink" onclick="document.getElementById('template').style.display='block';">view template</span></p>
 	<div id="template" style="display:none; margin: 1em 0;">
 		<label for="t">Copy the following code and save as a .csv file</label>
-		<textarea rows="2" cols="80" id="t">INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_NUMBER,PART_NAME,ITEM_DESCRIPTION,ITEM_INSTRUCTIONS,ITEM_REMARKS,BARCODE,SUBSAMPLE,LOAN_NUMBER</textarea>
+		<textarea rows="2" cols="80" id="t">INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_NUMBER,PART_NAME,ITEM_INSTRUCTIONS,ITEM_REMARKS,BARCODE,SUBSAMPLE,LOAN_NUMBER</textarea>
 	</div>
     
 <ul class="geol_hier">
@@ -65,7 +65,7 @@ transaction_id number
 
 <p>
 <div id="template">
-		<textarea rows="2" cols="80" style="display: none;" id="t">INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_NUMBER,PART_NAME,ITEM_DESCRIPTION,ITEM_INSTRUCTIONS,ITEM_REMARKS,BARCODE,SUBSAMPLE,LOAN_NUMBER</textarea>
+		<textarea rows="2" cols="80" style="display: none;" id="t">INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_NUMBER,PART_NAME,ITEM_INSTRUCTIONS,ITEM_REMARKS,BARCODE,SUBSAMPLE,LOAN_NUMBER</textarea>
 	</div>
 
 <cfform name="catnum" method="post" enctype="multipart/form-data">
@@ -111,7 +111,7 @@ transaction_id number
 		select * from cf_temp_loan_item
 	</cfquery>
 	<cfdump var="#gotit#">
-	<p>If the above table is accurate, <a href="loanBulkload.cfm?action=verify">click here to validate</a>. Program will retrieve PartID and Transaction_ID.</p>
+	<p>If the above table is accurate, <a href="loanBulkload.cfm?action=verify">click here to validate your data</a>. Program will enter data that you did not supply and allow you to review again.</p>
 </cfif>
 <!------------------------------------------------------->
 <cfif action is "verify">
