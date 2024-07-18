@@ -362,7 +362,7 @@
 			</cfloop>
 			<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT 
-					INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_NUMBER,PART_NAME,ITEM_INSTRUCTIONS,ITEM_REMARKS,BARCODE,SUBSAMPLE,TRANSACTION_ID,PARTID,ITEM_DESCRIPTION,LOAN_NUMBER,BARCODE,STATUS
+					INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_NUMBER,PART_NAME,ITEM_INSTRUCTIONS,ITEM_REMARKS,BARCODE,SUBSAMPLE,LOAN_NUMBER,TRANSACTION_ID,PARTID,ITEM_DESCRIPTION,BARCODE,STATUS
 				FROM 
 					cf_temp_LOAN_ITEM
 				WHERE 
@@ -419,84 +419,7 @@
 		</cfoutput>
 	</cfif>
 	<!-------------------------------------------------------------------------------------------->
-	<!------------------------------------------------------->
-	<!------------------------------------------------------->
-<!---	<cfif #action# is "pickPart">
-	<cfoutput>
-		<cfquery name="mPart" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-			select * from cf_temp_loan_item where status='multiple parts found'
-		</cfquery>
-		<table border>
-			<tr>
-				<th>Specimen</th>
-			</tr>
-		<cfset i=1>
-		<form name="f" method="post" action="BulkloadLoanItems.cfm">
-			<input type="hidden" name="action" value="savePickPart">
-		<cfloop query="mPart">
-			<tr>
-				<td>
-					#INSTITUTION_ACRONYM# #COLLECTION_CDE# #OTHER_ID_TYPE# #OTHER_ID_NUMBER#
-				</td>
-				<td>
-					Part: <input type="text" name="part#key#" id="part#key#" value="#PART_NAME#">
-					<input type="hidden" name="partid#key#" id="partid#key#">
-					<span class="likeLink" onclick="getPart('partid#key#','part#key#','part=#PART_NAME#&INSTITUTION_ACRONYM=#INSTITUTION_ACRONYM#&COLLECTION_CDE=#COLLECTION_CDE#&id_type=#OTHER_ID_TYPE#&id_value=#OTHER_ID_NUMBER#')">
-						pick...
-					</span>
-				</td>
-			</tr>
-			<cfset i=i+1>
-		</cfloop>
-		<cfset nr=i-1>
-		<input type="hidden" name="numRows" value="#nr#">
-		<tr>
-			<td colspan="2">
-				<input type="submit" class="savBtn" value="Save Picks">
-			</td>
-		</tr>
-		</form>
-		</table>
-	</cfoutput>
-	</cfif>--->
-	<!------------------------------------------------------->
-<!---	<cfif #action# is "savePickPart">
-	<cfoutput>
-		<cfloop list="#form.fieldnames#" index="f">
-			<cfif left(f,6) is "PARTID">
-				<cfset thisKey = replace(f,"PARTID","","all")>
-				<cfset thisPartId=evaluate(f)>
-				<cfquery name="lData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					select * from cf_temp_loan_item where key=#thisKey#
-				</cfquery>
-				<cfquery name="mPart" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					update cf_temp_loan_item set status='spiffy', partID=#thisPartId# where key=#thisKey#
-				</cfquery>
-				<cfif len(lData.ITEM_DESCRIPTION) is 0>
-					<cfquery name="defDescr" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						update
-							cf_temp_loan_item
-							set (ITEM_DESCRIPTION)
-							= (
-								select collection.collection || ' ' || cat_num || ' ' || part_name
-								from
-								cataloged_item,
-								collection,
-								specimen_part
-								where
-								specimen_part.collection_object_id = #thisPartId# and
-								specimen_part.derived_from_cat_item = cataloged_item.collection_object_id and
-								cataloged_item.collection_id = collection.collection_id
-						)
-						where ITEM_DESCRIPTION is null and key=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#thisKey#">
-					</cfquery>
-				</cfif>
-			</cfif>
-		</cfloop>
-		<cflocation url="BulkloadLoanItems.cfm?action=loadData">
-	</cfoutput>
-	</cfif>--->
-	<!------------------------------------------------------->
+
 	<!-------------------------------------------------------------------------------------------->
 	<cfif #action# is "load">
 	<cfoutput>
