@@ -326,7 +326,7 @@
 			
 			<cfloop query="getTempData">
 							<!---INSTITUTION_ACRONYM--->			
-				<cfquery name="m1b" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+<!---				<cfquery name="m1b" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE CF_TEMP_LOAN_ITEM
 					SET 
 						status = concat(nvl2(status, status || '; ', ''),'INSTIUTION_ACRONYM is not "MCZ" (check case)')
@@ -350,7 +350,7 @@
 						SPECIMEN_PART_NAME not in (select PART_NAME from ctSPECIMEN_PART_NAME) AND
 						username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> AND
 						key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#key#">
-				</cfquery>
+				</cfquery>--->
 			</cfloop>
 			<cfloop list="#requiredfieldlist#" index="requiredField">
 				<cfquery name="checkRequired" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
