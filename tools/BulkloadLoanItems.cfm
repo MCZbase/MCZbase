@@ -325,7 +325,7 @@
 				<cfif getTempTableTypes.other_id_type is "catalog number">
 					<cfquery name="collObj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						select
-							specimen_part.collection_object_id
+							specimen_part.collection_object_id as partid
 						from
 							cataloged_item,
 							collection,
@@ -352,7 +352,7 @@
 				<cfelse>
 					<cfquery name="collObj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						select
-							specimen_part.collection_object_id
+							specimen_part.collection_object_id as partid
 						from
 							cataloged_item,
 							collection,
