@@ -165,7 +165,7 @@ transaction_id number
 			            specimen_part.collection_object_id = ch.COLLECTION_OBJECT_ID(+) and
 			            ch.CONTAINER_ID = C.CONTAINER_ID(+) and
 			            C.PARENT_CONTAINER_ID = PC.CONTAINER_ID(+) and
-			            PC.barcode = '#barcode#'
+			            PC.barcode = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#BARCODE#">
 				</cfquery>
 			<cfelse>
 				<cfquery name="collObj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -195,7 +195,7 @@ transaction_id number
 						specimen_part.collection_object_id = ch.COLLECTION_OBJECT_ID(+) and
 			            ch.CONTAINER_ID = C.CONTAINER_ID(+) and
 			            C.PARENT_CONTAINER_ID = PC.CONTAINER_ID(+) and
-			            PC.barcode = '#barcode#'
+			            PC.barcode = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#BARCODE#">
 				</cfquery>
 			</cfif>
 			<cfif collObj.recordcount is 1>
@@ -223,7 +223,7 @@ transaction_id number
 							specimen_part.derived_from_cat_item = cataloged_item.collection_object_id and
 							cataloged_item.collection_id = collection.collection_id
 					)
-					where ITEM_DESCRIPTION is null and key=#key#
+					where ITEM_DESCRIPTION is null and key=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#KEY#">
 				</cfquery>
 				<cfif len(partID) is 0>
 					<cfquery name="YayCollObj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -233,7 +233,7 @@ transaction_id number
 							partID = #collObj.collection_object_id#,
 							status='spiffy'
 						where
-							key=#key#
+							key=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#KEY#">
 					</cfquery>
 				</cfif>
 			<cfelseif collObj.recordcount is 0><!--- no part --->
@@ -244,7 +244,7 @@ transaction_id number
 					set
 						status='no part found'
 					where
-						key=#key#
+						key=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#KEY#">
 				</cfquery>
 			<cfelseif collObj.recordcount gt 1 and len(partID) is 0>
 				<cfquery name="BooCollObj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -253,7 +253,7 @@ transaction_id number
 					set
 						status='multiple parts found'
 					where
-						key=#key#
+						key=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#KEY#">
 				</cfquery>
 			</cfif>
 		</cfloop>
@@ -346,7 +346,7 @@ transaction_id number
 							specimen_part.derived_from_cat_item = cataloged_item.collection_object_id and
 							cataloged_item.collection_id = collection.collection_id
 					)
-					where ITEM_DESCRIPTION is null and key=#thisKey#
+					where ITEM_DESCRIPTION is null and key=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#thisKey#">
 				</cfquery>
 			</cfif>
 		</cfif>
@@ -477,14 +477,14 @@ transaction_id number
 					</cfif>
 					)
 				VALUES (
-					 #transaction_id#,
-					  #thisPartId#,
-					  #session.myAgentId#,
+					 <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#TRANSACTION_ID#">,
+					 <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#thisPartID#">,
+					 <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#session.myAgentId#">,
 					  sysdate,
-					  '#ITEM_DESCRIPTION#',
-						'#item_instructions#'
+					 <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ITEM_DESCRIPTION#">,
+					 <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ITEM_INSTRUCTIONS#">
 					  <cfif len(#ITEM_REMARKS#) gt 0>
-						,'#ITEM_REMARKS#'
+						,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ITEM_INSTRUCTIONS#">
 					</cfif>
 					)
 			</cfquery>
