@@ -470,7 +470,7 @@ transaction_id number
 					collection_object_id,
 					RECONCILED_BY_PERSON_ID,
 					reconciled_date,
-					item_descr. 
+					item_descr, 
 					item_instructions,
 					<cfif len(#ITEM_REMARKS#) gt 0>
 						,LOAN_ITEM_REMARKS
@@ -481,8 +481,8 @@ transaction_id number
 					  #thisPartId#,
 					  #session.myAgentId#,
 					  sysdate,
-					  item_instructions,
-					  '#ITEM_DESCRIPTION#'
+					  '#ITEM_DESCRIPTION#',
+						'#item_instructions#',
 					  <cfif len(#ITEM_REMARKS#) gt 0>
 						,'#ITEM_REMARKS#'
 					</cfif>
@@ -490,7 +490,7 @@ transaction_id number
 			</cfquery>
 		</cfloop>
 	</cftransaction>
-	Spiffy, all done.
+	<p>Spiffy, all done.</p>
 </cfoutput>
 </cfif>
 <cfinclude template="/includes/_footer.cfm">
