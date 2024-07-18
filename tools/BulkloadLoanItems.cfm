@@ -324,32 +324,7 @@
 			</cfquery>
 			
 			<cfloop query="getTempData">
-				<!---INSTITUTION_ACRONYM--->			
-<!---			<cfquery name="m1b" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					UPDATE CF_TEMP_LOAN_ITEM
-					SET 
-						status = concat(nvl2(status, status || '; ', ''),'INSTIUTION_ACRONYM is not "MCZ" (check case)')
-					WHERE institution_acronym <> 'MCZ'
-						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-				</cfquery>
-				<cfquery name="OtherIDType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					UPDATE cf_temp_LOAN_ITEM
-					SET 
-						status = concat(nvl2(status, status || '; ', ''),'OTHER_ID_TYPE not valid - check <a href="/vocabularies/ControlledVocabulary.cfm?table=CTCOLL_OTHER_ID_TYPE">controlled vocabulary</a>')
-					WHERE 
-						OTHER_ID_TYPE not in (select agent_type from ctCOLL_OTHER_ID_TYPE) AND
-						username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> AND
-						key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#key#">
-				</cfquery>
-				<cfquery name="SpecimenPartName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					UPDATE cf_temp_LOAN_ITEM
-					SET 
-						status = concat(nvl2(status, status || '; ', ''),'SPECIMEN_PART_NAME not valid - check <a href="/vocabularies/ControlledVocabulary.cfm?table=CTSPECIMEN_PART_NAME">controlled vocabulary</a>')
-					WHERE 
-						SPECIMEN_PART_NAME not in (select PART_NAME from ctSPECIMEN_PART_NAME) AND
-						username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> AND
-						key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#key#">
-				</cfquery>--->
+
 			</cfloop>
 			<cfloop list="#requiredfieldlist#" index="requiredField">
 				<cfquery name="checkRequired" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
