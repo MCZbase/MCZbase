@@ -319,7 +319,7 @@
 				SELECT 
 					INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_NUMBER,PART_NAME,ITEM_INSTRUCTIONS,ITEM_REMARKS,BARCODE,SUBSAMPLE,LOAN_NUMBER,status
 				FROM 
-					cf_temp_LOAN_ITEM
+					CF_TEMP_LOAN_ITEM
 				WHERE 
 					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
@@ -327,7 +327,7 @@
 			<cfloop query="getTempData">
 							<!---INSTITUTION_ACRONYM--->			
 				<cfquery name="m1b" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					UPDATE cf_temp_LOAN_ITEM
+					UPDATE CF_TEMP_LOAN_ITEM
 					SET 
 						status = concat(nvl2(status, status || '; ', ''),'INSTIUTION_ACRONYM is not "MCZ" (check case)')
 					WHERE institution_acronym <> 'MCZ'
