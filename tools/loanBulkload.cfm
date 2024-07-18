@@ -266,7 +266,7 @@ transaction_id number
 		select count(*) c from done where status != 'spiffy'
 	</cfquery>
 	<cfif #bads.c# gt 0>
-		<p>There is #bads.c# bad record(s)</p>
+		<p>There is #bads.c# bad record(s). Check to see that parts are not on loan if parts cannot be found.</p>
 	</cfif>
 	<cfif bads.c is 0 or bads.c is ''>
 		<p>If everything in the table above looks OK, <a href="loanBulkload.cfm?action=loadData">click here to finalize loading</a>.</p>
