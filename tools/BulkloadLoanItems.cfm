@@ -423,7 +423,7 @@
 					and key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#key#">
 				</cfquery>
 				<cfif len(getTempData.ITEM_DESCRIPTION) is 0>
-					<cfquery name="defDescr" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,session.sessionKey)#">
+					<cfquery name="defDescr" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						update
 							cf_temp_loan_item
 							set (ITEM_DESCRIPTION)
