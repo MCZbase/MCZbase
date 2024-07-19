@@ -427,7 +427,7 @@
 						cf_temp_loan_item
 						set ITEM_DESCRIPTION = 
 						(
-							select collection.collection_cde || ' ' || cat_num || ' ' || part_name
+							select "collection.collection_cde || ' ' || cat_num || ' ' || part_name"
 							from
 							cataloged_item,
 							collection,
