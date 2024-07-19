@@ -532,12 +532,12 @@
 								part_name,
 								PRESERVE_METHOD,
 								DERIVED_FROM_cat_item,
-								#collection_object_id#
+								#PARTID#
 							)
 							FROM
 								specimen_part
 							WHERE
-								collection_object_id = #thisPartId#
+								collection_object_id = #PARTID#
 						)
 					</cfquery>
 				<cfelse>
