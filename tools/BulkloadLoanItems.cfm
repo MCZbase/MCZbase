@@ -425,7 +425,7 @@
 								PARTID = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collObj.collection_object_id#">,
 								status = concat(nvl2(status, status || '; ', ''),'Found Cataloged Item')
 						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-							AND key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#data.key#"> 
+							AND key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#key#"> 
 					</cfquery>
 				</cfif>
 			</cfloop>
