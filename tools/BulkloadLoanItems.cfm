@@ -509,7 +509,9 @@
 	<cfif #action# is "load">
 	<cfoutput>
 		<cfquery name="getTempData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-			select INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_NUMBER,PART_NAME,ITEM_INSTRUCTIONS,ITEM_REMARKS,ITEM_DESCRIPTION,BARCODE,SUBSAMPLE,LOAN_NUMBER,PARTID,TRANSACTION_ID,USERNAME,STATUS from cf_temp_loan_item
+			select INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_NUMBER,PART_NAME,ITEM_INSTRUCTIONS,ITEM_REMARKS,ITEM_DESCRIPTION,BARCODE,SUBSAMPLE,LOAN_NUMBER,PARTID,TRANSACTION_ID,USERNAME,STATUS 
+			from 
+			cf_temp_loan_item
 		</cfquery>
 		<cftransaction>
 			<cfloop query="getTempData">
@@ -589,7 +591,6 @@
 						item_descr,
 						transaction_id
 						) VALUES (
-						
 						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#thisPartID#">,
 						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#session.myAgentId#">,
 						sysdate,
