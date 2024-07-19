@@ -333,7 +333,7 @@
 								collection,
 								specimen_part,
 								coll_object,
-								(select * from COLL_OBJ_CONT_HIST where CURRENT_CONTAINER_FG = 1) ch,
+								(select collection_object_id, container_id from COLL_OBJ_CONT_HIST where CURRENT_CONTAINER_FG = 1) ch,
 								CONTAINER c,
 								container pc
 							where
@@ -365,7 +365,7 @@
 								specimen_part,
 								coll_object,
 								coll_obj_other_id_num,
-								(select * from COLL_OBJ_CONT_HIST where CURRENT_CONTAINER_FG = 1) ch,
+								(select collection_object_id, container_id from COLL_OBJ_CONT_HIST where CURRENT_CONTAINER_FG = 1) ch,
 								CONTAINER c,
 								container pc
 							where
@@ -550,22 +550,24 @@
 						collection_object_id,
 						RECONCILED_BY_PERSON_ID,
 						reconciled_date,
-						item_descr, 
 						item_instructions
 						<cfif len(#ITEM_REMARKS#) gt 0>
 							,LOAN_ITEM_REMARKS
 						</cfif>
+						item_descr
 						)
 					VALUES (
 						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#TRANSACTION_ID#">,
 						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#thisPartID#">,
 						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#session.myAgentId#">,
 						sysdate,
-						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ITEM_DESCRIPTION#">,
-						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ITEM_INSTRUCTIONS#">
-						<cfif len(#ITEM_REMARKS#) gt 0>
+						<cfif len(#ITEM_DESCRIPTION#) gt 0>
 							,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ITEM_INSTRUCTIONS#">
 						</cfif>
+						<cfif len(#ITEM_REMARKS#) gt 0>
+							,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ITEM_REMARKS#">
+						</cfif>,
+						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ITEM_DESCRIPTION#">
 						)
 				</cfquery>
 			</cfloop>
