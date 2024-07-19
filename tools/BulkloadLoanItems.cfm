@@ -502,7 +502,8 @@
 							LOT_COUNT,
 							CONDITION,
 							FLAGS
-						) (select
+						) VALUES (
+							select
 								#thisPartId#,
 								'SS',
 								#session.myAgentId#,
@@ -515,7 +516,8 @@
 							from
 								coll_object
 							where
-								collection_object_id = #nid.collection_object_id#)
+								collection_object_id = #thisPartId#
+						)
 					</cfquery>
 					<cfquery name="makeSubsample" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						INSERT INTO specimen_part (
@@ -523,21 +525,24 @@
 							PART_NAME,
 							PRESERVE_METHOD,
 							DERIVED_FROM_cat_item,
-							sampled_from_obj_id)
-						( select
-							#thisPartId#,
-							part_name,
-							PRESERVE_METHOD,
-							DERIVED_FROM_cat_item,
-							#collObj.collection_object_id#
-						FROM
-							specimen_part
-						WHERE
-							collection_object_id = #collObj.collection_object_id#)
+							sampled_from_obj_id
+						) VALUES ( 
+							select
+								#thisPartId#,
+								part_name,
+								PRESERVE_METHOD,
+								DERIVED_FROM_cat_item,
+								#collObj.collection_object_id#
+							)
+							FROM
+								specimen_part
+							WHERE
+								collection_object_id = #thisPartId#
+						)
 					</cfquery>
 				<cfelse>
 					<cfset thisPartId=#partID#>
-						#partID#
+						#PARTID#
 					<cfquery name="updateDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						update coll_object set 
 							coll_obj_disposition = 'on loan'
