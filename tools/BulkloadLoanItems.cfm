@@ -547,18 +547,22 @@
 				</cfif>
 				<cfquery name="move" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					INSERT INTO loan_item (
-						transaction_id,
 						collection_object_id,
 						RECONCILED_BY_PERSON_ID,
 						reconciled_date,
-						item_instructions
-						<cfif len(#ITEM_REMARKS#) gt 0>
-							,LOAN_ITEM_REMARKS
+						<cfif len(#ITEM_INSTRUCTIONS#) gt 0>
+						item_instructions,
 						</cfif>
-						item_descr
+						<cfif len(#ITEM_REMARKS#) gt 0>
+							LOAN_ITEM_REMARKS,
+						</cfif>
+						<cfif len(#ITEM_DESCRIPTION#) gt 0>
+						item_descr,
+						</cfif>
+						transaction_id
 						)
 					VALUES (
-						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#TRANSACTION_ID#">,
+						
 						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#thisPartID#">,
 						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#session.myAgentId#">,
 						sysdate,
@@ -568,7 +572,10 @@
 						<cfif len(#ITEM_REMARKS#) gt 0>
 							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ITEM_REMARKS#">,
 						</cfif>
-						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ITEM_DESCRIPTION#">
+						<cfif len(#ITEM_DESCRIPTION#) gt 0>
+							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ITEM_DESCRIPTION#">,
+						</cfif>
+						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#TRANSACTION_ID#">
 						)
 				</cfquery>
 			</cfloop>
