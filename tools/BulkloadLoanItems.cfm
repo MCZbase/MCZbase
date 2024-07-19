@@ -418,7 +418,7 @@
 				<cfquery name="getPartID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE cf_temp_loan_item
 					SET 
-						PARTID = #getTempData.PARTID#
+						PARTID = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.PARTID#">
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 					and key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#key#">
 				</cfquery>
@@ -426,18 +426,18 @@
 					<cfquery name="defDescr" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						update
 							cf_temp_loan_item
-							set (ITEM_DESCRIPTION)
-							= (
-								select collection.collection_cde || ':' || cat_num || ' ' || part_name
+							set ITEM_DESCRIPTION = 
+							(
+								select collection.collection_cde || ' ' || cat_num || ' ' || part_name
 								from
 								cataloged_item,
 								collection,
 								specimen_part
 								where
-								specimen_part.collection_object_id = #PARTID# and
+								specimen_part.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.PARTID#"> and
 								specimen_part.derived_from_cat_item = cataloged_item.collection_object_id and
 								cataloged_item.collection_id = collection.collection_id
-						)
+							)
 						where ITEM_DESCRIPTION is null 
 						and key=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#key#">
 					</cfquery>
@@ -482,6 +482,7 @@
 						<th>PART_NAME</th>
 						<th>ITEM_INSTRUCTIONS</th>
 						<th>ITEM_REMARKS</th>
+						<th>ITEM_DESCRIPTION</th>
 						<th>BARCODE</th>
 						<th>SUBSAMPLE</th>
 						<th>LOAN_NUMBER</th>
@@ -499,6 +500,7 @@
 							<td>#data.PART_NAME#</td>
 							<td>#data.ITEM_INSTRUCTIONS#</td>
 							<td>#data.ITEM_REMARKS#</td>
+							<td>#data.ITEM_DESCRIPTION#</td>
 							<td>#data.BARCODE#</td>
 							<td>#data.SUBSAMPLE#</td>
 							<td>#data.LOAN_NUMBER#</td>
