@@ -326,20 +326,31 @@
 					<cfquery name="collObj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						UPDATE cf_temp_loan_items set PARTID = 
 						(
-							select specimen_part.collection_object_id 
-							from cataloged_item, collection, specimen_part, coll_object, 
-							(select * from COLL_OBJ_CONT_HIST where CURRENT_CONTAINER_FG = 1) ch, 
-							CONTAINER c, container pc 
-							where cataloged_item.collection_id = collection.collection_id 
-							and cataloged_item.collection_object_id = specimen_part.derived_from_cat_item 
-							and specimen_part.collection_object_id = coll_object.collection_object_id 
-							and collection.institution_acronym = 'MCZ' 
-							and collection.collection_cde = 'Ent' 
-							and part_name = 'whole animal'
-							and cat_num = '1234' and coll_obj_disposition != 'on loan' and sampled_from_obj_id is null 
-							and specimen_part.collection_object_id = ch.COLLECTION_OBJECT_ID(+) 
-							and ch.CONTAINER_ID = C.CONTAINER_ID(+) and C.PARENT_CONTAINER_ID = PC.CONTAINER_ID(+)
-						)
+							select
+								specimen_part.collection_object_id
+							from
+								cataloged_item,
+								collection,
+								specimen_part,
+								coll_object,
+								(select * from COLL_OBJ_CONT_HIST where CURRENT_CONTAINER_FG = 1) ch,
+								CONTAINER c,
+								container pc
+							where
+								cataloged_item.collection_id = collection.collection_id and
+								cataloged_item.collection_object_id = specimen_part.derived_from_cat_item and
+								specimen_part.collection_object_id = coll_object.collection_object_id and
+								collection.institution_acronym = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#INSTITUTION_ACRONYM#"> and
+								collection.collection_cde = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#COLLECTION_CDE#"> and
+								part_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#PART_NAME#"> and
+								cat_num = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#OTHER_ID_NUMBER#"> and
+								coll_obj_disposition != 'on loan' and
+								sampled_from_obj_id is null and
+								specimen_part.collection_object_id = ch.COLLECTION_OBJECT_ID(+) and
+								ch.CONTAINER_ID = C.CONTAINER_ID(+) and
+								C.PARENT_CONTAINER_ID = PC.CONTAINER_ID(+) and
+								PC.barcode = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#BARCODE#">
+							)
 						where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#USERNAME#">
 						and key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#key#">
 					</cfquery>
@@ -347,7 +358,7 @@
 					<cfquery name="collObj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						UPDATE cf_temp_loan_items set PARTID = (
 							select
-								specimen_part.collection_object_id as partid
+								specimen_part.collection_object_id
 							from
 								cataloged_item,
 								collection,
@@ -519,6 +530,7 @@
 								sampled_from_obj_id  is null
 						</cfquery>
 					</cfif>
+						#collObj.collection_object_id#
 					<cfquery name="nid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						select sq_collection_object_id.nextval nid from dual
 					</cfquery>
