@@ -594,9 +594,7 @@
 						<cfif len(#getTempData.ITEM_REMARKS#) gt 0>
 							LOAN_ITEM_REMARKS,
 						</cfif>
-						<cfif len(#getTempData.ITEM_DESCRIPTION#) gt 0>
-							item_descr,
-						</cfif>
+						item_descr,
 						transaction_id
 						) VALUES (
 						
@@ -609,9 +607,7 @@
 						<cfif len(#getTempData.ITEM_REMARKS#) gt 0>
 							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ITEM_REMARKS#">,
 						</cfif>
-						<cfif len(#getTempData.ITEM_DESCRIPTION#) gt 0>
-							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ITEM_DESCRIPTION#">,
-						</cfif>
+						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ITEM_DESCRIPTION#">,
 						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#TRANSACTION_ID#">
 						)
 				</cfquery>
