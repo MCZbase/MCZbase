@@ -502,7 +502,7 @@
 							LOT_COUNT,
 							CONDITION,
 							FLAGS
-						) VALUES (
+						) (
 							select
 								#thisPartId#,
 								'SS',
@@ -526,7 +526,7 @@
 							PRESERVE_METHOD,
 							DERIVED_FROM_cat_item,
 							sampled_from_obj_id
-						) VALUES ( 
+						) ( 
 							select
 								#thisPartId#,
 								part_name,
@@ -541,7 +541,7 @@
 						)
 					</cfquery>
 				<cfelse>
-					<cfset thisPartId=#partID#>
+					<cfset thisPartId=#PARTID#>
 						#PARTID#
 					<cfquery name="updateDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						update coll_object set 
@@ -565,8 +565,7 @@
 							item_descr,
 						</cfif>
 						transaction_id
-						)
-					VALUES (
+						) VALUES (
 						
 						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#thisPartID#">,
 						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#session.myAgentId#">,
