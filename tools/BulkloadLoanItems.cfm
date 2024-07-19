@@ -532,7 +532,7 @@
 								part_name,
 								PRESERVE_METHOD,
 								DERIVED_FROM_cat_item,
-								#collObj.collection_object_id#
+								#collection_object_id#
 							)
 							FROM
 								specimen_part
