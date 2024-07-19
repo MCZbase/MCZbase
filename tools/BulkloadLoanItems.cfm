@@ -313,16 +313,43 @@
 	<cfif #action# is "validate">
 		<h2 class="h4">Second step: Data Validation</h2>
 		<cfoutput>
-			<cfquery name="getTempTableTypes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+			<cfquery name="getTTypes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT 
-					other_id_type, other_id_number, part_name, barcode, institution_acronym, collection_cde, partid, transaction_id,key
+					*
 				FROM 
 					cf_temp_LOAN_ITEM
 				WHERE 
 					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
-			<cfloop query="getTempTableTypes">
-				<cfif getTempTableTypes.other_id_type is "catalog number">
+			<cfloop query="getTTypes">
+				<cfif #other_id_type# is "catalog number">
+					<cfquery name="collObj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						SELECT
+							collection_object_id
+						FROM
+							cataloged_item 
+							join collection on cataloged_item.collection_id = collection.collection_id
+						WHERE
+							collection.collection_cde = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collection_cde#"> and
+							collection.institution_acronym = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#institution_acronym#"> and
+							cat_num=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#other_id_number#">
+					</cfquery>
+				<cfelse>
+					<cfquery name="collObj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						SELECT
+							coll_obj_other_id_num.collection_object_id
+						FROM
+							coll_obj_other_id_num
+							join cataloged_item on coll_obj_other_id_num.collection_object_id = cataloged_item.collection_object_id 
+							join collection on cataloged_item.collection_id = collection.collection_id
+						WHERE
+							collection.collection_cde = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collection_cde#"> and
+							collection.institution_acronym = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#institution_acronym#"> and
+							other_id_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#other_id_type#"> and
+							display_value = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#other_id_number#">
+					</cfquery>
+				</cfif>
+			<!---	<cfif getTempTableTypes.other_id_type is "catalog number">
 					<cfquery name="collObj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						UPDATE cf_temp_loan_item set PARTID = 
 						(
@@ -389,12 +416,12 @@
 						where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.USERNAME#">
 						and key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableTypes.key#">
 					</cfquery>
-				</cfif>
+				</cfif>--->
 			</cfloop>
 			<cfset key = ''>
 			<cfset i = 1>
 			<cfquery name="getTempData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				SELECT INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_NUMBER,PART_NAME,ITEM_INSTRUCTIONS,ITEM_DESCRIPTION,ITEM_REMARKS,BARCODE, SUBSAMPLE,LOAN_NUMBER,PARTID,TRANSACTION_ID
+				SELECT *
 				FROM 
 					CF_TEMP_LOAN_ITEM
 				WHERE 
