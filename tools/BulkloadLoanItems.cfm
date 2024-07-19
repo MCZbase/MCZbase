@@ -351,8 +351,6 @@
 								C.PARENT_CONTAINER_ID = PC.CONTAINER_ID(+) and
 								PC.barcode = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableTypes.BARCODE#">
 							)
-						where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.USERNAME#">
-						and key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableTypes.key#">
 					</cfquery>
 				<cfelse>
 					<cfquery name="collObj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -373,7 +371,8 @@
 								cataloged_item.collection_object_id = coll_obj_other_id_num.collection_object_id and
 								cataloged_item.collection_object_id = specimen_part.derived_from_cat_item and
 								specimen_part.collection_object_id = coll_object.collection_object_id and
-								collection.institution_acronym = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableTypes.INSTITUTION_ACRONYM#"> and
+								collection.institution_acronym = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableTypes.INSTITUTION_ACRONYM#"> 
+								and
 								collection.collection_cde = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableTypes.COLLECTION_CDE#"> and
 								part_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableTypes.PART_NAME#"> and
 								display_value = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableTypes.OTHER_ID_NUMBER#"> and
@@ -385,8 +384,7 @@
 								C.PARENT_CONTAINER_ID = PC.CONTAINER_ID(+) and
 								PC.barcode = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableTypes.BARCODE#">
 							)
-						where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.USERNAME#">
-						and key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#key#">
+			
 					</cfquery>
 				</cfif>
 			</cfloop>
