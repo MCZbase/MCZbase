@@ -315,7 +315,7 @@
 		<cfoutput>
 			<cfquery name="getTempTableTypes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT 
-					other_id_type, other_id_number, part_name, barcode, institution_acronym, collection_cde, key
+					other_id_type, other_id_number, part_name, barcode, institution_acronym, collection_cde, partid, key
 				FROM 
 					cf_temp_LOAN_ITEM
 				WHERE 
@@ -393,7 +393,7 @@
 			</cfloop>
 			<cfset key = ''>
 			<cfset i = 1>
-			<cfset getTempTableTypes.collection_object_id is 'PARTID'>
+			<cfset getTempTableTypes.collection_object_id eq '#PARTID#'>
 			<cfquery name="getTempData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_NUMBER,PART_NAME,ITEM_INSTRUCTIONS,ITEM_REMARKS,BARCODE,SUBSAMPLE,LOAN_NUMBER,PARTID,TRANSACTION_ID
 				FROM 
