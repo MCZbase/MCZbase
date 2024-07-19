@@ -314,8 +314,7 @@
 		<h2 class="h4">Second step: Data Validation</h2>
 		<cfoutput>
 			<cfquery name="getTypes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				SELECT 
-					*
+				SELECT *
 				FROM 
 					cf_temp_LOAN_ITEM
 				WHERE 
@@ -419,11 +418,11 @@
 				<cfquery name="partID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE cf_temp_loan_item
 					SET
-						status = concat(nvl2(status, status || '; ', ''),'Part ID ' || #partid# || 'not found')
+						status = concat(nvl2(status, status || '; ', ''),'Part ID: ' || #partid# || 'not found')
 					WHERE 
 						PARTID IS NULL
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-						AND key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#key#">
+						AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#key#">
 				</cfquery>
 			</cfloop>
 			<cfloop list="#requiredfieldlist#" index="requiredField">
