@@ -315,7 +315,7 @@
 		<cfoutput>
 			<cfquery name="getTempTableTypes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT 
-					other_id_type, other_id_number, part_name, barcode, institution_acronym, collection_cde, partid, key
+					other_id_type, other_id_number, part_name, barcode, institution_acronym, collection_cde, partid, transaction_id,key
 				FROM 
 					cf_temp_LOAN_ITEM
 				WHERE 
@@ -402,6 +402,22 @@
 			</cfquery>
 			
 			<cfloop query="getTempData">
+				<cfquery name="loanID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,session.sessionKey)#">
+					update
+						cf_temp_loan_item
+					set
+						(transaction_id)
+					= (select
+							loan.transaction_id
+						from
+							trans,loan,collection
+						where
+							trans.transaction_id = loan.transaction_id and
+							trans.collection_id = collection.collection_id and
+							upper(collection.collection_cde)=upper(cf_temp_data.collection_cde) and
+							loan.loan_number = cf_temp_data.loan_number
+						)
+				</cfquery>
 				<cfquery name="getPartID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE cf_temp_loan_item
 					SET 
