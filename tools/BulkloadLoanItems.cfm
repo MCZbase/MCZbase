@@ -433,8 +433,7 @@
 				</cfquery>
 			</cfloop>
 			<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				SELECT 
-					INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_NUMBER,PART_NAME,ITEM_INSTRUCTIONS,ITEM_REMARKS,BARCODE,SUBSAMPLE,LOAN_NUMBER,PARTID,STATUS,TRANSACTION_ID,USERNAME
+				SELECT INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_NUMBER,PART_NAME,ITEM_INSTRUCTIONS,ITEM_REMARKS,BARCODE,SUBSAMPLE,LOAN_NUMBER,PARTID,STATUS,TRANSACTION_ID,USERNAME
 				FROM 
 					cf_temp_LOAN_ITEM
 				WHERE 
@@ -531,7 +530,7 @@
 							from
 								coll_object
 							where
-								collection_object_id = #thisPartId#
+								collection_object_id = #PARTID#
 						)
 					</cfquery>
 					<cfquery name="makeSubsample" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
