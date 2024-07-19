@@ -423,7 +423,7 @@
 					WHERE 
 						PARTID IS NULL
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-						AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
+						AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTemp.key#">
 				</cfquery>
 			</cfloop>
 			<cfloop list="#requiredfieldlist#" index="requiredField">
