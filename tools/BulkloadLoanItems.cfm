@@ -566,13 +566,13 @@
 						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#thisPartID#">,
 						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#session.myAgentId#">,
 						sysdate,
-						<cfif len(#ITEM_INSTRUCTIONS#) gt 0>
+						<cfif len(#getTempData.ITEM_INSTRUCTIONS#) gt 0>
 							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ITEM_INSTRUCTIONS#">,
 						</cfif>
-						<cfif len(#ITEM_REMARKS#) gt 0>
+						<cfif len(#getTempData.ITEM_REMARKS#) gt 0>
 							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ITEM_REMARKS#">,
 						</cfif>
-						<cfif len(#ITEM_DESCRIPTION#) gt 0>
+						<cfif len(#getTempData.ITEM_DESCRIPTION#) gt 0>
 							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ITEM_DESCRIPTION#">,
 						</cfif>
 						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#TRANSACTION_ID#">
