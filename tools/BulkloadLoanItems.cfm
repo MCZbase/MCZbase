@@ -394,7 +394,7 @@
 			<cfset key = ''>
 			<cfset i = 1>
 			<cfquery name="getTempData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				SELECT INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_NUMBER,PART_NAME,ITEM_INSTRUCTIONS,ITEM_DESCRIPTION,ITEM_REMARKS,BARCODE,SUBSAMPLE,LOAN_NUMBER,PARTID,TRANSACTION_ID
+				SELECT INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_NUMBER,PART_NAME,ITEM_INSTRUCTIONS,ITEM_DESCRIPTION,ITEM_REMARKS,BARCODE, SUBSAMPLE,LOAN_NUMBER,PARTID,TRANSACTION_ID
 				FROM 
 					CF_TEMP_LOAN_ITEM
 				WHERE 
@@ -437,7 +437,7 @@
 						collection,
 						specimen_part
 						where
-						specimen_part.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.PARTID#"> and
+						specimen_part.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_varchar" value="#getTempData.PARTID#"> and
 						specimen_part.derived_from_cat_item = cataloged_item.collection_object_id and
 						cataloged_item.collection_id = collection.collection_id
 					)
@@ -445,7 +445,7 @@
 				AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				SELECT INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_NUMBER,PART_NAME,ITEM_INSTRUCTIONS,ITEM_REMARKS,ITEM_DESCRIPTION,BARCODE,SUBSAMPLE,LOAN_NUMBER,PARTID,STATUS,TRANSACTION_ID,USERNAME
+				SELECT INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_NUMBER,PART_NAME,ITEM_INSTRUCTIONS,ITEM_REMARKS,ITEM_DESCRIPTION, BARCODE,SUBSAMPLE,LOAN_NUMBER,PARTID,STATUS,TRANSACTION_ID,USERNAME
 				FROM 
 					cf_temp_LOAN_ITEM
 				WHERE 
