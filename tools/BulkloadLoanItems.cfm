@@ -542,7 +542,7 @@
 						update coll_object set 
 							coll_obj_disposition = 'on loan'
 						where
-							collection_object_id =#partID#
+							collection_object_id =#thisPartId#
 					</cfquery>
 				</cfif>
 				<cfquery name="move" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
