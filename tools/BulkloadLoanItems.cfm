@@ -321,7 +321,7 @@
 					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<cfloop query="getTypes">
-				<cfif getTypes.other_id_type is "catalog number">
+				<cfif #other_id_type# is "catalog number">
 					<cfquery name="collObj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						UPDATE cf_temp_loan_item set PARTID = 
 						(
@@ -351,7 +351,7 @@
 								PC.barcode = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#BARCODE#">
 							)
 						where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.USERNAME#">
-						and key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#key#">
+						and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#key#">
 					</cfquery>
 				<cfelse>
 					<cfquery name="collObj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -386,7 +386,7 @@
 								PC.barcode = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#BARCODE#">
 							)
 						where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.USERNAME#">
-						and key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#key#">
+						and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#key#">
 					</cfquery>
 				</cfif>
 			</cfloop>
@@ -418,7 +418,7 @@
 				<cfquery name="partID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE cf_temp_loan_item
 					SET
-						status = concat(nvl2(status, status || '; ', ''),'Part ID: ' || #partid# || 'not found')
+						status = concat(nvl2(status, status || '; ', ''),'Part ID: ' || #PARTID# || 'not found')
 					WHERE 
 						PARTID IS NULL
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
