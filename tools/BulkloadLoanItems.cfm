@@ -351,7 +351,7 @@
 								C.PARENT_CONTAINER_ID = PC.CONTAINER_ID(+) and
 								PC.barcode = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#BARCODE#">
 							)
-						where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#USERNAME#">
+						where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.USERNAME#">
 						and key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#key#">
 					</cfquery>
 				<cfelse>
