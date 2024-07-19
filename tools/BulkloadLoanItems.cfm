@@ -454,6 +454,7 @@
 						<th>SUBSAMPLE</th>
 						<th>LOAN_NUMBER</th>
 						<th>PARTID</th>
+						<th>TRANSACTION_ID</th>
 					</tr>
 				<tbody>
 					<cfloop query="data">
@@ -470,6 +471,7 @@
 							<td>#data.SUBSAMPLE#</td>
 							<td>#data.LOAN_NUMBER#</td>
 							<td>#data.PARTID#</td>
+							<td>#data.TRANSACTION_ID#</td>
 						</tr>
 					</cfloop>
 				</tbody>
