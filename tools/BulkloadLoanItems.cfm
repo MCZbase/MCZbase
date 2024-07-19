@@ -422,6 +422,26 @@
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 					and key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#key#">
 				</cfquery>
+				<cfif len(lData.ITEM_DESCRIPTION) is 0>
+					<cfquery name="defDescr" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,session.sessionKey)#">
+						update
+							cf_temp_loan_item
+							set (ITEM_DESCRIPTION)
+							= (
+								select collection.guid_prefix || ':' || cat_num || ' ' || part_name
+								from
+								cataloged_item,
+								collection,
+								specimen_part
+								where
+								specimen_part.collection_object_id = #thisPartId# and
+								specimen_part.derived_from_cat_item = cataloged_item.collection_object_id and
+								cataloged_item.collection_id = collection.collection_id
+						)
+						where ITEM_DESCRIPTION is null 
+						and key=#thisKey#
+					</cfquery>
+				</cfif>
 			</cfloop>
 			<cfloop list="#requiredfieldlist#" index="requiredField">
 				<cfquery name="checkRequired" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
