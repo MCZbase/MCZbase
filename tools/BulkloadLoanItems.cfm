@@ -482,7 +482,7 @@
 	<cfif #action# is "load">
 	<cfoutput>
 		<cfquery name="getTempData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-			select INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_NUMBER,PART_NAME,ITEM_INSTRUCTIONS,ITEM_REMARKS,BARCODE,SUBSAMPLE,LOAN_NUMBER,PARTID,TRANSACTION_ID,USERNAME,STATUS from cf_temp_loan_item
+			select INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_NUMBER,PART_NAME,ITEM_INSTRUCTIONS,ITEM_REMARKS,ITEM_DESCRIPTION,BARCODE,SUBSAMPLE,LOAN_NUMBER,PARTID,TRANSACTION_ID,USERNAME,STATUS from cf_temp_loan_item
 		</cfquery>
 		<cftransaction>
 			<cfloop query="getTempData">
@@ -550,14 +550,14 @@
 						collection_object_id,
 						RECONCILED_BY_PERSON_ID,
 						reconciled_date,
-						<cfif len(#ITEM_INSTRUCTIONS#) gt 0>
-						item_instructions,
+						<cfif len(#getTempData.ITEM_INSTRUCTIONS#) gt 0>
+							item_instructions,
 						</cfif>
-						<cfif len(#ITEM_REMARKS#) gt 0>
+						<cfif len(#getTempData.ITEM_REMARKS#) gt 0>
 							LOAN_ITEM_REMARKS,
 						</cfif>
-						<cfif len(#ITEM_DESCRIPTION#) gt 0>
-						item_descr,
+						<cfif len(#getTempData.ITEM_DESCRIPTION#) gt 0>
+							item_descr,
 						</cfif>
 						transaction_id
 						)
