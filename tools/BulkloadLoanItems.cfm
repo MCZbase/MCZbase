@@ -331,7 +331,10 @@
 								cataloged_item,
 								collection,
 								specimen_part,
-								coll_object
+								coll_object,
+								(select collection_object_id, container_id from COLL_OBJ_CONT_HIST where CURRENT_CONTAINER_FG = 1) ch,
+								CONTAINER c,
+								container pc
 							where
 								cataloged_item.collection_id = collection.collection_id and
 								cataloged_item.collection_object_id = specimen_part.derived_from_cat_item and
@@ -342,6 +345,10 @@
 								cat_num = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#OTHER_ID_NUMBER#"> and
 								coll_obj_disposition != 'on loan' and
 								sampled_from_obj_id is null and
+								specimen_part.collection_object_id = ch.COLLECTION_OBJECT_ID(+) and
+								ch.CONTAINER_ID = C.CONTAINER_ID(+) and
+								C.PARENT_CONTAINER_ID = PC.CONTAINER_ID(+) and
+								PC.barcode = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#BARCODE#">
 							)
 						where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.USERNAME#">
 						and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#key#">
@@ -356,7 +363,10 @@
 								collection,
 								specimen_part,
 								coll_object,
-								coll_obj_other_id_num
+								coll_obj_other_id_num,
+								(select collection_object_id, container_id from COLL_OBJ_CONT_HIST where CURRENT_CONTAINER_FG = 1) ch,
+								CONTAINER c,
+								container pc
 							where
 								cataloged_item.collection_id = collection.collection_id and
 								cataloged_item.collection_object_id = coll_obj_other_id_num.collection_object_id and
@@ -370,6 +380,10 @@
 								other_id_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#OTHER_ID_TYPE#"> and
 								coll_obj_disposition != 'on loan' and
 								sampled_from_obj_id  is null
+								specimen_part.collection_object_id = ch.COLLECTION_OBJECT_ID(+) and
+								ch.CONTAINER_ID = C.CONTAINER_ID(+) and
+								C.PARENT_CONTAINER_ID = PC.CONTAINER_ID(+) and
+								PC.barcode = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#BARCODE#">
 							)
 						where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.USERNAME#">
 						and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#key#">
