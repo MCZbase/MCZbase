@@ -414,7 +414,7 @@
 								loan_number = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.loan_number#">
 						)
 					where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-					and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#key#"> 
+					and key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#key#"> 
 				</cfquery>
 				<cfquery name="partID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE cf_temp_loan_item
@@ -423,7 +423,7 @@
 					WHERE 
 						PARTID IS NULL
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-						AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#key#">
+						AND key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#key#">
 				</cfquery>
 			</cfloop>
 			<cfloop list="#requiredfieldlist#" index="requiredField">
