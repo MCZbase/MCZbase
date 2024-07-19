@@ -425,7 +425,7 @@
 				<cfquery name="defDescr" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					update
 						cf_temp_loan_item
-						set ITEM_DESCRIPTION = 
+						set (ITEM_DESCRIPTION) = 
 						(
 							select collection.collection_cde || ' ' || cat_num || ' ' || part_name
 							from
@@ -437,7 +437,8 @@
 							specimen_part.derived_from_cat_item = cataloged_item.collection_object_id and
 							cataloged_item.collection_id = collection.collection_id
 						)
-					where key=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#key#">
+					where ITEM_DESCRIPTION IS NULLL AND 
+					key=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#key#">
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
 			</cfloop>
