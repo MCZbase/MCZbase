@@ -414,8 +414,8 @@
 						where
 							trans.transaction_id = loan.transaction_id and
 							trans.collection_id = collection.collection_id and
-							upper(collection.collection_cde)=upper(cf_temp_data.collection_cde) and
-							loan.loan_number = cf_temp_data.loan_number
+							upper(collection.collection_cde)=upper(getTempData.collection_cde) and
+							loan.loan_number = getTempData.loan_number
 						)
 				</cfquery>
 				<cfquery name="getPartID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
