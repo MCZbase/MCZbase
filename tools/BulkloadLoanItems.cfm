@@ -417,17 +417,13 @@
 					and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableTypes.key#"> 
 				</cfquery>
 				<cfquery name="partID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					update
-						cf_temp_loan_item
-					set
-						PARTID= (
-							select
-								PARTID
-							from
-								getTempData
-						)
-					where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-					and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableTypes.key#"> 
+					UPDATE cf_temp_loan_item
+					SET
+						status = concat(nvl2(status, status || '; ', ''),'Part ID ' || #partid# || 'not found')
+					WHERE 
+						PARTID IS NULL
+						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+						AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
 				</cfquery>
 			</cfloop>
 			<cfloop list="#requiredfieldlist#" index="requiredField">
