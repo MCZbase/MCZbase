@@ -387,7 +387,7 @@
 								PC.barcode = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableTypes.BARCODE#">
 							)
 						where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.USERNAME#">
-						and key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#key#">
+						and key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableTypes.key#">
 					</cfquery>
 				</cfif>
 			</cfloop>
@@ -400,7 +400,6 @@
 				WHERE 
 					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
-			
 			<cfloop query="getTempData">
 				<cfquery name="loanID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					update
@@ -414,8 +413,22 @@
 							where
 								loan_number = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.loan_number#">
 						)
+					where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+					and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableTypes.key#"> 
 				</cfquery>
-
+				<cfquery name="partID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					update
+						cf_temp_loan_item
+					set
+						PARTID= (
+							select
+								PARTID
+							from
+								getTempData
+						)
+					where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+					and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableTypes.key#"> 
+				</cfquery>
 			</cfloop>
 			<cfloop list="#requiredfieldlist#" index="requiredField">
 				<cfquery name="checkRequired" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
