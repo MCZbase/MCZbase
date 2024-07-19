@@ -339,16 +339,16 @@
 								cataloged_item.collection_id = collection.collection_id and
 								cataloged_item.collection_object_id = specimen_part.derived_from_cat_item and
 								specimen_part.collection_object_id = coll_object.collection_object_id and
-								collection.institution_acronym = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#INSTITUTION_ACRONYM#"> and
-								collection.collection_cde = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#COLLECTION_CDE#"> and
-								part_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#PART_NAME#"> and
-								cat_num = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#OTHER_ID_NUMBER#"> and
+								collection.institution_acronym = 'MCZ' and
+								collection.collection_cde = 'Ent' and
+								part_name = 'whole animal' and
+								cat_num = '793492' and
 								coll_obj_disposition != 'on loan' and
 								sampled_from_obj_id is null and
 								specimen_part.collection_object_id = ch.COLLECTION_OBJECT_ID(+) and
 								ch.CONTAINER_ID = C.CONTAINER_ID(+) and
 								C.PARENT_CONTAINER_ID = PC.CONTAINER_ID(+) and
-								PC.barcode = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#BARCODE#">
+								PC.barcode ='MCZ-ENT00793492'
 							)
 						where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.USERNAME#">
 						and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#key#">
@@ -589,7 +589,6 @@
 						item_descr,
 						transaction_id
 						) VALUES (
-						
 						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#thisPartID#">,
 						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#session.myAgentId#">,
 						sysdate,
