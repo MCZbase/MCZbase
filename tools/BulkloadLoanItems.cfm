@@ -515,7 +515,7 @@
 							from
 								coll_object
 							where
-								collection_object_id = #collObj.collection_object_id#)
+								collection_object_id = #nid.collection_object_id#)
 					</cfquery>
 					<cfquery name="makeSubsample" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						INSERT INTO specimen_part (
