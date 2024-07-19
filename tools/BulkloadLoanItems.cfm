@@ -418,7 +418,7 @@
 				<cfquery name="partID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE cf_temp_loan_item
 					SET
-						status = concat(nvl2(status, status || '; ', ''),'Part ID: ' || #PARTID# || 'not found')
+						status = concat(nvl2(status, status || '; ', ''), #PARTID# is missing)
 					WHERE 
 						PARTID IS NULL
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
