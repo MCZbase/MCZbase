@@ -414,7 +414,7 @@
 						where
 							trans.transaction_id = loan.transaction_id and
 							trans.collection_id = collection.collection_id and
-							upper(collection.collection_cde)=upper(getTempData.collection_cde) and
+							collection.collection_cde=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.collection_cde#"> and
 							loan.loan_number = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.loan_number#">
 						)
 				</cfquery>
