@@ -567,7 +567,7 @@
 						</cfif>
 						<cfif len(#ITEM_REMARKS#) gt 0>
 							,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ITEM_REMARKS#">
-						</cfif>,
+						</cfif>
 						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ITEM_DESCRIPTION#">
 						)
 				</cfquery>
