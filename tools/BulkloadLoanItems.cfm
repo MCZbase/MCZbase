@@ -415,33 +415,32 @@
 								loan_number = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.loan_number#">
 						)
 				</cfquery>
-				<cfquery name="getPartID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+		<!---		<cfquery name="getPartID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE cf_temp_loan_item
 					SET 
 						PARTID = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.PARTID#">
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 					and key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#key#">
+				</cfquery>--->
+				<cfquery name="defDescr" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					update
+						cf_temp_loan_item
+						set ITEM_DESCRIPTION = 
+						(
+							select collection.collection_cde || ' ' || cat_num || ' ' || part_name
+							from
+							cataloged_item,
+							collection,
+							specimen_part
+							where
+							specimen_part.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.PARTID#"> and
+							specimen_part.derived_from_cat_item = cataloged_item.collection_object_id and
+							cataloged_item.collection_id = collection.collection_id
+						)
+					where ITEM_DESCRIPTION is null 
+					and key=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#key#">
+					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
-				<cfif len(getTempData.ITEM_DESCRIPTION) is 0>
-					<cfquery name="defDescr" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						update
-							cf_temp_loan_item
-							set ITEM_DESCRIPTION = 
-							(
-								select collection.collection_cde || ' ' || cat_num || ' ' || part_name
-								from
-								cataloged_item,
-								collection,
-								specimen_part
-								where
-								specimen_part.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.PARTID#"> and
-								specimen_part.derived_from_cat_item = cataloged_item.collection_object_id and
-								cataloged_item.collection_id = collection.collection_id
-							)
-						where ITEM_DESCRIPTION is null 
-						and key=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#key#">
-					</cfquery>
-				</cfif>
 			</cfloop>
 			<cfloop list="#requiredfieldlist#" index="requiredField">
 				<cfquery name="checkRequired" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
