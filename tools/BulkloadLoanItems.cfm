@@ -533,7 +533,6 @@
 								PRESERVE_METHOD,
 								DERIVED_FROM_cat_item,
 								#PARTID#
-							)
 							FROM
 								specimen_part
 							WHERE
