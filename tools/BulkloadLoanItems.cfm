@@ -437,7 +437,7 @@
 							specimen_part.derived_from_cat_item = cataloged_item.collection_object_id and
 							cataloged_item.collection_id = collection.collection_id
 						)
-					where ITEM_DESCRIPTION IS NULLL AND 
+					where ITEM_DESCRIPTION IS NULL AND 
 					key=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#key#">
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
