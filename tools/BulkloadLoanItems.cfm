@@ -415,7 +415,7 @@
 							trans.transaction_id = loan.transaction_id and
 							trans.collection_id = collection.collection_id and
 							upper(collection.collection_cde)=upper(getTempData.collection_cde) and
-							loan.loan_number = getTempData.loan_number
+							loan.loan_number = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.loan_number#">
 						)
 				</cfquery>
 				<cfquery name="getPartID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
