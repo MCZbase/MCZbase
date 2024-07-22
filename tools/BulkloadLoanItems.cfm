@@ -340,15 +340,15 @@
 								cataloged_item.collection_object_id = specimen_part.derived_from_cat_item and
 								specimen_part.collection_object_id = coll_object.collection_object_id and
 								collection.institution_acronym = 'MCZ' and
-								collection.collection_cde = '#getTypes.collection_cde#' and
-								part_name = '#part_name#' and
-								cat_num = '#getTypes.other_id_number#' and
+								collection.collection_cde = cf_temp_loan_item.collection_cde and
+								part_name = cf_temp_loan_item.part_name and
+								cat_num = cf_temp_loan_item.other_id_type and
 								coll_obj_disposition != 'on loan' and
 								sampled_from_obj_id is null and
 								specimen_part.collection_object_id = ch.COLLECTION_OBJECT_ID(+) and
 								ch.CONTAINER_ID = C.CONTAINER_ID(+) and
 								C.PARENT_CONTAINER_ID = PC.CONTAINER_ID(+) and
-								PC.barcode = '#getTypes.barcode#'
+								PC.barcode = cf_temp_loan_item.barcode
 							),
 						status = null
 						where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.USERNAME#">
@@ -375,16 +375,16 @@
 								specimen_part.collection_object_id = coll_object.collection_object_id and
 								collection.institution_acronym = 'MCZ'
 							and
-								collection.collection_cde = '#getTypes.collection_cde#' and
-								part_name = '#getTypes.part_name#' and
-								display_value = '#getTypes.other_id_number#' and
-								other_id_type = '#getTypes.other_id_type#' and
+								collection.collection_cde =  cf_temp_loan_item.collection_cde and
+								part_name =  cf_temp_loan_item.part_name and
+								display_value = cf_temp_loan_item.other_id_number and
+								other_id_type = cf_temp_loan_item.other_id_type and
 								coll_obj_disposition != 'on loan' and
 								sampled_from_obj_id  is null
 								specimen_part.collection_object_id = ch.COLLECTION_OBJECT_ID(+) and
 								ch.CONTAINER_ID = C.CONTAINER_ID(+) and
 								C.PARENT_CONTAINER_ID = PC.CONTAINER_ID(+) and
-								PC.barcode = '#getTypes.barcode#'
+								PC.barcode = cf_temp_loan_item.barcode
 							)
 						where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.USERNAME#">
 						and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTypes.key#">
@@ -527,7 +527,7 @@
 			<cfset loan_updates = 0>
 			<cfset loan_updates1 = 0>
 			<cfif getTempData.recordcount EQ 0>
-				<cfthrow message="You have no rows to load in the attributes bulkloader table (cf_temp_loan_item). <a href='/tools/BulkloadLoanItems.cfm' class='text-danger'>Start over</a>">
+				<cfthrow message="You have no rows to load in the loan item bulkloader table (cf_temp_loan_item). <a href='/tools/BulkloadLoanItems.cfm' class='text-danger'>Start over</a>">
 			</cfif>
 			<cfloop query="getTempData">
 				<cfset problem_key = getTempData.key>
@@ -642,7 +642,7 @@
 					<cftransaction action="ROLLBACK">
 					<h3>There was a problem updating the loan items.</h3>
 					<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						SELECT status,institution_acronym,collection_cde,other_id_type,other_id_number,PARTID,TRANSACTION_ID, attribute_units,attribute_date,attribute_meth,determiner,remarks
+						SELECT status,INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_NUMBER,PART_NAME,ITEM_INSTRUCTIONS,ITEM_REMARKS,ITEM_DESCRIPTION,BARCODE,SUBSAMPLE,LOAN_NUMBER,PARTID,TRANSACTION_ID
 						FROM cf_temp_loan_item 
 						WHERE key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#problem_key#">
 					</cfquery>
@@ -654,14 +654,14 @@
 					<cfloop query="getCollectionCodes">
 						<cfset collection_codes = ListAppend(collection_codes,getCollectionCodes.collection_cde)>
 					</cfloop>
-					<cfquery name="getInstitution" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+<!---					<cfquery name="getInstitution" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						SELECT distinct institution_acronym
 						FROM collection
 					</cfquery>
 					<cfset institutions = "">
 					<cfloop query="getInstitution">
 						<cfset institutions = ListAppend(institutions,getInstitution.institution_acronym)>
-					</cfloop>
+					</cfloop>--->
 					<cfif getProblemData.recordcount GT 0>
  						<h3>Errors at this stage are displayed one row at a time, more errors may exist in this file.</h3>
 						<h3>
@@ -700,7 +700,7 @@
 							</cfif>
 						</h3>
 						<!--- Note: we can not link to a dump of the temp table as it will be cleared for this user at the end of this step --->
-						<p>Fix the problems and <a href="/tools/BulkloadAttributes.cfm">Reload your file</a></p> 
+						<p>Fix the problems and <a href="/tools/BulkloadLoanItems.cfm">Reload your file</a></p> 
 						<table class='px-0 sortable small table-danger w-100 table table-responsive table-striped mt-3'>
 							<thead>
 								<tr>
