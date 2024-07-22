@@ -321,7 +321,7 @@
 					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<cfloop query="getTypes">
-				<cfif #other_id_type# is "catalog number">
+				<cfif #getTypes.other_id_type# eq "catalog number">
 					<cfquery name="collObj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						UPDATE cf_temp_loan_item set PARTID = 
 						(
@@ -393,7 +393,7 @@
 			<cfset key = ''>
 			<cfset i = 1>
 			<cfquery name="getTempData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				SELECT *
+				SELECT INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_NUMBER,PART_NAME,ITEM_INSTRUCTIONS,ITEM_REMARKS,ITEM_DESCRIPTION,BARCODE,SUBSAMPLE,LOAN_NUMBER,PARTID,TRANSACTION_ID, STATUS
 				FROM 
 					CF_TEMP_LOAN_ITEM
 				WHERE 
@@ -418,7 +418,7 @@
 				<cfquery name="defDescr" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					update
 						cf_temp_loan_item
-						set (ITEM_DESCRIPTION) = 
+						set ITEM_DESCRIPTION = 
 						(
 							select collection.collection_cde || ' ' || cat_num || ' ' || part_name
 							from
