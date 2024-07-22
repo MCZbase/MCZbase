@@ -511,13 +511,18 @@
 	<!-------------------------------------------------------------------------------------------->
 	<cfif #action# is "load">
 	<cfoutput>
+		<cfset problem_key = "">
 		<cfquery name="getTempData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			select INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_NUMBER,PART_NAME,ITEM_INSTRUCTIONS,ITEM_REMARKS,ITEM_DESCRIPTION,BARCODE,SUBSAMPLE,LOAN_NUMBER,PARTID,TRANSACTION_ID,USERNAME,STATUS 
 			from 
 			cf_temp_loan_item
 		</cfquery>
+		<cfquery name="getCounts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+			SELECT count(distinct collection_object_id) ctobj 
+			FROM cf_temp_attributes
+			WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+		</cfquery>
 		<cftransaction>
-			#PARTID#
 			<cfloop query="getTempData">
 				<cfif subsample is "yes">
 					<cfquery name="nid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
