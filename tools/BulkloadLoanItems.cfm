@@ -412,7 +412,7 @@
 								loan_number = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempDataQC.loan_number#">
 						)
 					where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-					and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#key#"> 
+					and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempDataQC.key#"> 
 				</cfquery>
 				<cfquery name="defDescr" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					update
@@ -526,7 +526,9 @@
 		<cftry>
 			<cfset loan_updates = 0>
 			<cfset loan_updates1 = 0>
-	
+			<cfif getTempData.recordcount EQ 0>
+				<cfthrow message="You have no rows to load in the attributes bulkloader table (cf_temp_attributes). <a href='/tools/BulkloadAttributes.cfm' class='text-danger'>Start over</a>">
+			</cfif>
 			<cfloop query="getTempData">
 				<cfif subsample is "yes">
 					<cfquery name="nid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
