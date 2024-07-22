@@ -495,13 +495,14 @@
 
 	<!-------------------------------------------------------------------------------------------->
 	<cfif #action# is "load">
+	<h2 class="h4">Third step: Apply changes.</h2>
 	<cfoutput>
 		<cfset problem_key = "">
 		<cftransaction>
 		<cfquery name="getTempData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-			select INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_NUMBER,PART_NAME,ITEM_INSTRUCTIONS,ITEM_REMARKS,ITEM_DESCRIPTION,BARCODE,SUBSAMPLE,LOAN_NUMBER,PARTID,TRANSACTION_ID,USERNAME,STATUS 
-			from 
-			cf_temp_loan_item
+			select *
+			from cf_temp_loan_item
+			WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 		</cfquery>
 		<cfquery name="getCounts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			SELECT count(distinct PARTID) ctobj 
@@ -606,17 +607,17 @@
 						)
 				</cfquery>
 				<cfquery name="updateLoan1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateLoan1_result">
-							select collection_object_id,transaction_id, from loan_item 
-							where collection_object_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.partid#">
-							group by transaction_id,collection_object_id
-							having count(*) > 1
-						</cfquery>
-						<cfset loan_updates = loan_updates + updateLoan_result.recordcount>
-						<cfif updateLoan1_result.recordcount gt 0>
-							<cfthrow message = "Error: attempting to insert duplicated loan item.">
-						</cfif>
+					select transaction_id, collection_object_id from loan_item 
+					where collection_object_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.PARTID#">
+					group by transaction_id, collection_object_id
+					having count(*) > 1
+				</cfquery>
+				<cfset loan_updates = loan_updates + updateLoan_result.recordcount>
+				<cfif updateLoan1_result.recordcount gt 0>
+					<cfthrow message = "Error: attempting to insert duplicated loan item.">
+				</cfif>
 			</cfloop>
-			<cfif getTempData.recordcount eq loan_updates>
+					<cfif getTempData.recordcount eq loan_updates>
 						<p>Number of loan items updated: #loan_updates# (on #getCounts.ctobj# cataloged items)</p>
 						<h3 class="text-success">Success - loaded</h3>
 					<cfelse>
@@ -639,14 +640,14 @@
 					<cfloop query="getCollectionCodes">
 						<cfset collection_codes = ListAppend(collection_codes,getCollectionCodes.collection_cde)>
 					</cfloop>
-<!---					<cfquery name="getInstitution" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					<cfquery name="getInstitution" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						SELECT distinct institution_acronym
 						FROM collection
 					</cfquery>
 					<cfset institutions = "">
 					<cfloop query="getInstitution">
 						<cfset institutions = ListAppend(institutions,getInstitution.institution_acronym)>
-					</cfloop>--->
+					</cfloop>
 					<cfif getProblemData.recordcount GT 0>
  						<h3>Errors at this stage are displayed one row at a time, more errors may exist in this file.</h3>
 						<h3>
