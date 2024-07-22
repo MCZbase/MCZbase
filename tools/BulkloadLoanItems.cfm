@@ -351,7 +351,7 @@
 								PC.barcode = '#getTypes.barcode#'
 							)
 						where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.USERNAME#">
-						and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#key#">
+						and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTypes.key#">
 					</cfquery>
 				<cfelse>
 					<cfquery name="collObj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
