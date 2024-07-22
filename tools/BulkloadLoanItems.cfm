@@ -517,6 +517,7 @@
 			cf_temp_loan_item
 		</cfquery>
 		<cftransaction>
+			#PARTID#
 			<cfloop query="getTempData">
 				<cfif subsample is "yes">
 					<cfquery name="nid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
