@@ -375,7 +375,7 @@
 								collection.institution_acronym = 'MCZ'
 							and
 								collection.collection_cde = '#getTypes.collection_cde#' and
-								part_name = '#part_name#' and
+								part_name = '#getTypes.part_name#' and
 								display_value = '#getTypes.other_id_number#' and
 								other_id_type = '#getTypes.other_id_type#' and
 								coll_obj_disposition != 'on loan' and
