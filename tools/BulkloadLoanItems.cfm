@@ -392,14 +392,14 @@
 			</cfloop>
 			<cfset key = ''>
 			<cfset i = 1>
-			<cfquery name="getTempData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+			<cfquery name="getTempDataQC" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_NUMBER,PART_NAME,ITEM_INSTRUCTIONS,ITEM_REMARKS,ITEM_DESCRIPTION,BARCODE,SUBSAMPLE,LOAN_NUMBER,PARTID,TRANSACTION_ID, STATUS
 				FROM 
 					CF_TEMP_LOAN_ITEM
 				WHERE 
 					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
-			<cfloop query="getTempData">
+			<cfloop query="getTempDataQC">
 				<cfquery name="loanID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					update
 						cf_temp_loan_item
@@ -410,12 +410,12 @@
 							from
 								loan
 							where
-								loan_number = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.loan_number#">
+								loan_number = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempDataQC.loan_number#">
 						)
 					where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 					and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#key#"> 
 				</cfquery>
-				<cfquery name="defDescr" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+			<!---	<cfquery name="defDescr" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					update
 						cf_temp_loan_item
 						set ITEM_DESCRIPTION = 
@@ -432,8 +432,8 @@
 						)
 					where ITEM_DESCRIPTION IS NULL 
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-					and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAl" value="#key#"> 
-				</cfquery>
+					and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#key#"> 
+				</cfquery>--->
 			</cfloop>
 			<cfloop list="#requiredfieldlist#" index="requiredField">
 				<cfquery name="checkRequired" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
