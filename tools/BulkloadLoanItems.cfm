@@ -349,7 +349,8 @@
 								ch.CONTAINER_ID = C.CONTAINER_ID(+) and
 								C.PARENT_CONTAINER_ID = PC.CONTAINER_ID(+) and
 								PC.barcode = '#getTypes.barcode#'
-							)
+							),
+						status = null
 						where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.USERNAME#">
 						and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTypes.key#">
 					</cfquery>
