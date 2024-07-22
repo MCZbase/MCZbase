@@ -386,7 +386,7 @@
 								PC.barcode = '#getTypes.barcode#'
 							)
 						where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.USERNAME#">
-						and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#key#">
+						and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTypes.key#">
 					</cfquery>
 				</cfif>
 			</cfloop>
@@ -479,6 +479,7 @@
 						<th>LOAN_NUMBER</th>
 						<th>PARTID</th>
 						<th>TRANSACTION_ID</th>
+						<th>KEY</th>
 					</tr>
 				<tbody>
 					<cfloop query="data">
@@ -497,6 +498,7 @@
 							<td>#data.LOAN_NUMBER#</td>
 							<td>#data.PARTID#</td>
 							<td>#data.TRANSACTION_ID#</td>
+							<td>#data.KEY#</td>
 						</tr>
 					</cfloop>
 				</tbody>
