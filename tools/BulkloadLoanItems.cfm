@@ -527,15 +527,16 @@
 			<cfset loan_updates = 0>
 			<cfset loan_updates1 = 0>
 			<cfif getTempData.recordcount EQ 0>
-				<cfthrow message="You have no rows to load in the attributes bulkloader table (cf_temp_attributes). <a href='/tools/BulkloadAttributes.cfm' class='text-danger'>Start over</a>">
+				<cfthrow message="You have no rows to load in the attributes bulkloader table (cf_temp_loan_item). <a href='/tools/BulkloadLoanItems.cfm' class='text-danger'>Start over</a>">
 			</cfif>
 			<cfloop query="getTempData">
+				<cfset problem_key = getTempData.key>
 				<cfif subsample is "yes">
 					<cfquery name="nid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						select sq_collection_object_id.nextval nid from dual
 					</cfquery>
 					<cfset thisPartId=nid.nid>
-					<cfquery name="makeSubsampleObj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					<cfquery name="makeSubsampleObj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#"result="updateLoanItem_result">
 						INSERT INTO coll_object (
 							COLLECTION_OBJECT_ID,
 							COLL_OBJECT_TYPE,
@@ -619,7 +620,127 @@
 						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#TRANSACTION_ID#">
 						)
 				</cfquery>
+				<cfquery name="updateLoan1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateLoan1_result">
+							select collection_object_id,transaction_id, from loan_item 
+							where collection_object_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.partid#">
+							group by transaction_id,collection_object_id
+							having count(*) > 1
+						</cfquery>
+						<cfset loan_updates = loan_updates + updateLoan_result.recordcount>
+						<cfif updateLoan1_result.recordcount gt 0>
+							<cfthrow message = "Error: attempting to insert duplicated loan item.">
+						</cfif>
 			</cfloop>
+			<cfif getTempData.recordcount eq loan_updates>
+						<p>Number of loan items updated: #loan_updates# (on #getCounts.ctobj# cataloged items)</p>
+						<h3 class="text-success">Success - loaded</h3>
+					<cfelse>
+						<cfthrow message="Error: Number of successful updates did not match number of records to update.">
+					</cfif>
+					<cftransaction action="COMMIT">
+				<cfcatch>
+					<cftransaction action="ROLLBACK">
+					<h3>There was a problem updating the loan items.</h3>
+					<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						SELECT status,institution_acronym,collection_cde,other_id_type,other_id_number,PARTID,TRANSACTION_ID, attribute_units,attribute_date,attribute_meth,determiner,remarks
+						FROM cf_temp_loan_item 
+						WHERE key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#problem_key#">
+					</cfquery>
+					<cfquery name="getCollectionCodes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						SELECT collection_cde
+						FROM collection
+					</cfquery>
+					<cfset collection_codes = "">
+					<cfloop query="getCollectionCodes">
+						<cfset collection_codes = ListAppend(collection_codes,getCollectionCodes.collection_cde)>
+					</cfloop>
+					<cfquery name="getInstitution" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						SELECT distinct institution_acronym
+						FROM collection
+					</cfquery>
+					<cfset institutions = "">
+					<cfloop query="getInstitution">
+						<cfset institutions = ListAppend(institutions,getInstitution.institution_acronym)>
+					</cfloop>
+					<cfif getProblemData.recordcount GT 0>
+ 						<h3>Errors at this stage are displayed one row at a time, more errors may exist in this file.</h3>
+						<h3>
+							Error loading row (<span class="text-danger">#loan_updates + 1#</span>) from the CSV: 
+							<cfif len(cfcatch.detail) gt 0>
+								<span class="font-weight-normal border-bottom border-danger">
+									<cfif cfcatch.detail contains "Invalid LOAN_NUMBER">
+										LOAN_NUMBER is invalid; Does it exist in MCZbase?
+									<cfelseif cfcatch.detail contains "collection_cde">
+										COLLECTION_CDE does not match abbreviated collection (#collection_codes#)
+									<cfelseif cfcatch.detail contains "institution_acronym">
+										INSTITUTION_ACRONYM does not match #institutions# (all caps)
+									<cfelseif cfcatch.detail contains "other_id_type">
+										OTHER_ID_TYPE is not valid
+									<cfelseif cfcatch.detail contains "subsample">
+										SUBSAMPLE does not match "yes" or "no"
+									<cfelseif cfcatch.detail contains "part_name">
+										PART_NAME does not match controlled vocabulary
+									<cfelseif cfcatch.detail contains "item_description">
+										ITEM_DESCRIPTION invalid
+									<cfelseif cfcatch.detail contains "item_instructions">
+										ITEM_INSTRUCTIONS invalid
+									<cfelseif cfcatch.detail contains "item_remarks">
+										Problem with ITEM_REMARKS (#cfcatch.detail#)
+									<cfelseif cfcatch.detail contains "OTHER_ID_NUMBER">
+										Problem with OTHER_ID_NUMBER (#cfcatch.detail#)
+									<cfelseif cfcatch.detail contains "BARCODE">
+										Problem with BARCODE (#cfcatch.detail#)
+									<cfelseif cfcatch.detail contains "no data">
+										No data or the wrong data (#cfcatch.detail#)
+									<cfelse>
+										<!--- provide the raw error message if it isn't readily interpretable --->
+										#cfcatch.detail#
+									</cfif>
+								</span>
+							</cfif>
+						</h3>
+						<!--- Note: we can not link to a dump of the temp table as it will be cleared for this user at the end of this step --->
+						<p>Fix the problems and <a href="/tools/BulkloadAttributes.cfm">Reload your file</a></p> 
+						<table class='px-0 sortable small table-danger w-100 table table-responsive table-striped mt-3'>
+							<thead>
+								<tr>
+									<th>STATUS</th>
+									<th>INSTITUTION_ACRONYM</th>
+									<th>COLLECTION_CDE</th>
+									<th>OTHER_ID_TYPE</th>
+									<th>OTHER_ID_NUMBER</th>
+									<th>LOAN_NUMBER</th>
+									<th>PARTID</th>
+									<th>TRANSACTION_ID</th>
+									<th>BARCODE</th>
+									<th>PART_NAME</th>
+									<th>ITEM_DESCRIPTION</th>
+									<th>SUBSAMPLE</th>
+								</tr> 
+							</thead>
+							<tbody>
+								<cfloop query="getProblemData">
+									<tr>
+										<td>#getProblemData.status# </td>
+										<td>#getProblemData.institution_acronym# </td>
+										<td>#getProblemData.collection_cde# </td>
+										<td>#getProblemData.other_id_type#</td>
+										<td>#getProblemData.other_id_number#</td>
+										<td>#getProblemData.loan_number# </td>
+										<td>#getProblemData.partid# </td>
+										<td>#getProblemData.transaction_id# </td>
+										<td>#getProblemData.barcode#</td>
+										<td>#getProblemData.part_name# </td>
+										<td>#getProblemData.item_description# </td>
+										<td>#getProblemData.subsample# </td>
+									</tr>
+								</cfloop>
+							</tbody>
+						</table>
+					</cfif>
+					<div>#cfcatch.message#</div>
+				</cfcatch>
+				</cftry>
 			</cftransaction>
 			
 			<cfquery name="clearTempTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="clearTempTable_result">
