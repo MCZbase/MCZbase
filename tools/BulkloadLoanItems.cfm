@@ -574,7 +574,7 @@
 								part_name,
 								PRESERVE_METHOD,
 								DERIVED_FROM_cat_item,
-								#PARTID#
+								#getTempData.PARTID#
 							FROM
 								specimen_part
 							WHERE
