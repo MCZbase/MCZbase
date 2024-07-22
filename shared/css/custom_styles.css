@@ -245,6 +245,8 @@ h1.h4 {
 }
 .btn-link, .helpText, .fas-info {
 	color: #0460c1 !important;
+	text-decoration: underline;
+	text-decoration: underline dotted #aaa;
 }
 span.caps {
 	text-transform: capitalize;
