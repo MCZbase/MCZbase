@@ -340,15 +340,15 @@
 								cataloged_item.collection_object_id = specimen_part.derived_from_cat_item and
 								specimen_part.collection_object_id = coll_object.collection_object_id and
 								collection.institution_acronym = 'MCZ' and
-								collection.collection_cde = '#collection_cde#' and
+								collection.collection_cde = '#getTypes.collection_cde#' and
 								part_name = '#part_name#' and
-								cat_num = '#other_id_number#' and
+								cat_num = '#getTypes.other_id_number#' and
 								coll_obj_disposition != 'on loan' and
 								sampled_from_obj_id is null and
 								specimen_part.collection_object_id = ch.COLLECTION_OBJECT_ID(+) and
 								ch.CONTAINER_ID = C.CONTAINER_ID(+) and
 								C.PARENT_CONTAINER_ID = PC.CONTAINER_ID(+) and
-								PC.barcode = '#barcode#'
+								PC.barcode = '#getTypes.barcode#'
 							)
 						where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.USERNAME#">
 						and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#key#">
@@ -374,16 +374,16 @@
 								specimen_part.collection_object_id = coll_object.collection_object_id and
 								collection.institution_acronym = 'MCZ'
 							and
-								collection.collection_cde = '#collection_cde#' and
+								collection.collection_cde = '#getTypes.collection_cde#' and
 								part_name = '#part_name#' and
-								display_value = '#other_id_number#' and
-								other_id_type = '#other_id_type#' and
+								display_value = '#getTypes.other_id_number#' and
+								other_id_type = '#getTypes.other_id_type#' and
 								coll_obj_disposition != 'on loan' and
 								sampled_from_obj_id  is null
 								specimen_part.collection_object_id = ch.COLLECTION_OBJECT_ID(+) and
 								ch.CONTAINER_ID = C.CONTAINER_ID(+) and
 								C.PARENT_CONTAINER_ID = PC.CONTAINER_ID(+) and
-								PC.barcode = '#barcode#'
+								PC.barcode = '#getTypes.barcode#'
 							)
 						where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.USERNAME#">
 						and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#key#">
@@ -391,7 +391,7 @@
 				</cfif>
 			</cfloop>
 			<cfquery name="getTempDataQC" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				SELECT INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_NUMBER,PART_NAME,ITEM_INSTRUCTIONS,ITEM_REMARKS,ITEM_DESCRIPTION,BARCODE,SUBSAMPLE,LOAN_NUMBER,PARTID,TRANSACTION_ID, STATUS,KEY
+				SELECT INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_NUMBER,PART_NAME,ITEM_INSTRUCTIONS,ITEM_REMARKS,ITEM_DESCRIPTION,BARCODE,SUBSAMPLE,LOAN_NUMBER,PARTID,TRANSACTION_ID,STATUS,KEY
 				FROM 
 					CF_TEMP_LOAN_ITEM
 				WHERE 
@@ -426,7 +426,7 @@
 							where
 							specimen_part.derived_from_cat_item = cataloged_item.collection_object_id and
 							cataloged_item.collection_id = collection.collection_id and
-							specimen_part.collection_object_id = '#PARTID#'
+						specimen_part.collection_object_id = '#getTempDataQC.PARTID#'
 						)
 					where ITEM_DESCRIPTION IS NULL 
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
@@ -444,7 +444,7 @@
 			</cfloop>
 
 			<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				SELECT INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_NUMBER,PART_NAME,ITEM_INSTRUCTIONS,ITEM_REMARKS,ITEM_DESCRIPTION,BARCODE,SUBSAMPLE,LOAN_NUMBER,PARTID,STATUS,TRANSACTION_ID,USERNAME
+				SELECT INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_NUMBER,PART_NAME,ITEM_INSTRUCTIONS,ITEM_REMARKS,ITEM_DESCRIPTION,BARCODE,SUBSAMPLE,LOAN_NUMBER,PARTID,STATUS,TRANSACTION_ID,KEY
 				FROM 
 					cf_temp_LOAN_ITEM
 				WHERE 
