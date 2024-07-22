@@ -612,7 +612,7 @@
 					group by transaction_id, collection_object_id
 					having count(*) > 1
 				</cfquery>
-				<cfset loan_updates = loan_updates + updateLoan_result.recordcount>
+				<cfset loan_updates = loan_updates + updateLoan_result1.recordcount>
 				<cfif updateLoan1_result.recordcount gt 0>
 					<cfthrow message = "Error: attempting to insert duplicated loan item.">
 				</cfif>
