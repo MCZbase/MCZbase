@@ -331,10 +331,7 @@
 								cataloged_item,
 								collection,
 								specimen_part,
-								coll_object,
-								(select collection_object_id, container_id from COLL_OBJ_CONT_HIST where CURRENT_CONTAINER_FG = 1) ch,
-								CONTAINER c,
-								container pc
+								coll_object
 							where
 								cataloged_item.collection_id = collection.collection_id and
 								cataloged_item.collection_object_id = specimen_part.derived_from_cat_item and
@@ -342,13 +339,8 @@
 								collection.institution_acronym = 'MCZ' and
 								collection.collection_cde = cf_temp_loan_item.collection_cde and
 								part_name = cf_temp_loan_item.part_name and
-								cat_num = cf_temp_loan_item.other_id_type and
-								coll_obj_disposition != 'on loan' and
-								sampled_from_obj_id is null and
-								specimen_part.collection_object_id = ch.COLLECTION_OBJECT_ID(+) and
-								ch.CONTAINER_ID = C.CONTAINER_ID(+) and
-								C.PARENT_CONTAINER_ID = PC.CONTAINER_ID(+) and
-								PC.barcode = cf_temp_loan_item.barcode
+								cat_num = cf_temp_loan_item.other_id_number and
+								coll_obj_disposition != 'on loan'
 							),
 						status = null
 						where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.USERNAME#">
@@ -364,10 +356,7 @@
 								collection,
 								specimen_part,
 								coll_object,
-								coll_obj_other_id_num,
-								(select collection_object_id, container_id from COLL_OBJ_CONT_HIST where CURRENT_CONTAINER_FG = 1) ch,
-								CONTAINER c,
-								container pc
+								coll_obj_other_id_num
 							where
 								cataloged_item.collection_id = collection.collection_id and
 								cataloged_item.collection_object_id = coll_obj_other_id_num.collection_object_id and
@@ -379,13 +368,9 @@
 								part_name =  cf_temp_loan_item.part_name and
 								display_value = cf_temp_loan_item.other_id_number and
 								other_id_type = cf_temp_loan_item.other_id_type and
-								coll_obj_disposition != 'on loan' and
-								sampled_from_obj_id  is null
-								specimen_part.collection_object_id = ch.COLLECTION_OBJECT_ID(+) and
-								ch.CONTAINER_ID = C.CONTAINER_ID(+) and
-								C.PARENT_CONTAINER_ID = PC.CONTAINER_ID(+) and
-								PC.barcode = cf_temp_loan_item.barcode
-							)
+								coll_obj_disposition != 'on loan'
+							),
+						status=null
 						where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.USERNAME#">
 						and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTypes.key#">
 					</cfquery>
