@@ -505,7 +505,7 @@
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
 				<cfquery name="getCounts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					SELECT count(distinct PARTID) ctobj 
+					SELECT count(distinct loan_number) cttrans 
 					FROM cf_temp_loan_item
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
@@ -618,7 +618,7 @@
 						</cfif>
 					</cfloop>
 					<cfif getTempData.recordcount eq loan_updates>
-						<p>Number of loan items updated: #loan_updates# (on #getCounts.ctobj# cataloged items)</p>
+						<p>Number of loan items updated: #loan_updates# cataloged_items (#getCounts.cttrans# loans)</p>
 						<h3 class="text-success">Success - loaded</h3>
 					<cfelse>
 						<cfthrow message="Error: Number of successful updates did not match number of records to update.">
