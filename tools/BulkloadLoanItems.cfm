@@ -504,8 +504,13 @@
 					from cf_temp_loan_item
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
-				<cfquery name="getCounts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					SELECT count(distinct PARTID) ctobj 
+				<cfquery name="getCountParts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					SELECT count(distinct PARTID) ctObj 
+					FROM cf_temp_loan_item
+					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+				</cfquery>
+				<cfquery name="getCountLoans" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					SELECT count(distinct loan_number) ctTrans 
 					FROM cf_temp_loan_item
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
@@ -618,7 +623,7 @@
 						</cfif>
 					</cfloop>
 					<cfif getTempData.recordcount eq loan_updates>
-						<p>Number of loan items updated: #loan_updates# (on #getCounts.ctobj# cataloged items)</p>
+						<p>Number of loan items updated: #getCountParts.ctObj# in #loan_updates# cataloged_items (#getCountLoans.ctTrans# loans)</p>
 						<h3 class="text-success">Success - loaded</h3>
 					<cfelse>
 						<cfthrow message="Error: Number of successful updates did not match number of records to update.">
