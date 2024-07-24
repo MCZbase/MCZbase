@@ -1849,7 +1849,7 @@ limitations under the License.
 							<cfset hasContent = true>
 							<li class="list-group-item pt-0">
 								<span class="font-weight-lessbold mb-0 d-inline-block float-left pr-1">Loan History:</span>
-								<a class="d-inline-block" href="/Loan.cfm?action=listLoans&collection_object_id=#valuelist(isLoanedItem.collection_object_id)#" target="_mainFrame">Loans that include this cataloged item (#loanList.recordcount#).</a>
+								<a class="d-inline-block" href="/Loan.cfm?action=listLoans&transaction_id=#valuelist(loanList.transaction_id)#" target="_mainFrame">Loans that include this cataloged item (#loanList.recordcount#).</a>
 								<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_transactions")>
 									<cfloop query="loanList">
 										<ul class="d-block">
