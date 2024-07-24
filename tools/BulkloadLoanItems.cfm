@@ -405,17 +405,6 @@
 							key=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#KEY#">
 							and username=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 					</cfquery>
-				<cfelse>
-					<cfquery name="BadCollObj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						update
-							cf_temp_loan_item
-						set
-							status=concat(nvl2(status, status || '; ', ''),'Part found but this is a subsample and subsample is on loan')
-						where
-							key=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#KEY#">
-							and username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-							and subsample = 'yes'
-					</cfquery>
 				</cfif>
 				<cfquery name="loanID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					update
@@ -447,7 +436,7 @@
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempDataQC.key#">
 				</cfquery>
-				<cfquery name="ctPartNameProblems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="flatAttributeProblems_result">
+				<cfquery name="ctLoanNumProblems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="flatAttributeProblems_result">
 					UPDATE cf_temp_loan_item
 					SET
 						status = concat(nvl2(status, status || '; ', ''),'Loan ['|| loan_number ||'] does not exist')
@@ -462,16 +451,16 @@
 						AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempDataQC.key#">
 						AND transaction_id is null
 				</cfquery>
-				<cfquery name="ctPartNameProblems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="flatAttributeProblems_result">
+				<cfquery name="ctBarcodeProblems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="flatAttributeProblems_result">
 					UPDATE cf_temp_loan_item
 					SET
-						status = concat(nvl2(status, status || '; ', ''),'Loan ['|| loan_number ||'] does not exist')
+						status = concat(nvl2(status, status || '; ', ''),'Barcode or container_unique_id ['|| barcode ||'] does not exist')
 					WHERE 
-						loan_number IS NOT NULL
-						AND loan_number NOT IN (
-							SELECT loan_number
-							FROM loan
-							WHERE loan_number  = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempDataQC.loan_number#">
+						barcode IS NOT NULL
+						AND barcode NOT IN (
+							SELECT barcode
+							FROM container
+							WHERE barcode  = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempDataQC.barcode#">
 						)
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempDataQC.key#">
