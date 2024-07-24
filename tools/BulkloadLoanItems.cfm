@@ -638,7 +638,7 @@
 						</cfif>
 					</cfloop>
 					<cfif getTempData.recordcount eq loan_updates>
-						<p>Number of loan items updated: #getCountParts.ctObj# in #loan_updates# cataloged_items (<cfloop query="getTempData"<a href="/transactions/Loan.cfm?action=editLoan&transaction_id=#getTempData.transaction_id#">#getTempData.loan_number#)</a></cfif>)</p>
+						<p>Number of loan items updated: #getCountParts.ctObj# in #loan_updates# cataloged_items (<cfloop query="getTempData"><a href="/transactions/Loan.cfm?action=editLoan&transaction_id=#getTempData.transaction_id#">#getTempData.loan_number#)</a></cfif>)</p>
 						<h3 class="text-success">Success - loaded</h3>
 					<cfelse>
 						<cfthrow message="Error: Number of successful updates did not match number of records to update.">
