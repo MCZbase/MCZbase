@@ -689,7 +689,8 @@
 						</cfif>
 					</cfloop>
 					<cfif getTempData.recordcount eq loan_updates>
-						<p>Number of loan items updated: #getCountParts.ctObj# in #loan_updates# cataloged_items (#getCountLoans.ctTrans# loan(s))</p>
+						<cfif getTempData.ctTrans GT 1><cfset plural="s"><cfelse><cfset plural=""></cfif>
+						<p>Number of loan items updated: #getCountParts.ctObj# in #loan_updates# cataloged_items (#getCountLoans.ctTrans# loan#plural#)</p>
 						<h3 class="text-success">Success - loaded</h3>
 					<cfelse>
 						<cfthrow message="Error: Number of successful updates did not match number of records to update.">
