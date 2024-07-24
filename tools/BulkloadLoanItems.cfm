@@ -400,7 +400,7 @@
 						update
 							cf_temp_loan_item
 						set
-							status=concat(nvl2(status, status || '; ', ''),'Multiple Part Found')
+							status=concat(nvl2(status, status || '; ', ''),'This part is already on loan')
 						where
 							key=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#KEY#">
 							and username=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
@@ -410,10 +410,11 @@
 						update
 							cf_temp_loan_item
 						set
-							status=concat(nvl2(status, status || '; ', ''),'Part Found')
+							status=concat(nvl2(status, status || '; ', ''),'Part Found but this is a subsample')
 						where
 							key=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#KEY#">
 							and username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+							and (subsample = 'yes' || subsample = 'YES' || subsample = 'Yes')
 					</cfquery>
 				</cfif>
 				<cfquery name="loanID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
