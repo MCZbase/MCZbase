@@ -1853,7 +1853,7 @@ limitations under the License.
 								<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_transactions")>
 									<cfloop query="loanList">
 										<ul class="d-block">
-											<li class="d-block"><a class="d-inline-block" href="/Loan.cfm?action=editLoan&transaction_id=#loanList.transaction_id#" target="_mainFrame">#loanList.loan_number# (#loanList.loan_type# #loanList.loan_status#)</a></li>
+											<li class="d-block">#loanList.loan_number# (#loanList.loan_type# #loanList.loan_status#)</li>
 										</ul>
 									</cfloop>
 								</cfif>
