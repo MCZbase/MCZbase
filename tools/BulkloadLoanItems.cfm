@@ -688,8 +688,8 @@
 							<cfthrow message = "Error: attempting to insert duplicated loan item.">
 						</cfif>
 					</cfloop>
+					<cfif updateLoan1 gt 1><cfset plural="s"><cfelse><cfset plural=""></cfif>
 					<cfif getTempData.recordcount eq loan_updates>
-						<cfif getTempData.ctTrans GT 1><cfset plural="s"><cfelse><cfset plural=""></cfif>
 						<p>Number of loan items updated: #getCountParts.ctObj# in #loan_updates# cataloged_items (#getCountLoans.ctTrans# loan#plural#)</p>
 						<h3 class="text-success">Success - loaded</h3>
 					<cfelse>
