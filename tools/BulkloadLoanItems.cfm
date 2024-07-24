@@ -375,6 +375,25 @@
 						and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTypes.key#">
 					</cfquery>
 				</cfif>
+				<cfif collObj.recordcount is 0><!--- no part --->
+				<!---no part--->
+				<cfquery name="BadCollObj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					update
+						cf_temp_loan_item
+					set
+						status=concat(nvl2(status, status || '; ', ''),'No Parts Found')
+					where
+						key=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#KEY#">
+				</cfquery>
+			<cfelseif collObj.recordcount gt 1 and len(partID) is 0>
+				<cfquery name="BadCollObj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					update
+						cf_temp_loan_item
+					set
+						status=concat(nvl2(status, status || '; ', ''),'Multiple Parts Found')
+					where
+						key=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#KEY#">
+				</cfquery>
 			</cfloop>
 			<cfquery name="getTempDataQC" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_NUMBER,PART_NAME,ITEM_INSTRUCTIONS,ITEM_REMARKS,ITEM_DESCRIPTION,BARCODE,SUBSAMPLE,LOAN_NUMBER,PARTID,TRANSACTION_ID,STATUS,KEY
