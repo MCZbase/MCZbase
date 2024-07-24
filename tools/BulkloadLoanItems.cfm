@@ -410,7 +410,7 @@
 						update
 							cf_temp_loan_item
 						set
-							status=concat(nvl2(status, status || '; ', ''),'Part Found but this is a subsample')
+							status=concat(nvl2(status, status || '; ', ''),'Part found but this is a subsample and subsample is on loan')
 						where
 							key=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#KEY#">
 							and username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
