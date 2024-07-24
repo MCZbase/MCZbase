@@ -414,7 +414,7 @@
 						where
 							key=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#KEY#">
 							and username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-							and (subsample = 'yes' || subsample = 'YES' || subsample = 'Yes')
+							and subsample = 'yes'
 					</cfquery>
 				</cfif>
 				<cfquery name="loanID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
