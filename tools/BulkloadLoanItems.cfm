@@ -399,6 +399,21 @@
 					where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 					and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempDataQC.key#"> 
 				</cfquery>
+				<!--- flag invalid collection code --->
+				<cfquery name="ctPartNameProblems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="flatAttributeProblems_result">
+					UPDATE cf_temp_loan_item
+					SET
+						status = concat(nvl2(status, status || '; ', ''),'Part_Name ['|| part_name ||'] not allowed for collection_cde ' || collection_cde)
+					WHERE 
+						part_name IS NOT NULL
+						AND part_name NOT IN (
+							SELECT part_name 
+							FROM ctspecimen_part_name 
+							WHERE collection_cde = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempDataQC.collection_cde#">
+						)
+						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+						AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempDataQC.key#">
+				</cfquery>
 				<cfquery name="defDescr" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					update
 						cf_temp_loan_item
