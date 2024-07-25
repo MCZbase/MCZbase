@@ -487,9 +487,8 @@
 					status = concat(nvl2(status, status || '; ', ''),'Subsample ["'|| subsample ||'"] is not an accepted value (enter "yes" or "no")')
 				WHERE 
 					subsample IS NOT NULL
+					AND (subsample != upper('no') AND subsample != lower('no') OR subsample != upper('yes') OR subsample != lower('yes'))
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-					AND subsample != upper('no') AND subsample != lower('no')
-					AND subsample != upper('yes') OR subsample != lower('yes')
 			</cfquery>
 			<cfloop list="#requiredfieldlist#" index="requiredField">
 				<cfquery name="checkRequired" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
