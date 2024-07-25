@@ -490,7 +490,7 @@
 					AND subsample != upper('no') 
 					AND subsample != lower('no') 
 					AND subsample != upper('yes') 
-					AND subsample != lower('yes'))
+					AND subsample != lower('yes')
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<cfloop list="#requiredfieldlist#" index="requiredField">
