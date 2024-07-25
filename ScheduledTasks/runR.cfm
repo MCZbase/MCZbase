@@ -12,4 +12,4 @@
 	url = "/var/www/html/arctos/metrics/R/simple_chart.R"
 	resolveURL = "yes"
 	publish = "yes"
->
+/>
