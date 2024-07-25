@@ -488,7 +488,7 @@
 				WHERE 
 					subsample IS NOT NULL
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-					AND subsample != 'no' 
+					AND subsample != upper('no') 
 					AND subsample != upper('yes')
 			</cfquery>
 			<cfloop list="#requiredfieldlist#" index="requiredField">
