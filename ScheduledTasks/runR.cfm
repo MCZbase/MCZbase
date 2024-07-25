@@ -1,4 +1,11 @@
-<cfschedule
+<cfexecute name= "/usr/bin/Rscript"
+		arguments = "/metrics/R/simple_chart.R">
+</cfexecute>
+
+
+
+
+<!---<cfschedule
 	action = "run"
 	operation = "HTTPRequest"
 	task = "run_rscript"
@@ -12,4 +19,4 @@
 	url = "/var/www/html/arctos/metrics/R/simple_chart.R"
 	resolveURL = "yes"
 	publish = "yes"
-/>
+/>--->
