@@ -385,7 +385,7 @@
 					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<cfloop query="getTempDataQC">
-				<cfif getTempDataQC.recordcount is 0><!--- no part --->
+				<cfif getTempDataQC.PARTID is 0><!--- no part --->
 				<!---no part--->
 					<cfquery name="BadCollObj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						update
