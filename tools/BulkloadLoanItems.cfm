@@ -489,7 +489,7 @@
 					subsample IS NOT NULL
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 					AND subsample != 'no' 
-					AND subsample != 'yes'
+					AND subsample != upper('yes')
 			</cfquery>
 			<cfloop list="#requiredfieldlist#" index="requiredField">
 				<cfquery name="checkRequired" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
