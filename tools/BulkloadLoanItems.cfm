@@ -460,16 +460,7 @@
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempDataQC.key#">
 				</cfquery>
-				<cfquery name="ctSubsampleProblems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="flatAttributeProblems_result">
-					UPDATE cf_temp_loan_item
-					SET
-						status = concat(nvl2(status, status || '; ', ''),'Subsample ['|| subsample ||'] is not an accepted value (enter "yes" or "no")')
-					WHERE 
-						subsample IS NOT NULL
-						AND subsample != 'no'
-						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-						AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempDataQC.key#">
-				</cfquery>
+		
 				<cfquery name="defDescr" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					update
 						cf_temp_loan_item
@@ -490,6 +481,15 @@
 					and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#key#"> 
 				</cfquery>
 			</cfloop>
+			<cfquery name="ctSubsampleProblems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="flatAttributeProblems_result">
+				UPDATE cf_temp_loan_item
+				SET
+					status = concat(nvl2(status, status || '; ', ''),'Subsample ['|| subsample ||'] is not an accepted value (enter "yes" or "no")')
+				WHERE 
+					subsample IS NOT NULL
+					AND subsample != 'no'
+					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+			</cfquery>
 			<cfloop list="#requiredfieldlist#" index="requiredField">
 				<cfquery name="checkRequired" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE cf_temp_loan_item
