@@ -1,22 +1,7 @@
-<cfexecute name= "/usr/bin/Rscript"
-		arguments = "/metrics/R/simple_chart.R">
+<cfexecute 
+		name= "/usr/bin/Rscript"
+		arguments = "/metrics/R/simple_chart.R"
+		variable = "chartOutput"
+		timeout = "10000"
+		errorVariable = "chartError">
 </cfexecute>
-
-
-
-
-<!---<cfschedule
-	action = "run"
-	operation = "HTTPRequest"
-	task = "run_rscript"
-	group = "metrics"
-	startDate = "2024-07-26"
-	startTime = "12:30:00 AM"
-	file = "chart1.png"
-	path = "/var/www/html/arctos/metrics/R/graphs/"
-	overwrite = "yes"
-	interval = "weekly"
-	url = "/var/www/html/arctos/metrics/R/simple_chart.R"
-	resolveURL = "yes"
-	publish = "yes"
-/>--->
