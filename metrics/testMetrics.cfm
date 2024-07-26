@@ -69,7 +69,7 @@ limitations under the License.
 				<script>
 					const select = document.getElementById('method');
 					const inputs = document.querySelectorAll('.datetimeinput'); 
-					select.addEventListener('load', function() {
+					select.addEventListener('load', function(event) {
 						if(this.value == 'getAnnualChart') {
 							inputs.forEach(function(input) {
 								input.disabled = true;
