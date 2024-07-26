@@ -45,6 +45,7 @@ limitations under the License.
 		<nav id="sidebarMenu" class="col-md-2 col-lg-2 d-md-block sidebar" style="background-color: ##efeded;border: ##e3e3e3;">
 			<div class="sidebar-sticky pt-4 px-2" style="background-color: ##efeded;">
 				<cfset form.loadReportForm.method = ''>
+				<cfset seenot = ''>
 				<cfif form.loadReportForm.method eq 'getAnnualChart'>
 					<cfset seenot = 'disabled="disabled"'>
 				</cfif>
