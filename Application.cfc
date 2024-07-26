@@ -111,7 +111,7 @@ limitations under the License.
 				<cfdump var="#CGI#" label="CGI" />
 			</cfsavecontent>
 
-			<cfif  Application.serverRootUrl contains "harvard.edu">
+			<cfif NOT isDefined("Application.serverRootUrl") OR Application.serverRootUrl contains "harvard.edu">
 				<cfif isdefined("session.username") and
 				(
 				#session.username# is "mkennedy" or
@@ -119,6 +119,9 @@ limitations under the License.
 				#session.username# is "heliumcell"
 				)>
 				<cfoutput>#errortext#</cfoutput>
+				</cfif>
+				<cfif NOT isDefined("Application.serverRootUrl")>
+					<cfoutput>#errortext#</cfoutput>
 				</cfif>
 			</cfif>
 			<!---cfoutput>#errortext#</cfoutput--->
