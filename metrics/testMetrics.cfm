@@ -46,14 +46,17 @@ limitations under the License.
 			<div class="sidebar-sticky pt-4 px-2" style="background-color: ##efeded;">
 				<script>
 					const select = document.getElementById('method');
-					const beginDate = document.getElementById('beginDate');
-					const endDate = document.getElementById('endDate');
+					const inputs = document.querySelectorAll('.input-field'); 
 					select.addEventListener('change', function() {
-					  if(this.value === 'getAnnualChart') {
-						input.disabled = true;
-					  } else {
-						input.disabled = false; 
-					  }
+						if(this.value !== 'getAnnualChart') {
+							inputs.forEach(function(input) {
+								input.disabled = false;
+						});
+					} else {
+						inputs.forEach(function(input) {
+							input.disabled = true;  
+						});
+					}
 					});
 				</script>
 				<form id="loadReportForm">
