@@ -449,7 +449,7 @@
 				<cfquery name="ctBarcodeProblems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="flatAttributeProblems_result">
 					UPDATE cf_temp_loan_item
 					SET
-						status = concat(nvl2(status, status || '; ', ''),'Barcode or container_unique_id ['|| barcode ||'] does not exist')
+						status = concat(nvl2(status, status || '; ', ''),'Barcode or container_unique_id ['|| barcode ||'] is not valid')
 					WHERE 
 						barcode IS NOT NULL
 						AND barcode NOT IN (
