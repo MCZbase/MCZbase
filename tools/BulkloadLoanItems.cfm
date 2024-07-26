@@ -662,11 +662,11 @@
 										part_name,
 										PRESERVE_METHOD,
 										DERIVED_FROM_cat_item,
-										#getTempData.PARTID#
+										<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.PARTID#">
 									FROM
 										specimen_part
 									WHERE
-										collection_object_id = #getTempData.PARTID#
+										collection_object_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.PARTID#">
 								)
 							</cfquery>
 						<cfelse>
