@@ -646,7 +646,7 @@
 									from
 										coll_object
 									where
-										collection_object_id = #getTempData.PARTID#
+										collection_object_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.PARTID#">
 								)
 							</cfquery>
 							<cfquery name="makeSubsample" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
