@@ -27,7 +27,22 @@ limitations under the License.
 <cfset filePath = "/metrics/datafiles/">
 <cfinclude template="/metrics/component/functions.cfc">
 <script type="text/javascript" src="/metrics/js/metrics.js"></script> 
-
+<script>
+	const select = document.getElementById('method');
+	const inputs = document.querySelectorAll('.datetimeinput'); 
+	select.addEventListener('load', function(event) {
+		if(this.value == 'getAnnualChart') {
+			inputs.forEach(function(input) {
+				input.disabled = true;
+				element.classList.add("disabled");
+		});
+	} else {
+		inputs.forEach(function(input) {
+			input.disabled = false;  
+		});
+	}
+	});
+</script>
 
 	
 <!--- TODO: Set to most recent full year. Fix Begin date --->
@@ -66,22 +81,7 @@ limitations under the License.
 					</select>
 					<input type="submit" value="submit" class="my-3 btn-xs btn btn-primary">
 				</form>
-				<script>
-					const select = document.getElementById('method');
-					const inputs = document.querySelectorAll('.datetimeinput'); 
-					select.addEventListener('load', function(event) {
-						if(this.value == 'getAnnualChart') {
-							inputs.forEach(function(input) {
-								input.disabled = true;
-								element.classList.add("disabled")
-						});
-					} else {
-						inputs.forEach(function(input) {
-							input.disabled = false;  
-						});
-					}
-					});
-				</script>
+
 				<script>
 					$(document).ready(function() {
 						$('##loadReportForm').on('submit',function(event){ event.preventDefault(); loadReport(); } );
