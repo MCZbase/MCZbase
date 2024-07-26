@@ -395,12 +395,12 @@
 						where
 							key=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#KEY#">
 					</cfquery>
-				<cfelseif getTempDataQC.recordcount gt 1 and len(partID) is 0>
+				<cfelseif getTempDataQC.recordcount gt 1 and len(partID) is 0 and >
 					<cfquery name="BadCollObj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						update
 							cf_temp_loan_item
 						set
-							status=concat(nvl2(status, status || '; ', ''),'This part is already on loan')
+							status=concat(nvl2(status, status || '; ', ''),'PART ID could not be made. Check other_id_type, other_id_number, collection_cde, and part_name. Make sure it is not already on loan.')
 						where
 							key=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#KEY#">
 							and username=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
