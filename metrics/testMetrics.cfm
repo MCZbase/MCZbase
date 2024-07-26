@@ -27,7 +27,7 @@ limitations under the License.
 <cfset filePath = "/metrics/datafiles/">
 <cfinclude template="/metrics/component/functions.cfc">
 <script type="text/javascript" src="/metrics/js/metrics.js"></script> 
-	
+
 <!--- TODO: Set to most recent full year. Fix Begin date --->
 <!---<cfoutput><cfif NOT isDefined("endDate")><cfset endDate = '#dateFormat(now(), "yyyy-mm-dd")#'></cfif>
 <cfif NOT isDefined("beginDate")><cfset beginDate = '#DateFormat(DateAdd("yyyy", -1, endDate),"yyyy-mm-dd")#'></cfif></cfoutput>--->
@@ -66,16 +66,7 @@ limitations under the License.
 				</form>
 
 				<script>
-					const select = document.getElementById('mySelect');
-					const beginDate = document.getElementById('beginDate');
-					const endDate = document.getElementById('endDate');
-
-					select.addEventListener('change', function() {
-						if(this.value === 'enable') {
-							beginDate.disabled = false;
-							endDate.disabled = false;
-						}
-					});
+			
 					
 					$(document).ready(function() {
 						$('##loadReportForm').on('submit',function(event){ event.preventDefault(); loadReport(); } );
@@ -123,7 +114,18 @@ limitations under the License.
 			</cfoutput>
 		</main>
 	</div>
-	
+<script>
+	const select = document.getElementById('method');
+	const beginDate = document.getElementById('beginDate');
+	const endDate = document.getElementById('endDate');
+
+	select.addEventListener('change', function() {
+		if(this.value === 'enable') {
+			beginDate.disabled = false;
+			endDate.disabled = false;
+		}
+	});
+</script>
 	<!---<p class="mt-2 smaller">Execution Time: <b>#int(getTickCount()-start)#</b> milliseconds</p>--->
 </div>
 </cfoutput>
