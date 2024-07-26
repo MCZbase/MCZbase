@@ -66,7 +66,16 @@ limitations under the License.
 				</form>
 
 				<script>
-					$('.datetimeinput input[type=text]').first().removeAttr('disabled');
+					const select = document.getElementById('mySelect');
+					const beginDate = document.getElementById('beginDate');
+					const endDate = document.getElementById('endDate');
+
+					select.addEventListener('change', function() {
+						if(this.value === 'enable') {
+							beginDate.disabled = false;
+							endDate.disabled = false;
+						}
+					});
 					
 					$(document).ready(function() {
 						$('##loadReportForm').on('submit',function(event){ event.preventDefault(); loadReport(); } );
