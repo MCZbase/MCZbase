@@ -53,7 +53,7 @@ limitations under the License.
 					<label for="endDate" class="data-entry-label mt-2">End Date</label>
 					<input name="endDate" id="endDate" type="text" class="mb-1 datetimeinput data-entry-input data-entry-input" placeholder="yyyy-mm-dd" value="#endDate#" aria-label="end of range for dates to display metrics.">
 					
-					
+					<cfset method = "">
 					<h3 class="h4 text-muted mt-3">Report to Show</h3>
 					<label for="method" class="sr-only">Report To Show</label>
 					<select id="method" name="method" class="my-1 data-entry-input">
@@ -109,7 +109,6 @@ limitations under the License.
 							<cfset beginDate = '#DateFormat(DateAdd("yyyy", -1, endDate),"yyyy-mm-dd")#'>
 						</cfif>
 						</cfif>
-							#form.loadReportForm.method#
 					</cfoutput>
 				
 					<cfset summaryAnnualBlock=getAnnualChart(endDate="#endDate#",beginDate="#beginDate#")>
