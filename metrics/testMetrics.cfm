@@ -68,7 +68,7 @@ limitations under the License.
 				</form>
 				<script>
 					const select = document.getElementById('method');
-					const inputs = document.querySelectorAll('.input-field'); 
+					const inputs = document.querySelectorAll('.datetimeinput'); 
 					select.addEventListener('change', function() {
 						if(this.value !== 'getAnnualChart') {
 							inputs.forEach(function(input) {
