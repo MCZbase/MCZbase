@@ -508,10 +508,10 @@
 			<cfquery name="ctSubsampleProblems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="flatAttributeProblems_result">
 				UPDATE cf_temp_loan_item
 				SET
-					status = concat(nvl2(status, status || '; ', ''),'Institutional acronym is not "MCZ"')
+					status = concat(nvl2(status, status || '; ', ''),'Institution acronym is not "MCZ"')
 				WHERE 
-					institutional_acronym is not null
-					AND institutional_acronym <> 'MCZ'
+					institution_acronym is not null
+					AND institution_acronym <> 'MCZ'
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<cfloop list="#requiredfieldlist#" index="requiredField">
