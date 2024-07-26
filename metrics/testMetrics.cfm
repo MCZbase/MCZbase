@@ -44,21 +44,7 @@ limitations under the License.
 	<br clear="all">	
 		<nav id="sidebarMenu" class="col-md-2 col-lg-2 d-md-block sidebar" style="background-color: ##efeded;border: ##e3e3e3;">
 			<div class="sidebar-sticky pt-4 px-2" style="background-color: ##efeded;">
-				<script>
-					const select = document.getElementById('method');
-					const inputs = document.querySelectorAll('.input-field'); 
-					select.addEventListener('change', function() {
-						if(this.value !== 'getAnnualChart') {
-							inputs.forEach(function(input) {
-								input.disabled = false;
-						});
-					} else {
-						inputs.forEach(function(input) {
-							input.disabled = true;  
-						});
-					}
-					});
-				</script>
+
 				<form id="loadReportForm">
 					<h3 class="h4 text-muted">Report Date Range</h3>
 					<input type="hidden" name="returnFormat" value="plain">
@@ -80,6 +66,21 @@ limitations under the License.
 					</select>
 					<input type="submit" value="submit" class="my-3 btn-xs btn btn-primary">
 				</form>
+				<script>
+					const select = document.getElementById('method');
+					const inputs = document.querySelectorAll('.input-field'); 
+					select.addEventListener('change', function() {
+						if(this.value !== 'getAnnualChart') {
+							inputs.forEach(function(input) {
+								input.disabled = false;
+						});
+					} else {
+						inputs.forEach(function(input) {
+							input.disabled = true;  
+						});
+					}
+					});
+				</script>
 				<script>
 					$(document).ready(function() {
 						$('##loadReportForm').on('submit',function(event){ event.preventDefault(); loadReport(); } );
