@@ -109,11 +109,12 @@ limitations under the License.
 							<cfset beginDate = '#DateFormat(DateAdd("yyyy", -1, endDate),"yyyy-mm-dd")#'>
 						</cfif>
 						</cfif>
+							#form.loadReportForm.method#
 					</cfoutput>
 				
 					<cfset summaryAnnualBlock=getAnnualChart(endDate="#endDate#",beginDate="#beginDate#")>
 					<div id="annualNumbersDiv"> 
-						#summaryAnnualBlock#
+						#summaryAnnualBlock# 
 					</div>
 				</div>
 			</cfoutput>
