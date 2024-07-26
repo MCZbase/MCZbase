@@ -98,7 +98,7 @@ limitations under the License.
 				<div class="col-12 mt-4">
 					<h1 class="h2 float-left mb-1 w-100">MCZbase Metrics</h1>
 					<cfoutput>
-						<cfif form.method EQ "getAnnualChart">
+						<cfif form.loadReportForm.method EQ "getAnnualChart">
 							<input name="beginDate" id="beginDate" type="text" class="mb-1 datetimeinput data-entry-input data-entry-input" placeholder="yyyy-mm-dd" value="#beginDate#" disabled = "disabled">
 							<input name="endDate" id="endDate" type="text" class="mb-1 datetimeinput data-entry-input data-entry-input" placeholder="yyyy-mm-dd" value="#endDate#" disabled="disabled">
 						<cfelse>
