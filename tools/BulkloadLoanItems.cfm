@@ -464,12 +464,12 @@
 					UPDATE cf_temp_loan_item
 					SET
 						status = concat(nvl2(status, status || '; ', ''),'OTHER_ID_TYPE: ['|| OTHER_ID_TYPE ||'] not valid')
-						AND other_id_type NOT IN (
+					WHERE other_id_type NOT IN (
 							SELECT other_id_type
 							FROM ctcoll_other_id_type
 							WHERE other_id_type  = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempDataQC.other_id_type#">
 						) 
-						and other_id_type <> 'catalog number'
+						AND other_id_type <> 'catalog number'
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempDataQC.key#">
 				</cfquery>
