@@ -66,7 +66,7 @@ limitations under the License.
 				</form>
 
 				<script>
-					$('.datetimeinput input[type=submit]').first().removeAttr('disabled');
+					$('.datetimeinput input[type=text]').first().removeAttr('disabled');
 					
 					$(document).ready(function() {
 						$('##loadReportForm').on('submit',function(event){ event.preventDefault(); loadReport(); } );
