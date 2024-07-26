@@ -44,11 +44,18 @@ limitations under the License.
 	<br clear="all">	
 		<nav id="sidebarMenu" class="col-md-2 col-lg-2 d-md-block sidebar" style="background-color: ##efeded;border: ##e3e3e3;">
 			<div class="sidebar-sticky pt-4 px-2" style="background-color: ##efeded;">
-				<cfset form.loadReportForm.method = ''>
-				<cfset seenot = ''>
-				<cfif form.loadReportForm.method eq 'getAnnualChart'>
-					<cfset seenot = 'disabled="disabled"'>
-				</cfif>
+				<script>
+					const select = document.getElementById('method');
+					const beginDate = document.getElementById('beginDate');
+					const endDate = document.getElementById('endDate');
+					select.addEventListener('change', function() {
+					  if(this.value === 'getAnnualChart') {
+						input.disabled = true;
+					  } else {
+						input.disabled = false; 
+					  }
+					});
+				</script>
 				<form id="loadReportForm">
 					<h3 class="h4 text-muted">Report Date Range</h3>
 					<input type="hidden" name="returnFormat" value="plain">
