@@ -73,6 +73,7 @@ limitations under the License.
 						if(this.value == 'getAnnualChart') {
 							inputs.forEach(function(input) {
 								input.disabled = true;
+								element.classList.add("disabled")
 						});
 					} else {
 						inputs.forEach(function(input) {
