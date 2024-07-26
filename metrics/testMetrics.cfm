@@ -27,23 +27,6 @@ limitations under the License.
 <cfset filePath = "/metrics/datafiles/">
 <cfinclude template="/metrics/component/functions.cfc">
 <script type="text/javascript" src="/metrics/js/metrics.js"></script> 
-<script>
-	const select = document.getElementById('method');
-	const inputs = document.querySelectorAll('.datetimeinput'); 
-	select.addEventListener('load', function(event) {
-		if(this.value == 'getAnnualChart') {
-			inputs.forEach(function(input) {
-				input.disabled = true;
-				element.classList.add("disabled");
-		});
-	} else {
-		inputs.forEach(function(input) {
-			input.disabled = false;  
-		});
-	}
-	});
-</script>
-
 	
 <!--- TODO: Set to most recent full year. Fix Begin date --->
 <!---<cfoutput><cfif NOT isDefined("endDate")><cfset endDate = '#dateFormat(now(), "yyyy-mm-dd")#'></cfif>
@@ -64,9 +47,9 @@ limitations under the License.
 					<h3 class="h4 text-muted">Report Date Range</h3>
 					<input type="hidden" name="returnFormat" value="plain">
 					<label for="beginDate" class="data-entry-label mt-2">Begin Date</label>
-					<input name="beginDate" id="beginDate" type="text" class="mb-1 datetimeinput data-entry-input data-entry-input" placeholder="yyyy-mm-dd" value="#beginDate#" aria-label="start of range for dates to display metrics.">
+					<input name="beginDate" id="beginDate" type="text" class="mb-1 datetimeinput data-entry-input data-entry-input" disabled="disabled" placeholder="yyyy-mm-dd" value="#beginDate#" aria-label="start of range for dates to display metrics.">
 					<label for="endDate" class="data-entry-label mt-2">End Date</label>
-					<input name="endDate" id="endDate" type="text" class="mb-1 datetimeinput data-entry-input data-entry-input" placeholder="yyyy-mm-dd" value="#endDate#" aria-label="end of range for dates to display metrics.">
+					<input name="endDate" id="endDate" type="text" class="mb-1 datetimeinput data-entry-input data-entry-input" disabled="disabled" placeholder="yyyy-mm-dd" value="#endDate#" aria-label="end of range for dates to display metrics.">
 					
 					<h3 class="h4 text-muted mt-3">Report to Show</h3>
 					<label for="method" class="sr-only">Report To Show</label>
@@ -83,6 +66,8 @@ limitations under the License.
 				</form>
 
 				<script>
+					$('.datetimeinput input[type=submit]').first().removeAttr('disabled');
+					
 					$(document).ready(function() {
 						$('##loadReportForm').on('submit',function(event){ event.preventDefault(); loadReport(); } );
 					});
