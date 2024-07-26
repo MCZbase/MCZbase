@@ -523,7 +523,6 @@
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
 			</cfloop>
-
 			<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_NUMBER,PART_NAME,ITEM_INSTRUCTIONS,ITEM_REMARKS,ITEM_DESCRIPTION,BARCODE,SUBSAMPLE,LOAN_NUMBER,PARTID,STATUS,TRANSACTION_ID,KEY
 				FROM 
@@ -681,30 +680,30 @@
 						</cfif>
 						<cfquery name="move" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateLoan_result">
 							INSERT INTO loan_item (
-								collection_object_id,
-								RECONCILED_BY_PERSON_ID,
-								reconciled_date,
-								<cfif len(#getTempData.ITEM_INSTRUCTIONS#) gt 0>
-									item_instructions,
-								</cfif>
-								<cfif len(#getTempData.ITEM_REMARKS#) gt 0>
-									LOAN_ITEM_REMARKS,
-								</cfif>
-								item_descr,
-								transaction_id
-								) VALUES (
-								<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#thisPartID#">,
-								<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#session.myAgentId#">,
-								sysdate,
-								<cfif len(#getTempData.ITEM_INSTRUCTIONS#) gt 0>
-									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ITEM_INSTRUCTIONS#">,
-								</cfif>
-								<cfif len(#getTempData.ITEM_REMARKS#) gt 0>
-									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ITEM_REMARKS#">,
-								</cfif>
-								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ITEM_DESCRIPTION#">,
-								<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#TRANSACTION_ID#">
-								)
+							collection_object_id,
+							RECONCILED_BY_PERSON_ID,
+							reconciled_date,
+							<cfif len(#getTempData.ITEM_INSTRUCTIONS#) gt 0>
+								item_instructions,
+							</cfif>
+							<cfif len(#getTempData.ITEM_REMARKS#) gt 0>
+								LOAN_ITEM_REMARKS,
+							</cfif>
+							item_descr,
+							transaction_id
+							) VALUES (
+							<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#thisPartID#">,
+							<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#session.myAgentId#">,
+							sysdate,
+							<cfif len(#getTempData.ITEM_INSTRUCTIONS#) gt 0>
+								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ITEM_INSTRUCTIONS#">,
+							</cfif>
+							<cfif len(#getTempData.ITEM_REMARKS#) gt 0>
+								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ITEM_REMARKS#">,
+							</cfif>
+							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ITEM_DESCRIPTION#">,
+							<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#TRANSACTION_ID#">
+							)
 						</cfquery>
 						<cfquery name="updateLoan1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateLoan1_result">
 							select transaction_id, collection_object_id from loan_item 
