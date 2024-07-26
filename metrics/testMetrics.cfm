@@ -114,18 +114,7 @@ limitations under the License.
 			</cfoutput>
 		</main>
 	</div>
-<script>
-	const select = document.getElementById('method');
-	const beginDate = document.getElementById('beginDate');
-	const endDate = document.getElementById('endDate');
 
-	select.addEventListener('change', function() {
-		if(this.value === 'enable') {
-			beginDate.disabled = false;
-			endDate.disabled = false;
-		}
-	});
-</script>
 	<!---<p class="mt-2 smaller">Execution Time: <b>#int(getTickCount()-start)#</b> milliseconds</p>--->
 </div>
 </cfoutput>
