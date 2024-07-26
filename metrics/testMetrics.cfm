@@ -46,11 +46,14 @@ limitations under the License.
 			<div class="sidebar-sticky pt-4 px-2" style="background-color: ##efeded;">
 				<form id="loadReportForm">
 					<h3 class="h4 text-muted">Report Date Range</h3>
+					
 					<input type="hidden" name="returnFormat" value="plain">
 					<label for="beginDate" class="data-entry-label mt-2">Begin Date</label>
 					<input name="beginDate" id="beginDate" type="text" class="mb-1 datetimeinput data-entry-input data-entry-input" placeholder="yyyy-mm-dd" value="#beginDate#" aria-label="start of range for dates to display metrics.">
 					<label for="endDate" class="data-entry-label mt-2">End Date</label>
 					<input name="endDate" id="endDate" type="text" class="mb-1 datetimeinput data-entry-input data-entry-input" placeholder="yyyy-mm-dd" value="#endDate#" aria-label="end of range for dates to display metrics.">
+					
+					
 					<h3 class="h4 text-muted mt-3">Report to Show</h3>
 					<label for="method" class="sr-only">Report To Show</label>
 					<select id="method" name="method" class="my-1 data-entry-input">
@@ -95,13 +98,19 @@ limitations under the License.
 				<div class="col-12 mt-4">
 					<h1 class="h2 float-left mb-1 w-100">MCZbase Metrics</h1>
 					<cfoutput>
+						<cfif method = "getAnnualChart">
+							<input name="beginDate" id="beginDate" type="text" class="mb-1 datetimeinput data-entry-input data-entry-input" placeholder="yyyy-mm-dd" value="#beginDate#" disabled = "disabled">
+							<input name="endDate" id="endDate" type="text" class="mb-1 datetimeinput data-entry-input data-entry-input" placeholder="yyyy-mm-dd" value="#endDate#" disabled="disabled">
+						<cfelse>
 						<cfif NOT isDefined("endDate")>
 							<cfset endDate = '#dateFormat(now(), "yyyy-mm-dd")#'>
 						</cfif>
 						<cfif NOT isDefined("beginDate")>
 							<cfset beginDate = '#DateFormat(DateAdd("yyyy", -1, endDate),"yyyy-mm-dd")#'>
 						</cfif>
+						</cfif>
 					</cfoutput>
+				
 					<cfset summaryAnnualBlock=getAnnualChart(endDate="#endDate#",beginDate="#beginDate#")>
 					<div id="annualNumbersDiv"> 
 						#summaryAnnualBlock#
