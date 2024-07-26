@@ -667,6 +667,8 @@ Function getAgentAutocomplete.  Search for agents by name with a substring match
 				left join agent_name prefername on agent.preferred_agent_name_id = prefername.agent_name_id
 			WHERE
 				upper(searchname.agent_name) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(name)#">
+			ORDER BY
+				searchname.agent_name
 		</cfquery>
 	<cfset rows = search_result.recordcount>
 		<cfset i = 1>
@@ -836,6 +838,8 @@ Function getAgentAutocompleteMeta.  Search for agents by name with a substring m
 				<cfif isdefined("constraint") AND constraint EQ 'entered_by'>
 					and coll_object.entered_person_id is not null
 				</cfif>
+			ORDER BY
+				searchname.agent_name
 		</cfquery>
 	<cfset rows = search_result.recordcount>
 		<cfset i = 1>
@@ -920,6 +924,8 @@ Function getAuthorAutocompleteMeta.  Search for agents by name with a substring 
 				left join agent_name secondauthor on agent.agent_id = secondauthor.agent_id and secondauthor.agent_name_type = 'second author'
 			WHERE
 				upper(searchname.agent_name) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(name)#">
+			ORDER BY
+				searchname.agent_name
 		</cfquery>
 	<cfset rows = search_result.recordcount>
 		<cfset i = 1>

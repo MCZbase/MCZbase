@@ -315,9 +315,9 @@
 
 			<cfset uscodes="US,USA,UNITED STATES,UNITED STATES OF AMERICA,U.S.A">
 
-			<cfmail 	<!---to="bhaley@oeb.harvard.edu;heliumcell@gmail.com"--->
-						to="#toaddresses#"
-						cc="#ccaddresses#"
+			<cfmail 	to="bhaley@oeb.harvard.edu;heliumcell@gmail.com"
+						<!---to="#toaddresses#"
+						cc="#ccaddresses#"--->
 						bcc="bhaley@oeb.harvard.edu"
 						subject="MCZbase Notification for Loan Number: #loan.loan_number#"
 						from="no_reply_loan_notification@#Application.fromEmail#"
@@ -383,6 +383,8 @@
 				We request that you please return the above loan or request an extension by the Due Date. For more information on this loan,
 				</cfif>
 				contact #ValueList(inhouse.agent_name)# in the #collection# Collection (#ValueList(inhouse.address)#).
+				<br>
+				MCZ loans can be renewed for up to five years in one-year increments. Loans that have been open for five years must be returned to the MCZ. A new loan request can then be submitted for consideration.
 				<cfif not ListFind(usCodes,country_cde) AND len(COUNTRY_CDE) GT 0>
 				<br><br>To meet federal regulations regarding importation and clearance of international shipments, researchers returning MCZ material must:<br>
 				<ul>
