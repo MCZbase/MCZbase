@@ -400,7 +400,7 @@
 						update
 							cf_temp_loan_item
 						set
-							status=concat(nvl2(status, status || '; ', ''),'PART ID could not be made. Check other_id_type, other_id_number, collection_cde, and part_name. Make sure it is not already on loan')
+							status=concat(nvl2(status, status || '; ', ''),'PART ID could not be made. Check other_id_type, other_id_number, collection_cde, and part_name. Make sure part is not already on loan')
 						where
 							key=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#KEY#">
 							and username=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
