@@ -441,6 +441,17 @@ limitations under the License.
 						</cfif>
 					</cfif>
 				</cfif>
+				<cfif len(getTempData.suffix) gt 0>
+					<cfquery name="invAgntSuffix" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						UPDATE cf_temp_agents
+						SET 
+							status = concat(nvl2(status, status || '; ', ''), 'SUFFIX not valid - check <a href="/vocabularies/ControlledVocabulary.cfm?table=CTSUFFIX">controlled vocabulary</a>')
+						WHERE 
+							SUFFIX not in (select suffix from ctsuffix) AND
+							username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> AND
+							key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#key#">
+					</cfquery>
+				</cfif>
 			</cfloop>
 			<cfquery name="invAgntType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				UPDATE cf_temp_agents
@@ -460,16 +471,7 @@ limitations under the License.
 						username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> 
 				</cfquery>
 			</cfif>
-			<cfif len(getTempData.suffix) gt 0>
-				<cfquery name="invAgntSuffix" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					UPDATE cf_temp_agents
-					SET 
-						status = concat(nvl2(status, status || '; ', ''), 'SUFFIX not valid - check <a href="/vocabularies/ControlledVocabulary.cfm?table=CTSUFFIX">controlled vocabulary</a>')
-					WHERE 
-						SUFFIX not in (select suffix from ctsuffix) AND
-						username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-				</cfquery>
-			</cfif>
+
 			<cfif len(getTempData.other_name_type_1) gt 0>
 				<cfquery name="invAgntName1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE cf_temp_agents
