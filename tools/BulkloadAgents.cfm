@@ -381,28 +381,7 @@ limitations under the License.
 					<cfquery name="invGuidType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						UPDATE cf_temp_agents
 						SET 
-							status = concat(nvl2(status, status || '; ', ''), 'A valid AGENTGUID_GUID_TYPE was not provided - check <a href="/vocabularies/ControlledVocabulary.cfm?table=CTGUID_TYPE">controlled vocabulary</a>')
-						WHERE 
-							AGENTGUID_GUID_TYPE not in (select guid_type from ctguid_type) AND 
-							username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> AND
-							key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#key#">
-					</cfquery>
-					<cfif len(getTempData.agentguid_guid_type) eq 0>
-						<cfquery name="invGuidType2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-							UPDATE cf_temp_agents
-							SET 
-								status = concat(nvl2(status, status || '; ', ''),'An AGENTGUID_GUID_TYPE was not provided')
-							WHERE 
-								username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> AND
-								key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#key#">
-						</cfquery>
-					</cfif>
-				</cfif>
-				<cfif len(getTempData.agentguid) gt 0>
-					<cfquery name="invGuidType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						UPDATE cf_temp_agents
-						SET 
-							status = concat(nvl2(status, status || '; ', ''), 'A valid AGENTGUID was not provided - check <a href="/vocabularies/ControlledVocabulary.cfm?table=CTGUID_TYPE">controlled vocabulary</a> for your guid type')
+							status = concat(nvl2(status, status || '; ', ''), 'A valid AGENTGUID_GUID_TYPE was not provided - check <a href="/vocabularies/ControlledVocabulary.cfm?table=CTGUID_TYPE">controlled vocabulary</a> for your guid type')
 						WHERE 
 							AGENTGUID_GUID_TYPE not in (select guid_type from ctguid_type) AND 
 							username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> AND
@@ -417,22 +396,30 @@ limitations under the License.
 								username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> AND
 								key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#key#">
 						</cfquery>
-					</cfif>
-				</cfif>
-				<cfif len(getTempData.agentguid_guid_type) GT 0>
-					<cfif len(getTempData.agentguid) EQ 0>
-						<cfquery name="invGuidType2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-							UPDATE cf_temp_agents
-							SET 
-								status = concat(nvl2(status, status || '; ', ''),'If agentguid_guid_type is specified, agentguid must also be provided.')
-							WHERE 
-								username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> AND
-								key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#key#">
+					<cfelse>
+						<cfquery name="getPattern" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+							SELECT 
+								pattern_regex 
+							FROM 
+								ctguid_type 
+							WHERE
+								guid_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.agentguid_guid_type#">
 						</cfquery>
+						<cfif getPattern.recordcount GT 0>
+							<cfif REFind(getPattern.pattern_regex,getTempData.agentguid) EQ 0>
+								<cfquery name="invGuidType2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+									UPDATE cf_temp_agents
+									SET 
+										status = concat(nvl2(status, status || '; ', ''),'AGENTGUID is not in the correct format for ' || agentguid_guid_type || ' expected pattern is #getPattern.pattern_regex#')
+									WHERE 
+										username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> AND
+										key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#key#">
+								</cfquery>
+							</cfif>
+						</cfif>
 					</cfif>
 				</cfif>
-				<cfif len(getTempData.agentguid) GT 0>
-					<!--- test that guid matches format --->
+				<cfif len(getTempData.agentguid) gt 0>
 					<cfquery name="getPattern" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						SELECT 
 							pattern_regex 
@@ -453,6 +440,42 @@ limitations under the License.
 							</cfquery>
 						</cfif>
 					</cfif>
+					<cfif len(getTempData.agentguid_guid_type) gt 0>
+						<cfquery name="invGuidType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+							UPDATE cf_temp_agents
+							SET 
+								status = concat(nvl2(status, status || '; ', ''), 'A valid AGENTGUID_GUID_TYPE was not provided - check <a href="/vocabularies/ControlledVocabulary.cfm?table=CTGUID_TYPE">controlled vocabulary</a> for your guid type')
+							WHERE 
+								AGENTGUID_GUID_TYPE not in (select guid_type from ctguid_type) AND 
+								username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> AND
+								key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#key#">
+						</cfquery>
+					<cfelse>
+						<cfquery name="invGuidType2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+							UPDATE cf_temp_agents
+							SET 
+								status = concat(nvl2(status, status || '; ', ''),'An AGENTGUID_GUID_TYPE was not provided with AGENTGUID')
+							WHERE 
+								username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> AND
+								key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#key#">
+						</cfquery>
+					</cfif>
+				</cfif>
+				<cfif len(getTempData.agentguid_guid_type) GT 0>
+					<cfif len(getTempData.agentguid) EQ 0>
+						<cfquery name="invGuidType2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+							UPDATE cf_temp_agents
+							SET 
+								status = concat(nvl2(status, status || '; ', ''),'If agentguid_guid_type is specified, agentguid must also be provided.')
+							WHERE 
+								username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> AND
+								key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#key#">
+						</cfquery>
+					</cfif>
+				</cfif>
+				<cfif len(getTempData.agentguid) GT 0>
+					<!--- test that guid matches format --->
+					
 				</cfif>
 			</cfloop>
 			<cfquery name="invAgntType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
