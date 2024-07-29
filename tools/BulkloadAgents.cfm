@@ -441,17 +441,17 @@ limitations under the License.
 						WHERE
 							guid_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.agentguid_guid_type#">
 					</cfquery>
-				</cfif>
-				<cfif getPattern.recordcount GT 0>
-					<cfif REFind(getPattern.pattern_regex,getTempData.agentguid) EQ 0>
-						<cfquery name="invGuidType2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-							UPDATE cf_temp_agents
-							SET 
-								status = concat(nvl2(status, status || '; ', ''),'AGENTGUID is not in the correct format for ' || agentguid_guid_type || ' expected pattern is #getPattern.pattern_regex#')
-							WHERE 
-								username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> AND
-								key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#key#">
-						</cfquery>
+					<cfif getPattern.recordcount GT 0>
+						<cfif REFind(getPattern.pattern_regex,getTempData.agentguid) EQ 0>
+							<cfquery name="invGuidType2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+								UPDATE cf_temp_agents
+								SET 
+									status = concat(nvl2(status, status || '; ', ''),'AGENTGUID is not in the correct format for ' || agentguid_guid_type || ' expected pattern is #getPattern.pattern_regex#')
+								WHERE 
+									username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> AND
+									key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#key#">
+							</cfquery>
+						</cfif>
 					</cfif>
 				</cfif>
 			</cfloop>
