@@ -485,6 +485,7 @@ limitations under the License.
 							username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> AND
 							key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#key#">
 					</cfquery>
+					
 				</cfif>
 				<cfif len(getTempData.other_name_type_3) gt 0>
 					<cfquery name="invAgntName3" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
