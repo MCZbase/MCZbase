@@ -381,17 +381,17 @@ limitations under the License.
 					<cfquery name="invGuidType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						UPDATE cf_temp_agents
 						SET 
-							status = concat(nvl2(status, status || '; ', ''), 'AGENTGUID_GUID_TYPE not valid for agents - check <a href="/vocabularies/ControlledVocabulary.cfm?table=CTGUID_TYPE">controlled vocabulary</a>')
+							status = concat(nvl2(status, status || '; ', ''), 'A valid AGENTGUID_GUID_TYPE not valid for agents - check <a href="/vocabularies/ControlledVocabulary.cfm?table=CTGUID_TYPE">controlled vocabulary</a>')
 						WHERE 
 							AGENTGUID_GUID_TYPE not in (select guid_type from ctguid_type) AND 
 							username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> AND
 							key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#key#">
 					</cfquery>
-					<cfif len(getTempData.agentguid) eq 0>
+					<cfif len(getTempData.agentguid_guid_type) eq 0>
 						<cfquery name="invGuidType2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							UPDATE cf_temp_agents
 							SET 
-								status = concat(nvl2(status, status || '; ', ''),'If agentguid_guid_type is specified, valid agentguid must also be provided.')
+								status = concat(nvl2(status, status || '; ', ''),'An AGENTGUID_GUID_TYPE was not provided')
 							WHERE 
 								username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> AND
 								key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#key#">
@@ -402,17 +402,17 @@ limitations under the License.
 					<cfquery name="invGuidType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						UPDATE cf_temp_agents
 						SET 
-							status = concat(nvl2(status, status || '; ', ''), 'AGENTGUID_GUID_TYPE not valid for agents - check <a href="/vocabularies/ControlledVocabulary.cfm?table=CTGUID_TYPE">controlled vocabulary</a>')
+							status = concat(nvl2(status, status || '; ', ''), 'A valid AGENTGUID was not provided - check <a href="/vocabularies/ControlledVocabulary.cfm?table=CTGUID_TYPE">controlled vocabulary</a>')
 						WHERE 
 							AGENTGUID_GUID_TYPE not in (select guid_type from ctguid_type) AND 
 							username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> AND
 							key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#key#">
 					</cfquery>
-					<cfif len(getTempData.agentguid_guid_type) eq 0>
+					<cfif len(getTempData.agentguid) eq 0>
 						<cfquery name="invGuidType2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							UPDATE cf_temp_agents
 							SET 
-								status = concat(nvl2(status, status || '; ', ''),'If agentguid is specified, valid agentguid_guid_type must also be provided.')
+								status = concat(nvl2(status, status || '; ', ''),'An AGENTGUID was not provided')
 							WHERE 
 								username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> AND
 								key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#key#">
