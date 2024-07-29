@@ -381,7 +381,7 @@ limitations under the License.
 					<cfquery name="invGuidType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						UPDATE cf_temp_agents
 						SET 
-							status = concat(nvl2(status, status || '; ', ''), 'A valid AGENTGUID_GUID_TYPE not valid for agents - check <a href="/vocabularies/ControlledVocabulary.cfm?table=CTGUID_TYPE">controlled vocabulary</a>')
+							status = concat(nvl2(status, status || '; ', ''), 'A valid AGENTGUID_GUID_TYPE was not provided - check <a href="/vocabularies/ControlledVocabulary.cfm?table=CTGUID_TYPE">controlled vocabulary</a>')
 						WHERE 
 							AGENTGUID_GUID_TYPE not in (select guid_type from ctguid_type) AND 
 							username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> AND
@@ -402,7 +402,7 @@ limitations under the License.
 					<cfquery name="invGuidType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						UPDATE cf_temp_agents
 						SET 
-							status = concat(nvl2(status, status || '; ', ''), 'A valid AGENTGUID was not provided - check <a href="/vocabularies/ControlledVocabulary.cfm?table=CTGUID_TYPE">controlled vocabulary</a>')
+							status = concat(nvl2(status, status || '; ', ''), 'A valid AGENTGUID was not provided - check <a href="/vocabularies/ControlledVocabulary.cfm?table=CTGUID_TYPE">controlled vocabulary</a> for your guid type)
 						WHERE 
 							AGENTGUID_GUID_TYPE not in (select guid_type from ctguid_type) AND 
 							username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> AND
