@@ -388,12 +388,14 @@ limitations under the License.
 							key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#key#">
 					</cfquery>
 					<cfif len(getTempData.agentguid) gt 0>
-						UPDATE cf_temp_agents
-						SET 
-							status = concat(nvl2(status, status || '; ', ''),'Cannot evaluate AGENTGUID without valid AGENTGUID_GUID_TYPE')
-						WHERE 
-							username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> AND
-							key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#key#">
+						<cfquery name="invGuidTypeGuid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+							UPDATE cf_temp_agents
+							SET 
+								status = concat(nvl2(status, status || '; ', ''),'Cannot evaluate AGENTGUID without valid AGENTGUID_GUID_TYPE')
+							WHERE 
+								username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> AND
+								key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#key#">
+						</cfquery>
 					</cfif>
 				</cfif>
 				<cfif len(getTempData.agentguid) eq 0>
