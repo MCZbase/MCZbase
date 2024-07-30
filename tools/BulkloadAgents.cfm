@@ -437,7 +437,7 @@ limitations under the License.
 							SET 
 								status = concat(nvl2(status, status || '; ', ''),'Cannot evaluate OTHER_NAME_2 without valid OTHER_NAME_TYPE_2')
 							WHERE 
-								OTEHR_NAME_TYPE_2 not in (select AGENT_NAME_TYPE from CTAGENT_NAME_TYPE) AND 
+								OTHER_NAME_TYPE_2 not in (select AGENT_NAME_TYPE from CTAGENT_NAME_TYPE) AND 
 								username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> AND
 								key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#key#">
 						</cfquery>
