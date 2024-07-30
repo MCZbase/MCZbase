@@ -394,7 +394,7 @@ limitations under the License.
 							SET 
 								status = concat(nvl2(status, status || '; ', ''),'Cannot evaluate OTHER_NAME_1 without valid OTHER_NAME_TYPE_1')
 							WHERE 
-								AGENT_NAME_TYPE_1 not in (select guid_type from CTAGENT_NAME_TYPE) AND 
+								OTHER_NAME_TYPE_1 not in (select guid_type from CTAGENT_NAME_TYPE) AND 
 								username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> AND
 								key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#key#">
 						</cfquery>
@@ -506,6 +506,7 @@ limitations under the License.
 							key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#key#">
 					</cfquery>
 				</cfif>
+						
 				<cfif len(getTempData.agentguid_guid_type) gt 0>
 					<cfquery name="invGuidType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						UPDATE cf_temp_agents
