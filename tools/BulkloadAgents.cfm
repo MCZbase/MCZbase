@@ -380,7 +380,7 @@ limitations under the License.
 					<!--- Dates are handled at the read file stage -- it never gets to validation --->
 				<cfset bdate = isDate(getTempData.birth_date)>
 				
-				<cfif year(#getTempData.death_date#) - year(#getTempData.#) gte 105 >
+				<cfif year(#getTempData.death_date#) - year(#getTempData.birth_date#) gte 105 >
 					<cfquery name="flagDateProblem" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						UPDATE
 							cf_temp_agents
