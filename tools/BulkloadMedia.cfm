@@ -481,7 +481,7 @@ limitations under the License.
 							SELECT MEDIA_LABEL FROM CTMEDIA_LABEL 
 							WHERE MEDIA_LABEL = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#labelName#">
 						</cfquery>
-						<cfif len(ct.MEDIA_LABEL) is 0>
+						<cfif len(ct.MEDIA_LABEL) gt 0>
 							<cfquery name="warningMessageLN" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 								UPDATE
 									cf_temp_media
@@ -490,16 +490,16 @@ limitations under the License.
 								WHERE 
 									username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#username#">
 							</cfquery>
-						<cfelseif labelName EQ "made date" && refind("^[0-9]{4}-[0-9]{2}-[0-9]{2}$",labelValue) EQ 0>
-							<cfquery name="warningMessageDate" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-								UPDATE
-									cf_temp_media
-								SET
-									status = concat(nvl2(status, status || '; ', ''),'Media Label, made date, must be yyyy-mm-dd')
-								WHERE 
-									username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#username#">
-							</cfquery>
-						<cfelse>
+							<cfif labelName EQ "made date" && refind("^[0-9]{4}-[0-9]{2}-[0-9]{2}$",labelValue) EQ 0>
+								<cfquery name="warningMessageDate" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+									UPDATE
+										cf_temp_media
+									SET
+										status = concat(nvl2(status, status || '; ', ''),'Media Label, made date, must be yyyy-mm-dd')
+									WHERE 
+										username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#username#">
+								</cfquery>
+							</cfif>
 							<cfquery name="insLabel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 								insert into cf_temp_media_labels (
 									key,
