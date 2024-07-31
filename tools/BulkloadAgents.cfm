@@ -339,6 +339,17 @@ limitations under the License.
 					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<cfloop query="getTempData">
+				<cfif len(getTempData.birth_date) eq 0 and len(getTempData.death_date) gt 0>
+					<cfquery name="invDateEntry" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						UPDATE cf_temp_agents
+						SET 
+							status = concat(nvl2(status, status || '; ', ''), 'A BIRTH_DATE was not provided with DEATH_DATE')
+						WHERE 
+							OTHER_NAME_TYPE_1 not in (select AGENT_NAME_TYPE from CTAGENT_NAME_TYPE) AND 
+							username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> AND
+							key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#key#">
+					</cfquery>
+				</cfif>
 				<cfquery name="prefName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" >
 					UPDATE cf_temp_agents
 					SET 
