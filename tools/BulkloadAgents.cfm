@@ -378,18 +378,6 @@ limitations under the License.
 						key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#key#">
 				</cfquery>
 					<!--- Dates are handled at the read file stage -- it never gets to validation --->
-				<cfset ddate = "year(#getTempData.death_date#)">
-				<cfset bdate = "year(#getTempData.birth_date#)">
-				<cfif #ddate# - #bdate# gte 105 >
-					<cfquery name="flagDateProblem" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						UPDATE
-							cf_temp_agents
-						SET 
-							status = concat(nvl2(status, status || '; ', ''),'invalid: #birth_date# or #death_date#')
-						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> 
-							and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.key#"> 
-					</cfquery>	
-				</cfif>
 				<cfif len(getTempData.OTHER_NAME_TYPE_1) gt 0>
 					<cfquery name="invNAMEType1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						UPDATE cf_temp_agents
