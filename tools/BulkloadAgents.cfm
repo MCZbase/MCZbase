@@ -71,8 +71,6 @@ limitations under the License.
 						<li class="list-group-item font-weight-lessbold"><a href="/vocabularies/ControlledVocabulary.cfm?table=ctagent_type">VALID AGENT TYPES</a></li> <span class="mt-1"> | </span>
 						<li class="list-group-item font-weight-lessbold"><a href="/vocabularies/ControlledVocabulary.cfm?table=ctguid_type">VALID AGENT GUID GUID TYPES</a> </li>
 					</ul>
-			
-			<p><a href="/info/ctDocumentation.cfm?table=ctagent_name_type">Valid agent name types</a>, <a href="/info/ctDocumentation.cfm?table=ctagent_type">Valid agent types</a>, <a href="/info/ctDocumentation.cfm?table=ctguid_type">Valid agent_guid_guid_types</a></p>
 
 			<span class="btn btn-xs btn-info" onclick="document.getElementById('template').style.display='block';">View template</span>
 			<div id="template" style="margin: 1rem 0;display:none;">
