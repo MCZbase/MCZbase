@@ -382,11 +382,11 @@ limitations under the License.
 				<cfif #bdate# eq 'NO' OR #ddate# eq 'NO'>
 					<cfquery name="flagDateProblem" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						UPDATE
-							cf_temp_attributes
+							cf_temp_agents
 						SET 
 							status = concat(nvl2(status, status || '; ', ''),'invalid format: #bdate# #ddate#')
 						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> 
-							and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#"> 
+							and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.key#"> 
 					</cfquery>	
 				</cfif>
 				<cfif len(getTempData.OTHER_NAME_TYPE_1) gt 0>
