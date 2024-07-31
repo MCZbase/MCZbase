@@ -519,7 +519,7 @@ limitations under the License.
 					</cfloop>--->
 				</cfif>
 				<cfif len(getTempMedia.MEDIA_RELATIONSHIPS) gt 0>
-					<cfloop list="#getTempMedia.MEDIA_RELATIONSHIPS#" index="label" delimiters=";\n">
+					<cfloop list="#getTempMedia.MEDIA_RELATIONSHIPS#" index="label" delimiters=";">
 						<cfif len(getTempMedia.MEDIA_RELATIONSHIPS) is 0>
 							<cfquery name="warningMessage" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 								UPDATE cf_temp_media
@@ -754,7 +754,7 @@ limitations under the License.
 							<td>#data.MEDIA_LICENSE_ID#</td>
 							<td>#data.MEDIA_RELATIONSHIPS#</td>
 							<td>#data.MEDIA_LABELS#</td>
-							<td>#data.MASK_MEDIA#</td>
+							<td>##</td>
 						</tr>
 					</cfloop>
 				</tbody>
