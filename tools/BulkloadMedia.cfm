@@ -474,7 +474,7 @@ limitations under the License.
 						key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempMedia.key#"> 
 				</cfquery>
 				<cfif len(getTempMedia.MEDIA_LABELS) gt 0>
-					<cfloop list="#getTempMedia.media_labels#" index="label" delimiters=";">
+		<!---			<cfloop list="#getTempMedia.media_labels#" index="label" delimiters=";">
 						<cfset labelName=listgetat(label,1,"=")>
 						<cfset labelValue=listgetat(label,2,"=")>
 						<cfquery name="ct" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -516,10 +516,10 @@ limitations under the License.
 								)
 							</cfquery>
 						</cfif>
-					</cfloop>
+					</cfloop>--->
 				</cfif>
 				<cfif len(getTempMedia.MEDIA_RELATIONSHIPS) gt 0>
-					<cfloop list="#getTempMedia.MEDIA_RELATIONSHIPS#" index="label" delimiters=";">
+				<!---	<cfloop list="#getTempMedia.MEDIA_RELATIONSHIPS#" index="label" delimiters=";">
 						<cfif len(getTempMedia.MEDIA_RELATIONSHIPS) is 0>
 							<cfquery name="warningMessage" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 								UPDATE cf_temp_media
@@ -654,7 +654,7 @@ limitations under the License.
 								</cfif>
 							</cfloop>
 						</cfif>
-					</cfloop>
+					</cfloop>--->
 				</cfif>
 				<cfif not isDefined("veryLargeFiles")><cfset veryLargeFiles=""></cfif>
 				<cfif veryLargeFiles NEQ "true">
