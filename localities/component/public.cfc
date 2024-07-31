@@ -1832,7 +1832,11 @@ limitations under the License.
 					<div class="border-bottom float-left col-12 pb-2 h4">
 						<div class="col-12 col-md-2 float-left px-0">Locality:</div>	
 						<div class="font-weight-normal col-12 col-md-1 px-0 pt-1 float-right">
-							<a href="/localities/viewLocality.cfm?locality_id=#locality_id#" class="btn btn-xs btn-primary text-center" target="_blank" >View</a>
+							<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_locality")>
+								<a href="/localities/Locality.cfm?locality_id=#locality_id#&action=edit" class="btn btn-xs btn-primary text-center" target="_blank" >Edit</a>
+							<cfelse>
+								<a href="/localities/viewLocality.cfm?locality_id=#locality_id#" class="btn btn-xs btn-primary text-center" target="_blank" >View</a>
+							</cfif>
 						</div>
 						<div class="font-weight-normal col-12 col-md-11 px-0 float-left">#locality# </div>
 					

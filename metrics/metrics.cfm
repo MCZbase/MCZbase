@@ -29,8 +29,8 @@ limitations under the License.
 <!-- cfset endDate = "SYSDATE" -->
 <!-- cfset beginDate = "ADD_MONTHS(SYSDATE,-12)" -->
 
-<cfset endDate = "2023-07-01">
-<cfset beginDate = "2022-06-30">
+<cfset endDate = "2024-07-01">
+<cfset beginDate = "2023-06-30">
 
 <!-- annual report queries -->
 <cfsetting RequestTimeout = "0">
