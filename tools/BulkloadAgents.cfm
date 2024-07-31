@@ -377,7 +377,8 @@ limitations under the License.
 						username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> AND
 						key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#key#">
 				</cfquery>
-				<cfset bdate = isDate(getTempData.birth_date)>
+					<!--- Dates are handled at the read file stage -- it never gets to validation --->
+<!---				<cfset bdate = isDate(getTempData.birth_date)>
 				<cfset ddate = isDate(getTempData.death_date)>
 				<cfif #bdate# eq 'NO' OR #ddate# eq 'NO'>
 					<cfquery name="flagDateProblem" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -388,7 +389,7 @@ limitations under the License.
 						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> 
 							and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.key#"> 
 					</cfquery>	
-				</cfif>
+				</cfif>--->
 				<cfif len(getTempData.OTHER_NAME_TYPE_1) gt 0>
 					<cfquery name="invNAMEType1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						UPDATE cf_temp_agents
