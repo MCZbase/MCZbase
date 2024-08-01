@@ -554,7 +554,7 @@ limitations under the License.
 								<cfset idval = listlast(primaryKey,"_")>
 		
 								<cfif isnumeric(labelValue) and len(table_name) gt 0> 
-									<cfoutput>#table_name#: #primaryKey#: <cfif labelValue like 'MCZ-%'> <cfelse> #labelValue#</cfif></cfoutput>
+									<cfoutput>#table_name#: #primaryKey#: <cfif labelValue contains 'MCZ-'> <cfelse> #labelValue#</cfif></cfoutput>
 										<cfquery name="checkKey" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 											SELECT count(*) ct
 											FROM #getRPK.table_name#
