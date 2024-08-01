@@ -414,6 +414,12 @@ limitations under the License.
 		<h2 class="h4 mb-3">Second step: Data Validation</h2>
 		<cfoutput>
 			<cfset key = ''>
+			<cfquery name="ctmedia_relationship" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,session.sessionKey)#" cachedwithin="#createtimespan(0,0,60,0)#">
+				SELECT distinct(MEDIA_RELATIONSHIP) MEDIA_RELATIONSHIP FROM ctmedia_relationship order by MEDIA_RELATIONSHIP
+			</cfquery>
+			<cfquery name="ctmedia_label" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,session.sessionKey)#" cachedwithin="#createtimespan(0,0,60,0)#">
+				SELECT distinct(MEDIA_LABEL) MEDIA_LABEL FROM ctmedia_label order by MEDIA_LABEL
+			</cfquery>
 			<cfquery name="getTempMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT *
 				FROM 
@@ -439,7 +445,6 @@ limitations under the License.
 					mime_type not in (select mime_type from CTMIME_TYPE) AND
 					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
-
 			<cfquery name="warningMessageLicense" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				UPDATE
 					cf_temp_media
@@ -447,6 +452,24 @@ limitations under the License.
 					status = concat(nvl2(status, status || '; ', ''),'MEDIA_LICENSE_ID #getTempMedia.MEDIA_LICENSE_ID# is invalid')
 				WHERE
 					media_license_id not in (select media_license_id from ctmedia_license) AND
+					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+			</cfquery>
+			<cfquery name="warningMessageRelationship" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				UPDATE
+					cf_temp_media
+				SET
+					status = concat(nvl2(status, status || '; ', ''),'MEDIA_RELATIONSHIP #getTempMedia.MEDIA_RELATIONSHIP# is invalid')
+				WHERE
+					media_relationship not in (select media_relationship from ctmedia_relationship) AND
+					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+			</cfquery>
+			<cfquery name="warningMessageLabel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				UPDATE
+					cf_temp_media
+				SET
+					status = concat(nvl2(status, status || '; ', ''),'MEDIA_LABEL #getTempMedia.MEDIA_LABEL# is invalid')
+				WHERE
+					media_label not in (select media_label from ctmedia_label) AND
 					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<cfif len(getTempMedia.mask_media) GT 0>
@@ -521,6 +544,7 @@ limitations under the License.
 				</cfif>
 					
 				<cfif len(getTempMedia.MEDIA_RELATIONSHIPS) gt 0>
+			
 					<cfloop list="#getTempMedia.MEDIA_RELATIONSHIPS#" index="label" delimiters=";">
 						<cfif len(getTempMedia.MEDIA_RELATIONSHIPS) eq 0>
 							<cfquery name="warningMessage" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -534,8 +558,9 @@ limitations under the License.
 
 						<!---If the relationship is good, use conditionals to insert the other relationships--->
 						<cfelse>
-							<cfset labelName=listgetat(label,1,"=")>
-							<cfset labelValue=listgetat(label,2,"=")>
+							<cfset i= 1>
+							<cfset labelName_#i#=listgetat(label,1,"=")>
+							<cfset labelValue_#i#=listgetat(label,2,"=")>
 							
 							<!---Grabs the last word of the ct media relationship to identify the table name.--->
 							<cfset table_name = listlast(labelName," ")>
@@ -551,7 +576,7 @@ limitations under the License.
 								and cols.table_name != 'specimen_part'
 								ORDER BY cols.table_name
 							</cfquery>
-	
+							
 							<cfloop query='getRPK'>
 								
 								<cfset primaryKey ='#getRPK.column_name#'>
