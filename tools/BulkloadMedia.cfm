@@ -439,6 +439,7 @@ limitations under the License.
 					mime_type not in (select mime_type from CTMIME_TYPE) AND
 					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
+
 			<cfquery name="warningMessageLicense" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				UPDATE
 					cf_temp_media
@@ -530,6 +531,7 @@ limitations under the License.
 									username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#username#"> AND 
 									key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempMedia.key#">
 							</cfquery>
+
 						<!---If the relationship is good, use conditionals to insert the other relationships--->
 						<cfelse>
 							<cfset labelName=listgetat(label,1,"=")>
@@ -549,7 +551,14 @@ limitations under the License.
 								and cols.table_name != 'specimen_part'
 								ORDER BY cols.table_name
 							</cfquery>
-							
+							<cfquery name="addAgentID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+								UPDATE
+									cf_temp_media
+								SET
+									agent_id = (select agent_id from agent_name where agent_name = '#labeValue#')
+								WHERE 
+									username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+							</cfquery>
 							<cfloop query='getRPK'>
 								
 								<cfset primaryKey ='#getRPK.column_name#'>
