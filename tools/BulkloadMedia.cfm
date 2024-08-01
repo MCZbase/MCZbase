@@ -546,6 +546,7 @@ limitations under the License.
 								AND cons.constraint_name = cols.constraint_name
 								AND cons.owner = cols.owner
 								AND cons.owner = 'MCZBASE'
+								and cols.table_name != 'specimen_part'
 								ORDER BY cols.table_name
 							</cfquery>
 							
@@ -556,7 +557,7 @@ limitations under the License.
 								<!---Is CSV value is a primary key ID--->
 								<cfset idval = listlast(primaryKey,"_")>
 		
-								<cfif isnumeric(labelValue) and len(table_name) gt 0 and #table_name# neq 'specimen_part'> 
+								<cfif isnumeric(labelValue) and len(table_name) gt 0> 
 									<cfoutput>#table_name#: #primaryKey#: #labelValue#</cfoutput>
 										<cfquery name="checkKey" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 											SELECT count(*) ct
