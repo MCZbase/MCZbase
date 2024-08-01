@@ -549,11 +549,11 @@ limitations under the License.
 
 							<cfloop query='getRPK'>
 								<cfset primaryKey ='#getRPK.column_name#'>
-									#primaryKey#
+								
 								<!---Is CSV value is a primary key ID--->
 								<cfset idval = listlast(primaryKey,"_")>
-									#idval#
-								<cfif isnumeric(labelValue) and len(table_name) gt 0 and #idval# eq 'ID' and #getRPK.column_name# neq 'BARCODE'> 
+		
+								<cfif isnumeric(labelValue) and len(table_name) gt 0> 
 									<cfoutput>#table_name#: #primaryKey#: #labelValue#</cfoutput>
 										<cfquery name="checkKey" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 											SELECT count(*) ct
