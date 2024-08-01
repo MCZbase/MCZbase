@@ -552,13 +552,13 @@ limitations under the License.
 								<!---Is CSV value is a primary key ID--->
 								<cfset idval = listlast(primaryKey,"_")>
 									#idval#
-								<cfif isnumeric(labelValue) and len(table_name) gt 0 and #idval# eq 'ID'> 
+								<cfif isnumeric(labelValue) and len(table_name) gt 0 and #idval# eq 'ID' and #getRPK.column_name# neq 'BARCODE'> 
 									<cfoutput>#table_name#: #primaryKey#: #labelValue#</cfoutput>
-									<cfquery name="checkKey" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-										SELECT count(*) ct
-										FROM #getRPK.table_name#
-										WHERE #getRPK.column_name# = '#labelValue#'
-									</cfquery>
+										<cfquery name="checkKey" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+											SELECT count(*) ct
+											FROM #getRPK.table_name#
+											WHERE #getRPK.column_name# = '#labelValue#'
+										</cfquery>
 									<cfif checkKey.ct NEQ 1>
 										<cfthrow message="Related Primary Key value [#encodeForHtml(primaryKey)#] for #getRPK.table_name#.#getRPK.column_name# not found with relationship #encodeForHtml(labelName)# ">
 									</cfif>
