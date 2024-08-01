@@ -551,14 +551,7 @@ limitations under the License.
 								and cols.table_name != 'specimen_part'
 								ORDER BY cols.table_name
 							</cfquery>
-							<cfquery name="addAgentID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-								UPDATE
-									cf_temp_media
-								SET
-									agent_id = (select agent_id from agent_name where agent_name = '#labelValue#')
-								WHERE 
-									username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-							</cfquery>
+	
 							<cfloop query='getRPK'>
 								
 								<cfset primaryKey ='#getRPK.column_name#'>
