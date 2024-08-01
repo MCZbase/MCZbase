@@ -549,6 +549,7 @@ limitations under the License.
 
 							<cfloop query='getRPK'>
 								<cfset primaryKey ='#getRPK.column_name#'>
+									#primaryKey#
 								<!---Is CSV value is a primary key ID--->
 								<cfset idval = listlast(primaryKey,"_")>
 									#idval#
