@@ -518,6 +518,7 @@ limitations under the License.
 						</cfif>
 					</cfloop>--->
 				</cfif>
+					
 				<cfif len(getTempMedia.MEDIA_RELATIONSHIPS) gt 0>
 					<cfloop list="#getTempMedia.MEDIA_RELATIONSHIPS#" index="label" delimiters=";">
 						<cfif len(getTempMedia.MEDIA_RELATIONSHIPS) eq 0>
@@ -533,6 +534,7 @@ limitations under the License.
 						<cfelse>
 							<cfset labelName=listgetat(label,1,"=")>
 							<cfset labelValue=listgetat(label,2,"=")>
+							
 							<!---Grabs the last word of the ct media relationship to identify the table name.--->
 							<cfset table_name = listlast(labelName," ")>
 							<!---<cfloop list="#table_name#" index="table_name" delimiters=",">--->
@@ -546,15 +548,16 @@ limitations under the License.
 								AND cons.owner = 'MCZBASE'
 								ORDER BY cols.table_name
 							</cfquery>
-
+							
 							<cfloop query='getRPK'>
+								
 								<cfset primaryKey ='#getRPK.column_name#'>
 								
 								<!---Is CSV value is a primary key ID--->
 								<cfset idval = listlast(primaryKey,"_")>
 		
-								<cfif isnumeric(labelValue) and len(table_name) gt 0> 
-									<cfoutput>#table_name#: #primaryKey#: <cfif labelValue contains 'MCZ-'> <cfelse> #labelValue#</cfif></cfoutput>
+								<cfif isnumeric(labelValue) and len(table_name) gt 0 and #table_name# neq 'specimen_part'> 
+									<cfoutput>#table_name#: #primaryKey#: #labelValue#</cfoutput>
 										<cfquery name="checkKey" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 											SELECT count(*) ct
 											FROM #getRPK.table_name#
