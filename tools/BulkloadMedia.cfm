@@ -552,7 +552,7 @@ limitations under the License.
 								SET 
 									status = concat(nvl2(status, status || '; ', ''),'Media relationship NAME is invalid.')
 								WHERE 
-									username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#username#"> AND 
+									username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> AND 
 									key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempMedia.key#">
 							</cfquery>
 
