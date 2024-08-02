@@ -562,7 +562,7 @@ limitations under the License.
 							<cfset labelName=listgetat(label,1,"=")>
 							<cfset labelValue=listgetat(label,2,"=")>--->
 							<cfset rt = StructNew()>
-								<cfset rt = {label=value; label=value; label=value}>
+								<cfset rt = {label=value, label=value, label=value}>
 									<cfset for (key in rt) {
 										   WriteOutput(StructFind(rt))
 										   }>
