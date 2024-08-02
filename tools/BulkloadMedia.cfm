@@ -558,16 +558,21 @@ limitations under the License.
 
 						<!---If the relationship is good, use conditionals to insert the other relationships--->
 						<cfelse>
+			<!---	
+							<cfset labelName=listgetat(label,1,"=")>
+							<cfset labelValue=listgetat(label,2,"=")>--->
+							<cfset rt = StructNew()>
+								<cfset rt = {label=value; label=value; label=value}>
+									<cfset for (key in rt) {
+										   WriteOutput(StructFind(rt))
+										   }>
+										   <cftry {
+									StructFind(rt,value)
+									} catch (any e) {
+									
+												  }</cftry>
 				
-							<cfset labelName_#i#=listgetat(label,1,"=")>
-							<cfset labelValue_#i#=listgetat(label,2,"=")>
-								
-							<cfset myRelations = StructNew()>
-							<cfloop relationship_pairs = "#myRelations#" item="relations">
-								<cfoutput>
-									#relations#: #StructFind()
-								</cfoutput>
-								<cfset 
+				
 							
 							<!---Grabs the last word of the ct media relationship to identify the table name.--->
 							<cfset table_name = listlast(labelName," ")>
