@@ -559,12 +559,12 @@ limitations under the License.
 
 						<!---If the relationship is good, use conditionals to insert the other relationships--->
 						<cfelse>
-			<!---	
+				
 							<cfset labelName=listgetat(label,1,"=")>
-							<cfset labelValue=listgetat(label,2,"=")>--->
+							<cfset labelValue=listgetat(label,2,"=")>
 						<cfscript>
 							   myStruct=StructNew();
-							   myStruct={label:value}; //Define structure keys
+							   myStruct={labelName:labelValue}; //Define structure keys
 							   WriteOutput("The values are: ");
 							   for (key in myStruct){ //Find keys in the struct
 									 WriteOutput(StructFind(myStruct,#key#) & " | "); //Display the value if key is found
@@ -572,7 +572,7 @@ limitations under the License.
 							   // Try to search for the key "f" that does not exist in myStruct
 							   // Since the key is not in the struct, an error message is displayed
 							   try{
-									 StructFind(myStruct,"label");
+									 StructFind(myStruct,"labelName");
 							   }
 							   catch (any e)
 							   {
