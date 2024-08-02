@@ -567,7 +567,7 @@ limitations under the License.
 							   myStruct={"#labelName#":"#labelValue#"}; //Define structure keys
 							   WriteOutput("The values are: ");
 							   for (key in myStruct){ //Find keys in the struct
-									 WriteOutput(StructFind(myStruct,"#labelName#") & " | "); //Display the value if key is found
+									 WriteOutput(StructFind(myStruct,"#labelValue#") & " | "); //Display the value if key is found
 							   }
 							   // Try to search for the key "f" that does not exist in myStruct
 							   // Since the key is not in the struct, an error message is displayed
