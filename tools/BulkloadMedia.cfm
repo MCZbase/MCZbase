@@ -459,9 +459,9 @@ limitations under the License.
 				UPDATE
 					cf_temp_media
 				SET
-					status = concat(nvl2(status, status || '; ', ''),'MEDIA_RELATIONSHIP #getTempMedia.MEDIA_RELATIONSHIP# is invalid')
+					status = concat(nvl2(status, status || '; ', ''),'MEDIA_RELATIONSHIPS #getTempMedia.MEDIA_RELATIONSHIPS# is invalid')
 				WHERE
-					media_relationship not in (select media_relationship from ctmedia_relationship) AND
+					media_relationships not in (select media_relationship from ctmedia_relationship) AND
 					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<cfquery name="warningMessageLabel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
