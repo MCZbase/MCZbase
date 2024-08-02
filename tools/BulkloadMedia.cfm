@@ -564,15 +564,15 @@ limitations under the License.
 							<cfset labelValue=listgetat(label,2,"=")>
 						<cfscript>
 							   myStruct=StructNew();
-							   myStruct={labelName:labelValue}; //Define structure keys
+							   myStruct={"#labelName#":"#labelValue#"}; //Define structure keys
 							   WriteOutput("The values are: ");
 							   for (key in myStruct){ //Find keys in the struct
-									 WriteOutput(StructFind(myStruct,#labelName#) & " | "); //Display the value if key is found
+									 WriteOutput(StructFind(myStruct,"#labelName#") & " | "); //Display the value if key is found
 							   }
 							   // Try to search for the key "f" that does not exist in myStruct
 							   // Since the key is not in the struct, an error message is displayed
 							   try{
-									 StructFind(myStruct,"labelName");
+									 StructFind(myStruct,"#labelName#");
 							   }
 							   catch (any e)
 							   {
