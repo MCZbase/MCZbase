@@ -455,24 +455,7 @@ limitations under the License.
 					media_license_id not in (select media_license_id from ctmedia_license) AND
 					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
-			<cfquery name="warningMessageRelationship" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				UPDATE
-					cf_temp_media
-				SET
-					status = concat(nvl2(status, status || '; ', ''),'MEDIA_RELATIONSHIPS #getTempMedia.MEDIA_RELATIONSHIPS# is invalid')
-				WHERE
-					media_relationships not in (select media_relationship from ctmedia_relationship) AND
-					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-			</cfquery>
-			<cfquery name="warningMessageLabel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				UPDATE
-					cf_temp_media
-				SET
-					status = concat(nvl2(status, status || '; ', ''),'MEDIA_LABELS #getTempMedia.MEDIA_LABELS# is invalid')
-				WHERE
-					media_labels not in (select media_label from ctmedia_label) AND
-					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-			</cfquery>
+
 			<cfif len(getTempMedia.mask_media) GT 0>
 				<cfif getTempMedia.mask_media NEQ 1>
 					<cfquery name="warningMessageMask" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
