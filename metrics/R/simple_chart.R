@@ -30,7 +30,7 @@ df$COLLECTIONS <- c("Mala","Mamm","Ent","Orn","IZ", "VP","IP","Herp","Cryo","SC"
 chart1 <- ggplot(df, aes(x="", y=CATALOGEDITEMS, fill=COLLECTION )) +
   geom_bar(stat="identity", width=1) +
   coord_polar("y", start=0) +
-  labs(title = "Cataloged Items per Collection (data range: today minus 1 year)", 
+  labs(title = "Cataloged Items per Collection (data range: today minus one year)", 
        caption = "Source: Cataloged Items from MCZbase") +
  theme_void()
 # uncomment and use chart or print(chart1) during testing
