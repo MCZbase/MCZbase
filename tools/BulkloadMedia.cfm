@@ -566,8 +566,6 @@ limitations under the License.
 						<th>MEDIA_TYPE</th>
 						<th>PREVIEW_URI</th>
 						<th>MEDIA_LICENSE_ID</th>
-						<th>MEDIA_RELATIONSHIPS</th>
-						<th>MEDIA_LABELS</th>
 					</tr>
 				<tbody>
 					<cfloop query="data">
@@ -578,9 +576,6 @@ limitations under the License.
 							<td>#data.MEDIA_TYPE#</td>
 							<td>#data.PREVIEW_URI#</td>
 							<td>#data.MEDIA_LICENSE_ID#</td>
-							<td>#data.MEDIA_RELATIONSHIPS#</td>
-							<td>#data.MEDIA_LABELS#</td>
-							<td>##</td>
 						</tr>
 					</cfloop>
 				</tbody>
