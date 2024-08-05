@@ -670,7 +670,7 @@ limitations under the License.
 							WHERE
 								key=#key#
 						</cfquery>
-						<cfloop query="media_relations">
+					<!---	<cfloop query="media_relations">
 							<cfquery name="makeRel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 								insert into
 									media_relations (
@@ -685,8 +685,8 @@ limitations under the License.
 									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#RELATED_PRIMARY_KEY#">
 								)
 							</cfquery>
-						</cfloop>
-						<cfquery name="medialabels" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						</cfloop>--->
+<!---						<cfquery name="medialabels" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							SELECT * 
 							FROM
 								cf_temp_media_labels
@@ -707,7 +707,7 @@ limitations under the License.
 									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#LABEL_VALUE#">
 								)
 							</cfquery>
-						</cfloop>
+						</cfloop>--->
 						<cfset media_updates = media_updates + insResult.recordcount>
 					</cfloop>
 					<p>Number of Media Records added: #media_updates#</p>
@@ -723,7 +723,7 @@ limitations under the License.
 					<h3>There was a problem adding media records. </h3>
 					<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						SELECT 
-							MEDIA_URI, MIME_TYPE, MEDIA_TYPE, PREVIEW_URI, MEDIA_RELATIONSHIPS, MEDIA_LABELS, STATUS, MEDIA_LICENSE_ID, MASK_MEDIA,USERNAME
+							MEDIA_URI, MIME_TYPE, MEDIA_TYPE, PREVIEW_URI, STATUS, MEDIA_LICENSE_ID, MASK_MEDIA,USERNAME
 						FROM 
 							cf_temp_media
 						WHERE
@@ -739,10 +739,6 @@ limitations under the License.
 										Problem with MEDIA_TYPE
 									<cfelseif cfcatch.detail contains "media_uri">
 										Invalid or missing MEDIA_URI
-									<cfelseif cfcatch.detail contains "media_relationship">
-										Invalid MEDIA_RELATIONSHIP
-									<cfelseif cfcatch.detail contains "media_labels">
-										Invalid MEDIA_LABELS
 									<cfelseif cfcatch.detail contains "media_license_id">
 										Problem with MEDIA_LICENSE_ID
 									<cfelseif cfcatch.detail contains "mask_media">
