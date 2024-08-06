@@ -76,7 +76,7 @@ limitations under the License.
 				<p>Step 1: Ensure that Media exists on the shared drive or external URL and that the records that you want to use for relationships exist (e.g., specimen, agent, collecting event).</p>
 				<p>Step 2: Upload a comma-delimited text file (csv). <span class="font-weight-lessbold">(Jump to <a href="##loader" class="btn-link font-weight-bold">Loader</a>.)</span></p>
 				
-				<h2 class="h4 mt-4">Media License:</h2>
+				<h2 class="h4 mt-4">Media License</h2>
 				<p>The media license id should be entered using the numeric codes below. If omitted this will default to &quot;1 - MCZ Permissions &amp; Copyright&quot;</p>
 				<h3 class="small90 pl-3">Media License Codes:</h3>
 				<dl class="pl-3">
@@ -88,7 +88,7 @@ limitations under the License.
 					<dt class="btn-secondary"><span class="badge badge-light">8 </span> Creative Commons Attribution-NonCommercial (CC BY-NC)</dt><dd>This license lets others remix, tweak, and build upon your work non-commercially, and although their new works must also acknowledge you and be non-commercial, they don&apos;t have to license their derivative works on the same terms.</dd>
 					<dt class="btn-secondary"><span class="badge badge-light">9 </span> Creative Commons Attribution-NonCommercial-ShareAlike (CC BY-NC-SA)</dt><dd>This license lets others remix, tweak, and build upon your work non-commercially, as long as they credit you and license their new creations under the identical terms.</dd>
 				</dl>
-				<h2 class="h4 mt-4">Mask Media:</h2>
+				<h2 class="h4 mt-4">Mask Media</h2>
 				<p>Follow all the instructions above and read any error messages that pop up in the status column during validation or at the top of the final loading step. Reminder: To mark media as hidden from Public Users put a 1 in the MASK_MEDIA column. Enter zero or Leave blank for Public media.</p>
 			
 				<h2 class="h4 mt-4">Upload a comma-delimited text file (csv)</h2>
