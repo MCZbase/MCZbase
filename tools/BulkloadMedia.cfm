@@ -75,35 +75,7 @@ limitations under the License.
 
 				<p>Step 1: Ensure that Media exists on the shared drive or external URL and that the records that you want to use for relationships exist (e.g., specimen, agent, collecting event).</p>
 				<p>Step 2: Upload a comma-delimited text file (csv). <span class="font-weight-lessbold">(Jump to <a href="##loader" class="btn-link font-weight-bold">Loader</a>.)</span></p>
-				<h2 class="h4 mt-4">Media Relationships</h2>
-				<p>The format for Media_Relationship is {media_relationship}={value}[;{media_relationship}={value}]</p>
-				<h3 class="small90 pl-3">Relationship Examples:</h3>
-				<ul class="pl-5">
-					<li>created by agent=Jane Doe</li>
-					<li>created by agent=Jane Doe;assigned to project=Vocal variation in Pipilo maculatus</li>
-					<li>created by agent=Jane Doe;assigned to project=Vocal variation in Pipilo maculatus;shows cataloged_item=MCZ:Bird:12345
-					</li>
-					<li>created by agent=Jane Doe;documents collecting_event=Baker-Foster Stickleback Collection Field Number|B93-3</li>
-					<li>created by agent=Jane Doe;documents collecting_event=1524028</li>
-				</ul>
-				<h3 class="small90 pl-3">Examples of acceptable relationship values are:</h6>
-				<ul class="pl-5">
-					<li>Agent Name (must resolve to one agent_id)</li>
-					<li>Project Title (exact string match)</li>
-					<li>Cataloged Item (DWC triplet)</li>
-					<li>Collecting Event (collecting_event_id OR Collecting Event Number Series Type|Collecting Event Number)</li>
-					<li>Accession Number</li>
-				</ul>
-				<h2 class="h4 mt-4">Media Labels</h2>
-				<p>The format for MEDIA_LABELS is {media_label}={value}[;{media_label}={value}]. See <a href="/vocabularies/ControlledVocabulary.cfm?table=CTMEDIA_LABEL">controlled vocabulary</a> for label names and values.</p>
-				<p>Notes: Made date must be in the form yyyy-mm-dd. More than one media label must be separated by a semicolon, and individual values must not themselves contain semicolons.  Check the data as presented after the file has been uploaded carefully to make sure that the individual media labels and values have been correctly parsed.</p>
-
-				<h3 class="small90 pl-3">Label Examples:</h3>
-				<ul class="pl-5">
-					<li>audio bit resolution=whatever</li>
-					<li>audio bit resolution=2;audio cut id=5</li>
-					<li>audio bit resolution=2;audio cut id=5;made date=1964-01-07</li>
-				</ul>
+				
 				<h2 class="h4 mt-4">Media License:</h2>
 				<p>The media license id should be entered using the numeric codes below. If omitted this will default to &quot;1 - MCZ Permissions &amp; Copyright&quot;</p>
 				<h3 class="small90 pl-3">Media License Codes:</h3>
