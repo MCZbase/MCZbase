@@ -91,7 +91,7 @@ limitations under the License.
 				<h2 class="h4 mt-4">Mask Media</h2>
 				<p>Follow all the instructions above and read any error messages that pop up in the status column during validation or at the top of the final loading step. Reminder: To mark media as hidden from Public Users put a 1 in the MASK_MEDIA column. Enter zero or Leave blank for Public media.</p>
 			
-				<h2 class="h3 mt-5">Upload a comma-delimited text file (csv)</h2>
+				<h2 class="h3 mt-4">Upload a comma-delimited text file (csv)</h2>
 				<p>Include column headings, spelled exactly as below. Use "catalog number" as the value of other_id_type to match on catalog number. Click view template and download to create a csv with the column headers in place.</p>
 				<span class="btn btn-xs btn-info" onclick="document.getElementById('template').style.display='block';">View template</span>
 				<div id="template" style="margin: 1rem 0;display:none;">
