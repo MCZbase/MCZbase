@@ -33,7 +33,7 @@ limitations under the License.
 <!--- end special case dump of problems --->
 <cfset fieldlist = "MEDIA_URI,MIME_TYPE,MEDIA_TYPE,PREVIEW_URI,RELATIONSHIP_CREATED_BY,LABEL_SUBJECT,LABEL_MADE_DATE,LABEL_HEIGHT,LABEL_WIDTH,LABEL_DESCRIPTION,RELATIONSHIP_TYPE_1,RELATIONSHIP_VALUE_1,MEDIA_LICENSE_ID,MASK_MEDIA">
 <cfset fieldTypes ="CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_DATE,CF_SQL_DECIMAL,CF_SQL_DECIMAL,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_DECIMAL,CF_SQL_DECIMAL">
-<cfset requiredfieldlist = "MEDIA_URI,MIME_TYPE,MEDIA_TYPE,RELATIONSHIP_CREATED_BY,LABEL_SUBJECT,LABEL_MADE_DATE,LABEL_HEIGHT,LABEL_WIDTH">
+<cfset requiredfieldlist = "MEDIA_URI,MIME_TYPE,MEDIA_TYPE,RELATIONSHIP_CREATED_BY,LABEL_SUBJECT,LABEL_MADE_DATE,LABEL_HEIGHT,LABEL_WIDTH,LABEL_DESCRIPTION">
 		
 <!--- special case handling to dump column headers as csv --->
 <cfif isDefined("action") AND action is "getCSVHeader">
@@ -747,8 +747,12 @@ limitations under the License.
 									<th>MEDIA_URI</th>
 									<th>MEDIA_TYPE</th>
 									<th>PREVIEW_URI</th>
-									<th>MEDIA_RELATIONSHIPS</th>
-									<th>MEDIA_LABELS</th>
+									<th>CREATED_BY</th>
+									<th>SUBJECT</th>
+									<th>MADE_DATE</th>
+									<th>HEIGHT</th>
+									<th>WIDTH</th>
+									<th>DESCRIPTION</th>
 									<th>MEDIA_LICENSE_ID</th>
 									<th>MASK_MEDIA</th>
 								</tr> 
@@ -761,8 +765,12 @@ limitations under the License.
 										<td>#getProblemData.MEDIA_URI# </td>
 										<td>#getProblemData.MEDIA_TYPE# </td>
 										<td>#getProblemData.PREVIEW_URI# </td>
-										<td>#getProblemData.MEDIA_RELATIONSHIPS#</td>
-										<td>#getProblemData.MEDIA_LABELS#</td>
+										<td>#getProblemData.RELATIONSHIP_CREATED_BY#</td>
+										<td>#getProblemData.LABEL_SUBJECT#</td>
+										<td>#getProblemData.LABEL_MADE_DATE#</td>
+										<td>#getProblemData.LABEL_HEIGHT#</td>
+										<td>#getProblemData.LABEL_WIDTH#</td>
+										<td>#getProblemData.LABEL_DESCRIPTION#</td>
 										<td>#getProblemData.MEDIA_LICENSE_ID#</td>
 										<td>#getProblemData.MASK_MEDIA#</td>
 									</tr>
