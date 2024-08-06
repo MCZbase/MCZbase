@@ -72,7 +72,6 @@ limitations under the License.
 						<li class="list-group-item font-weight-lessbold"><a href="/vocabularies/ControlledVocabulary.cfm?table=CTMEDIA_LICENSE">MEDIA_LICENSE (7 values)</a></li>
 					</ul>
 				</p>
-
 				<p>Step 1: Ensure that Media exists on the shared drive or external URL and that the records that you want to use for relationships exist (e.g., specimen, agent, collecting event).</p>
 				<p>Step 2: Upload a comma-delimited text file (csv). <span class="font-weight-lessbold">(Jump to <a href="##loader" class="btn-link font-weight-bold">Loader</a>.)</span></p>
 				
@@ -505,7 +504,16 @@ limitations under the License.
 					</cfif>
 				</cfif>
 			</cfloop>
-
+				<!--- qc checks independent of attributes, includes presence of values in required columns --->
+			<cfloop list="#requiredfieldlist#" index="requiredField">
+				<cfquery name="checkRequired" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					UPDATE cf_temp_media
+					SET 
+						status = concat(nvl2(status, status || '; ', ''),'#requiredField# is missing')
+					WHERE #requiredField# is null
+						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+				</cfquery>
+			</cfloop>
 			<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				select
 					distinct (cf_temp_media.key), cf_temp_media.*
