@@ -468,6 +468,19 @@ limitations under the License.
 					</cfif>
 				</cfloop>
 			</cfloop>
+			<cffunction name="processLabelTypeAndValue" access="private" returntype="void">
+				<cfargument name="labelType" type="string" required="true">
+				<cfargument name="labelValue" type="string" required="true">
+
+				<!--- Insert into Oracle database --->
+				<cfquery datasource="your_datasource">
+					INSERT INTO cf_temp_media (label_type, label_value) 
+					VALUES (
+						<cfqueryparam value="#arguments.labelType#" cfsqltype="cf_sql_varchar">, 
+						<cfqueryparam value="#arguments.labelValue#" cfsqltype="cf_sql_varchar">
+					)
+				</cfquery>
+			</cffunction>
 			<cfif len(getTempMedia.mask_media) GT 0>
 				<cfif getTempMedia.mask_media NEQ 1>
 					<cfquery name="warningMessageMask" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
