@@ -505,7 +505,7 @@ limitations under the License.
 						<th>WIDTH</th>
 						<th>DESCRIPTION</th>
 						<th>MEDIA_RELATIONSHIP</th>
-						<th>RELATIONSHIP_VALUE</th>
+						<th>RELATED_PRIMARY_KEY</th>
 						<th>LABEL_TYPE_1</th>
 						<th>LABEL_VALUE_1</th>
 						<th>LABEL_TYPE_2</th>
@@ -540,7 +540,7 @@ limitations under the License.
 							<td>#getTempMedia2.WIDTH#</td>
 							<td>#getTempMedia2.DESCRIPTION#</td>
 							<td>#getTempMedia2.MEDIA_RELATIONSHIP#</td>
-							<td>#getTempMedia2.RELATIONSHIP_VALUE#</td>
+							<td>#getTempMedia2.RELATED_PRIMARY_KEY#</td>
 							<td>#getTempMedia2.LABEL_TYPE_1#</td>
 							<td>#getTempMedia2.LABEL_VALUE_1#</td>
 							<td>#getTempMedia2.LABEL_TYPE_2#</td>
