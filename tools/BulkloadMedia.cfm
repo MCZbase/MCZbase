@@ -462,7 +462,6 @@ limitations under the License.
 					WHERE 
 						media_uri in (select media_uri, count(media_uri)
 							from cf_temp_media
-							where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 							group by media_uri
 							having count(media_uri) > 1)
 						username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> AND
