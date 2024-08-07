@@ -428,7 +428,6 @@ limitations under the License.
 					media_license_id not in (select media_license_id from ctmedia_license) AND
 					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
-
 			<cfif len(getTempMedia.mask_media) GT 0>
 				<cfif getTempMedia.mask_media NEQ 1>
 					<cfquery name="warningMessageMask" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -454,7 +453,7 @@ limitations under the License.
 						username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> AND
 						key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempMedia.key#"> 
 				</cfquery>
-				<cfquery name="warningMessageDup" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+<!---				<cfquery name="warningMessageDup" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE
 						cf_temp_media
 					SET
@@ -464,9 +463,8 @@ limitations under the License.
 							from cf_temp_media
 							group by media_uri
 							having count(media_uri) > 1)
-						username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> AND
-						key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempMedia.key#"> 
-				</cfquery>
+						username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+				</cfquery>--->
 				<cfif not isDefined("veryLargeFiles")><cfset veryLargeFiles=""></cfif>
 				<cfif veryLargeFiles NEQ "true">
 					<!--- both isimagefile and cfimage run into heap space limits with very large files --->
@@ -703,7 +701,7 @@ limitations under the License.
 					<h3>There was a problem adding media records. </h3>
 					<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						SELECT 
-							MEDIA_URI, MIME_TYPE, MEDIA_TYPE, PREVIEW_URI, STATUS, MEDIA_LICENSE_ID, MASK_MEDIA,USERNAME
+							STATUS, MEDIA_URI, MIME_TYPE, MEDIA_TYPE, PREVIEW_URI, RELATIONSHIP_CREATED_BY, LABEL_SUBJECT, LABEL_MADE_DATE, LABEL_HEIGHT, LABEL_WIDTH, LABEL_DESCRIPTION, MEDIA_LICENSE_ID, MASK_MEDIA,USERNAME
 						FROM 
 							cf_temp_media
 						WHERE
