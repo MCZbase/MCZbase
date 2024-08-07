@@ -635,7 +635,7 @@ limitations under the License.
 								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#savePK.MEDIA_ID#">,
 								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.media_relationship#">,
 								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.myAgentId#">,
-								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.related_primary_key#">
+								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.relationship_value#">
 							)
 						</cfquery>
 						<cfquery name="makeLabels" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="insResult">
@@ -694,7 +694,7 @@ limitations under the License.
 					<cftransaction action="ROLLBACK">
 					<h3>There was a problem adding media records. </h3>
 					<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						SELECT STATUS,MEDIA_URI,MIME_TYPE,MEDIA_TYPE,PREVIEW_URI,RELATIONSHIP_CREATED_BY,LABEL_SUBJECT,LABEL_MADE_DATE,LABEL_HEIGHT,LABEL_WIDTH,LABEL_DESCRIPTION,RELATIONSHIP_TYPE_1,RELATIONSHIP_VALUE_1,MEDIA_LICENSE_ID,MASK_MEDIA,LABEL_TYPE_1,LABEL_VALUE_1,LABEL_TYPE_2,LABEL_VALUE_2,LABEL_TYPE_3,LABEL_VALUE_3,LABEL_TYPE_4,LABEL_VALUE_4,LABEL_TYPE_5,LABEL_VALUE_5,LABEL_TYPE_6,LABEL_VALUE_6,LABEL_TYPE_7,LABEL_VALUE_7,LABEL_TYPE_8,LABEL_VALUE_8
+						SELECT STATUS,MEDIA_URI,MIME_TYPE,MEDIA_TYPE,PREVIEW_URI,RELATIONSHIP_CREATED_BY,SUBJECT,MADE_DATE,HEIGHT,WIDTH,DESCRIPTION,MEDIA_RELATIONSHIP,RELATIONSHIP_VALUE,MEDIA_LICENSE_ID,MASK_MEDIA,LABEL_TYPE_1,LABEL_VALUE_1,LABEL_TYPE_2,LABEL_VALUE_2,LABEL_TYPE_3,LABEL_VALUE_3,LABEL_TYPE_4,LABEL_VALUE_4,LABEL_TYPE_5,LABEL_VALUE_5,LABEL_TYPE_6,LABEL_VALUE_6,LABEL_TYPE_7,LABEL_VALUE_7,LABEL_TYPE_8,LABEL_VALUE_8
 						FROM 
 							cf_temp_media
 						WHERE
@@ -744,8 +744,8 @@ limitations under the License.
 									<th>DESCRIPTION</th>
 									<th>MEDIA_LICENSE_ID</th>
 									<th>MASK_MEDIA</th>
-									<th>RELATIONSHIP_TYPE_1</th>
-									<th>RELATIONSHIP_VALUE_1</th>
+									<th>MEDIA_RELATIONSHIP</th>
+									<th>RELATIONSHIP_VALUE</th>
 									<th>LABEL_TYPE_1</th>
 									<th>LABEL_VALUE_1</th>
 									<th>LABEL_TYPE_2</th>
@@ -772,7 +772,7 @@ limitations under the License.
 										<td>#getProblemData.MEDIA_URI# </td>
 										<td>#getProblemData.MEDIA_TYPE# </td>
 										<td>#getProblemData.PREVIEW_URI# </td>
-										<td>#getProblemData.RELATIONSHIP_CREATED_BY#</td>
+										<td>#getProblemData.CREATED_BY_AGENT_ID#</td>
 										<td>#getProblemData.LABEL_SUBJECT#</td>
 										<td>#getProblemData.LABEL_MADE_DATE#</td>
 										<td>#getProblemData.LABEL_HEIGHT#</td>
@@ -780,8 +780,8 @@ limitations under the License.
 										<td>#getProblemData.LABEL_DESCRIPTION#</td>
 										<td>#getProblemData.MEDIA_LICENSE_ID#</td>
 										<td>#getProblemData.MASK_MEDIA#</td>
-										<td>#getProblemData.RELATIONSHIP_TYPE_1#</td>
-										<td>#getProblemData.RELATIONSHIP_VALUE_1#</td>
+										<td>#getProblemData.MEDIA_RELATIONSHIP#</td>
+										<td>#getProblemData.RELATIONSHIP_VALUE#</td>
 										<td>#getProblemData.LABEL_TYPE_1#</td>
 										<td>#getProblemData.LABEL_VALUE_1#</td>
 										<td>#getProblemData.LABEL_TYPE_2#</td>
