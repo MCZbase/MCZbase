@@ -529,6 +529,7 @@ limitations under the License.
 			</cfquery>
 			<cfquery name="data1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				select media_uri, mime_type, media_type, preview_uri
+				from cf_temp_media
 				where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				group by media_uri, preview_uri, mime_type, media_type
 				having count(*) > 1
