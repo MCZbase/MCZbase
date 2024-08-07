@@ -539,7 +539,7 @@ limitations under the License.
 				FROM data 
 				WHERE status is not null
 			</cfquery>
-			<cfif data1.media_uri gt 1>
+			<cfif data1.media_uri gt 0>
 			 	<cfquery name="warningMessageDup" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE
 						cf_temp_media
