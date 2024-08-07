@@ -432,7 +432,7 @@ limitations under the License.
 				UPDATE
 					cf_temp_media
 				SET
-					RELATIONSHIP_CREATED_BY = (select agent_id from agent_name where agent_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia.RELATIONSHIP_CREATED_BY#"> )
+					CREATED_BY_AGENT_ID = (select agent_id from agent_name where agent_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia.RELATIONSHIP_CREATED_BY#"> )
 				WHERE
 					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
