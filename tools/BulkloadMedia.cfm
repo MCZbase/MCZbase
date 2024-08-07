@@ -428,7 +428,7 @@ limitations under the License.
 					media_license_id not in (select media_license_id from ctmedia_license) AND
 					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
-			<cfquery name="warningMessageLicense" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+			<cfquery name="warningMessageAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				UPDATE
 					cf_temp_media
 				SET
@@ -475,7 +475,6 @@ limitations under the License.
 					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<cfset i= 1>
-
 			<cfquery name="problemsInData" dbtype="query">
 				SELECT count(*) c 
 				FROM getTempMedia2 
@@ -625,6 +624,25 @@ limitations under the License.
 						<cfelse>
 							<cfset maskmedia = mask_media>
 						</cfif>
+						<cfquery name="makeMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="insResult">
+							INSERT into media (
+								media_id,
+								media_uri,
+								mime_type,
+								media_type,
+								preview_uri,
+								media_license_id,
+								mask_media_fg
+							) VALUES (
+								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#savePK.MEDIA_ID#">,
+								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.media_uri#">,
+								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.mime_type#">,
+								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.media_type#">,
+								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.preview_uri#">,
+								<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.media_license_id#">,
+								<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.mask_media#">
+							)
+						</cfquery>
 						<cfquery name="makeRelations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="insResult">
 							INSERT into media_relations (
 								media_id,
@@ -661,25 +679,7 @@ limitations under the License.
 								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.WEIGHT#">
 							)
 						</cfquery>
-						<cfquery name="makeMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="insResult">
-							INSERT into media (
-								media_id,
-								media_uri,
-								mime_type,
-								media_type,
-								preview_uri,
-								media_license_id,
-								mask_media_fg
-							) VALUES (
-								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#savePK.MEDIA_ID#">,
-								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.media_uri#">,
-								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.mime_type#">,
-								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.media_type#">,
-								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.preview_uri#">,
-								<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.media_license_id#">,
-								<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.mask_media#">
-							)
-						</cfquery>
+
 						<cfset media_updates = media_updates + insResult.recordcount>
 					</cfloop>
 					<p>Number of Media Records added: #media_updates#</p>
