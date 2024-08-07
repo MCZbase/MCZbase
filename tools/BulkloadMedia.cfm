@@ -617,6 +617,32 @@ limitations under the License.
 							<cfset maskmedia = mask_media>
 						</cfif>
 						<cfquery name="makeMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="insResult">
+							INSERT into media_relations (
+								media_id,
+								media_relationship,
+								created_by_agent_id,
+								related_primary_key
+							) VALUES (
+								<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">,
+								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.media_relationship#">,
+								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.created_by_agent_id#">,
+								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.related_primary_key#">
+							)
+						</cfquery>
+						<cfquery name="makeRelations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="insResult">
+							INSERT into media_labels (
+								media_id,
+								media_label,
+								label_value,
+								assigned_by_agent_id
+							) VALUES (
+								<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">,
+								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.media_label#">,
+								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.label_value#">,
+								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.assigned_by_agent_id#">
+							)
+						</cfquery>
+						<cfquery name="makeLabels" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="insResult">
 							INSERT into media (
 								media_id,
 								media_uri,
@@ -631,8 +657,8 @@ limitations under the License.
 								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.mime_type#">,
 								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.media_type#">,
 								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.preview_uri#">,
-								<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#medialicenseid#">,
-								<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#MASKMEDIA#">
+								<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.media_license_id#">,
+								<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.mask_media#">
 							)
 						</cfquery>
 						<cfquery name="savePK" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="pkResult">
@@ -756,6 +782,24 @@ limitations under the License.
 										<td>#getProblemData.LABEL_DESCRIPTION#</td>
 										<td>#getProblemData.MEDIA_LICENSE_ID#</td>
 										<td>#getProblemData.MASK_MEDIA#</td>
+										<td>#getProblemData.RELATIONSHIP_TYPE_1#</td>
+										<td>#getProblemData.RELATIONSHIP_VALUE_1#</td>
+										<td>#getProblemData.LABEL_TYPE_1#</td>
+										<td>#getProblemData.LABEL_VALUE_1#</td>
+										<td>#getProblemData.LABEL_TYPE_2#</td>
+										<td>#getProblemData.LABEL_VALUE_2#</td>
+										<td>#getProblemData.LABEL_TYPE_3#</td>
+										<td>#getProblemData.LABEL_VALUE_3#</td>
+										<td>#getProblemData.LABEL_TYPE_4#</td>
+										<td>#getProblemData.LABEL_VALUE_4#</td>
+										<td>#getProblemData.LABEL_TYPE_5#</td>
+										<td>#getProblemData.LABEL_VALUE_5#</td>
+										<td>#getProblemData.LABEL_TYPE_6#</td>
+										<td>#getProblemData.LABEL_VALUE_6#</td>
+										<td>#getProblemData.LABEL_TYPE_7#</td>
+										<td>#getProblemData.LABEL_VALUE_7#</td>
+										<td>#getProblemData.LABEL_TYPE_8#</td>
+										<td>#getProblemData.LABEL_VALUE_8#</td>
 									</tr>
 									<cfset i= i+1>
 								</cfloop>
@@ -769,12 +813,6 @@ limitations under the License.
 			<!--- cleanup any incomplete work by the same user --->
 			<cfquery name="clearTempTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				DELETE from cf_temp_media WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-			</cfquery>
-			<cfquery name="clearTempTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				DELETE from cf_temp_media_relations WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-			</cfquery>
-			<cfquery name="clearTempTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				DELETE from cf_temp_media_labels WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 		</cfoutput>
 	</cfif>
