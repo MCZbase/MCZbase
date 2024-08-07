@@ -453,34 +453,7 @@ limitations under the License.
 					media_license_id not in (select media_license_id from ctmedia_license) AND
 					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
-			<cfloop array="#getTempData#" index="record">
-				<cfloop from="1" to="8" index="columnNumber">
-					<cfset labelTypeKey = "label_type_" & columnNumber>
-					<cfset labelValueKey = "label_value_" & columnNumber>
 
-					<!--- Check if both keys exist in the record --->
-					<cfif structKeyExists(record, labelTypeKey) AND structKeyExists(record, labelValueKey)>
-						<cfset labelType = record[labelTypeKey]>
-						<cfset labelValue = record[labelValueKey]>
-
-						<!--- Process each column label_type and label_value pair --->
-						<cfset processLabelTypeAndValue(labelType, labelValue)>
-					</cfif>
-				</cfloop>
-			</cfloop>
-			<cffunction name="processLabelTypeAndValue" access="private" returntype="void">
-				<cfargument name="labelType" type="string" required="true">
-				<cfargument name="labelValue" type="string" required="true">
-
-				<!--- Insert into Oracle database --->
-				<cfquery datasource="your_datasource">
-					INSERT INTO cf_temp_media (label_type, label_value) 
-					VALUES (
-						<cfqueryparam value="#arguments.labelType#" cfsqltype="cf_sql_varchar">, 
-						<cfqueryparam value="#arguments.labelValue#" cfsqltype="cf_sql_varchar">
-					)
-				</cfquery>
-			</cffunction>
 			<cfif len(getTempMedia.mask_media) GT 0>
 				<cfif getTempMedia.mask_media NEQ 1>
 					<cfquery name="warningMessageMask" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
