@@ -428,6 +428,24 @@ limitations under the License.
 					media_license_id not in (select media_license_id from ctmedia_license) AND
 					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
+			<cfquery name="warningMessageLicense" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				UPDATE
+					cf_temp_media
+				SET
+					(MEDIA_RELATIONSHIP = 'created by',RELATED_PRIMARY_KEY = (select agent_id from agent_name where agent_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia.RELATIONSHIP_CREATED_BY#"> ))
+				WHERE
+					media_license_id not in (select media_license_id from ctmedia_license) AND
+					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+			</cfquery>
+			<cfquery name="warningMessageLicense" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				UPDATE
+					cf_temp_media
+				SET
+					status = concat(nvl2(status, status || '; ', ''),'MEDIA_LICENSE_ID #getTempMedia.MEDIA_LICENSE_ID# is invalid')
+				WHERE
+					media_license_id not in (select media_license_id from ctmedia_license) AND
+					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+			</cfquery>
 			<cfif len(getTempMedia.mask_media) GT 0>
 				<cfif getTempMedia.mask_media NEQ 1>
 					<cfquery name="warningMessageMask" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -453,18 +471,6 @@ limitations under the License.
 						username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> AND
 						key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempMedia.key#"> 
 				</cfquery>
-<!---				<cfquery name="warningMessageDup" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					UPDATE
-						cf_temp_media
-					SET
-						status = concat(nvl2(status, status || '; ', ''),'Duplicate row')
-					WHERE 
-						media_uri in (select media_uri, count(media_uri)
-							from cf_temp_media
-							group by media_uri
-							having count(media_uri) > 1)
-						username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-				</cfquery>--->
 				<cfif not isDefined("veryLargeFiles")><cfset veryLargeFiles=""></cfif>
 				<cfif veryLargeFiles NEQ "true">
 					<!--- both isimagefile and cfimage run into heap space limits with very large files --->
