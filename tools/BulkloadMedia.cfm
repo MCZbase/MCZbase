@@ -527,11 +527,27 @@ limitations under the License.
 				AND 
 					cf_temp_media.username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
+			<cfquery name="data1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				select media_uri, mime_type, media_type, preview_uri
+				where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+				group by media_uri, preview_uri
+				having count(*) > 1
+			</cfquery>
 			<cfquery name="problemsInData" dbtype="query">
 				SELECT count(*) c 
 				FROM data 
 				WHERE status is not null
 			</cfquery>
+			<cfif data1.media_uri gt 1>
+			 	<cfquery name="warningMessageDup" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					UPDATE
+						cf_temp_media
+					SET
+						status = concat(nvl2(status, status || '; ', ''),'Duplicate row')
+					WHERE 
+						username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+				</cfquery>
+			</cfif>
 			<h3 class="mt-3">
 				<cfif problemsInData.c gt 0>
 					There is a problem with #problemsInData.c# of #data.recordcount# row(s). See the STATUS column (<a href="/tools/BulkloadMedia.cfm?action=dumpProblems">download</a>). Fix the problems in the data and <a href="/tools/BulkloadMedia.cfm" class="text-danger">start again</a>.
@@ -644,18 +660,10 @@ limitations under the License.
 							WHERE 
 								ROWIDTOCHAR(rowid) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#insResult.GENERATEDKEY#">
 						</cfquery>
-						<cfquery name="media_relations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-							SELECT 
-								* 
-							FROM
-								cf_temp_media_relations
-							WHERE
-								key=#key#
-						</cfquery>
-					<!---	<cfloop query="media_relations">
+
+						<cfloop query="media_relations">
 							<cfquery name="makeRel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-								insert into
-									media_relations (
+								insert into media_relations (
 									media_id,
 									created_by_agent_id,
 									media_relationship,
@@ -667,15 +675,7 @@ limitations under the License.
 									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#RELATED_PRIMARY_KEY#">
 								)
 							</cfquery>
-						</cfloop>--->
-<!---						<cfquery name="medialabels" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-							SELECT * 
-							FROM
-								cf_temp_media_labels
-							WHERE
-								key=#key# AND
-								username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-						</cfquery>
+						</cfloop>
 						<cfloop query="medialabels">
 							<cfquery name="makeRelation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 								insert into 
@@ -689,7 +689,7 @@ limitations under the License.
 									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#LABEL_VALUE#">
 								)
 							</cfquery>
-						</cfloop>--->
+						</cfloop>
 						<cfset media_updates = media_updates + insResult.recordcount>
 					</cfloop>
 					<p>Number of Media Records added: #media_updates#</p>
