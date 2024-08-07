@@ -436,7 +436,14 @@ limitations under the License.
 				WHERE
 					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
-
+			<cfquery name="warningMessageRelatedID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				UPDATE
+					cf_temp_media
+				SET
+					RELATED_PRIMARY_KEY = (select agent_id from agent_name where agent_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia.RELATIONSHIP_CREATED_BY#"> )
+				WHERE
+					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+			</cfquery>
 			<cfquery name="warningMessageLicense" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				UPDATE
 					cf_temp_media
@@ -446,6 +453,21 @@ limitations under the License.
 					media_license_id not in (select media_license_id from ctmedia_license) AND
 					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
+			<cfloop array="#getTempData#" index="record">
+				<cfloop from="1" to="8" index="columnNumber">
+					<cfset labelTypeKey = "label_type_" & columnNumber>
+					<cfset labelValueKey = "label_value_" & columnNumber>
+
+					<!--- Check if both keys exist in the record --->
+					<cfif structKeyExists(record, labelTypeKey) AND structKeyExists(record, labelValueKey)>
+						<cfset labelType = record[labelTypeKey]>
+						<cfset labelValue = record[labelValueKey]>
+
+						<!--- Process each column label_type and label_value pair --->
+						<cfset processLabelTypeAndValue(labelType, labelValue)>
+					</cfif>
+				</cfloop>
+			</cfloop>
 			<cfif len(getTempMedia.mask_media) GT 0>
 				<cfif getTempMedia.mask_media NEQ 1>
 					<cfquery name="warningMessageMask" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
