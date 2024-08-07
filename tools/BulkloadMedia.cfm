@@ -433,9 +433,10 @@ limitations under the License.
 				UPDATE
 					cf_temp_media
 				SET
-					RELATED_PRIMARY_KEY = (select agent_id from agent_name where agent_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia.CREATED_BY_AGENT_ID#"> )
+					RELATED_PRIMARY_KEY = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia.RELATED_PRIMARY_KEY#"> 
 				WHERE
-					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> AND 
+					media_relationship = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia.media_relationship#">
 			</cfquery>
 				
 			<cfquery name="warningMessageLicense" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
