@@ -454,7 +454,24 @@ limitations under the License.
 						username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> AND
 						key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempMedia.key#"> 
 				</cfquery>
-		
+				<cfquery name="data1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					select media_uri, count(media_uri)
+					from cf_temp_media
+					where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+					group by media_uri
+					having count(media_uri) > 1
+				</cfquery>
+				<cfif data1.media_uri gt 0>
+					<cfquery name="warningMessageDup" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						UPDATE
+							cf_temp_media
+						SET
+							status = concat(nvl2(status, status || '; ', ''),'Duplicate row')
+						WHERE 
+							username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> AND
+							key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempMedia.key#"> 
+					</cfquery>
+				</cfif>
 				<cfif not isDefined("veryLargeFiles")><cfset veryLargeFiles=""></cfif>
 				<cfif veryLargeFiles NEQ "true">
 					<!--- both isimagefile and cfimage run into heap space limits with very large files --->
@@ -527,28 +544,13 @@ limitations under the License.
 				AND 
 					cf_temp_media.username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
-			<cfquery name="data1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				select media_uri, count(media_uri)
-				from cf_temp_media
-				where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-				group by media_uri
-				having count(media_uri) > 1
-			</cfquery>
+			
 			<cfquery name="problemsInData" dbtype="query">
 				SELECT count(*) c 
 				FROM data 
 				WHERE status is not null
 			</cfquery>
-			<cfif data1.media_uri gt 0>
-			 	<cfquery name="warningMessageDup" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					UPDATE
-						cf_temp_media
-					SET
-						status = concat(nvl2(status, status || '; ', ''),'Duplicate row')
-					WHERE 
-						username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-				</cfquery>
-			</cfif>
+
 			<h3 class="mt-3">
 				<cfif problemsInData.c gt 0>
 					There is a problem with #problemsInData.c# of #data.recordcount# row(s). See the STATUS column (<a href="/tools/BulkloadMedia.cfm?action=dumpProblems">download</a>). Fix the problems in the data and <a href="/tools/BulkloadMedia.cfm" class="text-danger">start again</a>.
