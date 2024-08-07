@@ -475,6 +475,31 @@ limitations under the License.
 							<th>MEDIA_TYPE</th>
 							<th>PREVIEW_URI</th>
 							<th>MEDIA_LICENSE_ID</th>
+							<th>MASK_MEDIA</th>
+							<th>RELATIONSHIP_CREATED_BY</th>
+							<th>LABEL_SUBJECT</th>
+							<th>LABEL_MADE_DATE</th>
+							<th>LABEL_HEIGHT</th>
+							<th>LABEL_WIDTH</th>
+							<th>LABEL_DESCRIPTION</th>
+							<th>RELATIONSHIP_TYPE_1</th>
+							<th>RELATIONSHIP_VALUE_1</th>
+							<th>LABEL_TYPE_1</th>
+							<th>LABEL_VALUE_1</th>
+							<th>LABEL_TYPE_2</th>
+							<th>LABEL_VALUE_2</th>
+							<th>LABEL_TYPE_3</th>
+							<th>LABEL_VALUE_3</th>
+							<th>LABEL_TYPE_4</th>
+							<th>LABEL_VALUE_4</th>	
+							<th>LABEL_TYPE_5</th>
+							<th>LABEL_VALUE_5</th>
+							<th>LABEL_TYPE_6</th>
+							<th>LABEL_VALUE_6</th>
+							<th>LABEL_TYPE_7</th>
+							<th>LABEL_VALUE_7</th>
+							<th>LABEL_TYPE_8</th>
+							<th>LABEL_VALUE_8</th>
 						</tr>
 					<tbody>
 						<cfloop query="getTempMedia2">
