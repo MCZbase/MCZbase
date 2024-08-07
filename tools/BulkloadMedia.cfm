@@ -652,7 +652,7 @@ limitations under the License.
 							) VALUES (
 								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#savePK.MEDIA_ID#">,
 								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.media_relationship#">,
-								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.myAgentId#">,
+								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.related_primary_key#">,
 								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.RELATED_PRIMARY_KEY#">
 							)
 						</cfquery>
