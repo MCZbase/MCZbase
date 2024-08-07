@@ -457,7 +457,65 @@ limitations under the License.
 					</cfquery>
 				</cfif>
 			</cfif>
-				
+			<cfquery name="getTempMedia2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				SELECT *
+				FROM 
+					cf_temp_media
+				WHERE 
+					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+			</cfquery>
+			<cfset i= 1>
+			<cfloop query="getTempMedia2">
+				<table class='px-0 mx-0 sortable table small table-responsive w-100'>
+					<thead class="thead-light">
+						<tr>
+							<th>BULKLOAD&nbsp;STATUS</th>
+							<th>MEDIA_URI</th>
+							<th>MIME_TYPE</th>
+							<th>MEDIA_TYPE</th>
+							<th>PREVIEW_URI</th>
+							<th>MEDIA_LICENSE_ID</th>
+						</tr>
+					<tbody>
+						<cfloop query="getTempMedia2">
+							<tr>
+								<td><cfif len(getTempMedia2.status) eq 0>Cleared to load<cfelse><strong>#getTempMedia2.status#</strong></cfif></td>
+								<td>#getTempMedia2.MEDIA_URI#</td>
+								<td>#getTempMedia2.MIME_TYPE#</td>
+								<td>#getTempMedia2.MEDIA_TYPE#</td>
+								<td>#getTempMedia2.PREVIEW_URI#</td>
+								<td>#getTempMedia2.MEDIA_LICENSE_ID#</td>
+								<td>#getTempMedia2.MASK_MEDIA#</td>
+								<td>#getTempMedia2.RELATIONSHIP_CREATED_BY#</td>
+								<td>#getTempMedia2.LABEL_SUBJECT#</td>
+								<td>#getTempMedia2.LABEL_MADE_DATE#</td>
+								<td>#getTempMedia2.LABEL_HEIGHT#</td>
+								<td>#getTempMedia2.LABEL_WIDTH#</td>
+								<td>#getTempMedia2.LABEL_DESCRIPTION#</td>
+								<td>#getTempMedia2.RELATIONSHIP_TYPE_1#</td>
+								<td>#getTempMedia2.RELATIONSHIP_VALUE_1#</td>
+								<td>#getTempMedia2.LABEL_TYPE_1#</td>
+								<td>#getTempMedia2.LABEL_VALUE_1#</td>
+								<td>#getTempMedia2.LABEL_TYPE_2#</td>
+								<td>#getTempMedia2.LABEL_VALUE_2#</td>
+								<td>#getTempMedia2.LABEL_TYPE_3#</td>
+								<td>#getTempMedia2.LABEL_VALUE_3#</td>
+								<td>#getTempMedia2.LABEL_TYPE_4#</td>
+								<td>#getTempMedia2.LABEL_VALUE_4#</td>
+								<td>#getTempMedia2.LABEL_TYPE_5#</td>
+								<td>#getTempMedia2.LABEL_VALUE_5#</td>
+								<td>#getTempMedia2.LABEL_TYPE_6#</td>
+								<td>#getTempMedia2.LABEL_VALUE_6#</td>
+								<td>#getTempMedia2.LABEL_TYPE_7#</td>
+								<td>#getTempMedia2.LABEL_VALUE_7#</td>
+								<td>#getTempMedia2.LABEL_TYPE_8#</td>
+								<td>#getTempMedia2.LABEL_VALUE_8#</td>	
+							</tr>
+						</cfloop>
+					</tbody>
+				</table>
+			</cfloop>
+			
 			<cfset i= 1>
 			<cfloop query="getTempMedia">
 				<cfquery name="warningMessageDup" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -472,7 +530,6 @@ limitations under the License.
 				</cfquery>
 				<cfif not isDefined("veryLargeFiles")><cfset veryLargeFiles=""></cfif>
 				<cfif veryLargeFiles NEQ "true">
-					<!--- both isimagefile and cfimage run into heap space limits with very large files --->
 					<cfif isimagefile("#getTempMedia.media_uri#")>
 						<cfimage action="info" source="#getTempMedia.media_uri#" structname="imgInfo"/>
 						<cfquery name="makeHeightLabel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -519,7 +576,6 @@ limitations under the License.
 					</cfif>
 				</cfif>
 			</cfloop>
-				<!--- qc checks independent of attributes, includes presence of values in required columns --->
 			<cfloop list="#requiredfieldlist#" index="requiredField">
 				<cfquery name="checkRequired" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE cf_temp_media
