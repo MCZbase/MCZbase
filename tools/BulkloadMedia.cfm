@@ -454,22 +454,20 @@ limitations under the License.
 						username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> AND
 						key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempMedia.key#"> 
 				</cfquery>
-				<cfif data1.media_uri gt 0>
-					<cfquery name="warningMessageDup" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						UPDATE
-							cf_temp_media
-						SET
-							status = concat(nvl2(status, status || '; ', ''),'Duplicate row')
-						WHERE 
-							media_uri in (select media_uri, count(media_uri)
-								from cf_temp_media
-								where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-								group by media_uri
-								having count(media_uri) > 1)
-							username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> AND
-							key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempMedia.key#"> 
-					</cfquery>
-				</cfif>
+				<cfquery name="warningMessageDup" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					UPDATE
+						cf_temp_media
+					SET
+						status = concat(nvl2(status, status || '; ', ''),'Duplicate row')
+					WHERE 
+						media_uri in (select media_uri, count(media_uri)
+							from cf_temp_media
+							where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+							group by media_uri
+							having count(media_uri) > 1)
+						username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> AND
+						key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempMedia.key#"> 
+				</cfquery>
 				<cfif not isDefined("veryLargeFiles")><cfset veryLargeFiles=""></cfif>
 				<cfif veryLargeFiles NEQ "true">
 					<!--- both isimagefile and cfimage run into heap space limits with very large files --->
