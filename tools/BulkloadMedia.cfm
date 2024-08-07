@@ -532,7 +532,7 @@ limitations under the License.
 							<td>#getTempMedia2.PREVIEW_URI#</td>
 							<td>#getTempMedia2.MEDIA_LICENSE_ID#</td>
 							<td>#getTempMedia2.MASK_MEDIA#</td>
-							<td>#getTempMedia2.RELATIONSHIP_CREATED_BY#</td>
+							<td>#getTempMedia2.CREATED_BY_AGENT_ID#</td>
 							<td>#getTempMedia2.SUBJECT#</td>
 							<td>#getTempMedia2.MADE_DATE#</td>
 							<td>#getTempMedia2.HEIGHT#</td>
