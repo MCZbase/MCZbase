@@ -400,7 +400,6 @@ limitations under the License.
 			<cfquery name="ctmedia_label" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" cachedwithin="#createtimespan(0,0,60,0)#">
 				SELECT distinct(MEDIA_LABEL) MEDIA_LABEL FROM ctmedia_label order by MEDIA_LABEL
 			</cfquery>
-	
 			<cfquery name="warningMessageMediaType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				UPDATE
 					cf_temp_media
@@ -438,18 +437,11 @@ limitations under the License.
 				AND cols.table_name = UPPER('#table_name#')
 				ORDER BY cols.table_name, cols.position
 			</cfquery>
-			<cfset pk = "select '#tables.column_name#' from '#table_name#' where tables.column_name = '#getTempMedia.media_relationship#'">
+			<cfset pk = select '#tables.column_name#' from '#table_name#' where tables.column_name = '#getTempMedia.media_relationship#'>
 			
 
 			<cfquery name="chkPK" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				UPDATE cf_temp_media 
-				SET status = concat(nvl2(status, status || '; ', ''),'Invalid '||pk||' for "'||table_name||'"')
-				WHERE 
-					related_primary_key not in 
-						(select '#pk#' from '#table_name#' where '#pk#' = '#getTempMedia.related_primary_key#')  
-					AND media_relationship is not null
-					AND related_primary_key is not null
-					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+					select '#pk#' from '#table_name#' where '#pk#' = '#getTempMedia.related_primary_key#'  
 			</cfquery>
 			<cfquery name="warningMessageLicense" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				UPDATE
