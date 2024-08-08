@@ -428,7 +428,7 @@ limitations under the License.
 					media_license_id not in (select media_license_id from ctmedia_license) AND
 					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
-			<cfset table_name = listlast(media_relationship," ")>
+			<cfset table_name = listlast('#getTempMedia.media_relationship#'," ")>
 			<cfquery name="tables" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT cols.table_name, cols.column_name, cols.position, cons.status, cons.owner
 				FROM all_constraints cons, all_cons_columns cols
