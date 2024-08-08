@@ -474,7 +474,7 @@ limitations under the License.
 						cf_temp_media
 					WHERE 
 						cf_temp_media.label_type_#i# is not null
-						and label_type not in (select media_label  from CTMEDIA_LABEL where media_label = '#cf_temp_media.label_type#')
+						and label_type not in (select media_label  from CTMEDIA_LABEL)
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
 				<cfloop query="getMediaL">
