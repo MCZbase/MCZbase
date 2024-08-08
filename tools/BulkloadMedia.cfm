@@ -447,15 +447,14 @@ limitations under the License.
 						<cfquery name="chkCOID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							select #tables.column_name# from #theTable# where #tables.column_name# = (select #tables.column_name# from #theTable# where cat_num = '#CI#' and collection_cde = '#CCDE#')  
 						</cfquery>
+					<cfelse>
+						<cfquery name="chkCOID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+							select #tables.column_name# from #theTable# where #tables.column_name# = '#getTempMedia.related_primary_key#'  
+						</cfquery>
 					</cfif>
 				</cfloop>
 			</cfif>
-			<cfquery name="chkCOID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					select #tables.column_name# from #theTable# where #tables.column_name# = '#getTempMedia.related_primary_key#'  
-			</cfquery>
-			
-				#CCDE#
-				#CI#
+		
 			<cfquery name="chkPK" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					select '#tables.column_name#' from '#table_name#' where '#tables.column_name#' = '#getTempMedia.related_primary_key#'  
 			</cfquery>
