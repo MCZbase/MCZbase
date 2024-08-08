@@ -437,12 +437,18 @@ limitations under the License.
 				AND cols.table_name = UPPER('#theTable#')
 				ORDER BY cols.table_name, cols.position
 			</cfquery>
+			<cfset MCZ = listgetat(l,1,":")>
+			<cfset CCDE = listgetat(l,2,":")>
+			<cfset CI = listgetat(l,3,":")>
+			<cfif #theTable# = 'cataloged_item'>
+				<cfquery name="chkCOID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					select #tables.column_name# from #theTable# where #tables.column_name# = (select #tables.column_name# from #theTable# where cat_num = '#CI#' and collection_cde = '#CCDE#')  
+				</cfquery>
+			</cfif>
 			<cfquery name="chkCOID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					select #tables.column_name# from #theTable# where #tables.column_name# = '#getTempMedia.related_primary_key#'  
 			</cfquery>
-			<cfset MCZ=listgetat(l,1,":")>
-			<cfset CCDE = listgetat(l,2,":")>
-			<cfset CI=listgetat(l,3,":")>
+			
 				#CCDE#
 				#CI#
 			<cfquery name="chkPK" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
