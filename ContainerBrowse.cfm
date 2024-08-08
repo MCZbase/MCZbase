@@ -48,6 +48,7 @@
    </ul>
    </div>
 <cfelseif action is "fixtures">
+   <h2>Fixtures (including fixtures, freezers, cryovats, and tanks) starting with #encodeForHtml(labelStart)#</h2>
    <cfif not isdefined("labelStart")><cfset labelStart="IZ"></cfif>
    <cfquery name="fixtures" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
       --  Get fixture name and parentage for a department
@@ -68,7 +69,7 @@
    <!--- Default action --->
    <ul style="padding: 2em 4em; list-style: none; line-height: 2em;">
      <li><a href = "ContainerBrowse.cfm?action=qc">Quality Control Containers</a></li>
-     <li>List fixtures starting with:</li>
+     <li>List fixtures (including fixtures, freezers, cryovats, and tanks) starting with:</li>
      <ul style="padding-left: 2em; line-height: 1.5em;">
      <cfloop query="fixturePrefixes">
         <li><a href = "ContainerBrowse.cfm?action=fixtures&labelStart=#fixturePrefixes.prefix#">#fixturePrefixes.prefix# (#fixturePrefixes.ct#)</a></li>
