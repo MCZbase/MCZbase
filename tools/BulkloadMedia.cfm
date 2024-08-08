@@ -453,10 +453,6 @@ limitations under the License.
 					</cfif>
 				</cfloop>
 			</cfif>
-		
-			<cfquery name="chkPK" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					select '#tables.column_name#' from '#table_name#' where '#tables.column_name#' = '#getTempMedia.related_primary_key#'  
-			</cfquery>
 			<cfquery name="warningMessageLicense" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				UPDATE
 					cf_temp_media
