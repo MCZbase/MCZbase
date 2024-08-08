@@ -430,7 +430,7 @@ limitations under the License.
 			</cfquery>
 			<cfset table_name = listlast(media_relationship," ")>
 			<cfset pk = listlast(table_name," ")>
-			<cfquery name="tables_" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+			<cfquery name="tables" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT cols.table_name, cols.column_name, cols.position, cons.status, cons.owner
 				FROM all_constraints cons, all_cons_columns cols
 				WHERE cons.constraint_type = 'P'
@@ -439,7 +439,7 @@ limitations under the License.
 				AND cols.table_name = UPPER('#table_name#')
 				ORDER BY cols.table_name, cols.position
 			</cfquery>
-			<cfset pk = (select '#cols.column_name#' from '#table_name#' where cols.column_name = '<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia.media_relationship#">')>
+			<cfset pk = (select '#tables.column_name#' from '#table_name#' where tables.column_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia.media_relationship#">)>
 			
 			<cfquery name="warningMessageRelatedID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				UPDATE
