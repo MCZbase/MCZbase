@@ -434,7 +434,7 @@ limitations under the License.
 				WHERE cons.constraint_type = 'P'
 				AND cons.constraint_name = cols.constraint_name
 				AND cons.owner = cols.owner
-				AND cols.table_name = UPPER('#table_name#')
+				AND cols.table_name = UPPER('#theTable#')
 				ORDER BY cols.table_name, cols.position
 			</cfquery>
 			<cfquery name="chkCOID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
