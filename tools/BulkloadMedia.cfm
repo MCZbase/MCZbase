@@ -464,16 +464,6 @@ limitations under the License.
 			</cfquery>
 			<cfset i = 1>
 			<cfloop index="i" from="1" to="8">
-				<cfquery name="warningMessageRelatedID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					UPDATE
-						cf_temp_media
-					SET
-						status = concat(nvl2(status, status || '; ', ''),'Invalid media label type "'||label_type_#i#||'"')
-					WHERE
-						'#table_name#' <> 
-						username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> AND 
-						media_relationship = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia.media_relationship#">
-				</cfquery>
 				<!--- does duplicate exist an existing label --->
 				<cfquery name="getMediaUpdates" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT 
@@ -484,6 +474,7 @@ limitations under the License.
 						cf_temp_media
 					WHERE 
 						cf_temp_media.label_type_#i# is not null
+						and label_type not in CTLABEL_TYPE
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
 				<cfloop query="getMediaUpdates">
