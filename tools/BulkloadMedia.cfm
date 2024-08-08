@@ -722,7 +722,7 @@ limitations under the License.
 							<cfset maskmedia = mask_media>
 						</cfif>
 					
-						<cfquery name="makeMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="insResult">
+						<cfquery name="makeMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							INSERT into media (
 								media_id,
 								media_uri,
