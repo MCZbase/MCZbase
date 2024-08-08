@@ -438,7 +438,7 @@ limitations under the License.
 				AND cols.table_name = UPPER('#table_name#')
 				ORDER BY cols.table_name, cols.position
 			</cfquery>
-			<cfset pk = (select '#tables.column_name#' from '#table_name#' where tables.column_name = "#getTempMedia.media_relationship#")>
+			<cfset pk = "select '#tables.column_name#' from '#table_name#' where tables.column_name = '#getTempMedia.media_relationship#'">
 			
 			<cfquery name="warningMessageRelatedID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				UPDATE
