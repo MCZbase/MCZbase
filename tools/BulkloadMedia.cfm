@@ -465,7 +465,7 @@ limitations under the License.
 			<cfset i = 1>
 			<cfloop index="i" from="1" to="8">
 				<!--- does duplicate exist an existing label --->
-				<cfquery name="getMediaUpdates" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				<cfquery name="getMediaL" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT 
 						cf_temp_media.key,
 						cf_temp_media.label_type_#i# as label_type,
@@ -477,7 +477,7 @@ limitations under the License.
 						and MEDIA_LABEL not in CTMEDIA_LABEL
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
-				<cfloop query="getMediaUpdates">
+				<cfloop query="getMediaL">
 					<cfquery name="checkExists" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						SELECT count(*) ct 
 						FROM media_labels 
@@ -497,12 +497,12 @@ limitations under the License.
 					</cfif>
 				</cfloop>
 				<!--- are supplied attributes and values compliant with controlled vocabularies and expectations --->
-				<cfquery name="chkMediaLabel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+<!---				<cfquery name="chkMediaLabel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE cf_temp_media 
 					SET status = concat(nvl2(status, status || '; ', ''),'Invalid media label type "'||label_type_#i#||'"')
 					WHERE 
-						label_type_#i# not in (select MEDIA_LABEL from CTMEDIA_LABEL) 
-						AND LABEL_TYPE_#i# is not null
+						label_type not in (select MEDIA_LABEL from CTMEDIA_LABEL) 
+						AND LABEL_TYPE is not null
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>	
 				<cfquery name="chkMediaLabel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -540,7 +540,7 @@ limitations under the License.
 						AND PART_ATT_NAME_#i# in
 							(select attribute_type from ctspec_part_att_att where unit_code_table is not null)
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-				</cfquery>
+				</cfquery>--->
 			</cfloop>
 			<cfif len(getTempMedia.mask_media) GT 0>
 				<cfif getTempMedia.mask_media NEQ 1>
