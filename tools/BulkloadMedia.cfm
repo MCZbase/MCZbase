@@ -438,7 +438,7 @@ limitations under the License.
 				ORDER BY cols.table_name, cols.position
 			</cfquery>
 
-			<cfif len(MEDIA_RELATIONSHIP) gt 0>
+			<cfif len(getTempMedia.MEDIA_RELATIONSHIP) gt 0>
 				<cfloop list="#media_labels#" index="l" delimiters=":">
 					<cfset IA = listgetat(l,1,":")>
 					<cfset CCDE = listgetat(l,2,":")>
