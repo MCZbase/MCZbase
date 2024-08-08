@@ -428,17 +428,40 @@ limitations under the License.
 					media_license_id not in (select media_license_id from ctmedia_license) AND
 					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
-
+			<cfset table_name = listlast(media_relationship," ")>
+			<cfset pk = listlast(table_name," ")>
+			<cfquery name="tables_" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				SELECT cols.table_name, cols.column_name, cols.position, cons.status, cons.owner
+				FROM all_constraints cons, all_cons_columns cols
+				WHERE cons.constraint_type = 'P'
+				AND cons.constraint_name = cols.constraint_name
+				AND cons.owner = cols.owner
+				AND cols.table_name = UPPER('#table_name#')
+				ORDER BY cols.table_name, cols.position
+			</cfquery>
+			<cfset pk = select col>
+			
 			<cfquery name="warningMessageRelatedID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				UPDATE
 					cf_temp_media
 				SET
-					RELATED_PRIMARY_KEY = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia.RELATED_PRIMARY_KEY#"> 
+					status = concat(nvl2(status, status || '; ', ''),'Invalid media label type "'||label_type_#i#||'"')
 				WHERE
+					'#table_name#' <> 
 					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> AND 
 					media_relationship = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia.media_relationship#">
 			</cfquery>
-				
+			<cfquery name="chkAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				UPDATE cf_temp_media 
+				SET status = concat(nvl2(status, status || '; ', ''),'Invalid media relationship agent for "'||table_name||'"')
+				WHERE 
+					related_primary_key not in 
+						(select #related_primary_key# from #table_name# where related_primary_key = #getTempMedia.related_primary_key)  
+					AND media_relationship is not null
+					AND related_primary_key is not null
+					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+			</cfquery>
+
 			<cfquery name="warningMessageLicense" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				UPDATE
 					cf_temp_media
@@ -448,7 +471,84 @@ limitations under the License.
 					media_license_id not in (select media_license_id from ctmedia_license) AND
 					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
+			<cfloop index="i" from="1" to="8">
+				<!--- does duplicate exist an existing label --->
+				<cfquery name="getMediaUpdates" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					SELECT 
+						cf_temp_media.key,
+						cf_temp_media.label_type_#i# as label_type,
+						cf_temp_media.label_value_#i# as label_value
+					FROM 
+						cf_temp_media
+					WHERE 
+						cf_temp_media.label_type_#i# is not null
+						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+				</cfquery>
+				<cfloop query="getMediaUpdates">
+					<cfquery name="checkExists" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						SELECT count(*) ct 
+						FROM media_labels 
+						WHERE 
+							media_label = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getMediaUpdates.label_type#">
+							and labe_value = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getMediaUpdates.label_value#">
+							and media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getMediaUpdates.media_id#">
+					</cfquery>
+					<cfif checkExists.ct GT 0>
+						<cfquery name="flagDupMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+							UPDATE cf_temp_media 
+							SET status = concat(nvl2(status, status || '; ', ''),'Duplicate of existing media "'||label_type_#i#||'":"'||label_value_#i#||'"')
+							WHERE
+								key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getMediaUpdates.key#">
+								AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+						</cfquery>
+					</cfif>
+				</cfloop>
+				<!--- are supplied attributes and values compliant with controlled vocabularies and expectations --->
+				<cfquery name="chkMediaLabel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					UPDATE cf_temp_media 
+					SET status = concat(nvl2(status, status || '; ', ''),'Invalid media label type "'||label_type_#i#||'"')
+					WHERE 
+						label_type_#i# not in (select label_type from CTLABEL_TYPE) 
+						AND LABEL_TYPE_#i# is not null
+						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+				</cfquery>	
+				<cfquery name="chkMediaLabel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					UPDATE cf_temp_media 
+					SET status = concat(nvl2(status, status || '; ', ''),'"'||LABEL_VALUE_#i#||'" is required for "'||LABEL_TYPE_#i#||'"')
+					WHERE 
+						LABEL_TYPE not in (select media_label from ctmedia_label)
+						AND LABEL_TYPE_#i# is not null 
+						AND LABEL_VALUE_#i# is null
+						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+				</cfquery>
+				<cfquery name="chkMediaLabel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					UPDATE cf_temp_media 
+					SET status = concat(nvl2(status, status || '; ', ''),'Invalid MADE_DATE must be yyyy-mm-dd "'||label_value_#i#||'"')
+					WHERE 
+						MADE_DATE is not null AND 
+						(is_iso8601(MADE_DATE) <> 'valid' OR length(MADE_DATE) <> 10)
+						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+				</cfquery>
 
+				<cfquery name="chkPAtt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					UPDATE cf_temp_edit_parts 
+					SET status = concat(nvl2(status, status || '; ', ''),'Invalid PART_ATT_NAME "'||PART_ATT_NAME_#i#||'" is not in attribute type controlled vocabulary.')
+					WHERE 
+						PART_ATT_NAME_#i# not in 
+							(select attribute_type from ctspecpart_attribute_type) 
+						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+				</cfquery>
+				<cfquery name="chkPAtt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					UPDATE cf_temp_edit_parts 
+					SET status = concat(nvl2(status,status ||  '; ', ''), 'PART_ATT_UNITS_#i# is not valid for attribute "'||PART_ATT_NAME_#i#||'"')
+					WHERE 
+						PART_ATT_VAL_#i# <> 'DELETE'
+						AND MCZBASE.CHK_SPECPART_ATT_CODETABLES(PART_ATT_NAME_#i#,PART_ATT_UNITS_#i#,COLLECTION_CDE)=0
+						AND PART_ATT_NAME_#i# in
+							(select attribute_type from ctspec_part_att_att where unit_code_table is not null)
+						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+				</cfquery>
+			</cfloop>
 			<cfif len(getTempMedia.mask_media) GT 0>
 				<cfif getTempMedia.mask_media NEQ 1>
 					<cfquery name="warningMessageMask" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -591,6 +691,7 @@ limitations under the License.
 					<cfif getTempData.recordcount EQ 0>
 						<cfthrow message="You have no rows to load in the media bulkloader table (cf_temp_media).  <a href='/tools/BulkloadMedia.cfm'>Start over</a>"><!--- " --->
 					</cfif>
+					<cfset i = 1>
 					<cfloop query="getTempData">
 						<cfset username = '#session.username#'>
 						<cfquery name="updateMedia1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateMedia1_result">
@@ -627,6 +728,7 @@ limitations under the License.
 						<cfelse>
 							<cfset maskmedia = mask_media>
 						</cfif>
+					
 						<cfquery name="makeMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="insResult">
 							INSERT into media (
 								media_id,
@@ -655,7 +757,7 @@ limitations under the License.
 							) VALUES (
 								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#savePK.MEDIA_ID#">,
 								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.media_relationship#">,
-								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.related_primary_key#">,
+								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.create_by_agent_id#">,
 								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.RELATED_PRIMARY_KEY#">
 							)
 						</cfquery>
@@ -672,9 +774,9 @@ limitations under the License.
 								WEIGHT
 							) VALUES (
 								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#savePK.MEDIA_ID#">,
-								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.MEDIA_LABEL#">,
-								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.LABEL_VALUE#">,
-								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.ASSIGNED_BY_AGENT_ID#">,
+								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.MEDIA_LABEL_i#">,
+								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.LABEL_VALUE_i#">,
+								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.agent_id#">,
 								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.SUBJECT#">,
 								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.DESCRIPTION#">,
 								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.MADE_DATE#">,
@@ -682,7 +784,6 @@ limitations under the License.
 								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.WEIGHT#">
 							)
 						</cfquery>
-
 						<cfset media_updates = media_updates + insResult.recordcount>
 					</cfloop>
 					<p>Number of Media Records added: #media_updates#</p>
