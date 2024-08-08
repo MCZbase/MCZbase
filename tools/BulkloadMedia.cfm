@@ -427,7 +427,7 @@ limitations under the License.
 					media_license_id not in (select media_license_id from ctmedia_license) AND
 					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
-			<cfset table_name = listlast('#getTempMedia.media_relationship#'," ")>
+			<cfset theTable = listlast('#getTempMedia.media_relationship#'," ")>
 			<cfquery name="tables" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT cols.table_name, cols.column_name, cols.position, cons.status, cons.owner
 				FROM all_constraints cons, all_cons_columns cols
@@ -437,8 +437,14 @@ limitations under the License.
 				AND cols.table_name = UPPER('#table_name#')
 				ORDER BY cols.table_name, cols.position
 			</cfquery>
-		
-
+			<cfquery name="chkCOID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					select '#tables.column_name#' from '#theTable#' where '#tables.column_name#' = '#getTempMedia.related_primary_key#'  
+			</cfquery>
+			<cfset MCZ=listgetat(l,1,":")>
+			<cfset CCDE = listgetat(l,2,":")>
+			<cfset CI=listgetat(l,3,":")>
+				#CCDE#
+				#CI#
 			<cfquery name="chkPK" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					select '#tables.column_name#' from '#table_name#' where '#tables.column_name#' = '#getTempMedia.related_primary_key#'  
 			</cfquery>
