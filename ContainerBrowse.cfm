@@ -9,7 +9,7 @@
     -- find list of departments (first few characters of fixture names)
     select count(*) as ct, nvl(nvl(substr(label,0, instr(label,'_')-1),substr(label,0, instr(label,'-')-1)),substr(label,0, 4)) as prefix 
     from container 
-    where container_type = 'fixture' or container_type like '%freezer' or container_type = 'cryovat' 
+    where container_type = 'fixture'  or container_type like '%freezer' or container_type = 'cryovat' or container_type = 'tank'
     group by  nvl(nvl(substr(label,0, instr(label,'_')-1),substr(label,0, instr(label,'-')-1)),substr(label,0, 4))
 </cfquery>
 
@@ -53,7 +53,7 @@
       --  Get fixture name and parentage for a department
       select container_type, label, sys_connect_by_path( label || ' (' || container_type ||')' ,' | ') parentage 
       from container
-      where (container_type = 'fixture'  or container_type like '%freezer' or container_type = 'cryovat') 
+      where (container_type = 'fixture'  or container_type like '%freezer' or container_type = 'cryovat' or container_type = 'tank') 
       and label like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#labelStart#%">
       start with container_type = 'campus'
       connect by prior container_id = parent_container_id
