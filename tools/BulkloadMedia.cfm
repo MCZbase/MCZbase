@@ -440,7 +440,7 @@ limitations under the License.
 			<cfset MCZ = listgetat(l,1,":")>
 			<cfset CCDE = listgetat(l,2,":")>
 			<cfset CI = listgetat(l,3,":")>
-			<cfif #theTable# = 'cataloged_item'>
+			<cfif #theTable# eq 'cataloged_item'>
 				<cfquery name="chkCOID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					select #tables.column_name# from #theTable# where #tables.column_name# = (select #tables.column_name# from #theTable# where cat_num = '#CI#' and collection_cde = '#CCDE#')  
 				</cfquery>
