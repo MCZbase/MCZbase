@@ -9,7 +9,7 @@
     -- find list of departments (first few characters of fixture names)
     select count(*) as ct, nvl(nvl(substr(label,0, instr(label,'_')-1),substr(label,0, instr(label,'-')-1)),substr(label,0, 4)) as prefix 
     from container 
-    where container_type = 'fixture'  or container_type like '%freezer' or container_type = 'cryovat' or container_type = 'tank') 
+    where container_type = 'fixture'  or container_type like '%freezer' or container_type = 'cryovat' or container_type = 'tank'
     group by  nvl(nvl(substr(label,0, instr(label,'_')-1),substr(label,0, instr(label,'-')-1)),substr(label,0, 4))
 </cfquery>
 
