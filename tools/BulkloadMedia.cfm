@@ -439,7 +439,7 @@ limitations under the License.
 				AND cols.table_name = UPPER('#table_name#')
 				ORDER BY cols.table_name, cols.position
 			</cfquery>
-			<cfset pk = select col>
+			<cfset pk = (select '#cols.column_name#' from '#table_name#' where cols.column_name = '<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia.media_relationship#">')>
 			
 			<cfquery name="warningMessageRelatedID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				UPDATE
@@ -451,12 +451,12 @@ limitations under the License.
 					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> AND 
 					media_relationship = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia.media_relationship#">
 			</cfquery>
-			<cfquery name="chkAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+			<cfquery name="chkPK" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				UPDATE cf_temp_media 
-				SET status = concat(nvl2(status, status || '; ', ''),'Invalid media relationship agent for "'||table_name||'"')
+				SET status = concat(nvl2(status, status || '; ', ''),'Invalid '||pk||' for "'||table_name||'"')
 				WHERE 
 					related_primary_key not in 
-						(select #related_primary_key# from #table_name# where related_primary_key = #getTempMedia.related_primary_key)  
+						(select '#pk#' from '#table_name#' where '#pk#' = '#getTempMedia.related_primary_key#')  
 					AND media_relationship is not null
 					AND related_primary_key is not null
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
