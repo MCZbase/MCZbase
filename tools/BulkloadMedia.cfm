@@ -862,11 +862,11 @@ limitations under the License.
 										<td>#getProblemData.MEDIA_TYPE# </td>
 										<td>#getProblemData.PREVIEW_URI# </td>
 										<td>#getProblemData.CREATED_BY_AGENT_ID#</td>
-										<td>#getProblemData.LABEL_SUBJECT#</td>
-										<td>#getProblemData.LABEL_MADE_DATE#</td>
-										<td>#getProblemData.LABEL_HEIGHT#</td>
-										<td>#getProblemData.LABEL_WIDTH#</td>
-										<td>#getProblemData.LABEL_DESCRIPTION#</td>
+										<td>#getProblemData.SUBJECT#</td>
+										<td>#getProblemData.MADE_DATE#</td>
+										<td>#getProblemData.HEIGHT#</td>
+										<td>#getProblemData.WIDTH#</td>
+										<td>#getProblemData.DESCRIPTION#</td>
 										<td>#getProblemData.MEDIA_LICENSE_ID#</td>
 										<td>#getProblemData.MASK_MEDIA#</td>
 										<td>#getProblemData.MEDIA_RELATIONSHIP#</td>
