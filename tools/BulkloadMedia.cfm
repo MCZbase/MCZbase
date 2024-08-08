@@ -474,7 +474,7 @@ limitations under the License.
 						cf_temp_media
 					WHERE 
 						cf_temp_media.label_type_#i# is not null
-						and label_type not in CTLABEL_TYPE
+						and label_type not in CTMEDIA_LABEL
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
 				<cfloop query="getMediaUpdates">
@@ -501,7 +501,7 @@ limitations under the License.
 					UPDATE cf_temp_media 
 					SET status = concat(nvl2(status, status || '; ', ''),'Invalid media label type "'||label_type_#i#||'"')
 					WHERE 
-						label_type_#i# not in (select label_type from CTLABEL_TYPE) 
+						label_type_#i# not in (select MEDIA_LABEL from CTMEDIA_LABEL) 
 						AND LABEL_TYPE_#i# is not null
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>	
