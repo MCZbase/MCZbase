@@ -19,7 +19,7 @@ limitations under the License.
 <!--- special case handling to dump problem data as csv --->
 <cfif isDefined("action") AND action is "dumpProblems">
 	<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-		SELECT MEDIA_URI,MIME_TYPE,MEDIA_TYPE,PREVIEW_URI,CREATED_BY_AGENT_ID,SUBJECT,MADE_DATE,HEIGHT,WIDTH,DESCRIPTION,MEDIA_RELATIONSHIP,RELATED_PRIMARY_KEY,MEDIA_LICENSE_ID,MASK_MEDIA,LABEL_TYPE,LABEL_VALUE
+		SELECT MEDIA_URI,MIME_TYPE,MEDIA_TYPE,PREVIEW_URI,CREATED_BY_AGENT_ID,SUBJECT,MADE_DATE,HEIGHT,WIDTH,DESCRIPTION,MEDIA_RELATIONSHIP,RELATED_PRIMARY_KEY,MEDIA_LICENSE_ID,MASK_MEDIA,MEDIA_LABEL,LABEL_VALUE
 		FROM cf_temp_media 
 		WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 		ORDER BY key
@@ -31,7 +31,7 @@ limitations under the License.
 	<cfabort>
 </cfif>
 <!--- end special case dump of problems --->
-<cfset fieldlist = "MEDIA_URI,MIME_TYPE,MEDIA_TYPE,PREVIEW_URI,CREATED_BY_AGENT_ID,SUBJECT,MADE_DATE,HEIGHT,WIDTH,DESCRIPTION,MEDIA_RELATIONSHIP,RELATED_PRIMARY_KEY,MEDIA_LICENSE_ID,MASK_MEDIA,LABEL_TYPE,LABEL_VALUE">
+<cfset fieldlist = "MEDIA_URI,MIME_TYPE,MEDIA_TYPE,PREVIEW_URI,CREATED_BY_AGENT_ID,SUBJECT,MADE_DATE,HEIGHT,WIDTH,DESCRIPTION,MEDIA_RELATIONSHIP,RELATED_PRIMARY_KEY,MEDIA_LICENSE_ID,MASK_MEDIA,MEDIA_LABEL,LABEL_VALUE">
 <cfset fieldTypes ="CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_DECIMAL,CF_SQL_VARCHAR,CF_SQL_DATE,CF_SQL_DECIMAL,CF_SQL_DECIMAL,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_DECIMAL,CF_SQL_DECIMAL,CF_SQL_VARCHAR,CF_SQL_VARCHAR">
 <cfset requiredfieldlist = "MEDIA_URI,MIME_TYPE,MEDIA_TYPE,CREATED_BY_AGENT_ID,SUBJECT,MADE_DATE,HEIGHT,WIDTH,DESCRIPTION">
 		
@@ -521,7 +521,7 @@ limitations under the License.
 						<th>DESCRIPTION</th>
 						<th>MEDIA_RELATIONSHIP</th>
 						<th>RELATED_PRIMARY_KEY</th>
-						<th>LABEL_TYPE</th>
+						<th>MEDIA_LABEL</th>
 						<th>LABEL_VALUE</th>
 				<!---		<th>LABEL_TYPE_2</th>
 						<th>LABEL_VALUE_2</th>
@@ -556,7 +556,7 @@ limitations under the License.
 							<td>#getTempMedia2.DESCRIPTION#</td>
 							<td>#getTempMedia2.MEDIA_RELATIONSHIP#</td>
 							<td>#getTempMedia2.RELATED_PRIMARY_KEY#</td>
-							<td>#getTempMedia2.LABEL_TYPE#</td>
+							<td>#getTempMedia2.MEDIA_LABEL#</td>
 							<td>#getTempMedia2.LABEL_VALUE#</td>
 <!---							<td>#getTempMedia2.LABEL_TYPE_2#</td>
 							<td>#getTempMedia2.LABEL_VALUE_2#</td>
@@ -713,7 +713,7 @@ limitations under the License.
 					<cftransaction action="ROLLBACK">
 					<h3>There was a problem adding media records. </h3>
 					<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						SELECT STATUS,MEDIA_URI,MIME_TYPE,MEDIA_TYPE,PREVIEW_URI,CREATED_BY_AGENT_ID,SUBJECT,MADE_DATE,HEIGHT,WIDTH,DESCRIPTION,MEDIA_RELATIONSHIP,RELATED_PRIMARY_KEY,MEDIA_LICENSE_ID,MASK_MEDIA,LABEL_TYPE,LABEL_VALUE
+						SELECT STATUS,MEDIA_URI,MIME_TYPE,MEDIA_TYPE,PREVIEW_URI,CREATED_BY_AGENT_ID,SUBJECT,MADE_DATE,HEIGHT,WIDTH,DESCRIPTION,MEDIA_RELATIONSHIP,RELATED_PRIMARY_KEY,MEDIA_LICENSE_ID,MASK_MEDIA,MEDIA_LABEL,LABEL_VALUE
 						FROM 
 							cf_temp_media
 						WHERE
@@ -739,8 +739,8 @@ limitations under the License.
 										Problem with MEDIA_ID (#cfcatch.detail#)
 									<cfelseif cfcatch.detail contains "unique constraint">
 										This media_uri has already been entered. Remove from spreadsheet and try again.
-									<cfelseif cfcatch.detail contains "label_type">
-										Problem with LABEL_TYPE (#cfcatch.detail#)
+									<cfelseif cfcatch.detail contains "media_label">
+										Problem with MEDIA_LABEL (#cfcatch.detail#)
 									<cfelseif cfcatch.detail contains "label_value">
 										Problem with LABEL_VALUE (#cfcatch.detail#)
 									<cfelseif cfcatch.detail contains "media_relationship">
@@ -771,7 +771,7 @@ limitations under the License.
 									<th>MASK_MEDIA</th>
 									<th>MEDIA_RELATIONSHIP</th>
 									<th>RELATED_PRIMARY_KEY</th>
-									<th>LABEL_TYPE</th>
+									<th>MEDIA_LABEL</th>
 									<th>LABEL_VALUE</th>
 									<!---<th>LABEL_TYPE_2</th>
 									<th>LABEL_VALUE_2</th>
@@ -807,7 +807,7 @@ limitations under the License.
 										<td>#getProblemData.MASK_MEDIA#</td>
 										<td>#getProblemData.MEDIA_RELATIONSHIP#</td>
 										<td>#getProblemData.RELATED_PRIMARY_KEY#</td>
-										<td>#getProblemData.LABEL_TYPE#</td>
+										<td>#getProblemData.MEDIA_LABEL#</td>
 										<td>#getProblemData.LABEL_VALUE#</td>
 										<!---<td>#getProblemData.LABEL_TYPE_2#</td>
 										<td>#getProblemData.LABEL_VALUE_2#</td>
