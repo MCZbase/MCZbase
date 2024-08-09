@@ -824,6 +824,8 @@ limitations under the License.
 										Problem with LABEL_TYPE (#cfcatch.detail#)
 									<cfelseif cfcatch.detail contains "label_value">
 										Problem with LABEL_VALUE (#cfcatch.detail#)
+									<cfelseif cfcatch.detail contains "media_relationship">
+										Problem with MEDIA_RELATIONSHIP (#cfcatch.detail#)
 									<cfelseif cfcatch.detail contains "no data">
 										No data or the wrong data (#cfcatch.detail#)
 									<cfelse>
