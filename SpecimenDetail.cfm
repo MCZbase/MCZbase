@@ -510,7 +510,7 @@
 										on user_search_table.collection_object_id = flat.collection_object_id
 									WHERE result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
 									ORDER BY guid ASC
-								) WHERE rownum < 2;
+								) WHERE rownum < 2
 							</cfquery>
 							<cfset firstID = getFirst.collection_object_id>
 							<cfset firstGUID = getFirst.guid>
@@ -523,7 +523,7 @@
 										on user_search_table.collection_object_id = flat.collection_object_id
 									WHERE result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
 									ORDER BY guid DESC
-								) WHERE rownum < 2;
+								) WHERE rownum < 2
 							</cfquery>
 							<cfset lastID = getLast.collection_object_id>
 							<cfset lastGUID = getLast.guid>
