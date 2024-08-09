@@ -734,7 +734,7 @@ limitations under the License.
 							RETURNING media_id INTO :generatedId
 							)
 						</cfquery>
-						<cfset generatedId = insertQuery.generatedId>
+						<cfset generatedId = insResult.generatedId>
 						<cfquery name="makeRelations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="insResult">
 							INSERT into media_relations (
 								media_id,
