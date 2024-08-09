@@ -521,9 +521,9 @@ limitations under the License.
 						<th>DESCRIPTION</th>
 						<th>MEDIA_RELATIONSHIP</th>
 						<th>RELATED_PRIMARY_KEY</th>
-						<th>LABEL_TYPE_1</th>
-						<th>LABEL_VALUE_1</th>
-						<th>LABEL_TYPE_2</th>
+						<th>LABEL_TYPE</th>
+						<th>LABEL_VALUE</th>
+				<!---		<th>LABEL_TYPE_2</th>
 						<th>LABEL_VALUE_2</th>
 						<th>LABEL_TYPE_3</th>
 						<th>LABEL_VALUE_3</th>
@@ -536,7 +536,7 @@ limitations under the License.
 						<th>LABEL_TYPE_7</th>
 						<th>LABEL_VALUE_7</th>
 						<th>LABEL_TYPE_8</th>
-						<th>LABEL_VALUE_8</th>
+						<th>LABEL_VALUE_8</th>--->
 					</tr>
 				<tbody>
 					<cfloop query="getTempMedia2">
@@ -556,9 +556,9 @@ limitations under the License.
 							<td>#getTempMedia2.DESCRIPTION#</td>
 							<td>#getTempMedia2.MEDIA_RELATIONSHIP#</td>
 							<td>#getTempMedia2.RELATED_PRIMARY_KEY#</td>
-							<td>#getTempMedia2.LABEL_TYPE_1#</td>
-							<td>#getTempMedia2.LABEL_VALUE_1#</td>
-							<td>#getTempMedia2.LABEL_TYPE_2#</td>
+							<td>#getTempMedia2.LABEL_TYPE#</td>
+							<td>#getTempMedia2.LABEL_VALUE#</td>
+<!---							<td>#getTempMedia2.LABEL_TYPE_2#</td>
 							<td>#getTempMedia2.LABEL_VALUE_2#</td>
 							<td>#getTempMedia2.LABEL_TYPE_3#</td>
 							<td>#getTempMedia2.LABEL_VALUE_3#</td>
@@ -571,7 +571,7 @@ limitations under the License.
 							<td>#getTempMedia2.LABEL_TYPE_7#</td>
 							<td>#getTempMedia2.LABEL_VALUE_7#</td>
 							<td>#getTempMedia2.LABEL_TYPE_8#</td>
-							<td>#getTempMedia2.LABEL_VALUE_8#</td>	
+							<td>#getTempMedia2.LABEL_VALUE_8#</td>	--->
 						</tr>
 					</cfloop>
 				</tbody>
@@ -651,10 +651,17 @@ limitations under the License.
 								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.preview_uri#">,
 								<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.media_license_id#">,
 								<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.mask_media#">
-							RETURNING media_id INTO :generatedId
 							)
 						</cfquery>
-						<cfset generatedId = insResult.generatedId>
+						<cfset rowid = insResult.generatedkey>
+						<cfquery name="getID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+							SELECT 
+								media_id as theId
+							FROM 
+								media
+							WHERE 
+								ROWIDTOCHAR(rowid) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#rowid#">
+						</cfquery>
 						<cfquery name="makeRelations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="insResult">
 							INSERT into media_relations (
 								media_id,
@@ -662,13 +669,13 @@ limitations under the License.
 								created_by_agent_id,
 								related_primary_key
 							) VALUES (
-								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#generatedId#">,
+								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getID.theId#">,
 								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.media_relationship#">,
 								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.create_by_agent_id#">,
 								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.RELATED_PRIMARY_KEY#">
 							)
 						</cfquery>
-						<!---<cfquery name="makeLabels" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="insResult">
+						<cfquery name="makeLabels" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="insResult">
 							INSERT into media_labels (
 								media_id,
 								media_label,
@@ -680,9 +687,9 @@ limitations under the License.
 								HEIGHT,
 								WEIGHT
 							) VALUES (
-								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#generatedId#">,
-								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.MEDIA_LABEL_i#">,
-								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.LABEL_VALUE_i#">,
+								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getID.theId#">,
+								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.MEDIA_LABEL#">,
+								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.LABEL_VALUE#">,
 								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.agent_id#">,
 								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.SUBJECT#">,
 								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.DESCRIPTION#">,
@@ -690,7 +697,7 @@ limitations under the License.
 								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.HEIGHT#">,
 								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.WEIGHT#">
 							)
-						</cfquery>--->
+						</cfquery>
 						<cfset media_updates = media_updates + insResult.recordcount>
 						<cfset i = i+1>
 					</cfloop>
