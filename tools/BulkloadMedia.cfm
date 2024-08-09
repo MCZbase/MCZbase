@@ -731,19 +731,10 @@ limitations under the License.
 								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.preview_uri#">,
 								<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.media_license_id#">,
 								<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.mask_media#">
+							RETURNING media_id INTO :generatedId
 							)
 						</cfquery>
-						<!---TODO PASS THE MEDIA_ID FROM makeMedia to makeRelations and makeLabels; 
-							  if I remember correctly it uses rowid and result = "insResult" from makeMedia;
-							  They all need the same media_id--->
-						<cfquery name="passMediaID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-							SELECT 
-								media_id
-							FROM 
-								makeMedia
-							WHERE 
-								ROWNUMID = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-						</cfquery>
+						<cfset generatedId = insertQuery.generatedId>
 						<cfquery name="makeRelations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="insResult">
 							INSERT into media_relations (
 								media_id,
@@ -751,7 +742,7 @@ limitations under the License.
 								created_by_agent_id,
 								related_primary_key
 							) VALUES (
-								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#MEDIA_ID#">,
+								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#generatedId#">,
 								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.media_relationship#">,
 								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.create_by_agent_id#">,
 								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.RELATED_PRIMARY_KEY#">
