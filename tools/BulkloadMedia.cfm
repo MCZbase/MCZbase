@@ -409,6 +409,15 @@ limitations under the License.
 					media_type not in (select media_type from ctmedia_type) AND
 					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
+			<cfquery name="warningMessageMediaType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				UPDATE
+					cf_temp_media
+				SET
+					status = concat(nvl2(status, status || '; ', ''),'CREATED_BY_AGENT_ID invalid')
+				WHERE 
+					CREATED_BY_AGENT_ID not in (select AGENT_ID from AGENT) AND
+					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+			</cfquery>
 			<cfquery name="warningMessageMimeType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				UPDATE
 					cf_temp_media
