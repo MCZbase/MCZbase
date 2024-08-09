@@ -732,7 +732,7 @@ limitations under the License.
 								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.DESCRIPTION#">,
 								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.MADE_DATE#">,
 								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.HEIGHT#">,
-								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.WEIGHT#">
+								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.WIDTH#">
 							)
 						</cfquery>
 						<cfset media_updates = media_updates + insResult.recordcount>
