@@ -492,6 +492,34 @@ limitations under the License.
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
 			</cfloop>
+			<cfif len(MEDIA_LABEL) gt 0>
+				<cfloop query="getTempMedia">
+					<cfquery name="c" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						SELECT MEDIA_LABEL 
+						FROM CTMEDIA_LABEL 
+						WHERE MEDIA_LABEL = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#cf_temp_media.media_label#">
+					</cfquery>
+					<cfif len(c.MEDIA_LABEL) is 0>
+						<cfset rec_stat=listappend(rec_stat,'Media label #ln# is invalid',";")>
+					<cfelseif ln EQ "made date" && refind("^[0-9]{4}-[0-9]{2}-[0-9]{2}$",lv) EQ 0>
+						<cfset rec_stat=listappend(rec_stat,'Media label #ln# must have a value in the form yyyy-mm-dd',";")>
+					<cfelse>
+						<cfquery name="i" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+							insert into cf_temp_media_labels (
+								key,
+								MEDIA_LABEL,
+								ASSIGNED_BY_AGENT_ID,
+								LABEL_VALUE
+							) values (
+								<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#key#">,
+								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#media_label#">,
+								<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#session.myAgentId#">,
+								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#label_value#">
+							)
+						</cfquery>
+					</cfif>
+				</cfloop>
+			</cfif>
 			<cfquery name="getTempMedia2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT *
 				FROM 
