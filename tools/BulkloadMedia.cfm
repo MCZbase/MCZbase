@@ -761,7 +761,7 @@ limitations under the License.
 									<th>MEDIA_URI</th>
 									<th>MEDIA_TYPE</th>
 									<th>PREVIEW_URI</th>
-									<th>CREATED_BY</th>
+									<th>CREATED_BY_AGENT_ID</th>
 									<th>SUBJECT</th>
 									<th>MADE_DATE</th>
 									<th>HEIGHT</th>
