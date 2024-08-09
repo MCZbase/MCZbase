@@ -760,7 +760,7 @@ limitations under the License.
 								HEIGHT,
 								WEIGHT
 							) VALUES (
-								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#MEDIA_ID#">,
+								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#generatedId#">,
 								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.MEDIA_LABEL_i#">,
 								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.LABEL_VALUE_i#">,
 								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.agent_id#">,
