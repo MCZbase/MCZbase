@@ -1525,7 +1525,7 @@ limitations under the License.
 							SELECT
 								rel.biol_indiv_relationship as biol_indiv_relationship,
 								collection as related_collection,
-								rel.collection.collection_cde as related_coll_cde,
+								collection.collection_cde as related_coll_cde,
 								rel.related_coll_object_id as related_coll_object_id,
 								rcat.cat_num as related_cat_num,
 								rel.biol_indiv_relation_remarks as biol_indiv_relation_remarks
@@ -1540,7 +1540,7 @@ limitations under the License.
 							SELECT
 								ctrel.inverse_relation as biol_indiv_relationship,
 								collection as related_collection,
-								ctrel.collection.collection_cde as related_coll_cde,
+								collection.collection_cde as related_coll_cde,
 								irel.collection_object_id as related_coll_object_id,
 								rcat.cat_num as related_cat_num,
 								irel.biol_indiv_relation_remarks as biol_indiv_relation_remarks
