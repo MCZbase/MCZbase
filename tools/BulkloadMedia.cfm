@@ -772,6 +772,7 @@ limitations under the License.
 							)
 						</cfquery>
 						<cfset media_updates = media_updates + insResult.recordcount>
+						<cfset i = i+1>
 					</cfloop>
 					<p>Number of Media Records added: #media_updates#</p>
 					<cfif getTempData.recordcount eq media_updates and updateMedia1_result.recordcount eq 0>
