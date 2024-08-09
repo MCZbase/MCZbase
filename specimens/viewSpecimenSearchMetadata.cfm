@@ -63,7 +63,7 @@ limitations under the License.
 							<p>Example Values are drawn individually from non-empty rows, so this does not represent a record in FLAT.  Fields that contain no values (in collections visible to you) are marked as '[No Values]'</p>
 							<cfquery name="myColls" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
 								SELECT DISTINCT collection_id 
-								FROM flat;
+								FROM flat
 							</cfquery>
 							<cfquery name="getFlatCols" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getFlatCols_result" timeout="#Application.query_timeout#" cachedwithin="#createtimespan(1,0,0,0)#" >
 								SELECT 
