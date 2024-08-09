@@ -826,7 +826,7 @@ limitations under the License.
 								</span>
 							</cfif>
 						</h3>
-						<table class='px-0 sortable small table table-responsive table-striped d-lg-table mt-3'>
+						<table class='px-0 sortable small table table-responsive table-striped d-lg-table mt-3 w-100'>
 							<thead>
 								<tr>
 									<th>COUNT</th>
