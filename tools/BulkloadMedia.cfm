@@ -492,7 +492,7 @@ limitations under the License.
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
 			</cfloop>
-			<cfif len(MEDIA_LABEL) gt 0>
+			<cfif len(getTempMedia.MEDIA_LABEL) gt 0>
 				<cfloop query="getTempMedia">
 					<cfquery name="c" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						SELECT MEDIA_LABEL 
