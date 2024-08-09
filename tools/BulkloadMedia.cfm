@@ -680,7 +680,7 @@ limitations under the License.
 							) VALUES (
 								<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getID.theId#">,
 								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.media_relationship#">,
-								<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.create_by_agent_id#">,
+								<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.created_by_agent_id#">,
 								<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.RELATED_PRIMARY_KEY#">
 							)
 						</cfquery>
