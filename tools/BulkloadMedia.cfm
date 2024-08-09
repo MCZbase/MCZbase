@@ -678,10 +678,10 @@ limitations under the License.
 								created_by_agent_id,
 								related_primary_key
 							) VALUES (
-								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getID.theId#">,
+								<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getID.theId#">,
 								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.media_relationship#">,
-								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.create_by_agent_id#">,
-								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.RELATED_PRIMARY_KEY#">
+								<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.create_by_agent_id#">,
+								<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.RELATED_PRIMARY_KEY#">
 							)
 						</cfquery>
 						<cfquery name="makeLabels" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="insResult">
