@@ -61,7 +61,7 @@
 		</cfquery>
 		<!--- local query to organize and flatten loan data --->
 		<cfquery name="agent" dbtype="query">
-			select distinct agent_name, agent_id from expLoan where trans_agent_role = 'received by' order by agent_name;
+			select distinct agent_name, agent_id from expLoan where trans_agent_role = 'received by' order by agent_name
 		</cfquery>
 		<!--- loop once for each agent --->
 	<cfloop query="agent" startrow=1 endrow=200>
