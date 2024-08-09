@@ -722,7 +722,7 @@ limitations under the License.
 								DESCRIPTION,
 								MADE_DATE,
 								HEIGHT,
-								WEIGHT
+								WIDTH
 							) VALUES (
 								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getID.theId#">,
 								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.MEDIA_LABEL#">,
