@@ -455,7 +455,7 @@ limitations under the License.
 					<cfset cat_item = listgetat(l,3,":")>
 					<cfif #theTable# eq 'cataloged_item'>
 						<cfquery name="chkCOID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-							select #tables.column_name# from #theTable# where #tables.column_name# = (select #tables.column_name# from #theTable# where cat_num = '#cat_item#' and collection_cde = '#coll_cde#' and instit_acronym = 'MCZ')  
+							select #tables.column_name# from #theTable# where #tables.column_name# = (select #tables.column_name# from #theTable# where cat_num = '#cat_item#' and collection_cde = '#coll_cde#' and instit_acronym = 'MCZ')
 						</cfquery>
 					<cfelse>
 						<cfquery name="chkCOID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -759,8 +759,7 @@ limitations under the License.
 							key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#problem_key#"> AND
 							username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 					</cfquery>
-					<cfif getProblemData
-						  ..recordcount GT 0>
+					<cfif getProblemData.recordcount GT 0>
 						<h3>
 							Fix the issues and <a href="/tools/BulkloadMedia.cfm" class="text-danger font-weight-lessbold">start again</a>. Error loading row (<span class="text-danger">#media_updates + 1#</span>) from the CSV: 
 							<cfif len(cfcatch.detail) gt 0>
