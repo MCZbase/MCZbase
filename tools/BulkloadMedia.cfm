@@ -728,15 +728,15 @@ limitations under the License.
 							) VALUES (
 								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getID.theId#">,
 								<cfif len(getTempData.SUBJECT) gt 0>
-									"SUBJECT"
+									'SUBJECT'
 								<cfif len(getTempData.DESCRIPTION) gt 0>
-									"DESCRIPTION"
+									'DESCRIPTION'
 								<cfif len(getTempData.MADE_DATE) gt 0>
-									"MADE_DATE"
+									'MADE_DATE'
 								<cfif len(getTempData.HEIGHT) gt 0>
-									"HEIGHT"
+									'HEIGHT'
 								<cfif len(getTempData.WIDTH) gt 0>
-									"WIDTH"
+									'WIDTH'
 								<cfelse>
 									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.MEDIA_LABEL#">
 								</cfif>,
