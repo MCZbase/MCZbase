@@ -16,7 +16,8 @@ See the License for the specific language governing permissions and
 limitations under the License.
 
 --->
-<!--- special case handling to dump problem data as csv --->
+<!--- special case handling to dump problem data as csv ---><br>
+
 <cfif isDefined("action") AND action is "dumpProblems">
 	<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		SELECT MEDIA_URI,MIME_TYPE,MEDIA_TYPE,PREVIEW_URI,CREATED_BY_AGENT_ID,SUBJECT,MADE_DATE,HEIGHT,WIDTH,DESCRIPTION,MEDIA_RELATIONSHIP,RELATED_PRIMARY_KEY,MEDIA_LICENSE_ID,MASK_MEDIA,MEDIA_LABEL,LABEL_VALUE
@@ -443,17 +444,18 @@ limitations under the License.
 				WHERE cons.constraint_type = 'P'
 				AND cons.constraint_name = cols.constraint_name
 				AND cons.owner = cols.owner
+				and cons.owner='MCZBASE'
 				AND cols.table_name = UPPER('#theTable#')
 				ORDER BY cols.table_name, cols.position
 			</cfquery>
-			<cfif getTempMedia.media_relationship eq 'cataloged_item'>
+			<cfif theTable eq 'cataloged_item'>
 				<cfloop list="#getTempMedia.related_primary_key#" index="l" delimiters=":">
-					<cfset IA = listgetat(l,1,":")>
-					<cfset CCDE = listgetat(l,2,":")>
-					<cfset CI = listgetat(l,3,":")>
+					<cfset instit_acronym = listgetat(l,1,":")>
+					<cfset coll_cde = listgetat(l,2,":")>
+					<cfset cat_item = listgetat(l,3,":")>
 					<cfif #theTable# eq 'cataloged_item'>
 						<cfquery name="chkCOID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-							select #tables.column_name# from #theTable# where #tables.column_name# = (select #tables.column_name# from #theTable# where cat_num = '#CI#' and collection_cde = '#CCDE#')  
+							select #tables.column_name# from #theTable# where #tables.column_name# = (select #tables.column_name# from #theTable# where cat_num = '#cat_item#' and collection_cde = '#coll_cde#' and instit_acronym = 'MCZ')  
 						</cfquery>
 					<cfelse>
 						<cfquery name="chkCOID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -757,7 +759,8 @@ limitations under the License.
 							key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#problem_key#"> AND
 							username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 					</cfquery>
-					<cfif getProblemData.recordcount GT 0>
+					<cfif getProblemData
+						  ..recordcount GT 0>
 						<h3>
 							Fix the issues and <a href="/tools/BulkloadMedia.cfm" class="text-danger font-weight-lessbold">start again</a>. Error loading row (<span class="text-danger">#media_updates + 1#</span>) from the CSV: 
 							<cfif len(cfcatch.detail) gt 0>
