@@ -751,7 +751,7 @@ limitations under the License.
 								<cfif len(getTempData.WIDTH) gt 0>
 									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.WIDTH#">
 								<cfelse>
-									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.MEDIA_LABEL#">
+									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.LABEL_VALUE#">
 								</cfif>,
 								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.myAgentId#">
 							)
