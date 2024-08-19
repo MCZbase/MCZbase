@@ -522,7 +522,7 @@ limitations under the License.
 					</cfif>
 				</cfloop>
 			</cfif>
-			<cfquery name="getTempMedia2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+			<cfquery name="problemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT *
 				FROM 
 					cf_temp_media
@@ -532,12 +532,12 @@ limitations under the License.
 			<cfset i= 1>
 			<cfquery name="problemsInData" dbtype="query">
 				SELECT count(*) c 
-				FROM getTempMedia2 
+				FROM problemData 
 				WHERE status is not null
 			</cfquery>
 			<h3 class="mt-3">
 				<cfif problemsInData.c gt 0>
-					There is a problem with #problemsInData.c# of #getTempMedia2.recordcount# row(s). See the STATUS column (<a href="/tools/BulkloadMedia.cfm?action=dumpProblems">download</a>). Fix the problems in the data and <a href="/tools/BulkloadMedia.cfm" class="text-danger">start again</a>.
+					There is a problem with #problemsInData.c# of #problemData.recordcount# row(s). See the STATUS column (<a href="/tools/BulkloadMedia.cfm?action=dumpProblems">download</a>). Fix the problems in the data and <a href="/tools/BulkloadMedia.cfm" class="text-danger">start again</a>.
 				<cfelse>
 					<span class="text-success">Validation checks passed</span>. Look over the table below and <a href="/tools/BulkloadMedia.cfm?action=load" class="btn-link font-weight-lessbold">click to continue</a> if it all looks good. Or, <a href="/tools/BulkloadMedia.cfm" class="text-danger">start again</a>.
 				</cfif>
@@ -562,7 +562,7 @@ limitations under the License.
 						<th>RELATED_PRIMARY_KEY</th>
 						<th>MEDIA_LABEL</th>
 						<th>LABEL_VALUE</th>
-				<!---		<th>LABEL_TYPE_2</th>
+				<!---	<th>LABEL_TYPE_2</th>
 						<th>LABEL_VALUE_2</th>
 						<th>LABEL_TYPE_3</th>
 						<th>LABEL_VALUE_3</th>
@@ -578,39 +578,39 @@ limitations under the License.
 						<th>LABEL_VALUE_8</th>--->
 					</tr>
 				<tbody>
-					<cfloop query="getTempMedia2">
+					<cfloop query="problemData">
 						<tr>
-							<td><cfif len(getTempMedia2.status) eq 0>Cleared to load<cfelse><strong>#getTempMedia2.status#</strong></cfif></td>
-							<td>#getTempMedia2.MEDIA_URI#</td>
-							<td>#getTempMedia2.MIME_TYPE#</td>
-							<td>#getTempMedia2.MEDIA_TYPE#</td>
-							<td>#getTempMedia2.PREVIEW_URI#</td>
-							<td>#getTempMedia2.MEDIA_LICENSE_ID#</td>
-							<td>#getTempMedia2.MASK_MEDIA#</td>
-							<td>#getTempMedia2.CREATED_BY_AGENT_ID#</td>
-							<td>#getTempMedia2.SUBJECT#</td>
-							<td>#getTempMedia2.MADE_DATE#</td>
-							<td>#getTempMedia2.HEIGHT#</td>
-							<td>#getTempMedia2.WIDTH#</td>
-							<td>#getTempMedia2.DESCRIPTION#</td>
-							<td>#getTempMedia2.MEDIA_RELATIONSHIP#</td>
-							<td>#getTempMedia2.RELATED_PRIMARY_KEY#</td>
-							<td>#getTempMedia2.MEDIA_LABEL#</td>
-							<td>#getTempMedia2.LABEL_VALUE#</td>
-<!---							<td>#getTempMedia2.LABEL_TYPE_2#</td>
-							<td>#getTempMedia2.LABEL_VALUE_2#</td>
-							<td>#getTempMedia2.LABEL_TYPE_3#</td>
-							<td>#getTempMedia2.LABEL_VALUE_3#</td>
-							<td>#getTempMedia2.LABEL_TYPE_4#</td>
-							<td>#getTempMedia2.LABEL_VALUE_4#</td>
-							<td>#getTempMedia2.LABEL_TYPE_5#</td>
-							<td>#getTempMedia2.LABEL_VALUE_5#</td>
-							<td>#getTempMedia2.LABEL_TYPE_6#</td>
-							<td>#getTempMedia2.LABEL_VALUE_6#</td>
-							<td>#getTempMedia2.LABEL_TYPE_7#</td>
-							<td>#getTempMedia2.LABEL_VALUE_7#</td>
-							<td>#getTempMedia2.LABEL_TYPE_8#</td>
-							<td>#getTempMedia2.LABEL_VALUE_8#</td>	--->
+							<td><cfif len(problemData2.status) eq 0>Cleared to load<cfelse><strong>#problemData.status#</strong></cfif></td>
+							<td>#problemData.MEDIA_URI#</td>
+							<td>#problemData.MIME_TYPE#</td>
+							<td>#problemData.MEDIA_TYPE#</td>
+							<td>#problemData.PREVIEW_URI#</td>
+							<td>#problemData.MEDIA_LICENSE_ID#</td>
+							<td>#problemData.MASK_MEDIA#</td>
+							<td>#problemData.CREATED_BY_AGENT_ID#</td>
+							<td>#problemData.SUBJECT#</td>
+							<td>#problemData.MADE_DATE#</td>
+							<td>#problemData.HEIGHT#</td>
+							<td>#problemData.WIDTH#</td>
+							<td>#problemData.DESCRIPTION#</td>
+							<td>#problemData.MEDIA_RELATIONSHIP#</td>
+							<td>#problemData.RELATED_PRIMARY_KEY#</td>
+							<td>#problemData.MEDIA_LABEL#</td>
+							<td>#problemData.LABEL_VALUE#</td>
+<!---						<td>#problemData.LABEL_TYPE_2#</td>
+							<td>#problemData.LABEL_VALUE_2#</td>
+							<td>#problemData.LABEL_TYPE_3#</td>
+							<td>#problemData.LABEL_VALUE_3#</td>
+							<td>#problemData.LABEL_TYPE_4#</td>
+							<td>#problemData.LABEL_VALUE_4#</td>
+							<td>#problemData.LABEL_TYPE_5#</td>
+							<td>#problemData.LABEL_VALUE_5#</td>
+							<td>#problemData.LABEL_TYPE_6#</td>
+							<td>#problemData.LABEL_VALUE_6#</td>
+							<td>#problemData.LABEL_TYPE_7#</td>
+							<td>#problemData.LABEL_VALUE_7#</td>
+							<td>#problemData.LABEL_TYPE_8#</td>
+							<td>#problemData.LABEL_VALUE_8#</td>	--->
 						</tr>
 					</cfloop>
 				</tbody>
@@ -727,14 +727,33 @@ limitations under the License.
 								WIDTH
 							) VALUES (
 								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getID.theId#">,
-								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.MEDIA_LABEL#">,
-								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.LABEL_VALUE#">,
-								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.myAgentId#">,
-								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.SUBJECT#">,
-								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.DESCRIPTION#">,
-								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.MADE_DATE#">,
-								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.HEIGHT#">,
-								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.WIDTH#">
+								<cfif len(getTempData.SUBJECT) gt 0>
+									"SUBJECT"
+								<cfif len(getTempData.DESCRIPTION) gt 0>
+									"DESCRIPTION"
+								<cfif len(getTempData.MADE_DATE) gt 0>
+									"MADE_DATE"
+								<cfif len(getTempData.HEIGHT) gt 0>
+									"HEIGHT"
+								<cfif len(getTempData.WIDTH) gt 0>
+									"WIDTH"
+								<cfelse>
+									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.MEDIA_LABEL#">
+								</cfif>,
+								<cfif len(getTempData.SUBJECT) gt 0>
+									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.SUBJECT#">
+								<cfif len(getTempData.DESCRIPTION) gt 0>
+									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.DESCRIPTION#">
+								<cfif len(getTempData.MADE_DATE) gt 0>
+									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.MADE_DATE#">
+								<cfif len(getTempData.HEIGHT) gt 0>
+									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.HEIGHT#">
+								<cfif len(getTempData.WIDTH) gt 0>
+									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.WIDTH#">
+								<cfelse>
+									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.MEDIA_LABEL#">
+								</cfif>,
+								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.myAgentId#">
 							)
 						</cfquery>
 						<cfset media_updates = media_updates + insResult.recordcount>
