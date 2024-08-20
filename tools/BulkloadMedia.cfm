@@ -394,7 +394,7 @@ limitations under the License.
 				WHERE 
 					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
-			<cfset getTempMedia.made_date = DateFormat(made_date, "yyyy-mm-dd")>
+			<cfset #getTempMedia.made_date# = DateFormat(made_date, "yyyy-mm-dd")>
 			<cfset key = ''>
 			<cfquery name="ctmedia_relationship" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" cachedwithin="#createtimespan(0,0,60,0)#">
 				SELECT distinct(MEDIA_RELATIONSHIP) MEDIA_RELATIONSHIP FROM ctmedia_relationship order by MEDIA_RELATIONSHIP
