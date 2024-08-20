@@ -704,40 +704,42 @@ limitations under the License.
 								media_id,
 								media_label,
 								label_value,
-								assigned_by_agent_id,
-								SUBJECT,
-								DESCRIPTION,
-								MADE_DATE,
-								HEIGHT,
-								WIDTH
+								assigned_by_agent_id
 							) VALUES (
 								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getID.theId#">,
 								<cfif len(getTempData.SUBJECT) gt 0>
-									'SUBJECT'
-								<cfelseif len(getTempData.DESCRIPTION) gt 0>
-									'DESCRIPTION'
-								<cfelseif len(getTempData.MADE_DATE) gt 0>
-									'MADE_DATE'
-								<cfelseif len(getTempData.HEIGHT) gt 0>
-									'HEIGHT'
-								<cfelseif len(getTempData.WIDTH) gt 0>
-									'WIDTH'
-								<cfelse>
-									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.MEDIA_LABEL_1#">
-								</cfif>,
+									media_label = 'SUBJECT',
+								</cfif>
+								<cfif len(getTempData.DESCRIPTION) gt 0>
+									media_label = 'DESCRIPTION',
+								</cfif>
+								<cfif len(getTempData.MADE_DATE) gt 0>
+									media_label = 'MADE_DATE',
+								</cfif>
+								<cfif len(getTempData.HEIGHT) gt 0>
+									media_label = 'HEIGHT',
+								</cfif>
+								<cfif len(getTempData.WIDTH) gt 0>
+									media_label = 'WIDTH',
+								</cfif>
+								<cfif len(getTempData.MEDIA_LABEL_1) gt 0>
+									media_label = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.MEDIA_LABEL_1#">,
+								</cfif>
 								<cfif len(getTempData.SUBJECT) gt 0>
-									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.SUBJECT#">
-								<cfelseif len(getTempData.DESCRIPTION) gt 0>
-									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.DESCRIPTION#">
-								<cfelseif len(getTempData.MADE_DATE) gt 0>
-									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.MADE_DATE#">
-								<cfelseif len(getTempData.HEIGHT) gt 0>
-									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.HEIGHT#">
-								<cfelseif len(getTempData.WIDTH) gt 0>
-									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.WIDTH#">
-								<cfelse>
-									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.LABEL_VALUE_1#">
-								</cfif>,
+									label_value = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.SUBJECT#">,
+								</cfif>
+								<cfif len(getTempData.DESCRIPTION) gt 0>
+									label_value = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.DESCRIPTION#">,
+								</cfif>
+								<cfif len(getTempData.HEIGHT) gt 0>
+									label_value = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.HEIGHT#">,
+								</cfif>
+								<cfif len(getTempData.WIDTH) gt 0>
+									label_value = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.WIDTH#">,
+								</cfif>
+								<cfif len(getTempData.media_label_1) gt 0>
+									label_value = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.LABEL_VALUE_1#">,
+								</cfif>
 								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.myAgentId#">
 							)
 						</cfquery>
