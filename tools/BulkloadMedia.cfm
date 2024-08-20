@@ -745,7 +745,7 @@ limitations under the License.
 								<cfelseif len(getTempData.DESCRIPTION) gt 0>
 									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.DESCRIPTION#">
 								<cfelseif len(getTempData.MADE_DATE) gt 0>
-									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.MADE_DATE#">
+									datetime(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.MADE_DATE#">, "YYYY-MM-DD")
 								<cfelseif len(getTempData.HEIGHT) gt 0>
 									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.HEIGHT#">
 								<cfelseif len(getTempData.WIDTH) gt 0>
