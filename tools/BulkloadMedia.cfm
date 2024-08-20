@@ -500,9 +500,9 @@ limitations under the License.
 				UPDATE
 					cf_temp_media
 				SET
-					made_date = #FORMATTED_DATE#
+					made_date = '#FORMATTED_DATE#'
 				WHERE 
-					#made_date# is not null
+					made_date is not null
 					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> 
 			</cfquery>
 			<cfif len(getTempMedia.MEDIA_LABEL) gt 0>
