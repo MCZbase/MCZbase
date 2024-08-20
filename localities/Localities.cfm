@@ -134,7 +134,7 @@ limitations under the License.
 					/** makeSummary combine row data into a single text string **/
 					function makeSummary(rowData) { 
 						var spec_locality = rowData['SPEC_LOCALITY'];
-						if(spec_locality) { spec_locality + ". "}
+						if(spec_locality) { spec_locality = spec_locality + ". "}
 						var id = rowData['LOCALITY_ID'];
 						var locality_remarks = rowData['LOCALITY_REMARKS'];
 						if (locality_remarks) { remarks = ". Remarks: " + locality_remarks + " "; } else { remarks = ""; }
