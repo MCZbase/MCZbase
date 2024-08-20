@@ -699,7 +699,7 @@ limitations under the License.
 								<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.RELATED_PRIMARY_KEY#">
 							)
 						</cfquery>
-		
+						<cfloop from="1" to= "8" index="innerIndex">
 							<cfquery name="makeLabels" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="insResult">
 								INSERT into media_labels (
 									media_id,
@@ -735,7 +735,7 @@ limitations under the License.
 									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.myAgentId#">
 								)
 							</cfquery>
-				
+						</cfloop>
 						<cfset media_updates = media_updates + insResult.recordcount>
 						<cfset i = i+1>
 					</cfloop>
@@ -811,7 +811,7 @@ limitations under the License.
 									<th>RELATED_PRIMARY_KEY</th>
 									<th>MEDIA_LABEL_1</th>
 									<th>LABEL_VALUE_1</th>
-									<!---<th>LABEL_TYPE_2</th>
+									<th>LABEL_TYPE_2</th>
 									<th>LABEL_VALUE_2</th>
 									<th>LABEL_TYPE_3</th>
 									<th>LABEL_VALUE_3</th>
@@ -824,7 +824,7 @@ limitations under the License.
 									<th>LABEL_TYPE_7</th>
 									<th>LABEL_VALUE_7</th>
 									<th>LABEL_TYPE_8</th>
-									<th>LABEL_VALUE_8</th>--->
+									<th>LABEL_VALUE_8</th>
 								</tr> 
 							</thead>
 							<tbody>
@@ -847,7 +847,7 @@ limitations under the License.
 										<td>#getProblemData.RELATED_PRIMARY_KEY#</td>
 										<td>#getProblemData.MEDIA_LABEL#</td>
 										<td>#getProblemData.LABEL_VALUE#</td>
-										<!---<td>#getProblemData.LABEL_TYPE_2#</td>
+										<td>#getProblemData.LABEL_TYPE_2#</td>
 										<td>#getProblemData.LABEL_VALUE_2#</td>
 										<td>#getProblemData.LABEL_TYPE_3#</td>
 										<td>#getProblemData.LABEL_VALUE_3#</td>
@@ -860,7 +860,7 @@ limitations under the License.
 										<td>#getProblemData.LABEL_TYPE_7#</td>
 										<td>#getProblemData.LABEL_VALUE_7#</td>
 										<td>#getProblemData.LABEL_TYPE_8#</td>
-										<td>#getProblemData.LABEL_VALUE_8#</td>--->
+										<td>#getProblemData.LABEL_VALUE_8#</td>
 									</tr>
 									<cfset i= i+1>
 								</cfloop>
