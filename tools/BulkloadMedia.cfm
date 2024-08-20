@@ -394,7 +394,7 @@ limitations under the License.
 				WHERE 
 					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
-			<cfset FORMATTED_DATE = DateFormat(#getTempMedia.MADE_DATE#, "yyyy-mm-dd")>
+			
 			<cfset key = ''>
 			<cfquery name="ctmedia_relationship" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" cachedwithin="#createtimespan(0,0,60,0)#">
 				SELECT distinct(MEDIA_RELATIONSHIP) MEDIA_RELATIONSHIP FROM ctmedia_relationship order by MEDIA_RELATIONSHIP
@@ -495,6 +495,16 @@ limitations under the License.
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
 			</cfloop>
+			<cfset FORMATTED_DATE = DateFormat(#getTempMedia.MADE_DATE#, "yyyy-mm-dd")>
+			<cfquery name="setDate" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				UPDATE
+					cf_temp_media
+				SET
+					made_date = #formatted_date#
+				WHERE 
+					made_date is not null AND
+					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> 
+			</cfquery>
 			<cfif len(getTempMedia.MEDIA_LABEL) gt 0>
 				<cfloop query="getTempMedia">
 					<cfquery name="c" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
