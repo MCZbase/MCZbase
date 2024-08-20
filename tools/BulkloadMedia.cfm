@@ -580,8 +580,8 @@ limitations under the License.
 							<td>#problemData.DESCRIPTION#</td>
 							<td>#problemData.MEDIA_RELATIONSHIP#</td>
 							<td>#problemData.RELATED_PRIMARY_KEY#</td>
-							<td>#problemData.MEDIA_LABEL#</td>
-							<td>#problemData.LABEL_VALUE#</td>
+							<td>#problemData.MEDIA_LABEL_1#</td>
+							<td>#problemData.LABEL_VALUE_1#</td>
 							<td>#problemData.LABEL_TYPE_2#</td>
 							<td>#problemData.LABEL_VALUE_2#</td>
 							<td>#problemData.LABEL_TYPE_3#</td>
