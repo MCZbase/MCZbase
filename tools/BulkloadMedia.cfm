@@ -510,7 +510,7 @@ limitations under the License.
 					UPDATE
 						cf_temp_media
 					SET
-						made_date = trunc(#getTempMedia.made_date#, 'YYYY-MM-DD')
+						made_date = trunc('#getTempMedia.made_date#', 'YYYY-MM-DD')
 					WHERE 
 						made_date is not null AND
 						username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> 
