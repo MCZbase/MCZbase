@@ -495,8 +495,6 @@ limitations under the License.
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
 			</cfloop>
-			<cfset theDATE = '#getTempMedia.made_date#'>
-			<cfset made_date = DateFormat(theDate, "yyyy-mm-dd")>
 			<cfquery name="setDate" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				UPDATE
 					cf_temp_media
@@ -515,8 +513,8 @@ limitations under the License.
 					</cfquery>
 					<cfif len(c.MEDIA_LABEL) is 0>
 						<cfset rec_stat=listappend(rec_stat,'Media label #ln# is invalid',";")>
-					<cfelseif ln EQ "made date" && refind("^[0-9]{4}-[0-9]{2}-[0-9]{2}$",lv) EQ 0>
-						<cfset rec_stat=listappend(rec_stat,'Media label #ln# must have a value in the form yyyy-mm-dd',";")>
+					<cfelseif media_label EQ "made date" && refind("^[0-9]{4}-[0-9]{2}-[0-9]{2}$",label_value) EQ 0>
+						<cfset rec_stat=listappend(rec_stat,'Media label #media_label# must have a value in the form yyyy-mm-dd',";")>
 					<cfelse>
 						<cfquery name="i" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							insert into cf_temp_media_labels (
@@ -574,7 +572,7 @@ limitations under the License.
 						<th>RELATED_PRIMARY_KEY</th>
 						<th>MEDIA_LABEL</th>
 						<th>LABEL_VALUE</th>
-				<!---	<th>LABEL_TYPE_2</th>
+						<th>LABEL_TYPE_2</th>
 						<th>LABEL_VALUE_2</th>
 						<th>LABEL_TYPE_3</th>
 						<th>LABEL_VALUE_3</th>
@@ -587,7 +585,7 @@ limitations under the License.
 						<th>LABEL_TYPE_7</th>
 						<th>LABEL_VALUE_7</th>
 						<th>LABEL_TYPE_8</th>
-						<th>LABEL_VALUE_8</th>--->
+						<th>LABEL_VALUE_8</th>
 					</tr>
 				<tbody>
 					<cfloop query="problemData">
@@ -609,7 +607,7 @@ limitations under the License.
 							<td>#problemData.RELATED_PRIMARY_KEY#</td>
 							<td>#problemData.MEDIA_LABEL#</td>
 							<td>#problemData.LABEL_VALUE#</td>
-<!---						<td>#problemData.LABEL_TYPE_2#</td>
+							<td>#problemData.LABEL_TYPE_2#</td>
 							<td>#problemData.LABEL_VALUE_2#</td>
 							<td>#problemData.LABEL_TYPE_3#</td>
 							<td>#problemData.LABEL_VALUE_3#</td>
@@ -622,7 +620,7 @@ limitations under the License.
 							<td>#problemData.LABEL_TYPE_7#</td>
 							<td>#problemData.LABEL_VALUE_7#</td>
 							<td>#problemData.LABEL_TYPE_8#</td>
-							<td>#problemData.LABEL_VALUE_8#</td>	--->
+							<td>#problemData.LABEL_VALUE_8#</td>	
 						</tr>
 					</cfloop>
 				</tbody>
