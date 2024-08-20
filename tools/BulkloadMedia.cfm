@@ -496,7 +496,7 @@ limitations under the License.
 				</cfquery>
 			</cfloop>
 			<cfset theDATE = '#getTempMedia.made_date#'>
-			<cfset formatted_date = DateFormat(theDate, "yyyy-mm-dd")>
+			<cfset made_date = DateFormat(theDate, "yyyy-mm-dd")>
 			<cfquery name="setDate" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				UPDATE
 					cf_temp_media
