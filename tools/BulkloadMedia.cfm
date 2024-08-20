@@ -601,7 +601,7 @@ limitations under the License.
 							<td>#problemData.MASK_MEDIA#</td>
 							<td>#problemData.CREATED_BY_AGENT_ID#</td>
 							<td>#problemData.SUBJECT#</td>
-							<td>#problemData.FORMATTED_DATE#</td>
+							<td>#problemData.MADE_DATE#</td>
 							<td>#problemData.HEIGHT#</td>
 							<td>#problemData.WIDTH#</td>
 							<td>#problemData.DESCRIPTION#</td>
