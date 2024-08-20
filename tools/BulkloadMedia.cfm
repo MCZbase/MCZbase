@@ -776,7 +776,7 @@ limitations under the License.
 									<cfelseif cfcatch.detail contains "media_id">
 										Problem with MEDIA_ID (#cfcatch.detail#)
 									<cfelseif cfcatch.detail contains "unique constraint">
-										This media_uri has already been entered. Remove from spreadsheet and try again.
+										Unique Constraint issue (#cfcatch.detail#)
 									<cfelseif cfcatch.detail contains "media_label_1">
 										Problem with MEDIA_LABEL_1 (#cfcatch.detail#)
 									<cfelseif cfcatch.detail contains "label_value">
