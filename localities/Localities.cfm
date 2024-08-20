@@ -159,7 +159,7 @@ limitations under the License.
 						if (minDepth) { 
 							depthval = " Depth: " + minDepth;
 							if (maxDepth && maxDepth != minDepth) {
-								depthval = depthval + "-" + max_depth;
+								depthval = depthval + "-" + maxDepth;
 							}
 							depthval = $.trim(depthval + " " + depthUnits) + ". ";
 						} else {
