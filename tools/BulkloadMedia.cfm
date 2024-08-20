@@ -400,7 +400,7 @@ limitations under the License.
 				SELECT distinct(MEDIA_RELATIONSHIP) MEDIA_RELATIONSHIP FROM ctmedia_relationship order by MEDIA_RELATIONSHIP
 			</cfquery>
 			<cfquery name="ctmedia_label" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" cachedwithin="#createtimespan(0,0,60,0)#">
-				SELECT distinct(MEDIA_LABEL) MEDIA_LABEL_1 FROM ctmedia_label order by MEDIA_LABEL
+				SELECT distinct(MEDIA_LABEL) MEDIA_LABEL FROM ctmedia_label order by MEDIA_LABEL
 			</cfquery>
 			<cfquery name="warningMessageMediaType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				UPDATE
@@ -495,7 +495,7 @@ limitations under the License.
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
 			</cfloop>
-			<cfif media_label EQ "made date" && refind("^[0-9]{4}-[0-9]{2}-[0-9]{2}$",label_value) EQ 0>
+			<cfif media_label EQ "made date" && refind("^[0-9]{4}-[0-9]{2}-[0-9]{2}$",made_date) EQ 0>
 				<cfquery name="setDate" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE
 						cf_temp_media
