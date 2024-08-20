@@ -20,7 +20,7 @@ limitations under the License.
 
 <cfif isDefined("action") AND action is "dumpProblems">
 	<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-		SELECT MEDIA_URI,MIME_TYPE,MEDIA_TYPE,PREVIEW_URI,CREATED_BY_AGENT_ID,SUBJECT,MADE_DATE,HEIGHT,WIDTH,DESCRIPTION,MEDIA_RELATIONSHIP,RELATED_PRIMARY_KEY,MEDIA_LICENSE_ID,MASK_MEDIA,MEDIA_LABEL,LABEL_VALUE
+		SELECT MEDIA_URI,MIME_TYPE,MEDIA_TYPE,PREVIEW_URI,CREATED_BY_AGENT_ID,SUBJECT,MADE_DATE,HEIGHT,WIDTH,DESCRIPTION,MEDIA_RELATIONSHIP,RELATED_PRIMARY_KEY,MEDIA_LICENSE_ID,MASK_MEDIA,MEDIA_LABEL_1,LABEL_VALUE_1
 		FROM cf_temp_media 
 		WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 		ORDER BY key
@@ -32,7 +32,7 @@ limitations under the License.
 	<cfabort>
 </cfif>
 <!--- end special case dump of problems --->
-<cfset fieldlist = "MEDIA_URI,MIME_TYPE,MEDIA_TYPE,PREVIEW_URI,CREATED_BY_AGENT_ID,SUBJECT,MADE_DATE,HEIGHT,WIDTH,DESCRIPTION,MEDIA_RELATIONSHIP,RELATED_PRIMARY_KEY,MEDIA_LICENSE_ID,MASK_MEDIA,MEDIA_LABEL,LABEL_VALUE">
+<cfset fieldlist = "MEDIA_URI,MIME_TYPE,MEDIA_TYPE,PREVIEW_URI,CREATED_BY_AGENT_ID,SUBJECT,MADE_DATE,HEIGHT,WIDTH,DESCRIPTION,MEDIA_RELATIONSHIP,RELATED_PRIMARY_KEY,MEDIA_LICENSE_ID,MASK_MEDIA,MEDIA_LABEL_1,LABEL_VALUE_1">
 <cfset fieldTypes ="CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_DECIMAL,CF_SQL_VARCHAR,CF_SQL_DATE,CF_SQL_DECIMAL,CF_SQL_DECIMAL,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_DECIMAL,CF_SQL_DECIMAL,CF_SQL_VARCHAR,CF_SQL_VARCHAR">
 <cfset requiredfieldlist = "MEDIA_URI,MIME_TYPE,MEDIA_TYPE,CREATED_BY_AGENT_ID">
 		
@@ -388,7 +388,7 @@ limitations under the License.
 		<h2 class="h4 mb-3">Second step: Data Validation</h2>
 		<cfoutput>
 			<cfquery name="getTempMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				SELECT MEDIA_URI,MIME_TYPE,MEDIA_TYPE,PREVIEW_URI,CREATED_BY_AGENT_ID,SUBJECT,MADE_DATE,HEIGHT,WIDTH,DESCRIPTION,MEDIA_RELATIONSHIP,RELATED_PRIMARY_KEY,MEDIA_LICENSE_ID,MASK_MEDIA,MEDIA_LABEL,LABEL_VALUE,KEY,USERNAME
+				SELECT MEDIA_URI,MIME_TYPE,MEDIA_TYPE,PREVIEW_URI,CREATED_BY_AGENT_ID,SUBJECT,MADE_DATE,HEIGHT,WIDTH,DESCRIPTION,MEDIA_RELATIONSHIP,RELATED_PRIMARY_KEY,MEDIA_LICENSE_ID,MASK_MEDIA,MEDIA_LABEL_1,LABEL_VALUE_1,KEY,USERNAME
 				FROM 
 					cf_temp_media
 				WHERE 
@@ -400,7 +400,7 @@ limitations under the License.
 				SELECT distinct(MEDIA_RELATIONSHIP) MEDIA_RELATIONSHIP FROM ctmedia_relationship order by MEDIA_RELATIONSHIP
 			</cfquery>
 			<cfquery name="ctmedia_label" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" cachedwithin="#createtimespan(0,0,60,0)#">
-				SELECT distinct(MEDIA_LABEL) MEDIA_LABEL FROM ctmedia_label order by MEDIA_LABEL
+				SELECT distinct(MEDIA_LABEL) MEDIA_LABEL_1 FROM ctmedia_label order by MEDIA_LABEL
 			</cfquery>
 			<cfquery name="warningMessageMediaType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				UPDATE
@@ -495,41 +495,40 @@ limitations under the License.
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
 			</cfloop>
-			<cfquery name="setDate" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				UPDATE
-					cf_temp_media
-				SET
-					made_date = '#made_date#'
-				WHERE 
-					made_date is not null AND
-					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> 
-			</cfquery>
-			<cfif len(getTempMedia.MEDIA_LABEL) gt 0>
+			<cfif media_label EQ "made date" && refind("^[0-9]{4}-[0-9]{2}-[0-9]{2}$",label_value) EQ 0>
+				<cfquery name="setDate" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					UPDATE
+						cf_temp_media
+					SET
+						status = concat(nvl2(status, status || '; ', ''),'#made_date# is not in correct format')
+					WHERE 
+						made_date is not null AND
+						username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> 
+				</cfquery>
+			</cfif>
+			<cfif len(getTempMedia.MEDIA_LABEL_1) gt 0>
+				<cfset i = 1>
 				<cfloop query="getTempMedia">
 					<cfquery name="c" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						SELECT MEDIA_LABEL 
 						FROM CTMEDIA_LABEL 
-						WHERE MEDIA_LABEL = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#cf_temp_media.media_label#">
+						WHERE MEDIA_LABEL = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#cf_temp_media.media_label_1#">
 					</cfquery>
-					<cfif len(c.MEDIA_LABEL) is 0>
-						<cfset rec_stat=listappend(rec_stat,'Media label #ln# is invalid',";")>
-					<cfelseif media_label EQ "made date" && refind("^[0-9]{4}-[0-9]{2}-[0-9]{2}$",label_value) EQ 0>
-						<cfset rec_stat=listappend(rec_stat,'Media label #media_label# must have a value in the form yyyy-mm-dd',";")>
-					<cfelse>
+					
+					<cfelseif media_label EQ "made date" && refind("^[0-9]{4}-[0-9]{2}-[0-9]{2}$",label_value) EQ 1>
 						<cfquery name="i" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-							insert into cf_temp_media_labels (
-								key,
-								MEDIA_LABEL,
-								ASSIGNED_BY_AGENT_ID,
-								LABEL_VALUE
+							insert into cf_temp_media (
+								MEDIA_LABEL_i,
+								LABEL_VALUE_i
 							) values (
-								<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#key#">,
-								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#media_label#">,
-								<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#session.myAgentId#">,
-								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#label_value#">
+								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#media_label_i#">,
+								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#label_value_i#">
 							)
 						</cfquery>
+					<cfelse>
+						<cfset rec_stat=listappend(rec_stat,'Media label #media_label_1# must have a value in the form yyyy-mm-dd',";")>
 					</cfif>
+					<cfset i=i+1>
 				</cfloop>
 			</cfif>
 			<cfquery name="problemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -570,8 +569,8 @@ limitations under the License.
 						<th>DESCRIPTION</th>
 						<th>MEDIA_RELATIONSHIP</th>
 						<th>RELATED_PRIMARY_KEY</th>
-						<th>MEDIA_LABEL</th>
-						<th>LABEL_VALUE</th>
+						<th>MEDIA_LABEL_1</th>
+						<th>LABEL_VALUE_1</th>
 						<th>LABEL_TYPE_2</th>
 						<th>LABEL_VALUE_2</th>
 						<th>LABEL_TYPE_3</th>
