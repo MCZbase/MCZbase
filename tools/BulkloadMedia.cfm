@@ -729,26 +729,26 @@ limitations under the License.
 								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getID.theId#">,
 								<cfif len(getTempData.SUBJECT) gt 0>
 									'SUBJECT'
-								<cfif len(getTempData.DESCRIPTION) gt 0>
+								<cfelseif len(getTempData.DESCRIPTION) gt 0>
 									'DESCRIPTION'
-								<cfif len(getTempData.MADE_DATE) gt 0>
+								<cfelseif len(getTempData.MADE_DATE) gt 0>
 									'MADE_DATE'
-								<cfif len(getTempData.HEIGHT) gt 0>
+								<cfelseif len(getTempData.HEIGHT) gt 0>
 									'HEIGHT'
-								<cfif len(getTempData.WIDTH) gt 0>
+								<cfelseif len(getTempData.WIDTH) gt 0>
 									'WIDTH'
 								<cfelse>
 									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.MEDIA_LABEL#">
 								</cfif>,
 								<cfif len(getTempData.SUBJECT) gt 0>
 									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.SUBJECT#">
-								<cfif len(getTempData.DESCRIPTION) gt 0>
+								<cfelseif len(getTempData.DESCRIPTION) gt 0>
 									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.DESCRIPTION#">
-								<cfif len(getTempData.MADE_DATE) gt 0>
+								<cfifelseif len(getTempData.MADE_DATE) gt 0>
 									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.MADE_DATE#">
-								<cfif len(getTempData.HEIGHT) gt 0>
+								<cfelseif len(getTempData.HEIGHT) gt 0>
 									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.HEIGHT#">
-								<cfif len(getTempData.WIDTH) gt 0>
+								<cfelseif len(getTempData.WIDTH) gt 0>
 									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.WIDTH#">
 								<cfelse>
 									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.LABEL_VALUE#">
