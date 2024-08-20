@@ -506,31 +506,6 @@ limitations under the License.
 						username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> 
 				</cfquery>
 			</cfif>
-			<cfif len(getTempMedia.MEDIA_LABEL_1) gt 0>
-				<cfset i = 1>
-				<cfloop query="getTempMedia">
-					<cfquery name="c" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						SELECT MEDIA_LABEL 
-						FROM CTMEDIA_LABEL 
-						WHERE MEDIA_LABEL = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#cf_temp_media.media_label_1#">
-					</cfquery>
-					
-					<cfelseif media_label EQ "made date" && refind("^[0-9]{4}-[0-9]{2}-[0-9]{2}$",label_value) EQ 1>
-						<cfquery name="i" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-							insert into cf_temp_media (
-								MEDIA_LABEL_i,
-								LABEL_VALUE_i
-							) values (
-								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#media_label_i#">,
-								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#label_value_i#">
-							)
-						</cfquery>
-					<cfelse>
-						<cfset rec_stat=listappend(rec_stat,'Media label #media_label_1# must have a value in the form yyyy-mm-dd',";")>
-					</cfif>
-					<cfset i=i+1>
-				</cfloop>
-			</cfif>
 			<cfquery name="problemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT *
 				FROM 
