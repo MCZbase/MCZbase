@@ -722,7 +722,7 @@ limitations under the License.
 								<cfelseif len(getTempData.WIDTH) gt 0>
 									'WIDTH'
 								<cfelse>
-									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.MEDIA_LABEL#">
+									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.MEDIA_LABEL_1#">
 								</cfif>,
 								<cfif len(getTempData.SUBJECT) gt 0>
 									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.SUBJECT#">
@@ -735,7 +735,7 @@ limitations under the License.
 								<cfelseif len(getTempData.WIDTH) gt 0>
 									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.WIDTH#">
 								<cfelse>
-									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.LABEL_VALUE#">
+									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.LABEL_VALUE_1#">
 								</cfif>,
 								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.myAgentId#">
 							)
@@ -755,7 +755,7 @@ limitations under the License.
 					<cftransaction action="ROLLBACK">
 					<h3>There was a problem adding media records. </h3>
 					<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						SELECT STATUS,MEDIA_URI,MIME_TYPE,MEDIA_TYPE,PREVIEW_URI,CREATED_BY_AGENT_ID,SUBJECT,MADE_DATE,HEIGHT,WIDTH,DESCRIPTION,MEDIA_RELATIONSHIP,RELATED_PRIMARY_KEY,MEDIA_LICENSE_ID,MASK_MEDIA,MEDIA_LABEL,LABEL_VALUE
+						SELECT STATUS,MEDIA_URI,MIME_TYPE,MEDIA_TYPE,PREVIEW_URI,CREATED_BY_AGENT_ID,SUBJECT,MADE_DATE,HEIGHT,WIDTH,DESCRIPTION,MEDIA_RELATIONSHIP,RELATED_PRIMARY_KEY,MEDIA_LICENSE_ID,MASK_MEDIA,MEDIA_LABEL_1,LABEL_VALUE_1
 						FROM 
 							cf_temp_media
 						WHERE
@@ -781,10 +781,10 @@ limitations under the License.
 										Problem with MEDIA_ID (#cfcatch.detail#)
 									<cfelseif cfcatch.detail contains "unique constraint">
 										This media_uri has already been entered. Remove from spreadsheet and try again.
-									<cfelseif cfcatch.detail contains "media_label">
-										Problem with MEDIA_LABEL (#cfcatch.detail#)
+									<cfelseif cfcatch.detail contains "media_label_1">
+										Problem with MEDIA_LABEL_1 (#cfcatch.detail#)
 									<cfelseif cfcatch.detail contains "label_value">
-										Problem with LABEL_VALUE (#cfcatch.detail#)
+										Problem with LABEL_VALUE_1 (#cfcatch.detail#)
 									<cfelseif cfcatch.detail contains "media_relationship">
 										Problem with MEDIA_RELATIONSHIP (#cfcatch.detail#)
 									<cfelseif cfcatch.detail contains "no data">
@@ -813,8 +813,8 @@ limitations under the License.
 									<th>MASK_MEDIA</th>
 									<th>MEDIA_RELATIONSHIP</th>
 									<th>RELATED_PRIMARY_KEY</th>
-									<th>MEDIA_LABEL</th>
-									<th>LABEL_VALUE</th>
+									<th>MEDIA_LABEL_1</th>
+									<th>LABEL_VALUE_1</th>
 									<!---<th>LABEL_TYPE_2</th>
 									<th>LABEL_VALUE_2</th>
 									<th>LABEL_TYPE_3</th>
