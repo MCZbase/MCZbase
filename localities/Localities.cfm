@@ -162,6 +162,8 @@ limitations under the License.
 								depthval = depthval + "-" + max_depth;
 							}
 							depthval = $.trim(depthval + " " + depthUnits) + ". ";
+						} else {
+							depthval = "";
 						}
 						var plss = rowData['PLSS'];
 						var geolatts = rowData['GEOLATTS'];
