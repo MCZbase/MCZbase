@@ -488,7 +488,7 @@ limitations under the License.
 					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">,
 					'height',
 					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#cf_temp_media.height#">,
-					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getAgent.agent_id#">
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#session.username#">
 				)
 			</cfquery>
 			<cfquery name="addLabelWidth" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
