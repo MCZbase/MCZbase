@@ -850,6 +850,9 @@ include this function and use it.
 							<cfif labels.label_value neq 'height'>
 								<tr><th scope="row">Height:</th><td>#labels.height#</td></tr>
 							</cfif>
+							<cfif labels.label_value neq 'width'>
+								<tr><th scope="row">Width:</th><td>#labels.width#</td></tr>
+							</cfif>
 							<cfif labels.label_value neq 'made_date'>
 								<tr><th scope="row">Made Date:</th><td>#labels.made_date#</td></tr>
 							</cfif>
