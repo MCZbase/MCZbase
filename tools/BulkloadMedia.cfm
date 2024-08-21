@@ -34,7 +34,7 @@ limitations under the License.
 <!--- end special case dump of problems --->
 <cfset fieldlist = "MEDIA_URI,MIME_TYPE,MEDIA_TYPE,PREVIEW_URI,CREATED_BY_AGENT_ID,SUBJECT,MADE_DATE,HEIGHT,WIDTH,DESCRIPTION,MEDIA_RELATIONSHIP,RELATED_PRIMARY_KEY,MEDIA_LICENSE_ID,MASK_MEDIA,MEDIA_LABEL_1,LABEL_VALUE_1">
 <cfset fieldTypes ="CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_DECIMAL,CF_SQL_VARCHAR,CF_SQL_DATE,CF_SQL_DECIMAL,CF_SQL_DECIMAL,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_DECIMAL,CF_SQL_DECIMAL,CF_SQL_VARCHAR,CF_SQL_VARCHAR">
-<cfset requiredfieldlist = "MEDIA_URI,MIME_TYPE,MEDIA_TYPE,CREATED_BY_AGENT_ID">
+<cfset requiredfieldlist = "MEDIA_URI,MIME_TYPE,MEDIA_TYPE,CREATED_BY_AGENT_ID,SUBJECT,MADE_DATE,DESCRIPTION,WIDTH,HEIGHT">
 		
 <!--- special case handling to dump column headers as csv --->
 <cfif isDefined("action") AND action is "getCSVHeader">
@@ -704,39 +704,30 @@ limitations under the License.
 								<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.RELATED_PRIMARY_KEY#">
 							)
 						</cfquery>
-						<cfloop from="1" to= "8" index="innerIndex">
-							<cfquery name="makeLabels" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="insResult">
+						<cfloop from="1" to= "8" index="i">
+							<cfquery name="makeLabels" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 								INSERT into media_labels (
 									media_id,
 									media_label,
 									label_value,
+									subject,
+									description,
+									width,
+									height,
+									made_date,
 									assigned_by_agent_id
 								) VALUES (
 									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getID.theId#">,
-									<cfif len(getTempData.SUBJECT) gt 0>
-										'SUBJECT',
-									<cfelseif len(getTempData.DESCRIPTION) gt 0>
-										'DESCRIPTION',
-									<cfelseif len(getTempData.MADE_DATE) gt 0>
-										'MADE_DATE',
-									<cfelseif len(getTempData.HEIGHT) gt 0>
-										'HEIGHT',
-									<cfelseif len(getTempData.WIDTH) gt 0>
-										'WIDTH',
-									<cfelseif len(getTempData.MEDIA_LABEL_1) gt 0>
-										<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.MEDIA_LABEL_1#">,
+									<cfif len(getTempData.MEDIA_LABEL_1) gt 0>
+										<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.MEDIA_LABEL_i#">,
 									</cfif>
-									<cfif len(getTempData.SUBJECT) gt 0>
-										<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.SUBJECT#">,
-									<cfelseif len(getTempData.DESCRIPTION) gt 0>
-										<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.DESCRIPTION#">,
-									<cfelseif len(getTempData.HEIGHT) gt 0>
-										<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.HEIGHT#">,
-									<cfelseif len(getTempData.WIDTH) gt 0>
-										<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.WIDTH#">,
-									<cfelseif len(getTempData.media_label_1) gt 0>
-										<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.LABEL_VALUE_1#">,
+									<cfif len(getTempData.media_label_1) gt 0>
+										<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.LABEL_VALUE_i#">,
 									</cfif>
+									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.SUBJECT#">,
+									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.DESCRIPTION#">,
+									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.HEIGHT#">,
+									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.WIDTH#">,
 									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getAgent.agent_id#">
 								)
 							</cfquery>
