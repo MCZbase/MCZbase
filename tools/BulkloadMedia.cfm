@@ -717,12 +717,6 @@ limitations under the License.
 								assigned_by_agent_id
 							) VALUES (
 								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getID.theId#">,
-								<cfif len(getTempData.MEDIA_LABEL_1) gt 0>
-									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.MEDIA_LABEL_i#">,
-								</cfif>
-								<cfif len(getTempData.media_label_1) gt 0>
-									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.LABEL_VALUE_i#">,
-								</cfif>
 								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.SUBJECT#">,
 								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.DESCRIPTION#">,
 								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.HEIGHT#">,
