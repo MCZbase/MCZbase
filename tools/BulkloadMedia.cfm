@@ -723,7 +723,7 @@ limitations under the License.
 								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.LABEL_VALUE_1#">,
 								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.SUBJECT#">,
 								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.DESCRIPTION#">,
-								<cfqueryparam cfsqltype="CF_SQL_date" value="#getTempData.MADE_DATE#">,
+								<cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempData.MADE_DATE#">,
 								<cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempData.WIDTH#">,
 								<cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempData.HEIGHT#">,
 								<cfqueryparam cfsqltype="CF_SQL_decimal" value="#getAgent.agent_id#">
