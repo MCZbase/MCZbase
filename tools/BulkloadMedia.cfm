@@ -485,9 +485,9 @@ limitations under the License.
 					label_value,
 					assigned_by_agent_id
 				) VALUES (
-					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">,
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempMedia.media_id#">,
 					'height',
-					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#cf_temp_media.height#">,
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempMedia.height#">,
 					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#session.username#">
 				)
 			</cfquery>
