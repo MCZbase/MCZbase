@@ -20,7 +20,7 @@ limitations under the License.
 
 <cfif isDefined("action") AND action is "dumpProblems">
 	<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-		SELECT MEDIA_URI,MIME_TYPE,MEDIA_TYPE,PREVIEW_URI,CREATED_BY_AGENT_ID,SUBJECT,MADE_DATE,HEIGHT,WIDTH,DESCRIPTION,MEDIA_RELATIONSHIP,RELATED_PRIMARY_KEY,MEDIA_LICENSE_ID,MASK_MEDIA,MEDIA_LABEL,LABEL_VALUE
+		SELECT MEDIA_URI,MIME_TYPE,MEDIA_TYPE,PREVIEW_URI,CREATED_BY_AGENT_ID,SUBJECT,MADE_DATE,HEIGHT,WIDTH,DESCRIPTION,MEDIA_RELATIONSHIP,RELATED_PRIMARY_KEY,MEDIA_LICENSE_ID,MASK_MEDIA,MEDIA_LABEL_1,LABEL_VALUE_1
 		FROM cf_temp_media 
 		WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 		ORDER BY key
@@ -32,7 +32,7 @@ limitations under the License.
 	<cfabort>
 </cfif>
 <!--- end special case dump of problems --->
-<cfset fieldlist = "MEDIA_URI,MIME_TYPE,MEDIA_TYPE,PREVIEW_URI,CREATED_BY_AGENT_ID,SUBJECT,MADE_DATE,HEIGHT,WIDTH,DESCRIPTION,MEDIA_RELATIONSHIP,RELATED_PRIMARY_KEY,MEDIA_LICENSE_ID,MASK_MEDIA,MEDIA_LABEL,LABEL_VALUE">
+<cfset fieldlist = "MEDIA_URI,MIME_TYPE,MEDIA_TYPE,PREVIEW_URI,CREATED_BY_AGENT_ID,SUBJECT,MADE_DATE,HEIGHT,WIDTH,DESCRIPTION,MEDIA_RELATIONSHIP,RELATED_PRIMARY_KEY,MEDIA_LICENSE_ID,MASK_MEDIA,MEDIA_LABEL_1,LABEL_VALUE_1">
 <cfset fieldTypes ="CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_DECIMAL,CF_SQL_VARCHAR,CF_SQL_DATE,CF_SQL_DECIMAL,CF_SQL_DECIMAL,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_DECIMAL,CF_SQL_DECIMAL,CF_SQL_VARCHAR,CF_SQL_VARCHAR">
 <cfset requiredfieldlist = "MEDIA_URI,MIME_TYPE,MEDIA_TYPE,CREATED_BY_AGENT_ID,SUBJECT,MADE_DATE,DESCRIPTION,WIDTH,HEIGHT">
 		
@@ -388,7 +388,7 @@ limitations under the License.
 		<h2 class="h4 mb-3">Second step: Data Validation</h2>
 		<cfoutput>
 			<cfquery name="getTempMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				SELECT MEDIA_URI,MIME_TYPE,MEDIA_TYPE,PREVIEW_URI,CREATED_BY_AGENT_ID,SUBJECT,MADE_DATE,HEIGHT,WIDTH,DESCRIPTION,MEDIA_RELATIONSHIP,RELATED_PRIMARY_KEY,MEDIA_LICENSE_ID,MASK_MEDIA,MEDIA_LABEL,LABEL_VALUE,KEY,USERNAME
+				SELECT MEDIA_URI,MIME_TYPE,MEDIA_TYPE,PREVIEW_URI,CREATED_BY_AGENT_ID,SUBJECT,MADE_DATE,HEIGHT,WIDTH,DESCRIPTION,MEDIA_RELATIONSHIP,RELATED_PRIMARY_KEY,MEDIA_LICENSE_ID,MASK_MEDIA,MEDIA_LABEL_1,LABEL_VALUE_1,KEY,USERNAME
 				FROM 
 					cf_temp_media
 				WHERE 
@@ -440,18 +440,14 @@ limitations under the License.
 			</cfquery>
 			<cfset theTable = listlast('#getTempMedia.media_relationship#'," ")>
 			<cfquery name="tables" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				SELECT 
-					cols.table_name, cols.column_name, cols.position, cons.status, cons.owner
-				FROM 
-					all_constraints cons, all_cons_columns cols
-				WHERE 
-					cons.constraint_type = 'P'
-					AND cons.constraint_name = cols.constraint_name
-					AND cons.owner = cols.owner
-					AND cons.owner='MCZBASE'
-					AND cols.table_name = UPPER('#theTable#')
-				ORDER BY 
-					cols.table_name, cols.position
+				SELECT cols.table_name, cols.column_name, cols.position, cons.status, cons.owner
+				FROM all_constraints cons, all_cons_columns cols
+				WHERE cons.constraint_type = 'P'
+				AND cons.constraint_name = cols.constraint_name
+				AND cons.owner = cols.owner
+				and cons.owner='MCZBASE'
+				AND cols.table_name = UPPER('#theTable#')
+				ORDER BY cols.table_name, cols.position
 			</cfquery>
 			<cfif theTable eq 'cataloged_item'>
 				<cfloop list="#getTempMedia.related_primary_key#" index="l" delimiters=":">
@@ -549,8 +545,8 @@ limitations under the License.
 						<th>DESCRIPTION</th>
 						<th>MEDIA_RELATIONSHIP</th>
 						<th>RELATED_PRIMARY_KEY</th>
-						<th>MEDIA_LABEL</th>
-						<th>LABEL_VALUE</th>
+						<th>MEDIA_LABEL_1</th>
+						<th>LABEL_VALUE_1</th>
 				<!---		<th>LABEL_TYPE_2</th>
 						<th>LABEL_VALUE_2</th>
 						<th>LABEL_TYPE_3</th>
@@ -584,8 +580,8 @@ limitations under the License.
 							<td>#problemData.DESCRIPTION#</td>
 							<td>#problemData.MEDIA_RELATIONSHIP#</td>
 							<td>#problemData.RELATED_PRIMARY_KEY#</td>
-							<td>#problemData.MEDIA_LABEL#</td>
-							<td>#problemData.LABEL_VALUE#</td>
+							<td>#problemData.MEDIA_LABEL_1#</td>
+							<td>#problemData.LABEL_VALUE_1#</td>
 				<!---			<td>#problemData.LABEL_TYPE_2#</td>
 							<td>#problemData.LABEL_VALUE_2#</td>
 							<td>#problemData.LABEL_TYPE_3#</td>
@@ -723,8 +719,8 @@ limitations under the License.
 								assigned_by_agent_id
 							) VALUES (
 								<cfqueryparam cfsqltype="CF_SQL_decimal" value="#getID.theId#">,
-								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.MEDIA_LABEL#">,
-								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.LABEL_VALUE#">,
+								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.MEDIA_LABEL_1#">,
+								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.LABEL_VALUE_1#">,
 								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.SUBJECT#">,
 								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.DESCRIPTION#">,
 								<cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempData.WIDTH#">,
@@ -748,7 +744,7 @@ limitations under the License.
 					<cftransaction action="ROLLBACK">
 					<h3>There was a problem adding media records. </h3>
 					<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						SELECT STATUS,MEDIA_URI,MIME_TYPE,MEDIA_TYPE,PREVIEW_URI,CREATED_BY_AGENT_ID,SUBJECT,MADE_DATE,HEIGHT,WIDTH,DESCRIPTION,MEDIA_RELATIONSHIP,RELATED_PRIMARY_KEY,MEDIA_LICENSE_ID,MASK_MEDIA,MEDIA_LABEL,LABEL_VALUE
+						SELECT STATUS,MEDIA_URI,MIME_TYPE,MEDIA_TYPE,PREVIEW_URI,CREATED_BY_AGENT_ID,SUBJECT,MADE_DATE,HEIGHT,WIDTH,DESCRIPTION,MEDIA_RELATIONSHIP,RELATED_PRIMARY_KEY,MEDIA_LICENSE_ID,MASK_MEDIA,MEDIA_LABEL_1,LABEL_VALUE_1
 						FROM 
 							cf_temp_media
 						WHERE
@@ -775,9 +771,9 @@ limitations under the License.
 									<cfelseif cfcatch.detail contains "unique constraint">
 										Unique Constraint issue (#cfcatch.detail#)
 									<cfelseif cfcatch.detail contains "media_label_1">
-										Problem with MEDIA_LABEL (#cfcatch.detail#)
+										Problem with MEDIA_LABEL_1 (#cfcatch.detail#)
 									<cfelseif cfcatch.detail contains "label_value">
-										Problem with LABEL_VALUE (#cfcatch.detail#)
+										Problem with LABEL_VALUE_1 (#cfcatch.detail#)
 									<cfelseif cfcatch.detail contains "date">
 										Problem with MADE_DATE (#cfcatch.detail#)
 									<cfelseif cfcatch.detail contains "media_relationship">
@@ -808,8 +804,8 @@ limitations under the License.
 									<th>MASK_MEDIA</th>
 									<th>MEDIA_RELATIONSHIP</th>
 									<th>RELATED_PRIMARY_KEY</th>
-									<th>MEDIA_LABEL</th>
-									<th>LABEL_VALUE</th>
+									<th>MEDIA_LABEL_1</th>
+									<th>LABEL_VALUE_1</th>
 <!---									<th>LABEL_TYPE_2</th>
 									<th>LABEL_VALUE_2</th>
 									<th>LABEL_TYPE_3</th>
@@ -844,8 +840,8 @@ limitations under the License.
 										<td>#getProblemData.MASK_MEDIA#</td>
 										<td>#getProblemData.MEDIA_RELATIONSHIP#</td>
 										<td>#getProblemData.RELATED_PRIMARY_KEY#</td>
-										<td>#getProblemData.MEDIA_LABEL#</td>
-										<td>#getProblemData.LABEL_VALUE#</td>
+										<td>#getProblemData.MEDIA_LABEL_1#</td>
+										<td>#getProblemData.LABEL_VALUE_1#</td>
 										<!---<td>#getProblemData.LABEL_TYPE_2#</td>
 										<td>#getProblemData.LABEL_VALUE_2#</td>
 										<td>#getProblemData.LABEL_TYPE_3#</td>
