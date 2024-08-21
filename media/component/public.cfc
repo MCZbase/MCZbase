@@ -1389,9 +1389,7 @@ include this function and use it.
 							<tr><th scope="row">Media Type:</th><td>#media.media_type#</td></tr>
 							<tr><th scope="row">MIME Type:</th><td>#media.mime_type#</td></tr>
 							<cfloop query="labels">
-								<cfif labels.media_label eq 'Height'><cfelse>
 								<tr><th scope="row"><span class="text-capitalize">#labels.media_label#</span>:</th><td>#labels.label_value#</td></tr>
-									</cfif>
 							</cfloop>
 							<cfif len(credit) gt 0>
 								<tr><th scope="row">Credit:</th><td>#credit#</td></tr>
