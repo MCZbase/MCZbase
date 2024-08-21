@@ -853,7 +853,7 @@ include this function and use it.
 							<cfif len(#labels.height#) gt 0>
 								<tr><th scope="row">Height:</th><td>#labels.height#</td></tr>
 							<cfelse>
-								<tr><th scope="row">Height:</th><td>#height#</td></tr>
+								<tr><th scope="row">Height:</th><td>#media.height#</td></tr>
 							</cfif>
 							<tr><th scope="row">Width:</th><td>#labels.width#</td></tr>
 							<cfloop query="labels">
