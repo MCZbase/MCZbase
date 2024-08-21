@@ -478,32 +478,7 @@ limitations under the License.
 					media_license_id not in (select media_license_id from ctmedia_license) AND
 					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
-			<cfquery name="addLabelHeight" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				INSERT INTO cf_temp_media_labels (
-					media_id,
-					media_label,
-					label_value,
-					assigned_by_agent_id
-				) VALUES (
-					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempMedia.media_id#">,
-					'height',
-					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempMedia.height#">,
-					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#session.username#">
-				)
-			</cfquery>
-			<cfquery name="addLabelWidth" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				INSERT INTO cf_temp_media_labels (
-					media_id,
-					media_label,
-					label_value,
-					assigned_by_agent_id
-				) VALUES (
-					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">,
-					'height',
-					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#cf_temp_media.width#">,
-					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getAgent.agent_id#">
-				)
-			</cfquery>
+			
 			<cfif len(getTempMedia.mask_media) GT 0>
 				<cfif getTempMedia.mask_media NEQ 1>
 					<cfquery name="warningMessageMask" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -739,21 +714,37 @@ limitations under the License.
 								media_id,
 								media_label,
 								label_value,
-								subject,
-								description,
-								width,
-								height,
-								made_date,
 								assigned_by_agent_id
 							) VALUES (
 								<cfqueryparam cfsqltype="CF_SQL_decimal" value="#getID.theId#">,
-								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.MEDIA_LABEL_1#">,
-								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.LABEL_VALUE_1#">,
-								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.SUBJECT#">,
-								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.DESCRIPTION#">,
-								<cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempData.WIDTH#">,
-								<cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempData.HEIGHT#">,
-								<cfqueryparam cfsqltype="CF_SQL_DATE" value="#getTempData.MADE_DATE#">,
+								'Subject',
+								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.SUBJECT#">,	
+								<cfqueryparam cfsqltype="CF_SQL_decimal" value="#getAgent.agent_id#">
+							)
+						</cfquery>
+						<cfquery name="makeLabels" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="LabResult">
+							INSERT into media_labels (
+								media_id,
+								media_label,
+								label_value,
+								assigned_by_agent_id
+							) VALUES (
+								<cfqueryparam cfsqltype="CF_SQL_decimal" value="#getID.theId#">,
+								'Description',
+								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.DESCRIPTION#">,	
+								<cfqueryparam cfsqltype="CF_SQL_decimal" value="#getAgent.agent_id#">
+							)
+						</cfquery>
+						<cfquery name="makeLabels" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="LabResult">
+							INSERT into media_labels (
+								media_id,
+								media_label,
+								label_value,
+								assigned_by_agent_id
+							) VALUES (
+								<cfqueryparam cfsqltype="CF_SQL_decimal" value="#getID.theId#">,
+								'Made Date',
+								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.MADE_DATE#">,	
 								<cfqueryparam cfsqltype="CF_SQL_decimal" value="#getAgent.agent_id#">
 							)
 						</cfquery>
