@@ -811,7 +811,7 @@ include this function and use it.
 				<!---Loop through the media to see what the metadata is for the featured image on the page--->
 				<cfloop query="media">
 					<cfquery name="labels" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					SELECT media_label, label_value, agent_name, media_label_id
+					SELECT media_label, label_value, agent_name, media_label_id, description, subject, made_date, height, width
 					FROM media_labels
 						left join preferred_agent_name on media_labels.assigned_by_agent_id=preferred_agent_name.agent_id
 					WHERE
