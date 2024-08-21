@@ -609,6 +609,8 @@ limitations under the License.
 		<h2 class="h4">Third step: Apply changes.</h2>
 		<cfoutput>
 			<cfset problem_key = "">
+			<cfset media_label_1 = ''>
+			<cfset label_value_1 = ''>
 			<cftransaction>
 				<cfquery name="getTempData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT * FROM cf_temp_media
