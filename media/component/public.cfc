@@ -181,7 +181,7 @@ include this function and use it.
 					MCZBASE.get_medialabel(media.media_id,'description') as description,
 					MCZBASE.get_medialabel(media.media_id,'made date') as made_date,
 					MCZBASE.get_medialabel(media.media_id,'subject') as subject,
-					MCZBASE.get_medialabel(media.media_id,'height') as height1,
+					MCZBASE.get_medialabel(media.media_id,'height') as height,
 					MCZBASE.get_medialabel(media.media_id,'width') as width,
 					MCZBASE.get_media_descriptor(media.media_id) as alt,
 					MCZBASE.get_media_title(media.media_id) as title
@@ -853,7 +853,7 @@ include this function and use it.
 							<cfif len(#labels.height#) gt 0>
 								<tr><th scope="row">Height:</th><td>#labels.height#</td></tr>
 							<cfelse>
-								<tr><th scope="row">Height:</th><td>#height1#</td></tr>
+								<tr><th scope="row">Height:</th><td>#height#</td></tr>
 							</cfif>
 							<tr><th scope="row">Width:</th><td>#labels.width#</td></tr>
 							<cfloop query="labels">
