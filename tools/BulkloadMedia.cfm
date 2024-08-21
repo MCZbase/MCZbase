@@ -775,7 +775,6 @@ limitations under the License.
 						</cfquery>
 						<cfset i = 1>
 						<cfloop from= "1" to="8" index="i">
-							<cfset media_label = media_label + #i#>
 							<cfquery name="makeLabels" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="LabResult">
 								INSERT into media_labels (
 									media_id,
@@ -784,8 +783,8 @@ limitations under the License.
 									assigned_by_agent_id
 								) VALUES (
 									<cfqueryparam cfsqltype="CF_SQL_decimal" value="#getID.theId#">,
-									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.media_label[i]#">,
-									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.label_value[i]#">,
+									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.media_label_1#">,
+									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.label_value_1#">,
 									<cfqueryparam cfsqltype="CF_SQL_decimal" value="#getAgent.agent_id#">
 								)
 							</cfquery>
