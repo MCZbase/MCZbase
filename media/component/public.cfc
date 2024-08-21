@@ -847,8 +847,10 @@ include this function and use it.
 						<tbody>
 							<tr><th scope="row">Media Type:</th><td>#media.media_type#</td></tr>
 							<tr><th scope="row">MIME Type:</th><td>#media.mime_type#</td></tr>
-							<cfif labels.label_value neq 'height'>
+							<cfif len(labels.height) eq 0>
 								<tr><th scope="row">Height:</th><td>#labels.height#</td></tr>
+							<cfelse>
+								<tr><th scope="row">Height:</th><td>#media.height#</td></tr>
 							</cfif>
 							<cfif labels.label_value neq 'width'>
 								<tr><th scope="row">Width:</th><td>#labels.width#</td></tr>
