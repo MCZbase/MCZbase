@@ -848,9 +848,11 @@ include this function and use it.
 							<tr><th scope="row">Media Type:</th><td>#media.media_type#</td></tr>
 							<tr><th scope="row">MIME Type:</th><td>#media.mime_type#</td></tr>
 							<cfloop query="labels">
-								<tr><th scope="row">SUBJECT:</th><td>#labels.subject#</td></tr>
-								<tr><th scope="row">DESCRIPTION:</th><td>#labels.description#</td></tr>
-								<tr><th scope="row">MADE DATE:</th><td>#labels.made_date#</td></tr>
+								<tr><th scope="row">Subject:</th><td>#labels.subject#</td></tr>
+								<tr><th scope="row">Description:</th><td>#labels.description#</td></tr>
+								<tr><th scope="row">Made Date:</th><td>#labels.made_date#</td></tr>
+								<tr><th scope="row">Height:</th><td>#labels.height#</td></tr>
+								<tr><th scope="row">Width:</th><td>#labels.width#</td></tr>
 							</cfloop>
 							<cfloop query="labels">
 								<tr><th scope="row"><span class="text-capitalize">#labels.media_label#</span>:</th><td>#labels.label_value#</td></tr>
