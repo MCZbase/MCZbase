@@ -614,6 +614,11 @@ limitations under the License.
 					SELECT * FROM cf_temp_media
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
+				<cfquery name="getAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					SELECT agent_id FROM agent_name
+					WHERE agent_name_type = 'login'
+					AND agent_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+				</cfquery>
 				<cfquery name="getCounts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT 
 						count(distinct media_uri) ctobj 
@@ -732,7 +737,7 @@ limitations under the License.
 									<cfelseif len(getTempData.media_label_1) gt 0>
 										<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.LABEL_VALUE_1#">,
 									</cfif>
-									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.dbuser#">
+									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getAgent.username#">
 								)
 							</cfquery>
 						</cfloop>
