@@ -850,8 +850,8 @@ limitations under the License.
 										<td>#getProblemData.MASK_MEDIA#</td>
 										<td>#getProblemData.MEDIA_RELATIONSHIP#</td>
 										<td>#getProblemData.RELATED_PRIMARY_KEY#</td>
-										<td>#getProblemData.MEDIA_LABEL#</td>
-										<td>#getProblemData.LABEL_VALUE#</td>
+										<td>#getProblemData.MEDIA_LABEL_1#</td>
+										<td>#getProblemData.LABEL_VALUE_1#</td>
 										<td>#getProblemData.LABEL_TYPE_2#</td>
 										<td>#getProblemData.LABEL_VALUE_2#</td>
 										<td>#getProblemData.LABEL_TYPE_3#</td>
