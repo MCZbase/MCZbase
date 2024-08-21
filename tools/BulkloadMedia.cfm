@@ -547,7 +547,7 @@ limitations under the License.
 						<th>RELATED_PRIMARY_KEY</th>
 						<th>MEDIA_LABEL_1</th>
 						<th>LABEL_VALUE_1</th>
-						<th>LABEL_TYPE_2</th>
+				<!---		<th>LABEL_TYPE_2</th>
 						<th>LABEL_VALUE_2</th>
 						<th>LABEL_TYPE_3</th>
 						<th>LABEL_VALUE_3</th>
@@ -560,7 +560,7 @@ limitations under the License.
 						<th>LABEL_TYPE_7</th>
 						<th>LABEL_VALUE_7</th>
 						<th>LABEL_TYPE_8</th>
-						<th>LABEL_VALUE_8</th>
+						<th>LABEL_VALUE_8</th>--->
 					</tr>
 				<tbody>
 					<cfloop query="problemData">
@@ -582,7 +582,7 @@ limitations under the License.
 							<td>#problemData.RELATED_PRIMARY_KEY#</td>
 							<td>#problemData.MEDIA_LABEL_1#</td>
 							<td>#problemData.LABEL_VALUE_1#</td>
-							<td>#problemData.LABEL_TYPE_2#</td>
+				<!---			<td>#problemData.LABEL_TYPE_2#</td>
 							<td>#problemData.LABEL_VALUE_2#</td>
 							<td>#problemData.LABEL_TYPE_3#</td>
 							<td>#problemData.LABEL_VALUE_3#</td>
@@ -595,7 +595,7 @@ limitations under the License.
 							<td>#problemData.LABEL_TYPE_7#</td>
 							<td>#problemData.LABEL_VALUE_7#</td>
 							<td>#problemData.LABEL_TYPE_8#</td>
-							<td>#problemData.LABEL_VALUE_8#</td>	
+							<td>#problemData.LABEL_VALUE_8#</td>	--->
 						</tr>
 					</cfloop>
 				</tbody>
@@ -729,7 +729,7 @@ limitations under the License.
 							)
 						</cfquery>
 						<cfif media_id eq #getID.theId#>
-							<cfloop from="1" to= "8" index="i">
+							<cfloop from="1" to= "1" index="i">
 								<cfquery name="makeLabels" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 									INSERT into media_labels (
 										media_label_i,
@@ -816,7 +816,7 @@ limitations under the License.
 									<th>RELATED_PRIMARY_KEY</th>
 									<th>MEDIA_LABEL_1</th>
 									<th>LABEL_VALUE_1</th>
-									<th>LABEL_TYPE_2</th>
+<!---									<th>LABEL_TYPE_2</th>
 									<th>LABEL_VALUE_2</th>
 									<th>LABEL_TYPE_3</th>
 									<th>LABEL_VALUE_3</th>
@@ -829,7 +829,7 @@ limitations under the License.
 									<th>LABEL_TYPE_7</th>
 									<th>LABEL_VALUE_7</th>
 									<th>LABEL_TYPE_8</th>
-									<th>LABEL_VALUE_8</th>
+									<th>LABEL_VALUE_8</th>--->
 								</tr> 
 							</thead>
 							<tbody>
@@ -852,7 +852,7 @@ limitations under the License.
 										<td>#getProblemData.RELATED_PRIMARY_KEY#</td>
 										<td>#getProblemData.MEDIA_LABEL_1#</td>
 										<td>#getProblemData.LABEL_VALUE_1#</td>
-										<td>#getProblemData.LABEL_TYPE_2#</td>
+										<!---<td>#getProblemData.LABEL_TYPE_2#</td>
 										<td>#getProblemData.LABEL_VALUE_2#</td>
 										<td>#getProblemData.LABEL_TYPE_3#</td>
 										<td>#getProblemData.LABEL_VALUE_3#</td>
@@ -865,7 +865,7 @@ limitations under the License.
 										<td>#getProblemData.LABEL_TYPE_7#</td>
 										<td>#getProblemData.LABEL_VALUE_7#</td>
 										<td>#getProblemData.LABEL_TYPE_8#</td>
-										<td>#getProblemData.LABEL_VALUE_8#</td>
+										<td>#getProblemData.LABEL_VALUE_8#</td>--->
 									</tr>
 									<cfset i= i+1>
 								</cfloop>
