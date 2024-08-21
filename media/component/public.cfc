@@ -850,12 +850,8 @@ include this function and use it.
 							<tr><th scope="row">Subject:</th><td>#labels.subject#</td></tr>
 							<tr><th scope="row">Description:</th><td>#labels.description#</td></tr>
 							<tr><th scope="row">Made Date:</th><td>#labels.made_date#</td></tr>
-							<cfif len(#labels.height#) gt 0>
-								<tr><th scope="row">Height:</th><td>#labels.height#</td></tr>
-							<cfelse>
-								<tr><th scope="row">Height:</th><td>#media.height#</td></tr>
-							</cfif>
-							<tr><th scope="row">Width:</th><td>#labels.width#</td></tr>
+			<!---					<tr><th scope="row">Height:</th><td>#labels.height#</td></tr>
+								<tr><th scope="row">Width:</th><td>#labels.width#</td></tr>--->
 							<cfloop query="labels">
 								<tr><th scope="row"><span class="text-capitalize">#labels.media_label#</span>:</th><td>#labels.label_value#</td></tr>
 							</cfloop>
