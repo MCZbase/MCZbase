@@ -219,7 +219,7 @@ include this function and use it.
 										<cfset info = deserializeJSON(info_json.Filecontent)>
 										<cfset infoHeight = info.height>
 										<cfset infoWidth = info.width>
-										<!---<cfif media.height EQ "">
+										<cfif media.height EQ "">
 											<cfquery name="addh" datasource="uam_god" timeout="2">
 												INSERT INTO media_labels (
 													media_id,
@@ -248,7 +248,7 @@ include this function and use it.
 													0
 												)
 											</cfquery>
-										</cfif>--->
+										</cfif>
 									</cfif>
 								<cfcatch>
 									<!--- cfdump var="#cfcatch.message#" --->
@@ -811,13 +811,13 @@ include this function and use it.
 				<!---Loop through the media to see what the metadata is for the featured image on the page--->
 				<cfloop query="media">
 					<cfquery name="labels" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						SELECT media_label, label_value, agent_name, media_label_id, description, subject, made_date, height, width
-						FROM media_labels
-							left join preferred_agent_name on media_labels.assigned_by_agent_id=preferred_agent_name.agent_id
-						WHERE
-							media_labels.media_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
-							and media_label <> 'credit'  -- obtained in the findIDs query.
-							and media_label <> 'owner'  -- obtained in the findIDs query.
+					SELECT media_label, label_value, agent_name, media_label_id
+					FROM media_labels
+						left join preferred_agent_name on media_labels.assigned_by_agent_id=preferred_agent_name.agent_id
+					WHERE
+						media_labels.media_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
+						and media_label <> 'credit'  -- obtained in the findIDs query.
+						and media_label <> 'owner'  -- obtained in the findIDs query.
 						<cfif oneOfUs EQ 0>
 							and media_label <> 'internal remarks'
 						</cfif>
@@ -847,23 +847,6 @@ include this function and use it.
 						<tbody>
 							<tr><th scope="row">Media Type:</th><td>#media.media_type#</td></tr>
 							<tr><th scope="row">MIME Type:</th><td>#media.mime_type#</td></tr>
-							<cfif len(labels.height) eq 0>
-								<tr><th scope="row">Height:</th><td>#labels.height#</td></tr>
-							<cfelse>
-								<tr><th scope="row">Height:</th><td>#media.height#</td></tr>
-							</cfif>
-							<cfif labels.label_value neq 'width'>
-								<tr><th scope="row">Width:</th><td>#labels.width#</td></tr>
-							</cfif>
-							<cfif labels.label_value neq 'made_date'>
-								<tr><th scope="row">Made Date:</th><td>#labels.made_date#</td></tr>
-							</cfif>
-							<cfif labels.label_value neq 'description'>
-								<tr><th scope="row">Description:</th><td>#labels.description#</td></tr>
-							</cfif>
-							<cfif labels.label_value neq 'subject'>
-								<tr><th scope="row">Subject:</th><td>#labels.subject#</td></tr>
-							</cfif>
 							<cfloop query="labels">
 								<tr><th scope="row"><span class="text-capitalize">#labels.media_label#</span>:</th><td>#labels.label_value#</td></tr>
 							</cfloop>
