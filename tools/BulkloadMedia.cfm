@@ -778,7 +778,7 @@ limitations under the License.
 						<cfset baseName_ = "media_label">
 						<cfset number_of_variables = 8>
 						<cfloop from= "1" to="#number_of_variables#" index="i">
-							<cfset variableName = baseName_ & i>
+							<cfset variableName = "baseName_" & i>
 							
 							<cfquery name="makeLabels" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="LabResult">
 								INSERT into media_labels (
