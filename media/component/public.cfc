@@ -570,7 +570,7 @@ include this function and use it.
 			<cftry>
 				<cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					select distinct 
-						media.media_id,media.media_uri,media.mime_type,media.media_type,media.preview_uri,
+						media.media_id,media.media_uri,media.mime_type,media.media_type,media.preview_uri,subject,description,made_date,height,width,
 						media.auto_host, media.auto_path, media.auto_filename,
 						MCZBASE.get_media_dctermsrights(media.media_id) as uri, 
 						MCZBASE.get_media_dcrights(media.media_id) as display, 
