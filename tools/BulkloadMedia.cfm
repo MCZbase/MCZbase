@@ -723,7 +723,7 @@ limitations under the License.
 								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.LABEL_VALUE_1#">,
 								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.SUBJECT#">,
 								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.DESCRIPTION#">,
-								<cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempData.MADE_DATE#">,
+								<cfqueryparam cfsqltype="CF_SQL_DATE" value="#getTempData.MADE_DATE#">,
 								<cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempData.WIDTH#">,
 								<cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempData.HEIGHT#">,
 								<cfqueryparam cfsqltype="CF_SQL_decimal" value="#getAgent.agent_id#">
@@ -774,6 +774,8 @@ limitations under the License.
 										Problem with MEDIA_LABEL_1 (#cfcatch.detail#)
 									<cfelseif cfcatch.detail contains "label_value">
 										Problem with LABEL_VALUE_1 (#cfcatch.detail#)
+									<cfelseif cfcatch.detail contains "date">
+										Problem with MADE_DATE (#cfcatch.detail#)
 									<cfelseif cfcatch.detail contains "media_relationship">
 										Problem with MEDIA_RELATIONSHIP (#cfcatch.detail#)
 									<cfelseif cfcatch.detail contains "no data">
