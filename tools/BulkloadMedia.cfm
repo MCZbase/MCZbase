@@ -718,15 +718,15 @@ limitations under the License.
 								made_date,
 								assigned_by_agent_id
 							) VALUES (
-								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getID.theId#">,
+								<cfqueryparam cfsqltype="CF_SQL_number" value="#getID.theId#">,
 								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.MEDIA_LABEL_1#">,
 								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.LABEL_VALUE_1#">,
 								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.SUBJECT#">,
 								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.DESCRIPTION#">,
-								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.MADE_DATE#">,
-								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.WIDTH#">,
-								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.HEIGHT#">,
-								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getAgent.agent_id#">
+								<cfqueryparam cfsqltype="CF_SQL_date" value="#getTempData.MADE_DATE#">,
+								<cfqueryparam cfsqltype="CF_SQL_number" value="#getTempData.WIDTH#">,
+								<cfqueryparam cfsqltype="CF_SQL_number" value="#getTempData.HEIGHT#">,
+								<cfqueryparam cfsqltype="CF_SQL_decimal" value="#getAgent.agent_id#">
 							)
 						</cfquery>
 						<cfset media_updates = media_updates + insResult.recordcount>
