@@ -748,6 +748,32 @@ limitations under the License.
 								<cfqueryparam cfsqltype="CF_SQL_decimal" value="#getAgent.agent_id#">
 							)
 						</cfquery>
+						<cfquery name="makeLabels" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="LabResult">
+							INSERT into media_labels (
+								media_id,
+								media_label,
+								label_value,
+								assigned_by_agent_id
+							) VALUES (
+								<cfqueryparam cfsqltype="CF_SQL_decimal" value="#getID.theId#">,
+								'Height',
+								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.HEIGHT#">,	
+								<cfqueryparam cfsqltype="CF_SQL_decimal" value="#getAgent.agent_id#">
+							)
+						</cfquery>
+						<cfquery name="makeLabels" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="LabResult">
+							INSERT into media_labels (
+								media_id,
+								media_label,
+								label_value,
+								assigned_by_agent_id
+							) VALUES (
+								<cfqueryparam cfsqltype="CF_SQL_decimal" value="#getID.theId#">,
+								'Width',
+								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.WIDTH#">,	
+								<cfqueryparam cfsqltype="CF_SQL_decimal" value="#getAgent.agent_id#">
+							)
+						</cfquery>
 						<cfset media_updates = media_updates + insResult.recordcount>
 						<cfset i = i+1>
 					</cfloop>
