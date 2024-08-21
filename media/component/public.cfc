@@ -570,7 +570,7 @@ include this function and use it.
 			<cftry>
 				<cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					select distinct 
-						media.media_id,media.media_uri,media.mime_type,media.media_type,media.preview_uri,subject,description,made_date,height,width,
+						media.media_id,media.media_uri,media.mime_type,media.media_type,media.preview_uri,
 						media.auto_host, media.auto_path, media.auto_filename,
 						MCZBASE.get_media_dctermsrights(media.media_id) as uri, 
 						MCZBASE.get_media_dcrights(media.media_id) as display, 
@@ -847,9 +847,11 @@ include this function and use it.
 						<tbody>
 							<tr><th scope="row">Media Type:</th><td>#media.media_type#</td></tr>
 							<tr><th scope="row">MIME Type:</th><td>#media.mime_type#</td></tr>
-							<tr><th scope="row">SUBJECT:</th><td>#media.subject#</td></tr>
-							<tr><th scope="row">DESCRIPTION:</th><td>#media.description#</td></tr>
-							<tr><th scope="row">MADE DATE:</th><td>#media.made_date#</td></tr>
+							<cfloop query="labels">
+								<tr><th scope="row">SUBJECT:</th><td>#labels.subject#</td></tr>
+								<tr><th scope="row">DESCRIPTION:</th><td>#labels.description#</td></tr>
+								<tr><th scope="row">MADE DATE:</th><td>#labels.made_date#</td></tr>
+							</cfloop>
 							<cfloop query="labels">
 								<tr><th scope="row"><span class="text-capitalize">#labels.media_label#</span>:</th><td>#labels.label_value#</td></tr>
 							</cfloop>
