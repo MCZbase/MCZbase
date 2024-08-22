@@ -549,11 +549,11 @@ limitations under the License.
 						<th>DESCRIPTION</th>
 						<th>MEDIA_RELATIONSHIP</th>
 						<th>RELATED_PRIMARY_KEY</th>
-						<th>MEDIA_LABEL</th>
-						<th>LABEL_VALUE</th>
-				<!---		<th>LABEL_TYPE_2</th>
+						<th>MEDIA_LABEL_1</th>
+						<th>LABEL_VALUE_1</th>
+						<th>LABEL_TYPE_2</th>
 						<th>LABEL_VALUE_2</th>
-						<th>LABEL_TYPE_3</th>
+					<!---		<th>LABEL_TYPE_3</th>
 						<th>LABEL_VALUE_3</th>
 						<th>LABEL_TYPE_4</th>
 						<th>LABEL_VALUE_4</th>	
@@ -586,9 +586,9 @@ limitations under the License.
 							<td>#problemData.RELATED_PRIMARY_KEY#</td>
 							<td>#problemData.MEDIA_LABEL#</td>
 							<td>#problemData.LABEL_VALUE#</td>
-				<!---			<td>#problemData.LABEL_TYPE_2#</td>
+							<td>#problemData.LABEL_TYPE_2#</td>
 							<td>#problemData.LABEL_VALUE_2#</td>
-							<td>#problemData.LABEL_TYPE_3#</td>
+						<!---	<td>#problemData.LABEL_TYPE_3#</td>
 							<td>#problemData.LABEL_VALUE_3#</td>
 							<td>#problemData.LABEL_TYPE_4#</td>
 							<td>#problemData.LABEL_VALUE_4#</td>
@@ -908,9 +908,9 @@ limitations under the License.
 									<th>RELATED_PRIMARY_KEY</th>
 									<th>MEDIA_LABEL_1</th>
 									<th>LABEL_VALUE_1</th>
-<!---									<th>LABEL_TYPE_2</th>
+									<th>LABEL_TYPE_2</th>
 									<th>LABEL_VALUE_2</th>
-									<th>LABEL_TYPE_3</th>
+							<!---			<th>LABEL_TYPE_3</th>
 									<th>LABEL_VALUE_3</th>
 									<th>LABEL_TYPE_4</th>
 									<th>LABEL_VALUE_4</th>
@@ -944,9 +944,9 @@ limitations under the License.
 										<td>#getProblemData.RELATED_PRIMARY_KEY#</td>
 										<td>#getProblemData.MEDIA_LABEL_1#</td>
 										<td>#getProblemData.LABEL_VALUE_1#</td>
-										<!---<td>#getProblemData.LABEL_TYPE_2#</td>
+										<td>#getProblemData.LABEL_TYPE_2#</td>
 										<td>#getProblemData.LABEL_VALUE_2#</td>
-										<td>#getProblemData.LABEL_TYPE_3#</td>
+									<!---	<td>#getProblemData.LABEL_TYPE_3#</td>
 										<td>#getProblemData.LABEL_VALUE_3#</td>
 										<td>#getProblemData.LABEL_TYPE_4#</td>
 										<td>#getProblemData.LABEL_VALUE_4#</td>
