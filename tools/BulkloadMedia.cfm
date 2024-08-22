@@ -464,7 +464,8 @@ limitations under the License.
 							select specimen_part.collection_object_id 
 							from cataloged_item,specimen_part 
 							where specimen_part.derived_from_cat_item = cataloged_item.collection_object_id 
-							and cat_num = '#cat_item#'
+							and cataloged_item.cat_num = '#cat_item#'
+							and cataloged_item.collection_cde = '#coll_cde#'
 							)
 					</cfquery>
 				</cfloop>
