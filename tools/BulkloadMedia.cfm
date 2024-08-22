@@ -446,6 +446,7 @@ limitations under the License.
 				<!---Find the table name "theTable" from the second part of the media_relationship--->
 				<cfset theTable = listlast('#getTempMedia.media_relationship#'," ")>
 				<!---based on the table, find the primary key--->
+					<h1>#theTable#</h1>
 				<cfquery name="tables" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT cols.table_name, cols.column_name, cols.position, cons.status, cons.owner
 					FROM all_constraints cons, all_cons_columns cols
