@@ -469,6 +469,7 @@ limitations under the License.
 								select #tables.column_name# from #theTable# where #tables.column_name# = (select #tables.column_name# from #theTable# where cat_num = '#CI#' and collection_cde = '#CCDE#')  
 							</cfquery>
 						</cfloop>
+								<h1>#CI#</h1>
 					<cfelse>
 						<cfquery name="chkCOID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							select #tables.column_name# from #theTable# where #tables.column_name# = '#getTempMedia.related_primary_key#'  
