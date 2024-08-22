@@ -463,10 +463,10 @@ limitations under the License.
 					</cfquery>
 				</cfloop>
 			<cfelseif theTable eq 'specimen_part'>
-				<cfloop list="#getTempMedia.related_primary_key#" index="l" delimiters=":">
-					<cfset instit_acronym = listgetat(l,1,":")>
-					<cfset coll_cde = listgetat(l,2,":")>
-					<cfset cat_item = listgetat(l,3,":")>
+				<cfloop list="#getTempMedia.related_primary_key#" index="m" delimiters=":">
+					<cfset instit_acronym = listgetat(m,1,":")>
+					<cfset coll_cde = listgetat(m,2,":")>
+					<cfset cat_item = listgetat(m,3,":")>
 					<cfquery name="chkCOID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						SELECT specimen_part.collection_object_id FROM specimen_part 
 						WHERE specimen_part.collection_object_id in (
