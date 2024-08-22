@@ -465,7 +465,11 @@ limitations under the License.
 								<cfset CCDE = listGetAt(#getTempMedia.related_primary_key#,2,":")>
 								<cfset CI = listGetAt(#getTempMedia.related_primary_key#,3,":")>
 								<cfquery name="chkCOID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-									select #tables.column_name# from #theTable# where #tables.column_name# = (select #tables.column_name# from #theTable# where cat_num = '#CI#' and collection_cde = '#CCDE#')  
+									update cf_temp_media set related_primary_key = (
+										select #tables.column_name# from #theTable# 
+										where #tables.column_name# = (
+											select #tables.column_name# from #theTable# where cat_num = '#CI#' and collection_cde = '#CCDE#')
+									)  
 								</cfquery>
 							</cfloop>
 						<cfelse>
