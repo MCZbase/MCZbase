@@ -459,7 +459,7 @@ limitations under the License.
 					<cfset coll_cde = listgetat(l,2,":")>
 					<cfset cat_item = listgetat(l,3,":")>
 					<cfquery name="chkCOID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						select #tables.column_name# from #theTable# where #tables.column_name# = (select #tables.column_name# from #theTable# where cat_num = '#cat_item#' and collection_cde = '#coll_cde#' and instit_acronym = 'MCZ')
+						select collection_object_id from cataloged_item where collection_object_id = (select collection_object_id from cataloged_item where cat_num = '#cat_item#' and collection_cde = '#coll_cde#' and instit_acronym = 'MCZ')
 					</cfquery>
 				</cfloop>
 			<!---<cfelseif theTable eq 'specimen_part'>
