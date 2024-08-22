@@ -466,9 +466,6 @@ limitations under the License.
 							where specimen_part.derived_from_cat_item = cataloged_item.collection_object_id 
 							and cat_num = '#cat_item#'
 							)
-						AND cat_num = '#cat_item#' 
-						AND collection_cde = '#coll_cde#' 
-						AND instit_acronym = 'MCZ'
 					</cfquery>
 				</cfloop>
 			<cfelseif theTable eq 'specimen_part'>
