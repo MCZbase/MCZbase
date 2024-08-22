@@ -445,7 +445,7 @@ limitations under the License.
 			<cfif len(getTempMedia.MEDIA_RELATIONSHIP) gt 0>
 				<cfloop query="getTempMedia">
 					<!---Find the table name "theTable" from the second part of the media_relationship--->
-					<cfset theTable = listlast('#getTempMedia.media_relationship#'," ")>
+					<cfset theTable = #trim(listLast('getTempMedia.media_relationship'," "))#>
 					<!---based on the table, find the primary key--->
 						<h1>#theTable#</h1>
 					<cfquery name="tables" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -462,9 +462,9 @@ limitations under the License.
 
 					<cfif theTable is 'cataloged_item'>
 						<cfloop list="#getTempMedia.related_primary_key#" index="l" delimiters=":">
-							<cfset IA = listgetat(l,1,":")>
-							<cfset CCDE = listgetat(l,2,":")>
-							<cfset CI = listgetat(l,3,":")>
+							<cfset IA = #trim(listGetAt(l,1,":"))#>
+							<cfset CCDE = #trim(listGetAt(l,2,":"))#>
+							<cfset CI = #trim(listGetAt(l,3,":"))#>
 							<cfquery name="chkCOID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 								select #tables.column_name# from #theTable# where #tables.column_name# = (select #tables.column_name# from #theTable# where cat_num = '#CI#' and collection_cde = '#CCDE#')  
 							</cfquery>
