@@ -641,7 +641,7 @@ limitations under the License.
 					SELECT * FROM cf_temp_media
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
-					#getTempData.media_relationship#
+					#getTempData.key#
 				<cfquery name="getAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT agent_id FROM agent_name
 					WHERE agent_name_type = 'login'
