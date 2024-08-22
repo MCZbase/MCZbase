@@ -445,7 +445,7 @@ limitations under the License.
 			<cfif len(getTempMedia.MEDIA_RELATIONSHIP) gt 0>
 				<cfloop query="getTempMedia">
 					<!---Find the table name "theTable" from the second part of the media_relationship--->
-					<cfset theTable = #trim(listLast('getTempMedia.media_relationship'," "))#>
+					<cfset theTable = trim(listLast('#getTempMedia.media_relationship#'," "))>
 					<!---based on the table, find the primary key--->
 						<h1>#theTable#</h1>
 					<cfquery name="tables" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -460,7 +460,7 @@ limitations under the License.
 						ORDER BY cols.table_name, cols.position
 					</cfquery>
 
-					<cfif #tables.table_name# eq 'cataloged_item'>
+					<cfif #theTable# eq 'cataloged_item'>
 						<cfloop list="#getTempMedia.related_primary_key#" index="l" delimiters=":">
 							<cfset IA = #trim(listGetAt(l,1,":"))#>
 							<cfset CCDE = #trim(listGetAt(l,2,":"))#>
