@@ -462,9 +462,9 @@ limitations under the License.
 
 					<cfif #theTable# eq 'cataloged_item'>
 						<cfloop list="#getTempMedia.related_primary_key#" index="l" delimiters=":">
-							<cfset IA = listGetAt(l,1,":")>
-							<cfset CCDE = listGetAt(l,2,":")>
-							<cfset CI = listGetAt(l,3,":")>
+							<cfset IA = listGetAt(#getTempMedia.related_primary_key#,1,":")>
+							<cfset CCDE = listGetAt(#getTempMedia.related_primary_key#,2,":")>
+							<cfset CI = listGetAt(#getTempMedia.related_primary_key#,3,":")>
 							<cfquery name="chkCOID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 								select #tables.column_name# from #theTable# where #tables.column_name# = (select #tables.column_name# from #theTable# where cat_num = '#CI#' and collection_cde = '#CCDE#')  
 							</cfquery>
