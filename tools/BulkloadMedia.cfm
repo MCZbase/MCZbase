@@ -32,8 +32,8 @@ limitations under the License.
 	<cfabort>
 </cfif>
 <!--- end special case dump of problems --->
-<cfset fieldlist = "MEDIA_URI,MIME_TYPE,MEDIA_TYPE,PREVIEW_URI,CREATED_BY_AGENT_ID,SUBJECT,MADE_DATE,HEIGHT,WIDTH,DESCRIPTION,MEDIA_RELATIONSHIP_1,RELATED_PRIMARY_KEY_1,MEDIA_RELATIONSHIP_2,RELATED_PRIMARY_KEY_2,MEDIA_RELATIONSHIP_3,RELATED_PRIMARY_KEY_3,MEDIA_LICENSE_ID,MASK_MEDIA,MEDIA_LABEL_1,LABEL_VALUE_1,MEDIA_LABEL_2,LABEL_VALUE_2">
-<cfset fieldTypes ="CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_DECIMAL,CF_SQL_VARCHAR,CF_SQL_DATE,CF_SQL_DECIMAL,CF_SQL_DECIMAL,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_DECIMAL,CF_SQL_DECIMAL,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR">
+<cfset fieldlist = "MEDIA_URI,MIME_TYPE,MEDIA_TYPE,PREVIEW_URI,CREATED_BY_AGENT_ID,SUBJECT,MADE_DATE,HEIGHT,WIDTH,DESCRIPTION,MEDIA_RELATIONSHIP,RELATED_PRIMARY_KEY,MEDIA_LICENSE_ID,MASK_MEDIA,MEDIA_LABEL_1,LABEL_VALUE_1,MEDIA_LABEL_2,LABEL_VALUE_2">
+<cfset fieldTypes ="CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_DECIMAL,CF_SQL_VARCHAR,CF_SQL_DATE,CF_SQL_DECIMAL,CF_SQL_DECIMAL,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_DECIMAL,CF_SQL_DECIMAL,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR">
 <cfset requiredfieldlist = "MEDIA_URI,MIME_TYPE,MEDIA_TYPE,CREATED_BY_AGENT_ID,SUBJECT,MADE_DATE,DESCRIPTION,WIDTH,HEIGHT">
 		
 <!--- special case handling to dump column headers as csv --->
@@ -388,7 +388,7 @@ limitations under the License.
 		<h2 class="h4 mb-3">Second step: Data Validation</h2>
 		<cfoutput>
 			<cfquery name="getTempMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				SELECT MEDIA_URI,MIME_TYPE,MEDIA_TYPE,PREVIEW_URI,CREATED_BY_AGENT_ID,SUBJECT,MADE_DATE,HEIGHT,WIDTH,DESCRIPTION,MEDIA_RELATIONSHIP_1,RELATED_PRIMARY_KEY_1,MEDIA_RELATIONSHIP_2,RELATED_PRIMARY_KEY_2,MEDIA_RELATIONSHIP_3,RELATED_PRIMARY_KEY_3,MEDIA_LICENSE_ID,MASK_MEDIA,MEDIA_LABEL_1,LABEL_VALUE_1,MEDIA_LABEL_2,LABEL_VALUE_2,KEY,USERNAME
+				SELECT MEDIA_URI,MIME_TYPE,MEDIA_TYPE,PREVIEW_URI,CREATED_BY_AGENT_ID,SUBJECT,MADE_DATE,HEIGHT,WIDTH,DESCRIPTION,MEDIA_RELATIONSHIP,RELATED_PRIMARY_KEY,MEDIA_LICENSE_ID,MASK_MEDIA,MEDIA_LABEL_1,LABEL_VALUE_1,MEDIA_LABEL_2,LABEL_VALUE_2,KEY,USERNAME
 				FROM 
 					cf_temp_media
 				WHERE 
@@ -547,12 +547,8 @@ limitations under the License.
 						<th>HEIGHT</th>
 						<th>WIDTH</th>
 						<th>DESCRIPTION</th>
-						<th>MEDIA_RELATIONSHIP_1</th>
-						<th>RELATED_PRIMARY_KEY_1</th>
-						<th>MEDIA_RELATIONSHIP_2</th>
-						<th>RELATED_PRIMARY_KEY_2</th>
-						<th>MEDIA_RELATIONSHIP_3</th>
-						<th>RELATED_PRIMARY_KEY_3</th>
+						<th>MEDIA_RELATIONSHIP</th>
+						<th>RELATED_PRIMARY_KEY</th>
 						<th>MEDIA_LABEL_1</th>
 						<th>LABEL_VALUE_1</th>
 						<th>MEDIA_LABEL_2</th>
@@ -586,12 +582,8 @@ limitations under the License.
 							<td>#problemData.HEIGHT#</td>
 							<td>#problemData.WIDTH#</td>
 							<td>#problemData.DESCRIPTION#</td>
-							<td>#problemData.MEDIA_RELATIONSHIP_1#</td>
-							<td>#problemData.RELATED_PRIMARY_KEY_1#</td>
-							<td>#problemData.MEDIA_RELATIONSHIP_2#</td>
-							<td>#problemData.RELATED_PRIMARY_KEY_2#</td>
-							<td>#problemData.MEDIA_RELATIONSHIP_3#</td>
-							<td>#problemData.RELATED_PRIMARY_KEY_3#</td>
+							<td>#problemData.MEDIA_RELATIONSHIP#</td>
+							<td>#problemData.RELATED_PRIMARY_KEY#</td>
 							<td>#problemData.MEDIA_LABEL_1#</td>
 							<td>#problemData.LABEL_VALUE_1#</td>
 							<td>#problemData.MEDIA_LABEL_2#</td>
@@ -974,18 +966,18 @@ limitations under the License.
 									<th>LABEL_VALUE_1</th>
 									<th>MEDIA_LABEL_2</th>
 									<th>LABEL_VALUE_2</th>
-							<!---			<th>LABEL_TYPE_3</th>
+									<th>MEDIA_LABEL_3</th>
 									<th>LABEL_VALUE_3</th>
-									<th>LABEL_TYPE_4</th>
+									<th>MEDIA_LABEL_4</th>
 									<th>LABEL_VALUE_4</th>
-									<th>LABEL_TYPE_5</th>
+									<th>MEDIA_LABEL_5</th>
 									<th>LABEL_VALUE_5</th>
-									<th>LABEL_TYPE_6</th>
+									<th>MEDIA_LABEL_6</th>
 									<th>LABEL_VALUE_6</th>
-									<th>LABEL_TYPE_7</th>
+									<th>MEDIA_LABEL_7</th>
 									<th>LABEL_VALUE_7</th>
-									<th>LABEL_TYPE_8</th>
-									<th>LABEL_VALUE_8</th>--->
+									<th>MEDIA_LABEL_8</th>
+									<th>LABEL_VALUE_8</th>
 								</tr> 
 							</thead>
 							<tbody>
@@ -1010,18 +1002,18 @@ limitations under the License.
 										<td>#getProblemData.LABEL_VALUE_1#</td>
 										<td>#getProblemData.MEDIA_LABEL_2#</td>
 										<td>#getProblemData.LABEL_VALUE_2#</td>
-									<!---	<td>#getProblemData.LABEL_TYPE_3#</td>
+										<td>#getProblemData.MEDIA_LABEL_3#</td>
 										<td>#getProblemData.LABEL_VALUE_3#</td>
-										<td>#getProblemData.LABEL_TYPE_4#</td>
+										<td>#getProblemData.MEDIA_LABEL_4#</td>
 										<td>#getProblemData.LABEL_VALUE_4#</td>
-										<td>#getProblemData.LABEL_TYPE_5#</td>
+										<td>#getProblemData.MEDIA_LABEL_5#</td>
 										<td>#getProblemData.LABEL_VALUE_5#</td>
-										<td>#getProblemData.LABEL_TYPE_6#</td>
+										<td>#getProblemData.MEDIA_LABEL_6#</td>
 										<td>#getProblemData.LABEL_VALUE_6#</td>
-										<td>#getProblemData.LABEL_TYPE_7#</td>
+										<td>#getProblemData.MEDIA_LABEL_7#</td>
 										<td>#getProblemData.LABEL_VALUE_7#</td>
-										<td>#getProblemData.LABEL_TYPE_8#</td>
-										<td>#getProblemData.LABEL_VALUE_8#</td>--->
+										<td>#getProblemData.MEDIA_LABEL_8#</td>
+										<td>#getProblemData.LABEL_VALUE_8#</td>
 									</tr>
 									<cfset i= i+1>
 								</cfloop>
