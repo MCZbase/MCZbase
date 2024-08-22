@@ -707,7 +707,6 @@ limitations under the License.
 							)
 						</cfquery>
 						<cfset rowid = insResult.generatedkey>
-							#rowid#
 						<cfquery name="getID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							SELECT 
 								media_id as theId
@@ -736,10 +735,10 @@ limitations under the License.
 								label_value,
 								assigned_by_agent_id
 							) VALUES (
-								<cfqueryparam cfsqltype="CF_SQL_decimal" value="#getID.theId#">,
+								<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getID.theId#">,
 								'Subject',
 								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.SUBJECT#">,	
-								<cfqueryparam cfsqltype="CF_SQL_decimal" value="#getAgent.agent_id#">
+								<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getAgent.agent_id#">
 							)
 						</cfquery>
 						<cfquery name="makeLabels" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="LabResult">
@@ -749,10 +748,10 @@ limitations under the License.
 								label_value,
 								assigned_by_agent_id
 							) VALUES (
-								<cfqueryparam cfsqltype="CF_SQL_decimal" value="#getID.theId#">,
-								'Description',
+								<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getID.theId#">,
+								'description',
 								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.DESCRIPTION#">,	
-								<cfqueryparam cfsqltype="CF_SQL_decimal" value="#getAgent.agent_id#">
+								<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getAgent.agent_id#">
 							)
 						</cfquery>
 						<cfquery name="makeLabels" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="LabResult">
@@ -762,10 +761,10 @@ limitations under the License.
 								label_value,
 								assigned_by_agent_id
 							) VALUES (
-								<cfqueryparam cfsqltype="CF_SQL_decimal" value="#getID.theId#">,
-								'Made Date',
-								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.MADE_DATE#">,	
-								<cfqueryparam cfsqltype="CF_SQL_decimal" value="#getAgent.agent_id#">
+								<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getID.theId#">,
+								'made date',
+								<cfqueryparam cfsqltype="CF_SQL_DATE" value="#getTempData.MADE_DATE#">,	
+								<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getAgent.agent_id#">
 							)
 						</cfquery>
 						<cfquery name="makeLabels" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="LabResult">
@@ -775,10 +774,10 @@ limitations under the License.
 								label_value,
 								assigned_by_agent_id
 							) VALUES (
-								<cfqueryparam cfsqltype="CF_SQL_decimal" value="#getID.theId#">,
-								'Height',
+								<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getID.theId#">,
+								'height',
 								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.HEIGHT#">,	
-								<cfqueryparam cfsqltype="CF_SQL_decimal" value="#getAgent.agent_id#">
+								<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getAgent.agent_id#">
 							)
 						</cfquery>
 						<cfquery name="makeLabels" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="LabResult">
@@ -788,10 +787,10 @@ limitations under the License.
 								label_value,
 								assigned_by_agent_id
 							) VALUES (
-								<cfqueryparam cfsqltype="CF_SQL_decimal" value="#getID.theId#">,
-								'Width',
+								<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getID.theId#">,
+								'width',
 								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.WIDTH#">,	
-								<cfqueryparam cfsqltype="CF_SQL_decimal" value="#getAgent.agent_id#">
+								<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getAgent.agent_id#">
 							)
 						</cfquery>
 						<cfquery name="makeLabels" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="LabResult">
