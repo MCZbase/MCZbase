@@ -20,7 +20,7 @@ limitations under the License.
 
 <cfif isDefined("action") AND action is "dumpProblems">
 	<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-		SELECT MEDIA_URI,MIME_TYPE,MEDIA_TYPE,PREVIEW_URI,CREATED_BY_AGENT_ID,SUBJECT,MADE_DATE,HEIGHT,WIDTH,DESCRIPTION,MEDIA_RELATIONSHIP,RELATED_PRIMARY_KEY,MEDIA_LICENSE_ID,MASK_MEDIA,MEDIA_LABEL_1,LABEL_VALUE_1,MEDIA_LABEL_2,LABEL_VALUE_2,MEDIA_LABEL_3,LABEL_VALUE_3,MEDIA_LABEL_4,LABEL_VALUE_4,MEDIA_LABEL_5,LABEL_VALUE_5,MEDIA_LABEL_6,LABEL_VALUE_6,MEDIA_LABEL_7,LABEL_VALUE_7,MEDIA_LABEL_8,LABEL_VALUE_8
+		SELECT MEDIA_URI,MIME_TYPE,MEDIA_TYPE,PREVIEW_URI,CREATED_BY_AGENT_ID,SUBJECT,MADE_DATE,HEIGHT,WIDTH,DESCRIPTION,MEDIA_RELATIONSHIP_1,RELATED_PRIMARY_KEY_1,MEDIA_RELATIONSHIP_2,RELATED_PRIMARY_KEY_2,MEDIA_LICENSE_ID,MASK_MEDIA,MEDIA_LABEL_1,LABEL_VALUE_1,MEDIA_LABEL_2,LABEL_VALUE_2,MEDIA_LABEL_3,LABEL_VALUE_3,MEDIA_LABEL_4,LABEL_VALUE_4,MEDIA_LABEL_5,LABEL_VALUE_5,MEDIA_LABEL_6,LABEL_VALUE_6,MEDIA_LABEL_7,LABEL_VALUE_7,MEDIA_LABEL_8,LABEL_VALUE_8
 		FROM cf_temp_media 
 		WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 		ORDER BY key
@@ -32,8 +32,8 @@ limitations under the License.
 	<cfabort>
 </cfif>
 <!--- end special case dump of problems --->
-<cfset fieldlist = "MEDIA_URI,MIME_TYPE,MEDIA_TYPE,PREVIEW_URI,CREATED_BY_AGENT_ID,SUBJECT,MADE_DATE,HEIGHT,WIDTH,DESCRIPTION,MEDIA_RELATIONSHIP,RELATED_PRIMARY_KEY,MEDIA_LICENSE_ID,MASK_MEDIA,MEDIA_LABEL_1,LABEL_VALUE_1,MEDIA_LABEL_2,LABEL_VALUE_2,MEDIA_LABEL_3,LABEL_VALUE_3,MEDIA_LABEL_4,LABEL_VALUE_4,MEDIA_LABEL_5,LABEL_VALUE_5,MEDIA_LABEL_6,LABEL_VALUE_6,MEDIA_LABEL_7,LABEL_VALUE_7,MEDIA_LABEL_8,LABEL_VALUE_8">
-<cfset fieldTypes ="CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_DECIMAL,CF_SQL_VARCHAR,CF_SQL_DATE,CF_SQL_DECIMAL,CF_SQL_DECIMAL,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_DECIMAL,CF_SQL_DECIMAL,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR">
+<cfset fieldlist = "MEDIA_URI,MIME_TYPE,MEDIA_TYPE,PREVIEW_URI,CREATED_BY_AGENT_ID,SUBJECT,MADE_DATE,HEIGHT,WIDTH,DESCRIPTION,MEDIA_RELATIONSHIP_1,RELATED_PRIMARY_KEY_1,MEDIA_RELATIONSHIP_2,RELATED_PRIMARY_KEY_2,MEDIA_LICENSE_ID,MASK_MEDIA,MEDIA_LABEL_1,LABEL_VALUE_1,MEDIA_LABEL_2,LABEL_VALUE_2,MEDIA_LABEL_3,LABEL_VALUE_3,MEDIA_LABEL_4,LABEL_VALUE_4,MEDIA_LABEL_5,LABEL_VALUE_5,MEDIA_LABEL_6,LABEL_VALUE_6,MEDIA_LABEL_7,LABEL_VALUE_7,MEDIA_LABEL_8,LABEL_VALUE_8">
+<cfset fieldTypes ="CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_DECIMAL,CF_SQL_VARCHAR,CF_SQL_DATE,CF_SQL_DECIMAL,CF_SQL_DECIMAL,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_DECIMAL,CF_SQL_DECIMAL,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR">
 <cfset requiredfieldlist = "MEDIA_URI,MIME_TYPE,MEDIA_TYPE,CREATED_BY_AGENT_ID,SUBJECT,MADE_DATE,DESCRIPTION,WIDTH,HEIGHT">
 		
 <!--- special case handling to dump column headers as csv --->
@@ -388,7 +388,7 @@ limitations under the License.
 		<h2 class="h4 mb-3">Second step: Data Validation</h2>
 		<cfoutput>
 			<cfquery name="getTempMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				SELECT MEDIA_URI,MIME_TYPE,MEDIA_TYPE,PREVIEW_URI,CREATED_BY_AGENT_ID,SUBJECT,MADE_DATE,HEIGHT,WIDTH,DESCRIPTION,MEDIA_RELATIONSHIP,RELATED_PRIMARY_KEY,MEDIA_LICENSE_ID,MASK_MEDIA,MEDIA_LABEL_1,LABEL_VALUE_1,MEDIA_LABEL_2,LABEL_VALUE_2,KEY,USERNAME
+				SELECT MEDIA_URI,MIME_TYPE,MEDIA_TYPE,PREVIEW_URI,CREATED_BY_AGENT_ID,SUBJECT,MADE_DATE,HEIGHT,WIDTH,DESCRIPTION,MEDIA_RELATIONSHIP_1,RELATED_PRIMARY_KEY_1,MEDIA_RELATIONSHIP_2,RELATED_PRIMARY_KEY_2,MEDIA_LICENSE_ID,MASK_MEDIA,MEDIA_LABEL_1,LABEL_VALUE_1,MEDIA_LABEL_2,LABEL_VALUE_2,KEY,USERNAME
 				FROM 
 					cf_temp_media
 				WHERE 
@@ -442,10 +442,10 @@ limitations under the License.
 					media_license_id not in (select media_license_id from ctmedia_license) AND
 					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
-			<cfif len(getTempMedia.MEDIA_RELATIONSHIP) gt 0>
+			<cfif len(getTempMedia.MEDIA_RELATIONSHIP_1) gt 0>
 				<cfloop query="getTempMedia">
 					<!---Find the table name "theTable" from the second part of the media_relationship--->
-					<cfset theTable = trim(listLast('#getTempMedia.media_relationship#'," "))>
+					<cfset theTable = trim(listLast('#getTempMedia.media_relationship_1#'," "))>
 					<!---based on the table, find the primary key--->
 					<cfquery name="tables" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						SELECT cols.table_name, cols.column_name, cols.position, cons.status, cons.owner
@@ -460,12 +460,12 @@ limitations under the License.
 					</cfquery>
 					<cfif #theTable# eq 'cataloged_item' OR #theTable# eq 'specimen_part'>
 						<cfif #theTable# eq 'cataloged_item'>
-							<cfloop list="#getTempMedia.related_primary_key#" index="l" delimiters=":">
-								<cfset IA = listGetAt(#getTempMedia.related_primary_key#,1,":")>
-								<cfset CCDE = listGetAt(#getTempMedia.related_primary_key#,2,":")>
-								<cfset CI = listGetAt(#getTempMedia.related_primary_key#,3,":")>
+							<cfloop list="#getTempMedia.related_primary_key_1#" index="l" delimiters=":">
+								<cfset IA = listGetAt(#getTempMedia.related_primary_key_1#,1,":")>
+								<cfset CCDE = listGetAt(#getTempMedia.related_primary_key_1#,2,":")>
+								<cfset CI = listGetAt(#getTempMedia.related_primary_key_1#,3,":")>
 								<cfquery name="chkCOID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-									update cf_temp_media set related_primary_key = (
+									update cf_temp_media set related_primary_key_1 = (
 										select #tables.column_name# from #theTable# 
 										where #tables.column_name# = (
 											select #tables.column_name# 
@@ -477,12 +477,12 @@ limitations under the License.
 								</cfquery>
 							</cfloop>
 						<cfelse>
-							<cfloop list="#getTempMedia.related_primary_key#" index="m" delimiters=":">
-								<cfset tinstit_acronym = listgetat(#getTempMedia.related_primary_key#,1,":")>
-								<cfset tcoll_cde = listgetat(#getTempMedia.related_primary_key#,2,":")>
-								<cfset tcat_item = listgetat(#getTempMedia.related_primary_key#,3,":")>
+							<cfloop list="#getTempMedia.related_primary_key_1#" index="l" delimiters=":">
+								<cfset tinstit_acronym = listgetat(#getTempMedia.related_primary_key_1#,1,":")>
+								<cfset tcoll_cde = listgetat(#getTempMedia.related_primary_key_1#,2,":")>
+								<cfset tcat_item = listgetat(#getTempMedia.related_primary_key_1#,3,":")>
 								<cfquery name="chkCOID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-									update cf_temp_media set related_primary_key = (
+									update cf_temp_media set related_primary_key_1 = (
 										SELECT specimen_part.collection_object_id FROM specimen_part 
 										WHERE specimen_part.collection_object_id in (
 											select specimen_part.collection_object_id 
@@ -497,7 +497,67 @@ limitations under the License.
 						</cfif>
 					<cfelse>
 						<cfquery name="chkCOID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-							select #tables.column_name# from #theTable# where #tables.column_name# = '#getTempMedia.related_primary_key#'  
+							select #tables.column_name# from #theTable# where #tables.column_name# = '#getTempMedia.related_primary_key_1#'  
+						</cfquery>
+					</cfif>
+				</cfloop>
+			</cfif>
+			<cfif len(getTempMedia.MEDIA_RELATIONSHIP_2) gt 0>
+				<cfloop query="getTempMedia">
+					<!---Find the table name "theTable" from the second part of the media_relationship--->
+					<cfset theTable = trim(listLast('#getTempMedia.media_relationship_2#'," "))>
+					<!---based on the table, find the primary key--->
+					<cfquery name="tables" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						SELECT cols.table_name, cols.column_name, cols.position, cons.status, cons.owner
+						FROM all_constraints cons, all_cons_columns cols
+						WHERE cons.constraint_type = 'P'
+						AND cons.constraint_name = cols.constraint_name
+						AND cons.owner = cols.owner
+						and cons.owner='MCZBASE'
+						AND cols.table_name = UPPER('#theTable#')
+						AND cols.position = 1
+						ORDER BY cols.table_name, cols.position
+					</cfquery>
+					<cfif #theTable# eq 'cataloged_item' OR #theTable# eq 'specimen_part'>
+						<cfif #theTable# eq 'cataloged_item'>
+							<cfloop list="#getTempMedia.related_primary_key_2#" index="l" delimiters=":">
+								<cfset IA = listGetAt(#getTempMedia.related_primary_key_2#,1,":")>
+								<cfset CCDE = listGetAt(#getTempMedia.related_primary_key_2#,2,":")>
+								<cfset CI = listGetAt(#getTempMedia.related_primary_key_2#,3,":")>
+								<cfquery name="chkCOID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+									update cf_temp_media set related_primary_key_2 = (
+										select #tables.column_name# from #theTable# 
+										where #tables.column_name# = (
+											select #tables.column_name# 
+											from #theTable# 
+											where cat_num = '#CI#' 
+											and collection_cde = '#CCDE#'
+										)
+									)
+								</cfquery>
+							</cfloop>
+						<cfelse>
+							<cfloop list="#getTempMedia.related_primary_key_2#" index="l" delimiters=":">
+								<cfset tinstit_acronym = listgetat(#getTempMedia.related_primary_key_2#,1,":")>
+								<cfset tcoll_cde = listgetat(#getTempMedia.related_primary_key_2#,2,":")>
+								<cfset tcat_item = listgetat(#getTempMedia.related_primary_key_2#,3,":")>
+								<cfquery name="chkCOID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+									update cf_temp_media set related_primary_key_2 = (
+										SELECT specimen_part.collection_object_id FROM specimen_part 
+										WHERE specimen_part.collection_object_id in (
+											select specimen_part.collection_object_id 
+											from cataloged_item,specimen_part 
+											where specimen_part.derived_from_cat_item = cataloged_item.collection_object_id 
+											and cataloged_item.cat_num = '#tcat_item#'
+											and cataloged_item.collection_cde = '#tcoll_cde#'
+										)
+									)
+								</cfquery>
+							</cfloop>
+						</cfif>
+					<cfelse>
+						<cfquery name="chkCOID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+							select #tables.column_name# from #theTable# where #tables.column_name# = '#getTempMedia.related_primary_key_2#'  
 						</cfquery>
 					</cfif>
 				</cfloop>
@@ -580,8 +640,10 @@ limitations under the License.
 						<th>HEIGHT</th>
 						<th>WIDTH</th>
 						<th>DESCRIPTION</th>
-						<th>MEDIA_RELATIONSHIP</th>
-						<th>RELATED_PRIMARY_KEY</th>
+						<th>MEDIA_RELATIONSHIP_1</th>
+						<th>RELATED_PRIMARY_KEY_1</th>
+						<th>MEDIA_RELATIONSHIP_2</th>
+						<th>RELATED_PRIMARY_KEY_2</th>
 						<th>MEDIA_LABEL_1</th>
 						<th>LABEL_VALUE_1</th>
 						<th>MEDIA_LABEL_2</th>
@@ -615,8 +677,10 @@ limitations under the License.
 							<td>#problemData.HEIGHT#</td>
 							<td>#problemData.WIDTH#</td>
 							<td>#problemData.DESCRIPTION#</td>
-							<td>#problemData.MEDIA_RELATIONSHIP#</td>
-							<td>#problemData.RELATED_PRIMARY_KEY#</td>
+							<td>#problemData.MEDIA_RELATIONSHIP_1#</td>
+							<td>#problemData.RELATED_PRIMARY_KEY_1#</td>
+							<td>#problemData.MEDIA_RELATIONSHIP_2#</td>
+							<td>#problemData.RELATED_PRIMARY_KEY_2#</td>
 							<td>#problemData.MEDIA_LABEL_1#</td>
 							<td>#problemData.LABEL_VALUE_1#</td>
 							<td>#problemData.MEDIA_LABEL_2#</td>
@@ -935,7 +999,7 @@ limitations under the License.
 					<cftransaction action="ROLLBACK">
 					<h3>There was a problem adding media records. </h3>
 					<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						SELECT STATUS,MEDIA_URI,MIME_TYPE,MEDIA_TYPE,PREVIEW_URI,CREATED_BY_AGENT_ID,SUBJECT,MADE_DATE,HEIGHT,WIDTH,DESCRIPTION,MEDIA_RELATIONSHIP,RELATED_PRIMARY_KEY,MEDIA_LICENSE_ID,MASK_MEDIA,MEDIA_LABEL_1,LABEL_VALUE_1,MEDIA_LABEL_2,LABEL_VALUE_2,MEDIA_LABEL_3,LABEL_VALUE_3,MEDIA_LABEL_4,LABEL_VALUE_4,MEDIA_LABEL_5,LABEL_VALUE_5,MEDIA_LABEL_6,LABEL_VALUE_6,MEDIA_LABEL_7,LABEL_VALUE_7,MEDIA_LABEL_8,LABEL_VALUE_8
+						SELECT STATUS,MEDIA_URI,MIME_TYPE,MEDIA_TYPE,PREVIEW_URI,CREATED_BY_AGENT_ID,SUBJECT,MADE_DATE,HEIGHT,WIDTH,DESCRIPTION,MEDIA_RELATIONSHIP_1,RELATED_PRIMARY_KEY_1,MEDIA_RELATIONSHIP_2,RELATED_PRIMARY_KEY_2,MEDIA_LICENSE_ID,MASK_MEDIA,MEDIA_LABEL_1,LABEL_VALUE_1,MEDIA_LABEL_2,LABEL_VALUE_2,MEDIA_LABEL_3,LABEL_VALUE_3,MEDIA_LABEL_4,LABEL_VALUE_4,MEDIA_LABEL_5,LABEL_VALUE_5,MEDIA_LABEL_6,LABEL_VALUE_6,MEDIA_LABEL_7,LABEL_VALUE_7,MEDIA_LABEL_8,LABEL_VALUE_8
 						FROM 
 							cf_temp_media
 						WHERE
@@ -961,14 +1025,14 @@ limitations under the License.
 										Problem with MEDIA_ID (#cfcatch.detail#)
 									<cfelseif cfcatch.detail contains "unique constraint">
 										Unique Constraint issue (#cfcatch.detail#)
-									<cfelseif cfcatch.detail contains "media_label_1">
-										Problem with MEDIA_LABEL_1 (#cfcatch.detail#)
+									<cfelseif cfcatch.detail contains "media_label">
+										Problem with a MEDIA_LABEL (#cfcatch.detail#)
 									<cfelseif cfcatch.detail contains "label_value">
-										Problem with LABEL_VALUE_1 (#cfcatch.detail#)
+										Problem with a LABEL_VALUE (#cfcatch.detail#)
 									<cfelseif cfcatch.detail contains "date">
 										Problem with MADE_DATE (#cfcatch.detail#)
 									<cfelseif cfcatch.detail contains "media_relationship">
-										Problem with MEDIA_RELATIONSHIP (#cfcatch.detail#)
+										Problem with a MEDIA_RELATIONSHIP (#cfcatch.detail#)
 									<cfelseif cfcatch.detail contains "no data">
 										No data or the wrong data (#cfcatch.detail#)
 									<cfelse>
@@ -993,8 +1057,10 @@ limitations under the License.
 									<th>DESCRIPTION</th>
 									<th>MEDIA_LICENSE_ID</th>
 									<th>MASK_MEDIA</th>
-									<th>MEDIA_RELATIONSHIP</th>
-									<th>RELATED_PRIMARY_KEY</th>
+									<th>MEDIA_RELATIONSHIP_1</th>
+									<th>RELATED_PRIMARY_KEY_1</th>
+									<th>MEDIA_RELATIONSHIP_2</th>
+									<th>RELATED_PRIMARY_KEY_2</th>
 									<th>MEDIA_LABEL_1</th>
 									<th>LABEL_VALUE_1</th>
 									<th>MEDIA_LABEL_2</th>
@@ -1029,8 +1095,10 @@ limitations under the License.
 										<td>#getProblemData.DESCRIPTION#</td>
 										<td>#getProblemData.MEDIA_LICENSE_ID#</td>
 										<td>#getProblemData.MASK_MEDIA#</td>
-										<td>#getProblemData.MEDIA_RELATIONSHIP#</td>
-										<td>#getProblemData.RELATED_PRIMARY_KEY#</td>
+										<td>#getProblemData.MEDIA_RELATIONSHIP_1#</td>
+										<td>#getProblemData.RELATED_PRIMARY_KEY_1#</td>
+										<td>#getProblemData.MEDIA_RELATIONSHIP_2#</td>
+										<td>#getProblemData.RELATED_PRIMARY_KEY_2#</td>
 										<td>#getProblemData.MEDIA_LABEL_1#</td>
 										<td>#getProblemData.LABEL_VALUE_1#</td>
 										<td>#getProblemData.MEDIA_LABEL_2#</td>
