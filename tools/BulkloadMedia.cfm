@@ -503,8 +503,8 @@ limitations under the License.
 					<cfquery name="chkCOID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						select #tables.column_name# from #theTable# where #tables.column_name# = '#getTempMedia.related_primary_key#'  
 					</cfquery>
-				</cfif>
-			</cfif>--->
+				</cfif>--->
+			</cfif>
 			<cfquery name="warningMessageLicense" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				UPDATE
 					cf_temp_media
