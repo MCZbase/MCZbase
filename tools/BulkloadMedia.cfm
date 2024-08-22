@@ -462,15 +462,6 @@ limitations under the License.
 						select #tables.column_name# from #theTable# where #tables.column_name# = (select #tables.column_name# from #theTable# where cat_num = '#cat_item#' and collection_cde = '#coll_cde#' and instit_acronym = 'MCZ')
 					</cfquery>
 				</cfloop>
-			<cfelseif theTable eq 'specimen_part'>
-				<cfloop list="#getTempMedia.related_primary_key#" index="l" delimiters=":">
-					<cfset instit_acronym = listgetat(l,1,":")>
-					<cfset coll_cde = listgetat(l,2,":")>
-					<cfset cat_item = listgetat(l,3,":")>
-					<cfquery name="chkCOID2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						select #tables.column_name# from #theTable# where #tables.column_name# = (select collection_object_id from specimen_part, cataloged_item where cat_num = '#cat_item#' and collection_cde = '#coll_cde#' and instit_acronym = 'MCZ' and cataloged_item.collection_object_id = specimen_part.collection_object_id)
-					</cfquery>
-				</cfloop>
 			<cfelse>
 				<cfquery name="chkCOID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					select #tables.column_name# from #theTable# where #tables.column_name# = '#getTempMedia.related_primary_key#'  
