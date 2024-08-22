@@ -459,18 +459,20 @@ limitations under the License.
 					<cfset coll_cde = listgetat(l,2,":")>
 					<cfset cat_item = listgetat(l,3,":")>
 					<cfquery name="chkCOID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						SELECT specimen_part.collection_object_id FROM specimen_part 
-						WHERE specimen_part.collection_object_id in (
-							select specimen_part.collection_object_id 
-							from cataloged_item,specimen_part 
-							where specimen_part.derived_from_cat_item = cataloged_item.collection_object_id 
-							and cataloged_item.cat_num = '#cat_item#'
-							and cataloged_item.collection_cde = '#coll_cde#'
-							)
+						select #tables.column_name# from #theTable# where #tables.column_name# = (select #tables.column_name# from #theTable# where cat_num = '#cat_item#' and collection_cde = '#coll_cde#' and instit_acronym = 'MCZ')
 					</cfquery>
 				</cfloop>
 			<cfelseif theTable eq 'specimen_part'>
-				
+				<cfquery name="chkCOID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					SELECT specimen_part.collection_object_id FROM specimen_part 
+					WHERE specimen_part.collection_object_id in (
+						select specimen_part.collection_object_id 
+						from cataloged_item,specimen_part 
+						where specimen_part.derived_from_cat_item = cataloged_item.collection_object_id 
+						and cataloged_item.cat_num = '#cat_item#'
+						and cataloged_item.collection_cde = '#coll_cde#'
+						)
+				</cfquery>
 			<cfelse>
 				<cfquery name="chkCOID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					select #tables.column_name# from #theTable# where #tables.column_name# = '#getTempMedia.related_primary_key#'  
