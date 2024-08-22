@@ -453,7 +453,7 @@ limitations under the License.
 				AND cols.table_name = UPPER('#theTable#')
 				ORDER BY cols.table_name, cols.position
 			</cfquery>
-			<cfif theTable eq 'cataloged_item'>
+			<cfif #theTable# eq 'cataloged_item'>
 				<cfloop list="#getTempMedia.related_primary_key#" index="l" delimiters=":">
 					<cfset instit_acronym = listgetat(l,1,":")>
 					<cfset coll_cde = listgetat(l,2,":")>
