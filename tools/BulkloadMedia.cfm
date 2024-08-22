@@ -457,7 +457,24 @@ limitations under the License.
 					AND cols.position = 1
 					ORDER BY cols.table_name, cols.position
 				</cfquery>
-				<cfif theTable is 'cataloged_item'>
+					
+				<cfif getTempMedia.media_relationship eq 'cataloged_item'>
+					<cfloop list="#getTempMedia.related_primary_key#" index="l" delimiters=":">
+						<cfset IA = listgetat(l,1,":")>
+						<cfset CCDE = listgetat(l,2,":")>
+						<cfset CI = listgetat(l,3,":")>
+						<cfif #theTable# eq 'cataloged_item'>
+							<cfquery name="chkCOID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+								select #tables.column_name# from #theTable# where #tables.column_name# = (select #tables.column_name# from #theTable# where cat_num = '#CI#' and collection_cde = '#CCDE#')  
+							</cfquery>
+						<cfelse>
+							<cfquery name="chkCOID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+								select #tables.column_name# from #theTable# where #tables.column_name# = '#getTempMedia.related_primary_key#'  
+							</cfquery>
+						</cfif>
+					</cfloop>
+				</cfif>
+	<!---			<cfif theTable is 'cataloged_item'>
 					<cfloop list="#getTempMedia.related_primary_key#" index="l" delimiters=":">
 						<cfset instit_acronym = listgetat(l,1,":")>
 						<cfset coll_cde = listgetat(l,2,":")>
@@ -465,8 +482,8 @@ limitations under the License.
 						<cfquery name="chkCOID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							select collection_object_id from cataloged_item where collection_object_id = (select collection_object_id from cataloged_item where cat_num = '#cat_item#' and collection_cde = '#coll_cde#' and instit_acronym = 'MCZ')
 						</cfquery>
-					</cfloop>
-				<cfelseif theTable eq 'specimen_part'>
+					</cfloop>--->
+<!---				<cfelseif theTable eq 'specimen_part'>
 					<cfloop list="#getTempMedia.related_primary_key#" index="m" delimiters=":">
 						<cfset tinstit_acronym = listgetat(m,1,":")>
 						<cfset tcoll_cde = listgetat(m,2,":")>
@@ -481,13 +498,13 @@ limitations under the License.
 								and cataloged_item.collection_cde = '#tcoll_cde#'
 								)
 						</cfquery>
-					</cfloop>
-				<cfelse>
+					</cfloop>--->
+	<!---			<cfelse>
 					<cfquery name="chkCOID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						select #tables.column_name# from #theTable# where #tables.column_name# = '#getTempMedia.related_primary_key#'  
 					</cfquery>
 				</cfif>
-			</cfif>
+			</cfif>--->
 			<cfquery name="warningMessageLicense" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				UPDATE
 					cf_temp_media
