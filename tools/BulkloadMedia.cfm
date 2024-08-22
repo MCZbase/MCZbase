@@ -443,36 +443,38 @@ limitations under the License.
 					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<cfif len(getTempMedia.MEDIA_RELATIONSHIP) gt 0>
-				<!---Find the table name "theTable" from the second part of the media_relationship--->
-				<cfset theTable = listlast('#getTempMedia.media_relationship#'," ")>
-				<!---based on the table, find the primary key--->
-					<h1>#theTable#</h1>
-				<cfquery name="tables" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					SELECT cols.table_name, cols.column_name, cols.position, cons.status, cons.owner
-					FROM all_constraints cons, all_cons_columns cols
-					WHERE cons.constraint_type = 'P'
-					AND cons.constraint_name = cols.constraint_name
-					AND cons.owner = cols.owner
-					and cons.owner='MCZBASE'
-					AND cols.table_name = UPPER('#theTable#')
-					AND cols.position = 1
-					ORDER BY cols.table_name, cols.position
-				</cfquery>
-					
-				<cfif theTable is 'cataloged_item'>
-					<cfloop list="#getTempMedia.related_primary_key#" index="l" delimiters=":">
-						<cfset IA = listgetat(l,1,":")>
-						<cfset CCDE = listgetat(l,2,":")>
-						<cfset CI = listgetat(l,3,":")>
-						<cfquery name="chkCOID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-							select #tables.column_name# from #theTable# where #tables.column_name# = (select #tables.column_name# from #theTable# where cat_num = '#CI#' and collection_cde = '#CCDE#')  
-						</cfquery>
-					</cfloop>
-				<cfelse>
-					<cfquery name="chkCOID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						select #tables.column_name# from #theTable# where #tables.column_name# = '#getTempMedia.related_primary_key#'  
+				<cfloop query="getTempMedia">
+					<!---Find the table name "theTable" from the second part of the media_relationship--->
+					<cfset theTable = listlast('#getTempMedia.media_relationship#'," ")>
+					<!---based on the table, find the primary key--->
+						<h1>#theTable#</h1>
+					<cfquery name="tables" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						SELECT cols.table_name, cols.column_name, cols.position, cons.status, cons.owner
+						FROM all_constraints cons, all_cons_columns cols
+						WHERE cons.constraint_type = 'P'
+						AND cons.constraint_name = cols.constraint_name
+						AND cons.owner = cols.owner
+						and cons.owner='MCZBASE'
+						AND cols.table_name = UPPER('#theTable#')
+						AND cols.position = 1
+						ORDER BY cols.table_name, cols.position
 					</cfquery>
-				</cfif>
+
+					<cfif theTable is 'cataloged_item'>
+						<cfloop list="#getTempMedia.related_primary_key#" index="l" delimiters=":">
+							<cfset IA = listgetat(l,1,":")>
+							<cfset CCDE = listgetat(l,2,":")>
+							<cfset CI = listgetat(l,3,":")>
+							<cfquery name="chkCOID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+								select #tables.column_name# from #theTable# where #tables.column_name# = (select #tables.column_name# from #theTable# where cat_num = '#CI#' and collection_cde = '#CCDE#')  
+							</cfquery>
+						</cfloop>
+					<cfelse>
+						<cfquery name="chkCOID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+							select #tables.column_name# from #theTable# where #tables.column_name# = '#getTempMedia.related_primary_key#'  
+						</cfquery>
+					</cfif>
+				</cfloop>
 	<!---			<cfif theTable is 'cataloged_item'>
 					<cfloop list="#getTempMedia.related_primary_key#" index="l" delimiters=":">
 						<cfset instit_acronym = listgetat(l,1,":")>
