@@ -460,7 +460,7 @@ limitations under the License.
 						ORDER BY cols.table_name, cols.position
 					</cfquery>
 
-					<cfif theTable is 'cataloged_item'>
+					<cfif #tables.table_name# eq 'cataloged_item'>
 						<cfloop list="#getTempMedia.related_primary_key#" index="l" delimiters=":">
 							<cfset IA = #trim(listGetAt(l,1,":"))#>
 							<cfset CCDE = #trim(listGetAt(l,2,":"))#>
