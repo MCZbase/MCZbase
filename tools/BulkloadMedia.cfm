@@ -726,7 +726,7 @@ limitations under the License.
 							FROM 
 								media
 							WHERE 
-								ROWIDTOCHAR(rowid) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#rowid#">
+								ROWIDTOCHAR(rowid) = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#rowid#">
 						</cfquery>
 						<cfquery name="makeRelations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="RelResult">
 							INSERT into media_relations (
