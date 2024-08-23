@@ -654,7 +654,7 @@ limitations under the License.
 						username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> 
 				</cfquery>
 			</cfif>
-			<cfif len(getTempMedia.height) gt 0 && isNumeric(getTempMedia.height) && len(getTempMedia.height) LT 6>
+			<cfif len(getTempMedia.height) gt 0 && !isNumeric(getTempMedia.height) && len(getTempMedia.height) LT 6>
 				<cfquery name="checkHeight" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE
 						cf_temp_media
@@ -665,7 +665,7 @@ limitations under the License.
 						username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> 
 				</cfquery>
 			</cfif>
-			<cfif len(getTempMedia.width) gt 0 && isNumeric(getTempMedia.width) && len(getTempMedia.width) lt 6>
+			<cfif len(getTempMedia.width) gt 0 && !isNumeric(getTempMedia.width) && len(getTempMedia.width) lt 6>
 				<cfquery name="checkWidth" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE
 						cf_temp_media
