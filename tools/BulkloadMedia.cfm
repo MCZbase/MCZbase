@@ -632,15 +632,15 @@ limitations under the License.
 			<cfset numOfVars = 2>
 			<cfloop from="1" to="#numOfVars#" index="i">
 				<cfset variableNameRel = "media_relationship_" & i>
-				<cfset variableValueRel = evaluate(variableName)>
-				<cfset theTable = trim(listLast('#variableName#'," "))>
+				<cfset variableValueRel = evaluate(variableNameRel)>
+				<cfset theTable = trim(listLast('#variableNameRel#'," "))>
 				#theTable#
 				<!-- Output the variable name and value -->
-				<cfquery name="checkLabelType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				<cfquery name="checkRelType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE cf_temp_media
 					SET 
 						status = concat(nvl2(status, status || '; ', ''),'#variableName# is missing')
-					WHERE #variableName# not in (select media_relationship from ctmedia_relationship)
+					WHERE #variableNameRel# not in (select media_relationship from ctmedia_relationship)
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
 			</cfloop>
