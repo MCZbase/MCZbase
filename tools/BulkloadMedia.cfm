@@ -563,7 +563,7 @@ limitations under the License.
 				</cfloop>
 			</cfif>
 			<cfset uri = '#getTempMedia.media_uri#'>
-			<cfset pattern = "/^([a-z0-9+.-]+):(?://(?:((?:[a-z0-9-._~!$&'()*+,;=:]|%[0-9A-F]{2})*)@)?((?:[a-z0-9-._~!$&'()*+,;=]|%[0-9A-F]{2})*)(?::(\d*))?(/(?:[a-z0-9-._~!$&'()*+,;=:@/]|%[0-9A-F]{2})*)?|(/?(?:[a-z0-9-._~!$&'()*+,;=:@]|%[0-9A-F]{2})+(?:[a-z0-9-._~!$&'()*+,;=:@/]|%[0-9A-F]{2})*)?)(?:\?((?:[a-z0-9-._~!$&'()*+,;=:/?@]|%[0-9A-F]{2})*))?(?:#((?:[a-z0-9-._~!$&'()*+,;=:/?@]|%[0-9A-F]{2})*))?$/i">
+			<cfset pattern = "[\?&]value=">
 			<cffunction name="isValidURI" access="public" returntype="boolean">
 				<cfargument name="uri" type="string" required="true">
 				<cfargument name="pattern" type="string" required="true">
