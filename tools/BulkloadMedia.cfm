@@ -939,7 +939,7 @@ limitations under the License.
 							) VALUES (
 								<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getID.theId#">,
 								'height',
-								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.HEIGHT#">,	
+								<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.HEIGHT#">,	
 								<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getAgent.agent_id#">
 							)
 						</cfquery>
@@ -952,7 +952,7 @@ limitations under the License.
 							) VALUES (
 								<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getID.theId#">,
 								'width',
-								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.WIDTH#">,	
+								<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.WIDTH#">,	
 								<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getAgent.agent_id#">
 							)
 						</cfquery>
@@ -964,10 +964,10 @@ limitations under the License.
 									label_value,
 									assigned_by_agent_id
 								) VALUES (
-									<cfqueryparam cfsqltype="CF_SQL_decimal" value="#getID.theId#">,
+									<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getID.theId#">,
 									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.media_label_1#">,
 									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.label_value_1#">,
-									<cfqueryparam cfsqltype="CF_SQL_decimal" value="#getAgent.agent_id#">
+									<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getAgent.agent_id#">
 								)
 							</cfquery>
 						</cfif>
@@ -979,10 +979,10 @@ limitations under the License.
 									label_value,
 									assigned_by_agent_id
 								) VALUES (
-									<cfqueryparam cfsqltype="CF_SQL_decimal" value="#getID.theId#">,
+									<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getID.theId#">,
 									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.media_label_2#">,
 									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.label_value_2#">,
-									<cfqueryparam cfsqltype="CF_SQL_decimal" value="#getAgent.agent_id#">
+									<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getAgent.agent_id#">
 								)
 							</cfquery>
 						</cfif>
@@ -994,10 +994,10 @@ limitations under the License.
 									label_value,
 									assigned_by_agent_id
 								) VALUES (
-									<cfqueryparam cfsqltype="CF_SQL_decimal" value="#getID.theId#">,
+									<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getID.theId#">,
 									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.media_label_3#">,
 									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.label_value_3#">,
-									<cfqueryparam cfsqltype="CF_SQL_decimal" value="#getAgent.agent_id#">
+									<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getAgent.agent_id#">
 								)
 							</cfquery>
 						</cfif>
@@ -1009,10 +1009,10 @@ limitations under the License.
 									label_value,
 									assigned_by_agent_id
 								) VALUES (
-									<cfqueryparam cfsqltype="CF_SQL_decimal" value="#getID.theId#">,
+									<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getID.theId#">,
 									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.media_label_4#">,
 									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.label_value_4#">,
-									<cfqueryparam cfsqltype="CF_SQL_decimal" value="#getAgent.agent_id#">
+									<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getAgent.agent_id#">
 								)
 							</cfquery>
 						</cfif>
@@ -1024,10 +1024,10 @@ limitations under the License.
 									label_value,
 									assigned_by_agent_id
 								) VALUES (
-									<cfqueryparam cfsqltype="CF_SQL_decimal" value="#getID.theId#">,
+									<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getID.theId#">,
 									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.media_label_5#">,
 									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.label_value_5#">,
-									<cfqueryparam cfsqltype="CF_SQL_decimal" value="#getAgent.agent_id#">
+									<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getAgent.agent_id#">
 								)
 							</cfquery>
 						</cfif>
