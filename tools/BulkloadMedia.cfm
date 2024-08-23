@@ -498,6 +498,8 @@ limitations under the License.
 						</cfquery>
 					</cfif>
 				</cfif>
+			</cfloop>
+			<cfloop query="getTempMedia">
 				<cfif len(getTempMedia.MEDIA_RELATIONSHIP_2) gt 0>
 					<!---Find the table name "theTable" from the second part of the media_relationship--->
 					<cfset theTable = trim(listLast('#getTempMedia.media_relationship_2#'," "))>
