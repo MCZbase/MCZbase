@@ -562,13 +562,13 @@ limitations under the License.
 					</cfif>
 				</cfloop>
 			</cfif>
-			<cfhttp uri="#getTempMedia.media_uri#" method="get" result="httpResp" timeout="120">
+			<cfhttp url="#getTempMedia.media_uri#" method="get" result="httpResp" timeout="120">
 				<cfhttpparam type="header" name="Content-Type" value="application/json" />
 			</cfhttp>
 			<cfscript>
 				// Find all the URLs in a web page retrieved via cfhttp
 				// The search is case sensitive
-				result = REMatch("https?://([-\w\.]+)+(:\d+)?(/([\w/_\.]*(\?\S+)?)?)?", uri);
+				result = REMatch("https?://([-\w\.]+)+(:\d+)?(/([\w/_\.]*(\?\S+)?)?)?", httpResp.Filecontent);
 				writeDump(result)
 			</cfscript>
 
