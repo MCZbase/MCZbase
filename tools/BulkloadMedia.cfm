@@ -496,7 +496,6 @@ limitations under the License.
 							select #tables.column_name# from #theTable# where #tables.column_name# = '#getTempMedia.related_primary_key_1#'
 						</cfquery>
 					</cfif>
-				</cfif>
 				<cfset i=i+ 1>
 			</cfloop>
 
