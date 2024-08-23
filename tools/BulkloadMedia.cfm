@@ -562,21 +562,16 @@ limitations under the License.
 					</cfif>
 				</cfloop>
 			</cfif>
-			<cfset uri = '#getTempMedia.media_uri#'>
-			<cfset pattern = REMatch("https?://([-\w\.]+)+(:\d+)?(/([\w/_\.]*(\?\S+)?)?)?", #uri#)>
-			<cffunction name="isValidURI" access="public" returntype="boolean">
-				<cfargument name="uri" type="string" required="true">
-				<cfargument name="pattern" type="string" required="true">
-				<cfif refindNoCase(arguments.pattern, arguments.uri) NEQ 0>
-					<cfreturn true>
-				<cfelse>
-					<cfreturn false>
-				</cfif>
-			</cffunction>
-			<cfset result1 = isValidURI(uri, pattern)>
-			<cfoutput>
-				URI 1 is valid: #result1#<br>
-			</cfoutput>
+			<cfhttp url="#getTempMedia.media_uri#" method="get" result="httpResp" timeout="120">
+				<cfhttpparam type="header" name="Content-Type" value="application/json" />
+			</cfhttp>
+			<cfscript>
+				// Find all the URLs in a web page retrieved via cfhttp
+				// The search is case sensitive
+				result = REMatch("https?://([-\w\.]+)+(:\d+)?(/([\w/_\.]*(\?\S+)?)?)?", uri);
+				writeDump(result)
+			</cfscript>
+
 			<cfquery name="warningMessageLicense" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				UPDATE
 					cf_temp_media
