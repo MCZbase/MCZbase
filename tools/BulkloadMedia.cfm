@@ -574,7 +574,7 @@ limitations under the License.
 					<cfreturn false>
 				</cfif>
 			</cffunction>
-			<cfset result1 = isValidURI(uri1, pattern)>
+			<cfset result1 = isValidURI(uri, pattern)>
 			<cfoutput>
 				URI 1 is valid: #result1#<br>
 			</cfoutput>
