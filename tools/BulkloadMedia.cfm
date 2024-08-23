@@ -536,7 +536,7 @@ limitations under the License.
 									)
 								</cfquery>
 							</cfloop>
-						<cfelse>
+						<cfelseif #theTable# eq 'specimen_part'>
 							<cfloop list="#getTempMedia.related_primary_key_2#" index="l" delimiters=":">
 								<cfset tinstit_acronym = listgetat(#getTempMedia.related_primary_key_2#,1,":")>
 								<cfset tcoll_cde = listgetat(#getTempMedia.related_primary_key_2#,2,":")>
