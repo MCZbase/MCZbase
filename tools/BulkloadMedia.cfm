@@ -626,7 +626,7 @@ limitations under the License.
 					SET 
 						status = concat(nvl2(status, status || '; ', ''),'#variableName# is missing')
 					WHERE #variableName# is null
-					OR #variableValue# not in (select media_label from ctmedia_label)
+					OR #variableName# not in (select media_label from ctmedia_label)
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
 			</cfloop>
