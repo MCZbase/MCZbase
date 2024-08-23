@@ -442,11 +442,11 @@ limitations under the License.
 					media_license_id not in (select media_license_id from ctmedia_license) AND
 					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
-			<cfif len(getTempMedia.MEDIA_RELATIONSHIP_1) gt 0>
+<!---			<cfif len(getTempMedia.MEDIA_RELATIONSHIP_1) gt 0>
 				<cfloop query="getTempMedia">
-					<!---Find the table name "theTable" from the second part of the media_relationship--->
+				
 					<cfset theTable = trim(listLast('#getTempMedia.media_relationship_1#'," "))>
-					<!---based on the table, find the primary key--->
+				
 					<cfquery name="tables" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						SELECT cols.table_name, cols.column_name, cols.position, cons.status, cons.owner
 						FROM all_constraints cons, all_cons_columns cols
@@ -501,7 +501,7 @@ limitations under the License.
 						</cfquery>
 					</cfif>
 				</cfloop>
-			</cfif>
+			</cfif>--->
 
 			<cfquery name="warningMessageLicense" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				UPDATE
@@ -632,7 +632,9 @@ limitations under the License.
 			<cfset numOfVars = 2>
 			<cfloop from="1" to="#numOfVars#" index="i">
 				<cfset variableNameRel = "media_relationship_" & i>
+				<cfset variableNameKey = "related_primary_key_" & i>
 				<cfset variableValueRel = evaluate(variableNameRel)>
+				<cfset variableValueKey = evaluate(variableNameKey)>
 				<cfset theTable = trim(listLast('#variableValueRel#'," "))>
 				#theTable#
 				<!-- Output the variable name and value -->
@@ -643,6 +645,59 @@ limitations under the License.
 					WHERE #variableNameRel# not in (select media_relationship from ctmedia_relationship)
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
+				<cfquery name="tables" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					SELECT cols.table_name, cols.column_name, cols.position, cons.status, cons.owner
+					FROM all_constraints cons, all_cons_columns cols
+					WHERE cons.constraint_type = 'P'
+					AND cons.constraint_name = cols.constraint_name
+					AND cons.owner = cols.owner
+					and cons.owner='MCZBASE'
+					AND cols.table_name = UPPER('#theTable#')
+					AND cols.position = 1
+					ORDER BY cols.table_name, cols.position
+				</cfquery>
+				<cfif #theTable# eq 'cataloged_item' OR #theTable# eq 'specimen_part'>
+					<cfif #theTable# eq 'cataloged_item'>
+						<cfloop list="#variableValueRel#" index="l" delimiters=":">
+							<cfset IA = listGetAt(#variableValueKey#,1,":")>
+							<cfset CCDE = listGetAt(#variableValueKey#,2,":")>
+							<cfset CI = listGetAt(#variableValueKey#,3,":")>
+							<cfquery name="chkCOID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+								update cf_temp_media set related_primary_key_2 = (
+									select #tables.column_name# from #theTable# 
+									where #tables.column_name# = (
+										select #tables.column_name# 
+										from #theTable# 
+										where cat_num = '#CI#' 
+										and collection_cde = '#CCDE#'
+									)
+								)
+							</cfquery>
+						</cfloop>
+					<cfelseif #theTable# eq 'specimen_part'>
+						<cfloop list="#variableValueKey#" index="l" delimiters=":">
+							<cfset tinstit_acronym = listgetat(#variableValueKey#,1,":")>
+							<cfset tcoll_cde = listgetat(#variableValueKey#,2,":")>
+							<cfset tcat_item = listgetat(#variableValueKey#,3,":")>
+							<cfquery name="chkCOID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+								update cf_temp_media set related_primary_key_2 = (
+									SELECT specimen_part.collection_object_id FROM specimen_part 
+									WHERE specimen_part.collection_object_id in (
+										select specimen_part.collection_object_id 
+										from cataloged_item,specimen_part 
+										where specimen_part.derived_from_cat_item = cataloged_item.collection_object_id 
+										and cataloged_item.cat_num = '#tcat_item#'
+										and cataloged_item.collection_cde = '#tcoll_cde#'
+									)
+								)
+							</cfquery>
+						</cfloop>
+					</cfif>
+				<cfelse>
+					<cfquery name="chkCOID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						select #tables.column_name# from #theTable# where #tables.column_name# = '#variableValueKey#'  
+					</cfquery>
+				</cfif>
 			</cfloop>
 			<cfif len(getTempMedia.made_date) eq 0 && refind("^[0-9]{4}-[0-9]{2}-[0-9]{2}$",made_date) EQ 0>
 				<cfquery name="setDate" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
