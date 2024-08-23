@@ -1120,6 +1120,8 @@ limitations under the License.
 										Problem with a MEDIA_LABEL (#cfcatch.detail#)
 									<cfelseif cfcatch.detail contains "label_value">
 										Problem with a LABEL_VALUE (#cfcatch.detail#)
+									<cfelseif cfcatch.detail contains "ListGetAt">
+										Reload your spreadsheet: <a href='/tools/BulkloadMedia.cfm'>upload again</a>
 									<cfelseif cfcatch.detail contains "date">
 										Problem with MADE_DATE (#cfcatch.detail#)
 									<cfelseif cfcatch.detail contains "media_relationship">
