@@ -618,10 +618,7 @@ limitations under the License.
 				<cfset variableName = "media_label_" & i>
 				<cfset variableValue = evaluate(variableName)>
 				<!-- Output the variable name and value -->
-				<cfoutput>
-					#variableName#: #variableValue#<br>
-				</cfoutput>
-				<cfquery name="checkRequired" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				<cfquery name="checkLabelType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE cf_temp_media
 					SET 
 						status = concat(nvl2(status, status || '; ', ''),'#variableName# is missing')
