@@ -502,66 +502,7 @@ limitations under the License.
 					</cfif>
 				</cfloop>
 			</cfif>
-			<cfif len(getTempMedia.MEDIA_RELATIONSHIP_2) gt 0>
-				<cfloop query="getTempMedia">
-					<!---Find the table name "theTable" from the second part of the media_relationship--->
-					<cfset theTable = trim(listLast('#getTempMedia.media_relationship_2#'," "))>
-					<!---based on the table, find the primary key--->
-					<cfquery name="tables" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						SELECT cols.table_name, cols.column_name, cols.position, cons.status, cons.owner
-						FROM all_constraints cons, all_cons_columns cols
-						WHERE cons.constraint_type = 'P'
-						AND cons.constraint_name = cols.constraint_name
-						AND cons.owner = cols.owner
-						and cons.owner='MCZBASE'
-						AND cols.table_name = UPPER('#theTable#')
-						AND cols.position = 1
-						ORDER BY cols.table_name, cols.position
-					</cfquery>
-					<cfif #theTable# eq 'cataloged_item' OR #theTable# eq 'specimen_part'>
-						<cfif #theTable# eq 'cataloged_item'>
-							<cfloop list="#getTempMedia.related_primary_key_2#" index="l" delimiters=":">
-								<cfset IA = listGetAt(#getTempMedia.related_primary_key_2#,1,":")>
-								<cfset CCDE = listGetAt(#getTempMedia.related_primary_key_2#,2,":")>
-								<cfset CI = listGetAt(#getTempMedia.related_primary_key_2#,3,":")>
-								<cfquery name="chkCOID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-									update cf_temp_media set related_primary_key_2 = (
-										select #tables.column_name# from #theTable# 
-										where #tables.column_name# = (
-											select #tables.column_name# 
-											from #theTable# 
-											where cat_num = '#CI#' 
-											and collection_cde = '#CCDE#'
-										)
-									)
-								</cfquery>
-							</cfloop>
-						<cfelseif #theTable# eq 'specimen_part'>
-							<cfloop list="#getTempMedia.related_primary_key_2#" index="l" delimiters=":">
-								<cfset tinstit_acronym = listgetat(#getTempMedia.related_primary_key_2#,1,":")>
-								<cfset tcoll_cde = listgetat(#getTempMedia.related_primary_key_2#,2,":")>
-								<cfset tcat_item = listgetat(#getTempMedia.related_primary_key_2#,3,":")>
-								<cfquery name="chkCOID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-									update cf_temp_media set related_primary_key_2 = (
-										SELECT specimen_part.collection_object_id FROM specimen_part 
-										WHERE specimen_part.collection_object_id in (
-											select specimen_part.collection_object_id 
-											from cataloged_item,specimen_part 
-											where specimen_part.derived_from_cat_item = cataloged_item.collection_object_id 
-											and cataloged_item.cat_num = '#tcat_item#'
-											and cataloged_item.collection_cde = '#tcoll_cde#'
-										)
-									)
-								</cfquery>
-							</cfloop>
-						</cfif>
-					<cfelse>
-						<cfquery name="chkCOID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-							select #tables.column_name# from #theTable# where #tables.column_name# = '#getTempMedia.related_primary_key_2#'  
-						</cfquery>
-					</cfif>
-				</cfloop>
-			</cfif>
+
 			<cfquery name="warningMessageLicense" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				UPDATE
 					cf_temp_media
@@ -620,6 +561,7 @@ limitations under the License.
 			<cfloop from="1" to="#numberOfVariables#" index="i">
 				<cfset variableName = "media_label_" & i>
 				<cfset variableValue = evaluate(variableName)>
+			
 				<!-- Output the variable name and value -->
 				<cfquery name="checkLabelType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE cf_temp_media
@@ -629,11 +571,70 @@ limitations under the License.
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
 			</cfloop>
-					
+		<!---	<cfif len(getTempMedia.MEDIA_RELATIONSHIP_2) gt 0>
+				<cfloop query="getTempMedia">
+					<cfset theTable = trim(listLast('#getTempMedia.media_relationship_2#'," "))>
+					<cfquery name="tables" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						SELECT cols.table_name, cols.column_name, cols.position, cons.status, cons.owner
+						FROM all_constraints cons, all_cons_columns cols
+						WHERE cons.constraint_type = 'P'
+						AND cons.constraint_name = cols.constraint_name
+						AND cons.owner = cols.owner
+						and cons.owner='MCZBASE'
+						AND cols.table_name = UPPER('#theTable#')
+						AND cols.position = 1
+						ORDER BY cols.table_name, cols.position
+					</cfquery>
+					<cfif #theTable# eq 'cataloged_item' OR #theTable# eq 'specimen_part'>
+						<cfif #theTable# eq 'cataloged_item'>
+							<cfloop list="#getTempMedia.related_primary_key_2#" index="l" delimiters=":">
+								<cfset IA = listGetAt(#getTempMedia.related_primary_key_2#,1,":")>
+								<cfset CCDE = listGetAt(#getTempMedia.related_primary_key_2#,2,":")>
+								<cfset CI = listGetAt(#getTempMedia.related_primary_key_2#,3,":")>
+								<cfquery name="chkCOID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+									update cf_temp_media set related_primary_key_2 = (
+										select #tables.column_name# from #theTable# 
+										where #tables.column_name# = (
+											select #tables.column_name# 
+											from #theTable# 
+											where cat_num = '#CI#' 
+											and collection_cde = '#CCDE#'
+										)
+									)
+								</cfquery>
+							</cfloop>
+						<cfelseif #theTable# eq 'specimen_part'>
+							<cfloop list="#getTempMedia.related_primary_key_2#" index="l" delimiters=":">
+								<cfset tinstit_acronym = listgetat(#getTempMedia.related_primary_key_2#,1,":")>
+								<cfset tcoll_cde = listgetat(#getTempMedia.related_primary_key_2#,2,":")>
+								<cfset tcat_item = listgetat(#getTempMedia.related_primary_key_2#,3,":")>
+								<cfquery name="chkCOID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+									update cf_temp_media set related_primary_key_2 = (
+										SELECT specimen_part.collection_object_id FROM specimen_part 
+										WHERE specimen_part.collection_object_id in (
+											select specimen_part.collection_object_id 
+											from cataloged_item,specimen_part 
+											where specimen_part.derived_from_cat_item = cataloged_item.collection_object_id 
+											and cataloged_item.cat_num = '#tcat_item#'
+											and cataloged_item.collection_cde = '#tcoll_cde#'
+										)
+									)
+								</cfquery>
+							</cfloop>
+						</cfif>
+					<cfelse>
+						<cfquery name="chkCOID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+							select #tables.column_name# from #theTable# where #tables.column_name# = '#getTempMedia.related_primary_key_2#'  
+						</cfquery>
+					</cfif>
+				</cfloop>
+			</cfif>	--->	
 			<cfset numOfVars = 2>
 			<cfloop from="1" to="#numOfVars#" index="i">
-				<cfset variableName = "media_relationship_" & i>
-				<cfset variableValue = evaluate(variableName)>
+				<cfset variableNameRel = "media_relationship_" & i>
+				<cfset variableValueRel = evaluate(variableName)>
+				<cfset theTable = trim(listLast('#variableName#'," "))>
+				#theTable#
 				<!-- Output the variable name and value -->
 				<cfquery name="checkLabelType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE cf_temp_media
