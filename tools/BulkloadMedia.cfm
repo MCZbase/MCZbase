@@ -442,8 +442,9 @@ limitations under the License.
 					media_license_id not in (select media_license_id from ctmedia_license) AND
 					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
-			<cfif len(getTempMedia.MEDIA_RELATIONSHIP_1) gt 0>
-				<cfloop query="getTempMedia">
+		
+			<cfloop query="getTempMedia">
+				<cfif len(getTempMedia.MEDIA_RELATIONSHIP_1) gt 0>
 					<!---Find the table name "theTable" from the second part of the media_relationship--->
 					<cfset theTable = trim(listLast('#getTempMedia.media_relationship_1#'," "))>
 					<!---based on the table, find the primary key--->
@@ -497,9 +498,7 @@ limitations under the License.
 						</cfquery>
 					</cfif>
 				</cfloop>
-			</cfif>
-			<cfif len(getTempMedia.MEDIA_RELATIONSHIP_2) gt 0>
-				<cfloop query="getTempMedia">
+				<cfif len(getTempMedia.MEDIA_RELATIONSHIP_2) gt 0>
 					<!---Find the table name "theTable" from the second part of the media_relationship--->
 					<cfset theTable = trim(listLast('#getTempMedia.media_relationship_2#'," "))>
 					<!---based on the table, find the primary key--->
@@ -556,8 +555,8 @@ limitations under the License.
 							select #tables.column_name# from #theTable# where #tables.column_name# = '#getTempMedia.related_primary_key_2#'  
 						</cfquery>
 					</cfif>
-				</cfloop>
-			</cfif>
+				</cfif>
+			</cfloop>
 			<cfquery name="warningMessageLicense" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				UPDATE
 					cf_temp_media
