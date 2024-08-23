@@ -612,6 +612,8 @@ limitations under the License.
 			<cfif len(getTempMedia.media_label_7) gt 0><cfset media_label_7 = "#getTempMedia.media_label_7#"><cfelse><cfset media_label_7 = ""></cfif>
 			<cfif len(getTempMedia.media_label_8) gt 0><cfset media_label_8 = "#getTempMedia.media_label_8#"><cfelse><cfset media_label_8 = ""></cfif>
 
+			<cfif len(getTempMedia.media_relationship_1) gt 0><cfset media_relationship_1 = "#getTempMedia.media_relationship_1#"><cfelse><cfset media_relationship_1 = ""></cfif>
+			<cfif len(getTempMedia.media_relationship_2) gt 0><cfset media_relationship_2 = "#getTempMedia.media_relationship_2#"><cfelse><cfset media_relationship_2 = ""></cfif>
 			<!-- Define the total number of variables -->
 			<cfset numberOfVariables = 8>
 			<cfloop from="1" to="#numberOfVariables#" index="i">
