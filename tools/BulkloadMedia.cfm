@@ -671,7 +671,7 @@ limitations under the License.
 									from #theTable# 
 									where cat_num = '#CI#' 
 									and collection_cde = '#CCDE#'
-								) where #variableNameKey# like "%:%"
+								) where #variableNameKey# like '%:%'
 							</cfquery>
 								#variableNameRel#: #tables.column_name#: #theTable# <br>
 						</cfloop>
