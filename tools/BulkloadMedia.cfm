@@ -535,7 +535,7 @@ limitations under the License.
 								<cfset tcoll_cde = listgetat(#getTempMedia.related_primary_key_2#,2,":")>
 								<cfset tcat_item = listgetat(#getTempMedia.related_primary_key_2#,3,":")>
 								<cfquery name="chkCOID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-									update cf_temp_media set related_primary_key_1 = shows specimen_part, related_primary_key_1 = 
+									update cf_temp_media set related_primary_key_1 = 
 									(
 										select specimen_part.collection_object_id 
 										from cataloged_item,specimen_part 
