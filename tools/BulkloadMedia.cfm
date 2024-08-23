@@ -694,7 +694,6 @@ limitations under the License.
 						select #tables.column_name# from #theTable# where #tables.column_name# = '#variableValueKey#'  
 					</cfquery>
 				</cfif>
-				RelValue: #variableValueRel#:#variableValueKey# <br>
 			</cfloop>
 							
 						
