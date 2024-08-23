@@ -676,6 +676,7 @@ limitations under the License.
 									)
 								)
 							</cfquery>
+								#variableNameRel#: #tables.column_name#: #theTable# <br>
 						</cfloop>
 					<cfelseif #theTable# eq 'specimen_part'>
 						<cfloop list="#variableNameKey#" index="l" delimiters=":">
