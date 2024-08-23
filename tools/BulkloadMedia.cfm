@@ -562,7 +562,7 @@ limitations under the License.
 					</cfif>
 				</cfloop>
 			</cfif>
-			<cfhttp url="#getTempMedia.media_uri#" method="get" result="httpResp" timeout="120">
+			<cfhttp uri="#getTempMedia.media_uri#" method="get" result="httpResp" timeout="120">
 				<cfhttpparam type="header" name="Content-Type" value="application/json" />
 			</cfhttp>
 			<cfscript>
