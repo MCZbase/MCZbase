@@ -465,9 +465,9 @@ limitations under the License.
 								<cfset CCDE = listGetAt(#getTempMedia.related_primary_key_1#,2,":")>
 								<cfset CI = listGetAt(#getTempMedia.related_primary_key_1#,3,":")>
 								<cfquery name="chkCOID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-									update cf_temp_media set related_primary_key_1 = 
+									update cf_temp_media set media_relationship_1 = collection_object_id, related_primary_key_1 =
 										(
-											select #tables.column_name# 
+											select collection_object_id
 											from #theTable# 
 											where cat_num = '#CI#' 
 											and collection_cde = '#CCDE#'
@@ -480,13 +480,13 @@ limitations under the License.
 								<cfset tcoll_cde = listgetat(#getTempMedia.related_primary_key_1#,2,":")>
 								<cfset tcat_item = listgetat(#getTempMedia.related_primary_key_1#,3,":")>
 								<cfquery name="chkCOID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-									update cf_temp_media set related_primary_key_1 = (
-											select specimen_part.collection_object_id 
-											from cataloged_item,specimen_part 
-											where specimen_part.derived_from_cat_item = cataloged_item.collection_object_id 
-											and cataloged_item.cat_num = '#tcat_item#'
-											and cataloged_item.collection_cde = '#tcoll_cde#'
-										)
+									update cf_temp_media set related_primary_key_1 = shows specimen_part, related_primary_key_1 = 
+									(
+										select specimen_part.collection_object_id 
+										from cataloged_item,specimen_part 
+										where specimen_part.derived_from_cat_item = cataloged_item.collection_object_id 
+										and cataloged_item.cat_num = '#tcat_item#'
+										and cataloged_item.collection_cde = '#tcoll_cde#'
 									)
 								</cfquery>
 							</cfloop>
