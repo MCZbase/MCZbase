@@ -551,6 +551,7 @@ limitations under the License.
 							select #tables.column_name# from #theTable# where #tables.column_name# = '#getTempMedia.related_primary_key_2#'  
 						</cfquery>
 					</cfif>
+				</cfif>
 			</cfloop>
 			<cfquery name="warningMessageLicense" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				UPDATE
