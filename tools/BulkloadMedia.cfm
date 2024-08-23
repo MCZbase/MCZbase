@@ -64,7 +64,7 @@ limitations under the License.
 	<cfif #action# is "nothing">
 		<cfoutput>
 			<div>
-				<p>This tool adds media records. The media can be related to records that have to be in MCZbase prior to uploading this csv. Some of the values must appear as they do on the following <a href="https://mczbase.mcz.harvard.edu/vocabularies/ControlledVocabulary.cfm?" class="font-weight-bold">controlled vocabularies</a> lists:
+				<p>This tool adds media records. The media can be related to records that have to be in MCZbase prior to uploading this csv. Duplicate columns will be ignored. Some of the values must appear as they do on the following <a href="https://mczbase.mcz.harvard.edu/vocabularies/ControlledVocabulary.cfm?" class="font-weight-bold">controlled vocabularies</a> lists:
 					<ul class="list-group list-group-horizontal">
 						<li class="list-group-item font-weight-lessbold"><a href="/vocabularies/ControlledVocabulary.cfm?table=CTMEDIA_LABEL">MEDIA_LABEL (17 values)</a> </li> <span class="mt-1"> | </span>
 						<li class="list-group-item font-weight-lessbold"><a href="/vocabularies/ControlledVocabulary.cfm?table=CTMEDIA_RELATIONSHIP">MEDIA_RELATIONSHIP (23 values)</a></li> <span class="mt-1"> | </span>
@@ -562,6 +562,22 @@ limitations under the License.
 					</cfif>
 				</cfloop>
 			</cfif>
+			<cfset uri = '#media_uri#'>
+			<cfset pattern = "^(https?|ftp):\/\/([^\s:@]+(:[^\s:@]*)?@)?([^\s:/?#]+)(:[0-9]+)?(\/[^\s?#]*)?(\?[^\s#]*)?(#[^\s]*)?$">
+			<cffunction name="isValidURI" access="public" returntype="boolean">
+				<cfargument name="uri" type="string" required="true">
+				<cfargument name="pattern" type="string" required="true">
+
+				<cfif refindNoCase(arguments.pattern, arguments.uri) NEQ 0>
+					<cfreturn true>
+				<cfelse>
+					<cfreturn false>
+				</cfif>
+			</cffunction>
+			<cfset result1 = isValidURI(uri1, pattern)>
+			<cfoutput>
+				URI 1 is valid: #result1#<br>
+			</cfoutput>
 			<cfquery name="warningMessageLicense" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				UPDATE
 					cf_temp_media
@@ -571,7 +587,15 @@ limitations under the License.
 					media_license_id not in (select media_license_id from ctmedia_license) AND
 					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
-			
+			<cfquery name="warningMessageLicense" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				UPDATE
+					cf_temp_media
+				SET
+					status = concat(nvl2(status, status || '; ', ''),'MEDIA_LICENSE_ID #getTempMedia.MEDIA_LICENSE_ID# is invalid')
+				WHERE
+					media_license_id not in (select media_license_id from ctmedia_license) AND
+					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+			</cfquery>
 			<cfif len(getTempMedia.mask_media) GT 0>
 				<cfif getTempMedia.mask_media NEQ 1>
 					<cfquery name="warningMessageMask" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
