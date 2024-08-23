@@ -563,7 +563,7 @@ limitations under the License.
 				</cfloop>
 			</cfif>
 			<cfset uri = '#media_uri#'>
-			<cfset pattern = "^(https?|ftp):\/\/([^\s:@]+(:[^\s:@]*)?@)?([^\s:/?#]+)(:[0-9]+)?(\/[^\s?#]*)?(\?[^\s#]*)?(#[^\s]*)?$">
+			<cfset pattern = "^(https?):\/\/([^\s:@]+(:[^\s:@]*)?@)?([^\s:/?#]+)$">
 			<cffunction name="isValidURI" access="public" returntype="boolean">
 				<cfargument name="uri" type="string" required="true">
 				<cfargument name="pattern" type="string" required="true">
