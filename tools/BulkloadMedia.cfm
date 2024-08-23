@@ -666,8 +666,7 @@ limitations under the License.
 							<cfset CCDE = listGetAt(#variableValueKey#,2,":")>
 							<cfset CI = listGetAt(#variableValueKey#,3,":")>
 							<cfquery name="chkCOID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-								update cf_temp_media set #variableNameRel# = 'shows cataloged_item'
-									and #variableNameKey# = (
+								update cf_temp_media set #variableNameRel# = 'shows cataloged_item', #variableNameKey# = (
 									select #tables.column_name# 
 									from #theTable# 
 									where cat_num = '#CI#' 
