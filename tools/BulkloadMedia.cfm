@@ -661,7 +661,7 @@ limitations under the License.
 				</cfquery>
 				<cfif #theTable# eq 'cataloged_item' OR #theTable# eq 'specimen_part'>
 					<cfif #theTable# eq 'cataloged_item'>
-						<cfloop list="#variableValueKey#" index="l" delimiters=":">
+						<cfloop list="#variableNameKey#" index="l" delimiters=":">
 							<cfset IA = listGetAt(#variableValueKey#,1,":")>
 							<cfset CCDE = listGetAt(#variableValueKey#,2,":")>
 							<cfset CI = listGetAt(#variableValueKey#,3,":")>
@@ -678,7 +678,7 @@ limitations under the License.
 							</cfquery>
 						</cfloop>
 					<cfelseif #theTable# eq 'specimen_part'>
-						<cfloop list="#variableValueKey#" index="l" delimiters=":">
+						<cfloop list="#variableNameKey#" index="l" delimiters=":">
 							<cfset tinstit_acronym = listgetat(#variableValueKey#,1,":")>
 							<cfset tcoll_cde = listgetat(#variableValueKey#,2,":")>
 							<cfset tcat_item = listgetat(#variableValueKey#,3,":")>
