@@ -75,7 +75,7 @@ limitations under the License.
 				</p>
 				<p>Step 1: Ensure that Media exists on the shared drive or external URL and that the records that you want to use for relationships exist (e.g., specimen, agent, collecting event).</p>
 				<p>Step 2: Upload a comma-delimited text file (csv). <span class="font-weight-lessbold">(Jump to <a href="##loader" class="btn-link font-weight-bold">Loader</a>.)</span></p>
-				
+				<p>NOTE: The GUID is converted to an MCZbase internal ID number in the validation and review step.</p>
 				<h2 class="h4 mt-4">Media License</h2>
 				<p>The media license id should be entered using the numeric codes below. If omitted this will default to &quot;1 - MCZ Permissions &amp; Copyright&quot;</p>
 				<h3 class="small90 pl-3">Media License Codes:</h3>
@@ -306,7 +306,8 @@ limitations under the License.
 					<cfif loadedRows EQ 0>
 						Loaded no rows from the CSV file.  The file appears to be just a header with no data. Fix file and <a href="/tools/BulkloadMedia.cfm">reload</a>
 					<cfelse>
-						Successfully read #loadedRows# records from the CSV file.  Next <a href="/tools/BulkloadMedia.cfm?action=validate">click to validate</a>.
+						Successfully read #loadedRows# records from the CSV file.  Next <a href="/tools/BulkloadMedia.cfm?action=validate">click to validate</a><br>
+						If not as expected, <a href = "/tools/BulkloadMedia.cfm">reload</a> and start again.
 					</cfif>
 				</h3>
 			<cfcatch>
