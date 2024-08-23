@@ -603,19 +603,19 @@ limitations under the License.
 			</cfloop>
 			
 			<!-- Define sample variables -->
-			<cfif len(getTempMedia.media_label_1) gt 0><cfset var1 = "#getTempMedia.media_label_1#"><cfelse><cfset var1 = ""></cfif>
-			<cfif len(getTempMedia.media_label_2) gt 0><cfset var2 = "#getTempMedia.media_label_2#"><cfelse><cfset var2 = ""></cfif>
-			<cfif len(getTempMedia.media_label_3) gt 0><cfset var3 = "#getTempMedia.media_label_3#"><cfelse><cfset var3 = ""></cfif>
-			<cfif len(getTempMedia.media_label_4) gt 0><cfset var4 = "#getTempMedia.media_label_4#"><cfelse><cfset var4 = ""></cfif>
-			<cfif len(getTempMedia.media_label_5) gt 0><cfset var5 = "#getTempMedia.media_label_5#"><cfelse><cfset var5 = ""></cfif>
-			<cfif len(getTempMedia.media_label_6) gt 0><cfset var6 = "#getTempMedia.media_label_6#"><cfelse><cfset var6 = ""></cfif>
-			<cfif len(getTempMedia.media_label_7) gt 0><cfset var7 = "#getTempMedia.media_label_7#"><cfelse><cfset var7 = ""></cfif>
-			<cfif len(getTempMedia.media_label_8) gt 0><cfset var8 = "#getTempMedia.media_label_8#"><cfelse><cfset var8 = ""></cfif>
+			<cfif len(getTempMedia.media_label_1) gt 0><cfset media_label_1 = "#getTempMedia.media_label_1#"><cfelse><cfset media_label_1 = ""></cfif>
+			<cfif len(getTempMedia.media_label_2) gt 0><cfset media_label_2 = "#getTempMedia.media_label_2#"><cfelse><cfset media_label_2 = ""></cfif>
+			<cfif len(getTempMedia.media_label_3) gt 0><cfset media_label_3 = "#getTempMedia.media_label_3#"><cfelse><cfset media_label_3 = ""></cfif>
+			<cfif len(getTempMedia.media_label_4) gt 0><cfset media_label_4 = "#getTempMedia.media_label_4#"><cfelse><cfset media_label_4 = ""></cfif>
+			<cfif len(getTempMedia.media_label_5) gt 0><cfset media_label_5 = "#getTempMedia.media_label_5#"><cfelse><cfset media_label_5 = ""></cfif>
+			<cfif len(getTempMedia.media_label_6) gt 0><cfset media_label_6 = "#getTempMedia.media_label_6#"><cfelse><cfset media_label_6 = ""></cfif>
+			<cfif len(getTempMedia.media_label_7) gt 0><cfset media_label_7 = "#getTempMedia.media_label_7#"><cfelse><cfset media_label_7 = ""></cfif>
+			<cfif len(getTempMedia.media_label_8) gt 0><cfset media_label_8 = "#getTempMedia.media_label_8#"><cfelse><cfset media_label_8 = ""></cfif>
 
 			<!-- Define the total number of variables -->
 			<cfset numberOfVariables = 8>
 			<cfloop from="1" to="#numberOfVariables#" index="i">
-				<cfset variableName = "var" & i>
+				<cfset variableName = "media_label_" & i>
 				<cfset variableValue = evaluate(variableName)>
 				<!-- Output the variable name and value -->
 				<cfoutput>
