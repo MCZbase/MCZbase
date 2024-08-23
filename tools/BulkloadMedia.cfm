@@ -75,7 +75,7 @@ limitations under the License.
 				</p>
 				<p>Step 1: Ensure that Media exists on the shared drive or external URL and that the records that you want to use for relationships exist (e.g., specimen, agent, collecting event).</p>
 				<p>Step 2: Upload a comma-delimited text file (csv). <span class="font-weight-lessbold">(Jump to <a href="##loader" class="btn-link font-weight-bold">Loader</a>.)</span></p>
-				<p>NOTE: The GUID is converted to an MCZbase internal ID number in the validation and review step.</p>
+				
 				<h2 class="h4 mt-4">Media License</h2>
 				<p>The media license id should be entered using the numeric codes below. If omitted this will default to &quot;1 - MCZ Permissions &amp; Copyright&quot;</p>
 				<h3 class="small90 pl-3">Media License Codes:</h3>
@@ -306,8 +306,7 @@ limitations under the License.
 					<cfif loadedRows EQ 0>
 						Loaded no rows from the CSV file.  The file appears to be just a header with no data. Fix file and <a href="/tools/BulkloadMedia.cfm">reload</a>
 					<cfelse>
-						Successfully read #loadedRows# records from the CSV file.  Next <a href="/tools/BulkloadMedia.cfm?action=validate">click to validate</a><br>
-						If not as expected, <a href = "/tools/BulkloadMedia.cfm">reload</a> and start again.
+						Successfully read #loadedRows# records from the CSV file.  Next <a href="/tools/BulkloadMedia.cfm?action=validate">click to validate</a>.
 					</cfif>
 				</h3>
 			<cfcatch>
@@ -443,11 +442,11 @@ limitations under the License.
 					media_license_id not in (select media_license_id from ctmedia_license) AND
 					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
-<!---			<cfif len(getTempMedia.MEDIA_RELATIONSHIP_1) gt 0>
+			<cfif len(getTempMedia.MEDIA_RELATIONSHIP_1) gt 0>
 				<cfloop query="getTempMedia">
-				
+					<!---Find the table name "theTable" from the second part of the media_relationship--->
 					<cfset theTable = trim(listLast('#getTempMedia.media_relationship_1#'," "))>
-				
+					<!---based on the table, find the primary key--->
 					<cfquery name="tables" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						SELECT cols.table_name, cols.column_name, cols.position, cons.status, cons.owner
 						FROM all_constraints cons, all_cons_columns cols
@@ -502,81 +501,12 @@ limitations under the License.
 						</cfquery>
 					</cfif>
 				</cfloop>
-			</cfif>--->
-
-			<cfquery name="warningMessageLicense" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				UPDATE
-					cf_temp_media
-				SET
-					status = concat(nvl2(status, status || '; ', ''),'MEDIA_LICENSE_ID #getTempMedia.MEDIA_LICENSE_ID# is invalid')
-				WHERE
-					media_license_id not in (select media_license_id from ctmedia_license) AND
-					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-			</cfquery>
-			<cfquery name="warningMessageLicense" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				UPDATE
-					cf_temp_media
-				SET
-					status = concat(nvl2(status, status || '; ', ''),'MEDIA_LICENSE_ID #getTempMedia.MEDIA_LICENSE_ID# is invalid')
-				WHERE
-					media_license_id not in (select media_license_id from ctmedia_license) AND
-					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-			</cfquery>
-			<cfif len(getTempMedia.mask_media) GT 0>
-				<cfif getTempMedia.mask_media NEQ 1>
-					<cfquery name="warningMessageMask" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						UPDATE
-							cf_temp_media
-						SET
-							status = concat(nvl2(status, status || '; ', ''),'MASK_MEDIA must = blank, 1 or 0')
-						WHERE 
-							username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> 
-					</cfquery>
-				</cfif>
 			</cfif>
-			<cfloop list="#requiredfieldlist#" index="requiredField">
-				<cfquery name="checkRequired" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					UPDATE cf_temp_media
-					SET 
-						status = concat(nvl2(status, status || '; ', ''),'#requiredField# is missing')
-					WHERE #requiredField# is null
-						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-				</cfquery>
-			</cfloop>
-			
-			<!-- Define relationship and label variables -->
-			<cfif len(getTempMedia.media_label_1) gt 0><cfset media_label_1 = "#getTempMedia.media_label_1#"><cfelse><cfset media_label_1 = ""></cfif>
-			<cfif len(getTempMedia.media_label_2) gt 0><cfset media_label_2 = "#getTempMedia.media_label_2#"><cfelse><cfset media_label_2 = ""></cfif>
-			<cfif len(getTempMedia.media_label_3) gt 0><cfset media_label_3 = "#getTempMedia.media_label_3#"><cfelse><cfset media_label_3 = ""></cfif>
-			<cfif len(getTempMedia.media_label_4) gt 0><cfset media_label_4 = "#getTempMedia.media_label_4#"><cfelse><cfset media_label_4 = ""></cfif>
-			<cfif len(getTempMedia.media_label_5) gt 0><cfset media_label_5 = "#getTempMedia.media_label_5#"><cfelse><cfset media_label_5 = ""></cfif>
-			<cfif len(getTempMedia.media_label_6) gt 0><cfset media_label_6 = "#getTempMedia.media_label_6#"><cfelse><cfset media_label_6 = ""></cfif>
-			<cfif len(getTempMedia.media_label_7) gt 0><cfset media_label_7 = "#getTempMedia.media_label_7#"><cfelse><cfset media_label_7 = ""></cfif>
-			<cfif len(getTempMedia.media_label_8) gt 0><cfset media_label_8 = "#getTempMedia.media_label_8#"><cfelse><cfset media_label_8 = ""></cfif>
-
-			<cfif len(getTempMedia.media_relationship_1) gt 0><cfset media_relationship_1 = "#getTempMedia.media_relationship_1#"><cfelse><cfset media_relationship_1 = ""></cfif>
-			<cfif len(getTempMedia.media_relationship_2) gt 0><cfset media_relationship_2 = "#getTempMedia.media_relationship_2#"><cfelse><cfset media_relationship_2 = ""></cfif>
-			<cfif len(getTempMedia.related_primary_key_1) gt 0><cfset related_primary_key_1 = "#getTempMedia.related_primary_key_1#"><cfelse><cfset related_primary_key_1 = ""></cfif>
-			<cfif len(getTempMedia.related_primary_key_2) gt 0><cfset related_primary_key_2 = "#getTempMedia.related_primary_key_2#"><cfelse><cfset related_primary_key_2 = ""></cfif>
-				
-			<!-- Define the total number of variables -->
-			<cfset numberOfVariables = 8>
-			<cfloop from="1" to="#numberOfVariables#" index="i">
-				<cfset variableName = "media_label_" & i>
-				<cfset variableValue = evaluate(variableName)>
-			
-				<!-- Output the variable name and value -->
-				<cfquery name="checkLabelType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					UPDATE cf_temp_media
-					SET 
-						status = concat(nvl2(status, status || '; ', ''),'#variableName# is missing')
-					WHERE #variableName# not in (select media_label from ctmedia_label)
-						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-				</cfquery>
-			</cfloop>
-		<!---	<cfif len(getTempMedia.MEDIA_RELATIONSHIP_2) gt 0>
+			<cfif len(getTempMedia.MEDIA_RELATIONSHIP_2) gt 0>
 				<cfloop query="getTempMedia">
+					<!---Find the table name "theTable" from the second part of the media_relationship--->
 					<cfset theTable = trim(listLast('#getTempMedia.media_relationship_2#'," "))>
+					<!---based on the table, find the primary key--->
 					<cfquery name="tables" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						SELECT cols.table_name, cols.column_name, cols.position, cons.status, cons.owner
 						FROM all_constraints cons, all_cons_columns cols
@@ -631,72 +561,88 @@ limitations under the License.
 						</cfquery>
 					</cfif>
 				</cfloop>
-			</cfif>	--->	
-			<cfset numOfVars = 2>
-			<cfloop from="1" to="#numOfVars#" index="i">
-				<cfset variableNameRel = "media_relationship_" & i>
-				<cfset variableNameKey = "related_primary_key_" & i>
-				<cfset variableValueRel = evaluate(variableNameRel)>
-				<cfset variableValueKey = evaluate(variableNameKey)>
-				<cfset theTable = trim(listLast('#variableValueRel#'," "))>
-				Table: #theTable#<br>
-				<!-- Output the variable name and value -->
-				<cfquery name="checkRelType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					UPDATE cf_temp_media
-					SET 
-						status = concat(nvl2(status, status || '; ', ''),'#variableNameRel# is missing')
-					WHERE #variableNameRel# not in (select media_relationship from ctmedia_relationship)
-						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-				</cfquery>
-				<cfquery name="tables" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					SELECT cols.table_name, cols.column_name, cols.position, cons.status, cons.owner
-					FROM all_constraints cons, all_cons_columns cols
-					WHERE cons.constraint_type = 'P'
-					AND cons.constraint_name = cols.constraint_name
-					AND cons.owner = cols.owner
-					and cons.owner='MCZBASE'
-					AND cols.table_name = UPPER('#theTable#')
-					AND cols.position = 1
-					ORDER BY cols.table_name, cols.position
-				</cfquery>
-				<cfif #theTable# eq 'cataloged_item' OR #theTable# eq 'specimen_part'>
-					<cfif #theTable# eq 'cataloged_item'>
-						<cfloop list="#variableNameKey#" index="l" delimiters=":">
-							<cfset IA = listGetAt(#variableValueKey#,1,":")>
-							<cfset CCDE = listGetAt(#variableValueKey#,2,":")>
-							<cfset CI = listGetAt(#variableValueKey#,3,":")>
-							<cfquery name="chkCOID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-								update cf_temp_media set #variableNameRel# = 'shows cataloged_item', #variableNameKey# = (
-									select #tables.column_name# 
-									from #theTable# 
-									where cat_num = '#CI#' 
-									and collection_cde = '#CCDE#'
-								) where #variableNameKey# like '%:%'
-							</cfquery>
-						</cfloop>
-					<cfelseif #theTable# eq 'specimen_part'>
-						<cfloop list="#variableNameKey#" index="l" delimiters=":">
-							<cfset tinstit_acronym = listgetat(#variableValueKey#,1,":")>
-							<cfset tcoll_cde = listgetat(#variableValueKey#,2,":")>
-							<cfset tcat_item = listgetat(#variableValueKey#,3,":")>
-							<cfquery name="chkCOID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-								update cf_temp_media set #variableNameRel# = 'shows specimen_part', #variableNameKey# = (
-									select #tables.column_name# 
-									from #theTable# 
-									where cat_num = '#CI#' 
-									and collection_cde = '#CCDE#'
-								) where #variableNameKey# like '%:%'
-							</cfquery>
-						</cfloop>
-					</cfif>
-				<cfelse>
-					<cfquery name="chkCOID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						select #tables.column_name# from #theTable# where #tables.column_name# = '#variableValueKey#'  
+			</cfif>
+			<cfquery name="warningMessageLicense" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				UPDATE
+					cf_temp_media
+				SET
+					status = concat(nvl2(status, status || '; ', ''),'MEDIA_LICENSE_ID #getTempMedia.MEDIA_LICENSE_ID# is invalid')
+				WHERE
+					media_license_id not in (select media_license_id from ctmedia_license) AND
+					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+			</cfquery>
+			<cfquery name="warningMessageLicense" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				UPDATE
+					cf_temp_media
+				SET
+					status = concat(nvl2(status, status || '; ', ''),'MEDIA_LICENSE_ID #getTempMedia.MEDIA_LICENSE_ID# is invalid')
+				WHERE
+					media_license_id not in (select media_license_id from ctmedia_license) AND
+					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+			</cfquery>
+			<cfif len(getTempMedia.mask_media) GT 0>
+				<cfif getTempMedia.mask_media NEQ 1>
+					<cfquery name="warningMessageMask" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						UPDATE
+							cf_temp_media
+						SET
+							status = concat(nvl2(status, status || '; ', ''),'MASK_MEDIA must = blank, 1 or 0')
+						WHERE 
+							username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> 
 					</cfquery>
 				</cfif>
+			</cfif>
+			<cfloop list="#requiredfieldlist#" index="requiredField">
+				<cfquery name="checkRequired" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					UPDATE cf_temp_media
+					SET 
+						status = concat(nvl2(status, status || '; ', ''),'#requiredField# is missing')
+					WHERE #requiredField# is null
+						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+				</cfquery>
 			</cfloop>
-							
-						
+			
+			<!-- Define relationship and label variables -->
+			<cfif len(getTempMedia.media_label_1) gt 0><cfset media_label_1 = "#getTempMedia.media_label_1#"><cfelse><cfset media_label_1 = ""></cfif>
+			<cfif len(getTempMedia.media_label_2) gt 0><cfset media_label_2 = "#getTempMedia.media_label_2#"><cfelse><cfset media_label_2 = ""></cfif>
+			<cfif len(getTempMedia.media_label_3) gt 0><cfset media_label_3 = "#getTempMedia.media_label_3#"><cfelse><cfset media_label_3 = ""></cfif>
+			<cfif len(getTempMedia.media_label_4) gt 0><cfset media_label_4 = "#getTempMedia.media_label_4#"><cfelse><cfset media_label_4 = ""></cfif>
+			<cfif len(getTempMedia.media_label_5) gt 0><cfset media_label_5 = "#getTempMedia.media_label_5#"><cfelse><cfset media_label_5 = ""></cfif>
+			<cfif len(getTempMedia.media_label_6) gt 0><cfset media_label_6 = "#getTempMedia.media_label_6#"><cfelse><cfset media_label_6 = ""></cfif>
+			<cfif len(getTempMedia.media_label_7) gt 0><cfset media_label_7 = "#getTempMedia.media_label_7#"><cfelse><cfset media_label_7 = ""></cfif>
+			<cfif len(getTempMedia.media_label_8) gt 0><cfset media_label_8 = "#getTempMedia.media_label_8#"><cfelse><cfset media_label_8 = ""></cfif>
+
+			<cfif len(getTempMedia.media_relationship_1) gt 0><cfset media_relationship_1 = "#getTempMedia.media_relationship_1#"><cfelse><cfset media_relationship_1 = ""></cfif>
+			<cfif len(getTempMedia.media_relationship_2) gt 0><cfset media_relationship_2 = "#getTempMedia.media_relationship_2#"><cfelse><cfset media_relationship_2 = ""></cfif>
+				
+			<!-- Define the total number of variables -->
+			<cfset numberOfVariables = 8>
+			<cfloop from="1" to="#numberOfVariables#" index="i">
+				<cfset variableName = "media_label_" & i>
+				<cfset variableValue = evaluate(variableName)>
+				<!-- Output the variable name and value -->
+				<cfquery name="checkLabelType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					UPDATE cf_temp_media
+					SET 
+						status = concat(nvl2(status, status || '; ', ''),'#variableName# is missing')
+					WHERE #variableName# not in (select media_label from ctmedia_label)
+						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+				</cfquery>
+			</cfloop>
+					
+			<cfset numOfVars = 2>
+			<cfloop from="1" to="#numOfVars#" index="i">
+				<cfset variableName = "media_relationship_" & i>
+				<cfset variableValue = evaluate(variableName)>
+				<!-- Output the variable name and value -->
+				<cfquery name="checkLabelType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					UPDATE cf_temp_media
+					SET 
+						status = concat(nvl2(status, status || '; ', ''),'#variableName# is missing')
+					WHERE #variableName# not in (select media_relationship from ctmedia_relationship)
+						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+				</cfquery>
+			</cfloop>
 			<cfif len(getTempMedia.made_date) eq 0 && refind("^[0-9]{4}-[0-9]{2}-[0-9]{2}$",made_date) EQ 0>
 				<cfquery name="setDate" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE
