@@ -443,7 +443,10 @@ limitations under the License.
 					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<cfset i=1>
-			<cfloop query="getTempMedia">
+			<cfset numberOfVariables = 2>
+			<cfloop from="1" to="#numberOfVariables#" index="#getTempMedia.media_relationship#">
+				<cfset variableName = "media_relationship_" & i>
+				<cfset variableValue = evaluate(variableName)>
 				<cfif len(getTempMedia.MEDIA_RELATIONSHIP_i) gt 0>
 					<!---Find the table name "theTable" from the second part of the media_relationship--->
 					<cfset theTable = trim(listLast('#getTempMedia.media_relationship_i#'," "))>
