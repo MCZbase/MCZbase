@@ -601,6 +601,34 @@ limitations under the License.
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
 			</cfloop>
+			
+			<!-- Define sample variables -->
+			<cfset var1 = "#getTempMedia.media_value_1#">
+			<cfset var2 = "#getTempMedia.media_value_2#">
+			<cfset var3 = "#getTempMedia.media_value_3#">
+			<cfset var4 = "#getTempMedia.media_value_4#">
+			<cfset var5 = "#getTempMedia.media_value_5#">
+			<cfset var6 = "#getTempMedia.media_value_6#">
+			<cfset var7 = "#getTempMedia.media_value_7#">
+			<cfset var8 = "#getTempMedia.media_value_8#">
+
+			<!-- Define the total number of variables -->
+			<cfset numberOfVariables = 8>
+			<cfloop from="1" to="#numberOfVariables#" index="i">
+				<cfset variableName = "var" & i>
+				<cfset variableValue = evaluate(variableName)>
+				<!-- Output the variable name and value -->
+				<cfoutput>
+					#variableName#: #variableValue#<br>
+				</cfoutput>
+<!---				<cfquery name="checkRequired" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					UPDATE cf_temp_media
+					SET 
+						status = concat(nvl2(status, status || '; ', ''),'#requiredField# is missing')
+					WHERE #requiredField# is null
+						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+				</cfquery>--->
+			</cfloop>
 			<cfif len(getTempMedia.made_date) eq 0 && refind("^[0-9]{4}-[0-9]{2}-[0-9]{2}$",made_date) EQ 0>
 				<cfquery name="setDate" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE
