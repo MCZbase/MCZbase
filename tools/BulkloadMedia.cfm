@@ -602,7 +602,7 @@ limitations under the License.
 				</cfquery>
 			</cfloop>
 			
-			<!-- Define sample variables -->
+			<!-- Define relationship and label variables -->
 			<cfif len(getTempMedia.media_label_1) gt 0><cfset media_label_1 = "#getTempMedia.media_label_1#"><cfelse><cfset media_label_1 = ""></cfif>
 			<cfif len(getTempMedia.media_label_2) gt 0><cfset media_label_2 = "#getTempMedia.media_label_2#"><cfelse><cfset media_label_2 = ""></cfif>
 			<cfif len(getTempMedia.media_label_3) gt 0><cfset media_label_3 = "#getTempMedia.media_label_3#"><cfelse><cfset media_label_3 = ""></cfif>
@@ -614,6 +614,7 @@ limitations under the License.
 
 			<cfif len(getTempMedia.media_relationship_1) gt 0><cfset media_relationship_1 = "#getTempMedia.media_relationship_1#"><cfelse><cfset media_relationship_1 = ""></cfif>
 			<cfif len(getTempMedia.media_relationship_2) gt 0><cfset media_relationship_2 = "#getTempMedia.media_relationship_2#"><cfelse><cfset media_relationship_2 = ""></cfif>
+				
 			<!-- Define the total number of variables -->
 			<cfset numberOfVariables = 8>
 			<cfloop from="1" to="#numberOfVariables#" index="i">
