@@ -445,7 +445,7 @@ limitations under the License.
 			<cfset i=1>
 				<cfloop query="#getTempMedia#">
 					<!---Find the table name "theTable" from the second part of the media_relationship--->
-					<cfset theTable = trim(listLast('#getTempMedia.media_relationship_i#'," "))>
+					<cfset theTable = trim(listLast('#getTempMedia.media_relationship_1#'," "))>
 					<!---based on the table, find the primary key--->
 					<cfquery name="tables" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						SELECT cols.table_name, cols.column_name, cols.position, cons.status, cons.owner
@@ -458,8 +458,8 @@ limitations under the License.
 						AND cols.position = 1
 						ORDER BY cols.table_name, cols.position
 					</cfquery>
-					<cfif #getTempMedia.MEDIA_RELATIONSHIP_i# eq 'shows cataloged_item' OR #getTempMedia.MEDIA_RELATIONSHIP_i# eq 'shows specimen_part'>
-						<cfif #theTable# eq 'cataloged_item' and #getTempMedia.media_relationship_i# eq 'shows cataloged_item'>
+					<cfif #getTempMedia.MEDIA_RELATIONSHIP_i# eq 'shows cataloged_item' OR #getTempMedia.MEDIA_RELATIONSHIP_1# eq 'shows specimen_part'>
+						<cfif #theTable# eq 'cataloged_item' and #getTempMedia.media_relationship_1# eq 'shows cataloged_item'>
 							<cfloop list="#getTempMedia.related_primary_key_1#" index="l" delimiters=":">
 								<cfset IA = listGetAt(#getTempMedia.related_primary_key_1#,1,":")>
 								<cfset CCDE = listGetAt(#getTempMedia.related_primary_key_1#,2,":")>
@@ -474,13 +474,13 @@ limitations under the License.
 									)
 								</cfquery>
 							</cfloop>
-						<cfelseif #theTable# eq 'specimen_part' and #getTempMedia.media_relationship_i# eq 'shows specimen_part'>
-							<cfloop list="#getTempMedia.related_primary_key_i#" index="l" delimiters=":">
-								<cfset tinstit_acronym = listgetat(#getTempMedia.related_primary_key_i#,1,":")>
-								<cfset tcoll_cde = listgetat(#getTempMedia.related_primary_key_i#,2,":")>
-								<cfset tcat_item = listgetat(#getTempMedia.related_primary_key_i#,3,":")>
+						<cfelseif #theTable# eq 'specimen_part' and #getTempMedia.media_relationship_1# eq 'shows specimen_part'>
+							<cfloop list="#getTempMedia.related_primary_key_1#" index="l" delimiters=":">
+								<cfset tinstit_acronym = listgetat(#getTempMedia.related_primary_key_1#,1,":")>
+								<cfset tcoll_cde = listgetat(#getTempMedia.related_primary_key_1#,2,":")>
+								<cfset tcat_item = listgetat(#getTempMedia.related_primary_key_1#,3,":")>
 								<cfquery name="chkCOID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-									update cf_temp_media set related_primary_key_i = 
+									update cf_temp_media set related_primary_key_1 = 
 									(
 										select specimen_part.collection_object_id 
 										from cataloged_item,specimen_part 
