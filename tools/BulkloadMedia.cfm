@@ -658,7 +658,7 @@ limitations under the License.
 				</cfquery>
 				<cfif #theTable# eq 'cataloged_item' OR #theTable# eq 'specimen_part'>
 					<cfif #theTable# eq 'cataloged_item'>
-						<cfloop list="#variableValueRel#" index="l" delimiters=":">
+						<cfloop list="#variableValueKey#" index="l" delimiters=":">
 							<cfset IA = listGetAt(#variableValueKey#,1,":")>
 							<cfset CCDE = listGetAt(#variableValueKey#,2,":")>
 							<cfset CI = listGetAt(#variableValueKey#,3,":")>
