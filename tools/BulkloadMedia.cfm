@@ -674,6 +674,7 @@ limitations under the License.
 										where cat_num = '#CI#' 
 										and collection_cde = '#CCDE#'
 									)
+									and #variableNameRel# = 'cataloged_item'
 								)
 							</cfquery>
 								#variableNameRel#: #tables.column_name#: #theTable# <br>
