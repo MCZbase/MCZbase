@@ -562,7 +562,7 @@ limitations under the License.
 					</cfif>
 				</cfloop>
 			</cfif>
-			<cfset uri = '#media_uri#'>
+			<cfset uri = '#getTempMedia.media_uri#'>
 			<cfset pattern = "^(https):?$">
 			<cffunction name="isValidURI" access="public" returntype="boolean">
 				<cfargument name="uri" type="string" required="true">
