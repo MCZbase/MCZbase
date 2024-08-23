@@ -458,7 +458,7 @@ limitations under the License.
 						AND cols.position = 1
 						ORDER BY cols.table_name, cols.position
 					</cfquery>
-					<cfif #getTempMedia.MEDIA_RELATIONSHIP_i# eq 'shows cataloged_item' OR #getTempMedia.MEDIA_RELATIONSHIP_1# eq 'shows specimen_part'>
+					<cfif #getTempMedia.MEDIA_RELATIONSHIP_1# eq 'shows cataloged_item' OR #getTempMedia.MEDIA_RELATIONSHIP_1# eq 'shows specimen_part'>
 						<cfif #theTable# eq 'cataloged_item' and #getTempMedia.media_relationship_1# eq 'shows cataloged_item'>
 							<cfloop list="#getTempMedia.related_primary_key_1#" index="l" delimiters=":">
 								<cfset IA = listGetAt(#getTempMedia.related_primary_key_1#,1,":")>
