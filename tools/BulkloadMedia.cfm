@@ -654,6 +654,28 @@ limitations under the License.
 						username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> 
 				</cfquery>
 			</cfif>
+			<cfif len(getTempMedia.height) gt 0 && is_numeric(getTempMedia.height) && len(getTempMedia.height) < 6>
+				<cfquery name="checkHeight" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					UPDATE
+						cf_temp_media
+					SET
+						status = concat(nvl2(status, status || '; ', ''),'#height# value is too large or not a number')
+					WHERE 
+						height is not null AND
+						username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> 
+				</cfquery>
+			</cfif>
+			<cfif len(getTempMedia.width) gt 0 && is_numeric(getTempMedia.width) && len(getTempMedia.width) < 6>
+				<cfquery name="checkWidth" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					UPDATE
+						cf_temp_media
+					SET
+						status = concat(nvl2(status, status || '; ', ''),'#width# value is too large or not a number')
+					WHERE 
+						width is not null AND
+						username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> 
+				</cfquery>
+			</cfif>
 			<cfquery name="problemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT *
 				FROM 
