@@ -563,7 +563,7 @@ limitations under the License.
 				</cfloop>
 			</cfif>
 			<cfset uri = '#getTempMedia.media_uri#'>
-			<cfset pattern = REMatch("https?://([-\w\.]+)+(:\d+)?(/([\w/_\.]*(\?\S+)?)?)?", httpResp.Filecontent)>
+			<cfset pattern = REMatch("https?://([-\w\.]+)+(:\d+)?(/([\w/_\.]*(\?\S+)?)?)?", #uri#)>
 			<cffunction name="isValidURI" access="public" returntype="boolean">
 				<cfargument name="uri" type="string" required="true">
 				<cfargument name="pattern" type="string" required="true">
