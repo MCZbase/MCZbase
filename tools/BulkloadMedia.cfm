@@ -659,7 +659,7 @@ limitations under the License.
 					UPDATE
 						cf_temp_media
 					SET
-						status = concat(nvl2(status, status || '; ', ''),'#height# value is too large or not a number')
+						status = concat(nvl2(status, status || '; ', ''),'#getTempMedia.height# value is too large or not a number')
 					WHERE 
 						height is not null AND
 						username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> 
@@ -670,7 +670,7 @@ limitations under the License.
 					UPDATE
 						cf_temp_media
 					SET
-						status = concat(nvl2(status, status || '; ', ''),'#width# value is too large or not a number')
+						status = concat(nvl2(status, status || '; ', ''),'#getTempMedia.width# value is too large or not a number')
 					WHERE 
 						width is not null AND
 						username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> 
