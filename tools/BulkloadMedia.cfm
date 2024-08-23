@@ -673,8 +673,7 @@ limitations under the License.
 										from #theTable# 
 										where cat_num = '#CI#' 
 										and collection_cde = '#CCDE#'
-									)
-									and #variableNameRel# = 'cataloged_item'
+									), #variableValueRel# = 'shows cataloged_item'
 								)
 							</cfquery>
 								#variableNameRel#: #tables.column_name#: #theTable# <br>
