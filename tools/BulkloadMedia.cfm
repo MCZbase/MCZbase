@@ -709,8 +709,8 @@ limitations under the License.
 						<th>CREATED_BY_AGENT_ID</th>
 						<th>SUBJECT</th>
 						<th>MADE_DATE</th>
-						<th>HEIGHT</th>
-						<th>WIDTH</th>
+						<th>HEIGHT (px)</th>
+						<th>WIDTH (px)</th>
 						<th>DESCRIPTION</th>
 						<th>MEDIA_RELATIONSHIP_1</th>
 						<th>RELATED_PRIMARY_KEY_1</th>
