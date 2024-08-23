@@ -1039,10 +1039,10 @@ limitations under the License.
 									label_value,
 									assigned_by_agent_id
 								) VALUES (
-									<cfqueryparam cfsqltype="CF_SQL_decimal" value="#getID.theId#">,
+									<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getID.theId#">,
 									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.media_label_6#">,
 									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.label_value_6#">,
-									<cfqueryparam cfsqltype="CF_SQL_decimal" value="#getAgent.agent_id#">
+									<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getAgent.agent_id#">
 								)
 							</cfquery>
 						</cfif>
@@ -1054,10 +1054,10 @@ limitations under the License.
 									label_value,
 									assigned_by_agent_id
 								) VALUES (
-									<cfqueryparam cfsqltype="CF_SQL_decimal" value="#getID.theId#">,
+									<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getID.theId#">,
 									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.media_label_7#">,
 									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.label_value_7#">,
-									<cfqueryparam cfsqltype="CF_SQL_decimal" value="#getAgent.agent_id#">
+									<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getAgent.agent_id#">
 								)
 							</cfquery>
 						</cfif>
@@ -1069,10 +1069,10 @@ limitations under the License.
 									label_value,
 									assigned_by_agent_id
 								) VALUES (
-									<cfqueryparam cfsqltype="CF_SQL_decimal" value="#getID.theId#">,
+									<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getID.theId#">,
 									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.media_label_8#">,
 									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.label_value_8#">,
-									<cfqueryparam cfsqltype="CF_SQL_decimal" value="#getAgent.agent_id#">
+									<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getAgent.agent_id#">
 								)
 							</cfquery>
 						</cfif>
