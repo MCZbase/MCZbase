@@ -562,16 +562,6 @@ limitations under the License.
 					</cfif>
 				</cfloop>
 			</cfif>
-			<cfhttp url="#getTempMedia.media_uri#" method="get" result="httpResp" timeout="120">
-				<cfhttpparam type="header" name="Content-Type" value="application/json" />
-			</cfhttp>
-			<cfscript>
-				// Find all the URLs in a web page retrieved via cfhttp
-				// The search is case sensitive
-				result = REMatch("https?://([-\w\.]+)+(:\d+)?(/([\w/_\.]*(\?\S+)?)?)?", httpResp.Filecontent);
-				writeDump(result)
-			</cfscript>
-
 			<cfquery name="warningMessageLicense" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				UPDATE
 					cf_temp_media
