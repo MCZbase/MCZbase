@@ -555,6 +555,8 @@ limitations under the License.
 
 			<cfif len(getTempMedia.media_relationship_1) gt 0><cfset media_relationship_1 = "#getTempMedia.media_relationship_1#"><cfelse><cfset media_relationship_1 = ""></cfif>
 			<cfif len(getTempMedia.media_relationship_2) gt 0><cfset media_relationship_2 = "#getTempMedia.media_relationship_2#"><cfelse><cfset media_relationship_2 = ""></cfif>
+			<cfif len(getTempMedia.related_primary_key_1) gt 0><cfset related_primary_key_1 = "#getTempMedia.related_primary_key_1#"><cfelse><cfset related_primary_key_1 = ""></cfif>
+			<cfif len(getTempMedia.related_primary_key_2) gt 0><cfset related_primary_key_2 = "#getTempMedia.related_primary_key_2#"><cfelse><cfset related_primary_key_2 = ""></cfif>
 				
 			<!-- Define the total number of variables -->
 			<cfset numberOfVariables = 8>
