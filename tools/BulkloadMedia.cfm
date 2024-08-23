@@ -465,15 +465,13 @@ limitations under the License.
 								<cfset CCDE = listGetAt(#getTempMedia.related_primary_key_1#,2,":")>
 								<cfset CI = listGetAt(#getTempMedia.related_primary_key_1#,3,":")>
 								<cfquery name="chkCOID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-									update cf_temp_media set related_primary_key_1 = (
-										select #tables.column_name# from #theTable# 
-										where #tables.column_name# = (
+									update cf_temp_media set related_primary_key_1 = 
+										(
 											select #tables.column_name# 
 											from #theTable# 
 											where cat_num = '#CI#' 
 											and collection_cde = '#CCDE#'
 										)
-									)
 								</cfquery>
 							</cfloop>
 						<cfelse>
@@ -483,8 +481,6 @@ limitations under the License.
 								<cfset tcat_item = listgetat(#getTempMedia.related_primary_key_1#,3,":")>
 								<cfquery name="chkCOID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 									update cf_temp_media set related_primary_key_1 = (
-										SELECT specimen_part.collection_object_id FROM specimen_part 
-										WHERE specimen_part.collection_object_id in (
 											select specimen_part.collection_object_id 
 											from cataloged_item,specimen_part 
 											where specimen_part.derived_from_cat_item = cataloged_item.collection_object_id 
