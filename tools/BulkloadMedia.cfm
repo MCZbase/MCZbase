@@ -603,14 +603,14 @@ limitations under the License.
 			</cfloop>
 			
 			<!-- Define sample variables -->
-			<cfset var1 = "#getTempMedia.media_label_1#">
-			<cfset var2 = "#getTempMedia.media_label_2#">
-			<cfset var3 = "#getTempMedia.media_label_3#">
-			<cfset var4 = "#getTempMedia.media_label_4#">
-			<cfset var5 = "#getTempMedia.media_label_5#">
-			<cfset var6 = "#getTempMedia.media_label_6#">
-			<cfset var7 = "#getTempMedia.media_label_7#">
-			<cfset var8 = "#getTempMedia.media_label_8#">
+			<cfif len(getTempMedia.media_label_1) gt 0><cfset var1 = "#getTempMedia.media_label_1#"></cfif>
+			<cfif len(getTempMedia.media_label_2) gt 0><cfset var2 = "#getTempMedia.media_label_2#"></cfif>
+			<cfif len(getTempMedia.media_label_3) gt 0><cfset var3 = "#getTempMedia.media_label_3#"></cfif>
+			<cfif len(getTempMedia.media_label_4) gt 0><cfset var4 = "#getTempMedia.media_label_4#"></cfif>
+			<cfif len(getTempMedia.media_label_5) gt 0><cfset var5 = "#getTempMedia.media_label_5#"></cfif>
+			<cfif len(getTempMedia.media_label_6) gt 0><cfset var6 = "#getTempMedia.media_label_6#"></cfif>
+			<cfif len(getTempMedia.media_label_7) gt 0><cfset var7 = "#getTempMedia.media_label_7#"></cfif>
+			<cfif len(getTempMedia.media_label_8) gt 0><cfset var8 = "#getTempMedia.media_label_8#"></cfif>
 
 			<!-- Define the total number of variables -->
 			<cfset numberOfVariables = 8>
