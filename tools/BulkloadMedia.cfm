@@ -666,7 +666,7 @@ limitations under the License.
 							<cfset CCDE = listGetAt(#variableValueKey#,2,":")>
 							<cfset CI = listGetAt(#variableValueKey#,3,":")>
 							<cfquery name="chkCOID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-								update cf_temp_media set related_primary_key_2 = (
+								update cf_temp_media set #variableValueKey# = (
 									select #tables.column_name# from #theTable# 
 									where #tables.column_name# = (
 										select #tables.column_name# 
@@ -683,7 +683,7 @@ limitations under the License.
 							<cfset tcoll_cde = listgetat(#variableValueKey#,2,":")>
 							<cfset tcat_item = listgetat(#variableValueKey#,3,":")>
 							<cfquery name="chkCOID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-								update cf_temp_media set related_primary_key_2 = (
+								update cf_temp_media set #variableValueKey# = (
 									SELECT specimen_part.collection_object_id FROM specimen_part 
 									WHERE specimen_part.collection_object_id in (
 										select specimen_part.collection_object_id 
@@ -703,7 +703,7 @@ limitations under the License.
 				</cfif>
 			</cfloop>
 							
-							#variableValueKey#
+						#variableValueRel#:	#variableValueKey# <br>
 			<cfif len(getTempMedia.made_date) eq 0 && refind("^[0-9]{4}-[0-9]{2}-[0-9]{2}$",made_date) EQ 0>
 				<cfquery name="setDate" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE
