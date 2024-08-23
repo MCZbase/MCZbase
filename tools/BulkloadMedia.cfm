@@ -666,14 +666,12 @@ limitations under the License.
 							<cfset CCDE = listGetAt(#variableValueKey#,2,":")>
 							<cfset CI = listGetAt(#variableValueKey#,3,":")>
 							<cfquery name="chkCOID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-								update cf_temp_media set #variableNameRel# = (
-									select #tables.column_name# from #theTable# 
-									where #tables.column_name# = (
-										select #tables.column_name# 
-										from #theTable# 
-										where cat_num = '#CI#' 
-										and collection_cde = '#CCDE#'
-									), #variableValueRel# = 'shows cataloged_item'
+								update cf_temp_media set #variableNameRel# = 'shows cataloged_item'
+									and variableNameKey = (
+									select #tables.column_name# 
+									from #theTable# 
+									where cat_num = '#CI#' 
+									and collection_cde = '#CCDE#'
 								)
 							</cfquery>
 								#variableNameRel#: #tables.column_name#: #theTable# <br>
