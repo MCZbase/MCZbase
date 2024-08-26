@@ -456,7 +456,7 @@ limitations under the License.
 			<cfloop collection="#media_relationships#" item='key'>
 				<!---<cfif len(getTempMedia.media_relationship_[key]) gt 0>--->
 					<!---Find the table name "theTable" from the second part of the media_relationship--->
-					<cfset theTable = trim(listLast('#getTempMedia.media_relationship_[key]#'," "))>
+					<cfset theTable = trim(listLast('#media_relationship_[key]#'," "))>
 					<!---based on the table, find the primary key--->
 					<cfquery name="tables" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						SELECT cols.table_name, cols.column_name, cols.position, cons.status, cons.owner
