@@ -458,7 +458,7 @@ limitations under the License.
 							AND key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia.key#">
 					</cfquery>
 						
-						<h1>#cf_temp_media.related_primary_key_#i###</h1>
+						<h1>#cf_temp_media.related_primary_key_#i##</h1>
 					<!---Find the table name "theTable" from the second part of the media_relationship--->
 					<cfset theTable = trim(listLast('#getMediaRel.media_relationship#'," "))>
 					<!---based on the table, find the primary key--->
