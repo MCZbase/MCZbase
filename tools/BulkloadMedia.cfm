@@ -471,44 +471,38 @@ limitations under the License.
 						AND cols.position = 1
 						ORDER BY cols.table_name, cols.position
 					</cfquery>
+				<cfloop list="#getMediaRel.related_primary_key#" index="l" delimiters=":">
+					<cfset IA = listGetAt(#getMediaRel.related_primary_key#,1,":")>
+					<cfset CCDE = listGetAt(#getMediaRel.related_primary_key#,2,":")>
+					<cfset CI = listGetAt(#getMediaRel.related_primary_key#,3,":")>
 					<cfif len(getMediaRel.media_relationship) gt 0>
 						<cfif #theTable# eq 'cataloged_item' and #getMediaRel.media_relationship# eq 'shows cataloged_item'>
-							<cfloop list="#getMediaRel.related_primary_key#" index="l" delimiters=":">
-								<cfset IA = listGetAt(#getMediaRel.related_primary_key#,1,":")>
-								<cfset CCDE = listGetAt(#getMediaRel.related_primary_key#,2,":")>
-								<cfset CI = listGetAt(#getMediaRel.related_primary_key#,3,":")>
-								<cfquery name="chkCOID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-									update cf_temp_media set related_primary_key_#i# =
-									(
-										select collection_object_id
-										from #theTable# 
-										where cat_num = '#CI#' 
-										and collection_cde = '#CCDE#'
-									)
-									WHERE 
-										username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> AND
-										key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia.key#">
-								</cfquery>
-							</cfloop>
+							<cfquery name="chkCOID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+								update cf_temp_media set related_primary_key_#i# =
+								(
+									select collection_object_id
+									from #theTable# 
+									where cat_num = '#CI#' 
+									and collection_cde = '#CCDE#'
+								)
+								WHERE 
+									username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> AND
+									key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia.key#">
+							</cfquery>
 						<cfelseif #theTable# eq 'specimen_part' and #getMediaRel.media_relationship# eq 'shows specimen_part'>
-							<cfloop list="#getMediaRel.related_primary_key#" index="l" delimiters=":">
-								<cfset IA = listGetAt(#getMediaRel.related_primary_key#,1,":")>
-								<cfset CCDE = listGetAt(#getMediaRel.related_primary_key#,2,":")>
-								<cfset CI = listGetAt(#getMediaRel.related_primary_key#,3,":")>
-								<cfquery name="chkCOID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-									update cf_temp_media set related_primary_key_#i# =
-									(
-										select specimen_part.collection_object_id
-										from #theTable#,cataloged_item
-										where cataloged_item.cat_num = '#CI#' 
-										and cataloged_item.collection_cde = '#CCDE#'
-										and cataloged_item.collection_object_id = specimen_part.derived_from_cat_item
-									)
-									WHERE 
-										username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> AND
-										key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia.key#">
-								</cfquery>
-							</cfloop>
+							<cfquery name="chkCOID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+								update cf_temp_media set related_primary_key_#i# =
+								(
+									select specimen_part.collection_object_id
+									from #theTable#,cataloged_item
+									where cataloged_item.cat_num = '#CI#' 
+									and cataloged_item.collection_cde = '#CCDE#'
+									and cataloged_item.collection_object_id = specimen_part.derived_from_cat_item
+								)
+								WHERE 
+									username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> AND
+									key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia.key#">
+							</cfquery>
 							<cfif len(getMediaRel.related_primary_key) eq 0>
 								<cfquery name="checkLabelType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 								UPDATE cf_temp_media
