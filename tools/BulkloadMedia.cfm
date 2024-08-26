@@ -521,6 +521,8 @@ limitations under the License.
 											related_primary_key_#i# is null AND
 											media_relationship_#i# is not null and 
 											username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+										AND
+											key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia.key#">
 									</cfquery>
 								</cfloop>
 							</cfif>
