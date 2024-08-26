@@ -459,7 +459,7 @@ limitations under the License.
 						SET
 							status = concat(nvl2(status, status || '; ', ''),'MEDIA_RELATIONSHIP_#i# is invalid')
 						WHERE
-							media_relationship_#i# not in (select media_relationship from ctmedia_relations) and 
+							media_relationship_#i# not in (select media_relationship from ctmedia_relationship) and 
 							username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 					</cfquery>
 			</cfloop>
