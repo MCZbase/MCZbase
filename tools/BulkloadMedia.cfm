@@ -442,13 +442,14 @@ limitations under the License.
 					media_license_id not in (select media_license_id from ctmedia_license) AND
 					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
-			<cfquery name="warningMessageLicense" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+			<cfquery name="warningEmptyPK" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				UPDATE
 					cf_temp_media
 				SET
-					status = concat(nvl2(status, status || '; ', ''),'MEDIA_LICENSE_ID #getTempMedia.MEDIA_LICENSE_ID# is invalid')
+					status = concat(nvl2(status, status || '; ', ''),'RELATED_PRIMARY_KEY_2 is null')
 				WHERE
 					related_primary_key_2 is null AND
+					media_relationship_2 is not null and 
 					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<cfloop query = "getTempMedia">	
