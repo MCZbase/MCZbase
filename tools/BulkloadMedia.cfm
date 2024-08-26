@@ -443,10 +443,24 @@ limitations under the License.
 					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<cfloop query = "getTempMedia">
-				<cfloop index="i" from="1" to="6">
-					<cfif len(getTempMedia.media_relationship_1) gt 0>
+				<cfloop index="i" from="1" to="2">
+					<cfquery name="getMediaRel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						SELECT 
+							cf_temp_media.key,
+							cf_temp_media.media_relationship_#i# media_relationship,
+							cf_temp_media.related_primary_key_#i# as related_primary_key,
+							cf_temp_media.media_id
+						FROM 
+							cf_temp_media
+						WHERE 
+							cf_temp_media.media_relationship_#i# is not null
+							AND cf_temp_media.related_primary_key_#i# is not null
+							AND cf_temp_media.media_id is not null
+							AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+					</cfquery>
+					<cfif len(getMediaRel.media_relationship) gt 0>
 						<!---Find the table name "theTable" from the second part of the media_relationship--->
-						<cfset theTable = trim(listLast('#getTempMedia.media_relationship_1#'," "))>
+						<cfset theTable = trim(listLast('#getMediaRel.media_relationship#'," "))>
 						<!---based on the table, find the primary key--->
 						<cfquery name="tables" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							SELECT cols.table_name, cols.column_name, cols.position, cons.status, cons.owner
@@ -459,13 +473,13 @@ limitations under the License.
 							AND cols.position = 1
 							ORDER BY cols.table_name, cols.position
 						</cfquery>
-						<cfif #theTable# eq 'cataloged_item' and #getTempMedia.media_relationship_1# eq 'shows cataloged_item'>
-							<cfloop list="#getTempMedia.related_primary_key_1#" index="l" delimiters=":">
-								<cfset IA = listGetAt(#getTempMedia.related_primary_key_1#,1,":")>
-								<cfset CCDE = listGetAt(#getTempMedia.related_primary_key_1#,2,":")>
-								<cfset CI = listGetAt(#getTempMedia.related_primary_key_1#,3,":")>
+						<cfif #theTable# eq 'cataloged_item' and #getTempMedia.media_relationship# eq 'shows cataloged_item'>
+							<cfloop list="#getTempMedia.related_primary_key#" index="l" delimiters=":">
+								<cfset IA = listGetAt(#getTempMedia.related_primary_key#,1,":")>
+								<cfset CCDE = listGetAt(#getTempMedia.related_primary_key#,2,":")>
+								<cfset CI = listGetAt(#getTempMedia.related_primary_key#,3,":")>
 								<cfquery name="chkCOID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-									update cf_temp_media set related_primary_key_1 =
+									update cf_temp_media set collection_object_id =
 									(
 										select collection_object_id
 										from #theTable# 
@@ -479,19 +493,19 @@ limitations under the License.
 							</cfloop>
 						<cfelse>
 							<cfquery name="chkCOID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-								update cf_temp_media set related_primary_key_1 = (select #tables.column_name# from #theTable# 
+								update cf_temp_media set collection_object_Id = (select #tables.column_name# from #theTable# 
 								where 
-									#tables.column_name# = '#getTempMedia.related_primary_key_1#')
+									#tables.column_name# = '#getTempMedia.related_primary_key#')
 								WHERE 
 									username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> AND
 									key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia.key#">
 							</cfquery>
 						</cfif>
 					</cfif>
-					<cfif len(getTempMedia.media_relationship_2) gt 0>
-						<!---Find the table name "theTable" from the second part of the media_relationship--->
+		<!---			<cfif len(getTempMedia.media_relationship_2) gt 0>
+						
 						<cfset theTable = trim(listLast('#getTempMedia.media_relationship_2#'," "))>
-						<!---based on the table, find the primary key--->
+				
 						<cfquery name="tables" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							SELECT cols.table_name, cols.column_name, cols.position, cons.status, cons.owner
 							FROM all_constraints cons, all_cons_columns cols
@@ -530,7 +544,7 @@ limitations under the License.
 									username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> AND
 									key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia.key#">
 							</cfquery>
-						</cfif>
+						</cfif>--->
 					</cfif>
 				</cfloop>
 			</cfloop>
