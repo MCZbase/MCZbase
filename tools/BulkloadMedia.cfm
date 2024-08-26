@@ -473,11 +473,11 @@ limitations under the License.
 							AND cols.position = 1
 							ORDER BY cols.table_name, cols.position
 						</cfquery>
-						<cfif #theTable# eq 'cataloged_item' and #getTempMedia.media_relationship# eq 'shows cataloged_item'>
-							<cfloop list="#getTempMedia.related_primary_key#" index="l" delimiters=":">
-								<cfset IA = listGetAt(#getTempMedia.related_primary_key#,1,":")>
-								<cfset CCDE = listGetAt(#getTempMedia.related_primary_key#,2,":")>
-								<cfset CI = listGetAt(#getTempMedia.related_primary_key#,3,":")>
+						<cfif #theTable# eq 'cataloged_item' and #getMediaRel.media_relationship# eq 'shows cataloged_item'>
+							<cfloop list="#getMediaRel.related_primary_key#" index="l" delimiters=":">
+								<cfset IA = listGetAt(#getMediaRel.related_primary_key#,1,":")>
+								<cfset CCDE = listGetAt(#getMediaRel.related_primary_key#,2,":")>
+								<cfset CI = listGetAt(#getMediaRel.related_primary_key#,3,":")>
 								<cfquery name="chkCOID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 									update cf_temp_media set collection_object_id =
 									(
