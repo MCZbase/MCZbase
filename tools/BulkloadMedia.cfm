@@ -442,8 +442,8 @@ limitations under the License.
 					media_license_id not in (select media_license_id from ctmedia_license) AND
 					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
-			<cfloop query = "getTempMedia">	<h1>#cf_temp_media.related_primary_key_1#</h1>
-							<h1>#cf_temp_media.related_primary_key_2#</h1>
+			<cfloop query = "getTempMedia">	<h1>#getTempMedia.related_primary_key_1#</h1>
+							<h1>#getTempMedia.related_primary_key_2#</h1>
 				<cfloop index="i" from="1" to="2">
 					<cfquery name="getMediaRel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						SELECT 
