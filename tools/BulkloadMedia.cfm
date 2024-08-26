@@ -494,6 +494,25 @@ limitations under the License.
 							ORDER BY cols.table_name, cols.position
 						</cfquery>
 					<cfif len(getMediaRel.media_relationship) gt 0 AND len(getMediaRel.related_primary_key) gt 0>
+											<cfquery name="warningEmptyPK" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						UPDATE
+							cf_temp_media
+						SET
+							status = concat(nvl2(status, status || '; ', ''),'RELATED_PRIMARY_KEY_#i# is null')
+						WHERE
+							related_primary_key_#i# is null AND
+							media_relationship_#i# is not null and 
+							username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+					</cfquery>
+					<cfquery name="warningBadRel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						UPDATE
+							cf_temp_media
+						SET
+							status = concat(nvl2(status, status || '; ', ''),'MEDIA_RELATIONSHIP_#i# is invalid')
+						WHERE
+							media_relationship_#i# not in (select media_relationship from ctmedia_relationship) and 
+							username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+					</cfquery>
 						<cfif #theTable# eq 'cataloged_item' and #getMediaRel.media_relationship# eq 'shows cataloged_item'>
 							<cfif len(#getMediaRel.related_primary_key#) gt 0>
 								<cfloop list="#getMediaRel.related_primary_key#" index="l" delimiters=":">
