@@ -443,6 +443,7 @@ limitations under the License.
 					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<cfloop query = "getTempMedia">	
+				<cfif len(getTempMedia.related_primary_key_1) gt 0 or len(getTempMedia.related_primary_key_2) gt 0>
 				<cfloop index="i" from="1" to="2">
 					<cfquery name="getMediaRel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						SELECT 
