@@ -446,17 +446,17 @@ limitations under the License.
 				"media_relationship_" = 1,
 				"media_relationship_" = 2
 				}>
-			<cfloop collection="#media_relationships#" item="ke">
-				<cfif StructKeyExists(media_relationships, ke)>
-					<cfoutput>#key##media_relationships[ke]#<br></cfoutput>
+			<cfloop collection="#media_relationships#" item="key">
+				<cfif StructKeyExists(media_relationships, key)>
+					<cfoutput>#key##media_relationships[key]#<br></cfoutput>
 				<cfelse>
 					<cfoutput>Key #ke# is undefined.<br></cfoutput>
 				</cfif>
 			</cfloop>
-			<cfloop collection="#media_relationships#" item='ke'>
+			<cfloop collection="#media_relationships#" item='key'>
 				<cfif len(getTempMedia.media_relationship_[ke]) gt 0>
 					<!---Find the table name "theTable" from the second part of the media_relationship--->
-					<cfset theTable = trim(listLast('#getTempMedia.media_relationship_[ke]#'," "))>
+					<cfset theTable = trim(listLast('#getTempMedia.media_relationship_[key]#'," "))>
 					<!---based on the table, find the primary key--->
 					<cfquery name="tables" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						SELECT cols.table_name, cols.column_name, cols.position, cons.status, cons.owner
@@ -471,11 +471,11 @@ limitations under the License.
 					</cfquery>
 					<cfif #theTable# eq 'cataloged_item' and #getTempMedia.media_relationship_[ke]# eq 'shows cataloged_item'>
 						<cfloop list="#getTempMedia.related_primary_key_[ke]#" index="l" delimiters=":">
-							<cfset IA = listGetAt(#getTempMedia.related_primary_key_[ke]#,1,":")>
-							<cfset CCDE = listGetAt(#getTempMedia.related_primary_key_[ke]#,2,":")>
-							<cfset CI = listGetAt(#getTempMedia.related_primary_key_[ke]#,3,":")>
+							<cfset IA = listGetAt(#getTempMedia.related_primary_key_[key]#,1,":")>
+							<cfset CCDE = listGetAt(#getTempMedia.related_primary_key_[key]#,2,":")>
+							<cfset CI = listGetAt(#getTempMedia.related_primary_key_[key]#,3,":")>
 							<cfquery name="chkCOID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-								update cf_temp_media set related_primary_key_[ke] =
+								update cf_temp_media set related_primary_key_[key] =
 								(
 									select collection_object_id
 									from #theTable# 
@@ -489,9 +489,9 @@ limitations under the License.
 						</cfloop>
 					<cfelse>
 						<cfquery name="chkCOID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-							update cf_temp_media set related_primary_key_[ke] = (select #tables.column_name# from #theTable# 
+							update cf_temp_media set related_primary_key_[key] = (select #tables.column_name# from #theTable# 
 							where 
-								#tables.column_name# = '#getTempMedia.related_primary_key_[ke]#')
+								#tables.column_name# = '#getTempMedia.related_primary_key_[key]#')
 							WHERE 
 								username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> AND
 								key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia.key#">
