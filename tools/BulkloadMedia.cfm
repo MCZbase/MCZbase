@@ -444,7 +444,7 @@ limitations under the License.
 			</cfquery>
 			<cfloop query = "getTempMedia">	
 				<cfif len(getTempMedia.related_primary_key_1) gt 0 or len(getTempMedia.related_primary_key_2) gt 0>
-				<cfloop index="i" from="1" to="2">
+					<cfloop index="i" from="1" to="2">
 					<cfquery name="getMediaRel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						SELECT 
 							cf_temp_media.key,
@@ -560,6 +560,7 @@ limitations under the License.
 						</cfif>
 					</cfif>
 				</cfloop>
+				</cfif>
 			</cfloop>
 			<cfquery name="warningMessageLicense" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				UPDATE
