@@ -466,7 +466,7 @@ limitations under the License.
 				WHERE
 					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
-				#ckData.status#
+			<cfif #ckData# neq 'MEDIA_RELATIONSHIP_1 is invalid' OR #ckData# neq 'MEDIA_RELATIONSHIP_2 is invalid'>
 			<cfloop query = "getTempMedia">	
 				<cfif len(getTempMedia.related_primary_key_1) gt 0 or len(getTempMedia.related_primary_key_2) gt 0>
 					<cfloop index="i" from="1" to="2">
@@ -572,6 +572,9 @@ limitations under the License.
 				</cfloop>
 				</cfif>
 			</cfloop>
+			<cfelse>
+				media relationship wrong
+			</cfif>
 			<cfquery name="warningMessageLicense" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				UPDATE
 					cf_temp_media
