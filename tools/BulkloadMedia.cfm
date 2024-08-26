@@ -442,7 +442,7 @@ limitations under the License.
 					media_license_id not in (select media_license_id from ctmedia_license) AND
 					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
-			<cfquery name="warningBadRel1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+			<cfquery name="warningBadRel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				UPDATE
 					cf_temp_media
 				SET
@@ -451,7 +451,7 @@ limitations under the License.
 					media_relationship_1 not in (select media_relationship from ctmedia_relationship) and 
 					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
-			<cfquery name="warningBadRel2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+			<cfquery name="warningBadRel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				UPDATE
 					cf_temp_media
 				SET
@@ -460,6 +460,13 @@ limitations under the License.
 					media_relationship_2 not in (select media_relationship from ctmedia_relationship) and 
 					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
+			<cfquery name="ckData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				select * from 
+					cf_temp_media
+				WHERE
+					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+			</cfquery>
+				#ckData.status#
 			<cfloop query = "getTempMedia">	
 				<cfif len(getTempMedia.related_primary_key_1) gt 0 or len(getTempMedia.related_primary_key_2) gt 0>
 					<cfloop index="i" from="1" to="2">
@@ -501,15 +508,6 @@ limitations under the License.
 							media_relationship_#i# is not null and 
 							username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 					</cfquery>
-					<cfquery name="warningBadRel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						UPDATE
-							cf_temp_media
-						SET
-							status = concat(nvl2(status, status || '; ', ''),'MEDIA_RELATIONSHIP_#i# is invalid')
-						WHERE
-							media_relationship_#i# not in (select media_relationship from ctmedia_relationship) and 
-							username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-					</cfquery>
 						<cfif #theTable# eq 'cataloged_item' and #getMediaRel.media_relationship# eq 'shows cataloged_item'>
 							<cfif len(#getMediaRel.related_primary_key#) gt 0>
 								<cfloop list="#getMediaRel.related_primary_key#" index="l" delimiters=":">
@@ -529,8 +527,6 @@ limitations under the License.
 											key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia.key#">
 									</cfquery>
 								</cfloop>
-							<cfelse>
-								<h1>problem</h1>
 							</cfif>
 						<cfelseif #theTable# eq 'specimen_part' and #getMediaRel.media_relationship# eq 'shows specimen_part'>
 							<cfif len(#getMediaRel.related_primary_key#) gt 0>
