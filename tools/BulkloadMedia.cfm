@@ -466,7 +466,7 @@ limitations under the License.
 				WHERE
 					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
-			<cfif #ckData# neq 'MEDIA_RELATIONSHIP_1 is invalid' OR #ckData# neq 'MEDIA_RELATIONSHIP_2 is invalid'>
+			<cfif #ckData.status# neq 'MEDIA_RELATIONSHIP_1 is invalid' OR #ckData.status# neq 'MEDIA_RELATIONSHIP_2 is invalid'>
 			<cfloop query = "getTempMedia">	
 				<cfif len(getTempMedia.related_primary_key_1) gt 0 or len(getTempMedia.related_primary_key_2) gt 0>
 					<cfloop index="i" from="1" to="2">
