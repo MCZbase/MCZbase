@@ -502,7 +502,7 @@ limitations under the License.
 										from #theTable#,cataloged_item
 										where cataloged_item.cat_num = '#CI#' 
 										and cataloged_item.collection_cde = '#CCDE#'
-										and cataloged_item.collection_object_id = specimen_part.derived_from_cataloged_item
+										and cataloged_item.collection_object_id = specimen_part.derived_from_cat_item
 									)
 									WHERE 
 										username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> AND
