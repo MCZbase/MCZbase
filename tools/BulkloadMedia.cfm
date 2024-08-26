@@ -442,7 +442,7 @@ limitations under the License.
 					media_license_id not in (select media_license_id from ctmedia_license) AND
 					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
-			<cfif len(media_relationship_1) gt 0>
+			<cfif len(getTempMedia.media_relationship_1) gt 0>
 				<!---Find the table name "theTable" from the second part of the media_relationship--->
 				<cfset theTable = trim(listLast('#getTempMedia.media_relationship_1#'," "))>
 				<!---based on the table, find the primary key--->
@@ -478,7 +478,7 @@ limitations under the License.
 					</cfquery>
 				</cfif>
 			</cfif>
-			<cfif len(media_relationship_2) gt 0>
+			<cfif len(getTempMedia.media_relationship_2) gt 0>
 				<!---Find the table name "theTable" from the second part of the media_relationship--->
 				<cfset theTable = trim(listLast('#getTempMedia.media_relationship_2#'," "))>
 				<!---based on the table, find the primary key--->
