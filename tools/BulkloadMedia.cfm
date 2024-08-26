@@ -531,7 +531,8 @@ limitations under the License.
 							UPDATE cf_temp_media
 							SET 
 								status = concat(nvl2(status, status || '; ', ''),'"related_primary_key" is missing')
-							WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+							WHERE related_primary_key_#i# is null AND
+								username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						</cfquery>
 						</cfif>
 					</cfif>
