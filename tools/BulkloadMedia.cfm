@@ -443,8 +443,9 @@ limitations under the License.
 					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<cfset i = 1>
+			<cfset media_relationships eq "media_relationship_" + #i#>
 			<cfloop query = getTempMedia>
-				<cfif len(getTempMedia.media_relationship_1) gt 0 OR len(getTempMedia.media_relationship_2) gt 0>
+				<cfif len(getTempMedia.media_relationships) gt 0>
 					<!---Find the table name "theTable" from the second part of the media_relationship--->
 					<cfset theTable = trim(listLast('#getTempMedia.media_relationship_[i]#'," "))>
 					<!---based on the table, find the primary key--->
