@@ -482,7 +482,7 @@ limitations under the License.
 							where 
 								#tables.column_name# = '#getTempMedia.related_primary_key_1#' AND
 								username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> AND
-								key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMEdia.key#">
+								key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia.key#">
 						</cfquery>
 					</cfif>
 				</cfif>
@@ -516,7 +516,7 @@ limitations under the License.
 								)
 								WHERE 
 									username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> AND
-									key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMEdia.key#">
+									key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia.key#">
 							</cfquery>
 						</cfloop>
 					<cfelse>
@@ -525,7 +525,7 @@ limitations under the License.
 							where 
 								#tables.column_name# = '#getTempMedia.related_primary_key_2#' AND
 								username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> AND
-								key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMEdia.key#">
+								key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia.key#">
 						</cfquery>
 					</cfif>
 				</cfif>
