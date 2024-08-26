@@ -478,7 +478,7 @@ limitations under the License.
 								<cfset CCDE = listGetAt(#getMediaRel.related_primary_key#,2,":")>
 								<cfset CI = listGetAt(#getMediaRel.related_primary_key#,3,":")>
 								<cfquery name="chkCOID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-									update cf_temp_media set collection_object_id =
+									update cf_temp_media set collection_object_id_#i# =
 									(
 										select collection_object_id
 										from #theTable# 
@@ -496,7 +496,7 @@ limitations under the License.
 								<cfset CCDE = listGetAt(#getMediaRel.related_primary_key#,2,":")>
 								<cfset CI = listGetAt(#getMediaRel.related_primary_key#,3,":")>
 								<cfquery name="chkCOID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-									update cf_temp_media set collection_object_id =
+									update cf_temp_media set collection_object_id_#i# =
 									(
 										select specimen_part.collection_object_id
 										from #theTable#,cataloged_item
