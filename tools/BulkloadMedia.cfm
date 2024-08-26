@@ -545,7 +545,7 @@ limitations under the License.
 									key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia.key#">
 							</cfquery>
 						</cfif>--->
-					</cfif>
+			<!---		</cfif>--->
 				</cfloop>
 			</cfloop>
 			<cfquery name="warningMessageLicense" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
