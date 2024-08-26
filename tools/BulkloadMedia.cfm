@@ -455,6 +455,7 @@ limitations under the License.
 							cf_temp_media.media_relationship_#i# is not null
 							AND cf_temp_media.related_primary_key_#i# is not null
 							AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+							AND key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia.key#">
 					</cfquery>
 					<cfif len(getMediaRel.media_relationship) gt 0>
 						<!---Find the table name "theTable" from the second part of the media_relationship--->
