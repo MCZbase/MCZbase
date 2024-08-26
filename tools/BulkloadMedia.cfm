@@ -516,7 +516,7 @@ limitations under the License.
 										UPDATE
 											cf_temp_media
 										SET
-											status = concat(nvl2(status, status || '; ', ''),'RELATED_PRIMARY_KEY_#i# is not entered. You cannot have a relationship without a PK')
+											status = concat(nvl2(status, status || '; ', ''),'RELATED_PRIMARY_KEY_#i# is not entered. ')
 										WHERE
 											related_primary_key_#i# is null AND
 											media_relationship_#i# is not null and 
