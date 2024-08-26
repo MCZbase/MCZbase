@@ -448,14 +448,12 @@ limitations under the License.
 						SELECT 
 							cf_temp_media.key,
 							cf_temp_media.media_relationship_#i# media_relationship,
-							cf_temp_media.related_primary_key_#i# as related_primary_key,
-							cf_temp_media.media_id
+							cf_temp_media.related_primary_key_#i# as related_primary_key
 						FROM 
 							cf_temp_media
 						WHERE 
 							cf_temp_media.media_relationship_#i# is not null
 							AND cf_temp_media.related_primary_key_#i# is not null
-							AND cf_temp_media.media_id is not null
 							AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 					</cfquery>
 					<cfif len(getMediaRel.media_relationship) gt 0>
