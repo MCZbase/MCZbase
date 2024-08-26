@@ -442,27 +442,24 @@ limitations under the License.
 					media_license_id not in (select media_license_id from ctmedia_license) AND
 					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
-			<cfloop index="i" from="1" to="2">
-					<cfquery name="warningEmptyPK" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						UPDATE
-							cf_temp_media
-						SET
-							status = concat(nvl2(status, status || '; ', ''),'RELATED_PRIMARY_KEY_#i# is null')
-						WHERE
-							related_primary_key_#i# is null AND
-							media_relationship_#i# is not null and 
-							username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-					</cfquery>
-					<cfquery name="warningBadRel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						UPDATE
-							cf_temp_media
-						SET
-							status = concat(nvl2(status, status || '; ', ''),'MEDIA_RELATIONSHIP_#i# is invalid')
-						WHERE
-							media_relationship_#i# not in (select media_relationship from ctmedia_relationship) and 
-							username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-					</cfquery>
-			</cfloop>
+			<cfquery name="warningBadRel1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				UPDATE
+					cf_temp_media
+				SET
+					status = concat(nvl2(status, status || '; ', ''),'MEDIA_RELATIONSHIP_1 is invalid')
+				WHERE
+					media_relationship_1 not in (select media_relationship from ctmedia_relationship) and 
+					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+			</cfquery>
+			<cfquery name="warningBadRel2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				UPDATE
+					cf_temp_media
+				SET
+					status = concat(nvl2(status, status || '; ', ''),'MEDIA_RELATIONSHIP_2 is invalid')
+				WHERE
+					media_relationship_2 not in (select media_relationship from ctmedia_relationship) and 
+					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+			</cfquery>
 			<cfloop query = "getTempMedia">	
 				<cfif len(getTempMedia.related_primary_key_1) gt 0 or len(getTempMedia.related_primary_key_2) gt 0>
 					<cfloop index="i" from="1" to="2">
@@ -494,7 +491,7 @@ limitations under the License.
 							ORDER BY cols.table_name, cols.position
 						</cfquery>
 					<cfif len(getMediaRel.media_relationship) gt 0 AND len(getMediaRel.related_primary_key) gt 0>
-											<cfquery name="warningEmptyPK" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					<cfquery name="warningEmptyPK" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						UPDATE
 							cf_temp_media
 						SET
@@ -544,7 +541,7 @@ limitations under the License.
 									<cfquery name="chkCOID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 										update cf_temp_media set related_primary_key_#i# =
 										(
-											select specimen_part.collection_object_id
+											select #theTable#.collection_object_id
 											from #theTable#,cataloged_item
 											where cataloged_item.cat_num = '#CI#' 
 											and cataloged_item.collection_cde = '#CCDE#'
