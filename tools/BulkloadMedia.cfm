@@ -550,7 +550,8 @@ limitations under the License.
 							SET 
 								status = concat(nvl2(status, status || '; ', ''),'"#getMediaRel.media_relationship#" is not valid')
 							WHERE media_relationship_#i# not in (select media_relationship from ctmedia_relationship)
-								AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+								AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> AND
+									key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia.key#">
 						</cfquery>
 						<cfif len(getMediaRel.related_primary_key) eq 0>
 							<cfquery name="checkLabelType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -558,7 +559,8 @@ limitations under the License.
 								SET 
 									status = concat(nvl2(status, status || '; ', ''),'"related_primary_key" is missing')
 								WHERE related_primary_key_#i# is null AND
-									username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+									username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> AND
+									key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia.key#">
 							</cfquery>
 						</cfif>
 					</cfif>
