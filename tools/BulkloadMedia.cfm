@@ -457,21 +457,21 @@ limitations under the License.
 							AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 							AND key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia.key#">
 					</cfquery>
+					<!---Find the table name "theTable" from the second part of the media_relationship--->
+					<cfset theTable = trim(listLast('#getMediaRel.media_relationship#'," "))>
+					<!---based on the table, find the primary key--->
+					<cfquery name="tables" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						SELECT cols.table_name, cols.column_name, cols.position, cons.status, cons.owner
+						FROM all_constraints cons, all_cons_columns cols
+						WHERE cons.constraint_type = 'P'
+						AND cons.constraint_name = cols.constraint_name
+						AND cons.owner = cols.owner
+						and cons.owner='MCZBASE'
+						AND cols.table_name = UPPER('#theTable#')
+						AND cols.position = 1
+						ORDER BY cols.table_name, cols.position
+					</cfquery>
 					<cfif len(getMediaRel.media_relationship) gt 0>
-						<!---Find the table name "theTable" from the second part of the media_relationship--->
-						<cfset theTable = trim(listLast('#getMediaRel.media_relationship#'," "))>
-						<!---based on the table, find the primary key--->
-						<cfquery name="tables" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-							SELECT cols.table_name, cols.column_name, cols.position, cons.status, cons.owner
-							FROM all_constraints cons, all_cons_columns cols
-							WHERE cons.constraint_type = 'P'
-							AND cons.constraint_name = cols.constraint_name
-							AND cons.owner = cols.owner
-							and cons.owner='MCZBASE'
-							AND cols.table_name = UPPER('#theTable#')
-							AND cols.position = 1
-							ORDER BY cols.table_name, cols.position
-						</cfquery>
 						<cfif #theTable# eq 'cataloged_item' and #getMediaRel.media_relationship# eq 'shows cataloged_item'>
 							<cfloop list="#getMediaRel.related_primary_key#" index="l" delimiters=":">
 								<cfset IA = listGetAt(#getMediaRel.related_primary_key#,1,":")>
@@ -519,23 +519,20 @@ limitations under the License.
 									key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia.key#">
 							</cfquery>
 						</cfif>
-						<cfif len(getMediaRel.media_relationship) gt 0>
-							<cfquery name="checkLabelType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-								UPDATE cf_temp_media
-								SET 
-									status = concat(nvl2(status, status || '; ', ''),'"#getMediaRel.media_relationship#" is not valid')
-								WHERE media_relationship_#i# not in (select media_relationship from ctmedia_relationship)
-									AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-							</cfquery>
-						</cfif>
-						<cfif len(getMediaRel.media_relationship) gt 0 and len(getMediaRel.related_primary_key) eq 0>
-							<cfquery name="checkLabelType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-								UPDATE cf_temp_media
-								SET 
-									status = concat(nvl2(status, status || '; ', ''),'"related_primary_key" is missing')
-								WHERE #getMediaRel.related_primary_key# is null
-									AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-							</cfquery>
+						<cfquery name="checkRelType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+							UPDATE cf_temp_media
+							SET 
+								status = concat(nvl2(status, status || '; ', ''),'"#getMediaRel.media_relationship#" is not valid')
+							WHERE media_relationship_#i# not in (select media_relationship from ctmedia_relationship)
+								AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+						</cfquery>
+						<cfif len(getMediaRel.related_primary_key) eq 0>
+						<cfquery name="checkLabelType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+							UPDATE cf_temp_media
+							SET 
+								status = concat(nvl2(status, status || '; ', ''),'"related_primary_key" is missing')
+							WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+						</cfquery>
 						</cfif>
 					</cfif>
 				</cfloop>
