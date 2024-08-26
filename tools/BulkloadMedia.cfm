@@ -445,7 +445,7 @@ limitations under the License.
 			<cfset i = 1>
 			<cfset media_relationships eq "media_relationship_" + #i#>
 			<cfloop query = getTempMedia>
-				<cfif len(getTempMedia.media_relationships) gt 0>
+				<cfif len(media_relationships) gt 0>
 					<!---Find the table name "theTable" from the second part of the media_relationship--->
 					<cfset theTable = trim(listLast('#getTempMedia.media_relationship_[i]#'," "))>
 					<!---based on the table, find the primary key--->
