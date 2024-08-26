@@ -492,7 +492,7 @@ limitations under the License.
 									</cfquery>
 								</cfloop>
 							<cfelse>
-								<cfquery name="checkLabelType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+								<cfquery name="checkRelPK" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 									UPDATE cf_temp_media
 									SET 
 										status = concat(nvl2(status, status || '; ', ''),'"related_primary_key" is missing')
@@ -501,32 +501,33 @@ limitations under the License.
 								</cfquery>
 							</cfif>
 						<cfelseif #theTable# eq 'specimen_part' and #getMediaRel.media_relationship# eq 'shows specimen_part'>
-							<cfloop list="#getMediaRel.related_primary_key#" index="l" delimiters=":">
-								<cfset IA = listGetAt(#getMediaRel.related_primary_key#,1,":")>
-								<cfset CCDE = listGetAt(#getMediaRel.related_primary_key#,2,":")>
-								<cfset CI = listGetAt(#getMediaRel.related_primary_key#,3,":")>
-								<cfquery name="chkCOID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-									update cf_temp_media set related_primary_key_#i# =
-									(
-										select specimen_part.collection_object_id
-										from #theTable#,cataloged_item
-										where cataloged_item.cat_num = '#CI#' 
-										and cataloged_item.collection_cde = '#CCDE#'
-										and cataloged_item.collection_object_id = specimen_part.derived_from_cat_item
-									)
-									WHERE related_primary_key is not null AND
-										username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> AND
-										key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia.key#">
+							<cfif len(#getMediaRel.related_primary_key#) gt 0>
+								<cfloop list="#getMediaRel.related_primary_key#" index="l" delimiters=":">
+									<cfset IA = listGetAt(#getMediaRel.related_primary_key#,1,":")>
+									<cfset CCDE = listGetAt(#getMediaRel.related_primary_key#,2,":")>
+									<cfset CI = listGetAt(#getMediaRel.related_primary_key#,3,":")>
+									<cfquery name="chkCOID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+										update cf_temp_media set related_primary_key_#i# =
+										(
+											select specimen_part.collection_object_id
+											from #theTable#,cataloged_item
+											where cataloged_item.cat_num = '#CI#' 
+											and cataloged_item.collection_cde = '#CCDE#'
+											and cataloged_item.collection_object_id = specimen_part.derived_from_cat_item
+										)
+										WHERE related_primary_key is not null AND
+											username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> AND
+											key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia.key#">
+									</cfquery>
+								</cfloop>
+							<cfelse>
+								<cfquery name="checkRelPK" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+									UPDATE cf_temp_media
+									SET 
+										status = concat(nvl2(status, status || '; ', ''),'"related_primary_key" is missing')
+									WHERE related_primary_key_#i# is null AND
+										username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 								</cfquery>
-							</cfloop>
-							<cfif len(getMediaRel.related_primary_key) eq 0>
-							<cfquery name="checkLabelType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-								UPDATE cf_temp_media
-								SET 
-									status = concat(nvl2(status, status || '; ', ''),'"related_primary_key" is missing')
-								WHERE related_primary_key_#i# is null AND
-									username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-							</cfquery>
 							</cfif>
 						<cfelse>
 							<cfquery name="chkCOID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
