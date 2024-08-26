@@ -587,8 +587,8 @@ limitations under the License.
 			<cfif len(getTempMedia.media_label_7) gt 0><cfset media_label_7 = "#getTempMedia.media_label_7#"><cfelse><cfset media_label_7 = ""></cfif>
 			<cfif len(getTempMedia.media_label_8) gt 0><cfset media_label_8 = "#getTempMedia.media_label_8#"><cfelse><cfset media_label_8 = ""></cfif>
 
-			<cfif len(getTempMedia.media_relationship_1) gt 0><cfset media_relationship_1 = "#getTempMedia.media_relationship_1#"><cfelse><cfset media_relationship_1 = ""></cfif>
-			<cfif len(getTempMedia.media_relationship_2) gt 0><cfset media_relationship_2 = "#getTempMedia.media_relationship_2#"><cfelse><cfset media_relationship_2 = ""></cfif>
+<!---			<cfif len(getTempMedia.media_relationship_1) gt 0><cfset media_relationship_1 = "#getTempMedia.media_relationship_1#"><cfelse><cfset media_relationship_1 = ""></cfif>
+			<cfif len(getTempMedia.media_relationship_2) gt 0><cfset media_relationship_2 = "#getTempMedia.media_relationship_2#"><cfelse><cfset media_relationship_2 = ""></cfif>--->
 				
 			<!-- Define the total number of variables -->
 			<cfset numberOfVariables = 8>
@@ -605,11 +605,10 @@ limitations under the License.
 				</cfquery>
 			</cfloop>
 					
-			<cfset numOfVars = 2>
+<!---			<cfset numOfVars = 2>
 			<cfloop from="1" to="#numOfVars#" index="i">
 				<cfset variableName = "media_relationship_" & i>
 				<cfset variableValue = evaluate(variableName)>
-				<!-- Output the variable name and value -->
 				<cfquery name="checkLabelType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE cf_temp_media
 					SET 
@@ -617,7 +616,7 @@ limitations under the License.
 					WHERE #variableName# not in (select media_relationship from ctmedia_relationship)
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
-			</cfloop>
+			</cfloop>--->
 			<cfif len(getTempMedia.made_date) eq 0 && refind("^[0-9]{4}-[0-9]{2}-[0-9]{2}$",made_date) EQ 0>
 				<cfquery name="setDate" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE
