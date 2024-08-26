@@ -448,7 +448,7 @@ limitations under the License.
 				}>
 			<cfloop collection="#media_relationships#" item="key">
 				<cfif StructKeyExists(media_relationships, key)>
-					<cfoutput>#key# #media_relationships[key]#<br></cfoutput>
+					<cfoutput>#key##media_relationships[key]#<br></cfoutput>
 				<cfelse>
 					<cfoutput>Key #key# is undefined.<br></cfoutput>
 				</cfif>
