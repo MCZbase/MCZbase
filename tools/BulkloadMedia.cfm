@@ -443,17 +443,16 @@ limitations under the License.
 					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<cfset media_relationships = {
-    "media_relationship_" = 1,
-    "media_relationship" = 2,
-    "media_relationship" = 3
-}>
-<cfloop collection="#media_relationships#" item="key">
-    <cfif StructKeyExists(media_relationships, key)>
-        <cfoutput>#key# #media_relationships[key]#<br></cfoutput>
-    <cfelse>
-        <cfoutput>Key #key# is undefined.<br></cfoutput>
-    </cfif>
-</cfloop>
+				"media_relationship_" = 1,
+				"media_relationship_" = 2
+				}>
+			<cfloop collection="#media_relationships#" item="key">
+				<cfif StructKeyExists(media_relationships, key)>
+					<cfoutput>#key# #media_relationships[key]#<br></cfoutput>
+				<cfelse>
+					<cfoutput>Key #key# is undefined.<br></cfoutput>
+				</cfif>
+			</cfloop>
 			<cfloop query = getTempMedia>
 				<cfif len(getTempMedia.media_relationship_i) gt 0>
 					<!---Find the table name "theTable" from the second part of the media_relationship--->
