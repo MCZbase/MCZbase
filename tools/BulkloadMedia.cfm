@@ -442,10 +442,18 @@ limitations under the License.
 					media_license_id not in (select media_license_id from ctmedia_license) AND
 					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
-			<cfset i = 1>
-			<cfset media_relationship_1 = "#getTempMedia.media_relationship_1#">
-			<cfset media_relationship_2 = "#getTempMedia.media_relationship_2#">
-				
+			<cfset table_x = {
+    "one" = 1,
+    "two" = 2,
+    "three" = 3
+}>
+<cfloop collection="#table_x#" item="key">
+    <cfif StructKeyExists(table_x, key)>
+        <cfoutput>Key: #key#, Value: #table_x[key]#<br></cfoutput>
+    <cfelse>
+        <cfoutput>Key #key# is undefined.<br></cfoutput>
+    </cfif>
+</cfloop>
 			<cfloop query = getTempMedia>
 				<cfif len(getTempMedia.media_relationship_i) gt 0>
 					<!---Find the table name "theTable" from the second part of the media_relationship--->
