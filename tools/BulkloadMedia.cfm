@@ -498,10 +498,10 @@ limitations under the License.
 								<cfquery name="chkCOID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 									update cf_temp_media set collection_object_id =
 									(
-										select collection_object_id
+										select specimen_part.collection_object_id
 										from #theTable#,cataloged_item
-										where cat_num = '#CI#' 
-										and collection_cde = '#CCDE#'
+										where cataloged_item.cat_num = '#CI#' 
+										and cataloged_item.collection_cde = '#CCDE#'
 										and cataloged_item.collection_object_id = specimen_part.derived_from_cataloged_item
 									)
 									WHERE 
