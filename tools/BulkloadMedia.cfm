@@ -491,7 +491,7 @@ limitations under the License.
 							</cfloop>
 						<cfelse>
 							<cfquery name="chkCOID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-								update cf_temp_media set #getMediaRel.related_primary_key# = (select #tables.column_name# from #theTable# 
+								update cf_temp_media set #getMediaRel.media_relationship# = (select #tables.column_name# from #theTable# 
 								where 
 									#tables.column_name# = '#getMediaRel.related_primary_key#')
 								WHERE 
