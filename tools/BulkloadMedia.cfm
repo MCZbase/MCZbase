@@ -454,7 +454,7 @@ limitations under the License.
 				</cfif>
 			</cfloop>
 			<cfloop collection="#media_relationships#" item='key'>
-				<cfif len(getTempMedia.media_relationship_[key]) gt 0>
+				<!---<cfif len(getTempMedia.media_relationship_[key]) gt 0>--->
 					<!---Find the table name "theTable" from the second part of the media_relationship--->
 					<cfset theTable = trim(listLast('#getTempMedia.media_relationship_[key]#'," "))>
 					<!---based on the table, find the primary key--->
@@ -497,7 +497,7 @@ limitations under the License.
 								key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia.key#">
 						</cfquery>
 					</cfif>
-				</cfif>
+		<!---		</cfif>--->
 			<cfset i = 1+i>
 		<!---		<cfif len(getTempMedia.media_relationship_2) gt 0>
 					
