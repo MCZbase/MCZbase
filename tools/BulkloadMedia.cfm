@@ -442,21 +442,11 @@ limitations under the License.
 					media_license_id not in (select media_license_id from ctmedia_license) AND
 					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
-			<cfset media_relationships = {
-				"media_relationship_" = 1,
-				"media_relationship_" = 2
-				}>
-			<cfloop collection="#media_relationships#" item="key">
-				<cfif StructKeyExists(media_relationships, key)>
-					<cfoutput>#key##media_relationships[key]#<br></cfoutput>
-				<cfelse>
-					<cfoutput>Key #ke# is undefined.<br></cfoutput>
-				</cfif>
-			</cfloop>
-			<cfloop collection="#media_relationships#" item='key'>
-				<!---<cfif len(getTempMedia.media_relationship_[key]) gt 0>--->
+			<cfset i = 1>
+			<cfloop query = getTempMedia>
+				<cfif len(getTempMedia.media_relationship_[i]) gt 0>
 					<!---Find the table name "theTable" from the second part of the media_relationship--->
-					<cfset theTable = trim(listLast('#media_relationship_[key]#'," "))>
+					<cfset theTable = trim(listLast('#getTempMedia.media_relationship_[i]#'," "))>
 					<!---based on the table, find the primary key--->
 					<cfquery name="tables" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						SELECT cols.table_name, cols.column_name, cols.position, cons.status, cons.owner
@@ -469,13 +459,13 @@ limitations under the License.
 						AND cols.position = 1
 						ORDER BY cols.table_name, cols.position
 					</cfquery>
-					<cfif #theTable# eq 'cataloged_item' and #getTempMedia.media_relationship_[ke]# eq 'shows cataloged_item'>
-						<cfloop list="#getTempMedia.related_primary_key_[ke]#" index="l" delimiters=":">
-							<cfset IA = listGetAt(#getTempMedia.related_primary_key_[key]#,1,":")>
-							<cfset CCDE = listGetAt(#getTempMedia.related_primary_key_[key]#,2,":")>
-							<cfset CI = listGetAt(#getTempMedia.related_primary_key_[key]#,3,":")>
+					<cfif #theTable# eq 'cataloged_item' and #getTempMedia.media_relationship_[i]# eq 'shows cataloged_item'>
+						<cfloop list="#getTempMedia.related_primary_key_[i]#" index="l" delimiters=":">
+							<cfset IA = listGetAt(#getTempMedia.related_primary_key_[i]#,1,":")>
+							<cfset CCDE = listGetAt(#getTempMedia.related_primary_key_[i]#,2,":")>
+							<cfset CI = listGetAt(#getTempMedia.related_primary_key_[i]#,3,":")>
 							<cfquery name="chkCOID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-								update cf_temp_media set related_primary_key_[key] =
+								update cf_temp_media set related_primary_key_[i] =
 								(
 									select collection_object_id
 									from #theTable# 
@@ -489,15 +479,15 @@ limitations under the License.
 						</cfloop>
 					<cfelse>
 						<cfquery name="chkCOID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-							update cf_temp_media set related_primary_key_[key] = (select #tables.column_name# from #theTable# 
+							update cf_temp_media set related_primary_key_[i] = (select #tables.column_name# from #theTable# 
 							where 
-								#tables.column_name# = '#getTempMedia.related_primary_key_[key]#')
+								#tables.column_name# = '#getTempMedia.related_primary_key_[i]#')
 							WHERE 
 								username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> AND
 								key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia.key#">
 						</cfquery>
 					</cfif>
-		<!---		</cfif>--->
+				</cfif>
 			<cfset i = 1+i>
 		<!---		<cfif len(getTempMedia.media_relationship_2) gt 0>
 					
