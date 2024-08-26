@@ -460,13 +460,7 @@ limitations under the License.
 					media_relationship_2 not in (select media_relationship from ctmedia_relationship) and 
 					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
-			<cfquery name="ckData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				select * from 
-					cf_temp_media
-				WHERE
-					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-			</cfquery>
-			<cfif #ckData.status# neq 'MEDIA_RELATIONSHIP_1 is invalid' OR #ckData.status# neq 'MEDIA_RELATIONSHIP_2 is invalid'>
+
 			<cfloop query = "getTempMedia">	
 				<cfif len(getTempMedia.related_primary_key_1) gt 0 or len(getTempMedia.related_primary_key_2) gt 0>
 					<cfloop index="i" from="1" to="2">
@@ -543,7 +537,7 @@ limitations under the License.
 											and cataloged_item.collection_cde = '#CCDE#'
 											and cataloged_item.collection_object_id = specimen_part.derived_from_cat_item
 										)
-										WHERE related_primary_key is not null AND
+										WHERE related_primary_key_#i# is not null AND
 											username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> AND
 											key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia.key#">
 									</cfquery>
@@ -572,9 +566,7 @@ limitations under the License.
 				</cfloop>
 				</cfif>
 			</cfloop>
-			<cfelse>
-				media relationship wrong
-			</cfif>
+		
 			<cfquery name="warningMessageLicense" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				UPDATE
 					cf_temp_media
