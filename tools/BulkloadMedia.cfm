@@ -490,7 +490,7 @@ limitations under the License.
 										key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia.key#">
 								</cfquery>
 							</cfloop>
-						<cfif #theTable# eq 'specimen_part' and #getMediaRel.media_relationship# eq 'shows specimen_part'>
+						<cfelseif #theTable# eq 'specimen_part' and #getMediaRel.media_relationship# eq 'shows specimen_part'>
 							<cfloop list="#getMediaRel.related_primary_key#" index="l" delimiters=":">
 								<cfset IA = listGetAt(#getMediaRel.related_primary_key#,1,":")>
 								<cfset CCDE = listGetAt(#getMediaRel.related_primary_key#,2,":")>
