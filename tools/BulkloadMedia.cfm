@@ -768,6 +768,7 @@ limitations under the License.
 		<cfoutput>
 			<cfset problem_key = "">
 			<cftransaction>
+				<cftry>
 				<cfquery name="getTempData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT * FROM cf_temp_media
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
@@ -877,7 +878,7 @@ limitations under the License.
 								)
 							</cfquery>
 						</cfif>
-					<cftry>
+				
 						<cfloop from="1" to="8" index="n">
 							<cfset thisMediaLabel = #evaluate("MEDIA_LABEL_" & n)#>
 							<cfset thisLabelValue = #evaluate("LABEL_VALUE_" & n)#>
@@ -967,8 +968,7 @@ limitations under the License.
 							</cfif>	
 							<cfset media_updates = media_updates + insResult.recordcount>
 						</cfloop>
-						<cfcatch></cfcatch>
-					</cftry>
+			
 					<p>Number of Media Records added: #media_updates#</p>
 					<cfif getTempData.recordcount eq media_updates and updateMedia1_result.recordcount eq 0>
 						<h3 class="text-success">Success - loaded</h3>
