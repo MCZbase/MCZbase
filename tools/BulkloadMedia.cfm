@@ -585,7 +585,7 @@ limitations under the License.
 						<cfquery name="getMediaRel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							SELECT 
 								cf_temp_media.key,
-								cf_temp_media.media_relationship_#i# media_relationship,
+								cf_temp_media.media_relationship_#i# as media_relationship,
 								cf_temp_media.related_primary_key_#i# as related_primary_key
 							FROM 
 								cf_temp_media
