@@ -394,18 +394,19 @@ limitations under the License.
 				WHERE 
 					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
-			<cfquery name="getAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+<!---			<cfquery name="getAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT agent_id FROM agent_name
 				WHERE agent_name_type = 'login'
 				AND agent_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
-			<cfset key = ''>
 			<cfquery name="ctmedia_relationship" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" cachedwithin="#createtimespan(0,0,60,0)#">
 				SELECT distinct(MEDIA_RELATIONSHIP) MEDIA_RELATIONSHIP FROM ctmedia_relationship order by MEDIA_RELATIONSHIP
-			</cfquery>
-			<cfquery name="ctmedia_label" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" cachedwithin="#createtimespan(0,0,60,0)#">
+			</cfquery>--->
+<!---			<cfquery name="ctmedia_label" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" cachedwithin="#createtimespan(0,0,60,0)#">
 				SELECT distinct(MEDIA_LABEL) MEDIA_LABEL FROM ctmedia_label order by MEDIA_LABEL
-			</cfquery>
+			</cfquery>--->
+			<cfset key = ''>
+
 			<cfquery name="warningMessageMediaType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				UPDATE
 					cf_temp_media
