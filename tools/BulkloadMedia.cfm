@@ -846,7 +846,6 @@ limitations under the License.
 							WHERE 
 								ROWIDTOCHAR(rowid) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#rowid#">
 						</cfquery>
-						
 						<cfif len(getTempData.media_relationship_1) gt 0>
 							<cfquery name="makeRelations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="RelResult">
 								INSERT into media_relations (
@@ -877,7 +876,6 @@ limitations under the License.
 								)
 							</cfquery>
 						</cfif>
-						
 						<cfquery name="makeLabels" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="LabResult">
 							INSERT into media_labels (
 								media_id,
@@ -946,10 +944,11 @@ limitations under the License.
 										)
 							</cfquery>
 							<cfhttp url="#media_uri#" method="get" getAsBinary="yes" result="result">
+							
 							<cfset md5hash=Hash(result.filecontent,"MD5")>
 
 							<cfquery name="makeMD5hash" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-										insert into cf_temp_media_labels (
+										insert into media_labels (
 											key,
 											MEDIA_LABEL,
 											ASSIGNED_BY_AGENT_ID,
@@ -962,8 +961,8 @@ limitations under the License.
 										)
 							</cfquery>
 						</cfif>
-					</cfif>
-			<cfif len(getTempData.media_label_1) gt 0>
+				
+					<cfif len(getTempData.media_label_1) gt 0>
 							<cfquery name="makeLabels" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="LabResult">
 								INSERT into media_labels (
 									media_id,
