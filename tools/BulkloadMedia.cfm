@@ -518,7 +518,7 @@ limitations under the License.
 					SET  width = <cfif len(getTempMedia.height) gt 0>#getTempMedia.width#<cfelse>#imgInfo.width#</cfif>
 					where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> 
 				</cfquery>
-				<cfhttp url="#media_uri#" method="get" getAsBinary="yes" result="result">
+				<cfhttp url="#getTempMedia.media_uri#" method="get" getAsBinary="yes" result="result">
 
 				<cfset md5hash=Hash(result.filecontent,"MD5")>
 
