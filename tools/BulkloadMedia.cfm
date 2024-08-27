@@ -506,28 +506,37 @@ limitations under the License.
 						username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> 
 				</cfquery>
 			</cfif>
-			<cfif len(getTempMedia.height) gt 0 && !isNumeric(getTempMedia.height) && len(getTempMedia.height) LT 6>
-				<cfquery name="checkHeight" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					UPDATE
-						cf_temp_media
-					SET
-						status = concat(nvl2(status, status || '; ', ''),'#getTempMedia.height# value is too large or not a number')
-					WHERE 
-						height is not null AND
-						username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> 
+			<cfif isimagefile(media_uri)>
+				<cfimage action="info" source="#media_uri#" structname="imgInfo"/>
+				<cfquery name="makeHeightLabel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					UPDATE cf_temp_media
+					SET  height = <cfif len(getTempData.height) gt 0>#getTempData.height#<cfelse>#imgInfo.height#</cfif>
+					where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> 
+				</cfquery>
+				<cfquery name="makeWidthLabel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					UPDATE cf_temp_media
+					SET  width = <cfif len(getTempData.height) gt 0>#getTempData.width#<cfelse>#imgInfo.width#</cfif>
+					where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> 
+				</cfquery>
+				<cfhttp url="#media_uri#" method="get" getAsBinary="yes" result="result">
+
+				<cfset md5hash=Hash(result.filecontent,"MD5")>
+
+				<cfquery name="makeMD5hash" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					insert into media_labels (
+						media_id,
+						MEDIA_LABEL,
+						LABEL_VALUE,
+						ASSIGNED_BY_AGENT_ID,
+					) values (
+						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getID.theId#">,
+						'md5hash',
+						'#md5Hash#',
+						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getAgent.agent_id#">
+					)
 				</cfquery>
 			</cfif>
-			<cfif len(getTempMedia.width) gt 0 && !isNumeric(getTempMedia.width) && len(getTempMedia.width) lt 6>
-				<cfquery name="checkWidth" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					UPDATE
-						cf_temp_media
-					SET
-						status = concat(nvl2(status, status || '; ', ''),'#getTempMedia.width# value is too large or not a number')
-					WHERE 
-						width is not null AND
-						username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> 
-				</cfquery>
-			</cfif>
+				
 			<cfloop query="getTempMedia">
 				<cfloop from="1" to="2" index="i">
 					<cfquery name="warningBadRel1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -550,26 +559,6 @@ limitations under the License.
 							username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> AND
 							key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia.key#">
 					</cfquery>
-			<!---		<cfquery name="warningBadRel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						UPDATE
-							cf_temp_media
-						SET
-							status = concat(nvl2(status, status || '; ', ''),'MEDIA_RELATIONSHIP_2: "#getTempMedia.MEDIA_RELATIONSHIP_2#" is invalid - Check  <a href="/vocabularies/ControlledVocabulary.cfm?table=CTMEDIA_RELATIONSHIP">controlled vocabulary</a>')
-						WHERE
-							media_relationship_2 not in (select media_relationship from ctmedia_relationship) and 
-							username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> AND
-							key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia.key#">
-					</cfquery>
-					<cfquery name="warningBadRel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						UPDATE
-							cf_temp_media
-						SET
-							status = concat(nvl2(status, status || '; ', ''),'RELATED_PRIMARY_KEY_2 is missing')
-						WHERE
-							related_primary_key_2 is null and 
-							username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> AND
-							key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia.key#">
-					</cfquery>--->
 				</cfloop>
 			</cfloop>
 			<cfquery name="getTempMedia2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
