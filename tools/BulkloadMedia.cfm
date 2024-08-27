@@ -524,7 +524,7 @@ limitations under the License.
 
 				<cfquery name="makeMD5hash" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE cf_temp_media
-					SET 'md5hash' = <cfif len(getTempMedia.height) gt 0>'#md5Hash#'</cfif>
+					SET md5hash = '#md5Hash#'
 					where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> 
 				</cfquery>
 			</cfif>
