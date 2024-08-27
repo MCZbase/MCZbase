@@ -846,38 +846,37 @@ limitations under the License.
 							WHERE 
 								ROWIDTOCHAR(rowid) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#rowid#">
 						</cfquery>
-						<cfloop index="i" from="1" to="2">
-							<cfquery name="getMediaRel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-								SELECT 
-									cf_temp_media.key,
-									cf_temp_media.media_relationship_#i# media_relationship,
-									cf_temp_media.related_primary_key_#i# as related_primary_key
-								FROM 
-									cf_temp_media
-								WHERE 
-									cf_temp_media.media_relationship_#i# is not null
-									AND cf_temp_media.related_primary_key_#i# is not null
-									AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-									AND key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#">
-							</cfquery>
-						</cfloop>
-								#getMediaRel.media_relationship#
-							<cfif len(getMediaRel.media_relationship) gt 0>
-								<cfquery name="makeRelations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="RelResult">
-									INSERT into media_relations (
-										media_id,
-										media_relationship,
-										created_by_agent_id,
-										related_primary_key
-									) VALUES (
-										<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getID.theId#">,
-										<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getMediaRel.media_relationship#">,
-										<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.created_by_agent_id#">,
-										<cfqueryparam cfsqltype="CF_SQL_varchar" value="#getMediaRel.media_relationship#">
-									)
-								</cfquery>
-							</cfif>
 						
+						<cfif len(getTempData.media_relationship_1) gt 0>
+							<cfquery name="makeRelations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="RelResult">
+								INSERT into media_relations (
+									media_id,
+									media_relationship,
+									created_by_agent_id,
+									related_primary_key
+								) VALUES (
+									<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getID.theId#">,
+									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.media_relationship_1#">,
+									<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.created_by_agent_id#">,
+									<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.RELATED_PRIMARY_KEY_1#">
+								)
+							</cfquery>
+						</cfif>
+						<cfif len(getTempData.media_label_2) gt 0>
+							<cfquery name="makeRelations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="RelResult">
+								INSERT into media_relations (
+									media_id,
+									media_relationship,
+									created_by_agent_id,
+									related_primary_key
+								) VALUES (
+									<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getID.theId#">,
+									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.media_relationship_2#">,
+									<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.created_by_agent_id#">,
+									<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.RELATED_PRIMARY_KEY_2#">
+								)
+							</cfquery>
+						</cfif>
 						<cfquery name="makeLabels" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="LabResult">
 							INSERT into media_labels (
 								media_id,
