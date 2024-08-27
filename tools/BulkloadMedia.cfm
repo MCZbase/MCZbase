@@ -873,7 +873,7 @@ limitations under the License.
 										<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getID.theId#">,
 										<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getMediaRel.media_relationship#">,
 										<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.created_by_agent_id#">,
-										<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getMediaRel.media_relationship#">
+										<cfqueryparam cfsqltype="CF_SQL_varchar" value="#getMediaRel.media_relationship#">
 									)
 								</cfquery>
 							</cfif>
