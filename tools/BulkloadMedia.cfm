@@ -1073,8 +1073,8 @@ limitations under the License.
 
 					<p>Number of Media Records added: #media_updates# with MEDIA_IDs: 
 						<ul>
-							<cfloop query="getTempData">
-								<li><a href="/media/#getID.theId#">#getIDs.theId#</a></li>
+							<cfloop query="getID">
+								<li><a href="/media/#getID.theId#">#getID.theId#</a></li>
 							</cfloop>
 						</ul>	
 					</p>
