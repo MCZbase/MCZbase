@@ -549,7 +549,8 @@ limitations under the License.
 							status = concat(nvl2(status, status || '; ', ''),'MEDIA_RELATIONSHIP_#i# is invalid - Check  <a href="/vocabularies/ControlledVocabulary.cfm?table=CTMEDIA_RELATIONSHIP">controlled vocabulary</a>')
 						WHERE
 							media_relationship_#i# not in (select media_relationship from ctmedia_relationship) and 
-							username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+							username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> and
+							key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="getTempMedia.key#">
 					</cfquery>
 					<cfquery name="warningBadRel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						UPDATE
