@@ -506,7 +506,7 @@ limitations under the License.
 						username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> 
 				</cfquery>
 			</cfif>
-			<cfif isimagefile(media_uri)>
+			<cfif isimagefile(getTempMedia.media_uri)>
 				<cfimage action="info" source="#getTempMedia.media_uri#" structname="imgInfo"/>
 				<cfquery name="makeHeightLabel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE cf_temp_media
