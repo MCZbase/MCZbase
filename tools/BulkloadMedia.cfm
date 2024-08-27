@@ -520,7 +520,6 @@ limitations under the License.
 							AND cols.position = 1
 							ORDER BY cols.table_name, cols.position
 						</cfquery>
-					<cfif len(getMediaRel.media_relationship) gt 0 AND len(getMediaRel.related_primary_key) gt 0>
 
 						<cfif #theTable# eq 'cataloged_item' and #getMediaRel.media_relationship# eq 'shows cataloged_item'>
 							<cfloop list="#getMediaRel.related_primary_key#" index="l" delimiters=":">
@@ -570,7 +569,7 @@ limitations under the License.
 									key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia2.key#">
 							</cfquery>
 						</cfif>
-					</cfif>
+					</cfloop>
 				</cfloop>
 			</cfif>
 			<cfquery name="warningMessageLicense" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
