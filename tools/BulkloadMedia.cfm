@@ -915,8 +915,8 @@ limitations under the License.
 								<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getAgent.agent_id#">
 							)
 						</cfquery>
-						<cfif isimagefile("#escapeQuotes(media_uri)#")>
-							<cfimage action="info" source="#escapeQuotes(media_uri)#" structname="imgInfo"/>
+						<cfif isimagefile('#preserveSingleQuotes(media_uri)#')>
+							<cfimage action="info" source="#preserveSingleQuotes(media_uri)#" structname="imgInfo"/>
 							<cfquery name="makeHeightLabel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 								insert into media_labels (
 											key,
