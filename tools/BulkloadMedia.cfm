@@ -542,7 +542,7 @@ limitations under the License.
 			</cfif>
 			<cfloop query="getTempMedia">
 				<cfloop from="1" to="2" index="i">
-					<cfquery name="warningBadRel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					<cfquery name="warningBadRel1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						UPDATE
 							cf_temp_media
 						SET
@@ -550,9 +550,9 @@ limitations under the License.
 						WHERE
 							media_relationship_#i# not in (select media_relationship from ctmedia_relationship) and 
 							username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> and
-							key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="getTempMedia.key#">
+							key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia.key#">
 					</cfquery>
-					<cfquery name="warningBadRel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					<cfquery name="warningBadRel2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						UPDATE
 							cf_temp_media
 						SET
