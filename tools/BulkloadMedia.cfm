@@ -491,8 +491,7 @@ limitations under the License.
 					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<cfif len(getTempMedia2.status) eq 0>
-			<cfloop query = "getTempMedia2">	
-				<cfif len(getTempMedia2.related_primary_key_1) gt 0 or len(getTempMedia2.related_primary_key_2) gt 0>
+				<cfloop query = "getTempMedia2">	
 					<cfloop index="i" from="1" to="2">
 						<cfquery name="getMediaRel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							SELECT 
@@ -522,63 +521,59 @@ limitations under the License.
 							ORDER BY cols.table_name, cols.position
 						</cfquery>
 					<cfif len(getMediaRel.media_relationship) gt 0 AND len(getMediaRel.related_primary_key) gt 0>
+
 						<cfif #theTable# eq 'cataloged_item' and #getMediaRel.media_relationship# eq 'shows cataloged_item'>
-							<cfif len(#getMediaRel.related_primary_key#) gt 0>
-								<cfloop list="#getMediaRel.related_primary_key#" index="l" delimiters=":">
-									<cfset IA = listGetAt(#getMediaRel.related_primary_key#,1,":")>
-									<cfset CCDE = listGetAt(#getMediaRel.related_primary_key#,2,":")>
-									<cfset CI = listGetAt(#getMediaRel.related_primary_key#,3,":")>
-									<cfquery name="chkCOID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-										update cf_temp_media set related_primary_key_#i# =
-										(
-											select collection_object_id
-											from #theTable# 
-											where cat_num = '#CI#' 
-											and collection_cde = '#CCDE#'
-										)
-										WHERE related_primary_key_#i# is not null AND
-											username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> AND
-											key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia2.key#">
-									</cfquery>
-								</cfloop>
-							</cfif>
+							<cfloop list="#getMediaRel.related_primary_key#" index="l" delimiters=":">
+								<cfset IA = listGetAt(#getMediaRel.related_primary_key#,1,":")>
+								<cfset CCDE = listGetAt(#getMediaRel.related_primary_key#,2,":")>
+								<cfset CI = listGetAt(#getMediaRel.related_primary_key#,3,":")>
+								<cfquery name="chkCOID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+									update cf_temp_media set related_primary_key_#i# =
+									(
+										select collection_object_id
+										from #theTable# 
+										where cat_num = '#CI#' 
+										and collection_cde = '#CCDE#'
+									)
+									WHERE related_primary_key_#i# is not null AND
+										username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> AND
+										key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia2.key#">
+								</cfquery>
+							</cfloop>
 						<cfelseif #theTable# eq 'specimen_part' and #getMediaRel.media_relationship# eq 'shows specimen_part'>
-							<cfif len(#getMediaRel.related_primary_key#) gt 0>
-								<cfloop list="#getMediaRel.related_primary_key#" index="l" delimiters=":">
-									<cfset IA = listGetAt(#getMediaRel.related_primary_key#,1,":")>
-									<cfset CCDE = listGetAt(#getMediaRel.related_primary_key#,2,":")>
-									<cfset CI = listGetAt(#getMediaRel.related_primary_key#,3,":")>
-									<cfquery name="chkCOID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-										update cf_temp_media set related_primary_key_#i# =
-										(
-											select #theTable#.collection_object_id
-											from #theTable#,cataloged_item
-											where cataloged_item.cat_num = '#CI#' 
-											and cataloged_item.collection_cde = '#CCDE#'
-											and cataloged_item.collection_object_id = specimen_part.derived_from_cat_item
-										)
-										WHERE related_primary_key_#i# is not null AND
-											username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> AND
-											key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia2.key#">
-									</cfquery>
-									
-								</cfloop>
-							</cfif>
+							<cfloop list="#getMediaRel.related_primary_key#" index="l" delimiters=":">
+								<cfset IA = listGetAt(#getMediaRel.related_primary_key#,1,":")>
+								<cfset CCDE = listGetAt(#getMediaRel.related_primary_key#,2,":")>
+								<cfset CI = listGetAt(#getMediaRel.related_primary_key#,3,":")>
+								<cfquery name="chkCOID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+									update cf_temp_media set related_primary_key_#i# =
+									(
+										select #theTable#.collection_object_id
+										from #theTable#,cataloged_item
+										where cataloged_item.cat_num = '#CI#' 
+										and cataloged_item.collection_cde = '#CCDE#'
+										and cataloged_item.collection_object_id = specimen_part.derived_from_cat_item
+									)
+									WHERE related_primary_key_#i# is not null AND
+										username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> AND
+										key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia2.key#">
+								</cfquery>
+							</cfloop>
+						<cfelse>
+							<cfloop list="#getMediaRel.related_primary_key#" index="l" delimiters="">
+								<cfquery name="chkCOID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+									update cf_temp_media set related_primary_key_#i# =
+									(
+										select #cols.column_name# from #theTable# where #tables.column_name# = '#getMediaRel.related_primary_key#'
+									)
+									WHERE related_primary_key_#i# is not null AND
+										username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> AND
+										key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia2.key#">
+								</cfquery>
+							</cfloop>
 						</cfif>
 					</cfif>
 				</cfloop>
-				</cfif>
-			</cfloop>
-			<cfelse>
-				<cfquery name="warningBadRel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					UPDATE
-						cf_temp_media
-					SET
-						status = concat(nvl2(status, status || '; ', ''),'Check controlled vocabulary for <a href="/vocabularies/ControlledVocabulary.cfm?table=CTMEDIA_RELATIONSHIP">relationship</a>')
-					WHERE
-						status like '%relationship%' AND
-						username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-				</cfquery>
 			</cfif>
 			<cfquery name="warningMessageLicense" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				UPDATE
@@ -629,9 +624,6 @@ limitations under the License.
 			<cfif len(getTempMedia.media_label_6) gt 0><cfset media_label_6 = "#getTempMedia.media_label_6#"><cfelse><cfset media_label_6 = ""></cfif>
 			<cfif len(getTempMedia.media_label_7) gt 0><cfset media_label_7 = "#getTempMedia.media_label_7#"><cfelse><cfset media_label_7 = ""></cfif>
 			<cfif len(getTempMedia.media_label_8) gt 0><cfset media_label_8 = "#getTempMedia.media_label_8#"><cfelse><cfset media_label_8 = ""></cfif>
-
-<!---			<cfif len(getTempMedia.media_relationship_1) gt 0><cfset media_relationship_1 = "#getTempMedia.media_relationship_1#"><cfelse><cfset media_relationship_1 = ""></cfif>
-			<cfif len(getTempMedia.media_relationship_2) gt 0><cfset media_relationship_2 = "#getTempMedia.media_relationship_2#"><cfelse><cfset media_relationship_2 = ""></cfif>--->
 				
 			<!-- Define the total number of variables -->
 			<cfset numberOfVariables = 8>
@@ -647,19 +639,6 @@ limitations under the License.
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
 			</cfloop>
-					
-<!---			<cfset numOfVars = 2>
-			<cfloop from="1" to="#numOfVars#" index="i">
-				<cfset variableName = "media_relationship_" & i>
-				<cfset variableValue = evaluate(variableName)>
-				<cfquery name="checkLabelType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					UPDATE cf_temp_media
-					SET 
-						status = concat(nvl2(status, status || '; ', ''),'#variableName# is missing')
-					WHERE #variableName# not in (select media_relationship from ctmedia_relationship)
-						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-				</cfquery>
-			</cfloop>--->
 			<cfif len(getTempMedia.made_date) eq 0 && refind("^[0-9]{4}-[0-9]{2}-[0-9]{2}$",made_date) EQ 0>
 				<cfquery name="setDate" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE
