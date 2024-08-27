@@ -784,8 +784,7 @@ limitations under the License.
 						cf_temp_media
 					WHERE 
 						username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-				</cfquery>
-			
+				</cfquery>		
 					<cfset media_updates = 0>
 					<cfif getTempData.recordcount EQ 0>
 						<cfthrow message="You have no rows to load in the media bulkloader table (cf_temp_media). <a href='/tools/BulkloadMedia.cfm'>Start over</a>">
@@ -968,6 +967,8 @@ limitations under the License.
 							</cfif>	
 							<cfset media_updates = media_updates + insResult.recordcount>
 						</cfloop>
+						<cfcatch></cfcatch>
+					</cftry>
 					<p>Number of Media Records added: #media_updates#</p>
 					<cfif getTempData.recordcount eq media_updates and updateMedia1_result.recordcount eq 0>
 						<h3 class="text-success">Success - loaded</h3>
