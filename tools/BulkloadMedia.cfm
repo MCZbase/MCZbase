@@ -951,7 +951,7 @@ limitations under the License.
 									)
 								</cfquery>
 							</cfif>
-							<cfif len(#thisMediaLabel#) gt 0>
+							<cfif len(thisMediaLabel) gt 0>
 								<cfquery name="makeLabels" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="LabResult">
 									INSERT into media_labels (
 										media_id,
