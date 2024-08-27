@@ -1069,10 +1069,12 @@ limitations under the License.
 						</cfif>
 						<cfset media_updates = media_updates + insResult.recordcount>
 					</cfloop>
+		
+
 					<p>Number of Media Records added: #media_updates# with MEDIA_IDs: 
 						<ul>
 							<cfloop query="getTempData">
-								<li><a href="/media/#getID.theId#">#getID.theId#, </a></li>
+								<li><a href="/media/#getID.theId#">#getIDs.theId#</a></li>
 							</cfloop>
 						</ul>	
 					</p>
