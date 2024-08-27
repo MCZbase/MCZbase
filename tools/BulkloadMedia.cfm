@@ -847,7 +847,7 @@ limitations under the License.
 								ROWIDTOCHAR(rowid) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#rowid#">
 						</cfquery>
 						<cfloop index="i" from="1" to="2">
-							<cfif len(getTempData.media_relationship_#i#) gt 0>
+							<cfif len(getTempData.media_relationship_1) gt 0 OR len(getTempData.media_relationship_2) gt 0>
 								<cfquery name="makeRelations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="RelResult">
 									INSERT into media_relations (
 										media_id,
