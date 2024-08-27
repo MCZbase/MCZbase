@@ -785,10 +785,11 @@ limitations under the License.
 					WHERE 
 						username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
-				<cftry>
+			
 					<cfset media_updates = 0>
 					<cfif getTempData.recordcount EQ 0>
-						<cfthrow message="You have no rows to load in the media bulkloader table (cf_temp_media). <a href='/tools/BulkloadMedia.cfm'>Start over</a>"><!--- " --->
+						<cfthrow message="You have no rows to load in the media bulkloader table (cf_temp_media). <a href='/tools/BulkloadMedia.cfm'>Start over</a>">
+							<!--- " --->
 					</cfif>
 					<cfloop query="getTempData">
 						<cfset username = '#session.username#'>
@@ -877,8 +878,8 @@ limitations under the License.
 								)
 							</cfquery>
 						</cfif>
-						<cfset NUMBER_OF_IDS = 8>
-						<cfloop from="1" to="#NUMBER_OF_IDS#" index="n">
+					<cftry>
+						<cfloop from="1" to="8" index="n">
 							<cfset thisMediaLabel = #evaluate("MEDIA_LABEL_" & n)#>
 							<cfset thisLabelValue = #evaluate("LABEL_VALUE_" & n)#>
 							<cfquery name="makeLabels" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="LabResult">
@@ -889,7 +890,7 @@ limitations under the License.
 									assigned_by_agent_id
 								) VALUES (
 									<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getID.theId#">,
-									'Subject',
+									'subject',
 									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.SUBJECT#">,	
 									<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getAgent.agent_id#">
 								)
@@ -915,12 +916,12 @@ limitations under the License.
 									assigned_by_agent_id
 								) VALUES (
 									<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getID.theId#">,
-									'made date',
+									'made_date',
 									<cfqueryparam cfsqltype="CF_SQL_DATE" value="#getTempData.MADE_DATE#">,	
 									<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getAgent.agent_id#">
 								)
 							</cfquery>
-							<cfif len(getTempData.width) gt 0>
+							<cfif len(getTempData.height) gt 0>
 								<cfquery name="makeLabels" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="LabResult">
 									INSERT into media_labels (
 										media_id,
@@ -965,8 +966,8 @@ limitations under the License.
 									)
 								</cfquery>
 							</cfif>	
-						<cfset media_updates = media_updates + insResult.recordcount>
-					</cfloop>
+							<cfset media_updates = media_updates + insResult.recordcount>
+						</cfloop>
 					<p>Number of Media Records added: #media_updates#</p>
 					<cfif getTempData.recordcount eq media_updates and updateMedia1_result.recordcount eq 0>
 						<h3 class="text-success">Success - loaded</h3>
