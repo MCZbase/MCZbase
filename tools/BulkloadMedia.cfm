@@ -447,7 +447,7 @@ limitations under the License.
 					UPDATE
 						cf_temp_media
 					SET
-						status = concat(nvl2(status, status || '; ', ''),'MEDIA_RELATIONSHIP_1 is invalid')
+						status = concat(nvl2(status, status || '; ', ''),'MEDIA_RELATIONSHIP_1 is invalid - Check  <a href="/vocabularies/ControlledVocabulary.cfm?table=CTMEDIA_RELATIONSHIP">controlled vocabulary</a>')
 					WHERE
 						media_relationship_1 not in (select media_relationship from ctmedia_relationship) and 
 						username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
@@ -466,7 +466,7 @@ limitations under the License.
 					UPDATE
 						cf_temp_media
 					SET
-						status = concat(nvl2(status, status || '; ', ''),'MEDIA_RELATIONSHIP_2: "#getTempMedia.MEDIA_RELATIONSHIP_2#" is invalid')
+						status = concat(nvl2(status, status || '; ', ''),'MEDIA_RELATIONSHIP_2: "#getTempMedia.MEDIA_RELATIONSHIP_2#" is invalid - Check  <a href="/vocabularies/ControlledVocabulary.cfm?table=CTMEDIA_RELATIONSHIP">controlled vocabulary</a>')
 					WHERE
 						media_relationship_2 not in (select media_relationship from ctmedia_relationship) and 
 						username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> AND
@@ -564,15 +564,6 @@ limitations under the License.
 									
 								</cfloop>
 							</cfif>
-						<cfelse>
-							<cfquery name="chkCOID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-								update cf_temp_media set related_primary_key_#i# = (select #tables.column_name# from #theTable# 
-								where 
-									#tables.column_name# = '#getMediaRel.related_primary_key#')
-								WHERE 
-									username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> AND
-									key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia.key#">
-							</cfquery>
 						</cfif>
 					</cfif>
 				</cfloop>
