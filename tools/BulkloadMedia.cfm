@@ -908,7 +908,7 @@ limitations under the License.
 							</cfquery>
 							<cfhttp url="#getTempData.media_uri#" method="get" getAsBinary="yes" result="result">
 							
-							<cfset md5hash=Hash(result.filecontent,"MD5")>
+							<cfset HASH=Hash(result.filecontent,"MD5")>
 
 							<cfquery name="makeMD5hash" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 								insert into media_labels (
