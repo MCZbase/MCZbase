@@ -456,6 +456,15 @@ limitations under the License.
 					UPDATE
 						cf_temp_media
 					SET
+						status = concat(nvl2(status, status || '; ', ''),'RELATED_PRIMARY_KEY_1: "#getTempMedia.RELATED_PRIMARY_KEY_1#" is missing')
+					WHERE
+						related_primary_key_1 is null and 
+						username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+				</cfquery>
+				<cfquery name="warningBadRel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					UPDATE
+						cf_temp_media
+					SET
 						status = concat(nvl2(status, status || '; ', ''),'MEDIA_RELATIONSHIP_2: "#getTempMedia.MEDIA_RELATIONSHIP_2#" is invalid')
 					WHERE
 						media_relationship_2 not in (select media_relationship from ctmedia_relationship) and 
