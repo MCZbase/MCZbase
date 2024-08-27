@@ -919,46 +919,46 @@ limitations under the License.
 							<cfimage action="info" source="#preserveSingleQuotes(media_uri)#" structname="imgInfo"/>
 							<cfquery name="makeHeightLabel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 								insert into media_labels (
-											key,
-											MEDIA_LABEL,
-											ASSIGNED_BY_AGENT_ID,
-											LABEL_VALUE
-										) values (
-											#key#,
-											'height',
-											#session.myAgentId#,
-											<cfif len(getTempData.height) gt 0>#getTempData.height#<cfelse>#imgInfo.height#</cfif>
-										)
+									media_id,
+									MEDIA_LABEL,
+									LABEL_VALUE,
+									ASSIGNED_BY_AGENT_ID
+								) values (
+									<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getID.theId#">,
+									'height',
+									<cfif len(getTempData.height) gt 0>#getTempData.height#<cfelse>#imgInfo.height#</cfif>,
+									<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getAgent.agent_id#">
+								)
 							</cfquery>
 							<cfquery name="makeWidthLabel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-										insert into cf_temp_media_labels (
-											key,
-											MEDIA_LABEL,
-											ASSIGNED_BY_AGENT_ID,
-											LABEL_VALUE
-										) values (
-											#key#,
-											'width',
-											#session.myAgentId#,
-										<cfif len(getTempData.width) gt 0>#getTempData.width#<cfelse>#imgInfo.width#</cfif>
-										)
+								insert into media_labels (
+									media_id,
+									MEDIA_LABEL,
+									LABEL_VALUE,
+									ASSIGNED_BY_AGENT_ID
+								) values (
+									<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getID.theId#">,
+									'width',
+									<cfif len(getTempData.width) gt 0>#getTempData.width#<cfelse>#imgInfo.width#</cfif>,
+									<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getAgent.agent_id#">
+								)
 							</cfquery>
 							<cfhttp url="#media_uri#" method="get" getAsBinary="yes" result="result">
 							
 							<cfset md5hash=Hash(result.filecontent,"MD5")>
 
 							<cfquery name="makeMD5hash" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-										insert into media_labels (
-											key,
-											MEDIA_LABEL,
-											ASSIGNED_BY_AGENT_ID,
-											LABEL_VALUE
-										) values (
-											#key#,
-											'md5hash',
-											#session.myAgentId#,
-											'#md5Hash#'
-										)
+								insert into media_labels (
+									media_id,
+									MEDIA_LABEL,
+									LABEL_VALUE,
+									ASSIGNED_BY_AGENT_ID,
+								) values (
+									<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getID.theId#">,
+									'md5hash',
+									'#md5Hash#',
+									<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getAgent.agent_id#">
+								)
 							</cfquery>
 						</cfif>
 				
