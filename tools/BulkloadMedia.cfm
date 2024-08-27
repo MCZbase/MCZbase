@@ -896,8 +896,8 @@ limitations under the License.
 								<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getAgent.agent_id#">
 							)
 						</cfquery>
-						<cfif isimagefile(media_uri)>
-							<cfimage action="info" source="#media_uri#" structname="imgInfo"/>
+						<cfif isimagefile(getTempData.media_uri)>
+							<cfimage action="info" source="#getTempData.media_uri#" structname="imgInfo"/>
 							<cfquery name="makeHeightLabel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 								insert into media_labels (
 									media_id,
@@ -924,7 +924,7 @@ limitations under the License.
 									<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getAgent.agent_id#">
 								)
 							</cfquery>
-							<cfhttp url="#media_uri#" method="get" getAsBinary="yes" result="result">
+							<cfhttp url="#getTempData.media_uri#" method="get" getAsBinary="yes" result="result">
 							
 							<cfset md5hash=Hash(result.filecontent,"MD5")>
 
