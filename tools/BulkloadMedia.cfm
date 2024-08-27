@@ -507,15 +507,15 @@ limitations under the License.
 				</cfquery>
 			</cfif>
 			<cfif isimagefile(media_uri)>
-				<cfimage action="info" source="#media_uri#" structname="imgInfo"/>
+				<cfimage action="info" source="#getTempMedia.media_uri#" structname="imgInfo"/>
 				<cfquery name="makeHeightLabel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE cf_temp_media
-					SET  height = <cfif len(getTempData.height) gt 0>#getTempData.height#<cfelse>#imgInfo.height#</cfif>
+					SET  height = <cfif len(getTempMedia.height) gt 0>#getTempMedia.height#<cfelse>#imgInfo.height#</cfif>
 					where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> 
 				</cfquery>
 				<cfquery name="makeWidthLabel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE cf_temp_media
-					SET  width = <cfif len(getTempData.height) gt 0>#getTempData.width#<cfelse>#imgInfo.width#</cfif>
+					SET  width = <cfif len(getTempMedia.height) gt 0>#getTempMedia.width#<cfelse>#imgInfo.width#</cfif>
 					where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> 
 				</cfquery>
 				<cfhttp url="#media_uri#" method="get" getAsBinary="yes" result="result">
@@ -523,17 +523,9 @@ limitations under the License.
 				<cfset md5hash=Hash(result.filecontent,"MD5")>
 
 				<cfquery name="makeMD5hash" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					insert into media_labels (
-						media_id,
-						MEDIA_LABEL,
-						LABEL_VALUE,
-						ASSIGNED_BY_AGENT_ID,
-					) values (
-						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getID.theId#">,
-						'md5hash',
-						'#md5Hash#',
-						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getAgent.agent_id#">
-					)
+					UPDATE cf_temp_media
+					SET 'md5hash' = <cfif len(getTempMedia.height) gt 0>'#md5Hash#'</cfif>
+					where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> 
 				</cfquery>
 			</cfif>
 				
