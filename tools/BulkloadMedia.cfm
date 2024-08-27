@@ -459,7 +459,8 @@ limitations under the License.
 						status = concat(nvl2(status, status || '; ', ''),'RELATED_PRIMARY_KEY_1: "#getTempMedia.RELATED_PRIMARY_KEY_1#" is missing')
 					WHERE
 						related_primary_key_1 is null and 
-						username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+						username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> AND
+						key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia.key#">
 				</cfquery>
 				<cfquery name="warningBadRel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE
