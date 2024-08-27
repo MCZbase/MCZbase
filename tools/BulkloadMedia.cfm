@@ -918,13 +918,12 @@ limitations under the License.
 									ASSIGNED_BY_AGENT_ID,
 								) values (
 									<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getID.theId#">,
-									'md5hash',
-									'#md5Hash#',
+									'HASH',
+									'#HASH#',
 									<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getAgent.agent_id#">
 								)
 							</cfquery>
 						</cfif>
-				
 						<cfif len(getTempData.media_label_1) gt 0>
 							<cfquery name="makeLabels" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="LabResult">
 								INSERT into media_labels (
