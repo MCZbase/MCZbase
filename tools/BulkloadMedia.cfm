@@ -467,7 +467,7 @@ limitations under the License.
 				WHERE 
 					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
-			<cfif len(status) eq 0>
+			<cfif len(getTempMedia2.status) eq 0>
 			<cfloop query = "getTempMedia2">	
 				<cfif len(getTempMedia2.related_primary_key_1) gt 0 or len(getTempMedia2.related_primary_key_2) gt 0>
 					<cfloop index="i" from="1" to="2">
