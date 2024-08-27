@@ -622,7 +622,7 @@ limitations under the License.
 							ORDER BY cols.table_name, cols.position
 						</cfquery>
 
-						<cfif #theTable# eq 'cataloged_item' and #getMediaRel.media_relationship# eq 'shows cataloged_item'>
+						<cfif #getMediaRel.media_relationship# eq 'shows cataloged_item'>
 							<cfloop list="#getMediaRel.related_primary_key#" index="l" delimiters=":">
 								<cfset IA = listGetAt(#getMediaRel.related_primary_key#,1,":")>
 								<cfset CCDE = listGetAt(#getMediaRel.related_primary_key#,2,":")>
@@ -640,7 +640,7 @@ limitations under the License.
 										key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia2.key#">
 								</cfquery>
 							</cfloop>
-						<cfelseif #theTable# eq 'specimen_part' and #getMediaRel.media_relationship# eq 'shows specimen_part'>
+						<cfelseif #getMediaRel.media_relationship# eq 'shows specimen_part'>
 							<cfloop list="#getMediaRel.related_primary_key#" index="l" delimiters=":">
 								<cfset IA = listGetAt(#getMediaRel.related_primary_key#,1,":")>
 								<cfset CCDE = listGetAt(#getMediaRel.related_primary_key#,2,":")>
