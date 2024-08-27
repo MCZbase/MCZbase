@@ -861,6 +861,7 @@ limitations under the License.
 									AND key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#">
 							</cfquery>
 						</cfloop>
+								#getMediaRel.media_relationship#
 							<cfif len(getMediaRel.media_relationship) gt 0>
 								<cfquery name="makeRelations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="RelResult">
 									INSERT into media_relations (
