@@ -828,7 +828,7 @@ limitations under the License.
 						</cfquery>
 					
 			
-						<cfset myList = ','>
+				<!---		<cfset myList = ','>--->
 						<cfloop query="getID">
 							<cfset myList = #getID.theId#>
 								<cfloop list= #myList# index="mediaId" delimiters=",">
