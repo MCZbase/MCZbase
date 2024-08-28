@@ -545,7 +545,7 @@ limitations under the License.
 								UPDATE
 									cf_temp_media
 								SET
-									related_primary_key_1 = (select agentID.agent_id from agentID where agentID.agent_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia.related_primary_key_1#">)
+									related_primary_key_1 = (select #agentID.agent_id# from agentID where #agentID.agent_name# = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia.related_primary_key_1#">)
 								WHERE 
 									username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 							</cfquery>
