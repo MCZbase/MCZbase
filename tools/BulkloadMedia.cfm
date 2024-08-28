@@ -611,7 +611,7 @@ limitations under the License.
 								</cfquery>
 							</cfloop>
 						<cfelse>
-							<cfif isValid("integer", related_primary_key_#i#)>
+							<cfif isValid("integer", #getMediaRel.related_primary_key#)>
 								update cf_temp_media set related_primary_key_#i# =
 									(
 										select #tables.column_name# from #theTable# where #tables.column_name# = '#getMediaRel.related_primary_key#'
