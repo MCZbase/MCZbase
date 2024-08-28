@@ -830,9 +830,6 @@ limitations under the License.
 			
 						<cfset myList = ','>
 						<cfloop query="getID">
-							
-<!---
-							<a href="/media/#getID.theId#">#getID.theId##sep#</a>--->
 							<cfset myList = #getID.theId#>
 								<cfloop list= #myList# index="mediaId" delimiters=",">
 									<a href="/media/findMedia.cfm?media_id=#mediaId#" target="_blank">#mediaId#</a>
