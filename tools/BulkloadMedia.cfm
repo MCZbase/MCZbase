@@ -631,6 +631,7 @@ limitations under the License.
 									from #theTable#,agent_name
 									where agent_name.agent_id = agent.agent_id 
 									and agent_name.agent_name_type='preferred'
+									and agent_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getMediaRel.related_primary_key#">
 								)
 								WHERE related_primary_key_#i# is not null AND
 									username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> AND
