@@ -828,10 +828,15 @@ limitations under the License.
 						</cfquery>
 					
 			
-						<cfset sep = ','>
+						<cfset myList = ','>
 						<cfloop query="getID">
-							<a href="/media/#getID.theId#">#getID.theId##sep#</a>
-							<cfset sep = ''>
+							
+<!---
+							<a href="/media/#getID.theId#">#getID.theId##sep#</a>--->
+							<cfset myList = #getID.theId#>
+								<cfloop list= #myList# index="mediaId" delimiters=",">
+									#mediaId#
+								</cfloop>
 						</cfloop>
 						<cfif len(getTempData.media_relationship_1) gt 0>
 							<cfquery name="makeRelations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="RelResult">
