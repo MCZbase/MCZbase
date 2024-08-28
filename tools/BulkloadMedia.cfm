@@ -835,7 +835,7 @@ limitations under the License.
 							<a href="/media/#getID.theId#">#getID.theId##sep#</a>--->
 							<cfset myList = #getID.theId#>
 								<cfloop list= #myList# index="mediaId" delimiters=",">
-									#mediaId#
+									<a href="/media/findMedia.cfm?media_id=#mediaId#">#mediaId#</a>
 								</cfloop>
 						</cfloop>
 						<cfif len(getTempData.media_relationship_1) gt 0>
