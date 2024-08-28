@@ -828,7 +828,7 @@ limitations under the License.
 						</cfquery>
 							
 						<cfloop query="getID">
-							<h2><a href="/media/#getID.theId#">#getID.theId#</a></h2>
+							<a href="/media/#getID.theId#">#getID.theId#</a>,
 						</cfloop>
 						<cfif len(getTempData.media_relationship_1) gt 0>
 							<cfquery name="makeRelations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="RelResult">
