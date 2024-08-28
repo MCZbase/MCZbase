@@ -404,6 +404,30 @@ limitations under the License.
 					media_type not in (select media_type from ctmedia_type) AND
 					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
+			<cfif isnumeric(related_primary_key_1)>
+				<cfset related_primary_key_1 = #related_primary_key_1#>
+			<cfelse>
+			<cfquery name="switchtoagentID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				UPDATE
+					cf_temp_media
+				SET
+					related_primary_key_1 = (select agent_id from agent_name where agent_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia.related_primary_key_1#">)
+				WHERE 
+					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+			</cfquery>
+			</cfif>
+			<cfif isnumeric(related_primary_key_2)>
+				<cfset related_primary_key_2 = #related_primary_key_2#>
+			<cfelse>
+			<cfquery name="switchtoagentID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				UPDATE
+					cf_temp_media
+				SET
+					related_primary_key_2 = (select agent_id from agent_name where agent_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia.related_primary_key_2#">)
+				WHERE 
+					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+			</cfquery>
+			</cfif>
 			<cfquery name="warningMessageMediaType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				UPDATE
 					cf_temp_media
