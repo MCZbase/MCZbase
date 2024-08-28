@@ -624,10 +624,7 @@ limitations under the License.
 								</cfquery>
 							</cfloop>
 						<cfelseif #getMediaRel.media_relationship# eq 'shows agent'>
-							<cfloop list="#getMediaRel.related_primary_key#" index="l" delimiters=":">
-								<cfset IA = listGetAt(#getMediaRel.related_primary_key#,1,":")>
-								<cfset CCDE = listGetAt(#getMediaRel.related_primary_key#,2,":")>
-								<cfset CI = listGetAt(#getMediaRel.related_primary_key#,3,":")>
+							<cfloop list="#getMediaRel.related_primary_key#" index="l">
 								<cfquery name="chkCOID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 									update cf_temp_media set related_primary_key_#i# =
 									(
