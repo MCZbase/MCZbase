@@ -1068,18 +1068,7 @@ limitations under the License.
 						<cfset media_updates = media_updates + insResult.recordcount>
 					</cfloop>
 
-					<p>Number of Media Records added: #media_updates# with MEDIA_IDs: 
-						<ul>
-							<cfloop array="#getID#">
-								<cfquery name="theseID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-									SELECT media_id FROM 
-										media
-									WHERE 
-										ROWIDTOCHAR(rowid) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#rowid#">
-								</cfquery>
-								<li><a href="/media/#theseID.theId#">#theseID.theId#</a></li>
-							</cfloop>
-						</ul>	
+					<p>Number of Media Records added: #media_updates#
 					</p>
 					<cfif getTempData.recordcount eq media_updates and updateMedia1_result.recordcount eq 0>
 						<h3 class="text-success">Success - loaded</h3>
