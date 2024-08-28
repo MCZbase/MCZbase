@@ -405,7 +405,7 @@ limitations under the License.
 					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<cfif #getTempMedia.media_relationship_1# eq 'shows agent'>
-				<cfif isNumberic(#getTempMedia.media_relationship_1#) eq 'TRUE'>
+				<cfif isNumeric(#getTempMedia.media_relationship_1#) eq 'TRUE'>
 					<cfset related_primary_key_1 = #getTempMedia.related_primary_key_1#>
 				<cfelse>
 					<cfquery name="switchtoagentID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -419,7 +419,7 @@ limitations under the License.
 				</cfif>
 			</cfif>
 			<cfif #getTempMedia.media_relationship_2# eq 'shows agent'>
-				<cfif isNumberic(#getTempMedia.media_relationship_2#) eq 'TRUE'>
+				<cfif isNumeric(#getTempMedia.media_relationship_2#) eq 'TRUE'>
 					<cfset related_primary_key_2 = #getTempMedia.related_primary_key_2#>
 				<cfelse>
 				<cfquery name="switchtoagentID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
