@@ -561,6 +561,34 @@ limitations under the License.
 							username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> AND
 							key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia.key#">
 					</cfquery>
+					<cfif #getTempMedia.media_relationship_1# eq 'shows agent'>
+						<cfif isNumeric(#getTempMedia.media_relationship_1#) eq 'TRUE'>
+							<cfset related_primary_key_1 = #getTempMedia.related_primary_key_1#>
+						<cfelse>
+							<cfquery name="switchtoagentID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+								UPDATE
+									cf_temp_media
+								SET
+									related_primary_key_1 = (select agent_id from agent_name where agent_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia.related_primary_key_1#">)
+								WHERE 
+									username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+							</cfquery>
+						</cfif>
+					</cfif>
+					<cfif #getTempMedia.media_relationship_2# eq 'shows agent'>
+						<cfif isNumeric(#getTempMedia.media_relationship_2#) eq 'TRUE'>
+							<cfset related_primary_key_2 = #getTempMedia.related_primary_key_2#>
+						<cfelse>
+							<cfquery name="switchtoagentID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+								UPDATE
+									cf_temp_media
+								SET
+									related_primary_key_2 = (select agent_id from agent_name where agent_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia.related_primary_key_2#">)
+								WHERE 
+									username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+							</cfquery>
+						</cfif>
+					</cfif>
 				</cfloop>
 			</cfloop>
 			<cfquery name="getTempMedia2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
