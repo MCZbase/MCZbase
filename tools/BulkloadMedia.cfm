@@ -405,7 +405,7 @@ limitations under the License.
 					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			
-			<cfquery name="warningMessageMediaType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+			<cfquery name="warningMessageAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				UPDATE
 					cf_temp_media
 				SET
@@ -826,6 +826,10 @@ limitations under the License.
 							WHERE 
 								ROWIDTOCHAR(rowid) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#rowid#">
 						</cfquery>
+							
+						<cfloop query="getID">
+							<h2>ID: #getID.theId#</h2>
+						</cfloop>
 						<cfif len(getTempData.media_relationship_1) gt 0>
 							<cfquery name="makeRelations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="RelResult">
 								INSERT into media_relations (
@@ -1066,7 +1070,7 @@ limitations under the License.
 
 					<p>Number of Media Records added: #media_updates# with MEDIA_IDs: 
 						<ul>
-							<cfloop query="getID">
+							<cfloop array="#getID#">
 								<cfquery name="theseID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 									SELECT media_id FROM 
 										media
