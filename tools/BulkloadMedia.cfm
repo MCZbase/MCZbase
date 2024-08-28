@@ -826,9 +826,15 @@ limitations under the License.
 							WHERE 
 								ROWIDTOCHAR(rowid) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#rowid#">
 						</cfquery>
-							
+					
+						<cfset separator = "">
+						<cfloop list="#getID.theId#" index="field" delimiters=",">
+							<cfset media='#separator#"#field#"'>
+							<cfset separator = ",">
+						</cfloop>
 						<cfloop query="getID">
 							<a href="/media/#getID.theId#">#getID.theId#</a>,
+							<p>#media#</p>
 						</cfloop>
 						<cfif len(getTempData.media_relationship_1) gt 0>
 							<cfquery name="makeRelations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="RelResult">
