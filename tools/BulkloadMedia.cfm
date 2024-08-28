@@ -404,7 +404,7 @@ limitations under the License.
 					media_type not in (select media_type from ctmedia_type) AND
 					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
-			<cfif isnumeric(getTempMedia.related_primary_key_1) && #getTempMedia.media_relationship_1# eq 'shows agent'>
+			<cfif isNumeric(getTempMedia.related_primary_key_1) eq 'TRUE' && #getTempMedia.media_relationship_1# eq 'shows agent'>
 				<cfset related_primary_key_1 = #getTempMedia.related_primary_key_1#>
 			<cfelse>
 			<cfquery name="switchtoagentID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -416,7 +416,7 @@ limitations under the License.
 					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			</cfif>
-			<cfif isnumeric(getTempMedia.related_primary_key_2) && #getTempMedia.media_relationship_2# eq 'shows agent'>
+			<cfif isnumeric(getTempMedia.related_primary_key_2) eq 'TRUE' && #getTempMedia.media_relationship_2# eq 'shows agent'>
 				<cfset related_primary_key_2 = #getTempMedia.related_primary_key_2#>
 			<cfelse>
 			<cfquery name="switchtoagentID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
