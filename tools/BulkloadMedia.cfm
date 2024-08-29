@@ -85,6 +85,7 @@ limitations under the License.
 						<li class="list-group-item font-weight-lessbold">"documents" or "shows" LOCALITY: <b>LOCALITY_ID</b></li> <span class="mt-1"> | </span>
 						<li class="list-group-item font-weight-lessbold">"related to" MEDIA: <b>MEDIA_ID</b></li> <span class="mt-1"> | </span>
 						<li class="list-group-item font-weight-lessbold">"shows" PERMIT: <b>PERMIT_ID</b></li> <span class="mt-1"> | </span>
+						<li class="list-group-item font-weight-lessbold">"shows" PROJECT: <b>PROJECT_ID</b> or <b>PROJECT_NAME</b></li> <span class="mt-1"> | </span>
 						<li class="list-group-item font-weight-lessbold">"shows" PUBLICATION: <b>PUBLICATION_ID</b> </li><span class="mt-1"> | </span>
 						<li class="list-group-item font-weight-lessbold">"shows" SPECIMEN_PART: <b>GUID</b></li> <span class="mt-1"> | </span>
 						<li class="list-group-item font-weight-lessbold">"shows" UNDERSCORE_COLLECTION: <b>UNDERSCORE_COLLECTION_ID</b> or <b>GROUP NAME</b></li> 
@@ -642,7 +643,19 @@ limitations under the License.
 									key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia2.key#">
 							</cfquery>
 						<!--- Block ends--->
-						<cfelseif #getMediaRel.media_relationship# eq 'shows project' and !isNumeric(getMediaRel.related_primary_key)>
+						<cfelseif #getMediaRel.media_relationship# contains 'underscore' and !isNumeric(getMediaRel.related_primary_key)>
+							<cfquery name="chkCOID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+								update cf_temp_media set related_primary_key_#i# =
+								(
+									select #theTable#.underscore_collection_id
+									from #theTable#
+									where collection_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getMediaRel.related_primary_key#">
+								)
+								WHERE related_primary_key_#i# is not null AND
+									username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> AND
+									key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia2.key#">
+							</cfquery>
+						<cfelseif #getMediaRel.media_relationship# contains 'project' and !isNumeric(getMediaRel.related_primary_key)>
 							<cfquery name="chkCOID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 								update cf_temp_media set related_primary_key_#i# =
 								(
