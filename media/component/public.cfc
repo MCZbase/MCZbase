@@ -949,6 +949,10 @@ include this function and use it.
 													<a class="font-weight-lessbold" href="/agents/Agent.cfm?agent_id=#agents5.agent_id#"> #agents5.agent_name#</a><cfif agents5.recordcount gt 1><span>, </span> </cfif>
 												</cfloop>
 											</cfif>
+											<!---Display Project--->
+											<cfif media_rel.media_relationship eq 'shows project'>
+												Search Projects
+											</cfif>
 											<!---Display Borrow--->
 											<cfif media_rel.media_relationship contains 'borrow'>
 												<cfif oneofus eq 1>
