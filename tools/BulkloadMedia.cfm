@@ -627,6 +627,19 @@ limitations under the License.
 									key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia2.key#">
 							</cfquery>
 						<!--- Block ends--->
+						<cfelseif #getMediaRel.media_relationship# eq 'shows project' and !isNumeric(getMediaRel.related_primary_key)>
+							<cfset stripedStringTitle = ReReplaceNoCase(getMediaRel.related_primary_key,"<[^>]*>","","ALL") />
+							<cfquery name="chkCOID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+								update cf_temp_media set related_primary_key_#i# =
+								(
+									select #theTable#.publication_id
+									from #theTable#
+									where publication_title = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#stripedStringTitle#">
+								)
+								WHERE related_primary_key_#i# is not null AND
+									username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> AND
+									key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia2.key#">
+							</cfquery>
 						<cfelseif #getMediaRel.media_relationship# eq 'documents accn'><!---requires accn number--->
 							<cfquery name="chkCOID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 								update cf_temp_media set related_primary_key_#i# =
@@ -937,7 +950,7 @@ limitations under the License.
 							</cfquery>
 							<cfhttp url="#getTempData.media_uri#" method="get" getAsBinary="yes" result="result">
 							
-						<cfset MD5HASH=Hash(result.filecontent,"MD5")>
+							<cfset MD5HASH=Hash(result.filecontent,"MD5")>
 
 							<cfquery name="makehash" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 								insert into media_labels (
