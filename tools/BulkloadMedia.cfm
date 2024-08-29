@@ -1074,14 +1074,14 @@ limitations under the License.
 							</cfquery>
 						</cfif>
 						<cfset media_updates = media_updates + insResult.recordcount>
-						<cfloop query="getID">
-							<cfset myList = #getID.theId#>
-								<ul> Media Records Loaded (MEDIA IDs listed):
+						<ul>
+							<cfloop query="getID">
+								<cfset myList = #getID.theId#>
 								<cfloop list= #myList# index="mediaId" delimiters=",">
-									<li><a href="/media/media.cfm?media_id=#mediaId#" target="_blank">#mediaId#</a></li>
+									<li>#getTempData.subject# | #getTempData.description# <a href="/media/media.cfm?media_id=#mediaId#" target="_blank">#mediaId#</a></li>
 								</cfloop>
-								</ul>
-						</cfloop>
+							</cfloop>
+						</ul>
 					</cfloop>
 
 					<p>Number of Media Records added: <b>#media_updates#</b></p>
