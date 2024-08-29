@@ -78,11 +78,15 @@ limitations under the License.
 				
 				<h2 class="h4">Media Relationship Entries</h2>
 					<ul class="list-group list-group-horizontal">
-						<li class="list-group-item font-weight-lessbold">shows cataloged_item: GUID </li> <span class="mt-1"> | </span>
-						<li class="list-group-item font-weight-lessbold">shows specimen_part: GUID</li> <span class="mt-1"> | </span>
-						<li class="list-group-item font-weight-lessbold">shows publication: PUBLICATION_ID </li><span class="mt-1"> | </span>
 						<li class="list-group-item font-weight-lessbold">documents accn: ACCN_NUMBER </li><span class="mt-1"> | </span>
-						<li class="list-group-item font-weight-lessbold">shows permit: PERMIT_ID</li>
+						<li class="list-group-item font-weight-lessbold">shows cataloged_item: GUID </li> <span class="mt-1"> | </span>
+						<li class="list-group-item font-weight-lessbold">shows locality: LOCALITY_ID</li> <span class="mt-1"> | </span>
+						<li class="list-group-item font-weight-lessbold">shows permit: PERMIT_ID</li> <span class="mt-1"> | </span>
+						<li class="list-group-item font-weight-lessbold">shows publication: PUBLICATION_ID </li><span class="mt-1"> | </span>
+						<li class="list-group-item font-weight-lessbold">shows specimen_part: GUID</li> <span class="mt-1"> | </span>
+						
+						<li class="list-group-item font-weight-lessbold">shows locality: LOCALITY_ID</li> 
+					
 					</ul>
 			
 				<h2 class="h4 mt-4">Media License</h2>
@@ -622,7 +626,7 @@ limitations under the License.
 								</cfquery>
 							</cfloop>
 						<!---Add additional blocks if non-numeric entries are the norm for a relationship type--->
-						<cfelseif #getMediaRel.media_relationship# eq 'shows agent' and !isNumeric(getMediaRel.related_primary_key)>
+						<cfelseif #getMediaRel.media_relationship# contains 'agent' and !isNumeric(getMediaRel.related_primary_key)>
 							<cfquery name="chkCOID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 								update cf_temp_media set related_primary_key_#i# =
 								(
