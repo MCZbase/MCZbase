@@ -74,7 +74,7 @@ limitations under the License.
 					</ul>
 				</p>
 				<p>Step 1: Ensure that Media exists on the shared drive or external URL and that the records that you want to use for relationships exist (e.g., specimen, agent, collecting event).</p>
-				<p>Step 2: Upload a comma-delimited text file (csv). <span class="font-weight-lessbold">(Jump to <a href="##loader" class="btn-link font-weight-bold">Loader</a>.)</span></p>
+				<p>Step 2: Upload a comma-delimited text file (csv). <span class="font-weight-lessbold text-success">(Jump to <a href="##loader" class="btn-link font-weight-bold">Loader</a>.)</span></p>
 				
 				<h2 class="h4">Media Relationship Entries</h2>
 					<ul class="list-group list-group-horizontal">
