@@ -77,7 +77,7 @@ limitations under the License.
 				<p>Step 2: Upload a comma-delimited text file (csv). <span class="font-weight-lessbold text-success">(Jump to <a href="##loader" class="btn-link font-weight-bold">Loader</a>.)</span></p>
 				
 				<h2 class="h4">Media Relationship Entries</h2>
-					<ul class="list-group list-group-horizontal">
+					<ul class="list-group list-group-horizontal d-xl-flex">
 						<li class="list-group-item font-weight-lessbold">"documents" ACCN: <b>ACCN_NUMBER</b> </li><span class="mt-1"> | </span>
 						<li class="list-group-item font-weight-lessbold">"created by agent" or "physical object created by" or "shows" or "documents" AGENT: <b>AGENT_ID</b> or <b>PREFERRED AGENT_NAME</b></li> <span class="mt-1"> | </span>
 						<li class="list-group-item font-weight-lessbold">"documents" or "ledger entry for" or "shows" CATALOGED_ITEM: <b>GUID</b> </li> <span class="mt-1"> | </span>
