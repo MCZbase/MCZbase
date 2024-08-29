@@ -1006,8 +1006,8 @@ include this function and use it.
 											<!---Display Locality: relationship = shows locality--->
 											<cfif media_rel.media_relationship eq 'shows locality'>
 												<cfloop query="locali">
-													<a class="font-weight-lessbold" href="/showLocality.cfm?action=srch&locality_id=#locali.locality_id#"> #locali.spec_locality# <!---#NumberFormat(locali.dec_lat,'00.00')#, #NumberFormat(locali.dec_long,'00.00')# (datum: 
-													<cfif len(locali.datum)gt 0>#locali.datum#<cfelse>none listed</cfif>) error: #locali.error##locali.units#</a>---><cfif locali.recordcount gt 1><span>, </span></cfif>
+													<a class="font-weight-lessbold" href="/showLocality.cfm?action=srch&locality_id=#locali.locality_id#"> #locali.spec_locality# #NumberFormat(locali.dec_lat,'00.00')#, #NumberFormat(locali.dec_long,'00.00')# (datum: 
+													<cfif len(locali.datum)gt 0>#locali.datum#<cfelse>none listed</cfif>) error: #locali.error##locali.units#</a><cfif locali.recordcount gt 1><span>, </span></cfif>
 												</cfloop>
 											</cfif>
 											<!---Display Media: relationship = related to media--->

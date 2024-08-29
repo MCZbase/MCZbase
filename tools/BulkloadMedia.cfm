@@ -79,6 +79,7 @@ limitations under the License.
 				<h2 class="h4">Media Relationship Entries</h2>
 					<ul class="list-group list-group-horizontal">
 						<li class="list-group-item font-weight-lessbold">documents accn: ACCN_NUMBER </li><span class="mt-1"> | </span>
+						<li class="list-group-item font-weight-lessbold">shows agent: AGENT_ID or PREFERRED AGENT_NAME</li> <span class="mt-1"> | </span>
 						<li class="list-group-item font-weight-lessbold">shows cataloged_item: GUID </li> <span class="mt-1"> | </span>
 						<li class="list-group-item font-weight-lessbold">shows locality: LOCALITY_ID</li> <span class="mt-1"> | </span>
 						<li class="list-group-item font-weight-lessbold">shows permit: PERMIT_ID</li> <span class="mt-1"> | </span>
