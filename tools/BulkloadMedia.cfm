@@ -82,6 +82,8 @@ limitations under the License.
 						<li class="list-group-item font-weight-lessbold">"created by agent" or "physical object created by" or "shows" or "documents" AGENT: <b>AGENT_ID</b> or <b>PREFERRED AGENT_NAME</b></li> <span class="mt-1"> | </span>
 						<li class="list-group-item font-weight-lessbold">"documents" or "ledger entry for" or "shows" CATALOGED_ITEM: <b>GUID</b> </li> <span class="mt-1"> | </span>
 						<li class="list-group-item font-weight-lessbold">"documents" or "shows" COLLECTING_EVENT: <b>COLLECTING_EVENT_ID</b></li> <span class="mt-1"> | </span>
+						<li class="list-group-item font-weight-lessbold">"documents" DEACCESSION: <b>DEACCESSION_NUMBER</b></li> <span class="mt-1"> | </span>
+						<li class="list-group-item font-weight-lessbold">"documents" LOAN: <b>LOAN_NUMBER</b></li> <span class="mt-1"> | </span>
 						<li class="list-group-item font-weight-lessbold">"documents" or "shows" LOCALITY: <b>LOCALITY_ID</b></li> <span class="mt-1"> | </span>
 						<li class="list-group-item font-weight-lessbold">"related to" or "transcript for audio" MEDIA: <b>MEDIA_ID</b></li> <span class="mt-1"> | </span>
 						<li class="list-group-item font-weight-lessbold">"document for permit" or shows" PERMIT: <b>PERMIT_ID</b></li> <span class="mt-1"> | </span>
