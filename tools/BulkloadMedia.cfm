@@ -83,12 +83,12 @@ limitations under the License.
 						<li class="list-group-item font-weight-lessbold">"documents" or "ledger entry for" or "shows" CATALOGED_ITEM: <b>GUID</b> </li> <span class="mt-1"> | </span>
 						<li class="list-group-item font-weight-lessbold">"documents" or "shows" COLLECTING_EVENT: <b>COLLECTING_EVENT_ID</b></li> <span class="mt-1"> | </span>
 						<li class="list-group-item font-weight-lessbold">"documents" or "shows" LOCALITY: <b>LOCALITY_ID</b></li> <span class="mt-1"> | </span>
-						<li class="list-group-item font-weight-lessbold">"related to" MEDIA: <b>MEDIA_ID</b></li> <span class="mt-1"> | </span>
+						<li class="list-group-item font-weight-lessbold">"related to" or "transcript for audio" MEDIA: <b>MEDIA_ID</b></li> <span class="mt-1"> | </span>
 						<li class="list-group-item font-weight-lessbold">"shows" PERMIT: <b>PERMIT_ID</b></li> <span class="mt-1"> | </span>
 						<li class="list-group-item font-weight-lessbold">"shows" PROJECT: <b>PROJECT_ID</b> or <b>PROJECT_NAME</b></li> <span class="mt-1"> | </span>
 						<li class="list-group-item font-weight-lessbold">"shows" PUBLICATION: <b>PUBLICATION_ID</b> </li><span class="mt-1"> | </span>
 						<li class="list-group-item font-weight-lessbold">"shows" SPECIMEN_PART: <b>GUID</b></li> <span class="mt-1"> | </span>
-						<li class="list-group-item font-weight-lessbold">"shows" UNDERSCORE_COLLECTION: <b>UNDERSCORE_COLLECTION_ID</b> or <b>GROUP NAME</b></li> 
+						<li class="list-group-item font-weight-lessbold">"shows" UNDERSCORE_COLLECTION: <b>UNDERSCORE_COLLECTION_ID</b> or <b>COLLECTION NAME</b></li> 
 					
 					</ul>
 			
