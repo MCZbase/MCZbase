@@ -1056,6 +1056,12 @@ include this function and use it.
 													<a class="font-weight-lessbold" href="/grouping/showNamedCollection.cfm?underscore_collection_id=#underscore.underscore_collection_id#"> #underscore.collection_name#</a><cfif underscore.recordcount gt 1><span>, </span> </cfif>
 												</cfloop>
 											</cfif>
+											<!---Display project_name--->
+											<cfif media_rel.media_relationship eq 'shows project'>:
+												<cfloop query="project">
+													<a class="font-weight-lessbold" href="/project/#project.project_name#"> #project.project_name#</a><cfif project.recordcount gt 1><span>, </span> </cfif>
+												</cfloop>
+											</cfif>
 											<!---Display project--->
 											<!---<cfset project_name = replace(project_name," ","-","all")>
 											<cfif media_rel.media_relationship eq 'shows project'>
