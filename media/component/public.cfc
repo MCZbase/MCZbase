@@ -800,7 +800,6 @@ include this function and use it.
 					and media_relations.media_relationship = 'shows underscore_collection'
 					and media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
 				</cfquery>
-					#media_relations.related_primary_key#
 				<cfquery name="project" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					select project.project_id, project.project_name
 					from project
@@ -808,6 +807,7 @@ include this function and use it.
 					and media_relations.media_relationship = 'shows project'
 					and media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
 				</cfquery>
+					#project.project_name#, #project.project_id#
 				<!---Loop through the media to see what the metadata is for the featured image on the page--->
 				<cfloop query="media">
 					<cfquery name="labels" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
