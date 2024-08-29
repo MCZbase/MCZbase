@@ -79,17 +79,16 @@ limitations under the License.
 				<h2 class="h4">Media Relationship Entries</h2>
 					<ul class="list-group list-group-horizontal">
 						<li class="list-group-item font-weight-lessbold">"documents" ACCN: <b>ACCN_NUMBER</b> </li><span class="mt-1"> | </span>
-						<li class="list-group-item font-weight-lessbold">"created by agent" or "physical object created by" or "shows" AGENT: <b>AGENT_ID</b> or <b>PREFERRED AGENT_NAME</b></li> <span class="mt-1"> | </span>
+						<li class="list-group-item font-weight-lessbold">"created by agent" or "physical object created by" or "shows" or "documents" AGENT: <b>AGENT_ID</b> or <b>PREFERRED AGENT_NAME</b></li> <span class="mt-1"> | </span>
 						<li class="list-group-item font-weight-lessbold">"documents" or "ledger entry for" or "shows" CATALOGED_ITEM: <b>GUID</b> </li> <span class="mt-1"> | </span>
 						<li class="list-group-item font-weight-lessbold">"documents" or "shows" COLLECTING_EVENT: <b>COLLECTING_EVENT_ID</b></li> <span class="mt-1"> | </span>
 						<li class="list-group-item font-weight-lessbold">"documents" or "shows" LOCALITY: <b>LOCALITY_ID</b></li> <span class="mt-1"> | </span>
 						<li class="list-group-item font-weight-lessbold">"related to" or "transcript for audio" MEDIA: <b>MEDIA_ID</b></li> <span class="mt-1"> | </span>
-						<li class="list-group-item font-weight-lessbold">"shows" PERMIT: <b>PERMIT_ID</b></li> <span class="mt-1"> | </span>
+						<li class="list-group-item font-weight-lessbold">"document for permit" or shows" PERMIT: <b>PERMIT_ID</b></li> <span class="mt-1"> | </span>
 						<li class="list-group-item font-weight-lessbold">"shows" PROJECT: <b>PROJECT_ID</b> or <b>PROJECT_NAME</b></li> <span class="mt-1"> | </span>
 						<li class="list-group-item font-weight-lessbold">"shows" PUBLICATION: <b>PUBLICATION_ID</b> </li><span class="mt-1"> | </span>
 						<li class="list-group-item font-weight-lessbold">"shows" SPECIMEN_PART: <b>GUID</b></li> <span class="mt-1"> | </span>
 						<li class="list-group-item font-weight-lessbold">"shows" UNDERSCORE_COLLECTION: <b>UNDERSCORE_COLLECTION_ID</b> or <b>COLLECTION NAME</b></li> 
-					
 					</ul>
 			
 				<h2 class="h4 mt-4">Media License</h2>
