@@ -1076,7 +1076,7 @@ limitations under the License.
 						<cfset media_updates = media_updates + insResult.recordcount>
 						<cfloop query="getID">
 							<cfset myList = #getID.theId#>
-								<ul>
+								<ul> Media Records Loaded (MEDIA IDs listed):
 								<cfloop list= #myList# index="mediaId" delimiters=",">
 									<li><a href="/media/media.cfm?media_id=#mediaId#" target="_blank">#mediaId#</a></li>
 								</cfloop>
@@ -1084,7 +1084,7 @@ limitations under the License.
 						</cfloop>
 					</cfloop>
 
-					<p>Number of Media Records added: #media_updates# Media Records loaded (Media_IDs):</p>
+					<p>Number of Media Records added: <b>#media_updates#</b></p>
 
 					<cfif getTempData.recordcount eq media_updates and updateMedia1_result.recordcount eq 0>
 						<h3 class="text-success">Success - loaded</h3>
