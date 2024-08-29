@@ -727,7 +727,6 @@ include this function and use it.
 						left join lat_long on lat_long.locality_id = locality.locality_id
 					where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
 						and media_relations.media_relationship = 'shows locality'
-						and lat_long.accepted_lat_long_fg = 1
 				</cfquery>
 				<cfquery name="media1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					select distinct mr.related_primary_key as pk, m.media_uri
