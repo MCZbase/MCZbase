@@ -78,7 +78,7 @@ limitations under the License.
 				
 				<h2 class="h4">Media Relationship Entries</h2>
 					<ul class="list-group list-group-horizontal">
-						<li class="list-group-item font-weight-lessbold">documents accn: ACCN_NUMBER </li><span class="mt-1"> | </span>
+						<li class="list-group-item font-weight-lessbold">"documents" ACCN: <b>ACCN_NUMBER</b> </li><span class="mt-1"> | </span>
 						<li class="list-group-item font-weight-lessbold">"created by agent" or "physical object created by" or "shows" AGENT: <b>AGENT_ID</b> or <b>PREFERRED AGENT_NAME</b></li> <span class="mt-1"> | </span>
 						<li class="list-group-item font-weight-lessbold">"documents" or "ledger entry for" or "shows" CATALOGED_ITEM: <b>GUID</b> </li> <span class="mt-1"> | </span>
 						<li class="list-group-item font-weight-lessbold">"documents" or "shows" COLLECTING_EVENT: <b>COLLECTING_EVENT_ID</b></li> <span class="mt-1"> | </span>
@@ -87,7 +87,7 @@ limitations under the License.
 						<li class="list-group-item font-weight-lessbold">"shows" PERMIT: <b>PERMIT_ID</b></li> <span class="mt-1"> | </span>
 						<li class="list-group-item font-weight-lessbold">"shows" PUBLICATION: <b>PUBLICATION_ID</b> </li><span class="mt-1"> | </span>
 						<li class="list-group-item font-weight-lessbold">"shows" SPECIMEN_PART: <b>GUID</b></li> <span class="mt-1"> | </span>
-						<li class="list-group-item font-weight-lessbold">"shows" UNDERSCORE_COLLECTION: <b>UNDERSCORE_COLLECTION_ID or GROUP NAME</b></li> 
+						<li class="list-group-item font-weight-lessbold">"shows" UNDERSCORE_COLLECTION: <b>UNDERSCORE_COLLECTION_ID</b> or <b>GROUP NAME</b></li> 
 					
 					</ul>
 			
