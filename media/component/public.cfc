@@ -1052,7 +1052,7 @@ include this function and use it.
 											</cfif>
 											<!---Display project_name--->
 											<cfif media_rel.media_relationship eq 'shows project'>:
-												<cfset project_name = listChangeDelims(#project.project_name#, '-', ' ,\' )>
+												<cfset project_name = listChangeDelims(LCase(#project.project_name#), '-', ' ,\' )>
 												<cfloop query="project">
 													<a class="font-weight-lessbold" href="/project/#project_name#"> #project.project_name#</a><cfif project.recordcount gt 1><span>, </span> </cfif>
 												</cfloop>
