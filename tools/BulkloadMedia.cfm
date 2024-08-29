@@ -844,7 +844,7 @@ limitations under the License.
 							<cfset myList = #getID.theId#>
 								<cfloop list= #myList# index="mediaId" delimiters=",">
 									<cfset mediaId = REReplace(#myList#, ",$", "")>
-									<a href="/media/findMedia.cfm?media_id=#mediaId#" target="_blank">#mediaId#</a>
+									<a href="/media/findMedia.cfm?media_id=#mediaId#" target="_blank">#mediaId#, </a>
 								</cfloop>
 						</cfloop>
 						<cfif len(getTempData.media_relationship_1) gt 0>
