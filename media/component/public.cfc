@@ -801,11 +801,12 @@ include this function and use it.
 					and media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
 				</cfquery>
 				<cfquery name="project" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					select project.project_id, first(project.project_name)
+					select project.project_id, project.project_name
 					from project
 					left join media_relations on project.project_id = media_relations.related_primary_key
 					and media_relations.media_relationship = 'shows project'
 					and media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
+					FETCH FIRST 1 ROWS ONLY
 				</cfquery>
 
 				<!---Loop through the media to see what the metadata is for the featured image on the page--->
