@@ -843,7 +843,7 @@ limitations under the License.
 						<cfloop query="getID">
 							<cfset myList = #getID.theId#>
 								<cfloop list= #myList# index="mediaId" delimiters=",">
-									<cfset mediaId = REReplace(list, ",$", "")>
+									<cfset mediaId = REReplace(#myList#, ",$", "")>
 									<a href="/media/findMedia.cfm?media_id=#mediaId#" target="_blank">#mediaId#</a>
 								</cfloop>
 						</cfloop>
