@@ -79,15 +79,15 @@ limitations under the License.
 				<h2 class="h4">Media Relationship Entries</h2>
 					<ul class="list-group list-group-horizontal">
 						<li class="list-group-item font-weight-lessbold">documents accn: ACCN_NUMBER </li><span class="mt-1"> | </span>
-						<li class="list-group-item font-weight-lessbold">"created by agent" or "physical object created by" or "shows" AGENT: AGENT_ID or PREFERRED AGENT_NAME</li> <span class="mt-1"> | </span>
-						<li class="list-group-item font-weight-lessbold">"documents" or "ledger entry for" or "shows" CATALOGED_ITEM: GUID </li> <span class="mt-1"> | </span>
-						<li class="list-group-item font-weight-lessbold">"documents" or "shows" COLLECTING_EVENT: COLLECTING_EVENT_ID</li> <span class="mt-1"> | </span>
-						<li class="list-group-item font-weight-lessbold">"documents" or "shows" LOCALITY: LOCALITY_ID</li> <span class="mt-1"> | </span>
-						<li class="list-group-item font-weight-lessbold">"related to" MEDIA: MEDIA_ID</li> <span class="mt-1"> | </span>
-						<li class="list-group-item font-weight-lessbold">"shows" PERMIT: PERMIT_ID</li> <span class="mt-1"> | </span>
-						<li class="list-group-item font-weight-lessbold">"shows" PUBLICATION: PUBLICATION_ID </li><span class="mt-1"> | </span>
-						<li class="list-group-item font-weight-lessbold">"shows" SPECIMEN_PART: GUID</li> <span class="mt-1"> | </span>
-						<li class="list-group-item font-weight-lessbold">"shows" UNDERSCORE_COLLECTION: UNDERSCORE_COLLECTION_ID or GROUP NAME</li> 
+						<li class="list-group-item font-weight-lessbold">"created by agent" or "physical object created by" or "shows" AGENT: <b>AGENT_ID</b> or <b>PREFERRED AGENT_NAME</b></li> <span class="mt-1"> | </span>
+						<li class="list-group-item font-weight-lessbold">"documents" or "ledger entry for" or "shows" CATALOGED_ITEM: <b>GUID</b> </li> <span class="mt-1"> | </span>
+						<li class="list-group-item font-weight-lessbold">"documents" or "shows" COLLECTING_EVENT: <b>COLLECTING_EVENT_ID</b></li> <span class="mt-1"> | </span>
+						<li class="list-group-item font-weight-lessbold">"documents" or "shows" LOCALITY: <b>LOCALITY_ID</b></li> <span class="mt-1"> | </span>
+						<li class="list-group-item font-weight-lessbold">"related to" MEDIA: <b>MEDIA_ID</b></li> <span class="mt-1"> | </span>
+						<li class="list-group-item font-weight-lessbold">"shows" PERMIT: <b>PERMIT_ID</b></li> <span class="mt-1"> | </span>
+						<li class="list-group-item font-weight-lessbold">"shows" PUBLICATION: <b>PUBLICATION_ID</b> </li><span class="mt-1"> | </span>
+						<li class="list-group-item font-weight-lessbold">"shows" SPECIMEN_PART: <b>GUID</b></li> <span class="mt-1"> | </span>
+						<li class="list-group-item font-weight-lessbold">"shows" UNDERSCORE_COLLECTION: <b>UNDERSCORE_COLLECTION_ID or GROUP NAME</b></li> 
 					
 					</ul>
 			
