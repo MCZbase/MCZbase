@@ -804,10 +804,9 @@ include this function and use it.
 					select project.project_id, project.project_name
 					from project
 					left join media_relations on project.project_id = media_relations.related_primary_key
-					and media_relations.media_relationship = 'shows project'
+					where media_relations.media_relationship = 'shows project'
 					and media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
-					order by project.project_name
-					FETCH FIRST 1 ROWS ONLY
+					and rownum = 1
 				</cfquery>
 
 				<!---Loop through the media to see what the metadata is for the featured image on the page--->
