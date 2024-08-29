@@ -800,20 +800,6 @@ include this function and use it.
 					and media_relations.media_relationship = 'shows underscore_collection'
 					and media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
 				</cfquery>
-				<cfquery name="project" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					select project.project_id, project.project_name
-					from project
-					left join media_relations on project.project_id = media_relations.related_primary_key
-					and media_relations.media_relationship = 'shows project'
-					and media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
-				</cfquery>
-<!---				<cfquery name="cProject" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					select project.project_id,project_name
-					from project
-					left join media_relations on project.project_id = media_relations.related_primary_key
-					and media_relations.media_relationship = 'shows project'
-					and media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
-				</cfquery>--->
 		
 				<!---Loop through the media to see what the metadata is for the featured image on the page--->
 				<cfloop query="media">
@@ -1056,20 +1042,7 @@ include this function and use it.
 													<a class="font-weight-lessbold" href="/grouping/showNamedCollection.cfm?underscore_collection_id=#underscore.underscore_collection_id#"> #underscore.collection_name#</a><cfif underscore.recordcount gt 1><span>, </span> </cfif>
 												</cfloop>
 											</cfif>
-											<!---Display project_name--->
-											<cfif media_rel.media_relationship eq 'shows project'>:
-												<cfloop query="project">
-													 <cfset project_name = replace(project.project_name,"%20","-","all") /> 
-													<a class="font-weight-lessbold" href="/project/#project_name#"> #project_name#</a><cfif project.recordcount gt 1><span>, </span> </cfif>
-												</cfloop>
-											</cfif>
-											<!---Display project--->
-											<!---<cfset project_name = replace(project_name," ","-","all")>
-											<cfif media_rel.media_relationship eq 'shows project'>
-												<cfloop query="cProject">
-													<a class="font-weight-lessbold" href="/project/#cProject.project_name#"> #cProject.project_name#</a><cfif cProject.recordcount gt 1><span>, </span></cfif>
-												</cfloop>
-											</cfif>--->
+					
 										</div>
 										<cfset relationSeparator=' <span class="px-1"> | </span>'><!--- ' --->
 									</cfloop> 
