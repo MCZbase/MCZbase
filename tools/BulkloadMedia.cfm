@@ -628,7 +628,7 @@ limitations under the License.
 							</cfquery>
 						<!--- Block ends--->
 						<cfelseif #getMediaRel.media_relationship# eq 'shows project' and !isNumeric(getMediaRel.related_primary_key)>
-							<cfset stripedStringTitle = "ReReplaceNoCase(getMediaRel.related_primary_key,"<[^>]*>","","ALL")" />
+							<cfset stripedStringTitle = ReReplaceNoCase(getMediaRel.related_primary_key,"<[^>]*>","","ALL") />
 							<cfquery name="chkCOID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 								update cf_temp_media set related_primary_key_#i# =
 								(
