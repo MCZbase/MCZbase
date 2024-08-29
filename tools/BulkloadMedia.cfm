@@ -838,16 +838,6 @@ limitations under the License.
 							WHERE 
 								ROWIDTOCHAR(rowid) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#rowid#">
 						</cfquery>
-					
-		
-						<cfloop query="getID">
-							<cfset myList = #getID.theId#>
-								<cfloop list= #myList# index="mediaId" delimiters=",">
-									
-									<a href="/media/media.cfm?media_id=#mediaId#" target="_blank">#mediaId#, </a>
-									<cfset #myList# = REReplace(#myList#, ",$", "")>
-								</cfloop>
-						</cfloop>
 						<cfif len(getTempData.media_relationship_1) gt 0>
 							<cfquery name="makeRelations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="RelResult">
 								INSERT into media_relations (
@@ -1086,8 +1076,15 @@ limitations under the License.
 						<cfset media_updates = media_updates + insResult.recordcount>
 					</cfloop>
 
-					<p>Number of Media Records added: #media_updates#
-					</p>
+					<p>Number of Media Records added: #media_updates# Media Records loaded (Media_IDs):</p>
+						<cfloop query="getID">
+							<cfset myList = #getID.theId#>
+								<ul>
+								<cfloop list= #myList# index="mediaId" delimiters=",">
+									<li><a href="/media/media.cfm?media_id=#mediaId#" target="_blank">#mediaId#</a></li>
+								</cfloop>
+								</ul>
+						</cfloop>
 					<cfif getTempData.recordcount eq media_updates and updateMedia1_result.recordcount eq 0>
 						<h3 class="text-success">Success - loaded</h3>
 					</cfif>
