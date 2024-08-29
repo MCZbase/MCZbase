@@ -76,6 +76,27 @@ limitations under the License.
 				<p>Step 1: Ensure that Media exists on the shared drive or external URL and that the records that you want to use for relationships exist (e.g., specimen, agent, collecting event).</p>
 				<p>Step 2: Upload a comma-delimited text file (csv). <span class="font-weight-lessbold">(Jump to <a href="##loader" class="btn-link font-weight-bold">Loader</a>.)</span></p>
 				
+				<h2 class="h4">Media Relationship Entries</h2>
+				<div class="">
+					<dl style="width: 33%;overflow-wrap: anywhere;list-style-position:inside;">
+						<dt>shows cataloged_item</dt>
+						<dd>GUID</dd>
+						<dt>shows cataloged_item</dt>
+						<dd>GUID</dd>
+						<dt>shows cataloged_item</dt>
+						<dd>GUID</dd>
+						<dt>shows cataloged_item</dt>
+						<dd>GUID</dd>
+						<dt>shows cataloged_item</dt>
+						<dd>GUID</dd>
+						<dt>shows cataloged_item</dt>
+						<dd>GUID</dd>
+						<dt>shows cataloged_item</dt>
+						<dd>GUID</dd>
+						<dt>shows cataloged_item</dt>
+						<dd>GUID</dd>
+					</dl>
+				</div>
 				<h2 class="h4 mt-4">Media License</h2>
 				<p>The media license id should be entered using the numeric codes below. If omitted this will default to &quot;1 - MCZ Permissions &amp; Copyright&quot;</p>
 				<h3 class="small90 pl-3">Media License Codes:</h3>
