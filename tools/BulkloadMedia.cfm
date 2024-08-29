@@ -839,11 +839,11 @@ limitations under the License.
 								ROWIDTOCHAR(rowid) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#rowid#">
 						</cfquery>
 					
-			
-						<cfset myList = ','>
+		
 						<cfloop query="getID">
 							<cfset myList = #getID.theId#>
 								<cfloop list= #myList# index="mediaId" delimiters=",">
+									<cfset mediaId = REReplace(list, ",$", "")>
 									<a href="/media/findMedia.cfm?media_id=#mediaId#" target="_blank">#mediaId#</a>
 								</cfloop>
 						</cfloop>
