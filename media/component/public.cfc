@@ -791,6 +791,13 @@ include this function and use it.
 					order by part_name
 				</cfquery>
 				<cfquery name="underscore" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					select underscore_collection_id
+					from underscore_collection
+						left join media_relations on underscore_relation.collection_object_id = media_relations.related_primary_key
+					where media_relations.media_relationship = 'shows underscore_collection'
+					and media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
+				</cfquery>				
+<!---				<cfquery name="underscore" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					select cataloged_item.collection_object_id
 					from underscore_collection
 					left join underscore_relation on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
@@ -798,7 +805,7 @@ include this function and use it.
 					left join media_relations on underscore_relation.collection_object_id = media_relations.related_primary_key
 					and media_relations.media_relationship = 'shows underscore_collection'
 					and media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
-				</cfquery>
+				</cfquery>--->
 				<cfquery name="project" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					select project.project_id, project.project_name
 					from project
