@@ -684,11 +684,11 @@ limitations under the License.
 									key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia2.key#">
 							</cfquery>
 						<!--- Block ends--->
-						<cfelseif #getMediaRel.media_relationship# contains 'underscore' and !isNumeric(getMediaRel.related_primary_key)>
+						<cfelseif #getMediaRel.media_relationship# contains 'underscore_collection' and !isNumeric(getMediaRel.related_primary_key)>
 							<cfquery name="chkCOID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 								update cf_temp_media set related_primary_key_#i# =
 								(
-									select #theTable#.underscore_collection_id
+									select underscore_collection.underscore_collection_id
 									from #theTable#
 									where collection_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getMediaRel.related_primary_key#">
 								)
