@@ -793,7 +793,7 @@ include this function and use it.
 				<cfquery name="underscore" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					select underscore_collection_id
 					from underscore_collection
-						left join media_relations on underscore_relation.collection_object_id = media_relations.related_primary_key
+						left join media_relations on underscore_collection.collection_object_id = media_relations.related_primary_key
 					where media_relations.media_relationship = 'shows underscore_collection'
 					and media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
 				</cfquery>				
