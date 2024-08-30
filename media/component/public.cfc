@@ -791,9 +791,9 @@ include this function and use it.
 					order by part_name
 				</cfquery>
 				<cfquery name="underscore" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					select underscore_collection_id
-					from underscore_collection
-						left join media_relations on underscore_collection.underscore_collection_id = media_relations.related_primary_key
+					select underscore_collection_id as pk, collection_name
+					from UNDERSCORE_COLLECTION
+						left join media_relations on UNDERSCORE_COLLECTION.underscore_collection_id = media_relations.related_primary_key
 					where media_relations.media_relationship = 'shows underscore_collection'
 					and media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
 					and rownum = 1
@@ -1054,7 +1054,7 @@ include this function and use it.
 											<!---Display underscore_collection--->
 											<cfif media_rel.media_relationship eq 'shows underscore_collection'>:
 												<cfloop query="underscore">
-													<a class="font-weight-lessbold" href="/grouping/showNamedCollection.cfm?underscore_collection_id=#underscore.underscore_collection_id#"> #underscore.collection_name#</a><cfif underscore.recordcount gt 1><span>, </span> </cfif>
+													<a class="font-weight-lessbold" href="/grouping/showNamedCollection.cfm?underscore_collection_id=#underscore.underscore_collection_id#"> #underscore.underscore_collection_id#</a><cfif underscore.recordcount gt 1><span>, </span> </cfif>
 												</cfloop>
 											</cfif>
 											<!---Display project_name--->
