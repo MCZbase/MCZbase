@@ -146,7 +146,7 @@ limitations under the License.
 						<td><b></b></td>
 						<td><b></b></td>
 						<td>shows PERMIT: <b>PERMIT_ID</b></td>
-						
+						<td><b></b></td>
 					</tr>
 					<tr>
 						<td><b></b></td>
@@ -154,15 +154,8 @@ limitations under the License.
 						<td>shows UNDERSCORE_COLLECTION: <b>UNDERSCORE_COLLECTION_ID</b> or <b>COLLECTION_NAME</b></td>
 						<td><b></b></td>
 						<td><b></b></td>
-						
-					</tr>
-					<tr>
 						<td><b></b></td>
 						<td><b></b></td>
-						<td>shows UNDERSCORE_COLLECTION: <b>UNDERSCORE_COLLECTION_ID</b> or <b>COLLECTION_NAME</b></td>
-						<td><b></b></td>
-						<td><b></b></td>
-						<td>documents PERMIT: <b>PERMIT_ID</b></td>
 					</tr>
 				</tbody>
 			</table>
