@@ -76,7 +76,7 @@ limitations under the License.
 				<dl>
 					<dt>Step 1:</dt><dd>Ensure that Media exists on the shared drive or external URL</dd>
 					<dt>Step 2:</dt><dd>Check the existance of records for the relationships (e.g., cataloged_item, agent, collecting_event).</dd>
-					<dt>Step 3:</dt><dd>Upload a comma-delimited text file (csv). <span class="font-weight-lessbold text-success">(Jump to <a href="##loader" class="btn-link font-weight-bold">Loader</a>.)</span></dd>
+					<dt>Step 3:</dt><dd>Upload a comma-delimited text file (csv). <span class="font-weight-bold text-success">(Jump to <a href="##loader" class="btn-link font-weight-bold">Loader</a>.)</span></dd>
 				</dl>
 			</div>
 		
