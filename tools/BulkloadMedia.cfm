@@ -16,7 +16,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 
 --->
-<!--- special case handling to dump problem data as csv ---><br>
+<!--- special case handling to dump problem data as csv --->
 
 <cfif isDefined("action") AND action is "dumpProblems">
 	<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -540,28 +540,7 @@ limitations under the License.
 				</cfquery>
 			</cfif>
 	
-			<cfif isimagefile(getTempMedia.media_uri)>
-				<cfimage action="info" source="#getTempMedia.media_uri#" structname="imgInfo"/>
-				<cfquery name="makeHeightLabel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					UPDATE cf_temp_media
-					SET  height = <cfif len(getTempMedia.height) gt 0>#getTempMedia.height#<cfelse>#imgInfo.height#</cfif>
-					where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> 
-				</cfquery>
-				<cfquery name="makeWidthLabel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					UPDATE cf_temp_media
-					SET  width = <cfif len(getTempMedia.height) gt 0>#getTempMedia.width#<cfelse>#imgInfo.width#</cfif>
-					where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> 
-				</cfquery>
-				<cfhttp url="#getTempMedia.media_uri#" method="get" getAsBinary="yes" result="result">
 
-				<cfset MD5HASH=Hash(result.filecontent,"MD5")>
-
-				<cfquery name="makeMD5hash" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					UPDATE cf_temp_media
-					SET MD5HASH = '#MD5HASH#'
-					where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> 
-				</cfquery>
-			</cfif>
 				
 			<cfloop query="getTempMedia">
 				<cfloop from="1" to="2" index="i">
@@ -586,6 +565,34 @@ limitations under the License.
 							key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia.key#">
 					</cfquery>
 				</cfloop>
+				<cfif isimagefile(getTempMedia.media_uri)>
+					<cfimage action="info" source="#getTempMedia.media_uri#" structname="imgInfo"/>
+					<cfquery name="makeHeightLabel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						UPDATE cf_temp_media
+						SET  height = <cfif len(getTempMedia.height) gt 0>#getTempMedia.height#<cfelse>#imgInfo.height#</cfif>
+						where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> 
+						AND
+							key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia.key#">
+					</cfquery>
+					<cfquery name="makeWidthLabel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						UPDATE cf_temp_media
+						SET  width = <cfif len(getTempMedia.height) gt 0>#getTempMedia.width#<cfelse>#imgInfo.width#</cfif>
+						where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+						AND
+							key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia.key#">
+					</cfquery>
+					<cfhttp url="#getTempMedia.media_uri#" method="get" getAsBinary="yes" result="result">
+
+					<cfset MD5HASH=Hash(result.filecontent,"MD5")>
+
+					<cfquery name="makeMD5hash" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						UPDATE cf_temp_media
+						SET MD5HASH = '#MD5HASH#'
+						where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> 
+						AND
+							key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia.key#">
+					</cfquery>
+				</cfif>
 			</cfloop>
 			<cfquery name="getTempMedia2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT MEDIA_URI,MIME_TYPE,MEDIA_TYPE,PREVIEW_URI,CREATED_BY_AGENT_ID,SUBJECT,MADE_DATE,HEIGHT,WIDTH,DESCRIPTION,MEDIA_RELATIONSHIP_1,RELATED_PRIMARY_KEY_1,MEDIA_RELATIONSHIP_2,RELATED_PRIMARY_KEY_2,MEDIA_LICENSE_ID,MASK_MEDIA,MEDIA_LABEL_1,LABEL_VALUE_1,MEDIA_LABEL_2,LABEL_VALUE_2,MEDIA_LABEL_3,LABEL_VALUE_3,MEDIA_LABEL_4,LABEL_VALUE_4,MEDIA_LABEL_5,LABEL_VALUE_5,MEDIA_LABEL_6,LABEL_VALUE_6,MEDIA_LABEL_7,LABEL_VALUE_7,MEDIA_LABEL_8,LABEL_VALUE_8,KEY,USERNAME,STATUS
