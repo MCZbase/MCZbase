@@ -73,8 +73,9 @@ limitations under the License.
 						<li class="list-group-item font-weight-lessbold"><a href="/vocabularies/ControlledVocabulary.cfm?table=CTMEDIA_LICENSE">MEDIA_LICENSE (7 values)</a></li>
 					</ul>
 				</p>
-				<p>Step 1: Ensure that Media exists on the shared drive or external URL and that the records that you want to use for relationships exist (e.g., specimen, agent, collecting event).</p>
-				<p>Step 2: Upload a comma-delimited text file (csv). <span class="font-weight-lessbold text-success">(Jump to <a href="##loader" class="btn-link font-weight-bold">Loader</a>.)</span></p>
+				<p>Step 1: Ensure that Media exists on the shared drive or external URL</p>
+				<p>Step 2: Check that the records that you want to use for relationships exist (e.g., cataloged_item, agent, collecting_event).</p>
+				<p>Step 3: Upload a comma-delimited text file (csv). <span class="font-weight-lessbold text-success">(Jump to <a href="##loader" class="btn-link font-weight-bold">Loader</a>.)</span></p>
 				
 				<h2 class="h4">Media Relationship Entries</h2>
 
