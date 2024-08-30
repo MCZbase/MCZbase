@@ -791,7 +791,7 @@ include this function and use it.
 					order by part_name
 				</cfquery>
 				<cfquery name="underscore" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					select underscore_collection_id as pk, collection_name
+					select underscore_collection_id, collection_name
 					from UNDERSCORE_COLLECTION
 						left join media_relations on UNDERSCORE_COLLECTION.underscore_collection_id = media_relations.related_primary_key
 					where media_relations.media_relationship = 'shows underscore_collection'
