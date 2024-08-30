@@ -96,6 +96,26 @@ limitations under the License.
 						<li class="list-group-item font-weight-lessbold">"shows" UNDERSCORE_COLLECTION: <b>UNDERSCORE_COLLECTION_ID</b> or <b>COLLECTION NAME</b></li> 
 					</ul>
 			
+			<table class="table table-responsive">
+			 	<thead>
+					<tr>
+						<th>Transaction Related</th>
+						<th>Agent Related</th>
+						<th>Location Related</th>
+						<th>Collection/Object Related</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>documents ACCN: <b>ACCN_NUMBER</b></td><td>documents BORROW: BORROW_NUMBER</td>
+					</tr>
+					<tr>
+						<td>created by AGENT: <b>AGENT_ID</b> or <b>PREFERRED AGENT_NAME</b></td><td>physical object created by AGENT: <b>AGENT_ID</b> or <b>PREFERRED AGENT_NAME</b></td>
+						<td>shows AGENT: <b>AGENT_ID</b> or <b>PREFERRED AGENT_NAME</b></td>
+					</tr>
+				</tbody>
+			</table>
+			
 				<h2 class="h4 mt-4">Media License</h2>
 				<p>The media license id should be entered using the numeric codes below. If omitted this will default to &quot;1 - MCZ Permissions &amp; Copyright&quot;</p>
 				<h3 class="small90 pl-3">Media License Codes:</h3>
