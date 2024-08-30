@@ -796,6 +796,7 @@ include this function and use it.
 						left join media_relations on underscore_collection.underscore_collection_id = media_relations.related_primary_key
 					where media_relations.media_relationship = 'shows underscore_collection'
 					and media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
+					and rownum = 1
 				</cfquery>				
 <!---				<cfquery name="underscore" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					select cataloged_item.collection_object_id
