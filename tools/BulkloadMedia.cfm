@@ -85,7 +85,7 @@ limitations under the License.
 			 	<thead class="thead-light">
 					<tr>
 						<th>Agent Related</th><br>
-						<th>Location Related</th>
+						<th>Location/Event Related</th>
 						<th>Object/Collection Related</th>
 						<th>Media Related</th>
 						<th>Publication or Project Related</th>
