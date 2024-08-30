@@ -117,6 +117,7 @@ limitations under the License.
 						<td>related to MEDIA: <b>MEDIA_ID</b></td>
 						<td>shows PROJECT: <b>PROJECT_ID</b> or <b>PROJECT_NAME</b></td>
 						<td>documents ACCN: <b>ACCN_NUMBER</b></td>
+						<td>documents DEACCESSION: <b>DEACCESSION_NUMBER</b></td>
 					</tr>
 					<tr>
 						
@@ -125,30 +126,40 @@ limitations under the License.
 						<td>shows CATALOGED_ITEM: <b>GUID</b></td>
 						<td>transcript for AUDIO: <b>MEDIA_ID</b></td>
 						<td>shows PUBLICATION: <b>PUBLICATION_ID</b></td>
+						<td>documents LOAN: <b>LOAN_NUMBER</b></td>
 						<td>documents BORROW: <b>BORROW_NUMBER</b></td>					
 					</tr>
 					<tr>
 					
 						<td>shows AGENT: <b>AGENT_ID</b> or <b>PREFERRED AGENT_NAME</b></td>
-						<td>shows COLLECTING_EVENT: <b>COLLECTING_EVENT_ID</b></td>
+						<td>documents LOCALITY: <b>LOCALITY_ID</b></td>
 						<td>ledger entry for CATALOGED_ITEM: <b>GUID</b></td>
 						<td><b></b></td>
 						<td><b></b></td>
-						<td>documents DEACCESSION: <b>DEACCESSION_NUMBER</b></td>
+						<td>documents PERMIT: <b>PERMIT_ID</b></td>
+						
 					</tr>
 					<tr>
-						
 						<td>documents AGENT: <b>AGENT_ID</b></td>
-						<td>documents LOCALITY: <b>LOCALITY_ID</b></td>
+						<td>shows LOCALITY: <b>LOCALITY_ID</b></td>
+						<td>shows SPECIMEN_PART: <b>GUID</b></td>
+						<td><b></b></td>
+						<td><b></b></td>
+						<td>shows PERMIT: <b>PERMIT_ID</b></td>
+						
+					</tr>
+					<tr>
+						<td><b></b></td>
+						<td><b></b></td>
 						<td>shows UNDERSCORE_COLLECTION: <b>UNDERSCORE_COLLECTION_ID</b> or <b>COLLECTION_NAME</b></td>
 						<td><b></b></td>
 						<td><b></b></td>
-						<td>documents LOAN: <b>LOAN_NUMBER</b></td>
+						
 					</tr>
 					<tr>
 						<td><b></b></td>
-						<td>shows LOCALITY: <b>LOCALITY_ID</b></td>
-						<td>shows SPECIMEN_PART: <b>GUID</b></td>
+						<td><b></b></td>
+						<td>shows UNDERSCORE_COLLECTION: <b>UNDERSCORE_COLLECTION_ID</b> or <b>COLLECTION_NAME</b></td>
 						<td><b></b></td>
 						<td><b></b></td>
 						<td>documents PERMIT: <b>PERMIT_ID</b></td>
