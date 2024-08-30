@@ -63,23 +63,24 @@ limitations under the License.
 	
 	<cfif #action# is "nothing">
 		<cfoutput>
+			<p>This tool adds media records. The media can be related to records that have to be in MCZbase prior to uploading this csv. Duplicate columns will be ignored. Some of the values must appear as they do on the following <a href="https://mczbase.mcz.harvard.edu/vocabularies/ControlledVocabulary.cfm?" class="font-weight-bold">controlled vocabularies</a> lists:
+				<ul class="list-group list-group-horizontal-md">
+					<li class="list-group-item font-weight-lessbold"><a href="/vocabularies/ControlledVocabulary.cfm?table=CTMEDIA_LABEL">MEDIA_LABEL (17 values)</a> </li> <span class="mt-1 d-none d-md-inline-block"> | </span>
+					<li class="list-group-item font-weight-lessbold"><a href="/vocabularies/ControlledVocabulary.cfm?table=CTMEDIA_RELATIONSHIP">MEDIA_RELATIONSHIP (23 values)</a></li> <span class="mt-1 d-none d-md-inline-block"> | </span>
+					<li class="list-group-item font-weight-lessbold"><a href="/vocabularies/ControlledVocabulary.cfm?table=CTMEDIA_TYPE">MEDIA_TYPE (6 values)</a> </li><span class="mt-1 d-none d-md-inline-block"> | </span>
+					<li class="list-group-item font-weight-lessbold"><a href="/vocabularies/ControlledVocabulary.cfm?table=CTMIME_TYPE">MIME_TYPE (14 values)</a> </li><span class="mt-1 d-none d-md-inline-block"> | </span>
+					<li class="list-group-item font-weight-lessbold"><a href="/vocabularies/ControlledVocabulary.cfm?table=CTMEDIA_LICENSE">MEDIA_LICENSE (7 values)</a></li>
+				</ul>
+			</p>
 			<div class="mb-4 pl-2">
-				<p>This tool adds media records. The media can be related to records that have to be in MCZbase prior to uploading this csv. Duplicate columns will be ignored. Some of the values must appear as they do on the following <a href="https://mczbase.mcz.harvard.edu/vocabularies/ControlledVocabulary.cfm?" class="font-weight-bold">controlled vocabularies</a> lists:
-					<ul class="list-group list-group-horizontal-md">
-						<li class="list-group-item font-weight-lessbold"><a href="/vocabularies/ControlledVocabulary.cfm?table=CTMEDIA_LABEL">MEDIA_LABEL (17 values)</a> </li> <span class="mt-1 d-none d-md-inline-block"> | </span>
-						<li class="list-group-item font-weight-lessbold"><a href="/vocabularies/ControlledVocabulary.cfm?table=CTMEDIA_RELATIONSHIP">MEDIA_RELATIONSHIP (23 values)</a></li> <span class="mt-1 d-none d-md-inline-block"> | </span>
-						<li class="list-group-item font-weight-lessbold"><a href="/vocabularies/ControlledVocabulary.cfm?table=CTMEDIA_TYPE">MEDIA_TYPE (6 values)</a> </li><span class="mt-1 d-none d-md-inline-block"> | </span>
-						<li class="list-group-item font-weight-lessbold"><a href="/vocabularies/ControlledVocabulary.cfm?table=CTMIME_TYPE">MIME_TYPE (14 values)</a> </li><span class="mt-1 d-none d-md-inline-block"> | </span>
-						<li class="list-group-item font-weight-lessbold"><a href="/vocabularies/ControlledVocabulary.cfm?table=CTMEDIA_LICENSE">MEDIA_LICENSE (7 values)</a></li>
-					</ul>
-				</p>
-				<p>Step 1: Ensure that Media exists on the shared drive or external URL</p>
-				<p>Step 2: Check the existance of records for the relationships (e.g., cataloged_item, agent, collecting_event).</p>
-				<p>Step 3: Upload a comma-delimited text file (csv). <span class="font-weight-lessbold text-success">(Jump to <a href="##loader" class="btn-link font-weight-bold">Loader</a>.)</span></p>
-				
-				<h2 class="h4">Media Relationship Entries</h2>
+				<dl>
+					<dt>Step 1:</dt><dd>Ensure that Media exists on the shared drive or external URL</dd>
+					<dt>Step 2:</dt><dd>Check the existance of records for the relationships (e.g., cataloged_item, agent, collecting_event).</dd>
+					<dt>Step 3:</dt><dd>Upload a comma-delimited text file (csv). <span class="font-weight-lessbold text-success">(Jump to <a href="##loader" class="btn-link font-weight-bold">Loader</a>.)</span></dd>
+				</dl>
 			</div>
-			
+		
+			<h2 class="h4">Media Relationship Entries</h2>
 			<table class="table table-responsive table-striped">
 			 	<thead class="thead-light">
 					<tr>
