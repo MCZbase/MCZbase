@@ -480,30 +480,7 @@ limitations under the License.
 					<cfif isUriFormatValid>
 						
 						<cfset isValidUri = true>
-						<!--- Check if the URI is reachable --->
-						 <cfif structKeyExists(cfhttp, "statusCode")>
-							<cfset httpStatus = cfhttp.statusCode>
-						<cfelse>
-							<cfset httpStatus = "No status code received">
-						</cfif>
-					<!---	<cftry>
-							
-							<cfhttp url="#uri#" method="head" timeout="10" throwonerror="no" resolveurl="true">
-	
-								<cfhttpparam type="header" name="Cache-Control" value="no-cache, no-store, must-revalidate"/>
-                				<cfhttpparam type="header" name="Pragma" value="no-cache"/>
-                				<cfhttpparam type="header" name="Expires" value="0"/>
-               			
-								<cfif cfhttp.statusCode eq 200>
-									<cfset isValidUri = true>
-								<cfelse>
-									<cfset isValidUri = false>
-								</cfif>
-							</cfhttp>
-							<cfcatch>
-								<cfset isValidUri = false>
-							</cfcatch>
-						</cftry>--->
+		
 					<cfelse>
 						
 						<cfset isValidUri = false>
@@ -511,9 +488,9 @@ limitations under the License.
 
 					<!--- Output the results for each URI --->
 					<cfif isValidUri>
-						<cfoutput>The URI #uri# #httpStatus# is valid and reachable.</cfoutput><br>
+						<cfset linkvalid = "class='text-success'">
 					<cfelse>
-						<cfoutput>The URI #uri# #httpStatus# is either invalid or not reachable.</cfoutput><br>
+						<cfset linkvalid = "class='text-danger'">
 					</cfif>
 				</cfloop>
 			</cfoutput>
@@ -873,7 +850,7 @@ limitations under the License.
 					<cfloop query="problemData">
 						<tr>
 							<td><cfif len(problemData.status) eq 0>Cleared to load<cfelse><strong>#problemData.status#</strong></cfif></td>
-							<td #uricheck#>#problemData.MEDIA_URI#</td>
+							<td #linkvalid#>#problemData.MEDIA_URI#</td>
 							<td>#problemData.MIME_TYPE#</td>
 							<td>#problemData.MEDIA_TYPE#</td>
 							<td>#problemData.PREVIEW_URI#</td>
