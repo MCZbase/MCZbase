@@ -445,37 +445,45 @@ limitations under the License.
 				WHERE 
 					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
-						<cfscript>
+			<cfscript>
 				// Sample URI to validate
 				uriToCheck = "#getTempMedia.MEDIA_URI#";
 
-				// Regular expression for validating a URI
+				// Regular expression for validating HTTP and HTTPS URIs with additional parts
 				regex = "^(https?):\/\/([a-zA-Z0-9.-]+)(:[0-9]+)?(\/[^ \t\r\n]*)?$";
 			</cfscript>
 
 			<!--- Check with Regular Expression --->
-			<cfif REFindNoCase(regex, uriToCheck)>
+			<cfset isUriFormatValid = REFindNoCase(regex, uriToCheck) neq 0>
+
+			<cfif isUriFormatValid>
 				<!--- Check if the URI is reachable --->
 				<cftry>
-					<cfhttp url="#uriToCheck#" method="head" timeout="10">
+					<cfhttp url="#uriToCheck#" method="head" timeout="10" throwonerror="true" resolveurl="true">
+						<!--- Always ensure to check the status code after a successful request --->
+						<cfset httpStatus = cfhttp.statusCode>
 					<cfcatch>
-						<cfset isValidUri = false>
-						<cfset notvalidlink = "class='text-danger'">
+						<cfset isUriReachable = false>
+						<cfset httpStatus = cfcatch.detail>
 					</cfcatch>
 				</cftry>
 
-				<cfif cfhttp.statusCode eq 200>
+				<!--- Ensure you have status code to check --->
+				<cfif isDefined("httpStatus") and httpStatus EQ 200>
 					<cfset isValidUri = true>
-					<cfset validLink = "class='text-success'">
 				<cfelse>
 					<cfset isValidUri = false>
-					<cfset notvalidlink = "class='text-danger'">
 				</cfif>
 			<cfelse>
 				<cfset isValidUri = false>
-				<cfset notvalidlink = "class='text-danger'">
 			</cfif>
 
+			<!--- Output the results --->
+			<cfif isValidUri>
+				<cfoutput>The URI #uriToCheck# is valid and reachable.</cfoutput>
+			<cfelse>
+				<cfoutput>The URI #uriToCheck# is either invalid or not reachable. Status: #httpStatus#</cfoutput>
+			</cfif>
 			<!--- Output the results --->
 			<cfif isValidUri>
 				<cfoutput>The URI #uriToCheck# is valid and reachable.</cfoutput>
