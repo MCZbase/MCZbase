@@ -450,7 +450,7 @@ limitations under the License.
 				uriToCheck = "#getTempMedia.MEDIA_URI#";
 
 				// Regular expression for validating a URI
-				regex = "^(https?):\/\/([a-zA-Z0-9.-]+)(:[0-9]+)?(\/.*)?$";
+				regex = "^(https?):\/\/([a-zA-Z0-9.-]+)(:[0-9]+)?(\/[^ \t\r\n]*)?$";
 			</cfscript>
 
 			<!--- Check with Regular Expression --->
