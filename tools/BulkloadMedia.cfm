@@ -476,15 +476,16 @@ limitations under the License.
 					<cfset isUriFormatValid = isValid("url", uri)>
 
 					<cfif isUriFormatValid>
+						<cfset isValidUri = true>
 						<!--- Check if the URI is reachable --->
-						<cftry>
-							<!--- cfhttp to check if the URI is reachable --->
+					<!---	<cftry>
+							
 							<cfhttp url="#uri#" method="head" timeout="10" throwonerror="no" resolveurl="true">
-								<!--- Check the status code for success --->
+	
 								<cfhttpparam type="header" name="Cache-Control" value="no-cache, no-store, must-revalidate"/>
                 				<cfhttpparam type="header" name="Pragma" value="no-cache"/>
                 				<cfhttpparam type="header" name="Expires" value="0"/>
-               						 <!--- Check the status code for success --->
+               			
 								<cfif cfhttp.statusCode eq 200>
 									<cfset isValidUri = true>
 								<cfelse>
@@ -494,7 +495,7 @@ limitations under the License.
 							<cfcatch>
 								<cfset isValidUri = false>
 							</cfcatch>
-						</cftry>
+						</cftry>--->
 					<cfelse>
 						<cfset isValidUri = false>
 					</cfif>
