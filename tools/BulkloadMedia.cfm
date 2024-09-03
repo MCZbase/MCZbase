@@ -448,7 +448,7 @@ limitations under the License.
 				
 				
 
-			<cfscript>
+<!---			<cfscript>
 				// URI to validate
 				uriToCheck = "#getTempMedia.MEDIA_URI#";
 				isUriValid = false;
@@ -462,14 +462,27 @@ limitations under the License.
 				}
 			</cfscript>
 
-			<!--- Output the results --->
 			<cfif isUriValid>
 				<cfoutput>The URI #uriToCheck# is structurally valid according to Java's URL class.</cfoutput>
 			<cfelse>
 				<cfoutput>The URI #uriToCheck# is not valid according to Java's URL class.</cfoutput>
-			</cfif>
+			</cfif>--->
 
-				
+			<cfoutput>
+				<cfloop query="getTempMedia">
+					<cfset uri = getTempMedia.MEDIA_URI>
+
+					<!--- Check if the URI is valid using isValid() --->
+					<cfset isValidUri = isValid("URL", uri)>
+
+					<!--- Output the results for each URI --->
+					<cfif isValidUri>
+						The URI #uri# is in a valid format according to isValid().<br>
+					<cfelse>
+						The URI #uri# is not in a valid format according to isValid().<br>
+					</cfif>
+				</cfloop>
+			</cfoutput>
 				
 				
 		
