@@ -184,13 +184,13 @@ limitations under the License.
 		</cfif>
 		<!--- In VM environment, how java resolves getLocalHost().getHostName() changes in ways outside our control.  --->
   		<!--- So, make sure that we are handling the cases where only the unqualified local name is returned. ---> 
-		<cfif serverName is "mczbase-prd.rc.fas.harvard.edu" or serverName is "mczbase-prd" or serverName is "mczbase-prd1" or serverName is "mczbase-prd1.rc.fas.harvard.edu">
+		<cfif serverName is "mczbase-prod2.rc.fas.harvard.edu" or serverName is "mczbase-prod2">
 			<cfset serverName="mczbase.mcz.harvard.edu" />
 		</cfif>
-		<cfif serverName is "mczbase-prod2">
+		<!---cfif serverName is "mczbase-prod2">
 			<!--- TODO: When this goes to production, change block above instead --->
 			<cfset serverName="mczbase-prod2.rc.fas.harvard.edu">
-		</cfif>
+		</cfif--->
 		<cfif serverName is "mczbase-dev">
 			<cfset serverName="mczbase-dev.rc.fas.harvard.edu" />
 		</cfif>
