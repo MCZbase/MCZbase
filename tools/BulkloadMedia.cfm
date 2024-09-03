@@ -466,7 +466,7 @@ limitations under the License.
 
 				<cfif cfhttp.statusCode eq 200>
 					<cfset isValidUri = true>
-					<cfset validLink = "class='text-success'"
+					<cfset validLink = "class='text-success'">
 				<cfelse>
 					<cfset isValidUri = false>
 					<cfset notvalidlink = "class='text-danger'">
