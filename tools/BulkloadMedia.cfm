@@ -457,8 +457,6 @@ limitations under the License.
 					<!--- Check if the URI is valid using isValid() --->
 					<cfset isUriFormatValid = isValid("url", uri)>
 				
-					<cfset httpStatus = "N/A">
-
 					<cfif isUriFormatValid>
 						
 						<cfset isValidUri = true>
