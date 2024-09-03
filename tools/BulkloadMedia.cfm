@@ -491,8 +491,10 @@ limitations under the License.
 					<!--- Output the results for each URI --->
 					<cfif isValidUri>
 						<cfset linkvalid = "class='text-success'">
+							#httpStatus#
 					<cfelse>
 						<cfset linkvalid = "class='text-danger'">
+							#httpStatus#
 					</cfif>
 				</cfloop>
 			</cfoutput>
