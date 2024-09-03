@@ -451,6 +451,7 @@ limitations under the License.
 
 			<cfset linkvalid = ''>
 			<cfset statusCode = ''>
+			<cfhttp url="">
 			<cfoutput>
 				<cfloop query="getTempMedia">
 					<cfset uri = #getTempMedia.MEDIA_URI#>
@@ -459,13 +460,32 @@ limitations under the License.
 					<cfset isUriFormatValid = isValid("url", uri)>
 				
 					<cfif isUriFormatValid>
+						<cfset httpStatus = "N/A">
 						
 						<cfset isValidUri = true>
-						<cfheader statusCode="200" statusText="good link">
-		
+				
+						<cftry>
+								<!--- cfhttp to check if the URI is reachable with cache control headers --->
+								<cfhttp url="#uri#" method="head" timeout="10" throwonerror="no" resolveurl="true">
+									<cfhttpparam type="header" name="Cache-Control" value="no-cache, no-store, must-revalidate" />
+									<cfhttpparam type="header" name="Pragma" value="no-cache" />
+									<cfhttpparam type="header" name="Expires" value="0" />
+								</cfhttp>
+
+								<!--- Check for existence of the status_code and then get its value --->
+								<cfif structKeyExists(cfhttp, "statusCode")>
+									<cfset httpStatus = cfhttp.statusCode>
+								<cfelse>
+									<cfset httpStatus = "No status code received">
+								</cfif>
+							<cfcatch>
+								<!--- In case of error, set status to the error message --->
+								<cfset httpStatus = "Error: " & cfcatch.message>
+							</cfcatch>
+						</cftry>
 					<cfelse>
 						<cfset isValidUri = false>
-						<cfheader statusCode="404" statusText="link broken">
+						<cfset httpStatus = "invalid url format">
 					</cfif>
 
 					<!--- Output the results for each URI --->
@@ -476,8 +496,8 @@ limitations under the License.
 					</cfif>
 				</cfloop>
 			</cfoutput>
-		
-				
+
+
 
 			
 			<cfset key = ''>
