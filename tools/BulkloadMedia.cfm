@@ -483,9 +483,9 @@ limitations under the License.
 					</cfif>
 				</cfloop>
 			</cfoutput>
-				
-				
-		
+			<cfset uricheck = ''>	
+				<div class="uricheck">Hello</div>
+			
 			<cfset key = ''>
 			<cfquery name="warningMessageMediaType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				UPDATE
