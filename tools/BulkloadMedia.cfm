@@ -449,39 +449,24 @@ limitations under the License.
 				
 
 			<cfscript>
-				// Sample URI to validate
+				// URI to validate
 				uriToCheck = "#getTempMedia.MEDIA_URI#";
+				isUriValid = false;
 
-				// Regular expression for validating HTTP and HTTPS URIs with additional parts
+				try {
+					// Create a Java URL object to see if the URI is well-formed
+					url = createObject("java", "java.net.URL").init(uriToCheck);
+					isUriValid = true;
+				} catch (any e) {
+					isUriValid = false;
+				}
 			</cfscript>
 
-			<!--- Check with Regular Expression --->
-			<cfset isUriFormatValid = REFindNoCase("https:", uriToCheck)>
-
-			<cfif isUriFormatValid>
-				<!--- Check if the URI is reachable --->
-				<cftry>
-					<cfhttp url="#uriToCheck#" method="head" timeout="10" throwonerror="no" resolveurl="true">
-						<!--- Check the status code for success --->
-						<cfif cfhttp.statusCode eq 200>
-							<cfset isValidUri = true>
-						<cfelse>
-							<cfset isValidUri = false>
-						</cfif>
-					</cfhttp>
-					<cfcatch>
-						<cfset isValidUri = false>
-					</cfcatch>
-				</cftry>
-			<cfelse>
-				<cfset isValidUri = false>
-			</cfif>
-
 			<!--- Output the results --->
-			<cfif isValidUri eq true>
-				<cfoutput>The URI #uriToCheck# is valid and reachable.</cfoutput>
+			<cfif isUriValid>
+				<cfoutput>The URI #uriToCheck# is structurally valid according to Java's URL class.</cfoutput>
 			<cfelse>
-				<cfoutput>The URI #uriToCheck# is either invalid or not reachable.</cfoutput>
+				<cfoutput>The URI #uriToCheck# is not valid according to Java's URL class.</cfoutput>
 			</cfif>
 
 				
