@@ -448,26 +448,8 @@ limitations under the License.
 				
 				
 
-<!---			<cfscript>
-				// URI to validate
-				uriToCheck = "#getTempMedia.MEDIA_URI#";
-				isUriValid = false;
 
-				try {
-					// Create a Java URL object to see if the URI is well-formed
-					url = createObject("java", "java.net.URL").init(uriToCheck);
-					isUriValid = true;
-				} catch (any e) {
-					isUriValid = false;
-				}
-			</cfscript>
-
-			<cfif isUriValid>
-				<cfoutput>The URI #uriToCheck# is structurally valid according to Java's URL class.</cfoutput>
-			<cfelse>
-				<cfoutput>The URI #uriToCheck# is not valid according to Java's URL class.</cfoutput>
-			</cfif>--->
-			<cfset uricheck = ''>
+			<cfset linkvalid = ''>
 			<cfoutput>
 				<cfloop query="getTempMedia">
 					<cfset uri = #getTempMedia.MEDIA_URI#>
