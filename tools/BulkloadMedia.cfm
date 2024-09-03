@@ -453,11 +453,10 @@ limitations under the License.
 				uriToCheck = "#getTempMedia.MEDIA_URI#";
 
 				// Regular expression for validating HTTP and HTTPS URIs with additional parts
-				regex = "#getTempMedia.MEDIA_URI#";
 			</cfscript>
 
 			<!--- Check with Regular Expression --->
-			<cfset isUriFormatValid = REFindNoCase(regex, uriToCheck) neq 0>
+			<cfset isUriFormatValid = REFindNoCase("https:", uriToCheck)>
 
 			<cfif isUriFormatValid>
 				<!--- Check if the URI is reachable --->
