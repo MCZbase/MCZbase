@@ -74,14 +74,14 @@ limitations under the License.
 			</p>
 			<div class="mb-4 pl-2">
 				<dl>
-					<dt>Step 1:</dt><dd>Ensure that Media exists on the shared drive or external URL</dd>
-					<dt>Step 2:</dt><dd>Check the existance of records for the relationships (e.g., cataloged_item, agent, collecting_event).</dd>
-					<dt>Step 3:</dt><dd>Upload a comma-delimited text file (csv). <span class="font-weight-bold h3">(Jump to <a href="##loader" class="btn-link font-weight-bold">Loader</a>.)</span></dd>
+					<dt class="float-left">Step 1:</dt><dd>Ensure that Media exists on the shared drive or external URL</dd>
+					<dt class="float-left">Step 2:</dt><dd>Check the existance of records for the relationships (e.g., cataloged_item, agent, collecting_event).</dd>
+					<dt class="float-left">Step 3:</dt><dd>Upload a comma-delimited text file (csv). <span class="font-weight-bold h3">(Jump to <a href="##loader" class="btn-link font-weight-bold">Loader</a>.)</span></dd>
 				</dl>
 			</div>
 		
 			<h2 class="h4">Media Relationship Entries</h2>
-			<table class="table table-responsive smaller table-striped">
+			<table class="table table-responsive small table-striped">
 			 	<thead class="thead-light">
 					<tr>
 						<th>Agent Related</th><br>
