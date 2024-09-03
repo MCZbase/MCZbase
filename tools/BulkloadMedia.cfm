@@ -480,7 +480,7 @@ limitations under the License.
 
 			<!--- Output the results --->
 			<cfif isValidUri>
-				<cfoutput>The URI #uriToCheck# is valid and reachable.</cfoutput>
+				<cfoutput>The URI #uriToCheck# is valid and reachable. Status: #httpStatus#</cfoutput>
 			<cfelse>
 				<cfoutput>The URI #uriToCheck# is either invalid or not reachable. Status: #httpStatus#</cfoutput>
 			</cfif>
