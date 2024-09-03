@@ -450,6 +450,7 @@ limitations under the License.
 
 
 			<cfset linkvalid = ''>
+			<cfset statusCode = ''>
 			<cfoutput>
 				<cfloop query="getTempMedia">
 					<cfset uri = #getTempMedia.MEDIA_URI#>
@@ -460,10 +461,11 @@ limitations under the License.
 					<cfif isUriFormatValid>
 						
 						<cfset isValidUri = true>
+						<cfheader statusCode="200" statusText="good link">
 		
 					<cfelse>
-						
 						<cfset isValidUri = false>
+						<cfheader statusCode="404" statusText="link broken">
 					</cfif>
 
 					<!--- Output the results for each URI --->
