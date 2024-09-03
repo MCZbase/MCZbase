@@ -478,9 +478,15 @@ limitations under the License.
 					<cfset httpStatus = "N/A">
 
 					<cfif isUriFormatValid>
-						<cfset httpStatus = cfhttp.statusCode>
+						
 						<cfset isValidUri = true>
 						<!--- Check if the URI is reachable --->
+						<cftry>
+							<cfset httpStatus = cfhttp.statusCode>
+							<cfcatch>
+								<cfset httpStatus = "Error: " & cfcatch.message>
+							</cfcatch>
+						</cftry>
 					<!---	<cftry>
 							
 							<cfhttp url="#uri#" method="head" timeout="10" throwonerror="no" resolveurl="true">
@@ -500,7 +506,7 @@ limitations under the License.
 							</cfcatch>
 						</cftry>--->
 					<cfelse>
-						<cfset httpStatus = "Error: " & cfcatch.message>
+						
 						<cfset isValidUri = false>
 					</cfif>
 
