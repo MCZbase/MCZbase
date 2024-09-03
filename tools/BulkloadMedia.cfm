@@ -492,7 +492,7 @@ limitations under the License.
 							</cfif>
 						</cfhttp>
 						<cfcatch>
-							<cfset uricheck = "class='text-danger font-weight-normal'">
+							<cfset uricheck = "class='text-danger font-weight-lessbold'">
 						</cfcatch>
 					</cftry>
 				</cfloop>
