@@ -478,22 +478,23 @@ limitations under the License.
 					<!--- Output the results for each URI --->
 					<cfif isValidUri>
 						<cfset uricheck = "class='text-success'">
-						<cftry>
-							<cfhttp url="#uri#" method="head" timeout="10" throwonerror="no" resolveurl="true">
-								<!--- Check the status code for success --->
-								<cfif cfhttp.statusCode eq 200>
-									<cfset isValidUri = true>
-								<cfelse>
-									<cfset isValidUri = false>
-								</cfif>
-							</cfhttp>
-							<cfcatch>
-								<cfset isValidUri = false>
-							</cfcatch>
-						</cftry>
+						
 					<cfelse>
 						<cfset uricheck = "class='text-danger'">
 					</cfif>
+					<cftry>
+						<cfhttp url="#uri#" method="head" timeout="10" throwonerror="no" resolveurl="true">
+							<!--- Check the status code for success --->
+							<cfif cfhttp.statusCode eq 200>
+								<cfset uricheck = "class='text-success font-weight-bold'">
+							<cfelse>
+								<cfset uricheck = "class='text-danger font-weight-normal'">
+							</cfif>
+						</cfhttp>
+						<cfcatch>
+							<cfset uricheck = "class='text-danger font-weight-normal'">
+						</cfcatch>
+					</cftry>
 				</cfloop>
 			</cfoutput>
 				
