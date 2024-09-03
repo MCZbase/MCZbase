@@ -471,7 +471,7 @@ limitations under the License.
 			<cfoutput>
 				<cfloop query="getTempMedia">
 					<cfset uri = getTempMedia.MEDIA_URI>
-
+<cfset uricheck = ''>
 					<!--- Check if the URI is valid using isValid() --->
 					<cfset isValidUri = isValid("URL", uri)>
 
@@ -483,7 +483,7 @@ limitations under the License.
 					</cfif>
 				</cfloop>
 			</cfoutput>
-			<cfset uricheck = ''>	
+				
 				<div #uricheck#>Hello</div>
 			
 			<cfset key = ''>
