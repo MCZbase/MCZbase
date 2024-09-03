@@ -63,7 +63,7 @@ limitations under the License.
 	
 	<cfif #action# is "nothing">
 		<cfoutput>
-			<span class="font-weight-bold h4">(Jump to <a href="##loader" class="btn-link font-weight-bold text-muted">Loader</a>.)</span>
+			<span class="font-weight-bold h4">Jump to <a href="##loader" class="btn-link font-weight-bold text-muted">Loader</a></span>
 			<p>This tool adds media records. The media can be related to records that have to be in MCZbase prior to uploading this csv. Duplicate columns will be ignored. Some of the values must appear as they do on the following <a href="https://mczbase.mcz.harvard.edu/vocabularies/ControlledVocabulary.cfm?" class="font-weight-bold">controlled vocabularies</a> lists:
 				<ul class="list-group list-group-horizontal-md">
 					<li class="list-group-item font-weight-lessbold"><a href="/vocabularies/ControlledVocabulary.cfm?table=CTMEDIA_LABEL">MEDIA_LABEL (17 values)</a> </li> <span class="mt-1 d-none d-md-inline-block"> | </span>
