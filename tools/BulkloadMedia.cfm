@@ -470,7 +470,7 @@ limitations under the License.
 
 			<cfoutput>
 				<cfloop query="getTempMedia">
-					<cfset uri = getTempMedia.MEDIA_URI>
+					<cfset uri = #getTempMedia.MEDIA_URI#>
 					<cfset uricheck = ''>
 					<!--- Check if the URI is valid using isValid() --->
 					<cfset isValidUri = isValid("URL", uri)>
@@ -483,15 +483,12 @@ limitations under the License.
 								<!--- Check the status code for success --->
 								<cfif cfhttp.statusCode eq 200>
 									<cfset isValidUri = true>
-									<cfset uricheck = "class='text-info'">	
 								<cfelse>
 									<cfset isValidUri = false>
-									<cfset uricheck = "class='text-danger'">
 								</cfif>
 							</cfhttp>
 							<cfcatch>
 								<cfset isValidUri = false>
-								<cfset uricheck = "class='text-danger'">
 							</cfcatch>
 						</cftry>
 					<cfelse>
@@ -854,7 +851,7 @@ limitations under the License.
 					<cfloop query="problemData">
 						<tr>
 							<td><cfif len(problemData.status) eq 0>Cleared to load<cfelse><strong>#problemData.status#</strong></cfif></td>
-							<td #uricheck#>#problemData.MEDIA_URI#</td>
+							<td #uricheck#><span <cfif isValidUri>class="font-weight-bold"<cfelse>class="font-weight-normal"</cfif>>#problemData.MEDIA_URI#</span></td>
 							<td>#problemData.MIME_TYPE#</td>
 							<td>#problemData.MEDIA_TYPE#</td>
 							<td>#problemData.PREVIEW_URI#</td>
