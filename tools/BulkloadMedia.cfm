@@ -479,7 +479,7 @@ limitations under the License.
 			</cfif>
 
 			<!--- Output the results --->
-			<cfif isValidUri>
+			<cfif isValidUri eq true>
 				<cfoutput>The URI #uriToCheck# is valid and reachable.</cfoutput>
 			<cfelse>
 				<cfoutput>The URI #uriToCheck# is either invalid or not reachable.</cfoutput>
