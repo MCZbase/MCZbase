@@ -491,6 +491,7 @@ limitations under the License.
 							</cfhttp>
 							<cfcatch>
 								<cfset isValidUri = false>
+								<cfset uricheck = "class='text-danger'">
 							</cfcatch>
 						</cftry>
 					<cfelse>
