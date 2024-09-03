@@ -85,13 +85,13 @@ limitations under the License.
 			<table class="table table-responsive small table-striped">
 			 	<thead class="thead-light">
 					<tr>
-						<th>Agent Related</th><br>
-						<th>Location/Event Related</th>
-						<th>Object/Collection Related</th>
+						<th>Agents</th><br>
+						<th>Location/Event</th>
+						<th>Object/Collection</th>
 						<th>Media Related</th>
-						<th>Publication or Project Related</th>
-						<th>External Transaction Related</th>
-						<th>Internal Transaction Related
+						<th>Publication or Project</th>
+						<th>External Transactions</th>
+						<th>Internal Transactions</th>
 					</tr>
 				</thead>
 				<tbody>
