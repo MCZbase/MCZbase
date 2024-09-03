@@ -487,9 +487,6 @@ limitations under the License.
 									<cfset uricheck = "class='text-danger font-weight-normal'">
 								</cfif>
 							</cfhttp>
-							<cfcatch>
-								<cfset uricheck = "class='text-muted'">
-							</cfcatch>
 						</cftry>
 					<cfelse>
 						<cfset uricheck = "class='text-danger'">
