@@ -467,33 +467,46 @@ limitations under the License.
 			<cfelse>
 				<cfoutput>The URI #uriToCheck# is not valid according to Java's URL class.</cfoutput>
 			</cfif>--->
-
+			<cfset uricheck = ''>
 			<cfoutput>
 				<cfloop query="getTempMedia">
 					<cfset uri = #getTempMedia.MEDIA_URI#>
-					<cfset uricheck = ''>
+					
 					<!--- Check if the URI is valid using isValid() --->
 					<cfset isValidUri = isValid("URL", uri)>
 
 					<!--- Output the results for each URI --->
-					<cfif isValidUri>
-						<cfset uricheck = "class='text-success'">
-						<cftry>
-							<cfhttp url="#uri#" method="head" timeout="10" throwonerror="no" resolveurl="true">
-								<!--- Check the status code for success --->
-								<cfif cfhttp.statusCode eq 200>
-									<cfset uricheck = "class='text-success font-weight-bold'">
-								<cfelse>
-									<cfset uricheck = "class='text-danger font-weight-normal'">
-								</cfif>
-							</cfhttp>
-						</cftry>
-					<cfelse>
-						<cfset uricheck = "class='text-danger'">
-					</cfif>
-					
-				</cfloop>
+				 <cfset isUriFormatValid = isValid("URL", uri)>
+
+				<cfif isUriFormatValid>
+					<!--- Check if the URI is reachable --->
+					<cftry>
+						<!--- cfhttp to check if the URI is reachable --->
+						<cfhttp url="#uri#" method="head" timeout="10" throwonerror="no" resolveurl="true">
+							<!--- Check the status code for success --->
+							<cfif cfhttp.statusCode eq 200>
+								<cfset isValidUri = true>
+							<cfelse>
+								<cfset isValidUri = false>
+							</cfif>
+						</cfhttp>
+						<cfcatch>
+							<cfset isValidUri = false>
+						</cfcatch>
+					</cftry>
+				<cfelse>
+					<cfset isValidUri = false>
+				</cfif>
+
+				<!--- Output the results for each URI --->
+				<cfif isValidUri>
+					<cfoutput>The URI #uri# is valid and reachable.</cfoutput><br>
+				<cfelse>
+					<cfoutput>The URI #uri# is either invalid or not reachable.</cfoutput><br>
+				</cfif>
+			</cfloop>
 			</cfoutput>
+		
 				
 
 			
