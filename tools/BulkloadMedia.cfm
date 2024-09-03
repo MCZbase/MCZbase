@@ -474,9 +474,11 @@ limitations under the License.
 					
 					<!--- Check if the URI is valid using isValid() --->
 					<cfset isUriFormatValid = isValid("url", uri)>
+					<cfset httpStatus = cfhttp.statusCode>
 
 					<cfif isUriFormatValid>
 						<cfset isValidUri = true>
+						#httpStatus#
 						<!--- Check if the URI is reachable --->
 					<!---	<cftry>
 							
