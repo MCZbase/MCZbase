@@ -484,12 +484,7 @@ limitations under the License.
 			<cfelse>
 				<cfoutput>The URI #uriToCheck# is either invalid or not reachable. Status: #httpStatus#</cfoutput>
 			</cfif>
-			<!--- Output the results --->
-			<cfif isValidUri>
-				<cfoutput>The URI #uriToCheck# is valid and reachable.</cfoutput>
-			<cfelse>
-				<cfoutput>The URI #uriToCheck# is either invalid or not reachable.</cfoutput>
-			</cfif>
+		
 			<cfset key = ''>
 			<cfquery name="warningMessageMediaType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				UPDATE
