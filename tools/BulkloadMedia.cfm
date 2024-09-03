@@ -490,10 +490,11 @@ limitations under the License.
 
 					<!--- Output the results for each URI --->
 					<cfif isValidUri>
-						<cfset linkvalid = "class='text-success'">
-							
+						<cfset linkvalid = "class='text-dark'">
+						<cfset stat = "class='text-success'">
 					<cfelse>
 						<cfset linkvalid = "class='text-danger'">
+						<cfset stat = "class='text-danger'">
 							
 					</cfif>
 				</cfloop>
@@ -854,7 +855,7 @@ limitations under the License.
 					<cfloop query="problemData">
 						<tr>
 							<td><cfif len(problemData.status) eq 0>Cleared to load<cfelse><strong>#problemData.status#</strong></cfif></td>
-							<td #linkvalid#>#problemData.MEDIA_URI# (#httpStatus#)</td>
+							<td #linkvalid#>#problemData.MEDIA_URI# <span #stat#>(#httpStatus#)</span></td>
 							<td>#problemData.MIME_TYPE#</td>
 							<td>#problemData.MEDIA_TYPE#</td>
 							<td>#problemData.PREVIEW_URI#</td>
