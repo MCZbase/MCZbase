@@ -447,7 +447,7 @@ limitations under the License.
 			</cfquery>
 			<cfscript>
 				// Sample URI to validate
-				uriToCheck = "http://www.example.com/path/to/resource?query=string#fragment";
+				uriToCheck = "http://www.example.com/path/to/resource?query=string##fragment";
 
 				// Regular expression for validating HTTP and HTTPS URIs with additional parts
 				regex = "^(https?):\/\/([a-zA-Z0-9.-]+)(:[0-9]+)?(\/[^\s]*)?(\?[^\s#]*)?(#[^\s]*)?$";
