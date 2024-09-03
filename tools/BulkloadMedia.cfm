@@ -484,7 +484,7 @@ limitations under the License.
 							<!--- cfhttp to check if the URI is reachable --->
 							<cfhttp url="#uri#" method="head" timeout="10" throwonerror="no" resolveurl="true">
 								<!--- Check the status code for success --->
-								<cfif cfhttp.statusCode eq 200>
+								<cfif cfhttp.statusCode eq 200 or cfhttp.statusCode eq 304>
 									<cfset isValidUri = true>
 								<cfelse>
 									<cfset isValidUri = false>
