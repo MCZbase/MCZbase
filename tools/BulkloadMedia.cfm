@@ -477,9 +477,9 @@ limitations under the License.
 
 					<!--- Output the results for each URI --->
 					<cfif isValidUri>
-						The URI #uri# is in a valid format according to isValid().<br>
+						uricheck = "class='text-success'"
 					<cfelse>
-						The URI #uri# is not in a valid format according to isValid().<br>
+						uricheck = "class='text-danger'"
 					</cfif>
 				</cfloop>
 			</cfoutput>
@@ -838,7 +838,7 @@ limitations under the License.
 					<cfloop query="problemData">
 						<tr>
 							<td><cfif len(problemData.status) eq 0>Cleared to load<cfelse><strong>#problemData.status#</strong></cfif></td>
-							<td>#problemData.MEDIA_URI#</td>
+							<td #uricheck#>#problemData.MEDIA_URI#</td>
 							<td>#problemData.MIME_TYPE#</td>
 							<td>#problemData.MEDIA_TYPE#</td>
 							<td>#problemData.PREVIEW_URI#</td>
