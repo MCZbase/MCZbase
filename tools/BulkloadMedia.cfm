@@ -477,9 +477,9 @@ limitations under the License.
 
 					<!--- Output the results for each URI --->
 					<cfif isValidUri>
-						uricheck = "class='text-success'"
+						<cfset uricheck = "class='text-success'">
 					<cfelse>
-						uricheck = "class='text-danger'"
+						<cfset uricheck = "class='text-danger'">
 					</cfif>
 				</cfloop>
 			</cfoutput>
