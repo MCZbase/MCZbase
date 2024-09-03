@@ -471,20 +471,35 @@ limitations under the License.
 			<cfoutput>
 				<cfloop query="getTempMedia">
 					<cfset uri = getTempMedia.MEDIA_URI>
-<cfset uricheck = ''>
+					<cfset uricheck = ''>
 					<!--- Check if the URI is valid using isValid() --->
 					<cfset isValidUri = isValid("URL", uri)>
 
 					<!--- Output the results for each URI --->
 					<cfif isValidUri>
 						<cfset uricheck = "class='text-success'">
+						<cftry>
+							<cfhttp url="#uri#" method="head" timeout="10" throwonerror="no" resolveurl="true">
+								<!--- Check the status code for success --->
+								<cfif cfhttp.statusCode eq 200>
+									<cfset isValidUri = true>
+									<cfset uricheck = "class='text-info'">	
+								<cfelse>
+									<cfset isValidUri = false>
+									<cfset uricheck = "class='text-danger'">
+								</cfif>
+							</cfhttp>
+							<cfcatch>
+								<cfset isValidUri = false>
+							</cfcatch>
+						</cftry>
 					<cfelse>
 						<cfset uricheck = "class='text-danger'">
 					</cfif>
 				</cfloop>
 			</cfoutput>
 				
-				<div #uricheck#>Hello</div>
+
 			
 			<cfset key = ''>
 			<cfquery name="warningMessageMediaType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
