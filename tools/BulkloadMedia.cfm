@@ -473,10 +473,7 @@ limitations under the License.
 					<cfset uri = #getTempMedia.MEDIA_URI#>
 					
 					<!--- Check if the URI is valid using isValid() --->
-					<cfset isUriFormatValid = isValid("URL", uri)>
-
-					<!--- Output the results for each URI --->
-					<cfset isUriFormatValid = isValid("URL", uri)>
+					<cfset isUriFormatValid = isValid("url", uri)>
 
 					<cfif isUriFormatValid>
 						<!--- Check if the URI is reachable --->
@@ -484,9 +481,9 @@ limitations under the License.
 							<!--- cfhttp to check if the URI is reachable --->
 							<cfhttp url="#uri#" method="head" timeout="10" throwonerror="no" resolveurl="true">
 								<!--- Check the status code for success --->
-								<cfhttpparam type="header" name="Cache-Control" value="no-cache, no-store, must-revalidate">
-                				<cfhttpparam type="header" name="Pragma" value="no-cache">
-                				<cfhttpparam type="header" name="Expires" value="0">
+								<cfhttpparam type="header" name="Cache-Control" value="no-cache, no-store, must-revalidate"/>
+                				<cfhttpparam type="header" name="Pragma" value="no-cache"/>
+                				<cfhttpparam type="header" name="Expires" value="0"/>
                						 <!--- Check the status code for success --->
 								<cfif cfhttp.statusCode eq 200>
 									<cfset isValidUri = true>
