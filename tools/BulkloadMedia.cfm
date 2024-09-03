@@ -57,7 +57,7 @@ limitations under the License.
 	
 	
 <main class="container-fluid px-5 py-3" id="content">
-	<h1 class="h2 mt-2">Bulkload Media</h1>
+	<h1 class="h2 mt-2">Bulkload Media <span class="font-weight-bold h5">(Jump to <a href="##loader" class="btn-link font-weight-bold">Loader</a>.)</span></h1>
 
 <!------------------------------------------------------->
 	
@@ -76,7 +76,7 @@ limitations under the License.
 				<dl>
 					<dt class="float-left px-2">Step 1:</dt><dd>Ensure that Media exists on the shared drive or external URL</dd>
 					<dt class="float-left px-2">Step 2:</dt><dd>Check the existance of records for the relationships (e.g., cataloged_item, agent, collecting_event).</dd>
-					<dt class="float-left px-2">Step 3:</dt><dd>Upload a comma-delimited text file (csv). <span class="font-weight-bold h5">(Jump to <a href="##loader" class="btn-link font-weight-bold">Loader</a>.)</span></dd>
+					<dt class="float-left px-2">Step 3:</dt><dd>Upload a comma-delimited text file (csv). </dd>
 				</dl>
 			</div>
 		
