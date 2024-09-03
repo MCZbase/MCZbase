@@ -82,7 +82,7 @@ limitations under the License.
 			</div>
 		
 			<h2 class="h4 mb-2">Media Relationship Entries</h2>
-			<table class="table table-responsive small table-striped">
+			<table class="table table-responsive small table-striped mx-2">
 			 	<thead class="thead-light">
 					<tr>
 						<th>Agents</th><br>
