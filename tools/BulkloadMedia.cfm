@@ -447,10 +447,10 @@ limitations under the License.
 			</cfquery>
 			<cfscript>
 				// Sample URI to validate
-				uriToCheck = "#getTempMedia.MEDIA_URI#";
+				uriToCheck = "http://www.example.com/path/to/resource?query=string#fragment";
 
 				// Regular expression for validating HTTP and HTTPS URIs with additional parts
-				regex = "^(https?):\/\/([a-zA-Z0-9.-]+)(:[0-9]+)?(\/[^ \t\r\n]*)?$";
+				regex = "^(https?):\/\/([a-zA-Z0-9.-]+)(:[0-9]+)?(\/[^\s]*)?(\?[^\s#]*)?(#[^\s]*)?$";
 			</cfscript>
 
 			<!--- Check with Regular Expression --->
