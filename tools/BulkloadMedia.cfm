@@ -57,7 +57,7 @@ limitations under the License.
 	
 	
 <main class="container-fluid px-5 py-3" id="content">
-	<h1 class="h2 mt-2">Bulkload Media <span class="font-weight-bold h5">(Jump to <a href="##loader" class="btn-link font-weight-bold">Loader</a>.)</span></h1>
+	<h1 class="h2 mt-2">Bulkload Media <span class="font-weight-bold h4">(Jump to <a href="##loader" class="btn-link font-weight-bold">Loader</a>.)</span></h1>
 
 <!------------------------------------------------------->
 	
