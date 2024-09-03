@@ -445,7 +445,43 @@ limitations under the License.
 				WHERE 
 					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
+						<cfscript>
+				// Sample URI to validate
+				uriToCheck = "#getTempMedia.MEDIA_URI#";
 
+				// Regular expression for validating a URI
+				regex = "^(https?):\/\/([a-zA-Z0-9.-]+)(:[0-9]+)?(\/[^ \t\r\n]*)?$";
+			</cfscript>
+
+			<!--- Check with Regular Expression --->
+			<cfif REFindNoCase(regex, uriToCheck)>
+				<!--- Check if the URI is reachable --->
+				<cftry>
+					<cfhttp url="#uriToCheck#" method="head" timeout="10">
+					<cfcatch>
+						<cfset isValidUri = false>
+						<cfset notvalidlink = "class='text-danger'">
+					</cfcatch>
+				</cftry>
+
+				<cfif cfhttp.statusCode eq 200>
+					<cfset isValidUri = true>
+					<cfset validLink = "class='text-success'">
+				<cfelse>
+					<cfset isValidUri = false>
+					<cfset notvalidlink = "class='text-danger'">
+				</cfif>
+			<cfelse>
+				<cfset isValidUri = false>
+				<cfset notvalidlink = "class='text-danger'">
+			</cfif>
+
+			<!--- Output the results --->
+			<cfif isValidUri>
+				<cfoutput>The URI #uriToCheck# is valid and reachable.</cfoutput>
+			<cfelse>
+				<cfoutput>The URI #uriToCheck# is either invalid or not reachable.</cfoutput>
+			</cfif>
 			<cfset key = ''>
 			<cfquery name="warningMessageMediaType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				UPDATE
@@ -504,43 +540,7 @@ limitations under the License.
 					WHERE #requiredField# is null
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
-			<cfscript>
-				// Sample URI to validate
-				uriToCheck = "#getTempMedia.MEDIA_URI#";
 
-				// Regular expression for validating a URI
-				regex = "^(https?):\/\/([a-zA-Z0-9.-]+)(:[0-9]+)?(\/[^ \t\r\n]*)?$";
-			</cfscript>
-
-			<!--- Check with Regular Expression --->
-			<cfif REFindNoCase(regex, uriToCheck)>
-				<!--- Check if the URI is reachable --->
-				<cftry>
-					<cfhttp url="#uriToCheck#" method="head" timeout="10">
-					<cfcatch>
-						<cfset isValidUri = false>
-						<cfset notvalidlink = "class='text-danger'">
-					</cfcatch>
-				</cftry>
-
-				<cfif cfhttp.statusCode eq 200>
-					<cfset isValidUri = true>
-					<cfset validLink = "class='text-success'">
-				<cfelse>
-					<cfset isValidUri = false>
-					<cfset notvalidlink = "class='text-danger'">
-				</cfif>
-			<cfelse>
-				<cfset isValidUri = false>
-				<cfset notvalidlink = "class='text-danger'">
-			</cfif>
-
-			<!--- Output the results --->
-			<cfif isValidUri>
-				<cfoutput>The URI #uriToCheck# is valid and reachable.</cfoutput>
-			<cfelse>
-				<cfoutput>The URI #uriToCheck# is either invalid or not reachable.</cfoutput>
-			</cfif>
 			</cfloop>
 			
 			<!-- Define label variables -->
