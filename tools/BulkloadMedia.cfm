@@ -445,12 +445,15 @@ limitations under the License.
 				WHERE 
 					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
+				
+				
+
 			<cfscript>
 				// Sample URI to validate
-				uriToCheck = "#getTempMedia.MEDIA_URI#";
+				uriToCheck = "#cfTempMedia.MEDIA_URI#";
 
 				// Regular expression for validating HTTP and HTTPS URIs with additional parts
-				regex = "^(https?):\/\/([a-zA-Z0-9.-]+)?";
+				regex = "^(https?):\/\/([a-zA-Z0-9.-]+)(:[0-9]+)?(\/[^\s]*)?(\?[^\s##]*)?(##[^\s]*)?$";
 			</cfscript>
 
 			<!--- Check with Regular Expression --->
@@ -459,31 +462,32 @@ limitations under the License.
 			<cfif isUriFormatValid>
 				<!--- Check if the URI is reachable --->
 				<cftry>
-					<cfhttp url="#uriToCheck#" method="head" timeout="10" throwonerror="true" resolveurl="true">
-						<!--- Always ensure to check the status code after a successful request --->
-						<cfset httpStatus = cfhttp.statusCode>
+					<cfhttp url="#uriToCheck#" method="head" timeout="10" throwonerror="no" resolveurl="true">
+						<!--- Check the status code for success --->
+						<cfif cfhttp.statusCode eq 200>
+							<cfset isValidUri = true>
+						<cfelse>
+							<cfset isValidUri = false>
+						</cfif>
+					</cfhttp>
 					<cfcatch>
-						<cfset isUriReachable = false>
-						<cfset httpStatus = cfcatch.detail>
+						<cfset isValidUri = false>
 					</cfcatch>
 				</cftry>
-
-				<!--- Ensure you have status code to check --->
-				<cfif isDefined("httpStatus") and httpStatus EQ 200>
-					<cfset isValidUri = true>
-				<cfelse>
-					<cfset isValidUri = false>
-				</cfif>
 			<cfelse>
 				<cfset isValidUri = false>
 			</cfif>
 
 			<!--- Output the results --->
 			<cfif isValidUri>
-				<cfoutput>The URI #uriToCheck# is valid and reachable. Status: #httpStatus#</cfoutput>
+				<cfoutput>The URI #uriToCheck# is valid and reachable.</cfoutput>
 			<cfelse>
-				<cfoutput>The URI #uriToCheck# is either invalid or not reachable. Status: #httpStatus#</cfoutput>
+				<cfoutput>The URI #uriToCheck# is either invalid or not reachable.</cfoutput>
 			</cfif>
+
+				
+				
+				
 		
 			<cfset key = ''>
 			<cfquery name="warningMessageMediaType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
