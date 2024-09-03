@@ -481,12 +481,11 @@ limitations under the License.
 						
 						<cfset isValidUri = true>
 						<!--- Check if the URI is reachable --->
-						<cftry>
+						 <cfif structKeyExists(cfhttp, "statusCode")>
 							<cfset httpStatus = cfhttp.statusCode>
-							<cfcatch>
-								<cfset httpStatus = "Error: " & cfcatch.message>
-							</cfcatch>
-						</cftry>
+						<cfelse>
+							<cfset httpStatus = "No status code received">
+						</cfif>
 					<!---	<cftry>
 							
 							<cfhttp url="#uri#" method="head" timeout="10" throwonerror="no" resolveurl="true">
