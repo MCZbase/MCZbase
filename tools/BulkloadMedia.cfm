@@ -474,11 +474,12 @@ limitations under the License.
 					
 					<!--- Check if the URI is valid using isValid() --->
 					<cfset isUriFormatValid = isValid("url", uri)>
-					<cfset httpStatus = cfhttp.statusCode>
+				
+					<cfset httpStatus = "N/A">
 
 					<cfif isUriFormatValid>
+						<cfset httpStatus = cfhttp.statusCode>
 						<cfset isValidUri = true>
-						#httpStatus#
 						<!--- Check if the URI is reachable --->
 					<!---	<cftry>
 							
@@ -499,14 +500,15 @@ limitations under the License.
 							</cfcatch>
 						</cftry>--->
 					<cfelse>
+						<cfset httpStatus = "Error: " & cfcatch.message>
 						<cfset isValidUri = false>
 					</cfif>
 
 					<!--- Output the results for each URI --->
 					<cfif isValidUri>
-						<cfoutput>The URI #uri# is valid and reachable.</cfoutput><br>
+						<cfoutput>The URI #uri# #httpStatus# is valid and reachable.</cfoutput><br>
 					<cfelse>
-						<cfoutput>The URI #uri# is either invalid or not reachable.</cfoutput><br>
+						<cfoutput>The URI #uri# #httpStatus# is either invalid or not reachable.</cfoutput><br>
 					</cfif>
 				</cfloop>
 			</cfoutput>
