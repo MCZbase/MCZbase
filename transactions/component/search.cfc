@@ -1195,21 +1195,23 @@ limitations under the License.
 	<cfargument name="shipment_count" type="string" required="no">
 	<cfargument name="foreign_shipments" type="string" required="no">
 
-	<!--- If provided with specimen guids, look up part collection object ids for lookup --->
 	<cfif not isdefined("collection_object_id") ><cfset collection_object_id = ""></cfif>
-	<cfif (isdefined("specimen_guid") AND len(#specimen_guid#) gt 0) >
+	<cfset specimen_guid_pattern = "">
+	<cfif isDefined("specimen_guid") AND (specimen_guid CONTAINS "%" OR REFind("^[A-Z]+:[A-Za-z]+[:]{0,1}$",specimen_guid) GT 0)>
+		<!--- if provided with a pattern, use inside main search query --->
+		<cfif REFind("^[A-Z]+:[A-Za-z]+[:]{0,1}$",specimen_guid) GT 0>
+			<cfset specimen_guid_pattern = "#specimen_guid#%">
+		<cfelse>
+			<cfset specimen_guid_pattern = "#specimen_guid#">
+		</cfif>
+	<cfelseif (isdefined("specimen_guid") AND len(#specimen_guid#) gt 0) >
+		<!--- If provided with specimen guids, look up part collection object ids for lookup --->
 		<cfquery name="guidSearch" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="guidSearch_result" timeout="#Application.query_timeout#">
 			select specimen_part.collection_object_id as part_coll_obj_id 
 			from 
 				#session.flatTableName# flat left join specimen_part on flat.collection_object_id = specimen_part.derived_from_cat_item
 			where
-				<cfif specimen_guid CONTAINS "%">
-					flat.guid LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#specimen_guid#">
-				<cfelseif REFind("^[A-Z]+:[A-Za-z]+[:]{0,1}$",specimen_guid) GT 0>
-					flat.guid LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#specimen_guid#%">
-				<cfelse>
-					flat.guid in ( <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#specimen_guid#" list="yes"> )
-				</cfif>
+				flat.guid in ( <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#specimen_guid#" list="yes"> )
 		</cfquery>
 		<cfloop query="guidSearch">
 			<cfif not listContains(collection_object_id,guidSearch.part_coll_obj_id)>
@@ -1329,13 +1331,16 @@ limitations under the License.
 					left join permit_shipment on shipment.shipment_id = permit_shipment.shipment_id
 					left join permit permit_from_shipment on  permit_shipment.permit_id = permit_from_shipment.permit_id
 				</cfif>
-				<cfif (isdefined("part_name") AND len(part_name) gt 0) or (isdefined("coll_obj_disposition") AND len(coll_obj_disposition) gt 0) or isdefined("collection_object_id") AND len(#collection_object_id#) gt 0 OR (isdefined("sovereign_nation") AND len(#sovereign_nation#) gt 0) >
+				<cfif (isdefined("part_name") AND len(part_name) gt 0) or (isdefined("coll_obj_disposition") AND len(coll_obj_disposition) gt 0) or isdefined("collection_object_id") AND len(#collection_object_id#) gt 0 OR (isdefined("sovereign_nation") AND len(#sovereign_nation#) gt 0) or ( isDefined("specimen_guid_pattern") AND len(specimen_guid_pattern) GT 0 ) >
 					left join cataloged_item on accn.transaction_id=cataloged_item.accn_id
 					left join specimen_part on cataloged_item.collection_object_id = specimen_part.derived_from_cat_item
 					left join coll_object on specimen_part.collection_object_id = coll_object.collection_object_id
 					<cfif isdefined("sovereign_nation") AND len(#sovereign_nation#) gt 0 >
 						left join collecting_event on cataloged_item.collecting_event_id = collecting_event.collecting_event_id
 						left join locality on collecting_event.locality_id = locality.locality_id
+					</cfif>
+					<cfif isDefined("specimen_guid_pattern") and len(specimen_guid_pattern) GT 0>
+						left join flat on coll_object.collection_object_id = flat.collection_object_id
 					</cfif>
 				</cfif>
 				<cfif isdefined("IssuedByAgent") and len(#IssuedByAgent#) gt 0>
@@ -1440,6 +1445,9 @@ limitations under the License.
 
 				<cfif isdefined("collection_object_id") AND len(#collection_object_id#) gt 0 >
 					AND specimen_part.collection_object_id IN ( <cfqueryparam list="yes" cfsqltype="CF_SQL_VARCHAR" value="#collection_object_id#" > )
+				</cfif>
+				<cfif isDefined("specimen_guid_pattern") and len(specimen_guid_pattern) GT 0>
+					AND flat.guid like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#specimen_guid_pattern#">
 				</cfif>
 				<cfif isdefined("sovereign_nation") AND len(#sovereign_nation#) gt 0 >
 					<cfif left(sovereign_nation,1) is "=">
