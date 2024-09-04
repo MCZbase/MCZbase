@@ -134,6 +134,7 @@ limitations under the License.
 					/** makeSummary combine row data into a single text string **/
 					function makeSummary(rowData) { 
 						var spec_locality = rowData['SPEC_LOCALITY'];
+						if (spec_locality) { spec_locality = spec_locality + ". "; }
 						var id = rowData['LOCALITY_ID'];
 						var locality_remarks = rowData['LOCALITY_REMARKS'];
 						if (locality_remarks) { remarks = ". Remarks: " + locality_remarks + " "; } else { remarks = ""; }
@@ -159,9 +160,11 @@ limitations under the License.
 						if (minDepth) { 
 							depthval = " Depth: " + minDepth;
 							if (maxDepth && maxDepth != minDepth) {
-								depthval = depthval + "-" + max_depth;
+								depthval = depthval + "-" + maxDepth;
 							}
 							depthval = $.trim(depthval + " " + depthUnits) + ". ";
+						} else {
+							depthval = "";
 						}
 						var plss = rowData['PLSS'];
 						var geolatts = rowData['GEOLATTS'];
