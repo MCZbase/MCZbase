@@ -494,7 +494,7 @@ limitations under the License.
 						<cfset stat = "class='text-success'">
 					<cfelse>
 						<cfset linkvalid = "class='text-danger'">
-						<cfset stat = "class='text-danger'">
+						<cfset stat = "class='text-dark'">
 							
 					</cfif>
 				</cfloop>
