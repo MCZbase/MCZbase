@@ -608,6 +608,7 @@ limitations under the License.
 				<cfloop query = "getTempMedia2">
 				
 					<cfloop index="i" from="1" to="2">
+					
 						<cfquery name="getMediaRel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							SELECT 
 								cf_temp_media.key,
@@ -621,6 +622,8 @@ limitations under the License.
 								AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 								AND key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia2.key#">
 						</cfquery>
+							
+						<cfif ListLen(related_primary_key) >= i>
 						<!---Find the table name "theTable" from the second part of the media_relationship--->
 						<cfset theTable = trim(listLast('#getMediaRel.media_relationship#'," "))>
 						<!---based on the table, find the primary key--->
@@ -655,7 +658,7 @@ limitations under the License.
 										key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia2.key#">
 								</cfquery>
 							</cfloop>
-						<cfelseif #getMediaRel.media_relationship# eq 'shows specimen_part'>
+						<cfelseif #getMediaRel.media_relationship# eq 'shows specimen_part' and len(getMediaRel.related_primary_key) gt 0>
 							<cfloop list="#getMediaRel.related_primary_key#" index="l" delimiters=":">
 								<cfset IA = listGetAt(#getMediaRel.related_primary_key#,1,":")>
 								<cfset CCDE = listGetAt(#getMediaRel.related_primary_key#,2,":")>
@@ -675,7 +678,7 @@ limitations under the License.
 								</cfquery>
 							</cfloop>
 						<!---Add additional blocks if non-numeric entries are the norm for a relationship type--->
-						<cfelseif #getMediaRel.media_relationship# contains 'agent' and !isNumeric(getMediaRel.related_primary_key)>
+						<cfelseif #getMediaRel.media_relationship# contains 'agent' and !isNumeric(getMediaRel.related_primary_key)  and len(getMediaRel.related_primary_key) gt 0>
 							<cfquery name="chkCOID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 								update cf_temp_media set related_primary_key_#i# =
 								(
@@ -689,7 +692,7 @@ limitations under the License.
 									key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia2.key#">
 							</cfquery>
 						<!--- Block ends--->
-						<cfelseif #getMediaRel.media_relationship# contains 'underscore_collection' and !isNumeric(getMediaRel.related_primary_key)>
+						<cfelseif #getMediaRel.media_relationship# contains 'underscore_collection' and !isNumeric(getMediaRel.related_primary_key)  and len(getMediaRel.related_primary_key) gt 0>
 							<cfquery name="chkCOID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 								update cf_temp_media set related_primary_key_#i# =
 								(
@@ -701,7 +704,7 @@ limitations under the License.
 									username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> AND
 									key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia2.key#">
 							</cfquery>
-						<cfelseif #getMediaRel.media_relationship# contains 'project' and !isNumeric(getMediaRel.related_primary_key)>
+						<cfelseif #getMediaRel.media_relationship# contains 'project' and !isNumeric(getMediaRel.related_primary_key) and len(getMediaRel.related_primary_key) gt 0>
 							<cfquery name="chkCOID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 								update cf_temp_media set related_primary_key_#i# =
 								(
@@ -735,6 +738,9 @@ limitations under the License.
 									username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> AND
 									key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia2.key#">
 							</cfquery>
+						</cfif>
+						<cfelse>
+						<cfoutput>Index #i# does not exist in the list. </cfoutput>
 						</cfif>
 					</cfloop>
 				</cfloop>
