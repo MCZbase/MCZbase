@@ -625,6 +625,8 @@ limitations under the License.
 							<cfelse>
 								<cfoutput>Error: HTTP request failed with status #httpResponse.statusCode#</cfoutput>
 							</cfif>
+						</cftry>
+					</cfif>
 					<cfloop index="i" from="1" to="2">
 						<cfquery name="getMediaRel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							SELECT 
