@@ -448,10 +448,11 @@ limitations under the License.
 				
 
 			<cfloop query="getTempMedia">
-				<cfset uri = "<img src='#getTempMedia.MEDIA_URI#'/>">
-				<cfsavecontent variable="html">
-					<a href="#uri#" title="">#uri#</a>
-				</cfsavecontent>
+				<cfset uri = "#getTempMedia.MEDIA_URI#">
+				<cfhttp result="result" method="GET" charset="utf-8" url="#uri#">
+					<cfhttpparam name="q" type="url" value="cfml">
+				</cfhttp>
+				<cfdump var="#result#">
 
 			</cfloop>
 			
