@@ -548,7 +548,7 @@ limitations under the License.
 			<cfset theKey = getTempMedia.related_primary_key_2>
 			<cfloop query="getTempMedia">
 				<cfloop from="1" to="2" index="i">
-					<cfif ListLen(theKey) >= i>
+					<cfif ListLen(theKey) >= #i#>
 					<cfquery name="warningBadRel1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						UPDATE
 							cf_temp_media
