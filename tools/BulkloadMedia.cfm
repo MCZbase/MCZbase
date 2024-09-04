@@ -452,15 +452,13 @@ limitations under the License.
 
 <cfoutput>
 <cfloop query="getTempMedia">
-   
+	<cfscript httpService = new http(method = "GET", charset = "utf-8", url = "#getTempMedia.media_uri#");
+		httpService.addParam(name = "q", type = "url", value = "cfml");
+		result = httpService.send().getPrefix();
+		writeDump(result);
+	</cfscript>
 
-    <!--- Output the URI details --->
-    <cfoutput>
-       <!--- <strong>URI:</strong> #uri#<br>
-        <strong>Status Code:</strong> #httpStatus#<br>
-        <strong>Response Headers:</strong> <pre>#htmlEditFormat(responseHeaders)#</pre><br>
-        <strong>Response Body (First 500 characters):</strong> <pre>#htmlEditFormat(left(responseBody, 500))#</pre><br><br>--->
-    </cfoutput>
+
 </cfloop>
 </cfoutput>
 			
