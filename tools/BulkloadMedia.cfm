@@ -447,7 +447,7 @@ limitations under the License.
 			</cfquery>
 				
 	<cfset linkvalid = ''>			
-
+<cfset stat = ''>
 <cfset message = "">
 		<!---	
 			<cfset statusCode = ''>
