@@ -554,7 +554,7 @@ limitations under the License.
 			</cfif>
 	
 			<cfloop query="getTempMedia">
-				<cfif len(MEDIA_RELATIONSHIP_1) gt 0 or len(media_relationship_2) gt 0 or len(related_primary_key_1) gt 0  or len(related_primary_key_2) gt 0>
+				<cfif len(MEDIA_RELATIONSHIP_1) gt 0 or len(media_relationship_2) gt 0>
 					<cfloop from="1" to="2" index="i">
 						<cfquery name="warningBadRel1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							UPDATE
@@ -566,16 +566,18 @@ limitations under the License.
 								username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> and
 								key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia.key#">
 						</cfquery>
-						<cfquery name="warningBadRel2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-							UPDATE
-								cf_temp_media
-							SET
-								status = concat(nvl2(status, status || '; ', ''),'RELATED_PRIMARY_KEY_#i# is missing')
-							WHERE
-								related_primary_key_#i# is null and 
-								username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> AND
-								key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia.key#">
-						</cfquery>
+						<cfif len(related_primary_key_1) gt 0 or len(related_primary_key_2) gt 0>
+							<cfquery name="warningBadRel2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+								UPDATE
+									cf_temp_media
+								SET
+									status = concat(nvl2(status, status || '; ', ''),'RELATED_PRIMARY_KEY_#i# is missing')
+								WHERE
+									related_primary_key_#i# is null and 
+									username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> AND
+									key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia.key#">
+							</cfquery>
+						</cfif>
 					</cfloop>
 				</cfif>
 				<cfif isimagefile(getTempMedia.media_uri)>
