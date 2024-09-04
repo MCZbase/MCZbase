@@ -445,24 +445,7 @@ limitations under the License.
 				WHERE 
 					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
-				
-
-<!--- Example query to fetch URIs --->
-
-
-<cfoutput>
-<cfloop query="getTempMedia">
-	<cfscript httpService = new http(method = "GET", charset = "utf-8", url = "#getTempMedia.media_uri#");
-		httpService.addParam(name = "q", type = "url", value = "cfml");
-		result = httpService.send().getPrefix();
-		writeDump(result);
-	</cfscript>
-
-
-</cfloop>
-</cfoutput>
-			
-			
+		
 			<cfset key = ''>
 			<cfquery name="warningMessageMediaType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				UPDATE
