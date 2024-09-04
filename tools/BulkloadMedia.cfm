@@ -554,7 +554,7 @@ limitations under the License.
 			</cfif>
 	
 			<cfloop query="getTempMedia">
-				<cfif len(MEDIA_RELATIONSHIP_1) gt 0 or len(media_relationship_2) gt 0>
+				<cfif len(MEDIA_RELATIONSHIP_1) gt 0 or len(media_relationship_2) gt 0 or len(related_primary_key_1) gt 0  or len(related_primary_key_2) gt 0>
 					<cfloop from="1" to="2" index="i">
 						<cfquery name="warningBadRel1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							UPDATE
