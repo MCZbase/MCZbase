@@ -488,10 +488,10 @@ limitations under the License.
 
     <!--- Output the URI details --->
     <cfoutput>
-        <strong>URI:</strong> #uri#<br>
+       <!--- <strong>URI:</strong> #uri#<br>
         <strong>Status Code:</strong> #httpStatus#<br>
         <strong>Response Headers:</strong> <pre>#htmlEditFormat(responseHeaders)#</pre><br>
-        <strong>Response Body (First 500 characters):</strong> <pre>#htmlEditFormat(left(responseBody, 500))#</pre><br><br>
+        <strong>Response Body (First 500 characters):</strong> <pre>#htmlEditFormat(left(responseBody, 500))#</pre><br><br>--->
     </cfoutput>
 </cfloop>
 </cfoutput>
