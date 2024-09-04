@@ -554,8 +554,9 @@ limitations under the License.
 			</cfif>
 	
 			<cfloop query="getTempMedia">
-				<cfif len(MEDIA_RELATIONSHIP_1) gt 0 or len(media_relationship_2) gt 0>
+				
 					<cfloop from="1" to="2" index="i">
+						<cfif len(MEDIA_RELATIONSHIP_1) gt 0 or len(media_relationship_2) gt 0>
 						<cfquery name="warningBadRel1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							UPDATE
 								cf_temp_media
@@ -578,8 +579,9 @@ limitations under the License.
 									key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia.key#">
 							</cfquery>
 						</cfif>
+						</cfif>
 					</cfloop>
-				</cfif>
+				
 				<cfif isimagefile(getTempMedia.media_uri)>
 					<cfimage action="info" source="#getTempMedia.media_uri#" structname="imgInfo"/>
 					<cfquery name="makeHeightLabel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
