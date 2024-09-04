@@ -449,15 +449,23 @@ limitations under the License.
 				
 
 
-			<cfset linkvalid = ''>
+		<!---	<cfset linkvalid = ''>
 			<cfset statusCode = ''>
 			<cfhttp url="">
-			<cfoutput>
+			<cfoutput>--->
 				<cfloop query="getTempMedia">
-					<cfset uri = #getTempMedia.MEDIA_URI#>
-					
-					<!--- Check if the URI is valid using isValid() --->
-					<cfset isUriFormatValid = isValid("URL", uri)>
+					<cfset uri = "<img src='#getTempMedia.MEDIA_URI#'/>">
+					<cfset isSafe = isSafeHTML(uri)>
+					<cfset SafeHTML = getSafeHTML(uri, "", true)>
+					<cfoutput>
+						is safe: 
+						isSafe:
+						Safe HTML:
+						SafeHTML:<br>
+					</cfoutput>
+				</cfloop>
+			
+	<!---				<cfset isUriFormatValid = isSafeHTML(uri)>
 				
 					<cfif isUriFormatValid>
 						<cfset httpStatus = "N/A">
@@ -465,21 +473,21 @@ limitations under the License.
 						<cfset isValidUri = true>
 				
 						<cftry>
-								<!--- cfhttp to check if the URI is reachable with cache control headers --->
+							
 								<cfhttp url="#uri#" method="head" timeout="10" throwonerror="no" resolveurl="true">
 									<cfhttpparam type="header" name="Cache-Control" value="no-cache, no-store, must-revalidate" />
 									<cfhttpparam type="header" name="Pragma" value="no-cache" />
 									<cfhttpparam type="header" name="Expires" value="0" />
 								</cfhttp>
 
-								<!--- Check for existence of the status_code and then get its value --->
+							
 								<cfif structKeyExists(cfhttp, "statusCode")>
 									<cfset httpStatus = cfhttp.statusCode>
 								<cfelse>
 									<cfset httpStatus = "No status code received">
 								</cfif>
 							<cfcatch>
-								<!--- In case of error, set status to the error message --->
+						
 								<cfset httpStatus = "Error: " & cfcatch.message>
 							</cfcatch>
 						</cftry>
@@ -488,7 +496,6 @@ limitations under the License.
 						<cfset httpStatus = "invalid url format">
 					</cfif>
 
-					<!--- Output the results for each URI --->
 					<cfif isValidUri>
 						<cfset linkvalid = "class='text-dark'">
 						<cfset stat = "class='text-success'">
@@ -498,7 +505,7 @@ limitations under the License.
 							
 					</cfif>
 				</cfloop>
-			</cfoutput>
+			</cfoutput>--->
 
 
 
