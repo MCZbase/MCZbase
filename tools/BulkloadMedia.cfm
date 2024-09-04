@@ -544,9 +544,11 @@ limitations under the License.
 			</cfif>
 	
 
-				
+			<cfset theRel = getTempMedia.media_relationship_2>
+			<cfset theKey = getTempMedia.related_primary_key_2>
 			<cfloop query="getTempMedia">
 				<cfloop from="1" to="2" index="i">
+					<cfif ListLen(theKey) >= i>
 					<cfquery name="warningBadRel1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						UPDATE
 							cf_temp_media
@@ -563,10 +565,13 @@ limitations under the License.
 						SET
 							status = concat(nvl2(status, status || '; ', ''),'RELATED_PRIMARY_KEY_#i# is missing')
 						WHERE
-							related_primary_key_#i# is null and 
+							related_primary_key_#i# is null and media_relationship_#i# is not null
 							username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> AND
 							key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia.key#">
 					</cfquery>
+					<cfelse>
+						<cfoutput>Index #i# does not exist in the list.</cfoutput>
+					</cfif>
 				</cfloop>
 				<cfif isimagefile(getTempMedia.media_uri)>
 					<cfimage action="info" source="#getTempMedia.media_uri#" structname="imgInfo"/>
