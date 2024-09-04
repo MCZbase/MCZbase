@@ -606,29 +606,7 @@ limitations under the License.
 			</cfquery>
 			<cfif len(getTempMedia2.status) eq 0>
 				<cfloop query = "getTempMedia2">
-					 <cfset uri = getTempMedia2.MEDIA_URI>
-
-					<!--- Check MEDIA_URIs to see if they are valid -- Initialize variables for response details --->
-					<cfset httpStatus = "N/A">
-					<cfset responseHeaders = "N/A">
-					<cfset responseBody = "N/A">
-
-					<!--- Check if the URI is valid using isValid("URL") --->
-					<cfset isUriFormatValid = isValid("url", uri)>
-
-					<cfif isUriFormatValid>
-						<!--- Attempt to fetch the URI --->
-						<cftry>
-							<cfhttp url="#uri#" method="get" result="httpResponse" timeout="30" throwOnError="false">
-							<cfif httpResponse.statusCode eq 200>
-								<cfoutput>#httpResponse.fileContent#</cfoutput>
-							<cfelse>
-								<cfoutput>Error: HTTP request failed with status #httpResponse.statusCode#</cfoutput>
-							</cfif>
-							<cfcatch>
-							</cfcatch>
-						</cftry>
-					</cfif>
+				
 					<cfloop index="i" from="1" to="2">
 						<cfquery name="getMediaRel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							SELECT 
