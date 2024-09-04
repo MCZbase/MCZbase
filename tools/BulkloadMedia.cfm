@@ -446,65 +446,15 @@ limitations under the License.
 					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 				
-	<cfset linkvalid = ''>			
-<cfset stat = ''>
-<cfset message = "">
-		<!---	
-			<cfset statusCode = ''>
-			<cfhttp url="">
-			<cfoutput>--->
-				<cfloop query="getTempMedia">
-					<cfset uri = "<img src='#getTempMedia.MEDIA_URI#'/>">
-					<cfsavecontent variable="html">
-						<a href="#uri#" title="">#uri#</a>
-					</cfsavecontent>
-					<cfoutput>Is Safe: #isSafeHTML(html)#</cfoutput>
-				</cfloop>
+
+			<cfloop query="getTempMedia">
+				<cfset uri = "<img src='#getTempMedia.MEDIA_URI#'/>">
+				<cfsavecontent variable="html">
+					<a href="#uri#" title="">#uri#</a>
+				</cfsavecontent>
+
+			</cfloop>
 			
-	<!---				<cfset isUriFormatValid = isSafeHTML(uri)>
-				
-					<cfif isUriFormatValid>
-						<cfset httpStatus = "N/A">
-						
-						<cfset isValidUri = true>
-				
-						<cftry>
-							
-								<cfhttp url="#uri#" method="head" timeout="10" throwonerror="no" resolveurl="true">
-									<cfhttpparam type="header" name="Cache-Control" value="no-cache, no-store, must-revalidate" />
-									<cfhttpparam type="header" name="Pragma" value="no-cache" />
-									<cfhttpparam type="header" name="Expires" value="0" />
-								</cfhttp>
-
-							
-								<cfif structKeyExists(cfhttp, "statusCode")>
-									<cfset httpStatus = cfhttp.statusCode>
-								<cfelse>
-									<cfset httpStatus = "No status code received">
-								</cfif>
-							<cfcatch>
-						
-								<cfset httpStatus = "Error: " & cfcatch.message>
-							</cfcatch>
-						</cftry>
-					<cfelse>
-						<cfset isValidUri = false>
-						<cfset httpStatus = "invalid url format">
-					</cfif>
-
-					<cfif isValidUri>
-						<cfset linkvalid = "class='text-dark'">
-						<cfset stat = "class='text-success'">
-					<cfelse>
-						<cfset linkvalid = "class='text-danger'">
-						<cfset stat = "class='text-dark'">
-							
-					</cfif>
-				</cfloop>
-			</cfoutput>--->
-
-
-
 			
 			<cfset key = ''>
 			<cfquery name="warningMessageMediaType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -858,7 +808,7 @@ limitations under the License.
 					<cfloop query="problemData">
 						<tr>
 							<td><cfif len(problemData.status) eq 0>Cleared to load<cfelse><strong>#problemData.status#</strong></cfif></td>
-							<td>#problemData.MEDIA_URI# <!---<span #stat#>(#httpStatus#)</span>---></td>
+							<td>#problemData.MEDIA_URI# <span>(link safe? -#isSafeHTML(html)#</span></td>
 							<td>#problemData.MIME_TYPE#</td>
 							<td>#problemData.MEDIA_TYPE#</td>
 							<td>#problemData.PREVIEW_URI#</td>
