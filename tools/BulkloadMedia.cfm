@@ -816,7 +816,7 @@ limitations under the License.
 					</tr>
 				<tbody>
 					<cfloop query="problemData">
-						 <cfset uri = getTempMedia.MEDIA_URI>
+						 <cfset uri = problemData.MEDIA_URI>
 
 					<!--- Initialize variables for response details --->
 					<cfset httpStatus = "N/A">
