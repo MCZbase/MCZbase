@@ -570,7 +570,7 @@ limitations under the License.
 							key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia.key#">
 					</cfquery>
 					<cfelse>
-						<cfoutput>Index #i# does not exist in the list.</cfoutput>
+				
 					</cfif>
 				</cfloop>
 				<cfif isimagefile(getTempMedia.media_uri)>
