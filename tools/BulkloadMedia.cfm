@@ -458,7 +458,7 @@ limitations under the License.
 					<cfsavecontent variable="html">
 						<a href="#uri#" title="">#uri#</a>
 					</cfsavecontent>
-					<cfoutput>#isSafeHTML(html)#</cfoutput>
+					<cfoutput>Is Safe: #isSafeHTML(html)#</cfoutput>
 				</cfloop>
 			
 	<!---				<cfset isUriFormatValid = isSafeHTML(uri)>
