@@ -457,7 +457,7 @@ limitations under the License.
 					<cfset uri = #getTempMedia.MEDIA_URI#>
 					
 					<!--- Check if the URI is valid using isValid() --->
-					<cfset isUriFormatValid = isValid("url", uri)>
+					<cfset isUriFormatValid = isValid("URL", uri)>
 				
 					<cfif isUriFormatValid>
 						<cfset httpStatus = "N/A">
