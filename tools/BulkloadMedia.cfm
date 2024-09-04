@@ -446,10 +446,10 @@ limitations under the License.
 					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 				
-				
+	<cfset linkvalid = ''>			
 
 <cfset message = "">
-		<!---	<cfset linkvalid = ''>
+		<!---	
 			<cfset statusCode = ''>
 			<cfhttp url="">
 			<cfoutput>--->
