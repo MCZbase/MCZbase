@@ -1195,7 +1195,7 @@ limitations under the License.
 	<cfargument name="shipment_count" type="string" required="no">
 	<cfargument name="foreign_shipments" type="string" required="no">
 
-	<!--- If provided with sppecimen guids, look up part collection object ids for lookup --->
+	<!--- If provided with specimen guids, look up part collection object ids for lookup --->
 	<cfif not isdefined("collection_object_id") ><cfset collection_object_id = ""></cfif>
 	<cfif (isdefined("specimen_guid") AND len(#specimen_guid#) gt 0) >
 		<cfquery name="guidSearch" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="guidSearch_result" timeout="#Application.query_timeout#">
@@ -1203,7 +1203,13 @@ limitations under the License.
 			from 
 				#session.flatTableName# flat left join specimen_part on flat.collection_object_id = specimen_part.derived_from_cat_item
 			where
-				flat.guid in ( <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#specimen_guid#" list="yes"> )
+				<cfif specimen_guid CONTAINS "%">
+					flat.guid LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#specimen_guid#">
+				<cfelseif REFind("^[A-Z]+:[A-Za-z]+[:]{0,1}$",specimen_guid) GT 0>
+					flat.guid LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#specimen_guid#%">
+				<cfelse>
+					flat.guid in ( <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#specimen_guid#" list="yes"> )
+				</cfif>
 		</cfquery>
 		<cfloop query="guidSearch">
 			<cfif not listContains(collection_object_id,guidSearch.part_coll_obj_id)>
