@@ -452,9 +452,9 @@ limitations under the License.
 				<cfhttp result="result" method="GET" charset="utf-8" url="#uri#">
 					<cfhttpparam name="q" type="url" value="cfml">
 				</cfhttp>
-				 <cfif structKeyExists(result, "statusCode")>
-                <cfset httpStatus = result.statusCode>
-                <cfset responseHeaders = result.responseHeader>
+				 <cfif structKeyExists(result, "statuscode")>
+                <cfset httpStatus = result.statuscode>
+                <cfset responseHeaders = result.responseheader>
                 <cfset responseBody = result.fileContent>
             <cfelse>
                 <cfset httpStatus = "No status code received">
