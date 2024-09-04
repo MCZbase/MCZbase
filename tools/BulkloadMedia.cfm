@@ -455,14 +455,10 @@ limitations under the License.
 			<cfoutput>--->
 				<cfloop query="getTempMedia">
 					<cfset uri = "<img src='#getTempMedia.MEDIA_URI#'/>">
-					<cfset isSafe = isSafeHTML(uri)>
-					<cfset SafeHTML = getSafeHTML(uri, "#message#", true)>
-					<cfoutput>
-						is safe: #uri# #message#
-						isSafe:
-						Safe HTML:
-						SafeHTML:<br>
-					</cfoutput>
+					<cfsavecontent variable="html">
+						<a href="#uri#" title="">#uri#</a>
+					</cfsavecontent>
+					<cfoutput>#isSafeHTML(html)#</cfoutput>
 				</cfloop>
 			
 	<!---				<cfset isUriFormatValid = isSafeHTML(uri)>
