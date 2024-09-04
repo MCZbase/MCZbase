@@ -637,7 +637,8 @@ limitations under the License.
 						</cfquery>
 
 						<cfif #getMediaRel.media_relationship# eq 'shows cataloged_item'>
-							<cfloop list="#getMediaRel.related_primary_key#" index="l" delimiters=":">
+							<cfset index=3>
+							<cfloop list="#getMediaRel.related_primary_key#" index="3" delimiters=":">
 								<cfset IA = listGetAt(#getMediaRel.related_primary_key#,1,":")>
 								<cfset CCDE = listGetAt(#getMediaRel.related_primary_key#,2,":")>
 								<cfset CI = listGetAt(#getMediaRel.related_primary_key#,3,":")>
