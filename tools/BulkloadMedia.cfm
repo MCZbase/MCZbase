@@ -447,20 +447,54 @@ limitations under the License.
 			</cfquery>
 				
 
-			<cfloop query="getTempMedia">
-				<cfset uri = "#getTempMedia.MEDIA_URI#">
-				<cfhttp result="result" method="GET" charset="utf-8" url="#uri#">
-					<cfhttpparam name="q" type="url" value="cfml">
-				</cfhttp>
-				 <cfif structKeyExists(result, "statuscode")>
+<!--- Example query to fetch URIs --->
+
+
+<cfoutput>
+<cfloop query="getTempMedia">
+    <cfset uri = getTempMedia.MEDIA_URI>
+
+    <!--- Initialize variables for response details --->
+    <cfset httpStatus = "N/A">
+    <cfset responseHeaders = "N/A">
+    <cfset responseBody = "N/A">
+
+    <!--- Check if the URI is valid using isValid("URL") --->
+    <cfset isUriFormatValid = isValid("url", uri)>
+
+    <cfif isUriFormatValid>
+        <!--- Attempt to fetch the URI --->
+        <cftry>
+            <cfhttp result="result" url="#uri#" method="get" timeout="10" throwonerror="no">
+                <cfhttpparam name="q" type="url" value="cfml">
+            </cfhttp>
+            
+            <!--- Check for existence of the statuscode and set the response details --->
+            <cfif structKeyExists(result, "statuscode")>
                 <cfset httpStatus = result.statuscode>
                 <cfset responseHeaders = result.responseheader>
-                <cfset responseBody = result.fileContent>
+                <cfset responseBody = result.filecontent>
             <cfelse>
                 <cfset httpStatus = "No status code received">
             </cfif>
+        <cfcatch>
+            <!--- In case of error, set status and error message --->
+            <cfset httpStatus = "Error: " & cfcatch.message>
+        </cfcatch>
+    </cftry>
+    <cfelse>
+        <cfset httpStatus = "Invalid URL format">
+    </cfif>
 
-			</cfloop>
+    <!--- Output the URI details --->
+    <cfoutput>
+        <strong>URI:</strong> #uri#<br>
+        <strong>Status Code:</strong> #httpStatus#<br>
+        <strong>Response Headers:</strong> <pre>#htmlEditFormat(responseHeaders)#</pre><br>
+        <strong>Response Body (First 500 characters):</strong> <pre>#htmlEditFormat(left(responseBody, 500))#</pre><br><br>
+    </cfoutput>
+</cfloop>
+</cfoutput>
 			
 			
 			<cfset key = ''>
