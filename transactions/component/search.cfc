@@ -1269,15 +1269,15 @@ limitations under the License.
 		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="search_result" timeout="#Application.query_timeout#">
 			SELECT distinct
 				trans.transaction_id,
-				accn_number,
-				accn_type,
-				nature_of_material,
-				to_char(received_date,'YYYY-MM-DD') as received_date,
-				to_char(trans_date,'YYYY-MM-DD') as accession_date,
+				accn.accn_number,
+				accn.accn_type,
+				trans.nature_of_material,
+				to_char(accn.received_date,'YYYY-MM-DD') as received_date,
+				to_char(trans.trans_date,'YYYY-MM-DD') as accession_date,
 				to_char(date_entered,'YYYY-MM-DD') as date_entered,
-				accn_status,
+				accn.accn_status,
 				trans_remarks,
-				collection,
+				collection.collection,
 				collection.collection_cde,
 				project_name,
 				project.project_id pid,
@@ -1357,20 +1357,20 @@ limitations under the License.
 				accn.transaction_id is not null
 				<cfif isDefined("accn_number") and len(accn_number) gt 0>
 					<cfif left(accn_number,1) is "=">
-						AND accn_number = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(accn_number,len(accn_number)-1)#">
+						AND accn.accn_number = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(accn_number,len(accn_number)-1)#">
 					<cfelse>
 						<cfif find(',',accn_number) GT 0>
-							AND accn_number in (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#accn_number#" list="yes"> )
+							AND accn.accn_number in (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#accn_number#" list="yes"> )
 						<cfelse>
-							AND accn_number LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#accn_number#%">
+							AND accn.accn_number LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#accn_number#%">
 						</cfif>
 					</cfif>
 				</cfif>
 				<cfif isDefined("accn_status") and len(accn_status) gt 0>
 					<cfif left(accn_status,1) is "!">
-						AND upper(accn_status) <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(accn_status,len(accn_status)-1))#"> 
+						AND upper(accn.accn_status) <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(accn_status,len(accn_status)-1))#"> 
 					<cfelse>
-						AND accn_status like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#accn_status#">
+						AND accn.accn_status like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#accn_status#">
 					</cfif>
 				</cfif>
 				<cfif isDefined("collection_id") and collection_id gt 0>
@@ -1425,12 +1425,12 @@ limitations under the License.
 					AND upper(trans_agent_name_3.agent_name) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(agent_3)#%" >
 				</cfif>
 				<cfif isdefined("trans_date") and len(trans_date) gt 0>
-					AND trans_date between 
+					AND trans.trans_date between 
 						to_date(<cfqueryparam cfsqltype="CF_SQL_DATE" value='#dateformat(trans_date, "yyyy-mm-dd")#'>) and
 						(to_date(<cfqueryparam cfsqltype="CF_SQL_DATE" value='#dateformat(to_trans_date, "yyyy-mm-dd")#'>) + (86399/86400) )
 				</cfif>
 				<cfif isdefined("date_entered") and len(date_entered) gt 0>
-					AND date_entered between 
+					AND trans.date_entered between 
 						to_date(<cfqueryparam cfsqltype="CF_SQL_DATE" value='#dateformat(date_entered, "yyyy-mm-dd")#'>) and
 						(to_date(<cfqueryparam cfsqltype="CF_SQL_DATE" value='#dateformat(to_date_entered, "yyyy-mm-dd")#'>) + (86399/86400) )
 				</cfif>
@@ -1440,7 +1440,7 @@ limitations under the License.
 						(to_date(<cfqueryparam cfsqltype="CF_SQL_DATE" value='#dateformat(to_rec_date, "yyyy-mm-dd")#'>) + (86399/86400) )
 				</cfif>
 				<cfif isdefined("nature_of_material") AND len(#nature_of_material#) gt 0>
-					AND upper(nature_of_material) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value='%#ucase(nature_of_material)#%'>
+					AND upper(trans.nature_of_material) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value='%#ucase(nature_of_material)#%'>
 				</cfif>
 
 				<cfif isdefined("collection_object_id") AND len(#collection_object_id#) gt 0 >
@@ -1467,14 +1467,14 @@ limitations under the License.
 					</cfif>
 				</cfif>
 				<cfif  isdefined("accn_type") and len(#accn_type#) gt 0>
-					<cfif left(accn_type,1) is "!">
-						AND upper(accn_type) <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(accn_type,len(accn_type)-1))#"> 
+					<cfif left(accn.accn_type,1) is "!">
+						AND upper(accn.accn_type) <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(accn_type,len(accn_type)-1))#"> 
 					<cfelse>
-						AND accn_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#accn_type#">
+						AND accn.accn_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#accn_type#">
 					</cfif>
 				</cfif>
 				<cfif isdefined("trans_remarks") AND len(#trans_remarks#) gt 0>
-					AND upper(trans_remarks) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value='%#ucase(trans_remarks)#%'>
+					AND upper(trans.trans_remarks) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value='%#ucase(trans_remarks)#%'>
 				</cfif>
 				<cfif isdefined("permit_id") AND len(#permit_id#) gt 0>
 					AND ( 
