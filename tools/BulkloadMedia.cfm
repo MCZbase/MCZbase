@@ -636,7 +636,7 @@ limitations under the License.
 							ORDER BY cols.table_name, cols.position
 						</cfquery>
 
-						<cfif #getMediaRel.media_relationship# eq 'shows cataloged_item'>
+						<cfif #getMediaRel.media_relationship# eq 'shows cataloged_item' and len(related_primary_key) gt 0>
 							<cfset index=3>
 							<cfloop list="#getMediaRel.related_primary_key#" index="l" delimiters=":">
 								<cfset IA = listGetAt(#getMediaRel.related_primary_key#,1,":")>
