@@ -456,9 +456,9 @@ limitations under the License.
 				<cfloop query="getTempMedia">
 					<cfset uri = "<img src='#getTempMedia.MEDIA_URI#'/>">
 					<cfset isSafe = isSafeHTML(uri)>
-					<cfset SafeHTML = getSafeHTML(uri, "", true)>
+					<cfset SafeHTML = getSafeHTML(uri, "#message#", true)>
 					<cfoutput>
-						is safe: 
+						is safe: #uri# #message#
 						isSafe:
 						Safe HTML:
 						SafeHTML:<br>
