@@ -408,7 +408,7 @@ limitations under the License.
 												<option value="25" <cfif session.specimens_pagesize EQ "25"> selected="selected" </cfif>>25 (default)</option>
 												<option value="50" <cfif session.specimens_pagesize EQ "50"> selected="selected" </cfif>>50</option>
 												<option value="100" <cfif session.specimens_pagesize EQ "100"> selected="selected" </cfif>>100</option>
-												<option value="1000" <cfif session.specimens_pagesize EQ "1000"> selected="selected" </cfif>>1000</option>
+												<option value="500" <cfif session.specimens_pagesize EQ "1000" OR session.specimens_pagesize EQ "500"> selected="selected" </cfif>>500</option>
 											</select>
 										</div>
 										<div class="col-12 float-left col-md-6 mb-2">
