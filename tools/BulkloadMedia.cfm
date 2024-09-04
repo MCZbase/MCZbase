@@ -625,6 +625,8 @@ limitations under the License.
 							<cfelse>
 								<cfoutput>Error: HTTP request failed with status #httpResponse.statusCode#</cfoutput>
 							</cfif>
+							<cfcatch>
+							</cfcatch>
 						</cftry>
 					</cfif>
 					<cfloop index="i" from="1" to="2">
