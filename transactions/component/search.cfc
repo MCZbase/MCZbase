@@ -1296,10 +1296,11 @@ limitations under the License.
 				concattransagent(trans.transaction_id,'outside contact') outside_agent,
 				concattransagent(trans.transaction_id,'additional outside contact') addOutside_agent
 			FROM
-			 	accn left join trans on accn.transaction_id = trans.transaction_id
+			 	accn 
+				join trans on accn.transaction_id = trans.transaction_id
+				join collection on trans.collection_id=collection.collection_id
 				left join permit_trans on trans.transaction_id = permit_trans.transaction_id
 				left join permit on permit_trans.permit_id = permit.permit_id
-				left join collection on trans.collection_id=collection.collection_id
 				left join project_trans on trans.transaction_id = project_trans.transaction_id
 				left join project on project_trans.project_id = project.project_id
 				<cfif (isdefined("trans_agent_role_1") AND len(trans_agent_role_1) gt 0) OR (isdefined("agent_1") AND len(agent_1) gt 0) >
@@ -1340,7 +1341,7 @@ limitations under the License.
 						left join locality on collecting_event.locality_id = locality.locality_id
 					</cfif>
 					<cfif isDefined("specimen_guid_pattern") and len(specimen_guid_pattern) GT 0>
-						left join flat on coll_object.collection_object_id = flat.collection_object_id
+						left join flat on cataloged_item.collection_object_id = flat.collection_object_id
 					</cfif>
 				</cfif>
 				<cfif isdefined("IssuedByAgent") and len(#IssuedByAgent#) gt 0>
