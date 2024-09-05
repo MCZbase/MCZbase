@@ -378,14 +378,15 @@ limitations under the License.
 		<cfoutput>
 			<h2 class="h4">Second step: Data Validation</h2>
 			<!---Get Data from the temp table and the codetables with relevant information--->
-			<cfquery name="changeFlag" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				update lat_long set accepted_lat_long_fg = 0 
-				where locality_id = (select locality_id from cf_temp_georef)
-			</cfquery>
+		
 			<cfquery name="getTempData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT highergeography,speclocality,locality_id,dec_lat,dec_long,max_error_distance,max_error_units,lat_long_remarks,determined_by_agent,determined_by_agent_id,georefmethod,orig_lat_long_units,datum,determined_date,lat_long_ref_source,extent,gpsaccuracy,verificationstatus,verified_by,verified_by_agent_id,spatialfit,nearest_named_place,accepted_lat_long_fg,COORDINATE_PRECISION,key
 				FROM cf_temp_georef
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+			</cfquery>
+				<cfquery name="changeFlag" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				update lat_long set accepted_lat_long_fg = 0 
+				where locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.locality_id#">
 			</cfquery>
 			<cfquery name="ctGEOREFMETHOD" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				select GEOREFMETHOD from ctGEOREFMETHOD
@@ -661,6 +662,7 @@ limitations under the License.
 						FROM cf_temp_georef
 						WHERE 
 							key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#problem_key#">
+						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 					</cfquery>
 					<p class="mt-3">There was a problem updating georeferences. Problematic Rows (<a href="/tools/BulkloadGeoref.cfm?action=dumpProblems">download</a>)</p>
 					<cfif getProblemData.recordcount GT 0>
