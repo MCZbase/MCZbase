@@ -543,7 +543,7 @@ limitations under the License.
 				</cfquery>
 			</cfif>
 	
-			<cfset i = 2>
+			<cfset i lte 2>
 			<cfloop query="getTempMedia">
 				<cfloop from="1" to="2" index="i">
 					<cfquery name="warningBadRel1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
