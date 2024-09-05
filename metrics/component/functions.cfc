@@ -78,20 +78,22 @@ limitations under the License.
 	<cfthread name="getAnnualNumbersThread">
 		<cftry>
 			<!--- annual report queries: holdings by collection --->
-			<cfquery name="totals" datasource="uam_god" cachedwithin="#createtimespan(7,0,0,0)#">
+			<cfquery name="totals" datasource="uam_god" cachedwithin="#createtimespan(0,0,0,0)#">
 				SELECT 
 					h.Collection, 
-					rm.Holdings,
+					rm.value holdings,
 					h.Cataloged_Items, 
 					h.Specimens, 
-					p.Primary_Cat_Items, 
-					p.Primary_Specimens, 
-					s.Secondary_Cat_Items, 
-					s.Secondary_Specimens
+					nvl(p.Primary_Cat_Items,0) Primary_Cat_Items, 
+					nvl(p.Primary_Specimens,0) Primary_Specimens, 
+					nvl(s.Secondary_Cat_Items,0) Secondary_Cat_Items, 
+					nvl(s.Secondary_Specimens,0) Secondary_Specimens
 				FROM 
 					(select collection_cde,institution_acronym,descr,collection,collection_id from collection where collection_cde <> 'MCZ') c
 				LEFT JOIN 
-					(select collection_id,holdings,reported_date from MCZBASE.collections_reported_metrics) rm on c.collection_id = rm.collection_id 
+					(select collection_id,value,reported_date from MCZBASE.collections_reported_metrics where metric='HOLDINGS'
+					and to_char(reported_date, 'yyyy')=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#left(endDate,4)#">
+					) rm on c.collection_id = rm.collection_id 
 				LEFT JOIN 
 					(select f.collection_id, f.collection, count(distinct f.collection_object_id) Cataloged_Items, sum(decode(total_parts,null, 1,total_parts)) specimens from flat f join coll_object co on f.collection_object_id = co.collection_object_id where co.COLL_OBJECT_ENTERED_DATE < to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#endDate#">, 'YYYY-MM-DD') group by f.collection_id, f.collection) h on rm.collection_id = h.collection_id
 				LEFT JOIN 
@@ -185,7 +187,7 @@ limitations under the License.
 					a.Received_Cat_Items,
 					a.Received_Specimens,
 					e.Entered_Cat_Items,
-					e.Entered_Specimens,
+					/*e.Entered_Specimens,*/
 					ncbi.NCBI_Cat_Items,
 					accn.Num_Accns,
 					h.Cataloged_Items, 
@@ -227,11 +229,11 @@ limitations under the License.
 										<th><strong>New Records Entered in MCZbase - Cataloged Items</strong></th>
 										<th><strong>Number of Genetic Samples added To Cryo</strong></th>
 										<th><strong>Number of Cataloged Items with NCBI numbers</strong></th>
-										<th><strong>Number of NCBI numbers added</strong></th>
+										<!---th><strong>Number of NCBI numbers added</strong></th--->
 										<th><strong>Items received but not Cataloged at End of Year</strong></th>
 										<th><strong>Number of Accessions</strong></th>
-										<th><strong>Total Cataloged Items</strong></th>
-										<th><strong>Total Specimens (parts)</strong></th>
+										<!---th><strong>Total Cataloged Items</strong></th>
+										<th><strong>Total Specimens (parts)</strong></th--->
 									</tr>
 								</thead>
 								<tbody>
@@ -241,13 +243,13 @@ limitations under the License.
 											<td>#Received_Cat_Items#</td>
 											<td>#Received_Specimens#</td>
 											<td>#Entered_Cat_Items#</td>
-											<td>#Entered_Specimens#</td>
 											<td>N/A</td>
 											<td>#NCBI_Cat_Items#</td>
+											<!---td>N/A</td--->
 											<td>N/A</td>
 											<td>#Num_Accns#</td>
-											<td>#Cataloged_Items#</td>
-											<td>#Specimens#</td>
+											<!---td>#Cataloged_Items#</td>
+											<td>#Specimens#</td--->
 										</tr>
 									</cfloop>
 								</tbody>
@@ -455,7 +457,6 @@ limitations under the License.
 					c.collection,
 					i.Num_Images_Cat_Items,
 					i.Num_Images,
-					p.Num_Permits_Trans,
 					pt.Images_Primary_Cat_Items,
 					st.Images_Secondary_Cat_Items
 				FROM
@@ -467,13 +468,6 @@ limitations under the License.
 					and mr.RELATED_PRIMARY_KEY = f.collection_object_id
 					and f.collection_object_id = co.collection_object_id
 					group by f.collection_id, f.collection) i on c.collection_id = i.collection_id
-				LEFT JOIN 
-					(select c.collection_id, c.collection, count(distinct transaction_id) Num_Permits_Trans 
-					from trans t, collection c where transaction_id in
-					(select transaction_id from permit_trans where PERMIT_ID in
-					(select related_primary_key from MEDIA_RELATIONS where media_relationship like '%permit'))
-					and t.collection_id = c.collection_id
-					group by c.collection_id, collection) p on c.collection_id = p.collection_id
 				LEFT JOIN 
 					(select f.collection_id, f.collection, count(distinct f.collection_object_id) Images_Primary_Cat_Items, sum(decode(total_parts,null, 1,total_parts)) Images_Primary_Specimens
 					from flat f, citation c, ctcitation_type_status ts
@@ -521,8 +515,6 @@ limitations under the License.
 										<th><strong>Number of Media Items</strong></th>
 										<th><strong>Number of Cataloged Items with Media added</strong></th>
 										<th><strong>Number of Media Items added</strong></th>
-										<th><strong>Number of Transactions with Associated "Permit" Documents</strong></th>
-										<th><strong>Number of Transactions with Associated "Permit" Documents in time span</strong></th>
 										<th><strong>Number of Primary Types with Images</strong></th>
 										<th><strong>% of Primary Types Imaged</strong></th>
 										<th><strong>Number of Secondary Types with Images</strong></th>
@@ -535,8 +527,6 @@ limitations under the License.
 											<td>#Num_Images_Cat_Items#</td>
 											<td>#Num_Images#</td>
 											<td>N/A</td>
-											<td>N/A</td>
-											<td>#Num_Permits_Trans#</td>
 											<td>N/A</td>
 											<td>#Images_Primary_Cat_Items#</td>
 											<td>N/A</td>
@@ -584,17 +574,19 @@ limitations under the License.
 				SELECT
 					c.Collection,
 					cit.Num_Citations,
-					cit.Num_Citation_Cat_Items
+					cit.Num_Citation_Cat_Items,
+					cit.Num_Genetic_Citations
 				FROM
 					(select collection_cde,institution_acronym,descr,collection,collection_id from collection where collection_cde <> 'MCZ') c
 				LEFT JOIN 
-					(select coll.collection_id, coll.collection, count(distinct f.collection_object_id) Num_Citation_Cat_Items, count(*) Num_Citations 
+					(select coll.collection_id, coll.collection, count(distinct f.collection_object_id) Num_Citation_Cat_Items, count(*) Num_Citations, sum(decode(c.type_status, 'Genetic Voucher',1,0)) Num_Genetic_Citations 
 					from coll_object co,  flat f,  citation c,  publication p, collection coll
 					where f.collection_object_id = co.collection_object_id
 					and f.collection_object_id = c.collection_object_id 
 					and c.publication_id = p.publication_id
 					and f.collection_cde = coll.collection_cde
 					and p.publication_title not like '%Placeholder%'
+					and co.COLL_OBJECT_ENTERED_DATE <  to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#endDate#">, 'YYYY-MM-DD')
 					GROUP BY coll.collection_id, coll.collection) cit on c.collection_id = cit.collection_id
 				</cfquery>
 			<cfif variables.returnAs EQ "csv">
@@ -620,10 +612,10 @@ limitations under the License.
 								<thead>
 									<tr>
 										<th><strong>Collection</strong></th>
-										<th><strong>Total Full Citations</strong></th>
-										<th><strong>Number of Cataloged Items with Full Citations</strong></th>
-										<th><strong>Number of Cataloged Items with Full Citations (w/ogenetic vouchers) added</strong></th>
-										<th><strong>Genetic Voucher Citations added </strong></th>
+										<th><strong>Total Citations</strong></th>
+										<th><strong>Number of Cataloged Items with Citations</strong></th>
+										<!---th><strong>Number of Cataloged Items with Full Citations (w/ogenetic vouchers) added</strong></th--->
+										<th><strong>Number of Genetic Voucher Citations</strong></th>
 									</tr>
 								</thead>
 								<tbody>
@@ -632,8 +624,8 @@ limitations under the License.
 											<td>#Collection#</td>
 											<td>#Num_Citations#</td>
 											<td>#Num_Citation_Cat_Items#</td>
-											<td>N/A</td>
-											<td>N/A</td>
+											<!---td>N/A</td--->
+											<td>#Num_Genetic_Citations#</td>
 										</tr>
 									</cfloop>
 								</tbody>
