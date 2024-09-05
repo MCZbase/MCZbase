@@ -481,19 +481,19 @@ limitations under the License.
 						<th>DEC_LAT</th>
 						<th>DEC_LONG</th>
 						<th>MAX_ERROR_DISTANCE</th>
-						<th>max_error_units</th>
-						<th>lat_long_remarks</th>
-						<th>determined_by_agent</th>
-						<th>determined_by_agent_id</th>
-						<th>georefmethod</th>
-						<th>orig_lat_long_units</th>
-						<th>datum</th>
+						<th>MAX_ERROR_UNITS</th>
+						<th>LAT_LONG_REMARKS</th>
+						<th>DETERMINED_BY_AGENT</th>
+						<th>DETERMINED_BY_AGENT_ID</th>
+						<th>GEOREFMETHOD</th>
+						<th>ORIG_LAT_LONG_UNITS</th>
+						<th>DATUM</th>
 						<th>COORDINATE_PRECISION</th>
-						<th>determined_date</th>
-						<th>lat_long_ref_source</th>
-						<th>extent</th>
-						<th>gpsaccuracy</th>
-						<th>verificationstatus</th>
+						<th>DETERMINED_DATE</th>
+						<th>LAT_LONG_REF_SOURCE</th>
+						<th>EXTENT</th>
+						<th>GPSACCURACY</th>
+						<th>VERIFICATIONSTATUS</th>
 						<th>VERIFIED_BY</th>
 						<th>SPATIALFIT</th>
 						<th>NEAREST_NAMED_PLACE</th>
