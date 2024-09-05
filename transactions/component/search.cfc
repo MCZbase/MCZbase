@@ -1299,10 +1299,12 @@ limitations under the License.
 			 	accn 
 				join trans on accn.transaction_id = trans.transaction_id
 				join collection on trans.collection_id=collection.collection_id
-				left join permit_trans on trans.transaction_id = permit_trans.transaction_id
-				left join permit on permit_trans.permit_id = permit.permit_id
 				left join project_trans on trans.transaction_id = project_trans.transaction_id
 				left join project on project_trans.project_id = project.project_id
+				<cfif ( isdefined("permit_id") and len(#permit_id#) gt 0 ) OR ( isdefined("permit_type") and len(#permit_type#) gt 0 ) OR ( isdefined("permit_specific_type") and len(#permit_specific_type#) gt 0 ) OR ( isdefined("IssuedByAgent") and len(#IssuedByAgent#) gt 0 ) OR ( isdefined("IssuedToAgent") and len(#IssuedToAgent#) gt 0 ) >
+					left join permit_trans on trans.transaction_id = permit_trans.transaction_id
+					left join permit on permit_trans.permit_id = permit.permit_id
+				</cfif>
 				<cfif (isdefined("trans_agent_role_1") AND len(trans_agent_role_1) gt 0) OR (isdefined("agent_1") AND len(agent_1) gt 0) >
 					left join trans_agent trans_agent_1 on trans.transaction_id = trans_agent_1.transaction_id
 				</cfif>
