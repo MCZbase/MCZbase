@@ -44,22 +44,22 @@
 <!-----------------------------------   sitemaps    ------------------------------------------>
 
 
-<cfschedule action = "update"
+<!---cfschedule action = "update"
     task = "CTupdates" 
     operation = "HTTPRequest"
     url = "127.0.0.1/ScheduledTasks/CTupdates.cfm"
     startDate = "#dateformat(now(),'dd-mmm-yyyy')#"
     startTime = "12:01 AM"
     interval = "daily"
-    requestTimeOut = "600">
-<cfschedule action = "update"
+    requestTimeOut = "600"--->
+<!---cfschedule action = "update"
     task = "cf_spec_res_cols" 
     operation = "HTTPRequest"
     url = "127.0.0.1/ScheduledTasks/cf_spec_res_cols.cfm"
     startDate = "#dateformat(now(),'dd-mmm-yyyy')#"
     startTime = "01:38 AM"
     interval = "weekly"
-    requestTimeOut = "600">
+    requestTimeOut = "600"--->
 <cfschedule action = "update"
     task = "sitemap_map" 
     operation = "HTTPRequest"

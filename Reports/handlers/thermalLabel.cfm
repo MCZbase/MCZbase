@@ -123,7 +123,7 @@ limitations under the License.
 		<cfset jarTitle = 'text-align: center; padding-bottom: .07in; border-bottom: 1px solid;font: 11pt Arial;padding-top: .05in;margin-bottom: 0.05in;'>
 		<cfset higherTaxa = 'text-align: left; font: 10.5pt Arial;padding: .02in;'>
 		<cfset sciName = "text-align: left;font: 10.5pt Helvetica, Arial, 'sans-serif'; padding: .05in .02in .02in .02in;font-weight:bold;">
-		<cfset contentFont = 'font: 10pt Arial;'>
+		<cfset contentFont = 'font: 9.5pt Arial;'>
 		<cfset tdAlign = 'vertical-align: top;'>
 		<cfset labelStyle = '#labelHeight# #labelWidth# #labelBorder#'><!---  (not used yet) --->
 		<cfset pageHeight = "5"><!--- Thermal Paper height; For WHOI jar number label, this is the height the jar can accommodate. TODO: should be tunable by number of records --->
