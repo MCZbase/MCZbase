@@ -745,7 +745,7 @@ limitations under the License.
 							</cfquery>
 						</cfif>
 						<cfelse>
-						<cfoutput>Index #i# does not exist in the list. </cfoutput>
+							
 						</cfif>
 					</cfloop>
 				</cfloop>
