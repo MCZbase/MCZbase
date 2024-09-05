@@ -548,6 +548,7 @@ limitations under the License.
 			<cfset theKey = getTempMedia.related_primary_key_2>
 			<cfloop query="getTempMedia">
 				<cfloop from="1" to="2" index="i">
+					<cfif ListLen(theKey) gte #i#>
 						<cfquery name="warningBadRel1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							UPDATE
 								cf_temp_media
@@ -743,9 +744,9 @@ limitations under the License.
 									key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia2.key#">
 							</cfquery>
 						</cfif>
-			<!---			<cfelse>
+						<cfelse>
 							
-						</cfif>--->
+						</cfif>
 					</cfloop>
 				</cfloop>
 			</cfif>
