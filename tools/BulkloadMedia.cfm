@@ -628,7 +628,7 @@ limitations under the License.
 								AND key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia2.key#">
 						</cfquery>
 							
-						<cfif ListLen(getMediaRel.related_primary_key) gte #i# >
+		<!---				<cfif ListLen(getMediaRel.related_primary_key) gte #i# >--->
 						<!---Find the table name "theTable" from the second part of the media_relationship--->
 						<cfset theTable = trim(listLast('#getMediaRel.media_relationship#'," "))>
 						<!---based on the table, find the primary key--->
@@ -744,9 +744,9 @@ limitations under the License.
 									key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia2.key#">
 							</cfquery>
 						</cfif>
-						<cfelse>
+			<!---			<cfelse>
 							
-						</cfif>
+						</cfif>--->
 					</cfloop>
 				</cfloop>
 			</cfif>
