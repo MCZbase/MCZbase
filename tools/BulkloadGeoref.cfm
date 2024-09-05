@@ -380,11 +380,11 @@ limitations under the License.
 			<!---Get Data from the temp table and the codetables with relevant information--->
 		
 			<cfquery name="getTempData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				SELECT highergeography,speclocality,locality_id,dec_lat,dec_long,max_error_distance,max_error_units,lat_long_remarks,determined_by_agent,determined_by_agent_id,georefmethod,orig_lat_long_units,datum,determined_date,lat_long_ref_source,extent,gpsaccuracy,verificationstatus,verified_by,verified_by_agent_id,spatialfit,nearest_named_place,accepted_lat_long_fg,COORDINATE_PRECISION,key
+				SELECT highergeography,speclocality,locality_id,dec_lat,dec_long,max_error_distance,max_error_units,lat_long_remarks,determined_by_agent,determined_by_agent_id,georefmethod,orig_lat_long_units,datum,determined_date,lat_long_ref_source,extent,gpsaccuracy,verificationstatus,verified_by,verified_by_agent_id,spatialfit,nearest_named_place,accepted_lat_long_fg,coordinate_precision,key
 				FROM cf_temp_georef
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
-				<cfquery name="changeFlag" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+			<cfquery name="changeFlag" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				update lat_long set accepted_lat_long_fg = 0 
 				where locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.locality_id#">
 			</cfquery>
@@ -433,10 +433,6 @@ limitations under the License.
 						AND username = <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#session.username#'>
 					</cfquery>
 				</cfif>
-				<cfquery name="changeFlag" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					update lat_long set accepted_lat_long_fg = 0 
-					where locality_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.locality_id#">
-				</cfquery>
 				<cfquery name="getHGText" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					update cf_temp_georef
 					set highergeography = <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#getTempData.HIGHERGEOGRAPHY#'>
@@ -457,7 +453,7 @@ limitations under the License.
 				SELECT status,highergeography,speclocality,locality_id,dec_lat,dec_long,max_error_distance,max_error_units,lat_long_remarks,determined_by_agent,determined_by_agent_id,georefmethod,orig_lat_long_units,datum,determined_date,lat_long_ref_source,extent,gpsaccuracy,verificationstatus,verified_by,verified_by_agent_id,spatialfit,nearest_named_place,key
 				FROM cf_temp_georef
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-				ORDER BY key
+				and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.key#">
 			</cfquery>
 			<cfquery name="dataCount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT count(*) c 
