@@ -544,18 +544,17 @@ limitations under the License.
 			</cfif>
 	
 
-			<cfset theKey = getTempMedia.related_primary_key_2>
-			<cfloop query="getTempMedia">
-				<cfloop from="1" to="2" index="i">
-					<cfif ListLen(theKey) gte related_primary_key_2>
+			<cfset theKey = 2>
+				<cfloop query="getTempMedia">
+					<cfif len(related_primary_key_1) gt 0>
 						<cfquery name="warningBadRel1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							UPDATE
 								cf_temp_media
 							SET
-								status = concat(nvl2(status, status || '; ', ''),'MEDIA_RELATIONSHIP_#i# is invalid - Check  <a href="/vocabularies/ControlledVocabulary.cfm?table=CTMEDIA_RELATIONSHIP">controlled vocabulary</a>')
+								status = concat(nvl2(status, status || '; ', ''),'MEDIA_RELATIONSHIP_1 is invalid - Check  <a href="/vocabularies/ControlledVocabulary.cfm?table=CTMEDIA_RELATIONSHIP">controlled vocabulary</a>')
 							WHERE
-								media_relationship_#i# not in (select media_relationship from ctmedia_relationship) and 
-								media_relationship_#i# is not null AND
+								media_relationship_1 not in (select media_relationship from ctmedia_relationship) and 
+								media_relationship_1 is not null AND
 								username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> and
 								key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia.key#">
 						</cfquery>
@@ -563,14 +562,35 @@ limitations under the License.
 							UPDATE
 								cf_temp_media
 							SET
-								status = concat(nvl2(status, status || '; ', ''),'RELATED_PRIMARY_KEY_#i# is missing')
+								status = concat(nvl2(status, status || '; ', ''),'RELATED_PRIMARY_KEY_1 is missing')
 							WHERE
-								related_primary_key_#i# is null and media_relationship_#i# is not null AND
+								related_primary_key_1 is null and media_relationship_1 is not null AND
 								username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> AND
 								key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia.key#">
 						</cfquery>
-					<cfelse>
-				
+					</cfif>
+					<cfif len(related_primary_key_2) gt 0>
+						<cfquery name="warningBadRel1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+							UPDATE
+								cf_temp_media
+							SET
+								status = concat(nvl2(status, status || '; ', ''),'MEDIA_RELATIONSHIP_2 is invalid - Check  <a href="/vocabularies/ControlledVocabulary.cfm?table=CTMEDIA_RELATIONSHIP">controlled vocabulary</a>')
+							WHERE
+								media_relationship_2 not in (select media_relationship from ctmedia_relationship) and 
+								media_relationship_2 is not null AND
+								username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> and
+								key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia.key#">
+						</cfquery>
+						<cfquery name="warningBadRel2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+							UPDATE
+								cf_temp_media
+							SET
+								status = concat(nvl2(status, status || '; ', ''),'RELATED_PRIMARY_KEY_2 is missing')
+							WHERE
+								related_primary_key_2 is null and media_relationship_2 is not null AND
+								username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> AND
+								key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia.key#">
+						</cfquery>
 					</cfif>
 				</cfloop>
 				<cfif isimagefile(getTempMedia.media_uri)>
