@@ -506,32 +506,34 @@ limitations under the License.
 					</tr>
 				</thead>
 				<tbody>
-					<tr>
-						<td><cfif len(data.status) eq 0>Cleared to load<cfelse><strong>#data.status#</strong></cfif></td>
-						<td>#getTempData.highergeography#</td>
-						<td>#getTempData.speclocality#</td>
-						<td>#getTempData.locality_id#</td>
-						<td>#getTempData.dec_lat#</td>
-						<td>#getTempData.dec_long#</td>
-						<td>#getTempData.max_error_distance#</td>
-						<td>#getTempData.max_error_units#</td>
-						<td>#getTempData.lat_long_remarks#</td>
-						<td>#getTempData.determined_by_agent#</td>
-						<td>#getTempData.determined_by_agent_id#</td>
-						<td>#getTempData.georefmethod#</td>
-						<td>#getTempData.orig_lat_long_units#</td>
-						<td>#getTempData.datum#</td>
-						<td>#getTempData.COORDINATE_PRECISION#</td>
-						<td>#getTempData.determined_date#</td>
-						<td>#getTempData.lat_long_ref_source#</td>
-						<td>#getTempData.extent#</td>
-						<td>#getTempData.gpsaccuracy#</td>
-						<td>#getTempData.verificationstatus#</td>
-						<td>#getTempData.verified_by#</td>
-						<td>#getTempData.spatialfit#</td>
-						<td>#getTempData.nearest_named_place#</td>
-						<td>#getTempData.accepted_lat_long_fg#</td>
-					</tr>	
+					<cfloop query="data">
+						<tr>
+							<td><cfif len(data.status) eq 0>Cleared to load<cfelse><strong>#data.status#</strong></cfif></td>
+							<td>#getTempData.highergeography#</td>
+							<td>#getTempData.speclocality#</td>
+							<td>#getTempData.locality_id#</td>
+							<td>#getTempData.dec_lat#</td>
+							<td>#getTempData.dec_long#</td>
+							<td>#getTempData.max_error_distance#</td>
+							<td>#getTempData.max_error_units#</td>
+							<td>#getTempData.lat_long_remarks#</td>
+							<td>#getTempData.determined_by_agent#</td>
+							<td>#getTempData.determined_by_agent_id#</td>
+							<td>#getTempData.georefmethod#</td>
+							<td>#getTempData.orig_lat_long_units#</td>
+							<td>#getTempData.datum#</td>
+							<td>#getTempData.COORDINATE_PRECISION#</td>
+							<td>#getTempData.determined_date#</td>
+							<td>#getTempData.lat_long_ref_source#</td>
+							<td>#getTempData.extent#</td>
+							<td>#getTempData.gpsaccuracy#</td>
+							<td>#getTempData.verificationstatus#</td>
+							<td>#getTempData.verified_by#</td>
+							<td>#getTempData.spatialfit#</td>
+							<td>#getTempData.nearest_named_place#</td>
+							<td>#getTempData.accepted_lat_long_fg#</td>
+						</tr>
+					</cfloop>
 				</tbody>
 			</table>
 		</cfoutput>
