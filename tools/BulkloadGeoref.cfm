@@ -38,7 +38,7 @@ limitations under the License.
 	
 <cfset requiredfieldlist = "HIGHERGEOGRAPHY,SPECLOCALITY,LOCALITY_ID,DETERMINED_BY_AGENT,GEOREFMETHOD,ORIG_LAT_LONG_UNITS,DATUM,DETERMINED_DATE,LAT_LONG_REF_SOURCE,VERIFICATIONSTATUS">
 <cfif fieldTypes eq 'CF_SQL_DECIMAL'>
-	<cfset CF_SQL_DECIMAL = "CF_SQL_DECIMAL,precision=10,scale=3">
+	<cfset CF_SQL_DECIMAL = "CF_SQL_DECIMAL,precision=10,scale=6">
 </cfif>
 <!--- special case handling to dump column headers as csv --->
 <cfif isDefined("action") AND action is "getCSVHeader">
