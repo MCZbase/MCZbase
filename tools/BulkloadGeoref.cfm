@@ -409,7 +409,7 @@ limitations under the License.
 				select LAT_LONG_ERROR_UNITS from CTLAT_LONG_ERROR_UNITS
 			</cfquery>
 			<cfset i= 1>
-			<cfset dateFormat = "YYYY-MM-DD">
+		
 			<cfquery name="getHGText" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				update cf_temp_georef
 				set geog_auth_rec_id = (select geog_auth_rec_id from geog_auth_rec where higher_geog =  <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#getTempData.HIGHERGEOGRAPHY#'>)
@@ -439,12 +439,13 @@ limitations under the License.
 				</cfif>
 				<cfquery name="getDetDate" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					update cf_temp_georef
-					set determined_date =  TO_DATE(<cfqueryparam value="#getTempData.DETERMINED_DATE#" cfsqltype="CF_SQL_DATE">, '#dateFormat#')
+					set determined_date =  TO_DATE(<cfqueryparam cfsqltype="CF_SQL_DATE" value="#getTempData.DETERMINED_DATE#">, 'YYYY-MM-DD')
 					where key = <cfqueryparam cfsqltype='CF_SQL_DECIMAL' value='#getTempData.key#'>
 					AND username = <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#session.username#'>
 				</cfquery>
 
 			</cfloop>
+			<cfset dateFormat = "YYYY-MM-DD">
 			<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT *
 				FROM cf_temp_georef
