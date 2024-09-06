@@ -435,7 +435,7 @@ limitations under the License.
 					UPDATE cf_temp_georef
 					SET status = concat(nvl2(status, status || '; ', ''),'dec_lat is not a valid number'),
 					dec_lat = numberFormat(#dec_lat#, "99.99")
-					WHERE dec_lat 
+					WHERE dec_lat is not null AND
 					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> AND
 					key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#">
 				</cfquery>
