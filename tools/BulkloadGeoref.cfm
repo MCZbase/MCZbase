@@ -409,7 +409,6 @@ limitations under the License.
 				select LAT_LONG_ERROR_UNITS from CTLAT_LONG_ERROR_UNITS
 			</cfquery>
 			<cfset i= 1>
-		
 			<cfquery name="getHGText" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				update cf_temp_georef
 				set geog_auth_rec_id = (select geog_auth_rec_id from geog_auth_rec where higher_geog =  <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#getTempData.HIGHERGEOGRAPHY#'>)
@@ -427,23 +426,22 @@ limitations under the License.
 					SET determined_by_agent_id = (select agent_id from preferred_agent_name where agent_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.determined_by_agent#">),
 						status = null
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-						and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempData.key#"> 
+						and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.key#"> 
 				</cfquery>
 				<cfif verificationstatus is 'verified by MCZ collection'>
 					<cfquery name="getVerS" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						update cf_temp_georef
 						set verified_by_agent_id = (select AGENT_ID from agent_name where agent_name = <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value="#getTempData.verified_by#">)
-						where key = <cfqueryparam cfsqltype='CF_SQL_DECIMAL' value='#getTempData.key#'>
-						AND username = <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#session.username#'>
+						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+						and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.key#"> 
 					</cfquery>
 				</cfif>
 				<cfquery name="getDetDate" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					update cf_temp_georef
 					set determined_date =  TO_DATE(<cfqueryparam cfsqltype="CF_SQL_DATE" value="#getTempData.DETERMINED_DATE#">, 'YYYY-MM-DD')
-					where key = <cfqueryparam cfsqltype='CF_SQL_DECIMAL' value='#getTempData.key#'>
-					AND username = <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#session.username#'>
+					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+					and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.key#"> 
 				</cfquery>
-
 			</cfloop>
 			<cfset dateFormat = "YYYY-MM-DD">
 			<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -497,28 +495,28 @@ limitations under the License.
 					<cfloop query="data">
 						<tr>
 							<td><cfif len(data.status) eq 0>Cleared to load<cfelse><strong>#data.status#</strong></cfif></td>
-							<td>#getTempData.highergeography#</td>
-							<td>#getTempData.speclocality#</td>
-							<td>#getTempData.locality_id#</td>
-							<td>#numberFormat(getTempData.dec_lat, "99.99")#</td>
-							<td>#getTempData.dec_long#</td>
-							<td>#getTempData.max_error_distance#</td>
-							<td>#getTempData.max_error_units#</td>
-							<td>#getTempData.lat_long_remarks#</td>
-							<td>#getTempData.determined_by_agent#</td>
-							<td>#getTempData.georefmethod#</td>
-							<td>#getTempData.orig_lat_long_units#</td>
-							<td>#getTempData.datum#</td>
-							<td>#getTempData.COORDINATE_PRECISION#</td>
-							<td>#getTempData.determined_date#</td>
-							<td>#getTempData.lat_long_ref_source#</td>
-							<td>#getTempData.extent#</td>
-							<td>#getTempData.gpsaccuracy#</td>
-							<td>#getTempData.verificationstatus#</td>
-							<td>#getTempData.verified_by#</td>
-							<td>#getTempData.spatialfit#</td>
-							<td>#getTempData.nearest_named_place#</td>
-							<td>#getTempData.accepted_lat_long_fg#</td>
+							<td>#data.highergeography#</td>
+							<td>#data.speclocality#</td>
+							<td>#data.locality_id#</td>
+							<td>#numberFormat(data.dec_lat, "99.99")#</td>
+							<td>#data.dec_long#</td>
+							<td>#data.max_error_distance#</td>
+							<td>#data.max_error_units#</td>
+							<td>#data.lat_long_remarks#</td>
+							<td>#data.determined_by_agent#</td>
+							<td>#data.georefmethod#</td>
+							<td>#data.orig_lat_long_units#</td>
+							<td>#data.datum#</td>
+							<td>#data.COORDINATE_PRECISION#</td>
+							<td>#data.determined_date#</td>
+							<td>#data.lat_long_ref_source#</td>
+							<td>#data.extent#</td>
+							<td>#data.gpsaccuracy#</td>
+							<td>#data.verificationstatus#</td>
+							<td>#data.verified_by#</td>
+							<td>#data.spatialfit#</td>
+							<td>#data.nearest_named_place#</td>
+							<td>#data.accepted_lat_long_fg#</td>
 						</tr>
 					</cfloop>
 				</tbody>
