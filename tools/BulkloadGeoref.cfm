@@ -410,7 +410,7 @@ limitations under the License.
 			</cfquery>
 			<cfset i= 1>
 			<cfloop query="getTempData">
-				<cfif len(determined_by_agent_id) eq 0>
+			
 					<cfquery name="getAgentID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						UPDATE cf_temp_georef
 						SET determined_by_agent_id = (select agent_id from preferred_agent_name where agent_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.determined_by_agent#">),
@@ -419,8 +419,7 @@ limitations under the License.
 							and determined_by_agent is not null
 							and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempData.key#"> 
 					</cfquery>
-				</cfif>
-				<cfquery name="getLocText" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				</cfif>		<cfquery name="getLocText" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					update cf_temp_georef
 					set speclocality = <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value="#getTempData.SPECLOCALITY#">
 					where key = <cfqueryparam cfsqltype='CF_SQL_DECIMAL' value="#getTempData.key#">
