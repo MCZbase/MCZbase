@@ -429,7 +429,7 @@ limitations under the License.
 					SET status = concat(nvl2(status, status || '; ', ''),'Specific Locality does not match Locality_ID')
 					WHERE locality_id in (select locality_id from locality where spec_locality = <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#getTempData.speclocality#'>) AND
 					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> AND
-					key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia.key#">
+					key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#">
 				</cfquery>
 				<cfquery name="getDecLat" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE cf_temp_georef
