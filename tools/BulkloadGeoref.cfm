@@ -233,6 +233,9 @@ limitations under the License.
 						<cfset foundHeaders = "#foundHeaders##separator##headers.get(JavaCast("int",i))#" >
 						<cfset separator = ",">
 					</cfloop>
+					<cfif fieldType = 'CF_SQL_DECIMAL'>
+						<cfset CF_SQL_DECIMAL = "CF_SQL_DECIMAL,precision=10,scale=3">
+					</cfif>
 					<cfset colNameArray = listToArray(ucase(foundHeaders))><!--- the list of columns/fields found in the input file --->
 					<cfset fieldArray = listToArray(ucase(fieldlist))><!--- the full list of fields --->
 					<cfset typeArray = listToArray(fieldTypes)><!--- the types for the full list of fields --->
