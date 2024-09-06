@@ -332,7 +332,6 @@ limitations under the License.
 					<h3 class="h4">
 						Successfully read #loadedRows# records from the CSV file. Next <a href="/tools/BulkloadGeoref.cfm?action=validate" class="btn-link font-weight-lessbold">click to validate</a>.
 					</h3>
-										<cfdump var="#insert#">
 				<cfcatch>
 					<h3 class="h4">
 						Failed to read the CSV file.  Fix the errors in the file and <a href="/tools/BulkloadGeoref.cfm">reload</a>.
@@ -389,7 +388,7 @@ limitations under the License.
 				FROM cf_temp_georef
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
-				<cfdump var=#getTempData#>
+				
 			<cfset key = ''>
 			<cfquery name="changeFlag" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				update lat_long set accepted_lat_long_fg = 0 
