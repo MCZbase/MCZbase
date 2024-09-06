@@ -431,14 +431,7 @@ limitations under the License.
 					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> AND
 					key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#">
 				</cfquery>
-				<cfquery name="getDecLat" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					UPDATE cf_temp_georef
-					SET status = concat(nvl2(status, status || '; ', ''),'dec_lat is not a valid number'),
-					dec_lat = to_number(#getTempData.dec_lat#, "99.99")
-					WHERE dec_lat is not null AND
-					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> AND
-					key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#">
-				</cfquery>
+
 					
 					
 				<cfquery name="getAgentID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -533,7 +526,7 @@ limitations under the License.
 							<td>#getTempData.highergeography#</td>
 							<td>#getTempData.speclocality#</td>
 							<td>#getTempData.locality_id#</td>
-							<td>#getTempData.dec_lat#</td>
+							<td>#numberFormat(getTempData.dec_lat, "0.00")#</td>
 							<td>#getTempData.dec_long#</td>
 							<td>#getTempData.max_error_distance#</td>
 							<td>#getTempData.max_error_units#</td>
