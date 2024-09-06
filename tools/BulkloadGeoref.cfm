@@ -409,7 +409,7 @@ limitations under the License.
 				select LAT_LONG_ERROR_UNITS from CTLAT_LONG_ERROR_UNITS
 			</cfquery>
 			<cfset i= 1>
-			<cfset dynamicDate = "#getTempData.DETERMINED_DATE#">
+	
 			<cfset dateFormat = "YYYY-MM-DD">
 			<cfloop query="getTempData">
 				<cfquery name="getAgentID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -450,7 +450,7 @@ limitations under the License.
 		
 				<cfquery name="getDetDate" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					update cf_temp_georef
-					set determined_date =  TO_DATE(<cfqueryparam value="#dynamicDate#" cfsqltype="cf_sql_varchar">, '#dateFormat#'),
+					set determined_date =  TO_DATE(<cfqueryparam value="#getTempData.DETERMINED_DATE#" cfsqltype="cf_sql_date">, '#dateFormat#'),
 					where key = <cfqueryparam cfsqltype='CF_SQL_DECIMAL' value='#getTempData.key#'>
 					AND username = <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#session.username#'>
 				</cfquery>
