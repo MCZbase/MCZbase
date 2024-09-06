@@ -416,6 +416,7 @@ limitations under the License.
 							),
 							status = null
 						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+							and determined_by_agent = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.determined_by_agent#">
 							and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempData.key#"> 
 					</cfquery>
 				</cfif>
