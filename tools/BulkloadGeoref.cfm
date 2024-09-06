@@ -422,6 +422,12 @@ limitations under the License.
 				WHERE locality_id in (select locality_id from locality where spec_locality = <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#getTempData.speclocality#'>) AND
 				username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> 
 			</cfquery>
+			<cfquery name="georefmethodWarning" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				UPDATE cf_temp_georef
+				SET status = concat(nvl2(status, status || '; ', ''),'Georefmethod not valid')
+				WHERE georefmethod not in (select GEOREFMETHOD from ctGEOREFMETHOD) AND
+				username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> 
+			</cfquery>
 			<cfloop query="getTempData">
 				<cfquery name="getAgentID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE cf_temp_georef
