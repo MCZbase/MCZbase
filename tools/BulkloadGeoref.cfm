@@ -437,7 +437,7 @@ limitations under the License.
 					dec_lat = numberFormat(#dec_lat#, "99.99")
 					WHERE dec_lat 
 					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> AND
-					key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia.key#">
+					key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#">
 				</cfquery>
 					
 					
