@@ -457,7 +457,7 @@ limitations under the License.
 				</cfquery>
 			</cfloop>
 			<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				SELECT highergeography,speclocality,locality_id,dec_lat,dec_long,max_error_distance,max_error_units,lat_long_remarks,determined_by_agent,georefmethod,orig_lat_long_units,datum,determined_date,lat_long_ref_source,extent,gpsaccuracy,verificationstatus,verified_by,spatialfit,nearest_named_place,coordinate_precision,accepted_lat_long_fg
+				SELECT highergeography,speclocality,locality_id,dec_lat,dec_long,max_error_distance,max_error_units,lat_long_remarks,determined_by_agent,determined_by_agent_id,georefmethod,orig_lat_long_units,datum,determined_date,lat_long_ref_source,extent,gpsaccuracy,verificationstatus,verified_by,spatialfit,nearest_named_place,coordinate_precision,accepted_lat_long_fg,status
 				FROM cf_temp_georef
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.key#">
@@ -479,6 +479,7 @@ limitations under the License.
 			<table class='sortable px-0 mx-0 table small table-responsive table-striped w-100'>
 				<thead class="thead-light">
 					<tr>
+						<th>STATUS</th>
 						<th>HIGHERGEOGRAPHY</th>
 						<th>SPECLOCALITY</th>
 						<th>LOCALITY_ID</th>
@@ -506,6 +507,7 @@ limitations under the License.
 				</thead>
 				<tbody>
 					<tr>
+						<td><cfif len(data.status) eq 0>Cleared to load<cfelse><strong>#data.status#</strong></cfif></td>
 						<td>#getTempData.highergeography#</td>
 						<td>#getTempData.speclocality#</td>
 						<td>#getTempData.locality_id#</td>
