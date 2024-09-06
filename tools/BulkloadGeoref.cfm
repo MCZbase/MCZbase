@@ -233,7 +233,6 @@ limitations under the License.
 						<cfset foundHeaders = "#foundHeaders##separator##headers.get(JavaCast("int",i))#" >
 						<cfset separator = ",">
 					</cfloop>
-			
 					<cfset colNameArray = listToArray(ucase(foundHeaders))><!--- the list of columns/fields found in the input file --->
 					<cfset fieldArray = listToArray(ucase(fieldlist))><!--- the full list of fields --->
 					<cfset typeArray = listToArray(fieldTypes)><!--- the types for the full list of fields --->
@@ -389,7 +388,6 @@ limitations under the License.
 				FROM cf_temp_georef
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
-				
 			<cfset key = ''>
 			<cfquery name="changeFlag" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				update lat_long set accepted_lat_long_fg = 0 
@@ -420,12 +418,6 @@ limitations under the License.
 				UPDATE cf_temp_georef
 				SET status = concat(nvl2(status, status || '; ', ''),'Specific Locality does not match Locality_ID')
 				WHERE locality_id in (select locality_id from locality where spec_locality = <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#getTempData.speclocality#'>) AND
-				username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> 
-			</cfquery>
-			<cfquery name="georefmethodWarning" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				UPDATE cf_temp_georef
-				SET status = concat(nvl2(status, status || '; ', ''),'Georefmethod not valid')
-				WHERE georefmethod not in (select GEOREFMETHOD from ctGEOREFMETHOD) AND
 				username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> 
 			</cfquery>
 			<cfloop query="getTempData">
@@ -506,7 +498,7 @@ limitations under the License.
 							<td>#data.highergeography#</td>
 							<td>#data.speclocality#</td>
 							<td>#data.locality_id#</td>
-							<td>#numberFormat(data.dec_lat, "99.999")#</td>
+							<td>#numberFormat(data.dec_lat, "99.99")#</td>
 							<td>#data.dec_long#</td>
 							<td>#data.max_error_distance#</td>
 							<td>#data.max_error_units#</td>
