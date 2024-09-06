@@ -415,7 +415,6 @@ limitations under the License.
 					SET determined_by_agent_id = (select agent_id from preferred_agent_name where agent_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.determined_by_agent#">),
 						status = null
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-						and determined_by_agent is not null
 						and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempData.key#"> 
 				</cfquery>
 				<cfquery name="getLocText" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
