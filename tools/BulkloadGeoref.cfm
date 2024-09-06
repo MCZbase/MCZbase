@@ -498,7 +498,7 @@ limitations under the License.
 							<td>#data.highergeography#</td>
 							<td>#data.speclocality#</td>
 							<td>#data.locality_id#</td>
-							<td>#numberFormat(data.dec_lat, "99.99")#</td>
+							<td>#numberFormat(data.dec_lat, "99.999")#</td>
 							<td>#data.dec_long#</td>
 							<td>#data.max_error_distance#</td>
 							<td>#data.max_error_units#</td>
