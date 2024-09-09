@@ -455,7 +455,7 @@ limitations under the License.
 					GROUP BY lat_long_id
 					HAVING count(*) > 0
 				</cfquery>
-				<cfif lat_long_id gt 0>
+				<cfif accepted_lat_long_fg gt 0>
 					<cfloop query="updateLatlongID">
 						update lat_long set accepted_lat_long_fg = 0 where locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.locality_ID#"> 
 					</cfloop>
