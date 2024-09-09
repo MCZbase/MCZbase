@@ -645,12 +645,12 @@ limitations under the License.
 
 					<p class="mt-2">Number of Georeferences added: <b>#georef_updates#</b></p>
 
-					<cfif getTempData.recordcount eq georef_updates and updateGeoref1_result.recordcount eq 0>
+<!---					<cfif getTempData.recordcount eq georef_updates and updateGeoref1_result.recordcount eq 0>
 						<h3 class="text-success">Success - loaded</h3>
 					</cfif>
 					<cfif updateGeoref1_result.recordcount gt 0>
 						<h3 class="text-danger">Not loaded - these have already been loaded</h3>
-					</cfif>
+					</cfif>--->
 					<cftransaction action="commit">
 				<cfcatch>
 					<cftransaction action="ROLLBACK">
