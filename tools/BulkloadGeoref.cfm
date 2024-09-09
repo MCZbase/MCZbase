@@ -449,7 +449,7 @@ limitations under the License.
 					and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.key#"> 
 				</cfquery>
 
-				<cfif len(accepted_lat_long_fg) gt 0>
+<!---				<cfif len(accepted_lat_long_fg) gt 0>
 					<cfquery name="updateLatlongID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateGeoref1_result">
 						SELECT lat_long_id
 						FROM lat_long
@@ -462,7 +462,7 @@ limitations under the License.
 							update lat_long set accepted_lat_long_fg = 0 where locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.locality_ID#"> 
 						</cfquery>
 					</cfloop>
-				</cfif>
+				</cfif>--->
 			</cfloop>
 			<cfset dateFormat = "YYYY-MM-DD">
 			<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
