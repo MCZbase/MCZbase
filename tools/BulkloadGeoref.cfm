@@ -392,12 +392,7 @@ limitations under the License.
 				set geog_auth_rec_id = (select geog_auth_rec_id from geog_auth_rec where higher_geog =  <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#getTempData.HIGHERGEOGRAPHY#'>)
 				where username = <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#session.username#'>
 			</cfquery>
-			<cfquery name="specLocWarning" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				UPDATE cf_temp_georef
-				SET status = concat(nvl2(status, status || '; ', ''),'Specific Locality does not match Locality_ID')
-				WHERE locality_id in (select locality_id from locality where spec_locality = <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#getTempData.speclocality#'>) AND
-				username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> 
-			</cfquery>
+
 			<cfset key = ''>
 			<cfloop query="getTempData">
 				<cfquery name="getAgentID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -405,6 +400,14 @@ limitations under the License.
 					SET determined_by_agent_id = (select agent_id from preferred_agent_name where agent_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.determined_by_agent#">)
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.key#"> 
+				</cfquery>
+				<cfquery name="specLocWarning" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					UPDATE cf_temp_georef
+					SET status = concat(nvl2(status, status || '; ', ''),'Specific Locality does not match Locality_ID')
+					WHERE locality_id in (select locality_id from locality 
+										where spec_locality = <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#getTempData.speclocality#'>) 
+					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> 
+					and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.key#"> 
 				</cfquery>
 				<cfquery name="getGeogAuthRecID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE cf_temp_georef
