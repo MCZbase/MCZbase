@@ -420,7 +420,6 @@ limitations under the License.
 					and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.key#"> 
 				</cfquery>
 			</cfloop>
-			<cfset dateFormat = "YYYY-MM-DD">
 			<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT *
 				FROM cf_temp_georef
@@ -520,7 +519,7 @@ limitations under the License.
 			<cfset key = "">
 			<cftransaction>
 				<cfquery name="getTempData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					SELECT status,determined_by_agent_id,highergeography,speclocality,locality_id,dec_lat,dec_long,max_error_distance,max_error_units,lat_long_remarks,determined_by_agent,georefmethod,orig_lat_long_units,datum,determined_date,lat_long_ref_source,extent,gpsaccuracy,verificationstatus,spatialfit,nearest_named_place,username,verified_by,verified_by_agent_id,accepted_lat_long_fg,coordinate_precision,geog_auth_rec_id,extent_units,lat_long_for_NNP_fg,key 
+					SELECT *
 					FROM cf_temp_georef
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
@@ -529,25 +528,38 @@ limitations under the License.
 					FROM cf_temp_georef
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
-
 				<cftry>
-				
-		
+					<cfset georef_updates = 0>
 					<cfif getTempData.recordcount EQ 0>
-						<cfthrow message="You have no rows to load in the Georeference bulkloader table (cf_temp_georef). <a href='/tools/BulkloadGeoref.cfm'>Start over</a>"><!--- " --->
+						<cfthrow message="You have no rows to load in the Georeference bulkloader table (cf_temp_georef). <a href='/tools/BulkloadGeoref.cfm'>Start over</a>">
 					</cfif>
 					<cfloop query="getTempData">
+						<cfset username="#session.username#">
+						<cfquery name="mediaDups" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateGeoref1_result">
+							SELECT 
+								locality_id 
+							FROM 
+								lat_long
+							WHERE 
+								locality_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.locality_id#">
+							GROUP BY 
+								locality_id
+								having count(*) > 1
+						</cfquery>
 						<cfset problem_key = getTempData.key>
-						<cfif len(ACCEPTED_LAT_LONG_FG) is NULL>
+						<!---CHECK THIS--->
+						<cfquery name="mid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+							select sq_georef_id.nextval nv from dual
+						</cfquery>
+						<cfset lat_long_id = mid.nv>
+							
+							
+						<cfif len(getTempData.ACCEPTED_LAT_LONG_FG) is NULL>
 							<cfset ACCEPTED_LAT_LONG_FG = 0>
 						<cfelse>
-							<cfset ACCEPTED_LAT_LONG_FG = ACCEPTED_LAT_LONG_FG>
+							<cfset ACCEPTED_LAT_LONG_FG = '#ACCEPTED_LAT_LONG_FG#'>
 						</cfif>
-						<cfif getTempData.recordcount EQ 0>
-							<cfthrow message="You have no rows to load in the geography bulkloader table (cf_temp_georef). <a href='/tools/BulkloadGeoref.cfm'>Start over</a>">
-						</cfif>
-						<CFSET dateFormat = "YYYY-MM-DD">
-						<cfquery name="updateGeoref" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="insResult">
+						<cfquery name="makeGeoref" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="insResult">
 							INSERT into lat_long (lat_long_id,LOCALITY_ID,DEC_LAT,DEC_LONG,DATUM,COORDINATE_PRECISION,ORIG_LAT_LONG_UNITS,DETERMINED_BY_AGENT_ID,DETERMINED_DATE,LAT_LONG_REF_SOURCE,LAT_LONG_REMARKS,MAX_ERROR_DISTANCE,MAX_ERROR_UNITS,ACCEPTED_LAT_LONG_FG,EXTENT,GPSACCURACY,GEOREFMETHOD,VERIFICATIONSTATUS,VERIFIED_BY_AGENT_ID,SPATIALFIT,NEAREST_NAMED_PLACE,EXTENT_UNITS,LAT_LONG_FOR_NNP_FG
 							)VALUES(
 								sq_lat_long_id.nextval,
@@ -558,7 +570,7 @@ limitations under the License.
 								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#COORDINATE_PRECISION#">,
 								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ORIG_LAT_LONG_UNITS#">,
 								<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#DETERMINED_BY_AGENT_ID#">,
-								 TO_DATE(<cfqueryparam value="#getTempData.DETERMINED_DATE#" cfsqltype="CF_SQL_DATE">, '#dateFormat#'),
+								 TO_DATE(<cfqueryparam value="#getTempData.DETERMINED_DATE#" cfsqltype="CF_SQL_DATE">, 'YYYY-MM-DD'),
 								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#LAT_LONG_REF_SOURCE#">,
 								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#LAT_LONG_REMARKS#">,
 								<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#MAX_ERROR_DISTANCE#">,
@@ -575,19 +587,20 @@ limitations under the License.
 								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#LAT_LONG_FOR_NNP_FG#">
 								)
 						</cfquery>
+						<cfset georef_updates = georef_updates + insResult.recordcount>
 					</cfloop>
 		
 					<p class="mt-2">Number of Georeferences added: <b>#georef_updates#</b></p>
-
-<!---					<cfif getTempData.recordcount eq georef_updates and updateGeoref1_result.recordcount eq 0>
+					<cfif getTempData.recordcount eq georef_updates and updateGeoref1_result.recordcount eq 0>
 						<h3 class="text-success">Success - loaded</h3>
 					</cfif>
 					<cfif updateGeoref1_result.recordcount gt 0>
 						<h3 class="text-danger">Not loaded - these have already been loaded</h3>
-					</cfif>--->
+					</cfif>
 					<cftransaction action="commit">
 				<cfcatch>
 					<cftransaction action="ROLLBACK">
+					<h3>There was a problem adding media records. </h3>
 					<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						SELECT *
 						FROM cf_temp_georef
@@ -595,7 +608,6 @@ limitations under the License.
 							key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#problem_key#">
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 					</cfquery>
-					<p class="mt-3">There was a problem updating georeferences. </p>
 					<cfif getProblemData.recordcount GT 0>
 						<h3>
 							Fix the issues and <a href="/tools/BulkloadGeoref.cfm">start again</a>. Error loading row (<span class="text-danger">#georef_updates + 1#</span>) from the CSV: 
@@ -664,53 +676,69 @@ limitations under the License.
 							<thead>
 								<tr>
 									<th>COUNT</th>
+									<th>DETERMINED_BY_AGENT_ID</th>
+									<th>HIGHERGEOGRAPHY</th>
+									<th>SPECLOCALITY</th>
 									<th>LOCALITY_ID</th>
 									<th>DEC_LAT</th>
 									<th>DEC_LONG</th>
-									<th>DATUM</th>
-									<th>COORDINATE_PRECISION</th>
-									<th>ORIG_LAT_LONG_UNITS</th>
-									<th>DETERMINED_BY_AGENT</th>
-									<th>DETERMINED_BY_AGENT_ID</th>
-									<th>DETERMINED_DATE</th>
-									<th>LAT_LONG_REF_SOURCE</th>
-									<th>LAT_LONG_REMARKS</th>
 									<th>MAX_ERROR_DISTANCE</th>
 									<th>MAX_ERROR_UNITS</th>
+									<th>LAT_LONG_REMARKS</th>
+									<th>DETERMINED_BY_AGENT</th>
+									<th>GEOREFMETHOD</th>
+									<th>ORIG_LAT_LONG_UNITS</th>
+									<th>DATUM</th>
+									<th>DETERMINED_DATE</th>
+									<th>LAT_LONG_REF_SOURCE</th>
 									<th>EXTENT</th>
 									<th>GPSACCURACY</th>
-									<th>GEOREFMETHOD</th>
 									<th>VERIFICATIONSTATUS</th>
-									<th>VERIFIED_BY_AGENT_ID</th>
 									<th>SPATIALFIT</th>
+									<th>NEAREST_NAMED_PLACE</th>
+									<th>USERNAME</th>
+									<th>VERIFIED_BY</th>
+									<th>VERIFIED_BY_AGENT_ID</th>
 									<th>ACCEPTED_LAT_LONG_FG</th>
+									<th>COORDINATE_PRECISION</th>
+									<th>GEOG_AUTH_REC_ID</th>
+									<th>EXTENT_UNITS</th>
+									<th>LAT_LONG_FOR_NNP_FG</th>
 								</tr> 
 							</thead>
 							<tbody>
 								<cfset i=1>
 								<cfloop query="getProblemData">
-									<tr>
+									<tr>										
 										<td>#i#</td>
-										<td>#getProblemData.locality_id#</td>
-										<td>#getProblemData.dec_lat#</td>
-										<td>#getProblemData.dec_long# </td>
-										<td>#getProblemData.datum# </td>
-										<td>#getProblemData.COORDINATE_PRECISION# </td>
-										<td>#getProblemData.orig_lat_long_units#</td>
-										<td>#getProblemData.determined_by_agent#</td>
-										<td>#getProblemData.determined_by_agent_id#</td>
-										<td>#getProblemData.determined_date#</td>
-										<td>#getProblemData.lat_long_ref_source#</td>
-										<td>#getProblemData.lat_long_remarks#</td>
-										<td>#getProblemData.max_error_distance#</td>
-										<td>#getProblemData.max_error_units#</td>
-										<td>#getProblemData.extent#</td>
-										<td>#getProblemData.gpsaccuracy# </td>
-										<td>#getProblemData.georefmethod# </td>
-										<td>#getProblemData.verificationstatus# </td>
-										<td>#getProblemData.VERIFIED_BY_AGENT_ID# </td>
-										<td>#getProblemData.spatialfit#</td>
-										<td>#getProblemData.accepted_lat_long_fg#</td>
+										<td>#getProblemData.DETERMINED_BY_AGENT_ID#</td>
+										<td>#getProblemData.HIGHERGEOGRAPHY#</td>
+										<td>#getProblemData.SPECLOCALITY#</td>
+										<td>#getProblemData.LOCALITY_ID#</td>
+										<td>#getProblemData.DEC_LAT#</td>
+										<td>#getProblemData.DEC_LONG#</td>
+										<td>#getProblemData.MAX_ERROR_DISTANCE#</td>
+										<td>#getProblemData.MAX_ERROR_UNITS#</td>
+										<td>#getProblemData.LAT_LONG_REMARKS#</td>
+										<td>#getProblemData.DETERMINED_BY_AGENT#</td>
+										<td>#getProblemData.GEOREFMETHOD#</td>
+										<td>#getProblemData.ORIG_LAT_LONG_UNITS#</td>
+										<td>#getProblemData.DATUM#</td>
+										<td>#getProblemData.DETERMINED_DATE#</td>
+										<td>#getProblemData.LAT_LONG_REF_SOURCE#</td>
+										<td>#getProblemData.EXTENT#</td>
+										<td>#getProblemData.GPSACCURACY#</td>
+										<td>#getProblemData.VERIFICATIONSTATUS#</td>
+										<td>#getProblemData.SPATIALFIT#</td>
+										<td>#getProblemData.NEAREST_NAMED_PLACE#</td>
+										<td>#getProblemData.USERNAME#</td>
+										<td>#getProblemData.VERIFIED_BY#</td>
+										<td>#getProblemData.VERIFIED_BY_AGENT_ID#</td>
+										<td>#getProblemData.ACCEPTED_LAT_LONG_FG#</td>
+										<td>#getProblemData.COORDINATE_PRECISION#</td>
+										<td>#getProblemData.GEOG_AUTH_REC_ID#</td>
+										<td>#getProblemData.EXTENT_UNITS#</td>
+										<td>#getProblemData.LAT_LONG_FOR_NNP_FG#</td>
 									</tr>
 									<cfset i= i+1>
 								</cfloop>
