@@ -692,7 +692,7 @@ limitations under the License.
 				<cfcatch>
 					<cftransaction action="ROLLBACK">
 					<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						SELECT highergeography,speclocality,locality_id,dec_lat,dec_long,max_error_distance,max_error_units,lat_long_remarks,determined_by_agent,georefmethod,orig_lat_long_units,datum,determined_date,lat_long_ref_source,extent,extent_units,gpsaccuracy,verificationstatus,verified_by,spatialfit,nearest_named_place,lat_long_for_nnp_fg,coordinate_precision,accepted_lat_long_fg,determined_by_agent_id,verified_by_AGENT_ID
+						SELECT *
 						FROM cf_temp_georef
 						WHERE 
 							key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#problem_key#">
