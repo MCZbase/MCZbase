@@ -449,7 +449,7 @@ limitations under the License.
 					and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.key#"> 
 				</cfquery>
 
-<!---				<cfif len(accepted_lat_long_fg) gt 0>
+				<cfif len(accepted_lat_long_fg) gt 0>
 					<cfquery name="updateLatlongID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateGeoref1_result">
 						SELECT lat_long_id
 						FROM lat_long
@@ -462,7 +462,7 @@ limitations under the License.
 							update lat_long set accepted_lat_long_fg = 0 where locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.locality_ID#"> 
 						</cfquery>
 					</cfloop>
-				</cfif>--->
+				</cfif>
 			</cfloop>
 			<cfset dateFormat = "YYYY-MM-DD">
 			<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -658,25 +658,18 @@ limitations under the License.
 						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#COORDINATE_PRECISION#">
 							)
 						</cfquery>
-						<cfquery name="updateGeoref1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateGeoref1_result">
-							SELECT highergeography,speclocality,locality_id,dec_lat,dec_long,max_error_distance
-							FROM lat_long
-							WHERE locality_id = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempData.locality_id#">
-							GROUP BY highergeography,speclocality,locality_id,dec_lat,dec_long,max_error_distance
-							HAVING count(*) > 1
-						</cfquery>
-						<cfset georef_updates = georef_updates + updateGeoref1_result.recordcount>
-						<cfif updateGeoref1_result.recordcount gt 0>
+						<cfset georef_updates = georef_updates + 1>
+						<cfif updateGeoref_result.recordcount gt 0>
 							<cfthrow message="Error: Attempting to insert a duplicate georeference">
 						</cfif>
 					</cfloop>
 					<p>Number of georeferences to update: #georef_updates# (on #getCounts.loc# cataloged items)</p>
-<!---					<cfif updateGeoref.recordcount eq georef_updates and updateGeoref1_result.recordcount eq 0>
+					<cfif updateGeoref.recordcount eq georef_updates>
 						<h3 class="text-success">Success - loaded</h3>
-					</cfif>--->
-				<!---	<cfif updateCitations1_result.recordcount gt 0>
+					</cfif>
+					<cfif updateGeoref_result.recordcount gt 0>
 						<h3 class="text-danger">Not loaded - these have already been loaded</h3>
-					</cfif>--->
+					</cfif>
 					<cftransaction action="commit">
 				<cfcatch>
 					<cftransaction action="ROLLBACK">
