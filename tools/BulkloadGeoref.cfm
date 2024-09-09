@@ -389,12 +389,6 @@ limitations under the License.
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<cfset key = ''>
-			<cfquery name="changeOrigFlag" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				update lat_long set accepted_lat_long_fg = 0 
-				where locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.locality_id#">
-				and dec_lat <> <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.dec_lat#">
-				and dec_long <> <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.dec_long#">
-			</cfquery>
 
 			<cfquery name="ctGEOREFMETHOD" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				select GEOREFMETHOD from ctGEOREFMETHOD
