@@ -573,12 +573,14 @@ limitations under the License.
 								MAX_ERROR_UNITS,
 								ACCEPTED_LAT_LONG_FG,
 								EXTENT,
+								EXTENT_UNITS,
 								GPSACCURACY,
 								GEOREFMETHOD,
 								VERIFICATIONSTATUS,
 								VERIFIED_BY_AGENT_ID,
 								SPATIALFIT,
-								NEAREST_NAMED_PLACE
+								NEAREST_NAMED_PLACE,
+								LAT_LONG_FOR_NNP_FG
 							)VALUES(
 							sq_lat_long_id.nextval,
 							<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#LOCALITY_ID#">,
@@ -623,6 +625,11 @@ limitations under the License.
 						</cfif>,
 						<cfif len(NEAREST_NAMED_PLACE) gt 0>
 							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#NEAREST_NAMED_PLACE#">
+						<cfelse>
+							NULL
+						</cfif>,
+						<cfif len(NEAREST_NAMED_PLACE) gt 0>
+							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#LAT_LONG_FOR_NNP_FG#">
 						<cfelse>
 							NULL
 						</cfif>
