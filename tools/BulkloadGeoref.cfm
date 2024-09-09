@@ -676,8 +676,8 @@ limitations under the License.
 							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#COORDINATE_PRECISION#">
 								)
 						</cfquery>
-						<cfset georef_updates = georef_updates + updateGeoref1_result>
-						<cfif updateGeoref1_result.recordcount gt 0>
+						<cfset georef_updates = georef_updates + insResult>
+						<cfif insResult.recordcount gt 0>
 							<cfthrow message="Error: Attempting to insert a duplicate georeference">
 						</cfif>
 					</cfloop>	
