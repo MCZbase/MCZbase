@@ -671,7 +671,7 @@ limitations under the License.
 							<cfif len(NEAREST_NAMED_PLACE) gt 0>
 								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#LAT_LONG_FOR_NNP_FG#">
 							<cfelse>
-								NULL
+								0
 							</cfif>,
 							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#COORDINATE_PRECISION#">
 								)
