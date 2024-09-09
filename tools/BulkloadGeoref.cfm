@@ -384,7 +384,7 @@ limitations under the License.
 			<!---Get Data from the temp table and the codetables with relevant information--->
 		
 			<cfquery name="getTempData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				SELECT *, key
+				SELECT *
 				FROM cf_temp_georef
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
