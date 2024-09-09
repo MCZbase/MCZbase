@@ -387,8 +387,6 @@ limitations under the License.
 				FROM cf_temp_georef
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
-
-
 			<cfset key = ''>
 			<cfloop query="getTempData">
 				<cfquery name="getAgentID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
