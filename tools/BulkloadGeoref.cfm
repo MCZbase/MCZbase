@@ -596,7 +596,7 @@ limitations under the License.
 					<cftransaction action="ROLLBACK">
 					<h3>There was a problem adding media records. </h3>
 					<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						SELECT lat_long_id, *
+						SELECT lat_long_id,LOCALITY_ID,DEC_LAT,DEC_LONG,DATUM,COORDINATE_PRECISION,ORIG_LAT_LONG_UNITS,DETERMINED_BY_AGENT_ID,DETERMINED_DATE,LAT_LONG_REF_SOURCE,LAT_LONG_REMARKS,MAX_ERROR_DISTANCE,MAX_ERROR_UNITS,ACCEPTED_LAT_LONG_FG,EXTENT,GPSACCURACY,GEOREFMETHOD,VERIFICATIONSTATUS,VERIFIED_BY_AGENT_ID,SPATIALFIT,NEAREST_NAMED_PLACE,EXTENT_UNITS,LAT_LONG_FOR_NNP_FG
 						FROM cf_temp_georef
 						WHERE 
 							key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#problem_key#">
