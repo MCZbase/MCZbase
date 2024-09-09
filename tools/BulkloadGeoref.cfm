@@ -395,7 +395,10 @@ limitations under the License.
 				and dec_lat <> <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.dec_lat#">
 				and dec_long <> <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.dec_long#">
 			</cfquery>
-
+			<cfquery name="changeNewFlag" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				update lat_long set accepted_lat_long_fg = 0 
+				where locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.locality_id#">
+			</cfquery>
 			<cfquery name="ctGEOREFMETHOD" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				select GEOREFMETHOD from ctGEOREFMETHOD
 			</cfquery>
@@ -431,18 +434,21 @@ limitations under the License.
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.key#"> 
 				</cfquery>
-				<cfquery name="getVerS" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					update cf_temp_georef
-					set verified_by_agent_id = (select AGENT_ID from preferred_agent_name where agent_name = <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value="#getTempData.verified_by#">)
-					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-					and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.key#"> 
-				</cfquery>
+				<cfif verificationstatus is 'verified by MCZ collection'>
+					<cfquery name="getVerS" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						update cf_temp_georef
+						set verified_by_agent_id = (select AGENT_ID from agent_name where agent_name = <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value="#getTempData.verified_by#">)
+						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+						and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.key#"> 
+					</cfquery>
+				</cfif>
 				<cfquery name="getDetDate" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					update cf_temp_georef
 					set determined_date =  TO_DATE(<cfqueryparam cfsqltype="CF_SQL_DATE" value="#getTempData.DETERMINED_DATE#">, 'YYYY-MM-DD')
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 					and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.key#"> 
 				</cfquery>
+
 				<cfif len(accepted_lat_long_fg) gt 0>
 					<cfquery name="updateLatlongID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateGeoref1_result">
 						SELECT lat_long_id
@@ -547,8 +553,11 @@ limitations under the License.
 	<cfif #action# is "load">
 		<h2 class="h3">Third step: Apply changes.</h2>
 		<cfoutput>
+			<cfset georef_updates = "">
 			<cfset problem_key = "">
 			<cftransaction>
+		
+				
 				<cfquery name="getTempData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT * FROM cf_temp_georef
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
@@ -560,76 +569,112 @@ limitations under the License.
 					</cfquery>
 				<cftry>
 					<cfset georef_updates = 0>
-		
+					<cfset georef_updates1 = 0>
 					<cfif getTempData.recordcount EQ 0>
-						<cfthrow message="You have no rows to load in the Georeference bulkloader table (cf_temp_georef). <a href='/tools/BulkloadGeoref.cfm'>Start over</a>"><!--- " --->
+						<cfthrow message="You have no rows to load in the geography bulkloader table (cf_temp_georef). <a href='/tools/BulkloadGeoref.cfm'>Start over</a>">
 					</cfif>
 					<cfloop query="getTempData">
-						<cfset username = '#session.username#'>
-<!---						<cfquery name="georefDups" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateGeoref1_result">
-							SELECT 
-								locality_id, dec_lat, dec_long 
-							FROM 
-								lat_long
-							WHERE 
-								locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.locality_id#">
-							GROUP BY 
-								locality_id, dec_lat, dec_long 
-								having count(*) > 1
-						</cfquery>--->
-						<cfset problem_key = getTempData.key>
-						<cfif len(ACCEPTED_LAT_LONG_FG) is NULL>
-							<cfset ACCEPTED_LAT_LONG_FG = 0>
-						<cfelse>
-							<cfset ACCEPTED_LAT_LONG_FG = ACCEPTED_LAT_LONG_FG>
-						</cfif>
-						<cfif getTempData.recordcount EQ 0>
-							<cfthrow message="You have no rows to load in the geography bulkloader table (cf_temp_georef). <a href='/tools/BulkloadGeoref.cfm'>Start over</a>">
-						</cfif>
-						<CFSET dateFormat = "YYYY-MM-DD">
-						<cfquery name="updateGeoref" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="insResult">
-							INSERT into lat_long (lat_long_id,LOCALITY_ID,DEC_LAT,DEC_LONG,DATUM,COORDINATE_PRECISION,ORIG_LAT_LONG_UNITS,DETERMINED_BY_AGENT_ID,DETERMINED_DATE,LAT_LONG_REF_SOURCE,LAT_LONG_REMARKS,MAX_ERROR_DISTANCE,MAX_ERROR_UNITS,ACCEPTED_LAT_LONG_FG,EXTENT,GPSACCURACY,GEOREFMETHOD,VERIFICATIONSTATUS,VERIFIED_BY_AGENT_ID,SPATIALFIT,NEAREST_NAMED_PLACE,EXTENT_UNITS,LAT_LONG_FOR_NNP_FG
+						<cfset dynamicDate = "#DETERMINED_DATE#">
+						<cfset dateFormat = "YYYY-MM-DD">
+						<cfquery name="updateGeoref" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateGeoref_result">
+							INSERT into lat_long (
+								LAT_LONG_ID,
+								LOCALITY_ID,
+								DEC_LAT,
+								DEC_LONG,
+								DATUM,
+								ORIG_LAT_LONG_UNITS,
+								DETERMINED_BY_AGENT_ID,
+								DETERMINED_DATE,
+								LAT_LONG_REF_SOURCE,
+								LAT_LONG_REMARKS,
+								MAX_ERROR_DISTANCE,
+								MAX_ERROR_UNITS,
+								ACCEPTED_LAT_LONG_FG,
+								EXTENT,
+								EXTENT_UNITS,
+								GPSACCURACY,
+								GEOREFMETHOD,
+								VERIFICATIONSTATUS,
+								VERIFIED_BY_AGENT_ID,
+								SPATIALFIT,
+								NEAREST_NAMED_PLACE,
+								LAT_LONG_FOR_NNP_FG,
+								COORDINATE_PRECISION
 							)VALUES(
-								sq_lat_long_id.nextval,
-								<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#LOCALITY_ID#">,
-								<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#Dec_Lat#" scale="10">,
-								<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#Dec_Long#" scale="10">,
-								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#DATUM#">,
-								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#COORDINATE_PRECISION#">,
-								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ORIG_LAT_LONG_UNITS#">,
-								<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#DETERMINED_BY_AGENT_ID#">,
-								 TO_DATE(<cfqueryparam value="#getTempData.DETERMINED_DATE#" cfsqltype="CF_SQL_DATE">, '#dateFormat#'),
-								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#LAT_LONG_REF_SOURCE#">,
-								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#LAT_LONG_REMARKS#">,
+							sq_lat_long_id.nextval,
+							<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#LOCALITY_ID#">,
+							<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#Dec_Lat#" scale="10">,
+							<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#Dec_Long#" scale="10">,
+							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#DATUM#">,
+							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ORIG_LAT_LONG_UNITS#">,
+							<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#DETERMINED_BY_AGENT_ID#">,
+							 TO_DATE(<cfqueryparam value="#dynamicDate#" cfsqltype="cf_sql_DATE">, '#dateFormat#'),
+							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#LAT_LONG_REF_SOURCE#">,
+							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#LAT_LONG_REMARKS#">,
+							<cfif len(MAX_ERROR_DISTANCE) gt 0>
 								<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#MAX_ERROR_DISTANCE#">,
-								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#MAX_ERROR_UNITS#">,
-								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ACCEPTED_LAT_LONG_FG#">,
+							<cfelse>
+								NULL,
+							</cfif>
+							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#MAX_ERROR_UNITS#">,
+							<cfif len(ACCEPTED_LAT_LONG_FG) gt 0>#ACCEPTED_LAT_LONG_FG#
+							<cfelse>
+								1
+							</cfif>,
+							<cfif len(EXTENT) gt 0>
 								<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#EXTENT#" scale="5">,
-								<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#GPSACCURACY#" scale="3">,
-								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#GEOREFMETHOD#">,
-								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#VERIFICATIONSTATUS#">,
-								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#VERIFIED_BY_AGENT_ID#">,
-								<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#SPATIALFIT#" scale="3">,
-								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#NEAREST_NAMED_PLACE#">,
+							<cfelse>
+								NULL,
+							</cfif>
+							<cfif len(EXTENT_UNITS) gt 0>
 								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#EXTENT_UNITS#" scale="5">,
-								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#LAT_LONG_FOR_NNP_FG#">
-								)
+							<cfelse>
+								NULL,
+							</cfif>
+							<cfif len(GPSACCURACY) gt 0>
+								<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#GPSACCURACY#" scale="3">,
+							<cfelse>
+								NULL,
+							</cfif>
+						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#GEOREFMETHOD#">,
+						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#VERIFICATIONSTATUS#">,
+						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#VERIFIED_BY_AGENT_ID#">,
+						<cfif len(SPATIALFIT) gt 0>
+							<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#SPATIALFIT#" scale="3">
+						<cfelse>
+							NULL
+						</cfif>,
+						<cfif len(NEAREST_NAMED_PLACE) gt 0>
+							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#NEAREST_NAMED_PLACE#">
+						<cfelse>
+							NULL
+						</cfif>,
+						<cfif len(NEAREST_NAMED_PLACE) gt 0>
+							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#LAT_LONG_FOR_NNP_FG#">
+						<cfelse>
+							NULL
+						</cfif>,
+						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#COORDINATE_PRECISION#">
+							)
 						</cfquery>
+						<cfset georef_updates = georef_updates + 1>
+						<cfif updateGeoref_result.recordcount gt 0>
+							<cfthrow message="Error: Attempting to insert a duplicate georeference">
+						</cfif>
 					</cfloop>
-
-					<p class="mt-2">Number of Georeferences added: <b>#georef_updates#</b></p>
-
-<!---					<cfif getTempData.recordcount eq georef_updates and updateGeoref1_result.recordcount eq 0>
+					<p>Number of georeferences to update: #georef_updates# (on #getCounts.loc# cataloged items)</p>
+<!---					<cfif updateGeoref.recordcount eq georef_updates and updateGeoref1_result.recordcount eq 0>
 						<h3 class="text-success">Success - loaded</h3>
-					</cfif>
-					<cfif updateGeoref1_result.recordcount gt 0>
+					</cfif>--->
+				<!---	<cfif updateCitations1_result.recordcount gt 0>
 						<h3 class="text-danger">Not loaded - these have already been loaded</h3>
 					</cfif>--->
 					<cftransaction action="commit">
 				<cfcatch>
 					<cftransaction action="ROLLBACK">
 					<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						SELECT *
+						SELECT highergeography,speclocality,locality_id,dec_lat,dec_long,max_error_distance,max_error_units,lat_long_remarks,determined_by_agent,georefmethod,orig_lat_long_units,datum,determined_date,lat_long_ref_source,extent,extent_units,gpsaccuracy,verificationstatus,verified_by,spatialfit,nearest_named_place,lat_long_for_nnp_fg,coordinate_precision,accepted_lat_long_fg
 						FROM cf_temp_georef
 						WHERE 
 							key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#problem_key#">
@@ -687,10 +732,6 @@ limitations under the License.
 										Invalid lat_long_for_nnp_fg
 									<cfelseif cfcatch.detail contains "COORDINATE_PRECISION">
 										Invalid coordinate_precision
-									<cfelseif cfcatch.detail contains "DETERMINED_BY_AGENT_ID">
-										Invalid determined_by_agent_id
-									<cfelseif cfcatch.detail contains "VERIFIED_BY_AGENT_ID">
-										Invalid VERIFIED_BY_AGENT_ID
 									<cfelseif cfcatch.detail contains "no data">
 										No data or the wrong data (#cfcatch.detail#)
 									<cfelse>
