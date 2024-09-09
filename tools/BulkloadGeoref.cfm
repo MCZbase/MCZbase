@@ -448,15 +448,14 @@ limitations under the License.
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 					and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.key#"> 
 				</cfquery>
-
+				<cfquery name="updateLatlongID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateGeoref1_result">
+					SELECT lat_long_id
+					FROM lat_long
+					WHERE locality_id = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempData.locality_id#">
+					GROUP BY lat_long_id
+					HAVING count(*) > 0
+				</cfquery>
 				<cfif len(accepted_lat_long_fg) gt 0>
-					<cfquery name="updateLatlongID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateGeoref1_result">
-						SELECT lat_long_id
-						FROM lat_long
-						WHERE locality_id = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempData.locality_id#">
-						GROUP BY lat_long_id
-						HAVING count(*) > 0
-					</cfquery>
 					<cfloop query="updateLatlongID">
 						<cfquery name="latlongfg" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							update lat_long set accepted_lat_long_fg = 0 where locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.locality_ID#"> 
@@ -658,8 +657,15 @@ limitations under the License.
 						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#COORDINATE_PRECISION#">
 							)
 						</cfquery>
-						<cfset georef_updates = georef_updates + 1>
-						<cfif updateGeoref_result.recordcount gt 0>
+						<cfquery name="updateGeoref1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateGeoref1_result">
+							SELECT highergeography,speclocality,locality_id,dec_lat,dec_long,max_error_distance
+							FROM lat_long
+							WHERE locality_id = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempData.locality_id#">
+							GROUP BY highergeography,speclocality,locality_id,dec_lat,dec_long,max_error_distance
+							HAVING count(*) > 1
+						</cfquery>
+						<cfset georef_updates = georef_updates + updateGeoref1_result.recordcount>
+						<cfif updateGeoref1_result.recordcount gt 0>
 							<cfthrow message="Error: Attempting to insert a duplicate georeference">
 						</cfif>
 					</cfloop>
