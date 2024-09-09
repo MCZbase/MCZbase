@@ -32,7 +32,7 @@ limitations under the License.
 	<cfabort>
 </cfif>
 
-<cfset fieldlist = "HIGHERGEOGRAPHY,SPECLOCALITY,LOCALITY_ID,DEC_LAT,DEC_LONG,MAX_ERROR_DISTANCE,MAX_ERROR_UNITS,LAT_LONG_REMARKS,DETERMINED_BY_AGENT,GEOREFMETHOD,ORIG_LAT_LONG_UNITS,DATUM,DETERMINED_DATE,LAT_LONG_REF_SOURCE,EXTENT,extent_units,lat_long_for_NNP_FG,GPSACCURACY,VERIFICATIONSTATUS,VERIFIED_BY,SPATIALFIT,NEAREST_NAMED_PLACE,COORDINATE_PRECISION,accepted_lat_long_fg,determined_by_agent_id">
+<cfset fieldlist = "HIGHERGEOGRAPHY,SPECLOCALITY,LOCALITY_ID,DEC_LAT,DEC_LONG,MAX_ERROR_DISTANCE,MAX_ERROR_UNITS,LAT_LONG_REMARKS,DETERMINED_BY_AGENT,GEOREFMETHOD,ORIG_LAT_LONG_UNITS,DATUM,DETERMINED_DATE,LAT_LONG_REF_SOURCE,EXTENT,EXTENT_UNITS,LAT_LONG_FOR_NNP_FG,GPSACCURACY,VERIFICATIONSTATUS,VERIFIED_BY,SPATIALFIT,NEAREST_NAMED_PLACE,COORDINATE_PRECISION,accepted_lat_long_fg,determined_by_agent_id">
 	
 <cfset fieldTypes ="CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_DECIMAL,CF_SQL_DECIMAL,CF_SQL_DECIMAL,CF_SQL_DECIMAL,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_DATE,CF_SQL_VARCHAR,CF_SQL_DECIMAL,CF_SQL_VARCHAR,CF_SQL_DECIMAL,CF_SQL_DECIMAL,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_DECIMAL,CF_SQL_VARCHAR,CF_SQL_DECIMAL,CF_SQL_VARCHAR,CF_SQL_DECIMAL">
 	
@@ -384,7 +384,7 @@ limitations under the License.
 			<!---Get Data from the temp table and the codetables with relevant information--->
 		
 			<cfquery name="getTempData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				SELECT highergeography,speclocality,locality_id,dec_lat,dec_long,max_error_distance,max_error_units,lat_long_remarks,determined_by_agent,georefmethod,orig_lat_long_units,datum,determined_date,lat_long_ref_source,extent,gpsaccuracy,verificationstatus,verified_by,spatialfit,nearest_named_place,coordinate_precision,accepted_lat_long_fg,determined_by_agent_id,key
+				SELECT highergeography,speclocality,locality_id,dec_lat,dec_long,max_error_distance,max_error_units,lat_long_remarks,determined_by_agent,georefmethod,orig_lat_long_units,datum,determined_date,lat_long_ref_source,extent,extent_units,lat_long_for_nnp_fg,gpsaccuracy,verificationstatus,verified_by,spatialfit,nearest_named_place,coordinate_precision,accepted_lat_long_fg,determined_by_agent_id,key
 				FROM cf_temp_georef
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
