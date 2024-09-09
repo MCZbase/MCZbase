@@ -445,6 +445,7 @@ limitations under the License.
 				<thead class="thead-light">
 					<tr>
 						<th>STATUS</th>
+						<th>DETERMINED_BY_AGENT_ID</th>
 						<th>HIGHERGEOGRAPHY</th>
 						<th>SPECLOCALITY</th>
 						<th>LOCALITY_ID</th>
@@ -457,48 +458,55 @@ limitations under the License.
 						<th>GEOREFMETHOD</th>
 						<th>ORIG_LAT_LONG_UNITS</th>
 						<th>DATUM</th>
-						<th>COORDINATE_PRECISION</th>
 						<th>DETERMINED_DATE</th>
 						<th>LAT_LONG_REF_SOURCE</th>
 						<th>EXTENT</th>
-						<th>EXTENT_UNITS</th>
 						<th>GPSACCURACY</th>
 						<th>VERIFICATIONSTATUS</th>
-						<th>VERIFIED_BY</th>
 						<th>SPATIALFIT</th>
 						<th>NEAREST_NAMED_PLACE</th>
-						<th>LAT_LONG_NNP_FG</th>
+						<th>USERNAME</th>
+						<th>VERIFIED_BY</th>
+						<th>VERIFIED_BY_AGENT_ID</th>
 						<th>ACCEPTED_LAT_LONG_FG</th>
+						<th>COORDINATE_PRECISION</th>
+						<th>GEOG_AUTH_REC_ID</th>
+						<th>EXTENT_UNITS</th>
+						<th>LAT_LONG_FOR_NNP_FG</th>
 					</tr>
 				</thead>
 				<tbody>
 					<cfloop query="data">
 						<tr>
 							<td><cfif len(data.status) eq 0>Cleared to load<cfelse><strong>#data.status#</strong></cfif></td>
-							<td>#data.highergeography#</td>
-							<td>#data.speclocality#</td>
-							<td>#data.locality_id#</td>
-							<td>#data.dec_lat#</td>
-							<td>#data.dec_long#</td>
-							<td>#data.max_error_distance#</td>
-							<td>#data.max_error_units#</td>
-							<td>#data.lat_long_remarks#</td>
-							<td>#data.determined_by_agent#</td>
-							<td>#data.georefmethod#</td>
-							<td>#data.orig_lat_long_units#</td>
-							<td>#data.datum#</td>
-							<td>#data.COORDINATE_PRECISION#</td>
-							<td>#data.determined_date#</td>
-							<td>#data.lat_long_ref_source#</td>
-							<td>#data.extent#</td>
-							<td>#data.extent_units#</td>
-							<td>#data.gpsaccuracy#</td>
-							<td>#data.verificationstatus#</td>
-							<td>#data.verified_by#</td>
-							<td>#data.spatialfit#</td>
-							<td>#data.nearest_named_place#</td>
-							<td>#data.lat_long_for_NNP_FG#</td>
-							<td>#data.accepted_lat_long_fg#</td>
+							<td>data.DETERMINED_BY_AGENT_ID</td>
+							<td>data.HIGHERGEOGRAPHY</td>
+							<td>data.SPECLOCALITY</td>
+							<td>data.LOCALITY_ID</td>
+							<td>DEC_LAT</td>
+							<td>DEC_LONG</td>
+							<td>MAX_ERROR_DISTANCE</td>
+							<td>MAX_ERROR_UNITS</td>
+							<td>LAT_LONG_REMARKS</td>
+							<td>DETERMINED_BY_AGENT</td>
+							<td>GEOREFMETHOD</td>
+							<td>ORIG_LAT_LONG_UNITS</td>
+							<td>DATUM</td>
+							<td>DETERMINED_DATE</td>
+							<td>LAT_LONG_REF_SOURCE</td>
+							<td>EXTENT</td>
+							<td>GPSACCURACY</td>
+							<td>VERIFICATIONSTATUS</td>
+							<td>SPATIALFIT</td>
+							<td>NEAREST_NAMED_PLACE</td>
+							<td>USERNAME</td>
+							<td>VERIFIED_BY</td>
+							<td>VERIFIED_BY_AGENT_ID</td>
+							<td>ACCEPTED_LAT_LONG_FG</td>
+							<td>COORDINATE_PRECISION</td>
+							<td>GEOG_AUTH_REC_ID</td>
+							<td>EXTENT_UNITS</td>
+							<td>LAT_LONG_FOR_NNP_FG</td>
 						</tr>
 					</cfloop>
 				</tbody>
@@ -520,7 +528,17 @@ limitations under the License.
 					SELECT count(distinct locality_id) loc 
 					FROM cf_temp_georef
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-					</cfquery>
+				</cfquery>
+				<cfloop list="#requiredfieldlist#" index="requiredField">
+				<cfquery name="checkRequired" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					UPDATE cf_temp_media
+					SET 
+						status = concat(nvl2(status, status || '; ', ''),'#requiredField# is missing')
+					WHERE #requiredField# is null
+						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+				</cfquery>
+
+			</cfloop>
 				<cftry>
 					<cfset georef_updates = 0>
 		
