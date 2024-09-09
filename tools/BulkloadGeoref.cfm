@@ -536,7 +536,30 @@ limitations under the License.
 						<cfset lat_long_id = ''>
 						
 						<cfquery name="makeGeoref" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="insResult">
-							INSERT into lat_long (lat_long_id,LOCALITY_ID,DEC_LAT,DEC_LONG,DATUM,COORDINATE_PRECISION,ORIG_LAT_LONG_UNITS,DETERMINED_BY_AGENT_ID,DETERMINED_DATE,LAT_LONG_REF_SOURCE,LAT_LONG_REMARKS,MAX_ERROR_DISTANCE,MAX_ERROR_UNITS,ACCEPTED_LAT_LONG_FG,EXTENT,GPSACCURACY,GEOREFMETHOD,VERIFICATIONSTATUS,VERIFIED_BY_AGENT_ID,SPATIALFIT,NEAREST_NAMED_PLACE,EXTENT_UNITS,LAT_LONG_FOR_NNP_FG
+							INSERT into lat_long (
+								lat_long_id,
+								LOCALITY_ID,
+								DEC_LAT,
+								DEC_LONG,
+								DATUM,
+								COORDINATE_PRECISION,
+								ORIG_LAT_LONG_UNITS,
+								DETERMINED_BY_AGENT_ID,
+								DETERMINED_DATE,
+								LAT_LONG_REF_SOURCE,
+								LAT_LONG_REMARKS,
+								MAX_ERROR_DISTANCE,
+								MAX_ERROR_UNITS,
+								ACCEPTED_LAT_LONG_FG,
+								EXTENT,
+								GPSACCURACY,
+								GEOREFMETHOD,
+								VERIFICATIONSTATUS,
+								VERIFIED_BY_AGENT_ID,
+								SPATIALFIT,
+								NEAREST_NAMED_PLACE,
+								EXTENT_UNITS,
+								LAT_LONG_FOR_NNP_FG
 							)VALUES(
 								sq_lat_long_id.nextval,
 								<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#LOCALITY_ID#">,
@@ -563,7 +586,7 @@ limitations under the License.
 								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#NEAREST_NAMED_PLACE#">,
 								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#EXTENT_UNITS#" scale="5">,
 								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#LAT_LONG_FOR_NNP_FG#">
-								)
+							)
 						</cfquery>
 						<cfset georef_updates = georef_updates + insResult.recordcount>
 					</cfloop>
@@ -646,8 +669,8 @@ limitations under the License.
 								</span>
 							</cfif>
 						</h3>
-						<table class='mx-0 px-0 sortable table-danger table table-responsive table-striped mt-3'>
-							<thead>
+						<table class='mx-0 px-0 sortable border-danger table table-responsive table-striped mt-3'>
+							<thead class="thead-light">
 								<tr>
 									<th>COUNT</th>
 									<th>DETERMINED_BY_AGENT_ID</th>
