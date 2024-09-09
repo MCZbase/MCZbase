@@ -549,11 +549,9 @@ limitations under the License.
 						<cfset problem_key = getTempData.key>
 						<!---CHECK THIS--->
 						<cfquery name="mid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-							select sq_georef_id.nextval nv from dual
+							select sq_lat_lon_id.nextval nv from dual
 						</cfquery>
 						<cfset lat_long_id = mid.nv>
-							
-							
 						<cfif len(getTempData.ACCEPTED_LAT_LONG_FG) is NULL>
 							<cfset ACCEPTED_LAT_LONG_FG = 0>
 						<cfelse>
@@ -562,7 +560,7 @@ limitations under the License.
 						<cfquery name="makeGeoref" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="insResult">
 							INSERT into lat_long (lat_long_id,LOCALITY_ID,DEC_LAT,DEC_LONG,DATUM,COORDINATE_PRECISION,ORIG_LAT_LONG_UNITS,DETERMINED_BY_AGENT_ID,DETERMINED_DATE,LAT_LONG_REF_SOURCE,LAT_LONG_REMARKS,MAX_ERROR_DISTANCE,MAX_ERROR_UNITS,ACCEPTED_LAT_LONG_FG,EXTENT,GPSACCURACY,GEOREFMETHOD,VERIFICATIONSTATUS,VERIFIED_BY_AGENT_ID,SPATIALFIT,NEAREST_NAMED_PLACE,EXTENT_UNITS,LAT_LONG_FOR_NNP_FG
 							)VALUES(
-								sq_lat_long_id.nextval,
+								#lat_long_id#,
 								<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#LOCALITY_ID#">,
 								<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#Dec_Lat#" scale="10">,
 								<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#Dec_Long#" scale="10">,
