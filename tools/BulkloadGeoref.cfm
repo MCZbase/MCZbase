@@ -584,7 +584,7 @@ limitations under the License.
 					<cftransaction action="ROLLBACK">
 					<h3>There was a problem adding media records. </h3>
 					<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						SELECT HIGHERGEOGRAPHY,SPECLOCALITY,DETERMINED_BY_AGENT,LOCALITY_ID,DEC_LAT,DEC_LONG,DATUM,COORDINATE_PRECISION,ORIG_LAT_LONG_UNITS,DETERMINED_BY_AGENT_ID,DETERMINED_DATE,LAT_LONG_REF_SOURCE,LAT_LONG_REMARKS,MAX_ERROR_DISTANCE,MAX_ERROR_UNITS,ACCEPTED_LAT_LONG_FG,EXTENT,GPSACCURACY,GEOREFMETHOD,VERIFICATIONSTATUS,VERIFIED_BY,VERIFIED_BY_AGENT_ID,SPATIALFIT,NEAREST_NAMED_PLACE,EXTENT_UNITS,LAT_LONG_FOR_NNP_FG,USERNAME
+						SELECT *
 						FROM cf_temp_georef
 						WHERE 
 							key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#problem_key#">
@@ -595,9 +595,7 @@ limitations under the License.
 							Fix the issues and <a href="/tools/BulkloadGeoref.cfm">start again</a>. Error loading row (<span class="text-danger">#georef_updates + 1#</span>) from the CSV: 
 							<cfif len(cfcatch.detail) gt 0>
 								<span class="font-weight-normal border-bottom border-danger">
-									<cfif cfcatch.detail contains "lat_long_id">
-										Invalid LAT_LONG_id
-									<cfelseif cfcatch.detail contains "locality_id">
+									<cfif cfcatch.detail contains "locality_id">
 										LOCALITY_ID is not valid
 									<cfelseif cfcatch.detail contains "dec_lat">
 										DEC_LAT is not valid
@@ -643,7 +641,7 @@ limitations under the License.
 										Invalid determined_by_agent_id
 									<cfelseif cfcatch.detail contains "VERIFIED_BY_AGENT_ID">
 										Invalid VERIFIED_BY_AGENT_ID
-									<cfelseif cfcatch.detail contains "NULL">
+									<cfelseif cfcatch.detail contains "data">
 										No data or the wrong data (#cfcatch.detail#)
 									<cfelse>
 										<!--- provide the raw error message if it isn't readily interpretable --->
@@ -652,7 +650,7 @@ limitations under the License.
 								</span>
 							</cfif>
 						</h3>
-						<table class='mx-0 px-0 sortable table-danger table table-responsive table-striped d-lg-table mt-3'>
+						<table class='mx-0 px-0 sortable table-danger table table-responsive table-striped mt-3'>
 							<thead>
 								<tr>
 									<th>COUNT</th>
