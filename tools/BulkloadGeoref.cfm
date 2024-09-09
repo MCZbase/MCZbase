@@ -629,63 +629,29 @@ limitations under the License.
 								 TO_DATE(<cfqueryparam value="#dynamicDate#" cfsqltype="CF_SQL_DATE">, '#dateFormat#'),
 								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#LAT_LONG_REF_SOURCE#">,
 								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#LAT_LONG_REMARKS#">,
-								<cfif len(MAX_ERROR_DISTANCE) gt 0>
-									<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#MAX_ERROR_DISTANCE#">
-								<cfelse>
-									NULL
-								</cfif>,
+								<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#MAX_ERROR_DISTANCE#">,
 								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#MAX_ERROR_UNITS#">,
-								<cfif len(ACCEPTED_LAT_LONG_FG) gt 0>
-									#ACCEPTED_LAT_LONG_FG#
-								<cfelse>
-									1
-								</cfif>,
-								<cfif len(EXTENT) gt 0>
-									<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#EXTENT#" scale="5">
-								<cfelse>
-									NULL
-								</cfif>,
-								<cfif len(EXTENT_UNITS) gt 0>
-									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#EXTENT_UNITS#" scale="5">
-								<cfelse>
-									'm'
-								</cfif>,
-								<cfif len(GPSACCURACY) gt 0>
-									<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#GPSACCURACY#" scale="3">
-								<cfelse>
-									NULL
-								</cfif>,
-							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#GEOREFMETHOD#">,
-							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#VERIFICATIONSTATUS#">,
-							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#VERIFIED_BY_AGENT_ID#">,
-							<cfif len(SPATIALFIT) gt 0>
-								<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#SPATIALFIT#" scale="3">
-							<cfelse>
-								NULL
-							</cfif>,
-							<cfif len(NEAREST_NAMED_PLACE) gt 0>
-								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#NEAREST_NAMED_PLACE#">
-							<cfelse>
-								NULL
-							</cfif>,
-							<cfif len(LAT_LONG_FOR_NNP_FG) gt 0>
-								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#LAT_LONG_FOR_NNP_FG#">
-							<cfelse>
-								0
-							</cfif>,
-							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#COORDINATE_PRECISION#">
+								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ACCEPTED_LAT_LONG_FG#">,
+								<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#EXTENT#" scale="5">,
+								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#EXTENT_UNITS#" scale="5">,
+								<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#GPSACCURACY#" scale="3">,
+								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#GEOREFMETHOD#">,
+								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#VERIFICATIONSTATUS#">,
+								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#VERIFIED_BY_AGENT_ID#">,
+								<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#SPATIALFIT#" scale="3">,
+								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#NEAREST_NAMED_PLACE#">,
+								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#LAT_LONG_FOR_NNP_FG#">,
+								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#COORDINATE_PRECISION#">
 								)
 						</cfquery>
-						<cfset georef_updates = georef_updates + insResult.recordcount>
-						<cfif insResult.recordcount gt 0>
-							<cfthrow message="Error: Attempting to insert a duplicate georeference">
-						</cfif>
-					</cfloop>	
-					<p>Number of georeferences to update: #georef_updates# (on #getCounts.loc# cataloged items)</p>
-					<cfif updateGeoref.recordcount eq georef_updates>
+					</cfloop>
+
+					<p class="mt-2">Number of Georeferences added: <b>#georef_updates#</b></p>
+
+					<cfif getTempData.recordcount eq georef_updates and updateGeoref1_result.recordcount eq 0>
 						<h3 class="text-success">Success - loaded</h3>
 					</cfif>
-					<cfif updateGeoref_result.recordcount gt 0>
+					<cfif updateGeoref1_result.recordcount gt 0>
 						<h3 class="text-danger">Not loaded - these have already been loaded</h3>
 					</cfif>
 					<cftransaction action="commit">
