@@ -523,7 +523,7 @@ limitations under the License.
 							<td>#data.verified_by#</td>
 							<td>#data.spatialfit#</td>
 							<td>#data.nearest_named_place#</td>
-							<td>#data.lat_long_for_NNP_FG
+							<td>#data.lat_long_for_NNP_FG#</td>
 							<td>#data.accepted_lat_long_fg#</td>
 						</tr>
 					</cfloop>
