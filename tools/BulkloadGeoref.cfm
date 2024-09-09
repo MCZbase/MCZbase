@@ -610,6 +610,11 @@ limitations under the License.
 							<cfelse>
 								NULL,
 							</cfif>
+							<cfif len(EXTENT_UNITS) gt 0>
+								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#EXTENT_UNITS#" scale="5">,
+							<cfelse>
+								NULL,
+							</cfif>
 							<cfif len(GPSACCURACY) gt 0>
 								<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#GPSACCURACY#" scale="3">,
 							<cfelse>
@@ -663,7 +668,7 @@ limitations under the License.
 				<cfcatch>
 					<cftransaction action="ROLLBACK">
 					<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						SELECT highergeography,speclocality,locality_id,dec_lat,dec_long,max_error_distance,max_error_units,lat_long_remarks,determined_by_agent,georefmethod,orig_lat_long_units,datum,determined_date,lat_long_ref_source,extent,gpsaccuracy,verificationstatus,verified_by,spatialfit,nearest_named_place,coordinate_precision,accepted_lat_long_fg
+						SELECT highergeography,speclocality,locality_id,dec_lat,dec_long,max_error_distance,max_error_units,lat_long_remarks,determined_by_agent,georefmethod,orig_lat_long_units,datum,determined_date,lat_long_ref_source,extent,extent_units,gpsaccuracy,verificationstatus,verified_by,spatialfit,nearest_named_place,lat_long_for_nnp_fg,coordinate_precision,accepted_lat_long_fg
 						FROM cf_temp_georef
 						WHERE 
 							key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#problem_key#">
@@ -705,6 +710,8 @@ limitations under the License.
 										Invalid ACCEPTED_LAT_LONG_FG
 									<cfelseif cfcatch.detail contains "extent">
 										Invalid EXTENT
+									<cfelseif cfcatch.detail contains "extent_units">
+										Invalid EXTENT_UNITS
 									<cfelseif cfcatch.detail contains "gpsaccuracy">
 										Invalid GPSACCURANCY
 									<cfelseif cfcatch.detail contains "georefmethod">
@@ -715,6 +722,8 @@ limitations under the License.
 										Invalid SPATIALFIT
 									<cfelseif cfcatch.detail contains "nearest_named_place">
 										Invalid NEAREST_NAMED_PLACE
+									<cfelseif cfcatch.detail contains "lat_long_for_NNP_FG">
+										Invalid lat_long_for_nnp_fg
 									<cfelseif cfcatch.detail contains "no data">
 										No data or the wrong data (#cfcatch.detail#)
 									<cfelse>
