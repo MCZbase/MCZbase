@@ -569,7 +569,7 @@ limitations under the License.
 								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#COORDINATE_PRECISION#">,
 								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ORIG_LAT_LONG_UNITS#">,
 								<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#DETERMINED_BY_AGENT_ID#">,
-								<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#DETERMINED_DATE#">,
+								<cfqueryparam cfsqltype="CF_SQL_DATE" value="#DETERMINED_DATE#">,
 								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#LAT_LONG_REF_SOURCE#">,
 								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#LAT_LONG_REMARKS#">,
 								<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#MAX_ERROR_DISTANCE#">,
