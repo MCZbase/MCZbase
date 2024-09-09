@@ -448,6 +448,18 @@ limitations under the License.
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 					and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.key#"> 
 				</cfquery>
+				<cfquery name="updateLatlongID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateGeoref1_result">
+					SELECT lat_long_id
+					FROM lat_long
+					WHERE locality_id = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempData.locality_id#">
+					GROUP BY lat_long_id
+					HAVING count(*) > 0
+				</cfquery>
+				<cfif lat_long_id gt 0>
+					<cfloop query="updateLatlongID">
+						update lat_long set accepted_lat_long_fg = 0 where locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.locality_ID#"> 
+					</cfloop>
+				</cfif>
 			</cfloop>
 			<cfset dateFormat = "YYYY-MM-DD">
 			<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -541,6 +553,8 @@ limitations under the License.
 			<cfset georef_updates = "">
 			<cfset problem_key = "">
 			<cftransaction>
+		
+				
 				<cfquery name="getTempData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT * FROM cf_temp_georef
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
@@ -552,7 +566,7 @@ limitations under the License.
 					</cfquery>
 				<cftry>
 					<cfset georef_updates = 0>
-		<!---			<cfset georef_updates1 = 0>--->
+					<cfset georef_updates1 = 0>
 					<cfif getTempData.recordcount EQ 0>
 						<cfthrow message="You have no rows to load in the geography bulkloader table (cf_temp_georef). <a href='/tools/BulkloadGeoref.cfm'>Start over</a>">
 					</cfif>
@@ -641,7 +655,7 @@ limitations under the License.
 						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#COORDINATE_PRECISION#">
 							)
 						</cfquery>
-	<!---					<cfquery name="updateGeoref1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateGeoref1_result">
+						<cfquery name="updateGeoref1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateGeoref1_result">
 							SELECT highergeography,speclocality,locality_id,dec_lat,dec_long,max_error_distance
 							FROM lat_long
 							WHERE locality_id = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempData.locality_id#">
@@ -651,7 +665,7 @@ limitations under the License.
 						<cfset georef_updates = georef_updates + updateGeoref1_result.recordcount>
 						<cfif updateGeoref1_result.recordcount gt 0>
 							<cfthrow message="Error: Attempting to insert a duplicate georeference">
-						</cfif>--->
+						</cfif>
 					</cfloop>
 					<p>Number of georeferences to update: #georef_updates# (on #getCounts.loc# cataloged items)</p>
 <!---					<cfif updateGeoref.recordcount eq georef_updates and updateGeoref1_result.recordcount eq 0>
