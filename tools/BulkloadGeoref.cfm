@@ -420,20 +420,6 @@ limitations under the License.
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 					and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.key#"> 
 				</cfquery>
-					<!---<cfif len(accepted_lat_long_fg) gt 0>
-						<cfquery name="updateLatlongID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateGeoref1_result">
-							SELECT lat_long_id
-							FROM lat_long
-							WHERE locality_id = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempData.locality_id#">
-							GROUP BY lat_long_id
-							HAVING count(*) > 0
-						</cfquery>
-						<cfloop query="updateLatlongID">
-							<cfquery name="latlongfg" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-								update lat_long set accepted_lat_long_fg = 0 where locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.locality_ID#"> 
-							</cfquery>
-						</cfloop>
-					</cfif>--->
 			</cfloop>
 			<cfset dateFormat = "YYYY-MM-DD">
 			<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
