@@ -395,10 +395,7 @@ limitations under the License.
 				and dec_lat <> <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.dec_lat#">
 				and dec_long <> <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.dec_long#">
 			</cfquery>
-			<cfquery name="changeNewFlag" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				update lat_long set accepted_lat_long_fg = 0 
-				where locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.locality_id#">
-			</cfquery>
+
 			<cfquery name="ctGEOREFMETHOD" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				select GEOREFMETHOD from ctGEOREFMETHOD
 			</cfquery>
@@ -569,7 +566,7 @@ limitations under the License.
 					</cfif>
 					<cfloop query="getTempData">
 						<cfset username = '#session.username#'>
-						<cfquery name="georefDups" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateGeoref1_result">
+<!---						<cfquery name="georefDups" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateGeoref1_result">
 							SELECT 
 								locality_id, dec_lat, dec_long 
 							FROM 
@@ -579,7 +576,7 @@ limitations under the License.
 							GROUP BY 
 								locality_id, dec_lat, dec_long 
 								having count(*) > 1
-						</cfquery>
+						</cfquery>--->
 						<cfset problem_key = getTempData.key>
 						<cfif len(ACCEPTED_LAT_LONG_FG) is NULL>
 							<cfset ACCEPTED_LAT_LONG_FG = 0>
