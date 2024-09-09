@@ -648,7 +648,7 @@ limitations under the License.
 								<cfif len(EXTENT_UNITS) gt 0>
 									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#EXTENT_UNITS#" scale="5">
 								<cfelse>
-									NULL
+									'm'
 								</cfif>,
 								<cfif len(GPSACCURACY) gt 0>
 									<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#GPSACCURACY#" scale="3">
