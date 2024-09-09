@@ -547,15 +547,16 @@ limitations under the License.
 								having count(*) > 1
 						</cfquery>
 						<cfset problem_key = getTempData.key>
+				
 						<cfif len(getTempData.ACCEPTED_LAT_LONG_FG) is NULL>
 							<cfset ACCEPTED_LAT_LONG_FG = 0>
 						<cfelse>
 							<cfset ACCEPTED_LAT_LONG_FG = '#ACCEPTED_LAT_LONG_FG#'>
 						</cfif>
 						<cfquery name="makeGeoref" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="insResult">
-							INSERT into lat_long (LOCALITY_ID,DEC_LAT,DEC_LONG,DATUM,COORDINATE_PRECISION,ORIG_LAT_LONG_UNITS,DETERMINED_BY_AGENT_ID,DETERMINED_DATE,LAT_LONG_REF_SOURCE,LAT_LONG_REMARKS,MAX_ERROR_DISTANCE,MAX_ERROR_UNITS,ACCEPTED_LAT_LONG_FG,EXTENT,GPSACCURACY,GEOREFMETHOD,VERIFICATIONSTATUS,VERIFIED_BY_AGENT_ID,SPATIALFIT,NEAREST_NAMED_PLACE,EXTENT_UNITS,LAT_LONG_FOR_NNP_FG
+							INSERT into lat_long (lat_long_id,LOCALITY_ID,DEC_LAT,DEC_LONG,DATUM,COORDINATE_PRECISION,ORIG_LAT_LONG_UNITS,DETERMINED_BY_AGENT_ID,DETERMINED_DATE,LAT_LONG_REF_SOURCE,LAT_LONG_REMARKS,MAX_ERROR_DISTANCE,MAX_ERROR_UNITS,ACCEPTED_LAT_LONG_FG,EXTENT,GPSACCURACY,GEOREFMETHOD,VERIFICATIONSTATUS,VERIFIED_BY_AGENT_ID,SPATIALFIT,NEAREST_NAMED_PLACE,EXTENT_UNITS,LAT_LONG_FOR_NNP_FG
 							)VALUES(
-								#lat_long_id#,
+								sq_lat_long_id.nextval,
 								<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#LOCALITY_ID#">,
 								<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#Dec_Lat#" scale="10">,
 								<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#Dec_Long#" scale="10">,
