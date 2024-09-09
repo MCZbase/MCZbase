@@ -607,8 +607,8 @@ limitations under the License.
 							Fix the issues and <a href="/tools/BulkloadGeoref.cfm">start again</a>. Error loading row (<span class="text-danger">#georef_updates + 1#</span>) from the CSV: 
 							<cfif len(cfcatch.detail) gt 0>
 								<span class="font-weight-normal border-bottom border-danger">
-									<cfif cfcatch.detail contains "lat_long">
-										Invalid LAT_LONG
+									<cfif cfcatch.detail contains "lat_long_id">
+										Invalid LAT_LONG_id
 									<cfelseif cfcatch.detail contains "locality_id">
 										LOCALITY_ID is not valid
 									<cfelseif cfcatch.detail contains "dec_lat">
