@@ -489,11 +489,13 @@ limitations under the License.
 						<th>DETERMINED_DATE</th>
 						<th>LAT_LONG_REF_SOURCE</th>
 						<th>EXTENT</th>
+						<th>EXTENT_UNITS</th>
 						<th>GPSACCURACY</th>
 						<th>VERIFICATIONSTATUS</th>
 						<th>VERIFIED_BY</th>
 						<th>SPATIALFIT</th>
 						<th>NEAREST_NAMED_PLACE</th>
+						<th>LAT_LONG_NNP_FG</th>
 						<th>ACCEPTED_LAT_LONG_FG</th>
 					</tr>
 				</thead>
