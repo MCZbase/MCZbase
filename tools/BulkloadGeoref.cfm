@@ -737,7 +737,7 @@ limitations under the License.
 							</tbody>
 						</table>
 					</cfif>
-					<div>#cfcatch.message#</div>
+					<div>#catch.detail# <br>#cfcatch.message#</div>
 				</cfcatch>
 				</cftry>
 			</cftransaction>
