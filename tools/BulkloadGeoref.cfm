@@ -668,7 +668,7 @@ limitations under the License.
 							<cfelse>
 								NULL
 							</cfif>,
-							<cfif len(NEAREST_NAMED_PLACE) gt 0>
+							<cfif len(LAT_LONG_FOR_NNP_FG) gt 0>
 								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#LAT_LONG_FOR_NNP_FG#">
 							<cfelse>
 								0
@@ -676,7 +676,7 @@ limitations under the License.
 							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#COORDINATE_PRECISION#">
 								)
 						</cfquery>
-						<cfset georef_updates = georef_updates + insResult>
+						<cfset georef_updates = georef_updates + insResult.recordcount>
 						<cfif insResult.recordcount gt 0>
 							<cfthrow message="Error: Attempting to insert a duplicate georeference">
 						</cfif>
