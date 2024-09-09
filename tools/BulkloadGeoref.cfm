@@ -583,7 +583,8 @@ limitations under the License.
 								VERIFIED_BY_AGENT_ID,
 								SPATIALFIT,
 								NEAREST_NAMED_PLACE,
-								LAT_LONG_FOR_NNP_FG
+								LAT_LONG_FOR_NNP_FG,
+								COORDINATE_PRECISION
 							)VALUES(
 							sq_lat_long_id.nextval,
 							<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#LOCALITY_ID#">,
@@ -638,7 +639,8 @@ limitations under the License.
 							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#LAT_LONG_FOR_NNP_FG#">
 						<cfelse>
 							NULL
-						</cfif>
+						</cfif>,
+						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#COORDINATE_PRECISION#">
 							)
 						</cfquery>
 						<cfquery name="updateGeoref1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateGeoref1_result">
