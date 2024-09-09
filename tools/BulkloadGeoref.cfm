@@ -562,30 +562,28 @@ limitations under the License.
 								LAT_LONG_FOR_NNP_FG
 							)VALUES(
 								sq_lat_long_id.nextval,
-								<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#LOCALITY_ID#">,
-								<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#Dec_Lat#" scale="10">,
-								<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#Dec_Long#" scale="10">,
-								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#DATUM#">,
-								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#COORDINATE_PRECISION#">,
-								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ORIG_LAT_LONG_UNITS#">,
-								<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#DETERMINED_BY_AGENT_ID#">,
+								1089358,
+								40.66,
+								-69.90,
+								'WGS84',
+								5,
+								'decimal degrees',
+								102150,
 								'2024-09-09',
-								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#LAT_LONG_REF_SOURCE#">,
-								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#LAT_LONG_REMARKS#">,
-								<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#MAX_ERROR_DISTANCE#">,
-								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#MAX_ERROR_UNITS#">,
-								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ACCEPTED_LAT_LONG_FG#">,
-								<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#EXTENT#" scale="5">,
-								<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#GPSACCURACY#" scale="3">,
-								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#GEOREFMETHOD#">,
-								<cfif verificationstatus eq 'verified by collector' OR verificationstatus eq 'verified by MCZ collection'>
-									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#VERIFICATIONSTATUS#">,
-								</cfif>
-								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#VERIFIED_BY_AGENT_ID#">,
-								<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#SPATIALFIT#" scale="3">,
-								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#NEAREST_NAMED_PLACE#">,
-								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#EXTENT_UNITS#" scale="5">,
-								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#LAT_LONG_FOR_NNP_FG#">
+								'GPS',
+								'This is a test',
+								'30',
+								'm',
+								'1',
+								1,
+								3,
+							'GPS',
+								'unverified',
+								102150,
+								1,
+								'center',
+								'm',
+								1
 							)
 						</cfquery>
 						<cfset georef_updates = georef_updates + insResult.recordcount>
@@ -669,7 +667,7 @@ limitations under the License.
 								</span>
 							</cfif>
 						</h3>
-						<table class='mx-0 px-0 sortable border-danger table table-responsive table-striped mt-3'>
+						<table class='mx-0 px-0 sortable table-danger table table-responsive table-striped mt-3'>
 							<thead class="thead-light">
 								<tr>
 									<th>COUNT</th>
