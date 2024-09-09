@@ -534,11 +534,7 @@ limitations under the License.
 						</cfquery>
 						<cfset problem_key = getTempData.key>
 						<cfset lat_long_id = ''>
-						<cfif len(getTempData.ACCEPTED_LAT_LONG_FG) is NULL>
-							<cfset ACCEPTED_LAT_LONG_FG = 0>
-						<cfelse>
-							<cfset ACCEPTED_LAT_LONG_FG = '#ACCEPTED_LAT_LONG_FG#'>
-						</cfif>
+						
 						<cfquery name="makeGeoref" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="insResult">
 							INSERT into lat_long (lat_long_id,LOCALITY_ID,DEC_LAT,DEC_LONG,DATUM,COORDINATE_PRECISION,ORIG_LAT_LONG_UNITS,DETERMINED_BY_AGENT_ID,DETERMINED_DATE,LAT_LONG_REF_SOURCE,LAT_LONG_REMARKS,MAX_ERROR_DISTANCE,MAX_ERROR_UNITS,ACCEPTED_LAT_LONG_FG,EXTENT,GPSACCURACY,GEOREFMETHOD,VERIFICATIONSTATUS,VERIFIED_BY_AGENT_ID,SPATIALFIT,NEAREST_NAMED_PLACE,EXTENT_UNITS,LAT_LONG_FOR_NNP_FG
 							)VALUES(
