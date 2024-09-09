@@ -457,7 +457,9 @@ limitations under the License.
 				</cfquery>
 				<cfif accepted_lat_long_fg gt 0>
 					<cfloop query="updateLatlongID">
-						update lat_long set accepted_lat_long_fg = 0 where locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.locality_ID#"> 
+						<cfquery name="latlongfg" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+							update lat_long set accepted_lat_long_fg = 0 where locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.locality_ID#"> 
+						</cfquery>
 					</cfloop>
 				</cfif>
 			</cfloop>
