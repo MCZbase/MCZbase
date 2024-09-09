@@ -552,7 +552,7 @@ limitations under the License.
 					</cfquery>
 				<cftry>
 					<cfset georef_updates = 0>
-					<cfset georef_updates1 = 0>
+		<!---			<cfset georef_updates1 = 0>--->
 					<cfif getTempData.recordcount EQ 0>
 						<cfthrow message="You have no rows to load in the geography bulkloader table (cf_temp_georef). <a href='/tools/BulkloadGeoref.cfm'>Start over</a>">
 					</cfif>
@@ -566,7 +566,6 @@ limitations under the License.
 								DEC_LAT,
 								DEC_LONG,
 								DATUM,
-								COORDINATE_PRECISION,
 								ORIG_LAT_LONG_UNITS,
 								DETERMINED_BY_AGENT_ID,
 								DETERMINED_DATE,
@@ -591,7 +590,6 @@ limitations under the License.
 							<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#Dec_Lat#" scale="10">,
 							<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#Dec_Long#" scale="10">,
 							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#DATUM#">,
-							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#COORDINATE_PRECISION#">,
 							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ORIG_LAT_LONG_UNITS#">,
 							<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#DETERMINED_BY_AGENT_ID#">,
 							 TO_DATE(<cfqueryparam value="#dynamicDate#" cfsqltype="cf_sql_DATE">, '#dateFormat#'),
@@ -643,7 +641,7 @@ limitations under the License.
 						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#COORDINATE_PRECISION#">
 							)
 						</cfquery>
-						<cfquery name="updateGeoref1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateGeoref1_result">
+	<!---					<cfquery name="updateGeoref1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateGeoref1_result">
 							SELECT highergeography,speclocality,locality_id,dec_lat,dec_long,max_error_distance
 							FROM lat_long
 							WHERE locality_id = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempData.locality_id#">
@@ -653,15 +651,15 @@ limitations under the License.
 						<cfset georef_updates = georef_updates + updateGeoref1_result.recordcount>
 						<cfif updateGeoref1_result.recordcount gt 0>
 							<cfthrow message="Error: Attempting to insert a duplicate georeference">
-						</cfif>
+						</cfif>--->
 					</cfloop>
 					<p>Number of georeferences to update: #georef_updates# (on #getCounts.loc# cataloged items)</p>
-					<cfif updateGeoref.recordcount eq georef_updates and updateGeoref1_result.recordcount eq 0>
+<!---					<cfif updateGeoref.recordcount eq georef_updates and updateGeoref1_result.recordcount eq 0>
 						<h3 class="text-success">Success - loaded</h3>
-					</cfif>
-					<cfif updateCitations1_result.recordcount gt 0>
+					</cfif>--->
+				<!---	<cfif updateCitations1_result.recordcount gt 0>
 						<h3 class="text-danger">Not loaded - these have already been loaded</h3>
-					</cfif>
+					</cfif>--->
 					<cftransaction action="commit">
 				<cfcatch>
 					<cftransaction action="ROLLBACK">
