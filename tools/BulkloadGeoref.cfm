@@ -553,11 +553,8 @@ limitations under the License.
 	<cfif #action# is "load">
 		<h2 class="h3">Third step: Apply changes.</h2>
 		<cfoutput>
-			<cfset georef_updates = "">
 			<cfset problem_key = "">
 			<cftransaction>
-		
-				
 				<cfquery name="getTempData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT * FROM cf_temp_georef
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
@@ -569,14 +566,32 @@ limitations under the License.
 					</cfquery>
 				<cftry>
 					<cfset georef_updates = 0>
-					<cfset georef_updates1 = 0>
 					<cfif getTempData.recordcount EQ 0>
-						<cfthrow message="You have no rows to load in the geography bulkloader table (cf_temp_georef). <a href='/tools/BulkloadGeoref.cfm'>Start over</a>">
+						<cfthrow message="You have no rows to load in the Georeference bulkloader table (cf_temp_georef). <a href='/tools/BulkloadGeoref.cfm'>Start over</a>"><!--- " --->
 					</cfif>
 					<cfloop query="getTempData">
-						<cfset dynamicDate = "#DETERMINED_DATE#">
-						<cfset dateFormat = "YYYY-MM-DD">
-						<cfquery name="updateGeoref" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateGeoref_result">
+						<cfset username = '#session.username#'>
+						<cfquery name="georefDups" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateGeoref1_result">
+							SELECT 
+								locality_id, dec_lat, dec_long 
+							FROM 
+								lat_long
+							WHERE 
+								locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.locality_id#">
+							GROUP BY 
+								locality_id, dec_lat, dec_long 
+								having count(*) > 1
+						</cfquery>
+						<cfset problem_key = getTempData.key>
+						<cfif len(ACCEPTED_LAT_LONG_FG) is NULL>
+							<cfset ACCEPTED_LAT_LONG_FG = 0>
+						<cfelse>
+							<cfset ACCEPTED_LAT_LONG_FG = ACCEPTED_LAT_LONG_FG>
+						</cfif>
+						<cfif getTempData.recordcount EQ 0>
+							<cfthrow message="You have no rows to load in the geography bulkloader table (cf_temp_georef). <a href='/tools/BulkloadGeoref.cfm'>Start over</a>">
+						</cfif>
+						<cfquery name="updateGeoref" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="insResult">
 							INSERT into lat_long (
 								LAT_LONG_ID,
 								LOCALITY_ID,
@@ -658,11 +673,11 @@ limitations under the License.
 						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#COORDINATE_PRECISION#">
 							)
 						</cfquery>
-						<cfset georef_updates = georef_updates + 1>
+						<cfset georef_updates = georef_updates + updateGeoref1_result>
 						<cfif updateGeoref_result.recordcount gt 0>
 							<cfthrow message="Error: Attempting to insert a duplicate georeference">
 						</cfif>
-					</cfloop>
+					</cfloop>	
 					<p>Number of georeferences to update: #georef_updates# (on #getCounts.loc# cataloged items)</p>
 					<cfif updateGeoref.recordcount eq georef_updates>
 						<h3 class="text-success">Success - loaded</h3>
