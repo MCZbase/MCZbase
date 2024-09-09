@@ -566,6 +566,8 @@ limitations under the License.
 					</cfquery>
 				<cftry>
 					<cfset georef_updates = 0>
+					<CFSET dynamicDate = '#getTempData.DETERMINED_DATE#'>
+					<CFSET dateFormat = "YYYY-MM-DD">
 					<cfif getTempData.recordcount EQ 0>
 						<cfthrow message="You have no rows to load in the Georeference bulkloader table (cf_temp_georef). <a href='/tools/BulkloadGeoref.cfm'>Start over</a>"><!--- " --->
 					</cfif>
@@ -617,64 +619,65 @@ limitations under the License.
 								LAT_LONG_FOR_NNP_FG,
 								COORDINATE_PRECISION
 							)VALUES(
-							sq_lat_long_id.nextval,
-							<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#LOCALITY_ID#">,
-							<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#Dec_Lat#" scale="10">,
-							<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#Dec_Long#" scale="10">,
-							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#DATUM#">,
-							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ORIG_LAT_LONG_UNITS#">,
-							<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#DETERMINED_BY_AGENT_ID#">,
-							 TO_DATE(<cfqueryparam value="#dynamicDate#" cfsqltype="cf_sql_DATE">, '#dateFormat#'),
-							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#LAT_LONG_REF_SOURCE#">,
-							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#LAT_LONG_REMARKS#">,
-							<cfif len(MAX_ERROR_DISTANCE) gt 0>
-								<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#MAX_ERROR_DISTANCE#">,
+								sq_lat_long_id.nextval,
+								<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#LOCALITY_ID#">,
+								<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#Dec_Lat#" scale="10">,
+								<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#Dec_Long#" scale="10">,
+								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#DATUM#">,
+								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ORIG_LAT_LONG_UNITS#">,
+								<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#DETERMINED_BY_AGENT_ID#">,
+								 TO_DATE(<cfqueryparam value="#dynamicDate#" cfsqltype="CF_SQL_DATE">, '#dateFormat#'),
+								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#LAT_LONG_REF_SOURCE#">,
+								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#LAT_LONG_REMARKS#">,
+								<cfif len(MAX_ERROR_DISTANCE) gt 0>
+									<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#MAX_ERROR_DISTANCE#">
+								<cfelse>
+									NULL
+								</cfif>,
+								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#MAX_ERROR_UNITS#">,
+								<cfif len(ACCEPTED_LAT_LONG_FG) gt 0>
+									#ACCEPTED_LAT_LONG_FG#
+								<cfelse>
+									1
+								</cfif>,
+								<cfif len(EXTENT) gt 0>
+									<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#EXTENT#" scale="5">
+								<cfelse>
+									NULL
+								</cfif>,
+								<cfif len(EXTENT_UNITS) gt 0>
+									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#EXTENT_UNITS#" scale="5">
+								<cfelse>
+									NULL
+								</cfif>,
+								<cfif len(GPSACCURACY) gt 0>
+									<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#GPSACCURACY#" scale="3">
+								<cfelse>
+									NULL
+								</cfif>,
+							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#GEOREFMETHOD#">,
+							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#VERIFICATIONSTATUS#">,
+							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#VERIFIED_BY_AGENT_ID#">,
+							<cfif len(SPATIALFIT) gt 0>
+								<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#SPATIALFIT#" scale="3">
 							<cfelse>
-								NULL,
-							</cfif>
-							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#MAX_ERROR_UNITS#">,
-							<cfif len(ACCEPTED_LAT_LONG_FG) gt 0>#ACCEPTED_LAT_LONG_FG#
-							<cfelse>
-								1
+								NULL
 							</cfif>,
-							<cfif len(EXTENT) gt 0>
-								<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#EXTENT#" scale="5">,
+							<cfif len(NEAREST_NAMED_PLACE) gt 0>
+								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#NEAREST_NAMED_PLACE#">
 							<cfelse>
-								NULL,
-							</cfif>
-							<cfif len(EXTENT_UNITS) gt 0>
-								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#EXTENT_UNITS#" scale="5">,
+								NULL
+							</cfif>,
+							<cfif len(NEAREST_NAMED_PLACE) gt 0>
+								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#LAT_LONG_FOR_NNP_FG#">
 							<cfelse>
-								NULL,
-							</cfif>
-							<cfif len(GPSACCURACY) gt 0>
-								<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#GPSACCURACY#" scale="3">,
-							<cfelse>
-								NULL,
-							</cfif>
-						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#GEOREFMETHOD#">,
-						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#VERIFICATIONSTATUS#">,
-						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#VERIFIED_BY_AGENT_ID#">,
-						<cfif len(SPATIALFIT) gt 0>
-							<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#SPATIALFIT#" scale="3">
-						<cfelse>
-							NULL
-						</cfif>,
-						<cfif len(NEAREST_NAMED_PLACE) gt 0>
-							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#NEAREST_NAMED_PLACE#">
-						<cfelse>
-							NULL
-						</cfif>,
-						<cfif len(NEAREST_NAMED_PLACE) gt 0>
-							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#LAT_LONG_FOR_NNP_FG#">
-						<cfelse>
-							NULL
-						</cfif>,
-						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#COORDINATE_PRECISION#">
-							)
+								NULL
+							</cfif>,
+							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#COORDINATE_PRECISION#">
+								)
 						</cfquery>
 						<cfset georef_updates = georef_updates + updateGeoref1_result>
-						<cfif updateGeoref_result.recordcount gt 0>
+						<cfif updateGeoref1_result.recordcount gt 0>
 							<cfthrow message="Error: Attempting to insert a duplicate georeference">
 						</cfif>
 					</cfloop>	
