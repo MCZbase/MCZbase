@@ -521,7 +521,7 @@ limitations under the License.
 			<cfset problem_key = "">
 			<cftransaction>
 				<cfquery name="getTempData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					SELECT * FROM cf_temp_georef
+					SELECT status,determined_by_agent_id,highergeography,speclocality,locality_id,dec_lat,dec_long,max_error_distance,max_error_units,lat_long_remarks,determined_by_agent,georefmethod,orig_lat_long_units,datum,determined_data,lat_long_ref_source,extent,gpsaccuracy,verificationstatus,spatialfit,nearest_named_place,username,verified_by,verified_by_agent_id,accepted_lat_long_fg,coordinate_precision,geog_auth_rec_id,extent_units,lat_long_for_NNP_fg,key FROM cf_temp_georef
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
 				<cfquery name="getCounts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
