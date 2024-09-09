@@ -403,8 +403,13 @@ limitations under the License.
 			<cfloop query="getTempData">
 				<cfquery name="getAgentID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE cf_temp_georef
-					SET determined_by_agent_id = (select agent_id from preferred_agent_name where agent_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.determined_by_agent#">),
-						status = null
+					SET determined_by_agent_id = (select agent_id from preferred_agent_name where agent_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.determined_by_agent#">)
+					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+						and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.key#"> 
+				</cfquery>
+				<cfquery name="getGeogAuthRecID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					UPDATE cf_temp_georef
+					SET geog_auth_rec_id = (select geog_auth_rec_id from geog_auth_rec where higher_geog = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.highergeography#">)
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.key#"> 
 				</cfquery>
@@ -518,10 +523,11 @@ limitations under the License.
 	<cfif #action# is "load">
 		<h2 class="h3">Third step: Apply changes.</h2>
 		<cfoutput>
-			<cfset problem_key = "">
+			<cfset key = "">
 			<cftransaction>
 				<cfquery name="getTempData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					SELECT status,determined_by_agent_id,highergeography,speclocality,locality_id,dec_lat,dec_long,max_error_distance,max_error_units,lat_long_remarks,determined_by_agent,georefmethod,orig_lat_long_units,datum,determined_date,lat_long_ref_source,extent,gpsaccuracy,verificationstatus,spatialfit,nearest_named_place,username,verified_by,verified_by_agent_id,accepted_lat_long_fg,coordinate_precision,geog_auth_rec_id,extent_units,lat_long_for_NNP_fg,key FROM cf_temp_georef
+					SELECT status,determined_by_agent_id,highergeography,speclocality,locality_id,dec_lat,dec_long,max_error_distance,max_error_units,lat_long_remarks,determined_by_agent,georefmethod,orig_lat_long_units,datum,determined_date,lat_long_ref_source,extent,gpsaccuracy,verificationstatus,spatialfit,nearest_named_place,username,verified_by,verified_by_agent_id,accepted_lat_long_fg,coordinate_precision,geog_auth_rec_id,extent_units,lat_long_for_NNP_fg,key 
+					FROM cf_temp_georef
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
 				<cfquery name="getCounts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -531,24 +537,12 @@ limitations under the License.
 				</cfquery>
 
 				<cftry>
-					<cfset georef_updates = 0>
+				
 		
 					<cfif getTempData.recordcount EQ 0>
 						<cfthrow message="You have no rows to load in the Georeference bulkloader table (cf_temp_georef). <a href='/tools/BulkloadGeoref.cfm'>Start over</a>"><!--- " --->
 					</cfif>
 					<cfloop query="getTempData">
-						<cfset username = '#session.username#'>
-<!---						<cfquery name="georefDups" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateGeoref1_result">
-							SELECT 
-								locality_id, dec_lat, dec_long 
-							FROM 
-								lat_long
-							WHERE 
-								locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.locality_id#">
-							GROUP BY 
-								locality_id, dec_lat, dec_long 
-								having count(*) > 1
-						</cfquery>--->
 						<cfset problem_key = getTempData.key>
 						<cfif len(ACCEPTED_LAT_LONG_FG) is NULL>
 							<cfset ACCEPTED_LAT_LONG_FG = 0>
