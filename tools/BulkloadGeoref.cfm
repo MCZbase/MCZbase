@@ -655,7 +655,7 @@ limitations under the License.
 										Invalid determined_by_agent_id
 									<cfelseif cfcatch.detail contains "VERIFIED_BY_AGENT_ID">
 										Invalid VERIFIED_BY_AGENT_ID
-									<cfelseif cfcatch.detail contains "no data">
+									<cfelseif cfcatch.detail contains "NULL">
 										No data or the wrong data (#cfcatch.detail#)
 									<cfelse>
 										<!--- provide the raw error message if it isn't readily interpretable --->
