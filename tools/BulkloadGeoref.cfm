@@ -382,30 +382,11 @@ limitations under the License.
 		<cfoutput>
 			<h2 class="h4">Second step: Data Validation</h2>
 			<!---Get Data from the temp table and the codetables with relevant information--->
-		
 			<cfquery name="getTempData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT *
 				FROM cf_temp_georef
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
-			<cfset key = ''>
-
-			<cfquery name="ctGEOREFMETHOD" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				select GEOREFMETHOD from ctGEOREFMETHOD
-			</cfquery>
-			<cfquery name="CTLAT_LONG_UNITS" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				select ORIG_LAT_LONG_UNITS from CTLAT_LONG_UNITS
-			</cfquery>
-			<cfquery name="CTDATUM" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				select DATUM from CTDATUM
-			</cfquery>
-			<cfquery name="CTVERIFICATIONSTATUS" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				select VERIFICATIONSTATUS from CTVERIFICATIONSTATUS
-			</cfquery>
-			<cfquery name="CTLAT_LONG_ERROR_UNITS" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				select LAT_LONG_ERROR_UNITS from CTLAT_LONG_ERROR_UNITS
-			</cfquery>
-			<cfset i= 1>
 			<cfquery name="getHGText" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				update cf_temp_georef
 				set geog_auth_rec_id = (select geog_auth_rec_id from geog_auth_rec where higher_geog =  <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#getTempData.HIGHERGEOGRAPHY#'>)
@@ -417,6 +398,8 @@ limitations under the License.
 				WHERE locality_id in (select locality_id from locality where spec_locality = <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#getTempData.speclocality#'>) AND
 				username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> 
 			</cfquery>
+			<cfset key = ''>
+			<cfset i= 1>
 			<cfloop query="getTempData">
 				<cfquery name="getAgentID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE cf_temp_georef
@@ -437,20 +420,20 @@ limitations under the License.
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 					and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.key#"> 
 				</cfquery>
-				<cfif len(accepted_lat_long_fg) gt 0>
-					<cfquery name="updateLatlongID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateGeoref1_result">
-						SELECT lat_long_id
-						FROM lat_long
-						WHERE locality_id = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempData.locality_id#">
-						GROUP BY lat_long_id
-						HAVING count(*) > 0
-					</cfquery>
-					<cfloop query="updateLatlongID">
-						<cfquery name="latlongfg" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-							update lat_long set accepted_lat_long_fg = 0 where locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.locality_ID#"> 
+					<!---<cfif len(accepted_lat_long_fg) gt 0>
+						<cfquery name="updateLatlongID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateGeoref1_result">
+							SELECT lat_long_id
+							FROM lat_long
+							WHERE locality_id = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempData.locality_id#">
+							GROUP BY lat_long_id
+							HAVING count(*) > 0
 						</cfquery>
-					</cfloop>
-				</cfif>
+						<cfloop query="updateLatlongID">
+							<cfquery name="latlongfg" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+								update lat_long set accepted_lat_long_fg = 0 where locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.locality_ID#"> 
+							</cfquery>
+						</cfloop>
+					</cfif>--->
 			</cfloop>
 			<cfset dateFormat = "YYYY-MM-DD">
 			<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
