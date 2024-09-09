@@ -546,14 +546,15 @@ limitations under the License.
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
 				<cfquery name="getCounts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					SELECT count(distinct locality_id) loc FROM cf_temp_georef
+					SELECT count(distinct locality_id) loc 
+					FROM cf_temp_georef
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 					</cfquery>
 				<cftry>
 					<cfset georef_updates = 0>
 					<cfset georef_updates1 = 0>
 					<cfif getTempData.recordcount EQ 0>
-						<cfthrow message="You have no rows to load in the geography bulkloader table (cf_temp_georef). <a href='/tools/BulkloadGeoref.cfm'>Start over</a>"><!--- " --->
+						<cfthrow message="You have no rows to load in the geography bulkloader table (cf_temp_georef). <a href='/tools/BulkloadGeoref.cfm'>Start over</a>">
 					</cfif>
 					<cfloop query="getTempData">
 						<cfset dynamicDate = "#DETERMINED_DATE#">
@@ -622,9 +623,7 @@ limitations under the License.
 							</cfif>
 						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#GEOREFMETHOD#">,
 						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#VERIFICATIONSTATUS#">,
-						<cfif VERIFICATIONSTATUS eq 'verified by MCZ collection'>
-							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#VERIFIED_BY_AGENT_ID#">,
-						</cfif>
+						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#VERIFIED_BY_AGENT_ID#">,
 						<cfif len(SPATIALFIT) gt 0>
 							<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#SPATIALFIT#" scale="3">
 						<cfelse>
@@ -643,13 +642,10 @@ limitations under the License.
 							)
 						</cfquery>
 						<cfquery name="updateGeoref1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateGeoref1_result">
-							SELECT highergeography,speclocality,locality_id,dec_lat,dec_long,max_error_distance,max_error_units,lat_long_remarks,determined_by_agent,georefmethod,orig_lat_long_units,datum,determined_date,lat_long_ref_source,extent,gpsaccuracy,verificationstatus,verified_by,spatialfit,nearest_named_place,coordinate_precision,accepted_lat_long_fg
+							SELECT highergeography,speclocality,locality_id,dec_lat,dec_long,max_error_distance
 							FROM lat_long
 							WHERE locality_id = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempData.locality_id#">
-							GROUP BY highergeography,speclocality,locality_id,dec_lat,dec_long,max_error_distance,max_error_units,
-								lat_long_remarks,determined_by_agent,determined_by_agent_id,georefmethod,orig_lat_long_units,datum,
-								determined_date,lat_long_ref_source,extent,gpsaccuracy,COORDINATE_PRECISION,
-								verificationstatus,VERIFIED_BY_AGENT_ID,spatialfit,nearest_named_place
+							GROUP BY highergeography,speclocality,locality_id,dec_lat,dec_long,max_error_distance
 							HAVING count(*) > 1
 						</cfquery>
 						<cfset georef_updates = georef_updates + updateGeoref1_result.recordcount>
@@ -724,6 +720,8 @@ limitations under the License.
 										Invalid NEAREST_NAMED_PLACE
 									<cfelseif cfcatch.detail contains "lat_long_for_NNP_FG">
 										Invalid lat_long_for_nnp_fg
+									<cfelseif cfcatch.detail contains "COORDINATE_PRECISION">
+										Invalid coordinate_precision
 									<cfelseif cfcatch.detail contains "no data">
 										No data or the wrong data (#cfcatch.detail#)
 									<cfelse>
