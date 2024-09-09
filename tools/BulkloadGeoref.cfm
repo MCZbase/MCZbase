@@ -479,34 +479,34 @@ limitations under the License.
 					<cfloop query="data">
 						<tr>
 							<td><cfif len(data.status) eq 0>Cleared to load<cfelse><strong>#data.status#</strong></cfif></td>
-							<td>data.DETERMINED_BY_AGENT_ID</td>
-							<td>data.HIGHERGEOGRAPHY</td>
-							<td>data.SPECLOCALITY</td>
-							<td>data.LOCALITY_ID</td>
-							<td>DEC_LAT</td>
-							<td>DEC_LONG</td>
-							<td>MAX_ERROR_DISTANCE</td>
-							<td>MAX_ERROR_UNITS</td>
-							<td>LAT_LONG_REMARKS</td>
-							<td>DETERMINED_BY_AGENT</td>
-							<td>GEOREFMETHOD</td>
-							<td>ORIG_LAT_LONG_UNITS</td>
-							<td>DATUM</td>
-							<td>DETERMINED_DATE</td>
-							<td>LAT_LONG_REF_SOURCE</td>
-							<td>EXTENT</td>
-							<td>GPSACCURACY</td>
-							<td>VERIFICATIONSTATUS</td>
-							<td>SPATIALFIT</td>
-							<td>NEAREST_NAMED_PLACE</td>
-							<td>USERNAME</td>
-							<td>VERIFIED_BY</td>
-							<td>VERIFIED_BY_AGENT_ID</td>
-							<td>ACCEPTED_LAT_LONG_FG</td>
-							<td>COORDINATE_PRECISION</td>
-							<td>GEOG_AUTH_REC_ID</td>
-							<td>EXTENT_UNITS</td>
-							<td>LAT_LONG_FOR_NNP_FG</td>
+							<td>#data.DETERMINED_BY_AGENT_ID#</td>
+							<td>#data.HIGHERGEOGRAPHY#</td>
+							<td>#data.SPECLOCALITY#</td>
+							<td>#data.LOCALITY_ID#</td>
+							<td>#data.DEC_LAT#</td>
+							<td>#data.DEC_LONG#</td>
+							<td>#data.MAX_ERROR_DISTANCE#</td>
+							<td>#data.MAX_ERROR_UNITS#</td>
+							<td>#data.LAT_LONG_REMARKS#</td>
+							<td>#data.DETERMINED_BY_AGENT#</td>
+							<td>#data.GEOREFMETHOD#</td>
+							<td>#data.ORIG_LAT_LONG_UNITS#</td>
+							<td>#data.DATUM#</td>
+							<td>#data.DETERMINED_DATE#</td>
+							<td>#data.LAT_LONG_REF_SOURCE#</td>
+							<td>#data.EXTENT#</td>
+							<td>#data.GPSACCURACY#</td>
+							<td>#data.VERIFICATIONSTATUS#</td>
+							<td>#data.SPATIALFIT#</td>
+							<td>#data.NEAREST_NAMED_PLACE#</td>
+							<td>#data.USERNAME#</td>
+							<td>#data.VERIFIED_BY#</td>
+							<td>#data.VERIFIED_BY_AGENT_ID#</td>
+							<td>#data.ACCEPTED_LAT_LONG_FG#</td>
+							<td>#data.COORDINATE_PRECISION#</td>
+							<td>#data.GEOG_AUTH_REC_ID#</td>
+							<td>#data.EXTENT_UNITS#</td>
+							<td>#data.LAT_LONG_FOR_NNP_FG#</td>
 						</tr>
 					</cfloop>
 				</tbody>
@@ -529,16 +529,7 @@ limitations under the License.
 					FROM cf_temp_georef
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
-				<cfloop list="#requiredfieldlist#" index="requiredField">
-				<cfquery name="checkRequired" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					UPDATE cf_temp_georef
-					SET 
-						status = concat(nvl2(status, status || '; ', ''),'#requiredField# is missing')
-					WHERE #requiredField# is null
-						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-				</cfquery>
 
-			</cfloop>
 				<cftry>
 					<cfset georef_updates = 0>
 		
@@ -597,7 +588,7 @@ limitations under the License.
 								)
 						</cfquery>
 					</cfloop>
-
+		
 					<p class="mt-2">Number of Georeferences added: <b>#georef_updates#</b></p>
 
 <!---					<cfif getTempData.recordcount eq georef_updates and updateGeoref1_result.recordcount eq 0>
