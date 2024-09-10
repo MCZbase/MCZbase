@@ -388,7 +388,7 @@ limitations under the License.
 				SET
 					status = concat(nvl2(status, status || '; ', ''),'MAX_ERROR_UNITS are invalid - see <a href="/vocabularies/ControlledVocabulary.cfm?table=CTLAT_LONG_ERROR_UNITS">controlled vocabulary</a>')
 				WHERE 
-					media_type not in (select LAT_LONG_ERROR_UNITS from CTLAT_LONG_ERROR_UNITS) AND
+					ORIG_LAT_LONG_UNITS not in (select LAT_LONG_ERROR_UNITS from CTLAT_LONG_ERROR_UNITS) AND
 					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<cfquery name="warningMessageRefSource" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -397,7 +397,7 @@ limitations under the License.
 				SET
 					status = concat(nvl2(status, status || '; ', ''),'Ref_Source is invalid - see <a href="/vocabularies/ControlledVocabulary.cfm?table=CTLAT_LONG_REF_SOURCE">controlled vocabulary</a>')
 				WHERE 
-					media_type not in (select LAT_LONG_ERROR_UNITS from CTLAT_LONG_REF_SOURCE) AND
+					ORIG_LAT_LONG_UNITS not in (select LAT_LONG_ERROR_UNITS from CTLAT_LONG_REF_SOURCE) AND
 					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<cfquery name="warningMessageRefSource" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
