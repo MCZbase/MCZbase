@@ -382,33 +382,7 @@ limitations under the License.
 		<cfoutput>
 			<h2 class="h4">Second step: Data Validation</h2>
 			<!---Get Data from the temp table and the codetables with relevant information--->
-			<cfquery name="warningMessageErrorUnits" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				UPDATE
-					cf_temp_georef
-				SET
-					status = concat(nvl2(status, status || '; ', ''),'MAX_ERROR_UNITS are invalid - see <a href="/vocabularies/ControlledVocabulary.cfm?table=CTLAT_LONG_ERROR_UNITS">controlled vocabulary</a>')
-				WHERE 
-					MAX_ERROR_UNITS not in (select LAT_LONG_ERROR_UNITS from CTLAT_LONG_ERROR_UNITS) AND
-					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-			</cfquery>
-			<cfquery name="warningMessageRefSource" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				UPDATE
-					cf_temp_georef
-				SET
-					status = concat(nvl2(status, status || '; ', ''),'Ref_Source is invalid - see <a href="/vocabularies/ControlledVocabulary.cfm?table=CTLAT_LONG_REF_SOURCE">controlled vocabulary</a>')
-				WHERE 
-					LAT_LONG_REF_SOURCE not in (select LAT_LONG_REF_SOURCE from CTLAT_LONG_REF_SOURCE) AND
-					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-			</cfquery>
-			<cfquery name="warningMessageRefSource" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				UPDATE
-					cf_temp_georef
-				SET
-					status = concat(nvl2(status, status || '; ', ''),'Original Lat Long Units are invalid - see <a href="/vocabularies/ControlledVocabulary.cfm?table=CTLAT_LONG_UNITS">controlled vocabulary</a>')
-				WHERE 
-					orig_lat_long_units not in (select ORIG_LAT_LONG_UNITS from CTLAT_LONG_UNITS) AND
-					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-			</cfquery>
+			
 			<cfset key = ''>
 			<cfquery name="getTempData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				select * 
@@ -416,6 +390,36 @@ limitations under the License.
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<cfloop query="getTempData">
+				<cfquery name="warningMessageErrorUnits" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					UPDATE
+						cf_temp_georef
+					SET
+						status = concat(nvl2(status, status || '; ', ''),'MAX_ERROR_UNITS are invalid - see <a href="/vocabularies/ControlledVocabulary.cfm?table=CTLAT_LONG_ERROR_UNITS">controlled vocabulary</a>')
+					WHERE 
+						MAX_ERROR_UNITS not in (select LAT_LONG_ERROR_UNITS from CTLAT_LONG_ERROR_UNITS) AND
+						username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+						and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.key#"> 
+				</cfquery>
+				<cfquery name="warningMessageRefSource" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					UPDATE
+						cf_temp_georef
+					SET
+						status = concat(nvl2(status, status || '; ', ''),'Ref_Source is invalid - see <a href="/vocabularies/ControlledVocabulary.cfm?table=CTLAT_LONG_REF_SOURCE">controlled vocabulary</a>')
+					WHERE 
+						LAT_LONG_REF_SOURCE not in (select LAT_LONG_REF_SOURCE from CTLAT_LONG_REF_SOURCE) AND
+						username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+						and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.key#"> 
+				</cfquery>
+				<cfquery name="warningMessageRefSource" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					UPDATE
+						cf_temp_georef
+					SET
+						status = concat(nvl2(status, status || '; ', ''),'Original Lat Long Units are invalid - see <a href="/vocabularies/ControlledVocabulary.cfm?table=CTLAT_LONG_UNITS">controlled vocabulary</a>')
+					WHERE 
+						orig_lat_long_units not in (select ORIG_LAT_LONG_UNITS from CTLAT_LONG_UNITS) AND
+						username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+						and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.key#"> 
+				</cfquery>
 				<cfquery name="getAgentID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE cf_temp_georef
 					SET determined_by_agent_id = (select agent_id from preferred_agent_name where agent_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.determined_by_agent#">)
