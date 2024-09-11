@@ -605,7 +605,7 @@ limitations under the License.
 				</cfif>
 			
 				<cfif isimagefile(getTempMedia.media_uri)>
-					<cfimage action="info" source="#getTempMedia.media_uri#" structname="imgInfo"/>
+					<cfset imagePath = "#getTempMedia.media_uri#">
 					
 					<!--- Check if the URL is accessible --->
 					<cfhttp method="head" url="#imagePath#" throwonerror="false" timeout="5"/>
