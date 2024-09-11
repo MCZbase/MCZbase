@@ -559,12 +559,9 @@ limitations under the License.
 			<cfloop query="getTempMedia">
 				<cfset urlToCheck = "#getTempMedia.media_uri#">
 				<cfhttp url="#urlToCheck#" method="GET" timeout="10" throwonerror="false">
-				<cfif cfhttp.statusCode EQ '200 OK'>
-					
-				<cfset validstyle = 'class="text-success"'>
-		
+				<cfif cfhttp.statusCode EQ '200 OK'>	
+					<cfset validstyle = '<span class="text-success">Valid Link</span>'>
 				<cfelse>
-				
 					<cfquery name="warningBadRel1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						UPDATE
 							cf_temp_media
@@ -862,7 +859,7 @@ limitations under the License.
 					<cfloop query="problemData">
 						<tr>
 							<td><cfif len(problemData.status) eq 0>Cleared to load<cfelse><strong>#problemData.status#</strong></cfif></td>
-							<td #validstyle#>#problemData.MEDIA_URI#</td>
+							<td>#problemData.MEDIA_URI# #validstyle#</td>
 							<td>#problemData.MIME_TYPE#</td>
 							<td>#problemData.MEDIA_TYPE#</td>
 							<td>#problemData.PREVIEW_URI#</td>
