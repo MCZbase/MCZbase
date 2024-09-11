@@ -899,8 +899,8 @@ limitations under the License.
 					<cfif getTempData.recordcount EQ 0>
 						<cfthrow message="You have no rows to load in the media bulkloader table (cf_temp_media). <a href='/tools/BulkloadMedia.cfm'>Start over</a>"><!--- " --->
 					</cfif>
-					<ul class="py-2 my-0">
-					<cfloop query="getTempData">
+					<ul class="py-2 my-0 position-absolute" style="top: 240px;">
+						<cfloop query="getTempData">
 						<cfset username = '#session.username#'>
 						<cfquery name="mediaDups" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateMedia1_result">
 							SELECT 
@@ -1192,7 +1192,7 @@ limitations under the License.
 							</cfquery>
 						</cfif>
 						<cfset media_updates = media_updates + insResult.recordcount>
-					
+						<h4>List of loaded media objects</h4>
 							<cfloop query="getID">
 								<cfset myList = #getID.theId#>
 								<cfloop list= #myList# index="mediaId" delimiters=",">
