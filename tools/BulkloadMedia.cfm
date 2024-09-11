@@ -875,9 +875,10 @@ limitations under the License.
 	<cfif action is "load">
 		<h2 class="h4">Third step: Apply changes.</h2>
 		<cfoutput>
-			<div class="position-relative" style="padding-top: 22px;">
+			
 			<cfset problem_key = "">
 			<cftransaction>
+			<div class="position-relative" style="padding-top: 22px;">
 				<cfquery name="getTempData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT * FROM cf_temp_media
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
@@ -1192,24 +1193,21 @@ limitations under the License.
 							</cfquery>
 						</cfif>
 						<cfset media_updates = media_updates + insResult.recordcount>
-					
-							<cfloop query="getID">
-								<cfset myList = #getID.theId#>
-								<cfloop list= #myList# index="mediaId" delimiters=",">
-									<p class="mb-1"><a href="/media/#mediaId#" target="_blank">#mediaId#</a> <cfif len(#getTempData.subject#) gt 0>#getTempData.subject#</cfif>  <cfif len(#getTempData.description#) gt 0>| #getTempData.description#</cfif> </p>
-								</cfloop>
+						<cfloop query="getID">
+							<cfset myList = #getID.theId#>
+							<cfloop list= #myList# index="mediaId" delimiters=",">
+								<p class="mb-1"><a href="/media/#mediaId#" target="_blank">#mediaId#</a> <cfif len(#getTempData.subject#) gt 0>#getTempData.subject#</cfif>  <cfif len(#getTempData.description#) gt 0>| #getTempData.description#</cfif> </p>
 							</cfloop>
-				
+						</cfloop>
 					</cfloop>
-
 					<cfif getTempData.recordcount eq media_updates and updateMedia1_result.recordcount eq 0>
 						<h3 class="text-success position-absolute" style="top:0;">Success - loaded #media_updates# media records</h3>
 					</cfif>
 					<cfif updateMedia1_result.recordcount gt 0>
 						<h3 class="text-danger position-absolute" style="top:0;">Not loaded - these have already been loaded</h3>
 					</cfif>
-					<cftransaction action="commit">
 				</div>
+					<cftransaction action="commit">
 				<cfcatch>
 					<cftransaction action="ROLLBACK">
 					<h3>There was a problem adding media records. </h3>
