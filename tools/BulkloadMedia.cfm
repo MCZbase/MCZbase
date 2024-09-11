@@ -557,6 +557,17 @@ limitations under the License.
 			</cfif>
 	
 			<cfloop query="getTempMedia">
+				<cfset urlToCheck = "#getTempMedia.media_uri#">
+				<cfhttp url="#urlToCheck#" method="GET" timeout="10" throwonerror="false">
+				<cfif cfhttp.statusCode EQ 200>
+					<cfoutput>
+						The link is valid and reachable.
+					</cfoutput>
+				<cfelse>
+					<cfoutput>
+						The link is not reachable. HTTP Status Code: #cfhttp.statusCode#.
+					</cfoutput>
+				</cfif>
 				<cfif len(related_primary_key_1) gt 0>
 					<cfquery name="warningBadRel1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						UPDATE
