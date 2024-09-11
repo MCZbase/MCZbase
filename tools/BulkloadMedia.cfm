@@ -561,16 +561,7 @@ limitations under the License.
 				<cfhttp url="#urlToCheck#" method="GET" timeout="10" throwonerror="false">
 				<cfif cfhttp.statusCode EQ '200 OK'>
 					
-					<cfquery name="warningBadRel1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						UPDATE
-							cf_temp_media
-						SET
-							status = concat(nvl2(status, status || '; ', ''),'MEDIA_URI is VALID')
-						WHERE
-							media_uri is not null and
-							username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> and
-							key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia.key#">
-					</cfquery>
+				<cfset validstyle = 'class="text-success"'>
 		
 				<cfelse>
 				
@@ -871,7 +862,7 @@ limitations under the License.
 					<cfloop query="problemData">
 						<tr>
 							<td><cfif len(problemData.status) eq 0>Cleared to load<cfelse><strong>#problemData.status#</strong></cfif></td>
-							<td>#problemData.MEDIA_URI#</td>
+							<td #validstyle#>#problemData.MEDIA_URI#</td>
 							<td>#problemData.MIME_TYPE#</td>
 							<td>#problemData.MEDIA_TYPE#</td>
 							<td>#problemData.PREVIEW_URI#</td>
