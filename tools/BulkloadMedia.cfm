@@ -560,7 +560,7 @@ limitations under the License.
 				<cfset urlToCheck = "#getTempMedia.media_uri#">
 				<cfhttp url="#urlToCheck#" method="GET" timeout="10" throwonerror="false">
 				<cfif cfhttp.statusCode EQ '200 OK'>	
-					<cfset validstyle = '<span class="text-success">Valid Link</span>'>
+					<cfset validstyle = '<span class="text-success">(Valid Link)</span>'>
 				<cfelse>
 					<cfquery name="warningBadRel1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						UPDATE
