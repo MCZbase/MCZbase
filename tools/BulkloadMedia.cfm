@@ -875,6 +875,7 @@ limitations under the License.
 	<cfif action is "load">
 		<h2 class="h4">Third step: Apply changes.</h2>
 		<cfoutput>
+			<div class="position-relative" style="padding-top: 22px;">
 			<cfset problem_key = "">
 			<cftransaction>
 				<cfquery name="getTempData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -1195,21 +1196,20 @@ limitations under the License.
 							<cfloop query="getID">
 								<cfset myList = #getID.theId#>
 								<cfloop list= #myList# index="mediaId" delimiters=",">
-									<p><a href="/media/#mediaId#" target="_blank">#mediaId#</a> <cfif len(#getTempData.subject#) gt 0>#getTempData.subject#</cfif>  <cfif len(#getTempData.description#) gt 0>| #getTempData.description#</cfif> </p>
+									<p class="mb-1"><a href="/media/#mediaId#" target="_blank">#mediaId#</a> <cfif len(#getTempData.subject#) gt 0>#getTempData.subject#</cfif>  <cfif len(#getTempData.description#) gt 0>| #getTempData.description#</cfif> </p>
 								</cfloop>
 							</cfloop>
 				
 					</cfloop>
 
-			<!---		<p class="mt-2">Number of Media Records added: <b>#media_updates#</b></p>--->
-
 					<cfif getTempData.recordcount eq media_updates and updateMedia1_result.recordcount eq 0>
-						<h3 class="text-success">Success - loaded #media_updates# media records</h3>
+						<h3 class="text-success position-absolute" style="top:0;">Success - loaded #media_updates# media records</h3>
 					</cfif>
 					<cfif updateMedia1_result.recordcount gt 0>
-						<h3 class="text-danger">Not loaded - these have already been loaded</h3>
+						<h3 class="text-danger position-absolute" style="top:0;">Not loaded - these have already been loaded</h3>
 					</cfif>
 					<cftransaction action="commit">
+				</div>
 				<cfcatch>
 					<cftransaction action="ROLLBACK">
 					<h3>There was a problem adding media records. </h3>
