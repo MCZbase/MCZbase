@@ -559,7 +559,7 @@ limitations under the License.
 			<cfloop query="getTempMedia">
 				<cfset urlToCheck = "#getTempMedia.media_uri#">
 				<cfhttp url="#urlToCheck#" method="GET" timeout="10" throwonerror="false">
-				<cfif cfhttp.statusCode EQ 200>
+				<cfif cfhttp.statusCode EQ '200 OK'>
 					
 					<cfquery name="warningBadRel1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						UPDATE
