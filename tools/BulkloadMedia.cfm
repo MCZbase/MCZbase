@@ -357,14 +357,14 @@ limitations under the License.
 				</div>
 				<h3 class="h3">
 					<cfif loadedRows EQ 0>
-						Loaded no rows from the CSV file.  The file appears to be just a header with no data. Fix file and <a href="/tools/BulkloadMedia.cfm">reload</a>
+						Loaded no rows from the CSV file.  The file appears to be just a header with no data. Fix file and <a href="/tools/BulkloadMedia.cfm">reload</a>.
 					<cfelse>
 						Successfully read #loadedRows# records from the CSV file.  Next <a href="/tools/BulkloadMedia.cfm?action=validate">click to validate</a>.
 					</cfif>
 				</h3>
 			<cfcatch>
 				<h3 class="h4">
-					Failed to read the CSV file.  Fix the errors in the file and <a href="/tools/BulkloadMedia.cfm">reload</a>
+					Failed to read the CSV file.  Fix the errors in the file and <a href="/tools/BulkloadMedia.cfm">reload</a>.
 				</h3>
 				<cfif isDefined("arrResult")>
 					<cfset foundHighCount = 0>
