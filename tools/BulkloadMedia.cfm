@@ -570,6 +570,7 @@ limitations under the License.
 							status = concat(nvl2(status, status || '; ', ''),'MEDIA_URI is invalid')
 						WHERE
 							'#cfhttp.statusCode#' <> '200 OK' AND
+							media_uri is not null and
 							username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> and
 							key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia.key#">
 					</cfquery>
