@@ -78,6 +78,8 @@ limitations under the License.
 					<dt class="float-left px-2">Step 1:</dt><dd>Ensure that Media exists on the shared drive or external URL</dd>
 					<dt class="float-left px-2">Step 2:</dt><dd>Check the existance of records for the relationships (e.g., cataloged_item, agent, collecting_event).</dd>
 					<dt class="float-left px-2">Step 3:</dt><dd>Upload a comma-delimited text file (csv). </dd>
+					<dt class="float-left px-2">Step 4:</dt><dd>Validation. Check the table of data. </dd>
+					<dt class="float-left px-2">Step 5:</dt><dd>Load the data. </dd>
 				</dl>
 			</div>
 		
@@ -785,7 +787,7 @@ limitations under the License.
 				<cfif problemsInData.c gt 0>
 					There is a problem with #problemsInData.c# of #problemData.recordcount# row(s). See the STATUS column (<a href="/tools/BulkloadMedia.cfm?action=dumpProblems">download</a>). Fix the problems in the data and <a href="/tools/BulkloadMedia.cfm" class="text-danger">start again</a>.
 				<cfelse>
-					<span class="text-success">Validation checks passed</span>. Look over the table below and <a href="/tools/BulkloadMedia.cfm?action=load" class="btn-link font-weight-lessbold">click to continue</a> if it all looks good. Or, <a href="/tools/BulkloadMedia.cfm" class="text-danger">start again</a>.
+					<span class="text-success">Validation checks passed</span>. Look over the table below and <a href="/tools/BulkloadMedia.cfm?action=load" class="btn-link font-weight-lessbold">click to continue (load data)</a> if it all looks good. Or, <a href="/tools/BulkloadMedia.cfm" class="text-danger">start again</a>.
 				</cfif>
 			</h3>
 			<table class='px-0 mx-0 sortable table small table-responsive w-100'>
