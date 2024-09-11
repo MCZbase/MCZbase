@@ -606,7 +606,21 @@ limitations under the License.
 			
 				<cfif isimagefile(getTempMedia.media_uri)>
 					<cfimage action="info" source="#getTempMedia.media_uri#" structname="imgInfo"/>
-					<cfdump var="#imgInfo#" label="Image Information"/>
+					
+					<!--- Check if the URL is accessible --->
+					<cfhttp method="head" url="#imagePath#" throwonerror="false" timeout="5"/>
+
+					<cfif cfhttp.statusCode EQ 200>
+						<!--- Get image information --->
+						<cfimage action="info" source="#imagePath#" structname="imgInfo"/>
+
+						<!--- Output the retrieved image information --->
+						<cfdump var="#imgInfo#" label="Image Information"/>
+					<cfelse>
+						<cfoutput>
+							The URL #imagePath# is not accessible.
+						</cfoutput>
+					</cfif>
 					<cfquery name="makeHeightLabel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						UPDATE cf_temp_media
 						SET  height = <cfif len(getTempMedia.height) gt 0>#getTempMedia.height#<cfelse>#imgInfo.height#</cfif>
