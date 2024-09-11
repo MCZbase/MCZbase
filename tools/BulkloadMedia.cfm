@@ -1191,6 +1191,8 @@ limitations under the License.
 							</cfquery>
 						</cfif>
 						<cfset media_updates = media_updates + insResult.recordcount>
+
+					</cfloop>
 						<ul class="py-2 my-0">
 							<cfloop query="getID">
 								<cfset myList = #getID.theId#>
@@ -1199,8 +1201,6 @@ limitations under the License.
 								</cfloop>
 							</cfloop>
 						</ul>
-					</cfloop>
-
 					<p class="mt-2">Number of Media Records added: <b>#media_updates#</b></p>
 
 					<cfif getTempData.recordcount eq media_updates and updateMedia1_result.recordcount eq 0>
