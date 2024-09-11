@@ -1195,7 +1195,7 @@ limitations under the License.
 							<cfloop query="getID">
 								<cfset myList = #getID.theId#>
 								<cfloop list= #myList# index="mediaId" delimiters=",">
-									<div><a href="/media/#mediaId#" target="_blank">#mediaId#</a> <cfif len(#getTempData.subject#) gt 0>#getTempData.subject#</cfif>  <cfif len(#getTempData.description#) gt 0>| #getTempData.description#</cfif> </div>
+									<p><a href="/media/#mediaId#" target="_blank">#mediaId#</a> <cfif len(#getTempData.subject#) gt 0>#getTempData.subject#</cfif>  <cfif len(#getTempData.description#) gt 0>| #getTempData.description#</cfif> </p>
 								</cfloop>
 							</cfloop>
 				
