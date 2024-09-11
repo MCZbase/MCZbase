@@ -606,7 +606,7 @@ limitations under the License.
 			
 				<cfif isimagefile(getTempMedia.media_uri)>
 					<cfimage action="info" source="#getTempMedia.media_uri#" structname="imgInfo"/>
-					<cfdump contents="imginfo">
+					<cfdump var="#imgInfo#" label="Image Information"/>
 					<cfquery name="makeHeightLabel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						UPDATE cf_temp_media
 						SET  height = <cfif len(getTempMedia.height) gt 0>#getTempMedia.height#<cfelse>#imgInfo.height#</cfif>
