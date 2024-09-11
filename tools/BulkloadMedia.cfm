@@ -557,6 +557,23 @@ limitations under the License.
 			</cfif>
 	
 			<cfloop query="getTempMedia">
+				<cfset urlToCheck = "#getTempMedia.media_uri#">
+				<cfset validstyle = ''>
+				<cfhttp url="#urlToCheck#" method="GET" timeout="10" throwonerror="false">
+				<cfif cfhttp.statusCode EQ '200 OK'>	
+					<cfset validstyle = '<span class="text-success">(Valid Link)</span>'>
+				<cfelse>
+					<cfquery name="warningBadRel1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						UPDATE
+							cf_temp_media
+						SET
+							status = concat(nvl2(status, status || '; ', ''),'MEDIA_URI is invalid')
+						WHERE
+							media_uri is not null and
+							username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+					</cfquery>
+				</cfif>
+
 				<cfif len(related_primary_key_1) gt 0>
 					<cfquery name="warningBadRel1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						UPDATE
@@ -842,7 +859,7 @@ limitations under the License.
 					<cfloop query="problemData">
 						<tr>
 							<td><cfif len(problemData.status) eq 0>Cleared to load<cfelse><strong>#problemData.status#</strong></cfif></td>
-							<td>#problemData.MEDIA_URI#</td>
+							<td>#problemData.MEDIA_URI# #validlink#</td>
 							<td>#problemData.MIME_TYPE#</td>
 							<td>#problemData.MEDIA_TYPE#</td>
 							<td>#problemData.PREVIEW_URI#</td>
