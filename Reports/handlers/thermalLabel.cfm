@@ -119,8 +119,8 @@ limitations under the License.
 		<!---Unused in this particular proof of concept label, likely will be needed in others, retain for reuse in other blocks if needed --->
 		<cfset labelBorder = 'border: 1px solid black;'><!--- Used under label type (e.g., WHOI Jar Number)  --->
 		<cfset labelHeight = 'height: 5in;'> <!--- Jar label --Assuming 1 page per jar (not used yet) --->
-		<cfset mczTitle = 'text-align: center;padding-top: .11in;font: 10.5pt Arial;'>
-		<cfset jarTitle = 'text-align: center; padding-bottom: .07in; border-bottom: 1px solid;font: 10.5pt Arial;padding-top: .05in;margin-bottom: 0.05in;'>
+		<cfset mczTitle = 'text-align: center;padding-top: .09in;font: 10.5pt Arial;'>
+		<cfset jarTitle = 'text-align: center; padding-bottom: .05in; border-bottom: 1px solid;font: 10.5pt Arial;padding-top: .04in;margin-bottom: 0.04in;'>
 		<cfset higherTaxa = 'text-align: left; font: 10.5pt Arial;padding: .02in;'>
 		<cfset sciName = "text-align: left;font: 10.5pt Helvetica, Arial, 'sans-serif'; padding: .05in .02in .02in .02in;font-weight:bold;">
 		<cfset contentFont = 'font: 9pt Arial;'>
