@@ -858,7 +858,7 @@ limitations under the License.
 					<cfloop query="problemData">
 						<tr>
 							<td><cfif len(problemData.status) eq 0>Cleared to load<cfelse><strong>#problemData.status#</strong></cfif></td>
-							<td>#problemData.MEDIA_URI# #validstyle#</td>
+							<td>#problemData.MEDIA_URI#</td>
 							<td>#problemData.MIME_TYPE#</td>
 							<td>#problemData.MEDIA_TYPE#</td>
 							<td>#problemData.PREVIEW_URI#</td>
