@@ -478,7 +478,7 @@ limitations under the License.
 						media_license_id not in (select media_license_id from ctmedia_license) AND
 						username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
-				<cfif !isNumeric(related_primary_key_1)>
+				<cfif !isNumeric(#getTempMedia.related_primary_key_1#)>
 					<cfquery name="warningMessageLicense" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						UPDATE
 							cf_temp_media
@@ -488,7 +488,7 @@ limitations under the License.
 							username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 					</cfquery>
 				</cfif>
-				<cfif !isNumeric(related_primary_key_2)>
+				<cfif !isNumeric(#getTempMedia.related_primary_key_2#)>
 					<cfquery name="warningMessageLicense" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						UPDATE
 							cf_temp_media
