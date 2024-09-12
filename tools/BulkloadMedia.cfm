@@ -639,32 +639,7 @@ limitations under the License.
 							key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia.key#">
 					</cfquery>
 				</cfif>
-						<!---REMOVE---->
-<!---					<cfif len(media_relationship_2) gt 0>
-					<cfquery name="warningBadRel2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						UPDATE
-							cf_temp_media
-						SET
-							status = concat(nvl2(status, status || '; ', ''),'MEDIA_RELATIONSHIP_2 is invalid - Check  <a href="/vocabularies/ControlledVocabulary.cfm?table=CTMEDIA_RELATIONSHIP">controlled vocabulary</a>')
-						WHERE
-							media_relationship_2 not in (select media_relationship from ctmedia_relationship) and 
-							media_relationship_2 is not null AND
-							username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> and
-							key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia.key#">
-					</cfquery>
-				</cfif>
-				<cfif len(media_relationship_2) gt 0 and len(related_primary_key_2) eq 0>
-					<cfquery name="warningBadRel2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						UPDATE
-							cf_temp_media
-						SET
-							status = concat(nvl2(status, status || '; ', ''),'RELATED_PRIMARY_KEY_2 is missing')
-						WHERE
-							related_primary_key_2 is null and media_relationship_2 is not null AND
-							username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> AND
-							key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia.key#">
-					</cfquery>
-				</cfif>--->
+				
 				<!----------END Check Relationship Warnings for 1 and 2------------->
 				<!----------END Relationship Invalid-------------------------------->
 				<!----------END Related primary kay missing ------------------------>
