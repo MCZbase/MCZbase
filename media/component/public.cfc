@@ -613,7 +613,7 @@ include this function and use it.
 					</cfquery>
 				</cfif>
 				<cfquery name="agents1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				select distinct agent_name.agent_name, media_relations.created_by_agent_id
+				select distinct agent_name.agent_name, media_relations.created_by_agent_id, agent.agent_id
 					from media_relations
 						left join agent on media_relations.created_by_agent_id = agent.agent_id
 						left join agent_name on agent_name.agent_id = agent.agent_id
