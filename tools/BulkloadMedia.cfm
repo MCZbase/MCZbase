@@ -109,7 +109,7 @@ limitations under the License.
 					</tr>
 					<tr>
 						
-						<td>created by or physical object created by AGENT: <b>AGENT_ID</b> or <b>PREFERRED AGENT_NAME</b></td>
+						<td>physical object created by AGENT: <b>AGENT_ID</b> or <b>PREFERRED AGENT_NAME</b></td>
 						<td>documents or shows LOCALITY: <b>LOCALITY_ID</b></td>
 						<td>shows SPECIMEN_PART: <b>GUID</b></td>
 						<td>transcript for AUDIO: <b>MEDIA_ID</b></td>
