@@ -488,7 +488,7 @@ limitations under the License.
 							username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 					</cfquery>
 				</cfif>
-				<cfif !isNumeric(#getTempMedia.related_primary_key_2#) and media_relationship_2 contains "agent">
+				<cfif !isNumeric(#getTempMedia.related_primary_key_2#) and #getTempMedia.media_relationship_2# contains "agent">
 					<cfquery name="warningMes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						UPDATE
 							cf_temp_media
