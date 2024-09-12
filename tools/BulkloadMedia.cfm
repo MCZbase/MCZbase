@@ -718,14 +718,14 @@ limitations under the License.
 						<!--- This generalizes the two key:value pairs (to media_relationship and related_primary_key)--->
 						<cfquery name="getMediaRel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							SELECT 
-								cf_temp_media2.key,
-								cf_temp_media2.media_relationship_#i# as media_relationship,
-								cf_temp_media2.related_primary_key_#i# as related_primary_key
+								getTempMedia2.key,
+								getTempMedia2.media_relationship_#i# as media_relationship,
+								getTempMedia2.related_primary_key_#i# as related_primary_key
 							FROM 
 								cf_temp_media
 							WHERE 
-								cf_temp_media2.media_relationship_#i# is not null
-								AND cf_temp_media2.related_primary_key_#i# is not null
+								getTempMedia2.media_relationship_#i# is not null
+								AND getTempMedia2.related_primary_key_#i# is not null
 								AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 								AND key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia2.key#">
 						</cfquery>
