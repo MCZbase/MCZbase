@@ -465,7 +465,7 @@ limitations under the License.
 				SET
 					status = concat(nvl2(status, status || '; ', ''),'CREATED_BY_AGENT invalid')
 				WHERE 
-					CREATED_BY_AGENT not in (select AGENT_ID from AGENT) AND
+					CREATED_BY_AGENT not in (select AGENT_NAME from AGENT,agent_name where agent.agent_id = agent_name.agent_id) AND
 					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<cfif !isNumeric(getTempMedia.created_by_agent)  and len(getTempMedia.created_by_agent) gt 0>
