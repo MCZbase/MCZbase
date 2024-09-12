@@ -708,18 +708,18 @@ limitations under the License.
 											username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> AND
 											key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia2.key#">
 									</cfquery>
-									<cfquery name="warningBadKey1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-										UPDATE
-											cf_temp_media
-										SET
-											status = concat(nvl2(status, status || '; ', ''),'related_primary_key_#i# does not exist')
-										WHERE
-											related_primary_key_#i# not in (select collection_object_id
-											from #theTable# where cat_num = '#CI#' and collection_cde = '#CCDE#') and 
-											username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> and
-											key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia.key#">
-									</cfquery>
 								</cfloop>
+								<cfquery name="warningBadKey1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+									UPDATE
+										cf_temp_media
+									SET
+										status = concat(nvl2(status, status || '; ', ''),'related_primary_key_#i# does not exist')
+									WHERE
+										related_primary_key_#i# not in (select collection_object_id
+										from #theTable# where cat_num = '#CI#' and collection_cde = '#CCDE#') and 
+										username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> and
+										key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia.key#">
+								</cfquery>
 							<cfelseif #getMediaRel.media_relationship# eq 'shows specimen_part' and len(getMediaRel.related_primary_key) gt 0>
 								<cfloop list="#getMediaRel.related_primary_key#" index="l" delimiters=":">
 									<cfset IA = listGetAt(#getMediaRel.related_primary_key#,1,":")>
