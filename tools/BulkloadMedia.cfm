@@ -879,6 +879,7 @@ limitations under the License.
 						<cfelse>
 							
 						</cfif>
+						#chkCOID.related_primary_key#
 					</cfloop>
 				</cfloop>
 			</cfif>
