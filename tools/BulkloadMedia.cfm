@@ -104,7 +104,7 @@ limitations under the License.
 						<td>related to MEDIA: <b>MEDIA_ID</b></td>
 						<td>shows PROJECT: <b>PROJECT_ID</b> or <b>PROJECT_NAME</b></td>
 						<td>documents ACCN: <b>ACCN_NUMBER</b></td>
-						<td>documents DEACCESSION: <b>DEACCESSION_NUMBER</b></td>
+						<td>documents DEACCESSION: <b>DEACC_NUMBER</b></td>
 					</tr>
 					<tr>
 						
@@ -485,9 +485,9 @@ limitations under the License.
 					media_license_id not in (select media_license_id from ctmedia_license) AND
 					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
-			<!--------------------->
-			<!---CHECK MADE_DATE--->
-			<!--------------------->
+			<!----------------------------------->
+			<!---TODO: Fix CHECK for MADE_DATE--->
+			<!----------------------------------->
 			<cfset madedate = isDate(getTempMedia.made_date)>
 				<cfif #madedate# eq 'NO'>
 					<cfquery name="flagDateProblem" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -624,6 +624,9 @@ limitations under the License.
 							key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia.key#">
 					</cfquery>
 				</cfif>
+				<!--------------------------------------------------->
+				<!---TODO: Fix CHECK FOR VALID related_primary_key--->
+				<!--------------------------------------------------->
 				<cfif isimagefile(getTempMedia.media_uri)>
 					<cfimage action="info" source="#getTempMedia.media_uri#" structname="imgInfo"/>
 					<cfquery name="makeHeightLabel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -662,7 +665,7 @@ limitations under the License.
 				<cfloop query = "getTempMedia2">
 					<cfset #i# lte 2>
 					<cfloop index="i" from="1" to="2">
-					
+						<!--- This generalizes the two key:value pairs (to media_relationship and related_primary_key)--->
 						<cfquery name="getMediaRel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							SELECT 
 								cf_temp_media.key,
@@ -678,21 +681,21 @@ limitations under the License.
 						</cfquery>
 
 						<cfif ListLen(getMediaRel.related_primary_key) gte #i# >
-						<!---Find the table name "theTable" from the second part of the media_relationship--->
-						<cfset theTable = trim(listLast('#getMediaRel.media_relationship#'," "))>
+							<!---Find the table name "theTable" from the second part of the media_relationship--->
+							<cfset theTable = trim(listLast('#getMediaRel.media_relationship#'," "))>
 
-						<!---based on the table, find the primary key--->
-						<cfquery name="tables" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-							SELECT cols.table_name, cols.column_name, cols.position, cons.status, cons.owner
-							FROM all_constraints cons, all_cons_columns cols
-							WHERE cons.constraint_type = 'P'
-							AND cons.constraint_name = cols.constraint_name
-							AND cons.owner = cols.owner
-							and cons.owner='MCZBASE'
-							AND cols.table_name = UPPER('#theTable#')
-							AND cols.position = 1
-							ORDER BY cols.table_name, cols.position
-						</cfquery>
+							<!---based on the table, find the primary key--->
+							<cfquery name="tables" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+								SELECT cols.table_name, cols.column_name, cols.position, cons.status, cons.owner
+								FROM all_constraints cons, all_cons_columns cols
+								WHERE cons.constraint_type = 'P'
+								AND cons.constraint_name = cols.constraint_name
+								AND cons.owner = cols.owner
+								and cons.owner='MCZBASE'
+								AND cols.table_name = UPPER('#theTable#')
+								AND cols.position = 1
+								ORDER BY cols.table_name, cols.position
+							</cfquery>
 
 							<cfif #getMediaRel.media_relationship# contains 'cataloged_item' and len(getMediaRel.related_primary_key) gt 0>
 								<cfset l=3>
@@ -773,6 +776,18 @@ limitations under the License.
 										key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia2.key#">
 								</cfquery>
 							<cfelseif #getMediaRel.media_relationship# eq 'documents accn'><!---requires accn number--->
+								<cfquery name="chkCOID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+									update cf_temp_media set related_primary_key_#i# =
+									(
+										select #theTable#.transaction_id
+										from #theTable#
+										where deaccession_number = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getMediaRel.related_primary_key#">
+									)
+									WHERE related_primary_key_#i# is not null AND
+										username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> AND
+										key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia2.key#">
+								</cfquery>
+							<cfelseif #getMediaRel.media_relationship# eq 'documents accn'><!---requires deaccession number--->
 								<cfquery name="chkCOID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 									update cf_temp_media set related_primary_key_#i# =
 									(
