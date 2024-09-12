@@ -613,14 +613,12 @@ include this function and use it.
 					</cfquery>
 				</cfif>
 				<cfquery name="agents1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					select distinct agent_name.agent_name, agent.agent_id
+				select distinct agent_name.agent_name, media_relations.created_by_agent_id
 					from media_relations
-						left join agent on media_relations.related_primary_key = agent.agent_id
+						left join agent on media_relations.created_by_agent_id = agent.agent_id
 						left join agent_name on agent_name.agent_id = agent.agent_id
-						left join mczbase.ctmedia_relationship on mczbase.ctmedia_relationship.media_relationship = media_relations.media_relationship
-					where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
-					and media_relations.media_relationship = 'created by agent'
-						and agent_name_type = 'preferred'
+						where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
+						and agent_name.agent_name_type = 'preferred'
 					order by agent_name.agent_name
 				</cfquery>
 				<cfquery name="agents2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -950,11 +948,11 @@ include this function and use it.
 													<a class="font-weight-lessbold" href="/agents/Agent.cfm?agent_id=#agents3.agent_id#"> #agents3.agent_name#</a><cfif agents3.recordcount gt 1><span>, </span> </cfif>
 												</cfloop>
 											</cfif>
-											<cfif media_rel.media_relationship eq 'created by agent'>
+					<!---						<cfif media_rel.media_relationship eq 'created by agent'>
 												<cfloop query="created_by">
 													<a class="font-weight-lessbold" href="/agents/Agent.cfm?agent_id=#created_by.agent_id#"> #created_by.agent_name#</a><cfif created_by.recordcount gt 1><span>, </span> </cfif>
 												</cfloop>
-											</cfif>
+											</cfif>--->
 											<!---Display Agent: shows handwriting of agent query--->
 											<cfif media_rel.media_relationship eq 'shows handwriting of agent'>
 												<cfloop query="agents4">
