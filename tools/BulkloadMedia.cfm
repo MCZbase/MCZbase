@@ -868,9 +868,7 @@ limitations under the License.
 									WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> AND
 										key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia2.key#">
 								</cfquery>
-							</cfif>
-						<cfelse>
-							
+							</cfif>						
 						</cfif>
 					</cfloop>
 				</cfloop>
