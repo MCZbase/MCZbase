@@ -572,7 +572,19 @@ limitations under the License.
 							key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia.key#">
 					</cfquery>
 				</cfif>
-					
+					<cfif !isNumeric(getTempMedia.related_primary_key_2) and getTempMedia.related_primary_key_2 eq "shows agent">
+						<cfquery name="warningMessageAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+							UPDATE
+								cf_temp_media
+							SET
+								related_primary_key_2
+							WHERE 
+								related_primary_key_2 in (select agent_name.AGENT_ID from agent_name where agent_name.agent_id = agent.agent_id 
+								and agent_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia.related_primary_key_2#"> ) AND
+								username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> and
+								key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia.key#">
+						</cfquery>
+					</cfif>
 				<!---Check MEDIA_URI------------->
 				<cfset urlToCheck = "#getTempMedia.media_uri#">
 				<cfset validstyle = ''>
@@ -712,19 +724,7 @@ limitations under the License.
 								key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia2.key#">
 						</cfquery>
 					</cfif>
-					<cfif !isNumeric(related_primary_key_2) and related_primary_key_2 eq "shows agent">
-						<cfquery name="warningMessageAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-							UPDATE
-								cf_temp_media
-							SET
-								related_primary_key_2
-							WHERE 
-								related_primary_key_2 in (select agent_name.AGENT_ID from agent_name where agent_name.agent_id = agent.agent_id 
-								and agent_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia2.related_primary_key_2#"> ) AND
-								username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> and
-								key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia2.key#">
-						</cfquery>
-					</cfif>
+				
 					<cfset #i# lte 2>
 					<cfloop index="i" from="1" to="2">
 						<!--- This generalizes the two key:value pairs (to media_relationship and related_primary_key)--->
