@@ -613,7 +613,7 @@ include this function and use it.
 					</cfquery>
 				</cfif>
 				<cfquery name="agents1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				select distinct agent_name.agent_name, media_relations.created_by_agent_id,agent.agent_id
+				select distinct agent_name.agent_name, media_relations.created_by_agent_id
 					from media_relations
 						left join agent on media_relations.created_by_agent_id = agent.agent_id
 						left join agent_name on agent_name.agent_id = agent.agent_id
@@ -726,6 +726,13 @@ include this function and use it.
 					where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
 						and media_relations.media_relationship = 'shows locality'
 				</cfquery>
+				<cfquery name="created_by" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					select distinct agent_name
+					from media_relations
+						left join agent on media_relations.created_by_agent_id = agent.agent_id
+						left join agent_name on agent.agent_id = agent_name.agent_id
+					where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
+				</cfquery>
 				<cfquery name="media1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					select distinct mr.related_primary_key as pk, m.media_uri
 					from media m
@@ -825,7 +832,7 @@ include this function and use it.
 						WHERE media_keywords.media_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 					</cfquery>
 					<cfquery name="media_rel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						select distinct mr.media_relationship,ct.Label as label, ct.auto_table,mr.created_by_agent_id
+						select distinct mr.media_relationship,ct.Label as label, ct.auto_table
 						from media_relations mr
 						left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
 						where mr.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
@@ -924,10 +931,8 @@ include this function and use it.
 												</cfif>
 											</cfif>
 											<!---Display Agent: created by agent query--->
-											<cfif len(media_rel.created_by_agent_id) gt 0>
-												
+											<cfif media_rel.media_relationship eq 'created by agent' OR len(media_rel.created_by_agent_id) gt 0>
 												<cfloop query="agents1">
-													<cfset media_rel.media_relationship eq 'created by agent'>
 													<a class="font-weight-lessbold" href="/agents/Agent.cfm?agent_id=#agents1.agent_id#"> #agents1.agent_name#</a><cfif agents1.recordcount gt 1><span>, </span> </cfif>
 												</cfloop>
 											</cfif>
