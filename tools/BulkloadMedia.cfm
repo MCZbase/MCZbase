@@ -765,7 +765,7 @@ limitations under the License.
 									</cfquery>
 								</cfloop>
 							<!---Add additional blocks if non-numeric entries are the norm for a relationship type--->
-							<cfelseif !isNumeric(#getMediaRel.related_primary_key# and #getMediaRel.media_relationship# contains 'agent')>
+							<cfelseif !isNumeric(#getMediaRel.related_primary_key#) and #getMediaRel.media_relationship# contains 'agent'>
 								<cfquery name="chkCOID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 									update cf_temp_media set related_primary_key_#i# =
 									(
