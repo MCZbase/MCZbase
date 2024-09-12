@@ -712,7 +712,7 @@ limitations under the License.
 								key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia2.key#">
 						</cfquery>
 					</cfif>
-					<cfif isNumeric(related_primary_key_2) and related_primary_key_2 eq "shows agent">
+					<cfif !isNumeric(related_primary_key_2) and related_primary_key_2 eq "shows agent">
 						<cfquery name="warningMessageAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							UPDATE
 								cf_temp_media
