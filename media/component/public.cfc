@@ -728,6 +728,14 @@ include this function and use it.
 					where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
 						and media_relations.media_relationship = 'shows locality'
 				</cfquery>
+				<cfquery name="created_by" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					select distinct agent_name
+					from media_relations
+						left join agent on media_relations.related_primary_key = agent.agent_id
+						left join agent_name on agent_name.agent_id = agent.agent_id
+					where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
+						and media_relations.created_by_agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent1.created_by_agent_id#">
+				</cfquery>
 				<cfquery name="media1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					select distinct mr.related_primary_key as pk, m.media_uri
 					from media m
