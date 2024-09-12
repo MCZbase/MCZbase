@@ -1197,6 +1197,8 @@ limitations under the License.
 
 	<cfif not isdefined("collection_object_id") ><cfset collection_object_id = ""></cfif>
 	<cfif not isdefined("accn_id") ><cfset accn_id = ""></cfif>
+	<cfset accn_id_num_bits = 0>
+	<cfset accn_id_array = ArrayNew(1)>
 	<cfset specimen_guid_pattern = "">
 	<cfif isDefined("specimen_guid") AND (specimen_guid CONTAINS "%" OR REFind("^[A-Z]+:[A-Za-z]+[:]{0,1}$",specimen_guid) GT 0)>
 		<!--- if provided with a pattern, obtain list of transaction ids to use inside main search query --->
@@ -1206,19 +1208,30 @@ limitations under the License.
 			<cfset specimen_guid_pattern = "#specimen_guid#">
 		</cfif>
 		<cfquery name="guidSearch" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="guidSearch_result" timeout="#Application.query_timeout#">
-			select distinct accn_id 
+			select distinct accn_id as transaction_id
 			from 
 				#session.flatTableName# flat 
 			where
 				flat.guid like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#specimen_guid_pattern#">
 		</cfquery>
+		<cfset accn_id_counter = 0>
 		<cfloop query="guidSearch">
+			<!--- list of accn_id values may be longer than 1000, cfqueryparam with list has max of 1000, split for looping --->
+			<cfset accn_id_counter = accn_id_counter + 1>
+			<cfif accn_id_counter GT 999>
+				<cfset accn_id_num_bits = accn_id_num_bits + 1>
+				<cfset accn_id_array[accn_id_num_bits] = accn_id>
+				<cfset accn_id = "">
+				<cfset accn_id_counter = 1>
+			</cfif>
 			<cfif len(accn_id) EQ 0>
-				<cfset accn_id = guidSearch.accn_id>
+				<cfset accn_id = guidSearch.transaction_id>
 			<cfelse>
-				<cfset accn_id = accn_id & "," & guidSearch.accn_id>
+				<cfset accn_id = accn_id & "," & guidSearch.transaction_id>
 			</cfif>
 		</cfloop>
+		<cfset accn_id_array[accn_id_num_bits+1] = accn_id>
+		</cfif>
 	<cfelseif (isdefined("specimen_guid") AND len(#specimen_guid#) gt 0) >
 		<!--- If provided with specimen guids, look up part collection object ids for lookup --->
 		<cfquery name="guidSearch" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="guidSearch_result" timeout="#Application.query_timeout#">
@@ -1462,7 +1475,16 @@ limitations under the License.
 					AND specimen_part.collection_object_id IN ( <cfqueryparam list="yes" cfsqltype="CF_SQL_VARCHAR" value="#collection_object_id#" > )
 				</cfif>
 				<cfif isDefined("specimen_guid_pattern") and len(specimen_guid_pattern) GT 0>
-					AND trans.transaction_id IN (<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#accn_id#" list="yes">)
+					AND (
+						<cfset itemnumber = 0>
+						<cfloop array="#accn_id_array#" item="accn_id_element">
+							<cfif itemnumber GT 0>
+								OR
+							</cfif>
+							trans.transaction_id IN (<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#accn_id_element#" list="yes">)
+							<cfset itemnumber = itemnumber + 1>
+						</cfloop>
+						)
 				</cfif>
 				<cfif isdefined("sovereign_nation") AND len(#sovereign_nation#) gt 0 >
 					<cfif left(sovereign_nation,1) is "=">
