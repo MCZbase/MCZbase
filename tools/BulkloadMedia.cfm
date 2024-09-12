@@ -593,7 +593,7 @@ limitations under the License.
 							key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia.key#">
 					</cfquery>
 				</cfif>
-			<!---	<cfif len(media_relationship_1) gt 0>
+				<cfif len(media_relationship_1) gt 0>
 					<cfquery name="warningBadRel1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						UPDATE
 							cf_temp_media
@@ -642,7 +642,7 @@ limitations under the License.
 							username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> AND
 							key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia.key#">
 					</cfquery>
-				</cfif>--->
+				</cfif>
 				<!--------------------------------------------------->
 				<!---TODO: Fix CHECK FOR VALID related_primary_key--->
 				<!--------------------------------------------------->
@@ -682,7 +682,7 @@ limitations under the License.
 			</cfquery>
 			<cfif len(getTempMedia2.status) eq 0>
 				<cfloop query = "getTempMedia2">
-<!---					<cfif isNumeric(CREATED_BY_AGENT_ID)>
+					<cfif isNumeric(CREATED_BY_AGENT_ID)>
 						<cfquery name="warningMessageAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							UPDATE
 								cf_temp_media
@@ -693,7 +693,7 @@ limitations under the License.
 								username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> and
 								key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia2.key#">
 						</cfquery>
-					</cfif>--->
+					</cfif>
 					<cfset #i# lte 2>
 					<cfloop index="i" from="1" to="2">
 						<!--- This generalizes the two key:value pairs (to media_relationship and related_primary_key)--->
