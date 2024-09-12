@@ -1462,7 +1462,7 @@ limitations under the License.
 					AND specimen_part.collection_object_id IN ( <cfqueryparam list="yes" cfsqltype="CF_SQL_VARCHAR" value="#collection_object_id#" > )
 				</cfif>
 				<cfif isDefined("specimen_guid_pattern") and len(specimen_guid_pattern) GT 0>
-					AND trans.transaction_id IN (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#accn_id#" list="yes">)
+					AND trans.transaction_id IN (<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#accn_id#" list="yes">)
 				</cfif>
 				<cfif isdefined("sovereign_nation") AND len(#sovereign_nation#) gt 0 >
 					<cfif left(sovereign_nation,1) is "=">
