@@ -731,10 +731,9 @@ include this function and use it.
 				<cfquery name="created_by" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					select distinct agent_name
 					from media_relations
-						left join agent on media_relations.related_primary_key = agent.agent_id
-						left join agent_name on agent_name.agent_id = agent.agent_id
+						left join agent on media_relations.created_by_agent_id = agent.agent_id
+						left join agent_name on agent.agent_id = agent_name.agent_id
 					where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
-						and media_relations.created_by_agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agents1.created_by_agent_id#">
 				</cfquery>
 				<cfquery name="media1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					select distinct mr.related_primary_key as pk, m.media_uri
@@ -806,6 +805,15 @@ include this function and use it.
 					and media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
 					and rownum = 1
 				</cfquery>				
+<!---				<cfquery name="underscore" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					select cataloged_item.collection_object_id
+					from underscore_collection
+					left join underscore_relation on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
+					left join cataloged_item on underscore_relation.COLLECTION_OBJECT_ID = cataloged_item.collection_object_id
+					left join media_relations on underscore_relation.collection_object_id = media_relations.related_primary_key
+					and media_relations.media_relationship = 'shows underscore_collection'
+					and media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
+				</cfquery>--->
 				<cfquery name="project" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					select project.project_id, project.project_name
 					from project
@@ -949,6 +957,11 @@ include this function and use it.
 											<cfif media_rel.media_relationship eq 'documents agent'>
 												<cfloop query="agents3">
 													<a class="font-weight-lessbold" href="/agents/Agent.cfm?agent_id=#agents3.agent_id#"> #agents3.agent_name#</a><cfif agents3.recordcount gt 1><span>, </span> </cfif>
+												</cfloop>
+											</cfif>
+											<cfif media_rel.media_relationship eq 'created by agent'>
+												<cfloop query="agents3">
+													<a class="font-weight-lessbold" href="/agents/Agent.cfm?agent_id=#created_by.agent_id#"> #created_by.agent_name#</a><cfif created_by.recordcount gt 1><span>, </span> </cfif>
 												</cfloop>
 											</cfif>
 											<!---Display Agent: shows handwriting of agent query--->
