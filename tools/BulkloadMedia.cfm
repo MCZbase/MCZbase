@@ -766,6 +766,18 @@ limitations under the License.
 									WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> AND
 										key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia2.key#">
 								</cfquery>
+							<cfelseif #getMediaRel.media_relationship# eq 'shows agent' and !isNumeric(getMediaRel.related_primary_key_2)>
+								<cfquery name="chkCOID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+									update cf_temp_media set related_primary_key_2 =
+									(
+										select #theTable#.agent_id
+										from #theTable#,agent_name
+										where agent_name.agent_id = #theTable#.agent_id
+										and agent_name.agent_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getMediaRel.related_primary_key#">
+									)
+									WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> AND
+										key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia2.key#">
+								</cfquery>
 							<!--- Block ends--->
 							<cfelseif #getMediaRel.media_relationship# contains 'underscore_collection' and !isNumeric(getMediaRel.related_primary_key)>
 								<cfquery name="chkCOID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
