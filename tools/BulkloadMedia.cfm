@@ -754,14 +754,14 @@ limitations under the License.
 									</cfquery>
 								</cfloop>
 							<!---Add additional blocks if non-numeric entries are the norm for a relationship type--->
-							<cfelseif #getMediaRel.media_relationship# contains 'agent' and !isNumeric(getMediaRel.related_primary_key) and len(getMediaRel.related_primary_key) gt 0>
+							<cfelseif #getMediaRel.media_relationship# contains 'agent' and !isNumeric(getMediaRel.related_primary_key)>
 								<cfquery name="chkCOID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 									update cf_temp_media set related_primary_key_#i# =
 									(
-										select #theTable#.agent_id
-										from #theTable#,agent_name
+										select agent.agent_id
+										from agent,agent_name
 										where agent_name.agent_id = agent.agent_id
-										and agent_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getMediaRel.related_primary_key#">
+										and agent_name.agent_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getMediaRel.related_primary_key#">
 									)
 									WHERE related_primary_key_#i# is not null AND
 										username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> AND
