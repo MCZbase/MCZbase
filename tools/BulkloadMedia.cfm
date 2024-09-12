@@ -109,7 +109,7 @@ limitations under the License.
 					</tr>
 					<tr>
 						
-						<td>physical object created by AGENT: <b>AGENT_ID</b> or <b>PREFERRED AGENT_NAME</b></td>
+						<td>created by or physical object created by AGENT: <b>AGENT_ID</b> or <b>PREFERRED AGENT_NAME</b></td>
 						<td>documents or shows LOCALITY: <b>LOCALITY_ID</b></td>
 						<td>shows SPECIMEN_PART: <b>GUID</b></td>
 						<td>transcript for AUDIO: <b>MEDIA_ID</b></td>
@@ -754,7 +754,7 @@ limitations under the License.
 									</cfquery>
 								</cfloop>
 							<!---Add additional blocks if non-numeric entries are the norm for a relationship type--->
-							<cfelseif #getMediaRel.media_relationship# contains 'agent' and !isNumeric(getMediaRel.related_primary_key)  and len(getMediaRel.related_primary_key) gt 0>
+							<cfelseif #getMediaRel.media_relationship# contains 'agent' and !isNumeric(getMediaRel.related_primary_key) and len(getMediaRel.related_primary_key) gt 0>
 								<cfquery name="chkCOID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 									update cf_temp_media set related_primary_key_#i# =
 									(
