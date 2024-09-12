@@ -1059,12 +1059,12 @@ limitations under the License.
 								INSERT into media_relations (
 									media_id,
 									media_relationship,
-									created_by_agent_id,
+									created_by_agent,
 									related_primary_key
 								) VALUES (
 									<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getID.theId#">,
 									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.media_relationship_1#">,
-									<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.created_by_agent_id#">,
+									<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.created_by_agent#">,
 									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.RELATED_PRIMARY_KEY_1#">
 								)
 							</cfquery>
