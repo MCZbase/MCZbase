@@ -1213,11 +1213,10 @@ limitations under the License.
 				flat.guid like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#specimen_guid_pattern#">
 		</cfquery>
 		<cfloop query="guidSearch">
-				<cfif len(accn_id) EQ 0>
-					<cfset accn_id = guidSearch.accn_id>
-				<cfelse>
-					<cfset accn_id = accn_id & "," & guidSearch.accn_id>
-				</cfif>
+			<cfif len(accn_id) EQ 0>
+				<cfset accn_id = guidSearch.accn_id>
+			<cfelse>
+				<cfset accn_id = accn_id & "," & guidSearch.accn_id>
 			</cfif>
 		</cfloop>
 	<cfelseif (isdefined("specimen_guid") AND len(#specimen_guid#) gt 0) >
