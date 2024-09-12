@@ -53,6 +53,11 @@ limitations under the License.
 <cfif not isDefined("session.gridenablemousewheel")>
 	<cfset session.gridenablemousewheel = "false">
 </cfif>
+<!--- TODO: Store list of allowed page sizes, conform any other values --->
+<!--- ['5','10','25','50','100','500'] --->
+<cfif isDefined("session.specimens_pagesize") AND session.specimens_pagesize EQ "1000">
+	<cfset session.specimens_pagesize = "500">
+</cfif>
 <cfswitch expression="#action#">
 	<!--- API note: action and method seem duplicative, action is required and used to determine
 			which tab to show, method invokes target backing method in form submission, but when 
@@ -3170,7 +3175,7 @@ Target JSON:
 					virtualmode: true,
 					enablemousewheel: #session.gridenablemousewheel#,
 					pagesize: '#session.specimens_pagesize#',
-					pagesizeoptions: ['5','10','25','50','100','1000'], // fixed list regardless of actual result set size, dynamic reset goes into infinite loop.
+					pagesizeoptions: ['5','10','25','50','100','500'], // fixed list regardless of actual result set size, dynamic reset goes into infinite loop.
 					showaggregates: true,
 					columnsresize: true,
 					autoshowfiltericon: true,
@@ -3401,7 +3406,7 @@ Target JSON:
 					virtualmode: true,
 					enablemousewheel: #session.gridenablemousewheel#,
 					pagesize: '#session.specimens_pagesize#',
-					pagesizeoptions: ['5','10','25','50','100','1000'], // fixed list regardless of actual result set size, dynamic reset goes into infinite loop.
+					pagesizeoptions: ['5','10','25','50','100','500'], // fixed list regardless of actual result set size, dynamic reset goes into infinite loop.
 					showaggregates: true,
 					columnsresize: true,
 					autoshowfiltericon: true,
@@ -3619,7 +3624,7 @@ Target JSON:
 					virtualmode: true,
 					enablemousewheel: #session.gridenablemousewheel#,
 					pagesize: '#session.specimens_pagesize#',
-					pagesizeoptions: ['5','10','25','50','100','1000'], // fixed list regardless of actual result set size, dynamic reset goes into infinite loop.
+					pagesizeoptions: ['5','10','25','50','100','500'], // fixed list regardless of actual result set size, dynamic reset goes into infinite loop.
 					showaggregates: true,
 					columnsresize: true,
 					autoshowfiltericon: true,
