@@ -459,29 +459,55 @@ limitations under the License.
 					media_type not in (select media_type from ctmedia_type) AND
 					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
-			<cfif isNumeric(getTempMedia.created_by_agent) and len(getTempMedia.created_by_agent) gt 0>
+			<cfif isNumeric(getTempMedia.created_by_agent)>
+				<cfquery name="chkCOID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					update cf_temp_media set created_by_agent  =
+					(
+						select agent.agent_id
+						from agent
+						where agent.agent_ID = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia.created_by_agent#">
+					)
+					WHERE created_by_agent is not null AND
+						username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+				</cfquery>	
 				<cfquery name="warningMessageAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE
 						cf_temp_media
 					SET
-						status = concat(nvl2(status, status || '; ', ''),'CREATED_BY_AGENT invalid')
+						status = concat(nvl2(status, status || '; ', ''),'CREATED_BY_AGENT is not valid')
 					WHERE 
-						CREATED_BY_AGENT not in (select AGENT_ID from AGENT) AND
+						CREATED_BY_AGENT not in (select AGENT_ID from AGENT where agent_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia.created_by_agent#">) 
+					AND
 						username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
 			</cfif>
-			<cfif !isNumeric(getTempMedia.created_by_agent) and len(getTempMedia.created_by_agent) gt 0>
+			<cfif !isNumeric(getTempMedia.created_by_agent)>
 				<cfquery name="chkCOID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					update cf_temp_media set created_by_agent  =
 					(
-						select agent.agent_name
+						select agent_name.agent_name
 						from agent,agent_name
 						where agent_name.agent_id = agent.agent_id
-						and agent_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia.created_by_agent#">
+						and agent_name.agent_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia.created_by_agent#">
 					)
 					WHERE created_by_agent is not null AND
 						username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-				</cfquery>				
+				</cfquery>	
+				<cfquery name="warningMessageAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					UPDATE
+						cf_temp_media
+					SET
+						status = concat(nvl2(status, status || '; ', ''),'CREATED_BY_AGENT is not valid')
+					WHERE 
+						CREATED_BY_AGENT not in (
+						select agent_name.agent_name
+						from agent,agent_name
+						where agent_name.agent_id = agent.agent_id
+						and agent_name.agent_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia.created_by_agent#">
+					) 
+					AND
+						username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+				</cfquery>
 			</cfif>
 			<cfquery name="warningMessageMimeType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				UPDATE
