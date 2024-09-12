@@ -673,7 +673,7 @@ limitations under the License.
 						<cfif ListLen(getMediaRel.related_primary_key) gte #i# >
 						<!---Find the table name "theTable" from the second part of the media_relationship--->
 						<cfset theTable = trim(listLast('#getMediaRel.media_relationship#'," "))>
-						<cfloop query="getMediaRel">
+<!---						<cfloop query="getMediaRel">
 							<cfif len(related_primary_key) gt 0>
 								<cfquery name="warningBadKey1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 									UPDATE
@@ -687,7 +687,7 @@ limitations under the License.
 										key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia.key#">
 								</cfquery>
 							</cfif>	
-						</cfloop>
+						</cfloop>--->
 						<!---based on the table, find the primary key--->
 						<cfquery name="tables" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							SELECT cols.table_name, cols.column_name, cols.position, cons.status, cons.owner
