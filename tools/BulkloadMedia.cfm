@@ -478,6 +478,26 @@ limitations under the License.
 						media_license_id not in (select media_license_id from ctmedia_license) AND
 						username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
+				<cfif !isNumeric(related_primary_key_1)>
+					<cfquery name="warningMessageLicense" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						UPDATE
+							cf_temp_media
+						SET
+							status = concat(nvl2(status, status || '; ', ''),'RELATED_PRIMARY_KEY_1 #getTempMedia.RELATED_PRIMARY_KEY_1# needs to be an ID; convert if not')
+						WHERE
+							username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+					</cfquery>
+				</cfif>
+				<cfif !isNumeric(related_primary_key_2)>
+					<cfquery name="warningMessageLicense" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						UPDATE
+							cf_temp_media
+						SET
+							status = concat(nvl2(status, status || '; ', ''),'RELATED_PRIMARY_KEY_2 #getTempMedia.RELATED_PRIMARY_KEY_2# needs to be an ID; convert if not')
+						WHERE
+							username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+					</cfquery>
+				</cfif>
 				<!----------------------------------->
 				<!---TODO: Fix CHECK for MADE_DATE--->
 				<!----------------------------------->
@@ -514,9 +534,9 @@ limitations under the License.
 				</cfquery>
 			</cfloop>
 			
-			<!-- labels---------------- -->		
-			<!-- labels---------------- -->	
-			<!-- Define label variables -->
+			<!-- labels------------------------------------ -->		
+			<!-- labels------------------------------------ -->	
+			<!-- Define label variables----------------------->
 			<cfif len(getTempMedia.media_label_1) gt 0><cfset media_label_1 = "#getTempMedia.media_label_1#"><cfelse><cfset media_label_1 = ""></cfif>
 			<cfif len(getTempMedia.media_label_2) gt 0><cfset media_label_2 = "#getTempMedia.media_label_2#"><cfelse><cfset media_label_2 = ""></cfif>
 			<cfif len(getTempMedia.media_label_3) gt 0><cfset media_label_3 = "#getTempMedia.media_label_3#"><cfelse><cfset media_label_3 = ""></cfif>
@@ -539,11 +559,10 @@ limitations under the License.
 					WHERE #variableName# not in (select media_label from ctmedia_label)
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
-			</cfloop>
-					
-			<!-- END labels---------------- -->	
-			<!-- END labels---------------- -->	
-			<!-- END labels---------------- -->	
+			</cfloop>	
+			<!-- END labels-------------------------------------------- -->	
+			<!-- END CHECK FOR MISSING LABELS-------------------------- -->	
+			<!-- ------------------------------------------------------ -->	
 					
 					
 			<cfif len(getTempMedia.made_date) eq 0 && refind("^[0-9]{4}-[0-9]{2}-[0-9]{2}$",made_date) EQ 0>
@@ -572,19 +591,6 @@ limitations under the License.
 							key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia.key#">
 					</cfquery>
 				</cfif>
-					<cfif !isNumeric(getTempMedia.related_primary_key_2) and getTempMedia.related_primary_key_2 eq "shows agent">
-						<cfquery name="warningMessageAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-							UPDATE
-								cf_temp_media
-							SET
-								related_primary_key_2
-							WHERE 
-								related_primary_key_2 in (select agent_name.AGENT_ID from agent_name where agent_name.agent_id = agent.agent_id 
-								and agent_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia.related_primary_key_2#"> ) AND
-								username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> and
-								key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia.key#">
-						</cfquery>
-					</cfif>
 				<!---Check MEDIA_URI------------->
 				<cfset urlToCheck = "#getTempMedia.media_uri#">
 				<cfset validstyle = ''>
@@ -724,7 +730,7 @@ limitations under the License.
 								key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia2.key#">
 						</cfquery>
 					</cfif>
-				
+					<!---Update and check media relationships--->
 					<cfset #i# lte 2>
 					<cfloop index="i" from="1" to="2">
 						<!--- This generalizes the two key:value pairs (to media_relationship and related_primary_key)--->
