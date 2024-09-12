@@ -782,7 +782,7 @@ limitations under the License.
 								<cfquery name="chkCOID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 									update cf_temp_media set related_primary_key_#i# =
 									(
-										select #theTable#.transaction_id
+										select #theTable#.permit_id
 										from #theTable#
 										where permit_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getMediaRel.related_primary_key#">
 									)
