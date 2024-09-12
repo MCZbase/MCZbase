@@ -84,6 +84,7 @@ limitations under the License.
 			</div>
 		
 			<h2 class="h4 mb-2">Media Relationship Entries</h2>
+			<p>Some relationships require an ID specific to that the type of relationship and others can take a name. Look at the table below and see if you have the correct entries for the relationships.</p>
 			<table class="table table-responsive small table-striped mx-2">
 			 	<thead class="thead-light">
 					<tr>
@@ -130,7 +131,7 @@ limitations under the License.
 			</table>
 			
 				<h2 class="h4 mt-4">Media License</h2>
-				<p>The media license id should be entered using the numeric codes below. If omitted this will default to &quot;1 - MCZ Permissions &amp; Copyright&quot;</p>
+				<p>The media license id should be entered using the numeric codes below. If omitted this will default to the &quot;1 - MCZ Permissions &amp; Copyright&quot; license.</p>
 				<h3 class="small90 pl-3">Media License Codes:</h3>
 				<dl class="pl-3">
 					<dt class="btn-secondary"><span class="badge badge-light">1 </span> MCZ Permissions &amp; Copyright</dt> <dd>All MCZ images and publications should have this designation</dd>
