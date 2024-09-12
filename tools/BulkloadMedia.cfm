@@ -774,7 +774,8 @@ limitations under the License.
 										where agent_name.agent_id = #theTable#.agent_id
 										and agent_name.agent_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getMediaRel.related_primary_key#">
 									)
-									WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> AND
+									WHERE media_relationship_#i# like '%agent%' AND
+									username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> AND
 										key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia2.key#">
 								</cfquery>
 							<!--- Block ends--->
