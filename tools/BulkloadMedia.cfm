@@ -769,13 +769,13 @@ limitations under the License.
 								<cfquery name="chkCOID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 									update cf_temp_media set related_primary_key_#i# =
 									(
-										select #theTable#.agent_id
-										from #theTable#,agent_name
-										where agent_name.agent_id = #theTable#.agent_id
+										select agent.agent_id
+										from agent,agent_name
+										where agent_name.agent_id = agent.agent_id
 										and agent_name.agent_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getMediaRel.related_primary_key#">
 									)
 									WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> AND
-										key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia2.key#">
+										key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getMediaRel.key#">
 								</cfquery>
 							<!--- Block ends--->
 							<cfelseif #getMediaRel.media_relationship# contains 'underscore_collection' and !isNumeric(getMediaRel.related_primary_key)>
