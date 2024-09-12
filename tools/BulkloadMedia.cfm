@@ -681,8 +681,8 @@ limitations under the License.
 									SET
 										status = concat(nvl2(status, status || '; ', ''),'related_primary_key_#i# does not exist')
 									WHERE
-										related_primary_key not in (select related_primary_key
-										from #theTable# where related_primary_key <> 'related_primary_key_#i#') and 
+										related_primary_key_#i# not in (select related_primary_key_#i#
+										from #theTable# where related_primary_key_#i# <> 'related_primary_key_#i#') and 
 										username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> and
 										key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia.key#">
 								</cfquery>
