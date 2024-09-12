@@ -713,10 +713,21 @@ limitations under the License.
 									UPDATE
 										cf_temp_media
 									SET
-										status = concat(nvl2(status, status || '; ', ''),'related_primary_key_#i# does not exist')
+										status = concat(nvl2(status, status || '; ', ''),'related_primary_key_1 does not exist')
 									WHERE
-										related_primary_key_#i# not in (select collection_object_id
-										from #theTable# where cat_num = '#CI#' and collection_cde = '#CCDE#' and related_primary_key_#i# = #getMediaRel.related_primary_key#) and 
+										related_primary_key_1 not in (select collection_object_id
+										from #theTable# where cat_num = '#CI#' and collection_cde = '#CCDE#') and 
+										username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> and
+										key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia.key#">
+								</cfquery>
+								<cfquery name="warningBadKey2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+									UPDATE
+										cf_temp_media
+									SET
+										status = concat(nvl2(status, status || '; ', ''),'related_primary_key_2 does not exist')
+									WHERE
+										related_primary_key_2 not in (select collection_object_id
+										from #theTable# where cat_num = '#CI#' and collection_cde = '#CCDE#') and 
 										username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> and
 										key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia.key#">
 								</cfquery>
