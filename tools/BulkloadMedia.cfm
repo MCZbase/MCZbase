@@ -850,8 +850,7 @@ limitations under the License.
 										from #theTable#
 										where borrow_number = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getMediaRel.related_primary_key#">
 									)
-									WHERE related_primary_key_#i# is not null AND
-										username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> AND
+									WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> AND
 										key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia2.key#">
 								</cfquery>
 							<cfelse>
