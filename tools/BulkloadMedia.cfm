@@ -474,14 +474,13 @@ limitations under the License.
 				<cfquery name="chkCOID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					update cf_temp_media set created_by_agent  =
 					(
-						select agent.agent_id
+						select agent.agent_name
 						from agent,agent_name
 						where agent_name.agent_id = agent.agent_id
 						and agent_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia.created_by_agent#">
 					)
 					WHERE created_by_agent is not null AND
-						username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> AND
-						key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia.key#">
+						username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>				
 			</cfif>
 			<cfquery name="warningMessageMimeType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
