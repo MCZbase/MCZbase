@@ -84,7 +84,7 @@ limitations under the License.
 			</div>
 		
 			<h2 class="h4 mb-2">Media Relationship Entries</h2>
-			<p>Some relationships require an ID specific to that the type of relationship and others can take a name. Look at the table below and see if you have the correct entries for the relationships.</p>
+			<p class="mb-0">Some relationships require an ID specific to that the type of relationship and others can take a name. Look at the table below and see if you have the correct entries for the relationships.</p>
 			<table class="table table-responsive small table-striped mx-2">
 			 	<thead class="thead-light">
 					<tr>
