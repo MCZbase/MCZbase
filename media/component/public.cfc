@@ -924,8 +924,10 @@ include this function and use it.
 												</cfif>
 											</cfif>
 											<!---Display Agent: created by agent query--->
-											<cfif media_rel.media_relationship eq 'created by agent' OR len(media_rel.created_by_agent_id) gt 0>
+											<cfif len(media_rel.created_by_agent_id) gt 0>
+												
 												<cfloop query="agents1">
+													<cfset media_relationship eq 'created by agent'>
 													<a class="font-weight-lessbold" href="/agents/Agent.cfm?agent_id=#agents1.agent_id#"> #agents1.agent_name#</a><cfif agents1.recordcount gt 1><span>, </span> </cfif>
 												</cfloop>
 											</cfif>
