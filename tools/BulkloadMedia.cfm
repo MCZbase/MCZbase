@@ -716,8 +716,7 @@ limitations under the License.
 											key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia2.key#">
 									</cfquery>
 								</cfloop>
-
-							<cfelseif #getMediaRel.media_relationship# eq 'shows specimen_part' and len(getMediaRel.related_primary_key) gt 0>
+							<cfelseif #getMediaRel.media_relationship# contains 'specimen_part' and len(getMediaRel.related_primary_key) gt 0>
 								<cfloop list="#getMediaRel.related_primary_key#" index="l" delimiters=":">
 									<cfset IA = listGetAt(#getMediaRel.related_primary_key#,1,":")>
 									<cfset CCDE = listGetAt(#getMediaRel.related_primary_key#,2,":")>
@@ -775,25 +774,37 @@ limitations under the License.
 										username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> AND
 										key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia2.key#">
 								</cfquery>
-							<cfelseif #getMediaRel.media_relationship# eq 'documents accn'><!---requires accn number--->
-								<cfquery name="chkCOID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-									update cf_temp_media set related_primary_key_#i# =
-									(
-										select #theTable#.transaction_id
-										from #theTable#
-										where deaccession_number = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getMediaRel.related_primary_key#">
-									)
-									WHERE related_primary_key_#i# is not null AND
-										username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> AND
-										key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia2.key#">
-								</cfquery>
-							<cfelseif #getMediaRel.media_relationship# eq 'documents accn'><!---requires deaccession number--->
+							<cfelseif #getMediaRel.media_relationship# contains 'accn'><!---requires accn number--->
 								<cfquery name="chkCOID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 									update cf_temp_media set related_primary_key_#i# =
 									(
 										select #theTable#.transaction_id
 										from #theTable#
 										where accn_number = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getMediaRel.related_primary_key#">
+									)
+									WHERE related_primary_key_#i# is not null AND
+										username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> AND
+										key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia2.key#">
+								</cfquery>
+							<cfelseif #getMediaRel.media_relationship# contains 'publication'><!---requires deacc number--->
+								<cfquery name="chkCOID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+									update cf_temp_media set related_primary_key_#i# =
+									(
+										select #theTable#.transaction_id
+										from #theTable#
+										where deacc_number = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getMediaRel.related_primary_key#">
+									)
+									WHERE related_primary_key_#i# is not null AND
+										username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> AND
+										key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia2.key#">
+								</cfquery>
+							<cfelseif #getMediaRel.media_relationship# contains 'deaccession'><!---requires deacc number--->
+								<cfquery name="chkCOID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+									update cf_temp_media set related_primary_key_#i# =
+									(
+										select #theTable#.transaction_id
+										from #theTable#
+										where deacc_number = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getMediaRel.related_primary_key#">
 									)
 									WHERE related_primary_key_#i# is not null AND
 										username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> AND
