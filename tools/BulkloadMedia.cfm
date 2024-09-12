@@ -562,29 +562,7 @@ limitations under the License.
 							key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia.key#">
 					</cfquery>
 				</cfif>
-		<!---	<cfif isNumeric(CREATED_BY_AGENT_ID)>
-				<cfquery name="warningMessageAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					UPDATE
-						cf_temp_media
-					SET
-						status = concat(nvl2(status, status || '; ', ''),'CREATED_BY_AGENT_ID invalid')
-					WHERE 
-						CREATED_BY_AGENT_ID not in (select AGENT_ID from AGENT) AND
-						username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> and
-						key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia.key#">
-				</cfquery>
-			<cfelse>
-				<cfquery name="warningMessageAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					UPDATE
-						cf_temp_media
-					SET
-						status = concat(nvl2(status, status || '; ', ''),'CREATED_BY_AGENT_ID invalid')
-					WHERE 
-						CREATED_BY_AGENT_ID not in (select AGENT_NAME from AGENT_NAME,AGENT where agent.agent_id = agent_name.agent_id) AND
-						username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> and
-						key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia.key#">
-				</cfquery>
-			</cfif>--->
+
 				<cfset urlToCheck = "#getTempMedia.media_uri#">
 				<cfset validstyle = ''>
 				<cfhttp url="#urlToCheck#" method="GET" timeout="10" throwonerror="false">
@@ -691,6 +669,18 @@ limitations under the License.
 			</cfquery>
 			<cfif len(getTempMedia2.status) eq 0>
 				<cfloop query = "getTempMedia2">
+					<cfif isNumeric(CREATED_BY_AGENT_ID)>
+						<cfquery name="warningMessageAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+							UPDATE
+								cf_temp_media
+							SET
+								status = concat(nvl2(status, status || '; ', ''),'CREATED_BY_AGENT_ID invalid')
+							WHERE 
+								CREATED_BY_AGENT_ID not in (select AGENT_ID from AGENT) AND
+								username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> and
+								key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia2.key#">
+						</cfquery>
+					</cfif>
 					<cfset #i# lte 2>
 					<cfloop index="i" from="1" to="2">
 						<!--- This generalizes the two key:value pairs (to media_relationship and related_primary_key)--->
