@@ -490,7 +490,7 @@ limitations under the License.
 							SET 
 								status = concat(nvl2(status, status || '; ', ''),'invalid made_date')
 							WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> 
-								and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempMedia.key#"> 
+								and key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia.key#"> 
 						</cfquery>	
 					</cfif>
 				<cfif len(getTempMedia.mask_media) GT 0>
