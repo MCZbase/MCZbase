@@ -832,7 +832,7 @@ include this function and use it.
 						WHERE media_keywords.media_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 					</cfquery>
 					<cfquery name="media_rel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						select distinct mr.media_relationship,ct.Label as label, ct.auto_table
+						select distinct mr.media_relationship,ct.Label as label, ct.auto_table,created_by_agent_id
 						from media_relations mr
 						left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
 						where mr.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
