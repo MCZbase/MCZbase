@@ -212,7 +212,7 @@ limitations under the License.
 				</cfif>
 			</cfif>
 		</cfloop>
-		<table class='table table-responsive'>
+		<table class='table table-responsive small'>
 			<cfloop list="#fieldlist#" index="field" delimiters=",">
 				<cfset hint="">
 				<cfquery name = "getComments"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#"  result="getComments_result">
