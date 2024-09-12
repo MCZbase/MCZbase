@@ -1231,7 +1231,6 @@ limitations under the License.
 			</cfif>
 		</cfloop>
 		<cfset accn_id_array[accn_id_num_bits+1] = accn_id>
-		</cfif>
 	<cfelseif (isdefined("specimen_guid") AND len(#specimen_guid#) gt 0) >
 		<!--- If provided with specimen guids, look up part collection object ids for lookup --->
 		<cfquery name="guidSearch" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="guidSearch_result" timeout="#Application.query_timeout#">
