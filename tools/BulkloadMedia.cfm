@@ -860,14 +860,16 @@ limitations under the License.
 										key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia2.key#">
 								</cfquery>
 							<cfelse>
-								<cfquery name="chkCOID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-									update cf_temp_media set related_primary_key_#i# =
-									(
-										select #tables.column_name# from #theTable# where #tables.column_name# = '#getMediaRel.related_primary_key#'
-									)
-									WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> AND
-										key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia2.key#">
-								</cfquery>
+								<cfif isNumeric(getMediaRel.related_primary_key)>
+									<cfquery name="chkCOID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+										update cf_temp_media set related_primary_key_#i# =
+										(
+											select #tables.column_name# from #theTable# where #tables.column_name# = '#getMediaRel.related_primary_key#'
+										)
+										WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> AND
+											key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia2.key#">
+									</cfquery>
+								</cfif>
 							</cfif>						
 						</cfif>
 					</cfloop>
