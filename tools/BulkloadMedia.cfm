@@ -582,7 +582,7 @@ limitations under the License.
 				<cfif cfhttp.statusCode EQ '200 OK'>	
 					<cfset validstyle = '<span class="text-success">(Valid Link)</span>'>
 				<cfelse>
-					<cfquery name="warningBadRel1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					<cfquery name="warningBadURI1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						UPDATE
 							cf_temp_media
 						SET
@@ -607,7 +607,7 @@ limitations under the License.
 					</cfquery>
 				</cfif>
 				<cfif len(media_relationship_1) gt 0 and len(related_primary_key_1) eq 0>
-					<cfquery name="warningBadRel2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					<cfquery name="warningBadRel1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						UPDATE
 							cf_temp_media
 						SET
@@ -619,7 +619,7 @@ limitations under the License.
 					</cfquery>
 				</cfif>
 					<cfif len(media_relationship_2) gt 0>
-					<cfquery name="warningBadRel1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					<cfquery name="warningBadRel2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						UPDATE
 							cf_temp_media
 						SET
@@ -1073,6 +1073,21 @@ limitations under the License.
 									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.media_relationship_1#">,
 									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.created_by_agent_id#">,
 									<cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempData.RELATED_PRIMARY_KEY_1#">
+								)
+							</cfquery>
+						</cfif>
+						<cfif len(getTempData.media_relationship_2) gt 0>
+							<cfquery name="makeRelations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="RelResult">
+								INSERT into media_relations (
+									media_id,
+									media_relationship,
+									created_by_agent_id,
+									related_primary_key
+								) VALUES (
+									<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getID.theId#">,
+									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.media_relationship_2#">,
+									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.created_by_agent_id#">,
+									<cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempData.RELATED_PRIMARY_KEY_2#">
 								)
 							</cfquery>
 						</cfif>
