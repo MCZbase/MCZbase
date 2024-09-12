@@ -1196,14 +1196,30 @@ limitations under the License.
 	<cfargument name="foreign_shipments" type="string" required="no">
 
 	<cfif not isdefined("collection_object_id") ><cfset collection_object_id = ""></cfif>
+	<cfif not isdefined("accn_id") ><cfset accn_id = ""></cfif>
 	<cfset specimen_guid_pattern = "">
 	<cfif isDefined("specimen_guid") AND (specimen_guid CONTAINS "%" OR REFind("^[A-Z]+:[A-Za-z]+[:]{0,1}$",specimen_guid) GT 0)>
-		<!--- if provided with a pattern, use inside main search query --->
+		<!--- if provided with a pattern, obtain list of transaction ids to use inside main search query --->
 		<cfif REFind("^[A-Z]+:[A-Za-z]+[:]{0,1}$",specimen_guid) GT 0>
 			<cfset specimen_guid_pattern = "#specimen_guid#%">
 		<cfelse>
 			<cfset specimen_guid_pattern = "#specimen_guid#">
 		</cfif>
+		<cfquery name="guidSearch" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="guidSearch_result" timeout="#Application.query_timeout#">
+			select distinct accn_id 
+			from 
+				#session.flatTableName# flat 
+			where
+				flat.guid like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#specimen_guid_pattern#">
+		</cfquery>
+		<cfloop query="guidSearch">
+				<cfif len(accn_id) EQ 0>
+					<cfset accn_id = guidSearch.accn_id>
+				<cfelse>
+					<cfset accn_id = accn_id & "," & guidSearch.accn_id>
+				</cfif>
+			</cfif>
+		</cfloop>
 	<cfelseif (isdefined("specimen_guid") AND len(#specimen_guid#) gt 0) >
 		<!--- If provided with specimen guids, look up part collection object ids for lookup --->
 		<cfquery name="guidSearch" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="guidSearch_result" timeout="#Application.query_timeout#">
@@ -1334,16 +1350,13 @@ limitations under the License.
 					left join permit_shipment on shipment.shipment_id = permit_shipment.shipment_id
 					left join permit permit_from_shipment on  permit_shipment.permit_id = permit_from_shipment.permit_id
 				</cfif>
-				<cfif (isdefined("part_name") AND len(part_name) gt 0) or (isdefined("coll_obj_disposition") AND len(coll_obj_disposition) gt 0) or isdefined("collection_object_id") AND len(#collection_object_id#) gt 0 OR (isdefined("sovereign_nation") AND len(#sovereign_nation#) gt 0) or ( isDefined("specimen_guid_pattern") AND len(specimen_guid_pattern) GT 0 ) >
+				<cfif (isdefined("part_name") AND len(part_name) gt 0) or (isdefined("coll_obj_disposition") AND len(coll_obj_disposition) gt 0) or isdefined("collection_object_id") AND len(#collection_object_id#) gt 0 OR (isdefined("sovereign_nation") AND len(#sovereign_nation#) gt 0) >
 					left join cataloged_item on accn.transaction_id=cataloged_item.accn_id
 					left join specimen_part on cataloged_item.collection_object_id = specimen_part.derived_from_cat_item
 					left join coll_object on specimen_part.collection_object_id = coll_object.collection_object_id
 					<cfif isdefined("sovereign_nation") AND len(#sovereign_nation#) gt 0 >
 						left join collecting_event on cataloged_item.collecting_event_id = collecting_event.collecting_event_id
 						left join locality on collecting_event.locality_id = locality.locality_id
-					</cfif>
-					<cfif isDefined("specimen_guid_pattern") and len(specimen_guid_pattern) GT 0>
-						left join flat on cataloged_item.collection_object_id = flat.collection_object_id
 					</cfif>
 				</cfif>
 				<cfif isdefined("IssuedByAgent") and len(#IssuedByAgent#) gt 0>
@@ -1450,7 +1463,7 @@ limitations under the License.
 					AND specimen_part.collection_object_id IN ( <cfqueryparam list="yes" cfsqltype="CF_SQL_VARCHAR" value="#collection_object_id#" > )
 				</cfif>
 				<cfif isDefined("specimen_guid_pattern") and len(specimen_guid_pattern) GT 0>
-					AND flat.guid like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#specimen_guid_pattern#">
+					AND trans.transaction_id IN (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#accn_id#" list="yes">)
 				</cfif>
 				<cfif isdefined("sovereign_nation") AND len(#sovereign_nation#) gt 0 >
 					<cfif left(sovereign_nation,1) is "=">
