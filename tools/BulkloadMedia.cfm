@@ -550,7 +550,7 @@ limitations under the License.
 				</cfquery>
 			</cfif>
 			<cfloop query="getTempMedia">
-<!---				<cfif !isNumeric(created_by_agent_id) gt 0>
+				<cfif !isNumeric(created_by_agent_id) gt 0>
 					<cfquery name="setAgentID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						UPDATE
 							cf_temp_media
@@ -563,19 +563,6 @@ limitations under the License.
 							key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia.key#">
 					</cfquery>
 				</cfif>
-				<cfif !isNumeric(getTempMedia.related_primary_key_2) and #getTempMedia.related_primary_key_2# contains 'agent'>
-					<cfquery name="setAgentID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						UPDATE
-							cf_temp_media
-						SET
-							related_primary_key_2 = (select agent.agent_id from agent,agent_name where agent.agent_id = agent_name.agent_id 
-							and agent_name.agent_name = "#getTempMedia.related_primary_key_2#")
-						WHERE
-							username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> and
-							key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia.key#">
-					</cfquery>
-				</cfif>--->
-
 				<cfset urlToCheck = "#getTempMedia.media_uri#">
 				<cfset validstyle = ''>
 				<cfhttp url="#urlToCheck#" method="GET" timeout="10" throwonerror="false">
