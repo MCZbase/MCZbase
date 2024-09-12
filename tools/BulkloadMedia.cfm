@@ -716,7 +716,7 @@ limitations under the License.
 										status = concat(nvl2(status, status || '; ', ''),'related_primary_key_#i# does not exist')
 									WHERE
 										related_primary_key_#i# not in (select collection_object_id
-										from #theTable# where cat_num = '#CI#' and collection_cde = '#CCDE#' and related_primary_key_#i# = #getMediaRel.related_primary_key) and 
+										from #theTable# where cat_num = '#CI#' and collection_cde = '#CCDE#' and related_primary_key_#i# = #getMediaRel.related_primary_key#) and 
 										username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> and
 										key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia.key#">
 								</cfquery>
