@@ -639,7 +639,8 @@ limitations under the License.
 							key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia.key#">
 					</cfquery>
 				</cfif>
-					<cfif len(media_relationship_2) gt 0>
+						<!---REMOVE---->
+<!---					<cfif len(media_relationship_2) gt 0>
 					<cfquery name="warningBadRel2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						UPDATE
 							cf_temp_media
@@ -663,7 +664,7 @@ limitations under the License.
 							username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> AND
 							key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia.key#">
 					</cfquery>
-				</cfif>
+				</cfif>--->
 				<!----------END Check Relationship Warnings for 1 and 2------------->
 				<!----------END Relationship Invalid-------------------------------->
 				<!----------END Related primary kay missing ------------------------>
@@ -811,7 +812,7 @@ limitations under the License.
 										where #theTable#.agent_id in (select agent_id from agent_name where agent_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getMediaRel.related_primary_key#">)
 									)
 									WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> AND
-										key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getMediaRel.key#">
+										key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia2.key#">
 								</cfquery>
 							<!--- Block ends--->
 							<cfelseif #getMediaRel.media_relationship# contains 'underscore_collection' and !isNumeric(getMediaRel.related_primary_key)>
