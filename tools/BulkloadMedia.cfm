@@ -566,6 +566,13 @@ limitations under the License.
 					WHERE #variableName# not in (select media_label from ctmedia_label)
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
+				<cfquery name="checkLabelType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					UPDATE cf_temp_media
+					SET 
+						status = concat(nvl2(status, status || '; ', ''),'#variableValue# is missing')
+					WHERE #variableValue# is null
+						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+				</cfquery>
 			</cfloop>	
 			<!---END labels--------------------------------------------->	
 			<!---END CHECK FOR MISSING LABELS--------------------------->	
