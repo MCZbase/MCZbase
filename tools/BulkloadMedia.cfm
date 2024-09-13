@@ -604,7 +604,7 @@ limitations under the License.
 						SET
 							status = concat(nvl2(status, status || '; ', ''),'PREVIEW_URI is invalid')
 						WHERE
-							media_uri is not null and
+							PREVIEW_uri is not null and
 							username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> and
 							key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia.key#">
 					</cfquery>
