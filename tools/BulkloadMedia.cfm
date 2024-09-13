@@ -449,12 +449,7 @@ limitations under the License.
 					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 				
-			<cfif #getTempMedia.MEDIA_RELATIONSHIP_1# contains 'project'>
-				<cfset project_name = listChangeDelims(LCase(#getTempMedia.related_primary_key_1#), '-', ' ,\' )>
-			</cfif>
-			<cfif #getTempMedia.MEDIA_RELATIONSHIP_2# contains 'project'>
-				<cfset project_name = listChangeDelims(LCase(#getTempMedia.related_primary_key_2#), '-', ' ,\' )>
-			</cfif>
+
 				<cfset key = ''>
 				<cfquery name="warningMessageMediaType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE
@@ -483,7 +478,6 @@ limitations under the License.
 						media_license_id not in (select media_license_id from ctmedia_license) AND
 						username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
-	#project_name#
 				<!----------------------------------->
 				<!---TODO: Fix CHECK for MADE_DATE--->
 				<!----------------------------------->
@@ -565,7 +559,7 @@ limitations under the License.
 			<cfloop query="getTempMedia">
 				<!---Update created_by_agent_id entry to agent_id if provided with AGENT_NAME--->
 				<cfif !isNumeric(created_by_agent_id) and len(created_by_agent_id) gt 0>
-					<cfquery name="setAgentID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					<cfquery name="setCreatedbyAgentID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						UPDATE
 							cf_temp_media
 						SET
@@ -701,7 +695,12 @@ limitations under the License.
 				WHERE 
 					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
-				
+			<cfif #getTempMedia.MEDIA_RELATIONSHIP_1# contains 'project'>
+				<cfset project_name_1 = listChangeDelims(LCase(#getTempMedia.related_primary_key_1#), '-', ' ,\' )>
+			</cfif>
+			<cfif #getTempMedia.MEDIA_RELATIONSHIP_2# contains 'project'>
+				<cfset project_name_2 = listChangeDelims(LCase(#getTempMedia.related_primary_key_2#), '-', ' ,\' )>
+			</cfif>
 			<!--------Loop through updated table if there are no status messages------->
 			<cfif len(getTempMedia2.status) eq 0>
 				<cfloop query = "getTempMedia2">
@@ -771,7 +770,7 @@ limitations under the License.
 							(
 								select project_id
 								from project
-								where project_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia2.related_primary_key_1#">
+								where project_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#project_name_1#">
 							)
 							WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> AND
 								key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia2.key#">
@@ -783,7 +782,7 @@ limitations under the License.
 							(
 								select project_id
 								from project
-								where project_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia2.related_primary_key_2#">
+								where project_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#project_name_2#">
 							)
 							WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> AND
 								key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia2.key#">
