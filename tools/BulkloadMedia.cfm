@@ -885,6 +885,7 @@ limitations under the License.
 					<cfquery name="viewUpdates" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						select * from cf_temp_media where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 					</cfquery>
+					<cfif i= 1>
 					<cfloop query="viewUpdates">
 						<cfif len(#viewUpdates.related_primary_key_1#) eq 0>
 							<cfquery name="chkKey" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -910,6 +911,19 @@ limitations under the License.
 									key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#viewUpdates.key#">
 							</cfquery>
 						</cfif>
+						<cfif len(viewUpdates.media_label_#i#) gt 0>
+							<cfquery name="chkKey" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+								UPDATE
+									cf_temp_media
+								SET
+									status = concat(nvl2(status, status || '; ', ''),'label_value_#i# missing')
+								WHERE
+									label_value_#i# is null AND media_label_#i# is not null AND
+									username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> AND
+									key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#viewUpdates.key#">
+							</cfquery>
+						</cfif>
+						<cfset i= i+1>
 					</cfloop>
 				</cfloop>
 			</cfif>
