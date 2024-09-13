@@ -563,12 +563,14 @@ limitations under the License.
 							cf_temp_media
 						SET
 							created_by_agent_id = (select agent.agent_id from agent,agent_name where agent.agent_id = agent_name.agent_id 
-							and agent_name.agent_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia.created_by_agent_id#">)
+							and agent_name.agent_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia.created_by_agent_id#"> and agent_name.agent_name_type = 'login')
 						WHERE
 							created_by_agent_id is not null and
 							username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> and
 							key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia.key#">
 					</cfquery>
+				<cfelse>
+					<cfset created_by_agent_id = '#getTempMedia.created_by_agent_id#'>
 				</cfif>
 				<!---Check MEDIA_URI------------->
 				<cfset urlToCheck = "#getTempMedia.media_uri#">
