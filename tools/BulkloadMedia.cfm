@@ -696,7 +696,7 @@ limitations under the License.
 					<cfif #getTempMedia.MEDIA_RELATIONSHIP_2# contains 'project'>
 						<cfset project_name_2 = listChangeDelims(LCase(#getTempMedia.related_primary_key_2#), '-', ' ,\' )>
 					</cfif>
-					<cfset agentID = '##session.username#'>
+					<cfset agentID = '#session.username#'>
 				
 					<cfquery name="update" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						UPDATE
