@@ -456,7 +456,7 @@ limitations under the License.
 					cf_temp_media
 				SET
 					created_by_agent_id = (
-						select AGENT_ID from AGENT_NAME WHERE AGENT_NAME = 'mkennedy'
+						select AGENT_ID from AGENT_NAME WHERE AGENT_NAME = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> 
 						and AGENT_NAME_TYPE = 'login'
 						)
 				WHERE  
