@@ -911,7 +911,7 @@ limitations under the License.
 									key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#viewUpdates.key#">
 							</cfquery>
 						</cfif>
-						<cfif len(viewUpdates.media_label_#i#) gt 0>
+						<cfif len(viewUpdates.media_label_##i#) gt 0>
 							<cfquery name="chkKey" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 								UPDATE
 									cf_temp_media
