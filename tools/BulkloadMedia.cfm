@@ -564,7 +564,7 @@ limitations under the License.
 					UPDATE cf_temp_media
 					SET 
 						status = concat(nvl2(status, status || '; ', ''),'#variableName# is missing or does not match codetable')
-					WHERE #variableName# not in (select media_label from ctmedia_label)
+					WHERE (#variableName# not in (select media_label from ctmedia_label) OR  #variableName# is null)
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
 				<!---Warn if Label_value is missing when media_label is there--->
