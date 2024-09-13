@@ -910,7 +910,8 @@ limitations under the License.
 										from #theTable#
 										where borrow_number = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getMediaRel.related_primary_key#">
 									)
-									WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> AND
+									WHERE related_primary_key_#i# is not null AND 
+										username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> AND
 										key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getMediaRel.key#">
 								</cfquery>
 							<cfelse>
@@ -918,21 +919,10 @@ limitations under the License.
 									<cfquery name="chkCOID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 										update cf_temp_media set related_primary_key_#i# =
 										(
-											select #tables.column_name# from #theTable# where #tables.column_name# = '#getMediaRel.related_primary_key#'
+											select #tables.column_name# from #theTable# where #tables.column_name# = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getMediaRel.related_primary_key#">
 										)
 										WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> AND
 											key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getMediaRel.key#">
-									</cfquery>
-								<cfelseif isNumeric(getMediaRel.related_primary_key)>
-									<cfquery name="warningMessageAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-										UPDATE
-											cf_temp_media
-										SET
-											status = concat(nvl2(status, status || '; ', ''),'related_primary_key '#getMediaRel.related_primary_key#' invalid')
-										WHERE 
-											related_primary_key_#i# not in (select #tables.column_name# from #theTable# where #tables.column_name# = '#getMediaRel.related_primary_key#') AND
-											username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> and
-											key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia2.key#">
 									</cfquery>
 								</cfif>
 							</cfif>						
