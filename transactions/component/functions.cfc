@@ -416,10 +416,12 @@ limitations under the License.
 					count(distinct cataloged_item.collection_object_id) catItemCount,
 					count(distinct collection.collection_cde) as collectionCount,
 					count(distinct preserve_method) as preserveCount,
-					count(distinct specimen_part.collection_object_id) as partCount
+					count(distinct specimen_part.collection_object_id) as partCount,
+					sum(coll_object.lot_count) as totalLotCount
 				FROM
 					cataloged_item 
 					left join specimen_part on specimen_part.derived_from_cat_item = cataloged_item.collection_object_id
+					left join coll_object on specimen_part.collection_object_id = coll_object.collection_object_id
 					left join collection on cataloged_item.collection_id=collection.collection_id 
 				WHERE
 					cataloged_item.accn_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
