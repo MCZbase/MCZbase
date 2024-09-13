@@ -699,7 +699,7 @@ limitations under the License.
 			<!--------Loop through updated table if there are no status messages------->
 			<cfif len(getTempMedia2.status) eq 0>
 				<cfloop query = "getTempMedia2">
-<!---					<cfif isNumeric(CREATED_BY_AGENT_ID)>
+					<cfif isNumeric(CREATED_BY_AGENT_ID)>
 						<cfquery name="warningMessageAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							UPDATE
 								cf_temp_media
@@ -710,7 +710,7 @@ limitations under the License.
 								username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> and
 								key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia2.key#">
 						</cfquery>
-					</cfif>--->
+					</cfif>
 					<!---Update and check media relationships that can take either ID or Name--->
 						<cfif getTempMedia2.media_relationship_1 contains 'agent' and !isNumeric(getTempMedia2.related_primary_key_1)>
 							<cfquery name="chkCOID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
