@@ -824,33 +824,6 @@ limitations under the License.
 										username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> AND
 										key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getMediaRel.key#">
 								</cfquery>
-	<!---				
-							
-					
-							<cfelseif getTempMedia2.media_relationship_1 eq 'shows project' and !isNumeric(getTempMedia2.related_primary_key_1)>
-								<cfquery name="chkCOID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-									update cf_temp_media set related_primary_key_1 =
-									(
-										select project_id
-										from project
-										where project_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia2.related_primary_key_1#">
-									)
-									WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> AND
-										key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia2.key#">
-								</cfquery>
-							<cfelseif getTempMedia2.media_relationship_2 eq 'shows project' and !isNumeric(getTempMedia.related_primary_key_2)>
-								<cfquery name="chkCOID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-									update cf_temp_media set related_primary_key_2 =
-									(
-										select project_id
-										from project
-										where project_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia2.related_primary_key_2#">
-									)
-									WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> AND
-										key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia2.key#">
-								</cfquery>--->
-									
-									
 									
 							<!---Use transaction_ids in URI but need loan number converted from spreadsheet--->
 							<cfelseif #getMediaRel.media_relationship# contains 'loan'>
