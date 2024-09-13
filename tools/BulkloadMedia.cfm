@@ -559,7 +559,7 @@ limitations under the License.
 				<cfset variableName = "media_label_" & i>
 				<cfset variableValueNo = "label_value_" & i>
 				<cfset variableValue = evaluate(variableName)>
-				<!-- Warn variable name does not match codetableand value -->
+				<!-- Warn variable name does not match codetable or is missing when labe_value is present -->
 				<cfquery name="checkLabelType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE cf_temp_media
 					SET 
