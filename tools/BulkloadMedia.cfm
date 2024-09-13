@@ -759,7 +759,7 @@ limitations under the License.
 									key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia2.key#">
 							</cfquery>
 						<cfelseif getTempMedia2.media_relationship_1 eq 'shows project' and !isNumeric(getTempMedia2.related_primary_key_1)>
-							<cfset project_name = listChangeDelims(LCase(#getTempMedia2.project_name#), '-', ' ,\' )>
+							<cfset project_name = listChangeDelims(LCase(#getTempMedia2.related_primary_key_2#), '-', ' ,\' )>
 							<cfquery name="chkCOID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 								update cf_temp_media set related_primary_key_1 =
 								(
@@ -771,7 +771,7 @@ limitations under the License.
 									key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia2.key#">
 							</cfquery>
 						<cfelseif getTempMedia2.media_relationship_2 eq 'shows project' and !isNumeric(getTempMedia2.related_primary_key_2)>
-							<cfset project_name = listChangeDelims(LCase(#getTempMedia2.project_name#), '-', ' ,\' )>
+							<cfset project_name = listChangeDelims(LCase(#getTempMedia2.related_primary_key_2#), '-', ' ,\' )>
 							<cfquery name="chkCOID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 								update cf_temp_media set related_primary_key_2 =
 								(
