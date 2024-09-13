@@ -448,10 +448,10 @@ limitations under the License.
 				WHERE 
 					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
-			<cfif media_relationship_1 contains 'project'>
+			<cfif #getTempMedia.MEDIA_RELATIONSHIP_1# contains 'project'>
 				<cfset related_primary_key_1 = listChangeDelims(LCase(#getTempMedia.related_primary_key_1#), '-', ' ,\' )>
 			</cfif>
-				<cfif media_relationship_2 contains 'project'>
+			<cfif #getTempMedia.MEDIA_RELATIONSHIP_2# contains 'project'>
 				<cfset related_primary_key_2 = listChangeDelims(LCase(#getTempMedia.related_primary_key_2#), '-', ' ,\' )>
 			</cfif>
 				<cfset key = ''>
