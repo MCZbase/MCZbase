@@ -822,7 +822,7 @@ limitations under the License.
 										username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> AND
 										key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getMediaRel.key#">
 								</cfquery>
-								<cfif len(chkCOID.related_primary_key_#i#) eq 0>
+								<cfif len(related_primary_key) eq 0>
 									<cfquery name="warningBadRel1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 										UPDATE
 											cf_temp_media
@@ -830,7 +830,7 @@ limitations under the License.
 											status = concat(nvl2(status, status || '; ', ''),'RELATED_PRIMARY_KEY_#i# was not found')
 										WHERE
 											username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> AND
-											key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia.key#">
+											key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getMediaRel.key#">
 									</cfquery>
 								</cfif>
 									
