@@ -903,7 +903,7 @@ limitations under the License.
 										username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> AND
 										key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getMediaRel.key#">
 								</cfquery>
-							<cfelseif #getMediaRel.media_relationship# contains 'borrow'><!---requires permit id--->
+							<cfelseif #getMediaRel.media_relationship# eq 'documents borrow'><!---requires permit id--->
 								<cfquery name="chkCOID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 									update cf_temp_media set related_primary_key_#i# =
 									(
