@@ -1453,7 +1453,11 @@ limitations under the License.
 						SELECT distinct accn_id as transaction_id
 						FROM <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat
 						WHERE
+						<cfif left(specimen_guid_pattern,1) EQ "!">
+							flat.guid like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(specimen_guid_pattern,len(specimen_guid_pattern)-1)#">
+						<cfelse>
 							flat.guid like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#specimen_guid_pattern#">
+						</cfif>
 					)
 				</cfif>
 				<cfif isdefined("sovereign_nation") AND len(#sovereign_nation#) gt 0 >
