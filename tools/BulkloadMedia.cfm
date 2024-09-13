@@ -831,7 +831,7 @@ limitations under the License.
 									WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> AND
 										key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia2.key#">
 								</cfquery>
-							<cfelseif #getTempMedia2.media_relationship_1# contains 'project' and !isNumeric(getTempMedia2.related_primary_key_1)>
+							<cfelseif getTempMedia2.media_relationship_1 contains 'project' and !isNumeric(getTempMedia2.related_primary_key_1)>
 								<cfquery name="chkCOID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 									update cf_temp_media set related_primary_key_1 =
 									(
@@ -840,7 +840,7 @@ limitations under the License.
 										where project_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia2.related_primary_key_1#">
 									)
 									WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> AND
-										key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getMediaRel.key#">
+										key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia2.key#">
 								</cfquery>
 							<cfelseif getTempMedia2.media_relationship_2 contains 'project' and !isNumeric(getTempMedia2.related_primary_key_2)>
 								<cfquery name="chkCOID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
