@@ -708,6 +708,17 @@ limitations under the License.
 								username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> and
 								key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia2.key#">
 						</cfquery>
+					<cfelse>
+						<cfquery name="warningMessageAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+							UPDATE
+								cf_temp_media
+							SET
+								created_by_agent_id = (select AGENT_ID from AGENT_NAME = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia2.created_by_agent_id#"> and AGENT_NAME_TYPE = 'login')
+							WHERE 
+								CREATED_BY_AGENT_ID is not null AND 
+								username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> and
+								key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia2.key#">
+						</cfquery>
 					</cfif>		
 							
 				
