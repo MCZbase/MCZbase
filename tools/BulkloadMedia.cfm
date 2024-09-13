@@ -506,6 +506,8 @@ limitations under the License.
 			<!---TEST: bad date format warning--------->
 			<!----------------------------------------->
 			<cfset madedate = isDate(getTempMedia.made_date)>
+				#madedate#
+				
 			<cfif #madedate# eq 'NO'>
 				<cfquery name="flagDateProblem" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE
@@ -517,7 +519,7 @@ limitations under the License.
 				</cfquery>	
 			</cfif>
 			<cfif len(getTempMedia.made_date) eq 0 && refind("^[0-9]{4}-[0-9]{2}-[0-9]{2}$",made_date) EQ 0>
-				<cfquery name="setDate" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				<cfquery name="flagDateProblem" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE
 						cf_temp_media
 					SET
