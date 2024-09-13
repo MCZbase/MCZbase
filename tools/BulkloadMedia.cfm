@@ -698,7 +698,7 @@ limitations under the License.
 			</cfquery>
 				
 			<!--------Loop through updated table if there are no status messages------->
-			<!---<cfif len(getTempMedia2.status) eq 0>--->
+			<cfif len(getTempMedia2.status) eq 0>
 				<cfloop query = "getTempMedia2">
 					<cfif isNumeric(CREATED_BY_AGENT_ID)>
 						<cfquery name="warningMessageAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -887,12 +887,23 @@ limitations under the License.
 										WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> AND
 											key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getMediaRel.key#">
 									</cfquery>
+								<cfelse>
+									<cfquery name="warningMessageAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+										UPDATE
+											cf_temp_media
+										SET
+											status = concat(nvl2(status, status || '; ', ''),'related_primary_key '#related_primary_key#' invalid')
+										WHERE 
+											related_primary_key_#i# not in (select #tables.column_name# from #theTable# where #tables.column_name# = '#getMediaRel.related_primary_key#') AND
+											username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> and
+											key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia2.key#">
+									</cfquery>
 								</cfif>
 							</cfif>						
 						</cfif>
 					</cfloop>
 				</cfloop>
-			<!---</cfif>--->
+			</cfif>
 			<cfquery name="problemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT *
 				FROM 
