@@ -911,14 +911,14 @@ limitations under the License.
 									key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#viewUpdates.key#">
 							</cfquery>
 						</cfif>
-						<cfif len(viewUpdates.media_label_##i#) gt 0>
+						<cfif len(viewUpdates.media_label_1) gt 0>
 							<cfquery name="chkKey" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 								UPDATE
 									cf_temp_media
 								SET
-									status = concat(nvl2(status, status || '; ', ''),'label_value_#i# missing')
+									status = concat(nvl2(status, status || '; ', ''),'label_value_1 missing')
 								WHERE
-									label_value_#i# is null AND media_label_#i# is not null AND
+									label_value_1 is null AND media_label_1 is not null AND
 									username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> AND
 									key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#viewUpdates.key#">
 							</cfquery>
