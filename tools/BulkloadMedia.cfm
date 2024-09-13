@@ -793,7 +793,7 @@ limitations under the License.
 										where agent_id in (select agent_id from agent_name where agent_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getMediaRel.related_primary_key#">)
 									)
 									WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> AND
-										key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia2.key#">
+										key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getMediaRel.key#">
 								</cfquery>
 							<!--- Block ends--->
 							<cfelseif #getMediaRel.media_relationship# contains 'underscore_collection' and !isNumeric(getMediaRel.related_primary_key)>
