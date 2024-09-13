@@ -459,8 +459,7 @@ limitations under the License.
 						select AGENT_ID from AGENT_NAME WHERE AGENT_NAME = 'mkennedy'
 						and AGENT_NAME_TYPE = 'login'
 						)
-				WHERE 
-					CREATED_BY_AGENT_ID is not null AND 
+				WHERE  
 					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> 
 			</cfquery>
 			<!---NOT in codetable warnings or match expectation--->
