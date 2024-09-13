@@ -571,7 +571,7 @@ limitations under the License.
 					SET 
 						status = concat(nvl2(status, status || '; ', ''),'A label value is missing')
 					WHERE #numberOfVariables# != <cfif len(variableValue) eq 0>0<cfelse>#variableValue#</cfif>
-						AND #variablevalue# = '' and #variableName# is not null
+						AND #variableName# is not null
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
 			</cfloop>	
