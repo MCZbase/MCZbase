@@ -594,7 +594,7 @@ limitations under the License.
 						
 				<cfset urlToCheck2 = "#getTempMedia.preview_uri#">
 				<cfset validstyle2 = ''>
-				<cfhttp url="#urlToCheck2#" method="GET" timeout="10" throwonerror="false">
+				<cfhttp url="#urlToCheck2#" method="GET" timeout="30">
 				<cfif cfhttp.statusCode EQ '200 OK'>	
 					<cfset validstyle2 = '<span class="text-success">(Valid Link)</span>'>
 				<cfelse>
