@@ -701,6 +701,7 @@ limitations under the License.
 			<cfif #getTempMedia2.MEDIA_RELATIONSHIP_2# eq 'shows project'>
 				<cfset project_name_2 = listChangeDelims(LCase(#getTempMedia2.related_primary_key_2#), '-', ' ,\' )>
 			</cfif>
+				#project_name_1#
 			<!--------Loop through updated table if there are no status messages------->
 			<cfif len(getTempMedia2.status) eq 0>
 				<cfloop query = "getTempMedia2">
