@@ -930,7 +930,7 @@ limitations under the License.
 										UPDATE
 											cf_temp_media
 										SET
-											status = concat(nvl2(status, status || '; ', ''),'related_primary_key '#related_primary_key#' invalid')
+											status = concat(nvl2(status, status || '; ', ''),'related_primary_key '#getMediaRel.related_primary_key#' invalid')
 										WHERE 
 											related_primary_key_#i# not in (select #tables.column_name# from #theTable# where #tables.column_name# = '#getMediaRel.related_primary_key#') AND
 											username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> and
