@@ -1207,40 +1207,12 @@ limitations under the License.
 		<cfelse>
 			<cfset specimen_guid_pattern = "#specimen_guid#">
 		</cfif>
-<!---
-		<cfquery name="guidSearch" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="guidSearch_result" timeout="#Application.query_timeout#">
-			select distinct accn_id as transaction_id
-			from 
-				#session.flatTableName# flat 
-			where
-				flat.guid like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#specimen_guid_pattern#">
-		</cfquery>
-		<cfset accn_id_counter = 0>
-		<cfloop query="guidSearch">
---->
-			<!--- list of accn_id values may be longer than 1000, cfqueryparam with list has max of 1000, split for looping --->
-<!---
-			<cfset accn_id_counter = accn_id_counter + 1>
-			<cfif accn_id_counter GT 999>
-				<cfset accn_id_num_bits = accn_id_num_bits + 1>
-				<cfset accn_id_array[accn_id_num_bits] = accn_id>
-				<cfset accn_id = "">
-				<cfset accn_id_counter = 1>
-			</cfif>
-			<cfif len(accn_id) EQ 0>
-				<cfset accn_id = guidSearch.transaction_id>
-			<cfelse>
-				<cfset accn_id = accn_id & "," & guidSearch.transaction_id>
-			</cfif>
-		</cfloop>
-		<cfset accn_id_array[accn_id_num_bits+1] = accn_id>
---->
 	<cfelseif (isdefined("specimen_guid") AND len(#specimen_guid#) gt 0) >
 		<!--- If provided with specimen guids, look up part collection object ids for lookup --->
 		<cfquery name="guidSearch" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="guidSearch_result" timeout="#Application.query_timeout#">
-			select specimen_part.collection_object_id as part_coll_obj_id 
-			from 
-				#session.flatTableName# flat left join specimen_part on flat.collection_object_id = specimen_part.derived_from_cat_item
+			SELECT specimen_part.collection_object_id as part_coll_obj_id 
+			FROM <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat
+				left join specimen_part on flat.collection_object_id = specimen_part.derived_from_cat_item
 			where
 				flat.guid in ( <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#specimen_guid#" list="yes"> )
 		</cfquery>
@@ -1473,33 +1445,18 @@ limitations under the License.
 				<cfif isdefined("nature_of_material") AND len(#nature_of_material#) gt 0>
 					AND upper(trans.nature_of_material) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value='%#ucase(nature_of_material)#%'>
 				</cfif>
-
 				<cfif isdefined("collection_object_id") AND len(#collection_object_id#) gt 0 >
 					AND specimen_part.collection_object_id IN ( <cfqueryparam list="yes" cfsqltype="CF_SQL_VARCHAR" value="#collection_object_id#" > )
 				</cfif>
 				<cfif isDefined("specimen_guid_pattern") and len(specimen_guid_pattern) GT 0>
 					AND trans.transaction_id in (
-						select distinct accn_id as transaction_id
-						from 
+						SELECT distinct accn_id as transaction_id
+						FROM <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat
 							#session.flatTableName# flat 
-						where
+						WHERE
 							flat.guid like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#specimen_guid_pattern#">
 					)
 				</cfif>
-<!---
-				<cfif isDefined("specimen_guid_pattern") and len(specimen_guid_pattern) GT 0>
-					AND (
-						<cfset itemnumber = 0>
-						<cfloop array="#accn_id_array#" item="accn_id_element">
-							<cfif itemnumber GT 0>
-								OR
-							</cfif>
-							trans.transaction_id IN (<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#accn_id_element#" list="yes">)
-							<cfset itemnumber = itemnumber + 1>
-						</cfloop>
-						)
-				</cfif>
---->
 				<cfif isdefined("sovereign_nation") AND len(#sovereign_nation#) gt 0 >
 					<cfif left(sovereign_nation,1) is "=">
 						AND upper(locality.sovereign_nation) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(sovereign_nation,len(sovereign_nation)-1))#">
