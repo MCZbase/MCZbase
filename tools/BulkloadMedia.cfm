@@ -818,7 +818,7 @@ limitations under the License.
 									(
 										select underscore_collection.underscore_collection_id
 										from #theTable#
-										where collection_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia2.related_primary_key_1#">
+										where collection_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getMediaRel.related_primary_key#">
 									)
 									WHERE related_primary_key_#i# is not null AND 
 										username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> AND
