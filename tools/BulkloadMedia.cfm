@@ -822,7 +822,7 @@ limitations under the License.
 								</cfquery>
 							<cfelseif #getMediaRel.media_relationship# contains 'project' and !isNumeric(getMediaRel.related_primary_key)>
 								<cfquery name="chkCOID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-									update cf_temp_media set related_primary_key_#i# =
+									update cf_temp_media set related_primary_key =
 									(
 										select project_id
 										from project
