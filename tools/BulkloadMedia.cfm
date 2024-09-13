@@ -901,7 +901,7 @@ limitations under the License.
 							SET
 								status = concat(nvl2(status, status || '; ', ''),'RELATED_PRIMARY_KEY_1 is missing')
 							WHERE
-								RELATED_PRIMARY_KEY_1 is null AND
+								RELATED_PRIMARY_KEY_1 is null AND media_relationship_2 is not null
 								username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> AND
 								key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#viewUpdates.key#">
 						</cfquery>
@@ -913,7 +913,7 @@ limitations under the License.
 							SET
 								status = concat(nvl2(status, status || '; ', ''),'RELATED_PRIMARY_KEY_2 is missing')
 							WHERE
-								RELATED_PRIMARY_KEY_2 is null AND
+								RELATED_PRIMARY_KEY_2 is null AND media_relationship_2 is not null
 								username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> AND
 								key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#viewUpdates.key#">
 						</cfquery>
