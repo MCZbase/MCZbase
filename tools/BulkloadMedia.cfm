@@ -592,23 +592,7 @@ limitations under the License.
 					</cfquery>
 				</cfif>
 						
-				<cfset urlToCheck2 = "#getTempMedia.preview_uri#">
-				<cfset validstyle2 = ''>
-				<cfhttp url="#urlToCheck2#" method="GET" timeout="30">
-				<cfif cfhttp.statusCode EQ '200 OK'>	
-					<cfset validstyle2 = '<span class="text-success">(Valid Link)</span>'>
-				<cfelse>
-					<cfquery name="warningBadURI2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						UPDATE
-							cf_temp_media
-						SET
-							status = concat(nvl2(status, status || '; ', ''),'PREVIEW_URI is invalid')
-						WHERE
-							PREVIEW_URI is not null and
-							username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> and
-							key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia.key#">
-					</cfquery>
-				</cfif>
+
 						
 	
 				<!------------------------------------------------------------>
