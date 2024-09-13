@@ -482,7 +482,7 @@ limitations under the License.
 						media_license_id not in (select media_license_id from ctmedia_license) AND
 						username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
-	
+	#getTempMedia.related_primary_key_1#
 				<!----------------------------------->
 				<!---TODO: Fix CHECK for MADE_DATE--->
 				<!----------------------------------->
