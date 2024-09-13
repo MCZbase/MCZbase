@@ -837,7 +837,7 @@ limitations under the License.
 									(
 										select project_id
 										from project
-										where project_name = '#getTempMedia2.related_primary_key_#i#'
+										where project_name = '#getMediaRel.related_primary#'
 									)
 									WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> AND
 										key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia2.key#">
