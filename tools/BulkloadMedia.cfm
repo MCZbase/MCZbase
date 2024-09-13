@@ -570,7 +570,7 @@ limitations under the License.
 					UPDATE cf_temp_media
 					SET 
 						status = concat(nvl2(status, status || '; ', ''),'A label value is missing')
-					WHERE #numberOfVariables# != #variableValue#
+					WHERE #numberOfVariables# != '#variableValue#' AND
 						AND #variablevalue# = '' and #variableName# is not null
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
