@@ -1452,7 +1452,6 @@ limitations under the License.
 					AND trans.transaction_id in (
 						SELECT distinct accn_id as transaction_id
 						FROM <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat
-							#session.flatTableName# flat 
 						WHERE
 							flat.guid like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#specimen_guid_pattern#">
 					)
