@@ -557,6 +557,7 @@ limitations under the License.
 			<cfset numberOfVariables = 8>
 			<cfloop from="1" to="#numberOfVariables#" index="i">
 				<cfset variableName = "media_label_" & i>
+				<cfset variableValueNo = "label_value" & i>
 				<cfset variableValue = evaluate(variableName)>
 				<!-- Output the variable name and value -->
 				<cfquery name="checkLabelType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -571,7 +572,7 @@ limitations under the License.
 					SET 
 						status = concat(nvl2(status, status || '; ', ''),'A label value is missing')
 					WHERE #variableName# is not null
-						and #variableValue# is null
+						and #variableValueNo# is null
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
 			</cfloop>	
