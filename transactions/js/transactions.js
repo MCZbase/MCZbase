@@ -442,8 +442,8 @@ function updateAccnItemCount(transactionId,targetDiv) {
 				var message  = "<p>There are " + result.DATA.PARTCOUNT[0];
 				message += " parts from " + result.DATA.CATITEMCOUNT[0];
 				message += " catalog numbers in " + result.DATA.COLLECTIONCOUNT[0];
-				message += " collections with " + result.DATA.PRESERVECOUNT[0] +  " preservation types " + 
-				message += " (total lot count=" +  result.DATA.TOTALLOTCOUNT[0] + ")" + 
+				message += " collections with " + result.DATA.PRESERVECOUNT[0] +  " preservation types ";
+				message += " (total lot count=" +  result.DATA.TOTALLOTCOUNT[0] + ")";
 				message += " cataloged in this accession.</p>"
 				$('#' + targetDiv).html(message);
 			}
