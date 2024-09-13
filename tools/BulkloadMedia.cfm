@@ -706,7 +706,7 @@ limitations under the License.
 							(
 								select project_id
 								from project
-								where project_name like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia.related_primary_key_1#">
+								where project_name = 'Boston Society of Natural History'
 							)
 							WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> AND
 								key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia.key#">
