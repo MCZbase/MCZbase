@@ -695,11 +695,11 @@ limitations under the License.
 				WHERE 
 					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
-			<cfif #getTempMedia.MEDIA_RELATIONSHIP_1# contains 'project'>
-				<cfset project_name_1 = listChangeDelims(LCase(#getTempMedia.related_primary_key_1#), '-', ' ,\' )>
+			<cfif #getTempMedia2.MEDIA_RELATIONSHIP_1# contains 'project'>
+				<cfset project_name_1 = listChangeDelims(LCase(#getTempMedia2.related_primary_key_1#), '-', ' ,\' )>
 			</cfif>
-			<cfif #getTempMedia.MEDIA_RELATIONSHIP_2# contains 'project'>
-				<cfset project_name_2 = listChangeDelims(LCase(#getTempMedia.related_primary_key_2#), '-', ' ,\' )>
+			<cfif #getTempMedia2.MEDIA_RELATIONSHIP_2# contains 'project'>
+				<cfset project_name_2 = listChangeDelims(LCase(#getTempMedia2.related_primary_key_2#), '-', ' ,\' )>
 			</cfif>
 			<!--------Loop through updated table if there are no status messages------->
 			<cfif len(getTempMedia2.status) eq 0>
