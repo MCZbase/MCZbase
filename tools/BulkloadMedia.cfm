@@ -894,7 +894,7 @@ limitations under the License.
 								<cfif len(#viewUpdates.MEDIA_RELATIONSHIP_1#) eq 0>
 									<cfset status = 'check related_primary_key_1'>
 								</cfif>
-								<cfif len(#viewUpdates.MEDIA_RELATIONSHIP_2#) eq 0>>
+								<cfif len(#viewUpdates.MEDIA_RELATIONSHIP_2#) eq 0>
 									<cfset status = 'check related_primary_key_2'>
 								</cfif>
 							</cfif>						
