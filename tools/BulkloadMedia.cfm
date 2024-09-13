@@ -822,17 +822,7 @@ limitations under the License.
 										username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> AND
 										key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getMediaRel.key#">
 								</cfquery>
-								<cfif len(related_primary_key) eq 0>
-									<cfquery name="warningBadRel1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-										UPDATE
-											cf_temp_media
-										SET
-											status = concat(nvl2(status, status || '; ', ''),'RELATED_PRIMARY_KEY_#i# was not found')
-										WHERE
-											username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> AND
-											key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getMediaRel.key#">
-									</cfquery>
-								</cfif>
+		
 									
 							<!-------------------------------------------------------------------------------->
 							<!---Use transaction_ids in URI but need loan number converted from spreadsheet--->
@@ -910,6 +900,20 @@ limitations under the License.
 					cf_temp_media
 				WHERE 
 					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+			</cfquery>
+			<cfquery name="chkCOID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				update cf_temp_media set 
+					status = concat(nvl2(status, status || '; ', ''),'RELATED_PRIMARY_KEY_1 is missing')
+				WHERE related_primary_key_1 AND 
+					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> AND
+					key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#problemData.key#">
+			</cfquery>
+			<cfquery name="chkCOID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				update cf_temp_media set 
+					status = concat(nvl2(status, status || '; ', ''),'RELATED_PRIMARY_KEY_2 is missing')
+				WHERE related_primary_key_2 AND 
+					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> AND
+					key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#problemData.key#">
 			</cfquery>
 			<cfset i= 1>
 			<cfquery name="problemsInData" dbtype="query">
