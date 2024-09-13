@@ -557,7 +557,7 @@ limitations under the License.
 			<cfset numberOfVariables = 8>
 			<cfloop from="1" to="#numberOfVariables#" index="i">
 				<cfset variableName = "media_label_" & i>
-				<cfset variableValueNo = "label_value" & i>
+				<cfset variableValueNo = "label_value_" & i>
 				<cfset variableValue = evaluate(variableName)>
 				<!-- Output the variable name and value -->
 				<cfquery name="checkLabelType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
