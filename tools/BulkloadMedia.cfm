@@ -708,7 +708,7 @@ limitations under the License.
 			</cfquery>
 
 			<!--------NO ERRORS ABOVE? Loop through updated table to add IDs if there are no status messages------->
-			<cfif len(getTempMedia2.height) gt 0>
+			<cfif len(getTempMedia2.MD5HASH) gt 0>
 				<cfloop query = "getTempMedia2">				
 					<cfset #i# lte 2>
 					<cfloop index="i" from="1" to="2">
