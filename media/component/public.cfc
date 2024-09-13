@@ -1055,7 +1055,7 @@ include this function and use it.
 											<!---Display underscore_collection--->
 											<cfif media_rel.media_relationship eq 'shows underscore_collection'>
 												<cfloop query="underscore">
-													<a class="font-weight-lessbold" href="/grouping/showNamedCollection.cfm?underscore_collection_id=#underscore.underscore_collection_id#"> (ID =#underscore.underscore_collection_id#): #underscore.collection_name#</a><cfif underscore.recordcount gt 1><span>, </span> </cfif>
+													<a class="font-weight-lessbold" href="/grouping/showNamedCollection.cfm?underscore_collection_id=#underscore.underscore_collection_id#">  #underscore.collection_name# (ID =#underscore.underscore_collection_id#)</a><cfif underscore.recordcount gt 1><span>, </span> </cfif>
 												</cfloop>
 											</cfif>
 											<!---Display project_name--->
