@@ -698,7 +698,7 @@ limitations under the License.
 			</cfquery>
 				
 			<!--------Loop through updated table if there are no status messages------->
-			<cfif len(getTempMedia2.status) eq 0>
+			<!---<cfif len(getTempMedia2.status) eq 0>--->
 				<cfloop query = "getTempMedia2">
 					<cfif isNumeric(CREATED_BY_AGENT_ID)>
 						<cfquery name="warningMessageAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -892,7 +892,7 @@ limitations under the License.
 						</cfif>
 					</cfloop>
 				</cfloop>
-			</cfif>
+			<!---</cfif>--->
 			<cfquery name="problemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT *
 				FROM 
