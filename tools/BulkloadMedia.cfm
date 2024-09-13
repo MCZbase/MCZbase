@@ -701,12 +701,12 @@ limitations under the License.
 			<cfif len(getTempMedia2.height) gt 0>
 				<cfloop query = "getTempMedia2">
 					
-					<cfif #getTempMedia.MEDIA_RELATIONSHIP_1# contains 'project'>
+<!---					<cfif #getTempMedia.MEDIA_RELATIONSHIP_1# contains 'project'>
 						<cfset project_name_1 = listChangeDelims(LCase(#getTempMedia.related_primary_key_1#), '-', ' ,\' )>
 					</cfif>
 					<cfif #getTempMedia.MEDIA_RELATIONSHIP_2# contains 'project'>
 						<cfset project_name_2 = listChangeDelims(LCase(#getTempMedia.related_primary_key_2#), '-', ' ,\' )>
-					</cfif>
+					</cfif>--->
 			
 				
 					<cfset #i# lte 2>
