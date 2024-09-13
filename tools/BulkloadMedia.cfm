@@ -892,35 +892,6 @@ limitations under the License.
 							</cfif>						
 						</cfif>
 					</cfloop>
-					<cfquery name="viewUpdates" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						select * from cf_temp_media where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-					</cfquery>
-					<cfloop query="viewUpdates">
-						<cfif len(#viewUpdates.related_primary_key_1#) eq 0>
-							<cfquery name="chkKey" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-								UPDATE
-									cf_temp_media
-								SET
-									status = concat(nvl2(status, status || '; ', ''),'RELATED_PRIMARY_KEY_1 was not found/could not be updated to an ID')
-								WHERE
-									RELATED_PRIMARY_KEY_1 is null AND media_relationship_2 is not null AND
-									username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> AND
-									key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#viewUpdates.key#">
-							</cfquery>
-						</cfif>
-						<cfif len(#viewUpdates.related_primary_key_2#) eq 0>
-							<cfquery name="chkKey" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-								UPDATE
-									cf_temp_media
-								SET
-									status = concat(nvl2(status, status || '; ', ''),'RELATED_PRIMARY_KEY_2 was not found/could not be updated to an ID')
-								WHERE
-									RELATED_PRIMARY_KEY_2 is null AND media_relationship_2 is not null AND
-									username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> AND
-									key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#viewUpdates.key#">
-							</cfquery>
-						</cfif>
-					</cfloop>
 				</cfloop>
 			</cfif>
 			<!---Display the issues if there is an error and give the links to either continue or start again.--->
