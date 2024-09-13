@@ -888,6 +888,15 @@ limitations under the License.
 											key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getMediaRel.key#">
 									</cfquery>
 								</cfif>
+								<cfquery name="viewUpdates" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+									select * from cf_temp_media where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+								</cfquery>
+								<cfif len(#viewUpdates.MEDIA_RELATIONSHIP_1#) eq 0>
+									<cfset status = 'check related_primary_key_1'>
+								</cfif>
+								<cfif len(#viewUpdates.MEDIA_RELATIONSHIP_2#) eq 0>>
+									<cfset status = 'check related_primary_key_2'>
+								</cfif>
 							</cfif>						
 						</cfif>
 					</cfloop>
@@ -900,20 +909,6 @@ limitations under the License.
 					cf_temp_media
 				WHERE 
 					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-			</cfquery>
-			<cfquery name="chkCOID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				update cf_temp_media set 
-					status = concat(nvl2(status, status || '; ', ''),'RELATED_PRIMARY_KEY_1 is missing')
-				WHERE related_primary_key_1 is null AND 
-					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> AND
-					key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#problemData.key#">
-			</cfquery>
-			<cfquery name="chkCOID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				update cf_temp_media set 
-					status = concat(nvl2(status, status || '; ', ''),'RELATED_PRIMARY_KEY_2 is missing')
-				WHERE related_primary_key_2 is null AND 
-					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> AND
-					key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#problemData.key#">
 			</cfquery>
 			<cfset i= 1>
 			<cfquery name="problemsInData" dbtype="query">
