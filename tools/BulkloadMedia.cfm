@@ -564,7 +564,6 @@ limitations under the License.
 						SET
 							created_by_agent_id = (select agent_id from agent_name where agent_name.agent_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">)
 						WHERE
-							created_by_agent_id is not null and
 							username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> and
 							key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia.key#">
 					</cfquery>
