@@ -885,7 +885,6 @@ limitations under the License.
 					<cfquery name="viewUpdates" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						select * from cf_temp_media where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 					</cfquery>
-					<cfset i = 1>
 					<cfloop query="viewUpdates">
 						<cfif len(#viewUpdates.related_primary_key_1#) eq 0>
 							<cfquery name="chkKey" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
