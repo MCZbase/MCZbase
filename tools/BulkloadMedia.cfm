@@ -715,7 +715,7 @@ limitations under the License.
 					<!---Update and check media relationships--->
 					<cfset #i# lte 2>
 					<cfloop index="i" from="1" to="2">
-						 This generalizes the two key:value pairs (to media_relationship and related_primary_key)
+						<!--- This generalizes the two key:value pairs (to media_relationship and related_primary_key)--->
 						<cfquery name="getMediaRel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							SELECT 
 								key,
