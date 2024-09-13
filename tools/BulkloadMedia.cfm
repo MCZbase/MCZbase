@@ -770,7 +770,7 @@ limitations under the License.
 							(
 								select project_id
 								from project
-								where project_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#project_name_1#">
+								where project_name = '#project_name_1#'
 							)
 							WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> AND
 								key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia2.key#">
