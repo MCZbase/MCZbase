@@ -950,7 +950,7 @@ limitations under the License.
 							<td>#problemData.MEDIA_URI# #validstyle#</td>
 							<td>#problemData.MIME_TYPE#</td>
 							<td>#problemData.MEDIA_TYPE#</td>
-							<td>#problemData.PREVIEW_URI# #validstyle2#</td>
+							<td>#problemData.PREVIEW_URI#</td>
 							<td>#problemData.MEDIA_LICENSE_ID#</td>
 							<td>#problemData.MASK_MEDIA#</td>
 				
