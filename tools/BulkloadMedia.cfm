@@ -582,7 +582,19 @@ limitations under the License.
 					</cfquery>
 				</cfif>
 						
-					
+					<cfquery name="update" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						UPDATE
+							cf_temp_media
+						SET
+							created_by_agent_id = (
+								select AGENT_ID from AGENT_NAME WHERE AGENT_NAME = 'mkennedy'
+								and AGENT_NAME_TYPE = 'login'
+								)
+						WHERE 
+							CREATED_BY_AGENT_ID is not null AND 
+							username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> and
+							key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia.key#">
+					</cfquery>
 				<!------------------------------------------------------------>
 				<!----------CHECK Relationship valid-------------------------->
 				<!----------CHECK Related primary key ------------------------>
@@ -696,22 +708,7 @@ limitations under the License.
 					<cfif #getTempMedia.MEDIA_RELATIONSHIP_2# contains 'project'>
 						<cfset project_name_2 = listChangeDelims(LCase(#getTempMedia.related_primary_key_2#), '-', ' ,\' )>
 					</cfif>
-					<cfset agentID = '#session.username#'>
-				
-					<cfquery name="update" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						UPDATE
-							cf_temp_media
-						SET
-							created_by_agent_id = (
-								select AGENT_ID from AGENT_NAME WHERE AGENT_NAME = '#agentID#'
-								and AGENT_NAME_TYPE = 'login'
-								)
-						WHERE 
-							CREATED_BY_AGENT_ID is not null AND 
-							username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> and
-							key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia2.key#">
-					</cfquery>
-	
+			
 				
 					<cfset #i# lte 2>
 					<cfloop index="i" from="1" to="2">
