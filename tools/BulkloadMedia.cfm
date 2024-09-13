@@ -640,12 +640,10 @@ limitations under the License.
 				<!----------END Check Related primary key------------------------>
 				<!--------------------------------------------------------------->	
 				
-				
 						
 				<!--------------------------------------------------------->
 				<!--- Check Height and Width and add if not entered-------->
 				<!--- MD5HASH---------------------------------------------->
-				<!--------------------------------------------------------->
 				<cfif isimagefile(getTempMedia.media_uri)>
 					<cfimage action="info" source="#getTempMedia.media_uri#" structname="imgInfo"/>
 					<cfquery name="makeHeightLabel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
