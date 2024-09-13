@@ -592,6 +592,24 @@ limitations under the License.
 					</cfquery>
 				</cfif>
 						
+				<cfset urlToCheck2 = "#getTempMedia.preview_uri#">
+				<cfset validstyle2 = ''>
+				<cfhttp url="#urlToCheck2#" method="GET" timeout="10" throwonerror="false">
+				<cfif cfhttp.statusCode EQ '200 OK'>	
+					<cfset validstyle2 = '<span class="text-success">(Valid Link)</span>'>
+				<cfelse>
+					<cfquery name="warningBadURI2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						UPDATE
+							cf_temp_media
+						SET
+							status = concat(nvl2(status, status || '; ', ''),'PREVIEW_URI is invalid')
+						WHERE
+							media_uri is not null and
+							username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> and
+							key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia.key#">
+					</cfquery>
+				</cfif>
+						
 	
 				<!------------------------------------------------------------>
 				<!----------CHECK Relationship valid-------------------------->
@@ -948,7 +966,7 @@ limitations under the License.
 							<td>#problemData.MEDIA_URI# #validstyle#</td>
 							<td>#problemData.MIME_TYPE#</td>
 							<td>#problemData.MEDIA_TYPE#</td>
-							<td>#problemData.PREVIEW_URI#</td>
+							<td>#problemData.PREVIEW_URI# #validstyle2#</td>
 							<td>#problemData.MEDIA_LICENSE_ID#</td>
 							<td>#problemData.MASK_MEDIA#</td>
 				
