@@ -699,16 +699,7 @@ limitations under the License.
 
 			<!--------NO ERRORS ABOVE? Loop through updated table to add IDs if there are no status messages------->
 			<cfif len(getTempMedia2.height) gt 0>
-				<cfloop query = "getTempMedia2">
-					
-<!---					<cfif #getTempMedia.MEDIA_RELATIONSHIP_1# contains 'project'>
-						<cfset project_name_1 = listChangeDelims(LCase(#getTempMedia.related_primary_key_1#), '-', ' ,\' )>
-					</cfif>
-					<cfif #getTempMedia.MEDIA_RELATIONSHIP_2# contains 'project'>
-						<cfset project_name_2 = listChangeDelims(LCase(#getTempMedia.related_primary_key_2#), '-', ' ,\' )>
-					</cfif>--->
-			
-				
+				<cfloop query = "getTempMedia2">				
 					<cfset #i# lte 2>
 					<cfloop index="i" from="1" to="2">
 						<!--- This generalizes the two key:value pairs (to media_relationship and related_primary_key)--->
