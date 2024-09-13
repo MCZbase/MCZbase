@@ -451,6 +451,18 @@ limitations under the License.
 			</cfquery>
 				
 			<cfset key = ''>
+			<cfquery name="update" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				UPDATE
+					cf_temp_media
+				SET
+					created_by_agent_id = (
+						select AGENT_ID from AGENT_NAME WHERE AGENT_NAME = 'mkennedy'
+						and AGENT_NAME_TYPE = 'login'
+						)
+				WHERE 
+					CREATED_BY_AGENT_ID is not null AND 
+					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> 
+			</cfquery>
 			<!---NOT in codetable warnings or match expectation--->
 			<cfquery name="warningMessageMediaType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				UPDATE
@@ -582,19 +594,7 @@ limitations under the License.
 					</cfquery>
 				</cfif>
 						
-					<cfquery name="update" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						UPDATE
-							cf_temp_media
-						SET
-							created_by_agent_id = (
-								select AGENT_ID from AGENT_NAME WHERE AGENT_NAME = 'mkennedy'
-								and AGENT_NAME_TYPE = 'login'
-								)
-						WHERE 
-							CREATED_BY_AGENT_ID is not null AND 
-							username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> and
-							key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia.key#">
-					</cfquery>
+	
 				<!------------------------------------------------------------>
 				<!----------CHECK Relationship valid-------------------------->
 				<!----------CHECK Related primary key ------------------------>
