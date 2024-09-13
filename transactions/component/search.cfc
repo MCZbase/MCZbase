@@ -1454,7 +1454,7 @@ limitations under the License.
 						FROM <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat
 						WHERE
 						<cfif left(specimen_guid_pattern,1) EQ "!">
-							flat.guid like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(specimen_guid_pattern,len(specimen_guid_pattern)-1)#">
+							flat.guid NOT like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(specimen_guid_pattern,len(specimen_guid_pattern)-1)#">
 						<cfelse>
 							flat.guid like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#specimen_guid_pattern#">
 						</cfif>
