@@ -818,7 +818,7 @@ limitations under the License.
 										from #theTable#
 										where collection_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getMediaRel.related_primary_key#">
 									)
-									WHERE related_primary_key_#i# AND 
+									WHERE related_primary_key_#i# is not null AND 
 										username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> AND
 										key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getMediaRel.key#">
 								</cfquery>
