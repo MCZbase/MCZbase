@@ -713,6 +713,89 @@ limitations under the License.
 						</cfquery>
 					</cfif>
 					<!---Update and check media relationships--->
+						<cfif getTempMedia2.media_relationship_1 contains 'agent' and !isNumeric(getTempMedia2.related_primary_key_1)>
+							<cfquery name="chkCOID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+								update cf_temp_media set related_primary_key_1 =
+								(
+									select agent_id
+									from agent
+									where agent_id in (select agent_id from agent_name where agent_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia2.related_primary_key_1#">)
+								)
+								WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+								and key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia2.key#">
+
+							</cfquery>
+						<cfelseif getTempMedia2.media_relationship_2 contains 'agent' and !isNumeric(getTempMedia2.related_primary_key_2)>
+							<cfquery name="chkCOID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+								update cf_temp_media set related_primary_key_2 =
+								(
+									select agent_id
+									from agent
+									where agent_id in (select agent_id from agent_name where agent_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia2.related_primary_key_2#">)
+								)
+								WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+								and key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia2.key#">
+
+							</cfquery>
+						<!--- Block ends--->
+						<cfelseif getTempMedia2.media_relationship_1 contains 'underscore_collection' and !isNumeric(getTempMedia2.related_primary_key_1)>
+							<cfquery name="chkCOID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+								update cf_temp_media set related_primary_key_1 =
+								(
+									select underscore_collection.underscore_collection_id
+									from #theTable#
+									where collection_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia2.related_primary_key_1#">
+								)
+								WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> AND
+									key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia2.key#">
+							</cfquery>
+						<cfelseif getTempMedia2.media_relationship_2 contains 'underscore_collection' and !isNumeric(getTempMedia2.related_primary_key_2)>
+							<cfquery name="chkCOID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+								update cf_temp_media set related_primary_key_2 =
+								(
+									select underscore_collection.underscore_collection_id
+									from #theTable#
+									where collection_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia2.related_primary_key_2#">
+								)
+								WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> AND
+									key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia2.key#">
+							</cfquery>
+						<cfelseif getTempMedia2.media_relationship_1 eq 'shows project' and !isNumeric(getTempMedia2.related_primary_key_1)>
+							<cfquery name="chkCOID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+								update cf_temp_media set related_primary_key_1 =
+								(
+									select project_id
+									from project
+									where project_name = '#getTempMedia2.related_primary_key_1#'
+								)
+								WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> AND
+									key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia2.key#">
+							</cfquery>
+						<cfelseif getTempMedia2.media_relationship_2 eq 'shows project' and !isNumeric(getTempMedia2.related_primary_key_2)>
+							<cfquery name="chkCOID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+								update cf_temp_media set related_primary_key_2 =
+								(
+									select project_id
+									from project
+									where project_name = '#getTempMedia2.related_primary_key_2#'
+								)
+								WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> AND
+									key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia2.key#">
+							</cfquery>
+
+						<cfelseif #getMediaRel.media_relationship# contains 'accn'><!---requires accn number--->
+							<cfquery name="chkCOID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+								update cf_temp_media set related_primary_key_#i# =
+								(
+									select #theTable#.transaction_id
+									from #theTable#
+									where accn_number = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getMediaRel.related_primary_key#">
+								)
+								WHERE related_primary_key_#i# is not null AND
+									username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> AND
+									key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getMediaRel.key#">
+							</cfquery>
+						</cfif>
 					<cfset #i# lte 2>
 					<cfloop index="i" from="1" to="2">
 						<!--- This generalizes the two key:value pairs (to media_relationship and related_primary_key)--->
@@ -784,88 +867,7 @@ limitations under the License.
 									</cfquery>
 								</cfloop>
 							<!---Add additional blocks if non-numeric entries are the norm for a relationship type--->
-							<cfelseif getTempMedia2.media_relationship_1 contains 'agent' and !isNumeric(getTempMedia2.related_primary_key_1)>
-								<cfquery name="chkCOID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-									update cf_temp_media set related_primary_key_1 =
-									(
-										select agent_id
-										from agent
-										where agent_id in (select agent_id from agent_name where agent_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia2.related_primary_key_1#">)
-									)
-									WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-									and key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia2.key#">
-							
-								</cfquery>
-							<cfelseif getTempMedia2.media_relationship_2 contains 'agent' and !isNumeric(getTempMedia2.related_primary_key_2)>
-								<cfquery name="chkCOID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-									update cf_temp_media set related_primary_key_2 =
-									(
-										select agent_id
-										from agent
-										where agent_id in (select agent_id from agent_name where agent_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia2.related_primary_key_2#">)
-									)
-									WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-									and key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia2.key#">
-							
-								</cfquery>
-							<!--- Block ends--->
-							<cfelseif getTempMedia2.media_relationship_1 contains 'underscore_collection' and !isNumeric(getTempMedia2.related_primary_key_1)>
-								<cfquery name="chkCOID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-									update cf_temp_media set related_primary_key_1 =
-									(
-										select underscore_collection.underscore_collection_id
-										from #theTable#
-										where collection_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia2.related_primary_key_1#">
-									)
-									WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> AND
-										key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia2.key#">
-								</cfquery>
-							<cfelseif getTempMedia2.media_relationship_2 contains 'underscore_collection' and !isNumeric(getTempMedia2.related_primary_key_2)>
-								<cfquery name="chkCOID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-									update cf_temp_media set related_primary_key_2 =
-									(
-										select underscore_collection.underscore_collection_id
-										from #theTable#
-										where collection_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia2.related_primary_key_2#">
-									)
-									WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> AND
-										key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia2.key#">
-								</cfquery>
-							<cfelseif getTempMedia2.media_relationship_1 eq 'shows project' and !isNumeric(getTempMedia2.related_primary_key_1)>
-								<cfquery name="chkCOID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-									update cf_temp_media set related_primary_key_1 =
-									(
-										select project_id
-										from project
-										where project_name = '#getTempMedia2.related_primary_key_1#'
-									)
-									WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> AND
-										key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia2.key#">
-								</cfquery>
-							<cfelseif getTempMedia2.media_relationship_2 eq 'shows project' and !isNumeric(getTempMedia2.related_primary_key_2)>
-								<cfquery name="chkCOID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-									update cf_temp_media set related_primary_key_2 =
-									(
-										select project_id
-										from project
-										where project_name = '#getTempMedia2.related_primary_key_2#'
-									)
-									WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> AND
-										key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia2.key#">
-								</cfquery>
-								
-							<cfelseif #getMediaRel.media_relationship# contains 'accn'><!---requires accn number--->
-								<cfquery name="chkCOID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-									update cf_temp_media set related_primary_key_#i# =
-									(
-										select #theTable#.transaction_id
-										from #theTable#
-										where accn_number = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getMediaRel.related_primary_key#">
-									)
-									WHERE related_primary_key_#i# is not null AND
-										username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> AND
-										key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getMediaRel.key#">
-								</cfquery>
+						
 							<cfelseif #getMediaRel.media_relationship# contains 'loan'><!---requires deacc number--->
 								<cfquery name="chkCOID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 									update cf_temp_media set related_primary_key_#i# =
