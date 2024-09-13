@@ -706,10 +706,10 @@ limitations under the License.
 							(
 								select project_id
 								from project
-								where project_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia.related_primary_key_1#">
+								where project_name like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia.related_primary_key_1#">
 							)
 							WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> AND
-								key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia2.key#">
+								key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia.key#">
 						</cfquery>
 					<cfelseif getTempMedia.media_relationship_2 eq 'shows project' and !isNumeric(getTempMedia.related_primary_key_2)>
 					
