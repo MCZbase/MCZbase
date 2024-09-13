@@ -562,7 +562,7 @@ limitations under the License.
 						UPDATE
 							cf_temp_media
 						SET
-							created_by_agent_id = (select agent_id from agent_name where agent_name.agent_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+							created_by_agent_id = (select agent_id from agent_name where agent_name.agent_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">)
 						WHERE
 							created_by_agent_id is not null and
 							username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> and
