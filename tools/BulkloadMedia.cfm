@@ -506,8 +506,6 @@ limitations under the License.
 			<!---TEST: bad date format warning--------->
 			<!----------------------------------------->
 			<cfset madedate = isDate(getTempMedia.made_date)>
-				#madedate#
-				
 			<cfif #madedate# eq 'NO'>
 				<cfquery name="flagDateProblem" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE
@@ -517,17 +515,6 @@ limitations under the License.
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> 
 						and key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia.key#"> 
 				</cfquery>	
-			</cfif>
-			<cfif len(getTempMedia.made_date) eq 0 && refind("^[0-9]{4}-[0-9]{2}-[0-9]{2}$",made_date) EQ 0>
-				<cfquery name="flagDateProblem" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					UPDATE
-						cf_temp_media
-					SET
-						status = concat(nvl2(status, status || '; ', ''),'#made_date# is not in correct format')
-					WHERE 
-						made_date is not null AND
-						username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> 
-				</cfquery>
 			</cfif>
 			<!---------------------------------------->
 			<!---END: bad date format warning--------->
