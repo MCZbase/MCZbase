@@ -448,6 +448,7 @@ limitations under the License.
 				WHERE 
 					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
+				
 			<cfif #getTempMedia.MEDIA_RELATIONSHIP_1# contains 'project'>
 				<cfset project_name = listChangeDelims(LCase(#getTempMedia.related_primary_key_1#), '-', ' ,\' )>
 			</cfif>
@@ -482,7 +483,7 @@ limitations under the License.
 						media_license_id not in (select media_license_id from ctmedia_license) AND
 						username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
-	#getTempMedia.project_name#
+	#project_name#
 				<!----------------------------------->
 				<!---TODO: Fix CHECK for MADE_DATE--->
 				<!----------------------------------->
