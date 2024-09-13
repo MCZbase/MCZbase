@@ -448,7 +448,6 @@ limitations under the License.
 				WHERE 
 					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
-		
 				<cfset key = ''>
 				<cfquery name="warningMessageMediaType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE
@@ -459,7 +458,6 @@ limitations under the License.
 						media_type not in (select media_type from ctmedia_type) AND
 						username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
-
 				<cfquery name="warningMessageMimeType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE
 						cf_temp_media
@@ -708,16 +706,6 @@ limitations under the License.
 								status = concat(nvl2(status, status || '; ', ''),'CREATED_BY_AGENT_ID invalid')
 							WHERE 
 								CREATED_BY_AGENT_ID not in (select AGENT_ID from AGENT) AND
-								username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> and
-								key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia2.key#">
-						</cfquery>
-					<cfelse>
-						<cfquery name="warningMessageAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-							UPDATE
-								cf_temp_media
-							SET
-								created_by_agent_id = (select agent_id from agent_name where agent_name.agent_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> and agent_name.agent_name_type = 'login')
-							WHERE 
 								username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> and
 								key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia2.key#">
 						</cfquery>
