@@ -768,7 +768,7 @@ limitations under the License.
 	<cfreturn getGeorefNumbersThread.output>
 </cffunction>
 
-<cffunction>
+<cffunction name="getAnnualNumbers" access="remote" returntype="any" returnformat="json">
 	<cfargument name="endDate" type="any" required="no" default="2024-07-01">
 	<cfargument name="beginDate" type="any" required="no" default="2023-07-01">
 	<cfargument name="returnAs" type="string" required="no" default="html">
@@ -924,7 +924,7 @@ limitations under the License.
 				</cfcatch>
 		</cftry>
 	</cfthread>
-	<cfthread action="join" name="getGeorefNumbersThread" />
-	<cfreturn getGeorefNumbersThread.output>
+	<cfthread action="join" name="getAnnualNumbersThread" />
+	<cfreturn getAnnualNumbersThread.output>
 </cffunction>
 </cfcomponent>
