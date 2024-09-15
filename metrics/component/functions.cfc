@@ -768,7 +768,10 @@ limitations under the License.
 	<cfreturn getGeorefNumbersThread.output>
 </cffunction>
 
-<cffunction name="getAnnualNumbers" access="remote" returntype="any" returnformat="json">
+					
+					
+					
+<cffunction name="getAllNumbers" access="remote" returntype="any" returnformat="json">
 	<cfargument name="endDate" type="any" required="no" default="2024-07-01">
 	<cfargument name="beginDate" type="any" required="no" default="2023-07-01">
 	<cfargument name="returnAs" type="string" required="no" default="html">
@@ -777,9 +780,9 @@ limitations under the License.
 	<cfset variables.beginDate = arguments.beginDate>
 	<cfset variables.endDate = arguments.endDate>
 	<cfset variables.returnAs = arguments.returnAs>
-	<cfthread name="getAnnualNumbersThread">
+	<cfthread name="getAllNumbersThread">
 		<cftry>
-			<cfquery name="getAll" datasource="uam_god" cachedwithin="#createtimespan(7,0,0,0)#">
+			<cfquery name="getAllNumbers" datasource="uam_god" cachedwithin="#createtimespan(7,0,0,0)#">
 				select 
 					rm.holdings,
 					h.collection, 
@@ -924,7 +927,7 @@ limitations under the License.
 				</cfcatch>
 		</cftry>
 	</cfthread>
-	<cfthread action="join" name="getAnnualNumbersThread" />
-	<cfreturn getAnnualNumbersThread.output>
+	<cfthread action="join" name="getAllNumbersThread" />
+	<cfreturn getAllNumbersThread.output>
 </cffunction>
 </cfcomponent>
