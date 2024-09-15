@@ -767,5 +767,164 @@ limitations under the License.
 	<cfthread action="join" name="getGeorefNumbersThread" />
 	<cfreturn getGeorefNumbersThread.output>
 </cffunction>
-			
+
+<cffunction>
+	<cfargument name="endDate" type="any" required="no" default="2024-07-01">
+	<cfargument name="beginDate" type="any" required="no" default="2023-07-01">
+	<cfargument name="returnAs" type="string" required="no" default="html">
+	
+	<!--- make arguments available within thread --->
+	<cfset variables.beginDate = arguments.beginDate>
+	<cfset variables.endDate = arguments.endDate>
+	<cfset variables.returnAs = arguments.returnAs>
+	<cfthread name="getAnnualNumbersThread">
+		<cftry>
+			<cfquery name="getAll" datasource="uam_god" cachedwithin="#createtimespan(7,0,0,0)#">
+				select 
+					rm.holdings,
+					h.collection, 
+					h.catalogeditems, 
+					h.specimens, 
+					p.primaryCatItems, 
+					p.primaryspecimens, 
+					s.secondaryCatItems, 
+					s.secondarySpecimens, 
+					a.receivedCatItems,
+					a.receivedSpecimens,
+					e.enteredCatItems,
+					e.enteredSpecimens,
+					ncbi.ncbiCatItems,
+					accn.numAccns  
+				from 
+					(select * from collection where collection_cde <> 'MCZ') c
+				left join (select * from MCZBASE.collections_reported_metrics) rm on c.collection_id = rm.collection_id 
+				left join (select f.collection_id, f.collection, count(distinct f.collection_object_id) catalogeditems, sum(decode(total_parts,null, 1,total_parts)) specimens
+						from flat f
+						join coll_object co on f.collection_object_id = co.collection_object_id
+						where co.COLL_OBJECT_ENTERED_DATE < to_date('2024-06-30', 'YYYY-MM-DD')
+						group by f.collection_id, f.collection) h on rm.collection_id = h.collection_id
+				left join  ( select f.collection_id, f.collection, ts.CATEGORY, count(distinct f.collection_object_id) primaryCatItems, sum(decode(total_parts,null, 1,total_parts)) primarySpecimens
+						from coll_object co
+						join flat f on co.collection_object_id = f.collection_object_id
+						join citation c on f.collection_object_id = c.collection_object_id
+						join ctcitation_type_status ts on c.type_status =  ts.type_status
+						where ts.CATEGORY in ('Primary')
+						and co.COLL_OBJECT_ENTERED_DATE <  to_date('2024-06-30', 'YYYY-MM-DD')
+						group by f.collection_id, f.collection, ts.CATEGORY) p on h.collection_id = p.collection_id
+				left join (select f.collection_id, f.collection, ts.CATEGORY, count(distinct f.collection_object_id) secondaryCatItems, sum(decode(total_parts,null, 1,total_parts)) secondarySpecimens
+						from coll_object co
+						join flat f on co.collection_object_id = f.collection_object_id
+						join citation c on f.collection_object_id = c.collection_object_id
+						join ctcitation_type_status ts on c.type_status =  ts.type_status
+						where ts.CATEGORY in ('Secondary')
+						and co.COLL_OBJECT_ENTERED_DATE <  to_date('2024-06-30', 'YYYY-MM-DD')
+						group by f.collection_id, f.collection, ts.CATEGORY) s on h.collection_id = s.collection_id
+				left join (select f.collection_id, f.collection, count(distinct collection_object_id) receivedCatitems, sum(decode(total_parts,null, 1,total_parts)) receivedSpecimens
+						from flat f
+						join accn a on f.ACCN_ID = a.transaction_id
+						join trans t on a.transaction_id = t.transaction_id
+						where a.received_DATE between  to_date('2022-07-01', 'YYYY-MM-DD') and  to_date('2024-06-30', 'YYYY-MM-DD')
+						group by f.collection_id, f.collection) a 
+					on h.collection_id = a.collection_id
+				left join (select f.collection_id, f.collection, count(distinct f.collection_object_id) enteredCatItems, sum(decode(total_parts,null, 1,total_parts)) enteredSpecimens 
+						from flat f
+						join coll_object co on f.collection_object_id = co.collection_object_id
+						where co.COLL_OBJECT_ENTERED_DATE between to_date('2022-07-01', 'YYYY-MM-DD') and  to_date('2024-06-30', 'YYYY-MM-DD')
+						group by f.collection_id, f.collection) e 
+						on e.collection_id = h.collection_id
+				left join (select f.collection_id, f.collection, count(distinct f.collection_object_id) ncbiCatItems, sum(total_parts) ncbiSpecimens 
+						from COLL_OBJ_OTHER_ID_NUM oid, flat f, COLL_OBJECT CO 
+						where OTHER_ID_TYPE like '%NCBI%'
+						AND F.COLLECTION_OBJECT_ID = CO.COLLECTIOn_OBJECT_ID
+						and co.COLL_OBJECT_ENTERED_DATE < to_date('2024-06-30', 'YYYY-MM-DD')
+						and oid.collection_object_id = f.collection_object_id
+						group by f.collection_id, f.collection) ncbi on h.collection_id = ncbi.collection_id
+				left join (select c.collection_id, c.collection, count(distinct t.transaction_id) numAccns
+						from accn a, trans t, collection c
+						where a.transaction_id = t.transaction_id
+						and t.collection_id = c.collection_id
+						and a.received_date between to_date('2022-07-01', 'YYYY-MM-DD') and  to_date('2024-06-30', 'YYYY-MM-DD')
+						group by c.collection_id, c.collection) accn on h.collection_id = accn.collection_id
+			</cfquery>			
+			<cfif variables.returnAs EQ "csv">
+						<cfset csv = queryToCSV(georef)> 
+						<cfoutput>#csv#</cfoutput>
+					<cfelse>
+						<cfoutput>
+							<section class="col-12 mt-2 px-0">
+								<div class="my-2 float-left w-100">
+									<!--- 
+										TODO: Georeferencing queries do not use dates 
+									<h2 class="h3 px-0 mt-0 float-left mb-0">Georeferencing Activity 
+										<span class="text-muted">(#encodeForHtml(beginDate)#/#encodeForHtml(endDate)#)</span>
+									</h2>
+									--->
+									<h2 class="h3 px-0 mt-0 float-left mb-0">Georeferencing Activity 
+										<span class="text-muted">(current values)</span>
+									</h2>
+									<div class="btn-toolbar my-1 mt-lg-0 float-right">
+										<div class="btn-group mr-2">
+											<a href="/metrics/Dashboard.cfm?action=dowloadGeoreferenceActivity&returnAs=csv&beginDate=#encodeForURL(beginDate)#&endDate=#encodeForUrl(endDate)#" class="btn btn-xs btn-outline-secondary">Export Table</a>
+										</div>
+									</div>
+								</div>
+								<div class="table-responsive-lg">
+									<table class="table table-striped" id="t">
+										<thead>
+											<tr>
+												<th><strong>Holdings</strong></th>
+												<th><strong>Collection</strong></th> 
+												<th><strong>Cataloged Items</strong></th>
+												<th><strong>Specimens</strong></th> 
+												<th><strong>Primary Types Cataloged Items</strong></th>
+												<th><strong>Primary Type Parts</strong></th> 
+												<th><strong>Secondary Types Cataloged Items</strong></th>
+												<th><strong>Secondary Types Parts</strong></th> 
+												<th><strong>Received Cataloged Items</strong></th>
+												<th><strong>Received Specimen Parts</strong></th> 
+												<th><strong>Entered Cataloged Items</strong></th>
+												<th><strong>Entered Specimen Parts</strong></th> 
+												<th><strong>NCBI Cataloged Items</strong></th>
+												<th><strong>Number of Accessions</strong></th>
+											</tr>
+										</thead>
+										<tbody>
+											<cfloop query="georef">
+												<tr>
+													<td>#rm.holdings#</td>
+													<td>#h.collection#</td>
+													<td>#h.catalogeditems#</td>
+													<td>#h.specimens#</td>
+													<td>#p.primaryCatItems#</td>
+													<td>#p.primaryspecimens#</td>
+													<td>#s.secondaryCatItems#</td>
+													<td>#s.secondarySpecimens#</td>
+													<td>#a.receivedCatItems#</td>
+													<td>#a.receivedSpecimens#</td>
+													<td>#a.receivedCatItems#</td>
+													<td>#e.enteredCatItems#</td>
+													<td>#e.enteredSpecimens#</td>
+													<td>#ncbi.ncbiCatItems#</td>
+													<td>#accn.numAccns  #</td>
+												</tr>
+											</cfloop>
+										</tbody>
+									</table>
+								</div>
+							</section>
+						</cfoutput>
+					</cfif>
+				<cfcatch>
+					<cfoutput>
+						<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+						<cfset function_called = "#GetFunctionCalledName()#">
+						<h2 class="h3">Error in #function_called#:</h2>
+						<div>#error_message#</div>
+					</cfoutput>
+				</cfcatch>
+		</cftry>
+	</cfthread>
+	<cfthread action="join" name="getGeorefNumbersThread" />
+	<cfreturn getGeorefNumbersThread.output>
+</cffunction>
 </cfcomponent>
