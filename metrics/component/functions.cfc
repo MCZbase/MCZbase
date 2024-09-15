@@ -91,7 +91,7 @@ limitations under the License.
 				FROM 
 					(select collection_cde,institution_acronym,descr,collection,collection_id from collection where collection_cde <> 'MCZ') c
 				LEFT JOIN 
-					(select collection_id,value,reported_date from MCZBASE.collections_reported_metrics where metric='HOLDINGS'
+					(select collection_id,value,reported_date from MCZBASE.collections_reported_metrics where Holdings is not null
 					and to_char(reported_date, 'yyyy')=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#left(endDate,4)#">
 					) rm on c.collection_id = rm.collection_id 
 				LEFT JOIN 
