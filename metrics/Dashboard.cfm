@@ -147,22 +147,22 @@ limitations under the License.
 								<div class="col-12 col-xl-4 px-0">
 									<h3 class="h4 text-muted">Report Date Range</h3>
 									<div class="row mx-0">
-										<div class="col-12 col-xl-6">
+										<div class="col-12 col-xl-6 pl-xl-0">
 
 											<input type="hidden" name="returnFormat" value="plain">
 											<label for="beginDate" class="data-entry-label mt-2">Begin Date</label>
 											<input name="beginDate" id="beginDate" type="text" class="mb-1 datetimeinput data-entry-input data-entry-input" placeholder="yyyy-mm-dd" value="#beginDate#" aria-label="start of range for dates to display metrics.">
 										</div>
-										<div class="col-12 col-xl-6">
+										<div class="col-12 col-xl-6 pl-xl-0">
 											<label for="endDate" class="data-entry-label mt-2">End Date</label>
 											<input name="endDate" id="endDate" type="text" class="mb-1 datetimeinput data-entry-input data-entry-input" placeholder="yyyy-mm-dd" value="#endDate#" aria-label="end of range for dates to display metrics.">
 										</div>
 									</div>
 								</div>
-								<div class="col-12 col-xl-4 px-0">
+								<div class="col-12 col-xl-2 px-0">
 									<h3 class="h4 text-muted mt-3">Report to Show</h3>
 									<div class="row mx-0">
-										<div class="col-12 col-xl-6">
+										<div class="col-12 col-xl-9 pl-xl-0">
 											<label for="method" class="sr-only">Report To Show</label>
 											<select id="method" name="method" class="my-1 data-entry-input">
 												<option value="getAnnualNumbers" selected="selected">Holdings</option>
@@ -175,10 +175,10 @@ limitations under the License.
 										</div>
 									</div>
 								</div>
-								<div class="col-12 col-xl-4 px-0">
+								<div class="col-12 col-xl-2 px-0">
 									<h3 class="h4 text-muted mt-3"></h3>
 									<div class="row mx-0">
-										<div class="col-12 col-xl-6">
+										<div class="col-12 col-xl-9">
 											<input type="submit" value="Show Report" class="my-3 btn-xs btn btn-primary" aria-label="Show the selected report for the specified date range">
 										</div>
 									</div>
