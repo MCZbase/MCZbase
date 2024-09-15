@@ -770,7 +770,7 @@ limitations under the License.
 
 					
 					
-					
+<!---PLACEHOLDING FOR ANNUAL REPORT QUERY--->
 <cffunction name="getAllNumbers" access="remote" returntype="any" returnformat="json">
 	<cfargument name="endDate" type="any" required="no" default="2024-07-01">
 	<cfargument name="beginDate" type="any" required="no" default="2023-07-01">
