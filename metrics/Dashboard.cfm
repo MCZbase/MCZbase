@@ -166,8 +166,8 @@ limitations under the License.
 				<br clear="all">	
 					<nav id="sidebarMenu" class="w-auto px-4 d-md-block sidebar border-right border-muted">
 						<div class="sidebar-sticky pt-4 px-2">
-							<a href="##" id="selectDates"><h2 class="h4"><i class="fa fa-calendar text-muted p-3" aria-hidden="true"></i> Select Date Range</h2></a>
-							<a href="##" id="selectReports"><h2 class="h4"><i class="fa fa-list-alt text-muted p-3" aria-hidden="true"></i> Annual Report List</h2></a>
+							<a href="##" id="selectDates"><h2 class="h4"><i class="fa fa-calendar text-muted" aria-hidden="true"></i>Select Date Range</h2></a>
+							<a href="##" id="selectReports"><h2 class="h4"><i class="fa fa-list-alt text-muted" aria-hidden="true"></i>Annual Report List</h2></a>
 						</div>
 					</nav>
 				
