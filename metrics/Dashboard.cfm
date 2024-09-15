@@ -179,7 +179,7 @@ limitations under the License.
 									<h3 class="h4 mt-3 text-white">Submit</h3>
 									<div class="row mx-0">
 										<div class="col-12 col-xl-9">
-											<input type="submit" value="Show Report" class=" btn-xs btn btn-primary" aria-label="Show the selected report for the specified date range">
+											<input type="submit" value="Show Report" class="mt-1 btn-xs btn btn-primary" aria-label="Show the selected report for the specified date range">
 										</div>
 									</div>
 								</div>
