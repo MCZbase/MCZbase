@@ -134,7 +134,7 @@ limitations under the License.
 			<div class="container-fluid px-0" id="content">
 				<div class="col-12 border-bottom border-muted border-right-0 border-left-0 border-top-0 py-3">
 					<h1 class="h2 float-left mb-1 w-100 px-3">MCZbase Metrics </h1>
-					<p class="text-muted small px-3">Reports are generated from the current MCZbase data and may not match numbers printed in previous annual reports.</p>
+					<p class="text-muted px-3">Reports are generated from the current MCZbase data and may not match numbers printed in previous annual reports.</p>
 				</div>
 				<div class="row mx-0">
 				<br clear="all">	
