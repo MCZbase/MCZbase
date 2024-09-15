@@ -81,7 +81,7 @@ limitations under the License.
 			<cfquery name="totals" datasource="uam_god" cachedwithin="#createtimespan(0,0,0,0)#">
 				SELECT 
 					h.Collection, 
-					rm.value holdings,
+					rm.Holdings,
 					h.Cataloged_Items, 
 					h.Specimens, 
 					nvl(p.Primary_Cat_Items,0) Primary_Cat_Items, 
