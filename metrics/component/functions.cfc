@@ -892,7 +892,7 @@ limitations under the License.
 											</tr>
 										</thead>
 										<tbody>
-											<cfloop query="georef">
+											<cfloop query="getAllNumbers">
 												<tr>
 													<td>#rm.holdings#</td>
 													<td>#h.collection#</td>
