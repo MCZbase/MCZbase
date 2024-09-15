@@ -168,7 +168,7 @@ limitations under the License.
 					background-color: lightcoral;
 				}
 
-				div.sidebar-sticky a:hover h2 {
+				div.sidebar-sticky a:hover {
 					color: darkblue;
 				}
 			</style>
