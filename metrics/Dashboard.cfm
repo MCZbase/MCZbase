@@ -188,7 +188,7 @@ limitations under the License.
 										<h3 class="h4 text-muted">Select Annual Report</h3>
 										<div class="row mx-0">
 											<div class="col-12 col-xl-10 pl-xl-0">
-												<label for="method" class="data-entry-label mt-2">Annual Report To Show</label>
+												<label for="method" class="data-entry-label mt-0">Annual Report To Show</label>
 												<select id="method" name="method" class="mb-1 data-entry-input">
 													<option value="getAllNumbers" selected="selected">Current</option>
 													<option value="getAcquisitions">FY 2022-2023</option>
@@ -200,7 +200,7 @@ limitations under the License.
 										</div>
 									</div>
 									<div class="col-12 col-xl-2 px-0">
-										<h3 class="h4 mt-3 text-white">Submit</h3>
+										<h3 class="h4 mt-1 text-light">Submit</h3>
 										<div class="row mx-0">
 											<div class="col-12 col-xl-9">
 												<input type="submit" value="Show Report" class="my-2 btn-xs btn btn-primary" aria-label="Show the selected report for the specified date range">
@@ -263,7 +263,7 @@ limitations under the License.
 										</div>
 									</div>
 									<div class="col-12 col-xl-2 px-0">
-										<h3 class="h4 mt-3 text-white">Submit</h3>
+										<h3 class="h4 mt-3 text-light">Submit</h3>
 										<div class="row mx-0">
 											<div class="col-12 col-xl-9">
 												<input type="submit" value="Show Report" class="my-2 btn-xs btn btn-primary" aria-label="Show the selected report for the specified date range">
