@@ -157,14 +157,14 @@ limitations under the License.
 				</div>
 				<div class="row mx-0">
 				<br clear="all">	
-					<nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block sidebar border-right border-muted">
+					<nav id="sidebarMenu" class="w-auto px-4 d-md-block sidebar border-right border-muted">
 						<div class="sidebar-sticky pt-4 px-2">
 							<div id="selectDates"><h2 class="h4"><a href="##dates"><i class="fa fa-calendar text-muted p-3" aria-hidden="true"></i> Select Date Range</a></h2></div>
 							<div id="annualReports"><h2 class="h4"><a href="##reports"><i class="fa fa-list-alt text-muted p-3" aria-hidden="true"></i> Annual Report List</a></h2></div>
 						</div>
 					</nav>
 				
-					<main role="main" class="col-md-9 px-3 ml-sm-auto col-lg-10 mb-3">
+					<main role="main" class="col-md-9 mr-xl-auto col-lg-10 mb-3">
 						<div class="col-12 my-4">
 							<form id="loadReportForm" class="row mx-0">
 								<div class="col-12 col-xl-8 px-0">
