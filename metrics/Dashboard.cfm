@@ -144,16 +144,16 @@ limitations under the License.
 				a##selectDates, a##selectReports {
 					background-color: ##efeded;
 					color: black;
-					padding: 1rem 1rem 1rem 0;
+					padding: 1rem auto;
 				}
 				a##selectDates:hover, a##selectReports:hover {
 					background-color: ##efeded;
-					padding: 1rem 1rem 1rem 0;
+					padding: 1rem auto;
 					color: black;
 				}
 				a##selectDates:visited, a##selectReports:visited {
 					background-color: ##efeded;
-					padding: 1rem 1rem 1rem 0;
+					padding: 1rem auto;
 					color: black;
 				}
 			</style>
