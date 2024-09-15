@@ -144,7 +144,7 @@ limitations under the License.
 					<main role="main" class="col-md-9 px-3 ml-sm-auto col-lg-10 mb-3">
 						<div class="col-12 mt-4">
 							<form id="loadReportForm" class="row mx-0">
-								<div class="col-12 col-xl-4">
+								<div class="col-12 col-xl-4 px-0">
 									<h3 class="h4 text-muted">Report Date Range</h3>
 									<div class="row mx-0">
 										<div class="col-12 col-xl-6">
@@ -159,7 +159,7 @@ limitations under the License.
 										</div>
 									</div>
 								</div>
-								<div class="col-12 col-xl-4">
+								<div class="col-12 col-xl-4 px-0">
 									<h3 class="h4 text-muted mt-3">Report to Show</h3>
 									<div class="row mx-0">
 										<div class="col-12 col-xl-6">
@@ -172,11 +172,17 @@ limitations under the License.
 												<option value="getCitationNumbers">Citations (current)</option>
 												<option value="getGeorefNumbers">Georeferences (current)</option>
 											</select>
-
 										</div>
 									</div>
 								</div>
-								<input type="submit" value="Show Report" class="my-3 btn-xs btn btn-primary" aria-label="Show the selected report for the specified date range">
+								<div class="col-12 col-xl-4 px-0">
+									<h3 class="h4 text-muted mt-3">&#33;</h3>
+									<div class="row mx-0">
+										<div class="col-12 col-xl-6">
+											<input type="submit" value="Show Report" class="my-3 btn-xs btn btn-primary" aria-label="Show the selected report for the specified date range">
+										</div>
+									</div>
+								</div>
 							</form>
 							<script>
 								$(document).ready(function() {
