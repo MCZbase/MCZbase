@@ -225,7 +225,7 @@ limitations under the License.
 							</form>
 							<script>
 								function removeActiveClasses(){
-									document.querySelectorAll('a').forEach(link => link.classList.remove('active', 'active-1', 'active-2', 'active-3'));
+									document.querySelectorAll('a').forEach(link => link.classList.remove('active', 'active-1', 'active-2'));
 								}
 
 								document.getElementById("link1").addEventListener("click", function(e) {
