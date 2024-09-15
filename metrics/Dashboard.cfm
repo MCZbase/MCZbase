@@ -209,6 +209,17 @@ limitations under the License.
 								</div>
 							</form>
 							<script>
+								document.getElementById("dates").addEventListener("click", function() {
+									document.body.style.backgroundColor = "lightcoral";
+								});
+
+								document.getElementById("reports").addEventListener("click", function() {
+									document.body.style.backgroundColor = "lightblue";
+								});
+
+						
+							</script>
+							<script>
 								$(document).ready(function() {
 									$('##loadReportForm').on('submit',function(event){ event.preventDefault(); loadReport(); } );
 								});
