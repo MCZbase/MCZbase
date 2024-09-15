@@ -144,36 +144,39 @@ limitations under the License.
 					<main role="main" class="col-md-9 px-3 ml-sm-auto col-lg-10 mb-3">
 						<div class="col-12 mt-4">
 							<form id="loadReportForm" class="row mx-0">
-							<div class="col-12 col-xl-4">
-								<h3 class="h4 text-muted">Report Date Range</h3>
-								<div class="row mx-0">
-									<div class="col-12 col-xl-6">
+								<div class="col-12 col-xl-4">
+									<h3 class="h4 text-muted">Report Date Range</h3>
+									<div class="row mx-0">
+										<div class="col-12 col-xl-6">
 
-										<input type="hidden" name="returnFormat" value="plain">
-										<label for="beginDate" class="data-entry-label mt-2">Begin Date</label>
-										<input name="beginDate" id="beginDate" type="text" class="mb-1 datetimeinput data-entry-input data-entry-input" placeholder="yyyy-mm-dd" value="#beginDate#" aria-label="start of range for dates to display metrics.">
-									</div>
-									<div class="col-12 col-xl-6">
-										<label for="endDate" class="data-entry-label mt-2">End Date</label>
-										<input name="endDate" id="endDate" type="text" class="mb-1 datetimeinput data-entry-input data-entry-input" placeholder="yyyy-mm-dd" value="#endDate#" aria-label="end of range for dates to display metrics.">
+											<input type="hidden" name="returnFormat" value="plain">
+											<label for="beginDate" class="data-entry-label mt-2">Begin Date</label>
+											<input name="beginDate" id="beginDate" type="text" class="mb-1 datetimeinput data-entry-input data-entry-input" placeholder="yyyy-mm-dd" value="#beginDate#" aria-label="start of range for dates to display metrics.">
+										</div>
+										<div class="col-12 col-xl-6">
+											<label for="endDate" class="data-entry-label mt-2">End Date</label>
+											<input name="endDate" id="endDate" type="text" class="mb-1 datetimeinput data-entry-input data-entry-input" placeholder="yyyy-mm-dd" value="#endDate#" aria-label="end of range for dates to display metrics.">
+										</div>
 									</div>
 								</div>
-							</div>
-							<div class="col-12 col-xl-4">
-								<h3 class="h4 text-muted mt-3">Report to Show</h3>
-								<div class="col-12 col-xl-6">
-									<label for="method" class="sr-only">Report To Show</label>
-									<select id="method" name="method" class="my-1 data-entry-input">
-										<option value="getAnnualNumbers" selected="selected">Holdings</option>
-										<option value="getAcquisitions">Acquisitions</option>
-										<option value="getLoanNumbers">Loan Activity</option>
-										<option value="getMediaNumbers">Media (current)</option>
-										<option value="getCitationNumbers">Citations (current)</option>
-										<option value="getGeorefNumbers">Georeferences (current)</option>
-									</select>
-									<input type="submit" value="Show Report" class="my-3 btn-xs btn btn-primary" aria-label="Show the selected report for the specified date range">
+								<div class="col-12 col-xl-4">
+									<h3 class="h4 text-muted mt-3">Report to Show</h3>
+									<div class="row mx-0">
+										<div class="col-12 col-xl-6">
+											<label for="method" class="sr-only">Report To Show</label>
+											<select id="method" name="method" class="my-1 data-entry-input">
+												<option value="getAnnualNumbers" selected="selected">Holdings</option>
+												<option value="getAcquisitions">Acquisitions</option>
+												<option value="getLoanNumbers">Loan Activity</option>
+												<option value="getMediaNumbers">Media (current)</option>
+												<option value="getCitationNumbers">Citations (current)</option>
+												<option value="getGeorefNumbers">Georeferences (current)</option>
+											</select>
+
+										</div>
+									</div>
 								</div>
-							</div>
+								<input type="submit" value="Show Report" class="my-3 btn-xs btn btn-primary" aria-label="Show the selected report for the specified date range">
 							</form>
 							<script>
 								$(document).ready(function() {
