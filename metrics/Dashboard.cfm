@@ -132,11 +132,23 @@ limitations under the License.
 				});
 			</script>
 			<style>
-				a##selectDates {background-color: ##efeded;}
+				a##selectDates {
+					background-color: ##efeded;
+				}
 				nav##sidebarMenu {
 					background-color: ##efeded;
 					background-color: white;
-					border: ##e3e3e3;}
+					border-right: ##e3e3e3;
+				}
+				a##dates, a##reports {
+					background-color: ##efeded;
+				}
+				a##dates:hover, a##reports:hover {
+					background-color: ##efeded;
+				}
+				a##dates:visited, a##reports:visited {
+					background-color: ##efeded;
+				}
 			</style>
 			<div class="container-fluid px-0" id="content">
 				<div class="col-12 border-bottom border-muted border-right-0 border-left-0 border-top-0 py-3">
