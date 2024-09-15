@@ -143,7 +143,7 @@ limitations under the License.
 				
 					<main role="main" class="col-md-9 px-3 ml-sm-auto col-lg-10 mb-3">
 						<div class="col-12 mt-4">
-							<form id="loadReportForm">
+							<form id="loadReportForm" class="row mx-0">
 								<h3 class="h4 text-muted">Report Date Range</h3>
 								<div class="col-12 col-xl-3">
 									<input type="hidden" name="returnFormat" value="plain">
