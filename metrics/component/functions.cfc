@@ -850,7 +850,7 @@ limitations under the License.
 						group by c.collection_id, c.collection) accn on h.collection_id = accn.collection_id
 			</cfquery>			
 			<cfif variables.returnAs EQ "csv">
-						<cfset csv = queryToCSV(georef)> 
+						<cfset csv = queryToCSV(getAllNumbers)> 
 						<cfoutput>#csv#</cfoutput>
 					<cfelse>
 						<cfoutput>
@@ -862,8 +862,8 @@ limitations under the License.
 										<span class="text-muted">(#encodeForHtml(beginDate)#/#encodeForHtml(endDate)#)</span>
 									</h2>
 									--->
-									<h2 class="h3 px-0 mt-0 float-left mb-0">Georeferencing Activity 
-										<span class="text-muted">(current values)</span>
+									<h2 class="h3 px-0 mt-0 float-left mb-0">Annual Report
+										<span class="text-muted">(??Dates??)</span>
 									</h2>
 									<div class="btn-toolbar my-1 mt-lg-0 float-right">
 										<div class="btn-group mr-2">
