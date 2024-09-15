@@ -158,7 +158,7 @@ limitations under the License.
 					margin-top: 30px;
 					padding: 20px;
 					border: 1px solid ##ddd;
-					background-color: ##f9f9f9;
+	<!---				background-color: ##f9f9f9;--->
 					transition: opacity 0.3s ease;
 				}
 
@@ -181,7 +181,7 @@ limitations under the License.
 					</nav>
 				
 					<main role="main" class="col-md-9 mr-xl-auto col-lg-10 mb-3 bg-light">
-						<div id="div1" class="target-div bg-none">
+						<div id="div1" class="target-div">
 							<div class="col-12 my-4">
 								<form id="loadReportForm" class="row mx-0">
 									<div class="col-12 col-xl-8 px-0">
@@ -250,7 +250,7 @@ limitations under the License.
 								</div>
 							</div>
 						</div>
-						<div id="div2" class="target-div">
+						<div id="div2" class="target-div bg-none">
 							<h2>test</h2>
 						</div>
 					</main>
