@@ -187,89 +187,93 @@ limitations under the License.
 					</nav>
 				
 					<main role="main" class="col-md-9 mr-xl-auto col-lg-10 mb-3">
-						<div class="col-12 my-4">
-							<form id="loadReportForm" class="row mx-0">
-								<div class="col-12 col-xl-8 px-0">
-									<h3 class="h4 text-muted">Select Report Date Range and Report Type</h3>
-									<div class="row mx-0">
-										<div class="col-12 col-xl-4 pl-xl-0">
-											<input type="hidden" name="returnFormat" value="plain">
-											<label for="beginDate" class="data-entry-label mt-2">Begin Date</label>
-											<input name="beginDate" id="beginDate" type="text" class="mb-1 datetimeinput data-entry-input data-entry-input" placeholder="yyyy-mm-dd" value="#beginDate#" aria-label="start of range for dates to display metrics.">
-										</div>
-										<div class="col-12 col-xl-4 pl-xl-0">
-											<label for="endDate" class="data-entry-label mt-2">End Date</label>
-											<input name="endDate" id="endDate" type="text" class="mb-1 datetimeinput data-entry-input" placeholder="yyyy-mm-dd" value="#endDate#" aria-label="end of range for dates to display metrics.">
-										</div>
-										<div class="col-12 col-xl-3 pl-xl-0">
-											<label for="method" class="data-entry-label mt-2">Report To Show</label>
-											<select id="method" name="method" class="mb-1 data-entry-input">
-												<option value="getAnnualNumbers" selected="selected">Holdings</option>
-												<option value="getAcquisitions">Acquisitions</option>
-												<option value="getLoanNumbers">Loan Activity</option>
-												<option value="getMediaNumbers">Media (current)</option>
-												<option value="getCitationNumbers">Citations (current)</option>
-												<option value="getGeorefNumbers">Georeferences (current)</option>
-											</select>
-										</div>
-									</div>
-								</div>
-								<div class="col-12 col-xl-2 px-0">
-									<h3 class="h4 mt-3 text-white">Submit</h3>
-									<div class="row mx-0">
-										<div class="col-12 col-xl-9">
-											<input type="submit" value="Show Report" class="my-2 btn-xs btn btn-primary" aria-label="Show the selected report for the specified date range">
+						<div id="link1">
+							<div class="col-12 my-4">
+								<form id="loadReportForm" class="row mx-0">
+									<div class="col-12 col-xl-8 px-0">
+										<h3 class="h4 text-muted">Select Report Date Range and Report Type</h3>
+										<div class="row mx-0">
+											<div class="col-12 col-xl-4 pl-xl-0">
+												<input type="hidden" name="returnFormat" value="plain">
+												<label for="beginDate" class="data-entry-label mt-2">Begin Date</label>
+												<input name="beginDate" id="beginDate" type="text" class="mb-1 datetimeinput data-entry-input data-entry-input" placeholder="yyyy-mm-dd" value="#beginDate#" aria-label="start of range for dates to display metrics.">
+											</div>
+											<div class="col-12 col-xl-4 pl-xl-0">
+												<label for="endDate" class="data-entry-label mt-2">End Date</label>
+												<input name="endDate" id="endDate" type="text" class="mb-1 datetimeinput data-entry-input" placeholder="yyyy-mm-dd" value="#endDate#" aria-label="end of range for dates to display metrics.">
+											</div>
+											<div class="col-12 col-xl-3 pl-xl-0">
+												<label for="method" class="data-entry-label mt-2">Report To Show</label>
+												<select id="method" name="method" class="mb-1 data-entry-input">
+													<option value="getAnnualNumbers" selected="selected">Holdings</option>
+													<option value="getAcquisitions">Acquisitions</option>
+													<option value="getLoanNumbers">Loan Activity</option>
+													<option value="getMediaNumbers">Media (current)</option>
+													<option value="getCitationNumbers">Citations (current)</option>
+													<option value="getGeorefNumbers">Georeferences (current)</option>
+												</select>
+											</div>
 										</div>
 									</div>
-								</div>
-							</form>
-							<script>
-								function removeActiveClasses(){
-									document.querySelectorAll('a').forEach(link => link.classList.remove('active', 'active-1', 'active-2'));
-								}
+									<div class="col-12 col-xl-2 px-0">
+										<h3 class="h4 mt-3 text-white">Submit</h3>
+										<div class="row mx-0">
+											<div class="col-12 col-xl-9">
+												<input type="submit" value="Show Report" class="my-2 btn-xs btn btn-primary" aria-label="Show the selected report for the specified date range">
+											</div>
+										</div>
+									</div>
+								</form>
+								<script>
+									function removeActiveClasses(){
+										document.querySelectorAll('a').forEach(link => link.classList.remove('active', 'active-1', 'active-2'));
+									}
 
-								document.getElementById("link1").addEventListener("click", function(e) {
-									e.preventDefault(); // Prevent default anchor behavior for demo purposes
-									removeActiveClasses();
-									this.classList.add('active', 'active-1');
-								});
-								document.getElementById("link2").addEventListener("click", function(e) {
-									e.preventDefault(); // Prevent default anchor behavior for demo purposes
-									removeActiveClasses();
-									this.classList.add('active', 'active-2');
-								});
-						
-							</script>
-							<script>
-								$(document).ready(function() {
-									$('##loadReportForm').on('submit',function(event){ event.preventDefault(); loadReport(); } );
-								});
-								function loadReport(){
-									$('##annualNumbersDiv').html("Loading...");
-									$.ajax(
-										{
-											url: '/metrics/component/functions.cfc',
-											type: 'GET', 
-											data: $('##loadReportForm').serialize()
-										}
-									).done(
-										function(response) {
-											console.log(response);
-											$('##annualNumbersDiv').html(response);
-										}
-									).fail(function(jqXHR,textStatus,error){
-										$('##annualNumbersDiv').html("Error Loading Metrics");
-									handleFail(jqXHR,textStatus,error,"loading metrics for date range.");
+									document.getElementById("link1").addEventListener("click", function(e) {
+										e.preventDefault(); // Prevent default anchor behavior for demo purposes
+										removeActiveClasses();
+										this.classList.add('active', 'active-1');
 									});
-								}
-							</script>
-						</div>
-						<div class="col-12">
-					
-							<cfset summaryAnnualBlock=getAnnualNumbers(endDate="#endDate#",beginDate="#beginDate#")>
-							<div id="annualNumbersDiv"> 
-								#summaryAnnualBlock#
+									document.getElementById("link2").addEventListener("click", function(e) {
+										e.preventDefault(); // Prevent default anchor behavior for demo purposes
+										removeActiveClasses();
+										this.classList.add('active', 'active-2');
+									});
+
+								</script>
+								<script>
+									$(document).ready(function() {
+										$('##loadReportForm').on('submit',function(event){ event.preventDefault(); loadReport(); } );
+									});
+									function loadReport(){
+										$('##annualNumbersDiv').html("Loading...");
+										$.ajax(
+											{
+												url: '/metrics/component/functions.cfc',
+												type: 'GET', 
+												data: $('##loadReportForm').serialize()
+											}
+										).done(
+											function(response) {
+												console.log(response);
+												$('##annualNumbersDiv').html(response);
+											}
+										).fail(function(jqXHR,textStatus,error){
+											$('##annualNumbersDiv').html("Error Loading Metrics");
+										handleFail(jqXHR,textStatus,error,"loading metrics for date range.");
+										});
+									}
+								</script>
 							</div>
+							<div class="col-12">
+								<cfset summaryAnnualBlock=getAnnualNumbers(endDate="#endDate#",beginDate="#beginDate#")>
+								<div id="annualNumbersDiv"> 
+									#summaryAnnualBlock#
+								</div>
+							</div>
+						</div>
+						<div id="link2">
+							<h2>test</h2>
 						</div>
 					</main>
 
