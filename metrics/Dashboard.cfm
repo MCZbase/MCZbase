@@ -141,17 +141,17 @@ limitations under the License.
 					background-color: white;
 					border-right: ##e3e3e3;
 				}
-				a##dates, a##reports {
+				a##selectDates, a##selectReports {
 					background-color: ##efeded;
 					color: black;
 					padding: 1rem 1rem 1rem 0;
 				}
-				a##dates:hover, a##reports:hover {
+				a##selectDates:hover, a##selectReports:hover {
 					background-color: ##efeded;
 					padding: 1rem 1rem 1rem 0;
 					color: black;
 				}
-				a##dates:visited, a##reports:visited {
+				a##selectDates:visited, a##selectReports:visited {
 					background-color: ##efeded;
 					padding: 1rem 1rem 1rem 0;
 					color: black;
@@ -166,8 +166,8 @@ limitations under the License.
 				<br clear="all">	
 					<nav id="sidebarMenu" class="w-auto px-4 d-md-block sidebar border-right border-muted">
 						<div class="sidebar-sticky pt-4 px-2">
-							<div id="selectDates"><h2 class="h4"><a href="##dates" id="selectDates"><i class="fa fa-calendar text-muted p-3" aria-hidden="true"></i> Select Date Range</a></h2></div>
-							<div id="annualReports"><h2 class="h4"><a href="##reports"><i class="fa fa-list-alt text-muted p-3" aria-hidden="true"></i> Annual Report List</a></h2></div>
+							<div id="selectDates"><h2 class="h4"><a href="##" id="selectDates"><i class="fa fa-calendar text-muted p-3" aria-hidden="true"></i> Select Date Range</a></h2></div>
+							<div id="annualReports"><h2 class="h4"><a href="##" id="selectReports"><i class="fa fa-list-alt text-muted p-3" aria-hidden="true"></i> Annual Report List</a></h2></div>
 						</div>
 					</nav>
 				
@@ -209,11 +209,11 @@ limitations under the License.
 								</div>
 							</form>
 							<script>
-								document.getElementById("dates").addEventListener("click", function() {
+								document.getElementById("selectDates").addEventListener("click", function() {
 									document.body.style.backgroundColor = "lightcoral";
 								});
 
-								document.getElementById("reports").addEventListener("click", function() {
+								document.getElementById("selectReports").addEventListener("click", function() {
 									document.body.style.backgroundColor = "lightblue";
 								});
 
