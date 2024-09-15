@@ -132,6 +132,10 @@ limitations under the License.
 				});
 			</script>
 			<div class="container-fluid" id="content">
+				<div class="col-12">
+					<h1 class="h2 float-left mb-1 w-100">MCZbase Metrics </h1>
+					<p class="text-muted small">Reports are generated from the current MCZbase data and may not match numbers printed in previous annual reports.</p>
+				</div>
 				<div class="row">
 				<br clear="all">	
 					<nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block sidebar" style="background-color: ##efeded;border: ##e3e3e3;">
@@ -203,9 +207,7 @@ limitations under the License.
 							</script>
 						</div>
 						<div class="col-12">
-							<h1 class="h2 float-left mb-1 w-100">MCZbase Metrics 
-							</h1>
-							<p class="text-muted small">Reports are generated from the current MCZbase data and may not match numbers printed in previous annual reports.</p>
+					
 							<cfset summaryAnnualBlock=getAnnualNumbers(endDate="#endDate#",beginDate="#beginDate#")>
 							<div id="annualNumbersDiv"> 
 								#summaryAnnualBlock#
