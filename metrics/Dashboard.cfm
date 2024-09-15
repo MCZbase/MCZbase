@@ -200,7 +200,7 @@ limitations under the License.
 												<label for="method" class="data-entry-label mt-2">Report To Show</label>
 												<select id="method" name="method" class="mb-1 data-entry-input">
 													<option value="getAnnualNumbers" selected="selected">Holdings</option>
-													<option value="getAcquisitions">Acquisitions</option>
+													<option value="getAllNumbers">Acquisitions</option>
 													<option value="getLoanNumbers">Loan Activity</option>
 													<option value="getMediaNumbers">Media (current)</option>
 													<option value="getCitationNumbers">Citations (current)</option>
@@ -251,7 +251,58 @@ limitations under the License.
 							</div>
 						</div>
 						<div id="div2" class="target-div bg-none">
-							<h2>test</h2>
+						
+							<div class="col-12 mt-0 pb-4">
+								<form id="loadReportForm" class="row mx-0">
+									<div class="col-12 col-xl-8 px-0">
+										<h3 class="h4 text-muted">Select Annual Report</h3>
+										<div class="row mx-0">
+											<div class="col-12 col-xl-4 pl-xl-0">
+												<label for="method" class="data-entry-label mt-2">Annual Report To Show</label>
+												<select id="method" name="method" class="mb-1 data-entry-input">
+													<option value="getAllNumbers" selected="selected">Current</option>
+													<option value="getAcquisitions">FY 2022-2023</option>
+													<option value="getLoanNumbers">FY 2021-2022</option>
+													<option value="getMediaNumbers">FY 2020-2021</option>
+													<option value="getCitationNumbers">FY 2019-2020</option>
+												</select>
+											</div>
+										</div>
+									</div>
+									<div class="col-12 col-xl-2 px-0">
+										<h3 class="h4 mt-3 text-white">Submit</h3>
+										<div class="row mx-0">
+											<div class="col-12 col-xl-9">
+												<input type="submit" value="Show Report" class="my-2 btn-xs btn btn-primary" aria-label="Show the selected report for the specified date range">
+											</div>
+										</div>
+									</div>
+								</form>
+
+								<script>
+									$(document).ready(function() {
+										$('##loadReportForm').on('submit',function(event){ event.preventDefault(); loadReport(); } );
+									});
+									function loadReport(){
+										$('##annualNumbersDiv').html("Loading...");
+										$.ajax(
+											{
+												url: '/metrics/component/functions.cfc',
+												type: 'GET', 
+												data: $('##loadReportForm').serialize()
+											}
+										).done(
+											function(response) {
+												console.log(response);
+												$('##annualNumbersDiv').html(response);
+											}
+										).fail(function(jqXHR,textStatus,error){
+											$('##annualNumbersDiv').html("Error Loading Metrics");
+										handleFail(jqXHR,textStatus,error,"loading metrics for date range.");
+										});
+									}
+								</script>
+							</div>							<h2>test</h2>
 						</div>
 					</main>
 					<script>
