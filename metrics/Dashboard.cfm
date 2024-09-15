@@ -136,6 +136,13 @@ limitations under the License.
 				<br clear="all">	
 					<nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block sidebar" style="background-color: ##efeded;border: ##e3e3e3;">
 						<div class="sidebar-sticky pt-4 px-2" style="background-color: ##efeded;">
+							<div id="selectDates"><i class="fa-regular fa-calendar-days"></i> Select Date Range</div>
+							<div id="annualReports"><i class="fa-regular fa-calendar-days"></i> Annual Report List</div>
+						</div>
+					</nav>
+				
+					<main role="main" class="col-md-9 px-3 ml-sm-auto col-lg-10 mb-3">
+						<div class="col-12 mt-4">
 							<form id="loadReportForm">
 								<h3 class="h4 text-muted">Report Date Range</h3>
 								<input type="hidden" name="returnFormat" value="plain">
@@ -178,11 +185,6 @@ limitations under the License.
 									});
 								}
 							</script>
-						</div>
-					</nav>
-				
-					<main role="main" class="col-md-9 px-3 ml-sm-auto col-lg-10 mb-3">
-						<div class="col-12 mt-4">
 							<h1 class="h2 float-left mb-1 w-100">MCZbase Metrics 
 							</h1>
 							<p class="text-muted small">Reports are generated from the current MCZbase data and may not match numbers printed in previous annual reports.</p>
