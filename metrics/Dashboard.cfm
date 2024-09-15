@@ -201,6 +201,8 @@ limitations under the License.
 									});
 								}
 							</script>
+						</div>
+						<div class="col-12">
 							<h1 class="h2 float-left mb-1 w-100">MCZbase Metrics 
 							</h1>
 							<p class="text-muted small">Reports are generated from the current MCZbase data and may not match numbers printed in previous annual reports.</p>
