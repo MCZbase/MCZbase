@@ -256,11 +256,17 @@ limitations under the License.
 					</main>
 					<script>
 						function removeActiveClasses() {
-							document.querySelectorAll('a').forEach(link => link.classList.remove('active', 'active-1', 'active-2', 'active-3'));
+							document.querySelectorAll('a').forEach(link => link.classList.remove('active', 'active-1', 'active-2'));
 						}
 
 						function hideAllDivs() {
 							document.querySelectorAll('.target-div').forEach(div => div.classList.remove('visible'));
+						}
+
+						// Set the initial active link and div
+						function setInitialState() {
+							document.getElementById("link1").classList.add('active', 'active-1');
+							document.getElementById("div1").classList.add('visible');
 						}
 
 						document.getElementById("link1").addEventListener("click", function(e) {
@@ -278,6 +284,9 @@ limitations under the License.
 							hideAllDivs();
 							document.getElementById("div2").classList.add('visible');
 						});
+
+						// Initial setup
+						setInitialState();
 
 					</script>
 				</div>
