@@ -153,7 +153,7 @@ limitations under the License.
 				}
 				a##selectDates:visited, a##selectReports:visited {
 					background-color: ##efeded;
-					padding: 1rem 1rem 1rem 0;
+					padding: 1rem auto;
 					color: black;
 				}
 			</style>
