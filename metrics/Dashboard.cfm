@@ -142,9 +142,9 @@ limitations under the License.
 					</nav>
 				
 					<main role="main" class="col-md-9 px-3 ml-sm-auto col-lg-10 mb-3">
-						<div class="col-12 mt-4">
+						<div class="col-12 my-4">
 							<form id="loadReportForm" class="row mx-0">
-								<div class="col-12 col-xl-4 px-0">
+								<div class="col-12 col-xl-8 px-0">
 									<h3 class="h4 text-muted">Select Report Date Range and Report Type</h3>
 									<div class="row mx-0">
 										<div class="col-12 col-xl-4 pl-xl-0">
