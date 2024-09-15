@@ -161,7 +161,7 @@ limitations under the License.
 											<input name="endDate" id="endDate" type="text" class="mb-1 datetimeinput data-entry-input data-entry-input" placeholder="yyyy-mm-dd" value="#endDate#" aria-label="end of range for dates to display metrics.">
 										</div>
 										<div class="col-12 col-xl-3 pl-xl-0">
-											<label for="method" class="data-entry-label mt-2 sr-only">Report To Show</label>
+											<label for="method" class="data-entry-label mt-2">Report To Show</label>
 											<select id="method" name="method" class="my-1 data-entry-input">
 												<option value="getAnnualNumbers" selected="selected">Holdings</option>
 												<option value="getAcquisitions">Acquisitions</option>
