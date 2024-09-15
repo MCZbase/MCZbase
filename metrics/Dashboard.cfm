@@ -136,8 +136,8 @@ limitations under the License.
 				<br clear="all">	
 					<nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block sidebar" style="background-color: ##efeded;border: ##e3e3e3;">
 						<div class="sidebar-sticky pt-4 px-2" style="background-color: ##efeded;">
-							<div id="selectDates"><h2 class="h4"><i class="fa fa-calendar text-muted" aria-hidden="true"></i> Select Date Range</h2></div>
-							<div id="annualReports"><h2 class="h4"><i class="fa fa-list-alt text-muted" aria-hidden="true"></i> Annual Report List</h2></div>
+							<div id="selectDates"><h2 class="h4"><i class="fa fa-calendar text-muted px-2" aria-hidden="true"></i> Select Date Range</h2></div>
+							<div id="annualReports"><h2 class="h4"><i class="fa fa-list-alt text-muted px-2" aria-hidden="true"></i> Annual Report List</h2></div>
 						</div>
 					</nav>
 				
@@ -146,15 +146,17 @@ limitations under the License.
 							<form id="loadReportForm" class="row mx-0">
 							<div class="col-12 col-xl-6">
 								<h3 class="h4 text-muted">Report Date Range</h3>
-								<div class="col-12 col-xl-3">
-									
-									<input type="hidden" name="returnFormat" value="plain">
-									<label for="beginDate" class="data-entry-label mt-2">Begin Date</label>
-									<input name="beginDate" id="beginDate" type="text" class="mb-1 datetimeinput data-entry-input data-entry-input" placeholder="yyyy-mm-dd" value="#beginDate#" aria-label="start of range for dates to display metrics.">
-								</div>
-								<div class="col-12 col-xl-3">
-									<label for="endDate" class="data-entry-label mt-2">End Date</label>
-									<input name="endDate" id="endDate" type="text" class="mb-1 datetimeinput data-entry-input data-entry-input" placeholder="yyyy-mm-dd" value="#endDate#" aria-label="end of range for dates to display metrics.">
+								<div class="row mx-0">
+									<div class="col-12 col-xl-3">
+
+										<input type="hidden" name="returnFormat" value="plain">
+										<label for="beginDate" class="data-entry-label mt-2">Begin Date</label>
+										<input name="beginDate" id="beginDate" type="text" class="mb-1 datetimeinput data-entry-input data-entry-input" placeholder="yyyy-mm-dd" value="#beginDate#" aria-label="start of range for dates to display metrics.">
+									</div>
+									<div class="col-12 col-xl-3">
+										<label for="endDate" class="data-entry-label mt-2">End Date</label>
+										<input name="endDate" id="endDate" type="text" class="mb-1 datetimeinput data-entry-input data-entry-input" placeholder="yyyy-mm-dd" value="#endDate#" aria-label="end of range for dates to display metrics.">
+									</div>
 								</div>
 							</div>
 							<div class="col-12 col-xl-6">
