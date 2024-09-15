@@ -181,7 +181,7 @@ limitations under the License.
 					</nav>
 				
 					<main role="main" class="col-md-9 mr-xl-auto col-lg-10 mb-3 bg-light border-right border-muted">
-						<div id="div1" class="target-div">
+						<div id="div1" class="target-div bg-none">
 							<div class="col-12 my-4">
 								<form id="loadReportForm" class="row mx-0">
 									<div class="col-12 col-xl-8 px-0">
