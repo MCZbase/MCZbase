@@ -771,12 +771,12 @@ limitations under the License.
 					
 					
 <!---PLACEHOLDING FOR ANNUAL REPORT QUERY--->
-<cffunction name="getAllNumbers" access="remote" returntype="any" returnformat="json">
+<!---<cffunction name="getAllNumbers" access="remote" returntype="any" returnformat="json">
 	<cfargument name="endDate" type="any" required="no" default="2024-07-01">
 	<cfargument name="beginDate" type="any" required="no" default="2023-07-01">
 	<cfargument name="returnAs" type="string" required="no" default="html">
 	
-	<!--- make arguments available within thread --->
+
 	<cfset variables.beginDate = arguments.beginDate>
 	<cfset variables.endDate = arguments.endDate>
 	<cfset variables.returnAs = arguments.returnAs>
@@ -929,5 +929,5 @@ limitations under the License.
 	</cfthread>
 	<cfthread action="join" name="getAllNumbersThread" />
 	<cfreturn getAllNumbersThread.output>
-</cffunction>
+</cffunction>--->
 </cfcomponent>
