@@ -143,12 +143,18 @@ limitations under the License.
 				}
 				a##dates, a##reports {
 					background-color: ##efeded;
+					color: black;
+					padding: 1rem 1rem 1rem 0;
 				}
 				a##dates:hover, a##reports:hover {
 					background-color: ##efeded;
+					padding: 1rem 1rem 1rem 0;
+					color: black;
 				}
 				a##dates:visited, a##reports:visited {
 					background-color: ##efeded;
+					padding: 1rem 1rem 1rem 0;
+					color: black;
 				}
 			</style>
 			<div class="container-fluid px-0" id="content">
