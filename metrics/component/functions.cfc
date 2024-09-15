@@ -81,7 +81,8 @@ limitations under the License.
 			<cfquery name="totals" datasource="uam_god" cachedwithin="#createtimespan(0,0,0,0)#">
 				SELECT 
 					h.Collection, 
-					rm.HOLDINGS,
+					<!---rm.value holdings,--->
+					rm.holdings,
 					h.Cataloged_Items, 
 					h.Specimens, 
 					nvl(p.Primary_Cat_Items,0) Primary_Cat_Items, 
@@ -91,7 +92,9 @@ limitations under the License.
 				FROM 
 					(select collection_cde,institution_acronym,descr,collection,collection_id from collection where collection_cde <> 'MCZ') c
 				LEFT JOIN 
-					(select collection_id,holdings,reported_date from MCZBASE.collections_reported_metrics where holdings is not null
+					(select collection_id,value,reported_date from MCZBASE.collections_reported_metrics
+					where 
+					<!---metric='HOLDINGS'--->
 					and to_char(reported_date, 'yyyy')=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#left(endDate,4)#">
 					) rm on c.collection_id = rm.collection_id 
 				LEFT JOIN 
@@ -135,7 +138,7 @@ limitations under the License.
 										<tr>
 											<td>#Collection#</td>
 											<td>#Holdings#</td>
-								<!---			<td>#NumberFormat((Cataloged_Items/Holdings)*100, '9.99')#%</td>--->
+									<!---		<td>#NumberFormat((Cataloged_Items/Holdings)*100, '9.99')#%</td>--->
 											<td>#Cataloged_Items#</td>
 											<td>#Specimens#</td>
 											<td>#Primary_Cat_Items#</td>
