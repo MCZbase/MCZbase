@@ -92,7 +92,10 @@ limitations under the License.
 				FROM 
 					(select collection_cde,institution_acronym,descr,collection,collection_id from collection where collection_cde <> 'MCZ') c
 				LEFT JOIN 
-					(select collection_id,value,reported_date from MCZBASE.collections_reported_metrics
+					(select collection_id,
+				<!---	value,--->
+					holdings,
+					reported_date from MCZBASE.collections_reported_metrics
 					where 
 					<!---metric='HOLDINGS' and--->
 					 
