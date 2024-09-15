@@ -132,10 +132,6 @@ limitations under the License.
 				});
 			</script>
 			<style>
-				a##selectDates {
-					background-color: ##efeded;
-					padding: 1rem auto;
-				}
 				nav##sidebarMenu {
 					background-color: ##efeded;
 					background-color: white;
@@ -144,16 +140,16 @@ limitations under the License.
 				a##selectDates, a##selectReports {
 					background-color: ##efeded;
 					color: black;
-					padding: 1rem auto;
+					padding: 2rem auto;
 				}
 				a##selectDates:hover, a##selectReports:hover {
 					background-color: ##efeded;
-					padding: 1rem auto;
+					padding: 2rem auto;
 					color: black;
 				}
 				a##selectDates:visited, a##selectReports:visited {
 					background-color: ##efeded;
-					padding: 1rem auto;
+					padding: 2rem auto;
 					color: black;
 				}
 			</style>
