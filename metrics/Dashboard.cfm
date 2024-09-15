@@ -233,6 +233,11 @@ limitations under the License.
 									removeActiveClasses();
 									this.classList.add('active', 'active-1');
 								});
+								document.getElementById("link2").addEventListener("click", function(e) {
+									e.preventDefault(); // Prevent default anchor behavior for demo purposes
+									removeActiveClasses();
+									this.classList.add('active', 'active-2');
+								});
 						
 							</script>
 							<script>
