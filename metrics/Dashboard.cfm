@@ -144,7 +144,7 @@ limitations under the License.
 					<main role="main" class="col-md-9 px-3 ml-sm-auto col-lg-10 mb-3">
 						<div class="col-12 mt-4">
 							<form id="loadReportForm" class="row mx-0">
-							<div class="col-12 col-xl-6">
+							<div class="col-12 col-xl-4">
 								<h3 class="h4 text-muted">Report Date Range</h3>
 								<div class="row mx-0">
 									<div class="col-12 col-xl-3">
@@ -159,9 +159,9 @@ limitations under the License.
 									</div>
 								</div>
 							</div>
-							<div class="col-12 col-xl-6">
+							<div class="col-12 col-xl-4">
 								<h3 class="h4 text-muted mt-3">Report to Show</h3>
-								<div class="col-12 col-xl-3">
+								<div class="col-12 col-xl-6">
 									<label for="method" class="sr-only">Report To Show</label>
 									<select id="method" name="method" class="my-1 data-entry-input">
 										<option value="getAnnualNumbers" selected="selected">Holdings</option>
