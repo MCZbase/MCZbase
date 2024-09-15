@@ -313,10 +313,23 @@ limitations under the License.
 							document.querySelectorAll('.target-div').forEach(div => div.classList.remove('visible'));
 						}
 
-						// Set the initial active link and div
 						function setInitialState() {
-							document.getElementById("link1").classList.add('active', 'active-1');
-							document.getElementById("div1").classList.add('visible');
+							const savedLinkId = localStorage.getItem('activeLink');
+							const savedDivId = localStorage.getItem('activeDiv');
+
+							if (savedLinkId && savedDivId) {
+								document.getElementById(savedLinkId).classList.add('active', `active-${savedLinkId.slice(-1)}`);
+								document.getElementById(savedDivId).classList.add('visible');
+							} else {
+								// Default state if nothing is saved
+								document.getElementById("link1").classList.add('active', 'active-1');
+								document.getElementById("div1").classList.add('visible');
+							}
+						}
+
+						function saveState(linkId, divId) {
+							localStorage.setItem('activeLink', linkId);
+							localStorage.setItem('activeDiv', divId);
 						}
 
 						document.getElementById("link1").addEventListener("click", function(e) {
@@ -325,6 +338,7 @@ limitations under the License.
 							this.classList.add('active', 'active-1');
 							hideAllDivs();
 							document.getElementById("div1").classList.add('visible');
+							saveState('link1', 'div1');
 						});
 
 						document.getElementById("link2").addEventListener("click", function(e) {
@@ -333,6 +347,7 @@ limitations under the License.
 							this.classList.add('active', 'active-2');
 							hideAllDivs();
 							document.getElementById("div2").classList.add('visible');
+							saveState('link2', 'div2');
 						});
 
 						// Initial setup
