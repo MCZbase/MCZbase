@@ -162,8 +162,8 @@ limitations under the License.
 				<br clear="all">	
 					<nav id="sidebarMenu" class="w-auto px-4 d-md-block sidebar border-right border-muted">
 						<div class="sidebar-sticky pt-4 px-2">
-							<a href="##" id="selectDates"><h2 class="h4"><i class="fa fa-calendar text-muted pr-2" aria-hidden="true"></i>Select Date Range</h2></a>
-							<a href="##" id="selectReports"><h2 class="h4"><i class="fa fa-list-alt text-muted pr-2" aria-hidden="true"></i>Annual Report List</h2></a>
+							<a href="##" id="selectDates"><h2 class="h4 menuside"><i class="fa fa-calendar text-muted pr-2" aria-hidden="true"></i>Select Date Range</h2></a>
+							<a href="##" id="selectReports"><h2 class="h4 menuside"><i class="fa fa-list-alt text-muted pr-2" aria-hidden="true"></i>Annual Report List</h2></a>
 						</div>
 					</nav>
 				
@@ -206,11 +206,11 @@ limitations under the License.
 							</form>
 							<script>
 								document.getElementById("selectDates").addEventListener("click", function() {
-									document.body.style.backgroundColor = "lightcoral";
+									document.body.style.h2.menuside.backgroundColor = "lightcoral";
 								});
 
 								document.getElementById("selectReports").addEventListener("click", function() {
-									document.body.style.backgroundColor = "lightblue";
+									document.body.style.h2.menuside.backgroundColor = "lightblue";
 								});
 
 						
