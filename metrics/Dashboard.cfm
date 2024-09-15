@@ -136,7 +136,7 @@ limitations under the License.
 					<h1 class="h2 float-left mb-1 w-100">MCZbase Metrics </h1>
 					<p class="text-muted small">Reports are generated from the current MCZbase data and may not match numbers printed in previous annual reports.</p>
 				</div>
-				<div class="row">
+				<div class="row mx-0">
 				<br clear="all">	
 					<nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block sidebar" style="background-color: ##efeded;border: ##e3e3e3;">
 						<div class="sidebar-sticky pt-4 px-2" style="background-color: ##efeded;">
@@ -161,7 +161,7 @@ limitations under the License.
 											<input name="endDate" id="endDate" type="text" class="mb-1 datetimeinput data-entry-input data-entry-input" placeholder="yyyy-mm-dd" value="#endDate#" aria-label="end of range for dates to display metrics.">
 										</div>
 										<div class="col-12 col-xl-3 pl-xl-0">
-											<label for="method" class="sr-only">Report To Show</label>
+											<label for="method" class="data-entry-label mt-2 sr-only">Report To Show</label>
 											<select id="method" name="method" class="my-1 data-entry-input">
 												<option value="getAnnualNumbers" selected="selected">Holdings</option>
 												<option value="getAcquisitions">Acquisitions</option>
