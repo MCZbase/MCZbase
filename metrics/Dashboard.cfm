@@ -137,21 +137,6 @@ limitations under the License.
 					background-color: white;
 					border-right: ##e3e3e3;
 				}
-				a##selectDates, a##selectReports {
-					background-color: ##efeded;
-					color: black;
-					padding: 2rem auto;
-				}
-				a##selectDates:hover, a##selectReports:hover {
-					background-color: ##efeded;
-					padding: 2rem auto;
-					color: black;
-				}
-				a##selectDates:visited, a##selectReports:visited {
-					background-color: ##efeded;
-					padding: 2rem auto;
-					color: black;
-				}
 				div.sidebar-sticky a {
 					display: block;
 					text-decoration: none;
@@ -159,17 +144,26 @@ limitations under the License.
 					padding: 2rem;
 					transition: background-color 0.3s ease;
 				}
-
 				div.sidebar-sticky a.active {
 					background-color: lightcoral; /* Default active background color */
 				}
-
 				div.sidebar-sticky a.active-1 {
 					background-color: lightcoral;
 				}
-
 				div.sidebar-sticky a:hover {
 					color: darkblue;
+				}
+				.target-div {
+					display: none; /* Hide divs by default */
+					margin-top: 30px;
+					padding: 20px;
+					border: 1px solid #ddd;
+					background-color: #f9f9f9;
+					transition: opacity 0.3s ease;
+				}
+
+				.target-div.visible {
+					display: block; /* Show div when it has the 'visible' class */
 				}
 			</style>
 			<div class="container-fluid px-0" id="content">
@@ -187,7 +181,7 @@ limitations under the License.
 					</nav>
 				
 					<main role="main" class="col-md-9 mr-xl-auto col-lg-10 mb-3">
-						<div id="link1">
+						<div id="div1" class="target-div">
 							<div class="col-12 my-4">
 								<form id="loadReportForm" class="row mx-0">
 									<div class="col-12 col-xl-8 px-0">
@@ -224,23 +218,7 @@ limitations under the License.
 										</div>
 									</div>
 								</form>
-								<script>
-									function removeActiveClasses(){
-										document.querySelectorAll('a').forEach(link => link.classList.remove('active', 'active-1', 'active-2'));
-									}
 
-									document.getElementById("link1").addEventListener("click", function(e) {
-										e.preventDefault(); // Prevent default anchor behavior for demo purposes
-										removeActiveClasses();
-										this.classList.add('active', 'active-1');
-									});
-									document.getElementById("link2").addEventListener("click", function(e) {
-										e.preventDefault(); // Prevent default anchor behavior for demo purposes
-										removeActiveClasses();
-										this.classList.add('active', 'active-2');
-									});
-
-								</script>
 								<script>
 									$(document).ready(function() {
 										$('##loadReportForm').on('submit',function(event){ event.preventDefault(); loadReport(); } );
@@ -272,11 +250,36 @@ limitations under the License.
 								</div>
 							</div>
 						</div>
-						<div id="link2">
+						<div id="div2" class="target-div">
 							<h2>test</h2>
 						</div>
 					</main>
+					<script>
+						function removeActiveClasses() {
+							document.querySelectorAll('a').forEach(link => link.classList.remove('active', 'active-1', 'active-2', 'active-3'));
+						}
 
+						function hideAllDivs() {
+							document.querySelectorAll('.target-div').forEach(div => div.classList.remove('visible'));
+						}
+
+						document.getElementById("link1").addEventListener("click", function(e) {
+							e.preventDefault(); // Prevent default anchor behavior
+							removeActiveClasses();
+							this.classList.add('active', 'active-1');
+							hideAllDivs();
+							document.getElementById("div1").classList.add('visible');
+						});
+
+						document.getElementById("link2").addEventListener("click", function(e) {
+							e.preventDefault(); // Prevent default anchor behavior
+							removeActiveClasses();
+							this.classList.add('active', 'active-2');
+							hideAllDivs();
+							document.getElementById("div2").classList.add('visible');
+						});
+
+					</script>
 				</div>
 			</div>
 		</cfoutput>
