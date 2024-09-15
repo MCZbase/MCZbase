@@ -131,6 +131,10 @@ limitations under the License.
 					$("##endDate").datepicker({ dateFormat: 'yy-mm-dd'});
 				});
 			</script>
+			<style>
+				a#selectDates {background-color: ##efeded;}
+				nav#sidebarMenu {background-color: ##efeded;border: ##e3e3e3;}
+			</style>
 			<div class="container-fluid px-0" id="content">
 				<div class="col-12 border-bottom border-muted border-right-0 border-left-0 border-top-0 py-3">
 					<h1 class="h2 float-left mb-1 w-100 px-3">MCZbase Metrics </h1>
@@ -138,8 +142,8 @@ limitations under the License.
 				</div>
 				<div class="row mx-0">
 				<br clear="all">	
-					<nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block sidebar" style="background-color: ##efeded;border: ##e3e3e3;">
-						<div class="sidebar-sticky pt-4 px-2" style="background-color: ##efeded;">
+					<nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block sidebar">
+						<div class="sidebar-sticky pt-4 px-2">
 							<div id="selectDates"><h2 class="h4"><i class="fa fa-calendar text-muted p-3" aria-hidden="true"></i> Select Date Range</h2></div>
 							<div id="annualReports"><h2 class="h4"><i class="fa fa-list-alt text-muted p-3" aria-hidden="true"></i> Annual Report List</h2></div>
 						</div>
@@ -177,7 +181,7 @@ limitations under the License.
 									<h3 class="h4 mt-3 text-white">Submit</h3>
 									<div class="row mx-0">
 										<div class="col-12 col-xl-9">
-											<input type="submit" value="Show Report" class="mt-1 btn-xs btn btn-primary" aria-label="Show the selected report for the specified date range">
+											<input type="submit" value="Show Report" class="my-2 btn-xs btn btn-primary" aria-label="Show the selected report for the specified date range">
 										</div>
 									</div>
 								</div>
