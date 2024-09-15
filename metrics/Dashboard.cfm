@@ -152,6 +152,25 @@ limitations under the License.
 					padding: 2rem auto;
 					color: black;
 				}
+				div.sidebar-sticky a {
+					display: block;
+					text-decoration: none;
+					color: inherit; /* Inherit the color of the <h2> element */
+					padding: 2rem;
+					transition: background-color 0.3s ease;
+				}
+
+				div.sidebar-sticky a.active {
+					background-color: lightcoral; /* Default active background color */
+				}
+
+				div.sidebar-sticky a.active-1 {
+					background-color: lightcoral;
+				}
+
+				div.sidebar-sticky a:hover h2 {
+					color: darkblue;
+				}
 			</style>
 			<div class="container-fluid px-0" id="content">
 				<div class="col-12 border-bottom border-muted border-right-0 border-left-0 border-top-0 py-3">
@@ -162,8 +181,8 @@ limitations under the License.
 				<br clear="all">	
 					<nav id="sidebarMenu" class="w-auto px-4 d-md-block sidebar border-right border-muted">
 						<div class="sidebar-sticky pt-4 px-2">
-							<a href="##" class="menuside" id="selectDates"><h2 class="h4"><i class="fa fa-calendar text-muted pr-2" aria-hidden="true"></i>Select Date Range</h2></a>
-							<a href="##" class="menuside" id="selectReports"><h2 class="h4"><i class="fa fa-list-alt text-muted pr-2" aria-hidden="true"></i>Annual Report List</h2></a>
+							<a href="##" id="link1"><h2 class="h4"><i class="fa fa-calendar text-muted pr-2" aria-hidden="true"></i>Select Date Range</h2></a>
+							<a href="##" id="link2"><h2 class="h4"><i class="fa fa-list-alt text-muted pr-2" aria-hidden="true"></i>Annual Report List</h2></a>
 						</div>
 					</nav>
 				
@@ -205,14 +224,15 @@ limitations under the License.
 								</div>
 							</form>
 							<script>
-								document.getElementById("selectDates").addEventListener("click", function() {
-									document.body.style.h2.menuside.backgroundColor = "lightcoral";
-								});
+								function removeActiveClasses(){
+									document.querySelectorAll('a').forEach(link => link.classList.remove('active', 'active-1', 'active-2', 'active-3'));
+								}
 
-								document.getElementById("selectReports").addEventListener("click", function() {
-									document.body.style.h2.menuside.backgroundColor = "lightblue";
+								document.getElementById("link1").addEventListener("click", function(e) {
+									e.preventDefault(); // Prevent default anchor behavior for demo purposes
+									removeActiveClasses();
+									this.classList.add('active', 'active-1');
 								});
-
 						
 							</script>
 							<script>
