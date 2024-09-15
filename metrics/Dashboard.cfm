@@ -232,7 +232,7 @@ limitations under the License.
 										});
 									}
 								</script>
-							</div>							<h2>test</h2>
+							</div>						
 						</div>
 						<div id="div2" class="target-div bg-none">
 							<div class="col-12 mt-0 pb-4">
