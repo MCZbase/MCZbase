@@ -254,10 +254,10 @@ limitations under the License.
 						
 							<div class="col-12 mt-0 pb-4">
 								<form id="loadReportForm" class="row mx-0">
-									<div class="col-12 col-xl-8 px-0">
+									<div class="col-12 col-xl-5 px-0">
 										<h3 class="h4 text-muted">Select Annual Report</h3>
 										<div class="row mx-0">
-											<div class="col-12 col-xl-4 pl-xl-0">
+											<div class="col-12 col-xl-10 pl-xl-0">
 												<label for="method" class="data-entry-label mt-2">Annual Report To Show</label>
 												<select id="method" name="method" class="mb-1 data-entry-input">
 													<option value="getAllNumbers" selected="selected">Current</option>
