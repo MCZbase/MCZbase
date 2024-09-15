@@ -134,7 +134,7 @@ limitations under the License.
 			<style>
 				a##selectDates {
 					background-color: ##efeded;
-					padding: 1rem 1rem 1rem 0;
+					padding: 1rem auto;
 				}
 				nav##sidebarMenu {
 					background-color: ##efeded;
