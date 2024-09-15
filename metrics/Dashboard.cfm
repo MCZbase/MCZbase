@@ -144,9 +144,10 @@ limitations under the License.
 					<main role="main" class="col-md-9 px-3 ml-sm-auto col-lg-10 mb-3">
 						<div class="col-12 mt-4">
 							<form id="loadReportForm" class="row mx-0">
-							
+							<div class="col-12 col-xl-6">
+								<h3 class="h4 text-muted">Report Date Range</h3>
 								<div class="col-12 col-xl-3">
-									<h3 class="h4 text-muted">Report Date Range</h3>
+									
 									<input type="hidden" name="returnFormat" value="plain">
 									<label for="beginDate" class="data-entry-label mt-2">Begin Date</label>
 									<input name="beginDate" id="beginDate" type="text" class="mb-1 datetimeinput data-entry-input data-entry-input" placeholder="yyyy-mm-dd" value="#beginDate#" aria-label="start of range for dates to display metrics.">
@@ -155,8 +156,10 @@ limitations under the License.
 									<label for="endDate" class="data-entry-label mt-2">End Date</label>
 									<input name="endDate" id="endDate" type="text" class="mb-1 datetimeinput data-entry-input data-entry-input" placeholder="yyyy-mm-dd" value="#endDate#" aria-label="end of range for dates to display metrics.">
 								</div>
+							</div>
+							<div class="col-12 col-xl-6">
+								<h3 class="h4 text-muted mt-3">Report to Show</h3>
 								<div class="col-12 col-xl-3">
-									<h3 class="h4 text-muted mt-3">Report to Show</h3>
 									<label for="method" class="sr-only">Report To Show</label>
 									<select id="method" name="method" class="my-1 data-entry-input">
 										<option value="getAnnualNumbers" selected="selected">Holdings</option>
@@ -168,6 +171,7 @@ limitations under the License.
 									</select>
 									<input type="submit" value="Show Report" class="my-3 btn-xs btn btn-primary" aria-label="Show the selected report for the specified date range">
 								</div>
+							</div>
 							</form>
 							<script>
 								$(document).ready(function() {
