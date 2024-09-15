@@ -136,7 +136,7 @@ limitations under the License.
 				<br clear="all">	
 					<nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block sidebar" style="background-color: ##efeded;border: ##e3e3e3;">
 						<div class="sidebar-sticky pt-4 px-2" style="background-color: ##efeded;">
-							<div id="selectDates"><i class="fa-regular fa-calendar-days" aria-hidden="true"></i> Select Date Range</div>
+							<div id="selectDates"><i class="fa fa-calendar" aria-hidden="true"></i> Select Date Range</div>
 							<div id="annualReports"><i class="fa fa-list-alt" aria-hidden="true"></i> Annual Report List</div>
 						</div>
 					</nav>
