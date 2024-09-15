@@ -182,7 +182,7 @@ limitations under the License.
 				
 					<main role="main" class="col-md-9 mr-xl-auto col-lg-10 mb-3 bg-light border-right border-muted">
 						<div id="div1" class="target-div bg-none">
-							<div class="col-12 mt-2 pb-4">
+							<div class="col-12 mt-0 pb-4">
 								<form id="loadReportForm" class="row mx-0">
 									<div class="col-12 col-xl-8 px-0">
 										<h3 class="h4 text-muted">Select Report Date Range and Report Type</h3>
@@ -243,7 +243,7 @@ limitations under the License.
 									}
 								</script>
 							</div>
-							<div class="col-12 mt-2 pb-3">
+							<div class="col-12 mt-0 pb-3">
 								<cfset summaryAnnualBlock=getAnnualNumbers(endDate="#endDate#",beginDate="#beginDate#")>
 								<div id="annualNumbersDiv"> 
 									#summaryAnnualBlock#
