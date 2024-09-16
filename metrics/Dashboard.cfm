@@ -189,15 +189,17 @@ limitations under the License.
 										<div class="row mx-0">
 											<div class="col-12 col-xl-10 pl-xl-0">
 												<input type="hidden" name="returnFormat" value="plain">
-												<input name="beginDate" id="beginDate" type="hidden" value="#beginDate#">
-												<input name="endDate" id="endDate" type="hidden" value="#endDate#">
+												
 												<cfset currentDate = Year(Now())>
 												<cfset beginYear = currentYear - 1> <!-- Adjust as needed to show past fiscal years -->
 												<cfset endYear = currentDate + 1>	
+												
 											 	<label for="fiscalYear" class="data-entry-label mt-2">Select Fiscal Year:</label>
-												<select name="fiscalYear" id="fiscalYear" class="mb-1 data-entry-input">	
+												<select name="method" id="method" class="mb-1 data-entry-input">	
 													<cfloop from="#beginYear#" to="#endYear#" index="fiscalYear">
 														<cfset fiscalYearStart = #fiscalYear# - 1>
+														<input name="beginDate" id="beginDate" type="hidden" value="#beginDate#">
+														<input name="endDate" ifd="endDate" type="hidden" value="#endDate#">
 														<option value="getAnnualNumbers" selected>Fiscal Year:  7/1/#fiscalYearStart# - 6/30/#fiscalYear#</option>
 													</cfloop>
 												</select>
