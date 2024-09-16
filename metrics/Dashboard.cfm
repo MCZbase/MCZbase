@@ -211,7 +211,7 @@ limitations under the License.
 										</div>
 									</div>
 									<div class="col-12 col-xl-2 px-0">
-										<h3 class="h4 mt-3 text-white">Submit</h3>
+										<h3 class="h4 mt-3 text-light">Submit</h3>
 										<div class="row mx-0">
 											<div class="col-12 col-xl-9">
 												<input type="submit" value="Show Report" class="my-2 btn-xs btn btn-primary" aria-label="Show the selected report for the specified date range">
