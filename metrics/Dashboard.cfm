@@ -190,8 +190,8 @@ limitations under the License.
 												<cfset endYear = currentDate + 1>
 											 	<label for="fiscalYear" class="data-entry-label mt-2">Select Fiscal Year:</label>
 												<select name="fiscalYear" id="fiscalYear" class="mb-1 data-entry-input">
-													<cfloop from="#beginYear#" to="#endYear#" index="year">
-														<option value="getAnnualNumbers" selected>Fiscal Year #year#</option>
+													<cfloop from="#beginYear#" to="#endYear#" index="fiscalYear">
+														<option value="getAnnualNumbers" selected>Fiscal Year #fiscalYear#</option>
 													</cfloop>
 												</select>
 											</div>
@@ -201,7 +201,7 @@ limitations under the License.
 										<h3 class="h4 mt-3 text-light">Submit</h3>
 										<div class="row mx-0">
 											<div class="col-12 col-xl-9">
-												<input type="submit" value="Show Report" class="my-2 btn-xs btn btn-primary" aria-label="Show the selected report for the specified date range">
+												<input type="submit" value="Show Report" class="my-2 btn-xs btn btn-primary" aria-label="Show the annual report selected">
 											</div>
 										</div>
 									</div>
