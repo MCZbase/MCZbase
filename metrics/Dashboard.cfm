@@ -230,12 +230,12 @@ limitations under the License.
 									}
 								</script>
 							</div>
-							<div class="col-12 mt-0 pb-3">
+		<!---					<div class="col-12 mt-0 pb-3">
 								<cfset summaryAnnualBlock=getAnnualNumbers(fiscalYear="#fiscalYear#")>
 								<div id="annualNumbersDiv2"> 
 									#summaryAnnualBlock#
 								</div>
-							</div>
+							</div>--->
 						</div>
 						
 						<div id="div2" class="target-div bg-none">
