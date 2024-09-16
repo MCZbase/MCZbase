@@ -784,7 +784,7 @@ limitations under the License.
 		</cfif>
 
 		<!--- Collect the results in a structure --->
-		<cfset result = {"fiscalYear" = arguments.fiscalYear,"beginYear" = startYear,"endYear = endYear}>
+		<cfset result = {"fiscalYear" = arguments.fiscalYear,"beginYear" = startYear,"endYear" = endYear}>
 
 		<cfreturn result>
 
