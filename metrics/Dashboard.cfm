@@ -185,7 +185,7 @@ limitations under the License.
 							<div class="col-12 mt-0 pb-4">
 								<form id="loadReportForm" class="row mx-0">
 									<div class="col-12 col-xl-5 px-0">
-										<h3 class="h4 text-muted">Select Annual Report</h3>
+										<h3 class="h4 text-muted">Annual Reports</h3>
 										<div class="row mx-0">
 											<div class="col-12 col-xl-10 pl-xl-0">
 												<cfset currentDate = Year(Now())>
