@@ -157,11 +157,8 @@ limitations under the License.
 					display: none; /* Hide divs by default */
 					margin-top: 30px;
 					padding: 20px;
-		/*			border: 1px solid ##ddd;
-					background-color: ##f9f9f9;*/
 					transition: opacity 0.3s ease;
 				}
-
 				.target-div.visible {
 					display: block; /* Show div when it has the 'visible' class */
 				}
