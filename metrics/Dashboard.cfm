@@ -212,7 +212,7 @@ limitations under the License.
 								</form>
 								<script>
 									$(document).ready(function() {
-										$('##loadReportForm').on('submit',function(event){ event.preventDefault(); loadReport2(); } );
+										$('##loadAnnualReport').on('submit',function(event){ event.preventDefault(); loadReportYear(); } );
 									});
 									function loadReport2(){
 										$('##annualNumbersDiv2').html("Loading...");
@@ -220,7 +220,7 @@ limitations under the License.
 											{
 												url: '/metrics/component/functions.cfc',
 												type: 'GET', 
-												data: $('##loadReportForm').serialize()
+												data: $('##loadAnnualReport').serialize()
 											}
 										).done(
 											function(response) {
@@ -245,7 +245,7 @@ limitations under the License.
 						
 						<div id="div2" class="target-div bg-none">
 							<div class="col-12 mt-0 pb-4">
-								<form id="loadReportForm2" class="row mx-0">
+								<form id="loadReportForm" class="row mx-0">
 									<div class="col-12 col-xl-8 px-0">
 										<h3 class="h4 text-muted">Select Report Date Range and Report Type</h3>
 										<div class="row mx-0">
@@ -283,32 +283,32 @@ limitations under the License.
 
 								<script>
 									$(document).ready(function() {
-										$('##loadReportForm2').on('submit',function(event){ event.preventDefault(); loadReport(); } );
+										$('##loadReportForm').on('submit',function(event){ event.preventDefault(); loadReport(); } );
 									});
 									function loadReport(){
-										$('##annualNumbersDiv').html("Loading...");
+										$('##selectedReportDiv').html("Loading...");
 										$.ajax(
 											{
 												url: '/metrics/component/functions.cfc',
 												type: 'GET', 
-												data: $('##loadReportForm2').serialize()
+												data: $('##loadReportForm').serialize()
 											}
 										).done(
 											function(response) {
 												console.log(response);
-												$('##annualNumbersDiv').html(response);
+												$('##selectedReportDiv').html(response);
 											}
 										).fail(function(jqXHR,textStatus,error){
-											$('##annualNumbersDiv').html("Error Loading Metrics");
+											$('##selectedReportDiv').html("Error Loading Metrics");
 										handleFail(jqXHR,textStatus,error,"loading metrics for date range.");
 										});
 									}
 								</script>
 							</div>
 							<div class="col-12 mt-0 pb-3">
-								<cfset summaryAnnualBlock=getAcquisitions(endDate="#endDate#",beginDate="#beginDate#")>
-								<div id="annualNumbersDiv"> 
-									#summaryAnnualBlock#
+								<cfset selectedReportBlock=getAcquisitions(endDate="#endDate#",beginDate="#beginDate#")>
+								<div id="selectedReportDiv"> 
+									#selectedReportBlock#
 								</div>
 							</div>
 						</div>
