@@ -771,12 +771,16 @@ limitations under the License.
 					
 					
 <!---PLACEHOLDING FOR ANNUAL REPORT QUERY--->
-<!---<cffunction name="getAllNumbers" access="remote" returntype="any" returnformat="json">
-	<cfargument name="endDate" type="any" required="no" default="2024-07-01">
-	<cfargument name="beginDate" type="any" required="no" default="2023-07-01">
-	<cfargument name="returnAs" type="string" required="no" default="html">
-	
 
+<cffunction name="getAllNumbers" access="remote" returntype="any" returnformat="json">
+	<cfif endDate contains "2024">
+		<cfset endDate = "2024-07-01">
+		<cfargument name="endDate" type="any" required="no" default="2024-07-01">
+		<cfargument name="beginDate" type="any" required="no" default="2023-07-01">
+	
+	</cfif>
+	
+	<cfargument name="returnAs" type="string" required="no" default="html">
 	<cfset variables.beginDate = arguments.beginDate>
 	<cfset variables.endDate = arguments.endDate>
 	<cfset variables.returnAs = arguments.returnAs>
@@ -856,12 +860,12 @@ limitations under the License.
 						<cfoutput>
 							<section class="col-12 mt-2 px-0">
 								<div class="my-2 float-left w-100">
-									<!--- 
+									 
 										TODO: Georeferencing queries do not use dates 
 									<h2 class="h3 px-0 mt-0 float-left mb-0">Georeferencing Activity 
 										<span class="text-muted">(#encodeForHtml(beginDate)#/#encodeForHtml(endDate)#)</span>
 									</h2>
-									--->
+									
 									<h2 class="h3 px-0 mt-0 float-left mb-0">Annual Report
 										<span class="text-muted">(??Dates??)</span>
 									</h2>
@@ -929,5 +933,5 @@ limitations under the License.
 	</cfthread>
 	<cfthread action="join" name="getAllNumbersThread" />
 	<cfreturn getAllNumbersThread.output>
-</cffunction>--->
+</cffunction>
 </cfcomponent>
