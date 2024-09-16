@@ -184,13 +184,13 @@ limitations under the License.
 						<div id="div1" class="target-div bg-none">
 							<div class="col-12 mt-0 pb-4">
 								<cfset currentYear = Year(Now())>
-								<cfset startYear = currentYear - 10> <!-- Adjust as needed to show past fiscal years -->
+								<cfset beginYear = currentYear - 10> <!-- Adjust as needed to show past fiscal years -->
 								<cfset endYear = currentYear + 1> <!-- Including next fiscal year -->
 
 								<form id="loadReportForm" class="row mx-0">
 									<label for="fiscalYear">Select Fiscal Year:</label>
 									<select name="fiscalYear" id="fiscalYear">
-										<cfloop from="#startYear#" to="#endYear#" index="year">
+										<cfloop from="#beginYear#" to="#endYear#" index="year">
 											<option value="#year#">Fiscal Year #year#</option>
 										</cfloop>
 									</select>
