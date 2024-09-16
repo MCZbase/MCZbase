@@ -196,22 +196,12 @@ limitations under the License.
 													<option value="getMediaNumbers">FY 2020-2021</option>
 													<option value="getCitationNumbers">FY 2019-2020</option>
 												</select>--->
-												<cfif structKeyExists(url, "fiscalYear")>
-													<cftry>
-									
-														<cfset result =processFiscalYear(url.fiscalYear)>
-
-														<cfcatch type="InvalidDateRangeException">
-															<cfoutput>Error: #cfcatch.message#</cfoutput>
-														</cfcatch>
-													</cftry>
-												</cfif>
 
 												<cfset currentYear = Year(Now())>
 												<cfset beginDate = currentDate - 10> <!-- Adjust as needed to show past fiscal years -->
 												<cfset endDate = currentDate + 1>
-											 	<label for="fiscalYear">Select Fiscal Year:</label>
-												<select name="fiscalYear" id="fiscalYear">
+											 	<label for="method">Select Fiscal Year:</label>
+												<select name="method" id="method">
 													<cfloop from="#beginDate#" to="#endDate#" index="year">
 														<option value="#year#" <cfif url.fiscalYear EQ year> selected </cfif>>Fiscal Year #year#</option>
 													</cfloop>
