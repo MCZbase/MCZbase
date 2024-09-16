@@ -236,7 +236,7 @@ limitations under the License.
 						</div>
 						<div id="div2" class="target-div bg-none">
 							<div class="col-12 mt-0 pb-4">
-								<form id="loadReportForm" class="row mx-0">
+								<form id="loadReportForm2" class="row mx-0">
 									<div class="col-12 col-xl-8 px-0">
 										<h3 class="h4 text-muted">Select Report Date Range and Report Type</h3>
 										<div class="row mx-0">
@@ -274,7 +274,7 @@ limitations under the License.
 
 								<script>
 									$(document).ready(function() {
-										$('##loadReportForm').on('submit',function(event){ event.preventDefault(); loadReport(); } );
+										$('##loadReportForm2').on('submit',function(event){ event.preventDefault(); loadReport(); } );
 									});
 									function loadReport(){
 										$('##annualNumbersDiv').html("Loading...");
@@ -282,7 +282,7 @@ limitations under the License.
 											{
 												url: '/metrics/component/functions.cfc',
 												type: 'GET', 
-												data: $('##loadReportForm').serialize()
+												data: $('##loadReportForm2').serialize()
 											}
 										).done(
 											function(response) {
