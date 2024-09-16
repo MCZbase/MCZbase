@@ -855,81 +855,81 @@ limitations under the License.
 						group by c.collection_id, c.collection) accn on h.collection_id = accn.collection_id
 			</cfquery>			
 			<cfif variables.returnAs EQ "csv">
-						<cfset csv = queryToCSV(getAllNumbers)> 
-						<cfoutput>#csv#</cfoutput>
-					<cfelse>
-						<cfoutput>
-							<section class="col-12 mt-2 px-0">
-								<div class="my-2 float-left w-100">
-									 
-										TODO: Georeferencing queries do not use dates 
-									<h2 class="h3 px-0 mt-0 float-left mb-0">Georeferencing Activity 
-										<span class="text-muted">(#encodeForHtml(beginDate)#/#encodeForHtml(endDate)#)</span>
-									</h2>
-									
-									<h2 class="h3 px-0 mt-0 float-left mb-0">Annual Report
-										<span class="text-muted">(??Dates??)</span>
-									</h2>
-									<div class="btn-toolbar my-1 mt-lg-0 float-right">
-										<div class="btn-group mr-2">
-											<a href="/metrics/Dashboard.cfm?action=dowloadGeoreferenceActivity&returnAs=csv&beginDate=#encodeForURL(beginDate)#&endDate=#encodeForUrl(endDate)#" class="btn btn-xs btn-outline-secondary">Export Table</a>
-										</div>
-									</div>
+				<cfset csv = queryToCSV(getAllNumbers)> 
+				<cfoutput>#csv#</cfoutput>
+			<cfelse>
+				<cfoutput>
+					<section class="col-12 mt-2 px-0">
+						<div class="my-2 float-left w-100">
+
+								TODO: Georeferencing queries do not use dates 
+							<h2 class="h3 px-0 mt-0 float-left mb-0">Georeferencing Activity 
+								<span class="text-muted">(#encodeForHtml(beginDate)#/#encodeForHtml(endDate)#)</span>
+							</h2>
+
+							<h2 class="h3 px-0 mt-0 float-left mb-0">Annual Report
+								<span class="text-muted">(??Dates??)</span>
+							</h2>
+							<div class="btn-toolbar my-1 mt-lg-0 float-right">
+								<div class="btn-group mr-2">
+									<a href="/metrics/Dashboard.cfm?action=dowloadGeoreferenceActivity&returnAs=csv&beginDate=#encodeForURL(beginDate)#&endDate=#encodeForUrl(endDate)#" class="btn btn-xs btn-outline-secondary">Export Table</a>
 								</div>
-								<div class="table-responsive-lg">
-									<table class="table table-striped" id="t">
-										<thead>
-											<tr>
-												<th><strong>Holdings</strong></th>
-												<th><strong>Collection</strong></th> 
-												<th><strong>Cataloged Items</strong></th>
-												<th><strong>Specimens</strong></th> 
-												<th><strong>Primary Types Cataloged Items</strong></th>
-												<th><strong>Primary Type Parts</strong></th> 
-												<th><strong>Secondary Types Cataloged Items</strong></th>
-												<th><strong>Secondary Types Parts</strong></th> 
-												<th><strong>Received Cataloged Items</strong></th>
-												<th><strong>Received Specimen Parts</strong></th> 
-												<th><strong>Entered Cataloged Items</strong></th>
-												<th><strong>Entered Specimen Parts</strong></th> 
-												<th><strong>NCBI Cataloged Items</strong></th>
-												<th><strong>Number of Accessions</strong></th>
-											</tr>
-										</thead>
-										<tbody>
-											<cfloop query="getAllNumbers">
-												<tr>
-													<td>#rm.holdings#</td>
-													<td>#h.collection#</td>
-													<td>#h.catalogeditems#</td>
-													<td>#h.specimens#</td>
-													<td>#p.primaryCatItems#</td>
-													<td>#p.primaryspecimens#</td>
-													<td>#s.secondaryCatItems#</td>
-													<td>#s.secondarySpecimens#</td>
-													<td>#a.receivedCatItems#</td>
-													<td>#a.receivedSpecimens#</td>
-													<td>#a.receivedCatItems#</td>
-													<td>#e.enteredCatItems#</td>
-													<td>#e.enteredSpecimens#</td>
-													<td>#ncbi.ncbiCatItems#</td>
-													<td>#accn.numAccns  #</td>
-												</tr>
-											</cfloop>
-										</tbody>
-									</table>
-								</div>
-							</section>
-						</cfoutput>
-					</cfif>
-				<cfcatch>
-					<cfoutput>
-						<cfset error_message = cfcatchToErrorMessage(cfcatch)>
-						<cfset function_called = "#GetFunctionCalledName()#">
-						<h2 class="h3">Error in #function_called#:</h2>
-						<div>#error_message#</div>
-					</cfoutput>
-				</cfcatch>
+							</div>
+						</div>
+						<div class="table-responsive-lg">
+							<table class="table table-striped" id="t">
+								<thead>
+									<tr>
+										<th><strong>Holdings</strong></th>
+										<th><strong>Collection</strong></th> 
+										<th><strong>Cataloged Items</strong></th>
+										<th><strong>Specimens</strong></th> 
+										<th><strong>Primary Types Cataloged Items</strong></th>
+										<th><strong>Primary Type Parts</strong></th> 
+										<th><strong>Secondary Types Cataloged Items</strong></th>
+										<th><strong>Secondary Types Parts</strong></th> 
+										<th><strong>Received Cataloged Items</strong></th>
+										<th><strong>Received Specimen Parts</strong></th> 
+										<th><strong>Entered Cataloged Items</strong></th>
+										<th><strong>Entered Specimen Parts</strong></th> 
+										<th><strong>NCBI Cataloged Items</strong></th>
+										<th><strong>Number of Accessions</strong></th>
+									</tr>
+								</thead>
+								<tbody>
+									<cfloop query="getAllNumbers">
+										<tr>
+											<td>#rm.holdings#</td>
+											<td>#h.collection#</td>
+											<td>#h.catalogeditems#</td>
+											<td>#h.specimens#</td>
+											<td>#p.primaryCatItems#</td>
+											<td>#p.primaryspecimens#</td>
+											<td>#s.secondaryCatItems#</td>
+											<td>#s.secondarySpecimens#</td>
+											<td>#a.receivedCatItems#</td>
+											<td>#a.receivedSpecimens#</td>
+											<td>#a.receivedCatItems#</td>
+											<td>#e.enteredCatItems#</td>
+											<td>#e.enteredSpecimens#</td>
+											<td>#ncbi.ncbiCatItems#</td>
+											<td>#accn.numAccns  #</td>
+										</tr>
+									</cfloop>
+								</tbody>
+							</table>
+						</div>
+					</section>
+				</cfoutput>
+			</cfif>
+		<cfcatch>
+			<cfoutput>
+				<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+				<cfset function_called = "#GetFunctionCalledName()#">
+				<h2 class="h3">Error in #function_called#:</h2>
+				<div>#error_message#</div>
+			</cfoutput>
+		</cfcatch>
 		</cftry>
 	</cfthread>
 	<cfthread action="join" name="getAllNumbersThread" />
