@@ -309,7 +309,7 @@ limitations under the License.
 								</script>
 							</div>
 							<div class="col-12 mt-0 pb-3">
-								<cfset selectedReportBlock=getAcquisitions(endDate="#endDate#",beginDate="#beginDate#")>
+								<cfset selectedReportBlock=getAcquisitions(method="#method#",endDate="#endDate#",beginDate="#beginDate#")>
 								<div id="selectedReportDiv"> 
 									#selectedReportBlock#
 								</div>
