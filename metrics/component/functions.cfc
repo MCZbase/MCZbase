@@ -771,20 +771,23 @@ limitations under the License.
 					
 					
 <!---PLACEHOLDING FOR ANNUAL REPORT QUERY--->
-<!---<cffunction name="getAllNumbers" access="remote" returntype="any" returnformat="json">
+<cffunction name="getAllNumbers" access="remote" returntype="any" returnformat="json">
 	<cfargument name="fiscalYear" type="string" required="true">
-	<cfset year = Val(arguments.fiscalYear)>
-	<cfset beginDate = CreateDate(year, 10, 1)>
-	<cfset endDate = CreateDate(year + 1, 9, 30)>
 
-	<cfif beginDate GT endDate>
-		<cfthrow type="InvalidDateRangeException" message="Start date must be earlier than end date.">
-	</cfif>
-	<cfargument name="returnAs" type="string" required="no" default="html">
-	<cfset variables.year = arguments.year>
-	<cfset variables.beginDate = arguments.beginDate>
-	<cfset variables.endDate = arguments.endDate>
-	<cfset variables.returnAs = arguments.returnAs>
+		<cfset var result = {}>
+		<cfset var year = Val(arguments.fiscalYear)>
+		<cfset var beginDate = CreateDate(year, 10, 1)>
+		<cfset var endDate = CreateDate(year + 1, 9, 30)>
+
+		<cfif beginDate GT endDate>
+			<cfthrow type="InvalidDateRangeException" message="Start date must be earlier than end date.">
+		</cfif>
+
+		<!--- Collect the results in a structure --->
+		<cfset result = {"fiscalYear" = arguments.fiscalYear,"beginDate" = startDate,"endDate" = endDate}>
+
+		<cfreturn result>
+
 	<cfthread name="getAllNumbersThread">
 		<cftry>
 			<cfquery name="getAllNumbers" datasource="uam_god" cachedwithin="#createtimespan(7,0,0,0)#">
@@ -862,7 +865,7 @@ limitations under the License.
 					<section class="col-12 mt-2 px-0">
 						<div class="my-2 float-left w-100">
 
-	
+								<!---TODO: Annual Rport activity queries do not use dates --->
 							<h2 class="h3 px-0 mt-0 float-left mb-0">Annual Report Activity 
 								<span class="text-muted">(#encodeForHtml(beginDate)#/#encodeForHtml(endDate)#)</span>
 							</h2>
@@ -934,27 +937,24 @@ limitations under the License.
 	</cfthread>
 	<cfthread action="join" name="getAllNumbersThread" />
 	<cfreturn getAllNumbersThread.output>
-</cffunction>--->
-
-<cffunction name="processFiscalYear" access="public" returntype="struct">
-	<cfargument name="fiscalYear" type="string" required="true">
-
-	<cfset var result = {}>
-	<cfset var year = Val(arguments.fiscalYear)>
-	<cfset var startDate = CreateDate(year, 10, 1)>
-	<cfset var endDate = CreateDate(year + 1, 9, 30)>
-
-	<cfif startDate GT endDate>
-		<cfthrow type="InvalidDateRangeException" message="Start date must be earlier than end date.">
-	</cfif>
-
-	<!--- Collect the results in a structure --->
-	<cfset result = {
-		"fiscalYear" = arguments.fiscalYear,
-		"startDate" = startDate,
-		"endDate" = endDate
-	}>
-
-	<cfreturn result>
 </cffunction>
+</cfcomponent>
+<cfcomponent displayname="DateComponent">
+	<cffunction name="processFiscalYear" access="public" returntype="struct">
+		<cfargument name="fiscalYear" type="string" required="true">
+
+		<cfset var result = {}>
+		<cfset var year = Val(arguments.fiscalYear)>
+		<cfset var startDate = CreateDate(year, 10, 1)>
+		<cfset var endDate = CreateDate(year + 1, 9, 30)>
+
+		<cfif startDate GT endDate>
+			<cfthrow type="InvalidDateRangeException" message="Start date must be earlier than end date.">
+		</cfif>
+
+		<!--- Collect the results in a structure --->
+		<cfset result = {"fiscalYear" = arguments.fiscalYear,"startDate" = startDate,"endDate" = endDate}>
+
+		<cfreturn result>
+	</cffunction>
 </cfcomponent>
