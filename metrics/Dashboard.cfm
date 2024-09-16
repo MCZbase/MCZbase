@@ -146,9 +146,11 @@ limitations under the License.
 				}
 				div.sidebar-sticky a.active {
 					background-color: lightcoral; /* Default active background color */
+					background-color:lightgrey;
 				}
 				div.sidebar-sticky a.active-1 {
 					background-color: lightcoral;
+					background-color:lightgrey;
 				}
 				div.sidebar-sticky a:hover {
 					color: darkblue;
