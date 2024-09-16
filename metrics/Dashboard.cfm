@@ -203,7 +203,7 @@ limitations under the License.
 												<cfset endYear = currentDate + 1>
 											 	<label for="fiscalYear">Select Fiscal Year:</label>
 												<select name="fiscalYear" id="fiscalYear">
-													<cfloop from="#beginYear#" to="#endDate#" index="year">
+													<cfloop from="#beginYear#" to="#endYear#" index="year">
 														<option value="#year#" selected>Fiscal Year #year#</option>
 													</cfloop>
 												</select>
