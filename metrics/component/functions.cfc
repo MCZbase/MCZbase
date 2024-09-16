@@ -773,9 +773,7 @@ limitations under the License.
 <!---PLACEHOLDING FOR ANNUAL REPORT QUERY--->
 
 <cffunction name="getAllNumbers" access="remote" returntype="any" returnformat="json">
-	<cfif endDate contains "2024">
-		<cfset endDate = "2024-07-01">
-	</cfif>
+
 	<cfargument name="endDate" type="any" required="no" default="2024-07-01">
 	<cfargument name="beginDate" type="any" required="no" default="2023-07-01">
 	<cfargument name="returnAs" type="string" required="no" default="html">
