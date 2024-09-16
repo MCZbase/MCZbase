@@ -183,12 +183,7 @@ limitations under the License.
 					<main role="main" class="col-md-9 mr-xl-auto col-lg-10 mb-3 bg-light border-right border-muted">
 						<div id="div1" class="target-div bg-none">
 							<div class="col-12 mt-0 pb-4">
-								<cfscript>
-									// Determine the current year and the previous few years for fiscal year options
-									var currentYear = Year(now());
-									var startYear = currentYear - 10; // Adjust as needed to show past fiscal years
-									var endYear = currentYear + 1; // Including next fiscal year
-								</cfscript>
+		
 								<form id="loadReportForm2" class="row mx-0">
 									<div class="col-12 col-xl-5 px-0">
 										<h3 class="h4 text-muted">Select Annual Report</h3>
