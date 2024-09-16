@@ -212,10 +212,10 @@ limitations under the License.
 								</form>
 								<script>
 									$(document).ready(function() {
-										$('##loadAnnualReport').on('submit',function(event){ event.preventDefault(); loadReportYear(); } );
+										$('##loadAnnualReport').on('submit',function(event){ event.preventDefault(); loadReport(); } );
 									});
 									function loadReport2(){
-										$('##annualNumbersDiv2').html("Loading...");
+										$('##annualNumbersDiv').html("Loading...");
 										$.ajax(
 											{
 												url: '/metrics/component/functions.cfc',
@@ -225,20 +225,20 @@ limitations under the License.
 										).done(
 											function(response) {
 												console.log(response);
-												$('##annualNumbersDiv2').html(response);
+												$('##annualNumbersDiv').html(response);
 											}
 										).fail(function(jqXHR,textStatus,error){
-											$('##annualNumbersDiv2').html("Error Loading Metrics");
+											$('##annualNumbersDiv').html("Error Loading Metrics");
 										handleFail(jqXHR,textStatus,error,"loading metrics for date range.");
 										});
 									}
 								</script>
 							</div>
 							<div class="col-12 mt-0 pb-3">
-							<!---	<cfset summaryAnnualBlock=getAnnualNumbers(fiscalYear="#fiscalYear#")>
+								<cfset summaryAnnualBlock=getAnnualNumbers()>
 								<div id="annualNumbersDiv2"> 
 									#summaryAnnualBlock#
-								</div>--->
+								</div>
 								<h2 class="h4">Report will be displayed here.</h2>
 							</div>
 						</div>
