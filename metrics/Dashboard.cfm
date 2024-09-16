@@ -211,9 +211,9 @@ limitations under the License.
 								</form>
 								<script>
 									$(document).ready(function() {
-										$('##loadReportForm').on('submit',function(event){ event.preventDefault(); loadReport(); } );
+										$('##loadReportForm').on('submit',function(event){ event.preventDefault(); loadReport2(); } );
 									});
-									function loadReport(){
+									function loadReport2(){
 										$('##annualNumbersDiv2').html("Loading...");
 										$.ajax(
 											{
@@ -234,7 +234,7 @@ limitations under the License.
 								</script>
 							</div>
 							<div class="col-12 mt-0 pb-3">
-								<cfset summaryAnnualBlock2=getAnnualNumbers(fiscalYear="#year#")>
+								<cfset summaryAnnualBlock2=getAnnualNumbers(year="#year#")>
 								<div id="annualNumbersDiv2"> 
 									#summaryAnnualBlock2#
 								</div>
