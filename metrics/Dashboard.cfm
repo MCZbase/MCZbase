@@ -209,7 +209,6 @@ limitations under the License.
 										</div>
 									</div>
 								</form>
-
 								<script>
 									$(document).ready(function() {
 										$('##loadReportForm').on('submit',function(event){ event.preventDefault(); loadReport(); } );
@@ -228,14 +227,14 @@ limitations under the License.
 												$('##annualNumbersDiv2').html(response);
 											}
 										).fail(function(jqXHR,textStatus,error){
-											$('##annualNumbersDiv').html("Error Loading Metrics");
+											$('##annualNumbersDiv2').html("Error Loading Metrics");
 										handleFail(jqXHR,textStatus,error,"loading metrics for date range.");
 										});
 									}
 								</script>
 							</div>
 							<div class="col-12 mt-0 pb-3">
-								<cfset summaryAnnualBlock2=getAnnualNumbers(fiscalYear="#fiscalYear#")>
+								<cfset summaryAnnualBlock2=getAnnualNumbers(fiscalYear="#year#")>
 								<div id="annualNumbersDiv2"> 
 									#summaryAnnualBlock2#
 								</div>
