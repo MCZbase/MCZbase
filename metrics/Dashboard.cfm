@@ -183,20 +183,18 @@ limitations under the License.
 					<main role="main" class="col-md-9 mr-xl-auto col-lg-10 mb-3 bg-light border-right border-muted">
 						<div id="div1" class="target-div bg-none">
 							<div class="col-12 mt-0 pb-4">
-								<!---<cfset currentYear = Year(Now())>
-								<cfset beginYear = currentYear - 10> 
-								<cfset endYear = currentYear + 1> 
-
-								<form id="loadReportForm2" class="row mx-0">
+								<form id="loadReportForm" class="row mx-0">
 									<div class="col-12 col-xl-5 px-0">
 										<h3 class="h4 text-muted">Select Annual Report</h3>
 										<div class="row mx-0">
 											<div class="col-12 col-xl-10 pl-xl-0">
-												<label for="fiscalYear">Select Fiscal Year:</label>
-												<select name="fiscalYear" id="fiscalYear">
-													<cfloop from="#beginYear#" to="#endYear#" index="year">
-														<option value="#year#">Fiscal Year #year#</option>
-													</cfloop>
+												<label for="method" class="data-entry-label mt-2">Annual Report To Show</label>
+												<select id="method" name="method" class="mb-1 data-entry-input">
+													<option value="getAllNumbers" selected="selected">Current</option>
+													<option value="getAcquisitions">FY 2022-2023</option>
+													<option value="getLoanNumbers">FY 2021-2022</option>
+													<option value="getMediaNumbers">FY 2020-2021</option>
+													<option value="getCitationNumbers">FY 2019-2020</option>
 												</select>
 											</div>
 										</div>
@@ -210,45 +208,10 @@ limitations under the License.
 										</div>
 									</div>
 								</form>
---->
-								<cfif structKeyExists(url, "fiscalYear")>
-									<!--- If fiscal year is selected, process the selection --->
-									<cftry>
-										<cfset dateComponent = CreateObject("component", "DateComponent")>
-										<cfset result = dateComponent.processFiscalYear(url.fiscalYear)>
 
-										<cfcatch type="InvalidDateRangeException">
-											<cfoutput>Error: #cfcatch.message#</cfoutput>
-										</cfcatch>
-									</cftry>
-								</cfif>
-
-								<cfset currentYear = Year(Now())>
-								<cfset startYear = currentYear - 10> <!-- Adjust as needed to show past fiscal years -->
-								<cfset endYear = currentYear + 1> <!-- Including next fiscal year -->
-
-								<form action="fiscalYearSelection.cfm" method="get">
-									<label for="fiscalYear">Select Fiscal Year:</label>
-									<select name="fiscalYear" id="fiscalYear">
-										<cfloop from="#startYear#" to="#endYear#" index="year">
-											<option value="#year#" <cfif url.fiscalYear EQ year> selected </cfif>>Fiscal Year #year#</option>
-										</cfloop>
-									</select>
-									<input type="submit" value="Submit">
-								</form>
-
-								<cfif structKeyExists(url, "fiscalYear") AND IsDefined("result")>
-									<!--- Display the results after processing the fiscal year --->
-									<cfoutput>
-										<h2>Results:</h2>
-										<p>Fiscal Year: #result.fiscalYear#</p>
-										<p>Start Date: #dateFormat(result.startDate, 'mm/dd/yyyy')#</p>
-										<p>End Date: #dateFormat(result.endDate, 'mm/dd/yyyy')#</p>
-									</cfoutput>
-								</cfif>
 								<script>
 									$(document).ready(function() {
-										$('##loadReportForm2').on('submit',function(event){ event.preventDefault(); loadReport(); } );
+										$('##loadReportForm').on('submit',function(event){ event.preventDefault(); loadReport(); } );
 									});
 									function loadReport(){
 										$('##annualNumbersDiv').html("Loading...");
@@ -256,7 +219,7 @@ limitations under the License.
 											{
 												url: '/metrics/component/functions.cfc',
 												type: 'GET', 
-												data: $('##loadReportForm2').serialize()
+												data: $('##loadReportForm').serialize()
 											}
 										).done(
 											function(response) {
@@ -386,6 +349,7 @@ limitations under the License.
 							document.getElementById("div2").classList.add('visible');
 							saveState('link2', 'div2');
 						});
+
 
 						// Initial setup
 						setInitialState();
