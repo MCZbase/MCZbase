@@ -772,13 +772,13 @@ limitations under the License.
 					
 <!---PLACEHOLDER FOR ANNUAL REPORT QUERY--->
 <cffunction name="getLoanNumbers2" access="remote" returntype="any" returnformat="json">
-	<cfargument name="fiscalYear" type="any" required="no">
+	<cfargument name="fiscalYearEnd" type="any" required="no">
 	<cfargument name="fiscalYearStart" type="any" required="no">
 	<cfargument name="returnAs" type="string" required="no" default="html">
 	
 	<!--- make arguments available within thread --->
-	<cfset variables.beginDate = arguments.fiscalYearStart>
-	<cfset variables.endDate = arguments.fiscalYear>
+	<cfset variables.fiscalYearStart = arguments.fiscalYearStart>
+	<cfset variables.fiscalYearEnd = arguments.fiscalYearEnd>
 	<cfset variables.returnAs = arguments.returnAs>
 	<cfthread name="getLoanNumbers2Thread">
 		<cftry>
@@ -806,7 +806,7 @@ limitations under the License.
 					and t.transaction_id = li.transaction_id(+)
 					and li.collection_object_id = sp.collection_object_id(+)
 					and sp.collection_object_id = co.collection_object_id(+)
-					and t.TRANS_DATE between to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#beginDate#">, 'YYYY-MM-DD') and  to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#endDate#">, 'YYYY-MM-DD')
+					and t.TRANS_DATE between to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#fiscalYearStart#-07-01">, 'YYYY-MM-DD') and  to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#fiscalYearEnd#-06-30">, 'YYYY-MM-DD')
 					group by c.collection_id, c.collection) ol on c.collection_id = ol.collection_id
 				LEFT JOIN (select c.collection_id, collection, count(distinct l.transaction_id) Num_Closed_Loans
 					from loan l, trans t, collection c, loan_item li, specimen_part sp, coll_object co
@@ -815,50 +815,50 @@ limitations under the License.
 					and t.transaction_id = li.transaction_id(+)
 					and li.collection_object_id = sp.collection_object_id(+)
 					and sp.collection_object_id = co.collection_object_id(+)
-					and l.CLOSED_DATE between to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#beginDate#">, 'YYYY-MM-DD') and  to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#endDate#">, 'YYYY-MM-DD')
+					and l.CLOSED_DATE between to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#fiscalYearStart#-07-01">, 'YYYY-MM-DD') and  to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#fiscalYearEnd#-06-30">, 'YYYY-MM-DD')
 					group by c.collection_id, collection) cl on c.collection_id = cl.collection_id
 				LEFT JOIN (select c.collection_id, collection_cde, count(*)as Num_5yr_Loans
 					from loan l, trans t, collection c
 					where l.transaction_id = t.transaction_id
 					and t.collection_id = c.collection_id
-					and l.CLOSED_DATE between to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#beginDate#">, 'YYYY-MM-DD') and  to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#endDate#">, 'YYYY-MM-DD')
+					and l.CLOSED_DATE between to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#fiscalYearStart#-07-01">, 'YYYY-MM-DD') and  to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#fiscalYearEnd#-06-30">, 'YYYY-MM-DD')
 					and l.closed_date -l.return_due_date > (365*5)
 					group by c.collection_id, collection_cde) fy on c.collection_id = fy.collection_id
 				LEFT JOIN (select c.collection_id, collection_cde, count(*) as Num_10yr_Loans
 					from loan l, trans t, collection c
 					where l.transaction_id = t.transaction_id
 					and t.collection_id = c.collection_id
-					and l.CLOSED_DATE between to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#beginDate#">, 'YYYY-MM-DD') and  to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#endDate#">, 'YYYY-MM-DD')
+					and l.CLOSED_DATE between to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#fiscalYearStart#-07-01">, 'YYYY-MM-DD') and  to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#fiscalYearEnd#-06-30">, 'YYYY-MM-DD')
 					and l.closed_date -l.return_due_date > (365*10)
 					group by c.collection_id, collection_cde) ty on c.collection_id = ty.collection_id
 				LEFT JOIN (select c.collection_id, collection, count(*) as Num_Borrows 
 					from borrow l, trans t, collection c
 					where l.transaction_id = t.transaction_id
 					and t.collection_id = c.collection_id
-					and l.RECEIVED_DATE between to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#beginDate#">, 'YYYY-MM-DD') and  to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#endDate#">, 'YYYY-MM-DD')
+					and l.RECEIVED_DATE between to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#fiscalYearStart#-07-01">, 'YYYY-MM-DD') and  to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#fiscalYearEnd#-06-30">, 'YYYY-MM-DD')
 					group by c.collection_id, collection) b on c.collection_id = b.collection_id
 				LEFT JOIN (select c.collection_id, collection_cde, count(*) as Num_Open_Loans 
 					from loan l, trans t, collection c
 					where l.transaction_id = t.transaction_id
 					and t.collection_id = c.collection_id
 					and (loan_status like '%open%' or closed_date > to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#endDate#">, 'YYYY-MM-DD'))
-					and t.trans_date <  to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#endDate#">, 'YYYY-MM-DD')
+					and t.trans_date <  to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#fiscalYearEnd#-06-30">, 'YYYY-MM-DD')
 					group by c.collection_id, collection_cde) opL on c.collection_id = opL.collection_id
 				LEFT JOIN (select c.collection_id, collection, count(*) Num_Open_OverDue_5yrs 
 					from loan l, trans t, collection c
 					where l.transaction_id = t.transaction_id
 					and t.collection_id = c.collection_id
-					and (loan_status like '%open%' or closed_date > to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#endDate#">, 'YYYY-MM-DD'))
-					and t.trans_date < to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#endDate#">, 'YYYY-MM-DD')
+					and (loan_status like '%open%' or closed_date > to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#fiscalYearEnd#-06-30">, 'YYYY-MM-DD'))
+					and t.trans_date < to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#fiscalYearEnd#-06-30">, 'YYYY-MM-DD')
 					and to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#endDate#">, 'YYYY-MM-DD') - l.return_due_date > 365*5
 					group by c.collection_id, collection) open5 on c.collection_id = open5.collection_id
 				LEFT JOIN (select c.collection_id, collection, count(*) Num_Open_OverDue_10yrs
 					from loan l, trans t, collection c
 					where l.transaction_id = t.transaction_id
 					and t.collection_id = c.collection_id
-					and (loan_status like '%open%' or closed_date > to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#endDate#">, 'YYYY-MM-DD'))
-					and t.trans_date < to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#endDate#">, 'YYYY-MM-DD')
-					and to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#endDate#">, 'YYYY-MM-DD') - l.return_due_date > 365*10
+					and (loan_status like '%open%' or closed_date > to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#fiscalYearEnd#-06-30">, 'YYYY-MM-DD'))
+					and t.trans_date < to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#fiscalYearEnd#-06-30">, 'YYYY-MM-DD')
+					and to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#fiscalYearEnd#-06-30">, 'YYYY-MM-DD') - l.return_due_date > 365*10
 					group by c.collection_id, collection) open10 on c.collection_id = open10.collection_id
 				ORDER BY collection
 			</cfquery>
@@ -872,7 +872,7 @@ limitations under the License.
 							<h2 class="h3 mt-0 px-0 float-left mb-1">Loan Activity <span class="text-muted">(#encodeForHtml(beginDate)#/#encodeForHtml(endDate)#)</span></h2>
 							<div class="btn-toolbar my-1 mt-md-0 float-right">
 								<div class="btn-group mr-2">
-									<a href="/metrics/Dashboard.cfm?action=dowloadLoanActivity&returnAs=csv&beginDate=#encodeForURL(beginDate)#&endDate=#encodeForUrl(endDate)#" class="btn btn-xs btn-outline-secondary">Export Table</a>
+									<a href="/metrics/Dashboard.cfm?action=dowloadLoanActivity&returnAs=csv&fiscalYearStart=#encodeForURL(fiscalYearStart)#&fiscalYearEnd=#encodeForUrl(fiscalYearEnd)#" class="btn btn-xs btn-outline-secondary">Export Table</a>
 								</div>
 							</div>
 						</div>

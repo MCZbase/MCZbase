@@ -196,9 +196,9 @@ limitations under the License.
 												
 											 	<label for="fiscalYear" class="data-entry-label mt-2">Select Fiscal Year:</label>
 												<select name="method" id="method" class="mb-1 data-entry-input">	
-													<cfloop from="#beginYear#" to="#endYear#" index="fiscalYear">
-														<cfset fiscalYearStart = #fiscalYear# - 1>
-														<option value="getLoanNumbers2" selected>Fiscal Year:  7/1/#fiscalYearStart# - 6/30/#fiscalYear#</option>
+													<cfloop from="#beginYear#" to="#endYear#" index="fiscalYearEnd">
+														<cfset fiscalYearStart = #fiscalYearEnd# - 1>
+														<option value="getLoanNumbers2" selected>Fiscal Year:  7/1/#fiscalYearStart# - 6/30/#fiscalYearEnd#</option>
 													</cfloop>
 												</select>
 											</div>
