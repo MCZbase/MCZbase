@@ -776,15 +776,15 @@ limitations under the License.
 
 		<cfset var result = {}>
 		<cfset var year = Val(arguments.fiscalYear)>
-		<cfset var beginDate = CreateDate(year, 10, 1)>
-		<cfset var endDate = CreateDate(year + 1, 9, 30)>
+		<cfset var beginYear = CreateDate(year, 10, 1)>
+		<cfset var endYear = CreateDate(year + 1, 9, 30)>
 
-		<cfif beginDate GT endDate>
+		<cfif beginYear GT endYear>
 			<cfthrow type="InvalidDateRangeException" message="Start date must be earlier than end date.">
 		</cfif>
 
 		<!--- Collect the results in a structure --->
-		<cfset result = {"fiscalYear" = arguments.fiscalYear,"beginDate" = startDate,"endDate" = endDate}>
+		<cfset result = {"fiscalYear" = arguments.fiscalYear,"beginYear" = startYear,"endYear = endYear}>
 
 		<cfreturn result>
 

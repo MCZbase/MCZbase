@@ -199,11 +199,11 @@ limitations under the License.
 									
 
 												<cfset currentDate = Year(Now())>
-												<cfset beginDate = currentYear - 10> <!-- Adjust as needed to show past fiscal years -->
-												<cfset endDate = currentDate + 1>
+												<cfset beginYear = currentYear - 10> <!-- Adjust as needed to show past fiscal years -->
+												<cfset endYear = currentDate + 1>
 											 	<label for="fiscalYear">Select Fiscal Year:</label>
 												<select name="fiscalYear" id="fiscalYear">
-													<cfloop from="#beginDate#" to="#endDate#" index="year">
+													<cfloop from="#beginYear#" to="#endDate#" index="year">
 														<option value="#year#" selected>Fiscal Year #year#</option>
 													</cfloop>
 												</select>
