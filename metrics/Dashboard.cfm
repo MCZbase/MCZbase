@@ -235,8 +235,8 @@ limitations under the License.
 								</script>
 							</div>
 							<div class="col-12 mt-0 pb-3">
-								<cfset summaryAnnualBlock=getAnnualNumbers()>
-								<div id="annualNumbersDiv2"> 
+								<cfset summaryAnnualBlock=getGeorefNumbers()>
+								<div id="annualNumbersDiv"> 
 									#summaryAnnualBlock#
 								</div>
 								<h2 class="h4">Report will be displayed here.</h2>
