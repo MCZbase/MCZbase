@@ -198,8 +198,6 @@ limitations under the License.
 												<select name="method" id="method" class="mb-1 data-entry-input">	
 													<cfloop from="#beginYear#" to="#endYear#" index="fiscalYear">
 														<cfset fiscalYearStart = #fiscalYear# - 1>
-														<input name="beginDate" id="beginDate" type="hidden" value="#beginDate#">
-														<input name="endDate" ifd="endDate" type="hidden" value="#endDate#">
 														<option value="getAnnualNumbers" selected>Fiscal Year:  7/1/#fiscalYearStart# - 6/30/#fiscalYear#</option>
 													</cfloop>
 												</select>
