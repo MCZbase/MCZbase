@@ -198,8 +198,8 @@ limitations under the License.
 												</select>--->
 												<cfif structKeyExists(url, "fiscalYear")>
 													<cftry>
-														<cfset dateComponent = CreateObject("component", "DateComponent")>
-														<cfset result = dateComponent.processFiscalYear(url.fiscalYear)>
+									
+														<cfset result =processFiscalYear(url.fiscalYear)>
 
 														<cfcatch type="InvalidDateRangeException">
 															<cfoutput>Error: #cfcatch.message#</cfoutput>
