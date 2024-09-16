@@ -183,9 +183,9 @@ limitations under the License.
 					<main role="main" class="col-md-9 mr-xl-auto col-lg-10 mb-3 bg-light border-right border-muted">
 						<div id="div1" class="target-div bg-none">
 							<div class="col-12 mt-0 pb-4">
-								<cfset currentYear = Year(Now())>
-								<cfset beginYear = currentYear - 10> <!-- Adjust as needed to show past fiscal years -->
-								<cfset endYear = currentYear + 1> <!-- Including next fiscal year -->
+								<!---<cfset currentYear = Year(Now())>
+								<cfset beginYear = currentYear - 10> 
+								<cfset endYear = currentYear + 1> 
 
 								<form id="loadReportForm2" class="row mx-0">
 									<div class="col-12 col-xl-5 px-0">
@@ -210,7 +210,42 @@ limitations under the License.
 										</div>
 									</div>
 								</form>
+--->
+								<cfif structKeyExists(url, "fiscalYear")>
+									<!--- If fiscal year is selected, process the selection --->
+									<cftry>
+										<cfset dateComponent = CreateObject("component", "DateComponent")>
+										<cfset result = dateComponent.processFiscalYear(url.fiscalYear)>
 
+										<cfcatch type="InvalidDateRangeException">
+											<cfoutput>Error: #cfcatch.message#</cfoutput>
+										</cfcatch>
+									</cftry>
+								</cfif>
+
+								<cfset currentYear = Year(Now())>
+								<cfset startYear = currentYear - 10> <!-- Adjust as needed to show past fiscal years -->
+								<cfset endYear = currentYear + 1> <!-- Including next fiscal year -->
+
+								<form action="fiscalYearSelection.cfm" method="get">
+									<label for="fiscalYear">Select Fiscal Year:</label>
+									<select name="fiscalYear" id="fiscalYear">
+										<cfloop from="#startYear#" to="#endYear#" index="year">
+											<option value="#year#" <cfif url.fiscalYear EQ year> selected </cfif>>Fiscal Year #year#</option>
+										</cfloop>
+									</select>
+									<input type="submit" value="Submit">
+								</form>
+
+								<cfif structKeyExists(url, "fiscalYear") AND IsDefined("result")>
+									<!--- Display the results after processing the fiscal year --->
+									<cfoutput>
+										<h2>Results:</h2>
+										<p>Fiscal Year: #result.fiscalYear#</p>
+										<p>Start Date: #dateFormat(result.startDate, 'mm/dd/yyyy')#</p>
+										<p>End Date: #dateFormat(result.endDate, 'mm/dd/yyyy')#</p>
+									</cfoutput>
+								</cfif>
 								<script>
 									$(document).ready(function() {
 										$('##loadReportForm2').on('submit',function(event){ event.preventDefault(); loadReport(); } );
