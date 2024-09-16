@@ -771,7 +771,7 @@ limitations under the License.
 					
 					
 <!---PLACEHOLDER FOR ANNUAL REPORT QUERY--->
-<cffunction name="getLoanNumbers" access="remote" returntype="any" returnformat="json">
+<cffunction name="getLoanNumbers2" access="remote" returntype="any" returnformat="json">
 	<cfargument name="fiscalYear" type="any" required="no">
 	<cfargument name="fiscalYearStart" type="any" required="no">
 	<cfargument name="returnAs" type="string" required="no" default="html">
