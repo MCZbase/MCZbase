@@ -198,7 +198,7 @@ limitations under the License.
 												<select name="method" id="method" class="mb-1 data-entry-input">	
 													<cfloop from="#beginYear#" to="#endYear#" index="fiscalYear">
 														<cfset fiscalYearStart = #fiscalYear# - 1>
-														<option value="getAnnualNumbers" selected>Fiscal Year:  7/1/#fiscalYearStart# - 6/30/#fiscalYear#</option>
+														<option value="getLoanNumbers2" selected>Fiscal Year:  7/1/#fiscalYearStart# - 6/30/#fiscalYear#</option>
 													</cfloop>
 												</select>
 											</div>
@@ -238,10 +238,10 @@ limitations under the License.
 								</script>
 							</div>
 							<div class="col-12 mt-0 pb-3">
-							<!---	<cfset summaryAnnualBlock=getAnnualNumbers(fiscalYear="#fiscalYear#")>
+								<cfset summaryAnnualBlock=getLoanNumbers2(fiscalYear="#fiscalYear#",fiscalYearStart="#fiscalYearStart#")>
 								<div id="annualNumbersDiv2"> 
 									#summaryAnnualBlock#
-								</div>--->
+								</div>
 								<h2 class="h4">Report will be displayed here.</h2>
 							</div>
 						</div>

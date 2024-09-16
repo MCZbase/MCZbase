@@ -780,10 +780,10 @@ limitations under the License.
 	<cfset variables.beginDate = arguments.fiscalYearStart>
 	<cfset variables.endDate = arguments.fiscalYear>
 	<cfset variables.returnAs = arguments.returnAs>
-	<cfthread name="getLoanNumbersThread">
+	<cfthread name="getLoanNumbers2Thread">
 		<cftry>
 			<!--- annual report queries for loan activity --->
-			<cfquery name="loans" datasource="uam_god" cachedwithin="#createtimespan(7,0,0,0)#">
+			<cfquery name="loans2" datasource="uam_god" cachedwithin="#createtimespan(7,0,0,0)#">
 				SELECT
 					c.Collection, 
 					ol.Num_Outgoing_Loans,
@@ -863,7 +863,7 @@ limitations under the License.
 				ORDER BY collection
 			</cfquery>
 			<cfif variables.returnAs EQ "csv">
-				<cfset csv = queryToCSV(loans)> 
+				<cfset csv = queryToCSV(loans2)> 
 				<cfoutput>#csv#</cfoutput>
 			<cfelse>
 				<cfoutput>
@@ -894,7 +894,7 @@ limitations under the License.
 									</tr>
 								</thead>
 								<tbody>
-									<cfloop query="loans">
+									<cfloop query="loans2">
 										<tr>
 											<td>#Collection#</td>
 											<td>#Num_Outgoing_Loans#</td>
