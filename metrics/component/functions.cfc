@@ -939,22 +939,3 @@ limitations under the License.
 	<cfreturn getAllNumbersThread.output>
 </cffunction>
 </cfcomponent>
-<cfcomponent displayname="DateComponent">
-	<cffunction name="processFiscalYear" access="public" returntype="struct">
-		<cfargument name="fiscalYear" type="string" required="true">
-
-		<cfset var result = {}>
-		<cfset var year = Val(arguments.fiscalYear)>
-		<cfset var startDate = CreateDate(year, 10, 1)>
-		<cfset var endDate = CreateDate(year + 1, 9, 30)>
-
-		<cfif startDate GT endDate>
-			<cfthrow type="InvalidDateRangeException" message="Start date must be earlier than end date.">
-		</cfif>
-
-		<!--- Collect the results in a structure --->
-		<cfset result = {"fiscalYear" = arguments.fiscalYear,"startDate" = startDate,"endDate" = endDate}>
-
-		<cfreturn result>
-	</cffunction>
-</cfcomponent>
