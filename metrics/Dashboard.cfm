@@ -204,7 +204,7 @@ limitations under the License.
 											 	<label for="fiscalYear" class="data-entry-label mt-2">Select Fiscal Year:</label>
 												<select name="fiscalYear" id="fiscalYear" class="mb-1 data-entry-input">
 													<cfloop from="#beginYear#" to="#endYear#" index="year">
-														<option value="#year#" selected>Fiscal Year #year#</option>
+														<option value="#year#" selected>Fiscal Year #beginYear# - #year#</option>
 													</cfloop>
 												</select>
 											</div>
