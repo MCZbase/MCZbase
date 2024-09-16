@@ -772,9 +772,9 @@ limitations under the License.
 					
 <!---PLACEHOLDING FOR ANNUAL REPORT QUERY--->
 
-<cffunction name="getAllNumbers" access="remote" returntype="any" returnformat="json">
+<cffunction name="processFiscalYear" access="public" returntype="void">
 	<cfargument name="fiscalYear" type="string" required="true">
-	<cfargument name="returnAs" type="string" required="no" default="html">
+
 	<cfscript>
 		// Determine start and end dates based on fiscal year
 		var year = val(arguments.fiscalYear);
@@ -792,6 +792,12 @@ limitations under the License.
 		writeOutput("Start Date: " & startDate & "<br>");
 		writeOutput("End Date: " & endDate & "<br>");
 	</cfscript>
+</cffunction>
+
+<cffunction name="getAllNumbers" access="remote" returntype="any" returnformat="json">
+	<cfargument name="fiscalYear" type="string" required="true">
+	<cfargument name="returnAs" type="string" required="no" default="html">
+	
 	<cfset variables.returnAs = arguments.returnAs>
 	<cfthread name="getAllNumbersThread">
 		<cftry>
