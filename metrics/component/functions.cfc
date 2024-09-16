@@ -772,8 +772,14 @@ limitations under the License.
 					
 <!---PLACEHOLDING FOR ANNUAL REPORT QUERY--->
 <cffunction name="getAllNumbers" access="remote" returntype="any" returnformat="json">
-	<cfargument name="endDate" type="any" required="no" default="2024-07-01">
-	<cfargument name="beginDate" type="any" required="no" default="2023-07-01">
+	<cfargument name="fiscalYear" type="string" required="true">
+	<cfset year = Val(arguments.fiscalYear)>
+	<cfset beginDate = CreateDate(year, 10, 1)>
+	<cfset endDate = CreateDate(year + 1, 9, 30)>
+
+	<cfif beginDate GT endDate>
+		<cfthrow type="InvalidDateRangeException" message="Start date must be earlier than end date.">
+	</cfif>
 	<cfargument name="returnAs" type="string" required="no" default="html">
 	
 	<cfset variables.beginDate = arguments.beginDate>
