@@ -180,7 +180,7 @@ limitations under the License.
 						</div>
 					</nav>
 				
-					<main role="main" class="col-md-9 mr-xl-auto col-lg-10 mb-3 bg-light border-right border-muted">
+					<main role="main" class="col-md-9 mr-xl-auto col-lg-10 pb-3 bg-light border-right border-muted">
 						<div id="div1" class="target-div bg-none">
 							<div class="col-12 mt-0 pb-4">
 								<form id="loadReportForm" class="row mx-0">
