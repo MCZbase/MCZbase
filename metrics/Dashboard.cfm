@@ -228,14 +228,14 @@ limitations under the License.
 												$('##annualNumbersDiv2').html(response);
 											}
 										).fail(function(jqXHR,textStatus,error){
-											$('##annualNumbersDiv2').html("Error Loading Metrics");
+											$('##annualNumbersDiv').html("Error Loading Metrics");
 										handleFail(jqXHR,textStatus,error,"loading metrics for date range.");
 										});
 									}
 								</script>
 							</div>
 							<div class="col-12 mt-0 pb-3">
-								<cfset summaryAnnualBlock2=getAnnualNumbers(year="#year#")>
+								<cfset summaryAnnualBlock2=getAnnualNumbers(fiscalYear="#fiscalYear#")>
 								<div id="annualNumbersDiv2"> 
 									#summaryAnnualBlock2#
 								</div>
