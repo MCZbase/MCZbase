@@ -775,11 +775,9 @@ limitations under the License.
 <cffunction name="getAllNumbers" access="remote" returntype="any" returnformat="json">
 	<cfif endDate contains "2024">
 		<cfset endDate = "2024-07-01">
-		<cfargument name="endDate" type="any" required="no" default="2024-07-01">
-		<cfargument name="beginDate" type="any" required="no" default="2023-07-01">
-	
 	</cfif>
-	
+	<cfargument name="endDate" type="any" required="no" default="2024-07-01">
+	<cfargument name="beginDate" type="any" required="no" default="2023-07-01">
 	<cfargument name="returnAs" type="string" required="no" default="html">
 	<cfset variables.beginDate = arguments.beginDate>
 	<cfset variables.endDate = arguments.endDate>
