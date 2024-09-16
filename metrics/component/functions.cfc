@@ -768,8 +768,6 @@ limitations under the License.
 	<cfreturn getGeorefNumbersThread.output>
 </cffunction>
 
-					
-					
-<!---PLACEHOLDER FOR ANNUAL REPORT QUERY--->
+				
 
 </cfcomponent>
