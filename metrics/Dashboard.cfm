@@ -297,8 +297,8 @@ limitations under the License.
 									}
 								</script>
 							</div>
-							<div class="col-12 mt-0 pb-3 border">
-								<cfset summaryAnnualBlock=getAllNumbers(endDate="#endDate#",beginDate="#beginDate#")>
+							<div class="col-12 mt-0 pb-3">
+								<cfset summaryAnnualBlock=getAnnualNumbers(endDate="#endDate#",beginDate="#beginDate#")>
 								<div id="annualNumbersDiv"> 
 									#summaryAnnualBlock#
 								</div>
