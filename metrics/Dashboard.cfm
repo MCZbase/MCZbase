@@ -154,7 +154,7 @@ limitations under the License.
 				}
 				div.sidebar-sticky a:hover {
 					color: darkblue;
-					background-color: ##0460c1;
+					color: ##0460c1;
 				}
 				.target-div {
 					display: none; /* Hide divs by default */
