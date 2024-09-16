@@ -935,10 +935,7 @@ limitations under the License.
 	<cfthread action="join" name="getAllNumbersThread" />
 	<cfreturn getAllNumbersThread.output>
 </cffunction>--->
-</cfcomponent>
-				
-				
-<cfcomponent displayname="DateComponent">
+
 <cffunction name="processFiscalYear" access="public" returntype="struct">
 	<cfargument name="fiscalYear" type="string" required="true">
 
