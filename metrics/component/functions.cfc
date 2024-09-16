@@ -770,7 +770,7 @@ limitations under the License.
 
 					
 					
-<!---PLACEHOLDING FOR ANNUAL REPORT QUERY--->
+<!---PLACEHOLDER FOR ANNUAL REPORT QUERY--->
 <cffunction name="getAllNumbers" access="remote" returntype="any" returnformat="json">
 	<cfargument name="fiscalYear" type="string" required="true">
 
