@@ -215,7 +215,7 @@ limitations under the License.
 										$('##loadReportForm').on('submit',function(event){ event.preventDefault(); loadReport(); } );
 									});
 									function loadReport(){
-										$('##annualNumbersDiv').html("Loading...");
+										$('##annualNumbersDiv2').html("Loading...");
 										$.ajax(
 											{
 												url: '/metrics/component/functions.cfc',
@@ -225,16 +225,23 @@ limitations under the License.
 										).done(
 											function(response) {
 												console.log(response);
-												$('##annualNumbersDiv').html(response);
+												$('##annualNumbersDiv2').html(response);
 											}
 										).fail(function(jqXHR,textStatus,error){
-											$('##annualNumbersDiv').html("Error Loading Metrics");
+											$('##annualNumbersDiv2').html("Error Loading Metrics");
 										handleFail(jqXHR,textStatus,error,"loading metrics for date range.");
 										});
 									}
 								</script>
-							</div>						
+							</div>
+							<div class="col-12 mt-0 pb-3">
+								<cfset summaryAnnualBlock=getAnnualNumbers(fiscalYear="#fiscalYear#")>
+								<div id="annualNumbersDiv2"> 
+									#summaryAnnualBlock#
+								</div>
+							</div>
 						</div>
+						
 						<div id="div2" class="target-div bg-none">
 							<div class="col-12 mt-0 pb-4">
 								<form id="loadReportForm2" class="row mx-0">
