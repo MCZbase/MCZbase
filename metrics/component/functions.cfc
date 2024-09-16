@@ -867,7 +867,7 @@ limitations under the License.
 
 								<!---TODO: Annual Rport activity queries do not use dates --->
 							<h2 class="h3 px-0 mt-0 float-left mb-0">Annual Report Activity 
-								<span class="text-muted">(#encodeForHtml(beginDate)#/#encodeForHtml(endDate)#)</span>
+								<span class="text-muted">(#encodeForHtml(beginYear)#/#encodeForHtml(endYear)#)</span>
 							</h2>
 
 							<h2 class="h3 px-0 mt-0 float-left mb-0">Annual Report
