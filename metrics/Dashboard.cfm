@@ -183,18 +183,22 @@ limitations under the License.
 					<main role="main" class="col-md-9 mr-xl-auto col-lg-10 mb-3 bg-light border-right border-muted">
 						<div id="div1" class="target-div bg-none">
 							<div class="col-12 mt-0 pb-4">
-								<form id="loadReportForm" class="row mx-0">
+								<cfscript>
+									// Determine the current year and the previous few years for fiscal year options
+									var currentYear = Year(now());
+									var startYear = currentYear - 10; // Adjust as needed to show past fiscal years
+									var endYear = currentYear + 1; // Including next fiscal year
+								</cfscript>
+								<form id="loadReportForm2" class="row mx-0">
 									<div class="col-12 col-xl-5 px-0">
 										<h3 class="h4 text-muted">Select Annual Report</h3>
 										<div class="row mx-0">
 											<div class="col-12 col-xl-10 pl-xl-0">
-												<label for="method" class="data-entry-label mt-0 text-light">Annual Report To Show</label>
-												<select id="method" name="method" class="mb-1 data-entry-input">
-													<option value="getAllNumbers" selected="selected">Current</option>
-													<option value="getAllNumbers">FY 2022-2023</option>
-													<option value="getLoanNumbers">FY 2021-2022</option>
-													<option value="getMediaNumbers">FY 2020-2021</option>
-													<option value="getCitationNumbers">FY 2019-2020</option>
+												<label for="fiscalYear">Select Fiscal Year:</label>
+												<select name="fiscalYear" id="fiscalYear">
+													<cfloop from="#startYear#" to="#endYear#" index="year">
+														<option value="#year#">Fiscal Year #year#</option>
+													</cfloop>
 												</select>
 											</div>
 										</div>
@@ -211,7 +215,7 @@ limitations under the License.
 
 								<script>
 									$(document).ready(function() {
-										$('##loadReportForm').on('submit',function(event){ event.preventDefault(); loadReport(); } );
+										$('##loadReportForm2').on('submit',function(event){ event.preventDefault(); loadReport(); } );
 									});
 									function loadReport(){
 										$('##annualNumbersDiv').html("Loading...");
@@ -219,7 +223,7 @@ limitations under the License.
 											{
 												url: '/metrics/component/functions.cfc',
 												type: 'GET', 
-												data: $('##loadReportForm').serialize()
+												data: $('##loadReportForm2').serialize()
 											}
 										).done(
 											function(response) {
