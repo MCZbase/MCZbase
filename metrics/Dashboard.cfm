@@ -188,6 +188,9 @@ limitations under the License.
 										<h3 class="h4 text-muted">Annual Reports</h3>
 										<div class="row mx-0">
 											<div class="col-12 col-xl-10 pl-xl-0">
+												<input type="hidden" name="returnFormat" value="plain">
+												<input name="beginDate" id="beginDate" type="hidden" value="#beginDate#">
+												<input name="endDate" id="endDate" type="hidden" value="#endDate#">
 												<cfset currentDate = Year(Now())>
 												<cfset beginYear = currentYear - 1> <!-- Adjust as needed to show past fiscal years -->
 												<cfset endYear = currentDate + 1>	
