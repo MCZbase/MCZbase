@@ -196,14 +196,15 @@ limitations under the License.
 													<option value="getMediaNumbers">FY 2020-2021</option>
 													<option value="getCitationNumbers">FY 2019-2020</option>
 												</select>--->
+									
 
 												<cfset currentYear = Year(Now())>
-												<cfset beginDate = currentDate - 10> <!-- Adjust as needed to show past fiscal years -->
+												<cfset startDate = currentYear - 10> <!-- Adjust as needed to show past fiscal years -->
 												<cfset endDate = currentDate + 1>
-											 	<label for="method">Select Fiscal Year:</label>
-												<select name="method" id="method">
+											 	<label for="fiscalYear">Select Fiscal Year:</label>
+												<select name="fiscalYear" id="fiscalYear">
 													<cfloop from="#beginDate#" to="#endDate#" index="year">
-														<option value="#year#" <cfif url.fiscalYear EQ year> selected </cfif>>Fiscal Year #year#</option>
+														<option value="#year#" selected>Fiscal Year #year#</option>
 													</cfloop>
 												</select>
 											</div>
