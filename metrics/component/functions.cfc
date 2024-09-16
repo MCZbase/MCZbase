@@ -771,111 +771,108 @@ limitations under the License.
 					
 					
 <!---PLACEHOLDER FOR ANNUAL REPORT QUERY--->
-<cffunction name="getAllNumbers" access="remote" returntype="any" returnformat="json">
-	<cfargument name="fiscalYear" type="string" required="true">
-
-		<cfset var result = {}>
-		<cfset var year = Val(arguments.fiscalYear)>
-		<cfset var beginYear = CreateDate(year, 10, 1)>
-		<cfset var endYear = CreateDate(year + 1, 9, 30)>
-
-		<cfif beginYear GT endYear>
-			<cfthrow type="InvalidDateRangeException" message="Start date must be earlier than end date.">
-		</cfif>
-
-		<!--- Collect the results in a structure --->
-		<cfset result = {"fiscalYear" = arguments.fiscalYear,"beginYear" = startYear,"endYear" = endYear}>
-
-		<cfreturn result>
-
-	<cfthread name="getAllNumbersThread">
+<cffunction name="getLoanNumbers" access="remote" returntype="any" returnformat="json">
+	<cfargument name="fiscalYear" type="any" required="no">
+	<cfargument name="fiscalYearStart" type="any" required="no">
+	<cfargument name="returnAs" type="string" required="no" default="html">
+	
+	<!--- make arguments available within thread --->
+	<cfset variables.beginDate = arguments.fiscalYearStart>
+	<cfset variables.endDate = arguments.fiscalYear>
+	<cfset variables.returnAs = arguments.returnAs>
+	<cfthread name="getLoanNumbersThread">
 		<cftry>
-			<cfquery name="getAllNumbers" datasource="uam_god" cachedwithin="#createtimespan(7,0,0,0)#">
-				select 
-					rm.holdings,
-					h.collection, 
-					h.catalogeditems, 
-					h.specimens, 
-					p.primaryCatItems, 
-					p.primaryspecimens, 
-					s.secondaryCatItems, 
-					s.secondarySpecimens, 
-					a.receivedCatItems,
-					a.receivedSpecimens,
-					e.enteredCatItems,
-					e.enteredSpecimens,
-					ncbi.ncbiCatItems,
-					accn.numAccns  
-				from 
-					(select * from collection where collection_cde <> 'MCZ') c
-				left join (select * from MCZBASE.collections_reported_metrics) rm on c.collection_id = rm.collection_id 
-				left join (select f.collection_id, f.collection, count(distinct f.collection_object_id) catalogeditems, sum(decode(total_parts,null, 1,total_parts)) specimens
-						from flat f
-						join coll_object co on f.collection_object_id = co.collection_object_id
-						where co.COLL_OBJECT_ENTERED_DATE < to_date('#endYear#', 'YYYY-MM-DD')
-						group by f.collection_id, f.collection) h on rm.collection_id = h.collection_id
-				left join  ( select f.collection_id, f.collection, ts.CATEGORY, count(distinct f.collection_object_id) primaryCatItems, sum(decode(total_parts,null, 1,total_parts)) primarySpecimens
-						from coll_object co
-						join flat f on co.collection_object_id = f.collection_object_id
-						join citation c on f.collection_object_id = c.collection_object_id
-						join ctcitation_type_status ts on c.type_status =  ts.type_status
-						where ts.CATEGORY in ('Primary')
-						and co.COLL_OBJECT_ENTERED_DATE <  to_date('#endYear#', 'YYYY-MM-DD')
-						group by f.collection_id, f.collection, ts.CATEGORY) p on h.collection_id = p.collection_id
-				left join (select f.collection_id, f.collection, ts.CATEGORY, count(distinct f.collection_object_id) secondaryCatItems, sum(decode(total_parts,null, 1,total_parts)) secondarySpecimens
-						from coll_object co
-						join flat f on co.collection_object_id = f.collection_object_id
-						join citation c on f.collection_object_id = c.collection_object_id
-						join ctcitation_type_status ts on c.type_status =  ts.type_status
-						where ts.CATEGORY in ('Secondary')
-						and co.COLL_OBJECT_ENTERED_DATE <  to_date('#endYear#', 'YYYY-MM-DD')
-						group by f.collection_id, f.collection, ts.CATEGORY) s on h.collection_id = s.collection_id
-				left join (select f.collection_id, f.collection, count(distinct collection_object_id) receivedCatitems, sum(decode(total_parts,null, 1,total_parts)) receivedSpecimens
-						from flat f
-						join accn a on f.ACCN_ID = a.transaction_id
-						join trans t on a.transaction_id = t.transaction_id
-						where a.received_DATE between  to_date('#beginYear#', 'YYYY-MM-DD') and  to_date('#endYear#', 'YYYY-MM-DD')
-						group by f.collection_id, f.collection) a 
-					on h.collection_id = a.collection_id
-				left join (select f.collection_id, f.collection, count(distinct f.collection_object_id) enteredCatItems, sum(decode(total_parts,null, 1,total_parts)) enteredSpecimens 
-						from flat f
-						join coll_object co on f.collection_object_id = co.collection_object_id
-						where co.COLL_OBJECT_ENTERED_DATE between to_date('#beginYear#', 'YYYY-MM-DD') and  to_date('#endYear#', 'YYYY-MM-DD')
-						group by f.collection_id, f.collection) e 
-						on e.collection_id = h.collection_id
-				left join (select f.collection_id, f.collection, count(distinct f.collection_object_id) ncbiCatItems, sum(total_parts) ncbiSpecimens 
-						from COLL_OBJ_OTHER_ID_NUM oid, flat f, COLL_OBJECT CO 
-						where OTHER_ID_TYPE like '%NCBI%'
-						AND F.COLLECTION_OBJECT_ID = CO.COLLECTIOn_OBJECT_ID
-						and co.COLL_OBJECT_ENTERED_DATE < to_date('#endYear#', 'YYYY-MM-DD')
-						and oid.collection_object_id = f.collection_object_id
-						group by f.collection_id, f.collection) ncbi on h.collection_id = ncbi.collection_id
-				left join (select c.collection_id, c.collection, count(distinct t.transaction_id) numAccns
-						from accn a, trans t, collection c
-						where a.transaction_id = t.transaction_id
-						and t.collection_id = c.collection_id
-						and a.received_date between to_date('#beginYear#', 'YYYY-MM-DD') and  to_date('#endYear#', 'YYYY-MM-DD')
-						group by c.collection_id, c.collection) accn on h.collection_id = accn.collection_id
-			</cfquery>			
+			<!--- annual report queries for loan activity --->
+			<cfquery name="loans" datasource="uam_god" cachedwithin="#createtimespan(7,0,0,0)#">
+				SELECT
+					c.Collection, 
+					ol.Num_Outgoing_Loans,
+					cl.Num_Closed_Loans,
+					fy.Num_5yr_Loans,
+					ty.Num_10yr_Loans,
+					b.Num_Borrows,
+					opL.Num_Open_Loans,
+					open5.Num_Open_OverDue_5yrs,
+					open10.Num_Open_OverDue_10yrs,
+					ol.Outgoing_CatItems,
+					ol.Outgoing_Specimens
+				FROM
+					(select collection_cde,institution_acronym,descr,collection,collection_id from collection where collection_cde <> 'MCZ') c
+				LEFT JOIN
+					(select c.collection_id, collection, count(distinct l.transaction_id) Num_Outgoing_Loans, count(distinct sp.derived_from_cat_item) Outgoing_CatItems, sum(co.lot_count) as Outgoing_Specimens
+					from loan l, trans t, collection c, loan_item li, specimen_part sp, coll_object co
+					where l.transaction_id = t.transaction_id
+					and t.collection_id = c.collection_id
+					and t.transaction_id = li.transaction_id(+)
+					and li.collection_object_id = sp.collection_object_id(+)
+					and sp.collection_object_id = co.collection_object_id(+)
+					and t.TRANS_DATE between to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#beginDate#">, 'YYYY-MM-DD') and  to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#endDate#">, 'YYYY-MM-DD')
+					group by c.collection_id, c.collection) ol on c.collection_id = ol.collection_id
+				LEFT JOIN (select c.collection_id, collection, count(distinct l.transaction_id) Num_Closed_Loans
+					from loan l, trans t, collection c, loan_item li, specimen_part sp, coll_object co
+					where l.transaction_id = t.transaction_id
+					and t.collection_id = c.collection_id
+					and t.transaction_id = li.transaction_id(+)
+					and li.collection_object_id = sp.collection_object_id(+)
+					and sp.collection_object_id = co.collection_object_id(+)
+					and l.CLOSED_DATE between to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#beginDate#">, 'YYYY-MM-DD') and  to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#endDate#">, 'YYYY-MM-DD')
+					group by c.collection_id, collection) cl on c.collection_id = cl.collection_id
+				LEFT JOIN (select c.collection_id, collection_cde, count(*)as Num_5yr_Loans
+					from loan l, trans t, collection c
+					where l.transaction_id = t.transaction_id
+					and t.collection_id = c.collection_id
+					and l.CLOSED_DATE between to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#beginDate#">, 'YYYY-MM-DD') and  to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#endDate#">, 'YYYY-MM-DD')
+					and l.closed_date -l.return_due_date > (365*5)
+					group by c.collection_id, collection_cde) fy on c.collection_id = fy.collection_id
+				LEFT JOIN (select c.collection_id, collection_cde, count(*) as Num_10yr_Loans
+					from loan l, trans t, collection c
+					where l.transaction_id = t.transaction_id
+					and t.collection_id = c.collection_id
+					and l.CLOSED_DATE between to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#beginDate#">, 'YYYY-MM-DD') and  to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#endDate#">, 'YYYY-MM-DD')
+					and l.closed_date -l.return_due_date > (365*10)
+					group by c.collection_id, collection_cde) ty on c.collection_id = ty.collection_id
+				LEFT JOIN (select c.collection_id, collection, count(*) as Num_Borrows 
+					from borrow l, trans t, collection c
+					where l.transaction_id = t.transaction_id
+					and t.collection_id = c.collection_id
+					and l.RECEIVED_DATE between to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#beginDate#">, 'YYYY-MM-DD') and  to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#endDate#">, 'YYYY-MM-DD')
+					group by c.collection_id, collection) b on c.collection_id = b.collection_id
+				LEFT JOIN (select c.collection_id, collection_cde, count(*) as Num_Open_Loans 
+					from loan l, trans t, collection c
+					where l.transaction_id = t.transaction_id
+					and t.collection_id = c.collection_id
+					and (loan_status like '%open%' or closed_date > to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#endDate#">, 'YYYY-MM-DD'))
+					and t.trans_date <  to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#endDate#">, 'YYYY-MM-DD')
+					group by c.collection_id, collection_cde) opL on c.collection_id = opL.collection_id
+				LEFT JOIN (select c.collection_id, collection, count(*) Num_Open_OverDue_5yrs 
+					from loan l, trans t, collection c
+					where l.transaction_id = t.transaction_id
+					and t.collection_id = c.collection_id
+					and (loan_status like '%open%' or closed_date > to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#endDate#">, 'YYYY-MM-DD'))
+					and t.trans_date < to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#endDate#">, 'YYYY-MM-DD')
+					and to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#endDate#">, 'YYYY-MM-DD') - l.return_due_date > 365*5
+					group by c.collection_id, collection) open5 on c.collection_id = open5.collection_id
+				LEFT JOIN (select c.collection_id, collection, count(*) Num_Open_OverDue_10yrs
+					from loan l, trans t, collection c
+					where l.transaction_id = t.transaction_id
+					and t.collection_id = c.collection_id
+					and (loan_status like '%open%' or closed_date > to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#endDate#">, 'YYYY-MM-DD'))
+					and t.trans_date < to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#endDate#">, 'YYYY-MM-DD')
+					and to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#endDate#">, 'YYYY-MM-DD') - l.return_due_date > 365*10
+					group by c.collection_id, collection) open10 on c.collection_id = open10.collection_id
+				ORDER BY collection
+			</cfquery>
 			<cfif variables.returnAs EQ "csv">
-				<cfset csv = queryToCSV(getAllNumbers)> 
+				<cfset csv = queryToCSV(loans)> 
 				<cfoutput>#csv#</cfoutput>
 			<cfelse>
 				<cfoutput>
 					<section class="col-12 mt-2 px-0">
 						<div class="my-2 float-left w-100">
-
-								<!---TODO: Annual Rport activity queries do not use dates --->
-							<h2 class="h3 px-0 mt-0 float-left mb-0">Annual Report Activity 
-								<span class="text-muted">(#encodeForHtml(beginYear)#/#encodeForHtml(endYear)#)</span>
-							</h2>
-
-							<h2 class="h3 px-0 mt-0 float-left mb-0">Annual Report
-								<span class="text-muted">(??Dates??)</span>
-							</h2>
-							<div class="btn-toolbar my-1 mt-lg-0 float-right">
+							<h2 class="h3 mt-0 px-0 float-left mb-1">Loan Activity <span class="text-muted">(#encodeForHtml(beginDate)#/#encodeForHtml(endDate)#)</span></h2>
+							<div class="btn-toolbar my-1 mt-md-0 float-right">
 								<div class="btn-group mr-2">
-									<a href="/metrics/Dashboard.cfm" class="btn btn-xs btn-outline-secondary">Export Table</a>
+									<a href="/metrics/Dashboard.cfm?action=dowloadLoanActivity&returnAs=csv&beginDate=#encodeForURL(beginDate)#&endDate=#encodeForUrl(endDate)#" class="btn btn-xs btn-outline-secondary">Export Table</a>
 								</div>
 							</div>
 						</div>
@@ -883,40 +880,33 @@ limitations under the License.
 							<table class="table table-striped" id="t">
 								<thead>
 									<tr>
-										<th><strong>Holdings</strong></th>
-										<th><strong>Collection</strong></th> 
-										<th><strong>Cataloged Items</strong></th>
-										<th><strong>Specimens</strong></th> 
-										<th><strong>Primary Types Cataloged Items</strong></th>
-										<th><strong>Primary Type Parts</strong></th> 
-										<th><strong>Secondary Types Cataloged Items</strong></th>
-										<th><strong>Secondary Types Parts</strong></th> 
-										<th><strong>Received Cataloged Items</strong></th>
-										<th><strong>Received Specimen Parts</strong></th> 
-										<th><strong>Entered Cataloged Items</strong></th>
-										<th><strong>Entered Specimen Parts</strong></th> 
-										<th><strong>NCBI Cataloged Items</strong></th>
-										<th><strong>Number of Accessions</strong></th>
+										<th><strong>Collection</strong></th>
+										<th><strong>Outgoing Loans</strong></th>
+										<th><strong>Closed Loans</strong></th>
+										<th><strong>Closed Overdue (>5 years) Loans</strong></th>
+										<th><strong>Closed Overdue (>10 years) Loans</strong></th>
+										<th><strong>Incoming loans (=Borrows)</strong></th>
+										<th><strong>Number of Open Loans</strong></th>
+										<th><strong>Number of Open Loans overdue > 5 years</strong></th>
+										<th><strong>Number of Open Loans overdue > 10 year</strong></th>
+										<th><strong>Outgoing Cataloged Items</strong></th>
+										<th><strong>Outgoing Specimens</strong></th>
 									</tr>
 								</thead>
 								<tbody>
-									<cfloop query="getAllNumbers">
+									<cfloop query="loans">
 										<tr>
-											<td>#rm.holdings#</td>
-											<td>#h.collection#</td>
-											<td>#h.catalogeditems#</td>
-											<td>#h.specimens#</td>
-											<td>#p.primaryCatItems#</td>
-											<td>#p.primaryspecimens#</td>
-											<td>#s.secondaryCatItems#</td>
-											<td>#s.secondarySpecimens#</td>
-											<td>#a.receivedCatItems#</td>
-											<td>#a.receivedSpecimens#</td>
-											<td>#a.receivedCatItems#</td>
-											<td>#e.enteredCatItems#</td>
-											<td>#e.enteredSpecimens#</td>
-											<td>#ncbi.ncbiCatItems#</td>
-											<td>#accn.numAccns  #</td>
+											<td>#Collection#</td>
+											<td>#Num_Outgoing_Loans#</td>
+											<td>#Num_Closed_Loans#</td>
+											<td>#Num_5yr_Loans#</td>
+											<td>#Num_10yr_Loans#</td>
+											<td>#Num_Borrows#</td>
+											<td>#Num_Open_Loans#</td>
+											<td>#Num_Open_OverDue_5yrs#</td>
+											<td>#Num_Open_OverDue_10yrs#</td>
+											<td>#Outgoing_CatItems#</td>
+											<td>#Outgoing_Specimens#</td>
 										</tr>
 									</cfloop>
 								</tbody>
@@ -935,7 +925,7 @@ limitations under the License.
 		</cfcatch>
 		</cftry>
 	</cfthread>
-	<cfthread action="join" name="getAllNumbersThread" />
-	<cfreturn getAllNumbersThread.output>
+	<cfthread action="join" name="getLoanNumbersThread" />
+	<cfreturn getLoanNumbersThread.output>
 </cffunction>
 </cfcomponent>
