@@ -188,10 +188,10 @@ limitations under the License.
 										<h3 class="h4 text-muted">Select Annual Report</h3>
 										<div class="row mx-0">
 											<div class="col-12 col-xl-10 pl-xl-0">
-												<label for="method" class="data-entry-label mt-0">Annual Report To Show</label>
+												<label for="method" class="data-entry-label mt-0 text-light">Annual Report To Show</label>
 												<select id="method" name="method" class="mb-1 data-entry-input">
 													<option value="getAllNumbers" selected="selected">Current</option>
-													<option value="getAcquisitions">FY 2022-2023</option>
+													<option value="getAllNumbers">FY 2022-2023</option>
 													<option value="getLoanNumbers">FY 2021-2022</option>
 													<option value="getMediaNumbers">FY 2020-2021</option>
 													<option value="getCitationNumbers">FY 2019-2020</option>
