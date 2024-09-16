@@ -254,7 +254,7 @@ limitations under the License.
 												<label for="method" class="data-entry-label mt-2">Report To Show</label>
 												<select id="method" name="method" class="mb-1 data-entry-input">
 													<option value="getAnnualNumbers" selected="selected">Holdings</option>
-													<option value="getAllNumbers">Acquisitions</option>
+													<option value="getAcquisitions">Acquisitions</option>
 													<option value="getLoanNumbers">Loan Activity</option>
 													<option value="getMediaNumbers">Media (current)</option>
 													<option value="getCitationNumbers">Citations (current)</option>
