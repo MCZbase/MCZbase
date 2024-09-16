@@ -781,7 +781,7 @@ limitations under the License.
 		<cfthrow type="InvalidDateRangeException" message="Start date must be earlier than end date.">
 	</cfif>
 	<cfargument name="returnAs" type="string" required="no" default="html">
-	
+	<cfset variables.year = arguments.year>
 	<cfset variables.beginDate = arguments.beginDate>
 	<cfset variables.endDate = arguments.endDate>
 	<cfset variables.returnAs = arguments.returnAs>
