@@ -771,29 +771,6 @@ limitations under the License.
 					
 					
 <!---PLACEHOLDING FOR ANNUAL REPORT QUERY--->
-
-<cffunction name="processFiscalYear" access="public" returntype="void">
-	<cfargument name="fiscalYear" type="string" required="true">
-
-	<cfscript>
-		// Determine start and end dates based on fiscal year
-		var year = val(arguments.fiscalYear);
-		var startDate = createDate(year, 10, 1);
-		var endDate = createDate(year + 1, 9, 30);
-
-		// Ensure the dates are in proper order
-		if (startDate GT endDate) {
-			throw(type = "InvalidDateRangeException", message = "Start date must be earlier than end date.");
-		}
-
-		// Process the date range here
-		// Example: output the dates for demonstration
-		writeOutput("Fiscal Year: " & arguments.fiscalYear & "<br>");
-		writeOutput("Start Date: " & startDate & "<br>");
-		writeOutput("End Date: " & endDate & "<br>");
-	</cfscript>
-</cffunction>
-
 <cffunction name="getAllNumbers" access="remote" returntype="any" returnformat="json">
 	<cfargument name="fiscalYear" type="string" required="true">
 	<cfargument name="returnAs" type="string" required="no" default="html">
@@ -801,6 +778,10 @@ limitations under the License.
 	<cfset variables.returnAs = arguments.returnAs>
 	<cfthread name="getAllNumbersThread">
 		<cftry>
+			<cfset var year = val(arguments.fiscalYear)>
+			<cfset var startDate = createDate(year, 10, 1)>
+			<cfset var endDate = createDate(year + 1, 9, 30)>
+			
 			<cfquery name="getAllNumbers" datasource="uam_god" cachedwithin="#createtimespan(7,0,0,0)#">
 				select 
 					rm.holdings,
