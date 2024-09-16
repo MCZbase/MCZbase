@@ -812,7 +812,7 @@ limitations under the License.
 				left join (select f.collection_id, f.collection, count(distinct f.collection_object_id) catalogeditems, sum(decode(total_parts,null, 1,total_parts)) specimens
 						from flat f
 						join coll_object co on f.collection_object_id = co.collection_object_id
-						where co.COLL_OBJECT_ENTERED_DATE < to_date('2024-06-30', 'YYYY-MM-DD')
+						where co.COLL_OBJECT_ENTERED_DATE < to_date('#endYear#', 'YYYY-MM-DD')
 						group by f.collection_id, f.collection) h on rm.collection_id = h.collection_id
 				left join  ( select f.collection_id, f.collection, ts.CATEGORY, count(distinct f.collection_object_id) primaryCatItems, sum(decode(total_parts,null, 1,total_parts)) primarySpecimens
 						from coll_object co
@@ -820,7 +820,7 @@ limitations under the License.
 						join citation c on f.collection_object_id = c.collection_object_id
 						join ctcitation_type_status ts on c.type_status =  ts.type_status
 						where ts.CATEGORY in ('Primary')
-						and co.COLL_OBJECT_ENTERED_DATE <  to_date('2024-06-30', 'YYYY-MM-DD')
+						and co.COLL_OBJECT_ENTERED_DATE <  to_date('#endYear#', 'YYYY-MM-DD')
 						group by f.collection_id, f.collection, ts.CATEGORY) p on h.collection_id = p.collection_id
 				left join (select f.collection_id, f.collection, ts.CATEGORY, count(distinct f.collection_object_id) secondaryCatItems, sum(decode(total_parts,null, 1,total_parts)) secondarySpecimens
 						from coll_object co
@@ -828,33 +828,33 @@ limitations under the License.
 						join citation c on f.collection_object_id = c.collection_object_id
 						join ctcitation_type_status ts on c.type_status =  ts.type_status
 						where ts.CATEGORY in ('Secondary')
-						and co.COLL_OBJECT_ENTERED_DATE <  to_date('2024-06-30', 'YYYY-MM-DD')
+						and co.COLL_OBJECT_ENTERED_DATE <  to_date('#endYear#', 'YYYY-MM-DD')
 						group by f.collection_id, f.collection, ts.CATEGORY) s on h.collection_id = s.collection_id
 				left join (select f.collection_id, f.collection, count(distinct collection_object_id) receivedCatitems, sum(decode(total_parts,null, 1,total_parts)) receivedSpecimens
 						from flat f
 						join accn a on f.ACCN_ID = a.transaction_id
 						join trans t on a.transaction_id = t.transaction_id
-						where a.received_DATE between  to_date('2022-07-01', 'YYYY-MM-DD') and  to_date('2024-06-30', 'YYYY-MM-DD')
+						where a.received_DATE between  to_date('#beginYear#', 'YYYY-MM-DD') and  to_date('#endYear#', 'YYYY-MM-DD')
 						group by f.collection_id, f.collection) a 
 					on h.collection_id = a.collection_id
 				left join (select f.collection_id, f.collection, count(distinct f.collection_object_id) enteredCatItems, sum(decode(total_parts,null, 1,total_parts)) enteredSpecimens 
 						from flat f
 						join coll_object co on f.collection_object_id = co.collection_object_id
-						where co.COLL_OBJECT_ENTERED_DATE between to_date('2022-07-01', 'YYYY-MM-DD') and  to_date('2024-06-30', 'YYYY-MM-DD')
+						where co.COLL_OBJECT_ENTERED_DATE between to_date('#beginYear#', 'YYYY-MM-DD') and  to_date('#endYear#', 'YYYY-MM-DD')
 						group by f.collection_id, f.collection) e 
 						on e.collection_id = h.collection_id
 				left join (select f.collection_id, f.collection, count(distinct f.collection_object_id) ncbiCatItems, sum(total_parts) ncbiSpecimens 
 						from COLL_OBJ_OTHER_ID_NUM oid, flat f, COLL_OBJECT CO 
 						where OTHER_ID_TYPE like '%NCBI%'
 						AND F.COLLECTION_OBJECT_ID = CO.COLLECTIOn_OBJECT_ID
-						and co.COLL_OBJECT_ENTERED_DATE < to_date('2024-06-30', 'YYYY-MM-DD')
+						and co.COLL_OBJECT_ENTERED_DATE < to_date('#endYear#', 'YYYY-MM-DD')
 						and oid.collection_object_id = f.collection_object_id
 						group by f.collection_id, f.collection) ncbi on h.collection_id = ncbi.collection_id
 				left join (select c.collection_id, c.collection, count(distinct t.transaction_id) numAccns
 						from accn a, trans t, collection c
 						where a.transaction_id = t.transaction_id
 						and t.collection_id = c.collection_id
-						and a.received_date between to_date('2022-07-01', 'YYYY-MM-DD') and  to_date('2024-06-30', 'YYYY-MM-DD')
+						and a.received_date between to_date('#beginYear#', 'YYYY-MM-DD') and  to_date('#endYear#', 'YYYY-MM-DD')
 						group by c.collection_id, c.collection) accn on h.collection_id = accn.collection_id
 			</cfquery>			
 			<cfif variables.returnAs EQ "csv">
