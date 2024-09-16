@@ -183,6 +183,19 @@ limitations under the License.
 					<main role="main" class="col-md-9 mr-xl-auto col-lg-10 mb-3 bg-light border-right border-muted">
 						<div id="div1" class="target-div bg-none">
 							<div class="col-12 mt-0 pb-4">
+								<cfset currentYear = Year(Now())>
+								<cfset startYear = currentYear - 10> <!-- Adjust as needed to show past fiscal years -->
+								<cfset endYear = currentYear + 1> <!-- Including next fiscal year -->
+
+								<form id="loadReportForm" class="row mx-0">
+									<label for="fiscalYear">Select Fiscal Year:</label>
+									<select name="fiscalYear" id="fiscalYear">
+										<cfloop from="#startYear#" to="#endYear#" index="year">
+											<option value="#year#">Fiscal Year #year#</option>
+										</cfloop>
+									</select>
+									<input type="submit" value="Submit">
+								</form>
 								<form id="loadReportForm" class="row mx-0">
 									<div class="col-12 col-xl-5 px-0">
 										<h3 class="h4 text-muted">Select Annual Report</h3>
