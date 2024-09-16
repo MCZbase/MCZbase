@@ -358,8 +358,8 @@ limitations under the License.
 							removeActiveClasses();
 							this.classList.add('active', 'active-2');
 							hideAllDivs();
-							document.getElementById("").classList.add('visible');
-							saveState('link2', '');
+							document.getElementById("div2").classList.add('visible');
+							saveState('link2', 'div2');
 						});
 
 
