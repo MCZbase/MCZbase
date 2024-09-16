@@ -215,7 +215,7 @@ limitations under the License.
 								</form>
 								<script>
 									$(document).ready(function() {
-										$('##loadAnnualReport').on('submit',function(event){ event.preventDefault(); loadReportYear(); } );
+										$('##loadAnnualReport').on('submit',function(event){ event.preventDefault(); loadReport2(); } );
 									});
 									function loadReport2(){
 										$('##annualNumbersDiv2').html("Loading...");
