@@ -188,13 +188,33 @@ limitations under the License.
 										<h3 class="h4 text-muted">Select Annual Report</h3>
 										<div class="row mx-0">
 											<div class="col-12 col-xl-10 pl-xl-0">
-												<label for="method" class="data-entry-label mt-2">Annual Report To Show</label>
+								<!---				<label for="method" class="data-entry-label mt-2">Annual Report To Show</label>
 												<select id="method" name="method" class="mb-1 data-entry-input">
 													<option value="getAllNumbers" selected="selected">Current</option>
 													<option value="getAcquisitions">FY 2022-2023</option>
 													<option value="getLoanNumbers">FY 2021-2022</option>
 													<option value="getMediaNumbers">FY 2020-2021</option>
 													<option value="getCitationNumbers">FY 2019-2020</option>
+												</select>--->
+												<cfif structKeyExists(url, "fiscalYear")>
+													<cftry>
+														<cfset dateComponent = CreateObject("component", "DateComponent")>
+														<cfset result = dateComponent.processFiscalYear(url.fiscalYear)>
+
+														<cfcatch type="InvalidDateRangeException">
+															<cfoutput>Error: #cfcatch.message#</cfoutput>
+														</cfcatch>
+													</cftry>
+												</cfif>
+
+												<cfset currentYear = Year(Now())>
+												<cfset beginDate = currentDate - 10> <!-- Adjust as needed to show past fiscal years -->
+												<cfset endDate = currentDate + 1>
+											 	<label for="fiscalYear">Select Fiscal Year:</label>
+												<select name="fiscalYear" id="fiscalYear">
+													<cfloop from="#beginDate#" to="#endDate#" index="year">
+														<option value="#year#" <cfif url.fiscalYear EQ year> selected </cfif>>Fiscal Year #year#</option>
+													</cfloop>
 												</select>
 											</div>
 										</div>
