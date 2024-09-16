@@ -772,16 +772,15 @@ limitations under the License.
 					
 <!---PLACEHOLDING FOR ANNUAL REPORT QUERY--->
 <cffunction name="getAllNumbers" access="remote" returntype="any" returnformat="json">
-	<cfargument name="fiscalYear" type="string" required="true">
+	<cfargument name="endDate" type="any" required="no" default="2024-07-01">
+	<cfargument name="beginDate" type="any" required="no" default="2023-07-01">
 	<cfargument name="returnAs" type="string" required="no" default="html">
 	
+	<cfset variables.beginDate = arguments.beginDate>
+	<cfset variables.endDate = arguments.endDate>
 	<cfset variables.returnAs = arguments.returnAs>
 	<cfthread name="getAllNumbersThread">
 		<cftry>
-			<cfset var year = val(arguments.fiscalYear)>
-			<cfset var startDate = createDate(year, 10, 1)>
-			<cfset var endDate = createDate(year + 1, 9, 30)>
-			
 			<cfquery name="getAllNumbers" datasource="uam_god" cachedwithin="#createtimespan(7,0,0,0)#">
 				select 
 					rm.holdings,

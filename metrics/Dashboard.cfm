@@ -183,22 +183,24 @@ limitations under the License.
 					<main role="main" class="col-md-9 mr-xl-auto col-lg-10 mb-3 bg-light border-right border-muted">
 						<div id="div1" class="target-div bg-none">
 							<div class="col-12 mt-0 pb-4">
-								<form id="loadReportForm2" class="row mx-0">
+								<form id="loadReportForm" class="row mx-0">
 									<div class="col-12 col-xl-5 px-0">
 										<h3 class="h4 text-muted">Select Annual Report</h3>
 										<div class="row mx-0">
 											<div class="col-12 col-xl-10 pl-xl-0">
-												<label for="fiscalYear">Select Fiscal Year:</label>
-												<select name="fiscalYear" id="fiscalYear">
-													<cfloop from="#startYear#" to="#endYear#" index="year">
-														<option value="#year#">Fiscal Year #year#</option>
-													</cfloop>
+												<label for="method" class="data-entry-label mt-2">Annual Report To Show</label>
+												<select id="method" name="method" class="mb-1 data-entry-input">
+													<option value="getAllNumbers" selected="selected">Current</option>
+													<option value="getAcquisitions">FY 2022-2023</option>
+													<option value="getLoanNumbers">FY 2021-2022</option>
+													<option value="getMediaNumbers">FY 2020-2021</option>
+													<option value="getCitationNumbers">FY 2019-2020</option>
 												</select>
 											</div>
 										</div>
 									</div>
 									<div class="col-12 col-xl-2 px-0">
-										<h3 class="h4 mt-1 text-light">Submit</h3>
+										<h3 class="h4 mt-3 text-white">Submit</h3>
 										<div class="row mx-0">
 											<div class="col-12 col-xl-9">
 												<input type="submit" value="Show Report" class="my-2 btn-xs btn btn-primary" aria-label="Show the selected report for the specified date range">
@@ -209,7 +211,7 @@ limitations under the License.
 
 								<script>
 									$(document).ready(function() {
-										$('##loadReportForm2').on('submit',function(event){ event.preventDefault(); loadReport(); } );
+										$('##loadReportForm').on('submit',function(event){ event.preventDefault(); loadReport(); } );
 									});
 									function loadReport(){
 										$('##annualNumbersDiv').html("Loading...");
@@ -217,7 +219,7 @@ limitations under the License.
 											{
 												url: '/metrics/component/functions.cfc',
 												type: 'GET', 
-												data: $('##loadReportForm2').serialize()
+												data: $('##loadReportForm').serialize()
 											}
 										).done(
 											function(response) {
@@ -261,7 +263,7 @@ limitations under the License.
 										</div>
 									</div>
 									<div class="col-12 col-xl-2 px-0">
-										<h3 class="h4 mt-3 text-light">Submit</h3>
+										<h3 class="h4 mt-3 text-white">Submit</h3>
 										<div class="row mx-0">
 											<div class="col-12 col-xl-9">
 												<input type="submit" value="Show Report" class="my-2 btn-xs btn btn-primary" aria-label="Show the selected report for the specified date range">
