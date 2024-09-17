@@ -172,9 +172,10 @@ limitations under the License.
 										<cfset beginYearFY = dateFormat("#fiscalYearStart#-07-01","yyyy-mm-dd")>	
 										<cfset endYearFY = dateFormat("#fiscalYear#-06-30","yyyy-mm-dd")>
 										<option value="getAnnualReport&beginYearFY&endYearFY" selected>FY: #fiscalYearStart#-#fiscalYear#</option>
+												#beginYearFY# - #endYearFY#
 									</cfloop>
 								</select>
-											#beginYearFY# - #endYearFY#
+										
 								<input type="submit" value="Show Report" class="my-3 btn-xs btn btn-primary" aria-label="Show the selected report for the specified date range">
 							</form>
 							<script>
