@@ -131,7 +131,7 @@ limitations under the License.
 					$("##endDate").datepicker({ dateFormat: 'yy-mm-dd'});
 				});
 			</script>
-			<style>
+<style>
 			/*
 *
 * ==========================================
@@ -140,24 +140,24 @@ limitations under the License.
 *
 */
 .collapsible-link {
-  width: 100%;
-  position: relative;
-  text-align: left;
+	width: 100%;
+	position: relative;
+	text-align: left;
 }
 
 .collapsible-link::before {
-  content: "\f107";
-  position: absolute;
-  top: 50%;
-  right: 0.8rem;
-  transform: translateY(-50%);
-  display: block;
-  font-family: "FontAwesome";
-  font-size: 1.1rem;
+	content: "\f107";
+	position: absolute;
+	top: 50%;
+	right: 0.8rem;
+	transform: translateY(-50%);
+	display: block;
+	font-family: "FontAwesome";
+	font-size: 1.1rem;
 }
 
 .collapsible-link[aria-expanded="true"]::before {
-  content: "\f106";
+	content: "\f106";
 }
 
 /*
@@ -174,25 +174,27 @@ body {
   min-height: 100vh;
   padding-bottom: 5rem;
 }
-				</style>
-			<div class="container-fluid" id="content">
-				<div class="row">
-				<br clear="all">	
-					<nav id="sidebarMenu" class="mt-2 col-md-3 col-lg-2 d-md-block sidebar" style="background-color: ##efeded;border: ##e3e3e3;">
-						   <div id="accordionExample" class="accordion shadow">
+</style>
+	<div class="container-fluid" id="content">
+		<div class="row">
+			<br clear="all">	
+			<nav id="sidebarMenu" class="mt-2 col-md-3 col-lg-2 d-md-block sidebar" style="background-color: ##efeded;border: ##e3e3e3;">
+				<div id="accordionExample" class="accordion shadow">
 
-        <!-- Accordion item 1 -->
-        <div class="card">
-          <div id="headingOne" class="card-header bg-white shadow-sm border-0">
-            <h2 class="mb-0">
-              <button type="button" data-toggle="collapse" data-target="##collapseOne" aria-expanded="true"
-                aria-controls="collapseOne"
-                class="btn btn-link text-dark font-weight-bold text-uppercase collapsible-link">Annual Reports</button>
-            </h2>
-          </div>
-          <div id="collapseOne" aria-labelledby="headingOne" data-parent="##accordionExample" class="collapse show">
-            <div class="card-body p-5">
-  <div class="sidebar-sticky py-2 mt-2 px-2 border rounded" id="annualReports" style="background-color: ##efeded;">
+			<!-- Accordion item 1 -->
+			<div class="card">
+				<div id="headingOne" class="card-header bg-white shadow-sm border-0">
+				<h2 class="mb-0">
+					<button type="button" data-toggle="collapse" data-target="##collapseOne" aria-expanded="true"
+					aria-controls="collapseOne"
+					class="btn btn-link text-dark font-weight-bold text-uppercase collapsible-link">
+						Annual Reports
+					</button>
+				</h2>
+			</div>
+			<div id="collapseOne" aria-labelledby="headingOne" data-parent="##accordionExample" class="collapse show">
+				<div class="card-body p-1">
+					<div class="sidebar-sticky py-2 mt-2 px-2 border rounded" id="annualReports" style="background-color: ##efeded;">
 							<form id="loadReportForm">
 								<h3 class="h4 text-muted">Annual Reports</h3>
 								<input type="hidden" name="returnFormat" value="plain">
@@ -239,9 +241,9 @@ body {
 								}
 							</script>
 						</div>
-            </div>
-          </div>
-        </div><!-- End -->
+				</div>
+			  </div>
+			</div><!-- End -->
 
         <!-- Accordion item 2 -->
         <div class="card">
@@ -254,7 +256,7 @@ body {
             </h2>
           </div>
           <div id="collapseTwo" aria-labelledby="headingTwo" data-parent="##accordionExample" class="collapse">
-            <div class="card-body p-5">
+            <div class="card-body p-1">
 				<div class="sidebar-sticky py-2 mt-2 border rounded mb-3 px-2" id="selectedReports" style="background-color: ##efeded;">
 							<form id="loadReportForm">
 								<h3 class="h4 text-muted">Select a Report</h3>
