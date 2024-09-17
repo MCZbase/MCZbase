@@ -178,7 +178,7 @@ limitations under the License.
 								}
 							</script>
 						</div>
-						<div class="sidebar-sticky pt-4 px-2" id="annualReports" style="background-color: ##efeded;">
+						<div class="sidebar-sticky pt-4 px-2 border rounded" id="annualReports" style="background-color: ##efeded;">
 							<form id="loadReportForm">
 								<h3 class="h4 text-muted">Annual Reports</h3>
 								<input type="hidden" name="returnFormat" value="plain">
