@@ -168,7 +168,7 @@ limitations under the License.
 *
 */
 body {
-  background: #654ea3;
+  background: ##654ea3;
   background: -webkit-linear-gradient(to left, #654ea3, #eaafc8);
   background: linear-gradient(to left, #654ea3, #eaafc8);
   min-height: 100vh;
