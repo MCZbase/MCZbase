@@ -230,7 +230,7 @@ body {
 						<div id="collapseTwo" aria-labelledby="headingTwo" data-parent="##accordionExample" class="collapse">
 							<div class="card-body p-1">
 								<div class="sidebar-sticky py-2 mt-2 border rounded mb-3 px-2" id="selectedReports" style="background-color: ##efeded;">
-									<form id="loadReportForm">
+							<form id="loadReportForm">
 								<h3 class="h4 text-muted">Select a Report</h3>
 								<input type="hidden" name="returnFormat" value="plain">
 								<label for="beginDate" class="data-entry-label mt-2">Begin Date</label>
@@ -272,10 +272,10 @@ body {
 			</div>
 			<script>
 				$(document).ready(function() {
-					$('#submitFiscalYear').on('click', function() {
-						var fiscalYear = $('#fiscalYear').val();
+					$('##submitFiscalYear').on('click', function() {
+						var fiscalYear = $('##fiscalYear').val();
 						$.ajax({
-							url: '/metrics/Dashboard.cfc?method=getFiscalYearReport',
+							url: '/metrics/component/functions.cfc',
 							type: 'GET',
 							data: { 
 								fiscalYear: fiscalYear, 
@@ -283,7 +283,7 @@ body {
 							},
 							dataType: 'json',
 							success: function(response) {
-								$('#reportResult').html(formatResponse(response));
+								$('##reportResult').html(formatResponse(response));
 							},
 							error: function(error) {
 								console.log(error);
@@ -291,12 +291,12 @@ body {
 						});
 					});
 
-					$('#submitDate').on('click', function() {
-						var beginDate = $('#beginDate').val();
-						var endDate = $('#endDate').val();
-						var method = $('#method').val(); // Assuming you added a dropdown for report type
+					$('##submitDate').on('click', function() {
+						var beginDate = $('##beginDate').val();
+						var endDate = $('##endDate').val();
+						var method = $('##method').val(); // Assuming you added a dropdown for report type
 						$.ajax({
-							url: '/metrics/Dashboard.cfc?method=getDateReport',
+							url: '/metrics/component/functions.cfc',
 							type: 'GET',
 							data: {
 								beginDate: beginDate,
@@ -305,7 +305,7 @@ body {
 							},
 							dataType: 'json',
 							success: function(response) {
-								$('#reportResult').html(formatResponse(response));
+								$('##reportResult').html(formatResponse(response));
 							},
 							error: function(error) {
 								console.log(error);
