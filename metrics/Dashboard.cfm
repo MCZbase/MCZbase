@@ -155,7 +155,7 @@ limitations under the License.
 									<option value="getMediaNumbers">Media (current)</option>
 									<option value="getCitationNumbers">Citations (current)</option>
 									<option value="getGeorefNumbers">Georeferences (current)</option>
-									<option value="getAnnualReport" selected="selected">Annual Report</option>
+									<option value="getAnnualReport">Annual Report</option>
 								</select>
 								
 								OR 
