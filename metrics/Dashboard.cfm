@@ -145,19 +145,7 @@ limitations under the License.
 								<label for="endDate" class="data-entry-label mt-2">End Date</label>
 								<input name="endDate" id="endDate" type="text" class="mb-1 datetimeinput data-entry-input data-entry-input" placeholder="yyyy-mm-dd" value="#endDate#" aria-label="end of range for dates to display metrics.">
 								
-								OR 
-								
-								<cfset currentDate = Year(Now())>
-								<cfset beginYear = currentYear - 1> <!-- Adjust as needed to show past fiscal years -->
-								<cfset endYear = currentDate + 1>	
-
-								<label for="fiscalYear" class="data-entry-label mt-2">Select Fiscal Year:</label>
-								<select name="method" id="method" class="mb-1 data-entry-input">	
-									<cfloop from="#beginYear#" to="#endYear#" index="fiscalYear">
-										<cfset fiscalYearStart = #fiscalYear# - 1>
-										<option value="getLoanNumbers2" selected>Fiscal Year:  7/1/#fiscalYearStart#-6/30/#fiscalYear#</option>
-									</cfloop>
-								</select>
+				
 								<h3 class="h4 text-muted mt-3">Report to Show</h3>
 								<label for="method" class="sr-only">Report To Show</label>
 								<select id="method" name="method" class="my-1 data-entry-input">
@@ -167,6 +155,22 @@ limitations under the License.
 									<option value="getMediaNumbers">Media (current)</option>
 									<option value="getCitationNumbers">Citations (current)</option>
 									<option value="getGeorefNumbers">Georeferences (current)</option>
+								</select>
+								
+								OR 
+								
+								<cfset currentDate = Year(Now())>
+								<cfset beginYear = currentYear - 1> <!-- Adjust as needed to show past fiscal years -->
+								<cfset endYear = currentDate + 1>	
+								<label for="fiscalYear" class="data-entry-label mt-2">Select Fiscal Year:</label>
+								<select name="fiscalYear" id="fiscalYear" class="mb-1 data-entry-input">	
+									<cfloop from="#beginYear#" to="#endYear#" index="fiscalYear">
+										<cfset fiscalYearStart = #fiscalYear# - 1>
+										<option value="getLoanNumbers2" selected>Fiscal Year:  7/1/#fiscalYearStart#-6/30/#fiscalYear#</option>
+									</cfloop>
+								</select>
+								<select id="method" name="method" class="my-1 data-entry-input">
+									<option value="getAnnualReport" selected="selected">Annual Report</option>
 								</select>
 								<input type="submit" value="Show Report" class="my-3 btn-xs btn btn-primary" aria-label="Show the selected report for the specified date range">
 							</form>
