@@ -152,7 +152,7 @@ limitations under the License.
 									<option value="getCitationNumbers">Citations (current)</option>
 									<option value="getGeorefNumbers">Georeferences (current)</option>
 								</select>
-								<input type="submit" value="Show Selected Report" class="my-2 btn-xs btn btn-primary" aria-label="Show the selected report for the specified date range">
+								<input type="submit" value="Show Selected Report" class="mt-2 pb-2 btn-xs btn btn-primary" aria-label="Show the selected report for the specified date range">
 							</form>
 							<script>
 								$(document).ready(function() {
