@@ -33,18 +33,18 @@ limitations under the License.
 ** TO DO: make date pass to dates from form to CHART_DATA_EXPORT (if possible) or at least use sysdate minus 1 year (e.g., change the year YYYY to -1)
 --->
 
-    <cffunction name="getFiscalYearDateRange" access="public" returntype="struct">
-        <cfargument name="endYear" type="numeric" required="yes">
+<cffunction name="getFiscalYearDateRange" access="public" returntype="struct">
+	<cfargument name="endYear" type="numeric" required="yes">
 
-        <cfset var dateRange = structNew()>
-        <!-- Start date is July 1st of the previous year -->
-        <cfset dateRange.beginDate = createDate(arguments.endYear - 1, 7, 1)>
-        <!-- End date is June 30th of the given year -->
-        <cfset dateRange.endDate = createDate(arguments.endYear, 6, 30)>
+	<cfset var dateRange = structNew()>
+	<!-- Start date is July 1st of the previous year -->
+	<cfset dateRange.beginDate = createDate(arguments.endYear - 1, 7, 1)>
+	<!-- End date is June 30th of the given year -->
+	<cfset dateRange.endDate = createDate(arguments.endYear, 6, 30)>
 
-        <cfreturn dateRange>
-    </cffunction>
-</cfcomponent>
+	<cfreturn dateRange>
+</cffunction>
+
 <cffunction name="getAnnualChart" access="remote" returntype="any" returnformat="plain">
 	<cfthread name="getAnnualChartThread">
 		<cfoutput>
