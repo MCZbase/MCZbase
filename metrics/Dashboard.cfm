@@ -163,12 +163,11 @@ limitations under the License.
 								<cfset currentDate = Year(Now())>
 								<cfset beginYear = currentYear - 1> 
 								<cfset endYear = currentDate + 1>	
-								<cfloop from="#beginYear#" to="#endYear#" index="fiscalYear">
-									<cfset thisDate = 	getFiscalYearDateRange(currentDate)>
+								<cfloop from="#beginYear#" to="#endYear#" index="endYear">
+									<cfset dateRange = getFiscalYearDateRange(endYear)>
 								</cfloop>
 							
-									
-									#thisDate#
+								
 									
 					<!---				
 								<cfset beginYear = currentYear - 1> 
