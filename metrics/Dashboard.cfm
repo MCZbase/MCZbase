@@ -185,12 +185,12 @@ body {
         <div class="card">
           <div id="headingOne" class="card-header bg-white shadow-sm border-0">
             <h2 class="mb-0">
-              <button type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true"
+              <button type="button" data-toggle="collapse" data-target="##collapseOne" aria-expanded="true"
                 aria-controls="collapseOne"
                 class="btn btn-link text-dark font-weight-bold text-uppercase collapsible-link">Annual Reports</button>
             </h2>
           </div>
-          <div id="collapseOne" aria-labelledby="headingOne" data-parent="#accordionExample" class="collapse show">
+          <div id="collapseOne" aria-labelledby="headingOne" data-parent="##accordionExample" class="collapse show">
             <div class="card-body p-5">
   <div class="sidebar-sticky py-2 mt-2 px-2 border rounded" id="annualReports" style="background-color: ##efeded;">
 							<form id="loadReportForm">
@@ -247,10 +247,10 @@ body {
         <div class="card">
           <div id="headingTwo" class="card-header bg-white shadow-sm border-0">
             <h2 class="mb-0">
-              <button type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false"
+              <button type="button" data-toggle="collapse" data-target="##collapseTwo" aria-expanded="false"
                 aria-controls="collapseTwo"
-                class="btn btn-link collapsed text-dark font-weight-bold text-uppercase collapsible-link">Collapsible
-                Group Item #2</button>
+                class="btn btn-link collapsed text-dark font-weight-bold text-uppercase collapsible-link">
+               Selected Report</button>
             </h2>
           </div>
           <div id="collapseTwo" aria-labelledby="headingTwo" data-parent="#accordionExample" class="collapse">
