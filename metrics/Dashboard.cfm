@@ -343,10 +343,10 @@ body {
 					});
 
 					$('##submitSelectedDate').on('click', function() {
-						var reportDate = $('#reportDate').val();
+						var reportDate = $('##reportDate').val();
 						$.ajax({
-							url: 'getDateReport.cfm',
-							type: 'GET',
+							url: '/metrics/component/functions.cfc',
+								type: 'GET', 
 							data: { reportDate: reportDate },
 							dataType: 'json',
 							success: function(response) {
