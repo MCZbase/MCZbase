@@ -167,7 +167,7 @@ limitations under the License.
 									<cfset dateRange = getFiscalYearDateRange(endYear)>
 								</cfloop>
 							
-								
+								#dateRange#
 									
 					<!---				
 								<cfset beginYear = currentYear - 1> 
