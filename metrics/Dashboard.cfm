@@ -137,14 +137,13 @@ limitations under the License.
 					<nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block sidebar" style="background-color: ##efeded;border: ##e3e3e3;">
 						<div class="sidebar-sticky pt-4 px-2" id="selectedReports" style="background-color: ##efeded;">
 							<form id="loadReportForm">
-								<h3 class="h4 text-muted">Report Date Range</h3>
+								<h3 class="h4 text-muted">Select a Report</h3>
 								<input type="hidden" name="returnFormat" value="plain">
 								<label for="beginDate" class="data-entry-label mt-2">Begin Date</label>
 								<input name="beginDate" id="beginDate" type="text" class="mb-1 datetimeinput data-entry-input data-entry-input" placeholder="yyyy-mm-dd" value="#beginDate#" aria-label="start of range for dates to display metrics.">
 								<label for="endDate" class="data-entry-label mt-2">End Date</label>
 								<input name="endDate" id="endDate" type="text" class="mb-1 datetimeinput data-entry-input data-entry-input" placeholder="yyyy-mm-dd" value="#endDate#" aria-label="end of range for dates to display metrics.">
-								<h3 class="h4 text-muted mt-3">Report to Show</h3>
-								<label for="method" class="sr-only">Report To Show</label>
+								<label for="method" class="data-entry-label mt-2">Report To Show</label>
 								<select id="method" name="method" class="my-1 data-entry-input">
 									<option value="getAnnualNumbers" selected="selected">Holdings</option>
 									<option value="getAcquisitions">Acquisitions</option>
@@ -153,7 +152,7 @@ limitations under the License.
 									<option value="getCitationNumbers">Citations (current)</option>
 									<option value="getGeorefNumbers">Georeferences (current)</option>
 								</select>
-								<input type="submit" value="Show Report" class="my-3 btn-xs btn btn-primary" aria-label="Show the selected report for the specified date range">
+								<input type="submit" value="Show Selected Report" class="my-3 btn-xs btn btn-primary" aria-label="Show the selected report for the specified date range">
 							</form>
 							<script>
 								$(document).ready(function() {
@@ -200,7 +199,7 @@ limitations under the License.
 											<option value="getLoanNumbers2" selected>Fiscal Year:  7/1/#fiscalYearStart# - 6/30/#fiscalYear#</option>
 										</cfloop>
 									</select>
-								<input type="submit" value="Show Report" class="my-3 btn-xs btn btn-primary" aria-label="Show the selected report for the specified date range">
+								<input type="submit" value="Show Annual Report" class="my-3 btn-xs btn btn-primary" aria-label="Show the selected report for the specified date range">
 							</form>
 							<script>
 								$(document).ready(function() {
