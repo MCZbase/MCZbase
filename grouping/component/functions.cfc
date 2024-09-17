@@ -475,7 +475,7 @@ Function getUndCollList.  Search for arbitrary collections returning json suitab
 					<cfloop query="agents">
 						<li>
 							#agents.role#
-							<a href="/agents/Agent.cfm?#agents.agent_id#" target="_blank">#agents.agent_name#</a>
+							<a href="/agents/Agent.cfm?agent_id=#agents.agent_id#" target="_blank">#agents.agent_name#</a>
 							#remarks#
 							<button id="editAgentButton#agents.underscore_coll_agent_id#" class="btn btn-xs btn-secondary" 
 								onclick="openeditagenttogroupingdialog('agentDialogDiv', '#underscore_coll_agent_id#', '#collection_name#', reloadAgentBlock);" 
