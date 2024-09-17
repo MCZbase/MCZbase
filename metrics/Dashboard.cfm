@@ -163,15 +163,15 @@ limitations under the License.
 								<cfset currentDate = Year(Now())>
 								<cfset beginYear = currentYear - 1> <!-- Adjust as needed to show past fiscal years -->
 								<cfset endYear = currentDate + 1>	
-								<cfset endYear = dateFormat("#endYear#-06-30","yyyy-mm-dd")>	
-								<cfset beginYear = dateFormat("#currentDate#-07-01", "yyyy-mm-dd")>
+								<cfset endDate = dateFormat("#endYear#-06-30","yyyy-mm-dd")>	
+								<cfset beginDate = dateFormat("#currentDate#-07-01", "yyyy-mm-dd")>
 								<label for="fiscalYear" class="data-entry-label mt-2">For Fiscal Year:</label>
 								<select name="fiscalYear" id="fiscalYear" class="mb-1 data-entry-input">	
 									<cfloop from="#beginYear#" to="#endYear#" index="fiscalYear">
 										<cfset fiscalYearStart = #fiscalYear# - 1>
-										<cfset beginYear = #fiscalYearStart#>	
-										<cfset endYear = #fiscalYear#>
-										<option value="getAnnualReport&beginYearDate&endYearDate" selected>FY: #fiscalYearStart#-#fiscalYear#</option>
+										<cfset beginYearFY = dateFormat("#fiscalYearStart#-07-01","yyyy-mm-dd")>	
+										<cfset endYearFY = dateFormat("#fiscalYear#-06-30","yyyy-mm-dd")>
+										<option value="getAnnualReport&beginYearFY&endYearFY" selected>FY: #fiscalYearStart#-#fiscalYear#</option>
 									</cfloop>
 								</select>
 								<input type="submit" value="Show Report" class="my-3 btn-xs btn btn-primary" aria-label="Show the selected report for the specified date range">
