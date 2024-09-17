@@ -316,7 +316,7 @@ body {
 							</h1>
 							<p class="text-muted small">Reports are generated from the current MCZbase data and may not match numbers printed in previous annual reports.</p>
 							<cfset summaryAnnualBlock=getAcquisitions(endDate="#endDate#",beginDate="#beginDate#")>
-							<div id="annualNumbersDiv"> 
+							<div id="reportResult"> 
 								#summaryAnnualBlock#
 							</div>
 						</div>
