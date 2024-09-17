@@ -32,16 +32,19 @@ limitations under the License.
 <!---This function uses the SQL procedure (CHART_DATA_EXPORT), scheduled job (CHART_DATA), and temp table (CF_TEMP_CHART_DATA) to produce a png to write to /metrics/R/graphs/chart1.png
 ** TO DO: make date pass to dates from form to CHART_DATA_EXPORT (if possible) or at least use sysdate minus 1 year (e.g., change the year YYYY to -1)
 --->
-<cffunction name="getFiscalYearDateRange" access="private" returntype="struct">
-        <cfargument name="fiscalYear" type="numeric" required="yes">
-        
+
+    <cffunction name="getFiscalYearDateRange" access="public" returntype="struct">
+        <cfargument name="endYear" type="numeric" required="yes">
+
         <cfset var dateRange = structNew()>
-        <cfset dateRange.beginDate = createDate(arguments.fiscalYear, 7, 1)>
-        <cfset dateRange.endDate = createDate(arguments.fiscalYear + 1, 6, 30)>
+        <!-- Start date is July 1st of the previous year -->
+        <cfset dateRange.beginDate = createDate(arguments.endYear - 1, 7, 1)>
+        <!-- End date is June 30th of the given year -->
+        <cfset dateRange.endDate = createDate(arguments.endYear, 6, 30)>
 
         <cfreturn dateRange>
-</cffunction>	
-
+    </cffunction>
+</cfcomponent>
 <cffunction name="getAnnualChart" access="remote" returntype="any" returnformat="plain">
 	<cfthread name="getAnnualChartThread">
 		<cfoutput>
