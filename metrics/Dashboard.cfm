@@ -135,7 +135,7 @@ limitations under the License.
 				<div class="row">
 				<br clear="all">	
 					<nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block sidebar" style="background-color: ##efeded;border: ##e3e3e3;">
-						<div class="sidebar-sticky pt-4 px-2" id="selectedReports" style="background-color: ##efeded;">
+						<div class="sidebar-sticky pt-4 border rounded mb-4 px-2" id="selectedReports" style="background-color: ##efeded;">
 							<form id="loadReportForm">
 								<h3 class="h4 text-muted">Select a Report</h3>
 								<input type="hidden" name="returnFormat" value="plain">
