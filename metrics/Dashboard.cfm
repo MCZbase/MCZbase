@@ -169,7 +169,7 @@ limitations under the License.
 								<select name="fiscalYear" id="fiscalYear" class="mb-1 data-entry-input">	
 									<cfloop from="#beginYear#" to="#endYear#" index="fiscalYear">
 										<cfset fiscalYearStart = #fiscalYear# - 1>
-										<option value="getAnnualReport&beginDate=#fiscalYearStart#07-01&endDate=#fiscalYear#06-30" selected>FY: #fiscalYearStart#-#fiscalYear#</option>
+										<option value="getAnnualReport&beginDate=#fiscalYearStart#-07-01&endDate=#fiscalYear#-06-30" selected>FY: #fiscalYearStart#-#fiscalYear#</option>
 									</cfloop>
 								</select>
 										
