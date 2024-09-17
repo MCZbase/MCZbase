@@ -152,6 +152,33 @@ limitations under the License.
 			.collapsible-link[aria-expanded="true"]::before {
 				content: "\f106";
 			}
+			nav##sidebarMenu {
+				border-right: ##e3e3e3;
+			}
+			div.sidebar-sticky a {
+				display: block;
+				text-decoration: none;
+				padding: 2rem;
+				transition: background-color 0.3s ease;
+			}
+			div.sidebar-sticky a.active {
+				background-color: ##d7d7d7;
+			}
+			div.sidebar-sticky a.active-1 {
+				background-color: ##d7d7d7;
+			}
+			div.sidebar-sticky a:hover {
+				color: ##0460c1;
+			}
+			.target-div {
+				display: none; 
+				margin-top: 30px;
+				padding: 20px;
+				transition: opacity 0.3s ease;
+			}
+			.target-div.visible {
+				display: block;
+			}
 		</style>
 		<div class="container-fluid" id="content">
 			<div class="row">
@@ -278,7 +305,7 @@ limitations under the License.
 					</div>
 				</nav>
 
-				<main role="main" class="col-md-9 px-3 ml-sm-auto col-lg-10 mb-3">
+				<main role="main" class="col-md-9 mr-xl-auto col-lg-10 pb-3 bg-light border-right border-muted">
 					<div class="col-12 mt-4">
 						<h1 class="h2 float-left mb-1 w-100">MCZbase Metrics 
 						</h1>
