@@ -780,13 +780,13 @@ limitations under the License.
 
 
 <cffunction name="getAnnualReport" access="remote" returntype="any" returnformat="json">
-	<cfargument name="fiscalYear" type="any" required="no">
+	<cfargument name="beginYearDate" type="any" required="no">
+	<cfargument name="endYearDate" type="any" required="no">
 	<cfargument name="returnAs" type="string" required="no" default="html">
 	
 	<!--- make arguments available within thread --->
-	<cfset variables.beginDate = arguments.beginDate>
-	<cfset variables.endDate = arguments.endDate>
-	<cfset variables.fiscalYear = arguments.fiscalYear>
+	<cfset variables.beginYearDate = arguments.beginYearDate>
+	<cfset variables.endYearDate = arguments.endYearDate>
 	<cfset variables.returnAs = arguments.returnAs>
 	<cfthread name="getAnnualReportThread">
 		<cftry>
@@ -806,7 +806,7 @@ limitations under the License.
 					and t.transaction_id = li.transaction_id(+)
 					and li.collection_object_id = sp.collection_object_id(+)
 					and sp.collection_object_id = co.collection_object_id(+)
-					and t.TRANS_DATE > to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#dateRange.beginDate#">, 'YYYY-MM-DD') and < to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#dateRange.endDate#">, 'YYYY-MM-DD')
+					and t.TRANS_DATE > to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#beginYearDate#">, 'YYYY-MM-DD') and < to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#endYearDate#">, 'YYYY-MM-DD')
 					group by c.collection_id, c.collection) ol on c.collection_id = ol.collection_id
 				
 				ORDER BY collection
