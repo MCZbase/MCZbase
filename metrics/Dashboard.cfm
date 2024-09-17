@@ -155,7 +155,7 @@ limitations under the License.
 								<select name="method" id="method" class="mb-1 data-entry-input">	
 									<cfloop from="#beginYear#" to="#endYear#" index="fiscalYear">
 										<cfset fiscalYearStart = #fiscalYear# - 1>
-										<option value="getLoanNumbers2" selected>Fiscal Year:  7/1/#fiscalYearStart# - 6/30/#fiscalYear#</option>
+										<option value="getLoanNumbers2" selected>Fiscal Year:  7/1/#fiscalYearStart#-6/30/#fiscalYear#</option>
 									</cfloop>
 								</select>
 								<h3 class="h4 text-muted mt-3">Report to Show</h3>
