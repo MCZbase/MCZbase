@@ -178,7 +178,7 @@ body {
 	<div class="container-fluid" id="content">
 		<div class="row">
 			<br clear="all">	
-			<nav id="sidebarMenu" class="mt-2 p-1 col-md-3 col-lg-2 d-md-block sidebar" style="background-color: ##efeded;border: ##e3e3e3;">
+			<nav id="sidebarMenu" class="px-1 pt-2 col-md-3 col-lg-2 d-md-block sidebar" style="background-color: ##efeded;border: ##e3e3e3;">
 				<div id="accordionExample" class="accordion shadow">
 
 					<!-- Accordion item 1 -->
