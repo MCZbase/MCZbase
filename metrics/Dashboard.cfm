@@ -161,7 +161,12 @@ limitations under the License.
 								OR 
 								<h3 class="h4 text-muted mt-3">Show Annual Report</h3>
 								<cfset currentDate = Year(Now())>
-								<cfset beginYear = currentYear - 1> <!-- Adjust as needed to show past fiscal years -->
+								<cfset thisDate = 	getFiscalYearDateRange(currentDate)>
+									
+									#thisDate#
+									
+					<!---				
+								<cfset beginYear = currentYear - 1> 
 								<cfset endYear = currentDate + 1>	
 								<label for="fiscalYear" class="data-entry-label mt-2">For Fiscal Year:</label>
 								<select name="fiscalYear" id="fiscalYear" class="mb-1 data-entry-input">	
@@ -169,7 +174,7 @@ limitations under the License.
 										<cfset fiscalYearStart = #fiscalYear# - 1>
 										<option value="getFiscalYearDateRange(fiscalYear)" selected>FY: #fiscalYearStart#-#fiscalYear#</option>
 									</cfloop>
-								</select>
+								</select>--->
 										
 								<input type="submit" value="Show Report" class="my-3 btn-xs btn btn-primary" aria-label="Show the selected report for the specified date range">
 							</form>
