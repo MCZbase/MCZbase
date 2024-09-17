@@ -313,24 +313,24 @@ body {
 						});
 					});
 
-					function formatResponse(response) {
-						var html = "<table class='table'><thead><tr>";
-						if(response.length > 0){
-							for (var key in response[0]) {
-								html += "<th>" + key + "</th>";
-							}
-						}
-						html += "</tr></thead><tbody>";
-						response.forEach(function(item) {
-							html += "<tr>";
-							for (var key in item) {
-								html += "<td>" + item[key] + "</td>";
-							}
-							html += "</tr>";
-						});
-						html += "</tbody></table>";
-						return html;
-					}
+//					function formatResponse(response) {
+//						var html = "<table class='table'><thead><tr>";
+//						if(response.length > 0){
+//							for (var key in response[0]) {
+//								html += "<th>" + key + "</th>";
+//							}
+//						}
+//						html += "</tr></thead><tbody>";
+//						response.forEach(function(item) {
+//							html += "<tr>";
+//							for (var key in item) {
+//								html += "<td>" + item[key] + "</td>";
+//							}
+//							html += "</tr>";
+//						});
+//						html += "</tbody></table>";
+//						return html;
+//					}
 				});
 			</script>
 		</cfoutput>
