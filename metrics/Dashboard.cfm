@@ -167,8 +167,8 @@ limitations under the License.
 								<cfset beginYearDate = dateFormat("#currentDate#-07-01", "yyyy-mm-dd")>
 								<label for="fiscalYear" class="data-entry-label mt-2">For Fiscal Year:</label>
 								<select name="fiscalYear" id="fiscalYear" class="mb-1 data-entry-input">	
-									<cfloop from="#beginYearDate#" to="#endYear#" index="fiscalYear">
-										<cfset fiscalYearStart = #fiscalYear# - 1>
+									<cfloop from="#beginYearDate#" to="#endYearDate#" index="fiscalYear">
+										<cfset #fiscalYear# - 1>
 										<cfset endYearDate = dateFormat("#endYearDate#","yyyy-mm-dd")>	
 										<cfset beginYearDate = dateFormat("#beginYearDate#", "yyyy-mm-dd")>
 										<option value="getAnnualReport&beginYearDate&endYearDate" selected>FY: #beginYearDate#-#endYearDate#</option>
