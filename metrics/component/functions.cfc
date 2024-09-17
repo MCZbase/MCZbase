@@ -32,6 +32,16 @@ limitations under the License.
 <!---This function uses the SQL procedure (CHART_DATA_EXPORT), scheduled job (CHART_DATA), and temp table (CF_TEMP_CHART_DATA) to produce a png to write to /metrics/R/graphs/chart1.png
 ** TO DO: make date pass to dates from form to CHART_DATA_EXPORT (if possible) or at least use sysdate minus 1 year (e.g., change the year YYYY to -1)
 --->
+<cffunction name="getFiscalYearDateRange" access="private" returntype="struct">
+        <cfargument name="fiscalYear" type="numeric" required="yes">
+        
+        <cfset var dateRange = structNew()>
+        <cfset dateRange.beginDate = createDate(arguments.fiscalYear, 7, 1)>
+        <cfset dateRange.endDate = createDate(arguments.fiscalYear + 1, 6, 30)>
+
+        <cfreturn dateRange>
+</cffunction>	
+
 <cffunction name="getAnnualChart" access="remote" returntype="any" returnformat="plain">
 	<cfthread name="getAnnualChartThread">
 		<cfoutput>
@@ -768,6 +778,109 @@ limitations under the License.
 	<cfreturn getGeorefNumbersThread.output>
 </cffunction>
 
-				
+<cffunction name="getFiscalYearReport" access="remote" returntype="any" returnformat="json">
+	<cfargument name="fiscalYear" type="numeric" required="yes">
+	<cfset var dateRange = getFiscalYearDateRange(arguments.fiscalYear)>
+	<cfargument name="returnAs" type="string" required="no" default="html">
+
+	<!--- make arguments available within thread --->
+	<cfset variables.fiscalYear = arguments.fiscalYear>
+	<cfset variables.returnAs = arguments.returnAs>
+	<cfthread name="getFiscalYearReportThread">
+		<cftry>
+			<!--- annual report queries: holdings by collection --->
+			<cfquery name="totals" datasource="uam_god" cachedwithin="#createtimespan(0,0,0,0)#">
+				SELECT 
+					h.Collection, 
+					<!---rm.value holdings,--->
+					rm.holdings,
+					h.Cataloged_Items, 
+					h.Specimens, 
+					nvl(p.Primary_Cat_Items,0) Primary_Cat_Items, 
+					nvl(p.Primary_Specimens,0) Primary_Specimens, 
+					nvl(s.Secondary_Cat_Items,0) Secondary_Cat_Items, 
+					nvl(s.Secondary_Specimens,0) Secondary_Specimens
+				FROM 
+					(select collection_cde,institution_acronym,descr,collection,collection_id from collection where collection_cde <> 'MCZ') c
+				LEFT JOIN 
+					(select collection_id,
+				<!---	value,--->
+					holdings,
+					reported_date from MCZBASE.collections_reported_metrics
+					where 
+					<!---metric='HOLDINGS' and--->
+					 
+					to_char(reported_date, 'yyyy')=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#left(endDate,4)#">
+					) rm on c.collection_id = rm.collection_id 
+				LEFT JOIN 
+					(select f.collection_id, f.collection, count(distinct f.collection_object_id) Cataloged_Items, sum(decode(total_parts,null, 1,total_parts)) specimens from flat f join coll_object co on f.collection_object_id = co.collection_object_id where co.COLL_OBJECT_ENTERED_DATE < to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#endDate#">, 'YYYY-MM-DD') group by f.collection_id, f.collection) h on rm.collection_id = h.collection_id
+				LEFT JOIN 
+					(select f.collection_id, f.collection, ts.CATEGORY, count(distinct f.collection_object_id) Primary_Cat_Items, sum(decode(total_parts,null, 1,total_parts)) Primary_Specimens from coll_object co join flat f on co.collection_object_id = f.collection_object_id join citation c on f.collection_object_id = c.collection_object_id join ctcitation_type_status ts on c.type_status =  ts.type_status where ts.CATEGORY in ('Primary') and co.COLL_OBJECT_ENTERED_DATE <  to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#endDate#">, 'YYYY-MM-DD') group by f.collection_id, f.collection, ts.CATEGORY) p on h.collection_id = p.collection_id
+				LEFT JOIN 
+					(select f.collection_id, f.collection, ts.CATEGORY, count(distinct f.collection_object_id) Secondary_Cat_Items, sum(decode(total_parts,null, 1,total_parts)) Secondary_Specimens from coll_object co join flat f on co.collection_object_id = f.collection_object_id join citation c on f.collection_object_id = c.collection_object_id join ctcitation_type_status ts on c.type_status =  ts.type_status where ts.CATEGORY in ('Secondary') and co.COLL_OBJECT_ENTERED_DATE <  to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#endDate#">, 'YYYY-MM-DD') group by f.collection_id, f.collection, ts.CATEGORY) s on h.collection_id = s.collection_id
+			</cfquery>
+			<cfif variables.returnAs EQ "csv">
+				<cfset csv = queryToCSV(totals)> 
+				<cfoutput>#csv#</cfoutput>
+			<cfelse>
+				<cfoutput>
+					<section class="col-12 mt-1 px-0">
+						<div class="my-2 float-left w-100">
+							<h2 class="h3 mt-0 px-0 float-left mb-1">Holdings <span class="text-muted">(as of #encodeForHtml(endDate)#)</span></h2>
+							<div class="btn-toolbar my-1 mt-md-0 float-right">
+								<div class="btn-group mr-2">
+									<a href="/metrics/Dashboard.cfm?action=dowloadFiscalYearReport&returnAs=csv&beginDate=#encodeForURL(beginDate)#&endDate=#encodeForUrl(endDate)#" class="btn btn-xs btn-outline-secondary">Export Table</a>
+								</div>
+							</div>
+						</div>
+						<div class="table-responsive-lg">
+							<table class="table table-striped" id="t">
+								<thead>
+									<tr>
+										<th><strong>Collection</strong></th>
+										<th><strong>Total Holdings</strong></th>
+									<!---	<th><strong>% of Holdings in MCZbase</strong></th>--->
+										<th><strong>Total Records - Cataloged Items</strong></th>
+										<th><strong>Total Records - Specimens</strong></th>
+										<th><strong>Primary Types - Cataloged Items</strong></th>
+										<th><strong>Primary Types - Specimens</strong></th>
+										<th><strong>Secondary Types - Cataloged Items</strong></th>
+										<th><strong>Secondary Types - Specimens</strong></th>
+									</tr>
+								</thead>
+								<tbody>
+									<cfloop query="totals">
+										<tr>
+											<td>#Collection#</td>
+											<td>#Holdings#</td>
+									<!---		<td>#NumberFormat((Cataloged_Items/Holdings)*100, '9.99')#%</td>--->
+											<td>#Cataloged_Items#</td>
+											<td>#Specimens#</td>
+											<td>#Primary_Cat_Items#</td>
+											<td>#Primary_Specimens#</td>
+											<td>#Secondary_Cat_Items#</td>
+											<td>#Secondary_Specimens#</td>
+										</tr>
+									</cfloop>
+								</tbody>
+							</table>
+						</div>
+					</section>
+				</cfoutput>
+			</cfif>
+		<cfcatch>
+			<cfoutput>
+				<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+				<cfset function_called = "#GetFunctionCalledName()#">
+				<h2 class="h3">Error in #function_called#:</h2>
+				<div>#error_message#</div>
+			</cfoutput>
+		</cfcatch>
+		</cftry>
+	</cfthread>
+	<cfthread action="join" name="getFiscalYearReportThread" />
+	<cfreturn getFiscalYearReportThread.output>
+</cffunction>
+			
 
 </cfcomponent>
