@@ -806,7 +806,7 @@ limitations under the License.
 					and t.transaction_id = li.transaction_id(+)
 					and li.collection_object_id = sp.collection_object_id(+)
 					and sp.collection_object_id = co.collection_object_id(+)
-					and t.TRANS_DATE = to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#fiscalYear#">, 'YYYY-MM-DD')
+					and t.TRANS_DATE > to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#dateRange.beginDate#">, 'YYYY-MM-DD') and < to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#dateRange.endDate#">, 'YYYY-MM-DD')
 					group by c.collection_id, c.collection) ol on c.collection_id = ol.collection_id
 				
 				ORDER BY collection
