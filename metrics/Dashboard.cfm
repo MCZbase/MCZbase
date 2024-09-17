@@ -155,6 +155,7 @@ limitations under the License.
 									<option value="getMediaNumbers">Media (current)</option>
 									<option value="getCitationNumbers">Citations (current)</option>
 									<option value="getGeorefNumbers">Georeferences (current)</option>
+									<option value="getAnnualReport" selected="selected">Annual Report</option>
 								</select>
 								
 								OR 
@@ -166,11 +167,8 @@ limitations under the License.
 								<select name="fiscalYear" id="fiscalYear" class="mb-1 data-entry-input">	
 									<cfloop from="#beginYear#" to="#endYear#" index="fiscalYear">
 										<cfset fiscalYearStart = #fiscalYear# - 1>
-										<option value="getLoanNumbers2" selected>Fiscal Year:  7/1/#fiscalYearStart#-6/30/#fiscalYear#</option>
+										<option value="fiscalYear" selected>Fiscal Year:  7/1/#fiscalYearStart#-6/30/#fiscalYear#</option>
 									</cfloop>
-								</select>
-								<select id="method" name="method" class="my-1 data-entry-input">
-									<option value="getAnnualReport" selected="selected">Annual Report</option>
 								</select>
 								<input type="submit" value="Show Report" class="my-3 btn-xs btn btn-primary" aria-label="Show the selected report for the specified date range">
 							</form>
