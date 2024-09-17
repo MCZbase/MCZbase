@@ -135,7 +135,7 @@ limitations under the License.
 				<div class="row">
 				<br clear="all">	
 					<nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block sidebar" style="background-color: ##efeded;border: ##e3e3e3;">
-						<div class="sidebar-sticky pt-4 px-2" style="background-color: ##efeded;">
+						<div class="sidebar-sticky pt-4 px-2" id="selectedReports" style="background-color: ##efeded;">
 							<form id="loadReportForm">
 								<h3 class="h4 text-muted">Report Date Range</h3>
 								<input type="hidden" name="returnFormat" value="plain">
@@ -153,6 +153,53 @@ limitations under the License.
 									<option value="getCitationNumbers">Citations (current)</option>
 									<option value="getGeorefNumbers">Georeferences (current)</option>
 								</select>
+								<input type="submit" value="Show Report" class="my-3 btn-xs btn btn-primary" aria-label="Show the selected report for the specified date range">
+							</form>
+							<script>
+								$(document).ready(function() {
+									$('##loadReportForm').on('submit',function(event){ event.preventDefault(); loadReport(); } );
+								});
+								function loadReport(){
+									$('##annualNumbersDiv').html("Loading...");
+									$.ajax(
+										{
+											url: '/metrics/component/functions.cfc',
+											type: 'GET', 
+											data: $('##loadReportForm').serialize()
+										}
+									).done(
+										function(response) {
+											console.log(response);
+											$('##annualNumbersDiv').html(response);
+										}
+									).fail(function(jqXHR,textStatus,error){
+										$('##annualNumbersDiv').html("Error Loading Metrics");
+									handleFail(jqXHR,textStatus,error,"loading metrics for date range.");
+									});
+								}
+							</script>
+						</div>
+						<div class="sidebar-sticky pt-4 px-2" id="annualReports" style="background-color: ##efeded;">
+							<form id="loadReportForm">
+								<h3 class="h4 text-muted">Annual Reports</h3>
+								<input type="hidden" name="returnFormat" value="plain">
+<!---								<label for="beginDate" class="data-entry-label mt-2">Begin Date</label>
+								<input name="beginDate" id="beginDate" type="text" class="mb-1 datetimeinput data-entry-input data-entry-input" placeholder="yyyy-mm-dd" value="#beginDate#" aria-label="start of range for dates to display metrics.">
+								<label for="endDate" class="data-entry-label mt-2">End Date</label>
+								<input name="endDate" id="endDate" type="text" class="mb-1 datetimeinput data-entry-input data-entry-input" placeholder="yyyy-mm-dd" value="#endDate#" aria-label="end of range for dates to display metrics.">--->
+							
+								<input type="hidden" name="returnFormat" value="plain">
+									<cfset currentDate = Year(Now())>
+									<cfset beginYear = currentYear - 1> <!-- Adjust as needed to show past fiscal years -->
+									<cfset endYear = currentDate + 1>	
+
+									<label for="fiscalYear" class="data-entry-label mt-2">Select Fiscal Year:</label>
+									<select name="method" id="method" class="mb-1 data-entry-input">	
+										<cfloop from="#beginYear#" to="#endYear#" index="fiscalYear">
+											<cfset fiscalYearStart = #fiscalYear# - 1>
+											<option value="getLoanNumbers2" selected>Fiscal Year:  7/1/#fiscalYearStart# - 6/30/#fiscalYear#</option>
+										</cfloop>
+									</select>
 								<input type="submit" value="Show Report" class="my-3 btn-xs btn btn-primary" aria-label="Show the selected report for the specified date range">
 							</form>
 							<script>
