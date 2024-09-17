@@ -780,13 +780,13 @@ limitations under the License.
 
 
 <cffunction name="getAnnualReport" access="remote" returntype="any" returnformat="json">
-	<cfargument name="beginYearDate" type="any" required="no">
-	<cfargument name="endYearDate" type="any" required="no">
+	<cfargument name="beginYearFY" type="any" required="no">
+	<cfargument name="endYearFY" type="any" required="no">
 	<cfargument name="returnAs" type="string" required="no" default="html">
 	
 	<!--- make arguments available within thread --->
-	<cfset variables.beginYearDate = arguments.beginYearDate>
-	<cfset variables.endYearDate = arguments.endYearDate>
+	<cfset variables.beginYearFY = arguments.beginYearFY>
+	<cfset variables.endYearFY = arguments.endYearFY>
 	<cfset variables.returnAs = arguments.returnAs>
 	<cfthread name="getAnnualReportThread">
 		<cftry>
@@ -806,7 +806,7 @@ limitations under the License.
 					and t.transaction_id = li.transaction_id(+)
 					and li.collection_object_id = sp.collection_object_id(+)
 					and sp.collection_object_id = co.collection_object_id(+)
-					and t.TRANS_DATE > to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#beginYearDate#">, 'YYYY-MM-DD') and < to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#endYearDate#">, 'YYYY-MM-DD')
+					and t.TRANS_DATE > to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#beginYearFY#">, 'YYYY-MM-DD') and < to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#endYearFY#">, 'YYYY-MM-DD')
 					group by c.collection_id, c.collection) ol on c.collection_id = ol.collection_id
 				
 				ORDER BY collection
@@ -818,10 +818,10 @@ limitations under the License.
 				<cfoutput>
 					<section class="col-12 mt-2 px-0">
 						<div class="my-2 float-left w-100">
-							<h2 class="h3 mt-0 px-0 float-left mb-1">Annual Report <span class="text-muted">(#encodeForHtml(beginDate)#/#encodeForHtml(endDate)#)</span></h2>
+							<h2 class="h3 mt-0 px-0 float-left mb-1">Annual Report <span class="text-muted">(#encodeForHtml(beginYearFY)#/#encodeForHtml(endYearFY)#)</span></h2>
 							<div class="btn-toolbar my-1 mt-md-0 float-right">
 								<div class="btn-group mr-2">
-									<a href="/metrics/Dashboard.cfm?action=dowloadAnnualReport&returnAs=csv&beginYearDate=#encodeForURL(beginDate)#&endYearDate=#encodeForUrl(endDate)#" class="btn btn-xs btn-outline-secondary">Export Table</a>
+									<a href="/metrics/Dashboard.cfm?action=dowloadAnnualReport&returnAs=csv&beginYearFY=#encodeForURL(beginYearFY)#&endYearFY=#encodeForUrl(endYearFY)#" class="btn btn-xs btn-outline-secondary">Export Table</a>
 								</div>
 							</div>
 						</div>
