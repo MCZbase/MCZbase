@@ -162,9 +162,9 @@ limitations under the License.
 								<h3 class="h4 text-muted mt-3">Show Annual Report</h3>
 								<cfset currentDate = Year(Now())>
 								<cfset beginYear = currentYear - 1> 
-								<cfset endYear = currentDate + 1>	
 								
-							<cfset dateRange = getFiscalYearDateRange(2023)>
+								<cfset endYear = 2023>
+							<cfset dateRange = getFiscalYearDateRange(endYear)>
 								#dateRange#
 									
 					<!---				
