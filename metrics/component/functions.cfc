@@ -795,14 +795,6 @@ limitations under the License.
 				SELECT
 					c.Collection, 
 					ol.Num_Outgoing_Loans,
-					cl.Num_Closed_Loans,
-					fy.Num_5yr_Loans,
-					ty.Num_10yr_Loans,
-					b.Num_Borrows,
-					opL.Num_Open_Loans,
-					open5.Num_Open_OverDue_5yrs,
-					open10.Num_Open_OverDue_10yrs,
-					ol.Outgoing_CatItems,
 					ol.Outgoing_Specimens
 				FROM
 					(select collection_cde,institution_acronym,descr,collection,collection_id from collection where collection_cde <> 'MCZ') c
@@ -816,58 +808,7 @@ limitations under the License.
 					and sp.collection_object_id = co.collection_object_id(+)
 					and t.TRANS_DATE = to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#fiscalYear#">, 'YYYY-MM-DD')
 					group by c.collection_id, c.collection) ol on c.collection_id = ol.collection_id
-				LEFT JOIN (select c.collection_id, collection, count(distinct l.transaction_id) Num_Closed_Loans
-					from loan l, trans t, collection c, loan_item li, specimen_part sp, coll_object co
-					where l.transaction_id = t.transaction_id
-					and t.collection_id = c.collection_id
-					and t.transaction_id = li.transaction_id(+)
-					and li.collection_object_id = sp.collection_object_id(+)
-					and sp.collection_object_id = co.collection_object_id(+)
-					and l.CLOSED_DATE = to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#fiscalYear#">, 'YYYY-MM-DD')
-					group by c.collection_id, collection) cl on c.collection_id = cl.collection_id
-				LEFT JOIN (select c.collection_id, collection_cde, count(*)as Num_5yr_Loans
-					from loan l, trans t, collection c
-					where l.transaction_id = t.transaction_id
-					and t.collection_id = c.collection_id
-					and l.CLOSED_DATE = to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#fiscalYear#">, 'YYYY-MM-DD')
-					and l.closed_date -l.return_due_date > (365*5)
-					group by c.collection_id, collection_cde) fy on c.collection_id = fy.collection_id
-				LEFT JOIN (select c.collection_id, collection_cde, count(*) as Num_10yr_Loans
-					from loan l, trans t, collection c
-					where l.transaction_id = t.transaction_id
-					and t.collection_id = c.collection_id
-					and l.CLOSED_DATE = to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#fiscalYear#">, 'YYYY-MM-DD')
-					and l.closed_date -l.return_due_date > (365*10)
-					group by c.collection_id, collection_cde) ty on c.collection_id = ty.collection_id
-				LEFT JOIN (select c.collection_id, collection, count(*) as Num_Borrows 
-					from borrow l, trans t, collection c
-					where l.transaction_id = t.transaction_id
-					and t.collection_id = c.collection_id
-					and l.RECEIVED_DATE = to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#fiscalYear#">, 'YYYY-MM-DD')
-					group by c.collection_id, collection) b on c.collection_id = b.collection_id
-				LEFT JOIN (select c.collection_id, collection_cde, count(*) as Num_Open_Loans 
-					from loan l, trans t, collection c
-					where l.transaction_id = t.transaction_id
-					and t.collection_id = c.collection_id
-					and (loan_status like '%open%' or closed_date = to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#fiscalYear#">, 'YYYY-MM-DD')
-					and t.trans_date = to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#fiscalYear#">, 'YYYY-MM-DD')
-					group by c.collection_id, collection_cde) opL on c.collection_id = opL.collection_id
-				LEFT JOIN (select c.collection_id, collection, count(*) Num_Open_OverDue_5yrs 
-					from loan l, trans t, collection c
-					where l.transaction_id = t.transaction_id
-					and t.collection_id = c.collection_id
-					and (loan_status like '%open%' or closed_date = to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#fiscalYear#">, 'YYYY-MM-DD')
-					and t.trans_date = to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#fiscalYear#">, 'YYYY-MM-DD')
-					and to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#endDate#">, 'YYYY-MM-DD') - l.return_due_date > 365*5
-					group by c.collection_id, collection) open5 on c.collection_id = open5.collection_id
-				LEFT JOIN (select c.collection_id, collection, count(*) Num_Open_OverDue_10yrs
-					from loan l, trans t, collection c
-					where l.transaction_id = t.transaction_id
-					and t.collection_id = c.collection_id
-					and (loan_status like '%open%' or closed_date  = to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#fiscalYear#">, 'YYYY-MM-DD')
-					and t.trans_date = to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#fiscalYear#">, 'YYYY-MM-DD')
-					and to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#fiscalYear#">, 'YYYY-MM-DD') - l.return_due_date > 365*10
-					group by c.collection_id, collection) open10 on c.collection_id = open10.collection_id
+				
 				ORDER BY collection
 			</cfquery>
 			<cfif variables.returnAs EQ "csv">
@@ -890,14 +831,6 @@ limitations under the License.
 									<tr>
 										<th><strong>Collection</strong></th>
 										<th><strong>Outgoing Loans</strong></th>
-										<th><strong>Closed Loans</strong></th>
-										<th><strong>Closed Overdue (>5 years) Loans</strong></th>
-										<th><strong>Closed Overdue (>10 years) Loans</strong></th>
-										<th><strong>Incoming loans (=Borrows)</strong></th>
-										<th><strong>Number of Open Loans</strong></th>
-										<th><strong>Number of Open Loans overdue > 5 years</strong></th>
-										<th><strong>Number of Open Loans overdue > 10 year</strong></th>
-										<th><strong>Outgoing Cataloged Items</strong></th>
 										<th><strong>Outgoing Specimens</strong></th>
 									</tr>
 								</thead>
@@ -906,14 +839,6 @@ limitations under the License.
 										<tr>
 											<td>#Collection#</td>
 											<td>#Num_Outgoing_Loans#</td>
-											<td>#Num_Closed_Loans#</td>
-											<td>#Num_5yr_Loans#</td>
-											<td>#Num_10yr_Loans#</td>
-											<td>#Num_Borrows#</td>
-											<td>#Num_Open_Loans#</td>
-											<td>#Num_Open_OverDue_5yrs#</td>
-											<td>#Num_Open_OverDue_10yrs#</td>
-											<td>#Outgoing_CatItems#</td>
 											<td>#Outgoing_Specimens#</td>
 										</tr>
 									</cfloop>
