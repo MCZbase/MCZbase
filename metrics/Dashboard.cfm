@@ -163,8 +163,8 @@ limitations under the License.
 								<cfset currentDate = Now()>
 								<cfset beginYear = currentDate - 1> <!-- Adjust as needed to show past fiscal years -->
 								<cfset endYear = currentDate + 1>	
-								<cfset endDate = dateFormat("#endYear#-06-30","yyyy-mm-dd")>	
-								<cfset beginDate = dateFormat("#currentDate#-07-01", "yyyy-mm-dd")>
+								<cfset endDate = dateFormat("#endYear#","yyyy-mm-dd")>	
+								<cfset beginDate = dateFormat("#currentDate#", "yyyy-mm-dd")>
 								<label for="fiscalYear" class="data-entry-label mt-2">For Fiscal Year:</label>
 								<select name="fiscalYear" id="fiscalYear" class="mb-1 data-entry-input">	
 									<cfloop from="#beginYear#" to="#endYear#" index="fiscalYear">
