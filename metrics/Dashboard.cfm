@@ -135,7 +135,7 @@ limitations under the License.
 				<div class="row">
 				<br clear="all">	
 					<nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block sidebar" style="background-color: ##efeded;border: ##e3e3e3;">
-						<div class="sidebar-sticky pt-2 mt-2 border rounded mb-4 px-2" id="selectedReports" style="background-color: ##efeded;">
+						<div class="sidebar-sticky pt-3 mt-2 border rounded mb-3 px-2" id="selectedReports" style="background-color: ##efeded;">
 							<form id="loadReportForm">
 								<h3 class="h4 text-muted">Select a Report</h3>
 								<input type="hidden" name="returnFormat" value="plain">
@@ -152,7 +152,7 @@ limitations under the License.
 									<option value="getCitationNumbers">Citations (current)</option>
 									<option value="getGeorefNumbers">Georeferences (current)</option>
 								</select>
-								<input type="submit" value="Show Selected Report" class="my-3 btn-xs btn btn-primary" aria-label="Show the selected report for the specified date range">
+								<input type="submit" value="Show Selected Report" class="my-2 btn-xs btn btn-primary" aria-label="Show the selected report for the specified date range">
 							</form>
 							<script>
 								$(document).ready(function() {
@@ -178,7 +178,7 @@ limitations under the License.
 								}
 							</script>
 						</div>
-						<div class="sidebar-sticky pt-2 mt-2 px-2 border rounded" id="annualReports" style="background-color: ##efeded;">
+						<div class="sidebar-sticky py-2 mt-2 px-2 border rounded" id="annualReports" style="background-color: ##efeded;">
 							<form id="loadReportForm">
 								<h3 class="h4 text-muted">Annual Reports</h3>
 								<input type="hidden" name="returnFormat" value="plain">
@@ -199,7 +199,7 @@ limitations under the License.
 											<option value="getLoanNumbers2" selected>Fiscal Year:  7/1/#fiscalYearStart#-6/30/#fiscalYear#</option>
 										</cfloop>
 									</select>
-								<input type="submit" value="Show Annual Report" class="my-3 btn-xs btn btn-primary" aria-label="Show the selected report for the specified date range">
+								<input type="submit" value="Show Annual Report" class="my-2 btn-xs btn btn-primary" aria-label="Show the selected report for the specified date range">
 							</form>
 							<script>
 								$(document).ready(function() {
