@@ -837,7 +837,6 @@ limitations under the License.
 										<tr>
 											<td>#Collection#</td>
 											<td>#Num_Outgoing_Loans#</td>
-								
 										</tr>
 									</cfloop>
 								</tbody>
