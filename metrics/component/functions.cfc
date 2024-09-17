@@ -780,13 +780,13 @@ limitations under the License.
 
 
 <cffunction name="getAnnualReport" access="remote" returntype="any" returnformat="json">
-	<cfargument name="beginDate" type="any" required="no">
-	<cfargument name="endDate" type="any" required="no">
+	<cfargument name="beginDate1" type="any" required="no">
+	<cfargument name="endDate1" type="any" required="no">
 	<cfargument name="returnAs" type="string" required="no" default="html">
 	
 	<!--- make arguments available within thread --->
-	<cfset variables.beginDate = arguments.beginDate>
-	<cfset variables.endDate = arguments.endDate>
+	<cfset variables.beginDate1 = arguments.beginDate1>
+	<cfset variables.endDate1 = arguments.endDate1>
 	<cfset variables.returnAs = arguments.returnAs>
 	<cfthread name="getAnnualReportThread">
 		<cftry>
@@ -805,7 +805,7 @@ limitations under the License.
 					and t.transaction_id = li.transaction_id(+)
 					and li.collection_object_id = sp.collection_object_id(+)
 					and sp.collection_object_id = co.collection_object_id(+)
-					and t.TRANS_DATE > to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#beginDate#">, 'YYYY-MM-DD') and < to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#endDate#">, 'YYYY-MM-DD')
+					and t.TRANS_DATE > to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#beginDate1#">, 'YYYY-MM-DD') and < to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#endDate1#">, 'YYYY-MM-DD')
 					group by c.collection_id, c.collection) ol on c.collection_id = ol.collection_id
 				ORDER BY collection
 			</cfquery>
@@ -816,10 +816,10 @@ limitations under the License.
 				<cfoutput>
 					<section class="col-12 mt-2 px-0">
 						<div class="my-2 float-left w-100">
-							<h2 class="h3 mt-0 px-0 float-left mb-1">Annual Report <span class="text-muted">(#encodeForHtml(beginDate)#/#encodeForHtml(endDate)#)</span></h2>
+							<h2 class="h3 mt-0 px-0 float-left mb-1">Annual Report <span class="text-muted">(#encodeForHtml(beginDate1)#/#encodeForHtml(endDate1)#)</span></h2>
 							<div class="btn-toolbar my-1 mt-md-0 float-right">
 								<div class="btn-group mr-2">
-									<a href="/metrics/Dashboard.cfm?action=dowloadAnnualReport&returnAs=csv&beginDate=#encodeForURL(beginDate)#&endDate=#encodeForUrl(endDate)#" class="btn btn-xs btn-outline-secondary">Export Table</a>
+									<a href="/metrics/Dashboard.cfm?action=dowloadAnnualReport&returnAs=csv&beginDate1=#encodeForURL(beginDate1)#&endDate=#encodeForUrl(endDate1)#" class="btn btn-xs btn-outline-secondary">Export Table</a>
 								</div>
 							</div>
 						</div>
