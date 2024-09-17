@@ -165,7 +165,7 @@ limitations under the License.
 								
 								<cfset endYear = 2023>
 							<cfset dateRange = getFiscalYearDateRange(endYear)>
-								#dateRange#
+								#dateRange['beginDate']# and #dateRange['endDate']#
 									
 					<!---				
 								<cfset beginYear = currentYear - 1> 
