@@ -215,7 +215,7 @@ body {
 									<option value="getLoanNumbers2" selected>Fiscal Year:  7/1/#fiscalYearStart#-6/30/#fiscalYear#</option>
 								</cfloop>
 							</select>
-						<input type="submit" value="Show Annual Report" class="my-2 btn-xs btn btn-primary" aria-label="Show the selected report for the specified date range">
+						<input type="submit" id="submitFiscalYear" value="Show Annual Report" class="my-2 btn-xs btn btn-primary" aria-label="Show the selected report for the specified date range">
 					</form>
 					<script>
 								$(document).ready(function() {
@@ -275,10 +275,10 @@ body {
 									<option value="getCitationNumbers">Citations (current)</option>
 									<option value="getGeorefNumbers">Georeferences (current)</option>
 								</select>
-								<input type="submit" value="Show Selected Report" class="mt-2 mb-2 btn-xs btn btn-primary" aria-label="Show the selected report for the specified date range">
+								<input type="submit" id="submitSelectedDate" value="Show Selected Report" class="mt-2 mb-2 btn-xs btn btn-primary" aria-label="Show the selected report for the specified date range">
 							</form>
 									<script>
-								$(document).ready(function() {
+	/*							$(document).ready(function() {
 									$('##loadReportForm').on('submit',function(event){ event.preventDefault(); loadReport(); } );
 								});
 								function loadReport(){
@@ -298,7 +298,8 @@ body {
 										$('##annualNumbersDiv').html("Error Loading Metrics");
 									handleFail(jqXHR,textStatus,error,"loading metrics for date range.");
 									});
-								}
+								}*/
+									
 							</script>
 								</div>
 							</div>
@@ -323,6 +324,41 @@ body {
 
 				</div>
 			</div>
+			<script>
+				$(document).ready(function() {
+					$('##submitFiscalYear').on('click', function() {
+						var fiscalYear = $('##fiscalYear').val();
+						$.ajax({
+							url: '/metrics/component/functions.cfc',
+								type: 'GET', 
+							data: { fiscalYear: fiscalYear },
+							dataType: 'json',
+							success: function(response) {
+								$('##reportResult').html(JSON.stringify(response));
+							},
+							error: function(error) {
+								console.log(error);
+							}
+						});
+					});
+
+					$('##submitSelectedDate').on('click', function() {
+						var reportDate = $('#reportDate').val();
+						$.ajax({
+							url: 'getDateReport.cfm',
+							type: 'GET',
+							data: { reportDate: reportDate },
+							dataType: 'json',
+							success: function(response) {
+								$('#reportResult').html(JSON.stringify(response));
+							},
+							error: function(error) {
+								console.log(error);
+							}
+						});
+					});
+				});
+			</script>
 		</cfoutput>
 		<cfinclude template="/shared/_footer.cfm">
 	</cfcase>
