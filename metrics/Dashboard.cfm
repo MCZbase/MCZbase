@@ -350,7 +350,7 @@ body {
 							data: { reportDate: reportDate },
 							dataType: 'json',
 							success: function(response) {
-								$('#reportResult').html(JSON.stringify(response));
+								$('##reportResult').html(JSON.stringify(response));
 							},
 							error: function(error) {
 								console.log(error);
