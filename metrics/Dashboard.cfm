@@ -129,6 +129,7 @@ limitations under the License.
 				$(document).ready(function() {
 					$("##beginDate").datepicker({ dateFormat: 'yy-mm-dd'});
 					$("##endDate").datepicker({ dateFormat: 'yy-mm-dd'});
+					$("##fiscalYear").datepicker({ dateFormat: 'yyyy'});
 				});
 			</script>
 			<div class="container-fluid" id="content">
