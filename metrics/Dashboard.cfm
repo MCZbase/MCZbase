@@ -166,153 +166,69 @@ limitations under the License.
 					display: block; /* Show div when it has the 'visible' class */
 				}
 			</style>
-			<div class="container-fluid px-0" id="content">
+			<div class="container-fluid" id="content">
 				<div class="col-12 border-bottom border-muted border-right-0 border-left-0 border-top-0 py-3">
 					<h1 class="h2 float-left mb-1 w-100 px-3">MCZbase Metrics </h1>
 					<p class="text-muted px-3 mb-0">Reports are generated from the current MCZbase data and may not match numbers printed in previous annual reports.</p>
 				</div>
 				<div class="row mx-0">
-				<br clear="all">	
-					<nav id="sidebarMenu" class="col-12 col-xl-auto w-auto px-4 d-md-block sidebar border-right border-muted">
-						<div class="sidebar-sticky pt-4 px-2">
-							<a href="##" id="link1"><h2 class="h4"><i class="fa fa-list-alt text-muted pr-2" aria-hidden="true"></i>Annual Report List</h2></a>
-							<a href="##" id="link2"><h2 class="h4"><i class="fa fa-calendar text-muted pr-2" aria-hidden="true"></i>Select Date Range</h2></a>
+					<br clear="all">	
+					<nav id="sidebarMenu" class="col-12 col-xl-auto w-auto px-4 d-md-block sidebar border-right border-muted" style="background-color: ##efeded;border: ##e3e3e3;">
+						<div class="sidebar-sticky pt-4 px-2" style="background-color: ##efeded;">
+							<div id="link1">
+								<form id="loadReportForm">
+								<h3 class="h4 text-muted">Report Date Range</h3>
+								<input type="hidden" name="returnFormat" value="plain">
+								<label for="beginDate" class="data-entry-label mt-2">Begin Date</label>
+								<input name="beginDate" id="beginDate" type="text" class="mb-1 datetimeinput data-entry-input data-entry-input" placeholder="yyyy-mm-dd" value="#beginDate#" aria-label="start of range for dates to display metrics.">
+								<label for="endDate" class="data-entry-label mt-2">End Date</label>
+								<input name="endDate" id="endDate" type="text" class="mb-1 datetimeinput data-entry-input data-entry-input" placeholder="yyyy-mm-dd" value="#endDate#" aria-label="end of range for dates to display metrics.">
+								<h3 class="h4 text-muted mt-3">Report to Show</h3>
+								<label for="method" class="sr-only">Report To Show</label>
+								<select id="method" name="method" class="my-1 data-entry-input">
+									<option value="getAnnualNumbers" selected="selected">Holdings</option>
+									<option value="getAcquisitions">Acquisitions</option>
+									<option value="getLoanNumbers">Loan Activity</option>
+									<option value="getMediaNumbers">Media (current)</option>
+									<option value="getCitationNumbers">Citations (current)</option>
+									<option value="getGeorefNumbers">Georeferences (current)</option>
+								</select>
+								<input type="submit" value="Show Report" class="my-3 btn-xs btn btn-primary" aria-label="Show the selected report for the specified date range">
+							</form>
+								<script>
+								$(document).ready(function() {
+									$('##loadReportForm').on('submit',function(event){ event.preventDefault(); loadReport(); } );
+								});
+								function loadReport(){
+									$('##annualNumbersDiv').html("Loading...");
+									$.ajax(
+										{
+											url: '/metrics/component/functions.cfc',
+											type: 'GET', 
+											data: $('##loadReportForm').serialize()
+										}
+									).done(
+										function(response) {
+											console.log(response);
+											$('##annualNumbersDiv').html(response);
+										}
+									).fail(function(jqXHR,textStatus,error){
+										$('##annualNumbersDiv').html("Error Loading Metrics");
+									handleFail(jqXHR,textStatus,error,"loading metrics for date range.");
+									});
+								}
+							</script>
+							</div>
+							<div id="link2">
+								<h2>Annual Report Space</h2>
+							</div>
 						</div>
 					</nav>
-				
 					<main role="main" class="col-md-9 mr-xl-auto col-lg-10 pb-3 bg-light border-right border-muted">
 						<div id="div1" class="target-div bg-none">
-							<div class="col-12 mt-0 pb-4">
-								<form id="loadReportForm" class="row mx-0">
-									<div class="col-12 col-xl-5 px-0">
-										<h3 class="h4 text-muted">Annual Reports</h3>
-										<div class="row mx-0">
-											<div class="col-12 col-xl-10 pl-xl-0">
-												<input type="hidden" name="returnFormat" value="plain">
-												
-												<cfset currentDate = Year(Now())>
-												<cfset beginYear = currentYear - 1> <!-- Adjust as needed to show past fiscal years -->
-												<cfset endYear = currentDate + 1>	
-												
-											 	<label for="fiscalYear" class="data-entry-label mt-2">Select Fiscal Year:</label>
-												<select name="method" id="method" class="mb-1 data-entry-input">	
-													<cfloop from="#beginYear#" to="#endYear#" index="fiscalYear">
-														<cfset fiscalYearStart = #fiscalYear# - 1>
-														<option value="getLoanNumbers2" selected>Fiscal Year:  7/1/#fiscalYearStart# - 6/30/#fiscalYear#</option>
-													</cfloop>
-												</select>
-											</div>
-										</div>
-									</div>
-									<div class="col-12 col-xl-2 px-0">
-										<h3 class="h4 mt-3 text-light">Submit</h3>
-										<div class="row mx-0">
-											<div class="col-12 col-xl-9">
-												<input type="submit" value="Show Report" class="my-2 btn-xs btn btn-primary" aria-label="Show the annual report selected">
-											</div>
-										</div>
-									</div>
-								</form>
-								<script>
-									$(document).ready(function() {
-										$('##loadAnnualReport').on('submit',function(event){ event.preventDefault(); loadReport2(); } );
-									});
-									function loadReport2(){
-										$('##annualNumbersDiv2').html("Loading...");
-										$.ajax(
-											{
-												url: '/metrics/component/functions.cfc',
-												type: 'GET', 
-												data: $('##loadAnnualReport').serialize()
-											}
-										).done(
-											function(response) {
-												console.log(response);
-												$('##annualNumbersDiv2').html(response);
-											}
-										).fail(function(jqXHR,textStatus,error){
-											$('##annualNumbersDiv2').html("Error Loading Metrics");
-										handleFail(jqXHR,textStatus,error,"loading metrics for date range.");
-										});
-									}
-								</script>
-							</div>
-							<div class="col-12 mt-0 pb-3">
-							<!---	<cfset summaryAnnualBlock=getAnnualNumbers(fiscalYear="#fiscalYear#")>
-								<div id="annualNumbersDiv2"> 
-									#summaryAnnualBlock#
-								</div>--->
-								<h2 class="h4">Report will be displayed here.</h2>
-							</div>
-						</div>
-						
-						<div id="div2" class="target-div bg-none">
-							<div class="col-12 mt-0 pb-4">
-								<form id="loadReportForm" class="row mx-0">
-									<div class="col-12 col-xl-8 px-0">
-										<h3 class="h4 text-muted">Select Report Date Range and Report Type</h3>
-										<div class="row mx-0">
-											<div class="col-12 col-xl-4 pl-xl-0">
-												<input type="hidden" name="returnFormat" value="plain">
-												<label for="beginDate" class="data-entry-label mt-2">Begin Date</label>
-												<input name="beginDate" id="beginDate" type="text" class="mb-1 datetimeinput data-entry-input data-entry-input" placeholder="yyyy-mm-dd" value="#beginDate#" aria-label="start of range for dates to display metrics.">
-											</div>
-											<div class="col-12 col-xl-4 pl-xl-0">
-												<label for="endDate" class="data-entry-label mt-2">End Date</label>
-												<input name="endDate" id="endDate" type="text" class="mb-1 datetimeinput data-entry-input" placeholder="yyyy-mm-dd" value="#endDate#" aria-label="end of range for dates to display metrics.">
-											</div>
-											<div class="col-12 col-xl-3 pl-xl-0">
-												<label for="method" class="data-entry-label mt-2">Report To Show</label>
-												<select id="method" name="method" class="mb-1 data-entry-input">
-													<option value="getAcquisitions"  selected="selected">Acquisitions</option>
-													<option value="getAnnualNumbers">Holdings</option>
-													<option value="getLoanNumbers">Loan Activity</option>
-													<option value="getMediaNumbers">Media (current)</option>
-													<option value="getCitationNumbers">Citations (current)</option>
-													<option value="getGeorefNumbers">Georeferences (current)</option>
-												</select>
-											</div>
-										</div>
-									</div>
-									<div class="col-12 col-xl-2 px-0">
-										<h3 class="h4 mt-3 text-white">Submit</h3>
-										<div class="row mx-0">
-											<div class="col-12 col-xl-9">
-												<input type="submit" value="Show Report" class="my-2 btn-xs btn btn-primary" aria-label="Show the selected report for the specified date range">
-											</div>
-										</div>
-									</div>
-								</form>
-
-								<script>
-									$(document).ready(function() {
-										$('##loadReportForm').on('submit',function(event){ event.preventDefault(); loadReport(); } );
-									});
-									function loadReport(){
-										$('##selectedReportDiv').html("Loading...");
-										$.ajax(
-											{
-												url: '/metrics/component/functions.cfc',
-												type: 'GET', 
-												data: $('##loadReportForm').serialize()
-											}
-										).done(
-											function(response) {
-												console.log(response);
-												$('##selectedReportDiv').html(response);
-											}
-										).fail(function(jqXHR,textStatus,error){
-											$('##selectedReportDiv').html("Error Loading Metrics");
-										handleFail(jqXHR,textStatus,error,"loading metrics for date range.");
-										});
-									}
-								</script>
-							</div>
-							<div class="col-12 mt-0 pb-3">
-								<cfset selectedReportBlock=getAcquisitions(endDate="#endDate#",beginDate="#beginDate#")>
-								<div id="selectedReportDiv"> 
-									#selectedReportBlock#
-								</div>
+							<cfset summaryAnnualBlock=getAnnualNumbers(endDate="#endDate#",beginDate="#beginDate#")>
+							<div id="annualNumbersDiv"> 
+								#summaryAnnualBlock#
 							</div>
 						</div>
 					</main>
