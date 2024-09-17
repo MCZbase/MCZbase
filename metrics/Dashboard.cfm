@@ -176,10 +176,6 @@ limitations under the License.
 								</select>
 								<input type="submit" value="Show Report" class="my-3 btn-xs btn btn-primary" aria-label="Show the selected report for the specified date range">
 							</form>
-							start fiscal:	#startFiscal#<br>
-									endYear : #endYear#<br>
-										begin year: #beginYear#<br>
-										fiscal year : #fiscalYear#
 							<script>
 								$(document).ready(function() {
 									$('##loadReportForm').on('submit',function(event){ event.preventDefault(); loadReport(); } );
