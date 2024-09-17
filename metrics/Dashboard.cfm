@@ -131,52 +131,12 @@ limitations under the License.
 					$("##endDate").datepicker({ dateFormat: 'yy-mm-dd'});
 				});
 			</script>
-			<style>
-				nav##sidebarMenu {
-					background-color: ##efeded;
-					background-color: white;
-					border-right: ##e3e3e3;
-				}
-				div.sidebar-sticky a {
-					display: block;
-					text-decoration: none;
-					color: inherit; /* Inherit the color of the <h2> element */
-					padding: 2rem;
-					transition: background-color 0.3s ease;
-				}
-				div.sidebar-sticky a.active {
-					background-color: lightcoral; /* Default active background color */
-					background-color: ##d7d7d7;
-				}
-				div.sidebar-sticky a.active-1 {
-					background-color: lightcoral;
-					background-color: ##d7d7d7;
-				}
-				div.sidebar-sticky a:hover {
-					color: darkblue;
-					color: ##0460c1;
-				}
-				.target-div {
-					display: none; /* Hide divs by default */
-					margin-top: 30px;
-					padding: 20px;
-					transition: opacity 0.3s ease;
-				}
-				.target-div.visible {
-					display: block; /* Show div when it has the 'visible' class */
-				}
-			</style>
 			<div class="container-fluid" id="content">
-				<div class="col-12 border-bottom border-muted border-right-0 border-left-0 border-top-0 py-3">
-					<h1 class="h2 float-left mb-1 w-100 px-3">MCZbase Metrics </h1>
-					<p class="text-muted px-3 mb-0">Reports are generated from the current MCZbase data and may not match numbers printed in previous annual reports.</p>
-				</div>
-				<div class="row mx-0">
-					<br clear="all">	
-					<nav id="sidebarMenu" class="col-12 col-xl-auto w-auto px-4 d-md-block sidebar border-right border-muted" style="background-color: ##efeded;border: ##e3e3e3;">
+				<div class="row">
+				<br clear="all">	
+					<nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block sidebar" style="background-color: ##efeded;border: ##e3e3e3;">
 						<div class="sidebar-sticky pt-4 px-2" style="background-color: ##efeded;">
-							<div id="link1">
-								<form id="loadReportForm">
+							<form id="loadReportForm">
 								<h3 class="h4 text-muted">Report Date Range</h3>
 								<input type="hidden" name="returnFormat" value="plain">
 								<label for="beginDate" class="data-entry-label mt-2">Begin Date</label>
@@ -195,7 +155,7 @@ limitations under the License.
 								</select>
 								<input type="submit" value="Show Report" class="my-3 btn-xs btn btn-primary" aria-label="Show the selected report for the specified date range">
 							</form>
-								<script>
+							<script>
 								$(document).ready(function() {
 									$('##loadReportForm').on('submit',function(event){ event.preventDefault(); loadReport(); } );
 								});
@@ -218,71 +178,21 @@ limitations under the License.
 									});
 								}
 							</script>
-							</div>
-							<div id="link2">
-								<h2>Annual Report Space</h2>
-							</div>
 						</div>
 					</nav>
-					<main role="main" class="col-md-9 mr-xl-auto col-lg-10 pb-3 bg-light border-right border-muted">
-						<div id="div1" class="target-div bg-none">
+				
+					<main role="main" class="col-md-9 px-3 ml-sm-auto col-lg-10 mb-3">
+						<div class="col-12 mt-4">
+							<h1 class="h2 float-left mb-1 w-100">MCZbase Metrics 
+							</h1>
+							<p class="text-muted small">Reports are generated from the current MCZbase data and may not match numbers printed in previous annual reports.</p>
 							<cfset summaryAnnualBlock=getAnnualNumbers(endDate="#endDate#",beginDate="#beginDate#")>
 							<div id="annualNumbersDiv"> 
 								#summaryAnnualBlock#
 							</div>
 						</div>
 					</main>
-					<script>
-						function removeActiveClasses() {
-							document.querySelectorAll('a').forEach(link => link.classList.remove('active', 'active-1', 'active-2'));
-						}
 
-						function hideAllDivs() {
-							document.querySelectorAll('.target-div').forEach(div => div.classList.remove('visible'));
-						}
-
-						function setInitialState() {
-							const savedLinkId = localStorage.getItem('activeLink');
-							const savedDivId = localStorage.getItem('activeDiv');
-
-							if (savedLinkId && savedDivId) {
-								document.getElementById(savedLinkId).classList.add('active', `active-${savedLinkId.slice(-1)}`);
-								document.getElementById(savedDivId).classList.add('visible');
-							} else {
-								// Default state if nothing is saved
-								document.getElementById("link1").classList.add('active', 'active-1');
-								document.getElementById("div1").classList.add('visible');
-							}
-						}
-
-						function saveState(linkId, divId) {
-							localStorage.setItem('activeLink', linkId);
-							localStorage.setItem('activeDiv', divId);
-						}
-
-						document.getElementById("link1").addEventListener("click", function(e) {
-							e.preventDefault(); // Prevent default anchor behavior
-							removeActiveClasses();
-							this.classList.add('active', 'active-1');
-							hideAllDivs();
-							document.getElementById("div1").classList.add('visible');
-							saveState('link1', 'div1');
-						});
-
-						document.getElementById("link2").addEventListener("click", function(e) {
-							e.preventDefault(); // Prevent default anchor behavior
-							removeActiveClasses();
-							this.classList.add('active', 'active-2');
-							hideAllDivs();
-							document.getElementById("div2").classList.add('visible');
-							saveState('link2', 'div2');
-						});
-
-
-						// Initial setup
-						setInitialState();
-
-					</script>
 				</div>
 			</div>
 		</cfoutput>
