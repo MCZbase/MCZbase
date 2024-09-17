@@ -253,7 +253,7 @@ body {
                Selected Report</button>
             </h2>
           </div>
-          <div id="collapseTwo" aria-labelledby="headingTwo" data-parent="#accordionExample" class="collapse">
+          <div id="collapseTwo" aria-labelledby="headingTwo" data-parent="##accordionExample" class="collapse">
             <div class="card-body p-5">
 				<div class="sidebar-sticky py-2 mt-2 border rounded mb-3 px-2" id="selectedReports" style="background-color: ##efeded;">
 							<form id="loadReportForm">
