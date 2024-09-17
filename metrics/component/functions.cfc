@@ -794,12 +794,11 @@ limitations under the License.
 			<cfquery name="annual" datasource="uam_god" cachedwithin="#createtimespan(7,0,0,0)#">
 				SELECT
 					c.Collection, 
-					ol.Num_Outgoing_Loans,
-					ol.Outgoing_Specimens
+					ol.Num_Outgoing_Loans
 				FROM
 					(select collection_cde,institution_acronym,descr,collection,collection_id from collection where collection_cde <> 'MCZ') c
 				LEFT JOIN
-					(select c.collection_id, collection, count(distinct l.transaction_id) Num_Outgoing_Loans, count(distinct sp.derived_from_cat_item) Outgoing_CatItems, sum(co.lot_count) as Outgoing_Specimens
+					(select c.collection_id, collection, count(distinct l.transaction_id) Num_Outgoing_Loans
 					from loan l, trans t, collection c, loan_item li, specimen_part sp, coll_object co
 					where l.transaction_id = t.transaction_id
 					and t.collection_id = c.collection_id
@@ -808,7 +807,6 @@ limitations under the License.
 					and sp.collection_object_id = co.collection_object_id(+)
 					and t.TRANS_DATE > to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#beginDate#">, 'YYYY-MM-DD') and < to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#endDate#">, 'YYYY-MM-DD')
 					group by c.collection_id, c.collection) ol on c.collection_id = ol.collection_id
-				
 				ORDER BY collection
 			</cfquery>
 			<cfif variables.returnAs EQ "csv">
@@ -831,7 +829,7 @@ limitations under the License.
 									<tr>
 										<th><strong>Collection</strong></th>
 										<th><strong>Outgoing Loans</strong></th>
-										<th><strong>Outgoing Specimens</strong></th>
+									
 									</tr>
 								</thead>
 								<tbody>
@@ -839,7 +837,7 @@ limitations under the License.
 										<tr>
 											<td>#Collection#</td>
 											<td>#Num_Outgoing_Loans#</td>
-											<td>#Outgoing_Specimens#</td>
+								
 										</tr>
 									</cfloop>
 								</tbody>
