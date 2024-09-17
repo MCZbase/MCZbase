@@ -160,8 +160,8 @@ limitations under the License.
 								
 								OR 
 								<h3 class="h4 text-muted mt-3">Show Annual Report</h3>
-								<cfset currentDate = Year(Now())>
-								<cfset beginYear = currentYear - 1> <!-- Adjust as needed to show past fiscal years -->
+								<cfset currentDate = Now()>
+								<cfset beginYear = currentDate - 1> <!-- Adjust as needed to show past fiscal years -->
 								<cfset endYear = currentDate + 1>	
 								<cfset endDate = dateFormat("#endYear#-06-30","yyyy-mm-dd")>	
 								<cfset beginDate = dateFormat("#currentDate#-07-01", "yyyy-mm-dd")>
@@ -169,7 +169,7 @@ limitations under the License.
 								<select name="fiscalYear" id="fiscalYear" class="mb-1 data-entry-input">	
 									<cfloop from="#beginYear#" to="#endYear#" index="fiscalYear">
 										<cfset fiscalYearStart = #fiscalYear# - 1>
-										<option value="getAnnualReport&beginDate=#fiscalYearStart#-07-01&endDate=#fiscalYear#-06-30" selected>FY: #fiscalYearStart#-#fiscalYear#</option>
+										<option value="" selected>FY: #fiscalYearStart#-#fiscalYear#</option>
 									</cfloop>
 								</select>
 										
