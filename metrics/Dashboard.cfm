@@ -133,29 +133,28 @@ limitations under the License.
 				});
 			</script>
 			<div class="container-fluid" id="content">
-				<div class="row text-left">
-					<br clear="all">	
+				<div class="row">
+				<br clear="all">	
 					<nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block sidebar" style="background-color: ##efeded;border: ##e3e3e3;">
-						<div class="sidebar-sticky pt-4 px-2" style="background-color: ##efeded;">
-							<form id="loadReportForm">
-								<h3 class="h4 text-muted">Report Date Range</h3>
-								<input type="hidden" name="returnFormat" value="plain">
-								<label for="beginDate" class="data-entry-label mt-2">Begin Date</label>
-								<input name="beginDate" id="beginDate" type="text" class="mb-1 datetimeinput data-entry-input data-entry-input" placeholder="yyyy-mm-dd" value="#beginDate#" aria-label="start of range for dates to display metrics.">
-								<label for="endDate" class="data-entry-label mt-2">End Date</label>
-								<input name="endDate" id="endDate" type="text" class="mb-1 datetimeinput data-entry-input data-entry-input" placeholder="yyyy-mm-dd" value="#endDate#" aria-label="end of range for dates to display metrics.">
-								<h3 class="h4 text-muted mt-3">Report to Show</h3>
-								<label for="method" class="sr-only">Report To Show</label>
-								<select id="method" name="method" class="my-1 data-entry-input">
-									<option value="getAcquisitions" selected="selected">Acquisitions</option>
-									<option value="getAnnualNumbers">Holdings</option>
-									<option value="getLoanNumbers">Loan Activity</option>
-									<option value="getMediaNumbers">Media (current)</option>
-									<option value="getCitationNumbers">Citations (current)</option>
-									<option value="getGeorefNumbers">Georeferences (current)</option>
-									<option value="getAnnualReport">Annual Report</option>
-								</select>
-							</form>
+					<div class="sidebar-sticky pt-4 px-2" style="background-color: ##efeded;">
+						<form id="loadReportForm">
+							<h3 class="h4 text-muted">Report Date Range</h3>
+							<input type="hidden" name="returnFormat" value="plain">
+							<label for="beginDate" class="data-entry-label mt-2">Begin Date</label>
+							<input name="beginDate" id="beginDate" type="text" class="mb-1 datetimeinput data-entry-input data-entry-input" placeholder="yyyy-mm-dd" value="#beginDate#" aria-label="start of range for dates to display metrics.">
+							<label for="endDate" class="data-entry-label mt-2">End Date</label>
+							<input name="endDate" id="endDate" type="text" class="mb-1 datetimeinput data-entry-input data-entry-input" placeholder="yyyy-mm-dd" value="#endDate#" aria-label="end of range for dates to display metrics.">
+							<h3 class="h4 text-muted mt-3">Report to Show</h3>
+							<label for="method" class="sr-only">Report To Show</label>
+							<select id="method" name="method" class="my-1 data-entry-input">
+								<option value="getAcquisitions" selected="selected">Acquisitions</option>
+								<option value="getAnnualNumbers">Holdings</option>
+								<option value="getLoanNumbers">Loan Activity</option>
+								<option value="getMediaNumbers">Media (current)</option>
+								<option value="getCitationNumbers">Citations (current)</option>
+								<option value="getGeorefNumbers">Georeferences (current)</option>
+								<option value="getAnnualReport">Annual Report</option>
+							</select>
 							<script>
 								$(document).ready(function() {
 									$('##loadReportForm').on('submit',function(event){ event.preventDefault(); loadReport(); } );
