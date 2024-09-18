@@ -171,7 +171,7 @@ limitations under the License.
 								<cfset endDate = dateRange['endDate']>
 								<cfloop condition="currentDate LTE endDate">
 									<cfset arrayAppend(dateList, currentDate)>
-									<cfset currentDate = dateAdd("d", 1, currentDate)>
+									<cfset currentDate = dateAdd("y", 1, currentDate)>
 								</cfloop>
 								<!-- Display the dates in a <select> dropdown -->
 								<form id="loadAnnualReport">
@@ -179,7 +179,7 @@ limitations under the License.
 									<select id="reportDate" name="reportDate">
 										<cfoutput>
 											<cfloop array="#dateList#" index="dateItem">
-												<option value="#dateFormat(dateItem, 'yyyy-mm-dd')#">#dateFormat(dateItem, 'mm/dd/yyyy')#</option>
+												<option value="#dateFormat(dateItem, 'yyyy-mm-dd')#">#dateFormat(dateItem, 'yyyy-mm-dd')#</option>
 											</cfloop>
 										</cfoutput>
 									</select>
