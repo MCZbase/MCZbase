@@ -46,8 +46,7 @@
 				</ul>
 				<h3 class="h4">Bulkload Data Other than Specimens</h3>
 				<ul>
-					<li><a href="/DataServices/agents.cfm">Bulkload Agents (DataServices)</a></li>
-					<li><a href="/tools/BulkloadAgents.cfm">Bulkload Agents (tools)</a></li>
+					<li><a href="/tools/BulkloadAgents.cfm">Bulkload Agents</a></li>
 					<li><a href="/tools/BulkloadMedia.cfm">Bulkload Media Records</a></li>
 					<li><a href="/tools/BulkloadGeoref.cfm">Bulkload Georeferences</a></li>
 				</ul>
