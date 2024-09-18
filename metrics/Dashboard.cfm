@@ -157,6 +157,30 @@ limitations under the License.
 									<option value="getGeorefNumbers">Georeferences (current)</option>
 									<option value="getAnnualReport">Annual Report</option>
 								</select>
+								<script>
+									$(document).ready(function() {
+										$('##loadReportForm').on('submit',function(event){ event.preventDefault(); loadReport(); } );
+									});
+									function loadReport(){
+										$('##annualNumbersDiv').html("Loading...");
+										$.ajax(
+											{
+												url: '/metrics/component/functions.cfc',
+												type: 'GET', 
+												data: $('##loadReportForm').serialize()
+											}
+										).done(
+											function(response) {
+												console.log(response);
+												$('##annualNumbersDiv').html(response);
+												$('##annualNumbersDiv').show();
+											}
+										).fail(function(jqXHR,textStatus,error){
+											$('##annualNumbersDiv').html("Error Loading Metrics");
+										handleFail(jqXHR,textStatus,error,"loading metrics for date range.");
+										});
+									}
+								</script>
 								<input type="submit" value="Show Selected Report" id="selectedReport" class="my-3 btn-xs btn btn-primary" aria-label="Show the selected report for the specified date range">
 								<h3 class="h4 text-muted mt-3">OR</h3> 
 								<h3 class="h4 text-muted mt-3">Show Annual Report</h3>
@@ -197,30 +221,7 @@ limitations under the License.
 									</select>
 									<input type="submit" value="Show Annual Report" id="annualReport" class="my-3 btn-xs btn btn-primary" aria-label="Show the selected report for the specified date range">
 								</form>
-							<script>
-								$(document).ready(function() {
-									$('##loadReportForm').on('submit',function(event){ event.preventDefault(); loadReport(); } );
-								});
-								function loadReport(){
-									$('##annualNumbersDiv').html("Loading...");
-									$.ajax(
-										{
-											url: '/metrics/component/functions.cfc',
-											type: 'GET', 
-											data: $('##loadReportForm').serialize()
-										}
-									).done(
-										function(response) {
-											console.log(response);
-											$('##annualNumbersDiv').html(response);
-											$('##annualNumbersDiv').show();
-										}
-									).fail(function(jqXHR,textStatus,error){
-										$('##annualNumbersDiv').html("Error Loading Metrics");
-									handleFail(jqXHR,textStatus,error,"loading metrics for date range.");
-									});
-								}
-							</script>
+
 							<script>
 								$(document).ready(function() {
 									$('##loadAnnualReport').on('submit',function(event){ event.preventDefault(); loadReport2(); } );
