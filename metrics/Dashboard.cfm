@@ -160,19 +160,20 @@ limitations under the License.
 								<input type="submit" value="Show Selected Report" id="selectedReport" class="my-3 btn-xs btn btn-primary" aria-label="Show the selected report for the specified date range">
 								<h3 class="h4 text-muted mt-3">OR</h3> 
 								<h3 class="h4 text-muted mt-3">Show Annual Report</h3>
-								<cfset currentDate = Year(Now())>
-								<cfset beginYear = currentYear - 1> 
-							
-								<cfset endYear = 2024>
-								<cfset dateRange = getFiscalYearDateRange(endYear)>
-								<!-- Generate the list of dates between beginDate and endDate -->
-								<cfset dateList = []>
-								<cfset currentDate = dateRange['beginDate']>
-								<cfset currentYear = dateRange['endYear']>
-								<cfset endDate = dateRange['endDate']>
-								<cfloop condition="currentDate LTE endDate">
-									<cfset arrayAppend(dateList, currentDate)>
-									<cfset currentDate = dateAdd("year", 1, currentYear)>
+								<cfset currentYear = year(now())>
+								<cfset numberOfYears = 5>
+								<cfset fiscalYears = []>
+									
+									
+								<!-- Loop to create the last 5 fiscal years' data -->
+								<cfloop from="0" to="#numberOfYears - 1#" index="i">
+									<cfset endYear = currentYear - i>
+									<cfset dateRange = getFiscalYearDateRange(endYear)>
+									<cfset structInsert(fiscalYears, {
+										beginDate: dateRange.beginDate,
+										endDate: dateRange.endDate,
+										label: "Fiscal Year " & (endYear - 1) & "-" & endYear
+									})>
 								</cfloop>
 								<!-- Display the dates in a <select> dropdown -->
 								<form id="loadAnnualReport">
