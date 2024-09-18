@@ -133,7 +133,7 @@ limitations under the License.
 				});
 			</script>
 			<div class="container-fluid" id="content">
-				<div class="row">
+				<div class="row text-left">
 					<br clear="all">	
 					<nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block sidebar" style="background-color: ##efeded;border: ##e3e3e3;">
 						<div class="sidebar-sticky pt-4 px-2" style="background-color: ##efeded;">
@@ -183,6 +183,7 @@ limitations under the License.
 							<input type="submit" value="Show Selected Report" id="selectedReport" class="my-3 btn-xs btn btn-primary" aria-label="Show the selected report for the specified date range">
 							<h3 class="h4 text-muted mt-3">OR</h3> 
 							<h3 class="h4 text-muted mt-3">Show Annual Report</h3>
+
 							<cfscript>
 								function getFiscalYearDateRange(endYear) {
 									var dateRange = structNew();
@@ -191,6 +192,7 @@ limitations under the License.
 									return dateRange;
 								}
 							</cfscript>
+
 							<cfset currentYear = year(now())>
 							<cfset numberOfYears = 5>
 							<cfset fiscalYears = []>
