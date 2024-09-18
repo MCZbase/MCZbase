@@ -778,8 +778,8 @@ limitations under the License.
 	<cfargument name="returnAs" type="string" required="no" default="html">
 	
 	<!--- make arguments available within thread --->
-	<cfset variables.beginDate1 = arguments.beginDate1>
-	<cfset variables.endDate1 = arguments.endDate1>
+	<cfset variables.beginDate = arguments.beginDate>
+	<cfset variables.endDate = arguments.endDate>
 	<cfset variables.returnAs = arguments.returnAs>
 	<cfthread name="getAnnualReportThread">
 		<cftry>
