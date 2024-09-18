@@ -158,7 +158,7 @@ limitations under the License.
 									<option value="getAnnualReport">Annual Report</option>
 								</select>
 								
-								OR 
+								<h3 class="h4 text-muted mt-3">OR</h3> 
 								<h3 class="h4 text-muted mt-3">Show Annual Report</h3>
 								<cfset currentDate = Year(Now())>
 								<cfset beginYear = currentYear - 1> 
