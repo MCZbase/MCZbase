@@ -188,7 +188,7 @@ limitations under the License.
 								<!-- Display the fiscal years in a <select> dropdown -->
 								<form id="loadAnnualReport">
 									<label for="fiscalYear">Select a Fiscal Year:</label>
-									<select id="fiscalYear" name="fiscalYear">
+									<select id="fiscalYear" name="fiscalYear" class="mb-1 data-entry-input">
 										<cfoutput>
 											<cfloop array="#fiscalYears#" index="yearItem">
 												<option value="#dateFormat(yearItem.beginDate, 'yyyy-mm-dd')#|#dateFormat(yearItem.endDate, 'yyyy-mm-dd')#">#yearItem.label# (#dateFormat(yearItem.beginDate, 'yyyy-mm-dd')# - #dateFormat(yearItem.endDate, 'yyyy-mm-dd')#)</option>
