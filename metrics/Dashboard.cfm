@@ -165,8 +165,36 @@ limitations under the License.
 							
 								<cfset endYear = 2023>
 								<cfset dateRange = getFiscalYearDateRange(endYear)>
-								Date Range: #dateRange['beginDate']# and #dateRange['endDate']#
-								<input type="submit" value="Show Annual Report" id="annualReport" class="my-3 btn-xs btn btn-primary" aria-label="Show the selected report for the specified date range">
+								<!-- Generate the list of dates between beginDate and endDate -->
+								<cfset dateList = []>
+								<cfset currentDate = dateRange['beginDate']>
+								<cfset endDate = dateRange['endDate']>
+								<cfloop condition="currentDate LTE endDate">
+									<cfset arrayAppend(dateList, currentDate)>
+									<cfset currentDate = dateAdd("d", 1, currentDate)>
+								</cfloop>
+								<!-- Display the dates in a <select> dropdown -->
+								<form id="loadAnnualReport">
+									<label for="reportDate">Select a Date:</label>
+									<select id="reportDate" name="reportDate">
+										<cfoutput>
+											<cfloop array="#dateList#" index="dateItem">
+												<option value="#dateFormat(dateItem, 'yyyy-mm-dd')#">#dateFormat(dateItem, 'mm/dd/yyyy')#</option>
+											</cfloop>
+										</cfoutput>
+									</select>
+									<input type="submit" value="Show Annual Report" id="annualReport" class="my-3 btn-xs btn btn-primary" aria-label="Show the selected report for the specified date range">
+								</form>
+								
+							<!---	Date Range: #dateRange['beginDate']# and #dateRange['endDate']#
+									
+								<select name="fiscalYear" id="fiscalYear" class="mb-1 data-entry-input">	
+									<cfloop from="#beginYear#" to="#endYear#" index="fiscalYear">
+										<cfset fiscalYearStart = #fiscalYear# - 1>
+										<option value="getFiscalYearDateRange(fiscalYear)" selected>FY: #fiscalYearStart#-#fiscalYear#</option>
+									</cfloop>
+								</select>--->
+								
 					<!---				
 								<cfset beginYear = currentYear - 1> 
 								<cfset endYear = currentDate + 1>	
@@ -191,6 +219,29 @@ limitations under the License.
 											url: '/metrics/component/functions.cfc',
 											type: 'GET', 
 											data: $('##loadReportForm').serialize()
+										}
+									).done(
+										function(response) {
+											console.log(response);
+											$('##annualNumbersDiv').html(response);
+										}
+									).fail(function(jqXHR,textStatus,error){
+										$('##annualNumbersDiv').html("Error Loading Metrics");
+									handleFail(jqXHR,textStatus,error,"loading metrics for date range.");
+									});
+								}
+							</script>
+							<script>
+								$(document).ready(function() {
+									$('##loadAnnualReport').on('submit',function(event){ event.preventDefault(); loadReport2(); } );
+								});
+								function loadReport2(){
+									$('##annualNumbersDiv').html("Loading...");
+									$.ajax(
+										{
+											url: '/metrics/component/functions.cfc',
+											type: 'GET', 
+											data: $('##loadAnnualReport').serialize()
 										}
 									).done(
 										function(response) {
