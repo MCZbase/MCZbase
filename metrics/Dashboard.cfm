@@ -191,7 +191,7 @@ limitations under the License.
 									<select id="fiscalYear" name="fiscalYear" class="mb-1 data-entry-input">
 										<cfoutput>
 											<cfloop array="#fiscalYears#" index="yearItem">
-												<option value="#dateFormat(yearItem.beginDate, 'yyyy-mm-dd')#|#dateFormat(yearItem.endDate, 'yyyy-mm-dd')#">#yearItem.label# (#dateFormat(yearItem.beginDate, 'yyyy-mm-dd')# - #dateFormat(yearItem.endDate, 'yyyy-mm-dd')#)</option>
+												<option value="#dateFormat(yearItem.beginDate, 'yyyy-mm-dd')#|#dateFormat(yearItem.endDate, 'yyyy-mm-dd')#">#yearItem.label# (#dateFormat(yearItem.beginDate, 'yyyy-mm-dd')#-#dateFormat(yearItem.endDate, 'yyyy-mm-dd')#)</option>
 											</cfloop>
 										</cfoutput>
 									</select>
