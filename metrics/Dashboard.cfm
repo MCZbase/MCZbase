@@ -178,7 +178,7 @@ limitations under the License.
 									</cfloop>
 								</select>--->
 										
-								<input type="submit" value="Show Report" class="my-3 btn-xs btn btn-primary" aria-label="Show the selected report for the specified date range">
+						
 							</form>
 							<script>
 								$(document).ready(function() {
