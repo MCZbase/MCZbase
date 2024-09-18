@@ -155,6 +155,7 @@ limitations under the License.
 								<option value="getGeorefNumbers">Georeferences (current)</option>
 								<option value="getAnnualReport">Annual Report</option>
 							</select>
+						</form>
 							<script>
 								$(document).ready(function() {
 									$('##loadReportForm').on('submit',function(event){ event.preventDefault(); loadReport(); } );
