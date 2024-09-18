@@ -163,12 +163,12 @@ limitations under the License.
 								<cfset currentDate = Year(Now())>
 								<cfset beginYear = currentYear - 1> 
 							
-								<cfset endYear = 2023>
+								<cfset endYear = 2024>
 								<cfset dateRange = getFiscalYearDateRange(endYear)>
 								<!-- Generate the list of dates between beginDate and endDate -->
 								<cfset dateList = []>
 								<cfset currentDate = dateRange['beginDate']>
-								<cfset currentYear = dateRange['beginDate']>
+								<cfset currentYear = dateRange['endYear']>
 								<cfset endDate = dateRange['endDate']>
 								<cfloop condition="currentDate LTE endDate">
 									<cfset arrayAppend(dateList, currentDate)>
