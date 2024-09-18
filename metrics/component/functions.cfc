@@ -798,8 +798,8 @@ limitations under the License.
 					and t.transaction_id = li.transaction_id(+)
 					and li.collection_object_id = sp.collection_object_id(+)
 					and sp.collection_object_id = co.collection_object_id(+)
-					and t.TRANS_DATE BETWEEN <cfqueryparam value="#arguments.beginDate#" cfsqltype="cf_sql_date">
-                                        AND <cfqueryparam value="#arguments.endDate#" cfsqltype="cf_sql_date">
+					and t.TRANS_DATE BETWEEN <cfqueryparam value="#beginDate#" cfsqltype="cf_sql_date">
+                                        AND <cfqueryparam value="#endDate#" cfsqltype="cf_sql_date">
 					group by c.collection_id, c.collection) ol on c.collection_id = ol.collection_id
 				ORDER BY collection
 			</cfquery>
