@@ -191,11 +191,11 @@ limitations under the License.
 									<select id="fiscalYear" name="fiscalYear">
 										<cfoutput>
 											<cfloop array="#fiscalYears#" index="yearItem">
-												<option value="#dateFormat(yearItem.beginDate, 'yyyy-mm-dd')#|#dateFormat(yearItem.endDate, 'yyyy-mm-dd')#">#yearItem.label# (#dateFormat(yearItem.beginDate, 'yyyy-mm-ddd')# - #dateFormat(yearItem.endDate, 'yyyy-mm-dd')#)</option>
+												<option value="#dateFormat(yearItem.beginDate, 'yyyy-mm-dd')#|#dateFormat(yearItem.endDate, 'yyyy-mm-dd')#">#yearItem.label# (#dateFormat(yearItem.beginDate, 'yyyy-mm-dd')# - #dateFormat(yearItem.endDate, 'yyyy-mm-dd')#)</option>
 											</cfloop>
 										</cfoutput>
 									</select>
-									<input type="submit" value="Submit">
+									<input type="submit" value="Show Annual Report" id="annualReport" class="my-3 btn-xs btn btn-primary" aria-label="Show the selected report for the specified date range">
 								</form>
 								
 			<!---					<cfset currentYear = year(now())>
