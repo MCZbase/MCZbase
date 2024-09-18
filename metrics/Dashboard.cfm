@@ -160,12 +160,50 @@ limitations under the License.
 								<input type="submit" value="Show Selected Report" id="selectedReport" class="my-3 btn-xs btn btn-primary" aria-label="Show the selected report for the specified date range">
 								<h3 class="h4 text-muted mt-3">OR</h3> 
 								<h3 class="h4 text-muted mt-3">Show Annual Report</h3>
+								
+								<cfscript>
+									function getFiscalYearDateRange(endYear) {
+										var dateRange = structNew();
+										dateRange.beginDate = createDate(endYear - 1, 7, 1);
+										dateRange.endDate = createDate(endYear, 6, 30);
+										return dateRange;
+									}
+								</cfscript>
+
 								<cfset currentYear = year(now())>
+								<cfset numberOfYears = 5>
+								<cfset fiscalYears = []>
+
+								<!-- Loop to create the last 5 fiscal years' data -->
+								<cfloop from="0" to="#numberOfYears - 1#" index="i">
+									<cfset endYear = currentYear - i>
+									<cfset dateRange = getFiscalYearDateRange(endYear)>
+									<cfset arrayAppend(fiscalYears, {
+										beginDate: dateRange.beginDate,
+										endDate: dateRange.endDate,
+										label: "Fiscal Year " & (endYear - 1) & "-" & endYear
+									})>
+								</cfloop>
+
+								<!-- Display the fiscal years in a <select> dropdown -->
+								<form id="loadAnnualReport">
+									<label for="fiscalYear">Select a Fiscal Year:</label>
+									<select id="fiscalYear" name="fiscalYear">
+										<cfoutput>
+											<cfloop array="#fiscalYears#" index="yearItem">
+												<option value="#dateFormat(yearItem.beginDate, 'yyyy-mm-dd')#|#dateFormat(yearItem.endDate, 'yyyy-mm-dd')#">#yearItem.label# (#dateFormat(yearItem.beginDate, 'yyyy-mm-ddd')# - #dateFormat(yearItem.endDate, 'yyyy-mm-dd')#)</option>
+											</cfloop>
+										</cfoutput>
+									</select>
+									<input type="submit" value="Submit">
+								</form>
+								
+			<!---					<cfset currentYear = year(now())>
 								<cfset numberOfYears = 3>
 								<cfset fiscalYears = []>
 									
 									
-								<!-- Loop to create the last 5 fiscal years' data -->
+							
 								<cfloop from="0" to="#numberOfYears - 1#" index="i">
 									<cfset endYear = currentYear - i>
 									<cfset dateRange = getFiscalYearDateRange(endYear)>
@@ -175,7 +213,7 @@ limitations under the License.
 										label: "Fiscal Year " & (endYear - 1) & "-" & endYear
 									})>
 								</cfloop>
-								<!-- Display the dates in a <select> dropdown -->
+							
 								<form id="loadAnnualReport">
 									<label for="reportDate">Select a Date:</label>
 									<select id="reportDate" name="reportDate">
@@ -186,7 +224,7 @@ limitations under the License.
 										</cfoutput>
 									</select>
 									<input type="submit" value="Show Annual Report" id="annualReport" class="my-3 btn-xs btn btn-primary" aria-label="Show the selected report for the specified date range">
-								</form>
+								</form>--->
 								
 							<!---	Date Range: #dateRange['beginDate']# and #dateRange['endDate']#
 									

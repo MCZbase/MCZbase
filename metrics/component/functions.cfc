@@ -33,17 +33,7 @@ limitations under the License.
 ** TO DO: make date pass to dates from form to CHART_DATA_EXPORT (if possible) or at least use sysdate minus 1 year (e.g., change the year YYYY to -1)
 --->
 
-<cffunction name="getFiscalYearDateRange" access="public" returntype="struct">
-	<cfargument name="endYear" type="numeric" required="yes">
 
-	<cfset var dateRange = structNew()>
-	<!-- Start date is July 1st of the previous year -->
-	<cfset dateRange.beginDate = createDate(arguments.endYear - 1, 7, 1)>
-	<!-- End date is June 30th of the given year -->
-	<cfset dateRange.endDate = createDate(arguments.endYear, 6, 30)>
-
-	<cfreturn dateRange>
-</cffunction>
 
 <cffunction name="getAnnualChart" access="remote" returntype="any" returnformat="plain">
 	<cfthread name="getAnnualChartThread">
@@ -808,8 +798,8 @@ limitations under the License.
 					and t.transaction_id = li.transaction_id(+)
 					and li.collection_object_id = sp.collection_object_id(+)
 					and sp.collection_object_id = co.collection_object_id(+)
-					and t.TRANS_DATE BETWEEN <cfqueryparam value="#dateRange['beginDate']#" cfsqltype="cf_sql_date">
-                               AND <cfqueryparam value="#dateRange['endDate']#" cfsqltype="cf_sql_date">
+					and t.TRANS_DATE BETWEEN <cfqueryparam value="#arguments.beginDate#" cfsqltype="cf_sql_date">
+                                        AND <cfqueryparam value="#arguments.endDate#" cfsqltype="cf_sql_date">
 					group by c.collection_id, c.collection) ol on c.collection_id = ol.collection_id
 				ORDER BY collection
 			</cfquery>
@@ -820,10 +810,10 @@ limitations under the License.
 				<cfoutput>
 					<section class="col-12 mt-2 px-0">
 						<div class="my-2 float-left w-100">
-							<h2 class="h3 mt-0 px-0 float-left mb-1">Annual Report <span class="text-muted">(#encodeForHtml(beginDate1)#/#encodeForHtml(endDate1)#)</span></h2>
+							<h2 class="h3 mt-0 px-0 float-left mb-1">Annual Report <span class="text-muted">(#encodeForHtml(beginDate)#/#encodeForHtml(endDate)#)</span></h2>
 							<div class="btn-toolbar my-1 mt-md-0 float-right">
 								<div class="btn-group mr-2">
-									<a href="/metrics/Dashboard.cfm?action=dowloadAnnualReport&returnAs=csv&beginDate1=#encodeForURL(beginDate1)#&endDate=#encodeForUrl(endDate1)#" class="btn btn-xs btn-outline-secondary">Export Table</a>
+									<a href="/metrics/Dashboard.cfm?action=dowloadAnnualReport&returnAs=csv&beginDate=#encodeForURL(beginDate)#&endDate=#encodeForUrl(endDate)#" class="btn btn-xs btn-outline-secondary">Export Table</a>
 								</div>
 							</div>
 						</div>
