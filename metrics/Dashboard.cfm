@@ -187,7 +187,7 @@ limitations under the License.
 
 								<!-- Display the fiscal years in a <select> dropdown -->
 								<form id="loadAnnualReport">
-									<label for="fiscalYear">Select a Fiscal Year:</label>
+									<label for="fiscalYear" class="data-entry-label">Select a Fiscal Year:</label>
 									<select id="fiscalYear" name="fiscalYear" class="mb-1 data-entry-input">
 										<cfoutput>
 											<cfloop array="#fiscalYears#" index="yearItem">
@@ -213,6 +213,7 @@ limitations under the License.
 										function(response) {
 											console.log(response);
 											$('##annualNumbersDiv').html(response);
+											
 										}
 									).fail(function(jqXHR,textStatus,error){
 										$('##annualNumbersDiv').html("Error Loading Metrics");
@@ -235,7 +236,7 @@ limitations under the License.
 									).done(
 										function(response) {
 											console.log(response);
-											$('##annualReport').html(response);
+											$('##annualReport').html(response)
 										}
 									).fail(function(jqXHR,textStatus,error){
 										$('##annualReport').html("Error Loading Metrics");
@@ -251,14 +252,17 @@ limitations under the License.
 							<h1 class="h2 float-left mb-1 w-100">MCZbase Metrics 
 							</h1>
 							<p class="text-muted small">Reports are generated from the current MCZbase data and may not match numbers printed in previous annual reports.</p>
+						
 							<cfset summaryAnnualBlock=getLoanNumbers(endDate="#endDate#",beginDate="#beginDate#")>
 							<div id="annualNumbersDiv"> 
 								#summaryAnnualBlock#
 							</div>
+
 							<cfset summaryAnnualReport=getAnnualReport(endDate="#endDate#",beginDate="#beginDate#")>
 							<div id="annualReport"> 
 								#summaryAnnualReport#
 							</div>
+					
 						</div>
 					</main>
 
