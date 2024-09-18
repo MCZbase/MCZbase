@@ -218,7 +218,7 @@ limitations under the License.
 										</cfloop>
 									</cfoutput>
 								</select>
-								<input type="hidden" value="getAnnualReport" id="method" class="my-3 btn-xs btn btn-primary" aria-label="Show the selected report for the specified date range">
+								<input type="hidden" name="method" value="getAnnualReport" id="method" class="my-3 btn-xs btn btn-primary" aria-label="Show the selected report for the specified date range">
 								<input type="submit" value="Show Annual Report" id="annualReport" class="my-3 btn-xs btn btn-primary" aria-label="Show the selected report for the specified date range">
 							</form>
 							<script>
