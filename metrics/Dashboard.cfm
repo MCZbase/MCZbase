@@ -181,7 +181,7 @@ limitations under the License.
 									<cfset arrayAppend(fiscalYears, {
 										beginDate: dateRange.beginDate,
 										endDate: dateRange.endDate,
-										label:"" & (endYear - 1) & "-" & endYear
+										label:"FY" & (endYear - 1) & "-" & endYear
 									})>
 								</cfloop>
 
