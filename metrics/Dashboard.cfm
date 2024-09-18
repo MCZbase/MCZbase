@@ -181,7 +181,7 @@ limitations under the License.
 									<cfset arrayAppend(fiscalYears, {
 										beginDate: dateRange.beginDate,
 										endDate: dateRange.endDate,
-										label:"FY&thinsp;" & (endYear - 1) & "-" & endYear
+										label:"" & (endYear - 1) & "-" & endYear
 									})>
 								</cfloop>
 
@@ -191,7 +191,7 @@ limitations under the License.
 									<select id="fiscalYear" name="fiscalYear" class="mb-1 data-entry-input">
 										<cfoutput>
 											<cfloop array="#fiscalYears#" index="yearItem">
-												<option value="#dateFormat(yearItem.beginDate, 'yyyy-mm-dd')#|#dateFormat(yearItem.endDate, 'yyyy-mm-dd')#">#yearItem.label# (#dateFormat(yearItem.beginDate, 'yyyy-mm-dd')#/#dateFormat(yearItem.endDate, 'yyyy-mm-dd')#)</option>
+												<option value="#dateFormat(yearItem.beginDate, 'yyyy-mm-dd')#|#dateFormat(yearItem.endDate, 'yyyy-mm-dd')#">#yearItem.label#&thinsp;(#dateFormat(yearItem.beginDate, 'yyyy-mm-dd')#/#dateFormat(yearItem.endDate, 'yyyy-mm-dd')#)</option>
 											</cfloop>
 										</cfoutput>
 									</select>
