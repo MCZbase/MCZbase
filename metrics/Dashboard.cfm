@@ -213,7 +213,7 @@ limitations under the License.
 										function(response) {
 											console.log(response);
 											$('##annualNumbersDiv').html(response);
-											
+											$('##annualNumbersDiv').show();
 										}
 									).fail(function(jqXHR,textStatus,error){
 										$('##annualNumbersDiv').html("Error Loading Metrics");
@@ -236,7 +236,8 @@ limitations under the License.
 									).done(
 										function(response) {
 											console.log(response);
-											$('##annualReport').html(response)
+											$('##annualReport').html(response);
+											$('##annualReport').show();
 										}
 									).fail(function(jqXHR,textStatus,error){
 										$('##annualReport').html("Error Loading Metrics");
