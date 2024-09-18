@@ -161,7 +161,7 @@ limitations under the License.
 								<h3 class="h4 text-muted mt-3">OR</h3> 
 								<h3 class="h4 text-muted mt-3">Show Annual Report</h3>
 								<cfset currentYear = year(now())>
-								<cfset numberOfYears = 5>
+								<cfset numberOfYears = 3>
 								<cfset fiscalYears = []>
 									
 									
