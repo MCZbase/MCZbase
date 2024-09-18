@@ -168,10 +168,11 @@ limitations under the License.
 								<!-- Generate the list of dates between beginDate and endDate -->
 								<cfset dateList = []>
 								<cfset currentDate = dateRange['beginDate']>
+								<cfset currentYear = dateRange['beginDate']>
 								<cfset endDate = dateRange['endDate']>
 								<cfloop condition="currentDate LTE endDate">
 									<cfset arrayAppend(dateList, currentDate)>
-									<cfset currentDate = dateAdd("y", 1, currentDate)>
+									<cfset currentDate = dateAdd("year", 1, currentYear)>
 								</cfloop>
 								<!-- Display the dates in a <select> dropdown -->
 								<form id="loadAnnualReport">
