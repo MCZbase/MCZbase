@@ -197,57 +197,6 @@ limitations under the License.
 									</select>
 									<input type="submit" value="Show Annual Report" id="annualReport" class="my-3 btn-xs btn btn-primary" aria-label="Show the selected report for the specified date range">
 								</form>
-								
-			<!---					<cfset currentYear = year(now())>
-								<cfset numberOfYears = 3>
-								<cfset fiscalYears = []>
-									
-									
-							
-								<cfloop from="0" to="#numberOfYears - 1#" index="i">
-									<cfset endYear = currentYear - i>
-									<cfset dateRange = getFiscalYearDateRange(endYear)>
-									<cfset structInsert(fiscalYears, {
-										beginDate: dateRange.beginDate,
-										endDate: dateRange.endDate,
-										label: "Fiscal Year " & (endYear - 1) & "-" & endYear
-									})>
-								</cfloop>
-							
-								<form id="loadAnnualReport">
-									<label for="reportDate">Select a Date:</label>
-									<select id="reportDate" name="reportDate">
-										<cfoutput>
-											<cfloop array="#dateList#" index="dateItem">
-												<option value="#dateFormat(dateItem, 'yyyy-mm-dd')#">#dateFormat(dateItem, 'yyyy-mm-dd')#</option>
-											</cfloop>
-										</cfoutput>
-									</select>
-									<input type="submit" value="Show Annual Report" id="annualReport" class="my-3 btn-xs btn btn-primary" aria-label="Show the selected report for the specified date range">
-								</form>--->
-								
-							<!---	Date Range: #dateRange['beginDate']# and #dateRange['endDate']#
-									
-								<select name="fiscalYear" id="fiscalYear" class="mb-1 data-entry-input">	
-									<cfloop from="#beginYear#" to="#endYear#" index="fiscalYear">
-										<cfset fiscalYearStart = #fiscalYear# - 1>
-										<option value="getFiscalYearDateRange(fiscalYear)" selected>FY: #fiscalYearStart#-#fiscalYear#</option>
-									</cfloop>
-								</select>--->
-								
-					<!---				
-								<cfset beginYear = currentYear - 1> 
-								<cfset endYear = currentDate + 1>	
-								<label for="fiscalYear" class="data-entry-label mt-2">For Fiscal Year:</label>
-								<select name="fiscalYear" id="fiscalYear" class="mb-1 data-entry-input">	
-									<cfloop from="#beginYear#" to="#endYear#" index="fiscalYear">
-										<cfset fiscalYearStart = #fiscalYear# - 1>
-										<option value="getFiscalYearDateRange(fiscalYear)" selected>FY: #fiscalYearStart#-#fiscalYear#</option>
-									</cfloop>
-								</select>--->
-										
-						
-							</form>
 							<script>
 								$(document).ready(function() {
 									$('##loadReportForm').on('submit',function(event){ event.preventDefault(); loadReport(); } );
@@ -276,7 +225,7 @@ limitations under the License.
 									$('##loadAnnualReport').on('submit',function(event){ event.preventDefault(); loadReport2(); } );
 								});
 								function loadReport2(){
-									$('##annualNumbersDiv').html("Loading...");
+									$('##annualReport').html("Loading...");
 									$.ajax(
 										{
 											url: '/metrics/component/functions.cfc',
@@ -286,10 +235,10 @@ limitations under the License.
 									).done(
 										function(response) {
 											console.log(response);
-											$('##annualNumbersDiv').html(response);
+											$('##annualReport').html(response);
 										}
 									).fail(function(jqXHR,textStatus,error){
-										$('##annualNumbersDiv').html("Error Loading Metrics");
+										$('##annualReport').html("Error Loading Metrics");
 									handleFail(jqXHR,textStatus,error,"loading metrics for date range.");
 									});
 								}
@@ -305,6 +254,10 @@ limitations under the License.
 							<cfset summaryAnnualBlock=getLoanNumbers(endDate="#endDate#",beginDate="#beginDate#")>
 							<div id="annualNumbersDiv"> 
 								#summaryAnnualBlock#
+							</div>
+							<cfset summaryAnnualReport=getAnnualReport(endDate="#endDate#",beginDate="#beginDate#")>
+							<div id="annualReport"> 
+								#summaryAnnualReport#
 							</div>
 						</div>
 					</main>
