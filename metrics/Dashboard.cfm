@@ -157,7 +157,7 @@ limitations under the License.
 									<option value="getGeorefNumbers">Georeferences (current)</option>
 									<option value="getAnnualReport">Annual Report</option>
 								</select>
-								
+								<input type="submit" value="Show Selected Report" id="selectedReport" class="my-3 btn-xs btn btn-primary" aria-label="Show the selected report for the specified date range">
 								<h3 class="h4 text-muted mt-3">OR</h3> 
 								<h3 class="h4 text-muted mt-3">Show Annual Report</h3>
 								<cfset currentDate = Year(Now())>
@@ -166,7 +166,7 @@ limitations under the License.
 								<cfset endYear = 2023>
 								<cfset dateRange = getFiscalYearDateRange(endYear)>
 								Date Range: #dateRange['beginDate']# and #dateRange['endDate']#
-									
+								<input type="submit" value="Show Annual Report" id="annualReport" class="my-3 btn-xs btn btn-primary" aria-label="Show the selected report for the specified date range">
 					<!---				
 								<cfset beginYear = currentYear - 1> 
 								<cfset endYear = currentDate + 1>	
