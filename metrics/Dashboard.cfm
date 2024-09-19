@@ -265,10 +265,10 @@ limitations under the License.
 								#summaryAnnualBlock#
 							</div>
 
-					<!---		<cfset summaryAnnualReport=getAcquisitions(endDate="#yearItem.endDate#",beginDate="#yearItem.beginDate#")>
+							<cfset summaryAnnualReport=getAcquisitions(endDate="#yearItem.endDate#",beginDate="#yearItem.beginDate#",annualReport="yes")>
 							<div id="annualReport"> 
 								#summaryAnnualReport#
-							</div>--->
+							</div>
 
 						</div>
 					</main>
