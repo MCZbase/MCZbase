@@ -441,8 +441,8 @@ limitations under the License.
 					SET
 						status = concat(nvl2(status, status || '; ', ''),'Locality ID does not match spec_locality')
 					WHERE 
-						locality_id not in (select locality_id from locality where spec_locality = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.speclocality#">) 
-						AND speclocality not in (select spec_locality from locality where locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.speclocality#">) 
+						locality_id not in (select locality_id from locality where spec_locality = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.speclocality#">) 
+						AND speclocality not in (select spec_locality from locality where locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.locality_ID#">) 
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						AND key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#"> 
 				</cfquery>
