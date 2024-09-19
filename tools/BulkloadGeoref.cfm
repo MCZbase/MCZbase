@@ -392,7 +392,7 @@ limitations under the License.
 			<!---Check VERIFIED BY AGENT_ID--->
 			<cfquery name="getVerifiedByAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				update cf_temp_georef
-				set verified_by_agent_id = (select AGENT_ID from agent_name where agent_name = <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value="#getTempData.verified_by#"> where agent_name_type = 'preferred')
+				set verified_by_agent_id = (select AGENT_ID from agent_name where agent_name = <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value="#getTempData.verified_by#"> AND agent_name_type = 'preferred')
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				and key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#"> 
 			</cfquery>
