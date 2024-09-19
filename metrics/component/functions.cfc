@@ -89,7 +89,7 @@ limitations under the License.
 					<!---rm.value holdings,--->
 					rm.holdings,
 					h.Cataloged_Items, 
-						 <cfif annualReport = 'no'>h.Specimens, </cfif>
+					h.Specimens,
 					nvl(p.Primary_Cat_Items,0) Primary_Cat_Items, 
 					nvl(p.Primary_Specimens,0) Primary_Specimens, 
 					nvl(s.Secondary_Cat_Items,0) Secondary_Cat_Items, 
