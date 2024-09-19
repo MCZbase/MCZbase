@@ -189,7 +189,7 @@ limitations under the License.
 									});
 								}
 							</script>
-							<input type="submit" value="Show Selected Report" id="selectedReport" class="my-3 btn-xs btn btn-primary" aria-label="Show the selected report for the specified date range">
+							<button type="button" value="Show Selected Report" class="my-3 btn-xs btn btn-primary" aria-label="Show the selected report for the specified date range">Show Selected Report</button>
 						
 		<!---				
 							<h3 class="h4 text-muted mt-3">OR</h3> 
