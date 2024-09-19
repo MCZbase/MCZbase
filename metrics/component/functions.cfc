@@ -457,10 +457,8 @@ limitations under the License.
 @param returnAs html or csv, if csv returns result as csv, otherwise as html table 
 --->
 <cffunction name="getMediaNumbers" access="remote" returntype="any" returnformat="json">
-	<cfset currentYear = DateFormat(now(), "yyyy")>
-	<cfset previousYear = DateFormat(DateAdd("yyyy", -1, now()),"yyyy")>
-	<cfargument name="endDate" type="any" required="no" default="#currentYear#-07-01">
-	<cfargument name="beginDate" type="any" required="no" default="#previousYear#-07-01">
+	<cfargument name="endDate" type="any" required="no" default="2024-06-30">
+	<cfargument name="beginDate" type="any" required="no" default="2023-07-01">
 	<cfargument name="annualReport" type="any" required="no" default="no">
 	<cfargument name="returnAs" type="string" required="no" default="html">
 	
