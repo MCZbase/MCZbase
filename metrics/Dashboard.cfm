@@ -150,14 +150,11 @@ limitations under the License.
 							<h3 class="h4 text-muted">Report Date Range</h3>
 							<input type="hidden" name="returnFormat" value="plain">
 							<input type="hidden" name="annualReport" value="no">
-							<label for="beginDate" class="data-entry-label mt-2">Begin Date</label>
+							<label for="beginDate" class="data-entry-label col-12 col-xl-6 mt-2">Begin Date</label>
 							<input name="beginDate" id="beginDate" type="text" class="mb-1 datetimeinput data-entry-input data-entry-input" placeholder="yyyy-mm-dd" value="#beginDate#" aria-label="start of range for dates to display metrics.">
-							<label for="endDate" class="data-entry-label mt-2">End Date</label>
+							<label for="endDate" class="data-entry-label col-12 col-xl-6 mt-2">End Date</label>
 							<input name="endDate" id="endDate" type="text" class="mb-1 datetimeinput data-entry-input data-entry-input" placeholder="yyyy-mm-dd" value="#endDate#" aria-label="end of range for dates to display metrics.">
-				
-							
-							<h3 class="h4 text-muted mt-3">OR</h3> 
-							<h3 class="h4 text-muted mt-3">Show Annual Report</h3>
+				<h3>OR</h3>
 							<cfscript>
 								function getFiscalYearDateRange(endYear) {
 									var dateRange = structNew();
@@ -182,7 +179,7 @@ limitations under the License.
 							<form id="loadAnnualReport">
 								<input type="hidden" name="annualReport" value="#annualReport#">
 								<input type="hidden" name="returnFormat" value="plain">
-								<label for="fiscalYear" class="data-entry-label">Select a Fiscal Year:</label>
+								<label for="fiscalYear" class="data-entry-label">Fiscal Year to show Annual Report:</label>
 								<select id="fiscalYear" name="fiscalYear" class="mb-1 data-entry-input">
 									<cfoutput>
 										<cfloop array="#fiscalYears#" index="yearItem">
