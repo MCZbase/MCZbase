@@ -36,11 +36,7 @@ limitations under the License.
 <cfelseif isDefined("form.endDate")>
 	<cfset variables.endDate=form.endDate>
 </cfif> 
-<cfif isDefined("url.annualReport")>
-	<cfset variables.annualReporte=url.annualReport>
-<cfelseif isDefined("form.annualReport")>
-	<cfset variables.annualReport=form.annualReport>
-</cfif> 
+
 
 <!--- If not provided, Set to most recent full fiscal year  --->
 <cfset currentYear = DateFormat(now(), "yyyy")>
@@ -56,7 +52,11 @@ limitations under the License.
 <cfif NOT isDefined("beginDate")>
 	<cfset beginDate = '#DateFormat(DateAdd("d",1,DateAdd("yyyy", -1, endDate)),"yyyy-mm-dd")#'>
 </cfif>
-
+<cfif isDefined("url.annualReport")>
+	<cfset variables.annualReporte=url.annualReport>
+<cfelseif isDefined("form.annualReport")>
+	<cfset variables.annualReport=form.annualReport>
+</cfif> 
 <cfswitch expression="#action#">
 	<cfcase value="dowloadHoldings">
 		<!--- download holdings table as csv  --->
