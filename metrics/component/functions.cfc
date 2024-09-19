@@ -69,7 +69,7 @@ limitations under the License.
 @param endDate end date for range to report
 @param returnAs html or csv, if csv returns result as csv, otherwise as html table 
 --->
-<cffunction name="getHoldings" access="remote" returntype="any" returnformat="json">
+<cffunction name="getNumbers" access="remote" returntype="any" returnformat="json">
 	<cfargument name="beginDate" type="any" required="yes">
 	<cfargument name="endDate" type="any" required="yes">
 	<cfargument name="annualReport" type="any" required="yes">
@@ -80,7 +80,7 @@ limitations under the License.
 	<cfset variables.endDate = arguments.endDate>
 	<cfset variables.annualReport = arguments.annualReport>
 	<cfset variables.returnAs = arguments.returnAs>
-	<cfthread name="getHoldingsThread">
+	<cfthread name="getNumbersThread">
 		<cftry>
 			<!--- annual report queries: holdings by collection --->
 			<cfquery name="totals" datasource="uam_god" cachedwithin="#createtimespan(0,0,0,0)#">
@@ -172,8 +172,8 @@ limitations under the License.
 		</cfcatch>
 		</cftry>
 	</cfthread>
-	<cfthread action="join" name="getHoldingsThread" />
-	<cfreturn getHoldingsThread.output>
+	<cfthread action="join" name="getNumbersThread" />
+	<cfreturn getNumbersThread.output>
 </cffunction>
 
 <!--- getAcquisitions REPORT: ACQUISITIONS within a specified time period 
