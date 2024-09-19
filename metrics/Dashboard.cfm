@@ -147,9 +147,10 @@ limitations under the License.
 					<nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block sidebar" style="background-color: ##efeded;border: ##e3e3e3;">
 					<div class="sidebar-sticky pt-4 px-2" style="background-color: ##efeded;">
 						<form id="loadReportForm">
+							<cfset annualReport = "no">
 							<h3 class="h4 text-muted">Select Report Date Range</h3>
 							<input type="hidden" name="returnFormat" value="plain">
-							<input type="hidden" name="annualReport" value="no">
+							<input type="hidden" name="annualReport" value="#annualReport#">
 							<label for="beginDate" class="data-entry-label col-12 col-xl-6 mt-2">Begin Date</label>
 							<input name="beginDate" id="beginDate" type="text" class="mb-1 datetimeinput data-entry-input data-entry-input" placeholder="yyyy-mm-dd" value="#beginDate#" aria-label="start of range for dates to display metrics.">
 							<label for="endDate" class="data-entry-label col-12 col-xl-6 mt-2">End Date</label>
@@ -177,6 +178,7 @@ limitations under the License.
 								})>
 							</cfloop>
 							<form id="loadAnnualReport">
+								<cfset annualReport = "yes">
 								<input type="hidden" name="annualReport" value="#annualReport#">
 								<input type="hidden" name="returnFormat" value="plain">
 								<label for="fiscalYear" class="data-entry-label">Fiscal Year to show Annual Report:</label>
