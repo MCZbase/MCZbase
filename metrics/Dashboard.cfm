@@ -147,50 +147,13 @@ limitations under the License.
 					<nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block sidebar" style="background-color: ##efeded;border: ##e3e3e3;">
 					<div class="sidebar-sticky pt-4 px-2" style="background-color: ##efeded;">
 						<form id="loadReportForm">
-							<cfset annualReport = "no">
-							<h3 class="h4 text-muted">Select Report Date Range</h3>
+							<h3 class="h4 text-muted">Report Date Range</h3>
 							<input type="hidden" name="returnFormat" value="plain">
-							<input type="hidden" name="annualReport" value="#annualReport#">
-							<label for="beginDate" class="data-entry-label col-12 col-xl-6 mt-2">Begin Date</label>
+							<input type="hidden" name="annualReport" value="no">
+							<label for="beginDate" class="data-entry-label mt-2">Begin Date</label>
 							<input name="beginDate" id="beginDate" type="text" class="mb-1 datetimeinput data-entry-input data-entry-input" placeholder="yyyy-mm-dd" value="#beginDate#" aria-label="start of range for dates to display metrics.">
-							<label for="endDate" class="data-entry-label col-12 col-xl-6 mt-2">End Date</label>
+							<label for="endDate" class="data-entry-label mt-2">End Date</label>
 							<input name="endDate" id="endDate" type="text" class="mb-1 datetimeinput data-entry-input data-entry-input" placeholder="yyyy-mm-dd" value="#endDate#" aria-label="end of range for dates to display metrics.">
-							<h3 class="h5">OR</h3>
-							<cfscript>
-								function getFiscalYearDateRange(endYear) {
-									var dateRange = structNew();
-									dateRange.beginDate = createDate(endYear - 1, 7, 1);
-									dateRange.endDate = createDate(endYear, 6, 30);
-									return dateRange;
-								}
-							</cfscript>
-							<cfset currentYear = year(now())>
-							<cfset numberOfYears = 5>
-							<cfset fiscalYears = []>
-						
-							<cfloop from="0" to="#numberOfYears - 1#" index="i">
-								<cfset endYear = currentYear - i>
-								<cfset dateRange = getFiscalYearDateRange(endYear)>
-								<cfset arrayAppend(fiscalYears, {
-									beginDate: dateRange.beginDate,
-									endDate: dateRange.endDate,
-									label:"FY&thinsp;" & (endYear - 1) & "-" & endYear
-								})>
-							</cfloop>
-							<form id="loadAnnualReport">
-								<cfset annualReport = "yes">
-								<input type="hidden" name="annualReport" value="#annualReport#">
-								<input type="hidden" name="returnFormat" value="plain">
-								<label for="fiscalYear" class="data-entry-label">Fiscal Year to show Annual Numbers:</label>
-								<select id="fiscalYear" name="fiscalYear" class="mb-1 data-entry-input">
-									<cfoutput>
-										<cfloop array="#fiscalYears#" index="yearItem">
-											<option value="#dateFormat(yearItem.beginDate, 'yyyy-mm-dd')#|#dateFormat(yearItem.endDate, 'yyyy-mm-dd')#">#yearItem.label#&thinsp;(#dateFormat(yearItem.beginDate, 'yyyy-mm-dd')#/#dateFormat(yearItem.endDate, 'yyyy-mm-dd')#)</option>
-										</cfloop>
-									</cfoutput>
-								</select>
-								<input type="hidden" name="method" value="getLoanNumbers" id="method" class="my-3 btn-xs btn btn-primary" aria-label="Show the selected report for the specified date range">
-							</form>		
 							<h3 class="h4 text-muted mt-3">Report to Show</h3>
 							<label for="method" class="sr-only">Report To Show</label>
 							<select id="method" name="method" class="my-1 data-entry-input">
@@ -200,7 +163,7 @@ limitations under the License.
 								<option value="getMediaNumbers">Media (current)</option>
 								<option value="getCitationNumbers">Citations (current)</option>
 								<option value="getGeorefNumbers">Georeferences (current)</option>
-							</select>	
+							</select>
 							<input type="submit" value="Show Report" class="my-3 btn-xs btn btn-primary" aria-label="Show the selected report for the specified date range">
 						
 						</form>
@@ -228,6 +191,25 @@ limitations under the License.
 									});
 								}
 							</script>
+						
+						
+							
+							
+							
+							<form id="loadAnnualReport">
+								<input type="hidden" name="annualReport" value="yes">
+								<input type="hidden" name="returnFormat" value="plain">
+								<label for="fiscalYear" class="data-entry-label">Select a Fiscal Year:</label>
+								<select id="fiscalYear" name="fiscalYear" class="mb-1 data-entry-input">
+									<cfoutput>
+										<cfloop array="#fiscalYears#" index="yearItem">
+											<option value="#dateFormat(yearItem.beginDate, 'yyyy-mm-dd')#|#dateFormat(yearItem.endDate, 'yyyy-mm-dd')#">#yearItem.label#&thinsp;(#dateFormat(yearItem.beginDate, 'yyyy-mm-dd')#/#dateFormat(yearItem.endDate, 'yyyy-mm-dd')#)</option>
+										</cfloop>
+									</cfoutput>
+								</select>
+								<input type="hidden" name="method" value="getLoanNumbers" id="method" class="my-3 btn-xs btn btn-primary" aria-label="Show the selected report for the specified date range">
+								<input type="submit" name="annualReport" value="Show Annual Report" id="annualReport" class="my-3 btn-xs btn btn-primary" aria-label="Show the selected report for the specified date range">
+							</form>
 							<script>
 								$(document).ready(function() {
 									$('##loadAnnualReport').on('submit',function(event){ event.preventDefault(); loadReport2(); } );
@@ -257,9 +239,14 @@ limitations under the License.
 						<div class="col-12 mt-4">
 							<h1 class="h2 float-left mb-1 w-100">MCZbase Metrics </h1>
 							<p class="text-muted small">Reports are generated from the current MCZbase data and may not match numbers printed in previous annual reports.</p>
-							<cfset summaryAnnualBlock=getAcquisitions(endDate="#endDate#",beginDate="#beginDate#",annualReport="#annualReport#")>
+							<cfset summaryAnnualBlock=getAcquisitions(endDate="#endDate#",beginDate="#beginDate#",annualReport="no")>
 							<div id="annualNumbersDiv"> 
 								#summaryAnnualBlock#
+							</div>
+
+							<cfset summaryAnnualReport=getAcquisitions(endDate="#yearItem.endDate#",beginDate="#yearItem.beginDate#",annualReport="yes")>
+							<div id="annualReport"> 
+								#summaryAnnualReport#
 							</div>
 
 						</div>
