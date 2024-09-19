@@ -72,7 +72,7 @@ limitations under the License.
 <cffunction name="getAnnualNumbers" access="remote" returntype="any" returnformat="json">
 	<cfargument name="beginDate" type="any" required="yes">
 	<cfargument name="endDate" type="any" required="yes">
-	<cfargument name="annualReport" type="any" required="no" default="no">
+	<cfargument name="annualReport" type="any" required="no">
 	<cfargument name="returnAs" type="string" required="no" default="html">
 
 	<!--- make arguments available within thread --->
@@ -89,7 +89,7 @@ limitations under the License.
 					<!---rm.value holdings,--->
 					rm.holdings,
 					h.Cataloged_Items, 
-					h.Specimens,
+					h.Specimens, 
 					nvl(p.Primary_Cat_Items,0) Primary_Cat_Items, 
 					nvl(p.Primary_Specimens,0) Primary_Specimens, 
 					nvl(s.Secondary_Cat_Items,0) Secondary_Cat_Items, 
@@ -103,7 +103,7 @@ limitations under the License.
 					reported_date from MCZBASE.collections_reported_metrics
 					where 
 					<!---metric='HOLDINGS' and--->
-					 <cfif annualReport = 'no'>
+					 
 					to_char(reported_date, 'yyyy')=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#left(endDate,4)#">
 					) rm on c.collection_id = rm.collection_id 
 				LEFT JOIN 
@@ -457,7 +457,7 @@ limitations under the License.
 @param returnAs html or csv, if csv returns result as csv, otherwise as html table 
 --->
 <cffunction name="getMediaNumbers" access="remote" returntype="any" returnformat="json">
-	<cfargument name="endDate" type="any" required="no">
+	<cfargument name="endDate" type="any" required="no" default="2024-07-01">
 	<cfargument name="beginDate" type="any" required="no">
 	<cfargument name="annualReport" type="any" required="no">
 	<cfargument name="returnAs" type="string" required="no" default="html">
