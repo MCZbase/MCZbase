@@ -181,7 +181,7 @@ limitations under the License.
 								<cfset annualReport = "yes">
 								<input type="hidden" name="annualReport" value="#annualReport#">
 								<input type="hidden" name="returnFormat" value="plain">
-								<label for="fiscalYear" class="data-entry-label">Fiscal Year to show Annual Report:</label>
+								<label for="fiscalYear" class="data-entry-label">Fiscal Year to show Annual Numbers:</label>
 								<select id="fiscalYear" name="fiscalYear" class="mb-1 data-entry-input">
 									<cfoutput>
 										<cfloop array="#fiscalYears#" index="yearItem">
