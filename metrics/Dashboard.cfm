@@ -193,7 +193,7 @@ limitations under the License.
 							</script>
 						
 						
-							<h3 class="h4 text-muted mt-3">OR</h3> 
+							<h3 class="h5 text-muted mt-1">OR</h3> 
 							<h3 class="h4 text-muted mt-3">Show Annual Report</h3>
 							<cfscript>
 								function getFiscalYearDateRange(endYear) {
