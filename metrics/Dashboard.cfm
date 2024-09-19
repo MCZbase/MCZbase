@@ -192,7 +192,7 @@ limitations under the License.
 								}
 							</script>
 						
-		<!---				
+						
 							<h3 class="h4 text-muted mt-3">OR</h3> 
 							<h3 class="h4 text-muted mt-3">Show Annual Report</h3>
 							<cfscript>
@@ -254,7 +254,7 @@ limitations under the License.
 									handleFail(jqXHR,textStatus,error,"loading metrics for date range.");
 									});
 								}
-							</script>--->
+							</script>
 						</div>
 					</nav>
 					<main role="main" class="col-md-9 px-3 ml-sm-auto col-lg-10 mb-3">
