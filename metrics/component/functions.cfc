@@ -459,6 +459,15 @@ limitations under the License.
 <cffunction name="getMediaNumbers" access="remote" returntype="any" returnformat="json">
 	<cfargument name="endDate" type="any" required="no" default="2024-06-30">
 	<cfargument name="beginDate" type="any" required="no" default="2023-07-01">
+	<cfscript>
+            if (not StructKeyExists(arguments, "endDate")) {
+                arguments.endDate = LCase(DateFormat(Year(now()) & LCase(DateFormat("06","MM")) & LCase(DateFormat("30","DD")); 
+            }
+
+            // Process data using the 'dateCode' argument
+            var result = "Processing data for the date code " & arguments.endDate;
+            return result;
+        </cfscript>
 	<cfargument name="annualReport" type="any" required="no" default="no">
 	<cfargument name="returnAs" type="string" required="no" default="html">
 	
