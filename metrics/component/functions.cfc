@@ -89,7 +89,7 @@ limitations under the License.
 					<!---rm.value holdings,--->
 					rm.holdings,
 					h.Cataloged_Items, 
-					h.Specimens, 
+						 <cfif annualReport = 'no'>h.Specimens, </cfif>
 					nvl(p.Primary_Cat_Items,0) Primary_Cat_Items, 
 					nvl(p.Primary_Specimens,0) Primary_Specimens, 
 					nvl(s.Secondary_Cat_Items,0) Secondary_Cat_Items, 
@@ -103,7 +103,7 @@ limitations under the License.
 					reported_date from MCZBASE.collections_reported_metrics
 					where 
 					<!---metric='HOLDINGS' and--->
-					 
+					 <cfif annualReport = 'no'>
 					to_char(reported_date, 'yyyy')=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#left(endDate,4)#">
 					) rm on c.collection_id = rm.collection_id 
 				LEFT JOIN 
