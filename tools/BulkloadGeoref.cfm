@@ -449,8 +449,7 @@ limitations under the License.
 				<cfquery name="getAgentID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE cf_temp_georef
 					SET determined_by_agent_id = (
-						select agent_id 
-						from preferred_agent_name 
+						select agent_id from preferred_agent_name 
 						where agent_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.determined_by_agent#">
 						)
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
@@ -459,7 +458,7 @@ limitations under the License.
 				<!---Check VERIFIED BY AGENT_ID--->
 				<cfquery name="getVerifiedBy" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					update cf_temp_georef
-					set verified_by_agent_id = (select AGENT_ID from preferred_agent_name where agent_name = <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value="#getTempData.verified_by#">)
+					set verified_by_agent_id = (select AGENT_ID from agent_name where agent_name = <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value="#getTempData.verified_by#"> where agent_name_type = 'preferred')
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 					and key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#"> 
 				</cfquery>
