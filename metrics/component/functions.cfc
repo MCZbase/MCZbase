@@ -294,7 +294,7 @@ limitations under the License.
 <cffunction name="getLoanNumbers" access="remote" returntype="any" returnformat="json">
 	<cfargument name="endDate" type="any" required="no">
 	<cfargument name="beginDate" type="any" required="no">
-	<cfargument name="annualReport" type="any" required="no" default="no">
+	<cfargument name="annualReport" type="any" required="no">
 	<cfargument name="returnAs" type="string" required="no" default="html">
 	
 	<!--- make arguments available within thread --->
