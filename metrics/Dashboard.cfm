@@ -140,7 +140,7 @@ limitations under the License.
 						<form id="loadReportForm">
 							<h3 class="h4 text-muted">Report Date Range</h3>
 							<input type="hidden" name="returnFormat" value="plain">
-							<input type="hidden" id="annualReport" name="annualReport" value="no">
+							<input type="hidden" name="annualReport" value="no">
 							<label for="beginDate" class="data-entry-label mt-2">Begin Date</label>
 							<input name="beginDate" id="beginDate" type="text" class="mb-1 datetimeinput data-entry-input data-entry-input" placeholder="yyyy-mm-dd" value="#beginDate#" aria-label="start of range for dates to display metrics.">
 							<label for="endDate" class="data-entry-label mt-2">End Date</label>
@@ -252,7 +252,7 @@ limitations under the License.
 							<h1 class="h2 float-left mb-1 w-100">MCZbase Metrics </h1>
 							<p class="text-muted small">Reports are generated from the current MCZbase data and may not match numbers printed in previous annual reports.</p>
 
-							<cfset summaryAnnualBlock=getAcquisitions(endDate="#endDate#",beginDate="#beginDate#")>
+							<cfset summaryAnnualBlock=getAcquisitions(endDate="#endDate#",beginDate="#beginDate#",annualReports="#no#")>
 							<div id="annualNumbersDiv"> 
 								#summaryAnnualBlock#
 							</div>
