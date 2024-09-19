@@ -72,7 +72,7 @@ limitations under the License.
 <cffunction name="getAnnualNumbers" access="remote" returntype="any" returnformat="json">
 	<cfargument name="beginDate" type="any" required="yes">
 	<cfargument name="endDate" type="any" required="yes">
-	<cfargument name="annualReport" type="any" required="no">
+	<cfargument name="annualReport" type="any" required="no" default="no">
 	<cfargument name="returnAs" type="string" required="no" default="html">
 
 	<!--- make arguments available within thread --->
