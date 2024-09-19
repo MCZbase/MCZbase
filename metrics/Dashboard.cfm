@@ -182,9 +182,10 @@ limitations under the License.
 								}
 							</script>
 							<input type="submit" value="Show Selected Report" id="selectedReport" class="my-3 btn-xs btn btn-primary" aria-label="Show the selected report for the specified date range">
+						
+						
 							<h3 class="h4 text-muted mt-3">OR</h3> 
 							<h3 class="h4 text-muted mt-3">Show Annual Report</h3>
-
 							<cfscript>
 								function getFiscalYearDateRange(endYear) {
 									var dateRange = structNew();
@@ -193,11 +194,9 @@ limitations under the License.
 									return dateRange;
 								}
 							</cfscript>
-
 							<cfset currentYear = year(now())>
 							<cfset numberOfYears = 5>
 							<cfset fiscalYears = []>
-
 							<!-- Loop to create the last 5 fiscal years' data -->
 							<cfloop from="0" to="#numberOfYears - 1#" index="i">
 								<cfset endYear = currentYear - i>
@@ -222,7 +221,7 @@ limitations under the License.
 									</cfoutput>
 								</select>
 								<input type="hidden" name="method" value="getAnnualReport" id="method" class="my-3 btn-xs btn btn-primary" aria-label="Show the selected report for the specified date range">
-								<input type="submit" value="Show Annual Report" id="annualReport" class="my-3 btn-xs btn btn-primary" aria-label="Show the selected report for the specified date range">
+								<input type="submit" name="annualReport" value="Show Annual Report" id="annualReport" class="my-3 btn-xs btn btn-primary" aria-label="Show the selected report for the specified date range">
 							</form>
 							<script>
 								$(document).ready(function() {

@@ -72,11 +72,13 @@ limitations under the License.
 <cffunction name="getAnnualNumbers" access="remote" returntype="any" returnformat="json">
 	<cfargument name="beginDate" type="any" required="yes">
 	<cfargument name="endDate" type="any" required="yes">
+	<cfargument name="annualReport" type="any" required="no" default="no">
 	<cfargument name="returnAs" type="string" required="no" default="html">
 
 	<!--- make arguments available within thread --->
 	<cfset variables.beginDate = arguments.beginDate>
 	<cfset variables.endDate = arguments.endDate>
+	<cfset variables.annualReport = arguments.annualReport>
 	<cfset variables.returnAs = arguments.returnAs>
 	<cfthread name="getAnnualNumbersThread">
 		<cftry>
@@ -182,11 +184,13 @@ limitations under the License.
 <cffunction name="getAcquisitions" access="remote" returntype="any" returnformat="json">
 	<cfargument name="beginDate" type="any" required="yes">
 	<cfargument name="endDate" type="any" required="yes">
+	<cfargument name="annualReport" type="any" required="no" default="no">
 	<cfargument name="returnAs" type="string" required="no" default="html">
 	
 	<!--- make arguments available within thread --->
 	<cfset variables.beginDate = arguments.beginDate>
 	<cfset variables.endDate = arguments.endDate>
+	<cfset variables.annualReport = arguments.annualReport>
 	<cfset variables.returnAs = arguments.returnAs>
 	<cfthread name="getAcquisitionsThread">
 		<cftry>
@@ -290,11 +294,13 @@ limitations under the License.
 <cffunction name="getLoanNumbers" access="remote" returntype="any" returnformat="json">
 	<cfargument name="endDate" type="any" required="no">
 	<cfargument name="beginDate" type="any" required="no">
+	<cfargument name="annualReport" type="any" required="no" default="no">
 	<cfargument name="returnAs" type="string" required="no" default="html">
 	
 	<!--- make arguments available within thread --->
 	<cfset variables.beginDate = arguments.beginDate>
 	<cfset variables.endDate = arguments.endDate>
+	<cfset variables.annualReport = arguments.annualReport>
 	<cfset variables.returnAs = arguments.returnAs>
 	<cfthread name="getLoanNumbersThread">
 		<cftry>
@@ -453,11 +459,13 @@ limitations under the License.
 <cffunction name="getMediaNumbers" access="remote" returntype="any" returnformat="json">
 	<cfargument name="endDate" type="any" required="no" default="2024-07-01">
 	<cfargument name="beginDate" type="any" required="no" default="2023-07-01">
+	<cfargument name="annualReport" type="any" required="no" default="no">
 	<cfargument name="returnAs" type="string" required="no" default="html">
 	
 	<!--- make arguments available within thread --->
 	<cfset variables.beginDate = arguments.beginDate>
 	<cfset variables.endDate = arguments.endDate>
+	<cfset variables.annualReport = arguments.annualReport>
 	<cfset variables.returnAs = arguments.returnAs>
 	<cfthread name="getMediaNumbersThread">
 		<cftry>
@@ -571,11 +579,13 @@ limitations under the License.
 <cffunction name="getCitationNumbers" access="remote" returntype="any" returnformat="json">
 	<cfargument name="endDate" type="any" required="no" default="2024-07-01">
 	<cfargument name="beginDate" type="any" required="no" default="2023-07-01">
+	<cfargument name="annualReport" type="any" required="no" default="no">
 	<cfargument name="returnAs" type="string" required="no" default="html">
 	
 	<!--- make arguments available within thread --->
 	<cfset variables.beginDate = arguments.beginDate>
 	<cfset variables.endDate = arguments.endDate>
+	<cfset variables.annualReport = arguments.annualReport>
 	<cfset variables.returnAs = arguments.returnAs>
 	<cfthread name="getCitationNumbersThread">
 		<cftry>
@@ -666,11 +676,13 @@ limitations under the License.
 <cffunction name="getGeorefNumbers" access="remote" returntype="any" returnformat="json">
 	<cfargument name="endDate" type="any" required="no" default="2024-07-01">
 	<cfargument name="beginDate" type="any" required="no" default="2023-07-01">
+	<cfargument name="annualReport" type="any" required="no" default="no">
 	<cfargument name="returnAs" type="string" required="no" default="html">
 	
 	<!--- make arguments available within thread --->
 	<cfset variables.beginDate = arguments.beginDate>
 	<cfset variables.endDate = arguments.endDate>
+	<cfset variables.annualReport = arguments.annualReport>
 	<cfset variables.returnAs = arguments.returnAs>
 	<cfthread name="getGeorefNumbersThread">
 		<cftry>
@@ -772,85 +784,5 @@ limitations under the License.
 </cffunction>
 
 
-<cffunction name="getAnnualReport" access="remote" returntype="any" returnformat="json">
-	<cfargument name="beginDate" type="any" required="no">
-	<cfargument name="endDate" type="any" required="no">
-	<cfargument name="returnAs" type="string" required="no" default="html">
-	
-	<!--- make arguments available within thread --->
-	<cfset variables.beginDate = arguments.beginDate>
-	<cfset variables.endDate = arguments.endDate>
-	<cfset variables.returnAs = arguments.returnAs>
-	<cfthread name="getAnnualReportThread">
-		<cftry>
-			<!--- annual report queries for loan activity --->
-			<cfquery name="annual" datasource="uam_god" cachedwithin="#createtimespan(7,0,0,0)#">
-				SELECT
-					c.Collection, 
-					ol.Num_Outgoing_Loans
-				FROM
-					(select collection_cde,institution_acronym,descr,collection,collection_id from collection where collection_cde <> 'MCZ') c
-				LEFT JOIN
-					(select c.collection_id, collection, count(distinct l.transaction_id) Num_Outgoing_Loans
-					from loan l, trans t, collection c, loan_item li, specimen_part sp, coll_object co
-					where l.transaction_id = t.transaction_id
-					and t.collection_id = c.collection_id
-					and t.transaction_id = li.transaction_id(+)
-					and li.collection_object_id = sp.collection_object_id(+)
-					and sp.collection_object_id = co.collection_object_id(+)
-					and t.TRANS_DATE BETWEEN <cfqueryparam value="#beginDate#" cfsqltype="cf_sql_date">
-                                        AND <cfqueryparam value="#endDate#" cfsqltype="cf_sql_date">
-					group by c.collection_id, c.collection) ol on c.collection_id = ol.collection_id
-				ORDER BY collection
-			</cfquery>
-			<cfif variables.returnAs EQ "csv">
-				<cfset csv = queryToCSV(annual)> 
-				<cfoutput>#csv#</cfoutput>
-			<cfelse>
-				<cfoutput>
-					<section class="col-12 mt-2 px-0">
-						<div class="my-2 float-left w-100">
-							<h2 class="h3 mt-0 px-0 float-left mb-1">Annual Report <span class="text-muted">(#encodeForHtml(beginDate)#/#encodeForHtml(endDate)#)</span></h2>
-							<div class="btn-toolbar my-1 mt-md-0 float-right">
-								<div class="btn-group mr-2">
-									<a href="/metrics/Dashboard.cfm?action=dowloadAnnualReport&returnAs=csv&beginDate=#encodeForURL(beginDate)#&endDate=#encodeForUrl(endDate)#" class="btn btn-xs btn-outline-secondary">Export Table</a>
-								</div>
-							</div>
-						</div>
-						<div class="table-responsive-lg">
-							<table class="table table-striped" id="t">
-								<thead>
-									<tr>
-										<th><strong>Collection</strong></th>
-										<th><strong>Outgoing Loans</strong></th>
-									
-									</tr>
-								</thead>
-								<tbody>
-									<cfloop query="annual">
-										<tr>
-											<td>#Collection#</td>
-											<td>#Num_Outgoing_Loans#</td>
-										</tr>
-									</cfloop>
-								</tbody>
-							</table>
-						</div>
-					</section>
-				</cfoutput>
-			</cfif>
-		<cfcatch>
-			<cfoutput>
-				<cfset error_message = cfcatchToErrorMessage(cfcatch)>
-				<cfset function_called = "#GetFunctionCalledName()#">
-				<h2 class="h3">Error in #function_called#:</h2>
-				<div>#error_message#</div>
-			</cfoutput>
-		</cfcatch>
-		</cftry>
-	</cfthread>
-	<cfthread action="join" name="getAnnualReportThread" />
-	<cfreturn getAnnualReportThread.output>
-</cffunction>	
 
 </cfcomponent>
