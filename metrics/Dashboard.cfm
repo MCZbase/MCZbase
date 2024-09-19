@@ -191,7 +191,7 @@ limitations under the License.
 							</script>
 							<input type="submit" value="Show Selected Report" id="selectedReport" class="my-3 btn-xs btn btn-primary" aria-label="Show the selected report for the specified date range">
 						
-						
+		<!---				
 							<h3 class="h4 text-muted mt-3">OR</h3> 
 							<h3 class="h4 text-muted mt-3">Show Annual Report</h3>
 							<cfscript>
@@ -216,7 +216,7 @@ limitations under the License.
 								})>
 							</cfloop>
 							
-							 Display the fiscal years in a <select> dropdown 
+							
 							<form id="loadAnnualReport">
 								<input type="hidden" name="annualReport" value="yes">
 								<input type="hidden" name="returnFormat" value="plain">
@@ -253,7 +253,7 @@ limitations under the License.
 									handleFail(jqXHR,textStatus,error,"loading metrics for date range.");
 									});
 								}
-							</script>
+							</script>--->
 						</div>
 					</nav>
 					<main role="main" class="col-md-9 px-3 ml-sm-auto col-lg-10 mb-3">
