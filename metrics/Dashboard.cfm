@@ -36,7 +36,10 @@ limitations under the License.
 <cfelseif isDefined("form.endDate")>
 	<cfset variables.endDate=form.endDate>
 </cfif> 
-<cfset annualReport = "no">
+	
+<cfif NOT isDefined("annualReport")>
+	<cfset annualReport = "no">
+</cfif>
 
 <!--- If not provided, Set to most recent full fiscal year  --->
 <cfset currentYear = DateFormat(now(), "yyyy")>
