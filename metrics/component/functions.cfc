@@ -128,7 +128,7 @@ limitations under the License.
 								<thead>
 									<tr>
 										<th><strong>Collection</strong></th>
-										<th><strong>Total Holdings</strong></th>
+										<!---<th><strong>Total Holdings</strong></th>--->
 										<th><strong>Total Records - Cataloged Items</strong></th>
 										<th><strong>Total Records - Specimens</strong></th>
 										<th><strong>Primary Types - Cataloged Items</strong></th>
@@ -141,7 +141,7 @@ limitations under the License.
 									<cfloop query="totals">
 										<tr>
 											<td>#Collection#</td>
-											<td>#NumberFormat((Cataloged_Items/Value)*100, '9.99')#%</td>
+									<!---		<td>#NumberFormat((Cataloged_Items/Value)*100, '9.99')#%</td>--->
 											<td>#Cataloged_Items#</td>
 											<td>#Specimens#</td>
 											<td>#Primary_Cat_Items#</td>
