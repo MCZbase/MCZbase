@@ -229,7 +229,7 @@ limitations under the License.
 										</cfloop>
 									</cfoutput>
 								</select>
-								#beginDate#
+								#beginDate# - #endDate#
 								<input type="hidden" name="method" value="getLoanNumbers" id="method" class="my-3 btn-xs btn btn-primary" aria-label="Show the selected report for the specified date range">
 								<input type="submit" name="annualReport" value="Show Annual Report" id="annualReport" class="my-3 btn-xs btn btn-primary" aria-label="Show the selected report for the specified date range">
 							</form>
