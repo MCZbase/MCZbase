@@ -52,11 +52,6 @@ limitations under the License.
 <cfif NOT isDefined("beginDate")>
 	<cfset beginDate = '#DateFormat(DateAdd("d",1,DateAdd("yyyy", -1, endDate)),"yyyy-mm-dd")#'>
 </cfif>
-<cfif isDefined("url.annualReport")>
-	<cfset variables.annualReporte=url.annualReport>
-<cfelseif isDefined("form.annualReport")>
-	<cfset variables.annualReport=form.annualReport>
-</cfif> 
 <cfswitch expression="#action#">
 	<cfcase value="dowloadHoldings">
 		<!--- download holdings table as csv  --->
@@ -257,7 +252,7 @@ limitations under the License.
 							<h1 class="h2 float-left mb-1 w-100">MCZbase Metrics </h1>
 							<p class="text-muted small">Reports are generated from the current MCZbase data and may not match numbers printed in previous annual reports.</p>
 
-							<cfset summaryAnnualBlock=getLoanNumbers(endDate="#endDate#",beginDate="#beginDate#")>
+							<cfset summaryAnnualBlock=getAcquisitions(endDate="#endDate#",beginDate="#beginDate#")>
 							<div id="annualNumbersDiv"> 
 								#summaryAnnualBlock#
 							</div>
