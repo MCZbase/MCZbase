@@ -58,7 +58,7 @@ limitations under the License.
 <cfswitch expression="#action#">
 	<cfcase value="dowloadHoldings">
 		<!--- download holdings table as csv  --->
-		<cfset csv = getAnnualNumbers(beginDate="#beginDate#",endDate="#endDate#",returnAs="csv")>
+		<cfset csv = getHoldings(beginDate="#beginDate#",endDate="#endDate#",returnAs="csv")>
 		<cfheader name="Content-Type" value="text/csv">
 		<cfset beginDate = rereplace(beginDate,'[^0-9]','','all')>
 		<cfset endDate = rereplace(endDate,'[^0-9]','','all')>
@@ -158,7 +158,7 @@ limitations under the License.
 							<label for="method" class="sr-only">Report To Show</label>
 							<select id="method" name="method" class="my-1 data-entry-input">
 								<option value="getAcquisitions" selected="selected">Acquisitions</option>
-								<option value="getAnnualNumbers">Holdings</option>
+								<option value="getHoldings">Holdings</option>
 								<option value="getLoanNumbers">Loan Activity</option>
 								<option value="getMediaNumbers">Media (current)</option>
 								<option value="getCitationNumbers">Citations (current)</option>
