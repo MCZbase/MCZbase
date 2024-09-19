@@ -184,7 +184,7 @@ limitations under the License.
 							<input type="submit" value="Show Selected Report" id="selectedReport" class="my-3 btn-xs btn btn-primary" aria-label="Show the selected report for the specified date range">
 						
 						
-							<h3 class="h4 text-muted mt-3">OR</h3> 
+<!---							<h3 class="h4 text-muted mt-3">OR</h3> 
 							<h3 class="h4 text-muted mt-3">Show Annual Report</h3>
 							<cfscript>
 								function getFiscalYearDateRange(endYear) {
@@ -197,7 +197,7 @@ limitations under the License.
 							<cfset currentYear = year(now())>
 							<cfset numberOfYears = 5>
 							<cfset fiscalYears = []>
-							<!-- Loop to create the last 5 fiscal years' data -->
+						
 							<cfloop from="0" to="#numberOfYears - 1#" index="i">
 								<cfset endYear = currentYear - i>
 								<cfset dateRange = getFiscalYearDateRange(endYear)>
@@ -206,7 +206,7 @@ limitations under the License.
 									endDate: dateRange.endDate,
 									label:"FY&thinsp;" & (endYear - 1) & "-" & endYear
 								})>
-							</cfloop>
+							</cfloop>--->
 							
 							<!-- Display the fiscal years in a <select> dropdown -->
 				<!---			<form id="loadAnnualReport">
