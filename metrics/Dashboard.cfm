@@ -36,6 +36,11 @@ limitations under the License.
 <cfelseif isDefined("form.endDate")>
 	<cfset variables.endDate=form.endDate>
 </cfif> 
+<cfif isDefined("url.annualReport")>
+	<cfset variables.annualReporte=url.annualReport>
+<cfelseif isDefined("form.annualReport")>
+	<cfset variables.annualReport=form.annualReport>
+</cfif> 
 
 <!--- If not provided, Set to most recent full fiscal year  --->
 <cfset currentYear = DateFormat(now(), "yyyy")>
@@ -154,7 +159,6 @@ limitations under the License.
 								<option value="getMediaNumbers">Media (current)</option>
 								<option value="getCitationNumbers">Citations (current)</option>
 								<option value="getGeorefNumbers">Georeferences (current)</option>
-								<option value="getAnnualReport">Annual Report</option>
 							</select>
 						</form>
 							<script>
