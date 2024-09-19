@@ -129,7 +129,6 @@ limitations under the License.
 									<tr>
 										<th><strong>Collection</strong></th>
 										<th><strong>Total Holdings</strong></th>
-									<!---	<th><strong>% of Holdings in MCZbase</strong></th>--->
 										<th><strong>Total Records - Cataloged Items</strong></th>
 										<th><strong>Total Records - Specimens</strong></th>
 										<th><strong>Primary Types - Cataloged Items</strong></th>
@@ -142,8 +141,7 @@ limitations under the License.
 									<cfloop query="totals">
 										<tr>
 											<td>#Collection#</td>
-											<td>#Holdings#</td>
-									<!---		<td>#NumberFormat((Cataloged_Items/Holdings)*100, '9.99')#%</td>--->
+											<td>#NumberFormat((Cataloged_Items/Value)*100, '9.99')#%</td>
 											<td>#Cataloged_Items#</td>
 											<td>#Specimens#</td>
 											<td>#Primary_Cat_Items#</td>
