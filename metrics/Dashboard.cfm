@@ -193,7 +193,29 @@ limitations under the License.
 							</script>
 						
 						
-							
+							<h3 class="h4 text-muted mt-3">OR</h3> 
+							<h3 class="h4 text-muted mt-3">Show Annual Report</h3>
+							<cfscript>
+								function getFiscalYearDateRange(endYear) {
+									var dateRange = structNew();
+									dateRange.beginDate = createDate(endYear - 1, 7, 1);
+									dateRange.endDate = createDate(endYear, 6, 30);
+									return dateRange;
+								}
+							</cfscript>
+							<cfset currentYear = year(now())>
+							<cfset numberOfYears = 5>
+							<cfset fiscalYears = []>
+						
+							<cfloop from="0" to="#numberOfYears - 1#" index="i">
+								<cfset endYear = currentYear - i>
+								<cfset dateRange = getFiscalYearDateRange(endYear)>
+								<cfset arrayAppend(fiscalYears, {
+									beginDate: dateRange.beginDate,
+									endDate: dateRange.endDate,
+									label:"FY&thinsp;" & (endYear - 1) & "-" & endYear
+								})>
+							</cfloop>
 							
 							
 							<form id="loadAnnualReport">
@@ -244,10 +266,10 @@ limitations under the License.
 								#summaryAnnualBlock#
 							</div>
 
-							<cfset summaryAnnualReport=getAcquisitions(endDate="#yearItem.endDate#",beginDate="#yearItem.beginDate#",annualReport="yes")>
+						<!---	<cfset summaryAnnualReport=getAcquisitions(endDate="#yearItem.endDate#",beginDate="#yearItem.beginDate#",annualReport="yes")>
 							<div id="annualReport"> 
 								#summaryAnnualReport#
-							</div>
+							</div>--->
 
 						</div>
 					</main>
