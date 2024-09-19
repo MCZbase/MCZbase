@@ -154,16 +154,7 @@ limitations under the License.
 							<input name="beginDate" id="beginDate" type="text" class="mb-1 datetimeinput data-entry-input data-entry-input" placeholder="yyyy-mm-dd" value="#beginDate#" aria-label="start of range for dates to display metrics.">
 							<label for="endDate" class="data-entry-label mt-2">End Date</label>
 							<input name="endDate" id="endDate" type="text" class="mb-1 datetimeinput data-entry-input data-entry-input" placeholder="yyyy-mm-dd" value="#endDate#" aria-label="end of range for dates to display metrics.">
-							<h3 class="h4 text-muted mt-3">Report to Show</h3>
-							<label for="method" class="sr-only">Report To Show</label>
-							<select id="method" name="method" class="my-1 data-entry-input">
-								<option value="getAcquisitions" selected="selected">Acquisitions</option>
-								<option value="getNumbers">Holdings</option>
-								<option value="getLoanNumbers">Loan Activity</option>
-								<option value="getMediaNumbers">Media (current)</option>
-								<option value="getCitationNumbers">Citations (current)</option>
-								<option value="getGeorefNumbers">Georeferences (current)</option>
-							</select>
+				
 							
 							<h3 class="h4 text-muted mt-3">OR</h3> 
 							<h3 class="h4 text-muted mt-3">Show Annual Report</h3>
@@ -200,9 +191,17 @@ limitations under the License.
 									</cfoutput>
 								</select>
 								<input type="hidden" name="method" value="getLoanNumbers" id="method" class="my-3 btn-xs btn btn-primary" aria-label="Show the selected report for the specified date range">
-								<input type="submit" name="annualReport" value="Show Annual Report" id="annualReport" class="my-3 btn-xs btn btn-primary" aria-label="Show the selected report for the specified date range">
 							</form>		
-									
+							<h3 class="h4 text-muted mt-3">Report to Show</h3>
+							<label for="method" class="sr-only">Report To Show</label>
+							<select id="method" name="method" class="my-1 data-entry-input">
+								<option value="getAcquisitions" selected="selected">Acquisitions</option>
+								<option value="getNumbers">Holdings</option>
+								<option value="getLoanNumbers">Loan Activity</option>
+								<option value="getMediaNumbers">Media (current)</option>
+								<option value="getCitationNumbers">Citations (current)</option>
+								<option value="getGeorefNumbers">Georeferences (current)</option>
+							</select>	
 							<input type="submit" value="Show Report" class="my-3 btn-xs btn btn-primary" aria-label="Show the selected report for the specified date range">
 						
 						</form>
