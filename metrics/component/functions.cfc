@@ -102,7 +102,7 @@ limitations under the License.
 					holdings,
 					reported_date from MCZBASE.collections_reported_metrics
 					where 
-					<!---metric='HOLDINGS' and--->
+					metric='HOLDINGS' and
 					 
 					to_char(reported_date, 'yyyy')=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#left(endDate,4)#">
 					) rm on c.collection_id = rm.collection_id 
