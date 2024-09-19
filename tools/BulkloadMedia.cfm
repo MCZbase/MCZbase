@@ -451,7 +451,7 @@ limitations under the License.
 			</cfquery>
 				
 			<cfset key = ''>
-<!---			<cfquery name="update" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+			<cfquery name="update" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				UPDATE
 					cf_temp_media
 				SET
@@ -461,7 +461,7 @@ limitations under the License.
 						)
 				WHERE  
 					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> 
-			</cfquery>--->
+			</cfquery>
 			<!---NOT in codetable warnings or match expectation--->
 			<cfquery name="warningMessageMediaType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				UPDATE
