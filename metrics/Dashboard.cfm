@@ -37,9 +37,9 @@ limitations under the License.
 	<cfset variables.endDate=form.endDate>
 </cfif> 
 	
-<cfif NOT isDefined("annualReport")>
+<!---<cfif NOT isDefined("annualReport")>
 	<cfset annualReport = "no">
-</cfif>
+</cfif>--->
 
 <!--- If not provided, Set to most recent full fiscal year  --->
 <cfset currentYear = DateFormat(now(), "yyyy")>
@@ -138,7 +138,7 @@ limitations under the License.
 				$(document).ready(function() {
 					$("##beginDate").datepicker({ dateFormat: 'yy-mm-dd'});
 					$("##endDate").datepicker({ dateFormat: 'yy-mm-dd'});
-					$("##fiscalYear").datepicker({ dateFormat: 'yyyy'});
+	<!---				$("##fiscalYear").datepicker({ dateFormat: 'yyyy'});--->
 				});
 			</script>
 			<div class="container-fluid" id="content">
@@ -164,11 +164,12 @@ limitations under the License.
 								<option value="getCitationNumbers">Citations (current)</option>
 								<option value="getGeorefNumbers">Georeferences (current)</option>
 							</select>
-							<input type="submit" value="Show Report" id="selectedReport" class="my-3 btn-xs btn btn-primary" aria-label="Show the selected report for the specified date range">
+							<input type="submit" value="Show Report" class="my-3 btn-xs btn btn-primary" aria-label="Show the selected report for the specified date range">
+						
 						</form>
 							<script>
 								$(document).ready(function() {
-									$('##loadReportForm').on('submit##selectedReport',function(event){ event.preventDefault(); loadReport(); } );
+									$('##loadReportForm').on('submit',function(event){ event.preventDefault(); loadReport(); } );
 								});
 								function loadReport(){
 									$('##annualNumbersDiv').html("Loading...");
