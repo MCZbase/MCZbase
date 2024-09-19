@@ -72,7 +72,7 @@ limitations under the License.
 <cffunction name="getAnnualNumbers" access="remote" returntype="any" returnformat="json">
 	<cfargument name="beginDate" type="any" required="yes">
 	<cfargument name="endDate" type="any" required="yes">
-	<cfargument name="annualReport" type="any" required="no" default="no">
+	<cfargument name="annualReport" type="any" required="no">
 	<cfargument name="returnAs" type="string" required="no" default="html">
 
 	<!--- make arguments available within thread --->
@@ -184,7 +184,7 @@ limitations under the License.
 <cffunction name="getAcquisitions" access="remote" returntype="any" returnformat="json">
 	<cfargument name="beginDate" type="any" required="yes">
 	<cfargument name="endDate" type="any" required="yes">
-	<cfargument name="annualReport" type="any" required="no" default="no">
+	<cfargument name="annualReport" type="any" required="no">
 	<cfargument name="returnAs" type="string" required="no" default="html">
 	
 	<!--- make arguments available within thread --->
@@ -457,9 +457,9 @@ limitations under the License.
 @param returnAs html or csv, if csv returns result as csv, otherwise as html table 
 --->
 <cffunction name="getMediaNumbers" access="remote" returntype="any" returnformat="json">
-	<cfargument name="endDate" type="any" required="no" default="2024-07-01">
-	<cfargument name="beginDate" type="any" required="no" default="2023-07-01">
-	<cfargument name="annualReport" type="any" required="no" default="no">
+	<cfargument name="endDate" type="any" required="no">
+	<cfargument name="beginDate" type="any" required="no">
+	<cfargument name="annualReport" type="any" required="no">
 	<cfargument name="returnAs" type="string" required="no" default="html">
 	
 	<!--- make arguments available within thread --->
@@ -577,9 +577,9 @@ limitations under the License.
 @param returnAs html or csv, if csv returns result as csv, otherwise as html table 
 --->
 <cffunction name="getCitationNumbers" access="remote" returntype="any" returnformat="json">
-	<cfargument name="endDate" type="any" required="no" default="2024-07-01">
-	<cfargument name="beginDate" type="any" required="no" default="2023-07-01">
-	<cfargument name="annualReport" type="any" required="no" default="no">
+	<cfargument name="endDate" type="any" required="no">
+	<cfargument name="beginDate" type="any" required="no">
+	<cfargument name="annualReport" type="any" required="no">
 	<cfargument name="returnAs" type="string" required="no" default="html">
 	
 	<!--- make arguments available within thread --->
@@ -674,9 +674,9 @@ limitations under the License.
 @param returnAs html or csv, if csv returns result as csv, otherwise as html table 
 --->
 <cffunction name="getGeorefNumbers" access="remote" returntype="any" returnformat="json">
-	<cfargument name="endDate" type="any" required="no" default="2024-07-01">
-	<cfargument name="beginDate" type="any" required="no" default="2023-07-01">
-	<cfargument name="annualReport" type="any" required="no" default="no">
+	<cfargument name="endDate" type="any" required="no">
+	<cfargument name="beginDate" type="any" required="no">
+	<cfargument name="annualReport" type="any" required="no">
 	<cfargument name="returnAs" type="string" required="no" default="html">
 	
 	<!--- make arguments available within thread --->
