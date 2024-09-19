@@ -69,10 +69,11 @@ limitations under the License.
 	</cfcase>
 	<cfcase value="dowloadAcquisitions">
 		<!--- download accessions table as csv  --->
-		<cfset csv = getAcquisitions(beginDate="#beginDate#",endDate="#endDate#",returnAs="csv")>
+		<cfset csv = getAcquisitions(beginDate="#beginDate#",endDate="#endDate#",returnAs="csv",annualReport="no")>
 		<cfheader name="Content-Type" value="text/csv">
 		<cfset beginDate = rereplace(beginDate,'[^0-9]','','all')>
 		<cfset endDate = rereplace(endDate,'[^0-9]','','all')>
+		<cfset annualReport = no>
 		<cfset targetFile = "Acquisitions_#beginDate#_to_#endDate#.csv">
 		<cfheader name="Content-disposition" value="attachment;filename=#targetFile#">
 		<cfoutput>#csv#</cfoutput>
