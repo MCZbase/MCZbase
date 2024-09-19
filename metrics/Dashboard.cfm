@@ -211,7 +211,7 @@ limitations under the License.
 							
 							<!-- Display the fiscal years in a <select> dropdown -->
 							<form id="loadAnnualReport">
-								<input type="hidden" name="annualReport" value="no">
+								<input type="hidden" name="annualReport" value="yes">
 								<input type="hidden" name="returnFormat" value="plain">
 								<label for="fiscalYear" class="data-entry-label">Select a Fiscal Year:</label>
 								<select id="fiscalYear" name="fiscalYear" class="mb-1 data-entry-input">
@@ -259,7 +259,7 @@ limitations under the License.
 								#summaryAnnualBlock#
 							</div>
 
-							<cfset summaryAnnualReport=getAnnualReport(endDate="#endDate#",beginDate="#beginDate#")>
+							<cfset summaryAnnualReport=getLoanNumbers(endDate="#endDate#",beginDate="#beginDate#")>
 							<div id="annualReport"> 
 								#summaryAnnualReport#
 							</div>
