@@ -37,9 +37,9 @@ limitations under the License.
 	<cfset variables.endDate=form.endDate>
 </cfif> 
 	
-<!---<cfif NOT isDefined("annualReport")>
+<cfif NOT isDefined("annualReport")>
 	<cfset annualReport = "no">
-</cfif>--->
+</cfif>
 
 <!--- If not provided, Set to most recent full fiscal year  --->
 <cfset currentYear = DateFormat(now(), "yyyy")>
@@ -138,7 +138,7 @@ limitations under the License.
 				$(document).ready(function() {
 					$("##beginDate").datepicker({ dateFormat: 'yy-mm-dd'});
 					$("##endDate").datepicker({ dateFormat: 'yy-mm-dd'});
-	<!---				$("##fiscalYear").datepicker({ dateFormat: 'yyyy'});--->
+					$("##fiscalYear").datepicker({ dateFormat: 'yyyy'});
 				});
 			</script>
 			<div class="container-fluid" id="content">
