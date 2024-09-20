@@ -196,7 +196,7 @@ limitations under the License.
 											</div>
 										</div>
 									</div>
-									<h3 class="h5 text-muted mt-3">Report to Show</h3>
+									<h3 class="h4 text-muted mt-3">Report to Show</h3>
 									<label for="method" class="sr-only">Report To Show</label>
 									<select id="method" name="method" class="my-1 data-entry-input">
 										<option value="getAcquisitions" selected="selected">Acquisitions</option>
