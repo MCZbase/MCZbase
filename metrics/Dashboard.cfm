@@ -279,6 +279,14 @@ limitations under the License.
 			</div>
 		</cfoutput>
 		<cfinclude template="/shared/_footer.cfm">
+
+	</cfcase>
+	<cfdefaultcase>
+		<cfoutput>
+			Error: Unknown action
+		</cfoutput>
+	</cfdefaultcase>
+</cfswitch>
 		<script>
 			document.addEventListener('DOMContentLoaded', function() {
 				function addOneYear(date) {
@@ -320,10 +328,3 @@ limitations under the License.
 				});
 			});
 		</script>
-	</cfcase>
-	<cfdefaultcase>
-		<cfoutput>
-			Error: Unknown action
-		</cfoutput>
-	</cfdefaultcase>
-</cfswitch>
