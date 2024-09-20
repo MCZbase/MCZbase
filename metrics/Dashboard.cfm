@@ -158,7 +158,7 @@ limitations under the License.
 										<div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="##accordionExample">
 											<div class="card-body">
 												<form class="py-2" id="loadReportForm1">
-													<div class="form-group">
+													<div class="form-group bg-secondary">
 														<h3 class="h4 text-muted mt-1 mb-0">Select Report Date Range</h3>
 														<input type="hidden" name="returnFormat" value="plain">
 														<input type="hidden" name="annualReport" value="no">
@@ -201,7 +201,7 @@ limitations under the License.
 										<div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="##accordionExample">
 										<div class="card-body">
 											<form class="py-2" id="loadReportForm2" onsubmit="return validateFiscalYear();">
-												<div class="form-group">
+												<div class="form-group bg-warning">
 													<h3 class="h4 text-muted mt-3 mb-2">Select Fiscal Year</h3>
 													<input type="hidden" name="returnFormat" value="plain">
 													<input type="hidden" name="annualReport" value="yes">
@@ -357,13 +357,13 @@ limitations under the License.
 							<div class="col-12 mt-4">
 								<h1 class="h2 float-left mb-1 w-100">MCZbase Metrics </h1>
 								<p class="text-muted small">Reports are generated from the current MCZbase data and may not match numbers printed in previous annual reports.</p>
-								<div id="divOne">
+								<div id="divOne" class="bg-secondary">
 									<cfset summaryAnnualBlock1=getAcquisitions(endDate="#endDate#",beginDate="#beginDate#",annualReport="#annualReport#")>
 									<div id="annualNumbersDiv1"> 
 										#summaryAnnualBlock1#
 									</div>
 								</div>
-								<div id="divTwo">
+								<div id="divTwo" class="bg-warning">
 									<cfset summaryAnnualBlock2=getLoanNumbers(endDate="#endDate#",beginDate="#beginDate#",annualReport="#annualReport#")>
 									<div id="annualNumbersDiv2"> 
 										#summaryAnnualBlock2#
