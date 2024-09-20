@@ -189,7 +189,7 @@ limitations under the License.
 									</div>
 									<div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="##accordionExample">
 										<div class="card-body">
-											<form>
+											<form class="py-2">
 												<h3 class="h4 text-muted mt-1 mb-0">Select Report Date Range</h3>
 												<input type="hidden" name="returnFormat" value="plain">
 												<input type="hidden" name="annualReport" value="no">
