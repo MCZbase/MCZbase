@@ -148,6 +148,7 @@ limitations under the License.
 					<nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block sidebar" style="background-color: ##efeded;border: ##e3e3e3;">
 						<div class="sidebar-sticky pt-4 px-2" style="background-color: ##efeded;">
 							<div class="accordion" id="accordionExample">
+								
 									<div class="card">
 										<div class="card-header" id="headingOne">
 											<h2 class="mb-0">
@@ -156,6 +157,7 @@ limitations under the License.
 											</button>
 											</h2>
 										</div>
+									<cfif annualReport eq "no">
 										<div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="##accordionExample">
 											<div class="card-body">
 												<form class="py-2" id="loadReportForm">
@@ -190,7 +192,9 @@ limitations under the License.
 												</form>
 											</div>
 										</div>
+									</cfif>
 									</div>
+								<cfelse>
 									<div class="card">
 										<div class="card-header" id="headingTwo">
 											<h2 class="mb-0">
@@ -199,6 +203,7 @@ limitations under the License.
 											</button>
 											</h2>
 										</div>
+									<cfif annualReport eq "yes">
 										<div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="##accordionExample">
 										<div class="card-body">
 											<form class="py-2" id="loadReportForm">
@@ -233,7 +238,9 @@ limitations under the License.
 											</form>
 										</div>
 									</div>
+									</cfif>
 								</div>
+								</cfif>
 							</div>
 							<script>
 								$(document).ready(function() {
