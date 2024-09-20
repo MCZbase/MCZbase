@@ -286,7 +286,10 @@ limitations under the License.
 								 document.addEventListener('DOMContentLoaded', function () {
 									const formInSidebar = document.getElementById('collapseTwo');
 									const resultsInMain = document.getElementById('divTwo');
-
+									
+									const formInSidebar2 = document.getElementById('collapseOne');
+									const resultsInMain2 = document.getElementById('divOne');
+									
 									function checkFormVisibility() {
 										if ($(formInSidebar).hasClass('show')) {
 											resultsInMain.style.display = 'block';
@@ -294,9 +297,20 @@ limitations under the License.
 											resultsInMain.style.display = 'none';
 										}
 									}
+									
+									function checkFormVisibility() {
+										if ($(formInSidebar2).hasClass('show')) {
+											resultsInMain2.style.display = 'block';
+										} else {
+											resultsInMain2.style.display = 'none';
+										}
+									}
 
 									$(formInSidebar).on('hidden.bs.collapse', checkFormVisibility);
 									$(formInSidebar).on('shown.bs.collapse', checkFormVisibility);
+									 
+									$(formInSidebar2).on('hidden.bs.collapse', checkFormVisibility);
+									$(formInSidebar2).on('shown.bs.collapse', checkFormVisibility);
 
 									checkFormVisibility();
 								});
