@@ -186,7 +186,7 @@ limitations under the License.
 															<option value="getGeorefNumbers">Georeferences (current)</option>
 														</select>
 													</div>
-													<button type="submit" value="Show Annual Report" class="btn btn-primary btn-xs my-2">Show Custom Report</button>
+													<button type="submit" class="btn btn-primary btn-xs my-2">Show Custom Report</button>
 												</form>
 											</div>
 										</div>
@@ -202,7 +202,6 @@ limitations under the License.
 										<div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="##accordionExample">
 										<div class="card-body">
 											<form class="py-2" id="loadReportForm">
-												
 												<div class="form-group">
 													<h3 class="h4 text-muted mt-3 mb-2">Select Fiscal Year</h3>
 													<input type="hidden" name="returnFormat" value="plain">
@@ -230,7 +229,7 @@ limitations under the License.
 														<option value="getGeorefNumbers">Annual Report (Georeferences (current))</option>
 													</select>
 												</div>
-												<button type="submit" value="Show Report" class="my-2 btn-xs btn btn-primary" >Submit</button>
+												<button type="submit" class="my-2 btn-xs btn btn-primary" >Submit Annual Report</button>
 											</form>
 										</div>
 									</div>
