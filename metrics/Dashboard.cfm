@@ -335,7 +335,7 @@ limitations under the License.
 										#summaryAnnualBlock1#
 									</div>
 								</div>
-								<div id="divTwo">
+								<div id="divTwo" style="display:none">
 									<cfset summaryAnnualBlock2=getLoanNumbers(endDate="#endDate#",beginDate="#beginDate#",annualReport="#annualReport#")>
 									<div id="annualNumbersDiv2"> 
 										#summaryAnnualBlock2#
