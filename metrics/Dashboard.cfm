@@ -229,7 +229,7 @@ limitations under the License.
 											<div class="col-12 col-md-11 px-1 float-left">
 												<label for="endDate" class="data-entry-label mt-2">Fiscal Year End Date</label>
 												<select id="endDate" name="endDate" class="my-1 data-entry-input">
-													<option value="2022-06-30" selected>2022-06-30</option>
+													<option value="2022-06-30">2022-06-30</option>
 													<option value="2023-06-30">2023-06-30</option>
 													<option value="2024-06-30">2024-06-30</option>
 												</select>
