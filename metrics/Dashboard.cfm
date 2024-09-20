@@ -293,10 +293,11 @@ limitations under the License.
 								<div id="annualNumbersDiv"> 
 									#summaryAnnualBlock#
 								</div>
-								<cfset summaryAnnualBlock=getAcquisitions(endDate="#endDate#",beginDate="#beginDate#",annualReport="#annualReport#")>
+								<cfset summaryAnnualBlock1=getAcquisitions(endDate="#endDate#",beginDate="#beginDate#",annualReport="#annualReport#")>
 								<div id="annualNumbersDiv1"> 
-									#summaryAnnualBlock#
+									#summaryAnnualBlock1#
 								</div>
+								<cfset summaryAnnualBlock2=getAcquisitions(endDate="#endDate#",beginDate="#beginDate#",annualReport="#annualReport#")>
 								<div id="annualNumbersDiv2"> 
 									#summaryAnnualBlock#
 								</div>
