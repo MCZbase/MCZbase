@@ -235,7 +235,7 @@ limitations under the License.
 										<cfloop array="#fiscalYears#" index="yearItem">
 											<option value="#dateFormat(yearItem.beginDate, 'yyyy-mm-dd')#|#dateFormat(yearItem.endDate, 'yyyy-mm-dd')#">#yearItem.label#&thinsp;(#dateFormat(yearItem.beginDate, 'yyyy-mm-dd')#/#dateFormat(yearItem.endDate, 'yyyy-mm-dd')#)</option>
 										</cfloop>
-										#yearItem.beginDate# - #yearItem.endDate#
+										#beginDate# - #endDate#
 									</cfoutput>
 								</select>
 								
