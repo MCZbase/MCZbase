@@ -284,25 +284,25 @@ limitations under the License.
 							</script>
 							<script>
 								function toggleFormVisibility() {
-									const formInSidebar = document.getElementById('loadReportForm1');
+									const formInSidebar = document.getElementById('collapseOne');
 									const formInMain = document.getElementById('divOne');
 									
-									const formInSidebar2 = document.getElementById('loadReportForm2');
+									const formInSidebar2 = document.getElementById('collapseTwo');
 									const formInMain2 = document.getElementById('divTwo');
 									
-									if (formInSidebar.classList.contains('hidden')) {
-										formInSidebar.classList.remove('hidden');
-										formInMain.classList.remove('hidden');
+									if (formInSidebar.classList.contains('collapse show')) {
+										formInSidebar.classList.remove('show');
+										formInMain.classList.remove('show');
 									} else {
-										formInSidebar.classList.add('hidden');
-										formInMain.classList.add('hidden');
+										formInSidebar.classList.add('collapse');
+										formInMain.classList.add('collapge');
 									}
-									if (formInSidebar2.classList.contains('hidden')) {
-										formInSidebar2.classList.remove('hidden');
-										formInMain2.classList.remove('hidden');
+									if (formInSidebar2.classList.contains('collapse show')) {
+										formInSidebar2.classList.remove('show');
+										formInMain2.classList.remove('show');
 									} else {
-										formInSidebar2.classList.add('hidden');
-										formInMain2.classList.add('hidden');
+										formInSidebar2.classList.add('show');
+										formInMain2.classList.add('show');
 									}
 								}
 							</script>
