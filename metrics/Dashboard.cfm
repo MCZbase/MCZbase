@@ -364,7 +364,7 @@ limitations under the License.
 									</div>
 								</div>
 								<div id="divTwo" style="border: 2px solid lightsalmon;padding:0 15px 0 15px;">
-									<cfset summaryAnnualBlock2=getLoanNumbers(endDate="#endDate#",beginDate="#beginDate#",annualReport="#annualReport#")>
+									<cfset summaryAnnualBlock2=getNumbers(endDate="#endDate#",beginDate="#beginDate#",annualReport="#annualReport#")>
 									<div id="annualNumbersDiv2" class="py-2"> 
 										#summaryAnnualBlock2#
 									</div>
