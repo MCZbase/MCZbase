@@ -179,28 +179,73 @@ limitations under the License.
 					<nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block sidebar" style="background-color: ##efeded;border: ##e3e3e3;">
 						<div class="sidebar-sticky pt-4 px-2" style="background-color: ##efeded;">
 							<div class="accordion" id="accordionExample">
-								<div class="card">
-									<div class="card-header" id="headingOne">
-										<h2 class="mb-0">
-										<button class="btn btn-link" type="button" data-toggle="collapse" data-target="##collapseOne" aria-expanded="true" aria-controls="collapseOne">
-											Custom Reports
-										</button>
-										</h2>
+								<cfif annualReport eq 'no'>
+									<div class="card">
+										<div class="card-header" id="headingOne">
+											<h2 class="mb-0">
+											<button class="btn btn-link" type="button" data-toggle="collapse" data-target="##collapseOne" aria-expanded="true" aria-controls="collapseOne">
+												Custom Reports
+											</button>
+											</h2>
+										</div>
+										<div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="##accordionExample">
+											<div class="card-body">
+												<form class="py-2" id="loadReportForm">
+													<div class="form-group">
+														<h3 class="h4 text-muted mt-1 mb-0">Select Report Date Range</h3>
+														<input type="hidden" name="returnFormat" value="plain">
+														<input type="hidden" name="annualReport" value="no">
+														<div class="row mx-0">
+															<div class="col-12 px-0">
+																<div class="col-12 col-md-6 pr-1 float-left">
+																	<label for="beginDate" class="data-entry-label mt-2">Begin Date</label>
+																	<input name="beginDate" id="beginDate" type="text" class="mb-1 datetimeinput data-entry-input data-entry-input" placeholder="yyyy-mm-dd" value="#beginDate#" aria-label="start of range for dates to display metrics.">
+																</div>
+																<div class="col-12 col-md-6 pl-1 float-left">
+																	<label for="endDate" class="data-entry-label mt-2">End Date</label>
+																	<input name="endDate" id="endDate" type="text" class="mb-1 datetimeinput data-entry-input data-entry-input" placeholder="yyyy-mm-dd" value="#endDate#" aria-label="end of range for dates to display metrics.">
+																</div>
+															</div>
+														</div>
+														<h3 class="h4 text-muted mt-3">Report to Show</h3>
+														<label for="method" class="sr-only">Report To Show</label>
+														<select id="method" name="method" class="my-1 data-entry-input">
+															<option value="getAcquisitions" selected="selected">Acquisitions</option>
+															<option value="getNumbers">Holdings</option>
+															<option value="getLoanNumbers">Loan Activity</option>
+															<option value="getMediaNumbers">Media (current)</option>
+															<option value="getCitationNumbers">Citations (current)</option>
+															<option value="getGeorefNumbers">Georeferences (current)</option>
+														</select>
+													</div>
+													<button type="submit" value="Show Annual Report" class="btn btn-primary btn-xs my-2">Show Custom Report</button>
+												</form>
+											</div>
+										</div>
 									</div>
-									<div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="##accordionExample">
+								<cfelseif annualReport eq 'yes'>
+									<div class="card">
+										<div class="card-header" id="headingTwo">
+											<h2 class="mb-0">
+											<button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="##collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+												Annual Reports
+											</button>
+											</h2>
+										</div>
+										<div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="##accordionExample">
 										<div class="card-body">
 											<form class="py-2" id="loadReportForm">
 												<div class="form-group">
-													<h3 class="h4 text-muted mt-1 mb-0">Select Report Date Range</h3>
+													<h3 class="h4 text-muted mt-3 mb-2">Select Fiscal Year</h3>
 													<input type="hidden" name="returnFormat" value="plain">
 													<input type="hidden" name="annualReport" value="no">
 													<div class="row mx-0">
 														<div class="col-12 px-0">
-															<div class="col-12 col-md-6 pr-1 float-left">
+															<div class="col-12 col-md-6 px-1 float-left">
 																<label for="beginDate" class="data-entry-label mt-2">Begin Date</label>
 																<input name="beginDate" id="beginDate" type="text" class="mb-1 datetimeinput data-entry-input data-entry-input" placeholder="yyyy-mm-dd" value="#beginDate#" aria-label="start of range for dates to display metrics.">
 															</div>
-															<div class="col-12 col-md-6 pl-1 float-left">
+															<div class="col-12 col-md-6 px-1 float-left">
 																<label for="endDate" class="data-entry-label mt-2">End Date</label>
 																<input name="endDate" id="endDate" type="text" class="mb-1 datetimeinput data-entry-input data-entry-input" placeholder="yyyy-mm-dd" value="#endDate#" aria-label="end of range for dates to display metrics.">
 															</div>
@@ -209,64 +254,22 @@ limitations under the License.
 													<h3 class="h4 text-muted mt-3">Report to Show</h3>
 													<label for="method" class="sr-only">Report To Show</label>
 													<select id="method" name="method" class="my-1 data-entry-input">
-														<option value="getAcquisitions" selected="selected">Acquisitions</option>
-														<option value="getNumbers">Holdings</option>
-														<option value="getLoanNumbers">Loan Activity</option>
-														<option value="getMediaNumbers">Media (current)</option>
-														<option value="getCitationNumbers">Citations (current)</option>
-														<option value="getGeorefNumbers">Georeferences (current)</option>
+														<option value="getAcquisitions" selected="selected">Annual Report (Acquisitions)</option>
+														<option value="getNumbers">Annual Report (Holdings)</option>
+														<option value="getLoanNumbers">Annual Report (Loan Activity)</option>
+														<option value="getMediaNumbers">Annual Report (Media (current))</option>
+														<option value="getCitationNumbers">Annual Report (Citations (current))</option>
+														<option value="getGeorefNumbers">Annual Report (Georeferences (current))</option>
 													</select>
 												</div>
-												<button type="submit" value="Show Annual Report" class="btn btn-primary btn-xs my-2">Show Custom Report</button>
+												<button type="submit" value="Show Report" class="my-2 btn-xs btn btn-primary" >Submit</button>
 											</form>
 										</div>
 									</div>
-								</div>
-								<div class="card">
-									<div class="card-header" id="headingTwo">
-										<h2 class="mb-0">
-										<button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="##collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-											Annual Reports
-										</button>
-										</h2>
 									</div>
-									<div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="##accordionExample">
-									<div class="card-body">
-										<form class="py-2" id="loadReportForm">
-											<div class="form-group">
-												<h3 class="h4 text-muted mt-3 mb-2">Select Fiscal Year</h3>
-												<input type="hidden" name="returnFormat" value="plain">
-												<input type="hidden" name="annualReport" value="no">
-												<div class="row mx-0">
-													<div class="col-12 px-0">
-														<div class="col-12 col-md-6 px-1 float-left">
-															<label for="beginDate" class="data-entry-label mt-2">Begin Date</label>
-															<input name="beginDate" id="beginDate" type="text" class="mb-1 datetimeinput data-entry-input data-entry-input" placeholder="yyyy-mm-dd" value="#beginDate#" aria-label="start of range for dates to display metrics.">
-														</div>
-														<div class="col-12 col-md-6 px-1 float-left">
-															<label for="endDate" class="data-entry-label mt-2">End Date</label>
-															<input name="endDate" id="endDate" type="text" class="mb-1 datetimeinput data-entry-input data-entry-input" placeholder="yyyy-mm-dd" value="#endDate#" aria-label="end of range for dates to display metrics.">
-														</div>
-													</div>
-												</div>
-												<h3 class="h4 text-muted mt-3">Report to Show</h3>
-												<label for="method" class="sr-only">Report To Show</label>
-												<select id="method" name="method" class="my-1 data-entry-input">
-													<option value="getAcquisitions" selected="selected">Annual Report (Acquisitions)</option>
-													<option value="getNumbers">Annual Report (Holdings)</option>
-													<option value="getLoanNumbers">Annual Report (Loan Activity)</option>
-													<option value="getMediaNumbers">Annual Report (Media (current))</option>
-													<option value="getCitationNumbers">Annual Report (Citations (current))</option>
-													<option value="getGeorefNumbers">Annual Report (Georeferences (current))</option>
-												</select>
-											</div>
-											<button type="submit" value="Show Report" class="my-2 btn-xs btn btn-primary" >Submit</button>
-										</form>
-									</div>
-								</div>
-								</div>
+								</cfif>
 							</div>
-							<cfif annualReport eq 'no'>
+					<!---		<cfif annualReport eq 'no'>--->
 							<!---	<form id="loadReportForm">
 									<h3>Reports (Any Date Range)</h3>
 									<h3 class="h4 text-muted mt-4 mb-0">Select Report Date Range</h3>
@@ -296,7 +299,7 @@ limitations under the License.
 									</select>
 									<input type="submit" name="submit" value="Show Report" class="my-3 btn-xs btn btn-primary" aria-label="Show the selected report for the specified date range">
 								</form>--->
-							<cfelseif annualReport eq 'yes'>
+					<!---		<cfelseif annualReport eq 'yes'>--->
 								<!---<form id="loadReportForm">
 									<h3>Annual Reports</h3>
 									<h3 class="h4 text-muted mt-3 mb-2">Select Fiscal Year</h3>
@@ -326,7 +329,7 @@ limitations under the License.
 									</select>
 									<input type="submit" name="submit" value="Show Annual Report" class="my-3 btn-xs btn btn-primary" aria-label="Show the selected report for the specified date range">
 								</form>--->
-							</cfif>
+						<!---	</cfif>--->
 							<script>
 								$(document).ready(function() {
 									$('##loadReportForm').on('submit',function(event){ event.preventDefault(); loadReport(); } );
@@ -355,24 +358,28 @@ limitations under the License.
 						</div>
 					</nav>
 					<main role="main" class="col-md-9 px-3 ml-sm-auto col-lg-10 mb-3">
-						<div id="accordionContent">
-							<div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="##accordionExample">
-								<div class="card-body">
-									Content for Accordion Item ##1
-								</div>
-							</div>
-							<div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="##accordionExample">
-								<div class="card-body">
-									Content for Accordion Item ##2
+						<div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="##accordionExample">
+							<div class="card-body">
+								<div class="col-12 mt-4">
+									<h1 class="h2 float-left mb-1 w-100">MCZbase Metrics </h1>
+									<p class="text-muted small">Reports are generated from the current MCZbase data and may not match numbers printed in previous annual reports.</p>
+									<cfset summaryAnnualBlock=getAcquisitions(endDate="#endDate#",beginDate="#beginDate#",annualReport="#annualReport#")>
+									<div id="annualNumbersDiv"> 
+										#summaryAnnualBlock#
+									</div>
 								</div>
 							</div>
 						</div>
-						<div class="col-12 mt-4">
-							<h1 class="h2 float-left mb-1 w-100">MCZbase Metrics </h1>
-							<p class="text-muted small">Reports are generated from the current MCZbase data and may not match numbers printed in previous annual reports.</p>
-							<cfset summaryAnnualBlock=getAcquisitions(endDate="#endDate#",beginDate="#beginDate#",annualReport="#annualReport#")>
-							<div id="annualNumbersDiv"> 
-								#summaryAnnualBlock#
+						<div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="##accordionExample">
+							<div class="card-body">
+								<div class="col-12 mt-4">
+									<h1 class="h2 float-left mb-1 w-100">MCZbase Metrics </h1>
+									<p class="text-muted small">Reports are generated from the current MCZbase data and may not match numbers printed in previous annual reports.</p>
+									<cfset summaryAnnualBlock=getAcquisitions(endDate="#endDate#",beginDate="#beginDate#",annualReport="#annualReport#")>
+									<div id="annualNumbersDiv"> 
+										#summaryAnnualBlock#
+									</div>
+								</div>
 							</div>
 						</div>
 					</main>
