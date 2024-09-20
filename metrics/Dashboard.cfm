@@ -144,6 +144,38 @@ limitations under the License.
 			<div class="container-fluid" id="content">
 				<div class="row">
 				<br clear="all">	
+					<script>
+						function addOneYear(date) {
+							let newDate = new Date(date);
+							newDate.setFullYear(newDate.getFullYear() + 1);
+							return newDate.toISOString().substring(0,10); 
+						}
+
+						function subtractOneYear(date) {
+							let newDate = new Date(date);
+							newDate.setFullYear(newDate.getFullYear() - 1);
+							return newDate.toISOString().substring(0,10); 
+						}
+
+						document.addEventListener('DOMContentLoaded', (event) => {
+							const beginDateInput = document.getElementById('beginDate');
+							const endDateInput = document.getElementById('endDate');
+
+							beginDateInput.addEventListener('change', () => {
+								const beginDate = beginDateInput.value;
+								if (beginDate) {
+									endDateInput.value = addOneYear(beginDate);
+								}
+							});
+
+							endDateInput.addEventListener('change', () => {
+								const endDate = endDateInput.value;
+								if (endDate) {
+									beginDateInput.value = subtractOneYear(endDate);
+								}
+							});
+						});
+					</script>
 					<nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block sidebar" style="background-color: ##efeded;border: ##e3e3e3;">
 						<div class="sidebar-sticky pt-4 px-2" style="background-color: ##efeded;">
 							<cfif annualReport eq 'no'>
