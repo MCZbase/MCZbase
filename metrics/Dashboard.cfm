@@ -236,9 +236,9 @@ limitations under the License.
 							</div>
 							<script>
 								$(document).ready(function() {
-									$('##loadReportForm1').on('submit',function(event){ event.preventDefault(); loadReport(); } );
+									$('##loadReportForm1').on('submit',function(event){ event.preventDefault(); loadReport1(); } );
 								});
-								function loadReport(){
+								function loadReport1(){
 									$('##annualNumbersDiv1').html("Loading...");
 									$.ajax(
 										{
@@ -260,9 +260,9 @@ limitations under the License.
 							</script>
 							<script>
 								$(document).ready(function() {
-									$('##loadReportForm2').on('submit',function(event){ event.preventDefault(); loadReport(); } );
+									$('##loadReportForm2').on('submit',function(event){ event.preventDefault(); loadReport2(); } );
 								});
-								function loadReport(){
+								function loadReport2(){
 									$('##annualNumbersDiv2').html("Loading...");
 									$.ajax(
 										{
