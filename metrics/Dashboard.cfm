@@ -194,7 +194,7 @@ limitations under the License.
 										</div>
 									</cfif>
 									</div>
-								<cfelse>
+							
 									<div class="card">
 										<div class="card-header" id="headingTwo">
 											<h2 class="mb-0">
@@ -240,7 +240,7 @@ limitations under the License.
 									</div>
 									</cfif>
 								</div>
-								</cfif>
+							
 							</div>
 							<script>
 								$(document).ready(function() {
