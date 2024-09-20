@@ -178,9 +178,29 @@ limitations under the License.
 					</script>
 					<nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block sidebar" style="background-color: ##efeded;border: ##e3e3e3;">
 						<div class="sidebar-sticky pt-4 px-2" style="background-color: ##efeded;">
-							<cfif annualReport eq 'no'>
+							<div class="accordion" id="accordionExample">
+								<div class="card">
+									<div class="card-header" id="headingOne">
+										<h2 class="mb-0">
+										<button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+											Accordion Item #1
+										</button>
+										</h2>
+									</div>
+								</div>
+								<div class="card">
+									<div class="card-header" id="headingTwo">
+										<h2 class="mb-0">
+										<button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+											Accordion Item #2
+										</button>
+										</h2>
+									</div>
+								</div>
+							</div>
+								<cfif annualReport eq 'no'>
 								<form id="loadReportForm">
-									<h3>Reports</h3>
+									<h3>Reports (Any Date Range)</h3>
 									<h3 class="h4 text-muted mt-4 mb-0">Select Report Date Range</h3>
 									<input type="hidden" name="returnFormat" value="plain">
 									<input type="hidden" name="annualReport" value="no">
@@ -239,7 +259,7 @@ limitations under the License.
 									<input type="submit" name="submit" value="Show Annual Report" class="my-3 btn-xs btn btn-primary" aria-label="Show the selected report for the specified date range">
 								</form>
 							</cfif>
-							<script>
+								<script>
 								$(document).ready(function() {
 									$('##loadReportForm').on('submit',function(event){ event.preventDefault(); loadReport(); } );
 								});
@@ -263,9 +283,22 @@ limitations under the License.
 									});
 								}
 							</script>
+							</cfif>
 						</div>
 					</nav>
 					<main role="main" class="col-md-9 px-3 ml-sm-auto col-lg-10 mb-3">
+						<div id="accordionContent">
+							<div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
+								<div class="card-body">
+									Content for Accordion Item #1
+								</div>
+							</div>
+							<div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
+								<div class="card-body">
+									Content for Accordion Item #2
+								</div>
+							</div>
+						</div>
 						<div class="col-12 mt-4">
 							<h1 class="h2 float-left mb-1 w-100">MCZbase Metrics </h1>
 							<p class="text-muted small">Reports are generated from the current MCZbase data and may not match numbers printed in previous annual reports.</p>
