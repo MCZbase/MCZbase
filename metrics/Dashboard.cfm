@@ -203,7 +203,7 @@ limitations under the License.
 						
 							<h3 class="h5 text-muted mt-1">OR</h3> 
 							<h3 class="h4 text-muted mt-3">Show Annual Report</h3>
-							<cfscript>
+							<!---<cfscript>
 								function getFiscalYearDateRange(endYear) {
 									var dateRange = structNew();
 									dateRange.beginDate = createDate(endYear - 1, 7, 1);
@@ -223,13 +223,25 @@ limitations under the License.
 									endDate: dateRange.endDate,
 									label:"FY&thinsp;" & (endYear - 1) & "-" & endYear
 								})>
-							</cfloop>
+							</cfloop>--->
 							
 							
 							<form id="loadAnnualReport">
 								<input type="hidden" name="annualReport" value="yes">
 								<input type="hidden" name="returnFormat" value="plain">
-								<label for="fiscalYear" class="data-entry-label">Select a Fiscal Year:</label>
+								<div class="row mx-0">
+									<div class="col-12 px-0">
+										<div class="col-12 col-md-6 px-1 float-left">
+											<label for="beginDate" class="data-entry-label mt-2">Begin Date</label>
+											<input name="beginDate" id="beginDate" type="text" class="mb-1 datetimeinput data-entry-input data-entry-input" placeholder="yyyy-mm-dd" value="#beginDate#" aria-label="start of range for dates to display metrics.">
+										</div>
+										<div class="col-12 col-md-6 px-1 float-left">
+											<label for="endDate" class="data-entry-label mt-2">End Date</label>
+											<input name="endDate" id="endDate" type="text" class="mb-1 datetimeinput data-entry-input data-entry-input" placeholder="yyyy-mm-dd" value="#endDate#" aria-label="end of range for dates to display metrics.">
+										</div>
+									</div>
+								</div>
+								<!---<label for="fiscalYear" class="data-entry-label">Select a Fiscal Year:</label>
 								<select id="fiscalYear" name="fiscalYear" class="mb-1 data-entry-input">
 									<cfoutput>
 										<cfloop array="#fiscalYears#" index="yearItem">
@@ -237,7 +249,7 @@ limitations under the License.
 										</cfloop>
 										#beginDate# - #endDate#
 									</cfoutput>
-								</select>
+								</select>--->
 								
 								<input type="hidden" name="method" value="getLoanNumbers" id="method" class="my-3 btn-xs btn btn-primary" aria-label="Show the selected report for the specified date range">
 								<input type="submit" name="annualReport" value="Show Annual Report" id="annualReport" class="my-3 btn-xs btn btn-primary" aria-label="Show the selected report for the specified date range">
