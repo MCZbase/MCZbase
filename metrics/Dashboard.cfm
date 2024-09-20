@@ -359,13 +359,13 @@ limitations under the License.
 								<p class="text-muted small">Reports are generated from the current MCZbase data and may not match numbers printed in previous annual reports.</p>
 								<div id="divOne" style="border: 2px solid ##ddd;padding:0 15px 0 15px;">
 									<cfset summaryAnnualBlock1=getAcquisitions(endDate="#endDate#",beginDate="#beginDate#",annualReport="#annualReport#")>
-									<div id="annualNumbersDiv1"> 
+									<div id="annualNumbersDiv1" class="py-2"> 
 										#summaryAnnualBlock1#
 									</div>
 								</div>
 								<div id="divTwo" style="border: 2px solid lightsalmon;padding:0 15px 0 15px;">
 									<cfset summaryAnnualBlock2=getLoanNumbers(endDate="#endDate#",beginDate="#beginDate#",annualReport="#annualReport#")>
-									<div id="annualNumbersDiv2"> 
+									<div id="annualNumbersDiv2" class="py-2"> 
 										#summaryAnnualBlock2#
 									</div>
 								</div>
