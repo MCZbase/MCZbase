@@ -242,11 +242,11 @@ limitations under the License.
 															newDate.setFullYear(newDate.getFullYear() - 1);
 															return newDate.toISOString().slice(0, 10);
 														}
-													document.querySelectorAll('form[name="thisform"] .date-input').forEach(function(input) {
+													document.querySelectorAll('form.date-input').forEach(function(input) {
 														input.addEventListener('change', function() {
 														const form = this.closest('form');
-														const beginDateInput = form.querySelector('#beginDate' + (form === document.forms[0] ? '1' : '2'));
-														const endDateInput = form.querySelector('#endDate' + (form === document.forms[0] ? '1' : '2'));
+														const beginDateInput = form.querySelector('##beginDate' + (form === document.forms[0] ? '1' : '2'));
+														const endDateInput = form.querySelector('##endDate' + (form === document.forms[0] ? '1' : '2'));
 															if (this === beginDateInput && beginDateInput.value) {
 															endDateInput.value = addOneYear(beginDateInput.value);
 															} else if (this === endDateInput && endDateInput.value) {
@@ -257,7 +257,7 @@ limitations under the License.
 													var accordionButtons = document.querySelectorAll('#accordionExample .btn-link');
 														accordionButtons.forEach(function(btn) {
 															btn.addEventListener('click', function() {
-																document.querySelectorAll('#accordionContent > div').forEach(function(content) {
+																document.querySelectorAll('##accordionContent > div').forEach(function(content) {
 																content.classList.add('d-none');
 															});
 															var collapseId = btn.getAttribute('data-target').replace('collapse', 'content');
