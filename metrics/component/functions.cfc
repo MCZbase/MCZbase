@@ -286,8 +286,8 @@ limitations under the License.
 @param returnAs html or csv, if csv returns result as csv, otherwise as html table 
 --->
 <cffunction name="getLoanNumbers" access="remote" returntype="any" returnformat="json">
-	<cfargument name="endDate" type="any" required="yes">
-	<cfargument name="beginDate" type="any" required="yes">
+	<cfargument name="endDate" type="any" required="yes" default="2024-06-30">
+	<cfargument name="beginDate" type="any" required="yes" default="2023-07-01">
 	<cfargument name="annualReport" type="any" required="yes">
 	<cfargument name="returnAs" type="string" required="no" default="html">
 	
