@@ -230,14 +230,19 @@ limitations under the License.
 											<div class="col-12 col-md-6 px-1 float-left">
 												<label for="beginDate" class="data-entry-label mt-2">Begin Date</label>
 												<select id="beginDate" name="beginDate" class="my-1 data-entry-input">
-													<option></option>
-													<option></option>
+													<option value="2021-07-01">2021-07-01</option>
+													<option value="2022-07-01">2022-07-01</option>
+													<option value="2023-07-01">2023-07-01</option>
 												</select>
-												<input name="beginDate" id="beginDate" type="text" class="mb-1 datetimeinput data-entry-input data-entry-input" placeholder="yyyy-mm-dd" value="#beginDate#" aria-label="start of range for dates to display metrics.">
+											<!---	<input name="beginDate" id="beginDate" type="text" class="mb-1 datetimeinput data-entry-input data-entry-input" placeholder="yyyy-mm-dd" value="#beginDate#" aria-label="start of range for dates to display metrics.">--->
 											</div>
 											<div class="col-12 col-md-6 px-1 float-left">
 												<label for="endDate" class="data-entry-label mt-2">End Date</label>
-												<input name="endDate" id="endDate" type="text" class="mb-1 datetimeinput data-entry-input data-entry-input" placeholder="yyyy-mm-dd" value="#endDate#" aria-label="end of range for dates to display metrics.">
+												 <select id="endDate" name="endDate" class="my-1 data-entry-input">
+													<option value="2021-07-01">2022-06-30</option>
+													<option value="2022-07-01">2023-06-30</option>
+													<option value="2023-07-01">2024-06-30</option>
+												</select>
 											</div>
 										</div>
 									</div>
