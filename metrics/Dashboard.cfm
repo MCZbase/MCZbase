@@ -284,7 +284,7 @@ limitations under the License.
 							</script>
 							<script>
 								 document.addEventListener('DOMContentLoaded', function () {
-									const formInSidebar = document.getElementById('loadReportForm2');
+									const formInSidebar = document.getElementById('collapseTwo');
 									const resultsInMain = document.getElementById('divTwo');
 
 									function checkFormVisibility() {
