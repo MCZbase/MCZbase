@@ -284,21 +284,21 @@ limitations under the License.
 							</script>
 							<script>
 								 document.addEventListener('DOMContentLoaded', function () {
-									const formInSidebar = document.getElementById('collapseTwo');
-									const resultsInMain = document.getElementById('divTwo');
+									const formInSidebar1 = document.getElementById('collapseTwo');
+									const resultsInMain1 = document.getElementById('divTwo');
 									
 									const formInSidebar2 = document.getElementById('collapseOne');
 									const resultsInMain2 = document.getElementById('divOne');
 									
-									function checkFormVisibility() {
-										if ($(formInSidebar).hasClass('show')) {
-											resultsInMain.style.display = 'block';
+									function checkFormVisibility1() {
+										if ($(formInSidebar1).hasClass('show')) {
+											resultsInMain1.style.display = 'block';
 										} else {
-											resultsInMain.style.display = 'none';
+											resultsInMain1.style.display = 'none';
 										}
 									}
 									
-									function checkFormVisibility() {
+									function checkFormVisibility2() {
 										if ($(formInSidebar2).hasClass('show')) {
 											resultsInMain2.style.display = 'block';
 										} else {
@@ -306,19 +306,25 @@ limitations under the License.
 										}
 									}
 
-									$(formInSidebar).on('hidden.bs.collapse', checkFormVisibility);
-									$(formInSidebar).on('shown.bs.collapse', checkFormVisibility);
+									$(formInSidebar1).on('hidden.bs.collapse', checkFormVisibility1);
+									$(formInSidebar1).on('shown.bs.collapse', checkFormVisibility1);
 									 
-									$(formInSidebar2).on('hidden.bs.collapse', checkFormVisibility);
-									$(formInSidebar2).on('shown.bs.collapse', checkFormVisibility);
+									$(formInSidebar2).on('hidden.bs.collapse', checkFormVisibility2);
+									$(formInSidebar2).on('shown.bs.collapse', checkFormVisibility2);
 
-									checkFormVisibility();
+									checkFormVisibility1();
+									checkFormVisibility2();
 								});
 
-								function displayResults() {
-									const resultsInMain = document.getElementById('resultsInMain');
-									resultsInMain.innerHTML = '<p>Results from CFC function query appear here.</p>';
-									resultsInMain.style.display = 'block';
+								function displayResults1() {
+									const resultsInMain1 = document.getElementById('resultsInMain1');
+									resultsInMain1.innerHTML = '<p>Results from CFC function query appear here.</p>';
+									resultsInMain1.style.display = 'block';
+								}
+								function displayResults2() {
+									const resultsInMain2 = document.getElementById('resultsInMain2');
+									resultsInMain2.innerHTML = '<p>Results from CFC function query appear here.</p>';
+									resultsInMain2.style.display = 'block';
 								}
 							</script>
 
@@ -335,7 +341,7 @@ limitations under the License.
 										#summaryAnnualBlock1#
 									</div>
 								</div>
-								<div id="divTwo" style="display:none">
+								<div id="divTwo">
 									<cfset summaryAnnualBlock2=getLoanNumbers(endDate="#endDate#",beginDate="#beginDate#",annualReport="#annualReport#")>
 									<div id="annualNumbersDiv2"> 
 										#summaryAnnualBlock2#
