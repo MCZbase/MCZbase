@@ -180,7 +180,8 @@ limitations under the License.
 						<div class="sidebar-sticky pt-4 px-2" style="background-color: ##efeded;">
 							<cfif annualReport eq 'no'>
 								<form id="loadReportForm">
-									<h3 class="h4 text-muted">Report Date Range</h3>
+									<h3 class="h4">Report</h3>
+									<h3 class="h5 text-muted">Select Report Date Range</h3>
 									<input type="hidden" name="returnFormat" value="plain">
 									<input type="hidden" name="annualReport" value="no">
 									<div class="row mx-0">
@@ -195,7 +196,7 @@ limitations under the License.
 											</div>
 										</div>
 									</div>
-									<h3 class="h4 text-muted mt-3">Report to Show</h3>
+									<h3 class="h5 text-muted mt-3">Report to Show</h3>
 									<label for="method" class="sr-only">Report To Show</label>
 									<select id="method" name="method" class="my-1 data-entry-input">
 										<option value="getAcquisitions" selected="selected">Acquisitions</option>
@@ -209,7 +210,7 @@ limitations under the License.
 								</form>
 							<cfelseif annualReport eq 'yes'>
 								<form id="loadReportForm">
-									<h3 class="h4 text-muted">Annual Report</h3>
+									<h3>Annual Reports</h3>
 									<input type="hidden" name="returnFormat" value="plain">
 									<input type="hidden" name="annualReport" value="no">
 									<div class="row mx-0">
