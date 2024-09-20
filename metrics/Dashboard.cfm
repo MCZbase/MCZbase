@@ -239,7 +239,7 @@ limitations under the License.
 									$('##loadReportForm1').on('submit',function(event){ event.preventDefault(); loadReport(); } );
 								});
 								function loadReport(){
-									$('##annualNumbersDiv').html("Loading...");
+									$('##annualNumbersDiv1').html("Loading...");
 									$.ajax(
 										{
 											url: '/metrics/component/functions.cfc',
@@ -249,8 +249,8 @@ limitations under the License.
 									).done(
 										function(response) {
 											console.log(response);
-											$('##annualNumbersDiv').html(response);
-											$('##annualNumbersDiv').show();
+											$('##annualNumbersDiv1').html(response);
+											$('##annualNumbersDiv1').show();
 										}
 									).fail(function(jqXHR,textStatus,error){
 										$('##annualNumbersDiv').html("Error Loading Metrics");
@@ -263,7 +263,7 @@ limitations under the License.
 									$('##loadReportForm2').on('submit',function(event){ event.preventDefault(); loadReport(); } );
 								});
 								function loadReport(){
-									$('##annualNumbersDiv').html("Loading...");
+									$('##annualNumbersDiv2').html("Loading...");
 									$.ajax(
 										{
 											url: '/metrics/component/functions.cfc',
@@ -273,11 +273,11 @@ limitations under the License.
 									).done(
 										function(response) {
 											console.log(response);
-											$('##annualNumbersDiv').html(response);
-											$('##annualNumbersDiv').show();
+											$('##annualNumbersDiv2').html(response);
+											$('##annualNumbersDiv2').show();
 										}
 									).fail(function(jqXHR,textStatus,error){
-										$('##annualNumbersDiv').html("Error Loading Metrics");
+										$('##annualNumbersDiv2').html("Error Loading Metrics");
 									handleFail(jqXHR,textStatus,error,"loading metrics for date range.");
 									});
 								}
@@ -291,6 +291,13 @@ limitations under the License.
 								<p class="text-muted small">Reports are generated from the current MCZbase data and may not match numbers printed in previous annual reports.</p>
 								<cfset summaryAnnualBlock=getAcquisitions(endDate="#endDate#",beginDate="#beginDate#",annualReport="#annualReport#")>
 								<div id="annualNumbersDiv"> 
+									#summaryAnnualBlock#
+								</div>
+								<cfset summaryAnnualBlock=getAcquisitions(endDate="#endDate#",beginDate="#beginDate#",annualReport="#annualReport#")>
+								<div id="annualNumbersDiv1"> 
+									#summaryAnnualBlock#
+								</div>
+								<div id="annualNumbersDiv2"> 
 									#summaryAnnualBlock#
 								</div>
 							</div>
