@@ -358,27 +358,13 @@ limitations under the License.
 						</div>
 					</nav>
 					<main role="main" class="col-md-9 px-3 ml-sm-auto col-lg-10 mb-3">
-						<div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="##accordionExample">
-							<div class="card-body">
-								<div class="col-12 mt-4">
-									<h1 class="h2 float-left mb-1 w-100">MCZbase Metrics </h1>
-									<p class="text-muted small">Reports are generated from the current MCZbase data and may not match numbers printed in previous annual reports.</p>
-									<cfset summaryAnnualBlock=getAcquisitions(endDate="#endDate#",beginDate="#beginDate#",annualReport="#annualReport#")>
-									<div id="annualNumbersDiv"> 
-										#summaryAnnualBlock#
-									</div>
-								</div>
-							</div>
-						</div>
-						<div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="##accordionExample">
-							<div class="card-body">
-								<div class="col-12 mt-4">
-									<h1 class="h2 float-left mb-1 w-100">MCZbase Metrics </h1>
-									<p class="text-muted small">Reports are generated from the current MCZbase data and may not match numbers printed in previous annual reports.</p>
-									<cfset summaryAnnualBlock=getAcquisitions(endDate="#endDate#",beginDate="#beginDate#",annualReport="#annualReport#")>
-									<div id="annualNumbersDiv"> 
-										#summaryAnnualBlock#
-									</div>
+						<div class="card-body">
+							<div class="col-12 mt-4">
+								<h1 class="h2 float-left mb-1 w-100">MCZbase Metrics </h1>
+								<p class="text-muted small">Reports are generated from the current MCZbase data and may not match numbers printed in previous annual reports.</p>
+								<cfset summaryAnnualBlock=getAcquisitions(endDate="#endDate#",beginDate="#beginDate#",annualReport="#annualReport#")>
+								<div id="annualNumbersDiv"> 
+									#summaryAnnualBlock#
 								</div>
 							</div>
 						</div>
