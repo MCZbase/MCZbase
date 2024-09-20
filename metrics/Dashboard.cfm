@@ -227,25 +227,12 @@ limitations under the License.
 									<div class="row mx-0">
 										<div class="col-12 px-0">
 											<div class="col-12 col-md-11 px-1 float-left">
-												<cfif structKeyExists(form, "endDate")>
-													<cfset endDate = ParseDateTime(form.endDate, "yyyy-mm-dd")>
-													<cfif structKeyExists(form, "beginDate") AND len(trim(form.beginDate))>
-														<cfset beginDate = ParseDateTime(form.beginDate, "yyyy-mm-dd")>
-													<cfelse>
-														<cfset selectedDate = CreateDate(Year(now()), 1, 1)>
-														<cfif DateCompare(endDate, selectedDate) EQ -1>
-															<cfset beginDate = DateAdd("yyyy", -1, endDate)>
-														<cfelse>
-															<cfset beginDate = "Not applicable">
-														</cfif>
-													</cfif>
-													<cfoutput>
-														<p>End Date: #DateFormat(endDate, "mm/dd/yyyy")#</p>
-														<p>Begin Date: #DateFormat(beginDate, "mm/dd/yyyy")#</p>
-													</cfoutput>
-												<cfelse>
-													<cfoutput><p>No end date provided.</p></cfoutput>
-												</cfif>
+												<label for="endDate" class="data-entry-label mt-2">Fiscal Year</label>
+												<select id="endDate" name="endDate" class="my-1 data-entry-input">
+													<option value="2022-06-30" selected>2021-07-01 / 2022-06-30</option>
+													<option value="2023-06-30">2022-07-01 / 2023-06-30</option>
+													<option value="2024-06-30">2023-07-01 / 2024-06-30</option>
+												</select>
 											</div>
 										</div>
 									</div>
@@ -261,6 +248,25 @@ limitations under the License.
 									<input type="hidden" name="method" value="getLoanNumbers" id="method" class="my-3 btn-xs btn btn-primary" aria-label="Show the selected report for the specified date range">
 									<input type="submit" name="submit" value="Show Report" class="my-3 btn-xs btn btn-primary" aria-label="Show the selected report for the specified date range">
 								</form>
+										<cfif structKeyExists(form, "endDate")>
+											<cfset endDate = ParseDateTime(form.endDate, "yyyy-mm-dd")>
+											<cfif structKeyExists(form, "beginDate") AND len(trim(form.beginDate))>
+												<cfset beginDate = ParseDateTime(form.beginDate, "yyyy-mm-dd")>
+											<cfelse>
+												<cfset selectedDate = CreateDate(Year(now()), 1, 1)>
+												<cfif DateCompare(endDate, selectedDate) EQ -1>
+													<cfset beginDate = DateAdd("yyyy", -1, endDate)>
+												<cfelse>
+													<cfset beginDate = "Not applicable">
+												</cfif>
+											</cfif>
+											<cfoutput>
+												<p>End Date: #DateFormat(endDate, "mm/dd/yyyy")#</p>
+												<p>Begin Date: #DateFormat(beginDate, "mm/dd/yyyy")#</p>
+											</cfoutput>
+										<cfelse>
+											<cfoutput><p>No end date provided.</p></cfoutput>
+										</cfif>
 <!---								<script>
 									$(document).ready(function() {
 										$('##loadAnnualReport').on('submit',function(event){ event.preventDefault(); loadReport(); } );
