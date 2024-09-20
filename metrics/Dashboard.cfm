@@ -146,7 +146,7 @@ limitations under the License.
 				<br clear="all">	
 
 					<nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block sidebar" style="background-color: ##efeded;border: ##e3e3e3;">
-						<div class="sidebar-sticky pt-4 px-2" style="background-color: ##efeded;">
+						<div class="sidebar-sticky py-4 px-2" style="background-color: ##efeded;">
 							<div class="accordion" id="accordionExample">
 									<div class="card">
 										<div class="card-header" id="headingOne">
