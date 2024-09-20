@@ -175,30 +175,6 @@ limitations under the License.
 									</select>
 									<input type="submit" name="submit" value="Show Report" class="my-3 btn-xs btn btn-primary" aria-label="Show the selected report for the specified date range">
 								</form>
-								<script>
-									$(document).ready(function() {
-										$('##loadReportForm').on('submit',function(event){ event.preventDefault(); loadReport(); } );
-									});
-									function loadReport(){
-										$('##annualNumbersDiv').html("Loading...");
-										$.ajax(
-											{
-												url: '/metrics/component/functions.cfc',
-												type: 'GET', 
-												data: $('##loadReportForm').serialize()
-											}
-										).done(
-											function(response) {
-												console.log(response);
-												$('##annualNumbersDiv').html(response);
-												$('##annualNumbersDiv').show();
-											}
-										).fail(function(jqXHR,textStatus,error){
-											$('##annualNumbersDiv').html("Error Loading Metrics");
-										handleFail(jqXHR,textStatus,error,"loading metrics for date range.");
-										});
-									}
-								</script>
 							<cfelseif annualReport eq 'yes'>
 								<form id="loadReportForm">
 									<h3 class="h4 text-muted">Annual Report</h3>
@@ -228,30 +204,31 @@ limitations under the License.
 									</select>
 									<input type="submit" name="submit" value="Show Report" class="my-3 btn-xs btn btn-primary" aria-label="Show the selected report for the specified date range">
 								</form>
-								<script>
-									$(document).ready(function() {
-										$('##loadReportForm').on('submit',function(event){ event.preventDefault(); loadReport(); } );
+							</cfif>
+							<script>
+								$(document).ready(function() {
+									$('##loadReportForm').on('submit',function(event){ event.preventDefault(); loadReport(); } );
+								});
+								function loadReport(){
+									$('##annualNumbersDiv').html("Loading...");
+									$.ajax(
+										{
+											url: '/metrics/component/functions.cfc',
+											type: 'GET', 
+											data: $('##loadReportForm').serialize()
+										}
+									).done(
+										function(response) {
+											console.log(response);
+											$('##annualNumbersDiv').html(response);
+											$('##annualNumbersDiv').show();
+										}
+									).fail(function(jqXHR,textStatus,error){
+										$('##annualNumbersDiv').html("Error Loading Metrics");
+									handleFail(jqXHR,textStatus,error,"loading metrics for date range.");
 									});
-									function loadReport(){
-										$('##annualNumbersDiv').html("Loading...");
-										$.ajax(
-											{
-												url: '/metrics/component/functions.cfc',
-												type: 'GET', 
-												data: $('##loadReportForm').serialize()
-											}
-										).done(
-											function(response) {
-												console.log(response);
-												$('##annualNumbersDiv').html(response);
-												$('##annualNumbersDiv').show();
-											}
-										).fail(function(jqXHR,textStatus,error){
-											$('##annualNumbersDiv').html("Error Loading Metrics");
-										handleFail(jqXHR,textStatus,error,"loading metrics for date range.");
-										});
-									}
-								</script>
+								}
+							</script>
 						</div>
 					</nav>
 					<main role="main" class="col-md-9 px-3 ml-sm-auto col-lg-10 mb-3">
