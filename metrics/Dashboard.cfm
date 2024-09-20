@@ -233,34 +233,45 @@ limitations under the License.
 												<button type="submit" value="Show Report" class="my-2 btn-xs btn btn-primary" >Submit</button>
 											</form>
 											<script>
-												function addOneYear(date) {
-													let newDate = new Date(date);
-													newDate.setFullYear(newDate.getFullYear() + 1);
-													return newDate.toISOString().substring(0,10); 
-												}
+												document.addEventListener('DOMContentLoaded', function() {
+													function addOneYear(date) {
+														let newDate = new Date(date);
+														newDate.setFullYear(newDate.getFullYear() + 1);
+														return newDate.toISOString().slice(0, 10);
+													}
 
-												function subtractOneYear(date) {
-													let newDate = new Date(date);
-													newDate.setFullYear(newDate.getFullYear() - 1);
-													return newDate.toISOString().substring(0,10); 
-												}
+													function subtractOneYear(date) {
+														let newDate = new Date(date);
+														newDate.setFullYear(newDate.getFullYear() - 1);
+														return newDate.toISOString().slice(0, 10);
+													}
 
-												document.addEventListener('DOMContentLoaded', (event) => {
-													const beginDateInput = document.getElementById('beginDate');
-													const endDateInput = document.getElementById('endDate');
+												document.querySelectorAll('.date-input').forEach(function(input) {
+													input.addEventListener('change', function() {
+														const form = this.closest('form');
+														const beginDateInput = form.querySelector('input[id^="beginDate"]');
+														const endDateInput = form.querySelector('input[id^="endDate"]');
 
-													beginDateInput.addEventListener('change', () => {
-														const beginDate = beginDateInput.value;
-														if (beginDate) {
-															endDateInput.value = addOneYear(beginDate);
+														if (this === beginDateInput && beginDateInput.value) {
+														endDateInput.value = addOneYear(beginDateInput.value);
+														} else if (this === endDateInput && endDateInput.value) {
+														beginDateInput.value = subtractOneYear(endDateInput.value);
 														}
 													});
+												});
 
-													endDateInput.addEventListener('change', () => {
-														const endDate = endDateInput.value;
-														if (endDate) {
-															beginDateInput.value = subtractOneYear(endDate);
-														}
+												var accordionButtons = document.querySelectorAll('#accordionExample .btn-link');
+													accordionButtons.forEach(function(btn) {
+													btn.addEventListener('click', function() {
+										
+													document.querySelectorAll('#accordionContent > div').forEach(function(content) {
+														content.classList.add('d-none');
+													});
+													
+														var collapseId = btn.getAttribute('data-target').replace('collapse', 'content');
+														var contentSection = document.getElementById(collapseId);
+															contentSection.classList.remove('d-none');
+														});
 													});
 												});
 											</script>
