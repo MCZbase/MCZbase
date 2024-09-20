@@ -202,7 +202,7 @@ limitations under the License.
 										<option value="getCitationNumbers">Annual Report (Citations (current))</option>
 										<option value="getGeorefNumbers">Annual Report (Georeferences (current))</option>
 									</select>
-									<input type="submit" name="submit" value="Show Report" class="my-3 btn-xs btn btn-primary" aria-label="Show the selected report for the specified date range">
+									<input type="submit" name="submit" value="Show Annual Report" class="my-3 btn-xs btn btn-primary" aria-label="Show the selected report for the specified date range">
 								</form>
 							</cfif>
 							<script>
