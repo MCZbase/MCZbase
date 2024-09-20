@@ -203,7 +203,7 @@ limitations under the License.
 							<cfelseif annualReport eq 'yes'>
 								<h3 class="h4 text-muted mt-3">Show Annual Report</h3>
 								<form id="loadAnnualReport">
-									<cfscript>
+							<!---	<cfscript>
 										function getFiscalYearDateRange(endYear) {
 											var dateRange = structNew();
 											dateRange.beginDate = createDate(endYear - 1, 7, 1);
@@ -222,7 +222,7 @@ limitations under the License.
 											endDate: dateRange.endDate,
 											label:"FY&thinsp;" & (endYear - 1) & "-" & endYear
 										})>
-									</cfloop>
+									</cfloop>--->
 									<input type="hidden" name="annualReport" value="yes">
 									<input type="hidden" name="returnFormat" value="plain">
 									<div class="row mx-0">
@@ -256,7 +256,7 @@ limitations under the License.
 										</cfoutput>
 									</select>--->
 									<input type="hidden" name="method" value="getLoanNumbers" id="method" class="my-3 btn-xs btn btn-primary" aria-label="Show the selected report for the specified date range">
-									<input type="submit" name="annualReport" value="Show Annual Report" id="annualReport" class="my-3 btn-xs btn btn-primary" aria-label="Show the selected report for the specified date range">
+									<input type="submit" name="annualReport" value="Show Annual Report" class="my-3 btn-xs btn btn-primary" aria-label="Show the selected report for the specified date range">
 								</form>
 <!---								<script>
 									$(document).ready(function() {
