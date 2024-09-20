@@ -216,10 +216,8 @@ limitations under the License.
 											</div>
 										</div>
 									</div>
-									<input type="hidden" name="method" value="getLoanNumbers" id="method" class="my-3 btn-xs btn btn-primary" aria-label="Show the selected report for the specified date range">
-									<input type="submit" name="submit" value="Show Report" class="my-3 btn-xs btn btn-primary" aria-label="Show the selected report for the specified date range">
-								</form>
-								<cfif structKeyExists(form, "endDate")>
+									
+									<cfif structKeyExists(form, "endDate")>
 									<cfset endDate = ParseDateTime(form.endDate, "yyyy-mm-dd")>
 									<cfif structKeyExists(form, "beginDate") AND len(trim(form.beginDate))>
 										<cfset beginDate = ParseDateTime(form.beginDate, "yyyy-mm-dd")>
@@ -239,6 +237,11 @@ limitations under the License.
 									<cfoutput><p>No end date provided.</p></cfoutput>
 								</cfif>
 							</cfif>
+									<input type="hidden" name="method" value="getLoanNumbers" id="method" class="my-3 btn-xs btn btn-primary" aria-label="Show the selected report for the specified date range">
+									<input type="submit" name="submit" value="Show Report" class="my-3 btn-xs btn btn-primary" aria-label="Show the selected report for the specified date range">
+								
+								</form>
+								
 						</div>
 					</nav>
 					<main role="main" class="col-md-9 px-3 ml-sm-auto col-lg-10 mb-3">
