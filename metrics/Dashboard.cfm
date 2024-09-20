@@ -234,9 +234,9 @@ limitations under the License.
 													<option value="2024-06-30">2023-07-01 / 2024-06-30</option>
 												</select>
 												<select id="beginDate" name="beginDate" class="my-1 data-entry-input" type="hidden">
-													<option <cfif endDate eq '2022-06-30'>value="2021-06-30" selected</cfif>>2021-06</option>
-													<option <cfif endDate eq '2023-06-30'>value="2022-06-30"</cfif>></option>
-													<option <cfif endDate eq '2024-06-30'>value="2023-06-30"</cfif>></option>
+													<option <cfif endDate eq '2022-06-30'>value="2021-07-01" selected</cfif>>2021-07-01</option>
+													<option <cfif endDate eq '2023-06-30'>value="2022-07-01"</cfif>>2022-07-01</option>
+													<option <cfif endDate eq '2024-06-30'>value="2023-07-01"</cfif>>2023-07-01</option>
 												</select>
 											</div>
 										</div>
