@@ -173,7 +173,7 @@ limitations under the License.
 										<option value="getCitationNumbers">Citations (current)</option>
 										<option value="getGeorefNumbers">Georeferences (current)</option>
 									</select>
-									<input type="submit" value="Show Report" class="my-3 btn-xs btn btn-primary" aria-label="Show the selected report for the specified date range">
+									<input type="submit" name="submit" value="Show Report" class="my-3 btn-xs btn btn-primary" aria-label="Show the selected report for the specified date range">
 								</form>
 								<script>
 									$(document).ready(function() {
@@ -249,7 +249,7 @@ limitations under the License.
 										</cfoutput>
 									</select>--->
 									<input type="hidden" name="method" value="getLoanNumbers" id="method" class="my-3 btn-xs btn btn-primary" aria-label="Show the selected report for the specified date range">
-									<input type="submit" name="annualReport" value="Show Report" class="my-3 btn-xs btn btn-primary" aria-label="Show the selected report for the specified date range">
+									<input type="submit" name="submit" value="Show Report" class="my-3 btn-xs btn btn-primary" aria-label="Show the selected report for the specified date range">
 								</form>
 <!---								<script>
 									$(document).ready(function() {
