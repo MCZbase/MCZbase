@@ -260,7 +260,7 @@ limitations under the License.
 													});
 												});
 
-												var accordionButtons = document.querySelectorAll('#accordionExample .btn-link');
+												var accordionButtons = document.querySelectorAll('##accordionExample .btn-link');
 													accordionButtons.forEach(function(btn) {
 													btn.addEventListener('click', function() {
 										
