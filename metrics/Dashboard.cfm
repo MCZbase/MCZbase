@@ -227,17 +227,25 @@ limitations under the License.
 									<div class="row mx-0">
 										<div class="col-12 px-0">
 											<div class="col-12 col-md-11 px-1 float-left">
-												<label for="endDate" class="data-entry-label mt-2">Fiscal Year</label>
-												 <select id="endDate" name="endDate" class="my-1 data-entry-input">
-													<option value="2022-06-30" selected>2021-07-01 / 2022-06-30</option>
-													<option value="2023-06-30">2022-07-01 / 2023-06-30</option>
-													<option value="2024-06-30">2023-07-01 / 2024-06-30</option>
-												</select>
-												<select id="beginDate" name="beginDate" class="my-1 data-entry-input" type="hidden">
-													<option <cfif endDate eq '2022-06-30'>value="2021-07-01" selected</cfif>>2021-07-01</option>
-													<option <cfif endDate eq '2023-06-30'>value="2022-07-01"</cfif>>2022-07-01</option>
-													<option <cfif endDate eq '2024-06-30'>value="2023-07-01"</cfif>>2023-07-01</option>
-												</select>
+												<cfif structKeyExists(form, "endDate")>
+													<cfset endDate = ParseDateTime(form.endDate, "yyyy-mm-dd")>
+													<cfif structKeyExists(form, "beginDate") AND len(trim(form.beginDate))>
+														<cfset beginDate = ParseDateTime(form.beginDate, "yyyy-mm-dd")>
+													<cfelse>
+														<cfset selectedDate = CreateDate(Year(now()), 1, 1)>
+														<cfif DateCompare(endDate, selectedDate) EQ -1>
+															<cfset beginDate = DateAdd("yyyy", -1, endDate)>
+														<cfelse>
+															<cfset beginDate = "Not applicable">
+														</cfif>
+													</cfif>
+													<cfoutput>
+														<p>End Date: #DateFormat(endDate, "mm/dd/yyyy")#</p>
+														<p>Begin Date: #DateFormat(beginDate, "mm/dd/yyyy")#</p>
+													</cfoutput>
+												<cfelse>
+													<cfoutput><p>No end date provided.</p></cfoutput>
+												</cfif>
 											</div>
 										</div>
 									</div>
