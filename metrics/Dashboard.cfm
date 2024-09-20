@@ -215,9 +215,9 @@ limitations under the License.
 												</select>
 												<label for="beginDate" class="data-entry-label mt-2">Fiscal Year Begin Date</label>
 												<select id="beginDate" name="beginDate" class="my-1 data-entry-input">
-													<option value="2022-07-01">2021-07-01</option>
-													<option value="2023-07-01">2022-07-01</option>
-													<option value="2024-07-01">2023-07-01</option>
+													<option value="2021-07-01">2021-07-01</option>
+													<option value="2022-07-01">2022-07-01</option>
+													<option value="2023-07-01">2023-07-01</option>
 												</select>
 											</div>
 										</div>
