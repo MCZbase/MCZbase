@@ -183,7 +183,7 @@ limitations under the License.
 									<div class="card-header" id="headingOne">
 										<h2 class="mb-0">
 										<button class="btn btn-link" type="button" data-toggle="collapse" data-target="##collapseOne" aria-expanded="true" aria-controls="collapseOne">
-											<h3>Reports (Any Date Range)</h3>
+											Reports (Any Date Range)
 										</button>
 										</h2>
 									</div>
@@ -203,7 +203,7 @@ limitations under the License.
 									<div class="card-header" id="headingTwo">
 										<h2 class="mb-0">
 										<button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="##collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-											<h3>Annual Reports</h3>
+											Annual Reports
 										</button>
 										</h2>
 									</div>
