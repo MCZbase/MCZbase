@@ -283,29 +283,31 @@ limitations under the License.
 								}
 							</script>
 							<script>
-								function toggleFormVisibility() {
-									const formInSidebar = document.getElementById('collapseOne');
-									const formInMain = document.getElementById('divOne');
-									
-									const formInSidebar2 = document.getElementById('collapseTwo');
-									const formInMain2 = document.getElementById('divTwo');
-									
-									if (formInSidebar.classList.contains('none')) {
-										formInSidebar.classList.remove('none');
-										formInMain.classList.remove('none');
-									} else {
-										formInSidebar.classList.add('block');
-										formInMain.classList.add('block');
+								 document.addEventListener('DOMContentLoaded', function () {
+									const formInSidebar = document.getElementById('loadReportForm2');
+									const resultsInMain = document.getElementById('divTwo');
+
+									function checkFormVisibility() {
+										if ($(formInSidebar).hasClass('show')) {
+											resultsInMain.style.display = 'block';
+										} else {
+											resultsInMain.style.display = 'none';
+										}
 									}
-									if (formInSidebar2.classList.contains('block')) {
-										formInSidebar2.classList.remove('block');
-										formInMain2.classList.remove('block');
-									} else {
-										formInSidebar2.classList.add('none');
-										formInMain2.classList.add('none');
-									}
+
+									$(formInSidebar).on('hidden.bs.collapse', checkFormVisibility);
+									$(formInSidebar).on('shown.bs.collapse', checkFormVisibility);
+
+									checkFormVisibility();
+								});
+
+								function displayResults() {
+									const resultsInMain = document.getElementById('resultsInMain');
+									resultsInMain.innerHTML = '<p>Results from CFC function query appear here.</p>';
+									resultsInMain.style.display = 'block';
 								}
 							</script>
+
 						</div>
 					</nav>
 					<main role="main" class="col-md-9 px-3 ml-sm-auto col-lg-10 mb-3">
@@ -313,13 +315,13 @@ limitations under the License.
 							<div class="col-12 mt-4">
 								<h1 class="h2 float-left mb-1 w-100">MCZbase Metrics </h1>
 								<p class="text-muted small">Reports are generated from the current MCZbase data and may not match numbers printed in previous annual reports.</p>
-								<div id="divOne" style="display:block">
+								<div id="divOne">
 									<cfset summaryAnnualBlock1=getAcquisitions(endDate="#endDate#",beginDate="#beginDate#",annualReport="#annualReport#")>
 									<div id="annualNumbersDiv1"> 
 										#summaryAnnualBlock1#
 									</div>
 								</div>
-								<div id="divTwo" style="display:none">
+								<div id="divTwo">
 									<cfset summaryAnnualBlock2=getLoanNumbers(endDate="#endDate#",beginDate="#beginDate#",annualReport="#annualReport#")>
 									<div id="annualNumbersDiv2"> 
 										#summaryAnnualBlock2#
