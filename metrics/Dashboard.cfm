@@ -304,8 +304,8 @@ limitations under the License.
 				document.querySelectorAll('form[name="loadReportForm"] .date-input').forEach(function(input) {
 					input.addEventListener('change', function() {
 					const form = this.closest('form');
-					const beginDateInput = form.querySelector('#beginDate' + (form === document.forms[0] ? '1' : '2'));
-					const endDateInput = form.querySelector('#endDate' + (form === document.forms[0] ? '1' : '2'));
+					const beginDateInput = form.querySelector('##beginDate' + (form === document.forms[0] ? '1' : '2'));
+					const endDateInput = form.querySelector('##endDate' + (form === document.forms[0] ? '1' : '2'));
 
 						if (this === beginDateInput && beginDateInput.value) {
 						endDateInput.value = addOneYear(beginDateInput.value);
@@ -315,10 +315,10 @@ limitations under the License.
 					});
 				});
 
-				var accordionButtons = document.querySelectorAll('#accordionExample .btn-link');
+				var accordionButtons = document.querySelectorAll('##accordionExample .btn-link');
 					accordionButtons.forEach(function(btn) {
 						btn.addEventListener('click', function() {
-						document.querySelectorAll('#accordionContent > div').forEach(function(content) {
+						document.querySelectorAll('##accordionContent > div').forEach(function(content) {
 						content.classList.add('d-block');
 					});
 					var collapseId = btn.getAttribute('data-target').replace('collapse', 'content');
