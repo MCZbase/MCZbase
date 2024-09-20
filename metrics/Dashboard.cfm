@@ -290,12 +290,12 @@ limitations under the License.
 						<div id="accordionContent">
 							<div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="##accordionExample">
 								<div class="card-body">
-									Content for Accordion Item #1
+									Content for Accordion Item ##1
 								</div>
 							</div>
 							<div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="##accordionExample">
 								<div class="card-body">
-									Content for Accordion Item #2
+									Content for Accordion Item ##2
 								</div>
 							</div>
 						</div>
