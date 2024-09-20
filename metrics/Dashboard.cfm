@@ -212,7 +212,7 @@ limitations under the License.
 									<div class="card-body">
 										<form>
 											<div class="form-group">
-											<label for="input2">Input 2</label>
+											<label for="input2">Select Fiscal Year</label>
 											<input type="text" class="form-control" id="input2" placeholder="Enter something">
 											</div>
 											<button type="submit" class="btn btn-primary">Submit</button>
