@@ -190,7 +190,7 @@ limitations under the License.
 									<div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="##accordionExample">
 										<div class="card-body">
 											<form>
-												<h3 class="h4 text-muted mt-4 mb-0">Select Report Date Range</h3>
+												<h3 class="h4 text-muted mt-1 mb-0">Select Report Date Range</h3>
 												<input type="hidden" name="returnFormat" value="plain">
 												<input type="hidden" name="annualReport" value="no">
 												<div class="row mx-0">
@@ -215,7 +215,7 @@ limitations under the License.
 													<option value="getCitationNumbers">Citations (current)</option>
 													<option value="getGeorefNumbers">Georeferences (current)</option>
 												</select>
-												<button type="submit" class="btn btn-primary btn-xs">Show Custom Report</button>
+												<button type="submit" class="btn btn-primary btn-xs my-2">Show Custom Report</button>
 											</form>
 										</div>
 									</div>
