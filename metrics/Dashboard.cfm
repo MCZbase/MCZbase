@@ -235,9 +235,10 @@ limitations under the License.
 										<cfloop array="#fiscalYears#" index="yearItem">
 											<option value="#dateFormat(yearItem.beginDate, 'yyyy-mm-dd')#|#dateFormat(yearItem.endDate, 'yyyy-mm-dd')#">#yearItem.label#&thinsp;(#dateFormat(yearItem.beginDate, 'yyyy-mm-dd')#/#dateFormat(yearItem.endDate, 'yyyy-mm-dd')#)</option>
 										</cfloop>
+										#yearItem.beginDate# - #yearItem.endDate#
 									</cfoutput>
 								</select>
-								#yearItem.beginDate# - #yearItem.endDate#
+								
 								<input type="hidden" name="method" value="getLoanNumbers" id="method" class="my-3 btn-xs btn btn-primary" aria-label="Show the selected report for the specified date range">
 								<input type="submit" name="annualReport" value="Show Annual Report" id="annualReport" class="my-3 btn-xs btn btn-primary" aria-label="Show the selected report for the specified date range">
 							</form>
