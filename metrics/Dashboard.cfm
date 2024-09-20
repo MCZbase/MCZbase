@@ -136,8 +136,8 @@ limitations under the License.
 		<cfoutput>
 			<script>
 				$(document).ready(function() {
-					$("##beginDate").datepicker({ dateFormat: 'yyyy-mm-dd'});
-					$("##endDate").datepicker({ dateFormat: 'yyyy-mm-dd'});
+					$("##beginDate").datepicker({ dateFormat: 'yy-mm-dd'});
+					$("##endDate").datepicker({ dateFormat: 'yy-mm-dd'});
 				});
 			</script>
 			<div class="container-fluid" id="content">
