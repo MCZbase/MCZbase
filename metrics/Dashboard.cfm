@@ -177,8 +177,8 @@ limitations under the License.
 														<h3 class="h4 text-muted mt-3">Report to Show</h3>
 														<label for="method" class="sr-only">Report To Show</label>
 														<select id="method" name="method" class="my-1 data-entry-input">
-															<option value="getAcquisitions" selected="selected">Acquisitions</option>
-															<option value="getNumbers">Holdings</option>
+															<option value="getNumbers" selected="selected">Holdings</option>
+															<option value="getAcquisitions">Acquisitions</option>
 															<option value="getLoanNumbers">Loan Activity</option>
 															<option value="getMediaNumbers">Media (current)</option>
 															<option value="getCitationNumbers">Citations (current)</option>
@@ -220,8 +220,8 @@ limitations under the License.
 													<h3 class="h4 text-muted mt-3">Report to Show</h3>
 													<label for="method" class="sr-only">Report To Show</label>
 													<select id="method" name="method" class="my-1 data-entry-input">
-														<option value="getAcquisitions">Annual Report (Acquisitions)</option>
 														<option value="getNumbers">Annual Report (Holdings)</option>
+														<option value="getAcquisitions">Annual Report (Acquisitions)</option>
 														<option value="getLoanNumbers">Annual Report (Loan Activity)</option>
 														<option value="getMediaNumbers">Annual Report (Media (current))</option>
 														<option value="getCitationNumbers">Annual Report (Citations (current))</option>
@@ -358,7 +358,7 @@ limitations under the License.
 								<h1 class="h2 float-left mb-1 w-100">MCZbase Metrics </h1>
 								<p class="text-muted small">Reports are generated from the current MCZbase data and may not match numbers printed in previous annual reports.</p>
 								<div id="divOne" style="border: 2px solid ##ddd;padding:0 15px 0 15px;">
-									<cfset summaryAnnualBlock1=getAcquisitions(endDate="#endDate#",beginDate="#beginDate#",annualReport="#annualReport#")>
+									<cfset summaryAnnualBlock1=getNumber(endDate="#endDate#",beginDate="#beginDate#",annualReport="#annualReport#")>
 									<div id="annualNumbersDiv1" class="py-2"> 
 										#summaryAnnualBlock1#
 									</div>
