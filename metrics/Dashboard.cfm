@@ -215,7 +215,7 @@ limitations under the License.
 											<label for="input2">Select Fiscal Year</label>
 											<input type="text" class="form-control" id="input2" placeholder="Enter something">
 											</div>
-											<button type="submit" class="btn btn-primary">Submit</button>
+											<button type="submit" value="Show Report" class="my-3 btn-xs btn btn-primary" >Submit</button>
 										</form>
 									</div>
 								</div>
