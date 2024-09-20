@@ -227,11 +227,11 @@ limitations under the License.
 									<div class="row mx-0">
 										<div class="col-12 px-0">
 											<div class="col-12 col-md-11 px-1 float-left">
-												<label for="endDate" class="data-entry-label mt-2">Fiscal Year</label>
+												<label for="endDate" class="data-entry-label mt-2">Fiscal Year End Date</label>
 												<select id="endDate" name="endDate" class="my-1 data-entry-input">
-													<option value="2022-06-30" selected>2021-07-01 / 2022-06-30</option>
-													<option value="2023-06-30">2022-07-01 / 2023-06-30</option>
-													<option value="2024-06-30">2023-07-01 / 2024-06-30</option>
+													<option value="2022-06-30" selected>2022-06-30</option>
+													<option value="2023-06-30">2023-06-30</option>
+													<option value="2024-06-30">2024-06-30</option>
 												</select>
 											</div>
 										</div>
@@ -267,29 +267,7 @@ limitations under the License.
 										<cfelse>
 											<cfoutput><p>No end date provided.</p></cfoutput>
 										</cfif>
-<!---								<script>
-									$(document).ready(function() {
-										$('##loadAnnualReport').on('submit',function(event){ event.preventDefault(); loadReport(); } );
-									});
-									function loadReport(){
-										$('##annualReport').html("Loading...");
-										$.ajax(
-											{
-												url: '/metrics/component/functions.cfc',
-												type: 'GET', 
-												data: $('##loadAnnualReport').serialize()
-											}
-										).done(
-											function(response) {
-												console.log(response);
-												$('##annualReport').html(response);
-											}
-										).fail(function(jqXHR,textStatus,error){
-											$('##annualReport').html("Error Loading Metrics");
-										handleFail(jqXHR,textStatus,error,"loading metrics for date range.");
-										});
-									}
-								</script>--->
+
 							</cfif>
 						</div>
 					</nav>
@@ -301,12 +279,6 @@ limitations under the License.
 							<div id="annualNumbersDiv"> 
 								#summaryAnnualBlock#
 							</div>
-
-						<!---	<cfset summaryAnnualReport=getAcquisitions(endDate="#yearItem.endDate#",beginDate="#yearItem.beginDate#",annualReport="yes")>
-							<div id="annualReport"> 
-								#summaryAnnualReport#
-							</div>--->
-
 						</div>
 					</main>
 				</div>
