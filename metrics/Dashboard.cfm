@@ -144,38 +144,7 @@ limitations under the License.
 			<div class="container-fluid" id="content">
 				<div class="row">
 				<br clear="all">	
-					<script>
-						function addOneYear(date) {
-							let newDate = new Date(date);
-							newDate.setFullYear(newDate.getFullYear() + 1);
-							return newDate.toISOString().substring(0,10); 
-						}
 
-						function subtractOneYear(date) {
-							let newDate = new Date(date);
-							newDate.setFullYear(newDate.getFullYear() - 1);
-							return newDate.toISOString().substring(0,10); 
-						}
-
-						document.addEventListener('DOMContentLoaded', (event) => {
-							const beginDateInput = document.getElementById('beginDate');
-							const endDateInput = document.getElementById('endDate');
-
-							beginDateInput.addEventListener('change', () => {
-								const beginDate = beginDateInput.value;
-								if (beginDate) {
-									endDateInput.value = addOneYear(beginDate);
-								}
-							});
-
-							endDateInput.addEventListener('change', () => {
-								const endDate = endDateInput.value;
-								if (endDate) {
-									beginDateInput.value = subtractOneYear(endDate);
-								}
-							});
-						});
-					</script>
 					<nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block sidebar" style="background-color: ##efeded;border: ##e3e3e3;">
 						<div class="sidebar-sticky pt-4 px-2" style="background-color: ##efeded;">
 							<div class="accordion" id="accordionExample">
@@ -222,7 +191,6 @@ limitations under the License.
 											</div>
 										</div>
 									</div>
-			
 									<div class="card">
 										<div class="card-header" id="headingTwo">
 											<h2 class="mb-0">
@@ -234,6 +202,38 @@ limitations under the License.
 										<div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="##accordionExample">
 										<div class="card-body">
 											<form class="py-2" id="loadReportForm">
+												<script>
+													function addOneYear(date) {
+														let newDate = new Date(date);
+														newDate.setFullYear(newDate.getFullYear() + 1);
+														return newDate.toISOString().substring(0,10); 
+													}
+
+													function subtractOneYear(date) {
+														let newDate = new Date(date);
+														newDate.setFullYear(newDate.getFullYear() - 1);
+														return newDate.toISOString().substring(0,10); 
+													}
+
+													document.addEventListener('DOMContentLoaded', (event) => {
+														const beginDateInput = document.getElementById('beginDate');
+														const endDateInput = document.getElementById('endDate');
+
+														beginDateInput.addEventListener('change', () => {
+															const beginDate = beginDateInput.value;
+															if (beginDate) {
+																endDateInput.value = addOneYear(beginDate);
+															}
+														});
+
+														endDateInput.addEventListener('change', () => {
+															const endDate = endDateInput.value;
+															if (endDate) {
+																beginDateInput.value = subtractOneYear(endDate);
+															}
+														});
+													});
+												</script>
 												<div class="form-group">
 													<h3 class="h4 text-muted mt-3 mb-2">Select Fiscal Year</h3>
 													<input type="hidden" name="returnFormat" value="plain">
@@ -265,8 +265,7 @@ limitations under the License.
 											</form>
 										</div>
 									</div>
-									</div>
-	
+								</div>
 							</div>
 					<!---		<cfif annualReport eq 'no'>--->
 							<!---	<form id="loadReportForm">
