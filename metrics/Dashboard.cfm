@@ -204,7 +204,7 @@ limitations under the License.
 												<div class="form-group">
 													<h3 class="h4 text-muted mt-3 mb-2">Select Fiscal Year</h3>
 													<input type="hidden" name="returnFormat" value="plain">
-													<input type="hidden" name="annualReport" value="no">
+													<input type="hidden" name="annualReport" value="yes">
 													<div class="row mx-0">
 														<div class="col-12 px-0">
 															<div class="col-12 col-md-6 pr-1 pl-0 float-left">
