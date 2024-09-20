@@ -229,75 +229,8 @@ limitations under the License.
 													</select>
 												</div>
 												
-												<button type="submit" value="Show Report" class="my-2 btn-xs btn btn-primary" >Submit</button>
-											<script>
-document.addEventListener('DOMContentLoaded', function() {
-  const MINIMUM_YEAR_DIFFERENCE = 1; // Minimum difference between dates in years
-
-  // Function to add one year to a given date
-  function addOneYear(date) {
-      if (date && !isNaN(Date.parse(date))) {
-          let newDate = new Date(date);
-          newDate.setFullYear(newDate.getFullYear() + 1);
-          return newDate.toISOString().slice(0, 10); // Convert to "YYYY-MM-DD" format
-      } else {
-          console.error("Invalid date format: " + date);
-          return date;
-      }
-  }
-
-  // Function to subtract one year from a given date
-  function subtractOneYear(date) {
-      if (date && !isNaN(Date.parse(date))) {
-          let newDate = new Date(date);
-          newDate.setFullYear(newDate.getFullYear() - 1);
-          return newDate.toISOString().slice(0, 10); // Convert to "YYYY-MM-DD" format
-      } else {
-          console.error("Invalid date format: " + date);
-          return date;
-      }
-  }
-
-  // Function to ensure proper date interactions
-  function setupDateListeners() {
-    // Attach event listeners to date inputs with form name
-    document.querySelectorAll('form[name^="loanReportForm"] .date-input').forEach(function(input) {
-      input.addEventListener('change', function() {
-        const form = this.closest('form');
-        const formNumber = form.name.match(/\d+/)[0]; // Extract form number from form name (e.g., "1" or "2")
-        const beginDateInput = form.querySelector('##beginDate' + formNumber);
-        const endDateInput = form.querySelector('##endDate' + formNumber);
-
-        if (this === endDateInput && endDateInput.value) {
-          beginDateInput.value = subtractOneYear(endDateInput.value);
-        } else if (this === beginDateInput && beginDateInput.value) {
-          endDateInput.value = addOneYear(beginDateInput.value);
-        }
-      });
-    });
-  }
-  
-  setupDateListeners();
-
-  // Event listener for the accordion buttons
-  var accordionButtons = document.querySelectorAll('##accordionExample .btn-link');
-  accordionButtons.forEach(function(btn) {
-    btn.addEventListener('click', function() {
-      // Hide all content sections
-      document.querySelectorAll('##accordionContent > div').forEach(function(content) {
-        content.classList.add('d-none');
-      });
-      // Toggle the relevant content section
-      var collapseId = btn.getAttribute('data-target').replace('collapse', 'content');
-      var contentSection = document.getElementById(collapseId);
-      contentSection.classList.remove('d-none');
-      // Reinitialize the event listeners after accordion transition
-      // This might be necessary to ensure it works in dynamic/change scenarios
-      setTimeout(setupDateListeners, 300); // Adjust the timeout as needed
-    });
-  });
-});
-</script>
+												<button type="submit" value="Show Report" class="my-2 btn-xs btn btn-primary" >Show Annual Report</button>
+								
 											</form>
 										</div>
 									</div>
