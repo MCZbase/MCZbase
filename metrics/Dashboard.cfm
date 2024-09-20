@@ -348,15 +348,15 @@ limitations under the License.
 				input.addEventListener('change', function () {
 				  const form = this.closest('form');
 				  const formNumber = form.name.match(/\d+/)[0]; // Extract form number from form name (e.g., "1" or "2")
-				  const beginDateInput = form.querySelector('#beginDate' + formNumber);
-				  const endDateInput = form.querySelector('#endDate' + formNumber);
+				  const beginDateInput = form.querySelector('##beginDate' + formNumber);
+				  const endDateInput = form.querySelector('##endDate' + formNumber);
 
 				  if (this === beginDateInput && beginDateInput.value) {
-					let newEndDate = addOneYear(beginDateInput.value);
+					var newEndDate = addOneYear(beginDateInput.value);
 					newEndDate = ensureMinimumDifference(beginDateInput.value, newEndDate, MINIMUM_YEAR_DIFFERENCE) || newEndDate;
 					endDateInput.value = newEndDate;
 				  } else if (this === endDateInput && endDateInput.value) {
-					let newBeginDate = subtractOneYear(endDateInput.value);
+					var newBeginDate = subtractOneYear(endDateInput.value);
 					newBeginDate = ensureMinimumDifference(newBeginDate, endDateInput.value, MINIMUM_YEAR_DIFFERENCE) || newBeginDate;
 					beginDateInput.value = newBeginDate;
 				  }
@@ -367,26 +367,26 @@ limitations under the License.
 				input.addEventListener('change', function () {
 				  const form = this.closest('form');
 				  const formNumber = form.name.match(/\d+/)[0]; // Extract form number from form name (e.g., "1" or "2")
-				  const beginDateInput = form.querySelector('#beginDate' + formNumber);
-				  const endDateInput = form.querySelector('#endDate' + formNumber);
+				  const beginDateInput = form.querySelector('##beginDate' + formNumber);
+				  const endDateInput = form.querySelector('##endDate' + formNumber);
 
 				  if (this === beginDateInput && beginDateInput.value) {
-					let newEndDate = addOneYear(beginDateInput.value);
+					var newEndDate = addOneYear(beginDateInput.value);
 					newEndDate = ensureMinimumDifference(beginDateInput.value, newEndDate, MINIMUM_YEAR_DIFFERENCE) || newEndDate;
 					endDateInput.value = newEndDate;
 				  } else if (this === endDateInput && endDateInput.value) {
-					let newBeginDate = subtractOneYear(endDateInput.value);
+					var newBeginDate = subtractOneYear(endDateInput.value);
 					newBeginDate = ensureMinimumDifference(newBeginDate, endDateInput.value, MINIMUM_YEAR_DIFFERENCE) || newBeginDate;
 					beginDateInput.value = newBeginDate;
 				  }
 				});
 			  });
 			  // Event listener for the accordion buttons
-			  var accordionButtons = document.querySelectorAll('#accordionExample .btn-link');
+			  var accordionButtons = document.querySelectorAll('##accordionExample .btn-link');
 			  accordionButtons.forEach(function (btn) {
 				btn.addEventListener('click', function () {
 				  // Hide all content sections
-				  document.querySelectorAll('#accordionContent > div').forEach(function (content) {
+				  document.querySelectorAll('##accordionContent > div').forEach(function (content) {
 					content.classList.add('d-none');
 				  });
 				  // Toggle the relevant content section
