@@ -229,9 +229,9 @@ limitations under the License.
 											<div class="col-12 col-md-11 px-1 float-left">
 												<label for="endDate" class="data-entry-label mt-2">Fiscal Year</label>
 												 <select id="endDate" name="endDate" class="my-1 data-entry-input">
-													<option value="2021-07-01">2021-07-01 / 2022-06-30</option>
-													<option value="2022-07-01">2022-07-01 / 2023-06-30</option>
-													<option value="2023-07-01">2023-07-01 / 2024-06-30</option>
+													<option value="2022-07-01">2021-07-01 / 2022-06-30</option>
+													<option value="2023-07-01">2022-07-01 / 2023-06-30</option>
+													<option value="2024-07-01">2023-07-01 / 2024-06-30</option>
 												</select>
 												<cfif endDate eq '2022-07-01'><input name="beginDate" value="2021-06-30" type="hidden"></cfif>
 												<cfif endDate eq '2023-07-01'><input name="beginDate" value="2022-06-30" type="hidden"></cfif>
