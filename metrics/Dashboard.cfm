@@ -295,11 +295,11 @@ limitations under the License.
 										formInMain.classList.remove('show');
 									} else {
 										formInSidebar.classList.add('collapse');
-										formInMain.classList.add('collapge');
+										formInMain.classList.add('collapse');
 									}
 									if (formInSidebar2.classList.contains('collapse show')) {
-										formInSidebar2.classList.remove('show');
-										formInMain2.classList.remove('show');
+										formInSidebar2.classList.remove('collapse');
+										formInMain2.classList.remove('collapse');
 									} else {
 										formInSidebar2.classList.add('show');
 										formInMain2.classList.add('show');
