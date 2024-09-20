@@ -183,14 +183,13 @@ limitations under the License.
 									<div class="card-header" id="headingOne">
 										<h2 class="mb-0">
 										<button class="btn btn-link" type="button" data-toggle="collapse" data-target="##collapseOne" aria-expanded="true" aria-controls="collapseOne">
-											Reports (Any Date Range)
+											Custom Reports
 										</button>
 										</h2>
 									</div>
 									<div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="##accordionExample">
 										<div class="card-body">
 											<form>
-												<h3>Reports (Any Date Range)</h3>
 												<h3 class="h4 text-muted mt-4 mb-0">Select Report Date Range</h3>
 												<input type="hidden" name="returnFormat" value="plain">
 												<input type="hidden" name="annualReport" value="no">
@@ -216,7 +215,7 @@ limitations under the License.
 													<option value="getCitationNumbers">Citations (current)</option>
 													<option value="getGeorefNumbers">Georeferences (current)</option>
 												</select>
-												<button type="submit" class="btn btn-primary">Submit</button>
+												<button type="submit" class="btn btn-primary btn-xs">Show Custom Report</button>
 											</form>
 										</div>
 									</div>
