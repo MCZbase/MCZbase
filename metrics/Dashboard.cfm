@@ -200,54 +200,58 @@ limitations under the License.
 									}
 								</script>
 							<cfelseif annualReport eq 'yes'>
-								<h3 class="h4 text-muted mt-3">Show Annual Report</h3>
-								<form id="loadAnnualReport">
-									<input type="hidden" name="annualReport" value="yes">
+								<form id="loadReportForm">
+									<h3 class="h4 text-muted">Annual Report</h3>
 									<input type="hidden" name="returnFormat" value="plain">
+									<input type="hidden" name="annualReport" value="no">
 									<div class="row mx-0">
 										<div class="col-12 px-0">
-											<div class="col-12 col-md-11 px-1 float-left">
-												<label for="endDate" class="data-entry-label mt-2">Fiscal Year End Date</label>
-												<select id="endDate" name="endDate" class="my-1 data-entry-input">
-													<option value="2022-06-30">2022-06-30</option>
-													<option value="2023-06-30">2023-06-30</option>
-													<option value="2024-06-30">2024-06-30</option>
-												</select>
-												<label for="beginDate" class="data-entry-label mt-2">Fiscal Year Begin Date</label>
-												<select id="beginDate" name="beginDate" class="my-1 data-entry-input">
-													<option value="2021-07-01">2021-07-01</option>
-													<option value="2022-07-01">2022-07-01</option>
-													<option value="2023-07-01">2023-07-01</option>
-												</select>
+											<div class="col-12 col-md-6 px-1 float-left">
+												<label for="beginDate" class="data-entry-label mt-2">Begin Date</label>
+												<input name="beginDate" id="beginDate" type="text" class="mb-1 datetimeinput data-entry-input data-entry-input" placeholder="yyyy-mm-dd" value="#beginDate#" aria-label="start of range for dates to display metrics.">
+											</div>
+											<div class="col-12 col-md-6 px-1 float-left">
+												<label for="endDate" class="data-entry-label mt-2">End Date</label>
+												<input name="endDate" id="endDate" type="text" class="mb-1 datetimeinput data-entry-input data-entry-input" placeholder="yyyy-mm-dd" value="#endDate#" aria-label="end of range for dates to display metrics.">
 											</div>
 										</div>
 									</div>
-									
-									<cfif structKeyExists(form, "endDate")>
-									<cfset endDate = ParseDateTime(form.endDate, "yyyy-mm-dd")>
-									<cfif structKeyExists(form, "beginDate") AND len(trim(form.beginDate))>
-										<cfset beginDate = ParseDateTime(form.beginDate, "yyyy-mm-dd")>
-									<cfelse>
-										<cfset selectedDate = CreateDate(Year(now()), 1, 1)>
-										<cfif DateCompare(endDate, selectedDate) EQ -1>
-											<cfset beginDate = DateAdd("yyyy", -1, endDate)>
-										<cfelse>
-											<cfset beginDate = "Not applicable">
-										</cfif>
-									</cfif>
-									<cfoutput>
-										<p>End Date: #DateFormat(endDate, "yyyy-mm-dd")#</p>
-										<p>Begin Date: #DateFormat(beginDate, "yyyy-mm-dd")#</p>
-									</cfoutput>
-								<cfelse>
-									<cfoutput><p>No end date provided.</p></cfoutput>
-								</cfif>
-							</cfif>
-									<input type="hidden" name="method" value="getLoanNumbers" id="method" class="my-3 btn-xs btn btn-primary" aria-label="Show the selected report for the specified date range">
+									<h3 class="h4 text-muted mt-3">Report to Show</h3>
+									<label for="method" class="sr-only">Report To Show</label>
+									<select id="method" name="method" class="my-1 data-entry-input">
+										<option value="getAcquisitions" selected="selected">Acquisitions</option>
+										<option value="getNumbers">Holdings</option>
+										<option value="getLoanNumbers">Loan Activity</option>
+										<option value="getMediaNumbers">Media (current)</option>
+										<option value="getCitationNumbers">Citations (current)</option>
+										<option value="getGeorefNumbers">Georeferences (current)</option>
+									</select>
 									<input type="submit" name="submit" value="Show Report" class="my-3 btn-xs btn btn-primary" aria-label="Show the selected report for the specified date range">
-								
 								</form>
-								
+								<script>
+									$(document).ready(function() {
+										$('##loadReportForm').on('submit',function(event){ event.preventDefault(); loadReport(); } );
+									});
+									function loadReport(){
+										$('##annualNumbersDiv').html("Loading...");
+										$.ajax(
+											{
+												url: '/metrics/component/functions.cfc',
+												type: 'GET', 
+												data: $('##loadReportForm').serialize()
+											}
+										).done(
+											function(response) {
+												console.log(response);
+												$('##annualNumbersDiv').html(response);
+												$('##annualNumbersDiv').show();
+											}
+										).fail(function(jqXHR,textStatus,error){
+											$('##annualNumbersDiv').html("Error Loading Metrics");
+										handleFail(jqXHR,textStatus,error,"loading metrics for date range.");
+										});
+									}
+								</script>
 						</div>
 					</nav>
 					<main role="main" class="col-md-9 px-3 ml-sm-auto col-lg-10 mb-3">
