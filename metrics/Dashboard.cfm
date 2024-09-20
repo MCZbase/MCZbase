@@ -155,7 +155,7 @@ limitations under the License.
 											</button>
 											</h2>
 										</div>
-										<div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="##accordionExample">
+										<div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="##accordionExample" onclick="$('##divTwo').toggle();">
 											<div class="card-body">
 												<form class="py-2" id="loadReportForm1">
 													<div class="form-group">
@@ -185,7 +185,7 @@ limitations under the License.
 															<option value="getGeorefNumbers">Georeferences (current)</option>
 														</select>
 													</div>
-													<button class="button" onclick="$('##divTwo').toggle();" class="btn btn-primary btn-xs my-2">Show Custom Report</button>
+													<button type="button" class="btn btn-primary btn-xs my-2">Show Custom Report</button>
 												</form>
 											</div>
 										</div>
@@ -193,7 +193,7 @@ limitations under the License.
 									<div class="card">
 										<div class="card-header" id="headingTwo">
 											<h2 class="mb-0">
-											<button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="##collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+											<button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="##collapseTwo" aria-expanded="false" aria-controls="collapseTwo" onclick="$('##divOne').toggle();">
 												Annual Reports
 											</button>
 											</h2>
@@ -228,7 +228,7 @@ limitations under the License.
 														<option value="getGeorefNumbers">Annual Report (Georeferences (current))</option>
 													</select>
 												</div>
-												<button class="button" onclick="$('##divOne').toggle();" class="my-2 btn-xs btn btn-primary">Show Annual Report</button>
+												<button type="button" class="my-2 btn-xs btn btn-primary">Show Annual Report</button>
 											</form>
 										</div>
 									</div>
