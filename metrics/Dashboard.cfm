@@ -347,7 +347,7 @@ limitations under the License.
 										return false;
 									}
 									displayResults();
-									return false; 
+									return true; 
 								}
 							</script>
 						</div>
