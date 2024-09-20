@@ -152,10 +152,14 @@ limitations under the License.
 							<input type="hidden" name="annualReport" value="no">
 							<div class="row mx-0">
 								<div class="col-12 px-0">
-								<label for="beginDate" class="data-entry-label mt-2">Begin Date</label>
-								<input name="beginDate" id="beginDate" type="text" class="col-12 col-md-5 mb-1 datetimeinput data-entry-input data-entry-input" placeholder="yyyy-mm-dd" value="#beginDate#" aria-label="start of range for dates to display metrics.">
-								<label for="endDate" class="data-entry-label mt-2">End Date</label>
-								<input name="endDate" id="endDate" type="text" class="col-12 col-md-5 mb-1 datetimeinput data-entry-input data-entry-input" placeholder="yyyy-mm-dd" value="#endDate#" aria-label="end of range for dates to display metrics.">
+									<div class="col-12 col-md-5">
+										<label for="beginDate" class="data-entry-label mt-2">Begin Date</label>
+										<input name="beginDate" id="beginDate" type="text" class="mb-1 datetimeinput data-entry-input data-entry-input" placeholder="yyyy-mm-dd" value="#beginDate#" aria-label="start of range for dates to display metrics.">
+									</div>
+									<div class="col-12 col-md-5">
+										<label for="endDate" class="data-entry-label mt-2">End Date</label>
+										<input name="endDate" id="endDate" type="text" class="mb-1 datetimeinput data-entry-input data-entry-input" placeholder="yyyy-mm-dd" value="#endDate#" aria-label="end of range for dates to display metrics.">
+									</div>
 								</div>
 							</div>
 							<h3 class="h4 text-muted mt-3">Report to Show</h3>
