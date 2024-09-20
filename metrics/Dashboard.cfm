@@ -230,8 +230,7 @@ limitations under the License.
 										</button>
 										</h2>
 									</div>
-								</div>
-								<div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="##accordionExample">
+									<div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="##accordionExample">
 									<div class="card-body">
 										<form class="py-2" id="loadReportForm">
 											<div class="form-group">
@@ -264,6 +263,7 @@ limitations under the License.
 											<button type="submit" value="Show Report" class="my-2 btn-xs btn btn-primary" >Submit</button>
 										</form>
 									</div>
+								</div>
 								</div>
 							</div>
 							<cfif annualReport eq 'no'>
