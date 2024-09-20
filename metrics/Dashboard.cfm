@@ -165,11 +165,11 @@ limitations under the License.
 														<input type="hidden" name="annualReport" value="no">
 														<div class="row mx-0">
 															<div class="col-12 px-0">
-																<div class="col-12 col-md-6 pr-1 float-left">
+																<div class="col-12 col-md-6 pl-0 pr-1 float-left">
 																	<label for="beginDate" class="data-entry-label mt-2">Begin Date</label>
 																	<input name="beginDate" id="beginDate" type="text" class="mb-1 datetimeinput data-entry-input data-entry-input" placeholder="yyyy-mm-dd" value="#beginDate#" aria-label="start of range for dates to display metrics.">
 																</div>
-																<div class="col-12 col-md-6 pl-1 float-left">
+																<div class="col-12 col-md-6 pl-1 pr-0 float-left">
 																	<label for="endDate" class="data-entry-label mt-2">End Date</label>
 																	<input name="endDate" id="endDate" type="text" class="mb-1 datetimeinput data-entry-input data-entry-input" placeholder="yyyy-mm-dd" value="#endDate#" aria-label="end of range for dates to display metrics.">
 																</div>
@@ -208,11 +208,11 @@ limitations under the License.
 													<input type="hidden" name="annualReport" value="no">
 													<div class="row mx-0">
 														<div class="col-12 px-0">
-															<div class="col-12 col-md-6 px-1 float-left">
+															<div class="col-12 col-md-6 pr-1 pl-0 float-left">
 																<label for="beginDate" class="data-entry-label mt-2">Begin Date</label>
 																<input name="beginDate" id="beginDate" type="text" class="mb-1 datetimeinput data-entry-input data-entry-input" placeholder="yyyy-mm-dd" value="#beginDate#" aria-label="start of range for dates to display metrics.">
 															</div>
-															<div class="col-12 col-md-6 px-1 float-left">
+															<div class="col-12 col-md-6 pl-1 pr-0 float-left">
 																<label for="endDate" class="data-entry-label mt-2">End Date</label>
 																<input name="endDate" id="endDate" type="text" class="mb-1 datetimeinput data-entry-input data-entry-input" placeholder="yyyy-mm-dd" value="#endDate#" aria-label="end of range for dates to display metrics.">
 															</div>
