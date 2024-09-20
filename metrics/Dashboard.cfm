@@ -87,7 +87,6 @@ limitations under the License.
 		<cfheader name="Content-Type" value="text/csv">
 		<cfset beginDate = rereplace(beginDate,'[^0-9]','','all')>
 		<cfset endDate = rereplace(endDate,'[^0-9]','','all')>
-		<cfset annualReport = "no">
 		<cfset targetFile = "Loan_Activity_#beginDate#_to_#endDate#.csv">
 		<cfheader name="Content-disposition" value="attachment;filename=#targetFile#">
 		<cfoutput>#csv#</cfoutput>
@@ -250,7 +249,7 @@ limitations under the License.
 										</cfoutput>
 									</select>--->
 									<input type="hidden" name="method" value="getLoanNumbers" id="method" class="my-3 btn-xs btn btn-primary" aria-label="Show the selected report for the specified date range">
-									<input type="submit" name="annualReport" value="Show Annual Report" class="my-3 btn-xs btn btn-primary" aria-label="Show the selected report for the specified date range">
+									<input type="submit" name="annualReport" value="Show Report" class="my-3 btn-xs btn btn-primary" aria-label="Show the selected report for the specified date range">
 								</form>
 <!---								<script>
 									$(document).ready(function() {
