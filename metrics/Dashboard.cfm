@@ -289,14 +289,17 @@ limitations under the License.
 							<div class="col-12 mt-4">
 								<h1 class="h2 float-left mb-1 w-100">MCZbase Metrics </h1>
 								<p class="text-muted small">Reports are generated from the current MCZbase data and may not match numbers printed in previous annual reports.</p>
-					
-								<cfset summaryAnnualBlock1=getAcquisitions(endDate="#endDate#",beginDate="#beginDate#",annualReport="#annualReport#")>
-								<div id="annualNumbersDiv1"> 
-									#summaryAnnualBlock1#
-								</div>
-								<cfset summaryAnnualBlock2=getLoanNumbers(endDate="#endDate#",beginDate="#beginDate#",annualReport="#annualReport#")>
-								<div id="annualNumbersDiv2"> 
-									#summaryAnnualBlock2#
+								<div id="collapseOne">
+									<cfset summaryAnnualBlock1=getAcquisitions(endDate="#endDate#",beginDate="#beginDate#",annualReport="#annualReport#")>
+									<div id="annualNumbersDiv1"> 
+										#summaryAnnualBlock1#
+									</div>
+								</div>>
+								<div id="collapseTwo">
+									<cfset summaryAnnualBlock2=getLoanNumbers(endDate="#endDate#",beginDate="#beginDate#",annualReport="#annualReport#")>
+									<div id="annualNumbersDiv2"> 
+										#summaryAnnualBlock2#
+									</div>
 								</div>
 							</div>
 						</div>
