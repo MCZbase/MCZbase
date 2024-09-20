@@ -202,7 +202,7 @@ limitations under the License.
 										<div class="card-body">
 											<form class="py-2" id="loadReportForm2" onsubmit="return validateFiscalYear();">
 												<div class="form-group">
-													<h3 class="h4 text-muted mt-3 mb-2">Select Fiscal Year</h3>
+													<h3 class="h4 text-muted mt-1 mb-2">Select Fiscal Year</h3>
 													<input type="hidden" name="returnFormat" value="plain">
 													<input type="hidden" name="annualReport" value="yes">
 													<div class="row mx-0">
