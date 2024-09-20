@@ -228,7 +228,7 @@ limitations under the License.
 														<option value="getGeorefNumbers">Annual Report (Georeferences (current))</option>
 													</select>
 												</div>
-												<button type="submit" value="Show Report" class="my-2 btn-xs btn btn-primary" >Show Annual Report</button>
+												<button type="submit" value="Show Report" class="my-2 btn-xs btn btn-primary">Show Annual Report</button>
 											</form>
 										</div>
 									</div>
