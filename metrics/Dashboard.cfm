@@ -319,11 +319,11 @@ limitations under the License.
 					accordionButtons.forEach(function(btn) {
 						btn.addEventListener('click', function() {
 						document.querySelectorAll('#accordionContent > div').forEach(function(content) {
-						content.classList.add('d-none');
+						content.classList.add('d-block');
 					});
 					var collapseId = btn.getAttribute('data-target').replace('collapse', 'content');
 					var contentSection = document.getElementById(collapseId);
-					contentSection.classList.remove('d-none');
+					contentSection.classList.remove('d-block');
 					});
 				});
 			});
