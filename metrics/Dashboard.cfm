@@ -234,9 +234,7 @@ limitations under the License.
 											</form>
 										</div>
 									</div>
-									</cfif>
 								</div>
-							
 							</div>
 							<script>
 								$(document).ready(function() {
