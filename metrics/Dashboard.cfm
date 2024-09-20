@@ -181,7 +181,7 @@ limitations under the License.
 							<cfif annualReport eq 'no'>
 								<form id="loadReportForm">
 									<h3>Reports</h3>
-									<h3 class="h4 text-muted mt-2 mb-0">Select Report Date Range</h3>
+									<h3 class="h4 text-muted mt-4 mb-0">Select Report Date Range</h3>
 									<input type="hidden" name="returnFormat" value="plain">
 									<input type="hidden" name="annualReport" value="no">
 									<div class="row mx-0">
