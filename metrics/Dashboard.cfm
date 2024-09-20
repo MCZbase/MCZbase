@@ -282,6 +282,30 @@ limitations under the License.
 									});
 								}
 							</script>
+							<script>
+								function toggleFormVisibility() {
+									const formInSidebar = document.getElementById('loadReportForm1');
+									const formInMain = document.getElementById('divOne');
+									
+									const formInSidebar2 = document.getElementById('loadReportForm2');
+									const formInMain2 = document.getElementById('divTwo');
+									
+									if (formInSidebar.classList.contains('hidden')) {
+										formInSidebar.classList.remove('hidden');
+										formInMain.classList.remove('hidden');
+									} else {
+										formInSidebar.classList.add('hidden');
+										formInMain.classList.add('hidden');
+									}
+									if (formInSidebar2.classList.contains('hidden')) {
+										formInSidebar2.classList.remove('hidden');
+										formInMain2.classList.remove('hidden');
+									} else {
+										formInSidebar2.classList.add('hidden');
+										formInMain2.classList.add('hidden');
+									}
+								}
+							</script>
 						</div>
 					</nav>
 					<main role="main" class="col-md-9 px-3 ml-sm-auto col-lg-10 mb-3">
