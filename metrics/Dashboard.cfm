@@ -155,7 +155,7 @@ limitations under the License.
 											</button>
 											</h2>
 										</div>
-										<div id="collapseOne" class="collapse show" style="border: 2px solid lightsalmon;" aria-labelledby="headingOne" data-parent="##accordionExample">
+										<div id="collapseOne" class="collapse show" style="border: 2px solid ##ddd;" aria-labelledby="headingOne" data-parent="##accordionExample">
 											<div class="card-body">
 												<form class="py-2" id="loadReportForm1">
 													<div class="form-group">
@@ -198,7 +198,7 @@ limitations under the License.
 											</button>
 											</h2>
 										</div>
-										<div id="collapseTwo" class="collapse"  style="border: 2px solid green;" aria-labelledby="headingTwo" data-parent="##accordionExample">
+										<div id="collapseTwo" class="collapse" style="border: 2px solid ##ffc107;" aria-labelledby="headingTwo" data-parent="##accordionExample">
 										<div class="card-body">
 											<form class="py-2" id="loadReportForm2" onsubmit="return validateFiscalYear();">
 												<div class="form-group">
@@ -357,13 +357,13 @@ limitations under the License.
 							<div class="col-12 mt-4">
 								<h1 class="h2 float-left mb-1 w-100">MCZbase Metrics </h1>
 								<p class="text-muted small">Reports are generated from the current MCZbase data and may not match numbers printed in previous annual reports.</p>
-								<div id="divOne" style="border: 2px solid lightsalmon;">
+								<div id="divOne" style="border: 2px solid ##ddd;">
 									<cfset summaryAnnualBlock1=getAcquisitions(endDate="#endDate#",beginDate="#beginDate#",annualReport="#annualReport#")>
 									<div id="annualNumbersDiv1"> 
 										#summaryAnnualBlock1#
 									</div>
 								</div>
-								<div id="divTwo" style="border: 2px solid green;">
+								<div id="divTwo" style="border: 2px solid ##ffc107;">
 									<cfset summaryAnnualBlock2=getLoanNumbers(endDate="#endDate#",beginDate="#beginDate#",annualReport="#annualReport#")>
 									<div id="annualNumbersDiv2"> 
 										#summaryAnnualBlock2#
