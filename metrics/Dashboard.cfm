@@ -203,7 +203,7 @@ limitations under the License.
 						
 							<h3 class="h5 text-muted mt-1">OR</h3> 
 							<h3 class="h4 text-muted mt-3">Show Annual Report</h3>
-							<!---<cfscript>
+							<cfscript>
 								function getFiscalYearDateRange(endYear) {
 									var dateRange = structNew();
 									dateRange.beginDate = createDate(endYear - 1, 7, 1);
@@ -223,16 +223,32 @@ limitations under the License.
 									endDate: dateRange.endDate,
 									label:"FY&thinsp;" & (endYear - 1) & "-" & endYear
 								})>
-							</cfloop>--->
+							</cfloop>
 							
 							
 							<form id="loadAnnualReport">
+								<cfscript>
+									function getFiscalYearDateRange(endYear) {
+										var dateRange = structNew();
+										dateRange.beginDate = createDate(endYear - 1, 7, 1);
+										dateRange.endDate = createDate(endYear, 6, 30);
+										return dateRange;
+									}
+								</cfscript>
+								<cfset currentYear = year(now())>
+								<cfset numberOfYears = 5>
+								<cfset fiscalYears = []>
+						
 								<input type="hidden" name="annualReport" value="yes">
 								<input type="hidden" name="returnFormat" value="plain">
 								<div class="row mx-0">
 									<div class="col-12 px-0">
 										<div class="col-12 col-md-6 px-1 float-left">
 											<label for="beginDate" class="data-entry-label mt-2">Begin Date</label>
+											<select id="beginDate" name="beginDate" class="my-1 data-entry-input">
+												<option></option>
+												<option></option>
+											</select>
 											<input name="beginDate" id="beginDate" type="text" class="mb-1 datetimeinput data-entry-input data-entry-input" placeholder="yyyy-mm-dd" value="#beginDate#" aria-label="start of range for dates to display metrics.">
 										</div>
 										<div class="col-12 col-md-6 px-1 float-left">
@@ -283,7 +299,7 @@ limitations under the License.
 						<div class="col-12 mt-4">
 							<h1 class="h2 float-left mb-1 w-100">MCZbase Metrics </h1>
 							<p class="text-muted small">Reports are generated from the current MCZbase data and may not match numbers printed in previous annual reports.</p>
-							<cfset summaryAnnualBlock=getAcquisitions(endDate="#endDate#",beginDate="#beginDate#",annualReport="no")>
+							<cfset summaryAnnualBlock=getAcquisitions(endDate="#endDate#",beginDate="#beginDate#",annualReport="yes")>
 							<div id="annualNumbersDiv"> 
 								#summaryAnnualBlock#
 							</div>
