@@ -282,13 +282,13 @@ limitations under the License.
 		<script>
 			document.addEventListener('DOMContentLoaded', function() {
 				function addOneYear(date) {
-					let newDate = new Date(date);
+					var newDate = new Date(date);
 					newDate.setFullYear(newDate.getFullYear() + 1);
 					return newDate.toISOString().slice(0, 10);
 				}
 
 				function subtractOneYear(date) {
-					let newDate = new Date(date);
+					var newDate = new Date(date);
 					newDate.setFullYear(newDate.getFullYear() - 1);
 					return newDate.toISOString().slice(0, 10);
 				}
