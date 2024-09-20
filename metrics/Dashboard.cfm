@@ -147,7 +147,7 @@ limitations under the License.
 				<br clear="all">	
 					<nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block sidebar" style="background-color: ##efeded;border: ##e3e3e3;">
 						<div class="sidebar-sticky pt-4 px-2" style="background-color: ##efeded;">
-							<cfif annualReport eq '#annualReport#'>
+							<cfif annualReport eq 'no'>
 								<form id="loadReportForm">
 									<h3 class="h4 text-muted">Report Date Range</h3>
 									<input type="hidden" name="returnFormat" value="plain">
@@ -200,7 +200,7 @@ limitations under the License.
 										});
 									}
 								</script>
-							<cfelse>
+							<cfelseif annualReport eq 'yes'>
 								<h3 class="h4 text-muted mt-3">Show Annual Report</h3>
 								<form id="loadAnnualReport">
 									<cfscript>
