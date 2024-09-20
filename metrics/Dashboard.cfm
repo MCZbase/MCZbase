@@ -213,6 +213,12 @@ limitations under the License.
 													<option value="2023-06-30">2023-06-30</option>
 													<option value="2024-06-30">2024-06-30</option>
 												</select>
+												<label for="beginDate" class="data-entry-label mt-2">Fiscal Year End Date</label>
+												<select id="beginDate" name="beginDate" class="my-1 data-entry-input">
+													<option value="2022-07-01">2021-07-01</option>
+													<option value="2023-07-01">2022-07-01</option>
+													<option value="2024-07-01">2023-07-01</option>
+												</select>
 											</div>
 										</div>
 									</div>
@@ -230,8 +236,8 @@ limitations under the License.
 										</cfif>
 									</cfif>
 									<cfoutput>
-										<p>End Date: #DateFormat(endDate, "mm/dd/yyyy")#</p>
-										<p>Begin Date: #DateFormat(beginDate, "mm/dd/yyyy")#</p>
+										<p>End Date: #DateFormat(endDate, "yyyy-mm-dd")#</p>
+										<p>Begin Date: #DateFormat(beginDate, "yyyy-mm-dd")#</p>
 									</cfoutput>
 								<cfelse>
 									<cfoutput><p>No end date provided.</p></cfoutput>
