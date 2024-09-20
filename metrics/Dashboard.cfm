@@ -185,7 +185,7 @@ limitations under the License.
 															<option value="getGeorefNumbers">Georeferences (current)</option>
 														</select>
 													</div>
-													<button type="submit" value="Show Report" id="loadReportForm1" class="btn btn-primary btn-xs my-2">Show Custom Report</button>
+													<button class="button" onclick="$('##collapseTwo').toggle();" class="btn btn-primary btn-xs my-2">Show Custom Report</button>
 												</form>
 											</div>
 										</div>
@@ -228,7 +228,7 @@ limitations under the License.
 														<option value="getGeorefNumbers">Annual Report (Georeferences (current))</option>
 													</select>
 												</div>
-												<button type="submit" value="Show Report" id="loadReportForm2" class="my-2 btn-xs btn btn-primary">Show Annual Report</button>
+												<button class="button" onclick="$('##collapseOne').toggle();" class="my-2 btn-xs btn btn-primary">Show Annual Report</button>
 											</form>
 										</div>
 									</div>
@@ -289,13 +289,13 @@ limitations under the License.
 							<div class="col-12 mt-4">
 								<h1 class="h2 float-left mb-1 w-100">MCZbase Metrics </h1>
 								<p class="text-muted small">Reports are generated from the current MCZbase data and may not match numbers printed in previous annual reports.</p>
-								<div id="collapseOne">
+								<div id="collapseOne" class="collapse">
 									<cfset summaryAnnualBlock1=getAcquisitions(endDate="#endDate#",beginDate="#beginDate#",annualReport="#annualReport#")>
 									<div id="annualNumbersDiv1"> 
 										#summaryAnnualBlock1#
 									</div>
 								</div>
-								<div id="collapseTwo">
+								<div id="collapseTwo" class="collapse in">
 									<cfset summaryAnnualBlock2=getLoanNumbers(endDate="#endDate#",beginDate="#beginDate#",annualReport="#annualReport#")>
 									<div id="annualNumbersDiv2"> 
 										#summaryAnnualBlock2#
