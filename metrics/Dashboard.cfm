@@ -144,6 +144,7 @@ limitations under the License.
 			<div class="container-fluid" id="content">
 				<div class="row">
 				<br clear="all">	
+
 					<nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block sidebar" style="background-color: ##efeded;border: ##e3e3e3;">
 						<div class="sidebar-sticky pt-4 px-2" style="background-color: ##efeded;">
 							<div class="accordion" id="accordionExample">
@@ -155,21 +156,20 @@ limitations under the License.
 											</button>
 											</h2>
 										</div>
-									<cfif annualReport eq "no">
 										<div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="##accordionExample">
 											<div class="card-body">
-												<form class="py-2" id="loadReportForm2">
+												<form class="py-2" id="loadReportForm">
 													<div class="form-group">
 														<h3 class="h4 text-muted mt-1 mb-0">Select Report Date Range</h3>
 														<input type="hidden" name="returnFormat" value="plain">
 														<input type="hidden" name="annualReport" value="no">
 														<div class="row mx-0">
 															<div class="col-12 px-0">
-																<div class="col-12 col-md-6 px-1 float-left">
+																<div class="col-12 col-md-6 pr-1 float-left">
 																	<label for="beginDate" class="data-entry-label mt-2">Begin Date</label>
 																	<input name="beginDate" id="beginDate" type="text" class="mb-1 datetimeinput data-entry-input data-entry-input" placeholder="yyyy-mm-dd" value="#beginDate#" aria-label="start of range for dates to display metrics.">
 																</div>
-																<div class="col-12 col-md-6 px-1 float-left">
+																<div class="col-12 col-md-6 pl-1 float-left">
 																	<label for="endDate" class="data-entry-label mt-2">End Date</label>
 																	<input name="endDate" id="endDate" type="text" class="mb-1 datetimeinput data-entry-input data-entry-input" placeholder="yyyy-mm-dd" value="#endDate#" aria-label="end of range for dates to display metrics.">
 																</div>
@@ -186,11 +186,10 @@ limitations under the License.
 															<option value="getGeorefNumbers">Georeferences (current)</option>
 														</select>
 													</div>
-													<button type="submit" class="btn btn-primary btn-xs my-2">Show Custom Report</button>
+													<button type="submit" value="Show Report" class="btn btn-primary btn-xs my-2">Show Custom Report</button>
 												</form>
 											</div>
 										</div>
-									</cfif>
 									</div>
 									<div class="card">
 										<div class="card-header" id="headingTwo">
@@ -202,9 +201,9 @@ limitations under the License.
 										</div>
 										<div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="##accordionExample">
 										<div class="card-body">
-											<form class="py-2" id="loadReportForm1">
+											<form class="py-2" id="loadReportForm">
 												<div class="form-group">
-													<h3 class="h4 text-muted mt-2 mb-2">Select Fiscal Year</h3>
+													<h3 class="h4 text-muted mt-3 mb-2">Select Fiscal Year</h3>
 													<input type="hidden" name="returnFormat" value="plain">
 													<input type="hidden" name="annualReport" value="no">
 													<div class="row mx-0">
@@ -230,7 +229,7 @@ limitations under the License.
 														<option value="getGeorefNumbers">Annual Report (Georeferences (current))</option>
 													</select>
 												</div>
-												<button type="submit" class="my-2 btn-xs btn btn-primary" >Submit Annual Report</button>
+												<button type="submit" value="Show Report" class="my-2 btn-xs btn btn-primary" >Submit</button>
 											</form>
 										</div>
 									</div>
@@ -238,7 +237,7 @@ limitations under the License.
 							</div>
 							<script>
 								$(document).ready(function() {
-									$('##loadReportForm2').on('submit',function(event){ event.preventDefault(); loadReport(); } );
+									$('##loadReportForm').on('submit',function(event){ event.preventDefault(); loadReport(); } );
 								});
 								function loadReport(){
 									$('##annualNumbersDiv').html("Loading...");
@@ -246,7 +245,7 @@ limitations under the License.
 										{
 											url: '/metrics/component/functions.cfc',
 											type: 'GET', 
-											data: $('##loadReportForm2').serialize()
+											data: $('##loadReportForm').serialize()
 										}
 									).done(
 										function(response) {
@@ -260,30 +259,7 @@ limitations under the License.
 									});
 								}
 							</script>
-							<script>
-								$(document).ready(function() {
-									$('##loadReportForm1').on('submit',function(event){ event.preventDefault(); loadReport(); } );
-								});
-								function loadReport(){
-									$('##annualNumbersDiv').html("Loading...");
-									$.ajax(
-										{
-											url: '/metrics/component/functions.cfc',
-											type: 'GET', 
-											data: $('##loadReportForm1').serialize()
-										}
-									).done(
-										function(response) {
-											console.log(response);
-											$('##annualNumbersDiv').html(response);
-											$('##annualNumbersDiv').show();
-										}
-									).fail(function(jqXHR,textStatus,error){
-										$('##annualNumbersDiv').html("Error Loading Metrics");
-									handleFail(jqXHR,textStatus,error,"loading metrics for date range.");
-									});
-								}
-							</script>
+						
 						</div>
 					</nav>
 					<main role="main" class="col-md-9 px-3 ml-sm-auto col-lg-10 mb-3">
@@ -302,101 +278,6 @@ limitations under the License.
 			</div>
 		</cfoutput>
 		<cfinclude template="/shared/_footer.cfm">
-			<script>
-			document.addEventListener('DOMContentLoaded', function() {
-			  const MINIMUM_YEAR_DIFFERENCE = 1; // Minimum difference between dates in years
-
-			  // Function to add one year to a given date
-			  function addOneYear(date) {
-				  if (date && !isNaN(Date.parse(date))) {
-					  var newDate = new Date(date);
-					  newDate.setFullYear(newDate.getFullYear() + 1);
-					  return newDate.toISOString().slice(0, 10); // Convert to "YYYY-MM-DD" format
-				  } else {
-					  console.error("Invalid date format: " + date);
-					  return date;
-				  }
-			  }
-
-			  // Function to subtract one year from a given date
-			  function subtractOneYear(date) {
-				  if (date && !isNaN(Date.parse(date))) {
-					  var newDate = new Date(date);
-					  newDate.setFullYear(newDate.getFullYear() - 1);
-					  return newDate.toISOString().slice(0, 10); // Convert to "YYYY-MM-DD" format
-				  } else {
-					  console.error("Invalid date format: " + date);
-					  return date;
-				  }
-			  }
-
-			  // Function to ensure minimum year difference
-			  function ensureMinimumDifference(startDate, endDate, minDifference) {
-				  const start = new Date(startDate);
-				  const end = new Date(endDate);
-				  const yearDiff = end.getFullYear() - start.getFullYear();
-				  if (yearDiff < minDifference) {
-					  var newEndDate = new Date(startDate);
-					  newEndDate.setFullYear(start.getFullYear() + minDifference);
-					  return newEndDate.toISOString().slice(0, 10);
-				  }
-				  return null;
-			  }
-
-			  // Attach event listeners to date inputs with form name
-			  document.querySelectorAll('form[name^="loadReportForm2"] .date-input').forEach(function (input) {
-				input.addEventListener('change', function () {
-				  const form = this.closest('form');
-				  const formNumber = form.name.match(/\d+/)[0]; // Extract form number from form name (e.g., "1" or "2")
-				  const beginDateInput = form.querySelector('##beginDate' + formNumber);
-				  const endDateInput = form.querySelector('##endDate' + formNumber);
-
-				  if (this === beginDateInput && beginDateInput.value) {
-					var newEndDate = addOneYear(beginDateInput.value);
-					newEndDate = ensureMinimumDifference(beginDateInput.value, newEndDate, MINIMUM_YEAR_DIFFERENCE) || newEndDate;
-					endDateInput.value = newEndDate;
-				  } else if (this === endDateInput && endDateInput.value) {
-					var newBeginDate = subtractOneYear(endDateInput.value);
-					newBeginDate = ensureMinimumDifference(newBeginDate, endDateInput.value, MINIMUM_YEAR_DIFFERENCE) || newBeginDate;
-					beginDateInput.value = newBeginDate;
-				  }
-				});
-			  });
-						  // Attach event listeners to date inputs with form name
-			  document.querySelectorAll('form[name^="loadReportForm"] .date-input').forEach(function (input) {
-				input.addEventListener('change', function () {
-				  const form = this.closest('form');
-				  const formNumber = form.name.match(/\d+/)[0]; // Extract form number from form name (e.g., "1" or "2")
-				  const beginDateInput = form.querySelector('##beginDate' + formNumber);
-				  const endDateInput = form.querySelector('##endDate' + formNumber);
-
-				  if (this === beginDateInput && beginDateInput.value) {
-					var newEndDate = addOneYear(beginDateInput.value);
-					newEndDate = ensureMinimumDifference(beginDateInput.value, newEndDate, MINIMUM_YEAR_DIFFERENCE) || newEndDate;
-					endDateInput.value = newEndDate;
-				  } else if (this === endDateInput && endDateInput.value) {
-					var newBeginDate = subtractOneYear(endDateInput.value);
-					newBeginDate = ensureMinimumDifference(newBeginDate, endDateInput.value, MINIMUM_YEAR_DIFFERENCE) || newBeginDate;
-					beginDateInput.value = newBeginDate;
-				  }
-				});
-			  });
-			  // Event listener for the accordion buttons
-			  var accordionButtons = document.querySelectorAll('##accordionExample .btn-link');
-			  accordionButtons.forEach(function (btn) {
-				btn.addEventListener('click', function () {
-				  // Hide all content sections
-				  document.querySelectorAll('##accordionContent > div').forEach(function (content) {
-					content.classList.add('d-none');
-				  });
-				  // Toggle the relevant content section
-				  var collapseId = btn.getAttribute('data-target').replace('collapse', 'content');
-				  var contentSection = document.getElementById(collapseId);
-				  contentSection.classList.remove('d-none');
-				});
-			  });
-			});
-			</script>
 	</cfcase>
 	<cfdefaultcase>
 		<cfoutput>
@@ -404,4 +285,3 @@ limitations under the License.
 		</cfoutput>
 	</cfdefaultcase>
 </cfswitch>
-		
