@@ -264,7 +264,7 @@ limitations under the License.
 													accordionButtons.forEach(function(btn) {
 													btn.addEventListener('click', function() {
 										
-													document.querySelectorAll('#accordionContent > div').forEach(function(content) {
+													document.querySelectorAll('##accordionContent > div').forEach(function(content) {
 														content.classList.add('d-none');
 													});
 													
