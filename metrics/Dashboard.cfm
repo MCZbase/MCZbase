@@ -213,7 +213,7 @@ limitations under the License.
 													<option value="2023-06-30">2023-06-30</option>
 													<option value="2024-06-30">2024-06-30</option>
 												</select>
-												<label for="beginDate" class="data-entry-label mt-2">Fiscal Year End Date</label>
+												<label for="beginDate" class="data-entry-label mt-2">Fiscal Year Begin Date</label>
 												<select id="beginDate" name="beginDate" class="my-1 data-entry-input">
 													<option value="2022-07-01">2021-07-01</option>
 													<option value="2023-07-01">2022-07-01</option>
