@@ -198,7 +198,7 @@ limitations under the License.
 									</div>
 								</div>
 							</div>
-								<cfif annualReport eq 'no'>
+							<cfif annualReport eq 'no'>
 								<form id="loadReportForm">
 									<h3>Reports (Any Date Range)</h3>
 									<h3 class="h4 text-muted mt-4 mb-0">Select Report Date Range</h3>
@@ -259,7 +259,7 @@ limitations under the License.
 									<input type="submit" name="submit" value="Show Annual Report" class="my-3 btn-xs btn btn-primary" aria-label="Show the selected report for the specified date range">
 								</form>
 							</cfif>
-								<script>
+							<script>
 								$(document).ready(function() {
 									$('##loadReportForm').on('submit',function(event){ event.preventDefault(); loadReport(); } );
 								});
@@ -283,7 +283,7 @@ limitations under the License.
 									});
 								}
 							</script>
-							</cfif>
+						
 						</div>
 					</nav>
 					<main role="main" class="col-md-9 px-3 ml-sm-auto col-lg-10 mb-3">
