@@ -227,7 +227,7 @@ limitations under the License.
 									<input type="hidden" name="returnFormat" value="plain">
 									<div class="row mx-0">
 										<div class="col-12 px-0">
-											<div class="col-12 col-md-6 px-1 float-left">
+											<div class="col-12 col-md-11 px-1 float-left">
 												<label for="endDate" class="data-entry-label mt-2">Fiscal Year</label>
 												 <select id="endDate" name="endDate" class="my-1 data-entry-input">
 													<option value="2021-07-01">2021-07-01 / 2022-06-30</option>
