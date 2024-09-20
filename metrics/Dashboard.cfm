@@ -202,38 +202,7 @@ limitations under the License.
 										<div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="##accordionExample">
 										<div class="card-body">
 											<form class="py-2" id="loadReportForm">
-												<script>
-													function addOneYear(date) {
-														let newDate = new Date(date);
-														newDate.setFullYear(newDate.getFullYear() + 1);
-														return newDate.toISOString().substring(0,10); 
-													}
-
-													function subtractOneYear(date) {
-														let newDate = new Date(date);
-														newDate.setFullYear(newDate.getFullYear() - 1);
-														return newDate.toISOString().substring(0,10); 
-													}
-
-													document.addEventListener('DOMContentLoaded', (event) => {
-														const beginDateInput = document.getElementById('beginDate');
-														const endDateInput = document.getElementById('endDate');
-
-														beginDateInput.addEventListener('change', () => {
-															const beginDate = beginDateInput.value;
-															if (beginDate) {
-																endDateInput.value = addOneYear(beginDate);
-															}
-														});
-
-														endDateInput.addEventListener('change', () => {
-															const endDate = endDateInput.value;
-															if (endDate) {
-																beginDateInput.value = subtractOneYear(endDate);
-															}
-														});
-													});
-												</script>
+												
 												<div class="form-group">
 													<h3 class="h4 text-muted mt-3 mb-2">Select Fiscal Year</h3>
 													<input type="hidden" name="returnFormat" value="plain">
@@ -263,6 +232,38 @@ limitations under the License.
 												</div>
 												<button type="submit" value="Show Report" class="my-2 btn-xs btn btn-primary" >Submit</button>
 											</form>
+											<script>
+												function addOneYear(date) {
+													let newDate = new Date(date);
+													newDate.setFullYear(newDate.getFullYear() + 1);
+													return newDate.toISOString().substring(0,10); 
+												}
+
+												function subtractOneYear(date) {
+													let newDate = new Date(date);
+													newDate.setFullYear(newDate.getFullYear() - 1);
+													return newDate.toISOString().substring(0,10); 
+												}
+
+												document.addEventListener('DOMContentLoaded', (event) => {
+													const beginDateInput = document.getElementById('beginDate');
+													const endDateInput = document.getElementById('endDate');
+
+													beginDateInput.addEventListener('change', () => {
+														const beginDate = beginDateInput.value;
+														if (beginDate) {
+															endDateInput.value = addOneYear(beginDate);
+														}
+													});
+
+													endDateInput.addEventListener('change', () => {
+														const endDate = endDateInput.value;
+														if (endDate) {
+															beginDateInput.value = subtractOneYear(endDate);
+														}
+													});
+												});
+											</script>
 										</div>
 									</div>
 								</div>
