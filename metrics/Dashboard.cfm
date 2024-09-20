@@ -157,7 +157,7 @@ limitations under the License.
 										</div>
 										<div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="##accordionExample">
 											<div class="card-body">
-												<form class="py-2" id="loadReportForm">
+												<form class="py-2" id="loadReportForm1">
 													<div class="form-group">
 														<h3 class="h4 text-muted mt-1 mb-0">Select Report Date Range</h3>
 														<input type="hidden" name="returnFormat" value="plain">
@@ -185,7 +185,7 @@ limitations under the License.
 															<option value="getGeorefNumbers">Georeferences (current)</option>
 														</select>
 													</div>
-													<button type="submit" value="Show Report" class="btn btn-primary btn-xs my-2">Show Custom Report</button>
+													<button type="submit" value="Show Report" id="loadReportForm1" class="btn btn-primary btn-xs my-2">Show Custom Report</button>
 												</form>
 											</div>
 										</div>
@@ -228,7 +228,7 @@ limitations under the License.
 														<option value="getGeorefNumbers">Annual Report (Georeferences (current))</option>
 													</select>
 												</div>
-												<button type="submit" value="Show Report" class="my-2 btn-xs btn btn-primary">Show Annual Report</button>
+												<button type="submit" value="Show Report" id="loadReportForm2" class="my-2 btn-xs btn btn-primary">Show Annual Report</button>
 											</form>
 										</div>
 									</div>
@@ -236,7 +236,7 @@ limitations under the License.
 							</div>
 							<script>
 								$(document).ready(function() {
-									$('##loadReportForm').on('submit',function(event){ event.preventDefault(); loadReport(); } );
+									$('##loadReportForm1').on('submit',function(event){ event.preventDefault(); loadReport(); } );
 								});
 								function loadReport(){
 									$('##annualNumbersDiv').html("Loading...");
@@ -244,7 +244,7 @@ limitations under the License.
 										{
 											url: '/metrics/component/functions.cfc',
 											type: 'GET', 
-											data: $('##loadReportForm').serialize()
+											data: $('##loadReportForm1').serialize()
 										}
 									).done(
 										function(response) {
