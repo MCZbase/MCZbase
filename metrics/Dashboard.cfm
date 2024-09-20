@@ -228,7 +228,45 @@ limitations under the License.
 														<option value="getGeorefNumbers">Annual Report (Georeferences (current))</option>
 													</select>
 												</div>
+												
 												<button type="submit" value="Show Report" class="my-2 btn-xs btn btn-primary" >Submit</button>
+												<script>
+													document.addEventListener('DOMContentLoaded', function() {
+														function addOneYear(date) {
+															var newDate = new Date(date);
+															newDate.setFullYear(newDate.getFullYear() + 1);
+															return newDate.toISOString().slice(0, 10);
+														}
+														function subtractOneYear(date) {
+															var newDate = new Date(date);
+															newDate.setFullYear(newDate.getFullYear() - 1);
+															return newDate.toISOString().slice(0, 10);
+														}
+													document.querySelectorAll('form[name="thisform"] .date-input').forEach(function(input) {
+														input.addEventListener('change', function() {
+														const form = this.closest('form');
+														const beginDateInput = form.querySelector('#beginDate' + (form === document.forms[0] ? '1' : '2'));
+														const endDateInput = form.querySelector('#endDate' + (form === document.forms[0] ? '1' : '2'));
+															if (this === beginDateInput && beginDateInput.value) {
+															endDateInput.value = addOneYear(beginDateInput.value);
+															} else if (this === endDateInput && endDateInput.value) {
+																beginDateInput.value = subtractOneYear(endDateInput.value);
+															}
+														});
+													});
+													var accordionButtons = document.querySelectorAll('#accordionExample .btn-link');
+														accordionButtons.forEach(function(btn) {
+															btn.addEventListener('click', function() {
+																document.querySelectorAll('#accordionContent > div').forEach(function(content) {
+																content.classList.add('d-none');
+															});
+															var collapseId = btn.getAttribute('data-target').replace('collapse', 'content');
+															var contentSection = document.getElementById(collapseId);
+															contentSection.classList.remove('d-none');
+															});
+														});
+													});
+												</script>
 											</form>
 										</div>
 									</div>
@@ -277,43 +315,7 @@ limitations under the License.
 			</div>
 		</cfoutput>
 		<cfinclude template="/shared/_footer.cfm">
-		<script>
-			document.addEventListener('DOMContentLoaded', function() {
-				function addOneYear(date) {
-					var newDate = new Date(date);
-					newDate.setFullYear(newDate.getFullYear() + 1);
-					return newDate.toISOString().slice(0, 10);
-				}
-				function subtractOneYear(date) {
-					var newDate = new Date(date);
-					newDate.setFullYear(newDate.getFullYear() - 1);
-					return newDate.toISOString().slice(0, 10);
-				}
-			document.querySelectorAll('form[name="thisform"] .date-input').forEach(function(input) {
-				input.addEventListener('change', function() {
-				const form = this.closest('form');
-				const beginDateInput = form.querySelector('#beginDate' + (form === document.forms[0] ? '1' : '2'));
-				const endDateInput = form.querySelector('#endDate' + (form === document.forms[0] ? '1' : '2'));
-					if (this === beginDateInput && beginDateInput.value) {
-					endDateInput.value = addOneYear(beginDateInput.value);
-					} else if (this === endDateInput && endDateInput.value) {
-						beginDateInput.value = subtractOneYear(endDateInput.value);
-					}
-				});
-			});
-			var accordionButtons = document.querySelectorAll('#accordionExample .btn-link');
-				accordionButtons.forEach(function(btn) {
-					btn.addEventListener('click', function() {
-						document.querySelectorAll('#accordionContent > div').forEach(function(content) {
-						content.classList.add('d-none');
-					});
-					var collapseId = btn.getAttribute('data-target').replace('collapse', 'content');
-					var contentSection = document.getElementById(collapseId);
-					contentSection.classList.remove('d-none');
-					});
-				});
-			});
-		</script>
+		
 	</cfcase>
 	<cfdefaultcase>
 		<cfoutput>
