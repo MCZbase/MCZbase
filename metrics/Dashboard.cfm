@@ -208,7 +208,7 @@ limitations under the License.
 										</h2>
 									</div>
 								</div>
-								<div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
+								<div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="##accordionExample">
 									<div class="card-body">
 										<form>
 											<div class="form-group">
