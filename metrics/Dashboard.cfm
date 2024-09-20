@@ -190,31 +190,33 @@ limitations under the License.
 									<div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="##accordionExample">
 										<div class="card-body">
 											<form class="py-2" id="loadReportForm">
-												<h3 class="h4 text-muted mt-1 mb-0">Select Report Date Range</h3>
-												<input type="hidden" name="returnFormat" value="plain">
-												<input type="hidden" name="annualReport" value="no">
-												<div class="row mx-0">
-													<div class="col-12 px-0">
-														<div class="col-12 col-md-6 px-1 float-left">
-															<label for="beginDate" class="data-entry-label mt-2">Begin Date</label>
-															<input name="beginDate" id="beginDate" type="text" class="mb-1 datetimeinput data-entry-input data-entry-input" placeholder="yyyy-mm-dd" value="#beginDate#" aria-label="start of range for dates to display metrics.">
-														</div>
-														<div class="col-12 col-md-6 px-1 float-left">
-															<label for="endDate" class="data-entry-label mt-2">End Date</label>
-															<input name="endDate" id="endDate" type="text" class="mb-1 datetimeinput data-entry-input data-entry-input" placeholder="yyyy-mm-dd" value="#endDate#" aria-label="end of range for dates to display metrics.">
+												<div class="form-group">
+													<h3 class="h4 text-muted mt-1 mb-0">Select Report Date Range</h3>
+													<input type="hidden" name="returnFormat" value="plain">
+													<input type="hidden" name="annualReport" value="no">
+													<div class="row mx-0">
+														<div class="col-12 px-0">
+															<div class="col-12 col-md-6 px-1 float-left">
+																<label for="beginDate" class="data-entry-label mt-2">Begin Date</label>
+																<input name="beginDate" id="beginDate" type="text" class="mb-1 datetimeinput data-entry-input data-entry-input" placeholder="yyyy-mm-dd" value="#beginDate#" aria-label="start of range for dates to display metrics.">
+															</div>
+															<div class="col-12 col-md-6 px-1 float-left">
+																<label for="endDate" class="data-entry-label mt-2">End Date</label>
+																<input name="endDate" id="endDate" type="text" class="mb-1 datetimeinput data-entry-input data-entry-input" placeholder="yyyy-mm-dd" value="#endDate#" aria-label="end of range for dates to display metrics.">
+															</div>
 														</div>
 													</div>
+													<h3 class="h4 text-muted mt-3">Report to Show</h3>
+													<label for="method" class="sr-only">Report To Show</label>
+													<select id="method" name="method" class="my-1 data-entry-input">
+														<option value="getAcquisitions" selected="selected">Acquisitions</option>
+														<option value="getNumbers">Holdings</option>
+														<option value="getLoanNumbers">Loan Activity</option>
+														<option value="getMediaNumbers">Media (current)</option>
+														<option value="getCitationNumbers">Citations (current)</option>
+														<option value="getGeorefNumbers">Georeferences (current)</option>
+													</select>
 												</div>
-												<h3 class="h4 text-muted mt-3">Report to Show</h3>
-												<label for="method" class="sr-only">Report To Show</label>
-												<select id="method" name="method" class="my-1 data-entry-input">
-													<option value="getAcquisitions" selected="selected">Acquisitions</option>
-													<option value="getNumbers">Holdings</option>
-													<option value="getLoanNumbers">Loan Activity</option>
-													<option value="getMediaNumbers">Media (current)</option>
-													<option value="getCitationNumbers">Citations (current)</option>
-													<option value="getGeorefNumbers">Georeferences (current)</option>
-												</select>
 												<button type="submit" class="btn btn-primary btn-xs my-2">Show Custom Report</button>
 											</form>
 										</div>
@@ -231,7 +233,7 @@ limitations under the License.
 								</div>
 								<div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="##accordionExample">
 									<div class="card-body">
-										<form id="loadReportForm">
+										<form class="py-2" id="loadReportForm">
 											<div class="form-group">
 												<h3 class="h4 text-muted mt-3 mb-2">Select Fiscal Year</h3>
 												<input type="hidden" name="returnFormat" value="plain">
