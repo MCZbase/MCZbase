@@ -279,14 +279,6 @@ limitations under the License.
 			</div>
 		</cfoutput>
 		<cfinclude template="/shared/_footer.cfm">
-
-	</cfcase>
-	<cfdefaultcase>
-		<cfoutput>
-			Error: Unknown action
-		</cfoutput>
-	</cfdefaultcase>
-</cfswitch>
 		<script>
 			document.addEventListener('DOMContentLoaded', function() {
 				function addOneYear(date) {
@@ -319,7 +311,7 @@ limitations under the License.
 					accordionButtons.forEach(function(btn) {
 						btn.addEventListener('click', function() {
 						document.querySelectorAll('##accordionContent > div').forEach(function(content) {
-						content.classList.add('d-block');
+						content.classList.add('d-none');
 					});
 					var collapseId = btn.getAttribute('data-target').replace('collapse', 'content');
 					var contentSection = document.getElementById(collapseId);
@@ -328,3 +320,11 @@ limitations under the License.
 				});
 			});
 		</script>
+	</cfcase>
+	<cfdefaultcase>
+		<cfoutput>
+			Error: Unknown action
+		</cfoutput>
+	</cfdefaultcase>
+</cfswitch>
+		
