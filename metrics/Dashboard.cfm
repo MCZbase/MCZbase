@@ -198,7 +198,7 @@ limitations under the License.
 											</button>
 											</h2>
 										</div>
-										<div id="collapseTwo" class="collapse" style="border: 2px solid ##ffc107;" aria-labelledby="headingTwo" data-parent="##accordionExample">
+										<div id="collapseTwo" class="collapse" style="border: 2px solid lightsalmon;" aria-labelledby="headingTwo" data-parent="##accordionExample">
 										<div class="card-body">
 											<form class="py-2" id="loadReportForm2" onsubmit="return validateFiscalYear();">
 												<div class="form-group">
@@ -363,7 +363,7 @@ limitations under the License.
 										#summaryAnnualBlock1#
 									</div>
 								</div>
-								<div id="divTwo" style="border: 2px solid ##ffc107;padding:0 15px 0 15px;">
+								<div id="divTwo" style="border: 2px solid lightsalmon;padding:0 15px 0 15px;">
 									<cfset summaryAnnualBlock2=getLoanNumbers(endDate="#endDate#",beginDate="#beginDate#",annualReport="#annualReport#")>
 									<div id="annualNumbersDiv2"> 
 										#summaryAnnualBlock2#
