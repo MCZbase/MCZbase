@@ -290,19 +290,19 @@ limitations under the License.
 									const formInSidebar2 = document.getElementById('collapseTwo');
 									const formInMain2 = document.getElementById('divTwo');
 									
-									if (formInSidebar.classList.contains('collapse show')) {
-										formInSidebar.classList.remove('show');
-										formInMain.classList.remove('show');
+									if (formInSidebar.classList.contains('none')) {
+										formInSidebar.classList.remove('none');
+										formInMain.classList.remove('none');
 									} else {
-										formInSidebar.classList.add('collapse');
-										formInMain.classList.add('collapse');
+										formInSidebar.classList.add('block');
+										formInMain.classList.add('block');
 									}
-									if (formInSidebar2.classList.contains('collapse show')) {
-										formInSidebar2.classList.remove('collapse');
-										formInMain2.classList.remove('collapse');
+									if (formInSidebar2.classList.contains('block')) {
+										formInSidebar2.classList.remove('block');
+										formInMain2.classList.remove('block');
 									} else {
-										formInSidebar2.classList.add('show');
-										formInMain2.classList.add('show');
+										formInSidebar2.classList.add('none');
+										formInMain2.classList.add('none');
 									}
 								}
 							</script>
@@ -313,13 +313,13 @@ limitations under the License.
 							<div class="col-12 mt-4">
 								<h1 class="h2 float-left mb-1 w-100">MCZbase Metrics </h1>
 								<p class="text-muted small">Reports are generated from the current MCZbase data and may not match numbers printed in previous annual reports.</p>
-								<div id="divOne" class="collapse show">
+								<div id="divOne" style="display:block">
 									<cfset summaryAnnualBlock1=getAcquisitions(endDate="#endDate#",beginDate="#beginDate#",annualReport="#annualReport#")>
 									<div id="annualNumbersDiv1"> 
 										#summaryAnnualBlock1#
 									</div>
 								</div>
-								<div id="divTwo" class="collapse">
+								<div id="divTwo" style="display:none">
 									<cfset summaryAnnualBlock2=getLoanNumbers(endDate="#endDate#",beginDate="#beginDate#",annualReport="#annualReport#")>
 									<div id="annualNumbersDiv2"> 
 										#summaryAnnualBlock2#
