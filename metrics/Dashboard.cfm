@@ -258,11 +258,11 @@ limitations under the License.
 									<input type="hidden" name="method" value="getLoanNumbers" id="method" class="my-3 btn-xs btn btn-primary" aria-label="Show the selected report for the specified date range">
 									<input type="submit" name="annualReport" value="Show Annual Report" id="annualReport" class="my-3 btn-xs btn btn-primary" aria-label="Show the selected report for the specified date range">
 								</form>
-								<script>
+<!---								<script>
 									$(document).ready(function() {
-										$('##loadAnnualReport').on('submit',function(event){ event.preventDefault(); loadReport2(); } );
+										$('##loadAnnualReport').on('submit',function(event){ event.preventDefault(); loadReport(); } );
 									});
-									function loadReport2(){
+									function loadReport(){
 										$('##annualReport').html("Loading...");
 										$.ajax(
 											{
@@ -280,7 +280,7 @@ limitations under the License.
 										handleFail(jqXHR,textStatus,error,"loading metrics for date range.");
 										});
 									}
-								</script>
+								</script>--->
 							</cfif>
 						</div>
 					</nav>
