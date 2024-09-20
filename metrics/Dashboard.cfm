@@ -182,7 +182,7 @@ limitations under the License.
 								<div class="card">
 									<div class="card-header" id="headingOne">
 										<h2 class="mb-0">
-										<button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+										<button class="btn btn-link" type="button" data-toggle="collapse" data-target="##collapseOne" aria-expanded="true" aria-controls="collapseOne">
 											Accordion Item ##1
 										</button>
 										</h2>
@@ -191,7 +191,7 @@ limitations under the License.
 								<div class="card">
 									<div class="card-header" id="headingTwo">
 										<h2 class="mb-0">
-										<button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+										<button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="##collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
 											Accordion Item ##2
 										</button>
 										</h2>
