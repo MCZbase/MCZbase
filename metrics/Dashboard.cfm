@@ -358,7 +358,7 @@ limitations under the License.
 								<h1 class="h2 float-left mb-1 w-100">MCZbase Metrics </h1>
 								<p class="text-muted small">Reports are generated from the current MCZbase data and may not match numbers printed in previous annual reports.</p>
 								<div id="divOne" style="border: 2px solid ##ddd;padding:0 15px 0 15px;">
-									<cfset summaryAnnualBlock1=getNumber(endDate="#endDate#",beginDate="#beginDate#",annualReport="#annualReport#")>
+									<cfset summaryAnnualBlock1=getNumbers(endDate="#endDate#",beginDate="#beginDate#",annualReport="#annualReport#")>
 									<div id="annualNumbersDiv1" class="py-2"> 
 										#summaryAnnualBlock1#
 									</div>
