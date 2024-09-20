@@ -158,7 +158,7 @@ limitations under the License.
 									<cfif annualReport eq "no">
 										<div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="##accordionExample">
 											<div class="card-body">
-												<form class="py-2" id="loadReportForm">
+												<form class="py-2" id="loadReportForm2">
 													<div class="form-group">
 														<h3 class="h4 text-muted mt-1 mb-0">Select Report Date Range</h3>
 														<input type="hidden" name="returnFormat" value="plain">
@@ -238,7 +238,7 @@ limitations under the License.
 							</div>
 							<script>
 								$(document).ready(function() {
-									$('##loadReportForm').on('submit',function(event){ event.preventDefault(); loadReport(); } );
+									$('##loadReportForm2').on('submit',function(event){ event.preventDefault(); loadReport(); } );
 								});
 								function loadReport(){
 									$('##annualNumbersDiv').html("Loading...");
@@ -246,7 +246,7 @@ limitations under the License.
 										{
 											url: '/metrics/component/functions.cfc',
 											type: 'GET', 
-											data: $('##loadReportForm').serialize()
+											data: $('##loadReportForm2').serialize()
 										}
 									).done(
 										function(response) {
@@ -293,7 +293,7 @@ limitations under the License.
 					return newDate.toISOString().slice(0, 10);
 				}
 
-				document.querySelectorAll('form[name="loadReportForm"] .date-input').forEach(function(input) {
+				document.querySelectorAll('form[name="loadReportForm2"] .date-input').forEach(function(input) {
 					input.addEventListener('change', function() {
 					const form = this.closest('form');
 					const beginDateInput = form.querySelector('##beginDate' + (form === document.forms[0] ? '1' : '2'));
