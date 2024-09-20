@@ -242,7 +242,7 @@ limitations under the License.
 															newDate.setFullYear(newDate.getFullYear() - 1);
 															return newDate.toISOString().slice(0, 10);
 														}
-													document.querySelectorAll('form.date-input').forEach(function(input) {
+													document.querySelectorAll('form[loadReportForm].date-input').forEach(function(input) {
 														input.addEventListener('change', function() {
 														const form = this.closest('form');
 														const beginDateInput = form.querySelector('##beginDate' + (form === document.forms[0] ? '1' : '2'));
