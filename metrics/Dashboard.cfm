@@ -200,7 +200,7 @@ limitations under the License.
 										</div>
 										<div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="##accordionExample">
 										<div class="card-body">
-											<form class="py-2" id="loadReportForm">
+											<form class="py-2" id="loadReportForm2">
 												<div class="form-group">
 													<h3 class="h4 text-muted mt-3 mb-2">Select Fiscal Year</h3>
 													<input type="hidden" name="returnFormat" value="plain">
@@ -258,7 +258,30 @@ limitations under the License.
 									});
 								}
 							</script>
-						
+							<script>
+								$(document).ready(function() {
+									$('##loadReportForm2').on('submit',function(event){ event.preventDefault(); loadReport(); } );
+								});
+								function loadReport(){
+									$('##annualNumbersDiv').html("Loading...");
+									$.ajax(
+										{
+											url: '/metrics/component/functions.cfc',
+											type: 'GET', 
+											data: $('##loadReportForm2').serialize()
+										}
+									).done(
+										function(response) {
+											console.log(response);
+											$('##annualNumbersDiv').html(response);
+											$('##annualNumbersDiv').show();
+										}
+									).fail(function(jqXHR,textStatus,error){
+										$('##annualNumbersDiv').html("Error Loading Metrics");
+									handleFail(jqXHR,textStatus,error,"loading metrics for date range.");
+									});
+								}
+							</script>
 						</div>
 					</nav>
 					<main role="main" class="col-md-9 px-3 ml-sm-auto col-lg-10 mb-3">
