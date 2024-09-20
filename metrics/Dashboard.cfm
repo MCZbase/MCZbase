@@ -288,12 +288,12 @@ limitations under the License.
 					</nav>
 					<main role="main" class="col-md-9 px-3 ml-sm-auto col-lg-10 mb-3">
 						<div id="accordionContent">
-							<div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
+							<div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="##accordionExample">
 								<div class="card-body">
 									Content for Accordion Item #1
 								</div>
 							</div>
-							<div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
+							<div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="##accordionExample">
 								<div class="card-body">
 									Content for Accordion Item #2
 								</div>
