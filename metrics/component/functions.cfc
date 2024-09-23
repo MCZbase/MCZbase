@@ -199,8 +199,8 @@ limitations under the License.
 					ncbi.NCBI_Cat_Items,
 					accn.Num_Accns,
 					h.Cataloged_Items, 
-					h.Specimens,
-					<cfif annualReport eq 'yes'>c.institution_acronym</cfif>
+					h.Specimens
+					<cfif annualReport eq 'yes'>,h.institution_acronym</cfif>
 				FROM 
 					(select collection_cde,institution_acronym,descr,collection,collection_id from collection where collection_cde <> 'MCZ') c
 				LEFT JOIN 
@@ -260,7 +260,7 @@ limitations under the License.
 											<td>#Num_Accns#</td>
 											<!---td>#Cataloged_Items#</td>
 											<td>#Specimens#</td--->
-											<cfif annualRport eq 'yes'><td>#c.institution_acronym#</td></cfif>
+											<cfif annualRport eq 'yes'><td>#institution_acronym#</td></cfif>
 										</tr>
 									</cfloop>
 								</tbody>
