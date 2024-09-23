@@ -155,7 +155,8 @@ limitations under the License.
 													<div class="form-group">
 														<h3 class="h4 text-muted mt-1 mb-0">Select Report Date Range</h3>
 														<input type="hidden" name="returnFormat" value="plain">
-														<input type="hidden" name="annualReport" value="no">
+														<label class="data-input-label mt-2">Annual Report</label>
+														<input type="text" name="annualReport" value="no">
 														<div class="row mx-0">
 															<div class="col-12 px-0">
 																<div class="col-12 col-md-6 pl-0 pr-1 float-left">
