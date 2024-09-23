@@ -200,7 +200,7 @@ limitations under the License.
 					accn.Num_Accns,
 					h.Cataloged_Items, 
 					h.Specimens
-					<cfif annualReport eq 'yes'>,h.institution_acronym</cfif>
+					<cfif annualReport eq 'yes'>,c.institution_acronym</cfif>
 				FROM 
 					(select collection_cde,institution_acronym,descr,collection,collection_id from collection where collection_cde <> 'MCZ') c
 				LEFT JOIN 
