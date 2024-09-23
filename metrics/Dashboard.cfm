@@ -155,17 +155,17 @@ limitations under the License.
 													<div class="form-group">
 														<h3 class="h4 text-muted mt-1 mb-0">Select Report Date Range</h3>
 														<input type="hidden" name="returnFormat" value="plain">
-														<label class="data-input-label mt-2">Annual Report</label>
-														<input type="text" name="annualReport" value="no">
+														<label class="data-entry-label mt-2">Annual Report</label>
+														<input type="text" name="annualReport" value="no" class="data-entry-input">
 														<div class="row mx-0">
 															<div class="col-12 px-0">
 																<div class="col-12 col-md-6 pl-0 pr-1 float-left">
 																	<label for="beginDate" class="data-entry-label mt-2">Begin Date</label>
-																	<input name="beginDate" id="beginDate" type="text" class="mb-1 datetimeinput data-entry-input data-entry-input" placeholder="yyyy-mm-dd" value="#beginDate#" aria-label="start of range for dates to display metrics.">
+																	<input name="beginDate" id="beginDate" type="text" class="mb-1 datetimeinput data-entry-input" placeholder="yyyy-mm-dd" value="#beginDate#" aria-label="start of range for dates to display metrics.">
 																</div>
 																<div class="col-12 col-md-6 pl-1 pr-0 float-left">
 																	<label for="endDate" class="data-entry-label mt-2">End Date</label>
-																	<input name="endDate" id="endDate" type="text" class="mb-1 datetimeinput data-entry-input data-entry-input" placeholder="yyyy-mm-dd" value="#endDate#" aria-label="end of range for dates to display metrics.">
+																	<input name="endDate" id="endDate" type="text" class="mb-1 datetimeinput data-entry-input" placeholder="yyyy-mm-dd" value="#endDate#" aria-label="end of range for dates to display metrics.">
 																</div>
 															</div>
 														</div>
