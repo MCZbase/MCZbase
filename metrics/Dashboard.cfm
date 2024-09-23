@@ -221,7 +221,7 @@ limitations under the License.
 													<label for="method" class="sr-only">Report To Show</label>
 													<select id="method" name="method" class="my-1 data-entry-input">
 														<option value="getNumbers">Annual Report (Holdings)</option>
-														<option value="getAcquisitions">Annual Report (Acquisitions)</option>
+														<option value="getAcquisitions" selected="selected">Annual Report (Acquisitions)</option>
 														<option value="getLoanNumbers">Annual Report (Loan Activity)</option>
 														<option value="getMediaNumbers">Annual Report (Media (current))</option>
 														<option value="getCitationNumbers">Annual Report (Citations (current))</option>
