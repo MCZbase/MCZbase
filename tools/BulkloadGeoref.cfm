@@ -587,13 +587,14 @@ limitations under the License.
 					<cfloop query="getTempData">
 						<cfset username="#session.username#">
 						<cfif accepted_lat_long_fg eq 1>
-							<cfquery name="mediaDups" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateGeoref1_result">
+							<cfquery name="flag" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateGeoref1_result">
 							update lat_long set accepted_lat_long_fg = 0 
-							where locality_id in (
+							where locality_id =(
 								select locality_id from cf_temp_data 
 								where accepted_lat_long_fg = 1 and username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#username#">
 								)
 							AND accepted_lat_long_fg = 1
+							</cfquery>
 						</cfif>
 						<cfquery name="mediaDups" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateGeoref1_result">
 							SELECT 
