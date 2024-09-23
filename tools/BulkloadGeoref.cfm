@@ -590,7 +590,7 @@ limitations under the License.
 							<cfquery name="flag" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateGeoref1_result">
 							update lat_long set accepted_lat_long_fg = 0 
 							where locality_id =(
-								select locality_id from cf_temp_data 
+								select locality_id from cf_temp_georef 
 								where accepted_lat_long_fg = 1 and username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#username#">
 								)
 							AND accepted_lat_long_fg = 1
