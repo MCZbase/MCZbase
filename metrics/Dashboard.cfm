@@ -55,27 +55,24 @@ limitations under the License.
 <cfif NOT isDefined("beginDate")>
 	<cfset beginDate = '#DateFormat(DateAdd("d",1,DateAdd("yyyy", -1, endDate)),"yyyy-mm-dd")#'>
 </cfif>
-<cfset annualReport = 'no'>
 <cfswitch expression="#action#">
 	<cfcase value="dowloadHoldings">
 		<!--- download holdings table as csv  --->
-		<cfset csv = getNumbers(beginDate="#beginDate#",endDate="#endDate#",returnAs="csv")>
+		<cfset csv = getNumbers(beginDate="#beginDate#",endDate="#endDate#",returnAs="csv",annualReport="#annualReport#")>
 		<cfheader name="Content-Type" value="text/csv">
 		<cfset beginDate = rereplace(beginDate,'[^0-9]','','all')>
 		<cfset endDate = rereplace(endDate,'[^0-9]','','all')>
-		<cfset annualReport = "no">
 		<cfset targetFile = "Holdings_#beginDate#_to_#endDate#.csv">
 		<cfheader name="Content-disposition" value="attachment;filename=#targetFile#">
-		<cfoutput>#csv#</cfoutput>
+		<cfoutput>#csv# #annualReport#</cfoutput>
 		<cfabort>
 	</cfcase>
 	<cfcase value="dowloadAcquisitions">
 		<!--- download accessions table as csv  --->
-		<cfset csv = getAcquisitions(beginDate="#beginDate#",endDate="#endDate#",returnAs="csv",annualReport="no")>
+		<cfset csv = getAcquisitions(beginDate="#beginDate#",endDate="#endDate#",returnAs="csv",annualReport="#annualReport#")>
 		<cfheader name="Content-Type" value="text/csv">
 		<cfset beginDate = rereplace(beginDate,'[^0-9]','','all')>
 		<cfset endDate = rereplace(endDate,'[^0-9]','','all')>
-		<cfset annualReport = "no">
 		<cfset targetFile = "Acquisitions_#beginDate#_to_#endDate#.csv">
 		<cfheader name="Content-disposition" value="attachment;filename=#targetFile#">
 		<cfoutput>#csv#</cfoutput>
@@ -83,7 +80,7 @@ limitations under the License.
 	</cfcase>
 	<cfcase value="dowloadLoanActivity">
 		<!--- download loan table as csv  --->
-		<cfset csv = getLoanNumbers(beginDate="#beginDate#",endDate="#endDate#",returnAs="csv")>
+		<cfset csv = getLoanNumbers(beginDate="#beginDate#",endDate="#endDate#",returnAs="csv",annualReport="#annualReport#")>
 		<cfheader name="Content-Type" value="text/csv">
 		<cfset beginDate = rereplace(beginDate,'[^0-9]','','all')>
 		<cfset endDate = rereplace(endDate,'[^0-9]','','all')>
@@ -94,11 +91,10 @@ limitations under the License.
 	</cfcase>
 	<cfcase value="dowloadMediaActivity">
 		<!--- download media table as csv  --->
-		<cfset csv = getMediaNumbers(beginDate="#beginDate#",endDate="#endDate#",returnAs="csv")>
+		<cfset csv = getMediaNumbers(beginDate="#beginDate#",endDate="#endDate#",returnAs="csv",annualReport="#annualReport#")>
 		<cfheader name="Content-Type" value="text/csv">
 		<cfset beginDate = rereplace(beginDate,'[^0-9]','','all')>
 		<cfset endDate = rereplace(endDate,'[^0-9]','','all')>
-		<cfset annualReport = "no">
 		<cfset targetFile = "Media_Activity_#beginDate#_to_#endDate#.csv">
 		<cfheader name="Content-disposition" value="attachment;filename=#targetFile#">
 		<cfoutput>#csv#</cfoutput>
@@ -106,11 +102,10 @@ limitations under the License.
 	</cfcase>
 	<cfcase value="dowloadCitationActivity">
 		<!--- download citation table as csv  --->
-		<cfset csv = getCitationNumbers(beginDate="#beginDate#",endDate="#endDate#",returnAs="csv")>
+		<cfset csv = getCitationNumbers(beginDate="#beginDate#",endDate="#endDate#",returnAs="csv",annualReport="#annualReport#")>
 		<cfheader name="Content-Type" value="text/csv">
 		<cfset beginDate = rereplace(beginDate,'[^0-9]','','all')>
 		<cfset endDate = rereplace(endDate,'[^0-9]','','all')>
-		<cfset annualReport = "no">
 		<cfset targetFile = "Media_Activity_#beginDate#_to_#endDate#.csv">
 		<cfheader name="Content-disposition" value="attachment;filename=#targetFile#">
 		<cfoutput>#csv#</cfoutput>
@@ -118,11 +113,10 @@ limitations under the License.
 	</cfcase>
 	<cfcase value="dowloadGeoreferenceActivity">
 		<!--- download georeference activity table as csv  --->
-		<cfset csv = getGeorefNumbers(beginDate="#beginDate#",endDate="#endDate#",returnAs="csv")>
+		<cfset csv = getGeorefNumbers(beginDate="#beginDate#",endDate="#endDate#",returnAs="csv",annualReport="#annualReport#")>
 		<cfheader name="Content-Type" value="text/csv">
 		<cfset beginDate = rereplace(beginDate,'[^0-9]','','all')>
 		<cfset endDate = rereplace(endDate,'[^0-9]','','all')>
-		<cfset annualReport = "no">
 		<cfset targetFile = "Media_Activity_#beginDate#_to_#endDate#.csv">
 		<cfheader name="Content-disposition" value="attachment;filename=#targetFile#">
 		<cfoutput>#csv#</cfoutput>
