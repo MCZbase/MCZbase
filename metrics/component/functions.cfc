@@ -243,7 +243,7 @@ limitations under the License.
 										<th><strong>Number of Accessions</strong></th>
 										<!---th><strong>Total Cataloged Items</strong></th>
 										<th><strong>Total Specimens (parts)</strong></th--->
-										<cfif annualRport eq 'yes'><th>Institution Acronym</th></cfif>
+										<cfif annualReport eq 'yes'><th>Institution Acronym</th></cfif>
 									</tr>
 								</thead>
 								<tbody>
