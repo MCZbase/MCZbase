@@ -260,7 +260,7 @@ limitations under the License.
 											<td>#Num_Accns#</td>
 											<!---td>#Cataloged_Items#</td>
 											<td>#Specimens#</td--->
-											<cfif annualRport eq 'yes'><td>#institution_acronym#</td></cfif>
+											<cfif annualReport eq 'yes'><td>#institution_acronym#</td></cfif>
 										</tr>
 									</cfloop>
 								</tbody>
