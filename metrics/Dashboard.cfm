@@ -195,10 +195,54 @@ limitations under the License.
 										</div>
 										<div id="collapseTwo" class="collapse" style="border: 2px solid lightsalmon;" aria-labelledby="headingTwo" data-parent="##accordionExample">
 										<div class="card-body">
+											<script>
+												function setFiscalYearDates() {
+													const fiscalYear = document.getElementById("fiscalYear").value; 
+														var beginDate;
+														var endDate;
+														switch(fiscalYear) {
+															case "FY2023":
+																beginDate = "2022-07-01";
+																endDate = "2023-06-30";
+																break;
+															case "FY2024":
+																beginDate = "2023-07-01";
+																endDate = "2024-06-30";
+																break;
+															case "FY2025":
+																beginDate = "2024-07-01";
+																endDate = "2025-06-30";
+																break;
+															default:
+																beginDate = "";
+																endDate = "";
+																break;
+														}
+													document.getElementById("beginDateFiscal").value = beginDate; 
+													document.getElementById("endDateFiscal").value = endDate;
+												}
+												function submitFiscalYearForm() {
+													setFiscalYearDates();
+													document.getElementById("fiscalYearForm").submit();
+												}
+											</script>
 											<form class="py-2" id="loadReportForm2" onsubmit="return validateFiscalYear();">
 												<div class="form-group">
 													<h3 class="h4 text-muted mt-1 mb-2">Select Fiscal Year</h3>
-													<input type="hidden" name="returnFormat" value="plain">
+													<select id="fiscalYear" name="fiscalYear" onchange="setFiscalYearDates()" required>
+														<option value="">--Select Fiscal Year--</option>
+														<option value="FY2021">FY2021</option>
+														<option value="FY2022">FY2022</option>
+														<option value="FY2023">FY2023</option>
+														<option value="FY2024">FY2024</option>
+														<option value="FY2025">FY2025</option>
+														<!-- Add more fiscal years as needed -->
+													</select>
+													<!-- Hidden fields to store beginDate and endDate -->
+													<input type="hidden" id="beginDateFiscal" name="beginDate">
+													<input type="hidden" id="endDateFiscal" name="endDate">
+													<input type="button" value="Submit" onclick="submitFiscalYearForm()">
+													<!---<input type="hidden" name="returnFormat" value="plain">
 													<label class="data-entry-label mt-2">Annual Report</label>
 													<input type="text" name="annualReport" value="yes" class="data-entry-input">
 													<div class="row mx-0">
@@ -212,7 +256,7 @@ limitations under the License.
 																<input name="endDate" id="endDate" type="text" class="mb-1 datetimeinput data-entry-input data-entry-input" placeholder="yyyy-mm-dd" value="#endDate#" aria-label="end of range for dates to display metrics.">
 															</div>
 														</div>
-													</div>
+													</div>--->
 													<h3 class="h4 text-muted mt-3">Report to Show</h3>
 													<label for="method" class="sr-only">Report To Show</label>
 													<select id="method" name="method" class="my-1 data-entry-input">
@@ -226,6 +270,7 @@ limitations under the License.
 												</div>
 												<button type="submit" value="Show Report" id="loadReportForm2" class="my-2 btn-xs btn btn-primary">Show Annual Report</button>
 											</form>
+
 										</div>
 									</div>
 								</div>
