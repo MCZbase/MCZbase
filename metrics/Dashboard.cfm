@@ -229,10 +229,6 @@ limitations under the License.
 													document.getElementById("beginDateFiscal").value = beginDate; 
 													document.getElementById("endDateFiscal").value = endDate;
 												}
-												function submitFiscalYearForm() {
-													setFiscalYearDates();
-													document.getElementById("fiscalYearForm").submit();
-												}
 											</script>
 											<form class="py-2" id="loadReportForm2" onsubmit="return validateFiscalYear();">
 												<div class="form-group">
@@ -249,7 +245,6 @@ limitations under the License.
 													<!-- Hidden fields to store beginDate and endDate -->
 													<input type="hidden" id="beginDateFiscal" name="beginDate">
 													<input type="hidden" id="endDateFiscal" name="endDate">
-													<input type="button" value="Submit" onclick="submitFiscalYearForm()">
 													<!---<input type="hidden" name="returnFormat" value="plain">
 													<label class="data-entry-label mt-2">Annual Report</label>
 													<input type="text" name="annualReport" value="yes" class="data-entry-input">
