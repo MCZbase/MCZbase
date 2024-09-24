@@ -201,6 +201,14 @@ limitations under the License.
 														var beginDate;
 														var endDate;
 														switch(fiscalYear) {
+															case "FY2021":
+																beginDate = "2020-07-01";
+																endDate = "2021-06-30";
+																break;
+															case "FY2022":
+																beginDate = "2021-07-01";
+																endDate = "2022-06-30";
+																break;
 															case "FY2023":
 																beginDate = "2022-07-01";
 																endDate = "2023-06-30";
