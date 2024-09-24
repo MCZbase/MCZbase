@@ -234,7 +234,7 @@ limitations under the License.
 													<input type="hidden" name="returnFormat" value="plain">
 													<input type="hidden" name="annualReport" value="yes" class="data-entry-input">
 													<h3 class="h4 text-muted mt-1 mb-2">Select Fiscal Year</h3>
-													<select id="fiscalYear" name="fiscalYear" onchange="setFiscalYearDates()" required>
+													<select id="fiscalYear" name="fiscalYear" onchange="setFiscalYearDates()" required class="data-entry-input my-1">
 														<option value="">--Select Fiscal Year--</option>
 														<option value="FY2021">FY2021</option>
 														<option value="FY2022">FY2022</option>
