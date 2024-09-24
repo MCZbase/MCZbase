@@ -375,20 +375,12 @@ limitations under the License.
 								function validateFiscalYear() {
 									var beginDate = new Date(document.getElementById('beginDate').value);
 									var endDate = new Date(document.getElementById('endDate').value);
-										if (!(beginDate.getMonth() === 6 && beginDate.getDate() === 1 && endDate.getMonth() === 5 && endDate.getDate() === 30)) {
-											alert("The fiscal year must start on July 1 and end on June 30 of the next year.");
-											return false;
-										}
-									
+										
 									var expectedEndDate = new Date(beginDate);
 										expectedEndDate.setFullYear(expectedEndDate.getFullYear() + 1);
 										expectedEndDate.setMonth(5); // June
 										expectedEndDate.setDate(30); // 30
 
-									if (endDate.getTime() !== expectedEndDate.getTime()) {
-										alert("The end date must be one year after the begin date, ending on June 30.");
-										return false;
-									}
 									displayResults();
 									return true; 
 								}
