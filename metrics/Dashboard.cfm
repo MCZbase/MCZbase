@@ -155,8 +155,7 @@ limitations under the License.
 													<div class="form-group">
 														<h3 class="h4 text-muted mt-1 mb-0">Select Report Date Range</h3>
 														<input type="hidden" name="returnFormat" value="plain">
-														<label class="data-entry-label mt-2">Annual Report</label>
-														<input type="text" name="annualReport" value="no" class="data-entry-input">
+														<input type="hidden" name="annualReport" value="no" class="data-entry-input">
 														<div class="row mx-0">
 															<div class="col-12 px-0">
 																<div class="col-12 col-md-6 pl-0 pr-1 float-left">
@@ -232,6 +231,8 @@ limitations under the License.
 											</script>
 											<form class="py-2" id="loadReportForm2" onsubmit="return validateFiscalYear();">
 												<div class="form-group">
+													<input type="hidden" name="returnFormat" value="plain">
+													<input type="hidden" name="annualReport" value="yes" class="data-entry-input">
 													<h3 class="h4 text-muted mt-1 mb-2">Select Fiscal Year</h3>
 													<select id="fiscalYear" name="fiscalYear" onchange="setFiscalYearDates()" required>
 														<option value="">--Select Fiscal Year--</option>
@@ -245,9 +246,7 @@ limitations under the License.
 													<!-- Hidden fields to store beginDate and endDate -->
 													<input type="hidden" id="beginDateFiscal" name="beginDate">
 													<input type="hidden" id="endDateFiscal" name="endDate">
-													<!---<input type="hidden" name="returnFormat" value="plain">
-													<label class="data-entry-label mt-2">Annual Report</label>
-													<input type="text" name="annualReport" value="yes" class="data-entry-input">
+													<!---
 													<div class="row mx-0">
 														<div class="col-12 px-0">
 															<div class="col-12 col-md-6 pr-1 pl-0 float-left">
