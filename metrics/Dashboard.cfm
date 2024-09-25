@@ -123,16 +123,16 @@ limitations under the License.
 		<cfabort>
 	</cfcase>
 	<cfcase value="downloadVisitorsMediareqs">
-                <!--- download Visitor and Media activity table as csv  --->
-                <cfset csv = getVisitorsMediaRequests(beginDate="#beginDate#",endDate="#endDate#",returnAs="csv",annualReport="#annualReport#")>
-                <cfheader name="Content-Type" value="text/csv">
-                <cfset beginDate = rereplace(beginDate,'[^0-9]','','all')>
-                <cfset endDate = rereplace(endDate,'[^0-9]','','all')>
-                <cfset targetFile = "VisitorMedia_Activity_#beginDate#_to_#endDate#.csv">
-                <cfheader name="Content-disposition" value="attachment;filename=#targetFile#">
-                <cfoutput>#csv#</cfoutput>
-                <cfabort>
-        </cfcase>
+		<!--- download Visitor and Media activity table as csv  --->
+		<cfset csv = getVisitorsMediaRequests(beginDate="#beginDate#",endDate="#endDate#",returnAs="csv",annualReport="#annualReport#")>
+		<cfheader name="Content-Type" value="text/csv">
+		<cfset beginDate = rereplace(beginDate,'[^0-9]','','all')>
+		<cfset endDate = rereplace(endDate,'[^0-9]','','all')>
+		<cfset targetFile = "VisitorMedia_Activity_#beginDate#_to_#endDate#.csv">
+		<cfheader name="Content-disposition" value="attachment;filename=#targetFile#">
+		<cfoutput>#csv#</cfoutput>
+		<cfabort>
+	</cfcase>
 
 	
 	<cfcase value="showMetrics">
@@ -249,20 +249,17 @@ limitations under the License.
 													<input type="hidden" name="annualReport" value="yes" class="data-entry-input">
 													<h3 class="h4 text-muted mt-1 mb-2">Select Fiscal Year</h3>
 													<!--- TODO: This needs to be a query on the historical data table, not a hard coded list, query below --->
-													<!---
-														SELECT 
-                                       		distinct 'FY' || to_char(reported_date, 'yyyy') as fiscal_year_option
+													<cfquery name="media" datasource="uam_god" cachedwithin="#createtimespan(7,0,0,0)#">
+														SELECT distinct 'FY' || to_char(reported_date, 'yyyy') as fiscal_year_option
 														FROM
 															collections_reported_metrics
-													--->
+													</cfquery>
+												
 													<select id="fiscalYear" name="fiscalYear" onchange="setFiscalYearDates()" required class="data-entry-input my-1">
 														<option value="">--Select Fiscal Year--</option>
-														<!---option value="FY2021">FY2021</option--->
-														<!---option value="FY2022">FY2022</option--->
-														<option value="FY2023">FY2023</option>
-														<option value="FY2024">FY2024</option>
-														<!---option value="FY2025">FY2025</option--->
-														<!-- Add more fiscal years as needed -->
+														<cfloop query="media">
+															<option value="#media.fiscal_year_option#"></option>
+														</cfloop>
 													</select>
 													<!-- Hidden fields to store beginDate and endDate -->
 													<input type="hidden" id="beginDateFiscal" name="beginDate">
