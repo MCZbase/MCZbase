@@ -235,7 +235,13 @@ limitations under the License.
 													<input type="hidden" name="returnFormat" value="plain">
 													<input type="hidden" name="annualReport" value="yes" class="data-entry-input">
 													<h3 class="h4 text-muted mt-1 mb-2">Select Fiscal Year</h3>
-													<!--- TODO: This needs to be a query on the historical data table, not a hard coded list --->
+													<!--- TODO: This needs to be a query on the historical data table, not a hard coded list, query below --->
+													<!---
+														SELECT 
+                                       		distinct 'FY' || to_char(reported_date, 'yyyy') as fiscal_year_option
+														FROM
+															collections_reported_metrics
+													--->
 													<select id="fiscalYear" name="fiscalYear" onchange="setFiscalYearDates()" required class="data-entry-input my-1">
 														<option value="">--Select Fiscal Year--</option>
 														<option value="FY2021">FY2021</option>
