@@ -106,7 +106,7 @@ limitations under the License.
 		<cfheader name="Content-Type" value="text/csv">
 		<cfset beginDate = rereplace(beginDate,'[^0-9]','','all')>
 		<cfset endDate = rereplace(endDate,'[^0-9]','','all')>
-		<cfset targetFile = "Media_Activity_#beginDate#_to_#endDate#.csv">
+		<cfset targetFile = "Citation_Activity_#beginDate#_to_#endDate#.csv">
 		<cfheader name="Content-disposition" value="attachment;filename=#targetFile#">
 		<cfoutput>#csv#</cfoutput>
 		<cfabort>
@@ -117,11 +117,24 @@ limitations under the License.
 		<cfheader name="Content-Type" value="text/csv">
 		<cfset beginDate = rereplace(beginDate,'[^0-9]','','all')>
 		<cfset endDate = rereplace(endDate,'[^0-9]','','all')>
-		<cfset targetFile = "Media_Activity_#beginDate#_to_#endDate#.csv">
+		<cfset targetFile = "Georef_Activity_#beginDate#_to_#endDate#.csv">
 		<cfheader name="Content-disposition" value="attachment;filename=#targetFile#">
 		<cfoutput>#csv#</cfoutput>
 		<cfabort>
 	</cfcase>
+	<cfcase value="downloadVisitorsMediareqs">
+                <!--- download Visitor and Media activity table as csv  --->
+                <cfset csv = getVisitorsMediaRequests(beginDate="#beginDate#",endDate="#endDate#",returnAs="csv",annualReport="#annualReport#")>
+                <cfheader name="Content-Type" value="text/csv">
+                <cfset beginDate = rereplace(beginDate,'[^0-9]','','all')>
+                <cfset endDate = rereplace(endDate,'[^0-9]','','all')>
+                <cfset targetFile = "VisitorMedia_Activity_#beginDate#_to_#endDate#.csv">
+                <cfheader name="Content-disposition" value="attachment;filename=#targetFile#">
+                <cfoutput>#csv#</cfoutput>
+                <cfabort>
+        </cfcase>
+
+	
 	<cfcase value="showMetrics">
 		<cfset pageTitle="Metrics Dashboard">
 		<cfinclude template="/shared/_header.cfm">
@@ -236,11 +249,11 @@ limitations under the License.
 													<h3 class="h4 text-muted mt-1 mb-2">Select Fiscal Year</h3>
 													<select id="fiscalYear" name="fiscalYear" onchange="setFiscalYearDates()" required class="data-entry-input my-1">
 														<option value="">--Select Fiscal Year--</option>
-														<option value="FY2021">FY2021</option>
-														<option value="FY2022">FY2022</option>
+														<!---option value="FY2021">FY2021</option--->
+														<!---option value="FY2022">FY2022</option--->
 														<option value="FY2023">FY2023</option>
 														<option value="FY2024">FY2024</option>
-														<option value="FY2025">FY2025</option>
+														<!---option value="FY2025">FY2025</option--->
 														<!-- Add more fiscal years as needed -->
 													</select>
 													<!-- Hidden fields to store beginDate and endDate -->
@@ -268,6 +281,7 @@ limitations under the License.
 														<option value="getMediaNumbers">Annual Report (Media (current))</option>
 														<option value="getCitationNumbers">Annual Report (Citations (current))</option>
 														<option value="getGeorefNumbers">Annual Report (Georeferences (current))</option>
+														<option value="getVisitorsMediaRequests">Annual Report (Visitors and Media Requests (current))</option>
 													</select>
 												</div>
 												<button type="submit" value="Show Report" id="loadReportForm2" class="my-2 btn-xs btn btn-primary">Show Annual Report</button>

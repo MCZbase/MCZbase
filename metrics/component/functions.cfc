@@ -97,7 +97,7 @@ limitations under the License.
 				<cfset endSchema="MCZBASE">
 			</cfif>
 			<!--- annual report queries: holdings by collection --->
-			<cfquery name="totals" datasource="uam_god" cachedwithin="#createtimespan(0,0,0,0)#">
+			<cfquery name="totals" datasource="uam_god" cachedwithin="#createtimespan(7,0,0,0)#">
 				SELECT 
 					h.Collection, 
 					<cfif annualReport EQ "yes">rm.value holdings,</cfif>
@@ -222,16 +222,16 @@ limitations under the License.
                                 <cfset endSchema="MCZBASE">
                         </cfif>
 			<!--- acquisition counts queries --->
-			<cfquery name="ACtotals" datasource="uam_god" cachedwithin="#createtimespan(7,0,0,0)#">
+			<cfquery name="ACtotals" datasource="uam_god" cachedwithin="#createtimespan(0,0,0,0)#">
 				SELECT
-					h.Collection, 
+					c.Collection, 
 					a.Received_Cat_Items,
 					a.Received_Specimens,
 					e.Entered_Cat_Items,
 					ncbi.NCBI_Cat_Items, 'N/A',
-					accn.Num_Accns,
-					h.Cataloged_Items, 
-					h.Specimens
+					accn.Num_Accns
+					/*h.Cataloged_Items, 
+					h.Specimens*/
 					<cfif annualReport eq 'yes'>
 					,rm.value numrecnotcat
 					,cryo.numAddedCryo
@@ -241,13 +241,13 @@ limitations under the License.
 				LEFT JOIN 
 					(select f.collection_id, f.collection, count(distinct f.collection_object_id) Cataloged_Items, sum(decode(total_parts,null, 1,total_parts)) Specimens from flat f join coll_object co on f.collection_object_id = co.collection_object_id where co.COLL_OBJECT_ENTERED_DATE < to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#endDate#">, 'YYYY-MM-DD') group by f.collection_id, f.collection) h on c.collection_id = h.collection_id
 				LEFT JOIN 
-					(select f.collection_id, f.collection, count(distinct collection_object_id) Received_Cat_Items, sum(decode(total_parts,null, 1,total_parts)) Received_Specimens from flat f join accn a on f.ACCN_ID = a.transaction_id join trans t on a.transaction_id = t.transaction_id where a.received_DATE between  to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#beginDate#">, 'YYYY-MM-DD') and  to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#endDate#">, 'YYYY-MM-DD') group by f.collection_id, f.collection) a on h.collection_id = a.collection_id
+					(select f.collection_id, f.collection, count(distinct collection_object_id) Received_Cat_Items, sum(decode(total_parts,null, 1,total_parts)) Received_Specimens from flat f join accn a on f.ACCN_ID = a.transaction_id join trans t on a.transaction_id = t.transaction_id where a.received_DATE between  to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#beginDate#">, 'YYYY-MM-DD') and  to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#endDate#">, 'YYYY-MM-DD') group by f.collection_id, f.collection) a on c.collection_id = a.collection_id
 				LEFT JOIN 
-					(select f.collection_id, f.collection, count(distinct f.collection_object_id) Entered_Cat_Items, sum(decode(total_parts,null, 1,total_parts)) Entered_Specimens from flat f join coll_object co on f.collection_object_id = co.collection_object_id where co.COLL_OBJECT_ENTERED_DATE between to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#beginDate#">, 'YYYY-MM-DD') and  to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#endDate#">, 'YYYY-MM-DD') group by f.collection_id, f.collection) e on e.collection_id = h.collection_id
+					(select f.collection_id, f.collection, count(distinct f.collection_object_id) Entered_Cat_Items, sum(decode(total_parts,null, 1,total_parts)) Entered_Specimens from flat f join coll_object co on f.collection_object_id = co.collection_object_id where co.COLL_OBJECT_ENTERED_DATE between to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#beginDate#">, 'YYYY-MM-DD') and  to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#endDate#">, 'YYYY-MM-DD') group by f.collection_id, f.collection) e on e.collection_id = c.collection_id
 				LEFT JOIN 
-					(select f.collection_id, f.collection, count(distinct f.collection_object_id) NCBI_Cat_Items, sum(total_parts) ncbiSpecimens from COLL_OBJ_OTHER_ID_NUM oid, flat f, COLL_OBJECT CO where OTHER_ID_TYPE like '%NCBI%' AND F.COLLECTION_OBJECT_ID = CO.COLLECTION_OBJECT_ID and co.COLL_OBJECT_ENTERED_DATE < to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#endDate#">, 'YYYY-MM-DD') and oid.collection_object_id = f.collection_object_id group by f.collection_id, f.collection) ncbi on h.collection_id = ncbi.collection_id
+					(select f.collection_id, f.collection, count(distinct f.collection_object_id) NCBI_Cat_Items, sum(total_parts) ncbiSpecimens from COLL_OBJ_OTHER_ID_NUM oid, flat f, COLL_OBJECT CO where OTHER_ID_TYPE like '%NCBI%' AND F.COLLECTION_OBJECT_ID = CO.COLLECTION_OBJECT_ID and co.COLL_OBJECT_ENTERED_DATE < to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#endDate#">, 'YYYY-MM-DD') and oid.collection_object_id = f.collection_object_id group by f.collection_id, f.collection) ncbi on c.collection_id = ncbi.collection_id
 				LEFT JOIN 
-					(select c.collection_id, c.collection, count(distinct t.transaction_id) Num_Accns from accn a, trans t, collection c where a.transaction_id = t.transaction_id and t.collection_id = c.collection_id and a.received_date between to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#beginDate#">, 'YYYY-MM-DD') and  to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#endDate#">, 'YYYY-MM-DD') group by c.collection_id, c.collection) accn on h.collection_id = accn.collection_id
+					(select c.collection_id, c.collection, count(distinct t.transaction_id) Num_Accns from accn a, trans t, collection c where a.transaction_id = t.transaction_id and t.collection_id = c.collection_id and a.received_date between to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#beginDate#">, 'YYYY-MM-DD') and  to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#endDate#">, 'YYYY-MM-DD') group by c.collection_id, c.collection) accn on c.collection_id = accn.collection_id
 				<cfif annualReport EQ "yes">
 				LEFT JOIN
 					(select collection_id,value,reported_date from MCZBASE.collections_reported_metrics where metric='NUMRECNOTCAT'
@@ -270,7 +270,7 @@ limitations under the License.
 							<h2 class="h3 mt-0 mb-1 px-0 float-left"><cfif annualReport eq "yes">Annual Report:</cfif> Acquisitions <span class="text-muted">(#encodeForHtml(beginDate)#/#encodeForHtml(endDate)#)</span></h2>
 							<div class="btn-toolbar my-1 mt-md-0 float-right">
 								<div class="btn-group mr-2">
-									<a href="/metrics/Dashboard.cfm?action=dowloadAcquisitions&returnAs=csv&annualReport=#annualReport#&beginDate=#encodeForURL(beginDate)#&endDate=#encodeForUrl(endDate)#" class="btn btn-xs btn-outline-secondary">Export Table</a>
+									<a href="/metrics/Dashboard.cfm?action=downloadVisitorsMediareqs&returnAs=csv&annualReport=#annualReport#&beginDate=#encodeForURL(beginDate)#&endDate=#encodeForUrl(endDate)#" class="btn btn-xs btn-outline-secondary">Export Table</a>
 								</div>
 							</div>
 						</div>
@@ -290,7 +290,7 @@ limitations under the License.
 											<th><strong>Items received but not Cataloged at End of Year</strong></th>
 										</cfif>
 										<th><strong>Number of Accessions</strong></th>
-										<th><strong>Total Specimens (parts)</strong></th--->
+										<!---th><strong>Total Specimens (parts)</strong></th--->
 									</tr>
 								</thead>
 								<tbody>
@@ -308,7 +308,7 @@ limitations under the License.
 												<td>#numrecnotcat#</td>
 											</cfif>
 											<td>#Num_Accns#</td>
-											<td>#Specimens#</td--->
+											<!---td>#Specimens#</td--->
 										</tr>
 									</cfloop>
 								</tbody>
@@ -916,6 +916,121 @@ limitations under the License.
 	<cfreturn getGeorefNumbersThread.output>
 </cffunction>
 
+<!--- visitors and media requests for annual report
+@param beginDate starting date for range to report
+@param endDate end date for range to report
+@param returnAs html or csv, if csv returns result as csv, otherwise as html table
+--->
+<cffunction name="getVisitorsMediaRequests" access="remote" returntype="any" returnformat="json">
+        <cfargument name="endDate" type="any" required="no" default="2024-06-30">
+        <cfargument name="beginDate" type="any" required="no" default="2023-07-01">
+        <cfargument name="annualReport" type="any" required="yes">
+        <cfargument name="returnAs" type="string" required="no" default="html">
 
+        <!--- make arguments available within thread --->
+        <cfset variables.beginDate = arguments.beginDate>
+        <cfset variables.endDate = arguments.endDate>
+        <cfset variables.annualReport = arguments.annualReport>
+        <cfset variables.returnAs = arguments.returnAs>
+        <cfthread name="getVisitorsMediaRequestsThread">
+                <cftry>
+                        <cfif annualReport EQ 'yes'>
+                                <cfquery name="getendSchema" datasource="uam_god" cachedwithin="#createtimespan(0,0,0,0)#">
+                                        select username 
+					from dba_users 
+					where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="ARCHIVE_#left(endDate,4)#0701">
+                                </cfquery>
+                                <cfset endschema = getendSchema.username>
+                                <cfquery name="getbeginSchema" datasource="uam_god" cachedwithin="#createtimespan(0,0,0,0)#">
+                                        select username 
+					from dba_users 
+					where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="ARCHIVE_#left(beginDate,4)#0701">
+                                </cfquery>
+                                <cfset beginschema = getbeginSchema.username>
+                        <cfelse>
+                                <cfset beginSchema="MCZBASE">
+                                <cfset endSchema="MCZBASE">
+                        </cfif>
 
-</cfcomponent>
+			<cfquery name="visitorsmediareq" datasource="uam_god" cachedwithin="#createtimespan(7,0,0,0)#">
+				SELECT
+					c.collection,
+					visitors.numvisitors,
+					visitordays.numvisitordays,
+					mediareqs.nummediareqs
+				FROM
+					(select collection_cde,institution_acronym,descr,collection,collection_id 
+					from collection 
+					where collection_cde <> 'MCZ') c				
+				LEFT JOIN
+					(select collection_id, value numvisitors 
+					from collections_reported_metrics 
+					where to_char(reported_date, 'yyyy')=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#left(endDate,4)#">
+					and metric = 'NUMVISITORS') visitors on c.collection_id = visitors.collection_id
+				LEFT JOIN
+                                        (select collection_id, value numvisitordays
+                                        from collections_reported_metrics
+                                        where to_char(reported_date, 'yyyy')=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#left(endDate,4)#">
+                                        and metric = 'NUMVISITORDAYS') visitordays on c.collection_id = visitordays.collection_id
+				LEFT JOIN
+                                        (select collection_id, value nummediareqs
+                                        from collections_reported_metrics
+                                        where to_char(reported_date, 'yyyy')=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#left(endDate,4)#">
+                                        and metric = 'NUMMEDIAREQ') mediareqs on c.collection_id = mediareqs.collection_id
+				ORDER BY COLLECTION
+			</cfquery>
+
+			<cfif variables.returnAs EQ "csv">
+                                <cfset csv = queryToCSV(visitorsmediareq)>
+                                <cfoutput>#csv#</cfoutput>
+                        <cfelse>
+                                <cfoutput>
+                                        <section class="col-12 mt-2 px-0">
+                                                <div class="my-2 float-left w-100">
+                                                        <h2 class="h3 mt-0 mb-1 px-0 float-left"><cfif annualReport eq "yes">Annual Report:</cfif> Visitors and Media Requests <span class="text-muted">(#encodeForHtml(beginDate)#/#encodeForHtml(endDate)#)</span></h2>
+                                                        <div class="btn-toolbar my-1 mt-md-0 float-right">
+                                                                <div class="btn-group mr-2">
+                                                                        <a href="/metrics/Dashboard.cfm?action=downloadVisitorsMediareqs&returnAs=csv&annualReport=#annualReport#&beginDate=#encodeForURL(beginDate)#&endDate=#encodeForUrl(endDate)#" class="btn btn-xs btn-outline-secondary">Export Table</a>
+                                                                </div>
+                                                        </div>
+                                                </div>
+                                                <div class="table-responsive-lg">
+                                                        <table class="table table-striped" id="t">
+                                                                <thead>
+                                                                        <tr>
+                                                                                <th><strong>Collection</strong></th>
+                                                                                <th><strong>Number of Scholarly Visitors</strong></th>
+                                                                                <th><strong>Total Number of Days Scholarly Visitors used Collection</strong></th>
+                                                                                <th><strong>Media Requests</strong></th>
+                                                                        </tr>
+                                                                </thead>
+								<tbody>
+                                                                        <cfloop query="visitorsmediareq">
+                                                                                <tr>
+                                                                                        <td>#collection#</td>
+                                                                                        <td>#numvisitors#</td>
+                                                                                        <td>#numvisitordays#</td>
+                                                                                        <td>#nummediareqs#</td>
+										</tr>
+                                                                        </cfloop>
+                                                                </tbody>
+                                                        </table>
+                                                </div>
+                                        </section>
+                                </cfoutput>
+                        </cfif>
+ 		<cfcatch>
+                        <cfoutput>
+                                <cfset error_message = cfcatchToErrorMessage(cfcatch)>
+                                <cfset function_called = "#GetFunctionCalledName()#">
+                                <h2 class="h3">Error in #function_called#:</h2>
+                                <div>#error_message#</div>
+                        </cfoutput>
+                </cfcatch>
+                </cftry>
+        </cfthread>
+        <cfthread action="join" name="getVisitorsMediaRequestsThread" />
+        <cfreturn getVisitorsMediaRequestsThread.output>
+</cffunction>
+
+</cfcomponent>	
