@@ -766,7 +766,7 @@ limitations under the License.
 							<div><strong>Expected return date: #dateformat(return_due_date,"dd mmmm yyyy")#</strong></div>
 							<br>
 							<br>
-							<div style="text-align: right;">Borrower&##39;s Signature: ___________________________</div>
+							<div style="text-align: right; margin-top 1em;">Borrower&##39;s Signature: ___________________________</div>
 							<div style="text-align: right;">#recAgentName#</div>
 						</td>
 					</tr>
